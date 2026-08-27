@@ -14,6 +14,9 @@ export const FACTION_SCENE_EXIT_FADE_SEC = 0.7;
 export const FACTION_ENTER_NAME_SEC = 0.2;
 export const FACTION_ENTER_FADE_SEC = 0.35;
 export const FACTION_SCENE_CAPTION_ID_HOLD_SEC = 1;
+export const FACTION_SCENE_SFX_START_PERCENT_MIN = 0;
+export const FACTION_SCENE_SFX_START_PERCENT_MAX = 100;
+export const FACTION_SCENE_SFX_START_PERCENT_STEP = 1;
 
 /**
  * 장면 안에서 순서대로 흐르는 한 컷.
@@ -169,6 +172,30 @@ function finiteAtLeast(
   return value != null && Number.isFinite(value) && value >= minimum
     ? value
     : fallback;
+}
+
+export function normalizeFactionSceneSfxStartPercent(
+  value?: number,
+): number {
+  if (value == null || !Number.isFinite(value)) {
+    return FACTION_SCENE_SFX_START_PERCENT_MIN;
+  }
+  return Math.min(
+    FACTION_SCENE_SFX_START_PERCENT_MAX,
+    Math.max(FACTION_SCENE_SFX_START_PERCENT_MIN, Math.round(value)),
+  );
+}
+
+// 현재 컷 구간 안에서 선택한 진행률을 장면 시작 기준 초로 바꾼다.
+export function factionSceneBeatSfxStartSec(
+  beatStartSec: number,
+  beatEndSec: number,
+  startPercent?: number,
+): number {
+  const start = finiteAtLeast(beatStartSec, 0, 0);
+  const end = finiteAtLeast(beatEndSec, start, start);
+  const percent = normalizeFactionSceneSfxStartPercent(startPercent);
+  return tidySec(start + (end - start) * percent / 100);
 }
 
 /**

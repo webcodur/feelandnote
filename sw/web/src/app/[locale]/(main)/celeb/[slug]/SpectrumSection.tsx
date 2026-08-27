@@ -75,7 +75,7 @@ function SectionHeader({ title }: { title: string }) {
       <p
         className={cn(
           "text-xs md:text-sm text-accent font-cinzel uppercase font-bold",
-          locale === "en" ? "tracking-[0.3em]" : "tracking-[0.06em]",
+          locale === "en" ? "tracking-[0.3em]" : "tracking-[0.06em]", /* i18n-audit-ignore — 로케일별 자간 보정 */
         )}
       >
         {title}
@@ -487,7 +487,6 @@ function SpectrumMatchGroupsModal({
   categories,
   subjectName,
   matchesByCategory,
-  isEn,
   suspended,
   onClose,
   onOpenMatch,
@@ -495,7 +494,6 @@ function SpectrumMatchGroupsModal({
   categories: SpectrumMatchCategory[];
   subjectName: string;
   matchesByCategory: SpectrumMatchGroups;
-  isEn: boolean;
   /** 비교 상세 모달이 위에 떠 있는 동안에는 닫기 조작을 받지 않는다 */
   suspended: boolean;
   onClose: () => void;
@@ -549,7 +547,7 @@ function SpectrumMatchGroupsModal({
           <button
             type="button"
             onClick={onClose}
-            aria-label={isEn ? "Close comparison" : "비교 닫기"}
+            aria-label={t("spectrumMatchModalClose")}
             className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md border border-white/10 text-text-secondary hover:border-white/25 hover:bg-white/[0.06] hover:text-text-primary"
           >
             <X size={16} aria-hidden />
@@ -559,8 +557,8 @@ function SpectrumMatchGroupsModal({
         <div className="overflow-y-auto overscroll-contain p-2.5 [overflow-anchor:none] custom-scrollbar md:p-3">
           <Carousel
             labels={{
-              previous: isEn ? "Previous comparison" : "이전 비교",
-              next: isEn ? "Next comparison" : "다음 비교",
+              previous: t("carouselComparePrev"),
+              next: t("carouselCompareNext"),
               dot: (index, count) => t("carouselDot", { index, count }),
             }}
             tabLabels={
@@ -812,8 +810,8 @@ export default function SpectrumSection({
         <Carousel
           isolateInactiveSlides
           labels={{
-            previous: isEn ? "Previous metric" : "이전 지표",
-            next: isEn ? "Next metric" : "다음 지표",
+            previous: t("carouselMetricPrev"),
+            next: t("carouselMetricNext"),
             dot: (index, count) => t("carouselDot", { index, count }),
           }}
           tabLabels={metricPanels.map((panel) => panel.label)}
@@ -859,10 +857,8 @@ export default function SpectrumSection({
             <div className="hidden min-w-0 md:block">
               <Carousel
                 labels={{
-                  previous: isEn
-                    ? "Previous disposition comparison"
-                    : "이전 성향 비교",
-                  next: isEn ? "Next disposition comparison" : "다음 성향 비교",
+                  previous: t("carouselDispositionPrev"),
+                  next: t("carouselDispositionNext"),
                   dot: (index, count) => t("carouselDot", { index, count }),
                 }}
                 arrowsAlign="top"
@@ -919,7 +915,6 @@ export default function SpectrumSection({
           categories={mobileMatchCategories}
           subjectName={spectrum.nickname}
           matchesByCategory={matchesByCategory}
-          isEn={isEn}
           suspended={selectedMatch !== null || previewCeleb !== null}
           onClose={() => setMobileMatchCategories(null)}
           onOpenMatch={(category, match) =>

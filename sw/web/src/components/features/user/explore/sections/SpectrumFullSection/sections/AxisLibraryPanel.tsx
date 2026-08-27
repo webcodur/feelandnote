@@ -15,6 +15,7 @@ import type {
   SpectrumAxisLibrary,
 } from "@/actions/spectrum/getSpectrumAxisLibraries";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { AXIS_SHORT_LABELS } from "../../../spectrumAxis";
 
 interface AxisLibraryPanelProps {
@@ -80,6 +81,7 @@ function LibraryColumn({
   accent?: string;
   isEn: boolean;
 }) {
+  const t = useTranslations("explore.spectrum.axisLibrary");
   if (works.length === 0) return null;
 
   return (
@@ -95,10 +97,9 @@ function LibraryColumn({
       </p>
       <Carousel
         labels={{
-          previous: isEn ? "Previous work" : "이전 작품",
-          next: isEn ? "Next work" : "다음 작품",
-          dot: (index, count) =>
-            isEn ? `Item ${index} of ${count}` : `${index}번째 / 전체 ${count}개`,
+          previous: t("prevWork"),
+          next: t("nextWork"),
+          dot: (index, count) => t("dot", { index, count }),
         }}
         itemWidthClassName="w-[132px] sm:w-[148px]"
       >
@@ -118,6 +119,7 @@ export default function AxisLibraryPanel({
   color,
 }: AxisLibraryPanelProps) {
   const isEn = locale === "en";
+  const t = useTranslations("explore.spectrum.axisLibrary");
 
   if (!library || (library.high.length === 0 && library.low.length === 0)) {
     return null;
@@ -131,30 +133,20 @@ export default function AxisLibraryPanel({
   const [positivePole, negativePole] = (isEn ? entry.label.en : entry.label.ko).split(" vs ");
 
   const highTitle = isDisposition
-    ? isEn
-      ? `What ${positivePole}-leaning figures shared`
-      : `${positivePole} 쪽 기록가들의 공통 감상작`
-    : isEn
-      ? `What top-${shortLabel} figures shared`
-      : `${shortLabel} 상위 기록가들의 공통 감상작`;
+    ? t("highDisposition", { pole: positivePole })
+    : t("highMetric", { label: shortLabel });
   const lowTitle = isDisposition
-    ? isEn
-      ? `What ${negativePole}-leaning figures shared`
-      : `${negativePole} 쪽 기록가들의 공통 감상작`
-    : isEn
-      ? `What low-${shortLabel} figures shared`
-      : `${shortLabel} 하위 기록가들의 공통 감상작`;
+    ? t("lowDisposition", { pole: negativePole })
+    : t("lowMetric", { label: shortLabel });
 
   return (
     <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-bg-card/40">
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-white/[0.07] bg-white/[0.02] px-5 py-3.5 md:px-6">
         <h3 className="font-serif text-lg font-bold text-text-primary">
-          {isEn ? "Library of Temperament" : "기질의 서재"}
+          {t("heading")}
         </h3>
         <p className="text-xs text-text-secondary">
-          {isEn
-            ? "Works shared by figures at the extremes of this axis"
-            : "이 축의 극단에 선 인물들이 함께 감상한 작품"}
+          {t("sub")}
         </p>
       </div>
       <div

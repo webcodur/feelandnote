@@ -1,13 +1,12 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Youtube } from "lucide-react";
-import { FOOTER_NAV_ITEMS, FOOTER_BRAND_LINKS, FOOTER_MISC_LINKS } from "@/constants/navigation";
+import { FOOTER_SECTIONS } from "@/constants/navigation";
 import { getYoutubeChannel } from "@/constants/youtube";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 
-const linkClassName = "block text-sm  hover:text-white transition-colors duration-300 font-sans";
-const sectionTitleClassName = "text-xs font-cinzel font-medium tracking-[0.2em] text-accent/50 mb-4";
+const linkClassName = "block text-[13px] text-text-secondary hover:text-white font-sans";
 
 const DecorativeBorder = () => (
   <div className="absolute inset-x-0 top-0 z-20">
@@ -42,6 +41,12 @@ export default async function Footer() {
   const locale = await getLocale();
   const youtube = { url: getYoutubeChannel(locale).url, label: t("policy.aboutActivityTitle") };
 
+  const isDev = process.env.NODE_ENV !== "production";
+  const isEn = locale === "en";
+  const sectionTitleClassName = isEn
+    ? "text-xs font-cinzel font-semibold tracking-[0.2em] text-accent/70 mb-3.5 block uppercase"
+    : "text-xs font-sans font-semibold tracking-[0.06em] text-accent/75 mb-3.5 block";
+
   return (
     <>
       {/* PC Footer */}
@@ -51,155 +56,132 @@ export default async function Footer() {
         {/* Background Typography (Watermark) */}
         <div className="absolute inset-0 pointer-events-none select-none flex items-center justify-center">
           <span
-            className="font-cormorant font-bold text-[10vw] leading-none whitespace-nowrap text-[#111112]"
+            className="font-cormorant font-bold text-[9vw] leading-none whitespace-nowrap text-[#111112]"
             style={{
-              textShadow: "0 1px 0 rgba(255,255,255,0.03)",
+              textShadow: "0 1px 0 rgba(255,255,255,0.02)",
             }}
           >
             FEEL & NOTE
           </span>
         </div>
 
-        <div className="relative mx-auto px-10 pt-14 pb-10 max-w-4xl z-10">
+        <div className="relative mx-auto px-8 pt-14 pb-10 max-w-4xl z-10">
           {/* Top: Logo & Tagline */}
-          <div className="flex flex-col items-center gap-3 mb-10">
+          <div className="flex flex-col items-center gap-2.5 mb-10 text-center">
             <Logo size="sm" variant="default" />
-            <p className="text-[11px] font-light tracking-wide">
+            <p className="text-xs text-text-secondary font-light tracking-wide">
               {t("layout.footer.tagline")}
             </p>
           </div>
 
-          {/* Navigation */}
-          <div className="grid grid-cols-4 gap-x-6 text-center">
-            {/* Brand Links Column */}
-            <div>
-              <p className={sectionTitleClassName}>About</p>
-              <nav className="flex flex-col gap-2">
-                {FOOTER_BRAND_LINKS.map((link) => (
-                  <Link key={link.href} href={link.href} className={linkClassName}>
-                    {t(`nav.footer.${link.key}`)}
+          {/* Navigation - 4 Balanced Columns */}
+          <div className="grid grid-cols-4 gap-x-8 text-left">
+            {FOOTER_SECTIONS.map((section) => (
+              <div key={section.key}>
+                {section.href ? (
+                  <Link href={section.href} className="inline-block hover:opacity-80">
+                    <span className={sectionTitleClassName}>
+                      {t(section.titleKey)}
+                    </span>
                   </Link>
-                ))}
-              </nav>
-            </div>
-
-            {/* Main Nav Columns */}
-            {FOOTER_NAV_ITEMS.map((item) => (
-              <div key={item.key}>
-                <Link href={item.href} className="block">
-                  <p className={sectionTitleClassName}>
-                    {t(`home.${item.key}.englishTitle`)}
-                  </p>
-                </Link>
+                ) : (
+                  <span className={sectionTitleClassName}>
+                    {t(section.titleKey)}
+                  </span>
+                )}
                 <nav className="flex flex-col gap-2">
-                  {item.subLinks!.map((link) => (
+                  {section.links.map((link) => (
                     <Link key={link.href} href={link.href} className={linkClassName}>
-                      {link.key ? t(`nav.sub.${link.key}`) : link.label}
+                      {t(`nav.footer.${link.key}`)}
                     </Link>
                   ))}
                 </nav>
               </div>
             ))}
-
-            {/* Misc Links Column */}
-            <div>
-              <p className={sectionTitleClassName}>{t("nav.footer.misc")}</p>
-              <nav className="flex flex-col gap-2">
-                {FOOTER_MISC_LINKS.map((link) => (
-                  <Link key={link.href} href={link.href} className={linkClassName}>
-                    {t(`nav.footer.${link.key}`)}
-                  </Link>
-                ))}
-              </nav>
-            </div>
           </div>
 
           {/* Bottom: Pediment */}
-          <div className="mt-10 pt-5 border-t border-white/[0.06] flex items-center justify-between">
-            <Link href="/lab" className="font-cinzel text-[10px] text-accent/20 tracking-[0.3em] hover:text-accent/30 transition-colors">
-              {t("layout.footer.neoPantheon")}
-            </Link>
-            <div className="flex items-center gap-4">
-              <YoutubeLink size={18} url={youtube.url} label={youtube.label} />
-              <LocaleSwitcher variant="text" />
-              <p className="text-[10px] font-sans tracking-widest uppercase">
+          <div className="mt-12 pt-5 border-t border-white/[0.06] flex items-center justify-between">
+            {isDev ? (
+              <Link
+                href="/lab"
+                className="text-[11px] font-sans tracking-wider text-text-muted hover:text-text-secondary"
+                title="Lab"
+              >
+                &copy; {currentYear} {t("layout.footer.copyright")}
+              </Link>
+            ) : (
+              <p className="text-[11px] font-sans tracking-wider text-text-muted">
                 &copy; {currentYear} {t("layout.footer.copyright")}
               </p>
+            )}
+            <div className="flex items-center gap-5">
+              <YoutubeLink size={18} url={youtube.url} label={youtube.label} />
+              <LocaleSwitcher variant="text" />
             </div>
           </div>
         </div>
       </footer>
 
       {/* Mobile Footer */}
-      <footer className="relative mt-20 w-full bg-[#090909] bg-texture-marble text-text-primary overflow-hidden md:hidden">
+      <footer className="relative mt-16 w-full bg-[#090909] bg-texture-marble text-text-primary overflow-hidden md:hidden">
         <DecorativeBorder />
 
-        <div className="relative mx-auto px-6 py-12 z-10">
-          {/* Logo & Tagline */}
-          <div className="flex flex-col items-center gap-2 mb-8">
+        <div className="relative mx-auto px-6 pt-10 pb-24 z-10">
+          {/* Logo */}
+          <div className="flex flex-col items-center mb-8 text-center">
             <Logo size="sm" variant="default" />
-            <Link href="/lab" className="text-[10px] font-light tracking-wide hover: transition-colors">
-              {t("layout.footer.archiveOfTaste")}
-            </Link>
           </div>
 
-          {/* Navigation Sections */}
-          <div className="grid grid-cols-2 gap-6 mb-8">
-            {/* Brand Links */}
-            <div>
-              <p className={sectionTitleClassName}>About</p>
-              <nav className="flex flex-col gap-2">
-                {FOOTER_BRAND_LINKS.map((link) => (
-                  <Link key={link.href} href={link.href} className={linkClassName}>
-                    {t(`nav.footer.${link.key}`)}
+          {/* Navigation Sections - 2x2 Grid */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-8 text-left mb-8">
+            {FOOTER_SECTIONS.map((section) => (
+              <div key={section.key}>
+                {section.href ? (
+                  <Link href={section.href} className="inline-block hover:opacity-80">
+                    <span className={sectionTitleClassName}>
+                      {t(section.titleKey)}
+                    </span>
                   </Link>
-                ))}
-              </nav>
-            </div>
-
-            {/* Main Nav Columns */}
-            {FOOTER_NAV_ITEMS.map((item) => (
-              <div key={item.key}>
-                <Link href={item.href} className="block">
-                  <p className={sectionTitleClassName}>
-                    {t(`home.${item.key}.englishTitle`)}
-                  </p>
-                </Link>
+                ) : (
+                  <span className={sectionTitleClassName}>
+                    {t(section.titleKey)}
+                  </span>
+                )}
                 <nav className="flex flex-col gap-2">
-                  {item.subLinks!.map((link) => (
+                  {section.links.map((link) => (
                     <Link key={link.href} href={link.href} className={linkClassName}>
-                      {link.key ? t(`nav.sub.${link.key}`) : link.label}
+                      {t(`nav.footer.${link.key}`)}
                     </Link>
                   ))}
                 </nav>
               </div>
             ))}
-
-            {/* Misc Links */}
-            <div>
-              <p className={sectionTitleClassName}>{t("nav.footer.misc")}</p>
-              <nav className="flex flex-col gap-2">
-                {FOOTER_MISC_LINKS.map((link) => (
-                  <Link key={link.href} href={link.href} className={linkClassName}>
-                    {t(`nav.footer.${link.key}`)}
-                  </Link>
-                ))}
-              </nav>
-            </div>
           </div>
 
-          {/* 언어 전환 + Copyright */}
-          <div className="flex flex-col items-center gap-2 pt-5 border-t border-white/[0.06]">
-            <div className="flex items-center gap-4">
+          {/* Language / Social / Copyright */}
+          <div className="flex flex-col items-center gap-3 pt-6 border-t border-white/[0.06]">
+            <div className="flex items-center gap-5">
               <YoutubeLink size={20} url={youtube.url} label={youtube.label} />
               <LocaleSwitcher variant="text" />
             </div>
-            <p className="text-[10px] font-sans tracking-widest uppercase">
-              &copy; {currentYear} FeelDT
-            </p>
+            {isDev ? (
+              <Link
+                href="/lab"
+                className="text-[10px] font-sans tracking-wider text-text-muted hover:text-text-secondary"
+                title="Lab"
+              >
+                &copy; {currentYear} {t("layout.footer.copyright")}
+              </Link>
+            ) : (
+              <p className="text-[10px] font-sans tracking-wider text-text-muted">
+                &copy; {currentYear} {t("layout.footer.copyright")}
+              </p>
+            )}
           </div>
         </div>
       </footer>
     </>
   );
 }
+

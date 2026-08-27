@@ -100,6 +100,12 @@ function hasValue(value) {
   return true;
 }
 
+// '미작성'은 NOT NULL 제약을 채우기 위한 자리표시자다(person-reading.md).
+// data-coverage.md 원칙대로 한국어 데이터가 아예 없는 것과 같게 본다.
+function isPlaceholder(value) {
+  return typeof value === "string" && value.trim() === "미작성";
+}
+
 function noteCoverage(code, matched) {
   const current = coverage.get(code) || { checked: 0, matched: 0, missing: 0 };
   current.checked += 1;
@@ -117,8 +123,8 @@ function checkPair({
   severity = "warnings",
   context = {},
 }) {
-  const koPresent = hasValue(row?.[ko]);
-  if (!koPresent) return;
+  const koValue = row?.[ko];
+  if (!hasValue(koValue) || isPlaceholder(koValue)) return;
   const enPresent = hasValue(row?.[en]);
   noteCoverage(code, enPresent);
   if (!enPresent) {
@@ -444,14 +450,17 @@ if (ids.length > 0) {
   );
   for (const row of dialogueRows) {
     const context = slugContext(profileById, row.celeb_id);
-    checkPair({
-      row,
-      ko: "lines",
-      en: "lines_en",
-      code: "DIALOGUE_EN_MISSING",
-      label: "Dialogue set",
-      context,
-    });
+    // celeb-i18n.md: fiction 티어는 번역 대상이 아니다. KO만 있는 것을 누락으로 세지 않는다.
+    if (profileById.get(row.celeb_id)?.celeb_tier !== "fiction") {
+      checkPair({
+        row,
+        ko: "lines",
+        en: "lines_en",
+        code: "DIALOGUE_EN_MISSING",
+        label: "Dialogue set",
+        context,
+      });
+    }
     auditDialogueShape(row, context);
   }
 

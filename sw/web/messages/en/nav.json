@@ -33,15 +33,27 @@
       "popular": "Popular Works"
     },
     "footer": {
-      "about": "About",
+      "sectionFigures": "Figures",
+      "sectionWorks": "Works",
+      "sectionCommunity": "Play & Agora",
+      "sectionAbout": "About & Legal",
+      "figures": "Figures",
+      "ranking": "Category Champions",
+      "faction": "Factions",
+      "today": "Today's Figure",
+      "timeline": "Timeline by Country",
+      "popular": "Popular Works",
+      "curated": "Curated Lists",
+      "museum": "Museum",
+      "academy": "Academy",
+      "game": "Play",
+      "social": "Social Agora",
+      "notice": "Announcements",
+      "feedback": "Feedback",
+      "about": "About Us",
       "search": "Search",
       "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "misc": "More",
-      "game": "Rest",
-      "social": "Social",
-      "notice": "Announcements",
-      "feedback": "Feedback"
+      "privacy": "Privacy Policy"
     }
   },
   "moreMenu": {

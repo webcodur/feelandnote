@@ -8,7 +8,7 @@ import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review
 import {
   SelectOverlay,
   StatsBadge,
-  RatingBadge,
+  IntroBadge,
 } from "../slots";
 import CardHeader from "./CardHeader";
 import CardModals from "./CardModals";
@@ -26,7 +26,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
   const {
     title,
     rating,
-    onRatingClick,
     reviewIsOriginalLanguage,
     onStatsClick,
     reviewPresets,
@@ -54,6 +53,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
     effectiveUserCount,
     setIsBadgeHovered,
     setShowStatsModal,
+    setShowIntroModal,
     isSelected,
   } = state;
 
@@ -82,10 +82,15 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
   };
 
   const renderBottomRight = () => {
-    if (rating || onRatingClick) {
-      return <RatingBadge rating={rating ?? null} onClick={onRatingClick} />;
-    }
-    return null;
+    return (
+      <IntroBadge
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setShowIntroModal(true);
+        }}
+      />
+    );
   };
 
   return (
@@ -135,17 +140,20 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
             </div>
           )}
 
-          <div className="mb-2">
+          <div className="mb-2 text-center">
             <h3
-              className="text-xs sm:text-sm font-bold text-text-primary line-clamp-4 leading-tight group-hover:text-accent"
+              className="text-xs sm:text-sm font-bold text-text-primary line-clamp-4 leading-tight group-hover:text-accent text-center"
               title={displayTitle}
             >
               {displayTitle}
             </h3>
             {displayCreator && (
-              <p className="text-[10px] sm:text-xs text-text-secondary line-clamp-1 mt-1">
-                {displayCreator.replace(/\^/g, ", ")}
-              </p>
+              <>
+                <div className="h-px bg-white/10 mt-2 -mx-3 sm:-mx-4" />
+                <p className="text-[10px] sm:text-xs text-text-secondary line-clamp-1 text-center pt-2">
+                  {displayCreator.replace(/\^/g, ", ")}
+                </p>
+              </>
             )}
           </div>
 

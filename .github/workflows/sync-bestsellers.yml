@@ -1,0 +1,41 @@
+name: Sync Weekly Bestsellers
+
+# 매주 월요일 오전 9시(KST) / 00:00(UTC)에 알라딘 주간 차트와 카카오 도서 메타를 자동 수집해 저장한다.
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  sync-bestsellers:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js and pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync bestsellers
+        env:
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+        run: pnpm sync:bestsellers
+
+      - name: Commit and push changes if updated
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          if git status --porcelain sw/web/src/constants/library/bestsellers.json | grep -q bestsellers.json; then
+            git add sw/web/src/constants/library/bestsellers.json
+            git commit -m "chore(library): sync weekly bestsellers and steadysellers"
+            git push
+          else
+            echo "No changes in bestsellers.json"
+          fi

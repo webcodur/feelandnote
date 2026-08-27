@@ -316,11 +316,11 @@ export default function FactionShowcase({
         onTagTeamImagesChange?.(activeTag.id, result.data.team_images);
         setSelectedIdx(0);
       } else {
-        alert(result.message || (locale === "en" ? "Failed to set cover image." : "대표 이미지 설정에 실패했습니다."));
+        alert(result.message || t("coverSetFail"));
       }
     } catch (e) {
       console.error("[FactionShowcase] Failed to set cover image:", e);
-      alert(locale === "en" ? "An error occurred while setting cover image." : "대표 이미지 설정 중 오류가 발생했습니다.");
+      alert(t("coverSetError"));
     } finally {
       setIsSettingCover(false);
     }
@@ -942,10 +942,10 @@ export default function FactionShowcase({
         teamSlide === 0 ? (
           <div
             className="absolute right-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-amber-400/50 bg-black/80 px-2.5 py-1 text-[11px] font-bold text-amber-300 shadow-[0_2px_12px_rgba(0,0,0,0.8)] backdrop-blur-md"
-            title={locale === "en" ? "Cover image of this theme" : "이 테마의 대표 이미지입니다"}
+            title={t("coverBadgeTitle")}
           >
             <Star size={12} className="fill-amber-300 text-amber-300" />
-            <span>{locale === "en" ? "Cover Image" : "대표 이미지"}</span>
+            <span>{t("coverBadge")}</span>
           </div>
         ) : (
           <button
@@ -956,14 +956,14 @@ export default function FactionShowcase({
             }}
             disabled={isSettingCover}
             className="absolute right-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-black/80 px-2.5 py-1 text-[11px] font-bold text-white/90 shadow-[0_2px_12px_rgba(0,0,0,0.8)] backdrop-blur-md transition-all hover:border-amber-400 hover:bg-amber-400/20 hover:text-amber-300 active:scale-95 disabled:cursor-wait disabled:opacity-60"
-            title={locale === "en" ? "Set this photo as the cover image of the theme" : "이 사진을 테마의 대표 이미지로 설정합니다"}
+            title={t("coverSetTitle")}
           >
             {isSettingCover ? (
               <Loader2 size={12} className="animate-spin text-amber-300" />
             ) : (
               <Star size={12} className="text-white/70" />
             )}
-            <span>{locale === "en" ? "Set as Cover" : "대표로 설정"}</span>
+            <span>{t("coverSet")}</span>
           </button>
         )
       )}

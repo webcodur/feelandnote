@@ -35,6 +35,7 @@ interface CelebPageContentProps {
   fictionSources: FictionSourceContent[];
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
+  externalLinksSlot: ReactNode;
   children?: ReactNode;
 }
 
@@ -52,6 +53,7 @@ export default function CelebPageContent({
   fictionSources,
   worldId,
   worldBannerImages,
+  externalLinksSlot,
   children,
 }: CelebPageContentProps) {
   const locale = useLocale() as Locale;
@@ -119,6 +121,7 @@ export default function CelebPageContent({
         worldId={worldId}
         worldBannerImages={worldBannerImages}
         serviceItems={serviceModel.items}
+        externalLinksSlot={externalLinksSlot}
       />
 
       <CelebRecordSections

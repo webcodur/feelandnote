@@ -67,6 +67,26 @@ export interface CelebContentJoinRow {
 export type StaticSupabase = ReturnType<typeof createStaticClient>
 
 // ────────────────────────────────────────────────────
+// 실시간 베스트셀러
+export interface BestsellerItem {
+  id: string
+  rank: number
+  title: string
+  creator: string
+  publisher: string | null
+  thumbnail_url: string | null
+  published_date: string | null
+  isbn: string | null
+  description: string | null
+  type: string
+  category_key: string
+  title_ko?: string | null
+  title_en?: string | null
+  creator_en?: string | null
+  thumbnail_en?: string | null
+}
+
+// ────────────────────────────────────────────────────
 // 기관 선정 — 대학·언론·시상기관 등이 발표한 작품 목록
 export interface CuratorSummary {
   slug: string

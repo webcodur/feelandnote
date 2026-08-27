@@ -102,6 +102,7 @@ export function useContentCardState(props: ContentCardProps) {
   const [showModal, setShowModal] = useState(false);
   const [isBadgeHovered, setIsBadgeHovered] = useState(false);
   const [showStatsModal, setShowStatsModal] = useState(false);
+  const [showIntroModal, setShowIntroModal] = useState(false);
   const [isRecommendModalOpen, setIsRecommendModalOpen] = useState(false);
   const [isTypeInfoOpen, setIsTypeInfoOpen] = useState(false);
   const [showAddConfirm, setShowAddConfirm] = useState(false);
@@ -233,6 +234,8 @@ export function useContentCardState(props: ContentCardProps) {
     setIsBadgeHovered,
     showStatsModal,
     setShowStatsModal,
+    showIntroModal,
+    setShowIntroModal,
     isRecommendModalOpen,
     setIsRecommendModalOpen,
     isTypeInfoOpen,

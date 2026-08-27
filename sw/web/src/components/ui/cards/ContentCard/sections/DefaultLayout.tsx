@@ -6,7 +6,7 @@ import ContentImage from "@/components/ui/ContentImage";
 import {
   SelectOverlay,
   StatsBadge,
-  RatingBadge,
+  IntroBadge,
 } from "../slots";
 import CardHeader from "./CardHeader";
 import CardModals from "./CardModals";
@@ -27,8 +27,6 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     href,
     selectable,
     onStatsClick,
-    rating,
-    onRatingClick,
     className,
   } = props;
 
@@ -54,6 +52,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     isBadgeHovered,
     setIsBadgeHovered,
     setShowStatsModal,
+    setShowIntroModal,
     selectableClass,
   } = state;
 
@@ -80,10 +79,15 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
   };
 
   const renderBottomRight = () => {
-    if (rating || onRatingClick) {
-      return <RatingBadge rating={rating ?? null} onClick={onRatingClick} />;
-    }
-    return null;
+    return (
+      <IntroBadge
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setShowIntroModal(true);
+        }}
+      />
+    );
   };
 
   const cardContent = (
@@ -128,13 +132,18 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
       </div>
 
       {showInfo && (
-        <div className="p-2 md:p-2.5 bg-black/20 border-t border-white/[0.04]">
-          <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight min-h-[30px] md:min-h-[35px] ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
-            {editionUnavailable ? title : displayTitle}
-          </h3>
-          <p className="text-[10px] md:text-xs text-text-secondary line-clamp-1 mt-0.5 md:mt-1">
-            {editionUnavailable ? (creator ? creator.replace(/\^/g, ", ") : "\u00A0") : (displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0")}
-          </p>
+        <div className="bg-black/20 border-t border-white/[0.04] text-center">
+          <div className="p-2 md:p-2.5 pb-1.5 flex items-center justify-center min-h-[36px] md:min-h-[42px]">
+            <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight text-center ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
+              {editionUnavailable ? title : displayTitle}
+            </h3>
+          </div>
+          <div className="h-px bg-white/10" />
+          <div className="p-1.5 md:p-2 pt-1.5">
+            <p className="text-[10px] md:text-xs text-text-secondary line-clamp-1 text-center">
+              {editionUnavailable ? (creator ? creator.replace(/\^/g, ", ") : "\u00A0") : (displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0")}
+            </p>
+          </div>
         </div>
       )}
     </>

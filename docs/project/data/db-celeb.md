@@ -32,7 +32,7 @@
   - `cultural_journey` / `cultural_journey_en`이 정식 저장 열이다. `consumption_philosophy*`는 레거시 호환 열이므로 직접 쓰지 않는다
   - `speech_tone` (text): 말투 6종. **`celebs` 테이블에 직접 존재** (celeb_persona 아님)
     - CHECK 제약 있음: `loyal`|`composed`|`bold`|`humble`|`gentle`|`free`
-  - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용
+  - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회와 상세 소개의 공식 채널·인물 자료 연결에 사용
   - `slug`: `nickname_en` 기반 generated column (아래 참조)
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)

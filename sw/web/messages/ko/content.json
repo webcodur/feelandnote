@@ -44,6 +44,13 @@
       "noSource": "⚠️ 출처 URL 누락",
       "originalLanguage": "한국어 원문",
       "detail": "상세 보기"
+    },
+    "intro": {
+      "title": "작품 소개",
+      "empty": "작품 소개가 아직 없습니다.",
+      "releasedLabel": "출간·공개",
+      "genresLabel": "장르",
+      "badgeShort": "소개"
     }
   },
   "contentDetail": {
@@ -110,9 +117,23 @@
     },
     "externalLinks": "외부 링크",
     "recentContents": "최근 본 콘텐츠",
+    "previousRecent": "이전 콘텐츠",
+    "nextRecent": "다음 콘텐츠",
     "metaFallback": "{title} 리뷰, 줄거리, 추천 이유. 셀럽이 추천한 작품을 확인하세요.",
     "notFoundTitle": "콘텐츠 정보 없음",
-    "notFoundDescription": "콘텐츠 정보를 불러올 수 없습니다."
+    "notFoundDescription": "콘텐츠 정보를 불러올 수 없습니다.",
+    "showMore": "더보기",
+    "showLess": "접기",
+    "rating": "평점",
+    "author": "저자",
+    "translator": "역자",
+    "publisher": "출판사",
+    "pageCount": "{pages}쪽",
+    "releaseDate": "출시일",
+    "publishDate": "출판일",
+    "developer": "개발사",
+    "platform": "플랫폼",
+    "artist": "아티스트"
   },
   "review": {
     "positive": {

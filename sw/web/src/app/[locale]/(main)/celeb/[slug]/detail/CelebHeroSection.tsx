@@ -55,6 +55,7 @@ interface CelebHeroSectionProps {
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
   serviceItems: ServiceItem[];
+  externalLinksSlot: ReactNode;
 }
 
 export default function CelebHeroSection({
@@ -66,6 +67,7 @@ export default function CelebHeroSection({
   worldId,
   worldBannerImages,
   serviceItems,
+  externalLinksSlot,
 }: CelebHeroSectionProps) {
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
@@ -293,6 +295,7 @@ export default function CelebHeroSection({
                     ) : null}
                   </div>
                 ) : null}
+                {externalLinksSlot}
               </div>
             </div>
           </div>

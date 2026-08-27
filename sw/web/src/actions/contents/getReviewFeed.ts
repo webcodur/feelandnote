@@ -21,6 +21,12 @@ export interface ReviewFeedItem {
     nickname_en: string | null
     avatar_url: string | null
     subject_kind: 'member' | 'celeb'
+    profession?: string | null
+    title?: string | null
+    title_en?: string | null
+    headline?: string | null
+    headline_en?: string | null
+    slug?: string | null
   }
 }
 
@@ -37,6 +43,12 @@ interface ReviewProfileRow {
   nickname: string
   nickname_en?: string | null
   avatar_url: string | null
+  profession?: string | null
+  title?: string | null
+  title_en?: string | null
+  headline?: string | null
+  headline_en?: string | null
+  slug?: string | null
 }
 
 interface ReviewFeedRow {
@@ -75,6 +87,12 @@ function toReviewFeedItem(
       nickname_en: profile.nickname_en ?? null,
       avatar_url: profile.avatar_url,
       subject_kind: subjectKind,
+      profession: (profile as ReviewProfileRow).profession ?? null,
+      title: (profile as ReviewProfileRow).title ?? null,
+      title_en: (profile as ReviewProfileRow).title_en ?? null,
+      headline: (profile as ReviewProfileRow).headline ?? null,
+      headline_en: (profile as ReviewProfileRow).headline_en ?? null,
+      slug: (profile as ReviewProfileRow).slug ?? null,
     },
   }
 }
@@ -117,7 +135,7 @@ async function fetchReviewFeed(
     .from('celeb_contents')
     .select(`
       ${selectBase},
-      user:celebs!celeb_contents_celeb_id_fkey(id, nickname, nickname_en, avatar_url)
+      user:celebs!celeb_contents_celeb_id_fkey(id, nickname, nickname_en, avatar_url, profession, title, title_en, headline, headline_en, slug)
     `)
     .eq('content_id', contentId)
     .eq('visibility', 'public')

@@ -131,10 +131,7 @@ export default function CelebRecordSections({
             {renderSectionHeading("reading")}
             <SectionSurface className={PROSE_BOX_CLASS_NAME}>
               <FigureReadingTabs
-                item={serviceItemsByKey.get("reading")!}
                 reading={profile.reading}
-                name={profile.nickname}
-                wikidataQid={profile.wikidata_qid ?? null}
               />
             </SectionSurface>
           </section>

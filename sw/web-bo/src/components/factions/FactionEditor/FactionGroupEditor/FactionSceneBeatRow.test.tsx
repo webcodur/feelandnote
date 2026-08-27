@@ -315,7 +315,7 @@ test('해설과 인물 대사도 자동 길이 위에 최소 재생 시간을 �
 test('통합된 모든 컷 안에서 기존 SFX를 고르고 미리듣고 해제한다', () => {
   const markup = renderToStaticMarkup(
     <FactionSceneBeatRow
-      beat={{ text: '파도가 뱃전을 때린다.', sfx: 'wave.mp3' }}
+      beat={{ text: '파도가 뱃전을 때린다.', sfx: 'wave.mp3', sfxStartPercent: 35 }}
       index={2}
       total={3}
       onChange={() => {}}
@@ -337,7 +337,13 @@ test('통합된 모든 컷 안에서 기존 SFX를 고르고 미리듣고 해제
   assert.match(markup, /value="wave\.mp3" selected=""/)
   assert.match(markup, /wave\.mp3 효과음 미리듣기/)
   assert.match(markup, /aria-label="3번 컷 효과음 해제"/)
-  assert.match(markup, /이 컷이 시작될 때 1회 재생/)
+  assert.match(markup, /이 컷 안에서 1회 재생/)
+  assert.match(markup, /data-faction-scene-sfx-timing="true"/)
+  assert.match(markup, /aria-label="3번 컷 효과음 시작 시점"/)
+  assert.match(markup, /value="35"/)
+  assert.match(markup, />35%<\/output>/)
+  assert.match(markup, /컷 시작 · 0%/)
+  assert.match(markup, /컷 끝 · 100%/)
 })
 
 test('구 자유 문자열 화자는 지우지 않고 미할당으로 드러낸다', () => {

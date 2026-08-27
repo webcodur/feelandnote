@@ -14,6 +14,7 @@ export const ALLOWED_IMAGE_HOSTS = new Set([
   'image.tmdb.org', // TMDB
   'i.gr-assets.com', // Goodreads
   'covers.openlibrary.org', // OpenLibrary
+  't1.daumcdn.net', // 카카오 도서
   'books.google.com', // 레거시 도서 표지
   'images.igdb.com', // IGDB
   'image.aladin.co.kr', // 알라딘

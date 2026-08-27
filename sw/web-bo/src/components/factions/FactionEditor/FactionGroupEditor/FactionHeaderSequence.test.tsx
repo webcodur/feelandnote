@@ -33,7 +33,6 @@ test('세력 헤더 그룹은 그룹 화보가 없으면 첫 유효한 개인 �
       series="faction"
       episodeName="Homer-Odyssey"
       borderColor="#2c5f6f"
-      onChange={() => {}}
       onJumpCluster={() => {}}
     />,
   )
@@ -43,11 +42,14 @@ test('세력 헤더 그룹은 그룹 화보가 없으면 첫 유효한 개인 �
   assert.doesNotMatch(markup, /· 그룹/)
   assert.match(markup, /object-position:25% 30%/)
   assert.match(markup, /transform:scale\(1\.2\)/)
+  assert.match(markup, /data-faction-scene-image="true"/)
+  assert.match(markup, /aspect-square h-full w-auto/)
+  assert.match(markup, /class="h-full w-full object-cover"/)
   assert.doesNotMatch(markup, /화보 없음/)
   assert.doesNotMatch(markup, />이야기 순서</)
 })
 
-test('세력 헤더는 쇼츠 편 경계를 이야기 순서 사이에 표시한다', () => {
+test('세력 헤더는 쇼츠 경계를 숨기고 장면 이미지만 연속해서 보여준다', () => {
   const group = {
     name: '귀향자들',
     people: [],
@@ -69,13 +71,19 @@ test('세력 헤더는 쇼츠 편 경계를 이야기 순서 사이에 표시한
       series="faction"
       episodeName="Homer-Odyssey"
       borderColor="#2c5f6f"
-      onChange={() => {}}
       onJumpCluster={() => {}}
     />,
   )
 
-  assert.match(markup, /쇼츠 편 경계/)
-  const labels = ['앞편', '쇼츠 편 경계', '뒷편']
+  assert.doesNotMatch(markup, /쇼츠 편 경계/)
+  assert.doesNotMatch(markup, /쇼츠 편 경계 추가/)
+  assert.doesNotMatch(markup, /왼쪽으로 이동/)
+  assert.doesNotMatch(markup, /오른쪽으로 이동/)
+  assert.doesNotMatch(markup, /장면 추가/)
+  assert.match(markup, />2-1</)
+  assert.match(markup, />2-2</)
+  assert.doesNotMatch(markup, />2-3</)
+  const labels = ['앞편', '뒷편']
   const positions = labels.map(label => markup.indexOf(label))
   assert.ok(positions.every(position => position >= 0))
   assert.deepEqual([...positions].sort((a, b) => a - b), positions)

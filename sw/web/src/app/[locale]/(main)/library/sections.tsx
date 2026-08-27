@@ -6,33 +6,34 @@
         이어보기 지름길을 채우는 작은 조각을 여기서 낸다.
 */ // ------------------------------
 
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { RetryBlock } from "@/components/ui/pending";
-import { getChosenLibrary, getCuratedHub } from "@/actions/library";
+import { getBestsellers, getCuratedHub } from "@/actions/library";
 import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
-import type { CuratedHub, LibraryContent } from "@/actions/library/types";
+import type { BestsellerItem, CuratedHub } from "@/actions/library/types";
 import PopularPreview from "@/components/features/library/hub/PopularPreview";
 import CuratedHubBrowse from "@/components/features/library/hub/CuratedHubBrowse";
 
 const EMPTY_CLASS = "text-sm text-text-secondary text-center py-8";
 
 export async function PopularSection() {
-  // 조회만 try로 감싼다 — 성공 경로의 JSX 구성은 밖에서 한다(react-hooks/error-boundaries)
-  let contents: LibraryContent[];
+  let items: BestsellerItem[];
   try {
-    ({ contents } = await getChosenLibrary({ page: 1, limit: 6 }));
+    const locale = await getLocale();
+    const res = await getBestsellers('ALL', locale);
+    items = res.items.slice(0, 6);
   } catch (error) {
     console.error("[library] 인기 작품 조회 실패:", error);
     return <RetryBlock />;
   }
 
-  if (contents.length === 0) {
+  if (items.length === 0) {
     const t = await getTranslations("pending");
     return <p className={EMPTY_CLASS}>{t("empty")}</p>;
   }
-  return <PopularPreview contents={contents} />;
+  return <PopularPreview items={items} />;
 }
 
 export async function CuratedSection() {

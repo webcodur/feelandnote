@@ -41,7 +41,7 @@
       "curated": "Lists chosen by universities, the press, and award bodies.",
       "exploreCurated": "Browse the lists",
       "popularLabel": "Popular Works",
-      "popular": "Works the most figures have finished, by era or by profession."
+      "popular": "Explore this week's trending bestsellers and category steadysellers."
     },
     "meta": {
       "title": "Works - Celebrity Reading Lists & Movie Picks",
@@ -398,14 +398,36 @@
       "backToLibrary": "Back to Works"
     },
     "popular": {
-      "metaTitle": "Popular Works - Most Chosen by Figures",
-      "metaDescription": "Works the most figures have finished, viewed by era or by profession.",
+      "metaTitle": "Popular Works - Weekly Bestsellers & All-Time Classics",
+      "metaDescription": "Explore this week's trending bestsellers alongside timeless classics chosen by notable figures.",
       "title": "Popular Works",
-      "description": "Works the most figures have finished.",
+      "description": "Timeless classics chosen by great minds and thinkers across history.",
+      "descBestseller": "Weekly bestsellers and trending works.",
+      "criteriaCatAll": "Based on OpenLibrary global weekly trending books",
+      "criteriaCatHumanities": "Based on OpenLibrary humanities & philosophy rankings",
+      "criteriaCatBusiness": "Based on OpenLibrary business & economics rankings",
+      "criteriaCatFiction": "Based on OpenLibrary fiction & literature rankings",
+      "criteriaCatSteady": "Based on OpenLibrary timeless classic literature",
+      "criteriaMediaAll": "Based on real-time weekly trends across books, videos, games, and music",
+      "criteriaVideo": "Based on TMDB weekly trending movies and series rankings",
+      "criteriaGame": "Based on Steam global top sellers and popular games chart",
+      "criteriaMusic": "Based on Apple Music global most played top charts",
+      "criteriaBasisAll": "Aggregated by total recommendations and records across Feel&Note figures",
+      "criteriaBasisEra": "Aggregated by records of figures from the selected era",
+      "criteriaBasisProfession": "Aggregated by records of figures from the selected profession",
+      "tabBestseller": "Weekly Best",
+      "tabClassics": "All-Time Classics",
       "basisAll": "All",
       "basisEra": "By era",
       "basisProfession": "By profession",
-      "empty": "No works yet."
+      "empty": "No works yet.",
+      "chips": {
+        "ALL": "Overall Bestsellers",
+        "HUMANITIES": "Humanities",
+        "BUSINESS": "Business & Economics",
+        "FICTION": "Fiction & Poetry",
+        "STEADY": "Steady Sellers"
+      }
     }
   }
 }

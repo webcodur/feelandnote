@@ -56,6 +56,36 @@ test('실제 구 음원이 남은 과도기 대사는 위치가 아니라 대사
   assert.equal(result.groups[0]?.clusters?.[0]?.beats?.[0]?.voiceDuration, 4.72)
 })
 
+test('같은 인물의 다른 배치 대사는 첫 배치 음원을 잘못 상속하지 않는다', () => {
+  const groups: FactionGroup[] = [{
+    name: '위기의 이타카',
+    people: [],
+    clusters: [{
+      people: [{ name: '텔레마코스', celebId: 'telemachus', quote: '아버지를 찾아 떠나겠다.' }],
+      beats: [],
+    }],
+  }, {
+    name: '심판의 연회장',
+    people: [],
+    clusters: [{
+      people: [{ name: '텔레마코스', celebId: 'telemachus', quote: '이제 아버지 곁에 서겠다.' }],
+      beats: [{
+        speakerCelebId: 'telemachus',
+        speaker: '텔레마코스',
+        text: '이제 아버지 곁에 서겠다.',
+      }],
+    }],
+  }]
+  const firstPlacementFile = 'F01C01P01-quote.wav'
+  const result = materializeFactionSceneVoiceFiles(
+    groups,
+    new Map([[firstPlacementFile, { duration: 4.72 }]]),
+  )
+
+  assert.equal(result.changed, 0)
+  assert.equal(result.groups[1]?.clusters?.[0]?.beats?.[0]?.voiceFile, undefined)
+})
+
 test('본문을 고쳐 옛 음원에서 분리한 대사는 같은 인물 문장이어도 자동 복구하지 않는다', () => {
   const groups: FactionGroup[] = [{
     name: '귀향길',

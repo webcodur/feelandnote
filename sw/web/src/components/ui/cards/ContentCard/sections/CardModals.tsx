@@ -9,6 +9,7 @@ import { addContent } from "@/actions/contents/addContent";
 
 import TypeInfoModal from "../modals/TypeInfoModal";
 import ContentStatsModal from "../modals/ContentStatsModal";
+import ContentIntroModal from "../modals/ContentIntroModal";
 import type { ContentCardProps } from "../types";
 import type { ContentCardState } from "../useContentCardState";
 import { useTranslations } from "next-intl";
@@ -29,6 +30,8 @@ export default function CardModals({ props, state }: CardModalsProps) {
     onSavedRemove,
     modalZIndex,
     reviewPresets,
+    fallbackDescription,
+    fallbackMetadata,
   } = props;
 
   const {
@@ -38,6 +41,8 @@ export default function CardModals({ props, state }: CardModalsProps) {
     setIsTypeInfoOpen,
     showStatsModal,
     setShowStatsModal,
+    showIntroModal,
+    setShowIntroModal,
     effectiveCelebCount,
     internalSaved,
     internalUserContentId,
@@ -51,6 +56,7 @@ export default function CardModals({ props, state }: CardModalsProps) {
     setShowModal,
     displayTitle,
     displayCreator,
+    displayThumbnail,
     displayReview,
     contentDetailUrl,
     setInternalSaved,
@@ -75,6 +81,17 @@ export default function CardModals({ props, state }: CardModalsProps) {
         contentTitle={title}
         contentThumbnail={thumbnail}
         celebCount={effectiveCelebCount ?? 0}
+      />
+      <ContentIntroModal
+        isOpen={showIntroModal}
+        onClose={() => setShowIntroModal(false)}
+        contentId={contentId || ""}
+        contentTitle={displayTitle || title}
+        contentCreator={displayCreator}
+        contentType={contentType}
+        contentThumbnail={displayThumbnail}
+        fallbackDescription={fallbackDescription ?? null}
+        fallbackMetadata={fallbackMetadata ?? null}
       />
       {internalSaved && internalUserContentId && (
         <RecommendationModal

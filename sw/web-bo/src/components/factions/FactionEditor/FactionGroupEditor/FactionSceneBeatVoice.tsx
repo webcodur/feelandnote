@@ -95,16 +95,17 @@ export function FactionSceneBeatVoice({
   const localVoiceFile = localPersonIndex >= 0
     ? factionVoiceFile(groupIndex, localPersonIndex, clusterIndex)
     : undefined
-  const positionVoiceCandidates = [assignedVoiceFile, localVoiceFile]
+  const positionVoiceCandidates = [localVoiceFile, assignedVoiceFile]
     .filter((file, index, files): file is string => !!file && files.indexOf(file) === index)
   const existingPositionVoiceFile = positionVoiceCandidates.find(file => voice?.byFile.has(file))
   const recoverablePositionVoiceFile = assignedPerson
     && beat.legacyPersonVoice !== false
     && factionSceneBeatMatchesPersonQuote(beat, assignedPerson, editLang === 'en' ? 'en' : 'ko')
-    ? existingPositionVoiceFile
+    // 같은 인물의 다른 배치에서는 첫 등장 음원이 아니라 현재 장면의 로컬 슬롯에 생성한다.
+    ? localVoiceFile ?? existingPositionVoiceFile
     : undefined
   const inheritedPositionVoiceFile = beat.legacyPersonVoice === true
-    ? existingPositionVoiceFile ?? positionVoiceCandidates[0]
+    ? localVoiceFile ?? existingPositionVoiceFile ?? positionVoiceCandidates[0]
     : recoverablePositionVoiceFile
   const voiceFile = beat.voiceFile
     ?? inheritedPositionVoiceFile
@@ -149,7 +150,8 @@ export function FactionSceneBeatVoice({
   const beatVoiceSlot = { ...QUOTE_SLOT, label: beatVoiceLabel }
 
   useEffect(() => {
-    const materializedVoiceFile = !beat.voiceFile && inheritedPositionVoiceFile
+    // 아직 파일이 없는 로컬 슬롯은 생성 대상으로만 쓰고, 실제 저장된 뒤에 명시 연결한다.
+    const materializedVoiceFile = !beat.voiceFile && inheritedPositionVoiceFile && meta
       ? inheritedPositionVoiceFile
       : undefined
     const measuredDuration = meta?.duration && meta.duration > 0 && beat.voiceDuration == null
@@ -161,7 +163,7 @@ export function FactionSceneBeatVoice({
       ...(materializedVoiceFile ? { voiceFile: materializedVoiceFile, legacyPersonVoice: undefined } : {}),
       ...(measuredDuration != null ? { voiceDuration: measuredDuration } : {}),
     })
-  }, [beat, inheritedPositionVoiceFile, meta?.duration, onChange])
+  }, [beat, inheritedPositionVoiceFile, meta, onChange])
 
   if (!voice || !beat.text.trim()) return null
 

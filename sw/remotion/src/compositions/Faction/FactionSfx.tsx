@@ -1,6 +1,9 @@
 import React from 'react'
 import { Audio, Sequence, staticFile } from 'remotion'
-import { factionSceneBeatTimings } from '@feelandnote/shared/lib/faction-scene-timing'
+import {
+  factionSceneBeatSfxStartSec,
+  factionSceneTiming,
+} from '@feelandnote/shared/lib/faction-scene-timing'
 import { f, ENTER_NAME_SEC, sceneBeatsOf, sceneTimingInputOf, type TimedCue } from './timing'
 
 /**
@@ -42,7 +45,8 @@ export const FactionSfx: React.FC<{ cues: TimedCue[]; defaults?: boolean; captio
       if (tc.cue.kind === 'scene') {
         const scene = tc.cue.scene
         const beats = sceneBeatsOf(scene)
-        const timings = factionSceneBeatTimings(sceneTimingInputOf(scene, captionIdHoldSec))
+        const sceneTiming = factionSceneTiming(sceneTimingInputOf(scene, captionIdHoldSec))
+        const timings = sceneTiming.beats
         return (
           <React.Fragment key={`sfx-s-${i}`}>
             {scene.sfx ? (
@@ -50,11 +54,21 @@ export const FactionSfx: React.FC<{ cues: TimedCue[]; defaults?: boolean; captio
                 <Audio src={staticFile(`common/sfx/${scene.sfx}`)} volume={SCENE_VOL} />
               </Sequence>
             ) : null}
-            {beats.map((beat, beatIndex) => beat.sfx ? (
-              <Sequence key={`${beatIndex}-${beat.sfx}`} from={tc.start + f(timings[beatIndex]?.startSec ?? 0)} durationInFrames={Math.min(tc.duration, f(8))}>
-                <Audio src={staticFile(`common/sfx/${beat.sfx}`)} volume={SCENE_VOL} />
-              </Sequence>
-            ) : null)}
+            {beats.map((beat, beatIndex) => {
+              if (!beat.sfx) return null
+              const beatStartSec = timings[beatIndex]?.startSec ?? 0
+              const beatEndSec = timings[beatIndex + 1]?.startSec ?? sceneTiming.durationSec
+              const requestedFrom = tc.start + f(factionSceneBeatSfxStartSec(
+                beatStartSec,
+                beatEndSec,
+                beat.sfxStartPercent,
+              ))
+              return (
+                <Sequence key={`${beatIndex}-${beat.sfx}`} from={requestedFrom} durationInFrames={Math.min(tc.duration, f(8))}>
+                  <Audio src={staticFile(`common/sfx/${beat.sfx}`)} volume={SCENE_VOL} />
+                </Sequence>
+              )
+            })}
           </React.Fragment>
         )
       }

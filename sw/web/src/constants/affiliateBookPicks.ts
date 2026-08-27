@@ -52,8 +52,6 @@ export const BESTSELLER_MAX_SLOTS = 4
  * 사려는 사람은 이미 원하는 판본이 정해져 있다. 작품 상세에서는 그대로 살 수 있다.
  */
 export const RECOMMENDATION_EXCLUDED_IDS: readonly string[] = [
-  '6e5989e2-0cfb-4a4c-8e47-182d0599bfd0', // 성경전서
-  '069500e6-3017-4d87-a5a5-3dc99cca6c35', // 성경
-  '0b40672f-8d4c-490e-9b82-a8c1a2095563', // 표준킹제임스성경
+  '6e5989e2-0cfb-4a4c-8e47-182d0599bfd0', // 성경
   '423778f8-08f5-4be1-91e4-b38b38c992fa', // 코란(꾸란)
 ]

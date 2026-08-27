@@ -171,6 +171,8 @@ const DOMAIN_GUIDE = {
     "These are longer faction descriptions. Preserve claims and relationships exactly; do not add history.",
   content_review:
     "These explain how a person encountered or regarded a work. Translate faithfully. Do not create quotations, facts, titles, or motives.",
+  relation_note:
+    "These describe how two people are connected. Preserve the relationship direction from the Korean text. Write a complete English sentence with an explicit subject; never begin with a bare past-tense verb. Do not add facts or events.",
   relation_name:
     "These are personal names lacking an official English Wikidata label. Romanize or use the standard English form only; output only the name.",
 };
@@ -403,6 +405,22 @@ async function buildTargets() {
         person: profile?.nickname_en || profile?.nickname,
         contentId: row.content_id,
       },
+    });
+  }
+
+  const relationNoteRows = await selectByIds(
+    "celeb_relations",
+    "id,from_id,note,note_en",
+    ids,
+    "from_id",
+  );
+  for (const row of relationNoteRows) {
+    if (!hasText(row.note) || hasText(row.note_en)) continue;
+    const profile = profileById.get(row.from_id);
+    addText({
+      domain: "relation_note", table: "celeb_relations", rowId: row.id,
+      column: "note_en", ko: row.note,
+      context: { slug: profile?.slug, person: profile?.nickname_en || profile?.nickname },
     });
   }
 

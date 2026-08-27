@@ -391,7 +391,7 @@ export default function UiXrayOverlay() {
             <button
               type="button"
               aria-label={`Raise ${item.label}`}
-              title="Bring UI layer to front; click again to cycle stacked layers"
+              title="Bring UI layer to front; click again to cycle stacked layers" /* i18n-audit-ignore — 개발자 전용 도구 */
               className="pointer-events-auto truncate px-1.5 py-1 text-left hover:bg-cyan-800 active:bg-cyan-700"
               onClick={() => handleRaise(item)}
             >
@@ -400,7 +400,7 @@ export default function UiXrayOverlay() {
             <button
               type="button"
               aria-label={`Copy ${item.label}`}
-              title="Copy UI name"
+              title="Copy UI name" /* i18n-audit-ignore — 개발자 전용 도구 */
               className="pointer-events-auto flex shrink-0 items-center border-l border-cyan-300/35 px-1.5 text-cyan-200 hover:bg-cyan-300 hover:text-cyan-950 active:bg-cyan-200"
               onClick={() => void handleCopy(item)}
             >
