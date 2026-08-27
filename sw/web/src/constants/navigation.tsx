@@ -122,20 +122,62 @@ export const HOME_SECTION_KEYS = NAV_ITEMS.filter((item) => item.showInHomePage)
 export const FOOTER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.subLinks?.length && item.key !== "rest");
 // #endregion
 
-// #region 풋터 브랜드 링크
-export const FOOTER_BRAND_LINKS: NavSubLink[] = [
-  { key: "about", href: "/about", label: "서비스 소개" },
-  { key: "search", href: "/search", label: "검색" },
-  { key: "terms", href: "/terms", label: "이용약관" },
-  { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
+// #region 풋터 섹션 구조 정의
+export interface FooterSection {
+  key: string;
+  titleKey: string;
+  href?: string;
+  links: NavSubLink[];
+}
+
+export const FOOTER_SECTIONS: FooterSection[] = [
+  {
+    key: "explore",
+    titleKey: "nav.footer.sectionFigures",
+    href: "/explore",
+    links: [
+      { key: "figures", href: "/explore/figures", label: "인물 목록" },
+      { key: "ranking", href: "/explore/ranking", label: "분야별 챔피언" },
+      { key: "faction", href: "/explore/faction", label: "세력도감" },
+      { key: "today", href: "/explore/today", label: "오늘의 인물" },
+      { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
+    ],
+  },
+  {
+    key: "library",
+    titleKey: "nav.footer.sectionWorks",
+    href: "/library",
+    links: [
+      { key: "popular", href: "/library/popular", label: "인기 작품" },
+      { key: "curated", href: "/library/curated", label: "기관 선정" },
+      { key: "museum", href: "/library/museum", label: "박물관" },
+      { key: "academy", href: "/library/academy", label: "학당" },
+    ],
+  },
+  {
+    key: "community",
+    titleKey: "nav.footer.sectionCommunity",
+    links: [
+      { key: "game", href: "/rest", label: "플레이" },
+      { key: "social", href: "/agora/social", label: "소셜 광장" },
+      { key: "notice", href: "/agora/board/notice", label: "공지사항" },
+      { key: "feedback", href: "/agora/board/feedback", label: "피드백" },
+    ],
+  },
+  {
+    key: "about",
+    titleKey: "nav.footer.sectionAbout",
+    links: [
+      { key: "about", href: "/about", label: "서비스 소개" },
+      { key: "search", href: "/search", label: "통합 검색" },
+      { key: "terms", href: "/terms", label: "이용약관" },
+      { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
+    ],
+  },
 ];
 
-export const FOOTER_MISC_LINKS: NavSubLink[] = [
-  { key: "game", href: "/rest", label: "쉼터" },
-  { key: "social", href: "/agora/social", label: "소셜" },
-  { key: "notice", href: "/agora/board/notice", label: "공지사항" },
-  { key: "feedback", href: "/agora/board/feedback", label: "피드백" },
-];
+export const FOOTER_BRAND_LINKS: NavSubLink[] = FOOTER_SECTIONS[3].links;
+export const FOOTER_MISC_LINKS: NavSubLink[] = FOOTER_SECTIONS[2].links;
 // #endregion
 
 // #region 메인페이지 섹션 설정

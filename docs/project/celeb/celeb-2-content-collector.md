@@ -10,6 +10,7 @@
 1. **품질 우선**: 검색을 반복해도 새로운 콘텐츠가 나오지 않을 때까지 수집
 2. **효율적 검색**: 통합 키워드로 큐레이션 기사 우선 확보, 중복 검색 지양
 3. **한국어 정식 출판명**: 영어 원제가 아닌 한국어 번역본 제목으로 등록
+4. **관계별 감상배경**: 같은 `contents`를 여러 인물이 공유해도 `celeb_contents.review`·`review_en`·`source_url`은 인물×콘텐츠 관계의 값이다. 다른 인물의 값을 복제하지 않고, 수정·삭제는 `celeb_id`와 `content_id`를 함께 지정한다.
 
 ### 0건 처리
 
@@ -51,11 +52,19 @@
 ## 수집 규칙
 
 ### 필수
-- [ ] 1작품 = 1항목 (묶지 않음)
+- [ ] 1작품 = 1 `contents` 행. 번역·출판사·장정·개정판이 달라도 같은 작품이면 기존 행을 재사용
 - [ ] "N권 추천" 명시 시 수집 개수 대조
 - [ ] 구체적 작품명 필수 (포괄적 언급은 대표작으로 대체)
 - [ ] 동일 작품 중복 시 가장 상세한 출처 하나만
 - [ ] **MUSIC도 조사한 작업에서 iTunes 확인과 최종 등록까지 마친다** (아래)
+
+### BOOK 작품과 판본 판정
+
+- `contents`는 작품, ISBN은 판본 식별자다. ISBN이 다르다는 이유로 새 `contents`를 만들지 않는다.
+- BOOK 후보는 외부 API를 조회하기 전에 `content_locales`의 한국어·영문 제목과 원저자를 검색한다. 기존 작품이 있으면 그 `content_id`에 `celeb_contents`만 추가한다.
+- 번역자·출판사·표지·양장/문고·개정/주석 여부는 판본 차이다. 기존 작품의 대표 locale 메타를 새로 찾은 판본으로 덮어쓰지 않는다.
+- 별도 작품으로 두는 것은 합본, 권·부·경전의 특정 구간, 축약·개작·해설·필사·학습서처럼 본문 범위가 달라진 경우다. 출처가 전체 작품을 가리키는데 임의로 특정 권이나 구간으로 쪼개지 않는다.
+- 같은 작품인지 확정하지 못하면 새 행을 만들지 않고 실패로 보고한다. ISBN 중복 검사만 통과한 상태는 작품 중복 검사가 아니다.
 
 ### 유형별 등록 경로
 
@@ -84,7 +93,8 @@ source_url 없이 `celeb_contents`에 INSERT하는 것은 금지한다.
 
 **종교 경전도 감상 콘텐츠로 등록한다.**
 
-- **성경**: 구간별 등록 가능 (마태오 복음서, 로마서, 시편 등)
+- **성경 전체**: 개역개정·공동번역·NIV·KJV 등 번역과 판본이 달라도 대표 `성경` 작품 한 건을 공유
+- **성경 구간**: 출처가 마태오 복음서·로마서·시편·신약처럼 범위를 특정한 경우에만 별도 작품으로 등록
 - **꾸란**: 전체 또는 수라(장)별
 - **불경**: 금강경, 법화경, 화엄경 등
 - **도덕경**, **논어**, **맹자** 등 동양 경전
@@ -226,6 +236,7 @@ source_url 없이 `celeb_contents`에 INSERT하는 것은 금지한다.
 
 ### 카카오 도서 검색 효과적인 방법
 
+- 카카오는 대표 판본의 실재와 메타를 확인하는 도구이지 작품 중복 판정기가 아니다. 먼저 DB에서 같은 작품을 찾는다.
 - **한국어 제목으로 검색이 가장 효과적**. 한국어 제목을 모르면 웹 검색으로 한국어 출판명을 먼저 파악한 뒤 카카오로 검증한다.
 - 카카오는 원서(영문) 판본도 함께 잡히므로 영어 제목 검색도 네이버 시절보다 쓸 만하다. 다만 한국어판이 있으면 한국어판을 우선한다.
 - 카카오는 `target`으로 항목을 지정할 수 있다: `title`·`isbn`·`publisher`·`person`. 래퍼(`kakao-books.ts`)는 검색어가 ISBN 하나뿐이면 자동으로 `target=isbn`으로 전환한다.
@@ -458,7 +469,20 @@ curl -s "https://api.igdb.com/v4/games" \
 ### contents 배치 INSERT
 
 ```sql
--- 1) contents 메인 테이블 (로케일 데이터 없음 — type, external_id 등만)
+-- 0) ISBN 조회보다 먼저 한국어·영문 제목과 원저자로 기존 작품을 찾는다.
+-- 번역·출판사·장정만 다른 행이면 여기서 찾은 contents.id를 재사용한다.
+SELECT DISTINCT c.id, c.external_id
+FROM contents c
+JOIN content_locales cl ON cl.content_id = c.id
+WHERE c.type = 'BOOK'
+  AND lower(regexp_replace(cl.title, '[^[:alnum:]]+', '', 'g'))
+      = lower(regexp_replace('{작품 제목}', '[^[:alnum:]]+', '', 'g'))
+  AND lower(regexp_replace(coalesce(cl.creator, ''), '[^[:alnum:]]+', '', 'g'))
+      = lower(regexp_replace('{원저자}', '[^[:alnum:]]+', '', 'g'));
+
+-- 1) 위 조회에서 작품이 없다고 확인된 경우에만 새 작품을 만든다.
+-- external_id의 ISBN은 대표 판본 조회 키다. ON CONFLICT는 같은 ISBN만 막으며
+-- 다른 ISBN의 같은 작품을 막아주지 않는다.
 INSERT INTO contents (external_id, type, external_source)
 VALUES
   ('{외부ID1}', '{TYPE}', '{source}'),
@@ -494,7 +518,7 @@ VALUES
   ...;
 ```
 
-**external_source 값** (contents 테이블 — 책 1권의 1차 메타 출처. 그 책의 ISBN·표지를 어디서 잡았는가):
+**external_source 값** (contents 테이블 — 대표 판본의 ISBN·표지를 어디서 잡았는가):
 - BOOK: `kakao_book` (한국어판) / `openlibrary` (영문 원서)
   - 서점 상품 페이지는 판본 실재 검증에만 쓴다. `aladin`을 신규 BOOK 메타·커버 출처로 기록하지 않는다
   - `naver_book`은 26.07.31 API 종료 뒤 신규 사용 금지이며, 2026-08-10 live CHECK에도 없다
@@ -512,7 +536,7 @@ VALUES
 
 | 타입 | external_id 형식 | 예시 |
 |------|---------|------|
-| BOOK | ISBN 그대로 | `9788932917245` |
+| BOOK | 대표 판본 ISBN | `9788932917245` |
 | VIDEO (영화) | **`tmdb-movie-{tmdbId}`** | `tmdb-movie-550` |
 | VIDEO (TV) | **`tmdb-tv-{tmdbId}`** | `tmdb-tv-1399` |
 | GAME | **`igdb-{igdbId}`** | `igdb-1942` |

@@ -44,6 +44,23 @@ export type FactionVoiceJob = {
     }
 )
 
+/** 같은 물리 파일을 공유해도 되는 잡인지 판정한다. 조판 공백만 다른 같은 발화는 공유 가능하다. */
+function sameVoiceSource(left: FactionVoiceJob, right: FactionVoiceJob): boolean {
+  const spoken = (value: string) => value.replace(/\s+/g, ' ').trim()
+  return spoken(left.text) === spoken(right.text)
+    && (left.speaker ?? '') === (right.speaker ?? '')
+    && (left.elevenLabsVoiceId ?? '') === (right.elevenLabsVoiceId ?? '')
+}
+
+/** 서로 다른 발화를 한 WAV에 덮어쓰는 데이터는 생성 전에 중단한다. */
+function assertCompatibleVoiceSource(previous: FactionVoiceJob, next: FactionVoiceJob): void {
+  if (sameVoiceSource(previous, next)) return
+  throw new Error(
+    `음원 파일 충돌: ${next.file}이 서로 다른 발화에 배정됐다. `
+    + `"${previous.text.slice(0, 40)}" / "${next.text.slice(0, 40)}"`,
+  )
+}
+
 /** faction-data.json 원본을 그대로 읽는다(가공 없음). 기록 시 이 객체를 수정해 되쓴다. */
 export async function loadFactionData(): Promise<FactionScript> {
   const raw = await readFile(DATA_PATH, 'utf-8')
@@ -161,6 +178,11 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
   }
   const sceneJobs = buildSceneVoiceJobs(script, part)
   const sceneFiles = new Set(sceneJobs.map(job => job.file))
+  const personJobByFile = new Map(jobs.map(job => [job.file, job]))
+  for (const sceneJob of sceneJobs) {
+    const personJob = personJobByFile.get(sceneJob.file)
+    if (personJob) assertCompatibleVoiceSource(personJob, sceneJob)
+  }
   // cluster.beats가 같은 FxxCxxPxx 파일을 직접 소유하면 그 대사가 최종 원천이다.
   // 구 person quote 잡까지 남기면 같은 파일을 서로 다른 텍스트로 두 번 합성·덮어쓸 수 있다.
   return [...jobs.filter(job => !sceneFiles.has(job.file)), ...sceneJobs]
@@ -174,7 +196,7 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
  */
 function buildSceneVoiceJobs(script: FactionScript, part?: number): FactionVoiceJob[] {
   const jobs: FactionVoiceJob[] = []
-  const seen = new Set<string>()
+  const seen = new Map<string, FactionVoiceJob>()
   const speakerPeople = factionSceneSpeakerPeople(script.groups)
   for (const [groupIndex, group] of script.groups.entries()) {
     if (group.disabled) continue
@@ -194,9 +216,7 @@ function buildSceneVoiceJobs(script: FactionScript, part?: number): FactionVoice
         if (!text) continue
         // 렌더(NarrativeEntryCard)가 부르는 것과 똑같이 화자 + 본문 원문으로 파일명을 만든다.
         const file = sceneBeatFileOf(beat, group, groupIndex, clusterIndex)
-        if (seen.has(file)) continue
-        seen.add(file)
-        jobs.push({
+        const job: FactionVoiceJob = {
           file,
           text: styledBeatTextOf(beat, text),
           chunks: factionSceneCaptionPages(raw),
@@ -206,7 +226,14 @@ function buildSceneVoiceJobs(script: FactionScript, part?: number): FactionVoice
             ? beat.voiceElevenlabsVoiceIdEn
             : beat.voiceElevenlabsVoiceId,
           target: 'scene',
-        })
+        }
+        const previous = seen.get(file)
+        if (previous) {
+          assertCompatibleVoiceSource(previous, job)
+          continue
+        }
+        seen.set(file, job)
+        jobs.push(job)
       }
     }
   }

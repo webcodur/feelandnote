@@ -242,7 +242,13 @@
     "tapToCloseQuote": "Tap to close",
     "expandIntro": "Read full intro",
     "collapseIntro": "Show less",
-    "hasVoice": "Has voice"
+    "hasVoice": "Has voice",
+    "coverSetFail": "Failed to set cover image.",
+    "coverSetError": "An error occurred while setting cover image.",
+    "coverBadgeTitle": "Cover image of this theme",
+    "coverBadge": "Cover Image",
+    "coverSetTitle": "Set this photo as the cover image of the theme",
+    "coverSet": "Set as Cover"
   },
   "quickRecord": {
     "section": {

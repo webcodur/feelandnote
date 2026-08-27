@@ -44,6 +44,13 @@
       "noSource": "Source URL unavailable",
       "originalLanguage": "Original Korean text",
       "detail": "View Details"
+    },
+    "intro": {
+      "title": "About This Work",
+      "empty": "No introduction has been written for this work yet.",
+      "releasedLabel": "Released",
+      "genresLabel": "Genres",
+      "badgeShort": "Intro"
     }
   },
   "contentDetail": {
@@ -110,9 +117,23 @@
     },
     "externalLinks": "External Links",
     "recentContents": "Recently Viewed",
+    "previousRecent": "Previous content",
+    "nextRecent": "Next content",
     "metaFallback": "{title} — reviews, synopsis, and why celebrities recommend it. Discover on Feel&Note.",
     "notFoundTitle": "Content Not Found",
-    "notFoundDescription": "Unable to load content information."
+    "notFoundDescription": "Unable to load content information.",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "rating": "Rating",
+    "author": "Author",
+    "translator": "Translator",
+    "publisher": "Publisher",
+    "pageCount": "{pages} pages",
+    "releaseDate": "Release Date",
+    "publishDate": "Publication Date",
+    "developer": "Developer",
+    "platform": "Platform",
+    "artist": "Artist"
   },
   "review": {
     "positive": {

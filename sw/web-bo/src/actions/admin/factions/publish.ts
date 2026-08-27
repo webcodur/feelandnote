@@ -22,11 +22,11 @@
 
 import { requireFactionAdmin, factionAdminClient } from '@/lib/faction-db'
 import { FACTION_LOCAL } from '@/lib/faction-local'
-import { buildImageSyncSummary, buildStatus } from '@/lib/faction-sync/diagnose'
+import { buildStatus } from '@/lib/faction-sync/diagnose'
 import { publishEpisode } from '@/lib/faction-sync/publish'
 import { missingSupabaseEnv } from '@/lib/faction-sync/supabase'
 import type {
-  FactionImageSyncSummary, FactionPublishRequest, FactionPublishResult, FactionSyncStatus,
+  FactionPublishRequest, FactionPublishResult, FactionSyncStatus,
 } from '@/lib/faction-sync/types'
 
 /** 사람 확인 + 환경 점검. 조용한 폴백 금지 — 키가 없으면 사유를 들고 던진다 */
@@ -46,20 +46,6 @@ export async function diagnoseFactionPublish(folder: string): Promise<FactionSyn
   await guard()
   if (!folder) throw new Error('에피소드 폴더명이 필요합니다')
   return buildStatus(factionAdminClient(), folder)
-}
-
-/**
- * 사진 동기 집계 — 편 편집기 헤더 배지용. 전체 진단(`diagnoseFactionPublish`)의 사진 항목만
- * 같은 판정으로 가볍게 센다(읽기 전용).
- *
- * 렌더 저장소가 이 컴퓨터에 없으면(FACTION_LOCAL 미설정) 로컬 원본과 견줄 수 없다 —
- * 판정 불가는 `null` 로 알리고 배지는 뜨지 않는다(0으로 위장하지 않는다).
- */
-export async function summarizeFactionImageSync(folder: string): Promise<FactionImageSyncSummary | null> {
-  await guard()
-  if (!folder) throw new Error('에피소드 폴더명이 필요합니다')
-  if (!FACTION_LOCAL) return null
-  return buildImageSyncSummary(factionAdminClient(), folder)
 }
 
 /**

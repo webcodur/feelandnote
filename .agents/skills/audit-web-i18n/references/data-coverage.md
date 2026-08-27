@@ -24,7 +24,8 @@
 
 ## 판정
 
-- 한국어 값 자체가 없으면 번역 누락으로 세지 않는다.
+- 한국어 값 자체가 없으면 번역 누락으로 세지 않는다. `'미작성'` 자리표시자도 값이 없는 것과 같다(person-reading.md의 NOT NULL 처리).
+- `celeb_dialogues`는 fiction 티어를 번역 대상에서 제외한다(celeb-i18n.md). fiction 인물의 KO 전용 lines는 누락으로 세지 않으며, 키·shape 불일치는 티어와 무관하게 error로 본다.
 - 한국어 값이 있고 영어 값이 없으면 warning이다.
 - `nickname_en` 부재와 KO/EN JSON key·shape 불일치는 error다.
 - 숫자, 날짜, URL, 좌표처럼 언어 중립인 필드는 대상이 아니다.

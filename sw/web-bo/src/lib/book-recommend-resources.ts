@@ -342,24 +342,41 @@ async function loadCelebs(books: LocalBook[]): Promise<DbCeleb[]> {
 async function loadCelebContents(celebIds: string[]): Promise<DbCelebContent[]> {
   if (!celebIds.length) return []
   const admin = createAdminClient()
-  const { data, error } = await admin
-    .from('celeb_contents')
-    .select(`
-      id,
-      celeb_id,
-      content_id,
-      contents!inner(
-        id,
-        type,
-        content_locales(locale, title, creator, thumbnail_url)
-      )
-    `)
-    .in('celeb_id', celebIds)
-    .in('contents.type', ['BOOK', 'VIDEO', 'GAME', 'MUSIC'])
+  const rows: Array<{
+    id: string
+    celeb_id: string
+    content_id: string
+    contents: unknown
+  }> = []
 
-  if (error) throw error
+  // PostgREST의 기본 응답 상한은 1,000행이다. 모든 에피소드의 관계를 한 번에
+  // 요청하면 뒤쪽 인물의 정상 연결까지 누락되므로 ID 묶음별로 끝까지 순회한다.
+  for (let batchStart = 0; batchStart < celebIds.length; batchStart += 25) {
+    const batch = celebIds.slice(batchStart, batchStart + 25)
+    for (let pageStart = 0; ; pageStart += 1000) {
+      const { data, error } = await admin
+        .from('celeb_contents')
+        .select(`
+          id,
+          celeb_id,
+          content_id,
+          contents!inner(
+            id,
+            type,
+            content_locales(locale, title, creator, thumbnail_url)
+          )
+        `)
+        .in('celeb_id', batch)
+        .in('contents.type', ['BOOK', 'VIDEO', 'GAME', 'MUSIC'])
+        .range(pageStart, pageStart + 999)
 
-  return (data ?? []).map(row => {
+      if (error) throw error
+      rows.push(...((data ?? []) as typeof rows))
+      if ((data?.length ?? 0) < 1000) break
+    }
+  }
+
+  return rows.map(row => {
     const content = asObject(row.contents as unknown as {
       content_locales?: DbEdition[] | null
     } | Array<{ content_locales?: DbEdition[] | null }> | null)

@@ -1,7 +1,7 @@
 /*
   파일명: /constants/library.tsx
   기능: 서가 관련 상수 Single Source of Truth
-  책임: 서가 직군 그리드 배치 정보를 단일 원천으로 관리한다.
+  책임: 서가 직군 그리드 배치 정보 및 베스트셀러 카테고리를 단일 원천으로 관리한다.
 */
 
 // 5행 3열 그리드 (갈림길 페이지용) — 긴 라벨과 짧은 라벨을 교차 배치
@@ -21,3 +21,14 @@ export const PROFESSION_ROWS_EN = [
   ["author", "social_scientist", "musician"],      // 6+16+8 = 30
   ["actor", "humanities_scholar", "athlete"],       // 5+18+7 = 30
 ] as const;
+
+// 라벨은 library.popular.chips 메시지 키로 제공한다(라우팅 전 한국어 상수 금지).
+export const BESTSELLER_CATEGORIES = [
+  { key: 'ALL' },
+  { key: 'HUMANITIES' },
+  { key: 'BUSINESS' },
+  { key: 'FICTION' },
+  { key: 'STEADY' },
+] as const;
+
+export type BestsellerCategoryKey = (typeof BESTSELLER_CATEGORIES)[number]['key'];

@@ -76,7 +76,7 @@ export default function Logo({
     <Link
       href="/"
       onClick={onClick}
-      aria-label="Feel & Note"
+      aria-label="Feel & Note" /* i18n-audit-ignore — 서비스 브랜드명 */
       className={styles.link}
     >
       {logoContent}

@@ -4,6 +4,7 @@ import { setRequestLocale } from "next-intl/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getCelebSidePresence } from "@/actions/celebs/getCelebSidePresence";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
+import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
@@ -17,6 +18,7 @@ import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks
 import { buildCelebTitle } from "@/lib/celeb/meta";
 import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
 import { buildCelebPageMetadata, createCelebMetaInput } from "./celebPageMetadata";
+import CelebExternalLinksServer from "./CelebExternalLinksServer";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -96,6 +98,7 @@ export default async function CelebPage({ params }: PageProps) {
     initialContents,
     fictionSources,
     initialContentBrief,
+    externalLinks,
   ] = await Promise.all([
     getCelebSidePresence({
       celebId: userId,
@@ -111,6 +114,7 @@ export default async function CelebPage({ params }: PageProps) {
       ? getFictionSourcesForCeleb(userId, locale)
       : Promise.resolve([]),
     initialContentBriefPromise,
+    getCelebExternalLinks(profile.wikidata_qid, locale),
   ]);
 
   const pageTitle = buildCelebTitle(
@@ -158,6 +162,7 @@ export default async function CelebPage({ params }: PageProps) {
     pageTitle,
     contents: contentList,
     fictionSources,
+    externalLinks,
   });
 
   return (
@@ -167,7 +172,7 @@ export default async function CelebPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
 
-<CelebPageContent
+      <CelebPageContent
         profile={clientProfile}
         slug={slug}
         shareTitle={pageTitle}
@@ -181,6 +186,12 @@ export default async function CelebPage({ params }: PageProps) {
         fictionSources={fictionSources}
         worldId={worldId}
         worldBannerImages={worldBannerImages}
+        externalLinksSlot={
+          <CelebExternalLinksServer
+            links={externalLinks}
+            name={profile.nickname}
+          />
+        }
       >
         {/* 관계 인물 링크 — 관계 그래프는 모달 전용이라 크롤러가 못 따라간다.
             서버가 이미 든 relations로 실제 링크를 세워 인물 상세끼리 잇는다 */}

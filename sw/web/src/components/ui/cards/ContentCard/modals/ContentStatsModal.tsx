@@ -16,6 +16,7 @@ import { getCelebForModal } from "@/actions/celebs";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import type { CelebProfile } from "@/types/home";
 import { useLocale, useTranslations } from "next-intl";
+import { celebAvatarSmallUrl } from "@feelandnote/shared/constants/celeb-avatar-small";
 
 interface CelebInfo {
   id: string;
@@ -88,28 +89,28 @@ export default function ContentStatsModal({
             {/* ─────────────────────────────────────────────────────────
                좌측 패널: 콘텐츠 정보 (고정 앵커)
             ───────────────────────────────────────────────────────── */}
-            <div className="sm:w-[160px] shrink-0 p-5 bg-gradient-to-b from-stone-900 to-stone-950 border-b sm:border-b-0 sm:border-r border-border/40 flex flex-col items-center">
-              {/* 썸네일 */}
+            <div className="sm:w-[160px] shrink-0 p-4 bg-gradient-to-b from-stone-900 to-stone-950 border-b sm:border-b-0 sm:border-r border-border/40 flex flex-col items-center">
+              {/* 썸네일 - 주어진 가로폭 꽉 채우기 */}
               {contentThumbnail ? (
-                <div className="relative w-[80px] h-[112px] overflow-hidden rounded-lg border border-accent/30 shadow-lg">
-                  <ContentImage src={contentThumbnail} alt={contentTitle} sizes="80px" />
+                <div className="relative w-full aspect-[5/7] overflow-hidden rounded-lg border border-accent/30 shadow-lg">
+                  <ContentImage src={contentThumbnail} alt={contentTitle} sizes="160px" />
                 </div>
               ) : (
-                <div className="w-[80px] h-[112px] bg-bg-card rounded-lg border border-accent/30 flex items-center justify-center">
-                  <Crown size={24} className="text-accent/50" />
+                <div className="w-full aspect-[5/7] bg-bg-card rounded-lg border border-accent/30 flex items-center justify-center">
+                  <Crown size={28} className="text-accent/50" />
                 </div>
               )}
 
               {/* 제목 */}
-              <p className="mt-4 text-xs font-sans text-text-primary text-center leading-snug line-clamp-2">
+              <p className="mt-4 text-sm font-sans text-text-primary text-center leading-snug line-clamp-2">
                 {contentTitle}
               </p>
 
               {/* 셀럽 카운트 */}
               {hasCeleb && (
                 <div className="mt-3 flex items-center gap-1.5 text-accent">
-                  <Crown size={12} />
-                  <span className="text-sm font-bold">{celebCount}</span>
+                  <Crown size={13} />
+                  <span className="text-[15px] font-bold">{celebCount}</span>
                 </div>
               )}
             </div>
@@ -120,47 +121,47 @@ export default function ContentStatsModal({
             <div className="flex-1 flex flex-col min-w-0">
               {/* 셀럽 목록 */}
               <div className="p-4 flex-1">
-                <h4 className="text-xs font-sans font-medium mb-3">{t("stats.figures")}</h4>
+                <h4 className="text-sm font-sans font-medium mb-3">{t("stats.figures")}</h4>
 
                 {isLoading ? (
                   <div className="flex items-center justify-center py-8">
                     <div className="inline-block w-5 h-5 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
                   </div>
                 ) : celebs.length > 0 ? (
-                  <div className="space-y-1.5 max-h-56 overflow-y-auto custom-scrollbar">
+                  <div className="space-y-1.5 max-h-56 sm:max-h-[min(60vh,360px)] overflow-y-auto custom-scrollbar">
                     {celebs.map((celeb) => (
                       <button
                         key={celeb.id}
                         type="button"
                         onClick={() => handleCelebClick(celeb.id)}
                         disabled={isCelebLoading}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-transparent border border-transparent hover:bg-stone-800/50 hover:border-border/30 transition-all disabled:opacity-50 disabled:cursor-wait"
+                        className="w-full flex items-stretch gap-3 overflow-hidden rounded-lg bg-transparent border border-transparent hover:bg-stone-800/50 hover:border-border/30 text-left disabled:opacity-50 disabled:cursor-wait"
                       >
-                        {/* 아바타 */}
-                        <div className="relative shrink-0">
+                        {/* 아바타 - 원형 제거, 세로폭 꽉 채우기 / 스몰 아바타(96px) 강제 */}
+                        <div className="relative shrink-0 w-[52px] self-stretch overflow-hidden bg-stone-800">
                           {celeb.avatar_url ? (
                             <Image
-                              src={celeb.avatar_url}
+                              src={celebAvatarSmallUrl(celeb.avatar_url) ?? celeb.avatar_url}
                               alt={locale === "en" ? (celeb.nickname_en || celeb.nickname) : celeb.nickname}
-                              width={36}
-                              height={36}
+                              width={96}
+                              height={96}
                               unoptimized
-                              className="w-9 h-9 rounded-full object-cover border border-border/30"
+                              className="w-full h-full object-cover [image-rendering:auto]"
                             />
                           ) : (
-                            <div className="w-9 h-9 rounded-full bg-bg-card flex items-center justify-center border border-border/30">
-                              <User size={14} className="" />
+                            <div className="w-full h-full bg-bg-card flex items-center justify-center">
+                              <User size={18} className="text-text-tertiary" />
                             </div>
                           )}
                         </div>
 
                         {/* 정보 */}
-                        <div className="flex-1 min-w-0 text-start">
-                          <p className="text-sm font-sans font-medium text-text-primary truncate">
+                        <div className="flex-1 min-w-0 text-start py-2.5 pr-3 flex flex-col justify-center">
+                          <p className="text-[15px] font-sans font-medium text-text-primary truncate">
                             {locale === "en" ? (celeb.nickname_en || celeb.nickname) : celeb.nickname}
                           </p>
-                          <div className="flex items-center gap-1 text-[11px] text-accent/70">
-                            <Crown size={10} />
+                          <div className="flex items-center gap-1 text-xs text-accent/70">
+                            <Crown size={11} />
                             <span>{getCelebProfessionLabel(celeb.profession, locale)}</span>
                           </div>
                         </div>
@@ -170,14 +171,14 @@ export default function ContentStatsModal({
                 ) : (
                   <div className="text-center py-8">
                     <Users size={24} className="mx-auto mb-2" />
-                    <p className="text-xs font-sans">{t("stats.empty")}</p>
+                    <p className="text-sm font-sans">{t("stats.empty")}</p>
                   </div>
                 )}
               </div>
 
               {/* 안내 문구 */}
               <div className="px-4 py-2.5 border-t border-border/30 bg-stone-950/30">
-                <p className="text-[10px] font-sans text-center">
+                <p className="text-xs font-sans text-center">
                   {t("stats.note")}
                 </p>
               </div>
@@ -190,7 +191,7 @@ export default function ContentStatsModal({
           <Button
             unstyled
             onClick={onClose}
-            className="min-w-[100px] px-5 py-2.5 rounded-lg text-sm font-sans font-medium text-text-secondary hover:text-text-primary bg-stone-800/60 hover:bg-stone-700/60 border border-border/40 transition-colors text-center"
+            className="min-w-[100px] px-5 py-2.5 rounded-lg text-[15px] font-sans font-medium text-text-secondary hover:text-text-primary bg-stone-800/60 hover:bg-stone-700/60 border border-border/40 transition-colors text-center"
           >
             {t("close")}
           </Button>

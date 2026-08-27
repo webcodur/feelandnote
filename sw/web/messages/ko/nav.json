@@ -33,15 +33,27 @@
       "popular": "인기 작품"
     },
     "footer": {
-      "about": "서비스 소개",
-      "search": "검색",
-      "terms": "이용약관",
-      "privacy": "개인정보처리방침",
-      "misc": "기타",
-      "game": "쉼터",
-      "social": "소셜",
+      "sectionFigures": "인물",
+      "sectionWorks": "작품",
+      "sectionCommunity": "쉼터·광장",
+      "sectionAbout": "서비스 안내",
+      "figures": "인물 목록",
+      "ranking": "분야별 챔피언",
+      "faction": "세력도감",
+      "today": "오늘의 인물",
+      "timeline": "국가별 연대기",
+      "popular": "인기 작품",
+      "curated": "기관 선정",
+      "museum": "박물관",
+      "academy": "학당",
+      "game": "플레이",
+      "social": "소셜 광장",
       "notice": "공지사항",
-      "feedback": "피드백"
+      "feedback": "피드백",
+      "about": "서비스 소개",
+      "search": "통합 검색",
+      "terms": "이용약관",
+      "privacy": "개인정보처리방침"
     }
   },
   "moreMenu": {

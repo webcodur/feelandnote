@@ -50,6 +50,7 @@ DB 객체는 위 전용 테이블에서 시작한다. 과거 이름이 필요하
     `'kakao_book'|'google_books'|'openlibrary'|'aladin'|'tmdb'|'igdb'|'itunes'`.
     MUSIC은 별도 CHECK로 `itunes`만 허용한다. 신규 BOOK은 `kakao_book`(ko) 또는
     `openlibrary`(en)만 쓴다
+  - BOOK의 한 행은 판본이 아니라 작품을 대표한다. `external_id`의 ISBN은 대표 판본 조회 키일 뿐 작품 식별자가 아니며, 다른 ISBN의 번역·출판·장정판은 새 행 생성 사유가 아니다. 수집 판정은 [`celeb-2-content-collector.md`](../celeb/celeb-2-content-collector.md)를 따른다
   - **title/creator/thumbnail_url/description/isbn/publisher/affiliate_url은 contents에 없다.** 전부 `content_locales`로 이관됨(2026-03-06 `drop_contents_legacy_locale_columns_v2`)
 - **`content_locales`**: 콘텐츠 언어별 메타 (아래 상세)
 - **`member_contents`**: 회원 감상 기록. `member_id → user_accounts.id`,

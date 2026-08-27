@@ -41,7 +41,7 @@
       "curated": "대학과 언론사, 시상 기관이 직접 고른 목록입니다.",
       "exploreCurated": "선정 목록 보기",
       "popularLabel": "인기 작품",
-      "popular": "인물들이 가장 많이 감상한 작품을 시대별·직군별로 봅니다."
+      "popular": "지금 가장 주목받는 주간 베스트셀러와 분야별 스테디셀러를 봅니다."
     },
     "meta": {
       "title": "작품 - 셀럽 추천 도서·영화 아카이브",
@@ -398,14 +398,36 @@
       "backToLibrary": "작품으로"
     },
     "popular": {
-      "metaTitle": "인기 작품 - 인물들이 많이 고른 책·영화",
-      "metaDescription": "등록된 인물들이 가장 많이 감상한 작품을 시대별·직군별로 봅니다.",
+      "metaTitle": "인기 작품 - 주간 베스트셀러 & 불후의 고전",
+      "metaDescription": "지금 가장 주목받는 주간 베스트셀러와 인물들이 가장 많이 감상한 불후의 고전을 봅니다.",
       "title": "인기 작품",
-      "description": "인물들이 가장 많이 감상한 작품입니다.",
+      "description": "수많은 위인과 사상가들의 선택을 받은 불후의 고전 명작입니다.",
+      "descBestseller": "주간 베스트셀러 및 실시간 인기 작품입니다.",
+      "criteriaCatAll": "알라딘 실시간 종합 베스트셀러 집계 기준",
+      "criteriaCatHumanities": "알라딘 실시간 인문 분야 베스트셀러 집계 기준",
+      "criteriaCatBusiness": "알라딘 실시간 경제경영 분야 베스트셀러 집계 기준",
+      "criteriaCatFiction": "알라딘 실시간 소설·시 분야 베스트셀러 집계 기준",
+      "criteriaCatSteady": "알라딘 누적 스테디셀러 집계 기준",
+      "criteriaMediaAll": "도서·영상·게임·음악 전 분야의 이번 주 실시간 트렌드 순위 기준",
+      "criteriaVideo": "TMDB 이번 주 영화 및 시리즈 주간 트렌딩 순위 기준",
+      "criteriaGame": "Steam 실시간 최다 판매 및 인기 게임 차트 기준",
+      "criteriaMusic": "Apple Music 한국 실시간 최다 재생 Top 차트 기준",
+      "criteriaBasisAll": "Feel&Note 등록 인물들의 누적 추천 및 감상 기록 수 기준",
+      "criteriaBasisEra": "해당 시대(고대·중세·근대·현대) 인물들의 누적 감상 수 기준",
+      "criteriaBasisProfession": "해당 직군 인물들의 누적 감상 수 기준",
+      "tabBestseller": "주간 베스트",
+      "tabClassics": "불후의 명작",
       "basisAll": "전체",
       "basisEra": "시대별",
       "basisProfession": "직군별",
-      "empty": "아직 작품이 없습니다."
+      "empty": "아직 작품이 없습니다.",
+      "chips": {
+        "ALL": "종합 베스트",
+        "HUMANITIES": "인문",
+        "BUSINESS": "경제경영",
+        "FICTION": "소설·시",
+        "STEADY": "스테디셀러"
+      }
     }
   }
 }

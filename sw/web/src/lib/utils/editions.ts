@@ -56,10 +56,7 @@ export function getBookEditions(content: {
   const editions: BookEditions = {};
 
   if (hasKo) {
-    // thumbnail_url이 thumbnail_en과 동일하면 ko 고유 표지 없음 (fallback된 값)
-    const koThumb = content.thumbnail_ko
-      ?? (content.thumbnail_url === content.thumbnail_en ? null : content.thumbnail_url)
-      ?? null;
+    const koThumb = content.thumbnail_ko ?? content.thumbnail_url ?? null;
     editions.ko = {
       title: content.title_ko!,
       creator: content.creator ?? null,
@@ -68,10 +65,11 @@ export function getBookEditions(content: {
   }
 
   if (hasEn) {
+    const enThumb = content.thumbnail_en ?? content.thumbnail_url ?? null;
     editions.en = {
       title: content.title_en!,
       creator: content.creator_en ?? content.creator ?? null,
-      thumbnail: content.thumbnail_en ?? null,
+      thumbnail: enThumb,
     };
   }
 

@@ -8,7 +8,8 @@
 */
 export { EditionToggle } from "./EditionToggle";
 
-import { Check, Crown, User, Star } from "lucide-react";
+import { Check, Crown, User } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Z_INDEX } from "@/constants/zIndex";
 
 // #region SelectOverlay
@@ -66,7 +67,7 @@ export function StatsBadge({
 }
 // #endregion
 
-// #region RatingBadge
+// #region RatingBadge — deprecated: 인원 구성 개편(26.08)으로 우하단 별점 폐기. 호환용으로 남김. 새 코드는 IntroBadge를 쓴다.
 export function RatingBadge({
   rating,
   onClick,
@@ -89,8 +90,29 @@ export function RatingBadge({
       style={{ zIndex: Z_INDEX.cardBadge }}
       onClick={handleClick}
     >
-      <Star size={9} className={hasRating ? `text-yellow-500 fill-yellow-500 ${onClick ? "group-hover/rating:text-white group-hover/rating:fill-white" : ""}` : ` ${onClick ? "group-hover/rating:text-white" : ""}`} />
       <span className={`text-[9px] md:text-[10px] text-text-primary font-medium ${onClick ? "group-hover/rating:text-white" : ""}`}>{hasRating ? rating.toFixed(1) : "-"}</span>
+    </div>
+  );
+}
+// #endregion
+
+// #region IntroBadge — 작품 소개 (아이콘 없이 텍스트만)
+export function IntroBadge({ onClick }: { onClick?: (e: React.MouseEvent) => void }) {
+  const t = useTranslations("content.intro");
+  const handleClick = (e: React.MouseEvent) => {
+    if (!onClick) return;
+    e.preventDefault();
+    e.stopPropagation();
+    onClick(e);
+  };
+
+  return (
+    <div
+      className={`absolute bottom-1 right-1 flex items-center bg-black/70 backdrop-blur-sm px-1.5 py-0.5 md:px-2 rounded-md border border-white/10 shadow-lg ${onClick ? "cursor-pointer hover:bg-accent hover:border-accent group/intro" : ""}`}
+      style={{ zIndex: Z_INDEX.cardBadge }}
+      onClick={handleClick}
+    >
+      <span className={`text-[9px] md:text-[10px] text-text-primary font-medium ${onClick ? "group-hover/intro:text-white" : ""}`}>{t("badgeShort")}</span>
     </div>
   );
 }

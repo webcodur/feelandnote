@@ -242,7 +242,13 @@
     "tapToCloseQuote": "눌러서 닫기",
     "expandIntro": "소개 더 보기",
     "collapseIntro": "소개 접기",
-    "hasVoice": "목소리 있음"
+    "hasVoice": "목소리 있음",
+    "coverSetFail": "대표 이미지 설정에 실패했습니다.",
+    "coverSetError": "대표 이미지 설정 중 오류가 발생했습니다.",
+    "coverBadgeTitle": "이 테마의 대표 이미지입니다",
+    "coverBadge": "대표 이미지",
+    "coverSetTitle": "이 사진을 테마의 대표 이미지로 설정합니다",
+    "coverSet": "대표로 설정"
   },
   "quickRecord": {
     "section": {

@@ -6,10 +6,12 @@ import {
   FACTION_SCENE_EXIT_FADE_SEC,
   FACTION_SCENE_PARAGRAPH_HOLD_SEC,
   FACTION_SCENE_PARAGRAPH_TRANSITION_SEC,
+  factionSceneBeatSfxStartSec,
   factionSceneCaptionCharCount,
   factionSceneCaptionPages,
   factionSceneCaptionPageTimings,
   factionSceneTiming,
+  normalizeFactionSceneSfxStartPercent,
 } from "./faction-scene-timing.ts";
 
 test("수동 개행은 보존하되 점등 글자 수에는 포함하지 않는다", () => {
@@ -209,4 +211,17 @@ test("말 없는 화면 컷도 독립 덩어리로 유지해 지정한 시간만
   assert.equal(timing.beats[0].startSec, 0);
   assert.ok(timing.beats[1].startSec >= 4.5);
   assert.ok(timing.durationSec > timing.beats[1].completeSec);
+});
+
+test("효과음 시작률을 현재 컷 구간의 실제 시각으로 바꾼다", () => {
+  assert.equal(factionSceneBeatSfxStartSec(3, 11, undefined), 3);
+  assert.equal(factionSceneBeatSfxStartSec(3, 11, 25), 5);
+  assert.equal(factionSceneBeatSfxStartSec(3, 11, 100), 11);
+});
+
+test("효과음 시작률은 정수 0~100 범위를 벗어나지 않는다", () => {
+  assert.equal(normalizeFactionSceneSfxStartPercent(Number.NaN), 0);
+  assert.equal(normalizeFactionSceneSfxStartPercent(-20), 0);
+  assert.equal(normalizeFactionSceneSfxStartPercent(37.6), 38);
+  assert.equal(normalizeFactionSceneSfxStartPercent(140), 100);
 });

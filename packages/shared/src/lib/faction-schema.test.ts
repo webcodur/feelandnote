@@ -75,3 +75,22 @@ test('장면명 위치는 cluster data에서 무손실 왕복한다', () => {
 
   assert.equal(joined.labelPosition, 'bottom')
 })
+
+test('장면 효과음 시작률은 cluster data의 beat에서 무손실 왕복한다', () => {
+  const beats = [{
+    text: '활시위를 놓는다.',
+    sfx: 'bow-string.mp3',
+    sfxStartPercent: 42,
+  }]
+  const split = splitCluster({
+    label: '활의 시험',
+    beats,
+    people: [],
+  })
+  const joined = joinCluster({
+    ...split.cols,
+    data: split.data,
+  }, [])
+
+  assert.deepEqual(joined.beats, beats)
+})

@@ -25,8 +25,8 @@
 
 | 경로 | 역할 | 데이터 출처 |
 |---|---|---|
-| `/library` | 허브. 하위 5개 미리보기를 쌓는다 | `getTodayFigure`, `getChosenLibrary`, `getProfessionContentCounts`, `getCuratedHub`, `getAcademyLessonProgressState` |
-| `/library/popular` | **인기 작품.** 인물들이 가장 많이 감상한 작품. 자르는 기준(전체·시대·직군)과 종류를 골라 목록 하나를 본다 | `getChosenLibrary`, `getProfessionContentCounts` |
+| `/library` | 허브. 하위 4개 미리보기를 쌓는다 | `getBestsellers`, `getCuratedHub`, `getAcademyLessonProgressState` |
+| `/library/popular` | **인기 작품.** 주간 베스트셀러 및 불후의 고전(시대·직군)을 2-Track으로 본다 | `getBestsellers`, `getChosenLibrary`, `getProfessionContentCounts` |
 | `/library/curated` | **기관 선정 허브.** 대학·언론·시상기관이 발표한 목록 | `getCuratedHub` |
 | `/library/curated/[curator]` · `/[curator]/[list]` | 기관 상세 · 목록 상세 | `actions/library/curated.ts` |
 | `/library/museum` | 박물관. 매체 역사 전시 | `constants/libraryMuseum.ts` (정적 JSON) |

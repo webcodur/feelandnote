@@ -496,10 +496,11 @@ export function FactionSceneBeatRow({
 
       <FactionSceneBeatSfx
         value={beat.sfx}
+        startPercent={beat.sfxStartPercent}
         files={sfxList}
         series={series}
         index={index}
-        onChange={sfx => set({ sfx })}
+        onChange={set}
       />
 
       {assignedPerson && onAssignedPersonChange ? (

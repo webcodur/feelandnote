@@ -86,10 +86,16 @@ export function materializeFactionSceneVoiceFiles(
             ?? (beat.speakerCelebId ? peopleById.get(beat.speakerCelebId) : undefined)
           if (!person) return beat
 
-          const candidates = [
-            beat.speakerCelebId ? defaultFiles[beat.speakerCelebId]?.quote : undefined,
-            localPersonIndex >= 0 ? factionVoiceFile(groupIndex, localPersonIndex, clusterIndex) : undefined,
-          ].filter((file, index, files): file is string => !!file && files.indexOf(file) === index)
+          // 같은 인물이 다른 장면에 다시 배치되면 대표 대사가 달라질 수 있다. 이때 첫 배치의
+          // 기존 WAV로 폴백하면 서로 다른 두 대사가 한 파일을 공유한다. 현재 장면에 인물이 있으면
+          // 그 로컬 슬롯만 복구 대상으로 삼고, 비로컬 할당일 때만 첫 배치 파일을 본다.
+          const localFile = localPersonIndex >= 0
+            ? factionVoiceFile(groupIndex, localPersonIndex, clusterIndex)
+            : undefined
+          const inheritedFile = beat.speakerCelebId
+            ? defaultFiles[beat.speakerCelebId]?.quote
+            : undefined
+          const candidates = [localFile ?? inheritedFile].filter((file): file is string => !!file)
           const existing = candidates.find(file => available.has(file))
           const file = beat.legacyPersonVoice === true
             ? existing ?? candidates[0]

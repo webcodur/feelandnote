@@ -1,41 +1,50 @@
 /*
   파일명: /components/features/library/hub/PopularPreview.tsx
   기능: 서가 허브의 「인기 작품」 미리보기
-  책임: 인물들이 가장 많이 감상한 작품 몇 개를 그대로 보여준다.
-        구획 이름이 작품이므로 시대·직군 목록이 아니라 작품이 나와야 한다.
+  책임: 지금 가장 주목받는 주간 베스트셀러 상위 6편을 대칭 그리드로 진열하며, 한/영 에디션 전환을 지원한다.
 */ // ------------------------------
 
+"use client";
+
+import { useLocale } from "next-intl";
 import { ContentCard } from "@/components/ui/cards";
-import ContentGrid from "@/components/ui/ContentGrid";
-import { getCategoryByDbType } from "@/constants/categories";
-import type { LibraryContent } from "@/actions/library/types";
-import type { ContentType } from "@/types/database";
+import type { BestsellerItem } from "@/actions/library/types";
 
-export default function PopularPreview({ contents }: { contents: LibraryContent[] }) {
-  if (contents.length === 0) return null;
+export default function PopularPreview({ items }: { items: BestsellerItem[] }) {
+  const locale = useLocale();
+  if (!items || items.length === 0) return null;
 
-  // 안내 문구는 구획 부제가 이미 말한다 — 여기서 되풀이하지 않는다
   return (
-    <ContentGrid minWidth={160} gap={16}>
-        {contents.map((content) => (
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 justify-center max-w-6xl mx-auto">
+      {items.map((item) => {
+        const cleanIsbn = item.isbn ? item.isbn.trim().split(/\s+/).pop() : null;
+        const href = cleanIsbn
+          ? `/content/${cleanIsbn}?category=book`
+          : `/search?q=${encodeURIComponent(item.title)}`;
+
+        return (
           <ContentCard
-            key={content.id}
-            contentId={content.id}
-            contentType={content.type as ContentType}
-            title={content.title}
-            creator={content.creator}
-            thumbnail={content.thumbnail_url}
-            celebCount={content.celeb_count}
-            userCount={content.user_count}
-            rating={content.avg_rating ?? undefined}
-            href={`/content/${content.id}?category=${getCategoryByDbType(content.type)?.id || "book"}`}
-            titleKo={content.title_ko}
-            titleEn={content.title_en}
-            creatorEn={content.creator_en}
-            thumbnailEn={content.thumbnail_en}
-            hasEnEdition={content.has_en_edition}
+            key={item.id}
+            contentId={cleanIsbn || item.id}
+            contentType="BOOK"
+            title={item.title}
+            creator={item.creator}
+            thumbnail={item.thumbnail_url}
+            thumbnailEn={item.thumbnail_en || item.thumbnail_url}
+            href={href}
+            titleKo={item.title_ko || (locale === "ko" ? item.title : undefined)}
+            titleEn={item.title_en || (locale === "en" ? item.title : undefined)}
+            creatorEn={item.creator_en || (locale === "en" ? item.creator : undefined)}
+            hasEnEdition={!!item.title_en}
+            fallbackDescription={item.description ?? null}
+            fallbackMetadata={{
+              publisher: item.publisher ?? undefined,
+              publishDate: item.published_date ?? undefined,
+              isbn: cleanIsbn ?? undefined,
+            }}
           />
-      ))}
-    </ContentGrid>
+        );
+      })}
+    </div>
   );
 }

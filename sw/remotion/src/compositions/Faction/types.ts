@@ -596,6 +596,8 @@ export interface FactionSceneBeat {
   labelEn?: string
   minimumSec?: number
   sfx?: string
+  /** 효과음을 이 컷 길이의 몇 % 지점에서 시작할지. 미지정은 0(컷 시작). */
+  sfxStartPercent?: number
   shortsCutBefore?: boolean
   legacyPersonVoice?: boolean
   /** resolve/buildCues가 기존 인물 음원 좌표를 풀어 넣는 렌더 전용 값. */

@@ -35,6 +35,56 @@ test('통합 대사가 F 위치 음원을 직접 소유하면 같은 파일의 �
   assert.equal(jobs.find(job => job.file === file)?.target, 'scene')
 })
 
+test('서로 다른 장면 대사가 같은 음원 파일을 공유하면 생성을 중단한다', () => {
+  const file = 'F01C01P01-quote.wav'
+  assert.throws(() => buildVoiceJobs({
+    title: '오디세이아',
+    groups: [{
+      name: '첫 장면',
+      people: [],
+      clusters: [{
+        people: [],
+        beats: [{ speaker: '텔레마코스', text: '아버지를 찾아 떠나겠다.', voiceFile: file }],
+      }],
+      sequence: [{ kind: 'cluster', clusterIndex: 0 }],
+    }, {
+      name: '둘째 장면',
+      people: [],
+      clusters: [{
+        people: [],
+        beats: [{ speaker: '텔레마코스', text: '이제 아버지 곁에 서겠다.', voiceFile: file }],
+      }],
+      sequence: [{ kind: 'cluster', clusterIndex: 0 }],
+    }],
+  } as any), /음원 파일 충돌.*F01C01P01-quote\.wav/)
+})
+
+test('인물 대표 대사와 다른 장면 대사가 같은 위치 음원을 공유해도 생성을 중단한다', () => {
+  const file = 'F01C01P01-quote.wav'
+  assert.throws(() => buildVoiceJobs({
+    title: '오디세이아',
+    groups: [{
+      name: '귀환',
+      people: [],
+      clusters: [{
+        people: [{
+          name: '오디세우스',
+          celebId: 'odysseus',
+          quote: '이제 집으로 돌아간다.',
+          quoteChunks: ['이제 집으로 돌아간다.'],
+        }],
+        beats: [{
+          speaker: '오디세우스',
+          speakerCelebId: 'odysseus',
+          text: '페넬로페 앞에서 나를 증명하겠다.',
+          voiceFile: file,
+        }],
+      }],
+      sequence: [{ kind: 'cluster', clusterIndex: 0 }],
+    }],
+  } as any), /음원 파일 충돌.*F01C01P01-quote\.wav/)
+})
+
 test('장면 음원명은 화면 줄바꿈이 아니라 실제로 읽는 문장을 기준으로 한다', () => {
   assert.equal(
     vnSceneBeat('폴리페모스', '포세이돈 아버지시여\n\n오만한 오디세우스를 벌해주소서.'),

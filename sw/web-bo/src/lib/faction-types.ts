@@ -560,6 +560,8 @@ export interface FactionSceneBeat {
   /** 구 장면의 최소 길이·효과음. 평평한 항목으로 승격해도 값이 사라지지 않는다. */
   minimumSec?: number
   sfx?: string
+  /** 효과음을 이 컷 길이의 몇 % 지점에서 시작할지. 미지정은 0(컷 시작). */
+  sfxStartPercent?: number
   /** 같은 장면 안에서 다음 쇼츠 편이 시작되는 경계 flag. */
   shortsCutBefore?: boolean
   /** 승격 전 인물 좌표의 기존 음원을 재사용한다. 본문·화자 수정 시 제거한다. */

@@ -5,6 +5,7 @@
   - contentId: 인원 구성 뱃지 조회에 필수. 모든 사용처에서 반드시 전달해야 함.
 */
 import type { ContentType, ContentStatus } from "@/types/database";
+import type { ContentMetadata } from "@/types/content";
 
 export interface ContentCardProps {
   /** CSS로 숨긴 반응형 임시 presenter는 인증·통계·표지 보완 요청을 시작하지 않는다. */
@@ -53,7 +54,7 @@ export interface ContentCardProps {
   userCount?: number;
   onStatsClick?: (e: React.MouseEvent) => void;
 
-  // 우하단 슬롯
+  // 우하단 슬롯: 작품 소개 (기존 별점은 폐기 — 호환용으로만 남김)
   rating?: number | null;
   onRatingClick?: (e: React.MouseEvent) => void;
 
@@ -90,4 +91,9 @@ export interface ContentCardProps {
   thumbnailEn?: string | null;
   /** 영문판 존재 여부 (false=확인됨 없음, true/undefined=있거나 미확인) */
   hasEnEdition?: boolean | null;
+
+  /** 작품 소개 폴백 — getContentBrief가 비어 있을 때(베스트셀러 ISBN 등) 모달에 바로 띄운다 */
+  fallbackDescription?: string | null;
+  /** 작품 메타 폴백 — DB UUID가 없는 외부 차트 카드가 이미 가진 정보를 소개 모달에 넘긴다 */
+  fallbackMetadata?: ContentMetadata | null;
 }

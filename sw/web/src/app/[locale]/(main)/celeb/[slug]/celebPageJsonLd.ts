@@ -5,6 +5,7 @@ import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { getAlternates, getCreativeWorkCreatorJsonLd, getSeoImageUrl } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
+import type { CelebExternalLink } from "@/types/celebExternalLinks";
 
 interface BuildCelebPageJsonLdInput {
   profile: CelebBySlugProfile;
@@ -13,6 +14,7 @@ interface BuildCelebPageJsonLdInput {
   pageTitle: string;
   contents: readonly JsonLdContentRow[];
   fictionSources: readonly FictionSourceContent[];
+  externalLinks: readonly CelebExternalLink[];
 }
 
 function schemaType(type: string): string {
@@ -30,6 +32,7 @@ export function buildCelebPageJsonLd({
   pageTitle,
   contents,
   fictionSources,
+  externalLinks,
 }: BuildCelebPageJsonLdInput): object {
   const seoLocale = locale === "en" ? "en" : "ko";
   const canonicalUrl = getAlternates(`/celeb/${slug}`, seoLocale).canonical;
@@ -72,9 +75,9 @@ export function buildCelebPageJsonLd({
     }),
     ...(!isFiction && profile.birth_date && { birthDate: profile.birth_date }),
     ...(!isFiction && profile.death_date && { deathDate: profile.death_date }),
-    ...(wikidataQid && {
-      identifier: wikidataQid,
-      sameAs: `https://www.wikidata.org/wiki/${wikidataQid}`,
+    ...(wikidataQid && { identifier: wikidataQid }),
+    ...(externalLinks.length > 0 && {
+      sameAs: externalLinks.map((link) => link.url),
     }),
     ...(sourceNodes.length > 0 && {
       subjectOf: sourceNodes.map((source) => ({ "@id": source["@id"] })),

@@ -30,23 +30,18 @@ function CornerBadge({ children, bold }: { children: React.ReactNode; bold?: boo
 
 function ItemCard({
   item,
-  showRank,
-  rankLabel,
   notRegisteredLabel,
   isVideo,
 }: {
   item: CuratedListItem;
-  showRank: boolean;
-  /** 「3위」처럼 단위가 붙은 표기. 오른쪽 연도 배지와 헷갈리지 않게 한다 */
-  rankLabel: string | null;
   notRegisteredLabel: string;
   isVideo: boolean;
 }) {
-  const rankBadge = showRank && item.rank != null ? <CornerBadge bold>{rankLabel}</CornerBadge> : undefined;
   const yearBadge = item.year != null ? <CornerBadge>{item.year}</CornerBadge> : undefined;
 
   // 아직 우리에게 없는 작품 — 누를 곳도 없고 이어 붙일 자료도 없어 공통 작품 카드를 쓸 수 없다.
   // 대신 그 카드와 같은 테두리·모서리를 따라 그려 격자에서 줄이 어긋나지 않게 한다
+  // 좌상단 넘버링(순위) 기능 폐기 — overlayTopLeft 미사용
   if (!item.contentId) {
     return (
       <div className="relative flex flex-col overflow-hidden rounded-xl border border-white/[0.06] bg-bg-card">
@@ -57,7 +52,6 @@ function ItemCard({
             iconSize={28}
             label={notRegisteredLabel}
           />
-          {rankBadge && <div className="absolute left-1.5 top-1.5 z-10">{rankBadge}</div>}
           {yearBadge && <div className="absolute right-1.5 top-1.5 z-10">{yearBadge}</div>}
         </div>
         <div className="border-t border-white/[0.04] bg-black/20 p-2 md:p-2.5">
@@ -73,7 +67,6 @@ function ItemCard({
   }
 
   // 우리가 가진 작품은 서비스 공통 작품 카드로 그린다.
-  // 한국어판·영문판 전환, 감상한 사람 수, 별점 같은 서비스 표준 표시가 여기서 함께 따라온다
   return (
     <ContentCard
       contentId={item.contentId}
@@ -87,7 +80,6 @@ function ItemCard({
       creatorEn={item.creatorEn}
       thumbnailEn={item.thumbnailEn}
       hasEnEdition={item.hasEnEdition}
-      overlayTopLeft={rankBadge}
       overlayTopRight={yearBadge}
     />
   );
@@ -181,8 +173,6 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
           <ItemCard
             key={item.id}
             item={item}
-            showRank={list.isRanked}
-            rankLabel={item.rank != null ? t("rankLabel", { rank: item.rank }) : null}
             notRegisteredLabel={t("notRegistered")}
             isVideo={list.contentType === "VIDEO"}
           />
