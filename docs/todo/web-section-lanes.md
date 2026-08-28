@@ -38,9 +38,3 @@
   `sw/web/src/components/features/home/CelebCarousel.tsx`,
   `sw/web/src/components/features/home/useCelebFilters.ts`
 - 확인: 검색어·정렬·쪽·필터 URL 동기화와 모바일 필터가 유지되어야 한다.
-
-## 5. 효과 없는 스크롤바 클래스 제거
-
-`sw/web/src/components/layout/LayoutMain.tsx`의 `<main>`은 스크롤 상자가 아니므로
-`scrollbar-stable`이 효과가 없다. `globals.css`의 `html` 설정이 실제 동작을 계속 담당하는지
-확인한 뒤 죽은 클래스만 제거한다.
