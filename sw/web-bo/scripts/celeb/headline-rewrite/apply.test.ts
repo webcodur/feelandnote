@@ -18,7 +18,15 @@ import {
   type HeadlineStore,
 } from './apply'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { LedgerEntry } from './lib'
+import { HEADLINE_REVIEW_VERSION, type LedgerEntry } from './lib'
+
+function patch(index: number): HeadlinePatch {
+  return {
+    id: `00000000-0000-4000-8000-${String(index).padStart(12, '0')}`,
+    headline: `한국어 ${index}`,
+    headline_en: `English ${index}`,
+  }
+}
 
 test('self-hosted SQL parameters are bound without changing their contents', () => {
   const payload = JSON.stringify([{ headline: "Apostrophe ' and $fn_parameter_1_$" }])
@@ -34,14 +42,6 @@ test('self-hosted SQL binding rejects missing or unused parameters', () => {
   assert.throws(() => bindSqlParameters('select 1', ['unused']), /used 0/)
 })
 
-function patch(index: number): HeadlinePatch {
-  return {
-    id: `00000000-0000-4000-8000-${String(index).padStart(12, '0')}`,
-    headline: `한국어 ${index}`,
-    headline_en: `English ${index}`,
-  }
-}
-
 function ledgerEntry(index: number): LedgerEntry {
   const item = patch(index)
   return {
@@ -49,6 +49,7 @@ function ledgerEntry(index: number): LedgerEntry {
     slug: `person-${index}`,
     lane: 0,
     phase: 'confirm',
+    reviewVersion: HEADLINE_REVIEW_VERSION,
     at: '2026-08-20T00:00:00.000Z',
   }
 }
@@ -167,6 +168,18 @@ test('다건 쓰기는 INSERT 없이 JSON 파라미터를 받는 단일 UPDATE �
   assert.match(calls[0].query, /update public\.celebs as celeb/i)
   assert.doesNotMatch(calls[0].query, /\binsert\b/i)
   assert.deepEqual(JSON.parse(calls[0].parameters[0] as string), [item])
+})
+
+test('현재 심사를 거치지 않은 기존 confirm은 apply 대상에서 제외한다', async () => {
+  const previous = ledgerEntry(1)
+  delete previous.reviewVersion
+
+  const result = await runHeadlineApply([0], false, undefined, {
+    readLane: () => [previous],
+    log: () => undefined,
+  })
+
+  assert.deepEqual(result, { would: 0, wrote: 0, changedRows: 0 })
 })
 
 test('두 번째 청크 실패 시 첫 청크 체크포인트만 남겨 재실행할 수 있다', async () => {

@@ -5,6 +5,7 @@ import { config } from 'dotenv'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 export const LANE_COUNT = 20
+export const HEADLINE_REVIEW_VERSION = 2
 export const ROOT = path.resolve(process.cwd(), '../../data/celeb/headline-rewrite')
 
 export type CelebRow = {
@@ -23,12 +24,30 @@ export type PackPerson = {
   id: string
   slug: string | null
   nickname: string | null
-  headline: string | null
-  headline_en: string | null
   title: string | null
   title_en: string | null
   tier: string | null
   status: string | null
+}
+
+export type ReviewPerson = {
+  id: string
+  slug: string | null
+  nickname: string | null
+  current: {
+    headline: string | null
+    headline_en: string | null
+  }
+  previous: {
+    phase: LedgerPhase
+    headline: string | null
+    headline_en: string | null
+    reviewVersion: number | null
+  } | null
+  draftKey: {
+    id: string
+    slug: string | null
+  }
 }
 
 export type LedgerPhase = 'draft' | 'confirm' | 'skip'
@@ -40,6 +59,7 @@ export type LedgerEntry = {
   phase: LedgerPhase
   headline: string | null
   headline_en: string | null
+  reviewVersion?: number
   applied?: boolean
   at: string
 }
@@ -86,6 +106,10 @@ export function packPath(lane: number): string {
   return path.join(ROOT, 'packs', `lane-${padLane(lane)}.json`)
 }
 
+export function reviewPath(lane: number): string {
+  return path.join(ROOT, 'reviews', `lane-${padLane(lane)}.json`)
+}
+
 export function readLedger(lane: number): LedgerEntry[] {
   const file = ledgerPath(lane)
   if (!existsSync(file)) return []
@@ -107,8 +131,6 @@ export function toPack(row: CelebRow): PackPerson {
     id: row.id,
     slug: row.slug,
     nickname: row.nickname,
-    headline: row.headline,
-    headline_en: row.headline_en,
     title: row.title,
     title_en: row.title_en,
     tier: row.celeb_tier,
