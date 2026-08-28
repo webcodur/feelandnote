@@ -9,11 +9,11 @@
 
 | 경로 | 다음 작업 |
 |---|---|
-| [`celeb/README.md#확정-작업`](celeb/README.md#확정-작업) | 읽어보기, 연표, 아바타 결함, 관계 설명 |
+| [`celeb/README.md#확정-작업`](celeb/README.md#확정-작업) | 읽어보기, 연표, 아바타 근거, 스펙트럼 근거문 |
 | [`external-api-migration-2026-08-01.md`](external-api-migration-2026-08-01.md) | 영문판이 확인된 레거시 도서의 EN locale 보완 |
-| [`web-deployment-platform-research.md`](web-deployment-platform-research.md) | 도메인 이전·Oracle 메모리·사용자 웹 변경 마감 |
+| [`web-deployment-platform-research.md`](web-deployment-platform-research.md) | 사용자 웹 변경·외부 운영 마감 |
 | [`document-audit.md`](document-audit.md) | 현역 문서와 코드·DB 대조 |
-| [`web-section-lanes.md`](web-section-lanes.md) | 회원 기록 첫 화면, 인물 목록, 인물 상세 스크롤·실화면 검수 |
+| [`web-section-lanes.md`](web-section-lanes.md) | 회원 기록 첫 화면, 인물 목록, 인물 상세 실화면 검수 |
 
 ## 기획·결정 대기
 
