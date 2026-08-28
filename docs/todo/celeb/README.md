@@ -9,16 +9,5 @@
 |---|---|
 | [`celeb-headline-rewrite-handoff.md`](celeb-headline-rewrite-handoff.md) | DB 반영 완료 지점에서 남은 신규 1,045명의 한 줄 정의 개편을 재개한다 |
 | [`celeb-timeline-life-rewrite-handoff.md`](celeb-timeline-life-rewrite-handoff.md) | 국문 중간 개선을 반영한 292명을 포함해 최근 473명과 기존 1~16건 1,157명을 재생성하고, 빈 737명을 채우며, 17건 이상 435명은 선검수한다 |
-| [`celeb-interpretation-sol-quality-failure-handoff.md`](celeb-interpretation-sol-quality-failure-handoff.md) | 인물 탐구의 주제 부재 결함을 진단하고 규칙 보강·판정 분리·표본 재검증을 실행한다 |
-| [`celeb-reading-full-rework-handoff-2026-08-04.md`](celeb-reading-full-rework-handoff-2026-08-04.md) | 원장의 미완료 인물을 다음 검수·재작성 회차로 넘긴다 |
-| [`celeb-avatar-defects.md`](celeb-avatar-defects.md) | 현재 명단에 남은 아바타 결함만 교체한다 |
-| [`celeb-relation-notes.md`](celeb-relation-notes.md) | 관계 설명의 빈자리를 메워 탐색 허브의 관계망을 운영에 연다. 영향·사제 188건과 가족 240건이 남았다 |
 
-## 기획·결정 대기
-
-| 문서 | 결정할 것 |
-|---|---|
-| [`celeb-buzz-research-2026-08-09.md`](celeb-buzz-research-2026-08-09.md) | 최근 인터넷 관심을 보여 줄 화제성 기능을 만들지, 신호·갱신 범위·표시 위치를 어디까지 잡을지 결정한다 |
-
-확정 작업에는 실행·검증·종료 조건만 남기고, 기획에는 사용자가 선택할 질문과 근거만
-남긴다. 완료 기록은 두 분류 모두에 쌓지 않는다.
+확정 작업에는 실행·검증·종료 조건만 남긴다. 완료 기록은 쌓지 않는다.

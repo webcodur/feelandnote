@@ -6,10 +6,8 @@
 
 | 칸 | rel_group / rel_type |
 |---|---|
-| 스승 | thought / teacher (역: student) |
-| 제자 | thought / student |
-| 영향받음 | thought / influence (to = 영향을 준 사람) |
-| 영향줌 | thought / influenced |
+| 사제 | thought / teacher (from = 제자, to = 스승) |
+| 영향 | thought / influence (from = 받은 사람, to = 준 사람) |
 | 지기 | friendship / friend |
 | 맞수 | rivalry / rival |
 | 공동창업 | career / cofounder |
@@ -18,15 +16,15 @@
 
 ## 방향
 
-`rel_type` = to가 from에게 무엇인가.
-- (머스크, 알렉산더, influence) = 알렉산더는 머스크의 영향원
-- (알렉산더, 머스크, influenced) = 머스크는 알렉산더가 영향을 준 사람
-화면은 from_id = 페이지 주인만 읽는다. 양방향 필수.
+관계 사실 하나는 한 행만 저장한다.
+- 방향 관계는 받은 사람을 `from_id`, 준 사람을 `to_id`에 둔다.
+- 대칭 관계는 두 인물 id를 정렬해 한 방향만 저장한다.
+- 화면은 양끝을 조회해 현재 인물 기준 관계 이름을 만든다.
 
 ## 수록
 
 - 확인된 사건: 연도·행동·결과. 사람 주어. 「라이벌이다」로 끝내지 않음.
-- 양쪽 시점 **다르게**. 복붙 금지.
+- 두 사람이 한 관계 설명을 같이 쓴다. A의 행동과 B의 반응·변화를 한 문맥에 담는다.
 - 한국어 한 줄 약 55~75자, `note` + `note_en`.
 - 사상 연쇄는 시대가 달라도 넣는다. 알렉산더→머스크가 기준선.
 - 만나지 않은 **개인 대립**(공자–묵자)은 라이벌로 넣지 않음. 영향은 넣는다.
@@ -51,20 +49,17 @@
   "pairs": [
     {
       "kind": "influence|teacher|cofounder|friend|rival",
-      "a": "slug-of-page-owner-or-junior",
-      "b": "slug-of-other",
-      "a_ko": "...",
-      "a_en": "...",
-      "b_ko": "...",
-      "b_en": "..."
+      "a": "slug-of-receiver-or-first-person",
+      "b": "slug-of-source-or-second-person",
+      "note_ko": "A는 B에게 무엇을 했고, B는 이를 받아 무엇을 했다.",
+      "note_en": "A did something for B, and B responded by doing something."
     }
   ]
 }
 ```
 
-influence: a가 b에게 영향받음 (a→b influence, b→a influenced)
-teacher: a의 스승이 b
-cofounder/friend/rival: 대칭
+`influence`는 a가 b에게 영향받음, `teacher`는 a의 스승이 b다.
+`cofounder`·`friend`·`rival`은 대칭 관계다.
 
 번역투 금지. ❌ "사람이 사람을 소유하는 제도를 두고 형제끼리 총을 겨눈 전쟁이었지요" → ✅ "같은 땅의 형제들은 노예제를 두고 서로 총을 겨누고 있었습니다"
 사람 주어, 한 문장 한 일, 동사로 끝냄. 포개다·벼리다·빚어내다 금지.

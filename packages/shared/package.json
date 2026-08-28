@@ -13,6 +13,7 @@
     "./constants/celeb-hero-photo": "./src/constants/celeb-hero-photo.ts",
     "./constants/celeb-avatar-small": "./src/constants/celeb-avatar-small.ts",
     "./constants/celeb-spectrum-scale": "./src/constants/celeb-spectrum-scale.ts",
+    "./constants/celeb-relations": "./src/constants/celeb-relations.ts",
     "./lib/countries": "./src/lib/countries.ts",
     "./lib/paginate": "./src/lib/paginate.ts",
     "./lib/voice-policy": "./src/lib/voice-policy.ts",

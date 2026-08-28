@@ -73,14 +73,11 @@
 
 세력도감 미리보기는 PC·모바일 모두 1:1 단체샷 표지를 사용한다. PC에서는 2×2 그리드, 모바일에서는 다음 카드가 일부 보이는 가로 스냅 캐러셀로 노출한다. 카드에는 제목과 설명만 얹고, 인물 얼굴 묶음과 별도 탐색 문구는 두지 않는다.
 
-**관계망**(26.08.27 신설, **운영 비활성**)은 목차 밖에 레인 하나로 붙는다. 관계 자료가 인물 상세의 도표 모달에만 있어 크롤러에게 막다른 길이던 것을 여기서 실제 `<a>`로 편다. 판은 둘이다.
+**관계망**은 목차 밖 레인 하나로 붙으며 운영에서는 비활성이다. 인물 한 명을 중심에 두고 관계를 다섯 묶음(영향을 준·받은·맞선·함께한·가족)으로 편다. 카드를 누르면 그 인물이 새 중심이 되고 지나온 인물은 경로로 남는다. 검색으로 다른 중심을 바로 고를 수도 있다. 카드 본문은 두 사람이 함께 쓰는 관계 설명 한 벌이며, 화살표는 인물 상세로 나간다. 첫 판은 서버가 그려 두므로 봇도 관계와 링크를 받는다.
 
-- **탐색기** — 인물을 골라 그 둘레를 다섯 묶음(영향을 준·받은·맞선·함께한·가족)으로 펴고, 카드를 누르면 그 인물이 새 중심이 된다. 카드 본문은 `celeb_relations.note`(어떻게 이어졌는지)이고, 설명이 없으면 문구 대신 관계 유형 배지를 세운다. 이름 옆 화살표만 인물 상세로 나간다. 첫 판은 서버가 그려 두므로 봇도 관계와 링크를 그대로 받는다.
-- **사슬** — 사제·영향이 일자로 이어진 계보. 고리 길이가 건너뛴 햇수를 말한다(로그를 제곱해 누른 값). 고리를 누르면 그 사이의 사연이 열린다. 좁은 화면은 세로로 세우지 않고 가로로 민다 — 세우면 사슬 하나가 1,200px을 먹고 일자라는 성격도 사라진다.
+`getRelationShapes`는 시작점만 고르고 `getRelationNeighborhood`는 중심 인물이 `from_id`와 `to_id` 어느 쪽에 있든 함께 읽는다. 저장 방향을 현재 인물 관점으로 바꾸고 옛 역방향 중복 행을 접는 규칙은 공용 `celeb-relations.ts`와 웹의 `relationRows.ts`가 쥔다. 묶음·시작점 규칙은 `relationNeighborhood.ts`·`relationShapes.ts`에 있다. 테스트는 `pnpm --filter @feelandnote/web test:relation-map`이다.
 
-조회는 `getRelationShapes`(사슬·시작점)와 `getRelationNeighborhood`(중심 한 명)가 나눠 맡고, 고르는 규칙은 `lib/celeb`의 `influenceChains.ts`·`relationShapes.ts`·`relationNeighborhood.ts`가 쥔다. 셋 다 순수 함수라 테스트는 `pnpm --filter web test:relation-map`.
-
-**공개 조건** — `explore/page.tsx`의 `RELATION_MAP_ENABLED`(= `NODE_ENV !== "production"`)가 문이다. 관계 설명이 비어 있는 자리가 있어 이름만 선 카드가 섞이기 때문에 운영에는 내보내지 않는다. 채워야 할 몫은 `docs/todo/celeb/celeb-relation-notes.md`. `?dev=1`을 받지 않는 것은 `searchParams`를 쓰면 이 화면이 동적 렌더로 바뀌어 봇에게 완성 HTML을 주는 경로가 깨지기 때문이다.
+**공개 조건** — `explore/page.tsx`의 `RELATION_MAP_ENABLED`(= `NODE_ENV !== "production"`)가 문이다. 사용자가 직접 검수하고 공개를 결정하기 전에는 이 차단을 제거하지 않는다. 남은 검수는 `docs/todo/web.md`가 쥔다. `?dev=1`을 받지 않는 것은 `searchParams`를 쓰면 이 화면이 동적 렌더로 바뀌어 봇에게 완성 HTML을 주는 경로가 깨지기 때문이다.
 
 `PopularBooks`(쿠팡 제휴)는 목차 밖 맨 아래에 레인 하나로 붙는다. 한국어 화면이고 링크가 걸린 책이 있을 때만 스스로 그려지므로 대기 자리를 미리 잡지 않는다.
 

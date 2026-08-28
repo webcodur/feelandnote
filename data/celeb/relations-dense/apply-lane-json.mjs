@@ -1,4 +1,8 @@
 import { createClient } from 'file:///C:/project/feelandnote/sw/web-bo/node_modules/@supabase/supabase-js/dist/index.mjs'
+import {
+  canonicalizeCelebRelation,
+  celebRelationFactKey,
+} from '@feelandnote/shared/constants/celeb-relations'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
 
@@ -16,11 +20,11 @@ const file = process.argv[2]
 if (!file) throw new Error('usage: node apply-lane-json.mjs <pairs.json>')
 
 const KIND = {
-  influence: { a: 'influence', b: 'influenced', group: 'thought' },
-  teacher: { a: 'teacher', b: 'student', group: 'thought' },
-  cofounder: { a: 'cofounder', b: 'cofounder', group: 'career' },
-  friend: { a: 'friend', b: 'friend', group: 'friendship' },
-  rival: { a: 'rival', b: 'rival', group: 'rivalry' },
+  influence: { type: 'influence', group: 'thought' },
+  teacher: { type: 'teacher', group: 'thought' },
+  cofounder: { type: 'cofounder', group: 'career' },
+  friend: { type: 'friend', group: 'friendship' },
+  rival: { type: 'rival', group: 'rivalry' },
 }
 
 const skipExact = new Set([
@@ -39,8 +43,19 @@ if (error) throw error
 const id = Object.fromEntries(celebs.map((c) => [c.slug, c.id]))
 const missing = slugs.filter((s) => !id[s])
 
-const { data: existing } = await db.from('celeb_relations').select('from_id,to_id,rel_type').in('from_id', Object.values(id))
-const have = new Set((existing ?? []).map((r) => `${r.from_id}|${r.to_id}|${r.rel_type}`))
+const [outgoing, incoming] = await Promise.all([
+  db.from('celeb_relations').select('from_id,to_id,rel_type').in('from_id', Object.values(id)),
+  db.from('celeb_relations').select('from_id,to_id,rel_type').in('to_id', Object.values(id)),
+])
+if (outgoing.error) throw outgoing.error
+if (incoming.error) throw incoming.error
+const have = new Set(
+  [...(outgoing.data ?? []), ...(incoming.data ?? [])].map((row) => celebRelationFactKey({
+    fromId: row.from_id,
+    toId: row.to_id,
+    relType: row.rel_type,
+  })),
+)
 
 const rows = []
 const applied = []
@@ -52,12 +67,20 @@ for (const p of pairs) {
   if (skipExact.has(`${p.a}|${p.b}|${p.kind}`) || skipExact.has(`${p.b}|${p.a}|${p.kind}`)) {
     skipped.push({ reason: 'already', a: p.a, b: p.b, kind: p.kind }); continue
   }
-  const aKey = `${id[p.a]}|${id[p.b]}|${spec.a}`
-  const bKey = `${id[p.b]}|${id[p.a]}|${spec.b}`
-  if (have.has(aKey) || have.has(bKey)) { skipped.push({ reason: 'exists', a: p.a, b: p.b, kind: p.kind }); continue }
-  if (!p.a_ko || !p.a_en || !p.b_ko || !p.b_en) { skipped.push({ reason: 'note', a: p.a, b: p.b }); continue }
-  rows.push({ from_id: id[p.a], to_id: id[p.b], rel_type: spec.a, rel_group: spec.group, source: 'manual', note: p.a_ko, note_en: p.a_en })
-  rows.push({ from_id: id[p.b], to_id: id[p.a], rel_type: spec.b, rel_group: spec.group, source: 'manual', note: p.b_ko, note_en: p.b_en })
+  const canonical = canonicalizeCelebRelation({ fromId: id[p.a], toId: id[p.b], relType: spec.type })
+  const factKey = celebRelationFactKey(canonical)
+  if (have.has(factKey)) { skipped.push({ reason: 'exists', a: p.a, b: p.b, kind: p.kind }); continue }
+  if (!p.note_ko || !p.note_en) { skipped.push({ reason: 'note', a: p.a, b: p.b }); continue }
+  rows.push({
+    from_id: canonical.fromId,
+    to_id: canonical.toId,
+    rel_type: canonical.relType,
+    rel_group: spec.group,
+    source: 'manual',
+    note: p.note_ko,
+    note_en: p.note_en,
+  })
+  have.add(factKey)
   applied.push({ a: p.a, b: p.b, kind: p.kind })
 }
 
@@ -69,4 +92,4 @@ if (rows.length) {
 const stamp = resolve('C:/project/feelandnote/data/celeb/relations-dense', `2026-08-22-${json.lane}.json`)
 mkdirSync(resolve('C:/project/feelandnote/data/celeb/relations-dense'), { recursive: true })
 writeFileSync(stamp, JSON.stringify({ applied_at: new Date().toISOString(), lane: json.lane, applied, skipped, missing }, null, 2), 'utf8')
-console.log(JSON.stringify({ lane: json.lane, upserted: rows.length, pairs: applied.length, skipped: skipped.length, missing }, null, 2))
+console.log(JSON.stringify({ lane: json.lane, upserted: rows.length, relations: applied.length, skipped: skipped.length, missing }, null, 2))

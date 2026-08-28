@@ -11,6 +11,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import type { CelebRelationGroup } from '@feelandnote/shared/constants/celeb-relations'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import {
@@ -19,16 +20,31 @@ import {
   type NeighborGroup,
   type NeighborRelationInput,
 } from '@/lib/celeb/relationNeighborhood'
+import { mergeRelationRowsForViewer } from '@/lib/celeb/relationRows'
 import { getInfluenceRanking } from './getCelebs'
 
 /** 묶음 하나에 세울 최대 인원. 넘치면 「N명 중 12명」으로 적는다 */
 const NEIGHBOR_LIMIT = 12
 
 interface RelationRow {
+  from_id: string
+  to_id: string
   rel_type: string
+  rel_group: CelebRelationGroup
   note: string | null
   note_en: string | null
-  target: {
+  from: {
+    id: string
+    slug: string | null
+    nickname: string
+    nickname_en: string | null
+    avatar_url: string | null
+    title: string | null
+    title_en: string | null
+    celeb_tier: string | null
+    publication_status: string | null
+  } | null
+  to: {
     id: string
     slug: string | null
     nickname: string
@@ -51,21 +67,27 @@ const CENTER_COLUMNS = 'id, slug, nickname, nickname_en, avatar_url, title, titl
 async function fetchNeighborhood(celebId: string): Promise<RelationNeighborhood | null> {
   const supabase = createStaticClient()
 
-  const [centerResult, relationResult] = await Promise.all([
+  const relationSelect = `from_id, to_id, rel_type, rel_group, note, note_en,
+    from:celebs!celeb_relations_from_celebs_fkey(${CENTER_COLUMNS}, celeb_tier, publication_status),
+    to:celebs!celeb_relations_to_celebs_fkey(${CENTER_COLUMNS}, celeb_tier, publication_status)`
+  const [centerResult, outgoingResult, incomingResult, ranking] = await Promise.all([
     supabase.from('celebs').select(CENTER_COLUMNS).eq('id', celebId).maybeSingle(),
     supabase
       .from('celeb_relations')
-      .select(
-        `rel_type, note, note_en, target:celebs!celeb_relations_to_celebs_fkey(${CENTER_COLUMNS}, celeb_tier, publication_status)`
-      )
+      .select(relationSelect)
       .eq('from_id', celebId)
       .overrideTypes<RelationRow[], { merge: false }>(),
+    supabase
+      .from('celeb_relations')
+      .select(relationSelect)
+      .eq('to_id', celebId)
+      .overrideTypes<RelationRow[], { merge: false }>(),
+    getInfluenceRanking(),
   ])
 
   const centerRow = centerResult.data
   if (!centerRow) return null
 
-  const ranking = await getInfluenceRanking()
   const toCandidate = (row: {
     id: string
     slug: string | null
@@ -88,8 +110,17 @@ async function fetchNeighborhood(celebId: string): Promise<RelationNeighborhood 
   const candidates = new Map<string, NeighborCandidate>()
   const relations: NeighborRelationInput[] = []
 
-  for (const row of relationResult.data ?? []) {
-    const target = row.target
+  const rawRows = [...(outgoingResult.data ?? []), ...(incomingResult.data ?? [])]
+  const profileById = new Map(
+    rawRows
+      .flatMap((row) => [row.from, row.to])
+      .filter((profile): profile is NonNullable<RelationRow['from']> => profile !== null)
+      .map((profile) => [profile.id, profile]),
+  )
+  const viewedRows = mergeRelationRowsForViewer(rawRows, celebId)
+
+  for (const row of viewedRows) {
+    const target = profileById.get(row.counterpartId)
     if (!target) continue
     // 목록에 서지 않는 등급과 비공개 인물은 파고들 곳이 없다
     if (target.publication_status !== 'active') continue
@@ -98,9 +129,9 @@ async function fetchNeighborhood(celebId: string): Promise<RelationNeighborhood 
     candidates.set(target.id, toCandidate(target))
     relations.push({
       targetId: target.id,
-      relType: row.rel_type,
+      relType: row.relType,
       note: row.note,
-      noteEn: row.note_en,
+      noteEn: row.noteEn,
     })
   }
 

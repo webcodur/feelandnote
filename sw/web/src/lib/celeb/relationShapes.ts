@@ -1,20 +1,22 @@
 /*
   파일명: /lib/celeb/relationShapes.ts
-  기능: 관계망이 실제로 이루는 모양들의 단일 출처 — 갈래·모여듦·맞수·무리
-  책임: 관계 원장에서 모양마다 다른 규칙으로 볼거리를 골라낸다. 조회는 호출처가 하고
-        여기서는 받은 자료로 고르기만 한다 — influenceChains.ts와 같은 규약이다.
-        사슬(일자로 이어진 계보)은 influenceChains.ts가 따로 쥔다. 나머지 세 모양이 여기다.
-
-        방향 규약은 원장과 같다: rel_type은 "to_id가 from_id에게 무엇인가"를 뜻한다.
+  기능: 관계가 많은 인물·맞수·무리에서 탐색기 시작점을 고른다.
+  책임: 화면에 별도 그래프를 만들지 않고, 방문자가 관계 탐색을 시작할 인물만 고른다.
 */
 
-import type { ChainCandidate, ChainLinkKind } from "./influenceChains";
-
-/** 모양을 세울 인물. 사슬과 같은 형태를 쓰되 순위를 매길 영향력이 붙는다 */
-export interface ShapeCandidate extends ChainCandidate {
-  /** celeb_influence.total_score. 없으면 0 */
+export interface ShapeCandidate {
+  id: string;
+  slug: string | null;
+  nickname: string;
+  nicknameEn: string | null;
+  avatarUrl: string | null;
+  title: string | null;
+  titleEn: string | null;
+  birthYear: number | null;
   influence: number;
 }
+
+export type ShapeLinkKind = "mentor" | "influence";
 
 export interface ShapeRelationInput {
   fromId: string;
@@ -30,7 +32,7 @@ export interface RelationFan {
   center: ShapeCandidate;
   /** out = 이 사람에게서 뻗어나갔다, in = 이 사람에게로 모여들었다 */
   direction: "out" | "in";
-  spokes: { celeb: ShapeCandidate; kind: ChainLinkKind; note: string | null; noteEn: string | null }[];
+  spokes: { celeb: ShapeCandidate; kind: ShapeLinkKind; note: string | null; noteEn: string | null }[];
   /** 잘라내기 전의 전체 수. 「33명 중 10명」을 적기 위한 값 */
   total: number;
 }
@@ -72,7 +74,7 @@ function isPlaceable(candidate: ShapeCandidate): boolean {
 interface DirectedLink {
   giver: string;
   taker: string;
-  kind: ChainLinkKind;
+  kind: ShapeLinkKind;
   note: string | null;
   noteEn: string | null;
 }
@@ -212,8 +214,7 @@ interface RivalryInput {
 }
 
 /**
- * 맞수. 원장에 양방향 두 행이 있으므로 한 쌍으로 접고, 설명이 있는 쌍만 세운다 —
- * 「맞수」라는 말만 남은 두 얼굴은 왜 맞섰는지 알 수 없어 볼거리가 되지 않는다.
+ * 맞수. 구형 양방향 행과 새 단일 행을 모두 한 쌍으로 접는다.
  */
 export function buildRivalries({ relations, candidates, count }: RivalryInput): RelationRivalry[] {
   const byId = new Map(candidates.filter(isPlaceable).map((item) => [item.id, item]));
@@ -239,7 +240,6 @@ export function buildRivalries({ relations, candidates, count }: RivalryInput): 
   const used = new Set<string>();
   const picked: RelationRivalry[] = [];
   const ranked = [...pairs.values()]
-    .filter((pair) => pair.note)
     .sort((x, y) => {
       // 두 사람 다 큰 인물인 쌍이 먼저다 — 작은 쪽 영향력으로 견준다
       const weak = (pair: RelationRivalry) => Math.min(pair.a.influence, pair.b.influence);

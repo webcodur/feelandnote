@@ -8,9 +8,9 @@
  *   위키데이터가 보증하는 사실 관계만 옮긴다.
  *
  * [방향 규약 — 이 규약이 전부다]
- *   rel_type 은 "to_id 가 from_id 에게 무엇인가"를 뜻한다.
- *   (A, B, 'father') = B는 A의 아버지. 화면은 from_id = 본인 행만 읽으면 된다.
- *   위키데이터 단언 하나가 역방향 행까지 두 행을 만든다: A─P22→B ⇒ (A,B,father) + (B,A,child).
+ *   관계 사실 하나는 한 행만 쓴다. 방향 관계는 영향을 받거나 배운 사람을 from_id에 두고,
+ *   대칭 관계는 두 id를 정렬한다. 화면은 양끝을 조회해 현재 인물 기준 라벨을 만든다.
+ *   공용 규칙은 @feelandnote/shared/constants/celeb-relations가 쥔다.
  *
  * [관계 그룹]  family(혈연) · thought(사상: 사제·영향) · rivalry(대립: P7047 enemy of, 희소)
  *   위키데이터에 라이벌 개념이 거의 없으므로 rivalry 는 얇다. 수동 보강은 source='manual' 로
@@ -27,6 +27,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js'
+import { canonicalizeCelebRelation } from '@feelandnote/shared/constants/celeb-relations'
 import { readFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 
@@ -55,28 +56,27 @@ const supabase = createClient(
 )
 
 type Group = 'family' | 'thought' | 'rivalry' | 'career'
-type PropDef = { type: string; inverse: string; group: Group }
+type PropDef = { type: string; group: Group }
 
 /**
- * 위키데이터 속성 → 관계 종류. type = "대상이 주어에게 무엇인가".
- * A─P22→B 는 "A의 아버지가 B" 이므로 (A,B,father). 역방향은 (B,A,child).
- * P40(자녀)의 역방향은 부모의 성별을 모르므로 중립형 'parent' — P22/P25 행이 있으면 정리 단계에서 제거된다.
+ * 위키데이터 속성 → 원문 기준 관계 종류. 저장 직전에 공용 규칙으로 한 방향만 남긴다.
+ * P40은 자녀를 가리키므로 정규화하면 자녀→부모의 중립형 parent가 된다.
  */
 const PROPS: Record<string, PropDef> = {
-  P22:   { type: 'father',    inverse: 'child',      group: 'family' },
-  P25:   { type: 'mother',    inverse: 'child',      group: 'family' },
-  P40:   { type: 'child',     inverse: 'parent',     group: 'family' },
-  P26:   { type: 'spouse',    inverse: 'spouse',     group: 'family' },
-  P451:  { type: 'partner',   inverse: 'partner',    group: 'family' },
-  P3373: { type: 'sibling',   inverse: 'sibling',    group: 'family' },
-  P1038: { type: 'relative',  inverse: 'relative',   group: 'family' },
-  P1066: { type: 'teacher',   inverse: 'student',    group: 'thought' },
-  P802:  { type: 'student',   inverse: 'teacher',    group: 'thought' },
-  P184:  { type: 'teacher',   inverse: 'student',    group: 'thought' },
-  P185:  { type: 'student',   inverse: 'teacher',    group: 'thought' },
-  P737:  { type: 'influence', inverse: 'influenced', group: 'thought' },
-  P941:  { type: 'influence', inverse: 'influenced', group: 'thought' },
-  P7047: { type: 'rival',     inverse: 'rival',      group: 'rivalry' },
+  P22:   { type: 'father',    group: 'family' },
+  P25:   { type: 'mother',    group: 'family' },
+  P40:   { type: 'child',     group: 'family' },
+  P26:   { type: 'spouse',    group: 'family' },
+  P451:  { type: 'partner',   group: 'family' },
+  P3373: { type: 'sibling',   group: 'family' },
+  P1038: { type: 'relative',  group: 'family' },
+  P1066: { type: 'teacher',   group: 'thought' },
+  P802:  { type: 'student',   group: 'thought' },
+  P184:  { type: 'teacher',   group: 'thought' },
+  P185:  { type: 'student',   group: 'thought' },
+  P737:  { type: 'influence', group: 'thought' },
+  P941:  { type: 'influence', group: 'thought' },
+  P7047: { type: 'rival',     group: 'rivalry' },
 }
 
 /** 모호해서 노이즈가 많은 속성 — 실측에는 세지만 적재하지 않는다. */
@@ -258,7 +258,11 @@ async function run() {
   type Edge = { from: string; to: string; type: string; group: Group; note?: string; noteEn?: string }
   const edgeKey = (e: Edge) => `${e.from}|${e.to}|${e.type}`
   const edges = new Map<string, Edge>()
-  const addEdge = (e: Edge) => { if (!edges.has(edgeKey(e))) edges.set(edgeKey(e), e) }
+  const addEdge = (e: Edge) => {
+    const canonical = canonicalizeCelebRelation({ fromId: e.from, toId: e.to, relType: e.type })
+    const normalized = { ...e, from: canonical.fromId, to: canonical.toId, type: canonical.relType }
+    if (!edges.has(edgeKey(normalized))) edges.set(edgeKey(normalized), normalized)
+  }
 
   const perProp = new Map<string, number>()
   for (const t of inSet) {
@@ -268,7 +272,6 @@ async function run() {
     if (MEASURE_ONLY.has(t.p)) continue
     const A = byQid.get(t.a)!, B = byQid.get(t.b)!
     addEdge({ from: A.id, to: B.id, type: def.type, group: def.group })
-    addEdge({ from: B.id, to: A.id, type: def.inverse, group: def.group })
   }
 
   // 정리 1: 같은 쌍에 father/mother 가 있으면 중립형 parent 제거
@@ -278,8 +281,8 @@ async function run() {
   }
   // 정리 2: 사제와 영향이 같은 쌍에 겹치면 영향 제거(더 구체적인 쪽만 남긴다)
   for (const e of [...edges.values()]) {
-    if (e.type !== 'influence' && e.type !== 'influenced') continue
-    if (edges.has(`${e.from}|${e.to}|teacher`) || edges.has(`${e.from}|${e.to}|student`)) edges.delete(edgeKey(e))
+    if (e.type !== 'influence') continue
+    if (edges.has(`${e.from}|${e.to}|teacher`)) edges.delete(edgeKey(e))
   }
   // 정리 3: 지기가 있는 쌍의 위키 동반자(P451)는 가계에 넣지 않는다.
   // 헤파이스티온·토르-로키처럼 벗을 배우/동반자 칸에 세우던 사고를 막는다.
@@ -319,14 +322,14 @@ async function run() {
     const pairKey = [c.a, c.b].sort().join('|')
     if (seenPairs.has(pairKey)) continue
     seenPairs.add(pairKey)
-    const hasCloser = [...edges.values()].some((e) => e.from === A.id && e.to === B.id)
+    const hasCloser = [...edges.values()].some((e) =>
+      [e.from, e.to].sort().join('|') === [A.id, B.id].sort().join('|'))
     if (hasCloser) continue
     const orgs = [...(orgOf.get(pairKey) ?? [])].slice(0, 3).join(' · ')
     const orgsEn = [...(orgEnOf.get(pairKey) ?? [])].slice(0, 3).join(' and ')
     const note = orgs ? `${orgs} 공동 창업` : undefined
     const noteEn = orgsEn ? `Co-founded ${orgsEn}` : undefined
     addEdge({ from: A.id, to: B.id, type: 'cofounder', group: 'career', note, noteEn })
-    addEdge({ from: B.id, to: A.id, type: 'cofounder', group: 'career', note, noteEn })
   }
 
   // ── 한솥밥 간선 ──
@@ -393,14 +396,14 @@ async function run() {
     if (seenGroupPairs.has(pairKey)) continue
     seenGroupPairs.add(pairKey)
     // 이미 더 가까운 사이(가족·사제·창업)가 있으면 얹지 않는다
-    const hasCloser = [...edges.values()].some((e) => e.from === A.id && e.to === B.id)
+    const hasCloser = [...edges.values()].some((e) =>
+      [e.from, e.to].sort().join('|') === [A.id, B.id].sort().join('|'))
     if (hasCloser) continue
     const orgs = [...(groupOf.get(pairKey) ?? [])].slice(0, 2).join(' · ')
     const orgsEn = [...(groupEnOf.get(pairKey) ?? [])].slice(0, 2).join(' and ')
     const note = orgs ? `${orgs} 소속` : undefined
     const noteEn = orgsEn ? `Both in ${orgsEn}` : undefined
     addEdge({ from: A.id, to: B.id, type: 'colleague', group: 'career', note, noteEn })
-    addEdge({ from: B.id, to: A.id, type: 'colleague', group: 'career', note, noteEn })
   }
 
   const final = [...edges.values()]
@@ -417,7 +420,7 @@ async function run() {
   console.log(`\n[실측]`)
   console.log(`  세트 내 삼중항 ${inSet.length} / 세트 밖 ${outSet} (밖 비율 ${Math.round((100 * outSet) / Math.max(1, triples.length))}%)`)
   console.log(`  속성별:`, Object.fromEntries([...perProp.entries()].sort((x, y) => y[1] - x[1])))
-  console.log(`  최종 방향 간선 ${final.length} (논리 쌍 약 ${Math.round(final.length / 2)})`)
+  console.log(`  최종 공유 관계 ${final.length}`)
   console.log(`  그룹별:`, Object.fromEntries(perGroup))
   console.log(`  한솥밥 집단 채택 ${keptGroups.size} / 후보 ${groupMembers.size}(유형 통과 ${typedGroups.size} · 구성원 ${MAX_GROUP_SIZE}명 이하) · 맺은 쌍 ${seenGroupPairs.size}`)
   {

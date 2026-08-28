@@ -2,6 +2,10 @@
 import { cache } from 'react'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
+import {
+  CELEB_RELATION_TYPE_ORDER,
+  type CelebRelationGroup,
+} from '@feelandnote/shared/constants/celeb-relations'
 import { cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
@@ -13,6 +17,7 @@ import {
   type DialogueProfile,
 } from '@/lib/utils/celeb-dialogues'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
+import { mergeRelationRowsForViewer } from '@/lib/celeb/relationRows'
 
 export interface ContentTypeCounts {
   BOOK: number
@@ -69,7 +74,7 @@ interface FactionTagAssignmentRow {
 // 방향 규약·수집은 sw/web-bo/scripts/sync-celeb-relations.ts (위키데이터 사실 관계만, 창작 없음)
 export interface CelebRelationItem {
   relType: string
-  relGroup: 'family' | 'thought' | 'rivalry' | 'career' | 'friendship'
+  relGroup: CelebRelationGroup
   id: string
   /** null이면 이동할 페이지가 없다 — 이름 노드로만 띄운다. 사유는 listed로 갈린다 */
   slug: string | null
@@ -91,11 +96,26 @@ export interface CelebRelationItem {
 }
 
 interface CelebRelationRow {
+  from_id: string
+  to_id: string
   rel_type: string
-  rel_group: 'family' | 'thought' | 'rivalry' | 'career' | 'friendship'
+  rel_group: CelebRelationGroup
   note: string | null
   note_en: string | null
-  target: {
+  from: {
+    id: string
+    slug: string | null
+    nickname: string | null
+    nickname_en: string | null
+    avatar_url: string | null
+    profession: string | null
+    nationality: string | null
+    birth_date: string | null
+    death_date: string | null
+    publication_status: string | null
+    wikidata_qid: string | null
+  } | null
+  to: {
     id: string
     slug: string | null
     nickname: string | null
@@ -109,9 +129,6 @@ interface CelebRelationRow {
     wikidata_qid: string | null
   } | null
 }
-
-// 표시 순서: 혈연 → 사상 → 대립, 그 안에서 가까운 관계부터
-const REL_TYPE_ORDER = ['father', 'mother', 'parent', 'child', 'spouse', 'partner', 'sibling', 'relative', 'teacher', 'student', 'influence', 'influenced', 'cofounder', 'friend', 'rival']
 
 interface PublicCelebBySlugData {
   profile: {
@@ -191,7 +208,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     dialogueResult,
     typeCountsResult,
     factionTagRows,
-    relationsResult,
+    outgoingRelationsResult,
+    incomingRelationsResult,
     externalRelationsResult,
     explanationResult,
   ] = await Promise.all([
@@ -238,8 +256,14 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     })(),
     supabase
       .from('celeb_relations')
-      .select('rel_type, rel_group, note, note_en, target:celebs!celeb_relations_to_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid)')
-      .eq('from_id', celebId),
+      .select('from_id, to_id, rel_type, rel_group, note, note_en, from:celebs!celeb_relations_from_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid), to:celebs!celeb_relations_to_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid)')
+      .eq('from_id', celebId)
+      .overrideTypes<CelebRelationRow[], { merge: false }>(),
+    supabase
+      .from('celeb_relations')
+      .select('from_id, to_id, rel_type, rel_group, note, note_en, from:celebs!celeb_relations_from_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid), to:celebs!celeb_relations_to_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid)')
+      .eq('to_id', celebId)
+      .overrideTypes<CelebRelationRow[], { merge: false }>(),
     supabase
       .from('celeb_relations_external')
       .select('rel_type, rel_group, qid, name_ko, name_en, image_url, note, note_en')
@@ -285,26 +309,36 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   // 비활성·슬러그 없는 상대는 페이지가 없어 이동만 막고, 사람 자체는 이름 노드로 남긴다.
   // (킴벌 머스크처럼 명단에 있으나 비공개인 형제가 통째로 사라지던 문제)
-  const internalRelations: CelebRelationItem[] = ((relationsResult.data ?? []) as unknown as CelebRelationRow[])
-    .filter((r): r is CelebRelationRow & { target: NonNullable<CelebRelationRow['target']> } => !!r.target)
-    .map((r) => ({
-      relType: r.rel_type,
-      relGroup: r.rel_group,
-      id: r.target.id,
-      slug: r.target.slug && r.target.publication_status === 'active' ? r.target.slug : null,
+  const rawRelations = [...(outgoingRelationsResult.data ?? []), ...(incomingRelationsResult.data ?? [])]
+  const relationProfiles = new Map(
+    rawRelations
+      .flatMap((row) => [row.from, row.to])
+      .filter((person): person is NonNullable<CelebRelationRow['from']> => person !== null)
+      .map((person) => [person.id, person]),
+  )
+  const internalRelations: CelebRelationItem[] = mergeRelationRowsForViewer(rawRelations, celebId)
+    .flatMap((relation) => {
+      const target = relationProfiles.get(relation.counterpartId)
+      if (!target) return []
+      return [{
+      relType: relation.relType,
+      relGroup: relation.relGroup,
+      id: target.id,
+      slug: target.slug && target.publication_status === 'active' ? target.slug : null,
       listed: true,
-      nickname: r.target.nickname || 'Unknown',
-      nickname_en: r.target.nickname_en,
-      avatar_url: r.target.avatar_url,
-      profession: r.target.profession,
-      nationality: r.target.nationality,
-      birth_date: r.target.birth_date,
-      death_date: r.target.death_date,
+      nickname: target.nickname || 'Unknown',
+      nickname_en: target.nickname_en,
+      avatar_url: target.avatar_url,
+      profession: target.profession,
+      nationality: target.nationality,
+      birth_date: target.birth_date,
+      death_date: target.death_date,
       // 등록 인물도 관계 카드에서 본 카드와 위키데이터 원본을 함께 제공한다.
-      qid: r.target.wikidata_qid,
-      note: r.note,
-      note_en: r.note_en,
-    }))
+      qid: target.wikidata_qid,
+      note: relation.note,
+      note_en: relation.noteEn,
+    }]
+    })
 
   // 명단 밖 인물(위키데이터 등재) — 이름 노드. 셀럽이 자리를 먼저 차지하도록 뒤에 붙인다
   const externalRelations: CelebRelationItem[] = ((externalRelationsResult.data ?? []) as unknown as
@@ -329,7 +363,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     }))
 
   const byTypeThenName = (a: CelebRelationItem, b: CelebRelationItem) =>
-    REL_TYPE_ORDER.indexOf(a.relType) - REL_TYPE_ORDER.indexOf(b.relType)
+    CELEB_RELATION_TYPE_ORDER.indexOf(a.relType as typeof CELEB_RELATION_TYPE_ORDER[number])
+    - CELEB_RELATION_TYPE_ORDER.indexOf(b.relType as typeof CELEB_RELATION_TYPE_ORDER[number])
     || a.nickname.localeCompare(b.nickname)
   const relations = [...internalRelations.sort(byTypeThenName), ...externalRelations.sort(byTypeThenName)]
 
