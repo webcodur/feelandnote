@@ -220,15 +220,8 @@
       "navOthers": "기타 인물",
       "relationMap": {
         "title": "관계망",
-        "description": "누가 누구에게 무엇을 건넸는지, 그 자취를 따라갑니다",
-        "shapeChain": "사슬",
-        "shapeChainHint": "스승에서 제자로 일자로 이어진 계보. 고리가 길수록 멀리 건넜습니다",
-        "chainTitle": "{from}에서 {to}까지",
-        "chainSpan": "{years, number}년을 건너",
-        "gapYears": "{years, number}년",
-        "highlightLead": "{from} → {to} · {years, number}년 뒤",
+        "description": "두 사람이 어떻게 이어졌는지, 한 사람씩 중심을 옮겨 가며 봅니다",
         "shapeExplorer": "탐색기",
-        "shapeExplorerHint": "인물을 고르면 그 둘레가 펼쳐집니다. 얼굴을 누르면 그 사람으로 옮겨 갑니다",
         "searchPlaceholder": "인물 이름으로 찾기",
         "searchClear": "검색어 지우기",
         "startersLead": "여기서부터",
@@ -241,7 +234,7 @@
         "groupFamily": "가족",
         "groupCount": "{count, number}명",
         "groupCountPartial": "{total, number}명 중 {shown, number}명",
-        "openLink": "{from}와 {to} 사이 보기"
+        "noRelations": "아직 정리된 관계가 없습니다"
       }
     },
     "youtube": {

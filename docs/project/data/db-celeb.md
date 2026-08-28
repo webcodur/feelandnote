@@ -51,17 +51,16 @@
   - `published_at`은 게시 여부와 시각의 SSoT다. `null`이면 미게시다. RLS는 게시된 행만 공개하고 작성·수정은 `service_role`에만 허용한다
   - 작성·검토·배치 규칙은 `docs/project/celeb/person-reading.md`, 최초 스키마는 `20260803181502_create_celeb_explanations.sql`, 현행 검수 상태는 `20260804060931_replace_celeb_explanation_sources_with_review_status.sql` 참조
   - `celeb_explanation_sources`는 2026-08-04 폐기했다. 사실 조사는 계속 수행하지만 URL은 집필 캐시에만 임시 보관하고 서비스 DB에는 적재하지 않는다
-- **`celeb_relations`**: 인물 관계망 (2026-07-22 `add_celeb_relations_table`). 위키데이터 사실 관계 + 수동 보강
-  - `rel_type` = **"to_id가 from_id에게 무엇인가"** (father/mother/parent/child/spouse/partner/sibling/relative/teacher/student/influence/influenced/rival). 방향 규약·수집은 `sw/web-bo/scripts/celeb/relations.ts`가 SSoT
-  - `rel_group`: family(혈연)/thought(사상)/career(공동 창업)/friendship(지기)/rivalry(라이벌) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
+- **`celeb_relations`**: 인물 관계망. 위키데이터 사실 관계 + 수동 보강
+  - 관계 사실 하나를 행 하나로 저장한다. `rel_type`은 **"from_id가 to_id에게 무엇인가"**다. 비대칭 관계는 `father`/`mother`/`parent`, `teacher`, `influence`만 저장하고 반대편 화면에서 `child`, `student`, `influenced`로 해석한다. 대칭 관계는 두 ID를 정렬해 한 행만 둔다
+  - 정규화 규칙은 공용 `packages/shared/src/constants/celeb-relations.ts`, 수집은 `sw/web-bo/scripts/celeb/relations.ts`가 SSoT다. 웹 조회는 전환 기간에 양 끝점을 모두 읽고 기존 역방향 중복 행을 한 사실로 접는다
+  - `rel_group`: family(혈연)/thought(사상)/career(공동 창업·동료)/friendship(지기)/rivalry(라이벌) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
   - `publication_status`가 비공개인 내부 상대도 관계 사실에서는 제외하지 않는다. 화면은 이름 노드로 표시하고 이동만 막는다(`slug=null`); 위키데이터 링크는 `celebs.wikidata_qid`를 쓴다
-  - 근거 설명은 `note`(한국어)와 `note_en`(영문)을 짝으로 쓴다. `label_ko`·`label_en`은 소비처가 없는 레거시 열이므로 새 값을 넣지 않는다
+  - `note`와 `note_en`은 어느 쪽에서 열어도 같은 두 사람의 행동과 결과를 함께 설명하는 공동 문장 한 벌이다. `label_ko`·`label_en`은 소비처가 없는 레거시 열이므로 새 값을 넣지 않는다
   - 혈연은 세대·형제 수 자체가 정보이므로 인원 상한을 적용하지 않는다. 화면의 접이식 상한은 사회 관계에만 적용한다
   - `celeb/relations.ts` 재실행은 `source='wikidata'` 행을 교체한다. 수동 보강은 반드시 `source='manual'`로 저장한다
-  - 실측(2026-07-22): 방향 간선 1,972 — thought 1,110 / rivalry 456 / family 148 / friendship 140 / career(P112 조직 매개) 118
   - rivalry·friendship은 위키데이터에 사실상 없어 GPT 제안+전수 훑기(1,692명) → 병렬 검증 → `source='manual'`+`note`(근거 한 줄)로 적재했다. 재수집해도 manual 행은 보존된다
-  - `note` 실측(2026-08-27, 양끝이 모두 노출 가능한 간선 기준): 맞수 842/842(100%) · 동석 2,866/2,932(98%) · 영향·사제 1,622/1,810(90%) · **가족 0/240(0%)**. 관계를 가진 2,201명 중 이웃 설명이 전부 있는 인물 82%, 하나도 없는 인물 3%. 남은 몫은 `docs/todo/celeb/celeb-relation-notes.md`
-  - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`와 탐색 허브의 관계망 구획(26.08.27 신설, 운영 비활성 — `service/explore.md`)
+  - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`와 탐색 허브의 관계망 구획(운영 비활성 — `service/explore.md`)
 - **`celeb_relations_external`**: 명단 밖 인물 (2026-07-22 `add_celeb_relations_external`). 짝이 셀럽이 아니면 명단 안 간선만으로는 텅 빈다 — 위키데이터 등재 인물을 이름·사진만 받아 이동 불가 노드로 띄운다. **본짝이 명단 밖이라고 다른 셀럽을 그 칸에 넣지 않는다.** 맞수·지기는 이 테이블, 스승·영향·창업은 비운다.
   - 실측: family 7,435 / rivalry 214 / friendship 158 행 · UNIQUE(from_id, qid, rel_type)
   - 가족은 위키데이터 속성 수집, 라이벌·지기는 전수 훑기 결과를 이름→QID 대조(wbsearchentities)로 적재. **접두 검색이라 수식어 넣으면 오배정된다** — 곤충 속(屬)·동명이인 사고로 라이벌 23건·지기 23건을 사후 교정했다(설명·생몰 검증 필수)

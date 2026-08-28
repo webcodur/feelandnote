@@ -161,11 +161,11 @@ test("양방향 두 행을 한 쌍으로 접는다", () => {
   assert.equal(rivalries[0].b.id, "을");
 });
 
-test("왜 맞섰는지 없는 쌍은 세우지 않는다", () => {
+test("시작점 선정은 설명 없이도 관계 사실을 쓴다", () => {
   const candidates = [celeb("갑"), celeb("을")];
   const relations: ShapeRelationInput[] = [{ fromId: "갑", toId: "을", relType: "rival" }];
 
-  assert.deepEqual(buildRivalries({ relations, candidates, count: 5 }), []);
+  assert.equal(buildRivalries({ relations, candidates, count: 5 }).length, 1);
 });
 
 test("같은 얼굴이 여러 대결에 겹쳐 나오지 않는다", () => {

@@ -220,15 +220,8 @@
       "navOthers": "Other Figures",
       "relationMap": {
         "title": "Relation Map",
-        "description": "Follow what passed from one figure to another",
-        "shapeChain": "Chain",
-        "shapeChainHint": "A lineage passed hand to hand. Longer links crossed more time",
-        "chainTitle": "From {from} to {to}",
-        "chainSpan": "across {years, number} years",
-        "gapYears": "{years, number}y",
-        "highlightLead": "{from} → {to} · {years, number} years later",
+        "description": "See how two figures are connected, moving one person at a time",
         "shapeExplorer": "Explorer",
-        "shapeExplorerHint": "Pick a figure to open their surroundings. Click a face to move there",
         "searchPlaceholder": "Find a figure by name",
         "searchClear": "Clear search",
         "goBack": "Back to {name}",
@@ -241,7 +234,7 @@
         "groupFamily": "Family",
         "groupCount": "{count, number}",
         "groupCountPartial": "{shown, number} of {total, number}",
-        "openLink": "Show what passed from {from} to {to}"
+        "noRelations": "No relationships have been recorded yet"
       }
     },
     "youtube": {

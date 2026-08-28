@@ -1,8 +1,7 @@
 /*
   파일명: /actions/home/getRelationShapes.ts
-  기능: 탐색 화면 「관계망」의 재료 — 사슬과, 탐색기가 처음 세울 시작점들
-  책임: 관계 원장과 인물 원장을 한 번만 받아 둘이 나눠 쓴다. 고르는 규칙은
-        lib/celeb의 influenceChains.ts·relationShapes.ts가 쥐고 여기서는 조회와 캐시만 맡는다.
+  기능: 탐색 화면 관계망이 처음 세울 시작점들
+  책임: 관계 유형과 인물 원장을 가볍게 받아 시작점만 고른다.
 
         갈래·맞수·무리는 더 이상 화면에 판으로 서지 않는다. 고정된 판만 보여 주면
         방문자는 고른 것을 볼 뿐 관계망을 뒤질 수 없다. 대신 그 계산으로
@@ -19,7 +18,6 @@ import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { parseCelebDate } from '@/lib/celeb/lifespan'
-import { buildInfluenceChains, type InfluenceChain } from '@/lib/celeb/influenceChains'
 import {
   buildRelationCircles,
   buildRelationFans,
@@ -29,17 +27,12 @@ import {
 } from '@/lib/celeb/relationShapes'
 import { getInfluenceRanking } from './getCelebs'
 
-/** 네 모양이 함께 쓰는 관계 유형. 흐름(사슬·갈래) · 대립(맞수) · 동석(무리) */
+/** 시작점 선정에 쓰는 관계 유형 */
 const SHAPE_REL_TYPES = [
   'teacher', 'student', 'influence', 'influenced',
   'rival',
   'colleague', 'cofounder',
 ]
-
-/* 모양마다 몇 개를 세울지. 한 화면에 넷을 다 담아야 하므로 종류당 수를 적게 잡는다 */
-const CHAIN_COUNT = 2
-const MIN_CHAIN_LENGTH = 5
-const MAX_CHAIN_LENGTH = 7
 
 const FAN_COUNT_PER_DIRECTION = 1
 const FAN_SPOKE_LIMIT = 10
@@ -58,8 +51,6 @@ interface RelationRow {
   from_id: string
   to_id: string
   rel_type: string
-  note: string | null
-  note_en: string | null
 }
 
 interface CelebRow {
@@ -84,7 +75,6 @@ export interface RelationStarter {
 }
 
 export interface RelationShapes {
-  chains: InfluenceChain[]
   /** 첫 화면의 중심. 갈래가 가장 넓은 인물이라 펼칠 것이 많다 */
   openingCelebId: string | null
   starters: RelationStarter[]
@@ -96,7 +86,7 @@ async function fetchShapeRelations(): Promise<RelationRow[]> {
   return await selectAllPages<RelationRow>((from, to) =>
     supabase
       .from('celeb_relations')
-      .select('from_id, to_id, rel_type, note, note_en')
+      .select('from_id, to_id, rel_type')
       .in('rel_type', SHAPE_REL_TYPES)
       .order('from_id')
       .order('to_id')
@@ -153,8 +143,6 @@ export async function getRelationShapes(): Promise<RelationShapes> {
     fromId: row.from_id,
     toId: row.to_id,
     relType: row.rel_type,
-    note: row.note,
-    noteEn: row.note_en,
   }))
 
   const fans = buildRelationFans({
@@ -191,13 +179,6 @@ export async function getRelationShapes(): Promise<RelationShapes> {
   circles.forEach((circle) => circle.members.slice(0, 2).forEach((m) => addStarter(m, 'circle')))
 
   return {
-    chains: buildInfluenceChains({
-      relations: flows,
-      candidates,
-      maxChains: CHAIN_COUNT,
-      minLength: MIN_CHAIN_LENGTH,
-      maxLength: MAX_CHAIN_LENGTH,
-    }),
     openingCelebId: fans[0]?.center.id ?? starters[0]?.id ?? null,
     starters,
   }
