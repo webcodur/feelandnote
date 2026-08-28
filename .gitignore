@@ -215,6 +215,7 @@ data/celeb/reading-relay/all-readings.json
 data/celeb/reading-relay/wave/
 data/celeb/headline-rewrite/packs/
 data/celeb/headline-rewrite/drafts/
+data/celeb/headline-rewrite/reviews/
 
 # msys/git-bash 크래시 덤프
 *.stackdump

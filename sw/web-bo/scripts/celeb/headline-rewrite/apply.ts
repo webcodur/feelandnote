@@ -15,6 +15,7 @@ import { config } from 'dotenv'
 import {
   argOf,
   connectDb,
+  HEADLINE_REVIEW_VERSION,
   hasFlag,
   ledgerPath,
   parseLane,
@@ -315,7 +316,11 @@ function collectLaneStates(
     const pending: PendingEntry[] = []
 
     for (const entry of entries) {
-      if (entry.phase !== 'confirm' || entry.applied) continue
+      if (
+        entry.phase !== 'confirm'
+        || entry.reviewVersion !== HEADLINE_REVIEW_VERSION
+        || entry.applied
+      ) continue
       if (!entry.headline?.trim() || !entry.headline_en?.trim()) {
         log(`건너뜀 ${entry.slug ?? entry.id}: 개편 확정값 중 빈 줄이 있다`)
         continue

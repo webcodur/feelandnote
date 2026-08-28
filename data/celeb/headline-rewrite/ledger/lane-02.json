@@ -4,20 +4,22 @@
   "slug": "abraham-lincoln",
   "lane": 2,
   "phase": "confirm",
-  "headline": "남북전쟁을 이끈 노예해방의 대통령",
-  "headline_en": "The Civil War president who ended slavery",
+  "headline": "노예해방을 남북전쟁의 대의로 세운 대통령",
+  "headline_en": "The president who made emancipation a Union war aim",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "afdca104-8c93-4f51-aada-619dc08c28a0",
   "slug": "adam-back",
   "lane": 2,
   "phase": "confirm",
-  "headline": "해시캐시 작업 증명의 고안자",
-  "headline_en": "Inventor of Hashcash proof of work",
+  "headline": "비트코인 작업증명의 길을 연 해시캐시 발명가",
+  "headline_en": "The Hashcash inventor Bitcoin cites for proof of work",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "17da4839-7e62-4f35-938c-a1ba26375091",
@@ -25,259 +27,256 @@
   "lane": 2,
   "phase": "confirm",
   "headline": "보이지 않는 손을 말한 국부론의 저자",
-  "headline_en": "Author of The Wealth of Nations",
+  "headline_en": "The economist who made a pin factory the emblem of division of labor",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "aafcb573-eb4b-4077-9cca-9488cffb99e4",
   "slug": "agni",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "제물을 신에게 전하는 불의 신",
   "headline_en": "Vedic fire god who carries offerings to the gods",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
- },
- {
-  "id": "56845dd5-7000-4879-a745-3489e16ef36b",
-  "slug": "ahmed-sherif",
-  "lane": 2,
-  "phase": "confirm",
-  "headline": "뉴럴링크 CEO",
-  "headline_en": "CEO of Neuralink",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-25T18:18:08.475Z"
  },
  {
   "id": "1f5dd1eb-bc78-498b-9859-d9b4ef614250",
   "slug": "al-ghazali",
   "lane": 2,
   "phase": "confirm",
-  "headline": "아리스토텔레스 철학을 비판한 이슬람 신학자",
-  "headline_en": "Islamic theologian who challenged Aristotelian philosophy",
+  "headline": "수피즘을 수니파 정통 신앙과 결합한 신학자",
+  "headline_en": "The theologian who reconciled Sufism with Sunni orthodoxy",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "63eeec86-830d-4beb-bcb7-5e96eb3c6958",
   "slug": "alecto",
   "lane": 2,
   "phase": "confirm",
-  "headline": "마음에 증오를 심는 복수의 여신",
-  "headline_en": "Fury who sows hatred and starts wars",
+  "headline": "라티움에 전쟁의 씨앗을 뿌린 복수의 여신",
+  "headline_en": "The Fury who sowed war in Latium",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "deb5a570-a009-410d-9436-77180a85a058",
   "slug": "alexander-the-great",
   "lane": 2,
   "phase": "confirm",
-  "headline": "그리스에서 인도까지 정복한 왕",
-  "headline_en": "King who conquered from Greece to India",
+  "headline": "페르시아 제국을 무너뜨린 마케도니아 왕",
+  "headline_en": "The Macedonian king who toppled the Persian Empire",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "5525fa0c-cd28-46a7-a642-a18610cfeea7",
   "slug": "alfred-bloomingdale",
   "lane": 2,
   "phase": "confirm",
-  "headline": "다이너스 클럽을 키워 신용카드를 퍼뜨린 수장",
-  "headline_en": "The Diners Club chief who took the credit card nationwide",
+  "headline": "다이너스클럽을 세계적 카드로 키운 사업가",
+  "headline_en": "The president who took Diners Club global",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "caa2dd42-1eea-49b1-921d-0df3d261fe98",
   "slug": "andrew-musk",
   "lane": 2,
   "phase": "confirm",
-  "headline": "일론 머스크 조카로 X 스포츠를 맡은 임원",
-  "headline_en": "Elon Musk's nephew who leads sports products at X",
+  "headline": "X의 실시간 스포츠 허브를 이끈 엔지니어",
+  "headline_en": "The lead engineer behind X's real-time sports hubs",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "9d5a91ea-0e4b-4054-9b44-e4fd0f0a1618",
   "slug": "annie-ernaux",
   "lane": 2,
   "phase": "confirm",
-  "headline": "노동 계급에서 올라온 삶을 기록한 노벨문학상 작가",
-  "headline_en": "Nobel laureate who recorded a life of class ascent",
+  "headline": "자신의 기억으로 한 세대의 역사를 쓴 작가",
+  "headline_en": "The writer who turned private memory into collective history",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "b6c72107-04ef-4434-973e-0fdf148f1a12",
   "slug": "antonio-gracias",
   "lane": 2,
   "phase": "confirm",
-  "headline": "발로르 창업자이자 테슬라 이사",
-  "headline_en": "Valor's founder and a Tesla board member",
+  "headline": "14년간 테슬라 이사를 지낸 발로르 창업자",
+  "headline_en": "The Valor founder who served 14 years on Tesla’s board",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "04440a25-0846-4ca1-9538-968427909caa",
   "slug": "aphrodite",
   "lane": 2,
-  "phase": "skip",
-  "headline": "바다 거품에서 태어난 사랑과 아름다움, 욕망의 여신",
-  "headline_en": "Goddess of Love, Beauty, Desire, and Passion",
-  "at": "2026-08-19T08:17:56.589Z"
+  "phase": "confirm",
+  "headline": "파리스에게 황금 사과를 받은 사랑의 여신",
+  "headline_en": "The love goddess who won the golden apple",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "d242175a-fdea-443f-aa16-ef66c1eb5d24",
   "slug": "arnold-palmer",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "TV 시대 골프를 대중 스포츠로 만든 선수",
   "headline_en": "The golfer who made golf a television sport",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-25T19:18:08.630Z"
  },
  {
   "id": "7b6cd5a2-3f47-4de3-9d71-7c4c78693d50",
   "slug": "bada",
   "lane": 2,
   "phase": "confirm",
-  "headline": "S.E.S.의 리더",
-  "headline_en": "Leader of S.E.S.",
+  "headline": "뮤지컬 여우주연상을 받은 S.E.S. 리드 보컬",
+  "headline_en": "The S.E.S. lead vocalist who won Best Actress in musical theater",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "3816db4e-9383-4178-83b6-ee0cd36582f4",
   "slug": "bae-joo-hyun",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "레드벨벳을 데뷔부터 이끈 리더",
   "headline_en": "Red Velvet's leader since debut",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-25T19:18:08.630Z"
  },
  {
   "id": "1ff63a9d-a0de-432f-9368-b57bb4693ea5",
   "slug": "bini",
   "lane": 2,
   "phase": "confirm",
-  "headline": "나인뮤지스의 원년 멤버",
-  "headline_en": "An original member of 9MUSES",
+  "headline": "나인뮤지스라는 이름으로 처음 무대에 선 가수",
+  "headline_en": "The singer who stood at the very start of Nine Muses",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "5dbd5614-72dd-4fea-8c16-4308c7b98f61",
   "slug": "brian-chesky",
   "lane": 2,
-  "phase": "skip",
-  "headline": "에어비앤비의 공동 창업자이자 CEO",
-  "headline_en": "Co-founder and CEO of Airbnb",
-  "at": "2026-08-19T08:17:56.589Z"
+  "phase": "confirm",
+  "headline": "에어매트리스 세 개로 시작한 에어비앤비 공동 창업자",
+  "headline_en": "The Airbnb co-founder who started with three air mattresses",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "bac00959-fc51-4464-80d6-2c616681d909",
   "slug": "cameron-diaz",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "「마스크」와 「찰리스 앤젤」의 주연",
   "headline_en": "Star of The Mask and Charlie's Angels",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "reviewVersion": 2,
+  "applied": false,
+  "at": "2026-08-25T19:18:08.630Z"
  },
  {
   "id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
   "slug": "carrie-anne-moss",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "매트릭스의 트리니티를 맡은 배우",
   "headline_en": "Trinity of The Matrix",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-25T19:18:08.630Z"
  },
  {
   "id": "343535a8-17e0-40f7-b2b5-74d73338ecde",
   "slug": "cha-bum-kun",
   "lane": 2,
   "phase": "confirm",
-  "headline": "독일이 차붐이라 부른 공격수",
-  "headline_en": "The striker Germany called Cha Boom",
+  "headline": "두 독일 클럽에서 UEFA컵을 든 한국인 공격수",
+  "headline_en": "The Korean striker who won the UEFA Cup with two German clubs",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "d1f36056-87d8-4529-bace-82c75d8bed5e",
   "slug": "charles-baudelaire",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "「악의 꽃」으로 현대시의 문을 연 시인",
   "headline_en": "The poet who pioneered modern verse with Les Fleurs du mal",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-25T20:45:39.507Z"
  },
  {
   "id": "64acaafe-0a7a-48eb-a3ee-df5d7b97a90e",
   "slug": "chen-shou",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "정사 삼국지를 편찬한 서진의 사관",
   "headline_en": "The Western Jin historian who compiled the Records of the Three Kingdoms",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-25T20:45:39.507Z"
  },
  {
   "id": "4aca77f4-a759-4bc1-939c-1e170285c022",
   "slug": "cho-young-joo",
   "lane": 2,
   "phase": "confirm",
-  "headline": "삼호주얼리호 선원 21명을 구한 청해부대 부대장",
-  "headline_en": "Cheonghae Unit commander who rescued 21 Samho Jewelry sailors from pirates",
+  "headline": "아덴만 인질 구출을 지휘한 청해부대장",
+  "headline_en": "The Cheonghae Unit commander who led the Gulf of Aden rescue",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "e981898c-6ae5-4680-bf12-d6c526a7a666",
   "slug": "claudio-abbado",
   "lane": 2,
   "phase": "confirm",
-  "headline": "라 스칼라·빈을 거쳐 1989년 베를린 필을 맡은 지휘자",
-  "headline_en": "La Scala and Vienna maestro who led the Berlin Philharmonic from 1989",
+  "headline": "단원들이 직접 뽑은 카라얀의 후임",
+  "headline_en": "Karajan’s successor, chosen by the orchestra",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "1fa51ad6-9ba1-4f93-b5f5-1f19e90c5726",
   "slug": "clint-eastwood",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "더티 해리에서 오스카 감독으로",
   "headline_en": "From Dirty Harry to Oscar-winning director",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-25T20:45:39.507Z"
  },
  {
   "id": "7990c321-d82b-4db2-ba8e-00649feb5b56",
   "slug": "coen-brothers",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "「노인을 위한 나라는 없다」의 감독",
   "headline_en": "Directors of No Country for Old Men",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "reviewVersion": 2,
+  "applied": false,
+  "at": "2026-08-25T20:45:39.507Z"
  },
  {
   "id": "8c5400f7-5f36-4e69-b671-fede4841fd04",
@@ -286,685 +285,699 @@
   "phase": "skip",
   "headline": "테슬라 가정용 에너지 수석 디렉터",
   "headline_en": "Senior Director of Residential Energy at Tesla",
-  "at": "2026-08-19T09:25:43.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-25T20:45:39.507Z"
  },
  {
   "id": "cb919c9a-3175-4797-8e63-427fd8d14250",
   "slug": "da-qiao",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "강동이교의 언니, 손책의 아내",
   "headline_en": "Elder of the Two Qiaos, wife of Sun Ce",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-25T20:45:39.507Z"
  },
  {
   "id": "42396e8b-c074-4d48-a264-259f1a9f9635",
   "slug": "dalai-lama",
   "lane": 2,
   "phase": "confirm",
-  "headline": "티베트 망명정부를 이끈 14대 달라이 라마",
-  "headline_en": "The 14th Dalai Lama who led Tibet's government in exile",
+  "headline": "비폭력으로 노벨평화상을 받은 티베트 지도자",
+  "headline_en": "The Tibetan leader awarded the Nobel Peace Prize for nonviolence",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "b5b2f158-d9b6-4c35-82ca-bf1fb36a1f31",
   "slug": "daniel-bruhl",
   "lane": 2,
   "phase": "confirm",
-  "headline": "러시와 캡틴 아메리카로 이름을 알린 다국어 배우",
-  "headline_en": "German multilingual actor known for Rush and the Captain America films",
+  "headline": "「러시」의 니키 라우다를 연기한 배우",
+  "headline_en": "The actor who played Niki Lauda in Rush",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "22012fa0-631c-4394-acaa-dcefe6ed03ea",
   "slug": "date-masamune",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "센다이를 세운 외눈의 다이묘",
   "headline_en": "The one-eyed daimyo who founded Sendai",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "applied": false,
+  "at": "2026-08-25T22:09:42.416Z"
  },
  {
   "id": "7873a3b1-ca56-47e3-8bb6-bf61ae9731af",
   "slug": "david-ben-gurion",
   "lane": 2,
-  "phase": "skip",
-  "headline": "이스라엘의 초대 총리이자 국가 건립의 주역",
-  "headline_en": "Israel's first Prime Minister and the principal architect of the state",
-  "at": "2026-08-19T08:24:43.246Z"
+  "phase": "confirm",
+  "headline": "이스라엘 독립을 선포한 초대 총리",
+  "headline_en": "First prime minister who proclaimed the State of Israel",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "c96166f0-d50d-45e5-94b7-784c3b18bf36",
   "slug": "dee-hock",
   "lane": 2,
   "phase": "confirm",
-  "headline": "비자 네트워크를 세운 은행가",
-  "headline_en": "The banker who built the Visa network",
+  "headline": "경쟁 은행을 비자 공동망으로 묶은 창립자",
+  "headline_en": "Founder who united competing banks in the Visa network",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "bb9ac21f-b3a5-4fff-8725-0f55b0996010",
   "slug": "deianira",
   "lane": 2,
   "phase": "confirm",
-  "headline": "네소스의 피를 사랑의 약으로 쓴 헤라클레스의 아내",
-  "headline_en": "Wife of Heracles who used Nessus's blood as a love charm",
+  "headline": "네소스의 피를 사랑의 묘약으로 믿은 헤라클레스의 아내",
+  "headline_en": "Heracles' wife who mistook Nessus's blood for a love charm",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "666eaea9-a3b3-4434-a973-7597c63c89f1",
   "slug": "desiderius-erasmus",
   "lane": 2,
   "phase": "confirm",
-  "headline": "가톨릭에 남은 우신예찬의 저자",
+  "headline": "가톨릭에 남은 「우신예찬」의 저자",
   "headline_en": "Catholic author of In Praise of Folly",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "f19f6ee2-42fa-4f1a-b4fc-16568672b619",
   "slug": "dionysus",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "포도주와 광기로 경계를 무너뜨리는 신",
   "headline_en": "God who dissolves boundaries through wine and frenzy",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-25T22:09:42.416Z"
  },
  {
   "id": "69538dec-7734-4093-a894-76f0b0efcf58",
   "slug": "douglas-adams",
   "lane": 2,
   "phase": "confirm",
-  "headline": "히치하이커 안내서의 저자",
-  "headline_en": "Author of The Hitchhiker's Guide to the Galaxy",
+  "headline": "42를 모든 것의 답으로 만든 작가",
+  "headline_en": "Writer who made 42 the answer to everything",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "8b2ef7b6-0fb4-4a43-856b-c83270e901e4",
   "slug": "elpenor",
   "lane": 2,
-  "phase": "skip",
-  "headline": "키르케의 지붕에서 떨어져 명계에서 안식을 청한 선원",
-  "headline_en": "Young Crewman Who Died in Circe's Palace and Pleaded for a Burial",
-  "at": "2026-08-19T08:33:51.162Z"
+  "phase": "confirm",
+  "headline": "묻히지 못해 장례를 청한 선원",
+  "headline_en": "Unburied sailor who begged for funeral rites",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "3d6cd4ea-6263-4499-8ad8-fc0146de1814",
   "slug": "emperor-meiji",
   "lane": 2,
   "phase": "confirm",
-  "headline": "메이지 유신으로 일본을 근대 국가로 만든 군주",
-  "headline_en": "Emperor who modernized Japan in the Meiji Restoration",
+  "headline": "대일본제국헌법을 반포한 천황",
+  "headline_en": "Emperor who promulgated Japan’s imperial constitution",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
   "slug": "emperor-showa",
   "lane": 2,
   "phase": "confirm",
-  "headline": "태평양전쟁의 군주에서 상징 천황으로",
-  "headline_en": "From wartime emperor to postwar symbol",
+  "headline": "라디오로 일본의 항복을 알린 전시 천황",
+  "headline_en": "Wartime emperor whose radio address announced Japan’s surrender",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "08d2793b-d14d-4436-802c-b37275e71620",
   "slug": "enzo-ferrari",
   "lane": 2,
   "phase": "confirm",
-  "headline": "알파로메오 레이서에서 페라리 창업자로",
-  "headline_en": "From Alfa Romeo racer to Ferrari's founder",
+  "headline": "125 S의 첫 시동을 건 창업자",
+  "headline_en": "Founder who first fired up the 125 S",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "5a54edab-6279-4de1-98b9-07d4d77c2b66",
   "slug": "eurystheus",
   "lane": 2,
   "phase": "confirm",
-  "headline": "헤라클레스에게 열두 과제를 내린 미케네의 왕",
-  "headline_en": "Mycenaean king who assigned Heracles the twelve labors",
+  "headline": "멧돼지를 든 헤라클레스 앞에서 항아리에 숨은 왕",
+  "headline_en": "King who hid in a jar from the Erymanthian boar",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "9670418b-ece0-4fc5-933a-ac9142194f24",
   "slug": "ewan-mcgregor",
   "lane": 2,
   "phase": "confirm",
-  "headline": "「트레인스포팅」의 마크 렌턴이자 오비완 케노비",
-  "headline_en": "Trainspotting's Renton and Obi-Wan Kenobi",
+  "headline": "스코틀랜드 최악의 변기에 뛰어든 배우",
+  "headline_en": "Actor who dove into Scotland's worst toilet",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "1bab9757-eac0-4c5b-a4db-ef117b803452",
   "slug": "fafnir",
   "lane": 2,
   "phase": "confirm",
-  "headline": "황금을 지키려 용이 된 난쟁이",
-  "headline_en": "Dwarf who became a dragon to guard his gold",
+  "headline": "안드바리의 황금을 독차지해 용이 된 맏형",
+  "headline_en": "Eldest brother who became a dragon for Andvari's hoard",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "97396b52-a513-4c39-8a56-5f5a30d5120a",
   "slug": "fan-zeng",
   "lane": 2,
   "phase": "confirm",
-  "headline": "홍문연에서 유방 제거를 꾀한 항우의 아부",
-  "headline_en": "Xiang Yu's 'Second Father' who tried to kill Liu Bang at Hongmen",
+  "headline": "유방을 죽이라 옥결을 세 번 든 책사",
+  "headline_en": "Adviser who signaled three times to kill Liu Bang at Hong Gate",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "f5af4fe7-df7d-4574-9f5a-2f7aeafd00f9",
   "slug": "federico-fellini",
   "lane": 2,
   "phase": "confirm",
-  "headline": "달콤한 인생으로 로마의 허영을 찍은 감독",
-  "headline_en": "The director who filmed Rome's vanity in La Dolce Vita",
+  "headline": "트레비 분수의 밤을 영화사에 남긴 감독",
+  "headline_en": "Director who made the Trevi Fountain a cinematic icon",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "6a3123a0-c37a-435d-8217-157934455592",
   "slug": "federico-garcia-lorca",
   "lane": 2,
   "phase": "confirm",
-  "headline": "「피의 결혼」을 남기고 총살된 스페인 시인",
-  "headline_en": "Spanish poet of Blood Wedding, shot during the Civil War",
+  "headline": "국민파에 총살된 「피의 결혼」의 시인",
+  "headline_en": "The Blood Wedding poet shot by Nationalist forces",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "208402ed-1f71-4fa6-a5fb-980d287890d0",
   "slug": "francois-henri-pinault",
   "lane": 2,
   "phase": "confirm",
-  "headline": "구찌의 모기업 케링 그룹 회장",
-  "headline_en": "Chairman of Kering, the group behind Gucci",
+  "headline": "PPR의 명품 전환을 이끈 이사회 의장",
+  "headline_en": "Board chair who turned PPR into a luxury group",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "5bdb3f58-8803-41b5-9ca9-a1080f624c95",
   "slug": "frank-appel",
   "lane": 2,
   "phase": "confirm",
-  "headline": "도이체포스트 DHL을 15년 이끈 회장",
+  "headline": "도이체포스트 DHL을 15년 이끈 CEO",
   "headline_en": "The CEO who led Deutsche Post DHL for fifteen years",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "0c6eb6b7-d61a-4698-8781-2a6df074e7c9",
   "slug": "frigg",
   "lane": 2,
   "phase": "confirm",
-  "headline": "발두르를 지키려 만물에 맹세를 받은 여신",
-  "headline_en": "Goddess who took oaths from all things to protect Baldr",
+  "headline": "겨우살이만 맹세에서 뺀 발드르의 어머니",
+  "headline_en": "Baldr's mother who never asked mistletoe to swear",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "2258e068-6779-428c-a3f3-4afd0f80e3a7",
   "slug": "gerard-butler",
   "lane": 2,
   "phase": "confirm",
-  "headline": "영화 300의 레오니다스 왕",
-  "headline_en": "King Leonidas of the film 300",
+  "headline": "〈300〉의 레오니다스 왕이 된 배우",
+  "headline_en": "The actor who became King Leonidas in 300",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "a4b2b56f-ca8f-4dc8-a858-66bcba0cd492",
   "slug": "guillaume-faury",
   "lane": 2,
   "phase": "confirm",
-  "headline": "유럽 최대 항공기 제작사 에어버스의 수장",
-  "headline_en": "Chief executive of Airbus",
+  "headline": "수소 추진 항공기 개발 계획을 내건 항공인",
+  "headline_en": "The Airbus chief putting hydrogen-powered flight on the agenda",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": false,
-  "reverted": true
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "d52c3a26-f21a-4c5b-9145-2f4ac6942283",
   "slug": "han-yu",
   "lane": 2,
   "phase": "confirm",
-  "headline": "변려문에 반기 든 당송팔대가의 첫머리",
-  "headline_en": "First of the Eight Masters, the Tang writer who rejected parallel prose",
+  "headline": "황제의 불사리 영접에 맞서 유배된 문장가",
+  "headline_en": "Tang writer exiled for challenging the emperor over a Buddha relic",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "f4403db7-58d3-422a-8f11-b59115bccee5",
   "slug": "harper-lee",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "앵무새 죽이기로 퓰리처상을 받은 소설가",
   "headline_en": "Alabama novelist who won the Pulitzer for To Kill a Mockingbird",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "reviewVersion": 2,
+  "at": "2026-08-26T02:11:51.297Z"
  },
  {
   "id": "7e85bf6f-d1bd-4d6b-9e76-b2b35fe48973",
   "slug": "harvey-golub",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "증권·보험을 접고 카드에 집중한 아멕스 회장",
   "headline_en": "Amex chairman who shed securities and insurance to focus on cards",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "reviewVersion": 2,
+  "at": "2026-08-26T02:11:51.297Z"
  },
  {
   "id": "11b77303-049b-4edc-bd01-136fdf2692b1",
   "slug": "helen-keller",
   "lane": 2,
   "phase": "confirm",
-  "headline": "시청각 장애를 딛고 인권을 말한 작가",
-  "headline_en": "The deaf-blind writer who spoke for human rights",
+  "headline": "대학 학위를 받은 최초의 시청각장애인",
+  "headline_en": "The first deafblind person to earn a college degree",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "80e6446c-d255-4126-b345-16a7f3b9b66c",
   "slug": "henry-wells",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "아메리칸 익스프레스와 웰스파고의 공동 창업자",
   "headline_en": "Co-founder of American Express and Wells Fargo",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-26T02:11:51.297Z"
  },
  {
   "id": "009ec91c-ae19-4a0b-972a-3d22e25d6660",
   "slug": "heo-young-ji",
   "lane": 2,
   "phase": "confirm",
-  "headline": "카라 프로젝트로 합류한 멤버",
-  "headline_en": "The member who joined KARA through KARA Project",
+  "headline": "「카라 프로젝트」 우승으로 카라에 합류한 멤버",
+  "headline_en": "The KARA Project winner who joined KARA",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "67e70607-ebc2-4702-8e49-ebbc8a8dec87",
   "slug": "heracles",
   "lane": 2,
-  "phase": "skip",
-  "headline": "열두 과업을 완수하고 불멸의 신 반열에 오른 대영웅",
-  "headline_en": "The Supreme Hero of Greece Who Conquered the Twelve Labors",
-  "at": "2026-08-19T08:40:06.361Z"
+  "phase": "confirm",
+  "headline": "열두 과업을 완수한 영웅",
+  "headline_en": "The hero who completed the Twelve Labors",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "34d34606-4e61-479a-bb94-cf99d82bc7d9",
   "slug": "herta-muller",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "차우셰스쿠 독재를 증언한 노벨문학상 작가",
   "headline_en": "Nobel laureate who testified to life under Ceaușescu",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-26T02:11:51.297Z"
  },
  {
   "id": "be97aed6-d2f5-4b27-ab6b-1c080422d524",
   "slug": "hoshi",
   "lane": 2,
-  "phase": "skip",
-  "headline": "세븐틴 퍼포먼스팀장 겸 메인댄서",
-  "headline_en": "Performance team leader and main dancer of SEVENTEEN",
-  "at": "2026-08-19T09:33:34.432Z"
+  "phase": "confirm",
+  "headline": "「아낀다」 안무를 함께 만든 세븐틴 퍼포먼스팀 리더",
+  "headline_en": "SEVENTEEN's performance team leader who co-choreographed Adore U",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "7c8cee70-a88a-4193-88e5-1b2a17b24127",
   "slug": "hwang-hui",
   "lane": 2,
   "phase": "confirm",
-  "headline": "청렴함으로 세종을 보필한 조선 초기의 재상",
-  "headline_en": "King Sejong's upright premier in the early Joseon court",
+  "headline": "세종의 국정을 18년 총괄한 영의정",
+  "headline_en": "The chief state councillor who oversaw Sejong's government for eighteen years",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "f06fdf52-4c43-4d64-873b-e5e9242b2168",
   "slug": "hyuna",
   "lane": 2,
   "phase": "confirm",
-  "headline": "버블팝을 히트시킨 포미닛 센터",
-  "headline_en": "The 4Minute center who hit with Bubble Pop",
+  "headline": "빨개요로 강렬한 색을 새긴 가수",
+  "headline_en": "The fearless performer who made Red her signature",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-28T04:04:07.560Z"
  },
  {
   "id": "3fda8d7c-8935-4f59-8aba-7069c923241c",
   "slug": "ian-fleming",
   "lane": 2,
   "phase": "confirm",
-  "headline": "제임스 본드를 창조한 007 시리즈 작가",
-  "headline_en": "Author who created James Bond and the 007 series",
+  "headline": "골든아이 작전을 구상한 해군 정보장교",
+  "headline_en": "The wartime mind behind Operation Goldeneye and Agent 007",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "63a79fbf-76d6-4ffc-b707-7e40efa4b16e",
   "slug": "iarbas",
   "lane": 2,
   "phase": "confirm",
-  "headline": "디도에게 청혼한 누미디아의 왕",
-  "headline_en": "The Numidian king who sought Dido",
+  "headline": "디도에게 거절당해 유피테르에게 호소한 왕",
+  "headline_en": "The king who appealed to Jupiter after Dido rejected him",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "49e96880-e656-4133-82ec-2fc43d480d3b",
   "slug": "ilhan-new",
   "lane": 2,
   "phase": "confirm",
-  "headline": "기업은 사회의 것이라며 이윤을 환원한 제약 창업자",
-  "headline_en": "Pharma founder who returned profits, holding that a company belongs to society",
+  "headline": "소유 주식을 모두 공익기금에 남긴 유한양행 창업자",
+  "headline_en": "The Yuhan founder who left all his company shares to a public-interest trust",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "01886c9b-4ba9-474f-adda-98680bdb51d3",
   "slug": "jack-garabedian",
   "lane": 2,
   "phase": "confirm",
-  "headline": "스타링크 성장 매니저를 거쳐 그록 학습을 맡은 엔지니어",
-  "headline_en": "Starlink growth manager who took over Grok learning at xAI in 2026",
+  "headline": "그록 인간 데이터팀을 맡은 스타링크 출신 엔지니어",
+  "headline_en": "The Starlink engineer tapped to lead Grok's human-data team",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "f9bed441-1e3e-4053-af09-2642ed188b6a",
   "slug": "jacksepticeye",
   "lane": 2,
   "phase": "confirm",
-  "headline": "유튜브 게임 실황의 아일랜드 거물",
-  "headline_en": "YouTube's Irish giant of game commentary",
+  "headline": "연말 자선 행사 땡크마스를 만든 방송인",
+  "headline_en": "The gaming YouTuber who built Thankmas into an annual charity stream",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "5e2ce07e-422e-4953-8685-b771b3ec5dc4",
   "slug": "jaehyun",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "NCT 127의 저음 보컬",
   "headline_en": "Baritone vocalist of NCT 127",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "reviewVersion": 2,
+  "applied": false,
+  "at": "2026-08-26T04:05:07.790Z"
  },
  {
   "id": "bf12861c-fbad-497b-a70e-449a1af27b49",
   "slug": "jake-paul",
   "lane": 2,
   "phase": "confirm",
-  "headline": "유튜브 명성으로 프로 복싱 흥행을 만든 크리에이터",
-  "headline_en": "YouTube creator who turned online fame into pro boxing spectacles",
+  "headline": "유튜브 명성을 복싱 흥행으로 옮긴 프로 복서",
+  "headline_en": "The pro boxer who turned YouTube fame into blockbuster fights",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "57cc5f00-9e2b-4c0b-a0ab-4727d712b7c7",
   "slug": "jared-kaplan",
   "lane": 2,
   "phase": "confirm",
-  "headline": "스케일링 법칙의 저자이자 앤트로픽 창업자",
-  "headline_en": "Author of the scaling laws and cofounder of Anthropic",
+  "headline": "언어모델 스케일링 법칙을 함께 세운 앤트로픽 공동창업자",
+  "headline_en": "The Anthropic co-founder who co-authored language-model scaling laws",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "a8c0d1e2-3f45-6789-abcd-ef0123456789",
   "slug": "jeff-dean",
   "lane": 2,
   "phase": "confirm",
-  "headline": "맵리듀스·텐서플로·TPU를 설계한 구글 과학자",
-  "headline_en": "Google scientist who designed MapReduce, TensorFlow and TPUs",
+  "headline": "MapReduce를 공동설계한 구글 과학자",
+  "headline_en": "The Google scientist who co-designed MapReduce",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "7267095f-7679-430b-b219-d3283eef7a89",
   "slug": "jennie",
   "lane": 2,
   "phase": "confirm",
-  "headline": "블랙핑크 메인래퍼로 솔로곡에 주목받은 가수",
-  "headline_en": "BLACKPINK's main rapper whose solo tracks drew wide attention",
+  "headline": "블랙핑크의 첫 솔로 주자",
+  "headline_en": "BLACKPINK's first soloist",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "7c537f77-429c-4939-84ea-1693b66456a4",
   "slug": "jo-jung-rae",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "대하소설 태백산맥의 작가",
   "headline_en": "Author of the epic novel Taebaek Mountains",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-26T04:55:10.869Z"
  },
  {
   "id": "ffb8156f-e299-4be1-ba9b-18fde2beaa11",
   "slug": "jo-seung-woo",
   "lane": 2,
   "phase": "confirm",
-  "headline": "비밀의 숲의 황시목",
-  "headline_en": "Hwang Si-mok in Stranger",
+  "headline": "지킬과 하이드를 한 무대에 세운 배우",
+  "headline_en": "The stage star who became both Jekyll and Hyde",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "44e4413d-482a-4539-bdaf-24ce1c666e2e",
   "slug": "jochi",
   "lane": 2,
-  "phase": "skip",
-  "headline": "칭기즈칸의 장남",
-  "headline_en": "Eldest son of Genghis Khan",
-  "at": "2026-08-19T08:46:53.661Z"
+  "phase": "confirm",
+  "headline": "서방 영지를 받은 칭기즈 칸의 장남",
+  "headline_en": "Genghis Khan's eldest son who received an appanage in the west",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "872d2fe2-8042-43d0-9cc1-900cd7d4aa2c",
   "slug": "johann-rupert",
   "lane": 2,
   "phase": "confirm",
-  "headline": "까르띠에·반클리프·IWC를 품은 리치몬트의 설립자",
-  "headline_en": "Founder of Richemont who assembled Cartier, Van Cleef and IWC",
+  "headline": "카르티에를 품은 리치몬트 창업자",
+  "headline_en": "The founder of Richemont, the luxury group behind Cartier",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "7339af42-3ec7-439f-a82a-504caf2eb6d0",
   "slug": "john-green",
   "lane": 2,
   "phase": "confirm",
-  "headline": "청소년 문학으로 성공하고 크래시코스를 세운 소설가",
-  "headline_en": "YA novelist who co-founded the education channel Crash Course",
+  "headline": "『잘못은 우리 별에 있어』를 쓴 청소년 소설가",
+  "headline_en": "The novelist behind The Fault in Our Stars",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "3fd9a8b9-918a-4ef1-831f-54a5e1c03d89",
   "slug": "jude-law",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "가이 리치 셜록 홈즈의 존 왓슨",
   "headline_en": "John Watson in Guy Ritchie's Sherlock Holmes",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-26T04:55:10.869Z"
  },
  {
   "id": "1762f1ca-2e1f-4c3e-9a1a-21834f5c62c2",
   "slug": "jung-il-hoon",
   "lane": 2,
   "phase": "confirm",
-  "headline": "비투비 출신 래퍼",
-  "headline_en": "Former BTOB rapper",
+  "headline": "「MOVIE」를 작곡한 비투비 출신 래퍼",
+  "headline_en": "The former BTOB rapper who composed MOVIE",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "4f319949-fbc3-46dc-a112-c57d3ac9a083",
   "slug": "jung-soo-jung",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "에프엑스 보컬 겸 배우",
   "headline_en": "f(x) vocalist and actress",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-26T04:55:10.869Z"
  },
  {
   "id": "a799303b-1bc4-4d58-ba46-dd6aaf5124f2",
   "slug": "kantaro-suzuki",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "77세에 취임해 포츠담 선언 수락을 이끈 총리",
   "headline_en": "The 77-year-old premier who steered Japan to accept Potsdam",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "reviewVersion": 2,
+  "at": "2026-08-26T04:55:10.869Z"
  },
  {
   "id": "7f5836d9-205f-473e-8129-276d045c8ff7",
   "slug": "ken-kutaragi",
   "lane": 2,
   "phase": "confirm",
-  "headline": "소니 플레이스테이션의 창시자",
-  "headline_en": "The father of PlayStation",
+  "headline": "플레이스테이션 개발을 밀어붙인 소니 엔지니어",
+  "headline_en": "The Sony engineer who drove the original PlayStation project",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "4b6c3802-af31-46ff-a58d-e6cc201525b8",
   "slug": "ki-bo-bae",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "올림픽 양궁 금메달 3관왕",
   "headline_en": "Three-time Olympic gold medalist in archery",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-26T04:55:10.869Z"
  },
  {
   "id": "6e640970-147b-464c-970f-03ac79a34f8d",
   "slug": "kim-soo-hyun",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "별에서 온 그대의 도민준",
   "headline_en": "Do Min-joon of My Love from the Star",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-26T04:55:10.869Z"
  },
  {
   "id": "546962a6-2ec3-431c-951c-9668ccfe6073",
   "slug": "kim-tae-rae",
   "lane": 2,
-  "phase": "skip",
-  "headline": "제로베이스원 메인보컬",
-  "headline_en": "Main vocalist of ZEROBASEONE",
-  "at": "2026-08-19T09:52:07.740Z"
+  "phase": "confirm",
+  "headline": "「눈물의 여왕」 OST 〈더 바랄게 없죠〉의 목소리",
+  "headline_en": "The voice of “More Than Enough” in Queen of Tears",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "3e488604-5822-430a-9ada-8ae79985fc14",
   "slug": "koo-junhoe",
   "lane": 2,
   "phase": "confirm",
-  "headline": "아이콘의 메인보컬",
-  "headline_en": "Lead vocalist of iKON",
+  "headline": "첫 솔로 앨범 「멍」 전곡을 함께 쓴 iKON 보컬",
+  "headline_en": "The iKON vocalist who co-wrote every track on his solo debut Bruise",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "b4cd108f-71f2-431d-a086-46d3aea686cb",
   "slug": "lao-she",
   "lane": 2,
   "phase": "confirm",
-  "headline": "낙타상자와 찻집의 작가",
-  "headline_en": "Author of Rickshaw Boy and Teahouse",
+  "headline": "베이징 인력거꾼의 추락을 그린 「낙타샹즈」 작가",
+  "headline_en": "The writer who traced a Beijing rickshaw puller's ruin in Camel Xiangzi",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "5aac67c1-91cd-472a-9f61-760fe5f6e1ac",
   "slug": "le-corbusier",
   "lane": 2,
   "phase": "confirm",
-  "headline": "20세기 모더니즘 건축의 방향을 제시한 건축가",
-  "headline_en": "Architect who set the course of 20th-century modernism",
+  "headline": "집을 ‘살기 위한 기계’라 선언한 건축가",
+  "headline_en": "The architect who called a house “a machine for living in”",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "e4ae870f-7bf5-49c3-b2a7-44300768e037",
   "slug": "lee-min-ho",
   "lane": 2,
   "phase": "confirm",
-  "headline": "꽃보다 남자로 뜨고 파친코로 미국 무대에 선 배우",
-  "headline_en": "Boys Over Flowers star who reached U.S. audiences with Pachinko",
+  "headline": "「꽃보다 남자」 구준표로 한류 스타가 된 배우",
+  "headline_en": "The Hallyu actor who broke out as Gu Jun-pyo in Boys Over Flowers",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "c2fad99e-032b-4328-aa87-f5468d385dd5",
   "slug": "lim-yo-hwan",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "스타크래프트 테란의 황제",
   "headline_en": "StarCraft's Terran Emperor",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-26T07:08:23.475Z"
  },
  {
   "id": "1db274a2-a28a-4544-addb-d563ce02a07d",
@@ -972,277 +985,277 @@
   "lane": 2,
   "phase": "confirm",
   "headline": "한실 부흥을 내건 촉한의 군주",
-  "headline_en": "Lord of Shu Han under the banner of restoring the Han",
+  "headline_en": "The wandering warlord who founded Shu Han",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "86199f3c-839a-477a-be0e-0e341c03e000",
   "slug": "liu-zhang",
   "lane": 2,
   "phase": "confirm",
-  "headline": "익주를 유비에게 넘긴 주목",
-  "headline_en": "The governor who yielded Yi Province to Liu Bei",
+  "headline": "유비를 원군으로 불렀다가 익주를 잃은 주목",
+  "headline_en": "The governor who called in Liu Bei and lost Yi Province",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "d7bd2a5c-d44a-43ce-9411-472f9f1739da",
   "slug": "mark-antony",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "클레오파트라와 악티움에서 패한 로마 삼두",
   "headline_en": "The Roman triumvir defeated with Cleopatra at Actium",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-26T07:08:23.475Z"
  },
  {
   "id": "cdb70450-2dda-4378-bf8c-09e3134c6ee8",
   "slug": "michel-foucault",
   "lane": 2,
   "phase": "confirm",
-  "headline": "권력과 지식으로 근대의 규율을 해부한 사상가",
-  "headline_en": "Thinker who dissected modern discipline through power and knowledge",
+  "headline": "판옵티콘으로 규율 권력을 해부한 철학자",
+  "headline_en": "The philosopher who used the Panopticon to dissect disciplinary power",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "d7dd0480-4cea-49f6-9f76-9e190c1cb8e1",
   "slug": "mordred",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "캄란에서 아서왕과 맞선 아들",
   "headline_en": "Arthur's son who faced him at Camlann",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-26T07:08:23.475Z"
  },
  {
   "id": "ebdb572f-b0c3-46b4-bc87-e2170a6a1c0d",
   "slug": "mustafa-suleyman",
   "lane": 2,
   "phase": "confirm",
-  "headline": "딥마인드의 공동 창업자",
-  "headline_en": "Co-founder of DeepMind",
+  "headline": "더 커밍 웨이브로 인공지능 통제를 화두로 만든 저자",
+  "headline_en": "The DeepMind co-founder who made AI governance a public challenge",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "00a656ca-0b04-4c4f-888d-36937ac80d0c",
   "slug": "nakula",
   "lane": 2,
   "phase": "confirm",
-  "headline": "판다바 형제의 명기수",
-  "headline_en": "The finest horseman among the Pandavas",
+  "headline": "사하데바와 한날 태어난 판다바의 미남",
+  "headline_en": "The twin-born Pandava famed for beauty and mastery of horses",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "d5bfef34-6e93-487d-954f-739c7c62b3fc",
   "slug": "nausicaa",
   "lane": 2,
-  "phase": "skip",
+  "phase": "confirm",
   "headline": "표류한 오디세우스를 구호한 파이아케스의 공주",
-  "headline_en": "Phaeacian Princess Who Offered Sanctuary to Shipwrecked Odysseus",
-  "at": "2026-08-19T08:53:13.431Z"
+  "headline_en": "The Phaeacian princess who aided the shipwrecked Odysseus",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "f4ce473a-dfb5-4d81-b3ac-ac1db2d57802",
   "slug": "nikos-kazantzakis",
   "lane": 2,
   "phase": "confirm",
-  "headline": "조르바와 최후의 유혹을 남긴 작가",
-  "headline_en": "Cretan novelist of Zorba the Greek and The Last Temptation",
+  "headline": "실존 광부를 「그리스인 조르바」로 만든 작가",
+  "headline_en": "The novelist who turned a real miner into Zorba the Greek",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "06ee2d21-36c5-45e4-b757-7a884bed9633",
   "slug": "park-bo-young",
   "lane": 2,
   "phase": "confirm",
-  "headline": "늑대소년으로 청룡 신인여우상을 받은 배우",
-  "headline_en": "Werewolf Boy lead who won the Blue Dragon for Best New Actress",
+  "headline": "괴력 소녀 도봉순을 연기한 배우",
+  "headline_en": "The actor who played the superpowered Do Bong-soon",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "937b4cc0-3c1c-4f97-8acb-6f5fc9502d2e",
   "slug": "peter-beck",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "일렉트론을 궤도에 올린 로켓랩 창업자",
   "headline_en": "Rocket Lab founder who put Electron into orbit",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-26T07:08:23.475Z"
  },
  {
   "id": "5fc883bd-9534-41bc-b532-dc050fa3cf94",
   "slug": "philoctetes",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "헤라클레스의 활로 파리스를 죽인 궁수",
   "headline_en": "The archer who slew Paris with the bow of Heracles",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "reviewVersion": 2,
+  "at": "2026-08-26T07:08:23.475Z"
  },
  {
   "id": "4e15f30f-8a96-4b02-b5db-ba4a81d37261",
   "slug": "quentin-tarantino",
   "lane": 2,
   "phase": "confirm",
-  "headline": "「펄프 픽션」으로 B급 감성을 예술로 올린 감독",
-  "headline_en": "Director who elevated B-movie sensibility into art with Pulp Fiction",
+  "headline": "시간을 뒤섞은 「펄프 픽션」의 감독",
+  "headline_en": "The director who scrambled time in Pulp Fiction",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "8bcd8b92-5385-490a-9d39-88684a800219",
   "slug": "rana",
   "lane": 2,
   "phase": "confirm",
-  "headline": "나인뮤지스 원년 리더",
-  "headline_en": "Original leader of 9MUSES",
+  "headline": "나인뮤지스의 첫 리더를 맡았던 슈퍼모델",
+  "headline_en": "The supermodel winner who stepped onto the K-pop stage",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "2b49044d-bcce-4793-961c-f9a25123510e",
   "slug": "recep-tayyip-erdogan",
   "lane": 2,
   "phase": "confirm",
-  "headline": "2003년부터 터키를 이끌어 온 집권자",
-  "headline_en": "Turkey's leader since 2003",
+  "headline": "대통령중심제 전환을 주도한 튀르키예 정치인",
+  "headline_en": "The Turkish politician who drove the shift to an executive presidency",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z"
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "1ca666ae-12b1-4cf0-b766-f75513054afc",
   "slug": "reed-hastings",
   "lane": 2,
   "phase": "confirm",
-  "headline": "DVD 대여를 스트리밍으로 바꾼 넷플릭스 창립자",
-  "headline_en": "Netflix co-founder who moved the company from DVDs to streaming",
+  "headline": "넷플릭스를 DVD에서 스트리밍으로 돌린 공동창업자",
+  "headline_en": "The co-founder who steered Netflix from DVDs to streaming",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-26T09:42:36.992Z"
  },
  {
   "id": "d9be07c4-7f38-434a-a68f-f1f17550435b",
   "slug": "regin",
   "lane": 2,
   "phase": "confirm",
-  "headline": "그람을 벼리고 제자를 죽이려 한 대장장이",
-  "headline_en": "The smith who reforged Gram and then tried to kill his pupil",
+  "headline": "자기가 만든 검에 목이 잘린 대장장이",
+  "headline_en": "The smith who reforged Gram and lost his head to it",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "improved": true
+  "at": "2026-08-28T08:09:57.619Z"
  },
  {
   "id": "704ff63d-06f2-482f-9706-08bdf3e0e180",
   "slug": "rene-descartes",
   "lane": 2,
   "phase": "confirm",
-  "headline": "해석기하학을 창시한 근대 합리주의 철학자",
-  "headline_en": "Philosopher who founded analytic geometry and modern rationalism",
+  "headline": "모든 믿음을 의심해 확실함만 남긴 철학자",
+  "headline_en": "The philosopher who turned radical doubt into certainty",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.294Z",
-  "rewritten": true
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "30713277-a9dd-4e8e-a40e-acfa347e180b",
   "slug": "richard-branson",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "버진을 음반에서 항공·우주까지 키운 모험가",
   "headline_en": "Adventurer who built Virgin from records into airlines and spaceflight",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true,
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-26T07:08:23.475Z"
  },
  {
   "id": "d72da255-6920-4d42-81a3-5ceeab6228f5",
   "slug": "robyn-denholm",
   "lane": 2,
-  "phase": "skip",
-  "headline": "테슬라 이사회 의장",
-  "headline_en": "Chair of the Tesla Board of Directors",
-  "at": "2026-08-19T09:59:11.798Z"
+  "phase": "confirm",
+  "headline": "자동차 정비소 장부에서 테슬라 이사회까지",
+  "headline_en": "The finance veteran chairing Tesla's board",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "b3ae1373-dc5b-4910-b9f0-5e5ac707e12b",
   "slug": "ronaldo-nazario",
   "lane": 2,
   "phase": "confirm",
-  "headline": "한일 월드컵 득점왕이자 발롱도르 3회 스트라이커",
-  "headline_en": "Three-time Ballon d'Or winner and 2002 World Cup top scorer",
+  "headline": "무릎 부상을 딛고 월드컵 결승을 두 골로 끝낸 골잡이",
+  "headline_en": "The comeback hero who scored twice in the 2002 World Cup final",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "da6b4df4-e648-4682-a20a-52f82cc21233",
   "slug": "safra-catz",
   "lane": 2,
   "phase": "confirm",
-  "headline": "오라클 클라우드 전환을 이끈 전 CEO",
-  "headline_en": "Former Oracle CEO who led the company's cloud shift",
+  "headline": "오라클의 인수 전략을 이끈 협상가",
+  "headline_en": "The dealmaker behind Oracle's acquisition drive",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "cbe5fd09-9a2c-4b38-8401-d2c5e144b98c",
   "slug": "salman-rushdie",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "「악마의 시」로 파트와에 쫓긴 부커상 작가",
   "headline_en": "Booker winner driven underground by a fatwa on The Satanic Verses",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true,
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:19:30.763Z"
  },
  {
   "id": "db04c76b-8c2f-43f0-b7c3-fd0d87d521e0",
   "slug": "satoshi-nakamoto",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "정체를 숨긴 비트코인 창시자",
   "headline_en": "The unidentified creator of Bitcoin",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true,
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:20:30.179Z"
  },
  {
   "id": "66939d58-11be-46c4-9583-823d61da1134",
   "slug": "seo-eun-kwang",
   "lane": 2,
   "phase": "confirm",
-  "headline": "비투비 리더이자 메인보컬",
-  "headline_en": "BTOB's leader and main vocalist",
+  "headline": "고음과 웃음으로 비투비를 이끄는 리더",
+  "headline_en": "BTOB’s powerhouse vocalist and quick-witted leader",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "4719d6bc-cd9a-4572-b3a2-38f595ef89fe",
   "slug": "seo-ji-soo-lovelyz",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "러블리즈 출신 가수 겸 배우",
   "headline_en": "Singer-actress from girl group Lovelyz",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true,
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:22:26.732Z"
  },
  {
   "id": "6a9b4749-22aa-4237-8bdd-65bf41013b87",
@@ -1250,125 +1263,130 @@
   "lane": 2,
   "phase": "confirm",
   "headline": "별풍선으로 1인 미디어를 연 아프리카TV 창업자",
-  "headline_en": "AfreecaTV founder who opened live-creator media with Star Balloons",
+  "headline_en": "The entrepreneur who made virtual gifts a business model for live streaming",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "75019dac-38c5-46a3-b707-e46bd83a0d51",
   "slug": "shin-hye-jeong",
   "lane": 2,
   "phase": "confirm",
-  "headline": "AOA에서 활동한 대한민국의 가수",
-  "headline_en": "South Korean singer who performed as a member of AOA",
+  "headline": "AOA 무대에서 연기로 걸음을 넓힌 가수",
+  "headline_en": "The AOA vocalist who expanded into acting",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true,
-  "improved": false,
-  "reverted": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "09b561fd-a5c9-4a63-829a-80c7a01dc113",
   "slug": "song-ji-eun",
   "lane": 2,
   "phase": "confirm",
-  "headline": "시크릿 메인보컬, 「미친거니」",
-  "headline_en": "Secret's main vocalist of Going Crazy",
+  "headline": "「미친거니」로 솔로 존재감을 세운 시크릿 보컬",
+  "headline_en": "The Secret vocalist who broke through solo with Going Crazy",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "fd9285aa-b64c-4dd2-a1c2-32cb81a96651",
   "slug": "sophia-loren",
   "lane": 2,
   "phase": "confirm",
-  "headline": "외국어 영화 최초로 아카데미 여우주연상을 받은 배우",
-  "headline_en": "First actress to win an Oscar for a foreign-language film",
+  "headline": "비영어권 연기로 아카데미 여우주연상을 받은 첫 배우",
+  "headline_en": "The first actor to win an Oscar for a non-English-language performance",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "d7e505db-d222-4fc5-9116-7868c5f4ce56",
   "slug": "soyeon",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "소녀시대 데뷔조 출신 티아라 리더",
   "headline_en": "From SNSD's debut lineup to T-ara's leader",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:27:00.400Z"
  },
  {
   "id": "b9ef3c19-2432-4f53-8097-081edb39396f",
   "slug": "stephen-schwarzman",
   "lane": 2,
   "phase": "confirm",
-  "headline": "블랙스톤 공동 창업자",
-  "headline_en": "Co-founder of Blackstone",
+  "headline": "블랙스톤을 세계 최대 대체투자사로 키운 창업자",
+  "headline_en": "The co-founder who built Blackstone into an alternative-investment giant",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "ed68c382-2121-4a98-8537-d88f1339100c",
   "slug": "sting",
   "lane": 2,
   "phase": "confirm",
-  "headline": "더 폴리스를 이끈 뒤 재즈·월드를 접목한 솔로 뮤지션",
-  "headline_en": "The Police frontman who went solo into jazz and world music",
+  "headline": "폴리스에서 「잉글리시맨」까지 이어진 목소리",
+  "headline_en": "The voice of The Police who became a global solo star",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "edbb892f-2e56-46f0-9d85-c737cc859912",
   "slug": "suga",
   "lane": 2,
-  "phase": "skip",
-  "headline": "방탄소년단 리드래퍼 겸 프로듀서",
-  "headline_en": "Lead rapper and producer of BTS",
-  "at": "2026-08-19T10:08:34.645Z"
+  "phase": "confirm",
+  "headline": "방탄소년단과 어거스트 디를 오가는 래퍼 겸 프로듀서",
+  "headline_en": "The BTS rapper-producer who built a fierce solo voice as Agust D",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "30333d9d-2b2a-432f-afd8-5c18d8a03e02",
   "slug": "syngman-rhee",
   "lane": 2,
-  "phase": "skip",
-  "headline": "대한민국의 초대 대통령",
-  "headline_en": "First President of South Korea",
-  "at": "2026-08-19T09:00:50.495Z"
+  "phase": "confirm",
+  "headline": "대한민국 초대 대통령에서 4·19로 물러난 권력자",
+  "headline_en": "South Korea’s first president, forced from office by the April Revolution",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "110a7294-9503-436f-92d0-d4620c0fcde4",
   "slug": "taeil",
   "lane": 2,
   "phase": "confirm",
-  "headline": "NCT의 전 메인보컬",
-  "headline_en": "Former main vocalist of NCT",
+  "headline": "NCT의 고음을 맡았던 전 메인 보컬",
+  "headline_en": "The former NCT vocalist known for his soaring high notes",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "e8545314-4a0d-4e93-bb67-a3561f69e0e9",
   "slug": "talleyrand",
   "lane": 2,
   "phase": "confirm",
-  "headline": "부르봉부터 왕정복고까지 다섯 정권을 섬긴 외교관",
-  "headline_en": "Diplomat who served five French regimes from Bourbon to Restoration",
+  "headline": "혁명·제정·왕정을 모두 건넌 프랑스 외교가",
+  "headline_en": "The diplomat who navigated revolution, empire and restored monarchy",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "b6c59af1-ad01-4dbb-9fc4-6c0f65a5a04a",
   "slug": "ted-sarandos",
   "lane": 2,
-  "phase": "skip",
-  "headline": "Netflix 공동 CEO",
-  "headline_en": "Co-CEO of Netflix",
-  "at": "2026-08-19T10:08:34.645Z"
+  "phase": "confirm",
+  "headline": "넷플릭스를 세계적인 콘텐츠 제작사로 바꾼 경영자",
+  "headline_en": "The executive who turned Netflix into a global studio",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "3757c6d1-8e07-4fd9-88dc-48ffc082c8f5",
@@ -1377,210 +1395,211 @@
   "phase": "skip",
   "headline": "아버지를 찾아 바다로 나선 이타카의 왕자",
   "headline_en": "Prince of Ithaca Who Journeyed in Search of His Father",
-  "at": "2026-08-19T09:08:03.815Z"
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:35:47.887Z"
  },
  {
   "id": "a1e88cf4-e734-46ed-81c4-a602eb9bc7c4",
   "slug": "tim-berners-lee",
   "lane": 2,
   "phase": "confirm",
-  "headline": "월드 와이드 웹의 발명자",
+  "headline": "세상의 문서를 링크로 연결한 웹의 발명가",
   "headline_en": "Inventor of the World Wide Web",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "0bee93cc-5db1-425a-bd03-fc5aa5bcdc4e",
   "slug": "tobey-maguire",
   "lane": 2,
   "phase": "confirm",
-  "headline": "샘 레이미 스파이더맨의 피터 파커",
-  "headline_en": "Peter Parker in Sam Raimi's Spider-Man",
+  "headline": "한 세대의 스파이더맨이 된 배우",
+  "headline_en": "The actor who defined Spider-Man for a generation",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "c7ff7e7d-1857-4cb2-a323-8b4b687e1901",
   "slug": "tom-zhu",
   "lane": 2,
   "phase": "confirm",
-  "headline": "테슬라 전 세계 차량 생산·영업 총괄",
+  "headline": "상하이 기가팩토리의 빠른 가동을 이끈 테슬라 경영자",
   "headline_en": "Tesla SVP overseeing global vehicle production and sales",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "c8166609-b21c-49e8-afb2-0b90ba59e257",
   "slug": "tory-bruno",
   "lane": 2,
   "phase": "confirm",
-  "headline": "ULA에서 벌컨을 이끈 뒤 블루오리진 국가안보를 맡은 경영자",
-  "headline_en": "ULA CEO who led Vulcan development, now Blue Origin's national security chief",
+  "headline": "아틀라스와 델타의 뒤를 벌컨으로 이은 사람",
+  "headline_en": "The engineer who led Vulcan from development to first flight",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "29171504-0c4e-4089-9529-2abced9d0bb4",
   "slug": "venerable-beopjeong",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "무소유의 삶을 가르친 승려",
   "headline_en": "The monk who taught a life of non-possession",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:41:08.001Z"
  },
  {
   "id": "6f25b9ac-6da8-4261-a739-1704a3965521",
   "slug": "victor-wembanyama",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "가드와 센터를 겸한 222cm의 외계인",
   "headline_en": "The 7-foot-4 Alien who plays like a guard",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:42:40.036Z"
  },
  {
   "id": "6fb6b9ee-0703-4cf3-bf93-9d211c5d753e",
   "slug": "werner-heisenberg",
   "lane": 2,
   "phase": "confirm",
-  "headline": "불확정성 원리를 발견한 물리학자",
-  "headline_en": "Physicist who discovered the uncertainty principle",
+  "headline": "위치와 운동량 사이에 한계를 그은 양자물리학자",
+  "headline_en": "The physicist who set the limits of certainty in the quantum world",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true,
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "e9b3c2b1-f4fb-4458-9851-82718aefe921",
   "slug": "wi-ha-joon",
   "lane": 2,
   "phase": "confirm",
-  "headline": "오징어 게임의 황준호",
-  "headline_en": "Hwang Jun-ho in Squid Game",
+  "headline": "「오징어 게임」의 잠입 형사로 세계에 얼굴을 알린 배우",
+  "headline_en": "The actor who broke out worldwide as Squid Game’s undercover detective",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "dd3e3785-21f5-41a7-9793-4a6f5319e58e",
   "slug": "wild-bill-hickok",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "데드맨즈 핸드를 쥐고 죽은 서부 총잡이",
   "headline_en": "The gunfighter who died holding the Dead Man's Hand",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:47:02.682Z"
  },
  {
   "id": "c4f470a1-ccae-4c47-80b2-abb2ea6b44a5",
   "slug": "wonwoo",
   "lane": 2,
   "phase": "confirm",
-  "headline": "세븐틴 힙합팀의 래퍼",
-  "headline_en": "Rapper in SEVENTEEN's hip-hop unit",
+  "headline": "낮은 목소리로 세븐틴의 랩을 채우는 멤버",
+  "headline_en": "SEVENTEEN’s deep-voiced rapper with a quietly commanding presence",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "ed6a1d9a-aaca-4feb-a47c-ddf8f4725652",
   "slug": "wu-qi",
   "lane": 2,
   "phase": "confirm",
-  "headline": "오자병법을 쓴 전국시대 병가",
-  "headline_en": "The Warring States strategist who wrote the Wuzi",
+  "headline": "군대를 이끌고 나라의 법까지 고친 전국시대 장군",
+  "headline_en": "The Warring States general who paired battlefield command with sweeping reform",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "9620ff5e-d8e6-4711-a43e-49d1174b4921",
   "slug": "xiahou-yuan",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "정군산에서 황충에게 전사한 조조의 명장",
   "headline_en": "Cao Cao's general slain by Huang Zhong at Mount Dingjun",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "rewritten": true,
-  "improved": true
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:51:07.355Z"
  },
  {
   "id": "52b27401-6b65-42fa-8d8a-3ca823709219",
   "slug": "yan-yuan",
   "lane": 2,
   "phase": "confirm",
-  "headline": "이학을 책상 학문이라 비판한 청초 실학자",
-  "headline_en": "The early Qing scholar who attacked Neo-Confucianism as desk learning",
+  "headline": "책상 공부보다 몸으로 익히는 배움을 택한 유학자",
+  "headline_en": "The Confucian thinker who put practical action before bookish learning",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "21788007-af47-4d87-83cd-6c38680a60e4",
   "slug": "yang-hyun-suk",
   "lane": 2,
-  "phase": "skip",
-  "headline": "YG 총괄 프로듀서",
-  "headline_en": "YG's chief producer",
-  "at": "2026-08-19T10:08:34.645Z"
+  "phase": "confirm",
+  "headline": "서태지와 아이들에서 YG를 세운 제작자",
+  "headline_en": "The performer who went from Seo Taiji and Boys to founding YG Entertainment",
+  "reviewVersion": 2,
+  "applied": true,
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "bfb68b20-0969-4677-a14b-4a0efd6964a1",
   "slug": "yi-hwang",
   "lane": 2,
   "phase": "confirm",
-  "headline": "퇴계학파를 열 조선 성리학자",
-  "headline_en": "Joseon Neo-Confucian who founded the Toegye school",
+  "headline": "「성학십도」로 임금의 공부를 이끈 성리학자",
+  "headline_en": "The Confucian scholar who distilled sage learning into Ten Diagrams",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "8beb674d-cf49-4d51-bfa5-391ac2caa10e",
   "slug": "yi-mun-yol",
   "lane": 2,
   "phase": "confirm",
-  "headline": "우리들의 일그러진 영웅의 작가",
-  "headline_en": "Author of Our Twisted Hero",
+  "headline": "엄석대의 교실에서 권력의 민낯을 드러낸 작가",
+  "headline_en": "The novelist who made Eom Seok-dae’s classroom a portrait of power",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "at": "2026-08-28T11:29:55.998Z"
  },
  {
   "id": "538b4e14-193a-4030-bf87-72e52d287cab",
   "slug": "yu-gil-jun",
   "lane": 2,
-  "phase": "confirm",
+  "phase": "skip",
   "headline": "서유견문으로 서양을 알린 개화사상가",
   "headline_en": "Enlightenment thinker who introduced the West through Seoyu Gyeonmun",
-  "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "reviewVersion": 2,
+  "at": "2026-08-27T12:55:57.398Z"
  },
  {
   "id": "875c920f-19d5-417d-afad-5e3307e7d391",
   "slug": "yue-fei",
   "lane": 2,
   "phase": "confirm",
-  "headline": "정충보국을 등에 새긴 남송 명장",
-  "headline_en": "The Southern Song general branded with utmost loyalty",
+  "headline": "금나라를 몰아붙이다 억울하게 죽은 남송의 명장",
+  "headline_en": "The Song general who fought the Jin and died a symbol of loyalty",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z",
-  "improved": true
+  "at": "2026-08-28T02:32:37.043Z"
  },
  {
   "id": "3f0ad28c-24f4-4734-ad1b-423a8c452bf1",
   "slug": "yugyeom",
   "lane": 2,
   "phase": "confirm",
-  "headline": "갓세븐의 메인댄서",
-  "headline_en": "Main dancer of GOT7",
+  "headline": "춤도 곡도 직접 만드는 갓세븐의 막내",
+  "headline_en": "GOT7’s youngest member with moves and music of his own",
+  "reviewVersion": 2,
   "applied": true,
-  "at": "2026-08-20T11:22:11.803Z"
+  "at": "2026-08-28T02:32:37.043Z"
  }
 ]
