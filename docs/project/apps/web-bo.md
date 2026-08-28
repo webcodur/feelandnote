@@ -294,7 +294,7 @@ pnpm dev:bo
 | --- | --- | --- | --- |
 | `/activity-logs` | 활동 로그 | 활동 로그(30건 단위), 동작 유형 필터와 유형별 개수. 화면 안내상 90일 보관 | `activity_logs`, `member_profiles` |
 | `/api-usage` | API 사용량 | 외부 API 키 호출 로그(50건 단위), 키·성공여부 필터, 성공률·키별·동작별 통계 | `api_keys`, `api_key_usage` |
-| `/settings` | 설정 | Supabase 프로젝트·DB·스토리지 상태와 egress 안내, Supabase 대시보드 링크 | Supabase 시스템 통계(RPC) + 운영 기준값 |
+| `/settings` | 운영 상태·설정 | 사용자 웹 응답, Oracle 웹 VM의 서비스·메모리·스왑·릴리스, DB VM의 PostgreSQL·연결·백업 상태를 조회하고 미구현 설정을 구분해 표시 | 읽기 전용 SSH + Supabase 시스템 통계 RPC |
 
 ## API 라우트
 
