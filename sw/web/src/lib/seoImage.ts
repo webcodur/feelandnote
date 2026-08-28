@@ -1,6 +1,7 @@
 import 'server-only'
 
 import sharp from 'sharp'
+import { rawFetch } from '@/lib/rawFetch'
 import { isAllowedSeoImageUrl } from '@/lib/seoImageOrigin'
 
 export const SEO_IMAGE_SIZE = 800
@@ -9,7 +10,6 @@ type SeoImageVariant = 'person' | 'content'
 
 const MAX_SOURCE_BYTES = 12 * 1024 * 1024
 const MAX_REDIRECTS = 3
-const SOURCE_REVALIDATE_SECONDS = 60 * 60 * 24 * 7
 
 async function fetchImageBuffer(sourceUrl: string): Promise<Buffer> {
   let currentUrl = new URL(sourceUrl)
@@ -19,17 +19,21 @@ async function fetchImageBuffer(sourceUrl: string): Promise<Buffer> {
       throw new Error(`허용되지 않은 이미지 호스트: ${currentUrl.hostname}`)
     }
 
-    const response = await fetch(currentUrl, {
+    // 원본 fetch 를 쓴다 — Next 데이터 캐시(2MB 한도)에 이미지 본문이 들어가지도 않았고,
+    // 패치된 fetch 의 중복제거 캐시가 응답 버퍼를 붙들어 heap 이 샜다(lib/rawFetch.ts 참조).
+    // 결과물 자체가 라우트·Cloudflare 에서 30일 캐시되므로 원본 재수집은 재생성 때만 일어난다.
+    const response = await rawFetch(currentUrl, {
       redirect: 'manual',
       headers: {
         Accept: 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
         'User-Agent': 'FeelAndNoteImageBot/1.0 (+https://feelandnote.com)',
       },
-      next: { revalidate: SOURCE_REVALIDATE_SECONDS },
       signal: AbortSignal.timeout(8_000),
     })
 
     if (response.status >= 300 && response.status < 400) {
+      // 본문을 읽지 않는 응답은 명시적으로 닫아 연결·버퍼를 바로 놓는다
+      await response.body?.cancel().catch(() => {})
       const location = response.headers.get('location')
       if (!location || redirectCount === MAX_REDIRECTS) {
         throw new Error('이미지 리다이렉트를 완료하지 못했습니다.')
