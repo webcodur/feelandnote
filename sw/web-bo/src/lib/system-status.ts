@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase/server'
 import { parseDatabaseHostOutput, parseWebHostOutput } from './system-status-format'
 import type { DatabaseApiStatus, EndpointStatus, SystemStatus } from './system-status-types'
 
-const WEB_HOST = 'ubuntu@168.107.58.90'
+const WEB_HOST = 'ubuntu@158.179.194.105'
 const DATABASE_HOST = 'ubuntu@152.67.216.40'
 const PUBLIC_WEB_URL = 'https://feelandnote.com'
 const SSH_TIMEOUT_MS = 12_000

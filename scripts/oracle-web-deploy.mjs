@@ -31,7 +31,7 @@ const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const WEB_RELATIVE_PATH = 'sw/web'
 const DIST_DIR = '.next-verify'
 const PRODUCTION_SITE_URL = 'https://feelandnote.com'
-const DEFAULT_HOST = 'ubuntu@168.107.58.90'
+const DEFAULT_HOST = 'ubuntu@158.179.194.105'
 const DEFAULT_CANARY_PORT = 3100
 const EXECUTE_CONFIRMATION = 'DEPLOY-FEELANDNOTE-WEB'
 
