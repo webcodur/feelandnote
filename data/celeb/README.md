@@ -10,10 +10,12 @@ data/celeb/
 ├── dialogue/
 │   ├── 01-괴테.md ... 12-박상영.md
 │   └── _unregistered/{nickname}.json
-├── headline-rewrite/
-│   ├── ledger/lane-NN.json
-│   ├── packs/
-│   └── drafts/
+├── headline-rewrite/            # 회차 중에만 존재
+│   └── ledger/lane-NN.json
+├── spectrum-rescore/
+│   ├── relay-brief.md
+│   ├── agy-rules.md
+│   └── writer-brief.md
 ├── timeline-life-rewrite/
 │   ├── korean-diagnostic/
 │   ├── pilots/
@@ -22,10 +24,22 @@ data/celeb/
     └── YYYY-MM-DD-<scope>.md
 ```
 
+### `spectrum-rescore/`
+
+스펙트럼 16축 재채점 릴레이의 발주 브리프다. `relay-brief.md`는 공통 규칙, `agy-rules.md`는 agy 조사자(사실 장부 전용), `writer-brief.md`는 클로드 작성자용이다. 대상 큐와 반영 절차는
+`docs/todo/celeb/celeb-spectrum-reason-quality-audit.md`, 작성 규칙은
+`docs/project/celeb/celeb-5-spectrum.md`가 쥔다. 조사 산출물(패치·노트)은 `sw/web-bo/.tmp-spectrum-audit/`에
+쓰고 반영이 끝나면 지운다.
+
 ### `headline-rewrite/`
 
-한 줄 정의 전량 개편의 레인별 원장·팩·초안이다. 호출은 `celeb-headline-rewrite` 스킬, 룰은
-`docs/project/celeb/celeb-1-basic-profile.md` 한 줄 정의 절이다. 서비스 값의 원천은 DB다.
+한 줄 정의 회차의 레인별 원장이다. 인물마다 최종 한영값·`phase`·심사 버전·반영 여부를 남기며,
+작업 PC 간 이어 붙이기 위해 회차 중에는 커밋으로 공유하고 apply가 끝나면 지운다.
+호출은 `celeb-headline-rewrite` 스킬, 룰은 `docs/project/celeb/celeb-1-basic-profile.md`
+한 줄 정의 절이다. 서비스 값의 원천은 DB다.
+
+`packs/`·`reviews/`·`drafts/`와 `.tmp/relay/`는 claim이 만들고 덮어쓰는 작업 파일이라 회차가
+끝나면 지운다. 최종값을 판단할 때는 원장만 본다.
 
 ### `dialogue/`
 
