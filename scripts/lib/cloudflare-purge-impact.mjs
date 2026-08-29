@@ -154,6 +154,8 @@ const CELEB_FILES = new Set([
   'sw/web/src/components/ui/cards/ContentCard/slots/index.tsx',
   // 판본 표기. contentLibrary 묶음과 같은 이유로 인물 상세의 감상배경에 걸린다.
   'sw/web/src/lib/utils/editions.ts',
+  // 원전·등장 작품 구획에 쓰는 작품별 표시 자료. 소비자는 인물 상세뿐이다.
+  'sw/web/src/actions/fiction/getFictionSourcePresentations.ts',
 ])
 
 const CONTENT_PREFIXES = [
@@ -172,6 +174,9 @@ const CONTENT_FILES = new Set([
 const CELEB_AND_CONTENT_FILES = new Set([
   // 픽션 원전·등장인물은 인물 상세와 작품 상세 양쪽에서 렌더링한다.
   'sw/web/src/actions/fiction/getFictionSources.ts',
+  // 위 조회에서 분해한 모듈이라 같은 두 화면에 걸린다.
+  'sw/web/src/actions/fiction/fictionSourceAssignments.ts',
+  'sw/web/src/actions/fiction/fictionSourceLocale.ts',
 ])
 
 const CACHED_HTML_AND_SEO_FILES = new Set([
@@ -214,12 +219,13 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // 허브가 보관 대상이 되거나 인물 상세로 옮겨 가면 이 묶음을 celeb으로 올려야 한다.
   'sw/web/src/actions/home/getRelationNeighborhood.ts',
   'sw/web/src/actions/home/getRelationShapes.ts',
-  'sw/web/src/components/features/celeb/RelationMap/CelebNode.tsx',
-  'sw/web/src/components/features/celeb/RelationMap/ChainGraph.tsx',
   'sw/web/src/components/features/celeb/RelationMap/RelationExplorer.tsx',
+  'sw/web/src/components/features/celeb/RelationMap/RelationGroups.tsx',
   'sw/web/src/components/features/celeb/RelationMap/RelationMap.tsx',
-  'sw/web/src/lib/celeb/influenceChains.ts',
+  'sw/web/src/components/features/celeb/RelationMap/RelationPath.tsx',
+  'sw/web/src/components/features/celeb/RelationMap/RelationSearch.tsx',
   'sw/web/src/lib/celeb/relationNeighborhood.ts',
+  'sw/web/src/lib/celeb/relationRows.ts',
   'sw/web/src/lib/celeb/relationShapes.ts',
 ])
 
