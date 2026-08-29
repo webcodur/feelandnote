@@ -361,7 +361,7 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 
 팩션 인물이 DB(`celebs`)에 등록돼도 프로필 아바타(`avatar_url`)가 비어 세력도감 카드에 이미지가 안 뜨는 경우가 있다. 팩션 영상용 개인샷을 아바타로 재활용하는 자동 승격은 **`celeb_tier='fiction'` 인물에만 허용한다.** 실존 인물은 팩션 개인샷만으로 신원을 입증할 수 없으므로 자동 승격하지 않는다.
 
-**기존 스크립트를 재사용한다:** `sw/web-bo/scripts/avatar/upload.ts`의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 얼굴 자동 검출 → 얼굴 중심 정사각 크롭 → 800×800 webp → R2 `celebs/{celebs.id}/avatar.webp` PUT → `celebs.avatar_url` UPDATE까지 자동이다. 필요한 env는 `sw/web-bo/.env`의 R2_* 7키 + SUPABASE_SERVICE_ROLE_KEY다.
+**기존 스크립트를 재사용한다:** `sw/web-bo/scripts/avatar/upload.ts`의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 얼굴 자동 검출 → 얼굴 중심 정사각 크롭 → 800×800 webp → R2 `celebs/{celebs.id}/avatar.webp` PUT → `celebs.avatar_url` UPDATE까지 자동이다. 필요한 env는 `sw/web-bo/.env`의 R2_* 7키와 Oracle DB VM의 Auth·PostgREST 전권 키 `SUPABASE_SERVICE_ROLE_KEY`다.
 
 ```
 npx tsx scripts/avatar/upload.ts --celeb-id <celebs.id UUID> \

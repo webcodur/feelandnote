@@ -78,7 +78,7 @@ if (APPLY && STATUS !== 'inactive') {
 if (APPLY && HTML_OUTPUT) throw new Error('--apply와 --html은 함께 사용할 수 없습니다.')
 if (JSON_OUTPUT && HTML_OUTPUT) throw new Error('--json과 --html은 함께 사용할 수 없습니다.')
 
-// Supabase의 테이블별 생성 타입을 이 운영 스크립트에 전부 끌어오지 않고 동적 감사한다.
+// DB 테이블별 생성 타입을 이 운영 스크립트에 전부 끌어오지 않고 동적 감사한다.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Row = Record<string, any>
 type LinkResult = { ok: boolean; status: number; error?: string }

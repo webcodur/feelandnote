@@ -1,7 +1,7 @@
 /*
   파일명: actions/game/getCelebCards.ts
   기능: 영향력 대전 카드 데이터 조회
-  책임: Supabase에서 셀럽 카드 데이터를 일괄 조회한다.
+  책임: PostgREST에서 셀럽 카드 데이터를 일괄 조회한다.
 */
 "use server";
 

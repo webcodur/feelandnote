@@ -2,7 +2,7 @@
  * 서재 탐방 1차 통합 — 본 서비스 콘텐츠 메타와 로컬 렌더 자산의 연결·표지 캐시.
  *
  * 원천:
- *   - 책/판본 식별·외부 표지 URL: Supabase celeb_contents → contents → content_locales
+ *   - 책/판본 식별·외부 표지 URL: PostgreSQL DB의 celeb_contents → contents → content_locales
  *   - 영상 원고·음성·이미지: sw/remotion/public/episodes
  *   - 렌더용 표지: DB 표지에서 재생성하는 로컬 캐시(public/covers/content)
  *

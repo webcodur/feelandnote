@@ -414,7 +414,7 @@ verification: {
 - **데이터·XML 단일원천**: `sw/web/src/lib/sitemap.ts`
 - **인덱스 라우트**: `sw/web/src/app/sitemap.xml/route.ts` → `https://feelandnote.com/sitemap.xml`
 - **하위 라우트**: `sw/web/src/app/sitemaps/[name]/route.ts` → `/sitemaps/*.xml`
-- **방식**: Supabase REST API 직접 fetch (`@supabase/supabase-js`는 메타데이터 라우트에서 동작 안 함)
+- **방식**: PostgREST API 직접 fetch (`@supabase/supabase-js`는 메타데이터 라우트에서 동작 안 함)
 - **캐시**: 인덱스·하위 파일 모두 `revalidate = 86400` (ISR 하루. Next.js route config 정적 분석 때문에 두 route 파일의 값은 숫자 리터럴이어야 하며, 데이터 fetch 주기는 `lib/sitemap.ts`가 쥔다)
 - **URL 구성**(2026-08-24 프로덕션 실측): 정적·기관 선정·직군 명부 `core.xml` 228 URL + 인물 3,059명 6,118 URL = 총 **6,346개**. 각 경로가 ko·en 2 URL로 나간다. 이는 계획된 3,000명 확장의 결과이며 크롤 병목의 원인이나 롤백 대상으로 판정하지 않는다. DB 증가에 따라 바뀌므로 규약값이 아니라 시각을 붙인 스냅샷이다.
 - **분할 구조**: 인덱스는 `core`·`celebs` 2개 파일을 가리킨다. 종전 `contents-0..7` 8개는 2026-08-14에 제거했고 해당 주소는 404다.
@@ -422,7 +422,7 @@ verification: {
 - **분할 이유**: 종전 단일 파일은 9.21MiB로 네이버의 10MB 제한 직전이었다. 작품 제외 후에는 여유가 크지만, 인물 증가에 대비해 인덱스 구조는 유지한다. 기존 제출 주소 `/sitemap.xml`은 인덱스로 그대로다. [네이버 서치어드바이저 — RSS 및 사이트맵 제출](https://searchadvisor.naver.com/guide/request-feed)
 - **등재 기준**: 인물은 active이면서 `INDEXABLE_TIERS`에 포함된 티어만. 현행 인물 티어는 모두 고유한 상세 정보를 제공하므로 색인하며, 페이지 robots 기준과 사이트맵 기준은 같은 상수를 쓴다. 작품은 등재하지 않는다(위 항목)
 - **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
-- **페이지네이션**: Supabase REST 기본 제한 1,000행 → 1,000행씩 반복 fetch
+- **페이지네이션**: PostgREST 기본 제한 1,000행 → 1,000행씩 반복 fetch
 - **hreflang**: ko, en, x-default
 - **lastModified**: 인물은 `celebs.updated_at ?? created_at`, 작품은 그 작품의 공개 감상문 중 가장 최신 `updated_at`을 사용한다. 정적 경로·기관 선정 화면은 정확한 수정 시각을 산출할 수 없어 기록하지 않는다. `new Date()` 폴백은 매 재생성마다 "방금 수정됨"으로 찍혀 검색엔진이 신호를 무시하게 만드므로 금지한다
 
@@ -497,7 +497,7 @@ if (
 
 ## 로컬 검증 방법
 
-배포 전 Supabase REST curl로 검증한다:
+배포 전 PostgREST curl로 검증한다:
 
 ```bash
 cd sw/web && source .env.local
@@ -522,9 +522,9 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
 - **해결**: 미들웨어 함수 초반에 `SEO_PATHS` 코드 가드 추가
 
 ### sitemap.xml에 셀럽 URL 0개 (2026-03-12)
-- **원인 1**: 당시 `profiles.updated_at` 컬럼이 존재하지 않아 Supabase 쿼리 에러 (42703). `?? []` 폴백으로 에러가 무시됨. 현재 인물 원천은 `celebs`다
+- **원인 1**: 당시 `profiles.updated_at` 컬럼이 존재하지 않아 PostgreSQL 쿼리 에러 (42703). `?? []` 폴백으로 에러가 무시됨. 현재 인물 원천은 `celebs`다
 - **원인 2**: `@supabase/supabase-js` 클라이언트가 Next.js 메타데이터 라우트에서 동작하지 않음
-- **해결**: Supabase REST API 직접 fetch로 전환 + `created_at`으로 변경
+- **해결**: PostgREST API 직접 fetch로 전환 + `created_at`으로 변경
 - **교훈**: 배포 전 로컬 curl로 REST 쿼리 검증 필수
 
 ### Google 검색 썸네일이 플랫폼 기본 아이콘으로 노출 (2026-03-18)
@@ -557,7 +557,7 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
   2. 인물은 아바타(없으면 대표 초상), 작품은 locale별 원본 표지를 자르지 않고 정사각 JPEG 안에 담는다. 원본이 없거나 응답하지 않아도 깨진 URL 대신 유형별 기본 이미지를 반환한다.
   3. `middleware.ts`의 `SEO_PATH_PREFIXES`가 이미지 라우트를 locale 미들웨어에서 제외한다. HTML 페이지에는 같은 URL을 Open Graph·Twitter·JSON-LD 이미지로 함께 선언한다.
   4. `FormattedText`는 인용부호와 문장을 한 텍스트 노드의 유니코드 따옴표로 출력하며, 작품 메타 설명도 `toSeoDescription()`으로 평문화한다.
-- **현행 비용 방어**: SEO 이미지의 Supabase 원본 URL 조회는 `cachedDetail`로 UUID·slug별 태그를 붙인다.
+- **현행 비용 방어**: SEO 이미지의 원본 URL DB 조회는 `cachedDetail`로 UUID·slug별 태그를 붙인다.
   목록 캐시 무효화가 모든 SEO 이미지 조회를 함께 비우지 않으며, 해당 인물·콘텐츠 수정 때만 그 항목이 갱신된다.
   OpenLibrary가 `archive.org`와 `*.archive.org`로 보내는 HTTPS 리다이렉트는 허용하되 HTTP·로컬 주소·도메인
   접미사 위장은 거부한다. 허용 규칙과 검사는 `seoImageOrigin.ts`, `seoImageOrigin.test.ts`가 맡는다.

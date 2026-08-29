@@ -58,7 +58,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 
 ## 기술·환경
 
-- Next.js 16.1, React 19.2, TailwindCSS 4.1, TypeScript 5, Supabase PostgreSQL, pnpm을 사용한다.
+- Next.js 16.1, React 19.2, TailwindCSS 4.1, TypeScript 5, PostgreSQL, pnpm을 사용한다.
 - 환경변수와 비밀 파일은 커밋하지 않는다. `.env*`, `.mcp.json`, `**/credentials/`는 로컬에서만 관리한다.
 - 새 컴퓨터에서는 비밀 파일을 사람이 직접 옮겨야 하며 빈 서식 파일을 만들지 않는다.
 - 키의 용도·배치·발급처·유출 대응은 `docs/project/platform/env-vars.md`만 따른다. 값 자체를 문서에 적지 않는다.

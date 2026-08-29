@@ -52,7 +52,7 @@ export interface CelebProfileRow {
 export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, youtube_videos, theme_music, is_featured, is_fiction, sort_order'
 export const PROFILE_COLUMNS = 'id, slug, nickname, avatar_url, celeb_tier, voice_id_ko, voice_id_en'
 
-/** 출간에 필요한 Supabase 환경변수 중 빈 것들 */
+/** 출간에 필요한 DB 관리자 접속 환경변수 중 빈 것들 */
 export function missingSupabaseEnv(): string[] {
   return (['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'] as const).filter(k => !process.env[k])
 }

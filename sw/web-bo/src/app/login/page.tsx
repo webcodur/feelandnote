@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button'
 /**
  * '자동 로그인' 체크박스는 없앴다. 값을 저장하고 불러오기까지 했지만 정작 자동으로
  * 로그인하는 동작이 없어, 체크해도 매번 직접 입력해야 했다. 켤 수 없는 스위치를
- * 보여주느니 치운다. 한번 로그인하면 Supabase가 세션을 유지하므로 실사용 차이는 없다.
+ * 보여주느니 치운다. 한번 로그인하면 Auth가 세션을 유지하므로 실사용 차이는 없다.
  */
 const STORAGE_KEY = {
   REMEMBER_EMAIL: 'bo_remember_email',

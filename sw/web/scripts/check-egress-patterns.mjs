@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Supabase egress 누수 패턴 정적 검사
+ * DB/PostgREST egress 누수 패턴 정적 검사
  *
  * 2026-03-18 / 2026-05-09 두 번 한도 초과 사고가 신규 server action 작성 시
  * 캐시 누락 / JSON 통째 select / RSC 직접 호출 패턴 때문에 재발했다.
@@ -209,8 +209,8 @@ const CATEGORY_LABEL = {
 
 const CATEGORY_ORDER = ['lines-raw-select', 'rsc-direct-supabase', 'action-no-cache', 'fullscan-pagination', 'lines-raw-select-cached']
 
-console.error(`Supabase egress 위험 패턴 ${violations.length}건 적발`)
-console.error('상세 가이드: docs/project/platform/external-services.md, memory/feedback_supabase_action_caching.md')
+console.error(`DB/PostgREST egress 위험 패턴 ${violations.length}건 적발`)
+console.error('상세 가이드: docs/project/platform/external-services.md')
 console.error('')
 
 let criticalCount = 0

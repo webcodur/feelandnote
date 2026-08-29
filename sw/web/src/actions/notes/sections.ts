@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { NoteSection } from './types'
 
-// Supabase 조인 결과 타입
+// PostgREST 조인 결과 타입
 interface SectionWithNote {
   id: string
   note: {

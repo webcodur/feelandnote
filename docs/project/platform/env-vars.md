@@ -13,7 +13,7 @@
 
 | # | 파일 | 위치 | 없으면 |
 |---|------|------|--------|
-| 1 | `.env` | `sw/web/` | 사용자 웹이 뜨지 않음 (Supabase 연결 실패) |
+| 1 | `.env` | `sw/web/` | 사용자 웹이 뜨지 않음 (DB·Auth 연결 실패) |
 | 2 | `.env` | `sw/web-bo/` | 백오피스가 뜨지 않음 |
 | 3 | `.env` | `sw/remotion/` | 영상 음성 합성·R2 업로드·DB 조회 전부 실패 |
 | 4 | `sw/web/credentials/ga-service-account.json` | `sw/web/credentials/` | 유입 통계(GA4) 조회 불가. 웹 구동 자체는 됨 |
@@ -31,7 +31,7 @@
 | `obscura.exe` | `C:\Tools\obscura\<버전>\` | 브라우저 MCP 실행 파일 (비밀값 아님, 재설치로 대체 가능) |
 | `rootca.key`·`rootca.crt`·`rootca.srl` | `C:/Users/<사용자>/.feelandnote/cloudflare-aop/` | Cloudflare Authenticated Origin Pulls 갱신용 CA. `rootca.key`는 비밀값이며 Oracle에는 올리지 않는다. 로컬 사본이 없어도 현재 서비스는 계속 뜨지만 인증서 갱신 때 새 CA로 교체해야 한다 |
 | `feelandnote_oracle`·`feelandnote_oracle.pub` | `C:/Users/<사용자>/.ssh/` | Oracle 웹·DB VM SSH. 비밀키는 공개 저장소나 서버에 복사하지 않는다 |
-| `supabase-backup-age.key` | `C:/Users/<사용자>/.feelandnote/` | R2의 self-hosted DB 암호화 백업 복구키. 서버에는 공개 recipient만 둔다 |
+| `supabase-backup-age.key` | `C:/Users/<사용자>/.feelandnote/` | R2의 Oracle DB 암호화 백업 복구키. 파일명은 기존 복구 체계의 식별자다. 서버에는 공개 recipient만 둔다 |
 
 **`.env`가 필요 없는 앱**: `sw/lab`(환경변수 참조 0건), `sw/android`(Gradle 프로젝트), `packages/*`(자체 파일 없이 각 앱의 값을 물려받음).
 **`sw/audio-bo`는 `.env`가 없다** — 로컬 작업 폴더 경로를 코드 기본값(`D:\audios\...`·`D:\GPT-SoVITS\...`)으로 박아 뒀다. 다른 컴퓨터에서 폴더 위치가 다르면 §5를 본다.
@@ -57,7 +57,7 @@ pnpm install
 ### 확인
 
 ```bash
-pnpm dev:web     # :3000 — 인물 목록이 뜨면 Supabase 연결 성공
+pnpm dev:web     # :3000 — 인물 목록이 뜨면 DB·Auth 연결 성공
 pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성공
 ```
 
@@ -67,16 +67,16 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 
 같은 값이 여러 앱에 중복으로 들어간다(앱마다 별도 파일을 읽으므로 정상이다). **한 곳을 바꾸면 나머지도 같이 바꿔야 한다.**
 
-### 3-1. Supabase — 데이터베이스·로그인
+### 3-1. Oracle — 데이터베이스·로그인
 
 | 이름 | 들어가는 곳 | 성격 |
 |------|------------|------|
-| `NEXT_PUBLIC_SUPABASE_URL` | web, web-bo | 프로젝트 주소. 공개돼도 무방 |
+| `NEXT_PUBLIC_SUPABASE_URL` | web, web-bo | Oracle DB VM의 Auth·PostgREST 공개 주소. 변수명은 과거 호환 식별자이며 공개돼도 무방 |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | web, web-bo | 브라우저용 `sb_publishable_...` 공개 키. 변수명만 과거 호환 이름을 유지한다 |
 | `SUPABASE_SERVICE_ROLE_KEY` | web, web-bo, remotion | 🔴 서버용 `sb_secret_...` 전권 키. 접근 규칙(RLS)을 전부 무시하며 브라우저로 새면 안 된다. 변수명만 과거 호환 이름을 유지한다 |
-| `SUPABASE_URL` | remotion | 위 URL과 같은 값. remotion만 `NEXT_PUBLIC_` 접두어 없이 쓴다 |
+| `SUPABASE_URL` | remotion | 위 Auth·PostgREST 주소와 같은 값. remotion만 `NEXT_PUBLIC_` 접두어 없이 쓴다. 변수명은 과거 호환 식별자다 |
 
-공개·서버 키는 self-hosted 배포의 `/opt/feelandnote/supabase/.env`가 원본이다. 값을 교체하면 세 앱의 로컬 `.env`와 Oracle 웹의 `/etc/feelandnote/web.env`도 함께 바꾼다. 관리형 Supabase 계정 토큰은 사용하지 않는다.
+공개·서버 키는 Oracle DB VM의 `/opt/feelandnote/supabase/.env`가 원본이다. 이 경로의 `supabase`는 실제 서버 배포 경로다. 값을 교체하면 세 앱의 로컬 `.env`와 Oracle 웹의 `/etc/feelandnote/web.env`도 함께 바꾼다.
 
 ### 3-2. 사이트 주소
 
@@ -141,7 +141,7 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 | 이름 | 들어가는 곳 | 설명 |
 |------|------------|------|
 | `CLOUDFLARE_ZONE_ID` · `CLOUDFLARE_API_TOKEN` | web(Oracle), GitHub Secrets, 로컬 `.env` | Cloudflare 앞단 캐시 존과 퍼지 토큰. Oracle과 GitHub에는 해당 zone의 **Cache Purge만 허용한 전용 토큰**을 두고, Cache Rules·DNS·WAF까지 가진 운영 토큰은 로컬 규칙 관리에만 쓴다. 앞단 퍼지가 필요한 요청에서 자격증명이 없으면 `/api/revalidate`는 `complete: false`·503, Cloudflare API가 실패하면 `complete: false`·502를 돌려준다. 코드 배포 뒤에는 `cloudflare-purge.yml`을 필요한 범위로 수동 실행한다. 전체 존 퍼지는 `workflow_dispatch`의 `emergency-zone`과 정확한 확인문을 함께 입력한 경우에만 허용한다. Zone ID는 같아야 하지만 API token 값은 배치별 최소 권한으로 분리해도 된다 |
-| `CRON_SECRET` | web(Oracle), web-bo, **Supabase Vault(`web_revalidate_secret`)** | 정해진 시각에 도는 작업(오늘의 인물)과 화면 갱신 창구(`/api/revalidate`)의 암호. **비어 있으면 갱신 창구가 스스로 거부한다.** DB 트리거가 같은 값을 Vault에서 읽어 웹에 무효화를 보내므로, 키를 돌릴 때는 Oracle `/etc/feelandnote/web.env`·로컬 `.env`·Vault를 함께 바꾼다(`external-services.md`「웹 캐시 무효화 단일 창구」) |
+| `CRON_SECRET` | web(Oracle), web-bo, **PostgreSQL Vault(`web_revalidate_secret`)** | 정해진 시각에 도는 작업(오늘의 인물)과 화면 갱신 창구(`/api/revalidate`)의 암호. **비어 있으면 갱신 창구가 스스로 거부한다.** DB 트리거가 같은 값을 Vault에서 읽어 웹에 무효화를 보내므로, 키를 돌릴 때는 Oracle `/etc/feelandnote/web.env`·로컬 `.env`·Vault를 함께 바꾼다(`external-services.md`「웹 캐시 무효화 단일 창구」) |
 
 오늘의 인물은 Oracle의 `feelandnote-today-figure.timer`가 매일 15:05 UTC(한국시각 0시 5분)에 `/api/cron/today-figure`를 호출한다.
 
@@ -204,7 +204,7 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 ## 6. 유출 시 처리 순서
 
-1. Self-hosted Supabase의 노출된 `sb_secret_...` 키를 회전한 뒤 세 앱의 `.env`와 Oracle `/etc/feelandnote/web.env`를 모두 교체하고 기존 키를 폐기
+1. Oracle DB VM의 Auth·PostgREST가 쓰는 `sb_secret_...` 키가 노출되면 회전한 뒤 세 앱의 `.env`와 Oracle `/etc/feelandnote/web.env`를 모두 교체하고 기존 키를 폐기
 2. Cloudflare R2 → 액세스 키 삭제 후 재발급
 3. ElevenLabs·Gemini·TMDB 등 → 각 콘솔에서 키 폐기 후 재발급
 4. 구글 서비스 계정 → 키 삭제 후 새 키 내려받아 `sw/web/credentials/ga-service-account.json` 교체

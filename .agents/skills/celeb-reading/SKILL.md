@@ -12,7 +12,8 @@ description: 인물 상세의 읽어보기 구획에 들어가는 인물 안내�
 않는다.
 
 현대 실존 인물의 직접 발언과 본인 매체를 조사할 때는 `person-quote-mining`의 인물 식별,
-원어 검색, 화자 확인 원칙을 함께 적용한다. DB 작업에는 `supabase`, 결과의 locale 대응에는
+원어 검색, 화자 확인 원칙을 함께 적용한다. DB 작업은
+`docs/project/platform/external-services.md`의 `Oracle DB 운영` 절을 따르고, 결과의 locale 대응에는
 `audit-web-i18n`을 함께 사용한다.
 
 ## 흐름

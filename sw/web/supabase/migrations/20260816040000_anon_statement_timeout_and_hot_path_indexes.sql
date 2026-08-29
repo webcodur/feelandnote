@@ -1,4 +1,4 @@
--- 2026-08-16 운영 적용 완료(Supabase MCP apply_migration). 기록용.
+-- 2026-08-16 운영 DB 반영 완료. 기록용.
 -- 공개 조회(anon) 문장 제한 3초 → 15초. 캐시가 한 시각에 같이 식어 조회가 몰릴 때
 -- 57014(statement timeout)로 화면 구획이 통째로 실패하던 원인. 되돌리기: '3s'.
 alter role anon set statement_timeout = '15s';

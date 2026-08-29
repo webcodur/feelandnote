@@ -1,4 +1,4 @@
-// Supabase 데이터베이스 타입 정의
+// DB 타입 정의
 
 // ===== Enums (공유 패키지에서 import 후 re-export) =====
 import type { ContentType, ContentStatus } from '@feelandnote/shared/types'

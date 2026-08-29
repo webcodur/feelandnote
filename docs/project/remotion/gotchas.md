@@ -228,7 +228,7 @@ book-recommend 롱폼(요약·감상배경·후속맥락)을 여러 토막으로
 
 ### `faction-data.json`을 직접 편집하지 마라
 
-팩션의 `sw/remotion/public/factions/<편>/faction-data.json`은 **원천이 아니라 산출물**이다(26.07.25 통합). 텍스트·구성의 단일 원천은 Supabase 5테이블이고, 이 파일은 `pnpm faction:export`가 DB에서 만들어 낸다. 렌더가 webpack 빌드타임에 이 파일을 동기 스캔하는 구조라 DB를 직접 못 읽어서 파일을 남기는 것이다.
+팩션의 `sw/remotion/public/factions/<편>/faction-data.json`은 **원천이 아니라 산출물**이다(26.07.25 통합). 텍스트·구성의 단일 원천은 DB 5테이블이고, 이 파일은 `pnpm faction:export`가 DB에서 만들어 낸다. 렌더가 webpack 빌드타임에 이 파일을 동기 스캔하는 구조라 DB를 직접 못 읽어서 파일을 남기는 것이다.
 
 - 파일 첫 키에 `_generated {from, at, episodeId, checksum}` 마커가 붙는다. **checksum이 안 맞으면 다음 내보내기가 중단되고 diff를 뿜는다**(`--force`로만 강행). 즉 손으로 고치면 그 편의 저장·렌더 흐름이 멈춘다.
 - 수정은 web-bo `/factions` 편집 화면에서 한다. 저장하면 내보내기가 자동으로 따라 붙는다.

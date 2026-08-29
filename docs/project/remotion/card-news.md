@@ -13,7 +13,7 @@
 | 편성 저장 | `public/episodes/<인물>/faction-cards.json` | 선별 권 등 편성 설정(영상 데이터와 분리) |
 | 출고 | `sw/remotion/scripts/render/render-cards.ts` (`pnpm render:cards`) | 저장된 편성대로 PNG 일괄 양산 → `out/cards/<인물>/<비율>/` |
 
-**핵심 결정**: 카드 재료(인물명·책 표지·감상경위·인용)와 정지 이미지 출력이 모두 remotion에 있으므로 remotion에서 만든다. 본 서비스 BO(Supabase) 아님.
+**핵심 결정**: 카드 재료(인물명·책 표지·감상경위·인용)와 정지 이미지 출력이 모두 Remotion에 있으므로 `web-bo`가 아니라 Remotion에서 만든다.
 
 ## 2. 카드 7종 (BookCardSpec)
 

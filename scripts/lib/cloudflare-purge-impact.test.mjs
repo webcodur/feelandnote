@@ -97,7 +97,6 @@ test('docs, workflow, scripts, and test fixtures require no Cloudflare purge', (
     'sw/web/eslint.config.mjs',
     'sw/web/build_output.txt',
     'sw/web/check_missing_images.js',
-    'sw/web/vercel.json',
     'sw/web/src/components/shared/WorldGlobe/globeLayout.test.ts',
     'sw/web/src/components/features/user/contentLibrary/expand/documentScroll.test.ts',
   ])

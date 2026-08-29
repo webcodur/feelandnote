@@ -33,7 +33,7 @@ import type {
 async function guard(): Promise<void> {
   await requireFactionAdmin()
   const missing = missingSupabaseEnv()
-  if (missing.length) throw new Error(`Supabase 환경변수 누락: ${missing.join(', ')}`)
+  if (missing.length) throw new Error(`DB 관리자 접속 환경변수 누락: ${missing.join(', ')}`)
 }
 
 /**

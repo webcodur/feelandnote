@@ -18,7 +18,7 @@ const DEFAULT_COUNTS: ContentTypeCounts = {
 async function fetchContentTypeCounts(): Promise<ContentTypeCounts> {
   const supabase = createStaticClient()
 
-  // Supabase RPC(Remote Procedure Call): 웹에서 여러 테이블을 직접 조합하지 않고,
+  // PostgREST RPC(Remote Procedure Call): 웹에서 여러 테이블을 직접 조합하지 않고,
   // PostgreSQL에 저장된 함수 get_celeb_feed_type_counts()를 원격 호출해 타입별 집계를 한 번에 받는다.
   const { data, error } = await supabase.rpc('get_celeb_feed_type_counts')
 

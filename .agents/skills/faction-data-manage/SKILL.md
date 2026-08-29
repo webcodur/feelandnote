@@ -14,7 +14,7 @@ DB를 제작 원천으로 유지하면서 확정 이미지와 로컬 렌더 산�
 - 로컬 `sw/remotion/public/factions/<folder>/faction-data.json`은 DB export 산출물이다.
 - 그룹샷은 `faction_clusters.image`, 개인샷은 `faction_people.image`에 상대 경로로 기록한다.
 - `faction_people.web_image_url`과 `celeb_tags.team_images`는 출간 산출물이다. 영상화 준비의 로컬 이미지 연결과 구분한다.
-- 이미지 제작·선정·REF 판단은 `faction-image`를 함께 적용한다. DB 조작은 `supabase`를 함께 적용한다.
+- 이미지 제작·선정·REF 판단은 `faction-image`를 함께 적용한다. DB 조작은 `docs/project/platform/external-services.md`의 `Oracle DB 운영` 절을 따른다.
 
 ## 실행
 

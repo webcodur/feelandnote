@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
   }
   // #endregion
 
-  // #region 세션이 이미 설정된 경우 (Supabase /verify에서 리다이렉트)
+  // #region 세션이 이미 설정된 경우 (Auth /verify에서 리다이렉트)
   const { data: { user } } = await supabase.auth.getUser()
 
   if (user) {

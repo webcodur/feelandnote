@@ -5,11 +5,11 @@
 > 최종 제거 migration까지 적용해 운영 DB의 레거시 호환 테이블은 제거됐다.
 
 서비스 운영과 영상 제작 관리를 함께 담당하는 관리자 백오피스다. 실제 서비스 데이터는
-Supabase, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원천으로 삼는다.
+DB, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원천으로 삼는다.
 
 | 프로젝트 | 포트 | 역할 | 데이터원 |
 | --- | --- | --- | --- |
-| **web-bo** | 3001 | **서비스 운영 + 영상 제작 관리.** 셀럽·유저·콘텐츠·커뮤니티와 세력도감·가상 담화·서재 탐방·책과 사람 | Supabase + 로컬 Remotion |
+| **web-bo** | 3001 | **서비스 운영 + 영상 제작 관리.** 셀럽·유저·콘텐츠·커뮤니티와 세력도감·가상 담화·서재 탐방·책과 사람 | DB + 로컬 Remotion |
 | audio-bo | 3005 | 로컬 음성 작업실. 받아쓰기·화자 학습·합성 | D드라이브 |
 
 구 remotion-bo는 이 앱으로 이관하고 폐기했다. audio-bo는 [Audio BO](./audio-bo.md)를 참조한다.
@@ -27,7 +27,7 @@ pnpm dev:bo
 
 `(admin)` 그룹의 모든 화면은 레이아웃에서 두 단계로 막는다. 로그인하지 않았으면 `/login`으로 보내고, 로그인했더라도 `user_accounts.role`이 `admin` 또는 `super_admin`이 아니면 역시 `/login`으로 보낸다. DB의 관리자 판정은 `is_admin()`을 쓴다. 개별 화면은 권한을 다시 검사하지 않는다.
 
-`/login`은 Supabase 이메일·비밀번호 인증을 사용하며 성공 시 `?redirect` 값 또는 `/users`로 이동한다.
+`/login`은 Auth의 이메일·비밀번호 인증을 사용하며 성공 시 `?redirect` 값 또는 `/users`로 이동한다.
 
 단 **창구(API)는 화면 검사에 기댈 수 없다.** `src/proxy.ts`의 matcher가 이미지 확장자로 끝나는 주소를 제외하므로 세력도감·가상 담화 자산 창구는 라우트마다 스스로 관리자 확인을 한다(위 [세력도감](#세력도감)·[가상 담화](#가상-담화) 절).
 
@@ -101,7 +101,7 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 원천 |
 | --- | --- | --- | --- |
-| `/book-recommend` | 제작 현황·리소스 | 제작 상태·후보·음성 저장소·작업 큐와 콘텐츠 ID·표지 무결성 감사를 탭으로 통합 | Supabase + `sw/remotion/public/episodes` |
+| `/book-recommend` | 제작 현황·리소스 | 제작 상태·후보·음성 저장소·작업 큐와 콘텐츠 ID·표지 무결성 감사를 탭으로 통합 | DB + `sw/remotion/public/episodes` |
 | `/book-recommend/search` | 새 에피소드 | 셀럽 검색과 기존 에피소드 중복 확인 | `celebs`, 에피소드 목록 |
 | `/book-recommend/guide` | 운영 가이드 | 현행 제작 흐름·로컬 가동 조건 | 코드·운영 규칙 |
 | `/book-recommend/[name]/scenario` | 원고 | 메타·책·쇼츠 분산 JSON 편집, 이미지·영상·배경음·효과음 관리 | 에피소드 JSON·미디어 |
@@ -141,7 +141,7 @@ pnpm dev:bo
 
 > 26.07.25 신설 — 팩션(세력도감) 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 팩션 구역은 전량 폐기됐고 그 주소는 404다.
 
-영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). **서비스 웹·BO의 도감 인물 읽기는 DB 뷰 `faction_atlas_members` 직독이다(26.08.03 단일화)** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정(`celeb_tag_assignments`). 시리즈 자체의 SSoT는 [`faction/`](../remotion/faction/README.md), 통합 설계는 [`faction/unification.md`](../remotion/faction/unification.md) §4-3다.
+영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 DB 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). **서비스 웹·BO의 도감 인물 읽기는 DB 뷰 `faction_atlas_members` 직독이다(26.08.03 단일화)** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정(`celeb_tag_assignments`). 시리즈 자체의 SSoT는 [`faction/`](../remotion/faction/README.md), 통합 설계는 [`faction/unification.md`](../remotion/faction/unification.md) §4-3다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
@@ -218,7 +218,7 @@ pnpm dev:bo
 
 > 26.07.26 신설 — 가상 담화 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 담화 구역은 전량 폐기됐고 그 주소는 404다.
 
-영상 시리즈 「가상 담화」의 **텍스트·구성 단일 원천은 Supabase 3테이블**(`discourse_episodes`·`discourse_speakers`·`discourse_turns`)이다. 렌더 엔진이 읽는 `sw/remotion/public/discourses/<편>/` 의 **세 파일**(`discourse-data.json` 메타 · `cast.json` 인물 · `turns.json` 발언)은 저장할 때 DB에서 만들어 내는 산출물이며 직접 편집하지 않는다. 시리즈 자체의 SSoT는 [`discourse/`](../remotion/discourse/README.md), 통합 설계는 [`discourse/unification.md`](../remotion/discourse/unification.md)다.
+영상 시리즈 「가상 담화」의 **텍스트·구성 단일 원천은 DB 3테이블**(`discourse_episodes`·`discourse_speakers`·`discourse_turns`)이다. 렌더 엔진이 읽는 `sw/remotion/public/discourses/<편>/` 의 **세 파일**(`discourse-data.json` 메타 · `cast.json` 인물 · `turns.json` 발언)은 저장할 때 DB에서 만들어 내는 산출물이며 직접 편집하지 않는다. 시리즈 자체의 SSoT는 [`discourse/`](../remotion/discourse/README.md), 통합 설계는 [`discourse/unification.md`](../remotion/discourse/unification.md)다.
 
 ⚠ **손 편집 감시가 세력도감와 다르다.** 마커(`_generated`)는 메타 파일 첫 키에 **하나뿐**인데 checksum은 **세 파일을 합친 전체**로 계산한다. 뒤 두 파일은 최상위가 배열이라 마커를 박을 자리가 없어서다. 덕분에 `cast.json`·`turns.json` 을 손으로 고쳐도 내보내기가 중단되고 어긋난 자리를 짚어 준다.
 
@@ -294,7 +294,7 @@ pnpm dev:bo
 | --- | --- | --- | --- |
 | `/activity-logs` | 활동 로그 | 활동 로그(30건 단위), 동작 유형 필터와 유형별 개수. 화면 안내상 90일 보관 | `activity_logs`, `member_profiles` |
 | `/api-usage` | API 사용량 | 외부 API 키 호출 로그(50건 단위), 키·성공여부 필터, 성공률·키별·동작별 통계 | `api_keys`, `api_key_usage` |
-| `/settings` | 운영 상태·설정 | 사용자 웹 응답, Oracle 웹 VM의 서비스·메모리·스왑·릴리스, DB VM의 PostgreSQL·연결·백업 상태를 조회하고 미구현 설정을 구분해 표시 | 읽기 전용 SSH + Supabase 시스템 통계 RPC |
+| `/settings` | 운영 상태·설정 | 사용자 웹 응답, Oracle 웹 VM의 서비스·메모리·스왑·릴리스, DB VM의 PostgreSQL·연결·백업 상태를 조회하고 미구현 설정을 구분해 표시 | 읽기 전용 SSH + DB 시스템 통계 RPC |
 
 ## API 라우트
 
@@ -393,7 +393,7 @@ pnpm dev:bo
 - ~~`/celebs/stats` 404~~ → `getCelebStats` 조회에 slug 추가, 링크를 slug 기반으로 교정. **셀럽 1,674명 전원이 slug를 보유하므로(26.07.16 실측) 링크는 전부 유효해진다.** slug 없는 경우 링크를 걸지 않는 폴백은 안전장치다.
 - ~~`/today-figure` 404~~ → 위와 **동일 결함**이라 같은 방식으로 교정.
 - ~~`/settings` 거짓 문구~~ → "unstable_cache 적용으로 해결 완료" 삭제(근거 없음). 미구현 카드 4종은 갈 곳 없는 주소를 떼고 점선 테두리 + "준비 중" 배지로 바꿔 눌러지지 않음을 드러냈다.
-- ~~`/login` 자동 로그인~~ → 체크박스와 `bo_auto_login` 저장·복원 코드 제거. 구현하지 않았다. 한번 로그인하면 Supabase가 세션을 유지하므로 실사용 손해는 없다.
+- ~~`/login` 자동 로그인~~ → 체크박스와 `bo_auto_login` 저장·복원 코드 제거. 구현하지 않았다. 한번 로그인하면 Auth가 세션을 유지하므로 실사용 손해는 없다.
 
 **남은 메모**
 

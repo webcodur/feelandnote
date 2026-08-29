@@ -6,20 +6,20 @@ Feelandnote 프로젝트의 OAuth 소셜 로그인 설정 문서.
 
 ```
 사용자 → 로그인 버튼 클릭
-      → Supabase Auth (/authorize)
+      → Oracle DB VM의 Auth (/authorize)
       → 소셜 프로바이더 (Google/Kakao)
-      → Supabase Auth (/callback)
+      → Oracle DB VM의 Auth (/callback)
       → 우리 앱 (/auth/callback)
       → 로그인 완료
 ```
 
-Supabase가 중간에서 OAuth flow를 처리하므로, 소셜 프로바이더의 Redirect URI는 **Supabase URL**로 설정해야 한다.
+Oracle DB VM의 Auth가 중간에서 OAuth 흐름을 처리하므로, 소셜 프로바이더의 Redirect URI는 **Auth 공개 주소**로 설정해야 한다.
 
 ---
 
-## 1. Supabase Auth 설정
+## 1. Oracle DB VM의 Auth 설정
 
-Auth는 Oracle self-hosted 스택의 `/opt/feelandnote/supabase/.env`로 설정한다. 클라이언트 ID·secret과 SMTP 비밀값은 문서나 저장소에 적지 않는다.
+Auth는 Oracle DB VM의 `/opt/feelandnote/supabase/.env`로 설정한다. `supabase`는 실제 서버 배포 경로 이름이다. 클라이언트 ID·secret과 SMTP 비밀값은 문서나 저장소에 적지 않는다.
 
 ### 현재 설정값
 
@@ -34,14 +34,14 @@ Auth는 Oracle self-hosted 스택의 `/opt/feelandnote/supabase/.env`로 설정�
 #### Google
 | 항목 | 값 |
 |------|-----|
-| Client ID | Google Cloud Console에서 발급해 Supabase Providers에 등록 |
-| Client Secret | Google Cloud Console에서 발급해 Supabase Providers에 등록. 값을 문서에 적지 않는다 |
+| Client ID | Google Cloud Console에서 발급해 Auth의 Google provider 설정에 등록 |
+| Client Secret | Google Cloud Console에서 발급해 Auth의 Google provider 설정에 등록. 값을 문서에 적지 않는다 |
 
 #### Kakao
 | 항목 | 값 |
 |------|-----|
-| Client ID | Kakao Developers의 REST API 키를 Supabase Providers에 등록 |
-| Client Secret | Kakao Developers에서 발급해 Supabase Providers에 등록. 값을 문서에 적지 않는다 |
+| Client ID | Kakao Developers의 REST API 키를 Auth의 Kakao provider 설정에 등록 |
+| Client Secret | Kakao Developers에서 발급해 Auth의 Kakao provider 설정에 등록. 값을 문서에 적지 않는다 |
 
 ---
 
@@ -65,7 +65,7 @@ http://localhost:3000
 https://db.feelandnote.com/auth/v1/callback
 ```
 
-> Supabase를 거치므로 Supabase callback URL만 등록하면 된다.
+> Auth 서버를 거치므로 Auth callback URL만 등록하면 된다.
 
 ---
 
@@ -79,8 +79,8 @@ https://db.feelandnote.com/auth/v1/callback
 
 | 항목 | 값 |
 |------|-----|
-| REST API 키 | Kakao Developers와 Supabase Providers에서 확인 |
-| 클라이언트 시크릿 (카카오 로그인) | Kakao Developers와 Supabase Providers에서 확인 |
+| REST API 키 | Kakao Developers와 Auth의 Kakao provider 설정에서 확인 |
+| 클라이언트 시크릿 (카카오 로그인) | Kakao Developers와 Auth의 Kakao provider 설정에서 확인 |
 | 클라이언트 시크릿 활성화 | ON |
 | Redirect URI | `https://db.feelandnote.com/auth/v1/callback` |
 
@@ -118,8 +118,8 @@ NEXT_PUBLIC_SITE_URL=https://feelandnote.com
 | `src/actions/auth/login.ts` | OAuth 로그인 함수 (loginWithGoogle, loginWithKakao) |
 | `src/app/auth/callback/route.ts` | OAuth 콜백 처리 |
 | `src/middleware.ts` | 세션 갱신 (auth/callback 경로 제외) |
-| `src/lib/supabase/server.ts` | Supabase 서버 클라이언트 |
-| `src/lib/supabase/middleware.ts` | 미들웨어용 Supabase 클라이언트 |
+| `src/lib/supabase/server.ts` | 서버용 Auth·PostgREST 클라이언트 |
+| `src/lib/supabase/middleware.ts` | 미들웨어용 Auth 클라이언트 |
 
 ---
 
@@ -138,7 +138,7 @@ NEXT_PUBLIC_SITE_URL=https://feelandnote.com
 - **해결**: 로컬 `.env`에는 `http://localhost:3000`을 두고, 운영값은 Oracle `/etc/feelandnote/web.env`에서 관리
 
 ### 로컬 OAuth 테스트 시 필요한 설정
-1. Supabase Redirect URLs에 `http://localhost:3000/**` 추가
+1. Auth의 Redirect URLs에 `http://localhost:3000/**` 추가
 2. `.env`에서 `NEXT_PUBLIC_SITE_URL=http://localhost:3000` 확인
 3. 서버 재시작
 
@@ -148,7 +148,7 @@ NEXT_PUBLIC_SITE_URL=https://feelandnote.com
 
 Preview/Staging 환경 추가 시:
 
-- [ ] Supabase Redirect URLs에 새 URL 패턴 추가
+- [ ] Auth의 Redirect URLs에 새 URL 패턴 추가
 - [ ] Google Cloud Console 승인된 JavaScript 원본에 새 도메인 추가
-- [ ] (필요시) Kakao Redirect URI 추가 (보통 Supabase URL만 있으면 됨)
+- [ ] (필요시) Kakao Redirect URI 추가 (보통 Auth 공개 주소만 있으면 됨)
 - [ ] 해당 실행 환경에 `NEXT_PUBLIC_SITE_URL` 설정

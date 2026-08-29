@@ -3,7 +3,7 @@
 > **최종 실측 체크: 26.07.16** — 대조 범위: `sw/remotion/src/Root.tsx`(Discourse 폴더·컴포지션 ID) · `src/compositions/Discourse/`(types·timing·voice-names·sections 6종) · `public/discourses/`(`_episodes.json`·에피소드 3편) · `remotion-bo/src/lib/series-registry.ts`(discourse 등록) · `remotion-bo` discourse lib 3종·`components/discourse/` · `packages/shared/src/lib/`(youtube-discourse-meta **부재 확인**).
 
 > 🔴 **통합 완료(26.07.26) — 편집·출간은 web-bo `/discourses` 하나다.**
-> 텍스트·구성의 단일 원천은 Supabase `discourse_*` 3테이블이고, `discourse-data.json`·`cast.json`·`turns.json`
+> 텍스트·구성의 단일 원천은 DB `discourse_*` 3테이블이고, `discourse-data.json`·`cast.json`·`turns.json`
 > 세 파일은 **렌더용 산출물**이다(직접 편집 금지 — 손 편집은 내보내기가 막는다).
 > 영상 관리 대시보드(remotion-bo)의 담화 구역은 폐기됐다. 아래 본문의 「BO」 서술은 **폐기된 과거 상태**로 읽는다.
 > 통합 설계·현황: [`unification.md`](unification.md)

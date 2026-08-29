@@ -25,7 +25,7 @@ description: 진행 중인 Remotion 렌더 프로세스를 자식 트리까지 �
 |---------|-----------|
 | Remotion Studio | CommandLine에 `remotion-cli ... studio` |
 | Next.js dev (web/web-bo) | `next dev` 또는 `next/dist/server/lib/start-server.js` |
-| MCP 서버 | `mcp-server-*`, `@supabase/mcp-server` |
+| MCP 서버 | `mcp-server-*` |
 | Claude Code 본체 | `claude` 또는 본 프로세스 자신 |
 
 매칭 패턴은 반드시 **`render`** 또는 **`render-all`** 또는 **`remotion-cli ... render`**(studio 제외)를 포함하는 것만 노린다.

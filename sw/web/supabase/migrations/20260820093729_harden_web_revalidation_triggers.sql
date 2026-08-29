@@ -2,9 +2,9 @@
 -- file's statements and its schema_migrations history row in one transaction;
 -- authored transaction control would make the history insert non-atomic.
 
--- The webhook runtime is provisioned by Supabase. Do not create or version-pin
--- either extension here: a migration must fail clearly when the platform
--- prerequisite is missing instead of installing a partial replacement.
+-- The webhook runtime depends on extensions provisioned in the Oracle DB stack.
+-- Do not create or version-pin either extension here: a migration must fail
+-- clearly when the prerequisite is missing instead of installing a partial replacement.
 do $preconditions$
 begin
   if not exists (

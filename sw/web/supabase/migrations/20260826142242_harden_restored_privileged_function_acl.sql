@@ -71,8 +71,8 @@ begin
 end;
 $function$;
 
--- Logical restores can recreate functions under Supabase's permissive public
--- default ACL. Restore the explicit boundaries required by the application.
+-- Logical restores can recreate functions under permissive public default ACLs.
+-- Restore the explicit boundaries required by the application.
 revoke all on function public.delete_auth_user(uuid)
 from public, anon, authenticated, service_role;
 grant execute on function public.delete_auth_user(uuid) to service_role;

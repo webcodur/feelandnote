@@ -57,7 +57,7 @@ async function fetchCelebs(): Promise<{
     })
 
     if (!response.ok) {
-      console.error(`[sitemap] Supabase REST failed: ${response.status} ${response.statusText}`)
+      console.error(`[sitemap] PostgREST failed: ${response.status} ${response.statusText}`)
       break
     }
 

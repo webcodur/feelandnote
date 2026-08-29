@@ -49,8 +49,8 @@ pnpm exec tsx scripts/<이름>.ts --dry
 pnpm exec tsx scripts/<이름>.ts --apply
 ```
 
-스크립트는 `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`로 접속하고, 등록 뒤
-재조회로 확인한 다음 **파일을 지운다.** 1회성 스크립트를 저장소에 남기지 않는다.
+스크립트는 DB 연결 환경변수 `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`를
+사용하고, 등록 뒤 재조회로 확인한 다음 **파일을 지운다.** 1회성 스크립트를 저장소에 남기지 않는다.
 
 ## 밟으면 터지는 곳
 

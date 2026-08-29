@@ -30,7 +30,7 @@ async function main() {
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) throw new Error('Supabase 환경변수 누락')
+  if (!url || !key) throw new Error('DB 관리자 접속 환경변수 누락')
   const db = createClient(url, key)
 
   // 태그 연결 세력이 있는 편 전부 (로고 전용 범위면 로고 지정 편만)

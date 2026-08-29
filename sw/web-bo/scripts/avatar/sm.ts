@@ -131,7 +131,7 @@ async function main() {
   )
 
   console.log('[1/3] 대상 조회')
-  // Supabase는 한 번에 1,000행까지만 준다. 전량을 확보하려면 끝까지 이어 받아야 한다.
+  // PostgREST는 한 번에 1,000행까지만 준다. 전량을 확보하려면 끝까지 이어 받아야 한다.
   const targets: Target[] = []
   const PAGE = 1000
   for (let from = 0; ; from += PAGE) {
