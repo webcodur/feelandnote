@@ -3,6 +3,7 @@ import {
   STAT_KEYS,
   TENDENCY_KEYS,
   VIRTUE_KEYS,
+  type AbilityKey,
   type StatKey,
   type VirtueKey,
 } from './constants'
@@ -54,10 +55,15 @@ export interface VirtuePopulationStat {
 }
 
 export type VirtuePopulationStats = Record<VirtueKey, VirtuePopulationStat>
+export type AbilityPopulationStats = Record<AbilityKey, VirtuePopulationStat>
 export type EmphasizedVirtueVector = Record<VirtueKey, number>
+export type EmphasizedAbilityVector = Record<AbilityKey, number>
 
 /** 중시 덕목은 한 인물에게 가장 두드러진 덕목까지만 비교한다. */
 export const EMPHASIZED_VIRTUE_LIMIT = 3
+
+/** 능력 닮음은 이 인물에게 가장 높은 대표 강점 하나만 기준으로 삼는다. */
+export const EMPHASIZED_ABILITY_LIMIT = 1
 
 /** 모집단에서 주어진 축들의 평균과 표준편차를 구한다. */
 export function calcPopulationStats<K extends keyof SpectrumStats>(
@@ -105,6 +111,7 @@ export function calcVirtuePopulationStats(
   return calcPopulationStats(spectra, VIRTUE_KEYS)
 }
 
+/** 활성 인물 모집단에서 각 능력의 평균과 표준편차를 구한다. */
 // ─── 집단 위치 보정 ───
 //
 // 능력·덕목 12축은 절대 점수의 쏠림이 축마다 심하다(실측: 근면 평균 81·표준편차 10,
@@ -179,6 +186,36 @@ export function getEmphasizedVirtueVector(
 }
 
 /**
+ * 현재 인물의 능력치 중 실제 점수가 가장 높고 집단에서도 충분히 높은 축만 남긴다.
+ * 낮은 능력치가 우연히 비슷하다는 이유로 닮은 인물로 보이는 일을 막는다.
+ */
+export function getEmphasizedAbilityVector(
+  spectrum: SpectrumStats,
+  populationStats: AbilityPopulationStats,
+  limit: number = EMPHASIZED_ABILITY_LIMIT,
+): EmphasizedAbilityVector {
+  const strengths = ABILITY_KEYS.map((axis) => ({
+    axis,
+    score: spectrum[axis],
+    value: axisZ(spectrum[axis], populationStats[axis]),
+  }))
+    .filter(({ value }) => value >= STAT_EVIDENCE_MIN_Z)
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        b.value - a.value ||
+        a.axis.localeCompare(b.axis),
+    )
+    .slice(0, Math.max(0, limit))
+
+  const vector = Object.fromEntries(
+    ABILITY_KEYS.map((axis) => [axis, 0]),
+  ) as EmphasizedAbilityVector
+  for (const strength of strengths) vector[strength.axis] = strength.value
+  return vector
+}
+
+/**
  * 두 인물에게 함께 두드러진 덕목만 비교하는 대칭형 가중 Jaccard 유사도.
  * 함께 낮은 덕목은 두 벡터에서 모두 0이므로 중시 덕목 일치도에 기여하지 않는다.
  */
@@ -192,6 +229,34 @@ export function calcEmphasizedVirtueSimilarity(
   for (const axis of VIRTUE_KEYS) {
     sharedStrength += Math.min(target[axis], candidate[axis])
     totalStrength += Math.max(target[axis], candidate[axis])
+  }
+
+  return totalStrength > 0 ? sharedStrength / totalStrength : 0
+}
+
+/**
+ * 현재 인물의 대표 강점 축에서만 두 인물의 높은 정도를 비교한다.
+ * 비교 인물의 다른 강점은 벌점이 아니며, 같은 축이 평균 이하면 일치도는 0이다.
+ */
+export function calcEmphasizedAbilitySimilarity(
+  target: EmphasizedAbilityVector,
+  candidate: SpectrumStats,
+  populationStats: AbilityPopulationStats,
+): number {
+  let sharedStrength = 0
+  let totalStrength = 0
+
+  for (const axis of ABILITY_KEYS) {
+    if (target[axis] <= 0) continue
+
+    const candidateStrength = Math.max(
+      0,
+      axisZ(candidate[axis], populationStats[axis]),
+    )
+    if (candidateStrength < STAT_EVIDENCE_MIN_Z) continue
+
+    sharedStrength += Math.min(target[axis], candidateStrength)
+    totalStrength += Math.max(target[axis], candidateStrength)
   }
 
   return totalStrength > 0 ? sharedStrength / totalStrength : 0
@@ -227,6 +292,38 @@ export function getEmphasizedVirtueEvidence(
       axis,
       targetValue: target[axis],
       candidateValue: candidate[axis],
+    }))
+}
+
+/** 카드에 표시할 공통 대표 강점. 낮은 능력치는 근거로 만들지 않는다. */
+export function getEmphasizedAbilityEvidence(
+  target: SpectrumStats,
+  candidate: SpectrumStats,
+  targetEmphasizedAbilities: EmphasizedAbilityVector,
+  populationStats: AbilityPopulationStats,
+): SpectrumMatchEvidence[] {
+  return ABILITY_KEYS
+    .filter(
+      (axis) =>
+        targetEmphasizedAbilities[axis] > 0 &&
+        axisZ(candidate[axis], populationStats[axis]) >= STAT_EVIDENCE_MIN_Z,
+    )
+    .sort(
+      (a, b) =>
+        Math.min(
+          targetEmphasizedAbilities[b],
+          axisZ(candidate[b], populationStats[b]),
+        ) -
+        Math.min(
+          targetEmphasizedAbilities[a],
+          axisZ(candidate[a], populationStats[a]),
+        ),
+    )
+    .map((axis) => ({
+      axis,
+      targetValue: target[axis],
+      candidateValue: candidate[axis],
+      direction: 'high' as const,
     }))
 }
 
@@ -268,7 +365,7 @@ export function calcSpectrumMatchDistances(
 /**
  * 상위 매칭 인물 카드에 보여 줄 대표 축을 고른다.
  * 근거의 자격 — 두 사람 모두 특징이 뚜렷하고 그 방향이 같은 축만 인정한다.
- * 능력·덕목은 집단 평균에서 함께 벗어난 축(함께 높음/함께 낮음), 성향은
+ * 능력·덕목은 집단 평균보다 함께 높은 축, 성향은
  * 치우침이 뚜렷하고 방향이 같은 축. 둘 다 어중간한 축은 점수 차가 작아도
  * 아무것도 말해주지 않으므로 근거로 올리지 않는다.
  */
@@ -304,18 +401,17 @@ export function getSpectrumMatchEvidence(
     const stat = statStats[axis as StatKey]
     const targetZ = axisZ(targetValue, stat)
     const candidateZ = axisZ(candidateValue, stat)
-    const bothDeviant =
-      Math.abs(targetZ) >= STAT_EVIDENCE_MIN_Z &&
-      Math.abs(candidateZ) >= STAT_EVIDENCE_MIN_Z &&
-      Math.sign(targetZ) === Math.sign(candidateZ)
-    if (!bothDeviant) continue
+    const bothHigh =
+      targetZ >= STAT_EVIDENCE_MIN_Z &&
+      candidateZ >= STAT_EVIDENCE_MIN_Z
+    if (!bothHigh) continue
 
     candidates.push({
       axis,
       targetValue,
       candidateValue,
-      direction: targetZ > 0 ? 'high' : 'low',
-      strength: Math.min(Math.abs(targetZ), Math.abs(candidateZ)) / Z_CLAMP,
+      direction: 'high',
+      strength: Math.min(targetZ, candidateZ) / Z_CLAMP,
     })
   }
 
