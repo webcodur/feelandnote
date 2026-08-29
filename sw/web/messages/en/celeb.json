@@ -61,8 +61,21 @@
     "library": "Records",
     "libraryEmpty": "No public viewing records yet.",
     "sourceWorks": "Source Works",
-    "sourceWorksIntro": "Source texts and works in which this figure appears. Each link opens the representative edition designated for the work.",
-    "sourceWorkOpen": "Open work record",
+    "sourceWorksIntro": "Explore the source texts and later works in which this figure actually appears.",
+    "sourceWorksRepresentativeNote": "Translations and published editions of the same work are grouped together, with one verified edition shown here.",
+    "sourceWorkCount": "{count} works",
+    "sourceWorkOpen": "View work details",
+    "sourceWorkBuyCoupang": "View on Coupang",
+    "sourceWorkSelect": "View work: {title}",
+    "sourceWorkCharacterAppearance": "Character in this work",
+    "sourceWorkIntroductionBook": "Book introduction",
+    "sourceWorkIntroduction": "Work introduction",
+    "sourceWorkIntroductionEmpty": "An introduction is not available yet. More information may be available on the work page.",
+    "sourceWorkIntroductionOpen": "Read full introduction",
+    "sourceWorkIntroductionClose": "Close introduction",
+    "sourceWorkCreator": "Creator",
+    "sourceWorkPublisher": "Publisher",
+    "sourceWorkReleaseDate": "Publication date",
     "sourceRelation": {
       "appearance": "Appears in",
       "origin": "First appears",
@@ -293,6 +306,9 @@
     "carouselComparePrev": "Previous comparison",
     "carouselCompareNext": "Next comparison",
     "carouselDispositionPrev": "Previous disposition comparison",
-    "carouselDispositionNext": "Next disposition comparison"
+    "carouselDispositionNext": "Next disposition comparison",
+    "timelineViewExpand": "Expand",
+    "timelineOptCard": "Cards",
+    "timelineOptMap": "Map"
   }
 }

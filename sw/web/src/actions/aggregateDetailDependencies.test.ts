@@ -19,6 +19,10 @@ const fictionSource = readFileSync(
   new URL('./fiction/getFictionSources.ts', import.meta.url),
   'utf8',
 )
+const fictionAssignmentSource = readFileSync(
+  new URL('./fiction/fictionSourceAssignments.ts', import.meta.url),
+  'utf8',
+)
 const contentDetailSource = readFileSync(
   new URL('./contents/getContentDetail.ts', import.meta.url),
   'utf8',
@@ -57,14 +61,14 @@ test('작품별 선정 이력은 bare 목록이 아니라 item + bulk 상세 태
 })
 
 test('픽션 공유 원장은 bare와 bulk에 갱신되고 빈 결과도 bulk 의존성을 소비한다', () => {
-  assert.match(fictionSource, /fiction-source-character-assignments-v2/)
+  assert.match(fictionAssignmentSource, /fiction-source-character-assignments-v3-descriptions/)
   assert.match(
-    fictionSource,
+    fictionAssignmentSource,
     /tags: \[[\s\S]*?CACHE_TAGS\.FICTION_SOURCES,[\s\S]*?bulkTag\(CACHE_TAGS\.FICTION_SOURCES\)/,
   )
 
   const characters = exportedFunctionSource(fictionSource, 'getFictionCharactersForContent')
-  assert.match(characters, /const assignments = await fetchAllAssignmentsCached\(\)/)
+  assert.match(characters, /const assignments = await getAllFictionSourceAssignments\(\)/)
   assert.match(characters, /if \(!assignments\.some\([\s\S]*?return \[\]/)
   assert.match(characters, /return cachedDetail\(/)
   assert.match(characters, /\(\) => fetchCharactersByContent\(contentId, locale, assignments\)/)

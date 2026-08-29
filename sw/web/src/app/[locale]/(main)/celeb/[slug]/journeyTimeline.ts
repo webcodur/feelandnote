@@ -1,6 +1,6 @@
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 
-export type JourneyViewMode = "both" | "timeline" | "atlas";
+export type JourneyViewMode = "both" | "timeline" | "expand" | "atlas";
 
 export type TimelineYearCopy = {
   year: (year: number) => string;

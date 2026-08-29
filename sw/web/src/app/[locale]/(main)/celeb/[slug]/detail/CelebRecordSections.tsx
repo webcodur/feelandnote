@@ -154,7 +154,7 @@ export default function CelebRecordSections({
           >
             {renderSectionHeading(isFiction ? "sourceWorks" : "library")}
             {isFiction ? (
-              <SectionSurface>
+              <SectionSurface className={styles.sourceWorksSurface}>
                 <FictionSourceWorksSection sources={fictionSources} />
               </SectionSurface>
             ) : (
