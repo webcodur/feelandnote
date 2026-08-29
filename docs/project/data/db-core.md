@@ -4,7 +4,7 @@
 > 점수·알림 테이블과 현역 RPC·트리거의 운영 적용을 대조했다. 레거시 테이블 제거는 새 앱
 > 배포 뒤의 마지막 게이트라 아직 적용하지 않았다.
 
-운영 위치와 접속 경로는 [`external-services.md`](../platform/external-services.md)의 `Supabase self-hosted` 절이 쥔다.
+운영 위치와 접속 경로는 [`external-services.md`](../platform/external-services.md)의 `Oracle DB 운영` 절이 쥔다.
 
 이 문서는 실제 스키마와 1:1 대조해 갱신한다.
 
@@ -15,7 +15,7 @@
 
 ## 사용자/인증
 
-- **`auth.users`**: Supabase 로그인 자격. 애플리케이션 공개 프로필 원천이 아니다
+- **`auth.users`**: Auth 로그인 자격. 애플리케이션 공개 프로필 원천이 아니다
 - **`user_accounts`**: 로그인 회원의 계정·권한·제재 상태. `id → auth.users.id ON DELETE
   RESTRICT`
   - 관리자 판정은 `is_admin()`을 사용한다. 앱이나 RLS에서 역할 문자열을 따로 판정하지 않는다

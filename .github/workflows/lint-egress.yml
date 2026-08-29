@@ -14,7 +14,7 @@ on:
 
 jobs:
   lint:
-    name: Supabase egress 위험 패턴 검사
+    name: DB/PostgREST egress 위험 패턴 검사
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

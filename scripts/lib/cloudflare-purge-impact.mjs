@@ -92,7 +92,6 @@ const NON_RUNTIME_WEB_ROOT_FILES = new Set([
   'sw/web/split_json.mjs',
   'sw/web/temp_spotify_result.json',
   'sw/web/ts_to_json.js',
-  'sw/web/vercel.json',
 ])
 
 const SEO_PREFIXES = [

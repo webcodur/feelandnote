@@ -14,7 +14,6 @@
     "check:content-expand-scroll": "node scripts/check-content-expand-scroll.mjs",
     "check:memory-audio": "node scripts/check-memory-match-audio.mjs",
     "celeb:qid": "node --env-file=.env scripts/bulk-qid.mjs",
-    "avatar:prune-old": "node scripts/delete-old-avatars.mjs",
     "sync:bestsellers": "node scripts/sync-bestsellers.mjs",
     "stats:celeb-views": "node scripts/ga4-celeb-views.mjs",
     "icons:app": "node scripts/generate-app-icons.mjs",

@@ -12,7 +12,7 @@
 | **렌더링** | React DOM + Tailwind CSS | 전투·UI는 DOM/SVG |
 | **세계맵** | d3 + topojson | 지구본 렌더 (`WorldMapView`). 배경 캔버스는 로비 전용 |
 | **상태 관리** | useState + useCallback | Zustand 미사용, 순수 React 상태 |
-| **DB** | Supabase | 캐릭터/대사 동적 로딩 |
+| **DB** | PostgreSQL + PostgREST | Oracle DB VM에서 캐릭터·대사 동적 로딩 |
 | **Server Action** | Next.js Server Actions | DB 쿼리 서버사이드 실행 |
 | **다국어** | next-intl + 게임 전용 `i18n.ts` | ko/en 2종. 두 체계를 병행한다 |
 
@@ -50,7 +50,7 @@
 
 | 함수 | 역할 |
 |------|------|
-| `loadSuikodenCharacters()` | `SUIKODEN_CHARACTER_IDS`의 시나리오 고정 인물만 로딩 (`profiles` + `celeb_influence` + `celeb_persona`, 명언 별도 조회) |
+| `loadSuikodenCharacters()` | `SUIKODEN_CHARACTER_IDS`의 시나리오 고정 인물만 로딩 (`celebs` + `celeb_influence` + `celeb_persona`, 명언 별도 조회) |
 | `loadSuikodenDialogues()` | 같은 고정 인물의 대사만 로딩 (`celeb_dialogues`, `unstable_cache` 캐싱) |
 
 ### 라우트
@@ -73,10 +73,10 @@ app/[locale]/(main)/rest/suikoden/       — loading.tsx 만 있고 page.tsx 없
 
 ### 캐릭터 로딩
 
-`profiles`에서 필요한 프로필·영향력·스펙트럼을 읽되 `.in('id', SUIKODEN_CHARACTER_IDS)`로 **시나리오 5종이 실제 사용하는 고정 인물만** 조회한다.
+`celebs`에서 필요한 프로필·영향력·스펙트럼을 읽되 `.in('id', SUIKODEN_CHARACTER_IDS)`로 **시나리오 5종이 실제 사용하는 고정 인물만** 조회한다.
 
 필터:
-- `status = 'active'`
+- `publication_status = 'active'`
 - `death_date` 존재 (null·빈문자 제외)
 - `profession` 존재
 - 사망 연도 ≤ 현재 연도 − 120 (`CUTOFF_YEARS`, JS에서 판정)

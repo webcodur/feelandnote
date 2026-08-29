@@ -70,7 +70,7 @@
 
 ## 기술 요구사항
 
-- **DB 운영 경로**: `docs/project/platform/external-services.md`의 `Supabase self-hosted`
+- **DB 운영 경로**: `docs/project/platform/external-services.md`의 Oracle DB VM 운영 절
 - **DB 테이블**: `celebs`, `celeb_influence`, `celeb_persona`, `celeb_dialogues`
 - 캐릭터 로딩 조건·쿼리는 `docs/games/suikoden/02-characters.md`와 `10-implementation-status.md` 참조
 

@@ -15,7 +15,7 @@
 
 `sw/android`는 자체 화면이 없다. 사용자의 브라우저가 `feelandnote.com`을 전체 화면으로 그리고, 앱은 그 껍데기만 맡는다. 웹을 배포하면 앱 내용도 함께 바뀌므로 앱을 다시 낼 필요가 없다. Node 패키지가 아니라 `pnpm-workspace.yaml`에 넣지 않으며(워크스페이스는 글롭이 아니라 개별 명시 방식이다), 빌드는 Android Studio가 맡는다.
 
-운영 서버에는 `sw/web`만 배포한다. 공개 요청은 Cloudflare를 거쳐 Oracle VM의 Caddy와 Next.js standalone 서비스로 들어간다. `web-bo`·`remotion`·`lab`·`audio-bo`는 로컬 전용이다. 서버 경로와 배포·캐시 운영은 [`external-services.md`](external-services.md)가 쥔다.
+운영 DB와 `sw/web`은 각각 Oracle VM에 배포한다. 공개 요청은 Cloudflare를 거쳐 웹 VM의 Caddy와 Next.js standalone 서비스로 들어간다. `web-bo`·`remotion`·`lab`·`audio-bo`는 로컬 전용이다. 서버 경로와 배포·캐시 운영은 [`external-services.md`](external-services.md)가 쥔다.
 
 ---
 

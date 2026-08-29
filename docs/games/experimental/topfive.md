@@ -73,7 +73,7 @@
 
 ### 체험 모드
 
-- `process.env.NEXT_PUBLIC_SUPABASE_URL` 부재 시 fixture로 폴백
+- 현행 코드의 `process.env.NEXT_PUBLIC_SUPABASE_URL` 부재 시 fixture로 폴백
 - 화면 상단에 "⚠ 체험 모드 — 표본 데이터로 동작 중" 배너 고정
 - 조용한 폴백 없음 (배너를 안 보이게 감추지 않음)
 

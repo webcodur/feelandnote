@@ -96,7 +96,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 ## 수동 REST 폴백 (파이프라인 장애 시에만)
 
-데이터 CRUD는 REST(PostgREST + `SUPABASE_SERVICE_ROLE_KEY`)로 가능하다. Supabase MCP도 동작한다(26.07.25 실측 — 과거 "401 차단" 기록은 낡음, DDL도 가능).
+데이터 CRUD는 DB REST(PostgREST + `SUPABASE_SERVICE_ROLE_KEY`)로 가능하다. DDL·SQL은 Oracle DB VM에 SSH로 접속해 `supabase-db` PostgreSQL 컨테이너에서 실행한다.
 ```
 curl.exe "$URL/rest/v1/celeb_tags?..." -H "apikey: $SRK" -H "Authorization: Bearer $SRK"
 ```

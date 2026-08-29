@@ -4,7 +4,7 @@
 > `celeb_contents`·`celeb_metrics`, 현역 RPC·트리거를 운영 DB와 대조했다. 옛
 > `profiles`·`user_contents`와 호환 구조는 26.08.10 운영 DB에서 최종 제거됐다.
 
-운영 위치와 접속 경로는 [`external-services.md`](../platform/external-services.md)의 `Supabase self-hosted` 절이 쥔다.
+운영 위치와 접속 경로는 [`external-services.md`](../platform/external-services.md)의 `Oracle DB 운영` 절이 쥔다.
 
 ## 셀럽 테이블
 
@@ -36,7 +36,7 @@
   - `slug`: `nickname_en` 기반 generated column (아래 참조)
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
-  - `portrait_url` (text): 인물 상세 PC 상단 대표사진 URL. 옛 Portrait 기능의 잔류 컬럼을 재사용한다. 옛 값은 **2026-07-31 전량 비움(817건 → 0)** — 815건이 가리키던 Supabase Storage `avatars` 버킷에 실제 portrait 파일은 0개였다. 같은 날 정사각 대표사진으로 재도입했고, 2026-08-05부터 공용 규격 상수에 따라 세로로 표시·편집한다
+  - `portrait_url` (text): 인물 상세 PC 상단 대표사진 URL. 옛 Portrait 기능의 잔류 컬럼을 재사용한다. 옛 값은 **2026-07-31 전량 비움(817건 → 0)** — 815건이 가리키던 옛 Storage `avatars` 버킷에 실제 portrait 파일은 0개였다. 같은 날 정사각 대표사진으로 재도입했고, 2026-08-05부터 공용 규격 상수에 따라 세로로 표시·편집한다
 - **`celeb_contents`**: 셀럽 감상경위. `celeb_id → celebs.id`, `content_id → contents.id`,
   UNIQUE(`celeb_id`, `content_id`). 출처 가드·0건 확정 해제·파생 개수는 이 테이블 기준이다
 - **`celeb_metrics`**: 셀럽별 `follower_count`·`content_count` 캐시. `celeb_id`가 PK이자

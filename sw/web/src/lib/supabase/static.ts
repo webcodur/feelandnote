@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { rawFetch } from '@/lib/rawFetch'
 
 /**
- * Cookie 없는 Supabase 클라이언트 (unstable_cache 내부 사용)
+ * Cookie 없는 PostgREST 클라이언트 (unstable_cache 내부 사용)
  * 공개 데이터 조회 전용 — RLS anon 정책 적용
  *
  * auth 옵션을 반드시 끈다. supabase-js 는 브라우저가 아니면 생성 즉시 토큰 자동갱신

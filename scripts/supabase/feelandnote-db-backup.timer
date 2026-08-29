@@ -1,5 +1,5 @@
 [Unit]
-Description=Daily encrypted Feel&Note Supabase database backup
+Description=Daily encrypted Feel&Note PostgreSQL backup
 
 [Timer]
 OnCalendar=*-*-* 18:20:00 UTC

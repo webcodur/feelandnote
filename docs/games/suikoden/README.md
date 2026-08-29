@@ -38,8 +38,8 @@
 
 ## 데이터 소스
 
-- **캐릭터**: Supabase `profiles` + `celeb_influence` + `celeb_persona`
-- **대사·명언**: Supabase `celeb_dialogues`
+- **캐릭터**: Oracle VM의 PostgreSQL `celebs` + `celeb_influence` + `celeb_persona`
+- **대사·명언**: Oracle VM의 PostgreSQL `celeb_dialogues`
 - 게임 진입 시 `SUIKODEN_CHARACTER_IDS`에 포함된 **시나리오 고정 인물만** DB에서 읽는다. 전체 활성 인물을 끌어오지 않는다.
 - 선택 시나리오의 필수 프로필 UUID가 조회 결과에 없으면 해당 시나리오는 시작할 수 없고 누락 안내를 표시한다.
 - **아이템 DB 연동은 폐기됐다.** 콘텐츠(`contents`/`user_contents`) 기반 아이템 시스템은 2026-03에 수량제 장비로 교체됐다.

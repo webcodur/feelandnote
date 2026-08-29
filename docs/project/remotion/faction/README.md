@@ -204,7 +204,7 @@ sw/remotion/public/music/  # 배경음악
 
 ## faction-data.json은 산출물이다 — 직접 편집 금지
 
-텍스트·구성의 단일 원천은 **Supabase 5테이블**이고, `faction-data.json`은 `pnpm faction:export`가 DB에서 만들어 내는 **렌더용 빌드 산출물**이다. 렌더가 webpack 빌드타임에 이 파일을 동기 스캔하는 구조라 DB를 직접 읽을 수 없어서 파일을 남긴다.
+텍스트·구성의 단일 원천은 **Oracle VM의 PostgreSQL 5테이블**이고, `faction-data.json`은 `pnpm faction:export`가 DB에서 만들어 내는 **렌더용 빌드 산출물**이다. 렌더가 webpack 빌드타임에 이 파일을 동기 스캔하는 구조라 DB를 직접 읽을 수 없어서 파일을 남긴다.
 
 - 파일 첫 키에 `_generated {from, at, episodeId, checksum}` 마커가 붙는다(렌더는 미지 키를 무시한다).
 - 손으로 고치면 다음 내보내기가 **checksum 불일치로 중단하고 diff를 뿜는다.** `--force`로만 강행된다.
@@ -216,7 +216,7 @@ sw/remotion/public/music/  # 배경음악
 
 | 영역 | 경로 |
 |------|------|
-| **텍스트·구성 원천(DB)** | Supabase 5테이블 — `faction_episodes` · `faction_groups` · `faction_clusters` · `faction_people` · `faction_episode_parts` |
+| **텍스트·구성 원천(DB)** | Oracle VM의 PostgreSQL 5테이블 — `faction_episodes` · `faction_groups` · `faction_clusters` · `faction_people` · `faction_episode_parts` |
 | 조립·분해 | `packages/shared/src/lib/faction-schema.ts`(핫 필드 split/join) · `faction-assemble.ts`(DB 행 ↔ FactionScript) |
 | 내보내기 | `packages/shared/src/bo/faction-export.ts` + CLI `sw/remotion/scripts/faction/{import,export,verify}.ts` (`pnpm faction:import|export|verify`) |
 | 편집 화면 | `sw/web-bo/src/app/(admin)/factions/` + `sw/web-bo/src/components/factions/` |

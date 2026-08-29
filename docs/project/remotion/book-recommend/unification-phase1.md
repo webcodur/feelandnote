@@ -32,7 +32,7 @@
 ## 단일원천과 산출물
 
 ```text
-Supabase
+DB
   celebs
     └─ celeb_contents.id
          └─ contents.id

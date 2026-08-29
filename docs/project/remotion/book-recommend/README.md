@@ -24,13 +24,13 @@
 콘텐츠 관계·판본 표지와 영상 원고는 원천이 다르다.
 
 ```text
-Supabase celeb_contents → contents → content_locales.thumbnail_url
+DB celeb_contents → contents → content_locales.thumbnail_url
         ↓ 안정 ID                         ↓ 원본 URL
 book.<locale>.json                 covers/content/<contentId>/<locale>.webp
         └─────────────────────── Remotion 렌더
 ```
 
-- 콘텐츠 관계·외부 표지 URL은 Supabase가 원본이다.
+- 콘텐츠 관계·외부 표지 URL은 DB가 원본이다.
 - 영상 원고·음성·타이밍·연출 이미지는 에피소드 폴더가 원본이다.
 - 제목·저자 문자열은 영상 형식에 맞춘 표현일 수 있으므로 DB 판본명으로 자동 덮어쓰지 않는다.
 - 상세 연결·캐시 규격은 [1차 통합 문서](unification-phase1.md)를 따른다.

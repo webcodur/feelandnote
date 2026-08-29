@@ -20,7 +20,6 @@
 - 관계망은 개발 화면에서 모바일·데스크톱으로 직접 검수한다. `RELATION_MAP_ENABLED` 운영 차단은 사용자가 공개를 따로 결정할 때까지 유지한다.
 - 데스크톱 인물 상세 펼쳐보기의 매체 아이콘·순위 배지 위치와 링크를 누른 직후의 대기 표식을 확인한다.
 - 성향 비교 화면을 작은 너비에서 확인하고 넘침·잘림이 있으면 보정한다.
-- 공개 GitHub 저장소의 홈페이지 값을 `https://feelnnote.vercel.app`에서
-  `https://feelandnote.com`으로 바꾼다.
+- 공개 GitHub 저장소의 홈페이지 값을 `https://feelandnote.com`으로 바꾼다.
 - Oracle public vantage point에서 홈 REST를 10분마다 확인하고
   `MemoryUtilization[5m].mean() > 90` 알람을 기존 이메일 topic에 연결한다.
