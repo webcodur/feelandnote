@@ -6,7 +6,7 @@ import type { ReviewFilter, SortOption, ViewMode } from "../contentLibraryTypes"
 export interface ArchiveControlBarProps {
   activeTab: CategoryId;
   onTabChange: (tab: CategoryId) => void;
-  typeCounts: ContentTypeCounts;
+  typeCounts: ContentTypeCounts | null;
   sortOption: SortOption;
   onSortOptionChange: (option: SortOption) => void;
   reviewFilter: ReviewFilter;

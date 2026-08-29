@@ -14,6 +14,7 @@ import { useLocale, useTranslations } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
 import FormattedText from "@/components/ui/FormattedText";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
+import Button from "@/components/ui/Button";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getLocalizedContent } from "@/lib/utils/editions";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -29,6 +30,10 @@ interface ExpandCardProps {
   brief: ContentBrief | null;
   isBriefLoading: boolean;
   isRecordLoading: boolean;
+  hasBriefError: boolean;
+  hasRecordError: boolean;
+  onRetryBrief: () => void;
+  onRetryRecord: () => void;
   /** 화면에 지금 떠 있는 카드인지. 옆에 대기 중인 카드는 표지를 서둘러 받지 않는다 */
   isActive: boolean;
   /** 이 감상배경을 남긴 인물 이름 */
@@ -42,6 +47,10 @@ function ExpandCard({
   brief,
   isBriefLoading,
   isRecordLoading,
+  hasBriefError,
+  hasRecordError,
+  onRetryBrief,
+  onRetryRecord,
   isActive,
   ownerNickname,
   ownerAvatarUrl,
@@ -100,7 +109,16 @@ function ExpandCard({
           )}
 
           <div className="min-w-0 flex-1">
-            <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
+            {hasBriefError ? (
+              <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
+                <p>{tExpand("loadFailed")}</p>
+                <Button type="button" variant="secondary" size="sm" className="mt-3" onClick={onRetryBrief}>
+                  {tExpand("retry")}
+                </Button>
+              </div>
+            ) : (
+              <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
+            )}
           </div>
         </div>
 
@@ -128,7 +146,14 @@ function ExpandCard({
             </div>
           </div>
 
-          {isRecordLoading ? (
+          {hasRecordError ? (
+            <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
+              <p>{tExpand("loadFailed")}</p>
+              <Button type="button" variant="secondary" size="sm" className="mt-3" onClick={onRetryRecord}>
+                {tExpand("retry")}
+              </Button>
+            </div>
+          ) : isRecordLoading ? (
             <div aria-hidden className="space-y-2 py-1">
               <div className="h-3 w-full animate-pulse rounded bg-white/[0.06]" />
               <div className="h-3 w-11/12 animate-pulse rounded bg-white/[0.06]" />
@@ -147,16 +172,16 @@ function ExpandCard({
             </>
           ) : null}
 
-          {!isRecordLoading && review && isSpoiler && (
+          {!hasRecordError && !isRecordLoading && review && isSpoiler && (
             <div className="rounded-lg border border-white/5 bg-white/5 px-4 py-6 text-center text-sm text-text-secondary">
               {t("reviewModal.spoiler")}
             </div>
           )}
 
-          {!isRecordLoading && !review && <p className="text-sm italic text-text-tertiary">{t("reviewModal.noReview")}</p>}
+          {!hasRecordError && !isRecordLoading && !review && <p className="text-sm italic text-text-tertiary">{t("reviewModal.noReview")}</p>}
 
         {/* 출처 */}
-          <div className="mt-4 min-w-0 text-sm">
+          {!hasRecordError && <div className="mt-4 min-w-0 text-sm">
             {isRecordLoading ? (
               <span className="block h-3 w-40 animate-pulse rounded bg-white/[0.06]" />
             ) : item.source_url ? (
@@ -172,16 +197,18 @@ function ExpandCard({
             ) : (
               <span className="font-semibold text-red-500">{t("reviewModal.noSource")}</span>
             )}
-          </div>
+          </div>}
         </section>
 
         {/* 아랫칸 — 출판사·출판일·ISBN 등 작품의 나머지 정보 */}
-        <ContentMetaPanel
-          brief={brief}
-          isLoading={isBriefLoading}
-          internalHref={href}
-          mediaEnabled={isActive}
-        />
+        {!hasBriefError && (
+          <ContentMetaPanel
+            brief={brief}
+            isLoading={isBriefLoading}
+            internalHref={href}
+            mediaEnabled={isActive}
+          />
+        )}
       </article>
 
       {isActive && coverUrl && isCoverOpen ? (

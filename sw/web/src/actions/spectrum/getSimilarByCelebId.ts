@@ -1,7 +1,7 @@
 'use server'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE, cachedList, cachedDetail } from '@/lib/cache'
+import { STATIC_REVALIDATE, cachedList, cachedDetail, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { getReviewCelebIdsCached } from './reviewCelebIds'
@@ -198,7 +198,7 @@ const getAllSpectrumVectorsCached = () =>
 // 생몰일·title까지 포함해 단건 조회한다. 1행이라 캐시 한도와 무관하다.
 async function fetchSpectrumByCelebId(celebId: string): Promise<SpectrumJoinRow | null> {
   const supabase = createStaticClient()
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('celeb_persona')
     .select(`
       celeb_id, spectrum:persona,
@@ -206,12 +206,13 @@ async function fetchSpectrumByCelebId(celebId: string): Promise<SpectrumJoinRow 
     `)
     .eq('celeb_id', celebId)
     .maybeSingle()
+  throwOnQueryError('getSimilarByCelebId/target', error)
   return (data as SpectrumJoinRow | null) ?? null
 }
 
 function getSpectrumByCelebIdCached(celebId: string): Promise<SpectrumJoinRow | null> {
   // 인물 한 명의 성향 — 항목 태그를 단다. 인물 자료가 바뀔 때도 함께 비워지도록 인물 도메인을 곁들인다
-  return cachedDetail(CACHE_TAGS.SPECTRUM, celebId, ['spectrum-by-id', celebId], () => fetchSpectrumByCelebId(celebId), {
+  return cachedDetail(CACHE_TAGS.SPECTRUM, celebId, ['spectrum-by-id-v2-query-guards', celebId], () => fetchSpectrumByCelebId(celebId), {
     extraTags: [CACHE_TAGS.CELEBS],
   })
 }

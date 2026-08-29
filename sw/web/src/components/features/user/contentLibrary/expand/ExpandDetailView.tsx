@@ -99,6 +99,8 @@ export default function ExpandDetailView({
     contentId: loadedBriefContentId,
     brief: loadedBrief,
     isLoading: isBriefLoading,
+    hasError: hasBriefError,
+    retry: retryBrief,
   } = useContentBrief(
     contentIds,
     selectedIndex,
@@ -109,7 +111,12 @@ export default function ExpandDetailView({
   );
   const brief = loadedBriefContentId === selectedContentId ? loadedBrief : null;
   const selectedPlaceholder = items[selectedIndex];
-  const { record, isLoading: isRecordLoading } = useCelebContentRecord(
+  const {
+    record,
+    isLoading: isRecordLoading,
+    hasError: hasRecordError,
+    retry: retryRecord,
+  } = useCelebContentRecord(
     celebId,
     selectedContentId,
     initialContentRecord,
@@ -209,6 +216,10 @@ export default function ExpandDetailView({
           brief={brief}
           isBriefLoading={isBriefLoading}
           isRecordLoading={isRecordLoading}
+          hasBriefError={hasBriefError}
+          hasRecordError={hasRecordError}
+          onRetryBrief={retryBrief}
+          onRetryRecord={retryRecord}
           isActive={isActive}
           ownerNickname={ownerNickname}
           ownerAvatarUrl={ownerAvatarUrl}

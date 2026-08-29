@@ -157,6 +157,16 @@ export default function ContentLibrary({
         hideWrapper={hideControlWrapper}
       />
 
+      {lib.typeCountsError && (
+        <div role="alert" className="flex justify-center px-3">
+          <ErrorState
+            message={lib.typeCountsError}
+            onRetry={lib.loadTypeCounts}
+            compact
+          />
+        </div>
+      )}
+
       <ContentLibraryBody
         compact={compact}
         currentPage={lib.currentPage}

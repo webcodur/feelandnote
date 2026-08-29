@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
-import { cachedDetail, LIST_REVALIDATE, STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedDetail, LIST_REVALIDATE, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import type { AffiliatePlatformKey } from '@/constants/affiliatePlatforms'
 import { FACTION_BOOK_TOPICS } from '@/constants/factionBookTopics'
 import { findAffiliateLink } from './affiliateLinks'
@@ -77,10 +77,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
     .not('affiliate_url', 'is', null)
     .limit(1000)
 
-  if (error) {
-    console.error('[getAffiliateBooks] 조회 실패:', error)
-    return []
-  }
+  throwOnQueryError('getAffiliateBooks/pool', error)
 
   const rows = (data ?? []) as unknown as LocaleRow[]
   const pool: PoolEntry[] = []
@@ -172,7 +169,7 @@ function rotateDaily<T>(items: T[], limit: number): T[] {
   return Array.from({ length: limit }, (_, i) => window[(start + i) % window.length])
 }
 
-const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool'], {
+const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v2-query-guards'], {
   // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
   // 인물 상세을 연쇄 무효화하므로, 한 시간 만료로만 새 후보를 흡수한다.
   revalidate: LIST_REVALIDATE,
@@ -204,10 +201,7 @@ async function fetchReadByCeleb(celebId: string): Promise<Set<string>> {
     .eq('celeb_id', celebId)
     .limit(1000)
 
-  if (error) {
-    console.error('[getAffiliateBooks] 인물 기록 조회 실패:', error)
-    return new Set()
-  }
+  throwOnQueryError('getAffiliateBooks/celeb-read', error)
   return new Set((data ?? []).map((r) => r.content_id as string))
 }
 
@@ -215,11 +209,16 @@ async function fetchReadByCeleb(celebId: string): Promise<Set<string>> {
 async function fetchReadByProfession(celebId: string): Promise<Set<string>> {
   const supabase = createStaticClient()
 
-  const { data: me } = await supabase.from('celebs').select('profession').eq('id', celebId).maybeSingle()
+  const { data: me, error: professionError } = await supabase
+    .from('celebs')
+    .select('profession')
+    .eq('id', celebId)
+    .maybeSingle()
+  throwOnQueryError('getAffiliateBooks/profession', professionError)
   const profession = me?.profession
   if (!profession) return new Set()
 
-  const { data: peers } = await supabase
+  const { data: peers, error: peersError } = await supabase
     .from('celebs')
     .select('id')
     .eq('profession', profession)
@@ -228,6 +227,7 @@ async function fetchReadByProfession(celebId: string): Promise<Set<string>> {
     .order('view_count', { ascending: false })
     .limit(60)
 
+  throwOnQueryError('getAffiliateBooks/profession-peers', peersError)
   const peerIds = (peers ?? []).map((p) => p.id as string)
   if (peerIds.length === 0) return new Set()
 
@@ -237,10 +237,7 @@ async function fetchReadByProfession(celebId: string): Promise<Set<string>> {
     .in('celeb_id', peerIds)
     .limit(1000)
 
-  if (error) {
-    console.error('[getAffiliateBooks] 직군 기록 조회 실패:', error)
-    return new Set()
-  }
+  throwOnQueryError('getAffiliateBooks/profession-read', error)
   return new Set((data ?? []).map((r) => r.content_id as string))
 }
 
@@ -253,10 +250,7 @@ async function fetchOriginWorks(celebId: string): Promise<Set<string>> {
     .eq('celeb_id', celebId)
     .limit(50)
 
-  if (error) {
-    console.error('[getAffiliateBooks] 원전 조회 실패:', error)
-    return new Set()
-  }
+  throwOnQueryError('getAffiliateBooks/origin', error)
   return new Set((data ?? []).map((r) => r.content_id as string))
 }
 
@@ -301,7 +295,7 @@ export async function getAffiliateBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb', celebId, platform, String(limit)],
+    ['affiliate-books-celeb-v2-query-guards', celebId, platform, String(limit)],
     () => fetchAffiliateBooksForCeleb(celebId, platform, limit),
     { revalidate: LIST_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS] },
   )

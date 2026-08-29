@@ -6,7 +6,7 @@ import {
   CELEB_RELATION_TYPE_ORDER,
   type CelebRelationGroup,
 } from '@feelandnote/shared/constants/celeb-relations'
-import { cachedDetail } from '@/lib/cache'
+import { cachedDetail, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
 import { type PublicUserProfile, type CelebTier } from './getUserProfile'
@@ -187,13 +187,14 @@ interface PublicCelebBySlugData {
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
   const supabase = createStaticClient()
 
-  const { data: celeb } = await supabase
+  const { data: celeb, error: profileError } = await supabase
     .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
     .eq('slug', slug)
     .eq('publication_status', 'active')
-    .single()
+    .maybeSingle()
 
+  throwOnQueryError('getCelebBySlug/profile', profileError)
   if (!celeb) return null
 
   const profile = { ...celeb, selected_title: null }
@@ -234,22 +235,24 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     // 세력도감 소속 — 단일 원천은 제작 테이블(faction_people)이고 DB 뷰 faction_atlas_members가
     // 웹 전용 배정과 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽는다.
     (async (): Promise<FactionTagAssignmentRow[]> => {
-      const { data: memberRows } = await supabase
+      const { data: memberRows, error: memberRowsError } = await supabase
         .from('faction_atlas_members')
         .select('tag_id, faction_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en')
         .eq('celeb_id', celebId)
         .eq('hidden', false)
         .order('sort_order', { ascending: true })
         .overrideTypes<Omit<FactionTagAssignmentRow, 'tag'>[], { merge: false }>()
+      throwOnQueryError('getCelebBySlug/faction-members', memberRowsError)
       if (!memberRows?.length) return []
 
       const tagIds = [...new Set(memberRows.map((r) => r.tag_id))]
-      const { data: tagRows } = await supabase
+      const { data: tagRows, error: tagRowsError } = await supabase
         .from('celeb_tags')
         .select('id, name, name_en, slug, color, description, description_en, youtube_videos, theme_music')
         .in('id', tagIds)
         .eq('is_featured', true)
         .overrideTypes<NonNullable<FactionTagAssignmentRow['tag']>[], { merge: false }>()
+      throwOnQueryError('getCelebBySlug/faction-tags', tagRowsError)
       const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
 
       return memberRows.map((r) => ({ ...r, tag: tagById.get(r.tag_id) ?? null }))
@@ -277,9 +280,15 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .maybeSingle(),
   ])
 
-  if (explanationResult.error) {
-    console.error('공개 인물 읽어보기 조회 실패:', explanationResult.error)
-  }
+  throwOnQueryError('getCelebBySlug/content-count', contentCountResult.error)
+  throwOnQueryError('getCelebBySlug/follower-count', followerResult.error)
+  throwOnQueryError('getCelebBySlug/guestbook-count', guestbookResult.error)
+  throwOnQueryError('getCelebBySlug/dialogue', dialogueResult.error)
+  throwOnQueryError('getCelebBySlug/type-counts', typeCountsResult.error)
+  throwOnQueryError('getCelebBySlug/outgoing-relations', outgoingRelationsResult.error)
+  throwOnQueryError('getCelebBySlug/incoming-relations', incomingRelationsResult.error)
+  throwOnQueryError('getCelebBySlug/external-relations', externalRelationsResult.error)
+  throwOnQueryError('getCelebBySlug/explanation', explanationResult.error)
 
   const contentTypeCounts: ContentTypeCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
   for (const row of typeCountsResult.data ?? []) {
@@ -396,8 +405,8 @@ const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     slug,
-    // v6: 관계망 인물에 명단 등록 여부(listed)를 함께 내린다.
-    ['celeb-by-slug-v6-relation-listed', slug],
+    // v7: 모든 부분 조회가 성공했을 때만 캐시해 과거의 불완전한 v6 결과를 재사용하지 않는다.
+    ['celeb-by-slug-v7-query-guards', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
   )
