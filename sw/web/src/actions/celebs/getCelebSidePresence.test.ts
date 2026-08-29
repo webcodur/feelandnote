@@ -29,7 +29,8 @@ test('초기 존재 조회는 ID 한 칸과 7일 상세 캐시만 사용한다',
   assert.match(presenceSource, /cachedDetail\([\s\S]*?CACHE_TAGS\.CELEBS/)
   assert.match(presenceSource, /cachedDetail\([\s\S]*?CACHE_TAGS\.SPECTRUM/)
   assert.match(presenceSource, /extraTags: \[CACHE_TAGS\.CELEBS\]/)
-  assert.match(presenceSource, /birthDate[\s\S]*?hasContemporaries\([\s\S]*?: Promise\.resolve\(false\)/)
+  assert.match(presenceSource, /throwOnQueryError\('getCelebSidePresence\/influence', error\)/)
+  assert.match(presenceSource, /throwOnQueryError\('getCelebSidePresence\/spectrum', error\)/)
   assert.doesNotMatch(presenceSource, /LIST_REVALIDATE/)
 })
 

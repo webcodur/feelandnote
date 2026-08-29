@@ -185,18 +185,33 @@ async function fetchBrief(contentId: string, locale: string): Promise<ContentBri
  * 바깥(카카오·TMDB·IGDB·iTunes) 조회가 섞여 있어 첫 호출은 왕복이 생긴다.
  * 결과는 작품 한 건 단위로 저장되므로 같은 작품을 두 번째 열 때는 즉시 돌아온다.
  */
+function getCachedContentBrief(contentId: string, safeLocale: string): Promise<ContentBrief | null> {
+  return cachedDetail(
+    CACHE_TAGS.CONTENTS,
+    contentId,
+    ['content-brief-locale-intro-v5', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
+    () => fetchBrief(contentId, safeLocale),
+  )
+}
+
 export async function getContentBrief(contentId: string, locale: string): Promise<ContentBrief | null> {
   if (!UUID_PATTERN.test(contentId)) return null
   const safeLocale = locale === 'en' ? 'en' : 'ko'
   return withQueryFallback(
     'getContentBrief',
-    () =>
-      cachedDetail(
-        CACHE_TAGS.CONTENTS,
-        contentId,
-        ['content-brief-locale-intro-v5', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
-        () => fetchBrief(contentId, safeLocale),
-      ),
+    () => getCachedContentBrief(contentId, safeLocale),
     null,
   )
+}
+
+/**
+ * 펼침 보기의 클라이언트 요청용. 조회 실패를 null로 바꾸지 않아 브라우저가
+ * 실제 「소개 없음」과 일시 실패를 구분하고 같은 화면에서 재시도할 수 있게 한다.
+ */
+export async function getContentBriefStrict(
+  contentId: string,
+  locale: string,
+): Promise<ContentBrief | null> {
+  if (!UUID_PATTERN.test(contentId)) return null
+  return getCachedContentBrief(contentId, locale === 'en' ? 'en' : 'ko')
 }

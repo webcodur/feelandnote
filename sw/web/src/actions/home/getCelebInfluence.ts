@@ -84,7 +84,7 @@ async function fetchCelebInfluence(
 
   // 두 count 쿼리 병렬화 (Promise.all)
   const totalScore = data.total_score ?? 0;
-  const [{ count: higherCount }, { count: totalCount }] = await Promise.all([
+  const [higherResult, totalResult] = await Promise.all([
     supabase
       .from("celeb_influence")
       .select("*", { count: "exact", head: true })
@@ -95,8 +95,11 @@ async function fetchCelebInfluence(
       .gt("total_score", 0),
   ]);
 
-  const ranking = (higherCount ?? 0) + 1;
-  const total = totalCount ?? 1;
+  throwOnQueryError('getCelebInfluence/higher-count', higherResult.error);
+  throwOnQueryError('getCelebInfluence/total-count', totalResult.error);
+
+  const ranking = (higherResult.count ?? 0) + 1;
+  const total = totalResult.count ?? 1;
   const percentile = calculatePercentile(ranking, total);
   const level = getCelebLevelByRanking(ranking, total);
 
@@ -154,7 +157,7 @@ async function fetchCelebInfluence(
 
 /* 인물 한 명짜리 조회 — 항목 태그를 달아 그 한 명만 비울 수 있게 한다 */
 const getCelebInfluenceCached = (...args: Parameters<typeof fetchCelebInfluence>) =>
-  cachedDetail(CACHE_TAGS.CELEBS, args[0], ["celeb-influence-detail", ...args.map((a) => String(a ?? ''))], () =>
+  cachedDetail(CACHE_TAGS.CELEBS, args[0], ["celeb-influence-detail-v2-query-guards", ...args.map((a) => String(a ?? ''))], () =>
     fetchCelebInfluence(...args),
   );
 

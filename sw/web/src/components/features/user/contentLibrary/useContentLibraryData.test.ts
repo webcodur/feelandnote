@@ -70,6 +70,18 @@ test("ContentLibrary keeps refresh failures non-destructive and retryable", () =
   );
 });
 
+test("content type count failures never render as zero and can retry without a refresh", () => {
+  assert.match(
+    contentLibraryDataSource,
+    /useState<ContentTypeCounts \| null>\(null\)/,
+  );
+  assert.match(contentLibraryDataSource, /const \[typeCountsError, setTypeCountsError\]/);
+  assert.match(contentLibraryDataSource, /const loadTypeCounts = useCallback/);
+  assert.match(contentLibraryDataSource, /MAX_COUNT_REQUEST_ATTEMPTS/);
+  assert.match(contentLibrarySource, /message=\{lib\.typeCountsError\}/);
+  assert.match(contentLibrarySource, /onRetry=\{lib\.loadTypeCounts\}/);
+});
+
 test("responsive viewport resolution keeps the same keyed presenter wrappers", () => {
   const presenterBranch = contentLibraryBodySource.slice(
     contentLibraryBodySource.indexOf("{hasFilteredContents"),

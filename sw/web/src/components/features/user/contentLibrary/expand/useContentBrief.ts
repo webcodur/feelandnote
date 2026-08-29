@@ -7,10 +7,10 @@
 import { startTransition, useCallback, useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 
-import { getContentBrief, type ContentBrief } from "@/actions/contents/getContentBrief";
+import { getContentBriefStrict, type ContentBrief } from "@/actions/contents/getContentBrief";
 
-const MAX_REQUEST_ATTEMPTS = 2;
-const RETRY_DELAY_MS = 200;
+const MAX_REQUEST_ATTEMPTS = 3;
+const RETRY_DELAY_MS = 250;
 
 type SettledBriefEntry =
   | { status: "ready"; brief: ContentBrief | null }
@@ -30,6 +30,9 @@ export interface ContentBriefState {
   brief: ContentBrief | null;
   /** 요청 대상의 소개가 아직 준비되지 않았을 때 true다. */
   isLoading: boolean;
+  /** 소개가 없는 것이 아니라 요청 자체가 끝내 실패했을 때 true다. */
+  hasError: boolean;
+  retry: () => void;
 }
 
 /**
@@ -72,6 +75,7 @@ export function useContentBrief(
         }
       : null
   ));
+  const [retryToken, setRetryToken] = useState(0);
 
   const load = useCallback(
     (contentId: string, retryFailed: boolean): Promise<SettledBriefEntry> => {
@@ -87,13 +91,13 @@ export function useContentBrief(
       const request = (async (): Promise<SettledBriefEntry> => {
         for (let attempt = 1; attempt <= MAX_REQUEST_ATTEMPTS; attempt += 1) {
           try {
-            const brief = await getContentBrief(contentId, locale);
+            const brief = await getContentBriefStrict(contentId, locale);
             const entry: SettledBriefEntry = { status: "ready", brief };
             entriesRef.current.set(cacheKey, entry);
             return entry;
           } catch (error) {
             if (attempt < MAX_REQUEST_ATTEMPTS) {
-              await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+              await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS * attempt));
               continue;
             }
 
@@ -116,6 +120,14 @@ export function useContentBrief(
     },
     [locale],
   );
+
+  const retry = useCallback(() => {
+    if (!enabled || !activeContentId) return;
+    const cacheKey = `${locale}:${activeContentId}`;
+    entriesRef.current.delete(cacheKey);
+    setCommitted((current) => current?.cacheKey === cacheKey ? null : current);
+    setRetryToken((current) => current + 1);
+  }, [activeContentId, enabled, locale]);
 
   useEffect(() => {
     const currentId = contentIds[at];
@@ -149,13 +161,16 @@ export function useContentBrief(
     return () => {
       cancelled = true;
     };
-  }, [activeContentId, at, contentIds, enabled, isActiveContent, load, locale]);
+  }, [activeContentId, at, contentIds, enabled, isActiveContent, load, locale, retryToken]);
 
   const activeKey = activeContentId ? `${locale}:${activeContentId}` : null;
   const localeCommitted = committed?.locale === locale ? committed : null;
+  const isCurrent = activeKey != null && localeCommitted?.cacheKey === activeKey;
   return {
     contentId: localeCommitted?.contentId ?? null,
     brief: localeCommitted?.brief ?? null,
-    isLoading: enabled && activeKey != null && localeCommitted?.cacheKey !== activeKey,
+    isLoading: enabled && activeKey != null && !isCurrent,
+    hasError: enabled && isCurrent && localeCommitted?.status === "failed",
+    retry,
   };
 }

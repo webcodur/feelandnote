@@ -19,7 +19,7 @@ import { REVIEW_FILTER_OPTIONS, SORT_OPTIONS, TAB_OPTIONS } from "./constants";
 interface ArchiveFilterRowProps {
   activeTab: CategoryId;
   onTabChange: (tab: CategoryId) => void;
-  typeCounts: ContentTypeCounts;
+  typeCounts: ContentTypeCounts | null;
   sortOption: SortOption;
   onSortOptionChange: (option: SortOption) => void;
   reviewFilter: ReviewFilter;
@@ -44,11 +44,17 @@ export default function ArchiveFilterRow({
   const t = useTranslations("archiveSearch");
   const tCategory = useTranslations("content.category");
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
-  const totalCount = Object.values(typeCounts).reduce((sum, count) => sum + count, 0);
+  const totalCount = typeCounts
+    ? Object.values(typeCounts).reduce((sum, count) => sum + count, 0)
+    : undefined;
   const categoryOptions: FilterOption[] = TAB_OPTIONS.map((tab) => ({
     value: tab.value,
     label: tCategory(tab.value),
-    count: tab.type ? typeCounts[tab.type] : totalCount,
+    count: typeCounts
+      ? tab.type
+        ? typeCounts[tab.type]
+        : totalCount
+      : undefined,
   }));
   const availableSortOptions = allowRatingSort
     ? SORT_OPTIONS

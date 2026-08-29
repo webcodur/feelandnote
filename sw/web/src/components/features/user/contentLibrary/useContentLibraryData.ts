@@ -26,6 +26,9 @@ import {
 
 export { resolveDatasetPresentation };
 
+const MAX_COUNT_REQUEST_ATTEMPTS = 3;
+const COUNT_RETRY_DELAY_MS = 250;
+
 export function useContentLibraryData(options: ContentLibraryDataOptions) {
   const t = useTranslations("archiveSearch");
   const {
@@ -56,10 +59,12 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
   const [error, setError] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(seed?.totalPages ?? 1);
   const [total, setTotal] = useState(seed?.total ?? 0);
-  const [typeCounts, setTypeCounts] = useState<ContentTypeCounts>({ BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 });
+  const [typeCounts, setTypeCounts] = useState<ContentTypeCounts | null>(null);
+  const [typeCountsError, setTypeCountsError] = useState<string | null>(null);
   const [savedContentIds, setSavedContentIds] = useState<Set<string> | null>(null);
   const hasLoadedRef = useRef(seed !== null);
   const loadRequestIdRef = useRef(0);
+  const countRequestIdRef = useRef(0);
   const hasSeedForInitialQueryRef = useRef(seed !== null);
 
   const loadContents = useCallback(async () => {
@@ -128,23 +133,40 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     void loadContents();
   }, [hasInitialSeedQuery, loadContents]);
 
-  useEffect(() => {
-    let active = true;
-    const loadCounts = async () => {
+  const loadTypeCounts = useCallback(async () => {
+    const requestId = ++countRequestIdRef.current;
+    setTypeCountsError(null);
+
+    for (let attempt = 1; attempt <= MAX_COUNT_REQUEST_ATTEMPTS; attempt += 1) {
       try {
         const counts = isViewer && targetUserId
           ? ownerKind === 'celeb'
             ? await getCelebContentCounts(targetUserId)
             : await getUserContentCounts(targetUserId)
           : await getContentCounts();
-        if (active) setTypeCounts(counts);
+        if (requestId !== countRequestIdRef.current) return;
+        setTypeCounts(counts);
+        return;
       } catch (countError) {
+        if (requestId !== countRequestIdRef.current) return;
+        if (attempt < MAX_COUNT_REQUEST_ATTEMPTS) {
+          await new Promise((resolve) => setTimeout(resolve, COUNT_RETRY_DELAY_MS * attempt));
+          continue;
+        }
+
         console.error("타입별 개수 로드 실패:", countError);
+        setTypeCountsError(t("loadFailed"));
+        return;
       }
+    }
+  }, [isViewer, ownerKind, t, targetUserId]);
+
+  useEffect(() => {
+    void loadTypeCounts();
+    return () => {
+      countRequestIdRef.current += 1;
     };
-    void loadCounts();
-    return () => { active = false; };
-  }, [isViewer, ownerKind, targetUserId]);
+  }, [loadTypeCounts]);
 
   useEffect(() => {
     if (
@@ -174,8 +196,10 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     totalPages,
     total,
     typeCounts,
+    typeCountsError,
     savedContentIds,
     setSavedContentIds,
     loadContents,
+    loadTypeCounts,
   };
 }

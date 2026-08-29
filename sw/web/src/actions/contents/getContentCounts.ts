@@ -1,7 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
+import { throwOnQueryError } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
@@ -59,7 +59,7 @@ export async function getContentCounts(): Promise<ContentTypeCounts> {
   }
 
   // egress-allow: 본인 서재 카운트 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (head 카운트만 송출)
-  return withQueryFallback('getContentCounts', () => countByType(supabase, user.id, false), zeroCounts())
+  return countByType(supabase, user.id, false)
 }
 
 // 특정 사용자의 공개 콘텐츠 타입별 개수 (FINISHED) — 공개 테이블, 캐시
@@ -70,7 +70,7 @@ const getCachedUserContentCounts = unstable_cache(
 )
 
 export async function getUserContentCounts(userId: string): Promise<ContentTypeCounts> {
-  return withQueryFallback('getUserContentCounts', () => getCachedUserContentCounts(userId), zeroCounts())
+  return getCachedUserContentCounts(userId)
 }
 
 // 특정 셀럽의 공개 콘텐츠 타입별 개수 (FINISHED) — celeb_contents, 캐시.
@@ -82,5 +82,5 @@ const getCachedCelebContentCounts = unstable_cache(
 )
 
 export async function getCelebContentCounts(userId: string): Promise<ContentTypeCounts> {
-  return withQueryFallback('getCelebContentCounts', () => getCachedCelebContentCounts(userId), zeroCounts())
+  return getCachedCelebContentCounts(userId)
 }
