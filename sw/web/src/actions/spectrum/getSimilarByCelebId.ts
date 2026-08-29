@@ -9,8 +9,11 @@ import type { SpectrumJsonb, SpectrumProfile, SpectrumStats } from '@/lib/spectr
 import { parseSpectrumJsonb } from '@/lib/spectrum/types'
 import {
   calcSpectrumMatchDistances,
+  calcEmphasizedAbilitySimilarity,
   calcEmphasizedVirtueSimilarity,
   calcPopulationStats,
+  getEmphasizedAbilityEvidence,
+  getEmphasizedAbilityVector,
   getEmphasizedVirtueEvidence,
   getEmphasizedVirtueVector,
   getSpectrumHighlights,
@@ -322,9 +325,16 @@ export async function getSimilarByCelebId(
   const virtuePopulationStats = Object.fromEntries(
     VIRTUE_KEYS.map((axis) => [axis, statStats[axis]]),
   ) as Pick<typeof statStats, (typeof VIRTUE_KEYS)[number]>
+  const abilityPopulationStats = Object.fromEntries(
+    ABILITY_KEYS.map((axis) => [axis, statStats[axis]]),
+  ) as Pick<typeof statStats, (typeof ABILITY_KEYS)[number]>
   const targetEmphasizedVirtues = getEmphasizedVirtueVector(
     targetSpectrum,
     virtuePopulationStats,
+  )
+  const targetEmphasizedAbilities = getEmphasizedAbilityVector(
+    targetSpectrum,
+    abilityPopulationStats,
   )
   // 유사 인물 산정은 집단 위치 보정 공간에서 — 퍼짐 넓은 축의 순위 지배를 막는다
   const adjustedTarget = toPopulationAdjustedStats(targetSpectrum, statStats)
@@ -363,6 +373,11 @@ export async function getSimilarByCelebId(
       targetEmphasizedVirtues,
       candidateEmphasizedVirtues,
     )
+    const emphasizedAbilitySimilarity = calcEmphasizedAbilitySimilarity(
+      targetEmphasizedAbilities,
+      candidate,
+      abilityPopulationStats,
+    )
 
     insertTopMatch(
       similarCelebs,
@@ -381,6 +396,22 @@ export async function getSimilarByCelebId(
             1 - emphasizedVirtueSimilarity,
             1,
             Math.round(emphasizedVirtueSimilarity * 100),
+          ),
+          categoryLimit,
+        )
+        continue
+      }
+
+      if (category === 'ability') {
+        if (emphasizedAbilitySimilarity <= 0) continue
+
+        insertTopMatch(
+          rankedMatchesByCategory.ability,
+          toSpectrumMatch(
+            candidate,
+            1 - emphasizedAbilitySimilarity,
+            1,
+            Math.round(emphasizedAbilitySimilarity * 100),
           ),
           categoryLimit,
         )
@@ -413,6 +444,13 @@ export async function getSimilarByCelebId(
                 getEmphasizedVirtueVector(candidate, virtuePopulationStats),
                 2,
               )
+            : category === 'ability'
+              ? getEmphasizedAbilityEvidence(
+                  targetSpectrum,
+                  candidate,
+                  targetEmphasizedAbilities,
+                  abilityPopulationStats,
+                )
             : getSpectrumMatchEvidence(
                 targetSpectrum,
                 candidate,
