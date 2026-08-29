@@ -5,9 +5,9 @@
 set -euo pipefail
 
 NODE_VER=v24.19.0
-HEAP_MB=${HEAP_MB:-1536}
-MEM_HIGH=${MEM_HIGH:-2200M}
-MEM_MAX=${MEM_MAX:-2600M}
+HEAP_MB=${HEAP_MB:-1280}
+MEM_HIGH=${MEM_HIGH:-1700M}
+MEM_MAX=${MEM_MAX:-2000M}
 
 log() { printf '\n== %s\n' "$*"; }
 
