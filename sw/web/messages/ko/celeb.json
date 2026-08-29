@@ -61,8 +61,21 @@
     "library": "기록물",
     "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
     "sourceWorks": "원전·등장 작품",
-    "sourceWorksIntro": "이 인물이 등장하는 원전과 작품입니다. 여러 판본 가운데 서비스에서 지정한 대표 콘텐츠로 연결합니다.",
-    "sourceWorkOpen": "작품 기록 열기",
+    "sourceWorksIntro": "이 인물이 실제로 등장하는 원전과 후대 작품을 한곳에서 살펴봅니다.",
+    "sourceWorksRepresentativeNote": "같은 작품의 번역·출판 판본은 한 작품으로 묶고, 화면에는 서비스에서 확인한 대표판을 보여줍니다.",
+    "sourceWorkCount": "작품 {count}편",
+    "sourceWorkOpen": "작품 상세보기",
+    "sourceWorkBuyCoupang": "쿠팡에서 보기",
+    "sourceWorkSelect": "작품 보기: {title}",
+    "sourceWorkCharacterAppearance": "이 작품에서의 인물",
+    "sourceWorkIntroductionBook": "책 소개",
+    "sourceWorkIntroduction": "작품 소개",
+    "sourceWorkIntroductionEmpty": "이 작품의 소개는 아직 준비되지 않았습니다. 자세한 정보는 작품 페이지에서 확인할 수 있습니다.",
+    "sourceWorkIntroductionOpen": "전체 소개 보기",
+    "sourceWorkIntroductionClose": "소개 닫기",
+    "sourceWorkCreator": "지은이",
+    "sourceWorkPublisher": "출판사",
+    "sourceWorkReleaseDate": "출간일",
     "sourceRelation": {
       "appearance": "등장 작품",
       "origin": "첫 등장 원전",
@@ -293,6 +306,9 @@
     "carouselComparePrev": "이전 비교",
     "carouselCompareNext": "다음 비교",
     "carouselDispositionPrev": "이전 성향 비교",
-    "carouselDispositionNext": "다음 성향 비교"
+    "carouselDispositionNext": "다음 성향 비교",
+    "timelineViewExpand": "펼치기",
+    "timelineOptCard": "사건 카드",
+    "timelineOptMap": "활동 반경"
   }
 }

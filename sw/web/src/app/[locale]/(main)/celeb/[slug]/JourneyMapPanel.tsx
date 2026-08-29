@@ -93,7 +93,6 @@ export default function JourneyMapPanel({
             onExpand={() => setExpanded(true)}
             expandLabel={t("timelineExpandMap")}
             expandAriaLabel={t("timelineExpandMapLabel")}
-            allowPageScroll
           />
         </div>
       </div>

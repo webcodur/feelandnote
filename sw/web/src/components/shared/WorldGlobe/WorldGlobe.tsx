@@ -836,12 +836,19 @@ export default function WorldGlobe({
           : "rgba(212,175,55,0.11)";
       ctx.fill();
 
+      // 뒤의 경로 선이 비치지 않도록 불투명 베이스 원을 먼저 채운다
+      ctx.beginPath();
+      ctx.arc(pt[0], pt[1], r + 1, 0, Math.PI * 2);
+      ctx.fillStyle = "#05080a";
+      ctx.fill();
+
+      // 마커 본체 (불투명)
       ctx.beginPath();
       ctx.arc(pt[0], pt[1], r, 0, Math.PI * 2);
       ctx.fillStyle = isActive || isHover || isPulse ? DOT_ACTIVE : DOT_FILL;
       ctx.fill();
-      ctx.strokeStyle = "rgba(10,10,10,0.9)";
-      ctx.lineWidth = isActive || isHover || isPulse ? 1.4 : 1;
+      ctx.strokeStyle = "#05080a";
+      ctx.lineWidth = isActive || isHover || isPulse ? 1.6 : 1.2;
       ctx.stroke();
     }
 

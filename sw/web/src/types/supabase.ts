@@ -2263,6 +2263,8 @@ export type Database = {
           celeb_id: string
           content_id: string
           created_at: string
+          description: string | null
+          description_en: string | null
           relation_type: string
           sort_order: number
         }
@@ -2270,6 +2272,8 @@ export type Database = {
           celeb_id: string
           content_id: string
           created_at?: string
+          description?: string | null
+          description_en?: string | null
           relation_type?: string
           sort_order?: number
         }
@@ -2277,6 +2281,8 @@ export type Database = {
           celeb_id?: string
           content_id?: string
           created_at?: string
+          description?: string | null
+          description_en?: string | null
           relation_type?: string
           sort_order?: number
         }

@@ -1,10 +1,8 @@
 'use server'
-
-import { unstable_cache } from 'next/cache'
-import { bulkTag, CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import type { CategoryId } from '@/constants/categories'
-import { STATIC_REVALIDATE, cachedDetail } from '@/lib/cache'
+import { cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import {
   CL_SELECT,
@@ -12,8 +10,17 @@ import {
   type ContentLocaleRow,
 } from '@/lib/utils/content-locale'
 import type { ContentType } from '@/types/database'
+import {
+  getFictionSourceCharacterDescription,
+  getFictionSourceLocaleFields,
+} from './fictionSourceLocale'
+import {
+  getAllFictionSourceAssignments,
+  type FictionSourceAssignmentRow,
+  type FictionSourceRelationType,
+} from './fictionSourceAssignments'
 
-export type FictionSourceRelationType = 'appearance' | 'origin' | 'adaptation'
+export type { FictionSourceRelationType } from './fictionSourceAssignments'
 
 export interface FictionSourceContent {
   id: string
@@ -23,6 +30,12 @@ export interface FictionSourceContent {
   type: ContentType
   category: CategoryId
   relationType: FictionSourceRelationType
+  appearanceDescription: string | null
+  description: string | null
+  publisher: string | null
+  isbn: string | null
+  releaseDate: string | null
+  coupangUrl: string | null
 }
 
 export interface FictionSourceCharacter {
@@ -34,16 +47,10 @@ export interface FictionSourceCharacter {
   relationType: FictionSourceRelationType
 }
 
-interface AssignmentRow {
-  content_id: string
-  celeb_id: string
-  relation_type: FictionSourceRelationType
-  sort_order: number
-}
-
 interface ContentRow {
   id: string
   type: ContentType
+  release_date: string | null
   content_locales: ContentLocaleRow[] | null
 }
 
@@ -64,56 +71,12 @@ const TYPE_TO_CATEGORY: Record<ContentType, CategoryId> = {
   MUSIC: 'music',
 }
 
-const ASSIGNMENT_PAGE_SIZE = 500
-
-/**
- * 콘텐츠 상세 1만여 면마다 관계 테이블을 한 번씩 조회하지 않도록 전체 연결을 한 캐시키로
- * 공유한다. 1,000행 PostgREST 상한을 넘겨도 조용히 잘리지 않게 고정 정렬 + 페이징한다.
- */
-async function fetchAllAssignments(): Promise<AssignmentRow[]> {
-  const supabase = createStaticClient()
-  const rows: AssignmentRow[] = []
-
-  for (let from = 0; ; from += ASSIGNMENT_PAGE_SIZE) {
-    const { data, error } = await supabase
-      .from('fiction_source_characters')
-      .select('content_id,celeb_id,relation_type,sort_order')
-      .order('content_id')
-      .order('sort_order')
-      .order('celeb_id')
-      .range(from, from + ASSIGNMENT_PAGE_SIZE - 1)
-      .overrideTypes<AssignmentRow[], { merge: false }>()
-
-    if (error) {
-      throw new Error(`픽션 원전 인물 연결 조회 실패: ${error.message}`)
-    }
-
-    const page = data ?? []
-    rows.push(...page)
-    if (page.length < ASSIGNMENT_PAGE_SIZE) break
-  }
-
-  return rows
-}
-
-const fetchAllAssignmentsCached = unstable_cache(
-  fetchAllAssignments,
-  ['fiction-source-character-assignments-v2'],
-  {
-    revalidate: STATIC_REVALIDATE,
-    tags: [
-      CACHE_TAGS.FICTION_SOURCES,
-      bulkTag(CACHE_TAGS.FICTION_SOURCES),
-    ],
-  },
-)
-
 async function fetchSourcesByCeleb(
   celebId: string,
   locale: string,
 ): Promise<FictionSourceContent[]> {
   const supabase = createStaticClient()
-  const assignments = (await fetchAllAssignmentsCached())
+  const assignments = (await getAllFictionSourceAssignments())
     .filter((assignment) => assignment.celeb_id === celebId)
   if (assignments.length === 0) return []
 
@@ -123,7 +86,7 @@ async function fetchSourcesByCeleb(
       assignments.map((assignment) => assignment.content_id),
       (contentIds) => supabase
         .from('contents')
-        .select(`id,type,content_locales(${CL_SELECT})`)
+        .select(`id,type,release_date,content_locales(${CL_SELECT})`)
         .in('id', contentIds)
         .overrideTypes<ContentRow[], { merge: false }>(),
     )
@@ -137,6 +100,7 @@ async function fetchSourcesByCeleb(
     const content = contentById.get(assignment.content_id)
     if (!content) return []
     const flat = flattenLocales(content.content_locales, locale)
+    const localeFields = getFictionSourceLocaleFields(content.content_locales, locale)
     return [{
       id: content.id,
       title: flat.title,
@@ -145,6 +109,12 @@ async function fetchSourcesByCeleb(
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
+      appearanceDescription: getFictionSourceCharacterDescription(assignment, locale),
+      description: localeFields.description,
+      publisher: localeFields.publisher,
+      isbn: localeFields.isbn,
+      releaseDate: content.release_date,
+      coupangUrl: localeFields.coupangUrl,
     }]
   })
 
@@ -157,10 +127,10 @@ async function fetchSourcesByCeleb(
 async function fetchCharactersByContent(
   contentId: string,
   locale: string,
-  knownAssignments?: AssignmentRow[],
+  knownAssignments?: FictionSourceAssignmentRow[],
 ): Promise<FictionSourceCharacter[]> {
   const supabase = createStaticClient()
-  const assignments = (knownAssignments ?? await fetchAllAssignmentsCached())
+  const assignments = (knownAssignments ?? await getAllFictionSourceAssignments())
     .filter((assignment) => assignment.content_id === contentId)
     .sort((a, b) => a.sort_order - b.sort_order || a.celeb_id.localeCompare(b.celeb_id))
   if (assignments.length === 0) return []
@@ -206,11 +176,10 @@ export async function getFictionSourcesForCeleb(
   celebId: string,
   locale: string = 'ko',
 ): Promise<FictionSourceContent[]> {
-  // 인물 한 명이 등장하는 원전 — 그 인물 항목 태그를 단다
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['fiction-sources-by-celeb', celebId, locale],
+    ['fiction-sources-by-celeb-v4-character-descriptions', celebId, locale],
     () => fetchSourcesByCeleb(celebId, locale),
     { extraTags: [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CONTENTS] },
   )
@@ -220,14 +189,9 @@ export async function getFictionCharactersForContent(
   contentId: string,
   locale: string = 'ko',
 ): Promise<FictionSourceCharacter[]> {
-  // 연결이 없는 작품도 bulk 태그를 단 공유 원장을 먼저 소비한다. 그러면 전량 갱신 시
-  // 빈 결과로 일찍 끝난 Full Route도 함께 만료되고, 새 원전 연결을 낡은 원장이 가리지 않는다.
-  const assignments = await fetchAllAssignmentsCached()
-  if (!assignments.some((assignment) => assignment.content_id === contentId)) {
-    return []
-  }
+  const assignments = await getAllFictionSourceAssignments()
+  if (!assignments.some((assignment) => assignment.content_id === contentId)) return []
 
-  // 작품 한 건에 등장하는 인물 — 그 작품 항목 태그를 단다
   return cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,

@@ -29,7 +29,7 @@ export default function JourneyEventCard({
       aria-hidden={!isCurrent}
       className="flex h-full min-h-0 w-full flex-col overflow-hidden bg-bg-secondary/35"
     >
-      <div className="grid min-h-12 shrink-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-accent-dim/20 px-4 py-2 md:px-5">
+      <div className="grid h-12 shrink-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-accent-dim/20 px-4 md:px-5">
         <p
           className="justify-self-start font-mono text-sm leading-none text-text-tertiary"
           aria-label={currentLabel}
@@ -42,12 +42,16 @@ export default function JourneyEventCard({
               type="button"
               tabIndex={isCurrent ? 0 : -1}
               onClick={onPlaceSelect}
-              className="min-w-0 break-words text-center font-mono text-sm font-semibold leading-snug text-accent hover:text-accent/80"
+              title={positionLabel}
+              className="min-w-0 truncate text-center font-mono text-sm font-semibold leading-none text-accent hover:text-accent/80 cursor-pointer"
             >
               {positionLabel}
             </button>
           ) : (
-            <p className="min-w-0 break-words text-center font-mono text-sm font-semibold leading-snug text-accent">
+            <p
+              title={positionLabel}
+              className="min-w-0 truncate text-center font-mono text-sm font-semibold leading-none text-accent"
+            >
               {positionLabel}
             </p>
           )

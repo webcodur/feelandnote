@@ -35,6 +35,22 @@ test('specific parent type wins over a legacy child fallback', () => {
   assert.equal(mergeRelationRowsForViewer(rows, 'parent')[0]?.relType, 'child')
 })
 
+test('a canonical parent row is viewed in the correct direction on both detail pages', () => {
+  const rows: StoredRelationRow[] = [
+    {
+      ...base,
+      rel_group: 'family',
+      from_id: 'electra',
+      to_id: 'agamemnon',
+      rel_type: 'parent',
+      note: 'Agamemnon is Electra\'s father.',
+    },
+  ]
+
+  assert.equal(mergeRelationRowsForViewer(rows, 'electra')[0]?.relType, 'parent')
+  assert.equal(mergeRelationRowsForViewer(rows, 'agamemnon')[0]?.relType, 'child')
+})
+
 test('different relationship kinds stay visible for the same person pair', () => {
   const rows: StoredRelationRow[] = [
     { ...base, rel_group: 'friendship', from_id: 'a', to_id: 'b', rel_type: 'friend', note: 'friends' },

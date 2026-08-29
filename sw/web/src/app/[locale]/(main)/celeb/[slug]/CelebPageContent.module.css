@@ -247,6 +247,10 @@
   background: color-mix(in srgb, var(--material-panel, var(--color-bg-card)) 44%, transparent);
 }
 
+.sourceWorksSurface {
+  padding: 8px;
+}
+
 .comparisonMetric {
   display: block;
   font-size: 0.875rem !important;
@@ -392,6 +396,10 @@
 }
 
 @media (min-width: 768px) {
+  .sourceWorksSurface {
+    padding: 16px;
+  }
+
   .proseSurface {
     padding-top: 32px;
     padding-bottom: 32px;

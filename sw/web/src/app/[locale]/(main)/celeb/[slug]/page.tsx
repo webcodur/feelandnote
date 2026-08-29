@@ -8,7 +8,7 @@ import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
-import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
+import { getFictionSourcePresentationsForCeleb } from "@/actions/fiction/getFictionSourcePresentations";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
@@ -111,7 +111,7 @@ export default async function CelebPage({ params }: PageProps) {
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
     initialContentsPromise,
     profile.celeb_tier === 'fiction'
-      ? getFictionSourcesForCeleb(userId, locale)
+      ? getFictionSourcePresentationsForCeleb(userId, locale)
       : Promise.resolve([]),
     initialContentBriefPromise,
     getCelebExternalLinks(profile.wikidata_qid, locale),

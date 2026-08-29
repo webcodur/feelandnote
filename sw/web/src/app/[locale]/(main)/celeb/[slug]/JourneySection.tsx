@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GlobeMarker } from "@/components/shared/WorldGlobe";
 import JourneyEventCarousel from "./JourneyEventCarousel";
+import JourneyEventExpandedList from "./JourneyEventExpandedList";
 import JourneyMapPanel from "./JourneyMapPanel";
 import type { JourneyViewMode } from "./journeyTimeline";
 
@@ -19,7 +20,9 @@ function mappedIdOf(event: CelebTimelineEvent | undefined): string | null {
 
 export default function JourneySection({ events }: Props) {
   const t = useTranslations("celebPage");
-  const [mode, setMode] = useState<JourneyViewMode>("both");
+  const [tab, setTab] = useState<"timeline" | "expand">("timeline");
+  const [showCard, setShowCard] = useState(true);
+  const [showMap, setShowMap] = useState(true);
   const [activeId, setActiveId] = useState<string | null>(() => mappedIdOf(events[0]));
   const [focusId, setFocusId] = useState<string | null>(() => mappedIdOf(events[0]));
   const [focusKey, setFocusKey] = useState(0);
@@ -87,74 +90,124 @@ export default function JourneySection({ events }: Props) {
   );
 
   const hasMap = markers.length > 0;
-  // 지도에 찍을 곳이 하나도 없으면 고를 것이 없다 — 연표만 보여준다
-  const view: JourneyViewMode = hasMap ? mode : "timeline";
-  const sideBySide = view === "both";
+  const effectiveShowMap = hasMap && showMap;
+  const effectiveShowCard = !hasMap || showCard;
+  const sideBySide = effectiveShowCard && effectiveShowMap;
+  const mapOnly = !effectiveShowCard && effectiveShowMap;
+  const cardOnly = effectiveShowCard && !effectiveShowMap;
+  const panelView: JourneyViewMode = sideBySide ? "both" : mapOnly ? "atlas" : "timeline";
 
-  const tabs = [
-    { key: "both" as const, label: t("timelineViewBoth") },
+  const mainTabs = [
     { key: "timeline" as const, label: t("timelineViewList") },
-    { key: "atlas" as const, label: t("timelineViewMap") },
+    { key: "expand" as const, label: t("timelineViewExpand") },
   ];
 
   return (
     <div className="space-y-4">
-      {hasMap && (
-        <div className="grid grid-cols-3 border-b border-accent-dim/25">
-          {tabs.map((tab) => {
-            const on = view === tab.key;
+      {/* 중앙 상단 컴팩트 탭 바 & 서브 옵션 */}
+      <div className="flex flex-col items-center gap-2">
+        {/* 주 탭: [ 연대기 | 펼치기 ] */}
+        <div className="flex w-full max-w-[240px] border-b border-accent-dim/25">
+          {mainTabs.map((item) => {
+            const on = tab === item.key;
             return (
               <button
-                key={tab.key}
+                key={item.key}
                 type="button"
-                onClick={() => setMode(tab.key)}
+                onClick={() => setTab(item.key)}
                 aria-pressed={on}
-                className={`flex items-center justify-center truncate py-2 text-sm font-medium cursor-pointer ${
+                className={`flex-1 py-1.5 text-center text-sm font-medium cursor-pointer transition-colors ${
                   on
-                    ? "text-accent border-b-2 border-accent"
-                    : " hover:text-text-primary"
+                    ? "text-accent border-b-2 border-accent font-semibold"
+                    : "text-text-secondary hover:text-text-primary"
                 }`}
               >
-                <span className="truncate">{tab.label}</span>
+                {item.label}
               </button>
             );
           })}
         </div>
-      )}
 
-      {/* 지구본은 한 자리에 두고 배치만 바꾼다 — 옮겨 심으면 돌려놓은 각도가 풀린다 */}
-      <div
-        className={
-          sideBySide
-            ? "flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_440px] md:gap-6 md:items-start"
-            : ""
-        }
-      >
-        <div className={view === "atlas" ? "hidden" : "min-w-0"}>
-          <JourneyEventCarousel
-            events={events}
-            current={at}
-            onChange={go}
-            onPlaceSelect={handlePick}
-          />
-        </div>
+        {/* 연대기 서브 옵션: [ 사건 카드 | 활동반경 ] 체크박스 (중앙 정렬) */}
+        {tab === "timeline" && hasMap ? (
+          <div className="flex items-center justify-center gap-3.5 text-xs text-text-secondary">
+            <label className="inline-flex items-center gap-1.5 cursor-pointer select-none hover:text-text-primary transition-colors">
+              <input
+                type="checkbox"
+                checked={showCard}
+                onChange={(e) => {
+                  const next = e.target.checked;
+                  if (!next && !showMap) return;
+                  setShowCard(next);
+                }}
+                className="h-3.5 w-3.5 rounded border-accent-dim/30 bg-bg-secondary/60 accent-accent cursor-pointer"
+              />
+              <span className={showCard ? "text-text-primary font-medium" : "text-text-tertiary"}>
+                {t("timelineOptCard")}
+              </span>
+            </label>
 
-        {hasMap && (
-          <JourneyMapPanel
-            markers={markers}
-            activeId={activeId}
-            focusId={focusId}
-            focusKey={focusKey}
-            unknownKey={unknownKey}
-            view={view}
-            event={event}
-            current={at}
-            total={total}
-            onSelect={handleGlobeSelect}
-            onNavigate={go}
-          />
-        )}
+            <span className="text-accent-dim/30">·</span>
+
+            <label className="inline-flex items-center gap-1.5 cursor-pointer select-none hover:text-text-primary transition-colors">
+              <input
+                type="checkbox"
+                checked={showMap}
+                onChange={(e) => {
+                  const next = e.target.checked;
+                  if (!next && !showCard) return;
+                  setShowMap(next);
+                }}
+                className="h-3.5 w-3.5 rounded border-accent-dim/30 bg-bg-secondary/60 accent-accent cursor-pointer"
+              />
+              <span className={showMap ? "text-text-primary font-medium" : "text-text-tertiary"}>
+                {t("timelineOptMap")}
+              </span>
+            </label>
+          </div>
+        ) : null}
       </div>
+
+      {tab === "expand" ? (
+        <JourneyEventExpandedList
+          events={events}
+          onPlaceSelect={hasMap ? handleGlobeSelect : undefined}
+        />
+      ) : (
+        /* 지구본은 한 자리에 두고 배치만 바꾼다 — 옮겨 심으면 돌려놓은 각도가 풀린다 */
+        <div
+          className={
+            sideBySide
+              ? "flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_440px] md:gap-6 md:items-start"
+              : ""
+          }
+        >
+          <div className={mapOnly ? "hidden" : "min-w-0"}>
+            <JourneyEventCarousel
+              events={events}
+              current={at}
+              onChange={go}
+              onPlaceSelect={handlePick}
+            />
+          </div>
+
+          {hasMap && (
+            <JourneyMapPanel
+              markers={markers}
+              activeId={activeId}
+              focusId={focusId}
+              focusKey={focusKey}
+              unknownKey={unknownKey}
+              view={panelView}
+              event={event}
+              current={at}
+              total={total}
+              onSelect={handleGlobeSelect}
+              onNavigate={go}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
