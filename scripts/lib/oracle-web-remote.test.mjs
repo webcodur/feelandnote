@@ -21,6 +21,7 @@ import {
   deploymentTargetForPath,
   legacyReleasesRootRemoveArgs,
   inspectVersionedDeploymentHtml,
+  inspectExploreWarmupHtml,
   mergeRetainedStaticAssets,
   normalizeManifestPath,
   parseJpegDimensions,
@@ -230,5 +231,29 @@ test('deployment HTML static assets must all identify the expected build', () =>
       deploymentId,
     ).deploymentId,
     deploymentId,
+  )
+})
+
+test('explore warmup requires the deployed build and rendered profile cards', () => {
+  const deploymentId = 'a351550f-web-20260827t111605z'
+  const pageUrl = 'http://127.0.0.1:3100/explore'
+  const html = `<!doctype html>
+    <html data-dpl-id="${deploymentId}">
+      <script src="/_next/static/chunks/app.js?dpl=${deploymentId}"></script>
+      <a href="/explore/ranking">프로필</a>
+      <button aria-label="누적 조회 534회">빌 게이츠</button>
+    </html>`
+
+  assert.deepEqual(
+    inspectExploreWarmupHtml(html, pageUrl, deploymentId),
+    { deploymentId },
+  )
+  assert.throws(
+    () => inspectExploreWarmupHtml(
+      html.replace('누적 조회 534회', '프로필 준비 중'),
+      pageUrl,
+      deploymentId,
+    ),
+    /rendered profile cards/u,
   )
 })

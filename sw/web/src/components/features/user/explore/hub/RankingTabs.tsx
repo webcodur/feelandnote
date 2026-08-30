@@ -8,29 +8,45 @@
 
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useCallback, useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 // 모음(index)이 아니라 파일에서 바로 가져온다 — 모음에는 서버 전용 Lane이 함께 들어 있어
 // 클라이언트 번들에 next/headers가 딸려 들어간다
-import { RetryBlock, LinkPending } from "@/components/ui/pending";
+import { PendingBlock, RetryBlock, LinkPending } from "@/components/ui/pending";
 import HubCelebGrid from "./HubCelebGrid";
 import TopByTypeGrid from "./TopByTypeGrid";
 import type { CelebProfile } from "@/types/home";
-import type { TopByTypeEntry } from "@/actions/home/getTopByContentType";
+import { getTopByContentType, type TopByTypeEntry } from "@/actions/home/getTopByContentType";
+import { getCelebs } from "@/actions/home/getCelebs";
 
 interface RankingTabsProps {
   /** null이면 조회 실패, 빈 배열이면 정말 0건 */
   trending: CelebProfile[] | null;
-  topByType: TopByTypeEntry[] | null;
+  topByType?: TopByTypeEntry[] | null;
   /** 랜덤 — 매일 새로 뽑는 인물들 */
-  dailyPicks: CelebProfile[] | null;
+  dailyPicks?: CelebProfile[] | null;
 }
 
 /** 탭 본문. null을 돌려주면 그 탭은 만들지 않는다(0건) */
-function tabBody<T>(items: T[] | null, render: (values: T[]) => ReactNode): ReactNode {
-  if (items === null) return <RetryBlock />;
+function tabBody<T>(
+  items: T[] | null | undefined,
+  render: (values: T[]) => ReactNode,
+  onRetry: (() => void) | undefined,
+  loading: string,
+): ReactNode {
+  if (items === undefined) {
+    return (
+      <PendingBlock
+        variant="grid"
+        cols="grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
+        count={12}
+        label={loading}
+      />
+    );
+  }
+  if (items === null) return <RetryBlock onRetry={onRetry} />;
   if (items.length === 0) return null;
   return render(items);
 }
@@ -39,14 +55,81 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
   const t = useTranslations("explore.hub");
   const tPending = useTranslations("pending");
   const [tab, setTab] = useState(0);
+  const [loadedTopByType, setLoadedTopByType] = useState(topByType);
+  const [loadedDailyPicks, setLoadedDailyPicks] = useState(dailyPicks);
+  const topByTypeRequest = useRef<Promise<void> | null>(null);
+  const dailyPicksRequest = useRef<Promise<void> | null>(null);
+
+  const loadTopByType = useCallback(() => {
+    if (topByTypeRequest.current) return topByTypeRequest.current;
+    const request = (async () => {
+      try {
+        setLoadedTopByType(await getTopByContentType());
+      } catch (error) {
+        console.error("[RankingTabs] 분야별 기록왕 조회 실패:", error);
+        setLoadedTopByType(null);
+      } finally {
+        topByTypeRequest.current = null;
+      }
+    })();
+    topByTypeRequest.current = request;
+    return request;
+  }, []);
+
+  const loadDailyPicks = useCallback(() => {
+    if (dailyPicksRequest.current) return dailyPicksRequest.current;
+    const request = (async () => {
+      try {
+        const result = await getCelebs({
+          sortBy: "daily_recommend",
+          limit: 12,
+          tiers: ["full"],
+          includeTotal: false,
+          includeViewerState: false,
+        });
+        setLoadedDailyPicks(result.celebs);
+      } catch (error) {
+        console.error("[RankingTabs] 랜덤 인물 조회 실패:", error);
+        setLoadedDailyPicks(null);
+      } finally {
+        dailyPicksRequest.current = null;
+      }
+    })();
+    dailyPicksRequest.current = request;
+    return request;
+  }, []);
+
+  const retryTopByType = useCallback(() => {
+    setLoadedTopByType(undefined);
+    void loadTopByType();
+  }, [loadTopByType]);
+
+  const retryDailyPicks = useCallback(() => {
+    setLoadedDailyPicks(undefined);
+    void loadDailyPicks();
+  }, [loadDailyPicks]);
+
+  const ensureTabData = useCallback((key: string) => {
+    if (key === "topByType" && loadedTopByType === undefined) void loadTopByType();
+    if (key === "allCelebs" && loadedDailyPicks === undefined) void loadDailyPicks();
+  }, [loadDailyPicks, loadTopByType, loadedDailyPicks, loadedTopByType]);
 
   // 셋 다 실패했으면 탭 자체가 의미 없다 — 구획 본문을 통째로 다시 시도 자리로 둔다
-  if (trending === null && topByType === null && dailyPicks === null) return <RetryBlock />;
+  if (trending === null && loadedTopByType === null && loadedDailyPicks === null) return <RetryBlock />;
 
   const tabs = [
-    { key: "trending", body: tabBody(trending, (v) => <HubCelebGrid celebs={v} />) },
-    { key: "topByType", body: tabBody(topByType, (v) => <TopByTypeGrid entries={v} />) },
-    { key: "allCelebs", body: tabBody(dailyPicks, (v) => <HubCelebGrid celebs={v} />) },
+    {
+      key: "trending",
+      body: tabBody(trending, (v) => <HubCelebGrid celebs={v} />, undefined, tPending("loading")),
+    },
+    {
+      key: "topByType",
+      body: tabBody(loadedTopByType, (v) => <TopByTypeGrid entries={v} />, retryTopByType, tPending("loading")),
+    },
+    {
+      key: "allCelebs",
+      body: tabBody(loadedDailyPicks, (v) => <HubCelebGrid celebs={v} />, retryDailyPicks, tPending("loading")),
+    },
   ].filter((entry) => entry.body !== null);
 
   if (tabs.length === 0) {
@@ -65,7 +148,12 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
             <button
               key={tb.key}
               type="button"
-              onClick={() => setTab(i)}
+              onMouseEnter={() => ensureTabData(tb.key)}
+              onFocus={() => ensureTabData(tb.key)}
+              onClick={() => {
+                setTab(i);
+                ensureTabData(tb.key);
+              }}
               className={
                 "px-5 py-2.5 rounded-full text-sm font-semibold border " +
                 (active

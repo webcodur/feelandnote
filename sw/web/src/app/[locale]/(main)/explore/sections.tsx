@@ -14,6 +14,7 @@ import { getSpectrumDistribution } from "@/actions/spectrum/getSpectrumDistribut
 import { getFactionHubPreviews } from "@/actions/home/getFactionHubPreviews";
 import { getRelationShapes } from "@/actions/home/getRelationShapes";
 import { getRelationNeighborhood } from "@/actions/home/getRelationNeighborhood";
+import { shouldStreamForRequest } from "@/lib/render-mode";
 import { RetryBlock } from "@/components/ui/pending";
 import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
 import SpectrumDistribution from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistribution";
@@ -42,13 +43,32 @@ async function load<T>(label: string, run: () => Promise<T>): Promise<T | null> 
   return settled(label, result);
 }
 
-/* 프로필 — 인기 · 기록왕 · 랜덤. 셋을 한 레인에 묶되 하나가 실패해도 나머지는 그대로 뜬다.
-   인기는 영향력(고정값)과 달리 최근 30일 조회로 매겨 순위가 흐른다 */
+/* 사람 브라우저는 첫 탭인 인기만 기다리고 기록왕·랜덤은 화면이 뜬 뒤 받는다.
+   봇·배포 워밍 요청은 세 탭을 모두 받아 완성 HTML과 목록 캐시를 함께 만든다. */
 export async function ProfileSection() {
+  const streamingPromise = shouldStreamForRequest();
+  const trendingPromise = getCelebs({
+    sortBy: "trending",
+    limit: 12,
+    includeTotal: false,
+    includeViewerState: false,
+  }).then((r) => r.celebs);
+
+  if (await streamingPromise) {
+    const [trending] = await Promise.allSettled([trendingPromise]);
+    return <RankingTabs trending={settled("인기 인물", trending)} />;
+  }
+
   const [trending, topByType, dailyPicks] = await Promise.allSettled([
-    getCelebs({ sortBy: "trending", limit: 12 }).then((r) => r.celebs),
+    trendingPromise,
     getTopByContentType(),
-    getCelebs({ sortBy: "daily_recommend", limit: 12, tiers: ["full"] }).then((r) => r.celebs),
+    getCelebs({
+      sortBy: "daily_recommend",
+      limit: 12,
+      tiers: ["full"],
+      includeTotal: false,
+      includeViewerState: false,
+    }).then((r) => r.celebs),
   ]);
 
   return (

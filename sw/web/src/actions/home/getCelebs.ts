@@ -70,6 +70,10 @@ interface GetCelebsParams {
   minContentCount?: number // 최소 컨텐츠 개수
   includeInactive?: boolean // 비활성화된 셀럽 포함 여부
   tiers?: readonly CelebTier[] // 노출 등급 필터. 미지정 시 LISTING_DEFAULT_TIERS(full·light)
+  /** 쪽수 UI가 없는 미리보기는 전체 건수를 세지 않는다. */
+  includeTotal?: boolean
+  /** 팔로우 표시가 없는 카드 묶음은 로그인·팔로우 상태를 읽지 않는다. */
+  includeViewerState?: boolean
 }
 
 interface GetCelebsResult {
@@ -153,7 +157,7 @@ async function fetchCelebsPublic(
   page: number, limit: number, profession: string | null, nationality: string | null,
   contentType: string | null, gender: string | null, sortBy: string,
   search: string | null, tagId: string | null, minContentCount: number,
-  includeInactive: boolean, tiers: string[]
+  includeInactive: boolean, tiers: string[], includeTotal: boolean
 ): Promise<PublicCelebData> {
   const supabase = createStaticClient()
   const offset = (page - 1) * limit
@@ -172,14 +176,17 @@ async function fetchCelebsPublic(
     rows = (data || []) as CelebRow[]
     total = rows.length
   } else {
-    // 전체 개수 조회
-    const { data: countData, error: countError } = await supabase.rpc('count_celebs_filtered', {
-      p_profession: profession, p_nationality: nationality, p_content_type: contentType,
-      p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
-      p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
-    })
-    throwOnQueryError('인물 목록 개수', countError)
-    total = countData ?? 0
+    if (includeTotal) {
+      const { data: countData, error: countError } = await supabase.rpc('count_celebs_filtered', {
+        p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+        p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
+        p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
+      })
+      throwOnQueryError('인물 목록 개수', countError)
+      total = countData ?? 0
+    } else {
+      total = 0
+    }
 
     // 정렬된 셀럽 목록 조회
     const { data, error } = await supabase.rpc('get_celebs_sorted', {
@@ -190,6 +197,7 @@ async function fetchCelebsPublic(
     })
     throwOnQueryError('인물 목록', error)
     rows = (data || []) as CelebRow[]
+    if (!includeTotal) total = rows.length
   }
 
   const totalPages = Math.ceil(total / limit)
@@ -320,7 +328,22 @@ const getCelebsTrendingCached = unstable_cache(
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
-  const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'daily_recommend', search, tagId, minContentCount = 0, includeInactive = false, tiers } = params
+  const {
+    page = 1,
+    limit = 8,
+    profession,
+    nationality,
+    contentType,
+    gender,
+    sortBy = 'daily_recommend',
+    search,
+    tagId,
+    minContentCount = 0,
+    includeInactive = false,
+    tiers,
+    includeTotal = true,
+    includeViewerState = true,
+  } = params
 
   // 1. 캐싱된 공개 데이터 조회
   const loadPublic = sortBy === 'trending' ? getCelebsTrendingCached : getCelebsCached
@@ -328,7 +351,7 @@ export async function getCelebs(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
     search ?? null, tagId ?? null, minContentCount,
-    includeInactive, [...(tiers ?? LISTING_DEFAULT_TIERS)]
+    includeInactive, [...(tiers ?? LISTING_DEFAULT_TIERS)], includeTotal
   )
 
   if (pub.rows.length === 0) {
@@ -339,20 +362,22 @@ export async function getCelebs(
   const celebIds = pub.rows.map(row => row.id)
   let myFollowings = new Set<string>()
 
-  try {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+  if (includeViewerState) {
+    try {
+      const supabase = await createClient()
+      const { data: { user } } = await supabase.auth.getUser()
 
-    if (user && celebIds.length > 0) {
-      const followingResult = await supabase
-        .from('member_celeb_follows')
-        .select('celeb_id')
-        .eq('member_id', user.id)
-        .in('celeb_id', celebIds)
-      myFollowings = new Set((followingResult.data || []).map(f => f.celeb_id))
+      if (user && celebIds.length > 0) {
+        const followingResult = await supabase
+          .from('member_celeb_follows')
+          .select('celeb_id')
+          .eq('member_id', user.id)
+          .in('celeb_id', celebIds)
+        myFollowings = new Set((followingResult.data || []).map(f => f.celeb_id))
+      }
+    } catch {
+      // 캐시 컨텍스트에서 cookies 접근 실패 시 무시
     }
-  } catch {
-    // 캐시 컨텍스트에서 cookies 접근 실패 시 무시
   }
 
   // 3. CelebProfile 조합

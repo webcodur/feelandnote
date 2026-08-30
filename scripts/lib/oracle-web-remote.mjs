@@ -569,6 +569,46 @@ export async function verifyApplication(
   }
 }
 
+export function inspectExploreWarmupHtml(html, pageUrl, expectedDeploymentId) {
+  const deployment = inspectVersionedDeploymentHtml(html, pageUrl, expectedDeploymentId)
+  if (!html.includes('href="/explore/ranking"')) {
+    throw new Error('Explore warmup page is missing the ranking link')
+  }
+  if (!/누적 조회 [\d,]+회/u.test(html)) {
+    throw new Error('Explore warmup page is missing rendered profile cards')
+  }
+  return { deploymentId: deployment.deploymentId }
+}
+
+async function warmExplorePage(port, expectedDeploymentId, passes = 2) {
+  const pageUrl = `http://127.0.0.1:${port}/explore`
+  const runs = []
+
+  for (let pass = 1; pass <= passes; pass += 1) {
+    const startedAt = Date.now()
+    const response = await fetchWithTimeout(pageUrl, {
+      headers: { 'user-agent': 'feelandnote-deploy-warmup/1.0' },
+      timeoutMs: 45_000,
+    })
+    if (!response.ok) throw new Error(`Explore warmup returned HTTP ${response.status}: ${pageUrl}`)
+    const html = await response.text()
+    const inspection = inspectExploreWarmupHtml(html, pageUrl, expectedDeploymentId)
+    runs.push({
+      pass,
+      status: response.status,
+      durationMs: Date.now() - startedAt,
+      deploymentId: inspection.deploymentId,
+    })
+  }
+
+  const finalRun = runs.at(-1)
+  if (!finalRun || finalRun.durationMs > 5_000) {
+    throw new Error(`Explore warmup cache verification took ${finalRun?.durationMs ?? 'unknown'}ms`)
+  }
+
+  return { url: pageUrl, runs }
+}
+
 function canConnect(port) {
   return new Promise((resolve) => {
     const socket = net.createConnection({ host: '127.0.0.1', port })
@@ -633,7 +673,8 @@ async function runCanary(releaseId, port, probeSlug) {
     ])
 
     const probes = await verifyApplication(port, probeSlug, releaseId, releaseId)
-    return { unit, port, slot, releaseId: metadata.releaseId, probes }
+    const exploreWarmup = await warmExplorePage(port, releaseId)
+    return { unit, port, slot, releaseId: metadata.releaseId, probes, exploreWarmup }
   } catch (error) {
     const logs = run('sudo', ['journalctl', '-u', unit, '-n', '80', '--no-pager'], {
       allowFailure: true,
@@ -679,6 +720,7 @@ async function activateRelease(releaseId, probeSlug) {
     run('sudo', ['systemctl', 'restart', SERVICE_NAME])
     await waitForServiceActive()
     const probes = await verifyApplication(3000, probeSlug, releaseId, releaseId)
+    const exploreWarmup = await warmExplorePage(3000, releaseId, 1)
     return {
       previousRelease,
       previousTarget,
@@ -687,6 +729,7 @@ async function activateRelease(releaseId, probeSlug) {
       currentPath: realpathSync(CURRENT_LINK),
       currentSlot: slot,
       probes,
+      exploreWarmup,
     }
   } catch (error) {
     if (switched) {
