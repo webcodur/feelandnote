@@ -45,6 +45,7 @@ pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB
 - 비활성 Blue/Green 슬롯이 staging에서 완성됐고 활성 슬롯을 덮어쓰지 않았다.
 - canary의 대표 상세 HTML, 실제 셀럽 이미지, fallback이 성공했다. 두 이미지는 800×800 JPEG이며
   해시가 서로 달라야 한다.
+- canary가 `/explore`를 두 번 읽어 프로필 목록 캐시를 채웠고 두 번째 응답이 5초 안에 끝났다.
 - `current`가 새 슬롯을 가리키고 `feelandnote-web.service`가 active다. 반대 슬롯에는 직전 정상본이 남아 있다.
 - Cloudflare를 통과한 공개 SEO 이미지 검증이 성공했다.
 - 필요한 퍼지 범위가 처리됐다.
