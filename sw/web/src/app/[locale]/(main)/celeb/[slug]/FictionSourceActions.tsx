@@ -1,7 +1,6 @@
 import { ArrowUpRight, BookOpenText, ShoppingBag } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
-import { Link } from "@/i18n/navigation";
 
 interface FictionSourceActionsProps {
   source: FictionSourceContent;
@@ -17,11 +16,12 @@ export default function FictionSourceActions({
   const locale = useLocale();
   const t = useTranslations("celebPage");
   const coupangUrl = locale === "ko" ? source.coupangUrl : null;
+  const contentHref = `${locale === "en" ? "/en" : ""}/content/${source.id}?category=${source.category}`;
 
   return (
     <div className={`relative z-10 ${className}`}>
-      <Link
-        href={`/content/${source.id}?category=${source.category}`}
+      <a
+        href={contentHref}
         className="effect-bevel group inline-flex min-h-11 w-full items-center justify-center gap-2 whitespace-nowrap border border-accent bg-accent px-3 py-2.5 text-sm font-black text-bg-secondary hover:bg-accent-hover active:bg-accent-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-card"
       >
         <BookOpenText size={17} aria-hidden />
@@ -33,7 +33,7 @@ export default function FictionSourceActions({
             aria-hidden
           />
         )}
-      </Link>
+      </a>
 
       {coupangUrl && (
         <a
