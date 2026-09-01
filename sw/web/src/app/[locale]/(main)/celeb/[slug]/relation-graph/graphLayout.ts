@@ -2,12 +2,12 @@ import { DiagramBuilder, type CenterRay, type RowBranch } from "./diagramPrimiti
 import type { DiagramLabels, DiagramTheme, PersonNode, RelationFocus, RelationMode, RelationModel } from "./types";
 const CENTER_X = 480;
 const SIDE_BUS_OFFSET = 160;
-const SIDE_NODE_OFFSET = 46;
+const SIDE_NODE_OFFSET = 58;
 const SIDE_COLUMN_GAP = 80;
 const SIDE_ROW_GAP = 96;
 const AXIS_COLUMN_GAP = 104;
 const AXIS_ROW_GAP = 96;
-const AXIS_LANE_OFFSET = 98;
+const AXIS_LANE_OFFSET = 120;
 const COMPACT_COLUMN_GAP = 96;
 const COMPACT_ROW_GAP = 100;
 interface LayoutViewport { compact: boolean; width: number; }
@@ -94,9 +94,8 @@ function addSideWing(
   const branches = rows.map((row, rowIndex) => {
     const nodeY = firstY + rowIndex * SIDE_ROW_GAP;
     const busY = nodeY + (nodeY < centerY ? 49 : -49);
-    const centeringOffset = side === "left" ? (columns - row.length) * SIDE_COLUMN_GAP / 2 : 0;
     const xs = row.map((_, columnIndex) => (
-      busX + direction * (SIDE_NODE_OFFSET + centeringOffset + columnIndex * SIDE_COLUMN_GAP)
+      busX + direction * (SIDE_NODE_OFFSET + columnIndex * SIDE_COLUMN_GAP)
     ));
     return builder.horizontalRow(`${id}:${rowIndex}`, row, nodeY, busY, busX, xs);
   }).filter((row): row is RowBranch => Boolean(row));

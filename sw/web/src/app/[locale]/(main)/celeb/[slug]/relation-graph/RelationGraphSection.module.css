@@ -112,21 +112,20 @@
   .diagramOnly { display: block; }
   .desktopInspector { display: none; }
   .belowCue { display: none; }
-  .sheetBackdrop { position: fixed; inset: 0; display: block; width: 100%; border: 0; background: rgb(0 0 0 / 68%); }
-  .mobileSheet { position: fixed; right: 0; bottom: 0; left: 0; display: block; max-height: 78dvh; overflow-y: auto; border-top: 1px solid var(--material-edge); border-radius: 12px 12px 0 0; background: var(--material-panel); box-shadow: 0 -18px 60px rgb(0 0 0 / 55%); }
+  .sheetBackdrop { position: fixed; inset: 0; display: block; width: 100%; border: 0; background: rgb(0 0 0 / 68%); touch-action: none; }
+  .mobileSheet { position: fixed; right: 0; bottom: 0; left: 0; display: flex; max-height: 82dvh; overflow: hidden; flex-direction: column; overscroll-behavior: contain; border-top: 1px solid var(--material-edge); border-radius: 12px 12px 0 0; background: var(--material-panel); box-shadow: 0 -18px 60px rgb(0 0 0 / 55%); }
   .sheetHandle { display: block; width: 34px; height: 3px; margin: 9px auto 0; border-radius: 2px; background: var(--material-edge); }
-  .mobileSheet .inspectorCard { grid-template-columns: 104px minmax(0, 1fr); min-height: 0; padding: 16px 18px max(22px, env(safe-area-inset-bottom)); column-gap: 14px; align-items: start; }
-  .mobileSheet .inspectorPortrait { display: flex; grid-column: 1; align-self: start; flex-direction: column; gap: 8px; }
+  .sheetScroll { min-height: 0; overflow-y: auto; overflow-anchor: none; overscroll-behavior-y: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
+  .mobileSheet .inspectorCard { grid-template-columns: 104px minmax(0, 1fr); min-height: 0; padding: 16px 18px max(22px, env(safe-area-inset-bottom)); column-gap: 14px; row-gap: 16px; align-items: start; }
+  .mobileSheet .inspectorPortrait { display: flex; grid-column: 1; align-self: start; flex-direction: column; }
   .mobileSheet .inspectorAvatar { width: 104px; height: 104px; min-height: 104px; border-radius: 50%; font-size: 18px; }
   .mobileSheet .inspectorProfileFallback { min-height: 104px; }
   .mobileSheet .inspectorProfileFallback::before { display: none; }
-  .mobileSheet .inspectorContent { grid-column: 2; padding: 2px 38px 0 0; }
+  .mobileSheet .inspectorContent { grid-column: 2; padding: 4px 38px 0 0; }
   .mobileSheet .inspectorIdentity strong { font-size: 22px; }
   .mobileSheet .inspectorIdentity > span { font-size: 14px; }
   .mobileSheet .inspectorMeta { margin-top: 9px; font-size: 13px; }
-  .mobileSheet .inspectorNote { display: -webkit-box; overflow: hidden; font-size: 15px; line-height: 25px; -webkit-box-orient: vertical; -webkit-line-clamp: 6; }
-  .mobileSheet .inspectorActions { width: 104px; flex-direction: row; justify-content: center; gap: 8px; }
-  .mobileSheet .inspectorActions button, .mobileSheet .inspectorActions a { width: 44px; height: 44px; }
+  .mobileSheet .inspectorNote { grid-column: 1 / -1; width: 100%; margin-top: 0; overflow: visible; font-size: 15px; line-height: 25px; }
   .closeButton { position: absolute; top: 13px; right: 14px; display: grid; width: 38px; height: 38px; border: 1px solid transparent; color: var(--material-muted); background: transparent; place-items: center; cursor: pointer; }
   .closeButton:hover { color: var(--material-accent); border-color: var(--material-accent); background: var(--material-raised); }
 }
