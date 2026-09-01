@@ -89,6 +89,8 @@ const NON_RUNTIME_WEB_ROOT_FILES = new Set([
   'sw/web/cUserswebco바탕',
   'sw/web/eslint.config.mjs',
   'sw/web/missing_images_report.txt',
+  // 지운 파일도 배포 diff에는 삭제로 들어오므로 목록에서 빼지 않는다.
+  'sw/web/temp_spotify_result.json',
   // public에 있었지만 어떤 라우트도 부르지 않은 디자인 시안 HTML. 26.09.01 삭제.
   'sw/web/public/home_concept.html',
   'sw/web/split_json.mjs',
@@ -120,6 +122,8 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 인사 대사는 인물 상세의 관계망에서만 부른다.
+  'sw/web/src/actions/celebs/getCelebGreetingProfile.ts',
   'sw/web/src/actions/celebs/getCelebSideData.ts',
   'sw/web/src/actions/celebs/getCelebSidePresence.ts',
   'sw/web/src/actions/celebs/getContemporaries.ts',
@@ -178,6 +182,11 @@ const CELEB_AND_CONTENT_FILES = new Set([
   // 위 조회에서 분해한 모듈이라 같은 두 화면에 걸린다.
   'sw/web/src/actions/fiction/fictionSourceAssignments.ts',
   'sw/web/src/actions/fiction/fictionSourceLocale.ts',
+  // 인물 모달은 인물 카드와 작품 상세의 기록 모달 양쪽에서 연다.
+  'sw/web/src/actions/celebs/getCelebForModal.ts',
+  // 음성 배지와 본문 서식은 인물 상세와 작품 상세가 함께 그린다.
+  'sw/web/src/components/ui/VoiceBadge.tsx',
+  'sw/web/src/components/ui/FormattedText.tsx',
 ])
 
 const CACHED_HTML_AND_SEO_FILES = new Set([
@@ -228,6 +237,14 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/lib/celeb/relationNeighborhood.ts',
   'sw/web/src/lib/celeb/relationRows.ts',
   'sw/web/src/lib/celeb/relationShapes.ts',
+  // 홈(/)도 ruleset v4의 보관 대상이 아니다.
+  'sw/web/src/app/[locale]/(main)/page.tsx',
+  'sw/web/src/components/features/home/HomeFigureLinks.tsx',
+  'sw/web/src/components/features/landing/FeaturedFaction.tsx',
+  // 신화 구획은 탐색 허브 안에만 서고 운영에서는 아직 꺼져 있다.
+  // 인물 상세로 옮겨 가거나 허브가 보관 대상이 되면 celeb으로 올린다.
+  'sw/web/src/actions/home/getMythAtlas.ts',
+  'sw/web/src/actions/home/mythAtlasTypes.ts',
 ])
 
 const CACHED_HTML_PREFIXES = [
@@ -249,6 +266,8 @@ const CACHED_HTML_FILES = new Set([
   // 로고는 그 바닥글 안에서만 쓰인다.
   'sw/web/src/components/ui/Layout/Footer.tsx',
   'sw/web/src/components/ui/Logo.tsx',
+  // 공용 UI 배럴은 보관 대상 화면 전반이 함께 끌어 쓴다.
+  'sw/web/src/components/ui/index.ts',
   'sw/web/src/app/[locale]/(main)/layout.tsx',
   'sw/web/src/app/[locale]/layout.tsx',
   'sw/web/src/app/globals.css',
@@ -279,6 +298,9 @@ const NON_RUNTIME_PREFIXES = [
 
 const NON_HTML_RUNTIME_PREFIXES = [
   'sw/web/src/app/api/',
+  // 위 신화 구획 주석과 같은 이유. 타이틀 아트도 그 구획에서만 쓴다.
+  'sw/web/src/components/features/user/explore/myth/',
+  'sw/web/public/images/myth-atlas/',
 ]
 
 function normalizeGitPath(rawFile) {
