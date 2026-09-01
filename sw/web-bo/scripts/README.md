@@ -43,8 +43,12 @@ scripts/
 | `celeb:audit:basic` | 기본 정보 결손 전수 조사(읽기 전용) |
 | `celeb:audit:tracks` | 전 트랙 결손 전수 감사(읽기 전용) |
 | `celeb:audit:public` | 사용자 웹 노출 데이터의 구조·결측 1차 감사 |
+| `celeb:audit:spectrum` | 스펙트럼 근거문 감사(읽기 전용). 인물 복제와 근거문 내용 결함을 따로 세어 후보 목록을 쓴다 |
+| `celeb:spectrum:check` | 재채점 패치 자가 검사(DB 접속 없음). 사적 신상·대리 기부·길이·중립대 이탈을 잡는다. 조사자가 제출 전에 돌린다 |
+| `celeb:spectrum:review` | 재채점 패치의 16축을 출력하고 그대로 반영한다. 판정과 반영을 한 명령으로 묶는다 |
+| `celeb:spectrum:test` | 근거문 판정 규칙 단위 테스트 |
 | `celeb:claim` | 작업 선점. 레인별로 다음 인물 묶음을 집어간다 |
-| `celeb:fill` | 결손 조건부 반영. 빈칸만 채운다 |
+| `celeb:fill` | 결손 조건부 반영. 빈칸만 채운다. `--replace-spectrum`은 스펙트럼 재채점 덮어쓰기. 스펙트럼은 근거문 중복 게이트를 거친다 |
 | `celeb:defer` | 근거 부재 항목을 보류 장부에 기록해 선점에서 제외 |
 | `celeb:i18n-backfill` | 활성 셀럽 상세의 KO→EN 누락 필드 백필 |
 | `celeb:readings` | 읽어보기(인물 안내·인물 탐구) 집필 배치 |
@@ -104,9 +108,9 @@ scripts/
 | 명령 | 하는 일 |
 |---|---|
 | `fiction:audit` | 프로필·대표 원전 연결 전수 감사 |
+| `fiction:seed:inactive` | 이름·영문명·식별 bio와 신규/기존 UUID 판단을 받아 fiction/inactive 후보와 숨김 신화 소속을 등록 |
 | `fiction:sync` | 인물 명세를 셀럽 테이블에 동기화 |
 | `fiction:sync:faction` | 세력도감의 신화 인물을 검색 가능한 프로필로 전환 |
-| `fiction:publish` | 신화·전설·허구 편을 서비스 태그·배정에 투영 |
 | `fiction:monologue-lock` | 가상 독백 확정 잠금·해제·목록 |
 
 ## 기관 선정 목록

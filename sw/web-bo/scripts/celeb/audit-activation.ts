@@ -8,6 +8,8 @@
  * - warnings: 품질 경고. 인물이 소비한 콘텐츠의 메타(제목·저자·표지·ISBN·locale 행)
  *   결손이며 활성화를 막지 않는다. 이 메타는 인물 데이터가 아니라 콘텐츠 데이터이고,
  *   표지·ISBN은 수집 API가 주지 않으면 인물 쪽 작업으로 풀 수 없다.
+ * - fictionPublicReadiness: 픽션 공개 준비 프로젝트의 별도 보유율이다. 아바타는 의도된
+ *   최종 차단값으로 분리하고, 실존 인물용 영향력·스펙트럼·영문 대사·사진·영상은 요구하지 않는다.
  *
  * 실행:
  *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts
@@ -36,6 +38,24 @@ const PAGE = 1000
 const CHUNK = 100
 const LINK_CONCURRENCY = 6
 const LINK_TIMEOUT_MS = 15_000
+
+// range 기반 페이지네이션은 정렬이 없거나 동률이 남으면 행을 건너뛰거나 중복할 수 있다.
+// id가 없는 테이블·뷰는 실제 고유키 조합으로 끝까지 정렬한다.
+const TABLE_ORDERS: Record<string, readonly string[]> = {
+  celeb_influence: ['id'],
+  celeb_persona: ['id'],
+  celeb_dialogues: ['celeb_id'],
+  celeb_explanations: ['profile_id'],
+  celeb_contents: ['id'],
+  fiction_source_characters: ['content_id', 'celeb_id'],
+  celeb_timeline_events: ['id'],
+  celeb_relations: ['id'],
+  celeb_relations_external: ['id'],
+  faction_atlas_members: ['tag_id', 'celeb_id', 'source', 'assignment_id', 'person_id'],
+  contents: ['id'],
+  content_locales: ['content_id', 'locale'],
+  celebs: ['id'],
+}
 
 const INFLUENCE_AXES = [
   'political', 'strategic', 'tech', 'social', 'economic', 'cultural', 'transhistoricity',
@@ -107,6 +127,21 @@ type AuditRow = {
   warnings: string[]
   coverage: Coverage
 }
+type FictionReadinessRow = {
+  id: string
+  slug: string
+  nickname: string
+  publicationStatus: string
+  nonAvatarGaps: string[]
+  factionGaps: string[]
+  information: string[]
+  avatarBlocker: boolean
+  projectReadyExcludingAvatar: boolean
+  sourceCount: number
+  timelineCount: number
+  relationCount: number
+  factionPlacementCount: number
+}
 
 const blank = (value: unknown) => value === null || value === undefined || String(value).trim() === ''
 const chunks = <T>(values: T[], size = CHUNK): T[][] =>
@@ -134,29 +169,40 @@ async function allProfiles(): Promise<Row[]> {
     out.push(...rows)
     if (rows.length < PAGE) break
   }
+
+  if (SLUGS.size > 0) {
+    const selectedSlugs = new Set(out.map((row) => row.slug))
+    const missing = [...SLUGS].filter((slug) => !selectedSlugs.has(slug)).sort()
+    if (missing.length > 0) {
+      throw new Error(
+        `--slugs 중 --status=${STATUS} 범위에 없는 값: ${missing.join(', ')}`,
+      )
+    }
+  }
   return out
 }
 
 async function byIds(table: string, select: string, ids: string[], column = 'celeb_id'): Promise<Row[]> {
   if (ids.length === 0) return []
+  const orderColumns = TABLE_ORDERS[table]
+  if (!orderColumns) throw new Error(`${table} 페이지네이션 정렬키가 정의되지 않았습니다.`)
   const out: Row[] = []
   for (const group of chunks(ids)) {
-    const { data, error } = await db.from(table).select(select).in(column, group)
-    if (error) throw new Error(`${table} 조회 실패: ${error.message}`)
-    out.push(...(data ?? []))
+    for (let from = 0; ; from += PAGE) {
+      let query = db.from(table).select(select).in(column, group)
+      for (const orderColumn of orderColumns) query = query.order(orderColumn)
+      const { data, error } = await query.range(from, from + PAGE - 1)
+      if (error) throw new Error(`${table} 조회 실패: ${error.message}`)
+      const rows = data ?? []
+      out.push(...rows)
+      if (rows.length < PAGE) break
+    }
   }
   return out
 }
 
 async function byContentIds(table: string, select: string, ids: string[]): Promise<Row[]> {
-  if (ids.length === 0) return []
-  const out: Row[] = []
-  for (const group of chunks(ids)) {
-    const { data, error } = await db.from(table).select(select).in('content_id', group)
-    if (error) throw new Error(`${table} 조회 실패: ${error.message}`)
-    out.push(...(data ?? []))
-  }
-  return out
+  return byIds(table, select, ids, 'content_id')
 }
 
 async function checkUrl(sourceUrl: string): Promise<LinkResult> {
@@ -197,14 +243,14 @@ async function checkUrls(urls: string[]): Promise<Map<string, LinkResult>> {
 }
 
 function addProfileGaps(profile: Row, gaps: string[]) {
-  const tier = profile.celeb_tier ?? 'full'
   const common = [
     'nickname', 'nickname_en', 'slug', 'headline', 'headline_en', 'profession', 'title', 'title_en', 'bio', 'bio_en',
     'nationality', 'avatar_url',
   ]
   for (const field of common) if (blank(profile[field])) gaps.push(`basic:${field}`)
   if (profile.gender === null || profile.gender === undefined) gaps.push('basic:gender')
-  if (tier !== 'fiction' && blank(profile.birth_date)) gaps.push('basic:birth_date')
+  // fiction의 birth_date도 실제 생일이 아니라 창작 배경 연도이며, 인물 정렬·서사 배치에 쓰인다.
+  if (blank(profile.birth_date)) gaps.push('basic:birth_date')
 }
 
 // 인물 탐구(interpretive_*)를 화면에서 닫은 뒤(2026-08-22) 읽어보기 구획에 남은 산문은
@@ -262,6 +308,50 @@ function addDialogueGaps(dialogue: Row | undefined, gaps: string[]) {
     const en = dialogue.lines_en?.[key]
     if (!Array.isArray(ko) || ko.length !== 3 || ko.some(blank)) gaps.push(`speech:ko.${key}`)
     if (!Array.isArray(en) || en.length !== 3 || en.some(blank)) gaps.push(`i18n:en.${key}`)
+  }
+}
+
+function addFictionSpeechGaps(profile: Row, dialogue: Row | undefined, gaps: string[]) {
+  if (blank(profile.speech_tone)) gaps.push('speech:tone')
+  if (!dialogue) {
+    gaps.push('speech:dialogue_row')
+    return
+  }
+  if (blank(dialogue.lines?.quote)) gaps.push('speech:quote')
+  for (const key of DIALOGUE_KEYS) {
+    const values = dialogue.lines?.[key]
+    if (!Array.isArray(values) || values.length !== 3 || values.some(blank)) {
+      gaps.push(`speech:ko.${key}`)
+    }
+  }
+}
+
+function addFictionTimelineGaps(events: Row[], gaps: string[]) {
+  if (events.length === 0) {
+    gaps.push('timeline:missing')
+    return
+  }
+  for (const event of events) {
+    if (event.year !== null || event.year_end !== null) gaps.push('timeline:calendar_year')
+    for (const field of ['sequence_label', 'sequence_label_en', 'title', 'title_en', 'description', 'description_en']) {
+      if (blank(event[field])) gaps.push(`timeline:${field}`)
+    }
+  }
+}
+
+function addFictionFactionGaps(profile: Row, placements: Row[], gaps: string[]) {
+  if (placements.length === 0) {
+    gaps.push('faction:placement_missing')
+    return
+  }
+  for (const placement of placements) {
+    for (const field of ['short_desc', 'short_desc_en', 'long_desc', 'long_desc_en']) {
+      if (blank(placement[field])) gaps.push(`faction:${field}`)
+    }
+    // inactive 인물은 hidden=true가 정상이다. false이면 일반 프로필보다 먼저 세력도감에 노출된다.
+    if (profile.publication_status === 'inactive' && placement.hidden !== true) {
+      gaps.push('faction:visible_while_inactive')
+    }
   }
 }
 
@@ -360,6 +450,179 @@ function groupBy<T>(rows: T[], keyOf: (row: T) => string): Map<string, T[]> {
   return grouped
 }
 
+function sameTimestamp(actual: unknown, expected: string | null): boolean {
+  if (actual === null || actual === undefined || actual === '') return expected === null
+  if (expected === null) return false
+  return new Date(String(actual)).getTime() === new Date(expected).getTime()
+}
+
+async function assertActivationReadback(
+  profileIds: string[],
+  expectedStatus: 'inactive' | 'active',
+  expectedPublishedAt: Map<string, string | null>,
+) {
+  const [profileRows, readingRows] = await Promise.all([
+    byIds('celebs', 'id,publication_status', profileIds, 'id'),
+    byIds('celeb_explanations', 'profile_id,published_at', profileIds, 'profile_id'),
+  ])
+  const profileById = new Map(profileRows.map((row) => [row.id, row]))
+  const readingById = new Map(readingRows.map((row) => [row.profile_id, row]))
+  const failures: string[] = []
+
+  for (const profileId of profileIds) {
+    const profile = profileById.get(profileId)
+    if (!profile) failures.push(`${profileId}:profile_missing`)
+    else if (profile.publication_status !== expectedStatus) {
+      failures.push(`${profileId}:status=${profile.publication_status}`)
+    }
+
+    const reading = readingById.get(profileId)
+    if (!reading) failures.push(`${profileId}:reading_missing`)
+    else if (!sameTimestamp(reading.published_at, expectedPublishedAt.get(profileId) ?? null)) {
+      failures.push(`${profileId}:published_at=${reading.published_at ?? 'null'}`)
+    }
+  }
+
+  if (profileRows.length !== profileIds.length) {
+    failures.push(`profile_count=${profileRows.length}/${profileIds.length}`)
+  }
+  if (readingRows.length !== profileIds.length) {
+    failures.push(`reading_count=${readingRows.length}/${profileIds.length}`)
+  }
+  if (failures.length > 0) {
+    throw new Error(`활성화 readback 불일치: ${failures.slice(0, 20).join(', ')}`)
+  }
+}
+
+async function compensateActivation(
+  profileIds: string[],
+  activatedProfileIds: string[],
+  originalPublishedAt: Map<string, string | null>,
+  activationPublishedAt: string,
+): Promise<string[]> {
+  const failures: string[] = []
+
+  // 먼저 프로필을 비활성으로 되돌린다. 되돌아가지 않은 프로필의 읽어보기를 미게시로
+  // 만들면 active + 미게시 상태가 되므로, 상태 readback으로 확인한 행만 다음 단계에서 복구한다.
+  for (const group of chunks(activatedProfileIds)) {
+    const { error } = await db
+      .from('celebs')
+      .update({ publication_status: 'inactive' })
+      .in('id', group)
+      .eq('publication_status', 'active')
+    if (error) failures.push(`프로필 롤백 실패: ${error.message}`)
+  }
+
+  let inactiveIds = new Set<string>()
+  try {
+    const rows = await byIds('celebs', 'id,publication_status', profileIds, 'id')
+    inactiveIds = new Set(
+      rows.filter((row) => row.publication_status === 'inactive').map((row) => row.id),
+    )
+    const notRestored = profileIds.filter((id) => !inactiveIds.has(id))
+    if (notRestored.length > 0) {
+      failures.push(`프로필 상태 롤백 readback 불일치: ${notRestored.slice(0, 20).join(', ')}`)
+    }
+  } catch (error) {
+    failures.push(error instanceof Error ? error.message : String(error))
+  }
+
+  const readingsToUnpublish = profileIds.filter((id) => (
+    inactiveIds.has(id) && originalPublishedAt.get(id) === null
+  ))
+  for (const group of chunks(readingsToUnpublish)) {
+    const { error } = await db
+      .from('celeb_explanations')
+      .update({ published_at: null })
+      .in('profile_id', group)
+      .eq('published_at', activationPublishedAt)
+    if (error) failures.push(`읽어보기 롤백 실패: ${error.message}`)
+  }
+
+  try {
+    await assertActivationReadback(profileIds, 'inactive', originalPublishedAt)
+  } catch (error) {
+    failures.push(error instanceof Error ? error.message : String(error))
+  }
+  return failures
+}
+
+async function activateReadyProfiles(
+  ready: AuditRow[],
+  explanationById: Map<string, Row>,
+): Promise<Row[]> {
+  const profileIds = ready.map((row) => row.id)
+  const originalPublishedAt = new Map<string, string | null>()
+  for (const profileId of profileIds) {
+    const explanation = explanationById.get(profileId)
+    if (!explanation) throw new Error(`활성화 대상의 읽어보기 행 없음: ${profileId}`)
+    originalPublishedAt.set(profileId, explanation.published_at ?? null)
+  }
+
+  const activationPublishedAt = new Date().toISOString()
+  const activatedProfileIds: string[] = []
+  const expectedPublishedAt = new Map(
+    [...originalPublishedAt].map(([profileId, publishedAt]) => [
+      profileId,
+      publishedAt ?? activationPublishedAt,
+    ]),
+  )
+
+  try {
+    const readingsToPublish = profileIds.filter((id) => originalPublishedAt.get(id) === null)
+    for (const group of chunks(readingsToPublish)) {
+      const { data, error } = await db
+        .from('celeb_explanations')
+        .update({ published_at: activationPublishedAt })
+        .in('profile_id', group)
+        .is('published_at', null)
+        .select('profile_id,published_at')
+      if (error) throw new Error(`읽어보기 게시 실패: ${error.message}`)
+      if ((data?.length ?? 0) !== group.length) {
+        throw new Error(`읽어보기 게시 수 불일치: 후보 ${group.length}, 반영 ${data?.length ?? 0}`)
+      }
+    }
+
+    // 프로필을 바꾸기 전에 읽어보기 게시값과 inactive 상태를 함께 확인한다.
+    await assertActivationReadback(profileIds, 'inactive', expectedPublishedAt)
+
+    for (const group of chunks(profileIds)) {
+      const { data, error } = await db
+        .from('celebs')
+        .update({ publication_status: 'active' })
+        .in('id', group)
+        .eq('publication_status', 'inactive')
+        .select('id,publication_status')
+      if (error) throw new Error(`활성화 실패: ${error.message}`)
+      activatedProfileIds.push(...(data ?? []).map((row) => row.id))
+      if ((data?.length ?? 0) !== group.length) {
+        throw new Error(`활성화 수 불일치: 후보 ${group.length}, 반영 ${data?.length ?? 0}`)
+      }
+    }
+
+    await assertActivationReadback(profileIds, 'active', expectedPublishedAt)
+    const readyById = new Map(ready.map((row) => [row.id, row]))
+    return profileIds.map((id) => ({
+      id,
+      slug: readyById.get(id)?.slug ?? '',
+      nickname: readyById.get(id)?.nickname ?? '',
+      publication_status: 'active',
+    }))
+  } catch (error) {
+    const rollbackFailures = await compensateActivation(
+      profileIds,
+      activatedProfileIds,
+      originalPublishedAt,
+      activationPublishedAt,
+    )
+    const reason = error instanceof Error ? error.message : String(error)
+    const rollback = rollbackFailures.length === 0
+      ? '보상 롤백 및 readback 완료'
+      : `보상 롤백 오류: ${rollbackFailures.join(' | ')}`
+    throw new Error(`${reason}; ${rollback}`)
+  }
+}
+
 async function revalidateCaches() {
   const secret = process.env.CRON_SECRET
   const webUrl = process.env.NEXT_PUBLIC_WEB_URL || 'https://feelandnote.com'
@@ -383,13 +646,47 @@ async function revalidateCaches() {
 async function main() {
   const profiles = await allProfiles()
   const ids = profiles.map((profile) => profile.id)
-  const [influences, spectra, dialogues, explanations, celebContents, fictionSources] = await Promise.all([
+  const [
+    influences,
+    spectra,
+    dialogues,
+    explanations,
+    celebContents,
+    fictionSources,
+    timelineEvents,
+    relationsFrom,
+    relationsTo,
+    externalRelations,
+    factionPlacements,
+  ] = await Promise.all([
     byIds('celeb_influence', '*', ids),
     byIds('celeb_persona', 'celeb_id,spectrum:persona', ids),
     byIds('celeb_dialogues', 'celeb_id,lines,lines_en', ids),
-    byIds('celeb_explanations', 'profile_id,plain_text,plain_text_en', ids, 'profile_id'),
+    byIds(
+      'celeb_explanations',
+      'profile_id,plain_text,plain_text_en,review_status,published_at',
+      ids,
+      'profile_id',
+    ),
     byIds('celeb_contents', 'celeb_id,content_id,status,review,review_en,source_url', ids, 'celeb_id'),
-    byIds('fiction_source_characters', 'celeb_id,content_id,relation_type', ids),
+    byIds(
+      'fiction_source_characters',
+      'celeb_id,content_id,relation_type,description,description_en',
+      ids,
+    ),
+    byIds(
+      'celeb_timeline_events',
+      'celeb_id,year,year_end,sequence_label,sequence_label_en,title,title_en,description,description_en',
+      ids,
+    ),
+    byIds('celeb_relations', 'id,from_id,to_id', ids, 'from_id'),
+    byIds('celeb_relations', 'id,from_id,to_id', ids, 'to_id'),
+    byIds('celeb_relations_external', 'id,from_id', ids, 'from_id'),
+    byIds(
+      'faction_atlas_members',
+      'tag_id,celeb_id,short_desc,short_desc_en,long_desc,long_desc_en,hidden,source,person_id,assignment_id',
+      ids,
+    ),
   ])
 
   const contentIds = [...new Set([
@@ -398,7 +695,11 @@ async function main() {
   ])]
   const [contents, locales] = await Promise.all([
     byIds('contents', 'id,type,external_source', contentIds, 'id'),
-    byContentIds('content_locales', 'content_id,locale,title,creator,thumbnail_url,isbn', contentIds),
+    byContentIds(
+      'content_locales',
+      'content_id,locale,title,creator,thumbnail_url,isbn,affiliate_url',
+      contentIds,
+    ),
   ])
 
   const influenceById = new Map(influences.map((row) => [row.celeb_id, row]))
@@ -408,7 +709,33 @@ async function main() {
   const contentById = new Map(contents.map((row) => [row.id, row]))
   const celebContentsByCeleb = groupBy(celebContents, (row) => row.celeb_id)
   const fictionSourcesByCeleb = groupBy(fictionSources, (row) => row.celeb_id)
+  const timelineByCeleb = groupBy(timelineEvents, (row) => row.celeb_id)
+  const scopedIds = new Set(ids)
+  const relationIdsByCeleb = new Map<string, Set<string>>()
+  for (const relation of [...relationsFrom, ...relationsTo]) {
+    for (const celebId of [relation.from_id, relation.to_id]) {
+      if (!scopedIds.has(celebId)) continue
+      const relationIds = relationIdsByCeleb.get(celebId) ?? new Set<string>()
+      relationIds.add(`internal:${relation.id}`)
+      relationIdsByCeleb.set(celebId, relationIds)
+    }
+  }
+  for (const relation of externalRelations) {
+    const relationIds = relationIdsByCeleb.get(relation.from_id) ?? new Set<string>()
+    relationIds.add(`external:${relation.id}`)
+    relationIdsByCeleb.set(relation.from_id, relationIds)
+  }
+  const factionPlacementsByCeleb = groupBy(factionPlacements, (row) => row.celeb_id)
   const localesByContent = groupBy(locales, (row) => row.content_id)
+  const sourceContentsWithEnglishAmazon = new Set(
+    locales
+      .filter((row) => (
+        row.locale === 'en'
+        && Array.isArray(row.affiliate_url)
+        && row.affiliate_url.some((link: Row) => link.platform === 'amazon' && !blank(link.url))
+      ))
+      .map((row) => row.content_id),
+  )
 
   const audited: AuditRow[] = profiles.map((profile) => {
     const tier = profile.celeb_tier ?? 'full'
@@ -532,20 +859,92 @@ async function main() {
   const warned = audited.filter((row) => row.warnings.length > 0)
   const readyWithWarnings = ready.filter((row) => row.warnings.length > 0)
 
+  const auditedById = new Map(audited.map((row) => [row.id, row]))
+  const fictionReadinessRows: FictionReadinessRow[] = profiles
+    .filter((profile) => profile.celeb_tier === 'fiction')
+    .map((profile) => {
+      const auditRow = auditedById.get(profile.id)
+      const explanation = explanationById.get(profile.id)
+      const sources = fictionSourcesByCeleb.get(profile.id) ?? []
+      const events = timelineByCeleb.get(profile.id) ?? []
+      const placements = factionPlacementsByCeleb.get(profile.id) ?? []
+      const nonAvatarGaps = (auditRow?.gaps ?? []).filter((gap) => gap !== 'basic:avatar_url')
+      const factionGaps: string[] = []
+      const information: string[] = []
+
+      addFictionSpeechGaps(profile, dialogueById.get(profile.id), nonAvatarGaps)
+      addFictionTimelineGaps(events, nonAvatarGaps)
+      if (explanation && blank(explanation.review_status)) nonAvatarGaps.push('reading:review_status')
+      if (profile.publication_status === 'inactive' && explanation?.published_at) {
+        nonAvatarGaps.push('reading:published_while_inactive')
+      }
+      if (sources.some((source) => blank(source.description))) {
+        nonAvatarGaps.push('fiction:source_description_ko')
+      }
+      if (sources.some((source) => (
+        sourceContentsWithEnglishAmazon.has(source.content_id)
+        && blank(source.description_en)
+      ))) {
+        nonAvatarGaps.push('fiction:source_description_en')
+      }
+      if (sources.some((source) => (
+        !sourceContentsWithEnglishAmazon.has(source.content_id)
+        && !blank(source.description_en)
+      ))) {
+        nonAvatarGaps.push('fiction:source_description_en_without_amazon')
+      }
+      addFictionFactionGaps(profile, placements, factionGaps)
+
+      const relationCount = relationIdsByCeleb.get(profile.id)?.size ?? 0
+      if (relationCount === 0) information.push('relations:none')
+
+      const uniqueNonAvatarGaps = [...new Set(nonAvatarGaps)]
+      const uniqueFactionGaps = [...new Set(factionGaps)]
+      return {
+        id: profile.id,
+        slug: profile.slug ?? '',
+        nickname: profile.nickname ?? '',
+        publicationStatus: profile.publication_status,
+        nonAvatarGaps: uniqueNonAvatarGaps,
+        factionGaps: uniqueFactionGaps,
+        information,
+        avatarBlocker: blank(profile.avatar_url),
+        projectReadyExcludingAvatar: uniqueNonAvatarGaps.length === 0 && uniqueFactionGaps.length === 0,
+        sourceCount: sources.length,
+        timelineCount: events.length,
+        relationCount,
+        factionPlacementCount: placements.length,
+      }
+    })
+  const countRowValues = (values: string[][]) => {
+    const counts = new Map<string, number>()
+    for (const rowValues of values) {
+      for (const value of new Set(rowValues)) counts.set(value, (counts.get(value) ?? 0) + 1)
+    }
+    return Object.fromEntries([...counts].sort((a, b) => b[1] - a[1]))
+  }
+  const fictionProjectReady = fictionReadinessRows.filter((row) => row.projectReadyExcludingAvatar)
+  const fictionPublicReadiness = {
+    scope: fictionReadinessRows.length,
+    projectReadyExcludingAvatar: fictionProjectReady.length,
+    intentionalAvatarBlockers: fictionReadinessRows.filter((row) => row.avatarBlocker).length,
+    fullyReadyIncludingAvatar: fictionProjectReady.filter((row) => !row.avatarBlocker).length,
+    nonAvatarGapCounts: countRowValues(fictionReadinessRows.map((row) => row.nonAvatarGaps)),
+    factionGapCounts: countRowValues(fictionReadinessRows.map((row) => row.factionGaps)),
+    informationCounts: countRowValues(fictionReadinessRows.map((row) => row.information)),
+    totals: {
+      sources: fictionReadinessRows.reduce((sum, row) => sum + row.sourceCount, 0),
+      timelineEvents: fictionReadinessRows.reduce((sum, row) => sum + row.timelineCount, 0),
+      relations: fictionReadinessRows.reduce((sum, row) => sum + row.relationCount, 0),
+      factionPlacements: fictionReadinessRows.reduce((sum, row) => sum + row.factionPlacementCount, 0),
+    },
+    rows: fictionReadinessRows,
+  }
+
   let activated: Row[] = []
   let cache = null
   if (APPLY && ready.length > 0) {
-    const { data, error } = await db
-      .from('celebs')
-      .update({ publication_status: 'active' })
-      .in('id', ready.map((row) => row.id))
-      .eq('publication_status', 'inactive')
-      .select('id,slug,nickname,publication_status')
-    if (error) throw new Error(`활성화 실패: ${error.message}`)
-    activated = data ?? []
-    if (activated.length !== ready.length) {
-      throw new Error(`활성화 수 불일치: 후보 ${ready.length}, 반영 ${activated.length}`)
-    }
+    activated = await activateReadyProfiles(ready, explanationById)
     cache = await revalidateCaches()
   }
 
@@ -617,6 +1016,7 @@ async function main() {
       readyCelebs: readyWithWarnings.length,
       counts: Object.fromEntries([...warningCounts].sort((a, b) => b[1] - a[1])),
     },
+    fictionPublicReadiness,
     rows: audited,
   }
 
@@ -640,6 +1040,14 @@ async function main() {
     + `전체 상태 light 0건·미확정 ${summary.contentResearch.rawUnconfirmed}명 `
     + `(상태 제외 ${summary.contentResearch.excludedByPublicationStatus}명)`,
   )
+  if (summary.fictionPublicReadiness.scope > 0) {
+    console.log(
+      `픽션 비아바타 공개 준비 ${summary.fictionPublicReadiness.projectReadyExcludingAvatar}`
+      + `/${summary.fictionPublicReadiness.scope}명 · 의도된 아바타 차단 `
+      + `${summary.fictionPublicReadiness.intentionalAvatarBlockers}명 · 관계 0건 검토 `
+      + `${summary.fictionPublicReadiness.informationCounts['relations:none'] ?? 0}명`,
+    )
+  }
   if (summary.linkAudit.mode === 'checked') {
     console.log(
       `출처 링크 ${summary.linkAudit.checked}개 검사 · 통과 ${summary.linkAudit.passed}개 · 실패 ${summary.linkAudit.failed}개`,
@@ -693,6 +1101,16 @@ async function main() {
   )
   for (const [warning, count] of [...warningCounts].sort((a, b) => b[1] - a[1]).slice(0, 20)) {
     console.log(`  ${warning.padEnd(48)} ${count}`)
+  }
+  if (summary.fictionPublicReadiness.scope > 0) {
+    console.log('\n픽션 비아바타 준비 결손')
+    for (const [gap, count] of Object.entries(summary.fictionPublicReadiness.nonAvatarGapCounts).slice(0, 20)) {
+      console.log(`  ${gap.padEnd(48)} ${count}`)
+    }
+    console.log('\n픽션 세력 배정·설명 결손 (hidden=true는 정상)')
+    for (const [gap, count] of Object.entries(summary.fictionPublicReadiness.factionGapCounts).slice(0, 20)) {
+      console.log(`  ${gap.padEnd(48)} ${count}`)
+    }
   }
 }
 

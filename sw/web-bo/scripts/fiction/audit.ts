@@ -5,8 +5,8 @@
  * 인물·글의 SSoT는 DB, 로컬 파일은 export/아이디어 잔존 여부 확인에만 쓴다.
  *
  * 실행:
- *   node --env-file=.env --import tsx scripts/audit-fiction-faction-links.ts
- *   node --env-file=.env --import tsx scripts/audit-fiction-faction-links.ts --json
+ *   node --env-file=.env --import tsx scripts/fiction/audit.ts
+ *   node --env-file=.env --import tsx scripts/fiction/audit.ts --json
  */
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
@@ -81,9 +81,18 @@ type AssignmentRow = {
   celeb_id: string
 }
 
+type AtlasMemberRow = {
+  tag_id: string
+  celeb_id: string
+  source: 'production' | 'manual'
+  person_id: string | null
+}
+
 type SourceRelationRow = {
   content_id: string
   celeb_id: string
+  description: string | null
+  description_en: string | null
 }
 
 type SourceContentRow = {
@@ -101,6 +110,7 @@ type ContentLocaleRow = {
   content_id: string
   locale: string
   title: string
+  affiliate_url: Array<{ platform?: string; url?: string }> | null
 }
 
 type JsonPerson = {
@@ -244,12 +254,21 @@ async function main() {
       .range(from, to)
     return { data: data as unknown as AssignmentRow[] | null, error }
   })
+  const atlasMembers = await allRows<AtlasMemberRow>('faction_atlas_members', async (from, to) => {
+    const { data, error } = await db
+      .from('faction_atlas_members')
+      .select('tag_id,celeb_id,source,person_id')
+      .order('tag_id')
+      .order('celeb_id')
+      .range(from, to)
+    return { data: data as unknown as AtlasMemberRow[] | null, error }
+  })
   const sourceRelations = await allRows<SourceRelationRow>(
     'fiction_source_characters',
     async (from, to) => {
       const { data, error } = await db
         .from('fiction_source_characters')
-        .select('content_id,celeb_id')
+        .select('content_id,celeb_id,description,description_en')
         .order('content_id')
         .order('celeb_id')
         .range(from, to)
@@ -277,7 +296,7 @@ async function main() {
   }
   const { data: sourceLocaleRows, error: sourceLocaleError } = await db
     .from('content_locales')
-    .select('content_id,locale,title')
+    .select('content_id,locale,title,affiliate_url')
     .in('content_id', sourceContentIds)
   if (sourceLocaleError) {
     throw new Error(`대표 원전 locale 조회 실패: ${sourceLocaleError.message}`)
@@ -305,10 +324,50 @@ async function main() {
   const sourceContentById = new Map(
     ((sourceContentRows ?? []) as ContentRow[]).map((row) => [row.id, row]),
   )
+  const sourceLocaleRowsTyped = (sourceLocaleRows ?? []) as ContentLocaleRow[]
   const sourceLocaleKeys = new Set(
-    ((sourceLocaleRows ?? []) as ContentLocaleRow[])
-      .map((row) => `${row.content_id}:${row.locale}`),
+    sourceLocaleRowsTyped.map((row) => `${row.content_id}:${row.locale}`),
   )
+  const sourceContentsWithEnglishAmazon = new Set(
+    sourceLocaleRowsTyped
+      .filter((row) => (
+        row.locale === 'en'
+        && row.affiliate_url?.some((link) => link.platform === 'amazon' && asString(link.url))
+      ))
+      .map((row) => row.content_id),
+  )
+  const sourceTitleByContent = new Map<string, string>()
+  for (const row of sourceLocaleRowsTyped) {
+    const current = sourceTitleByContent.get(row.content_id)
+    if (!current || row.locale === 'ko') sourceTitleByContent.set(row.content_id, row.title)
+  }
+  const summarizeSourceRelation = (row: SourceRelationRow) => {
+    const profile = profileById.get(row.celeb_id)
+    return {
+      contentId: row.content_id,
+      contentTitle: sourceTitleByContent.get(row.content_id)
+        ?? sourceContentById.get(row.content_id)?.external_id
+        ?? row.content_id,
+      celebId: row.celeb_id,
+      slug: profile?.slug ?? null,
+      nickname: profile?.nickname ?? null,
+    }
+  }
+  const sourceRelationsMissingKoDescription = sourceRelations
+    .filter((row) => !asString(row.description))
+    .map(summarizeSourceRelation)
+  const sourceRelationsMissingEnDescription = sourceRelations
+    .filter((row) => (
+      sourceContentsWithEnglishAmazon.has(row.content_id)
+      && !asString(row.description_en)
+    ))
+    .map(summarizeSourceRelation)
+  const sourceRelationsEnDescriptionWithoutAmazon = sourceRelations
+    .filter((row) => (
+      !sourceContentsWithEnglishAmazon.has(row.content_id)
+      && asString(row.description_en)
+    ))
+    .map(summarizeSourceRelation)
 
   const personEpisode = (person: PersonRow): EpisodeRow | undefined => {
     const cluster = clusterById.get(person.cluster_id)
@@ -429,7 +488,7 @@ async function main() {
   const sourceWorksMissingKoLocale = sourceContents
     .filter((row) => !sourceLocaleKeys.has(`${row.content_id}:ko`))
     .map((row) => row.content_id)
-  const sourceWorksMissingEnLocale = sourceContents
+  const sourceWorksWithoutEnLocale = sourceContents
     .filter((row) => !sourceLocaleKeys.has(`${row.content_id}:en`))
     .map((row) => row.content_id)
   const linkedMythicalIds = new Set(
@@ -504,20 +563,50 @@ async function main() {
   const mythicalTagsNotMarkedFiction = mythicalTagRows
     .filter((tag) => !tag.is_fiction)
     .map((tag) => ({ id: tag.id, slug: tag.slug, name: tag.name }))
-  const assignmentKeys = new Set(assignments.map((row) => `${row.tag_id}:${row.celeb_id}`))
-  const missingAssignments = mythicalPeople.flatMap((person) => {
-    if (!person.celeb_id) return []
+
+  // 26.08.03 단일화 이후 제작 인물은 celeb_tag_assignments에 복제하지 않는다.
+  // 서비스 읽기 창구인 faction_atlas_members가 production 행을 직접 내는지만 검사한다.
+  const atlasProductionKeys = new Set(
+    atlasMembers
+      .filter((row) => row.source === 'production')
+      .map((row) => `${row.tag_id}:${row.celeb_id}`),
+  )
+  const expectedProductionRows = new Map<string, {
+    episode: string
+    groupPosition: number
+    tag: string
+    slug: string | null
+    name: string
+  }>()
+  for (const person of mythicalPeople) {
+    if (!person.celeb_id || person.disabled) continue
     const cluster = clusterById.get(person.cluster_id)
     const group = cluster ? groupById.get(cluster.group_id) : undefined
-    if (!group?.tag_id || assignmentKeys.has(`${group.tag_id}:${person.celeb_id}`)) return []
-    return [{
+    if (!group?.tag_id) continue
+    const key = `${group.tag_id}:${person.celeb_id}`
+    if (expectedProductionRows.has(key)) continue
+    expectedProductionRows.set(key, {
       episode: episodeById.get(group.episode_id)?.folder ?? '(orphan)',
       groupPosition: group.position,
       tag: tagById.get(group.tag_id)?.slug ?? group.tag_id,
       slug: person.slug,
       name: person.name,
-    }]
-  })
+    })
+  }
+  const missingAtlasMembers = [...expectedProductionRows.entries()]
+    .filter(([key]) => !atlasProductionKeys.has(key))
+    .map(([, row]) => row)
+
+  // 제작 유래 인물의 옛 배정 사본은 단일화 때 삭제됐다. 다시 생기면 두 원천이 겹친 것이다.
+  const expectedProductionKeys = new Set(expectedProductionRows.keys())
+  const staleProductionAssignments = assignments
+    .filter((row) => expectedProductionKeys.has(`${row.tag_id}:${row.celeb_id}`))
+    .map((row) => ({
+      tag: tagById.get(row.tag_id)?.slug ?? row.tag_id,
+      celebId: row.celeb_id,
+      slug: profileById.get(row.celeb_id)?.slug ?? null,
+      nickname: profileById.get(row.celeb_id)?.nickname ?? null,
+    }))
 
   const rootFolders = readdirSync(root, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('_'))
@@ -625,12 +714,18 @@ async function main() {
       sourceWorksWithoutCharacters: sourceWorksWithoutCharacters.length,
       sourceWorksMissingContent: sourceWorksMissingContent.length,
       sourceWorksMissingKoLocale: sourceWorksMissingKoLocale.length,
-      sourceWorksMissingEnLocale: sourceWorksMissingEnLocale.length,
+      sourceWorksWithoutEnLocale: sourceWorksWithoutEnLocale.length,
+      sourceWorksWithEnglishAmazon: sourceContentsWithEnglishAmazon.size,
+      sourceRelationsMissingKoDescription: sourceRelationsMissingKoDescription.length,
+      sourceRelationsMissingEnDescription: sourceRelationsMissingEnDescription.length,
+      sourceRelationsEnDescriptionWithoutAmazon: sourceRelationsEnDescriptionWithoutAmazon.length,
       sourceRelationsToNonFiction: sourceRelationsToNonFiction.length,
       mythicalTags: mythicalTagRows.length,
       mythicalTagsNotMarkedFiction: mythicalTagsNotMarkedFiction.length,
       groupsWithoutTag: nullTagGroups.length,
-      missingAssignments: missingAssignments.length,
+      expectedProductionAtlasMembers: expectedProductionRows.size,
+      missingAtlasMembers: missingAtlasMembers.length,
+      staleProductionAssignments: staleProductionAssignments.length,
     },
     episodeStatus: countBy(episodes, (row) => `${row.registered ? 'registered' : 'unregistered'}:${row.status}`),
     mythicalEpisodeFolders,
@@ -644,14 +739,18 @@ async function main() {
       worksWithoutCharacters: sourceWorksWithoutCharacters,
       worksMissingContent: sourceWorksMissingContent,
       worksMissingKoLocale: sourceWorksMissingKoLocale,
-      worksMissingEnLocale: sourceWorksMissingEnLocale,
+      worksWithoutEnLocale: sourceWorksWithoutEnLocale,
+      relationsMissingKoDescription: sourceRelationsMissingKoDescription,
+      relationsMissingEnDescription: sourceRelationsMissingEnDescription,
+      relationsEnDescriptionWithoutAmazon: sourceRelationsEnDescriptionWithoutAmazon,
       relationsToNonFiction: sourceRelationsToNonFiction,
     },
     fictionProfilesNotInMythicalFaction: fictionNotInMythicalFaction,
     groupsWithoutTag: nullTagGroups,
     linkedTagGroups,
     mythicalTagsNotMarkedFiction,
-    missingAssignments,
+    missingAtlasMembers,
+    staleProductionAssignments,
     filesystem: {
       rootWithoutDb,
       dbWithoutRoot,
@@ -691,10 +790,18 @@ async function main() {
   console.log(wrongTier)
   console.log(`\nLINKED WITHOUT SOURCE (${withoutSource.length})`)
   console.log(withoutSource)
+  console.log(`\nSOURCE RELATIONS MISSING KO DESCRIPTION (${sourceRelationsMissingKoDescription.length})`)
+  console.log(sourceRelationsMissingKoDescription)
+  console.log(`\nAMAZON-LINKED SOURCE RELATIONS MISSING EN DESCRIPTION (${sourceRelationsMissingEnDescription.length})`)
+  console.log(sourceRelationsMissingEnDescription)
+  console.log(`\nSOURCE RELATIONS WITH EN DESCRIPTION BUT NO AMAZON (${sourceRelationsEnDescriptionWithoutAmazon.length})`)
+  console.log(sourceRelationsEnDescriptionWithoutAmazon)
   console.log(`\nGROUPS WITHOUT TAG (${nullTagGroups.length})`)
   console.log(nullTagGroups)
-  console.log(`\nMISSING ASSIGNMENTS (${missingAssignments.length})`)
-  console.log(missingAssignments)
+  console.log(`\nMISSING ATLAS MEMBERS (${missingAtlasMembers.length})`)
+  console.log(missingAtlasMembers)
+  console.log(`\nSTALE PRODUCTION ASSIGNMENTS (${staleProductionAssignments.length})`)
+  console.log(staleProductionAssignments)
   console.log('\nFILESYSTEM')
   console.log(report.filesystem)
 }
