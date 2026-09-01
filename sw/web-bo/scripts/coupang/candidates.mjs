@@ -1,8 +1,9 @@
 /*
   검색 결과 후보만 모은다. 링크는 만들지 않는다.
-  사람이 목록을 읽고 무엇을 고를지 정한 뒤, cp-pick.mjs로 그 하나만 만든다.
+  content_id가 아직 없는 신규 책은 candidate_key로 조사할 수 있다.
+  사람이 목록을 읽고 무엇을 고를지 정한 뒤, 서비스를 등록하고 pick.mjs로 링크를 만든다.
 
-  사용: node cp-candidates.mjs <대상.json> <후보.json> [시작] [끝]
+  사용: node candidates.mjs <대상.json> <후보.json> [시작] [끝]
 */
 import { fileURLToPath } from 'url'
 import path from 'path'
@@ -21,7 +22,8 @@ const from = Number(fromArg ?? 0)
 const to = Number(toArg ?? targets.length)
 
 const out = fs.existsSync(outFile) ? JSON.parse(fs.readFileSync(outFile, 'utf8')) : []
-const done = new Set(out.map((r) => r.content_id))
+const targetKey = (row) => String(row.content_id ?? row.candidate_key ?? '').trim()
+const done = new Set(out.map(targetKey).filter(Boolean))
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
@@ -48,7 +50,12 @@ await page.setViewport({ width: 1440, height: 1000 })
 
 for (let i = from; i < to && i < targets.length; i++) {
   const t = targets[i]
-  if (done.has(t.content_id)) continue
+  const key = targetKey(t)
+  if (!key) throw new Error(`[${i}] content_id 또는 candidate_key가 필요합니다.`)
+  if (typeof t.title !== 'string' || !t.title.trim()) {
+    throw new Error(`[${i}] 검색할 title이 필요합니다.`)
+  }
+  if (done.has(key)) continue
 
   // 제목만으로 검색한다 — 저자·출판사를 붙이면 후보가 좁아져 더 나은 상품을 놓친다
   const query = t.title.replace(/\s*\(.*?\)\s*/g, ' ').trim()
@@ -80,7 +87,11 @@ for (let i = from; i < to && i < targets.length; i++) {
             if (name.length > 5) break
           }
         }
-        res.push({ idx, name: name.slice(0, 110), price })
+        const productLink = node?.querySelector?.('a[href*="/vp/products/"]')
+          || node?.closest?.('a[href*="/vp/products/"]')
+        const productUrl = productLink?.href || ''
+        const productId = productUrl.match(/\/vp\/products\/(\d+)/)?.[1] || ''
+        res.push({ idx, name: name.slice(0, 110), price, productId, productUrl })
       })
       return res
     })

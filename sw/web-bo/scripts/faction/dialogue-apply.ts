@@ -78,7 +78,10 @@ import {
 } from '@feelandnote/shared/lib/faction-schema'
 import {
   factionEpisodePaths,
+  inheritCelebVoices,
   inspectFactionDataFile,
+  type CelebVoiceLookup,
+  type CelebVoicePair,
 } from '@feelandnote/shared/bo/faction-export'
 import { replaceFactionEpisode } from '../../src/lib/faction-save'
 import { BO_ROOT, REPO_ROOT } from '../lib/paths'
@@ -183,6 +186,12 @@ type PersonMatch = {
   person: Row
 }
 
+type BeatMatch = {
+  bi: number
+  path: string
+  beat: Row
+}
+
 type CapturedRows = Map<string, Row[]>
 
 type TargetPlan = {
@@ -191,6 +200,8 @@ type TargetPlan = {
   action: 'update' | 'skip'
   bodyChanged: boolean
   nextState: DialogueState
+  beatMatch?: BeatMatch
+  changedBeatKeys: Array<'text' | 'textEn'>
 }
 
 type EpisodePlan = {
@@ -632,18 +643,72 @@ function personAt(script: Row, match: PersonMatch): Row {
   return person
 }
 
-function maskTargetFields(script: Row, matches: PersonMatch[]): Row {
+function representativeBeat(script: Row, match: PersonMatch, target: BatchTarget): BeatMatch {
+  const group = (script.groups as Row[])?.[match.gi]
+  const cluster = (group?.clusters as Row[])?.[match.ci]
+  const beats = Array.isArray(cluster?.beats) ? cluster.beats as Row[] : []
+  const person = personAt(script, match)
+  const assigned = beats.flatMap((beat, bi) => {
+    const sameSpeaker = typeof person.celebId === 'string' && person.celebId
+      ? beat.speakerCelebId === person.celebId
+      : typeof person.name === 'string' && beat.speaker === person.name
+    return sameSpeaker ? [{ bi, path: `${match.path}/../../beats/${bi}`, beat }] : []
+  })
+  const primary = assigned.filter(item => item.beat.primaryQuote === true)
+  const candidates = primary.length ? primary : assigned
+  if (candidates.length !== 1) {
+    fail(
+      `${target.folder}/${target.identity.name}: 대표 화자 beat ${candidates.length}건`
+      + ' — 장면 단일원천을 안전하게 고칠 수 있도록 BO에서 대표 대사를 하나 지정하세요',
+    )
+  }
+  return candidates[0]
+}
+
+function beatAt(script: Row, match: PersonMatch, bi: number): Row {
+  const group = (script.groups as Row[])?.[match.gi]
+  const cluster = (group?.clusters as Row[])?.[match.ci]
+  const beat = (cluster?.beats as Row[])?.[bi]
+  if (!isRecord(beat)) fail(`${match.path}/../../beats/${bi}: 저장 후 같은 위치에서 beat를 찾지 못했습니다`)
+  return beat
+}
+
+function changedBeatKeys(expected: DialogueSpec, next: DialogueSpec): Array<'text' | 'textEn'> {
+  const keys: Array<'text' | 'textEn'> = []
+  if (!sameValue(expected.quote, next.quote) || !sameValue(expected.quoteChunks, next.quoteChunks)) {
+    keys.push('text')
+  }
+  if (!sameValue(expected.quoteEn, next.quoteEn)
+    || !sameValue(expected.quoteEnChunks, next.quoteEnChunks)) {
+    keys.push('textEn')
+  }
+  return keys
+}
+
+function applyBeatText(beat: Row, next: DialogueSpec, keys: Array<'text' | 'textEn'>): void {
+  if (keys.includes('text')) beat.text = next.quoteChunks?.join('\n') ?? ''
+  if (keys.includes('textEn')) {
+    if (next.quoteEnChunks === null) delete beat.textEn
+    else beat.textEn = next.quoteEnChunks.join('\n')
+  }
+}
+
+function maskTargetFields(script: Row, plans: TargetPlan[]): Row {
   const clone = structuredClone(script)
-  for (const match of matches) {
-    const person = personAt(clone, match)
+  for (const plan of plans) {
+    const person = personAt(clone, plan.match)
     for (const key of STATE_KEYS) delete person[key]
+    if (plan.beatMatch) {
+      const beat = beatAt(clone, plan.match, plan.beatMatch.bi)
+      for (const key of plan.changedBeatKeys) delete beat[key]
+    }
   }
   return clone
 }
 
-function assertOnlyDialogueFieldsChanged(before: Row, next: Row, matches: PersonMatch[], folder: string): void {
-  const a = maskTargetFields(before, matches)
-  const b = maskTargetFields(next, matches)
+function assertOnlyDialogueFieldsChanged(before: Row, next: Row, plans: TargetPlan[], folder: string): void {
+  const a = maskTargetFields(before, plans)
+  const b = maskTargetFields(next, plans)
   if (!sameValue(a, b)) {
     const diffs = diffPointers(a, b).slice(0, 20)
     fail(`${folder}: 지정 대사 필드 밖 변경 감지\n${diffs.map(item => `  - ${item}`).join('\n')}`)
@@ -684,6 +749,23 @@ function createDb(): SupabaseClient {
   return createClient(url, key, {
     auth: { autoRefreshToken: false, persistSession: false },
   })
+}
+
+function celebVoiceLookup(db: SupabaseClient): CelebVoiceLookup {
+  return async (celebIds) => {
+    const out = new Map<string, CelebVoicePair>()
+    for (let i = 0; i < celebIds.length; i += 200) {
+      const { data, error } = await db
+        .from('celebs').select('id,voice_id_ko,voice_id_en').in('id', celebIds.slice(i, i + 200))
+      if (error) throw new Error(`CELEB 목소리 조회 실패: ${error.message}`)
+      for (const row of data ?? []) {
+        const ko = (row.voice_id_ko as string | null)?.trim()
+        const en = (row.voice_id_en as string | null)?.trim()
+        if (ko || en) out.set(row.id as string, { ...(ko ? { ko } : {}), ...(en ? { en } : {}) })
+      }
+    }
+    return out
+  }
 }
 
 async function loadLineup(): Promise<Record<string, { uploads?: Record<string, unknown> }>> {
@@ -755,7 +837,9 @@ async function buildEpisodePlan(
   if (typeof updatedAt !== 'string' || !updatedAt) fail(`${folder}: updated_at 없음`)
 
   assertKnownMinedShape(captured, folder)
-  assertFileMatchesDb(fileState, before, folder)
+  const fileComparable = structuredClone(before)
+  await inheritCelebVoices(fileComparable, celebVoiceLookup(db))
+  assertFileMatchesDb(fileState, fileComparable, folder)
 
   const next = structuredClone(before)
   const plans: TargetPlan[] = []
@@ -771,6 +855,7 @@ async function buildEpisodePlan(
 
     const current = stateOf(beforeMatch.person, `${folder}${beforeMatch.path}`)
     const changesBody = bodyChanged(target.expected, target.next)
+    const beatKeys = changedBeatKeys(target.expected, target.next)
     const resolvedNext = resolveState(current, target.next)
 
     if (sameSpecState(current, target.next)) {
@@ -780,6 +865,7 @@ async function buildEpisodePlan(
         action: 'skip',
         bodyChanged: changesBody,
         nextState: resolvedNext,
+        changedBeatKeys: [],
       })
       continue
     }
@@ -799,6 +885,17 @@ async function buildEpisodePlan(
       )
     }
 
+    let beatMatch: BeatMatch | undefined
+    if (beatKeys.length) {
+      beatMatch = representativeBeat(before, beforeMatch, target)
+      if (beatMatch.beat.voiceFile || beatMatch.beat.voiceDuration) {
+        fail(
+          `${folder}/${target.identity.name}: 기존 음성이 연결된 장면 대사입니다`
+          + ' — 본문과 음성을 함께 교체하라는 사용자 지시 없이 변경하지 않습니다',
+        )
+      }
+      applyBeatText(beatAt(next, beforeMatch, beatMatch.bi), target.next, beatKeys)
+    }
     const nextPerson = personAt(next, beforeMatch)
     applyState(nextPerson, resolvedNext)
     plans.push({
@@ -807,10 +904,12 @@ async function buildEpisodePlan(
       action: 'update',
       bodyChanged: changesBody,
       nextState: resolvedNext,
+      beatMatch,
+      changedBeatKeys: beatKeys,
     })
   }
 
-  assertOnlyDialogueFieldsChanged(before, next, plans.map(plan => plan.match), folder)
+  assertOnlyDialogueFieldsChanged(before, next, plans, folder)
   return { folder, updatedAt, fileState, before, next, targets: plans }
 }
 

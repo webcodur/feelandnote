@@ -1,9 +1,10 @@
 /*
   사람이 고른 후보 하나로 링크를 만들고 자료에 넣는다.
 
-  사용: node cp-pick.mjs <선택.json>
+  사용: node pick.mjs <선택.json>
   선택.json = [{ "content_id": "...", "title": "...", "query": "...", "idx": 3 }, ...]
     idx 는 candidates.json 의 후보 idx 값이다.
+  후보 조사 뒤 서비스를 먼저 등록해 content_id를 확정해야 실행할 수 있다.
 */
 import { fileURLToPath } from 'url'
 import path from 'path'
@@ -40,6 +41,9 @@ await page.setViewport({ width: 1440, height: 1000 })
 let done = 0
 for (const p of picks) {
   try {
+    if (typeof p.content_id !== 'string' || !p.content_id.trim()) {
+      throw new Error(`${p.title ?? '(제목 없음)'}: 서비스 등록 뒤 content_id가 필요합니다.`)
+    }
     await page.goto(`https://partners.coupang.com/#affiliate/ws/link/0/${encodeURIComponent(p.query)}`, {
       waitUntil: 'domcontentloaded',
       timeout: 60000,

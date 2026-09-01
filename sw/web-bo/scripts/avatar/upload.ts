@@ -239,7 +239,6 @@ const FORBIDDEN_LOCAL_SOURCE_SEGMENTS = new Set([
 // entry point prevents a renamed/copied material file from bypassing the path
 // guard. Remove a slug only after its identity/source audit is resolved.
 const PROVENANCE_QUARANTINED_SLUGS = new Set([
-  'jebe',
   'pang-juan',
   'zhao-gao',
   'hu-hai',
