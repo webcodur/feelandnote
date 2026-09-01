@@ -12,6 +12,7 @@ import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { setFactionCoverImage } from "@/actions/admin/factions/updateFactionTeamImages";
 import type { CelebProfile } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { toTeamImages, type FactionTeamImage } from "@feelandnote/shared/lib/faction-team-image";
 import { duckBgm } from "@/lib/audio-ducking";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
@@ -843,34 +844,36 @@ export default function FactionShowcase({
                   isActive ? "opacity-100" : "opacity-0"
                 )}
               >
-                <Image
-                  src={portrait.url}
-                  alt=""
-                  fill
-                  unoptimized
-                  aria-hidden
-                  sizes="(max-width: 768px) 100vw, 600px"
-                  className="scale-110 object-cover opacity-40 blur-2xl"
-                />
-                <Image
-                  src={portrait.url}
-                  alt={isActive ? photoAlt : ""}
-                  fill
-                  unoptimized
-                  priority={index === 0}
-                  sizes="(max-width: 768px) 100vw, 600px"
-                  className={cn(
-                    "object-contain",
-                    // 이미 지나간 레이어도 페이드아웃 중에는 확대 상태를 유지해야 교체 직전 역줌이 생기지 않는다.
-                    isFactionQuoteVisible && index <= activePortraitIndex && "animate-faction-portrait-push-in"
-                  )}
-                  style={{
-                    animationDuration: `${zoomDuration}s`,
-                    transformOrigin: "50% 50%",
-                    "--faction-portrait-shift-x": `${shiftX}%`,
-                    "--faction-portrait-shift-y": `${shiftY}%`,
-                  } as CSSProperties}
-                />
+                <BlurDissolve className="absolute inset-0">
+                  <Image
+                    src={portrait.url}
+                    alt=""
+                    fill
+                    unoptimized
+                    aria-hidden
+                    sizes="(max-width: 768px) 100vw, 600px"
+                    className="scale-110 object-cover opacity-40 blur-2xl"
+                  />
+                  <Image
+                    src={portrait.url}
+                    alt={isActive ? photoAlt : ""}
+                    fill
+                    unoptimized
+                    priority={index === 0}
+                    sizes="(max-width: 768px) 100vw, 600px"
+                    className={cn(
+                      "object-contain",
+                      // 이미 지나간 레이어도 페이드아웃 중에는 확대 상태를 유지해야 교체 직전 역줌이 생기지 않는다.
+                      isFactionQuoteVisible && index <= activePortraitIndex && "animate-faction-portrait-push-in"
+                    )}
+                    style={{
+                      animationDuration: `${zoomDuration}s`,
+                      transformOrigin: "50% 50%",
+                      "--faction-portrait-shift-x": `${shiftX}%`,
+                      "--faction-portrait-shift-y": `${shiftY}%`,
+                    } as CSSProperties}
+                  />
+                </BlurDissolve>
               </div>
             );
           })}
@@ -882,7 +885,7 @@ export default function FactionShowcase({
           />
         </>
       ) : photoSrc ? (
-        <>
+        <BlurDissolve key={photoSrc} className="absolute inset-0">
           {/* 흐린 배경으로 여백을 메우고, 전경은 잘림 없이 노출 */}
           <Image src={photoSrc} alt="" fill unoptimized aria-hidden className="object-cover scale-110 blur-2xl opacity-40" />
           <div
@@ -917,7 +920,7 @@ export default function FactionShowcase({
               className="object-contain"
             />
           </div>
-        </>
+        </BlurDissolve>
       ) : (
         <div
           className="absolute inset-0 flex items-center justify-center"

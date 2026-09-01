@@ -27,16 +27,24 @@ interface HubPageItem {
   icon?: React.ReactNode;
 }
 
+interface HubFeatureItem {
+  label: string;
+  targetId: string;
+  icon?: React.ReactNode;
+}
+
 interface HubNavProps {
   /** 구획을 config 순서 그대로 넘긴다 — 구획은 실패·0건에도 자리를 지키므로 목차와 어긋나지 않는다 */
   hubItems: HubAnchorItem[];
   /** 별도 화면 (이 줄에서만 접근 가능) */
   standaloneItems?: HubPageItem[];
+  /** 일반 구획과 다른 페이지 안 특별 탐색 */
+  featureItem?: HubFeatureItem;
   /** 허브 섹션 스크롤 네비게이션용 그룹 ID */
   groupId?: string;
 }
 
-export default function HubNav({ hubItems, standaloneItems, groupId }: HubNavProps) {
+export default function HubNav({ hubItems, standaloneItems, featureItem, groupId }: HubNavProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const visibleRef = useRef<Set<number>>(new Set());
 
@@ -78,6 +86,10 @@ export default function HubNav({ hubItems, standaloneItems, groupId }: HubNavPro
   }, [groupId, hubCount]);
 
   const hasStandalone = !!standaloneItems && standaloneItems.length > 0;
+  const scrollToFeature = () => {
+    if (!featureItem) return;
+    document.getElementById(featureItem.targetId)?.scrollIntoView({ behavior: "instant", block: "start" });
+  };
 
   return (
     <div className="flex items-center gap-2 w-max max-w-full mx-auto px-1 pb-1 overflow-x-auto scrollbar-hide">
@@ -96,13 +108,13 @@ export default function HubNav({ hubItems, standaloneItems, groupId }: HubNavPro
             }}
             className={`group shrink-0 flex items-baseline gap-1.5 px-1.5 py-1.5 text-sm font-medium border-b-2 ${
               isActive
-                ? "border-[#d4af37] text-white"
-                : "border-transparent text-white/50 hover:text-white hover:border-white/25"
+                ? "border-accent text-text-primary"
+                : "border-transparent text-text-secondary hover:border-stone-light hover:text-text-primary"
             }`}
           >
             <span
-              className={`text-[10px] font-mono tabular-nums ${
-                isActive ? "text-[#d4af37]" : "text-[#d4af37]/40 group-hover:text-[#d4af37]/70"
+              className={`text-sm font-mono tabular-nums ${
+                isActive ? "text-accent" : "text-accent-dim group-hover:text-accent"
               }`}
             >
               {i + 1}
@@ -112,22 +124,35 @@ export default function HubNav({ hubItems, standaloneItems, groupId }: HubNavPro
         );
       })}
 
+      {featureItem && <div className="mx-2 h-4 w-px shrink-0 bg-stone-heavy" />}
+
+      {featureItem && (
+        <button
+          type="button"
+          onClick={scrollToFeature}
+          className="group flex shrink-0 items-center gap-1.5 rounded-full border border-accent/50 bg-accent/10 px-3 py-1.5 text-sm font-bold text-accent hover:border-accent hover:bg-accent/20"
+        >
+          {featureItem.icon}
+          <span className="whitespace-nowrap">{featureItem.label}</span>
+        </button>
+      )}
+
       {/* 구분선 */}
-      {hasStandalone && <div className="shrink-0 w-px h-4 bg-white/15 mx-2" />}
+      {hasStandalone && <div className="mx-2 h-4 w-px shrink-0 bg-stone-heavy" />}
 
       {/* 이 화면을 떠나는 별도 화면 */}
       {standaloneItems?.map((item, i) => (
         <Link
           key={`${i}-${item.href}`}
           href={item.href}
-          className="group shrink-0 flex items-center gap-1.5 pl-3 pr-2.5 py-1.5 rounded-full text-sm font-medium border border-white/15 bg-white/[0.03] text-white/70 hover:text-white hover:border-[#d4af37]/50 hover:bg-[#d4af37]/10"
+          className="group flex shrink-0 items-center gap-1.5 rounded-full border border-stone-heavy bg-bg-card py-1.5 pe-2.5 ps-3 text-sm font-medium text-text-secondary hover:border-accent/50 hover:bg-accent/10 hover:text-text-primary"
         >
           {item.icon && (
-            <span className="shrink-0 text-white/40 group-hover:text-[#d4af37]">{item.icon}</span>
+            <span className="shrink-0 text-text-tertiary group-hover:text-accent">{item.icon}</span>
           )}
           <span className="whitespace-nowrap">{item.label}</span>
           <LinkPending>
-            <ArrowUpRight size={12} className="shrink-0 text-white/25 group-hover:text-[#d4af37]/80" />
+            <ArrowUpRight size={12} className="shrink-0 text-text-tertiary group-hover:text-accent" />
           </LinkPending>
         </Link>
       ))}

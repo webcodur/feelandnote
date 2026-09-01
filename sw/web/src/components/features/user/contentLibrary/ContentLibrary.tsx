@@ -51,10 +51,7 @@ export default function ContentLibrary({
     if (query) applySearchQuery(query);
   }, [applySearchQuery]);
 
-  const currentVisibleMonth = useMonthScrollObserver(
-    showMonthSections ? lib.monthKeys : [],
-    lib.collapsedMonths,
-  );
+  const currentVisibleMonth = useMonthScrollObserver(showMonthSections ? lib.monthKeys : [], lib.collapsedMonths);
 
   const renderItems = (
     items: UserContentWithContent[],
@@ -115,12 +112,7 @@ export default function ContentLibrary({
         );
       });
     }
-    return renderItems(
-      lib.filteredAndSortedContents,
-      viewMode,
-      effectsEnabled,
-      desktopPresentation,
-    );
+    return renderItems(lib.filteredAndSortedContents, viewMode, effectsEnabled, desktopPresentation);
   };
   // 에러/로딩 상태
   if (lib.error && !hasContents) return <ErrorState message={lib.error} onRetry={lib.loadContents} compact={compact} />;
@@ -168,6 +160,7 @@ export default function ContentLibrary({
       )}
 
       <ContentLibraryBody
+        animateHeight={ownerKind === "celeb"}
         compact={compact}
         currentPage={lib.currentPage}
         error={lib.error}
@@ -189,8 +182,6 @@ export default function ContentLibrary({
         showPagination={showPagination}
         totalPages={lib.totalPages}
       />
-
-
       {/* 개별 삭제 확인 모달 - owner 모드에서만 */}
       {!isViewer && (
         <DeleteConfirmModal
