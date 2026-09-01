@@ -809,6 +809,7 @@ export default function SpectrumSection({
       <div className="md:hidden">
         <Carousel
           isolateInactiveSlides
+          fitActiveHeight
           labels={{
             previous: t("carouselMetricPrev"),
             next: t("carouselMetricNext"),

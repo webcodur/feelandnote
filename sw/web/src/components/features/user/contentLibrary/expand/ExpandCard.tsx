@@ -24,6 +24,8 @@ import ContentIntro from "./ContentIntro";
 import ContentMetaPanel from "./ContentMetaPanel";
 import ReviewScrollBox from "./ReviewScrollBox";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
+import AffiliateBookAction from "../AffiliateBookAction";
+import { getCoupangAffiliateUrl } from "../contentAffiliate";
 
 interface ExpandCardProps {
   item: UserContentWithContent;
@@ -68,18 +70,20 @@ function ExpandCard({
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const href = `/content/${item.content_id}?category=${category}`;
   const coverUrl = item.content.thumbnail_url;
+  const affiliateUrl = locale === "ko" ? getCoupangAffiliateUrl(item.content) : null;
 
   return (
     <>
       <article className="flex w-full shrink-0 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-bg-card">
         {/* 윗칸 — 표지와 작품 소개 */}
-        <div className="flex flex-col gap-4 p-3 sm:flex-row sm:p-4 md:gap-5 md:p-5">
+        <div className="grid grid-cols-1 gap-4 p-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:p-4 md:gap-x-5 md:gap-y-2 md:p-5">
+          <div className="mx-auto w-36 shrink-0 sm:mx-0 sm:w-full">
           {coverUrl ? (
             <button
               type="button"
               onClick={() => setIsCoverOpen(true)}
               aria-label={tExpand("expandCover")}
-              className="group relative mx-auto block h-56 w-36 shrink-0 cursor-zoom-in overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-lg hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 sm:mx-0 sm:h-72 sm:w-48"
+              className="group relative block h-56 w-full cursor-zoom-in overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-lg hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 sm:h-72"
             >
               {isActive ? (
                 <ContentImage
@@ -97,7 +101,7 @@ function ExpandCard({
               </span>
             </button>
           ) : (
-            <div className="relative mx-auto h-56 w-36 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-lg sm:mx-0 sm:h-72 sm:w-48">
+            <div className="relative h-56 w-full overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-lg sm:h-72">
               <ContentImage
                 src={coverUrl}
                 alt={title}
@@ -107,6 +111,7 @@ function ExpandCard({
               />
             </div>
           )}
+          </div>
 
           <div className="min-w-0 flex-1">
             {hasBriefError ? (
@@ -120,6 +125,13 @@ function ExpandCard({
               <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
             )}
           </div>
+          {affiliateUrl && (
+            <AffiliateBookAction
+              url={affiliateUrl}
+              showNotice
+              className="sm:col-span-2 md:col-span-1 md:col-start-1"
+            />
+          )}
         </div>
 
         {/* 가운뎃칸 — 이 인물이 왜 이 작품을 골랐는지.

@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -17,6 +17,9 @@ import { getLocalizedContent } from "@/lib/utils/editions";
 import { useLocale } from "next-intl";
 import ExpandDetailView from "../expand/ExpandDetailView";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
+import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
+import AffiliateBookAction from "../AffiliateBookAction";
+import { getCoupangAffiliateUrl } from "../contentAffiliate";
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -39,7 +42,7 @@ interface ContentItemRendererProps {
 }
 // #endregion
 
-export default function ContentItemRenderer({
+function ContentItemRenderer({
   items,
   viewMode = "list",
   onDelete,
@@ -64,6 +67,10 @@ export default function ContentItemRenderer({
   const [localRatings, setLocalRatings] = useState<Record<string, number | null>>({});
 
   const locale = useLocale();
+  const affiliateUrls = locale === "ko"
+    ? items.map((item) => getCoupangAffiliateUrl(item.content))
+    : items.map(() => null);
+  const hasAffiliateItem = affiliateUrls.some(Boolean);
   // readOnly 모드에서는 삭제 콜백을 비활성화
   const deleteHandler = readOnly ? () => {} : onDelete;
 
@@ -97,12 +104,12 @@ export default function ContentItemRenderer({
   return (
     <div className="space-y-4">
       <ContentGrid variant="list">
-        {items.map((item) => {
+        {items.map((item, index) => {
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
           const rawReview = (locale === 'en' && item.review_en) ? item.review_en : item.review;
           const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
           return (
-            <div key={item.id} className="w-full">
+            <div key={item.id} className="w-full space-y-2">
             <ContentCard
               contentId={item.content_id}
               contentType={item.content.type}
@@ -142,12 +149,26 @@ export default function ContentItemRenderer({
               creatorEn={item.content.creator_en}
               thumbnailEn={item.content.thumbnail_en}
               hasEnEdition={item.content.has_en_edition}
+              posterFooterNode={affiliateUrls[index] ? (
+                <AffiliateBookAction
+                  url={affiliateUrls[index]}
+                />
+              ) : undefined}
               effectsEnabled={effectsEnabled}
             />
             </div>
           );
         })}
       </ContentGrid>
+
+      {hasAffiliateItem && (
+        <p
+          data-testid="content-affiliate-disclosure"
+          className="px-1 text-[10px] leading-4 text-text-tertiary md:text-xs"
+        >
+          {AFFILIATE_PLATFORMS.coupang.notice}
+        </p>
+      )}
 
       {/* 별점 편집 모달 */}
       {ratingEditTarget && (
@@ -173,3 +194,5 @@ export default function ContentItemRenderer({
     </div>
   );
 }
+
+export default memo(ContentItemRenderer);

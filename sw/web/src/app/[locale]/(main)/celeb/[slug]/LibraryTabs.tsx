@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
 import CreativeLibrary from "@/components/features/celeb/creativeLibrary/CreativeLibrary";
+import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
 import { cn } from "@/lib/utils";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
@@ -12,6 +13,10 @@ import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 
 type LibraryTab = "consume" | "create";
+
+// 상단 제휴 레일은 개별 콘텐츠의 구매 버튼과 중복되어 임시 비노출한다.
+// 필요해지면 이 값만 true로 바꾸면 기존 레일을 다시 사용할 수 있다.
+const SHOW_EMBEDDED_AFFILIATE_RAIL = false;
 
 interface LibraryTabsProps {
   userId: string;
@@ -53,6 +58,13 @@ export default function LibraryTabs({
 
       {/* 감상 탭은 초기 HTML에 포함하고 비활성 탭에서만 숨긴다. */}
       <div className={cn(tab !== "consume" && "hidden")}>
+        {SHOW_EMBEDDED_AFFILIATE_RAIL && (
+          <CelebAffiliateBooks
+            userId={userId}
+            actualOnly
+            embedded
+          />
+        )}
         <ContentLibrary
           mode="viewer"
           ownerKind="celeb"

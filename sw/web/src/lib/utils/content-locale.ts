@@ -13,6 +13,9 @@ export const CL_SELECT = 'locale, title, creator, thumbnail_url, description, is
  */
 export const CL_SELECT_LIST = 'locale, title, creator, thumbnail_url'
 
+/** 셀럽 감상 목록에서 구매 동선까지 그릴 때 쓰는 경량 SELECT. */
+export const CL_SELECT_LIST_WITH_AFFILIATE = `${CL_SELECT_LIST}, affiliate_url`
+
 export interface ContentLocaleRow {
   locale: string
   title: string | null

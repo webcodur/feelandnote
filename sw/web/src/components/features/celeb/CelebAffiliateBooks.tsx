@@ -15,6 +15,9 @@ import {
 
 interface CelebAffiliateBooksProps {
   userId: string
+  actualOnly?: boolean
+  embedded?: boolean
+  initialData?: AffiliateBooksResult | null
 }
 
 type LoadStatus = 'idle' | 'ready' | 'failed'
@@ -37,7 +40,12 @@ const HEADING_KEY: Record<AffiliateBookSource, 'headingOrigin' | 'headingRead' |
  * 그 인물이 읽은 책을 먼저 내고, 없으면 같은 직군 인물들이 읽은 책, 그것도 없으면 많이 읽힌 책 순으로 물러난다.
  * 무엇을 기준으로 골랐는지에 따라 머리글이 달라진다 — 읽지도 않은 책을 "이 인물의 책"처럼 보이면 안 된다.
  */
-export default function CelebAffiliateBooks({ userId }: CelebAffiliateBooksProps) {
+export default function CelebAffiliateBooks({
+  userId,
+  actualOnly = false,
+  embedded = false,
+  initialData,
+}: CelebAffiliateBooksProps) {
   const locale = useLocale()
   const t = useTranslations('popularBooks')
   const { ref, isNear } = useNearViewport('600px 0px')
@@ -45,15 +53,13 @@ export default function CelebAffiliateBooks({ userId }: CelebAffiliateBooksProps
   const [loadGate] = useState(() => createAffiliateBooksLoadGate(
     (celebId) => getAffiliateBooksForCeleb(celebId, 'coupang', 6),
   ))
-  const [loadState, setLoadState] = useState<LoadState>({
-    key: '',
-    status: 'idle',
-    data: null,
-  })
+  const [loadState, setLoadState] = useState<LoadState>(() => initialData === undefined
+    ? { key: '', status: 'idle', data: null }
+    : { key: `${userId}:0`, status: 'ready', data: initialData })
   const requestKey = `${userId}:${attempt}`
 
   useEffect(() => loadGate.observe({
-    enabled: locale === 'ko' && isNear,
+    enabled: locale === 'ko' && isNear && initialData === undefined,
     key: requestKey,
     userId,
     onReady: (data) => setLoadState({ key: requestKey, status: 'ready', data }),
@@ -61,7 +67,7 @@ export default function CelebAffiliateBooks({ userId }: CelebAffiliateBooksProps
       console.error('Load celeb affiliate books error:', error)
       setLoadState({ key: requestKey, status: 'failed', data: null })
     },
-  }), [isNear, loadGate, locale, requestKey, userId])
+  }), [initialData, isNear, loadGate, locale, requestKey, userId])
 
   if (locale !== 'ko') return null
 
@@ -77,12 +83,13 @@ export default function CelebAffiliateBooks({ userId }: CelebAffiliateBooksProps
     <div ref={ref}>
       {isCurrentRequest && loadState.status === 'failed' ? (
         <RetryBlock onRetry={handleRetry} />
-      ) : data ? (
+      ) : data && (!actualOnly || data.source === 'read') ? (
         <AffiliateBookList
           books={data.books}
           heading={t(HEADING_KEY[data.source])}
           buyLabel={t('buyOnCoupang')}
           detailLabel={t('viewBookDetails')}
+          compact={embedded}
         />
       ) : null}
     </div>

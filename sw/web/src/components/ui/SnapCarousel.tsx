@@ -8,7 +8,7 @@
 
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -170,6 +170,8 @@ interface CarouselProps {
   gapClassName?: string;
   /** 한 장만 보이는 캐러셀에서 화면 밖 슬라이드의 포커스와 접근성을 막는다. */
   isolateInactiveSlides?: boolean;
+  /** 높이가 다른 낱장 중 현재 장의 높이만 바깥 흐름에 반영한다. */
+  fitActiveHeight?: boolean;
   /** 현재 위치 점 줄. 이름표 줄(tabLabels)을 쓰면 자동으로 꺼진다 */
   showDots?: boolean;
   /** 장마다 이름이 있을 때. 점 대신 이름표 줄이 위에 붙는다 */
@@ -197,6 +199,7 @@ export function Carousel({
   itemWidthClassName = "w-full",
   gapClassName = "gap-2",
   isolateInactiveSlides = false,
+  fitActiveHeight = false,
   showDots = true,
   tabLabels,
   arrowsAlign = "center",
@@ -211,6 +214,25 @@ export function Carousel({
   const atStart = activeIndex === 0;
   const atEnd = activeIndex >= count - 1;
   const arrowsInHeader = Boolean(header);
+  const [activeHeight, setActiveHeight] = useState<number>();
+
+  useEffect(() => {
+    if (!fitActiveHeight) return;
+    const activeSlide = ref.current?.children[activeIndex] as
+      | HTMLElement
+      | undefined;
+    if (!activeSlide) return;
+
+    const syncHeight = () => {
+      const nextHeight = activeSlide.getBoundingClientRect().height;
+      if (nextHeight > 0) setActiveHeight(nextHeight);
+    };
+    syncHeight();
+
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(activeSlide);
+    return () => observer.disconnect();
+  }, [activeIndex, fitActiveHeight, ref]);
 
   const arrowButton = (direction: "previous" | "next") => {
     const disabled = direction === "previous" ? atStart : atEnd;
@@ -273,8 +295,10 @@ export function Carousel({
             }
           }}
           tabIndex={count > 1 ? 0 : -1}
+          style={fitActiveHeight ? { height: activeHeight } : undefined}
           className={cn(
             "flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth scrollbar-hide focus-visible:outline-none",
+            fitActiveHeight && "items-start overflow-y-hidden",
             gapClassName,
             trackClassName,
           )}

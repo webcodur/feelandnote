@@ -50,6 +50,7 @@ export function mapCelebIndexRow(row: RawRow, locale: string): UserContentPublic
       isbn_en: base.flat.isbn_en,
       thumbnail_en: base.flat.thumbnail_en,
       has_en_edition: base.flat.has_en_edition,
+      affiliate_url: base.flat.affiliate_url,
     },
     public_record: null,
   }

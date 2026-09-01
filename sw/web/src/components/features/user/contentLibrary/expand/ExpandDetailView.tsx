@@ -164,6 +164,7 @@ export default function ExpandDetailView({
   return (
     <section
       ref={rootRef}
+      data-expand-item-count={total}
       className={cn(
         "relative -mx-2 grid w-[calc(100%+1rem)] min-w-0 grid-cols-[32px_minmax(0,1fr)] overflow-hidden rounded-xl border border-white/10 bg-bg-card md:mx-0 md:w-full",
         "md:transition-[grid-template-columns] md:duration-300 md:ease-out",

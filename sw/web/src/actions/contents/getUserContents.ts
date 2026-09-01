@@ -7,8 +7,14 @@ import { createStaticClient } from '@/lib/supabase/static'
 import { cachedList, cachedDetail } from '@/lib/cache'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import {
+  CL_SELECT_LIST,
+  CL_SELECT_LIST_WITH_AFFILIATE,
+  flattenLocales,
+  type ContentLocaleRow,
+} from '@/lib/utils/content-locale'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
+import { getAffiliateBooksForCeleb } from '@/actions/home/getAffiliateBooks'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
 
@@ -45,6 +51,7 @@ export interface UserContentPublic {
     isbn_en: string | null
     thumbnail_en: string | null
     has_en_edition: boolean | null
+    affiliate_url?: unknown
   }
   // 공개된 기록 요약
   public_record?: {
@@ -75,6 +82,7 @@ interface QueryUserContentsOptions {
   sortBy: SortByOption
   locale: string
   isOwnProfile: boolean
+  preferredContentIds?: string[]
 }
 
 // 회원·인물 감상 테이블의 공통 필드만 함께 읽는다. 별점은 회원 기록에만 있다.
@@ -83,13 +91,26 @@ async function queryUserContents(
   supabase: SupabaseClient,
   opts: QueryUserContentsOptions,
 ): Promise<GetUserContentsResponse> {
-  const { userId, ownerKind, type, page, limit, search, hasReview, sortBy, locale, isOwnProfile } = opts
+  const {
+    userId,
+    ownerKind,
+    type,
+    page,
+    limit,
+    search,
+    hasReview,
+    sortBy,
+    locale,
+    isOwnProfile,
+    preferredContentIds = [],
+  } = opts
   const offset = (page - 1) * limit
   const archiveTable = ownerKind === 'celeb' ? 'celeb_contents' : 'member_contents'
   const ownerColumn = ownerKind === 'celeb' ? 'celeb_id' : 'member_id'
 
   // isbn은 isbn_en 플래튼에 필요. description/publisher/affiliate_url은 미사용 — 제외
-  const contentFields = `id, type, metadata, user_count:record_count, content_locales(${CL_SELECT_LIST}, isbn)`
+  const localeFields = ownerKind === 'celeb' ? CL_SELECT_LIST_WITH_AFFILIATE : CL_SELECT_LIST
+  const contentFields = `id, type, metadata, user_count:record_count, content_locales(${localeFields}, isbn)`
 
   // 검색 필터 - content_locales에서 2-step 검색 (.or() 보간 인젝션 차단)
   let searchContentIds: string[] | null = null
@@ -126,10 +147,11 @@ async function queryUserContents(
     ${contentJoin}
   `
 
-  let query = supabase
-    .from(archiveTable)
-    .select(archiveSelect, { count: 'exact' })
-    .eq(ownerColumn, userId)
+  const buildQuery = () => {
+    let query = supabase
+      .from(archiveTable)
+      .select(archiveSelect, { count: 'exact' })
+      .eq(ownerColumn, userId)
 
   // 정렬
   if (ownerKind === 'member' && sortBy === 'rating_desc') {
@@ -165,9 +187,50 @@ async function queryUserContents(
     query = query.or('review.is.null,review.eq.')
   }
 
-  query = query.range(offset, offset + limit - 1)
+    return query
+  }
 
-  const { data: userContents, count, error } = await query
+  const affiliatePriorityIds = ownerKind === 'celeb'
+    ? [...new Set(preferredContentIds)]
+    : []
+  let userContents: unknown[] | null
+  let count: number | null
+  let error: unknown
+
+  if (affiliatePriorityIds.length === 0) {
+    const result = await buildQuery().range(offset, offset + limit - 1)
+    userContents = result.data
+    count = result.count
+    error = result.error
+  } else {
+    const priorityResult = await buildQuery()
+      .in('content_id', affiliatePriorityIds)
+      .limit(affiliatePriorityIds.length)
+    if (priorityResult.error) {
+      userContents = null
+      count = null
+      error = priorityResult.error
+    } else {
+      const priorityRows = (priorityResult.data ?? []) as unknown[]
+      const priorityCount = priorityRows.length
+      const priorityPage = priorityRows.slice(offset, offset + limit)
+      const remaining = limit - priorityPage.length
+      const regularOffset = Math.max(0, offset - priorityCount)
+      const regularResult = await buildQuery()
+        .not('content_id', 'in', `(${affiliatePriorityIds.join(',')})`)
+        .range(
+          remaining > 0 ? regularOffset : 0,
+          remaining > 0 ? regularOffset + remaining - 1 : 0,
+        )
+      userContents = regularResult.error
+        ? null
+        : [...priorityPage, ...((remaining > 0 ? regularResult.data : []) ?? [])]
+      count = regularResult.error
+        ? null
+        : priorityCount + (regularResult.count ?? 0)
+      error = regularResult.error
+    }
+  }
 
   if (error) {
     console.error('콘텐츠 조회 에러:', error)
@@ -207,6 +270,7 @@ async function queryUserContents(
         isbn_en: flat.isbn_en,
         thumbnail_en: flat.thumbnail_en,
         has_en_edition: flat.has_en_edition,
+        affiliate_url: flat.affiliate_url,
       },
       public_record: (rating !== null || raw.review || ((raw.review_presets as string[] | null)?.length)) ? {
         rating,
@@ -240,6 +304,14 @@ type PublicContentsArgs = [
   locale: string,
 ]
 
+type CelebContentsArgs = [...PublicContentsArgs, preferredContentIds: string[]]
+
+async function getCelebAffiliatePriorityIds(userId: string, locale: string): Promise<string[]> {
+  if (locale !== 'ko') return []
+  const result = await getAffiliateBooksForCeleb(userId, 'coupang', 6)
+  return result.source === 'read' ? result.books.map((book) => book.contentId) : []
+}
+
 const queryPublicUserContents = (...args: PublicContentsArgs) => {
   const [userId, type, page, limit, search, hasReview, sortBy, locale] = args
   return queryUserContents(createStaticClient(), {
@@ -260,13 +332,13 @@ const getCachedPublicUserContents = (...args: Parameters<typeof queryPublicUserC
 // 전부 STATIC_REVALIDATE다. 이것만 1시간이면 크롤러가 셀럽 2,514면을 훑을 때마다 콜드 미스가 나
 // 페이지당 8~10KB가 반복 전송된다(egress 사고 재발 경로). 이웃과 수명을 맞춘다.
 // 인물 한 명의 서재라 그 인물 항목 태그를 단다 — 한 명을 고쳐도 나머지 서재는 그대로 둔다
-const getCachedCelebLibraryContents = (...args: Parameters<typeof queryPublicUserContents>) =>
+const getCachedCelebLibraryContents = (...args: CelebContentsArgs) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     args[0],
-    ['celeb-library-contents', ...args.map((a) => String(a ?? ''))],
+    ['celeb-library-contents-v3-affiliate-first', ...args.map((a) => String(a ?? ''))],
     () => {
-      const [userId, type, page, limit, search, hasReview, sortBy, locale] = args
+      const [userId, type, page, limit, search, hasReview, sortBy, locale, preferredContentIds] = args
       return queryUserContents(createStaticClient(), {
         userId,
         ownerKind: 'celeb',
@@ -278,6 +350,7 @@ const getCachedCelebLibraryContents = (...args: Parameters<typeof queryPublicUse
         sortBy,
         locale,
         isOwnProfile: false,
+        preferredContentIds,
       })
     },
     { extraTags: [CACHE_TAGS.CONTENTS] },
@@ -299,8 +372,19 @@ export async function getPublicViewerContents(params: GetUserContentsParams): Pr
 export async function getPublicCelebContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
   const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
   const locale = await getLocale()
+  const preferredContentIds = await getCelebAffiliatePriorityIds(userId, locale)
 
-  return getCachedCelebLibraryContents(userId, type, page, limit, search, hasReview, sortBy, locale)
+  return getCachedCelebLibraryContents(
+    userId,
+    type,
+    page,
+    limit,
+    search,
+    hasReview,
+    sortBy,
+    locale,
+    preferredContentIds,
+  )
 }
 
 // 셀럽 상세 SSR용 — 대상이 항상 타인(셀럽)이므로 쿠키·인증을 읽지 않는다.
@@ -311,8 +395,19 @@ export async function getPublicUserContents(
 ): Promise<GetUserContentsResponse> {
   const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
   const locale = requestLocale ?? (await getLocale())
+  const preferredContentIds = await getCelebAffiliatePriorityIds(userId, locale)
 
-  return getCachedCelebLibraryContents(userId, type, page, limit, search, hasReview, sortBy, locale)
+  return getCachedCelebLibraryContents(
+    userId,
+    type,
+    page,
+    limit,
+    search,
+    hasReview,
+    sortBy,
+    locale,
+    preferredContentIds,
+  )
 }
 
 export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {

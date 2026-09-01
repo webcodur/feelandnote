@@ -140,7 +140,7 @@ export default function ContentLibraryBody({
         />
       )}
       {animateHeight ? (
-        <AnimatedHeight duration={300}>{contents}</AnimatedHeight>
+        <AnimatedHeight duration={200}>{contents}</AnimatedHeight>
       ) : contents}
     </div>
   );
