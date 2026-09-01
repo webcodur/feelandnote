@@ -2,12 +2,13 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { useCelebPreview } from "../useCelebPreview";
 import BelowInspectorCue from "./BelowInspectorCue";
-import RelationDiagram from "./RelationDiagram";
+import MobileRelationList from "./MobileRelationList";
 import styles from "./RelationGraphSection.module.css";
 import RelationInspector from "./RelationInspector";
 import RelationToolbar, { type FocusOption } from "./RelationToolbar";
@@ -15,6 +16,8 @@ import { buildRelationModel, peopleForFocuses, relationFocusesForMode, typesForM
 import type { DiagramLabels, PersonNode, RelationFocus, RelationGraphProps, RelationMode } from "./types";
 import useRelationDialogue from "./useRelationDialogue";
 import useViewportAnchor from "./useViewportAnchor";
+
+const RelationDiagram = dynamic(() => import("./RelationDiagram"), { ssr: false });
 
 export default function RelationGraphSection({ centerName, centerAvatarUrl, relations, isFiction = false }: RelationGraphProps) {
   const locale = useLocale();
@@ -30,12 +33,21 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [belowCue, setBelowCue] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [desktopDiagramReady, setDesktopDiagramReady] = useState(false);
   const [mobileMaterialStyle, setMobileMaterialStyle] = useState<CSSProperties>();
   const [previewRelation, setPreviewRelation] = useState<PersonNode | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
   const captureViewportAnchor = useViewportAnchor();
   const { celeb: previewCeleb, loadingId, openCelebPreview, closeCelebPreview } = useCelebPreview("relations");
   const { speak, stateFor } = useRelationDialogue(locale);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 901px)");
+    const sync = () => setDesktopDiagramReady(desktop.matches);
+    sync();
+    desktop.addEventListener("change", sync);
+    return () => desktop.removeEventListener("change", sync);
+  }, []);
 
   const labels = useMemo<DiagramLabels>(() => ({
     parents: t("relType_parent"), siblings: t("relType_sibling"),
@@ -108,13 +120,6 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     setSelectedId(person.id);
     setMobileOpen(true);
   }, []);
-  const selectDiagram = useCallback((person: PersonNode) => {
-    if (window.matchMedia("(max-width: 900px)").matches) {
-      selectMobile(person);
-      return;
-    }
-    selectDesktop(person);
-  }, [selectDesktop, selectMobile]);
   const dismissBelowCue = useCallback(() => setBelowCue(0), []);
   const revealDesktopInspector = useCallback(() => {
     const inspector = shellRef.current?.querySelector<HTMLElement>(`.${styles.desktopInspector}`);
@@ -178,9 +183,12 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       onModeChange={changeMode} onFocusChange={changeFocus} />
 
     <div className={styles.diagramOnly}>
-      <RelationDiagram mode={effectiveMode} focuses={effectiveFocuses} model={model} centerName={centerName} centerAvatarUrl={centerAvatarUrl}
+      {desktopDiagramReady ? <RelationDiagram mode={effectiveMode} focuses={effectiveFocuses} model={model} centerName={centerName} centerAvatarUrl={centerAvatarUrl}
         labels={labels} zoomInLabel={t("timelineZoomIn")} zoomOutLabel={t("timelineZoomOut")}
-        selectedId={selected?.id ?? null} onSelect={selectDiagram} />
+        selectedId={selected?.id ?? null} onSelect={selectDesktop} /> : null}
+      <MobileRelationList label={t("relAllTitle", { name: centerName })} focusOptions={focusOptions}
+        selectedFocus={selectedFocus} activePeople={activePeople} selectedId={selectedId}
+        relationLabel={relationLabel} onSelect={selectMobile} />
       {belowCue > 0 && selected && <BelowInspectorCue key={belowCue} signal={belowCue}
         label={selected.name} onExpire={dismissBelowCue} onReveal={revealDesktopInspector} />}
       {inspectorProps && <RelationInspector {...inspectorProps} />}

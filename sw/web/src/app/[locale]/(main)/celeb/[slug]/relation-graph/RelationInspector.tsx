@@ -78,12 +78,11 @@ function InspectorCard(props: Props) {
             : <VoiceBadge size="lg" active={props.hasVoice} pulse={props.voicePulse} />}
         </span>
       </button> : <span className={styles.inspectorAvatar}>{portrait}</span>}
-      {props.mobile && <InspectorActions {...props} />}
     </div>
 
     <div className={styles.inspectorContent}>
       <div className={styles.inspectorIdentity}>
-        <small>{String(props.position).padStart(2, "0")} / {String(props.total).padStart(2, "0")}</small>
+        {!props.mobile && <small>{String(props.position).padStart(2, "0")} / {String(props.total).padStart(2, "0")}</small>}
         <strong>{person.name}</strong>
         <span>{props.relationLabel}</span>
       </div>
@@ -94,8 +93,10 @@ function InspectorCard(props: Props) {
         {years && <span>{years}</span>}
       </div>}
 
-      {person.note && <p className={styles.inspectorNote}>{person.note}</p>}
+      {!props.mobile && person.note && <p className={styles.inspectorNote}>{person.note}</p>}
     </div>
+
+    {props.mobile && person.note && <p className={styles.inspectorNote}>{person.note}</p>}
 
     {props.mobile && <button type="button" onClick={props.onClose} className={styles.closeButton} aria-label={props.closeLabel}><X size={20} /></button>}
 
@@ -106,9 +107,19 @@ function InspectorCard(props: Props) {
 export default function RelationInspector(props: Props) {
   useEffect(() => {
     if (!props.mobile) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = previousOverflow; };
+    const body = document.body;
+    const scrollY = window.scrollY;
+    const previous = {
+      overflow: body.style.overflow, position: body.style.position,
+      top: body.style.top, width: body.style.width,
+    };
+    Object.assign(body.style, {
+      overflow: "hidden", position: "fixed", top: `-${scrollY}px`, width: "100%",
+    });
+    return () => {
+      Object.assign(body.style, previous);
+      window.scrollTo(0, scrollY);
+    };
   }, [props.mobile]);
 
   if (!props.mobile) return <aside className={styles.desktopInspector}><InspectorCard {...props} /></aside>;
@@ -117,7 +128,7 @@ export default function RelationInspector(props: Props) {
     <button type="button" className={styles.sheetBackdrop} style={{ zIndex: Z_INDEX.overlay }} onClick={props.onClose} aria-label={props.closeLabel} />
     <aside className={styles.mobileSheet} style={{ ...props.materialStyle, zIndex: Z_INDEX.modal }} role="dialog" aria-modal="true" aria-label={props.person.name}>
       <span className={styles.sheetHandle} aria-hidden />
-      <InspectorCard {...props} />
+      <div className={styles.sheetScroll}><InspectorCard {...props} /></div>
     </aside>
   </>, document.body);
 }

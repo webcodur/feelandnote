@@ -23,6 +23,7 @@ const labels: DiagramLabels = {
   parents: "Parents", siblings: "Siblings", spouses: "Spouses", children: "Children",
   up: "Influence", left: "Peers", right: "Rivals", down: "Influenced",
 };
+const CENTER_X = 480;
 const data = buildGraphData(
   "social", model, ["up", "right", "down"], "Center", null, labels,
   { deep: "#000", edge: "#555", accent: "#fff" },
@@ -34,14 +35,34 @@ const geometry = (id: string) => {
   return { x: Number(style.x), y: Number(style.y), size: style.size as [number, number] };
 };
 
-test("상하 레인은 좌우처럼 중심 노드에 붙어 보인다", () => {
+test("상하 관계 용어는 중심 인물명과 읽기 좋은 간격을 둔다", () => {
   const center = geometry("center");
   const up = geometry("lane:up");
   const down = geometry("lane:down");
   const upGap = center.y - center.size[1] / 2 - (up.y + up.size[1] / 2);
   const downGap = down.y - down.size[1] / 2 - (center.y + center.size[1] / 2);
-  assert.ok(upGap <= 4, `up gap ${upGap}px`);
-  assert.ok(downGap <= 4, `down gap ${downGap}px`);
+  assert.equal(upGap, downGap);
+  assert.ok(upGap >= 20 && upGap <= 30, `axis gap ${upGap}px`);
+});
+
+test("협력과 대립 행은 관계 용어에서 같은 거리로 시작한다", () => {
+  const allies = Array.from({ length: rivals.length }, (_, index) => ({
+    ...person(index + 20), types: ["friend"], groups: ["friendship"] as PersonNode["groups"],
+  }));
+  const symmetricModel: RelationModel = {
+    ...model,
+    people: [...model.people, ...allies],
+    social: { ...model.social, left: allies },
+    socialPeople: [...model.socialPeople, ...allies],
+  };
+  const symmetric = buildGraphData(
+    "social", symmetricModel, ["left", "right"], "Center", null, labels,
+    { deep: "#000", edge: "#555", accent: "#fff" },
+  );
+  const pointX = (id: string) => Number(symmetric.nodes.find((item) => item.id === `person:${id}`)?.style.x);
+  const leftDistances = allies.map(({ id }) => CENTER_X - pointX(id)).sort((a, b) => a - b);
+  const rightDistances = rivals.map(({ id }) => pointX(id) - CENTER_X).sort((a, b) => a - b);
+  assert.deepEqual(leftDistances, rightDistances);
 });
 
 test("우측의 짧은 행도 중심에서 같은 거리로 시작한다", () => {
