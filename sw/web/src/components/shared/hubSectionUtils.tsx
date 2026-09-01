@@ -57,7 +57,7 @@ export const HOME_GROUP_ID = "home";
 
 export const HOME_SECTIONS = [
   { key: "todayFigure", moreHref: "/explore/today",     titleKey: "todayFigure", subtitleKey: "todayFigureSub", moreKey: "viewAll" },
-  { key: "figureLinks", moreHref: "/explore/directory", titleKey: "figureLinks", subtitleKey: "figureLinksSub", moreKey: "viewAll" },
+  { key: "figureLinks", moreHref: "/explore/figures?sortBy=content_count", titleKey: "figureLinks", subtitleKey: "figureLinksSub", moreKey: "viewAll" },
   { key: "notice",      moreHref: "/agora/board/notice", titleKey: "notice",     subtitleKey: "noticeSub",      moreKey: "viewAll" },
   // 영상관은 본문이 아니라 이동 배너에 가깝다 — 콘텐츠 구획들 뒤에 세운다
   { key: "youtube",     moreHref: "/explore/youtube",   titleKey: "youtube",     subtitleKey: "youtubeSub",     moreKey: "viewAll" },

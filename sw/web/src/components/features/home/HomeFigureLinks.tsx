@@ -2,7 +2,8 @@
   파일명: /components/features/home/HomeFigureLinks.tsx
   기능: 홈 인물 명부 본문 — 기록이 쌓인 인물 링크 격자
   책임: 구획 제목·부제·더보기는 홈의 HubSection이 쥔다. 여기는 격자만 그린다.
-        인물 상세가 인물 사전(/explore/directory) 한 곳에서만 링크되던 구조를 홈에서도 잇는다.
+        더보기는 같은 기준(기록순)의 전체 탐색 목록으로 잇는다 — 초성순 인물 사전은 기준이 달라
+        홈에서 내리고 푸터가 맡는다(26.09.01).
 */
 
 import { getCelebs } from "@/actions/home";
