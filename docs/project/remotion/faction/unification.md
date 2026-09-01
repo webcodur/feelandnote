@@ -129,7 +129,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
 
 - **인물 텍스트(대사 quote·직함·소개 epithet/lines)의 유일 원천 = `faction_people`.** 제작 유래 인물의 도감 한줄은 직함 첫 항목(JSON `lines[0]`, PostgreSQL `lines[1]`)으로 고정한다. 손질은 `web_long_desc`(±en, 상세)·`web_image_url`(표지)·`web_quote_media`(출간 음성+화보 타임라인)·`web_hidden`만 허용하며 옛 `web_short_desc`(±en)는 폐기했다.
 - **웹·BO는 DB 뷰 `faction_atlas_members`를 읽는다** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정. 태그당 셀럽 중복은 제작 앞자리 채택, `disabled` 제외. 정렬은 제작 순번 우선, 웹 전용은 10000+ 순번.
-- **`celeb_tag_assignments`는 웹 전용 명단(영상 없는 16태그의 수동 배정) 123행 전용.** 최초 단일화 때 남은 214행 중 영상 연결분은 P14에서 제작으로 흡수했고, 제작 유래 사본 650행은 26.08.03 삭제했다(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
+- **`celeb_tag_assignments`는 웹 전용 명단에 쓴다.** 신화·전설의 비활성 후보를 소속별로 선등록할 때는 `hidden=true` 수동 배정을 두며, 해당 인물이 제작 명단으로 승격되면 이 숨김 배정을 지운다. 최초 단일화 때 남은 영상 연결분은 제작으로 흡수했고 제작 유래 사본은 삭제했다.
 - **「출간」의 텍스트 복사는 폐기.** 제작에서 고치면 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹 반영. 출간 패널은 개인 화보 전량+팩션 대사 음성(`web_image_url` 표지, `web_quote_media` 재생 묶음)·그룹샷(`celeb_tags.team_images`)·영상(§4-1)·음악(§4-2) 업로드 도구다. 화보 전환 초는 렌더의 `quoteChunks`·`subTimings`·배속 규칙을 그대로 쓴다.
 - **노출 결정은 `celeb_tags.is_featured` 스위치 하나.**
 - **BO 테마 편집기는 행마다 제작/수동 출처 배지를 단다.** 제작 행은 상세 소개·개인샷·숨김만 편집하고 한줄은 직함 1행을 읽기 전용으로 표시한다. 제거는 숨김으로 동작, 순서 편집은 수동 행 전용.

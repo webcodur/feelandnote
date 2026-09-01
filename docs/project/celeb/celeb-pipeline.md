@@ -19,7 +19,7 @@
 
 **light** = 콘텐츠 유무와 무관하게 서비스에 등록할 가치가 있는 실존 인물의 최소 등급이다. 팩션 출연자나 에피소드 조연처럼 다른 인물과의 연결 때문에 등록한 정상적인 실존 인물도 `light`로 둔다. 콘텐츠가 0건이고 `content_research_confirmed_empty_at`이 비어 있으면 조사 대상으로 남기며, 영향력·스펙트럼·speech·i18n 등 실존 인물 트랙은 동일하게 수행한다.
 
-**fiction** = **실존 인물이 아닌 신화·전설·허구 속 존재**(일리아스의 신·영웅 등). 생년은 추정, 몰년은 특정 불가하면 비운다. 직군·국적·성별은 원전 근거로 추정하여 채운다(집단·비인격 존재만 null 유지 — 규칙은 `celeb-1-basic-profile.md`). 영향력·스펙트럼 등 실존 인물 분석 트랙은 부적절하므로 생략한다. 대신 기존 `contents` 한 건을 대표 원전으로 지정해 인물과 연결하며, 상세 화면 02번 구획에 「원전·등장 작품」을 표시한다. 이 연결은 인물이 콘텐츠를 감상했다는 뜻이 아니므로 `celeb_contents`에 넣지 않는다.
+**fiction** = **실존 인물이 아닌 신화·전설·허구 속 존재**(일리아스의 신·영웅 등). 생년은 추정, 몰년은 특정 불가하면 비운다. 직군·국적·성별은 원전 근거로 추정하여 채운다(집단·비인격 존재만 null 유지 — 규칙은 `celeb-1-basic-profile.md`). 영향력·스펙트럼 등 실존 인물 분석 트랙은 부적절하므로 생략한다. 대신 인물이 실제 등장하거나 인물을 다루는 도서를 적당히 다수 연결하고, 필요한 책이 `contents`에 없으면 먼저 등록해 「원전·등장 작품」에 표시한다. 이 연결은 인물이 콘텐츠를 감상했다는 뜻이 아니므로 `celeb_contents`에 넣지 않는다.
 
 active 상세 페이지는 모든 티어가 색인 대상이다. 다만 제목과 설명은 티어마다 다르다.
 `full`은 실제 감상 기록이 있을 때만 그 종류와 건수를 쓰고, `light`는 인물 안내와 분석,
@@ -65,10 +65,11 @@ DB가 강제하는 활성화·티어 조건은 `trg_celebs_active_requires_avata
 
 #### 구획별 판정 (코드 실측 2026-08-23)
 
-인물 상세는 여덟 장이다(`celebSectionChapters.ts`). `celebServiceItems.ts` 끝의
-`.filter((item) => item.ready)`가 자료 없는 장을 목차에서 빼고 번호를 다시 매기며,
-`CelebRecordSections.tsx`가 그 목록에 남은 장만 렌더한다. **01 소개와 08 방명록만 `ready: true`로
-고정이고, 02~07은 전부 자동으로 숨는다.**
+인물 상세의 full·light 기본 순서는 소개→읽어보기→타임라인→서재→분석→인연→미디어→방명록이다.
+fiction은 소개→읽어보기→서사 흐름→관계와 세계(관계망·소속 세계/세력)→원전·등장 작품→고유 대사→
+감상록 순서이며 분석은 두지 않는다(`celebSectionChapters.ts`). `celebServiceItems.ts`가 자료 없는 장을
+목차에서 빼고 번호를 다시 매기며, `CelebRecordSections.tsx`가 같은 순서로 본문을 렌더한다. 소개와
+방명록만 항상 남고 나머지는 자료가 있을 때만 표시한다. 아래 번호는 full·light 기본 순서다.
 
 | 장 | 렌더 필드 | 비면 | 활성화 필수? | 근거 파일 |
 |---|---|---|---|---|
@@ -108,7 +109,6 @@ DB가 강제하는 활성화·티어 조건은 `trg_celebs_active_requires_avata
 | 결손 | 화면 결과 | 활성 인물 |
 |---|---|---:|
 | `lines->quote` 표시 불가 | 01의 인용 블록이 빠진다 | 15 (full 3·light 5·fiction 7) |
-| fiction 대표 원전 연결 0 | 03이 사라진다 | 2 (`memnon`·`penthesilea`) |
 | `celeb_timeline_events` 0 | 04가 사라진다 | 2 (`diomedes-of-thrace`·`taishang-laojun`) |
 | 관계·세력 둘 다 0 | 05가 사라진다 | 7 (전부 fiction) |
 | fiction 티어 | 06이 항상 없다 (코드가 강제) | 80 |
@@ -133,55 +133,57 @@ fiction은 홈 캐러셀·탐색·타임라인에서는 제외하지만 **상단
   다른 인물과 같은 깊이로 다룰 수 없는 후보는 신규 발주하지 않는다.
 - 이 게이트는 **신규 등록 후보**에만 적용한다. 기존 인물을 소급 삭제하는 근거로 쓰지 않는다.
 
-### fiction 대표 원전 연결
+### fiction 원전·등장 도서 연결
 
-- 백오피스 `/fiction-sources`에서 기존 콘텐츠를 검색해 대표 원전으로 지정하고 fiction 인물을 선택한다.
-- `fiction_source_contents.content_id`가 작품을 대표할 `contents` 행이며, `fiction_source_characters`가 등장인물을 연결한다.
-- 인물 상세: 「원전·등장 작품」에서 대표 콘텐츠로 이동한다.
+- **픽션 셀럽 등록은 등장 도서 연결까지가 한 작업이다.** `fiction:seed:inactive`로 이름·bio를 먼저 넣었더라도, 인물이 실제 등장하거나 인물을 다루는 책들을 찾아 `contents`와 연결하기 전에는 등록 배치가 끝난 것이 아니다.
+- 연결 도서는 반드시 최초·최고(最古) 원전일 필요가 없다. 이용자가 해당 인물을 실제로 만날 수 있는 번역본·재화본·현대 신화집·연구서도 사용할 수 있다. 서비스에는 구매 가능한 책을 우선 연결한다. 적합한 판매 판본을 찾지 못했으면 검증된 원전 관계는 유지하되 구매 링크를 비우며, 무관한 판매 도서나 확인하지 않은 링크로 자리를 채우지 않는다.
+- 본문·목차·색인·검색 가능한 미리보기 중 하나에서 인물명이나 확인된 이명·표기 변형을 찾는다. 책이 해당 신화권 전체를 다룬다는 소개만으로 등장했다고 판정하지 않는다.
+- 한국어 구매 경로 작업은 쿠팡에서 실제 판매 중인 적절한 책을 먼저 찾는다. 상품을 고르고 본문·목차·색인으로 대상 인물의 등장 범위를 확인한 뒤, 백오피스 `/fiction-sources`에서 같은 작품을 검색해 기존 콘텐츠가 있으면 재사용하고 없으면 확인한 한국어판 ISBN으로 BOOK을 등록한다. 그다음 쿠팡 링크와 인물 관계·등장 설명을 연결한다. BOOK 서지·locale은 [`celeb-2-content-collector.md`](celeb-2-content-collector.md), 쿠팡 상품 선별은 [`../operations/monetization.md`](../operations/monetization.md)를 따른다.
+- 신규 BOOK과 locale은 작품 키·본문 범위를 명시한 JSON으로 `pnpm --dir sw/web-bo fiction:source:book -- --file <명세.json>`을 실행한다. `edition.kind`는 `full`·`abridged`·`retelling`·`adaptation` 등, `edition.scope`는 완역이면 `complete`, 일부 범위면 그 범위를 식별하는 키로 둔다. 기본 dry-run은 DB를 쓰지 않고 명세 옆 receipt를 남기며, 검토 뒤 `--apply`를 붙이면 `contents`와 ko 및 선택적 en locale을 한 트랜잭션으로 반영한다. 한국어판은 Kakao ISBN+쿠팡, 영문판은 OpenLibrary ISBN+Amazon만 받는다. 검증 가능한 한국어 번역본이 없는 외국 도서는 `ko.translationStatus=verified_unavailable`과 확인 URL·한국어 표기 저자를 명시하고, 원제·영문판 ISBN·표지를 ko/en이 공유한다. 임의 번역 제목은 입력할 수 없다.
+
+  ```json
+  {
+    "work": {
+      "identity": "author/work",
+      "title": "Original title",
+      "creator": "Author",
+      "titleAliases": ["한국어판 제목", "English title"],
+      "creatorAliases": ["한국어 표기 저자"]
+    },
+    "edition": { "kind": "full", "scope": "complete" },
+    "ko": { "translationStatus": "published", "isbn": "ISBN13", "coupangUrl": "https://...coupang.com/..." },
+    "en": { "isbn": "ISBN13", "amazonUrl": "https://www.amazon.com/..." }
+  }
+  ```
+
+  기존 BOOK이 제목·저자만 같고 ISBN과 본문 범위 메타가 없으면 완역본이라도 자동 재사용하지 않는다. 같은 본문임을 확인한 뒤 명세에 `reuseContentId`를 적으면 기존 `contents.metadata.fictionSource`의 빈 정체성 값만 채우며, 이미 다른 작품·판본 값이 있으면 덮지 않고 중단한다. 반대로 현재 후보들을 사람이 모두 대조해 서로 다른 실제 판본임을 확인한 경우에만 `reviewedDistinctContentIds`에 후보 ID 전부를 적어 별도 `contents` 생성을 허용한다. 현재 후보가 아니거나, 요청 판본과 ISBN 또는 작품·판본·본문 범위 정체성이 같은 ID는 이 예외로 우회할 수 없다.
+
+- 관계 유형은 스키마 의미대로 둔다. 그 작품에서 처음 창작된 인물만 `origin`, 원작을 재구성한 재화·축약·각색·파생 작품의 인물은 `adaptation`, 그 밖에 작품에 등장하거나 사전·연구서·문화사에서 명시적으로 다루는 인물은 `appearance`다.
+- `fiction_source_contents.content_id`는 연결된 각 작품의 `contents` 행을 가리키며, `fiction_source_characters`가 등장인물과 작품별 설명을 연결한다. 한국어판과 쿠팡 구매 경로를 확인한 작업은 `description`만 쓰며, `description_en`을 번역으로 함께 만들지 않는다. `description_en`은 같은 작품의 실제 영문판과 Amazon 구매 링크를 확인한 별도 영어 작업에서만 쓴다.
+- 등장 설명은 해당 작품 본문에서 확인되는 역할·사건·결말만 쓴다. 작품 세계 전체의 설정이나 다른 원전의 일화를 섞지 않고, 확인하지 못한 연결은 문장을 만들어 채우지 않는다.
+- 사용자 화면은 요청 언어의 등장 설명만 작품 제목 아래 먼저 보여 준다. 반대 언어로 대체하지 않으며, 연결 도서의 책·작품 소개와 출판 정보는 별도 영역으로 유지한다.
+- 인물 상세: 「원전·등장 작품」에서 연결된 각 콘텐츠로 이동한다.
 - 콘텐츠 상세: 「이 작품의 인물」에서 연결된 인물로 이동한다.
-- 한 작품의 여러 판본을 인물마다 중복 연결하지 않는다. 서비스 링크는 지정된 대표 콘텐츠 한 건으로 모은다.
+- 도서 수의 최소·최대나 대표 한 권을 미리 정하지 않는다. 원전·합본·재화·개작·파생서·연구서처럼 내용 범위가 다른 작품이 서로 다른 읽기 경로를 제공하는지를 보고 인물마다 적당히 다수 연결한다.
+- 번역자·출판사·장정·개정만 다른 판본은 `1작품 = 1 contents` 원칙에 따라 같은 콘텐츠를 재사용한다. 예를 들어 《레 미제라블》의 민음사판과 현대문학판을 모두 검토할 수 있지만, 작품 관계와 등장 설명은 하나로 공유하며 판본 수만큼 `contents`와 `fiction_source_characters`를 복제하지 않는다.
+- 동일 작품의 판본은 작품×인물 설명 한 벌을 자동으로 공유한다. 같은 시리즈라도 다른 권·축약·재화·각색은 별도 작품이므로 해당 책에서 같은 역할·사건·결말을 확인한 관계만 설명을 복사하고, 복사한 문장도 대상 책의 범위에 맞게 다시 읽는다.
 - 작품 세계 전체와 특정 원전의 실제 등장 명단을 혼동하지 않는다. 예를 들어 Homer-Iliad 팩션에 포함된 펜테실레이아·멤논·시논은 《일리아스》 본문 등장인물이 아니므로 《일리아스》 연결에서 제외한다.
 - 《일리아스》 초기 연결 명단은 원문 대조로 확정했다. 카산드라([24권](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0134%3Abook%3D24)), 아이네이아스([5권](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0134%3Abook%3D5)), 소 아이아스([13권 701행 이후](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0217%3Abook%3D13%3Acard%3D701))는 본문 등장 근거가 있다. 펜테실레이아·멤논은 《일리아스》 뒤를 잇는 《아이티오피스》 줄거리([Epic Cycle 개요](https://www.theoi.com/Text/EpicCycle.html)), 시논은 트로이 목마 사건을 다루는 《아이네이스》 2권([원문](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0054%3Abook%3D2)) 근거이므로 제외했다.
 
-#### 현행 연결 기준선 (2026-07-29)
+#### 연결 현황 확인
 
-| 대표 원전 | 대표 판본·메타 | 연결 |
-|-----------|----------------|-----:|
-| 《일리아스》 | ISBN `9791139721966` | 24명 |
-| 《오디세이아》 | ISBN `9788961673747` | 26명 |
-| 《신통기》 | ISBN `9788937480515` | 13명 |
-| 《아이네이스》 | ISBN `9788952237309` | 18명 |
-| 《오레스테이아》 | 기존 contents | 12명 |
-| 《아르고 호 이야기》 | ISBN `9788992132114` | 18명 |
-| 《원전으로 읽는 그리스 신화》 | ISBN `9788991290006` | 18명 |
-| 《산문 에다》 | 기존 contents | 29명 |
-| 《이집트 사자의 서》 | ISBN `9788982812118` | 17명 |
-| 《서유기》 | 기존 contents | 15명 |
-| 《봉신연의》 | ISBN `9788957321058` | 15명 |
-| 《라마야나》 | 기존 contents | 14명 |
-| 《마하바라타》 | 기존 contents | 18명 |
-| 《고사기》 | ISBN `9791130455402` | 11명 |
-| 《삼국유사》 | 기존 contents | 5명 |
-| 《동명왕편》 | 기존 contents | 4명 |
-| 《삼국사기》 | 기존 contents | 2명 |
-| 《길가메시 서사시》 | 기존 contents | 7명 |
-| 《에누마 엘리시》 | Open Library `OL51041680M` | 4명 |
-| 《아서왕의 죽음》 | Open Library `OL6633760M` | 15명 |
-| 《삼국지연의》 | ISBN `9791160200164` | 3명 |
+작품·판본·인물 명단의 SSoT는 `fiction_source_contents`와 `fiction_source_characters`다. 문서에 시점별 건수를 복제하지 않는다. `pnpm --dir sw/web-bo fiction:audit -- --json`으로 콘텐츠·한국어 locale·픽션 인물 관계의 무결성과 미연결 인물, Amazon 연결 없이 생긴 영어 등장 설명을 확인한다.
 
 - 《오디세이아》 5권 한 권 안에서도 제우스·아테나·헤르메스·포세이돈이 귀향에 직접 개입한다([원문](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Aabo%3Atlg%2C0012%2C002%3A5)).
 - 《신통기》는 제우스·헤라·아테나·아폴론·아레스의 계보([901행 이후](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0130%3Acard%3D901)), 아프로디테의 탄생([173행 이후](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0130%3Acard%3D173)), 헤르메스의 탄생([938행 이후](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0130%3Acard%3D938))을 직접 다룬다. 포세이돈도 Earth-Shaker로 계보에 포함된다.
-- 18개 신화·서사 팩션의 285배치를 정규화한 fiction 257명 전원이 프로필·태그에
-  연결됐다. 20개 대표 원전의 관계는 285행이며, 중복 인물을 합친 255명이 하나
-  이상의 원전에 연결된다. 아바타 없는 데이터형 프로필은 209명이다.
 - 초선·주창·축융부인은 진수의 《삼국지》(정사)에 없고 나관중의 《삼국지연의》가 만들어 낸
   인물이다. 그래서 정사 판본이 아니라 연의 판본에 연결한다. 각각 8회 연환계
   ([원문](https://zh.wikisource.org/wiki/三國演義/第008回)), 28회 관우 합류
   ([원문](https://zh.wikisource.org/wiki/三國演義/第028回)), 90회 남만 전투
   ([원문](https://zh.wikisource.org/wiki/三國演義/第090回))에서 등장한다.
-- 펜테실레이아·멤논은 《아이티오피스》의 인물임이 남은 줄거리에서 확인되지만
-  ([Proclus 요약](https://www.theoi.com/Text/EpicCycle.html#Aethiopis)), 해당 작품은
-  소실됐다. 후대 작품을 원전으로 둔갑시키지 않고 미연결로 보존한다.
+- 펜테실레이아·멤논처럼 최초 작품이 소실된 인물도 미연결로 두지 않는다. 《아이티오피스》의
+  남은 줄거리([Proclus 요약](https://www.theoi.com/Text/EpicCycle.html#Aethiopis))로 계통을
+  확인하고, 두 인물이 실제 등장하는 판매 도서를 `adaptation`으로 연결한다.
 
 light → full 승격: 콘텐츠 수집 후 `UPDATE celebs SET celeb_tier = 'full'`. fiction은 실존이 아니므로 승격 대상이 아니다. DB 트리거 `trg_celeb_full_requires_content`는 INSERT 또는 기존 티어에서 full로 전환되는 순간 `celeb_contents` 1건 이상을 요구한다. 먼저 콘텐츠를 연결한 뒤 승격한다.
 
@@ -251,6 +253,13 @@ light → full 승격: 콘텐츠 수집 후 `UPDATE celebs SET celeb_tier = 'ful
 - 아바타 없는 `active`와 콘텐츠 없는 `full`은 DB 트리거가 거부한다
 - `celeb_metrics` 초기 행을 보장한다
 
+신화·전설 인물의 이름·영문명·bio만 먼저 확보한 경우에는 일반 신규 창구를 거치지 않고
+`pnpm --dir sw/web-bo fiction:seed:inactive --file <명세.json>`을 쓴다. 이 예외 경로는 인물을
+`fiction`·`inactive`로 만들고, 지정한 fiction 태그와의 소속을 `hidden=true`로 보존해
+후보가 세력도감에 노출되지 않게 한다. 각 인물은 식별 가능한 bio를 쓰고 `identity.mode`를
+`new` 또는 정확한 기존 `celeb_id`로 명시한다. 기본은 dry-run이며 `--apply`를 붙여야 반영된다.
+시드 반영 뒤에는 위 「fiction 원전·등장 도서 연결」에 따라 등장 도서 등록·연결까지 이어서 완료한다.
+
 운영 스크립트가 직접 등록해야 할 때도 같은 구조를 사용한다. SQL이면 `gen_random_uuid()`를
 한 번 호출해 `celebs.id`에 쓰고, `auth.users`나 가짜 이메일을 만들지 않는다. 실패 롤백은
 셀럽 행만 삭제하며 회원 삭제 RPC를 호출하지 않는다.
@@ -317,12 +326,22 @@ basic ─┬─ content
 
 모든 셀럽 데이터 수정 에이전트가 따르는 규칙.
 
-### 원칙: 백지 재작성
+### 원칙: 도메인별 갱신
 
-기존 데이터를 참조하지 않는다. 매번 새로 리서치하고 새로 작성한다.
+일반 서술 트랙에서 기존 문장을 답습하지 않도록 새로 조사·작성하는 원칙은 유지한다. 다만 인물
+타임라인은 사건 배열과 DB 행 정체성을 보존해야 하므로 **백지 재작성 원칙의 예외**다.
 
-- ❌ 기존 텍스트를 읽고 "수정" / "개선" 하지 않는다
-- ✅ 기존 텍스트를 무시하고 처음부터 새로 쓴다
+타임라인은 다음 순서로 갱신한다.
+
+1. 현재 DB 사건 또는 DB 지문이 같은 최신 미반영 산출물을 후보로 잡는다.
+2. 사실·구조·국문 문제가 있는 index만 수정하고, 사건 핵심이 틀리면 그 index만 다른 핵심 사건으로 교체한다.
+3. 생애 공백은 현재 사건을 보존한 채 additions로 보완한다.
+4. 사건이 한 건도 없는 인물만 최초 전체 조사를 한다.
+5. 기존 DB 행은 ID를 유지해 UPDATE하고 새 사건만 INSERT한다.
+6. DB 반영과 readback 검증까지 통과해야 완료다.
+
+중간 검토 결과를 완료로 세거나, 어려운 인물을 별도 종료 상태로 넘기거나, 현재 후보를 버리고 같은
+전체 조사를 반복하지 않는다. 세부 실행은 `celeb-timeline-agent-relay.md`가 쥔다.
 
 ### UPDATE 전 변경 검증
 
@@ -350,8 +369,10 @@ SKIPPED가 배치의 30% 이상이면 경고. SKIPPED 건은 재시도하지 않
 
 복수 에이전트 동시 작업 시 DB 큐로 충돌 방지. **1명 선점 → 작성 → 저장 → 완료** 순서.
 
-인물 타임라인 조사는 예외다. 조사 리소스를 DB로 관리하지 않고 세션 오케스트레이터가 사건 0건
-인물을 독립 레인에 배정한다. 세부 절차는 `celeb-timeline.md`의 「조사 운영」을 따른다.
+인물 타임라인 조사는 예외다. 조사 리소스를 DB로 관리하지 않고 세션 오케스트레이터가 현재 후보를
+독립 레인에 배정한다. 각 레인은 한 인물의 부분 수리·보완·DB 반영·readback을 끝낸 뒤 다음 대상을
+맡는다. 한 레인이 현재 인물을 완성하지 못하면 새 대상을 배정하지 않는다. 세부 절차는
+`celeb-timeline.md`의 「조사 운영」과 `celeb-timeline-agent-relay.md`를 따른다.
 
 `celebs.claimed_by_member_id`는 셀럽을 인수한 회원과의 관계다. 작업 락 용도로 재사용하지 않는다.
 

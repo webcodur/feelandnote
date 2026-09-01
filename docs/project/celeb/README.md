@@ -26,7 +26,8 @@
 | 문서 | 책임 |
 |---|---|
 | [`celeb-timeline.md`](celeb-timeline.md) | 인물 타임라인과 활동 반경 |
-| [`celeb-timeline-grok-relay.md`](celeb-timeline-grok-relay.md) | 그록으로 연표를 채울 때의 조사·의심 릴레이 |
+| [`celeb-timeline-agent-relay.md`](celeb-timeline-agent-relay.md) | 실존 연표의 현재 후보를 부분 수리하고 결정론적 DB 검증과 임시 산출물 폐기까지 끝내는 릴레이 |
+| [`celeb-timeline-fiction-agent-relay.md`](celeb-timeline-fiction-agent-relay.md) | fiction 인물의 연결 원전을 통합해 서사 연표를 조사·교정·반영하는 릴레이 |
 | [`celeb-detail-themes.md`](celeb-detail-themes.md) | 인물 상세 세계 표현 |
 | [`celeb-world-banners.md`](celeb-world-banners.md) | 세계 배너 이미지 규격 |
 | [`celeb-avatar-spec.md`](celeb-avatar-spec.md) | 아바타 구도·프레이밍 규격 |

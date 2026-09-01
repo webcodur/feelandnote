@@ -31,6 +31,7 @@
 
 | 무엇 | 저장 위치 | 상태 |
 |------|-----------|------|
+| 각성 이미지 | `celebs.awakened_image_url` · R2 `celebs/{id}/awakened.webp` | 대표 사진과 독립된 선택 슬롯. 백오피스에서 관리하며 사용자 화면 소비 방식은 `docs/todo/celeb/awakened-mode.md`에서 이어간다 |
 | 담화 영상 인물 그림 | `discourse_speakers.image` · `discourse_turns.image` | **구도 규격 문서 없음** |
 | 관계 인물 사진 (명단 밖 인물) | `celeb_relations_external.image_url` | 위키데이터에서 받아온 것. **규격 없음** |
 | 인물이 산 세계의 배경 사진 | `sw/web-bo/output/worlds-raw/` 원본 · `sw/web/public/images/worlds/` 운영본 | **39세계 완료.** 규격·발주·검수·초점 예외는 `celeb-world-banners.md` |
@@ -82,4 +83,8 @@ spotlight 이미지는 faction 경로로 이관하고 원본을 정리했다. �
 | 개인화보·단체화보 | web-bo `/factions` 출간 패널 (진단 → dry-run → 출간). 26.08.03부터 이 패널은 사진·영상·음악 업로드 전용이다(텍스트 복사 폐기). 개인샷 주소는 `faction_people.web_image_url`에 기록된다 |
 | 영상 원본 | 발주는 `faction-image` 규칙, 전신 크롭은 `photo/crop-body.ts` |
 
-아바타에는 **신원 근거 가드**가 걸려 있다 — 출처 불명 얼굴을 특정 인물에 붙일 수 없고, `celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-avatar-spec.md`가 이를 규정한다.
+대표 사진과 각성 이미지를 함께 만드는 로컬 작업 묶음은 슬롯별 폴더로 나누지 않는다. 한 사람의 차이를 바로 비교할 수 있도록 `characters/<slug>/` 안에 `01-ref.webp`, `02-portrait-{current|candidate}.*`, `03-awakened-{current|candidate}.*`를 나란히 둔다. 교체 시안은 같은 폴더의 `04-awakened-rework.png`에 둔다.
+
+아바타는 사진이 남은 인물의 실제 얼굴을 보존한다. 사진이 없는 고대·역사 인물은 인물별 제작본을
+쓰며, QID·프로필 일치와 다른 인물용 얼굴의 재사용 여부를 확인한다. 세부 규칙은
+`celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-avatar-spec.md`가 쥔다.

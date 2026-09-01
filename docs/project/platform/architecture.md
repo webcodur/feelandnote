@@ -123,7 +123,7 @@ types/                 # academy, content, database, home, locale, recommendatio
 | scriptures | `/library/era`(불후의 명작), `/library/profession`(갈림길), `/library/museum`(박물관), `/library/academy`(학당) |
 | rest | `/rest#dawn`(여명), `/rest#labyrinth`(미궁), `/rest#hegemony`(패권), `/rest#suikoden`(천도) — 앵커 |
 
-> **rest는 단일 허브 + 앵커다.** `/rest/<게임>` 경로에는 `page.tsx`가 없다. 게임 4종은 `/rest` 한 페이지에 마운트되고 이동은 앵커로 한다.
+> **rest는 단일 허브 + 앵커다.** `/rest/<게임>` 경로에는 `page.tsx`가 없다. 운영에서는 여명·미궁·패권·천도·기억 5종이 `/rest` 한 페이지에 마운트되고 이동은 앵커로 한다. `NAV_ITEMS`의 하위 링크에는 앞의 4종만 있으며, 기억은 쉼터 내부 목차에서 진입한다.
 > 26.07.16 교정 — subLinks가 `/rest/dawn` 등 실재하지 않는 경로를 가리키고 각 디렉토리에 `loading.tsx`만 고아로 남아 있었다. 유일한 소비처인 `Footer.tsx`가 `FOOTER_NAV_ITEMS`에서 `rest`를 제외해 렌더되지 않아 404가 표면화되지 않았을 뿐이다. subLinks를 앵커로 교정하고 고아 `loading.tsx` 4개를 제거했다.
 
 #### 풋터 링크

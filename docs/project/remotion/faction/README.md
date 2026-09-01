@@ -169,7 +169,7 @@ FPS 60. 해상도 1080×1920(9:16). 컷마다 시작·길이를 `buildCues()`가
 세력 단위로 곡을 갈아끼운다. **롱폼과 쇼츠가 서로 다른 곡을 쓴다.**
 
 - **세력 곡** — 세력마다 `musicLongform`(롱폼용)·`musicShorts`(쇼츠용)를 따로 지정한다(음량은 `musicLongformVolume`/`musicShortsVolume`). 세력 진입 시 그 곡으로 크로스페이드(1.2초) 교체하고, 미지정 세력은 직전 곡을 이어간다. 렌더 방향(롱폼/쇼츠)에 맞는 필드만 읽는다.
-- **쇼츠 편(part) 분리** — 쇼츠는 편 필터(`buildCues(script, true, part)`)로 그 편 세력만으로 전환점을 잡는다. 편 첫 세력에 `musicShorts`를 걸면 그 편 전체가 그 곡(과거 편별 통짜 곡과 동일 효과).
+- **쇼츠 편 분리** — 쇼츠는 그 편 구간(`buildCues(script, true, part)` — 이야기 순서 위 경계로 갈린 구간)만으로 전환점을 잡는다. 편 첫 세력에 `musicShorts`를 걸면 그 편 전체가 그 곡(과거 편별 통짜 곡과 동일 효과).
 - **전역 폴백** — 세력 곡이 하나도 없으면 전역 `tracks`(순차·순환) 또는 `music` 한 곡. 세력 곡이 있고 첫 세력만 미지정이면 전역곡으로 시작한다.
 - **덕킹** — 대사(voice) 구간엔 `musicDuckVolume`로 낮췄다 복귀한다.
 - **폐기됨**: 편별 통짜 곡 `musicByPart`/`musicVolumeByPart`, 세력 공용 곡 `music`/`musicVolume`(→ Longform/Shorts로 분리).
@@ -195,7 +195,7 @@ sw/remotion/public/factions/<에피소드>/
 sw/remotion/public/music/  # 배경음악
 ```
 
-- Remotion 등록: `sw/remotion/src/Root.tsx` Faction Folder. composition id = `Faction-<KEY>`(폴더명 대문자화). `public/factions/*/faction-data.json` 자동 스캔(`Faction/script.ts`).
+- Remotion 등록: `sw/remotion/src/Root.tsx` Faction Folder. composition id = `Faction-<KEY>`(폴더명 대문자화). 컴포지션 목록은 `_episodes.json`(등록 편)과 `_variants.json`(편별 세로 롱폼·쇼츠 편 수 색인)으로 만든다 — 이 두 파일만 번들에 들어가며, `public/factions` 폴더를 `require.context`로 훑지 않는다(훑으면 webpack이 폴더 전체를 감시해 사진 하나에도 컴파일이 돈다). 편 본문 `faction-data.json`은 컴포지션을 열 때 `calculateMetadata`가 `staticFile`로 읽는다(`Faction/script.ts`의 `loadFactionScript`). **백오피스에서 저장한 뒤엔 Studio 새로고침이면 반영된다** — 재빌드가 없다. 편 구성(쇼츠·롱폼 경계)을 바꾼 저장만 변형 목록 파일이 달라져 한 번 재빌드한다.
 - **이미지 경로 규칙** (`Faction.tsx`의 `imgSrc`):
   - `http`로 시작 → 외부 URL 그대로
   - 슬래시 포함(폴더 경로, 예 `02-homeward/circe.png`) → `factions/<에피소드>/<경로>` 직접
@@ -204,7 +204,7 @@ sw/remotion/public/music/  # 배경음악
 
 ## faction-data.json은 산출물이다 — 직접 편집 금지
 
-텍스트·구성의 단일 원천은 **Oracle VM의 PostgreSQL 5테이블**이고, `faction-data.json`은 `pnpm faction:export`가 DB에서 만들어 내는 **렌더용 빌드 산출물**이다. 렌더가 webpack 빌드타임에 이 파일을 동기 스캔하는 구조라 DB를 직접 읽을 수 없어서 파일을 남긴다.
+텍스트·구성의 단일 원천은 **Oracle VM의 PostgreSQL 5테이블**이고, `faction-data.json`은 `pnpm faction:export`가 DB에서 만들어 내는 **렌더용 산출물**이다. 렌더·음성·자막·유튜브 스크립트가 전부 이 파일을 읽고, Remotion은 DB를 모르므로 파일을 남긴다. 번들에는 넣지 않는다(위 「Remotion 등록」).
 
 - 파일 첫 키에 `_generated {from, at, episodeId, checksum}` 마커가 붙는다(렌더는 미지 키를 무시한다).
 - 손으로 고치면 다음 내보내기가 **checksum 불일치로 중단하고 diff를 뿜는다.** `--force`로만 강행된다.
@@ -238,10 +238,10 @@ sw/remotion/public/music/  # 배경음악
 편집기 상단 탭은 **정비 / 편성**이고, 편성은 하위에 **쇼츠 · 롱폼**을 둔다.
 
 - **정비 탭**(`info`) — 세력·공통 개인 항목의 실체(개인샷 또는 서사 항목, 이름·이력·대사·음성·컷 효과)와 전역 설정. 각 세력 안의 그룹과 `isPerson=false` 서사 항목은 `sequence` 수평 레일에서 같은 층위로 배치한다.
-- **편성 > 쇼츠**(`shorts`) — 사용자가 지정하는 `shortsPartCount` + 편별 영상 명칭·시작문구·통합화면 + 세력의 편 배정·편 안 순서 + **세력별 쇼츠 곡**. 편수 조절기 또는 세력 배정 드롭다운의 `+ 다음 편 추가`로 N편을 늘린다.
+- **편성 > 쇼츠**(`shorts`) — 편별 영상 명칭·시작문구·통합화면·배경음악 + 각 편에 들어가는 구간 미리보기. 편 수는 정비 탭에서 켠 **경계 수 + 1**이라 여기서 늘리고 줄이지 않는다. 「경계 편집」은 정비 탭의 그 세력으로 보낸다.
 - **편성 > 롱폼**(`longform`) — `FactionLongformPanel`: 세력 순서 + 시대 문구 카드 + **편 경계(롱폼 편 분할)** + **세력별 롱폼 곡**.
 
-편 배정(`part`)·순서·배경음악 전환은 편성 탭에서(곡 전환은 영상 흐름의 문제라 각 맥락에 둔다), 세력·인물 내용은 정비 탭에서 다룬다. 편성 탭에서 세력 이름을 누르면 정비 탭의 그 세력 카드로 이동한다. 곡 선택 UI는 공용 `shared/FactionMusicPicker.tsx`.
+**쇼츠 편 경계는 한 종류다.** 정비 탭의 이야기 순서 위 — 장면 사이(`FactionSequenceEditor`)·컷 사이(`FactionInsertBoundary`)·세력 사이(`FactionInfoPanel`) — 어디에나 같은 「편 나누기」 토글이 서고, 켜면 같은 하늘색 표식이 된다. 데이터로는 세력 `sequence`의 `{kind:'cut'}`(장면 사이·세력 끝)과 컷의 `shortsCutBefore`(장면 안)다. 목차·편성 패널·렌더·유튜브 메타는 전부 그 표식을 읽는다. 옛 `group.part` 배정·`shortsPartCount`·편 안 순서 바꾸기는 폐기했다(26.08.28, `pnpm faction:migrate-shorts-cuts`로 변환). 배경음악 전환은 편성 탭에서, 세력·인물 내용은 정비 탭에서 다룬다. 편성 탭에서 세력 이름을 누르면 정비 탭의 그 세력 카드로 이동한다. 곡 선택 UI는 공용 `shared/FactionMusicPicker.tsx`.
 
 저장은 전체 스크립트를 서버 액션 `saveFactionScript`로 한 번에 한다(부분 저장 없음). DB 쓰기는 원자 RPC 하나로 묶이고, 기준 시각이 어긋나면 거부한다. 저장 직후 `faction-data.json` 내보내기가 자동으로 따라 붙는다. 헤더 「출간」 버튼은 세력도감 반영 패널을, 「렌더」·「유튜브」는 각각 렌더·업로드 창구를 연다.
 
@@ -267,7 +267,7 @@ sw/remotion/public/music/  # 배경음악
 6. **받아쓰기·발화 시각** — *어디서: 스킬 `/faction-voice-sync`(WhisperX + `pnpm voice:faction-align`). 산출물은 `data.timing.pN.<언어>.json`(로컬), 음성 길이는 DB.*
    이어서 `pnpm faction:durations-pull`로 wav 실측 길이를 DB에 반영한다. 음성 길이(`quoteDuration`·`epithetDuration`·서사 덩어리 `voiceDuration`)는 **음성 파이프라인 소유**라 사람이 입력하는 칸이 없다. 개인샷 길이는 `faction_people` 컬럼에, 서사 덩어리 길이는 같은 `faction_people` 행의 `data.beats[].voiceDuration`에 적힌다.
 7. **내보내기** — *어디서: 편집기 저장 시 자동. 수동은 터미널 `pnpm faction:export`.*
-   DB를 읽어 `faction-data.json`(+`_episodes.json`)을 다시 만든다. 렌더·자막·유튜브·음성 파이프라인은 전부 이 파일을 읽으므로, DB만 고치고 내보내기를 건너뛰면 영상에 반영되지 않는다.
+   DB를 읽어 `faction-data.json`(+`_variants.json`의 그 편 자리, `_episodes.json`)을 다시 만든다. 렌더·자막·유튜브·음성 파이프라인은 전부 이 파일을 읽으므로, DB만 고치고 내보내기를 건너뛰면 영상에 반영되지 않는다. 변형 목록 파일만 다시 만들 때는 `pnpm faction:variants`(DB 안 읽음).
 8. **렌더·자막·썸네일** — *어디서: 편집기 「렌더」 버튼, 또는 Remotion Studio에서 `Faction-<KEY>` 확인 후 직접.*
    「렌더」 버튼은 세 영상(`out/Faction/{ep}-KO-LV.mp4`·`-KO-S1.mp4`·`-KO-S2.mp4`)과 자막 3종(`.srt`)을 함께 만든다. 컴포지션 ID는 `Faction-<KEY>-KO-LV`·`-KO-S1`·`-KO-S2`. 렌더 직전에 파일을 DB와 맞추는 내보내기가 한 번 더 돈다.
 9. **유튜브 업로드 · 세력도감 출간** — *어디서: 편집기 헤더의 「유튜브」·「출간」 패널.*
@@ -289,9 +289,9 @@ sw/remotion/public/music/  # 배경음악
 |---|---|---|---|
 | `ko-longform` | 세로 롱폼(통짜, 편 경계 없을 때) | `KO-LV` | — |
 | `ko-longform-N` | 세로 롱폼 N편(편 경계 있을 때) | `KO-LVN` | 롱폼 편(lvPart) N |
-| `ko-shorts-N` | 세로 쇼츠 N편 | `KO-SN` | 쇼츠 편(part) N |
+| `ko-shorts-N` | 세로 쇼츠 N편 | `KO-SN` | 쇼츠 편 N (경계로 갈린 N번째 구간) |
 
-- **쇼츠 편(part)** — 기본 방식은 BO에서 `shortsPartCount`를 1…N으로 정하고 진영의 `part`를 배정하는 것이다. 한 세력의 이야기 도중에 편을 나눠야 하면 그 세력 `sequence`에 **쇼츠 편 경계(`{kind:'cut'}`)**를 둔다. 내부 경계가 하나라도 있으면 전역 이야기 순서를 경계 n개 → 쇼츠 n+1편(KO-S1·KO-S2…)으로 나누며 legacy 진영 `part`보다 우선한다. 같은 세력은 양쪽 편에 필요한 sequence 구간만 나뉘고 clusters·people 배열과 음성 F/C/P 좌표는 바뀌지 않는다. 편별 영상 명칭은 `titleByPart`, 시작문구는 `loglineByPart`, 대표 인물은 `heroesByPart`다.
+- **쇼츠 편** — 이야기 순서 위의 경계로만 갈린다. 세력 `sequence`의 `{kind:'cut'}`은 장면 사이나 세력 끝(다음 세력과의 사이)에, 컷의 `shortsCutBefore`는 장면 안에 둔다. 경계 n개 → 쇼츠 n+1편(KO-S1·KO-S2…), 경계가 없으면 단편 KO-S1. 같은 세력은 양쪽 편에 필요한 구간만 나뉘고 clusters·people 배열과 음성 F/C/P 좌표는 바뀌지 않는다. 편별 영상 명칭은 `titleByPart`, 시작문구는 `loglineByPart`, 대표 인물은 `heroesByPart`다(키 = 편 번호). 옛 진영 `part` 배정은 폐기했다.
 - **롱폼 편(lvPart)** — 롱폼은 `longformLayout`의 바깥 **편 경계(`{cut:true}`)**로만 나눈다. 세력 `sequence`의 쇼츠 경계는 재생 항목 없이 건너뛰므로 롱폼 이야기는 계속 이어진다. 바깥 경계가 없으면 통짜 KO-LV 한 편이며, 경계 n개면 KO-LV1…N+1 각 편이 자체 인트로·아웃트로를 갖는다. 편별 영상 명칭은 `titleByLvPart`, 시작문구는 `loglineByLvPart`, 대표 인물은 `heroesByLvPart`(미지정이면 공통값)다.
 - 가로(LH)·영문(EN)은 렌더가 켜지면 이 표에 추가한다.
 
