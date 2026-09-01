@@ -2,12 +2,14 @@
 
 import { useState } from 'react'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
-import { ChevronDown, ChevronUp, Trash2 } from '@feelandnote/shared/bo/icons'
+import { ArrowRightLeft, ChevronDown, ChevronUp, Trash2 } from '@feelandnote/shared/bo/icons'
 import { ANCHOR_THEMES, FACTION_IMAGE_DND, ImageCard, ImagePicker } from '@feelandnote/shared/bo/media'
 import { adjustImageChanges } from '@feelandnote/shared/bo/quote-editor'
 import { isFactionSceneNarrationBeat } from '@feelandnote/shared/lib/faction-scene-speaker'
 import { FACTION_SCENE_MAX_MINIMUM_SEC, FACTION_SCENE_MIN_SEC } from '@feelandnote/shared/lib/faction-scene-timing'
 import type { FactionPerson, FactionSceneBeat } from '@/lib/faction-types'
+import { vnSceneBeat } from '@/lib/faction-voice'
+import { compactDialogueText } from './faction-speaker-edit'
 import { applyFactionSteps, epithetIsNarrated, factionStepsOf, imageSrc, linesTypingOf } from '../../shared/timing'
 import { sequenceCardIconButtonClass } from './FactionSequenceCard'
 import { FactionSceneBeatTextEditor } from './FactionSceneBeatTextEditor'
@@ -24,6 +26,7 @@ type Props = {
   onChange: (index: number, next: FactionSceneBeat) => void
   onMove: (index: number, direction: -1 | 1) => void
   onSplit?: (index: number) => void
+  onMoveToScene?: (index: number) => void
   onDelete: (index: number) => void
   editLang: EditLang
   sfxList?: string[]
@@ -47,7 +50,7 @@ type Props = {
  * 구 자유 문자열 화자는 미할당 상태로 보존해 사람이 인물에 다시 연결할 수 있게 한다.
  */
 export function FactionSceneBeatRow({
-  beat, index, total, onChange, onMove, onSplit, onDelete, editLang, series, episodeName,
+  beat, index, total, onChange, onMove, onSplit, onMoveToScene, onDelete, editLang, series, episodeName,
   groupIndex, clusterIndex, localPeople, speakerPeople, speakerVoiceFiles = {}, onAssignedPersonChange, onSetPrimaryQuote, sfxList = [],
 }: Props) {
   const [baseMediaPickerOpen, setBaseMediaPickerOpen] = useState(false)
@@ -56,7 +59,11 @@ export function FactionSceneBeatRow({
   const set = (patch: Partial<FactionSceneBeat>, invalidatesVoice = false) => onChange(index, {
     ...beat,
     ...patch,
-    ...(invalidatesVoice ? { legacyPersonVoice: false, voiceFile: undefined, voiceDuration: undefined } : {}),
+    // 음원을 다른 인물 것으로 바꿔야 하는 편집(화자 교체)만 좌표형 연결을 끊는다. 본문 수정은 끊지 않는다 —
+    // 파일명이 발화의 신원(id)만 따르므로 본문을 고쳐도 음원이 따라오고, 낡았는지는 voiceTextKey 가 판정한다.
+    // 예전에는 여기서 voiceFile·voiceDuration 을 지웠고, 타이핑 중간 상태(공백을 지우고 줄을 바꾸는 한 순간)에도
+    // 판정이 걸려 멀쩡한 음원과 화면 유지 시간을 잃었다.
+    ...(invalidatesVoice ? { legacyPersonVoice: false, voiceFile: undefined } : {}),
   })
   const assignedPerson = beat.speakerCelebId
     ? speakerPeople.find(person => person.celebId === beat.speakerCelebId)
@@ -170,7 +177,7 @@ export function FactionSceneBeatRow({
   const removeCutLabel = () => set({ label: undefined, labelEn: undefined })
 
   return (
-    <div data-faction-scene-beat="true" className="rounded-lg border border-border/80 bg-bg-card/70 p-2 shadow-sm">
+    <div data-faction-scene-beat="true" className="rounded-lg border-2 border-text-secondary/60 bg-bg-card/70 p-2 shadow-sm">
       <div className="-mx-2 -mt-2 mb-2 flex min-h-12 flex-wrap items-center gap-2 rounded-t-lg border-b border-border/70 bg-bg-main/70 px-3 py-2">
         <div className="flex shrink-0 items-center gap-1.5 border-r border-border/70 pr-3">
           <span className="flex h-7 min-w-12 items-center justify-center rounded-md border border-border bg-bg-secondary px-2 font-mono text-[10px] font-black tabular-nums text-text-primary shadow-sm">
@@ -222,9 +229,13 @@ export function FactionSceneBeatRow({
                 표시 이름
                 <input
                   value={editLang === 'en' ? beat.speakerEn ?? '' : beat.speaker ?? ''}
-                  onChange={event => set(editLang === 'en'
-                    ? { speakerEn: event.target.value || undefined }
-                    : { speaker: event.target.value || undefined }, true)}
+                  onChange={event => {
+                    // 표시 이름은 읽히지 않는다. 음원 파일명은 발화의 신원(id)만 따르므로 이름을 바꿔도 그대로 붙는다 —
+                    // 이름 변경 때마다 옛 해시 파일명을 박아 두던 보정은 필요 없어졌다.
+                    set(editLang === 'en'
+                      ? { speakerEn: event.target.value || undefined }
+                      : { speaker: event.target.value || undefined })
+                  }}
                   onBlur={event => {
                     if (!event.target.value.trim() && !beat.speaker?.trim() && !beat.speakerEn?.trim()) {
                       setCustomSpeakerMode(false)
@@ -330,6 +341,17 @@ export function FactionSceneBeatRow({
           >
             이 컷부터 장면 분리
           </button>
+          {onMoveToScene ? (
+            <button
+              type="button"
+              onClick={() => onMoveToScene(index)}
+              className="mr-1 flex h-8 items-center gap-1 rounded-md border border-border bg-bg-main px-2.5 text-[11px] font-bold text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              title="이 컷 한 개를 다른 기존 장면의 끝으로 옮깁니다"
+              aria-label={`${index + 1}번 컷 다른 장면으로 이동`}
+            >
+              <ArrowRightLeft size={13} /> 다른 장면으로
+            </button>
+          ) : null}
           <button type="button" disabled={index === 0} onClick={() => onMove(index, -1)} className={sequenceCardIconButtonClass} title="위로" aria-label={`${index + 1}번 컷 위로`}><ChevronUp size={14} /></button>
           <button type="button" disabled={index === total - 1} onClick={() => onMove(index, 1)} className={sequenceCardIconButtonClass} title="아래로" aria-label={`${index + 1}번 컷 아래로`}><ChevronDown size={14} /></button>
           <button type="button" onClick={() => onDelete(index)} className="flex h-8 w-8 items-center justify-center rounded-md border border-danger/40 text-danger-text hover:border-danger/70 hover:bg-danger/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger" title="컷 삭제" aria-label={`${index + 1}번 컷 삭제`}><Trash2 size={14} /></button>
@@ -398,9 +420,10 @@ export function FactionSceneBeatRow({
             textEn={beat.textEn}
             onTextChange={text => {
               const adjusted = adjustImageChanges(beat.text, text, mediaChanges)
-              set({ text, mediaChanges: adjusted.length ? adjusted : undefined }, true)
+              // 본문을 고쳐도 음원 연결은 끊지 않는다. 읽히는 문장이 달라졌으면 아래 '음원 낡음' 표시가 재합성을 알린다.
+              set({ text, mediaChanges: adjusted.length ? adjusted : undefined })
             }}
-            onTextEnChange={textEn => set({ textEn }, true)}
+            onTextEnChange={textEn => set({ textEn })}
             anchors={mediaAnchors}
             onAddAnchor={openMediaAnchor}
             onRemoveAnchor={removeMediaAnchor}
@@ -417,6 +440,7 @@ export function FactionSceneBeatRow({
               inheritedCrop={assignedPerson?.imageCrop}
               inheritedLabel={assignedPerson ? '인물 기본 화보' : '앞 장면 유지'}
               onDropImage={media => set({ media, mediaCrop: undefined })}
+              path={beat.media}
               onOpenPicker={() => setBaseMediaPickerOpen(true)}
               label="#1 컷 시작"
               theme={beat.media ? mediaAnchors.get(0)?.theme : undefined}
@@ -448,6 +472,7 @@ export function FactionSceneBeatRow({
                   src={imageSrc(series, episodeName, change.media)}
                   crop={change.crop}
                   onDropImage={media => setMediaChange(originalIndex, { media, crop: undefined })}
+                  path={change.media || undefined}
                   onOpenPicker={() => setMediaChangePickerIndex(originalIndex)}
                   label={`#${change.chunk + 1} 전환`}
                   theme={mediaAnchors.get(change.chunk)?.theme}
@@ -497,6 +522,7 @@ export function FactionSceneBeatRow({
       <FactionSceneBeatSfx
         value={beat.sfx}
         startPercent={beat.sfxStartPercent}
+        sfxs={beat.sfxs}
         files={sfxList}
         series={series}
         index={index}
@@ -517,12 +543,18 @@ export function FactionSceneBeatRow({
       ) : null}
 
       {assignedPerson ? (
-        <section className="mt-2 rounded-md border border-border/70 bg-bg-main/25" aria-label={`${assignedPerson.name} 대사 표시와 처리`}>
-          <div className="border-b border-border/60 px-3 py-2">
-            <div className="text-[11px] font-black text-text-secondary">인물 대사 처리</div>
-            <div className="mt-0.5 text-[10px] text-text-dim">이 인물의 컷들이 공통으로 상속하는 표시 순서입니다.</div>
-          </div>
-          <div className="space-y-3 p-3">
+        <details className="mt-2 rounded-md border border-border/70 bg-bg-main/25" data-faction-person-dialogue-processing="true">
+          <summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2 text-text-secondary hover:bg-bg-hover">
+            <ChevronDown size={14} aria-hidden="true" />
+            <span className="text-[11px] font-black">인물 대사 처리</span>
+            <span className="text-[10px] text-text-dim">쇼츠·롱폼 공통 설정</span>
+          </summary>
+          <section className="border-t border-border/60" aria-label={`${assignedPerson.name} 대사 표시와 처리`}>
+            <div className="border-b border-border/60 px-3 py-2">
+              <div className="text-[11px] font-black text-text-secondary">공통 처리 단계</div>
+              <div className="mt-0.5 text-[10px] text-text-dim">이 인물의 컷들이 공통으로 상속하는 표시 순서입니다.</div>
+            </div>
+            <div className="space-y-3 p-3">
             <div className="grid gap-2 lg:grid-cols-[7rem_minmax(0,44rem)] lg:items-center">
               <span className="text-[11px] font-bold text-text-tertiary">대사 표시</span>
               <div className="flex flex-wrap items-center gap-2">
@@ -615,8 +647,9 @@ export function FactionSceneBeatRow({
               </div>
             </div>
             ))}
-          </div>
-        </section>
+            </div>
+          </section>
+        </details>
       ) : null}
 
       {!isVisualOnly ? (

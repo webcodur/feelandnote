@@ -1,7 +1,7 @@
 import { Player } from '@remotion/player'
 import { FactionCard, type FactionCardSpec } from '@feelandnote/remotion/src/compositions/FactionCard'
 import type { FactionScript as RmFactionScript } from '@feelandnote/remotion/src/compositions/Faction/types'
-import type { FactionScript, FactionGroupCardFields } from '@/lib/faction-types'
+import type { FactionGroupCardFields } from '@/lib/faction-types'
 import { ASSET_BASE, RATIOS } from '../utils'
 
 export function CardEditModal({

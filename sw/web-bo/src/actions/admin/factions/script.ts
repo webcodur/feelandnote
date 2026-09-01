@@ -16,6 +16,8 @@
 import { assembleFactionEpisode } from '@feelandnote/shared/lib/faction-assemble'
 import { factionAdminClient, factionTreeSource, requireFactionAdmin } from '@/lib/faction-db'
 import { FACTION_LOCAL } from '@/lib/faction-local'
+import { FACTIONS_DIR } from '@feelandnote/shared/bo/episode-store'
+import { ensureEpisodeStaged } from '@feelandnote/shared/bo/asset-archive'
 import { replaceFactionEpisode } from '@/lib/faction-save'
 import { runFactionExport, type FactionExportResult } from '@/lib/faction-export-run'
 
@@ -77,6 +79,8 @@ async function loadCelebVoices(
 /** 편집기가 열 때 — DB 4계층을 한 왕복(중첩 임베드)으로 받아 대본으로 조립한다 */
 export async function loadFactionScript(folder: string): Promise<LoadedFactionScript> {
   await requireFactionAdmin()
+  // 편집기를 여는 순간 그 편의 자산이 public 에 걸려 있게 한다 — 사진·음성·내보내기가 곧바로 파일을 만진다.
+  if (FACTION_LOCAL) ensureEpisodeStaged(FACTIONS_DIR, folder)
   const db = factionAdminClient()
   const { script, row } = await assembleFactionEpisode(await factionTreeSource(db, folder), folder)
   return {

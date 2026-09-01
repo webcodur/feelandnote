@@ -3,7 +3,8 @@ import { factionVoiceFile, vnSceneBeat } from '@/lib/faction-voice'
 
 export type FactionSpeakerVoiceFiles = Record<string, { quote: string; epithet: string }>
 
-const compactDialogueText = (value: string | undefined): string =>
+/** 읽히는 문장 — 줄바꿈·빈 줄(화면 조판)을 한 흐름으로 편 본문. 음원 동일성 판정의 기준이다. */
+export const compactDialogueText = (value: string | undefined): string =>
   (value ?? '').replace(/\s+/g, ' ').trim()
 
 /** 줄바꿈 조판은 달라도 장면 대사와 인물 대표 대사의 실제 문장이 같은지 판정한다. */

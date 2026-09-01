@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react'
-import type { FactionScript, FactionGroupCardFields } from '@/lib/faction-types'
+import type { FactionGroupCardFields } from '@/lib/faction-types'
 
 export function CardTextEditor({
   view, person, g,

@@ -10,15 +10,11 @@ import { FactionHeroPicker, type HeroCandidate } from '../FactionHeroPicker'
 import { FactionShortsPartHeader } from './FactionShortsPartHeader'
 import {
   contrastText,
-  FactionComposeRow,
-  MAX_SHORTS_PART_COUNT,
   partSectionsOf,
   shortsPartCountOf,
   shortsPartScriptOf,
   shortsPartSlicesOf,
   shortsSliceSummary,
-  type PartAssignOption,
-  usesInternalShortsCuts,
 } from './factionShorts'
 
 interface FactionShortsPanelProps {
@@ -33,9 +29,6 @@ interface FactionShortsPanelProps {
   collapsedParts: Record<number, boolean>
   setCollapsedParts: Dispatch<SetStateAction<Record<number, boolean>>>
   onChange: (patch: Partial<FactionScript>) => void
-  onChangePartCount: (count: number) => void
-  onSetGroupPart: (groupIndex: number, part: number) => void
-  onMoveGroupInPart: (groupIndex: number, direction: -1 | 1) => void
   onEditGroup: (groupIndex: number) => void
   onJumpToGroup: (part: number, groupIndex: number) => void
 }
@@ -53,24 +46,12 @@ export const FactionShortsPanel = memo(function FactionShortsPanel({
   collapsedParts,
   setCollapsedParts,
   onChange,
-  onChangePartCount,
-  onSetGroupPart,
-  onMoveGroupInPart,
   onEditGroup,
   onJumpToGroup,
 }: FactionShortsPanelProps) {
   const groups = script.groups ?? []
-  const internalCuts = usesInternalShortsCuts(script)
   const partCount = shortsPartCountOf(script)
   const sections = partSectionsOf(partCount)
-  const partAssignOptions: PartAssignOption[] = [
-    { value: 0, label: '공통(모든 편)' },
-    ...sections.slice(1).map(section => ({ value: section.key, label: section.label })),
-    ...(partCount < MAX_SHORTS_PART_COUNT
-      ? [{ value: partCount + 1, label: `+ ${partCount + 1}편 추가` }]
-      : []),
-    { value: -1, label: '영상 제외' },
-  ]
 
   if (groups.length === 0) {
     return <p className="text-sm text-text-dim">세력이 없습니다. 「정비」 탭에서 먼저 세력을 추가하세요.</p>
@@ -82,69 +63,32 @@ export const FactionShortsPanel = memo(function FactionShortsPanel({
     <>
       <div className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-bg-card/50 px-4 py-3">
         <div className="min-w-0 flex-1">
-          <div className="text-sm font-bold text-text-primary">쇼츠 편수</div>
+          <div className="text-sm font-bold text-text-primary">
+            쇼츠 <span className="text-accent">{partCount}</span>편
+            <span className="ml-2 text-xs font-semibold text-text-tertiary">경계 {partCount - 1}개</span>
+          </div>
           <div className="text-[11px] text-text-dim">
-            {internalCuts
-              ? `이야기 사이 경계 ${partCount - 1}개가 실제 쇼츠 ${partCount}편을 나눕니다. 편 경계는 정비 탭의 이야기 순서에서 옮깁니다.`
-              : '편수를 직접 정하거나 세력의 편 드롭다운에서 「+ 다음 편 추가」를 고르세요. 공통 세력은 모든 편에 반복 노출됩니다.'}
+            {partCount > 1
+              ? '이야기 순서 위 경계가 편을 가릅니다. 경계는 정비 탭에서 장면 사이·컷 사이·세력 사이의 「편 나누기」로 켭니다. 여기서는 편별 제목·음악·시작 화면만 정합니다.'
+              : '경계가 없어 전체가 한 편입니다. 나누려면 정비 탭에서 장면 사이·컷 사이·세력 사이의 「편 나누기」를 켭니다.'}
           </div>
         </div>
-        <div className="flex shrink-0 items-center overflow-hidden rounded-md border border-border bg-bg-main">
-          <button
-            type="button"
-            onClick={() => onChangePartCount(partCount - 1)}
-            disabled={internalCuts || partCount <= 1}
-            className="h-9 w-9 text-base font-bold text-text-secondary hover:bg-bg-hover hover:text-accent disabled:cursor-not-allowed disabled:opacity-30"
-            title="쇼츠 편수 줄이기"
-            aria-label="쇼츠 편수 줄이기"
-          >
-            −
-          </button>
-          <input
-            type="number"
-            min={1}
-            max={MAX_SHORTS_PART_COUNT}
-            value={partCount}
-            readOnly={internalCuts}
-            onChange={event => {
-              if (event.target.value !== '') onChangePartCount(Number(event.target.value))
-            }}
-            className="h-9 w-14 border-x border-border bg-bg-card text-center text-sm font-bold text-text-primary focus:outline-none"
-            aria-label="쇼츠 편수"
-          />
-          <button
-            type="button"
-            onClick={() => onChangePartCount(partCount + 1)}
-            disabled={internalCuts || partCount >= MAX_SHORTS_PART_COUNT}
-            className="h-9 w-9 text-base font-bold text-text-secondary hover:bg-bg-hover hover:text-accent disabled:cursor-not-allowed disabled:opacity-30"
-            title="쇼츠 편수 늘리기"
-            aria-label="쇼츠 편수 늘리기"
-          >
-            +
-          </button>
-        </div>
-        <span className="shrink-0 text-xs font-semibold text-text-secondary">편</span>
       </div>
 
       {sections.map(section => {
-        const slices = internalCuts && section.key > 0 ? shortsPartSlicesOf(script, section.key) : []
-        const items = internalCuts
-          ? slices.map(slice => ({ group: slice.group, index: slice.groupIndex }))
-          : groups
-              .map((group, index) => ({ group, index }))
-              .filter(({ group }) => !group.disabled && (group.part ?? 0) === section.key)
+        const slices = section.key > 0 ? shortsPartSlicesOf(script, section.key) : []
+        const items = slices.map(slice => ({ group: slice.group, index: slice.groupIndex }))
 
         if (items.length === 0 && section.key !== 0) {
           return (
             <div key={section.key} className="rounded-md border border-dashed border-border/60 px-3 py-2 text-xs text-text-dim">
-              {section.label} — 배정된 세력이 없습니다. 다른 편 세력의 「편」 선택을 「{section.label}」으로 바꾸면 이 묶음으로 옮겨집니다.
+              {section.label} — 이 편에 들어가는 구간이 없습니다.
             </div>
           )
         }
 
-        const partScript = internalCuts && section.key > 0
-          ? shortsPartScriptOf(script, section.key)
-          : { ...script, groups: items.map(item => item.group) }
+        // 공통 묶음은 편 전체(제목·시작 화면·효과음 설정)를, 편 묶음은 그 편 구간만 담은 미리보기 대본을 잰다.
+        const partScript = section.key > 0 ? shortsPartScriptOf(script, section.key) : script
         const groupChips = items
           .map(item => {
             const color = item.group.color ?? '#92400e'
@@ -159,7 +103,7 @@ export const FactionShortsPanel = memo(function FactionShortsPanel({
         const collapsed = !!collapsedParts[section.key]
 
         return (
-          <div key={section.key} className="overflow-hidden rounded-lg border border-border">
+          <div key={section.key} id={`faction-shorts-part-${section.key}`} className="overflow-hidden rounded-lg border border-border">
             <FactionShortsPartHeader
               part={section.key}
               label={section.label}
@@ -352,47 +296,34 @@ export const FactionShortsPanel = memo(function FactionShortsPanel({
                 <FactionCommentPanel series={series} episodeName={episodeName} part={section.key} />
 
                 <div className="space-y-1">
-                  {internalCuts && section.key > 0
-                    ? slices.map(slice => {
-                        const color = slice.group.color ?? '#92400e'
-                        const label = (slice.group.name ?? '').split('\n')[0]?.trim() || '(이름 없음)'
-                        return (
-                          <div
-                            key={`${slice.groupIndex}-${slice.step.sequenceStart}`}
-                            className="flex items-center gap-2 rounded-md border border-border bg-bg-card/50 px-2.5 py-1.5"
-                          >
-                            <span
-                              className="max-w-[14rem] shrink-0 truncate rounded px-2 py-0.5 text-xs font-bold"
-                              style={{ backgroundColor: color, color: contrastText(color) }}
-                            >
-                              {label}
-                            </span>
-                            <span className="min-w-0 flex-1 truncate text-[11px] text-text-secondary" title={shortsSliceSummary(slice)}>
-                              {shortsSliceSummary(slice)}
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => onEditGroup(slice.groupIndex)}
-                              className="shrink-0 rounded border border-border px-2 py-1 text-[11px] font-semibold text-text-secondary hover:bg-bg-hover"
-                              title="정비 탭에서 이야기 순서와 편 경계 편집"
-                            >
-                              경계 편집
-                            </button>
-                          </div>
-                        )
-                      })
-                    : items.map(({ group, index }) => (
-                        <FactionComposeRow
-                          key={index}
-                          group={group}
-                          groupIndex={index}
-                          partOptions={partAssignOptions}
-                          onPart={part => onSetGroupPart(index, part)}
-                          onMoveUp={() => onMoveGroupInPart(index, -1)}
-                          onMoveDown={() => onMoveGroupInPart(index, 1)}
-                          onEdit={() => onEditGroup(index)}
-                        />
-                      ))}
+                  {slices.map(slice => {
+                    const color = slice.group.color ?? '#92400e'
+                    const label = (slice.group.name ?? '').split('\n')[0]?.trim() || '(이름 없음)'
+                    return (
+                      <div
+                        key={`${slice.groupIndex}-${slice.step.sequenceStart}-${slice.step.beatStart ?? ''}`}
+                        className="flex items-center gap-2 rounded-md border border-border bg-bg-card/50 px-2.5 py-1.5"
+                      >
+                        <span
+                          className="max-w-[14rem] shrink-0 truncate rounded px-2 py-0.5 text-xs font-bold"
+                          style={{ backgroundColor: color, color: contrastText(color) }}
+                        >
+                          {label}
+                        </span>
+                        <span className="min-w-0 flex-1 truncate text-[11px] text-text-secondary" title={shortsSliceSummary(slice)}>
+                          {shortsSliceSummary(slice)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => onEditGroup(slice.groupIndex)}
+                          className="shrink-0 rounded border border-border px-2 py-1 text-[11px] font-semibold text-text-secondary hover:bg-bg-hover"
+                          title="정비 탭에서 이야기 순서와 편 경계 편집"
+                        >
+                          경계 편집
+                        </button>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             )}
@@ -412,20 +343,30 @@ export const FactionShortsPanel = memo(function FactionShortsPanel({
               {collapsedParts[-1] ? <ChevronsUpDown size={14} /> : <ChevronsDownUp size={14} />}
             </span>
             <span className="text-sm font-bold text-text-dim">재료 (영상 제외)</span>
-            <span className="text-[10px] text-text-dim">어느 편에도 안 들어감 · 「편」을 골라 넣으면 영상에 포함 · {excludedGroups.length}개</span>
+            <span className="text-[10px] text-text-dim">어느 편에도 안 들어감 · 정비 탭에서 「영상 제외」를 풀면 이야기 순서 자리에 다시 들어감 · {excludedGroups.length}개</span>
           </button>
-          {!collapsedParts[-1] && excludedGroups.map(({ group, index }) => (
-            <FactionComposeRow
-              key={index}
-              group={group}
-              groupIndex={index}
-              partOptions={partAssignOptions}
-              onPart={part => onSetGroupPart(index, part)}
-              onMoveUp={() => onMoveGroupInPart(index, -1)}
-              onMoveDown={() => onMoveGroupInPart(index, 1)}
-              onEdit={() => onEditGroup(index)}
-            />
-          ))}
+          {!collapsedParts[-1] && excludedGroups.map(({ group, index }) => {
+            const color = group.color ?? '#92400e'
+            const label = (group.name ?? '').split('\n')[0]?.trim() || '(이름 없음)'
+            return (
+              <div key={index} className="flex items-center gap-2 rounded-md border border-border bg-bg-card/50 px-2.5 py-1.5">
+                <span
+                  className="max-w-[14rem] shrink-0 truncate rounded px-2 py-0.5 text-xs font-bold opacity-60"
+                  style={{ backgroundColor: color, color: contrastText(color) }}
+                >
+                  {label}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onEditGroup(index)}
+                  className="ml-auto shrink-0 rounded border border-border px-2 py-1 text-[11px] font-semibold text-text-secondary hover:bg-bg-hover"
+                  title="정비 탭에서 이 세력 데이터 편집"
+                >
+                  정비
+                </button>
+              </div>
+            )
+          })}
         </div>
       )}
     </>

@@ -43,6 +43,29 @@ test('dialogue beat exposes its intra-dialogue screen transitions', () => {
   assert.match(markup, /bg-blue-400\/25/)
   // 전환 위치는 별도 카드만이 아니라 대사 줄 사이의 점선 가로선으로도 직접 드러난다.
   assert.match(markup, /border-t-2 border-dashed[^"\n]*border-blue-400/)
+  // 사진이 놓인 자리(#1 컷 시작·#2 전환)는 끌 수 있다 — 다른 자리에 놓으면 그 자리를 덮어쓴다.
+  assert.equal((markup.match(/그 자리 사진을 덮어씁니다/g) ?? []).length, 2)
+})
+
+test('사진이 비어 있는 자리는 끌 수 없다', () => {
+  const markup = renderToStaticMarkup(
+    <FactionSceneBeatRow
+      beat={{ text: '해설이다.', mediaChanges: [{ chunk: 0, media: '' }] } as any}
+      index={0}
+      total={1}
+      onChange={() => {}}
+      onMove={() => {}}
+      onDelete={() => {}}
+      editLang="ko"
+      series="faction"
+      episodeName="Homer-Iliad"
+      groupIndex={1}
+      clusterIndex={1}
+      localPeople={[]}
+      speakerPeople={[]}
+    />,
+  )
+  assert.doesNotMatch(markup, /그 자리 사진을 덮어씁니다/)
 })
 
 test('장면 발화는 자유 화자 칸 대신 에피소드 인물 할당을 제공하고 종류색을 쓰지 않는다', () => {
@@ -112,7 +135,8 @@ test('화자 없는 해설은 출연진에 없는 공용 나레이터로 보이�
   assert.match(markup, /출연진 제외 · 공용 목소리 상속/)
   assert.match(markup, /공용 나레이터 상속 중/)
   assert.match(markup, /나레이터 해설 음성/)
-  assert.match(markup, /공용 나레이터 설정/)
+  // 상속 원본으로 가는 진입은 음성 헤더 한 줄 안에 있다.
+  assert.match(markup, /공용 나레이터/)
   assert.doesNotMatch(markup, /웹팩션 대표 대사/)
 })
 
@@ -211,6 +235,30 @@ test('인물 할당 대사에는 웹팩션 대표 대사 선택이 보인다', (
   )
 
   assert.match(markup, /웹팩션 대표 대사/)
+})
+
+test('인물 대사 처리 설정은 공간 절약을 위해 기본으로 닫힌다', () => {
+  const markup = renderToStaticMarkup(
+    <FactionSceneBeatRow
+      beat={{ speakerCelebId: 'odysseus-id', speaker: '오디세우스', text: '집으로 돌아간다.' }}
+      index={0}
+      total={1}
+      onChange={() => {}}
+      onMove={() => {}}
+      onDelete={() => {}}
+      editLang="ko"
+      series="faction"
+      episodeName="Homer-Odyssey"
+      groupIndex={0}
+      clusterIndex={0}
+      localPeople={[{ celebId: 'odysseus-id', name: '오디세우스' }]}
+      speakerPeople={[{ celebId: 'odysseus-id', name: '오디세우스' }]}
+    />,
+  )
+
+  assert.match(markup, /data-faction-person-dialogue-processing="true"/)
+  assert.match(markup, /인물 대사 처리/)
+  assert.doesNotMatch(markup, /<details[^>]*open=""/)
 })
 
 test('인물 할당 대사는 이름 표시를 첫 대사 자동·강제 표시·숨김으로 오버라이드한다', () => {
@@ -346,6 +394,39 @@ test('통합된 모든 컷 안에서 기존 SFX를 고르고 미리듣고 해제
   assert.match(markup, /컷 끝 · 100%/)
 })
 
+test('한 컷에 여러 SFX를 추가하고 각각의 시작 시점을 조정한다', () => {
+  const markup = renderToStaticMarkup(
+    <FactionSceneBeatRow
+      beat={{
+        text: '화살이 날아간다.',
+        sfxs: [
+          { file: 'bow-string.mp3', startPercent: 20 },
+          { file: 'bow-arrow-body.mp3', startPercent: 70 },
+        ],
+      }}
+      index={0}
+      total={1}
+      onChange={() => {}}
+      onMove={() => {}}
+      onDelete={() => {}}
+      editLang="ko"
+      series="faction"
+      episodeName="Homer-Odyssey"
+      groupIndex={1}
+      clusterIndex={1}
+      localPeople={[]}
+      speakerPeople={[]}
+      sfxList={['bow-string.mp3', 'bow-arrow-body.mp3']}
+    />,
+  )
+
+  assert.match(markup, /aria-label="1번 컷 SFX 추가"/)
+  assert.equal(markup.match(/data-faction-scene-sfx-timing="true"/g)?.length, 2)
+  assert.match(markup, /value="20"/)
+  assert.match(markup, /value="70"/)
+  assert.match(markup, /bow-arrow-body\.mp3 효과음 미리듣기/)
+})
+
 test('구 자유 문자열 화자는 지우지 않고 미할당으로 드러낸다', () => {
   const markup = renderToStaticMarkup(
     <FactionSceneBeatRow
@@ -420,8 +501,9 @@ test('통합된 인물 대사도 기존 분할 편집기와 위치 기반 음원
   assert.match(markup, /data-faction-scene-voice-file="F02C02P01-quote\.wav"/)
   assert.match(markup, /대사 음성/)
   assert.match(markup, /6\.8s/)
-  assert.match(markup, /인물 기본값 위에 2개 오버라이드/)
-  assert.match(markup, /인물 기본 음성 편집/)
+  // 상속 상태와 상속 원본 진입은 음성 헤더 한 줄이 함께 쥔다.
+  assert.match(markup, /인물 기본값에서 2개 덮어씀/)
+  assert.match(markup, /인물 기본 음성/)
 })
 
 test('구 연결 표식이 빠졌어도 같은 인물 대사와 실제 위치 음원이 있으면 음원을 다시 찾는다', () => {
@@ -565,4 +647,28 @@ test('할당 대사의 인물 기본값 안에서 기존 수식어 음원을 재
   assert.match(markup, /수식어 음성/)
   assert.match(markup, /3\.4s/)
   assert.match(markup, /F01C01P01-epithet\.wav/)
+})
+
+test('컷 한 개를 다른 기존 장면으로 옮기는 조작을 노출한다', () => {
+  const markup = renderToStaticMarkup(
+    <FactionSceneBeatRow
+      beat={{ text: '오디세우스는 다시 길을 나섰다.' }}
+      index={0}
+      total={1}
+      onChange={() => {}}
+      onMove={() => {}}
+      onMoveToScene={() => {}}
+      onDelete={() => {}}
+      editLang="ko"
+      series="faction"
+      episodeName="Homer-Odyssey"
+      groupIndex={0}
+      clusterIndex={0}
+      localPeople={[]}
+      speakerPeople={[]}
+    />,
+  )
+
+  assert.match(markup, /다른 장면으로/)
+  assert.match(markup, /1번 컷 다른 장면으로 이동/)
 })

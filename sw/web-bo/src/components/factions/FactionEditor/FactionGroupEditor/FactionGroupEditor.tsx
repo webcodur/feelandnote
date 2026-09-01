@@ -1,9 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { Plus } from '@feelandnote/shared/bo/icons'
 import {
+  cleanFactionSequenceCuts,
+  factionSequenceCutBoundaries,
+  withFactionSequenceCut,
+} from '@feelandnote/shared/lib/faction-sequence'
+import {
+  factionSceneNumbers,
   factionSequenceOf,
   type FactionCluster,
   type FactionGroup,
@@ -15,7 +21,8 @@ import { FactionClusterEditor } from './FactionClusterEditor'
 import { FactionGroupHeader } from './FactionGroupHeader'
 import { FactionGroupSettings } from './FactionGroupSettings'
 import { FactionSequenceEditor } from './FactionSequenceEditor'
-import { insertFactionSceneBefore, splitFactionSceneAtBeat } from './faction-scene-split'
+import { insertFactionSceneAfter, insertFactionSceneBefore, splitFactionSceneAtBeat } from './faction-scene-split'
+import { FACTION_JUMP_EVENT, type FactionJumpDetail, highlightTargetElement, scrollToElement } from '../shared/faction-nav-events'
 
 type Props = {
   groupIndex: number
@@ -30,6 +37,7 @@ type Props = {
   editLang: EditLang
   sfxList: string[]
   onMoveCrossGroup?: (clusterIndex: number, personIndex: number) => void
+  onMoveBeatCrossGroup?: (clusterIndex: number, beatIndex: number) => void
   celebExisting: Set<string>
   celebLoaded: boolean
   speakerPeople: FactionPerson[]
@@ -50,25 +58,10 @@ function celebToPerson(celeb: CelebResult): FactionPerson {
   }
 }
 
-function cleanSequenceCuts(sequence: FactionSequenceItem[]): FactionSequenceItem[] {
-  const out: FactionSequenceItem[] = []
-  for (const item of sequence) {
-    if (item.kind === 'cut' && (out.length === 0 || out[out.length - 1]?.kind === 'cut')) continue
-    out.push(item)
-  }
-  if (out[out.length - 1]?.kind === 'cut') out.pop()
-  return out
-}
-
-function hasValidCutPositions(sequence: FactionSequenceItem[]): boolean {
-  return sequence.every((item, index) => item.kind !== 'cut'
-    || (index > 0 && index < sequence.length - 1 && sequence[index - 1]?.kind !== 'cut' && sequence[index + 1]?.kind !== 'cut'))
-}
-
 export function FactionGroupEditor({
   groupIndex, group, inheritedSceneCaptionPosition, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, editLang,
   sfxList,
-  onMoveCrossGroup, celebExisting, celebLoaded,
+  onMoveCrossGroup, onMoveBeatCrossGroup, celebExisting, celebLoaded,
   speakerPeople,
   speakerVoiceFiles,
   onSpeakerPersonChange,
@@ -81,32 +74,60 @@ export function FactionGroupEditor({
   const disabled = !!group.disabled
   const factionColor = group.color ?? '#92400e'
   const sequence = factionSequenceOf(group)
+  const sceneNumbers = factionSceneNumbers(group)
   const clusters = group.clusters ?? []
   const split = clusters.length > 1
 
-  const jumpTo = (elementId: string, clusterIndex?: number) => {
+  const jumpTo = useCallback((elementId: string, clusterIndex?: number) => {
     setExpanded(true)
     if (clusterIndex != null) {
       if (split) setExpandedClusters(current => ({ ...current, [clusterIndex]: true }))
       else setSingleExpanded(true)
     }
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      document.getElementById(elementId)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    }))
-  }
+    scrollToElement(elementId, { offset: 16 })
+    const el = document.getElementById(elementId)
+    if (el) highlightTargetElement(el)
+    setTimeout(() => {
+      const targetEl = document.getElementById(elementId)
+      if (targetEl) highlightTargetElement(targetEl)
+    }, 60)
+  }, [split])
+
+  useEffect(() => {
+    const handleJump = (event: Event) => {
+      const custom = event as CustomEvent<FactionJumpDetail>
+      const detail = custom.detail
+      if (!detail || detail.groupIndex !== groupIndex) return
+
+      if (detail.clusterIndex != null) {
+        jumpTo(`cluster-header-${groupIndex}-${detail.clusterIndex}`, detail.clusterIndex)
+      } else {
+        const groupElId = `faction-group-${groupIndex}`
+        scrollToElement(groupElId, { offset: 16 })
+        const el = document.getElementById(groupElId)
+        if (el) highlightTargetElement(el)
+      }
+    }
+
+    window.addEventListener(FACTION_JUMP_EVENT, handleJump)
+    return () => window.removeEventListener(FACTION_JUMP_EVENT, handleJump)
+  }, [groupIndex, jumpTo])
 
   const setSequence = (next: FactionSequenceItem[]) => onChange({
     ...group,
     sequence: next,
   })
+  // 장면을 이야기 순서에서 한 칸 옮긴다. 경계는 자리에 남고, 규칙에 어긋난 자리(맨 앞·연속)만 걷어낸다.
   const moveSequenceItem = (index: number, direction: -1 | 1) => {
     const target = index + direction
     if (index < 0 || target < 0 || target >= sequence.length) return
     const next = [...sequence]
     ;[next[index], next[target]] = [next[target], next[index]]
-    if (!hasValidCutPositions(next)) return
-    setSequence(next)
+    setSequence(cleanFactionSequenceCuts(next))
   }
+  const toggleCutBoundary = (boundary: number) => setSequence(
+    withFactionSequenceCut(sequence, boundary, !factionSequenceCutBoundaries(sequence).has(boundary)),
+  )
   const setCluster = (index: number, next: FactionCluster) => {
     const updated = clusters.length
       ? clusters.map((cluster, clusterIndex) => clusterIndex === index ? next : cluster)
@@ -138,10 +159,20 @@ export function FactionGroupEditor({
     }))
     onChange(result.group)
   }
+  const insertClusterAfter = (clusterIndex: number) => {
+    const result = insertFactionSceneAfter({ group, clusterIndex })
+    if (!result) return
+    setExpandedClusters(current => ({
+      ...current,
+      [clusterIndex]: true,
+      [result.newClusterIndex]: true,
+    }))
+    onChange(result.group)
+  }
   const deleteCluster = (index: number) => {
     if (clusters.length <= 1) return
     if (!confirm('이 장면을 삭제하시겠습니까? 장면의 대사 항목과 출연 인물 배치도 함께 삭제됩니다.')) return
-    const nextSequence = cleanSequenceCuts(sequence.reduce<FactionSequenceItem[]>((items, item) => {
+    const nextSequence = cleanFactionSequenceCuts(sequence.reduce<FactionSequenceItem[]>((items, item) => {
       if (item.kind === 'cut') items.push(item)
       else if (item.clusterIndex !== index) items.push({
         ...item,
@@ -218,7 +249,7 @@ export function FactionGroupEditor({
                   groupIndex={groupIndex}
                   sequenceIndex={sequenceIndex}
                   sequenceLength={sequence.length}
-                  numberLabel={`${groupIndex + 1}-${sequenceIndex + 1}`}
+                  numberLabel={`${groupIndex + 1}-${sceneNumbers.get(clusterIndex) ?? 1}`}
                   split={split}
                   solo={!split && !!group.solo}
                   expanded={clusterExpanded}
@@ -228,7 +259,11 @@ export function FactionGroupEditor({
                   }}
                   onChange={next => setCluster(clusterIndex, next)}
                   onInsertBefore={() => insertClusterBefore(clusterIndex)}
+                  onInsertAfter={() => insertClusterAfter(clusterIndex)}
                   onSplitBeat={beatIndex => splitClusterAtBeat(clusterIndex, beatIndex)}
+                  onMoveBeatToScene={onMoveBeatCrossGroup
+                    ? beatIndex => onMoveBeatCrossGroup(clusterIndex, beatIndex)
+                    : undefined}
                   onMove={direction => moveSequenceItem(sequenceIndex, direction)}
                   onDelete={() => deleteCluster(clusterIndex)}
                   onAddCeleb={() => setCelebTarget(clusterIndex)}
@@ -246,18 +281,7 @@ export function FactionGroupEditor({
                 />
               )
             }}
-            renderCut={sequenceIndex => (
-              <div className="flex items-center gap-2 rounded border border-dashed border-sky-500/60 bg-sky-500/10 px-3 py-2" aria-label="쇼츠 편 경계">
-                <span className="h-px flex-1 bg-sky-500/50" />
-                <span className="shrink-0 text-[10px] font-black text-sky-500">쇼츠 편 경계 · 롱폼은 이어짐</span>
-                <span className="h-px flex-1 bg-sky-500/50" />
-                <div className="flex shrink-0 gap-1">
-                  <button type="button" onClick={() => moveSequenceItem(sequenceIndex, -1)} className="rounded border border-border px-1.5 py-1 text-[10px] text-text-secondary hover:bg-bg-hover" title="앞으로 이동">▲</button>
-                  <button type="button" onClick={() => moveSequenceItem(sequenceIndex, 1)} className="rounded border border-border px-1.5 py-1 text-[10px] text-text-secondary hover:bg-bg-hover" title="뒤로 이동">▼</button>
-                  <button type="button" onClick={() => setSequence(sequence.filter((_, index) => index !== sequenceIndex))} className="rounded border border-border px-1.5 py-1 text-[10px] text-danger-text hover:bg-danger/15" title="편 경계 삭제">✕</button>
-                </div>
-              </div>
-            )}
+            onToggleCut={toggleCutBoundary}
             footer={split ? (
               <button type="button" onClick={addCluster} className="flex items-center gap-1.5 self-start rounded-md border border-dashed border-border bg-bg-card px-3 py-1.5 text-sm font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover">
                 <Plus size={15} /> 장면 추가

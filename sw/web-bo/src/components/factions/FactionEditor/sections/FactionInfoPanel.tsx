@@ -4,10 +4,11 @@ import { memo } from 'react'
 import dynamic from 'next/dynamic'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { Plus } from '@feelandnote/shared/bo/icons'
-import type { FactionGroup, FactionPerson, FactionScript } from '@/lib/faction-types'
+import { factionSequenceOf, type FactionGroup, type FactionPerson, type FactionScript } from '@/lib/faction-types'
 import { factionSceneSpeakerPeople } from '@feelandnote/shared/lib/faction-scene-speaker'
 import { projectFactionPrimaryQuotesToGroups } from '@feelandnote/shared/lib/faction-scene-unification'
 import { FactionGroupEditor } from '../FactionGroupEditor'
+import { FactionShortsCutToggle } from '../FactionGroupEditor/FactionShortsCutToggle'
 import { factionSpeakerVoiceFiles, updateFactionSpeakerPerson } from '../FactionGroupEditor/faction-speaker-edit'
 import { FactionNarratorPanel } from '../FactionNarratorPanel'
 import { FactionDialogueSettings } from './FactionDialogueSettings'
@@ -40,7 +41,10 @@ type Props = {
   onDeleteGroup: (index: number) => void
   onMoveGroup: (index: number, direction: -1 | 1) => void
   onMovePersonCrossGroup: (groupIndex: number, clusterIndex: number, personIndex: number) => void
+  onMoveBeatCrossGroup: (groupIndex: number, clusterIndex: number, beatIndex: number) => void
   onAddGroup: () => void
+  /** 세력 끝 경계 — 이 세력과 다음 세력 사이에서 쇼츠 편을 가른다. */
+  onToggleGroupEndCut: (groupIndex: number, on: boolean) => void
 }
 
 type FactionGroupListProps = Pick<Props,
@@ -55,7 +59,9 @@ type FactionGroupListProps = Pick<Props,
   | 'onDeleteGroup'
   | 'onMoveGroup'
   | 'onMovePersonCrossGroup'
+  | 'onMoveBeatCrossGroup'
   | 'onAddGroup'
+  | 'onToggleGroupEndCut'
 > & {
   groups: FactionGroup[]
   inheritedSceneCaptionPosition: 'bottom' | 'center'
@@ -76,10 +82,16 @@ const FactionGroupList = memo(function FactionGroupList({
   onDeleteGroup,
   onMoveGroup,
   onMovePersonCrossGroup,
+  onMoveBeatCrossGroup,
   onAddGroup,
+  onToggleGroupEndCut,
 }: FactionGroupListProps) {
   const speakerPeople = factionSceneSpeakerPeople(groups)
   const speakerVoiceFiles = factionSpeakerVoiceFiles(groups)
+  const canMoveBeat = groups.reduce(
+    (count, group) => count + factionSequenceOf(group).filter(item => item.kind === 'cluster').length,
+    0,
+  ) > 1
   const changeSpeakerPerson = (celebId: string, nextPerson: FactionPerson) => {
     const nextGroups = updateFactionSpeakerPerson(groups, celebId, nextPerson)
     if (nextGroups !== groups) onChange({ groups: nextGroups })
@@ -109,7 +121,7 @@ const FactionGroupList = memo(function FactionGroupList({
 
       <div className="space-y-4">
         {groups.map((group, groupIndex) => (
-          <div key={groupIndex} id={`faction-group-${groupIndex}`} className="scroll-mt-24">
+          <div key={groupIndex} id={`faction-group-${groupIndex}`} className="scroll-mt-4">
             <FactionGroupEditor
               groupIndex={groupIndex}
               group={group}
@@ -123,6 +135,9 @@ const FactionGroupList = memo(function FactionGroupList({
               editLang={editLang}
               sfxList={sfxList}
               onMoveCrossGroup={(clusterIndex, personIndex) => onMovePersonCrossGroup(groupIndex, clusterIndex, personIndex)}
+              onMoveBeatCrossGroup={canMoveBeat
+                ? (clusterIndex, beatIndex) => onMoveBeatCrossGroup(groupIndex, clusterIndex, beatIndex)
+                : undefined}
               celebExisting={celebExisting}
               celebLoaded={celebLoaded}
               speakerPeople={speakerPeople}
@@ -130,6 +145,16 @@ const FactionGroupList = memo(function FactionGroupList({
               onSpeakerPersonChange={changeSpeakerPerson}
               onSetPrimaryQuote={(clusterIndex, beatIndex, celebId) => setPrimaryQuote(groupIndex, clusterIndex, beatIndex, celebId)}
             />
+            {/* 세력 사이 편 경계 — 앞 세력 sequence 의 끝 경계(cut)로 산다. 장면 사이 토글과 같은 표식이다. */}
+            {groupIndex < groups.length - 1 ? (
+              <div className="mt-4">
+                <FactionShortsCutToggle
+                  on={factionSequenceOf(group).at(-1)?.kind === 'cut'}
+                  onToggle={() => onToggleGroupEndCut(groupIndex, factionSequenceOf(group).at(-1)?.kind !== 'cut')}
+                  label={`세력 「${(group.name ?? '').split('\n')[0]?.trim() || `#${groupIndex + 1}`}」 뒤 편 경계`}
+                />
+              </div>
+            ) : null}
           </div>
         ))}
         {groups.length === 0 && (
@@ -174,7 +199,9 @@ export function FactionInfoPanel({
   onDeleteGroup,
   onMoveGroup,
   onMovePersonCrossGroup,
+  onMoveBeatCrossGroup,
   onAddGroup,
+  onToggleGroupEndCut,
 }: Props) {
   const groups = script.groups ?? []
 
@@ -207,7 +234,9 @@ export function FactionInfoPanel({
         onDeleteGroup={onDeleteGroup}
         onMoveGroup={onMoveGroup}
         onMovePersonCrossGroup={onMovePersonCrossGroup}
+        onMoveBeatCrossGroup={onMoveBeatCrossGroup}
         onAddGroup={onAddGroup}
+        onToggleGroupEndCut={onToggleGroupEndCut}
       />
 
       <FactionNarratorPanel script={script} update={onChange} series={series} episodeName={episodeName} />

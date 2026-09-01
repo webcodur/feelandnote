@@ -48,8 +48,8 @@ export function factionRowSource(db: SupabaseClient): FactionRowSource {
 
 /**
  * 한 왕복 로드 — 4계층(에피소드→세력→클러스터→인물)을 PostgREST 중첩 임베드로
- * 한 번에 받아 메모리에서 공급한다. 직렬 4왕복(AI-Supremacy 실측 ≈1.3초, 리전이
- * 싱가포르라 왕복당 200~550ms)을 1왕복으로 줄인다. 조립기 계약(FactionRowSource)은
+ * 한 번에 받아 메모리에서 공급한다. 직렬 4왕복을 1왕복으로 줄인다(왕복당 실측 ≈110ms —
+ * 자체 호스팅 db.feelandnote.com, 연결 재사용 기준 26.08.28). 조립기 계약(FactionRowSource)은
  * 그대로라 조립·정렬·검증 로직은 아무것도 모른 채 빨라진다.
  * 규모 상한: 최대 에피소드가 세력 16·인물 87이라 임베드 행수 제약과 무관하다.
  */

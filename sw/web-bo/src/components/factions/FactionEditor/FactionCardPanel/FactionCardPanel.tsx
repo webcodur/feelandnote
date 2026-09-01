@@ -98,7 +98,7 @@ export function FactionCardPanel({ script: videoScript, episodeName, series, ini
     setView(initialSelection.view ?? 'person')
     setGi(initialSelection.gi)
     setPi(initialSelection.pi)
-  }, [initialSelection?.view, initialSelection?.gi, initialSelection?.pi])
+  }, [initialSelection])
 
   const safeGi = hasGroups ? Math.min(gi, groups.length - 1) : 0
   const g = groups[safeGi] ?? ({ name: '', clusters: [], people: [] } as unknown as FactionScript['groups'][number])
@@ -133,17 +133,12 @@ export function FactionCardPanel({ script: videoScript, episodeName, series, ini
     if (view === 'person') routeToPerson(people[nextPi])
   }
 
-  const dHeadline = useDeferredValue(headline)
-  const dBody = useDeferredValue(body)
   const dQuote = useDeferredValue(quoteText)
-  const dTlTitle = useDeferredValue(tlTitle)
-  const dTlItems = useDeferredValue(tlItems)
 
   const quoteCard: FactionCardSpec = {
     type: 'quote', groupIndex: safeGi, personIndex: safePi, bg: 'photo',
     ...(dQuote.trim() ? { quoteCard: dQuote } : {}),
   }
-  const tlValidItems = dTlItems.filter(it => it.year.trim() || it.text.trim())
   const clusters = g.clusters ?? []
   
   let personCi = 0

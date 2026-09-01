@@ -123,6 +123,7 @@ export function FactionCelebSearchModal({ open, onClose, onSelect }: Props) {
               className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-start hover:bg-bg-hover"
             >
               {c.avatar_url ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
                 <img src={c.avatar_url} alt="" className="h-10 w-10 shrink-0 rounded-full object-cover" />
               ) : (
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-bg-secondary text-sm font-bold text-text-secondary">

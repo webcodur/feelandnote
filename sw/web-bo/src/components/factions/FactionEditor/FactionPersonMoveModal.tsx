@@ -11,7 +11,7 @@ type Props = {
   onConfirm: (toGi: number, toCi: number) => void
 }
 
-export function FactionPersonMoveModal({ groups, fromGi, fromCi, fromPi, onClose, onConfirm }: Props) {
+export function FactionPersonMoveModal({ groups, fromGi, fromCi, onClose, onConfirm }: Props) {
   const [selected, setSelected] = useState<{ gi: number; ci: number }>({ gi: fromGi, ci: fromCi })
 
   const options = groups.flatMap((g, gi) =>

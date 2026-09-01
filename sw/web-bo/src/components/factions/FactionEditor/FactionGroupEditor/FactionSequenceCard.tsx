@@ -29,7 +29,7 @@ export function FactionSequenceCard({
       id={id}
       data-faction-sequence-card
       data-sequence-number={numberLabel}
-      className={`relative scroll-mt-24 rounded-lg border border-border bg-bg-card shadow-sm ${dimmed ? 'opacity-45 saturate-50' : ''}`}
+      className={`relative scroll-mt-4 rounded-lg border border-border bg-bg-card shadow-sm ${dimmed ? 'opacity-45 saturate-50' : ''}`}
     >
       <header className={`grid min-h-14 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-border bg-bg-main/95 px-3 py-2.5 shadow-[0_1px_0_rgba(255,255,255,0.025)] ${expanded ? 'sticky top-0 z-20 rounded-t-lg border-b backdrop-blur-md md:-top-5' : 'rounded-lg'}`}>
         <span className={sequenceNumberClass}>

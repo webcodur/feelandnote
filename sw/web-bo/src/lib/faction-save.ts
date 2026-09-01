@@ -5,8 +5,9 @@
  * 액션 파일 안에 로직을 두면 Next 밖에서 부를 수 없어 검증이 안 되므로 여기로 뺐다.
  *
  * 하는 일은 셋이다.
- *   1. **보존해야 할 값을 DB 에서 읽는다** — 진행 상태·편성·순번·편별 댓글·음성 길이.
+ *   1. **보존해야 할 값을 DB 에서 읽는다** — 진행 상태·편성·순번·편별 댓글·음성 길이·도감 손질·세력 테마.
  *      편집기는 이 값들을 모르거나(댓글) 소유하지 않는다(음성 길이 — 문서 §7).
+ *      기존 트리(에피소드→세력→장면→인물)는 한 번만 읽고 되살리기 셋이 그 메모리를 나눠 쓴다.
  *   2. 인물 UUID 검증(레거시 파일만 slug → UUID 해소), 세력 태그 이름 → 태그 id.
  *   3. 분해(`buildFactionRows`) 후 원자 저장 함수 한 번 호출.
  *
@@ -45,21 +46,18 @@ export async function replaceFactionEpisode(
   if (!folder) throw new Error('에피소드 폴더명이 필요합니다')
   assertFactionSceneSpeakerAssignments((script.groups ?? []) as Row[])
 
-  const { data: epRow, error: epErr } = await db
-    .from('faction_episodes')
-    .select('id,status,registered,sort_order')
-    .eq('folder', folder).maybeSingle()
-  if (epErr) throw new Error(`에피소드 조회 실패(${folder}): ${epErr.message}`)
-  if (!epRow) throw new Error(`에피소드가 없습니다: ${folder}`)
-
+  // 되살릴 기존 값(음성 길이·도감 손질·세력 테마)은 트리 한 번 읽기로 전부 받는다. 편별 댓글만 별도 표라 한 번 더.
+  const tree = await loadExistingTree(db, folder)
+  if (!tree) throw new Error(`에피소드가 없습니다: ${folder}`)
+  const epRow = tree.episode
   const episodeId = epRow.id as string
-  const durations = await loadExistingDurations(db, episodeId)
-  const webLookup = await loadExistingWebOverrides(db, episodeId)
+  const durations = durationLookupOf(tree)
+  const webLookup = webOverrideLookupOf(tree)
   const parts = await loadExistingParts(db, episodeId)
 
   const { slugMap, profilesById, unpublishedIds } = await resolvePeople(db, script)
   const tagMap = await resolveTags(db)
-  const keptTags = await loadExistingGroupTags(db, episodeId)
+  const keptTags = groupTagLookupOf(tree)
 
   const payload = buildFactionRows(script, {
     slugMap,
@@ -257,7 +255,51 @@ async function resolveTags(db: SupabaseClient): Promise<Map<string, string>> {
  *
  * numeric 컬럼은 PostgREST 가 문자열로 돌려주므로 숫자로 되돌린다.
  */
-type Durations = { quoteDuration: number | null; epithetDuration: number | null }
+/* ────────────────────────── 되살리기 — 기존 트리 한 번 읽기 ────────────────────────── */
+
+/**
+ * 저장 전에 한 번 읽는 기존 트리. 음성 길이·도감 손질·세력 테마 되살리기가 전부 여기서 나온다.
+ * 예전엔 세 되살리기가 각자 세력→장면→인물을 다시 읽어 저장 한 번에 7~8왕복이 들었다(왕복당 ≈110ms).
+ * 계층은 PostgREST 중첩 임베드로 한 번에 받는다(`faction-db.ts` 의 factionTreeSource 와 같은 방식).
+ */
+export type ExistingTree = {
+  episode: Row
+  groups: Row[]
+  clusters: Row[]
+  people: Row[]
+}
+
+async function loadExistingTree(db: SupabaseClient, folder: string): Promise<ExistingTree | undefined> {
+  const { data, error } = await db
+    .from('faction_episodes')
+    .select(
+      'id,status,registered,sort_order,'
+      + 'faction_groups(id,position,name,tag_id,'
+      + 'faction_clusters(id,group_id,position,'
+      + 'faction_people(cluster_id,position,is_person,celeb_id,slug,name,quote_duration,epithet_duration,'
+      + 'web_long_desc,web_long_desc_en,web_image_url,web_quote_media,web_hidden)))',
+    )
+    .eq('folder', folder)
+    .maybeSingle()
+  if (error) throw new Error(`에피소드 조회 실패(${folder}): ${error.message}`)
+  if (!data) return undefined
+
+  // select 문자열을 이어 붙여 supabase-js 타입 파서가 모양을 못 읽는다 — 행 모양은 위 select 가 정한다.
+  const { faction_groups: gs, ...episode } = data as unknown as { faction_groups?: Row[] } & Row
+  const groups: Row[] = []
+  const clusters: Row[] = []
+  const people: Row[] = []
+  for (const gRaw of gs ?? []) {
+    const { faction_clusters: cs, ...g } = gRaw as { faction_clusters?: Row[] } & Row
+    groups.push(g)
+    for (const cRaw of cs ?? []) {
+      const { faction_people: ps, ...c } = cRaw as { faction_people?: Row[] } & Row
+      clusters.push(c)
+      people.push(...(ps ?? []))
+    }
+  }
+  return { episode, groups, clusters, people }
+}
 
 /** 인물의 신원 — 불변 UUID 우선, 옛 행만 slug·이름으로 보조한다. */
 const identityOf = (p: { celebId?: unknown; celeb_id?: unknown; slug?: unknown; name?: unknown }): string => {
@@ -268,53 +310,52 @@ const identityOf = (p: { celebId?: unknown; celeb_id?: unknown; slug?: unknown; 
   return (typeof p.slug === 'string' && p.slug) ? `s:${p.slug}` : `n:${String(p.name ?? '')}`
 }
 
-async function loadExistingDurations(db: SupabaseClient, episodeId: string): Promise<DurationLookup> {
-  const { data: groups, error: gErr } = await db
-    .from('faction_groups').select('id,position').eq('episode_id', episodeId)
-  if (gErr) throw new Error(`세력 조회 실패: ${gErr.message}`)
-  const groupRows = (groups ?? []) as Row[]
-  if (!groupRows.length) return () => undefined
-
-  const clusterRows = await inChunks(db, 'faction_clusters', 'group_id',
-    groupRows.map(g => g.id as string), 'id,group_id,position')
-  const personRows = clusterRows.length
-    ? await inChunks(db, 'faction_people', 'cluster_id',
-        clusterRows.map(c => c.id as string),
-        'cluster_id,position,is_person,celeb_id,slug,name,quote_duration,epithet_duration')
-    : []
-
-  const num = (v: unknown): number | null =>
-    v === null || v === undefined ? null : typeof v === 'string' ? Number(v) : (v as number)
-
-  // 신원별로 자리 순서대로 줄을 세운다(같은 신원이 여러 번 나오면 나온 순서가 짝짓기 기준)
-  const gPos = new Map(groupRows.map(g => [g.id as string, g.position as number]))
-  const cOrder = new Map<string, number>() // cluster_id → 정렬용 값
-  for (const c of clusterRows) {
+/**
+ * 사람 행을 자리 순서(세력 position → 장면 position → 인물 position)로 줄 세운다.
+ * 되살리기 셋이 같은 순서를 써야 같은 신원이 여러 번 나올 때 짝이 어긋나지 않는다.
+ */
+export function sortedPeopleOf(tree: Pick<ExistingTree, 'groups' | 'clusters' | 'people'>): Row[] {
+  const gPos = new Map(tree.groups.map(g => [g.id as string, g.position as number]))
+  const cOrder = new Map<string, number>()
+  for (const c of tree.clusters) {
     const gi = gPos.get(c.group_id as string) ?? 0
     cOrder.set(c.id as string, gi * 1000 + (c.position as number))
   }
-  const sorted = personRows.filter(p => p.is_person !== false).sort((a, b) =>
+  return tree.people.filter(p => p.is_person !== false).sort((a, b) =>
     (cOrder.get(a.cluster_id as string) ?? 0) - (cOrder.get(b.cluster_id as string) ?? 0)
     || (a.position as number) - (b.position as number))
+}
 
-  const byIdentity = new Map<string, Durations[]>()
-  for (const p of sorted) {
+/** 같은 신원이 여러 번 나오면 나온 순서대로 짝짓는 조회기 — 들어오는 대본에서도 몇 번째 등장인지 세어 맞춘다. */
+function pickerByIdentity<T>(rows: Row[], project: (row: Row) => T): (row: Row) => T | undefined {
+  const byIdentity = new Map<string, T[]>()
+  for (const p of rows) {
     const k = identityOf(p)
     if (!byIdentity.has(k)) byIdentity.set(k, [])
-    byIdentity.get(k)!.push({
-      quoteDuration: num(p.quote_duration),
-      epithetDuration: num(p.epithet_duration),
-    })
+    byIdentity.get(k)!.push(project(p))
   }
-
-  // 들어오는 대본에서도 같은 신원이 몇 번째로 나왔는지 세어 순서대로 짝짓는다
   const seen = new Map<string, number>()
-  return (_gi, _ci, _pi, person) => {
-    const k = identityOf(person)
-    const list = byIdentity.get(k)
+  return row => {
+    const k = identityOf(row)
     const n = seen.get(k) ?? 0
     seen.set(k, n + 1)
-    const hit = list?.[n]
+    return byIdentity.get(k)?.[n]
+  }
+}
+
+type Durations = { quoteDuration: number | null; epithetDuration: number | null }
+
+const num = (v: unknown): number | null =>
+  v === null || v === undefined ? null : typeof v === 'string' ? Number(v) : (v as number)
+
+/** 음성 길이는 파이프라인 소유 값이라 편집기가 보내지 않는다 — 기존 행에서 신원 기준으로 되싣는다. */
+export function durationLookupOf(tree: Pick<ExistingTree, 'groups' | 'clusters' | 'people'>): DurationLookup {
+  const pick = pickerByIdentity<Durations>(sortedPeopleOf(tree), p => ({
+    quoteDuration: num(p.quote_duration),
+    epithetDuration: num(p.epithet_duration),
+  }))
+  return (_gi, _ci, _pi, person) => {
+    const hit = pick(person as unknown as Row)
     if (!hit) return undefined
     return {
       quoteDuration: hit.quoteDuration ?? undefined,
@@ -325,8 +366,7 @@ async function loadExistingDurations(db: SupabaseClient, episodeId: string): Pro
 
 /**
  * 도감 손질(web_*) 칸 — 대본 저장이 인물 행을 전량 갈아끼우므로, 기존 값을 **사람 신원 기준으로**
- * 모아 새 행에 되싣는다. 신원·순서 짝짓기 규칙은 음성 길이(loadExistingDurations)와 동일하다.
- * 반환 함수는 새 인물 행(slug·name 컬럼 보유)을 받아 짝지어진 기존 손질을 돌려준다.
+ * 모아 새 행에 되싣는다. 반환 함수는 새 인물 행(slug·name 컬럼 보유)을 받아 짝지어진 기존 손질을 돌려준다.
  */
 type WebOverride = {
   web_long_desc: string | null
@@ -336,55 +376,16 @@ type WebOverride = {
   web_hidden: boolean
 }
 
-async function loadExistingWebOverrides(
-  db: SupabaseClient, episodeId: string,
-): Promise<(personRow: Row) => WebOverride | undefined> {
-  const { data: groups, error: gErr } = await db
-    .from('faction_groups').select('id,position').eq('episode_id', episodeId)
-  if (gErr) throw new Error(`세력 조회 실패: ${gErr.message}`)
-  const groupRows = (groups ?? []) as Row[]
-  if (!groupRows.length) return () => undefined
-
-  const clusterRows = await inChunks(db, 'faction_clusters', 'group_id',
-    groupRows.map(g => g.id as string), 'id,group_id,position')
-  const personRows = clusterRows.length
-    ? await inChunks(db, 'faction_people', 'cluster_id',
-        clusterRows.map(c => c.id as string),
-         'cluster_id,position,is_person,celeb_id,slug,name,web_long_desc,web_long_desc_en,web_image_url,web_quote_media,web_hidden')
-    : []
-
-  // 신원별로 자리 순서대로 줄을 세운다 — durations 와 같은 짝짓기 규칙
-  const gPos = new Map(groupRows.map(g => [g.id as string, g.position as number]))
-  const cOrder = new Map<string, number>()
-  for (const c of clusterRows) {
-    const gi = gPos.get(c.group_id as string) ?? 0
-    cOrder.set(c.id as string, gi * 1000 + (c.position as number))
-  }
-  const sorted = personRows.filter(p => p.is_person !== false).sort((a, b) =>
-    (cOrder.get(a.cluster_id as string) ?? 0) - (cOrder.get(b.cluster_id as string) ?? 0)
-    || (a.position as number) - (b.position as number))
-
-  const byIdentity = new Map<string, WebOverride[]>()
-  for (const p of sorted) {
-    const k = identityOf(p)
-    if (!byIdentity.has(k)) byIdentity.set(k, [])
-    byIdentity.get(k)!.push({
-      web_long_desc: (p.web_long_desc as string | null) ?? null,
-      web_long_desc_en: (p.web_long_desc_en as string | null) ?? null,
-      web_image_url: (p.web_image_url as string | null) ?? null,
-      web_quote_media: p.web_quote_media ?? null,
-      web_hidden: p.web_hidden === true,
-    })
-  }
-
-  const seen = new Map<string, number>()
-  return (personRow: Row) => {
-    const k = identityOf(personRow)
-    const list = byIdentity.get(k)
-    const n = seen.get(k) ?? 0
-    seen.set(k, n + 1)
-    return list?.[n]
-  }
+export function webOverrideLookupOf(
+  tree: Pick<ExistingTree, 'groups' | 'clusters' | 'people'>,
+): (personRow: Row) => WebOverride | undefined {
+  return pickerByIdentity<WebOverride>(sortedPeopleOf(tree), p => ({
+    web_long_desc: (p.web_long_desc as string | null) ?? null,
+    web_long_desc_en: (p.web_long_desc_en as string | null) ?? null,
+    web_image_url: (p.web_image_url as string | null) ?? null,
+    web_quote_media: p.web_quote_media ?? null,
+    web_hidden: p.web_hidden === true,
+  }))
 }
 
 /**
@@ -394,13 +395,8 @@ async function loadExistingWebOverrides(
  * 한 편에 둘 있는 경우(도감용으로 따로 세운 자리 등)에는 나온 순서대로 짝지어 준다 —
  * 음성 길이·도감 손질과 같은 짝짓기 규칙이다.
  */
-async function loadExistingGroupTags(
-  db: SupabaseClient, episodeId: string,
-): Promise<(groupRow: Row) => string | undefined> {
-  const { data, error } = await db
-    .from('faction_groups').select('name,position,tag_id').eq('episode_id', episodeId)
-  if (error) throw new Error(`세력 테마 조회 실패: ${error.message}`)
-  const rows = ((data ?? []) as Row[])
+export function groupTagLookupOf(tree: Pick<ExistingTree, 'groups'>): (groupRow: Row) => string | undefined {
+  const rows = tree.groups
     .filter(r => !!r.tag_id)
     .sort((a, b) => (a.position as number) - (b.position as number))
 
@@ -415,16 +411,15 @@ async function loadExistingGroupTags(
   }
 
   const seen = new Map<string, number>()
-  return (groupRow: Row) => {
+  return groupRow => {
     const k = nameOf(groupRow)
-    const list = byName.get(k)
     const n = seen.get(k) ?? 0
     seen.set(k, n + 1)
-    return list?.[n]
+    return byName.get(k)?.[n]
   }
 }
 
-/** 편별 고정 댓글 — 편집기가 보내지 않으므로 저장 때 그대로 실어 보내 보존한다 */
+/** 편별 고정 댓글 — 편집기가 보내지 않으므로 저장 때 그대로 실어 보내 보존한다. 별도 표라 한 번 더 읽는다. */
 async function loadExistingParts(
   db: SupabaseClient, episodeId: string,
 ): Promise<{ part: number; comment: string }[]> {
@@ -434,17 +429,4 @@ async function loadExistingParts(
   return (data ?? [])
     .map(r => ({ part: r.part as number, comment: (r.comment as string) ?? '' }))
     .sort((a, b) => a.part - b.part)
-}
-
-async function inChunks(
-  db: SupabaseClient, table: string, col: string, values: string[], select: string,
-): Promise<Row[]> {
-  const out: Row[] = []
-  for (let i = 0; i < values.length; i += IN_CHUNK) {
-    const { data, error } = await db
-      .from(table).select(select).in(col, values.slice(i, i + IN_CHUNK))
-    if (error) throw new Error(`${table} 조회 실패: ${error.message}`)
-    out.push(...((data ?? []) as unknown as Row[]))
-  }
-  return out
 }

@@ -29,7 +29,7 @@ export function FactionProjectSettings({
   const holdLabel = HOLD_MOTION_OPTIONS.find(option => option.value === holdMotion)?.label ?? '정지'
 
   return (
-    <details className="group border border-border bg-bg-card open:xl:col-span-2">
+    <details id="faction-project-settings" className="group border border-border bg-bg-card open:xl:col-span-2">
       <summary className="flex h-12 cursor-pointer list-none items-center gap-3 px-3 hover:bg-bg-hover">
         <span className="shrink-0 text-xs font-black text-accent">프로젝트</span>
         <strong className="min-w-0 flex-1 truncate text-sm text-text-primary">{titleSummary}</strong>
