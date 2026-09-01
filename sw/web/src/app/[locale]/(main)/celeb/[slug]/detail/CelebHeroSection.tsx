@@ -3,14 +3,16 @@
 import Image from "next/image";
 import { useCallback, useState, type CSSProperties, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
-import { Volume2 } from "lucide-react";
 import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-photo";
 
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import ProfessionInfoButton from "@/components/features/celeb/ProfessionInfoButton";
 import CelebWorldBannerView from "@/components/features/celeb/CelebWorldBannerView";
 import CelebWorldFrame from "@/components/features/celeb/CelebWorldFrame";
-import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
+import {
+  useDialogueSubtitle,
+  type DialogueLabel,
+} from "@/components/features/game/shared/hooks/useDialogue";
 import { FormattedText } from "@/components/ui";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import NationalityText from "@/components/ui/NationalityText";
@@ -71,12 +73,16 @@ export default function CelebHeroSection({
 }: CelebHeroSectionProps) {
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
-  const { handleSubtitle: setSubtitle } = useDialogueSubtitle();
+  const {
+    handleSubtitle: setSubtitle,
+    voiceMuted,
+  } = useDialogueSubtitle();
   const { fireGreeting, fireQuote } = useCelebGreeting({
     onSubtitle: setSubtitle,
     locale,
   });
   const [zoomOpen, setZoomOpen] = useState(false);
+  const [voicePlayback, setVoicePlayback] = useState<DialogueLabel | null>(null);
 
   const nickname = profile.nickname;
   const hasVoice = profile.has_voice ?? false;
@@ -110,19 +116,77 @@ export default function CelebHeroSection({
   const hasGreetingLine = (greeting?.length ?? 0) > 0;
   const canGreet = hasGreetingLine;
   const hasGreetingAudio = hasVoice && hasGreetingLine;
+  const isVoiceActive = voicePlayback !== null;
+  const isQuoteActive = voicePlayback === "quotes";
   // 소개는 언제나 첫 구획이다. 다음 화살표는 실제로 남아 있는 그다음 구획을 가리켜야 한다
   const introductionItem = serviceItems[0];
   const nextItem = serviceItems[1];
 
+  const handleVoiceStart = useCallback((label: DialogueLabel) => {
+    setVoicePlayback(label);
+  }, []);
+
+  const handleVoiceEnd = useCallback(() => {
+    setVoicePlayback(null);
+  }, []);
+
+  const stopVoice = useCallback(() => {
+    setVoicePlayback(null);
+    setSubtitle(null);
+  }, [setSubtitle]);
+
   const handleGreetingPlay = useCallback(() => {
-    if (hasGreetingAudio) trackEvent("celeb_voice_play", { kind: "greeting" });
-    fireGreeting({ ...profile, greeting, nickname });
-  }, [fireGreeting, greeting, hasGreetingAudio, nickname, profile]);
+    if (isVoiceActive) {
+      stopVoice();
+      return;
+    }
+
+    if (hasGreetingAudio && !voiceMuted) {
+      setVoicePlayback("greeting");
+      trackEvent("celeb_voice_play", { kind: "greeting" });
+    }
+    fireGreeting(
+      { ...profile, greeting, nickname },
+      { onAudioStart: handleVoiceStart, onAudioEnd: handleVoiceEnd },
+    );
+  }, [
+    fireGreeting,
+    greeting,
+    handleVoiceEnd,
+    handleVoiceStart,
+    hasGreetingAudio,
+    isVoiceActive,
+    nickname,
+    profile,
+    stopVoice,
+    voiceMuted,
+  ]);
 
   const handleQuotePlay = useCallback(() => {
-    trackEvent("celeb_voice_play", { kind: "quote" });
-    fireQuote({ ...profile, greeting, nickname });
-  }, [fireQuote, greeting, nickname, profile]);
+    if (isVoiceActive) {
+      stopVoice();
+      return;
+    }
+
+    if (!voiceMuted) {
+      setVoicePlayback("quotes");
+      trackEvent("celeb_voice_play", { kind: "quote" });
+    }
+    fireQuote(
+      { ...profile, greeting, nickname },
+      { onAudioStart: handleVoiceStart, onAudioEnd: handleVoiceEnd },
+    );
+  }, [
+    fireQuote,
+    greeting,
+    handleVoiceEnd,
+    handleVoiceStart,
+    isVoiceActive,
+    nickname,
+    profile,
+    stopVoice,
+    voiceMuted,
+  ]);
 
   const handleZoom = useCallback(() => {
     if (zoomImageUrl) setZoomOpen(true);
@@ -170,8 +234,15 @@ export default function CelebHeroSection({
                     onZoom={handleZoom}
                     zoomLabel={t("enlargePhoto")}
                     hasVoice={hasGreetingAudio}
+                    isVoicePlaying={isVoiceActive}
                     onGreet={canGreet ? handleGreetingPlay : undefined}
-                    greetLabel={hasGreetingAudio ? t("playGreetingVoice") : t("dialogue_greeting")}
+                    greetLabel={
+                      isVoiceActive
+                        ? t("stopAudio")
+                        : hasGreetingAudio
+                          ? t("playGreetingVoice")
+                          : t("dialogue_greeting")
+                    }
                     avatarSize="h-36 w-36 md:h-44 md:w-44"
                     initialSize="text-2xl md:text-3xl"
                   />
@@ -186,8 +257,15 @@ export default function CelebHeroSection({
                   onZoom={handleZoom}
                   zoomLabel={t("enlargePhoto")}
                   hasVoice={hasGreetingAudio}
+                  isVoicePlaying={isVoiceActive}
                   onGreet={canGreet ? handleGreetingPlay : undefined}
-                  greetLabel={hasGreetingAudio ? t("playGreetingVoice") : t("dialogue_greeting")}
+                  greetLabel={
+                    isVoiceActive
+                      ? t("stopAudio")
+                      : hasGreetingAudio
+                        ? t("playGreetingVoice")
+                        : t("dialogue_greeting")
+                  }
                   avatarSize="h-28 w-28"
                   initialSize="text-2xl"
                 />
@@ -267,6 +345,7 @@ export default function CelebHeroSection({
                   iconClassName={styles.viewCounterIcon}
                   buttonClassName={styles.viewCounterButton}
                 />
+                {externalLinksSlot}
                 <ShareButtons
                   title={shareTitle}
                   path={`/celeb/${slug}`}
@@ -282,24 +361,30 @@ export default function CelebHeroSection({
                 {profile.bio ? <p className={styles.bio}>{profile.bio}</p> : null}
                 {profile.quotes ? (
                   <div className={styles.quote}>
-                    <p>
-                      &ldquo;
-                      <FormattedText text={profile.quotes} />
-                      &rdquo;
-                    </p>
                     {hasVoice ? (
                       <button
                         type="button"
                         onClick={handleQuotePlay}
-                        className="mt-0.5 flex-shrink-0 rounded-full p-1 hover:text-accent"
-                        aria-label={t("playQuoteVoice")}
+                        className={`${styles.quoteButton} ${
+                          isQuoteActive ? styles.quoteButtonPlaying : ""
+                        }`}
+                        aria-label={isVoiceActive ? t("stopAudio") : t("playQuoteVoice")}
+                        aria-pressed={isQuoteActive}
+                        title={isVoiceActive ? t("stopAudio") : t("playQuoteVoice")}
                       >
-                        <Volume2 size={16} />
+                        &ldquo;
+                        <FormattedText text={profile.quotes} />
+                        &rdquo;
                       </button>
-                    ) : null}
+                    ) : (
+                      <p>
+                        &ldquo;
+                        <FormattedText text={profile.quotes} />
+                        &rdquo;
+                      </p>
+                    )}
                   </div>
                 ) : null}
-                {externalLinksSlot}
               </div>
             </div>
           </div>

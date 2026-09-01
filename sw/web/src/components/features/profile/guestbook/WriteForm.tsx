@@ -67,7 +67,7 @@ export default function WriteForm({
   const placeholder = isFiction ? tFiction("placeholder") : t("placeholder");
 
   return (
-    <div className={isCeleb ? "mb-8" : "mb-8 space-y-2"}>
+    <div className={isCeleb ? "mb-4" : "mb-8"}>
       {isCeleb ? (
         <div className="mb-4 flex items-center gap-3">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-accent/25 bg-accent/[0.07] text-accent">
@@ -116,37 +116,46 @@ export default function WriteForm({
         <div
           className={`${
             isCeleb
-              ? "min-h-14 border-t border-white/[0.06] bg-white/[0.015] px-4 py-2.5 sm:px-5"
-              : "px-4 pb-3"
-          } flex items-center justify-between gap-4`}
+              ? "min-h-14 grid-cols-[auto_minmax(0,1fr)_auto] border-t border-white/[0.06] bg-white/[0.015] px-4 py-2.5 sm:px-5"
+              : "grid-cols-[auto_minmax(0,1fr)_auto_auto] px-4 pb-3"
+          } grid items-center gap-3 sm:gap-4`}
         >
-        {!isCeleb && (
-          <button
-            type="button"
-            onClick={() => handleTogglePrivate(!isPrivate)}
-            className={`flex h-7 items-center gap-1 rounded-sm px-2 text-[11px] ${
-              isPrivate
-                ? "text-accent bg-accent/10"
-                : " hover:text-text-secondary"
-            }`}
-          >
-            <Lock size={10} />
-            {isPrivate ? t("private") : t("public")}
-          </button>
-        )}
+          {!isCeleb && (
+            <button
+              type="button"
+              onClick={() => handleTogglePrivate(!isPrivate)}
+              className={`flex h-7 items-center gap-1 rounded-sm px-2 text-[11px] ${
+                isPrivate
+                  ? "bg-accent/10 text-accent"
+                  : "hover:text-text-secondary"
+              }`}
+            >
+              <Lock size={10} />
+              {isPrivate ? t("private") : t("public")}
+            </button>
+          )}
 
-        <div
-          className={
-            isCeleb
-              ? "flex w-full items-center justify-between gap-4"
-              : "flex items-center gap-3"
-          }
-        >
-          <span
-            className={`${isCeleb ? "text-[11px] text-text-secondary/55" : "text-[10px]"} font-mono tabular-nums ${content.length > 450 ? "text-red-400" : ""}`}
-          >
-            {content.length} / 500
-          </span>
+          {isCeleb && (
+            <span
+              className={`font-mono text-[11px] tabular-nums text-text-secondary/55 ${content.length > 450 ? "text-red-400" : ""}`}
+            >
+              {content.length} / 500
+            </span>
+          )}
+
+          <UgcTermsNotice
+            variant="compact"
+            className={`${isCeleb ? "text-[11px] sm:text-xs" : "text-[10px]"} min-w-0 justify-self-center text-center opacity-100`}
+          />
+
+          {!isCeleb && (
+            <span
+              className={`font-mono text-[10px] tabular-nums ${content.length > 450 ? "text-red-400" : ""}`}
+            >
+              {content.length} / 500
+            </span>
+          )}
+
           <Button
             unstyled
             type="submit"
@@ -163,13 +172,7 @@ export default function WriteForm({
             </span>
           </Button>
         </div>
-        </div>
       </form>
-
-      <UgcTermsNotice
-        variant="compact"
-        className={isCeleb ? "mt-3 px-0.5 text-[11px] sm:text-xs" : "px-1"}
-      />
     </div>
   );
 }

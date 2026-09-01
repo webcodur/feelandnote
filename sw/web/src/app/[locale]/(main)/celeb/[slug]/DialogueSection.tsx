@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ListMusic, Square, Check, Copy, Info } from "lucide-react";
+import { ListMusic, Square, Info } from "lucide-react";
 import type { Locale } from "@/types/locale";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import { getVoiceUrl, getQuoteVoiceUrl, getMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
@@ -18,7 +18,71 @@ type DialogueType = (typeof DIALOGUE_TYPES)[number];
 
 type Scope = "all" | DialogueType;
 
-interface LineItem { type: string; variant: number; text: string }
+interface DialogueTheme {
+  chip: string;
+  chipActive: string;
+  row: string;
+  rowPlaying: string;
+}
+
+const DIALOGUE_THEMES: Record<DialogueType, DialogueTheme> = {
+  quote: {
+    chip: "border-amber-400/30 bg-amber-400/[0.04] text-amber-300 hover:border-amber-300/60 hover:bg-amber-400/10",
+    chipActive: "border-amber-300/70 bg-amber-400/15 font-semibold text-amber-200",
+    row: "border-s-amber-400/70 bg-amber-400/[0.04] hover:bg-amber-400/10",
+    rowPlaying: "border-s-amber-300 bg-amber-400/15 ring-1 ring-inset ring-amber-300/30",
+  },
+  monologue: {
+    chip: "border-violet-400/30 bg-violet-400/[0.04] text-violet-300 hover:border-violet-300/60 hover:bg-violet-400/10",
+    chipActive: "border-violet-300/70 bg-violet-400/15 font-semibold text-violet-200",
+    row: "border-s-violet-400/70 bg-violet-400/[0.04] hover:bg-violet-400/10",
+    rowPlaying: "border-s-violet-300 bg-violet-400/15 ring-1 ring-inset ring-violet-300/30",
+  },
+  greeting: {
+    chip: "border-sky-400/30 bg-sky-400/[0.04] text-sky-300 hover:border-sky-300/60 hover:bg-sky-400/10",
+    chipActive: "border-sky-300/70 bg-sky-400/15 font-semibold text-sky-200",
+    row: "border-s-sky-400/70 bg-sky-400/[0.04] hover:bg-sky-400/10",
+    rowPlaying: "border-s-sky-300 bg-sky-400/15 ring-1 ring-inset ring-sky-300/30",
+  },
+  roll_call: {
+    chip: "border-teal-400/30 bg-teal-400/[0.04] text-teal-300 hover:border-teal-300/60 hover:bg-teal-400/10",
+    chipActive: "border-teal-300/70 bg-teal-400/15 font-semibold text-teal-200",
+    row: "border-s-teal-400/70 bg-teal-400/[0.04] hover:bg-teal-400/10",
+    rowPlaying: "border-s-teal-300 bg-teal-400/15 ring-1 ring-inset ring-teal-300/30",
+  },
+  deploy: {
+    chip: "border-indigo-400/30 bg-indigo-400/[0.04] text-indigo-300 hover:border-indigo-300/60 hover:bg-indigo-400/10",
+    chipActive: "border-indigo-300/70 bg-indigo-400/15 font-semibold text-indigo-200",
+    row: "border-s-indigo-400/70 bg-indigo-400/[0.04] hover:bg-indigo-400/10",
+    rowPlaying: "border-s-indigo-300 bg-indigo-400/15 ring-1 ring-inset ring-indigo-300/30",
+  },
+  battle_win: {
+    chip: "border-emerald-400/30 bg-emerald-400/[0.04] text-emerald-300 hover:border-emerald-300/60 hover:bg-emerald-400/10",
+    chipActive: "border-emerald-300/70 bg-emerald-400/15 font-semibold text-emerald-200",
+    row: "border-s-emerald-400/70 bg-emerald-400/[0.04] hover:bg-emerald-400/10",
+    rowPlaying: "border-s-emerald-300 bg-emerald-400/15 ring-1 ring-inset ring-emerald-300/30",
+  },
+  battle_draw: {
+    chip: "border-lime-400/30 bg-lime-400/[0.04] text-lime-300 hover:border-lime-300/60 hover:bg-lime-400/10",
+    chipActive: "border-lime-300/70 bg-lime-400/15 font-semibold text-lime-200",
+    row: "border-s-lime-400/70 bg-lime-400/[0.04] hover:bg-lime-400/10",
+    rowPlaying: "border-s-lime-300 bg-lime-400/15 ring-1 ring-inset ring-lime-300/30",
+  },
+  battle_lose: {
+    chip: "border-rose-400/30 bg-rose-400/[0.04] text-rose-300 hover:border-rose-300/60 hover:bg-rose-400/10",
+    chipActive: "border-rose-300/70 bg-rose-400/15 font-semibold text-rose-200",
+    row: "border-s-rose-400/70 bg-rose-400/[0.04] hover:bg-rose-400/10",
+    rowPlaying: "border-s-rose-300 bg-rose-400/15 ring-1 ring-inset ring-rose-300/30",
+  },
+  clash_attack: {
+    chip: "border-orange-400/30 bg-orange-400/[0.04] text-orange-300 hover:border-orange-300/60 hover:bg-orange-400/10",
+    chipActive: "border-orange-300/70 bg-orange-400/15 font-semibold text-orange-200",
+    row: "border-s-orange-400/70 bg-orange-400/[0.04] hover:bg-orange-400/10",
+    rowPlaying: "border-s-orange-300 bg-orange-400/15 ring-1 ring-inset ring-orange-300/30",
+  },
+};
+
+interface LineItem { type: DialogueType; variant: number; text: string }
 
 interface Props {
   lines: Record<string, string[]>;
@@ -39,17 +103,6 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const autoQueueRef = useRef<LineItem[]>([]);
   const stoppedRef = useRef(false);
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const copyLine = useCallback((key: string, text: string) => {
-    navigator.clipboard?.writeText(text).catch(() => {});
-    setCopiedKey(key);
-    if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
-    copyTimerRef.current = setTimeout(() => setCopiedKey(null), 1500);
-  }, []);
-
-  useEffect(() => () => { if (copyTimerRef.current) clearTimeout(copyTimerRef.current); }, []);
 
   // region 개별 재생
   const stopAudio = useCallback(() => {
@@ -205,6 +258,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
         {visibleTypes.map((type) => {
           const count = lines[type].filter((raw) => stripEmotionTag(raw).trim()).length;
           const active = scope === type;
+          const theme = DIALOGUE_THEMES[type];
           return (
             <button
               key={type}
@@ -213,10 +267,10 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
               aria-selected={active}
               aria-controls={`dialogue-panel-${type}`}
               onClick={() => selectScope(type)}
-              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs hover:border-accent/45 hover:text-accent ${
+              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${
                 active
-                  ? "border-accent/55 bg-accent/10 font-semibold text-accent"
-                  : "border-white/10 text-text-secondary hover:bg-white/[0.035]"
+                  ? theme.chipActive
+                  : theme.chip
               }`}
             >
               {t(`dialogue_${type}`)}
@@ -259,9 +313,10 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
         )}
 
         <div className="max-h-[340px] space-y-1 overflow-y-auto md:max-h-[420px]">
-          {displayLines.map((item, i) => {
+          {displayLines.map((item) => {
             const key = `${item.type}-${item.variant}`;
             const isPlaying = playingKey === key;
+            const theme = DIALOGUE_THEMES[item.type];
             return (
               <div
                 key={key}
@@ -274,22 +329,11 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
                     toggleOne(item.type, item.variant);
                   }
                 } : undefined}
-                className={`flex items-center gap-2.5 rounded-md px-2 py-2 ${hasVoice ? "cursor-pointer" : ""} ${isPlaying ? "bg-emerald-500/10" : "hover:bg-white/[0.035]"}`}
+                className={`flex items-center rounded-md border-s-2 px-2 py-2 text-text-primary ${hasVoice ? "cursor-pointer" : ""} ${isPlaying ? theme.rowPlaying : theme.row}`}
               >
-                <span className={`w-5 shrink-0 text-right font-mono text-[11px] tabular-nums ${isPlaying ? "text-emerald-400/70" : "text-text-secondary/40"}`}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className={`flex-1 text-center text-sm leading-relaxed break-keep ${isPlaying ? "text-emerald-400" : "text-text-secondary"}`}>
+                <span className="w-full break-keep text-center text-sm leading-relaxed">
                   &ldquo;{item.text}&rdquo;
                 </span>
-                <button
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); copyLine(key, item.text); }}
-                  className={`shrink-0 rounded p-1 text-text-secondary/40 hover:text-accent ${copiedKey === key ? "text-accent" : ""}`}
-                  aria-label={t("copyLine")}
-                >
-                  {copiedKey === key ? <Check size={13} /> : <Copy size={13} />}
-                </button>
               </div>
             );
           })}

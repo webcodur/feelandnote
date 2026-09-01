@@ -130,10 +130,10 @@ function IntroductionModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="max-h-[calc(100dvh-3rem)] w-full max-w-2xl overflow-hidden border border-accent-dim/60 bg-bg-card shadow-2xl animate-modal-content"
+        className="flex max-h-[calc(100dvh-3rem)] w-full max-w-2xl flex-col overflow-hidden border border-accent-dim/60 bg-bg-card shadow-2xl animate-modal-content"
         onClick={(event) => event.stopPropagation()}
       >
-        <header className="grid grid-cols-[1fr_auto] items-start gap-4 border-b border-stone-light bg-bg-secondary bg-texture-marble px-5 py-4 sm:px-7 sm:py-5">
+        <header className="grid shrink-0 grid-cols-[1fr_auto] items-start gap-4 border-b border-stone-light bg-bg-secondary bg-texture-marble px-5 py-4 sm:px-7 sm:py-5">
           <div className="min-w-0">
             <p className="text-sm font-black tracking-[0.16em] text-accent">{label}</p>
             <h2 id={titleId} className="mt-1 text-xl font-black text-text-primary sm:text-2xl">
@@ -150,8 +150,8 @@ function IntroductionModal({
             <X size={20} aria-hidden />
           </button>
         </header>
-        <div className="max-h-[calc(100dvh-10rem)] overflow-y-auto bg-texture-noise px-5 py-6 sm:px-8 sm:py-8">
-          <p className="whitespace-pre-line text-base leading-8 text-text-primary">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain bg-texture-noise px-5 py-6 [overflow-anchor:none] sm:px-8 sm:py-8">
+          <p className="whitespace-pre-wrap break-words text-base leading-8 text-text-primary">
             <FormattedText text={description} />
           </p>
         </div>

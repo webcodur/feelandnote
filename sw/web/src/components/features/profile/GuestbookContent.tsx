@@ -148,7 +148,7 @@ export default function GuestbookContent({
     <div
       className={
         isCeleb
-          ? "w-full py-7 sm:py-9 md:py-10"
+          ? "w-full pb-2 pt-4 sm:pb-3 sm:pt-5 md:pb-4 md:pt-6"
           : ""
       }
     >

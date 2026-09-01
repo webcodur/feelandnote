@@ -37,7 +37,7 @@ const SAMPLES = [
 /* 화면 전체가 얼마나 갈리는지 보려고 고른 세 명 */
 const SHOWCASE = [SAMPLES[8], SAMPLES[2], SAMPLES[15]];
 
-const SECTION_TITLES = ["인물 소개", "기록물", "행적", "인연", "수치 분석", "이야기", "방명록"];
+const SECTION_TITLES = ["인물 소개", "기록", "행적", "인연", "평가", "매체", "방명록"];
 
 const FRAME_LABELS: { frame: WorldFrame; label: string; world: string }[] = [
   { frame: "wood", label: "목판 — 동아시아 전근대", world: "joseon" },

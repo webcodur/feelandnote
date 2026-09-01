@@ -1,13 +1,10 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { MapPin } from "lucide-react";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
-import {
-  formatTimelinePosition,
-  timelineYearCopy,
-} from "./journeyTimeline";
+import { timelineYearCopy } from "./journeyTimeline";
 
 interface Props {
   events: CelebTimelineEvent[];
@@ -42,9 +39,9 @@ export default function JourneyEventExpandedList({
     <div
       tabIndex={0}
       aria-label={t("timelineViewExpand")}
-      className="custom-scrollbar max-h-[500px] overflow-y-auto [overflow-anchor:none] px-1 py-1 pr-2.5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:max-h-[580px] md:pr-4"
+      className="custom-scrollbar max-h-[500px] overflow-y-auto [overflow-anchor:none] py-1 pe-2.5 ps-4.5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:max-h-[580px] md:pe-4"
     >
-      <div className="relative border-s border-accent-dim/25 ps-4.5 space-y-6 my-1.5 md:ps-6 md:space-y-7">
+      <div className="relative ps-4.5 space-y-6 my-1.5 md:ps-6 md:space-y-7">
         {events.map((event, index) => {
           const yearLabel = formatEventYear(event, yearCopy);
           const sourceLabel = event.sequenceLabel?.trim() ?? "";
@@ -53,17 +50,16 @@ export default function JourneyEventExpandedList({
 
           return (
             <article key={event.id ?? index} className="group relative">
-              {/* 좌측 타임라인 노드 - 불투명 채움으로 뒤의 수직선 가림 */}
+              {/* 번호 마커가 수직선을 덮어 각 기록의 순서를 바로 보여 준다. */}
               <span
-                aria-hidden
-                className="absolute -start-[23px] top-1.5 z-10 h-2 w-2 rounded-full border border-accent/70 bg-[#080b0e] transition-colors group-hover:border-accent group-hover:bg-accent md:-start-[29px] md:h-2.5 md:w-2.5"
-              />
+                aria-label={t("timelineCurrent", { current: index + 1 })}
+                className="absolute -start-[33px] top-0 z-10 flex size-7 items-center justify-center rounded-full border border-accent/70 bg-bg-card font-mono text-[11px] font-black leading-none tabular-nums text-accent group-hover:border-accent group-hover:bg-accent/15 group-hover:text-accent-hover md:-start-[39px]"
+              >
+                {index + 1}
+              </span>
 
-              {/* 헤드라인: [ #1 | 연도(실존인물) ] + [ 제목 ] */}
+              {/* 헤드라인: [연도] + [제목] */}
               <div className="mb-1 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                <span className="font-mono text-xs font-semibold text-text-tertiary">
-                  #{index + 1}
-                </span>
                 {yearLabel ? (
                   <span className="font-mono text-xs font-bold text-accent">
                     {yearLabel}

@@ -6,7 +6,10 @@
 */ // ------------------------------
 
 import { useRef, useCallback, useState } from "react";
-import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
+import type {
+  DialogueLabel,
+  DialogueSubtitleData,
+} from "@/components/features/game/shared/hooks/useDialogue";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import defaultLinesData from "@/lib/game/voice/defaultLines";
 import type { SpeechTone } from "@/lib/game/voice/types";
@@ -33,6 +36,11 @@ interface UseCelebGreetingOptions {
   locale: Locale;
 }
 
+export interface CelebVoicePlaybackCallbacks {
+  onAudioStart?: (label: DialogueLabel) => void;
+  onAudioEnd?: () => void;
+}
+
 export interface RippleData {
   id: string;
   x: number;
@@ -50,7 +58,7 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
 
   /** greeting + quote 슬롯에서 균등 확률로 발사 (직전 중복 회피) */
   const fireGreeting = useCallback(
-    (celeb: GreetingCeleb) => {
+    (celeb: GreetingCeleb, playback?: CelebVoicePlaybackCallbacks) => {
       if (!onSubtitle) return;
 
       const greetings =
@@ -98,6 +106,10 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
           audioUrl: celeb.has_voice ? getQuoteVoiceUrl(celeb.id, locale, celeb.voice_v) : null,
           label: "quotes",
           voiceSpeed: celeb.voice_speed,
+          onAudioStart: playback?.onAudioStart
+            ? () => playback.onAudioStart?.("quotes")
+            : undefined,
+          onAudioEnd: playback?.onAudioEnd,
         });
       } else {
         onSubtitle({
@@ -112,6 +124,10 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
               : null,
           label: "greeting",
           voiceSpeed: celeb.voice_speed,
+          onAudioStart: playback?.onAudioStart
+            ? () => playback.onAudioStart?.("greeting")
+            : undefined,
+          onAudioEnd: playback?.onAudioEnd,
         });
       }
     },
@@ -120,7 +136,7 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
 
   /** quote만 단독 재생 */
   const fireQuote = useCallback(
-    (celeb: GreetingCeleb) => {
+    (celeb: GreetingCeleb, playback?: CelebVoicePlaybackCallbacks) => {
       if (!onSubtitle) return;
       const displayQuote = locale === "ko" ? celeb.quotes : (celeb.quotes_en ?? celeb.quotes);
       if (!displayQuote) return;
@@ -133,6 +149,10 @@ export function useCelebGreeting({ onSubtitle, locale }: UseCelebGreetingOptions
         audioUrl: celeb.has_voice ? getQuoteVoiceUrl(celeb.id, locale, celeb.voice_v) : null,
         label: "quotes",
         voiceSpeed: celeb.voice_speed,
+        onAudioStart: playback?.onAudioStart
+          ? () => playback.onAudioStart?.("quotes")
+          : undefined,
+        onAudioEnd: playback?.onAudioEnd,
       });
     },
     [onSubtitle, locale],

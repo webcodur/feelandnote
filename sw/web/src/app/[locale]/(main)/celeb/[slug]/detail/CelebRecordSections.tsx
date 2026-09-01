@@ -249,14 +249,22 @@ export default function CelebRecordSections({
           </section>
         )}
 
-        <section id="guestbook" tabIndex={-1} className={SECTION_CLASS_NAME}>
+        <section
+          id="guestbook"
+          tabIndex={-1}
+          className={`${SECTION_CLASS_NAME} ${styles.guestbookSection}`}
+        >
           {renderSectionHeading("guestbook")}
           {/* 방명록은 색인 가치가 없고 맨 아래에 있으며 캐시에 굳으면 안 되는 자료라
               화면이 다가올 때 비로소 불러온다. 제목은 서버 HTML에 그대로 남는다. */}
           <SectionSurface>
             <Deferred
               fallback={
-                <PendingBlock variant="rows" count={3} className="py-7" />
+                <PendingBlock
+                  variant="rows"
+                  count={3}
+                  className="pb-2 pt-4 sm:pb-3 sm:pt-5 md:pb-4 md:pt-6"
+                />
               }
             >
               <GuestbookDeferred profileId={userId} isFiction={isFiction} />
