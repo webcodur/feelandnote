@@ -16,10 +16,19 @@ export interface FictionSourceContentSummary {
   creator: string | null
   thumbnailUrl: string | null
   isbn: string | null
+  hasEnglishAmazon: boolean
+}
+
+export interface FictionSourceCharacterAssignment {
+  celebId: string
+  sortOrder: number
+  description: string | null
+  descriptionEn: string | null
 }
 
 export interface FictionSourceAdminItem extends FictionSourceContentSummary {
   characterIds: string[]
+  assignments: FictionSourceCharacterAssignment[]
   updatedAt: string
 }
 
@@ -53,6 +62,7 @@ interface LocaleRow {
   creator: string | null
   thumbnail_url: string | null
   isbn: string | null
+  affiliate_url: Array<{ platform?: string; url?: string }> | null
 }
 
 interface SourceRow {
@@ -64,6 +74,8 @@ interface AssignmentRow {
   content_id: string
   celeb_id: string
   sort_order: number
+  description: string | null
+  description_en: string | null
 }
 
 interface CharacterRow {
@@ -101,7 +113,7 @@ async function loadAllAssignments(): Promise<AssignmentRow[]> {
   for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
     const { data, error } = await admin
       .from('fiction_source_characters')
-      .select('content_id,celeb_id,sort_order')
+      .select('content_id,celeb_id,sort_order,description,description_en')
       .order('content_id')
       .order('sort_order')
       .order('celeb_id')
@@ -160,6 +172,9 @@ function summarizeContents(
       creator: primary?.creator?.trim() || null,
       thumbnailUrl: primary?.thumbnail_url || en?.thumbnail_url || null,
       isbn: primary?.isbn || null,
+      hasEnglishAmazon: Boolean(en?.affiliate_url?.some(
+        (link) => link.platform === 'amazon' && link.url?.trim(),
+      )),
     }
   })
 }
@@ -183,7 +198,7 @@ async function loadContentSummaries(
         .in('id', ids),
       admin
         .from('content_locales')
-        .select('content_id,locale,title,creator,thumbnail_url,isbn')
+        .select('content_id,locale,title,creator,thumbnail_url,isbn,affiliate_url')
         .in('content_id', ids),
     ])
 
@@ -212,21 +227,28 @@ export async function getFictionSourceAdminData(): Promise<FictionSourceAdminDat
     sourceRows.map((row) => row.content_id),
   )
   const summaryById = new Map(summaries.map((summary) => [summary.id, summary]))
-  const characterIdsByContent = new Map<string, string[]>()
+  const assignmentsByContent = new Map<string, FictionSourceCharacterAssignment[]>()
 
   for (const assignment of assignmentRows) {
     const contentId = assignment.content_id
-    const ids = characterIdsByContent.get(contentId) ?? []
-    ids.push(assignment.celeb_id)
-    characterIdsByContent.set(contentId, ids)
+    const current = assignmentsByContent.get(contentId) ?? []
+    current.push({
+      celebId: assignment.celeb_id,
+      sortOrder: assignment.sort_order,
+      description: assignment.description?.trim() || null,
+      descriptionEn: assignment.description_en?.trim() || null,
+    })
+    assignmentsByContent.set(contentId, current)
   }
 
   const sources = sourceRows.flatMap((row): FictionSourceAdminItem[] => {
     const summary = summaryById.get(row.content_id)
     if (!summary) return []
+    const assignments = assignmentsByContent.get(summary.id) ?? []
     return [{
       ...summary,
-      characterIds: characterIdsByContent.get(summary.id) ?? [],
+      characterIds: assignments.map((assignment) => assignment.celebId),
+      assignments,
       updatedAt: row.updated_at,
     }]
   })
@@ -330,6 +352,99 @@ export async function saveFictionSource(input: {
     ],
     [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
   )
+}
+
+export async function saveFictionSourceCharacterDescription(input: {
+  contentId: string
+  celebId: string
+  description: string
+  descriptionEn: string
+}): Promise<void> {
+  await requireAdmin()
+  const contentId = input.contentId.trim()
+  const celebId = input.celebId.trim()
+  const description = input.description.trim() || null
+  const descriptionEn = input.descriptionEn.trim() || null
+
+  if (!contentId) throw new Error('대표 콘텐츠 ID가 필요합니다')
+  if (!celebId) throw new Error('인물 ID가 필요합니다')
+
+  const admin = createAdminClient()
+  if (descriptionEn) {
+    const { data: englishEdition, error: englishEditionError } = await admin
+      .from('content_locales')
+      .select('affiliate_url')
+      .eq('content_id', contentId)
+      .eq('locale', 'en')
+      .maybeSingle()
+    if (englishEditionError) {
+      throw new Error(`영문판 구매 링크 조회 실패: ${englishEditionError.message}`)
+    }
+    const hasAmazon = Array.isArray(englishEdition?.affiliate_url)
+      && englishEdition.affiliate_url.some((link) => (
+        link
+        && typeof link === 'object'
+        && 'platform' in link
+        && link.platform === 'amazon'
+        && 'url' in link
+        && typeof link.url === 'string'
+        && link.url.trim()
+      ))
+    if (!hasAmazon) {
+      throw new Error('영어 등장 설명은 실제 영문판의 Amazon 링크를 먼저 등록해야 저장할 수 있습니다')
+    }
+  }
+  const [currentResult, celebResult] = await Promise.all([
+    admin
+      .from('fiction_source_characters')
+      .select('description,description_en')
+      .eq('content_id', contentId)
+      .eq('celeb_id', celebId)
+      .maybeSingle(),
+    admin
+      .from('celebs')
+      .select('slug')
+      .eq('id', celebId)
+      .maybeSingle(),
+  ])
+  if (currentResult.error) {
+    throw new Error(`기존 등장 설명 조회 실패: ${currentResult.error.message}`)
+  }
+  if (!currentResult.data) throw new Error('저장할 원전 인물 연결을 찾을 수 없습니다')
+  if (celebResult.error) {
+    throw new Error(`대표 원전 인물 slug 조회 실패: ${celebResult.error.message}`)
+  }
+
+  const currentDescription = currentResult.data.description?.trim() || null
+  const currentDescriptionEn = currentResult.data.description_en?.trim() || null
+  if (currentDescription === description && currentDescriptionEn === descriptionEn) return
+
+  const { data: updated, error: updateError } = await admin
+    .from('fiction_source_characters')
+    .update({ description, description_en: descriptionEn })
+    .eq('content_id', contentId)
+    .eq('celeb_id', celebId)
+    .select('celeb_id')
+    .maybeSingle()
+  if (updateError) throw new Error(`등장 설명 저장 실패: ${updateError.message}`)
+  if (!updated) throw new Error('저장할 원전 인물 연결을 찾을 수 없습니다')
+
+  revalidatePath('/fiction-sources')
+  revalidatePath(`/contents/${contentId}`)
+  try {
+    await revalidateWebItems(
+      [
+        { domain: CACHE_TAGS.CONTENTS, id: contentId },
+        { domain: CACHE_TAGS.CELEBS, id: celebId },
+        ...(celebResult.data?.slug
+          ? [{ domain: CACHE_TAGS.CELEBS, id: celebResult.data.slug }]
+          : []),
+      ],
+      [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+    )
+  } catch {
+    // 운영 DB 트리거도 같은 태그를 무효화한다. 저장 성공을 캐시 호출 실패로 되돌리지 않는다.
+  }
 }
 
 export async function removeFictionSource(contentId: string): Promise<void> {

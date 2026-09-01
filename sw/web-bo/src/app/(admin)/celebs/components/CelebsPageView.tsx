@@ -37,7 +37,9 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
   const status = params.status || 'all'
   const profession = params.profession || 'all'
   const tier = params.tier || 'all'
-  const imageFilter: CelebImageFilter = params.image === 'missing-avatar' || params.image === 'missing-portrait'
+  const imageFilter: CelebImageFilter = params.image === 'missing-avatar'
+    || params.image === 'missing-portrait'
+    || params.image === 'missing-awakened'
     ? params.image
     : 'all'
   const faction = params.faction || 'all'

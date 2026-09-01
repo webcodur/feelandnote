@@ -21,6 +21,7 @@ export interface Celeb {
   nickname: string | null
   avatar_url: string | null
   portrait_url: string | null
+  awakened_image_url: string | null
   profession: string | null
   title: string | null
   nationality: string | null
@@ -45,7 +46,7 @@ export interface CelebsResponse {
   total: number
 }
 
-export type CelebImageFilter = 'all' | 'missing-avatar' | 'missing-portrait'
+export type CelebImageFilter = 'all' | 'missing-avatar' | 'missing-portrait' | 'missing-awakened'
 
 interface GetCelebsParams {
   page?: number
@@ -100,6 +101,8 @@ interface UpdateCelebInput {
   avatar_url?: string
   /** 인물 상세 상단 대표 화보. 빈 문자열이면 내린다 */
   portrait_url?: string
+  /** 대표 사진과 별개인 각성 이미지. 빈 문자열이면 내린다 */
+  awakened_image_url?: string
   is_verified?: boolean
   status?: 'active' | 'inactive'
   celeb_tier?: 'full' | 'light' | 'fiction'
@@ -116,6 +119,7 @@ type CelebListRow = {
   nickname: string | null
   avatar_url: string | null
   portrait_url: string | null
+  awakened_image_url: string | null
   profession: string | null
   title: string | null
   nationality: string | null
@@ -149,6 +153,7 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     nickname: row.nickname,
     avatar_url: row.avatar_url,
     portrait_url: row.portrait_url,
+    awakened_image_url: row.awakened_image_url,
     profession: row.profession,
     title: row.title,
     nationality: row.nationality,
@@ -319,6 +324,8 @@ function buildCelebListQuery(
     query = query.is('avatar_url', null)
   } else if (imageFilter === 'missing-portrait') {
     query = query.is('portrait_url', null)
+  } else if (imageFilter === 'missing-awakened') {
+    query = query.is('awakened_image_url', null)
   }
 
   if (inIds) {
@@ -352,7 +359,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   const offset = (page - 1) * limit
   const filters = { search, status, profession, tier, imageFilter }
   const selectFields = `
-    id, slug, nickname, avatar_url, portrait_url, profession, title, nationality, gender,
+    id, slug, nickname, avatar_url, portrait_url, awakened_image_url, profession, title, nationality, gender,
     birth_date, death_date, bio, cultural_journey:consumption_philosophy,
     content_research_confirmed_empty_at,
     is_verified, status:publication_status, celeb_tier, claimed_by:claimed_by_member_id, created_at,
@@ -551,13 +558,14 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   const researchMarkerMap = new Map<string, {
     confirmedEmptyAt: string | null
     portraitUrl: string | null
+    awakenedImageUrl: string | null
   }>()
 
   if (rpcCelebIds.length > 0) {
     const { data: researchRows, error: researchError } = await supabase
       .from('celebs')
       .select(`
-        id, portrait_url, content_research_confirmed_empty_at
+        id, portrait_url, awakened_image_url, content_research_confirmed_empty_at
       `)
       .in('id', rpcCelebIds)
 
@@ -566,6 +574,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       researchMarkerMap.set(row.id, {
         confirmedEmptyAt: row.content_research_confirmed_empty_at,
         portraitUrl: row.portrait_url,
+        awakenedImageUrl: row.awakened_image_url,
       })
     }
   }
@@ -578,6 +587,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       nickname: celeb.nickname,
       avatar_url: celeb.avatar_url,
       portrait_url: research?.portraitUrl || null,
+      awakened_image_url: research?.awakenedImageUrl || null,
       profession: celeb.profession,
       title: celeb.title,
       nationality: celeb.nationality,
@@ -664,6 +674,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     nickname: data.nickname,
     avatar_url: data.avatar_url,
     portrait_url: data.portrait_url,
+    awakened_image_url: data.awakened_image_url,
     profession: data.profession,
     title: data.title,
     nationality: data.nationality,
@@ -853,6 +864,7 @@ export async function updateCeleb(
   if (input.cultural_journey_en !== undefined) updateData.consumption_philosophy_en = input.cultural_journey_en || null
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
   if (input.portrait_url !== undefined) updateData.portrait_url = input.portrait_url || null
+  if (input.awakened_image_url !== undefined) updateData.awakened_image_url = input.awakened_image_url || null
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
   if (input.status !== undefined) updateData.publication_status = input.status
   if (input.celeb_tier !== undefined) updateData.celeb_tier = input.celeb_tier

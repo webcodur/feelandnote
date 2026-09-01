@@ -30,6 +30,12 @@ interface Props {
   onRemove?: () => void
   onFileAccepted?: () => void
   onError?: (error: Error) => void
+  aspectRatio?: number
+  aspectLabel?: string
+  emptyLabel?: string
+  cropTitle?: string
+  cropDescription?: string
+  processingErrorMessage?: string
 }
 
 export default function CelebPortraitEditor({
@@ -51,6 +57,12 @@ export default function CelebPortraitEditor({
   onRemove,
   onFileAccepted,
   onError,
+  aspectRatio = CELEB_HERO_PHOTO_SPEC.aspectRatio,
+  aspectLabel = CELEB_HERO_PHOTO_SPEC.aspectLabel,
+  emptyLabel = '대표 화보 놓기',
+  cropTitle = '대표 화보 위치 조정',
+  cropDescription = '사진을 끌어 위치를 옮기고 아래 막대로 확대하세요.',
+  processingErrorMessage = '대표 화보 처리에 실패했습니다.',
 }: Props) {
   const usesDefaultFrame = className === undefined
   const frameClassName = className ?? 'group/portrait relative shrink-0 overflow-hidden rounded-xl border-2 border-dashed border-border bg-bg-secondary hover:border-accent hover:bg-accent/5 data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30'
@@ -108,7 +120,7 @@ export default function CelebPortraitEditor({
       await onCroppedFile(file, croppedDataUrl)
       setCropImageSrc(null)
     } catch (error) {
-      onError?.(error instanceof Error ? error : new Error('대표 화보 처리에 실패했습니다.'))
+      onError?.(error instanceof Error ? error : new Error(processingErrorMessage))
     } finally {
       setProcessing(false)
       onIncomingDone?.()
@@ -146,7 +158,7 @@ export default function CelebPortraitEditor({
         className={`${frameClassName} ${pasteActive ? 'border-accent ring-2 ring-accent ring-offset-2 ring-offset-bg-card' : ''} ${onActivate ? 'cursor-pointer' : ''}`}
         style={usesDefaultFrame ? {
           width: CELEB_HERO_PHOTO_SPEC.desktopWidthPx,
-          aspectRatio: CELEB_HERO_PHOTO_SPEC.aspectRatio,
+          aspectRatio,
         } : undefined}
       >
         {value ? openOnClick ? (
@@ -185,8 +197,8 @@ export default function CelebPortraitEditor({
             <div className="rounded-full border border-border bg-bg-card p-3">
               <Upload className="h-5 w-5" />
             </div>
-            <span className="text-xs font-medium text-text-primary">대표 화보 놓기</span>
-            <span className="text-[10px]">{CELEB_HERO_PHOTO_SPEC.aspectLabel} · 위치와 확대 조정</span>
+            <span className="text-xs font-medium text-text-primary">{emptyLabel}</span>
+            <span className="text-[10px]">{aspectLabel} · 위치와 확대 조정</span>
           </div>
         )}
 
@@ -234,12 +246,12 @@ export default function CelebPortraitEditor({
       {cropImageSrc && (
         <ImageCropModal
           imageSrc={cropImageSrc}
-          aspectRatio={CELEB_HERO_PHOTO_SPEC.aspectRatio}
+          aspectRatio={aspectRatio}
           cropShape="rect"
           enableAutoCrop={false}
           restrictPosition
-          title="대표 화보 위치 조정"
-          description="사진을 끌어 위치를 옮기고 아래 막대로 확대하세요."
+          title={cropTitle}
+          description={cropDescription}
           onComplete={handleCropComplete}
           onCancel={() => {
             setCropImageSrc(null)

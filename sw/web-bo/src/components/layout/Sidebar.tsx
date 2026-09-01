@@ -46,6 +46,7 @@ import {
   ClipboardCheck,
   Quote,
   type LucideIcon,
+  HardDrive,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
 
@@ -102,6 +103,7 @@ const menuGroups: MenuGroup[] = [
       { href: '/factions', label: '세력도감', icon: Swords },
       { href: '/discourses', label: '가상 담화', icon: MessagesSquare },
       { href: '/rankings', label: '랭킹', icon: ListOrdered },
+      { href: '/assets', label: '자산 보관소', icon: HardDrive },
     ],
   },
   {

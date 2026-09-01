@@ -9,17 +9,21 @@ import { useToast } from '@/contexts/ToastContext'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
+import PersistedCelebAwakenedImageEditor from '@/components/celeb/awakened/PersistedCelebAwakenedImageEditor'
 import NationalityBadge from '../../members/components/NationalityBadge'
 import SortableTableHeader from '@/components/ui/SortableTableHeader'
 
 export default function CelebTable({ celebs }: { celebs: Member[] }) {
   return (
-    <table className="w-full min-w-[800px]">
+    <table className="w-full min-w-[860px]">
       <thead className="bg-bg-secondary border-b border-border">
         <tr>
-          <SortableTableHeader column="avatar_url" label="img" className="w-12" align="center" />
+          <SortableTableHeader column="avatar_url" label="아바타" className="w-12" align="center" />
           <th className="w-14 px-3 py-3 text-center text-xs font-medium text-text-secondary md:px-4 md:text-sm">
-            portrait
+            대표 사진
+          </th>
+          <th className="w-14 px-3 py-3 text-center text-xs font-medium text-text-secondary md:px-4 md:text-sm">
+            각성
           </th>
           <SortableTableHeader column="title" label="title" className="min-w-36" />
           <SortableTableHeader column="nickname" label="nickname" />
@@ -36,7 +40,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
       </thead>
       <tbody className="divide-y divide-border">
         {celebs.length === 0 ? (
-          <tr><td colSpan={13} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
+          <tr><td colSpan={14} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
         ) : (
           celebs.map((celeb) => (
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
@@ -47,6 +51,13 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
                 <PortraitCell
                   celebId={celeb.id}
                   portraitUrl={celeb.portrait_url}
+                  name={celeb.nickname}
+                />
+              </td>
+              <td className="px-3 py-3 md:px-4">
+                <AwakenedImageCell
+                  celebId={celeb.id}
+                  awakenedImageUrl={celeb.awakened_image_url}
                   name={celeb.nickname}
                 />
               </td>
@@ -262,6 +273,27 @@ function PortraitCell({
       compact
       className="group/portrait relative h-8 w-8 shrink-0 overflow-hidden rounded-md border border-border bg-bg-secondary hover:border-accent data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30 md:h-9 md:w-9"
       empty={<span className="text-[9px] font-medium text-text-tertiary">N/A</span>}
+    />
+  )
+}
+
+function AwakenedImageCell({
+  celebId,
+  awakenedImageUrl,
+  name,
+}: {
+  celebId: string
+  awakenedImageUrl?: string | null
+  name: string | null
+}) {
+  return (
+    <PersistedCelebAwakenedImageEditor
+      celebId={celebId}
+      awakenedImageUrl={awakenedImageUrl}
+      name={name}
+      compact
+      className="group/portrait relative h-8 w-8 shrink-0 overflow-hidden rounded-md border border-amber-500/25 bg-bg-secondary hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30 md:h-9 md:w-9"
+      empty={<span className="text-[9px] font-medium text-amber-400/55">N/A</span>}
     />
   )
 }

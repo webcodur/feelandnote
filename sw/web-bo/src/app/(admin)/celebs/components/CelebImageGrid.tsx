@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type MouseEvent } from 'react'
 import Link from 'next/link'
-import { Check, Copy, ImageIcon, Loader2, Star } from 'lucide-react'
+import { Check, Copy, ImageIcon, Loader2, Star, Zap } from 'lucide-react'
 import type { Member } from '@/actions/admin/members'
 import {
   enqueueCelebAvatarBackgroundRemovals,
@@ -11,11 +11,14 @@ import {
 import type { ImageProcessingJob } from '@/lib/image-processing/types'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
+import PersistedCelebAwakenedImageEditor from '@/components/celeb/awakened/PersistedCelebAwakenedImageEditor'
 import CelebAvatarNobgButton from '@/components/celeb/avatar/CelebAvatarNobgButton'
 import { useToast } from '@/contexts/ToastContext'
 import NobgBatchBar from './NobgBatchBar'
 import QuickImageBar from './QuickImageBar'
 import { useQuickImageInbox, type ImageSlot } from './useQuickImageInbox'
+
+type EditableImageSlot = ImageSlot | 'awakened'
 
 export default function CelebImageGrid({
   celebs,
@@ -26,12 +29,15 @@ export default function CelebImageGrid({
 }) {
   const { showToast } = useToast()
   const [jobsByCeleb, setJobsByCeleb] = useState(imageProcessingJobs)
-  const [activeImage, setActiveImage] = useState<{ celebId: string; slot: ImageSlot } | null>(null)
+  const [activeImage, setActiveImage] = useState<{ celebId: string; slot: EditableImageSlot } | null>(null)
   const [avatarUrls, setAvatarUrls] = useState<Record<string, string | null>>(() =>
     Object.fromEntries(celebs.map((celeb) => [celeb.id, celeb.avatar_url ?? null]))
   )
   const [portraitUrls, setPortraitUrls] = useState<Record<string, string | null>>(() =>
     Object.fromEntries(celebs.map((celeb) => [celeb.id, celeb.portrait_url ?? null]))
+  )
+  const [awakenedImageUrls, setAwakenedImageUrls] = useState<Record<string, string | null>>(() =>
+    Object.fromEntries(celebs.map((celeb) => [celeb.id, celeb.awakened_image_url ?? null]))
   )
   const [quickImageOn, setQuickImageOn] = useState(true)
   const [avatarOnly, setAvatarOnly] = useState(false)
@@ -166,13 +172,14 @@ export default function CelebImageGrid({
         submitting={batchSubmitting}
         onRun={handleRunAllNobg}
       />
-      <div className="grid grid-cols-1 gap-px bg-border 2xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-px bg-border">
       {celebs.map((celeb, index) => (
         <CelebImageCard
           key={celeb.id}
           celeb={celeb}
           avatarUrl={avatarUrls[celeb.id] ?? null}
           portraitUrl={portraitUrls[celeb.id] ?? null}
+          awakenedImageUrl={awakenedImageUrls[celeb.id] ?? null}
           imageJob={jobsByCeleb[celeb.id] ?? null}
           quietJobNotice={batchSet.has(celeb.id)}
           activeImageSlot={activeImage?.celebId === celeb.id ? activeImage.slot : null}
@@ -185,6 +192,10 @@ export default function CelebImageGrid({
             [celeb.id]: url,
           }))}
           onPortraitUrlChange={(url) => setPortraitUrls((current) => ({
+            ...current,
+            [celeb.id]: url,
+          }))}
+          onAwakenedImageUrlChange={(url) => setAwakenedImageUrls((current) => ({
             ...current,
             [celeb.id]: url,
           }))}
@@ -204,6 +215,7 @@ function CelebImageCard({
   celeb,
   avatarUrl,
   portraitUrl,
+  awakenedImageUrl,
   imageJob,
   quietJobNotice,
   activeImageSlot,
@@ -213,23 +225,26 @@ function CelebImageCard({
   highPriority,
   onAvatarUrlChange,
   onPortraitUrlChange,
+  onAwakenedImageUrlChange,
   onImageJobChange,
   onActivateImage,
 }: {
   celeb: Member
   avatarUrl: string | null
   portraitUrl: string | null
+  awakenedImageUrl: string | null
   imageJob: ImageProcessingJob | null
   quietJobNotice: boolean
-  activeImageSlot: ImageSlot | null
+  activeImageSlot: EditableImageSlot | null
   incomingSlot: ImageSlot | null
   incomingFile: File | null
   onIncomingDone: () => void
   highPriority: boolean
   onAvatarUrlChange: (url: string | null) => void
   onPortraitUrlChange: (url: string | null) => void
+  onAwakenedImageUrlChange: (url: string | null) => void
   onImageJobChange: (job: ImageProcessingJob) => void
-  onActivateImage: (slot: ImageSlot) => void
+  onActivateImage: (slot: EditableImageSlot) => void
 }) {
   const { showToast } = useToast()
   const [copied, setCopied] = useState(false)
@@ -284,9 +299,9 @@ function CelebImageCard({
         )}
       </div>
 
-      <div className="grid min-w-[520px] grid-cols-[280px_224px] items-start gap-4">
+      <div className="grid min-w-[816px] grid-cols-[280px_224px_280px] items-start gap-4">
         <figure className="w-[280px]">
-          <ImageCaption label="Avatar" imageUrl={avatarUrl} name={name} />
+          <ImageCaption label="아바타" imageUrl={avatarUrl} name={name} />
           <PersistedCelebAvatarEditor
             celebId={celeb.id}
             avatarUrl={avatarUrl}
@@ -318,7 +333,7 @@ function CelebImageCard({
         </figure>
 
         <figure className="w-[224px]">
-          <ImageCaption label="Portrait" imageUrl={portraitUrl} name={name} />
+          <ImageCaption label="대표 사진" imageUrl={portraitUrl} name={name} />
           <PersistedCelebPortraitEditor
             celebId={celeb.id}
             portraitUrl={portraitUrl}
@@ -336,6 +351,24 @@ function CelebImageCard({
             empty={<ImageIcon className="h-10 w-10 text-text-tertiary" />}
           />
         </figure>
+
+        <figure className="w-[280px]">
+          <ImageCaption label="각성 이미지" imageUrl={awakenedImageUrl} name={name} />
+          <PersistedCelebAwakenedImageEditor
+            celebId={celeb.id}
+            awakenedImageUrl={awakenedImageUrl}
+            name={celeb.nickname}
+            onSaved={onAwakenedImageUrlChange}
+            refreshAfterSave={false}
+            openOnClick
+            loadImmediately
+            highPriority={highPriority}
+            pasteActive={activeImageSlot === 'awakened'}
+            onActivate={() => onActivateImage('awakened')}
+            className="group/portrait relative h-[280px] w-[280px] shrink-0 overflow-hidden rounded-xl border border-amber-500/30 bg-bg-secondary hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30"
+            empty={<Zap className="h-10 w-10 text-amber-400/55" />}
+          />
+        </figure>
       </div>
     </article>
   )
@@ -346,7 +379,7 @@ function ImageCaption({
   imageUrl,
   name,
 }: {
-  label: 'Avatar' | 'Portrait'
+  label: '아바타' | '대표 사진' | '각성 이미지'
   imageUrl?: string | null
   name: string
 }) {

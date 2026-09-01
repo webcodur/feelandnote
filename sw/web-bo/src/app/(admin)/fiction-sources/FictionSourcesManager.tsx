@@ -21,6 +21,7 @@ import {
   type FictionSourceAdminData,
   type FictionSourceContentSummary,
 } from '@/actions/admin/fiction-sources'
+import FictionSourceCharacterDescriptions from './FictionSourceCharacterDescriptions'
 
 interface FictionSourcesManagerProps {
   initialData: FictionSourceAdminData
@@ -444,6 +445,14 @@ export default function FictionSourcesManager({
                   </button>
                 </div>
               </div>
+
+              <FictionSourceCharacterDescriptions
+                contentId={activeSource.id}
+                sourceTitle={activeSource.title}
+                hasEnglishAmazon={activeSource.hasEnglishAmazon}
+                assignments={activeSource.assignments}
+                characters={characters}
+              />
             </>
           )}
         </section>

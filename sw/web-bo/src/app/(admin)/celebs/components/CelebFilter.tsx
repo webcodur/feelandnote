@@ -127,6 +127,7 @@ export default function CelebFilter({ action = '/celebs', showImageFilter = fals
               <option value="all">모든 이미지 상태</option>
               <option value="missing-avatar">아바타 없는 인물</option>
               <option value="missing-portrait">대표 화보 없는 인물</option>
+              <option value="missing-awakened">각성 이미지 없는 인물</option>
             </select>
           )}
         </div>
