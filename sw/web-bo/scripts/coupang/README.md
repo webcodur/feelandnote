@@ -33,15 +33,15 @@
 
 ```bash
 # 1단계 — 후보만 모은다. 링크는 만들지 않는다
-node cp-candidates.mjs <대상.json> <후보.json>
+node candidates.mjs <대상.json> <후보.json>
 
 # 2단계 — 사람이 후보 목록을 읽고 고른다 (아래 '고르는 기준')
 
 # 3단계 — 고른 것 하나만 만들어 자료에 넣는다
-node cp-pick.mjs <선택.json>
+node pick.mjs <선택.json>
 
 # 언제든 — 지금 무엇이 걸려 있는지 훑는다
-node audit-linked.mjs
+node audit.mjs
 ```
 
 ### 대상.json
@@ -49,6 +49,19 @@ node audit-linked.mjs
 ```json
 [{ "content_id": "...", "title": "논어", "creator": "공자", "publisher": "홍익출판사", "isbn": "9791191805086" }]
 ```
+
+픽션 인물의 신규 등장 도서는 서비스에 없는 상태에서 쿠팡 상품부터 찾는다. 이때는
+`content_id` 대신 조사 안에서 고유한 `candidate_key`를 쓴다.
+
+```json
+[{ "candidate_key": "myth-japan-reading-1", "title": "일본 신화" }]
+```
+
+후보에서 실제 판매 중인 적절한 책을 고르고 본문·목차·색인으로 대상 인물의 등장 범위를
+확인한 다음 서비스의 기존 작품을 검색한다. 같은 작품이 있으면 그 `content_id`를
+재사용하고, 없으면 한국어판 ISBN을 카카오에서 확인해 BOOK으로 등록한다. 그 뒤에만
+`선택.json`에 `content_id`를 넣어 `pick.mjs`를 실행하고 픽션 인물과 작품별 등장 설명을
+연결한다.
 
 검색은 **제목만으로** 한다. 저자·출판사를 붙이면 후보가 좁아져 더 나은 상품을
 놓친다. 다만 제목이 흔한 낱말이면 엉뚱한 물건이 나오므로(「풀잎」→조화,
@@ -61,7 +74,8 @@ node audit-linked.mjs
 [{ "content_id": "...", "title": "논어", "query": "논어", "idx": 3 }]
 ```
 
-`idx`는 후보.json에 적힌 후보 번호다.
+`idx`는 후보.json에 적힌 후보 번호다. `content_id`가 없으면 `pick.mjs`는 실행을
+거부한다.
 
 ## 고르는 기준
 
