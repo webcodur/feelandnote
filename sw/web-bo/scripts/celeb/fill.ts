@@ -9,6 +9,9 @@
  *   pnpm exec tsx scripts/celeb/fill.ts apply --file .tmp-celeb-fill/patch-NN.json --only-slugs a,b,c
  *   pnpm exec tsx scripts/celeb/fill.ts apply --file .tmp-celeb-fill/patch-NN.json --only-slugs a,b,c --apply
  *
+ * 스펙트럼 재채점(기존값 덮어쓰기. --only-slugs 잠금 필수):
+ *   pnpm exec tsx scripts/celeb/fill.ts apply --file <patch> --only-slugs a,b --replace-spectrum --apply
+ *
  * 패치 형식:
  * [
  *   {
@@ -36,6 +39,9 @@
  *  - `celebs`의 기존 인물만 대상이며 신규 인물 생성 경로는 없다.
  *  - `celeb_influence`·`celeb_persona`·`celeb_dialogues` 행이 없으면 생성한다.
  *  - `celeb_persona`는 물리 `persona` jsonb만 쓴다(평면 점수 컬럼은 DB 트리거가 동기화).
+ *  - 스펙트럼 근거문은 반영 전에 중복 게이트를 거친다(`lib/spectrum-reason-check.ts`). 같은 근거문에
+ *    다른 점수, 셋 이상이 공유하는 문구, 다른 인물과 4축 넘게 겹치는 복제는 FAILED다.
+ *  - `--replace-spectrum`은 기존 스펙트럼을 백지 재작성값으로 덮어쓴다. 기존과 같은 축은 SKIPPED다.
  *  - 한국어 한마디·상황 대사는 최소 조사 묶음이 없으면 거부한다.
  *  - 한마디는 `set_celeb_quote` RPC로만 한·영 동시 갱신한다.
  *  - 반영 후 DB를 다시 읽어 왕복 검증한다. 불일치는 FAILED.
@@ -46,6 +52,7 @@ import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
 import { femaleMartialAdjust } from '@feelandnote/shared/constants/celeb-spectrum-scale'
+import { findContentIssues, findReasonIssues, loadAllReasonRows, personaToRows, type ReasonRow } from '../lib/spectrum-reason-check'
 import {
   speechLinesSha256,
   validateSpeechResearch,
@@ -174,6 +181,7 @@ async function apply() {
   const file = argOf('file')
   if (!file) throw new Error('--file 필요')
   const doWrite = process.argv.includes('--apply')
+  const replaceSpectrum = process.argv.includes('--replace-spectrum')
   const patches = JSON.parse(await readFile(path.resolve(file), 'utf8')) as Patch[]
   if (!Array.isArray(patches) || patches.length === 0) throw new Error('배치가 비었다')
 
@@ -185,6 +193,7 @@ async function apply() {
   if (patches.some((patch) => patch.speech_research) && !onlySlugsArg) {
     throw new Error('speech_research 배치는 --only-slugs로 담당 인물 전체를 잠가야 한다')
   }
+  if (replaceSpectrum && !onlySlugsArg) throw new Error('--replace-spectrum 은 --only-slugs 로 대상을 잠가야 한다')
   if (onlySlugsArg) {
     const onlySlugs = onlySlugsArg.split(',').map((slug) => slug.trim()).filter(Boolean)
     if (onlySlugs.length === 0) throw new Error('--only-slugs가 비었다')
@@ -196,7 +205,7 @@ async function apply() {
     }
   }
 
-  const r = await applyPatches(patches, doWrite)
+  const r = await applyPatches(patches, doWrite, replaceSpectrum)
   for (const l of r.log) console.log(l)
   console.log(`\n## 배치 결과 (${doWrite ? 'APPLY' : 'DRY-RUN'})`)
   console.log(`- ${doWrite ? 'UPDATED' : 'WOULD UPDATE'}: ${r.ok}건`)
@@ -205,9 +214,17 @@ async function apply() {
   if (r.failed > 0) process.exit(1)
 }
 
-async function applyPatches(patches: Patch[], doWrite: boolean) {
+async function applyPatches(patches: Patch[], doWrite: boolean, replaceSpectrum = false) {
   let ok = 0, skipped = 0, failed = 0
   const log: string[] = []
+
+  // 근거문 게이트용 말뭉치. DB 전체를 한 번만 읽고, 이 배치에서 앞서 통과한 인물은 새 값으로 바꿔 끼운다.
+  let dbRows: ReasonRow[] | null = null
+  const batchRows = new Map<string, ReasonRow[]>()
+  const reasonCorpus = async (): Promise<ReasonRow[]> => {
+    dbRows ??= (await loadAllReasonRows(db)).rows
+    return [...dbRows.filter((r) => !batchRows.has(r.slug)), ...[...batchRows.values()].flat()]
+  }
 
   /**
    * 작성자가 영향력·스펙트럼 필드를 `celeb` 아래에 잘못 넣는 일이 잦다.
@@ -329,6 +346,8 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       const curSpectrum = (c.spectrum?.spectrum ?? {}) as Record<string, any>
       const nextSpectrum: Record<string, any> = JSON.parse(JSON.stringify(curSpectrum))
       let spectrumTouched = false
+      /** 이번 패치가 실제로 새로 쓴 축. 근거문 내용 검수는 여기만 ERROR로 막는다. */
+      const touchedAxes = new Set<string>()
       const spectrumPatch = patch.spectrum ?? patch.persona ?? {}
       let femaleAdjustCount = 0
       for (const [group, entries] of Object.entries(spectrumPatch)) {
@@ -336,7 +355,10 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
         if (group === 'rationale_ko' || group === 'rationale_en') {
           const v = entries as unknown
           if (blank(v)) { preserved.push(`per.${group}(신규값 공란)`); continue }
-          if (!blank(curSpectrum[group])) { preserved.push(`per.${group}(기존값 보존)`); continue }
+          if (!blank(curSpectrum[group])) {
+            if (!replaceSpectrum) { preserved.push(`per.${group}(기존값 보존)`); continue }
+            if (String(curSpectrum[group]) === String(v)) { preserved.push(`per.${group}(기존과 동일)`); continue }
+          }
           nextSpectrum[group] = String(v)
           spectrumTouched = true
           continue
@@ -345,7 +367,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
         if (!allowed) throw new Error(`허용되지 않은 spectrum 그룹 ${group}`)
         for (const [k, val] of Object.entries(entries)) {
           if (!allowed.includes(k)) throw new Error(`spectrum ${group} 에 ${k} 는 없다`)
-          if (!nil(curSpectrum[group]?.[k]?.score)) { preserved.push(`per.${group}.${k}(기존값 보존)`); continue }
+          if (!nil(curSpectrum[group]?.[k]?.score) && !replaceSpectrum) { preserved.push(`per.${group}.${k}(기존값 보존)`); continue }
           if (nil(val?.score) || blank(val?.reason_ko) || blank(val?.reason_en)) {
             preserved.push(`per.${group}.${k}(score·reason_ko·reason_en 중 결손)`); continue
           }
@@ -361,10 +383,34 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
             ? femaleMartialAdjust(n)
             : n
           if (finalScore !== n) femaleAdjustCount++
+          const cur = curSpectrum[group]?.[k]
+          if (cur && Number(cur.score) === finalScore && cur.reason_ko === String(val.reason_ko) && cur.reason_en === String(val.reason_en)) {
+            preserved.push(`per.${group}.${k}(기존과 동일)`); continue
+          }
           nextSpectrum[group] ??= {}
           nextSpectrum[group][k] = { score: finalScore, reason_ko: String(val.reason_ko), reason_en: String(val.reason_en) }
           spectrumTouched = true
+          touchedAxes.add(k)
         }
+      }
+
+      // ── spectrum 근거문 게이트: 인물 복제와 사적 신상·명의 오귀속을 반영 전에 막는다
+      if (spectrumTouched) {
+        const others = (await reasonCorpus()).filter((r) => r.slug !== patch.slug)
+        const mine = personaToRows(patch.slug, c.profile.gender ?? null, nextSpectrum)
+        const issues = findReasonIssues([...others, ...mine], new Set([patch.slug]))
+        // 내용 검수는 이번에 새로 쓴 축만 막는다. 손대지 않은 축의 묵은 결함은 경고로 남겨 다음 회차에 넘긴다.
+        const content = findContentIssues(mine, { strictFloor: true })
+        const errors = [
+          ...issues.filter((i) => i.level === 'ERROR'),
+          ...content.filter((i) => i.level === 'ERROR' && i.axis && touchedAxes.has(i.axis)),
+        ]
+        if (errors.length) throw new Error(`근거문 게이트 — ${errors.map((i) => i.detail).join(' / ')}`)
+        for (const w of [...issues, ...content]) {
+          if (w.level === 'ERROR') preserved.push(`※ 손대지 않은 축의 묵은 결함 — ${w.detail}`)
+          else preserved.push(`※ ${w.detail}: ${w.reason_ko}`)
+        }
+        batchRows.set(patch.slug, mine)
       }
 
       // ── dialogues: quote + 7키×3슬롯, 빈 슬롯만
