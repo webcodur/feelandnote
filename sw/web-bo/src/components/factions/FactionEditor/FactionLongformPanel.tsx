@@ -90,14 +90,17 @@ export function FactionLongformPanel({
     setLayout(layout.map((it, k) => (k === i && 'chapter' in it ? { chapter: { ...it.chapter, ...patch } } : it)))
 
   const chapterPerson = (chapter: FactionChapter, title: string) => {
-    const {
-      quote: _quote,
-      quoteEn: _quoteEn,
-      quoteChunks: _quoteChunks,
-      quoteEnChunks: _quoteEnChunks,
-      quoteDuration: _quoteDuration,
-      ...common
-    } = script.narrator?.logline ?? {}
+    const raw = script.narrator?.logline
+    const common: Partial<FactionNarratorVoice> = raw ? {
+      quoteGainDb: raw.quoteGainDb,
+      quotePlaybackRate: raw.quotePlaybackRate,
+      quoteSpeaker: raw.quoteSpeaker,
+      quoteElevenlabsVoiceId: raw.quoteElevenlabsVoiceId,
+      quoteStyle: raw.quoteStyle,
+      quoteEleOptions: raw.quoteEleOptions,
+      quoteEleEmotions: raw.quoteEleEmotions,
+      quoteEleTrail: raw.quoteEleTrail,
+    } : {}
     return { ...common, ...(chapter.voice ?? {}), quote: title, name: '챕터명 낭독' }
   }
   const activeChapterFile = (file: string): VoiceFile | undefined => {
@@ -375,9 +378,13 @@ export function FactionLongformPanel({
                         <FactionVoiceSettingsModal
                           person={person}
                           onChange={next => {
-                            const { name: _name, ...rest } = next as FactionPerson & { name?: string }
+                            const voiceData = next as unknown as Record<string, unknown>
+                            const rest: Record<string, unknown> = {}
+                            for (const [k, v] of Object.entries(voiceData)) {
+                              if (k !== 'name') rest[k] = v
+                            }
                             setChapter(i, {
-                              voice: stripCommonNarrationVoice(rest as FactionNarratorVoice, script.narrator?.logline),
+                              voice: stripCommonNarrationVoice(rest as unknown as FactionNarratorVoice, script.narrator?.logline),
                             })
                           }}
                           series={series}

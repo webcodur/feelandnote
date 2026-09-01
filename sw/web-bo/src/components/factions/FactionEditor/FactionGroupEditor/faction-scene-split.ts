@@ -24,6 +24,8 @@ export type InsertFactionSceneBeforeResult = {
   newClusterIndex: number
 }
 
+export type InsertFactionSceneAfterResult = InsertFactionSceneBeforeResult
+
 function assignedPersonIndex(beat: FactionSceneBeat, people: FactionPerson[]): number {
   if (beat.speakerCelebId) {
     return people.findIndex(person => person.celebId === beat.speakerCelebId)
@@ -33,7 +35,7 @@ function assignedPersonIndex(beat: FactionSceneBeat, people: FactionPerson[]): n
 }
 
 /** 옛 FxxCxxPxx 음원이 장면 분리 뒤 새 배열 좌표를 따라가며 끊기지 않게 원래 파일명을 박아 둔다. */
-function preserveLegacyVoiceFile(
+export function preserveFactionSceneBeatVoiceFile(
   beat: FactionSceneBeat,
   people: FactionPerson[],
   groupIndex: number,
@@ -78,19 +80,16 @@ function splitSceneCluster(
 }
 
 /** 현재 장면 바로 앞에 제목·화면·대사를 따로 소유하는 빈 독립 장면을 넣는다. */
-export function insertFactionSceneBefore({
-  group,
-  clusterIndex,
-}: InsertFactionSceneBeforeInput): InsertFactionSceneBeforeResult | null {
+function insertFactionSceneAtSequenceIndex(
+  group: FactionGroup,
+  sequenceIndex: number,
+): InsertFactionSceneBeforeResult | null {
   const clusters = group.clusters ?? []
-  if (!clusters[clusterIndex]) return null
-
   const sequence = factionSequenceOf(group)
-  const sequenceIndex = sequence.findIndex(item => item.kind === 'cluster' && item.clusterIndex === clusterIndex)
-  if (sequenceIndex < 0) return null
+  if (sequenceIndex < 0 || sequenceIndex > sequence.length) return null
 
   // 기존 cluster 배열 좌표는 음성·타이밍 파일의 물리 좌표다. 새 장면은 배열 끝에 두고
-  // 실제 영상 순서인 sequence에서만 현재 장면 바로 앞에 끼운다.
+  // 실제 영상 순서인 sequence에서만 원하는 경계에 끼운다.
   const newClusterIndex = clusters.length
   const nextSequence = [...sequence]
   nextSequence.splice(sequenceIndex, 0, { kind: 'cluster', clusterIndex: newClusterIndex })
@@ -103,6 +102,40 @@ export function insertFactionSceneBefore({
       sequence: nextSequence,
     },
   }
+}
+
+export function insertFactionSceneBefore({
+  group,
+  clusterIndex,
+}: InsertFactionSceneBeforeInput): InsertFactionSceneBeforeResult | null {
+  const clusters = group.clusters ?? []
+  if (!clusters[clusterIndex]) return null
+
+  const sequence = factionSequenceOf(group)
+  const sequenceIndex = sequence.findIndex(item => item.kind === 'cluster' && item.clusterIndex === clusterIndex)
+  if (sequenceIndex < 0) return null
+
+  return insertFactionSceneAtSequenceIndex(group, sequenceIndex)
+}
+
+type InsertFactionSceneAfterInput = {
+  group: FactionGroup
+  clusterIndex: number
+}
+
+/** 현재 장면 바로 뒤에 제목·화면·대사를 따로 소유하는 빈 독립 장면을 넣는다. */
+export function insertFactionSceneAfter({
+  group,
+  clusterIndex,
+}: InsertFactionSceneAfterInput): InsertFactionSceneAfterResult | null {
+  const clusters = group.clusters ?? []
+  if (!clusters[clusterIndex]) return null
+
+  const sequence = factionSequenceOf(group)
+  const sequenceIndex = sequence.findIndex(item => item.kind === 'cluster' && item.clusterIndex === clusterIndex)
+  if (sequenceIndex < 0) return null
+
+  return insertFactionSceneAtSequenceIndex(group, sequenceIndex + 1)
 }
 
 /**
@@ -126,7 +159,7 @@ export function splitFactionSceneAtBeat({
   const sequenceIndex = sequence.findIndex(item => item.kind === 'cluster' && item.clusterIndex === clusterIndex)
   if (sequenceIndex < 0) return null
 
-  const movedBeats = beats.slice(beatIndex).map(beat => preserveLegacyVoiceFile(
+  const movedBeats = beats.slice(beatIndex).map(beat => preserveFactionSceneBeatVoiceFile(
     beat,
     cluster.people ?? [],
     groupIndex,

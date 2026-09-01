@@ -65,7 +65,10 @@ export function FactionNarratorPanel({
           </div>
           <button
             type="button"
-            onClick={() => update({ narrator: { readLogline: true, logline: {} } })}
+            onClick={() => update({ narrator: {
+              readLogline: true,
+              logline: withFixedFactionOpeningVoice(episodeName, {}),
+            } })}
             className="rounded-lg border border-border px-3 py-2 text-sm font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary"
           >
             + 나레이터 추가

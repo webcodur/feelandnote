@@ -1,7 +1,7 @@
 'use client'
 
 import { cropToStyle, MediaThumb } from '@feelandnote/shared/bo/media'
-import { factionSequenceOf, type FactionCluster, type FactionGroup } from '@/lib/faction-types'
+import { factionSceneNumbers, factionSequenceOf, type FactionCluster, type FactionGroup } from '@/lib/faction-types'
 import { imageSrc } from '../../shared/timing'
 
 type Props = {
@@ -30,17 +30,16 @@ export function FactionHeaderSequence({
   const clusterIndexes = factionSequenceOf(group).flatMap(item => item.kind === 'cluster'
     ? [item.clusterIndex]
     : [])
+  const sceneNumbers = factionSceneNumbers(group)
 
   return (
     <div className="flex h-full shrink-0 items-stretch gap-2" aria-label="세력 장면 이미지">
-      {clusterIndexes.map((clusterIndex, headerIndex) => {
+      {clusterIndexes.map(clusterIndex => {
         const cluster = group.clusters?.[clusterIndex]
         if (!cluster) return null
         const media = clusterHeaderMedia(cluster)
         const src = imageSrc(series, episodeName, media.image)
-        const label = cluster.label?.split('\n')[0]?.trim()
-          || cluster.people?.find(entry => entry.isPerson !== false)?.name?.trim()
-          || `대표 사진 ${clusterIndex + 1}`
+        const label = cluster.label?.split('\n')[0]?.trim() || '제목 없음'
         return (
           <button
             key={`cluster-${clusterIndex}`}
@@ -55,7 +54,7 @@ export function FactionHeaderSequence({
               <span className="flex h-full w-full items-center justify-center bg-bg-card text-[11px] font-semibold text-text-tertiary">화보 없음</span>
             )}
             <span className="pointer-events-none absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/95 via-black/65 to-transparent px-2 pb-2 pt-8 text-[11px] font-bold text-white">{label}</span>
-            <span className="absolute left-1.5 top-1.5 rounded border border-slate-300 bg-slate-100 px-1.5 py-0.5 font-mono text-[9px] font-black tabular-nums text-slate-900 shadow-sm">{groupIndex + 1}-{headerIndex + 1}</span>
+            <span className="absolute left-1.5 top-1.5 rounded border border-slate-300 bg-slate-100 px-1.5 py-0.5 font-mono text-[9px] font-black tabular-nums text-slate-900 shadow-sm">{groupIndex + 1}-{sceneNumbers.get(clusterIndex) ?? 1}</span>
           </button>
         )
       })}

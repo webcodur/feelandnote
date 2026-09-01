@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useRef, useState } from 'react'
-import type { FactionScript, FactionGroup, FactionPerson, FactionTransition, HoldMotion, EnterMotion, ZoomFocus, GlitchSetting, GlitchLevel } from '@/lib/faction-types'
+import type { FactionScript, FactionGroup, FactionPerson, FactionSceneBeat, FactionTransition, HoldMotion, EnterMotion, ZoomFocus, GlitchSetting, GlitchLevel } from '@/lib/faction-types'
 import { HOLD_MOTION_OPTIONS } from '../shared/holdMotion'
 import { imageSrc } from '../shared/timing'
 import { ImageFocusPicker } from '@feelandnote/shared/bo/media'
@@ -46,7 +46,7 @@ type EffectFields = {
   zoomFocus?: ZoomFocus
   zoomSpeed?: number
 }
-type Kind = 'global' | 'edge' | 'group' | 'cluster' | 'person'
+type Kind = 'global' | 'edge' | 'group' | 'cluster' | 'person' | 'beat' | 'beatNarration'
 
 /**
  * 줌 목표점 지정 대상 한 장 — 한 컷에 사진이 여러 장(기본·대사·교체)일 때
@@ -122,7 +122,8 @@ function EffectTableRow({ targetName, value, onChange, kind, focusTargets, inher
   const targets = focusTargets ?? []
   const openTarget = focusIdx != null ? targets[focusIdx] : undefined
   // 시작·마무리 화면은 앞뒤가 크로스페이드라 넘어오는 전환이 없고, 지지직도 걸지 않는다(문구 가독성 우선).
-  const showTransition = kind !== 'cluster' && kind !== 'edge'
+  // 해설 컷도 같다 — 연속한 해설은 장면 하나로 묶여 흐르므로 사이에 컷 전환이 아니라 화면 크로스페이드가 걸린다.
+  const showTransition = kind !== 'cluster' && kind !== 'edge' && kind !== 'beatNarration'
   const showGlitch = kind !== 'edge'
   const glitchDefaultOn = kind === 'cluster'
   const shownTransition = locked ? value.transition ?? inherited?.transition : value.transition
@@ -286,6 +287,8 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => (
 
 // 효과 6개 필드 — 전체/세력 덮어쓰기 때 비울 대상
 const EFFECT_KEYS = ['transition', 'holdMotion', 'enterMotion', 'holdGlitch', 'holdShake', 'zoomFocus', 'zoomSpeed'] as const
+// 컷이 쥔 효과 필드 — 컷은 줌 목표점을 mediaZoomFocus 로 따로 쥔다.
+const BEAT_EFFECT_KEYS = ['transition', 'holdMotion', 'enterMotion', 'holdGlitch', 'holdShake', 'zoomSpeed'] as const
 
 // 객체에서 6개 효과 필드를 모두 비운다(상위를 따르게).
 // 사진별 줌 목표점(quoteZoomFocus·imageChanges[].zoomFocus)도 개별 설정이므로 함께 비운다.
@@ -296,7 +299,29 @@ function stripEffects<T extends EffectFields>(obj: T): T {
   delete r.quoteZoomFocus
   delete r.logoEffects
   if (Array.isArray(r.imageChanges)) {
-    r.imageChanges = (r.imageChanges as Record<string, unknown>[]).map(({ zoomFocus: _zf, ...rest }) => rest)
+    r.imageChanges = (r.imageChanges as Record<string, unknown>[]).map((item) => {
+      const rest = { ...item }
+      delete rest.zoomFocus
+      return rest
+    })
+  }
+  // 장면이 쥔 컷 목록 — 컷마다 지정한 효과와 사진별 목표점도 같이 비워야 전역값으로 통일된다.
+  if (Array.isArray(r.beats)) r.beats = (r.beats as FactionSceneBeat[]).map(stripBeatEffects)
+  return next
+}
+
+/** 컷 하나에서 효과 5축·전환과 사진별 줌 목표점을 비운다. */
+function stripBeatEffects(beat: FactionSceneBeat): FactionSceneBeat {
+  const next = { ...beat }
+  const r = next as Record<string, unknown>
+  for (const k of BEAT_EFFECT_KEYS) delete r[k]
+  delete r.mediaZoomFocus
+  if (Array.isArray(r.mediaChanges)) {
+    r.mediaChanges = (r.mediaChanges as Record<string, unknown>[]).map((item) => {
+      const rest = { ...item }
+      delete rest.zoomFocus
+      return rest
+    })
   }
   return next
 }
@@ -327,7 +352,9 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
   const patchScript = (p: Partial<EffectFields>) => onChange({ ...script, ...p })
   // 시작·마무리 화면 — 전환·지지직은 걸지 않으므로 패치에서 걸러 전용 형태로만 저장한다.
   const patchEdge = (which: 'introEffects' | 'outroEffects') => (p: Partial<EffectFields>) => {
-    const { transition: _t, holdGlitch: _g, ...rest } = p
+    const rest = { ...p }
+    delete rest.transition
+    delete rest.holdGlitch
     onChange({ ...script, [which]: { ...(script[which] ?? {}), ...rest } })
   }
   const patchIntro = patchEdge('introEffects')
@@ -338,6 +365,32 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
     onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, clusters: (g.clusters ?? []).map((c, j) => (j === ci ? { ...c, ...p } : c)) } : g)) })
   const patchClusterPerson = (gi: number, ci: number, pi: number, p: Partial<FactionPerson>) =>
     onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, clusters: (g.clusters ?? []).map((c, j) => (j === ci ? { ...c, people: c.people.map((pp, k) => (k === pi ? { ...pp, ...p } : pp)) } : c)) } : g)) })
+  const patchBeat = (gi: number, ci: number, bi: number, p: Partial<FactionSceneBeat>) =>
+    onChange({ ...script, groups: groups.map((g, i) => (i === gi ? { ...g, clusters: (g.clusters ?? []).map((c, j) => (j === ci ? { ...c, beats: (c.beats ?? []).map((b, k) => (k === bi ? { ...b, ...p } : b)) } : c)) } : g)) })
+
+  // 컷 화면에 들어가는 사진 전부(기본 → 교체 순)를 줌 목표점 지정 대상으로 편다.
+  // 렌더는 교체 사진을 chunk 순으로 트므로 여기서도 재생 순서로 나열한다(엉뚱한 사진에 목표점을 찍지 않게).
+  const beatFocusTargets = (gi: number, ci: number, bi: number, beat: FactionSceneBeat): FocusTarget[] => {
+    const out: FocusTarget[] = []
+    const mainSrc = imageSrc(series, episodeName, beat.media)
+    if (mainSrc) out.push({ label: '기본', src: mainSrc, focus: beat.mediaZoomFocus, onChange: zf => patchBeat(gi, ci, bi, { mediaZoomFocus: zf }) })
+    ;(beat.mediaChanges ?? [])
+      .map((mc, mi) => ({ mc, mi }))
+      .sort((a, b) => a.mc.chunk - b.mc.chunk)
+      .forEach(({ mc, mi }, di) => {
+        const src = imageSrc(series, episodeName, mc.media)
+        if (!src) return
+        out.push({
+          label: `교체${di + 1}`,
+          src,
+          focus: mc.zoomFocus,
+          onChange: zf => patchBeat(gi, ci, bi, {
+            mediaChanges: (beat.mediaChanges ?? []).map((x, k) => (k === mi ? { ...x, zoomFocus: zf } : x)),
+          }),
+        })
+      })
+    return out
+  }
 
   // 인물 컷에 들어가는 사진 전부(기본 → 대사 → 교체 순)를 줌 목표점 지정 대상으로 편다.
   const personFocusTargets = (gi: number, ci: number, pi: number, pp: FactionPerson): FocusTarget[] => {
@@ -368,6 +421,17 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
 
   const nameHead = (s?: string) => (s ?? '').split('\n')[0] || '(이름 없음)'
 
+  // 컷 화자 조회표 — 화자는 다른 장면에 배치된 인물일 수 있어 에피소드 전체에서 찾는다
+  // (같은 장면 안에서만 찾으면 남의 장면 인물이 말하는 컷을 해설로 오인한다).
+  const personByCelebId = React.useMemo(() => {
+    const map = new Map<string, FactionPerson>()
+    for (const g of groups) for (const c of g.clusters ?? []) for (const pp of c.people ?? []) {
+      if (pp.isPerson === false || !pp.celebId || map.has(pp.celebId)) continue
+      map.set(pp.celebId, pp)
+    }
+    return map
+  }, [groups])
+
   // 계승값 계산 — 전역 effective는 script 자체(없으면 시스템 기본)
   const globalEff: Inherited = {
     transition: script.transition,
@@ -385,6 +449,25 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
     holdGlitch: g.holdGlitch ?? globalEff.holdGlitch,
     holdShake: g.holdShake ?? globalEff.holdShake,
     zoomSpeed: g.zoomSpeed ?? globalEff.zoomSpeed,
+  })
+  // 장면 effective = 장면 값 ?? 세력. 인물·컷이 실제로 물려받는 단계다.
+  // 전환만은 장면 단계를 두지 않는다 — 그룹샷 카드에는 전환이 걸리지 않아 장면에 값을 둘 자리가 없다.
+  const clusterEffOf = (c: { enterMotion?: EnterMotion; holdMotion?: HoldMotion; holdGlitch?: GlitchSetting; holdShake?: boolean; zoomSpeed?: number }, groupEff: Inherited): Inherited => ({
+    transition: groupEff.transition,
+    enterMotion: c.enterMotion ?? groupEff.enterMotion,
+    holdMotion: c.holdMotion ?? groupEff.holdMotion,
+    holdGlitch: c.holdGlitch ?? groupEff.holdGlitch,
+    holdShake: c.holdShake ?? groupEff.holdShake,
+    zoomSpeed: c.zoomSpeed ?? groupEff.zoomSpeed,
+  })
+  // 인물 effective = 인물 값 ?? 장면. 그 인물이 말하는 컷이 물려받는 값이다.
+  const personEffOf = (pp: FactionPerson, clusterEff: Inherited): Inherited => ({
+    transition: pp.transition ?? clusterEff.transition,
+    enterMotion: pp.enterMotion ?? clusterEff.enterMotion,
+    holdMotion: pp.holdMotion ?? clusterEff.holdMotion,
+    holdGlitch: pp.holdGlitch ?? clusterEff.holdGlitch,
+    holdShake: pp.holdShake ?? clusterEff.holdShake,
+    zoomSpeed: pp.zoomSpeed ?? clusterEff.zoomSpeed,
   })
 
   // 전역값을 모든 하위(세력·그룹샷·인물)에 통일 — 하위 개별 지정을 모두 비운다.
@@ -598,11 +681,19 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                         )}
 
                         {/* 그룹샷 및 인물 — 인물은 항상 그룹(clusters) 안에 있다. solo 세력은 그룹샷 컷이 없어 그룹샷 줄을 생략 */}
-                        {clusters.map((c, ci) => (
+                        {clusters.map((c, ci) => {
+                          const clusterEff = clusterEffOf(c, groupEff)
+                          const people = c.people ?? []
+                          const beats = c.beats ?? []
+                          return (
                           <React.Fragment key={`c-${ci}`}>
                             {!g.solo && (
                               <EffectTableRow
-                                targetName={<span className="pl-4 font-semibold text-text-secondary">그룹샷 · {nameHead(c.label) || (split ? `그룹 ${ci + 1}` : nameHead(g.name))}</span>}
+                                targetName={
+                                  <span className="pl-4 font-semibold text-text-secondary" title="이 장면의 기본값 — 아래 컷들이 물려받고, 그룹샷 카드가 있으면 그 카드에도 적용된다">
+                                    장면 · {nameHead(c.label) || (split ? `그룹 ${ci + 1}` : nameHead(g.name))}
+                                  </span>
+                                }
                                 value={c} kind="cluster" inherited={locked ? globalEff : groupEff} locked={locked}
                                 focusTargets={(() => {
                                   const src = imageSrc(series, episodeName, c.image)
@@ -611,17 +702,44 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                                 onChange={p => patchCluster(gi, ci, p)}
                               />
                             )}
-                            {(c.people ?? []).map((pp, pi) => pp.isPerson === false ? null : (
+                            {people.map((pp, pi) => pp.isPerson === false ? null : (
                               <EffectTableRow
                                 key={`cp-${ci}-${pi}`}
-                                targetName={<span className="pl-8 text-[12px] text-text-secondary">↳ {pp.name || '(이름 없음)'}</span>}
-                                value={pp} kind="person" inherited={locked ? globalEff : groupEff} locked={locked}
+                                targetName={
+                                  <span className="pl-8 text-[12px] text-text-secondary" title={beats.length ? '이 인물이 말하는 모든 컷의 기본값' : undefined}>
+                                    ↳ {pp.name || '(이름 없음)'}{beats.length ? <span className="ml-1 text-[10px] text-text-dim">인물 기본</span> : null}
+                                  </span>
+                                }
+                                value={pp} kind="person" inherited={locked ? globalEff : clusterEff} locked={locked}
                                 focusTargets={personFocusTargets(gi, ci, pi, pp)}
                                 onChange={p => patchClusterPerson(gi, ci, pi, p)}
                               />
                             ))}
+                            {/* 컷 — 이 장면이 실제로 트는 화면 단위. 화자가 배정된 컷은 그 인물 값을, 해설 컷은 장면 값을 물려받는다. */}
+                            {beats.map((b, bi) => {
+                              const speaker = b.speakerCelebId ? personByCelebId.get(b.speakerCelebId) : undefined
+                              const name = speaker?.name ?? b.speaker?.trim()
+                              return (
+                                <EffectTableRow
+                                  key={`cb-${ci}-${bi}`}
+                                  targetName={
+                                    <span className="pl-12 text-[12px] text-text-dim">
+                                      · 컷 {bi + 1}
+                                      <span className="ml-1 text-text-secondary">{name || '해설'}</span>
+                                    </span>
+                                  }
+                                  value={b}
+                                  kind={speaker ? 'beat' : 'beatNarration'}
+                                  inherited={locked ? globalEff : speaker ? personEffOf(speaker, clusterEff) : clusterEff}
+                                  locked={locked}
+                                  focusTargets={beatFocusTargets(gi, ci, bi, b)}
+                                  onChange={p => patchBeat(gi, ci, bi, p)}
+                                />
+                              )
+                            })}
                           </React.Fragment>
-                        ))}
+                          )
+                        })}
                       </tbody>
                     </table>
                   </div>

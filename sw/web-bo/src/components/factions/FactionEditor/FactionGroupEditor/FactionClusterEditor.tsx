@@ -6,6 +6,7 @@ import { projectFactionSceneBeatsToPeople } from '@feelandnote/shared/lib/factio
 import type { FactionCluster, FactionPerson, FactionSceneBeat } from '@/lib/faction-types'
 import { CoverPickerButton } from './CoverPickerButton/CoverPickerButton'
 import { FactionClusterDialogueList } from './FactionClusterDialogueList'
+import { FactionSceneBeatSfx } from './FactionSceneBeatSfx'
 import { FactionSequenceCard, sequenceCardIconButtonClass } from './FactionSequenceCard'
 import { insertFactionCut } from './faction-scene-cut'
 
@@ -23,7 +24,9 @@ type Props = {
   onExpandedChange: (expanded: boolean) => void
   onChange: (next: FactionCluster) => void
   onInsertBefore: () => void
+  onInsertAfter: () => void
   onSplitBeat: (beatIndex: number) => void
+  onMoveBeatToScene?: (beatIndex: number) => void
   onMove: (direction: -1 | 1) => void
   onDelete: () => void
   onAddCeleb: () => void
@@ -54,7 +57,9 @@ export function FactionClusterEditor({
   onExpandedChange,
   onChange,
   onInsertBefore,
+  onInsertAfter,
   onSplitBeat,
+  onMoveBeatToScene,
   onMove,
   onDelete,
   onAddCeleb,
@@ -83,9 +88,7 @@ export function FactionClusterEditor({
     people: projectFactionSceneBeatsToPeople(next, nextBeats) as FactionPerson[],
   })
   const localizedLabel = editLang === 'en' ? cluster.labelEn ?? cluster.label : cluster.label
-  const title = localizedLabel?.split('\n')[0]?.trim()
-    || people[0]?.name?.trim()
-    || (split ? `대표 사진 ${clusterIndex + 1}` : '대표 사진')
+  const title = localizedLabel?.split('\n')[0]?.trim() || '제목 없음'
 
   return (
     <FactionSequenceCard
@@ -148,8 +151,8 @@ export function FactionClusterEditor({
                 className="rounded-md border border-border bg-bg-main px-2 py-1 text-xs text-text-primary hover:border-accent hover:bg-bg-hover focus:border-accent focus:outline-none"
                 title="상속은 위 대사·장면 자막 설정을 따릅니다"
               >
-                <option value="">상속 ({inheritedLabelPosition === 'center' ? '중단' : '하단'})</option>
-                <option value="center">중단</option>
+                <option value="">상속 ({inheritedLabelPosition === 'center' ? '중하단' : '하단'})</option>
+                <option value="center">중하단</option>
                 <option value="bottom">하단</option>
               </select>
             </label>
@@ -211,11 +214,27 @@ export function FactionClusterEditor({
           )}
         </section>
 
+        {/* 장면 효과음 — 장면이 열리는 화면(대표 화면, 없으면 첫 컷)에서 난다. 컷 효과음과 따로 논다. */}
+        <FactionSceneBeatSfx
+          sfxs={cluster.sfxs}
+          files={sfxList}
+          series={series}
+          index={clusterIndex}
+          ownerLabel={`${numberLabel} 장면 시작`}
+          hint={count => count
+            ? `${count === 1 ? '' : `${count}개 · `}${cluster.image ? '대표 화면' : '첫 컷'}이 뜰 때 재생`
+            : '장면이 열릴 때 낼 효과음 없음'}
+          onChange={patch => onChange({ ...cluster, sfxs: patch.sfxs })}
+        />
+
         <div className="pt-1">
           <FactionClusterDialogueList
             beats={beats}
             onBeatsChange={setBeats}
             onSplitBeat={onSplitBeat}
+            onMoveBeatToScene={onMoveBeatToScene}
+            onInsertSceneBefore={onInsertBefore}
+            onInsertSceneAfter={onInsertAfter}
             people={people}
             onPeopleChange={setPeople}
             onAddCeleb={onAddCeleb}

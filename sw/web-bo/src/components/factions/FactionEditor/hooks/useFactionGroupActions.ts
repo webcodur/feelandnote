@@ -10,12 +10,9 @@ import {
   reorderFactionVoice,
 } from '@/lib/faction-voice'
 import type { FactionEditTab } from '@/lib/faction-edit-route'
-import {
-  configuredShortsParts,
-  DEFAULT_SHORTS_PART_COUNT,
-  MAX_SHORTS_PART_COUNT,
-  shortsPartCountOf,
-} from '../sections/factionShorts'
+import { withFactionSequenceCut } from '@feelandnote/shared/lib/faction-sequence'
+import { factionSequenceOf } from '@/lib/faction-types'
+import { moveFactionSceneBeat } from '../FactionGroupEditor/faction-scene-beat-move'
 
 interface UseFactionGroupActionsOptions {
   script: FactionScript | null
@@ -31,6 +28,12 @@ interface CrossMoveTarget {
   fromGi: number
   fromCi: number
   fromPi: number
+}
+
+interface BeatMoveTarget {
+  fromGi: number
+  fromCi: number
+  fromBi: number
 }
 
 const createGroup = (): FactionGroup => ({
@@ -58,6 +61,7 @@ export function useFactionGroupActions({
 }: UseFactionGroupActionsOptions) {
   const groups = useMemo(() => script?.groups ?? [], [script?.groups])
   const [crossMoveTarget, setCrossMoveTarget] = useState<CrossMoveTarget | null>(null)
+  const [beatMoveTarget, setBeatMoveTarget] = useState<BeatMoveTarget | null>(null)
   const updateGroups = useCallback((next: FactionGroup[]) => onChange({ groups: next }), [onChange])
 
   const setGroup = useCallback((index: number, group: FactionGroup) => {
@@ -101,20 +105,6 @@ export function useFactionGroupActions({
     loadVoices()
   }, [episodeName, groups, loadVoices, series, updateGroups])
 
-  const moveGroupInPart = useCallback((index: number, direction: -1 | 1) => {
-    const current = groups[index]
-    if (!current) return
-    const sameBucket = groups
-      .map((group, currentIndex) => ({ group, currentIndex }))
-      .filter(({ group }) => (
-        !!group.disabled === !!current.disabled
-        && (current.disabled || (group.part ?? 0) === (current.part ?? 0))
-      ))
-      .map(({ currentIndex }) => currentIndex)
-    const target = sameBucket[sameBucket.indexOf(index) + direction]
-    if (target !== undefined) void swapGroups(index, target)
-  }, [groups, swapGroups])
-
   const addGroup = useCallback(() => updateGroups([...groups, createGroup()]), [groups, updateGroups])
 
   const moveGroup = useCallback((index: number, direction: -1 | 1) => {
@@ -122,52 +112,114 @@ export function useFactionGroupActions({
     if (target >= 0 && target < groups.length) void swapGroups(index, target)
   }, [groups.length, swapGroups])
 
-  const setGroupPart = useCallback((index: number, part: number) => {
+  /**
+   * 쇼츠 편 경계 켜고 끄기. boundary 는 경계 앞에 오는 장면 수 — 장면 사이(1…n-1)와 세력 끝(n)이 자리다.
+   * 목차(사이드바)와 본문이 같은 경계를 같은 규칙으로 다룬다.
+   */
+  const setSequenceCut = useCallback((index: number, boundary: number, on: boolean) => {
     const group = groups[index]
-    if (!group || !script) return
-    const currentPartCount = shortsPartCountOf(script)
+    if (!group) return
+    const sequence = factionSequenceOf(group)
+    const clusters = sequence.filter(item => item.kind === 'cluster').length
+    if (boundary < 1 || boundary > clusters) return
+    setGroup(index, { ...group, sequence: withFactionSequenceCut(sequence, boundary, on) })
+  }, [groups, setGroup])
 
-    if (part === -1) {
-      setGroup(index, { ...group, disabled: true })
-      return
-    }
-    if (part > currentPartCount) {
-      onChange({
-        groups: groups.map((current, currentIndex) => (
-          currentIndex === index ? { ...current, disabled: undefined, part } : current
-        )),
-        shortsPartCount: part === DEFAULT_SHORTS_PART_COUNT ? undefined : part,
-      })
-      setCollapsedParts(current => ({ ...current, [part]: false }))
-      return
-    }
-    setGroup(index, { ...group, disabled: undefined, part: part === 0 ? undefined : part })
-  }, [groups, onChange, script, setCollapsedParts, setGroup])
-
-  const changeShortsPartCount = useCallback((requested: number) => {
-    if (!script || !Number.isFinite(requested)) return
-    const currentPartCount = shortsPartCountOf(script)
-    const next = Math.max(1, Math.min(MAX_SHORTS_PART_COUNT, Math.floor(requested)))
-    if (next === currentPartCount) return
-
-    const blockedParts = configuredShortsParts(script).filter(part => part > next)
-    if (blockedParts.length) {
-      alert(`${blockedParts.join(', ')}편에 배정된 세력 또는 편별 설정이 남아 있습니다. 해당 내용을 ${next}편 이하로 옮기거나 비운 뒤 편수를 줄여주세요.`)
-      return
-    }
-
-    onChange({ shortsPartCount: next === DEFAULT_SHORTS_PART_COUNT ? undefined : next })
-    setCollapsedParts(current => {
-      const kept = Object.fromEntries(Object.entries(current).filter(([key]) => Number(key) <= next))
-      return next > currentPartCount ? { ...kept, [next]: false } : kept
+  /**
+   * 쇼츠 편 경계 옮기기(목차에서 가로선을 끌어 놓기). 세력을 넘나들어도 그룹 배열을 한 번에 갱신한다 —
+   * setSequenceCut 을 두 번 부르면 뒤 호출이 앞 호출의 결과를 덮는다(둘 다 같은 groups 클로저에서 만든다).
+   */
+  const moveSequenceCut = useCallback((from: { groupIndex: number; boundary: number }, to: { groupIndex: number; boundary: number }) => {
+    if (from.groupIndex === to.groupIndex && from.boundary === to.boundary) return
+    const next = groups.map((group, index) => {
+      if (index !== from.groupIndex && index !== to.groupIndex) return group
+      let sequence = factionSequenceOf(group)
+      const clusters = sequence.filter(item => item.kind === 'cluster').length
+      if (index === from.groupIndex) sequence = withFactionSequenceCut(sequence, from.boundary, false)
+      if (index === to.groupIndex && to.boundary >= 1 && to.boundary <= clusters) sequence = withFactionSequenceCut(sequence, to.boundary, true)
+      return { ...group, sequence }
     })
-  }, [onChange, script, setCollapsedParts])
+    updateGroups(projectFactionPrimaryQuotesToGroups(next) as FactionGroup[])
+  }, [groups, updateGroups])
+
+  /** 장면 안 컷 사이 경계(shortsCutBefore) 전부 지우기 — 목차 배지의 ✕. 컷 단위 위치 조정은 본문 컷 목록이 맡는다. */
+  const clearBeatCuts = useCallback((groupIndex: number, clusterIndex: number) => {
+    const group = groups[groupIndex]
+    const cluster = group?.clusters?.[clusterIndex]
+    if (!group || !cluster?.beats?.length) return
+    const clusters = group.clusters!.map((current, index) => (
+      index === clusterIndex
+        ? { ...current, beats: current.beats!.map(beat => (beat.shortsCutBefore ? { ...beat, shortsCutBefore: undefined } : beat)) }
+        : current
+    ))
+    setGroup(groupIndex, { ...group, clusters })
+  }, [groups, setGroup])
+
+  /**
+   * 장면 안 컷 경계를 장면 사이 경계로 끌어내기(목차 배지를 장면 사이 자리에 놓음).
+   * 그 장면의 컷 경계는 전부 빠지고 놓은 자리에 sequence cut 이 생긴다. 세력이 달라도 한 번에 갱신한다.
+   */
+  const moveBeatCutToBoundary = useCallback((from: { groupIndex: number; clusterIndex: number }, to: { groupIndex: number; boundary: number }) => {
+    const next = groups.map((group, index) => {
+      if (index !== from.groupIndex && index !== to.groupIndex) return group
+      let result = group
+      if (index === from.groupIndex && group.clusters?.[from.clusterIndex]?.beats?.length) {
+        result = {
+          ...result,
+          clusters: group.clusters.map((cluster, ci) => (
+            ci === from.clusterIndex
+              ? { ...cluster, beats: cluster.beats!.map(beat => (beat.shortsCutBefore ? { ...beat, shortsCutBefore: undefined } : beat)) }
+              : cluster
+          )),
+        }
+      }
+      if (index === to.groupIndex) {
+        const sequence = factionSequenceOf(result)
+        const clusters = sequence.filter(item => item.kind === 'cluster').length
+        if (to.boundary >= 1 && to.boundary <= clusters) result = { ...result, sequence: withFactionSequenceCut(sequence, to.boundary, true) }
+      }
+      return result
+    })
+    updateGroups(projectFactionPrimaryQuotesToGroups(next) as FactionGroup[])
+  }, [groups, updateGroups])
+
+  /** 세력 끝 경계 — 이 세력과 다음 세력 사이에서 쇼츠 편이 갈린다. 장면 사이 경계와 같은 표식이다. */
+  const setGroupEndCut = useCallback((index: number, on: boolean) => {
+    const group = groups[index]
+    if (!group) return
+    setSequenceCut(index, factionSequenceOf(group).filter(item => item.kind === 'cluster').length, on)
+  }, [groups, setSequenceCut])
 
   const requestPersonMove = useCallback((fromGi: number, fromCi: number, fromPi: number) => {
     setCrossMoveTarget({ fromGi, fromCi, fromPi })
   }, [])
 
   const closePersonMove = useCallback(() => setCrossMoveTarget(null), [])
+
+  const requestBeatMove = useCallback((fromGi: number, fromCi: number, fromBi: number) => {
+    setBeatMoveTarget({ fromGi, fromCi, fromBi })
+  }, [])
+
+  const closeBeatMove = useCallback(() => setBeatMoveTarget(null), [])
+
+  const confirmBeatMove = useCallback((toGi: number, toCi: number) => {
+    if (!beatMoveTarget) return
+    const nextGroups = moveFactionSceneBeat({
+      groups,
+      fromGroupIndex: beatMoveTarget.fromGi,
+      fromClusterIndex: beatMoveTarget.fromCi,
+      fromBeatIndex: beatMoveTarget.fromBi,
+      toGroupIndex: toGi,
+      toClusterIndex: toCi,
+    })
+    if (!nextGroups) {
+      setBeatMoveTarget(null)
+      return
+    }
+
+    updateGroups(projectFactionPrimaryQuotesToGroups(nextGroups) as FactionGroup[])
+    setBeatMoveTarget(null)
+  }, [beatMoveTarget, groups, updateGroups])
 
   const confirmPersonMove = useCallback(async (toGi: number, toCi: number) => {
     if (!crossMoveTarget) return
@@ -220,17 +272,23 @@ export function useFactionGroupActions({
   return {
     groups,
     crossMoveTarget,
+    beatMoveTarget,
     setGroup,
     setGroupTagSlug,
     deleteGroup,
-    moveGroupInPart,
     addGroup,
     moveGroup,
-    setGroupPart,
-    changeShortsPartCount,
+    setGroupEndCut,
+    setSequenceCut,
+    moveSequenceCut,
+    clearBeatCuts,
+    moveBeatCutToBoundary,
     requestPersonMove,
     closePersonMove,
     confirmPersonMove,
+    requestBeatMove,
+    closeBeatMove,
+    confirmBeatMove,
     jumpToGroup,
     editGroup,
   }

@@ -16,7 +16,7 @@
  *
  *   롱폼 — 편 경계(cut)가 없으면 통짜 한 편(`ko-longform`). 있으면 그 테마의 세력이 속한 편.
  *          여러 편에 걸치면 가장 앞 편.
- *   쇼츠 — 내부 이야기 경계가 있으면 첫 등장 편, 없으면 그 테마 세력들의 legacy part 중 가장 앞 번호.
+ *   쇼츠 — 경계가 있으면 그 세력이 처음 등장하는 편, 경계가 없으면 단편 하나.
  *
  * 두 번째 이후 편은 버린다 — 도감은 「롱폼 보기 / 쇼츠 보기」 두 갈래만 보여준다.
  *
@@ -148,25 +148,17 @@ export function pickTagVariants(
     longform = hit >= 0 ? longforms[hit] : undefined
   }
 
-  // 쇼츠 — 내부 이야기 경계가 있으면 그 세력이 처음 등장하는 전역 쇼츠 편, 없으면 legacy group.part 중 가장 앞.
+  // 쇼츠 — 경계가 있으면 그 세력이 처음 등장하는 전역 쇼츠 편, 경계가 없으면 단편 하나뿐이다.
   let shorts: FactionVariantDef | undefined
   if (!shortsGroups.length) {
     shorts = undefined
-  } else if (shortsList.length === 1 && shortsList[0].part == null) {
-    shorts = shortsList[0]
   } else if (hasFactionShortsCuts(all as unknown as Record<string, unknown>[])) {
     const shortsIndex = new Set(shortsGroups.map(g => g.index))
     const hit = factionShortsSegments(all as unknown as Record<string, unknown>[])
       .findIndex(segment => segment.some(step => shortsIndex.has(step.gi)))
     shorts = hit >= 0 ? shortsList.find(variant => variant.part === hit + 1) : undefined
   } else {
-    const parts = shortsGroups
-      .filter(g => g.part != null && g.part > 0)
-      .map(g => g.part as number)
-      .sort((a, b) => a - b)
-    // 편 미지정(공통) 세력만 있는 테마는 모든 편에 나오므로 첫 편을 대표로 삼는다
-    const want = parts[0] ?? shortsList[0]?.part
-    shorts = shortsList.find(v => v.part === want)
+    shorts = shortsList[0]
   }
 
   return { longform, shorts }

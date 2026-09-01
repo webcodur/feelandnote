@@ -9,6 +9,7 @@ import {
 } from '@feelandnote/shared/bo/editor'
 
 import { ImagePool, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
+import { highlightTargetElement } from './FactionEditor/shared/faction-nav-events'
 import FactionEpisodeActions from './FactionEpisodeActions'
 import { FactionEditorHeader } from './FactionEditor/sections/FactionEditorHeader'
 import { FactionProjectSettings } from './FactionEditor/sections/FactionProjectSettings'
@@ -34,10 +35,12 @@ import { FactionCardPanel } from './FactionEditor/FactionCardPanel'
 import type { FactionCardInitialTarget } from './FactionEditor/FactionCardPanel/utils'
 import { FactionLongformPanel } from './FactionEditor/FactionLongformPanel'
 import { FactionPersonMoveModal } from './FactionEditor/FactionPersonMoveModal'
+import { FactionBeatMoveModal } from './FactionEditor/FactionBeatMoveModal'
 import type { FactionEditTab } from '@/lib/faction-edit-route'
 import { useCelebExists } from '@/lib/useCelebExists'
 import { folderToParam } from '@/lib/faction-edit-route'
 import { materializeFactionSceneVoiceFiles } from './FactionEditor/FactionGroupEditor/faction-speaker-edit'
+import { FactionNavigator } from './FactionEditor/FactionNavigator/FactionNavigator'
 
 /** 편집 화면 주소 뿌리 — 목록도 상세도 이 아래에 있다 */
 const EDIT_BASE = '/factions'
@@ -86,6 +89,36 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
     if (next !== 'info') setComposeSub(next)
     window.history.pushState(null, '', `${EDIT_BASE}/${folderToParam(name)}/${editLang}/${next}`)
   }, [name, editLang])
+
+  // 목차의 편 번호에서 편성 › 쇼츠의 그 편으로 — 접혀 있으면 펼치고 그 편 머리로 스크롤한다.
+  const openShortsPart = useCallback((part: number) => {
+    goTab('shorts')
+    setCollapsedParts(prev => (prev[part] ? { ...prev, [part]: false } : prev))
+    // 편성 화면은 탭이 바뀐 뒤 위쪽 구획(공통 설정·썸네일·길이 계산)이 몇 초 동안 자라며 대상이 아래로 밀린다.
+    // 위치가 잠잠해질 때까지(최대 5초) 스크롤 컨테이너(main) 기준으로 다시 맞추고, 사용자가 휠을 굴리면 바로 그만둔다.
+    const id = `faction-shorts-part-${part}`
+    let stopped = false
+    let stableTicks = 0
+    const main = document.querySelector('main')
+    const stop = () => { stopped = true; main?.removeEventListener('wheel', stop) }
+    main?.addEventListener('wheel', stop, { passive: true })
+    const settle = (tries: number) => {
+      if (stopped) return
+      const el = document.getElementById(id)
+      if (el && main) {
+        const offset = el.getBoundingClientRect().top - main.getBoundingClientRect().top
+        if (Math.abs(offset - 16) > 15) {
+          main.scrollTo({ top: main.scrollTop + offset - 16, behavior: tries === 0 ? 'smooth' : 'auto' })
+          stableTicks = 0
+        } else if (++stableTicks >= 6) { stop(); return }
+        if (tries === 0) highlightTargetElement(el)
+      }
+      if (tries < 33) setTimeout(() => settle(tries + 1), 150)
+      else stop()
+    }
+    // rAF 는 보이지 않는 탭에서 멈춘다 — 타이머로 시작해 편성 화면이 그려진 뒤(첫 틱은 대상이 없으면 그냥 넘어간다) 맞춘다.
+    setTimeout(() => settle(0), 50)
+  }, [goTab])
 
   const togglePeopleImages = useCallback(() => {
     const nextOpen = !(tab === 'info' && showPeopleImages)
@@ -175,17 +208,23 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
   const {
     groups,
     crossMoveTarget,
+    beatMoveTarget,
     setGroup,
     setGroupTagSlug,
     deleteGroup,
-    moveGroupInPart,
     addGroup,
     moveGroup,
-    setGroupPart,
-    changeShortsPartCount,
+    setGroupEndCut,
+    setSequenceCut,
+    moveSequenceCut,
+    clearBeatCuts,
+    moveBeatCutToBoundary,
     requestPersonMove,
     closePersonMove,
     confirmPersonMove: movePersonCrossGroup,
+    requestBeatMove,
+    closeBeatMove,
+    confirmBeatMove: moveBeatCrossGroup,
     jumpToGroup,
     editGroup,
   } = useFactionGroupActions({
@@ -330,7 +369,8 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
     }}>
     {/* faction-ui — 이 가지 안쪽만 글자·선 보정을 받는다(globals.css 끝 절 참조).
         영상 관리 대시보드의 촘촘한 표가 그 보정에 기대어 읽히도록 짜여 있어 함께 옮겼다. */}
-    <div className="faction-ui relative mx-auto max-w-[1800px] pb-16">
+    {/* 폭 상한 없음 — 넓은 모니터에서 양옆이 비지 않게 화면을 꽉 채운다. 편집 폭은 목차·본문·이미지 풀 세 열이 나눠 쓴다. */}
+    <div className="faction-ui relative pb-16" data-faction-editor="true">
       <FactionEditorHeader
         editBase={EDIT_BASE}
         editLang={editLang}
@@ -408,8 +448,23 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
         )}
       </div>
 
-      {/* 본문 — 편집 화면일 때만 이미지 풀 사이드바를 곁들인다 */}
-      <div className={showPool ? 'flex items-start gap-4' : ''}>
+      {/* 본문 — 좌측 네비게이터 + 중앙 편집 영역 + 우측 이미지 풀 */}
+      <div className="flex items-start gap-4">
+        {!showCards && (
+          <aside className="sticky top-0 hidden shrink-0 self-start lg:block [overflow-anchor:none]">
+            <FactionNavigator
+              groups={groups}
+              editLang={editLang}
+              onAddGroup={addGroup}
+              onToggleCut={setSequenceCut}
+              onMoveCut={moveSequenceCut}
+              onClearBeatCuts={clearBeatCuts}
+              onMoveBeatCut={moveBeatCutToBoundary}
+              onOpenShortsPart={openShortsPart}
+            />
+          </aside>
+        )}
+
         <div className="min-w-0 flex-1">
       {showCards ? (
         <FactionCardPanel
@@ -452,7 +507,9 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
               onDeleteGroup={deleteGroup}
               onMoveGroup={moveGroup}
               onMovePersonCrossGroup={requestPersonMove}
+              onMoveBeatCrossGroup={requestBeatMove}
               onAddGroup={addGroup}
+              onToggleGroupEndCut={setGroupEndCut}
             />
           )}
 
@@ -488,9 +545,6 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
               collapsedParts={collapsedParts}
               setCollapsedParts={setCollapsedParts}
               onChange={update}
-              onChangePartCount={changeShortsPartCount}
-              onSetGroupPart={setGroupPart}
-              onMoveGroupInPart={moveGroupInPart}
               onEditGroup={editGroup}
               onJumpToGroup={jumpToGroup}
             />
@@ -504,9 +558,9 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
       )}
         </div>
 
-        {/* 이미지 풀 사이드바 — 편집 화면에서만. main 스크롤 영역의 맨 위에 붙는다. */}
+        {/* 이미지 풀 — 편집 화면에서만. 화면 높이 안에서 자체 스크롤하고, 긴 본문을 내려도 오른쪽에 따라붙는다. */}
         {showPool && (
-          <aside className="sticky top-0 hidden max-h-[calc(100vh-5rem)] w-[24rem] shrink-0 overflow-y-auto rounded-xl border border-border bg-bg-card p-3 xl:block 2xl:w-[28rem] [overflow-anchor:none]">
+          <aside className="sticky top-0 hidden max-h-[calc(100vh-5rem)] w-[24rem] shrink-0 self-start overflow-y-auto rounded-xl border border-border bg-bg-card p-3 xl:block 2xl:w-[28rem] [overflow-anchor:none]">
             <ImagePool
               series={series}
               episodeName={name}
@@ -567,6 +621,15 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
           fromPi={crossMoveTarget.fromPi}
           onClose={closePersonMove}
           onConfirm={movePersonCrossGroup}
+        />
+      )}
+      {beatMoveTarget && (
+        <FactionBeatMoveModal
+          groups={groups}
+          fromGroupIndex={beatMoveTarget.fromGi}
+          fromClusterIndex={beatMoveTarget.fromCi}
+          onClose={closeBeatMove}
+          onConfirm={moveBeatCrossGroup}
         />
       )}
     </div>

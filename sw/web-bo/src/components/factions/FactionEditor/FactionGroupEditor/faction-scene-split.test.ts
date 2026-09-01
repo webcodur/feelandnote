@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import type { FactionGroup } from '@/lib/faction-types'
-import { insertFactionSceneBefore, splitFactionSceneAtBeat } from './faction-scene-split'
+import { insertFactionSceneAfter, insertFactionSceneBefore, splitFactionSceneAtBeat } from './faction-scene-split'
 
 const group: FactionGroup = {
   name: '키르케의 섬',
@@ -105,6 +105,21 @@ test('현재 장면 바로 앞에 제목을 가진 독립 장면을 넣고 기�
     { kind: 'cluster', clusterIndex: 0 },
     { kind: 'cut' },
     { kind: 'cluster', clusterIndex: 2 },
+    { kind: 'cluster', clusterIndex: 1 },
+  ])
+})
+
+test('현재 장면 바로 뒤에 빈 장면을 넣고 기존 장면 좌표를 보존한다', () => {
+  const result = insertFactionSceneAfter({ group, clusterIndex: 0 })
+  assert.ok(result)
+
+  assert.equal(result.newClusterIndex, 2)
+  assert.equal(result.group.clusters?.[0], group.clusters?.[0])
+  assert.equal(result.group.clusters?.[1], group.clusters?.[1])
+  assert.deepEqual(result.group.sequence, [
+    { kind: 'cluster', clusterIndex: 0 },
+    { kind: 'cluster', clusterIndex: 2 },
+    { kind: 'cut' },
     { kind: 'cluster', clusterIndex: 1 },
   ])
 })

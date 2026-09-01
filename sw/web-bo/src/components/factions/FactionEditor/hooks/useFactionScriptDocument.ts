@@ -9,12 +9,7 @@ import {
   type CelebVoiceEntry,
 } from '@/actions/admin/factions/script'
 import { remapFactionImages } from '../../shared/usedImages'
-import {
-  partSectionsOf,
-  shortsPartCountOf,
-  shortsPartSlicesOf,
-  usesInternalShortsCuts,
-} from '../sections/factionShorts'
+import { partSectionsOf, shortsPartCountOf } from '../sections/factionShorts'
 
 interface UseFactionScriptDocumentOptions {
   series: string
@@ -94,12 +89,8 @@ export function useFactionScriptDocument({
         const next = { ...data, groups }
         setScript(next)
 
-        const internalCuts = usesInternalShortsCuts(next)
-        const shownParts = partSectionsOf(shortsPartCountOf(next)).filter(section => (
-          internalCuts
-            ? section.key > 0 && shortsPartSlicesOf(next, section.key).length > 0
-            : groups.some(group => !group.disabled && (group.part ?? 0) === section.key)
-        ))
+        // 편 수는 경계 수 + 1 — 편이 둘 이상이면 접어 두고 하나면 펼친다.
+        const shownParts = partSectionsOf(shortsPartCountOf(next)).filter(section => section.key > 0)
         setCollapsedParts(
           shownParts.length >= 2
             ? Object.fromEntries(shownParts.map(section => [section.key, true]))

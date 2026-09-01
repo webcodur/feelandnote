@@ -88,3 +88,30 @@ test('세력 헤더는 쇼츠 경계를 숨기고 장면 이미지만 연속해�
   assert.ok(positions.every(position => position >= 0))
   assert.deepEqual([...positions].sort((a, b) => a - b), positions)
 })
+
+test('빈 장면명은 첫 인물 이름 대신 제목 없음으로 표시한다', () => {
+  const group = {
+    name: '표류',
+    sequence: [{ kind: 'cluster', clusterIndex: 0 }],
+    clusters: [{
+      label: '',
+      image: '02-homeward/5-hell/0-voyage-to-underworld.png',
+      people: [{ name: '엘페노르', image: '03-underworld/elpenor.png' }],
+    }],
+  } as FactionGroup
+
+  const markup = renderToStaticMarkup(
+    <FactionHeaderSequence
+      group={group}
+      groupIndex={1}
+      series="faction"
+      episodeName="Homer-Odyssey"
+      borderColor="#2c5f6f"
+      onJumpCluster={() => {}}
+    />,
+  )
+
+  assert.match(markup, /title="제목 없음 편집 위치로 이동"/)
+  assert.match(markup, />제목 없음<\/span>/)
+  assert.doesNotMatch(markup, /title="엘페노르 편집 위치로 이동"/)
+})

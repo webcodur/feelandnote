@@ -5,7 +5,7 @@ import type { EditLang } from '@feelandnote/shared/bo/editor'
 import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 import { isFactionSceneNarrationBeat } from '@feelandnote/shared/lib/faction-scene-speaker'
 import type { FactionNarratorVoice, FactionPerson, FactionSceneBeat } from '@/lib/faction-types'
-import { factionVoiceFile, vnSceneBeat } from '@/lib/faction-voice'
+import { factionVoiceFile, vnBeatTextKey, vnBeatVoiceFile } from '@/lib/faction-voice'
 import { useFactionVoice } from '../../shared/FactionVoiceContext'
 import { FactionVoicePanel } from './FactionPersonRow/FactionVoicePanel/FactionVoicePanel'
 import { FactionVoiceSettingsModal } from './FactionPersonRow/FactionVoicePanel/voice-panel'
@@ -107,9 +107,12 @@ export function FactionSceneBeatVoice({
   const inheritedPositionVoiceFile = beat.legacyPersonVoice === true
     ? localVoiceFile ?? existingPositionVoiceFile ?? positionVoiceCandidates[0]
     : recoverablePositionVoiceFile
+  // 파일명은 발화의 신원(id)만 따른다 — 본문을 고쳐도 이미 만든 음원이 그대로 붙는다.
   const voiceFile = beat.voiceFile
     ?? inheritedPositionVoiceFile
-    ?? vnSceneBeat(localizedSpeaker, localizedText)
+    ?? vnBeatVoiceFile({ id: beat.id, speaker: localizedSpeaker, text: localizedText }, editLang === 'en' ? 'en' : 'ko')
+  // 음원을 만들 때 읽은 본문과 지금 본문이 다르면 그 음원은 낡았다. 파일은 그대로 붙어 있으므로 표시로만 알린다.
+  const voiceStale = !!beat.voiceTextKey && beat.voiceTextKey !== vnBeatTextKey(localizedSpeaker, localizedText)
   const meta = voice?.byFile.get(voiceFile)
   const activeFile: VoiceFile | undefined = meta
     ? { name: voiceFile, sizeKB: Math.round(meta.size / 1024), duration: meta.duration, engine: 'gemini' }
@@ -197,57 +200,57 @@ export function FactionSceneBeatVoice({
     })
   }
 
+  // 이 대사가 어느 값을 쓰는지 — 인물·공용 나레이터 기본값을 그대로 쓰는지, 이 컷에서 덮어썼는지.
+  const inheritanceNote = assignedPerson
+    ? overrideCount > 0
+      ? `인물 기본값에서 ${overrideCount}개 덮어씀`
+      : '인물 기본값 상속 중'
+    : isNarration
+      ? commonNarrationVoice
+        ? overrideCount > 0
+          ? `공용 나레이터에서 ${overrideCount}개 덮어씀`
+          : '공용 나레이터 상속 중'
+        : '공용 나레이터 설정 필요'
+      : '이 컷 전용 음성'
+  const voiceNote = voiceStale ? `${inheritanceNote} · 음원 낡음(본문이 바뀜 — 다시 합성 필요)` : inheritanceNote
+
+  // 상속 원본을 고치는 진입 — 이 컷이 아니라 인물·에피소드 기본값 쪽을 연다.
+  const headerAction = assignedPerson && onAssignedPersonChange ? (
+    <button
+      type="button"
+      onClick={() => setModalMode('person')}
+      className="shrink-0 rounded-md border border-border px-2 py-1 text-[10px] font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary"
+      title="이 인물이 할당된 대사들이 상속할 기본 목소리·속도·말투를 편집합니다"
+    >
+      인물 기본 음성
+    </button>
+  ) : isNarration ? (
+    <button
+      type="button"
+      onClick={() => document.getElementById('faction-narrator-voice')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+      className="shrink-0 rounded-md border border-border px-2 py-1 text-[10px] font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary"
+      title="이 에피소드의 모든 나레이터 해설이 상속하는 공용 목소리로 이동합니다"
+    >
+      공용 나레이터
+    </button>
+  ) : null
+
   return (
-    <section data-faction-scene-voice-file={voiceFile} className="mt-2 rounded-md border border-border/70 bg-bg-main/25">
-      <div className="flex min-h-10 flex-wrap items-center gap-2 border-b border-border/60 px-3 py-2 text-[10px] text-text-dim">
-        <div>
-          <div className="text-[11px] font-black text-text-secondary">음성 트랙</div>
-          <div className="mt-0.5">{assignedPerson
-            ? overrideCount > 0
-              ? `인물 기본값 위에 ${overrideCount}개 오버라이드`
-              : '인물 기본값 상속 중'
-            : isNarration
-              ? commonNarrationVoice
-                ? overrideCount > 0
-                  ? `공용 나레이터 위에 ${overrideCount}개 오버라이드`
-                  : '공용 나레이터 상속 중'
-                : '공용 나레이터 설정 필요 · 현재 기본 음성'
-              : '이 컷 전용 음성'}</div>
-        </div>
-        {assignedPerson && onAssignedPersonChange ? (
-          <button
-            type="button"
-            onClick={() => setModalMode('person')}
-            className="ml-auto rounded-md border border-border px-2 py-1 font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary"
-            title="이 인물이 할당된 대사들이 상속할 기본 목소리·속도·말투를 편집합니다"
-          >
-            인물 기본 음성 편집
-          </button>
-        ) : isNarration ? (
-          <button
-            type="button"
-            onClick={() => document.getElementById('faction-narrator-voice')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-            className="ml-auto rounded-md border border-border px-2 py-1 font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary"
-            title="이 에피소드의 모든 나레이터 해설이 상속하는 공용 목소리로 이동합니다"
-          >
-            공용 나레이터 설정
-          </button>
-        ) : null}
-      </div>
-      <div className="p-2">
-        <FactionVoicePanel
-          person={person}
-          series={series}
-          episodeName={episodeName}
-          voiceFile={voiceFile}
-          hasContent
-          meta={meta}
-          activeFile={activeFile}
-          onOpenModal={() => setModalMode('beat')}
-          slot={beatVoiceSlot}
-          lang={editLang}
-        />
-      </div>
+    <section data-faction-scene-voice-file={voiceFile} className="mt-2">
+      <FactionVoicePanel
+        person={person}
+        series={series}
+        episodeName={episodeName}
+        voiceFile={voiceFile}
+        hasContent
+        meta={meta}
+        activeFile={activeFile}
+        onOpenModal={() => setModalMode('beat')}
+        slot={beatVoiceSlot}
+        lang={editLang}
+        inheritanceNote={voiceNote}
+        headerAction={headerAction}
+      />
       {modalMode ? (
         <FactionVoiceSettingsModal
           person={modalMode === 'person' ? assignedVoicePerson : person}

@@ -14,10 +14,19 @@ const panelSource = readFileSync(
   new URL('./FactionExpandedVoicePanel.tsx', import.meta.url),
   'utf8',
 )
+const specSource = readFileSync(
+  new URL('./useFactionVoiceSpec.ts', import.meta.url),
+  'utf8',
+)
 const celebModalSource = readFileSync(
   new URL('../../../../../../celeb/dialogue-studio/voice-editor/CelebVoiceEditorModal.tsx', import.meta.url),
   'utf8',
 )
+
+test('GEM 스타일을 비우면 빈 문자열을 보존해 상속을 차단한다', () => {
+  assert.match(specSource, /setField\(F\.style,\s*trimmed\)/)
+  assert.doesNotMatch(specSource, /setField\(F\.style,\s*trimmed\s*\|\|\s*undefined\)/)
+})
 
 test('팩션 음원 저장은 선택한 보이스와 길이를 대본에도 즉시 확정한다', () => {
   assert.match(contextSource, /save:\s*\(\)\s*=>\s*Promise<boolean>/)

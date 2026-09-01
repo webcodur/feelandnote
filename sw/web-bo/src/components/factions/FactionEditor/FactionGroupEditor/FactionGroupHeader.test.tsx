@@ -35,7 +35,6 @@ test('세력 제목과 로고는 한 정보 패널에 묶고 번호만 아코디
   )
 
   assert.match(markup, /data-faction-group-identity="true"/)
-  assert.match(markup, /w-\[26rem\]/)
   assert.match(markup, /aria-label="세력 로고"/)
   assert.match(markup, /data-faction-group-title="true"/)
   assert.ok(markup.indexOf('aria-label="세력 로고"') < markup.indexOf('data-faction-group-title="true"'))

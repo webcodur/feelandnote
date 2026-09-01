@@ -1,4 +1,3 @@
-import type { FactionScript } from '@/lib/faction-types'
 import { RATIOS, RatioId } from '../utils'
 
 export function CardToolbar({

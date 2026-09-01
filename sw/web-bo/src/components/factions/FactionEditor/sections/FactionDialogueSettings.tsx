@@ -15,7 +15,7 @@ export function FactionDialogueSettings({ script, onChange, onApplyAll, onClearO
   const caption = (script.quoteDisplay ?? 'box') === 'caption'
 
   return (
-    <section className="flex flex-wrap items-end gap-2 border border-border bg-bg-card p-2.5">
+    <section id="faction-dialogue-settings" className="flex flex-wrap items-end gap-2 border border-border bg-bg-card p-2.5">
       <header className="mr-2 w-44 shrink-0 self-center">
         <h2 className="text-sm font-black text-text-primary">대사·장면 자막</h2>
         <p className="mt-0.5 text-[11px] text-text-tertiary">에피소드 기본값</p>

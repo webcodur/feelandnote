@@ -83,6 +83,27 @@ export function vnSceneBeat(speaker: string | undefined, text: string): string {
   return `scene-${narrationTextKey(`${(speaker ?? '').trim()}\n${spokenText}`)}.wav`
 }
 
+/** 발화 본문의 신원 — 공백을 편 문장 기준. 음원이 낡았는지 판정하는 값이다(vnBeatVoiceFile 과 무관). */
+export function vnBeatTextKey(speaker: string | undefined, text: string): string {
+  return narrationTextKey(`${(speaker ?? '').trim()}\n${text.replace(/\s+/g, ' ').trim()}`)
+}
+
+/**
+ * 장면 발화 음원 파일명 — 신원(id)만 따른다. 본문을 고치거나 장면을 옮겨도 음원이 따라온다.
+ *
+ * 우선순위: 명시 voiceFile(통합 전 인물 좌표형 재사용) > `scene-<id>.wav` > 본문 해시(id 없는 옛 데이터 폴백).
+ *
+ * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 같은 이름 함수와 규칙이 일치해야 한다.
+ */
+export function vnBeatVoiceFile(
+  beat: { id?: string; voiceFile?: string; speaker?: string; text?: string },
+  locale: 'ko' | 'en' = 'ko',
+): string {
+  if (beat.voiceFile) return beat.voiceFile
+  if (beat.id) return locale === 'en' ? `scene-${beat.id}-en.wav` : `scene-${beat.id}.wav`
+  return vnSceneBeat(beat.speaker, beat.text ?? '')
+}
+
 /** 제목 기반 안정 키 — 챕터 재배치에는 유지되고 제목 수정 시 옛 음원을 잘못 재생하지 않는다. */
 function chapterTitleKey(title: string): string {
   let hash = 0x811c9dc5

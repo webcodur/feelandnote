@@ -12,7 +12,7 @@ export type HeroCandidate = { slug: string; name: string; image?: string }
 /** 'logo:<경로>' 접두 — 인물이 아니라 임의 이미지 한 장을 시작 화면에 깐다 */
 const LOGO_PREFIX = 'logo:'
 
-const DEFAULT_PART_COUNT = 2
+import { shortsPartCountOf } from './sections/factionShorts'
 
 const partTab = (part: number) => ({
   key: part,
@@ -77,7 +77,7 @@ export function FactionHeroPicker({ script, candidates, series, episodeName, onC
   const infoOf = (slug: string) => candidates.find(c => c.slug === slug)
 
   // part 지정 시 그 편 한 줄만, 미지정이면 사용자가 정한 전체 편
-  const count = Math.max(1, partCount ?? script.shortsPartCount ?? DEFAULT_PART_COUNT)
+  const count = Math.max(1, partCount ?? shortsPartCountOf(script))
   const tabs = part != null
     ? [partTab(part)]
     : [partTab(0), ...Array.from({ length: count }, (_, index) => partTab(index + 1))]

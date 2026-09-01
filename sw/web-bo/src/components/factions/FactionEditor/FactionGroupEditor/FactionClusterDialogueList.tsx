@@ -5,6 +5,7 @@ import { ArrowRightLeft, Search, Trash2 } from '@feelandnote/shared/bo/icons'
 import type { FactionPerson, FactionSceneBeat } from '@/lib/faction-types'
 import { CelebBadge } from '@/components/factions/shared/CelebBadge'
 import { FactionSceneBeatRow } from './FactionSceneBeatRow'
+import { FactionInsertBoundary } from './FactionInsertBoundary'
 import { insertFactionCut } from './faction-scene-cut'
 import { detachFactionCastPerson } from './faction-speaker-edit'
 
@@ -12,6 +13,9 @@ type Props = {
   beats: FactionSceneBeat[]
   onBeatsChange: (next: FactionSceneBeat[]) => void
   onSplitBeat: (beatIndex: number) => void
+  onMoveBeatToScene?: (beatIndex: number) => void
+  onInsertSceneBefore: () => void
+  onInsertSceneAfter: () => void
   people: FactionPerson[]
   onPeopleChange: (nextPeople: FactionPerson[], nextBeats?: FactionSceneBeat[]) => void
   onAddCeleb: () => void
@@ -35,6 +39,9 @@ export function FactionClusterDialogueList({
   beats,
   onBeatsChange,
   onSplitBeat,
+  onMoveBeatToScene,
+  onInsertSceneBefore,
+  onInsertSceneAfter,
   people,
   onPeopleChange,
   onAddCeleb,
@@ -63,6 +70,17 @@ export function FactionClusterDialogueList({
   }
   const deleteBeat = (index: number) => onBeatsChange(beats.filter((_, beatIndex) => beatIndex !== index))
   const appendCut = () => onBeatsChange(insertFactionCut(beats, beats.length))
+  const insertSceneAt = (beatIndex: number) => {
+    if (beatIndex <= 0) {
+      onInsertSceneBefore()
+      return
+    }
+    if (beatIndex >= beats.length) {
+      onInsertSceneAfter()
+      return
+    }
+    onSplitBeat(beatIndex)
+  }
   const setPrimaryQuote = (index: number) => {
     const celebId = beats[index]?.speakerCelebId
     if (!celebId) return
@@ -119,22 +137,14 @@ export function FactionClusterDialogueList({
         </button>
       </div>
 
+      <FactionInsertBoundary
+        label={`${clusterIndex + 1}번 장면 시작 경계`}
+        onAddCut={() => onBeatsChange(insertFactionCut(beats, 0))}
+        onAddScene={() => insertSceneAt(0)}
+      />
+
       {beats.map((beat, index) => (
         <div key={`${groupIndex}-${clusterIndex}-beat-${index}`}>
-          {beat.shortsCutBefore ? (
-            <div className="mb-2 flex items-center gap-2" aria-label="장면 내부 쇼츠 편 경계">
-              <span className="h-px flex-1 bg-sky-500/50" />
-              <button
-                type="button"
-                onClick={() => changeBeat(index, { ...beat, shortsCutBefore: undefined })}
-                className="rounded border border-sky-500/50 bg-sky-500/10 px-2 py-1 text-[10px] font-bold text-sky-300 hover:border-sky-300 hover:bg-sky-500/20"
-                title="쇼츠 편 경계 제거"
-              >
-                쇼츠 편 경계 ✕
-              </button>
-              <span className="h-px flex-1 bg-sky-500/50" />
-            </div>
-          ) : null}
           <FactionSceneBeatRow
             beat={beat}
             index={index}
@@ -142,6 +152,7 @@ export function FactionClusterDialogueList({
             onChange={changeBeat}
             onMove={moveBeat}
             onSplit={onSplitBeat}
+            onMoveToScene={onMoveBeatToScene}
             onDelete={deleteBeat}
             editLang={editLang}
             sfxList={sfxList}
@@ -154,6 +165,19 @@ export function FactionClusterDialogueList({
             speakerVoiceFiles={speakerVoiceFiles}
             onAssignedPersonChange={nextPerson => changeAssignedPerson(beat, nextPerson)}
             onSetPrimaryQuote={() => setPrimaryQuote(index)}
+          />
+          <FactionInsertBoundary
+            label={`${index + 1}번 컷 뒤 경계`}
+            onAddCut={() => onBeatsChange(insertFactionCut(beats, index + 1))}
+            onAddScene={() => insertSceneAt(index + 1)}
+            // 컷 사이 편 경계는 다음 컷의 shortsCutBefore 로 산다. 마지막 컷 뒤는 장면 사이 토글이 맡는다.
+            cut={index + 1 < beats.length ? {
+              on: beats[index + 1].shortsCutBefore === true,
+              onToggle: () => changeBeat(index + 1, {
+                ...beats[index + 1],
+                shortsCutBefore: beats[index + 1].shortsCutBefore === true ? undefined : true,
+              }),
+            } : undefined}
           />
         </div>
       ))}

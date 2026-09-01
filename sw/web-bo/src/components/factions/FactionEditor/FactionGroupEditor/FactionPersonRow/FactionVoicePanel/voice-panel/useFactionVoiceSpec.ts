@@ -92,7 +92,8 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, inheri
   const saveQuoteStyle = (value: string) => {
     const trimmed = value.trim()
     if (((personRef.current[F.style] as string | undefined) ?? '') === trimmed) return
-    setField(F.style, trimmed || undefined)
+    // 빈 문자열은 "상속된 스타일을 쓰지 않음"이라는 명시적 override다.
+    setField(F.style, trimmed)
   }
 
   /**
