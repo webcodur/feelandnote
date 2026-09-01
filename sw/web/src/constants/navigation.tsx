@@ -141,6 +141,8 @@ export const FOOTER_SECTIONS: FooterSection[] = [
       { key: "faction", href: "/explore/faction", label: "세력도감" },
       { key: "today", href: "/explore/today", label: "오늘의 인물" },
       { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
+      // 인물 사전은 색인용 큰 명부다. 홈 본문에서 내려온 뒤로 전 화면에서 걸리는 입구는 여기와 탐색 목차 줄뿐이다
+      { key: "directory", href: "/explore/directory", label: "디렉토리" },
     ],
   },
   {

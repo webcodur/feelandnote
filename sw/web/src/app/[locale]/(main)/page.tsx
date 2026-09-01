@@ -88,7 +88,7 @@ export default async function MainPage() {
               </Lane>
             </HubSection>
 
-            {/* 2/4 기록이 쌓인 인물 — 명부. 더보기가 인물 사전으로 잇는다 */}
+            {/* 2/4 기록이 쌓인 인물 — 명부. 더보기가 같은 기준(기록순)의 전체 탐색 목록으로 잇는다 */}
             <HubSection {...sec("figureLinks")}>
               <Lane fallback={<FigureLinkGridPending count={HOME_FIGURE_LINK_COUNT} label={loading} />}>
                 <HomeFigureLinks />
