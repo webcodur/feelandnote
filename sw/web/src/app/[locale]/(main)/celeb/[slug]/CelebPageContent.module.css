@@ -404,6 +404,7 @@
      아바타 중앙(y=24px)에 맞추려면 top:-72px. */
   .actions {
     position: absolute;
+    z-index: 2;
     top: -72px;
     right: 0;
     left: auto;
