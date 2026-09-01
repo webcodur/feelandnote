@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { createBoundedGraphPan, focusGraphPerson, panGraphImmediately, restoreGraphView } from "./graphCamera";
+import {
+  boundGraphOffset, createBoundedGraphPan, focusGraphPerson, panGraphImmediately, restoreGraphView,
+} from "./graphCamera";
 
 test("an immediate pan keeps every G6 render layer aligned", () => {
   const pans: Record<string, [number, number][]> = { main: [], label: [], transient: [] };
@@ -15,6 +17,20 @@ test("an immediate pan keeps every G6 render layer aligned", () => {
   assert.deepEqual(pans, {
     main: [[-10, 5]], label: [[-10, 5]], transient: [[-10, 5]],
   });
+});
+
+test("a compact mobile map can travel down while all of its content stays visible", () => {
+  const canvas = { left: 0, top: 0, width: 320, height: 555 };
+  const content = { left: 10, right: 310, top: 63, bottom: 492 };
+
+  assert.deepEqual(boundGraphOffset(canvas, content, [0, 200]), [0, 45]);
+});
+
+test("an oversized mobile map stops close to its finished edge", () => {
+  const canvas = { left: 0, top: 0, width: 320, height: 405 };
+  const content = { left: 0, right: 500, top: -10, bottom: 420 };
+
+  assert.equal(boundGraphOffset(canvas, content, [0, 200])[1], 42);
 });
 
 test("a gesture that reaches a boundary stays silent for all of its pointer frames", () => {

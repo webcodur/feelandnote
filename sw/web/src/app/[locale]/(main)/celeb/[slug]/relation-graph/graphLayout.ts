@@ -1,7 +1,5 @@
 import { DiagramBuilder, type CenterRay, type RowBranch } from "./diagramPrimitives";
-import type {
-  DiagramLabels, DiagramTheme, PersonNode, RelationFocus, RelationMode, RelationModel,
-} from "./types";
+import type { DiagramLabels, DiagramTheme, PersonNode, RelationFocus, RelationMode, RelationModel } from "./types";
 const CENTER_X = 480;
 const SIDE_BUS_OFFSET = 160;
 const SIDE_NODE_OFFSET = 46;
@@ -12,10 +10,7 @@ const AXIS_ROW_GAP = 96;
 const AXIS_LANE_OFFSET = 98;
 const COMPACT_COLUMN_GAP = 96;
 const COMPACT_ROW_GAP = 100;
-interface LayoutViewport {
-  compact: boolean;
-  width: number;
-}
+interface LayoutViewport { compact: boolean; width: number; }
 const balancedRows = <T,>(items: T[], maxSize: number) => {
   const rowCount = Math.ceil(items.length / maxSize);
   if (!rowCount) return [];
@@ -33,9 +28,7 @@ const centeredXs = (centerX: number, count: number, gap: number) => Array.from(
   { length: count }, (_, index) => centerX + (index - (count - 1) / 2) * gap,
 );
 const sideColumns = (count: number) => count > 18 ? 4 : count > 2 ? 3 : 2;
-const sideRowCount = (count: number) => count
-  ? Math.ceil(count / sideColumns(count))
-  : 0;
+const sideRowCount = (count: number) => count ? Math.ceil(count / sideColumns(count)) : 0;
 function visibleGroups(mode: RelationMode, model: RelationModel, focuses: RelationFocus[]) {
   const groups = mode === "family"
     ? {
@@ -71,6 +64,17 @@ export function graphStageHeight(mode: RelationMode, model: RelationModel, focus
   const sideHeight = longestWing ? sideBase + longestWing * SIDE_ROW_GAP : 0;
   const axisHeight = deepestAxis ? 360 + deepestAxis * AXIS_ROW_GAP * 2 : 0;
   return Math.max(360, sideHeight, axisHeight);
+}
+const clampMobileHeight = (height: number) => Math.min(540, Math.max(360, Math.ceil(height)));
+export function mobileGraphStageHeight(mode: RelationMode, model: RelationModel, focuses: RelationFocus[], initialZoom: number) {
+  const groups = visibleGroups(mode, model, focuses);
+  const count = Math.max(...Object.values(groups).map((people) => people.length));
+  if (focuses.length === 1) {
+    const columns = Math.min(count, count > 9 ? 4 : 3);
+    const rows = columns ? Math.ceil(count / columns) : 1;
+    return clampMobileHeight(360 + (rows - 1) * COMPACT_ROW_GAP);
+  }
+  return clampMobileHeight(graphStageHeight(mode, model, focuses) * initialZoom + 32);
 }
 function connectWing(builder: DiagramBuilder, origin: string, rows: RowBranch[], centerY: number) {
   const upper = rows.filter((row) => row.y < centerY).sort((a, b) => b.y - a.y);

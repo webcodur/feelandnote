@@ -27,8 +27,9 @@ const CENTER_MOVE = { duration: 220, easing: "ease-out" };
 const PERSON_MOVE = { duration: 160, easing: "ease-out" };
 interface GraphBounds { left: number; top: number; right: number; bottom: number; }
 
-const boundaryInset = ({ width, height }: Pick<DOMRect, "width" | "height">) =>
-  Math.min(144, Math.max(48, Math.min(width, height) * 0.18));
+const boundaryInset = ({ width, height }: Pick<DOMRect, "width" | "height">) => width < 480
+  ? Math.min(40, Math.max(24, Math.min(width, height) * 0.1))
+  : Math.min(144, Math.max(48, Math.min(width, height) * 0.18));
 
 const axisOffset = (
   desired: number, viewportStart: number, viewportEnd: number,
@@ -36,7 +37,8 @@ const axisOffset = (
 ) => {
   const available = viewportEnd - viewportStart - inset * 2;
   if (contentEnd - contentStart <= available) {
-    return (viewportStart + viewportEnd - contentStart - contentEnd) / 2;
+    const fittedInset = Math.min(18, inset);
+    return Math.min(viewportEnd - fittedInset - contentEnd, Math.max(viewportStart + fittedInset - contentStart, desired));
   }
   const minimum = viewportEnd - inset - contentEnd;
   const maximum = viewportStart + inset - contentStart;
