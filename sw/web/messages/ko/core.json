@@ -780,7 +780,7 @@
   },
   "share": {
     "label": "공유",
-    "chooseChannel": "공유할 곳 선택",
+    "chooseChannel": "공유",
     "copyLink": "링크 복사",
     "copied": "복사됨"
   },

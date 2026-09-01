@@ -28,8 +28,8 @@ export default function TimelineIndexTick({ value }: Props) {
   const dir = transition.direction;
 
   return (
-    <span className="relative inline-block h-[1em] min-w-[2ch] overflow-hidden align-middle tabular-nums">
-      <span className="invisible block text-end leading-none">{value}</span>
+    <span className="relative inline-block h-[1em] min-w-[2ch] overflow-hidden align-middle text-center tabular-nums">
+      <span className="invisible block leading-none">{value}</span>
       <AnimatePresence initial={false} custom={dir}>
         <motion.span
           key={value}
@@ -38,7 +38,7 @@ export default function TimelineIndexTick({ value }: Props) {
           animate={{ y: "0%" }}
           exit={{ y: `${dir * -110}%` }}
           transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0 text-end leading-none"
+          className="absolute inset-0 text-center leading-none"
         >
           {value}
         </motion.span>

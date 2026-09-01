@@ -2,7 +2,6 @@
 
 import { useCallback, useRef, type PointerEvent as ReactPointerEvent } from "react";
 import { useTranslations } from "next-intl";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import JourneyEventCard from "./JourneyEventCard";
@@ -44,6 +43,16 @@ export default function JourneyEventCarousel({
   );
 
   const handleDragStart = useCallback((pointer: ReactPointerEvent) => {
+    if (
+      pointer.target instanceof Element &&
+      pointer.target.closest(
+        "[data-timeline-title-scroll], [data-timeline-range-scroll]",
+      )
+    ) {
+      swipeRef.current.active = false;
+      return;
+    }
+
     swipeRef.current = {
       x: pointer.clientX,
       y: pointer.clientY,
@@ -92,22 +101,11 @@ export default function JourneyEventCarousel({
       data-timeline-carousel
       data-timeline-index={current}
       data-timeline-total={total}
-      className="grid h-[360px] min-w-0 grid-cols-[40px_minmax(0,1fr)_40px] overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary/35 md:h-[396px] md:grid-cols-[52px_minmax(0,1fr)_52px]"
+      className="h-[360px] min-w-0 overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary/35 md:h-[396px]"
     >
-      <button
-        data-timeline-rail="previous"
-        type="button"
-        onClick={() => go(current - 1)}
-        disabled={current === 0}
-        aria-label={t("timelinePrev")}
-        className="flex h-full items-center justify-center border-e border-accent-dim/25 bg-bg-secondary/45 text-text-secondary hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-20"
-      >
-        <ArrowLeft size={21} strokeWidth={1.6} aria-hidden />
-      </button>
-
       <div
         ref={trackRef}
-        className="h-full min-w-0 overflow-hidden touch-pan-y"
+        className="h-full min-w-0 overflow-hidden"
         onPointerDown={handleDragStart}
         onPointerMove={handleDragMove}
         onPointerUp={handleDragEnd}
@@ -117,6 +115,7 @@ export default function JourneyEventCarousel({
         <JourneyEventCard
           event={event}
           isCurrent
+          events={events}
           positionLabel={formatTimelineHeadline(
             event,
             yearCopy,
@@ -125,23 +124,22 @@ export default function JourneyEventCarousel({
           currentNumber={current + 1}
           currentLabel={t("timelineCurrent", { current: current + 1 })}
           totalLabel={t("timelineTotal", { total })}
+          activityRangeLabel={t("timelineViewMap")}
+          activityRangeCountLabel={t("timelineMapRecordCount", {
+            count: total,
+          })}
+          previousLabel={t("timelinePrev")}
+          nextLabel={t("timelineNext")}
+          previousDisabled={current === 0}
+          nextDisabled={current >= total - 1}
+          onPrevious={() => go(current - 1)}
+          onNext={() => go(current + 1)}
+          onChange={go}
           onPlaceSelect={() => {
             if (!swipeRef.current.moved) onPlaceSelect(event.id);
           }}
         />
       </div>
-
-      <button
-        data-timeline-rail="next"
-        data-timeline-next
-        type="button"
-        onClick={() => go(current + 1)}
-        disabled={current >= total - 1}
-        aria-label={t("timelineNext")}
-        className="flex h-full items-center justify-center border-s border-accent-dim/25 bg-bg-secondary/45 text-text-secondary hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-20"
-      >
-        <ArrowRight size={21} strokeWidth={1.6} aria-hidden />
-      </button>
     </div>
   );
 }

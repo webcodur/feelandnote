@@ -779,7 +779,7 @@
   },
   "share": {
     "label": "Share",
-    "chooseChannel": "Choose where to share",
+    "chooseChannel": "Share",
     "copyLink": "Copy link",
     "copied": "Copied"
   },

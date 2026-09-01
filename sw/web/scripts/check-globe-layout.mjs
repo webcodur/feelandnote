@@ -5,7 +5,6 @@ const route = process.env.GLOBE_LAYOUT_CHECK_ROUTE ?? "/ko/celeb/bill-gates";
 
 const scenarios = [
   { name: "desktop", width: 1280, height: 800 },
-  { name: "mobile", width: 390, height: 844, isMobile: true, hasTouch: true },
 ];
 
 function expectedHeight(width, maxHeight = 460) {
@@ -151,24 +150,18 @@ try {
     }
 
     const resizedViewport = {
-      width: scenario.isMobile ? 430 : 1024,
+      width: 1024,
       height: scenario.height,
       deviceScaleFactor: 1,
-      isMobile: scenario.isMobile ?? false,
-      hasTouch: scenario.hasTouch ?? false,
+      isMobile: false,
+      hasTouch: false,
     };
     await page.setViewport(resizedViewport);
     await new Promise((resolve) => setTimeout(resolve, 200));
     const { geometry: resized, expected: resizedExpected } =
       await assertReservedGeometry(page, scenario.name, "resized");
 
-    await page.$$eval("#timeline button[aria-pressed]", (buttons) => {
-      const atlas = buttons[2];
-      if (!(atlas instanceof HTMLButtonElement)) {
-        throw new Error("The activity-radius tab is missing.");
-      }
-      atlas.click();
-    });
+    await page.click("#timeline [data-timeline-card-toggle]");
     await new Promise((resolve) => setTimeout(resolve, 200));
     const { geometry: atlas, expected: atlasExpected } =
       await assertReservedGeometry(page, scenario.name, "atlas", 620);

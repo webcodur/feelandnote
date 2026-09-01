@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { Maximize2 } from "lucide-react";
 import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-photo";
@@ -16,6 +15,7 @@ interface CelebHeroPhotoProps {
   onZoom: () => void;
   zoomLabel: string;
   hasVoice: boolean;
+  isVoicePlaying?: boolean;
   /** 사진·아바타 기본 클릭으로 인사 대사를 출력한다 */
   onGreet?: () => void;
   greetLabel?: string;
@@ -37,12 +37,12 @@ export default function CelebHeroPhoto({
   onZoom,
   zoomLabel,
   hasVoice,
+  isVoicePlaying = false,
   onGreet,
   greetLabel,
   avatarSize,
   initialSize,
 }: CelebHeroPhotoProps) {
-  const [voicePulse, setVoicePulse] = useState(0);
   const canShowGreeting = Boolean(onGreet);
 
   // 테두리 강조는 지연 없이 즉시 반응한다 (전 앱 공통 상호작용 원칙)
@@ -50,7 +50,6 @@ export default function CelebHeroPhoto({
     "ring-1 ring-accent/20 hover:ring-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
 
   const handleGreetingClick = () => {
-    if (hasVoice) setVoicePulse((pulse) => pulse + 1);
     onGreet?.();
   };
 
@@ -62,7 +61,7 @@ export default function CelebHeroPhoto({
 
   const voiceBadge = (
     <div className={`pointer-events-none absolute ${badgeY} ${badgeEnd} z-[2]`} aria-hidden="true">
-      <VoiceBadge size="lg" active={hasVoice} pulse={voicePulse} />
+      <VoiceBadge size="lg" active={hasVoice} />
     </div>
   );
 
@@ -92,8 +91,13 @@ export default function CelebHeroPhoto({
           type="button"
           onClick={handleGreetingClick}
           aria-label={greetLabel}
+          aria-pressed={hasVoice ? isVoicePlaying : undefined}
           disabled={!canShowGreeting}
-          className={`group relative block h-full w-full overflow-hidden rounded-sm bg-bg-secondary ${ringClass} ${canShowGreeting ? "cursor-pointer active:scale-95" : "cursor-default"}`}
+          className={`group relative block h-full w-full overflow-hidden rounded-sm bg-bg-secondary ${ringClass} ${
+            isVoicePlaying
+              ? "ring-2 ring-emerald-400/80 shadow-[0_0_20px_rgba(52,211,153,0.22)]"
+              : ""
+          } ${canShowGreeting ? "cursor-pointer" : "cursor-default"}`}
         >
           <Image
             src={photoUrl}
@@ -117,9 +121,14 @@ export default function CelebHeroPhoto({
         type="button"
         onClick={handleGreetingClick}
         aria-label={greetLabel}
+        aria-pressed={hasVoice ? isVoicePlaying : undefined}
         disabled={!canShowGreeting}
         className={`block h-full w-full overflow-hidden rounded-full bg-portrait-stage ${ringClass} ${
-          canShowGreeting ? "cursor-pointer active:scale-95" : "cursor-default"
+          isVoicePlaying
+            ? "ring-2 ring-emerald-400/80 shadow-[0_0_20px_rgba(52,211,153,0.22)]"
+            : ""
+        } ${
+          canShowGreeting ? "cursor-pointer" : "cursor-default"
         }`}
       >
         {avatarUrl ? (

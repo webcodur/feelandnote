@@ -192,6 +192,44 @@
   word-break: keep-all;
 }
 
+.quoteButton {
+  width: calc(100% + 20px);
+  margin-inline: -10px;
+  padding: 6px 10px;
+  border: 0;
+  border-inline-start: 2px solid color-mix(in srgb, var(--color-accent) 42%, transparent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-accent) 3%, transparent);
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.quoteButton:hover {
+  border-inline-start-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  color: var(--color-accent-hover);
+}
+
+.quoteButton:active {
+  color: var(--color-accent-dim);
+}
+
+.quoteButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.quoteButtonPlaying,
+.quoteButtonPlaying:hover {
+  border-inline-start-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 13%, transparent);
+  color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 24%, transparent);
+}
+
 /* PC: 제목(identityPrimary)과 같은 줄 우상단에 붙는다. absolute를 쓰지 않아
    위에 따로 떠 있지 않고, flex gap이 제목과 버튼 사이 공간을 채운다. */
 .actions {
@@ -230,6 +268,10 @@
   gap: 10px;
   scroll-margin-top: 6rem;
   outline: none;
+}
+
+.guestbookSection {
+  margin-block-start: -32px;
 }
 
 /* 탭 없이 글만 담는 상자. 탭이 있는 구획은 탭 줄이 위 경계선과 글 사이를 채우지만,
@@ -384,8 +426,20 @@
     gap: 0;
   }
 
+  .actions > button,
+  .actions > div > button {
+    width: 32px !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+  }
+
   .sectionStack {
     gap: 72px;
+  }
+
+  .guestbookSection {
+    margin-block-start: -24px;
   }
 }
 
