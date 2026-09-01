@@ -202,6 +202,29 @@ export function useImageDrop(dnd: string, onDropImage: (path: string) => void) {
   return { dragOver, dropProps }
 }
 
+/** 자리에서 끌어온 사진임을 표시하는 데이터 종류 — 사진 목록의 폴더는 이걸 보고 파일 이동을 거절한다. */
+export const slotDndType = (dnd: string) => `${dnd}-slot`
+
+/**
+ * 자리에 놓인 사진을 끄는 쪽. 사진 목록에서 끄는 것과 같은 데이터를 실어, 어느 사진 칸에 놓아도
+ * 그 칸을 덮어쓴다(원래 자리는 그대로). path 가 없으면 끌 수 없다. dragProps 를 사진 요소에 펼쳐 붙인다.
+ */
+export function useImageSlotDrag(dnd: string, path: string | undefined) {
+  const dragProps: { draggable?: boolean; onDragStart?: (e: DragEvent) => void } = path
+    ? {
+        draggable: true,
+        onDragStart: (e: DragEvent) => {
+          e.stopPropagation()
+          e.dataTransfer.setData(dnd, path)
+          e.dataTransfer.setData(slotDndType(dnd), path)
+          e.dataTransfer.setData('text/plain', path)
+          e.dataTransfer.effectAllowed = 'copy'
+        },
+      }
+    : {}
+  return dragProps
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // 크게 보기
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1035,15 +1058,16 @@ export function ImagePool({
     if (await onDeleteFolder(folder)) load()
   }
 
-  // 사진을 폴더로 끌어 옮기기
+  // 사진을 폴더로 끌어 옮기기. 자리에서 끌어온 사진은 받지 않는다 — 그건 자리끼리 맞바꾸는 끌기라 파일을 옮기면 안 된다.
   const onFolderDragOver = (folder: string) => (e: DragEvent) => {
-    if (!e.dataTransfer.types.includes(dnd)) return
+    if (!e.dataTransfer.types.includes(dnd) || e.dataTransfer.types.includes(slotDndType(dnd))) return
     e.preventDefault()
     e.stopPropagation()
     e.dataTransfer.dropEffect = 'move'
     if (dragFolder !== folder) setDragFolder(folder)
   }
   const onFolderDrop = (folder: string) => async (e: DragEvent) => {
+    if (e.dataTransfer.types.includes(slotDndType(dnd))) return
     const from = e.dataTransfer.getData(dnd)
     setDragFolder(null)
     if (!from || !onMoveFile) return
@@ -1325,7 +1349,7 @@ export const IMAGE_FILTER_OPTIONS: { value: string; label: string }[] = [
  */
 export function ImageCard({
   src, crop, inheritedSrc, inheritedCrop, inheritedLabel = '물려받음',
-  dnd, onDropImage, onOpenPicker,
+  dnd, onDropImage, path, onOpenPicker,
   label, theme, filter, onFilterChange, onClearImage, onRemove,
   caption, captionEmpty = '빈 줄', children, width = 280,
 }: {
@@ -1339,6 +1363,8 @@ export function ImageCard({
   /** 끌어다 놓기 데이터 종류 — 시리즈별 상수 */
   dnd: string
   onDropImage: (path: string) => void
+  /** 이 카드 사진의 원본 경로(에피소드 폴더 기준). 주면 사진을 끌어 다른 자리에 덮어쓸 수 있다 */
+  path?: string
   onOpenPicker: () => void
   /** 머리띠 이름표 — '#1 시작' 같은 것 */
   label: string
@@ -1357,6 +1383,9 @@ export function ImageCard({
   children?: ReactNode
   width?: number
 }) {
+  // 사진이 놓인 자리는 끌 수도 있다 — 사진 목록에서 끄는 것과 같아서, 다른 자리에 놓으면 그 자리를 덮어쓴다.
+  const canDrag = !!(path && src)
+  const dragProps = useImageSlotDrag(dnd, canDrag ? path : undefined)
   const { dragOver, dropProps } = useImageDrop(dnd, onDropImage)
   const borderCls = theme ? theme.border : 'border-border'
 
@@ -1366,8 +1395,11 @@ export function ImageCard({
         type="button"
         onClick={e => { e.stopPropagation(); onOpenPicker() }}
         {...dropProps}
-        title="누르면 사진을 고릅니다 · 사진 목록에서 끌어다 놓아도 됩니다"
-        className={`relative flex aspect-[4/3] w-28 shrink-0 items-center justify-center overflow-hidden border-e bg-black/5 ${borderCls} ${dragOver ? 'border-accent ring-2 ring-accent' : ''}`}
+        {...dragProps}
+        title={canDrag
+          ? '누르면 사진을 고릅니다 · 끌어서 다른 자리에 놓으면 그 자리 사진을 덮어씁니다'
+          : '누르면 사진을 고릅니다 · 사진 목록에서 끌어다 놓아도 됩니다'}
+        className={`relative flex aspect-[4/3] w-28 shrink-0 items-center justify-center overflow-hidden border-e bg-black/5 ${borderCls} ${dragOver ? 'border-accent ring-2 ring-accent' : ''} ${canDrag ? 'cursor-grab active:cursor-grabbing' : ''}`}
       >
         {src ? (
           <MediaThumb src={src} alt="" className="h-full w-full object-cover" style={cropToStyle(crop)} />

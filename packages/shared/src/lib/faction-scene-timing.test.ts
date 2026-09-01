@@ -154,6 +154,33 @@ test("화자가 바뀌는 덩어리에서만 이름 자리를 새로 띄운다",
   );
 });
 
+test("대사 뒤에 이어지는 해설은 장면명을 다시 띄우지 않는다", () => {
+  // 오디세이아 2-1: 거인 동료들의 대사 뒤 해설에서 장면명 「외딴 섬의 동굴을 방문하다」가 되돌아왔다.
+  const timing = factionSceneTiming({
+    beats: [
+      { text: "동굴에 들어선다." },
+      { speaker: "거인의 동료들", text: "아버지에게나 도와달라고 해라." },
+      { text: "일행은 이때를 틈타 배로 도망친다." },
+      { text: "노를 저어 멀어진다.", label: "탈출" },
+      { speaker: "거인의 동료들", text: "돌아오라!" },
+    ],
+  } as any);
+
+  assert.deepEqual(
+    timing.beats.map((b) => b.showsIdentity),
+    // 첫 해설만 장면명 · 대사 · 해설(숨김) · 라벨 있는 해설 · 해설을 지난 뒤 같은 화자는 이름을 다시 띄운다
+    [true, true, false, true, true],
+  );
+  // 이름을 띄우지 않는 해설은 교차 시간만 두고 곧장 본문으로 넘어간다.
+  assert.ok(
+    Math.abs(
+      timing.beats[2].textStartSec -
+        timing.beats[2].startSec -
+        FACTION_SCENE_PARAGRAPH_TRANSITION_SEC,
+    ) < 1e-9,
+  );
+});
+
 test("이름 표시를 끈 미할당 컷은 장면명을 자동으로 띄우지 않는다", () => {
   const timing = factionSceneTiming({
     beats: [{ text: "동료 여섯이 잡아먹힌다.", hideIdentity: true }],

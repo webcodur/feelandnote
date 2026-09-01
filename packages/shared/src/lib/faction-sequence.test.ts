@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
+  cleanFactionSequenceCuts,
+  factionSequenceCutBoundaries,
   factionSequenceOf,
   normalizeFactionGroupEntries,
   sequenceClusters,
   sequenceCutCount,
+  withFactionSequenceCut,
 } from './faction-sequence'
 import { joinCluster, joinGroup, splitCluster, splitGroup } from './faction-schema'
 
@@ -114,9 +117,44 @@ test('같은 장면 안의 쇼츠 경계는 다음 beat flag로, 장면 사이 �
   assert.equal(sequenceClusters(normalized).length, 2)
 })
 
-test('이미 통합된 sequence의 없는 묶음·잘못된 편 경계는 거부한다', () => {
-  const base = { name: '잘못된 경계', clusters: [{ people: [], beats: [] }] }
+test('이미 통합된 sequence의 없는 묶음·맨 앞 경계·연속 경계는 거부한다', () => {
+  const base = { name: '잘못된 경계', clusters: [{ people: [], beats: [] }, { people: [], beats: [] }] }
   assert.throws(() => factionSequenceOf({ ...base, sequence: [{ kind: 'cluster', clusterIndex: 2 }] }), /없는 묶음/)
-  assert.throws(() => factionSequenceOf({ ...base, sequence: [{ kind: 'cut' }, { kind: 'cluster', clusterIndex: 0 }] }), /맨 앞이나 맨 뒤/)
-  assert.throws(() => factionSequenceOf({ ...base, sequence: [{ kind: 'cluster', clusterIndex: 0 }, { kind: 'cut' }] }), /맨 앞이나 맨 뒤/)
+  assert.throws(() => factionSequenceOf({ ...base, sequence: [{ kind: 'cut' }, { kind: 'cluster', clusterIndex: 0 }, { kind: 'cluster', clusterIndex: 1 }] }), /맨 앞/)
+  assert.throws(() => factionSequenceOf({
+    ...base,
+    sequence: [{ kind: 'cluster', clusterIndex: 0 }, { kind: 'cut' }, { kind: 'cut' }, { kind: 'cluster', clusterIndex: 1 }],
+  }), /연속/)
+})
+
+test('세력 끝 경계는 허용한다 — 다음 세력과의 사이에서 편이 갈린다', () => {
+  const group = { name: '끝 경계', clusters: [{ people: [], beats: [] }, { people: [], beats: [] }] }
+  const sequence = factionSequenceOf({
+    ...group,
+    sequence: [{ kind: 'cluster', clusterIndex: 0 }, { kind: 'cluster', clusterIndex: 1 }, { kind: 'cut' }],
+  })
+  assert.deepEqual(sequence, [
+    { kind: 'cluster', clusterIndex: 0 },
+    { kind: 'cluster', clusterIndex: 1 },
+    { kind: 'cut' },
+  ])
+  assert.deepEqual([...factionSequenceCutBoundaries(sequence)], [2])
+})
+
+test('경계 자리를 켜고 끄면 장면 순서는 그대로고 경계만 오간다', () => {
+  const clusters = [{ kind: 'cluster', clusterIndex: 0 }, { kind: 'cluster', clusterIndex: 1 }, { kind: 'cluster', clusterIndex: 2 }] as const
+  const withMiddle = withFactionSequenceCut([...clusters], 1, true)
+  assert.deepEqual(withMiddle, [clusters[0], { kind: 'cut' }, clusters[1], clusters[2]])
+  const withBoth = withFactionSequenceCut(withMiddle, 3, true)
+  assert.deepEqual([...factionSequenceCutBoundaries(withBoth)], [1, 3])
+  const cleared = withFactionSequenceCut(withBoth, 1, false)
+  assert.deepEqual(cleared, [clusters[0], clusters[1], clusters[2], { kind: 'cut' }])
+  // 0번(맨 앞)과 장면 수를 넘는 자리는 없다.
+  assert.throws(() => withFactionSequenceCut([...clusters], 0, true), /1~3/)
+  assert.throws(() => withFactionSequenceCut([...clusters], 4, true), /1~3/)
+  // 규칙에 어긋난 입력(맨 앞·연속)은 걷어내고 끝 경계는 남긴다.
+  assert.deepEqual(
+    cleanFactionSequenceCuts([{ kind: 'cut' }, clusters[0], { kind: 'cut' }, { kind: 'cut' }, clusters[1], { kind: 'cut' }]),
+    [clusters[0], { kind: 'cut' }, clusters[1], { kind: 'cut' }],
+  )
 })

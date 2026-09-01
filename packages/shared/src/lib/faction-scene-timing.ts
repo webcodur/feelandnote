@@ -26,6 +26,8 @@ export const FACTION_SCENE_SFX_START_PERCENT_STEP = 1;
 export type FactionSceneBeatInput = {
   /** 화자 이름. 없으면 해설이며 장면 제목이 이름 자리를 지킨다. 셀럽 등록과 무관한 자유 문자열이다. */
   speaker?: string;
+  /** 해설 컷의 제 라벨. 있으면 장면명 대신 이 문구가 이름 자리에 뜬다. */
+  label?: string;
   /** true면 이 컷에서는 화자명·장면명을 이름 자리에 띄우지 않는다. */
   hideIdentity?: boolean;
   /** 화면에 뜨고 낭독되는 본문. 빈 줄로 나누면 같은 덩어리 안에서 화면이 넘어간다. */
@@ -70,7 +72,8 @@ export type FactionSceneBeatTiming = {
   speaker: string;
   text: string;
   /**
-   * 이름 자리를 새로 띄우는 덩어리인가. 첫 덩어리와, 앞 덩어리와 화자가 다른 덩어리가 해당한다.
+   * 이름 자리를 새로 띄우는 덩어리인가. 첫 덩어리와, 앞 덩어리와 화자가 다른 대사 덩어리가 해당한다.
+   * 첫 덩어리가 아닌 해설은 제 라벨이 있을 때만 해당한다(장면명을 다시 띄우지 않는다).
    * 같은 화자가 이어 말하면 이름을 다시 띄우지 않고 본문만 교체한다.
    */
   showsIdentity: boolean;
@@ -218,7 +221,8 @@ export function factionSceneBeatsOf(
 
 /**
  * 덩어리별 화면 시각. 이름 자리는 첫 덩어리와 화자가 바뀌는 덩어리에서만 새로 뜨고,
- * 같은 화자가 이어 말하면 본문만 교차로 교체된다.
+ * 같은 화자가 이어 말하면 본문만 교차로 교체된다. 첫 덩어리가 아닌 해설은 제 라벨이 있을 때만
+ * 이름 자리를 띄운다 — 장면명은 장면 시작에 한 번만 뜬다.
  */
 export function factionSceneBeatTimings(
   input: FactionSceneTimingInput,
@@ -237,9 +241,14 @@ export function factionSceneBeatTimings(
 
   return beats.map((beat, index) => {
     const speaker = (beat.speaker ?? "").trim();
+    const label = (beat.label ?? "").trim();
+    // 대사는 화자가 바뀔 때 이름을 띄운다. 해설(화자 없음)은 제 이름이 없어 장면명을 띄우는데,
+    // 장면 첫 덩어리에서 한 번이면 된다 — 대사 뒤에 해설이 이어진다고 장면명을 다시 띄우면
+    // 이미 지나간 제목이 되돌아온 것처럼 보인다. 해설에 제 라벨이 있을 때만 그 라벨을 띄운다.
     const showsIdentity = beat.hideIdentity !== true
-      && (index === 0 || speaker !== lastShownSpeaker);
-    if (showsIdentity) lastShownSpeaker = speaker;
+      && (index === 0 || (speaker ? speaker !== lastShownSpeaker : !!label));
+    // 해설을 지나면 다음 화자는 같은 사람이라도 이름을 다시 띄운다 — 사이에 이름 없는 본문이 있었다.
+    if (showsIdentity || !speaker) lastShownSpeaker = speaker;
 
     const startSec = cursorSec;
     const textStartSec =

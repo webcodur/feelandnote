@@ -3,7 +3,6 @@ import test from 'node:test'
 import {
   buildFactionDescription,
   buildFactionTags,
-  factionPartNumbers,
   factionVariants,
   type FactionMetaInput,
 } from './youtube-faction-meta'
@@ -13,7 +12,6 @@ const input: FactionMetaInput = {
   groups: [
     {
       name: '공통 세력',
-      part: 1,
       people: [
         { name: '공통 인물' },
         { name: '인물 롱폼 전용', longformOnly: true },
@@ -25,24 +23,33 @@ const input: FactionMetaInput = {
     },
     {
       name: '세력 롱폼 전용',
-      part: 2,
       longformOnly: true,
       people: [{ name: '세력 전용 인물' }],
     },
   ],
 }
 
-test('longformOnly 세력의 part는 쇼츠 편을 만들지 않는다', () => {
-  assert.deepEqual(factionPartNumbers(input.groups), [1])
+test('편 경계가 없는 쇼츠는 단편(KO-S1) 하나다', () => {
   assert.deepEqual(
     factionVariants(input.groups).map(variant => variant.key),
     ['ko-longform', 'ko-shorts-1'],
   )
 })
 
+test('세력 끝 경계로 세력 단위 편이 갈린다', () => {
+  const groups = [
+    { name: '앞 세력', clusters: [{}], sequence: [{ kind: 'cluster', clusterIndex: 0 }, { kind: 'cut' }] },
+    { name: '뒤 세력', clusters: [{}], sequence: [{ kind: 'cluster', clusterIndex: 0 }] },
+  ]
+  assert.deepEqual(
+    factionVariants(groups as never).map(variant => variant.fileSuffix),
+    ['KO-LV', 'KO-S1', 'KO-S2'],
+  )
+})
+
 test('모든 활성 세력이 longformOnly면 쇼츠 변형을 만들지 않는다', () => {
   assert.deepEqual(
-    factionVariants([{ part: 1, longformOnly: true }]).map(variant => variant.key),
+    factionVariants([{ longformOnly: true }]).map(variant => variant.key),
     ['ko-longform'],
   )
 })
@@ -75,7 +82,6 @@ test('세력 내부 경계가 쇼츠 변형을 만들고 롱폼은 한 편으로
     title: '내부 경계',
     groups: [{
       name: '긴 여정',
-      part: 1,
       clusters: [
         { people: [{ name: '전반 인물' }] },
         { people: [{ name: '후반 인물' }] },

@@ -43,4 +43,15 @@ export type Props = {
   playbackRate?: number
   /** 음량 dB 게인 — 지정 시 audio.volume = dbToLinear(gainDb) 로 반영. 미지정이면 0dB(기존 동작). */
   gainDb?: number
+  /**
+   * 재생 상태가 바뀔 때 보고 — 접힌 아코디언 헤더의 재생 버튼처럼 파형 바깥에 놓인
+   * 조작 버튼이 지금 소리가 나는지 알아야 할 때 쓴다.
+   */
+  onPlayingChange?: (playing: boolean) => void
+}
+
+/** 파형 바깥(아코디언 헤더 등)에서 재생을 제어할 때 쓰는 손잡이. */
+export type AudioWaveHandle = {
+  toggle: () => void
+  stop: () => void
 }

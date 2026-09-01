@@ -3,6 +3,11 @@
  *
  * 최상위 sequence에는 장면(cluster)과 쇼츠 경계(cut)만 둔다. 구 인물 대사와
  * isPerson=false 장면은 같은 cluster.beats 안의 대사 항목으로 평평하게 승격한다.
+ *
+ * 쇼츠 경계는 **한 종류**다 — 이야기 순서 위의 "여기서 편이 갈린다" 표식. 장면 사이에도, 세력 끝
+ * (다음 세력과의 사이)에도 둘 수 있다. 세력 끝 경계가 있어야 세력 단위로 편을 가를 수 있다.
+ * 장면 한가운데는 대사 항목의 `shortsCutBefore`가 같은 뜻으로 쓰인다(faction-shorts.ts).
+ * 옛 `group.part` 번호 배정은 폐기했다 — 편 순서는 이야기 순서다.
  */
 
 import {
@@ -53,11 +58,15 @@ export function legacySceneToFactionEntry(scene: Row): Row {
   }
 }
 
+/**
+ * 경계 규칙 — 맨 앞에는 못 두고(앞 세력 끝 경계가 같은 뜻), 연속으로도 못 둔다.
+ * 맨 뒤(세력 끝)는 둘 수 있다: 다음 세력과의 사이에서 편이 갈린다는 뜻이다.
+ */
 function validateCuts(group: Row, sequence: FactionSequenceItem[]): void {
   sequence.forEach((item, index) => {
     if (item.kind !== 'cut') return
-    if (index === 0 || index === sequence.length - 1) {
-      throw new Error(`${groupLabel(group)} sequence의 편 경계는 맨 앞이나 맨 뒤에 둘 수 없다`)
+    if (index === 0) {
+      throw new Error(`${groupLabel(group)} sequence의 편 경계는 맨 앞에 둘 수 없다 — 앞 세력의 끝 경계로 표현한다`)
     }
     if (sequence[index - 1]?.kind === 'cut') {
       throw new Error(`${groupLabel(group)} sequence에 편 경계가 연속으로 들어 있다`)
@@ -65,14 +74,48 @@ function validateCuts(group: Row, sequence: FactionSequenceItem[]): void {
   })
 }
 
-function cleanCuts(sequence: FactionSequenceItem[]): FactionSequenceItem[] {
+/** 규칙에 어긋나는 경계(맨 앞·연속)를 조용히 걷어낸다. 세력 끝 경계는 남긴다. */
+export function cleanFactionSequenceCuts(sequence: FactionSequenceItem[]): FactionSequenceItem[] {
   const clean: FactionSequenceItem[] = []
   for (const item of sequence) {
     if (item.kind === 'cut' && (clean.length === 0 || clean.at(-1)?.kind === 'cut')) continue
     clean.push(item)
   }
-  if (clean.at(-1)?.kind === 'cut') clean.pop()
   return clean
+}
+
+const cleanCuts = cleanFactionSequenceCuts
+
+/**
+ * 경계 자리 — k번째 장면 뒤(1..N). N은 세력 끝, 곧 다음 세력과의 사이다.
+ * 편집기가 장면 사이·세력 끝의 토글 상태를 읽고 쓸 때 쓰는 좌표다.
+ */
+export function factionSequenceCutBoundaries(sequence: ReadonlyArray<FactionSequenceItem>): Set<number> {
+  const boundaries = new Set<number>()
+  let clusters = 0
+  for (const item of sequence) {
+    if (item.kind === 'cluster') clusters++
+    else if (clusters > 0) boundaries.add(clusters)
+  }
+  return boundaries
+}
+
+/** k번째 장면 뒤 경계를 켜거나 끈 새 sequence. 장면 순서는 그대로다. */
+export function withFactionSequenceCut(
+  sequence: ReadonlyArray<FactionSequenceItem>,
+  boundary: number,
+  on: boolean,
+): FactionSequenceItem[] {
+  const clusters = sequence.filter((item): item is Extract<FactionSequenceItem, { kind: 'cluster' }> => item.kind === 'cluster')
+  if (boundary < 1 || boundary > clusters.length) {
+    throw new Error(`편 경계 자리 ${boundary}는 1~${clusters.length} 사이여야 한다`)
+  }
+  const boundaries = factionSequenceCutBoundaries(sequence)
+  if (on) boundaries.add(boundary)
+  else boundaries.delete(boundary)
+  return clusters.flatMap((item, index): FactionSequenceItem[] =>
+    boundaries.has(index + 1) ? [item, { kind: 'cut' }] : [item],
+  )
 }
 
 /**

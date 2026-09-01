@@ -21,6 +21,8 @@ import { REMOTION_ROOT } from './remotion-root'
 
 /* ── 시리즈 뿌리 ── */
 
+/** 서재 탐방 뿌리 — public/episodes/ */
+export const EPISODES_DIR = path.join(REMOTION_ROOT, 'public', 'episodes')
 /** 세력도 뿌리 — public/factions/ */
 export const FACTIONS_DIR = path.join(REMOTION_ROOT, 'public', 'factions')
 /** 가상 담화 뿌리 — public/discourses/ */
