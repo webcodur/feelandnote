@@ -4,6 +4,7 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import FormattedText from "@/components/ui/FormattedText";
 import { Z_INDEX } from "@/constants/zIndex";
 
 interface FictionSourceIntroductionProps {
@@ -52,7 +53,7 @@ export default function FictionSourceIntroduction({
         ref={previewRef}
         className="mt-2 line-clamp-4 whitespace-pre-line text-base leading-7 text-text-secondary"
       >
-        {description}
+        <FormattedText text={description} />
       </p>
       {isOverflowing ? (
         <button
@@ -150,7 +151,9 @@ function IntroductionModal({
           </button>
         </header>
         <div className="max-h-[calc(100dvh-10rem)] overflow-y-auto bg-texture-noise px-5 py-6 sm:px-8 sm:py-8">
-          <p className="whitespace-pre-line text-base leading-8 text-text-primary">{description}</p>
+          <p className="whitespace-pre-line text-base leading-8 text-text-primary">
+            <FormattedText text={description} />
+          </p>
         </div>
       </div>
     </div>,

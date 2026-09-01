@@ -1,19 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { Volume2 } from "lucide-react";
+import { Maximize2 } from "lucide-react";
 import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-photo";
 import BlurDissolve from "@/components/ui/BlurDissolve";
+import VoiceBadge from "@/components/ui/VoiceBadge";
 
 interface CelebHeroPhotoProps {
   /** 대표 화보(PC 세로형). 없으면 얼굴 사진으로 돌아간다 */
   photoUrl: string | null;
   avatarUrl: string | null;
   nickname: string;
-  /** 그림을 누르면 전체 화면으로 크게 본다 */
+  /** 별도 확대 아이콘을 누르면 전체 화면으로 크게 본다 */
   onZoom: () => void;
   zoomLabel: string;
-  /** 인사말 재생. 넘기지 않으면 인사 배지를 그리지 않는다 */
+  hasVoice: boolean;
+  /** 사진·아바타 기본 클릭으로 인사 대사를 출력한다 */
   onGreet?: () => void;
   greetLabel?: string;
   /** 얼굴 사진으로 돌아갔을 때의 크기 */
@@ -25,7 +28,7 @@ interface CelebHeroPhotoProps {
 /**
  * 인물 상세 첫 구획의 대표 이미지.
  * 화보가 있으면 PC에서 공용 상수의 세로 비율로 크게 걸고, 없으면 기존 원형 얼굴 사진을 그대로 쓴다.
- * 그림을 누르면 크게 보기가 열리고, 인사말은 오른쪽 아래 배지로 따로 듣는다.
+ * 사진·아바타를 누르면 인사 대사가 나오고, 오른쪽 위 확대 아이콘으로 크게 본다.
  */
 export default function CelebHeroPhoto({
   photoUrl,
@@ -33,25 +36,40 @@ export default function CelebHeroPhoto({
   nickname,
   onZoom,
   zoomLabel,
+  hasVoice,
   onGreet,
   greetLabel,
   avatarSize,
   initialSize,
 }: CelebHeroPhotoProps) {
-  // 테두리 강조는 지연 없이 즉시, 확대는 애니메이션으로 (전 앱 공통 상호작용 원칙)
+  const [voicePulse, setVoicePulse] = useState(0);
+  const canShowGreeting = Boolean(onGreet);
+
+  // 테두리 강조는 지연 없이 즉시 반응한다 (전 앱 공통 상호작용 원칙)
   const ringClass =
     "ring-1 ring-accent/20 hover:ring-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
 
-  const greetBadge = onGreet ? (
+  const handleGreetingClick = () => {
+    if (hasVoice) setVoicePulse((pulse) => pulse + 1);
+    onGreet?.();
+  };
+
+  const voiceBadge = (
+    <div className="pointer-events-none absolute bottom-2 end-2 z-[2]" aria-hidden="true">
+      <VoiceBadge size="lg" active={hasVoice} pulse={voicePulse} />
+    </div>
+  );
+
+  const zoomButton = (
     <button
       type="button"
-      onClick={onGreet}
-      aria-label={greetLabel}
-      className="absolute bottom-1.5 end-1.5 z-[2] inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white/70 backdrop-blur-sm hover:border-accent/50 hover:text-accent active:scale-95"
+      onClick={onZoom}
+      aria-label={zoomLabel}
+      className="absolute top-2 end-2 z-[3] inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/65 text-white/80 backdrop-blur-sm hover:border-accent/60 hover:bg-black/85 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95"
     >
-      <Volume2 size={16} />
+      <Maximize2 size={19} aria-hidden="true" />
     </button>
-  ) : null;
+  );
 
   if (photoUrl) {
     return (
@@ -64,9 +82,10 @@ export default function CelebHeroPhoto({
       >
         <button
           type="button"
-          onClick={onZoom}
-          aria-label={zoomLabel}
-          className={`group relative block h-full w-full overflow-hidden rounded-sm bg-bg-secondary ${ringClass} cursor-zoom-in active:scale-95`}
+          onClick={handleGreetingClick}
+          aria-label={greetLabel}
+          disabled={!canShowGreeting}
+          className={`group relative block h-full w-full overflow-hidden rounded-sm bg-bg-secondary ${ringClass} ${canShowGreeting ? "cursor-pointer active:scale-95" : "cursor-default"}`}
         >
           <Image
             src={photoUrl}
@@ -78,7 +97,8 @@ export default function CelebHeroPhoto({
             style={{ filter: "none" }}
           />
         </button>
-        {greetBadge}
+        {voiceBadge}
+        {zoomButton}
       </div>
     );
   }
@@ -87,11 +107,11 @@ export default function CelebHeroPhoto({
     <div className={`relative flex-shrink-0 self-start ${avatarSize}`}>
       <button
         type="button"
-        onClick={onZoom}
-        aria-label={zoomLabel}
-        disabled={!avatarUrl}
+        onClick={handleGreetingClick}
+        aria-label={greetLabel}
+        disabled={!canShowGreeting}
         className={`block h-full w-full overflow-hidden rounded-full bg-portrait-stage ${ringClass} ${
-          avatarUrl ? "cursor-zoom-in active:scale-95" : "cursor-default"
+          canShowGreeting ? "cursor-pointer active:scale-95" : "cursor-default"
         }`}
       >
         {avatarUrl ? (
@@ -114,7 +134,8 @@ export default function CelebHeroPhoto({
           </div>
         )}
       </button>
-      {greetBadge}
+      {voiceBadge}
+      {avatarUrl ? zoomButton : null}
     </div>
   );
 }

@@ -1,0 +1,62 @@
+.feedback {
+  --feedback-x: 50%;
+  --feedback-y: 50%;
+  --feedback-top: 7px;
+  --feedback-bottom: calc(100% - 7px);
+  position: absolute; z-index: 3; inset: 1px; overflow: hidden; pointer-events: none;
+}
+.stop {
+  --pressure-x: 0;
+  --pressure-y: 0;
+  position: absolute; opacity: 0; color: var(--material-accent);
+}
+.start, .end {
+  top: var(--feedback-y); width: 18px; height: clamp(76px, 20%, 116px);
+  transform: translateY(-50%);
+}
+.start { --pressure-x: 10px; inset-inline-start: 5px; }
+.end { --pressure-x: -10px; inset-inline-end: 5px; }
+.top, .bottom {
+  left: var(--feedback-x); width: clamp(104px, 28%, 180px); height: 18px;
+  transform: translateX(-50%);
+}
+.top { --pressure-y: 10px; top: var(--feedback-top); }
+.bottom { --pressure-y: -10px; top: var(--feedback-bottom); transform: translate(-50%, -100%); }
+.stop::before {
+  position: absolute; z-index: 1; content: ""; border-radius: 99px;
+}
+.start::before, .end::before {
+  inset-block: 0; width: 2px;
+  background: linear-gradient(to bottom, transparent, currentcolor 24%, currentcolor 76%, transparent);
+}
+.start::before { inset-inline-start: 0; }
+.end::before { inset-inline-end: 0; }
+.top::before, .bottom::before {
+  inset-inline: 0; height: 2px;
+  background: linear-gradient(to right, transparent, currentcolor 24%, currentcolor 76%, transparent);
+}
+.top::before { top: 0; }
+.bottom::before { bottom: 0; }
+.stop > i {
+  position: absolute; display: block; opacity: 0; animation: boundary-pressure 460ms ease-out infinite;
+}
+.start > i, .end > i { inset-block: 8%; width: 18px; }
+.start > i { inset-inline-start: 0; background: linear-gradient(to right, color-mix(in srgb, var(--material-accent) 30%, transparent), transparent); }
+.end > i { inset-inline-end: 0; background: linear-gradient(to left, color-mix(in srgb, var(--material-accent) 30%, transparent), transparent); }
+.top > i, .bottom > i { inset-inline: 8%; height: 18px; }
+.top > i { top: 0; background: linear-gradient(to bottom, color-mix(in srgb, var(--material-accent) 30%, transparent), transparent); }
+.bottom > i { bottom: 0; background: linear-gradient(to top, color-mix(in srgb, var(--material-accent) 30%, transparent), transparent); }
+.feedback[data-edges~="start"] .start,
+.feedback[data-edges~="end"] .end,
+.feedback[data-edges~="top"] .top,
+.feedback[data-edges~="bottom"] .bottom { opacity: 1; }
+
+@keyframes boundary-pressure {
+  0% { opacity: 0; transform: translate(var(--pressure-x), var(--pressure-y)); }
+  24% { opacity: .72; }
+  68%, 100% { opacity: .08; transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stop > i { opacity: .16; animation: none; }
+}

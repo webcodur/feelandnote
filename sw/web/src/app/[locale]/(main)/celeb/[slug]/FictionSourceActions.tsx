@@ -1,6 +1,7 @@
 import { ArrowUpRight, BookOpenText, ShoppingBag } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
+import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 
 interface FictionSourceActionsProps {
   source: FictionSourceContent;
@@ -15,7 +16,8 @@ export default function FictionSourceActions({
 }: FictionSourceActionsProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
-  const coupangUrl = locale === "ko" ? source.coupangUrl : null;
+  const purchaseUrl = locale === "en" ? source.amazonUrl : source.coupangUrl;
+  const purchaseLabel = locale === "en" ? "sourceWorkBuyAmazon" : "sourceWorkBuyCoupang";
   const contentHref = `${locale === "en" ? "/en" : ""}/content/${source.id}?category=${source.category}`;
 
   return (
@@ -35,23 +37,30 @@ export default function FictionSourceActions({
         )}
       </a>
 
-      {coupangUrl && (
-        <a
-          href={coupangUrl}
-          target="_blank"
-          rel="noopener noreferrer nofollow sponsored"
-          className="effect-engraved group inline-flex min-h-11 w-full items-center justify-center gap-2 whitespace-nowrap border border-stone-light bg-bg-secondary px-3 py-2.5 text-sm font-black text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        >
-          <ShoppingBag size={17} aria-hidden />
-          {t("sourceWorkBuyCoupang")}
-          {!compact && (
-            <ArrowUpRight
-              size={16}
-              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              aria-hidden
-            />
+      {purchaseUrl && (
+        <div className="w-full">
+          <a
+            href={purchaseUrl}
+            target="_blank"
+            rel="noopener noreferrer nofollow sponsored"
+            className="effect-engraved group inline-flex min-h-11 w-full items-center justify-center gap-2 whitespace-nowrap border border-stone-light bg-bg-secondary px-3 py-2.5 text-sm font-black text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <ShoppingBag size={17} aria-hidden />
+            {t(purchaseLabel)}
+            {!compact && (
+              <ArrowUpRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden
+              />
+            )}
+          </a>
+          {locale === "ko" && (
+            <p className="mt-2 text-sm leading-relaxed text-text-tertiary">
+              {AFFILIATE_PLATFORMS.coupang.notice}
+            </p>
           )}
-        </a>
+        </div>
       )}
     </div>
   );

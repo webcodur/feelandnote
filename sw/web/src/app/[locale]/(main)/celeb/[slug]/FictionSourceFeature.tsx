@@ -2,14 +2,12 @@ import { BookOpenText } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import ContentImage from "@/components/ui/ContentImage";
-import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import FictionSourceActions from "./FictionSourceActions";
 import FictionSourceIntroduction from "./FictionSourceIntroduction";
 
 interface FictionSourceFeatureProps {
   source: FictionSourceContent;
-  current: number;
-  total: number;
+  nickname: string;
 }
 
 function formatDate(value: string | null, locale: string): string | null {
@@ -32,15 +30,12 @@ function formatDate(value: string | null, locale: string): string | null {
 
 export default function FictionSourceFeature({
   source,
-  current,
-  total,
+  nickname,
 }: FictionSourceFeatureProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
-  const hasCoupangLink = locale === "ko" && Boolean(source.coupangUrl);
   const releaseDate = formatDate(source.releaseDate, locale);
   const meta = [
-    { label: t("sourceWorkCreator"), value: source.creator },
     { label: t("sourceWorkPublisher"), value: source.publisher },
     { label: t("sourceWorkReleaseDate"), value: releaseDate },
     { label: "ISBN", value: source.isbn },
@@ -50,11 +45,8 @@ export default function FictionSourceFeature({
     <div className="relative grid grid-cols-[80px_minmax(0,1fr)] gap-x-3 bg-texture-marble px-3 py-4 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 sm:px-4 sm:py-5 md:px-6 lg:grid-cols-[168px_minmax(0,1fr)] lg:gap-x-7 lg:py-7">
       <span className="pointer-events-none absolute inset-y-0 start-0 w-1/3 bg-gradient-to-e from-transparent to-accent/[0.04]" aria-hidden />
       <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-e from-transparent via-accent-dim to-transparent" aria-hidden />
-      <span className="pointer-events-none absolute end-4 top-0 text-[7rem] font-black leading-none text-accent/[0.05] md:text-[9rem]">
-        {String(current).padStart(2, "0")}
-      </span>
 
-      <div className="relative row-span-3 w-full self-start lg:row-span-1">
+      <div className="relative w-full self-start md:row-span-2 lg:row-span-1">
         <span className="effect-engraved absolute -inset-2 border border-accent-dim/40 bg-stone-heavy" aria-hidden />
         <span className="absolute -bottom-4 -end-4 h-20 w-16 bg-accent/10" aria-hidden />
         <div className="effect-bevel relative aspect-[2/3] overflow-hidden border border-accent/50 bg-bg-secondary shadow-2xl">
@@ -80,30 +72,22 @@ export default function FictionSourceFeature({
       </div>
 
       <div className="contents lg:relative lg:block lg:min-w-0">
-        <p className="col-start-2 text-sm font-bold tracking-[0.18em] text-text-tertiary">
-          {String(current).padStart(2, "0")} / {String(total).padStart(2, "0")}
-        </p>
-
-        <h3 className="text-3d-gold col-start-2 mt-2 max-w-3xl text-xl font-black leading-tight sm:text-2xl md:text-3xl lg:mt-3">
-          {source.title}
-        </h3>
-
-        {source.appearanceDescription ? (
-          <div className="col-start-2 mt-5 border-s-2 border-accent bg-accent/[0.06] px-4 py-3">
-            <p className="text-sm font-black tracking-[0.16em] text-accent">
-              {t("sourceWorkCharacterAppearance")}
+        <header className="col-start-2 min-w-0 self-center md:self-start">
+          <h3 className="text-3d-gold max-w-3xl break-keep text-xl font-black leading-tight sm:text-2xl md:text-3xl">
+            {source.title}
+          </h3>
+          {source.creator && (
+            <p className="mt-2 text-sm font-semibold leading-6 text-text-secondary sm:text-base">
+              {source.creator}
             </p>
-            <p className="mt-2 whitespace-pre-line text-base leading-7 text-text-primary">
-              {source.appearanceDescription}
-            </p>
-          </div>
-        ) : null}
+          )}
+        </header>
 
-        <div className="col-start-2 min-w-0">
+        <div className="col-span-2 min-w-0 md:col-span-1 md:col-start-2">
           <FictionSourceIntroduction
             key={source.id}
             description={source.description || t("sourceWorkIntroductionEmpty")}
-            label={t(source.type === "BOOK" ? "sourceWorkIntroductionBook" : "sourceWorkIntroduction")}
+            label={t("sourceWorkIntroduction")}
             sourceTitle={source.title}
           />
         </div>
@@ -126,16 +110,21 @@ export default function FictionSourceFeature({
           </dl>
         )}
 
+        {source.appearanceDescription ? (
+          <div className="col-span-2 mt-5 border-s-2 border-accent bg-accent/[0.06] px-4 py-3 lg:col-span-1">
+            <p className="text-sm font-black tracking-[0.16em] text-accent">
+              {t("sourceWorkCharacterAppearance", { name: nickname })}
+            </p>
+            <p className="mt-2 whitespace-pre-line text-base leading-7 text-text-primary">
+              {source.appearanceDescription}
+            </p>
+          </div>
+        ) : null}
+
         <FictionSourceActions
           source={source}
           className="col-span-2 mt-5 flex flex-col gap-2 sm:flex-row lg:hidden"
         />
-
-        {hasCoupangLink && (
-          <p className="col-span-2 mt-3 max-w-3xl text-sm leading-relaxed text-text-tertiary lg:col-span-1">
-            {AFFILIATE_PLATFORMS.coupang.notice}
-          </p>
-        )}
       </div>
     </div>
   );

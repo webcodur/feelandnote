@@ -24,6 +24,7 @@ test('소개와 판본 정보는 다른 언어 locale 값으로 대체하지 않
     publisher: null,
     isbn: null,
     coupangUrl: null,
+    amazonUrl: null,
   })
 })
 
@@ -54,6 +55,22 @@ test('English source works never expose a Coupang affiliate link', () => {
   }], 'en')
 
   assert.equal(fields.coupangUrl, null)
+})
+
+test('영문판은 같은 en locale의 Amazon 링크만 구매 링크로 고른다', () => {
+  const fields = getFictionSourceLocaleFields([{
+    locale: 'en',
+    title: 'Theogony',
+    creator: 'Hesiod',
+    thumbnail_url: null,
+    affiliate_url: [
+      { platform: 'coupang', url: 'https://link.coupang.com/a/example' },
+      { platform: 'amazon', url: 'https://www.amazon.com/dp/example' },
+    ],
+  }], 'en')
+
+  assert.equal(fields.coupangUrl, null)
+  assert.equal(fields.amazonUrl, 'https://www.amazon.com/dp/example')
 })
 
 test('인물별 등장 설명은 요청 언어 값만 사용한다', () => {

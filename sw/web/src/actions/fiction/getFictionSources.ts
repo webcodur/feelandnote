@@ -36,6 +36,7 @@ export interface FictionSourceContent {
   isbn: string | null
   releaseDate: string | null
   coupangUrl: string | null
+  amazonUrl: string | null
 }
 
 export interface FictionSourceCharacter {
@@ -115,6 +116,7 @@ async function fetchSourcesByCeleb(
       isbn: localeFields.isbn,
       releaseDate: content.release_date,
       coupangUrl: localeFields.coupangUrl,
+      amazonUrl: localeFields.amazonUrl,
     }]
   })
 

@@ -151,7 +151,7 @@ export default async function CelebPage({ params }: PageProps) {
     spectrum: sidePresence.spectrum,
   };
 
-  // 인연 목록과 세력 배정표는 관계 구획이 화면에 다가올 때 브라우저가 다시 받는다.
+  // 관계 목록과 세력 배정표는 관계 구획이 화면에 다가올 때 브라우저가 다시 받는다.
   // 화면에 그리지 않는 자료를 HTML에 실으면 ISR 한 장이 그만큼 무거워진다.
   const clientProfile = { ...profile, relations: [], factionTags: [] };
 
