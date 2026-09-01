@@ -26,7 +26,7 @@ import {
   loadNarrativeEntries, updateNarrativeEntryData,
   loadSceneClusters, updateSceneClusterData,
 } from './db-durations.js'
-import { vnPersonEpithet, vnSceneBeat } from '../../src/compositions/Faction/voice-names.js'
+import { vnPersonEpithet, vnSceneBeat, vnBeatVoiceFile } from '../../src/compositions/Faction/voice-names.js'
 
 const USAGE = '사용: pnpm faction:durations-pull -- (--episode <폴더명> | --all) [--dry-run]'
 
@@ -176,9 +176,12 @@ async function pullSceneNarrations(
       const text = beat.text
       if (typeof text !== 'string' || !text.trim()) continue
       const speaker = typeof beat.speaker === 'string' ? beat.speaker : undefined
-      const file = typeof beat.voiceFile === 'string' && beat.voiceFile.trim()
-        ? beat.voiceFile
-        : vnSceneBeat(speaker, text)
+      const file = vnBeatVoiceFile({
+        id: typeof beat.id === 'string' ? beat.id : undefined,
+        voiceFile: typeof beat.voiceFile === 'string' && beat.voiceFile.trim() ? beat.voiceFile : undefined,
+        speaker,
+        text,
+      })
       const wavPath = path.join(voiceDir, file)
       if (!existsSync(wavPath)) { st.missing++; continue }
 

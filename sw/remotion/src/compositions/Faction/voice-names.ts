@@ -83,6 +83,26 @@ export function vnSceneBeat(speaker: string | undefined, text: string): string {
   return `scene-${narrationTextKey(`${(speaker ?? '').trim()}\n${spokenText}`)}.wav`
 }
 
+/** 발화 본문의 신원 — 공백을 편 문장 기준. 음원이 낡았는지 판정하는 값이다(vnBeatVoiceFile 과 무관). */
+export function vnBeatTextKey(speaker: string | undefined, text: string): string {
+  return narrationTextKey(`${(speaker ?? '').trim()}\n${text.replace(/\s+/g, ' ').trim()}`)
+}
+
+/**
+ * 장면 발화 음원 파일명 — 신원(id)만 따른다. 본문을 고치거나 장면을 옮겨도 음원이 따라온다.
+ *
+ * 우선순위: 명시 voiceFile(통합 전 인물 좌표형 재사용) > `scene-<id>.wav` > 본문 해시(id 없는 옛 데이터 폴백).
+ * 본문 해시 폴백은 마이그레이션 전 데이터만을 위한 것이다 — 새 발화는 반드시 id 를 갖는다.
+ */
+export function vnBeatVoiceFile(
+  beat: { id?: string; voiceFile?: string; speaker?: string; text?: string },
+  locale: 'ko' | 'en' = 'ko',
+): string {
+  if (beat.voiceFile) return beat.voiceFile
+  if (beat.id) return locale === 'en' ? `scene-${beat.id}-en.wav` : `scene-${beat.id}.wav`
+  return vnSceneBeat(beat.speaker, beat.text ?? '')
+}
+
 /**
  * 음성 파일 상대 경로 (staticFile 기준) — public/factions/<에피소드>/voice/<파일>.
  * locale·engine 분기는 추후 확장(현재는 단일 폴더).

@@ -5,7 +5,8 @@ import { FONT } from '../BookRecommend/fonts'
 import { imgSrc } from '../Faction/utils'
 
 type Props = {
-  script: FactionScript
+  /** Root 의 calculateMetadata 가 편 파일을 읽어 넣는다. 열리기 전엔 없다. */
+  script?: FactionScript
   episodeName: string
 }
 
@@ -13,6 +14,7 @@ const GOLD = '#c8a46e'
 const DARK = '#090807'
 
 export const FactionLVThumbnail: React.FC<Props> = ({ script, episodeName }) => {
+  if (!script) return null
   // Use the explicitly provided LV thumbnail image, or fallback to the very first person in the faction
   const allPeople = script.groups.flatMap(g => g.clusters.flatMap(c => c.people))
     .filter(person => person.isPerson !== false)

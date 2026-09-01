@@ -14,20 +14,21 @@ import {
   ENTER_MOTION_SEC, ENTER_ZOOM_OUT_SEC, ENTER_ZOOM_OUT_START, ENTER_ZOOM_IN_START,
   EDGE_HOLD_DEFAULT,
 } from './constants'
-import { f, personOfCue } from './timing'
+import { clusterShotHandoffOf, f, personOfCue } from './timing'
 
 /** 전환 설정 해석 — auto면 인물 순번으로 순환, 미지정이면 zoomout */
 export const resolveTransition = (t: FactionTransition | undefined, idx: number): Exclude<FactionTransition, 'auto'> =>
   t === 'auto' ? TRANSITION_CYCLE[idx % TRANSITION_CYCLE.length] : (t ?? 'zoomout')
 
 /**
- * 지속 효과 해석 — 인물→세력→에피소드 순으로 명시값을 찾고, 없으면 'none'(정지).
+ * 지속 효과 해석 — 인물→장면→세력→에피소드 순으로 명시값을 찾고, 없으면 'none'(정지).
  * 전환(transition)과 완전히 독립된 축이다. 전환을 줌류로 설정해도 지속 효과로 자동 승계하지 않는다
  * (예전 레거시 승계 제거 — "전환만 골랐는데 컷이 저절로 줌되는" 혼란을 없앤다). 지속 효과는 명시해야 적용된다.
+ * 컷(beat) 자체 값은 호출 전에 person 에 얹혀 온다(personFromSceneBeat).
  */
-export const resolveHoldMotion = (person: FactionPerson, group: FactionGroup, script: FactionScript): HoldMotion =>
+export const resolveHoldMotion = (person: FactionPerson, group: FactionGroup, script: FactionScript, cluster?: FactionCluster): HoldMotion =>
   script.lockEffects ? (script.holdMotion ?? 'none')
-    : (person.holdMotion ?? group.holdMotion ?? script.holdMotion ?? 'none')
+    : (person.holdMotion ?? cluster?.holdMotion ?? group.holdMotion ?? script.holdMotion ?? 'none')
 
 /** 단체샷(화보·로고 카드)용 지속 효과 해석 — 묶음→세력→에피소드 계승, 미지정이면 none(정지). 묶음(그룹샷)은 자체 holdMotion으로 덮어쓸 수 있다(로고 카드는 cluster 없음). */
 export const resolveGroupHoldMotion = (group: FactionGroup, script: FactionScript, cluster?: FactionCluster): HoldMotion =>
@@ -35,29 +36,29 @@ export const resolveGroupHoldMotion = (group: FactionGroup, script: FactionScrip
     : (cluster?.holdMotion ?? group.holdMotion ?? script.holdMotion ?? 'none')
 
 /**
- * 지지직 글리치 토글 해석 — 줌(holdMotion)과 별개 축. 인물/묶음 → 세력 → 에피소드 순으로 계승.
+ * 지지직 글리치 토글 해석 — 줌(holdMotion)과 별개 축. 인물/묶음 → 장면 → 세력 → 에피소드 순으로 계승.
  * 어느 단계에서도 미지정이면 fallback(그룹샷 true·개인샷 false)을 쓴다.
  * own = 인물(개인샷) 또는 묶음(그룹샷)의 자체 지정값.
  */
-export const resolveGlitchHold = (own: GlitchSetting | undefined, group: FactionGroup, script: FactionScript, fallback: GlitchSetting): false | GlitchLevel => {
+export const resolveGlitchHold = (own: GlitchSetting | undefined, group: FactionGroup, script: FactionScript, fallback: GlitchSetting, cluster?: FactionCluster): false | GlitchLevel => {
   const raw = script.lockEffects ? (script.holdGlitch ?? fallback)
-    : (own ?? group.holdGlitch ?? script.holdGlitch ?? fallback)
+    : (own ?? cluster?.holdGlitch ?? group.holdGlitch ?? script.holdGlitch ?? fallback)
   // 레거시 boolean 정규화 — true=heavy(기존 동작), false/미지정=끄기. 'light'·'heavy'는 그대로.
   return raw === true ? 'heavy' : (raw === false || raw == null) ? false : raw
 }
 
 /**
- * 흔들림(핸드헬드) 토글 해석 — 줌·이동(holdMotion)과 별개 축. 인물/묶음 → 세력 → 에피소드 순으로 계승.
+ * 흔들림(핸드헬드) 토글 해석 — 줌·이동(holdMotion)과 별개 축. 인물/묶음 → 장면 → 세력 → 에피소드 순으로 계승.
  * 어느 단계에서도 미지정이면 꺼짐. own = 인물(개인샷) 또는 묶음(그룹샷)의 자체 지정값.
  */
-export const resolveHoldShake = (own: boolean | undefined, group: FactionGroup, script: FactionScript): boolean =>
+export const resolveHoldShake = (own: boolean | undefined, group: FactionGroup, script: FactionScript, cluster?: FactionCluster): boolean =>
   script.lockEffects ? (script.holdShake ?? false)
-    : (own ?? group.holdShake ?? script.holdShake ?? false)
+    : (own ?? cluster?.holdShake ?? group.holdShake ?? script.holdShake ?? false)
 
-/** 줌·이동 속도 배수 해석 — 인물/묶음 → 세력 → 에피소드 계승, 미지정이면 1(기본 속도). own = 인물 또는 묶음의 자체 지정값. */
-export const resolveZoomSpeed = (own: number | undefined, group: FactionGroup, script: FactionScript): number =>
+/** 줌·이동 속도 배수 해석 — 인물/묶음 → 장면 → 세력 → 에피소드 계승, 미지정이면 1(기본 속도). own = 인물 또는 묶음의 자체 지정값. */
+export const resolveZoomSpeed = (own: number | undefined, group: FactionGroup, script: FactionScript, cluster?: FactionCluster): number =>
   script.lockEffects ? (script.zoomSpeed ?? 1)
-    : (own ?? group.zoomSpeed ?? script.zoomSpeed ?? 1)
+    : (own ?? cluster?.zoomSpeed ?? group.zoomSpeed ?? script.zoomSpeed ?? 1)
 
 /**
  * 시작·마무리 화면 효과 해석 — 두 화면은 세력에 속하지 않아 전역을 상위로 두지 않는다.
@@ -79,10 +80,10 @@ export const resolveEdgeEffects = (script: FactionScript, which: 'intro' | 'outr
   }
 }
 
-/** 시작 효과 해석 — 인물/묶음 → 세력 → 에피소드 계승, 미지정이면 'none'. own = 인물 또는 묶음의 자체 지정값. */
-export const resolveEnterMotion = (own: EnterMotion | undefined, group: FactionGroup, script: FactionScript): EnterMotion =>
+/** 시작 효과 해석 — 인물/묶음 → 장면 → 세력 → 에피소드 계승, 미지정이면 'none'. own = 인물 또는 묶음의 자체 지정값. */
+export const resolveEnterMotion = (own: EnterMotion | undefined, group: FactionGroup, script: FactionScript, cluster?: FactionCluster): EnterMotion =>
   script.lockEffects ? (script.enterMotion ?? 'none')
-    : (own ?? group.enterMotion ?? script.enterMotion ?? 'none')
+    : (own ?? cluster?.enterMotion ?? group.enterMotion ?? script.enterMotion ?? 'none')
 
 /**
  * 시작 효과 한 프레임의 배율 — 도입 길이(ENTER_MOTION_SEC) 동안 시작 배율에서 1.0으로 감속해 정착한다.
@@ -260,6 +261,13 @@ export const personCutKind = (script: FactionScript, cue: TimedCue['cue'], orien
   const k = resolveTransition(raw, cue.personIndex)
   return CUT_TRANSITIONS.has(k) ? k : null
 }
+
+/**
+ * 컷의 실제 진입 전환. 단체샷을 이어받는 컷은 전환 없이 크로스페이드로 붙는다 — 같은 그림 위에
+ * 블러·슬라이드·글리치를 걸면 그게 곧 전환으로 보인다. CueLayer(자기 컷)와 Faction(다음 컷)이 같은 규칙을 쓴다.
+ */
+export const cutKindOf = (script: FactionScript, prev: TimedCue | undefined, tc: TimedCue, orientation: Orientation): string | null =>
+  clusterShotHandoffOf(script, prev, tc, orientation) ? null : personCutKind(script, tc.cue, orientation)
 
 /** slug로 전체 세력에서 인물 찾기 — 비활성화 세력은 건너뛴다(인트로에서도 빠지게) */
 export const findPerson = (script: FactionScript, slug: string): FactionPerson | null => {

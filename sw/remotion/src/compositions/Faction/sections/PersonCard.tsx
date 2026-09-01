@@ -13,6 +13,7 @@ import { FactionMedia } from './FactionMedia'
 import { HoldGlitch } from '../transitions'
 import { CaptionBackdrop } from './CaptionBackdrop'
 import { CaptionIdentityText, CaptionSwapSlot, resolveFactionCaptionAppearance } from './CaptionSwapSlot'
+import { ClusterShot, type InheritedClusterShot } from './GroupCard'
 
 // 직함 마커 효과음(가로 롱폼) — 직함 줄이 하나씩 리스팅될 때마다 마커(점)가 톡 찍히는 소리.
 // 전용 합성 자산(짧은 상승 블립). 톤 교체 시 이 파일명만 바꾼다.
@@ -266,7 +267,9 @@ export const PersonCard: React.FC<{
   nextEnterSec?: number
   /** 자막형에서 대사 전 이름·직함 노출 시간(초) — CueLayer 가 편 설정을 풀어 넘긴다. 컷 길이 계산과 같은 값이어야 한다 */
   captionIdHoldSec?: number
-}> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, voiceClusterIndex, quoteVoiceFile, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, quoteDisplay = 'box', quoteCaptionPos = 'bottom', quoteCaptionSize = 'default', quoteCaptionFont = 'default', nextEnterSec = 0, captionIdHoldSec }) => {
+  /** 바로 앞 단체샷을 이어받아 밑바닥 사진으로 계속 그린다 — CueLayer 가 clusterShotHandoffOf 로 판정해 넘긴다. */
+  inheritedShot?: InheritedClusterShot
+}> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, voiceClusterIndex, quoteVoiceFile, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, quoteDisplay = 'box', quoteCaptionPos = 'bottom', quoteCaptionSize = 'default', quoteCaptionFont = 'default', nextEnterSec = 0, captionIdHoldSec, inheritedShot }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
   const local = frame - cueStart
@@ -633,10 +636,12 @@ export const PersonCard: React.FC<{
     for (const ic of imgChanges) changes.push({ start: chunkFrame(ic.chunk), image: ic.image, crop: ic.crop, filter: ic.filter, zoomFocus: ic.zoomFocus })
     const localOf = (abs: number) => Math.max(0, abs - cueStart)
     // 단일 사진: 대사 전체 길이로 줌 늘림. 다중: stretch 생략 → 정속 + 사진마다 재시작.
-    if (!changes.length) {
-      return <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseImageCrop, 0, holdSpanFrames, entryMedia.zoomFocus)} filter={entryMedia.filter} />
-    }
-    const base = <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseImageCrop, 0, undefined, entryMedia.zoomFocus)} filter={entryMedia.filter} />
+    // 단체샷을 이어받는 컷은 밑바닥 사진을 단체샷 레이어로 그린다 — 같은 시간축이라 크로스페이드 사이에 그림이 튀지 않는다.
+    const baseFor = (stretchSpan?: number) => inheritedShot
+      ? <ClusterShot episodeName={episodeName} cluster={inheritedShot.cluster} frame={frame} shotStart={inheritedShot.shotStart} shotDuration={inheritedShot.shotDuration} orientation={orientation} motion={inheritedShot.motion} onError={() => setImgErr(true)} />
+      : <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseImageCrop, 0, stretchSpan, entryMedia.zoomFocus)} filter={entryMedia.filter} />
+    if (!changes.length) return baseFor(holdSpanFrames)
+    const base = baseFor(undefined)
     const cf = f(CROSSFADE_SEC)
     const activeMedia = activeFactionMediaLayers(changes.map(change => change.start), frame, cf)
     const activeMediaIndexes = new Set(activeMedia.indexes)

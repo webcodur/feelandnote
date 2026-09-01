@@ -33,6 +33,40 @@ const DEFAULT_FONT = 'Inter, "Pretendard Variable", Pretendard, "Noto Sans KR", 
 /** 자막 끝 구두점 정리 — 화면 자막 공통 */
 export const stripCaptionPunct = (s: string) => s.replace(/[.,]+\s*$/, '')
 
+/**
+ * 배경 없는 자막의 가독 처리(shadow 모드) 단일 규격.
+ *
+ * 같은 화면에서 어떤 자막은 이 규격으로, 어떤 자막은 자기만의 얇은 외곽선으로 그리면
+ * 글자 무게가 눈에 띄게 달라진다. 화자가 없는 해설도 인물 대사와 같은 표면을 쓰도록
+ * 값을 여기 한 곳에 둔다.
+ */
+export const CAPTION_SHADOW_PAINT = {
+  strokeWidth: 2.4,
+  strokeColor: 'rgba(0,0,0,0.92)',
+  textShadow: [
+    '0 0 6px rgba(0,0,0,0.95)',
+    '0 0 14px rgba(0,0,0,0.88)',
+    '0 0 24px rgba(0,0,0,0.72)',
+    '0 0 36px rgba(0,0,0,0.5)',
+    '0 1px 4px rgba(0,0,0,0.95)',
+    '0 2px 10px rgba(0,0,0,0.85)',
+    '0 4px 18px rgba(0,0,0,0.65)',
+    '2px 0 0 rgba(0,0,0,0.8)',
+    '-2px 0 0 rgba(0,0,0,0.8)',
+    '0 2px 0 rgba(0,0,0,0.8)',
+    '0 -2px 0 rgba(0,0,0,0.8)',
+    '1px 1px 0 rgba(0,0,0,0.75)',
+    '-1px -1px 0 rgba(0,0,0,0.75)',
+  ].join(', '),
+} as const
+
+/** shadow 자막 표면을 그대로 입히는 스타일 조각 — 자체 렌더러(타자 효과 등)가 공유한다. */
+export const captionShadowTextStyle: React.CSSProperties = {
+  textShadow: CAPTION_SHADOW_PAINT.textShadow,
+  WebkitTextStroke: `${CAPTION_SHADOW_PAINT.strokeWidth}px ${CAPTION_SHADOW_PAINT.strokeColor}`,
+  paintOrder: 'stroke fill',
+}
+
 type Props = {
   text: string
   startFrame: number
@@ -108,8 +142,8 @@ export const ShortCaption: React.FC<Props> = ({
 
   // shadow 모드 — 배경 없이 검정 윤곽선+넓은 다층 음영으로 밝은 화면 가독 확보.
   // 명시 strokeWidth 가 있으면 그쪽 우선.
-  const effectiveStrokeW = strokeWidth > 0 ? strokeWidth : (isShadow ? 2.4 : 0)
-  const effectiveStrokeColor = strokeWidth > 0 ? strokeColor : (isShadow ? 'rgba(0,0,0,0.92)' : strokeColor)
+  const effectiveStrokeW = strokeWidth > 0 ? strokeWidth : (isShadow ? CAPTION_SHADOW_PAINT.strokeWidth : 0)
+  const effectiveStrokeColor = strokeWidth > 0 ? strokeColor : (isShadow ? CAPTION_SHADOW_PAINT.strokeColor : strokeColor)
 
   const textShadowStyle: React.CSSProperties = effectiveStrokeW > 0 ? {
     WebkitTextStroke: `${effectiveStrokeW}px ${effectiveStrokeColor}`,
@@ -126,21 +160,7 @@ export const ShortCaption: React.FC<Props> = ({
         borderRadius: 0,
         padding: '6px 12px',
         boxShadow: 'none',
-        textShadow: [
-          '0 0 6px rgba(0,0,0,0.95)',
-          '0 0 14px rgba(0,0,0,0.88)',
-          '0 0 24px rgba(0,0,0,0.72)',
-          '0 0 36px rgba(0,0,0,0.5)',
-          '0 1px 4px rgba(0,0,0,0.95)',
-          '0 2px 10px rgba(0,0,0,0.85)',
-          '0 4px 18px rgba(0,0,0,0.65)',
-          '2px 0 0 rgba(0,0,0,0.8)',
-          '-2px 0 0 rgba(0,0,0,0.8)',
-          '0 2px 0 rgba(0,0,0,0.8)',
-          '0 -2px 0 rgba(0,0,0,0.8)',
-          '1px 1px 0 rgba(0,0,0,0.75)',
-          '-1px -1px 0 rgba(0,0,0,0.75)',
-        ].join(', '),
+        textShadow: CAPTION_SHADOW_PAINT.textShadow,
       }
     : {
         // Glass Tablet — 다크 반투명 + 골드 하단 액센트
