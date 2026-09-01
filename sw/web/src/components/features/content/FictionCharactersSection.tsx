@@ -29,15 +29,14 @@ export default function FictionCharactersSection({
           <Link
             key={character.id}
             href={`/celeb/${character.slug}`}
-            className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-2.5 hover:border-accent/60 hover:bg-accent/[0.07] active:scale-[0.99]"
+            className="group flex h-[70px] items-stretch overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] hover:border-accent/60 hover:bg-accent/[0.07] active:scale-[0.99]"
           >
-            <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-white/10 bg-bg-secondary">
+            <span className="relative w-[68px] shrink-0 overflow-hidden border-e border-white/10 bg-bg-secondary [&_img]:rounded-none">
               {character.avatarUrl ? (
                 <CelebImage
                   src={character.avatarUrl}
                   alt=""
-                  shape="circle"
-                  sizes="48px"
+                  sizes="68px"
                 />
               ) : (
                 <span className="flex h-full w-full items-center justify-center text-text-tertiary">
@@ -46,7 +45,7 @@ export default function FictionCharactersSection({
               )}
             </span>
 
-            <span className="min-w-0 flex-1">
+            <span className="min-w-0 flex-1 self-center ps-3">
               <span className="block truncate text-sm font-semibold text-text-primary group-hover:text-accent">
                 {character.nickname}
               </span>
@@ -57,7 +56,7 @@ export default function FictionCharactersSection({
               )}
             </span>
 
-            <span className="shrink-0 rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-[9px] font-medium text-accent/80">
+            <span className="my-auto me-2.5 shrink-0 rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-[9px] font-medium text-accent/80">
               {t(`fictionRelation.${character.relationType}`)}
             </span>
           </Link>

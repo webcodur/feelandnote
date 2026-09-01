@@ -28,7 +28,7 @@ interface CelebHeroPhotoProps {
 /**
  * 인물 상세 첫 구획의 대표 이미지.
  * 화보가 있으면 PC에서 공용 상수의 세로 비율로 크게 걸고, 없으면 기존 원형 얼굴 사진을 그대로 쓴다.
- * 사진·아바타를 누르면 인사 대사가 나오고, 오른쪽 위 확대 아이콘으로 크게 본다.
+ * 사진·아바타를 누르면 인사 대사가 나오고, 왼쪽 아래 확대 아이콘으로 크게 본다.
  */
 export default function CelebHeroPhoto({
   photoUrl,
@@ -54,20 +54,28 @@ export default function CelebHeroPhoto({
     onGreet?.();
   };
 
+  /* 원형 아바타는 코너가 원 바깥이라, 사각 화보와 같은 안쪽 여백을 주면 배지가 얼굴을 덮는다.
+     화보(사각)는 모서리 안쪽 8px, 아바타(원)는 경계 밖 6px에 건다. */
+  const badgeY = photoUrl ? "bottom-2" : "bottom-[-6px]";
+  const badgeEnd = photoUrl ? "end-2" : "end-[-6px]";
+  const badgeStart = photoUrl ? "start-2" : "start-[-6px]";
+
   const voiceBadge = (
-    <div className="pointer-events-none absolute bottom-2 end-2 z-[2]" aria-hidden="true">
+    <div className={`pointer-events-none absolute ${badgeY} ${badgeEnd} z-[2]`} aria-hidden="true">
       <VoiceBadge size="lg" active={hasVoice} pulse={voicePulse} />
     </div>
   );
 
+  // 상세 페이지 공통 CSS가 아이콘 단추에 최소 44px을 강제한다. 음성 뱃지와 같은 36px로 맞추려고 인라인으로 누른다
   const zoomButton = (
     <button
       type="button"
       onClick={onZoom}
       aria-label={zoomLabel}
-      className="absolute top-2 end-2 z-[3] inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/65 text-white/80 backdrop-blur-sm hover:border-accent/60 hover:bg-black/85 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95"
+      style={{ minWidth: 36, minHeight: 36 }}
+      className={`absolute ${badgeY} ${badgeStart} z-[3] inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white/70 shadow-sm hover:border-accent/60 hover:bg-black/85 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent active:scale-95`}
     >
-      <Maximize2 size={19} aria-hidden="true" />
+      <Maximize2 size={16} aria-hidden="true" />
     </button>
   );
 

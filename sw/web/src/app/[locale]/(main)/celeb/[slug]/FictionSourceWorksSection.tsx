@@ -32,9 +32,6 @@ export default function FictionSourceWorksSection({
             <p className="text-sm leading-6 text-text-secondary">
               {t("sourceWorksIntro")}
             </p>
-            <p className="mt-0.5 text-sm leading-6 text-text-tertiary">
-              {t("sourceWorksRepresentativeNote")}
-            </p>
             <span className="mx-auto mt-3 flex items-center justify-center gap-2" aria-hidden>
               <span className="h-px w-12 bg-accent-dim" />
               <span className="size-1.5 rotate-45 border border-accent" />

@@ -190,7 +190,7 @@ function ExpandCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 title={item.source_url}
-                className="block max-w-full truncate text-accent underline underline-offset-2 hover:text-accent-hover"
+                className="inline-block max-w-full truncate align-bottom text-accent underline underline-offset-2 hover:text-accent-hover"
               >
                 {t("reviewModal.source", { url: item.source_url })}
               </a>
