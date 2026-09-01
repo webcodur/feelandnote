@@ -8,6 +8,7 @@ import type { FeaturedTag } from "@/actions/home";
 import { getTagChronologicalLibrary } from "@/actions/home/getTagChronologicalLibrary";
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
+import { FormattedText, splitReadableParagraphs } from "@/components/ui";
 import { ArrowLeft } from "lucide-react";
 import FactionShowcase from "./FactionShowcase";
 import SharedLibraryView from "./SharedLibraryView";
@@ -78,6 +79,12 @@ export default function FeaturedFaction({
   };
 
   const activeTag = activeTagIndex >= 0 && displayTags.length > 0 ? displayTags[activeTagIndex] : null;
+  const activeDescription = activeTag
+    ? locale === "en"
+      ? activeTag.description_en ?? tLanding("defaultDescription")
+      : activeTag.description ?? tLanding("defaultDescription")
+    : null;
+  const activeDescriptionParagraphs = splitReadableParagraphs(activeDescription);
 
   const handleTagNameChange = useCallback(
     (tagId: string, patch: Pick<FeaturedTag, "name" | "name_en">) => {
@@ -180,11 +187,18 @@ export default function FeaturedFaction({
             </span>
           </div>
           
-          <p className="text-text-secondary text-sm md:text-[15px] max-w-xl leading-[1.8] opacity-90 text-pretty relative z-10">
-            {locale === 'en' 
-              ? (activeTag.description_en ?? tLanding("defaultDescription"))
-              : (activeTag.description ?? tLanding("defaultDescription"))}
-          </p>
+          <div
+            className={cn(
+              "relative z-10 max-w-2xl break-keep text-pretty text-sm leading-[1.85] text-text-secondary opacity-90 md:text-[15px] md:leading-[1.9]",
+              activeDescriptionParagraphs.length > 1 ? "space-y-4 text-left md:space-y-5" : "text-center",
+            )}
+          >
+            {activeDescriptionParagraphs.map((paragraph, index) => (
+              <p key={index}>
+                <FormattedText text={paragraph} />
+              </p>
+            ))}
+          </div>
         </div>
       )}
           

@@ -20,20 +20,13 @@ import {
   withoutMore,
 } from "@/components/shared/hubSectionUtils";
 import { PendingBlock } from "@/components/ui/pending";
-import { RelationMapPending } from "@/components/features/celeb/RelationMap/RelationMap";
 import Lane from "@/components/ui/pending/Lane";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
-import { FactionSection, ProfileSection, RelationMapSection, SpectrumSection } from "./sections";
+import { FactionSection, MythSection, ProfileSection, SpectrumSection } from "./sections";
 
 /* 콜드 상태에서 봇이 받는 완성 HTML이 중간에 잘리지 않게 상한을 넉넉히 둔다 */
 export const maxDuration = 30;
-
-/* 관계망은 아직 운영에 내보내지 않는다. 관계 설명이 비어 있는 인물이 적지 않아
-   ─ 특히 가족은 한 건도 없다 ─ 판을 열면 이름만 늘어선 카드가 섞여 나온다.
-   자료가 채워지면 이 상수를 지운다. searchParams(?dev=1)를 쓰지 않는 것은
-   이 화면이 봇에게 완성 HTML을 주는 정적 경로를 그대로 지켜야 하기 때문이다. */
-const RELATION_MAP_ENABLED = process.env.NODE_ENV !== "production";
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.meta");
@@ -51,7 +44,8 @@ export async function generateMetadata() {
 export default function ExplorePage() {
   const t = useTranslations("explore.hub");
   const tPending = useTranslations("pending");
-  const sec = (key: string) => hubSection(EXPLORE_SECTIONS, EXPLORE_GROUP_ID, key, t);
+  const exploreSections = EXPLORE_SECTIONS;
+  const sec = (key: string) => hubSection(exploreSections, EXPLORE_GROUP_ID, key, t);
   const loading = tPending("loading");
 
   return (
@@ -59,7 +53,7 @@ export default function ExplorePage() {
       <div className="space-y-12 md:space-y-16">
         {/* 목차 줄 — 구획 전체 + 별도 화면. 라벨·순서·번호는 config 단일원천에서 온다 */}
         <HubNav
-          hubItems={hubNavItems(EXPLORE_SECTIONS, t)}
+          hubItems={hubNavItems(exploreSections, t)}
           standaloneItems={EXPLORE_STANDALONE.map((s) => ({ label: t(s.key), href: s.href, icon: s.icon }))}
           groupId={EXPLORE_GROUP_ID}
         />
@@ -89,6 +83,13 @@ export default function ExplorePage() {
           </Lane>
         </HubSection>
 
+        {/* 신화의 세계 — 공개 전승과 준비 중인 지역을 한 위계 안에서 안내한다. */}
+        <HubSection {...withoutMore(sec("myth"))}>
+          <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-[520px]" label={loading} />}>
+            <MythSection />
+          </Lane>
+        </HubSection>
+
         {/* 세력도감 */}
         <HubSection {...sec("faction")}>
           <Lane
@@ -100,16 +101,6 @@ export default function ExplorePage() {
           </Lane>
         </HubSection>
       </div>
-
-      {/* 관계망 — 0건이면 스스로 접는 보조 구획이라 목차에 넣지 않는다.
-          기다림은 그래프 판과 같은 높이로 세운다 */}
-      {RELATION_MAP_ENABLED && (
-        <div className="mt-12 md:mt-16">
-          <Lane fallback={<RelationMapPending label={loading} />}>
-            <RelationMapSection />
-          </Lane>
-        </div>
-      )}
 
       {/* 제휴 도서 — 링크가 걸린 책이 없거나 영문 화면이면 컴포넌트가 스스로 접는다.
           접힐 수 있는 구획이라 자리를 미리 잡지 않는다 */}

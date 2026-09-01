@@ -10,7 +10,7 @@ export { default as FilterTabs } from "./FilterTabs";
 export { default as DecorativeLabel } from "./DecorativeLabel";
 export { default as InnerBox } from "./InnerBox";
 export { default as TitleBadge, type TitleInfo } from "./TitleBadge";
-export { default as FormattedText } from "./FormattedText";
+export { default as FormattedText, splitReadableParagraphs } from "./FormattedText";
 export { default as Popover } from "./Popover";
 export { default as CelebImage } from "./CelebImage";
 export { default as CelebAvatarImage } from "./CelebAvatarImage";
