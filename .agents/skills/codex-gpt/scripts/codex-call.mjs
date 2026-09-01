@@ -11,7 +11,7 @@
  *     동시 실행 시 산발적으로 'codex' is not recognized 가 난다 → 절대경로를 미리 해석해 쓴다.
  */
 
-import { spawn, execSync } from 'child_process'
+import { spawn, spawnSync, execSync } from 'child_process'
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'fs'
 import { tmpdir } from 'os'
 import { join } from 'path'
@@ -33,11 +33,18 @@ function resolveCodex() {
 
 /**
  * @param {string} prompt  프롬프트 전문
- * @param {{model?: string, timeoutMs?: number, effort?: 'low'|'medium'|'high'|'xhigh'}} opts
+ * @param {{model?: string, timeoutMs?: number, effort?: 'low'|'medium'|'high'|'xhigh', search?: boolean, images?: string[], sandbox?: 'read-only'|'workspace-write'|'danger-full-access'}} opts
  * @returns {Promise<string>} 생성된 텍스트
  */
 export async function codexCall(prompt, opts = {}) {
-  const { model = 'gpt-5.6-sol', timeoutMs = 240000, effort } = opts
+  const {
+    model = 'gpt-5.6-sol',
+    timeoutMs = 240000,
+    effort,
+    search = false,
+    images = [],
+    sandbox,
+  } = opts
   const dir = mkdtempSync(join(tmpdir(), 'codex-call-'))
   const outFile = join(dir, 'out.txt')
   writeFileSync(outFile, '')
@@ -48,16 +55,48 @@ export async function codexCall(prompt, opts = {}) {
 
   try {
     await new Promise((res, rej) => {
-      const args = ['exec', '-', '-m', model, '--output-last-message', outFile, '--color', 'never']
+      const args = [...(search ? ['--search'] : []), 'exec', '-', '-m', model, '--output-last-message', outFile, '--color', 'never']
       // 추론 강도는 호출부가 정한다 — 문장 다듬기에 최고 강도는 시간만 잡아먹는다
       if (effort) args.push('-c', `model_reasoning_effort="${effort}"`)
+      if (sandbox) args.push('-s', sandbox)
+      for (const image of images) args.push('-i', image)
       const ch = spawn(cmd, args,
-        { shell: true, timeout: timeoutMs })
+        {
+          shell: true,
+          windowsHide: true,
+          detached: process.platform !== 'win32',
+        })
       let err = ''
+      let settled = false
+      // codex exec는 마지막 응답을 파일로 쓰더라도 진행 로그를 stdout에 계속 낸다.
+      // 파이프를 비우지 않으면 Windows 버퍼가 차서 작업 완료 뒤에도 프로세스가 멈춘다.
+      ch.stdout.on('data', () => {})
+      const finish = (callback) => {
+        if (settled) return
+        settled = true
+        clearTimeout(timeout)
+        callback()
+      }
+      const timeout = setTimeout(() => {
+        if (process.platform === 'win32' && ch.pid) {
+          const killed = spawnSync('taskkill.exe', ['/PID', String(ch.pid), '/T', '/F'], {
+            stdio: 'ignore',
+            windowsHide: true,
+          })
+          if (killed.error) ch.kill('SIGKILL')
+        } else if (ch.pid) {
+          try {
+            process.kill(-ch.pid, 'SIGKILL')
+          } catch {
+            ch.kill('SIGKILL')
+          }
+        }
+        finish(() => rej(new Error(`codex timeout after ${timeoutMs}ms`)))
+      }, timeoutMs)
       ch.stderr.on('data', (d) => { err += d.toString() })
-      ch.on('error', rej)
+      ch.on('error', (error) => finish(() => rej(error)))
       // stderr 앞부분에 무해한 스킬 로드 경고가 끼므로 넉넉히 남긴다(진짜 원인이 뒤에 있다).
-      ch.on('close', (code) => (code === 0 ? res() : rej(new Error(`codex exit ${code}: ${err.slice(0, 400)}`))))
+      ch.on('close', (code) => finish(() => (code === 0 ? res() : rej(new Error(`codex exit ${code}: ${err.slice(0, 2000)}`)))))
       ch.stdin.write(prompt)
       ch.stdin.end()
     })

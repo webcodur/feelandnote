@@ -44,6 +44,7 @@ cd "C:/Users/webco/.gemini/antigravity-cli/log" && grep -aoiE "email=[^ ,}\"]+" 
 - `--dangerously-skip-permissions` = 도구 승인 프롬프트 스킵(codex의 `--dangerously-bypass-approvals-and-sandbox` 대응).
 - 긴 프롬프트·따옴표·줄바꿈은 파일로 만들어 `-p "$(cat 프롬프트.txt)"`로 넣는다(shell 이스케이프 파손 방지).
 - 모델 지정은 `--model`, 실행 모드는 `--mode`(accept-edits, plan). 기본 모델로도 텍스트·이미지가 동작한다.
+- **`--print-timeout`을 반드시 늘린다.** 기본값 5분이라 웹 조사처럼 긴 호출은 `Error: timeout waiting for response`로 306초쯤에 죽는다(26.08.28 실측). 헬퍼는 `timeoutMs`를 이 플래그로도 넘긴다. 맨손 호출이면 `--print-timeout 25m`처럼 명시한다.
 
 반복 호출이나 배치 스크립트에서는 직접 spawn을 다시 만들지 말고 `scripts/agy-call.mjs`의 `agyCall()`을 import한다. 이 헬퍼는 확인된 `.exe` 절대경로, `gemini-3.7-flash-high`, 임시 작업 폴더, 15분 타임아웃, stdout 수신을 한곳에 고정한다.
 
@@ -108,7 +109,7 @@ agy는 지시가 두루뭉술하면 엉뚱하게 움직인다. **저장 경로·
 
 ## 무시/주의
 
-- agy는 `~/.claude` 훅·스킬을 상속 실행할 수 있다(그록 사례와 유사). 배치 시 훅 소음이 나면 가드가 필요할 수 있다.
+- agy는 `~/.claude` 훅·스킬을 상속 실행할 수 있다. 배치 시 훅 소음이 나면 가드가 필요할 수 있다.
 - codex 이미지와 agy 이미지는 결과 톤이 다르다(모델이 다름). 같은 프롬프트라도 결과가 갈리니 용도에 맞게 고른다.
 
 ## 형제 스킬
@@ -119,6 +120,5 @@ agy는 지시가 두루뭉술하면 엉뚱하게 움직인다. **저장 경로·
 |---|---|---|
 | `codex-gpt` | GPT (codex) | `scripts/codex-call.mjs` |
 | `agy-antigravity` | 제미니 (agy) | `scripts/agy-call.mjs` |
-| `grok-cli` | 그록 (grok) | `scripts/grok-call.mjs` |
 
 착수 규칙은 `docs/project/agent-rules.md` 「도구」 30~31번이다.

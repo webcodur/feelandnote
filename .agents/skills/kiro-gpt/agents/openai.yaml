@@ -1,0 +1,3 @@
+interface:
+  display_name: "Kiro GPT"
+  short_description: "Kiro Sol 호출과 터미널×3워커 배치를 안전하게 운영"

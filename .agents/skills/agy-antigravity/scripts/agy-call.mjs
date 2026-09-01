@@ -35,10 +35,13 @@ export function agyCall(prompt, opts = {}) {
   } = opts
   const work = mkdtempSync(resolve(tmpdir(), 'agy-call-'))
   const fullPrompt = withDocs(prompt, docs, repoRoot)
+  // agy 자체 대기 한도(--print-timeout)는 기본 5분이다. 조사처럼 긴 호출은 여기서 잘리므로
+  // 헬퍼의 timeoutMs를 그대로 넘겨 두 한도를 맞춘다.
   const args = [
     '-p', fullPrompt,
     '--dangerously-skip-permissions',
     '--model', MODEL,
+    '--print-timeout', `${Math.max(1, Math.ceil(timeoutMs / 60_000))}m`,
   ]
 
   return new Promise((resolveCall, rejectCall) => {

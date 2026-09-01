@@ -79,7 +79,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 
 ### DB·Remotion 동기화
 
-- 독립 대상을 반복 조사하는 릴레이 작업은 `RESEARCH_RELAY_ALGORITHM.md`를 따른다. 그록으로 인물 연표를 채울 때는 `docs/project/celeb/celeb-timeline-grok-relay.md`다.
+- 독립 대상을 반복 조사하는 릴레이 작업은 `RESEARCH_RELAY_ALGORITHM.md`를 따른다. 실존 인물 연표 부분 수리는 `docs/project/celeb/celeb-timeline-agent-relay.md`를 따른다.
 - 셀럽의 감상배경과 도서 목록은 DB와 Remotion이 일치해야 한다.
 - DB에 콘텐츠가 확정되면 `sw/remotion/public/episodes/<셀럽>/books/`에 폴더와 `book.ko.json` 초안을 스캐폴딩한다.
 - Remotion 원고의 신규 일화·인용을 DB에 백필할 때는 웹에서 독립적으로 팩트체크한다. 대본이나 3자 큐레이션 해석만으로 DB를 갱신하지 않는다.

@@ -50,11 +50,12 @@ node .agents/skills/audit-web-i18n/scripts/audit-celeb-data.mjs --slugs=stanley-
 node .agents/skills/audit-web-i18n/scripts/audit-celeb-data.mjs --all --json
 ```
 
-이 스크립트는 읽기 전용이다. 프로필, 읽어보기, 영향력 설명, 스펙트럼 근거, 대사, 타임라인, 관계, 세력 설명, 감상문의 KO→EN 존재 여부와 JSON 구조를 검사한다. 판정과 수정 규칙은 [data-coverage.md](references/data-coverage.md)를 읽고 따른다.
+이 스크립트는 읽기 전용이다. 프로필, 읽어보기, 영향력 설명, 스펙트럼 근거, 대사, 타임라인, 관계, 세력 설명, 감상문의 KO→EN 존재 여부와 JSON 구조를 검사한다. 닫힌 인물 탐구 필드의 경고는 활성 화면 누락으로 세지 않는다. 판정과 수정 규칙은 [data-coverage.md](references/data-coverage.md)를 읽고 따른다.
 
 ## 4. KO/EN 실화면 검사
 
-`http://localhost:3000`이 열리는지 확인하고, 없으면 `pnpm dev:web`으로 개발 서버를 실행한다. 그 뒤:
+먼저 `http://localhost:3000`이 열리는지 확인한다. 사용자 개발 서버가 없으면 임의로 새 인스턴스를
+띄우지 않고 실화면 검수 불가를 보고한다. 열려 있을 때 다음을 실행한다.
 
 ```bash
 node .agents/skills/audit-web-i18n/scripts/audit-routes.mjs \

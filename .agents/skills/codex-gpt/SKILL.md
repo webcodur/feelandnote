@@ -141,6 +141,5 @@ GPT-5.6은 한국어 문체가 자연스럽고 사실 정확도가 높으며 한
 |---|---|---|
 | `codex-gpt` | GPT (codex) | `scripts/codex-call.mjs` |
 | `agy-antigravity` | 제미니 (agy) | 없음 |
-| `grok-cli` | 그록 (grok) | `scripts/grok-call.mjs` |
 
 착수 규칙은 `docs/project/agent-rules.md` 「도구」 30~31번이다.

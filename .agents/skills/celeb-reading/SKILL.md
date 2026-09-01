@@ -1,43 +1,40 @@
 ---
 name: celeb-reading
-description: 인물 상세의 읽어보기 구획에 들어가는 인물 안내와 인물 탐구를 작성하거나, 기존 전량을 선검수해 좋은 글은 스킵하고 부실한 글만 조사·한영 재작성·검수·DB 반영할 때 사용한다. "인물 안내 작성", "인물 탐구", "읽어보기 채우기", "읽어보기 전량 재검수", "celeb_explanations 배치" 요청에 적용한다.
+description: 인물 상세의 읽어보기 구획에 노출되는 인물 안내를 작성하거나, 기존 한영 안내를 검수해 통과분은 게시하고 부실한 글만 조사·재작성할 때 사용한다. 인물 탐구는 사용자가 부활을 명시한 경우에만 범위에 넣는다.
 ---
 
 # 인물 읽어보기
 
-## 기준
+## 범위
 
-작업 전에 `docs/project/celeb/person-reading.md`를 끝까지 읽는다. 글의 목적, 조사 서열, 두 탭의
-분리, 한영 동시 작성, 검수와 게시 규칙은 그 문서만 따른다. 이 스킬에 문장 규칙을 복제하지
-않는다.
+작업 전에 `docs/project/celeb/person-reading.md`를 끝까지 읽는다. 현재 화면은 인물 안내만
+노출한다. 한국어 `plain_text`와 영어 `plain_text_en`을 한 작업으로 다루고, 닫힌
+`interpretive_*` 필드는 기존 값을 보존한다.
 
-현대 실존 인물의 직접 발언과 본인 매체를 조사할 때는 `person-quote-mining`의 인물 식별,
-원어 검색, 화자 확인 원칙을 함께 적용한다. DB 작업은
-`docs/project/platform/external-services.md`의 `Oracle DB 운영` 절을 따르고, 결과의 locale 대응에는
-`audit-web-i18n`을 함께 사용한다.
+현대 실존 인물의 직접 발언과 본인 매체를 조사할 때는 `person-quote-mining`의 인물 식별·원어
+검색·화자 확인 원칙을 적용한다. DB 작업은 `docs/project/platform/external-services.md`의
+`Oracle DB 운영` 절을 따르고, 한영 대응 검수는 `audit-web-i18n`을 함께 사용한다.
 
 ## 흐름
 
-1. DB의 현재 행, 검수 상태, 번역 상태를 센다.
-2. `human_reviewed`와 `ai_reviewed`는 스킵한다.
-3. `NULL`인 기존 글은 한영 두 탭을 읽는다. 통과하면 본문을 유지하고 `ai_reviewed`를 즉시 기록한다.
-4. 실패한 인물은 같은 릴레이에서 즉시 신원 조사와 심화 조사로 넘긴다. 조사 URL은 DB에 적재하지 않는다.
-5. 같은 릴레이에서 한국어 초안, 한영 최종본, 의미 검수, `ai_reviewed` 조건부 반영까지 끝낸 뒤 다음 인물 또는 작은 묶음을 받는다.
-6. 혼합 표본을 직접 읽어 품질과 속도를 확인한 뒤 전량을 독립 릴레이로 처리한다. 전원 판정을 끝내고 나서 별도 재작성 단계로 넘어가는 전역 단계 분리는 금지한다.
-7. DB 재조회, 검수·공개 상태, locale 대응과 실제 화면을 확인한다.
+1. live DB에서 active 인물의 안내 행, `review_status`, `published_at`, 한영 누락을 센다.
+2. 보통 잔여 작업에서는 `human_reviewed`와 `ai_reviewed`를 스킵한다. 사용자가 전수 재감사를
+   명시하면 `ai_reviewed`도 다시 읽되, `human_reviewed`는 의견만 내고 자동으로 고치지 않는다.
+3. 대상의 기존 한영 안내를 함께 읽는다. 기준을 통과하면 본문을 보존하고 검수·게시 상태만
+   기록한다.
+4. 실패한 인물만 신원과 대표 행동을 다시 조사해 한국어와 영어 안내를 재작성한다. 짧은
+   이야기는 극적 일화가 아니라 한 행동·질문·생각이 결과나 의미에 닿는 흐름이다. 흐름을
+   바꾸지 않는 날짜·수치·직함·고유명사는 덜어낸다.
+5. 한 명 또는 작은 묶음마다 검수와 조건부 반영까지 끝낸다. 실패한 인물을 성공 수에 넣지 않고
+   `review_status IS NULL`로 남긴다.
+6. DB 재조회와 한국어·영어 실제 화면으로 본문·상태·locale 대응을 확인한다.
 
-## 실행
+## 실행 경계
 
-`sw/web-bo`에서 실행한다.
+`sw/web-bo/scripts/celeb/readings.ts`는 안내 두 필드만 갱신하고 `interpretive_*`를 전후 대조해
+보존한다. 평소 잔여 검수는 미검수만, 사용자가 전수 재감사를 명시한 경우에만
+`--recheck-reviewed`로 `ai_reviewed`까지 다시 읽는다. `human_reviewed`는 두 경로 모두 제외한다.
 
 ```powershell
-pnpm exec tsx scripts/celeb/readings.ts --slugs=jiwoo,brad-pitt,bai-juyi --rewrite-existing --review-existing --research --deep-research --generate --apply --resume
-pnpm exec tsx scripts/celeb/readings.ts --all --rewrite-existing --review-existing --research --deep-research --generate --apply --resume
 pnpm exec tsx scripts/celeb/readings.ts --stats
 ```
-
-전량 교체는 `--all --rewrite-existing --review-existing` 조합에서만 허용한다. `human_reviewed`는
-자동화가 덮어쓰지 않는다. 심화 조사·생성에는 프로세스 락을 사용한다. 실패한 인물을 성공
-수에 넣지 않고 `.tmp-celeb-reading/`의 실패 사유와 재개 명령을 보고한다. 한 릴레이는 현재
-최대 8명 묶음의 `판정 → 통과 상태 반영 또는 실패자 즉시 재작성 → DB 반영`을 모두 끝내야
-다음 묶음으로 이동한다. 판정 캐시는 입력 해시가 같을 때만 재사용한다.

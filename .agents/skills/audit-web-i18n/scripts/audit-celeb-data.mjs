@@ -217,14 +217,25 @@ function chunks(values, size = 100) {
 
 async function selectByCelebIds(table, columns, ids, foreignKey = "celeb_id") {
   const rows = [];
+  const pageSize = 500;
+  const selectedColumns = new Set(columns.split(",").map((column) => column.trim()));
   for (const group of chunks(ids)) {
-    rows.push(...await expectQuery(
-      supabase
+    for (let from = 0; ; from += pageSize) {
+      let query = supabase
         .from(table)
         .select(columns)
-        .in(foreignKey, group),
-      `${table} by ${foreignKey}`,
-    ));
+        .in(foreignKey, group)
+        .order(foreignKey, { ascending: true });
+      if (selectedColumns.has("id")) {
+        query = query.order("id", { ascending: true });
+      }
+      const page = await expectQuery(
+        query.range(from, from + pageSize - 1),
+        `${table} by ${foreignKey} range ${from}-${from + pageSize - 1}`,
+      );
+      rows.push(...page);
+      if (page.length < pageSize) break;
+    }
   }
   return rows;
 }

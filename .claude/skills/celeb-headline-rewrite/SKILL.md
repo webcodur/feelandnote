@@ -14,7 +14,7 @@ description: 셀럽 한 줄 정의(headline) 신설·개편 오케스트레이�
 - 생성 팩: `data/celeb/headline-rewrite/packs/lane-NN.json`
 - 대결 팩: `data/celeb/headline-rewrite/reviews/lane-NN.json`
 - 초안: `data/celeb/headline-rewrite/drafts/lane-NN.json`
-- 원장: `data/celeb/headline-rewrite/ledger/lane-NN.json` — 회차 중 작업 PC 간 공유용 중간 상태. 커밋으로 공유하고 반영이 끝나면 지운다 — 회차 중 작업 PC 간 공유용 중간 상태. 커밋으로 공유하고 반영이 끝나면 지운다
+- 원장: `data/celeb/headline-rewrite/ledger/lane-NN.json` — 회차 중 작업 PC 간 공유용 중간 상태. 커밋으로 공유하고 반영이 끝나면 지운다
 - 조회 env: `sw/web-bo/.env`
 - 실제 DB apply 접속: `docs/project/platform/external-services.md`의 `Oracle DB 운영`
 
