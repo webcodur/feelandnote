@@ -12,10 +12,6 @@ data/celeb/
 │   └── _unregistered/{nickname}.json
 ├── headline-rewrite/            # 회차 중에만 존재
 │   └── ledger/lane-NN.json
-├── spectrum-rescore/
-│   ├── relay-brief.md
-│   ├── agy-rules.md
-│   └── writer-brief.md
 ├── timeline-life-rewrite/
 │   ├── korean-diagnostic/
 │   ├── pilots/
@@ -23,13 +19,6 @@ data/celeb/
 └── viewing-research/
     └── YYYY-MM-DD-<scope>.md
 ```
-
-### `spectrum-rescore/`
-
-스펙트럼 16축 재채점 릴레이의 발주 브리프다. `relay-brief.md`는 공통 규칙, `agy-rules.md`는 agy 조사자(사실 장부 전용), `writer-brief.md`는 클로드 작성자용이다. 대상 큐와 반영 절차는
-`docs/todo/celeb/celeb-spectrum-reason-quality-audit.md`, 작성 규칙은
-`docs/project/celeb/celeb-5-spectrum.md`가 쥔다. 조사 산출물(패치·노트)은 `sw/web-bo/.tmp-spectrum-audit/`에
-쓰고 반영이 끝나면 지운다.
 
 ### `headline-rewrite/`
 
@@ -53,8 +42,8 @@ data/celeb/
 
 ### `timeline-life-rewrite/`
 
-실존 인물 연표 전면 개편의 국문 진단, 사실 감사 표본, 중간 반영 전 백업과 결과다. 재개 근거는
-이 폴더의 `README.md`, 실행 규칙은 `docs/project/celeb/celeb-timeline-grok-relay.md`가 쥔다.
+실존 인물 연표 부분 수리의 과거 국문 진단, 사실 감사 표본, 중간 반영 전 백업과 결과다. 재개 근거는
+이 폴더의 `README.md`, 실행 규칙은 `docs/project/celeb/celeb-timeline-agent-relay.md`가 쥔다.
 
 ## 타임라인
 

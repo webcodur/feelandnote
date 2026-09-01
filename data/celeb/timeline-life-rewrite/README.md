@@ -1,22 +1,19 @@
 # 실존 인물 연표 개편 중간 데이터
 
-국문 중간 개선의 입력·보류 표본·반영 전 백업·반영 결과를 보존한다. 서비스 정본은
-`public.celeb_timeline_events`이며, 국문 진단 JSON은 사실 감사까지 끝난 최종본이 아니다.
+국문 중간 개선의 입력·기계 산출물·반영 전 백업·왕복 검증 결과를 보존한다. 서비스 정본은
+`public.celeb_timeline_events`이며, 이 폴더의 진단 JSON은 독립 사실 감사까지 끝난 최종본이 아니다.
 
-- `recent-473-slugs.json`: 최근 개편됐던 활성 실존 인물 473명 명단
-- `korean-diagnostic/`: 로컬 최종본 가운데 국문 의미를 검사한 342명 결과. 294명은 `revised`,
-  48명은 `fact_check`이며 독립 사실 감사 전 진단본이다.
-- `pilots/carrie-anne-moss.fact-check.json`: 전건 감사 뒤 수정 결과를 근거와 다시 대조해 3건을
-  사실 확인으로 보류한 표본
-- `pilots/baek-mun-oh.needs-research.json`: 기존 사건 하나가 인물의 일이 아니어서 전면 재조사로
-  보류한 표본
-- `db-before-korean-prose-update.json`: 중간 개선을 반영한 292명의 반영 전 DB 원본. 롤백 근거다.
-- `db-korean-prose-update-result.json`: 반영·왕복 검증을 마친 292명의 인물별 사건 수와 변경 건수
+- `recent-473-slugs.json`: 현재 부분 수리 대상의 원래 순서를 가진 활성 실존 인물 명단
+- `korean-diagnostic/`: 국·영문 의미를 대조한 과거 진단 결과. payload의 상태명은 당시 출력 형식일
+  뿐 현행 파이프라인의 종료 상태가 아니다
+- `pilots/`: 사건 index 사실 문제와 생애 구성 문제를 확인한 과거 표본. 현행에서는 해당 index 수리·
+  교체 또는 additions 입력으로 해석한다
+- `db-before-korean-prose-update.json`: 국문 중간 개선 반영 전 DB 원본과 롤백 근거
+- `db-korean-prose-update-result.json`: 당시 국문 반영 뒤 DB 왕복 검증 결과
 
-342명 결과는 3,946개 사건 중 국문 제목이나 서술 3,657개를 고쳤고, 연도·종류·영문·장소·좌표는
-바꾸지 않았다. `revised` 294명 중 후속 표본 감사에서 문제가 확인된 캐리 앤 모스·백문오를 제외한
-292명은 중간 개선본으로 DB에 반영했다. 3,378개 사건을 다시 읽어 3,137개 변경과 비국문 필드 보존을
-확인했다. `fact_check` 48명과 두 표본은 기존 DB 값을 유지한다.
+국문 중간 개선은 제목·서술만 바꾸고 연도·종류·영문·장소·좌표는 보존했다. 이 반영 이력은 사실
+감사 완료를 뜻하지 않으며, 현재 라이브 DB 값이 다음 작업의 seed다.
 
-중간 반영은 사실 검증 완료를 뜻하지 않는다. 다음 실행은 기존 사건을 전제로 문장만 수선하지 않고
-새 조사로 재생성한 뒤 현행 사실·국문 관문을 거친다.
+현행 실행은 `docs/project/celeb/celeb-timeline-agent-relay.md`를 따른다. 현재 DB 또는 DB 지문이 같은
+최신 미반영 산출물을 후보로 잡고, 문제 index만 수정·교체하며 생애 공백만 추가한다. 이 폴더의 과거
+JSON을 전체 재작성 지시나 완료 집계로 사용하지 않는다.
