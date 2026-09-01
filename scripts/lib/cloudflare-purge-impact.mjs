@@ -89,6 +89,8 @@ const NON_RUNTIME_WEB_ROOT_FILES = new Set([
   'sw/web/cUserswebco바탕',
   'sw/web/eslint.config.mjs',
   'sw/web/missing_images_report.txt',
+  // public에 있었지만 어떤 라우트도 부르지 않은 디자인 시안 HTML. 26.09.01 삭제.
+  'sw/web/public/home_concept.html',
   'sw/web/split_json.mjs',
   'sw/web/ts_to_json.js',
 ])
