@@ -25,6 +25,7 @@
     - 실측 분포(26.08.14): active 1,858 / inactive 1,110
     - **목록 노출은 이 값 하나가 아니라 `celeb_tier` 필터도 함께 가른다.** `publication_status`는 공개 여부만 뜻하며 조사 여부·관계·태그 배정 같은 독립 사실을 대신하지 않는다. “내일 active로 바꾸면 해당 값이 저절로 맞아지는가?”가 아니라면 이 열을 조건에 넣지 않는다. 26.07.26 관계망, 26.07.27 세력도감 태그, 26.08.07 콘텐츠 조사에서 같은 혼용 사고를 교정했다
     - **계정 전용 열은 `celebs`에 없다.** 회원 계정 상태는 `user_accounts.account_status`이며 셀럽 공개 상태와 다른 축이다. 관리자 판정은 `is_admin()` 하나가 쥔다
+    - 범죄·처벌 이력만으로 `inactive`를 자동 부여하지 않는다. 이 열은 처벌 수단이 아니라 인물 공개 여부다. 계속 공개할 때는 현재 소속·퇴출 등 공적 상태와 프로필·해설이 어긋나지 않는지 별도로 검토한다
   - `updated_at` (timestamptz, nullable): 프로필 내용이 실제로 변경된 시각. 2026-08-09 도입 이전 행은 다음 변경 전까지 null이다. 조회수와 마지막 접속 시각만 바뀐 경우에는 갱신하지 않는다
   - `birth_date` / `death_date`는 BC 표기(`-384`)를 담기 위한 **text**다
   - `claimed_by_member_id`는 인수 회원의 `user_accounts.id`를 참조한다. 셀럽 자신의 로그인
@@ -37,6 +38,7 @@
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
   - `portrait_url` (text): 인물 상세 PC 상단 대표사진 URL. 옛 Portrait 기능의 잔류 컬럼을 재사용한다. 옛 값은 **2026-07-31 전량 비움(817건 → 0)** — 815건이 가리키던 옛 Storage `avatars` 버킷에 실제 portrait 파일은 0개였다. 같은 날 정사각 대표사진으로 재도입했고, 2026-08-05부터 공용 규격 상수에 따라 세로로 표시·편집한다
+  - `awakened_image_url` (text, nullable): 대표 사진과 별개로 보관하는 각성 이미지 URL. 팩션 데이터가 아니며, 백오피스에서만 관리하고 사용자 화면 노출·전환 방식은 아직 정하지 않았다
 - **`celeb_contents`**: 셀럽 감상경위. `celeb_id → celebs.id`, `content_id → contents.id`,
   UNIQUE(`celeb_id`, `content_id`). 출처 가드·0건 확정 해제·파생 개수는 이 테이블 기준이다
 - **`celeb_metrics`**: 셀럽별 `follower_count`·`content_count` 캐시. `celeb_id`가 PK이자
@@ -45,15 +47,17 @@
   `publication_status='active'`만 공개한다. 다만 `faction_atlas_members`에서 `hidden=false`로
   명시 출간된 인물은 비활성이어도 세력도감 표면에 필요한 세 테이블 행을 읽을 수 있다.
   일반 셀럽 목록 RPC는 별도로 공개 상태를 필터링한다
-- **`celeb_explanations`**: 인물당 한 행으로 `인물 안내`와 `인물 탐구`를 보관한다. 열 이름은 역사적으로 `profile_id`지만 FK 부모는 `celebs.id`이며 PK라 1:1이다
-  - `plain_text`는 처음 보는 독자를 위한 인물 안내, `interpretive_title`·`interpretive_text`는 그 사실을 반복하지 않고 선택과 긴장을 읽는 인물 탐구다. 영문 필드는 각각 `_en`
+- **`celeb_explanations`**: 인물당 한 행으로 `인물 안내`와 닫힌 `인물 탐구` 값을 보관한다. 열 이름은 역사적으로 `profile_id`지만 FK 부모는 `celebs.id`이며 PK라 1:1이다
+  - 사용자 화면은 `plain_text`·`plain_text_en` 안내만 노출한다. `interpretive_title*`·`interpretive_text*`는 2026-08-22 화면에서 닫았고, 명시적인 부활 결정 전에는 생성·번역·게시 조건에 넣지 않고 기존 값을 보존한다
   - `review_status`는 `null`(미검수) / `ai_reviewed` / `human_reviewed` 셋이다. CHECK 제약에는 두 문자열만 두고 미검수는 실제 SQL `NULL`로 표현한다
   - `published_at`은 게시 여부와 시각의 SSoT다. `null`이면 미게시다. RLS는 게시된 행만 공개하고 작성·수정은 `service_role`에만 허용한다
   - 작성·검토·배치 규칙은 `docs/project/celeb/person-reading.md`, 최초 스키마는 `20260803181502_create_celeb_explanations.sql`, 현행 검수 상태는 `20260804060931_replace_celeb_explanation_sources_with_review_status.sql` 참조
   - `celeb_explanation_sources`는 2026-08-04 폐기했다. 사실 조사는 계속 수행하지만 URL은 집필 캐시에만 임시 보관하고 서비스 DB에는 적재하지 않는다
 - **`celeb_relations`**: 인물 관계망. 위키데이터 사실 관계 + 수동 보강
-  - 관계 사실 하나를 행 하나로 저장한다. `rel_type`은 **"from_id가 to_id에게 무엇인가"**다. 비대칭 관계는 `father`/`mother`/`parent`, `teacher`, `influence`만 저장하고 반대편 화면에서 `child`, `student`, `influenced`로 해석한다. 대칭 관계는 두 ID를 정렬해 한 행만 둔다
-  - 정규화 규칙은 공용 `packages/shared/src/constants/celeb-relations.ts`, 수집은 `sw/web-bo/scripts/celeb/relations.ts`가 SSoT다. 웹 조회는 전환 기간에 양 끝점을 모두 읽고 기존 역방향 중복 행을 한 사실로 접는다
+  - 관계 사실 하나를 행 하나로 저장한다. `rel_type`은 **"to_id가 from_id에게 무엇인가"**다. 자녀·제자·영향을 받은 인물을 `from_id`, 부모·스승·영향을 준 인물을 `to_id`에 두고 `father`/`mother`/`parent`, `teacher`, `influence`만 저장한다. 반대편 화면에서는 `child`, `student`, `influenced`로 해석한다. 대칭 관계는 두 ID를 정렬해 한 행만 둔다
+  - 정규화 규칙은 공용 `packages/shared/src/constants/celeb-relations.ts`(`celebRelationFactKey`가 사실 하나의 정본 키), 수집은 `sw/web-bo/scripts/celeb/relations.ts`가 SSoT다. 웹 조회는 전환 기간에 양 끝점을 모두 읽고 기존 역방향 중복 행을 한 사실로 접는다
+  - 같은 두 사람 사이에 `family` 관계가 있으면 그 관계만 남긴다. 두 사람 사이의 `thought`·`career`·`friendship`·`rivalry` 행은 별도 사실로 저장하지 않고 폐기한다
+  - 같은 두 사람을 서로 다른 `rel_type`으로 중복 저장하지 않는다. 유형을 정규화한 뒤 `celebRelationFactKey`가 같으면 같은 사실이므로 정본 한 행만 남긴다
   - `rel_group`: family(혈연)/thought(사상)/career(공동 창업·동료)/friendship(지기)/rivalry(라이벌) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
   - `publication_status`가 비공개인 내부 상대도 관계 사실에서는 제외하지 않는다. 화면은 이름 노드로 표시하고 이동만 막는다(`slug=null`); 위키데이터 링크는 `celebs.wikidata_qid`를 쓴다
   - `note`와 `note_en`은 어느 쪽에서 열어도 같은 두 사람의 행동과 결과를 함께 설명하는 공동 문장 한 벌이다. `label_ko`·`label_en`은 소비처가 없는 레거시 열이므로 새 값을 넣지 않는다
@@ -70,8 +74,9 @@
   - 공개 SELECT만 허용하고 쓰기는 service role 전용이다
 - **`fiction_source_characters`**: 대표 원전 콘텐츠 ↔ fiction 인물 다대다 연결
   - PK `(content_id, celeb_id)`, `celeb_id → celebs.id`, `relation_type`은 appearance/origin/adaptation, `sort_order`로 화면 순서를 고정한다
+  - `description`·`description_en`은 그 인물이 **해당 작품에서** 맡는 역할·관여 사건·작품 안의 결말을 한국어·영어로 각각 저장한다. 작품 소개인 `content_locales.description`이나 다른 원전의 일화로 대체하지 않는다
   - 트리거가 `celebs.celeb_tier='fiction'`인 대상만 허용한다
-  - 저장 RPC `set_fiction_source_characters(text, uuid[])`는 대표 지정과 인물 목록 교체를 한 트랜잭션으로 처리하며 anon·authenticated 실행 권한은 회수했다
+  - 저장 RPC `set_fiction_source_characters(text, uuid[])`는 대표 지정과 인물 명단·순서를 한 트랜잭션으로 갱신한다. 유지된 연결은 설명·`relation_type`·`created_at`을 보존하고, 명단에서 빠진 연결만 삭제하며, anon·authenticated 실행 권한은 회수했다
   - **`celeb_contents`와 혼용 금지.** 이 관계는 인물이 그 작품에 등장한다는 뜻이지, 작품을 감상했다는 뜻이 아니다
   - 현행 데이터(2026-07-29): 대표 원전 20건, 관계 285행. fiction 257명 중
     255명이 하나 이상의 원전에 연결
@@ -79,8 +84,8 @@
       미해소 0, 아바타 없는 데이터형 프로필 209명
     - 모든 대표 원전에 국·영문 locale이 있고, 인물 0명인 원전·실재하지 않는
       content FK·non-fiction 관계는 각각 0건
-    - 미연결 2명은 펜테실레이아·멤논. 직접 원전인 소실 서사시
-      《아이티오피스》를 후대 작품으로 대체하지 않고 보류
+    - 원전 미연결 인물은 허용하지 않는다. 소실 서사시 인물은 그 잔존 줄거리를 실제로 다루는
+      판매 판본을 `adaptation`으로 연결하고, 다른 작품 본문 인물로 소급하지 않는다.
     - 재현·감사: `sw/web-bo/scripts/fiction/audit.ts`
       (여기 함께 적혀 있던 `sync-fiction-source-rosters.ts`는 저장소에 없다 —
       26.08.06 확인. 이름이 비슷한 `sync-fiction-profiles.ts`·
@@ -105,9 +110,8 @@
     `year=null` + `sequence_label(_en)` + `sort_order`를 쓴다. 둘을 동시에 쓰지
     못하도록 CHECK가 막는다
   - `lat`/`lng`는 **둘 다 있거나 둘 다 없거나**(CHECK). 좌표 있는 행만 활동 반경 지도에 오른다 — **활동 반경용 테이블은 없다**
-  - `source_url`·`place_qid`·`month`·`day`는 **2026-08-14에 폐기했다.** 어느 화면도 읽지 않으면서
-    조사 비용만 발생시켰다. 되살리자는 제안이 나오면 「누가 그 값을 그리는가」부터 답한다 →
-    `celeb-timeline.md` 「폐기한 필드」
+  - `day`·`source_url`·`place_qid`는 만들지 않는다. 어느 화면도 읽지 않고 조사비만 든다. 좌표는
+    `lat`/`lng`로 충분하다 → `celeb-timeline.md` 「만들지 않는 값」
   - `source` CHECK: research·wikidata·manual. 값은 사건이 등록된 경로만 표시한다
   - 별도 조사 이력 테이블·작업 큐·조사 RPC는 없다. 조사자는 인물 한 명을 조사·자체검증한 뒤
     최종 사건만 이 테이블에 직접 반영한다

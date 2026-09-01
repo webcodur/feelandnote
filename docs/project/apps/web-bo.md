@@ -55,7 +55,7 @@ pnpm dev:bo
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
 | `/celebs` | 셀럽 관리 | 셀럽 목록 조회·검색·필터(상태/직군/등급)·정렬·페이지네이션. 하위 도구 허브 | `celebs` |
-| `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 화보를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사·CPU nobg 대기열 처리를 수행. 바깥 브라우저에서 Alt+클릭한 사진을 빈 자리로 받는 즉시 등록도 여기서 동작한다([`tools/celeb-image-grabber`](../../../tools/celeb-image-grabber/README.md)) | `celebs` (`avatar_url`, `portrait_url`) |
+| `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 사진·각성 이미지를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사를 수행한다. 아바타는 CPU nobg 대기열도 제공한다. 바깥 브라우저에서 Alt+클릭한 일반 사진은 아바타·대표 사진의 빈 자리로만 받는다([`tools/celeb-image-grabber`](../../../tools/celeb-image-grabber/README.md)) | `celebs` (`avatar_url`, `portrait_url`, `awakened_image_url`) |
 | `/celebs/new` | 셀럽 등록 | 로그인 계정 없이 신규 셀럽을 직접 등록 | `celebs` |
 | `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·감상철학 + 스펙트럼·고유대사. 세력도감 편성은 이 화면에서 고치지 않는다 | `celebs`, `celeb_dialogues`, `celeb_influence` |
 | `/celebs/[slug]/contents` | (셀럽 닉네임) | 셀럽에 등록된 콘텐츠 목록·필터·추가·내보내기, 하단에 수집기 | `celeb_contents`, `contents`, `content_locales` |
@@ -93,7 +93,7 @@ pnpm dev:bo
 | --- | --- | --- | --- |
 | `/contents` | 콘텐츠 관리 | 콘텐츠 목록(제목·제작자 검색, 유형 필터). 도서는 한국어·영문 판본 카드를 나란히 띄워 썸네일 출처까지 진단 | `contents`, `content_locales`, `member_contents`, `celeb_contents` |
 | `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 회원·셀럽·관련 기록. BOOK은 KO·EN 표지 URL·출처 편집과 서재 탐방 사용 현황 진입 제공. 픽션 대표 원전은 지정 해제 전 삭제를 거부한다 | `contents`, `content_locales`, `member_contents`, `celeb_contents`, `records` |
-| `/fiction-sources` | 픽션 원전 관리 | 기존 콘텐츠를 대표 원전으로 지정·해제하고 fiction 인물을 검색·선택해 등장 관계를 저장 | `fiction_source_contents`, `fiction_source_characters`, `contents`, `celebs` |
+| `/fiction-sources` | 픽션 원전 관리 | 기존 콘텐츠를 대표 원전으로 지정·해제하고 fiction 인물을 검색·선택해 등장 관계를 저장한다. 연결된 인물마다 해당 작품에서의 역할·사건·결말 설명을 한국어·영어로 편집한다 | `fiction_source_contents`, `fiction_source_characters`, `contents`, `celebs` |
 | `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `member_profiles`, `contents`, `content_locales` |
 | `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `member_profiles`, `contents` |
 

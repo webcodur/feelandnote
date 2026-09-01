@@ -33,9 +33,9 @@
 퀴클롭스의 동굴, 세이렌의 바다, 폭풍, 함대 침몰처럼 독립된 도감 인물은 아니지만 이야기에는 필요한 컷도 인물 카드와 같은 `faction_people` 행을 쓴다. JSON에서는 소속 `cluster.people[]` 안에 `isPerson:false`로 두고, DB에서는 `is_person=false`로 저장한다.
 
 - 필수값은 공통 제목 `name`과 `isPerson:false`다. 대표 미디어는 인물과 같은 `image`·`imageCrop`을 쓴다. 해설·대사 흐름은 `beats`, 최소 노출은 `durationSec`, 효과음은 `sfx`다. 구 `caption` 한 벌은 읽기 호환만 제공한다.
-- `isPerson=true`만 CELEB 연결·자연인 주체 검사·세력도감 노출·인물 음성 좌표(`FxxCxxPxx`)를 사용한다. 서사 항목은 `celebId`·`slug`·웹 인물 필드를 갖지 않으며, 덩어리 음원은 화자+본문 해시 `scene-<key>.wav`를 쓴다.
+- `isPerson=true`만 CELEB 연결·자연인 주체 검사·세력도감 노출·인물 음성 좌표(`FxxCxxPxx`)를 사용한다. 서사 항목은 `celebId`·`slug`·웹 인물 필드를 갖지 않으며, 덩어리 음원은 화자+본문 해시 `scene-<key>.wav`를 쓴다. 본문을 고치면 음원이 무효화돼 재합성 대상이 되지만, 미할당 화자의 **표시 이름만** 바꿀 땐 BO가 현재 파일명을 `voiceFile`로 박아 음원을 유지한다(이름은 읽히지 않는다).
 - BO 사람 목록은 `isPerson=true`만 보여 주고, 서사 항목은 같은 타임라인 레일에서 그룹 카드 사이에 편집한다. 사람을 추가·삭제·재정렬하면 서사 항목의 `entryIndex` 참조도 함께 다시 맞춘다.
-- `FactionGroup.sequence`는 `{kind:'cluster', clusterIndex}`·`{kind:'entry', clusterIndex, entryIndex}`·`{kind:'cut'}`만 허용한다. `entry`는 반드시 `isPerson=false` 행을 가리키며 모든 서사 항목은 정확히 한 번 참조돼야 한다. 장면 본문을 `sequence`에 중복 저장하지 않는다.
+- `FactionGroup.sequence`는 `{kind:'cluster', clusterIndex}`·`{kind:'cut'}`만 허용한다. `cut`은 쇼츠 편 경계로 장면 사이나 **세력 끝**(다음 세력과의 사이)에 둘 수 있고, 맨 앞이나 연속으로는 둘 수 없다. 장면 안 컷 사이 경계는 컷의 `shortsCutBefore`다. 옛 `entry` 항목과 `group.part` 편 배정은 폐기했다. 장면 본문을 `sequence`에 중복 저장하지 않는다.
 - 서사 항목은 기존 인물의 F/C/P 음성 좌표를 보존하도록 해당 `cluster.people[]`의 기존 인물 뒤에 둔다. 실제 화면 순서는 배열 위치가 아니라 `sequence`가 결정한다.
 - `beats`의 화자(`speaker`)는 CELEB 등록과 무관한 자유 문자열이다. 화자가 없으면 해설, 있으면 대사다. 단일 개행은 같은 화면의 줄바꿈, 빈 줄은 다음 문단 화면 경계다. 덩어리마다 `media`로 배경을 바꿀 수 있다.
 - 컷 길이·문단 전환·음성 맞춤은 `@feelandnote/shared/lib/faction-scene-timing`이 소유한다. 자막 모양은 에피소드 `quoteCaptionPos`·`quoteCaptionSize`·`quoteCaptionFont`·`captionIdHoldSec`를 상속한다.
@@ -271,6 +271,8 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 
 **한계 — 정규화로 다 된다고 약속하지 마라.** loudnorm은 평균 크기(통합 LUFS)만 맞춘다. 측정으로 확인(01-llm F04: 네 명 다 -17 LUFS, LRA 0~2.3으로 거의 동일)했는데도 특정 인물(마크 첸·일리야)이 작게 들렸다. 원인은 목소리 톤·두께(음색) 차이다 — 사람 귀가 느끼는 크기와 기계가 재는 평균이 어긋나는 지점이라 어떤 평균 지표(LUFS·RMS·A-weighting)로도 못 없앤다. "정규화 다 돌려도 차이 없다"가 맞다. 따라서 평균은 자동(정규화)으로 맞추고, 음색에서 오는 체감 미세차는 그 인물에 `quoteGainDb`를 1회 보정하는 게 현실적 최선이다(음원이 안 바뀌면 영구 유지, "매번"이 아님). 귀 없이 완전 무인 자동은 어렵다 — 그렇게 안 된다고 정직하게 말한다.
 
+**BGM 더킹 구간:** `musicDuckVolume`이 있으면 사람 목소리가 나는 모든 구간에서 음악을 낮춘다. 구간 목록은 `src/compositions/Faction/voice-windows.ts`(`factionVoiceWindows`) 한 곳이 카드와 같은 산식으로 만든다 — 인물 대사·수식어 낭독·나레이터 소개·시작문구·챕터 제목 낭독·장면 컷의 해설과 미할당 화자 음성 전부. 카드에서 음원 시작 시각을 바꾸면 이 파일도 같이 바꾼다.
+
 ### 4.3 quoteGainDb는 미리보기와 렌더가 다르게 동작한다
 
 인물 음량(`quoteGainDb`)은 Remotion `<Audio volume={dbToLinear(db)}>`로 들어간다(`10^(db/20)`). **volume이 1을 넘는 증폭(gainDb 양수)은 Studio 미리보기에서 무시되고(최대 100%로 클램프) 렌더 파일에서만 실제로 증폭된다.**
@@ -283,9 +285,9 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 
 ### 4.4 받아쓰기·정렬 함정
 
-**① 편(part)이 나뉜 에피소드는 모든 편을 각각 돌린다 — 제일 흔한 원인.** 세력에 `group.part`가 있으면(예: Digital-Resistance는 1편 G1~G3, 2편 G4~G6) 전사·정렬을 편마다 각각 돌린다(`--part 1`, `--part 2` …). `3-transcribe.py --faction --part N`은 `faction_quote_targets`가 `group.part !== N`인 세력을 거른다. **`--part 1`만 돌리고 2편을 잊으면 2편 인물(예: 두로프 F06C01P02)은 전사가 아예 안 돼, 편을 나누기 전의 옛 대사 캐시가 word-timings에 남고 자막이 옛 대사 기준으로 통째로 어긋난다.** 진단법: `2-word-timings.json`의 `targets[stem]` 단어 join과 자막 `quoteChunks` join을 글자로 대조해 내용·순서가 다르면 엉뚱한 편에서 옛 캐시로 처리된 것이다. 유저가 "음성은 X로 들린다"고 하면 신뢰하고 편·캐시부터 의심한다.
+**① 편이 나뉜 에피소드는 모든 편을 각각 돌린다 — 제일 흔한 원인.** 쇼츠 경계가 있으면(예: Digital-Resistance는 세력 3 뒤 경계로 1편 G1~G3, 2편 G4~G6) 전사·정렬을 편마다 각각 돌린다(`--part 1`, `--part 2` …). `3-transcribe.py --faction --part N`은 `faction_part_clusters`가 그 편 경계 밖의 장면을 거른다(TS `data.ts`의 `partClusterSetOf`와 같은 규칙 — 장면 한가운데서 갈린 장면은 양쪽 편에 다 속한다). **`--part 1`만 돌리고 2편을 잊으면 2편 인물(예: 두로프 F06C01P02)은 전사가 아예 안 돼, 편을 나누기 전의 옛 대사 캐시가 word-timings에 남고 자막이 옛 대사 기준으로 통째로 어긋난다.** 진단법: `2-word-timings.json`의 `targets[stem]` 단어 join과 자막 `quoteChunks` join을 글자로 대조해 내용·순서가 다르면 엉뚱한 편에서 옛 캐시로 처리된 것이다. 유저가 "음성은 X로 들린다"고 하면 신뢰하고 편·캐시부터 의심한다.
 
-**② align 편 필터 코드 버그(2026-07-08 수정).** `buildCues`(timing.ts)의 part 필터가 `portrait &&` 조건이라 세로 렌더에서만 걸렸다. `faction-align`의 `buildVoiceJobs`는 `buildCues(script, false, part)`로 호출해(portrait=false) 편 필터가 통과돼 1편·2편 양쪽에 전 세력 인물이 섞였다(옛 정렬과 새 정렬 충돌). `scripts/voice/faction/data.ts`의 `buildVoiceJobs` 루프에 `if (part != null && g.part != null && g.part !== part) continue`를 추가해 고쳤다.
+**② align 편 필터.** `buildVoiceJobs`(`scripts/voice/faction/data.ts`)는 `buildCues(script, false)`로 전 컷(longformOnly 포함)을 만든 뒤 `partClusterSetOf(script, part)` — 렌더의 `factionShortsSegments`와 같은 경계 규칙 — 로 그 편 장면만 남긴다. 편 필터를 빼먹으면 1편·2편 양쪽에 전 세력 인물이 섞여 편별 `data.timing`이 오염된다(2026-07-08 실사고). 옛 `group.part` 기반 필터는 경계 모델 통합(26.08.28) 때 걷어냈다.
 
 **③ `3-transcribe.py --only`는 지양한다.** `--only`와 `--part`를 함께 쓸 때 그 편에 없는 인물이면 0매칭돼 그 인물의 전사가 갱신되지 않는다(word-timings를 비우지는 않는다 — `merged={**existing,**results}`라 기존은 보존). 전사는 그 편 전체를 돌리고(`--only` 없이), 좁히는 건 `voice:faction-align -- --only`로 정렬 단계에서만 한다.
 
@@ -321,6 +323,8 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 **로고 영상도 같다.** `introImage`나 `group.logoVid`에 편집 안 된 원본 mp4(키프레임 맨 앞 1개인 롱GOP)를 쓰면 OffthreadVideo가 seek를 못 해 Studio 프리뷰가 무한 로딩된다. 특히 `introImage`는 프레임 0을 점유하므로 재생 자체가 안 된다. 해결은 동일하게 all-intra 재인코딩(`-c:v libx264 -g 1 -keyint_min 1 -sc_threshold 0 -an`)이고 원본은 `_backup-longgop/`에 보존한다. 한글 파일명은 Git Bash의 ffmpeg가 못 열어 PowerShell로 처리한다. 검증은 `ffprobe -skip_frame nokey ... -read_intervals %+3`으로 키프레임 수가 90 안팎이면 정상, 1이면 롱GOP다.
 
 ---
+
+**단체샷 이어받기:** 그룹샷 카드 바로 뒤 인물·장면 컷이 같은 사진·같은 맞춤으로 시작하면(사진을 안 정한 인물, 같은 사진을 쓴 인물, 첫 컷 화면이 없는 장면) 그 컷의 밑바닥 사진은 그룹샷 레이어(`ClusterShot`)를 같은 시간축으로 계속 그린다. 판정은 `clusterShotHandoffOf`(timing.ts)가 하고, 이어받는 컷은 편의 진입 전환(`transition`: pixelate·slide·glitch 등)도 걸지 않는다(`cutKindOf`) — 같은 그림 위에 거는 전환이 곧 전환으로 보인다. 예전엔 두 카드가 같은 그림을 제 줌 공식으로 각각 깔아 크로스페이드 중 줌이 튀며 전환처럼 보였다 — 이어받으면 글자만 바뀐다. 사진·맞춤이 다르거나 필터가 얹히면 이어받지 않고 예전처럼 교차한다. 가로 인물 컷은 사진이 왼쪽 열에만 들어가는 분할 레이아웃이라 이어받지 않는다(장면 컷은 가로에서도 이어받는다).
 
 ## 6. 세로 롱폼 유튜브 썸네일
 
