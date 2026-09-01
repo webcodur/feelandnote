@@ -1,8 +1,9 @@
 /*
   파일명: /app/(main)/explore/page.tsx
   기능: 탐색 허브 페이지
-  책임: 목차와 구획 세 개의 골격을 기다림 없이 먼저 그리고, 본문만 구획별 레인으로 채운다.
-        구획은 조회에 실패해도 0건이어도 자리를 지킨다 — 목차·번호는 config 고정이다.
+  책임: 목차와 공개 구획 세 개의 골격을 기다림 없이 먼저 그리고, 본문만 구획별 레인으로 채운다.
+        신화 구획은 공개 전까지 개발 서버에서만 보인다.
+        노출 구획은 조회에 실패해도 0건이어도 자리를 지킨다 — 목차·번호는 config 고정이다.
 */ // ------------------------------
 
 import { useTranslations } from "next-intl";
@@ -44,7 +45,10 @@ export async function generateMetadata() {
 export default function ExplorePage() {
   const t = useTranslations("explore.hub");
   const tPending = useTranslations("pending");
-  const exploreSections = EXPLORE_SECTIONS;
+  const devMode = process.env.NODE_ENV === "development";
+  const exploreSections = devMode
+    ? EXPLORE_SECTIONS
+    : EXPLORE_SECTIONS.filter((section) => section.key !== "myth");
   const sec = (key: string) => hubSection(exploreSections, EXPLORE_GROUP_ID, key, t);
   const loading = tPending("loading");
 
@@ -83,12 +87,14 @@ export default function ExplorePage() {
           </Lane>
         </HubSection>
 
-        {/* 신화의 세계 — 공개 전승과 준비 중인 지역을 한 위계 안에서 안내한다. */}
-        <HubSection {...withoutMore(sec("myth"))}>
-          <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-[520px]" label={loading} />}>
-            <MythSection />
-          </Lane>
-        </HubSection>
+        {/* 공개 전까지 로컬 개발 서버에서만 노출한다. */}
+        {devMode && (
+          <HubSection {...withoutMore(sec("myth"))}>
+            <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-[520px]" label={loading} />}>
+              <MythSection />
+            </Lane>
+          </HubSection>
+        )}
 
         {/* 세력도감 */}
         <HubSection {...sec("faction")}>
