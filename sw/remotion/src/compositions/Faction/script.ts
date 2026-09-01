@@ -1,43 +1,70 @@
 /**
  * 세력도감(Faction) 에피소드 로더
  *
- * public/factions/{name}/faction-data.json 한 파일을 스캔한다(한국어 필드 + 영문 필드 *En 병기).
- * 한 파일에서 ko/en 두 벌의 스크립트를 펼친다.
- * - episodes:     key → 펼친 스크립트 (en은 key 뒤에 '-en')
- * - episodeNames: key → 폴더명(이미지 경로 factions/{폴더명}/images/ 구성용)
+ * 편 본문(public/factions/{name}/faction-data.json)은 **번들에 넣지 않는다.** 컴포지션을 열거나
+ * 렌더할 때 Root 의 calculateMetadata 가 `loadFactionScript` 로 그 편 하나만 읽어 한 언어의
+ * 스크립트를 펼친다. 예전엔 require.context 로 100편을 전부 번들에 실어, 백오피스가 한 편을
+ * 저장할 때마다 webpack 이 전편을 다시 묶었다(실측 30초~5분). 지금은 저장 뒤 Studio 새로고침이면 된다.
+ *
+ * 번들에 남는 것은 둘뿐이다 — 등록 목록(_episodes.json)과 편별 변형 목록(faction-variants.json).
+ * 둘 다 수 KB 이고 편 구성이 바뀔 때만 달라진다. 컴포지션 목록은 이 둘만으로 만든다.
  *
  * 영문판 치환: name←nameEn, lines←linesEn 등. 영문 값이 없으면 한국어 값으로 폴백한다.
  * 통합 명칭(name·title·label)은 데이터가 이미 '앞부분\n뒷부분' 한 필드라 그대로 펼친다(렌더가 split).
  */
 
+import { staticFile } from 'remotion'
 import { factionSequenceOf, type FactionScript, type FactionGroup, type FactionCluster, type FactionPerson, type FactionNarratorVoice } from './types'
 import { normalizeFactionGroupEntries } from '@feelandnote/shared/lib/faction-sequence'
 import { factionSceneSpeakerPeople, resolveFactionSceneVoice } from '@feelandnote/shared/lib/faction-scene-speaker'
+import { withFixedFactionOpeningVoice } from '@feelandnote/shared/lib/faction-voice-provider'
+import { factionVariants, type FactionVariantDef } from '@feelandnote/shared/lib/youtube-faction-meta'
 import type { VoiceTimings, VoiceTimingSegment } from '../../lib/voice-timing'
-import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
+import { clampRate, vnTimingKey, vnPersonQuote, vnBeatVoiceFile } from './voice-names'
+import { factionDataPath, mergeTimingMaps, timingFileCandidates, type FactionLocale } from './script-files'
 // 등록 에피소드 화이트리스트 — 폴더에 faction-data.json이 있어도 이 목록에 없으면 컴포지션으로 노출하지 않는다.
 import episodeRegistry from '../../../public/factions/_episodes.json'
+// 편별 변형 목록 색인 — 내보내기가 편마다 자기 자리를 갱신한다. 파일 하나만 static import 한다:
+// require.context 로 폴더를 훑으면 webpack 이 public/factions 전체(수천 파일)를 감시해 사진 하나에도 컴파일 패스가 돈다.
+import variantsIndex from '../../../public/factions/_variants.json'
 
 const ALLOW = new Set(episodeRegistry as string[])
-// 모든 편은 같은 뿌리에 있고, _episodes.json에 등록된 편만 렌더 대상으로 펼친다.
-const ctx = require.context('../../../public/factions', true, /^\.\/[^/]+\/faction-data\.json$/)
-const KEY_RE = /^\.\/([^/]+)\/faction-data\.json$/
+/** 등록 순서 그대로의 편 폴더명 — Studio 사이드바·컴포지션 등록 순서. */
+export const episodeFolders: string[] = [...ALLOW]
 
-// 발화 시각 맵 — 편별 data.timing.p<N>.<lang>.json + 통합 data.timing.<lang>.json(레거시) 모두 로드해
-// 에피소드·언어별로 병합한다(없어도 무방, 폴백). key: `${name}__${locale}`
-const timingCtx = require.context('../../../public/factions', true, /^\.\/[^/]+\/data\.timing(\.p\d+)?\.(ko|en)\.json$/)
-const TIMING_RE = /^\.\/([^/]+)\/data\.timing(?:\.p\d+)?\.(ko|en)\.json$/
-const timingMaps: Record<string, VoiceTimings> = {}
-for (const k of timingCtx.keys()) {
-  const m = k.match(TIMING_RE)
-  if (!m) continue
-  if (!ALLOW.has(m[1])) continue
-  const key = `${m[1]}__${m[2]}`
-  timingMaps[key] = { ...(timingMaps[key] ?? {}), ...(timingCtx(k) as VoiceTimings) }
+const episodeVariants = variantsIndex as unknown as Record<string, FactionVariantDef[]>
+
+/**
+ * 편의 영상 변형(세로 롱폼 N편·세로 쇼츠 N편). 색인에 아직 없는 편은 통짜 롱폼·단일 쇼츠만 등록한다 —
+ * 백오피스 저장이나 `pnpm faction:variants` 가 색인을 채우면 다음 빌드에서 제 모습이 된다.
+ */
+export function variantsOf(name: string): FactionVariantDef[] {
+  return episodeVariants[name] ?? factionVariants([{ name }], undefined)
 }
 
-export const episodes: Record<string, FactionScript> = {}
-export const episodeNames: Record<string, string> = {}
+async function fetchJsonIfExists<T>(relPath: string): Promise<T | undefined> {
+  const res = await fetch(staticFile(relPath))
+  if (res.status === 404) return undefined
+  if (!res.ok) throw new Error(`${relPath} 읽기 실패: HTTP ${res.status}`)
+  return await res.json() as T
+}
+
+/**
+ * 한 편의 스크립트를 읽어 한 언어로 펼친다. 컴포지션을 열 때(calculateMetadata) 한 번 부른다.
+ * 발화 시각은 그 편의 쇼츠 편 번호에 맞는 파일만 찾는다(없으면 발화 시각 없이 렌더).
+ */
+export async function loadFactionScript(name: string, en = false): Promise<FactionScript> {
+  if (!ALLOW.has(name)) throw new Error(`등록되지 않은 편: ${name} — public/factions/_episodes.json 에 없다`)
+  const data = await fetchJsonIfExists<FactionScript>(factionDataPath(name))
+  if (!data) throw new Error(`faction-data.json 없음: ${name} — 백오피스에서 저장하거나 pnpm faction:export 로 내보내라`)
+  const locale: FactionLocale = en ? 'en' : 'ko'
+  // 단일 쇼츠(part 미지정)도 파이프라인은 --part 1 로 산출하므로 p1 을 찾는다.
+  const shortsParts = variantsOf(name).flatMap(v => v.isShorts ? [v.part ?? 1] : [])
+  const timings = await Promise.all(
+    timingFileCandidates(name, locale, shortsParts).map(p => fetchJsonIfExists<VoiceTimings>(p)),
+  )
+  return resolveScript(data, name, en, scaleVoiceTimings(data, mergeTimingMaps(timings), en))
+}
 
 /**
  * 인물 펼치기. en=false면 원본 그대로(한국어판 — quoteEn은 렌더러가 보조 표기로 사용).
@@ -159,21 +186,35 @@ const scaleSegs = (segs: VoiceTimingSegment[], rate: number): VoiceTimingSegment
  * <Audio playbackRate> 가 음원을 빠르게 돌리므로, 점등·페이지 시각도 1/rate 로 당겨 음원과 정합시킨다.
  * 배속 지정 인물이 없으면 입력을 그대로 반환(제로 코스트). 키(stem)는 렌더·산출과 동일한 vnTimingKey 규칙.
  */
-function scaleVoiceTimings(data: FactionScript, vt?: VoiceTimings): VoiceTimings | undefined {
+function scaleVoiceTimings(data: FactionScript, vt?: VoiceTimings, en = false): VoiceTimings | undefined {
   if (!vt) return vt
   let out: VoiceTimings | undefined
-  const apply = (p: FactionPerson, stem: string) => {
-    const rate = clampRate(p.quotePlaybackRate)
+  const scale = (stem: string, rate: number) => {
     if (rate === 1 || !vt[stem]) return
     if (!out) out = { ...vt }
     out[stem] = scaleSegs(vt[stem], rate)
   }
+  const speakerPeople = factionSceneSpeakerPeople(data.groups)
   data.groups.forEach((g, gi) => {
     if (g.disabled) return
     // 인물 컷 cue 에 clusterIndex 가 항상 들어가므로 키는 항상 FxxCxxPxx (solo 포함).
     ;(g.clusters ?? []).forEach((c, ci) => {
       ;(c.people ?? []).forEach((p, pi) => {
-        if (p.isPerson !== false) apply(p, vnTimingKey(vnPersonQuote(gi, pi, ci)))
+        if (p.isPerson !== false) scale(vnTimingKey(vnPersonQuote(gi, pi, ci)), clampRate(p.quotePlaybackRate))
+      })
+      // 장면 발화도 같은 보정을 받는다 — 렌더(personFromSceneBeat)가 beat.voicePlaybackRate 로 음원을
+      // 빠르게 돌리므로, 빼먹으면 그 컷만 자막이 배속만큼 늦게 뜬다. 파일명·배속 폴백 규칙은 렌더와 같다.
+      ;(c.beats ?? []).forEach(beat => {
+        if (beat.legacyPersonVoice) return // 인물 quote 파일을 그대로 쓰는 컷 — 위 people 루프가 이미 보정했다
+        const person = beat.speakerCelebId
+          ? speakerPeople.find(p => p.celebId === beat.speakerCelebId)
+          : undefined
+        const file = vnBeatVoiceFile({
+          ...beat,
+          speaker: en ? (beat.speakerEn ?? beat.speaker) : beat.speaker,
+          text: (en ? (beat.textEn ?? beat.text) : beat.text) ?? '',
+        }, en ? 'en' : 'ko')
+        scale(vnTimingKey(file), clampRate(beat.voicePlaybackRate ?? person?.quotePlaybackRate))
       })
     })
   })
@@ -187,8 +228,11 @@ function resolveNarratorVoice(v: FactionNarratorVoice | undefined, en: boolean):
 }
 
 /** faction-data.json → 단일 언어 스크립트. en=false는 원본 그대로 반환한다. */
-function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTimings): FactionScript {
-  const commonVoice = resolveNarratorVoice(data.narrator?.logline, en)
+function resolveScript(data: FactionScript, episodeName: string, en: boolean, voiceTimings?: VoiceTimings): FactionScript {
+  const resolvedVoice = resolveNarratorVoice(data.narrator?.logline, en)
+  const commonVoice = resolvedVoice
+    ? withFixedFactionOpeningVoice(episodeName, resolvedVoice)
+    : undefined
   const groups = resolveSceneSpeakers(
     data.groups.map(g => resolveGroup(g, en, commonVoice)),
     en,
@@ -201,7 +245,7 @@ function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTim
       ...data.narrator,
       name: en ? (data.narrator.nameEn ?? data.narrator.name) : data.narrator.name,
       label: en ? (data.narrator.labelEn ?? data.narrator.label) : data.narrator.label,
-      logline: resolveNarratorVoice(data.narrator.logline, en),
+      logline: commonVoice,
       outro: resolveNarratorVoice(data.narrator.outro, en),
       intro: resolveNarratorVoice(data.narrator.intro, en),
     } : undefined,
@@ -230,14 +274,3 @@ function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTim
   }
 }
 
-for (const ctxKey of ctx.keys()) {
-  const m = ctxKey.match(KEY_RE)
-  if (!m) continue
-  const name = m[1]
-  if (!ALLOW.has(name)) continue // 등록 목록(_episodes.json)에 없는 폴더는 건너뛴다
-  const data = ctx(ctxKey) as FactionScript
-  episodes[name] = resolveScript(data, false, scaleVoiceTimings(data, timingMaps[`${name}__ko`]))
-  episodeNames[name] = name
-  episodes[`${name}-en`] = resolveScript(data, true, scaleVoiceTimings(data, timingMaps[`${name}__en`]))
-  episodeNames[`${name}-en`] = name
-}

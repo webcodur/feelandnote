@@ -1,5 +1,5 @@
 import React from "react";
-import { Composition, Folder } from "remotion";
+import { Composition, Folder, type CalculateMetadataFunction } from "remotion";
 import "./style.css";
 import {
   OlympusMV,
@@ -21,10 +21,12 @@ import { FPS } from "./compositions/BookRecommend/timing";
 import {
   Faction,
   calcTotalFrames as calcFactionFrames,
-  episodes as factionEpisodes,
-  episodeNames as factionEpisodeNames,
+  episodeFolders as factionEpisodeFolders,
+  variantsOf as factionVariantsOf,
+  loadFactionScript,
   FPS as FACTION_FPS,
 } from "./compositions/Faction";
+import type { FactionScript, Orientation as FactionOrientation } from "./compositions/Faction/types";
 import {
   Discourse,
   calcTotalFrames as calcDiscourseFrames,
@@ -40,8 +42,7 @@ import { Thumbnail } from "./compositions/Thumbnail/Thumbnail";
 import { FactionLVThumbnail } from "./compositions/Thumbnail/FactionLVThumbnail";
 import { FactionLVThumbCandidate } from "./compositions/Thumbnail/FactionLVThumbCandidate";
 import { BookRecommendLegacy } from "./compositions/BookRecommend/legacy/BookRecommendLongLegacy";
-import { factionCompBase, factionLongformPartNumbers } from "@feelandnote/shared/lib/youtube-faction-meta";
-import { factionShortsPartNumbers } from "@feelandnote/shared/lib/faction-shorts";
+import { factionCompBase } from "@feelandnote/shared/lib/youtube-faction-meta";
 // 가상 담화 컴포지션 ID 앞머리(`Discourse-<폴더명>`) — 26.07.26 packages/shared 로 승격해 단일원천화.
 // 이 파일의 등록 규칙과 왕복 검증(scripts/discourse/verify.ts ③)이 같은 함수를 쓴다.
 import { discourseCompBase } from "@feelandnote/shared/lib/youtube-discourse-meta";
@@ -52,6 +53,54 @@ import { Ranking } from "./compositions/Ranking/Ranking";
 import { episodes as rankingEpisodes, episodeNames as rankingEpisodeNames } from "./compositions/Ranking/script";
 import { rankingCompId, rankingThumbId } from "./compositions/Ranking/types";
 import { calcTotalFrames as calcRankingFrames, FPS as RANKING_FPS } from "./compositions/Ranking/timing";
+
+/* ────────────────────────── 세력도감 — 편 파일은 컴포지션을 열 때 읽는다 ────────────────────────── */
+
+/** Faction 컴포넌트 props 와 같은 모양 — orientation·shorts 기본값 해석도 컴포넌트와 같아야 길이가 어긋나지 않는다. */
+type FactionCompProps = {
+  script?: FactionScript
+  episodeName: string
+  orientation?: FactionOrientation
+  shorts?: boolean
+  part?: number
+  lvPart?: number
+}
+
+/**
+ * 세력도감 본편 — 컴포지션을 열거나 렌더할 때 그 편의 faction-data.json 만 읽어 길이를 정한다.
+ * 편 본문이 번들에 없으므로 백오피스 저장이 webpack 재빌드를 부르지 않는다. 저장 뒤엔 Studio 새로고침이면 된다.
+ * `--props` 로 script 를 직접 넘긴 렌더는 그 값을 그대로 쓴다.
+ */
+const factionMetadata: CalculateMetadataFunction<FactionCompProps> = async ({ props }) => {
+  const script = props.script ?? await loadFactionScript(props.episodeName, false)
+  // Faction.tsx 와 같은 해석 — shorts 미지정이면 세로가 곧 쇼츠다.
+  const isShorts = props.shorts ?? (props.orientation ?? 'portrait') === 'portrait'
+  const durationInFrames = calcFactionFrames(
+    script,
+    isShorts,
+    isShorts ? props.part : undefined,
+    isShorts ? undefined : props.lvPart,
+  )
+  if (!Number.isFinite(durationInFrames) || durationInFrames <= 0) {
+    throw new Error(`${props.episodeName}: 이 변형에는 컷이 없다 (shorts=${isShorts} part=${props.part ?? '-'} lvPart=${props.lvPart ?? '-'})`)
+  }
+  return { durationInFrames, props: { ...props, script } }
+}
+
+type FactionStillProps = { script?: FactionScript; episodeName: string }
+/** 썸네일 1프레임 — 길이는 고정, 편 파일만 읽어 넣는다. */
+const factionStillMetadata: CalculateMetadataFunction<FactionStillProps> = async ({ props }) => ({
+  props: { ...props, script: props.script ?? await loadFactionScript(props.episodeName, false) },
+})
+
+type FactionCardCompProps = { script?: FactionScript; episodeName: string; card: FactionCardSpec; assetBase?: string }
+/** 카드뉴스 still — 백오피스 내보내기는 --props 로 script 를 함께 넘기고, Studio 표시용은 편 파일을 읽는다. */
+const factionCardMetadata: CalculateMetadataFunction<FactionCardCompProps> = async ({ props }) => ({
+  props: { ...props, script: props.script ?? await loadFactionScript(props.episodeName, false) },
+})
+const FactionCardComp: React.FC<FactionCardCompProps> = (p) => (
+  p.script ? <FactionCard card={p.card} script={p.script} episodeName={p.episodeName} assetBase={p.assetBase} /> : null
+)
 
 /** 에피소드명에서 로케일·파트 접미사를 분리 */
 function parseEpMeta(name: string) {
@@ -198,199 +247,63 @@ export const RemotionRoot: React.FC = () => {
 
       {/* === 세력도감 === */}
       <Folder name="Faction">
-        {Object.entries(factionEpisodes)
-          // 한국어 키만 (영문 키 '-en'은 지금 미사용). EN 컴포지션은 아래 주석 참고.
-          .filter(([key]) => !key.endsWith('-en'))
-          .map(([key, script]) => {
-            const durLong = calcFactionFrames(script, false)
-            if (!Number.isFinite(durLong) || durLong <= 0) return null
-            const base = factionCompBase(key)
-            const ep = factionEpisodeNames[key]
-            // Studio 사이드바 폴더 라벨 — 폴더명(영문)이 곧 라벨이다.
-            const studioLabel = ep
-            // 쇼츠 편(part) — 진영 part 의 실제 편 수만큼 등록. 편이 없으면 전체 진영을 담은 단일 쇼츠(part 미지정).
-            // 접미사 규칙(KO-S{part})은 @feelandnote/shared 의 factionVariants 와 일치한다.
-            const shortsGroups = script.groups.filter((g) => !g.disabled && !g.longformOnly)
-            const legacyParts = Array.from(
-              new Set(
-                shortsGroups
-                  .filter((g) => g.part != null && g.part > 0)
-                  .map((g) => g.part as number),
-              ),
-            ).sort((a, b) => a - b)
-            const internalParts = factionShortsPartNumbers(script.groups as unknown as Array<Record<string, unknown>>)
-            const parts = internalParts.length > 0 ? internalParts : legacyParts
-            const shortsVariants: { suffix: string; part: number | undefined }[] =
-              shortsGroups.length === 0
-                ? []
-                : parts.length === 0
-                  ? [{ suffix: 'S1', part: undefined }]
-                  : parts.map((p) => ({ suffix: `S${p}`, part: p }))
-            return (
-              <Folder key={key} name={studioLabel}>
-                {/* KO-S{n} — 한국어 세로 쇼츠. 진영 part 별로 분리(편 없으면 전체 1편). */}
-                {shortsVariants.map(({ suffix, part }) => {
-                  const durS = calcFactionFrames(script, true, part)
-                  if (!Number.isFinite(durS) || durS <= 0) return null
-                  return (
-                    <Composition
-                      key={`${base}-KO-${suffix}`}
-                      id={`${base}-KO-${suffix}`}
-                      component={Faction}
-                      durationInFrames={durS}
-                      fps={FACTION_FPS}
-                      width={1080}
-                      height={1920}
-                      defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'portrait' as const, shorts: true, part }}
-                    />
-                  )
-                })}
-                {/* KO-LV — 한국어 세로 롱폼 (1080x1920). 롱폼 배치의 편 경계(cut)가 있으면 KO-LV1·KO-LV2… 로 분리, 없으면 통짜 KO-LV. */}
-                {(() => {
-                  const lvParts = factionLongformPartNumbers(script.longformLayout, script.groups)
-                  const lvVariants: { suffix: string; lvPart: number | undefined }[] =
-                    lvParts.length === 0
-                      ? [{ suffix: 'LV', lvPart: undefined }]
-                      : lvParts.map((p) => ({ suffix: `LV${p}`, lvPart: p }))
-                  return lvVariants.map(({ suffix, lvPart }) => {
-                    const durLv = calcFactionFrames(script, false, undefined, lvPart)
-                    if (!Number.isFinite(durLv) || durLv <= 0) return null
-                    return (
-                      <Composition
-                        key={`${base}-KO-${suffix}`}
-                        id={`${base}-KO-${suffix}`}
-                        component={Faction}
-                        durationInFrames={durLv}
-                        fps={FACTION_FPS}
-                        width={1080}
-                        height={1920}
-                        defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'portrait' as const, shorts: false, lvPart }}
-                      />
-                    )
-                  })
-                })()}
-                {/* KO-LV-GEM — 한국어 세로 롱폼 썸네일 */}
-                <Composition
-                  id={`${base}-KO-LV-GEM`}
-                  component={FactionLVThumbnail}
-                  durationInFrames={1}
-                  fps={1}
-                  width={1080}
-                  height={1920}
-                  defaultProps={{ script, episodeName: ep }}
-                />
-                {/* KO-LV-TH — 한국어 세로 롱폼 썸네일 (채택안) */}
-                <Composition
-                  id={`${base}-KO-LV-TH`}
-                  component={FactionLVThumbCandidate}
-                  durationInFrames={1}
-                  fps={1}
-                  width={1080}
-                  height={1920}
-                  defaultProps={{ script, episodeName: ep }}
-                />
-                {/* KO-LH — 한국어 가로 롱폼 (1920x1080, 전체) */}
-                <Composition
-                  id={`${base}-KO-LH`}
-                  component={Faction}
-                  durationInFrames={durLong}
-                  fps={FACTION_FPS}
-                  width={1920}
-                  height={1080}
-                  defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'landscape' as const, shorts: false }}
-                />
-                {/* EN(영문) — 지금 미사용. 영문 스크립트는 factionEpisodes[`${key}-en`]. 필요 시 주석 해제
-                <Composition id={`${base}-EN-S`}  component={Faction} durationInFrames={durS}    fps={FACTION_FPS} width={1080} height={1920} defaultProps={{ script: factionEpisodes[`${key}-en`], episodeName: ep, orientation: 'portrait'  as const, shorts: true  }} />
-                <Composition id={`${base}-EN-LV`} component={Faction} durationInFrames={durLong} fps={FACTION_FPS} width={1080} height={1920} defaultProps={{ script: factionEpisodes[`${key}-en`], episodeName: ep, orientation: 'portrait'  as const, shorts: false }} />
-                <Composition id={`${base}-EN-LH`} component={Faction} durationInFrames={durLong} fps={FACTION_FPS} width={1920} height={1080} defaultProps={{ script: factionEpisodes[`${key}-en`], episodeName: ep, orientation: 'landscape' as const, shorts: false }} />
-                */}
-              </Folder>
-            )
-          })}
-      </Folder>
-
-      {/* === 가상 담화 === */}
-      <Folder name="Discourse">
-        {Object.entries(discourseEpisodes)
-          // 한국어 키만 — 원천(가상 독백)이 한국어 단일이라 영문('-en')은 후순위다.
-          .filter(([key]) => !key.endsWith('-en'))
-          .map(([key, script]) => {
-            const base = discourseCompBase(key)
-            const ep = discourseEpisodeNames[key]
-            return (
-              <Folder key={key} name={ep}>
-                {/* KO-S{n} — 한국어 세로 쇼츠. 발언에 배정된 편(part)만큼 등록(배정이 없으면 전체가 단일 쇼츠). */}
-                {discourseShortsPartNumbers(script).map((p) => {
-                  const durS = calcDiscourseFrames(script, true, p)
-                  if (!Number.isFinite(durS) || durS <= 0) return null
-                  return (
-                    <Composition
-                      key={`${base}-KO-S${p}`}
-                      id={`${base}-KO-S${p}`}
-                      component={Discourse}
-                      durationInFrames={durS}
-                      fps={DISCOURSE_FPS}
-                      width={1080}
-                      height={1920}
-                      defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'portrait' as const, shorts: true, part: p }}
-                    />
-                  )
-                })}
-                {/* KO-LV — 한국어 세로 롱폼. 편 경계(cut)가 있으면 KO-LV1·KO-LV2… 로 갈리고, 없으면 통짜 KO-LV. */}
-                {(() => {
-                  const lvParts = discourseLongformPartNumbers(script.longformLayout)
-                  const lvVariants: { suffix: string; lvPart: number | undefined }[] =
-                    lvParts.length === 0
-                      ? [{ suffix: 'LV', lvPart: undefined }]
-                      : lvParts.map((p) => ({ suffix: `LV${p}`, lvPart: p }))
-                  return lvVariants.map(({ suffix, lvPart }) => {
-                    const durLv = calcDiscourseFrames(script, false, undefined, lvPart)
-                    if (!Number.isFinite(durLv) || durLv <= 0) return null
-                    return (
-                      <Composition
-                        key={`${base}-KO-${suffix}`}
-                        id={`${base}-KO-${suffix}`}
-                        component={Discourse}
-                        durationInFrames={durLv}
-                        fps={DISCOURSE_FPS}
-                        width={1080}
-                        height={1920}
-                        defaultProps={{ episodeKey: key, episodeName: ep, orientation: 'portrait' as const, shorts: false, lvPart }}
-                      />
-                    )
-                  })
-                })()}
-              </Folder>
-            )
-          })}
-      </Folder>
-
-      {/* === 랭킹 === */}
-      <Folder name="Ranking">
-        {Object.entries(rankingEpisodes).map(([key, script]) => {
-          const dur = calcRankingFrames(script)
-          if (!Number.isFinite(dur) || dur <= 0) return null
-          const ep = rankingEpisodeNames[key]
+        {factionEpisodeFolders.map((ep) => {
+          const base = factionCompBase(ep)
+          // 편별 변형 목록(faction-variants.json)이 곧 컴포지션 목록이다 — 접미사 규칙(KO-S{n}·KO-LV{n})은
+          // @feelandnote/shared 의 factionVariants 가 단일원천이라 렌더·유튜브 스크립트와 어긋나지 않는다.
+          // 길이는 컴포지션을 열 때 factionMetadata 가 편 파일을 읽어 정한다.
+          const variants = factionVariantsOf(ep)
+          const ordered = [...variants.filter((v) => v.isShorts), ...variants.filter((v) => !v.isShorts)]
           return (
-            <Folder key={key} name={key}>
+            <Folder key={ep} name={ep}>
+              {/* KO-S{n} — 한국어 세로 쇼츠 · KO-LV{n} — 한국어 세로 롱폼 (1080x1920) */}
+              {ordered.map((v) => (
+                <Composition
+                  key={`${base}-${v.fileSuffix}`}
+                  id={`${base}-${v.fileSuffix}`}
+                  component={Faction}
+                  calculateMetadata={factionMetadata}
+                  fps={FACTION_FPS}
+                  width={1080}
+                  height={1920}
+                  defaultProps={{ episodeName: ep, orientation: 'portrait' as const, shorts: v.isShorts, part: v.part, lvPart: v.lvPart }}
+                />
+              ))}
+              {/* KO-LV-GEM — 한국어 세로 롱폼 썸네일 */}
               <Composition
-                id={rankingCompId(key)}
-                component={Ranking}
-                durationInFrames={dur}
-                fps={RANKING_FPS}
-                width={1080}
-                height={1920}
-                defaultProps={{ episodeKey: key, episodeName: ep }}
-              />
-              <Composition
-                id={rankingThumbId(key)}
-                component={Ranking}
+                id={`${base}-KO-LV-GEM`}
+                component={FactionLVThumbnail}
+                calculateMetadata={factionStillMetadata}
                 durationInFrames={1}
                 fps={1}
                 width={1080}
                 height={1920}
-                defaultProps={{ episodeKey: key, episodeName: ep }}
+                defaultProps={{ episodeName: ep }}
               />
+              {/* KO-LV-TH — 한국어 세로 롱폼 썸네일 (채택안) */}
+              <Composition
+                id={`${base}-KO-LV-TH`}
+                component={FactionLVThumbCandidate}
+                calculateMetadata={factionStillMetadata}
+                durationInFrames={1}
+                fps={1}
+                width={1080}
+                height={1920}
+                defaultProps={{ episodeName: ep }}
+              />
+              {/* KO-LH — 한국어 가로 롱폼 (1920x1080, 전체) */}
+              <Composition
+                id={`${base}-KO-LH`}
+                component={Faction}
+                calculateMetadata={factionMetadata}
+                fps={FACTION_FPS}
+                width={1920}
+                height={1080}
+                defaultProps={{ episodeName: ep, orientation: 'landscape' as const, shorts: false }}
+              />
+              {/* EN(영문) — 지금 미사용. 필요하면 loadFactionScript(ep, true) 를 쓰는 metadata 를 하나 더 두고 아래처럼 등록한다.
+              <Composition id={`${base}-EN-LV`} component={Faction} calculateMetadata={factionMetadataEn} fps={FACTION_FPS} width={1080} height={1920} defaultProps={{ episodeName: ep, orientation: 'portrait' as const, shorts: false }} />
+              */}
             </Folder>
           )
         })}
@@ -400,8 +313,6 @@ export const RemotionRoot: React.FC = () => {
       <Folder name="FactionCard">
         {(() => {
           const ep = "Digital-Resistance";
-          const script = factionEpisodes[ep];
-          if (!script) return null;
           const gi = 0, pi = 3; // 사이퍼펑크 그룹 · 사토시 나카모토
           // 한 인물 캐러셀 4장: 표지(단체샷+위계) → 물음표 인물컷(소개글) → 인물샷+대사 → 연표
           const cards: { id: string; card: FactionCardSpec }[] = [
@@ -457,24 +368,26 @@ export const RemotionRoot: React.FC = () => {
                 <Composition
                   key={id}
                   id={id}
-                  component={FactionCard}
+                  component={FactionCardComp}
+                  calculateMetadata={factionCardMetadata}
                   durationInFrames={1}
                   fps={1}
                   width={1080}
                   height={1350}
-                  defaultProps={{ script, episodeName: ep, card }}
+                  defaultProps={{ episodeName: ep, card }}
                 />
               ))}
               {exportComps.map(({ id, width, height }) => (
                 <Composition
                   key={id}
                   id={id}
-                  component={FactionCard}
+                  component={FactionCardComp}
+                  calculateMetadata={factionCardMetadata}
                   durationInFrames={1}
                   fps={1}
                   width={width}
                   height={height}
-                  defaultProps={{ script, episodeName: ep, card: cards[0].card }}
+                  defaultProps={{ episodeName: ep, card: cards[0].card }}
                 />
               ))}
             </>

@@ -48,6 +48,37 @@ export function resolveFactionCaptionAppearance(
   } as const;
 }
 
+/**
+ * 하단 자막·신원·장면 라벨이 공유하는 배치 상자.
+ *
+ * `AbsoluteFill`을 쓰면 안 된다 — 그쪽은 `height: 100%`를 함께 깔아 `top`·`height`·`bottom`이
+ * 동시에 잡히고, CSS 규칙상 `bottom`이 통째로 무시된다. 그러면 같은 슬롯 값을 받고도 라벨만
+ * 화면 맨 아래로 내려앉아 인물명·대사와 기준선이 어긋난다(실측 200px). 높이를 내용에 맡기는
+ * 이 상자를 모두가 함께 써서 기준선을 하나로 유지한다.
+ */
+export const CaptionSlotBox: React.FC<
+  React.HTMLAttributes<HTMLDivElement> & {
+    slotStyle: React.CSSProperties;
+    padding?: number;
+    zIndex?: number;
+  }
+> = ({ slotStyle, padding = 48, zIndex = 40, style, children, ...rest }) => (
+  <div
+    {...rest}
+    style={{
+      position: "absolute",
+      left: padding,
+      right: padding,
+      ...slotStyle,
+      pointerEvents: "none",
+      zIndex,
+      ...style,
+    }}
+  >
+    {children}
+  </div>
+);
+
 type CaptionSwapSlotProps = {
   localFrame: number;
   captionEnterSec: number;
@@ -116,35 +147,24 @@ export const CaptionSwapSlot: React.FC<CaptionSwapSlotProps> = ({
   return (
     <>
       {showIdentity ? (
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 42,
-            left: identityPadding,
-            right: identityPadding,
-            ...resolvedSlotStyle,
-            pointerEvents: "none",
-            opacity: exitOpacity * identityIn * identityOut,
-          }}
+        <CaptionSlotBox
+          slotStyle={resolvedSlotStyle}
+          padding={identityPadding}
+          zIndex={42}
+          style={{ opacity: exitOpacity * identityIn * identityOut }}
         >
           {identity}
-        </div>
+        </CaptionSlotBox>
       ) : null}
       {hasCaption && caption ? (
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 40,
-            left: captionPadding,
-            right: captionPadding,
-            ...resolvedSlotStyle,
-            pointerEvents: "none",
-            opacity: exitOpacity * captionIn,
-            minHeight: captionMinHeight,
-          }}
+        <CaptionSlotBox
+          slotStyle={resolvedSlotStyle}
+          padding={captionPadding}
+          zIndex={40}
+          style={{ opacity: exitOpacity * captionIn, minHeight: captionMinHeight }}
         >
           {caption}
-        </div>
+        </CaptionSlotBox>
       ) : null}
     </>
   );

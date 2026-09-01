@@ -5,13 +5,12 @@ import {
   getRemotionEnvironment,
 } from 'remotion'
 import type { FactionScript, Orientation } from './types'
-import { episodes } from './script'
 import { buildCues, CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, INTRO_SEC, INTRO_FADE_OUT_SEC, endFadeSecOf, f, type TimedCue } from './timing'
 import { FactionBgm } from './FactionBgm'
 import { FactionSfx } from './FactionSfx'
 import { buildFactionSubs } from './subs'
 import { BG, FONT, DEFAULT_ACCENT, HEADER_H, SAFE_BOTTOM } from './constants'
-import { personCutKind, resolveOutroImage } from './utils'
+import { cutKindOf, resolveOutroImage } from './utils'
 import { transitionEnterSec, isSlideKind, slideDir } from './transitions'
 import { TopHeader } from './sections/TopHeader'
 import { FactionProgress } from './sections/FactionProgress'
@@ -22,13 +21,12 @@ import { SrtPreview } from './studio/SrtPreview'
 
 // shorts: true면 쇼츠(롱폼 전용 세력 제외, 짧게). 미지정이면 세로=쇼츠로 간주(기존 동작).
 // orientation은 화면 레이아웃(세로/가로), shorts는 컷 구성 — 둘을 분리해 'LV(세로인데 전체)' 같은 조합을 만든다.
-// script 는 무거운 스크립트 객체(수십만 자) — Studio 컴포지션 전환마다 이 객체를 직렬화하면 UI가 멈춘다.
-// 그래서 defaultProps 에는 가벼운 episodeKey 만 싣고, 실제 스크립트는 번들에 이미 로드된 episodes 에서 조회한다.
-// script 를 직접 넘기는 호출(하위호환·외부 렌더 override)이 있으면 그쪽을 우선한다.
-export const Faction: React.FC<{ script?: FactionScript; episodeKey?: string; episodeName: string; orientation?: Orientation; shorts?: boolean; part?: number; lvPart?: number }> = ({ script: scriptProp, episodeKey, episodeName, orientation = 'portrait', shorts, part, lvPart }) => {
-  const resolvedScript = scriptProp ?? (episodeKey ? episodes[episodeKey] : undefined)
-  if (!resolvedScript) throw new Error(`Faction: 스크립트를 찾을 수 없다 (episodeKey=${episodeKey ?? '없음'})`)
-  const script = resolvedScript
+// script 는 무거운 스크립트 객체(수십만 자)라 defaultProps 에 싣지 않는다. Root 의 calculateMetadata 가
+// 컴포지션을 열 때 그 편의 faction-data.json 을 읽어 props 로 넣어 준다(script.ts loadFactionScript).
+// 외부 렌더가 --props 로 script 를 직접 넘기면 그 값이 그대로 쓰인다.
+export const Faction: React.FC<{ script?: FactionScript; episodeName: string; orientation?: Orientation; shorts?: boolean; part?: number; lvPart?: number }> = ({ script: scriptProp, episodeName, orientation = 'portrait', shorts, part, lvPart }) => {
+  if (!scriptProp) throw new Error(`Faction: 스크립트가 없다 (${episodeName}) — Root 의 calculateMetadata 를 거치지 않은 렌더다`)
+  const script = scriptProp
   const frame = useCurrentFrame()
   const isShorts = shorts ?? (orientation === 'portrait')
   // 쇼츠일 때만 편(part) 분할 적용. 롱폼은 편 경계(cut) 기반 lvPart 분할(경계 없으면 전체 통짜).
@@ -92,8 +90,8 @@ export const Faction: React.FC<{ script?: FactionScript; episodeKey?: string; ep
   // op: 전환 시작·끝에서 띠를 페이드인·아웃해 경계가 화면 끝에 닿을 때 잔재 없이 사라지게 한다.
   const slideBand = (() => {
     if (orientation !== 'portrait') return null
-    for (const tc of cues) {
-      const k = personCutKind(script, tc.cue, orientation)
+    for (const [i, tc] of cues.entries()) {
+      const k = cutKindOf(script, cues[i - 1], tc, orientation)
       if (!isSlideKind(k)) continue
       const enterStart = tc.start - f(transitionEnterSec(k!))
       if (frame >= enterStart && frame < tc.start) {
@@ -142,7 +140,7 @@ export const Faction: React.FC<{ script?: FactionScript; episodeKey?: string; ep
         </Sequence>
       ) : null)}
       {cues.map((tc, i) => (
-        <CueLayer key={i} tc={tc} script={script} episodeName={episodeName} frame={frame} orientation={orientation} part={activePart} lvPart={activeLvPart} nextCutKind={cues[i + 1] ? personCutKind(script, cues[i + 1].cue, orientation) : null} nextKind={cues[i + 1]?.cue.kind ?? null} isLast={i === cues.length - 1} isLastPerson={i === lastPersonIdx} isShorts={isShorts} />
+        <CueLayer key={i} tc={tc} prevTc={cues[i - 1]} script={script} episodeName={episodeName} frame={frame} orientation={orientation} part={activePart} lvPart={activeLvPart} nextCutKind={cues[i + 1] ? cutKindOf(script, tc, cues[i + 1], orientation) : null} nextKind={cues[i + 1]?.cue.kind ?? null} isLast={i === cues.length - 1} isLastPerson={i === lastPersonIdx} isShorts={isShorts} />
       ))}
       {/* 슬라이드 완충(a x b) — 경계 위에 얹는 블러 띠. 마스크로 가장자리(a·b)는 블러가 0에서 천천히
           살아나고 가운데(x)에서 최대 → A·B 본체에는 영향이 없고 경계만 흐려 잇는다 */}

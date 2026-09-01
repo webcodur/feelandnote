@@ -1,8 +1,8 @@
 import React, { useMemo, useCallback } from 'react'
 import { Audio, Sequence, Easing, interpolate, staticFile, useVideoConfig } from 'remotion'
 import type { FactionScript } from './types'
-import { CHAPTER_VOICE_DELAY_SEC, buildCues, chapterNarrationVoice, f, narratorVoicePlaySec, personOfCue, personQuoteEnterSec } from './timing'
-import { clampRate } from './voice-names'
+import { buildCues, f } from './timing'
+import { factionVoiceWindows } from './voice-windows'
 // 선곡(어느 곡이 언제부터)은 따로 뺐다 — 렌더 창고가 담을 곡을 정할 때 같은 함수를 쓴다.
 import {
   chapterMusicBounds, chapterBgmSegments, usesChapterBgm,
@@ -26,7 +26,8 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
   // 컷 목록 — 덕킹 구간·세력 전환점 계산이 공유한다. 프레임마다 재계산하지 않게 캐시.
   const cues = useMemo(() => buildCues(script, portrait, part, lvPart), [script, portrait, part, lvPart])
 
-  // ── 대사 덕킹 ── voice 인물 음성 구간엔 BGM을 musicDuckVolume(예 0.4)으로 낮추고 평소엔 원음(1).
+  // ── 대사 덕킹 ── 사람 목소리가 나는 구간(인물 대사·나레이터·챕터 낭독·수식어·장면 컷의 해설과 미할당 화자)엔
+  //    BGM을 musicDuckVolume(예 0.4)으로 낮추고 평소엔 원음(1). 구간 목록은 voice-windows 가 카드와 같은 산식으로 만든다.
   const duck = script.musicDuckVolume != null ? Math.min(1, Math.max(0, script.musicDuckVolume)) : 1
   // 들어갈 때(attack)는 음성 시작 직전에 미리 낮추고, 빠질 때(release)는 더 길게 끌어 부드럽게 복귀.
   const DUCK_ATTACK = Math.round(0.7 * fps)
@@ -35,30 +36,8 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
   // 대사 사이마다 음악이 원음으로 확 올라왔다 다시 내려가는 펌핑(들썩임)을 막는다.
   const DUCK_MERGE_GAP = Math.round(2.6 * fps)
   const duckWindows = useMemo(() => {
-    const rawWindows: [number, number][] = []
-    if (duck < 1) {
-      for (const tc of cues) {
-        const c = tc.cue
-        if (c.kind === 'chapter') {
-          const voice = chapterNarrationVoice(script, c.chapter)
-          const playSec = narratorVoicePlaySec(voice)
-          if (playSec > 0) {
-            const s = tc.start + f(CHAPTER_VOICE_DELAY_SEC)
-            rawWindows.push([s, s + f(playSec)])
-          }
-          continue
-        }
-        // 음성 스텝이 켜진 컷만 BGM 덕킹(음량 낮추기) 대상.
-        if (c.kind !== 'person' || !c.steps.voice) continue
-        const p = personOfCue(script, c)
-        if (!p?.quoteDuration || p.quoteDuration <= 0) continue
-        const s = tc.start + f(personQuoteEnterSec(p, c.steps, portrait, { script }))
-        const playF = f(p.quoteDuration / clampRate(p.quotePlaybackRate))
-        rawWindows.push([s, s + playF])
-      }
-    }
-    // 인접 음성 구간 병합 — 시작순 정렬 후 간격이 좁은 것끼리 하나로 합친다.
-    rawWindows.sort((a, b) => a[0] - b[0])
+    const rawWindows: [number, number][] = duck < 1 ? factionVoiceWindows(script, cues, portrait) : []
+    // 인접 음성 구간 병합 — 시작순으로 온 목록에서 간격이 좁은 것끼리 하나로 합친다.
     const merged: [number, number][] = []
     for (const w of rawWindows) {
       const last = merged[merged.length - 1]

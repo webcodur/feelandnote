@@ -13,10 +13,11 @@
 import { readFile, writeFile } from 'fs/promises'
 import { factionSceneCaptionPages } from '@feelandnote/shared/lib/faction-scene-timing'
 import { factionSceneSpeakerPeople, resolveFactionSceneVoice } from '@feelandnote/shared/lib/faction-scene-speaker'
+import { factionShortsSegments, factionShortsSliceItems } from '@feelandnote/shared/lib/faction-shorts'
 import { buildCues, type Cue } from '../../../src/compositions/Faction/timing.js'
 import { factionSequenceOf } from '../../../src/compositions/Faction/types.js'
 import type { FactionScript, FactionPerson, FactionSceneBeat } from '../../../src/compositions/Faction/types.js'
-import { vnPersonQuote, vnSceneBeat } from '../../../src/compositions/Faction/voice-names.js'
+import { vnPersonQuote, vnSceneBeat, vnBeatVoiceFile } from '../../../src/compositions/Faction/voice-names.js'
 import { DATA_PATH, LANG } from './cli.js'
 
 export type FactionVoiceJob = {
@@ -122,6 +123,7 @@ function sceneBeatFileOf(
   clusterIndex: number,
 ): string {
   if (beat.voiceFile) return beat.voiceFile
+  if (beat.id) return vnBeatVoiceFile(beat, LANG === 'en' ? 'en' : 'ko')
   if (beat.legacyPersonVoice && beat.speakerCelebId) {
     const personIndex = (group.clusters?.[clusterIndex]?.people ?? [])
       .findIndex(person => person.isPerson !== false && person.celebId === beat.speakerCelebId)
@@ -138,19 +140,36 @@ function sceneBeatFileOf(
  * portrait=false(롱폼)로 컷을 만든다 — longformOnly 세력/묶음까지 모두 포함해
  * 음성을 빠짐없이 생성한다. 세로 쇼츠 컷은 이 집합의 부분집합이라 별도 생성이 불필요하다.
  */
+/**
+ * 쇼츠 편 N 에 들어가는 장면 집합(`gi:ci`). 편은 이야기 순서 위의 경계(장면 사이·세력 끝·컷 사이)로만 갈린다 —
+ * 렌더의 factionShortsSegments 와 같은 규칙. 장면 한가운데서 갈린 장면은 양쪽 편에 다 속한다(인물 음원은 장면 단위).
+ * part 미지정이면 null(전체).
+ */
+function partClusterSetOf(script: FactionScript, part?: number): Set<string> | null {
+  if (part == null) return null
+  const groups = script.groups as unknown as Record<string, unknown>[]
+  const steps = factionShortsSegments(groups)[part - 1] ?? []
+  const out = new Set<string>()
+  for (const step of steps) {
+    for (const item of factionShortsSliceItems(groups[step.gi], step)) {
+      if (item.kind === 'cluster') out.add(`${step.gi}:${item.clusterIndex}`)
+    }
+  }
+  return out
+}
+
 export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoiceJob[] {
   const jobs: FactionVoiceJob[] = []
   const personFiles = new Set<string>()
-  // part 지정 시 그 편 세력 인물만(buildCues 가 group.part 로 필터). 미지정이면 전체.
-  const cues = buildCues(script, false, part)
+  // portrait=false 로 전 컷을 만들고(longformOnly 포함), 편은 아래 경계 집합으로 거른다 — 안 거르면
+  // p1·p2 양쪽에 전 세력 인물이 섞여 편별 data.timing 이 오염된다.
+  const cues = buildCues(script, false)
+  const partClusters = partClusterSetOf(script, part)
   for (const tc of cues) {
     const cue: Cue = tc.cue
     if (cue.kind !== 'person') continue
     const g = script.groups[cue.groupIndex]
-    // buildCues 의 part 필터(timing.ts)는 portrait 모드에서만 걸린다. 정렬은 buildCues(script, false, part)
-    // 로 호출해 portrait=false 이므로 편 필터가 통과된다 → 여기서 편(part) 필터를 직접 적용한다.
-    // 안 하면 p1·p2 양쪽에 전 세력 인물이 섞여 편별 data.timing 이 오염된다.
-    if (part != null && g.part != null && g.part !== part) continue
+    if (partClusters && !partClusters.has(`${cue.groupIndex}:${cue.clusterIndex}`)) continue
     const person: FactionPerson | undefined = g.clusters?.[cue.clusterIndex]?.people[cue.personIndex]
     if (!person) continue
     const text = quoteTextOf(person)
@@ -198,11 +217,12 @@ function buildSceneVoiceJobs(script: FactionScript, part?: number): FactionVoice
   const jobs: FactionVoiceJob[] = []
   const seen = new Map<string, FactionVoiceJob>()
   const speakerPeople = factionSceneSpeakerPeople(script.groups)
+  const partClusters = partClusterSetOf(script, part)
   for (const [groupIndex, group] of script.groups.entries()) {
     if (group.disabled) continue
-    if (part != null && group.part != null && group.part !== part) continue
     factionSequenceOf(group)
     for (const [clusterIndex, cluster] of (group.clusters ?? []).entries()) {
+      if (partClusters && !partClusters.has(`${groupIndex}:${clusterIndex}`)) continue
       for (const rawBeat of cluster.beats ?? []) {
         const beat = resolveFactionSceneVoice(
           rawBeat,
@@ -219,7 +239,10 @@ function buildSceneVoiceJobs(script: FactionScript, part?: number): FactionVoice
         const job: FactionVoiceJob = {
           file,
           text: styledBeatTextOf(beat, text),
-          chunks: factionSceneCaptionPages(raw),
+          // 자막 덩어리는 렌더와 같은 줄 단위다 — PersonCard 는 personFromSceneBeat 가 만든
+          // beat.text.split(/\r?\n/) 를 덩어리로 쓰고, 그 개수가 발화 시각의 sub 개수와 다르면
+          // 타이밍을 통째로 버리고 글자수 비례 폴백으로 떨어진다. 문단(빈 줄) 단위로 주면 어긋난다.
+          chunks: raw.split(/\r?\n/),
           speaker: beat.voiceSpeaker,
           // 인물 카드로도 등장하는 사람은 카드와 같은 ELE 보이스를 쓴다 → 자동 생성에서 빠지고 사용자가 만든다.
           elevenLabsVoiceId: LANG === 'en'

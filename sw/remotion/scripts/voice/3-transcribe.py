@@ -599,23 +599,104 @@ def faction_quote_text(person, lang):
     return (person.get('quote') or '').strip()
 
 
+def faction_scene_beats(cluster):
+    """장면 발화 — 클러스터 직속 beats 와 서사 항목(isPerson=false)이 쥔 beats."""
+    for beat in cluster.get('beats') or []:
+        yield beat
+    for entry in cluster.get('people') or []:
+        if entry.get('isPerson') is False:
+            for beat in entry.get('beats') or []:
+                yield beat
+
+
+def faction_scene_beat_file(beat, lang):
+    """장면 발화 음원 파일명 — 명시 voiceFile > 영구 신원(id) > 본문 해시(id 없는 옛 데이터 폴백).
+       규칙은 Faction/voice-names.ts 의 vnBeatVoiceFile 과 100% 같아야 한다(FNV-1a, 36진법)."""
+    if beat.get('voiceFile'):
+        return beat['voiceFile']
+    if beat.get('id'):
+        return f"scene-{beat['id']}-en.wav" if lang == 'en' else f"scene-{beat['id']}.wav"
+    speaker = (beat.get('speakerEn') or beat.get('speaker')) if lang == 'en' else beat.get('speaker')
+    key = f"{(speaker or '').strip()}\n{faction_beat_text(beat, lang)}"
+    h = 0x811c9dc5
+    for ch in key.strip().replace('\r\n', '\n'):
+        h ^= ord(ch)
+        h = (h * 0x01000193) & 0xFFFFFFFF
+    digits = '0123456789abcdefghijklmnopqrstuvwxyz'
+    s = ''
+    n = h
+    while n:
+        s = digits[n % 36] + s
+        n //= 36
+    return f'scene-{s or "0"}.wav'
+
+
+def faction_beat_text(beat, lang):
+    """장면 발화 원문(발화 스타일 prefix 제외) — 화면 조판용 줄바꿈·빈 줄을 한 흐름으로 편다.
+       faction/data.ts 의 beatNarrationTextOf 와 같은 결과라 단어 매핑이 어긋나지 않는다."""
+    text = (beat.get('textEn') or beat.get('text')) if lang == 'en' else beat.get('text')
+    return ' '.join((text or '').split())
+
+
+def faction_part_clusters(data, part):
+    """쇼츠 편 N 에 들어가는 (gi, ci) 집합 — shared/lib/faction-shorts.ts factionShortsSegments 와 같은 규칙.
+       편은 이야기 순서 위의 경계로만 갈린다: 세력 sequence 의 {kind:'cut'}(장면 사이·세력 끝)과
+       컷의 shortsCutBefore(장면 안). 장면 한가운데서 갈린 장면은 양쪽 편에 다 속한다(인물 음원은 장면 단위라 둘 다 필요).
+       옛 group.part 배정은 폐기했다(26.08.28) — 읽지 않는다."""
+    segments = [set()]
+    for gi, g in enumerate(data.get('groups', [])):
+        if g.get('disabled') or g.get('longformOnly'):
+            continue
+        clusters = g.get('clusters') or []
+        sequence = g.get('sequence') or [{'kind': 'cluster', 'clusterIndex': i} for i in range(len(clusters))]
+        for item in sequence:
+            if item.get('kind') == 'cut':
+                if segments[-1]:
+                    segments.append(set())
+                continue
+            if item.get('kind') != 'cluster':
+                continue
+            ci = item.get('clusterIndex')
+            if ci is None or ci >= len(clusters):
+                continue
+            beats = clusters[ci].get('beats') or []
+            inner = [bi for bi, b in enumerate(beats) if bi > 0 and b.get('shortsCutBefore') is True]
+            segments[-1].add((gi, ci))
+            for _ in inner:
+                if segments[-1]:
+                    segments.append(set())
+                segments[-1].add((gi, ci))
+    segments = [s for s in segments if s]
+    if part is None or part < 1 or part > len(segments):
+        return None
+    return segments[part - 1]
+
+
 def faction_quote_targets(data, lang, part=None):
     """faction-data.json → {stem: 원대사}. buildCues/vnPersonQuote 인덱싱을 재현한다(렌더·faction-align 과 동일 키).
-       모든 세력이 clusters 를 가지므로 키는 항상 F{gi}C{ci}P{pi}-quote 다(solo 세력 포함).
-       part 지정 시 그 편 세력만(group.part 로 필터). disabled 제외."""
+       모든 세력이 clusters 를 가지므로 인물 카드 키는 항상 F{gi}C{ci}P{pi}-quote 다(solo 세력 포함).
+       장면 발화(beats)는 데이터에 박힌 voiceFile 을 stem 으로 쓴다 — 파일명 해시(vnSceneBeat)를 재현하지
+       않는다. 합성된 발화는 voiceFile 이 있고, 없으면 음원 자체가 없어 전사할 대상도 아니다.
+       같은 stem 을 인물 카드와 장면 발화가 함께 쥐면 장면 발화가 이긴다(렌더가 읽는 원천).
+       part 지정 시 그 편 경계 안의 장면만(faction_part_clusters). disabled 제외."""
     out = {}
+    part_clusters = faction_part_clusters(data, part) if part is not None else None
     for gi, g in enumerate(data.get('groups', [])):
         if g.get('disabled'):
             continue
-        if part is not None and g.get('part') is not None and g.get('part') != part:
-            continue
         for ci, cluster in enumerate(g.get('clusters') or []):
+            if part_clusters is not None and (gi, ci) not in part_clusters:
+                continue
             for pi, p in enumerate(cluster.get('people', [])):
                 if p.get('disabled'):
                     continue
                 q = faction_quote_text(p, lang)
                 if q:
                     out[f'F{gi + 1:02d}C{ci + 1:02d}P{pi + 1:02d}-quote'] = q
+            for beat in faction_scene_beats(cluster):
+                t = faction_beat_text(beat, lang)
+                if t:
+                    out[os.path.splitext(faction_scene_beat_file(beat, lang))[0]] = t
     return out
 
 

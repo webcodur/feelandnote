@@ -18,7 +18,8 @@ const GOLD = '#c8a46e'
 /** 제목 줄별 색 — 두 줄 이상이면 위는 순백, 아래는 살짝 따뜻하게 낮춰 층을 준다(번갈아 반복). */
 const TITLE_TONES = ['#ffffff', '#d9cdba']
 
-type Props = { script: FactionScript; episodeName: string }
+/** script 는 Root 의 calculateMetadata 가 편 파일을 읽어 넣는다. 열리기 전엔 없다. */
+type Props = { script?: FactionScript; episodeName: string }
 
 /** 대표 이미지 폴백 — 첫 인물 사진 → 첫 그룹샷 */
 const firstImage = (s: FactionScript, ep: string) => {
@@ -30,6 +31,7 @@ const firstImage = (s: FactionScript, ep: string) => {
 }
 
 export const FactionLVThumbCandidate: React.FC<Props> = ({ script, episodeName }) => {
+  if (!script) return null
   const ep = episodeName
   const heroImg = script.lvThumbnailImage ? imgSrc(ep, script.lvThumbnailImage) : firstImage(script, ep)
   // 제목: 개행이 있으면 그대로, 없으면 공백에서 줄바꿈(데이터 불변, 썸네일에서만 2줄)

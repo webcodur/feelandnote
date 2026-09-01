@@ -5,7 +5,7 @@
  * 음원은 쓰지 않는다 — 인물 컷 길이는 직함 읽기 시간 + 대사 글자 수 읽기 시간으로 잡는다.
  */
 
-import { factionSequenceOf, type FactionScript, type FactionGroup, type FactionPerson, type FactionEra, type FactionChapter, type FactionSceneBeat, type FactionNarratorVoice } from './types'
+import type { FactionScript, FactionGroup, FactionPerson, FactionEra, FactionChapter, FactionSceneBeat, FactionSceneSfx, FactionNarratorVoice, Orientation, ZoomFocus } from './types'
 import {
   factionLongformPartCount,
   factionLongformSegments,
@@ -14,7 +14,6 @@ import {
 import {
   factionShortsSegments,
   factionShortsSliceItems,
-  hasFactionShortsCuts,
 } from '@feelandnote/shared/lib/faction-shorts'
 import {
   FACTION_ENTER_FADE_SEC,
@@ -24,7 +23,7 @@ import {
   factionSceneTiming,
   type FactionSceneBeatTiming,
 } from '@feelandnote/shared/lib/faction-scene-timing'
-import { clampRate, vnPersonQuote, vnSceneBeat } from './voice-names'
+import { clampRate, vnPersonQuote, vnBeatVoiceFile } from './voice-names'
 import { factionSceneSpeakerPeople, resolveFactionSceneVoice } from '@feelandnote/shared/lib/faction-scene-speaker'
 
 export const FPS = 60
@@ -75,7 +74,7 @@ export const SCENE_SEC = FACTION_SCENE_DEFAULT_SEC
  */
 export function sceneBeatsOf(scene: FactionPerson): FactionSceneBeat[] {
   const beats = scene.beats?.filter(b => !!b && (
-    !!b.text?.trim() || !!b.speaker?.trim() || !!b.label?.trim() || !!b.media || !!b.minimumSec || !!b.sfx
+    !!b.text?.trim() || !!b.speaker?.trim() || !!b.label?.trim() || !!b.media || !!b.minimumSec || !!b.sfx || !!b.sfxs?.length
   ))
   if (beats?.length) return beats
   if (!scene.caption?.trim()) return []
@@ -151,6 +150,22 @@ export type NarrativeMediaCut = {
   media: string
   crop?: FactionPerson['imageCrop']
   filter?: FactionSceneBeat['mediaFilter']
+  /** 이 사진의 줌 목표점 — 컷의 mediaZoomFocus, 컷 안 교체 사진은 그 교체의 zoomFocus. */
+  zoomFocus?: ZoomFocus
+  /** 이 사진이 뜨는 동안 걸 움직임 효과. 컷(beat) 자체 지정만 담고, 비면 장면 계승값을 쓴다. */
+  effects?: FactionBeatEffects
+}
+
+/** 컷 하나가 자기 화면에 거는 움직임 효과 — 비면 장면→세력→에피소드 계승값을 따른다. */
+export type FactionBeatEffects = Pick<FactionSceneBeat, 'holdMotion' | 'enterMotion' | 'holdGlitch' | 'holdShake' | 'zoomSpeed'>
+
+/** 컷에서 움직임 효과 5축만 뽑는다. 모두 비었으면 undefined(계승값 그대로). */
+export function beatEffectsOf(beat: FactionSceneBeat | undefined): FactionBeatEffects | undefined {
+  if (!beat) return undefined
+  const { holdMotion, enterMotion, holdGlitch, holdShake, zoomSpeed } = beat
+  if (holdMotion === undefined && enterMotion === undefined && holdGlitch === undefined
+    && holdShake === undefined && zoomSpeed === undefined) return undefined
+  return { holdMotion, enterMotion, holdGlitch, holdShake, zoomSpeed }
 }
 
 export type ActiveFactionMediaLayers = {
@@ -250,6 +265,20 @@ function narrativeMediaChangeStartSec(
   return timing.completeSec
 }
 
+/**
+ * 컷 하나가 실제로 낼 효과음 목록. 여러 개를 겹칠 수 있는 `sfxs`가 원본이고,
+ * 구 데이터의 단일 `sfx`(+`sfxStartPercent`)는 항목 하나로 승격한다.
+ */
+export function beatSfxsOf(beat: FactionSceneBeat): FactionSceneSfx[] {
+  if (beat.sfxs?.length) return beat.sfxs.filter(item => !!item.file?.trim())
+  return beat.sfx?.trim() ? [{ file: beat.sfx, startPercent: beat.sfxStartPercent }] : []
+}
+
+/** 장면이 열릴 때 낼 효과음 목록. 파일명이 빈 항목은 버린다. */
+export function clusterSfxsOf(cluster: { sfxs?: FactionSceneSfx[] }): FactionSceneSfx[] {
+  return (cluster.sfxs ?? []).filter(item => !!item.file?.trim())
+}
+
 /** NarrativeEntryCard가 실제로 쌓을 장면 배경 교체 목록. 프레임 단위다. */
 export function narrativeMediaCutsOf(
   scene: FactionPerson,
@@ -264,11 +293,14 @@ export function narrativeMediaCutsOf(
     beatTimings.forEach((timing, index) => {
       const beat = beats[index]
       const media = beat?.media
+      const effects = beatEffectsOf(beat)
       if (media) cuts.push({
         at: cueStart + f(sceneBeatMediaStartSec(beat, timing)),
         media,
         crop: beat.mediaCrop,
         filter: beat.mediaFilter,
+        zoomFocus: beat.mediaZoomFocus,
+        effects,
       })
       for (const change of beat?.mediaChanges ?? []) {
         if (!change.media) continue
@@ -277,6 +309,9 @@ export function narrativeMediaCutsOf(
           media: change.media,
           crop: change.crop,
           filter: change.filter,
+          // 교체 사진에 목표점을 안 찍었으면 그 컷의 목표점을 그대로 쓴다.
+          zoomFocus: change.zoomFocus ?? beat.mediaZoomFocus,
+          effects,
         })
       }
     })
@@ -290,6 +325,15 @@ export function narrativeMediaCutsOf(
     }
   }
   return cuts.filter(cut => cut.at >= cueStart && cut.at < end).sort((a, b) => a.at - b.at)
+}
+
+/**
+ * 배경 레이어 시작 프레임. 첫 컷 화면이 장면 시작과 같은 프레임에 뜨면 그 화면이 곧 장면의 첫 화면이다 —
+ * 대표 화면(scene.image)을 잠깐 보였다가 페이드로 갈아타지 않는다. 그러면 컷 전환(크로스페이드)과 겹친
+ * 이중 전환이 사라진다. 그 밖의 컷 화면은 제 시각에 0.5초 페이드로 든다.
+ */
+export function narrativeMediaLayerStarts(cuts: ReadonlyArray<Pick<NarrativeMediaCut, 'at'>>, cueStart: number): number[] {
+  return cuts.map((cut, index) => index === 0 && cut.at <= cueStart ? Number.NEGATIVE_INFINITY : cut.at)
 }
 
 /**
@@ -842,12 +886,18 @@ export function outroSecOf(script: FactionScript): number {
 
 /* ── 컷(Cue) 모델 ── */
 
+/**
+ * 장면이 열리는 화면에 얹는 효과음(FactionCluster.sfxs). 장면의 첫 컷 하나에만 붙는다 —
+ * 그룹샷 카드가 있으면 그 카드, 없으면 첫 대사·해설 컷이다. 시작 위치(%)는 그 화면 길이 기준.
+ */
+type OpeningSfx = { openingSfxs?: FactionSceneSfx[] }
+
 export type Cue =
   | { kind: 'intro' }
   | { kind: 'narrator' }
   | { kind: 'group'; groupIndex: number }
-  | { kind: 'cluster'; groupIndex: number; clusterIndex: number }
-  | {
+  | ({ kind: 'cluster'; groupIndex: number; clusterIndex: number } & OpeningSfx)
+  | ({
       kind: 'person'
       groupIndex: number
       personIndex: number
@@ -860,8 +910,10 @@ export type Cue =
       sourceClusterIndex?: number
       /** 대사 음원은 구 FxxCxxPxx 또는 통합 scene-<hash>.wav 중 실제로 존재하는 쪽을 명시한다. */
       quoteVoiceFile?: string
-    }
-  | { kind: 'scene'; scene: FactionPerson; groupIndex: number; clusterIndex: number }
+      /** 이 컷 자체의 효과음. 인물 대사 컷은 컷 하나가 곧 이 cue라 여기에 실어 보낸다. */
+      beatSfxs?: FactionSceneSfx[]
+    } & OpeningSfx)
+  | ({ kind: 'scene'; scene: FactionPerson; groupIndex: number; clusterIndex: number } & OpeningSfx)
   | { kind: 'era'; label: string }
   | { kind: 'chapterBlack'; chapter: FactionChapter }
   | { kind: 'chapter'; chapter: FactionChapter }
@@ -919,6 +971,40 @@ export function personEntryMediaOf(
   }
 }
 
+/** 사진맞춤이 같은가 — 미지정은 가운데(50·50)·1배와 같다. */
+export function sameImageCrop(a: FactionPerson['imageCrop'], b: FactionPerson['imageCrop']): boolean {
+  return (a?.x ?? 50) === (b?.x ?? 50) && (a?.y ?? 50) === (b?.y ?? 50) && (a?.scale ?? 1) === (b?.scale ?? 1)
+}
+
+export type ClusterShotHandoff = { groupIndex: number; clusterIndex: number; shotStart: number; shotDuration: number }
+
+/**
+ * 단체샷 이어받기. 단체샷 카드 바로 뒤의 인물·장면 컷이 같은 사진·같은 맞춤으로 시작하면 그 컷의 밑바닥 사진은
+ * 단체샷 레이어를 같은 시간축으로 계속 그린다. 같은 그림을 제 공식으로 다시 깔면 줌이 튀고 크로스페이드가
+ * "전환"으로 보인다 — 이어받으면 글자만 바뀐다. 사진·맞춤이 다르거나 필터가 얹히면 이어받지 않는다.
+ * 가로 인물 컷은 사진이 왼쪽 열에만 들어가는 분할 레이아웃이라 전체 화면 단체샷과 이어질 수 없고(가로 인물 사진은
+ * 움직임도 끈다) 이어받지 않는다. 장면 컷은 양쪽 다 전체 화면이라 방향과 무관하게 이어받는다.
+ */
+export function clusterShotHandoffOf(script: FactionScript, prev: TimedCue | undefined, tc: TimedCue, orientation: Orientation = 'portrait'): ClusterShotHandoff | null {
+  if (!prev || prev.cue.kind !== 'cluster' || prev.start + prev.duration !== tc.start) return null
+  const { cue } = tc
+  if (cue.kind !== 'person' && cue.kind !== 'scene') return null
+  if (cue.kind === 'person' && orientation !== 'portrait') return null
+  if (cue.groupIndex !== prev.cue.groupIndex || cue.clusterIndex !== prev.cue.clusterIndex) return null
+  const group = script.groups[cue.groupIndex]
+  const cluster = group?.clusters?.[cue.clusterIndex]
+  if (!group || !cluster?.image) return null
+  let base: Pick<PersonEntryMedia, 'image' | 'crop' | 'filter'> | undefined
+  if (cue.kind === 'person') {
+    const person = personOfCue(script, cue)
+    base = person ? personEntryMediaOf(person, group, cue.clusterIndex) : undefined
+  } else {
+    base = { image: cue.scene.image, crop: cue.scene.imageCrop }
+  }
+  if (!base || base.image !== cluster.image || base.filter || !sameImageCrop(base.crop, cluster.imageCrop)) return null
+  return { groupIndex: cue.groupIndex, clusterIndex: cue.clusterIndex, shotStart: prev.start, shotDuration: prev.duration }
+}
+
 /** 인물 cue의 실제 대사 음원. 통합 beat는 본문 해시 음원, 구 인물 대사는 위치 음원을 쓴다. */
 export function personQuoteVoiceFile(cue: PersonCue): string {
   return cue.quoteVoiceFile
@@ -967,6 +1053,13 @@ function personFromSceneBeat(person: FactionPerson, beat: FactionSceneBeat): Fac
     quoteEleOptions: beat.voiceEleOptions ?? person.quoteEleOptions,
     quoteEleEmotions: beat.voiceEleEmotions ?? person.quoteEleEmotions,
     quoteEleTrail: beat.voiceEleTrail ?? person.quoteEleTrail,
+    // 움직임 효과 — 컷 자체 지정이 인물 기본값을 덮는다. 여기서 얹어 두면 아래 계승(인물→장면→세력→전역)이 그대로 이어진다.
+    transition: beat.transition ?? person.transition,
+    holdMotion: beat.holdMotion ?? person.holdMotion,
+    enterMotion: beat.enterMotion ?? person.enterMotion,
+    holdGlitch: beat.holdGlitch ?? person.holdGlitch,
+    holdShake: beat.holdShake ?? person.holdShake,
+    zoomSpeed: beat.zoomSpeed ?? person.zoomSpeed,
   }
 }
 
@@ -1025,17 +1118,9 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       ? segments[lvPart - 1] ?? []
       : segments.flat()
   } else {
-    const usesInternalShortsCuts = hasFactionShortsCuts(script.groups as unknown as Array<Record<string, unknown>>)
-    if (usesInternalShortsCuts) {
-      const segments = factionShortsSegments(script.groups as unknown as Array<Record<string, unknown>>)
-      steps = part != null ? segments[part - 1] ?? [] : segments.flat()
-    } else {
-      steps = script.groups.map((group, gi): FactionLongformStep => ({
-        gi,
-        sequenceStart: 0,
-        sequenceEnd: factionSequenceOf(group).length,
-      }))
-    }
+    // 쇼츠 편은 이야기 순서 위의 경계(sequence cut·beat shortsCutBefore)로만 갈린다. 경계가 없으면 한 편이다.
+    const segments = factionShortsSegments(script.groups as unknown as Array<Record<string, unknown>>)
+    steps = part != null ? segments[part - 1] ?? [] : segments.flat()
   }
 
   // 세력 로고와 레거시 수장 판정은 세력의 첫 등장에 한 번만 적용한다.
@@ -1062,11 +1147,6 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     const group = script.groups[gi]
     if (!group || group.disabled) return false
     if (portrait && group.longformOnly) return false
-    if (portrait
-      && !hasFactionShortsCuts(script.groups as unknown as Array<Record<string, unknown>>)
-      && part != null
-      && group.part != null
-      && group.part !== part) return false
     return true
   }
   const clusterVisible = (gi: number, ci: number) => {
@@ -1087,8 +1167,17 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     ensureGroupIntro(gi)
     const people = cluster.people ?? []
     const shotCount = people.filter(p => p.isPerson !== false && !p.disabled && !(portrait && p.longformOnly)).length
+    // 장면 효과음은 이 장면이 열리는 화면 하나에만 실린다. 아래에서 소비하면 비워 뒤 컷으로 새지 않게 한다.
+    // 편을 나눠 장면 중간부터 재생하는 경우(beatStart)에도 그 편의 첫 화면에서 한 번 난다.
+    let openingSfxs: FactionSceneSfx[] | undefined = clusterSfxsOf(cluster)
+    if (!openingSfxs.length) openingSfxs = undefined
+    const takeOpening = () => {
+      const taken = openingSfxs
+      openingSfxs = undefined
+      return taken
+    }
     if (!group.solo && cluster.image) {
-      push({ kind: 'cluster', groupIndex: gi, clusterIndex: ci }, clusterSecOf(script, shotCount))
+      push({ kind: 'cluster', groupIndex: gi, clusterIndex: ci, openingSfxs: takeOpening() }, clusterSecOf(script, shotCount))
     }
     if (cluster.beats?.length) {
       const selectedBeats = cluster.beats.slice(beatStart ?? 0, beatEnd ?? cluster.beats.length)
@@ -1108,11 +1197,13 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
           // 장면 기본 사진으로도 써야 그 진입 구간에 cluster 단체샷이 잠깐 되살아나지 않는다.
           image: firstBeatMediaAtEntry ? firstBeat.media : cluster.image,
           imageCrop: firstBeatMediaAtEntry ? firstBeat.mediaCrop ?? cluster.imageCrop : cluster.imageCrop,
+          // 대표 화면의 줌 목표점 — 그 사진의 주인(컷 또는 장면)이 찍은 점을 그대로 쓴다.
+          zoomFocus: firstBeatMediaAtEntry ? firstBeat.mediaZoomFocus ?? cluster.zoomFocus : cluster.zoomFocus,
           quoteCaptionPos: factionSceneCaptionPosition(cluster.labelPosition, script.quoteCaptionPos),
           beats: narrativeBeats,
         }
         push(
-          { kind: 'scene', scene, groupIndex: gi, clusterIndex: ci },
+          { kind: 'scene', scene, groupIndex: gi, clusterIndex: ci, openingSfxs: takeOpening() },
           sceneSecOf(scene, script.captionIdHoldSec),
         )
         narrativeBeats = []
@@ -1147,7 +1238,8 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
         }
         const quoteVoiceFile = beat.legacyPersonVoice
           ? vnPersonQuote(ref.groupIndex, ref.personIndex, ref.clusterIndex)
-          : beat.voiceFile ?? vnSceneBeat(beat.speaker, beat.text)
+          : vnBeatVoiceFile(beat)
+        const beatSfxs = beatSfxsOf(beat)
         push(
           {
             kind: 'person',
@@ -1159,6 +1251,8 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
             personOverride: renderedPerson,
             quoteVoiceFile,
             steps,
+            ...(beatSfxs.length ? { beatSfxs } : {}),
+            openingSfxs: takeOpening(),
           },
           personDurationSec(renderedPerson, steps, portrait, { script }),
         )
@@ -1172,7 +1266,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       groupLeaderAssigned.add(gi)
       const steps = personSteps(person, portrait, isLeader)
       push(
-        { kind: 'person', groupIndex: gi, personIndex, clusterIndex: ci, steps },
+        { kind: 'person', groupIndex: gi, personIndex, clusterIndex: ci, steps, openingSfxs: takeOpening() },
         personDurationSec(person, steps, portrait, { script }),
       )
     })

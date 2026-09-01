@@ -25,14 +25,20 @@ import { copyFileSync, existsSync, linkSync, mkdirSync, readdirSync, readFileSyn
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { FACTIONS_DIR, DISCOURSES_DIR, episodeDirOf } from '@feelandnote/shared/bo/episode-store'
+import { ASSET_ARCHIVE_ROOT as ARCHIVE_ROOT } from '@feelandnote/shared/bo/asset-archive'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /** sw/remotion 루트 */
 export const ROOT = path.join(__dirname, '..', '..')
 export const PUBLIC_DIR = path.join(ROOT, 'public')
-/** 창고 자리 — 저장소 안이지만 추적 대상은 아니다(.gitignore) */
-export const STAGE_ROOT = path.join(ROOT, '.render-stage')
+/**
+ * 창고 자리. 에피소드 실체가 자산 보관소(D:)에 살면 창고도 그 옆에 둔다 — 같은 볼륨이라 하드링크가 산다.
+ * 보관소가 없는 컴퓨터에서는 저장소 안(.gitignore)이다.
+ */
+export const STAGE_ROOT = existsSync(ARCHIVE_ROOT)
+  ? path.join(ARCHIVE_ROOT, '.render-stage')
+  : path.join(ROOT, '.render-stage')
 
 /** 시리즈별 에피소드 폴더가 놓이는 자리(창고 안 상대 경로 = staticFile 이 부르는 이름) */
 const SERIES_DIR: Record<string, string> = {

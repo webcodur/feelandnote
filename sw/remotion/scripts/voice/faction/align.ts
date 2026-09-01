@@ -31,6 +31,23 @@ const OUT_PATH = path.join(path.dirname(DATA_PATH), PART != null ? `data.timing.
 
 const r3 = (x: number) => Math.round(x * 1000) / 1000
 
+/**
+ * 덩어리 경계를 글자수 비례로 안분한다 — 렌더 폴백(sentence-split.ts expandSubTimings)과 같은 계산이라
+ * 이 값을 기록해도 영상은 달라지지 않는다. 편집기가 잡을 손잡이를 만들어 주는 것이 목적이다.
+ */
+function proportionalSubTimings(chunks: string[], start: number, end: number): number[] | undefined {
+  if (chunks.length <= 1) return undefined
+  const totalChars = chunks.reduce((sum, c) => sum + c.length, 0)
+  if (!totalChars) return undefined
+  const out: number[] = []
+  let cursor = start
+  for (const chunk of chunks.slice(0, -1)) {
+    cursor += (end - start) * (chunk.length / totalChars)
+    out.push(r3(cursor))
+  }
+  return out
+}
+
 /** wav 길이(초) — 16bit PCM 기준 샘플 수/샘플레이트 */
 function wavDurationSec(wavPath: string): number {
   const { sampleRate, samples } = parseWav(wavPath)
@@ -64,21 +81,31 @@ export async function main(): Promise<void> {
   console.log(`발화 시각 산출: ${EPISODE_NAME} ${PART}편 (${LANG}) · 대사 인물 ${jobs.length}명`)
 
   const voiceTimings: VoiceTimings = {}
-  let done = 0, skipped = 0
+  let done = 0, skipped = 0, estimated = 0
   for (const job of jobs) {
     const stem = vnTimingKey(job.file)
     const wavPath = path.join(VOICE_DIR, job.file)
     const words = targets[stem]
-    if (!words || words.length === 0) {
-      console.warn(`[${stem}] 단어 타이밍 없음 — 건너뜀(렌더는 글자수 비례 폴백)`)
-      skipped++; continue
-    }
     if (!existsSync(wavPath)) {
       console.warn(`[${stem}] wav 없음 — 건너뜀`)
       skipped++; continue
     }
 
     const duration = wavDurationSec(wavPath)
+    // 전사가 없어도 음원이 있으면 글자수 비례 기본값을 남긴다. 값은 렌더 폴백과 같아 영상은 그대로지만,
+    // 항목이 있어야 web-bo 발화 시각 편집기가 열려(FactionSyncContent 는 빈 타이밍에 편집 UI 를 띄우지 않는다)
+    // 파형을 보며 경계를 손으로 옮길 수 있다. 전사가 VAD 미검출로 실패한 음원의 유일한 구제책이다.
+    if (!words || words.length === 0) {
+      const chunks = job.chunks.map(s => s.trim()).filter(Boolean)
+      const seg: VoiceTimingSegment = { start: 0, end: r3(duration), text: chunks.join(' '), sub: chunks }
+      const subT = proportionalSubTimings(chunks, 0, duration)
+      if (subT) seg.subTimings = subT
+      voiceTimings[stem] = [seg]
+      estimated++
+      console.warn(`[${stem}] 단어 타이밍 없음 — 글자수 비례 기본값 기록(${chunks.length}덩어리 · ${duration.toFixed(2)}s · 편집기에서 조정)`)
+      continue
+    }
+
     // 단어 → 세그먼트(단어 단위) → 선행 무음 트리밍 → 숫자 단어 보정
     const segs = analyzeWithWhisperWords(words, duration)
     trimWordLeadingSilence(segs, wavPath)
@@ -113,5 +140,7 @@ export async function main(): Promise<void> {
   }
   const merged: VoiceTimings = { ...existing, ...voiceTimings }
   await writeFile(OUT_PATH, JSON.stringify(merged, null, 2) + '\n', 'utf-8')
-  console.log(`\n✓ ${done}개 기록(병합 후 총 ${Object.keys(merged).length}개) · ${skipped}개 건너뜀 → ${path.relative(process.cwd(), OUT_PATH)}`)
+  console.log(`\n✓ ${done}개 기록(병합 후 총 ${Object.keys(merged).length}개)`
+    + (estimated ? ` · ${estimated}개 기본값(전사 없음 — 편집기에서 조정)` : '')
+    + ` · ${skipped}개 건너뜀 → ${path.relative(process.cwd(), OUT_PATH)}`)
 }

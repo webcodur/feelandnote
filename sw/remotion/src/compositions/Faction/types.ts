@@ -318,6 +318,11 @@ export interface FactionCluster {
   imageCrop?: FactionImageCrop
   /** 장면 안의 해설·인물 대사를 화자 종류와 무관한 항목 배열 하나로 보관한다. */
   beats?: FactionSceneBeat[]
+  /**
+   * 장면이 열리는 순간에 우는 효과음. 그룹샷 카드가 있으면 그 카드가 뜰 때, 없으면 첫 컷이 뜰 때 난다.
+   * 시작 위치(%)는 그 여는 화면의 길이를 기준으로 잡는다. 컷 자체 효과음(FactionSceneBeat.sfxs)과 겹쳐 난다.
+   */
+  sfxs?: FactionSceneSfx[]
   /** 이 묶음의 카드뉴스용 소개글 (그룹샷 카드 하단에 노출) */
   cardBody?: string
   /** 이 묶음 인물 목록 */
@@ -403,10 +408,7 @@ export interface FactionGroup {
   clusters: FactionCluster[]
   /** true면 모든 롱폼에 노출하고 쇼츠에서만 제외한다 (쇼츠 3분 제한 대응) */
   longformOnly?: boolean
-  /**
-   * 쇼츠 편 구분 (선택). 한 에피소드를 여러 쇼츠 편으로 나눌 때 세력을 편에 배정한다.
-   * 쇼츠 렌더에 part가 지정되면 그 part 세력만 나온다. 롱폼은 part 무시(전체 노출). 미지정이면 모든 part에 노출.
-   */
+  /** @deprecated 폐기(26.08.28). 쇼츠 편은 sequence 의 경계(cut)로만 갈린다. 옛 행에 남은 값은 읽지 않는다. */
   part?: number
   /** true면 이 세력을 영상에서 완전히 제외. 데이터는 보존되어 false로 되돌리면 그대로 살아난다 */
   disabled?: boolean
@@ -566,6 +568,22 @@ export interface FactionSceneBeat {
     zoomFocus?: ZoomFocus
   }[]
   /**
+   * 이 컷 진입 전환(세로 쇼츠). 화자가 배정된 컷만 제 컷으로 나오므로 그 컷에서만 걸린다.
+   * 해설 컷은 장면 하나로 묶여 흐르므로 전환 대신 화면 크로스페이드로 넘어간다.
+   * 미지정이면 인물→장면→세력→에피소드 순으로 따른다.
+   */
+  transition?: FactionTransition
+  /** 이 컷 지속 효과(머무는 동안 카메라 움직임). 미지정이면 인물→장면→세력→에피소드 */
+  holdMotion?: HoldMotion
+  /** 이 컷 시작 효과(등장 직후 짧은 도입 임팩트). 미지정이면 인물→장면→세력→에피소드 */
+  enterMotion?: EnterMotion
+  /** 이 컷 지지직 글리치(줌과 별개 축). 미지정이면 인물→장면→세력→에피소드→꺼짐 */
+  holdGlitch?: GlitchSetting
+  /** 이 컷 흔들림(핸드헬드, 줌·이동 위에 겹쳐 건다). 미지정이면 인물→장면→세력→에피소드→꺼짐 */
+  holdShake?: boolean
+  /** 이 컷 줌·이동 속도 배수(1=기본). 미지정이면 인물→장면→세력→에피소드→1 */
+  zoomSpeed?: number
+  /**
    * 이 덩어리 음성 길이(초). 파이프라인이 TTS 생성 후 기록한다. 있으면 덩어리 길이와 글자 점등을
    * 이 음성에 맞춘다. 없으면 글자 수 추정으로 점등하고 음성은 재생하지 않는다.
    */
@@ -598,10 +616,28 @@ export interface FactionSceneBeat {
   sfx?: string
   /** 효과음을 이 컷 길이의 몇 % 지점에서 시작할지. 미지정은 0(컷 시작). */
   sfxStartPercent?: number
+  /** 이 컷에 여러 효과음을 겹쳐 재생할 때의 목록. 기존 sfx는 첫 효과음 호환용이다. */
+  sfxs?: FactionSceneSfx[]
   shortsCutBefore?: boolean
   legacyPersonVoice?: boolean
-  /** resolve/buildCues가 기존 인물 음원 좌표를 풀어 넣는 렌더 전용 값. */
+  /**
+   * 발화의 영구 신원. 음원 파일명(`scene-<id>.wav`)이 이 값만 따르므로, 본문을 고치거나 장면을
+   * 옮겨도 이미 만든 음원이 따라온다. 본문이 바뀌어 음원이 낡았는지는 `voiceTextKey` 가 판정한다.
+   * 한 번 정해지면 바뀌지 않는다 — 편집이 이 값을 지우면 그 발화의 음원을 잃는다.
+   */
+  id?: string
+  /** 음원을 만들 때 읽은 본문의 해시(공백 정규화 기준). 지금 본문과 다르면 그 음원은 낡았다. */
+  voiceTextKey?: string
+  /** 명시 음원 파일 — 통합 전 인물 좌표형(FxxCxxPxx-quote.wav)을 그대로 쓰는 발화가 쥔다. id 보다 우선한다. */
   voiceFile?: string
+}
+
+export interface FactionSceneSfx {
+  file: string
+  /** 이 효과음을 컷 안에서 시작할 위치(0~100%). */
+  startPercent?: number
+  /** 이 효과음만의 음량 dB 게인. 없으면 기본 음량. +는 키우고 -는 줄인다. */
+  gainDb?: number
 }
 
 /** 정규화된 세력 이야기 순서. 최상위에는 장면과 장면 사이 쇼츠 경계만 둔다. */
@@ -770,7 +806,7 @@ export interface FactionScript {
   endFadeSec?: number
   /** 영상 명칭 영문 (통합형, 앞부분\n뒷부분) */
   titleEn?: string
-  /** 편성 화면에서 관리할 쇼츠 편 수. 렌더 대상은 실제 group.part 값으로 결정한다. 미지정이면 기존 호환값 2 */
+  /** @deprecated 폐기(26.08.28). 쇼츠 편 수는 경계 수 + 1 이다. 읽지 않는다. */
   shortsPartCount?: number
   /** 쇼츠 편별 영상 명칭(통합형, 앞부분\n뒷부분). 해당 part 렌더 시 title 대신 쓴다. 미지정이면 title */
   titleByPart?: Record<number, string>
