@@ -171,7 +171,6 @@ function PersonTableRow({ person, series, onStatusChange, changingStatus }: {
 /** 그룹 라벨 — 빈 그룹은 "그 외"(루트), 그 외에는 group 마지막 세그먼트의 키 그대로. */
 function groupLabel(group: string): string {
   if (!group) return '그 외'
-  if (group === '_archive') return '보관소'
   return group.split('/').pop() || group
 }
 
@@ -218,10 +217,9 @@ function BookRecommendSeriesHome({ series }: { series: string }) {
   const groupKeys = useMemo(() => {
     const set = new Set<string>()
     for (const p of persons) set.add(p.group)
-    // 빈 그룹("")은 항상 맨 뒤(그 외). _archive 는 더 뒤.
-    const arr = [...set].filter(g => g !== '' && g !== '_archive').sort()
+    // 빈 그룹("")은 항상 맨 뒤(그 외).
+    const arr = [...set].filter(g => g !== '').sort()
     if (set.has('')) arr.push('')
-    if (set.has('_archive')) arr.push('_archive')
     return arr
   }, [persons])
 

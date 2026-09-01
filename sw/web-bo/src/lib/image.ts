@@ -6,10 +6,11 @@ import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-
 // 아바타 0.95는 규격 SSoT(docs/project/celeb/celeb-avatar-spec.md §6)가 정한 값이며 서버 등록 경로와 같다.
 const IMAGE_SIZES = {
   avatar: { width: 800, height: 800, quality: 0.95 },  // 1:1 정사각 (원형 아바타, 레티나 3x 대응)
+  awakened: { width: 1080, height: 1080, quality: 0.88 },  // 1:1 정사각 (대표 사진과 독립된 각성 이미지)
   faction: { width: 1080, height: 1080, quality: 0.85 },  // 1:1 정사각 (세력도감 단체샷·전용 화보)
 } as const
 
-export type ImageType = 'avatar' | 'faction'
+export type ImageType = 'avatar' | 'awakened' | 'faction'
 
 // 비율 유지 중앙 크롭 + 리사이징하여 webp base64 반환
 function resizeToBase64(source: ImageBitmap, targetWidth: number, targetHeight: number, quality: number): Promise<string> {

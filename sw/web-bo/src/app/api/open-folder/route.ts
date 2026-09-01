@@ -2,12 +2,13 @@ import { NextResponse } from 'next/server'
 import { spawn } from 'child_process'
 import { existsSync, mkdirSync } from 'fs'
 import path from 'path'
-import { EPISODES_DIR, ARCHIVED_EPISODES_DIR } from '@/features/book-recommend/lib/server-utils'
+import { EPISODES_DIR } from '@/features/book-recommend/lib/server-utils'
+import { ASSET_ARCHIVE_ROOT } from '@feelandnote/shared/bo/asset-archive'
 
-/** 열 수 있는 폴더 — 임의 경로 차단을 위해 고정 목록만 허용 */
+/** 열 수 있는 폴더 — 임의 경로 차단을 위해 고정 목록만 허용. 보관소는 자산 보관소의 서재 탐방 자리다. */
 const TARGETS: Record<string, string> = {
   episodes: EPISODES_DIR,
-  archive: ARCHIVED_EPISODES_DIR,
+  archive: path.join(ASSET_ARCHIVE_ROOT, 'episodes'),
 }
 
 /** OS 파일 탐색기로 폴더를 연다. target=episodes(작업 중) | archive(보관소) */

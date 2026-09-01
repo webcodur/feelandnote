@@ -266,3 +266,11 @@
 .remotion-ui .border-border {
   border-width: 1.5px;
 }
+
+/* 팩션 편집기의 좌우 도구는 본문 끝까지 따라붙어야 한다.
+   넓은 화면에서 본문 뒤의 장식용 footer가 sticky 부모를 먼저 끝내지 않게 뺀다. */
+@media (min-width: 80rem) {
+  main:has([data-faction-editor="true"]) > footer {
+    display: none;
+  }
+}

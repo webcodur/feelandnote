@@ -5,10 +5,12 @@ import { buildSmallAvatar, smallAvatarKey } from '@/lib/avatar-small'
 import { CELEB_AVATAR_SMALL } from '@feelandnote/shared/constants/celeb-avatar-small'
 
 // avatar = 얼굴 크롭 800×800(목록·관계도), portrait = 인물 상세 상단 대표 화보(원본 비율)
+// awakened = 대표 사진과 별개로 보관하는 각성 이미지. 사용자 화면 사용 방식은 아직 정하지 않았다.
 // 화보 파일명 photo.webp는 일괄 등록 스크립트(scripts/upload-celeb-hero-photo.ts)와 같은 자리다
 const CELEB_IMAGE_FILENAMES = {
   avatar: 'avatar.webp',
   portrait: 'photo.webp',
+  awakened: 'awakened.webp',
 } as const
 
 type CelebImageType = keyof typeof CELEB_IMAGE_FILENAMES
@@ -68,6 +70,11 @@ export async function deleteCelebImages(celebId: string): Promise<void> {
 // 대표 화보만 내린다(아바타는 그대로 둔다)
 export async function deleteCelebPortrait(celebId: string): Promise<void> {
   await deleteFromR2(buildKey(celebId, CELEB_IMAGE_FILENAMES.portrait))
+}
+
+// 각성 이미지만 내린다(아바타와 대표 사진은 그대로 둔다)
+export async function deleteCelebAwakenedImage(celebId: string): Promise<void> {
+  await deleteFromR2(buildKey(celebId, CELEB_IMAGE_FILENAMES.awakened))
 }
 
 // #region 세력도감(faction) 이미지

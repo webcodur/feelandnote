@@ -2,27 +2,20 @@ import { readFile, readdir, stat, writeFile, mkdir, unlink, cp, rm, rename } fro
 import { existsSync, readFileSync, readdirSync, type Dirent } from 'fs'
 import path from 'path'
 import { REMOTION_ROOT } from '@feelandnote/shared/bo/remotion-root'
+import { EPISODES_DIR } from '@feelandnote/shared/bo/episode-store'
 import { seriesDataModel, type SeriesDataModel } from './series-registry'
 
-const EPISODES_DIR = path.join(REMOTION_ROOT, 'public', 'episodes')
 const COMMON_VOICE_DIR = path.join(REMOTION_ROOT, 'public', 'common', 'voice')
 export const VOICE_ARCHIVE = path.join(REMOTION_ROOT, 'voice-archive')
 
 /**
- * 작업 완료된 인물 보관소 — D:\remotion_done
- *
- * 사용자가 작업을 끝낸 셀럽 폴더를 통째로 이 경로로 옮긴다. 표준 episodes 디렉토리와
- * 동일한 구조이며 신·구 레이아웃이 섞여 있다: 신구조 {person}/meta.{ko,en}.json +
- * books/, 옛 구조 {person}/{ko,en}.json. findEpisodeDir/listEpisodes 가 이 경로도
- * 폴백으로 스캔한다. 메타 푸시·로드는 정상 동작하고, status는 'done' 으로 노출된다.
- *
- * 같은 폴더에 렌더 산출물이 PascalCase 폴더(AlexKarp/{KO,EN}/*.mp4)로 함께 들어 있다.
- * 인물 JSON 이 없어 listPersonEpisodes 가 빈 배열을 돌려주므로 목록에서 자연히 빠진다.
+ * 작업이 끝났거나 손대지 않는 인물의 실체는 자산 보관소(`@feelandnote/shared/bo/asset-archive`, D:\remotion-assets)에
+ * 있고, 작업 중인 인물만 public/episodes 에 정션으로 걸린다. 이 파일은 public 만 읽는다 — 보관소 편은 백오피스
+ * 「자산 보관소」에서 걸어야 목록에 나타난다. (예전 D:\remotion_done 폴백은 보관소로 합치며 지웠다.)
  */
-const ARCHIVED_EPISODES_DIR = process.env.REMOTION_ARCHIVED_EPISODES_DIR || 'D:/remotion_done'
 
 /** export — API 라우트에서 직접 사용 */
-export { EPISODES_DIR, COMMON_VOICE_DIR, ARCHIVED_EPISODES_DIR }
+export { EPISODES_DIR, COMMON_VOICE_DIR }
 
 // --- 상태 정책 ---
 //
@@ -102,7 +95,7 @@ export function parseEpisodeId(episodeId: string): { person: string; locale: str
 }
 
 /** person 이름(또는 episode ID)으로 인물 폴더를 찾는다.
- *  신구조(루트 또는 그룹 폴더 안 인물) → 옛 status 폴더 → 아카이브 순. */
+ *  신구조(루트 또는 그룹 폴더 안 인물) → 옛 status 폴더 순. 보관소 편은 걸려 있어야 보인다. */
 export function findEpisodeDir(personOrId: string): { status: EpisodeStatus; dir: string; group?: string } | null {
   const { person } = parseEpisodeId(personOrId)
   // 1. 신구조 — 루트 직속 인물
@@ -119,9 +112,6 @@ export function findEpisodeDir(personOrId: string): { status: EpisodeStatus; dir
     const dir = path.join(EPISODES_DIR, s, person)
     if (existsSync(dir)) return { status: s, dir }
   }
-  // 4. 아카이브 폴백 — D:/remotion_done/{person}. status 는 'done' 으로 통일.
-  const archivedDir = path.join(ARCHIVED_EPISODES_DIR, person)
-  if (existsSync(archivedDir)) return { status: 'done', dir: archivedDir }
   return null
 }
 
@@ -250,21 +240,6 @@ export async function listEpisodes(series?: string): Promise<EpisodeListItem[]> 
       }
     }
   }
-
-  // 3. 아카이브 폴더 스캔 — 작업 완료된 인물들 (status: 'done' · group: '_archive')
-  try {
-    const archivedEntries = await readdir(ARCHIVED_EPISODES_DIR, { withFileTypes: true })
-    for (const e of archivedEntries) {
-      if (!e.isDirectory() || e.name.startsWith('_')) continue
-      const personDir = path.join(ARCHIVED_EPISODES_DIR, e.name)
-      const ids = await listPersonEpisodes(e.name, personDir)
-      for (const id of ids) {
-        if (seen.has(id)) continue
-        seen.add(id)
-        items.push({ id, status: 'done', group: '_archive' })
-      }
-    }
-  } catch { /* 아카이브 디렉토리가 없으면 무시 */ }
 
   return items
 }

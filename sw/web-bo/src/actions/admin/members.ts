@@ -90,6 +90,7 @@ export interface Member {
   nickname: string | null
   avatar_url: string | null
   portrait_url?: string | null
+  awakened_image_url?: string | null
   bio: string | null
   subject_kind: 'member' | 'celeb'
   status: string
@@ -183,6 +184,7 @@ function celebToMember(c: Celeb): Member {
     nickname: c.nickname,
     avatar_url: c.avatar_url,
     portrait_url: c.portrait_url,
+    awakened_image_url: c.awakened_image_url,
     bio: c.bio,
     subject_kind: 'celeb',
     status: c.status,
@@ -322,6 +324,7 @@ async function celebProfileToMember(data: any): Promise<Member> {
     nickname: data.nickname,
     avatar_url: data.avatar_url,
     portrait_url: data.portrait_url ?? null,
+    awakened_image_url: data.awakened_image_url ?? null,
     bio: data.bio,
     subject_kind: 'celeb',
     status: data.status || data.publication_status || 'active',

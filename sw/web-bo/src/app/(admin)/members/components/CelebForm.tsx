@@ -18,6 +18,10 @@ import CelebAvatarNobgButton from '@/components/celeb/avatar/CelebAvatarNobgButt
 import { saveCelebAvatar } from '@/components/celeb/avatar/saveCelebAvatar'
 import CelebPortraitEditor from '@/components/celeb/portrait/CelebPortraitEditor'
 import { saveCelebPortrait } from '@/components/celeb/portrait/saveCelebPortrait'
+import {
+  removeCelebAwakenedImage,
+  saveCelebAwakenedImage,
+} from '@/components/celeb/awakened/saveCelebAwakenedImage'
 import FormattedText from '@/components/ui/FormattedText'
 import { useLangMode, type LangMode } from '@/contexts/LangModeContext'
 import { persistCroppedCelebImage } from './persistCroppedCelebImage'
@@ -40,6 +44,7 @@ interface CelebFormData {
   bio_en: string
   avatar_url: string
   portrait_url: string
+  awakened_image_url: string
   is_verified: boolean
   status: 'active' | 'inactive'
   celeb_tier: 'full' | 'light' | 'fiction'
@@ -111,6 +116,7 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     bio_en: celeb?.bio_en || '',
     avatar_url: celeb?.avatar_url || '',
     portrait_url: celeb?.portrait_url || '',
+    awakened_image_url: celeb?.awakened_image_url || '',
     is_verified: celeb?.is_verified || false,
     status: (celeb?.status as 'active' | 'inactive') || 'inactive',
     // 새로 만드는 인물은 감상 기록이 있을 수 없어 full로 저장되지 않는다(DB가 막는다)
@@ -182,6 +188,10 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
   const [portraitFile, setPortraitFile] = useState<File | null>(null)
   const [portraitPreview, setPortraitPreview] = useState<string | null>(null)
 
+  // 각성 이미지(celebs.awakened_image_url) — 대표 사진과 독립된 1:1 선택 슬롯이다
+  const [awakenedImageFile, setAwakenedImageFile] = useState<File | null>(null)
+  const [awakenedImagePreview, setAwakenedImagePreview] = useState<string | null>(null)
+
   // 감상 여정 textarea ref (자동 높이 조절용)
   const journeyTextareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -231,9 +241,9 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
     if (isSaved) return false
     const formChanged = JSON.stringify(formData) !== JSON.stringify(initialFormData.current)
     const influenceChanged = JSON.stringify(influence) !== JSON.stringify(initialInfluence.current)
-    const hasNewImages = avatarFile !== null || portraitFile !== null
+    const hasNewImages = avatarFile !== null || portraitFile !== null || awakenedImageFile !== null
     return formChanged || influenceChanged || hasNewImages
-  }, [formData, influence, avatarFile, portraitFile, isSaved])
+  }, [formData, influence, avatarFile, portraitFile, awakenedImageFile, isSaved])
 
   // beforeunload 이벤트 - 브라우저 이탈 방지
   useEffect(() => {
@@ -395,6 +405,48 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
   }
   // #endregion
 
+  // #region 각성 이미지
+  async function handleAwakenedImageCrop(file: File, croppedDataUrl: string) {
+    const url = await persistCroppedCelebImage({
+      mode,
+      celebId: celeb?.id,
+      file,
+      persist: saveCelebAwakenedImage,
+    })
+
+    if (url) {
+      setError(null)
+      setAwakenedImageFile(null)
+      setAwakenedImagePreview(null)
+      initialFormData.current = { ...initialFormData.current, awakened_image_url: url }
+      setFormData((prev) => ({ ...prev, awakened_image_url: url }))
+      showToast('success', '각성 이미지를 저장했습니다.')
+      return
+    }
+
+    setAwakenedImageFile(file)
+    setAwakenedImagePreview(croppedDataUrl)
+  }
+
+  async function handleAwakenedImageRemove() {
+    if (mode === 'edit' && celeb && formData.awakened_image_url) {
+      if (!window.confirm(`${formData.nickname || '이 인물'} 각성 이미지를 제거할까요?`)) return
+      try {
+        await removeCelebAwakenedImage(celeb.id)
+        initialFormData.current = { ...initialFormData.current, awakened_image_url: '' }
+        setFormData((prev) => ({ ...prev, awakened_image_url: '' }))
+        showToast('success', '각성 이미지를 제거했습니다.')
+      } catch (removeError) {
+        setError(removeError instanceof Error ? removeError.message : '각성 이미지를 제거하지 못했습니다.')
+      }
+      return
+    }
+    setAwakenedImageFile(null)
+    setAwakenedImagePreview(null)
+    setFormData((prev) => ({ ...prev, awakened_image_url: '' }))
+  }
+  // #endregion
+
 
   function handleInfluenceChange(field: string, type: 'score' | 'exp', value: number | string) {
     setInfluence((prev) => {
@@ -436,6 +488,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
     try {
       let avatarUrl = formData.avatar_url || undefined
       let portraitUrl = formData.portrait_url
+      let awakenedImageUrl = formData.awakened_image_url
 
       if (mode === 'create') {
         const hasInfluence = influence.totalScore > 0
@@ -473,6 +526,15 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
           await updateCeleb({ id: result.id, portrait_url: portraitUrl })
         }
 
+        if (awakenedImageFile) {
+          const resized = await resizeSingleImage(awakenedImageFile, 'awakened')
+          const uploadResult = await uploadCelebImage({ celebId: result.id, image: resized, type: 'awakened' })
+          if (!uploadResult.success) throw new Error(uploadResult.error || '각성 이미지 업로드 실패')
+          await updateCeleb({ id: result.id, awakened_image_url: uploadResult.url })
+        } else if (awakenedImageUrl) {
+          await updateCeleb({ id: result.id, awakened_image_url: awakenedImageUrl })
+        }
+
         setIsSaved(true)
         router.push(`/members/${result.id}`)
       } else if (celeb) {
@@ -489,6 +551,13 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
           const uploadResult = await uploadCelebImage({ celebId: celeb.id, image: resized, type: 'portrait' })
           if (uploadResult.success) portraitUrl = uploadResult.url || ''
           else throw new Error(uploadResult.error || '대표 화보 업로드 실패')
+        }
+
+        if (awakenedImageFile) {
+          const resized = await resizeSingleImage(awakenedImageFile, 'awakened')
+          const uploadResult = await uploadCelebImage({ celebId: celeb.id, image: resized, type: 'awakened' })
+          if (uploadResult.success) awakenedImageUrl = uploadResult.url || ''
+          else throw new Error(uploadResult.error || '각성 이미지 업로드 실패')
         }
 
         const hasInfluence = influence.totalScore > 0
@@ -509,6 +578,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
           bio_en: formData.bio_en,
           avatar_url: avatarUrl,
           portrait_url: portraitUrl,
+          awakened_image_url: awakenedImageUrl,
           is_verified: formData.is_verified,
           status: formData.status,
           celeb_tier: formData.celeb_tier,
@@ -518,13 +588,20 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
         })
 
         // 저장 후 초기값 업데이트 (isDirty 리셋)
-        const updatedFormData = { ...formData, avatar_url: avatarUrl || '', portrait_url: portraitUrl }
+        const updatedFormData = {
+          ...formData,
+          avatar_url: avatarUrl || '',
+          portrait_url: portraitUrl,
+          awakened_image_url: awakenedImageUrl,
+        }
         initialFormData.current = updatedFormData
         initialInfluence.current = influence
         setFormData(updatedFormData)
         setAvatarFile(null)
         setPortraitFile(null)
         setPortraitPreview(null)
+        setAwakenedImageFile(null)
+        setAwakenedImagePreview(null)
 
         showToast('success', '저장되었습니다.')
         router.refresh()
@@ -688,8 +765,8 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
               en={<textarea rows={2} value={formData.bio_en} onChange={(e) => handleChange('bio_en', e.target.value)} placeholder="EN: English bio" className={TEXTAREA_EN_CLS} />}
             />
 
-            {/* 아바타 & 대표 화보 좌우 나란히 배치 */}
-            <label className="text-xs font-medium text-text-secondary self-start pt-2">사진·화보</label>
+            {/* 인물에 직접 딸린 이미지 슬롯 */}
+            <label className="text-xs font-medium text-text-secondary self-start pt-2">인물 이미지</label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 bg-bg-secondary/40 border border-border/80 rounded-xl">
               {/* 아바타 (좌) */}
               <div className="space-y-2">
@@ -772,6 +849,46 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
                     />
                     <p className="text-[10px] text-text-secondary leading-normal">
                       인물 상세 상단에 걸립니다. 비우면 세력도감 화보 → 아바타 순으로 물러납니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 각성 이미지 — 대표 사진과 별개인 선택 슬롯 */}
+              <div className="space-y-2 border-t border-amber-500/20 pt-3 md:col-span-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-amber-300">각성 이미지</span>
+                  <span className="text-[10px] text-amber-400/70 font-mono">1:1 · 선택</span>
+                </div>
+                <div className="flex flex-col items-start gap-3 sm:flex-row">
+                  <div className="shrink-0">
+                    <CelebPortraitEditor
+                      value={awakenedImagePreview || formData.awakened_image_url}
+                      alt={`${formData.nickname || '인물'} 각성 이미지`}
+                      aspectRatio={1}
+                      aspectLabel="1:1"
+                      emptyLabel="각성 이미지 놓기"
+                      cropTitle="각성 이미지 위치 조정"
+                      cropDescription="정사각형 안에서 핵심 연출이 잘 보이도록 위치와 확대를 조정하세요."
+                      processingErrorMessage="각성 이미지 처리에 실패했습니다."
+                      loadImmediately
+                      highPriority
+                      onFileAccepted={() => setError(null)}
+                      onCroppedFile={handleAwakenedImageCrop}
+                      onRemove={handleAwakenedImageRemove}
+                      onError={(cropError) => setError(cropError.message)}
+                    />
+                  </div>
+                  <div className="w-full min-w-0 space-y-1.5">
+                    <input
+                      type="url"
+                      value={formData.awakened_image_url}
+                      onChange={(e) => handleChange('awakened_image_url', e.target.value)}
+                      placeholder="각성 이미지 URL 직접 입력"
+                      className="w-full px-2 py-1.5 text-xs bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-amber-400 focus:outline-none"
+                    />
+                    <p className="text-[10px] text-text-secondary leading-normal">
+                      대표 사진과 독립적으로 보관합니다. 사용자 화면에서 쓰는 방식은 아직 정하지 않았습니다.
                     </p>
                   </div>
                 </div>
