@@ -1,0 +1,4 @@
+interface:
+  display_name: "셀럽 대사 음성 생성·등록"
+  short_description: "대사 22종을 ElevenLabs로 생성·검증해 R2에 등록"
+  default_prompt: "$celeb-dialogue-voice-publish 셀럽 대사 22종을 기본 방식으로 생성하고 검증한 뒤 등록해 주세요."
