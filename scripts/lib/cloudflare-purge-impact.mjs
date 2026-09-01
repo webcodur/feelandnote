@@ -90,7 +90,6 @@ const NON_RUNTIME_WEB_ROOT_FILES = new Set([
   'sw/web/eslint.config.mjs',
   'sw/web/missing_images_report.txt',
   'sw/web/split_json.mjs',
-  'sw/web/temp_spotify_result.json',
   'sw/web/ts_to_json.js',
 ])
 
