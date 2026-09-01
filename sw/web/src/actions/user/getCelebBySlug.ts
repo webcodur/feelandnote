@@ -7,6 +7,7 @@ import {
   type CelebRelationGroup,
 } from '@feelandnote/shared/constants/celeb-relations'
 import { cachedDetail, throwOnQueryError } from '@/lib/cache'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
 import { type PublicUserProfile, type CelebTier } from './getUserProfile'
@@ -200,6 +201,9 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
   const profile = { ...celeb, selected_title: null }
 
   const celebId = profile.id as string
+  // 공개 RLS는 비활성 상대의 embedded profile을 null로 만든다. 인물 상세에 진입 가능한
+  // active 주인공을 확인한 뒤, 관계 카드에 허용한 필드만 서버에서 읽어 이름 노드로 남긴다.
+  const relationSupabase = createAdminClient()
 
   // 카운트 쿼리는 head:true count:'exact' 로 row 송출 0, 타입별 카운트는 RPC 1회로 수신
   const [
@@ -257,12 +261,12 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
       return memberRows.map((r) => ({ ...r, tag: tagById.get(r.tag_id) ?? null }))
     })(),
-    supabase
+    relationSupabase
       .from('celeb_relations')
       .select('from_id, to_id, rel_type, rel_group, note, note_en, from:celebs!celeb_relations_from_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid), to:celebs!celeb_relations_to_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid)')
       .eq('from_id', celebId)
       .overrideTypes<CelebRelationRow[], { merge: false }>(),
-    supabase
+    relationSupabase
       .from('celeb_relations')
       .select('from_id, to_id, rel_type, rel_group, note, note_en, from:celebs!celeb_relations_from_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid), to:celebs!celeb_relations_to_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid)')
       .eq('to_id', celebId)
@@ -405,8 +409,8 @@ const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     slug,
-    // v7: 모든 부분 조회가 성공했을 때만 캐시해 과거의 불완전한 v6 결과를 재사용하지 않는다.
-    ['celeb-by-slug-v7-query-guards', slug],
+    // v8: 비활성 관계 상대를 이름 노드로 되살린 조회 결과만 캐시한다.
+    ['celeb-by-slug-v8-inactive-relation-nodes', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
   )

@@ -1,3 +1,5 @@
+import type { CelebTier } from "@feelandnote/shared/constants/celeb-tiers";
+
 export const CELEB_SERVICE_CHAPTERS = {
   introduction: "01",
   reading: "02",
@@ -8,3 +10,28 @@ export const CELEB_SERVICE_CHAPTERS = {
   media: "07",
   guestbook: "08",
 } as const;
+
+const STANDARD_SECTION_ORDER = [
+  "introduction",
+  "reading",
+  "timeline",
+  "library",
+  "analysis",
+  "connections",
+  "media",
+  "guestbook",
+] as const;
+
+const FICTION_SECTION_ORDER = [
+  "introduction",
+  "reading",
+  "timeline",
+  "connections",
+  "sourceWorks",
+  "media",
+  "guestbook",
+] as const;
+
+export function getCelebSectionOrder(tier: CelebTier): readonly string[] {
+  return tier === "fiction" ? FICTION_SECTION_ORDER : STANDARD_SECTION_ORDER;
+}

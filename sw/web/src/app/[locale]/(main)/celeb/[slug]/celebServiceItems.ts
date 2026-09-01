@@ -7,7 +7,10 @@ import type { LucideIcon } from "lucide-react";
 import type { CelebTier } from "@/actions/user/getUserProfile";
 
 import { CELEB_SERVICE_ICONS } from "./celebServiceIcons";
-import { CELEB_SERVICE_CHAPTERS } from "./celebSectionChapters";
+import {
+  CELEB_SERVICE_CHAPTERS,
+  getCelebSectionOrder,
+} from "./celebSectionChapters";
 
 export interface ServiceTarget {
   sectionId: string;
@@ -56,8 +59,8 @@ export function useCelebServiceItems({
 }: UseCelebServiceItemsProps): ServiceItem[] {
   const t = useTranslations("celebPage");
 
-  return useMemo(
-    () => ([
+  return useMemo(() => {
+    const items = [
       {
         key: "introduction",
         chapter: CELEB_SERVICE_CHAPTERS.introduction,
@@ -145,7 +148,7 @@ export function useCelebServiceItems({
       {
         key: "connections",
         chapter: CELEB_SERVICE_CHAPTERS.connections,
-        label: t("connections"),
+        label: tier === "fiction" ? t("fictionConnections") : t("connections"),
         icon: CELEB_SERVICE_ICONS.connections,
         ready:
           availability.relations || availability.faction,
@@ -162,7 +165,7 @@ export function useCelebServiceItems({
           {
             key: "faction",
             chapter: "05-C",
-            label: t("serviceFaction"),
+            label: tier === "fiction" ? t("fictionFaction") : t("serviceFaction"),
             icon: CELEB_SERVICE_ICONS.faction,
             ready: availability.faction,
             target: { sectionId: "connections" },
@@ -172,7 +175,10 @@ export function useCelebServiceItems({
       {
         key: "media",
         chapter: CELEB_SERVICE_CHAPTERS.media,
-        label: t("media"),
+        label:
+          tier === "fiction" && availability.dialogues && !availability.videos
+            ? t("mediaDialogues")
+            : t("media"),
         icon: CELEB_SERVICE_ICONS.media,
         ready:
           availability.videos
@@ -211,9 +217,19 @@ export function useCelebServiceItems({
         ready: true,
         target: { sectionId: "guestbook" },
       },
-    ] satisfies ServiceItem[])
+    ] satisfies ServiceItem[];
+    const sectionOrder = getCelebSectionOrder(tier);
+    const positionByKey = new Map(
+      sectionOrder.map((key, index) => [key, index]),
+    );
+
+    return items
       // 자료가 없는 구획은 목록에서 뺀다. 빈 안내만 남는 섹션을 화면에 만들지 않기 위해서다.
-      .filter((item) => item.ready)
+      .filter((item) => item.ready && positionByKey.has(item.key))
+      .toSorted(
+        (first, second) =>
+          positionByKey.get(first.key)! - positionByKey.get(second.key)!,
+      )
       // 걸러낸 뒤 번호를 다시 매긴다. 남은 순서대로 01, 02가 되어야 목차가 끊기지 않는다.
       .map((item, index) => {
         const chapter = String(index + 1).padStart(2, "0");
@@ -227,7 +243,8 @@ export function useCelebServiceItems({
               chapter: `${chapter}-${String.fromCharCode(65 + childIndex)}`,
             })),
         };
-      }),
+      });
+  },
     [
       availability.dialogueVoice,
       availability.dialogues,

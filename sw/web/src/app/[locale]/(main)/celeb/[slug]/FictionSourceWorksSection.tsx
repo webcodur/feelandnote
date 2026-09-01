@@ -9,10 +9,12 @@ import FictionSourceFeature from "./FictionSourceFeature";
 
 interface FictionSourceWorksSectionProps {
   sources: FictionSourceContent[];
+  nickname: string;
 }
 
 export default function FictionSourceWorksSection({
   sources,
+  nickname,
 }: FictionSourceWorksSectionProps) {
   const t = useTranslations("celebPage");
   const [selectedId, setSelectedId] = useState(sources[0]?.id ?? "");
@@ -44,7 +46,7 @@ export default function FictionSourceWorksSection({
         {sources.length > 1 && (
           <div className="relative border-b border-accent-dim/30 bg-bg-secondary/70 bg-texture-noise px-2 py-2.5 sm:px-3 sm:py-3 md:px-4">
             <div className="flex snap-x snap-proximity gap-2 overflow-x-auto overscroll-x-contain scroll-px-2 pb-1 [scrollbar-width:thin] sm:scroll-px-3">
-              {sources.map((source, index) => {
+              {sources.map((source) => {
                 const active = source.id === selected.id;
                 return (
                   <button
@@ -77,10 +79,7 @@ export default function FictionSourceWorksSection({
                       )}
                     </span>
                     <span className="min-w-0">
-                      <span className="text-3d-gold block text-sm font-black">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className={`mt-0.5 line-clamp-2 text-[15px] font-black leading-[1.25] tracking-[-0.01em] ${
+                      <span className={`line-clamp-2 text-[15px] font-black leading-[1.25] tracking-[-0.01em] ${
                         active ? "text-3d-gold" : "text-text-primary group-hover:text-accent"
                       }`}>
                         {source.title}
@@ -104,8 +103,7 @@ export default function FictionSourceWorksSection({
 
         <FictionSourceFeature
           source={selected}
-          current={sources.findIndex((source) => source.id === selected.id) + 1}
-          total={sources.length}
+          nickname={nickname}
         />
       </div>
     </div>

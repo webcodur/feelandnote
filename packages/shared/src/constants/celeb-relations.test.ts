@@ -31,6 +31,10 @@ test('teacher and student rows share one fact and keep viewer labels', () => {
 test('parent labels keep the specific parent type on the child side', () => {
   const relation = { fromId: 'child', toId: 'parent', relType: 'mother' }
 
+  assert.deepEqual(
+    canonicalizeCelebRelation({ fromId: 'parent', toId: 'child', relType: 'child' }),
+    { fromId: 'child', toId: 'parent', relType: 'parent' },
+  )
   assert.equal(celebRelationTypeForViewer(relation, 'child'), 'mother')
   assert.equal(celebRelationTypeForViewer(relation, 'parent'), 'child')
   assert.equal(celebRelationCounterpartId(relation, 'child'), 'parent')

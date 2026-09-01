@@ -107,15 +107,17 @@ export default function CelebHeroSection({
         ? profile.photo_caption_en ?? profile.photo_caption
         : profile.photo_caption) ?? null
     : null;
-  const canGreet = (greeting?.length ?? 0) > 0;
+  const hasGreetingLine = (greeting?.length ?? 0) > 0;
+  const canGreet = hasGreetingLine;
+  const hasGreetingAudio = hasVoice && hasGreetingLine;
   // 소개는 언제나 첫 구획이다. 다음 화살표는 실제로 남아 있는 그다음 구획을 가리켜야 한다
   const introductionItem = serviceItems[0];
   const nextItem = serviceItems[1];
 
   const handleGreetingPlay = useCallback(() => {
-    trackEvent("celeb_voice_play", { kind: "greeting" });
+    if (hasGreetingAudio) trackEvent("celeb_voice_play", { kind: "greeting" });
     fireGreeting({ ...profile, greeting, nickname });
-  }, [fireGreeting, greeting, nickname, profile]);
+  }, [fireGreeting, greeting, hasGreetingAudio, nickname, profile]);
 
   const handleQuotePlay = useCallback(() => {
     trackEvent("celeb_voice_play", { kind: "quote" });
@@ -167,8 +169,9 @@ export default function CelebHeroSection({
                     nickname={nickname}
                     onZoom={handleZoom}
                     zoomLabel={t("enlargePhoto")}
+                    hasVoice={hasGreetingAudio}
                     onGreet={canGreet ? handleGreetingPlay : undefined}
-                    greetLabel={t("playGreetingVoice")}
+                    greetLabel={hasGreetingAudio ? t("playGreetingVoice") : t("dialogue_greeting")}
                     avatarSize="h-36 w-36 md:h-44 md:w-44"
                     initialSize="text-2xl md:text-3xl"
                   />
@@ -182,8 +185,9 @@ export default function CelebHeroSection({
                   nickname={nickname}
                   onZoom={handleZoom}
                   zoomLabel={t("enlargePhoto")}
+                  hasVoice={hasGreetingAudio}
                   onGreet={canGreet ? handleGreetingPlay : undefined}
-                  greetLabel={t("playGreetingVoice")}
+                  greetLabel={hasGreetingAudio ? t("playGreetingVoice") : t("dialogue_greeting")}
                   avatarSize="h-28 w-28"
                   initialSize="text-2xl"
                 />

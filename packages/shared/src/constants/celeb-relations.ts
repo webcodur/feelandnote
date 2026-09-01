@@ -45,6 +45,9 @@ const INVERSE_VIEW_TYPE: Record<string, string> = {
   teacher: 'student',
 }
 
+// Stored directional types describe what toId is to fromId.
+// Example: child -> parent with relType "mother".
+
 export const CELEB_RELATION_TYPE_ORDER = [
   'father',
   'mother',

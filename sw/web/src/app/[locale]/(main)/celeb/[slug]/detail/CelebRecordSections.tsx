@@ -117,6 +117,35 @@ export default function CelebRecordSections({
     );
   };
 
+  const renderConnectionsSection = () => {
+    if (!serviceItemsByKey.has("connections")) return null;
+
+    return (
+      <section id="connections" tabIndex={-1} className={SECTION_CLASS_NAME}>
+        {renderSectionHeading("connections")}
+        {/* 인물 목록과 세력 화보는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다.
+            제목은 서버 HTML에 그대로 남는다. */}
+        <SectionSurface className={TAB_BOX_CLASS_NAME}>
+          <Deferred
+            fallback={
+              <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
+            }
+          >
+            <CelebConnectionsDeferred
+              slug={slug}
+              locale={locale}
+              item={serviceItemsByKey.get("connections")!}
+              centerName={profile.nickname}
+              centerAvatarUrl={profile.avatar_url}
+              currentCelebId={profile.id}
+              isFiction={isFiction}
+            />
+          </Deferred>
+        </SectionSurface>
+      </section>
+    );
+  };
+
   return (
     <div className={styles.recordsGrid}>
       <CelebAtlasNavigation
@@ -146,6 +175,8 @@ export default function CelebRecordSections({
           </section>
         )}
 
+        {isFiction && renderConnectionsSection()}
+
         {serviceItemsByKey.has(isFiction ? "sourceWorks" : "library") && (
           <section
             id={isFiction ? "source-works" : "library"}
@@ -155,7 +186,10 @@ export default function CelebRecordSections({
             {renderSectionHeading(isFiction ? "sourceWorks" : "library")}
             {isFiction ? (
               <SectionSurface className={styles.sourceWorksSurface}>
-                <FictionSourceWorksSection sources={fictionSources} />
+                <FictionSourceWorksSection
+                  sources={fictionSources}
+                  nickname={profile.nickname}
+                />
               </SectionSurface>
             ) : (
               <SectionSurface className={TAB_BOX_CLASS_NAME}>
@@ -193,30 +227,7 @@ export default function CelebRecordSections({
           </section>
         )}
 
-        {serviceItemsByKey.has("connections") && (
-          <section id="connections" tabIndex={-1} className={SECTION_CLASS_NAME}>
-            {renderSectionHeading("connections")}
-            {/* 인물 목록과 세력 화보는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다.
-                제목은 서버 HTML에 그대로 남는다. */}
-            <SectionSurface className={TAB_BOX_CLASS_NAME}>
-              <Deferred
-                fallback={
-                  <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
-                }
-              >
-                <CelebConnectionsDeferred
-                  slug={slug}
-                  locale={locale}
-                  item={serviceItemsByKey.get("connections")!}
-                  centerName={profile.nickname}
-                  centerAvatarUrl={profile.avatar_url}
-                  currentCelebId={profile.id}
-                  isFiction={isFiction}
-                />
-              </Deferred>
-            </SectionSurface>
-          </section>
-        )}
+        {!isFiction && renderConnectionsSection()}
 
         {serviceItemsByKey.has("media") && (
           <section id="media" tabIndex={-1} className={SECTION_CLASS_NAME}>

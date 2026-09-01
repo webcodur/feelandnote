@@ -6,6 +6,7 @@ interface FictionSourceLocaleFields {
   publisher: string | null
   isbn: string | null
   coupangUrl: string | null
+  amazonUrl: string | null
 }
 
 interface FictionSourceCharacterDescriptions {
@@ -24,6 +25,9 @@ export function getFictionSourceLocaleFields(
     isbn: exact?.isbn ?? null,
     coupangUrl: locale === 'ko'
       ? findAffiliateLink(exact?.affiliate_url, 'coupang')?.url ?? null
+      : null,
+    amazonUrl: locale === 'en'
+      ? findAffiliateLink(exact?.affiliate_url, 'amazon')?.url ?? null
       : null,
   }
 }
