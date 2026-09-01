@@ -4,7 +4,7 @@ import { Minus, Plus } from "lucide-react";
 import { bindCanvasPan } from "./canvasPan";
 import GraphBoundaryFeedback, { type GraphBoundaryFeedbackHandle } from "./GraphBoundaryFeedback";
 import { containGraphViewport, createBoundedGraphPan, focusGraphPerson, restoreGraphView, type CenterableGraph, type ImmediateCameraGraph, type TranslatableGraph } from "./graphCamera";
-import { buildGraphData, graphStageHeight } from "./graphLayout";
+import { buildGraphData, graphStageHeight, mobileGraphStageHeight } from "./graphLayout";
 import { bindRelationClicks, createReadyQueue } from "./relationInteraction";
 import { relationFocusesForMode } from "./relationModel";
 import styles from "./RelationDiagram.module.css";
@@ -177,7 +177,7 @@ function RelationDiagram(props: Props) {
   };
   return <div className={styles.diagramShell}>
     <div className={styles.diagramViewport}>
-      <div className={styles.diagramStage} style={{ height: graphStageHeight(mode, model, focuses) }}>
+      <div className={styles.diagramStage} style={{ height: mobile ? mobileGraphStageHeight(mode, model, focuses, defaultZoom) : graphStageHeight(mode, model, focuses) }}>
         <div ref={containerRef} className={styles.graphCanvas} data-ready={ready} />
         <GraphBoundaryFeedback ref={boundaryFeedbackRef} />
       </div>

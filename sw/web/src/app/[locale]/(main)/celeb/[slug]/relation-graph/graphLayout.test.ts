@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { buildGraphData } from "./graphLayout";
+import { buildGraphData, mobileGraphStageHeight } from "./graphLayout";
 import type { DiagramLabels, DiagramNode, PersonNode, RelationModel } from "./types";
 
 const person = (index: number): PersonNode => ({
@@ -53,6 +53,11 @@ test("우측의 짧은 행도 중심에서 같은 거리로 시작한다", () =>
   });
   const nearest = [...rows.values()].map((distances) => Math.min(...distances));
   assert.ok(Math.max(...nearest) - Math.min(...nearest) <= 1, `row spread ${Math.max(...nearest) - Math.min(...nearest)}px`);
+});
+
+test("mobile stage height follows the visible relationship density", () => {
+  assert.equal(mobileGraphStageHeight("social", model, ["up"], 0.75), 360);
+  assert.equal(mobileGraphStageHeight("social", model, ["up", "right", "down"], 0.75), 446);
 });
 
 test("only toggled relation groups are drawn", () => {

@@ -175,11 +175,10 @@
 }
 
 @media (max-width: 900px) {
-  .diagramShell { padding-top: 50px; }
   .diagramViewport { width: 100%; overflow: hidden; }
-  .diagramStage { height: clamp(460px, 66dvh, 580px) !important; }
+  .diagramStage { max-height: clamp(320px, 45dvh, 420px); }
   .graphCanvas { touch-action: none; }
-  .zoomControls { top: 0; right: 0; bottom: auto; width: 46px; }
+  .zoomControls { width: 46px; }
   .zoomControls button { width: 44px; height: 44px; }
 }
 
