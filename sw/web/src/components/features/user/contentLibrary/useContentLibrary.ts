@@ -2,8 +2,10 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { useLocale } from "next-intl";
 
 import { addContent } from "@/actions/contents/addContent";
+import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { CategoryId } from "@/constants/categories";
 
 import {
@@ -22,7 +24,10 @@ import { useDesktopLayout } from "./useDesktopLayout";
 
 export type { ContentLibraryMode, ReviewFilter, SortOption, ViewMode } from "./contentLibraryTypes";
 
+const EMPTY_CONTENTS: UserContentWithContent[] = [];
+
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
+  const locale = useLocale();
   const {
     maxItems,
     compact = false,
@@ -80,8 +85,32 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   });
 
   const filteredAndSortedContents = useMemo(
-    () => filterAndSortContents(data.contents, sortOption),
-    [data.contents, sortOption],
+    () => filterAndSortContents(
+      data.contents,
+      sortOption,
+      ownerKind === "celeb" && locale === "ko",
+    ),
+    [data.contents, locale, ownerKind, sortOption],
+  );
+  const cachedListContents = data.getCachedContents("list")
+    ?? (viewMode === "list" ? data.contents : EMPTY_CONTENTS);
+  const cachedExpandContents = data.getCachedContents("expand")
+    ?? (viewMode === "expand" ? data.contents : EMPTY_CONTENTS);
+  const listContents = useMemo(
+    () => filterAndSortContents(
+      cachedListContents,
+      sortOption,
+      ownerKind === "celeb" && locale === "ko",
+    ),
+    [cachedListContents, locale, ownerKind, sortOption],
+  );
+  const expandContents = useMemo(
+    () => filterAndSortContents(
+      cachedExpandContents,
+      sortOption,
+      ownerKind === "celeb" && locale === "ko",
+    ),
+    [cachedExpandContents, locale, ownerKind, sortOption],
   );
   const groupedByMonthData = useMemo(
     () => groupByMonth(filteredAndSortedContents),
@@ -136,9 +165,11 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const collapseAll = useCallback(() => setCollapsedMonths(new Set(monthKeys)), [monthKeys]);
 
   const deletion = useContentLibraryDelete(data.contents, data.setContents, data.loadContents);
+  const currentContents = data.contents;
+  const setSavedContentIds = data.setSavedContentIds;
 
   const handleAddContent = useCallback(async (contentId: string) => {
-    const item = data.contents.find((content) => content.content_id === contentId);
+    const item = currentContents.find((content) => content.content_id === contentId);
     if (!item) return;
     const result = await addContent({
       id: item.content_id,
@@ -148,9 +179,9 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
       thumbnailUrl: item.content.thumbnail_url ?? undefined,
     });
     if (result.success) {
-      data.setSavedContentIds((previous) => new Set([...(previous ?? []), contentId]));
+      setSavedContentIds((previous) => new Set([...(previous ?? []), contentId]));
     }
-  }, [data]);
+  }, [currentContents, setSavedContentIds]);
 
   return {
     isViewer,
@@ -182,6 +213,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     applySearchQuery,
     collapsedMonths,
     filteredAndSortedContents,
+    contentsByView: { list: listContents, expand: expandContents },
     groupedByMonth: groupedByMonthData,
     monthKeys,
     isAllCollapsed,

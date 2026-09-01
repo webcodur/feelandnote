@@ -8,7 +8,7 @@ import {
 } from '@feelandnote/shared/constants/cache-tags'
 import { cachedDetail, spreadRevalidate, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
-import { CL_SELECT_LIST } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST_WITH_AFFILIATE } from '@/lib/utils/content-locale'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
 import type { ContentType } from '@/types/database'
 import type { GetUserContentsResponse, UserContentPublic } from './getUserContents'
@@ -43,7 +43,7 @@ async function fetchIndex(
     return { items: [], total: 0, page: params.page, totalPages: 0, hasMore: false }
   }
   const offset = (params.page - 1) * params.limit
-  const contentFields = `id, type, content_locales(${CL_SELECT_LIST}, isbn)`
+  const contentFields = `id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}, isbn)`
   let query = createStaticClient()
     .from('celeb_contents')
     .select(`id, content_id, status, visibility, created_at, content:contents!inner(${contentFields})`, { count: 'exact' })
@@ -81,7 +81,7 @@ export async function getPublicCelebContentIndex(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     params.userId,
-    ['celeb-content-expand-index-v1', locale, ...key],
+    ['celeb-content-expand-index-v2-affiliate', locale, ...key],
     () => fetchIndex(params, locale),
     { extraTags: [CACHE_TAGS.CONTENTS] },
   )
@@ -91,7 +91,7 @@ async function fetchRecord(celebId: string, contentId: string, locale: string) {
   const reviewEn = locale === 'en' ? 'review_en,' : ''
   const { data, error } = await createStaticClient()
     .from('celeb_contents')
-    .select(`id, content_id, status, review, ${reviewEn} review_presets, is_spoiler, visibility, created_at, source_url, content:contents!inner(id, type, metadata, user_count:record_count, content_locales(${CL_SELECT_LIST}, isbn))`)
+    .select(`id, content_id, status, review, ${reviewEn} review_presets, is_spoiler, visibility, created_at, source_url, content:contents!inner(id, type, metadata, user_count:record_count, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}, isbn))`)
     .eq('celeb_id', celebId)
     .eq('content_id', contentId)
     .eq('visibility', 'public')
@@ -105,7 +105,7 @@ export async function getPublicCelebContentRecord(
   contentId: string,
 ): Promise<UserContentPublic | null> {
   const locale = await getLocale()
-  const key = ['celeb-content-expand-record-v1', celebId, contentId, locale]
+  const key = ['celeb-content-expand-record-v2-affiliate', celebId, contentId, locale]
   return unstable_cache(() => fetchRecord(celebId, contentId, locale), key, {
     revalidate: spreadRevalidate(STATIC_REVALIDATE, key),
     tags: [...new Set([

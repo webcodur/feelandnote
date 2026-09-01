@@ -53,6 +53,7 @@ export interface UserContentWithContent {
     isbn_en: string | null
     thumbnail_en: string | null
     has_en_edition: boolean | null
+    affiliate_url?: unknown
   }
 }
 

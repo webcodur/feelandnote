@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState } from "react";
 import type { RefObject } from "react";
 import { Menu } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -47,6 +47,11 @@ function ExpandIndexRail({
   onSelectedItemReady,
 }: ExpandIndexRailProps) {
   const t = useTranslations("content");
+  const [hasOpened, setHasOpened] = useState(isOpen);
+  const handleToggle = () => {
+    setHasOpened(true);
+    onToggle();
+  };
 
   return (
     <aside className="relative col-start-1 row-span-2 row-start-1 min-w-0 md:col-start-2">
@@ -59,7 +64,7 @@ function ExpandIndexRail({
         <div className="flex h-full min-w-0 flex-1 flex-col">
           <button
             type="button"
-            onClick={onToggle}
+            onClick={handleToggle}
             aria-expanded={isOpen}
             aria-controls={indexId}
             aria-label={isOpen ? labels.collapse : labels.expand}
@@ -91,7 +96,7 @@ function ExpandIndexRail({
               styles.indexScrollbar,
             )}
           >
-            {groups.map((group) => {
+            {(isOpen || hasOpened) && groups.map((group) => {
               const category = getCategoryByDbType(group.dbType);
               const hasScrollTarget = group.items.some(
                 (item) => item.originalIndex === scrollTargetIndex,

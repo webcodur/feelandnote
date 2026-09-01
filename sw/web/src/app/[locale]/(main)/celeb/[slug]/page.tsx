@@ -8,17 +8,18 @@ import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
+import { getAffiliateBooksForCeleb } from "@/actions/home/getAffiliateBooks";
 import { getFictionSourcePresentationsForCeleb } from "@/actions/fiction/getFictionSourcePresentations";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
 import CelebPageContent from "./CelebPageContent";
 import RelatedFigureLinks from "./RelatedFigureLinks";
-import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
 import { buildCelebTitle } from "@/lib/celeb/meta";
 import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
 import { buildCelebPageMetadata, createCelebMetaInput } from "./celebPageMetadata";
 import CelebExternalLinksServer from "./CelebExternalLinksServer";
+import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -89,6 +90,9 @@ export default async function CelebPage({ params }: PageProps) {
     const firstContentId = contents.items[0]?.content_id;
     return firstContentId ? getContentBrief(firstContentId, locale) : null;
   });
+  const initialAffiliateBooksPromise = profile.celeb_tier === 'full' && locale === 'ko'
+    ? getAffiliateBooksForCeleb(userId, 'coupang', 6)
+    : Promise.resolve(null);
 
   const [
     sidePresence,
@@ -99,6 +103,7 @@ export default async function CelebPage({ params }: PageProps) {
     fictionSources,
     initialContentBrief,
     externalLinks,
+    initialAffiliateBooks,
   ] = await Promise.all([
     getCelebSidePresence({
       celebId: userId,
@@ -115,6 +120,7 @@ export default async function CelebPage({ params }: PageProps) {
       : Promise.resolve([]),
     initialContentBriefPromise,
     getCelebExternalLinks(profile.wikidata_qid, locale),
+    initialAffiliateBooksPromise,
   ]);
 
   const pageTitle = buildCelebTitle(
@@ -208,7 +214,12 @@ export default async function CelebPage({ params }: PageProps) {
           celebTier={profile.celeb_tier}
           relations={profile.relations}
         />
-        {profile.celeb_tier === "full" && <CelebAffiliateBooks userId={userId} />}
+        {profile.celeb_tier === "full" && (
+          <CelebAffiliateBooks
+            userId={userId}
+            initialData={initialAffiliateBooks}
+          />
+        )}
       </CelebPageContent>
     </>
   );

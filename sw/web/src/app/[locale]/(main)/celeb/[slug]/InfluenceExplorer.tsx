@@ -33,6 +33,10 @@ interface Props {
 
 type SelectionKind = "ranking" | "field";
 
+/** 좁은 화면에서 한 줄에 담는 칸 수 — 넓은 화면은 각각 7칸·5칸을 그대로 쓴다 */
+const COMPACT_RANK_COUNT = 3;
+const COMPACT_LEADER_COUNT = 2;
+
 interface ExplorerSelection {
   kind: SelectionKind;
   people: InfluenceExplorerPerson[];
@@ -114,6 +118,15 @@ export default function InfluenceExplorer({ data }: Props) {
 
   const activeLeaders = data.leaders[activeField];
 
+  /* 좁은 화면은 일곱 칸을 담지 못한다. 현재 인물을 가운데 두고 앞뒤 한 명씩만 남긴다 */
+  const compactRankStart = Math.max(
+    0,
+    Math.min(
+      data.neighbors.findIndex((person) => person.id === data.current.id) - 1,
+      data.neighbors.length - COMPACT_RANK_COUNT,
+    ),
+  );
+
   useEffect(() => {
     const scroller = rankingScrollerRef.current;
     const current = currentRankRef.current;
@@ -135,14 +148,13 @@ export default function InfluenceExplorer({ data }: Props) {
     );
     return (
       <>
-        <span className="flex items-center justify-center gap-1 whitespace-nowrap text-[10px] font-semibold leading-tight text-text-secondary md:text-[11px]">
+        <span className="flex flex-col items-center justify-center gap-0.5 whitespace-nowrap text-[10px] font-semibold leading-tight text-text-secondary md:text-[11px]">
           <span>
             {t("explorer.fieldMetric", {
               field: shortFieldLabel(firstField),
               score: person[firstField],
             })}
           </span>
-          <span aria-hidden className="text-white/25">|</span>
           <span>
             {t("explorer.fieldMetric", {
               field: shortFieldLabel(secondField),
@@ -202,8 +214,8 @@ export default function InfluenceExplorer({ data }: Props) {
           ref={rankingScrollerRef}
           className="overflow-x-auto pb-1 custom-scrollbar"
         >
-          <div className="relative mx-auto w-[60rem] min-w-[840px] max-w-5xl border-y border-white/[0.07] bg-white/[0.012] px-2 py-3">
-            <ol className="relative grid grid-cols-7 gap-2">
+          <div className="relative mx-auto w-full max-w-5xl border-y border-white/[0.07] bg-white/[0.012] px-2 py-3 lg:w-[60rem] lg:min-w-[840px]">
+            <ol className="relative grid grid-cols-3 gap-2 lg:grid-cols-7">
               {data.neighbors.map((person, index) => {
                 const isCurrent = person.id === data.current.id;
                 const isLoading = loadingId === person.id;
@@ -211,7 +223,13 @@ export default function InfluenceExplorer({ data }: Props) {
                   <li
                     key={person.id}
                     ref={isCurrent ? currentRankRef : undefined}
-                    className="flex h-full min-w-0 flex-col"
+                    className={cn(
+                      "h-full min-w-0 flex-col",
+                      index >= compactRankStart
+                        && index < compactRankStart + COMPACT_RANK_COUNT
+                        ? "flex"
+                        : "hidden lg:flex",
+                    )}
                   >
                     <RankActionButton
                       label={t("explorer.rankNumber", {
@@ -320,13 +338,19 @@ export default function InfluenceExplorer({ data }: Props) {
             id="influence-field-leaders-panel"
             role="tabpanel"
             aria-labelledby={`influence-field-tab-${activeField}`}
-            className="mx-auto grid w-[55rem] min-w-[760px] max-w-4xl grid-cols-5 overflow-hidden border border-white/[0.08] bg-white/[0.012]"
+            className="mx-auto grid w-full max-w-4xl grid-cols-2 overflow-hidden border border-white/[0.08] bg-white/[0.012] lg:w-[55rem] lg:min-w-[760px] lg:grid-cols-5"
           >
             {activeLeaders.map((person, index) => {
               const isCurrent = person.id === data.current.id;
               const isLoading = loadingId === person.id;
               return (
-                <div key={person.id} className="flex h-full min-w-0 flex-col">
+                <div
+                  key={person.id}
+                  className={cn(
+                    "h-full min-w-0 flex-col",
+                    index < COMPACT_LEADER_COUNT ? "flex" : "hidden lg:flex",
+                  )}
+                >
                   <RankActionButton
                     label={t("explorer.rankNumber", {
                       ranking: person.fieldRank,

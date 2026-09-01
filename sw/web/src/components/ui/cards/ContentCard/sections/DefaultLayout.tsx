@@ -158,6 +158,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
         <Link href={href} className={containerClass} onClick={handleClick}>
           {cardContent}
         </Link>
+        {props.posterFooterNode && <div className="mt-2">{props.posterFooterNode}</div>}
         {props.effectsEnabled !== false && <CardModals props={props} state={state} />}
       </div>
     );
@@ -169,6 +170,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
       <div className={containerClass} onClick={handleClick}>
         {cardContent}
       </div>
+      {props.posterFooterNode && <div className="mt-2">{props.posterFooterNode}</div>}
       {props.effectsEnabled !== false && <CardModals props={props} state={state} />}
     </div>
   );

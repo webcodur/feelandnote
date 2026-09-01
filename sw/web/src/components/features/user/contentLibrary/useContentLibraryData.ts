@@ -23,6 +23,12 @@ import {
   type ContentLibraryDataOptions,
   type LibrarySeed,
 } from "./contentLibraryDataState";
+import {
+  createContentDatasetKey,
+  createContentDatasetKeyForOptions,
+  createSeedDatasetCache,
+  type ContentDatasetSnapshot,
+} from "./contentLibraryDataCache";
 
 export { resolveDatasetPresentation };
 
@@ -49,6 +55,10 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
   const seedRef = useRef<LibrarySeed | null | undefined>(undefined);
   if (seedRef.current === undefined) seedRef.current = createLibrarySeed(options);
   const seed = seedRef.current;
+  const datasetCacheRef = useRef<Map<string, ContentDatasetSnapshot> | null>(null);
+  if (datasetCacheRef.current === null) {
+    datasetCacheRef.current = createSeedDatasetCache(options, seed);
+  }
 
   const [contents, setContents] = useState<UserContentWithContent[]>(seed?.contents ?? []);
   const [contentsMode, setContentsMode] = useState<ContentDatasetMode | null>(
@@ -66,28 +76,47 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
   const loadRequestIdRef = useRef(0);
   const countRequestIdRef = useRef(0);
   const hasSeedForInitialQueryRef = useRef(seed !== null);
+  const savedContentIdsCacheRef = useRef(new Map<string, Set<string> | null>());
 
-  const loadContents = useCallback(async () => {
+  const loadContents = useCallback(async (preferCache = false) => {
     const requestId = ++loadRequestIdRef.current;
     const requestedViewMode = viewMode;
+    const request = createContentRequest({
+      activeTab,
+      appliedSearchQuery,
+      compact,
+      currentPage,
+      maxItems,
+      ownerKind,
+      pageSize,
+      reviewFilter,
+      sortOption,
+      viewMode,
+    });
+    const cacheKey = createContentDatasetKey({
+      isViewer,
+      ownerKind,
+      request,
+      targetUserId,
+      viewMode: requestedViewMode,
+    });
+    const cached = preferCache ? datasetCacheRef.current?.get(cacheKey) : undefined;
+    if (cached) {
+      setContents(cached.contents);
+      setContentsMode(cached.mode);
+      setTotalPages(cached.totalPages);
+      setTotal(cached.total);
+      setError(null);
+      setIsLoading(false);
+      setIsRefreshing(false);
+      return;
+    }
+
     if (hasLoadedRef.current) setIsRefreshing(true);
     else setIsLoading(true);
     setError(null);
-
     try {
-      const request = createContentRequest({
-        activeTab,
-        appliedSearchQuery,
-        compact,
-        currentPage,
-        maxItems,
-        ownerKind,
-        pageSize,
-        reviewFilter,
-        sortOption,
-        viewMode,
-      });
-
+      let snapshot: ContentDatasetSnapshot;
       if (isViewer && targetUserId) {
         const result = ownerKind === "celeb" && requestedViewMode === "expand"
           ? await getPublicCelebContentIndex({ userId: targetUserId, ...request })
@@ -96,17 +125,27 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
               ...request,
             });
         if (requestId !== loadRequestIdRef.current) return;
-        setContents(mapPublicToUserContent(result.items, targetUserId));
-        setTotalPages(result.totalPages);
-        setTotal(result.total);
+        snapshot = {
+          contents: mapPublicToUserContent(result.items, targetUserId),
+          mode: requestedViewMode,
+          totalPages: result.totalPages,
+          total: result.total,
+        };
       } else {
         const result = await getMyContents(request);
         if (requestId !== loadRequestIdRef.current) return;
-        setContents(result.items);
-        setTotalPages(result.totalPages);
-        setTotal(result.total);
+        snapshot = {
+          contents: result.items,
+          mode: requestedViewMode,
+          totalPages: result.totalPages,
+          total: result.total,
+        };
       }
-      setContentsMode(requestedViewMode);
+      datasetCacheRef.current?.set(cacheKey, snapshot);
+      setContents(snapshot.contents);
+      setContentsMode(snapshot.mode);
+      setTotalPages(snapshot.totalPages);
+      setTotal(snapshot.total);
     } catch (loadError) {
       if (requestId !== loadRequestIdRef.current) return;
       console.error("콘텐츠 로드 실패:", loadError);
@@ -122,7 +161,17 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
 
   // 펼침의 최대 200행을 목록 카드로 잠깐 재해석하면 DOM·인증·카운트 요청이 폭발한다.
   // 반대 방향(list → expand)은 현재 페이지의 첫 항목을 큰 카드로 즉시 보여주는 안전한 seed다.
-  const presentation = resolveDatasetPresentation(contentsMode, viewMode, isLoading);
+  const resolvedPresentation = resolveDatasetPresentation(contentsMode, viewMode, isLoading);
+  const canPresentCachedRequestedView = ownerKind === "celeb"
+    && datasetCacheRef.current?.has(createContentDatasetKeyForOptions(options, viewMode));
+  const presentation = resolvedPresentation.isStaleExpandDatasetForList
+    && canPresentCachedRequestedView
+    ? {
+        ...resolvedPresentation,
+        isStaleExpandDatasetForList: false,
+        presentationViewMode: viewMode,
+      }
+    : resolvedPresentation;
   const { isStaleExpandDatasetForList } = presentation;
 
   const hasInitialSeedQuery = isInitialSeedQuery(options);
@@ -130,7 +179,7 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
   useEffect(() => {
     if (hasSeedForInitialQueryRef.current && hasInitialSeedQuery) return;
     hasSeedForInitialQueryRef.current = false;
-    void loadContents();
+    void loadContents(true);
   }, [hasInitialSeedQuery, loadContents]);
 
   const loadTypeCounts = useCallback(async () => {
@@ -172,19 +221,58 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     if (
       !isViewer
       || contents.length === 0
-      || viewMode === "expand"
       || isResponsiveViewPending
       || isStaleExpandDatasetForList
     ) {
       setSavedContentIds(null);
       return;
     }
+    if (contentsMode === "expand") return;
+    const cacheKey = contents.map((item) => item.content_id).join("|");
+    if (savedContentIdsCacheRef.current.has(cacheKey)) {
+      setSavedContentIds(savedContentIdsCacheRef.current.get(cacheKey) ?? null);
+      return;
+    }
     let active = true;
     void checkContentsSaved(contents.map((item) => item.content_id)).then((ids) => {
+      savedContentIdsCacheRef.current.set(cacheKey, ids);
       if (active) setSavedContentIds(ids);
     });
     return () => { active = false; };
-  }, [contents, isResponsiveViewPending, isStaleExpandDatasetForList, isViewer, viewMode]);
+  }, [contents, contentsMode, isResponsiveViewPending, isStaleExpandDatasetForList, isViewer]);
+
+  const reloadContents = useCallback(() => {
+    datasetCacheRef.current?.clear();
+    return loadContents(false);
+  }, [loadContents]);
+
+  const getCachedSnapshot = useCallback((requestedViewMode: "list" | "expand") => {
+    const request = createContentRequest({
+      activeTab,
+      appliedSearchQuery,
+      compact,
+      currentPage,
+      maxItems,
+      ownerKind,
+      pageSize,
+      reviewFilter,
+      sortOption,
+      viewMode: requestedViewMode,
+    });
+    const key = createContentDatasetKey({
+      isViewer,
+      ownerKind,
+      request,
+      targetUserId,
+      viewMode: requestedViewMode,
+    });
+    return datasetCacheRef.current?.get(key);
+  }, [activeTab, appliedSearchQuery, compact, currentPage, isViewer, maxItems, ownerKind, pageSize, reviewFilter, sortOption, targetUserId]);
+
+  const getCachedContents = useCallback(
+    (requestedViewMode: "list" | "expand") => getCachedSnapshot(requestedViewMode)?.contents,
+    [getCachedSnapshot],
+  );
 
   return {
     contents: presentation.shouldKeepContents ? contents : [],
@@ -199,7 +287,8 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     typeCountsError,
     savedContentIds,
     setSavedContentIds,
-    loadContents,
+    getCachedContents,
+    loadContents: reloadContents,
     loadTypeCounts,
   };
 }

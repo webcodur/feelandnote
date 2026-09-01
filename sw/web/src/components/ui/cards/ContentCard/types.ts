@@ -73,6 +73,8 @@ export interface ContentCardProps {
   showStatusBadge?: boolean;
   ownerNickname?: string;
   headerNode?: React.ReactNode;
+  /** 가로형 카드에서는 포스터 바로 아래, 세로형 카드에서는 카드 본문 아래에 붙는 보조 액션. */
+  posterFooterNode?: React.ReactNode;
 
   // 스타일
   className?: string;

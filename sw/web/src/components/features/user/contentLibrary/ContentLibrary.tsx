@@ -13,6 +13,9 @@ import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import ContentLibraryControls from "./ContentLibraryControls";
 import ContentLibraryBody from "./ContentLibraryBody";
+import { cn } from "@/lib/utils";
+
+const READ_ONLY_DELETE = () => undefined;
 
 export default function ContentLibrary({
   compact = false,
@@ -67,8 +70,8 @@ export default function ContentLibrary({
       desktopPresentation={desktopPresentation}
       initialContentBrief={lib.initialContentBrief}
       initialContentRecord={lib.initialContentRecord}
-      onDelete={lib.handleDelete}
-      onAddContent={lib.handleAddContent}
+      onDelete={isViewer ? READ_ONLY_DELETE : lib.handleDelete}
+      onAddContent={viewMode === "list" ? lib.handleAddContent : undefined}
       readOnly={isViewer}
       targetUserId={targetUserId}
       ownerNickname={ownerNickname}
@@ -87,6 +90,36 @@ export default function ContentLibrary({
     effectsEnabled = true,
     desktopPresentation = false,
   ) => {
+    if (ownerKind === "celeb" && !desktopPresentation) {
+      const listItems = lib.contentsByView.list;
+      const expandItems = lib.contentsByView.expand;
+      return (
+        <>
+          {listItems.length > 0 && (
+            <div
+              key="preserved-list"
+              data-library-mode-cache="list"
+              aria-hidden={viewMode !== "list"}
+              inert={viewMode !== "list" ? true : undefined}
+              className={cn(viewMode !== "list" && "hidden")}
+            >
+              {renderItems(listItems, "list", effectsEnabled, desktopPresentation)}
+            </div>
+          )}
+          {expandItems.length > 0 && (
+            <div
+              key="preserved-expand"
+              data-library-mode-cache="expand"
+              aria-hidden={viewMode !== "expand"}
+              inert={viewMode !== "expand" ? true : undefined}
+              className={cn(viewMode !== "expand" && "hidden")}
+            >
+              {renderItems(expandItems, "expand", effectsEnabled, desktopPresentation)}
+            </div>
+          )}
+        </>
+      );
+    }
     if (viewMode === "expand") {
       return renderItems(
         lib.filteredAndSortedContents,

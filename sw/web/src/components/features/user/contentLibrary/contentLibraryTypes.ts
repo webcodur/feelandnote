@@ -5,6 +5,7 @@
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { GetUserContentsResponse, UserContentPublic } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
+import { hasCoupangAffiliate } from "./contentAffiliate";
 
 // #region 타입
 export type SortOption = "recent" | "title" | "rating_desc" | "rating_asc" | "creator";
@@ -80,13 +81,15 @@ export function mapPublicToUserContent(
       isbn_en: item.content.isbn_en ?? null,
       thumbnail_en: item.content.thumbnail_en ?? null,
       has_en_edition: item.content.has_en_edition ?? null,
+      affiliate_url: item.content.affiliate_url ?? null,
     },
   }));
 }
 
 export function filterAndSortContents(
   contents: UserContentWithContent[],
-  sortOption: SortOption
+  sortOption: SortOption,
+  affiliateFirst = false,
 ): UserContentWithContent[] {
   const result = [...contents];
 
@@ -98,7 +101,13 @@ export function filterAndSortContents(
     creator: (a, b) => (a.content?.creator ?? "").localeCompare(b.content?.creator ?? ""),
   };
 
-  result.sort(sortFns[sortOption]);
+  result.sort((a, b) => {
+    if (affiliateFirst) {
+      const affiliateOrder = Number(hasCoupangAffiliate(b)) - Number(hasCoupangAffiliate(a));
+      if (affiliateOrder !== 0) return affiliateOrder;
+    }
+    return sortFns[sortOption](a, b);
+  });
   return result;
 }
 

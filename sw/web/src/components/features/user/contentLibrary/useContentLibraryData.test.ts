@@ -15,6 +15,10 @@ const contentLibraryDataSource = readFileSync(
   fileURLToPath(new URL("./useContentLibraryData.ts", import.meta.url)),
   "utf8",
 );
+const contentLibraryDataCacheSource = readFileSync(
+  fileURLToPath(new URL("./contentLibraryDataCache.ts", import.meta.url)),
+  "utf8",
+);
 
 test("only the latest content request can commit data or completion state", () => {
   assert.match(contentLibraryDataSource, /const requestId = \+\+loadRequestIdRef\.current/);
@@ -28,7 +32,7 @@ test("only the latest content request can commit data or completion state", () =
     contentLibraryDataSource,
     /if \(requestId === loadRequestIdRef\.current\) \{/,
   );
-  assert.match(contentLibraryDataSource, /setContentsMode\(requestedViewMode\)/);
+  assert.match(contentLibraryDataSource, /setContentsMode\(snapshot\.mode\)/);
 });
 
 test("refresh and request errors keep the completed dataset mounted", () => {
@@ -37,6 +41,15 @@ test("refresh and request errors keep the completed dataset mounted", () => {
     /if \(hasLoadedRef\.current\) setIsRefreshing\(true\)/,
   );
   assert.doesNotMatch(contentLibraryDataSource, /setContents\(\[\]\)/);
+});
+
+test("view switches restore completed datasets and saved IDs without another request", () => {
+  assert.match(contentLibraryDataSource, /void loadContents\(true\)/);
+  assert.match(contentLibraryDataSource, /datasetCacheRef\.current\?\.get\(cacheKey\)/);
+  assert.match(contentLibraryDataSource, /datasetCacheRef\.current\?\.set\(cacheKey, snapshot\)/);
+  assert.match(contentLibraryDataSource, /savedContentIdsCacheRef\.current\.get\(cacheKey\)/);
+  assert.match(contentLibraryDataSource, /canPresentCachedRequestedView/);
+  assert.match(contentLibraryDataCacheSource, /const viewMode: ViewMode = "list"/);
 });
 
 test("ContentLibrary renders completed data through its dataset presenter while refreshing", () => {

@@ -101,7 +101,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
         <CardHeader props={props} state={state} />
         <div
           onClick={handleClick}
-          className="flex items-stretch gap-3 cursor-pointer w-full p-2"
+          className="relative flex w-full flex-wrap items-stretch gap-3 p-2 cursor-pointer md:pb-[55px]"
         >
         {/* 썸네일 영역 */}
         <div className={`relative w-28 sm:w-40 flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>
@@ -234,6 +234,11 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
             )}
           </div>
         </div>
+        {props.posterFooterNode && (
+          <div className="w-full shrink-0 basis-full md:absolute md:bottom-2 md:left-2 md:w-40">
+            {props.posterFooterNode}
+          </div>
+        )}
         </div>
       </div>
 
