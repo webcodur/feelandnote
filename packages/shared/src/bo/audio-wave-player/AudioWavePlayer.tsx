@@ -2,16 +2,17 @@
 
 import React from 'react'
 import { TimeRuler, PlayheadOverlay } from '../time-ruler'
-import type { Props } from './types'
+import type { AudioWaveHandle, Props } from './types'
 import { useAudioWavePlayer } from './useAudioWavePlayer'
 import { WaveDisplayControls } from './WaveDisplayControls'
 
-export function AudioWavePlayer({
+function AudioWavePlayerInner({
   audioUrl, duration, boundaries, children,
   onClick, onTimeClick, onDoubleClick, heightClass = 'h-24', showRuler = true,
   trimStart, trimEnd, onTrimStart, onTrimEnd, onRegenerate, regenerating, pxPerSec: initialPxPerSec, autoPlay, onHoverTime, onDurationResolved,
-  playbackRate, gainDb, autoActivate, headerTitle,
-}: Props & { autoActivate?: boolean }) {
+  playbackRate, gainDb, autoActivate, headerTitle, onPlayingChange,
+  controlRef,
+}: Props & { autoActivate?: boolean; controlRef?: React.Ref<AudioWaveHandle> }) {
   const [zoom, setZoom] = React.useState(initialPxPerSec ?? 0)
   const [visualGain, setVisualGain] = React.useState(1)
 
@@ -34,6 +35,10 @@ export function AudioWavePlayer({
   React.useEffect(() => {
     if (autoActivate) activate()
   }, [autoActivate, activate])
+
+  // 파형 바깥 버튼이 재생을 잡을 수 있게 손잡이를 넘기고, 재생 상태를 그쪽에 알린다.
+  React.useImperativeHandle(controlRef, () => ({ toggle: togglePlay, stop }), [togglePlay, stop])
+  React.useEffect(() => { onPlayingChange?.(playing) }, [playing, onPlayingChange])
 
   // 실제 디코드된 오디오 길이를 부모에 보고 — 오버레이·경계 좌표 배율을 파형(실제 길이)에 맞춘다.
   React.useEffect(() => {
@@ -196,3 +201,14 @@ export function AudioWavePlayer({
     </div>
   )
 }
+
+/**
+ * 파형 재생기. 바깥에서 재생을 잡아야 하면 `controlRef` 로 손잡이를 받고,
+ * 지금 소리가 나는지는 `onPlayingChange` 로 받는다(접힌 헤더의 재생 버튼 등).
+ */
+export const AudioWavePlayer = React.forwardRef<
+  AudioWaveHandle,
+  Props & { autoActivate?: boolean }
+>(function AudioWavePlayer(props, ref) {
+  return <AudioWavePlayerInner {...props} controlRef={ref} />
+})

@@ -94,3 +94,17 @@ test('장면 효과음 시작률은 cluster data의 beat에서 무손실 왕복�
 
   assert.deepEqual(joined.beats, beats)
 })
+
+test('한 컷의 여러 효과음과 시작률은 cluster data에서 무손실 왕복한다', () => {
+  const beats = [{
+    text: '활이 부딪힌다.',
+    sfxs: [
+      { file: 'bow-string.mp3', startPercent: 12 },
+      { file: 'bow-arrow-body.mp3', startPercent: 68 },
+    ],
+  }]
+  const split = splitCluster({ label: '활의 시험', beats, people: [] })
+  const joined = joinCluster({ ...split.cols, data: split.data }, [])
+
+  assert.deepEqual(joined.beats, beats)
+})

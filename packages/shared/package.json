@@ -50,6 +50,7 @@
     "./bo/icons": "./src/bo/icons.tsx",
     "./bo/gain": "./src/bo/gain.ts",
     "./bo/episode-store": "./src/bo/episode-store.ts",
+    "./bo/asset-archive": "./src/bo/asset-archive.ts",
     "./bo/task-queue": "./src/bo/task-queue.ts",
     "./bo/remotion-root": "./src/bo/remotion-root.ts",
     "./bo/faction-export": "./src/bo/faction-export.ts",

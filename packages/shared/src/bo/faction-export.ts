@@ -24,9 +24,51 @@ import {
   GENERATED_KEY, type GeneratedMarker,
 } from '../lib/faction-schema'
 import { episodeDirOf } from './episode-store'
+import { ensureEpisodeStaged } from './asset-archive'
+import { factionVariants, type FactionVariantDef } from '../lib/youtube-faction-meta'
 
 const DATA_FILE = 'faction-data.json'
 const REGISTRY_FILE = '_episodes.json'
+/**
+ * 편별 영상 변형 목록(세로 롱폼 N편·세로 쇼츠 N편)을 모은 색인. 렌더 로더가 빌드타임에 읽는 유일한 편 단위 정보다.
+ * 본문(faction-data.json)은 번들 밖이라, 컴포지션 목록을 만들 재료만 여기 따로 둔다.
+ *
+ * 편마다 파일을 두지 않고 한 파일에 모으는 이유: 로더가 require.context 로 폴더를 훑으면 webpack 이 그 폴더
+ * 전체를 감시 대상으로 잡아 사진 하나만 바뀌어도 컴파일 패스가 돈다(실측 +6초). 파일 하나를 static import 하면
+ * 그 파일이 바뀔 때만 다시 묶는다. 편 구성(쇼츠 경계·롱폼 경계)이 바뀐 저장만 이 파일을 건드린다.
+ */
+const VARIANTS_INDEX_FILE = '_variants.json'
+
+/** 조립된 스크립트의 변형 목록. 입력 문서를 건드리지 않는다. */
+export function factionVariantsOf(doc: Record<string, unknown>): FactionVariantDef[] {
+  // 편 번호 산출은 sequence 정규화를 거치며 입력을 제자리에서 고친다 — 체크섬이 어긋나지 않게 사본에서 돈다.
+  const copy = structuredClone(doc) as { groups?: unknown[]; longformLayout?: unknown[] }
+  return factionVariants(
+    (copy.groups ?? []) as Parameters<typeof factionVariants>[0],
+    copy.longformLayout as Parameters<typeof factionVariants>[1],
+  )
+}
+
+/** 색인에서 한 편의 자리를 갱신한다. 내용이 같으면 파일을 건드리지 않는다(빌드 감시가 헛돌지 않게). */
+export function writeFactionVariantsIndex(
+  factionsDir: string,
+  folder: string,
+  doc: Record<string, unknown>,
+): { changed: boolean } {
+  const p = path.join(factionsDir, VARIANTS_INDEX_FILE)
+  const prev = existsSync(p) ? readFileSync(p, 'utf-8') : ''
+  let index: Record<string, FactionVariantDef[]> = {}
+  if (prev) {
+    try { index = JSON.parse(prev) as Record<string, FactionVariantDef[]> } catch { index = {} }
+  }
+  index[folder] = factionVariantsOf(doc)
+  const sorted = Object.fromEntries(Object.keys(index).sort().map(k => [k, index[k]]))
+  const next = JSON.stringify(sorted, null, 2) + '\n'
+  if (prev === next) return { changed: false }
+  mkdirSync(factionsDir, { recursive: true })
+  writeFileSync(p, next, 'utf-8')
+  return { changed: true }
+}
 
 export const sha1 = (s: string) => createHash('sha1').update(s, 'utf8').digest('hex')
 
@@ -110,6 +152,8 @@ export interface ExportToFileOptions {
  */
 export async function exportFactionEpisodeToFile(opts: ExportToFileOptions): Promise<FactionExportResult> {
   const { folder, episodeDir, dataPath, force } = opts
+  // 보관소에만 있는 편이면 먼저 public 에 건다 — 안 걸린 채 쓰면 실체 폴더가 새로 생겨 보관소와 이름이 겹친다.
+  ensureEpisodeStaged(path.dirname(episodeDir), folder)
   const state = inspectFactionDataFile(dataPath)
   // 음성 길이 병합(§7 ①)은 현재 파일 내용을 원본으로 삼는다
   const original = state.kind === 'absent' ? undefined : state.doc
@@ -140,6 +184,8 @@ export async function exportFactionEpisodeToFile(opts: ExportToFileOptions): Pro
   // 생성 마커의 시각만 바꾸는 무의미한 export는 파일을 건드리지 않는다.
   // DB 조립 결과가 현재 생성 파일과 byte-independent하게 같으면 이미 동기화된 상태다.
   if (state.kind === 'generated' && docChecksum(fresh) === state.marker.checksum) {
+    // 본문은 그대로여도 변형 목록 파일은 아직 없을 수 있다(로더 구조 변경 전에 내보낸 편).
+    writeFactionVariantsIndex(path.dirname(episodeDir), folder, fresh)
     return {
       folder,
       written: true,
@@ -158,6 +204,7 @@ export async function exportFactionEpisodeToFile(opts: ExportToFileOptions): Pro
 
   mkdirSync(episodeDir, { recursive: true })
   writeFileSync(dataPath, JSON.stringify(doc, null, 2) + '\n', 'utf-8')
+  writeFactionVariantsIndex(path.dirname(episodeDir), folder, fresh)
 
   const reason = state.kind === 'pristine' ? '첫 발효'
     : state.kind === 'absent' ? '신규 생성'

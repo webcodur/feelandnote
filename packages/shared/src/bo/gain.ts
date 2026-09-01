@@ -22,3 +22,14 @@ export function dbToLinear(db: number | undefined | null): number {
 export function isUnityGain(db: number | undefined | null): boolean {
   return db === undefined || db === null || !Number.isFinite(db) || db === 0
 }
+
+/**
+ * 저장 직전에 통과시키는 dB 값 — 슬라이더 범위로 자르고 단위에 맞춰 반올림한다.
+ * 기본 음량(0dB)이면 `undefined`를 돌려주어 데이터에 군더더기 키를 남기지 않는다.
+ */
+export function normalizeGainDb(db: number | undefined | null): number | undefined {
+  if (db === undefined || db === null || !Number.isFinite(db)) return undefined
+  const stepped = Math.round(db / GAIN_DB_STEP) * GAIN_DB_STEP
+  const clamped = Math.min(GAIN_DB_MAX, Math.max(GAIN_DB_MIN, stepped))
+  return clamped === 0 ? undefined : clamped
+}

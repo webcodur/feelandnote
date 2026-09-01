@@ -43,6 +43,8 @@ export type UnifiedFactionSceneBeat = {
   /** 구 독립 장면의 최소 길이·효과음. 평평한 대사 항목에서도 값이 소실되지 않게 둔다. */
   minimumSec?: number
   sfx?: string
+  sfxStartPercent?: number
+  sfxs?: { file: string; startPercent?: number; gainDb?: number }[]
   /** 같은 장면 안에서 쇼츠 편이 갈리는 경우 다음 대사 항목에 붙는 경계 flag. */
   shortsCutBefore?: boolean
 }
@@ -150,6 +152,7 @@ export function legacyFactionEntryToSceneBeats(entry: Row): UnifiedFactionSceneB
     mediaCrop: first.mediaCrop ?? entry.imageCrop,
     minimumSec: typeof entry.durationSec === 'number' ? entry.durationSec : undefined,
     sfx: typeof entry.sfx === 'string' ? entry.sfx : undefined,
+    ...(typeof entry.sfxStartPercent === 'number' ? { sfxStartPercent: entry.sfxStartPercent } : {}),
   }
   return beats
 }

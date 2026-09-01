@@ -42,9 +42,29 @@ test('서로 다른 그룹의 내부 경계 두 개를 전역 쇼츠 3편으로 
   ])
 })
 
-test('내부 경계가 없으면 legacy group.part가 처리하도록 편 번호를 만들지 않는다', () => {
-  const groups = [{ part: 1, clusters: [{}] }, { part: 2, clusters: [{}] }]
+test('경계가 없으면 편 번호를 만들지 않는다 — 전체가 단편 하나다', () => {
+  const groups = [{ clusters: [{}] }, { clusters: [{}] }]
   assert.deepEqual(factionShortsPartNumbers(groups), [])
+  assert.equal(factionShortsSegments(groups).length, 1)
+})
+
+test('세력 끝 경계는 다음 세력부터 새 편이다', () => {
+  const groups = [
+    { clusters: [{}], sequence: [{ kind: 'cluster', clusterIndex: 0 }, { kind: 'cut' }] },
+    { clusters: [{}, {}], sequence: [{ kind: 'cluster', clusterIndex: 0 }, { kind: 'cluster', clusterIndex: 1 }, { kind: 'cut' }] },
+    { clusters: [{}] },
+  ]
+  assert.deepEqual(factionShortsSegments(groups), [
+    [{ gi: 0, sequenceStart: 0, sequenceEnd: 1 }],
+    [{ gi: 1, sequenceStart: 0, sequenceEnd: 1 }, { gi: 1, sequenceStart: 1, sequenceEnd: 2 }],
+    [{ gi: 2, sequenceStart: 0, sequenceEnd: 1 }],
+  ])
+  assert.deepEqual(factionShortsPartNumbers(groups), [1, 2, 3])
+})
+
+test('마지막 세력 끝의 경계는 빈 편을 만들지 않는다', () => {
+  const groups = [{ clusters: [{}], sequence: [{ kind: 'cluster', clusterIndex: 0 }, { kind: 'cut' }] }]
+  assert.deepEqual(factionShortsPartNumbers(groups), [1])
 })
 
 test('longformOnly 그룹의 내부 경계는 쇼츠 편을 만들지 않는다', () => {

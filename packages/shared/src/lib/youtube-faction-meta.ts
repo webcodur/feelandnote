@@ -104,21 +104,6 @@ export interface FactionVariantDef {
 }
 
 /**
- * 진영 part 값에서 쇼츠 편 번호 목록을 뽑는다 — 중복 제거·오름차순.
- * 편 미지정(part 없음/0)·disabled·longformOnly 진영은 제외. 편이 하나도 없으면 빈 배열.
- */
-export function factionPartNumbers(
-  groups: ReadonlyArray<{ part?: number; disabled?: boolean; longformOnly?: boolean }>,
-): number[] {
-  const set = new Set<number>()
-  for (const g of groups) {
-    if (g.disabled || g.longformOnly) continue
-    if (g.part != null && g.part > 0) set.add(g.part)
-  }
-  return [...set].sort((a, b) => a - b)
-}
-
-/**
  * 롱폼 배치의 편 경계(cut)에서 롱폼 편 번호 목록을 뽑는다.
  * 경계가 하나도 없으면 빈 배열(통짜 한 편). 경계 n개 → [1..n+1].
  */
@@ -165,7 +150,7 @@ export function factionVariants(
   const shortsGroups = groups.filter(g => !g.disabled && !g.longformOnly)
   if (shortsGroups.length === 0) return longforms
   const internalParts = factionShortsPartNumbers(groups as unknown as Array<Record<string, unknown>>)
-  const parts = internalParts.length > 0 ? internalParts : factionPartNumbers(shortsGroups)
+  const parts = internalParts
   if (parts.length === 0) {
     // 편 미지정 — 전체 진영을 담은 단일 쇼츠
     return [...longforms, { key: 'ko-shorts-1', label: '세로 쇼츠', isShorts: true, part: undefined, fileSuffix: 'KO-S1' }]
@@ -312,9 +297,8 @@ function visibleGroups(input: FactionMetaInput, isShorts: boolean, part?: number
     if (isShorts && g.longformOnly) return false
     if (lvSlices) return lvSlices.has(gi)
     if (shortsSlices) return shortsSlices.has(gi)
-    if (part == null) return true
-    const gp = g.part ?? 0
-    return gp === 0 || gp === part
+    // 편 경계가 없는 쇼츠는 단편 — 전체가 한 편이다.
+    return true
   })
 }
 
@@ -408,7 +392,7 @@ export function buildFactionTitle(
   // 공통 title 뒷부분(부제 폴백). 편 분할이 없어도 통합 명칭 둘째 줄을 부제로 살린다.
   const commonTail = nameTail(input.title) || undefined
   // 쇼츠가 단편(편 미지정 또는 1편)이면 롱폼은 그 쇼츠를 늘린 것이라 제목이 같아진다.
-  const singleShorts = factionPartNumbers(input.groups).length <= 1
+  const singleShorts = factionShortsPartNumbers(input.groups as unknown as Array<Record<string, unknown>>).length <= 1
   let sub: string | undefined
   if (isShorts) {
     // 쇼츠: 편별 부제 우선, 없으면(단편) 공통 title 뒷부분을 부제로.

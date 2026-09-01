@@ -77,11 +77,16 @@ export const GROUP_HOT: HotMap = {
   name: 'name',
   nameEn: 'name_en',
   color: 'color',
-  part: 'part',
   disabled: 'disabled',
   longformOnly: 'longform_only',
 }
 export const GROUP_CHILDREN = ['clusters'] as const
+/**
+ * 폐기 필드(26.08.28) — 쇼츠 편은 sequence 의 경계(cut)로만 갈린다. 옛 `part` 배정과 `shortsPartCount` 는
+ * 저장 때 버리고, 읽을 때도 되살리지 않는다. `faction_groups.part` 컬럼은 남아 있지만 더는 쓰지 않는다.
+ */
+export const GROUP_DEPRECATED = ['part'] as const
+export const EPISODE_DEPRECATED = ['shortsPartCount'] as const
 
 /** faction_clusters */
 export const CLUSTER_HOT: HotMap = {
@@ -164,7 +169,7 @@ export function joinLevel(
 
 /** 에피소드 — groups·longformLayout 을 뺀 나머지가 data */
 export function splitEpisode(script: Record<string, unknown>): SplitResult {
-  return splitLevel(script, EPISODE_HOT, [...EPISODE_CHILDREN, ...EPISODE_DERIVED])
+  return splitLevel(script, EPISODE_HOT, [...EPISODE_CHILDREN, ...EPISODE_DERIVED, ...EPISODE_DEPRECATED])
 }
 
 /**
@@ -190,7 +195,7 @@ export function splitGroup(group: Record<string, unknown>): SplitResult {
   normalized.sequence = factionSequenceOf(normalized)
   // 구 위치 필드는 읽기 호환일 뿐 저장 원천이 아니다. sequence와 함께 남기면 순서가 두 벌이 된다.
   delete normalized.openingScenes
-  return splitLevel(normalized, GROUP_HOT, GROUP_CHILDREN)
+  return splitLevel(normalized, GROUP_HOT, [...GROUP_CHILDREN, ...GROUP_DEPRECATED])
 }
 
 export function joinGroup(

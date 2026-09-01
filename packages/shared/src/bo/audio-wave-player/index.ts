@@ -1,4 +1,5 @@
 export { AudioWavePlayer } from './AudioWavePlayer'
+export type { AudioWaveHandle } from './types'
 export { useAudioWavePlayer } from './useAudioWavePlayer'
 export { usePct } from './usePct'
 export { WaveDisplayControls } from './WaveDisplayControls'

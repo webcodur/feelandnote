@@ -489,8 +489,12 @@ export const CHARM_JUDGMENT = {
   ],
 } as const
 
+export const CRIMINAL_HISTORY_RULE =
+  '범죄·유죄판결·형벌 사실 자체를 공정·성찰 등 스펙트럼 점수로 환산하지 않는다. 범죄와 별개로 해당 축의 정의를 직접 입증하는 행적만 근거로 쓰고, 없으면 중립으로 둔다.'
+
 export const SCORING_PRINCIPLES: readonly string[] = [
   '16축 각각에 대해 그 인물의 근거를 찾아 정리하고, 정리한 근거대로 점수를 낸다.',
+  CRIMINAL_HISTORY_RULE,
   '근거가 얇은 축은 그 인물의 다른 행적에서 성향을 읽어 매긴다.',
   '점수는 행적에서 나온다. 직군 기본값은 행적이 전혀 잡히지 않을 때의 마지막 수단이다.',
   '기준점 인물과 하나씩 견주어 자리를 잡는다.',
