@@ -14,12 +14,14 @@ import { getSpectrumDistribution } from "@/actions/spectrum/getSpectrumDistribut
 import { getFactionHubPreviews } from "@/actions/home/getFactionHubPreviews";
 import { getRelationShapes } from "@/actions/home/getRelationShapes";
 import { getRelationNeighborhood } from "@/actions/home/getRelationNeighborhood";
+import { getMythAtlas } from "@/actions/home/getMythAtlas";
 import { shouldStreamForRequest } from "@/lib/render-mode";
 import { RetryBlock } from "@/components/ui/pending";
 import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
 import SpectrumDistribution from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistribution";
 import FactionCard from "@/components/features/user/explore/hub/FactionCard";
 import RelationMap from "@/components/features/celeb/RelationMap/RelationMap";
+import MythAtlas from "@/components/features/user/explore/myth/MythAtlas";
 
 const HUB_SPECTRUM_MIN_INFLUENCE = 40;
 
@@ -78,6 +80,14 @@ export async function ProfileSection() {
       dailyPicks={settled("랜덤 인물", dailyPicks)}
     />
   );
+}
+
+/* 신화 탐색 — 일반 허브 구획과 달리 인물·관계·등장 작품을 한 판에서 바꿔 본다. */
+export async function MythSection() {
+  const locale = await getLocale();
+  const data = await load("신화 탐색", () => getMythAtlas(locale));
+  if (!data || data.people.length === 0) return null;
+  return <MythAtlas data={data} />;
 }
 
 /* 성향 분포 */
