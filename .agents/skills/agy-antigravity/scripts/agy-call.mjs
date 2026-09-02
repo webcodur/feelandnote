@@ -6,19 +6,21 @@
  *
  * 설계 근거:
  *   - Windows에서는 확인된 agy.exe 절대경로를 직접 spawn한다.
- *   - 모델은 품질 검증을 마친 gemini-3.7-flash-high로 고정한다.
+ *   - 기본 모델은 품질 검증을 마친 gemini-3.8-flash-high다.
+ *   - 다른 모델이 필요한 작업은 호출부가 확인한 모델 ID를 명시한다.
  *   - 긴 한국어는 셸을 거치지 않고 하나의 argv로 넘겨 따옴표 재해석을 막는다.
  *   - 저장소를 어지르지 않도록 전용 임시 cwd에서 실행한다.
  */
 
 import { spawn } from 'node:child_process'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { isAbsolute, resolve } from 'node:path'
 
 const AGY_BIN = process.env.AGY_BIN
   ?? 'C:/Users/webco/AppData/Local/agy/bin/agy.exe'
-const MODEL = 'gemini-3.7-flash-high'
+export const AGY_TEXT_MODEL = 'gemini-3.8-flash-high'
+export const AGY_OPUS_MODEL = 'claude-opus-4-6-thinking'
 const DEFAULT_TIMEOUT_MS = 900_000
 
 /**
@@ -26,21 +28,34 @@ const DEFAULT_TIMEOUT_MS = 900_000
  * @param {object} [opts]
  * @param {string[]} [opts.docs] 문서 절대경로 또는 repoRoot 기준 상대경로.
  * @param {string} [opts.repoRoot] docs 상대경로 해석 기준.
+ * @param {string} [opts.model] `agy models`에서 확인한 명시적 모델 ID.
  * @param {number} [opts.timeoutMs]
  * @returns {Promise<string>} stdout의 최종 텍스트.
  */
 export function agyCall(prompt, opts = {}) {
   const {
-    docs = [], repoRoot = process.cwd(), timeoutMs = DEFAULT_TIMEOUT_MS,
+    docs = [], model = AGY_TEXT_MODEL, repoRoot = process.cwd(), timeoutMs = DEFAULT_TIMEOUT_MS,
   } = opts
+  if (!String(model).trim()) throw new Error('agy 모델 ID가 비어 있다.')
   const work = mkdtempSync(resolve(tmpdir(), 'agy-call-'))
   const fullPrompt = withDocs(prompt, docs, repoRoot)
+  // Windows CreateProcess의 명령행 길이 제한을 넘는 배치 입력은 임시 파일로 건넨다.
+  // agy가 격리된 작업 폴더 안의 파일을 직접 읽게 해 긴 JSON을 argv에 싣지 않는다.
+  let promptArgument = fullPrompt
+  if (Buffer.byteLength(fullPrompt, 'utf8') > 20_000) {
+    const promptPath = resolve(work, 'prompt.txt')
+    writeFileSync(promptPath, fullPrompt, 'utf8')
+    promptArgument = [
+      `Read the complete UTF-8 instruction file at ${promptPath.replace(/\\/g, '/')}.`,
+      'Follow it exactly and return only the response format requested in that file.',
+    ].join(' ')
+  }
   // agy 자체 대기 한도(--print-timeout)는 기본 5분이다. 조사처럼 긴 호출은 여기서 잘리므로
   // 헬퍼의 timeoutMs를 그대로 넘겨 두 한도를 맞춘다.
   const args = [
-    '-p', fullPrompt,
+    '-p', promptArgument,
     '--dangerously-skip-permissions',
-    '--model', MODEL,
+    '--model', model,
     '--print-timeout', `${Math.max(1, Math.ceil(timeoutMs / 60_000))}m`,
   ]
 
