@@ -1,4 +1,3 @@
-import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useMemo } from "react";
 
@@ -11,9 +10,7 @@ interface Props {
   focusOptions: FocusOption[];
   selectedFocus: RelationFocus | null;
   activePeople: PersonNode[];
-  selectedId: string | null;
   relationLabel: (person: PersonNode) => string;
-  onSelect: (person: PersonNode) => void;
 }
 
 function ProfileFallback() {
@@ -48,23 +45,17 @@ export default function MobileRelationList(props: Props) {
       <ul className={styles.list}>
         {section.people.map((person) => {
           const relation = props.relationLabel(person);
-          return <li key={person.id}>
-            <button type="button" className={styles.person}
-              aria-pressed={props.selectedId === person.id}
-              aria-label={`${person.name}, ${relation}`}
-              onClick={() => props.onSelect(person)}>
-              <span className={styles.portrait}>
-                {person.avatarUrl
-                  ? <Image src={person.avatarUrl} alt="" width={112} height={112} unoptimized />
-                  : <ProfileFallback />}
-              </span>
-              <span className={styles.copy}>
-                <strong>{person.name}</strong>
-                <span>{relation}</span>
-                {person.note ? <small>{person.note}</small> : null}
-              </span>
-              <ChevronRight className={styles.chevron} aria-hidden="true" />
-            </button>
+          return <li key={person.id} className={styles.person}>
+            <span className={styles.portrait}>
+              {person.avatarUrl
+                ? <Image src={person.avatarUrl} alt="" width={112} height={112} unoptimized />
+                : <ProfileFallback />}
+            </span>
+            <span className={styles.copy}>
+              <strong>{person.name}</strong>
+              <span>{relation}</span>
+              {person.note ? <small>{person.note}</small> : null}
+            </span>
           </li>;
         })}
       </ul>

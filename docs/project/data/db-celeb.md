@@ -54,11 +54,11 @@
   - 작성·검토·배치 규칙은 `docs/project/celeb/person-reading.md`, 최초 스키마는 `20260803181502_create_celeb_explanations.sql`, 현행 검수 상태는 `20260804060931_replace_celeb_explanation_sources_with_review_status.sql` 참조
   - `celeb_explanation_sources`는 2026-08-04 폐기했다. 사실 조사는 계속 수행하지만 URL은 집필 캐시에만 임시 보관하고 서비스 DB에는 적재하지 않는다
 - **`celeb_relations`**: 인물 관계망. 위키데이터 사실 관계 + 수동 보강
-  - 관계 사실 하나를 행 하나로 저장한다. `rel_type`은 **"to_id가 from_id에게 무엇인가"**다. 자녀·제자·영향을 받은 인물을 `from_id`, 부모·스승·영향을 준 인물을 `to_id`에 두고 `father`/`mother`/`parent`, `teacher`, `influence`만 저장한다. 반대편 화면에서는 `child`, `student`, `influenced`로 해석한다. 대칭 관계는 두 ID를 정렬해 한 행만 둔다
+  - 관계 사실 하나를 행 하나로 저장한다. `rel_type`은 **"to_id가 from_id에게 무엇인가"**다. 자녀·제자·영향을 받은 인물을 `from_id`, 부모·스승·영향을 준 인물을 `to_id`에 두고 `father`/`mother`/`parent`, `teacher`, `influence`만 저장한다. 반대편 화면에서는 `child`, `student`, `influenced`로 해석한다. 대칭 관계는 두 ID를 정렬해 한 행만 둔다. `counterpart`는 제우스·유피테르처럼 문화권별로 독립된 두 프로필의 대응 신격을 잇는 대칭 관계다
   - 정규화 규칙은 공용 `packages/shared/src/constants/celeb-relations.ts`(`celebRelationFactKey`가 사실 하나의 정본 키), 수집은 `sw/web-bo/scripts/celeb/relations.ts`가 SSoT다. 웹 조회는 전환 기간에 양 끝점을 모두 읽고 기존 역방향 중복 행을 한 사실로 접는다
   - 같은 두 사람 사이에 `family` 관계가 있으면 그 관계만 남긴다. 두 사람 사이의 `thought`·`career`·`friendship`·`rivalry` 행은 별도 사실로 저장하지 않고 폐기한다
   - 같은 두 사람을 서로 다른 `rel_type`으로 중복 저장하지 않는다. 유형을 정규화한 뒤 `celebRelationFactKey`가 같으면 같은 사실이므로 정본 한 행만 남긴다
-  - `rel_group`: family(혈연)/thought(사상)/career(공동 창업·동료)/friendship(지기)/rivalry(라이벌) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
+  - `rel_group`: family(혈연)/thought(사상)/counterpart(문화권별 대응 신격)/career(공동 창업·동료)/friendship(지기)/rivalry(라이벌) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
   - `publication_status`가 비공개인 내부 상대도 관계 사실에서는 제외하지 않는다. 화면은 이름 노드로 표시하고 이동만 막는다(`slug=null`); 위키데이터 링크는 `celebs.wikidata_qid`를 쓴다
   - `note`와 `note_en`은 어느 쪽에서 열어도 같은 두 사람의 행동과 결과를 함께 설명하는 공동 문장 한 벌이다. `label_ko`·`label_en`은 소비처가 없는 레거시 열이므로 새 값을 넣지 않는다
   - 혈연은 세대·형제 수 자체가 정보이므로 인원 상한을 적용하지 않는다. 화면의 접이식 상한은 사회 관계에만 적용한다

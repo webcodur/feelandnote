@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
@@ -32,9 +32,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [belowCue, setBelowCue] = useState(0);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopDiagramReady, setDesktopDiagramReady] = useState(false);
-  const [mobileMaterialStyle, setMobileMaterialStyle] = useState<CSSProperties>();
   const [previewRelation, setPreviewRelation] = useState<PersonNode | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
   const captureViewportAnchor = useViewportAnchor();
@@ -85,15 +83,6 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const selected = activePeople.find((person) => person.id === selectedId) ?? activePeople[0] ?? null;
   const speaker = selected ? stateFor(selected) : null;
 
-  useEffect(() => {
-    if (!mobileOpen) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMobileOpen(false);
-    };
-    document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [mobileOpen]);
-
   const relationLabel = useCallback((person: PersonNode) => typesForMode(person, effectiveMode)
     .map((type) => t.has(`relType_${type}`) ? t(`relType_${type}`) : type)
     .join(" · "), [effectiveMode, t]);
@@ -110,16 +99,6 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     });
     return () => window.cancelAnimationFrame(frame);
   }, [selectedId]);
-  const selectMobile = useCallback((person: PersonNode) => {
-    const computed = shellRef.current ? getComputedStyle(shellRef.current) : null;
-    const variables = ["canvas", "deep", "panel", "raised", "edge", "accent", "text", "muted"];
-    setMobileMaterialStyle(Object.fromEntries(variables.map((name) => {
-      const property = `--material-${name}`;
-      return [property, computed?.getPropertyValue(property).trim() ?? ""];
-    })) as CSSProperties);
-    setSelectedId(person.id);
-    setMobileOpen(true);
-  }, []);
   const dismissBelowCue = useCallback(() => setBelowCue(0), []);
   const revealDesktopInspector = useCallback(() => {
     const inspector = shellRef.current?.querySelector<HTMLElement>(`.${styles.desktopInspector}`);
@@ -135,7 +114,6 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     setMode(next);
     setSelectedId(null);
     setBelowCue(0);
-    setMobileOpen(false);
   }, [captureViewportAnchor]);
 
   const changeFocus = useCallback((next: RelationFocus) => {
@@ -145,7 +123,6 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     }));
     setSelectedId(null);
     setBelowCue(0);
-    setMobileOpen(false);
   }, [captureViewportAnchor, effectiveMode, selectedFocus]);
 
   const openPerson = async (person: PersonNode) => {
@@ -165,7 +142,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     profession: selected.profession ? tp(selected.profession) : null,
     country: selected.nationality ? getCountryNameByLocale(selected.nationality, locale) : null,
     loading: loadingId === selected.id, openLabel: t("relViewPersonCard"),
-    wikidataLabel: t("relViewWikidata"), closeLabel: t("hideDetail"),
+    wikidataLabel: t("relViewWikidata"),
     onOpen: () => void openPerson(selected),
     speakLabel: t(speaker?.hasVoice ? "playGreetingVoice" : "dialogue_greeting"),
     speakingLoading: speaker?.loading, hasVoice: speaker?.hasVoice, voicePulse: speaker?.pulse,
@@ -187,14 +164,11 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         labels={labels} zoomInLabel={t("timelineZoomIn")} zoomOutLabel={t("timelineZoomOut")}
         selectedId={selected?.id ?? null} onSelect={selectDesktop} /> : null}
       <MobileRelationList label={t("relAllTitle", { name: centerName })} focusOptions={focusOptions}
-        selectedFocus={selectedFocus} activePeople={activePeople} selectedId={selectedId}
-        relationLabel={relationLabel} onSelect={selectMobile} />
+        selectedFocus={selectedFocus} activePeople={activePeople} relationLabel={relationLabel} />
       {belowCue > 0 && selected && <BelowInspectorCue key={belowCue} signal={belowCue}
         label={selected.name} onExpire={dismissBelowCue} onReveal={revealDesktopInspector} />}
-      {inspectorProps && <RelationInspector {...inspectorProps} />}
+      {desktopDiagramReady && inspectorProps && <RelationInspector {...inspectorProps} />}
     </div>
-
-    {mobileOpen && inspectorProps && <RelationInspector {...inspectorProps} mobile materialStyle={mobileMaterialStyle} onClose={() => setMobileOpen(false)} />}
 
     <p className={styles.sourceNote}>{t(isFiction ? "fictionRelationGraphNote" : "relationGraphNote")}</p>
     {previewCeleb && previewRelation && <CelebDetailModal celeb={previewCeleb} isOpen

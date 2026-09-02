@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import {
+  CELEB_RELATION_TYPE_ORDER,
   canonicalizeCelebRelation,
   celebRelationCounterpartId,
   celebRelationFactKey,
@@ -49,6 +50,17 @@ test('symmetric rows normalize endpoint order', () => {
   assert.equal(celebRelationFactKey(left), celebRelationFactKey(right))
   assert.equal(celebRelationTypeForViewer(left, 'a'), 'friend')
   assert.equal(celebRelationTypeForViewer(left, 'z'), 'friend')
+})
+
+test('counterpart is a symmetric relationship with a stable sort position', () => {
+  const left = { fromId: 'zeus', toId: 'jupiter', relType: 'counterpart' }
+  const right = { fromId: 'jupiter', toId: 'zeus', relType: 'counterpart' }
+
+  assert.deepEqual(canonicalizeCelebRelation(left), right)
+  assert.equal(celebRelationFactKey(left), celebRelationFactKey(right))
+  assert.equal(celebRelationTypeForViewer(left, 'zeus'), 'counterpart')
+  assert.equal(celebRelationTypeForViewer(left, 'jupiter'), 'counterpart')
+  assert.notEqual(CELEB_RELATION_TYPE_ORDER.indexOf('counterpart'), -1)
 })
 
 test('different relationship kinds between the same people stay separate', () => {

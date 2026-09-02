@@ -11,7 +11,7 @@ const KIN_RANK: Record<string, KinRank> = {
 const SOCIAL_BAND: Record<string, SocialBand> = {
   teacher: "up", influence: "up",
   student: "down", influenced: "down",
-  cofounder: "left", colleague: "left", friend: "left",
+  cofounder: "left", colleague: "left", counterpart: "left", friend: "left",
   rival: "right",
 };
 

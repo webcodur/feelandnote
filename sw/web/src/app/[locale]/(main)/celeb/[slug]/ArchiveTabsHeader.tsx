@@ -15,6 +15,7 @@ interface Props<T extends string> {
   onChange: (key: T) => void;
   columnsClassName: string;
   ariaLabel: string;
+  className?: string;
   mobileTextClassName?: string;
 }
 
@@ -24,6 +25,7 @@ export default function ArchiveTabsHeader<T extends string>({
   onChange,
   columnsClassName,
   ariaLabel,
+  className,
   mobileTextClassName,
 }: Props<T>) {
   /* 포커스 박스는 마우스를 우선 따르고, 손을 떼면 고른 탭으로 돌아온다.
@@ -40,6 +42,7 @@ export default function ArchiveTabsHeader<T extends string>({
       className={cn(
         "relative mb-6 grid border-b border-white/10 sm:mb-7",
         columnsClassName,
+        className,
       )}
     >
       {spotIndex >= 0 && (

@@ -65,7 +65,8 @@ export default function PeopleAndEraTabs({
         onChange={setTab}
         columnsClassName={columnsClassName}
         ariaLabel={t(isFiction ? "fictionConnections" : "connections")}
-        mobileTextClassName="text-lg sm:text-2xl"
+        className="mb-3 sm:mb-3"
+        mobileTextClassName="h-12 text-lg font-bold hover:text-accent focus-visible:text-accent sm:h-14 sm:text-xl"
       />
 
       <div
