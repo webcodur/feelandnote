@@ -48,6 +48,7 @@ const TABLE_ORDERS: Record<string, readonly string[]> = {
   celeb_explanations: ['profile_id'],
   celeb_contents: ['id'],
   fiction_source_characters: ['content_id', 'celeb_id'],
+  fiction_source_purchase_options: ['content_id', 'locale', 'edition_id', 'platform'],
   celeb_timeline_events: ['id'],
   celeb_relations: ['id'],
   celeb_relations_external: ['id'],
@@ -671,12 +672,17 @@ async function main() {
     ...celebContents.map((row) => row.content_id),
     ...fictionSources.map((row) => row.content_id),
   ])]
-  const [contents, locales] = await Promise.all([
+  const [contents, locales, sourcePurchaseOptions] = await Promise.all([
     byIds('contents', 'id,type,external_source', contentIds, 'id'),
     byContentIds(
       'content_locales',
       'content_id,locale,title,creator,thumbnail_url,isbn,affiliate_url',
       contentIds,
+    ),
+    byContentIds(
+      'fiction_source_purchase_options',
+      'edition_id,content_id,locale,platform,affiliate_url',
+      [...new Set(fictionSources.map((row) => row.content_id))],
     ),
   ])
 
@@ -706,11 +712,11 @@ async function main() {
   const factionPlacementsByCeleb = groupBy(factionPlacements, (row) => row.celeb_id)
   const localesByContent = groupBy(locales, (row) => row.content_id)
   const sourceContentsWithEnglishAmazon = new Set(
-    locales
+    sourcePurchaseOptions
       .filter((row) => (
         row.locale === 'en'
-        && Array.isArray(row.affiliate_url)
-        && row.affiliate_url.some((link: Row) => link.platform === 'amazon' && !blank(link.url))
+        && row.platform === 'amazon'
+        && !blank(row.affiliate_url)
       ))
       .map((row) => row.content_id),
   )

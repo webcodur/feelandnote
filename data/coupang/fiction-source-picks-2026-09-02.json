@@ -182,16 +182,6 @@
       "state": "linked"
     },
     {
-      "content_id": "d0ae4f4f-2e9b-41e7-9670-72eaf2f85528",
-      "label": "The Greek Myths 2: The Heroic Age",
-      "isbn": "9791189333669",
-      "productId": "7684302640",
-      "productUrl": "https://www.coupang.com/vp/products/7684302640?itemId=20532048133&vendorItemId=93106465247",
-      "affiliateUrl": "https://link.coupang.com/a/gHv4IaT0fI",
-      "qualityEvidence": ["exact ISBN", "exact second volume", "delivery badge"],
-      "state": "linked"
-    },
-    {
       "content_id": "467d387e-c688-43b0-8570-01df791de22b",
       "label": "Original Samguk Sagi",
       "isbn": "9788935651757",
@@ -249,6 +239,16 @@
       "productUrl": "https://www.coupang.com/vp/products/6457848784?itemId=14043532345",
       "affiliateUrl": "https://link.coupang.com/a/gHXd38QG0y",
       "qualityEvidence": ["exact ISBN and Korean edition", "dawn-arrival guaranteed delivery badge", "more than 200 purchases in one month", "134 product ratings", "complete one-volume mythology with a dedicated Heracles chapter"],
+      "state": "linked"
+    },
+    {
+      "content_id": "4ee36aab-cc98-426f-9302-39242a50b651",
+      "label": "Livy, History of Rome complete four-volume set",
+      "isbn": "9791187142331",
+      "productId": "4629536430",
+      "productUrl": "https://www.coupang.com/vp/products/4629536430?itemId=5747526567&vendorItemId=73046164419",
+      "affiliateUrl": "https://link.coupang.com/a/f1IUlRAjdI",
+      "qualityEvidence": ["exact four-volume-set ISBN", "next-day guaranteed free-delivery badge", "18 product ratings", "eight units left at review time"],
       "state": "linked"
     }
   ]

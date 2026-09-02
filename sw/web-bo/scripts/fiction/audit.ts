@@ -110,7 +110,21 @@ type ContentLocaleRow = {
   content_id: string
   locale: string
   title: string
-  affiliate_url: Array<{ platform?: string; url?: string }> | null
+}
+
+type SourceEditionRow = {
+  id: number
+  content_id: string
+  locale: string
+  isbn: string | null
+}
+
+type SourcePurchaseOptionRow = {
+  edition_id: number
+  content_id: string
+  locale: string
+  platform: string
+  affiliate_url: string
 }
 
 type JsonPerson = {
@@ -296,11 +310,39 @@ async function main() {
   }
   const { data: sourceLocaleRows, error: sourceLocaleError } = await db
     .from('content_locales')
-    .select('content_id,locale,title,affiliate_url')
+    .select('content_id,locale,title')
     .in('content_id', sourceContentIds)
   if (sourceLocaleError) {
     throw new Error(`대표 원전 locale 조회 실패: ${sourceLocaleError.message}`)
   }
+  const sourceEditions = await allRows<SourceEditionRow>(
+    'fiction_source_editions',
+    async (from, to) => {
+      const { data, error } = await db
+        .from('fiction_source_editions')
+        .select('id,content_id,locale,isbn')
+        .in('content_id', sourceContentIds)
+        .order('content_id')
+        .order('locale')
+        .order('id')
+        .range(from, to)
+      return { data: data as unknown as SourceEditionRow[] | null, error }
+    },
+  )
+  const sourcePurchaseOptions = await allRows<SourcePurchaseOptionRow>(
+    'fiction_source_purchase_options',
+    async (from, to) => {
+      const { data, error } = await db
+        .from('fiction_source_purchase_options')
+        .select('edition_id,content_id,locale,platform,affiliate_url')
+        .in('content_id', sourceContentIds)
+        .order('content_id')
+        .order('locale')
+        .order('edition_id')
+        .range(from, to)
+      return { data: data as unknown as SourcePurchaseOptionRow[] | null, error }
+    },
+  )
 
   const episodeById = new Map(episodes.map((row) => [row.id, row]))
   const groupById = new Map(groups.map((row) => [row.id, row]))
@@ -329,10 +371,11 @@ async function main() {
     sourceLocaleRowsTyped.map((row) => `${row.content_id}:${row.locale}`),
   )
   const sourceContentsWithEnglishAmazon = new Set(
-    sourceLocaleRowsTyped
+    sourcePurchaseOptions
       .filter((row) => (
         row.locale === 'en'
-        && row.affiliate_url?.some((link) => link.platform === 'amazon' && asString(link.url))
+        && row.platform === 'amazon'
+        && asString(row.affiliate_url)
       ))
       .map((row) => row.content_id),
   )
@@ -491,6 +534,22 @@ async function main() {
   const sourceWorksWithoutEnLocale = sourceContents
     .filter((row) => !sourceLocaleKeys.has(`${row.content_id}:en`))
     .map((row) => row.content_id)
+  const sourceEditionContentIds = new Set(sourceEditions.map((row) => row.content_id))
+  const activeSourceEditionIds = new Set(sourcePurchaseOptions.map((row) => row.edition_id))
+  const sourceWorksWithoutEditions = sourceContents
+    .filter((row) => !sourceEditionContentIds.has(row.content_id))
+    .map((row) => row.content_id)
+  const sourceWorksWithoutActiveProducts = sourceContents
+    .filter((row) => !sourcePurchaseOptions.some((option) => option.content_id === row.content_id))
+    .map((row) => row.content_id)
+  const sourceEditionsWithoutActiveProducts = sourceEditions
+    .filter((row) => !activeSourceEditionIds.has(row.id))
+    .map((row) => ({
+      editionId: row.id,
+      contentId: row.content_id,
+      locale: row.locale,
+      isbn: row.isbn,
+    }))
   const linkedMythicalIds = new Set(
     mythicalPeople.flatMap((row) => row.celeb_id ? [row.celeb_id] : []),
   )
@@ -715,6 +774,11 @@ async function main() {
       sourceWorksMissingContent: sourceWorksMissingContent.length,
       sourceWorksMissingKoLocale: sourceWorksMissingKoLocale.length,
       sourceWorksWithoutEnLocale: sourceWorksWithoutEnLocale.length,
+      sourceEditions: sourceEditions.length,
+      sourceActiveProducts: sourcePurchaseOptions.length,
+      sourceWorksWithoutEditions: sourceWorksWithoutEditions.length,
+      sourceWorksWithoutActiveProducts: sourceWorksWithoutActiveProducts.length,
+      sourceEditionsWithoutActiveProducts: sourceEditionsWithoutActiveProducts.length,
       sourceWorksWithEnglishAmazon: sourceContentsWithEnglishAmazon.size,
       sourceRelationsMissingKoDescription: sourceRelationsMissingKoDescription.length,
       sourceRelationsMissingEnDescription: sourceRelationsMissingEnDescription.length,
@@ -740,6 +804,9 @@ async function main() {
       worksMissingContent: sourceWorksMissingContent,
       worksMissingKoLocale: sourceWorksMissingKoLocale,
       worksWithoutEnLocale: sourceWorksWithoutEnLocale,
+      worksWithoutEditions: sourceWorksWithoutEditions,
+      worksWithoutActiveProducts: sourceWorksWithoutActiveProducts,
+      editionsWithoutActiveProducts: sourceEditionsWithoutActiveProducts,
       relationsMissingKoDescription: sourceRelationsMissingKoDescription,
       relationsMissingEnDescription: sourceRelationsMissingEnDescription,
       relationsEnDescriptionWithoutAmazon: sourceRelationsEnDescriptionWithoutAmazon,

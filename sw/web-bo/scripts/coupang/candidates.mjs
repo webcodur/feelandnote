@@ -44,69 +44,77 @@ const browser = await puppeteer.connect({
   defaultViewport: null,
   protocolTimeout: 240000,
 })
-const pages = await browser.pages()
-const page = pages.find((p) => p.url().includes('coupang')) ?? pages[0]
+// 사용자가 보고 있던 탭을 검색 화면으로 덮어쓰지 않는다.
+const page = await browser.newPage()
 await page.setViewport({ width: 1440, height: 1000 })
 
-for (let i = from; i < to && i < targets.length; i++) {
-  const t = targets[i]
-  const key = targetKey(t)
-  if (!key) throw new Error(`[${i}] content_id 또는 candidate_key가 필요합니다.`)
-  if (typeof t.title !== 'string' || !t.title.trim()) {
-    throw new Error(`[${i}] 검색할 title이 필요합니다.`)
-  }
-  if (done.has(key)) continue
+try {
+  for (let i = from; i < to && i < targets.length; i++) {
+    const t = targets[i]
+    const key = targetKey(t)
+    if (!key) throw new Error(`[${i}] content_id 또는 candidate_key가 필요합니다.`)
+    if (typeof t.title !== 'string' || !t.title.trim()) {
+      throw new Error(`[${i}] 검색할 title이 필요합니다.`)
+    }
+    if (done.has(key)) continue
 
-  // 제목만으로 검색한다 — 저자·출판사를 붙이면 후보가 좁아져 더 나은 상품을 놓친다
-  const query = t.title.replace(/\s*\(.*?\)\s*/g, ' ').trim()
+    // 제목만으로 검색한다 — 저자·출판사를 붙이면 후보가 좁아져 더 나은 상품을 놓친다
+    const query = t.title.replace(/\s*\(.*?\)\s*/g, ' ').trim()
 
-  try {
-    await page.goto(`https://partners.coupang.com/#affiliate/ws/link/0/${encodeURIComponent(query)}`, {
-      waitUntil: 'domcontentloaded',
-      timeout: 60000,
-    })
-    await sleep(6000)
-
-    const cards = await page.evaluate(() => {
-      const res = []
-      const btns = Array.from(document.querySelectorAll('button, a, [role=button]')).filter(
-        (b) => (b.innerText || '').trim() === '링크 생성'
-      )
-      btns.forEach((btn, idx) => {
-        let node = btn
-        let name = ''
-        let price = ''
-        for (let up = 0; up < 8 && node; up++) {
-          node = node.parentElement
-          if (!node) break
-          const txt = (node.innerText || '').trim()
-          if (txt.length > 15) {
-            const lines = txt.split('\n').map((s) => s.trim()).filter((s) => s && s !== '링크 생성' && s !== '상품정보')
-            name = lines[0] || ''
-            price = lines.find((l) => /원$/.test(l)) || ''
-            if (name.length > 5) break
-          }
-        }
-        const productLink = node?.querySelector?.('a[href*="/vp/products/"]')
-          || node?.closest?.('a[href*="/vp/products/"]')
-        const productUrl = productLink?.href || ''
-        const productId = productUrl.match(/\/vp\/products\/(\d+)/)?.[1] || ''
-        res.push({ idx, name: name.slice(0, 110), price, productId, productUrl })
+    try {
+      await page.goto(`https://partners.coupang.com/#affiliate/ws/link/0/${encodeURIComponent(query)}`, {
+        waitUntil: 'domcontentloaded',
+        timeout: 60000,
       })
-      return res
-    })
+      await sleep(6000)
+      if (page.url().startsWith('https://login.coupang.com/')) {
+        throw new Error('쿠팡 파트너스 로그인이 필요합니다. 로그인 뒤 같은 명령을 다시 실행하세요.')
+      }
 
-    const real = cards.filter((c) => c.name && !c.name.includes('광고할 링크') && !c.name.includes('클릭하여'))
-    out.push({ ...t, query, candidates: real.slice(0, 12) })
-    console.log(`[${i}] ${t.title} — 후보 ${real.length}개`)
-  } catch (e) {
-    out.push({ ...t, query, candidates: [], error: String(e).slice(0, 120) })
-    console.log(`[${i}] ${t.title} — 오류`)
+      const cards = await page.evaluate(() => {
+        const res = []
+        const btns = Array.from(document.querySelectorAll('button, a, [role=button]')).filter(
+          (b) => (b.innerText || '').trim() === '링크 생성'
+        )
+        btns.forEach((btn, idx) => {
+          let node = btn
+          let name = ''
+          let price = ''
+          for (let up = 0; up < 8 && node; up++) {
+            node = node.parentElement
+            if (!node) break
+            const txt = (node.innerText || '').trim()
+            if (txt.length > 15) {
+              const lines = txt.split('\n').map((s) => s.trim()).filter((s) => s && s !== '링크 생성' && s !== '상품정보')
+              name = lines[0] || ''
+              price = lines.find((l) => /원$/.test(l)) || ''
+              if (name.length > 5) break
+            }
+          }
+          const productLink = node?.querySelector?.('a[href*="/vp/products/"]')
+            || node?.closest?.('a[href*="/vp/products/"]')
+          const productUrl = productLink?.href || ''
+          const productId = productUrl.match(/\/vp\/products\/(\d+)/)?.[1] || ''
+          res.push({ idx, name: name.slice(0, 110), price, productId, productUrl })
+        })
+        return res
+      })
+
+      const real = cards.filter((c) => c.name && !c.name.includes('광고할 링크') && !c.name.includes('클릭하여'))
+      out.push({ ...t, query, candidates: real.slice(0, 12) })
+      console.log(`[${i}] ${t.title} — 후보 ${real.length}개`)
+    } catch (e) {
+      if (String(e).includes('쿠팡 파트너스 로그인이 필요합니다')) throw e
+      out.push({ ...t, query, candidates: [], error: String(e).slice(0, 120) })
+      console.log(`[${i}] ${t.title} — 오류: ${String(e).slice(0, 120)}`)
+    }
+
+    fs.writeFileSync(outFile, JSON.stringify(out, null, 1), 'utf8')
+    await sleep(6500)
   }
 
-  fs.writeFileSync(outFile, JSON.stringify(out, null, 1), 'utf8')
-  await sleep(6500)
+  console.log(`\n후보 수집 끝: ${out.length}건`)
+} finally {
+  await page.close()
+  await browser.disconnect()
 }
-
-console.log(`\n후보 수집 끝: ${out.length}건`)
-await browser.disconnect()

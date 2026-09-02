@@ -14,9 +14,9 @@ const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSess
 const PAGE_SIZE = 500
 const LOOKUP_CONCURRENCY = 4
 
-type ContentRow = { id: string; type: string; external_id: string | null }
-type LocaleRow = { content_id: string; title: string; description: string | null; isbn: string | null; sources: Record<string, unknown> | null }
-type Target = { contentId: string; externalId: string | null; title: string; description: string | null; isbn: string | null; sources: Record<string, unknown> | null }
+type ContentRow = { id: string; external_id: string | null }
+type EditionRow = { id: number; content_id: string; title: string; description: string | null; isbn: string | null; sources: unknown }
+type Target = { editionId: number; contentId: string; externalId: string | null; title: string; description: string | null; isbn: string | null; sources: unknown }
 type Result = { target: Target; kind: 'update' | 'unchanged' | 'skip' | 'lookup-error'; reason: string; description?: string; sourceUrl?: string }
 
 function parseOptions(): { apply: boolean; limit: number | null } {
@@ -37,43 +37,36 @@ function parseOptions(): { apply: boolean; limit: number | null } {
 }
 
 async function loadTargets(limit: number | null): Promise<Target[]> {
-  const sourceIds: string[] = []
-  let cursor = ''
+  const editions: EditionRow[] = []
+  let cursor = 0
   while (true) {
-    let query = db.from('fiction_source_contents')
-      .select('content_id')
-      .order('content_id')
+    let query = db.from('fiction_source_editions')
+      .select('id,content_id,title,description,isbn,sources')
+      .eq('locale', 'ko')
+      .order('id')
       .limit(PAGE_SIZE)
-    if (cursor) query = query.gt('content_id', cursor)
+    if (cursor) query = query.gt('id', cursor)
     const { data, error } = await query
-    if (error) throw new Error(`원전 목록 조회 실패: ${error.message}`)
-    const rows = (data ?? []) as Array<{ content_id: string }>
-    sourceIds.push(...rows.map((row) => row.content_id))
+    if (error) throw new Error(`원전 판본 목록 조회 실패: ${error.message}`)
+    const rows = (data ?? []) as EditionRow[]
+    editions.push(...rows)
     if (rows.length < PAGE_SIZE) break
-    cursor = rows.at(-1)?.content_id ?? ''
+    cursor = rows.at(-1)?.id ?? 0
   }
 
+  const sourceIds = [...new Set(editions.map((row) => row.content_id))]
   const contents: ContentRow[] = []
-  const locales: LocaleRow[] = []
   for (let index = 0; index < sourceIds.length; index += PAGE_SIZE) {
     const ids = sourceIds.slice(index, index + PAGE_SIZE)
-    const [contentResult, localeResult] = await Promise.all([
-      db.from('contents').select('id,type,external_id').in('id', ids),
-      db.from('content_locales')
-        .select('content_id,title,description,isbn,sources')
-        .eq('locale', 'ko')
-        .in('content_id', ids),
-    ])
+    const contentResult = await db.from('contents').select('id,external_id').in('id', ids)
     if (contentResult.error) throw new Error(`원전 작품 조회 실패: ${contentResult.error.message}`)
-    if (localeResult.error) throw new Error(`원전 한국어판 조회 실패: ${localeResult.error.message}`)
     contents.push(...contentResult.data as ContentRow[])
-    locales.push(...(localeResult.data as LocaleRow[]))
   }
 
   const contentById = new Map(contents.map((row) => [row.id, row]))
-  return locales
-    .filter((row) => contentById.get(row.content_id)?.type === 'BOOK')
+  return editions
     .map((row): Target => ({
+      editionId: row.id,
       contentId: row.content_id,
       externalId: contentById.get(row.content_id)?.external_id ?? null,
       title: row.title,
@@ -124,20 +117,33 @@ async function inspect(target: Target): Promise<Result> {
 
 async function applyResult(result: Result): Promise<void> {
   if (result.kind !== 'update' || !result.description || !result.sourceUrl) return
-  const sources = { ...(result.target.sources ?? {}) }
-  if (typeof sources.description !== 'string' || !sources.description.trim()) {
-    sources.description = result.sourceUrl
-  }
-  let query = db.from('content_locales')
+  const sources = Array.isArray(result.target.sources)
+    ? [...new Set([...result.target.sources, result.sourceUrl])]
+    : {
+        ...(result.target.sources && typeof result.target.sources === 'object'
+          ? result.target.sources
+          : {}),
+        description: result.sourceUrl,
+      }
+  let query = db.from('fiction_source_editions')
     .update({ description: result.description, sources })
-    .eq('content_id', result.target.contentId)
-    .eq('locale', 'ko')
+    .eq('id', result.target.editionId)
   query = result.target.description === null
     ? query.is('description', null)
     : query.eq('description', result.target.description)
   const { data, error } = await query.select('description').maybeSingle()
   if (error) throw new Error(`${result.target.title} 저장 실패: ${error.message}`)
   if (data?.description !== result.description) throw new Error(`${result.target.title} 저장 전 값이 달라졌습니다.`)
+
+  // 새 구조 배포 전 코드와 일반 콘텐츠 화면이 쓰는 호환 스냅샷도 같은 ISBN일 때만 맞춘다.
+  if (result.target.isbn) {
+    const { error: legacyError } = await db.from('content_locales')
+      .update({ description: result.description, sources })
+      .eq('content_id', result.target.contentId)
+      .eq('locale', 'ko')
+      .eq('isbn', result.target.isbn)
+    if (legacyError) throw new Error(`${result.target.title} 호환 소개 저장 실패: ${legacyError.message}`)
+  }
 }
 
 async function revalidate(results: Result[]): Promise<void> {
@@ -169,7 +175,7 @@ async function revalidate(results: Result[]): Promise<void> {
 async function main() {
   const options = parseOptions()
   const targets = await loadTargets(options.limit)
-  console.log(`원전 BOOK ${targets.length}권 조회 · ${options.apply ? '실반영' : 'dry-run'}`)
+  console.log(`원전 한국어 판본 ${targets.length}건 조회 · ${options.apply ? '실반영' : 'dry-run'}`)
   const results = await concurrentMap(targets, inspect)
   for (const result of results.filter((item) => item.kind !== 'unchanged')) {
     console.log(`${result.kind === 'update' ? '✔' : '-'} ${result.target.title} · ${result.reason}`)
