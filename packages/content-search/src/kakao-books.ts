@@ -50,6 +50,12 @@ export interface KakaoBookSearchResult {
   }
 }
 
+export interface KakaoBookIsbnLookup {
+  book: KakaoBookSearchResult
+  /** 다음 책 상세에서 복원한 전체 소개. 검색 API 요약만 있으면 null이다. */
+  fullDescription: string | null
+}
+
 const ISBN13_PATTERN = /^97[89]\d{10}$/
 
 // "8954655971 9788954655972" → 13자리 우선
@@ -299,8 +305,10 @@ export async function searchBooks(
   )
 }
 
-/** ISBN으로 단건 조회. 없으면 null */
-export async function getBookByIsbn(isbn: string): Promise<KakaoBookSearchResult | null> {
+/** ISBN으로 단건 조회하고, 검색 요약과 구분되는 전체 소개를 함께 돌려준다. */
+export async function getBookByIsbnWithFullDescription(
+  isbn: string,
+): Promise<KakaoBookIsbnLookup | null> {
   const compact = isbn.replace(/[\s-]/g, '')
   if (!compact) return null
 
@@ -315,13 +323,23 @@ export async function getBookByIsbn(isbn: string): Promise<KakaoBookSearchResult
   if (!book) return null
 
   const fullDescription = await fetchFullBookDescription(book.metadata.link)
-  if (!fullDescription || fullDescription.length <= book.metadata.description.length) return book
+  if (!fullDescription || fullDescription.length <= book.metadata.description.length) {
+    return { book, fullDescription }
+  }
 
   return {
-    ...book,
-    metadata: {
-      ...book.metadata,
-      description: fullDescription,
+    fullDescription,
+    book: {
+      ...book,
+      metadata: {
+        ...book.metadata,
+        description: fullDescription,
+      },
     },
   }
+}
+
+/** ISBN으로 단건 조회. 없으면 null */
+export async function getBookByIsbn(isbn: string): Promise<KakaoBookSearchResult | null> {
+  return (await getBookByIsbnWithFullDescription(isbn))?.book ?? null
 }

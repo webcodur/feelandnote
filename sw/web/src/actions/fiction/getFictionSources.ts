@@ -13,6 +13,7 @@ import type { ContentType } from '@/types/database'
 import {
   getFictionSourceCharacterDescription,
   getFictionSourceLocaleFields,
+  hasFictionSourceAffiliateLinkForLocale,
 } from './fictionSourceLocale'
 import {
   getAllFictionSourceAssignments,
@@ -102,6 +103,8 @@ async function fetchSourcesByCeleb(
     if (!content) return []
     const flat = flattenLocales(content.content_locales, locale)
     const localeFields = getFictionSourceLocaleFields(content.content_locales, locale)
+    // 관계 데이터는 보존하되 구매 전환용 원전 책장에는 현재 locale의 제휴링크가 있는 판본만 낸다.
+    if (!hasFictionSourceAffiliateLinkForLocale(localeFields, locale)) return []
     return [{
       id: content.id,
       title: flat.title,
@@ -181,7 +184,7 @@ export async function getFictionSourcesForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['fiction-sources-by-celeb-v4-character-descriptions', celebId, locale],
+    ['fiction-sources-by-celeb-v5-affiliate-only', celebId, locale],
     () => fetchSourcesByCeleb(celebId, locale),
     { extraTags: [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CONTENTS] },
   )

@@ -657,6 +657,34 @@ test('explicit reuse는 기존 fictionSource의 NULL만 채우고 비-NULL 충�
   assert.equal((plan.before.content?.metadata?.fictionSource as Record<string, unknown>).workIdentity, 'homer/iliad')
 })
 
+test('explicit reuse upgrades legacy per-field source markers to verified source URLs', () => {
+  const raw = publishedInput() as Record<string, unknown>
+  const baseManifest = parseFictionSourceBookManifest(raw)
+  const resolved = buildResolvedSourceBookRegistration(baseManifest, {
+    ko: edition('kakao_book', KO_ISBN),
+    en: edition('openlibrary', EN_ISBN),
+  })
+  const catalog: BookCatalogSnapshot = {
+    contents: [storedContent()],
+    locales: [
+      storedLocale('ko', resolved, {
+        sources: { primary: 'kakao_book', thumbnail: 'kakao_book' },
+      }),
+      storedLocale('en', resolved),
+    ],
+  }
+
+  const automatic = buildFictionSourceBookPlan(baseManifest, resolved, catalog)
+  assert.equal(automatic.action, 'conflict')
+  assert.match(automatic.conflicts.join('\n'), /ko\.sources\.thumbnail differs/)
+
+  const explicitManifest = parseFictionSourceBookManifest({ ...raw, reuseContentId: CONTENT_ID })
+  const explicit = buildFictionSourceBookPlan(explicitManifest, resolved, catalog)
+  assert.equal(explicit.action, 'reuse')
+  const sources = explicit.localeChanges.find((change) => change.locale === 'ko')!.after.sources
+  assert.deepEqual(sources, resolved.locales.find((locale) => locale.locale === 'ko')!.sources)
+})
+
 test('apply SQL은 외부 검색 없이 짧은 단일 트랜잭션·service_role·stale guard·exact readback을 사용한다', () => {
   const { manifest, resolved } = resolvedPublished()
   const plan = buildFictionSourceBookPlan(manifest, resolved, { contents: [], locales: [] })

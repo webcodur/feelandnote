@@ -2,8 +2,9 @@
   사람이 고른 후보 하나로 링크를 만들고 자료에 넣는다.
 
   사용: node pick.mjs <선택.json>
-  선택.json = [{ "content_id": "...", "title": "...", "query": "...", "idx": 3 }, ...]
-    idx 는 candidates.json 의 후보 idx 값이다.
+  선택.json = [{ "content_id": "...", "title": "...", "query": "...",
+    "name": "...", "productId": "...", "productUrl": "...", "qualityEvidence": ["..."] }, ...]
+    productId/productUrl은 candidates.json에서 복사한 상품 식별자다.
   후보 조사 뒤 서비스를 먼저 등록해 content_id를 확정해야 실행할 수 있다.
 */
 import { fileURLToPath } from 'url'
@@ -26,7 +27,52 @@ const pickEnv = (k) => {
 }
 const supabase = createClient(pickEnv('NEXT_PUBLIC_SUPABASE_URL'), pickEnv('SUPABASE_SERVICE_ROLE_KEY'))
 
-const picks = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
+function productIdentity(raw, field) {
+  let url
+  try {
+    url = new URL(raw)
+  } catch {
+    throw new Error(`${field}: 올바른 쿠팡 상품 URL이 아닙니다.`)
+  }
+  if (url.protocol !== 'https:' || !/(^|\.)coupang\.com$/i.test(url.hostname)) {
+    throw new Error(`${field}: 쿠팡 HTTPS URL이 아닙니다.`)
+  }
+  const productId = url.pathname.match(/\/vp\/products\/(\d+)/)?.[1] ?? ''
+  if (!productId) throw new Error(`${field}: productId를 URL에서 찾을 수 없습니다.`)
+  return {
+    productId,
+    itemId: url.searchParams.get('itemId') ?? '',
+    vendorItemId: url.searchParams.get('vendorItemId') ?? '',
+  }
+}
+
+function normalizeName(value) {
+  return String(value ?? '').replace(/\s+/g, ' ').trim()
+}
+
+const rawPicks = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
+if (!Array.isArray(rawPicks) || rawPicks.length === 0) {
+  throw new Error('선택.json은 한 건 이상의 배열이어야 합니다.')
+}
+const picks = rawPicks.map((p, index) => {
+  const label = `[${index}] ${p?.title ?? '(제목 없음)'}`
+  if (typeof p?.content_id !== 'string' || !p.content_id.trim()) {
+    throw new Error(`${label}: 서비스 등록 뒤 content_id가 필요합니다.`)
+  }
+  if (typeof p.query !== 'string' || !p.query.trim()) throw new Error(`${label}: query가 필요합니다.`)
+  if (typeof p.name !== 'string' || !p.name.trim()) throw new Error(`${label}: 후보 name이 필요합니다.`)
+  if (typeof p.productId !== 'string' || !/^\d+$/.test(p.productId)) {
+    throw new Error(`${label}: 후보 productId가 필요합니다.`)
+  }
+  if (!Array.isArray(p.qualityEvidence) || !p.qualityEvidence.some((item) => typeof item === 'string' && item.trim())) {
+    throw new Error(`${label}: 상품 화면에서 확인한 qualityEvidence가 필요합니다.`)
+  }
+  const expectedProduct = productIdentity(p.productUrl, `${label} productUrl`)
+  if (expectedProduct.productId !== p.productId) {
+    throw new Error(`${label}: productId와 productUrl이 서로 다릅니다.`)
+  }
+  return { ...p, expectedProduct }
+})
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const browser = await puppeteer.connect({
@@ -41,39 +87,62 @@ await page.setViewport({ width: 1440, height: 1000 })
 let done = 0
 for (const p of picks) {
   try {
-    if (typeof p.content_id !== 'string' || !p.content_id.trim()) {
-      throw new Error(`${p.title ?? '(제목 없음)'}: 서비스 등록 뒤 content_id가 필요합니다.`)
-    }
     await page.goto(`https://partners.coupang.com/#affiliate/ws/link/0/${encodeURIComponent(p.query)}`, {
       waitUntil: 'domcontentloaded',
       timeout: 60000,
     })
     await sleep(6000)
 
-    const chosen = await page.evaluate((idx) => {
+    const chosen = await page.evaluate((expected) => {
       const btns = Array.from(document.querySelectorAll('button, a, [role=button]')).filter(
         (b) => (b.innerText || '').trim() === '링크 생성'
       )
-      const btn = btns[idx]
-      if (!btn) return null
-      let node = btn
-      let name = ''
-      for (let up = 0; up < 8 && node; up++) {
-        node = node.parentElement
-        if (!node) break
-        const txt = (node.innerText || '').trim()
-        if (txt.length > 15) {
-          name = txt.split('\n').map((s) => s.trim()).filter((s) => s && s !== '링크 생성' && s !== '상품정보')[0] || ''
-          if (name.length > 5) break
+
+      const inspect = (btn) => {
+        let node = btn
+        let name = ''
+        let productUrl = ''
+        for (let up = 0; up < 10 && node; up++) {
+          const link = node.querySelector?.('a[href*="/vp/products/"]')
+            || node.closest?.('a[href*="/vp/products/"]')
+          if (link?.href) productUrl = link.href
+          const txt = (node.innerText || '').trim()
+          if (txt.length > 15) {
+            name = txt.split('\n').map((s) => s.trim()).filter((s) => s && s !== '링크 생성' && s !== '상품정보')[0] || name
+          }
+          if (productUrl && name.length > 5) break
+          node = node.parentElement
+        }
+        if (!productUrl) return null
+        const url = new URL(productUrl)
+        return {
+          btn,
+          name: name.slice(0, 110),
+          productUrl,
+          productId: url.pathname.match(/\/vp\/products\/(\d+)/)?.[1] || '',
+          itemId: url.searchParams.get('itemId') || '',
+          vendorItemId: url.searchParams.get('vendorItemId') || '',
         }
       }
-      btn.scrollIntoView({ block: 'center' })
-      btn.click()
-      return name.slice(0, 110)
-    }, p.idx)
+
+      const candidates = btns.map(inspect).filter(Boolean)
+      const match = candidates.find((candidate) => (
+        candidate.productId === expected.productId
+        && (!expected.itemId || candidate.itemId === expected.itemId)
+        && (!expected.vendorItemId || candidate.vendorItemId === expected.vendorItemId)
+      ))
+      if (!match) return null
+      match.btn.scrollIntoView({ block: 'center' })
+      match.btn.click()
+      return { name: match.name, productId: match.productId, productUrl: match.productUrl }
+    }, p.expectedProduct)
 
     if (!chosen) {
-      console.log(`건너뜀(후보 없음): ${p.title}`)
+      console.log(`건너뜀(검토한 상품이 현재 검색 결과에 없음): ${p.title} — ${p.productId}`)
+      continue
+    }
+    if (normalizeName(chosen.name) !== normalizeName(p.name)) {
+      console.log(`건너뜀(상품명 변경): ${p.title} — 검토 "${p.name}" / 현재 "${chosen.name}"`)
       continue
     }
 
@@ -97,7 +166,7 @@ for (const p of picks) {
     if (error) console.error(`반영 실패: ${p.title} — ${error.message}`)
     else {
       done++
-      console.log(`${p.title} -> ${chosen}`)
+      console.log(`${p.title} -> ${chosen.name} (${chosen.productId})`)
     }
 
     await page.keyboard.press('Escape')
