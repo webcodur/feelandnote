@@ -22,6 +22,7 @@ import {
   type FictionSourceContentSummary,
 } from '@/actions/admin/fiction-sources'
 import FictionSourceCharacterDescriptions from './FictionSourceCharacterDescriptions'
+import FictionSourceEditions from './FictionSourceEditions'
 
 interface FictionSourcesManagerProps {
   initialData: FictionSourceAdminData
@@ -71,6 +72,12 @@ function SourceMeta({ source }: { source: FictionSourceContentSummary }) {
           <span className="rounded border border-border px-1.5 py-0.5">ISBN {source.isbn}</span>
         )}
         <span className="rounded border border-border px-1.5 py-0.5">기록 {source.recordCount}</span>
+        {source.editionCount > 0 && (
+          <span className="rounded border border-border px-1.5 py-0.5">판본 {source.editionCount}</span>
+        )}
+        {source.activeProductCount > 0 && (
+          <span className="rounded border border-border px-1.5 py-0.5">활성 상품 {source.activeProductCount}</span>
+        )}
       </div>
     </div>
   )
@@ -207,7 +214,7 @@ export default function FictionSourcesManager({
           </div>
           <h1 className="text-2xl font-bold text-text-primary">픽션 원전 관리</h1>
           <p className="mt-1 max-w-2xl text-sm leading-relaxed text-text-secondary">
-            기존 콘텐츠 하나를 작품의 대표 원전으로 지정하고 등장인물을 연결합니다.
+            작품에 등장인물을 한 번 연결하고, 작품 아래에 ISBN별 판본과 교체 가능한 판매 상품을 둡니다.
             이 관계는 인물의 감상 기록이 아닙니다.
           </p>
         </div>
@@ -215,6 +222,13 @@ export default function FictionSourcesManager({
           <div>
             <p className="font-mono text-xl font-semibold text-text-primary">{sources.length}</p>
             <p className="text-[10px] text-text-tertiary">대표 원전</p>
+          </div>
+          <div className="w-px bg-border" />
+          <div>
+            <p className="font-mono text-xl font-semibold text-text-primary">
+              {sources.reduce((count, source) => count + source.editionCount, 0)}
+            </p>
+            <p className="text-[10px] text-text-tertiary">판본</p>
           </div>
           <div className="w-px bg-border" />
           <div>
@@ -228,7 +242,7 @@ export default function FictionSourcesManager({
         <div className="mb-3">
           <h2 className="text-sm font-semibold text-text-primary">기존 콘텐츠에서 대표 원전 지정</h2>
           <p className="mt-1 text-xs text-text-tertiary">
-            새 콘텐츠를 만들지 않습니다. 이미 등록된 판본 가운데 서비스에서 연결할 한 건을 고릅니다.
+            새 콘텐츠를 만들지 않습니다. 먼저 기존 작품을 원전으로 지정하고, 판본은 그 작품 아래에서 관리합니다.
           </p>
         </div>
         <form onSubmit={handleContentSearch} className="flex flex-col gap-2 sm:flex-row">
@@ -318,7 +332,7 @@ export default function FictionSourcesManager({
                       <p className="line-clamp-2 text-sm font-semibold text-text-primary">{source.title}</p>
                       <p className="mt-1 text-xs text-text-secondary">{source.creator || '창작자 미등록'}</p>
                       <p className="mt-2 font-mono text-[10px] text-text-tertiary">
-                        characters:{source.characterIds.length}
+                        characters:{source.characterIds.length} · editions:{source.editionCount} · active-products:{source.activeProductCount}
                       </p>
                     </div>
                   </button>
@@ -360,6 +374,13 @@ export default function FictionSourcesManager({
                   </div>
                 </div>
               </div>
+
+              <FictionSourceEditions
+                key={`${activeSource.id}-${activeSource.updatedAt}`}
+                contentId={activeSource.id}
+                sourceTitle={activeSource.title}
+                editions={activeSource.editions}
+              />
 
               <div className="p-4">
                 <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
