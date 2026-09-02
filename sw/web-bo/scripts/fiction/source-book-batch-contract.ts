@@ -41,7 +41,6 @@ export type FictionSourceBookManifest = {
     | {
         translationStatus: 'published'
         isbn: string
-        coupangUrl: string
       }
     | {
         translationStatus: 'verified_unavailable'
@@ -50,7 +49,6 @@ export type FictionSourceBookManifest = {
       }
   en?: {
     isbn: string
-    amazonUrl: string
   }
 }
 
@@ -197,9 +195,9 @@ const MANIFEST_KEYS = new Set([
 ])
 const WORK_KEYS = new Set(['identity', 'title', 'creator', 'titleAliases', 'creatorAliases'])
 const EDITION_KEYS = new Set(['kind', 'scope'])
-const KO_PUBLISHED_KEYS = new Set(['translationStatus', 'isbn', 'coupangUrl'])
+const KO_PUBLISHED_KEYS = new Set(['translationStatus', 'isbn'])
 const KO_UNAVAILABLE_KEYS = new Set(['translationStatus', 'creator', 'evidenceUrls'])
-const EN_KEYS = new Set(['isbn', 'amazonUrl'])
+const EN_KEYS = new Set(['isbn'])
 
 function recordOf(value: unknown, field: string): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
@@ -242,27 +240,6 @@ function httpsUrl(value: unknown, field: string): string {
   if (url.protocol !== 'https:') throw new Error(`${field} must use HTTPS`)
   url.hash = ''
   return url.toString()
-}
-
-function platformUrl(value: unknown, field: string, platform: 'coupang' | 'amazon'): string {
-  const url = httpsUrl(value, field)
-  const parsed = new URL(url)
-  const hostname = parsed.hostname.toLowerCase()
-  const amazonDomains = [
-    'amazon.com', 'amazon.ca', 'amazon.co.uk', 'amazon.com.au', 'amazon.in',
-    'amazon.co.jp', 'amazon.de', 'amazon.fr', 'amazon.it', 'amazon.es',
-  ]
-  const allowed = platform === 'coupang'
-    ? hostname === 'link.coupang.com' && /^\/a\/[A-Za-z0-9_-]+\/?$/u.test(parsed.pathname)
-    : hostname === 'amzn.to'
-      || amazonDomains.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`))
-  if (!allowed) {
-    const expected = platform === 'coupang'
-      ? 'coupang URL: Coupang Partners short URL (https://link.coupang.com/a/...)'
-      : 'amazon URL'
-    throw new Error(`${field} must be a ${expected}`)
-  }
-  return url
 }
 
 function isbn13(value: unknown, field: string): string {
@@ -338,7 +315,6 @@ export function parseFictionSourceBookManifest(input: unknown): FictionSourceBoo
     ko = {
       translationStatus,
       isbn: isbn13(koRaw.isbn, 'ko.isbn'),
-      coupangUrl: platformUrl(koRaw.coupangUrl, 'ko.coupangUrl', 'coupang'),
     }
   } else if (translationStatus === 'verified_unavailable') {
     rejectUnknownKeys(koRaw, KO_UNAVAILABLE_KEYS, 'ko')
@@ -362,7 +338,6 @@ export function parseFictionSourceBookManifest(input: unknown): FictionSourceBoo
     rejectUnknownKeys(enRaw, EN_KEYS, 'en')
     en = {
       isbn: isbn13(enRaw.isbn, 'en.isbn'),
-      amazonUrl: platformUrl(enRaw.amazonUrl, 'en.amazonUrl', 'amazon'),
     }
   }
   if (ko.translationStatus === 'verified_unavailable' && !en) {
@@ -438,7 +413,7 @@ export function buildResolvedSourceBookRegistration(
       isbn: koEdition.isbn,
       publisher: koEdition.publisher,
       thumbnail_url: koEdition.thumbnailUrl,
-      affiliate_url: [{ platform: 'coupang', url: manifest.ko.coupangUrl }],
+      affiliate_url: null,
       sources: localeSources(koEdition),
       verified: true,
     }
@@ -475,7 +450,7 @@ export function buildResolvedSourceBookRegistration(
       isbn: enEdition.isbn,
       publisher: enEdition.publisher,
       thumbnail_url: enEdition.thumbnailUrl,
-      affiliate_url: [{ platform: 'amazon', url: manifest.en.amazonUrl }],
+      affiliate_url: null,
       sources: localeSources(enEdition),
       verified: true,
     })
@@ -501,8 +476,6 @@ export function buildResolvedSourceBookRegistration(
         workIdentity: manifest.work.identity,
         workTitle: manifest.work.title,
         workCreator: manifest.work.creator,
-        editionKind: manifest.edition.kind,
-        textScope: manifest.edition.scope,
         koTranslationStatus: manifest.ko.translationStatus,
         ...(manifest.ko.translationStatus === 'verified_unavailable'
           ? { translationEvidenceUrls: manifest.ko.evidenceUrls }
@@ -722,10 +695,8 @@ function reviewedDeterministicTargetConflicts(
   const conflicts: string[] = []
   const identity = fictionIdentity(target)
   if (target.type !== 'BOOK'
-      || identity.workIdentity !== manifest.work.identity
-      || identity.editionKind !== manifest.edition.kind
-      || identity.textScope !== manifest.edition.scope) {
-    conflicts.push(`deterministic target ${target.id} does not have the requested fictionSource identity and scope`)
+      || identity.workIdentity !== manifest.work.identity) {
+    conflicts.push(`deterministic target ${target.id} does not have the requested fictionSource work identity`)
   }
   if (target.subtype !== null
       || target.external_source !== resolved.representativeExternalSource
@@ -760,8 +731,8 @@ export function buildFictionSourceBookPlan(
   resolved: ResolvedSourceBookRegistration,
   catalog: BookCatalogSnapshot,
 ): FictionSourceBookPlan {
-  const scopeKey = [manifest.work.identity, manifest.edition.kind, manifest.edition.scope].join(':')
-  const deterministicTargetId = deterministicContentId(`fiction-source-book:${scopeKey}`)
+  const scopeKey = manifest.work.identity
+  const deterministicTargetId = deterministicContentId(`fiction-source-work:${scopeKey}`)
   const contentsById = new Map(catalog.contents.map((row) => [row.id, row]))
   const localesByContent = new Map<string, StoredContentLocaleRow[]>()
   for (const locale of catalog.locales) {
@@ -794,18 +765,14 @@ export function buildFictionSourceBookPlan(
   for (const content of catalog.contents) {
     if (content.type !== 'BOOK') continue
     const identity = fictionIdentity(content)
-    const exactScope = identity.workIdentity === manifest.work.identity
-      && identity.editionKind === manifest.edition.kind
-      && identity.textScope === manifest.edition.scope
-    const knownDifferentScope = identity.workIdentity === manifest.work.identity && !exactScope
-    if (exactScope) addReason(content.id, 'work_identity+edition_scope')
+    const sameWork = identity.workIdentity === manifest.work.identity
+    if (sameWork) addReason(content.id, 'work_identity')
     if (content.external_id && isbnSet.has(content.external_id.replace(/[^0-9]/gu, ''))) {
       addReason(content.id, 'contents.external_id')
     }
     for (const locale of localesByContent.get(content.id) ?? []) {
       if (isbnSet.has((locale.isbn ?? '').replace(/[^0-9]/gu, ''))) addReason(content.id, `${locale.locale}.isbn`)
-      if (!knownDifferentScope
-          && titleSet.has(normalizeIdentityText(locale.title ?? ''))
+      if (titleSet.has(normalizeIdentityText(locale.title ?? ''))
           && creatorSet.has(normalizeIdentityText(locale.creator ?? ''))) {
         addReason(content.id, `${locale.locale}.title+creator`)
       }
@@ -864,14 +831,17 @@ export function buildFictionSourceBookPlan(
     }
     for (const contentId of reviewedDistinctContentIds.filter((id) => candidateSet.has(id))) {
       const reasons = candidateReasons.get(contentId) ?? new Set<string>()
-      if (reasons.has('work_identity+edition_scope')) {
-        conflicts.push(`reviewed candidate ${contentId} has the same fictionSource work, edition kind, and scope`)
+      if (reasons.has('work_identity')) {
+        conflicts.push(`reviewed candidate ${contentId} has the same fictionSource work identity`)
       }
       if ([...reasons].some((reason) => reason === 'contents.external_id' || reason.endsWith('.isbn'))) {
         conflicts.push(`reviewed candidate ${contentId} has an ISBN matching the requested edition`)
       }
+      if ([...reasons].some((reason) => reason.endsWith('.title+creator'))) {
+        conflicts.push(`reviewed candidate ${contentId} matches the same logical work; choose reuseContentId and register the ISBN as another edition`)
+      }
       if ([...reasons].some((reason) => !reason.endsWith('.title+creator')
-          && reason !== 'work_identity+edition_scope'
+          && reason !== 'work_identity'
           && reason !== 'contents.external_id'
           && !reason.endsWith('.isbn'))) {
         conflicts.push(`reviewed candidate ${contentId} has an unsupported duplicate reason`)
@@ -896,16 +866,14 @@ export function buildFictionSourceBookPlan(
     const selected = contentsById.get(selectedId)
     if (selected) {
       const identity = fictionIdentity(selected)
-      if ((identity.workIdentity && identity.workIdentity !== manifest.work.identity)
-          || (identity.editionKind && identity.editionKind !== manifest.edition.kind)
-          || (identity.textScope && identity.textScope !== manifest.edition.scope)) {
-        conflicts.push(`selected content ${selectedId} has a different stored work or text scope`)
+      if (identity.workIdentity && identity.workIdentity !== manifest.work.identity) {
+        conflicts.push(`selected content ${selectedId} has a different stored work identity`)
       }
       const reasons = candidateReasons.get(selectedId) ?? new Set<string>()
-      const identityKnown = reasons.has('work_identity+edition_scope')
+      const identityKnown = reasons.has('work_identity')
       const isbnKnown = [...reasons].some((reason) => reason.endsWith('isbn') || reason === 'contents.external_id')
       if (!manifest.reuseContentId && !identityKnown && !isbnKnown) {
-        conflicts.push(`selected legacy content ${selectedId} has no stored text scope; set reuseContentId after review`)
+        conflicts.push(`selected legacy content ${selectedId} has no stored work identity; set reuseContentId after review`)
       }
     }
   }
@@ -1118,6 +1086,12 @@ export function buildAtomicSourceBookApplySql(plan: FictionSourceBookPlan): stri
     contentInsert: plan.contentInsert,
     contentUpdate: plan.contentUpdate,
     localeWrites: plan.localeChanges.filter((change) => change.kind !== 'unchanged').map((change) => change.after),
+    editionWrites: plan.localeChanges.map((change, index) => ({
+      ...change.after,
+      edition_kind: plan.duplicateMatchers.editionKind,
+      text_scope: plan.duplicateMatchers.textScope,
+      sort_order: index,
+    })),
     expectedAfterMaterial: plan.expectedAfterMaterial,
   }
 
@@ -1127,7 +1101,8 @@ SET LOCAL lock_timeout = '5s';
 SET LOCAL statement_timeout = '30s';
 SET LOCAL idle_in_transaction_session_timeout = '45s';
 SET LOCAL ROLE service_role;
-LOCK TABLE public.contents, public.content_locales IN SHARE ROW EXCLUSIVE MODE;
+LOCK TABLE public.contents, public.content_locales, public.fiction_source_contents,
+  public.fiction_source_editions IN SHARE ROW EXCLUSIVE MODE;
 
 CREATE TEMP TABLE source_book_batch (payload jsonb NOT NULL) ON COMMIT DROP;
 INSERT INTO source_book_batch VALUES (${jsonbLiteral(payload)});
@@ -1142,11 +1117,7 @@ WHERE content.type = 'BOOK'
   AND (
     content.id = batch.payload ->> 'contentId'
     OR
-    (
-      content.metadata #>> '{fictionSource,workIdentity}' = batch.payload #>> '{duplicateMatchers,workIdentity}'
-      AND content.metadata #>> '{fictionSource,editionKind}' = batch.payload #>> '{duplicateMatchers,editionKind}'
-      AND content.metadata #>> '{fictionSource,textScope}' = batch.payload #>> '{duplicateMatchers,textScope}'
-    )
+    content.metadata #>> '{fictionSource,workIdentity}' = batch.payload #>> '{duplicateMatchers,workIdentity}'
     OR regexp_replace(coalesce(content.external_id, ''), '[^0-9]', '', 'g') IN (
       SELECT jsonb_array_elements_text(batch.payload #> '{duplicateMatchers,isbns}')
     )
@@ -1159,14 +1130,6 @@ WHERE content.type = 'BOOK'
       )
       AND lower(regexp_replace(coalesce(locale.creator, ''), '[^[:alnum:]가-힣一-龥ぁ-んァ-ヶ]', '', 'g')) IN (
         SELECT jsonb_array_elements_text(batch.payload #> '{duplicateMatchers,normalizedCreators}')
-      )
-      AND NOT (
-        coalesce(content.metadata #>> '{fictionSource,workIdentity}', '')
-          = batch.payload #>> '{duplicateMatchers,workIdentity}'
-        AND (
-          content.metadata #>> '{fictionSource,editionKind}' IS DISTINCT FROM batch.payload #>> '{duplicateMatchers,editionKind}'
-          OR content.metadata #>> '{fictionSource,textScope}' IS DISTINCT FROM batch.payload #>> '{duplicateMatchers,textScope}'
-        )
       )
     )
   );
@@ -1332,6 +1295,61 @@ ON CONFLICT (content_id, locale) DO UPDATE SET
   verified = excluded.verified,
   updated_at = now();
 
+INSERT INTO public.fiction_source_contents (content_id)
+SELECT batch.payload ->> 'contentId'
+FROM source_book_batch AS batch
+ON CONFLICT (content_id) DO NOTHING;
+
+INSERT INTO public.fiction_source_editions (
+  content_id, locale, title, creator, description, isbn, publisher,
+  thumbnail_url, release_date, edition_kind, text_scope, sort_order,
+  verified, sources
+)
+SELECT
+  row.content_id,
+  row.locale,
+  row.title,
+  row.creator,
+  row.description,
+  row.isbn,
+  row.publisher,
+  row.thumbnail_url,
+  content.release_date,
+  row.edition_kind,
+  row.text_scope,
+  row.sort_order,
+  row.verified,
+  row.sources
+FROM source_book_batch AS batch
+CROSS JOIN LATERAL jsonb_to_recordset(batch.payload -> 'editionWrites') AS row(
+  content_id text,
+  locale text,
+  title text,
+  creator text,
+  description text,
+  isbn text,
+  publisher text,
+  thumbnail_url text,
+  edition_kind text,
+  text_scope text,
+  sort_order integer,
+  verified boolean,
+  sources jsonb
+)
+JOIN public.contents AS content ON content.id = row.content_id
+ON CONFLICT (content_id, locale, isbn) WHERE isbn IS NOT NULL DO UPDATE SET
+  title = excluded.title,
+  creator = excluded.creator,
+  description = excluded.description,
+  publisher = excluded.publisher,
+  thumbnail_url = excluded.thumbnail_url,
+  release_date = excluded.release_date,
+  edition_kind = excluded.edition_kind,
+  text_scope = excluded.text_scope,
+  sort_order = excluded.sort_order,
+  verified = excluded.verified,
+  sources = excluded.sources;
+
 DO $readback$
 DECLARE
   batch jsonb;
@@ -1375,6 +1393,33 @@ BEGIN
   ) INTO actual;
   IF actual IS DISTINCT FROM batch -> 'expectedAfterMaterial' THEN
     RAISE EXCEPTION 'fiction source BOOK material readback mismatch';
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM public.fiction_source_contents
+    WHERE content_id = batch ->> 'contentId'
+  ) THEN
+    RAISE EXCEPTION 'fiction source work marker readback mismatch';
+  END IF;
+  IF EXISTS (
+    SELECT 1
+    FROM jsonb_to_recordset(batch -> 'editionWrites') AS expected(
+      content_id text,
+      locale text,
+      isbn text,
+      edition_kind text,
+      text_scope text
+    )
+    WHERE NOT EXISTS (
+      SELECT 1
+      FROM public.fiction_source_editions AS edition
+      WHERE edition.content_id = expected.content_id
+        AND edition.locale = expected.locale
+        AND edition.isbn = expected.isbn
+        AND edition.edition_kind = expected.edition_kind
+        AND edition.text_scope = expected.text_scope
+    )
+  ) THEN
+    RAISE EXCEPTION 'fiction source edition readback mismatch';
   END IF;
 END;
 $readback$;

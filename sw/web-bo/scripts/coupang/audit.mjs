@@ -60,6 +60,10 @@ function productIdentity(raw, field) {
   return { productId, url: url.toString() }
 }
 
+function evidenceKey(contentId, isbn) {
+  return `${contentId}:${String(isbn ?? '').replace(/[\s-]/g, '')}`
+}
+
 function loadEvidence(rawPath) {
   if (!rawPath) return new Map()
   const evidencePath = resolveInputPath(rawPath)
@@ -67,14 +71,15 @@ function loadEvidence(rawPath) {
   const items = Array.isArray(document) ? document : document?.items
   if (!Array.isArray(items)) throw new Error('선정 자료는 배열 또는 items 배열을 가진 객체여야 합니다.')
 
-  const byContentId = new Map()
+  const byEdition = new Map()
   for (const [index, item] of items.entries()) {
     const label = `선정 자료[${index}]`
     if (typeof item?.content_id !== 'string' || !item.content_id.trim()) {
       throw new Error(`${label}: content_id가 필요합니다.`)
     }
-    if (byContentId.has(item.content_id)) throw new Error(`${label}: content_id가 중복됩니다.`)
     if (typeof item.isbn !== 'string' || !item.isbn.trim()) throw new Error(`${label}: isbn이 필요합니다.`)
+    const key = evidenceKey(item.content_id, item.isbn)
+    if (byEdition.has(key)) throw new Error(`${label}: content_id와 isbn 조합이 중복됩니다.`)
     if (typeof item.productId !== 'string' || !/^\d+$/.test(item.productId)) {
       throw new Error(`${label}: productId가 필요합니다.`)
     }
@@ -98,9 +103,9 @@ function loadEvidence(rawPath) {
     if (item.state === 'linked' && !isPartnerShortUrl(item.affiliateUrl)) {
       throw new Error(`${label}: linked 항목에는 affiliateUrl 파트너스 단축 주소가 필요합니다.`)
     }
-    byContentId.set(item.content_id, item)
+    byEdition.set(key, item)
   }
-  return byContentId
+  return byEdition
 }
 
 async function paged(queryFactory) {
@@ -175,7 +180,7 @@ async function mapWithConcurrency(values, concurrency, mapper) {
 }
 
 const options = parseArgs(process.argv.slice(2))
-const evidenceByContentId = loadEvidence(options.evidencePath)
+const evidenceByEdition = loadEvidence(options.evidencePath)
 const envPath = path.join(REPO, 'sw/web/.env')
 const env = fs.readFileSync(envPath, 'utf8')
 const supabase = createClient(
@@ -183,42 +188,72 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? envValue(env, 'SUPABASE_SERVICE_ROLE_KEY'),
 )
 
-let scopedIds = null
+let catalogRows
 if (options.scope === 'fiction-sources') {
-  const sourceRows = await paged(() => supabase
-    .from('fiction_source_contents')
-    .select('content_id')
-    .order('content_id'))
-  scopedIds = sourceRows.map((row) => row.content_id)
-}
-
-let localeRows
-if (scopedIds) {
-  if (scopedIds.length === 0) localeRows = []
-  else localeRows = await paged(() => supabase
-    .from('content_locales')
-    .select('content_id,title,creator,publisher,isbn,affiliate_url,contents!inner(type)')
-    .eq('locale', 'ko')
-    .eq('contents.type', 'BOOK')
-    .in('content_id', scopedIds)
-    .order('content_id'))
+  const [editions, products] = await Promise.all([
+    paged(() => supabase
+      .from('fiction_source_editions')
+      .select('id,content_id,title,creator,publisher,isbn,sort_order')
+      .eq('locale', 'ko')
+      .order('content_id')
+      .order('sort_order')
+      .order('id')),
+    paged(() => supabase
+      .from('fiction_source_products')
+      .select('edition_id,product_id,product_url,affiliate_url,quality_evidence,checked_at')
+      .eq('platform', 'coupang')
+      .eq('is_active', true)
+      .order('edition_id')),
+  ])
+  const productByEdition = new Map(products.map((product) => [product.edition_id, product]))
+  catalogRows = editions.map((edition) => {
+    const product = productByEdition.get(edition.id) ?? null
+    return {
+      edition_id: edition.id,
+      content_id: edition.content_id,
+      title: edition.title,
+      isbn: edition.isbn,
+      links: product ? [product.affiliate_url] : [],
+      storedProductId: product?.product_id ?? null,
+      storedProductUrl: product?.product_url ?? null,
+      storedQualityEvidence: product?.quality_evidence ?? null,
+      checkedAt: product?.checked_at ?? null,
+      sourceCatalog: true,
+    }
+  })
 } else {
-  localeRows = await paged(() => supabase
+  const localeRows = await paged(() => supabase
     .from('content_locales')
     .select('content_id,title,creator,publisher,isbn,affiliate_url,contents!inner(type)')
     .eq('locale', 'ko')
     .eq('contents.type', 'BOOK')
     .order('content_id'))
-}
-
-const pendingRedirects = []
-const rows = localeRows.map((locale) => {
-  const links = coupangLinks(locale.affiliate_url)
-  const evidence = evidenceByContentId.get(locale.content_id) ?? null
-  const row = {
+  catalogRows = localeRows.map((locale) => ({
+    edition_id: null,
     content_id: locale.content_id,
     title: locale.title,
     isbn: locale.isbn,
+    links: coupangLinks(locale.affiliate_url),
+    storedProductId: null,
+    storedProductUrl: null,
+    storedQualityEvidence: null,
+    checkedAt: null,
+    sourceCatalog: false,
+  }))
+}
+
+const pendingRedirects = []
+const seenEvidenceKeys = new Set()
+const rows = catalogRows.map((catalog) => {
+  const key = evidenceKey(catalog.content_id, catalog.isbn)
+  const evidence = evidenceByEdition.get(key) ?? null
+  if (evidence) seenEvidenceKeys.add(key)
+  const links = catalog.links
+  const row = {
+    edition_id: catalog.edition_id,
+    content_id: catalog.content_id,
+    title: catalog.title,
+    isbn: catalog.isbn,
     coupangUrl: links[0] ?? null,
     expectedProductId: evidence?.productId ?? null,
     redirectedProductId: null,
@@ -239,10 +274,22 @@ const rows = localeRows.map((locale) => {
   }
   if (links.length > 1) row.issues.push('multiple_coupang_links')
   if (!evidence) row.issues.push('missing_evidence')
-  if (evidence && locale.isbn !== evidence.isbn) row.issues.push('isbn_mismatch')
+  if (evidence && String(catalog.isbn ?? '').replace(/[\s-]/g, '') !== String(evidence.isbn).replace(/[\s-]/g, '')) {
+    row.issues.push('isbn_mismatch')
+  }
   if (evidence?.state === 'linked' && links[0] !== evidence.affiliateUrl) {
     row.issues.push('affiliate_url_mismatch')
   }
+  if (catalog.sourceCatalog && catalog.storedProductId !== evidence?.productId) {
+    row.issues.push('stored_product_id_mismatch')
+  }
+  if (catalog.sourceCatalog && catalog.storedProductUrl !== evidence?.productUrl) {
+    row.issues.push('stored_product_url_mismatch')
+  }
+  if (catalog.sourceCatalog && JSON.stringify(catalog.storedQualityEvidence) !== JSON.stringify(evidence?.qualityEvidence)) {
+    row.issues.push('stored_quality_evidence_mismatch')
+  }
+  if (catalog.sourceCatalog && !catalog.checkedAt) row.issues.push('missing_checked_at')
   if (!isPartnerShortUrl(links[0])) row.issues.push('not_partner_short_url')
   if (row.issues.length > 0) {
     row.status = 'fail'
@@ -253,6 +300,23 @@ const rows = localeRows.map((locale) => {
   pendingRedirects.push(row)
   return row
 })
+
+for (const [key, evidence] of evidenceByEdition) {
+  if (seenEvidenceKeys.has(key)) continue
+  rows.push({
+    edition_id: null,
+    content_id: evidence.content_id,
+    title: evidence.label ?? evidence.content_id,
+    isbn: evidence.isbn,
+    coupangUrl: null,
+    expectedProductId: evidence.productId,
+    redirectedProductId: null,
+    finalUrl: null,
+    httpStatus: null,
+    status: 'fail',
+    issues: ['evidence_edition_missing'],
+  })
+}
 
 await mapWithConcurrency(pendingRedirects, 6, async (row) => {
   try {

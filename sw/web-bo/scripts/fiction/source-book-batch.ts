@@ -1,6 +1,7 @@
 /**
- * 신규 픽션 원전 BOOK과 ko/en locale을 검증한 뒤 한 트랜잭션으로 등록한다.
+ * 신규 픽션 원전 작품과 첫 ko/en 판본을 검증한 뒤 한 트랜잭션으로 등록한다.
  * 외부 서지 조회와 기존 작품 중복 검사는 트랜잭션 전에 끝내며, 기본 모드는 dry-run이다.
+ * 판매 상품은 이 입력에 넣지 않고 coupang:pick 또는 source-edition-batch.ts로 별도 등록한다.
  *
  * pnpm fiction:source:book -- --file ../../data/celeb/fiction/<work>-book.json
  * pnpm fiction:source:book -- --file ../../data/celeb/fiction/<work>-book.json --apply
@@ -85,7 +86,8 @@ function usage(): string {
 
 Default mode resolves Kakao/OpenLibrary metadata, reads the live BOOK catalog, writes a local
 receipt, and performs zero DB writes. --apply uses the same preflight and then inserts/upserts
-contents + content_locales in one short Oracle PostgreSQL transaction.`
+one source work, its locales, and its initial editions in one short Oracle PostgreSQL transaction.
+Purchase products are registered separately after ISBN, shipping, and sales-signal review.`
 }
 
 function argumentValue(name: string): string | undefined {
@@ -609,6 +611,8 @@ async function main(): Promise<void> {
   const plannedDatabaseWrites = plan.localeChanges.filter((change) => change.kind !== 'unchanged').length
     + (plan.contentInsert ? 1 : 0)
     + (plan.contentUpdate ? 1 : 0)
+    + plan.localeChanges.length
+    + 1
   const baseReceipt = {
     version: 1,
     mode: args.apply ? 'apply' : 'dry-run',
@@ -623,7 +627,7 @@ async function main(): Promise<void> {
       primary: locale.sources.primary,
       isbn: locale.isbn,
     })),
-    transactionBoundary: 'external lookups before one Oracle PostgreSQL contents+content_locales transaction',
+    transactionBoundary: 'external lookups before one Oracle PostgreSQL work+locale+edition transaction',
     databaseRole: args.apply ? 'service_role (SET LOCAL)' : null,
     plan,
   }

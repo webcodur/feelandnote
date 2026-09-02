@@ -68,11 +68,9 @@ function publishedInput(): unknown {
     ko: {
       translationStatus: 'published',
       isbn: KO_ISBN,
-      coupangUrl: 'https://link.coupang.com/a/example',
     },
     en: {
       isbn: EN_ISBN,
-      amazonUrl: 'https://www.amazon.com/dp/0140449116',
     },
   }
 }
@@ -162,7 +160,6 @@ function reviewedDistinctJttw(
     ko: {
       translationStatus: 'published',
       isbn: JTTW_NEW_KO_ISBN,
-      coupangUrl: 'https://link.coupang.com/a/jttw-volume-1',
     },
   })
   const resolved = buildResolvedSourceBookRegistration(manifest, {
@@ -201,7 +198,7 @@ function reviewedDistinctJttw(
   return { manifest, resolved, catalog: { contents, locales } }
 }
 
-test('작품 정체성·본문 범위·판본 ISBN·locale 구매처를 엄격히 파싱한다', () => {
+test('작품 정체성·본문 범위·판본 ISBN을 엄격히 파싱하고 상품 링크 입력을 받지 않는다', () => {
   const parsed = parseFictionSourceBookManifest(publishedInput())
   assert.equal(parsed.work.identity, 'homer/odyssey')
   assert.deepEqual(parsed.edition, { kind: 'full', scope: 'complete' })
@@ -214,16 +211,16 @@ test('작품 정체성·본문 범위·판본 ISBN·locale 구매처를 엄격�
   }), /complete/)
   assert.throws(() => parseFictionSourceBookManifest({
     ...(publishedInput() as Record<string, unknown>),
-    en: { isbn: EN_ISBN, amazonUrl: 'https://example.com/book' },
-  }), /amazon URL/)
-  assert.throws(() => parseFictionSourceBookManifest({
-    ...(publishedInput() as Record<string, unknown>),
     ko: {
       translationStatus: 'published',
       isbn: KO_ISBN,
-      coupangUrl: 'https://example.com/book',
+      coupangUrl: 'https://link.coupang.com/a/example',
     },
-  }), /coupang URL/)
+  }), /unsupported key.*coupangUrl/)
+  assert.throws(() => parseFictionSourceBookManifest({
+    ...(publishedInput() as Record<string, unknown>),
+    en: { isbn: EN_ISBN, amazonUrl: 'https://www.amazon.com/dp/0140449116' },
+  }), /unsupported key.*amazonUrl/)
   assert.throws(() => parseFictionSourceBookManifest({
     ...(publishedInput() as Record<string, unknown>),
     reuseContentId: CONTENT_ID,
@@ -275,7 +272,7 @@ test('번역본 없음 예외의 ko locale은 원제·영문판 ISBN·표지를 
   assert.equal(koLocale.isbn, enLocale.isbn)
   assert.equal(koLocale.creator, '호메로스')
   assert.equal(koLocale.affiliate_url, null)
-  assert.deepEqual(enLocale.affiliate_url?.map((link) => link.platform), ['amazon'])
+  assert.equal(enLocale.affiliate_url, null)
 })
 
 test('한국어판은 Kakao, 영문판은 OpenLibrary 이외의 메타 출처를 거부한다', () => {
@@ -338,127 +335,17 @@ test('관계없는 legacy BOOK의 string affiliate_url은 카탈로그 후보 �
   assert.equal(catalog.locales[0].affiliate_url, LEGACY_AFFILIATE_STRING)
 })
 
-test('사람이 대조한 JTTW legacy 두 판본은 현재 후보 전부가 다른 ISBN일 때만 신규 volume insert를 허용한다', () => {
+test('기존 JTTW 판본들은 검토 목록으로도 별도 작품 생성을 허용하지 않는다', () => {
   const { manifest, resolved, catalog } = reviewedDistinctJttw(JTTW_CANDIDATE_IDS)
   const plan = buildFictionSourceBookPlan(manifest, resolved, catalog)
 
-  assert.equal(plan.action, 'insert')
+  assert.equal(plan.action, 'conflict')
   assert.deepEqual(plan.candidateContentIds, JTTW_CANDIDATE_IDS)
   assert.deepEqual(plan.reviewedDistinctContentIds, JTTW_CANDIDATE_IDS)
-  assert.notEqual(plan.contentId, JTTW_CANDIDATE_IDS[0])
-  assert.notEqual(plan.contentId, JTTW_CANDIDATE_IDS[1])
   for (const id of JTTW_CANDIDATE_IDS) {
     assert.deepEqual(plan.candidateReasons[id], ['en.title+creator', 'ko.title+creator'])
   }
-
-  const sql = buildAtomicSourceBookApplySql(plan)
-  const encodedPayload = sql.match(/INSERT INTO source_book_batch VALUES \(convert_from\(decode\('([^']+)'/u)?.[1]
-  assert.ok(encodedPayload)
-  const payload = JSON.parse(Buffer.from(encodedPayload, 'base64').toString('utf8')) as {
-    expectedCandidateIds: string[]
-    reviewedDistinctContentIds: string[]
-    reviewedDistinctCandidateFingerprints: Array<{
-      id: string
-      external_id: string | null
-      locales: Array<{ locale: string; isbn: string | null }>
-    }>
-  }
-  assert.deepEqual(payload.expectedCandidateIds, JTTW_CANDIDATE_IDS)
-  assert.deepEqual(payload.reviewedDistinctContentIds, JTTW_CANDIDATE_IDS)
-  assert.deepEqual(
-    payload.reviewedDistinctCandidateFingerprints.map((candidate) => ({
-      id: candidate.id,
-      external_id: candidate.external_id,
-      isbns: candidate.locales.map((locale) => locale.isbn),
-    })),
-    JTTW_CANDIDATE_IDS.map((id, index) => ({
-      id,
-      external_id: JTTW_LEGACY_ISBNS[index].ko,
-      isbns: [JTTW_LEGACY_ISBNS[index].en, JTTW_LEGACY_ISBNS[index].ko],
-    })),
-  )
-  assert.match(sql, /reviewed distinct candidates changed after preflight/)
-})
-
-test('reviewedDistinct insert 뒤 동일 manifest는 deterministic 자기 target을 자동 재사용한다', () => {
-  const { manifest, resolved, catalog } = reviewedDistinctJttw(JTTW_CANDIDATE_IDS)
-  const insertPlan = buildFictionSourceBookPlan(manifest, resolved, catalog)
-  assert.equal(insertPlan.action, 'insert')
-  assert.ok(insertPlan.contentInsert)
-  const insertedAt = '2026-08-31T01:00:00.000Z'
-  const catalogAfterInsert: BookCatalogSnapshot = {
-    contents: [
-      ...catalog.contents,
-      { ...insertPlan.contentInsert, created_at: insertedAt },
-    ],
-    locales: [
-      ...catalog.locales,
-      ...insertPlan.localeChanges.map((change): StoredContentLocaleRow => ({
-        ...change.after,
-        created_at: insertedAt,
-        updated_at: insertedAt,
-      })),
-    ],
-  }
-
-  const reusePlan = buildFictionSourceBookPlan(manifest, resolved, catalogAfterInsert)
-  assert.equal(reusePlan.action, 'reuse')
-  assert.equal(reusePlan.contentId, insertPlan.contentId)
-  assert.deepEqual(reusePlan.reviewedDistinctContentIds, JTTW_CANDIDATE_IDS)
-  assert.deepEqual(reusePlan.localeChanges.map((change) => change.kind), ['unchanged'])
-  assert.equal(reusePlan.contentInsert, null)
-  assert.equal(reusePlan.contentUpdate, null)
-  assert.deepEqual(
-    reusePlan.candidateContentIds,
-    [...JTTW_CANDIDATE_IDS, insertPlan.contentId].sort(),
-  )
-
-  const sql = buildAtomicSourceBookApplySql(reusePlan)
-  const encodedPayload = sql.match(/INSERT INTO source_book_batch VALUES \(convert_from\(decode\('([^']+)'/u)?.[1]
-  assert.ok(encodedPayload)
-  const payload = JSON.parse(Buffer.from(encodedPayload, 'base64').toString('utf8')) as {
-    contentId: string
-    contentInsert: unknown
-    contentUpdate: unknown
-    localeWrites: unknown[]
-    reviewedDistinctContentIds: string[]
-  }
-  assert.equal(payload.contentId, insertPlan.contentId)
-  assert.equal(payload.contentInsert, null)
-  assert.equal(payload.contentUpdate, null)
-  assert.deepEqual(payload.localeWrites, [])
-  assert.deepEqual(payload.reviewedDistinctContentIds, JTTW_CANDIDATE_IDS)
-})
-
-test('reviewedDistinct deterministic 자기 target의 material 또는 ISBN이 달라지면 재사용하지 않는다', () => {
-  const { manifest, resolved, catalog } = reviewedDistinctJttw(JTTW_CANDIDATE_IDS)
-  const insertPlan = buildFictionSourceBookPlan(manifest, resolved, catalog)
-  assert.ok(insertPlan.contentInsert)
-  const insertedAt = '2026-08-31T01:00:00.000Z'
-  const insertedContent = { ...insertPlan.contentInsert, created_at: insertedAt }
-  const insertedLocales = insertPlan.localeChanges.map((change): StoredContentLocaleRow => ({
-    ...change.after,
-    created_at: insertedAt,
-    updated_at: insertedAt,
-  }))
-
-  const materialConflict = buildFictionSourceBookPlan(manifest, resolved, {
-    contents: [...catalog.contents, { ...insertedContent, external_source: 'openlibrary' }],
-    locales: [...catalog.locales, ...insertedLocales],
-  })
-  assert.equal(materialConflict.action, 'conflict')
-  assert.match(materialConflict.conflicts.join('\n'), /bibliographic material changed after insertion/)
-
-  const changedIsbn = isbn13('978893201999')
-  const isbnConflict = buildFictionSourceBookPlan(manifest, resolved, {
-    contents: [...catalog.contents, insertedContent],
-    locales: [
-      ...catalog.locales,
-      ...insertedLocales.map((locale) => ({ ...locale, isbn: changedIsbn })),
-    ],
-  })
-  assert.equal(isbnConflict.action, 'conflict')
-  assert.match(isbnConflict.conflicts.join('\n'), /ISBN differs from the requested edition/)
+  assert.match(plan.conflicts.join('\n'), /same logical work.*reuseContentId.*another edition/)
 })
 
 test('reviewedDistinctContentIds는 누락·현재 후보가 아닌 ID·비검토 후보를 허용하지 않는다', () => {
@@ -474,7 +361,7 @@ test('reviewedDistinctContentIds는 누락·현재 후보가 아닌 ID·비검�
   assert.match(unmatchedPlan.conflicts.join('\n'), /not current candidates.*legacy:book:jttw/u)
 })
 
-test('reviewedDistinctContentIds는 UUID가 아닌 실제 text content ID도 정확히 대조한다', () => {
+test('reviewedDistinctContentIds의 text ID도 동일 작품 후보로 차단한다', () => {
   const textId = 'legacy:book:jttw:older-volume'
   const fixture = reviewedDistinctJttw([textId])
   const firstContent = { ...fixture.catalog.contents[0], id: textId }
@@ -485,12 +372,13 @@ test('reviewedDistinctContentIds는 UUID가 아닌 실제 text content ID도 정
     contents: [firstContent],
     locales: firstLocales,
   })
-  assert.equal(plan.action, 'insert')
+  assert.equal(plan.action, 'conflict')
   assert.deepEqual(plan.candidateContentIds, [textId])
   assert.deepEqual(plan.reviewedDistinctContentIds, [textId])
+  assert.match(plan.conflicts.join('\n'), /same logical work/)
 })
 
-test('같은 ISBN이나 같은 fictionSource 작품·판본·범위 후보는 검토 목록으로도 waive할 수 없다', () => {
+test('같은 ISBN이나 같은 fictionSource 작품 후보는 검토 목록으로도 waive할 수 없다', () => {
   const isbnFixture = reviewedDistinctJttw(JTTW_CANDIDATE_IDS)
   isbnFixture.catalog.contents[0] = {
     ...isbnFixture.catalog.contents[0],
@@ -517,7 +405,7 @@ test('같은 ISBN이나 같은 fictionSource 작품·판본·범위 후보는 �
     identityFixture.catalog,
   )
   assert.equal(identityPlan.action, 'conflict')
-  assert.match(identityPlan.conflicts.join('\n'), /same fictionSource work, edition kind, and scope/)
+  assert.match(identityPlan.conflicts.join('\n'), /same fictionSource work identity/)
 })
 
 test('동일 작품·동일 본문 범위는 기존 contents와 정확한 locale을 재사용한다', () => {
@@ -566,10 +454,10 @@ test('full/complete라도 ISBN·범위 메타 없는 legacy 제목 후보는 자
   const plan = buildFictionSourceBookPlan(manifest, resolved, catalog)
   assert.equal(plan.action, 'conflict')
   assert.equal(plan.contentId, CONTENT_ID)
-  assert.match(plan.conflicts.join('\n'), /no stored text scope/)
+  assert.match(plan.conflicts.join('\n'), /no stored work identity/)
 })
 
-test('같은 작품이어도 축약본과 완역본은 저장된 본문 범위가 다르면 별도 contents를 허용한다', () => {
+test('같은 작품의 축약본과 완역본은 contents를 복제하지 않고 별도 판본 등록으로 넘긴다', () => {
   const raw = publishedInput() as Record<string, unknown>
   const abridgedManifest = parseFictionSourceBookManifest({
     ...raw,
@@ -593,8 +481,9 @@ test('같은 작품이어도 축약본과 완역본은 저장된 본문 범위�
     locales: [storedLocale('ko', resolved, { isbn: isbn13('978893746999') })],
   }
   const plan = buildFictionSourceBookPlan(abridgedManifest, resolved, catalog)
-  assert.equal(plan.action, 'insert')
-  assert.notEqual(plan.contentId, CONTENT_ID)
+  assert.equal(plan.action, 'conflict')
+  assert.equal(plan.contentId, CONTENT_ID)
+  assert.match(plan.conflicts.join('\n'), /ko\.isbn belongs to a different edition/)
 })
 
 test('범위 메타가 없는 기존 비완역 후보는 명시적인 reuseContentId 전까지 중단한다', () => {
@@ -605,7 +494,6 @@ test('범위 메타가 없는 기존 비완역 후보는 명시적인 reuseConte
     ko: {
       translationStatus: 'published',
       isbn: KO_ISBN,
-      coupangUrl: 'https://link.coupang.com/a/example',
     },
     en: undefined,
   })
@@ -616,7 +504,7 @@ test('범위 메타가 없는 기존 비완역 후보는 명시적인 reuseConte
   const catalog = { contents: [storedContent({ external_id: null })], locales: [legacyLocale] }
   const ambiguous = buildFictionSourceBookPlan(manifest, resolved, catalog)
   assert.equal(ambiguous.action, 'conflict')
-  assert.match(ambiguous.conflicts.join('\n'), /no stored text scope/)
+  assert.match(ambiguous.conflicts.join('\n'), /no stored work identity/)
 
   const explicit: FictionSourceBookManifest = { ...manifest, reuseContentId: CONTENT_ID }
   const reviewed = buildFictionSourceBookPlan(explicit, resolved, catalog)
@@ -626,8 +514,6 @@ test('범위 메타가 없는 기존 비완역 후보는 명시적인 reuseConte
     workIdentity: manifest.work.identity,
     workTitle: manifest.work.title,
     workCreator: manifest.work.creator,
-    editionKind: manifest.edition.kind,
-    textScope: manifest.edition.scope,
     koTranslationStatus: 'published',
   })
   assert.equal(reviewed.expectedAfterMaterial?.content.metadata, reviewed.contentUpdate?.metadata)
@@ -697,6 +583,9 @@ test('apply SQL은 외부 검색 없이 짧은 단일 트랜잭션·service_role
   assert.match(sql, /source_book_candidates \(id text PRIMARY KEY\)/)
   assert.match(sql, /candidates changed after preflight/)
   assert.match(sql, /material readback mismatch/)
+  assert.match(sql, /INSERT INTO public\.fiction_source_contents/)
+  assert.match(sql, /INSERT INTO public\.fiction_source_editions/)
+  assert.match(sql, /fiction source edition readback mismatch/)
   assert.doesNotMatch(sql, /https?:\/\//u)
   assert.doesNotMatch(sql, /::uuid|\bid uuid\b/u)
 })
@@ -780,7 +669,7 @@ test('대상 locale의 legacy non-object sources는 explicit reuse update에서�
   assert.deepEqual(payload.localeWrites.find((locale) => locale.locale === 'en')?.sources, legacySources)
 })
 
-test('대상 locale의 legacy string affiliate_url은 explicit reuse에서만 검증된 링크로 교체한다', () => {
+test('대상 locale의 legacy string affiliate_url은 explicit reuse에서만 제거한다', () => {
   const raw = publishedInput() as Record<string, unknown>
   const baseManifest = parseFictionSourceBookManifest(raw)
   const resolved = buildResolvedSourceBookRegistration(baseManifest, {
@@ -821,10 +710,7 @@ test('대상 locale의 legacy string affiliate_url은 explicit reuse에서만 �
   const enChange = explicit.localeChanges.find((change) => change.locale === 'en')!
   assert.equal(enChange.kind, 'update')
   assert.equal(enChange.before?.affiliate_url, LEGACY_AFFILIATE_STRING)
-  assert.deepEqual(enChange.after.affiliate_url, [{
-    platform: 'amazon',
-    url: 'https://www.amazon.com/dp/0140449116',
-  }])
+  assert.equal(enChange.after.affiliate_url, null)
 
   const sql = buildAtomicSourceBookApplySql(explicit)
   const encodedPayload = sql.match(/INSERT INTO source_book_batch VALUES \(convert_from\(decode\('([^']+)'/u)?.[1]
@@ -837,9 +723,9 @@ test('대상 locale의 legacy string affiliate_url은 explicit reuse에서만 �
     payload.expectedBefore.locales.find((locale) => locale.locale === 'en')?.affiliate_url,
     LEGACY_AFFILIATE_STRING,
   )
-  assert.deepEqual(
+  assert.equal(
     payload.localeWrites.find((locale) => locale.locale === 'en')?.affiliate_url,
-    [{ platform: 'amazon', url: 'https://www.amazon.com/dp/0140449116' }],
+    null,
   )
 })
 

@@ -2,7 +2,7 @@
   사람이 고른 후보 하나로 링크를 만들고 자료에 넣는다.
 
   사용: node pick.mjs <선택.json>
-  선택.json = [{ "content_id": "...", "title": "...", "query": "...",
+  선택.json = [{ "content_id": "...", "isbn": "...", "title": "...", "query": "...",
     "name": "...", "productId": "...", "productUrl": "...", "qualityEvidence": ["..."] }, ...]
     productId/productUrl은 candidates.json에서 복사한 상품 식별자다.
   후보 조사 뒤 서비스를 먼저 등록해 content_id를 확정해야 실행할 수 있다.
@@ -59,6 +59,10 @@ const picks = rawPicks.map((p, index) => {
   if (typeof p?.content_id !== 'string' || !p.content_id.trim()) {
     throw new Error(`${label}: 서비스 등록 뒤 content_id가 필요합니다.`)
   }
+  const isbn = String(p.isbn ?? '').replace(/[\s-]/g, '')
+  if (!/^(?:97[89]\d{10}|\d{9}[\dXx])$/.test(isbn)) {
+    throw new Error(`${label}: 정확한 판본을 고정할 ISBN-10 또는 ISBN-13이 필요합니다.`)
+  }
   if (typeof p.query !== 'string' || !p.query.trim()) throw new Error(`${label}: query가 필요합니다.`)
   if (typeof p.name !== 'string' || !p.name.trim()) throw new Error(`${label}: 후보 name이 필요합니다.`)
   if (typeof p.productId !== 'string' || !/^\d+$/.test(p.productId)) {
@@ -71,27 +75,75 @@ const picks = rawPicks.map((p, index) => {
   if (expectedProduct.productId !== p.productId) {
     throw new Error(`${label}: productId와 productUrl이 서로 다릅니다.`)
   }
-  return { ...p, expectedProduct }
+  return { ...p, isbn, expectedProduct }
 })
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+
+// 링크를 만든 뒤 판본 불일치로 버리는 일이 없도록 모든 DB 대상을 먼저 확정한다.
+const contentIds = [...new Set(picks.map((pick) => pick.content_id))]
+const [sourceResult, editionResult, localeResult] = await Promise.all([
+  supabase
+    .from('fiction_source_contents')
+    .select('content_id')
+    .in('content_id', contentIds),
+  supabase
+    .from('fiction_source_editions')
+    .select('id,content_id,isbn')
+    .eq('locale', 'ko')
+    .in('content_id', contentIds),
+  supabase
+    .from('content_locales')
+    .select('content_id,isbn')
+    .eq('locale', 'ko')
+    .in('content_id', contentIds),
+])
+if (sourceResult.error) throw new Error(`원전 작품 조회 실패: ${sourceResult.error.message}`)
+if (editionResult.error) throw new Error(`원전 판본 조회 실패: ${editionResult.error.message}`)
+if (localeResult.error) throw new Error(`도서 판본 조회 실패: ${localeResult.error.message}`)
+
+const sourceIds = new Set((sourceResult.data ?? []).map((row) => row.content_id))
+const editionByKey = new Map((editionResult.data ?? []).map((row) => (
+  [`${row.content_id}:${String(row.isbn ?? '').replace(/[\s-]/g, '')}`, row.id]
+)))
+const localeIsbnByContent = new Map((localeResult.data ?? []).map((row) => (
+  [row.content_id, String(row.isbn ?? '').replace(/[\s-]/g, '')]
+)))
+const preparedPicks = picks.map((pick) => {
+  if (sourceIds.has(pick.content_id)) {
+    const editionId = editionByKey.get(`${pick.content_id}:${pick.isbn}`)
+    if (!editionId) {
+      throw new Error(`${pick.title}: 작품 아래에 ISBN ${pick.isbn} 판본을 먼저 등록하세요.`)
+    }
+    return { ...pick, sourceEditionId: editionId }
+  }
+
+  if (localeIsbnByContent.get(pick.content_id) !== pick.isbn) {
+    throw new Error(`${pick.title}: content_locales ISBN과 선택한 ISBN이 다릅니다.`)
+  }
+  return { ...pick, sourceEditionId: null }
+})
 
 const browser = await puppeteer.connect({
   browserURL: 'http://localhost:9222',
   defaultViewport: null,
   protocolTimeout: 240000,
 })
-const pages = await browser.pages()
-const page = pages.find((p) => p.url().includes('coupang')) ?? pages[0]
+// 사용자가 보고 있던 탭을 검색·링크 생성 화면으로 덮어쓰지 않는다.
+const page = await browser.newPage()
 await page.setViewport({ width: 1440, height: 1000 })
 
 let done = 0
-for (const p of picks) {
-  try {
+try {
+  for (const p of preparedPicks) {
+    try {
     await page.goto(`https://partners.coupang.com/#affiliate/ws/link/0/${encodeURIComponent(p.query)}`, {
       waitUntil: 'domcontentloaded',
       timeout: 60000,
     })
     await sleep(6000)
+    if (page.url().startsWith('https://login.coupang.com/')) {
+      throw new Error('쿠팡 파트너스 로그인이 필요합니다. 로그인 뒤 같은 명령을 다시 실행하세요.')
+    }
 
     const chosen = await page.evaluate((expected) => {
       const btns = Array.from(document.querySelectorAll('button, a, [role=button]')).filter(
@@ -157,11 +209,22 @@ for (const p of picks) {
       continue
     }
 
-    const { error } = await supabase
-      .from('content_locales')
-      .update({ affiliate_url: [{ platform: 'coupang', url: link }], updated_at: new Date().toISOString() })
-      .eq('content_id', p.content_id)
-      .eq('locale', 'ko')
+    const checkedAt = new Date().toISOString()
+    const { error } = p.sourceEditionId
+      ? await supabase.rpc('replace_fiction_source_product', {
+          p_edition_id: p.sourceEditionId,
+          p_platform: 'coupang',
+          p_product_id: p.productId,
+          p_product_url: p.productUrl,
+          p_affiliate_url: link,
+          p_quality_evidence: p.qualityEvidence.map((value) => value.trim()).filter(Boolean),
+          p_checked_at: checkedAt,
+        })
+      : await supabase
+          .from('content_locales')
+          .update({ affiliate_url: [{ platform: 'coupang', url: link }], updated_at: checkedAt })
+          .eq('content_id', p.content_id)
+          .eq('locale', 'ko')
 
     if (error) console.error(`반영 실패: ${p.title} — ${error.message}`)
     else {
@@ -170,11 +233,15 @@ for (const p of picks) {
     }
 
     await page.keyboard.press('Escape')
-  } catch (e) {
-    console.log(`오류: ${p.title} — ${String(e).slice(0, 100)}`)
+    } catch (e) {
+      if (String(e).includes('쿠팡 파트너스 로그인이 필요합니다')) throw e
+      console.log(`오류: ${p.title} — ${String(e).slice(0, 100)}`)
+    }
+    await sleep(7000)
   }
-  await sleep(7000)
-}
 
-console.log(`\n교체 완료 ${done} / ${picks.length}`)
-await browser.disconnect()
+  console.log(`\n교체 완료 ${done} / ${preparedPicks.length}`)
+} finally {
+  await page.close()
+  await browser.disconnect()
+}
