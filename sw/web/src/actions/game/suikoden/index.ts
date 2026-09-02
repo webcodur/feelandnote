@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import type { InfluenceField } from '@feelandnote/influence-constants/core'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createClient } from '@/lib/db/server'
@@ -18,7 +19,7 @@ const CUTOFF_YEARS = 120
 // celeb_influence 임베드 조회 행
 type SuikodenInfluenceJoin = Pick<
   Tables<'celeb_influence'>,
-  'political' | 'strategic' | 'tech' | 'social' | 'economic' | 'cultural' | 'transhistoricity' | 'total_score'
+  InfluenceField | 'total_score'
 >
 
 // celebs 조회 행 (death_date는 not-null 필터 적용됨)

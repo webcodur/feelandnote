@@ -5,12 +5,10 @@
         말투는 celebs.speech_tone 컬럼에서 직접 관리한다.
 */
 
-import type { SpeechTone } from "./types";
-
-const VALID_TONES: Set<string> = new Set(["loyal", "composed", "bold", "humble", "gentle", "free"]);
+import { isCelebSpeechTone } from '@feelandnote/shared/constants/celeb-speech'
+import type { SpeechTone } from './types'
 
 /** DB 값이 유효한 SpeechTone인지 확인, 아니면 'free' 폴백 */
 export function validateSpeechTone(value: string | null | undefined): SpeechTone {
-  if (value && VALID_TONES.has(value)) return value as SpeechTone;
-  return "free";
+  return isCelebSpeechTone(value) ? value : 'free'
 }

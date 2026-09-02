@@ -3,14 +3,14 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ListMusic, Square, Info } from "lucide-react";
+import { CELEB_DIALOGUE_SITUATIONS } from "@feelandnote/shared/constants/celeb-speech";
 import type { Locale } from "@/types/locale";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import { getVoiceUrl, getQuoteVoiceUrl, getMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
 // region 대사 상황 목록
 const DIALOGUE_TYPES = [
-  "quote", "monologue", "greeting", "roll_call", "deploy",
-  "battle_win", "battle_draw", "battle_lose", "clash_attack",
+  "quote", "monologue", ...CELEB_DIALOGUE_SITUATIONS,
 ] as const;
 // endregion
 

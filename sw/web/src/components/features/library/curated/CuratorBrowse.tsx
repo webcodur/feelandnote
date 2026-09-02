@@ -24,7 +24,15 @@ export default function CuratorBrowse({ curator }: { curator: CuratorDetail }) {
 
   return (
     <div className="space-y-5">
-      <CuratedBrowseTabs browse={browse} onSelectMedia={browse.setMedia} onSelectKind={browse.setKind} onSelectTopic={browse.setTopic} onView={browse.setViewTopic} />
+      <CuratedBrowseTabs
+        browse={browse}
+        align="center"
+        size="md"
+        onSelectMedia={browse.setMedia}
+        onSelectKind={browse.setKind}
+        onSelectTopic={browse.setTopic}
+        onView={browse.setViewTopic}
+      />
 
       {/* 그 기관이 낸 목록 진열 */}
       <div className="grid gap-3 sm:grid-cols-2">

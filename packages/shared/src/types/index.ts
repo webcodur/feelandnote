@@ -8,23 +8,8 @@ export type ContentStatus = 'WANT' | 'FINISHED'
 // 콘텐츠 타입
 export type ContentType = 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
 
-// 셀럽 직업 타입
-export type CelebProfession =
-  | 'leader'
-  | 'politician'
-  | 'commander'
-  | 'entrepreneur'
-  | 'investor'
-  | 'scientist'
-  | 'humanities_scholar'
-  | 'social_scientist'
-  | 'director'
-  | 'musician'
-  | 'visual_artist'
-  | 'author'
-  | 'actor'
-  | 'influencer'
-  | 'athlete'
+// 셀럽 직군 타입은 표시 옵션의 값에서 파생한다.
+export type { CelebProfession } from '../constants/celeb-professions'
 
 // 국가 정보 타입
 export interface Country {

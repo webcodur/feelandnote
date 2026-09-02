@@ -61,17 +61,13 @@ test('작품별 선정 이력은 bare 목록이 아니라 item + bulk 상세 태
 })
 
 test('픽션 공유 원장은 bare와 bulk에 갱신되고 빈 결과도 bulk 의존성을 소비한다', () => {
-  assert.match(fictionAssignmentSource, /fiction-source-character-assignments-v3-descriptions/)
-  assert.match(
-    fictionAssignmentSource,
-    /tags: \[[\s\S]*?CACHE_TAGS\.FICTION_SOURCES,[\s\S]*?bulkTag\(CACHE_TAGS\.FICTION_SOURCES\)/,
-  )
+  assert.doesNotMatch(fictionAssignmentSource, /unstable_cache/)
+  assert.match(fictionAssignmentSource, /getFictionSourceAssignmentsByContent/)
+  assert.match(fictionAssignmentSource, /getFictionSourceAssignmentsByCelebs/)
 
   const characters = exportedFunctionSource(fictionSource, 'getFictionCharactersForContent')
-  assert.match(characters, /const assignments = await getAllFictionSourceAssignments\(\)/)
-  assert.match(characters, /if \(!assignments\.some\([\s\S]*?return \[\]/)
   assert.match(characters, /return cachedDetail\(/)
-  assert.match(characters, /\(\) => fetchCharactersByContent\(contentId, locale, assignments\)/)
+  assert.match(characters, /\(\) => fetchCharactersByContent\(contentId, locale\)/)
 
   assert.deepEqual(
     detailCacheTags(

@@ -16,6 +16,7 @@ const STANDARD_SECTION_ORDER = [
   "reading",
   "timeline",
   "library",
+  "sourceWorks",
   "analysis",
   "connections",
   "media",

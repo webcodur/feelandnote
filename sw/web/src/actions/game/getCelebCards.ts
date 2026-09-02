@@ -10,14 +10,12 @@ import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { getLocale } from "next-intl/server";
-import type { BattleCard, Domain } from "@/lib/game/types";
+import { DOMAINS, type BattleCard, type Domain } from "@/lib/game/types";
 import type { DialogueLines } from "@/lib/game/voice/types";
 import { isPublicDomainCeleb } from "@/components/features/game/utils";
 import { validateSpeechTone } from "@/lib/game/voice/speechTone";
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";
 import type { Tables } from "@/types/database.generated";
-
-const DOMAIN_KEYS: Domain[] = ["political", "strategic", "tech", "social", "economic", "cultural"];
 
 /** 게임 풀 최소 통시성 — 대중 인지도 확보 기준 */
 const MIN_TRANSHISTORICITY = 15;
@@ -96,7 +94,7 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
         : row.celeb_spectrum;
 
       const influence = {} as Record<Domain, number>;
-      for (const key of DOMAIN_KEYS) {
+      for (const key of DOMAINS) {
         influence[key] = inf[key] ?? 0;
       }
 

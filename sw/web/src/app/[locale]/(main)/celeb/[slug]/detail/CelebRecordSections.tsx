@@ -177,35 +177,34 @@ export default function CelebRecordSections({
 
         {isFiction && renderConnectionsSection()}
 
-        {serviceItemsByKey.has(isFiction ? "sourceWorks" : "library") && (
-          <section
-            id={isFiction ? "source-works" : "library"}
-            tabIndex={-1}
-            className={SECTION_CLASS_NAME}
-          >
-            {renderSectionHeading(isFiction ? "sourceWorks" : "library")}
-            {isFiction ? (
-              <SectionSurface className={styles.sourceWorksSurface}>
-                <FictionSourceWorksSection
-                  sources={fictionSources}
-                  nickname={profile.nickname}
-                />
-              </SectionSurface>
-            ) : (
-              <SectionSurface className={TAB_BOX_CLASS_NAME}>
-                <LibraryTabs
-                  userId={userId}
-                  nickname={profile.nickname}
-                  avatarUrl={profile.avatar_url ?? null}
-                  emptyMessage={t("libraryEmpty")}
-                  wikidataQid={profile.wikidata_qid ?? null}
-                  initialContents={initialContents}
-                  initialContentBrief={initialContentBrief}
-                />
-              </SectionSurface>
-            )}
+        {serviceItemsByKey.has("library") ? (
+          <section id="library" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("library")}
+            <SectionSurface className={TAB_BOX_CLASS_NAME}>
+              <LibraryTabs
+                userId={userId}
+                nickname={profile.nickname}
+                avatarUrl={profile.avatar_url ?? null}
+                emptyMessage={t("libraryEmpty")}
+                wikidataQid={profile.wikidata_qid ?? null}
+                initialContents={initialContents}
+                initialContentBrief={initialContentBrief}
+              />
+            </SectionSurface>
           </section>
-        )}
+        ) : null}
+
+        {serviceItemsByKey.has("sourceWorks") ? (
+          <section id="source-works" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("sourceWorks")}
+            <SectionSurface className={styles.sourceWorksSurface}>
+              <FictionSourceWorksSection
+                sources={fictionSources}
+                nickname={profile.nickname}
+              />
+            </SectionSurface>
+          </section>
+        ) : null}
 
         {serviceItemsByKey.has("analysis") && (
           <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>

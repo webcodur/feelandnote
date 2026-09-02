@@ -67,6 +67,7 @@ export default async function RelatedFigureLinks({
         description={t("relatedLinksDesc", {
           name: locale === "en" ? displayName : withParticle(displayName, "with"),
         })}
+        mobileScrollable
         figures={figures.map(({ candidate, kind, relGroup, note, noteEn }) => {
           // 왜 이 사람이 섰는지를 부제로 밝힌다. 근거 한 줄이 짧으면 그것부터 —
           // 「동료」보다 「방탄소년단 소속」이 먼저 읽힌다. 길면 관계 이름으로 물러난다.

@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
+import type { CelebProfession } from "@feelandnote/shared/constants/celeb-professions";
 
 import CelebProfessionMark from "./CelebProfessionMark";
 
-const DESCRIPTIONS: Record<string, { ko: string; en: string }> = {
+const DESCRIPTIONS: Readonly<Record<string, { ko: string; en: string }>> = {
   leader: { ko: "조직과 공동체가 나아갈 방향을 정하고 이끕니다.", en: "A person who sets direction and leads an organization or community." },
   politician: { ko: "공공의 문제를 다루고 정책을 결정합니다.", en: "A person involved in public decision-making and policy." },
   commander: { ko: "군대나 집단의 작전을 세우고 지휘합니다.", en: "A person who commands military or group operations." },
@@ -21,7 +22,8 @@ const DESCRIPTIONS: Record<string, { ko: string; en: string }> = {
   entrepreneur: { ko: "새로운 사업을 시작하고 조직을 키워 갑니다.", en: "A person who builds and grows new businesses or organizations." },
   investor: { ko: "자본을 어디에 맡길지 판단하고 기업과 자산의 가치를 살핍니다.", en: "A person who allocates capital and evaluates businesses or assets." },
   athlete: { ko: "스포츠 기술을 갈고닦으며 경기와 기록에 도전합니다.", en: "A person who pursues achievement through sporting skill and competition." },
-};
+  other: { ko: "기존 직군 하나로 대표 활동을 설명하기 어려운 인물입니다.", en: "A figure whose primary role does not fit the existing professions." },
+} satisfies Record<CelebProfession, { ko: string; en: string }>;
 
 interface ProfessionInfoButtonProps {
   profession: string;
@@ -54,16 +56,18 @@ export default function ProfessionInfoButton({ profession, label }: ProfessionIn
 
   return (
     <div ref={rootRef} className="relative inline-flex">
-      {/* 기호만 두면 무슨 직군인지 알 수 없다 — 이름을 함께 보인다 */}
+      {/* 모바일은 좁은 메타 줄을 위해 아이콘만 두고, 누르면 설명과 이름을 보여준다. */}
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
+        aria-label={label}
         aria-expanded={isOpen}
         aria-haspopup="dialog"
-        className="inline-flex h-9 items-center gap-1.5 rounded-md border border-white/12 bg-transparent px-2.5 text-accent hover:border-accent/60 hover:bg-white/[0.05] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+        title={label}
+        className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/12 bg-transparent px-0 text-accent hover:border-accent/60 hover:bg-white/[0.05] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 md:w-auto md:gap-1.5 md:px-2.5"
       >
         <CelebProfessionMark profession={profession} size={16} />
-        <span className="text-xs font-medium leading-none">{label}</span>
+        <span className="hidden text-xs font-medium leading-none md:inline">{label}</span>
       </button>
 
       {isOpen ? (

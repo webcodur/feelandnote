@@ -14,11 +14,12 @@ import {
   Atom, Brush, Clapperboard, Coins, Crown, Drama, Feather, Landmark, Lightbulb,
   Megaphone, Music, Scale, ScrollText, Sparkle, Swords, Trophy, type LucideIcon,
 } from "lucide-react";
+import type { CelebProfession } from "@feelandnote/shared/constants/celeb-professions";
 
-/* 공유 직군 단일원천의 15종을 모두 명시한다. 직군이 늘면 여기도 함께 늘린다.
+/* 공유 직군 단일원천의 값을 모두 명시한다. 직군이 늘면 여기도 함께 늘린다.
    물건은 그 직군이 평생 다루는 것으로 고른다. 특정 회사·사건을 떠올리게 하는 물건은 쓰지 않는다
    (기업가에 로켓을 놓으면 우주 사업을 한 사람만 가리키게 된다). */
-const PROFESSION_MARKS: { readonly [profession: string]: LucideIcon } = {
+const PROFESSION_MARKS: Readonly<Record<string, LucideIcon>> = {
   leader: Crown,
   politician: Landmark,
   commander: Swords,
@@ -34,7 +35,8 @@ const PROFESSION_MARKS: { readonly [profession: string]: LucideIcon } = {
   entrepreneur: Lightbulb,
   investor: Coins,
   athlete: Trophy,
-};
+  other: Sparkle,
+} satisfies Record<CelebProfession, LucideIcon>;
 
 interface CelebProfessionMarkProps {
   profession?: string | null;

@@ -62,8 +62,8 @@
     "tierFictionBadge": "Myth & Story Figure",
     "library": "Records",
     "libraryEmpty": "No public viewing records yet.",
-    "sourceWorks": "Source Works",
-    "sourceWorksIntro": "Source texts and later works featuring this figure",
+    "sourceWorks": "Appearing & Related Books",
+    "sourceWorksIntro": "Books in which this figure appears, plus books that directly illuminate their life, era, or central field",
     "sourceWorkCount": "{count} works",
     "sourceWorkOpen": "View work details",
     "sourceWorkBuyCoupang": "View on Coupang",
@@ -80,9 +80,8 @@
     "sourceWorkPublisher": "Publisher",
     "sourceWorkReleaseDate": "Publication date",
     "sourceRelation": {
-      "appearance": "Appears in",
-      "origin": "First appears",
-      "adaptation": "Adaptation"
+      "appearance": "Appearing Books",
+      "related": "Related Books"
     },
     "analysis": "Evaluation",
     "fictionAnalysis": "Character Reading",

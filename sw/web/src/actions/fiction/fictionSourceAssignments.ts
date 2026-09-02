@@ -1,9 +1,7 @@
-import { unstable_cache } from 'next/cache'
-import { bulkTag, CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
+import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 
-export type FictionSourceRelationType = 'appearance' | 'origin' | 'adaptation'
+export type FictionSourceRelationType = 'appearance' | 'related'
 
 export interface FictionSourceAssignmentRow {
   content_id: string
@@ -14,39 +12,54 @@ export interface FictionSourceAssignmentRow {
   description_en: string | null
 }
 
-const ASSIGNMENT_PAGE_SIZE = 500
-
-async function fetchAllAssignments(): Promise<FictionSourceAssignmentRow[]> {
+async function fetchAssignments(
+  column: 'celeb_id' | 'content_id',
+  value: string,
+): Promise<FictionSourceAssignmentRow[]> {
   const db = createStaticClient()
-  const rows: FictionSourceAssignmentRow[] = []
+  const { data, error } = await db
+    .from('fiction_source_characters')
+    .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
+    .eq(column, value)
+    .order('relation_type')
+    .order('sort_order')
+    .order(column === 'celeb_id' ? 'content_id' : 'celeb_id')
+    .overrideTypes<FictionSourceAssignmentRow[], { merge: false }>()
 
-  for (let from = 0; ; from += ASSIGNMENT_PAGE_SIZE) {
-    const { data, error } = await db
-      .from('fiction_source_characters')
-      .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
-      .order('content_id')
-      .order('sort_order')
-      .order('celeb_id')
-      .range(from, from + ASSIGNMENT_PAGE_SIZE - 1)
-      .overrideTypes<FictionSourceAssignmentRow[], { merge: false }>()
-
-    if (error) {
-      throw new Error(`픽션 원전 인물 연결 조회 실패: ${error.message}`)
-    }
-
-    const page = data ?? []
-    rows.push(...page)
-    if (page.length < ASSIGNMENT_PAGE_SIZE) break
+  if (error) {
+    throw new Error(`인물 도서 관계 조회 실패: ${error.message}`)
   }
-
-  return rows
+  return data ?? []
 }
 
-export const getAllFictionSourceAssignments = unstable_cache(
-  fetchAllAssignments,
-  ['fiction-source-character-assignments-v3-descriptions'],
-  {
-    revalidate: STATIC_REVALIDATE,
-    tags: [CACHE_TAGS.FICTION_SOURCES, bulkTag(CACHE_TAGS.FICTION_SOURCES)],
-  },
-)
+export function getFictionSourceAssignmentsByCeleb(
+  celebId: string,
+): Promise<FictionSourceAssignmentRow[]> {
+  return fetchAssignments('celeb_id', celebId)
+}
+
+export function getFictionSourceAssignmentsByContent(
+  contentId: string,
+): Promise<FictionSourceAssignmentRow[]> {
+  return fetchAssignments('content_id', contentId)
+}
+
+export async function getFictionSourceAssignmentsByCelebs(
+  celebIds: string[],
+): Promise<FictionSourceAssignmentRow[]> {
+  if (celebIds.length === 0) return []
+
+  const db = createStaticClient()
+  const rows = await selectInChunks<FictionSourceAssignmentRow>(celebIds, (ids) => db
+    .from('fiction_source_characters')
+    .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
+    .in('celeb_id', ids)
+    .overrideTypes<FictionSourceAssignmentRow[], { merge: false }>())
+
+  return rows.sort((left, right) => (
+    left.celeb_id.localeCompare(right.celeb_id)
+    || left.relation_type.localeCompare(right.relation_type)
+    || left.sort_order - right.sort_order
+    || left.content_id.localeCompare(right.content_id)
+  ))
+}

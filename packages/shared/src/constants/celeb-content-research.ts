@@ -1,8 +1,10 @@
+import { CELEB_MANAGED_PUBLICATION_STATUSES } from './celeb-publication'
+
 // 셀럽 콘텐츠 조사 규약의 단일 원천(SSoT).
 //
 // 표시값·조사 대상 범위를 이 파일 하나가 정한다. 화면·서버 액션·스크립트는
 // 여기서 가져다 쓰고, 문서는 이 파일을 가리키기만 한다(규약을 다시 서술하지 않는다).
-// 사람이 읽을 배경 설명은 `docs/project/celeb/celeb-pipeline.md`「콘텐츠 수 표시」.
+// 사람이 읽을 배경 설명은 `docs/project/celeb/celeb-00-01-pipeline.md`「콘텐츠 수 표시」.
 
 /**
  * 콘텐츠 수 표시값.
@@ -26,10 +28,8 @@ export const CELEB_CONTENT_COUNT = {
  * 실제 콘텐츠가 하나라도 있으면 확정 시각보다 실측 개수를 항상 우선한다.
  *
  * **노출 상태(`celebs.publication_status`)는 이 값에 영향을 주지 않는다.** 비활성 상태는
- * 서비스에 안 띄운다는 뜻일 뿐 조사를 마쳤다는 뜻이 아니다. 26.07.30~26.08.07
- * 사이에는 비활성이면 조사 여부와 무관하게 -1을 돌려줬는데, 그 탓에 팩션용으로
- * 비공개 등록한 신규 인물이 조사도 하기 전에 "조사 완료"로 보여 조사 대상에서
- * 통째로 빠졌다. -1의 뜻은 하나뿐이다 — 사람이 조사를 끝냈다.
+ * 서비스에 안 띄운다는 뜻일 뿐 조사를 마쳤다는 뜻이 아니다. -1은 사람이 네 유형 조사를
+ * 끝내고 관계가 없음을 확정했다는 뜻으로만 쓴다.
  */
 export function resolveCelebContentCount(
   actualCount: number | null | undefined,
@@ -61,10 +61,8 @@ export function resolveCelebContentCount(
  */
 export const CELEB_CONTENT_RESEARCH_TARGET_TIERS = ['light'] as const
 
-export const CELEB_CONTENT_RESEARCH_TARGET_PROFILE_STATUSES = [
-  'active',
-  'inactive',
-] as const
+export const CELEB_CONTENT_RESEARCH_TARGET_PROFILE_STATUSES =
+  CELEB_MANAGED_PUBLICATION_STATUSES
 
 /** 이 인물이 콘텐츠 조사 목록에 드는가. 등급·노출 상태만 본다. */
 export function isCelebContentResearchTarget(
@@ -82,9 +80,8 @@ export function isCelebContentResearchTarget(
 /**
  * 표시값이 조사 대상을 뜻하는가.
  *
- * ⚠️ 이 함수만으로 조사 규모를 세지 마라. 모집단 밖(fiction·삭제)에도 표시값 0이
- * 널려 있어 실제보다 부풀려진다. 규모를 셀 때는 `isCelebContentResearchTarget`을
- * 함께 건다. 26.08.07 실측으로 표시값 0은 1,146명이었으나 모집단은 667명이었다.
+ * 이 함수만으로 조사 규모를 세지 않는다. 모집단 밖(fiction·삭제)에도 표시값 0이 있으므로
+ * `isCelebContentResearchTarget`을 함께 적용한다.
  */
 export function isUnresearchedContentCount(displayCount: number): boolean {
   return displayCount === CELEB_CONTENT_COUNT.UNRESEARCHED

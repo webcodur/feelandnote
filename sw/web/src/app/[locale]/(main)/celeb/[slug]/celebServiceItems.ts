@@ -106,17 +106,20 @@ export function useCelebServiceItems({
         target: { sectionId: "timeline" },
       },
       {
-        key: tier === "fiction" ? "sourceWorks" : "library",
+        key: "library",
         chapter: CELEB_SERVICE_CHAPTERS.library,
-        label: tier === "fiction" ? t("sourceWorks") : t("library"),
-        icon: tier === "fiction"
-          ? CELEB_SERVICE_ICONS.sourceWorks
-          : CELEB_SERVICE_ICONS.library,
-        ready:
-          tier === "fiction"
-            ? availability.sourceWorks
-            : showLibrary && availability.library,
-        target: { sectionId: tier === "fiction" ? "source-works" : "library" },
+        label: t("library"),
+        icon: CELEB_SERVICE_ICONS.library,
+        ready: showLibrary && availability.library,
+        target: { sectionId: "library" },
+      },
+      {
+        key: "sourceWorks",
+        chapter: CELEB_SERVICE_CHAPTERS.library,
+        label: t("sourceWorks"),
+        icon: CELEB_SERVICE_ICONS.sourceWorks,
+        ready: availability.sourceWorks,
+        target: { sectionId: "source-works" },
       },
       {
         key: "analysis",

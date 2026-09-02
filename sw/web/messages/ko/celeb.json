@@ -62,8 +62,8 @@
     "tierFictionBadge": "신화·이야기 속 인물",
     "library": "기록",
     "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
-    "sourceWorks": "원전·등장 작품",
-    "sourceWorksIntro": "해당 인물이 등장하는 원전과 후대 작품",
+    "sourceWorks": "등장·연관 도서",
+    "sourceWorksIntro": "이 인물이 실제로 등장하는 책과, 생애·시대·핵심 분야를 직접 이해하는 데 도움이 되는 책",
     "sourceWorkCount": "작품 {count}편",
     "sourceWorkOpen": "작품 상세보기",
     "sourceWorkBuyCoupang": "쿠팡에서 보기",
@@ -80,9 +80,8 @@
     "sourceWorkPublisher": "출판사",
     "sourceWorkReleaseDate": "출간일",
     "sourceRelation": {
-      "appearance": "등장 작품",
-      "origin": "첫 등장 원전",
-      "adaptation": "각색 작품"
+      "appearance": "등장 도서",
+      "related": "연관 도서"
     },
     "analysis": "평가",
     "fictionAnalysis": "인물 해석",

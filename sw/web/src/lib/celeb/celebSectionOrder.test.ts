@@ -15,12 +15,13 @@ test("fiction uses story-first section order without analysis", () => {
   ]);
 });
 
-test("non-fiction keeps the existing section order", () => {
+test("non-fiction keeps records and adds person books as a separate section", () => {
   const expected = [
     "introduction",
     "reading",
     "timeline",
     "library",
+    "sourceWorks",
     "analysis",
     "connections",
     "media",

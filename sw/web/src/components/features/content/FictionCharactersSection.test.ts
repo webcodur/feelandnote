@@ -17,7 +17,7 @@ test("작품 상세 인물 카드는 필터 없는 작은 아바타를 쓴다", 
 test("관계 배지 대신 독립된 이미지 확대 버튼을 둔다", () => {
   assert.doesNotMatch(source, /fictionRelation/);
   assert.match(source, /<Images\b/);
-  assert.match(source, /<\/Link>\s*\{character\.avatarUrl && \(\s*<button/);
+  assert.match(source, /<\/Link>\s*\{character\.avatarUrl \? \(\s*<button/);
   assert.match(source, /aria-haspopup="dialog"/);
   assert.match(source, /onClick=\{\(\) => setPreview\(character\)\}/);
   assert.match(source, /const ImageGalleryModal = dynamic/);

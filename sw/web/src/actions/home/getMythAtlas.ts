@@ -6,7 +6,7 @@ import { selectInChunks } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
-import { getAllFictionSourceAssignments } from "@/actions/fiction/fictionSourceAssignments";
+import { getFictionSourceAssignmentsByCelebs } from "@/actions/fiction/fictionSourceAssignments";
 import {
   mapFictionSourcePurchaseOptions,
   type FictionSourcePurchaseOptionRow,
@@ -135,7 +135,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     selectInChunks<PersonRow>(personIds, (ids) => db.from("celebs")
       .select("id,slug,nickname,nickname_en,title,title_en,headline,headline_en,bio,bio_en,avatar_url,portrait_url")
       .in("id", ids).overrideTypes<PersonRow[], { merge: false }>()),
-    getAllFictionSourceAssignments(),
+    getFictionSourceAssignmentsByCelebs(personIds),
     selectInChunks<ExplanationRow>(personIds, (ids) => db.from("celeb_explanations")
       .select("profile_id,plain_text,plain_text_en").in("profile_id", ids)
       .not("published_at", "is", null).overrideTypes<ExplanationRow[], { merge: false }>()),

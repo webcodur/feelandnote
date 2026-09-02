@@ -103,14 +103,14 @@ test("fiction title states the linked source relationship and never claims viewi
     tier: "fiction",
     counts: emptyCounts,
     sourceWorks: [
-      { title: "후대 각색", relationType: "adaptation" },
-      { title: "《일리아스》", relationType: "origin" },
+      { title: "트로이 전쟁", relationType: "related" },
+      { title: "《일리아스》", relationType: "appearance" },
     ],
   };
 
   assert.equal(buildCelebTitleKo(input), "아킬레우스, 《일리아스》의 등장인물");
   assert.equal(
-    buildCelebTitleEn({ ...input, nickname: "Achilles", sourceWorks: [{ title: "The Iliad", relationType: "origin" }] }),
+    buildCelebTitleEn({ ...input, nickname: "Achilles", sourceWorks: [{ title: "The Iliad", relationType: "appearance" }] }),
     "Achilles in the Iliad",
   );
 
@@ -125,7 +125,7 @@ test("fiction title states the linked source relationship and never claims viewi
       buildCelebTitleKo({
         ...input,
         nickname,
-        sourceWorks: [{ title: sourceTitle, relationType: "origin" }],
+        sourceWorks: [{ title: sourceTitle, relationType: "appearance" }],
       }),
       expected,
     );
@@ -155,6 +155,13 @@ test("fiction without a linked source falls back to its existing title", () => {
   assert.equal(buildCelebTitleKo(input), "에티오피아의 왕, 멤논");
   assert.equal(buildCelebTitleEn(enInput), "King of Ethiopia — Memnon");
   assert.equal(buildCelebTitleKo({ ...input, title: null }), "멤논");
+  assert.equal(
+    buildCelebTitleKo({
+      ...input,
+      sourceWorks: [{ title: "트로이 전쟁", relationType: "related" }],
+    }),
+    "에티오피아의 왕, 멤논",
+  );
   assert.match(ko, /인물 안내와 탐구/);
   assert.match(ko, /이야기 속 관계/);
   assert.doesNotMatch(ko, /영향력|스펙트럼|감상한/);
@@ -171,7 +178,7 @@ test("headline takes priority for fiction and light profiles", () => {
     headline_en: "The Greatest Warrior of the Achaean Army",
     tier: "fiction",
     counts: emptyCounts,
-    sourceWorks: [{ title: "《일리아스》", relationType: "origin" }],
+    sourceWorks: [{ title: "《일리아스》", relationType: "appearance" }],
   };
 
   assert.equal(buildCelebTitleKo(fictionInput), "그리스군 최강의 전사, 아킬레우스");

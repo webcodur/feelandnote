@@ -1,7 +1,7 @@
 /*
   시대초월성 안내 모달
   - 40점 척도의 뜻과 구간별 기준·대표 인물을 보여준다
-  - 구간 정의 출처: docs/project/celeb/celeb-4-influence.md 「통시성」
+  - 구간 정의 출처: packages/influence-constants/src/core.ts
 */
 "use client";
 

@@ -21,6 +21,15 @@ export default function FictionSourceWorksSection({
 
   const selected = sources.find((source) => source.id === selectedId) ?? sources[0];
   if (!selected) return null;
+  const appearanceSources = sources.filter((source) => source.relationType === "appearance");
+  const relatedSources = sources.filter((source) => source.relationType === "related");
+  const groups = [
+    { relationType: "appearance" as const, sources: appearanceSources },
+    { relationType: "related" as const, sources: relatedSources },
+  ].filter((group) => group.sources.length > 0);
+  const visibleSources = selected.relationType === "related"
+    ? relatedSources
+    : appearanceSources;
 
   return (
     <div className="effect-engraved relative isolate overflow-hidden border-4 border-stone-light bg-stone-heavy bg-texture-marble p-2 shadow-2xl md:p-3">
@@ -40,10 +49,34 @@ export default function FictionSourceWorksSection({
           </div>
         </div>
 
-        {sources.length > 1 && (
+        <div className="relative flex flex-wrap items-center justify-center gap-2 border-b border-accent-dim/30 bg-bg-secondary/70 px-3 py-3">
+          {groups.map((group) => {
+            const active = selected.relationType === group.relationType;
+            return (
+              <button
+                key={group.relationType}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setSelectedId(group.sources[0]?.id ?? "")}
+                className={`min-h-10 border px-4 text-sm font-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                  active
+                    ? "border-accent bg-accent text-bg-primary"
+                    : "border-stone-light bg-stone-heavy text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent"
+                }`}
+              >
+                {t(`sourceRelation.${group.relationType}`)}
+                <span className={`ms-2 font-mono text-xs ${active ? "text-bg-primary/70" : "text-text-tertiary"}`}>
+                  {group.sources.length}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {visibleSources.length > 1 ? (
           <div className="relative border-b border-accent-dim/30 bg-bg-secondary/70 bg-texture-noise px-2 py-2.5 sm:px-3 sm:py-3 md:px-4">
             <div className="flex snap-x snap-proximity gap-2 overflow-x-auto overscroll-x-contain scroll-px-2 pb-1 [scrollbar-width:thin] sm:scroll-px-3">
-              {sources.map((source) => {
+              {visibleSources.map((source) => {
                 const active = source.id === selected.id;
                 return (
                   <button
@@ -96,7 +129,7 @@ export default function FictionSourceWorksSection({
               })}
             </div>
           </div>
-        )}
+        ) : null}
 
         <FictionSourceFeature
           key={selected.id}

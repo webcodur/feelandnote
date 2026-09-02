@@ -110,7 +110,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
           />
         </AccordionSection>
 
-        {/* 대표 원전으로 지정된 콘텐츠만 등장인물을 양방향 연결한다. */}
+        {/* 등장·연관 도서로 지정된 콘텐츠만 인물을 양방향 연결한다. */}
         {fictionCharacters.length > 0 && (
           <AccordionSection
             title={t("fictionCharacters")}
