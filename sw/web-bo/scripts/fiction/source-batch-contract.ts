@@ -1,7 +1,6 @@
 export const FICTION_SOURCE_RELATION_TYPES = [
   'appearance',
-  'origin',
-  'adaptation',
+  'related',
 ] as const
 
 export type FictionSourceRelationType = typeof FICTION_SOURCE_RELATION_TYPES[number]
@@ -10,7 +9,7 @@ export type FictionSourceBatchCharacter = {
   slug?: string
   celebId?: string
   relationType: FictionSourceRelationType
-  description: string
+  description: string | null
   sortOrder?: number
 }
 
@@ -134,10 +133,17 @@ export function parseFictionSourceBatchManifest(input: unknown): FictionSourceBa
     if (identifiers.has(identifier)) throw new Error(`${field}의 대상 인물이 중복됩니다.`)
     identifiers.add(identifier)
 
+    const description = relationType === 'appearance'
+      ? requiredText(row.description, `${field}.description`)
+      : null
+    if (relationType === 'related' && row.description !== undefined && row.description !== null) {
+      throw new Error(`${field}.description은 연관 도서 관계에 입력할 수 없습니다.`)
+    }
+
     return {
       ...(slug ? { slug } : { celebId }),
       relationType: relationType as FictionSourceRelationType,
-      description: requiredText(row.description, `${field}.description`),
+      description,
       ...(sortOrder === undefined ? {} : { sortOrder: sortOrder as number }),
     }
   })
@@ -217,6 +223,13 @@ export function buildFictionSourceBatchPlan(
   const changes: FictionSourceBatchChange[] = []
 
   for (const character of characters) {
+    if (character.relationType === 'appearance' && !character.description?.trim()) {
+      throw new Error(`등장 도서 관계에는 등장 설명이 필요합니다: ${character.slug}`)
+    }
+    if (character.relationType === 'related' && character.description !== null) {
+      throw new Error(`연관 도서 관계에는 등장 설명을 저장할 수 없습니다: ${character.slug}`)
+    }
+
     const before = existingByCelebId.get(character.celebId) ?? null
     const sortOrder = character.sortOrder
       ?? before?.sort_order
@@ -228,7 +241,9 @@ export function buildFictionSourceBatchPlan(
       sort_order: sortOrder,
       description: character.description,
       // 한국어 원전 배치는 Amazon 영문판 작업에서 확정한 값을 만들거나 덮지 않는다.
-      description_en: before?.description_en ?? null,
+      description_en: character.relationType === 'related'
+        ? null
+        : before?.description_en ?? null,
     }
     const kind = before === null ? 'insert' : sameRow(before, after) ? 'unchanged' : 'update'
     changes.push({ kind, slug: character.slug, before, after })

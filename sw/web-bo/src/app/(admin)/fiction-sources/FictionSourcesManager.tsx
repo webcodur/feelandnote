@@ -19,13 +19,24 @@ import {
   searchFictionSourceCandidates,
   type FictionCharacterOption,
   type FictionSourceAdminData,
+  type FictionSourceCharacterAssignment,
   type FictionSourceContentSummary,
+  type FictionSourceRelationType,
 } from '@/actions/admin/fiction-sources'
 import FictionSourceCharacterDescriptions from './FictionSourceCharacterDescriptions'
 import FictionSourceEditions from './FictionSourceEditions'
 
 interface FictionSourcesManagerProps {
   initialData: FictionSourceAdminData
+}
+
+function buildRelationMap(
+  assignments: FictionSourceCharacterAssignment[],
+): Record<string, FictionSourceRelationType> {
+  return Object.fromEntries(assignments.map((assignment) => [
+    assignment.celebId,
+    assignment.relationType,
+  ]))
 }
 
 function SourceCover({
@@ -89,9 +100,10 @@ export default function FictionSourcesManager({
   const router = useRouter()
   const { sources, characters } = initialData
   const [activeContentId, setActiveContentId] = useState(sources[0]?.id ?? '')
-  const [selectedCharacterIds, setSelectedCharacterIds] = useState<string[]>(
-    sources[0]?.characterIds ?? [],
+  const [selectedRelations, setSelectedRelations] = useState<Record<string, FictionSourceRelationType>>(
+    () => buildRelationMap(sources[0]?.assignments ?? []),
   )
+  const [newRelationType, setNewRelationType] = useState<FictionSourceRelationType>('appearance')
   const [characterQuery, setCharacterQuery] = useState('')
   const [contentQuery, setContentQuery] = useState('')
   const [searchResults, setSearchResults] = useState<FictionSourceContentSummary[]>([])
@@ -101,6 +113,10 @@ export default function FictionSourcesManager({
 
   const activeSource = sources.find((source) => source.id === activeContentId) ?? null
 
+  const selectedCharacterIds = useMemo(
+    () => Object.keys(selectedRelations),
+    [selectedRelations],
+  )
   const selectedSet = useMemo(
     () => new Set(selectedCharacterIds),
     [selectedCharacterIds],
@@ -114,6 +130,10 @@ export default function FictionSourcesManager({
       || character.slug.toLocaleLowerCase('en').includes(query)
     ))
   }, [characterQuery, characters])
+  const selectedAppearanceCount = selectedCharacterIds.filter(
+    (celebId) => selectedRelations[celebId] === 'appearance',
+  ).length
+  const selectedRelatedCount = selectedCharacterIds.length - selectedAppearanceCount
 
   const handleContentSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -135,13 +155,13 @@ export default function FictionSourcesManager({
     setMessage(null)
     startSaving(async () => {
       try {
-        await saveFictionSource({ contentId, celebIds: [] })
+        await saveFictionSource({ contentId, relations: [] })
         setActiveContentId(contentId)
-        setSelectedCharacterIds([])
-        setMessage('대표 원전으로 지정했습니다. 이제 등장인물을 연결하세요.')
+        setSelectedRelations({})
+        setMessage('인물 도서로 지정했습니다. 이제 등장·연관 인물을 연결하세요.')
         router.refresh()
       } catch (error) {
-        setMessage(error instanceof Error ? error.message : '대표 원전 지정에 실패했습니다.')
+        setMessage(error instanceof Error ? error.message : '인물 도서 지정에 실패했습니다.')
       }
     })
   }
@@ -149,17 +169,41 @@ export default function FictionSourcesManager({
   const handleSelectSource = (contentId: string) => {
     const source = sources.find((item) => item.id === contentId)
     setActiveContentId(contentId)
-    setSelectedCharacterIds(source?.characterIds ?? [])
+    setSelectedRelations(buildRelationMap(source?.assignments ?? []))
     setCharacterQuery('')
     setMessage(null)
   }
 
   const handleToggleCharacter = (character: FictionCharacterOption) => {
-    setSelectedCharacterIds((current) => (
-      current.includes(character.id)
-        ? current.filter((id) => id !== character.id)
-        : [...current, character.id]
-    ))
+    setSelectedRelations((current) => {
+      if (!(character.id in current)) {
+        return { ...current, [character.id]: newRelationType }
+      }
+      const next = { ...current }
+      delete next[character.id]
+      return next
+    })
+  }
+
+  const handleSetRelationType = (
+    character: FictionCharacterOption,
+    relationType: FictionSourceRelationType,
+  ) => {
+    const previous = activeSource?.assignments.find(
+      (assignment) => assignment.celebId === character.id,
+    )
+    if (
+      relationType === 'related'
+      && previous?.relationType === 'appearance'
+      && (previous.description || previous.descriptionEn)
+      && !window.confirm('연관 도서로 바꾸면 이 인물의 작품 속 등장 설명이 삭제됩니다. 계속할까요?')
+    ) {
+      return
+    }
+    setSelectedRelations((current) => ({
+      ...current,
+      [character.id]: relationType,
+    }))
   }
 
   const handleSaveCharacters = () => {
@@ -175,9 +219,15 @@ export default function FictionSourcesManager({
         ]
         await saveFictionSource({
           contentId: activeSource.id,
-          celebIds: orderedIds,
+          relations: orderedIds.map((celebId) => ({
+            celebId,
+            relationType: selectedRelations[celebId],
+          })),
         })
-        setMessage(`등장인물 ${orderedIds.length}명을 저장했습니다.`)
+        const appearanceCount = orderedIds.filter(
+          (celebId) => selectedRelations[celebId] === 'appearance',
+        ).length
+        setMessage(`등장 ${appearanceCount}명 · 연관 ${orderedIds.length - appearanceCount}명을 저장했습니다.`)
         router.refresh()
       } catch (error) {
         setMessage(error instanceof Error ? error.message : '등장인물 저장에 실패했습니다.')
@@ -187,7 +237,7 @@ export default function FictionSourcesManager({
 
   const handleRemove = () => {
     if (!activeSource) return
-    if (!window.confirm(`《${activeSource.title}》의 대표 원전 지정을 해제할까요?\n연결된 인물 관계도 함께 제거됩니다.`)) {
+    if (!window.confirm(`《${activeSource.title}》의 인물 도서 지정을 해제할까요?\n연결된 등장·연관 관계도 함께 제거됩니다.`)) {
       return
     }
 
@@ -196,10 +246,10 @@ export default function FictionSourcesManager({
       try {
         await removeFictionSource(activeSource.id)
         setActiveContentId('')
-        setMessage('대표 원전 지정을 해제했습니다.')
+        setMessage('인물 도서 지정을 해제했습니다.')
         router.refresh()
       } catch (error) {
-        setMessage(error instanceof Error ? error.message : '대표 원전 지정 해제에 실패했습니다.')
+        setMessage(error instanceof Error ? error.message : '인물 도서 지정 해제에 실패했습니다.')
       }
     })
   }
@@ -210,18 +260,18 @@ export default function FictionSourcesManager({
         <div>
           <div className="mb-2 flex items-center gap-2 text-accent">
             <BookMarked size={18} />
-            <span className="font-mono text-[11px] uppercase tracking-[0.18em]">Fiction source index</span>
+            <span className="font-mono text-[11px] uppercase tracking-[0.18em]">Figure book index</span>
           </div>
-          <h1 className="text-2xl font-bold text-text-primary">픽션 원전 관리</h1>
+          <h1 className="text-2xl font-bold text-text-primary">인물 도서 관리</h1>
           <p className="mt-1 max-w-2xl text-sm leading-relaxed text-text-secondary">
-            작품에 등장인물을 한 번 연결하고, 작품 아래에 ISBN별 판본과 교체 가능한 판매 상품을 둡니다.
-            이 관계는 인물의 감상 기록이 아닙니다.
+            작품에는 실제 등장 인물 또는 곧바로 납득되는 연관 인물을 연결합니다.
+            ISBN 판본과 판매 상품은 작품 아래에 두며, 이 관계는 인물의 감상 기록과 구분합니다.
           </p>
         </div>
         <div className="flex gap-5 rounded-lg border border-border bg-bg-card px-4 py-3 text-center">
           <div>
             <p className="font-mono text-xl font-semibold text-text-primary">{sources.length}</p>
-            <p className="text-[10px] text-text-tertiary">대표 원전</p>
+            <p className="text-[10px] text-text-tertiary">도서 작품</p>
           </div>
           <div className="w-px bg-border" />
           <div>
@@ -233,16 +283,16 @@ export default function FictionSourcesManager({
           <div className="w-px bg-border" />
           <div>
             <p className="font-mono text-xl font-semibold text-text-primary">{characters.length}</p>
-            <p className="text-[10px] text-text-tertiary">픽션 인물</p>
+            <p className="text-[10px] text-text-tertiary">전체 인물</p>
           </div>
         </div>
       </header>
 
       <section className="rounded-xl border border-border bg-bg-card p-4">
         <div className="mb-3">
-          <h2 className="text-sm font-semibold text-text-primary">기존 콘텐츠에서 대표 원전 지정</h2>
+          <h2 className="text-sm font-semibold text-text-primary">기존 콘텐츠에서 인물 도서 지정</h2>
           <p className="mt-1 text-xs text-text-tertiary">
-            새 콘텐츠를 만들지 않습니다. 먼저 기존 작품을 원전으로 지정하고, 판본은 그 작품 아래에서 관리합니다.
+            BOOK 콘텐츠만 지정할 수 있습니다. 판본은 작품 아래에서, 검증한 판매 상품은 판본 아래에서 관리합니다.
           </p>
         </div>
         <form onSubmit={handleContentSearch} className="flex flex-col gap-2 sm:flex-row">
@@ -289,7 +339,7 @@ export default function FictionSourcesManager({
                       className="inline-flex w-fit items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-xs font-semibold text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent disabled:opacity-40"
                     >
                       {designated ? <Check size={13} /> : <BookMarked size={13} />}
-                      {designated ? '관리 화면 열기' : '대표로 지정'}
+                      {designated ? '관리 화면 열기' : '인물 도서로 지정'}
                     </button>
                   </div>
                 </article>
@@ -308,11 +358,11 @@ export default function FictionSourcesManager({
       <div className="grid items-start gap-4 xl:grid-cols-[320px_minmax(0,1fr)]">
         <aside className="overflow-hidden rounded-xl border border-border bg-bg-card">
           <div className="border-b border-border px-4 py-3">
-            <h2 className="text-sm font-semibold text-text-primary">지정된 대표 원전</h2>
+            <h2 className="text-sm font-semibold text-text-primary">지정된 인물 도서</h2>
           </div>
           {sources.length === 0 ? (
             <p className="px-4 py-10 text-center text-sm text-text-tertiary">
-              아직 지정된 원전이 없습니다.
+              아직 지정된 인물 도서가 없습니다.
             </p>
           ) : (
             <div className="divide-y divide-border">
@@ -346,7 +396,7 @@ export default function FictionSourcesManager({
           {!activeSource ? (
             <div className="flex min-h-72 flex-col items-center justify-center px-6 text-center">
               <BookMarked size={28} className="mb-3 text-text-tertiary" />
-              <p className="text-sm text-text-secondary">관리할 대표 원전을 선택하세요.</p>
+              <p className="text-sm text-text-secondary">관리할 인물 도서를 선택하세요.</p>
             </div>
           ) : (
             <>
@@ -383,14 +433,14 @@ export default function FictionSourcesManager({
               />
 
               <div className="p-4">
-                <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-                  <div>
-                    <h2 className="text-sm font-semibold text-text-primary">등장인물 연결</h2>
-                    <p className="mt-1 text-xs text-text-tertiary">
-                      작품 본문에 실제로 등장하는 인물만 선택합니다.
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
+                <div className="mb-4 flex flex-col gap-3">
+                  <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                    <div>
+                      <h2 className="text-sm font-semibold text-text-primary">인물 관계</h2>
+                      <p className="mt-1 text-xs text-text-tertiary">
+                        등장은 작품에 실제로 나오는 인물, 연관은 제목과 주제만 봐도 관계가 분명한 인물입니다.
+                      </p>
+                    </div>
                     <div className="relative">
                       <Search
                         size={14}
@@ -399,62 +449,111 @@ export default function FictionSourcesManager({
                       <input
                         value={characterQuery}
                         onChange={(event) => setCharacterQuery(event.target.value)}
-                        placeholder="인물 검색"
-                        className="w-48 rounded-lg border border-border bg-bg-secondary py-2 pl-8 pr-3 text-xs text-text-primary placeholder:text-text-tertiary focus:border-accent focus:outline-none"
+                        placeholder="이름·영문명·slug 검색"
+                        className="w-full rounded-lg border border-border bg-bg-secondary py-2 pl-8 pr-3 text-xs text-text-primary placeholder:text-text-tertiary focus:border-accent focus:outline-none md:w-56"
                       />
                     </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-bg-secondary/50 p-2.5">
+                    <div className="flex items-center gap-1" role="group" aria-label="새 연결의 관계 유형">
+                      <span className="mr-1 text-xs text-text-tertiary">새 선택:</span>
+                      {(['appearance', 'related'] as const).map((relationType) => (
+                        <button
+                          key={relationType}
+                          type="button"
+                          aria-pressed={newRelationType === relationType}
+                          onClick={() => setNewRelationType(relationType)}
+                          className={`min-h-8 rounded-md border px-2.5 text-xs font-bold ${
+                            newRelationType === relationType
+                              ? 'border-accent bg-accent text-bg-primary'
+                              : 'border-border bg-bg-card text-text-secondary hover:border-accent hover:text-accent'
+                          }`}
+                        >
+                          {relationType === 'appearance' ? '등장 도서' : '연관 도서'}
+                        </button>
+                      ))}
+                    </div>
                     <span className="whitespace-nowrap font-mono text-xs text-accent">
-                      {selectedCharacterIds.length}명 선택
+                      등장 {selectedAppearanceCount} · 연관 {selectedRelatedCount}
                     </span>
                   </div>
                 </div>
 
-                <div className="grid max-h-[560px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2 2xl:grid-cols-3">
+                <div className="grid max-h-[640px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2 2xl:grid-cols-3">
                   {filteredCharacters.map((character) => {
                     const selected = selectedSet.has(character.id)
+                    const relationType = selectedRelations[character.id]
                     return (
-                      <button
-                        type="button"
+                      <article
                         key={character.id}
-                        onClick={() => handleToggleCharacter(character)}
-                        aria-pressed={selected}
-                        className={`flex items-center gap-3 rounded-lg border p-2.5 text-left active:scale-[0.99] ${
+                        className={`overflow-hidden rounded-lg border ${
                           selected
                             ? 'border-accent bg-accent/10'
                             : 'border-border bg-bg-secondary/50 hover:border-accent/60 hover:bg-accent/[0.06]'
                         }`}
                       >
-                        <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border border-border bg-bg-secondary">
-                          {character.avatarUrl ? (
-                            <Image
-                              src={character.avatarUrl}
-                              alt=""
-                              fill
-                              sizes="44px"
-                              className="object-cover"
-                              unoptimized
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center text-text-tertiary">
-                              <UserRound size={17} />
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-semibold text-text-primary">{character.nickname}</p>
-                          <p className="truncate text-[10px] text-text-tertiary">{character.slug}</p>
-                        </div>
-                        <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
-                          selected ? 'border-accent bg-accent text-bg-primary' : 'border-border'
-                        }`}>
-                          {selected && <Check size={13} strokeWidth={3} />}
-                        </span>
-                      </button>
+                        <button
+                          type="button"
+                          onClick={() => handleToggleCharacter(character)}
+                          aria-pressed={selected}
+                          className="flex w-full items-center gap-3 p-2.5 text-left active:scale-[0.99]"
+                        >
+                          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border border-border bg-bg-secondary">
+                            {character.avatarUrl ? (
+                              <Image
+                                src={character.avatarUrl}
+                                alt=""
+                                fill
+                                sizes="44px"
+                                className="object-cover"
+                                unoptimized
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center text-text-tertiary">
+                                <UserRound size={17} />
+                              </div>
+                            )}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-semibold text-text-primary">{character.nickname}</p>
+                            <p className="truncate text-[10px] text-text-tertiary">{character.slug}</p>
+                          </div>
+                          <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
+                            selected ? 'border-accent bg-accent text-bg-primary' : 'border-border'
+                          }`}>
+                            {selected ? <Check size={13} strokeWidth={3} /> : null}
+                          </span>
+                        </button>
+
+                        {selected ? (
+                          <div className="grid grid-cols-2 border-t border-accent/25 p-1.5" role="group" aria-label={`${character.nickname} 관계 유형`}>
+                            {(['appearance', 'related'] as const).map((option) => (
+                              <button
+                                key={option}
+                                type="button"
+                                aria-pressed={relationType === option}
+                                onClick={() => handleSetRelationType(character, option)}
+                                className={`min-h-8 rounded px-2 text-xs font-bold ${
+                                  relationType === option
+                                    ? 'bg-accent/20 text-accent'
+                                    : 'text-text-tertiary hover:bg-accent/10 hover:text-accent'
+                                }`}
+                              >
+                                {option === 'appearance' ? '등장' : '연관'}
+                              </button>
+                            ))}
+                          </div>
+                        ) : null}
+                      </article>
                     )
                   })}
                 </div>
 
-                <div className="mt-4 flex justify-end border-t border-border pt-4">
+                <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-xs text-text-tertiary">
+                    연관 도서로 저장하면 작품 속 등장 설명은 DB에서 NULL로 지워지고 다시 입력할 수 없습니다.
+                  </p>
                   <button
                     type="button"
                     onClick={handleSaveCharacters}
@@ -462,7 +561,7 @@ export default function FictionSourcesManager({
                     className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-accent bg-accent px-4 text-sm font-bold text-bg-primary hover:bg-accent/80 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     {isSaving ? <Loader2 size={15} className="animate-spin" /> : <Check size={15} />}
-                    인물 연결 저장
+                    등장·연관 관계 저장
                   </button>
                 </div>
               </div>

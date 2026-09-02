@@ -44,7 +44,12 @@ export default function FictionSourceCharacterDescriptions({
     () => new Map(characters.map((character) => [character.id, character])),
     [characters],
   )
-  const [drafts, setDrafts] = useState(() => buildDrafts(assignments))
+  const appearanceAssignments = useMemo(
+    () => assignments.filter((assignment) => assignment.relationType === 'appearance'),
+    [assignments],
+  )
+  const relatedCount = assignments.length - appearanceAssignments.length
+  const [drafts, setDrafts] = useState(() => buildDrafts(appearanceAssignments))
   const [savingCelebId, setSavingCelebId] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<{
     celebId: string
@@ -54,9 +59,9 @@ export default function FictionSourceCharacterDescriptions({
   const [isSaving, startSaving] = useTransition()
 
   useEffect(() => {
-    setDrafts(buildDrafts(assignments))
+    setDrafts(buildDrafts(appearanceAssignments))
     setFeedback(null)
-  }, [assignments, contentId])
+  }, [appearanceAssignments, contentId])
 
   const updateDraft = (
     celebId: string,
@@ -111,16 +116,17 @@ export default function FictionSourceCharacterDescriptions({
         <p className="mt-1 text-xs leading-relaxed text-text-tertiary">
           《{sourceTitle}》 본문에서 확인되는 역할·사건·결말만 씁니다. 다른 원전의 일화나 작품 전체 소개를 섞지 않습니다.
           영어 설명은 같은 작품의 실제 영문판과 Amazon 링크를 등록한 뒤에만 작성합니다.
+          {relatedCount > 0 ? ` 연관 관계 ${relatedCount}명은 등장 설명 입력 대상에서 제외됩니다.` : ''}
         </p>
       </div>
 
-      {assignments.length === 0 ? (
+      {appearanceAssignments.length === 0 ? (
         <p className="rounded-lg border border-dashed border-border px-4 py-8 text-center text-sm text-text-tertiary">
-          인물 연결을 먼저 저장하면 설명을 편집할 수 있습니다.
+          등장 도서 관계가 없습니다. 연관 도서에는 작품 속 등장 설명을 작성할 수 없습니다.
         </p>
       ) : (
         <div className="space-y-3">
-          {assignments.map((assignment) => {
+          {appearanceAssignments.map((assignment) => {
             const character = characterById.get(assignment.celebId)
             const draft = drafts[assignment.celebId] ?? {
               description: assignment.description ?? '',
