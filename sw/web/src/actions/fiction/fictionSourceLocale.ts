@@ -9,6 +9,11 @@ interface FictionSourceLocaleFields {
   amazonUrl: string | null
 }
 
+type FictionSourceAffiliateUrls = Pick<
+  FictionSourceLocaleFields,
+  'coupangUrl' | 'amazonUrl'
+>
+
 interface FictionSourceCharacterDescriptions {
   description: string | null
   description_en: string | null
@@ -30,6 +35,15 @@ export function getFictionSourceLocaleFields(
       ? findAffiliateLink(exact?.affiliate_url, 'amazon')?.url ?? null
       : null,
   }
+}
+
+export function hasFictionSourceAffiliateLinkForLocale(
+  source: FictionSourceAffiliateUrls,
+  locale: string,
+): boolean {
+  if (locale === 'ko') return Boolean(source.coupangUrl)
+  if (locale === 'en') return Boolean(source.amazonUrl)
+  return false
 }
 
 export function getFictionSourceCharacterDescription(

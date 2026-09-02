@@ -1,7 +1,8 @@
 # 쿠팡 파트너스 링크 만들기
 
-도서에 붙일 쿠팡 제휴 링크를 만드는 도구 세 종. 배경·정책·함정은
-`docs/project/operations/monetization.md`가 쥔다. 여기는 **쓰는 법만** 적는다.
+도서에 붙일 쿠팡 제휴 링크를 만드는 도구 세 종. 상품 선정은
+`coupang-book-affiliate` 스킬, 사업 정책은 `docs/project/operations/monetization.md`가
+쥔다. 여기는 **쓰는 법만** 적는다.
 
 ## 전제
 
@@ -40,8 +41,8 @@ node candidates.mjs <대상.json> <후보.json>
 # 3단계 — 고른 것 하나만 만들어 자료에 넣는다
 node pick.mjs <선택.json>
 
-# 언제든 — 지금 무엇이 걸려 있는지 훑는다
-node audit.mjs
+# 언제든 — 픽션 원전의 현재 링크를 선정 근거와 대조한다
+node audit.mjs --fiction-sources --evidence ../../../../data/coupang/fiction-source-picks-2026-09-02.json
 ```
 
 ### 대상.json
@@ -71,21 +72,58 @@ node audit.mjs
 ### 선택.json
 
 ```json
-[{ "content_id": "...", "title": "논어", "query": "논어", "idx": 3 }]
+[
+  {
+    "content_id": "...",
+    "title": "논어",
+    "query": "논어",
+    "name": "논어",
+    "productId": "1234567890",
+    "productUrl": "https://www.coupang.com/vp/products/1234567890?itemId=...&vendorItemId=...",
+    "affiliateUrl": "https://link.coupang.com/a/...",
+    "qualityEvidence": ["로켓배송 배지", "상품평 120개"],
+    "state": "linked"
+  }
+]
 ```
 
-`idx`는 후보.json에 적힌 후보 번호다. `content_id`가 없으면 `pick.mjs`는 실행을
-거부한다.
+`name`·`productId`·`productUrl`은 후보.json에서 그대로 복사한다. `qualityEvidence`에는
+상품 화면에서 직접 본 로켓배송·도착 보장 배지와 판매 근거를 적는다. 배송 배지가 없으면
+선택하지 않는다. `pick.mjs`는 다시 검색한 결과에서 같은
+상품 ID와 판매 항목을 찾아 링크를 만들며, 사라졌거나 달라졌으면 반영하지 않는다.
+`content_id`가 없거나 검색 순번 `idx`만 적힌 옛 선택 자료는 거부한다.
 
 ## 고르는 기준
 
-1. **우리 판본과 일치** — 상품명에 우리 ISBN이 박혀 있으면 그게 최우선이다
-2. **정식 유통** — `NSB…`·`새책-스테이책터`·`북마트` 같은 개별 서점 재고는 품절 위험이 있어 피한다
-3. **완질·단권의 적절성** — 여러 권짜리는 1권이나 완질로, 3권만 걸리는 일이 없게 한다
-4. **값** — 같은 책이면 보급판을 고른다 (자치통감 165만원 애장판 → 20만원 5권 세트)
+`coupang-book-affiliate` 스킬의 판정을 따른다. 후보 번호만 보고 고르지 말고 상품 화면을
+열어 판본·배송·판매 신호를 확인한다. 같은 제목이 둘 이상인 책은 반드시 `content_id`로
+대상을 고정한다.
 
-같은 제목이 둘 이상인 책(자본론·로마제국 쇠망사 등)은 반드시 `content_id`로
-지정한다. 제목으로 찾으면 엉뚱한 쪽을 건드린다.
+기존 원전 감사에서 현재 판본이 축약·분권이거나 판매 상태가 나쁘면 그 ISBN을 억지로
+유지하지 않는다. 같은 작품의 완역·완질 판본을 다시 고르고, 흩어진 등장 관계를 대표 판본
+하나로 합친다. 해설서·현대 재화·중복 판본은 콘텐츠를 삭제하지 않고 원전 지정만 해제한다.
+
+## 감사
+
+`audit.mjs`는 기본으로 픽션 원전만 본다. `--all-books`를 주면 모든 한국어 BOOK을 보지만,
+선정 근거가 없는 기존 링크는 `missing_evidence`로 실패한다. 선정 자료는 `items` 배열에
+`content_id`·`isbn`·`productId`·`productUrl`·`affiliateUrl`·`qualityEvidence`·`state`를 둔다.
+`state`는 이미 단축 링크가 있는 `linked`, 상품은 골랐지만 파트너스 링크 생성이 남은
+`pending_short_link` 둘뿐이다.
+
+감사는 DB의 쿠팡 주소가 선정 자료의 파트너스 단축 주소와 같은지 확인하고, 실제 리다이렉트된 상품 ID를
+선정 자료와 대조한다. ISBN이나 상품 ID가 다르거나 배송 배지 근거가 없으면 실패한다. 링크가
+없는 원전은 허용하되, `linked`로 적은 항목에 링크가 없으면 실패한다. 전체 결과 파일이
+필요할 때만 `--output <경로>`를 주며 기본 실행은 파일을 만들지 않는다.
+
+원전 BOOK의 작품 소개가 문장 중간에서 끊기거나 비어 있으면 아래 명령으로 전수 확인한다.
+같은 ISBN의 다음 책 상세 소개가 현재 글의 앞부분과 일치할 때만 늘리며, `--apply`는 관련
+작품·인물 캐시까지 갱신한다.
+
+```bash
+pnpm fiction:source:descriptions
+pnpm fiction:source:descriptions --apply
+```
 
 ## 넣은 뒤
 

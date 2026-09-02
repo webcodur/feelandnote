@@ -246,16 +246,22 @@ function httpsUrl(value: unknown, field: string): string {
 
 function platformUrl(value: unknown, field: string, platform: 'coupang' | 'amazon'): string {
   const url = httpsUrl(value, field)
-  const hostname = new URL(url).hostname.toLowerCase()
+  const parsed = new URL(url)
+  const hostname = parsed.hostname.toLowerCase()
   const amazonDomains = [
     'amazon.com', 'amazon.ca', 'amazon.co.uk', 'amazon.com.au', 'amazon.in',
     'amazon.co.jp', 'amazon.de', 'amazon.fr', 'amazon.it', 'amazon.es',
   ]
   const allowed = platform === 'coupang'
-    ? hostname === 'coupang.com' || hostname.endsWith('.coupang.com')
+    ? hostname === 'link.coupang.com' && /^\/a\/[A-Za-z0-9_-]+\/?$/u.test(parsed.pathname)
     : hostname === 'amzn.to'
       || amazonDomains.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`))
-  if (!allowed) throw new Error(`${field} must be a ${platform} URL`)
+  if (!allowed) {
+    const expected = platform === 'coupang'
+      ? 'coupang URL: Coupang Partners short URL (https://link.coupang.com/a/...)'
+      : 'amazon URL'
+    throw new Error(`${field} must be a ${expected}`)
+  }
   return url
 }
 
@@ -571,10 +577,19 @@ function mergeObject(
   incoming: Record<string, unknown>,
   conflicts: string[],
   field: string,
+  allowLegacySourceMarkerUpgrade = false,
 ): Record<string, unknown> {
   const merged = { ...before }
   for (const [key, value] of Object.entries(incoming)) {
     if (!(key in merged) || merged[key] === null || merged[key] === '') merged[key] = value
+    else if (
+      allowLegacySourceMarkerUpgrade
+      && key !== 'primary'
+      && typeof merged[key] === 'string'
+      && merged[key] === before.primary
+      && typeof value === 'string'
+      && value.startsWith('https://')
+    ) merged[key] = value
     else if (JSON.stringify(merged[key]) !== JSON.stringify(value)) {
       conflicts.push(`${field}.${key} differs from the selected edition`)
     }
@@ -644,6 +659,7 @@ function mergeLocale(
       desired.sources,
       conflicts,
       `${existing.locale}.sources`,
+      explicitReuse,
     )
   } else {
     // Legacy array/scalar/null sources are readback data, not an invitation to normalize them.

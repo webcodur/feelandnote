@@ -3,6 +3,7 @@ import test from 'node:test'
 import {
   getFictionSourceCharacterDescription,
   getFictionSourceLocaleFields,
+  hasFictionSourceAffiliateLinkForLocale,
 } from './fictionSourceLocale'
 
 test('소개와 판본 정보는 다른 언어 locale 값으로 대체하지 않는다', () => {
@@ -71,6 +72,25 @@ test('영문판은 같은 en locale의 Amazon 링크만 구매 링크로 고른�
 
   assert.equal(fields.coupangUrl, null)
   assert.equal(fields.amazonUrl, 'https://www.amazon.com/dp/example')
+})
+
+test('원전 책장은 요청 locale의 구매 제휴링크가 있는 판본만 노출한다', () => {
+  assert.equal(hasFictionSourceAffiliateLinkForLocale({
+    coupangUrl: 'https://link.coupang.com/a/example',
+    amazonUrl: null,
+  }, 'ko'), true)
+  assert.equal(hasFictionSourceAffiliateLinkForLocale({
+    coupangUrl: null,
+    amazonUrl: 'https://www.amazon.com/dp/example',
+  }, 'ko'), false)
+  assert.equal(hasFictionSourceAffiliateLinkForLocale({
+    coupangUrl: null,
+    amazonUrl: 'https://www.amazon.com/dp/example',
+  }, 'en'), true)
+  assert.equal(hasFictionSourceAffiliateLinkForLocale({
+    coupangUrl: 'https://link.coupang.com/a/example',
+    amazonUrl: null,
+  }, 'en'), false)
 })
 
 test('인물별 등장 설명은 요청 언어 값만 사용한다', () => {

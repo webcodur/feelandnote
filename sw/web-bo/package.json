@@ -53,6 +53,8 @@
     "fiction:source:batch:test": "tsx --test scripts/fiction/source-batch-contract.test.ts",
     "fiction:source:book": "node --env-file=.env --import tsx scripts/fiction/source-book-batch.ts",
     "fiction:source:book:test": "tsx --test scripts/fiction/source-book-batch-contract.test.ts",
+    "fiction:source:descriptions": "node --env-file=.env --import tsx scripts/fiction/source-book-description-backfill.ts",
+    "fiction:source:descriptions:test": "tsx --test scripts/fiction/source-book-description-contract.test.ts",
     "fiction:seed:inactive": "node --env-file=.env --import tsx scripts/fiction/seed-inactive.ts",
     "fiction:sync": "node --env-file=.env --import tsx scripts/fiction/sync.ts",
     "fiction:sync:faction": "node --env-file=.env --import tsx scripts/fiction/sync-faction.ts",
