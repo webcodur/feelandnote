@@ -74,7 +74,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--stability", type=float, default=0.5)
     parser.add_argument("--similarity", type=float, default=0.75)
     parser.add_argument("--style", type=float, default=0.3)
-    parser.add_argument("--speed", type=float, help="Override celebs.voice_speed")
+    parser.add_argument(
+        "--speed",
+        type=float,
+        help="ElevenLabs synthesis speed (default: 1.0; independent of web playback voice_speed)",
+    )
     parser.add_argument(
         "--whisper-root",
         type=Path,
@@ -454,7 +458,7 @@ def main() -> None:
         raise SystemExit(
             f"{args.slug} has no voice_id_{args.locale}; save one or pass --voice-id explicitly"
         )
-    speed = float(args.speed if args.speed is not None else (celeb.get("voice_speed") or 1.0))
+    speed = float(args.speed if args.speed is not None else 1.0)
     safe_phrase = args.safe_phrase or SAFE_PHRASES[args.locale]
     if args.dry_run:
         print(
@@ -469,6 +473,13 @@ def main() -> None:
                     "account": args.account,
                     "jobCount": len(jobs),
                     "safePhrase": safe_phrase,
+                    "settings": {
+                        "model": args.model,
+                        "stability": args.stability,
+                        "similarityBoost": args.similarity,
+                        "style": args.style,
+                        "speed": speed,
+                    },
                 },
                 ensure_ascii=False,
                 indent=2,

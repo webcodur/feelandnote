@@ -42,6 +42,12 @@ D:\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/celeb-d
 D:\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/celeb-dialogue-voice-generate.py --slug <slug> --locale <ko|en> --tts-overrides <json>
 ```
 
+생성 도중 네트워크 오류나 계정 한도 소진으로 멈췄다면 성공한 파일을 다시 결제해 만들지 않는다. 같은 DB 대사·합성 전용 문구·보이스 ID·설정을 유지한 채 실패한 run을 지정하면 manifest와 파일을 검증하고 빠진 슬롯만 이어서 생성한다.
+
+```powershell
+D:\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/celeb-dialogue-voice-generate.py --slug <slug> --locale <ko|en> --resume-run <실패한 run 경로> --tts-overrides <json>
+```
+
 이 스크립트는 `D:\audios\interview-cleaner\celeb-dialogue-voices\<slug>\<locale>\<시각>`에 MP3 22개와 `manifest.json`을 남긴다. HTML은 만들지 않는다. 생성이 일부라도 실패하면 manifest를 `failed`로 남기며 업로드하지 않는다.
 
 생성 뒤 같은 run을 Whisper로 검수한다. 결과는 run의 `whisper-qc.json`에 남는다.
@@ -52,7 +58,7 @@ D:\audios\interview-cleaner\.venv\Scripts\python.exe sw/audio-bo/scripts/celeb-d
 
 `low-match`는 받아쓰기 후보이므로 원문과 transcript를 직접 대조한다. 고유명사·띄어쓰기 오인식만으로 재생성하지 않는다. `unmatched-tail`과 `tag-spoken`은 공개 전에 반드시 해소한다.
 
-ElevenLabs 계정이 다른 경우 `--account feelandnote`를 사용한다. UI와 같은 기본 설정은 stability 0.5, similarity 0.75, style 0.3, DB의 `voice_speed`다. 근거 없이 설정을 바꾸지 않는다.
+ElevenLabs 계정이 다른 경우 `--account feelandnote`를 사용한다. UI와 같은 기본 설정은 stability 0.5, similarity 0.75, style 0.3, 합성 속도 1.0이다. DB의 `voice_speed`는 사용자 웹 재생 배속이며 합성 속도와 독립적이다. 사용자가 원음 자체의 속도 변경을 명시한 경우에만 `--speed`를 사용한다.
 
 ## 등록
 
