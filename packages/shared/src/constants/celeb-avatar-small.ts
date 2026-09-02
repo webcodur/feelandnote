@@ -5,7 +5,7 @@
  * 800px을 그대로 받는다. 그런 얼굴이 한 화면에 수백 개 깔리면 브라우저가 그림 준비를 감당하지
  * 못해 자리가 빈 채로 남는다. 작은 판은 그 화면들만 쓰는 별도 파일이며, 원본은 손대지 않는다.
  *
- * 파일 생성: sw/web-bo/scripts/generate-celeb-avatar-sm.ts
+ * 파일 생성·복구: sw/web-bo/scripts/avatar/sm.ts
  */
 const SIZE_PX = 96
 const ORIGINAL_FILE = 'avatar.webp'
