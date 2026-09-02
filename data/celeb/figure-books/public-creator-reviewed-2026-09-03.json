@@ -1,0 +1,140 @@
+{
+  "input": "..\\..\\data\\celeb\\figure-books\\public-creator-candidates-2026-09-03.json",
+  "model": "gemini-3.8-flash-high",
+  "reviews": [
+    {
+      "slug": "luo-guanzhong",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "나관중이 저술한 대표작 『삼국지연의』의 정통 완역본이다."
+        }
+      ]
+    },
+    {
+      "slug": "sophocles",
+      "selections": [
+        {
+          "contentId": "55a6b05c-a738-44ef-8a97-80b3d3d3feed",
+          "relationType": "related",
+          "description": null,
+          "rationale": "소포클레스의 현존하는 비극 일곱 작품 전부를 원전 번역하여 수록한 대표 전집이다."
+        }
+      ]
+    },
+    {
+      "slug": "aeschylus",
+      "selections": [
+        {
+          "contentId": "ff0392c6-49b3-4cd4-ba03-7c1c0ec83014",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아이스킬로스의 최고 걸작이자 서양 연극사의 대표 비극 3부작이다."
+        }
+      ]
+    },
+    {
+      "slug": "euripides",
+      "selections": [
+        {
+          "contentId": "a9e6c779-00e8-4492-8c58-7c85b9ffb934",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에우리피데스가 집필한 대표적인 그리스 비극 희곡이다."
+        },
+        {
+          "contentId": "6f3e70ea-0bb9-458f-a4ab-2e35d5dc1adc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에우리피데스가 인간 운명의 비극성을 그려낸 대표 비극 희곡이다."
+        }
+      ]
+    },
+    {
+      "slug": "publius-ovidius-naso",
+      "selections": [
+        {
+          "contentId": "13410b89-7c1f-4461-a1e2-b3f2975148e6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오비디우스가 그리스·로마 신화를 집대성하여 완성한 대표 서사시이다."
+        }
+      ]
+    },
+    {
+      "slug": "wu-chengen",
+      "selections": [
+        {
+          "contentId": "02db5067-3541-406c-a0d2-2641fddc2bb7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오승은이 완성한 동아시아 4대 기서 중 하나인 『서유기』의 원전 완역본이다."
+        }
+      ]
+    },
+    {
+      "slug": "yi-gyu-bo",
+      "selections": [
+        {
+          "contentId": "ac9f1d4e-f76b-4c27-8570-7657483f1a5a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이규보가 고구려 건국 영웅을 노래한 민족 서사시이자 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "homer",
+      "selections": [
+        {
+          "contentId": "0818cbb2-d0f5-43d0-b57d-cb3c6d0522bd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "호메로스가 남긴 인류 최고의 모험 이야기이자 대표 대서사시이다."
+        },
+        {
+          "contentId": "f44760c9-113f-4a04-89da-6eaca5f8af13",
+          "relationType": "related",
+          "description": null,
+          "rationale": "호메로스가 트로이아 전쟁을 배경으로 아킬레우스의 분노를 노래한 대표 대서사시이다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-bu-sik",
+      "selections": [
+        {
+          "contentId": "467d387e-c688-43b0-8570-01df791de22b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "김부식이 대표로 편찬하여 한국 고대사 연구의 기틀을 마련한 『삼국사기』의 원본 영인본이다."
+        }
+      ]
+    },
+    {
+      "slug": "iryeon",
+      "selections": [
+        {
+          "contentId": "79334378-a390-40bb-9dd9-025c41eed94f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "일연이 저술하여 단군 신화와 민족 설화 등을 집대성한 대표 역사서이다."
+        }
+      ]
+    },
+    {
+      "slug": "livy",
+      "selections": [
+        {
+          "contentId": "4ee36aab-cc98-426f-9302-39242a50b651",
+          "relationType": "related",
+          "description": null,
+          "rationale": "티투스 리비우스가 로마 700여 년의 역사를 집대성하여 남긴 대표 역사서이다."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-02T22:01:00.438Z"
+}

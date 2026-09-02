@@ -1,0 +1,80 @@
+[
+  {
+    "content_id": "0925e1cc-92c1-4b74-b691-f125bde6ccde",
+    "title": "손자병법",
+    "creator": "손자",
+    "publisher": "현대지성",
+    "isbn": "9791139728002"
+  },
+  {
+    "content_id": "e4d868f1-a867-419c-a078-23bc5910697a",
+    "title": "전쟁론",
+    "creator": "카를 폰 클라우제비츠",
+    "publisher": "갈무리",
+    "isbn": "9788961951425"
+  },
+  {
+    "content_id": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+    "title": "현명한 투자자",
+    "creator": "벤저민 그레이엄",
+    "isbn": "9788957822401"
+  },
+  {
+    "content_id": "11a0385a-15d4-4c58-8b41-32c4c9cddae1",
+    "title": "혁신기업의 딜레마",
+    "creator": "클레이튼 크리스텐슨",
+    "isbn": "9788984073043"
+  },
+  {
+    "content_id": "08e50ae6-7460-4e3c-b5b5-699a3d8b0b06",
+    "title": "코스모스",
+    "creator": "칼 세이건",
+    "publisher": "사이언스북스",
+    "isbn": "9788983711892"
+  },
+  {
+    "content_id": "df094f0f-db6b-458f-99bf-66ffdb45de30",
+    "title": "군주론",
+    "creator": "니콜로 마키아벨리",
+    "isbn": "9791192575360"
+  },
+  {
+    "content_id": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+    "title": "정치학",
+    "creator": "아리스토텔레스",
+    "isbn": "9791139716962"
+  },
+  {
+    "content_id": "935e7cf2-872a-4f3b-b486-3e04b6e4f4b3",
+    "title": "명상록",
+    "creator": "마르쿠스 아우렐리우스",
+    "publisher": "현대지성",
+    "isbn": "9791187142379"
+  },
+  {
+    "content_id": "60bec748-7e27-4028-8322-2ac193eb3cb2",
+    "title": "나는 왜 쓰는가",
+    "creator": "조지 오웰",
+    "publisher": "한겨레출판사",
+    "isbn": "9791172132392"
+  },
+  {
+    "content_id": "86a1c4b2-28c7-453a-8ee0-db8aa459d678",
+    "title": "프로테스탄트 윤리와 자본주의 정신",
+    "creator": "막스 베버",
+    "publisher": "문예출판사",
+    "isbn": "9788931023268"
+  },
+  {
+    "content_id": "0d620197-af40-4501-9643-e4062b5b448b",
+    "title": "사회계약론",
+    "creator": "장 자크 루소",
+    "isbn": "9788931025385"
+  },
+  {
+    "content_id": "79626c70-3d60-4dd0-8f6d-812828a44d7c",
+    "title": "스포츠 유전자",
+    "creator": "데이비드 엡스타인",
+    "isbn": "9788932917276"
+  }
+]

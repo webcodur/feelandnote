@@ -1,0 +1,74 @@
+[
+  {
+    "contentId": "0925e1cc-92c1-4b74-b691-f125bde6ccde",
+    "locale": "ko",
+    "isbn": "9791139728002",
+    "editionKind": "full",
+    "textScope": "complete Korean translation",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+    "locale": "ko",
+    "isbn": "9788957822524",
+    "editionKind": "full",
+    "textScope": "complete Korean translation",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "08e50ae6-7460-4e3c-b5b5-699a3d8b0b06",
+    "locale": "ko",
+    "isbn": "9788983711892",
+    "editionKind": "full",
+    "textScope": "complete Korean edition",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "df094f0f-db6b-458f-99bf-66ffdb45de30",
+    "locale": "ko",
+    "isbn": "9791166817878",
+    "editionKind": "full",
+    "textScope": "unabridged Korean translation",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+    "locale": "ko",
+    "isbn": "9791139716962",
+    "editionKind": "full",
+    "textScope": "complete Greek-to-Korean translation",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "935e7cf2-872a-4f3b-b486-3e04b6e4f4b3",
+    "locale": "ko",
+    "isbn": "9788991290099",
+    "editionKind": "full",
+    "textScope": "complete Greek-to-Korean translation",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "60bec748-7e27-4028-8322-2ac193eb3cb2",
+    "locale": "ko",
+    "isbn": "9791172132392",
+    "editionKind": "selection",
+    "textScope": "Korean essay collection",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "86a1c4b2-28c7-453a-8ee0-db8aa459d678",
+    "locale": "ko",
+    "isbn": "9788931023268",
+    "editionKind": "full",
+    "textScope": "complete Korean translation",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "0d620197-af40-4501-9643-e4062b5b448b",
+    "locale": "ko",
+    "isbn": "9788961672399",
+    "editionKind": "full",
+    "textScope": "complete Korean translation",
+    "sortOrder": 0
+  }
+]

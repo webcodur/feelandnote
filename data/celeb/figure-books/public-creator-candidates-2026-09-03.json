@@ -1,0 +1,420 @@
+{
+  "generatedAt": "2026-09-02T22:00:16.134Z",
+  "filter": {
+    "profession": null,
+    "source": "creator",
+    "publicOnly": true
+  },
+  "totals": {
+    "peopleScanned": 2809,
+    "koreanBooksScanned": 29,
+    "candidateRows": 13,
+    "candidatePeople": 11,
+    "alreadyLinkedRows": 1,
+    "publicKoCoupangRows": 13,
+    "strongCandidateRows": 13,
+    "strongCandidatePeople": 11
+  },
+  "candidates": [
+    {
+      "person": {
+        "id": "c054203f-4022-4c80-8594-69c7099f06f8",
+        "slug": "luo-guanzhong",
+        "nickname": "나관중",
+        "nicknameEn": "Luo Guanzhong",
+        "profession": "author",
+        "headline": "「삼국지연의」 저자로 전해지는 소설가",
+        "bio": "원말 명초의 통속소설가. 호 호해산인. 진수 정사와 평화·잡극을 종합해 삼국지연의 120회를 짜냈고, 동아시아 4대 기서의 표준을 세웠다."
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "creator": "나관중",
+        "description": "김구용이 모종강본을 저본으로 완역한 전10권 세트다. 원문의 시문과 회목, 명대 삽화를 살린 정통 완역본이다.",
+        "isbn": "9791160200164",
+        "publisher": "솔",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=1136051&q=%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%B0%EC%9D%98+1",
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "26426843-7471-44c9-80f2-0b027dcdd317",
+        "slug": "sophocles",
+        "nickname": "소포클레스",
+        "nicknameEn": "Sophocles",
+        "profession": "author",
+        "headline": "운명을 피하려는 인간을 비극의 주인공으로 만든 극작가",
+        "bio": "고대 그리스 3대 비극 시인. 120편 이상의 희곡을 집필하며 비극 양식에 제3배우와 합창단 축소를 도입했다."
+      },
+      "book": {
+        "contentId": "55a6b05c-a738-44ef-8a97-80b3d3d3feed",
+        "title": "소포클레스 전집",
+        "creator": "소포클레스",
+        "description": "필멸의 인간에게 던져진 필연적 질문에 2500년 전 드라마가 던지는 생생한 울림 2023년 호메로스 서사시의 ‘새 번역’으로 주목 받은 고전학자 이준석 교수가 그리스 비극 전집 번역의 장정에 나섰다. 그리스의 3대 비극 작가들이 남긴 33편의 작품 전부를 해설과 함께 펴내는 작업이다. 첫 번째 무대는 그리스 비극의 완성자로 불리는 소포클레스의 작품이다. 기원전 5세기 아테나이의 시인 소포클레스의 현존하는 비극 일곱 작품 전부를 새롭게 원전 번역하고 각각 해설을 붙였다. 그리스 비극의 최고 걸작으로 꼽히는 「오이디푸스 튀란노스」를 비롯하여 「콜로노스의 오이디푸스」, 「안티고네」 등 테바이 삼부작, 트로이아 전쟁담(「아이아스」, 「필로크테테스」), 아가멤논 가문 이야기(「엘렉트라」), 헤라클레스와 데이아네이라의 이야기(「트라키스의 여인들」)를 포함한다. 이 일곱 편의 비극은 모두 주인공들이 결정적인 상황에서 자신의 삶과 죽음을 가르는 단 하루에 초점을 맞춘다. 유한한 존재인 인간이기에 벗어날 수 없는 운명과 마주하는 것이다. 그 과정에서 솟아오르는 위력적인 질문들은 당시의 관객들에게도, 오늘을 사는 우리에게도 동등한 무게로 다가온다. 이러한 고전의 감동을 독자에게 전하는 새로운 시리즈 ‘그리스 고전 문학선’의 첫 책이다. 역자는 아이스퀼로스, 에우리피데스 등 다른 비극 작품으로 번역을 이어갈 계획이다.",
+        "isbn": "9788957339893",
+        "publisher": "아카넷",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7024597&q=%EC%86%8C%ED%8F%AC%ED%81%B4%EB%A0%88%EC%8A%A4+%EC%A0%84%EC%A7%91"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": "related"
+    },
+    {
+      "person": {
+        "id": "a01481b9-3f53-4f8d-8bf4-3f3f7abb99d8",
+        "slug": "aeschylus",
+        "nickname": "아이스킬로스",
+        "nicknameEn": "Aeschylus",
+        "profession": "author",
+        "headline": "비극에 두 번째 배우를 도입한 극작가",
+        "bio": "고대 그리스 3대 비극 시인 중 첫 번째. 마라톤 전투의 참전 용사이자, 합창단에 제2배우를 추가하여 서양 연극의 기본 형식을 확립했다."
+      },
+      "book": {
+        "contentId": "ff0392c6-49b3-4cd4-ba03-7c1c0ec83014",
+        "title": "오레스테이아 3부작",
+        "creator": "아이스킬로스",
+        "description": "[오레스테이아 3부작]은 기원전 458년 대(大)디오뉘시아 제전에서 공연되어 13번째 우승을 거둔 작품으로, 아이스퀼로스의 최고 걸작으로 평가받는다. 오레스테이아 3부작에 나타난 이야기 유형들은 전통 신화에서는 물론 비극 장르에서도 반복되고 변주되는 유형이다. 이 이야기 유형은 귀향, 발견, 계략, 복수, 희생, 추방, 탄원, 구원의 유형을 말한다. 이러한 유형들이 결합하여 오레스테이아 3부작의 플롯이 구성된다. 여기에는 반전과 전도의 원리가 가장 중요하게 작용한다. 정복자가 패배자가 되고, 계략을 사용한 자가 계략에 당하고, 희생시킨 자가 희생 제물이 되고, 복수한 자가 복수당하고, 그리고 탄원하는 자가 구원받는 자가 된다.",
+        "isbn": "9788932404592",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=501896&q=%EC%98%A4%EB%A0%88%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%95%84+3%EB%B6%80%EC%9E%91",
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "d8af07ab-1350-4e10-a739-c1d19d615332",
+        "slug": "euripides",
+        "nickname": "에우리피데스",
+        "nicknameEn": "Euripides",
+        "profession": "author",
+        "headline": "인간 심리를 파고든 고대 그리스 3대 비극 시인",
+        "bio": "고대 그리스 3대 비극 시인. 인간 심리의 내면을 파고든 혁신적 극작으로 후대 연극의 방향을 제시했다."
+      },
+      "book": {
+        "contentId": "a9e6c779-00e8-4492-8c58-7c85b9ffb934",
+        "title": "알케스티스",
+        "creator": "에우리피데스",
+        "description": "고대 그리스 비극 작가 가운데 여성 캐릭터 묘사에 특출했던 에우리피데스는 여성 인물을 내세운 작품들을 유독 많이 남겼다. ＜알케스티스＞도 그런 작품 가운데 하나다. 신분 고하를 막론하고 죽음 앞에 평등한, 나약한 인간 군상 가운데서 오직 알케스티스만이 두려움 없이 죽음을 맞아들인다. 에우리피데스는 알케스티스의 고고한 희생정신을 영웅적으로 묘사한 이 작품에서 삶과 죽음이 서로 멀지 않다는 보편적인 진리를 전한다.",
+        "isbn": "9791128856105",
+        "publisher": "지만지드라마",
+        "verified": true,
+        "sources": null,
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "d8af07ab-1350-4e10-a739-c1d19d615332",
+        "slug": "euripides",
+        "nickname": "에우리피데스",
+        "nicknameEn": "Euripides",
+        "profession": "author",
+        "headline": "인간 심리를 파고든 고대 그리스 3대 비극 시인",
+        "bio": "고대 그리스 3대 비극 시인. 인간 심리의 내면을 파고든 혁신적 극작으로 후대 연극의 방향을 제시했다."
+      },
+      "book": {
+        "contentId": "6f3e70ea-0bb9-458f-a4ab-2e35d5dc1adc",
+        "title": "헤라클레스",
+        "creator": "에우리피데스",
+        "description": "리코스가 왕위 찬탈 후 메가라와 자녀들을 위협하자, 헤라클레스는 리코스를 처단하지만 헤라의 질투로 광기에 빠져 가족을 죽인다. 죄책감에 자살을 시도하나 테세우스가 구해 아테네로 향한다. 신의 의지에 휘둘리는 인간 운명의 비극성을 그렸다.",
+        "isbn": "9791128898648",
+        "publisher": "지만지드라마",
+        "verified": true,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6581033&q=%ED%97%A4%EB%9D%BC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6581033&q=%ED%97%A4%EB%9D%BC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6581033&q=%ED%97%A4%EB%9D%BC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6581033&q=%ED%97%A4%EB%9D%BC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6581033&q=%ED%97%A4%EB%9D%BC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6581033&q=%ED%97%A4%EB%9D%BC%ED%81%B4%EB%A0%88%EC%8A%A4"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "53ef5fe2-5338-4975-b833-60d852f6bf78",
+        "slug": "publius-ovidius-naso",
+        "nickname": "오비디우스",
+        "nicknameEn": "Publius Ovidius Naso",
+        "profession": "author",
+        "headline": "변신 신화를 우주의 시작부터 로마까지 이어 쓴 시인",
+        "bio": "고대 로마의 시인. 43권 규모의 서사시 「변신이야기」로 그리스·로마 신화를 집대성하고, 「사랑의 기술」로 아우구스투스 황제에 의해 흑해 연안 토미스로 유배되었다."
+      },
+      "book": {
+        "contentId": "13410b89-7c1f-4461-a1e2-b3f2975148e6",
+        "title": "변신 이야기",
+        "creator": "오비디우스",
+        "description": "이 작품은 전 15권으로 된 서사시로 천지 창조에서부터 오비디우스 자신의 시대에 이르기까지 약 250편의 변신에 관한 신화와 전설을 담고 있다. 크게는 신들에 관한 부분(1권 452~6권 420행), 영웅들에 관한 부분(6권 421~11권 193행), 역사적 인물에 관한 부분(11권 194~15권 744행)으로 나눌 수 있다. 개별 이야기는 시간순으로 진행되는 듯하지만 신화는 역사와 달라 전후 관계와 인과 관계가 분명하지 않고 주제의 유사성이나 상이성, 지리나 계보가 분류 기준이 되는 경우가 많다. 오비디우스의 놀라운 성과 중 하나는 이야기를 이어주는 고리가 매우 느슨함에도 불구하고 이야기들을 너무 자연스럽게 연결되고 있다는 점이다.",
+        "isbn": "9788991290808",
+        "publisher": "숲",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1349191&q=%EB%B3%80%EC%8B%A0+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c4e2945e-631b-4dec-92be-5c0c363a954f",
+        "slug": "wu-chengen",
+        "nickname": "오승은",
+        "nicknameEn": "Wu Chengen",
+        "profession": "author",
+        "headline": "손오공의 여든한 번 시련을 엮은 이야기꾼",
+        "bio": "명대 회안 출신 소설가. 진사 시험 낙방 후 만년에 동아시아 4대 기서 중 하나인 서유기 100회본을 완성하여 손오공 서사를 정전으로 굳혔다."
+      },
+      "book": {
+        "contentId": "02db5067-3541-406c-a0d2-2641fddc2bb7",
+        "title": "서유기 세트",
+        "creator": "오승은, 홍상훈, 신주리, 이소영, 최형섭, 홍주연",
+        "description": "중국문학 연구와 대중화에 앞장서온 홍상훈 교수와 공동 번역자들은 풍부한 자료 조사와 깔끔한 번역을 바탕으로 그동안 접하기 어려웠던 원전 『서유기西遊記』를 독자들에게 생생하게 보여준다. 그 덕분에 우리는 익히 알고 있는 ‘삼장법사’와 ‘손오공’, ‘저팔계’, ‘사오정’이 아닌 전혀 다른 성격의 그들을 만나게 된다. 이번 솔출판사의 『서유기』는 창작 당시의 역사적 사실과 시대상을 반영하는 한편 다양한 판본 비교를 통해 원전 『서유기』의 내용을 온전히 되살렸다. 이를 통해 중생 구제를 위해 불경을 찾으러 떠난다는 도식적인 주제 너머의 핵심적인 내용, 즉 삼장법사와 손오공, 저팔계, 사오정을 둘러싼 흥미로운 다양한 에피소드와 더불어 시공간을 초월하는 우리 인간의 현세적 욕망을 적나라하게 보여준다.",
+        "isbn": "9791160201048",
+        "publisher": "솔",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=5118266&q=%EC%84%9C%EC%9C%A0%EA%B8%B0+%EC%84%B8%ED%8A%B8",
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5118266&q=%EC%84%9C%EC%9C%A0%EA%B8%B0+%EC%84%B8%ED%8A%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5118266&q=%EC%84%9C%EC%9C%A0%EA%B8%B0+%EC%84%B8%ED%8A%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5118266&q=%EC%84%9C%EC%9C%A0%EA%B8%B0+%EC%84%B8%ED%8A%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5118266&q=%EC%84%9C%EC%9C%A0%EA%B8%B0+%EC%84%B8%ED%8A%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5118266&q=%EC%84%9C%EC%9C%A0%EA%B8%B0+%EC%84%B8%ED%8A%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5118266&q=%EC%84%9C%EC%9C%A0%EA%B8%B0+%EC%84%B8%ED%8A%B8"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "f25e7b6b-154c-4737-8cd6-f965cd7b4195",
+        "slug": "yi-gyu-bo",
+        "nickname": "이규보",
+        "nicknameEn": "Yi Gyu-bo",
+        "profession": "author",
+        "headline": "고구려 건국 서사시 「동명왕편」을 남긴 고려 문인",
+        "bio": "고려 중기의 문인이자 관료. 동명왕편으로 민족 서사시를 남겼고, 동국이상국집으로 고려 한문학의 최고봉을 이뤘다."
+      },
+      "book": {
+        "contentId": "ac9f1d4e-f76b-4c27-8570-7657483f1a5a",
+        "title": "동명왕편",
+        "creator": "이규보",
+        "description": "이규보의 장편 서사시 동명왕편은 건국 영웅을 노래하는 구전 서사시의 전통을 잇는, 우리나라에서 문자로 기록된 최초의 서사시이다. ‘규장각 새로 읽는 우리 고전 총서’ 21권으로 나온 이번 책에서는 동아시아의 신화와 서사시에 밝은 조현설 교수가 국내 처음으로 본격적인 번역과 주석, 해설을 원문과 함께 실었다. 특히 역해자는 이규보가 「동명왕본기」를 시구의 근거로 인용하면서 『삼국사기』가 지운 신화적 요소를 풍부하게 복원시킨 점에 주목한다. 책의 부록에 동명왕 신화가 평양을 중심으로 여전히 전승되고 있었다는 사실을 확인시켜 주는 『세종실록지리지』의 관련 부분을 번역 및 해설함으로써 동명왕편의 이해를 돕는다.",
+        "isbn": "9788957336656",
+        "publisher": "아카넷",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=5174899&q=%EB%8F%99%EB%AA%85%EC%99%95%ED%8E%B8",
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "5397f779-2dcb-4712-aca0-c7cb1dde4923",
+        "slug": "homer",
+        "nickname": "호메로스",
+        "nicknameEn": "Homer",
+        "profession": "author",
+        "headline": "「일리아스」에서 아킬레우스의 분노를 노래한 서사시인",
+        "bio": "서양 문학의 시조로 불리는 고대 그리스 시인. 일리아스와 오디세이아로 서사시의 전범을 세웠다."
+      },
+      "book": {
+        "contentId": "0818cbb2-d0f5-43d0-b57d-cb3c6d0522bd",
+        "title": "오디세이아",
+        "creator": "호메로스",
+        "description": "* 고대 그리스어의 리듬을 살린 정교한 번역 * 심층 해설 43쪽, 디테일한 각주 303개 수록 방황과 시련, 유혹과 용서를 모두 껴안은 인류 최고의 모험 이야기 크리스토퍼 놀란 감독 영화 〈오디세이〉 원작 호메로스의 대서사시 ⁋시놉시스 10년에 걸친 트로이아 전쟁이 마침내 끝나고, 승리한 그리스 연합군이 전리품을 챙겨 고향으로 돌아가며 이야기는 시작된다. 이타케 왕 오디세우스도 열두 척의 배를 이끌고 전우들과 함께 트로이아를 출발한다. 하지만 바다의 신 포세이돈의 심기를 건드려 그의 귀향길은 처음부터 순탄하지 않다. 전쟁 후 집으로 돌아가는 데도 10년이 더 흐른다. 그동안 사나운 폭풍우, 사람을 잡아먹는 괴물과 식인 부족, 세이렌과 마법사의 초자연적 유혹을 만나고, 이에 지략과 용기로 맞선다. 한편 고향 이타케에서는 무도한 구혼자들이 왕비 페넬로페이아에게 구혼한다는 핑계로 궁궐을 장악하고 연회를 벌이며 왕권을 노리고 있다. 20년 만에 돌아온 오디세우스는 과연 가족들과 재회하고 왕좌를 되찾을 수 있을까? ⁋불확실한 세계를 건너는 인류의 지혜와 용기의 기록 트로이아 전쟁의 영웅 오디세우스는 전쟁에서 승리한 후 고향 이타카로 돌아가려 하지만, 그의 여정은 결코 평탄치 않았다. 포세이돈의 분노, 신들의 장난, 인간의 오만과 약함은 그의 여정을 가로막고, 그는 무려 10년에 걸쳐 바다를 떠돌며 인간의 한계에 맞서 싸운다. 호메로스는 이…",
+        "isbn": "9791139721973",
+        "publisher": "현대지성",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=6892049&q=%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4%EC%95%84%28%EA%B3%A0%EB%8C%80+%EA%B7%B8%EB%A6%AC%EC%8A%A4%EC%96%B4+%EC%99%84%EC%97%AD%EB%B3%B8%29",
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6892049&q=%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4%EC%95%84%28%EA%B3%A0%EB%8C%80+%EA%B7%B8%EB%A6%AC%EC%8A%A4%EC%96%B4+%EC%99%84%EC%97%AD%EB%B3%B8%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6892049&q=%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4%EC%95%84%28%EA%B3%A0%EB%8C%80+%EA%B7%B8%EB%A6%AC%EC%8A%A4%EC%96%B4+%EC%99%84%EC%97%AD%EB%B3%B8%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6892049&q=%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4%EC%95%84%28%EA%B3%A0%EB%8C%80+%EA%B7%B8%EB%A6%AC%EC%8A%A4%EC%96%B4+%EC%99%84%EC%97%AD%EB%B3%B8%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6892049&q=%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4%EC%95%84%28%EA%B3%A0%EB%8C%80+%EA%B7%B8%EB%A6%AC%EC%8A%A4%EC%96%B4+%EC%99%84%EC%97%AD%EB%B3%B8%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6892049&q=%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4%EC%95%84%28%EA%B3%A0%EB%8C%80+%EA%B7%B8%EB%A6%AC%EC%8A%A4%EC%96%B4+%EC%99%84%EC%97%AD%EB%B3%B8%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6892049&q=%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4%EC%95%84%28%EA%B3%A0%EB%8C%80+%EA%B7%B8%EB%A6%AC%EC%8A%A4%EC%96%B4+%EC%99%84%EC%97%AD%EB%B3%B8%29"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "5397f779-2dcb-4712-aca0-c7cb1dde4923",
+        "slug": "homer",
+        "nickname": "호메로스",
+        "nicknameEn": "Homer",
+        "profession": "author",
+        "headline": "「일리아스」에서 아킬레우스의 분노를 노래한 서사시인",
+        "bio": "서양 문학의 시조로 불리는 고대 그리스 시인. 일리아스와 오디세이아로 서사시의 전범을 세웠다."
+      },
+      "book": {
+        "contentId": "f44760c9-113f-4a04-89da-6eaca5f8af13",
+        "title": "일리아스",
+        "creator": "호메로스",
+        "description": "인류 최초의 블록버스터 분노와 사랑, 증오와 용서가 교차하는 모든 위대한 이야기의 원형 ⁋시놉시스 트로이아 전쟁이 시작된 지 10년째 되는 어느 날, 그리스군 진영에 아폴론이 쏜 화살로 전염병이 돈다. 아폴론의 제관 크리세스가 전리품으로 납치당한 딸의 몸값을 치르고 데려가기를 청했으나 총사령관 아가멤논이 거절했기 때문이다. 이 문제로 최고 영웅 아킬레우스와 아가멤논 사이에 다툼이 일어나고, 아킬레우스는 사람들 앞에서 공개적으로 모욕을 당한다. 이에 크게 분노한 아킬레우스는 전투에 나가기를 거부하는데…. ⁋서양 문학의 시작이자, 스펙터클 서사의 원조 호메로스의 대서사시 『일리아스』는 현존하는 서양 문학 중 가장 오래된 서사시다. 저자 호메로스는 오랫동안 구전으로 전해 내려온 고대 그리스인의 신화와 전설을 최초로 기록했을 뿐 아니라, 트로이아 전쟁이라는 그릇에 압축해 짜임새 있고 완성도 높은 문학 작품으로 탄생시켰다. ‘일리아스’는 ‘일리온 이야기’라는 뜻이며, 일리온은 트로이아를 가리키는 명칭 중 하나다. 트로이아의 운명을 놓고 목숨 걸고 싸우는 영웅들과 이해관계에 따라 양쪽으로 편이 갈린 신들의 대격전이 숨가쁘게 펼쳐진다. 15,693행 24권으로 이루어진 이 한편의 장엄한 서사시 속에서 고대인의 문학적인 탁월함, 신과 인간이 어우러진 세계관, 인생의 가치관, 죽을 수밖에 없는 인간이 겪는 고통과 비탄을 보게 된다. 『일리아스』는 분…",
+        "isbn": "9791139721966",
+        "publisher": "현대지성",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=6891991&q=%EC%9D%BC%EB%A6%AC%EC%95%84%EC%8A%A4%28%EA%B3%A0%EB%8C%80+%EA%B7%B8%EB%A6%AC%EC%8A%A4%EC%96%B4+%EC%99%84%EC%97%AD%EB%B3%B8%29",
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6891991&q=%EC%9D%BC%EB%A6%AC%EC%95%84%EC%8A%A4%28%EA%B3%A0%EB%8C%80+%EA%B7%B8%EB%A6%AC%EC%8A%A4%EC%96%B4+%EC%99%84%EC%97%AD%EB%B3%B8%29"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "00d15c68-b627-45c8-86c6-99b8c2f38f53",
+        "slug": "kim-bu-sik",
+        "nickname": "김부식",
+        "nicknameEn": "Kim Bu-sik",
+        "profession": "humanities_scholar",
+        "headline": "「삼국사기」 편찬을 이끈 고려 재상",
+        "bio": "고려 시대의 문신이자 역사가. 삼국사기를 편찬하여 한국 고대사 연구의 중요한 기틀을 마련했다."
+      },
+      "book": {
+        "contentId": "467d387e-c688-43b0-8570-01df791de22b",
+        "title": "원본 삼국사기",
+        "creator": "김부식",
+        "description": "이 책은 조선 중종 7년(1512)에 간행된 목판본 &lt;삼국사기&gt; 세칭 정덕본 혹은 임신본 &lt;삼국사기&gt;를 1931년 영인한 고전간행회본 &lt;삼국사기&gt;를 다시 축쇄 영인한 것.",
+        "isbn": "9788935651757",
+        "publisher": "한길사",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=524767&q=%EC%9B%90%EB%B3%B8+%EC%82%BC%EA%B5%AD%EC%82%AC%EA%B8%B0",
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "fba8df3b-3213-4094-865e-a61ffaf579fc",
+        "slug": "iryeon",
+        "nickname": "일연",
+        "nicknameEn": "Iryeon",
+        "profession": "humanities_scholar",
+        "headline": "단군 신화를 『삼국유사』에 기록한 고려 승려",
+        "bio": "고려 후기의 승려이자 역사가. 삼국유사를 저술하여 단군 신화와 향가 14수를 후세에 전하며 한국 고대사의 보고를 남겼다."
+      },
+      "book": {
+        "contentId": "79334378-a390-40bb-9dd9-025c41eed94f",
+        "title": "삼국유사",
+        "creator": "일연",
+        "description": "일연의 『삼국유사』는 고구려, 백제, 신라 삼국뿐 아니라 고조선에서부터 고려까지, 우리 민족의 흥망성쇠의 역사를 폭넓게 다루고 있는 작품이다. 이 책에는 단군 신화를 비롯한 우리 민족의 신화와 설화, 그리고 방대한 양의 불교와 민속 신앙 자료가 한데 아우러져 있다. 무신 정권과 몽골의 침입 등 국내의 정세가 안팎으로 어수선하고 불안해지자, 일연은 오랜 연구 동안 모아 온 자료들을 정리하여 우리 민족의 자부심을 고취하고자 했다.",
+        "isbn": "9788937461668",
+        "publisher": "민음사",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=540932&q=%EC%82%BC%EA%B5%AD%EC%9C%A0%EC%82%AC",
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "b985bf58-8537-4eac-8f83-f8fbeccfd6eb",
+        "slug": "livy",
+        "nickname": "티투스 리비우스",
+        "nicknameEn": "Livy",
+        "profession": "humanities_scholar",
+        "headline": "로마 700여 년을 142권에 담은 역사가",
+        "bio": "고대 로마의 역사가. 로마 건국부터 아우구스투스 시대까지 142권의 역사를 서술하여 로마 정체성 형성에 기여했다."
+      },
+      "book": {
+        "contentId": "4ee36aab-cc98-426f-9302-39242a50b651",
+        "title": "리비우스 로마사",
+        "creator": "티투스 리비우스",
+        "description": null,
+        "isbn": "9791187142348",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true
+      },
+      "matchField": "nickname",
+      "matchLocation": "creator",
+      "signal": "creator",
+      "existingRelation": null
+    }
+  ]
+}

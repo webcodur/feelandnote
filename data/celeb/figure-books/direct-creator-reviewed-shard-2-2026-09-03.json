@@ -1,0 +1,2661 @@
+{
+  "input": "..\\..\\data\\celeb\\figure-books\\direct-creator-candidates-2026-09-03.json",
+  "model": "gemini-3.8-flash-high",
+  "reviews": [
+    {
+      "slug": "kim-soo-hyun",
+      "selections": []
+    },
+    {
+      "slug": "moon-so-ri",
+      "selections": [
+        {
+          "contentId": "114b741f-2deb-42df-923d-cf97ea72efcf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "배우 문소리가 반려견 달마와 함께하며 겪은 가족의 시간과 공존의 의미를 직접 기록한 에세이다."
+        }
+      ]
+    },
+    {
+      "slug": "zendaya",
+      "selections": [
+        {
+          "contentId": "08f3a352-dcf1-46bf-861c-d34ad3824c36",
+          "relationType": "related",
+          "description": null,
+          "rationale": "젠데이야가 십대 독자들을 위해 스타일과 자신감, 삶에 대한 조언을 전하는 안내서다."
+        }
+      ]
+    },
+    {
+      "slug": "bill-russell",
+      "selections": [
+        {
+          "contentId": "c8ee7fe8-7d8c-42db-8755-b73a10f76351",
+          "relationType": "appearance",
+          "description": "보스턴 셀틱스의 전설적인 감독 레드 아워백과의 오랜 인연과 농구 인생을 되돌아보는 회고록의 저자이자 중심 인물로 등장한다.",
+          "rationale": "빌 러셀이 보스턴 셀틱스를 이끈 명감독 레드 아워백과의 평생에 걸친 인연과 사제 관계를 직접 회고한 책이다."
+        }
+      ]
+    },
+    {
+      "slug": "jackie-robinson",
+      "selections": [
+        {
+          "contentId": "99e89191-b09e-40d9-a6e2-942c4fb62002",
+          "relationType": "appearance",
+          "description": "메이저리그의 인종 장벽을 허문 야구 선수로서의 도전과 은퇴 후 민권 운동에 헌신한 삶을 진솔하게 기록한 자서전의 저자이자 주인공으로 등장한다.",
+          "rationale": "재키 로빈슨이 메이저리그 인종 장벽을 깨뜨린 과정과 자신의 생애를 직접 기록한 자서전이다."
+        }
+      ]
+    },
+    {
+      "slug": "qu-yuan",
+      "selections": [
+        {
+          "contentId": "6035bc19-fcdf-4511-9463-6ba573816003",
+          "relationType": "related",
+          "description": null,
+          "rationale": "굴원의 대표작 '이소'를 비롯해 초나라 시가의 정수를 담은 《초사》의 한국어 완역본이다."
+        },
+        {
+          "contentId": "1fa66780-9bba-4555-b17a-c8c5a958095b",
+          "relationType": "appearance",
+          "description": "초사의 핵심이자 자신의 대표작인 '이소'를 남겨 삼국시대부터 필독서로 읽혀 온 시인이자 연구 대상으로 등장한다.",
+          "rationale": "굴원의 대표작인 '이소'의 어법과 특수 구법을 체계적으로 풀이하고 해설한 연구서다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-so-wol",
+      "selections": [
+        {
+          "contentId": "0efb3936-8fed-4f21-a202-b1cc15f85826",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전통적인 민요조의 운율과 한의 정서를 노래한 김소월 시인의 대표 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-young-ha",
+      "selections": [
+        {
+          "contentId": "85480925-e624-4354-9ea5-8c921e1a3f01",
+          "relationType": "related",
+          "description": null,
+          "rationale": "20세기 초 멕시코 이민자들의 비극적인 유랑사를 치밀한 고증으로 그려낸 김영하의 대표 장편소설이다."
+        },
+        {
+          "contentId": "a6799b6b-a1c5-4e79-9aa7-b357e7ca4264",
+          "relationType": "related",
+          "description": null,
+          "rationale": "문학동네작가상을 수상하며 한국 문단에 신선한 충격을 주었던 김영하의 대표 데뷔작이다."
+        },
+        {
+          "contentId": "5e3a7548-5eb4-458d-944c-898d44318144",
+          "relationType": "related",
+          "description": null,
+          "rationale": "알츠하이머에 걸린 연쇄살인범의 심리를 압축적인 문체로 다룬 김영하의 대표 베스트셀러 소설이다."
+        },
+        {
+          "contentId": "cdcb2b9d-1cf7-44f3-ac3f-a0b05236c36e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "여행이라는 행위를 통해 삶과 인간 존재의 본질을 성찰한 김영하의 대표 산문집이다."
+        }
+      ]
+    },
+    {
+      "slug": "luo-guanzhong",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "김구용이 모종강본을 저본으로 완역한 나관중 삼국지연의의 대표 완역본 전10권 세트이다."
+        },
+        {
+          "contentId": "420e33ee-db0a-4fbe-ada3-9f4596bb56ae",
+          "relationType": "related",
+          "description": null,
+          "rationale": "나관중 원작을 이문열이 평역한 대중적으로 널리 알려진 대표 삼국지 세트이다."
+        },
+        {
+          "contentId": "c88aa8a6-1d7f-46a7-9ee1-0f645ec4c2f0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "민음사에서 출간된 나관중의 대표 고전 소설 삼국지 전집 세트이다."
+        }
+      ]
+    },
+    {
+      "slug": "nora-roberts",
+      "selections": [
+        {
+          "contentId": "730c03df-d979-448c-8502-6a6fd2a93b54",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가족의 비극과 진실을 추적하는 노라 로버츠의 대표 베스트셀러 서스펜스 소설이다."
+        },
+        {
+          "contentId": "bb616e4b-b669-47de-ac50-ac35570fe3a4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "작은 마을에서 벌어지는 연쇄 사건을 다룬 노라 로버츠의 대표 로맨스 스릴러 소설이다."
+        },
+        {
+          "contentId": "d9dc2225-bfbe-4ac0-b3b9-c153e59d4710",
+          "relationType": "related",
+          "description": null,
+          "rationale": "할리우드의 비밀과 스캔들을 파헤치는 노라 로버츠의 대표 서스펜스 소설이다."
+        },
+        {
+          "contentId": "89306cd1-e2de-439f-885a-9547d9e90700",
+          "relationType": "related",
+          "description": null,
+          "rationale": "미술품 밀수와 미스터리를 흥미진진하게 엮어낸 노라 로버츠의 대표 로맨틱 서스펜스 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "neil-gaiman",
+      "selections": [
+        {
+          "contentId": "a0404af2-19e5-4b89-82c5-780ffbf3538a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "뉴베리 상과 카네기 상을 석권한 닐 게이먼의 대표 판타지 소설이다."
+        },
+        {
+          "contentId": "7221fe0a-7202-47e2-8c70-293160697750",
+          "relationType": "related",
+          "description": null,
+          "rationale": "테리 프랫쳇과 닐 게이먼이 공동 집필하여 종말론을 유쾌하게 비튼 대표 걸작이다."
+        },
+        {
+          "contentId": "5802fc90-d6f8-4d1d-b8e4-a7acb85d3a60",
+          "relationType": "related",
+          "description": null,
+          "rationale": "유년의 기억과 환상을 아름답고 매혹적으로 엮어낸 닐 게이먼의 대표 장편소설이다."
+        },
+        {
+          "contentId": "0e4d2153-ad2a-479c-8fbe-85ff5231186d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "신화와 환상을 결합해 그래픽 노블의 새 지평을 연 닐 게이먼의 대표 샌드맨 시리즈 작품이다."
+        }
+      ]
+    },
+    {
+      "slug": "daniel-pink",
+      "selections": [
+        {
+          "contentId": "94cf7c41-8c2d-4bae-80ca-42556e9fe302",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자율성과 숙련 및 목적이라는 새로운 동기부여 이론을 제시한 다니엘 핑크의 대표 저작이다."
+        },
+        {
+          "contentId": "48e02679-e602-459e-bbe7-30ec574a6026",
+          "relationType": "related",
+          "description": null,
+          "rationale": "우뇌 중심 인재와 창의성의 시대를 예견한 다니엘 핑크의 세계적인 베스트셀러 저작이다."
+        },
+        {
+          "contentId": "dd24e56d-c2bf-4a8b-9ce4-0e4713409176",
+          "relationType": "related",
+          "description": null,
+          "rationale": "타인을 설득하고 움직이는 인간 행동의 본질을 분석한 다니엘 핑크의 대표 경영 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "dan-brown",
+      "selections": [
+        {
+          "contentId": "5087d1b2-b16b-4d84-b804-f01a8b4d45d5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전 세계적인 미스터리 스릴러 열풍을 일으킨 댄 브라운의 대표 장편소설이다."
+        },
+        {
+          "contentId": "2db58d4b-e78b-4465-bac5-4bea86d984db",
+          "relationType": "related",
+          "description": null,
+          "rationale": "바티칸과 CERN을 무대로 과학과 종교의 대립을 긴박하게 그린 댄 브라운의 대표 스릴러 소설이다."
+        },
+        {
+          "contentId": "2b7b0081-9664-4de4-a7c0-50c2ed066db2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "단테의 신곡 지옥편을 모티브로 인류의 위기와 암호를 추적하는 댄 브라운의 대표작 특별판이다."
+        },
+        {
+          "contentId": "4f4bc0c8-f0f5-4463-89b8-84c06f8ff613",
+          "relationType": "related",
+          "description": null,
+          "rationale": "NASA와 미국 정계의 음모를 박진감 넘치게 파헤친 댄 브라운의 대표 정치 스릴러 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "doris-lessing",
+      "selections": [
+        {
+          "contentId": "1bd03032-ccbf-499a-8cbb-633970c2a31f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "민음사 세계문학전집으로 출간된 가족 이데올로기와 인간 본성을 냉철하게 응시한 도리스 레싱의 대표 소설이다."
+        },
+        {
+          "contentId": "ee58f69a-4683-43ab-9d28-928a22d5cac8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "여성의 자아와 고독을 섬세하고 예리하게 탐구한 도리스 레싱의 대표 중단편집이다."
+        },
+        {
+          "contentId": "5dfae7ed-f918-47bf-b79a-4d74cfb878ac",
+          "relationType": "related",
+          "description": null,
+          "rationale": "노벨문학상 수상 작가 도리스 레싱의 문학적 역량이 집대성된 대표 고전 금색 공책의 한국어 번역본이다."
+        }
+      ]
+    },
+    {
+      "slug": "dino-buzzati",
+      "selections": [
+        {
+          "contentId": "ae1da742-a2fb-4625-83e3-4c3ac4cbf121",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고립된 요새에서의 기다림과 실존적 불안을 다룬 디노 부차티의 대표 걸작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "rainer-maria-rilke",
+      "selections": [
+        {
+          "contentId": "5fb475fb-9c5d-4527-b28b-21bdebc017a2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "민음사 세계시인선으로 출간된 릴케의 문학적 성취가 집대성된 대표 연작시집이다."
+        },
+        {
+          "contentId": "72c41cc4-9b5d-487f-ab1b-9b0358f01215",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대인의 실존적 불안과 내면을 깊이 있게 파고든 릴케의 유일한 대표 장편소설이다."
+        },
+        {
+          "contentId": "d260f0bc-d3b4-4084-953a-621623d6d9b2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "신과 생명에 대한 순수한 찬미와 고백을 담아낸 릴케의 초기 대표 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "malcolm-gladwell",
+      "selections": [
+        {
+          "contentId": "c0db304b-6831-4f97-ada6-cd424dd89051",
+          "relationType": "related",
+          "description": null,
+          "rationale": "소셜 현상과 유행의 확산 메커니즘을 규명하여 작가를 세계적 명성으로 이끈 대표 저작이다."
+        },
+        {
+          "contentId": "8dc22711-54f5-4582-9cc5-78b14b5f7c96",
+          "relationType": "related",
+          "description": null,
+          "rationale": "성공의 기회와 환경적 요인을 대중적으로 명쾌하게 분석한 말콤 글래드웰의 대표작이다."
+        },
+        {
+          "contentId": "05be1036-49d0-4eb8-ae8e-ae382daae25d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "순간적 판단과 직관의 힘을 탐구한 작가의 대표적인 사회심리 대중 저작이다."
+        },
+        {
+          "contentId": "538fad0a-1c75-434c-9c08-3aaf7fcbe35a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간 행동과 선택에 관한 다양한 에세이를 엮어낸 말콤 글래드웰의 한국어 번역 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "mori-ogai",
+      "selections": [
+        {
+          "contentId": "a016f705-8db6-48ef-90c3-1dbfc9c8baad",
+          "relationType": "related",
+          "description": null,
+          "rationale": "독일 유학 경험을 바탕으로 일본 근대문학의 새 지평을 연 모리 오가이의 대표 단편소설이다."
+        },
+        {
+          "contentId": "73c72aea-5378-48dc-81f7-062f40f575a4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "역사소설의 모범으로 평가받는 표제작을 비롯해 작가의 대표작들을 충실히 엮은 대표 소설집이다."
+        },
+        {
+          "contentId": "a89e074e-4bc9-48f4-a326-7f7ce181afa5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "작가의 지적 문체와 심리 묘사가 돋보이는 대표 중단편들을 수록한 선집이다."
+        },
+        {
+          "contentId": "e5239806-c0c2-47df-96c4-3a3724cccd52",
+          "relationType": "related",
+          "description": null,
+          "rationale": "작가를 꿈꾸는 청년의 내면적 성장과 고뇌를 섬세하게 묘파한 모리 오가이의 대표 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "haruki-murakami",
+      "selections": [
+        {
+          "contentId": "98642fd8-8712-4e02-9c0c-fcf47b22f541",
+          "relationType": "appearance",
+          "description": "달리기를 축으로 전업 소설가가 된 계기와 문학과 인생에 대한 생각을 진솔하게 회고하는 화자이자 주인공으로 등장한다.",
+          "rationale": "작가가 달리기를 테마로 삼아 자신의 생애와 문학 세계를 직접 고백한 대표적인 회고록이다."
+        },
+        {
+          "contentId": "1ce14c35-1ae8-4d3d-b8d8-0cfc597e0807",
+          "relationType": "related",
+          "description": null,
+          "rationale": "작가를 세계적 거장의 반열에 올려놓은 무라카미 하루키의 최고 대표 장편소설이다."
+        },
+        {
+          "contentId": "ef554875-6715-4211-88d3-5e271a044041",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현실과 비현실의 경계를 정교하게 엮어 세계적 반향을 일으킨 하루키의 대표 대작 소설이다."
+        },
+        {
+          "contentId": "b41e3037-be8e-4e21-8993-ed43231108c0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "요미우리 문학상을 수상하며 작가의 작품 세계에서 중요한 분수령이 된 대표 3권 완결 세트다."
+        }
+      ]
+    },
+    {
+      "slug": "park-kyong-ni",
+      "selections": [
+        {
+          "contentId": "d8076777-2e9c-4b5c-b204-1f054d38251e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "한국 문학사에 불후의 금자탑을 쌓은 박경리의 일생일대 대표 대하소설 완간 세트 판본이다."
+        },
+        {
+          "contentId": "c56fec63-039b-432c-966d-e925e61fff76",
+          "relationType": "related",
+          "description": null,
+          "rationale": "생애 마지막 순간까지 삶과 문학을 관조하며 남긴 박경리 작가의 대표 유고 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "bai-juyi",
+      "selections": [
+        {
+          "contentId": "f0d16e97-845e-4426-bf7d-2c995fc960e4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "평이한 시어로 민중의 삶을 노래한 당나라 대표 시인 백거이의 주요 시 작품들을 모은 시선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "voltaire",
+      "selections": [
+        {
+          "contentId": "cbfc48d8-ffe1-4ef0-85e5-2c8c0de3c517",
+          "relationType": "related",
+          "description": null,
+          "rationale": "맹목적 낙관주의를 통렬하게 풍자하여 유럽 계몽주의 문학의 정점으로 꼽히는 볼테르의 대표작이다."
+        },
+        {
+          "contentId": "53e03e2e-2541-431d-9df2-09b7b6d85916",
+          "relationType": "related",
+          "description": null,
+          "rationale": "종교적 독단과 광신을 신랄하게 비판한 계몽주의 철학자 볼테르의 대표 철학 사전이다."
+        },
+        {
+          "contentId": "77ebd42b-b8aa-4d7c-a4e3-e5834556c496",
+          "relationType": "related",
+          "description": null,
+          "rationale": "영국의 관용과 자유주의 사상을 프랑스에 소개하며 프랑스 혁명의 사상적 토대를 놓은 대표 저작이다."
+        },
+        {
+          "contentId": "eba8c7d9-bcb0-4814-a8c0-24e2ad3c426e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "순수한 원시인의 시선으로 유럽 문명의 모순과 편견을 날카롭게 비판한 볼테르의 대표 철학 콩트다."
+        }
+      ]
+    },
+    {
+      "slug": "samuel-beckett",
+      "selections": [
+        {
+          "contentId": "0dff7847-11d3-4542-a659-78143304e538",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 부조리극의 신기원을 열며 20세기 서양 연극사를 바꾼 사뮈엘 베케트의 대표 희곡이다."
+        },
+        {
+          "contentId": "4c8ba309-43e2-4906-b077-8bef779ba099",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간 실존의 무의미와 의식의 혼란을 유머러스하면서도 날카롭게 포착한 베케트의 대표 초기 소설이다."
+        },
+        {
+          "contentId": "71614911-b97f-4973-9298-7be061cc68f6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "압축적인 언어와 독창적 무대 형식으로 부조리를 탐구한 베케트의 대표 단편 희곡들을 엮은 작품집이다."
+        },
+        {
+          "contentId": "461ab9e4-487c-497b-a0f5-9dda2fbf4e86",
+          "relationType": "related",
+          "description": null,
+          "rationale": "언어와 인간 논리의 한계를 독특한 서사 실험으로 밀어붙인 사뮈엘 베케트의 대표 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "samuel-taylor-coleridge",
+      "selections": [
+        {
+          "contentId": "f1afdd60-af27-4e72-91ea-a9597d8f08d0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "환상적 이미지와 신비주의적 서정으로 영국 낭만주의를 이끈 콜리지의 대표 시들을 수록한 시선집이다."
+        },
+        {
+          "contentId": "0a12cee0-f4c6-4e1c-a9c9-f879d36e67db",
+          "relationType": "related",
+          "description": null,
+          "rationale": "유기적 상상력 이론을 통해 근대 문학 비평의 기틀을 확립한 새뮤얼 테일러 콜리지의 대표적인 비평 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "seth-godin",
+      "selections": [
+        {
+          "contentId": "17fab5be-dd53-4c5f-95d5-ac5025d70e13",
+          "relationType": "related",
+          "description": null,
+          "rationale": "리마커블한 차별화 개념을 정립해 현대 마케팅의 패러다임을 바꾼 세스 고딘의 최고 대표작이다."
+        },
+        {
+          "contentId": "cf69e71e-fb2a-4e78-9b4e-a46cda71d1ae",
+          "relationType": "related",
+          "description": null,
+          "rationale": "대체 불가능한 독보적 인재가 되는 길을 제시한 세스 고딘의 대표적 자기혁신 및 비즈니스 저작이다."
+        },
+        {
+          "contentId": "881968a0-27de-4ac1-b5e5-e7ba5054f570",
+          "relationType": "related",
+          "description": null,
+          "rationale": "진정성 있는 스토리텔링의 중요성을 설파하며 전 세계적 반향을 일으킨 대표 마케팅 저서다."
+        },
+        {
+          "contentId": "19dc6110-5432-4a89-b270-fccd9e1cd846",
+          "relationType": "related",
+          "description": null,
+          "rationale": "공통의 관심사로 뭉친 부족을 이끄는 현대적 리더십을 제시한 세스 고딘의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "sophocles",
+      "selections": [
+        {
+          "contentId": "2a75a0b8-82e8-41eb-81b6-bc65313a76b3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "천병희 교수의 그리스 고전 원전 번역으로 소포클레스의 현존 비극 전편을 아우른 권위 있는 전집이다."
+        },
+        {
+          "contentId": "55a6b05c-a738-44ef-8a97-80b3d3d3feed",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고전학자 이준석 교수가 비극 일곱 작품 전편을 정밀한 해설과 함께 새롭게 완역한 전집이다."
+        },
+        {
+          "contentId": "6638d13c-b7ff-4e73-b6ff-5bf0b693cfdb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "피할 수 없는 운명과 대결하는 인간의 비극성을 완벽한 드라마 구조로 완성해낸 소포클레스의 최고 걸작이다."
+        },
+        {
+          "contentId": "e1c0c775-3382-4bf2-a782-d298d71e5339",
+          "relationType": "related",
+          "description": null,
+          "rationale": "국가의 법률과 신의 불문율 사이에서 양심을 지키는 비극적 주인공을 그린 소포클레스의 대표 희곡이다."
+        }
+      ]
+    },
+    {
+      "slug": "stendhal",
+      "selections": [
+        {
+          "contentId": "3fc84ba8-1417-43fe-ae76-6dfc9cc3a721",
+          "relationType": "appearance",
+          "description": "자신의 존재를 탐구하고 스스로를 알기 위해 오십 세에 집필한 자전적 소설에서 자기 자신이자 중심 탐구 대상으로 등장한다.",
+          "rationale": "작가가 자신의 실제 경험을 바탕으로 자기 자신을 중심 주제로 삼아 집필한 대표적인 자전적 작품이다."
+        },
+        {
+          "contentId": "42f27a9d-b102-435d-84e7-d353d81d7f18",
+          "relationType": "related",
+          "description": null,
+          "rationale": "19세기 프랑스 사회의 모순과 인간 심리를 탁월하게 포착하여 심리 사실주의를 개척한 스탕달의 불후의 명작이다."
+        },
+        {
+          "contentId": "b6885c12-072c-4c01-94f6-e78733f78c6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자유와 사랑을 갈망하는 주인공의 파란만장한 운명을 그려낸 스탕달의 또 다른 최고 걸작 소설이다."
+        },
+        {
+          "contentId": "bd60c347-e1ed-40cb-a382-178dbade49d1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "스탕달 문학 세계의 밑그림과 심리 사실주의의 원형을 미리 엿볼 수 있는 작가의 첫 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "stephen-king",
+      "selections": [
+        {
+          "contentId": "94ebdf35-05ab-449c-bb25-066fb5d2c191",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고립된 공간에서 무너지는 인간 심리와 공포를 예리하게 통찰한 스티븐 킹의 최고 대표 걸작이다."
+        },
+        {
+          "contentId": "fc41f5eb-826f-4643-9f39-05b8de7026c7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "작가와 광적인 팬 사이의 극한 심리 대결을 긴박감 넘치게 묘사한 현대 공포문학의 대표작이다."
+        },
+        {
+          "contentId": "079689c1-f435-451e-855b-098fe555c56b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "사형수 복도에서 벌어지는 기적과 인간 구원을 감동적으로 그려내 영화로도 널리 알려진 대표 연작소설이다."
+        },
+        {
+          "contentId": "21b81f26-a17f-44ec-b11b-cd6ee4227c77",
+          "relationType": "related",
+          "description": null,
+          "rationale": "작가의 생애와 소설 창작에 관한 실제 경험 및 조언을 담아낸 스티븐 킹의 대표 비소설 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "shin-kyung-sook",
+      "selections": [
+        {
+          "contentId": "dc7fad7a-c7dd-40cb-b05a-6e275301fcb0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "밀리언셀러를 기록하고 맨 아시아 문학상을 수상하며 신경숙 작가를 세계적 소설가로 이끈 대표작이다."
+        },
+        {
+          "contentId": "095edd5c-6cc0-47d9-a0d6-d4a1c42b472a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "구로공단 시절과 야간학교를 다니며 문학을 꿈꾸던 젊은 날의 자전적 경험을 응축한 대표 장편소설이다."
+        },
+        {
+          "contentId": "3b774e4e-08c3-4fc3-8639-2a01e2fba433",
+          "relationType": "related",
+          "description": null,
+          "rationale": "상징적 배경과 완숙한 문체로 이상문학상 대상을 수상한 대표 중편 <부석사>가 수록된 작품집이다."
+        },
+        {
+          "contentId": "322d81ef-823e-41a0-9ab2-fdb8cfd17be7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "삶과 죽음의 문제를 심도 있게 다뤄 제28회 동인문학상을 수상한 대표작 <그는 언제 오는가>가 실린 작품집이다."
+        }
+      ]
+    },
+    {
+      "slug": "arthur-conan-doyle",
+      "selections": [
+        {
+          "contentId": "03febf2b-0297-4c79-b6a1-c89202a05845",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아서 코난 도일의 대표작인 셜록 홈즈 시리즈를 망라한 전집이다."
+        },
+        {
+          "contentId": "5cc30fde-bae5-4d7f-8a93-00fbc56743b5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "셜록 홈즈 장편 중 대중적으로 가장 널리 알려진 아서 코난 도일의 대표 추리소설이다."
+        },
+        {
+          "contentId": "bbe06e6b-c0ac-439c-b655-bcb1a649381a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "명탐정 셜록 홈즈가 문학사에 처음 등장한 아서 코난 도일의 역사적인 첫 장편소설이다."
+        },
+        {
+          "contentId": "db5338ec-86bd-4088-8809-0d815ed1de3e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아서 코난 도일이 발표한 첫 번째 셜록 홈즈 단편소설집이다."
+        }
+      ]
+    },
+    {
+      "slug": "ayn-rand",
+      "selections": [
+        {
+          "contentId": "b5cbab85-94f8-4c52-8eba-6b5c49a7fc42",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아인 랜드의 철학과 문학 세계를 집대성한 대표 대작 장편소설이다."
+        },
+        {
+          "contentId": "7c1b5799-cb5a-4cf2-b89f-cab1806bce9d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아인 랜드가 창시한 객관주의 철학 체계를 직접 해설한 대표 저작이다."
+        },
+        {
+          "contentId": "14c86263-7f5c-497d-81d5-73ca681260ba",
+          "relationType": "related",
+          "description": null,
+          "rationale": "개인주의와 창조적 인간상을 형상화하여 아인 랜드를 세계적 작가로 알린 대표 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "alexandre-dumas",
+      "selections": [
+        {
+          "contentId": "919fdffb-6807-4ccd-aac4-b5ce6aaea776",
+          "relationType": "related",
+          "description": null,
+          "rationale": "대중 문학사에서 가장 널리 사랑받는 알렉상드르 뒤마의 대표 역사 모험 복수 소설이다."
+        },
+        {
+          "contentId": "6d5bf91d-c868-4b7d-b0f1-0de76d316c21",
+          "relationType": "related",
+          "description": null,
+          "rationale": "알렉상드르 뒤마의 이름을 세계에 각인시킨 대표적인 모험소설 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "alice-munro",
+      "selections": [
+        {
+          "contentId": "efb0d404-1cff-4921-8261-8ba84c220832",
+          "relationType": "related",
+          "description": null,
+          "rationale": "노벨문학상 수상 직전 발표된 현대 단편 문학의 거장 앨리스 먼로의 마지막 소설집이다."
+        },
+        {
+          "contentId": "03e7e7d3-7221-49df-858d-ed5781f2d208",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간 심리의 미묘한 결을 정밀하게 포착한 앨리스 먼로의 대표 단편집이다."
+        },
+        {
+          "contentId": "f41c276d-32b5-43cb-a699-e2ab5c8c9c1b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "여성의 삶과 관계의 파동을 농밀하게 그려낸 앨리스 먼로의 대표 단편집이다."
+        }
+      ]
+    },
+    {
+      "slug": "edgar-allan-poe",
+      "selections": [
+        {
+          "contentId": "7ab87154-1340-424a-890a-6aa146d90a85",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에드거 앨런 포의 환상·추리·공포 단편소설 전편을 유형별로 망라한 대표 전집이다."
+        },
+        {
+          "contentId": "7c5f4682-cb43-4690-87a4-96ba844e0543",
+          "relationType": "related",
+          "description": null,
+          "rationale": "포의 문학적 진수를 보여주는 핵심 단편들을 엄선해 수록한 민음사 세계문학전집 판본이다."
+        },
+        {
+          "contentId": "7f99f6dc-5ef3-43ee-878b-5f768c86e47f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에드거 앨런 포가 생전에 완성한 유일한 장편소설이다."
+        },
+        {
+          "contentId": "e81a74fa-fd9d-453f-838e-f1d4f313b225",
+          "relationType": "related",
+          "description": null,
+          "rationale": "보르헤스가 엄선하고 직접 해제를 작성한 에드거 앨런 포의 대표 중단편선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "emily-bronte",
+      "selections": [
+        {
+          "contentId": "c04cf4a7-4f13-4659-8d6a-fe12fc9d948e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에밀리 브론테의 유일한 소설이자 영문학사의 불멸의 고전인 《폭풍의 언덕》의 대표 완역본이다."
+        }
+      ]
+    },
+    {
+      "slug": "eiichiro-oda",
+      "selections": [
+        {
+          "contentId": "9788925285641",
+          "relationType": "related",
+          "description": null,
+          "rationale": "만화 역사상 최다 판매 부수를 기록한 오다 에이치로의 대작 《원피스》의 시작을 담은 공식 한국어판 1권이다."
+        }
+      ]
+    },
+    {
+      "slug": "wu-chengen",
+      "selections": [
+        {
+          "contentId": "02db5067-3541-406c-a0d2-2641fddc2bb7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오승은이 정립한 100회본 《서유기》 원전의 전모를 판본 비교를 통해 온전히 되살려낸 완역 세트이다."
+        }
+      ]
+    },
+    {
+      "slug": "johann-wolfgang-von-goethe",
+      "selections": [
+        {
+          "contentId": "ee4e3d3d-0194-4f38-8104-dc82066fd69c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "괴테에게 세계적인 명성을 안겨준 질풍노도 시대의 대표적인 서한체 서정 소설이다."
+        },
+        {
+          "contentId": "18e73db3-932f-4ece-aca2-fc11067387e3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "괴테가 60년에 걸쳐 완성한 독일 고전문학 최고봉의 비극 희곡 1부이다."
+        },
+        {
+          "contentId": "f1fff8cc-a1c8-4ef1-b77a-a6abd8c3a865",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간 관계의 정열과 도덕적 의무 사이의 갈등을 심도 있게 탐구한 괴테의 후기 대표 장편소설이다."
+        },
+        {
+          "contentId": "fde62a78-87be-4271-b3e5-6edd219d95ac",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시인으로서 괴테의 생애 전반에 걸친 서정시 세계를 총망라한 대표 시선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "walter-isaacson",
+      "selections": [
+        {
+          "contentId": "d86f8555-9305-46c5-a19a-d57785b5d845",
+          "relationType": "related",
+          "description": null,
+          "rationale": "스티브 잡스의 생애와 혁신적 업적을 독점 인터뷰를 통해 생생하게 기록한 월터 아이작슨의 대표 전기이다."
+        },
+        {
+          "contentId": "23a1cc06-d64b-4f4d-9283-0357701aa2d1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 기술 혁신의 선두에 선 일론 머스크의 삶과 비전을 밀착 취재하여 집필한 대표작이다."
+        },
+        {
+          "contentId": "afa1baff-009e-4035-9748-ceb546557cb4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "르네상스 만능 천재 레오나르도 다빈치의 창의성과 생애를 집대성한 월터 아이작슨의 대표 평전이다."
+        },
+        {
+          "contentId": "9614afd1-ea42-49a0-86c4-f2a29c2e79b2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "20세기 위대한 과학자 알베르트 아인슈타인의 과학적 업적과 인간적 고뇌를 포괄적으로 조명한 대표 평전이다."
+        }
+      ]
+    },
+    {
+      "slug": "william-shakespeare",
+      "selections": [
+        {
+          "contentId": "2302c6eb-572f-4de1-823f-c1a96dcb0e2d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "셰익스피어 문학의 정수로 꼽히는 4대 비극 햄릿, 오셀로, 리어 왕, 맥베스를 한 권에 담은 대표 선집이다."
+        },
+        {
+          "contentId": "24a0a62d-5001-4684-8433-c7bdcc5cb39c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "영국 왕실의 권력 투쟁과 정치적 인간 본성을 탐구한 셰익스피어의 4대 사극을 엮은 대표 선집이다."
+        },
+        {
+          "contentId": "0e8e7e99-2ba1-447d-b7e8-e44f88e26b62",
+          "relationType": "related",
+          "description": null,
+          "rationale": "셰익스피어 특유의 낭만 희극의 전형을 보여주는 대표적인 5대 희극 중 하나이다."
+        },
+        {
+          "contentId": "ffbc1cad-35fb-4a58-a008-f4f8caf1d4f8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "권력욕과 인간 내면의 갈등을 속도감 있게 그린 셰익스피어 4대 비극의 대표 정본이다."
+        }
+      ]
+    },
+    {
+      "slug": "yi-gyu-bo",
+      "selections": [
+        {
+          "contentId": "ac9f1d4e-f76b-4c27-8570-7657483f1a5a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고구려 건국 신화를 웅장하게 노래하여 민족적 자긍심을 고취한 고려 문인 이규보의 대표 서사시이다."
+        }
+      ]
+    },
+    {
+      "slug": "ivan-turgenev",
+      "selections": [
+        {
+          "contentId": "8d3a68f1-53e6-419b-b1a0-841de6576180",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이반 투르게네프의 대표작인 장편소설 『아버지와 아들』이다."
+        },
+        {
+          "contentId": "d1916894-6d58-4992-baf4-f901afbc620d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이반 투르게네프의 대표적인 연작 단편집인 『사냥꾼의 수기』이다."
+        },
+        {
+          "contentId": "e6f62d9b-bd78-4748-81d8-e4fe77b9cb14",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이반 투르게네프가 발표한 대표 소설 『귀족의 보금자리』이다."
+        }
+      ]
+    },
+    {
+      "slug": "lee-tae-jun",
+      "selections": [
+        {
+          "contentId": "d678589c-3908-4616-9795-9f0f2378176a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이태준이 집필한 한국 근대 산문의 대표 수필집이다."
+        }
+      ]
+    },
+    {
+      "slug": "jeong-you-jeong",
+      "selections": [
+        {
+          "contentId": "4122eef7-bb49-4762-bd74-62bfca7f6a7a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정유정 작가의 대표적인 스릴러 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "jane-austen",
+      "selections": [
+        {
+          "contentId": "d1329283-11a3-4bc5-ab7e-dcc17c5412e6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제인 오스틴의 가장 대표적인 고전 장편소설 『오만과 편견』의 민음사 완역본이다."
+        },
+        {
+          "contentId": "9589761c-866a-4396-af54-c06510d1423d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제인 오스틴의 대표작 『이성과 감성』의 정식 한국어 번역본이다."
+        },
+        {
+          "contentId": "1e2ccc75-69f3-44a9-9c8f-55b4d2c427dc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제인 오스틴의 주요 대표 장편소설 『맨스필드 파크』이다."
+        },
+        {
+          "contentId": "63da3393-f1f7-43c5-bd67-268bc69e4fda",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제인 오스틴의 유작이자 대표 소설인 『설득』이다."
+        }
+      ]
+    },
+    {
+      "slug": "georges-simenon",
+      "selections": [
+        {
+          "contentId": "71c98a69-963b-4af3-abb4-811ab501996a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조르주 심농의 대표작이자 최초로 영화화된 매그레 시리즈 소설이다."
+        },
+        {
+          "contentId": "68a6cfae-f711-4cfc-8fa5-e90f07217bbb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조르주 심농의 대표적인 매그레 시리즈 8권 작품이다."
+        },
+        {
+          "contentId": "7be3c2df-67a1-46eb-b364-15d0a98e35d3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조르주 심농의 인기 추리 소설 매그레 시리즈 10권 작품이다."
+        },
+        {
+          "contentId": "178a3172-d5bf-43ee-b545-620f3b3f474a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조르주 심농이 집필한 매그레 반장 활약 장편 추리소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "cao-zhi",
+      "selections": [
+        {
+          "contentId": "e8ee917e-84b9-4588-b46c-aa7171908197",
+          "relationType": "related",
+          "description": null,
+          "rationale": "건안 문학을 대표하는 위나라 시인 조식의 시들을 엮은 시선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "george-orwell",
+      "selections": [
+        {
+          "contentId": "449813c5-cae4-482c-9737-37c5dcc803d7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조지 오웰의 대표작이자 전체주의를 비판한 고전 디스토피아 소설이다."
+        },
+        {
+          "contentId": "89af7e71-04fa-405d-8b84-2e6f2c52e507",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조지 오웰의 대표적인 풍자 정치 소설 『동물농장』이다."
+        },
+        {
+          "contentId": "60bec748-7e27-4028-8322-2ac193eb3cb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조지 오웰의 사유와 작가정신의 정수가 담긴 대표 에세이선집이다."
+        },
+        {
+          "contentId": "f1d13d15-4eb2-42ef-9ac4-f161cccf05fd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조지 오웰이 스페인 내전에 참전한 실제 경험을 기록한 대표 르포르타주이다."
+        }
+      ]
+    },
+    {
+      "slug": "john-milton",
+      "selections": [
+        {
+          "contentId": "d34b3df2-d4a6-4a48-ad62-a48fa6f38143",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존 밀턴이 구술로 완성한 불후의 대표 대서사시이다."
+        },
+        {
+          "contentId": "c940fff0-7cc9-4397-9a78-2e966d85b8b7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존 밀턴이 언론과 표현의 자유를 옹호하며 사전 검열제를 비판한 대표 산문 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "kalidasa",
+      "selections": [
+        {
+          "contentId": "f3aae06c-6124-41c1-aa00-d93c951e5dab",
+          "relationType": "related",
+          "description": null,
+          "rationale": "칼리다사가 남긴 인도 산스크리트 고전 문학의 대표 희곡이다."
+        }
+      ]
+    },
+    {
+      "slug": "masashi-kishimoto",
+      "selections": [
+        {
+          "contentId": "74dfcc5a-81b4-4eb7-8e0b-18cbc6581173",
+          "relationType": "related",
+          "description": null,
+          "rationale": "키시모토 마사시의 대표 만화 『나루토』 전집 세트이다."
+        }
+      ]
+    },
+    {
+      "slug": "tim-ferriss",
+      "selections": [
+        {
+          "contentId": "219e44f4-5d0f-4b88-9528-9e9092a2e86c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "티모시 페리스의 가장 대표적인 라이프스타일 디자인 저서이다."
+        },
+        {
+          "contentId": "e04e2a83-a375-4bdb-b61e-e2d43387bca6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "티모시 페리스가 세계 최고 석학들과 리더들의 성공 비밀을 인터뷰해 쓴 대표작이다."
+        },
+        {
+          "contentId": "2474458b-60a5-4740-84a8-2b44ef244091",
+          "relationType": "related",
+          "description": null,
+          "rationale": "티모시 페리스가 신체 개조와 건강 실험을 다룬 저서 『포 아워 바디』이다."
+        },
+        {
+          "contentId": "4f88a0a9-00b3-42d1-9999-4b120284aa94",
+          "relationType": "related",
+          "description": null,
+          "rationale": "티모시 페리스가 신속한 학습과 요리 기술을 다룬 저서이다."
+        }
+      ]
+    },
+    {
+      "slug": "federico-garcia-lorca",
+      "selections": [
+        {
+          "contentId": "db8b245f-14c3-4677-bd57-efa94f043544",
+          "relationType": "related",
+          "description": null,
+          "rationale": "페데리코 가르시아 로르카의 대표 희곡인 농촌 비극 『피의 결혼』이다."
+        },
+        {
+          "contentId": "6b300916-1acd-4e27-9f36-53c48f7ee43c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "페데리코 가르시아 로르카의 대표 시집 『집시 로만세』이다."
+        },
+        {
+          "contentId": "a575d58c-a9b8-477e-9a19-d766013a12e1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "페데리코 가르시아 로르카의 시 세계를 감상할 수 있는 시선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "paul-valery",
+      "selections": [
+        {
+          "contentId": "db09f01b-e659-4ec8-8c88-d0a1b4d62964",
+          "relationType": "related",
+          "description": null,
+          "rationale": "프랑스 상징주의 대시인 폴 발레리의 시들을 엮은 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "francesco-petrarca",
+      "selections": [
+        {
+          "contentId": "7466eb42-b06b-403d-bb11-6f15e7a75db9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "프란체스코 페트라르카가 유럽 소네트의 전범을 확립한 불후의 대표 시집이다."
+        },
+        {
+          "contentId": "d92a6b2c-7ac7-41f2-8359-884b3c3cd28d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "르네상스 인문주의자 페트라르카의 생각과 삶을 엿볼 수 있는 서간문 선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "heo-gyun",
+      "selections": [
+        {
+          "contentId": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+          "relationType": "related",
+          "description": null,
+          "rationale": "허균이 저술한 우리나라 최초의 한글 소설 『홍길동전』이다."
+        },
+        {
+          "contentId": "d543227f-ff08-4d67-9e49-524e2c2b7c5d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "허균의 은일 사상과 서정을 담은 산문 선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "herta-muller",
+      "selections": []
+    },
+    {
+      "slug": "helen-keller",
+      "selections": [
+        {
+          "contentId": "1de2414c-9823-430b-a42c-0723d61b5a9e",
+          "relationType": "appearance",
+          "description": "어린 시절부터 래드클리프 대학 진학 무렵까지 겪은 삶과 배움의 과정을 직접 기록한 자서전의 저자이자 주인공으로 등장한다.",
+          "rationale": "헬렌 켈러가 자신의 유년기와 성장 과정을 직접 기록한 자서전이다."
+        }
+      ]
+    },
+    {
+      "slug": "hwang-sok-yong",
+      "selections": [
+        {
+          "contentId": "ed33a338-da31-4dc2-86a9-2614ba67a055",
+          "relationType": "appearance",
+          "description": "고교 자퇴 후 베트남전에 참전하기까지 소년 시절의 방황과 청춘의 기록을 담은 자전적 소설의 실제 모델이자 중심 인물로 등장한다.",
+          "rationale": "작가가 자신의 청춘과 소년 시절의 실제 경험을 풀어놓은 자전적 성장소설이다."
+        },
+        {
+          "contentId": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "황석영 작가가 10년간 연재하여 완성한 대표 대하역사소설 『장길산』 세트이다."
+        },
+        {
+          "contentId": "e52c93f5-a01f-4b60-861e-d9710ae8b6c5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전쟁의 상흔과 화해를 굿의 형식으로 풀어낸 황석영의 대표 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "j.k.-rowling",
+      "selections": [
+        {
+          "contentId": "d7c1936d-1ad7-41a3-9eba-7b626f92136d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "J.K. 롤링의 대표 판타지 소설인 『해리 포터』 시리즈 전권 세트이다."
+        },
+        {
+          "contentId": "4e6a11e9-275b-4abf-b260-5aa13fbdba1d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "해리 포터 시리즈의 시작을 알리는 첫 번째 대표작이다."
+        },
+        {
+          "contentId": "5eb49924-2cd2-446e-b608-f5eebee41ea6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "J.K. 롤링의 해리 포터 시리즈 4부작의 20주년 개정판 소설이다."
+        },
+        {
+          "contentId": "8a0a9b7c-5b99-42b9-b21f-b956d4f27a6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "J.K. 롤링이 로버트 갈브레이스라는 필명으로 발표한 코모란 스트라이크 탐정 시리즈 첫 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "david-goggins",
+      "selections": [
+        {
+          "contentId": "8d43f852-86dc-4c38-a413-f362f7f726ef",
+          "relationType": "related",
+          "description": null,
+          "rationale": "데이비드 고긴스의 한계 극복 경험을 담은 대표 저서의 한국어판이다."
+        }
+      ]
+    },
+    {
+      "slug": "sun-tzu",
+      "selections": [
+        {
+          "contentId": "0925e1cc-92c1-4b74-b691-f125bde6ccde",
+          "relationType": "related",
+          "description": null,
+          "rationale": "손자가 저술한 동양 군사학의 정전이자 고전인 『손자병법』이다."
+        }
+      ]
+    },
+    {
+      "slug": "erich-von-manstein",
+      "selections": [
+        {
+          "contentId": "c3124dee-449e-4049-a138-d32c0ae6a332",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에리히 폰 만슈타인이 직접 쓴 제2차 세계대전 전략 회고록이다."
+        }
+      ]
+    },
+    {
+      "slug": "ulysses-s.-grant",
+      "selections": [
+        {
+          "contentId": "cf92f9a3-bc5a-4e07-903e-b2172ab00b75",
+          "relationType": "related",
+          "description": null,
+          "rationale": "율리시스 S. 그랜트 장군 겸 대통령이 직접 저술한 개인 회고록이다."
+        }
+      ]
+    },
+    {
+      "slug": "cao-cao",
+      "selections": []
+    },
+    {
+      "slug": "heinz-guderian",
+      "selections": [
+        {
+          "contentId": "e111e950-ff15-404b-a9cc-8031cef77d27",
+          "relationType": "related",
+          "description": null,
+          "rationale": "하인츠 구데리안이 2차 대전 기갑전과 참모 경험을 기록한 정식 번역 회고록이다."
+        }
+      ]
+    },
+    {
+      "slug": "hayao-miyazaki",
+      "selections": [
+        {
+          "contentId": "6a9e3dd0-c8e4-4b0e-bb3c-e8cefd19b41f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ?? ?? ?? ?? ?????? ?????? ??? ?? ???? 1???."
+        },
+        {
+          "contentId": "98575b40-d3ff-4c54-9b6e-3cd8bce8d94b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ?? ?????? ??? ?? ? ?? ??? ?? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "andrei-tarkovsky",
+      "selections": [
+        {
+          "contentId": "fe8795ab-e633-4480-85b1-0da2139b9d6f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?????? ??? ??, ??? ?? ??? ?? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "bong-jin-kim",
+      "selections": [
+        {
+          "contentId": "434bbf6a-356b-40c6-b852-e5ea82ef2175",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ?? ??? ???? ?? ??? ?? ???? ??? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "richard-branson",
+      "selections": [
+        {
+          "contentId": "9cf3c860-20e2-40d7-96dc-2916e62f50cc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ??? ??? ??? ?? ??? ?? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "michael-dell",
+      "selections": [
+        {
+          "contentId": "0fb55952-02f7-4855-b29f-15be1480d95e",
+          "relationType": "appearance",
+          "description": "?? ????? ??? ??? ???? ??? ???? ???? ??? ?? ???? ???? ?? ??? ????.",
+          "rationale": "??? ?? ??? ? ???? ?? ??? ?? ??? ?? ?????."
+        },
+        {
+          "contentId": "9384d934-85d6-4640-afe8-c059547ddb88",
+          "relationType": "appearance",
+          "description": "?? ??? ??? EMC ??? ??? ?? ??? ?? ??? ???? ???? ????? ????.",
+          "rationale": "??? ?? ? ??????? ?? ?? ??? ??? ?? ??? ???."
+        }
+      ]
+    },
+    {
+      "slug": "hiroshi-mikitani",
+      "selections": [
+        {
+          "contentId": "5acf6f59-5226-41b9-9ad7-1c739d44903b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ???? ?? ??? ???? ??? ??? ???? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "sam-walton",
+      "selections": [
+        {
+          "contentId": "c4273ae1-2a50-4110-bf0d-a40436254116",
+          "relationType": "appearance",
+          "description": "?? ????? ??? ???? ???? ?? ???? ?? ??? ?? ??? ?? ???? ???? ?? ??? ????.",
+          "rationale": "? ??? ? ??? ?? ??? ??? ??? ?? ? ?? ??? ??? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "arianna-huffington",
+      "selections": [
+        {
+          "contentId": "a15d038c-8802-4cfe-b306-93774feaca8d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ???? ?? ???? ????? ?? ??? ??? ????."
+        },
+        {
+          "contentId": "149b0cd2-3f49-46de-9d22-021ae6b86f47",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ??? ??? ???? ?? ?? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "kazuo-inamori",
+      "selections": [
+        {
+          "contentId": "edab8b83-e0ca-4d05-8dc8-7f0794462a81",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ?? ??? ??? ???? ??? ?? ???? ??? ?? ????."
+        },
+        {
+          "contentId": "661cfb55-2919-438a-b951-365261199532",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ?? ??? ????? ?? ??? ?? ????."
+        },
+        {
+          "contentId": "ab1dbf58-9d79-401b-bad2-c05d4db15cc0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ??? ?? ??? ???? ?? ??? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "chung-ju-yung",
+      "selections": [
+        {
+          "contentId": "a2e492e2-0af6-477f-bc56-cfebc2f70c51",
+          "relationType": "appearance",
+          "description": "??? ???? ??? ????? ??? ??? ???? ?? ??? ??? ?? ???? ????? ????.",
+          "rationale": "???? ??? ??? ???? ?? ? ?? ??? ?? ??? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "phil-knight",
+      "selections": [
+        {
+          "contentId": "eff1bb2b-2529-44f3-867a-4c9e60ccc3ef",
+          "relationType": "appearance",
+          "description": "?? ?? ???? ??? ???? ???? ???? ?? ????? ???? ?? ???? ????? ????.",
+          "rationale": "? ???? ???? ??? ?? ??? ???? ??? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "kang-youwei",
+      "selections": [
+        {
+          "contentId": "8387ef31-4c56-4b86-8c24-ad7aabcebce7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ??? ??? ??? ?? ??? ????? ????? ??? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "confucius",
+      "selections": [
+        {
+          "contentId": "32838ac4-4041-430b-b953-ccd98244a52b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ??? ?? ?? ?? ???? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "b78ce08b-4bc8-4498-8756-a11828c04808",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ??? ???? ?? ??? ?? ??? ?? ??? ?? ????."
+        },
+        {
+          "contentId": "b55c7290-3fe4-48c5-89a9-49af0cd3d174",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ??? ??? ??? ???? ??? ?? ?? ????."
+        },
+        {
+          "contentId": "08937657-873a-47f5-b44f-df710528e171",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ??? ?? ???? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "kim-bu-sik",
+      "selections": [
+        {
+          "contentId": "2ae82b06-f5ba-4c5a-922e-7f96a7079b09",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ??? ?? ?? ?? ?? ?? ??????? ?? ?? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "niccolo-machiavelli",
+      "selections": [
+        {
+          "contentId": "df094f0f-db6b-458f-99bf-66ffdb45de30",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ??? ?? ??? ???? ??? ?????? ?? ??????."
+        },
+        {
+          "contentId": "6f5bb8b5-347c-4922-9c80-8a0942f65283",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ???? ???? ??? ??? ?? ??? ?? ?????? ?? ????."
+        },
+        {
+          "contentId": "45ce20e5-ec97-4420-9250-025a2bce5a79",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ??? ??? ?? ???? ?? ??? ?? ?????? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "david-hume",
+      "selections": [
+        {
+          "contentId": "e1eced02-da9a-44bf-8a6a-4feb85a4db85",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?? ???? ????? ???? ??????? ??? ?? ????."
+        },
+        {
+          "contentId": "9fd6306c-48b2-4e4a-8acb-020048525072",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ? ??? ???? ???? ???? ?? ???."
+        },
+        {
+          "contentId": "2c85915b-74e8-4135-a3a3-b983236d7743",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ? ?? ??? ??? ??? ?? ?? ?? ????."
+        },
+        {
+          "contentId": "ada0fa91-5989-45a6-abd4-cb9ed091e10a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ? ??? ?? ?? ?? ??? ?? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "lucius-annaeus-seneca",
+      "selections": [
+        {
+          "contentId": "82a73066-2872-435c-80d4-71327afddb3d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ? ?? ??? ??? ?? ???? ?? ???? ???? ?? ??? ????."
+        },
+        {
+          "contentId": "50e87492-4b97-49a4-9a21-9a6587944ede",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??????? ?? ???? ??? ??? ??? ???? ?? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "rene-girard",
+      "selections": [
+        {
+          "contentId": "f4b58c69-6367-4eb5-831e-b625d34b1b3e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ???? ???? ??? ????? ??? ?? ??? ??? ????."
+        },
+        {
+          "contentId": "a50e1bc7-216b-4609-9e2a-f1caf45e9033",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ?????? ??? ??? ??? ???? ??? ?? ????."
+        },
+        {
+          "contentId": "7320a649-1dda-4e0c-90e7-10c641f03e3f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ?? ??? ?? ??? ??? ??? ??? ?? ???? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "martha-nussbaum",
+      "selections": [
+        {
+          "contentId": "bf333ef7-ca77-4af8-bed2-caca0143b63e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ????? ??? ???? ?? ?? ??? ???? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "mozi",
+      "selections": [
+        {
+          "contentId": "7e5ea305-c6ff-4014-8edc-df47fb58cd0e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ??? ??? ?? ??? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "park-ji-won",
+      "selections": [
+        {
+          "contentId": "f8144251-36a8-45ee-a5d5-5f6e2788c431",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ??? ???? ?? ?? ??? ?? ??? ?? ??? ??? ?? ?????."
+        },
+        {
+          "contentId": "8b8409a6-96e1-4a48-bf30-7dfdfb6fd70e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??????? ???? ?? ?? ? ?? ??? ?? ??? ????."
+        },
+        {
+          "contentId": "e4299521-4bf5-4557-b84a-5f91d54a7deb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ??? ??? ???? ?? ???? ? ?? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "faxian",
+      "selections": [
+        {
+          "contentId": "a812523e-bfca-469a-b87d-3c7ecda043e7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?????? ?? ??? ??? ?? ?? ???????? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "socrates",
+      "selections": [
+        {
+          "contentId": "6858f524-a44f-4559-aa96-7e45087081af",
+          "relationType": "appearance",
+          "description": "???? ??? ??? ?? ???? ??? ?? ? ??? ??? ??? ?? ??? ????.",
+          "rationale": "???? ?? ??? ? ?? ?? ?????? ??? ?? ? ??? ??? ?? ? ?? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "shin-chae-ho",
+      "selections": [
+        {
+          "contentId": "439afbc2-1371-4fad-adc6-edc388297dca",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ?? ?? ??? ??? ???? ??????? ??? ?? ??? ???."
+        }
+      ]
+    },
+    {
+      "slug": "antonio-gramsci",
+      "selections": [
+        {
+          "contentId": "15843a27-cbf8-4229-87db-fe926024b58b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ??? ??? ?? ? ??? ?? ??? ?? ??????? ??????."
+        },
+        {
+          "contentId": "8fb9e688-ef07-40e6-b11a-5374a7a5c402",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ??? ???? ??? ???? ?? ?? ?? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "epicurus",
+      "selections": [
+        {
+          "contentId": "4327aed1-7a2e-4c1f-8932-d600f2dc74b9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ? ??? ?? ?????? ?? ???? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "ruan-ji",
+      "selections": [
+        {
+          "contentId": "3df06e90-644d-48f4-ae69-9b27418bb6e2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ?? ??? ??? ?? ??? ??? ???? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "yuval-noah-harari",
+      "selections": [
+        {
+          "contentId": "e0b6dae6-45f8-4646-83bc-fa07e7448874",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ?? ????? ??? ???? ??? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "15dbc203-1e2f-4715-997f-24d17cb4c47e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ??? ????? ??? ?? ???? ????? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "lee-deok-mu",
+      "selections": [
+        {
+          "contentId": "f0e66710-dd1c-404c-816f-d2c5412f126b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ??? ?? ?? ??? ?? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "yi-hwang",
+      "selections": [
+        {
+          "contentId": "22907153-5ebe-49d7-a150-90b0f136751a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ???? ??? ?? ??? ???? ? ?? ??? ??? ?? ?? ????."
+        },
+        {
+          "contentId": "018369b6-2058-4ed6-92ba-60cf65553c30",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ? ??? ?? ?? ?? ?? ??? ???? ????."
+        }
+      ]
+    },
+    {
+      "slug": "zisi",
+      "selections": [
+        {
+          "contentId": "8bdb3721-19c3-4fec-b54f-f2a58807ae7c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ??? ???? ???? ???? ??? ?? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "jean-paul-sartre",
+      "selections": [
+        {
+          "contentId": "e5d31d86-d83f-4ad3-ace5-f05642273092",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ??? ??? ??? ???? ????? ?? ??????."
+        },
+        {
+          "contentId": "6c2f253d-ddd9-42bc-b84b-0eab93a31314",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ? ????? ????? ????? ?? ?? ??? ?? ?????."
+        },
+        {
+          "contentId": "b64d8239-52a7-4579-9234-c9a5aa81e9e8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ?? ??? ??? ??? ??? ??? ??? ????? ?? ????."
+        },
+        {
+          "contentId": "d4ef77cc-dc1a-49df-adad-4653cd7c56cb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ? ??? ??? ????? ??? ????? ??? ???."
+        }
+      ]
+    },
+    {
+      "slug": "jeong-yak-yong",
+      "selections": [
+        {
+          "contentId": "da9621a3-b94d-412c-aac6-df4f80c52a3d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ?? ??? ??? ??? ? ??? ?? ??? ??? ??? ?????."
+        },
+        {
+          "contentId": "2cbc5a70-51fa-4e15-b82e-35191646d58a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?? ??? ??? ?? ??? ??? ???? ??? ?? ?? ????."
+        },
+        {
+          "contentId": "d652b755-170a-4eaa-b9c2-d56da771e165",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?? ????? ???? ?? ??? ?? ??? ??? ???? ?? ?????."
+        },
+        {
+          "contentId": "f0f32cbb-fcbc-4207-9265-c5cbeaaa5fe7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?? ??? ?? ??? ??? ??????? ???? ??? ?? ???."
+        }
+      ]
+    },
+    {
+      "slug": "zhou-dunyi",
+      "selections": [
+        {
+          "contentId": "5bb2f7b4-73fc-47d8-abac-85f32e14f83d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ??? ??? ??? ??? ??? ??? ??? ???? ?? ????."
+        },
+        {
+          "contentId": "50fe08db-f9c3-46c1-8fbb-5ab81d589ae9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?? ? ??? ??? ?? ?? ???? ???? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "chen-shou",
+      "selections": [
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?????? ??? ???? ??? ????? ?? ???."
+        }
+      ]
+    },
+    {
+      "slug": "xenophon",
+      "selections": [
+        {
+          "contentId": "eb93024e-663d-4cd6-ba5c-f740e916955d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ?? ?????? ??? ???? ??? ?? ?????."
+        },
+        {
+          "contentId": "7754583a-ae07-4c70-bd1a-a07f3077abc6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ??? ??? ?? ???? ????? ??? ????? ?? ????."
+        },
+        {
+          "contentId": "cca587e8-7ebc-4fb3-8cf8-ccea3a09c836",
+          "relationType": "appearance",
+          "description": "???? ???? ??? ? ????? ???? ??? ?? ? ?? ??? ??? ???? ?? ??? ????.",
+          "rationale": "????? ?? ???? ??? ???? ??? ??? ???? ??? ??? ?? ?????."
+        },
+        {
+          "contentId": "cac9bba0-f80e-4944-a1ce-4198278007bd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?????? ?? ???? ????? ????? ??? ??? ??? ????? ????."
+        }
+      ]
+    },
+    {
+      "slug": "thomas-aquinas",
+      "selections": [
+        {
+          "contentId": "cf14c733-5cb0-428b-845c-275575fca8a5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??????? ??? ??? ??? ??? ??? ????? ?? ?????? ???? 1???."
+        },
+        {
+          "contentId": "b5367fb7-7cdd-469c-b4fb-cac89c36c258",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ?? ?? ??? ????? ?? ?? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "thucydides",
+      "selections": [
+        {
+          "contentId": "b2d36d4b-793f-484b-8374-f67af9f2d563",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ????? ??? ??? ???? ? ?? ??? ???? ??? ?????? ????."
+        }
+      ]
+    },
+    {
+      "slug": "friedrich-nietzsche",
+      "selections": [
+        {
+          "contentId": "e971ec95-dad5-428b-969f-5d56e6ad7712",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ?? ??? ??? ??? ???? ??? ??? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "db3176e6-8622-4a31-9b82-f0b9bd4a12e4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ??? ???? ??? ?? ??? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "cc67041b-8222-4f20-9875-9151f6628ba9",
+          "relationType": "appearance",
+          "description": "??? ??? ?? ??? ???? ?????? ???? ??? ?? ???? ???? ?? ??? ????.",
+          "rationale": "??? ??? ?? ?? ? ??? ??? ?? ??? ??? ?????."
+        },
+        {
+          "contentId": "6d3fb602-14e4-473b-88ed-652ee986757b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??????? ??? ?? ????? ????? ????? ??? ??? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "plutarch",
+      "selections": [
+        {
+          "contentId": "c422e631-159c-4019-9ea3-b17ad4e98130",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ? ??? ??? ?? ??????? ??? ???? ?? ????."
+        },
+        {
+          "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ??? ??? ??? ??? ??? ??????? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "han-yu",
+      "selections": [
+        {
+          "contentId": "3e494d4f-024a-42cc-8205-09de10876839",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ?? ??? ??? ?? ? ??? ??? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "huang-zongxi",
+      "selections": [
+        {
+          "contentId": "a01c9774-d328-40f2-9791-51c1c178b5d3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ???? ??? ??? ?? ??? ??? ???? ?? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "derren-brown",
+      "selections": [
+        {
+          "contentId": "754d0896-0293-4586-b01c-c1f08ba6d79e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ?? ??? ?? ???? ?? ??? ???? ? ?? ??? ??? ????."
+        },
+        {
+          "contentId": "4bc582be-fd49-4c8b-a72f-c51c5ad8a843",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ??? ?? ??? ??? ???? ?? ??? ?? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "maye-musk",
+      "selections": [
+        {
+          "contentId": "6c809f6d-7810-4b26-9115-ecb2bf6bedc6",
+          "relationType": "appearance",
+          "description": "??? ???? ??? ? ??? ??? ?? ??? ??? ??? ?? ???? ???? ????? ????.",
+          "rationale": "?? ???? ??? ??? ? ? ??? ???? ?? ??? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "florence-nightingale",
+      "selections": [
+        {
+          "contentId": "2c70188c-f568-4699-a844-e0e34c1da745",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?????? ??? ??? ??? ??? ?? ??? ????? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "naval-ravikant",
+      "selections": [
+        {
+          "contentId": "2bbba39a-b667-43a3-a148-1c57a436f558",
+          "relationType": "appearance",
+          "description": "?? ?? ? ??? ?? ??? ??? ?? ???? ?? ??? ?? ??? ????.",
+          "rationale": "?? ????? ???? ??? ??? ?? ??? ?? ?? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "benjamin-graham",
+      "selections": [
+        {
+          "contentId": "0fe4ccd5-a636-43af-87aa-ff217a11d667",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ????? ???? ??? ?? ??? ????? ??? ?? ?? ??? ??? ????."
+        },
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ????? ??? ????? ??? ??? ????? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "george-soros",
+      "selections": [
+        {
+          "contentId": "7a62d555-96d6-4839-8475-d99542091dbe",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ??? ??? ?? ?? ??? ??? ????? ?? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "peter-lynch",
+      "selections": [
+        {
+          "contentId": "dcf550e5-dca8-4c12-bad7-9bec32851fcc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ???? ?? ??? ?? ?? ???? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "b70c223a-b824-41ce-836c-5074ccd1ed82",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ????? ?? ??? ???? ?? ??? ?? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "norman-vincent-peale",
+      "selections": [
+        {
+          "contentId": "6b667782-9065-424b-ac57-3296da68ec6d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ?? ??? ?? ??? ???? ??? ??? ???? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "malcolm-x",
+      "selections": [
+        {
+          "contentId": "bde92642-bf9e-42ac-9348-e1a6372a9f45",
+          "relationType": "appearance",
+          "description": "??? ?? ??? ?? ?? ?? ???? ???? ??? ??? ??? ??? ?? ???? ???? ?? ??? ????.",
+          "rationale": "?? ??? ??? ????? ??? ??? ??? ??? ??? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "ham-seok-heon",
+      "selections": [
+        {
+          "contentId": "ec8675a2-58d3-40b9-92b2-9355613cbd21",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?? ?? ?? ????? ???? ???? ??? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "nas",
+      "selections": []
+    },
+    {
+      "slug": "danielle",
+      "selections": []
+    },
+    {
+      "slug": "rei",
+      "selections": []
+    },
+    {
+      "slug": "lisa",
+      "selections": []
+    },
+    {
+      "slug": "liz",
+      "selections": []
+    },
+    {
+      "slug": "richard-wagner",
+      "selections": [
+        {
+          "contentId": "fe0a2972-854e-4ebe-a26d-1331494e335b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ??? ???? ?? ? ? ?? ?? ??? ?? ?? ????."
+        },
+        {
+          "contentId": "e856542e-4bc9-47e2-8e5d-432044215899",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ??? ?? ??? ???? ??? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "b565a8e2-05f6-4a4f-bc74-f7aa5daa6e1b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ???? ?? ? ??????? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "mark-tuan",
+      "selections": []
+    },
+    {
+      "slug": "viki",
+      "selections": []
+    },
+    {
+      "slug": "seohyun",
+      "selections": []
+    },
+    {
+      "slug": "andy",
+      "selections": []
+    },
+    {
+      "slug": "eric",
+      "selections": []
+    },
+    {
+      "slug": "yuri",
+      "selections": []
+    },
+    {
+      "slug": "jackson-wang",
+      "selections": []
+    },
+    {
+      "slug": "jay",
+      "selections": []
+    },
+    {
+      "slug": "joshua",
+      "selections": []
+    },
+    {
+      "slug": "kai",
+      "selections": []
+    },
+    {
+      "slug": "wang-feifei",
+      "selections": []
+    },
+    {
+      "slug": "donald-trump",
+      "selections": [
+        {
+          "contentId": "042e38f0-a68b-401b-be0e-a7ae6a73fb8c",
+          "relationType": "appearance",
+          "description": "??? ???? ???? ?? ??? ?? ??? ??? ??? ?? ???? ???? ?? ??? ????.",
+          "rationale": "??? ???? ??? ??? ?? ??? ?? ??? ?? ???? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "barack-obama",
+      "selections": [
+        {
+          "contentId": "1a67753d-2545-40e1-b9cd-e9baab24bd89",
+          "relationType": "appearance",
+          "description": "???? ??? ?? ??? ???? ?? ?????? ??? ???? ???? ???? ?? ??? ????.",
+          "rationale": "?? ???? ???? ?? ?? ? ??? ???? ??? ?? ??? ?????."
+        },
+        {
+          "contentId": "f1bfe4f8-502b-495b-84ee-416030ecb867",
+          "relationType": "appearance",
+          "description": "??? ??? ?? ??? ?? ???? ?? ?? 1?? ?? ??? ??? ?? ???? ?? ??? ????.",
+          "rationale": "?? ???? ?? ??? ??? ???? ?? ??? ?? ??? ??? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "vladimir-lenin",
+      "selections": [
+        {
+          "contentId": "537ff1c0-86ea-491b-bc5f-a12194ced108",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ?? ??? ?? ???? ??? ???? ???? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "solon",
+      "selections": [
+        {
+          "contentId": "a8c384b2-ef3f-4bb4-8165-4bdee608d8f8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ??? ???? ?? ???? ???? ?? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "adolf-hitler",
+      "selections": [
+        {
+          "contentId": "a0b5b98e-46a4-4785-9410-809a39833703",
+          "relationType": "appearance",
+          "description": "???? ?? ??? ???? ????? ????? ??? ??? ??? ?? ???? ??? ???? ?? ??? ????.",
+          "rationale": "??? ???? ??? ?? ??? ?? ??? ??? ? ??? ?? ????."
+        },
+        {
+          "contentId": "63c188a7-9d43-4c13-b74c-35ccc4dcbc14",
+          "relationType": "appearance",
+          "description": "?2? ???? ? ??? ???? ??? ?? ? ???? ?? ???? ?? ??? ?? ??? ????.",
+          "rationale": "1941??? 1944??? ??? ???? ??? ??? ?? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "winston-churchill",
+      "selections": [
+        {
+          "contentId": "34116844-5beb-46ab-902c-464180ab910b",
+          "relationType": "appearance",
+          "description": "?? ??? ? ?? ? ?? ??? ??? ???? ??? ??? ?? ???? ???? ????? ????.",
+          "rationale": "??? ??? ??? ????? ?? ?? ????? ??? ?????."
+        },
+        {
+          "contentId": "b46dd0a6-3635-468d-a48e-1a774e6f4a1e",
+          "relationType": "appearance",
+          "description": "?? ???? ?2? ????? ??? ??? ?? ??? ??? ???? ??? ?? ???? ????.",
+          "rationale": "??? ??? ?? ????? ?? ?? ?2? ????? ??? ??? ??? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "jeong-do-jeon",
+      "selections": [
+        {
+          "contentId": "eb8313bf-beae-482a-aa57-8416414f7e48",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?? ??? ???? ???? ???? ??? ?? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "2d7866a3-adec-43e7-bb3f-d97c68903184",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ?? ? ?? ??? ?? ?????? ??? ?????."
+        },
+        {
+          "contentId": "f95176a1-1ba6-41a9-968c-74dd6270cb19",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ? ??? ?? ??? ?? ??? ??? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "zeng-guofan",
+      "selections": [
+        {
+          "contentId": "f680e9ca-142b-49e4-a55d-d997234d8449",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ?? ??? ?? ??? ?? ? ??? ??? ?? ???."
+        }
+      ]
+    },
+    {
+      "slug": "j.d.-vance",
+      "selections": [
+        {
+          "contentId": "01f7e834-86e5-4af1-a202-c9e9b4d0ddc4",
+          "relationType": "appearance",
+          "description": "?????? ??? ???? ??? ???? ?? ? ???? ?? ?? ???? ???? ?? ??? ????.",
+          "rationale": "J.D. ??? ??? ???? ?? ?? ??? ?? ??? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "gregor-mendel",
+      "selections": [
+        {
+          "contentId": "c317767e-c36e-4dea-8634-4c83916a0848",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ??? ?? ??? ?? ??? ??? ???? ??? ? ????."
+        }
+      ]
+    },
+    {
+      "slug": "nicolaus-copernicus",
+      "selections": [
+        {
+          "contentId": "7d3710bc-e2b4-4613-b4a4-6965497756a9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ??? ??? ???? ??? ??? ??? ??????? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "ray-kurzweil",
+      "selections": [
+        {
+          "contentId": "50a758e1-4188-4d34-ba87-c43fc54212c9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ????? ??? ??? ?? ??? ??? ??? ?? ??? ????."
+        },
+        {
+          "contentId": "a66fd03c-c69d-40bd-88ed-11004cd1c58e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ?? ???? ??? ????? ??? ??? ???? ??? ????."
+        },
+        {
+          "contentId": "fd11b285-085b-4626-9e66-7efcd9241a6f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ????? ??? ??? ??? ??? ?? ???? ??? ?? ????? ?????."
+        },
+        {
+          "contentId": "0ce74f94-fcec-45e8-aa0b-51e0ea059cdb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ????? ?? ??? ??? ??? ??? ??? ?? ????? ?? ?? ???."
+        }
+      ]
+    },
+    {
+      "slug": "richard-feynman",
+      "selections": [
+        {
+          "contentId": "d02188aa-8e2b-4f02-85ea-b9c7dcf0ef1d",
+          "relationType": "appearance",
+          "description": "? ?? ???? ???? ???? ?? ???? ??? ?? ??? ??? ???? ???? ?? ??? ????.",
+          "rationale": "??? ???? ???? ?? ?? ? ???? ?? ??? ?? ?? ?????."
+        },
+        {
+          "contentId": "38614b74-efae-4877-a38c-fe85f5a329a8",
+          "relationType": "appearance",
+          "description": "?? ??? ?? ? ???? ?? ??? ??? ?? ???? ???? ???? ????? ????.",
+          "rationale": "??? ???? ??? ?? ?? ???? ?? ??? ???? ??? ?????."
+        },
+        {
+          "contentId": "074bf8bc-8ebc-43b4-88df-89d79a1cea61",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ??? ??? ???? ???? ?? ??? ??? ?? ??? ???? 1???."
+        },
+        {
+          "contentId": "ff262d8a-3f2e-4230-b8fa-9ba5475be096",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ????? ??????? ???? ????? ??? ???? ?? ???."
+        }
+      ]
+    },
+    {
+      "slug": "max-planck",
+      "selections": [
+        {
+          "contentId": "eb4bb310-4e41-4109-96d5-ad542504d2c3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ?? ???? ?? ??? ????? ??? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "stuart-russell",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ??? ??? ????? ?? ???? ?? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ?? ??? ????? ??? ??? ???? ?? ???? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "isaac-newton",
+      "selections": [
+        {
+          "contentId": "a9712288-f56c-4e38-9a5e-5efc9683a09c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ??? ?? ??? ???? ??? ??? ????."
+        },
+        {
+          "contentId": "a0007b88-f1ca-444a-90dd-c0473afca3b9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ?????? ??? ??? ??? ??? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "omar-khayyam",
+      "selections": [
+        {
+          "contentId": "e6147f85-2109-447b-abd3-244e4f8bf330",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ?? ? ??? ??? ??? ??? ???? ???? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "ibn-sina",
+      "selections": [
+        {
+          "contentId": "857c9782-8d64-4ceb-b602-361f55eedaff",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ?? ?? ??? ????? ??? ??? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "james-clerk-maxwell",
+      "selections": [
+        {
+          "contentId": "9275b96a-97b1-4b81-984e-40ad475ab480",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ???? ??? ?? ? ?? ??? ???? ??? ???? ????."
+        }
+      ]
+    },
+    {
+      "slug": "carl-sagan",
+      "selections": [
+        {
+          "contentId": "84b8951e-db8e-474d-8695-ef58ddaa450c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ?? ???? ??? ??? ?? ??? ??? ??? ? ???? ?? ????."
+        },
+        {
+          "contentId": "08e50ae6-7460-4e3c-b5b5-699a3d8b0b06",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ??? ??? ??? ??? ??? ?? ???? ??? ? ? ???? ?????."
+        },
+        {
+          "contentId": "81ba6a78-56e4-4fc2-a673-8b82091dd9e5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ? ??? ?? ??? ?? ? ?? ??? ??? ? ???? ?? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "nassim-nicholas-taleb",
+      "selections": [
+        {
+          "contentId": "9d9a8593-0748-460f-996c-69b4cad7df50",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ??? ??? ??? ??? ?? ???? ??? ???? ?? ????."
+        },
+        {
+          "contentId": "26c4022c-450d-47e6-ae3e-0df5cf6bac7d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ??? ?? ???? ?? ??? ?? ?? ???? ????."
+        },
+        {
+          "contentId": "2d961ae2-bbfe-4d9a-905e-e7b732739090",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ????? ??? ???? ???? ??? ??? ?? ???? ?? ????."
+        },
+        {
+          "contentId": "84288a50-754e-425e-a973-8fe1f6e29ddb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ??? ??? ???? ???? ?? ??? ??? ?? ???? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "max-weber",
+      "selections": [
+        {
+          "contentId": "c38e78b8-1df8-4a4e-8ded-638f1ab32a69",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ??? ?? ? ?? ??? ?? ??? ?? ?? ????."
+        },
+        {
+          "contentId": "86a1c4b2-28c7-453a-8ee0-db8aa459d678",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?????? ??? ?? ???? ??? ??? ?? ??? ??? ?? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "sima-guang",
+      "selections": [
+        {
+          "contentId": "39d37d42-3862-4451-858c-2ef5f18c829e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?????? ????? ??? ???? ?? ??? ???? ??? ???."
+        }
+      ]
+    },
+    {
+      "slug": "jonathan-haidt",
+      "selections": [
+        {
+          "contentId": "ad1ef1e7-6614-4fe6-9f10-b1e68373100b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ??? ?????? ???? ??? ??? ???? ??? ?? ??? ??? ???."
+        },
+        {
+          "contentId": "48f5fc31-e0a4-4af3-b48b-3b78c3cf6da8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ???? ??? ?? ????? ??? ??? ??? ???? ?????."
+        },
+        {
+          "contentId": "bbf53bf2-093a-4d83-8d6b-fd270087dded",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ?????? ??? ?? ??? ?? ??? ???? ???? ??? ????."
+        },
+        {
+          "contentId": "c6db40bd-9d8f-49f5-bdf3-f918f2b9f674",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ?? ??? ??? ??? ??? ??? ???? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "sigmund-freud",
+      "selections": [
+        {
+          "contentId": "8751f690-8618-4644-8df0-7535469bac7a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ????? ??? ??? ???? ????? ??? ?? ????? ?????."
+        },
+        {
+          "contentId": "8e9a13d8-f453-47dd-acb5-535a709542bd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ? ? ???? ?? ???? ??? ????? ?? ????."
+        },
+        {
+          "contentId": "6b4a8578-90da-4008-b05c-1e2e78e22d59",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ?? ??? ?? ?? ?? ??? ?? ??? ??? ????? ????."
+        },
+        {
+          "contentId": "ae3e6d3d-1e4a-4298-b0c4-3aec74879acf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ? ?? ??? ????? ???? ??? ????? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "clayton-christensen",
+      "selections": [
+        {
+          "contentId": "b9470314-44bb-4cc1-8ac5-f8182e24c4de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ?????? ??? ???? ??? ??? ?? ??? ??? ?? ??? ??? ???."
+        },
+        {
+          "contentId": "11a0385a-15d4-4c58-8b41-32c4c9cddae1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ?? ??? ??? ???? ??? ??? ???? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "friedrich-engels",
+      "selections": [
+        {
+          "contentId": "641c9dcf-a6c8-424f-b5d7-ae3a5c83e0a7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ???? ???? ??? ???? ??? ??? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "6cd56fc8-e44e-4b22-b4de-28d87353f24a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ???? ???? ???? ??? ???? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "kim-jeong-hui",
+      "selections": []
+    },
+    {
+      "slug": "vincent-van-gogh",
+      "selections": [
+        {
+          "contentId": "7205130a-dbd1-4b44-b921-122d9f511c87",
+          "relationType": "appearance",
+          "description": "?? ???? ??? ?? ? ??? ??? ??? ?? ????? ??? ??? ??? ???? ??? ?? ??? ????.",
+          "rationale": "??? ? ??? ?? ???? ?? ??? ?? ??? ?? ??? ?? ???? ?? ?????."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-02T23:03:05.659Z"
+}

@@ -1,0 +1,2575 @@
+{
+  "input": "..\\..\\data\\celeb\\figure-books\\direct-creator-candidates-2026-09-03.json",
+  "model": "gemini-3.8-flash-high",
+  "reviews": [
+    {
+      "slug": "gwyneth-paltrow",
+      "selections": [
+        {
+          "contentId": "7ce17912-b2d3-423c-8b62-15f775b4a19f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기네스 팰트로가 자신의 요리 철학과 일상 레시피를 담아 직접 집필한 대표 요리책이다."
+        }
+      ]
+    },
+    {
+      "slug": "drew-barrymore",
+      "selections": [
+        {
+          "contentId": "677bc36f-da6c-40cc-b8bb-d0edac860829",
+          "relationType": "appearance",
+          "description": "유년 시절부터 성인 배우로 성장하기까지 겪은 삶의 굴곡과 도전을 회고하는 자서전의 저자이자 중심 인물로 등장한다.",
+          "rationale": "드루 배리모어가 자신의 유년기와 배우 인생, 삶의 역경을 직접 회고한 대표 자서전적 에세이다."
+        }
+      ]
+    },
+    {
+      "slug": "will-smith",
+      "selections": [
+        {
+          "contentId": "f59a7d46-bc91-434d-b70e-1d978fa5f35a",
+          "relationType": "appearance",
+          "description": "불우했던 유년 시절의 상처를 딛고 세계적인 래퍼이자 할리우드 스타로 성공하기까지의 여정을 담은 자서전의 저자이자 주인공으로 등장한다.",
+          "rationale": "윌 스미스가 자신의 삶과 성장 과정, 내면의 고백을 진솔하게 기록한 공식 자서전이다."
+        }
+      ]
+    },
+    {
+      "slug": "park-chan-ho",
+      "selections": [
+        {
+          "contentId": "94091d1b-f48f-49db-b2f5-07411e25f5db",
+          "relationType": "related",
+          "description": null,
+          "rationale": "박찬호가 30년간의 메이저리그 경험과 야구를 통해 얻은 삶의 철학과 깨달음을 전하는 에세이다."
+        }
+      ]
+    },
+    {
+      "slug": "alex-ferguson",
+      "selections": [
+        {
+          "contentId": "d74a4a09-687a-4b76-82d4-d24bad516ace",
+          "relationType": "related",
+          "description": null,
+          "rationale": "알렉스 퍼거슨이 맨체스터 유나이티드를 세계 최고의 구단으로 이끈 리더십과 조직 관리 철학을 정리한 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "kazuo-ishiguro",
+      "selections": [
+        {
+          "contentId": "09e0f3ad-9c8d-41aa-b450-345e7c48f9ca",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가즈오 이시구로에게 부커상을 안겨준 대표 걸작 장편소설이다."
+        },
+        {
+          "contentId": "330a8325-40b6-4a0d-81a8-bc615541ea4a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간 복제와 기억, 상실을 서정적으로 그려낸 가즈오 이시구로의 대표 장편소설이다."
+        },
+        {
+          "contentId": "4fe0d05c-3fa1-430f-898b-3b83b4255db2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "노벨문학상 수상 이후 처음 발표한 인공지능과 사랑에 관한 대표 장편소설이다."
+        },
+        {
+          "contentId": "eca7ba79-68ff-4dc9-b347-ff5ecab5d0ea",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전후 일본의 예술가와 시대적 책임을 탐구한 가즈오 이시구로의 대표 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "guy-de-maupassant",
+      "selections": [
+        {
+          "contentId": "33c3f489-2782-4f40-99bb-a92d1c0d6c28",
+          "relationType": "related",
+          "description": null,
+          "rationale": "한 여성의 평범하면서도 비극적인 삶을 자연주의적 시선으로 담아낸 모파상의 대표 장편소설이다."
+        },
+        {
+          "contentId": "439a6700-8cfc-409c-b86a-2f7018faa578",
+          "relationType": "related",
+          "description": null,
+          "rationale": "보불전쟁을 배경으로 인간의 위선과 계급적 모순을 날카롭게 풍자한 모파상의 대표 출세작이다."
+        },
+        {
+          "contentId": "c8135af3-361d-4454-9a96-1f1359101a05",
+          "relationType": "related",
+          "description": null,
+          "rationale": "파리 상류사회의 부패와 야망을 세밀하게 포착한 모파상의 대표 장편소설이다."
+        },
+        {
+          "contentId": "7c3b30fd-f8f4-462c-8d14-3696bc23ae90",
+          "relationType": "related",
+          "description": null,
+          "rationale": "세계 단편 문학사에 뚜렷한 족적을 남긴 모파상의 대표적인 명단편들을 모은 선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-si-seup",
+      "selections": [
+        {
+          "contentId": "283782b1-6697-4d58-b8d4-ced0f7d75934",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조선 초기에 쓰인 한국 문학사 최초의 한문 단편소설집이다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-yu-jeong",
+      "selections": [
+        {
+          "contentId": "009e2fc1-c3e4-44c3-95ab-0088c8851876",
+          "relationType": "related",
+          "description": null,
+          "rationale": "한국 농촌 소설의 정점으로 평가받는 김유정의 대표작 '봄·봄'과 '동백꽃'을 수록한 단편집이다."
+        }
+      ]
+    },
+    {
+      "slug": "nathaniel-hawthorne",
+      "selections": [
+        {
+          "contentId": "c1cd5218-6750-4f13-9c07-b08008fbe31c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "민음사 세계문학전집으로 출간된 너새니얼 호손의 대표 장편 로맨스 소설이다."
+        },
+        {
+          "contentId": "553f0f04-0aea-4ebc-a779-8e71bfc75891",
+          "relationType": "related",
+          "description": null,
+          "rationale": "청교도 사회의 죄의식과 위선을 탐구한 너새니얼 호손의 불멸의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "nikos-kazantzakis",
+      "selections": [
+        {
+          "contentId": "a0135ecf-3e09-4335-b4ff-036251e3b9c8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자유로운 영혼의 광부 조르바를 통해 삶의 환희를 그린 니코스 카잔차키스의 대표 걸작이다."
+        },
+        {
+          "contentId": "ae5415f3-3adb-475b-8998-9a577f4ebfe3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "예수의 인간적 고뇌와 갈등을 깊이 있게 조명한 니코스 카잔차키스의 대표 대작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "danielle-steel",
+      "selections": [
+        {
+          "contentId": "32832636-5589-4a12-8d95-969b73b7d01d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "파리를 무대로 한 운명적 사랑을 섬세하게 묘사한 다니엘 스틸의 대표 베스트셀러 소설이다."
+        },
+        {
+          "contentId": "d9b0d930-b39e-4bb4-80ef-e0c7767eac5f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "역사적 격변기 속 가족의 희생과 용기를 그려낸 다니엘 스틸의 대표 장편소설이다."
+        },
+        {
+          "contentId": "96376ded-a747-41f0-b5eb-7daa70ca13b4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전쟁의 비극과 세대를 이어가는 사랑을 다룬 다니엘 스틸의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "dante-alighieri",
+      "selections": [
+        {
+          "contentId": "70d75785-5f1e-45fb-99ef-f936e6fd8298",
+          "relationType": "related",
+          "description": null,
+          "rationale": "지옥·연옥·천국을 관통하며 인간 구원을 노래한 서양 고전문학의 정점이자 단테의 불멸의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "osamu-tezuka",
+      "selections": [
+        {
+          "contentId": "aa17e23f-1b74-4262-981d-41096d62b493",
+          "relationType": "related",
+          "description": null,
+          "rationale": "일본 만화와 TV 애니메이션의 역사를 개척한 데즈카 오사무의 대표작 전권 박스세트이다."
+        },
+        {
+          "contentId": "1377d93f-e3aa-4b1b-9cef-d18a40cc700e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "영원한 생명과 인간의 업보를 웅장한 서사시로 담아낸 데즈카 오사무 필생의 역작 세트이다."
+        },
+        {
+          "contentId": "517a429d-4fce-461a-b4b9-91b5daa23ec5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자연과 생명의 존엄성을 감동적으로 그려낸 데즈카 오사무의 대표 만화 세트이다."
+        },
+        {
+          "contentId": "9ba50a65-cf3f-4b93-8a53-d050a11b6cc7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "영화적 연출 기법을 만화의 칸에 도입해 현대 스토리 만화의 시초가 된 기념비적 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "du-fu",
+      "selections": [
+        {
+          "contentId": "6f5745ec-0143-4bda-a1de-a87d72381a35",
+          "relationType": "related",
+          "description": null,
+          "rationale": "당나라 시성 두보의 사실주의적 필치와 우국애민의 정서를 담은 대표 한시 선집이다."
+        },
+        {
+          "contentId": "570c04e3-ecd5-4adb-bf0a-a2fdb31a7d68",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전란과 민중의 고통을 노래한 당대 최고의 시인 두보의 대표 시선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "lao-she",
+      "selections": [
+        {
+          "contentId": "445017e6-8208-4f10-8ee5-d849ea7605f8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "하층민 인력거꾼의 비극적인 삶을 사실주의적 문체로 그려낸 라오서의 대표 걸작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "mark-twain",
+      "selections": [
+        {
+          "contentId": "630f145e-5101-45a3-ad54-749f7e71cd35",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마크 트웨인의 대표작인 장편소설이다."
+        },
+        {
+          "contentId": "ee74c253-aa0a-4283-8a66-9e4c79034e88",
+          "relationType": "related",
+          "description": null,
+          "rationale": "미국 문학의 고전으로 꼽히는 마크 트웨인의 대표작이다."
+        },
+        {
+          "contentId": "192d4583-cd4b-4284-a650-33136ae0428a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마크 트웨인이 미시시피강에서의 경험을 바탕으로 집필한 대표 저작이다."
+        },
+        {
+          "contentId": "dfab37b9-e0c7-4a3d-8e4a-8403b28fc169",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마크 트웨인의 대표적인 풍자 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "mary-wollstonecraft",
+      "selections": [
+        {
+          "contentId": "3b5ac1fb-77cc-49d1-8483-3dbfedf23243",
+          "relationType": "related",
+          "description": null,
+          "rationale": "여성 교육과 평등을 주장한 메리 울스턴크래프트의 대표 사상 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "murasaki-shikibu",
+      "selections": [
+        {
+          "contentId": "ccdda28b-4a74-4c78-bf15-2a6e79046257",
+          "relationType": "related",
+          "description": null,
+          "rationale": "무라사키 시키부의 대표 저작인 고전 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "mikhail-bulgakov",
+      "selections": [
+        {
+          "contentId": "f0214ef4-1445-4fd0-9241-bd48ed2e8fad",
+          "relationType": "related",
+          "description": null,
+          "rationale": "미하일 불가코프의 대표작이자 20세기 러시아 문학의 걸작 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "park-wan-suh",
+      "selections": [
+        {
+          "contentId": "31b5345a-790a-480b-82dd-a0950f16f062",
+          "relationType": "related",
+          "description": null,
+          "rationale": "박완서의 등단작인 '나목'을 비롯한 초기 대표 단편들을 수록한 모음집이다."
+        },
+        {
+          "contentId": "81541298-43cd-44ef-8bd8-3fe87baad097",
+          "relationType": "related",
+          "description": null,
+          "rationale": "박완서의 대표적인 자전적 장편소설이다."
+        },
+        {
+          "contentId": "748f2c74-3b55-458f-864e-c42510416e1e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전쟁과 가족사의 상흔을 다룬 박완서의 대표 연작소설이다."
+        },
+        {
+          "contentId": "c9e59303-67db-4ebe-9b9e-9e1468de05b1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "박완서의 대표적인 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "bernard-werber",
+      "selections": [
+        {
+          "contentId": "9d8562b9-abfe-4b83-9a3d-6c4e236477d5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "베르나르 베르베르의 이름을 세계적으로 알린 기념비적 대표 장편소설이다."
+        },
+        {
+          "contentId": "e5e75e28-6b6d-4da7-9c53-7437eaca2aeb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기발한 상상력과 인간 세계에 대한 통찰이 담긴 베르나르 베르베르의 대표 소설집이다."
+        },
+        {
+          "contentId": "cb8a2fdb-69ba-4b27-b1c0-24e2c9f98b2f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간의 뇌와 심리를 탐구한 베르나르 베르베르의 대표 장편소설이다."
+        },
+        {
+          "contentId": "e7100e1a-b287-4f75-afef-57c971ff9a1e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "베르나르 베르베르의 창작 원천과 사유를 집대성한 대표 에세이다."
+        }
+      ]
+    },
+    {
+      "slug": "xie-lingyun",
+      "selections": [
+        {
+          "contentId": "ae48f377-8df8-4061-b597-12c32b92cbb7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "중국 산수시의 개창자인 사령운의 시를 수록한 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "salman-rushdie",
+      "selections": [
+        {
+          "contentId": "13a333e8-cffc-4bf1-8b32-68f856c3a567",
+          "relationType": "related",
+          "description": null,
+          "rationale": "살만 루슈디에게 부커상을 안겨준 대표 저작이자 장편소설이다."
+        },
+        {
+          "contentId": "f3963185-444f-4699-bb53-fd2e3d66615c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "살만 루슈디의 대표적인 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "charlotte-bronte",
+      "selections": [
+        {
+          "contentId": "fa2b424a-24b9-452a-9235-ef66ea0bff7c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "샬럿 브론테의 문학 세계를 대표하는 불후의 고전 장편소설이다."
+        },
+        {
+          "contentId": "b8e622b5-0563-4f8b-a128-aa8d4e35ab4c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "샬럿 브론테의 첫 장편소설이다."
+        },
+        {
+          "contentId": "9c3b3eac-11e0-487f-8ccc-e8d54acd094d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "독립적인 여성의 내면을 심도 있게 그린 샬럿 브론테의 마지막 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "sor-juana-ines-de-la-cruz",
+      "selections": [
+        {
+          "contentId": "6cdf7b41-9048-4e19-b271-894c756891b5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "소르 후아나의 대표 시를 엮은 시 선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "stefan-zweig",
+      "selections": [
+        {
+          "contentId": "b1118ee4-6a83-408f-b04d-db982363d1cc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "역사의 결정적 순간들을 탁월한 문체로 포착한 슈테판 츠바이크의 대표 역사 전기 저작이다."
+        },
+        {
+          "contentId": "f6b74bac-6ca8-47ad-9420-33d2c848f06b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "슈테판 츠바이크의 심리 묘사가 돋보이는 대표 중편소설이다."
+        },
+        {
+          "contentId": "a328a27d-cfbb-44a1-b92c-e83645d21715",
+          "relationType": "related",
+          "description": null,
+          "rationale": "슈테판 츠바이크의 대표적인 인물 전기 문학 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "stephane-mallarme",
+      "selections": [
+        {
+          "contentId": "aafa4ca1-4eca-4c69-8a9a-7a9bff8cdac0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "프랑스 상징주의 문학의 정점을 보여주는 스테판 말라르메의 대표 시집이다."
+        },
+        {
+          "contentId": "75882f9c-96e9-46d9-8685-1016fe16e1c9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "스테판 말라르메의 대표 시들을 수록한 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "simone-de-beauvoir",
+      "selections": [
+        {
+          "contentId": "4084f3d9-aeff-4d66-be6f-c106e5c903e5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 페미니즘 이론의 토대를 마련한 시몬 드 보부아르의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "arthur-schnitzler",
+      "selections": [
+        {
+          "contentId": "d1bef737-df5b-4de3-935d-fabd3152bfbe",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아르투어 슈니츨러의 내적 독백과 심리 묘사가 두드러진 대표 중편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "isaac-asimov",
+      "selections": [
+        {
+          "contentId": "ad8766ac-df94-45eb-b3b5-9a07276d5191",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아이작 아시모프의 SF 대표작인 파운데이션 시리즈의 첫 번째 장편소설이다."
+        },
+        {
+          "contentId": "9885a776-26a2-49f1-ab03-4c533aa7bef7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "로봇 3원칙을 정립한 아이작 아시모프의 대표 SF 단편소설집이다."
+        },
+        {
+          "contentId": "7004fdbe-8eef-4d4e-a4c3-d8c57e335014",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아이작 아시모프의 파운데이션 시리즈를 잇는 대표 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "alexander-pushkin",
+      "selections": [
+        {
+          "contentId": "ce06351f-afa1-45c6-89a0-048de3e4aedb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "러시아 근대 문학의 기초를 닦은 알렉산드르 푸시킨의 대표 운문소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "agatha-christie",
+      "selections": [
+        {
+          "contentId": "879e185b-c4fc-4524-8d46-e732b45b6a92",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기발한 트릭과 파격적인 결말로 추리 소설사에 남은 애거서 크리스티의 대표작이다."
+        },
+        {
+          "contentId": "a66b4f1a-3175-4073-8903-27e5f9bd9f0b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에르퀼 푸아로가 활약하는 애거서 크리스티의 대표적인 추리소설이다."
+        },
+        {
+          "contentId": "88090196-07b5-4d0e-a130-43aa9d195a29",
+          "relationType": "related",
+          "description": null,
+          "rationale": "애거서 크리스티의 에르퀼 푸아로 시리즈 중 가장 대중적인 사랑을 받는 대표작이다."
+        },
+        {
+          "contentId": "6a052b4e-5c8c-45cf-a8f2-50007fb6805f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "미스 마플 시리즈를 대표하는 애거서 크리스티의 대표 추리소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "enid-blyton",
+      "selections": [
+        {
+          "contentId": "6c00fa68-c98e-43c1-a1e4-82d631557e11",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에니드 블라이튼의 대표 시리즈인 '유명한 다섯'의 첫 번째 소설이다."
+        },
+        {
+          "contentId": "39c6940d-1e85-4256-a5d6-2ac95b2fb71b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에니드 블라이튼의 대표 아동 모험 시리즈인 '비밀의 일곱'의 첫 번째 소설이다."
+        },
+        {
+          "contentId": "698ce917-0971-4336-aa3d-90259a123d0c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에니드 블라이튼의 대표작 '유명한 다섯' 시리즈의 모음집이다."
+        }
+      ]
+    },
+    {
+      "slug": "emily-dickinson",
+      "selections": [
+        {
+          "contentId": "69ece425-f1ae-4f38-98e7-1c2dfce7c96d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "미국 문학의 주요 시인인 에밀리 디킨슨의 대표 시들을 수록한 선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "honore-de-balzac",
+      "selections": [
+        {
+          "contentId": "90fe10fb-946d-4648-b28f-a783a2d40bb0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오노레 드 발자크의 '인간희극'을 대표하는 불후의 걸작 소설이다."
+        },
+        {
+          "contentId": "18805a8f-558a-45f9-8bcc-5dc807690527",
+          "relationType": "related",
+          "description": null,
+          "rationale": "욕망과 인간의 조건을 탐구한 오노레 드 발자크의 대표 장편소설이다."
+        },
+        {
+          "contentId": "72778c98-c74a-4b6b-8c30-cd12e67a2166",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오노레 드 발자크의 사실주의 문학을 대표하는 걸작 소설이다."
+        },
+        {
+          "contentId": "71de8241-0978-4063-ade4-9b1376aaf241",
+          "relationType": "related",
+          "description": null,
+          "rationale": "19세기 프랑스 사회의 총체적 모순과 환상을 포착한 오노레 드 발자크의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "publius-ovidius-naso",
+      "selections": [
+        {
+          "contentId": "13410b89-7c1f-4461-a1e2-b3f2975148e6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "그리스·로마 신화를 집대성한 오비디우스의 대표 대서사시이다."
+        },
+        {
+          "contentId": "e843087c-f3e8-4d8f-b773-4a772a22abec",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오비디우스의 대표적인 고전 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "wang-wei",
+      "selections": [
+        {
+          "contentId": "6420181d-9af3-49ea-8efc-175da1459f5e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "산수전원시의 대가 왕유의 대표 시들을 엄선한 시선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "umberto-eco",
+      "selections": [
+        {
+          "contentId": "c7126131-180f-48d9-9015-37e0c83beec3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "움베르토 에코의 이름을 전 세계에 알린 대표 걸작 장편소설이다."
+        },
+        {
+          "contentId": "38de372c-d024-4474-b0ca-fa8c17997641",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기호학자이자 철학자인 움베르토 에코의 주요 학문적 저작이다."
+        },
+        {
+          "contentId": "2d4ff39c-394e-4e67-a284-526d4236686d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 사회와 정치를 날카롭게 비평한 움베르토 에코의 대표 칼럼집이다."
+        }
+      ]
+    },
+    {
+      "slug": "william-golding",
+      "selections": [
+        {
+          "contentId": "359a096c-bdb9-48c2-8360-40b3ef549c12",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간 본성의 어둠을 파헤친 윌리엄 골딩의 노벨문학상 수상 대표 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "yun-dong-ju",
+      "selections": [
+        {
+          "contentId": "dbb0c4f1-99a4-4db4-914a-b882f6606ea3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "민족의 아픔과 성찰을 담은 윤동주 시인의 유일한 유고 시집 원전 판본이다."
+        }
+      ]
+    },
+    {
+      "slug": "yi-mun-yol",
+      "selections": [
+        {
+          "contentId": "76abc2f2-d959-4745-8843-01067e9b4776",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이문열의 대표작으로 권력과 집단 순응의 문제를 다룬 이상문학상 수상 중편소설이다."
+        },
+        {
+          "contentId": "420e33ee-db0a-4fbe-ada3-9f4596bb56ae",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이문열의 대표적인 고전 평역서로 대중적인 사랑을 받은 삼국지 전집이다."
+        },
+        {
+          "contentId": "e26d37e4-d808-4486-8b3e-ad59d2642997",
+          "relationType": "related",
+          "description": null,
+          "rationale": "근대사 속 황제를 자처한 인물을 통해 권력과 허무를 그린 이문열의 대표 장편소설이다."
+        },
+        {
+          "contentId": "e4c7aca3-7b82-4a8e-a310-07de1525d03e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "예술 지상주의와 장인 정신을 탐구한 이문열의 대표 중단편 「금시조」가 수록된 전집이다."
+        }
+      ]
+    },
+    {
+      "slug": "lee-cheong-jun",
+      "selections": [
+        {
+          "contentId": "7f5c0460-465d-4a4e-aa5e-53bc9e582632",
+          "relationType": "related",
+          "description": null,
+          "rationale": "소록도를 배경으로 권력과 자유의 문제를 깊이 탐구한 이청준의 대표 장편소설이다."
+        },
+        {
+          "contentId": "51522560-43a0-4537-a888-4504bf790476",
+          "relationType": "related",
+          "description": null,
+          "rationale": "판소리와 한의 정서를 문학적으로 승화시킨 이청준의 대표 단편소설이다."
+        },
+        {
+          "contentId": "5c49c575-eae5-46a3-b08b-81de6fdfc235",
+          "relationType": "related",
+          "description": null,
+          "rationale": "남도 장례 의식을 통해 가족의 화해와 삶의 의미를 조명한 이청준의 대표 소설이다."
+        },
+        {
+          "contentId": "57dae10f-2ff2-4b6c-96c8-c03ef70a2311",
+          "relationType": "related",
+          "description": null,
+          "rationale": "남도 사람들의 유랑과 예술혼을 담은 이청준의 대표적인 연작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "chung-se-rang",
+      "selections": [
+        {
+          "contentId": "fc922249-7c6e-4337-b809-b29c77b11abb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "20세기 격변기를 살아간 여성 심시선과 그 일가의 이야기를 다룬 정세랑의 대표 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "zeami",
+      "selections": [
+        {
+          "contentId": "bcc366c6-47ea-4fda-9a75-bd96c9bb2687",
+          "relationType": "related",
+          "description": null,
+          "rationale": "일본 노 연극의 미학과 연기 이론 체계를 세운 제아미의 대표 예술론 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "james-patterson",
+      "selections": [
+        {
+          "contentId": "5ee0ee83-da3c-415a-b1b0-0d1860541d93",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제임스 패터슨의 대표 베스트셀러인 우먼스 머더 클럽 시리즈의 첫 번째 소설이다."
+        },
+        {
+          "contentId": "a2e788b1-24a6-4ea2-b500-f8029d67706d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제임스 패터슨의 대표 캐릭터인 알렉스 크로스 형사가 활약하는 인기 스릴러 소설이다."
+        },
+        {
+          "contentId": "4956c997-d3bb-440e-b8a9-0e65bbd65168",
+          "relationType": "related",
+          "description": null,
+          "rationale": "워싱턴 D.C.를 배경으로 펼쳐지는 제임스 패터슨의 알렉스 크로스 시리즈 대표작이다."
+        },
+        {
+          "contentId": "0077fda3-14b1-41dd-bd04-1f5da6b4e1b3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "주요 매체 베스트셀러 1위를 기록한 제임스 패터슨의 알렉스 크로스 시리즈 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "cao-xueqin",
+      "selections": [
+        {
+          "contentId": "a12344e6-8cba-45de-81db-131e486e42a0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조설근이 집필한 중국 고전소설의 최고봉 『홍루몽』의 완역 결정본이다."
+        }
+      ]
+    },
+    {
+      "slug": "george-eliot",
+      "selections": [
+        {
+          "contentId": "75da1a81-2236-45f6-9149-66cae2e95069",
+          "relationType": "related",
+          "description": null,
+          "rationale": "영국 빅토리아 시대 사회와 인간 군상을 정밀하게 포착한 조지 엘리엇의 대표 걸작 소설이다."
+        },
+        {
+          "contentId": "84184d39-704c-4d4e-8536-60d84b6ad8ba",
+          "relationType": "related",
+          "description": null,
+          "rationale": "소외된 영혼이 순수한 인간적 유대를 통해 구원받는 과정을 그린 조지 엘리엇의 대표작이다."
+        },
+        {
+          "contentId": "0e584a28-f11f-4283-a8a3-1c5d161960ac",
+          "relationType": "related",
+          "description": null,
+          "rationale": "남매의 비극적 운명을 통해 성장과 관습의 갈등을 묘사한 조지 엘리엇의 대표 소설이다."
+        },
+        {
+          "contentId": "07e54cb6-70d6-4d16-ba0c-a03649e0c997",
+          "relationType": "related",
+          "description": null,
+          "rationale": "영국 상류사회 비판과 유대인 정체성 문제를 다룬 조지 엘리엇의 후기 대표 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "john-green",
+      "selections": [
+        {
+          "contentId": "8f6ee833-12ec-4fb6-b338-9a99123c1987",
+          "relationType": "related",
+          "description": null,
+          "rationale": "청소년의 사랑과 삶의 유한함을 섬세하게 그려내 세계적인 찬사를 받은 존 그린의 대표작이다."
+        },
+        {
+          "contentId": "79d67c2b-5d52-4f96-ad41-683332980fb0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "강박증을 겪는 주인공의 심리와 성장을 진솔하게 풀어낸 존 그린의 대표 소설이다."
+        },
+        {
+          "contentId": "f20db3ce-e15e-4163-bebb-c91003affc4f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "결핵이라는 질병과 역사적 맥락을 작가의 통찰로 조명한 존 그린의 논픽션 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "charles-dickens",
+      "selections": [
+        {
+          "contentId": "3891d722-4101-44b0-a169-946aeaa48f71",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고아 핍의 성장과 영국 사회의 계급적 모순을 다룬 찰스 디킨스의 대표 걸작 소설이다."
+        },
+        {
+          "contentId": "55d808f1-6ef2-4bfc-846d-6a757e12942f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "수전노 스크루지의 변화를 통해 인간애와 나눔을 전하는 찰스 디킨스의 대표작이다."
+        },
+        {
+          "contentId": "73490f67-4842-411f-b341-d676939a610c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "프랑스 혁명기 런던과 파리를 배경으로 사랑과 숭고한 희생을 그린 찰스 디킨스의 대표 역사소설이다."
+        },
+        {
+          "contentId": "64fcfa71-1a55-4fcd-82f8-eadf41e30264",
+          "relationType": "related",
+          "description": null,
+          "rationale": "런던 빈민가의 어둠과 아동 학대를 고발한 찰스 디킨스의 초기 대표 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "christine-de-pizan",
+      "selections": [
+        {
+          "contentId": "2445b8c0-1df9-42cc-9fd0-4eb550cd1ff4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "중세 여성 혐오에 맞서 역사 속 위대한 여성들을 변호한 크리스틴 드 피장의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "akira-toriyama",
+      "selections": [
+        {
+          "contentId": "5f2f1b26-455d-4cb3-b735-fae9491cd30c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "소년만화의 황금기를 이끈 토리야마 아키라의 불멸의 대표작 드래곤볼 완전판이다."
+        },
+        {
+          "contentId": "bd4e35f7-10eb-42bb-9c2d-4f08d4b99573",
+          "relationType": "related",
+          "description": null,
+          "rationale": "천재 과학자와 로봇 소녀의 좌충우돌 일상을 그린 토리야마 아키라의 대표 개그 만화이다."
+        },
+        {
+          "contentId": "c933e541-d969-4406-9efd-b25bf02f8ccd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "드래곤볼 연재 시기의 주요 일러스트와 원화를 모은 토리야마 아키라의 공식 화집이다."
+        }
+      ]
+    },
+    {
+      "slug": "pearl-s.-buck",
+      "selections": [
+        {
+          "contentId": "4d76d276-cc8c-4485-89e2-b52b33563e5f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "중국 농민의 삶과 대지의 숭고함을 그려내 노벨문학상을 안겨준 펄 벅의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "pu-songling",
+      "selections": [
+        {
+          "contentId": "3faa2f88-eb1a-4aeb-b5de-1793ed005937",
+          "relationType": "related",
+          "description": null,
+          "rationale": "귀신과 요괴 이야기를 통해 부패한 세태와 인간 본성을 풍자한 포송령의 필생의 걸작이다."
+        }
+      ]
+    },
+    {
+      "slug": "feng-menglong",
+      "selections": [
+        {
+          "contentId": "7d9c80da-3809-47fe-a076-c881b74252cb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "춘추전국시대의 장대한 역사를 소설 형식으로 엮어낸 풍몽룡의 대표 역사소설 완역본이다."
+        },
+        {
+          "contentId": "e7029383-bf3b-4b2d-a3b2-5988ba9495d4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "풍몽룡이 편찬한 통속 백화소설집 삼언 가운데 사랑과 인간사를 다룬 작품선이다."
+        }
+      ]
+    },
+    {
+      "slug": "han-kang",
+      "selections": [
+        {
+          "contentId": "30c4297a-ed44-4d56-a360-89b4d5dfaa3b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간의 폭력성을 거부하며 식물이 되고자 한 인물을 통해 세계적 명성을 얻은 한강의 대표작이다."
+        },
+        {
+          "contentId": "7b46b949-1f6b-403c-a59e-eb541f382f02",
+          "relationType": "related",
+          "description": null,
+          "rationale": "5·18 광주의 비극과 희생자들의 영혼을 서정적 문체로 기린 한강의 대표 장편소설이다."
+        },
+        {
+          "contentId": "b0d4149a-47e4-47a2-8fcd-07df4fff1294",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제주 4·3 사건의 상흔과 지극한 사랑을 깊이 있게 응시한 한강의 대표 장편소설이다."
+        },
+        {
+          "contentId": "89d547c5-36b3-4c42-af41-d5d0fff255e1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "한강의 이상문학상 대상 수상작인 「몽고반점」이 수록된 대표 수상작품집이다."
+        }
+      ]
+    },
+    {
+      "slug": "hermann-hesse",
+      "selections": [
+        {
+          "contentId": "ebfd4c9a-44e1-4b4d-aff6-b858b3eeb694",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자기 자신에게 이르는 길과 내면적 성장을 그린 헤르만 헤세의 최고 대표작이다."
+        },
+        {
+          "contentId": "de0afa11-a1aa-49f9-b608-ecdfb48149cd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "구도자 싯다르타의 생애를 통해 동서양 사상을 시적으로 융합한 헤르만 헤세의 대표작이다."
+        },
+        {
+          "contentId": "3c0f31db-007b-4cf8-b175-dd3f2af917fb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "지적 유희와 정신적 가치를 탐구하여 노벨문학상을 안겨준 헤르만 헤세의 필생의 대작이다."
+        },
+        {
+          "contentId": "4e1ed275-2e42-4f92-90f2-1bfeffbecef4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "지성과 감성, 삶과 예술의 대립과 합일을 조명한 헤르만 헤세의 대표 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "henry-miller",
+      "selections": [
+        {
+          "contentId": "40b1aad1-2246-4ba5-85c5-f4e597458ed6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "파리에서의 자유로운 삶과 성적 해방을 솔직하게 묘사한 헨리 밀러의 대표 자전적 소설이다."
+        },
+        {
+          "contentId": "cc8722ec-cd53-4844-988b-cd03b171d26b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "뉴욕 시절의 기억과 실존적 방황을 대담한 문체로 풀어낸 헨리 밀러의 대표 연작 소설이다."
+        },
+        {
+          "contentId": "6ca7a65b-29b5-498f-a953-b2510e1aca65",
+          "relationType": "related",
+          "description": null,
+          "rationale": "그리스 여행을 통해 생명력과 고대 정신을 찬미한 헨리 밀러의 대표 기행문이다."
+        }
+      ]
+    },
+    {
+      "slug": "homer",
+      "selections": [
+        {
+          "contentId": "0818cbb2-d0f5-43d0-b57d-cb3c6d0522bd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "트로이아 전쟁 후 영웅 오디세우스의 10년 귀환 여정을 노래한 호메로스의 대표 서사시 완역본이다."
+        },
+        {
+          "contentId": "b983ab22-787d-4416-88f3-787d82f6c30c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아킬레우스의 분노와 전쟁의 비극을 생생한 시적 언어로 복원한 호메로스의 대표 서사시 완역본이다."
+        },
+        {
+          "contentId": "f44760c9-113f-4a04-89da-6eaca5f8af13",
+          "relationType": "related",
+          "description": null,
+          "rationale": "서양 문학의 출발점이자 영웅들의 격전을 장엄하게 그린 호메로스의 대표 서사시 완역본이다."
+        },
+        {
+          "contentId": "5586af4f-3278-4073-a716-3ddbdd1045be",
+          "relationType": "related",
+          "description": null,
+          "rationale": "호메로스의 양대 대서사시인 일리아스와 오디세이아를 함께 엮은 대표 전집 세트이다."
+        }
+      ]
+    },
+    {
+      "slug": "keigo-higashino",
+      "selections": [
+        {
+          "contentId": "6d6b34e0-0aac-432b-b8be-18ed5fe7a75c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "천재 수학자의 치밀한 알리바이와 애절한 사랑을 그려 나오키상을 수상한 히가시노 게이고의 최고 대표작이다."
+        },
+        {
+          "contentId": "cdfd2366-0687-469b-927f-1c7899b7e9b2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "과거와 현재를 잇는 편지를 통해 깊은 감동과 위로를 선사하는 히가시노 게이고의 대표 베스트셀러이다."
+        },
+        {
+          "contentId": "7c20e5b2-dd7b-4b56-aa51-a442bc9e382e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "장기간에 걸친 미궁의 살인 사건과 두 남녀의 비극적 운명을 다룬 히가시노 게이고 문학의 최고봉이다."
+        },
+        {
+          "contentId": "a494fcf9-9e3a-495d-9b6f-2acd68b34afc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "사고 후 딸의 몸에 깃든 아내의 영혼과 살아가는 가장의 이야기를 다뤄 작가의 위상을 높인 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "t.s.-eliot",
+      "selections": [
+        {
+          "contentId": "88de61d0-b231-4d11-894d-3ec86c315b54",
+          "relationType": "related",
+          "description": null,
+          "rationale": "1차 대전 이후 서구 문명의 황폐함을 상징적으로 응축한 20세기 모더니즘 시의 정점이다."
+        },
+        {
+          "contentId": "7976b2fd-0273-46cd-84b2-91aedf51a990",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시간과 영원, 구원의 문제를 음악적 구조로 사유한 T.S. 엘리엇의 후기 대표 연작 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "miyamoto-musashi",
+      "selections": [
+        {
+          "contentId": "cd0a1221-3550-4b0a-8377-a755da18847f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "평생 무패를 기록한 미야모토 무사시가 검술과 승리의 전략을 집대성한 병법 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "erwin-rommel",
+      "selections": [
+        {
+          "contentId": "06a53965-0106-49dd-90e2-c978826b7a2a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "실전 경험을 토대로 보병 전술과 기동전의 원리를 정립한 에르빈 롬멜의 대표 전술서이다."
+        },
+        {
+          "contentId": "b8a01073-b7f9-47fd-ba33-0d6d93d80ef5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "북아프리카 전선 등에서 활약한 롬멜의 전략적 판단과 전황을 정리한 대표 전사 기록이다."
+        }
+      ]
+    },
+    {
+      "slug": "william-slim",
+      "selections": [
+        {
+          "contentId": "21e1e4bc-bd70-4ae1-b843-cd48a5d57872",
+          "relationType": "related",
+          "description": null,
+          "rationale": "버마 전역에서 일본군을 격퇴한 제14군 사령관 윌리엄 슬림 장군의 대표 전사 회고록이다."
+        }
+      ]
+    },
+    {
+      "slug": "li-jing",
+      "selections": [
+        {
+          "contentId": "23be8152-be29-4e7f-8f39-69885411852f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "당나라 명장 이정이 당 태종과 병법의 요체를 문답한 대표적인 군사학 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "carl-von-clausewitz",
+      "selections": [
+        {
+          "contentId": "e4d868f1-a867-419c-a078-23bc5910697a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전쟁의 본질을 정치의 연장으로 규명하여 근대 군사학의 기틀을 세운 클라우제비츠의 대표 명저이다."
+        }
+      ]
+    },
+    {
+      "slug": "ang-lee",
+      "selections": []
+    },
+    {
+      "slug": "steven-spielberg",
+      "selections": [
+        {
+          "contentId": "725ccf89-ba44-419b-9d3f-81a0c67221f4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "스티븐 스필버그가 연출한 대표 영화 'E.T.' 관련 도서다."
+        }
+      ]
+    },
+    {
+      "slug": "gordon-ramsay",
+      "selections": [
+        {
+          "contentId": "d863559a-6148-4f6e-bf09-aa3e00e25c10",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고든 램지가 직접 집필한 건강식 요리 레시피북이다."
+        }
+      ]
+    },
+    {
+      "slug": "reed-hastings",
+      "selections": [
+        {
+          "contentId": "ff9dfb97-5eb8-4cd9-a7a0-aed7c0005f1f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "넷플릭스 공동 창업자 리드 헤이스팅스가 기업 문화와 경영 방식을 다룬 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "konosuke-matsushita",
+      "selections": [
+        {
+          "contentId": "a0f72ca0-c6e4-4c63-a53b-36d619ceab0c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마쓰시타 고노스케의 인생 철학과 경영 지혜를 담은 대표 저작의 국내 출간본이다."
+        }
+      ]
+    },
+    {
+      "slug": "mustafa-suleyman",
+      "selections": [
+        {
+          "contentId": "799197d8-144b-430e-a8e9-5a7fb24f1395",
+          "relationType": "related",
+          "description": null,
+          "rationale": "무스타파 술레이만이 인공지능 기술의 파급력과 통제 방안을 논한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "satya-nadella",
+      "selections": [
+        {
+          "contentId": "2d7212c6-2010-4b9f-93eb-bf0fab15103e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "사티아 나델라가 마이크로소프트의 변화와 클라우드 혁신 전략을 담은 대표 저서다."
+        }
+      ]
+    },
+    {
+      "slug": "steve-chen",
+      "selections": [
+        {
+          "contentId": "2ab0a463-2a19-4670-963f-7ae4f5d001f0",
+          "relationType": "appearance",
+          "description": "전 재산 200달러로 시작해 유튜브를 창업하고 구글을 떠나기까지의 도전 과정을 회고하는 자서전의 주인공으로 등장한다.",
+          "rationale": "스티브 첸이 유튜브 창업과 성장 분투기를 직접 기록한 자서전이다."
+        }
+      ]
+    },
+    {
+      "slug": "eric-schmidt",
+      "selections": [
+        {
+          "contentId": "2a98f164-c86a-420a-b4a7-c6652be86b27",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에릭 슈미트가 구글의 경영 원칙과 일하는 방식을 공유한 대표 저작이다."
+        },
+        {
+          "contentId": "b389f3f1-364c-4ef2-bc24-890dc5625988",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에릭 슈미트가 실리콘밸리의 전설적 멘토 빌 캠벨의 코칭 철학을 정리해 펴낸 공저다."
+        },
+        {
+          "contentId": "759bbe5b-c991-48b3-b7c6-5433a1fb49a1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에릭 슈미트가 인공지능 기술이 인류 사회에 미칠 영향을 통찰한 대표 공저다."
+        },
+        {
+          "contentId": "0877c4c2-9c4e-4573-82ab-92c1efb7bced",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에릭 슈미트가 급변하는 글로벌 정세와 기술 질서를 조망한 공저다."
+        }
+      ]
+    },
+    {
+      "slug": "jack-welch",
+      "selections": [
+        {
+          "contentId": "64bd7539-5586-4048-8da8-3bd35602e87b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "GE를 이끌었던 잭 웰치의 경영 철학과 성공 비결을 담은 대표 저서다."
+        },
+        {
+          "contentId": "e415640b-956e-4b2d-bc35-04debd4843cc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "잭 웰치가 비즈니스 현장에서의 승리 전략과 리더십 원칙을 제시한 대표작이다."
+        },
+        {
+          "contentId": "044e822c-eece-48ba-b14a-77e7259a7862",
+          "relationType": "related",
+          "description": null,
+          "rationale": "잭 웰치가 기업 경영과 경력 관리에 대한 실전적 해법을 정리한 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "paul-graham",
+      "selections": [
+        {
+          "contentId": "c90c8513-60ea-4c97-bea2-2cbe6bf1c4d5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "폴 그레이엄이 해커 문화와 스타트업의 본질을 날카롭게 통찰한 대표 에세이집이다."
+        }
+      ]
+    },
+    {
+      "slug": "jia-yi",
+      "selections": [
+        {
+          "contentId": "4fa9d9b8-7503-4f0f-8cc3-360063938c4a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전한의 정치가 가의가 진나라의 멸망 원인과 국가 통치책을 논한 대표 저술이다."
+        }
+      ]
+    },
+    {
+      "slug": "gu-yanwu",
+      "selections": [
+        {
+          "contentId": "edfbb9a3-1d77-4c34-a540-cf65ee13cd1c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "청대 고증학의 비조 고염무가 역사와 사상을 실증적으로 고증한 대표 역작이다."
+        }
+      ]
+    },
+    {
+      "slug": "guiguzi",
+      "selections": [
+        {
+          "contentId": "f626f05d-ade0-4b3f-9a40-2cc8ede46895",
+          "relationType": "related",
+          "description": null,
+          "rationale": "종횡가의 비조 귀곡자의 지략과 설득의 원리를 담은 대표 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "laozi",
+      "selections": [
+        {
+          "contentId": "44fec0b0-ef2a-4aff-b752-b9e89132dc2f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "노자의 무위자연 철학을 담은 도가 사상의 정전 도덕경의 완역본이다."
+        }
+      ]
+    },
+    {
+      "slug": "dai-zhen",
+      "selections": [
+        {
+          "contentId": "62869811-3e24-4ab1-a6e6-56321dc78877",
+          "relationType": "related",
+          "description": null,
+          "rationale": "청대 사상가 대진이 송대 정주학의 천리론을 비판하고 자신의 철학을 정립한 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "robert-nozick",
+      "selections": [
+        {
+          "contentId": "f5618efb-114b-43f6-a612-64d8350cd695",
+          "relationType": "related",
+          "description": null,
+          "rationale": "로버트 노직이 자유지상주의와 최소국가론을 체계적으로 옹호한 현대 정치철학의 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "rene-descartes",
+      "selections": [
+        {
+          "contentId": "eb568a55-dd55-45c3-b170-e898e35dfac3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "데카르트가 방법적 회의를 통해 근대 합리론 철학의 출발점을 연 대표 저서다."
+        },
+        {
+          "contentId": "dff4f27f-80b0-4d7d-b9ac-71551b3a4e28",
+          "relationType": "related",
+          "description": null,
+          "rationale": "데카르트가 자신의 철학 및 자연학 체계를 집대성하여 교과서 형식으로 저술한 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "martin-heidegger",
+      "selections": [
+        {
+          "contentId": "5c890578-14f9-47d9-b786-5f9e6d9ad26d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "하이데거가 현존재 분석을 통해 존재의 의미를 탐구한 20세기 철학의 기념비적 주저다."
+        },
+        {
+          "contentId": "d269808a-5d22-47dd-b81a-64463451aa6b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "하이데거 후기 사유의 전환을 보여주는 핵심적 대표작이다."
+        },
+        {
+          "contentId": "e754c977-9580-43b9-9213-5a952d840375",
+          "relationType": "related",
+          "description": null,
+          "rationale": "하이데거가 예술과 진리의 관계를 존재론적 시각에서 탐구한 대표 미학 저작이다."
+        },
+        {
+          "contentId": "5a400f68-d5e1-403f-8b84-89159c710e42",
+          "relationType": "related",
+          "description": null,
+          "rationale": "하이데거가 전통 형이상학의 근본 물음을 비판적으로 검토한 대표 강의록이다."
+        }
+      ]
+    },
+    {
+      "slug": "mencius",
+      "selections": [
+        {
+          "contentId": "1d46a8e1-a60e-4c7b-be32-7f8a2d86d167",
+          "relationType": "related",
+          "description": null,
+          "rationale": "맹자의 성선설과 왕도정치 철학을 담은 유가 사상의 근본 경전이다."
+        }
+      ]
+    },
+    {
+      "slug": "park-je-ga",
+      "selections": [
+        {
+          "contentId": "18f57fc2-5526-435b-a0d8-75e141c8fa22",
+          "relationType": "related",
+          "description": null,
+          "rationale": "박제가가 청나라의 선진 문물 수용과 상공업 발전을 역설한 대표 실학 저작이다."
+        },
+        {
+          "contentId": "f0e66710-dd1c-404c-816f-d2c5412f126b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정조의 명으로 박제가와 이덕무 등이 편찬에 참여한 조선 후기 종합 무예서이다."
+        }
+      ]
+    },
+    {
+      "slug": "bertrand-russell",
+      "selections": [
+        {
+          "contentId": "080829e8-193b-4209-b39a-4010a6e8c261",
+          "relationType": "related",
+          "description": null,
+          "rationale": "버트런드 러셀이 고대부터 근현대까지 서양 사상사를 명쾌하게 정리한 대표 저작이다."
+        },
+        {
+          "contentId": "6e2f81fe-1175-46f0-97d9-615b47f0d975",
+          "relationType": "related",
+          "description": null,
+          "rationale": "버트런드 러셀이 불행의 원인을 분석하고 행복에 이르는 길을 제시한 대표 대중 저술이다."
+        },
+        {
+          "contentId": "ae6d64f2-88d0-4714-86dc-8aac105484db",
+          "relationType": "related",
+          "description": null,
+          "rationale": "과도한 노동 윤리를 비판하고 인간의 여가와 자유를 옹호한 버트런드 러셀의 대표 에세이집이다."
+        },
+        {
+          "contentId": "fb15c2d3-1a17-4229-a09d-030f12f9b396",
+          "relationType": "related",
+          "description": null,
+          "rationale": "버트런드 러셀이 합리주의 관점에서 전통 종교와 교리를 비판한 대표 에세이 모음집이다."
+        }
+      ]
+    },
+    {
+      "slug": "sima-qian",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "사마천이 궁형의 고초를 견디며 완성한 중국 최초 기전체 역사서 사기의 출간본이다."
+        },
+        {
+          "contentId": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+          "relationType": "related",
+          "description": null,
+          "rationale": "사마천 사기에서 역대 제왕과 국가의 흥망사를 다룬 본기 편의 대표 번역본이다."
+        },
+        {
+          "contentId": "7d9aaa38-412f-44ba-a533-9de4850665c0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "사마천 사기 중 다양한 인간 군상의 삶과 운명을 조명한 열전 70편의 번역본이다."
+        }
+      ]
+    },
+    {
+      "slug": "slavoj-zizek",
+      "selections": [
+        {
+          "contentId": "43bdd883-3412-402a-a02a-aa2bcdd315c4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "슬라보예 지젝이 세계 금융위기와 자본주의의 모순을 도발적으로 분석한 대표 문제작이다."
+        },
+        {
+          "contentId": "036d1f7b-f603-4e30-8631-dd17ecad7e03",
+          "relationType": "related",
+          "description": null,
+          "rationale": "슬라보예 지젝이 코로나19 사태가 촉발한 세계적 대격변과 위기를 긴급 진단한 저작이다."
+        },
+        {
+          "contentId": "2ab1ec69-1b93-4ac6-b7ba-83e3785eee5d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "슬라보예 지젝이 현대 문명의 위기와 종말적 징후들을 분석한 저작이다."
+        },
+        {
+          "contentId": "bca411b0-21d3-4954-9718-0c50fd2e718a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "슬라보예 지젝이 주디스 버틀러 등과 현대 좌파 철학의 쟁점을 두고 나눈 대담 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "augustine",
+      "selections": [
+        {
+          "contentId": "b9af29b7-c492-486d-960e-6ed6ccfe952b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아우구스티누스가 자신의 방황과 영적 회심을 솔직하게 기록한 서구 고백문학의 고전이다."
+        },
+        {
+          "contentId": "eab4b069-cbbb-463a-b7fa-4b69feb19bd5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아우구스티누스가 세속 국가와 신의 나라를 대비하며 기독교 역사철학을 확립한 대작이다."
+        },
+        {
+          "contentId": "442fcd05-5144-4384-b14e-f6c939b23848",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기독교의 핵심인 삼위일체 교리를 심오하게 체계화한 아우구스티누스의 대표 신학 저서다."
+        },
+        {
+          "contentId": "8356b972-efd0-4694-ae00-47c52c5cf569",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간의 자유의지와 악의 문제를 철학적으로 성찰한 아우구스티누스의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "edmund-burke",
+      "selections": [
+        {
+          "contentId": "3b8c0f34-c6df-4b0d-a3be-dfc1178e5ea8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에드먼드 버크의 대표적인 미학 및 철학 저작이다."
+        },
+        {
+          "contentId": "c1a865d0-b2c1-4e06-b418-83145e4b674d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에드먼드 버크가 프랑스 혁명을 비판하며 근대 보수주의 사상의 기초를 놓은 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "origen",
+      "selections": [
+        {
+          "contentId": "8f61a915-4833-444d-bccc-a133969ef39f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "초대교회 교부 오리게네스의 신학 체계를 담은 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "yu-gil-jun",
+      "selections": [
+        {
+          "contentId": "248aedc9-93ef-4290-996a-32dff34e4659",
+          "relationType": "related",
+          "description": null,
+          "rationale": "개화사상가 유길준이 서구 문물을 소개한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "liu-zongyuan",
+      "selections": [
+        {
+          "contentId": "e35c7520-9b46-47fa-a345-d66ad56c015e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "당나라 문인 유종원의 대표 시들을 선별하여 우리말로 옮긴 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "yi-i",
+      "selections": [
+        {
+          "contentId": "05c3ca24-c241-4fe2-b7c1-14b8bee2ce50",
+          "relationType": "related",
+          "description": null,
+          "rationale": "율곡 이이가 군주의 도덕적 수양과 경세의 방도를 밝힌 대표 저작이다."
+        },
+        {
+          "contentId": "79b0cfed-56ed-4112-ba95-793e6e84a0ce",
+          "relationType": "related",
+          "description": null,
+          "rationale": "율곡 이이가 성혼과 사칠이기론 등 성리학적 쟁점을 논변한 저술이다."
+        },
+        {
+          "contentId": "bd719e84-65cf-4364-a1eb-1a5c03af4f2b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "율곡 이이가 노자 도덕경을 유학적 관점에서 해설한 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "immanuel-kant",
+      "selections": [
+        {
+          "contentId": "c997e88c-43d3-4d0f-bfd4-dcb4d71010d1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간 이성의 한계와 인식 능력을 규명한 임마누엘 칸트의 제1비판서이다."
+        },
+        {
+          "contentId": "08a9f0b3-8e75-493b-986b-f94a177fe736",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정언 명령과 도덕 법칙의 근거를 밝힌 임마누엘 칸트의 윤리학 대표 저작이다."
+        },
+        {
+          "contentId": "0c2dfd6d-07c6-41d8-84f7-b4b04820ce4b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "미학과 목적론을 다루며 비판철학 체계를 완성한 임마누엘 칸트의 제3비판서이다."
+        },
+        {
+          "contentId": "4b8d1379-595a-4818-89fd-b47b6f090b5a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "영구 평화의 조건과 국제 질서의 원리를 제시한 임마누엘 칸트의 정치철학 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "john-calvin",
+      "selections": [
+        {
+          "contentId": "61d88be7-4b38-4d97-a2b5-37af2a13b1b5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "종교개혁자 장 칼뱅의 대표적인 조직신학 저작인 기독교 강요이다."
+        },
+        {
+          "contentId": "a637c74e-be8a-4536-aa79-ce19577f352b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "장 칼뱅이 신약성경 요한복음과 요한1서를 주석한 신학 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "zhang-zai",
+      "selections": [
+        {
+          "contentId": "efc44fa6-7213-4e8d-8461-07e19dca74ac",
+          "relationType": "related",
+          "description": null,
+          "rationale": "북송 유학자 장재의 기일원론 철학 체계를 집대성한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "john-stuart-mill",
+      "selections": [
+        {
+          "contentId": "5bcead1b-8219-4a3c-a08b-9abebbed095d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "개인의 자유와 사회적 간섭의 한계를 논증한 존 스튜어트 밀의 대표 저작이다."
+        },
+        {
+          "contentId": "c2a670a4-4ea2-403e-86f2-6038f42e25c5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이상적인 정치체제와 대의제 민주주의의 원리를 제시한 존 스튜어트 밀의 대표 정치철학서이다."
+        },
+        {
+          "contentId": "9538fd2e-8c07-4949-8dc3-e7d48ba78fad",
+          "relationType": "related",
+          "description": null,
+          "rationale": "여성의 종속적 지위를 비판하고 양성평등을 옹호한 존 스튜어트 밀의 대표 저작이다."
+        },
+        {
+          "contentId": "f9269b34-5ae7-4b70-b097-d50530f694d7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고전학파 경제학의 이론을 체계화한 존 스튜어트 밀의 대표 경제학 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "zengzi",
+      "selections": [
+        {
+          "contentId": "5e52fdd5-baee-484f-93c8-7ed8415cca91",
+          "relationType": "related",
+          "description": null,
+          "rationale": "증자의 저작으로 전승되는 대학을 함께 엮은 유학의 핵심 경전이다."
+        }
+      ]
+    },
+    {
+      "slug": "karl-popper",
+      "selections": [
+        {
+          "contentId": "807a4540-d8ac-49be-965a-0bfbd96a2cbb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반증주의 과학철학 방법론을 확립한 칼 포퍼의 대표 저작이다."
+        },
+        {
+          "contentId": "7dadf5c2-3aa6-4e86-93f8-6e6b3a827580",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전체주의를 비판하고 열린 사회의 가치를 옹호한 칼 포퍼의 대표 사회철학서이다."
+        },
+        {
+          "contentId": "8feb8ab8-431d-4cc2-98e8-a388f4c2a6de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "비판적 합리주의와 과학 지식의 성장 과정을 해명한 칼 포퍼의 대표 저작이다."
+        },
+        {
+          "contentId": "22663aad-6498-47ab-b2fc-99d2dde441a6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "역사의 필연적 법칙을 주장하는 역사주의를 비판한 칼 포퍼의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "thomas-a-kempis",
+      "selections": [
+        {
+          "contentId": "6402068d-1ce0-4aee-9b7f-ef01cb222b32",
+          "relationType": "related",
+          "description": null,
+          "rationale": "토마스 아 켐피스가 저술한 그리스도교 내면 영성의 대표 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "thomas-paine",
+      "selections": [
+        {
+          "contentId": "e574bbfc-1d44-48ab-b872-4bb855abadea",
+          "relationType": "related",
+          "description": null,
+          "rationale": "토머스 페인이 미국 독립의 정당성을 대중에게 역설한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "polybius",
+      "selections": [
+        {
+          "contentId": "7060a170-730d-41cf-a8f7-d030da850407",
+          "relationType": "related",
+          "description": null,
+          "rationale": "로마가 지중해 세계의 패권을 장악하는 과정을 실증적으로 기록한 폴리비오스의 대표 역사서이다."
+        }
+      ]
+    },
+    {
+      "slug": "plotinus",
+      "selections": [
+        {
+          "contentId": "05e93a94-968d-4597-93d6-aac79ce7aff6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "일자론을 바탕으로 신플라톤주의를 창시한 플로티노스의 주저이다."
+        },
+        {
+          "contentId": "7ad8ca0b-a8d6-49fc-b425-f4c0c0485408",
+          "relationType": "related",
+          "description": null,
+          "rationale": "플로티노스의 철학적 정수인 엔네아데스의 주요 편목을 선별하여 번역한 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "han-yong-un",
+      "selections": [
+        {
+          "contentId": "e9bbaf68-13c6-4596-98cc-2b033f18940a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시인이자 독립운동가인 한용운의 대표 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "xuanzang",
+      "selections": [
+        {
+          "contentId": "828185c2-acca-42fb-beac-7fd355b954d4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현장이 인도 구법 여행의 여정과 각국의 풍토를 기록한 대표 지리지이자 여행기이다."
+        },
+        {
+          "contentId": "4bf4be69-cf33-4324-9433-6b4dce2c05b6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현장이 한역하여 널리 유포된 불교의 핵심 경전이다."
+        }
+      ]
+    },
+    {
+      "slug": "fukuzawa-yukichi",
+      "selections": [
+        {
+          "contentId": "0e3301d9-e320-4b63-bf25-c9e6d550cb8d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "문명의 진보와 일본의 근대화 과제를 체계적으로 논한 후쿠자와 유키치의 대표 저작이다."
+        },
+        {
+          "contentId": "751320bc-28d1-48b4-9446-d6fcd2e5455f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "서양의 문물과 제도를 소개하여 메이지 유신에 큰 영향을 준 후쿠자와 유키치의 저작이다."
+        },
+        {
+          "contentId": "9a3d784b-6217-446d-bf5a-c8b3cb5144c1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "실용적 학문과 자주독립 정신을 강조한 후쿠자와 유키치의 대표 계몽서이다."
+        }
+      ]
+    },
+    {
+      "slug": "ricky-jay",
+      "selections": [
+        {
+          "contentId": "20698979-77b1-44a4-af47-b3f3363ebddd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마술사이자 마술사학자인 리키 제이가 기이한 공연자들의 역사를 조명한 대표 저서이다."
+        }
+      ]
+    },
+    {
+      "slug": "tony-robbins",
+      "selections": [
+        {
+          "contentId": "548bd6ec-f52f-447b-9970-516c92c5795a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "동기부여 강사 토니 로빈스가 투자와 재정적 자유의 원칙을 정리한 대표 저서이다."
+        }
+      ]
+    },
+    {
+      "slug": "hank-green",
+      "selections": [
+        {
+          "contentId": "e28a322f-661d-4e3e-8ecd-ed65f2741790",
+          "relationType": "related",
+          "description": null,
+          "rationale": "행크 그린이 집필한 SF 장편 소설 저작이다."
+        },
+        {
+          "contentId": "fb00027f-9c77-48fb-8559-719aadc47b56",
+          "relationType": "related",
+          "description": null,
+          "rationale": "행크 그린의 데뷔작이자 시리즈의 첫 번째 SF 소설 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "ben-horowitz",
+      "selections": [
+        {
+          "contentId": "d6edaed5-7897-4649-a2f2-3475aed81f31",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤 호로위츠가 스타트업 경영의 현실적인 위기와 난제를 다룬 대표 저서이다."
+        }
+      ]
+    },
+    {
+      "slug": "warren-buffett",
+      "selections": [
+        {
+          "contentId": "01a6de47-f4dc-4173-9acc-efd829198ca7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "워렌 버핏이 버크셔 해서웨이 주주들에게 보낸 서한을 모아 가치투자 철학을 보여주는 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "charlie-munger",
+      "selections": [
+        {
+          "contentId": "f411e386-dcf3-4376-aa35-b76937300803",
+          "relationType": "related",
+          "description": null,
+          "rationale": "찰리 멍거의 투자 원칙과 다학제적 사고 모델, 강연을 집대성한 대표 저서이다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-gu",
+      "selections": [
+        {
+          "contentId": "2a0475ab-324c-4db8-aa09-76c284fb1c46",
+          "relationType": "appearance",
+          "description": "27년간의 대한민국 임시정부 활동과 자신의 진솔하고 감동적인 삶을 기록한 자서전의 주인공으로 등장한다.",
+          "rationale": "백범 김구가 자신의 독립운동 생애를 직접 기록한 자서전의 중심 인물로 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "mahatma-gandhi",
+      "selections": [
+        {
+          "contentId": "f46b4d11-2596-4cf3-9b3e-0209c7fc6eec",
+          "relationType": "appearance",
+          "description": "자신의 출생부터 독립운동에 이르는 생애와 진리 추구의 여정을 직접 기록한 자서전의 저자이자 주인공으로 등장한다.",
+          "rationale": "마하트마 간디가 자신의 삶과 비폭력 사상을 직접 기록한 대표 자서전이다."
+        },
+        {
+          "contentId": "3682ae25-70f7-4861-bec0-080d2b37a75c",
+          "relationType": "appearance",
+          "description": "남아프리카에서 인도인의 권리를 위해 사티아그라하 운동을 전개하며 비폭력 저항운동의 사상과 방법을 정립한 인물로 등장한다.",
+          "rationale": "간디가 남아프리카에서 전개한 사티아그라하 운동과 비폭력 저항 사상의 형성 과정을 직접 서술한 책이다."
+        },
+        {
+          "contentId": "9cff0d2b-d6fa-4379-a3d7-82526860008f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마하트마 간디가 자치(스와라지) 정신과 비폭력 사상에 대해 직접 서술한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "wonhyo",
+      "selections": [
+        {
+          "contentId": "dc90f7e8-2417-4cc5-8f2f-738e53f50a2c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "원효가 말년에 저술한 대표작으로 『금강삼매경』을 주석한 핵심 논서이다."
+        },
+        {
+          "contentId": "ab6d934a-24e6-4ecb-b791-bb1cfc8f3170",
+          "relationType": "related",
+          "description": null,
+          "rationale": "원효가 『대승기신론』에 주석과 보충 설명을 더한 한국 불교의 대표적 논서이다."
+        },
+        {
+          "contentId": "5cf31c51-a05a-4d8b-aa7f-28f8f801e38c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "원효의 핵심 사상인 십문화쟁론과 발심수행장 등 주요 저술들을 번역하여 집대성한 책이다."
+        },
+        {
+          "contentId": "e7f13353-c989-4b00-becc-fc9c473f23d2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현존하는 원효의 저작 중 하나로 『대반열반경』의 핵심을 요약 정리한 책이다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-chaewon",
+      "selections": []
+    },
+    {
+      "slug": "nicole-jung",
+      "selections": []
+    },
+    {
+      "slug": "dino",
+      "selections": []
+    },
+    {
+      "slug": "rora",
+      "selections": []
+    },
+    {
+      "slug": "riwoo",
+      "selections": []
+    },
+    {
+      "slug": "ricky",
+      "selections": []
+    },
+    {
+      "slug": "mark-lee",
+      "selections": []
+    },
+    {
+      "slug": "bob-dylan",
+      "selections": [
+        {
+          "contentId": "dfac417f-b529-470f-afbb-37abecbb4049",
+          "relationType": "appearance",
+          "description": "자신의 음악 인생과 삶의 궤적을 직접 기록한 자서전의 저자이자 주인공으로 등장한다.",
+          "rationale": "노벨문학상 수상자인 싱어송라이터 밥 딜런이 자신의 생애와 음악 여정을 직접 기록한 자서전이다."
+        }
+      ]
+    },
+    {
+      "slug": "sam-smith",
+      "selections": []
+    },
+    {
+      "slug": "bae-joo-hyun",
+      "selections": []
+    },
+    {
+      "slug": "alice",
+      "selections": []
+    },
+    {
+      "slug": "johann-sebastian-bach",
+      "selections": [
+        {
+          "contentId": "3329f5b5-68e0-44df-b0ba-4c969ae51a99",
+          "relationType": "related",
+          "description": null,
+          "rationale": "요한 제바스티안 바흐가 작곡한 대표적인 건반 악곡집인 인벤션과 신포니아 악보이다."
+        },
+        {
+          "contentId": "d0f812bb-7cac-4129-813e-5f19c1d08086",
+          "relationType": "related",
+          "description": null,
+          "rationale": "요한 제바스티안 바흐가 작곡한 대표적 기악 걸작인 『음악의 헌정』(BWV 1079) 악보이다."
+        }
+      ]
+    },
+    {
+      "slug": "eugene",
+      "selections": []
+    },
+    {
+      "slug": "jennie",
+      "selections": []
+    },
+    {
+      "slug": "jake",
+      "selections": []
+    },
+    {
+      "slug": "choi-jong-hoon",
+      "selections": []
+    },
+    {
+      "slug": "patti-smith",
+      "selections": [
+        {
+          "contentId": "5edd0d2e-ae89-4f33-b8fe-327214c06256",
+          "relationType": "appearance",
+          "description": "자신의 청년 시절과 예술적 성장을 직접 회고한 자서전적 회고록의 저자이자 주인공으로 등장한다.",
+          "rationale": "패티 스미스가 청년 시절의 삶과 예술적 여정을 직접 기록한 대표 회고록이다."
+        },
+        {
+          "contentId": "763933e6-dc45-441b-9e73-120a1b9e0dd1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "음악가이자 시인인 패티 스미스가 직접 발표한 대표 시집이다."
+        },
+        {
+          "contentId": "ef3a85bb-135d-47f2-9b9a-3a902975fbcf",
+          "relationType": "appearance",
+          "description": "자신의 삶과 상실, 예술적 사색과 기억을 풀어낸 회고록의 저자이자 주인공으로 등장한다.",
+          "rationale": "패티 스미스가 자신의 일상과 상실, 내면의 기억을 직접 기록한 회고록이다."
+        }
+      ]
+    },
+    {
+      "slug": "nelson-mandela",
+      "selections": [
+        {
+          "contentId": "ccef1591-482f-4db5-8bdf-bf5fd3e3a155",
+          "relationType": "appearance",
+          "description": "아파르트헤이트에 맞서 싸우고 자유를 쟁취하기까지의 삶을 직접 기록한 자서전의 저자이자 주인공으로 등장한다.",
+          "rationale": "넬슨 만델라가 자신의 생애와 반아파르트헤이트 투쟁 역사를 직접 서술한 대표 자서전이다."
+        },
+        {
+          "contentId": "f5456de0-d73e-452c-b3c3-5151d3ab4955",
+          "relationType": "appearance",
+          "description": "반아파르트헤이트 운동과 수감 생활 동안 작성한 일지, 편지, 대화 녹취록을 통해 자신의 인간적인 면모를 진솔하게 드러내는 인물로 등장한다.",
+          "rationale": "넬슨 만델라의 개인 기록물을 집대성하여 그의 사생활과 투쟁의 역사를 진솔하게 담아낸 자서전적 기록물이다."
+        }
+      ]
+    },
+    {
+      "slug": "mao-zedong",
+      "selections": [
+        {
+          "contentId": "bd907c56-ddd8-42eb-a35a-46a26c6a0c99",
+          "relationType": "related",
+          "description": null,
+          "rationale": "항일전쟁 시기 마오쩌둥의 유격전술과 통일전선 등 주요 혁명 사상을 집대성한 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "benjamin-disraeli",
+      "selections": [
+        {
+          "contentId": "1d97b7de-5adf-4bfb-8b97-421022968fa3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "빅토리아 시대 총리이자 소설가인 벤저민 디즈레일리가 빈부격차와 사회 개혁을 촉구하며 집필한 대표 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "charles-de-gaulle",
+      "selections": [
+        {
+          "contentId": "04c80c00-4527-4fb2-99ac-ae705d72f4cb",
+          "relationType": "appearance",
+          "description": "프랑스의 지도자로서 국정을 이끈 자신의 경험과 역사를 직접 기록한 회고록의 저자이자 주인공으로 등장한다.",
+          "rationale": "샤를 드골이 제5공화국 대통령 재임 시절의 국정 운영과 생애를 직접 기록한 대표 회고록이다."
+        }
+      ]
+    },
+    {
+      "slug": "xi-jinping",
+      "selections": [
+        {
+          "contentId": "58e5ded4-881a-49c2-8693-0a6c44236556",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시진핑 주석의 주요 연설과 담화를 통해 '중국의 꿈'과 국정운영 방침을 집대성한 직접 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "wang-yangming",
+      "selections": [
+        {
+          "contentId": "65b28522-4ea2-4160-afe0-07d0ab44b218",
+          "relationType": "related",
+          "description": null,
+          "rationale": "양명학을 창시한 왕양명의 핵심 철학과 지행합일설을 집대성한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "zhang-juzheng",
+      "selections": [
+        {
+          "contentId": "70225f0b-294f-4eda-8c80-0ceffe185deb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "장거정이 어린 만력제의 교육을 위해 편찬한 대표적인 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "john-jay",
+      "selections": [
+        {
+          "contentId": "c770cfc9-1159-4572-a7f8-88f9618ed998",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존 제이가 해밀턴, 매디슨과 함께 집필한 대표 저작인 연방주의자 논설의 새 번역판이다."
+        }
+      ]
+    },
+    {
+      "slug": "henry-kissinger",
+      "selections": [
+        {
+          "contentId": "0877c4c2-9c4e-4573-82ab-92c1efb7bced",
+          "relationType": "related",
+          "description": null,
+          "rationale": "헨리 키신저가 인공지능과 미래 국제 질서에 대해 공저한 저작이다."
+        },
+        {
+          "contentId": "528e3ef5-f46d-44a0-a5d9-e9e175075b09",
+          "relationType": "related",
+          "description": null,
+          "rationale": "헨리 키신저가 미중 외교와 중국 현대사를 분석한 대표 저작이다."
+        },
+        {
+          "contentId": "71c48a5a-3037-4135-83d4-6b19f4de2cae",
+          "relationType": "related",
+          "description": null,
+          "rationale": "헨리 키신저가 국제 질서와 세력 균형을 다룬 대표 저작이다."
+        },
+        {
+          "contentId": "759bbe5b-c991-48b3-b7c6-5433a1fb49a1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "헨리 키신저가 AI 시대의 문명과 인류의 미래를 논한 공저 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "galileo-galilei",
+      "selections": [
+        {
+          "contentId": "b8203711-be23-4088-b293-d60b27ab1aad",
+          "relationType": "related",
+          "description": null,
+          "rationale": "갈릴레오가 망원경으로 관측한 천체 발견을 기록한 대표 저작 시데레우스 눈치우스의 번역본이다."
+        },
+        {
+          "contentId": "c0cc779d-dc81-4eb4-bec2-d2cf4e937305",
+          "relationType": "related",
+          "description": null,
+          "rationale": "지동설을 옹호한 갈릴레오의 대표작 대화이다."
+        },
+        {
+          "contentId": "7eca9c29-7b42-4037-a4f4-072c48024960",
+          "relationType": "related",
+          "description": null,
+          "rationale": "물체의 운동과 낙하 법칙을 정립한 갈릴레오의 고전 물리학 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "nikola-tesla",
+      "selections": [
+        {
+          "contentId": "2d5395c7-7669-4acb-8041-15acc6ba9290",
+          "relationType": "appearance",
+          "description": "자신의 생애와 발명 여정을 직접 기록한 자서전의 주인공으로 등장한다.",
+          "rationale": "니콜라 테슬라가 자신의 생애를 직접 서술한 자서전이다."
+        }
+      ]
+    },
+    {
+      "slug": "leonhard-euler",
+      "selections": [
+        {
+          "contentId": "8786c897-5cba-4f66-8e1c-7193d3c77d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오일러가 저술한 대표적인 대수학 교재이자 수학 저작이다."
+        },
+        {
+          "contentId": "23de8365-0d30-46d2-8665-0ec8fa381b04",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오일러가 과학과 철학에 관한 서한을 엮은 대표적인 대중 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "richard-sutton",
+      "selections": [
+        {
+          "contentId": "f61d4164-4542-48c2-839d-afb63c3991de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "리처드 서튼이 강화학습의 기초와 이론을 정립한 대표 저서이다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-faraday",
+      "selections": [
+        {
+          "contentId": "b7b7f924-7778-4cac-9269-753163f7629d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마이클 패러데이의 전자기 유도와 전기 실험 연구를 담은 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "sam-harris",
+      "selections": [
+        {
+          "contentId": "8d3d5d1d-338a-4837-bd43-b06138565fb4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "샘 해리스가 영성과 자아의 본질을 신경과학적으로 탐구한 대표 저작이다."
+        },
+        {
+          "contentId": "471ce0ef-a27c-4d7a-a89a-49b69a131961",
+          "relationType": "related",
+          "description": null,
+          "rationale": "샘 해리스가 자유의지의 환상과 도덕적 함의를 고찰한 대표 저서이다."
+        },
+        {
+          "contentId": "2ff36dbf-e8a2-4fe8-97f1-feb6f697f5c7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "샘 해리스가 거짓말과 진실의 윤리를 탐구한 대표 에세이 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "archimedes",
+      "selections": [
+        {
+          "contentId": "e517feae-84d1-41e7-80dc-6204493c1b62",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아르키메데스의 구와 원기둥에 관한 수학 저작을 번역하고 해설한 대표 판본이다."
+        }
+      ]
+    },
+    {
+      "slug": "erwin-schrodinger",
+      "selections": [
+        {
+          "contentId": "e59816ff-082a-4779-bae3-c51dacc49055",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에르빈 슈뢰딩거가 물리학적 관점에서 생명 현상을 탐구한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "euclid",
+      "selections": [
+        {
+          "contentId": "dec4fdc5-e1a5-4c20-8b3d-d19f34da5017",
+          "relationType": "related",
+          "description": null,
+          "rationale": "유클리드가 기하학의 공리와 체계를 정립한 대표 저작 원론의 한국어 완역본이다."
+        }
+      ]
+    },
+    {
+      "slug": "james-watson",
+      "selections": [
+        {
+          "contentId": "4ba7088f-2dbd-4835-b8d0-2c03e938a858",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제임스 왓슨이 DNA 이중나선 구조 발견 과정을 기록한 대표 저서이다."
+        }
+      ]
+    },
+    {
+      "slug": "carl-friedrich-gauss",
+      "selections": [
+        {
+          "contentId": "c26a50e6-fa8e-41d3-ab23-d47120ebf146",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가우스가 근대 정수론의 기초를 마련한 기념비적 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "hong-dae-yong",
+      "selections": [
+        {
+          "contentId": "21033f9d-764a-4574-a33c-7f8e9848a4dd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "홍대용이 지전설과 무한우주론 등 근대적 과학 사상을 문답 형식으로 펼친 대표 저작이다."
+        },
+        {
+          "contentId": "5eb28abd-2934-4fb4-ac7a-bfbec318f929",
+          "relationType": "related",
+          "description": null,
+          "rationale": "홍대용의 학문과 사상을 집대성한 대표 문집이다."
+        }
+      ]
+    },
+    {
+      "slug": "daniel-kahneman",
+      "selections": [
+        {
+          "contentId": "e6586373-4ef7-4bdc-b151-eccb638bbbda",
+          "relationType": "related",
+          "description": null,
+          "rationale": "대니얼 카너먼이 인간의 인지 편향과 행동경제학 이론을 집대성한 대표 저작이다."
+        },
+        {
+          "contentId": "ec15d248-16b8-4732-88f9-0b8610aadf0c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "대니얼 카너먼이 인간 판단의 결함과 잡음을 파헤친 주요 공저 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "milton-friedman",
+      "selections": [
+        {
+          "contentId": "f04e5db0-92d8-4d3f-b936-74a8fe66f8bf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "밀턴 프리드먼이 자유 시장 경제와 개인의 선택을 옹호한 대표 저작이다."
+        },
+        {
+          "contentId": "3ce49361-7d17-45dc-8e12-bb6531036304",
+          "relationType": "related",
+          "description": null,
+          "rationale": "밀턴 프리드먼이 자본주의와 경제적·정치적 자유의 관계를 설파한 기념비적 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "alexis-de-tocqueville",
+      "selections": [
+        {
+          "contentId": "f82a9e3b-f515-4d3b-8f1a-03316952bb08",
+          "relationType": "related",
+          "description": null,
+          "rationale": "토크빌이 미국 민주주의의 구조와 다수의 횡포를 고전적으로 분석한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "john-maynard-keynes",
+      "selections": [
+        {
+          "contentId": "3c1cfc2a-b248-4681-9333-82c3b3cc3c87",
+          "relationType": "related",
+          "description": null,
+          "rationale": "케인스가 불황과 실업의 원인을 유효수요 이론으로 밝힌 대표 저작의 한국어 판본이다."
+        },
+        {
+          "contentId": "99989c73-823b-47c9-a860-a7abb4ea07af",
+          "relationType": "related",
+          "description": null,
+          "rationale": "케인스가 당대 경제 문제와 정책에 관한 견해를 집약한 대표 저술이다."
+        }
+      ]
+    },
+    {
+      "slug": "karl-marx",
+      "selections": [
+        {
+          "contentId": "641c9dcf-a6c8-424f-b5d7-ae3a5c83e0a7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마르크스와 엥겔스가 공산주의의 강령을 선언한 대표 저작의 대표 판본이다."
+        },
+        {
+          "contentId": "6cd56fc8-e44e-4b22-b4de-28d87353f24a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마르크스 사상의 핵심인 역사적 유물론을 체계화한 대표적인 초기 저작이다."
+        },
+        {
+          "contentId": "5933d3ec-bf6d-4dc5-98b0-33ab4e685d6d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "유물사관을 바탕으로 프랑스 정국과 계급 투쟁을 분석한 마르크스의 대표 저작이다."
+        },
+        {
+          "contentId": "b6e1e37a-52b3-41b4-b296-8a89d3f43233",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자본주의 경제 체제를 비판적으로 해부한 마르크스의 대표작 자본론이다."
+        }
+      ]
+    },
+    {
+      "slug": "thomas-sowell",
+      "selections": [
+        {
+          "contentId": "9a910ae1-1b87-4f32-9da1-f29e4ee6369d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "토머스 소웰이 시장 경제의 핵심 원리를 명쾌하게 해설한 대표 저서이다."
+        }
+      ]
+    },
+    {
+      "slug": "hannah-arendt",
+      "selections": [
+        {
+          "contentId": "cff215c7-9694-4bd4-8a2d-dd4ad4c64451",
+          "relationType": "related",
+          "description": null,
+          "rationale": "한나 아렌트가 악의 평범성 개념을 제시한 대표 저작이다."
+        },
+        {
+          "contentId": "367c6f82-307d-4e5e-84a7-c7850e26441a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간의 조건과 활동적 삶을 철학적으로 탐구한 한나 아렌트의 대표 저작이다."
+        },
+        {
+          "contentId": "6e4d44d8-eea9-4e13-95a5-63a0ba98e026",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전체주의 체제의 역사적 기원과 성격을 규명한 한나 아렌트의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "michelangelo",
+      "selections": [
+        {
+          "contentId": "8cd40451-8ad3-4f75-86e1-061b4f0eaf1c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "예술가이자 시인이었던 미켈란젤로의 소네트를 모은 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "wang-xizhi",
+      "selections": [
+        {
+          "contentId": "16e6d58f-6322-47df-af7c-5d3578dddb29",
+          "relationType": "related",
+          "description": null,
+          "rationale": "서성 왕희지의 필체와 문장이 담긴 대표 서예 저작이다."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-02T22:54:02.735Z"
+}

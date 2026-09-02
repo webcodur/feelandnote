@@ -1,0 +1,2551 @@
+{
+  "input": "..\\..\\data\\celeb\\figure-books\\direct-creator-candidates-2026-09-03.json",
+  "model": "gemini-3.8-flash-high",
+  "reviews": [
+    {
+      "slug": "kim-ji-won",
+      "selections": []
+    },
+    {
+      "slug": "ethan-hawke",
+      "selections": [
+        {
+          "contentId": "7869c5a3-cdc8-49e3-84e6-931fd286740b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "배우이자 작가인 에단 호크가 직접 집필한 두 번째 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "charlie-chaplin",
+      "selections": [
+        {
+          "contentId": "816855eb-3b1e-4905-afa7-edb281f4334b",
+          "relationType": "appearance",
+          "description": "런던 빈민가의 유년기와 뮤직홀 데뷔부터 '떠돌이' 캐릭터로 세계적 성공을 거두기까지의 삶을 다룬 자서전의 저자이자 주인공으로 등장한다.",
+          "rationale": "찰리 채플린이 자신의 유년 시절 빈곤과 세계적 영화인으로 성공하기까지의 생애를 직접 기록한 자서전이다."
+        }
+      ]
+    },
+    {
+      "slug": "son-woong-jung",
+      "selections": [
+        {
+          "contentId": "0519a58b-a8eb-4af4-aa62-4455bb63c54c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "손웅정 지도자가 축구 훈련 철학과 삶의 기본에 대한 신념을 직접 밝힌 대표 에세이다."
+        }
+      ]
+    },
+    {
+      "slug": "gabriel-garcia-marquez",
+      "selections": [
+        {
+          "contentId": "7e6c2b99-050f-4c50-86e0-d44032d3e098",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가브리엘 가르시아 마르케스에게 노벨문학상을 안긴 마술적 사실주의의 대표 걸작 장편소설이다."
+        },
+        {
+          "contentId": "c9918136-4980-4446-9276-5d67d818554d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가브리엘 가르시아 마르케스가 반세기에 걸친 지고지순한 사랑을 그린 또 다른 대표 걸작 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "gustave-flaubert",
+      "selections": [
+        {
+          "contentId": "55d64181-897d-4bfb-8e95-58b6f45de6e2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "프랑스 사실주의 문학의 정점을 보여주는 귀스타브 플로베르의 대표 걸작 장편소설이다."
+        },
+        {
+          "contentId": "63c8c843-bea5-488c-8da1-86cfd14bb569",
+          "relationType": "related",
+          "description": null,
+          "rationale": "19세기 프랑스 청년의 환멸과 사랑을 치밀하게 묘사한 플로베르의 또 다른 대표 장편소설이다."
+        },
+        {
+          "contentId": "e72ee973-4744-4c21-bb77-bbe9560d9a5f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "플로베르 만년의 원숙한 문학 세계를 집약한 세 편의 중단편을 엮은 대표 소설집이다."
+        },
+        {
+          "contentId": "274f92e4-3501-4502-95ae-8ffffe067e3e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고대 카르타고를 무대로 화려한 문체와 철저한 고증을 통해 완성한 대표 역사소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-su-young",
+      "selections": [
+        {
+          "contentId": "2188971b-cd4b-4e76-9925-025b09341067",
+          "relationType": "related",
+          "description": null,
+          "rationale": "한국 현대시의 분수령을 이룬 김수영 시인의 시 세계 전편을 집대성한 결정판 전집이다."
+        }
+      ]
+    },
+    {
+      "slug": "jin-yong",
+      "selections": [
+        {
+          "contentId": "d778ac82-5a59-4299-aced-748077cbcae8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "중화권 대중문학의 최고봉으로 꼽히는 김용의 대표 무협 대작이자 사조삼부곡의 제1부다."
+        },
+        {
+          "contentId": "a2938338-87ef-4b7e-9256-6bd01e446748",
+          "relationType": "related",
+          "description": null,
+          "rationale": "양과와 소용녀의 애절한 사랑과 무협의 세계를 완벽하게 조화시킨 사조삼부곡의 제2부다."
+        },
+        {
+          "contentId": "f9dcf342-6d13-40b0-984a-7b2e5a7e74de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "원나라 말기 혼란한 강호를 무대로 영웅들의 의기와 갈등을 장대하게 그린 사조삼부곡의 완결편이다."
+        },
+        {
+          "contentId": "3ee047bd-c475-4ee0-a68b-b03f74d93982",
+          "relationType": "related",
+          "description": null,
+          "rationale": "권력의 암투와 인간 본성을 풍자하며 자유로운 협객의 삶을 그린 김용의 또 다른 대표 무협 명작이다."
+        }
+      ]
+    },
+    {
+      "slug": "natsume-soseki",
+      "selections": [
+        {
+          "contentId": "888ecd54-3613-47eb-b827-d4ac34f6a461",
+          "relationType": "related",
+          "description": null,
+          "rationale": "나쓰메 소세키의 작가로서의 명성을 드높인 대표작이자 풍자와 해학이 돋보이는 걸작 소설이다."
+        },
+        {
+          "contentId": "6fbd14e4-a176-4a0f-a21d-2712461f7db6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현암사에서 완역 출간한 나쓰메 소세키의 주요 장편소설 전집 세트이다."
+        },
+        {
+          "contentId": "c8a80a2a-7b50-4826-a4cf-55235c89a5bc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "삶과 죽음 및 인간 내면을 깊이 있게 성찰한 나쓰메 소세키의 대표 수필집이다."
+        },
+        {
+          "contentId": "f1c97fd2-ae4a-4052-99c3-229e48377c95",
+          "relationType": "related",
+          "description": null,
+          "rationale": "을유세계문학전집에 수록된 나쓰메 소세키의 마지막 완성작이자 대표 자전적 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "lu-hsun",
+      "selections": [
+        {
+          "contentId": "c57a061a-9485-4fd8-8263-0beaa1160866",
+          "relationType": "related",
+          "description": null,
+          "rationale": "중국 현대문학의 효시이자 정신승리법을 날카롭게 풍자한 노신의 불멸의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "neal-stephenson",
+      "selections": [
+        {
+          "contentId": "1fbcf7c4-c884-447c-8706-071a98deec23",
+          "relationType": "related",
+          "description": null,
+          "rationale": "메타버스라는 개념을 처음 창안하여 현대 SF에 지대한 영향을 미친 닐 스티븐슨의 대표작이다."
+        },
+        {
+          "contentId": "97961f56-185a-46eb-a2fc-c5cd4c328ce7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "나노기술과 미래 사회를 탁월하게 통찰한 닐 스티븐슨의 대표 SF 소설이다."
+        },
+        {
+          "contentId": "7c7a7a6a-8328-4dbb-adfc-52b5681c07cf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "달의 폭발과 인류의 생존 여정을 방대한 과학적 상상력으로 그린 닐 스티븐슨의 대작 SF이다."
+        }
+      ]
+    },
+    {
+      "slug": "dr.-seuss",
+      "selections": [
+        {
+          "contentId": "cac64019-d4dc-47b2-9e5f-6c9cb0c7bdc9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "단 50개의 단어로 유쾌한 운율을 창작해낸 닥터 수스의 대표적인 고전 그림책이다."
+        },
+        {
+          "contentId": "db82e435-0eca-4bba-b343-38f7a2930813",
+          "relationType": "related",
+          "description": null,
+          "rationale": "닥터 수스 문학의 상징적 캐릭터를 탄생시킨 전설적인 대표 그림책이다."
+        },
+        {
+          "contentId": "c8fb81dc-55f5-42b9-b700-03130cfe22bf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "크리스마스의 진정한 의미를 일깨우며 오랜 사랑을 받아온 닥터 수스의 대표 동화이다."
+        },
+        {
+          "contentId": "fde7c01e-336d-46d8-b8b9-d2a1f1f0fbed",
+          "relationType": "related",
+          "description": null,
+          "rationale": "삶의 여정과 도전을 따뜻한 시선으로 응원하는 닥터 수스의 대표 명작 그림책 한국어판이다."
+        }
+      ]
+    },
+    {
+      "slug": "douglas-adams",
+      "selections": [
+        {
+          "contentId": "668dd961-4b76-4d2e-bce0-6f4425aa0d91",
+          "relationType": "related",
+          "description": null,
+          "rationale": "재기발랄한 유머와 철학적 위트를 결합한 더글러스 애덤스의 대표 SF 걸작 시리즈 전편 합본이다."
+        }
+      ]
+    },
+    {
+      "slug": "tao-yuanming",
+      "selections": [
+        {
+          "contentId": "9b40a88e-391b-426b-9622-4292fc8f0624",
+          "relationType": "related",
+          "description": null,
+          "rationale": "동진 시대 전원시의 대가 도연명의 주요 시와 문장을 망라한 대표 문집이다."
+        },
+        {
+          "contentId": "91988b30-befe-4a62-bc8b-30163c2705f8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자연에의 귀의와 소박한 전원생활의 정취를 담은 도연명의 대표 시들을 모은 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "rabindranath-tagore",
+      "selections": [
+        {
+          "contentId": "75470340-a2c3-4c13-9ece-1d0a264452b5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "신과 영혼의 합일을 노래하여 아시아 최초 노벨문학상을 이끌어낸 타고르의 대표 시집이다."
+        },
+        {
+          "contentId": "00a455dc-6f7c-4d1b-be8f-a4ee32b201eb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자연과 인생에 대한 깊고 맑은 통찰을 간결한 시구로 담아낸 타고르의 대표 명상 시집이다."
+        },
+        {
+          "contentId": "422868cf-14d0-4e14-867a-a64fce2e4d7c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "젊음과 사랑, 인생의 아름다움을 서정적으로 노래한 타고르의 대표 시집이다."
+        },
+        {
+          "contentId": "d6500b83-bd05-4992-a907-95a6ae4af7dc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벵골 사회의 일상과 인간미를 따뜻한 시선으로 포착한 타고르의 대표 단편소설선이다."
+        }
+      ]
+    },
+    {
+      "slug": "marco-polo",
+      "selections": [
+        {
+          "contentId": "47660ad8-4959-4394-8dd6-f452b0db7fbf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "원나라와 아시아 세계를 서유럽에 널리 알린 마르코 폴로의 대표 기행문이다."
+        }
+      ]
+    },
+    {
+      "slug": "mary-shelley",
+      "selections": [
+        {
+          "contentId": "cc41e832-03b9-4795-82d4-4aec5dab608b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "메리 셸리의 문학적 명성을 확립하고 SF 문학의 원형이 된 대표 걸작 장편소설이다."
+        },
+        {
+          "contentId": "dc3f5c1f-14e6-4ba7-ba6c-260d9835e4a5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "SF 종말 문학 장르를 개척한 메리 셸리의 또 다른 대표 장편소설이다."
+        },
+        {
+          "contentId": "d72b06ea-2a8e-4b70-af18-3313a376a144",
+          "relationType": "related",
+          "description": null,
+          "rationale": "메리 셸리가 집필한 고딕 소설 네 편을 엮은 민음사의 대표 단편선이다."
+        }
+      ]
+    },
+    {
+      "slug": "mo-yan",
+      "selections": [
+        {
+          "contentId": "489e4818-2039-4ed8-876c-31afe22dfddb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "노벨문학상 수상 작가 모옌이 삶과 문학에 대한 사유를 담아 집필한 대표 산문집이다."
+        }
+      ]
+    },
+    {
+      "slug": "miguel-de-cervantes",
+      "selections": [
+        {
+          "contentId": "fb69cdfa-29d9-4900-bfcb-8062e9077f24",
+          "relationType": "related",
+          "description": null,
+          "rationale": "세르반테스의 불멸의 대표작 『돈키호테』를 완역 출간한 열린책들 판본이다."
+        }
+      ]
+    },
+    {
+      "slug": "park-sang-young",
+      "selections": [
+        {
+          "contentId": "36793972-007c-410c-8529-0b9be6364133",
+          "relationType": "related",
+          "description": null,
+          "rationale": "박상영 작가가 동료 작가들과 함께 단편 소설을 수록하여 출간한 소설선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "virginia-woolf",
+      "selections": [
+        {
+          "contentId": "5101a71b-061f-4081-9997-35ae07bae0bf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "의식의 흐름 기법을 통해 하루 동안의 심리를 치밀하게 해부한 버지니아 울프의 대표 장편소설이다."
+        },
+        {
+          "contentId": "135520f6-5853-4ef4-883a-9710df65a0cc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자전적 요소와 모더니즘의 의식의 흐름 기법이 집약된 버지니아 울프 문학의 정점에 선 대표작이다."
+        },
+        {
+          "contentId": "91a70cbe-aba9-4ce1-99c6-30d76053b6cf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "여성의 창작 조건과 정신적 자유를 역설한 현대 페미니즘 비평의 선구적 고전이다."
+        },
+        {
+          "contentId": "fa26ef86-a0f7-4d19-ab85-378bf4922212",
+          "relationType": "related",
+          "description": null,
+          "rationale": "여섯 인물의 내면 독백과 시적 리듬을 결합하여 모더니즘의 극치를 보여주는 버지니아 울프의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "victor-hugo",
+      "selections": [
+        {
+          "contentId": "fd62028f-898e-4207-9af8-91fa83de7bbc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가난한 민중의 고난과 구원을 장대한 서사로 그려낸 빅토르 위고의 최대 대표 걸작이다."
+        },
+        {
+          "contentId": "14787d5f-6ecb-4a4d-9ced-eee4916e3429",
+          "relationType": "related",
+          "description": null,
+          "rationale": "15세기 파리를 배경으로 꼽추 카지모도와 에스메랄다의 비극적 사랑을 그린 빅토르 위고의 대표작이다."
+        },
+        {
+          "contentId": "16ccb24f-6c95-4990-9fcf-cd4570e5b281",
+          "relationType": "related",
+          "description": null,
+          "rationale": "찢어진 입을 지닌 주인공을 통해 17세기 귀족 사회의 위선을 통렬히 고발한 빅토르 위고의 대표 명작이다."
+        },
+        {
+          "contentId": "066e1b4d-ff8c-4ad7-9c0b-bf8b60bc660a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "프랑스 대혁명기의 혼란과 인간애의 숭고함을 그린 빅토르 위고의 마지막 장편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "sappho",
+      "selections": [
+        {
+          "contentId": "a8c384b2-ef3f-4bb4-8165-4bdee608d8f8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제10의 뮤즈로 칭송받은 사포를 비롯한 고대 그리스 대표 서정 시인들의 작품을 망라한 시선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "charles-baudelaire",
+      "selections": [
+        {
+          "contentId": "d25fc516-c038-4f04-84e4-cdb618c89895",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 서정시의 기념비적 출발점으로 평가받는 샤를 보들레르의 대표 시집 『악의 꽃』을 번역한 판본이다."
+        }
+      ]
+    },
+    {
+      "slug": "su-shi",
+      "selections": [
+        {
+          "contentId": "7820a570-18a6-462a-a756-cbc23ea691b2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "소동파의 대표 한시들을 선별하여 엮은 시선집이다."
+        },
+        {
+          "contentId": "a113892e-ed53-41ac-a8b7-596554b8740c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "북송 시기 당송팔대가인 구양수와 소동파가 주고받은 주요 서간문을 모은 책이다."
+        }
+      ]
+    },
+    {
+      "slug": "susan-sontag",
+      "selections": [
+        {
+          "contentId": "ddde59f3-eabb-41d4-8c3a-07eec31855bf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "예술과 세계를 바라보는 혁신적 관점을 제시하여 20세기 지성계를 뒤흔든 수전 손택의 대표 비평집이다."
+        },
+        {
+          "contentId": "57864088-eeee-4ade-a233-fd65a56134d5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고통을 재현하는 이미지의 소비와 현대 사회의 도덕적 무감각을 날카롭게 비판한 수전 손택의 대표작이다."
+        },
+        {
+          "contentId": "bba4ef53-4050-4537-bea1-1f7b8222b512",
+          "relationType": "related",
+          "description": null,
+          "rationale": "사진 매체가 지닌 미학적 권력과 시각 문화의 본질을 통찰한 수전 손택의 대표 예술 비평서이다."
+        },
+        {
+          "contentId": "6dde0a85-4248-438c-8907-4aae5631f5ff",
+          "relationType": "related",
+          "description": null,
+          "rationale": "질병에 투영된 사회적 편견과 은유적 낙인을 해체하고 환자의 현실을 직시한 수전 손택의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "stan-lee",
+      "selections": [
+        {
+          "contentId": "98bc40de-90a4-4e9e-9c05-b35108d35f7d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "스탠 리가 공동 창조한 마블 유니버스의 방대한 슈퍼히어로와 세계관을 총망라한 대표 백과사전이다."
+        }
+      ]
+    },
+    {
+      "slug": "shi-naian",
+      "selections": [
+        {
+          "contentId": "104be5b3-84dd-4471-b03e-abcc3a3dc135",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시내암이 집대성한 동아시아 4대 기서 『수호전』의 대표적인 한국어 정본 완역본이다."
+        }
+      ]
+    },
+    {
+      "slug": "xin-qiji",
+      "selections": [
+        {
+          "contentId": "58b7c40b-4e6f-47d4-88e3-62b81018857b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "남송 호방사의 거장 신기질의 사(詞) 작품들을 집대성하여 번역한 대표 전집이다."
+        }
+      ]
+    },
+    {
+      "slug": "aeschylus",
+      "selections": [
+        {
+          "contentId": "b678918c-3ecd-4218-821d-31a08f542f33",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아이스킬로스의 현존하는 대표 비극 작품들을 원전 번역으로 집대성한 전집이다."
+        },
+        {
+          "contentId": "ff0392c6-49b3-4cd4-ba03-7c1c0ec83014",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아이스킬로스의 최고 걸작이자 서양 연극사의 불멸의 고전인 비극 3부작이다."
+        },
+        {
+          "contentId": "acb689e9-3754-4d0d-82ab-2f871985d7c5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아이스킬로스의 대표 비극 작품들을 선별하여 엮은 한국어 고전 선집이다."
+        },
+        {
+          "contentId": "2d44932a-7313-4676-8011-ab416683f816",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아이스킬로스를 비롯한 고대 그리스 3대 비극 시인의 대표 희곡을 수록한 선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "anne-frank",
+      "selections": [
+        {
+          "contentId": "a3331eff-5f83-4e67-be5b-aa5d8c098547",
+          "relationType": "related",
+          "description": null,
+          "rationale": "나치 점령기 은신 생활 속에서 겪은 삶과 희망을 진솔하게 증언한 안네 프랑크의 대표적인 자전적 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "andre-gide",
+      "selections": [
+        {
+          "contentId": "774013a9-35fa-4c4b-80de-476ed1d505e3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "도덕과 개인적 욕망 사이의 갈등을 치열하게 탐구한 앙드레 지드의 대표작이다."
+        },
+        {
+          "contentId": "39b93e5f-c6d7-4ab5-badb-7253bf0b6e5d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기존 소설의 틀을 깨고 다층적 플롯을 시도한 앙드레 지드의 대표 장편소설이다."
+        },
+        {
+          "contentId": "f47d8afb-fa75-457e-9bff-cd3e7f30c423",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존재의 해방과 삶의 순수한 기쁨을 찬양하여 수많은 젊은이들에게 깊은 영감을 준 앙드레 지드의 대표 산문집이다."
+        }
+      ]
+    },
+    {
+      "slug": "ernest-hemingway",
+      "selections": [
+        {
+          "contentId": "f0481ac8-772f-4139-9546-7542e2343c42",
+          "relationType": "related",
+          "description": null,
+          "rationale": "불굴의 인간 의지를 간결하고 힘 있는 문체로 그려내어 노벨문학상을 이끈 어니스트 헤밍웨이의 대표 걸작이다."
+        },
+        {
+          "contentId": "708964b3-5826-46e4-829b-109b78417c3b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "스페인 내전을 배경으로 인간의 연대와 희생을 감동적으로 묘사한 헤밍웨이의 대표 장편소설이다."
+        },
+        {
+          "contentId": "5b798d6f-91f8-427b-bd35-518f58e073fc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제1차 세계대전의 환멸과 비극적인 사랑을 그린 헤밍웨이의 대표 장편소설이다."
+        },
+        {
+          "contentId": "5415ae16-807a-4060-9dc7-5790d664aab8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전후 상실감에 방황하는 ‘길 잃은 세대’의 삶을 생생하게 포착한 헤밍웨이의 초기 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "emile-zola",
+      "selections": [
+        {
+          "contentId": "0b889a84-db37-468d-af93-ba625e3355a1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "광산 노동자들의 참혹한 삶과 계급 투쟁을 생생하게 묘사한 자연주의 문학의 최고 걸작이다."
+        },
+        {
+          "contentId": "904e532a-7a6d-44ab-bea0-d3d238d1ee96",
+          "relationType": "related",
+          "description": null,
+          "rationale": "파리 하층민의 비참한 현실과 알코올 중독의 비극을 과학적 관찰력으로 파헤친 에밀 졸라의 대표작이다."
+        },
+        {
+          "contentId": "7cc45042-9390-4685-8b38-3fb8bdd0817d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제2제정기 파리 상류사회의 부패와 파멸을 상징적으로 고발한 에밀 졸라의 대표 장편소설이다."
+        },
+        {
+          "contentId": "d8fef2d9-1fb1-48af-8856-961cba408cba",
+          "relationType": "related",
+          "description": null,
+          "rationale": "토지에 대한 농부들의 탐욕과 갈등을 날 것 그대로 다룬 에밀 졸라의 루공마카르총서 대표 문제작이다."
+        }
+      ]
+    },
+    {
+      "slug": "euripides",
+      "selections": [
+        {
+          "contentId": "aff82965-46ec-455e-8bda-c2fbc1222ad6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "그리스어 원전 번역으로 에우리피데스의 비극들을 수록한 대표 전집의 제1권이다."
+        },
+        {
+          "contentId": "2b31267c-e297-4e8e-a6ab-b06d784b8755",
+          "relationType": "related",
+          "description": null,
+          "rationale": "그리스어 원전 번역으로 에우리피데스의 비극들을 수록한 대표 전집의 제2권이다."
+        },
+        {
+          "contentId": "4c82861d-e47e-4c33-b9e8-a9f9ad1a50eb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "배신당한 여성의 비극과 인간 내면의 격정을 파헤친 에우리피데스의 가장 대표적인 희곡이다."
+        },
+        {
+          "contentId": "1b5679b6-5d58-47f7-a6cf-52292658800c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에우리피데스의 대표적인 비극 희곡 작품들을 망라하여 엮은 전집 세트이다."
+        }
+      ]
+    },
+    {
+      "slug": "tsugumi-ohba",
+      "selections": [
+        {
+          "contentId": "04e371b3-6533-4d1b-82ad-692f0e8ec3b2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오바 츠구미가 스토리를 구상하여 전 세계적인 두뇌 싸움 만화 열풍을 일으킨 『데스노트』의 제1권이다."
+        }
+      ]
+    },
+    {
+      "slug": "kenzaburo-oe",
+      "selections": [
+        {
+          "contentId": "dfb2056e-2138-4402-8c69-169bf2bee304",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오에 겐자부로에게 최연소 아쿠타가와상을 안기며 전후 일본 문단의 주목을 받은 초기 대표 중편소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "jon-fosse",
+      "selections": [
+        {
+          "contentId": "254f7adf-2fad-456d-9354-8c713623c6f5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "2023년 노벨문학상 수상 작가 욘 포세의 문학적 정수를 담은 대표 7부작 연작 소설 『셉톨로지』 영문판이다."
+        }
+      ]
+    },
+    {
+      "slug": "walt-whitman",
+      "selections": [
+        {
+          "contentId": "caa6ab7a-d8ed-4cc7-8c8a-7ff621dad5d8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "형식의 속박을 벗어난 자유시로 미국 현대시의 지평을 연 월트 휘트먼의 대표 시집이다."
+        },
+        {
+          "contentId": "1f8ad215-5897-44a3-ba0a-a85b16f27322",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자아와 만물의 일체감을 노래한 월트 휘트먼의 최고 걸작 장시를 완역한 단행본이다."
+        },
+        {
+          "contentId": "6001ef7e-50a4-4e4c-8a27-83ad2c205a14",
+          "relationType": "related",
+          "description": null,
+          "rationale": "월트 휘트먼의 대표 시 연작과 초판 원고를 수록한 아이오와 대학교 출판부 시집이다."
+        }
+      ]
+    },
+    {
+      "slug": "lu-you",
+      "selections": [
+        {
+          "contentId": "e9f7ea5d-2d68-4d17-a79b-d9f1b5ef49f4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "남송의 대표적인 애국 시인이자 다작 시인인 육유의 대표 한시들을 선별하여 엮은 시선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "takehiko-inoue",
+      "selections": [
+        {
+          "contentId": "7c955061-e404-4cc0-9201-8032e8c8058e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "미야모토 무사시의 삶과 구도의 여정을 장대한 스케일로 그려낸 이노우에 다케히코의 대표 만화 『배가본드』의 제1권이다."
+        }
+      ]
+    },
+    {
+      "slug": "yi-sang",
+      "selections": [
+        {
+          "contentId": "61eb0bb9-54e1-4456-b1bc-21899cf0dc94",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이상의 대표작인 소설 「날개」와 연작시 「오감도」를 수록한 대표 저작이다."
+        },
+        {
+          "contentId": "59eee91f-530c-4b5d-8b9e-6345dfa1710f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이상의 문학 작품 전반을 체계적으로 엮은 전집이다."
+        },
+        {
+          "contentId": "27aa1c34-beb8-4e0a-a4f2-bd2b41cb281b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이상이 평안남도 성천에서 요양하며 집필한 대표 수필 「권태」이다."
+        }
+      ]
+    },
+    {
+      "slug": "giacomo-casanova",
+      "selections": [
+        {
+          "contentId": "3e139425-b59b-4a19-a5b1-d24ffa639f2f",
+          "relationType": "appearance",
+          "description": "자신의 파란만장한 생애를 직접 기록한 자서전의 저자이자 중심 인물로 등장한다.",
+          "rationale": "자코모 카사노바가 자신의 생애를 직접 기록한 자서전으로 인물 자신이 중심 대상이다."
+        }
+      ]
+    },
+    {
+      "slug": "chung-ji-yong",
+      "selections": [
+        {
+          "contentId": "ce8e89bc-f505-40da-aa29-a2339faa4e4d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정지용 시인의 대표 시들이 수록된 핵심 시집이다."
+        },
+        {
+          "contentId": "30a66966-4196-41b3-ae6e-f900393d286d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정지용 시인의 시 세계를 망라하여 민음사에서 출간한 전집이다."
+        }
+      ]
+    },
+    {
+      "slug": "james-joyce",
+      "selections": [
+        {
+          "contentId": "1ceb63b9-3dcb-4b9f-b48b-59b332ac7878",
+          "relationType": "related",
+          "description": null,
+          "rationale": "더블린 사람들의 삶과 마비를 사실적으로 포착한 제임스 조이스의 대표 단편집이다."
+        },
+        {
+          "contentId": "b855151c-96da-4260-846f-ff497c05c022",
+          "relationType": "related",
+          "description": null,
+          "rationale": "예술가로서의 각성과 성장을 자전적으로 그린 조이스의 대표 소설이다."
+        },
+        {
+          "contentId": "982f45d5-701b-4baf-af54-634410411299",
+          "relationType": "related",
+          "description": null,
+          "rationale": "의식의 흐름 기법으로 20세기 문학의 패러다임을 바꾼 제임스 조이스의 걸작이다."
+        },
+        {
+          "contentId": "2dc40550-b4c1-4802-abb4-c1a18ead78f7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "언어와 의식의 한계를 실험한 제임스 조이스의 마지막 대작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "giovanni-boccaccio",
+      "selections": [
+        {
+          "contentId": "e4908637-8336-426b-aa49-a275a57f9bd2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "근대 산문의 기틀을 세운 조반니 보카치오의 대표작 『데카메론』이다."
+        }
+      ]
+    },
+    {
+      "slug": "jo-jung-rae",
+      "selections": [
+        {
+          "contentId": "3e241f52-9b44-4733-a06e-ea23e3705599",
+          "relationType": "related",
+          "description": null,
+          "rationale": "한국 현대사를 다룬 조정래 작가의 대표 대하소설 『태백산맥』의 제1권이다."
+        },
+        {
+          "contentId": "16ae65a8-9f01-4436-bf9b-3341ff31886a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조정래 작가의 주요 중단편을 수록한 공식 문학전집 도서이다."
+        }
+      ]
+    },
+    {
+      "slug": "george-r.r.-martin",
+      "selections": [
+        {
+          "contentId": "3af12937-0801-4f8a-9e8d-28d91fa29d54",
+          "relationType": "related",
+          "description": null,
+          "rationale": "대하 판타지 『얼음과 불의 노래』의 서막을 여는 첫 번째 소설이다."
+        },
+        {
+          "contentId": "2d605d76-19a6-48a1-b627-be05b2957cba",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조지 R.R. 마틴의 세계적인 판타지 대작 『얼음과 불의 노래』 시리즈 도서이다."
+        },
+        {
+          "contentId": "8e2b8326-b6aa-471e-94e9-560a206cef99",
+          "relationType": "related",
+          "description": null,
+          "rationale": "타르가르옌 가문의 역사를 기록한 『얼음과 불의 노래』 공식 프리퀄 소설이다."
+        },
+        {
+          "contentId": "bfb39740-e7eb-4aee-b2bd-c1bf3844b1b9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "19세기 미시시피강 증기선을 배경으로 뱀파이어를 다룬 조지 R.R. 마틴의 대표 장편이다."
+        }
+      ]
+    },
+    {
+      "slug": "jose-saramago",
+      "selections": [
+        {
+          "contentId": "f2878f44-0da0-43e2-ae20-eae7464c9205",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간 조건에 대한 우화를 탁월하게 그려낸 노벨문학상 수상 작가 주제 사라마구의 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "christopher-hitchens",
+      "selections": [
+        {
+          "contentId": "98d0179b-5803-4ea3-a081-d3a5c61d483b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "종교에 대한 날카로운 비판으로 세계적인 반향을 일으킨 크리스토퍼 히친스의 대표 저작이다."
+        },
+        {
+          "contentId": "8065dfee-5070-4257-bca6-fed84cb5f068",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정치와 문학, 사회를 넘나드는 히친스의 명철한 수사와 평론을 모은 대표 선집이다."
+        },
+        {
+          "contentId": "c532a894-2862-431e-b778-d75b16cc0c47",
+          "relationType": "related",
+          "description": null,
+          "rationale": "식도암 진단 후 죽음의 과정을 인간으로서 직시하며 써 내려간 히친스의 마지막 유작이다."
+        }
+      ]
+    },
+    {
+      "slug": "toni-morrison",
+      "selections": [
+        {
+          "contentId": "396395d7-e549-4aaa-bf4c-062f22d7d416",
+          "relationType": "related",
+          "description": null,
+          "rationale": "노예제의 깊은 상처를 유령 서사로 형상화한 토니 모리슨의 퓰리처상 수상 대표작이다."
+        },
+        {
+          "contentId": "065452cc-37d2-40c7-8f51-6cfcee5346ed",
+          "relationType": "related",
+          "description": null,
+          "rationale": "흑인 청년의 성숙과 역사적 정체성을 탐구한 토니 모리슨의 대표 성장소설이다."
+        },
+        {
+          "contentId": "a1fca21c-8053-42a2-9c47-43a839f9910f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "두 흑인 여성의 삶과 우정을 통해 공동체의 삶을 탐구한 전미도서상 후보작이다."
+        },
+        {
+          "contentId": "e137a4f8-146f-4296-b627-8ad8ae55e245",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인종차별의 폭력성과 내면화된 상처를 응시한 토니 모리슨의 기념비적인 데뷔작이다."
+        }
+      ]
+    },
+    {
+      "slug": "paulo-coelho",
+      "selections": [
+        {
+          "contentId": "5ad3acff-e238-4cc1-b49c-60caf4653ddf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자신의 보물을 찾아 떠나는 순례 여행을 다룬 파울로 코엘료의 대표작이다."
+        },
+        {
+          "contentId": "0413ea96-4237-4402-b984-2ab4d69d6f31",
+          "relationType": "related",
+          "description": null,
+          "rationale": "절망 속에서 살아갈 용기와 삶의 축복을 이야기하는 파울로 코엘료의 대표 장편소설이다."
+        },
+        {
+          "contentId": "e88a7cd9-4240-4ef2-a821-4f2c38a92d6c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "성(性)과 사랑의 본질을 진솔하게 탐구한 파울로 코엘료의 장편소설이다."
+        },
+        {
+          "contentId": "ec9f16bc-eb1a-4a38-bd03-d3cf05af5300",
+          "relationType": "appearance",
+          "description": "2006년 시베리아 횡단열차 여행에서 바이올리니스트 힐랄과 시공간을 여행하며 사랑과 용서를 배우는 소설 속 중심 인물로 등장한다.",
+          "rationale": "작가가 자신을 전면으로 내세워 시베리아 횡단열차 여행 경험과 내면의 변화를 그린 자전적 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "fernando-pessoa",
+      "selections": [
+        {
+          "contentId": "d40803a8-cb57-4538-9ffb-e0ad1edac75a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "20세기 문학의 지형을 바꾼 페르난두 페소아의 대표 산문집이다."
+        }
+      ]
+    },
+    {
+      "slug": "fyodor-dostoevsky",
+      "selections": [
+        {
+          "contentId": "e2592298-13bd-4d0f-a964-4aa851d2258b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "죄의식과 구원의 문제를 날카롭게 파고든 도스토옙스키의 대표 장편소설이다."
+        },
+        {
+          "contentId": "20132efc-2e54-4063-a635-e1702fa3c03f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "도스토옙스키 사상의 총합이자 그의 마지막 대작인 걸작 소설이다."
+        },
+        {
+          "contentId": "f4125699-ddcd-46ca-aaab-845ff98d934a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인간 내면의 심연과 모순을 실존적으로 탐구한 도스토옙스키의 중편소설이다."
+        },
+        {
+          "contentId": "33f3e357-8fa9-4bfe-bf60-6e2177e035f3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "당대 사회적 허무주의와 도덕적 파멸을 날카롭게 고발한 4대 장편소설 중 하나이다."
+        }
+      ]
+    },
+    {
+      "slug": "harper-lee",
+      "selections": [
+        {
+          "contentId": "63650017-7904-4f4f-b98b-59196bd6bbb0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "하퍼 리에게 퓰리처상을 안겨주며 미국 문학사의 고전이 된 대표 장편소설이다."
+        },
+        {
+          "contentId": "69d510d1-dc52-4b37-81ed-1357e5919bb7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "하퍼 리의 대표작 『앵무새 죽이기』와 후속작 『파수꾼』을 함께 엮은 전작 세트이다."
+        }
+      ]
+    },
+    {
+      "slug": "herman-melville",
+      "selections": [
+        {
+          "contentId": "aed53c8b-05dc-4261-87f2-ea1042a23d8d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "포경선 경험을 바탕으로 인간 집착의 심연을 그린 허먼 멜빌의 최고 대표작이다."
+        },
+        {
+          "contentId": "9c384458-3136-4bcd-8a7e-7da53a6a7cd1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대인의 소외와 침묵을 다룬 허먼 멜빌의 주요 중단편을 엮은 소설집이다."
+        }
+      ]
+    },
+    {
+      "slug": "henry-david-thoreau",
+      "selections": [
+        {
+          "contentId": "7d56f3f3-e7f5-42ab-864d-eb060d438cc5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "월든 호숫가에서의 자립적이고 소박한 삶을 기록한 헨리 데이비드 소로의 대표작이다."
+        },
+        {
+          "contentId": "696faf93-beab-49ff-85f4-de16b7b53596",
+          "relationType": "related",
+          "description": null,
+          "rationale": "부당한 국가 권력에 대한 비폭력 저항 사상을 밝힌 소로의 대표 정치철학 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "jorge-luis-borges",
+      "selections": [
+        {
+          "contentId": "18ea85f2-2e69-4802-8c79-91c6824004ec",
+          "relationType": "related",
+          "description": null,
+          "rationale": "환상적 사실주의와 미로, 무한의 사유를 완벽히 구현한 보르헤스의 대표 단편집이다."
+        },
+        {
+          "contentId": "f78cc72a-9674-46dd-b331-da296a97d7ab",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시공간의 모든 점을 품은 알레프 개념을 탐구한 보르헤스의 핵심 단편집이다."
+        },
+        {
+          "contentId": "29536bcd-73e4-43d5-9312-3e04ea8dcaf7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "보르헤스가 엄선한 환상 문학 컬렉션에 대해 직접 집필한 해설과 서문을 엮은 책이다."
+        },
+        {
+          "contentId": "94d70670-f540-418f-aaa1-6d005b65df59",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탱고의 기원과 아르헨티나의 문화적 영혼에 대해 보르헤스가 진행한 강연록이다."
+        }
+      ]
+    },
+    {
+      "slug": "fujiko-f.-fujio",
+      "selections": [
+        {
+          "contentId": "169144f3-b7f8-4a86-8587-495ed6dc5c45",
+          "relationType": "related",
+          "description": null,
+          "rationale": "후지코 F. 후지오의 대표작 『도라에몽』을 기념하여 출간된 스페셜판 도서이다."
+        }
+      ]
+    },
+    {
+      "slug": "j.r.r.-tolkien",
+      "selections": [
+        {
+          "contentId": "96117e93-59a2-4227-a329-0987afc4a1f6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 판타지의 토대를 확립한 J.R.R. 톨킨의 대표 대작 『반지의 제왕』 전권 세트이다."
+        },
+        {
+          "contentId": "61bc8c00-5454-4621-bda9-44fd501f427c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가운데땅 신화의 출발점이자 톨킨 판타지 문학의 정수를 담은 소설이다."
+        },
+        {
+          "contentId": "15d5e7aa-8238-4812-8751-30c3243f61db",
+          "relationType": "related",
+          "description": null,
+          "rationale": "톨킨의 가운데땅 창세 신화와 세계관을 깊이 이해할 수 있는 핵심 저작 세트이다."
+        },
+        {
+          "contentId": "2918cb5d-cd9d-4ded-973f-803521f1f9f6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "『반지의 제왕』 속 인물 톰 봄바딜을 둘러싼 가운데땅의 시와 전승을 담은 작품이다."
+        }
+      ]
+    },
+    {
+      "slug": "dwight-d.-eisenhower",
+      "selections": [
+        {
+          "contentId": "1458195f-ff7c-4460-9768-5c48697614f3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제2차 세계대전 연합원정군 최고사령관으로서의 군사 지휘와 작전을 기록한 아이젠하워의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "an-jung-geun",
+      "selections": [
+        {
+          "contentId": "ca03270d-4329-4484-98cc-849a769b1d69",
+          "relationType": "appearance",
+          "description": "대한 독립과 동양 평화를 위해 총을 겨눈 독립운동가이자 옥중에서 자신의 삶과 평화 사상을 기록한 자서전의 중심 인물로 등장한다.",
+          "rationale": "안중근 의사가 옥중에서 자신의 생애와 동양평화론을 직접 기록한 자서전으로 인물 본인이 중심 대상이다."
+        }
+      ]
+    },
+    {
+      "slug": "wu-qi",
+      "selections": [
+        {
+          "contentId": "1e66f38f-8a74-48c1-a3f7-1c8f8973b4d8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전국시대 정치가이자 병법가인 오기가 남긴 대표적인 고전 병서이다."
+        }
+      ]
+    },
+    {
+      "slug": "yi-sun-sin",
+      "selections": [
+        {
+          "contentId": "ef63a031-21d0-4496-8cf2-ea6c05d448d6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "임진왜란 당시의 전황과 지휘관으로서의 고뇌를 이순신 장군이 직접 기록한 친필 일기의 완역본이다."
+        }
+      ]
+    },
+    {
+      "slug": "jocko-willink",
+      "selections": [
+        {
+          "contentId": "2ae32219-6c17-4153-ab24-6cb9b300cbca",
+          "relationType": "related",
+          "description": null,
+          "rationale": "네이비씰 지휘관 복무 경험을 바탕으로 극한 상황의 리더십 원칙을 담은 조코 윌링크의 대표 저서이다."
+        }
+      ]
+    },
+    {
+      "slug": "guillermo-del-toro",
+      "selections": [
+        {
+          "contentId": "ec710bf1-d229-4cb5-b171-999f830f8ee1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기예르모 델 토로 감독이 척 호건과 공동 집필한 정통 뱀파이어 소설 3부작의 첫 권이다."
+        },
+        {
+          "contentId": "22b14927-89d6-48f5-9d26-4960d77d4aa0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기예르모 델 토로 감독의 아카데미 수상 영화 『셰이프 오브 워터』를 바탕으로 대니얼 크라우스와 함께 쓴 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "park-chan-wook",
+      "selections": [
+        {
+          "contentId": "5b387977-e24e-4651-a9f8-aa7a54e61125",
+          "relationType": "related",
+          "description": null,
+          "rationale": "박찬욱 감독이 자신의 영화적 시선과 예술 세계를 직접 집필한 대표 산문집 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "chung-ji-young",
+      "selections": []
+    },
+    {
+      "slug": "ray-kroc",
+      "selections": [
+        {
+          "contentId": "16fe9e84-a3ce-4076-b991-1edcd20eaee1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "맥도날드 신화를 일군 레이 크록이 자신의 사업 여정과 철학을 직접 담아낸 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "kai-fu-lee",
+      "selections": [
+        {
+          "contentId": "0b450910-fe41-4c08-92ff-455513e30cf8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능 전문가 리카이푸가 기술 발전과 사회 변화의 미래를 전망한 대표 저작이다."
+        },
+        {
+          "contentId": "f831f69d-8f7e-430d-99d8-26d648312ea6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "글로벌 인공지능 패권 경쟁과 미래 비전을 분석한 리카이푸의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "marc-benioff",
+      "selections": [
+        {
+          "contentId": "f624c515-0113-4290-b91e-547d9901041a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "세일즈포스 창업자 마크 베니오프가 기업의 사회적 책임과 비즈니스 혁신을 다룬 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "bill-gates",
+      "selections": [
+        {
+          "contentId": "5960b9ca-37fd-4065-ab64-ea790c537955",
+          "relationType": "related",
+          "description": null,
+          "rationale": "디지털 정보 기술을 통한 비즈니스와 경영 혁신을 다룬 빌 게이츠의 대표 저작이다."
+        },
+        {
+          "contentId": "ec8906d7-839b-4f79-af51-59cf899d8efc",
+          "relationType": "appearance",
+          "description": "마이크로소프트의 영향력 있는 비즈니스 리더이자 자선가인 빌 게이츠가 자신의 어린 시절과 성장 과정을 솔직하게 회고하는 회고록의 주인공으로 등장한다.",
+          "rationale": "빌 게이츠가 자신의 초기 생애를 직접 다룬 자서전 성격의 회고록으로 본인이 중심 인물이다."
+        },
+        {
+          "contentId": "c5e1d98a-6f27-4990-b454-88a4db043198",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기후재앙을 극복하기 위한 기술 혁신과 실천 방안을 제시한 빌 게이츠의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "sheryl-sandberg",
+      "selections": [
+        {
+          "contentId": "dafa56f0-aae9-40da-bea4-cdc6acac3424",
+          "relationType": "related",
+          "description": null,
+          "rationale": "여성의 사회 진출과 주체적인 리더십을 역설한 셰릴 샌드버그의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "andrew-carnegie",
+      "selections": [
+        {
+          "contentId": "fc166f64-162d-499e-8c08-67cf751b1655",
+          "relationType": "related",
+          "description": null,
+          "rationale": "부의 사회적 책임과 나눔에 대한 신념을 피력한 앤드류 카네기의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "indra-nooyi",
+      "selections": [
+        {
+          "contentId": "ecc9eb49-0048-4321-9f96-9123e4532a4a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "펩시코 전 CEO 인드라 누이가 자신의 일과 삶, 경영 철학을 정리한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "tony-hsieh",
+      "selections": [
+        {
+          "contentId": "b7df9509-df5b-424f-a44f-e83fea6fe542",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자포스를 고객 중심 기업으로 키워낸 경영 철학과 문화를 다룬 토니 셰이의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "howard-schultz",
+      "selections": [
+        {
+          "contentId": "4b6cd481-a76b-40af-9426-6bd217d93890",
+          "relationType": "related",
+          "description": null,
+          "rationale": "스타벅스를 일군 하워드 슐츠가 기업 경영과 사회적 가치를 성찰한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "georg-wilhelm-friedrich-hegel",
+      "selections": [
+        {
+          "contentId": "4a56b46b-6013-45a1-9fd0-1653fcf0a738",
+          "relationType": "related",
+          "description": null,
+          "rationale": "의식의 발전 단계와 변증법적 인식을 집대성한 헤겔의 핵심 대표 저작이다."
+        },
+        {
+          "contentId": "a601bef2-7eda-46b9-a22f-fafaf833465d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "역사를 이성의 실현과 자유의 발전 과정으로 체계화한 헤겔의 대표 철학 강의 저작이다."
+        },
+        {
+          "contentId": "70083bce-b92e-4d6e-a0f1-eeb0b552e072",
+          "relationType": "related",
+          "description": null,
+          "rationale": "국가와 법, 사회의 객관적 정신을 체계적으로 서술한 헤겔의 대표 저작이다."
+        },
+        {
+          "contentId": "a82ab3c7-92df-4284-bb88-f64e30e27c60",
+          "relationType": "related",
+          "description": null,
+          "rationale": "헤겔 철학 체계의 근본을 이루는 논리학을 담아낸 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "ouyang-xiu",
+      "selections": [
+        {
+          "contentId": "a113892e-ed53-41ac-a8b7-596554b8740c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "북송 문단을 대표하는 스승 구양수와 제자 소동파가 주고받은 대표 서간 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "noam-chomsky",
+      "selections": [
+        {
+          "contentId": "7dbe1c70-8715-4058-9395-621a653037a2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "변형생성문법과 인지과학, 사회철학을 아우르는 노암 촘스키의 사상 결정판 저작이다."
+        },
+        {
+          "contentId": "1d0fea50-994e-4da4-96d1-192e5ecd6638",
+          "relationType": "related",
+          "description": null,
+          "rationale": "신자유주의와 부와 권력의 불평등한 집중 원리를 비판한 노암 촘스키의 대표 저작이다."
+        },
+        {
+          "contentId": "4ea1f98f-dbf3-4b44-b5dd-f7b83c8871bb",
+          "relationType": "appearance",
+          "description": "강연과 인터뷰를 통해 세상의 작동 방식에 대해 쉽고 분명한 어조로 이야기하는 이 시대의 지성이자 중심 인물로 등장한다.",
+          "rationale": "노암 촘스키의 강연과 인터뷰 대담을 엮은 책으로 촘스키가 직접 중심 화자로 등장한다."
+        },
+        {
+          "contentId": "278f4bf7-4a76-487e-9476-bab892bc6be2",
+          "relationType": "appearance",
+          "description": "권력의 정치학에 관한 강연과 토론 기록에서 현대 사회의 권력 구조를 날카롭게 비판하고 재해석하는 중심 지식인으로 등장한다.",
+          "rationale": "피터 미첼과 존 셰펠이 노암 촘스키의 강연과 토론을 엮어 펴낸 대담집으로 촘스키가 중심 대상이다."
+        }
+      ]
+    },
+    {
+      "slug": "nick-bostrom",
+      "selections": [
+        {
+          "contentId": "16a85cff-b0e7-4e34-abb7-ac0aefa6a44b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "초지능 인공지능의 출현과 그로 인한 실존적 위험을 다룬 닉 보스트롬의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "diogenes",
+      "selections": []
+    },
+    {
+      "slug": "ludwig-wittgenstein",
+      "selections": [
+        {
+          "contentId": "a0b8a3c4-e57e-4688-9dc1-91056ccd7f00",
+          "relationType": "related",
+          "description": null,
+          "rationale": "언어와 세계의 논리적 한계를 밝혀 분석철학의 전환을 이끈 비트겐슈타인의 대표 전기 저작이다."
+        },
+        {
+          "contentId": "54d0360e-6c20-4a94-946b-cbbd67b7c8de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "언어 게임과 쓰임으로서의 의미를 탐구한 비트겐슈타인의 대표 후기 저작이다."
+        },
+        {
+          "contentId": "d02a4417-4d4c-4611-a7a8-0852611e6f75",
+          "relationType": "related",
+          "description": null,
+          "rationale": "앎과 확실성의 문법을 다룬 비트겐슈타인의 마지막 철학 저작이다."
+        },
+        {
+          "contentId": "a974bb47-3fb4-47d3-98f8-91ec00bba066",
+          "relationType": "appearance",
+          "description": "제1차 세계대전 전투의 위협 속에서 암호로 자신의 내밀한 사유와 일상을 기록한 개인 일기의 주인공으로 등장한다.",
+          "rationale": "비트겐슈타인이 전선에서 직접 작성한 개인 일기로 본인의 내면과 일상이 중심 대상이다."
+        }
+      ]
+    },
+    {
+      "slug": "marcus-aurelius",
+      "selections": [
+        {
+          "contentId": "935e7cf2-872a-4f3b-b486-3e04b6e4f4b3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "로마 황제이자 스토아 철학자인 마르쿠스 아우렐리우스의 깊은 내면 사색을 담은 대표 저작이다."
+        },
+        {
+          "contentId": "42e40a0a-9578-4b1d-8e9f-4b1d99d38496",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마르쿠스 아우렐리우스 황제가 자신을 경계하며 기록한 스토아 철학의 대표 번역 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-sandel",
+      "selections": [
+        {
+          "contentId": "303d6818-7518-4c81-a8c5-46b2f70695a9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "공동선과 정의에 관한 도덕적 딜레마를 다룬 마이클 샌델의 대표 저작이다."
+        },
+        {
+          "contentId": "a8ecec4a-b55a-4cf1-a145-1ffc04180eb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시장 가치의 확장과 그 도덕적 한계를 성찰한 마이클 샌델의 대표 저작이다."
+        },
+        {
+          "contentId": "a06b40a9-dbcc-4663-95ee-2b85c7fea70f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "능력주의의 구조적 한계와 공정함의 착각을 비판한 마이클 샌델의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "michel-foucault",
+      "selections": [
+        {
+          "contentId": "313bf5eb-fe31-43f1-8c19-120a076d75ec",
+          "relationType": "related",
+          "description": null,
+          "rationale": "판옵티콘과 감옥을 통해 근대 규율 권력의 작동 메커니즘을 분석한 미셸 푸코의 대표 저작이다."
+        },
+        {
+          "contentId": "6310e8c3-874b-4f70-97ce-248756beb7a1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이성에 의해 배제되고 감금된 광기의 역사를 추적한 미셸 푸코의 대표 저작이다."
+        },
+        {
+          "contentId": "ca18921d-e3fe-4295-acd1-c749521eff85",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에피스테메 개념을 바탕으로 서구 지식의 계보를 해부한 미셸 푸코의 대표 저작이다."
+        },
+        {
+          "contentId": "1812a341-6c57-4ee3-a9af-40d8469fb0d7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "성과 권력, 지식의 관계 및 생명관리권력을 규명한 미셸 푸코의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "ban-gu",
+      "selections": [
+        {
+          "contentId": "3a90ea58-8c24-4ecf-874c-3e30783178e4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "중국 최초의 단대사로서 전한의 역사를 체계화한 반고의 대표 역사 저작이다."
+        },
+        {
+          "contentId": "e2da27c1-17cd-4253-b399-a5cc1118a6f3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "전한 시대 주요 인물들의 생애와 행적을 다룬 반고 한서의 핵심 열전 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "boethius",
+      "selections": [
+        {
+          "contentId": "d7975ab4-1a4b-41d4-95ac-9a6aa8b8d304",
+          "relationType": "related",
+          "description": null,
+          "rationale": "옥중에서 운명과 신의 섭리에 관해 집필한 보에티우스의 대표 철학 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "xunzi",
+      "selections": [
+        {
+          "contentId": "5c4d0874-82b7-43d8-87ce-3228514b53aa",
+          "relationType": "related",
+          "description": null,
+          "rationale": "성악설과 예(禮)를 통한 사회적 교화 체계를 정립한 순자의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "aristotle",
+      "selections": [
+        {
+          "contentId": "5b0c1429-be10-4fdd-aa52-d6fe44adc545",
+          "relationType": "related",
+          "description": null,
+          "rationale": "행복과 덕, 실천적 지혜를 다룬 아리스토텔레스의 대표 윤리학 저작이다."
+        },
+        {
+          "contentId": "093c02ad-9bf5-404c-b454-9cd889b38b17",
+          "relationType": "related",
+          "description": null,
+          "rationale": "비극과 모방, 카타르시스 이론을 정립한 아리스토텔레스의 대표 예술철학 저작이다."
+        },
+        {
+          "contentId": "10beee78-5112-4434-a2c1-f87fccd06c2a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "국가 공동체의 본질과 바람직한 정체를 탐구한 아리스토텔레스의 대표 정치철학 저작이다."
+        },
+        {
+          "contentId": "2c4fb84d-3f46-4ac3-8a61-71adccac8eb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존재와 실체, 제1원리를 탐구한 아리스토텔레스의 대표 형이상학 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "liang-qichao",
+      "selections": [
+        {
+          "contentId": "f006fcc5-51df-45d2-b83b-d3c61957ae95",
+          "relationType": "related",
+          "description": null,
+          "rationale": "근대 국민의식과 국가 혁신 사상을 제시하여 동아시아 청년들을 일깨운 양계초의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "yan-fu",
+      "selections": [
+        {
+          "contentId": "6a88567e-b09e-452e-b4ac-5267ef1258d5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "옌푸가 토머스 헉슬리의 《진화와 윤리》를 번역하여 동아시아에 진화론을 소개한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "wang-fuzhi",
+      "selections": [
+        {
+          "contentId": "379285a2-2e3e-4166-8f88-c843f3c469a5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "왕부지가 주역을 바탕으로 독창적인 기철학 체계를 전개한 대표 저작인 《주역외전》의 역주서이다."
+        }
+      ]
+    },
+    {
+      "slug": "ryu-seong-ryong",
+      "selections": [
+        {
+          "contentId": "6fba0eec-dc12-4621-b694-26c72677cd8a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "임진왜란 당시 영의정을 지낸 유성룡이 전란의 국난 극복 과정과 뼈아픈 반성을 직접 기록한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "isaiah-berlin",
+      "selections": [
+        {
+          "contentId": "121dbfd2-4d5c-44b1-a871-a7eac736fbea",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이사야 벌린이 톨스토이의 역사관을 고슴도치와 여우의 우화로 분석한 대표적인 사상사 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "iryeon",
+      "selections": [
+        {
+          "contentId": "79334378-a390-40bb-9dd9-025c41eed94f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "일연이 단군 신화와 향가 등 한국 고대의 역사와 설화를 집대성하여 기록한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "jean-jacques-rousseau",
+      "selections": [
+        {
+          "contentId": "0d620197-af40-4501-9643-e4062b5b448b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "루소가 인민 주권과 사회계약 사상을 제시하여 근대 민주주의에 결정적 영향을 미친 대표 저작이다."
+        },
+        {
+          "contentId": "cd14e40f-4b67-469e-864c-5dc43c2b1da4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "루소가 인간 사회의 불평등의 기원과 사유재산의 형성을 비판적으로 분석한 대표 저작이다."
+        },
+        {
+          "contentId": "e3da7bd8-1bed-48b2-a5b2-d8822e02e9e7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "루소가 자연주의 교육관과 전인적 인간 형성을 역설한 대표적인 교육철학 저작이다."
+        },
+        {
+          "contentId": "6d67bb8f-b4e8-4f31-8d57-0ced5d395e93",
+          "relationType": "related",
+          "description": null,
+          "rationale": "루소가 말년에 자연을 산책하며 내면의 고백과 철학적 성찰을 담아낸 대표 산문집이다."
+        }
+      ]
+    },
+    {
+      "slug": "zhuangzi",
+      "selections": [
+        {
+          "contentId": "289cbc11-0621-486d-b4d7-cbf537fe830a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "도가 사상의 정수와 절대적인 자유, 물아일체의 경지를 담은 장자의 대표 고전이다."
+        },
+        {
+          "contentId": "2b8e0931-d321-4d95-b8a2-7211e84715e5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "장자가 직접 저술한 것으로 인정받는 핵심 저술인 내편을 수록한 대표 판본이다."
+        }
+      ]
+    },
+    {
+      "slug": "john-locke",
+      "selections": [
+        {
+          "contentId": "e3b105b4-e30d-4634-939d-0144c8e63f0e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존 로크가 통치의 정당성을 시민의 동의에서 찾고 사회계약과 저항권을 체계화한 대표 저작이다."
+        },
+        {
+          "contentId": "8380f245-a002-45fe-b6d7-382618450a73",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존 로크가 인간 인식의 기원을 감각과 경험으로 설명하여 근대 경험론의 기초를 놓은 대표 저작이다."
+        },
+        {
+          "contentId": "b4f79236-3805-4c2a-8d96-8c1a2cd53442",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존 로크가 합리주의적 관점에서 성서와 기독교 신앙의 본질을 고찰한 대표 종교철학 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "zhu-xi",
+      "selections": [
+        {
+          "contentId": "803168e8-7975-4db6-ad31-ebfe9d3205be",
+          "relationType": "related",
+          "description": null,
+          "rationale": "주희가 유교 사서의 뜻과 이치를 집대성하여 동아시아 과거 시험의 표준이 된 대표 저작이다."
+        },
+        {
+          "contentId": "b127e3d3-d674-4a22-94c3-cea33ebcd4b8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "주희와 여조겸이 북송 성리학자들의 핵심 이론을 뽑아 편찬한 성리학의 대표 입문서이다."
+        },
+        {
+          "contentId": "4233ffc3-ee2d-43aa-ab62-32ec65bd113e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "주희가 편찬하여 유학 수양의 일상 실천과 기초를 제시한 대표 저작이다."
+        },
+        {
+          "contentId": "dee6d2aa-3628-4132-898c-1cc8c294aa38",
+          "relationType": "related",
+          "description": null,
+          "rationale": "주희가 사서 중 《대학》과 《중용》을 성리학적 체계로 주석한 핵심 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "gilles-deleuze",
+      "selections": [
+        {
+          "contentId": "1bff779e-4787-4a8d-92ef-bb3e39488347",
+          "relationType": "related",
+          "description": null,
+          "rationale": "질 들뢰즈가 펠릭스 가타리와 함께 프로이트주의와 마르크스주의를 혁신한 현대 정치철학의 대표 저작이다."
+        },
+        {
+          "contentId": "dd17e903-36d4-4121-86cd-35c1af51c473",
+          "relationType": "related",
+          "description": null,
+          "rationale": "질 들뢰즈와 펠릭스 가타리의 자본주의와 분열증 연작 2부로 노마디즘 사유를 집대성한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "cicero",
+      "selections": [
+        {
+          "contentId": "e13c57f1-aa44-4460-b5e4-b9c8157e866a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "키케로가 도덕적 선과 유익함의 조화를 논구하며 서양 윤리학에 지대한 영향을 미친 대표 철학 저작이다."
+        },
+        {
+          "contentId": "91e637cb-9b51-4908-852a-0cade3dfdb38",
+          "relationType": "related",
+          "description": null,
+          "rationale": "키케로가 헬레니즘 철학 학파들의 최고 선과 악에 대한 논쟁을 체계적으로 다룬 대표 윤리학 저작이다."
+        },
+        {
+          "contentId": "91b574ab-444e-45f3-8272-90a642e22e5e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "키케로가 자연법 사상에 기반해 법의 본질과 정의로운 국가 질서를 탐구한 대표 저작이다."
+        },
+        {
+          "contentId": "c81312af-6d25-4b95-bd8f-eca4c8279c52",
+          "relationType": "related",
+          "description": null,
+          "rationale": "청년 키케로가 고대 수사학의 기초와 연설술의 원리를 정립한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "thomas-hobbes",
+      "selections": [
+        {
+          "contentId": "ad1ab12b-ad4b-43c9-b184-9c956cbcc993",
+          "relationType": "related",
+          "description": null,
+          "rationale": "토마스 홉스가 근대 정치철학과 사회계약론의 토대를 세운 대표 저작인 《리바이어던》의 판본이다."
+        }
+      ]
+    },
+    {
+      "slug": "livy",
+      "selections": [
+        {
+          "contentId": "8e548b8c-7060-432c-921b-7dbe0e448045",
+          "relationType": "related",
+          "description": null,
+          "rationale": "티투스 리비우스가 로마 건국부터의 장대한 역사를 서술한 대표 고전 역사서의 완역 세트이다."
+        }
+      ]
+    },
+    {
+      "slug": "plato",
+      "selections": [
+        {
+          "contentId": "d6222dc3-ab57-4d3b-b463-9f0a40a84bf1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "플라톤이 정의와 이상 국가, 철인 통치관을 집대성한 가장 대표적인 대화편 저작이다."
+        },
+        {
+          "contentId": "6858f524-a44f-4559-aa96-7e45087081af",
+          "relationType": "related",
+          "description": null,
+          "rationale": "소크라테스의 재판과 죽음, 에로스와 영혼을 다룬 플라톤의 핵심 초기·중기 대화편 4편을 모은 완역본이다."
+        },
+        {
+          "contentId": "e601261f-6a2d-4abd-8352-ec176c0d5250",
+          "relationType": "related",
+          "description": null,
+          "rationale": "플라톤이 우주의 창조와 자연 질서의 구조를 다룬 대표적인 자연철학 대화편이다."
+        },
+        {
+          "contentId": "b1dc7627-a0c1-4f01-bbd7-ac4226c07986",
+          "relationType": "related",
+          "description": null,
+          "rationale": "플라톤이 덕의 본질과 상기설을 통해 앎의 가능성을 탐구한 대표적인 인식론 대화편이다."
+        }
+      ]
+    },
+    {
+      "slug": "han-feizi",
+      "selections": [
+        {
+          "contentId": "59097447-11cf-4251-acc5-5c0f921b1cce",
+          "relationType": "related",
+          "description": null,
+          "rationale": "한비자가 법과 술, 세를 기반으로 군주의 통치술을 집대성한 법가 사상의 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "herodotus",
+      "selections": [
+        {
+          "contentId": "41c9c3fe-4415-40ed-8e71-10c88590c27e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "헤로도토스가 그리스-페르시아 전쟁과 고대 세계 문명의 교류를 기록한 서양 최초의 역사서이다."
+        }
+      ]
+    },
+    {
+      "slug": "hwang-hyun-san",
+      "selections": [
+        {
+          "contentId": "cbfd6a74-72b3-4aa5-9ddd-e7cab843bc31",
+          "relationType": "related",
+          "description": null,
+          "rationale": "문학평론가 황현산의 깊이 있는 사유와 시대를 향한 통찰을 담아낸 생애 첫 대표 산문집이다."
+        }
+      ]
+    },
+    {
+      "slug": "jean-eugene-robert-houdin",
+      "selections": [
+        {
+          "contentId": "c7725ae3-b9ae-45f6-8cca-53018f5e01ed",
+          "relationType": "related",
+          "description": null,
+          "rationale": "근대 무대 마술의 틀을 세운 로베르 우댕의 생애와 마술 혁신을 기록한 대표 회고록이다."
+        }
+      ]
+    },
+    {
+      "slug": "oprah-winfrey",
+      "selections": [
+        {
+          "contentId": "3b291943-4d3c-4a4a-9f7e-bfda6f811952",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오프라 윈프리가 아서 브룩스와 함께 더 나은 삶과 정서적 웰빙을 구축하는 길을 제시한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "harry-houdini",
+      "selections": [
+        {
+          "contentId": "5b9d0cf7-d2b3-43a9-a3ee-45fc69492da8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탈출 마술의 대가 해리 후디니가 사기 영매와 사이비 초능력자들의 속임수 수법을 직접 폭로한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "ray-dalio",
+      "selections": [
+        {
+          "contentId": "41a3d9c0-fb76-48e1-bead-64e223978f97",
+          "relationType": "related",
+          "description": null,
+          "rationale": "레이 달리오가 브리지워터를 세계 최대 헤지펀드로 이끌며 정립한 독자적인 삶과 경영의 원칙을 체계화한 대표 저작이다."
+        },
+        {
+          "contentId": "dfc4191e-57f2-47ca-b0e5-a9cb95c96f82",
+          "relationType": "related",
+          "description": null,
+          "rationale": "레이 달리오가 지난 500년간 제국의 흥망성쇠와 경제 질서의 주기적 순환을 분석한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "blake-masters",
+      "selections": [
+        {
+          "contentId": "6e4ceff7-b652-412d-9fa0-cb26a659df2f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "블레이크 매스터스가 스탠퍼드대 강의 노트를 바탕으로 피터 틸과 함께 펴낸 대표적인 스타트업 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "john-bogle",
+      "selections": [
+        {
+          "contentId": "89c9702f-3b1c-47fa-9fc5-f04b9d76b19a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "뱅가드 창업자 존 보글이 저비용 인덱스 펀드를 통해 시장 전체를 장기 보유하는 투자 원칙을 제시한 대표 저작이다."
+        },
+        {
+          "contentId": "ddedcb0a-b5ea-49a3-a59f-682c3811eca1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존 보글이 뮤추얼 펀드의 구조와 비용, 장기 분산 투자의 핵심 상식을 집대성한 고전적 투자 지침서이다."
+        }
+      ]
+    },
+    {
+      "slug": "peter-thiel",
+      "selections": [
+        {
+          "contentId": "6e4ceff7-b652-412d-9fa0-cb26a659df2f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "피터 틸이 0에서 1을 만들어내는 혁신과 독점 기업 창출의 철학을 설파한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "mother-teresa",
+      "selections": [
+        {
+          "contentId": "10fdd10d-1f2e-492d-8b92-8f9794356b4e",
+          "relationType": "appearance",
+          "description": "시성을 기념해 펴낸 말씀집에서 자신의 생활 체험을 바탕으로 11가지 주제의 가르침과 인터뷰 대화를 전하는 중심 인물로 등장한다.",
+          "rationale": "마더 테레사의 시성을 기념하여 신앙과 영성, 인터뷰 대화와 생활 체험을 엮어낸 대표 말씀집이다."
+        }
+      ]
+    },
+    {
+      "slug": "vivekananda",
+      "selections": [
+        {
+          "contentId": "b32241a7-a37e-4906-8d53-8ad2cd11de71",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?????? ?? ? ????? ?? ??? ??? ???? ?? ? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "kim-sung-hee",
+      "selections": []
+    },
+    {
+      "slug": "nina-simone",
+      "selections": [
+        {
+          "contentId": "68a6e4e9-59ca-4182-9c26-f762cda3c3fd",
+          "relationType": "appearance",
+          "description": "?? ??? ??? ?? ??? ?? ??, ??? ??? ?? ?? ???? ???? ???? ????? ????.",
+          "rationale": "?? ??? ??? ?? ?? ??? ?? ??? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "daesung",
+      "selections": []
+    },
+    {
+      "slug": "lay",
+      "selections": []
+    },
+    {
+      "slug": "lia",
+      "selections": []
+    },
+    {
+      "slug": "park-soo-young-after-school",
+      "selections": []
+    },
+    {
+      "slug": "michael-jackson",
+      "selections": [
+        {
+          "contentId": "6cdeefc5-8854-4f83-a67d-2fab538df36f",
+          "relationType": "appearance",
+          "description": "??? ??? ?? ??? ?? ???? ???? ??? ????? ?? ?? ???? ?? ???? ???? ???? ????? ????.",
+          "rationale": "??? ??? ??? ??? ?? ??? ?? ??? ??? ???? ??? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "mariah-carey",
+      "selections": [
+        {
+          "contentId": "95bde2cb-66ef-4d5c-bdd9-65a9bb428c41",
+          "relationType": "appearance",
+          "description": "???? ??? ??? ?? ??? ?? ??? ?? ???? ???? ???? ????? ????.",
+          "rationale": "???? ??? ??? ??? ??? ?? ?? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "billie-holiday",
+      "selections": [
+        {
+          "contentId": "d59bdd2c-83b2-4a6c-ab9f-60f6ea75dd71",
+          "relationType": "appearance",
+          "description": "?? ????? ??? ?? ?? ????? ??? ???? ???? ???? ????? ????.",
+          "rationale": "?? ????? ??? ??? ?? ??? ?? ???? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "ryu-sera",
+      "selections": []
+    },
+    {
+      "slug": "anton",
+      "selections": []
+    },
+    {
+      "slug": "eminem",
+      "selections": [
+        {
+          "contentId": "63043428-9667-4fb1-9377-1121c29e3870",
+          "relationType": "appearance",
+          "description": "???? ?? ??? ?? ??, ??? ????? ???? ?? ?? ??? ?? ????? ????.",
+          "rationale": "???? ?? ??? ??? ??? ?? ?? ??? ?? ???? ?? ???."
+        }
+      ]
+    },
+    {
+      "slug": "kim-yoo-jin",
+      "selections": []
+    },
+    {
+      "slug": "justin-bieber",
+      "selections": [
+        {
+          "contentId": "b816516d-167b-4d7b-95da-d830b0abff5d",
+          "relationType": "appearance",
+          "description": "??? ??? ?? ??? ???? ???? ??? ??????? ??? ?? ???? ???? ???? ????? ????.",
+          "rationale": "??? ??? ??? ?? ??? ?? ?? ??? ?? ??? ? ?? ?????."
+        },
+        {
+          "contentId": "b4f79067-c5cc-4bd9-a7b8-d1506f17b798",
+          "relationType": "appearance",
+          "description": "??? ??? ?? ??? ?? ??? ??? ??? ? ?? ?? ?? ??? ?? ???? ????? ????.",
+          "rationale": "? ??? ??? ?? ??? ?? ??? ??? ??? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "jay-z",
+      "selections": [
+        {
+          "contentId": "d7e0b366-8eb2-460a-acc3-8c8fc98d6c1a",
+          "relationType": "appearance",
+          "description": "???? ??? ?? ??? ?? ???? ??? ??? ???? ????? ????.",
+          "rationale": "???? ??? ??? ?? ??? ?? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "park-soo-young",
+      "selections": []
+    },
+    {
+      "slug": "kim-ji-yeon",
+      "selections": []
+    },
+    {
+      "slug": "felix",
+      "selections": []
+    },
+    {
+      "slug": "margaret-thatcher",
+      "selections": [
+        {
+          "contentId": "1d634bdb-93e1-47f7-85d7-9f8ad0d7d29b",
+          "relationType": "appearance",
+          "description": "??? ??? ?????? ?? ?? ?? ??? ??? ?? ??? ???? ?? ???? ????? ????.",
+          "rationale": "??? ??? ?? ?? ???? ?? ??? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "fa-zheng",
+      "selections": []
+    },
+    {
+      "slug": "shang-yang",
+      "selections": [
+        {
+          "contentId": "a4494b89-dd88-4246-87c0-a4375e77e9ee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ?? ??? ?? ??? ?? ?? ?? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "shimon-peres",
+      "selections": [
+        {
+          "contentId": "c3a97ec9-9f61-4538-b54c-020e3b3478cf",
+          "relationType": "appearance",
+          "description": "?? ???? ??? ?? ??? ??? ?? ??? ???? ???? ???? ????? ????.",
+          "rationale": "?? ???? ??? ?? ??? ??? ?? ??? ?? ??? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "alexander-hamilton",
+      "selections": [
+        {
+          "contentId": "c770cfc9-1159-4572-a7f8-88f9618ed998",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ???? ?? ??? ?? ?? ?? ??? ???? ??? ?? ?? ??? ? ??? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "julius-caesar",
+      "selections": [
+        {
+          "contentId": "94518ea9-8e92-4fdd-889e-c6f03e98bb84",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ????? ??? ??? ??? ??? ??? ? ??? ?? ??? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "james-madison",
+      "selections": [
+        {
+          "contentId": "c770cfc9-1159-4572-a7f8-88f9618ed998",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ?? ??? ?? ?? ?? ??? ?? ??? ?? ?? ?? ??? ? ??? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "che-guevara",
+      "selections": [
+        {
+          "contentId": "7138929a-8ac3-43a6-bd07-965ff28f5e02",
+          "relationType": "appearance",
+          "description": "? ???? 1966? ????? ??? ??? 1967? ?? ????? ??? ??? ??? ??? ???? ????? ????.",
+          "rationale": "? ???? ??????? ??? ??? ??? ?? ?? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "gaius-plinius-secundus",
+      "selections": [
+        {
+          "contentId": "0216bece-7d78-4b88-8afd-aa675fe84076",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ????? ????? ??? ??? ??? ???? ?? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "kim-dong-soo",
+      "selections": []
+    },
+    {
+      "slug": "neil-degrasse-tyson",
+      "selections": [
+        {
+          "contentId": "1947150f-07e0-435e-9cb5-0f81f929c9ef",
+          "relationType": "related",
+          "description": null,
+          "rationale": "? ???? ???? ?? ??? ??? ??? 140? ?? ??? ??? ??????."
+        },
+        {
+          "contentId": "9332babd-f693-4816-9ca0-96415ff9f0bd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "? ???? ???? ?? ??? ??? ??? ??? ??? ??? ?? ???? ????."
+        }
+      ]
+    },
+    {
+      "slug": "richard-dawkins",
+      "selections": [
+        {
+          "contentId": "5e645a21-e0d3-4d72-aaf0-c522e1dd8703",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ??? ??? ???? ? ??? ???? ???? ??? ??????."
+        },
+        {
+          "contentId": "c04a9689-bff5-4130-bbc5-d8fa8ed92bf3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "????? ??? ?? ??? ????? ??? ??? ??? ???? ?? ????? ????."
+        },
+        {
+          "contentId": "01b762aa-bb6c-4c1c-a4d1-59637eac98ce",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ??? ???? ??? ???? ??? ?? ????."
+        },
+        {
+          "contentId": "ac5fff59-64bc-4afe-9a74-36750bd3e1bf",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ??? ?? ? ???? ??? ??? ??? ???? ?? ??? 40?? ??????."
+        }
+      ]
+    },
+    {
+      "slug": "marie-curie",
+      "selections": [
+        {
+          "contentId": "f8e8f763-eef6-4559-a450-772d60606cf3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ?? ??? ?? ??? ?? ??? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "blaise-pascal",
+      "selections": [
+        {
+          "contentId": "135843f8-fa17-42cb-bb88-7e7b671b1fa1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ???? ??? ??? ???, ??? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "stephen-hawking",
+      "selections": [
+        {
+          "contentId": "959ac253-0f09-4f7e-92c7-486a4ab6ca78",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ??? ??? ??? ???? ??? ?? ?? ??? ?? ????."
+        },
+        {
+          "contentId": "bb694baa-688e-40e6-a18c-c15b27b9af35",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ??? ?? ??? ??? ???? ??? ??? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "71a50b05-6206-4465-9695-516c14533d1c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ??? ??? ? ???? ?? ?? ??? ???? ????."
+        },
+        {
+          "contentId": "04fc8e3e-2a91-4b2e-a425-a5605f549fe8",
+          "relationType": "appearance",
+          "description": "??? ??? ?? ???? ??????? ????? ?? ?? ??? ???? ???? ???? ????? ????.",
+          "rationale": "??? ??? ??? ??? ??? ??? ?? ??? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "alexander-von-humboldt",
+      "selections": [
+        {
+          "contentId": "f2b7f019-e2c5-4109-9bad-fb48254aae2b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ? ???? ?? ??? ??? ????? ??? ???? ????? ????."
+        },
+        {
+          "contentId": "0ab3ff37-9f0f-48f3-9a74-7067c1dd78ce",
+          "relationType": "related",
+          "description": null,
+          "rationale": "???? ? ???? ?? ??? ??? ??? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "judea-pearl",
+      "selections": [
+        {
+          "contentId": "book-9781541698963",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ?? ?? ??? ???? ??? ??? ??? ??? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "jane-goodall",
+      "selections": [
+        {
+          "contentId": "91ee0edd-96a2-4094-88f2-a4fefcdb0a54",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ?? ???? ??? ??? ??? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "8f68425d-4e3a-4d48-a91d-e15f17201286",
+          "relationType": "appearance",
+          "description": "?? ??? ??? ?? ??? ??, ??? ?? ??? ???? ???? ???? ????? ????.",
+          "rationale": "?? ??? ??? ??? ?? ??? ?? ??? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "charles-darwin",
+      "selections": [
+        {
+          "contentId": "ed393fdb-66e2-40d0-8dc7-aee58947e842",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ????? ?? ???? ????? ??? ?? ??? ?? ??? ??????."
+        },
+        {
+          "contentId": "51f661c7-4127-466b-8161-f408da4368e3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ???? ??? ??? ??? ??? ?? ?? ????."
+        },
+        {
+          "contentId": "08c3a127-7297-40ce-a674-d01bab274d08",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ??? ??? ??? ??? ?? ??? ??? ?????."
+        },
+        {
+          "contentId": "0a43d393-122a-4015-bf4f-02220586f8d9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ??? ??? ??? ?? ??? ??? ??? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "claude-shannon",
+      "selections": [
+        {
+          "contentId": "37d0c229-4a55-4e4b-8017-1900740f3bde",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ???? ??? ?? ??? ??? ?? ??? ??? ??? ??? ???? ????."
+        }
+      ]
+    },
+    {
+      "slug": "daniel-goleman",
+      "selections": [
+        {
+          "contentId": "d79467d9-ce53-46c9-b468-5a5b9dc53e06",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ???? ??? ???? ?? ???? ??? ????."
+        },
+        {
+          "contentId": "0eaa379b-3b0a-47ac-91a2-8e8e3eb0e921",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ??? ?? ??? ??? ??? ????? ?? ?? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "montesquieu",
+      "selections": [
+        {
+          "contentId": "cb137933-cf66-45c6-bbbb-cdece5690aed",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?????? ?? ??? ?? ??? ??? ???? ???? ??? ??????."
+        },
+        {
+          "contentId": "02e999d9-3a5c-4a7f-80de-2e8e2ec60781",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?????? ?????? ???? ??? ??? ??? ??? ?? ??? ??? ??????."
+        },
+        {
+          "contentId": "4d385c22-81b8-45dc-b6e0-8b2f1c81c6b4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?????? ??? ??? ?? ??? ??? ?? ???? ????."
+        }
+      ]
+    },
+    {
+      "slug": "steven-pinker",
+      "selections": [
+        {
+          "contentId": "786fa173-382a-41b3-a3d5-485941f7941a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ??? ??? ??? ??? ??? ?? ????? ??? ??? ??????."
+        },
+        {
+          "contentId": "49a0417b-f0b1-4d65-8df1-d0f0e28d1b85",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ??? ??? ????? ???? ??? ?? ????."
+        },
+        {
+          "contentId": "cfba40dd-02fe-42f7-8730-d21427088e22",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ??? ? ?? ??? ????? ??? ?? ????."
+        },
+        {
+          "contentId": "dfbbbb0c-a1e2-4728-b80d-4b0be820da36",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??? ?? ? ??? ??? ?? ??? ??? ??? ?? ???? ????."
+        }
+      ]
+    },
+    {
+      "slug": "jordan-peterson",
+      "selections": [
+        {
+          "contentId": "4821b15b-3a41-4146-9ce3-e6b13b149606",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ???? ??? ???? ?? ??? ??? ??? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "jim-collins",
+      "selections": [
+        {
+          "contentId": "f2de77fb-b584-4055-ac80-cdec6831fcf1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "? ???? ?? ??? ?? ?? ??? ?? ?? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "e58d944e-cb9e-4871-b875-db08baf0b8af",
+          "relationType": "related",
+          "description": null,
+          "rationale": "? ???? ???? ????? ??? ??? ?? ??? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "eb9947b2-afe7-46c1-9280-b74312cfc10a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "? ???? ?? ??? ??? ???? ???? ??? ??? ???? 20?????."
+        }
+      ]
+    },
+    {
+      "slug": "claude-levi-strauss",
+      "selections": [
+        {
+          "contentId": "cf7d4e2c-1324-41c0-90c3-722f0a60de8d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "??? ??????? ??? ?? ??? ?? ??? ??? ?? ??? ????."
+        }
+      ]
+    },
+    {
+      "slug": "peter-drucker",
+      "selections": [
+        {
+          "contentId": "ad03a394-4ef0-4bb9-92a4-f71fa3570ecd",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ?? ??? ??? ??? ???? ?? ??? ????."
+        },
+        {
+          "contentId": "135a96ed-5959-49f6-92f9-5afdeea4dede",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ?????? ??? ???? ??? ??? ?? ????."
+        },
+        {
+          "contentId": "51255fb5-315a-461e-b8e6-af84aa5ed5f9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "?? ???? ??? ?? ??, ????? ?? ??? ?? ??? ??? ???? ????."
+        },
+        {
+          "contentId": "2a532909-d2f6-4294-9669-d16ab41c4397",
+          "relationType": "appearance",
+          "description": "?? ???? ??? ?? ?? ???, ?? ??? ?? ??? ???? ???? ???? ????? ????.",
+          "rationale": "?? ???? ??? ??? ??? ??? ?? ??? ?? ?????."
+        }
+      ]
+    },
+    {
+      "slug": "le-corbusier",
+      "selections": [
+        {
+          "contentId": "9788982050183",
+          "relationType": "related",
+          "description": null,
+          "rationale": "? ?????? 20?? ???? ??? ??? ??? ??? ?? ?? ????."
+        }
+      ]
+    },
+    {
+      "slug": "andy-warhol",
+      "selections": [
+        {
+          "contentId": "106323c3-3535-4ebb-aa00-029e9df6c801",
+          "relationType": "appearance",
+          "description": "?? ??? 1976??? 1987??? ??? ??? ??? ??? ??? ??? ????? ????? ????.",
+          "rationale": "?? ??? ? ???? ?? ??? ???? ?? ?? ?? ??? ?? ???? ?? ????."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-02T23:01:13.619Z"
+}

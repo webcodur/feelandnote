@@ -1,0 +1,106 @@
+{
+  "input": "direct-creator-candidates-2026-09-03.json",
+  "model": "curated-exact-creator-and-product-evidence",
+  "reviews": [
+    {
+      "slug": "sun-tzu",
+      "selections": [
+        {
+          "contentId": "0925e1cc-92c1-4b74-b691-f125bde6ccde",
+          "relationType": "related",
+          "description": null,
+          "rationale": "손자가 남긴 군사 전략의 대표 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "benjamin-graham",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 가치투자 원칙을 집약한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "carl-sagan",
+      "selections": [
+        {
+          "contentId": "08e50ae6-7460-4e3c-b5b5-699a3d8b0b06",
+          "relationType": "related",
+          "description": null,
+          "rationale": "칼 세이건의 과학적 세계관을 집약한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "niccolo-machiavelli",
+      "selections": [
+        {
+          "contentId": "df094f0f-db6b-458f-99bf-66ffdb45de30",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마키아벨리의 정치사상을 대표하는 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "aristotle",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 국가와 정치 체제 연구를 담은 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "marcus-aurelius",
+      "selections": [
+        {
+          "contentId": "935e7cf2-872a-4f3b-b486-3e04b6e4f4b3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마르쿠스 아우렐리우스의 스토아 철학적 성찰을 담은 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "george-orwell",
+      "selections": [
+        {
+          "contentId": "60bec748-7e27-4028-8322-2ac193eb3cb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조지 오웰의 작가관과 정치적 문제의식을 보여 주는 대표 에세이선집이다."
+        }
+      ]
+    },
+    {
+      "slug": "max-weber",
+      "selections": [
+        {
+          "contentId": "86a1c4b2-28c7-453a-8ee0-db8aa459d678",
+          "relationType": "related",
+          "description": null,
+          "rationale": "막스 베버의 자본주의 형성 분석을 대표하는 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "jean-jacques-rousseau",
+      "selections": [
+        {
+          "contentId": "0d620197-af40-4501-9643-e4062b5b448b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "장 자크 루소의 정치철학을 대표하는 저작이다."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-02T23:00:59.562Z"
+}
