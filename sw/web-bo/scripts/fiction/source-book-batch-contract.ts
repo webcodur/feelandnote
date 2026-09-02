@@ -1314,7 +1314,11 @@ SELECT
   row.isbn,
   row.publisher,
   row.thumbnail_url,
-  content.release_date,
+  CASE
+    WHEN content.release_date ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+      THEN left(content.release_date, 10)::date
+    ELSE NULL
+  END,
   row.edition_kind,
   row.text_scope,
   row.sort_order,
