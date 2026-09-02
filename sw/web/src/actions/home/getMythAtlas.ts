@@ -5,9 +5,12 @@ import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { selectInChunks } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import { getAllFictionSourceAssignments } from "@/actions/fiction/fictionSourceAssignments";
-import { findAffiliateLink } from "./affiliateLinks";
+import {
+  mapFictionSourcePurchaseOptions,
+  type FictionSourcePurchaseOptionRow,
+} from "@/actions/fiction/fictionSourceLocale";
 import type { ContentType } from "@/types/database";
 import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "./mythAtlasTypes";
 
@@ -140,16 +143,35 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   const validIds = new Set(profiles.filter((profile) => profile.slug).map((profile) => profile.id));
   const assignments = allAssignments.filter((row) => validIds.has(row.celeb_id));
   const contentIds = unique(assignments.map((row) => row.content_id));
-  const contents = await selectInChunks<ContentRow>(contentIds, (ids) => db.from("contents")
-    .select(`id,type,content_locales(${CL_SELECT})`).in("id", ids)
-    .overrideTypes<ContentRow[], { merge: false }>());
+  const [contents, purchaseOptions] = await Promise.all([
+    selectInChunks<ContentRow>(contentIds, (ids) => db.from("contents")
+      .select(`id,type,content_locales(${CL_SELECT_LIST})`).in("id", ids)
+      .overrideTypes<ContentRow[], { merge: false }>()),
+    isEn
+      ? Promise.resolve([])
+      : selectInChunks<FictionSourcePurchaseOptionRow>(contentIds, (ids) => db
+          .from("fiction_source_purchase_options")
+          .select("edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url")
+          .in("content_id", ids)
+          .eq("locale", "ko")
+          .eq("platform", "coupang")
+          .overrideTypes<FictionSourcePurchaseOptionRow[], { merge: false }>()),
+  ]);
+  const optionsByContent = new Map<string, FictionSourcePurchaseOptionRow[]>();
+  for (const option of purchaseOptions) {
+    const current = optionsByContent.get(option.content_id) ?? [];
+    current.push(option);
+    optionsByContent.set(option.content_id, current);
+  }
 
   const explanationByPerson = new Map(explanationRows.map((row) => [row.profile_id, row]));
 
   const works = contents.map((content): MythWork => {
     const flat = flattenLocales(content.content_locales, locale);
-    return { id: content.id, title: flat.title, creator: flat.creator, thumbnailUrl: flat.thumbnail_url,
-      category: CATEGORY[content.type], coupangUrl: isEn ? null : findAffiliateLink(flat.affiliate_url, "coupang")?.url ?? null,
+    const edition = mapFictionSourcePurchaseOptions(optionsByContent.get(content.id) ?? [], "ko")[0];
+    return { id: content.id, title: edition?.title ?? flat.title, creator: edition?.creator ?? flat.creator,
+      thumbnailUrl: edition?.thumbnailUrl ?? flat.thumbnail_url,
+      category: CATEGORY[content.type], coupangUrl: isEn ? null : edition?.purchaseUrl ?? null,
       personIds: unique(assignments.filter((row) => row.content_id === content.id).map((row) => row.celeb_id)) };
   }).filter((work) => work.title).sort((a, b) => b.personIds.length - a.personIds.length || a.title.localeCompare(b.title, locale));
 
@@ -206,7 +228,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   return { regions, traditions, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v11"], {
+const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v12-source-products"], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FICTION_SOURCES],
 });

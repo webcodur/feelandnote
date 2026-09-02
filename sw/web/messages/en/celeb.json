@@ -69,6 +69,8 @@
     "sourceWorkBuyCoupang": "View on Coupang",
     "sourceWorkBuyAmazon": "View on Amazon",
     "sourceWorkSelect": "View work: {title}",
+    "sourceEditionSelect": "Choose an edition",
+    "sourceEditionSelectAria": "View edition: {title}",
     "sourceWorkCharacterAppearance": "{name} in this work",
     "sourceWorkIntroduction": "Work introduction",
     "sourceWorkIntroductionEmpty": "An introduction is not available yet. More information may be available on the work page.",

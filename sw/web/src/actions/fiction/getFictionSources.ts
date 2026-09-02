@@ -1,19 +1,22 @@
 'use server'
+
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import type { CategoryId } from '@/constants/categories'
 import { cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import {
-  CL_SELECT,
+  CL_SELECT_LIST,
   flattenLocales,
   type ContentLocaleRow,
 } from '@/lib/utils/content-locale'
 import type { ContentType } from '@/types/database'
 import {
   getFictionSourceCharacterDescription,
-  getFictionSourceLocaleFields,
-  hasFictionSourceAffiliateLinkForLocale,
+  getFictionSourcePurchasePlatform,
+  mapFictionSourcePurchaseOptions,
+  type FictionSourceEdition,
+  type FictionSourcePurchaseOptionRow,
 } from './fictionSourceLocale'
 import {
   getAllFictionSourceAssignments,
@@ -22,6 +25,7 @@ import {
 } from './fictionSourceAssignments'
 
 export type { FictionSourceRelationType } from './fictionSourceAssignments'
+export type { FictionSourceEdition } from './fictionSourceLocale'
 
 export interface FictionSourceContent {
   id: string
@@ -32,12 +36,7 @@ export interface FictionSourceContent {
   category: CategoryId
   relationType: FictionSourceRelationType
   appearanceDescription: string | null
-  description: string | null
-  publisher: string | null
-  isbn: string | null
-  releaseDate: string | null
-  coupangUrl: string | null
-  amazonUrl: string | null
+  editions: FictionSourceEdition[]
 }
 
 export interface FictionSourceCharacter {
@@ -52,7 +51,6 @@ export interface FictionSourceCharacter {
 interface ContentRow {
   id: string
   type: ContentType
-  release_date: string | null
   content_locales: ContentLocaleRow[] | null
 }
 
@@ -82,44 +80,69 @@ async function fetchSourcesByCeleb(
     .filter((assignment) => assignment.celeb_id === celebId)
   if (assignments.length === 0) return []
 
+  const platform = getFictionSourcePurchasePlatform(locale)
+  if (!platform) return []
+  const contentIds = assignments.map((assignment) => assignment.content_id)
+
   let contentData: ContentRow[]
+  let purchaseOptions: FictionSourcePurchaseOptionRow[]
   try {
-    contentData = await selectInChunks<ContentRow>(
-      assignments.map((assignment) => assignment.content_id),
-      (contentIds) => supabase
-        .from('contents')
-        .select(`id,type,release_date,content_locales(${CL_SELECT})`)
-        .in('id', contentIds)
-        .overrideTypes<ContentRow[], { merge: false }>(),
-    )
+    ;[contentData, purchaseOptions] = await Promise.all([
+      selectInChunks<ContentRow>(
+        contentIds,
+        (ids) => supabase
+          .from('contents')
+          .select(`id,type,content_locales(${CL_SELECT_LIST})`)
+          .in('id', ids)
+          .overrideTypes<ContentRow[], { merge: false }>(),
+      ),
+      selectInChunks<FictionSourcePurchaseOptionRow>(
+        contentIds,
+        (ids) => supabase
+          .from('fiction_source_purchase_options')
+          .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
+          .in('content_id', ids)
+          .eq('locale', locale)
+          .eq('platform', platform)
+          .overrideTypes<FictionSourcePurchaseOptionRow[], { merge: false }>(),
+      ),
+    ])
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     throw new Error(`픽션 인물 대표 원전 조회 실패: ${message}`)
   }
 
   const contentById = new Map(contentData.map((content) => [content.id, content]))
+  const optionRowsByContent = new Map<string, FictionSourcePurchaseOptionRow[]>()
+  for (const option of purchaseOptions) {
+    const rows = optionRowsByContent.get(option.content_id) ?? []
+    rows.push(option)
+    optionRowsByContent.set(option.content_id, rows)
+  }
+
   const sources = assignments.flatMap((assignment): FictionSourceContent[] => {
     const content = contentById.get(assignment.content_id)
     if (!content) return []
+
+    const editions = mapFictionSourcePurchaseOptions(
+      optionRowsByContent.get(content.id) ?? [],
+      locale,
+    )
+    // 관계는 작품에 남겨 두되, 공개 책장에는 활성 제휴 상품이 있는 판본만 연다.
+    if (editions.length === 0) return []
+
     const flat = flattenLocales(content.content_locales, locale)
-    const localeFields = getFictionSourceLocaleFields(content.content_locales, locale)
-    // 관계 데이터는 보존하되 구매 전환용 원전 책장에는 현재 locale의 제휴링크가 있는 판본만 낸다.
-    if (!hasFictionSourceAffiliateLinkForLocale(localeFields, locale)) return []
+    const leadEdition = editions[0]
     return [{
       id: content.id,
-      title: flat.title,
-      creator: flat.creator,
-      thumbnailUrl: flat.thumbnail_url,
+      title: flat.title || leadEdition.title,
+      creator: flat.creator || leadEdition.creator,
+      thumbnailUrl: leadEdition.thumbnailUrl || flat.thumbnail_url,
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
       appearanceDescription: getFictionSourceCharacterDescription(assignment, locale),
-      description: localeFields.description,
-      publisher: localeFields.publisher,
-      isbn: localeFields.isbn,
-      releaseDate: content.release_date,
-      coupangUrl: localeFields.coupangUrl,
-      amazonUrl: localeFields.amazonUrl,
+      editions,
     }]
   })
 
@@ -184,7 +207,7 @@ export async function getFictionSourcesForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['fiction-sources-by-celeb-v5-affiliate-only', celebId, locale],
+    ['fiction-sources-by-celeb-v6-work-editions', celebId, locale],
     () => fetchSourcesByCeleb(celebId, locale),
     { extraTags: [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CONTENTS] },
   )
