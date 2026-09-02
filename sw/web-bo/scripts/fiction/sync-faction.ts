@@ -11,9 +11,13 @@
  * 기본은 dry-run:
  *   node --env-file=.env --import tsx scripts/sync-faction-fiction-data.ts
  *   node --env-file=.env --import tsx scripts/sync-faction-fiction-data.ts --apply
+ * 신규 프로필이 있으면 --profession-file <slug별 직군 JSON>이 필요하다.
  */
 
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
 
 type Row = Record<string, unknown>
 type DbError = { message: string } | null
@@ -255,6 +259,15 @@ if (!url || !key) {
 }
 
 const apply = process.argv.includes('--apply')
+const professionFileIndex = process.argv.indexOf('--profession-file')
+const professionFile = professionFileIndex >= 0 ? process.argv[professionFileIndex + 1] : null
+const professionBySlug = professionFile
+  ? JSON.parse(readFileSync(resolve(process.cwd(), professionFile), 'utf8')) as Record<string, string>
+  : {}
+if (!professionBySlug || Array.isArray(professionBySlug) || typeof professionBySlug !== 'object') {
+  throw new Error('--profession-file은 { "slug": "profession" } 형태의 JSON이어야 합니다.')
+}
+const allowedProfessions = new Set<string>(CELEB_PROFESSIONS.map((row) => row.value))
 const db = createClient(url, key, {
   auth: { autoRefreshToken: false, persistSession: false },
 })
@@ -306,7 +319,7 @@ function sentence(value: string, max: number): string {
   return `${cleaned.slice(0, Math.max(1, max - 1)).trimEnd()}…`
 }
 
-function desiredProfile(person: PersonRow, folder: string, slug: string) {
+function desiredProfile(person: PersonRow, folder: string, slug: string, profession: string) {
   const meta = EPISODE_META[folder]
   if (!meta) throw new Error(`에피소드 기본 정보가 없습니다: ${folder}`)
   if (!person.name_en?.trim()) throw new Error(`${folder}/${person.name}: name_en이 없습니다.`)
@@ -328,7 +341,7 @@ function desiredProfile(person: PersonRow, folder: string, slug: string) {
     nickname: display?.ko ?? person.name.trim(),
     nickname_en: nicknameEn,
     slug_suffix: display?.slugSuffix ?? null,
-    profession: 'other',
+    profession,
     title: meta.title,
     title_en: meta.titleEn,
     nationality: meta.nationality,
@@ -351,13 +364,14 @@ async function createDataOnlyProfile(
   person: PersonRow,
   folder: string,
   slug: string,
+  profession: string,
 ): Promise<ProfileRow> {
   // 인물은 로그인 계정을 갖지 않는다. 도메인 식별자만 직접 발급한다.
   const celebId = crypto.randomUUID()
   try {
     const { error: profileError } = await client
       .from('celebs')
-      .insert({ id: celebId, ...desiredProfile(person, folder, slug) })
+      .insert({ id: celebId, ...desiredProfile(person, folder, slug, profession) })
     if (profileError) throw profileError
 
     const [metrics, created] = await Promise.all([
@@ -455,7 +469,7 @@ async function main() {
     canonicalGroups.set(canonical, [...(canonicalGroups.get(canonical) ?? []), person])
   }
 
-  const plannedCreates: Array<{ slug: string; person: PersonRow; folder: string }> = []
+  const plannedCreates: Array<{ slug: string; person: PersonRow; folder: string; profession: string }> = []
   const profileForCanonical = new Map<string, ProfileRow>()
   for (const [slug, variants] of canonicalGroups) {
     const existing = profileBySlug.get(slug)
@@ -476,12 +490,19 @@ async function main() {
     if (!EPISODE_META[episode.folder]) {
       throw new Error(`${slug}: 대상 밖 에피소드 ${episode.folder}`)
     }
-    plannedCreates.push({ slug, person: representative, folder: episode.folder })
+    const profession = professionBySlug[slug]
+    if (!profession) {
+      throw new Error(`${slug}: 신규 프로필 직군이 없습니다. --profession-file에서 먼저 확정하세요.`)
+    }
+    if (!allowedProfessions.has(profession)) {
+      throw new Error(`${slug}: 허용되지 않은 직군 ${profession}`)
+    }
+    plannedCreates.push({ slug, person: representative, folder: episode.folder, profession })
   }
 
   const plannedDesired = plannedCreates.map((plan) => ({
     plan,
-    desired: desiredProfile(plan.person, plan.folder, plan.slug),
+    desired: desiredProfile(plan.person, plan.folder, plan.slug, plan.profession),
   }))
   const seenEnglishNames = new Map<string, string>()
   const generatedSlugMismatches: string[] = []
@@ -585,7 +606,7 @@ async function main() {
       nickname: row.person.name,
       nicknameEn: row.person.name_en,
       episode: row.folder,
-      profile: desiredProfile(row.person, row.folder, row.slug),
+      profile: desiredProfile(row.person, row.folder, row.slug, row.profession),
     })),
   }, null, 2))
 
@@ -606,7 +627,13 @@ async function main() {
       nextCreate += 1
       const plan = plannedCreates[index]
       if (!plan) return
-      const profile = await createDataOnlyProfile(db, plan.person, plan.folder, plan.slug)
+      const profile = await createDataOnlyProfile(
+        db,
+        plan.person,
+        plan.folder,
+        plan.slug,
+        plan.profession,
+      )
       profileForCanonical.set(plan.slug, profile)
       created += 1
       if (created % 20 === 0 || created === plannedCreates.length) {

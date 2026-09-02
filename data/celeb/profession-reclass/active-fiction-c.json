@@ -1,0 +1,520 @@
+[
+  {
+    "slug": "osiris",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "이집트와 저승의 왕으로 통치와 사후 심판을 맡고, 원전에서 직접 전투나 군 지휘는 확인되지 않는다."
+  },
+  {
+    "slug": "paris",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "트로이 전쟁에서 메넬라오스와 결투하고 활로 아카이아 장수들을 공격한 전사다."
+  },
+  {
+    "slug": "peleus",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "아르고호 원정과 헤라클레스의 트로이 원정 등 여러 무력 원정에서 직접 싸운 전사 역할이 프티아 왕이라는 통치 지위보다 반복적으로 드러난다."
+  },
+  {
+    "slug": "penelope",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "이타카 왕비로 왕가와 궁정을 지켰고 직접 전투나 군사 활동은 하지 않는다."
+  },
+  {
+    "slug": "philoctetes",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "트로이 원정에 복귀해 헤라클레스의 활로 파리스를 죽인 참전 궁수다."
+  },
+  {
+    "slug": "phineus",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "미래를 보고 아르고호 일행에게 항로와 위험을 해석해 주는 예언자·조언자가 대표 역할이며 왕권 행사는 중심 서사가 아니다."
+  },
+  {
+    "slug": "pollux",
+    "profession": "athlete",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "아르고호 원정에서 권투 시합으로 아뮈코스를 꺾은 권투 명수라는 역할이 뚜렷하다."
+  },
+  {
+    "slug": "polyphemus",
+    "profession": "entrepreneur",
+    "confidence": "low",
+    "alternatives": ["commander"],
+    "reason": "양 떼를 기르고 치즈를 만드는 목축 생산자가 일상 역할이지만 판매나 사업 운영 근거가 없어 entrepreneur로 확정할 수 없다. 오디세우스와의 한 차례 충돌도 전쟁·수호 역할이 아니어서 commander가 성립하지 않는다."
+  },
+  {
+    "slug": "poseidon",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "제우스와 세계를 나눈 뒤 바다와 그 영역의 질서를 지속적으로 다스리는 통치가 대표 기능이며, 개별 전쟁 개입은 그보다 부차적이다."
+  },
+  {
+    "slug": "princess-iron-fan",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "파초선을 무기로 손오공과 여러 차례 직접 싸운 나찰녀다."
+  },
+  {
+    "slug": "proteus",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "붙잡은 이에게 귀향 조건과 장수들의 운명을 해석해 주는 예언자·지식 전달자가 대표 서사 기능이다."
+  },
+  {
+    "slug": "ra",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "신들과 인간을 다스리는 왕권의 근원이며 인간 처벌도 명령하지만 직접 전투를 수행하지는 않는다."
+  },
+  {
+    "slug": "rama",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "바나라 연합군을 이끌고 랑카 전쟁을 치러 라바나를 직접 죽인 왕자다."
+  },
+  {
+    "slug": "ravana",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "랑카의 왕으로 군대를 지휘하고 마지막 전투에서 라마와 직접 싸운다."
+  },
+  {
+    "slug": "red-boy",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "요괴 무리를 거느리고 삼매진화로 손오공과 직접 전투를 벌인다."
+  },
+  {
+    "slug": "regin",
+    "profession": "visual_artist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "검 그람을 다시 벼리는 대장장이·공예가가 반복되고 구체적인 실제 기능이며, 시구르드의 스승 역할도 이 제작 기술에서 나온다."
+  },
+  {
+    "slug": "sahadeva",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "쿠루크셰트라 전쟁에 참전해 샤쿠니를 직접 쓰러뜨린 판다바 전사다."
+  },
+  {
+    "slug": "sanjaya",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "드리타라슈트라의 조언자로서 신통한 시야로 전쟁과 『바가바드 기타』의 대화를 해석해 전달하는 지식인 역할이 중심이다."
+  },
+  {
+    "slug": "scylla",
+    "profession": "commander",
+    "confidence": "low",
+    "alternatives": [],
+    "reason": "해협에서 선원을 잡아먹는 포식이 대표 기능이지 전쟁·지휘·수호가 아니므로 commander가 성립하지 않는다. 다른 기존 직군에도 실제 역할로 대응할 근거가 없다."
+  },
+  {
+    "slug": "sekhmet",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "라의 명으로 인간을 직접 학살하고 전쟁과 파괴를 담당하는 전투 신격이다."
+  },
+  {
+    "slug": "serqet",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "독과 질식을 풀어 숨을 되돌리고 산 자와 망자를 치료·보호하는 의술 기능이 대표 역할이므로 치유·기술 기준의 scientist에 해당한다."
+  },
+  {
+    "slug": "set",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "호루스와 왕위를 놓고 직접 싸우고 태양 배에서 아펩을 창으로 찌르는 전투 신격이다."
+  },
+  {
+    "slug": "sha-wujing",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "천상 권렴대장 출신이며 취경길에서 무기를 들고 요괴들과 계속 싸운다."
+  },
+  {
+    "slug": "shakuni",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "주사위 승부와 궁정 계략으로 판다바의 왕국을 빼앗고 왕실 갈등을 전쟁으로 몰아간 정치 모사가 대표 역할이며 전투 참전은 부차적이다."
+  },
+  {
+    "slug": "shamhat",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "엔키두에게 옷·음식·도시의 생활을 가르치고 야생을 떠나 우루크로 가도록 선택을 실제로 바꾸는 문화 매개가 대표 역할이다."
+  },
+  {
+    "slug": "shiva",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "수행자와 신들의 무리를 이끄는 종교적 권위이자 고행·요가의 스승으로서 시험 뒤 가르침과 신성한 힘을 내리는 기능이 대표적이다."
+  },
+  {
+    "slug": "shu",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["scientist"],
+    "reason": "하늘과 땅을 갈라 공기와 공간을 유지하는 자연신 기능이 대표이며, 라의 뒤를 이은 왕이라는 일부 전승만으로 politician을 확정하기 어렵다. 자연 현상을 구현하지만 연구·기술을 수행하지 않아 scientist도 정확하지 않다."
+  },
+  {
+    "slug": "siduri",
+    "profession": "entrepreneur",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "세계의 끝에서 술을 빚고 주점을 운영하는 주점 주인이라는 실제 생업이 분명하다."
+  },
+  {
+    "slug": "sigmund",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "볼숭의 왕이자 복수전과 여러 전투를 치르다 전장에서 죽은 전사다."
+  },
+  {
+    "slug": "sigurd",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "검 그람으로 파프니르를 직접 죽이고 여러 무력 충돌을 치른 전사 영웅이다."
+  },
+  {
+    "slug": "sinon",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "트로이 전쟁에 투입된 그리스군 전사·첩자로 목마 작전을 실행했다."
+  },
+  {
+    "slug": "sita",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "왕비라는 지위는 있으나 원전에서 통치권을 행사하지 않아 politician이 성립하지 않는다. 결단과 저항이 타인의 행동에 영향을 주지만 대중 소통이나 선택 조정이 대표 역할은 아니어서 influencer도 확정할 수 없다."
+  },
+  {
+    "slug": "skadi",
+    "profession": "athlete",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "스키를 타고 활로 사냥하며 산악을 이동하는 신체 활동이 여러 원전에서 반복되는 고유 기능이다."
+  },
+  {
+    "slug": "soseono",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "주몽의 건국을 돕고 두 아들과 남하해 백제 건국 기반을 세운 왕비로, 직접 전투보다 국가 건설과 왕권 역할이 중심이다."
+  },
+  {
+    "slug": "sugriva",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "키슈킨다 왕으로 바나라 군대를 동원해 시타 수색과 랑카 전쟁을 지휘하고 직접 참전한다."
+  },
+  {
+    "slug": "sun-wukong",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "제천대성으로 천군과 싸우고 취경길에서도 여의봉을 들고 수많은 직접 전투를 수행한다."
+  },
+  {
+    "slug": "surtr",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "무스펠 군세를 이끌고 라그나로크에 진군해 프레위르와 직접 싸운다."
+  },
+  {
+    "slug": "susanoo",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "야마타노오로치를 검으로 직접 베어 죽이는 무력 행동이 대표 서사의 중심이다."
+  },
+  {
+    "slug": "suseribime",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "오쿠니누시에게 아버지의 시험을 통과할 방법을 반복해 알려 주고 주술 도구와 계책으로 탈출을 돕는 조언·마법 기능이 대표 역할이다."
+  },
+  {
+    "slug": "taishang-laojun",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "도교의 종사이자 신선·동자들을 거느리는 스승으로 제의와 교단의 최고 권위를 맡는 것이 대표 기능이며 개별 전투 개입은 부차적이다."
+  },
+  {
+    "slug": "talos",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "크레타 해안을 순찰하며 침입선에 돌을 던지는 군사적 수호자다."
+  },
+  {
+    "slug": "tang-sanzang",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "불경을 구하러 순례단을 이끄는 고승으로 종교 지도자 역할이 명확하고 직접 전투는 제자들이 맡는다."
+  },
+  {
+    "slug": "tefnut",
+    "profession": "scientist",
+    "confidence": "low",
+    "alternatives": ["politician"],
+    "reason": "습기와 물·질서를 구현하는 자연신 기능은 scientist에 가장 가깝지만 연구·치유·기술을 수행하지 않아 확정할 수 없다. 슈의 배우자라는 혈연 지위만으로 politician을 줄 수도 없다."
+  },
+  {
+    "slug": "telamon",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "아르고호 원정과 헤라클레스의 트로이 원정에 참전한 왕이자 전사다."
+  },
+  {
+    "slug": "telemachus",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "오디세우스와 함께 무장해 구혼자들을 직접 처단한 전투 참여자다."
+  },
+  {
+    "slug": "thor",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "묠니르로 거인들과 싸우고 라그나로크에서 요르문간드를 직접 죽이는 전쟁 영웅이다."
+  },
+  {
+    "slug": "tiamat",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "괴물 군대를 만들고 킹구를 장수로 세워 젊은 신들과 전쟁한 뒤 마르두크와 직접 싸운다."
+  },
+  {
+    "slug": "tiger-korea",
+    "profession": "athlete",
+    "confidence": "low",
+    "alternatives": [],
+    "reason": "동굴의 인내 시험은 단 한 번의 사건일 뿐 반복되는 운동·경기 기능이 아니므로 athlete가 성립하지 않는다. 원전에서 다른 기존 직군에 해당하는 역할도 수행하지 않는다."
+  },
+  {
+    "slug": "tiresias",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "왕과 영웅에게 신탁의 뜻과 미래를 해석해 주는 전문 예언자·조언자다."
+  },
+  {
+    "slug": "tisiphone",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "살인자를 지속적으로 추격·제압하고 타르타로스의 문을 지키며 형벌을 무력 집행하는 수호·전투 기능이 대표적이다."
+  },
+  {
+    "slug": "tongtian-jiaozhu",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "절교의 교주이지만 제자들을 이끌어 주선진과 만선진을 펼치고 직접 전쟁을 치르므로 commander가 우선한다."
+  },
+  {
+    "slug": "tsukuyomi",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "이자나기에게 밤의 세계를 맡아 다스리는 신으로 배정된 통치 기능이 대표이며, 우케모치 살해는 단발 사건이므로 commander 근거로 쓰지 않는다."
+  },
+  {
+    "slug": "turnus",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "루툴리군과 이탈리아 연합군을 이끌고 아이네이아스군과 전쟁하며 마지막 결투까지 직접 치른다."
+  },
+  {
+    "slug": "tuxingsun",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "토둔술을 써 상나라와 주나라 진영에서 싸우고 적진을 기습한 참전 장수다."
+  },
+  {
+    "slug": "tyr",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "전쟁의 신으로 펜리르 제압에 참여하고 라그나로크에서 가름과 직접 싸운다."
+  },
+  {
+    "slug": "ungnyeo",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["leader"],
+    "reason": "환웅의 배우자이자 단군의 어머니라는 왕조 혈연만 있을 뿐 통치권을 행사하지 않아 politician이 성립하지 않는다. 의례를 직접 수행하지만 집단이나 제의를 이끌지 않아 leader도 아니다."
+  },
+  {
+    "slug": "utnapishtim",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "대홍수의 경험과 불멸의 한계를 길가메시에게 설명하고 시험을 내리는 현자·스승 역할이 후반 서사의 중심이다."
+  },
+  {
+    "slug": "vali",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "키슈킨다의 전사왕으로 수그리바와 직접 싸우고 라마의 화살에 전사한다."
+  },
+  {
+    "slug": "venus",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "사랑과 욕망을 움직여 신과 인간의 선택·관계를 바꾸고 아이네이아스의 행동과 로마 혈통의 진로에도 반복적으로 개입하는 것이 대표 기능이다."
+  },
+  {
+    "slug": "vibhishana",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "라마 진영에 귀순해 랑카의 군사 정보를 제공하고 전쟁에 직접 참전한 뒤 왕이 된다."
+  },
+  {
+    "slug": "vidar",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "라그나로크에서 펜리르와 직접 싸워 오딘의 원수를 갚은 전투 신격이다."
+  },
+  {
+    "slug": "vishnu",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "라마·크리슈나 등 여러 화신으로 반복해 내려와 무력으로 위협을 제거하고 세계의 질서를 수호하는 기능이 대표적이다."
+  },
+  {
+    "slug": "wadjet",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "왕관의 코브라로 불을 뿜어 왕과 왕권의 적을 막고 하이집트를 지속적으로 지키는 무력 수호가 대표 기능이다."
+  },
+  {
+    "slug": "wen-zhong",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "상나라 태사이자 총사령관으로 원정군을 이끌고 주나라군과 직접 전투를 벌인다."
+  },
+  {
+    "slug": "white-bone-demon",
+    "profession": "actor",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "소녀·노파·노인이라는 세 역할을 차례로 꾸미고 말과 행동까지 연기해 상대를 속이는 지속적 역할 수행이 대표 수단이다."
+  },
+  {
+    "slug": "white-dragon-horse",
+    "profession": "athlete",
+    "confidence": "low",
+    "alternatives": ["commander"],
+    "reason": "서천까지 삼장법사를 태우는 장거리 이동·운반이 대표 기능이라 athlete에 가장 가깝지만 경기나 운동 수행은 아니다. 드문 전투 장면만으로 commander를 확정할 수도 없다."
+  },
+  {
+    "slug": "yamata-no-orochi",
+    "profession": "commander",
+    "confidence": "low",
+    "alternatives": [],
+    "reason": "처녀를 잡아먹다가 술에 취해 스사노오에게 살해되는 재난형 괴물로 군사 활동·지휘·수호를 하지 않아 commander가 성립하지 않는다. 다른 기존 직군에 해당하는 실제 기능도 없다."
+  },
+  {
+    "slug": "yamato-takeru",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "황실의 명을 받고 구마소와 동국 세력을 무력으로 정복한 원정 장수다."
+  },
+  {
+    "slug": "ymir",
+    "profession": "leader",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "거인족의 조상이라는 계보상 위치만 있을 뿐 집단을 이끌지 않아 leader가 성립하지 않는다. 다른 존재의 선택을 움직이는 활동도 없어 influencer를 피난처로 쓸 수 없다."
+  },
+  {
+    "slug": "yuanshi-tianzun",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "천교의 수장과 곤륜산의 스승으로 제자들에게 봉신 임무를 맡기고 교단의 질서를 이끄는 종교 지도 기능이 대표적이다."
+  },
+  {
+    "slug": "yudhishthira",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "판다바의 왕이자 쿠루크셰트라 전쟁의 지휘부로 참전해 샬리야를 직접 죽인다."
+  },
+  {
+    "slug": "yuhwa",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["humanities_scholar"],
+    "reason": "금와왕 궁에 머문 왕실 여성·주몽의 어머니라는 지위만으로 통치자라 할 수 없어 politician이 성립하지 않는다. 씨앗과 조언을 보내는 단발 조력도 전문 자문 기능은 아니어서 humanities_scholar로 확정할 수 없다."
+  },
+  {
+    "slug": "zeus",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "티탄 전쟁 이후 신들의 왕으로 권한을 배분하고 회의·판결·서약과 인간 질서를 지속적으로 주재하는 통치가 대표 역할이다."
+  },
+  {
+    "slug": "zhu-bajie",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "천봉원수 출신으로 구치정파를 들고 취경길의 요괴들과 계속 직접 싸운다."
+  }
+]

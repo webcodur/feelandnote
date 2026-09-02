@@ -120,7 +120,7 @@ export const BO_BASIC_PROFILE_PROMPT = `아래 JSON 형식에 맞춰 셀럽 기�
 ${BO_PROFILE_OUTPUT_FORMAT}
 
 ## 직군 코드
-${PROFESSION_CODES}, other
+${PROFESSION_CODES}
 
 ${TITLE_GUIDE}
 

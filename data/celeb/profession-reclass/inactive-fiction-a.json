@@ -1,0 +1,373 @@
+[
+  {
+    "slug": "aerope",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "미케네 왕비로 황금 양을 티에스테스에게 넘겨 왕위 계승 경쟁에 직접 개입하며, 전투 행적은 없다."
+  },
+  {
+    "slug": "ahalya",
+    "profession": "leader",
+    "confidence": "low",
+    "alternatives": ["influencer", "politician"],
+    "reason": "라마를 맞아 저주에서 풀려나는 종교적 귀감이지만 제의나 교단을 이끌지 않는다. leader를 포함해 기존 직군 어느 것도 대표 서사 기능과 정확히 맞지 않는다."
+  },
+  {
+    "slug": "alcmene",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "왕가 출신이지만 통치나 정치 권력 행사는 없고 대표 기능은 헤라클레스와 이피클레스의 어머니다. politician은 혈연상 가장 가까운 잠정안일 뿐이다."
+  },
+  {
+    "slug": "ame-no-koyane",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "천암호 앞에서 축문을 낭독하고 천손강림의 제의를 집전하는 일이 반복되는 대표 기능이므로 종교 지도 직군에 해당한다."
+  },
+  {
+    "slug": "ame-no-tajikarao",
+    "profession": "athlete",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "이름과 신격 자체가 힘을 뜻하고 아마테라스를 동굴 밖으로 끌어내는 신체 능력이 대표 기능이므로 athlete가 가장 직접적으로 대응한다."
+  },
+  {
+    "slug": "ame-no-uzume",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "춤과 익살스러운 공개 공연으로 신들의 집단 반응을 만들고 아마테라스의 선택까지 바꾸므로 공연자형 influencer에 해당한다."
+  },
+  {
+    "slug": "amun",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "테베의 주신에서 신들의 왕으로 올라 판테온의 최고 권위와 왕권을 대표하며, 전투보다 통치 질서가 핵심이다."
+  },
+  {
+    "slug": "andromache",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "왕세자비이자 후대의 왕비지만 원전에서 직접 통치하거나 정치 권력을 행사하지 않는다. 대표 기능은 아내·어머니·전쟁 포로라 politician도 정확하지 않다."
+  },
+  {
+    "slug": "angrboda",
+    "profession": "leader",
+    "confidence": "low",
+    "alternatives": ["influencer", "politician"],
+    "reason": "펜리르·요르문간드·헬의 어머니라는 모계 중심성 때문에 leader를 잠정 제안하지만 집단을 이끌지 않는다. 기존 직군 어느 것도 대표 기능인 어머니 역할과 맞지 않는다."
+  },
+  {
+    "slug": "antaeus",
+    "profession": "athlete",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "지나가는 이들에게 레슬링을 강요하고 헤라클레스와 실제로 겨루는 신화적 레슬링 명수다."
+  },
+  {
+    "slug": "anticlea",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "이타카 왕비라는 지위는 있으나 통치나 정치 활동이 없고 대표 기능은 오디세우스의 어머니와 저승의 가족 소식 전달자다. politician은 잠정안이다."
+  },
+  {
+    "slug": "antiope-of-thebes",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "테베 왕가의 공주지만 통치나 정치 활동은 없고 대표 서사는 박해받은 어머니가 두 아들과 재회하는 이야기다. politician은 혈연상 잠정안일 뿐이다."
+  },
+  {
+    "slug": "ao-guang",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "동해 용궁을 다스리는 왕으로 사해용왕을 소집하고 천정에 고발하는 등 통치·외교 권력을 행사하며 직접 전투는 중심이 아니다."
+  },
+  {
+    "slug": "argus",
+    "profession": "visual_artist",
+    "confidence": "high",
+    "alternatives": ["scientist"],
+    "reason": "아테나의 가르침을 받아 아르고호를 직접 설계·건조한 조선공으로, 제작 장인 직군에 가장 가깝다."
+  },
+  {
+    "slug": "asclepius",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "케이론에게 의술을 배워 환자를 치료하고 죽은 자까지 살리는 전문 치유자다."
+  },
+  {
+    "slug": "astyanax",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "트로이 왕가의 후계자라는 이유로 살해되지만 어린아이여서 통치나 정치 활동을 하지 않는다. politician은 왕위 계승상의 잠정안일 뿐이다."
+  },
+  {
+    "slug": "atlas",
+    "profession": "athlete",
+    "confidence": "low",
+    "alternatives": ["commander", "leader"],
+    "reason": "하늘을 떠받치는 초월적 완력이 대표 서사라 athlete가 가장 가깝지만 경기·스포츠 활동은 아니다. 티탄 전쟁 참여도 대표 군 지휘 역할이 아니어서 기존 직군 어느 것도 정확하지 않다."
+  },
+  {
+    "slug": "boyi-kao",
+    "profession": "musician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "거문고 연주 실력이 조가 사행에서 직접 발휘되고 달기의 모함과 죽음까지 이끄는 대표 기능이므로 musician으로 확정한다."
+  },
+  {
+    "slug": "briseis",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "왕의 배우자였다는 전승은 있으나 《일리아스》의 대표 기능은 아킬레우스와 아가멤논의 갈등에 놓인 포로다. 통치나 정치 활동이 없어 politician도 정확하지 않다."
+  },
+  {
+    "slug": "calchas",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": ["leader"],
+    "reason": "징조와 신탁을 해석해 아카이아군에 역병의 원인과 출항·전쟁 조건을 조언하는 전문 예언자다."
+  },
+  {
+    "slug": "cheonjiwang",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "천상신으로 인간 세상의 악인을 심판하고 두 아들에게 이승과 저승의 질서를 맡기는 통치신이다."
+  },
+  {
+    "slug": "chiron",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": ["scientist"],
+    "reason": "아킬레우스·이아손·아스클레피오스에게 의술과 사냥 등 여러 지식을 가르친 영웅들의 전문 스승이다."
+  },
+  {
+    "slug": "chryseis",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["leader", "influencer"],
+    "reason": "석방 협상과 군 지휘부의 갈등을 일으키는 외교적 쟁점이지만 본인은 정치 권력을 행사하지 않는 포로다. politician을 포함해 정확히 맞는 직군이 없다."
+  },
+  {
+    "slug": "chrysippus",
+    "profession": "athlete",
+    "confidence": "low",
+    "alternatives": ["politician", "influencer"],
+    "reason": "전차 몰기를 배웠거나 경기장에서 납치됐다는 전승은 있지만 선수로 활약한 서사가 아니다. 대표 기능은 피랍과 왕가 비극의 희생자라 athlete도 확정할 수 없다."
+  },
+  {
+    "slug": "chrysothemis",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "궁정 권력에 맞설지를 두고 엘렉트라에게 현실적인 조언을 하지만 관직·통치권은 없다. 공주 혈연만으로 politician을 확정할 수 없다."
+  },
+  {
+    "slug": "cilissa",
+    "profession": "scientist",
+    "confidence": "low",
+    "alternatives": ["leader", "influencer"],
+    "reason": "오레스테스를 젖먹여 기른 돌봄 기능 때문에 scientist의 치유·보건 범주가 가장 가깝지만 전문 의술이나 기술 활동은 없다. 유모에 맞는 기존 직군이 없다."
+  },
+  {
+    "slug": "cronus",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "우라노스를 무력으로 몰아내고 티탄 전쟁에서 제우스 세력과 싸운 티탄의 왕이므로 군사 활동이 통치보다 우선한다."
+  },
+  {
+    "slug": "cumaean-sibyl",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "신탁을 해석하고 황금가지와 저승길의 조건을 아이네이아스에게 조언하는 예언·자문 기능이 대표 역할이다."
+  },
+  {
+    "slug": "daebyeolwang",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "해와 달을 정리한 뒤 저승의 법과 질서를 세워 그 세계를 직접 다스리는 통치신이다."
+  },
+  {
+    "slug": "danggeum-aegi",
+    "profession": "leader",
+    "confidence": "low",
+    "alternatives": ["scientist", "influencer"],
+    "reason": "제석신모로 숭배되며 출산과 자손의 복을 맡지만 제의나 교단을 직접 이끌지 않는다. 숭배 대상이라는 사실만으로 leader를 확정할 수 없다."
+  },
+  {
+    "slug": "dolon",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "트로이군 병사로 적진 정찰 임무를 받고 야간 첩보 작전에 직접 투입된다."
+  },
+  {
+    "slug": "dumuzi",
+    "profession": "entrepreneur",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "'목자 두무지'라는 고유 호칭대로 가축을 기르고 목축 생산을 맡는 생업 기능이 정체성의 중심이므로 경제 활동 직군인 entrepreneur로 확정한다."
+  },
+  {
+    "slug": "elaine-of-corbenic",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "성배왕의 딸이지만 직접 통치하지 않으며 대표 기능은 랜슬롯을 속여 갤러해드를 낳고 뒤에 그를 치료하는 어머니다. 왕족 혈연만으로 politician을 확정할 수 없다."
+  },
+  {
+    "slug": "erigone",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer", "leader"],
+    "reason": "오레스테스를 고발하거나 그와 혼인한다는 전승은 있지만 통치·정치 활동이 대표 기능은 아니다. 공주 혈연과 단일 고발만으로 politician을 확정할 수 없다."
+  },
+  {
+    "slug": "eros",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "신과 인간의 욕망을 일으켜 사랑과 행동의 선택을 반복해서 바꾸는 것이 존재의 대표 기능이므로 influencer에 직접 대응한다."
+  },
+  {
+    "slug": "futodama",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "천암호 앞에서 제물을 받들고 점을 치며 금줄을 설치하는 제의 집전이 대표 기능이므로 종교 지도 직군에 해당한다."
+  },
+  {
+    "slug": "gaia",
+    "profession": "commander",
+    "confidence": "low",
+    "alternatives": ["politician", "leader"],
+    "reason": "반란의 무기와 전쟁 조언을 제공하지만 대표 정체성은 대지와 신족을 낳는 원초적 어머니다. 직접 전투·군 지휘가 없어 commander를 확정할 수 없고 다른 직군도 맞지 않는다."
+  },
+  {
+    "slug": "gameunjang-aegi",
+    "profession": "entrepreneur",
+    "confidence": "low",
+    "alternatives": ["investor", "influencer"],
+    "reason": "쫓겨난 뒤 새 살림을 꾸려 부자가 되지만 구체적인 창업·경영·투자 활동은 없다. 자립과 행운의 서사를 entrepreneur로 확정할 수 없다."
+  },
+  {
+    "slug": "gangnim-doryeong",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["commander", "leader"],
+    "reason": "관청의 명을 집행하고 저승차사가 되는 공적 관리 기능 때문에 politician이 가장 가깝지만 정치 권력을 행사하지 않는다. 전령·집행자에 맞는 기존 직군이 없다."
+  },
+  {
+    "slug": "halitherses",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": ["leader"],
+    "reason": "독수리 징조를 해석해 구혼자들의 파멸을 예고하고 이타카인들에게 조언하는 전문 예언자다."
+  },
+  {
+    "slug": "hallakgungi",
+    "profession": "scientist",
+    "confidence": "low",
+    "alternatives": ["commander", "influencer"],
+    "reason": "생명꽃과 환생꽃을 사용해 어머니를 되살리지만 꽃의 지식을 연구·관리하는 전문가는 아니다. 한 번의 처단만으로 commander라 할 수도 없어 정확한 직군이 없다."
+  },
+  {
+    "slug": "hecate",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "마법·밤·교차로의 전문 권능과 페르세포네를 찾는 조언자 역할이 대표 기능이다. 기간테스 전쟁의 한 차례 전투보다 마법·자문 기능을 우선한다."
+  },
+  {
+    "slug": "hermione",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "왕실 혼인과 계승 갈등의 대상이지만 직접 통치하거나 정치적 결정을 내리는 역할은 없다. 공주 혈연과 혼인만으로 politician을 확정할 수 없다."
+  },
+  {
+    "slug": "hestia",
+    "profession": "leader",
+    "confidence": "low",
+    "alternatives": ["politician", "influencer"],
+    "reason": "가정과 도시의 성화 및 제의의 중심 신격이지만 제의나 교단을 직접 이끌지 않는다. 숭배 대상이라는 사실만으로 leader를 확정할 수 없다."
+  },
+  {
+    "slug": "hippodamia",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "마부를 설득해 전차 경주의 결과와 왕위 교체에 영향을 주지만 대표 기능은 혼인담의 왕녀다. 한 번의 모의와 왕비 신분만으로 politician을 확정하기 어렵다."
+  },
+  {
+    "slug": "hodr",
+    "profession": "commander",
+    "confidence": "low",
+    "alternatives": ["influencer", "athlete"],
+    "reason": "겨우살이를 던져 발드르를 죽이지만 전쟁·수호·군 지휘가 아니라 로키에게 이용된 단발성 살해다. commander를 포함해 눈먼 신이라는 대표 기능에 맞는 직군이 없다."
+  },
+  {
+    "slug": "hylas",
+    "profession": "commander",
+    "confidence": "low",
+    "alternatives": ["influencer", "athlete"],
+    "reason": "아르고호 원정대에 동행하지만 직접 전투·수호·지휘를 하지 않고 물을 길으러 갔다 납치된다. 원정대 소속만으로 commander를 확정할 수 없다."
+  },
+  {
+    "slug": "idunn",
+    "profession": "scientist",
+    "confidence": "low",
+    "alternatives": ["entrepreneur", "leader"],
+    "reason": "젊음을 회복시키는 사과를 보관하지만 치료·연구·기술 개발을 수행하지 않는다. scientist는 기능상 잠정안이며 자원 보관자에 맞는 기존 직군이 없다."
+  },
+  {
+    "slug": "igraine",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "공작부인과 왕비의 지위는 있으나 직접 통치하거나 정치 활동을 하지 않는다. 대표 기능은 속임수의 피해자이자 아서의 어머니라 politician도 정확하지 않다."
+  },
+  {
+    "slug": "ino",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": ["influencer", "leader"],
+    "reason": "왕비였지만 통치가 대표 기능은 아니며 디오뉘소스의 양육, 가족 비극, 오디세우스 구조가 중심이다. 왕실 신분만으로 politician을 확정할 수 없다."
+  },
+  {
+    "slug": "iphicles",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "헤라클레스와 여러 원정에 동행하고 라케다이몬과의 전투에서 직접 싸우다 전사한 인간 전사다."
+  },
+  {
+    "slug": "iris",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "신과 인간 사이를 오가며 명령·경고·정보를 반복해서 전달하는 공적 소통이 대표 기능이므로 communicator형 influencer에 해당한다."
+  },
+  {
+    "slug": "ishkur-adad",
+    "profession": "scientist",
+    "confidence": "low",
+    "alternatives": ["commander", "leader"],
+    "reason": "대표 기능은 비·천둥·홍수 같은 기상 현상의 통제라 scientist가 가장 가깝지만 연구·기술 활동은 아니다. 전사적 비유만으로 commander를 확정할 수도 없다."
+  }
+]

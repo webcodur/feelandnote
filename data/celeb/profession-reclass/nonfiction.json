@@ -1,0 +1,429 @@
+[
+  {
+    "slug": "noah-urban",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "SIM 스와핑·피싱·침투 기술을 사용한 사이버 공격자가 대표 활동이므로 기술 중심 해커 기준에 따라 scientist로 확정한다."
+  },
+  {
+    "slug": "neil-armstrong",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "대표 정체성은 우주비행사·시험비행사·항공우주공학자이며, 현행 직군에서는 기술·과학 영역인 scientist가 가장 자연스럽다. 한국전 참전은 중요한 이력이지만 대표 직군을 commander로 바꿀 정도의 중심 경력은 아니다."
+  },
+  {
+    "slug": "lucky-luciano",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "전국 범죄 신디케이트와 범죄 위원회를 세우고 무장 범죄조직을 지휘한 보스이므로 commander로 확정한다."
+  },
+  {
+    "slug": "robert-tappan-morris",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "컴퓨터과학자이자 모리스 웜 작성자로, 기존 기술 연구자와 비국가 해커의 scientist 분류에 모두 부합한다."
+  },
+  {
+    "slug": "loyd-blankenship",
+    "profession": "author",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "서비스가 기억하는 대표 활동과 업적이 1986년 「해커 선언문」 집필이므로 author로 확정한다."
+  },
+  {
+    "slug": "meyer-lansky",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "전국 범죄 신디케이트를 공동 구축하고 도박 조직과 자금망을 통솔한 무장 범죄조직 수장이므로 commander로 확정한다."
+  },
+  {
+    "slug": "michael-calce",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "대규모 DDoS 공격을 설계·실행한 기술 중심 해커이므로 scientist로 확정한다."
+  },
+  {
+    "slug": "maye-musk",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "프로필의 대표 정체성이 패션모델과 공적 미디어 활동이며, 별도 모델 코드가 없는 현행 분류에서는 influencer가 가장 직접적이다."
+  },
+  {
+    "slug": "shigeru-miyamoto",
+    "profession": "director",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "닌텐도 게임 디자이너이자 「젤다의 전설」 디렉터로 소개되어 창작 연출 직군인 director가 명확하다."
+  },
+  {
+    "slug": "bernard-madoff",
+    "profession": "investor",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "증권회사와 투자자문 사업 운영이 주된 공적 경력이며, 사기 유죄는 직군과 별개의 평가이므로 investor가 맞다."
+  },
+  {
+    "slug": "bumpy-johnson",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "할렘의 무장 범죄조직을 이끌며 이권 전쟁과 조직 집행을 지휘한 두목이므로 commander로 확정한다."
+  },
+  {
+    "slug": "yu-suzuki",
+    "profession": "director",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "AM2 디렉터로 다수 게임을 제작·연출한 경력이 프로필에 직접 명시되어 director가 명확하다."
+  },
+  {
+    "slug": "al-alcorn",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "「퐁」과 영상 압축 기술을 개발한 수석 엔지니어이므로 기술자까지 포함하는 기존 scientist 선례에 부합한다."
+  },
+  {
+    "slug": "al-capone",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "시카고의 무장 범죄조직을 이끌고 밀주 이권과 조직 폭력을 지휘한 보스이므로 commander로 확정한다."
+  },
+  {
+    "slug": "count-alessandro-di-cagliostro",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "강령술·연금술 시연과 신비주의적 자기 연출로 유럽 궁정의 대중적 명성을 만든 활동가이므로 마술사 유사 기준에 따라 influencer로 확정한다."
+  },
+  {
+    "slug": "alex-spiro",
+    "profession": "social_scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "유명 인사의 소송과 기업 인수 법률 대응을 수행하는 현직 재판 변호사이므로 법률 실무 기준에 따라 social_scientist로 확정한다."
+  },
+  {
+    "slug": "andrew-musk",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "뉴럴링크와 X 제품을 맡은 엔지니어라는 프로필이 명시되어 기술자 scientist 분류가 직접적이다."
+  },
+  {
+    "slug": "gunpei-yokoi",
+    "profession": "director",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "닌텐도 개발부장과 게임 프로듀서로 게임&워치·게임보이·메트로이드 제작을 총괄했으므로 대표 활동 기준에 따라 director로 확정한다."
+  },
+  {
+    "slug": "jeremy-hammond",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "어나니머스 계열 활동가로서 민간 정보업체 자료를 탈취·공개하는 폭로 활동이 대표적이므로 influencer로 확정한다."
+  },
+  {
+    "slug": "james-musk",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "테슬라 오토파일럿 개발에 참여한 AI 엔지니어라는 프로필이 명시되어 scientist가 분명하다."
+  },
+  {
+    "slug": "john-gotti",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "전임 보스 암살 뒤 감비노 패밀리를 지휘한 무장 범죄조직 수장이므로 commander로 확정한다."
+  },
+  {
+    "slug": "john-draper",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "통신망의 2600Hz 신호를 분석해 장거리 전화망을 조작한 기술 중심 폰 프리커이므로 scientist로 확정한다."
+  },
+  {
+    "slug": "john-b-chambers",
+    "profession": "social_scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "S&P 국가신용등급 그룹을 이끌고 국가 채무의 신용도를 평가한 실무자이므로 social_scientist로 확정한다."
+  },
+  {
+    "slug": "kevin-mitnick",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "사회공학과 시스템 침투를 핵심 수단으로 삼은 해커이자 보안 기술자이므로 scientist로 확정한다."
+  },
+  {
+    "slug": "kevin-poulsen",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "서비스 프로필의 대표 활동이 전화 교환망을 기술적으로 장악한 해킹이므로 scientist로 확정한다."
+  },
+  {
+    "slug": "clowwindy",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "검열 우회 소프트웨어 Shadowsocks를 만든 개발자이므로 기술자 scientist 분류가 명확하다."
+  },
+  {
+    "slug": "kim-philby",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "MI6 대소련 방첩부서를 이끈 정보기관 책임자이자 현장 공작원으로, 기존 정보기관 지휘자 선례에 따라 commander로 확정한다."
+  },
+  {
+    "slug": "phineas-fisher",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "감시기업을 해킹한 뒤 내부 자료를 대중에게 공개하는 폭로 활동이 대표적이므로 influencer로 확정한다."
+  },
+  {
+    "slug": "doc-holliday",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "대표 활동이 무장 총잡이이며 OK 목장 결투에 직접 참여했으므로 직접 무장활동 기준에 따라 commander로 확정한다."
+  },
+  {
+    "slug": "da-qiao",
+    "profession": "influencer",
+    "confidence": "low",
+    "alternatives": ["politician"],
+    "reason": "손책의 아내이자 미인으로 기억될 뿐 독립 직업과 정치권력 행사가 확인되지 않아 influencer는 문화적 유명세를 위한 임시 선택에 가깝다."
+  },
+  {
+    "slug": "don-estridge",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "IBM PC 개발팀을 이끈 엔지니어로 기술자 scientist 분류가 명확하다."
+  },
+  {
+    "slug": "dmitry-khoroshev",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "LockBit 랜섬웨어를 개발·관리한 기술 중심 해커이므로 scientist로 확정한다."
+  },
+  {
+    "slug": "dean-o'banion",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "시카고 노스 사이드 갱을 이끌며 밀주 이권전을 지휘한 무장 범죄조직 수장이므로 commander로 확정한다."
+  },
+  {
+    "slug": "ross-nordeen",
+    "profession": "entrepreneur",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "xAI 공동 창립 멤버이자 기술 조직 책임자로, 기존 기술 공동창업자의 entrepreneur 선례에 부합한다."
+  },
+  {
+    "slug": "maksim-yakubets",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "Dridex 멀웨어를 이용한 금융 해킹을 핵심 활동으로 삼은 사이버 범죄 기술자이므로 scientist로 확정한다."
+  },
+  {
+    "slug": "bartholomew-roberts",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "수백 척을 나포한 해적 선장이며 해전에서 전사했으므로 직접 전투와 지휘를 모두 충족한다."
+  },
+  {
+    "slug": "bugsy-siegel",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "머더 주식회사 창립과 신디케이트 서부 진출을 주도한 무장 범죄조직 행동대장이므로 commander로 확정한다."
+  },
+  {
+    "slug": "vito-genovese",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "암살과 조직 재편을 통해 제노베제 패밀리를 지휘한 무장 범죄조직 수장이므로 commander로 확정한다."
+  },
+  {
+    "slug": "billy-the-kid",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "링컨 카운티 전쟁에 직접 참전한 총잡이이므로 지휘 여부와 무관하게 직접 전투 우선 규칙을 충족한다."
+  },
+  {
+    "slug": "xi-shi",
+    "profession": "influencer",
+    "confidence": "low",
+    "alternatives": ["politician", "commander"],
+    "reason": "전설적 미인과 첩자라는 문화적 유명세는 influencer에 가깝지만, 정치권력도 군사 지휘도 행사하지 않아 어느 코드도 정확하지 않다."
+  },
+  {
+    "slug": "xiao-qiao",
+    "profession": "influencer",
+    "confidence": "low",
+    "alternatives": ["politician"],
+    "reason": "주유의 아내이자 미인으로 기억될 뿐 독립 직업이나 정치권력 행사가 없어 influencer는 문화적 유명세를 위한 임시 선택이다."
+  },
+  {
+    "slug": "stephanie-st.-clair",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "할렘 숫자 도박 조직을 이끌며 더치 슐츠 세력과 무장 이권전을 벌인 범죄조직 수장이므로 commander로 확정한다."
+  },
+  {
+    "slug": "anne-bonny",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "무장한 채 선박 습격 전투에 직접 참여한 해적이므로 직접 전투 우선 규칙을 충족한다."
+  },
+  {
+    "slug": "blackbeard",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "해적 선장으로 항구를 봉쇄하고 해전에서 싸웠으므로 군사 활동과 직접 지휘가 분명하다."
+  },
+  {
+    "slug": "eric-kolchinsky",
+    "profession": "social_scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "무디스에서 구조화금융 상품의 신용등급 산정을 총괄한 신용평가 실무자이므로 social_scientist로 확정한다."
+  },
+  {
+    "slug": "onel-de-guzman",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "ILOVEYOU 웜을 작성·유포한 소프트웨어 기술 중심 해커이므로 scientist로 확정한다."
+  },
+  {
+    "slug": "wyatt-earp",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "보안관으로 OK 목장 결투와 무장 추격전에 직접 참여했으므로 직접 전투 우선 규칙을 충족한다."
+  },
+  {
+    "slug": "wild-bill-hickok",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "남북전쟁 정찰병과 보안관으로 무장 활동에 참여한 총잡이여서 군사 활동 기준을 충족한다."
+  },
+  {
+    "slug": "orban",
+    "profession": "scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "콘스탄티노플 공성용 초대형 대포를 설계·주조한 기술자이므로 scientist가 명확하다."
+  },
+  {
+    "slug": "consort-yu",
+    "profession": "influencer",
+    "confidence": "low",
+    "alternatives": ["musician", "politician"],
+    "reason": "항우의 연인과 패왕별희의 문화적 상징으로 유명하지만 독립 직업이 없고, 한 차례 노래를 이유로 musician이라 하기도 어렵다."
+  },
+  {
+    "slug": "william-j-harrington",
+    "profession": "social_scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "무디스 파생상품 부문에서 신용등급을 산정하고 평가 절차를 분석한 실무자이므로 social_scientist로 확정한다."
+  },
+  {
+    "slug": "ching-shih",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "수백 척과 수만 명 규모의 해적 연맹을 직접 지휘했으므로 commander가 명확하다."
+  },
+  {
+    "slug": "jesse-james",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "남북전쟁에서 남군 게릴라 부대에 복무해 직접 군사 활동에 참여했으므로 commander 기준을 충족한다."
+  },
+  {
+    "slug": "johnny-torrio",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "시카고 아웃핏을 이끌고 밀주 카르텔을 지휘한 무장 범죄조직 수장이므로 commander로 확정한다."
+  },
+  {
+    "slug": "carlo-gambino",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "감비노 패밀리와 범죄 위원회를 장기간 지휘한 무장 범죄조직 수장이므로 commander로 확정한다."
+  },
+  {
+    "slug": "tim-hughes",
+    "profession": "social_scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "변호사로서 SpaceX의 정부 대관·입법·규제 업무를 총괄하는 법률·정책 실무자이므로 social_scientist로 확정한다."
+  },
+  {
+    "slug": "frank-raiter",
+    "profession": "social_scientist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "S&P에서 주택저당증권의 신용평가 기준과 분석 모형을 만든 신용평가 실무자이므로 social_scientist로 확정한다."
+  },
+  {
+    "slug": "jing-ke",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "연나라의 임무로 진왕을 직접 무장 공격한 자객이므로 직접 무장활동 기준에 따라 commander로 확정한다."
+  },
+  {
+    "slug": "charybdis",
+    "profession": "commander",
+    "confidence": "low",
+    "alternatives": ["influencer"],
+    "reason": "배를 파괴하는 적대적 괴물이지만 지휘·직업·정치권력이 전혀 없어 기존 15개 코드 중 어느 것도 의미상 맞지 않으며, 삭제 행이라 서비스 영향은 없다."
+  },
+  {
+    "slug": "vanessa-trump",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "실제 패션모델 활동과 공적 미디어 노출이 대표 경력이며 별도 모델 직군이 없으므로 influencer로 확정한다."
+  },
+  {
+    "slug": "tiffany-trump",
+    "profession": "influencer",
+    "confidence": "low",
+    "alternatives": ["musician", "humanities_scholar"],
+    "reason": "공인·유명인 가족이라는 지위 외에 확립된 직업이 없으며, 팝 싱글 한 곡과 법학 학위만으로 musician이나 humanities_scholar를 확정하기 어렵다."
+  }
+]

@@ -1,0 +1,548 @@
+[
+  {
+    "slug": "geumwa",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "동부여의 왕으로 유화를 궁에 들이고 왕실 결정을 내리지만, 원전에서 직접 전투하거나 군을 지휘하는 장면은 확인되지 않는다."
+  },
+  {
+    "slug": "gilgamesh",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "우루크의 왕이면서 엔키두와 함께 훔바바와 하늘의 황소를 직접 죽이는 전사이므로 군주보다 전투 역할이 우선한다."
+  },
+  {
+    "slug": "guanyin",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "자비의 보살로서 취경자를 선발하고 순례를 지도·구원하는 종교 지도 역할이 분명하다."
+  },
+  {
+    "slug": "gudrun",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "왕비의 지위에 있으며 아틀리를 살해하는 복수를 행하지만 군사 활동이나 전투 참여는 아니므로 왕비 분류 규칙에 따라 정치인이다."
+  },
+  {
+    "slug": "gunnar",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "왕이자 전사로서 호그니와 함께 아틀리의 군대와 직접 싸운다."
+  },
+  {
+    "slug": "hades",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "죽은 자의 세계를 판결하고 통치하는 명계의 군주이며 대표 서사에서 직접 전투하는 역할은 아니다."
+  },
+  {
+    "slug": "haemosu",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": [
+      "leader"
+    ],
+    "reason": "대표 서사는 유화와 인연을 맺고 주몽의 혈통을 잇는 천제의 아들이다. 왕족 지위만 있을 뿐 실제 통치가 없어 politician이 성립하지 않고, 교단이나 공동체를 이끄는 장면도 없어 leader 역시 맞지 않는다."
+  },
+  {
+    "slug": "hanuman",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "라마의 원숭이 군대에서 랑카 정찰과 방화, 전투를 직접 수행하는 핵심 전사다."
+  },
+  {
+    "slug": "heimdall",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "비프로스트의 무장 파수꾼이며 라그나로크를 경보하고 로키와 직접 싸운다."
+  },
+  {
+    "slug": "hel",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "니플헤임의 죽은 자들을 다스리고 발드르의 석방 조건을 판정하는 통치자다."
+  },
+  {
+    "slug": "helen",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "스파르타 왕비로 정치적 왕실 지위를 지녔고 직접 전투에는 참여하지 않는다."
+  },
+  {
+    "slug": "hephaestus",
+    "profession": "visual_artist",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "신들의 궁전과 영웅의 갑옷·방패를 설계하고 제작하는 금속 공예가이므로 미술인에 해당한다."
+  },
+  {
+    "slug": "hera",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "올림포스의 왕비이자 왕권의 여신으로 신들과 인간의 왕위·전쟁에 권력을 행사하지만 직접 싸우지는 않는다."
+  },
+  {
+    "slug": "heracles",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "열두 과업과 여러 전쟁에서 무기를 들고 직접 싸우는 대표적인 전사 영웅이다."
+  },
+  {
+    "slug": "hermes",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "신들의 전령이자 영웅의 길잡이로 명령과 정보를 반복해 전달하고 프리아모스·오디세우스의 행동 선택을 실제로 바꾸는 것이 대표 기능이므로 influencer에 해당한다."
+  },
+  {
+    "slug": "hogni",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "아틀리의 군대와 직접 싸워 다수의 전사를 쓰러뜨린 니플룽의 전사다."
+  },
+  {
+    "slug": "humbaba",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "엔릴이 삼나무 숲을 지키도록 세운 수호자이며 침입자 길가메시와 엔키두를 막는 것이 인물의 대표 서사 기능이므로 commander에 해당한다."
+  },
+  {
+    "slug": "hwanin",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "하늘의 임금으로서 환웅의 지상 강림을 승인하고 천부인을 내리는 주권자다."
+  },
+  {
+    "slug": "hwanung",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "삼천 무리를 거느리고 신시를 열어 인간 세상을 다스리며, 직접 전투 기록은 없다."
+  },
+  {
+    "slug": "iarbas",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "아프리카의 왕으로 백성과 신전을 거느리지만 디도 문제에서는 유피테르에게 호소할 뿐 직접 전투하지 않는다."
+  },
+  {
+    "slug": "indrajit",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "랑카 군의 왕자로 마법 무기를 쓰며 라마 군과 락슈마나를 직접 상대하는 지휘관이다."
+  },
+  {
+    "slug": "iolaus",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "헤라클레스의 전차병으로 히드라전에 참여하고 노년에도 전쟁에 나가 에우리스테우스를 직접 무찌른다."
+  },
+  {
+    "slug": "iphigenia",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "희생 제물 서사와 별개로 《타우리스의 이피게네이아》 전편에서 아르테미스 신전의 사제로 제의를 맡는다. 단 한 장면이 아닌 지속적인 종교 직무이므로 leader에 해당한다."
+  },
+  {
+    "slug": "ishtar",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "전쟁을 관장하고 무장한 채 적을 정복하는 기능이 반복되며, 이난나-이슈타르 전승에서는 에비흐를 직접 공격·파괴하므로 commander에 해당한다."
+  },
+  {
+    "slug": "isis",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "주술·의례 지식과 언변을 사용해 오시리스를 되살리고 호루스의 왕위 분쟁을 해결하는 마법가·조언자 기능이 대표적이므로 humanities_scholar에 해당한다."
+  },
+  {
+    "slug": "izanagi",
+    "profession": "leader",
+    "confidence": "low",
+    "alternatives": [
+      "scientist",
+      "politician"
+    ],
+    "reason": "대표 기능은 섬과 신을 낳고 황천을 다녀온 창조·조상신이다. 교단·공동체를 이끌지 않아 leader가 아니며, 창조는 출산과 신화적 생성이라 기술을 쓰는 scientist도 아니고 실제 통치가 없어 politician도 성립하지 않는다."
+  },
+  {
+    "slug": "izanami",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": [
+      "leader",
+      "scientist"
+    ],
+    "reason": "대표 기능은 섬과 신을 낳고 죽음의 기원을 만드는 창조·죽음의 여신이다. 황천에 머물지만 주민이나 제도를 통치하지 않아 politician이 아니며, 종교 집단 지도나 기술 활동도 없어 leader·scientist 역시 성립하지 않는다."
+  },
+  {
+    "slug": "jade-emperor",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "천정의 황제로 관직을 내리고 군대 파견과 여래 청원을 결정하는 최고 정치 권력자다."
+  },
+  {
+    "slug": "jambavan",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "곰 군대의 왕이자 라마 진영의 노장으로 정찰과 랑카 전쟁을 지휘·조언하고 전쟁에 참여한다."
+  },
+  {
+    "slug": "jason",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "아르고호 원정대의 선장으로 무장 영웅들을 이끌고 황금 양가죽 원정을 수행한다."
+  },
+  {
+    "slug": "jiang-ziya",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "주나라 군대의 총지휘자이자 군사 책사로 상나라 정벌을 이끈다."
+  },
+  {
+    "slug": "jimmu",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "규슈에서 동정군을 이끌고 야마토를 무력으로 평정한 뒤 즉위하므로 군사 활동이 우선한다."
+  },
+  {
+    "slug": "jormungandr",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "토르의 숙적으로 낚시 대결부터 라그나로크의 결전까지 반복해서 맞서는 것이 대표 서사 기능이므로 commander에 해당한다."
+  },
+  {
+    "slug": "jumong",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "부여를 탈출한 뒤 세력을 모아 고구려를 세우고 주변 세력을 정복한 건국 군주다."
+  },
+  {
+    "slug": "juno",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "신들의 왕비로 폭풍과 알렉토를 동원하고 유피테르와 라틴인의 지위를 협상하지만 직접 싸우지는 않는다."
+  },
+  {
+    "slug": "jupiter",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "로마의 최고신이자 국가 권위의 주권자로 운명을 승인하고 유노와 민족의 이름·언어를 협상한다."
+  },
+  {
+    "slug": "karna",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "쿠루크셰트라 전쟁에서 카우라바군 총사령관을 맡고 아르주나와 직접 싸운다."
+  },
+  {
+    "slug": "king-wen",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "주나라의 기반을 세우고 강자아를 재상으로 삼은 군주지만 정벌을 완수하기 전에 죽어 직접 전투 역할이 없다."
+  },
+  {
+    "slug": "king-wu",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "주나라 군을 이끌어 목야에서 상나라를 무너뜨리고 왕조를 연 정복 군주다."
+  },
+  {
+    "slug": "king-zhou",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "《봉신연의》에서 상나라의 왕으로 폭정을 행사하지만 정벌군과 직접 싸우거나 군을 지휘하는 역할은 장수들에게 맡긴다."
+  },
+  {
+    "slug": "krishna",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "《바가바드 기타》에서 아르주나에게 의무와 해탈을 설하는 종교·철학 지도자이며 전쟁에서는 무기를 들지 않겠다는 서약을 지킨다."
+  },
+  {
+    "slug": "kumbhakarna",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "랑카 전투에 출전해 라마의 원숭이 군대와 직접 싸우는 거인 전사다."
+  },
+  {
+    "slug": "lady-of-the-lake",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "엑스칼리버를 건네고 기사에게 이름과 맹세를 부여하며 마법과 조언으로 아서 왕실의 선택을 이끄는 것이 대표 기능이므로 humanities_scholar에 해당한다."
+  },
+  {
+    "slug": "lakshmana",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "라마를 따라 랑카 전쟁에 참전하고 인드라지트를 직접 죽이는 왕자 전사다."
+  },
+  {
+    "slug": "latinus",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "라티움의 왕으로 혼인·동맹과 마지막 결투 조건을 결정하지만 직접 전투에는 참여하지 않는다."
+  },
+  {
+    "slug": "lernaean-hydra",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "레르나를 지키며 재생하는 머리와 독으로 헤라클레스의 두 번째 과업을 저지하는 전투·수호 기능이 존재 전체를 규정하므로 commander에 해당한다."
+  },
+  {
+    "slug": "li-jing-fengshen",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "상나라의 장군에서 주나라 진영으로 넘어가 세 아들과 함께 봉신 전쟁을 수행하는 무장이다."
+  },
+  {
+    "slug": "lif",
+    "profession": "leader",
+    "confidence": "low",
+    "alternatives": [
+      "influencer"
+    ],
+    "reason": "대표 기능은 라그나로크에서 생존해 새 인류의 조상이 되는 것이다. 공동체를 실제로 이끄는 장면이 없어 leader가 성립하지 않고, 공연·대중 소통·타인의 선택을 움직이는 기능도 없어 influencer로 보낼 수도 없다."
+  },
+  {
+    "slug": "lifthrasir",
+    "profession": "leader",
+    "confidence": "low",
+    "alternatives": [
+      "influencer"
+    ],
+    "reason": "대표 기능은 리프와 함께 종말에서 생존해 후손을 남기는 것이다. 새 인류의 조상이라는 결과만으로 사회 지도자인 leader가 되지 않으며, 대중 소통이나 선택 영향이 없어 influencer도 성립하지 않는다."
+  },
+  {
+    "slug": "loki",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "변신 마법과 책략으로 신들의 위기를 만들고 다시 해결하는 조언자·마법가 기능이 서사의 대부분을 차지한다. 라그나로크의 한 차례 전투보다 이 대표 기능이 우선하므로 humanities_scholar에 해당한다."
+  },
+  {
+    "slug": "maat",
+    "profession": "humanities_scholar",
+    "confidence": "low",
+    "alternatives": [
+      "leader",
+      "politician"
+    ],
+    "reason": "대표 기능은 진리·정의·우주 질서 그 자체다. 인문학의 주제이지만 지식을 연구·가르치는 학자가 아니므로 humanities_scholar가 아니며, 집단 지도나 실제 통치 행위도 없어 leader·politician이 성립하지 않는다."
+  },
+  {
+    "slug": "marduk",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "신들의 지휘권을 받아 티아마트와 직접 싸워 죽인 뒤 최고신이 된 전투 지도자다."
+  },
+  {
+    "slug": "medea",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "약초·주술·예언 지식을 반복해서 사용해 이아손의 과업과 탈출을 설계하는 전문 마법가·조언자 기능이 대표적이므로 humanities_scholar에 해당한다."
+  },
+  {
+    "slug": "megaera",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": [
+      "leader",
+      "commander"
+    ],
+    "reason": "대표 기능은 혈족 범죄자를 추적해 형벌을 집행하는 복수의 신이다. 국가·제도를 통치하지 않아 politician이 아니며, 처벌은 전쟁·군 지휘가 아니고 교단을 이끌지도 않아 commander·leader도 성립하지 않는다."
+  },
+  {
+    "slug": "megara",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": [
+      "influencer"
+    ],
+    "reason": "대표 기능은 헤라클레스의 아내이자 광기의 희생자다. 왕녀라는 혈연만 있고 실제 정치 권력을 행사하지 않아 politician이 아니며, 공연·대중 소통·선택 영향도 없어 influencer 역시 성립하지 않는다."
+  },
+  {
+    "slug": "melanthius",
+    "profession": "entrepreneur",
+    "confidence": "low",
+    "alternatives": [
+      "commander"
+    ],
+    "reason": "대표 기능은 왕가에 고용된 염소지기이자 구혼자 편의 배신자다. 사업을 경영하지 않아 entrepreneur가 아니며, 무기를 나르지만 전투하거나 군을 지휘하지 않아 commander도 성립하지 않는다."
+  },
+  {
+    "slug": "mentor",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "텔레마코스를 가르치고 조언하는 원로 교육자이며 오늘날 '멘토'라는 교육·지도 개념의 어원이 된 인물이다."
+  },
+  {
+    "slug": "mercury",
+    "profession": "influencer",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "《아이네이스》에서 유피테르의 명령을 반복해 전달하고 아이네이아스가 카르타고를 떠나도록 선택을 바꾸는 것이 대표 기능이므로 influencer에 해당한다."
+  },
+  {
+    "slug": "mezentius",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "추방된 에트루리아 왕이자 투르누스 진영의 무장으로 전장에서 아이네이아스와 직접 싸운다."
+  },
+  {
+    "slug": "nakula",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "판다바의 왕자 전사로 쿠루크셰트라 전쟁에 참전하고 군사 원정과 왕국 방위를 수행한다."
+  },
+  {
+    "slug": "nanji-xianweng",
+    "profession": "humanities_scholar",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "원시천존 문하의 원로 신선으로 도술과 조언을 사용해 강자아와 주나라 진영을 반복해서 구하는 마법가·자문가 기능이 대표적이므로 humanities_scholar에 해당한다."
+  },
+  {
+    "slug": "nausicaa",
+    "profession": "politician",
+    "confidence": "low",
+    "alternatives": [
+      "influencer"
+    ],
+    "reason": "대표 기능은 난파한 오디세우스를 한 차례 구호하고 궁전으로 안내하는 왕녀다. 왕족 혈연만 있을 뿐 통치하지 않아 politician이 아니며, 단일 조언 장면을 대중 소통 직군인 influencer로 확대할 수도 없다."
+  },
+  {
+    "slug": "nekhbet",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "상이집트와 파라오를 날개와 왕관의 힘으로 지키고 적을 통과하게 하는 왕권 수호가 대표 기능이므로 commander에 해당한다."
+  },
+  {
+    "slug": "nemean-lion",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "네메아를 점거해 사람과 가축을 위협하고 침입한 헤라클레스와 맞서는 전투·영역 수호가 존재 전체의 대표 기능이므로 commander에 해당한다."
+  },
+  {
+    "slug": "nephthys",
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "이시스와 함께 죽은 왕의 장례 애도와 몸의 보호, 부활 제의를 지속해서 수행하는 것이 대표 기능이므로 종교 제의 직군인 leader에 해당한다."
+  },
+  {
+    "slug": "nessus",
+    "profession": "entrepreneur",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "에우에노스강에서 대가를 받고 여행자를 건네주는 사공 서비스가 원전에 명시된 지속 생업이므로 자영 경제 활동인 entrepreneur에 해당한다."
+  },
+  {
+    "slug": "nezha",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "중단원수로서 천궁 전투와 우마왕 토벌에 무장해 직접 참전하는 전쟁신이다."
+  },
+  {
+    "slug": "ninigi",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "아마테라스에게 통치의 신보를 받아 지상으로 강림하고 천손 왕권의 계보를 세우며 직접 전투 기록은 없다."
+  },
+  {
+    "slug": "njord",
+    "profession": "entrepreneur",
+    "confidence": "low",
+    "alternatives": [
+      "politician"
+    ],
+    "reason": "대표 기능은 항해·바다·재물을 베푸는 신이다. 상업과 관련되지만 사업을 경영하지 않아 entrepreneur가 아니며, 신족 간 인질이라는 지위만 있을 뿐 협상하거나 통치하지 않아 politician도 성립하지 않는다."
+  },
+  {
+    "slug": "nut",
+    "profession": "leader",
+    "confidence": "low",
+    "alternatives": [
+      "humanities_scholar"
+    ],
+    "reason": "대표 기능은 태양과 망자를 품어 재생시키는 하늘 그 자체다. 제의나 교단을 이끌지 않아 leader가 아니며, 우주론의 대상일 뿐 지식을 연구·가르치는 humanities_scholar도 아니다."
+  },
+  {
+    "slug": "odin",
+    "profession": "commander",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "전사자를 발할라에 모아 라그나로크 군세를 준비하고 최후 전투에서 펜리르와 직접 싸우는 신들의 전쟁 지도자다."
+  },
+  {
+    "slug": "okuninushi",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "지상을 경영한 나라의 주인으로 천손 측과 국토 양도를 협상하는 통치자이며 직접 전투가 핵심 역할은 아니다."
+  },
+  {
+    "slug": "omphale",
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "뤼디아의 여왕으로 헤라클레스를 매입해 복무시키는 정치 권력자이며 본인은 직접 전투하지 않는다."
+  },
+  {
+    "slug": "orpheus",
+    "profession": "musician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "리라와 노래로 아르고호의 노를 맞추고 세이렌의 노래를 이기는 전문 음유시인이다."
+  }
+]

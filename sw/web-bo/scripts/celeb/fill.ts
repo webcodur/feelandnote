@@ -90,7 +90,7 @@ const SPEECH_TONES = ['free', 'bold', 'composed', 'loyal', 'humble', 'gentle']
 const PROFESSIONS = [
   'leader', 'politician', 'commander', 'entrepreneur', 'investor', 'humanities_scholar',
   'social_scientist', 'scientist', 'director', 'musician', 'visual_artist', 'author',
-  'actor', 'influencer', 'athlete', 'other',
+  'actor', 'influencer', 'athlete',
 ]
 
 const blank = (v: unknown) => v === null || v === undefined || String(v).trim().length === 0
