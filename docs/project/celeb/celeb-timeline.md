@@ -128,12 +128,13 @@ Windows·PowerShell·CLI를 거쳐 국·영문 사건을 일괄 저장할 때는
   한국어 `기원전 44–30`, 영어 `44–30 BC`다.
 - 날짜 미상 `life`는 가운데에서 시점을 빼고 지명만 남긴다. 지명이 없으면 연도만 둔다.
 - `fiction`은 현재 locale의 서사 단계 라벨을 가운데 시점으로 쓴다.
-- 지명은 저장된 장소명을 그대로 쓴다. 제목·서술에는 되풀이하지 않는다. 좌표가 있으면 헤더의
-  시점·지명을 눌러 지구본으로 이동하고, 없으면 글만 보인다.
+- 지명은 저장된 장소명을 그대로 쓴다. 제목·서술에는 되풀이하지 않는다. `md` 이상에서 좌표가 있으면
+  헤더의 시점·지명을 눌러 지구본으로 이동하고, 모바일과 좌표가 없는 사건에서는 글만 보인다.
 - 제목·서술·장소는 영문 locale에서 영문 값이 있으면 영문을, 없으면 한국어 값을 사용한다.
-- 카드는 `이전 열 | 본문 | 다음 열`의 3열이다. 두 이동 열은 카드의 전체 높이가 클릭 영역이며,
-  본문 길이에 따라 프레임 높이가 바뀌지 않는다.
-- 프레임 높이는 좁은 화면 360px, `md` 이상 396px이다. 헤더 아래의 제목·서술은
+- 사건 제목 행은 `이전 화살표 | 제목 | 다음 화살표`의 3열이다. 제목은 한 줄을 유지하고 영역보다
+  길면 줄임표로 버리지 않고 가운데 열 안에서 가로로 민다. 가로 스크롤바는 표시하지 않으며,
+  모바일에서는 손가락으로, PC 반응형 화면에서는 마우스로 잡아 끈다.
+- 프레임 높이는 좁은 화면 360px, `md` 이상 396px이다. 제목 행 아래의 활동 반경과 서술은
   하나의 내부 세로 스크롤 영역으로 읽으며, 브라우저 스크롤 앵커링을 사용하지 않는다.
 - 본문 위 세로 휠과 터치는 내부 내용을 우선 스크롤하고, 본문을 가로로 밀면 이전·다음 사건으로
   즉시 교체한다. 카드 전체가 옆으로 밀리지 않는다. `#` 다음 숫자만 제자리에서 한 칸
@@ -142,6 +143,11 @@ Windows·PowerShell·CLI를 거쳐 국·영문 사건을 일괄 저장할 때는
 
 ### 활동 반경 지구본
 
+- 모바일에서는 지구본과 지도 보기 옵션을 표시하지 않는다. 대신 사건 카드 안의 `활동 반경` 경로가
+  모든 사건을 순서대로 보여 준다. 장소명이 있으면 좌표 유무와 상관없이 그 장소를 쓰고, 장소명도 없으면
+  `?` 정거장으로 남긴다. 현재 사건의 정거장을 강조하고 누르면 해당 사건으로 이동한다. 연속한 같은 장소나
+  연속한 `?`는 한 정거장으로 묶고 그 안의 사건 수를 함께 표시한다. 가로 스크롤바 없이 손으로 경로를 부드럽게 민다.
+- 인라인·전체화면 지구본은 `md` 이상 화면에서만 제공한다.
 - `lat`과 `lng`가 모두 있는 사건만 마커와 이동 경로에 포함한다.
 - 연표 카드를 고르면 해당 마커를 맨 위에 둔다. 지구본이 그 좌표로 돌아야 하면 이동이 끝난
   뒤에 파장을 한 번 퍼뜨리고, 이미 그 자리면 바로 퍼뜨린다. 연속으로 넘겨도 파장은 하나만 다시 시작한다.
@@ -162,16 +168,17 @@ Windows·PowerShell·CLI를 거쳐 국·영문 사건을 일괄 저장할 때는
 |---|---|
 | `sw/web/src/actions/celebs/getCelebTimelineEvents.ts` | locale별 사건 조회와 `sort_order`, `id` 정렬 |
 | `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneySection.tsx` | 연표와 지구본의 선택 상태 연동 |
-| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyEventCarousel.tsx` | 3열 사건 이동과 가로 밀기 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyEventCarousel.tsx` | 사건 이동과 가로 밀기 |
 | `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyEventCard.tsx` | 고정 높이 사건 본문과 내부 스크롤 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyActivityRange.tsx` | 모바일 카드 안의 활동 반경 경로 |
 | `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyEventExpandedList.tsx` | 전체 사건 펼쳐보기(제목-내용) 목록 |
 | `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyMapPanel.tsx` | 인라인·전체화면 활동 반경 구성 |
 | `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyGlobeModal.tsx` | 전체화면 활동 반경과 사건 카드 |
 | `sw/web/src/app/[locale]/(main)/celeb/[slug]/celebSectionChapters.ts` | 인물 상세 구획 번호 04 |
 | `sw/web/src/components/shared/WorldGlobe/WorldGlobe.tsx` | 공용 지구본 렌더링과 조작 |
 | `sw/web/messages/{ko,en}/celeb.json` | 화면 문구 |
-| `sw/web/scripts/check-celeb-timeline-scroll.mjs` | 고정 높이·전체 이동 열·내부 스크롤·인라인 지구본 회귀 검사 |
-| `sw/web/scripts/check-globe-layout.mjs` | 로딩·오프스크린·리사이즈·전체화면 지구본 높이 회귀 검사 |
+| `sw/web/scripts/check-celeb-timeline-scroll.mjs` | 고정 높이·제목 행 이동·내부 스크롤·모바일 활동 반경 회귀 검사 |
+| `sw/web/scripts/check-globe-layout.mjs` | 데스크톱 지구본의 로딩·오프스크린·리사이즈·전체화면 높이 회귀 검사 |
 
 ## 백오피스 수동 편집
 
