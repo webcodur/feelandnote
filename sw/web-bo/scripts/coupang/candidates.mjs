@@ -22,7 +22,14 @@ const from = Number(fromArg ?? 0)
 const to = Number(toArg ?? targets.length)
 
 const out = fs.existsSync(outFile) ? JSON.parse(fs.readFileSync(outFile, 'utf8')) : []
-const targetKey = (row) => String(row.content_id ?? row.candidate_key ?? '').trim()
+const targetKey = (row) => {
+  const contentId = String(row.content_id ?? '').trim()
+  if (contentId) {
+    const isbn = String(row.isbn ?? '').replace(/[\s-]/g, '')
+    return `${contentId}:${isbn}`
+  }
+  return String(row.candidate_key ?? '').trim()
+}
 const done = new Set(out.map(targetKey).filter(Boolean))
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
@@ -58,8 +65,9 @@ try {
     }
     if (done.has(key)) continue
 
-    // 제목만으로 검색한다 — 저자·출판사를 붙이면 후보가 좁아져 더 나은 상품을 놓친다
-    const query = t.title.replace(/\s*\(.*?\)\s*/g, ' ').trim()
+    // 기본은 제목만 쓴다. 제목이 너무 흔해 오탐만 나오는 경우에만 검수자가 query로 저자를 추가한다.
+    const querySource = typeof t.query === 'string' && t.query.trim() ? t.query : t.title
+    const query = querySource.replace(/\s*\(.*?\)\s*/g, ' ').trim()
 
     try {
       await page.goto(`https://partners.coupang.com/#affiliate/ws/link/0/${encodeURIComponent(query)}`, {
@@ -72,35 +80,63 @@ try {
       }
 
       const cards = await page.evaluate(() => {
-        const res = []
-        const btns = Array.from(document.querySelectorAll('button, a, [role=button]')).filter(
-          (b) => (b.innerText || '').trim() === '링크 생성'
-        )
-        btns.forEach((btn, idx) => {
-          let node = btn
-          let name = ''
-          let price = ''
-          for (let up = 0; up < 8 && node; up++) {
-            node = node.parentElement
-            if (!node) break
-            const txt = (node.innerText || '').trim()
-            if (txt.length > 15) {
-              const lines = txt.split('\n').map((s) => s.trim()).filter((s) => s && s !== '링크 생성' && s !== '상품정보')
-              name = lines[0] || ''
-              price = lines.find((l) => /원$/.test(l)) || ''
-              if (name.length > 5) break
+        const productData = (item) => {
+          const fiberKey = Object.keys(item).find((key) => key.startsWith('__reactFiber$'))
+          let fiber = fiberKey ? item[fiberKey] : null
+          for (let depth = 0; fiber && depth < 10; depth += 1, fiber = fiber.return) {
+            const props = fiber.memoizedProps
+            if (
+              props
+              && typeof props === 'object'
+              && Number.isFinite(Number(props.productId))
+              && Number.isFinite(Number(props.itemId))
+              && Number.isFinite(Number(props.vendorItemId))
+            ) {
+              return props
             }
           }
-          const productLink = node?.querySelector?.('a[href*="/vp/products/"]')
-            || node?.closest?.('a[href*="/vp/products/"]')
-          const productUrl = productLink?.href || ''
-          const productId = productUrl.match(/\/vp\/products\/(\d+)/)?.[1] || ''
-          res.push({ idx, name: name.slice(0, 110), price, productId, productUrl })
+          return null
+        }
+
+        return Array.from(document.querySelectorAll('.product-item')).map((item, idx) => {
+          const data = productData(item)
+          const productId = data ? String(data.productId) : ''
+          const itemId = data ? String(data.itemId) : ''
+          const vendorItemId = data ? String(data.vendorItemId) : ''
+          const productUrl = productId && itemId && vendorItemId
+            ? `https://www.coupang.com/vp/products/${productId}?itemId=${itemId}&vendorItemId=${vendorItemId}`
+            : ''
+          const name = String(data?.title || item.querySelector('.product-description')?.textContent || '').trim()
+          const price = String(
+            data?.salesPrice
+            || item.querySelector('.sale-price')?.textContent
+            || item.querySelector('.product-price')?.textContent
+            || ''
+          ).trim()
+          const deliveryBadgeImage = String(
+            data?.deliveryBadgeImage
+            || item.querySelector('.delivery-badge img')?.getAttribute('src')
+            || ''
+          )
+          return {
+            idx: idx + 1,
+            name: name.slice(0, 180),
+            price,
+            productId,
+            itemId,
+            vendorItemId,
+            productUrl,
+            categoryId: data?.categoryId == null ? null : String(data.categoryId),
+            hasDeliveryBadge: Boolean(deliveryBadgeImage),
+          }
         })
-        return res
       })
 
-      const real = cards.filter((c) => c.name && !c.name.includes('광고할 링크') && !c.name.includes('클릭하여'))
+      const real = cards.filter((candidate) => candidate.name)
+      const missingIdentity = real.filter((candidate) => !candidate.productId || !candidate.productUrl)
+      if (real.length > 0 && missingIdentity.length > 0) {
+        throw new Error(`상품 식별자 추출 실패: ${missingIdentity.length}/${real.length}`)
+      }
       out.push({ ...t, query, candidates: real.slice(0, 12) })
       console.log(`[${i}] ${t.title} — 후보 ${real.length}개`)
     } catch (e) {

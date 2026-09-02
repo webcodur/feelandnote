@@ -25,7 +25,7 @@ const pickEnv = (k) => {
   const m = env.match(new RegExp(`^${k}=(.*)$`, 'm'))
   return m ? m[1].trim().replace(/^["']|["']$/g, '') : null
 }
-const supabase = createClient(pickEnv('NEXT_PUBLIC_SUPABASE_URL'), pickEnv('SUPABASE_SERVICE_ROLE_KEY'))
+const db = createClient(pickEnv('NEXT_PUBLIC_DB_API_URL'), pickEnv('DB_SECRET_KEY'))
 
 function productIdentity(raw, field) {
   let url
@@ -82,16 +82,16 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 // 링크를 만든 뒤 판본 불일치로 버리는 일이 없도록 모든 DB 대상을 먼저 확정한다.
 const contentIds = [...new Set(picks.map((pick) => pick.content_id))]
 const [sourceResult, editionResult, localeResult] = await Promise.all([
-  supabase
+  db
     .from('fiction_source_contents')
     .select('content_id')
     .in('content_id', contentIds),
-  supabase
+  db
     .from('fiction_source_editions')
     .select('id,content_id,isbn')
     .eq('locale', 'ko')
     .in('content_id', contentIds),
-  supabase
+  db
     .from('content_locales')
     .select('content_id,isbn')
     .eq('locale', 'ko')
@@ -146,44 +146,44 @@ try {
     }
 
     const chosen = await page.evaluate((expected) => {
-      const btns = Array.from(document.querySelectorAll('button, a, [role=button]')).filter(
-        (b) => (b.innerText || '').trim() === '링크 생성'
-      )
-
-      const inspect = (btn) => {
-        let node = btn
-        let name = ''
-        let productUrl = ''
-        for (let up = 0; up < 10 && node; up++) {
-          const link = node.querySelector?.('a[href*="/vp/products/"]')
-            || node.closest?.('a[href*="/vp/products/"]')
-          if (link?.href) productUrl = link.href
-          const txt = (node.innerText || '').trim()
-          if (txt.length > 15) {
-            name = txt.split('\n').map((s) => s.trim()).filter((s) => s && s !== '링크 생성' && s !== '상품정보')[0] || name
+      const inspect = (item) => {
+        const fiberKey = Object.keys(item).find((key) => key.startsWith('__reactFiber$'))
+        let fiber = fiberKey ? item[fiberKey] : null
+        let props = null
+        for (let depth = 0; fiber && depth < 10; depth += 1, fiber = fiber.return) {
+          const candidate = fiber.memoizedProps
+          if (
+            candidate
+            && typeof candidate === 'object'
+            && Number.isFinite(Number(candidate.productId))
+            && Number.isFinite(Number(candidate.itemId))
+            && Number.isFinite(Number(candidate.vendorItemId))
+          ) {
+            props = candidate
+            break
           }
-          if (productUrl && name.length > 5) break
-          node = node.parentElement
         }
-        if (!productUrl) return null
-        const url = new URL(productUrl)
+        if (!props) return null
+        const productId = String(props.productId)
+        const itemId = String(props.itemId)
+        const vendorItemId = String(props.vendorItemId)
         return {
-          btn,
-          name: name.slice(0, 110),
-          productUrl,
-          productId: url.pathname.match(/\/vp\/products\/(\d+)/)?.[1] || '',
-          itemId: url.searchParams.get('itemId') || '',
-          vendorItemId: url.searchParams.get('vendorItemId') || '',
+          btn: item.querySelector('.btn-generate-link'),
+          name: String(props.title || item.querySelector('.product-description')?.textContent || '').trim(),
+          productUrl: `https://www.coupang.com/vp/products/${productId}?itemId=${itemId}&vendorItemId=${vendorItemId}`,
+          productId,
+          itemId,
+          vendorItemId,
         }
       }
 
-      const candidates = btns.map(inspect).filter(Boolean)
+      const candidates = Array.from(document.querySelectorAll('.product-item')).map(inspect).filter(Boolean)
       const match = candidates.find((candidate) => (
         candidate.productId === expected.productId
         && (!expected.itemId || candidate.itemId === expected.itemId)
         && (!expected.vendorItemId || candidate.vendorItemId === expected.vendorItemId)
       ))
-      if (!match) return null
+      if (!match?.btn) return null
       match.btn.scrollIntoView({ block: 'center' })
       match.btn.click()
       return { name: match.name, productId: match.productId, productUrl: match.productUrl }
@@ -211,7 +211,7 @@ try {
 
     const checkedAt = new Date().toISOString()
     const { error } = p.sourceEditionId
-      ? await supabase.rpc('replace_fiction_source_product', {
+      ? await db.rpc('replace_fiction_source_product', {
           p_edition_id: p.sourceEditionId,
           p_platform: 'coupang',
           p_product_id: p.productId,
@@ -220,7 +220,7 @@ try {
           p_quality_evidence: p.qualityEvidence.map((value) => value.trim()).filter(Boolean),
           p_checked_at: checkedAt,
         })
-      : await supabase
+      : await db
           .from('content_locales')
           .update({ affiliate_url: [{ platform: 'coupang', url: link }], updated_at: checkedAt })
           .eq('content_id', p.content_id)
