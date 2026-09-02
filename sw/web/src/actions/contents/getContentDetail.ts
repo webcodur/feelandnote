@@ -12,6 +12,12 @@ import {
   getFictionCharactersForContent,
   type FictionSourceCharacter,
 } from '@/actions/fiction/getFictionSources'
+import {
+  getFictionSourcePurchasePlatform,
+  mapFictionSourcePurchaseOptions,
+  type FictionSourceEdition,
+  type FictionSourcePurchaseOptionRow,
+} from '@/actions/fiction/fictionSourceLocale'
 import { getCuratedEntriesForContent } from '@/actions/library/curated'
 import type { ContentCuratedEntry } from '@/actions/library/types'
 import type { CategoryId } from '@/constants/categories'
@@ -93,6 +99,33 @@ function overrideBookLink(metadata: Record<string, unknown> | null, bookLocale: 
   return metadata
 }
 
+async function fetchDefaultFictionSourceEdition(
+  contentId: string,
+  locale: string,
+): Promise<FictionSourceEdition | null> {
+  const platform = getFictionSourcePurchasePlatform(locale)
+  if (!platform) return null
+
+  const supabase = createStaticClient()
+  const { data, error } = await supabase
+    .from('fiction_source_purchase_options')
+    .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
+    .eq('content_id', contentId)
+    .eq('locale', locale)
+    .eq('platform', platform)
+    .order('sort_order')
+    .order('edition_id')
+    .limit(1)
+    .maybeSingle()
+
+  if (error) throw new Error(`원전 기본 판본 조회 실패: ${error.message}`)
+  if (!data) return null
+  return mapFictionSourcePurchaseOptions(
+    [data as unknown as FictionSourcePurchaseOptionRow],
+    locale,
+  )[0] ?? null
+}
+
 // #region 콘텐츠 자체 정보 (인증 비의존, 캐시)
 async function fetchContentDataPublic(
   contentId: string,
@@ -100,11 +133,12 @@ async function fetchContentDataPublic(
   locale: string,
 ): Promise<ContentDetailData['content'] | null> {
   const supabase = createStaticClient()
-  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT})`
+  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), fiction_source_contents(content_id)`
 
   function buildDbContent(raw: Record<string, unknown>) {
     const locales = raw.content_locales as ContentLocaleRow[] | null
     const flat = flattenLocales(locales, locale)
+    const sourceMarker = raw.fiction_source_contents
     return {
       id: raw.id as string,
       external_id: raw.external_id as string | null,
@@ -119,6 +153,9 @@ async function fetchContentDataPublic(
       isbn_en: flat.isbn_en,
       release_date: raw.release_date as string | null,
       affiliate_url: flat.affiliate_url,
+      is_fiction_source: Array.isArray(sourceMarker)
+        ? sourceMarker.length > 0
+        : Boolean(sourceMarker && typeof sourceMarker === 'object'),
     }
   }
 
@@ -155,14 +192,19 @@ async function fetchContentDataPublic(
     const storedMetadata = dbContent.metadata && Object.keys(dbContent.metadata).length > 0
       ? dbContent.metadata
       : null
-    const metadataResult = dbContent.type === 'MUSIC' && storedMetadata
-      ? null
-      : await fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source, locale === 'en' ? 'en' : 'ko')
+    const [metadataResult, sourceEdition] = await Promise.all([
+      dbContent.type === 'MUSIC' && storedMetadata
+        ? Promise.resolve(null)
+        : fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source, locale === 'en' ? 'en' : 'ko'),
+      dbContent.type === 'BOOK' && dbContent.is_fiction_source
+        ? fetchDefaultFictionSourceEdition(dbContent.id, locale)
+        : Promise.resolve(null),
+    ])
     /* 소개문 필드 이름이 출처마다 다르다 — TMDB는 overview, IGDB는 summary·storyline이다. */
     const fetchedMeta = metadataResult?.metadata ?? {}
     /* 도서의 영문 소개는 카카오가 주지 않는다. 원서 ISBN으로 OpenLibrary에서 따로 받는다. */
     const bookIntroEn = locale === 'en' && dbContent.type === 'BOOK'
-      ? await fetchBookIntroEn(dbContent.isbn_en)
+      ? await fetchBookIntroEn(sourceEdition?.isbn ?? dbContent.isbn_en)
       : null
     const dbMetaDesc = isMetaDescUsable(metadataResult?.source ?? dbContent.external_source)
       ? ([fetchedMeta.description, fetchedMeta.overview, fetchedMeta.storyline, fetchedMeta.summary]
@@ -172,7 +214,7 @@ async function fetchContentDataPublic(
       ? { ...(metadataResult?.metadata ?? {}), ...stripLocalizedMeta(locale, storedMetadata) }
       : null
 
-    const dbMetadata = dropForeignDisplayText(
+    const localizedMetadata = dropForeignDisplayText(
       locale,
       overrideBookLink(
         mergedMetadata
@@ -181,21 +223,32 @@ async function fetchContentDataPublic(
         locale, dbContent.type
       ),
     )
+    const dbMetadata = sourceEdition
+      ? {
+          ...(localizedMetadata ?? {}),
+          ...(sourceEdition.publisher && { publisher: sourceEdition.publisher }),
+          ...(sourceEdition.isbn && { isbn: sourceEdition.isbn }),
+        }
+      : localizedMetadata
 
     return {
       id: dbContent.id,
       externalId,
-      title: dbContent.title,
-      creator: dbContent.creator || undefined,
-      thumbnail: dbContent.thumbnail_url || undefined,
-      description: pickIntroForLocale(locale, [dbContent.description, dbMetaDesc, bookIntroEn]) ?? undefined,
-      releaseDate: dbContent.release_date || undefined,
+      title: sourceEdition?.title || dbContent.title,
+      creator: sourceEdition?.creator || dbContent.creator || undefined,
+      thumbnail: sourceEdition?.thumbnailUrl || dbContent.thumbnail_url || undefined,
+      description: pickIntroForLocale(locale, [sourceEdition?.description, dbContent.description, dbMetaDesc, bookIntroEn]) ?? undefined,
+      releaseDate: sourceEdition?.releaseDate || dbContent.release_date || undefined,
       type: dbContent.type as ContentType,
       category: categoryId,
       metadata: dbMetadata,
-      affiliateLinks: (dbContent.affiliate_url as unknown as AffiliateLink[])?.length
-        ? (dbContent.affiliate_url as unknown as AffiliateLink[])
-        : undefined,
+      affiliateLinks: dbContent.is_fiction_source
+        ? sourceEdition
+          ? [{ platform: sourceEdition.platform, url: sourceEdition.purchaseUrl }]
+          : undefined
+        : (dbContent.affiliate_url as unknown as AffiliateLink[])?.length
+            ? (dbContent.affiliate_url as unknown as AffiliateLink[])
+            : undefined,
     }
   }
 
@@ -229,7 +282,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-locale-intro-v3', contentId, category ?? '', locale],
+    ['content-data-public-locale-intro-v5-source-product-only', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
 // #endregion

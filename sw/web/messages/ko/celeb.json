@@ -69,6 +69,8 @@
     "sourceWorkBuyCoupang": "쿠팡에서 보기",
     "sourceWorkBuyAmazon": "Amazon에서 보기",
     "sourceWorkSelect": "작품 보기: {title}",
+    "sourceEditionSelect": "판본 선택",
+    "sourceEditionSelectAria": "판본 보기: {title}",
     "sourceWorkCharacterAppearance": "작품 속 ‘{name}’",
     "sourceWorkIntroduction": "작품 소개",
     "sourceWorkIntroductionEmpty": "이 작품의 소개는 아직 준비되지 않았습니다. 자세한 정보는 작품 페이지에서 확인할 수 있습니다.",

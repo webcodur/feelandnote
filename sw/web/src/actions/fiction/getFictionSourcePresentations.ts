@@ -6,16 +6,14 @@ import {
   type FictionSourceContent,
 } from './getFictionSources'
 
-function nonEmpty(value: string | undefined): string | null {
-  return value?.trim() || null
-}
-
 export async function getFictionSourcePresentationsForCeleb(
   celebId: string,
   locale: string = 'ko',
 ): Promise<FictionSourceContent[]> {
   const sources = await getFictionSourcesForCeleb(celebId, locale)
-  const missingDescriptions = sources.filter((source) => !source.description)
+  const missingDescriptions = sources.filter((source) => (
+    source.editions.some((edition) => !edition.description)
+  ))
   if (missingDescriptions.length === 0) return sources
 
   const briefs = await Promise.all(
@@ -32,10 +30,11 @@ export async function getFictionSourcePresentationsForCeleb(
 
     return {
       ...source,
-      description: brief.description,
-      publisher: source.publisher ?? nonEmpty(brief.metadata?.publisher),
-      isbn: source.isbn ?? nonEmpty(brief.metadata?.isbn),
-      releaseDate: source.releaseDate ?? brief.releaseDate,
+      editions: source.editions.map((edition) => (
+        edition.description
+          ? edition
+          : { ...edition, description: brief.description ?? null }
+      )),
     }
   })
 }

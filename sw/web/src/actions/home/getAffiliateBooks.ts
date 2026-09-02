@@ -2,11 +2,16 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { createStaticClient } from '@/lib/supabase/static'
 import { cachedDetail, LIST_REVALIDATE, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import type { AffiliatePlatformKey } from '@/constants/affiliatePlatforms'
 import { FACTION_BOOK_TOPICS } from '@/constants/factionBookTopics'
 import { findAffiliateLink } from './affiliateLinks'
+import {
+  mapFictionSourcePurchaseOptions,
+  type FictionSourcePurchaseOptionRow,
+} from '@/actions/fiction/fictionSourceLocale'
 import {
   BESTSELLER_CONTENT_IDS,
   BESTSELLER_MAX_SLOTS,
@@ -52,6 +57,11 @@ interface PoolEntry {
   modernCount: number
 }
 
+interface SourceContentCountRow {
+  content_id: string
+  contents: { record_count: number | null } | null
+}
+
 /**
  * 이 날짜 뒤에 태어난 인물을 "요즘 사람"으로 본다.
  * 기록자 수만으로 줄을 세우면 등재 인물 절대다수가 옛사람이라 논어·시경·일리아스가 영원히 앞자리를 차지한다.
@@ -68,23 +78,79 @@ const ROTATION_WINDOW = 24
  */
 async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolEntry[]> {
   const supabase = createStaticClient()
+  const sourceLocale = platform === 'amazon' ? 'en' : 'ko'
+  const sourcePlatform = platform === 'coupang' || platform === 'amazon'
+    ? platform
+    : null
 
-  const { data, error } = await supabase
-    .from('content_locales')
-    .select('content_id, title, creator, thumbnail_url, affiliate_url, contents!inner(user_count:record_count, type)')
-    .eq('locale', 'ko')
-    .eq('contents.type', 'BOOK')
-    .not('affiliate_url', 'is', null)
-    .limit(1000)
+  const [localeResult, sourceRows, optionRows] = await Promise.all([
+    supabase
+      .from('content_locales')
+      .select('content_id, title, creator, thumbnail_url, affiliate_url, contents!inner(user_count:record_count, type)')
+      .eq('locale', sourceLocale)
+      .eq('contents.type', 'BOOK')
+      .not('affiliate_url', 'is', null)
+      .limit(1000),
+    sourcePlatform
+      ? selectAllPages<SourceContentCountRow>((from, to) => supabase
+          .from('fiction_source_contents')
+          .select('content_id,contents!inner(record_count)')
+          .order('content_id')
+          .range(from, to)
+          .overrideTypes<SourceContentCountRow[], { merge: false }>())
+      : Promise.resolve([]),
+    sourcePlatform
+      ? selectAllPages<FictionSourcePurchaseOptionRow>((from, to) => supabase
+          .from('fiction_source_purchase_options')
+          .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
+          .eq('locale', sourceLocale)
+          .eq('platform', sourcePlatform)
+          .order('content_id')
+          .order('edition_id')
+          .range(from, to)
+          .overrideTypes<FictionSourcePurchaseOptionRow[], { merge: false }>())
+      : Promise.resolve([]),
+  ])
 
-  throwOnQueryError('getAffiliateBooks/pool', error)
+  throwOnQueryError('getAffiliateBooks/pool', localeResult.error)
 
-  const rows = (data ?? []) as unknown as LocaleRow[]
+  const rows = (localeResult.data ?? []) as unknown as LocaleRow[]
   const pool: PoolEntry[] = []
   const excluded = new Set(RECOMMENDATION_EXCLUDED_IDS)
+  const sourceIds = new Set(sourceRows.map((row) => row.content_id))
+  const sourceCountById = new Map(sourceRows.map((row) => [
+    row.content_id,
+    row.contents?.record_count ?? 0,
+  ]))
+  const optionsByContent = new Map<string, FictionSourcePurchaseOptionRow[]>()
+  for (const row of optionRows) {
+    const current = optionsByContent.get(row.content_id) ?? []
+    current.push(row)
+    optionsByContent.set(row.content_id, current)
+  }
+
+  // 일반 추천 카드에는 작품마다 기본 판본 하나만 쓴다. 인물 원전 책장에서는 모든 판본을 보여준다.
+  for (const [contentId, options] of optionsByContent) {
+    if (excluded.has(contentId)) continue
+    const edition = mapFictionSourcePurchaseOptions(options, sourceLocale)[0]
+    if (!edition) continue
+    pool.push({
+      book: {
+        contentId,
+        title: edition.title,
+        creator: edition.creator ?? undefined,
+        thumbnail: edition.thumbnailUrl ?? undefined,
+        url: edition.purchaseUrl,
+      },
+      userCount: sourceCountById.get(contentId) ?? 0,
+      modernCount: 0,
+    })
+  }
 
   for (const row of rows) {
     if (excluded.has(row.content_id)) continue
+    // 원전 작품의 구매 SSoT는 판본 상품 표다. locale의 이전 링크로 되돌아가지 않는다.
+    if (sourcePlatform && sourceIds.has(row.content_id)) continue
     const link = findAffiliateLink(row.affiliate_url, platform)
     if (!link?.url || !row.title) continue
     pool.push({
@@ -169,10 +235,11 @@ function rotateDaily<T>(items: T[], limit: number): T[] {
   return Array.from({ length: limit }, (_, i) => window[(start + i) % window.length])
 }
 
-const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v2-query-guards'], {
+const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v3-source-editions'], {
   // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
   // 인물 상세을 연쇄 무효화하므로, 한 시간 만료로만 새 후보를 흡수한다.
   revalidate: LIST_REVALIDATE,
+  tags: [CACHE_TAGS.FICTION_SOURCES],
 })
 
 export async function getAffiliateBooks(
@@ -295,9 +362,9 @@ export async function getAffiliateBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v2-query-guards', celebId, platform, String(limit)],
+    ['affiliate-books-celeb-v3-source-editions', celebId, platform, String(limit)],
     () => fetchAffiliateBooksForCeleb(celebId, platform, limit),
-    { revalidate: LIST_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS] },
+    { revalidate: LIST_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FICTION_SOURCES] },
   )
 }
 
@@ -416,7 +483,7 @@ async function fetchBooksForTag(
 
 const fetchBooksForTagCached = unstable_cache(fetchBooksForTag, ['affiliate-books-tag'], {
   revalidate: STATIC_REVALIDATE,
-  tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS],
+  tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FICTION_SOURCES],
 })
 
 export async function getAffiliateBooksForTag(

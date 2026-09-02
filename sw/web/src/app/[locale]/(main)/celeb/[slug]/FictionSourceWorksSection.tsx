@@ -99,6 +99,7 @@ export default function FictionSourceWorksSection({
         )}
 
         <FictionSourceFeature
+          key={selected.id}
           source={selected}
           nickname={nickname}
         />

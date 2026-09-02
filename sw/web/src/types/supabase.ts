@@ -2332,6 +2332,124 @@ export type Database = {
           },
         ]
       }
+      fiction_source_editions: {
+        Row: {
+          content_id: string
+          created_at: string
+          creator: string | null
+          description: string | null
+          edition_kind: string | null
+          id: number
+          isbn: string | null
+          locale: string
+          publisher: string | null
+          release_date: string | null
+          sort_order: number
+          sources: Json | null
+          text_scope: string | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          verified: boolean | null
+        }
+        Insert: {
+          content_id: string
+          created_at?: string
+          creator?: string | null
+          description?: string | null
+          edition_kind?: string | null
+          id?: never
+          isbn?: string | null
+          locale: string
+          publisher?: string | null
+          release_date?: string | null
+          sort_order?: number
+          sources?: Json | null
+          text_scope?: string | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          verified?: boolean | null
+        }
+        Update: {
+          content_id?: string
+          created_at?: string
+          creator?: string | null
+          description?: string | null
+          edition_kind?: string | null
+          id?: never
+          isbn?: string | null
+          locale?: string
+          publisher?: string | null
+          release_date?: string | null
+          sort_order?: number
+          sources?: Json | null
+          text_scope?: string | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          verified?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fiction_source_editions_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "fiction_source_contents"
+            referencedColumns: ["content_id"]
+          },
+        ]
+      }
+      fiction_source_products: {
+        Row: {
+          affiliate_url: string
+          checked_at: string | null
+          created_at: string
+          edition_id: number
+          id: number
+          is_active: boolean
+          platform: string
+          product_id: string | null
+          product_url: string | null
+          quality_evidence: Json
+          updated_at: string
+        }
+        Insert: {
+          affiliate_url: string
+          checked_at?: string | null
+          created_at?: string
+          edition_id: number
+          id?: never
+          is_active?: boolean
+          platform: string
+          product_id?: string | null
+          product_url?: string | null
+          quality_evidence?: Json
+          updated_at?: string
+        }
+        Update: {
+          affiliate_url?: string
+          checked_at?: string | null
+          created_at?: string
+          edition_id?: number
+          id?: never
+          is_active?: boolean
+          platform?: string
+          product_id?: string | null
+          product_url?: string | null
+          quality_evidence?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fiction_source_products_edition_id_fkey"
+            columns: ["edition_id"]
+            isOneToOne: false
+            referencedRelation: "fiction_source_editions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       flow_nodes: {
         Row: {
           bonus_content_ids: Json | null
@@ -3598,6 +3716,41 @@ export type Database = {
       }
     }
     Views: {
+      fiction_source_purchase_options: {
+        Row: {
+          affiliate_url: string | null
+          content_id: string | null
+          creator: string | null
+          description: string | null
+          edition_id: number | null
+          edition_kind: string | null
+          isbn: string | null
+          locale: string | null
+          platform: string | null
+          publisher: string | null
+          release_date: string | null
+          sort_order: number | null
+          text_scope: string | null
+          thumbnail_url: string | null
+          title: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fiction_source_editions_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "fiction_source_contents"
+            referencedColumns: ["content_id"]
+          },
+          {
+            foreignKeyName: "fiction_source_products_edition_id_fkey"
+            columns: ["edition_id"]
+            isOneToOne: false
+            referencedRelation: "fiction_source_editions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       faction_atlas_members: {
         Row: {
           assignment_id: string | null
@@ -4079,6 +4232,22 @@ export type Database = {
       set_fiction_source_characters: {
         Args: { p_celeb_ids?: string[]; p_content_id: string }
         Returns: undefined
+      }
+      deactivate_fiction_source_product: {
+        Args: { p_edition_id: number; p_platform: string }
+        Returns: boolean
+      }
+      replace_fiction_source_product: {
+        Args: {
+          p_affiliate_url: string
+          p_checked_at: string
+          p_edition_id: number
+          p_platform: string
+          p_product_id: string
+          p_product_url: string
+          p_quality_evidence: Json
+        }
+        Returns: number
       }
       update_influence: { Args: { p_user_id: string }; Returns: undefined }
     }
