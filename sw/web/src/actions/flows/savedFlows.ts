@@ -1,15 +1,15 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 // 플로우 저장
 export async function saveFlow(flowId: string): Promise<void> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
 
-  const { data: flow, error: flowError } = await supabase
+  const { data: flow, error: flowError } = await db
     .from('flows')
     .select('user_id, is_public')
     .eq('id', flowId)
@@ -19,7 +19,7 @@ export async function saveFlow(flowId: string): Promise<void> {
   if (flow.user_id === user.id) throw new Error('본인의 플로우는 저장할 수 없습니다')
   if (!flow.is_public) throw new Error('비공개 플로우입니다')
 
-  const { error } = await supabase
+  const { error } = await db
     .from('saved_flows')
     .upsert({ user_id: user.id, flow_id: flowId }, { onConflict: 'user_id,flow_id' })
 
@@ -31,12 +31,12 @@ export async function saveFlow(flowId: string): Promise<void> {
 
 // 플로우 저장 해제
 export async function unsaveFlow(flowId: string): Promise<void> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
 
-  const { error } = await supabase
+  const { error } = await db
     .from('saved_flows')
     .delete()
     .eq('user_id', user.id)
@@ -50,12 +50,12 @@ export async function unsaveFlow(flowId: string): Promise<void> {
 
 // 플로우 저장 여부 확인
 export async function checkFlowSaved(flowId: string): Promise<boolean> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) return false
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('saved_flows')
     .select('id')
     .eq('user_id', user.id)

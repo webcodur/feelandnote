@@ -16,7 +16,7 @@ import { batchUpdateContentMetadata } from "@/actions/contents/updateContentMeta
 import { getContentUserCounts } from "@/actions/contents/getContentUserCounts";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult } from "@/actions/search";
 import type { CategoryId } from "@/constants/categories";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 import { categoryToContentType, type SearchMode, type ContentResult } from "./searchConfig";
 
 export function useSearch() {
@@ -52,8 +52,8 @@ export function useSearch() {
   // 현재 사용자 ID 및 저장된 콘텐츠 ID 로드
   useEffect(() => {
     const init = async () => {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const db = createClient();
+      const { data: { user } } = await db.auth.getUser();
       if (user) setCurrentUserId(user.id);
 
       const ids = await getMyContentIds();

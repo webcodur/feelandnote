@@ -22,7 +22,7 @@ import {
 } from 'fs/promises'
 import sharp from 'sharp'
 import { REMOTION_ROOT } from '@feelandnote/shared/bo/remotion-root'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import {
   fetchExternalImageFollowingRedirects,
   validateExternalImageUrl,

@@ -1,6 +1,6 @@
 'use server'
 
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 
 export interface TodayFigureScheduleItem {
   date: string
@@ -33,7 +33,7 @@ export async function getTodayFigureSchedule(
   startDate: string,
   days: number
 ): Promise<TodayFigureScheduleItem[]> {
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
   // 날짜 목록 생성
   const dates: string[] = []
@@ -44,7 +44,7 @@ export async function getTodayFigureSchedule(
   }
 
   // 1. daily_figures에서 해당 날짜 범위 데이터 조회
-  const { data: dailyFigures, error: dailyFiguresError } = await supabase
+  const { data: dailyFigures, error: dailyFiguresError } = await db
     .from('daily_figures')
     .select('date, celeb_id, source, news_count')
     .gte('date', dates[0])
@@ -59,7 +59,7 @@ export async function getTodayFigureSchedule(
   )
 
   // 2. active CELEB 프로필 조회
-  const { data: activeCelebs, error: activeCelebsError } = await supabase
+  const { data: activeCelebs, error: activeCelebsError } = await db
     .from('celebs')
     .select('id')
     .eq('publication_status', 'active')
@@ -88,7 +88,7 @@ export async function getTodayFigureSchedule(
     let hasMore = true
 
     while (hasMore) {
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from('celeb_contents')
         .select('celeb_id')
         .in('celeb_id', batchIds)
@@ -156,7 +156,7 @@ export async function getTodayFigureSchedule(
   }
 
   // 5. 필요한 프로필만 일괄 조회
-  const { data: celebs, error: celebsError } = await supabase
+  const { data: celebs, error: celebsError } = await db
     .from('celebs')
     .select('id, slug, nickname, avatar_url, profession')
     .in('id', Array.from(selectedIds))

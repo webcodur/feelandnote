@@ -14,7 +14,7 @@ import { createClient } from '@supabase/supabase-js'
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
 const APPLY = process.argv.includes('--apply')
-const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)
 
 const blank = (v: unknown) => !String(v ?? '').trim()
 /** 07 미디어의 대사 탭이 여는 9종. 하나도 없으면 빈 상자가 남는다. */

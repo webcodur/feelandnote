@@ -136,7 +136,7 @@ export function cachedList<R>(
    쓰는 법 — 캐시되는 fetch 안에서 던지고, 공개 함수에서 받는다.
 
      async function fetchThing() {
-       const { data, error } = await supabase.rpc('...')
+       const { data, error } = await db.rpc('...')
        throwOnQueryError('rpc 이름', error)   // 던지면 캐시에 안 남는다
        if (!data.length) return []            // 진짜 빈 결과는 캐시해도 된다
        ...

@@ -4,10 +4,10 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 import { getLocale } from 'next-intl/server'
-import type { Tables } from '@/types/supabase'
+import type { Tables } from '@/types/database.generated'
 import type { ContentType } from '@/types/database'
 import type { LibraryContent, LibraryByProfession, TopCeleb } from './types'
 import { aggregateContents, fetchAllCelebContents, fetchGlobalCelebCounts, fetchUserContentCounts } from './helpers'
@@ -36,9 +36,9 @@ async function fetchProfessionAggregate(
   profession: string,
   locale: string,
 ): Promise<ProfessionAggregate | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data: celebProfiles, error: profileError } = await supabase
+  const { data: celebProfiles, error: profileError } = await db
     .from('celebs')
     .select('id')
     .eq('publication_status', 'active')
@@ -52,8 +52,8 @@ async function fetchProfessionAggregate(
   const celebIds = celebProfiles.map(p => p.id)
 
   const [typedData, { data: topCelebsData }] = await Promise.all([
-    fetchAllCelebContents(supabase, celebIds, locale),
-    supabase
+    fetchAllCelebContents(db, celebIds, locale),
+    db
       .from('celebs')
       .select('id, nickname, nickname_en, avatar_url, title, title_en, celeb_influence!celeb_influence_celebs_fkey(total_score)')
       .in('id', celebIds)
@@ -80,7 +80,7 @@ async function fetchProfessionAggregate(
     }
   })
 
-  const userCountMap = await fetchUserContentCounts(supabase)
+  const userCountMap = await fetchUserContentCounts(db)
 
   // limit을 크게 줘 전체 정렬 리스트를 확보. 페이지 분할은 호출부에서 수행.
   const { contents, total } = aggregateContents(typedData, { page: 1, limit: Number.MAX_SAFE_INTEGER, userCountMap })
@@ -117,8 +117,8 @@ export async function getLibraryByProfession(params?: {
   const pageContents = filteredContents.slice(start, start + limit).map(c => ({ ...c }))
 
   // 콘텐츠별 전체 셀럽 수는 현재 페이지에 대해서만 카운트 RPC로 보정
-  const supabase = createStaticClient()
-  const globalCounts = await fetchGlobalCelebCounts(supabase, pageContents.map(c => c.id))
+  const db = createStaticClient()
+  const globalCounts = await fetchGlobalCelebCounts(db, pageContents.map(c => c.id))
   for (const content of pageContents) {
     content.celeb_count = globalCounts.get(content.id) ?? content.celeb_count
   }
@@ -135,11 +135,11 @@ export async function getLibraryByProfession(params?: {
 }
 
 async function fetchProfessionContentCounts(): Promise<Array<{ profession: string; label: string; count: number }>> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   const results = await Promise.all(
     PROFESSION_MAP.map(async ({ key, label }) => {
-      const { count } = await supabase
+      const { count } = await db
         .from('celebs')
         .select('id', { count: 'exact', head: true })
         .eq('publication_status', 'active')

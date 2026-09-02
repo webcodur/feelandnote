@@ -5,14 +5,14 @@ import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { getCelebLifeEndYear, getCelebYear } from "@/lib/celeb/lifespan";
 import { getRegionForNationality } from "@/lib/game/suikoden/utils";
 import { WANDER_ERAS, WANDER_POOL_SIZE } from "@/lib/game/wander/constants";
 import type { WanderFigure, WanderPools } from "@/lib/game/wander/types";
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";
-import type { Tables } from "@/types/supabase";
+import type { Tables } from "@/types/database.generated";
 
 type ProfileRow = Pick<Tables<"celebs">, "id" | "nickname" | "nickname_en" | "title" | "title_en" | "nationality" | "avatar_url" | "birth_date" | "death_date">;
 type InfluenceRow = Pick<Tables<"celeb_influence">, "celeb_id" | "total_score">;
@@ -43,16 +43,16 @@ function takeDiverse(figures: FigureBase[]): FigureBase[] {
 }
 
 async function fetchWanderPools(locale: string): Promise<WanderPools> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
   const [celebRows, influences, spectra] = await Promise.all([
-    selectAllPages<ProfileRow>((from, to) => supabase.from("celebs")
+    selectAllPages<ProfileRow>((from, to) => db.from("celebs")
       .select("id, nickname, nickname_en, title, title_en, nationality, avatar_url, birth_date, death_date")
       .eq("publication_status", "active")
       .in("celeb_tier", [...LISTING_DEFAULT_TIERS]).not("birth_date", "is", null)
       .order("id").range(from, to).overrideTypes<ProfileRow[], { merge: false }>()),
-    selectAllPages<InfluenceRow>((from, to) => supabase.from("celeb_influence")
+    selectAllPages<InfluenceRow>((from, to) => db.from("celeb_influence")
       .select("celeb_id, total_score").order("celeb_id").range(from, to)),
-    selectAllPages<SpectrumRow>((from, to) => supabase.from("celeb_persona")
+    selectAllPages<SpectrumRow>((from, to) => db.from("celeb_persona")
       .select("celeb_id, command, martial, intellect, charm").order("celeb_id").range(from, to)),
   ]);
   const influenceMap = new Map(influences.map((row) => [row.celeb_id, row.total_score ?? 0]));
@@ -80,7 +80,7 @@ async function fetchWanderPools(locale: string): Promise<WanderPools> {
     .filter((figure) => figure.birthYear <= era.end && figure.deathYear >= era.start)
     .sort((a, b) => b.totalScore - a.totalScore)));
   const ids = [...new Set(selected.flat().map((figure) => figure.id))];
-  const dialogues = await selectInChunks<DialogueBriefWithId>(ids, (chunk) => supabase
+  const dialogues = await selectInChunks<DialogueBriefWithId>(ids, (chunk) => db
     .from("celeb_dialogues").select(DIALOGUE_BRIEF_SELECT_WITH_ID).in("celeb_id", chunk)
     .overrideTypes<DialogueBriefWithId[], { merge: false }>());
   const dialogueMap = new Map(dialogues.map((row) => [row.celeb_id, row]));

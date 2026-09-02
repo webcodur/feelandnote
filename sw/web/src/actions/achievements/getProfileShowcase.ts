@@ -2,11 +2,11 @@
 
 import { unstable_cache } from 'next/cache'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 async function fetchProfileShowcase(userId: string): Promise<string[]> {
-  const supabase = createStaticClient()
-  const { data } = await supabase
+  const db = createStaticClient()
+  const { data } = await db
     .from('member_profiles')
     .select('showcase_titles')
     .eq('id', userId)

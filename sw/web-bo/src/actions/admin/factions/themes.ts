@@ -11,7 +11,7 @@
  */
 
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { factionAdminClient, requireFactionAdmin } from '@/lib/faction-db'
 import {
   getTag, getTagCelebs, getTags, type CelebTag, type CelebTagAssignment,
@@ -81,13 +81,13 @@ interface ThemeMemberStats {
  * 옛 `get_tag_celeb_counts` RPC는 수동 배정만 세어 제작 인물을 누락하므로 쓰지 않는다.
  */
 async function getThemeMemberStats(): Promise<Map<string, ThemeMemberStats>> {
-  const supabase = await createClient()
+  const db = await createClient()
   const rows = await selectAllPages<{
     tag_id: string
     celeb_id: string
     faction_image_url: string | null
   }>((from, to) =>
-    supabase.from('faction_atlas_members')
+    db.from('faction_atlas_members')
       .select('tag_id,celeb_id,faction_image_url')
       .order('tag_id').order('celeb_id').range(from, to))
 
@@ -204,13 +204,13 @@ export async function resolveFactionEditTarget(param: string): Promise<FactionEd
   const { data: ep } = await db.from('faction_episodes').select('folder').eq('folder', key).maybeSingle()
   if (ep) return { kind: 'episode', folder: ep.folder as string }
 
-  const supabase = await createClient()
+  const sessionDb = await createClient()
   let tagId: string | null = null
-  const { data: bySlug } = await supabase.from('celeb_tags').select('id').eq('slug', key).maybeSingle()
+  const { data: bySlug } = await sessionDb.from('celeb_tags').select('id').eq('slug', key).maybeSingle()
   if (bySlug) {
     tagId = bySlug.id
   } else if (UUID_RE.test(key)) {
-    const { data: byId } = await supabase.from('celeb_tags').select('id').eq('id', key).maybeSingle()
+    const { data: byId } = await sessionDb.from('celeb_tags').select('id').eq('id', key).maybeSingle()
     if (byId) tagId = byId.id
   }
   if (!tagId) return null

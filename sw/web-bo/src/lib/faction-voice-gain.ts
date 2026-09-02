@@ -21,7 +21,7 @@
  * 언어는 가르지 않는다: 음량은 보이스의 성질이라 국문 자리든 영문 자리든 그 보이스를 쓰면 대상이다.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
 import { FACTION_VOICE_FIELDS } from './faction-sync/types'
 
@@ -72,7 +72,7 @@ function numberOrUndefined(v: unknown): number | undefined {
 }
 
 async function inChunks(
-  db: SupabaseClient, table: string, col: string, values: string[], select: string,
+  db: DatabaseClient, table: string, col: string, values: string[], select: string,
 ): Promise<Row[]> {
   const out: Row[] = []
   for (let i = 0; i < values.length; i += IN_CHUNK) {
@@ -91,7 +91,7 @@ async function inChunks(
  * @param dryRun         켜면 아무것도 쓰지 않고 명단만 돌려준다
  */
 export async function applyVoiceGainToPeople(
-  db: SupabaseClient,
+  db: DatabaseClient,
   { voiceId, gainDb, previousGainDb, dryRun = false }: {
     voiceId: string
     gainDb?: number

@@ -12,7 +12,7 @@
 */
 
 import { NextResponse } from 'next/server'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { countRecentTitleMentions } from '@feelandnote/content-search/naver-news'
 import { getKSTDateKey } from '@/lib/game/date-seed'
@@ -37,18 +37,15 @@ function calcSeed(dateStr: string): number {
   return dateStr.split('-').reduce((acc, n) => acc + parseInt(n), 0) + 1
 }
 
-/** 이 라우트가 만드는 클라이언트 그대로. createClient의 제네릭 기본값과 어긋나지 않게 묶는다 */
-type Supabase = SupabaseClient
-
 /** 인물별 공개 기록 수 */
 async function countPublicContents(
-  supabase: Supabase,
+  db: DatabaseClient,
   ids: string[],
 ): Promise<Map<string, number>> {
   const counts = new Map<string, number>()
   if (ids.length === 0) return counts
 
-  const { data } = await supabase
+  const { data } = await db
     .from('celeb_contents')
     .select('celeb_id')
     .in('celeb_id', ids)
@@ -68,10 +65,10 @@ async function countPublicContents(
  * 매일 물으면 외부 API를 그만큼 두드린다. 기록이 많은 순으로 상한을 둔다.
  */
 async function pickNewsCeleb(
-  supabase: Supabase,
+  db: DatabaseClient,
   today: string,
 ): Promise<{ id: string; mentions: number } | null> {
-  const { data: alive } = await supabase
+  const { data: alive } = await db
     .from('celebs')
     .select('id, nickname')
     .eq('publication_status', 'active')
@@ -86,7 +83,7 @@ async function pickNewsCeleb(
   const since = new Date(Date.parse(`${today}T00:00:00Z`) - RECENT_EXCLUSION_DAYS * 86400000)
     .toISOString()
     .slice(0, 10)
-  const { data: recent } = await supabase
+  const { data: recent } = await db
     .from('daily_figures')
     .select('celeb_id')
     .gte('date', since)
@@ -96,7 +93,7 @@ async function pickNewsCeleb(
   if (fresh.length === 0) return null
 
   // 기록이 많은 순으로 후보를 자른다(동수는 id 순으로 고정)
-  const counts = await countPublicContents(supabase, fresh.map((r) => r.id))
+  const counts = await countPublicContents(db, fresh.map((r) => r.id))
   const candidates = [...fresh]
     .sort((a, b) => {
       const diff = (counts.get(b.id) ?? 0) - (counts.get(a.id) ?? 0)
@@ -122,10 +119,10 @@ async function pickNewsCeleb(
 }
 
 /** 오늘 생일인 인물 중 기록이 많은 한 명. 없으면 null */
-async function pickBirthdayCeleb(supabase: Supabase, today: string): Promise<string | null> {
+async function pickBirthdayCeleb(db: DatabaseClient, today: string): Promise<string | null> {
   const monthDay = today.slice(5) // "MM-DD"
 
-  const { data } = await supabase
+  const { data } = await db
     .from('celebs')
     .select('id')
     .eq('publication_status', 'active')
@@ -136,7 +133,7 @@ async function pickBirthdayCeleb(supabase: Supabase, today: string): Promise<str
   const ids = ((data ?? []) as { id: string }[]).map((c) => c.id)
   if (ids.length === 0) return null
 
-  const counts = await countPublicContents(supabase, ids)
+  const counts = await countPublicContents(db, ids)
   const sorted = [...ids].sort((a, b) => {
     const diff = (counts.get(b) ?? 0) - (counts.get(a) ?? 0)
     return diff !== 0 ? diff : a.localeCompare(b)
@@ -150,9 +147,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  const db = createClient(
+    process.env.NEXT_PUBLIC_DB_API_URL!,
+    process.env.DB_SECRET_KEY!,
     { auth: { autoRefreshToken: false, persistSession: false } }
   )
 
@@ -165,20 +162,20 @@ export async function GET(request: Request) {
   let newsCount = 0
 
   // 1. 뉴스 — 오늘 실제로 화제인 사람
-  const news = await pickNewsCeleb(supabase, today)
+  const news = await pickNewsCeleb(db, today)
   if (news) {
     selectedId = news.id
     source = 'news'
     newsCount = news.mentions
   } else {
     // 2. 생일
-    const birthday = await pickBirthdayCeleb(supabase, today)
+    const birthday = await pickBirthdayCeleb(db, today)
     if (birthday) {
       selectedId = birthday
       source = 'birthday'
     } else {
       // 3. 시드
-      const { data: celebProfiles } = await supabase
+      const { data: celebProfiles } = await db
         .from('celebs')
         .select('id')
         .eq('publication_status', 'active')
@@ -194,7 +191,7 @@ export async function GET(request: Request) {
     }
   }
 
-  const { error: upsertError } = await supabase.from('daily_figures').upsert(
+  const { error: upsertError } = await db.from('daily_figures').upsert(
     {
       date: today,
       celeb_id: selectedId,

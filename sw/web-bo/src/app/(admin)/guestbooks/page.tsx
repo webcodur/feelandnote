@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: '방명록',
@@ -16,9 +16,9 @@ export default async function GuestbooksPage({
   const filter = params.filter || ''
   const perPage = 20
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  let memberQuery = supabase
+  let memberQuery = db
     .from('member_guestbook_entries')
     .select(
       `
@@ -36,7 +36,7 @@ export default async function GuestbooksPage({
     )
     .order('created_at', { ascending: false })
 
-  let celebQuery = supabase
+  let celebQuery = db
     .from('celeb_guestbook_entries')
     .select(
       `
@@ -116,19 +116,19 @@ export default async function GuestbooksPage({
 
   // 통계
   const [memberPrivate, celebPrivate, memberUnread, celebUnread] = await Promise.all([
-    supabase
+    db
       .from('member_guestbook_entries')
       .select('*', { count: 'exact', head: true })
       .eq('is_private', true),
-    supabase
+    db
       .from('celeb_guestbook_entries')
       .select('*', { count: 'exact', head: true })
       .eq('is_private', true),
-    supabase
+    db
       .from('member_guestbook_entries')
       .select('*', { count: 'exact', head: true })
       .eq('is_read', false),
-    supabase
+    db
       .from('celeb_guestbook_entries')
       .select('*', { count: 'exact', head: true })
       .eq('is_read', false),

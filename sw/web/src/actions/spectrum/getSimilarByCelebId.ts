@@ -2,7 +2,7 @@
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, cachedList, cachedDetail, throwOnQueryError } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { getReviewCelebIdsCached } from './reviewCelebIds'
 import type { SpectrumJsonb, SpectrumProfile, SpectrumStats } from '@/lib/spectrum/types'
@@ -161,9 +161,9 @@ function columnsToStats(row: SpectrumColumnRow): SpectrumStats {
 // 페이지가 셋이라 2,579ms가 걸렸다. 조인 조건으로 미리 좁히면 페이지가 둘로 줄어
 // 712ms다(실측 26.08.14, 결과 행 수는 동일).
 async function fetchAllSpectrumVectors(): Promise<SpectrumVectorRow[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const rows = await selectAllPages<SpectrumColumnRow>((from, to) =>
-    supabase
+    db
       .from('celeb_persona')
       .select(`
         celeb_id, ${SPECTRUM_STAT_KEYS.join(', ')},
@@ -200,8 +200,8 @@ const getAllSpectrumVectorsCached = () =>
 // 대상 셀럽 1명분: 레이더 근거(rationale/reason) 표시를 위해 spectrum jsonb 원본과
 // 생몰일·title까지 포함해 단건 조회한다. 1행이라 캐시 한도와 무관하다.
 async function fetchSpectrumByCelebId(celebId: string): Promise<SpectrumJoinRow | null> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celeb_persona')
     .select(`
       celeb_id, spectrum:persona,

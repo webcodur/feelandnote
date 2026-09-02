@@ -1,19 +1,19 @@
 'use server'
 
 // egress-allow: notes는 본인 전용 RLS — anon 전환 시 빈 결과라 캐시 분리 불가
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import type { Note } from './types'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 export async function getNoteByContentId(contentId: string): Promise<ActionResult<Note | null>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('notes')
     .select(`
       *,
@@ -34,7 +34,7 @@ export async function getNoteByContentId(contentId: string): Promise<ActionResul
 
   if (error) {
     if (error.code === 'PGRST116') return success(null)
-    return handleSupabaseError(error, { context: 'note', logPrefix: '[노트 조회]' })
+    return handleDatabaseError(error, { context: 'note', logPrefix: '[노트 조회]' })
   }
 
   // sections 정렬

@@ -68,12 +68,12 @@ async function main() {
   if (!batchPath) throw new Error('배치 JSON 경로를 인자로 넘겨라')
 
   loadEnv(boPath('.env'))
-  for (const k of ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET_NAME', 'R2_PUBLIC_URL', 'NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY']) {
+  for (const k of ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET_NAME', 'R2_PUBLIC_URL', 'NEXT_PUBLIC_DB_API_URL', 'DB_SECRET_KEY']) {
     if (!process.env[k]) throw new Error(`.env에 ${k} 누락`)
   }
   const {
     R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME,
-    R2_PUBLIC_URL, NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
+    R2_PUBLIC_URL, NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY,
   } = process.env as Record<string, string>
 
   const s3 = new S3Client({
@@ -81,14 +81,14 @@ async function main() {
     endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
     credentials: { accessKeyId: R2_ACCESS_KEY_ID, secretAccessKey: R2_SECRET_ACCESS_KEY },
   })
-  const sb = createClient(NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+  const db = createClient(NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY)
 
   const rows: Row[] = JSON.parse(readFileSync(batchPath, 'utf-8'))
   const done: { slug: string; url: string }[] = []
 
   for (const r of rows) {
     // 대상이 실제로 그 인물인지 확인한 뒤에만 쓴다(id-slug 불일치 방지)
-    const { data: person, error: findErr } = await sb
+    const { data: person, error: findErr } = await db
       .from('celebs').select('id, slug, nickname').eq('id', r.celeb_id).single()
     if (findErr || !person) { console.error(`[${r.slug}] 인물 조회 실패`); continue }
     if (person.slug !== r.slug) { console.error(`[${r.slug}] slug 불일치(DB: ${person.slug}) — 건너뜀`); continue }
@@ -105,7 +105,7 @@ async function main() {
     }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
 
-    const { error } = await sb.from('celebs').update({ portrait_url: url }).eq('id', r.celeb_id)
+    const { error } = await db.from('celebs').update({ portrait_url: url }).eq('id', r.celeb_id)
     if (error) { console.error(`[${r.slug}] 갱신 실패`, error.message); continue }
 
     done.push({ slug: r.slug, url })

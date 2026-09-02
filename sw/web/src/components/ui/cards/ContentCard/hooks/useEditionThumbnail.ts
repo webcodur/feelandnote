@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 
 // 모듈 레벨 상태 (싱글톤)
 let thumbQueue: string[] = [];
@@ -34,8 +34,8 @@ function requestThumbnailEn(contentId: string): Promise<string | null> {
         thumbTimer = null;
 
         try {
-          const supabase = createClient();
-          const { data } = await supabase
+          const db = createClient();
+          const { data } = await db
             .from("content_locales")
             .select("content_id, thumbnail_url")
             .in("content_id", ids)

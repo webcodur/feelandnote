@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 export interface ContentCounts {
   celebCount: number
@@ -14,9 +14,9 @@ export interface ContentCounts {
 // 파생 개수의 원천은 contents의 도메인별 count 열이다.
 // 캐시 inner: 정렬된 id 목록 문자열만 받아 캐시 키를 안정화한다
 async function fetchCelebCounts(idsKey: string): Promise<Record<string, ContentCounts>> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('contents')
     .select('content_id:id, celeb_count, user_count:member_count')
     .in('id', idsKey.split(','))

@@ -1,17 +1,17 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import { TITLES } from '@/constants/titles'
 import { getUserStats } from './getAchievementData'
 
 const MAX_SHOWCASE = 3
 
 export async function updateShowcaseTitles(titleCodes: string[]): Promise<ActionResult<void>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) return failure('UNAUTHORIZED', '로그인이 필요하다')
 
   if (titleCodes.length > MAX_SHOWCASE) {
@@ -20,7 +20,7 @@ export async function updateShowcaseTitles(titleCodes: string[]): Promise<Action
 
   // 해금 여부 검증
   if (titleCodes.length > 0) {
-    const stats = await getUserStats(supabase, user.id)
+    const stats = await getUserStats(db, user.id)
     for (const code of titleCodes) {
       const title = TITLES.find(t => t.code === code)
       if (!title) return failure('NOT_FOUND', `존재하지 않는 칭호: ${code}`)
@@ -33,12 +33,12 @@ export async function updateShowcaseTitles(titleCodes: string[]): Promise<Action
   // showcase_titles + selected_title(첫 번째 항목) 동시 업데이트
   const selectedTitle = titleCodes[0] || null
 
-  const { error } = await supabase
+  const { error } = await db
     .from('member_profiles')
     .update({ showcase_titles: titleCodes, selected_title: selectedTitle })
     .eq('id', user.id)
 
-  if (error) return handleSupabaseError(error, { logPrefix: '[updateShowcase]' })
+  if (error) return handleDatabaseError(error, { logPrefix: '[updateShowcase]' })
 
   revalidatePath(`/${user.id}`)
   revalidatePath(`/${user.id}/merits`)

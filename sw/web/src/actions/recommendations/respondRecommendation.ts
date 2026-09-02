@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import { createNotification } from "@/actions/notifications";
 import { revalidatePath } from "next/cache";
 import type { RespondRecommendationParams } from "@/types/recommendation";
@@ -15,17 +15,17 @@ interface RespondRecommendationData {
 export async function respondRecommendation(
   params: RespondRecommendationParams
 ): Promise<ActionResult<RespondRecommendationData>> {
-  const supabase = await createClient();
+  const db = await createClient();
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await db.auth.getUser();
   if (!user) {
     return failure("UNAUTHORIZED");
   }
 
   // 1. 추천 조회 (본인이 수신자인지 확인)
-  const { data: recommendation, error: fetchError } = await supabase
+  const { data: recommendation, error: fetchError } = await db
     .from("content_recommendations")
     .select(
       `
@@ -57,7 +57,7 @@ export async function respondRecommendation(
   const newStatus = params.accept ? "accepted" : "declined";
 
   // 2. 추천 상태 업데이트
-  const { error: updateError } = await supabase
+  const { error: updateError } = await db
     .from("content_recommendations")
     .update({
       status: newStatus,
@@ -96,7 +96,7 @@ export async function respondRecommendation(
 
     if (content) {
       // 이미 추가된 콘텐츠인지 확인
-      const { data: existingContent } = await supabase
+      const { data: existingContent } = await db
         .from("member_contents")
         .select("id")
         .eq("member_id", user.id)
@@ -105,7 +105,7 @@ export async function respondRecommendation(
 
       if (!existingContent || existingContent.length === 0) {
         // 콘텐츠가 없으면 회원 서재에 추가한다.
-        const { data: newContent, error: insertError } = await supabase
+        const { data: newContent, error: insertError } = await db
           .from("member_contents")
           .insert({
             member_id: user.id,
@@ -126,7 +126,7 @@ export async function respondRecommendation(
   if (params.accept) {
     const locale = await getLocale();
     const t = await getTranslations({ locale, namespace: "notificationMessages" });
-    const { data: receiverProfile } = await supabase
+    const { data: receiverProfile } = await db
       .from("member_profiles")
       .select("nickname")
       .eq("id", user.id)

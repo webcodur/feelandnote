@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 
 export interface YoutubeVideoEntry {
@@ -20,9 +20,9 @@ export interface YoutubeCeleb {
 }
 
 async function fetchYoutubeCelebsPublic(): Promise<YoutubeCeleb[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celebs')
     .select('slug, nickname, nickname_en, avatar_url, youtube_videos')
     .eq('publication_status', 'active')

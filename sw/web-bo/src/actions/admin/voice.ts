@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import { uploadToR2, deleteFromR2, R2_PUBLIC_URL } from '@/lib/r2'
 import {
@@ -34,8 +34,8 @@ export async function toggleHasVoice(
   value: boolean,
 ): Promise<{ success: boolean; error?: string }> {
   await requireAdmin()
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('celebs')
     .update({ has_voice: value })
     .eq('id', celebId)
@@ -56,8 +56,8 @@ export async function getVoiceStatus(celebId: string): Promise<{
   voiceV: number
   files: Record<string, boolean>
 }> {
-  const supabase = await createClient()
-  const { data, error } = await supabase
+  const db = await createClient()
+  const { data, error } = await db
     .from('celebs')
     .select('has_voice, voice_v')
     .eq('id', celebId)
@@ -111,8 +111,8 @@ export async function deleteAllVoiceFiles(celebId: string): Promise<{ success: b
     keys.push(voiceR2Key(celebId, locale, 'quote.mp3'))
   }
 
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('celebs')
     .update({ has_voice: false, voice_v: 0 })
     .eq('id', celebId)

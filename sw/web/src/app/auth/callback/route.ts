@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { getAccountAccessState } from '@/lib/auth/account-access'
 import type { EmailOtpType } from '@supabase/supabase-js'
 
@@ -20,11 +20,11 @@ export async function GET(request: NextRequest) {
     )
   }
 
-  const supabase = await createClient()
+  const db = await createClient()
 
   // #region 이메일 확인 흐름 (token_hash 파라미터가 있는 경우)
   if (tokenHash && type) {
-    const { data, error: verifyError } = await supabase.auth.verifyOtp({
+    const { data, error: verifyError } = await db.auth.verifyOtp({
       type,
       token_hash: tokenHash
     })
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (data.user) {
-      const accessRedirect = await getAccountAccessRedirect(supabase, origin)
+      const accessRedirect = await getAccountAccessRedirect(db, origin)
       if (accessRedirect) return accessRedirect
 
       // 비밀번호 리셋인 경우 리셋 페이지로 이동
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
 
   // #region OAuth 흐름 (code 파라미터가 있는 경우)
   if (code) {
-    const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+    const { data, error: exchangeError } = await db.auth.exchangeCodeForSession(code)
 
     if (exchangeError) {
       console.error('[OAuth Callback] Exchange code error:', {
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (data.user) {
-      const accessRedirect = await getAccountAccessRedirect(supabase, origin)
+      const accessRedirect = await getAccountAccessRedirect(db, origin)
       if (accessRedirect) return accessRedirect
       const redirectPath = nextParam ?? `/${data.user.id}/reading`
       return NextResponse.redirect(`${origin}${redirectPath}`)
@@ -72,10 +72,10 @@ export async function GET(request: NextRequest) {
   // #endregion
 
   // #region 세션이 이미 설정된 경우 (Auth /verify에서 리다이렉트)
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
 
   if (user) {
-    const accessRedirect = await getAccountAccessRedirect(supabase, origin)
+    const accessRedirect = await getAccountAccessRedirect(db, origin)
     if (accessRedirect) return accessRedirect
     const redirectPath = nextParam ?? `/${user.id}/reading`
     return NextResponse.redirect(`${origin}${redirectPath}`)
@@ -86,13 +86,13 @@ export async function GET(request: NextRequest) {
 }
 
 async function getAccountAccessRedirect(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  db: Awaited<ReturnType<typeof createClient>>,
   origin: string
 ): Promise<NextResponse | null> {
-  const accessState = await getAccountAccessState(supabase)
+  const accessState = await getAccountAccessState(db)
   if (accessState === 'active') return null
 
-  await supabase.auth.signOut({ scope: 'local' })
+  await db.auth.signOut({ scope: 'local' })
   const error = accessState === 'blocked'
     ? 'account_suspended'
     : accessState === 'incomplete'

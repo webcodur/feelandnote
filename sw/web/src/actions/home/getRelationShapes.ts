@@ -16,7 +16,7 @@ import { unstable_cache } from 'next/cache'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { parseCelebDate } from '@/lib/celeb/lifespan'
 import {
   buildRelationCircles,
@@ -81,10 +81,10 @@ export interface RelationShapes {
 }
 
 async function fetchShapeRelations(): Promise<RelationRow[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   // 1,000행 상한에 걸리므로 나눠 받는다. 자르면 그래프가 조용히 성긴다.
   return await selectAllPages<RelationRow>((from, to) =>
-    supabase
+    db
       .from('celeb_relations')
       .select('from_id, to_id, rel_type')
       .in('rel_type', SHAPE_REL_TYPES)
@@ -96,9 +96,9 @@ async function fetchShapeRelations(): Promise<RelationRow[]> {
 }
 
 async function fetchShapeCelebs(): Promise<CelebRow[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   return await selectAllPages<CelebRow>((from, to) =>
-    supabase
+    db
       .from('celebs')
       .select('id, slug, nickname, nickname_en, avatar_url, title, title_en, birth_date, celeb_tier')
       .eq('publication_status', 'active')

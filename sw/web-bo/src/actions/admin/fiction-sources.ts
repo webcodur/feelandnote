@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { requireAdmin } from '@/lib/admin-auth'
 import { revalidateWebItems } from '@/lib/revalidate-web'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 
 export interface FictionSourceContentSummary {
   id: string

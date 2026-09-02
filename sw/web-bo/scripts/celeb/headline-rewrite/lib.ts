@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 
 export const LANE_COUNT = 20
 export const HEADLINE_REVIEW_VERSION = 2
@@ -138,15 +138,15 @@ export function toPack(row: CelebRow): PackPerson {
   }
 }
 
-export function connectDb(): SupabaseClient {
+export function connectDb(): DatabaseClient {
   config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 없음')
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.DB_SECRET_KEY
+  if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 없음')
   return createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 }
 
-export async function fetchCelebs(db: SupabaseClient): Promise<CelebRow[]> {
+export async function fetchCelebs(db: DatabaseClient): Promise<CelebRow[]> {
   const out: CelebRow[] = []
   const select =
     'id, slug, nickname, headline, headline_en, title, title_en, celeb_tier, publication_status'

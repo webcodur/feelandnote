@@ -1,7 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { FeedbackWithAuthor, FeedbackCategory, FeedbackStatus } from '@/types/database'
 import type { Locale } from '@/types/locale'
 import { attachMemberAuthors } from '@/lib/board/memberProfiles'
@@ -21,9 +21,9 @@ async function fetchFeedbacks(
   limit: number,
   offset: number,
 ) {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  let query = supabase
+  let query = db
     .from('feedbacks')
     .select('*', { count: 'exact' })
     .eq('locale', locale)
@@ -45,12 +45,12 @@ async function fetchFeedbacks(
     throw new Error('피드백을 불러오는데 실패했습니다')
   }
 
-  const hydrated = await attachMemberAuthors(supabase, data ?? [])
+  const hydrated = await attachMemberAuthors(db, data ?? [])
   const feedbacks = hydrated as FeedbackWithAuthor[]
 
   if (feedbacks.length > 0) {
     const ids = feedbacks.map(f => f.id)
-    const { data: counts } = await supabase
+    const { data: counts } = await db
       .from('board_comments')
       .select('post_id')
       .eq('board_type', 'FEEDBACK')

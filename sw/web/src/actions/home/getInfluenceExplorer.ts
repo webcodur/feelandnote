@@ -10,7 +10,7 @@ import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 
 import { STATIC_REVALIDATE } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { calculatePercentile } from "@/constants/materials";
 import { resolveLocale, type Locale } from "@/types/locale";
 
@@ -70,12 +70,12 @@ export interface InfluenceExplorerData {
 }
 
 async function fetchInfluenceExplorerRows(): Promise<InfluenceExplorerRow[]> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   // 순위와 분야별 선두는 같은 공개 인물 모집단에서 계산한다. PostgREST의
   // 1,000행 상한을 넘겨도 조용히 잘리지 않도록 고유 2차 키로 전량 페이징한다.
   return selectAllPages<InfluenceExplorerRow>((from, to) =>
-    supabase
+    db
       .from("celeb_influence")
       .select(`
         celeb_id,

@@ -3,8 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { requireAdmin } from '@/lib/admin-auth'
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { assertRemotionLocal, REMOTION_LOCAL } from '@/lib/remotion-local'
 import {
   listEpisodes, readEpisode, writeEpisode,
@@ -32,9 +32,9 @@ function roleOf(row: CelebRow): string {
 }
 
 async function loadCelebs(): Promise<CelebRow[]> {
-  const supabase = await createClient()
+  const db = await createClient()
   return selectAllPages<CelebRow>((from, to) =>
-    supabase
+    db
       .from('celebs')
       .select('slug, nickname, headline, title')
       .in('publication_status', ['active', 'inactive'])
@@ -129,8 +129,8 @@ export async function getBookPersonEpisode(folder: string): Promise<{
     fetchRegisteredBooks(folder),
   ])
   if (draft) return { script: draft, hasDraft: true, registeredBooks }
-  const supabase = await createClient()
-  const { data, error } = await supabase
+  const db = await createClient()
+  const { data, error } = await db
     .from('celebs')
     .select('slug, nickname, headline, title')
     .eq('slug', folder)

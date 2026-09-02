@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../..');
 const env = fs.readFileSync(path.join(ROOT,'sw/web/.env'),'utf8');
 const get = (k)=> (env.match(new RegExp('^'+k+'=(.*)','m'))||[])[1]?.trim();
-const url=get('NEXT_PUBLIC_SUPABASE_URL');
-const key=get('SUPABASE_SERVICE_ROLE_KEY');
+const url=get('NEXT_PUBLIC_DB_API_URL');
+const key=get('DB_SECRET_KEY');
 import {createClient} from '../../../web/node_modules/@supabase/supabase-js/dist/index.mjs';
 const sup=createClient(url,key);
 

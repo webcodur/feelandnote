@@ -7,7 +7,7 @@
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { cachedList } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 
 /**
@@ -19,9 +19,9 @@ import { selectAllPages } from '@feelandnote/shared/lib/paginate'
  * (실측 26.08.14: 645ms 대 3,647ms, 양쪽 모두 1,717명으로 일치).
  */
 async function fetchReviewCelebIds(): Promise<string[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const rows = await selectAllPages<{ celeb_id: string }>((from, to) =>
-    supabase
+    db
       .from('celeb_metrics')
       .select('celeb_id')
       .gt('content_count', 0)

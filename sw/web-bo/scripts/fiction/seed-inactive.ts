@@ -24,7 +24,7 @@
 
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '../../src/lib/celeb-slug'
 import {
   type InactiveFictionSeedPerson,
@@ -81,7 +81,7 @@ const normalizedIdentity = (value: string | null) => (
 )
 
 async function allRows<T>(
-  client: SupabaseClient,
+  client: DatabaseClient,
   table: string,
   select: string,
 ): Promise<T[]> {
@@ -99,7 +99,7 @@ async function allRows<T>(
 }
 
 async function cleanupFailedBatch(
-  client: SupabaseClient,
+  client: DatabaseClient,
   createdCelebIds: string[],
   createdAssignmentIds: string[],
   cause: unknown,
@@ -126,7 +126,7 @@ async function cleanupFailedBatch(
 }
 
 async function verifyApplied(
-  client: SupabaseClient,
+  client: DatabaseClient,
   tagId: string,
   applied: PlannedSeed[],
 ) {
@@ -181,8 +181,8 @@ async function verifyApplied(
 async function main() {
   const file = argValue('--file')
   if (!file) throw new Error('--file <명세.json>이 필요합니다.')
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error('NEXT_PUBLIC_SUPABASE_URL과 SUPABASE_SERVICE_ROLE_KEY가 필요합니다.')
+  if (!process.env.NEXT_PUBLIC_DB_API_URL || !process.env.DB_SECRET_KEY) {
+    throw new Error('NEXT_PUBLIC_DB_API_URL과 DB_SECRET_KEY가 필요합니다.')
   }
 
   const manifest = parseInactiveFictionSeedManifest(
@@ -190,8 +190,8 @@ async function main() {
   )
   const apply = process.argv.includes('--apply')
   const client = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    process.env.NEXT_PUBLIC_DB_API_URL,
+    process.env.DB_SECRET_KEY,
     { auth: { autoRefreshToken: false, persistSession: false } },
   )
 

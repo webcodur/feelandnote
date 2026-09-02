@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import { createNotification } from "@/actions/notifications";
 import type { SendRecommendationParams } from "@/types/recommendation";
 import { type ActionResult, failure, success } from "@/lib/errors";
@@ -14,17 +14,17 @@ interface SendRecommendationData {
 export async function sendRecommendation(
   params: SendRecommendationParams
 ): Promise<ActionResult<SendRecommendationData>> {
-  const supabase = await createClient();
+  const db = await createClient();
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await db.auth.getUser();
   if (!user) {
     return failure("UNAUTHORIZED");
   }
 
   // 1. 차단 관계 확인
-  const { data: blockData } = await supabase
+  const { data: blockData } = await db
     .from("blocks")
     .select("id")
     .or(
@@ -37,7 +37,7 @@ export async function sendRecommendation(
   }
 
   // 2. 회원 감상 기록 조회 (본인 소유인지 확인)
-  const { data: userContent, error: contentError } = await supabase
+  const { data: userContent, error: contentError } = await db
     .from("member_contents")
     .select(
       `
@@ -63,7 +63,7 @@ export async function sendRecommendation(
   }
 
   // 3. 중복 추천 확인
-  const { data: existingRecommendation } = await supabase
+  const { data: existingRecommendation } = await db
     .from("content_recommendations")
     .select("id")
     .eq("sender_id", user.id)
@@ -76,7 +76,7 @@ export async function sendRecommendation(
   }
 
   // 4. 추천 생성
-  const { data: recommendation, error: insertError } = await supabase
+  const { data: recommendation, error: insertError } = await db
     .from("content_recommendations")
     .insert({
       sender_id: user.id,
@@ -93,7 +93,7 @@ export async function sendRecommendation(
   }
 
   // 5. 발신자 프로필 조회
-  const { data: senderProfile } = await supabase
+  const { data: senderProfile } = await db
     .from("member_profiles")
     .select("nickname")
     .eq("id", user.id)

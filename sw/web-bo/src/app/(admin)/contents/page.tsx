@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: '콘텐츠 관리',
@@ -28,15 +28,15 @@ export default async function ContentsPage({ searchParams }: PageProps) {
   const limit = 20
   const offset = (page - 1) * limit
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  let query = supabase
+  let query = db
     .from('contents')
     .select('*', { count: 'exact' })
 
   if (search) {
     const searchTerm = `%${search}%`
-    const { data: matchIds, error: searchError } = await supabase
+    const { data: matchIds, error: searchError } = await db
       .from('content_locales')
       .select('content_id')
       .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
@@ -75,8 +75,8 @@ export default async function ContentsPage({ searchParams }: PageProps) {
   const contentIds = (contents || []).map(c => c.id)
   const [memberCountResult, celebCountResult] = contentIds.length > 0
     ? await Promise.all([
-        supabase.from('member_contents').select('content_id').in('content_id', contentIds),
-        supabase.from('celeb_contents').select('content_id').in('content_id', contentIds),
+        db.from('member_contents').select('content_id').in('content_id', contentIds),
+        db.from('celeb_contents').select('content_id').in('content_id', contentIds),
       ])
     : [{ data: [], error: null }, { data: [], error: null }]
 
@@ -98,7 +98,7 @@ export default async function ContentsPage({ searchParams }: PageProps) {
 
   // 로케일 조회 (전 타입)
   const { data: editions, error: editionsError } = contentIds.length > 0
-    ? await supabase
+    ? await db
         .from('content_locales')
         .select('content_id, locale, title, creator, isbn, thumbnail_url, publisher')
         .in('content_id', contentIds)

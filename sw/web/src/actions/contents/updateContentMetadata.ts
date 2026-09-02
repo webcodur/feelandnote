@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 interface UpdateContentMetadataParams {
   id: string
@@ -12,12 +12,12 @@ interface UpdateContentMetadataParams {
 export async function batchUpdateContentMetadata(
   items: UpdateContentMetadataParams[]
 ) {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 병렬로 업데이트
   const results = await Promise.allSettled(
     items.map((item) =>
-      supabase
+      db
         .from('contents')
         .update({
           metadata: item.metadata,

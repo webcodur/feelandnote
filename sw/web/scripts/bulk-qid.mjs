@@ -11,13 +11,13 @@
  */
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-if (!SUPABASE_URL || !SUPABASE_KEY) {
-  console.error("NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 환경변수 필요");
+const DB_API_URL = process.env.NEXT_PUBLIC_DB_API_URL;
+const DB_KEY = process.env.DB_SECRET_KEY;
+if (!DB_API_URL || !DB_KEY) {
+  console.error("NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 환경변수 필요");
   process.exit(1);
 }
-const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = createClient(DB_API_URL, DB_KEY);
 
 const DELAY_MS = 300;
 const BIRTH_TOLERANCE = 3; // ±3년
@@ -134,7 +134,7 @@ async function findVerifiedQid(name, dbBirthYear) {
 
 // --- 메인 ---
 async function main() {
-  const { data: celebs, error } = await sb
+  const { data: celebs, error } = await db
     .from("celebs")
     .select("id, nickname, nickname_en, birth_date")
     .eq("publication_status", "active")
@@ -160,7 +160,7 @@ async function main() {
     const { qid, reason } = await findVerifiedQid(c.nickname_en, dbYear);
 
     if (qid) {
-      const { error: upErr } = await sb
+      const { error: upErr } = await db
         .from("celebs")
         .update({ wikidata_qid: qid })
         .eq("id", c.id);

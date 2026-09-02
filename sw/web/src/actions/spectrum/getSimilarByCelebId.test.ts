@@ -7,7 +7,7 @@ const actionSource = readFileSync(
   'utf8',
 )
 const migrationSource = readFileSync(
-  new URL('../../../supabase/migrations/20260825090000_add_spectrum_list_revalidation.sql', import.meta.url),
+  new URL('../../../database/migrations/20260825090000_add_spectrum_list_revalidation.sql', import.meta.url),
   'utf8',
 )
 

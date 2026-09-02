@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: '플레이리스트',
@@ -16,9 +16,9 @@ export default async function PlaylistsPage({
   const visibilityFilter = params.visibility || ''
   const perPage = 24
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  let query = supabase
+  let query = db
     .from('flows')
     .select(
       `
@@ -55,7 +55,7 @@ export default async function PlaylistsPage({
   const total = count || 0
   const totalPages = Math.ceil(total / perPage)
 
-  const { count: publicCount, error: publicCountError } = await supabase
+  const { count: publicCount, error: publicCountError } = await db
     .from('flows')
     .select('*', { count: 'exact', head: true })
     .eq('is_public', true)

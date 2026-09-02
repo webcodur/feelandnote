@@ -65,16 +65,16 @@ function guideSection() {
 
 function db() {
   config({ path: path.join(REPO, 'sw/web-bo/.env'), quiet: true })
-  return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY,
+  return createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY,
     { auth: { autoRefreshToken: false, persistSession: false } })
 }
 
 async function fetchTargets() {
   const file = argOf('targets')
-  const sb = db()
+  const client = db()
   const rows = []
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await sb.from('celebs')
+    const { data, error } = await client.from('celebs')
       .select('id, slug, nickname, headline, headline_en, title, bio')
       .neq('publication_status', 'deleted').order('id').range(from, from + 999)
     if (error) throw new Error(error.message)

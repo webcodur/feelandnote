@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 interface UpdateProfileInput {
   nickname?: string
@@ -12,9 +12,9 @@ interface UpdateProfileInput {
 }
 
 export async function updateProfile(input: UpdateProfileInput): Promise<ActionResult<null>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
   }
@@ -47,13 +47,13 @@ export async function updateProfile(input: UpdateProfileInput): Promise<ActionRe
   if (input.birth_date !== undefined) updateData.birth_date = input.birth_date || null
   if (input.nationality !== undefined) updateData.nationality = input.nationality || null
 
-  const { error } = await supabase
+  const { error } = await db
     .from('member_profiles')
     .update(updateData)
     .eq('id', user.id)
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[프로필 수정]' })
+    return handleDatabaseError(error, { logPrefix: '[프로필 수정]' })
   }
 
   return success(null)

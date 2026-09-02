@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { SpectrumStatsWithReasons } from '@/lib/spectrum/types'
 
 const AXIS_LABELS: Record<string, { ko: string; en: string }> = {
@@ -77,9 +77,9 @@ interface RpcEntry extends Omit<SpectrumExtremeEntry, 'label'> {
 }
 
 async function fetchSpectrumExtremes(runnersUpLimit: number): Promise<SpectrumExtremeEntry[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error } = await supabase.rpc('get_persona_extremes', {
+  const { data, error } = await db.rpc('get_persona_extremes', {
     p_runners_up_limit: runnersUpLimit,
   })
 

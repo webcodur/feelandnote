@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/db/client'
 import { LogOut, User, ChevronDown, Key, Menu } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import ApiKeyManager from '@/components/ApiKeyManager'
@@ -44,8 +44,8 @@ export default function Header({ user }: HeaderProps) {
   }
 
   const handleLogout = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
+    const db = createClient()
+    await db.auth.signOut()
     router.push('/login')
     router.refresh()
   }

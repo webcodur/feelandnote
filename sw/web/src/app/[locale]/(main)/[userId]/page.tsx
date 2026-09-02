@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getUserProfile } from "@/actions/user";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import { PendingBlock } from "@/components/ui/pending";
 import ProfileContent from "./ProfileContent";
 import { GuestbookSection } from "./sections";
@@ -46,10 +46,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function OverviewPage({ params }: PageProps) {
   const { userId } = await params;
-  const supabase = await createClient();
+  const db = await createClient();
   // 프로필 소개는 즉시 그린다. 방명록은 조회·읽음 처리가 붙어 있어 별도 구획(Suspense)으로 뗀다
   const [authResult, profileResult] = await Promise.all([
-    supabase.auth.getUser(),
+    db.auth.getUser(),
     getUserProfile(userId),
   ]);
 

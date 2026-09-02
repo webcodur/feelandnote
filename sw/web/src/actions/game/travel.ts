@@ -17,7 +17,7 @@ import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate";
 import type { AdjacencyEdge, TravelCeleb, TravelGraph } from "@/components/features/game/travel/types";
 
@@ -57,11 +57,11 @@ interface ContentLocaleRow {
 // ──────────────────── 데이터 가져오기 ────────────────────
 
 async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   // 1) 활성 셀럽 프로필
   const celebRows = await selectAllPages<ProfileRow>((from, to) =>
-    supabase
+    db
       .from("celebs")
       .select("id, nickname, nickname_en, slug, nationality, profession, avatar_url")
       .eq("publication_status", "active")
@@ -81,7 +81,7 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
 
   // 2) 세력 태그 배정
   const tagAssignments = await selectAllPages<TagAssignmentRow>((from, to) =>
-    supabase
+    db
       .from("celeb_tag_assignments")
       .select("celeb_id, tag_id")
       .order("id", { ascending: true })
@@ -92,7 +92,7 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   );
 
   // 3) 태그 이름
-  const { data: tags, error: tagError } = await supabase
+  const { data: tags, error: tagError } = await db
     .from("celeb_tags")
     .select("id, name, name_en")
     .order("id", { ascending: true })
@@ -115,7 +115,7 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   const celebIds = [...profileMap.keys()];
   const celebContents = await selectInChunks<CelebContentRow>(celebIds, (chunk) =>
     selectAllPages<CelebContentRow>((from, to) =>
-      supabase
+      db
         .from("celeb_contents")
         .select("celeb_id, content_id")
         .in("celeb_id", chunk)
@@ -133,7 +133,7 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   if (contentIds.length > 0) {
     // 제목은 content_locales에서. in()은 200개 단위로 나눠 조회한다.
     const titleRows = await selectInChunks<ContentLocaleRow>(contentIds, (chunk) =>
-      supabase
+      db
         .from("content_locales")
         .select("content_id, title")
         .in("content_id", chunk)

@@ -55,13 +55,13 @@ async function main() {
     return
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY가 필요합니다.')
+  const dbApiUrl = process.env.NEXT_PUBLIC_DB_API_URL
+  const serviceRoleKey = process.env.DB_SECRET_KEY
+  if (!dbApiUrl || !serviceRoleKey) {
+    throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY가 필요합니다.')
   }
 
-  const db = createClient(supabaseUrl, serviceRoleKey, {
+  const db = createClient(dbApiUrl, serviceRoleKey, {
     auth: { autoRefreshToken: false, persistSession: false },
   })
   const targetPages = await selectAllVerifiedPages<ContentTargetRow>(async (from, to) => {

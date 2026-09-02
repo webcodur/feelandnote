@@ -29,13 +29,13 @@ function loadEnv() {
 }
 loadEnv()
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error('Supabase 환경변수가 없다')
+if (!process.env.NEXT_PUBLIC_DB_API_URL || !process.env.DB_SECRET_KEY) {
+  throw new Error('DB 환경변수가 없다')
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL,
+  process.env.DB_SECRET_KEY,
   { auth: { autoRefreshToken: false, persistSession: false } },
 )
 
@@ -49,7 +49,7 @@ async function main() {
   if (slugs.length === 0) throw new Error('--slugs가 필요하다')
 
   for (const slug of slugs) {
-    const { data: celeb, error: celebError } = await supabase
+    const { data: celeb, error: celebError } = await db
       .from('celebs')
       .select('id,slug,nickname,nickname_en,birth_date,death_date,headline,bio,profession,nationality')
       .eq('slug', slug)
@@ -57,7 +57,7 @@ async function main() {
     if (celebError) throw new Error(`${slug}: 인물 조회 실패: ${celebError.message}`)
     if (!celeb) throw new Error(`${slug}: 인물이 없다`)
 
-    const { data: events, error: eventsError } = await supabase
+    const { data: events, error: eventsError } = await db
       .from('celeb_timeline_events')
       .select('*')
       .eq('celeb_id', celeb.id)

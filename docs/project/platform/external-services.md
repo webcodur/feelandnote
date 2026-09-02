@@ -4,13 +4,15 @@
 
 ## Oracle DB 운영
 
+Oracle 이전은 Supabase Cloud를 떠나 Oracle VM에서 PostgreSQL·Auth·PostgREST를 직접 운영하는 인프라 이전이다. 현재 서버의 컨테이너 이미지·역할·확장에는 upstream 기술 이름이 남아 있으므로 아래 실제 이름은 바꾸어 적지 않는다.
+
 - 공개 Auth·REST 주소는 `https://db.feelandnote.com`이다. Cloudflare Tunnel이 Oracle DB VM의 Envoy로 연결하며 PostgreSQL 포트는 외부에 열지 않는다.
 - DB VM은 `ubuntu@152.67.216.40`, SSH 키는 로컬 `C:\Users\webco\.ssh\feelandnote_oracle`이다. 배포 루트는 `/opt/feelandnote/supabase`이고 PostgreSQL·Auth·PostgREST·Envoy만 상시 실행한다.
 - SQL은 SSH를 거쳐 실제 컨테이너 이름인 `supabase-db`의 PostgreSQL에 실행한다. 헤드라인 일괄 반영 도구도 이 경로를 쓴다.
-- **키**: 브라우저·서버는 각각 `sb_publishable_...`·`sb_secret_...` 형식을 쓴다. JWT 기반 구형 API 키는 비활성화했고 Auth는 ECC 서명키로 회전했으며, 구형 Legacy HS256 키는 폐기했다. 코드의 환경변수 이름은 호환을 위해 그대로다.
+- **키**: 브라우저·서버는 각각 `sb_publishable_...`·`sb_secret_...` 형식을 쓴다. JWT 기반 구형 API 키는 비활성화했고 Auth는 ECC 서명키로 회전했으며, 구형 Legacy HS256 키는 폐기했다. 앱 환경변수는 `NEXT_PUBLIC_DB_API_URL`·`NEXT_PUBLIC_DB_PUBLISHABLE_KEY`·`DB_SECRET_KEY`를 쓴다.
 - **서버 인증 확인**: ECC JWT는 `getClaims()`로 검증한다. 관리자 권한은 별도 `is_admin` RPC와 계정 조회로 확인하며, 요청마다 Auth 서버를 왕복하는 `getUser()`를 백오피스 경로에 다시 넣지 않는다.
 - Google·Kakao OAuth의 프로바이더 callback은 `https://db.feelandnote.com/auth/v1/callback`이다. 자체 Auth 설정과 SMTP 값은 서버의 `/opt/feelandnote/supabase/.env`에만 둔다.
-- `/usr/local/sbin/feelandnote-db-backup`을 `feelandnote-db-backup.timer`가 매일 실행한다. 논리 덤프를 `age`로 암호화해 R2 `feelandnote-backups/postgres/daily/`에 올리고 업로드 뒤 SHA256을 다시 읽어 대조한다. 설치 원본과 격리 복원 검증기는 `scripts/supabase/`가 쥔다. 복구용 age 비밀키는 로컬 `C:\Users\webco\.feelandnote\supabase-backup-age.key`에만 있으며 서버에는 공개 recipient만 둔다.
+- `/usr/local/sbin/feelandnote-db-backup`을 `feelandnote-db-backup.timer`가 매일 실행한다. 논리 덤프를 `age`로 암호화해 R2 `feelandnote-backups/postgres/daily/`에 올리고 업로드 뒤 SHA256을 다시 읽어 대조한다. 설치 원본과 격리 복원 검증기는 `scripts/oracle-db/`가 쥔다. 복구용 age 비밀키는 로컬 `C:\Users\webco\.feelandnote\oracle-db-backup-age.key`에만 있으며 서버에는 공개 recipient만 둔다.
 
 ### Cloudflare 앞단 캐시 (2026-08-16 가동)
 
@@ -34,16 +36,16 @@
 - Next.js standalone은 `feelandnote-web.service`가 실행하며, 작업 경로는 `/opt/feelandnote/web/current/sw/web`이다.
 - 배포본은 `/opt/feelandnote/web/slots/blue`와 `green` 두 고정 슬롯을 번갈아 쓴다. `/opt/feelandnote/web/current` 심볼릭 링크가 활성 슬롯을 가리키며, 반대 슬롯은 다음 배포 대상이자 직전 정상본 롤백 자리다. 첫 슬롯 배포가 공개 검증까지 끝나면 당시 운영 중이던 옛 `releases/<release>`를 반대 슬롯으로 옮기고 나머지 옛 release를 삭제한다.
 - 운영 환경변수는 `/etc/feelandnote/web.env`가 쥔다. 값을 저장소나 문서에 복사하지 않는다.
-- 운영 서버에서 Next.js 빌드를 돌리지 않는다(빌드는 로컬 격리 worktree 몫이다). `pnpm deploy:web:oracle`이 기본 plan이며, 실제 배포는 커밋을 격리 worktree의 별도 `NEXT_DIST_DIR`에서 빌드한다. `pnpm build:web` 끝의 `check-standalone-runtime.mjs`가 Oracle Linux용 sharp·libvips 포함을 확인해야 한다. canary는 공개 전환 전에 `/explore` 완성 HTML을 두 번 읽어 프로필 목록 캐시를 채우고, 두 번째 응답이 5초 안에 들어오는 슬롯만 통과시킨다. 전환 뒤 활성 서비스도 같은 주소를 다시 읽어 캐시 승계를 확인한다.
+- 운영 서버에서 Next.js 빌드를 돌리지 않는다(빌드는 로컬 격리 worktree 몫이다). `pnpm deploy:web:oracle`이 기본 plan이며, 실제 배포는 커밋을 격리 worktree의 별도 `NEXT_DIST_DIR`에서 빌드한다. `pnpm build:web` 끝의 `check-standalone-runtime.mjs`가 Oracle Linux용 sharp·libvips 포함을 확인해야 한다. canary는 공개 전환 전에 `/explore` 완성 HTML을 두 번 읽어 프로필 목록 캐시를 채우고, 통과하면 전환이 끝날 때까지 살아서 traffic bridge를 맡는다. Caddy가 canary로 운영 요청을 넘긴 사이 기본 웹 프로세스를 새 슬롯으로 교체·검증하고, 준비된 기본 포트로 다시 넘긴 뒤 canary를 내린다.
 - 배포 스크립트는 Windows pnpm junction을 슬롯 내부 상대 심볼릭 링크로 복원하고 `.env*`를 차단한다. 빌드마다 Next.js `deploymentId`를 부여하고, 활성 슬롯의 아직 유효한 정적 자산을 staging에 이어 붙여 이전 HTML·열린 탭도 전환 뒤 청크를 잃지 않게 한다. canary는 배포 ID와 대표 상세 HTML의 모든 JS·CSS, 실제 셀럽 SEO 이미지·fallback을 검증한 슬롯만 전환한다. 에이전트 실행 규칙은 `.agents/skills/oracle-web-deploy/SKILL.md`가 맡는다.
-- `feelandnote-web.service`는 `Restart=always`, `RestartSec=5s`, `TimeoutStopSec=15s`, Node heap 1280MB(`--max-old-space-size`), `MemoryHigh=1700M`, `MemoryMax=2000M`이다(3 GB VM 기준, 26.08.29). 같은 값이 `scripts/oracle/provision-web-vm.sh` 기본값이며, VM 크기를 바꾸면 이 셋도 함께 옮긴다. 메모리 압력이 높아 정상 종료가 멈춰도 15초 뒤 프로세스를 정리하고 다시 기동한다. heap이 6시간 주기로 차오르던 누수는 26.08.28 운영 heap 스냅샷 보유자 추적으로 잡았다 — `@supabase/supabase-js`가 브라우저 밖에서 `createClient()` 즉시 시작하는 토큰 자동갱신 `setInterval`이 생성 시점의 비동기 컨텍스트(RSC 요청 객체 + React cache + 그 요청의 fetch 응답 전부)를 붙들었고, `createStaticClient()`가 캐시 조회마다 새 클라이언트를 만들어 타이머가 쌓였다. 서버용 클라이언트는 `auth: { autoRefreshToken: false, persistSession: false }`가 필수다(`sw/web/src/lib/supabase/static.ts` 머리말). 서버 조회는 Next 패치 fetch 대신 원본 fetch를 쓴다(`lib/rawFetch.ts`). 진단 장치는 그대로 둔다: `feelandnote-memlog.timer`가 10분마다 웹 프로세스 RSS를 저널에 남기고(`journalctl -t feelandnote-memlog`), 유닛의 `--heapsnapshot-signal=SIGUSR2`로 `kill -USR2 <MainPID>`하면 `/opt/feelandnote/heap/`에 스냅샷이 떨어진다(`PrivateTmp` 때문에 `/tmp`·`/var/tmp`는 안 된다). 다시 늘면 스냅샷 두 장을 떠서 생성자별 증가분을 대조한다.
+- `feelandnote-web.service`는 `Restart=always`, `RestartSec=5s`, `TimeoutStopSec=15s`, Node heap 1280MB(`--max-old-space-size`), `MemoryHigh=1700M`, `MemoryMax=2000M`이다(3 GB VM 기준, 26.08.29). 같은 값이 `scripts/oracle/provision-web-vm.sh` 기본값이며, VM 크기를 바꾸면 이 셋도 함께 옮긴다. 메모리 압력이 높아 정상 종료가 멈춰도 15초 뒤 프로세스를 정리하고 다시 기동한다. heap이 6시간 주기로 차오르던 누수는 26.08.28 운영 heap 스냅샷 보유자 추적으로 잡았다 — `@supabase/supabase-js`가 브라우저 밖에서 `createClient()` 즉시 시작하는 토큰 자동갱신 `setInterval`이 생성 시점의 비동기 컨텍스트(RSC 요청 객체 + React cache + 그 요청의 fetch 응답 전부)를 붙들었고, `createStaticClient()`가 캐시 조회마다 새 클라이언트를 만들어 타이머가 쌓였다. 서버용 클라이언트는 `auth: { autoRefreshToken: false, persistSession: false }`가 필수다(`sw/web/src/lib/db/static.ts` 머리말). 서버 조회는 Next 패치 fetch 대신 원본 fetch를 쓴다(`lib/rawFetch.ts`). 진단 장치는 그대로 둔다: `feelandnote-memlog.timer`가 10분마다 웹 프로세스 RSS를 저널에 남기고(`journalctl -t feelandnote-memlog`), 유닛의 `--heapsnapshot-signal=SIGUSR2`로 `kill -USR2 <MainPID>`하면 `/opt/feelandnote/heap/`에 스냅샷이 떨어진다(`PrivateTmp` 때문에 `/tmp`·`/var/tmp`는 안 된다). 다시 늘면 스냅샷 두 장을 떠서 생성자별 증가분을 대조한다.
 - standalone이 절대 redirect를 내부 리슨 주소(`localhost`·`127.0.0.1`·`0.0.0.0`:3000)로 만들면 Caddy가 `Location`을 `https://feelandnote.com`으로 교정한다. Auth 소스도 허용된 forwarded host만 callback origin으로 받는다.
-- 실제 배포는 `pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB`로 실행한다. 스크립트가 비활성 Blue/Green 슬롯을 준비하고 `/opt/feelandnote/web/current`를 원자적으로 전환한 뒤 `feelandnote-web.service`, Cloudflare가 반환한 공개 HTML의 정적 자산, 공개 SEO 이미지를 확인한다. 활성화가 실패하면 반대 슬롯으로 되돌린다. Cloudflare 퍼지 범위가 자동 분류되지 않으면 `--purge-scopes` 결정 전에는 실행하지 않는다.
+- 실제 배포는 `pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB`로 실행한다. 스크립트가 비활성 Blue/Green 슬롯을 준비하고, Caddy의 실행 중 설정만 canary upstream으로 원자 전환한다. 기존 요청을 비운 뒤 `/opt/feelandnote/web/current`와 `feelandnote-web.service`를 교체·검증하고 Caddy를 기본 포트로 돌려놓으므로 정상 전환에는 웹 재시작 공백이 없다. 활성화나 공개 검증이 실패하면 같은 bridge 위에서 반대 슬롯을 먼저 복구한다. Caddy가 canary를 가리키는 동안에는 정리 단계가 canary 종료를 거부한다. Cloudflare 퍼지 범위가 자동 분류되지 않으면 `--purge-scopes` 결정 전에는 실행하지 않는다.
 - 서가 주간 베스트셀러는 `pnpm sync:bestsellers`로 갱신하며, `.github/workflows/sync-bestsellers.yml`이 매주 월요일 자동 갱신해 저장소에 반영한다.
 
 ### 웹 캐시 무효화 단일 창구 — DB 트리거 (2026-08-16)
 
-- **원칙**: 무효화를 앱 코드나 스크립트가 부르는 것을 전제하지 않는다. 데이터의 90%가 LLM 세션·스크립트·SQL로 들어오므로, **행이 바뀌면 DB가 스스로 `feelandnote.com/api/revalidate`에 태그를 보낸다**(pg_net, 문장 단위 트리거 + 전이 표 → 한 문장에 HTTP 한 번). 운영에 적용한 트리거·태그 매핑의 재현 원천은 `sw/web/supabase/migrations/20260820093729_harden_web_revalidation_triggers.sql`이다. 주석만 남은 `20260816052000_web_revalidate_triggers.sql`을 현행 원본으로 사용하지 않는다.
+- **원칙**: 무효화를 앱 코드나 스크립트가 부르는 것을 전제하지 않는다. 데이터의 90%가 LLM 세션·스크립트·SQL로 들어오므로, **행이 바뀌면 DB가 스스로 `feelandnote.com/api/revalidate`에 태그를 보낸다**(pg_net, 문장 단위 트리거 + 전이 표 → 한 문장에 HTTP 한 번). 운영에 적용한 트리거·태그 매핑의 재현 원천은 `sw/web/database/migrations/20260820093729_harden_web_revalidation_triggers.sql`이다. 주석만 남은 `20260816052000_web_revalidate_triggers.sql`을 현행 원본으로 사용하지 않는다.
 - 일반 변경은 항목 태그로 Next 캐시와 Cloudflare URL을 같이 비운다. 대량 반영은 `domain:__all__`(예: `celebs:__all__`, `contents:__all__`)로 해당 도메인의 Next 상세 캐시를 전량 만료시키고 Cloudflare `purge_everything`을 딱 한 번 호출한다. 인물·작품 페이지는 `revalidate = false`이므로 변경 후 첫 방문이 한 번 재생성하고 그 다음부터 재사용한다. 조회수(`celebs.view_count`)·시각 갱신만 있는 문장은 리스트를 비우지 않는다.
 - `/api/revalidate`는 Next 태그를 먼저 만료시키고 Cloudflare 퍼지를 수행한다. 퍼지 대상이 있는데 자격증명이 없으면 503, Cloudflare HTTP·본문 응답이 실패하면 502이며 둘 다 `revalidated: true`, `complete: false`를 반환한다. 이 응답은 성공이 아니므로 호출자는 재시도·운영 조치를 해야 한다. 앞단 퍼지가 필요 없는 태그만 받으면 `not_needed`로 완료할 수 있다.
 - 확인: `select * from net._http_response order by id desc limit 5;`에서 status 200과 응답 본문의 `complete: true`를 같이 본다. 백오피스의 `revalidateWebCache()` 호출은 DB 트리거와 중복되어도 무해하지만, 호출했다면 반드시 `complete: true`까지 검증한다.
@@ -51,7 +53,7 @@
 
 ### 공개 조회 문장 제한·인덱스 (2026-08-16)
 
-- anon 역할의 `statement_timeout`은 15초다. 부분 인덱스의 재현 원천은 `sw/web/supabase/migrations/20260816040000_*.sql`이다.
+- anon 역할의 `statement_timeout`은 15초다. 부분 인덱스의 재현 원천은 `sw/web/database/migrations/20260816040000_*.sql`이다.
 - 기질별 서재 조회는 짝(celeb_id, content_id)만 받은 뒤 뽑힌 작품에만 메타를 붙인다. 성향 분포·닮은 인물은 같은 명단 캐시(`celeb_metrics`)를 공유하고, `cachedList/cachedDetail` 만료 시각은 키별로 어긋나게 둔다(`spreadRevalidate`).
 - **남은 것**: `get_celebs_sorted`(전 컬럼 2,406행 실체화)·`get_chosen_scriptures`(전량 집계 후 LIMIT 12)·`get_celeb_feed_type_counts` RPC 재작성 — 반환 형태를 건드려 별도 작업.
 

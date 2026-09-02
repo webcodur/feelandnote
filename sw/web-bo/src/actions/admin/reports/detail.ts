@@ -1,6 +1,6 @@
 'use server'
 
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import { loadReportSnapshot, type ReportTargetSnapshot } from '@/lib/report-snapshot'
 
@@ -96,8 +96,8 @@ function toPerson(raw: RawAccount | null): ReportPersonDetail | null {
 export async function getReportDetail(reportId: string): Promise<ReportDetail | null> {
   await requireAdmin()
 
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('reports')
     .select(DETAIL_SELECT)
     .eq('id', reportId)

@@ -13,7 +13,7 @@
 import { unstable_cache } from 'next/cache';
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags';
 import { STATIC_REVALIDATE } from '@/lib/cache';
-import { createStaticClient } from '@/lib/supabase/static';
+import { createStaticClient } from '@/lib/db/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { getLocale } from 'next-intl/server';
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers';
@@ -81,9 +81,9 @@ function formatBirthDeath(birth: string | null, death: string | null): string {
 
 const getCachedRedactCandidates = unstable_cache(
   async (): Promise<RedactCandidateRow[]> => {
-    const supabase = createStaticClient();
+    const db = createStaticClient();
     const rows = await selectAllPages<RedactCandidateRow>((from, to) =>
-      supabase
+      db
         .from('celebs')
         .select('id, nickname, nickname_en, profession, nationality, birth_date, death_date, avatar_url, bio, bio_en')
         .eq('publication_status', 'active')

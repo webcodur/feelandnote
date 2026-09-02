@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { guardAdminRoute } from '@/lib/admin-route'
 
-// 이식 시 교체: 원본의 `@/lib/supabase`(anon 클라이언트 + createAdminClient) 대신 이 앱의 관례를 쓴다 —
-// 읽기는 `@/lib/supabase/server` 의 createClient(), 쓰기는 `@/lib/supabase/admin` 의 createAdminClient().
+// 이식 시 교체: 원본의 `@/lib/db`(anon 클라이언트 + createAdminClient) 대신 이 앱의 관례를 쓴다 —
+// 읽기는 `@/lib/db/server` 의 createClient(), 쓰기는 `@/lib/db/admin` 의 createAdminClient().
 // 이식 시 추가: 이 앱의 `/api/**` 는 미들웨어가 없어 그냥 열려 있으므로 관리자 확인을 앞에 둔다.
 //   (service role 로 프로필을 고치는 PUT 이 있어 특히 필요하다.)
 
@@ -24,8 +24,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
   const { slug } = await params
   if (!slug) return NextResponse.json({ error: 'slug required' }, { status: 400 })
 
-  const supabase = await createClient()
-  const { data, error } = await supabase
+  const db = await createClient()
+  const { data, error } = await db
     .from('celebs')
     .select('id, slug, nickname, gender, voice_id_ko, voice_id_en')
     .eq(keyColumn(slug), slug)

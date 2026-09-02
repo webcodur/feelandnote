@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 
 export const metadata: Metadata = {
@@ -17,10 +17,10 @@ export default async function ScoresPage({
   const tab = params.tab || 'ranking'
   const perPage = 50
 
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 랭킹 조회
-  const { data: rankingRows, count: rankingCount, error: rankingsError } = await supabase
+  const { data: rankingRows, count: rankingCount, error: rankingsError } = await db
     .from('member_scores')
     .select(
       '*, account:user_accounts!member_scores_member_id_fkey(id, member:member_profiles!member_profiles_id_fkey(id, nickname, avatar_url))',
@@ -38,7 +38,7 @@ export default async function ScoresPage({
   })
 
   // 최근 점수 로그
-  const { data: recentLogRows, count: logCount, error: recentLogsError } = await supabase
+  const { data: recentLogRows, count: logCount, error: recentLogsError } = await db
     .from('member_score_logs')
     .select(
       '*, account:user_accounts!member_score_logs_member_id_fkey(id, member:member_profiles!member_profiles_id_fkey(id, nickname, avatar_url))',
@@ -64,7 +64,7 @@ export default async function ScoresPage({
   // 1,000행에서 잘려 임의의 일부만 집계되고, 볼 때마다 값이 달라진다. 고유키(member_id)로
   // 정렬해 전량을 받아 결정적으로 집계한다.
   const statsData = await selectAllPages<{ total_score: number | null }>((from, to) =>
-    supabase.from('member_scores').select('total_score').order('member_id').range(from, to)
+    db.from('member_scores').select('total_score').order('member_id').range(from, to)
   )
   const totalScoreSum = statsData.reduce((sum, s) => sum + (s.total_score ?? 0), 0)
   const avgScore = statsData.length ? Math.round(totalScoreSum / statsData.length) : 0

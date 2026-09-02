@@ -28,8 +28,8 @@ async function main() {
   const scope: Record<string, boolean> = {}
   for (const k of scopeArg.split(',').map(s => s.trim()).filter(Boolean)) scope[k] = true
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.DB_SECRET_KEY
   if (!url || !key) throw new Error('DB 관리자 접속 환경변수 누락')
   const db = createClient(url, key)
 

@@ -9,7 +9,7 @@ import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { getLocale } from "next-intl/server";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import type {
   TimelineCeleb,
@@ -44,10 +44,10 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
   celebs: TimelineCeleb[];
   contentsMap: Record<string, TimelineContent[]>;
 }> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   // 1. 태그에 속한 셀럽 ID 조회 — 단일 원천은 제작 테이블, 뷰가 웹 전용 배정과 합쳐 준다
-  const { data: assignments } = await supabase
+  const { data: assignments } = await db
     .from("faction_atlas_members")
     .select("celeb_id")
     .eq("tag_id", tagId)
@@ -58,7 +58,7 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
   const celebIds = assignments.map((a) => a.celeb_id);
 
   // 2. 프로필 조회 (birthYear 계산용)
-  const { data: celebRows } = await supabase
+  const { data: celebRows } = await db
     .from("celebs")
     .select("id, nickname, nickname_en, avatar_url, profession, birth_date")
     .in("id", celebIds);
@@ -81,7 +81,7 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
   // 3. celeb_contents + contents JOIN (셀럽당 최대 4개)
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === "en" ? "review_en, " : "";
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from("celeb_contents")
     .select(
       `celeb_id, content_id, review, ${reviewEnSelect}source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
@@ -94,7 +94,7 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
 
   const contentsMap: Record<string, TimelineContent[]> = {};
 
-  // 다대일 조인(contents)을 supabase가 배열로 잘못 추론하므로 unknown 경유 캐스트
+  // 다대일 조인(contents)을 DB SDK가 배열로 잘못 추론하므로 unknown 경유 캐스트
   for (const row of data as unknown as ChronoUserContentRow[]) {
     const c = row.contents;
     const ko = c.content_locales?.find(l => l.locale === 'ko');

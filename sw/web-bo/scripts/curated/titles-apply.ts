@@ -14,7 +14,7 @@
  *   npx tsx scripts/curated-apply-korean.ts --unlink     # 오연결 해제만
  *   npx tsx scripts/curated-apply-korean.ts              # 전량 반영
  */
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT } from '../lib/paths'
@@ -108,11 +108,11 @@ function fullSizeCover(url: string | null | undefined): string | null {
 }
 // #endregion
 
-async function selectAll<T>(supabase: SupabaseClient, table: string, columns: string, tune: (q: any) => any = (q) => q): Promise<T[]> {
+async function selectAll<T>(db: DatabaseClient, table: string, columns: string, tune: (q: any) => any = (q) => q): Promise<T[]> {
   const out: T[] = []
   const SIZE = 1000
   for (let from = 0; ; from += SIZE) {
-    const { data, error } = await tune(supabase.from(table).select(columns)).range(from, from + SIZE - 1)
+    const { data, error } = await tune(db.from(table).select(columns)).range(from, from + SIZE - 1)
     if (error) throw new Error(`${table}: ${error.message}`)
     if (!data?.length) break
     out.push(...(data as T[]))
@@ -140,9 +140,9 @@ async function main() {
   const dry = args.includes('--dry')
   const unlinkOnly = args.includes('--unlink')
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  const db = createClient(
+    process.env.NEXT_PUBLIC_DB_API_URL!,
+    process.env.DB_SECRET_KEY || process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY!
   )
 
   const answers: Record<string, Answer> = JSON.parse(readFileSync(join(WORK, 'answers.json'), 'utf-8'))
@@ -157,7 +157,7 @@ async function main() {
   if (!dry && wrong.length > 0) {
     for (let i = 0; i < wrong.length; i += 100) {
       const chunk = wrong.slice(i, i + 100).map((r) => r.id)
-      const { error } = await supabase.from('curated_list_items').update({ content_id: null }).in('id', chunk)
+      const { error } = await db.from('curated_list_items').update({ content_id: null }).in('id', chunk)
       if (error) console.log('  해제 실패:', error.message)
     }
     console.log(`  ${wrong.length}건 연결 해제`)
@@ -169,7 +169,7 @@ async function main() {
   console.log(`\n한국어 출간명 확보 ${withKo.length}건`)
 
   const locales = await selectAll<{ content_id: string; locale: string; title: string; creator: string | null }>(
-    supabase,
+    db,
     'content_locales',
     'content_id, locale, title, creator',
     (q) => q.eq('locale', 'ko').order('content_id', { ascending: true })
@@ -210,7 +210,7 @@ async function main() {
       (cands.length === 1 && !r.koCreator ? cands[0] : undefined)
     if (hit) {
       matchedExisting++
-      if (!dry) await supabase.from('curated_list_items').update({ content_id: hit.contentId }).eq('id', r.id)
+      if (!dry) await db.from('curated_list_items').update({ content_id: hit.contentId }).eq('id', r.id)
       continue
     }
 
@@ -244,7 +244,7 @@ async function main() {
       }
       // 한국어 자리가 아예 비어 있을 수도, 영문 제목이 들어 있을 수도 있다.
       // 뒤엣것은 덮어써야 하므로 넣기와 고치기를 한 번에 처리한다
-      const { error } = await supabase.from('content_locales').upsert(
+      const { error } = await db.from('content_locales').upsert(
         {
           content_id: m.contentId,
           locale: 'ko',
@@ -280,7 +280,7 @@ async function main() {
         continue
       }
 
-      const { data: content, error } = await supabase
+      const { data: content, error } = await db
         .from('contents')
         .insert({ type: 'BOOK', external_source: 'kakao_book', external_id: best.isbn })
         .select('id')
@@ -289,7 +289,7 @@ async function main() {
         notFound++
         continue
       }
-      await supabase.from('content_locales').insert({
+      await db.from('content_locales').insert({
         content_id: content.id,
         locale: 'ko',
         title: best.title,
@@ -298,7 +298,7 @@ async function main() {
         publisher: best.publisher,
         isbn: best.isbn,
       })
-      await supabase.from('curated_list_items').update({ content_id: content.id }).eq('id', m.id)
+      await db.from('curated_list_items').update({ content_id: content.id }).eq('id', m.id)
       registered++
     } catch {
       notFound++

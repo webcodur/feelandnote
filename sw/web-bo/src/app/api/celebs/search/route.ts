@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -32,9 +32,9 @@ export async function GET(request: NextRequest) {
   const withEpisode = includeFiction || sp.get('withEpisode') === '1'
   const limit = Math.min(Math.max(Number(sp.get('limit') ?? 10), 1), 100)
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  let query = supabase
+  let query = db
     .from('celebs')
     .select(SELECT)
     .order('nickname')

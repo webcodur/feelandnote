@@ -21,7 +21,7 @@ async function tmdbCreator(type: string, id: string): Promise<string | null> {
 }
 
 async function main() {
-  const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+  const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)
   const en: any[] = []
   for (let f = 0; ; f += 1000) {
     const { data } = await db.from('content_locales').select('content_id, title, creator').eq('locale', 'en').range(f, f + 999)

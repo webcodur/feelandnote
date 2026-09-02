@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "@/i18n/navigation";
@@ -35,7 +35,7 @@ export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "unread">("all");
-  const supabase = useMemo(() => createClient(), []);
+  const db = useMemo(() => createClient(), []);
   const router = useRouter();
 
   useEffect(() => {
@@ -43,10 +43,10 @@ export default function NotificationsPage() {
 
     const loadNotifications = async () => {
       setLoading(true);
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user } } = await db.auth.getUser();
 
       if (user) {
-        const { data } = await supabase
+        const { data } = await db
           .from("member_notifications")
           .select("*")
           .eq("member_id", user.id)
@@ -65,11 +65,11 @@ export default function NotificationsPage() {
     return () => {
       cancelled = true;
     };
-  }, [supabase]);
+  }, [db]);
 
   const handleRead = async (notif: Notification) => {
     if (!notif.is_read) {
-      const { error } = await supabase
+      const { error } = await db
         .from("member_notifications")
         .update({ is_read: true })
         .eq("id", notif.id);
@@ -87,13 +87,13 @@ export default function NotificationsPage() {
   };
 
   const handleReadAll = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await db.auth.getUser();
     if (!user) return;
 
     // UI 낙관적 업데이트
     setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
 
-    await supabase
+    await db
       .from("member_notifications")
       .update({ is_read: true })
       .eq("member_id", user.id)
@@ -104,7 +104,7 @@ export default function NotificationsPage() {
     e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
     if (!confirm(t("deleteConfirm"))) return;
 
-    const { error } = await supabase
+    const { error } = await db
       .from("member_notifications")
       .delete()
       .eq("id", id);
@@ -117,13 +117,13 @@ export default function NotificationsPage() {
   const handleDeleteAllRead = async () => {
     if (!confirm(t("deleteReadConfirm"))) return;
     
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await db.auth.getUser();
     if (!user) return;
 
     // UI 낙관적 업데이트
     setNotifications(prev => prev.filter(n => !n.is_read));
 
-    await supabase
+    await db
       .from("member_notifications")
       .delete()
       .eq("member_id", user.id)
@@ -167,7 +167,7 @@ export default function NotificationsPage() {
         accepted: accept,
       };
 
-      await supabase
+      await db
         .from("member_notifications")
         .update({ is_read: true, metadata: updatedMetadata })
         .eq("id", notif.id);

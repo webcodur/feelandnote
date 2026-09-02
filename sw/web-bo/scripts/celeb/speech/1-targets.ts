@@ -19,9 +19,9 @@ import { NO_VERIFIED_QUOTE_KO, SPEECH_SITUATIONS, speechLinesSha256 } from '../.
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-if (!url || !key) throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 없음')
+const url = process.env.NEXT_PUBLIC_DB_API_URL
+const key = process.env.DB_SECRET_KEY
+if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 없음')
 
 const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 const DIALOGUE_KEYS = SPEECH_SITUATIONS

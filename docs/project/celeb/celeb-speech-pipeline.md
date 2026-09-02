@@ -16,7 +16,7 @@
 | 항목 | 값 |
 |---|---|
 | 실행 위치 | `sw/web-bo` |
-| 필요한 키 | `.env`의 `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` |
+| 필요한 키 | `.env`의 `NEXT_PUBLIC_DB_API_URL`, `DB_SECRET_KEY` |
 | 중간 산출물 | `sw/web-bo/.tmp-celeb-fill/` (`.tmp-*`는 git 추적 밖) |
 
 중간 산출물은 배치가 끝나면 지운다. 완료 보고서나 진행 문서로 보존하지 않는다.

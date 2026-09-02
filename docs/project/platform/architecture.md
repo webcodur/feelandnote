@@ -81,10 +81,9 @@ hooks/                 # useCelebGreeting, useCountries, useDebounce, useDialogu
                        # useFilterLabels, useHorizontalScroll, usePreloadImages,
                        # useRecentContents, useRecentProfiles, useTextToSpeech, useVoiceMuted
 i18n/                  # navigation, request, routing
-lib/                   # auth, board, cache, config, countries, errors, game, moderation,
-                       # spectrum, r2, seo, supabase(client/server/middleware), url, utils
-types/                 # academy, content, database, home, locale, recommendation,
-                       # supabase(자동생성)
+lib/                   # auth, board, cache, config, countries, db, errors, game, moderation,
+                       # spectrum, r2, seo, url, utils
+types/                 # academy, content, database, database.generated, home, locale, recommendation
 ```
 
 ### 설치형 앱(PWA) 자산
@@ -177,7 +176,7 @@ src/actions/admin/
 src/components/  # celeb, content, factions, discourses, layout, ui, ApiKeyManager
 src/features/book-recommend/  # scenario·voice·render·youtube·cards 제작 부품과 로컬 I/O
 src/constants/  |  src/contexts/  |  src/hooks/  |  src/types/  |  src/utils/
-src/lib/         # supabase, r2, image, countries, indexnow, revalidate-web, voice-path
+src/lib/         # db, r2, image, countries, indexnow, revalidate-web, voice-path
 src/proxy.ts
 ```
 

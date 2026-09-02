@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
-import { type ActionResult, failure, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, handleDatabaseError } from '@/lib/errors'
 
 interface ToggleFollowData {
   isFollowing: boolean
@@ -14,9 +14,9 @@ export async function toggleFollow(
   targetUserId: string,
   targetKind: FollowTargetKind,
 ): Promise<ActionResult<ToggleFollowData>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
 
   if (!user) {
     return failure('UNAUTHORIZED')
@@ -28,8 +28,8 @@ export async function toggleFollow(
   }
 
   const targetResult = targetKind === 'member'
-    ? await supabase.from('member_profiles').select('id').eq('id', targetUserId).maybeSingle()
-    : await supabase.from('celebs').select('id, slug').eq('id', targetUserId).maybeSingle()
+    ? await db.from('member_profiles').select('id').eq('id', targetUserId).maybeSingle()
+    : await db.from('celebs').select('id, slug').eq('id', targetUserId).maybeSingle()
 
   if (targetResult.error || !targetResult.data) {
     return failure('NOT_FOUND', '사용자를 찾을 수 없다.')
@@ -39,7 +39,7 @@ export async function toggleFollow(
   const followerColumn = targetKind === 'member' ? 'follower_member_id' : 'member_id'
   const followedColumn = targetKind === 'member' ? 'followed_member_id' : 'celeb_id'
 
-  const { data: existingFollow } = await supabase
+  const { data: existingFollow } = await db
     .from(followTable)
     .select('id')
     .eq(followerColumn, user.id)
@@ -50,14 +50,14 @@ export async function toggleFollow(
 
   if (isCurrentlyFollowing) {
     // 언팔로우
-    const { error } = await supabase
+    const { error } = await db
       .from(followTable)
       .delete()
       .eq(followerColumn, user.id)
       .eq(followedColumn, targetUserId)
 
     if (error) {
-      return handleSupabaseError(error, { context: 'follow', logPrefix: '[언팔로우]' })
+      return handleDatabaseError(error, { context: 'follow', logPrefix: '[언팔로우]' })
     }
 
     if (targetKind === 'member') {
@@ -74,7 +74,7 @@ export async function toggleFollow(
   }
 
   // 팔로우
-  const { error } = await supabase
+  const { error } = await db
     .from(followTable)
     .insert(
       targetKind === 'member'
@@ -83,7 +83,7 @@ export async function toggleFollow(
     )
 
   if (error) {
-    return handleSupabaseError(error, { context: 'follow', logPrefix: '[팔로우]' })
+    return handleDatabaseError(error, { context: 'follow', logPrefix: '[팔로우]' })
   }
 
   if (targetKind === 'member') {

@@ -35,7 +35,7 @@ export async function createClient() {
           })
         } catch {
           if (ssrInServerAction) {
-            console.error('[supabase/server] 서버 액션 내 쿠키 갱신 실패: 토큰이 만료되었을 수 있습니다')
+            console.error('[db/server] 서버 액션 내 쿠키 갱신 실패: 토큰이 만료되었을 수 있습니다')
           }
         }
       })
@@ -43,8 +43,8 @@ export async function createClient() {
   }
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_DB_API_URL!,
+    process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY!,
     { cookies: cookieMethods },
   )
 }

@@ -4,14 +4,14 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { CategoryId } from '@/constants/categories'
 import { getLocale } from 'next-intl/server'
 import { getKSTDateKey } from '@/lib/game/date-seed'
 import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
-import type { Tables } from '@/types/supabase'
-import type { ContentJoinRow, LibraryContent, StaticSupabase } from './types'
+import type { Tables } from '@/types/database.generated'
+import type { ContentJoinRow, LibraryContent, StaticDatabaseClient } from './types'
 import { fetchUserContentCounts } from './helpers'
 
 // #region 오늘의 인물 - 매일 랜덤 셀럽 1명의 콘텐츠
@@ -51,12 +51,12 @@ export interface TodayFigureResult {
  * 날짜만으로 정해지므로 크론이 못 돌아도 화면은 생일을 알아볼 수 있어야 한다.
  */
 async function pickBirthdayCeleb(
-  supabase: StaticSupabase,
+  db: StaticDatabaseClient,
   today: string,
 ): Promise<string | null> {
   const monthDay = today.slice(5) // "MM-DD"
 
-  const { data: celebs } = await supabase
+  const { data: celebs } = await db
     .from('celebs')
     .select('id')
     .eq('publication_status', 'active')
@@ -67,7 +67,7 @@ async function pickBirthdayCeleb(
   if (!celebs?.length) return null
 
   const ids = celebs.map((c) => c.id)
-  const { data: contentRows } = await supabase
+  const { data: contentRows } = await db
     .from('celeb_contents')
     .select('celeb_id')
     .in('celeb_id', ids)
@@ -89,16 +89,16 @@ async function pickBirthdayCeleb(
 }
 
 async function fetchTodayFigure(today: string, locale: string): Promise<TodayFigureResult> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data: dailyFigure } = await supabase
+  const { data: dailyFigure } = await db
     .from('daily_figures')
     .select('celeb_id, source, news_count')
     .eq('date', today)
     .single()
 
   if (dailyFigure) {
-    const result = await fetchFigureContents(supabase, dailyFigure.celeb_id, locale)
+    const result = await fetchFigureContents(db, dailyFigure.celeb_id, locale)
     return {
       ...result,
       source: {
@@ -112,14 +112,14 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
 
   // 편성 행이 없어도 생일은 날짜만으로 정해진다 — 크론이 못 돌았다고 생일인 사람을
   // 시드로 덮지 않는다. 크론과 같은 규칙(기록 많은 순, 5건 이상 우선)을 쓴다.
-  const birthdayFigure = await pickBirthdayCeleb(supabase, today)
+  const birthdayFigure = await pickBirthdayCeleb(db, today)
   if (birthdayFigure) {
-    const result = await fetchFigureContents(supabase, birthdayFigure, locale)
+    const result = await fetchFigureContents(db, birthdayFigure, locale)
     return { ...result, source: { type: 'birthday', newsCount: 0 } }
   }
 
   // 공개 감상 5개 이상 보유한 활성 셀럽만 RPC로 카운트 수신
-  const { data: eligibleData, error: eligibleError } = await supabase.rpc('get_seed_eligible_celebs')
+  const { data: eligibleData, error: eligibleError } = await db.rpc('get_seed_eligible_celebs')
 
   throwOnQueryError('getTodayFigure 후보 조회', eligibleError)
 
@@ -134,7 +134,7 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
   const selectedIndex = seed % eligibleCelebs.length
   const selected = eligibleCelebs[selectedIndex]
 
-  const result = await fetchFigureContents(supabase, selected.celeb_id, locale)
+  const result = await fetchFigureContents(db, selected.celeb_id, locale)
   return { ...result, source: seedSource }
 }
 
@@ -170,26 +170,26 @@ interface FigureUserContentRow {
 }
 
 async function fetchFigureContents(
-  supabase: StaticSupabase,
+  db: StaticDatabaseClient,
   celebId: string,
   locale: string,
 ): Promise<TodayFigureResult> {
   const defaultSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
   const [{ data: profile }, { data: celebContents }, { data: dialogue }] = await Promise.all([
-    supabase
+    db
       .from('celebs')
       .select('id, slug, nickname, nickname_en, avatar_url, profession, title, bio, bio_en, speech_tone, voice_v')
       .eq('id', celebId)
       .single(),
-    supabase
+    db
       .from('celeb_contents')
       // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
       .select(`id, content_id, review, ${locale === 'en' ? 'review_en, ' : ''}is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST}))`)
       .eq('celeb_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
-    supabase
+    db
       .from('celeb_dialogues')
       .select(DIALOGUE_BRIEF_SELECT)
       .eq('celeb_id', celebId)
@@ -206,7 +206,7 @@ async function fetchFigureContents(
   const contentIds = [...new Set(ucRows
     .map(item => (Array.isArray(item.contents) ? item.contents[0] : item.contents)?.id)
     .filter((id): id is string => Boolean(id)))]
-  const userCountMap = await fetchUserContentCounts(supabase, undefined, contentIds)
+  const userCountMap = await fetchUserContentCounts(db, undefined, contentIds)
 
   const contents: LibraryContent[] = ucRows.map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents

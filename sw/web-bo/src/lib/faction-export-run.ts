@@ -7,7 +7,7 @@
  * 마커·손 편집 가드·경로 규칙은 전부 `@feelandnote/shared/bo/faction-export` 소유다.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { assembleFactionEpisode } from '@feelandnote/shared/lib/faction-assemble'
 import {
   exportFactionEpisodeToFile, factionEpisodePaths,
@@ -33,7 +33,7 @@ export interface FactionExportResult {
  * CELEB 프로필의 국문·영문 목소리 조회 — 팩션이 비운 자리에 물려줄 값.
  * 팩션 트리 공급자는 팩션 4테이블만 알아서 여기서 따로 조회한다.
  */
-function celebVoiceLookup(db: SupabaseClient): CelebVoiceLookup {
+function celebVoiceLookup(db: DatabaseClient): CelebVoiceLookup {
   return async (celebIds) => {
     const out = new Map<string, CelebVoicePair>()
     for (let i = 0; i < celebIds.length; i += 200) {
@@ -52,7 +52,7 @@ function celebVoiceLookup(db: SupabaseClient): CelebVoiceLookup {
 
 /** 한 편을 파일로 내보낸다. 호출 전에 관리자 확인을 마쳤어야 한다. */
 export async function runFactionExport(
-  db: SupabaseClient,
+  db: DatabaseClient,
   folder: string,
   options: { force?: boolean } = {},
 ): Promise<FactionExportResult> {

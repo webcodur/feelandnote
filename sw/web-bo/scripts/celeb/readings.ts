@@ -200,9 +200,9 @@ function acquireRunLock() {
 
 if (RESEARCH || GENERATE || APPLY) acquireRunLock()
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL!,
+  process.env.DB_SECRET_KEY!,
   { auth: { autoRefreshToken: false, persistSession: false } },
 )
 
@@ -338,7 +338,7 @@ async function fetchAll<T>(
   const rows: T[] = []
   for (let from = 0; ; from += 1000) {
     const { data, error } = await configure(
-      supabase.from(table).select(select).range(from, from + 999),
+      db.from(table).select(select).range(from, from + 999),
     )
     if (error) throw error
     rows.push(...((data ?? []) as T[]))
@@ -1297,7 +1297,7 @@ async function markExistingReviewPassed(material: Material): Promise<'reviewed' 
   const publishedAt = material.profile.publication_status === 'active'
     ? current.published_at ?? new Date().toISOString()
     : null
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_explanations')
     .update({ review_status: 'ai_reviewed', published_at: publishedAt })
     .eq('profile_id', material.profile.id)
@@ -1655,7 +1655,7 @@ function isCompletedGuideOnlyRow(row: ExplanationRow | null): boolean {
 }
 
 async function quarantineInsertedReading(row: ExplanationRow): Promise<void> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_explanations')
     .update({ review_status: null, published_at: null })
     .eq('profile_id', row.profile_id)
@@ -1701,7 +1701,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
   }
   let updated: ExplanationRow | null
   if (current) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celeb_explanations')
       .update(payload)
       .eq('profile_id', material.profile.id)
@@ -1711,7 +1711,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
     if (error) throw error
     updated = data
   } else {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celeb_explanations')
       .insert({
         profile_id: material.profile.id,
@@ -1734,7 +1734,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
     return abortAppliedReading('안내 반영 중 닫힌 인물 탐구가 바뀌었다.')
   }
 
-  const { data: verified, error: verifyError } = await supabase
+  const { data: verified, error: verifyError } = await db
     .from('celeb_explanations')
     .select('plain_text, interpretive_title, interpretive_text, plain_text_en, interpretive_title_en, interpretive_text_en, review_status, published_at')
     .eq('profile_id', material.profile.id)
@@ -2103,9 +2103,9 @@ async function main() {
       materials.filter((material) => material.profile.publication_status === status).length,
     ]))
     let publicRls: { visible: number | null; inactiveVisible: number | null; error: string | null } | null = null
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const anonKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
     if (anonKey) {
-      const publicClient = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, anonKey, {
+      const publicClient = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, anonKey, {
         auth: { autoRefreshToken: false, persistSession: false },
       })
       const inactiveReading = explanations.find((row) => profileById.get(row.profile_id)?.publication_status !== 'active')

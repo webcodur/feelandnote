@@ -1,4 +1,4 @@
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface LibraryContent {
@@ -64,7 +64,7 @@ export interface CelebContentJoinRow {
   contents: ContentJoinRow | ContentJoinRow[] | null
 }
 
-export type StaticSupabase = ReturnType<typeof createStaticClient>
+export type StaticDatabaseClient = ReturnType<typeof createStaticClient>
 
 // ────────────────────────────────────────────────────
 // 실시간 베스트셀러

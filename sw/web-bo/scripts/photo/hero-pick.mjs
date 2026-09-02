@@ -26,12 +26,12 @@ const skip = Number(process.argv[4] || 0)
 if (!out) throw new Error('출력 경로를 넘겨라')
 
 loadEnv(resolve(__dirname, '..', '..', '.env'))
-const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY)
 
-const { data: rows, error } = await sb.rpc('exec_sql_readonly', {}).then(() => ({ data: null, error: 'unused' })).catch(() => ({ data: null, error: null }))
+const { data: rows, error } = await db.rpc('exec_sql_readonly', {}).then(() => ({ data: null, error: 'unused' })).catch(() => ({ data: null, error: null }))
 
 // RPC가 없으므로 클라이언트 조인으로 처리한다
-const { data: people, error: e1 } = await sb
+const { data: people, error: e1 } = await db
   .from('celebs')
   .select('id, slug, nickname, nickname_en, profession, nationality, birth_date, death_date, title, bio, avatar_url, view_count, celeb_tier, publication_status, portrait_url')
   .eq('publication_status', 'active')
@@ -42,10 +42,10 @@ if (e1) throw e1
 
 const usable = people.filter(p => p.celeb_tier !== 'fiction')
 
-const { data: infl } = await sb.from('celeb_influence').select('celeb_id, total_score').limit(5000)
+const { data: infl } = await db.from('celeb_influence').select('celeb_id, total_score').limit(5000)
 const scoreOf = new Map((infl || []).map(r => [r.celeb_id, r.total_score || 0]))
 
-const { data: shots } = await sb
+const { data: shots } = await db
   .from('celeb_tag_assignments').select('celeb_id, faction_image_url').not('faction_image_url', 'is', null).limit(5000)
 const hasFactionShot = new Set((shots || []).map(r => r.celeb_id))
 

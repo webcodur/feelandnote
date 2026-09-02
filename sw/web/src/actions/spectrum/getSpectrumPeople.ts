@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 export interface SpectrumPersonSummary {
   id: string
@@ -29,8 +29,8 @@ const parseProfile = (row: SpectrumPeopleRow): SpectrumJoinedProfileRow | null =
   (Array.isArray(row.celeb) ? row.celeb[0] : row.celeb) ?? null
 
 async function fetchSpectrumPeople(limit: number): Promise<SpectrumPersonSummary[]> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celeb_persona')
     .select(`
       celeb_id,

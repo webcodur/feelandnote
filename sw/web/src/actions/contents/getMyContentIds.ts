@@ -1,16 +1,16 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 // 사용자가 저장한 콘텐츠의 ID 목록만 가져온다 (가벼운 조회)
 export async function getMyContentIds(): Promise<string[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) return []
 
   // egress-allow: 본인 서재 ID 목록 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (content_id만 송출)
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('member_contents')
     .select('content_id')
     .eq('member_id', user.id)
@@ -28,13 +28,13 @@ export async function getMyContentIds(): Promise<string[]> {
 export async function checkContentsSaved(contentIds: string[]): Promise<Set<string> | null> {
   if (contentIds.length === 0) return new Set()
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) return null
 
   // egress-allow: 본인 보유 여부 배치 확인 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (content_id만 송출)
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('member_contents')
     .select('content_id')
     .eq('member_id', user.id)

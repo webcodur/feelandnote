@@ -3,15 +3,15 @@
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 // 여러 콘텐츠 ID에 대한 전체 기록 수를 조회한다.
 // 공개 API 이름은 기존 검색 결과 소비자 호환을 위해 userCount로 유지한다.
 // 캐시 inner: 정렬된 id 목록 문자열만 받아 캐시 키를 안정화한다
 async function fetchContentUserCounts(idsKey: string): Promise<Record<string, number>> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('contents')
     .select('id, user_count:record_count')
     .in('id', idsKey.split(','))

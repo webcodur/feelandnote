@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 
 export type AdminRole = 'admin' | 'super_admin'
 
@@ -16,14 +16,14 @@ interface ManagedAccount {
 
 /** service-role 작업 전에 반드시 거치는 활성 관리자 확인 — 서버 액션 공용. */
 export async function requireAdmin(): Promise<AdminIdentity> {
-  const supabase = await createClient()
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const db = await createClient()
+  const { data: claimsData, error: claimsError } = await db.auth.getClaims()
   const userId = claimsData?.claims?.sub
   if (claimsError || !userId) throw new Error('로그인이 필요합니다')
 
   const [{ data: isAdmin, error }, { data: account, error: accountError }] = await Promise.all([
-    supabase.rpc('is_admin'),
-    supabase.from('user_accounts').select('role').eq('id', userId).maybeSingle(),
+    db.rpc('is_admin'),
+    db.from('user_accounts').select('role').eq('id', userId).maybeSingle(),
   ])
 
   if (

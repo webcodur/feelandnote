@@ -10,7 +10,7 @@
  *   npx tsx scripts/match-curated-items.ts --list <slug>   # 특정 목록만
  *   npx tsx scripts/match-curated-items.ts --relink        # 이미 연결된 항목도 다시 판정
  */
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { readFileSync, writeFileSync } from 'fs'
 import { boPath, repoPath } from '../lib/paths'
 
@@ -32,7 +32,7 @@ function loadEnv(p: string) {
  * 전수 조회는 반드시 정렬키를 고정해 페이지로 나눠 받는다.
  */
 async function selectAll<T>(
-  sb: SupabaseClient,
+  db: DatabaseClient,
   table: string,
   columns: string,
   orderKey: string,
@@ -41,7 +41,7 @@ async function selectAll<T>(
   const out: T[] = []
   const size = 1000
   for (let from = 0; ; from += size) {
-    const base = sb.from(table).select(columns).order(orderKey, { ascending: true }).range(from, from + size - 1)
+    const base = db.from(table).select(columns).order(orderKey, { ascending: true }).range(from, from + size - 1)
     const { data, error } = await (eq ? base.eq(eq.column, eq.value) : base)
     if (error) throw new Error(`${table} 조회 실패: ${error.message}`)
     const rows = (data ?? []) as T[]
@@ -164,16 +164,16 @@ async function main() {
   const onlyList = listIdx >= 0 ? args[listIdx + 1] : null
 
   loadEnv(boPath('.env'))
-  const { NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = process.env as Record<string, string>
-  if (!NEXT_PUBLIC_SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) throw new Error('.env 누락')
-  const sb = createClient(NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+  const { NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY } = process.env as Record<string, string>
+  if (!NEXT_PUBLIC_DB_API_URL || !DB_SECRET_KEY) throw new Error('.env 누락')
+  const db = createClient(NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY)
 
   // 1. 후보 사전 — BOOK 콘텐츠의 모든 로케일 제목
   console.log('콘텐츠 사전 적재 중...')
   loadAliases(repoPath('data', 'curated-lists', '_author-aliases.json'))
   // 도서만이 아니라 영상까지 후보로 삼는다. 목록마다 대상 매체가 다르므로 판정할 때 갈라 쓴다
   const works = await selectAll<{ id: string; type: string; record_count: number | null }>(
-    sb,
+    db,
     'contents',
     'id, type, record_count',
     'id'
@@ -185,7 +185,7 @@ async function main() {
   const useCount = new Map(books.map((b) => [b.id, b.record_count ?? 0]))
   const pickBest = (ids: string[]) =>
     [...ids].sort((x, y) => (useCount.get(y) ?? 0) - (useCount.get(x) ?? 0) || x.localeCompare(y))[0]
-  const locales = await selectAll<LocaleRow>(sb, 'content_locales', 'content_id, locale, title, creator', 'content_id')
+  const locales = await selectAll<LocaleRow>(db, 'content_locales', 'content_id, locale, title, creator', 'content_id')
   const bookLocales = locales.filter((l) => bookIds.has(l.content_id) && l.title)
   console.log(`  도서 ${bookIds.size}종 / 제목 표기 ${bookLocales.length}건`)
 
@@ -207,7 +207,7 @@ async function main() {
 
   // 2. 대상 항목
   let lists = await selectAll<{ id: string; slug: string; title: string; content_type: string }>(
-    sb,
+    db,
     'curated_lists',
     'id, slug, title, content_type',
     'id'
@@ -216,7 +216,7 @@ async function main() {
   const listById = new Map(lists.map((l) => [l.id, l]))
 
   const items = await selectAll<ItemRow>(
-    sb,
+    db,
     'curated_list_items',
     'id, list_id, raw_title, raw_creator, content_id',
     'id'
@@ -305,7 +305,7 @@ async function main() {
   // 5. 반영
   let done = 0
   for (const u of updates) {
-    const { error } = await sb.from('curated_list_items').update({ content_id: u.content_id }).eq('id', u.id)
+    const { error } = await db.from('curated_list_items').update({ content_id: u.content_id }).eq('id', u.id)
     if (error) throw new Error(`연결 실패(${u.id}): ${error.message}`)
     done++
     if (done % 50 === 0) console.log(`  ${done}/${updates.length}`)

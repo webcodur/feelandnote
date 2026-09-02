@@ -5,7 +5,7 @@ import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import type { PortraitFigure } from "@/components/features/game/portrait/types";
 
 interface ProfileBrief {
@@ -22,8 +22,8 @@ interface PortraitFigureRow {
 }
 
 async function fetchPortraitFigures(locale: string): Promise<PortraitFigure[]> {
-  const supabase = createStaticClient();
-  const { data, error } = await supabase
+  const db = createStaticClient();
+  const { data, error } = await db
     .from("celeb_influence")
     .select(`
       celeb_id,

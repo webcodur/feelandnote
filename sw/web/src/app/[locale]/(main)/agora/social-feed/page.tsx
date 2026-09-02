@@ -7,7 +7,7 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import FriendFeedSection from "@/components/features/agora/FriendFeedSection";
 
 export async function generateMetadata() {
@@ -68,8 +68,8 @@ function FeedSkeleton() {
 }
 
 async function SocialFeedServer() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const db = await createClient();
+  const { data: { user } } = await db.auth.getUser();
 
   return (
     <AsyncIntlProvider>

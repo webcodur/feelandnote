@@ -3,8 +3,8 @@
 // 차단 관리 화면용 조회.
 // 로그인 사용자 본인 데이터라 캐시하지 않는다(사용자별 캐시 키는 egress 폭탄이 된다).
 
-import { createClient } from '@/lib/supabase/server'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import {
   MODERATION_LIST_DEFAULT_LIMIT,
   MODERATION_LIST_MAX_LIMIT,
@@ -43,15 +43,15 @@ export async function getBlockedUsers(
   const limit = Math.min(params.limit ?? MODERATION_LIST_DEFAULT_LIMIT, MODERATION_LIST_MAX_LIMIT)
   const offset = Math.max(params.offset ?? 0, 0)
 
-  const supabase = await createClient()
+  const db = await createClient()
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await db.auth.getUser()
 
   if (!user) return failure('UNAUTHORIZED')
 
-  const { data, error, count } = await supabase
+  const { data, error, count } = await db
     .from('blocks')
     .select('id, blocked_id, created_at', { count: 'exact' })
     .eq('blocker_id', user.id)
@@ -61,19 +61,19 @@ export async function getBlockedUsers(
     .range(offset, offset + limit - 1)
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[차단 목록 조회]' })
+    return handleDatabaseError(error, { logPrefix: '[차단 목록 조회]' })
   }
 
   const rows = (data ?? []) as unknown as RawBlockRow[]
   const { data: profiles, error: profilesError } = rows.length
-    ? await supabase
+    ? await db
         .from('member_profiles')
         .select('id, nickname, avatar_url')
         .in('id', rows.map(row => row.blocked_id))
     : { data: [], error: null }
 
   if (profilesError) {
-    return handleSupabaseError(profilesError, { logPrefix: '[차단 프로필 조회]' })
+    return handleDatabaseError(profilesError, { logPrefix: '[차단 프로필 조회]' })
   }
   const profileMap = new Map((profiles || []).map(profile => [profile.id, profile as RawProfile]))
 

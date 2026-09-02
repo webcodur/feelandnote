@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import { getUserProfile } from "@/actions/user";
 import { notFound } from "next/navigation";
 import RecordsContent from "./RecordsContent";
@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function RecordsPage({ params }: PageProps) {
   const { userId } = await params;
-  const supabase = await createClient();
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
+  const db = await createClient();
+  const { data: { user: currentUser } } = await db.auth.getUser();
 
   const result = await getUserProfile(userId);
   if (!result.success || !result.data) {

@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 import { getUsers, type User } from './users'
 import { getCelebs, type Celeb, type CelebImageFilter } from './celebs'
@@ -249,8 +249,8 @@ const CELEB_DETAIL_SELECT = `
 `
 
 async function getMemberContentCount(id: string): Promise<number> {
-  const supabase = await createClient()
-  const { count, error } = await supabase
+  const db = await createClient()
+  const { count, error } = await db
     .from('member_contents')
     .select('*', { count: 'exact', head: true })
     .eq('member_id', id)
@@ -259,8 +259,8 @@ async function getMemberContentCount(id: string): Promise<number> {
 }
 
 async function getCelebContentCount(id: string): Promise<number> {
-  const supabase = await createClient()
-  const { count, error } = await supabase
+  const db = await createClient()
+  const { count, error } = await db
     .from('celeb_contents')
     .select('*', { count: 'exact', head: true })
     .eq('celeb_id', id)
@@ -270,15 +270,15 @@ async function getCelebContentCount(id: string): Promise<number> {
 
 async function memberProfileToMember(data: any): Promise<Member> {
   const account = getSingleRelation<AccountRelation>(data.user_accounts)
-  const supabase = await createClient()
+  const db = await createClient()
   const [contentCount, socialResult, scoreResult] = await Promise.all([
     getMemberContentCount(data.id),
-    supabase
+    db
       .from('member_social_stats')
       .select('follower_count, following_count')
       .eq('member_id', data.id)
       .maybeSingle(),
-    supabase
+    db
       .from('member_scores')
       .select('total_score')
       .eq('member_id', data.id)
@@ -362,8 +362,8 @@ async function celebProfileToMember(data: any): Promise<Member> {
 }
 
 export async function getMember(id: string): Promise<Member | null> {
-  const supabase = await createClient()
-  const { data: member, error: memberError } = await supabase
+  const db = await createClient()
+  const { data: member, error: memberError } = await db
     .from('member_profiles')
     .select(`
       *,
@@ -375,7 +375,7 @@ export async function getMember(id: string): Promise<Member | null> {
   if (memberError) throw memberError
   if (member) return memberProfileToMember(member)
 
-  const { data: celeb, error: celebError } = await supabase
+  const { data: celeb, error: celebError } = await db
     .from('celebs')
     .select(CELEB_DETAIL_SELECT)
     .eq('id', id)
@@ -387,8 +387,8 @@ export async function getMember(id: string): Promise<Member | null> {
 
 export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
   const slug = decodeURIComponent(rawSlug)
-  const supabase = await createClient()
-  const { data, error } = await supabase
+  const db = await createClient()
+  const { data, error } = await db
     .from('celebs')
     .select(CELEB_DETAIL_SELECT)
     .eq('slug', slug)
@@ -400,8 +400,8 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
 
 export async function hardDeleteMember(memberId: string): Promise<void> {
   await requireAccountManager(memberId)
-  const supabase = await createClient()
-  const { error } = await supabase.rpc('admin_delete_auth_user', {
+  const db = await createClient()
+  const { error } = await db.rpc('admin_delete_auth_user', {
     target_user_id: memberId,
   })
 

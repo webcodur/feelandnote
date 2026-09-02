@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import { getFeedback } from '@/actions/board/feedbacks'
 import { getComments } from '@/actions/board/comments'
@@ -24,13 +24,13 @@ export async function generateMetadata({ params }: FeedbackDetailPageProps): Pro
 export default async function FeedbackDetailPage({ params }: FeedbackDetailPageProps) {
   const { id, locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
-  const supabase = await createClient()
+  const db = await createClient()
 
   const [feedback, comments, admin, { data: { user } }] = await Promise.all([
     getFeedback(id, locale),
     getComments({ boardType: 'FEEDBACK', postId: id, locale }),
-    isAdmin(supabase),
-    supabase.auth.getUser()
+    isAdmin(db),
+    db.auth.getUser()
   ])
 
   if (!feedback) {

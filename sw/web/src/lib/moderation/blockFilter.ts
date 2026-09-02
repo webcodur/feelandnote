@@ -12,22 +12,22 @@
 // `@feelandnote/shared/lib/paginate` 의 selectInChunks 로 나눠 조회한다.
 // 차단 목록은 통상 수십 건이라 실무상 문제되지 않지만, 상한은 200개로 본다.
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 // #region 차단 대상 id 조회
 // 현재 로그인 사용자가 차단한 사용자 id 배열. 비로그인이면 빈 배열.
 // 조회 실패는 조용히 빈 배열로 대체하지 않고 throw 한다 —
 // 빈 배열을 돌려주면 차단이 풀린 화면을 정상처럼 보여주게 된다.
 export async function getBlockedUserIds(): Promise<string[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await db.auth.getUser()
 
   if (!user) return []
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('blocks')
     .select('blocked_id')
     .eq('blocker_id', user.id)

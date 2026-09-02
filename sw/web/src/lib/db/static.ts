@@ -14,8 +14,8 @@ import { rawFetch } from '@/lib/rawFetch'
  */
 export function createStaticClient() {
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_DB_API_URL!,
+    process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY!,
     {
       auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
       global: { fetch: rawFetch },

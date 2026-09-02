@@ -1,7 +1,7 @@
 'use server'
 
 import { cache } from 'react'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 interface FollowingUserInfo {
   id: string
@@ -22,16 +22,16 @@ interface GetMyFollowingResult {
 export const getMyFollowing = cache(getMyFollowingInner)
 
 async function getMyFollowingInner(): Promise<GetMyFollowingResult> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
 
   if (!user) {
     return { success: false, data: [], error: 'UNAUTHORIZED' }
   }
 
   // 내가 팔로우하는 사람들
-  const { data: myFollowing } = await supabase
+  const { data: myFollowing } = await db
     .from('member_member_follows')
     .select('followed_member_id')
     .eq('follower_member_id', user.id)
@@ -43,16 +43,16 @@ async function getMyFollowingInner(): Promise<GetMyFollowingResult> {
   const followingIds = myFollowing.map(f => f.followed_member_id)
 
   const [followersBackResult, profilesResult, socialResult] = await Promise.all([
-    supabase
+    db
       .from('member_member_follows')
       .select('follower_member_id')
       .eq('followed_member_id', user.id)
       .in('follower_member_id', followingIds),
-    supabase
+    db
       .from('member_profiles')
       .select('id, nickname, avatar_url')
       .in('id', followingIds),
-    supabase
+    db
       .from('member_social_stats')
       .select('member_id, content_count')
       .in('member_id', followingIds),

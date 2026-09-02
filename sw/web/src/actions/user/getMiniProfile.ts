@@ -2,8 +2,8 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { type ActionResult, failure } from '@/lib/errors'
 import { getTitleInfo } from '@/constants/titles'
 
@@ -26,11 +26,11 @@ interface PublicMiniProfileData {
 
 // 공개 회원 프로필과 파생 지표만 조회 — viewer 무관, 캐시 가능
 async function fetchMiniProfilePublic(userId: string): Promise<PublicMiniProfileData> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   const [profileResult, socialResult] = await Promise.all([
-    supabase.from('member_profiles').select('id, nickname, avatar_url, selected_title').eq('id', userId).single(),
-    supabase
+    db.from('member_profiles').select('id, nickname, avatar_url, selected_title').eq('id', userId).single(),
+    db
       .from('member_social_stats')
       .select('content_count, follower_count')
       .eq('member_id', userId)
@@ -58,12 +58,12 @@ export async function getMiniProfile(userId: string): Promise<ActionResult<MiniP
   }
 
   // viewer 의존: 본인 여부·팔로우 여부 (캐시 불가)
-  const supabase = await createClient()
-  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user: currentUser } } = await db.auth.getUser()
 
   let isFollowing = false
   if (currentUser && currentUser.id !== userId) {
-    const { data: followData } = await supabase
+    const { data: followData } = await db
       .from('member_member_follows')
       .select('id')
       .eq('follower_member_id', currentUser.id)

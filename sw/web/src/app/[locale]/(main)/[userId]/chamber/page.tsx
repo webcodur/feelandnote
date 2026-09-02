@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import { getProfile, getDetailedStats } from "@/actions/user";
 import { notFound } from "next/navigation";
 import ProfileSettingsSection from "../ProfileSettingsSection";
@@ -18,8 +18,8 @@ interface PageProps {
 
 export default async function ChamberPage({ params }: PageProps) {
   const { userId } = await params;
-  const supabase = await createClient();
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
+  const db = await createClient();
+  const { data: { user: currentUser } } = await db.auth.getUser();
 
   // 본인만 접근 가능
   if (!currentUser || currentUser.id !== userId) {

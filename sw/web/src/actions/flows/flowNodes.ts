@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 import type { Content, FlowNode, FlowNodeWithContent } from '@/types/database'
 
@@ -21,16 +21,16 @@ export async function addNode(params: {
   description?: string;
   insertBeforeNodeId?: string;
 }) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
 
   let targetOrder: number
 
   if (params.insertBeforeNodeId) {
     // 특정 노드 앞에 삽입
-    const { data: targetNode } = await supabase
+    const { data: targetNode } = await db
       .from('flow_nodes')
       .select('sort_order')
       .eq('id', params.insertBeforeNodeId)
@@ -41,7 +41,7 @@ export async function addNode(params: {
       targetOrder = targetNode.sort_order
 
       // 해당 위치 이후의 모든 노드들을 조회
-      const { data: nodesToShift } = await supabase
+      const { data: nodesToShift } = await db
         .from('flow_nodes')
         .select('id')
         .eq('stage_id', params.stageId)
@@ -50,7 +50,7 @@ export async function addNode(params: {
       // 한 칸씩 뒤로 이동
       if (nodesToShift && nodesToShift.length > 0) {
         const updates = nodesToShift.map((node, index) =>
-          supabase
+          db
             .from('flow_nodes')
             .update({ sort_order: targetOrder + index + 1 })
             .eq('id', node.id)
@@ -59,7 +59,7 @@ export async function addNode(params: {
       }
     } else {
       // 타겟 노드를 찾지 못하면 맨 끝에 추가
-      const { data: maxNode } = await supabase
+      const { data: maxNode } = await db
         .from('flow_nodes')
         .select('sort_order')
         .eq('stage_id', params.stageId)
@@ -71,7 +71,7 @@ export async function addNode(params: {
     }
   } else {
     // 맨 끝에 추가
-    const { data: maxNode } = await supabase
+    const { data: maxNode } = await db
       .from('flow_nodes')
       .select('sort_order')
       .eq('stage_id', params.stageId)
@@ -82,7 +82,7 @@ export async function addNode(params: {
     targetOrder = (maxNode?.sort_order ?? -1) + 1
   }
 
-  const { data: node, error } = await supabase
+  const { data: node, error } = await db
     .from('flow_nodes')
     .insert({
       flow_id: params.flowId,
@@ -140,12 +140,12 @@ export async function addNode(params: {
 
 // Node 삭제
 export async function removeNode(nodeId: string) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
 
-  const { error } = await supabase
+  const { error } = await db
     .from('flow_nodes')
     .delete()
     .eq('id', nodeId)
@@ -160,13 +160,13 @@ export async function removeNode(nodeId: string) {
 
 // Node 순서 변경 (스테이지 내)
 export async function reorderNodes(params: { stageId: string; nodeIds: string[] }) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
 
   const updates = params.nodeIds.map((nodeId, index) =>
-    supabase
+    db
       .from('flow_nodes')
       .update({ sort_order: index })
       .eq('id', nodeId)
@@ -180,12 +180,12 @@ export async function reorderNodes(params: { stageId: string; nodeIds: string[] 
 
 // Node 설명/속성 수정
 export async function updateNode(params: { nodeId: string; description?: string | null }) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다.')
 
-  const { data: node } = await supabase
+  const { data: node } = await db
     .from('flow_nodes')
     .select('id, flow_id')
     .eq('id', params.nodeId)
@@ -195,7 +195,7 @@ export async function updateNode(params: { nodeId: string; description?: string 
     throw new Error('노드를 찾을 수 없습니다.')
   }
 
-  const { data: flow } = await supabase
+  const { data: flow } = await db
     .from('flows')
     .select('user_id')
     .eq('id', node.flow_id)
@@ -210,7 +210,7 @@ export async function updateNode(params: { nodeId: string; description?: string 
     updateData.description = params.description?.trim() || null
   }
 
-  const { error } = await supabase
+  const { error } = await db
     .from('flow_nodes')
     .update(updateData)
     .eq('id', params.nodeId)

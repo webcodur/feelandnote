@@ -28,7 +28,87 @@ const APP_RELATIVE_PATH = 'sw/web'
 const DIST_DIR = '.next-verify'
 const RELEASE_METADATA_FILE = '.feelandnote-release.json'
 const SLOT_NAMES = ['blue', 'green']
+const CADDY_ADMIN_URL = 'http://127.0.0.1:2019'
+export const PRIMARY_PORT = 3000
+export const TRAFFIC_DRAIN_MS = 5_000
 export const STATIC_ASSET_RETENTION_MS = 35 * 24 * 60 * 60 * 1_000
+
+function collectReverseProxyHandlers(value, found = []) {
+  if (Array.isArray(value)) {
+    for (const item of value) collectReverseProxyHandlers(item, found)
+    return found
+  }
+  if (!value || typeof value !== 'object') return found
+  if (value.handler === 'reverse_proxy' && Array.isArray(value.upstreams)) found.push(value)
+  for (const child of Object.values(value)) collectReverseProxyHandlers(child, found)
+  return found
+}
+
+function loopbackDial(port) {
+  return `127.0.0.1:${port}`
+}
+
+export function assertBridgePort(port) {
+  if (!Number.isInteger(port) || port < 1024 || port > 65535 || port === PRIMARY_PORT) {
+    throw new Error(`Unsafe bridge port: ${port}`)
+  }
+  return port
+}
+
+export function inspectCaddyProxyPort(config) {
+  const handlers = collectReverseProxyHandlers(config)
+  const ports = handlers.flatMap((handler) => handler.upstreams)
+    .map((upstream) => upstream?.dial?.match(/^127[.]0[.]0[.]1:(\d+)$/u)?.[1])
+    .filter(Boolean)
+    .map(Number)
+
+  if (ports.length !== 1 || !Number.isInteger(ports[0])) {
+    throw new Error(`Expected exactly one loopback Caddy upstream, found ${ports.length}`)
+  }
+  return ports[0]
+}
+
+export function createBridgeCaddyConfig(config, bridgePort) {
+  assertBridgePort(bridgePort)
+  if (inspectCaddyProxyPort(config) !== PRIMARY_PORT) {
+    throw new Error(`Caddy must route to the primary port ${PRIMARY_PORT} before bridging`)
+  }
+
+  const bridged = structuredClone(config)
+  const handlers = collectReverseProxyHandlers(bridged)
+  const matchingHandlers = handlers.filter((handler) => (
+    handler.upstreams.length === 1
+    && handler.upstreams[0]?.dial === loopbackDial(PRIMARY_PORT)
+  ))
+  if (matchingHandlers.length !== 1) {
+    throw new Error(`Expected one primary Caddy reverse proxy, found ${matchingHandlers.length}`)
+  }
+
+  const handler = matchingHandlers[0]
+  handler.upstreams[0].dial = loopbackDial(bridgePort)
+
+  const locationReplacements = handler.headers?.response?.replace?.Location
+  const matchingLocationReplacements = Array.isArray(locationReplacements)
+    ? locationReplacements.filter((entry) => (
+        entry
+        && typeof entry === 'object'
+        && typeof entry.search_regexp === 'string'
+        && entry.search_regexp.split(`:${PRIMARY_PORT}`).length === 2
+      ))
+    : []
+  if (matchingLocationReplacements.length !== 1) {
+    throw new Error(`Expected one upstream Location rewrite, found ${matchingLocationReplacements.length}`)
+  }
+  matchingLocationReplacements[0].search_regexp = matchingLocationReplacements[0].search_regexp.replace(
+    `:${PRIMARY_PORT}`,
+    `:${bridgePort}`,
+  )
+
+  if (inspectCaddyProxyPort(bridged) !== bridgePort) {
+    throw new Error(`Bridge Caddy configuration did not select port ${bridgePort}`)
+  }
+  return bridged
+}
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
@@ -630,16 +710,68 @@ function canaryUnitName(releaseId) {
   return `feelandnote-web-canary-${releaseId}.service`
 }
 
-function stopCanary(releaseId) {
+async function readActiveCaddyConfig() {
+  const response = await fetchWithTimeout(`${CADDY_ADMIN_URL}/config/`, { timeoutMs: 5_000 })
+  if (!response.ok) {
+    throw new Error(`Caddy admin config returned HTTP ${response.status}`)
+  }
+  const config = await response.json()
+  inspectCaddyProxyPort(config)
+  return config
+}
+
+async function loadActiveCaddyConfig(config, expectedPort) {
+  const response = await fetchWithTimeout(`${CADDY_ADMIN_URL}/load`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(config),
+    timeoutMs: 10_000,
+  })
+  if (!response.ok) {
+    const detail = (await response.text()).trim()
+    throw new Error(`Caddy config load returned HTTP ${response.status}${detail ? `: ${detail}` : ''}`)
+  }
+
+  const active = await readActiveCaddyConfig()
+  const activePort = inspectCaddyProxyPort(active)
+  if (activePort !== expectedPort) {
+    throw new Error(`Caddy routes to port ${activePort}, expected ${expectedPort}`)
+  }
+  return activePort
+}
+
+function canaryServiceState(releaseId) {
+  return run('sudo', ['systemctl', 'is-active', canaryUnitName(releaseId)], {
+    allowFailure: true,
+  }).stdout
+}
+
+function assertCanaryActive(releaseId) {
+  const state = canaryServiceState(releaseId)
+  if (state !== 'active') {
+    throw new Error(`${canaryUnitName(releaseId)} is not active: ${state || 'unknown'}`)
+  }
+}
+
+async function stopCanary(releaseId, port) {
+  assertBridgePort(port)
   const unit = canaryUnitName(releaseId)
+  const activeConfig = await readActiveCaddyConfig()
+  if (inspectCaddyProxyPort(activeConfig) === port) {
+    throw new Error(`Refusing to stop ${unit} while Caddy routes production traffic to port ${port}`)
+  }
   run('sudo', ['systemctl', 'stop', unit], { allowFailure: true })
+  const stoppedState = canaryServiceState(releaseId)
+  if (stoppedState === 'active' || stoppedState === 'activating' || stoppedState === 'deactivating') {
+    throw new Error(`${unit} did not stop: ${stoppedState}`)
+  }
   run('sudo', ['systemctl', 'reset-failed', unit], { allowFailure: true })
+  return stoppedState || 'inactive'
 }
 
 async function runCanary(releaseId, port, probeSlug) {
-  if (!Number.isInteger(port) || port < 1024 || port > 65535 || port === 3000) {
-    throw new Error(`Unsafe canary port: ${port}`)
-  }
+  assertBridgePort(port)
+  await stopCanary(releaseId, port)
   if (await canConnect(port)) throw new Error(`Canary port ${port} is already in use`)
 
   const { slot, slotRoot, metadata } = findSlotByReleaseId(releaseId)
@@ -650,7 +782,7 @@ async function runCanary(releaseId, port, probeSlug) {
   const appRoot = assertPreparedRelease(slotRoot)
   const unit = canaryUnitName(releaseId)
 
-  stopCanary(releaseId)
+  let keepRunning = false
   try {
     run('sudo', [
       'systemd-run',
@@ -665,6 +797,9 @@ async function runCanary(releaseId, port, probeSlug) {
       '--property=PrivateTmp=true',
       '--property=MemoryHigh=700M',
       '--property=MemoryMax=850M',
+      '--property=Restart=on-failure',
+      '--property=RestartSec=2s',
+      '--property=TimeoutStopSec=15s',
       '--setenv=NODE_ENV=production',
       `--setenv=PORT=${port}`,
       '--setenv=NODE_OPTIONS=--max-old-space-size=512',
@@ -674,14 +809,23 @@ async function runCanary(releaseId, port, probeSlug) {
 
     const probes = await verifyApplication(port, probeSlug, releaseId, releaseId)
     const exploreWarmup = await warmExplorePage(port, releaseId)
-    return { unit, port, slot, releaseId: metadata.releaseId, probes, exploreWarmup }
+    keepRunning = true
+    return {
+      unit,
+      port,
+      slot,
+      releaseId: metadata.releaseId,
+      probes,
+      exploreWarmup,
+      keptRunningForTrafficBridge: true,
+    }
   } catch (error) {
     const logs = run('sudo', ['journalctl', '-u', unit, '-n', '80', '--no-pager'], {
       allowFailure: true,
     }).stdout
     throw new Error(`${error.message}${logs ? `\nCanary logs:\n${logs}` : ''}`)
   } finally {
-    stopCanary(releaseId)
+    if (!keepRunning) await stopCanary(releaseId, port)
   }
 }
 
@@ -703,60 +847,271 @@ async function waitForServiceActive(attempts = 40) {
   throw new Error(`${SERVICE_NAME} did not become active`)
 }
 
-async function activateRelease(releaseId, probeSlug) {
+async function restartPrimaryApplication(releasePath, linkId, probeSlug, expectedDeploymentId) {
+  if (currentDeploymentPath() !== realpathSync(releasePath)) {
+    switchCurrentLink(releasePath, linkId)
+  }
+  run('sudo', ['systemctl', 'restart', SERVICE_NAME])
+  await waitForServiceActive()
+  const probes = await verifyApplication(
+    PRIMARY_PORT,
+    probeSlug,
+    linkId,
+    expectedDeploymentId,
+  )
+  const exploreWarmup = expectedDeploymentId
+    ? await warmExplorePage(PRIMARY_PORT, expectedDeploymentId, 1)
+    : null
+  return { probes, exploreWarmup }
+}
+
+async function waitForTrafficDrain() {
+  await new Promise((resolve) => setTimeout(resolve, TRAFFIC_DRAIN_MS))
+}
+
+async function recoverPrimaryRelease({
+  releasePath,
+  linkId,
+  expectedDeploymentId,
+  bridgeExpectedDeploymentId,
+  probeSlug,
+  originalCaddyConfig,
+  bridgePort,
+}) {
+  const failures = []
+  let activePort = null
+  try {
+    activePort = inspectCaddyProxyPort(await readActiveCaddyConfig())
+  } catch (error) {
+    failures.push(`Caddy state check failed: ${error.message}`)
+  }
+
+  if (activePort === PRIMARY_PORT) {
+    try {
+      await verifyApplication(
+        bridgePort,
+        probeSlug,
+        `recovery-${linkId}`,
+        bridgeExpectedDeploymentId,
+      )
+      await loadActiveCaddyConfig(createBridgeCaddyConfig(originalCaddyConfig, bridgePort), bridgePort)
+      await waitForTrafficDrain()
+      activePort = bridgePort
+    } catch (error) {
+      try {
+        activePort = inspectCaddyProxyPort(await readActiveCaddyConfig())
+      } catch {
+        // 아래 실패 보고가 원래 bridge 복구 오류를 보존한다.
+      }
+      if (activePort !== bridgePort) {
+        failures.push(`Traffic bridge recovery failed: ${error.message}`)
+      }
+    }
+  }
+
+  let primary = null
+  if (activePort === bridgePort) {
+    try {
+      primary = await restartPrimaryApplication(
+        releasePath,
+        linkId,
+        probeSlug,
+        expectedDeploymentId,
+      )
+    } catch (error) {
+      failures.push(`Primary recovery failed: ${error.message}`)
+    }
+  } else if (activePort !== null) {
+    failures.push(`Caddy routes to unexpected port ${activePort}`)
+  }
+
+  if (primary && activePort === bridgePort) {
+    try {
+      await loadActiveCaddyConfig(originalCaddyConfig, PRIMARY_PORT)
+      activePort = PRIMARY_PORT
+    } catch (error) {
+      try {
+        activePort = inspectCaddyProxyPort(await readActiveCaddyConfig())
+      } catch {
+        // 아래 실패 보고가 원래 Caddy 복구 오류를 보존한다.
+      }
+      if (activePort !== PRIMARY_PORT) {
+        failures.push(`Caddy recovery failed: ${error.message}`)
+      }
+    }
+  }
+
+  return { failures, activePort, primary }
+}
+
+async function transitionPrimaryRelease({
+  operation,
+  targetPath,
+  targetLinkId,
+  targetExpectedDeploymentId,
+  fallbackPath,
+  fallbackLinkId,
+  fallbackExpectedDeploymentId,
+  bridgeExpectedDeploymentId,
+  bridgePort,
+  probeSlug,
+}) {
+  const originalCaddyConfig = await readActiveCaddyConfig()
+  if (inspectCaddyProxyPort(originalCaddyConfig) !== PRIMARY_PORT) {
+    throw new Error(`Caddy is not on the primary port ${PRIMARY_PORT}`)
+  }
+  const bridgeCaddyConfig = createBridgeCaddyConfig(originalCaddyConfig, bridgePort)
+  let primaryRestartAttempted = false
+  let primary = null
+  try {
+    await loadActiveCaddyConfig(bridgeCaddyConfig, bridgePort)
+    await waitForTrafficDrain()
+
+    primaryRestartAttempted = true
+    primary = await restartPrimaryApplication(
+      targetPath,
+      targetLinkId,
+      probeSlug,
+      targetExpectedDeploymentId,
+    )
+    await loadActiveCaddyConfig(originalCaddyConfig, PRIMARY_PORT)
+    return {
+      primary,
+      trafficBridge: {
+        port: bridgePort,
+        drainMs: TRAFFIC_DRAIN_MS,
+        restoredToPrimaryPort: true,
+      },
+    }
+  } catch (error) {
+    let activePort = null
+    try {
+      activePort = inspectCaddyProxyPort(await readActiveCaddyConfig())
+    } catch {
+      // 복구 함수가 Caddy 상태 확인 실패를 구체적으로 보고한다.
+    }
+
+    if (primary && activePort === PRIMARY_PORT) {
+      return {
+        primary,
+        trafficBridge: {
+          port: bridgePort,
+          drainMs: TRAFFIC_DRAIN_MS,
+          restoredToPrimaryPort: true,
+          restoreVerificationRecovered: true,
+        },
+      }
+    }
+
+    let linkChanged = true
+    try {
+      linkChanged = currentDeploymentPath() !== fallbackPath
+    } catch {
+      // 링크 상태가 불명확하면 현재 release가 안전하다고 단정하지 않고 복구를 시도한다.
+    }
+    if (activePort === PRIMARY_PORT && !primaryRestartAttempted && !linkChanged) {
+      throw new Error(`${operation} failed before traffic switched; the current release is still live: ${error.message}`)
+    }
+
+    const recovery = await recoverPrimaryRelease({
+      releasePath: fallbackPath,
+      linkId: fallbackLinkId,
+      expectedDeploymentId: fallbackExpectedDeploymentId,
+      bridgeExpectedDeploymentId,
+      probeSlug,
+      originalCaddyConfig,
+      bridgePort,
+    })
+    if (recovery.failures.length) {
+      throw new Error(
+        `${operation} failed; recovery was incomplete (${recovery.failures.join('; ')}). `
+        + `The traffic bridge was left running when still selected: ${error.message}`,
+      )
+    }
+    throw new Error(`${operation} failed and the previous release was restored without a traffic gap: ${error.message}`)
+  }
+}
+
+async function activateRelease(releaseId, bridgePort, probeSlug) {
+  assertBridgePort(bridgePort)
+  assertCanaryActive(releaseId)
   const { slot, slotRoot, metadata } = findSlotByReleaseId(releaseId)
   assertPreparedRelease(slotRoot)
   const previousRelease = currentDeploymentPath()
   if (!previousRelease) throw new Error('Current deployment link is missing')
   const previousTarget = deploymentTargetForPath(previousRelease)
+  const previousSlot = slotNameForPath(previousRelease)
+  const previousMetadata = previousSlot ? readReleaseMetadata(previousRelease, true) : null
   if (realpathSync(slotRoot) === previousRelease) {
     throw new Error(`Release is already active in the ${slot} slot`)
   }
 
-  let switched = false
-  try {
-    switchCurrentLink(slotRoot, releaseId)
-    switched = true
-    run('sudo', ['systemctl', 'restart', SERVICE_NAME])
-    await waitForServiceActive()
-    const probes = await verifyApplication(3000, probeSlug, releaseId, releaseId)
-    const exploreWarmup = await warmExplorePage(3000, releaseId, 1)
-    return {
-      previousRelease,
-      previousTarget,
-      currentRelease: metadata.releaseId,
-      currentCommit: metadata.commit,
-      currentPath: realpathSync(CURRENT_LINK),
-      currentSlot: slot,
-      probes,
-      exploreWarmup,
-    }
-  } catch (error) {
-    if (switched) {
-      const rollbackId = `rollback-${releaseId}`.slice(0, 79)
-      switchCurrentLink(previousRelease, rollbackId)
-      run('sudo', ['systemctl', 'restart', SERVICE_NAME], { allowFailure: true })
-      await waitForServiceActive().catch(() => undefined)
-    }
-    throw new Error(`Activation failed and rollback was attempted: ${error.message}`)
+  const transition = await transitionPrimaryRelease({
+    operation: 'Activation',
+    targetPath: slotRoot,
+    targetLinkId: releaseId,
+    targetExpectedDeploymentId: metadata.releaseId,
+    fallbackPath: previousRelease,
+    fallbackLinkId: `rollback-${releaseId}`.slice(0, 79),
+    fallbackExpectedDeploymentId: previousMetadata?.releaseId ?? null,
+    bridgeExpectedDeploymentId: releaseId,
+    bridgePort,
+    probeSlug,
+  })
+
+  return {
+    previousRelease,
+    previousTarget,
+    currentRelease: metadata.releaseId,
+    currentCommit: metadata.commit,
+    currentPath: realpathSync(CURRENT_LINK),
+    currentSlot: slot,
+    probes: transition.primary.probes,
+    exploreWarmup: transition.primary.exploreWarmup,
+    trafficBridge: transition.trafficBridge,
   }
 }
 
-async function rollbackRelease(target, probeSlug) {
+async function rollbackRelease(target, releaseId, bridgePort, probeSlug) {
+  assertBridgePort(bridgePort)
+  assertCanaryActive(releaseId)
+  const sourcePath = currentDeploymentPath()
+  if (!sourcePath) throw new Error('Current deployment link is missing')
+  const sourceSlot = slotNameForPath(sourcePath)
+  const sourceMetadata = sourceSlot ? readReleaseMetadata(sourcePath, true) : null
+  if (sourceMetadata && sourceMetadata.releaseId !== releaseId) {
+    throw new Error(`Rollback bridge release ${releaseId} is not current (${sourceMetadata.releaseId})`)
+  }
+
   const targetPath = resolveDeploymentTarget(target)
   assertPreparedRelease(targetPath)
   const targetSlot = slotNameForPath(targetPath)
   const metadata = targetSlot ? readReleaseMetadata(targetPath, true) : null
-  switchCurrentLink(targetPath, `rollback-${target}`.slice(0, 79))
-  run('sudo', ['systemctl', 'restart', SERVICE_NAME])
-  await waitForServiceActive()
-  const probes = await verifyApplication(3000, probeSlug, `rollback-${target}`)
+  if (realpathSync(targetPath) === sourcePath) {
+    throw new Error(`Rollback target is already active: ${target}`)
+  }
+
+  await verifyApplication(bridgePort, probeSlug, releaseId, releaseId)
+  const transition = await transitionPrimaryRelease({
+    operation: 'Rollback',
+    targetPath,
+    targetLinkId: `rollback-${target}`.slice(0, 79),
+    targetExpectedDeploymentId: metadata?.releaseId ?? null,
+    fallbackPath: sourcePath,
+    fallbackLinkId: `rollback-failed-${releaseId}`.slice(0, 79),
+    fallbackExpectedDeploymentId: sourceMetadata?.releaseId ?? null,
+    bridgeExpectedDeploymentId: releaseId,
+    bridgePort,
+    probeSlug,
+  })
+
   return {
     currentRelease: metadata?.releaseId ?? path.basename(targetPath),
     currentCommit: metadata?.commit ?? null,
     currentPath: realpathSync(CURRENT_LINK),
     currentSlot: targetSlot,
-    probes,
+    probes: transition.primary.probes,
+    trafficBridge: transition.trafficBridge,
   }
 }
 
@@ -922,11 +1277,14 @@ async function main() {
   } else if (command === 'activate') {
     result = await activateRelease(
       releaseId,
+      Number(argumentValue(args, '--port')),
       argumentValue(args, '--probe-slug') ?? 'bill-gates',
     )
   } else if (command === 'rollback') {
     result = await rollbackRelease(
       argumentValue(args, '--target'),
+      releaseId,
+      Number(argumentValue(args, '--port')),
       argumentValue(args, '--probe-slug') ?? 'bill-gates',
     )
   } else if (command === 'finalize') {
@@ -936,8 +1294,9 @@ async function main() {
       argumentValue(args, '--previous-commit'),
     )
   } else if (command === 'stop-canary') {
-    stopCanary(releaseId)
-    result = { stopped: canaryUnitName(releaseId) }
+    const port = Number(argumentValue(args, '--port'))
+    const state = await stopCanary(releaseId, port)
+    result = { stopped: canaryUnitName(releaseId), state }
   } else {
     throw new Error(`Unknown command: ${JSON.stringify(command)}`)
   }

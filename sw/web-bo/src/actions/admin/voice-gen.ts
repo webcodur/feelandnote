@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
@@ -62,9 +62,9 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
  * 검색은 `/api/celebs/search`가 질의마다 처리하므로, 여기서는 고른 한 명만 읽는다.
  */
 export async function getCelebVoiceDetail(idOrSlug: string): Promise<VoiceGenCeleb | null> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const query = supabase
+  const query = db
     .from('celebs')
     .select(`
       id, nickname, avatar_url, slug, speech_tone, has_voice,
@@ -171,8 +171,8 @@ export async function generateVoicePreview(params: {
 /** voice_v를 1 증가 (캐시 버스터 갱신) 후 새 값 반환 */
 export async function bumpVoiceVersion(celebId: string): Promise<number> {
   await requireAdmin()
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('celebs')
     .select('voice_v')
     .eq('id', celebId)
@@ -180,7 +180,7 @@ export async function bumpVoiceVersion(celebId: string): Promise<number> {
   if (error || !data) throw error ?? new Error('셀럽을 찾을 수 없습니다.')
 
   const newV = ((data as Record<string, unknown>)?.voice_v as number ?? 0) + 1
-  const { data: updated, error: updateError } = await supabase
+  const { data: updated, error: updateError } = await db
     .from('celebs')
     .update({ voice_v: newV })
     .eq('id', celebId)
@@ -246,8 +246,8 @@ export async function fetchVoiceFile(params: {
 /** has_voice 활성화 */
 export async function enableHasVoice(celebId: string): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('celebs')
     .update({ has_voice: true })
     .eq('id', celebId)
@@ -267,9 +267,9 @@ export async function saveVoiceId(
   voiceId: string,
 ): Promise<{ success: boolean; error?: string }> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   const col = locale === 'ko' ? 'voice_id_ko' : 'voice_id_en'
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celebs')
     .update({ [col]: voiceId })
     .eq('id', celebId)

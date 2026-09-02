@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export interface CelebViewStats {
   recentViews: number
@@ -18,9 +18,9 @@ export async function getCelebViewStats(
   celebId: string,
   days = 30,
 ): Promise<CelebViewStats | null> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .rpc('get_celeb_view_stats', { p_celeb_id: celebId, p_days: days })
 
   if (error) {

@@ -1,4 +1,4 @@
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { verifyPassword } from './anonPassword'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 
@@ -11,7 +11,7 @@ export async function canMutateFree(
   row: { author_id: string | null; password_hash: string | null },
   user: { id: string } | null,
   password: string | undefined,
-  authClient: SupabaseClient,
+  authClient: DatabaseClient,
 ): Promise<boolean> {
   if (row.author_id) {
     if (!user) return false

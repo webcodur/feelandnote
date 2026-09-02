@@ -8,8 +8,8 @@ import {
   type FactionTeamImage,
 } from '@feelandnote/shared/lib/faction-team-image'
 import { checkAdmin } from '@/lib/auth/checkAdmin'
-import { createClient } from '@/lib/supabase/server'
-import { failure, handleSupabaseError, success, type ActionResult } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { failure, handleDatabaseError, success, type ActionResult } from '@/lib/errors'
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -39,19 +39,19 @@ export async function setFactionCoverImage(
     return failure('VALIDATION_ERROR', '대표로 지정할 사진 주소가 올바르지 않습니다.')
   }
 
-  const supabase = await createClient()
-  const adminCheck = await checkAdmin(supabase)
+  const db = await createClient()
+  const adminCheck = await checkAdmin(db)
   if (!adminCheck.success) return adminCheck
 
   // 1. 현재 tag의 team_images를 조회합니다.
-  const { data: tag, error: fetchErr } = await supabase
+  const { data: tag, error: fetchErr } = await db
     .from('celeb_tags')
     .select('id, slug, team_images')
     .eq('id', tagId)
     .single()
 
   if (fetchErr || !tag) {
-    return handleSupabaseError(fetchErr, { logPrefix: '[팩션 대표 이미지 조회]' })
+    return handleDatabaseError(fetchErr, { logPrefix: '[팩션 대표 이미지 조회]' })
   }
 
   const current = toTeamImages(tag.team_images)
@@ -65,7 +65,7 @@ export async function setFactionCoverImage(
   const next = [targetImage, ...current]
   const serialized = serializeTeamImages(next)
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_tags')
     .update({
       team_images: serialized,
@@ -76,7 +76,7 @@ export async function setFactionCoverImage(
     .single()
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[팩션 대표 이미지 저장]' })
+    return handleDatabaseError(error, { logPrefix: '[팩션 대표 이미지 저장]' })
   }
 
   revalidateTag(CACHE_TAGS.TAGS, { expire: 0 })
@@ -107,13 +107,13 @@ export async function updateFactionTeamImages(
     return failure('INVALID_INPUT', '유효하지 않은 팩션입니다.')
   }
 
-  const supabase = await createClient()
-  const adminCheck = await checkAdmin(supabase)
+  const db = await createClient()
+  const adminCheck = await checkAdmin(db)
   if (!adminCheck.success) return adminCheck
 
   const serialized = serializeTeamImages(images)
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_tags')
     .update({
       team_images: serialized,
@@ -124,7 +124,7 @@ export async function updateFactionTeamImages(
     .single()
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[팩션 단체 사진 갱신]' })
+    return handleDatabaseError(error, { logPrefix: '[팩션 단체 사진 갱신]' })
   }
 
   revalidateTag(CACHE_TAGS.TAGS, { expire: 0 })

@@ -1,8 +1,8 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { getTitleInfo } from '@/constants/titles'
 
 interface FollowerInfo {
@@ -30,9 +30,9 @@ interface PublicFollowerRow {
 
 // 팔로우 FK는 계정 테이블을 가리키므로 표시 프로필은 ID로 한 번 더 조회한다.
 async function fetchFollowersPublic(userId: string): Promise<PublicFollowerRow[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data: relations, error } = await supabase
+  const { data: relations, error } = await db
     .from('member_member_follows')
     .select('follower_member_id, created_at')
     .eq('followed_member_id', userId)
@@ -41,7 +41,7 @@ async function fetchFollowersPublic(userId: string): Promise<PublicFollowerRow[]
   if (error) throw error
   if (!relations?.length) return []
 
-  const { data: profiles, error: profileError } = await supabase
+  const { data: profiles, error: profileError } = await db
     .from('member_profiles')
     .select('id, nickname, avatar_url, bio, selected_title')
     .in('id', relations.map(relation => relation.follower_member_id))
@@ -79,12 +79,12 @@ export async function getFollowers(userId: string): Promise<GetFollowersResult> 
     }))
 
   // viewer 의존: 내가 이 팔로워들을 팔로우하는지 (캐시 불가)
-  const supabase = await createClient()
-  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user: currentUser } } = await db.auth.getUser()
 
   let myFollowingIds: string[] = []
   if (currentUser && rows.length > 0) {
-    const { data: myFollowing } = await supabase
+    const { data: myFollowing } = await db
       .from('member_member_follows')
       .select('followed_member_id')
       .eq('follower_member_id', currentUser.id)

@@ -12,7 +12,7 @@ import { spawn } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { extname, resolve } from 'node:path'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { getBookByIsbn } from '@feelandnote/content-search/kakao-books'
 import {
   assertExactSourceBookReadback,
@@ -150,10 +150,10 @@ function requiredEnv(name: string): string {
   return value
 }
 
-function databaseClient(): SupabaseClient {
+function databaseClient(): DatabaseClient {
   return createClient(
-    requiredEnv('NEXT_PUBLIC_SUPABASE_URL'),
-    requiredEnv('SUPABASE_SERVICE_ROLE_KEY'),
+    requiredEnv('NEXT_PUBLIC_DB_API_URL'),
+    requiredEnv('DB_SECRET_KEY'),
     { auth: { autoRefreshToken: false, persistSession: false } },
   )
 }
@@ -180,7 +180,7 @@ function recordOrNull(value: unknown, field: string): Record<string, unknown> | 
   return value as Record<string, unknown>
 }
 
-async function loadBookCatalog(db: SupabaseClient): Promise<BookCatalogSnapshot> {
+async function loadBookCatalog(db: DatabaseClient): Promise<BookCatalogSnapshot> {
   const [rawContents, rawLocales] = await Promise.all([
     selectAll<Record<string, unknown>>((from, to) => db
       .from('contents')
@@ -394,7 +394,7 @@ async function resolveExternalEditions(manifest: FictionSourceBookManifest): Pro
   return { ko, en }
 }
 
-async function loadExactSnapshot(db: SupabaseClient, contentId: string): Promise<ExactContentSnapshot> {
+async function loadExactSnapshot(db: DatabaseClient, contentId: string): Promise<ExactContentSnapshot> {
   const [contentResult, localeResult] = await Promise.all([
     db.from('contents')
       .select('id,type,subtype,external_source,external_id,release_date,metadata,member_count,celeb_count,record_count,created_at')
@@ -555,7 +555,7 @@ function oracleOptions(): { host: string; container: string; sshKey: string } {
   if (host !== EXPECTED_DB_SSH_HOST) throw new Error(`Refusing non-production Oracle DB SSH host: ${host}`)
   if (container !== EXPECTED_DB_CONTAINER) throw new Error(`Refusing unexpected DB container: ${container}`)
   if (!existsSync(sshKey)) throw new Error(`Oracle DB SSH key is missing: ${sshKey}`)
-  const hostname = new URL(requiredEnv('NEXT_PUBLIC_SUPABASE_URL')).hostname
+  const hostname = new URL(requiredEnv('NEXT_PUBLIC_DB_API_URL')).hostname
   if (hostname !== EXPECTED_DB_API_HOSTNAME) throw new Error(`Refusing non-Oracle DB API hostname: ${hostname}`)
   return { host, container, sshKey }
 }

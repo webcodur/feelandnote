@@ -1,7 +1,7 @@
 'use server'
 
 // egress-allow: 본인 소유 flows 필터 RLS — anon 전환 불가. id/name만 조회로 페이로드 최소
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 interface FlowInfo {
   id: string
@@ -10,12 +10,12 @@ interface FlowInfo {
 
 // 특정 content_id가 포함된 사용자의 플로우 조회
 export async function getFlowsContainingContent(contentId: string): Promise<FlowInfo[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) return []
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('flow_nodes')
     .select(`
       flow:flows!inner(id, name, user_id)

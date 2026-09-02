@@ -16,16 +16,16 @@ import {
   exportFactionEpisodeToFile, factionEpisodePaths,
 } from '@feelandnote/shared/bo/faction-export'
 import { FACTIONS_DIR } from '@feelandnote/shared/bo/episode-store'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@supabase/supabase-js'
 import type { FactionScript } from './faction-types'
 
 /** service role 클라이언트 — 팩션 5테이블은 RLS 로 admin 전용이다 */
-function db(): SupabaseClient {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url) throw new Error('NEXT_PUBLIC_SUPABASE_URL 없음')
-  if (!key) throw new Error('SUPABASE_SERVICE_ROLE_KEY 없음')
+function db(): DatabaseClient {
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.DB_SECRET_KEY
+  if (!url) throw new Error('NEXT_PUBLIC_DB_API_URL 없음')
+  if (!key) throw new Error('DB_SECRET_KEY 없음')
   return createClient(url, key, { auth: { persistSession: false } })
 }
 

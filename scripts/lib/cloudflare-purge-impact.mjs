@@ -293,7 +293,7 @@ const NON_RUNTIME_PREFIXES = [
   'sw/remotion/',
   'sw/web-bo/',
   'sw/web/scripts/',
-  'sw/web/supabase/',
+  'sw/web/database/',
 ]
 
 const NON_HTML_RUNTIME_PREFIXES = [

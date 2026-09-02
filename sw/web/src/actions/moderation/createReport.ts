@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import {
   ENUM_REPORT_REASON,
   ENUM_REPORT_TARGET_TYPE,
@@ -62,11 +62,11 @@ export async function createReport(
   }
   // #endregion
 
-  const supabase = await createClient()
+  const db = await createClient()
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await db.auth.getUser()
 
   if (!user) return failure('UNAUTHORIZED')
 
@@ -83,19 +83,19 @@ export async function createReport(
   const reportTargetMemberId =
     targetType === ENUM_REPORT_TARGET_TYPE.USER ? targetId.trim() : targetUserId
   if (reportTargetMemberId) {
-    const { data: targetMember, error: targetMemberError } = await supabase
+    const { data: targetMember, error: targetMemberError } = await db
       .from('member_profiles')
       .select('id')
       .eq('id', reportTargetMemberId)
       .maybeSingle()
 
     if (targetMemberError) {
-      return handleSupabaseError(targetMemberError, { logPrefix: '[신고 대상 회원 확인]' })
+      return handleDatabaseError(targetMemberError, { logPrefix: '[신고 대상 회원 확인]' })
     }
     if (!targetMember) return failure('NOT_FOUND', '신고 대상 회원을 찾을 수 없다.')
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('reports')
     .insert({
       reporter_id: user.id,
@@ -115,7 +115,7 @@ export async function createReport(
   }
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[신고 접수]' })
+    return handleDatabaseError(error, { logPrefix: '[신고 접수]' })
   }
 
   return success({ reportId: data.id, alreadyReported: false })

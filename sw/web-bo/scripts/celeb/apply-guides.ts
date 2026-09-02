@@ -36,7 +36,7 @@ function broken(slug: string, ko: string, en: string): string | null {
 }
 
 async function main() {
-  const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+  const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)
   const files = readdirSync(DIR).filter((f) => f.endsWith('.txt'))
   const items: { slug: string; ko: string; en: string }[] = []
   const rejected: string[] = []

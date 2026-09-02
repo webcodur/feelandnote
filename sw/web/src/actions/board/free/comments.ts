@@ -1,9 +1,9 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import { isValidAnonPassword, hashPassword, hashIp } from '@/lib/board/anonPassword'
 import { canMutateFree } from '@/lib/board/freeAuth'
 import { FREE_COMMENT_COLS, FREE_BOARD_PATH, getClientIp } from '@/lib/board/freeBoard'
@@ -13,8 +13,8 @@ import type { FreePostComment } from '@/types/database'
 import { isLocale, type Locale } from '@/types/locale'
 
 export async function getFreeComments(postId: string): Promise<FreePostComment[]> {
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('free_post_comments')
     .select(FREE_COMMENT_COLS)
     .eq('post_id', postId)
@@ -27,7 +27,7 @@ export async function getFreeComments(postId: string): Promise<FreePostComment[]
   }
 
   // 차단한 사용자의 댓글을 걷어낸다. 이 조회는 캐시하지 않아 보는 사람 기준으로 걸러진다.
-  const hydrated = await attachMemberAuthors(supabase, data ?? [])
+  const hydrated = await attachMemberAuthors(db, data ?? [])
   const comments = hydrated as unknown as FreePostComment[]
   const blockedIds = await getBlockedUserIds()
   return filterBlocked(comments, (comment) => comment.author_id, blockedIds)
@@ -52,10 +52,10 @@ export async function createFreeComment(params: CreateFreeCommentParams): Promis
 
   const authClient = await createClient()
   const { data: { user } } = await authClient.auth.getUser()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
   // 게시글 존재 확인
-  const { data: post } = await supabase
+  const { data: post } = await db
     .from('free_posts')
     .select('id, is_deleted, locale')
     .eq('id', postId)
@@ -85,7 +85,7 @@ export async function createFreeComment(params: CreateFreeCommentParams): Promis
 
   const ipHash = hashIp(await getClientIp())
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('free_post_comments')
     .insert({
       post_id: postId,
@@ -99,11 +99,11 @@ export async function createFreeComment(params: CreateFreeCommentParams): Promis
     .select(FREE_COMMENT_COLS)
     .single()
 
-  if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 댓글 작성]' })
+  if (error) return handleDatabaseError(error, { logPrefix: '[자유게시판 댓글 작성]' })
 
   revalidatePath(`${FREE_BOARD_PATH}/${postId}`)
   revalidatePath(`/en${FREE_BOARD_PATH}/${postId}`)
-  const comment = await attachMemberAuthor(supabase, data)
+  const comment = await attachMemberAuthor(db, data)
   return success(comment as unknown as FreePostComment)
 }
 
@@ -129,9 +129,9 @@ export async function updateFreeComment(params: UpdateFreeCommentParams): Promis
 
   const authClient = await createClient()
   const { data: { user } } = await authClient.auth.getUser()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: row, error: fetchError } = await supabase
+  const { data: row, error: fetchError } = await db
     .from('free_post_comments')
     .select('author_id, password_hash, post_id, is_deleted')
     .eq('id', id)
@@ -152,7 +152,7 @@ export async function updateFreeComment(params: UpdateFreeCommentParams): Promis
     return target.author_id ? failure('FORBIDDEN') : failure('FORBIDDEN', '비밀번호가 일치하지 않는다.')
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('free_post_comments')
     .update({ content: trimmedContent, updated_at: new Date().toISOString() })
     .eq('id', id)
@@ -160,11 +160,11 @@ export async function updateFreeComment(params: UpdateFreeCommentParams): Promis
     .select(FREE_COMMENT_COLS)
     .single()
 
-  if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 댓글 수정]' })
+  if (error) return handleDatabaseError(error, { logPrefix: '[자유게시판 댓글 수정]' })
 
   revalidatePath(`${FREE_BOARD_PATH}/${postId}`)
   revalidatePath(`/en${FREE_BOARD_PATH}/${postId}`)
-  const comment = await attachMemberAuthor(supabase, data)
+  const comment = await attachMemberAuthor(db, data)
   return success(comment as unknown as FreePostComment)
 }
 
@@ -173,9 +173,9 @@ export async function deleteFreeComment(params: DeleteFreeCommentParams): Promis
 
   const authClient = await createClient()
   const { data: { user } } = await authClient.auth.getUser()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: row, error: fetchError } = await supabase
+  const { data: row, error: fetchError } = await db
     .from('free_post_comments')
     .select('author_id, password_hash')
     .eq('id', id)
@@ -189,8 +189,8 @@ export async function deleteFreeComment(params: DeleteFreeCommentParams): Promis
     return target.author_id ? failure('FORBIDDEN') : failure('FORBIDDEN', '비밀번호가 일치하지 않는다.')
   }
 
-  const { error } = await supabase.from('free_post_comments').delete().eq('id', id)
-  if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 댓글 삭제]' })
+  const { error } = await db.from('free_post_comments').delete().eq('id', id)
+  if (error) return handleDatabaseError(error, { logPrefix: '[자유게시판 댓글 삭제]' })
 
   revalidatePath(`${FREE_BOARD_PATH}/${postId}`)
   revalidatePath(`/en${FREE_BOARD_PATH}/${postId}`)

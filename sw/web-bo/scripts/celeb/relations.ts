@@ -51,9 +51,9 @@ const APPLY = process.argv.includes('--apply')
    가려낼 방법이 서기 전에는 켜지 않는다. */
 const WITH_GROUPS = process.argv.includes('--with-groups')
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL!,
+  process.env.DB_SECRET_KEY!,
 )
 
 type Group = 'family' | 'thought' | 'rivalry' | 'career'
@@ -129,7 +129,7 @@ type Row = { slug: string; id: string; nickname: string; wikidata_qid: string | 
 async function loadCelebs(): Promise<Row[]> {
   const rows: Row[] = []
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celebs')
       .select('slug, id, nickname, wikidata_qid')
       .order('slug')
@@ -289,7 +289,7 @@ async function run() {
   // 헤파이스티온·토르-로키처럼 벗을 배우/동반자 칸에 세우던 사고를 막는다.
   const friendPairs = new Set<string>()
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await supabase.from('celeb_relations')
+    const { data, error } = await db.from('celeb_relations')
       .select('from_id,to_id').eq('rel_type', 'friend').range(from, from + 999)
     if (error) throw error
     for (const r of data ?? []) friendPairs.add([r.from_id, r.to_id].sort().join('|'))
@@ -444,7 +444,7 @@ async function run() {
   if (!APPLY) { console.log('\n※ 적재하려면 --apply'); return }
 
   // ── 적재: wikidata 출처만 전량 교체(수동분 보존) ──
-  const { error: delErr } = await supabase.from('celeb_relations').delete().eq('source', 'wikidata')
+  const { error: delErr } = await db.from('celeb_relations').delete().eq('source', 'wikidata')
   if (delErr) throw delErr
   for (let i = 0; i < final.length; i += 500) {
     const chunk = final.slice(i, i + 500).map((e) => ({
@@ -452,12 +452,12 @@ async function run() {
       note: e.note ?? null,
       note_en: e.noteEn ?? null,
     }))
-    const { error } = await supabase.from('celeb_relations')
+    const { error } = await db.from('celeb_relations')
       .upsert(chunk, { onConflict: 'from_id,to_id,rel_type', ignoreDuplicates: true })
     if (error) throw error
   }
   // 명단 밖 가족도 wikidata 출처 전량 교체
-  const { error: extDelErr } = await supabase.from('celeb_relations_external').delete().eq('source', 'wikidata')
+  const { error: extDelErr } = await db.from('celeb_relations_external').delete().eq('source', 'wikidata')
   if (extDelErr) throw extDelErr
   for (let i = 0; i < extFinal.length; i += 500) {
     const chunk = extFinal.slice(i, i + 500).map((e) => {
@@ -469,13 +469,13 @@ async function run() {
         image_url: l?.img ? `${l.img.replace(/^http:\/\//, 'https://')}?width=112` : null,
       }
     })
-    const { error } = await supabase.from('celeb_relations_external')
+    const { error } = await db.from('celeb_relations_external')
       .upsert(chunk, { onConflict: 'from_id,qid,rel_type', ignoreDuplicates: true })
     if (error) throw error
   }
 
-  const { count } = await supabase.from('celeb_relations').select('*', { count: 'exact', head: true })
-  const { count: extCount } = await supabase.from('celeb_relations_external').select('*', { count: 'exact', head: true })
+  const { count } = await db.from('celeb_relations').select('*', { count: 'exact', head: true })
+  const { count: extCount } = await db.from('celeb_relations_external').select('*', { count: 'exact', head: true })
   console.log(`\n적재 완료. celeb_relations ${count}행 · celeb_relations_external ${extCount}행`)
 }
 

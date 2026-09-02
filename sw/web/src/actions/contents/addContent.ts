@@ -1,10 +1,10 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
 import { logActivity } from '@/actions/activity'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
 import { getVideoEnLocale } from '@feelandnote/content-search/tmdb'
 
@@ -38,15 +38,15 @@ interface AddContentData {
 }
 
 export async function addContent(params: AddContentParams): Promise<ActionResult<AddContentData>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
   }
 
   // 1. external_id로 기존 콘텐츠 확인
-  const { data: existingContent } = await supabase
+  const { data: existingContent } = await db
     .from('contents')
     .select('id')
     .eq('external_id', params.id)
@@ -58,7 +58,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     contentId = existingContent.id
   } else {
     // 새 콘텐츠 생성 (id 자동 생성)
-    const { data: newContent, error: contentError } = await supabase
+    const { data: newContent, error: contentError } = await db
       .from('contents')
       .insert({
         type: params.type,
@@ -72,13 +72,13 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       .single()
 
     if (contentError || !newContent) {
-      return handleSupabaseError(contentError!, { context: 'content', logPrefix: '[콘텐츠 생성]' })
+      return handleDatabaseError(contentError!, { context: 'content', logPrefix: '[콘텐츠 생성]' })
     }
     contentId = newContent.id
 
     // content_locales에 로케일 데이터 저장
     const locale = sourceToLocale(params.externalSource)
-    await supabase.from('content_locales').insert({
+    await db.from('content_locales').insert({
       content_id: contentId,
       locale,
       title: params.title,
@@ -94,7 +94,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     if (params.type === 'VIDEO' && locale === 'ko' && params.id) {
       getVideoEnLocale(params.id).then(async (en) => {
         if (!en) return
-        await supabase.from('content_locales').insert({
+        await db.from('content_locales').insert({
           content_id: contentId,
           locale: 'en',
           title: en.title,
@@ -135,7 +135,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     insertData.is_recommended = params.isRecommended
   }
 
-  const { data: userContent, error: userContentError } = await supabase
+  const { data: userContent, error: userContentError } = await db
     .from('member_contents')
     .insert(insertData)
     .select('id')
@@ -145,7 +145,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     // 중복 에러(23505)인 경우 기존 레코드 조회
     if (userContentError.code === '23505') {
       // 이미 기록해 둔 작품이다. 별점·감상·프리셋까지 함께 돌려줘야 편집기가 빈 칸으로 열리지 않는다
-      const { data: existing, error: fetchError } = await supabase
+      const { data: existing, error: fetchError } = await db
         .from('member_contents')
         .select('id, rating, review, review_presets')
         .eq('member_id', user.id)
@@ -153,7 +153,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
         .single()
 
       if (fetchError || !existing) {
-        return handleSupabaseError(userContentError, { context: 'content', logPrefix: '[사용자 콘텐츠 생성]' })
+        return handleDatabaseError(userContentError, { context: 'content', logPrefix: '[사용자 콘텐츠 생성]' })
       }
 
       // 기존 레코드 반환
@@ -168,7 +168,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       })
     }
 
-    return handleSupabaseError(userContentError, { context: 'content', logPrefix: '[사용자 콘텐츠 생성]' })
+    return handleDatabaseError(userContentError, { context: 'content', logPrefix: '[사용자 콘텐츠 생성]' })
   }
 
   revalidatePath(`/${user.id}/reading`)

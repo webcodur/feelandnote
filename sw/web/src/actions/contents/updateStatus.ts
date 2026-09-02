@@ -1,10 +1,10 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 import { logActivity } from '@/actions/activity'
 import type { ContentStatus } from '@/types/database'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 interface UpdateStatusParams {
   userContentId: string
@@ -18,15 +18,15 @@ interface UpdateStatusParams {
  * 이 함수는 레거시 호환성을 위해 유지되며, 추후 제거 예정.
  */
 export async function updateStatus({ userContentId, status, clearReview }: UpdateStatusParams): Promise<ActionResult<null>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
   }
 
   // 이전 상태 조회
-  const { data: existing } = await supabase
+  const { data: existing } = await db
     .from('member_contents')
     .select('status, content_id')
     .eq('id', userContentId)
@@ -38,14 +38,14 @@ export async function updateStatus({ userContentId, status, clearReview }: Updat
     ? { status, rating: null, review: null, is_spoiler: false }
     : { status }
 
-  const { error } = await supabase
+  const { error } = await db
     .from('member_contents')
     .update(updateData)
     .eq('id', userContentId)
     .eq('member_id', user.id)
 
   if (error) {
-    return handleSupabaseError(error, { context: 'content', logPrefix: '[상태 변경]' })
+    return handleDatabaseError(error, { context: 'content', logPrefix: '[상태 변경]' })
   }
 
   revalidatePath(`/${user.id}/reading`)

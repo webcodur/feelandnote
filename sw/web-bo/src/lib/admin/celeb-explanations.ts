@@ -1,7 +1,7 @@
 import 'server-only'
 
 import { requireAdmin } from '@/lib/admin-auth'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 
 export type CelebExplanationReviewStatus = 'ai_reviewed' | 'human_reviewed' | null
 
@@ -22,8 +22,8 @@ export interface CelebExplanation {
 export async function getCelebExplanation(profileId: string): Promise<CelebExplanation | null> {
   await requireAdmin()
 
-  const supabase = createAdminClient()
-  const { data: explanation, error: explanationError } = await supabase
+  const db = createAdminClient()
+  const { data: explanation, error: explanationError } = await db
     .from('celeb_explanations')
     .select(`
       profile_id,

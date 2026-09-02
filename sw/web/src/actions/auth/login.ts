@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { getAccountAccessState } from '@/lib/auth/account-access'
 import { resolveAuthCallbackUrl } from '@/lib/auth/callback-url'
 import { headers } from 'next/headers'
@@ -37,9 +37,9 @@ export async function loginWithEmail(formData: FormData) {
     return { error: 'missingCredentials' as const }
   }
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await db.auth.signInWithPassword({
     email,
     password
   })
@@ -55,9 +55,9 @@ export async function loginWithEmail(formData: FormData) {
     return { error: 'unknown' as const }
   }
 
-  const accessState = await getAccountAccessState(supabase)
+  const accessState = await getAccountAccessState(db)
   if (accessState !== 'active') {
-    await supabase.auth.signOut({ scope: 'local' })
+    await db.auth.signOut({ scope: 'local' })
     return {
       error: accessState === 'blocked' ? 'accountSuspended' as const : 'unknown' as const,
     }
@@ -79,10 +79,10 @@ export async function signupWithEmail(formData: FormData) {
     return { error: 'passwordTooShort' as const }
   }
 
-  const supabase = await createClient()
+  const db = await createClient()
   const callbackUrl = await authCallbackUrl()
 
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await db.auth.signUp({
     email,
     password,
     options: {
@@ -104,10 +104,10 @@ export async function signupWithEmail(formData: FormData) {
   // 이메일 확인 활성화 상태: session이 null
   // 이메일 확인 비활성화 상태: session이 존재 (즉시 로그인됨)
   if (data.session) {
-    const accessState = await getAccountAccessState(supabase)
+    const accessState = await getAccountAccessState(db)
     if (accessState !== 'active') {
       console.error('[signupWithEmail] 회원가입 트리거가 계정 자료를 완성하지 못했습니다.')
-      await supabase.auth.signOut({ scope: 'local' })
+      await db.auth.signOut({ scope: 'local' })
       return { error: 'unknown' as const }
     }
 
@@ -124,11 +124,11 @@ export async function requestPasswordReset(formData: FormData) {
     return { error: 'missingEmail' as const }
   }
 
-  const supabase = await createClient()
+  const db = await createClient()
   const callbackUrl = new URL(await authCallbackUrl())
   callbackUrl.searchParams.set('next', '/reset-password')
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+  const { error } = await db.auth.resetPasswordForEmail(email, {
     redirectTo: callbackUrl.toString(),
   })
 
@@ -146,10 +146,10 @@ export async function requestPasswordReset(formData: FormData) {
 
 // #region OAuth 로그인
 export async function loginWithGoogle() {
-  const supabase = await createClient()
+  const db = await createClient()
   const callbackUrl = await authCallbackUrl()
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { data, error } = await db.auth.signInWithOAuth({
     provider: 'google',
     options: {
       redirectTo: callbackUrl,
@@ -164,10 +164,10 @@ export async function loginWithGoogle() {
 }
 
 export async function loginWithKakao() {
-  const supabase = await createClient()
+  const db = await createClient()
   const callbackUrl = await authCallbackUrl()
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { data, error } = await db.auth.signInWithOAuth({
     provider: 'kakao',
     options: {
       redirectTo: callbackUrl,

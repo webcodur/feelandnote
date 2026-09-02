@@ -10,7 +10,7 @@ import {
 } from 'node:fs'
 import { spawn } from 'node:child_process'
 import path from 'node:path'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { config } from 'dotenv'
 import {
   argOf,
@@ -162,7 +162,7 @@ export async function syncHeadlineChunk(
 }
 
 export function createHeadlineStore(
-  db: SupabaseClient,
+  db: DatabaseClient,
   executeSql: ManagementSqlExecutor,
 ): HeadlineStore {
   return {
@@ -270,9 +270,9 @@ export function createSelfHostedSqlExecutor(
 
 export function connectSelfHostedSqlExecutor(): ManagementSqlExecutor {
   config({ path: path.resolve(process.cwd(), '../web/.env'), quiet: true })
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  if (!supabaseUrl) throw new Error('NEXT_PUBLIC_SUPABASE_URL is missing')
-  const hostname = new URL(supabaseUrl).hostname
+  const dbApiUrl = process.env.NEXT_PUBLIC_DB_API_URL
+  if (!dbApiUrl) throw new Error('NEXT_PUBLIC_DB_API_URL is missing')
+  const hostname = new URL(dbApiUrl).hostname
   if (hostname !== 'db.feelandnote.com') {
     throw new Error(`Headline apply requires the self-hosted DB URL: ${hostname}`)
   }

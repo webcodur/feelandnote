@@ -1,6 +1,6 @@
 'use server'
 
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import { REPORT_ABUSE_SCAN_LIMIT } from '@/constants/moderation'
 import { reportTargetKey } from '@/lib/report-targets'
@@ -55,8 +55,8 @@ async function scan(
 ): Promise<{ rows: ScanRow[]; truncated: boolean }> {
   if (values.length === 0) return { rows: [], truncated: false }
 
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('reports')
     .select('reporter_id, target_user_id, target_type, target_id, status')
     .in(column, values)

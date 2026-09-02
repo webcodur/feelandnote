@@ -5,7 +5,7 @@ import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import type { GridCeleb, GridCondition } from "@/components/features/game/grid/types";
 
@@ -37,11 +37,11 @@ interface TagRow {
 // ──────────────────── 데이터 가져오기 ────────────────────
 
 async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   // 1) 활성 셀럽 프로필 (full/light) — 1,476명이므로 페이징 필수 (PostgREST 1,000행 상한)
   const celebs = await selectAllPages<ProfileRow>((from, to) =>
-    supabase
+    db
       .from("celebs")
       .select("id, nickname, nickname_en, slug, nationality, profession, birth_date, death_date")
       .eq("publication_status", "active")
@@ -60,7 +60,7 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
 
   // 2) 세력 태그 배정
   const assignments = await selectAllPages<TagAssignmentRow>((from, to) =>
-    supabase
+    db
       .from("celeb_tag_assignments")
       .select("celeb_id, tag_id")
       .eq("hidden", false)
@@ -99,9 +99,9 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
 async function fetchGridConditionLabels(): Promise<{
   tags: [string, { name: string; nameEn: string }][];
 }> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
-  const { data: tags, error } = await supabase
+  const { data: tags, error } = await db
     .from("celeb_tags")
     .select("id, name, name_en, slug")
     .eq("is_featured", true)

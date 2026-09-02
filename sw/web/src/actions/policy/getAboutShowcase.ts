@@ -11,7 +11,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 /**
  * 그림을 눌렀을 때 뜨는 안내.
@@ -183,10 +183,10 @@ function toBrief(text: string | null, max = 150): string | undefined {
 }
 
 async function fetchFaces(
-  supabase: ReturnType<typeof createStaticClient>,
+  db: ReturnType<typeof createStaticClient>,
   isEn: boolean
 ): Promise<AboutFace[]> {
-  const { data } = await supabase
+  const { data } = await db
     .from('celebs')
     .select(
       'slug, nickname, nickname_en, avatar_url, death_date, birth_date, title, title_en, bio, bio_en, profession'
@@ -219,11 +219,11 @@ async function fetchFaces(
 }
 
 async function fetchJourney(
-  supabase: ReturnType<typeof createStaticClient>,
+  db: ReturnType<typeof createStaticClient>,
   locale: string,
   isEn: boolean
 ): Promise<AboutJourney | null> {
-  const { data: people } = await supabase
+  const { data: people } = await db
     .from('celebs')
     .select(
       'id, slug, nickname, nickname_en, avatar_url, title, title_en, bio, bio_en, profession, birth_date, death_date'
@@ -241,7 +241,7 @@ async function fetchJourney(
 
     // celeb_contents와 content_locales는 contents를 거쳐 이어지므로 한 번에 조인하지 않고 나눠 읽는다
     const reviewField = isEn ? 'review_en' : 'review'
-    const { data: rows } = await supabase
+    const { data: rows } = await db
       .from('celeb_contents')
       .select(`content_id, ${reviewField}`)
       .eq('celeb_id', person.id)
@@ -258,7 +258,7 @@ async function fetchJourney(
     }
     if (reviewByContent.size === 0) continue
 
-    const { data: locales } = await supabase
+    const { data: locales } = await db
       .from('content_locales')
       .select('content_id, title, thumbnail_url, creator, description')
       .in('content_id', [...reviewByContent.keys()])
@@ -309,11 +309,11 @@ async function fetchJourney(
 }
 
 async function fetchEvidence(
-  supabase: ReturnType<typeof createStaticClient>,
+  db: ReturnType<typeof createStaticClient>,
   locale: string,
   isEn: boolean
 ): Promise<AboutEvidence | null> {
-  const { data: people } = await supabase
+  const { data: people } = await db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url')
     .in('slug', EVIDENCE_SLUGS as unknown as string[])
@@ -325,7 +325,7 @@ async function fetchEvidence(
     if (!matched?.avatar_url) continue
 
     const reviewField = isEn ? 'review_en' : 'review'
-    const { data: rows } = await supabase
+    const { data: rows } = await db
       .from('celeb_contents')
       .select(`content_id, source_url, ${reviewField}`)
       .eq('celeb_id', matched.id)
@@ -339,7 +339,7 @@ async function fetchEvidence(
       const review = r[reviewField] ?? ''
       if (!url.startsWith('http') || review.trim().length < 40 || !r.content_id) continue
 
-      const { data: loc } = await supabase
+      const { data: loc } = await db
         .from('content_locales')
         .select('title, thumbnail_url')
         .eq('content_id', r.content_id)
@@ -369,29 +369,29 @@ async function fetchEvidence(
 }
 
 async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const isEn = locale === 'en'
 
   const [faces, tagsRes, journey, evidence, celebCountRes, recordCountRes, factionCountRes] = await Promise.all([
-    fetchFaces(supabase, isEn),
-    supabase
+    fetchFaces(db, isEn),
+    db
       .from('celeb_tags')
       .select('name, name_en, slug, team_images, description, description_en')
       .in('slug', TEAM_TAG_SLUGS as unknown as string[]),
-    fetchJourney(supabase, locale, isEn),
-    fetchEvidence(supabase, locale, isEn),
-    supabase
+    fetchJourney(db, locale, isEn),
+    fetchEvidence(db, locale, isEn),
+    db
       .from('celebs')
       .select('id', { count: 'exact', head: true })
       .eq('publication_status', 'active'),
-    supabase
+    db
       .from('celeb_contents')
       .select('id', {
         count: 'exact',
         head: true,
       })
       .not('review', 'is', null),
-    supabase
+    db
       .from('celeb_tags')
       .select('id', { count: 'exact', head: true })
       .eq('is_fiction', false),

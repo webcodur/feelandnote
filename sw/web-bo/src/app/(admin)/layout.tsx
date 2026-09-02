@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { DesktopSidebar, MobileSidebar } from '@/components/layout/Sidebar'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -11,9 +11,9 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const { data: claimsData, error: claimsError } = await db.auth.getClaims()
   const userId = claimsData?.claims?.sub
 
   if (claimsError || !userId) {
@@ -24,9 +24,9 @@ export default async function AdminLayout({
 
   // 이름은 사람 기록에, 권한은 계정 기록에 있다(26.08.07 분리).
   const [profileResult, accountResult, adminResult] = await Promise.all([
-    supabase.from('member_profiles').select('nickname').eq('id', userId).maybeSingle(),
-    supabase.from('user_accounts').select('role').eq('id', userId).maybeSingle(),
-    supabase.rpc('is_admin'),
+    db.from('member_profiles').select('nickname').eq('id', userId).maybeSingle(),
+    db.from('user_accounts').select('role').eq('id', userId).maybeSingle(),
+    db.rpc('is_admin'),
   ])
 
   if (profileResult.error || accountResult.error || adminResult.error) {

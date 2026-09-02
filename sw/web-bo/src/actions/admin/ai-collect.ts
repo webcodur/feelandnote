@@ -4,7 +4,7 @@ import { fetchUrlContent } from '@feelandnote/ai-services/url-fetcher'
 import { type ExtractedContent } from '@feelandnote/ai-services/content-extractor'
 import { searchExternal, type ExternalSearchResult } from '@feelandnote/content-search/unified-search'
 import type { ContentType } from '@feelandnote/content-search/types'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { createContentFromExternal } from './external-search'
 import { addCelebContent } from './celebs'
 import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage, type ApiKey } from './api-keys'
@@ -117,8 +117,8 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // #region processExtractedItems - 검색 (titleKo 우선, 실패 시 원본)
 export async function processExtractedItems(input: ProcessItemsInput): Promise<ProcessItemsResult> {
-  const supabase = await createClient()
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const db = await createClient()
+  const { data: claimsData, error: claimsError } = await db.auth.getClaims()
   if (claimsError || !claimsData?.claims?.sub) {
     return { success: false, items: [], processedCount: 0, error: '인증이 필요합니다.' }
   }
@@ -173,8 +173,8 @@ export async function processExtractedItems(input: ProcessItemsInput): Promise<P
 
 // #region saveCollectedContents
 export async function saveCollectedContents(input: SaveCollectedInput): Promise<SaveResult> {
-  const supabase = await createClient()
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const db = await createClient()
+  const { data: claimsData, error: claimsError } = await db.auth.getClaims()
 
   if (claimsError || !claimsData?.claims?.sub) {
     return { success: false, error: '인증이 필요합니다.' }

@@ -47,10 +47,10 @@ const DONE_FILE = resolve(STATE_DIR, "done.jsonl");
 if (!existsSync(STATE_DIR)) mkdirSync(STATE_DIR, { recursive: true });
 if (!RESUME) writeFileSync(DONE_FILE, "");
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const url = process.env.NEXT_PUBLIC_DB_API_URL;
+const serviceKey = process.env.DB_SECRET_KEY;
 if (!url || !serviceKey) {
-  throw new Error("NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required.");
+  throw new Error("NEXT_PUBLIC_DB_API_URL and DB_SECRET_KEY are required.");
 }
 
 const db = createClient(url, serviceKey, {

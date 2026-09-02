@@ -1,6 +1,6 @@
 'use server'
 
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCeleb } from '@/lib/revalidate-web'
@@ -28,9 +28,9 @@ export async function updateSpeechTone(
   tone: string,
 ): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: celeb, error } = await supabase
+  const { data: celeb, error } = await db
     .from('celebs')
     .update({ speech_tone: tone })
     .eq('id', celebId)
@@ -52,9 +52,9 @@ export async function updateVoiceSpeed(
   speed: number,
 ): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: celeb, error } = await supabase
+  const { data: celeb, error } = await db
     .from('celebs')
     .update({ voice_speed: speed } as Record<string, unknown>)
     .eq('id', celebId)
@@ -80,7 +80,7 @@ export async function saveCelebDialogues(
   lines_en: DialogueLines | null,
 ): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
   const payload: Record<string, unknown> = {
     celeb_id: celebId,
@@ -90,7 +90,7 @@ export async function saveCelebDialogues(
   if (lines !== null) payload.lines = lines
   if (lines_en !== null) payload.lines_en = lines_en
 
-  const { data: saved, error } = await supabase
+  const { data: saved, error } = await db
     .from('celeb_dialogues')
     .upsert(payload, { onConflict: 'celeb_id' })
     .select('celeb_id')
@@ -99,7 +99,7 @@ export async function saveCelebDialogues(
   if (error) throw error
   if (!saved || saved.celeb_id !== celebId) throw new Error('대사 저장 결과를 확인할 수 없습니다.')
 
-  const { data: celeb, error: celebError } = await supabase
+  const { data: celeb, error: celebError } = await db
     .from('celebs')
     .select('slug')
     .eq('id', celebId)

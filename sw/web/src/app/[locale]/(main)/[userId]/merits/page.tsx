@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import { getAchievementData } from "@/actions/achievements";
 import { getProfileShowcase } from "@/actions/achievements/getProfileShowcase";
 import { notFound } from "next/navigation";
@@ -16,8 +16,8 @@ interface PageProps {
 
 export default async function MeritsPage({ params }: PageProps) {
   const { userId } = await params;
-  const supabase = await createClient();
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
+  const db = await createClient();
+  const { data: { user: currentUser } } = await db.auth.getUser();
 
   const isOwner = currentUser?.id === userId;
 

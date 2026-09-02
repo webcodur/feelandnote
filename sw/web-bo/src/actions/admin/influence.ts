@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 
 export interface InfluenceData {
@@ -47,12 +47,12 @@ interface InfluenceQueryRow {
 }
 
 export async function getInfluenceList(): Promise<InfluenceData[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 전량 페이징: 정렬 단독으로는 1,000행에서 잘려 하위 순위 인물이 통째로 사라진다.
   // total_score는 동점이 많아 페이징 사이 순서가 흔들리므로 celeb_id를 2차 정렬키로 고정한다.
   const data = await selectAllPages<InfluenceQueryRow>((from, to) =>
-    supabase
+    db
       .from('celeb_influence')
       .select(`
         celeb_id,

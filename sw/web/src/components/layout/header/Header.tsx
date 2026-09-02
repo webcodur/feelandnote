@@ -21,7 +21,7 @@ import { Z_INDEX } from "@/constants/zIndex";
 import { HEADER_NAV_ITEMS } from "@/constants/navigation";
 
 
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 import { getTitleInfo } from "@/constants/titles";
 
 interface UserProfile {
@@ -44,15 +44,15 @@ export default function Header({ isMobile }: HeaderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   useEffect(() => {
     const loadProfile = async () => {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const db = createClient();
+      const { data: { user } } = await db.auth.getUser();
       if (!user) {
         setIsLoggedIn(false);
         return;
       }
 
       setIsLoggedIn(true);
-      const { data: profileData } = await supabase
+      const { data: profileData } = await db
         .from("member_profiles")
         .select("id, nickname, avatar_url, selected_title")
         .eq("id", user.id)

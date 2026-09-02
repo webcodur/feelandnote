@@ -4,14 +4,14 @@ import { fetchUserContentCounts } from './helpers'
 
 test('선택된 콘텐츠가 없으면 전체 회원 수 RPC를 호출하지 않는다', async () => {
   const calls: string[] = []
-  const supabase = {
+  const db = {
     rpc(name: string) {
       calls.push(name)
       return Promise.resolve({ data: [], error: null })
     },
   } as unknown as Parameters<typeof fetchUserContentCounts>[0]
 
-  const counts = await fetchUserContentCounts(supabase, undefined, [])
+  const counts = await fetchUserContentCounts(db, undefined, [])
 
   assert.deepEqual(calls, [])
   assert.equal(counts.size, 0)
@@ -19,7 +19,7 @@ test('선택된 콘텐츠가 없으면 전체 회원 수 RPC를 호출하지 않
 
 test('선택된 콘텐츠만 범위 집계 RPC로 조회한다', async () => {
   const calls: Array<{ name: string; args: unknown }> = []
-  const supabase = {
+  const db = {
     rpc(name: string, args: unknown) {
       calls.push({ name, args })
       return Promise.resolve({
@@ -30,7 +30,7 @@ test('선택된 콘텐츠만 범위 집계 RPC로 조회한다', async () => {
   } as unknown as Parameters<typeof fetchUserContentCounts>[0]
 
   const counts = await fetchUserContentCounts(
-    supabase,
+    db,
     undefined,
     ['content-a', 'content-b'],
   )

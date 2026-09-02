@@ -20,7 +20,7 @@ export type ErrorCode =
   // 검증 관련
   | 'VALIDATION_ERROR'
   | 'INVALID_INPUT'
-  // Supabase 관련
+  // DB 관련
   | 'DB_ERROR'
   | 'RLS_VIOLATION'
   // 비즈니스 로직
@@ -32,8 +32,8 @@ export type ErrorCode =
   | 'INTERNAL_ERROR'
 // #endregion
 
-// #region Supabase 에러 코드
-export type SupabaseErrorCode =
+// #region DB 에러 코드
+export type DatabaseErrorCode =
   | '23505' // unique_violation
   | '23503' // foreign_key_violation
   | '42501' // insufficient_privilege (RLS)

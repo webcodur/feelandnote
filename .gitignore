@@ -145,8 +145,8 @@ sw/인물-*.txt
 /sw/web-bo/*.ru-orig.vtt
 /sw/web-bo/scripts/_debug-*
 
-# Supabase CLI가 현재 연결 상태를 기록하는 로컬 캐시
-**/supabase/.temp/
+# DB CLI가 현재 연결 상태를 기록하는 로컬 캐시
+**/database/.temp/
 
 # 외부 AI 에이전트 설정
 # .agents = 멀티툴 공용 스킬·문서 (git 추적)
@@ -163,7 +163,6 @@ sw/인물-*.txt
 /.claude/skills/interview-audio-pipeline/
 /.claude/skills/nobg-cutout/
 /.claude/skills/remo-resource-scanner/
-/.claude/skills/supabase/
 /.claude/skills/supabase-postgres-best-practices/
 /.claude/skills/ui-scroll/
 /.claude/skills/win-lock-bypass-editor/

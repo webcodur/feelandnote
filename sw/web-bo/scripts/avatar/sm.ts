@@ -115,8 +115,8 @@ async function main() {
   const env = loadEnv(boPath('.env'))
 
   for (const k of [
-    'NEXT_PUBLIC_SUPABASE_URL',
-    'SUPABASE_SERVICE_ROLE_KEY',
+    'NEXT_PUBLIC_DB_API_URL',
+    'DB_SECRET_KEY',
     'R2_ACCOUNT_ID',
     'R2_ACCESS_KEY_ID',
     'R2_SECRET_ACCESS_KEY',
@@ -125,9 +125,9 @@ async function main() {
     if (!env[k]) throw new Error(`.env에 ${k} 누락`)
   }
 
-  const supabase = createClient(
-    env.NEXT_PUBLIC_SUPABASE_URL,
-    env.SUPABASE_SERVICE_ROLE_KEY
+  const db = createClient(
+    env.NEXT_PUBLIC_DB_API_URL,
+    env.DB_SECRET_KEY
   )
 
   console.log('[1/3] 대상 조회')
@@ -135,7 +135,7 @@ async function main() {
   const targets: Target[] = []
   const PAGE = 1000
   for (let from = 0; ; from += PAGE) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celebs')
       .select('id, slug, nickname')
       .not('avatar_url', 'is', null)

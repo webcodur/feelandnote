@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebItem } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
@@ -44,12 +44,12 @@ export interface TimelineCeleb {
 
 /** 행적을 가진 인물 목록. 편집 대상 고르기용 */
 export async function getTimelineCelebs(): Promise<TimelineCeleb[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 행적 전량을 나눠 받는다 — PostgREST 는 1,000행에서 조용히 자른다
   const rows: { celeb_id: string; lat: number | null }[] = []
   for (let from = 0; ; from += 500) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celeb_timeline_events')
       .select('celeb_id, lat')
       .order('id')
@@ -72,7 +72,7 @@ export async function getTimelineCelebs(): Promise<TimelineCeleb[]> {
   const celebs: { id: string; slug: string | null; nickname: string; avatar_url: string | null }[] = []
   // id 목록을 통째로 in() 에 실으면 URL 길이 한도에 걸린다(실측 462개에서 실패)
   for (let i = 0; i < ids.length; i += 200) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celebs')
       .select('id, slug, nickname, avatar_url')
       .in('id', ids.slice(i, i + 200))
@@ -82,7 +82,7 @@ export async function getTimelineCelebs(): Promise<TimelineCeleb[]> {
 
   const scores = new Map<string, number>()
   for (let i = 0; i < ids.length; i += 200) {
-    const { data } = await supabase
+    const { data } = await db
       .from('celeb_influence')
       .select('celeb_id, total_score')
       .in('celeb_id', ids.slice(i, i + 200))
@@ -104,8 +104,8 @@ export async function getTimelineCelebs(): Promise<TimelineCeleb[]> {
 
 /** 인물 한 명의 행적 전체 */
 export async function getTimelineEvents(celebId: string): Promise<TimelineEvent[]> {
-  const supabase = await createClient()
-  const { data, error } = await supabase
+  const db = await createClient()
+  const { data, error } = await db
     .from('celeb_timeline_events')
     .select('*')
     .eq('celeb_id', celebId)
@@ -147,8 +147,8 @@ function validate(e: Partial<EventInput>, isFiction: boolean) {
 }
 
 async function isFictionCeleb(celebId: string): Promise<boolean> {
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('celebs')
     .select('celeb_tier')
     .eq('id', celebId)
@@ -165,15 +165,15 @@ async function afterWrite(celebId: string) {
 
 /** 한 건 수정. 손댄 행은 source='manual'이 되어 스크립트 재적재에도 살아남는다 */
 export async function updateTimelineEvent(eventId: string, data: Partial<EventInput>): Promise<void> {
-  const supabase = createAdminClient()
-  const { data: current, error: readError } = await supabase
+  const db = createAdminClient()
+  const { data: current, error: readError } = await db
     .from('celeb_timeline_events')
     .select('celeb_id')
     .eq('id', eventId)
     .single()
   if (readError) throw readError
   validate(data, await isFictionCeleb(current.celeb_id))
-  const { error } = await supabase
+  const { error } = await db
     .from('celeb_timeline_events')
     .update({ ...data, source: 'manual' })
     .eq('id', eventId)
@@ -183,8 +183,8 @@ export async function updateTimelineEvent(eventId: string, data: Partial<EventIn
 
 export async function createTimelineEvent(celebId: string, data: EventInput): Promise<string> {
   validate(data, await isFictionCeleb(celebId))
-  const supabase = createAdminClient()
-  const { data: row, error } = await supabase
+  const db = createAdminClient()
+  const { data: row, error } = await db
     .from('celeb_timeline_events')
     .insert({ ...data, celeb_id: celebId, source: 'manual' })
     .select('id')
@@ -195,8 +195,8 @@ export async function createTimelineEvent(celebId: string, data: EventInput): Pr
 }
 
 export async function deleteTimelineEvent(eventId: string): Promise<void> {
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('celeb_timeline_events')
     .delete()
     .eq('id', eventId)

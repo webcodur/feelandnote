@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { getCountryNamesMap } from '@/lib/countries'
@@ -48,7 +48,7 @@ const TIMELINE_BASE_SELECT =
   'id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, celeb_tier, has_voice, voice_v'
 
 async function fetchCelebTimeline(locale: 'ko' | 'en'): Promise<TimelineData> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // bio는 본문급 텍스트라 필요한 locale만 받는다 (en은 ko 폴백 때문에 둘 다)
   const bioSelect = locale === 'en' ? ', bio, bio_en' : ', bio'
@@ -59,7 +59,7 @@ async function fetchCelebTimeline(locale: 'ko' | 'en'): Promise<TimelineData> {
   // 아래 국가별 집계도 함께 축소된다.
   // birth_date는 중복이 많아 정렬키로 불충분 — id를 2차 키로 둬 페이지 경계를 고정한다.
   const rows = await selectAllPages<TimelineRow>((from, to) =>
-    supabase
+    db
       .from('celebs')
       .select(`${TIMELINE_BASE_SELECT}${bioSelect}`)
       .eq('publication_status', 'active')

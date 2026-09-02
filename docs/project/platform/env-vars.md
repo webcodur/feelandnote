@@ -31,7 +31,7 @@
 | `obscura.exe` | `C:\Tools\obscura\<버전>\` | 브라우저 MCP 실행 파일 (비밀값 아님, 재설치로 대체 가능) |
 | `rootca.key`·`rootca.crt`·`rootca.srl` | `C:/Users/<사용자>/.feelandnote/cloudflare-aop/` | Cloudflare Authenticated Origin Pulls 갱신용 CA. `rootca.key`는 비밀값이며 Oracle에는 올리지 않는다. 로컬 사본이 없어도 현재 서비스는 계속 뜨지만 인증서 갱신 때 새 CA로 교체해야 한다 |
 | `feelandnote_oracle`·`feelandnote_oracle.pub` | `C:/Users/<사용자>/.ssh/` | Oracle 웹·DB VM SSH. 비밀키는 공개 저장소나 서버에 복사하지 않는다 |
-| `supabase-backup-age.key` | `C:/Users/<사용자>/.feelandnote/` | R2의 Oracle DB 암호화 백업 복구키. 파일명은 기존 복구 체계의 식별자다. 서버에는 공개 recipient만 둔다 |
+| `oracle-db-backup-age.key` | `C:/Users/<사용자>/.feelandnote/` | R2의 Oracle DB 암호화 백업 복구키. 서버에는 공개 recipient만 둔다 |
 
 **`.env`가 필요 없는 앱**: `sw/lab`(환경변수 참조 0건), `sw/android`(Gradle 프로젝트), `packages/*`(자체 파일 없이 각 앱의 값을 물려받음).
 **`sw/audio-bo`는 `.env`가 없다** — 로컬 작업 폴더 경로를 코드 기본값(`D:\audios\...`·`D:\GPT-SoVITS\...`)으로 박아 뒀다. 다른 컴퓨터에서 폴더 위치가 다르면 §5를 본다.
@@ -52,7 +52,7 @@ pnpm install
 1. **직접 복사** — 기존 컴퓨터에서 파일을 그대로 가져온다. 가장 빠르고, 지금 쓰는 방식이다.
 2. **재발급** — 유출이 의심되면 §3~§4의 발급처에서 새로 만든다. 재발급 시 **Oracle의 `/etc/feelandnote/web.env`도 함께 바꿔야** 운영 사이트가 죽지 않는다.
 
-전송 경로 주의: 이 파일들은 서비스 데이터베이스 전권(`SUPABASE_SERVICE_ROLE_KEY`)과 유료 API 결제 권한을 통째로 담고 있다. 메신저·이메일·공개 저장소에 올리지 않는다.
+전송 경로 주의: 이 파일들은 서비스 데이터베이스 전권(`DB_SECRET_KEY`)과 유료 API 결제 권한을 통째로 담고 있다. 메신저·이메일·공개 저장소에 올리지 않는다.
 
 ### 확인
 
@@ -71,12 +71,12 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 
 | 이름 | 들어가는 곳 | 성격 |
 |------|------------|------|
-| `NEXT_PUBLIC_SUPABASE_URL` | web, web-bo | Oracle DB VM의 Auth·PostgREST 공개 주소. 변수명은 과거 호환 식별자이며 공개돼도 무방 |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | web, web-bo | 브라우저용 `sb_publishable_...` 공개 키. 변수명만 과거 호환 이름을 유지한다 |
-| `SUPABASE_SERVICE_ROLE_KEY` | web, web-bo, remotion | 🔴 서버용 `sb_secret_...` 전권 키. 접근 규칙(RLS)을 전부 무시하며 브라우저로 새면 안 된다. 변수명만 과거 호환 이름을 유지한다 |
-| `SUPABASE_URL` | remotion | 위 Auth·PostgREST 주소와 같은 값. remotion만 `NEXT_PUBLIC_` 접두어 없이 쓴다. 변수명은 과거 호환 식별자다 |
+| `NEXT_PUBLIC_DB_API_URL` | web, web-bo | Oracle DB VM의 Auth·PostgREST 공개 주소. 공개돼도 무방 |
+| `NEXT_PUBLIC_DB_PUBLISHABLE_KEY` | web, web-bo | 브라우저용 `sb_publishable_...` 공개 키 |
+| `DB_SECRET_KEY` | web, web-bo, remotion | 🔴 서버용 `sb_secret_...` 전권 키. 접근 규칙(RLS)을 전부 무시하며 브라우저로 새면 안 된다 |
+| `DB_API_URL` | remotion | 위 Auth·PostgREST 주소와 같은 값. remotion만 `NEXT_PUBLIC_` 접두어 없이 쓴다 |
 
-공개·서버 키는 Oracle DB VM의 `/opt/feelandnote/supabase/.env`가 원본이다. 이 경로의 `supabase`는 실제 서버 배포 경로다. 값을 교체하면 세 앱의 로컬 `.env`와 Oracle 웹의 `/etc/feelandnote/web.env`도 함께 바꾼다.
+공개·서버 키는 Oracle DB VM의 `/opt/feelandnote/supabase/.env`가 원본이다. 이 경로명은 현재 실행 중인 DB 스택의 실제 배포 경로라 코드 명칭과 별개다. 값을 교체하면 세 앱의 로컬 `.env`와 Oracle 웹의 `/etc/feelandnote/web.env`도 함께 바꾼다.
 
 ### 3-2. 사이트 주소
 

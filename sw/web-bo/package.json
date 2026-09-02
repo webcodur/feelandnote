@@ -7,7 +7,7 @@
     "build": "next build --webpack",
     "start": "next start -p 3001",
     "lint": "eslint",
-    "test:auth-egress": "tsx --test src/lib/supabase/auth-network-usage.test.ts",
+    "test:auth-egress": "tsx --test src/lib/db/auth-network-usage.test.ts",
     "test:faction-options": "tsx --test \"src/app/(admin)/celebs/components/factionOptions.test.ts\"",
     "celeb:audit:activation": "tsx scripts/celeb/audit-activation.ts",
     "celeb:audit:basic": "tsx scripts/celeb/audit-basic.ts",

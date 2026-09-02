@@ -29,12 +29,12 @@ const out = process.argv[2]
 if (!out) throw new Error('출력 경로를 넘겨라')
 
 loadEnv(resolve(__dirname, '..', '..', '.env'))
-const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY)
 
 // 대문이 아직 빈 인물만 대상으로 삼는다 (한 번에 1000행까지만 오므로 나눠 받는다)
 const people = []
 for (let from = 0; ; from += 1000) {
-  const { data, error } = await sb
+  const { data, error } = await db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, celeb_tier, publication_status, portrait_url')
     .is('portrait_url', null)

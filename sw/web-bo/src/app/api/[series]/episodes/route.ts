@@ -8,7 +8,7 @@ import {
   scanLocalWavs,
 } from '@/features/book-recommend/lib/server-utils'
 import { isValidSeries, seriesDataModel, type SeriesDataModel } from '@/features/book-recommend/lib/series-registry'
-import { supabase } from '@/features/book-recommend/lib/supabase'
+import { db } from '@/features/book-recommend/lib/database'
 
 /**
  * 책 기반이 아닌 시리즈의 목록·생성 — 에피소드 한 편이 파일 몇 개라 폴더명·영상 명칭만 받는다.
@@ -56,7 +56,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
     return m ? m[1] : base
   }
   const slugs = [...new Set(items.map(i => toSlug(i.id)))]
-  const { data: celebs, error: celebsError } = await supabase
+  const { data: celebs, error: celebsError } = await db
     .from('celebs')
     .select('slug, nickname, birth_date')
     .in('slug', slugs)
@@ -122,7 +122,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   }
 
   // 프로필 조회
-  const { data: profile, error: pErr } = await supabase
+  const { data: profile, error: pErr } = await db
     .from('celebs')
     .select(`
       id, slug, nickname, nickname_en, title, bio, avatar_url,
@@ -135,7 +135,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   if (!profile) return NextResponse.json({ error: 'celeb not found' }, { status: 404 })
 
   // 콘텐츠 목록 조회 — 서재 탐방은 비도서도 category를 붙여 다룬다.
-  const { data: celebContents, error: contentsError } = await supabase
+  const { data: celebContents, error: contentsError } = await db
     .from('celeb_contents')
     .select(`
       id, content_id, review, source_url,

@@ -1,4 +1,4 @@
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import { isReportTargetType } from '@/constants/moderation'
 import {
   REPORT_TARGET_SPECS,
@@ -103,11 +103,11 @@ export async function loadReportSnapshot(
     }
   }
 
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   const failures: string[] = []
 
   for (const spec of usable) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from(spec.table)
       .select(spec.selectColumns)
       .eq('id', targetId)
@@ -122,7 +122,7 @@ export async function loadReportSnapshot(
     const snapshot = buildSnapshot(spec, data as TargetRow, targetId, searchedTables)
     if (!snapshot.authorId) return snapshot
 
-    const { data: author, error: authorError } = await supabase
+    const { data: author, error: authorError } = await db
       .from('member_profiles')
       .select('nickname')
       .eq('id', snapshot.authorId)

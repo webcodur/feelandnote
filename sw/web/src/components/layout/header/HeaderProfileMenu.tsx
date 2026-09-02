@@ -10,7 +10,7 @@ import Button from "@/components/ui/Button";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 import { TitleBadge, type TitleInfo } from "@/components/ui";
 import { Z_INDEX } from "@/constants/zIndex";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 
 interface UserProfile {
   id: string;
@@ -43,8 +43,8 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
   }, [showDropdown]);
 
   const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    const db = createClient();
+    await db.auth.signOut();
     window.location.href = "/login";
   };
 

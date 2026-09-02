@@ -5,7 +5,7 @@
         패치된 fetch를 타지 않게 한다. 패치된 fetch는 응답을 React cache 노드(`[key, Promise,
         Response]`)에 요청 단위로 보관하는데, 요청 컨텍스트가 붙들리면 그 응답들이 본문째 남는다
         (26.08.28 운영 heap 누수 — 붙든 주체는 supabase-js 의 토큰 자동갱신 타이머였고 그 수정은
-        `lib/supabase/static.ts` 머리말). 캐시는 unstable_cache 가 맡으므로 이 경로를 우회해도
+        `lib/db/static.ts` 머리말). 캐시는 unstable_cache 가 맡으므로 이 경로를 우회해도
         잃는 것이 없다.
 */ // ------------------------------
 

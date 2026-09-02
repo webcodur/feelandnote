@@ -1,9 +1,9 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import { isValidAnonPassword, hashPassword, hashIp } from '@/lib/board/anonPassword'
 import { FREE_POST_COLS, FREE_RATE_LIMIT_SECONDS, FREE_BOARD_PATH, getClientIp } from '@/lib/board/freeBoard'
 import { attachMemberAuthor } from '@/lib/board/memberProfiles'
@@ -31,7 +31,7 @@ export async function createFreePost(params: CreateFreePostParams): Promise<Acti
 
   const authClient = await createClient()
   const { data: { user } } = await authClient.auth.getUser()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
   let authorId: string | null = null
   let passwordHash: string | null = null
@@ -58,7 +58,7 @@ export async function createFreePost(params: CreateFreePostParams): Promise<Acti
     const ipHash = hashIp(await getClientIp())
     if (ipHash) {
       const since = new Date(Date.now() - FREE_RATE_LIMIT_SECONDS * 1000).toISOString()
-      const { count } = await supabase
+      const { count } = await db
         .from('free_posts')
         .select('id', { count: 'exact', head: true })
         .eq('ip_hash', ipHash)
@@ -71,7 +71,7 @@ export async function createFreePost(params: CreateFreePostParams): Promise<Acti
 
   const ipHash = hashIp(await getClientIp())
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('free_posts')
     .insert({
       title: title.trim(),
@@ -88,10 +88,10 @@ export async function createFreePost(params: CreateFreePostParams): Promise<Acti
     .select(FREE_POST_COLS)
     .single()
 
-  if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 작성]' })
+  if (error) return handleDatabaseError(error, { logPrefix: '[자유게시판 작성]' })
 
   revalidatePath(FREE_BOARD_PATH)
   revalidatePath(`/en${FREE_BOARD_PATH}`)
-  const post = await attachMemberAuthor(supabase, data)
+  const post = await attachMemberAuthor(db, data)
   return success(post as unknown as FreePost)
 }

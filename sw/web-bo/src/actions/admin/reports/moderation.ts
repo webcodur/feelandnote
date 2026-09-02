@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import { ENUM_REPORT_STATUS } from '@/constants/moderation'
 import { loadReportSnapshot } from '@/lib/report-snapshot'
@@ -15,8 +15,8 @@ function refresh(reportId: string) {
 }
 
 async function loadReportTarget(reportId: string) {
-  const supabase = createAdminClient()
-  const { data, error } = await supabase
+  const db = createAdminClient()
+  const { data, error } = await db
     .from('reports')
     .select('target_type, target_id, target_user_id')
     .eq('id', reportId)
@@ -37,9 +37,9 @@ async function closeReport(reportId: string, status: string, note: string) {
   if (trimmed.length === 0) throw new Error('처리 메모를 입력해달라')
 
   const { userId } = await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { error } = await supabase
+  const { error } = await db
     .from('reports')
     .update({
       status,
@@ -66,9 +66,9 @@ export async function rejectReport(reportId: string, note: string): Promise<void
 
 export async function reopenReport(reportId: string): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { error } = await supabase
+  const { error } = await db
     .from('reports')
     .update({
       status: ENUM_REPORT_STATUS.PENDING,
@@ -105,8 +105,8 @@ export async function setReportTargetHidden(reportId: string, hidden: boolean): 
         ? { is_private: hidden }
         : { visibility: hidden ? 'private' : 'public' }
 
-  const supabase = createAdminClient()
-  const { error } = await supabase.from(snapshot.table).update(payload).eq('id', target.target_id)
+  const db = createAdminClient()
+  const { error } = await db.from(snapshot.table).update(payload).eq('id', target.target_id)
 
   if (error) throw new Error(`대상 숨김 처리 실패: ${error.message}`)
   refresh(reportId)
@@ -123,8 +123,8 @@ export async function deleteReportTarget(reportId: string): Promise<void> {
     throw new Error(snapshot.deleteBlockedReason ?? '이 대상은 이 화면에서 삭제할 수 없다')
   }
 
-  const supabase = createAdminClient()
-  const { error } = await supabase.from(snapshot.table).delete().eq('id', target.target_id)
+  const db = createAdminClient()
+  const { error } = await db.from(snapshot.table).delete().eq('id', target.target_id)
 
   if (error) throw new Error(`대상 삭제 실패: ${error.message}`)
   refresh(reportId)
@@ -142,9 +142,9 @@ export async function suspendReportedUser(
   const trimmed = reason.trim()
   if (trimmed.length === 0) throw new Error('정지 사유를 입력해달라')
 
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   // 계정 정지는 계정 기록에 적는다. celebs.publication_status는 인물 공개 상태라 다른 축이다.
-  const { error } = await supabase
+  const { error } = await db
     .from('user_accounts')
     .update({
       account_status: 'suspended',
@@ -163,8 +163,8 @@ export async function suspendReportedUser(
 export async function unsuspendReportedUser(reportId: string, userId: string): Promise<void> {
   await requireAdmin()
 
-  const supabase = createAdminClient()
-  const { error } = await supabase
+  const db = createAdminClient()
+  const { error } = await db
     .from('user_accounts')
     .update({ account_status: 'active', suspended_at: null, suspended_reason: null })
     .eq('id', userId)

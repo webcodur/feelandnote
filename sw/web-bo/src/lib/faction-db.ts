@@ -7,17 +7,17 @@
  * 화면 진입은 (admin)/layout.tsx 가 막지만 서버 액션은 주소만 알면 따로 불릴 수 있다.
  */
 
-import { createClient as createSupabaseClient, type SupabaseClient } from '@supabase/supabase-js'
-import { createClient } from '@/lib/supabase/server'
+import { createClient as createDatabaseClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/db/server'
 import type { FactionRowSource } from '@feelandnote/shared/lib/faction-assemble'
 
 /** 관리자 확인 — 로그인 + 활성 관리자 계정. 아니면 던진다 */
 export async function requireFactionAdmin(): Promise<{ userId: string }> {
-  const supabase = await createClient()
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const db = await createClient()
+  const { data: claimsData, error: claimsError } = await db.auth.getClaims()
   const userId = claimsData?.claims?.sub
   if (claimsError || !userId) throw new Error('로그인이 필요합니다')
-  const { data: isAdmin, error } = await supabase.rpc('is_admin')
+  const { data: isAdmin, error } = await db.rpc('is_admin')
   if (error || !isAdmin) {
     throw new Error('관리자 권한이 필요합니다')
   }
@@ -25,12 +25,12 @@ export async function requireFactionAdmin(): Promise<{ userId: string }> {
 }
 
 /** service role 클라이언트 — 조용한 폴백 금지: 키가 없으면 즉시 던진다 */
-export function factionAdminClient(): SupabaseClient {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url) throw new Error('NEXT_PUBLIC_SUPABASE_URL 없음')
-  if (!key) throw new Error('SUPABASE_SERVICE_ROLE_KEY 없음')
-  return createSupabaseClient(url, key, { auth: { persistSession: false } })
+export function factionAdminClient(): DatabaseClient {
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.DB_SECRET_KEY
+  if (!url) throw new Error('NEXT_PUBLIC_DB_API_URL 없음')
+  if (!key) throw new Error('DB_SECRET_KEY 없음')
+  return createDatabaseClient(url, key, { auth: { persistSession: false } })
 }
 
 /**
@@ -38,7 +38,7 @@ export function factionAdminClient(): SupabaseClient {
  * 청크 끊기·정렬·절단 감시는 조립기가 하므로 여기서는 한 번 긁어오기만 한다.
  * 실패는 던진다 — 빈 배열로 돌려주면 인물이 사라진 것을 성공으로 오인한다.
  */
-export function factionRowSource(db: SupabaseClient): FactionRowSource {
+export function factionRowSource(db: DatabaseClient): FactionRowSource {
   return async (table, col, values) => {
     const { data, error } = await db.from(table).select('*').in(col, values)
     if (error) throw new Error(`${table} 조회 실패(${col}): ${error.message}`)
@@ -53,7 +53,7 @@ export function factionRowSource(db: SupabaseClient): FactionRowSource {
  * 그대로라 조립·정렬·검증 로직은 아무것도 모른 채 빨라진다.
  * 규모 상한: 최대 에피소드가 세력 16·인물 87이라 임베드 행수 제약과 무관하다.
  */
-export async function factionTreeSource(db: SupabaseClient, folder: string): Promise<FactionRowSource> {
+export async function factionTreeSource(db: DatabaseClient, folder: string): Promise<FactionRowSource> {
   const { data, error } = await db
     .from('faction_episodes')
     .select('*, faction_groups(*, faction_clusters(*, faction_people(*)))')

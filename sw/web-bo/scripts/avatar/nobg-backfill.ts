@@ -13,7 +13,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { celebAvatarSmallUrl } from '@feelandnote/shared/constants/celeb-avatar-small'
@@ -133,8 +133,8 @@ function loadEnv(): void {
   }
 
   const required = [
-    'NEXT_PUBLIC_SUPABASE_URL',
-    'SUPABASE_SERVICE_ROLE_KEY',
+    'NEXT_PUBLIC_DB_API_URL',
+    'DB_SECRET_KEY',
     'R2_ACCOUNT_ID',
     'R2_ACCESS_KEY_ID',
     'R2_SECRET_ACCESS_KEY',
@@ -145,10 +145,10 @@ function loadEnv(): void {
   if (missing.length > 0) throw new Error(`필수 환경변수가 없습니다: ${missing.join(', ')}`)
 }
 
-function adminClient(): SupabaseClient {
+function adminClient(): DatabaseClient {
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    process.env.NEXT_PUBLIC_DB_API_URL!,
+    process.env.DB_SECRET_KEY!,
     { auth: { autoRefreshToken: false, persistSession: false } }
   )
 }
@@ -231,7 +231,7 @@ function classify(metrics: AlphaMetrics): ScanReason | null {
   return null
 }
 
-async function fetchCelebs(admin: SupabaseClient, ids?: string[]): Promise<CelebRow[]> {
+async function fetchCelebs(admin: DatabaseClient, ids?: string[]): Promise<CelebRow[]> {
   if (ids && ids.length > 0) {
     const rows: CelebRow[] = []
     for (let index = 0; index < ids.length; index += 100) {
@@ -440,7 +440,7 @@ async function restoreBackup(
   dependencies: {
     uploadToR2: (key: string, body: Buffer, contentType: string) => Promise<void>
     deleteFromR2: (key: string) => Promise<void>
-    admin: SupabaseClient
+    admin: DatabaseClient
   }
 ): Promise<void> {
   const avatar = await readFile(meta.avatarFile)

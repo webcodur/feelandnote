@@ -4,7 +4,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import type { CategoryId } from '@/constants/categories'
 import { cachedDetail } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import {
   CL_SELECT_LIST,
   flattenLocales,
@@ -75,7 +75,7 @@ async function fetchSourcesByCeleb(
   celebId: string,
   locale: string,
 ): Promise<FictionSourceContent[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const assignments = (await getAllFictionSourceAssignments())
     .filter((assignment) => assignment.celeb_id === celebId)
   if (assignments.length === 0) return []
@@ -90,7 +90,7 @@ async function fetchSourcesByCeleb(
     ;[contentData, purchaseOptions] = await Promise.all([
       selectInChunks<ContentRow>(
         contentIds,
-        (ids) => supabase
+        (ids) => db
           .from('contents')
           .select(`id,type,content_locales(${CL_SELECT_LIST})`)
           .in('id', ids)
@@ -98,7 +98,7 @@ async function fetchSourcesByCeleb(
       ),
       selectInChunks<FictionSourcePurchaseOptionRow>(
         contentIds,
-        (ids) => supabase
+        (ids) => db
           .from('fiction_source_purchase_options')
           .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
           .in('content_id', ids)
@@ -157,7 +157,7 @@ async function fetchCharactersByContent(
   locale: string,
   knownAssignments?: FictionSourceAssignmentRow[],
 ): Promise<FictionSourceCharacter[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const assignments = (knownAssignments ?? await getAllFictionSourceAssignments())
     .filter((assignment) => assignment.content_id === contentId)
     .sort((a, b) => a.sort_order - b.sort_order || a.celeb_id.localeCompare(b.celeb_id))
@@ -167,7 +167,7 @@ async function fetchCharactersByContent(
   try {
     profileData = await selectInChunks<ProfileRow>(
       assignments.map((assignment) => assignment.celeb_id),
-      (celebIds) => supabase
+      (celebIds) => db
         .from('celebs')
         .select('id,slug,nickname,nickname_en,title,title_en,avatar_url')
         .in('id', celebIds)

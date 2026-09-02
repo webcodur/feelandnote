@@ -2,7 +2,7 @@
 
 import { searchExternal, type ExternalSearchResult } from '@feelandnote/content-search/unified-search'
 import type { ContentType } from '@feelandnote/content-search/types'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidateWebLists } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
@@ -56,10 +56,10 @@ export async function createContentFromExternal(
   error?: string
 }> {
   try {
-    const supabase = await createClient()
+    const db = await createClient()
 
     // external_id로 기존 콘텐츠 확인
-    const { data: existing } = await supabase
+    const { data: existing } = await db
       .from('contents')
       .select('id')
       .eq('external_id', input.externalId)
@@ -70,7 +70,7 @@ export async function createContentFromExternal(
     }
 
     // 새 콘텐츠 생성 (id 자동 생성, external_id에 외부 ID 저장)
-    const { data: newContent, error } = await supabase
+    const { data: newContent, error } = await db
       .from('contents')
       .insert({
         type: contentType,
@@ -88,7 +88,7 @@ export async function createContentFromExternal(
 
     // content_locales에 로케일 데이터 저장
     const locale = (['kakao_book', 'aladin', 'tmdb'].includes(input.externalSource || '')) ? 'ko' : 'en'
-    await supabase.from('content_locales').insert({
+    await db.from('content_locales').insert({
       content_id: newContent.id,
       locale,
       title: input.title,
@@ -127,11 +127,11 @@ export async function searchDbContent(
   }>
   error?: string
 }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // content_locales에서 검색하여 content_id 목록 추출
   const searchTerm = `%${query}%`
-  const { data: matchIds } = await supabase
+  const { data: matchIds } = await db
     .from('content_locales')
     .select('content_id')
     .ilike('title', searchTerm)
@@ -142,7 +142,7 @@ export async function searchDbContent(
 
   const ids = [...new Set(matchIds.map(m => m.content_id))]
 
-  let dbQuery = supabase
+  let dbQuery = db
     .from('contents')
     .select('id, type, content_locales(locale, title, creator, thumbnail_url)')
     .in('id', ids)

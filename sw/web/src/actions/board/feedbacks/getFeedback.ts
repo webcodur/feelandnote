@@ -2,16 +2,16 @@
 
 import { unstable_cache } from 'next/cache'
 import { NO_ROWS_CODE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import type { FeedbackWithDetails } from '@/types/database'
 import type { Locale } from '@/types/locale'
 import { attachMemberAuthorAndResolver } from '@/lib/board/memberProfiles'
 
 async function fetchFeedbackData(id: string, locale: Locale): Promise<FeedbackWithDetails | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('feedbacks')
     .select('*')
     .eq('id', id)
@@ -23,7 +23,7 @@ async function fetchFeedbackData(id: string, locale: Locale): Promise<FeedbackWi
   // 여기 오는 오류는 "글이 없다" 하나뿐이다.
   if (error?.code === NO_ROWS_CODE) return null
 
-  const feedback = await attachMemberAuthorAndResolver(supabase, data)
+  const feedback = await attachMemberAuthorAndResolver(db, data)
   return feedback as FeedbackWithDetails
 }
 
@@ -36,8 +36,8 @@ const getFeedbackDataCached = unstable_cache(
 export async function getFeedback(id: string, locale: Locale, incrementView = true) {
   // 조회수 증가는 캐시 외부에서 처리
   if (incrementView) {
-    const supabase = await createClient()
-    await supabase.rpc('increment_feedback_view_count', { feedback_id: id })
+    const db = await createClient()
+    await db.rpc('increment_feedback_view_count', { feedback_id: id })
   }
 
   return withQueryFallback('getFeedback', () => getFeedbackDataCached(id, locale), null)

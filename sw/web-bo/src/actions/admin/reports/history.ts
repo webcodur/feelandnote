@@ -1,6 +1,6 @@
 'use server'
 
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import { ENUM_REPORT_STATUS } from '@/constants/moderation'
 
@@ -63,16 +63,16 @@ function toItems(data: unknown): ReportHistoryItem[] {
 export async function getReportContext(params: ReportContextParams): Promise<ReportContext> {
   await requireAdmin()
 
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   const { reportId, targetType, targetId, reporterId, targetUserId } = params
 
-  const stacked = supabase
+  const stacked = db
     .from('reports')
     .select('id', { count: 'exact', head: true })
     .eq('target_type', targetType)
     .eq('target_id', targetId)
 
-  const sameTarget = supabase
+  const sameTarget = db
     .from('reports')
     .select(HISTORY_SELECT)
     .eq('target_type', targetType)
@@ -82,18 +82,18 @@ export async function getReportContext(params: ReportContextParams): Promise<Rep
     .order('id', { ascending: false })
     .limit(HISTORY_LIMIT)
 
-  const reporterFiledCount = supabase
+  const reporterFiledCount = db
     .from('reports')
     .select('id', { count: 'exact', head: true })
     .eq('reporter_id', reporterId)
 
-  const reporterPendingCount = supabase
+  const reporterPendingCount = db
     .from('reports')
     .select('id', { count: 'exact', head: true })
     .eq('reporter_id', reporterId)
     .eq('status', ENUM_REPORT_STATUS.PENDING)
 
-  const reporterFiled = supabase
+  const reporterFiled = db
     .from('reports')
     .select(HISTORY_SELECT)
     .eq('reporter_id', reporterId)
@@ -124,11 +124,11 @@ export async function getReportContext(params: ReportContextParams): Promise<Rep
   if (!targetUserId) return context
 
   const [receivedCount, receivedList, blockedCount] = await Promise.all([
-    supabase
+    db
       .from('reports')
       .select('id', { count: 'exact', head: true })
       .eq('target_user_id', targetUserId),
-    supabase
+    db
       .from('reports')
       .select(HISTORY_SELECT)
       .eq('target_user_id', targetUserId)
@@ -136,7 +136,7 @@ export async function getReportContext(params: ReportContextParams): Promise<Rep
       .order('created_at', { ascending: false })
       .order('id', { ascending: false })
       .limit(HISTORY_LIMIT),
-    supabase.from('blocks').select('id', { count: 'exact', head: true }).eq('blocked_id', targetUserId),
+    db.from('blocks').select('id', { count: 'exact', head: true }).eq('blocked_id', targetUserId),
   ])
 
   return {

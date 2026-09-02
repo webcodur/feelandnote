@@ -28,8 +28,8 @@ async function fetchCelebs(): Promise<{
   created_at: string | null
   updated_at: string | null
 }[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
   if (!url || !key) return []
 
   const allCelebs: {
@@ -71,8 +71,8 @@ async function fetchCelebs(): Promise<{
 }
 
 async function fetchCuratedPaths(): Promise<string[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
   if (!url || !key) return []
 
   const response = await fetch(

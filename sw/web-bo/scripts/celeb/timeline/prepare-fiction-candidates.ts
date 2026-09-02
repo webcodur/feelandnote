@@ -58,13 +58,13 @@ function loadEnv() {
 
 loadEnv()
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error('Supabase 환경변수가 없다')
+if (!process.env.NEXT_PUBLIC_DB_API_URL || !process.env.DB_SECRET_KEY) {
+  throw new Error('DB 환경변수가 없다')
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL,
+  process.env.DB_SECRET_KEY,
   { auth: { autoRefreshToken: false, persistSession: false } },
 )
 
@@ -80,7 +80,7 @@ function parseSlugs(): string[] {
 async function loadActiveFictionProfiles(): Promise<FictionProfileSnapshot[]> {
   const profiles: FictionProfileSnapshot[] = []
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celebs')
       .select(PROFILE_SELECT)
       .eq('celeb_tier', 'fiction')
@@ -101,7 +101,7 @@ async function loadSelectedProfiles(
 ): Promise<FictionProfileSnapshot[]> {
   const profiles: FictionProfileSnapshot[] = []
   for (const slug of slugs) {
-    const profile = await fetchFictionProfileBySlug(supabase, slug)
+    const profile = await fetchFictionProfileBySlug(db, slug)
     if (!profile) throw new Error(`${slug}: 인물이 없다`)
     if (profile.celeb_tier !== 'fiction') throw new Error(`${slug}: fiction 인물이 아니다`)
     if (profile.publication_status !== 'active'
@@ -262,8 +262,8 @@ async function main() {
 
   const celebIds = profiles.map((profile) => profile.id)
   const [eventsByCeleb, sourceSnapshots] = await Promise.all([
-    fetchStoredTimelineEventsByCeleb(supabase, celebIds),
-    loadFictionSourceSnapshots(supabase, celebIds),
+    fetchStoredTimelineEventsByCeleb(db, celebIds),
+    loadFictionSourceSnapshots(db, celebIds),
   ])
 
   let written = 0

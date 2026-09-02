@@ -29,7 +29,7 @@
 import { spawn } from 'child_process'
 import { existsSync } from 'fs'
 import path from 'path'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { resolveImageRef } from './faction-sync/collect'
 
 /** 명령이 이 시간을 넘기면 죽인다 — 얼굴 찾기 모델 적재까지 실측 20초 남짓이다 */
@@ -91,7 +91,7 @@ function tail(log: string[], n = 12): string {
 }
 
 /** 묶음 → 세력 → 에피소드를 거슬러 올라가 폴더명이 맞는지 확인한다 */
-async function assertPersonBelongs(db: SupabaseClient, clusterId: string, folder: string): Promise<void> {
+async function assertPersonBelongs(db: DatabaseClient, clusterId: string, folder: string): Promise<void> {
   const { data: cluster, error: cErr } = await db
     .from('faction_clusters').select('group_id').eq('id', clusterId).maybeSingle()
   if (cErr) throw new Error(`묶음 조회 실패: ${cErr.message}`)
@@ -114,7 +114,7 @@ async function assertPersonBelongs(db: SupabaseClient, clusterId: string, folder
  * @param force 이미 얼굴 사진이 있어도 갈아치운다. 없으면 그 사실을 사유로 들고 거부한다.
  */
 export async function promoteSoloShotToAvatar(
-  db: SupabaseClient,
+  db: DatabaseClient,
   { folder, personId, force = false }: { folder: string; personId: string; force?: boolean },
 ): Promise<FactionAvatarPromoteResult> {
   if (!folder) throw new Error('에피소드 폴더명이 필요합니다')

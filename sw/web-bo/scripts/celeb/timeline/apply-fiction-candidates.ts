@@ -94,13 +94,13 @@ function loadEnv() {
 
 loadEnv()
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error('Supabase 환경변수가 없다')
+if (!process.env.NEXT_PUBLIC_DB_API_URL || !process.env.DB_SECRET_KEY) {
+  throw new Error('DB 환경변수가 없다')
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL,
+  process.env.DB_SECRET_KEY,
   { auth: { autoRefreshToken: false, persistSession: false } },
 )
 
@@ -248,7 +248,7 @@ function restoreRows(events: StoredTimelineEvent[]) {
 
 async function deleteKnownIds(celebId: string, ids: string[]) {
   for (let start = 0; start < ids.length; start += 100) {
-    const { error } = await supabase
+    const { error } = await db
       .from('celeb_timeline_events')
       .delete()
       .eq('celeb_id', celebId)
@@ -260,12 +260,12 @@ async function deleteKnownIds(celebId: string, ids: string[]) {
 async function rollbackJournal(journal: ApplyJournal) {
   await deleteKnownIds(journal.celeb_id, journal.new_ids)
   if (journal.before_events.length > 0) {
-    const { error } = await supabase
+    const { error } = await db
       .from('celeb_timeline_events')
       .upsert(restoreRows(journal.before_events), { onConflict: 'id' })
     if (error) throw new Error(`원본 행 복구 실패: ${error.message}`)
   }
-  const restored = await fetchStoredTimelineEvents(supabase, journal.celeb_id)
+  const restored = await fetchStoredTimelineEvents(db, journal.celeb_id)
   if (!sameShape(timelineReadbackShape(restored), timelineReadbackShape(journal.before_events))) {
     throw new Error('복구 readback이 원본과 다름')
   }
@@ -356,7 +356,7 @@ async function recoverPending(
   if (journal.slug !== slug) throw new Error(`CRITICAL ${slug}: 복구 일지 slug 불일치`)
   // Recovery is journal-driven. A legitimate profile edit after the journal was written must not
   // prevent recognizing an already committed timeline or rolling a partial write back.
-  const current = await fetchStoredTimelineEvents(supabase, journal.celeb_id)
+  const current = await fetchStoredTimelineEvents(db, journal.celeb_id)
   const currentShape = timelineReadbackShape(current)
   const expectedShape = plannedReadbackShape(journal.planned_rows)
   if (sameShape(currentShape, expectedShape)) {
@@ -449,7 +449,7 @@ async function validateProfileState(input: {
   profileFingerprint?: string
   allowInactive: boolean
 }) {
-  const profile = await fetchFictionProfileBySlug(supabase, input.slug)
+  const profile = await fetchFictionProfileBySlug(db, input.slug)
   if (!profile) throw new Error(`${input.slug}: 라이브 DB에 인물이 없다`)
   if (profile.id !== input.celebId) throw new Error(`${input.slug}: celeb_id 불일치`)
   if (profile.celeb_tier !== 'fiction') throw new Error(`${input.slug}: fiction 등급이 아니다`)
@@ -483,8 +483,8 @@ async function validateLiveState(candidate: FictionCandidate, allowInactive: boo
   })
 
   const [current, currentSourceSnapshot] = await Promise.all([
-    fetchStoredTimelineEvents(supabase, candidate.celeb_id),
-    loadFictionSourceSnapshot(supabase, candidate.celeb_id),
+    fetchStoredTimelineEvents(db, candidate.celeb_id),
+    loadFictionSourceSnapshot(db, candidate.celeb_id),
   ])
   const currentFingerprint = fingerprintStoredEvents(current)
   if (currentFingerprint !== candidate.before_fingerprint) {
@@ -501,13 +501,13 @@ async function writePlannedRows(journal: ApplyJournal) {
   const retained = journal.planned_rows.filter((row) => journal.retained_ids.includes(row.id))
   const added = journal.planned_rows.filter((row) => journal.new_ids.includes(row.id))
   if (retained.length > 0) {
-    const { error } = await supabase
+    const { error } = await db
       .from('celeb_timeline_events')
       .upsert(retained, { onConflict: 'id' })
     if (error) throw new Error(`기존 행 UPDATE 실패: ${error.message}`)
   }
   if (added.length > 0) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celeb_timeline_events')
       .insert(added)
       .select('id')
@@ -519,7 +519,7 @@ async function writePlannedRows(journal: ApplyJournal) {
     }
   }
   if (journal.deletion_ids.length > 0) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celeb_timeline_events')
       .delete()
       .eq('celeb_id', journal.celeb_id)
@@ -567,7 +567,7 @@ async function applyCandidate(
 
   try {
     await writePlannedRows(journal)
-    const after = await fetchStoredTimelineEvents(supabase, candidate.celeb_id)
+    const after = await fetchStoredTimelineEvents(db, candidate.celeb_id)
     if (!sameShape(timelineReadbackShape(after), plannedReadbackShape(journal.planned_rows))) {
       throw new Error('DB readback payload·ID가 반영 계획과 다름')
     }

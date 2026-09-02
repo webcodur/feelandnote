@@ -9,7 +9,7 @@ import type { ContentStatus } from '@/types/database'
 import MusicTrackItem from './MusicTrackItem'
 import GameAudioPlayer from '@/components/shared/GameAudioPlayer'
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/db/client'
 
 // #region Constants
 const DEFAULT_W = 320
@@ -71,8 +71,8 @@ export default function FloatingMusicPlayer() {
 
   // 비로그인 시 뮤직 플레이어 FAB 숨김
   useEffect(() => {
-    const supabase = createClient()
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    const db = createClient()
+    db.auth.getUser().then(({ data: { user } }) => {
       setIsAuthenticated(!!user)
     })
   }, [])

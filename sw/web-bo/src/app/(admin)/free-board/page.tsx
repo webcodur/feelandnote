@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import Pagination from '@/components/ui/Pagination'
 import Button from '@/components/ui/Button'
 import FreeBoardActions from './FreeBoardActions'
@@ -43,13 +43,13 @@ export default async function FreeBoardAdminPage({ searchParams }: PageProps) {
   const limit = 20
   const offset = (page - 1) * limit
 
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   const table = tab === 'posts' ? 'free_posts' : 'free_post_comments'
 
   const authorJoin = tab === 'posts'
     ? 'account:user_accounts!free_posts_accounts_fkey(member:member_profiles!member_profiles_id_fkey(nickname))'
     : 'account:user_accounts!free_comments_accounts_fkey(member:member_profiles!member_profiles_id_fkey(nickname))'
-  let query = supabase.from(table).select(`*, ${authorJoin}`, { count: 'exact' })
+  let query = db.from(table).select(`*, ${authorJoin}`, { count: 'exact' })
   if (filter === 'visible') query = query.eq('is_deleted', false)
   if (filter === 'hidden') query = query.eq('is_deleted', true)
 

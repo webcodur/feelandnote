@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { getFreePosts } from '@/actions/board/free'
 import FreePostList from '@/components/features/board/free/FreePostList'
 import { resolveLocale } from '@/types/locale'
@@ -22,10 +22,10 @@ export default async function FreePage({ params, searchParams }: FreePageProps) 
   const currentPage = Math.max(1, parseInt(page || '1', 10))
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
-  const supabase = await createClient()
+  const db = await createClient()
   const [{ posts, total }, { data: { user } }] = await Promise.all([
     getFreePosts({ locale, limit: ITEMS_PER_PAGE, offset }),
-    supabase.auth.getUser(),
+    db.auth.getUser(),
   ])
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE)
 

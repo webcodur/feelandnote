@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import type { ActivityActionType, ActivityTargetType } from '@/types/database'
 
 interface LogActivityParams {
@@ -14,12 +14,12 @@ interface LogActivityParams {
 // 활동 로그 기록 (에러 발생해도 throw하지 않음)
 export async function logActivity(params: LogActivityParams): Promise<void> {
   try {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    const db = await createClient()
+    const { data: { user } } = await db.auth.getUser()
 
     if (!user) return
 
-    await supabase.from('activity_logs').insert({
+    await db.from('activity_logs').insert({
       user_id: user.id,
       action_type: params.actionType,
       target_type: params.targetType,

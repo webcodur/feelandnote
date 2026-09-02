@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 interface StageInput {
   name: string
@@ -27,9 +27,9 @@ interface CreateFlowData {
 }
 
 export async function createFlow(params: CreateFlowParams): Promise<ActionResult<CreateFlowData>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) return failure('UNAUTHORIZED')
 
   if (!params.name.trim()) {
@@ -47,7 +47,7 @@ export async function createFlow(params: CreateFlowParams): Promise<ActionResult
   }
 
   // 1. Flow 생성
-  const { data: flow, error: flowError } = await supabase
+  const { data: flow, error: flowError } = await db
     .from('flows')
     .insert({
       user_id: user.id,
@@ -62,14 +62,14 @@ export async function createFlow(params: CreateFlowParams): Promise<ActionResult
     .single()
 
   if (flowError || !flow) {
-    return handleSupabaseError(flowError!, { context: 'flow', logPrefix: '[플로우 생성]' })
+    return handleDatabaseError(flowError!, { context: 'flow', logPrefix: '[플로우 생성]' })
   }
 
   // 2. Stage + Node 일괄 생성
   for (let si = 0; si < params.stages.length; si++) {
     const stageInput = params.stages[si]
 
-    const { data: stage, error: stageError } = await supabase
+    const { data: stage, error: stageError } = await db
       .from('flow_stages')
       .insert({
         flow_id: flow.id,
@@ -84,8 +84,8 @@ export async function createFlow(params: CreateFlowParams): Promise<ActionResult
 
     if (stageError || !stage) {
       // 롤백
-      await supabase.from('flows').delete().eq('id', flow.id)
-      return handleSupabaseError(stageError!, { context: 'flow', logPrefix: '[스테이지 생성]' })
+      await db.from('flows').delete().eq('id', flow.id)
+      return handleDatabaseError(stageError!, { context: 'flow', logPrefix: '[스테이지 생성]' })
     }
 
     // 노드 생성
@@ -97,13 +97,13 @@ export async function createFlow(params: CreateFlowParams): Promise<ActionResult
         sort_order: ni,
       }))
 
-      const { error: nodesError } = await supabase
+      const { error: nodesError } = await db
         .from('flow_nodes')
         .insert(nodes)
 
       if (nodesError) {
-        await supabase.from('flows').delete().eq('id', flow.id)
-        return handleSupabaseError(nodesError, { context: 'flow', logPrefix: '[노드 생성]' })
+        await db.from('flows').delete().eq('id', flow.id)
+        return handleDatabaseError(nodesError, { context: 'flow', logPrefix: '[노드 생성]' })
       }
     }
   }

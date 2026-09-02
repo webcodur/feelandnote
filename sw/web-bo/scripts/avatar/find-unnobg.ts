@@ -123,12 +123,12 @@ async function main() {
   }
 
   const env = loadEnv()
-  const sb = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
+  const db = createClient(env.NEXT_PUBLIC_DB_API_URL, env.DB_SECRET_KEY)
 
   // 전체 대상 목록 (slug 오름차순 고정 — 순서가 흔들리면 커서가 무의미하다)
   const all: Array<{ id: string; slug: string; nickname: string | null; avatar_url: string }> = []
   for (let from = 0; ; from += 500) {
-    const { data, error } = await sb
+    const { data, error } = await db
       .from('celebs')
       .select('id, slug, nickname, avatar_url')
       .not('avatar_url', 'is', null)

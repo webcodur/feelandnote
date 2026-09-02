@@ -2,8 +2,8 @@
 
 import { cache } from 'react'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { getContentById } from './getContentById'
 import { fetchContentMetadata } from './fetchContentMetadata'
 import { getPublicReviewFeed, getReviewFeed, type ReviewFeedItem } from './getReviewFeed'
@@ -106,8 +106,8 @@ async function fetchDefaultFictionSourceEdition(
   const platform = getFictionSourcePurchasePlatform(locale)
   if (!platform) return null
 
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('fiction_source_purchase_options')
     .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
     .eq('content_id', contentId)
@@ -132,7 +132,7 @@ async function fetchContentDataPublic(
   category: CategoryId | null,
   locale: string,
 ): Promise<ContentDetailData['content'] | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), fiction_source_contents(content_id)`
 
   function buildDbContent(raw: Record<string, unknown>) {
@@ -162,7 +162,7 @@ async function fetchContentDataPublic(
   // UUID 또는 external_id로 contents 조회
   let dbContent: ReturnType<typeof buildDbContent> | null = null
 
-  const { data: byId } = await supabase
+  const { data: byId } = await db
     .from('contents')
     .select(contentSelect)
     .eq('id', contentId)
@@ -171,7 +171,7 @@ async function fetchContentDataPublic(
   if (byId) {
     dbContent = buildDbContent(byId as Record<string, unknown>)
   } else {
-    const { data: byExternalId } = await supabase
+    const { data: byExternalId } = await db
       .from('contents')
       .select(contentSelect)
       .eq('external_id', contentId)
@@ -292,8 +292,8 @@ async function fetchUserRecord(
   userId: string,
   contentId: string,
 ): Promise<ContentDetailData['userRecord']> {
-  const supabase = await createClient()
-  const { data } = await supabase
+  const db = await createClient()
+  const { data } = await db
     .from('member_contents')
     .select('id, status, rating, review, is_spoiler, created_at, updated_at')
     .eq('member_id', userId)

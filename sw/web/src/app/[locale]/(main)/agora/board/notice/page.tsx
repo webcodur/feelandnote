@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { getNotices } from '@/actions/board/notices'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import NoticeList from '@/components/features/board/notices/NoticeList'
 import { resolveLocale } from '@/types/locale'
@@ -23,10 +23,10 @@ export default async function NoticePage({ params, searchParams }: NoticePagePro
   const currentPage = Math.max(1, parseInt(page || '1', 10))
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
-  const supabase = await createClient()
+  const db = await createClient()
   const [{ notices, total }, admin] = await Promise.all([
     getNotices({ locale, limit: ITEMS_PER_PAGE, offset }),
-    isAdmin(supabase)
+    isAdmin(db)
   ])
 
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE)

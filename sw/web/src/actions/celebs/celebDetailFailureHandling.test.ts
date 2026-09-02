@@ -62,7 +62,7 @@ test('cached dialogue, JSON-LD, spectrum, and influence ranking queries reject f
 
 test('content type counts propagate query failures instead of returning false zero counts', () => {
   assert.doesNotMatch(countsSource, /withQueryFallback/)
-  assert.match(countsSource, /return countByType\(supabase, user\.id, false\)/)
+  assert.match(countsSource, /return countByType\(db, user\.id, false\)/)
   assert.match(countsSource, /return getCachedUserContentCounts\(userId\)/)
   assert.match(countsSource, /return getCachedCelebContentCounts\(userId\)/)
 })

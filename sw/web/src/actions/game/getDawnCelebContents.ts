@@ -8,7 +8,7 @@
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { getLocale } from "next-intl/server";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
@@ -40,12 +40,12 @@ async function fetchDawnCelebContents(
   idsKey: string,
   locale: string
 ): Promise<Record<string, DawnContent[]>> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
   const celebIds = idsKey.split(",");
 
   // 단일 쿼리: celeb_contents JOIN contents (셀럽당 최대 4개는 클라이언트에서 제한)
   // contents는 to-one 조인이라 객체로 반환 — 파서가 배열로 추론하므로 overrideTypes로 교정
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from("celeb_contents")
     .select(
       `celeb_id, content_id, review, source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`

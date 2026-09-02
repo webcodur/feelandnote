@@ -8,7 +8,7 @@
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { getLocale } from "next-intl/server";
 
 export interface DawnDialogueData {
@@ -34,11 +34,11 @@ async function fetchDawnDialogues(
   const celebIds = celebIdsKey ? celebIdsKey.split(",") : [];
   if (celebIds.length === 0) return {};
 
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   const [tonesResult, dialoguesResult] = await Promise.all([
-    supabase.from("celebs").select("id, speech_tone").in("id", celebIds),
-    supabase.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", celebIds),
+    db.from("celebs").select("id, speech_tone").in("id", celebIds),
+    db.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", celebIds),
   ]);
 
   if (tonesResult.error) console.error("[getDawnDialogues] tone 조회 실패:", tonesResult.error.message);

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { requireAdmin } from '@/lib/admin-auth'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 
 export type GuestbookSubjectKind = 'member' | 'celeb'
 

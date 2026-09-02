@@ -38,9 +38,9 @@ loadEnv(join(ROOT, '.env'))
 loadEnv(join(ROOT, 'sw/web-bo/.env'))
 loadEnv(join(ROOT, 'sw/web/.env'))
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL,
+  process.env.DB_SECRET_KEY || process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
 )
 
 /** PostgREST는 1,000행에서 조용히 끊는다 — 정렬키를 고정해 페이지로 나눠 받는다 */
@@ -48,7 +48,7 @@ async function selectAll(table, columns, tune = (q) => q) {
   const out = []
   const SIZE = 1000
   for (let from = 0; ; from += SIZE) {
-    const { data, error } = await tune(supabase.from(table).select(columns)).range(from, from + SIZE - 1)
+    const { data, error } = await tune(db.from(table).select(columns)).range(from, from + SIZE - 1)
     if (error) throw new Error(`${table}: ${error.message}`)
     if (!data?.length) break
     out.push(...data)

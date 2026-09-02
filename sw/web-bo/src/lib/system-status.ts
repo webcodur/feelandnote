@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs'
 import { homedir } from 'node:os'
 import path from 'node:path'
 import { requireAdmin } from '@/lib/admin-auth'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { parseDatabaseHostOutput, parseWebHostOutput } from './system-status-format'
 import type { DatabaseApiStatus, EndpointStatus, SystemStatus } from './system-status-types'
 
@@ -100,10 +100,10 @@ async function probeEndpoint(): Promise<EndpointStatus> {
 async function probeDatabaseApi(): Promise<DatabaseApiStatus> {
   const startedAt = performance.now()
   try {
-    const supabase = await createClient()
+    const db = await createClient()
     const [sizeResult, tableResult] = await Promise.all([
-      supabase.rpc('get_database_size').single(),
-      supabase.rpc('get_table_count').single(),
+      db.rpc('get_database_size').single(),
+      db.rpc('get_table_count').single(),
     ])
     const error = sizeResult.error?.message ?? tableResult.error?.message ?? null
     return {

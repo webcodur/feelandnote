@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: '블라인드 게임',
@@ -15,9 +15,9 @@ export default async function BlindGamePage({
   const page = parseInt(params.page || '1')
   const perPage = 30
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: scoreRows, count, error: scoresError } = await supabase
+  const { data: scoreRows, count, error: scoresError } = await db
     .from('blind_game_scores')
     .select(
       '*, account:user_accounts!blind_scores_accounts_fkey(id, member:member_profiles!member_profiles_id_fkey(id, nickname, avatar_url))',
@@ -38,14 +38,14 @@ export default async function BlindGamePage({
   const totalPages = Math.ceil(total / perPage)
 
   // 통계
-  const { data: stats, error: statsError } = await supabase.from('blind_game_scores').select('score, streak')
+  const { data: stats, error: statsError } = await db.from('blind_game_scores').select('score, streak')
   if (statsError) throw new Error(`Failed to load blind game statistics: ${statsError.message}`)
   const maxScore = stats ? Math.max(...stats.map((s) => s.score), 0) : 0
   const maxStreak = stats ? Math.max(...stats.map((s) => s.streak), 0) : 0
   const avgScore = stats?.length ? Math.round(stats.reduce((sum, s) => sum + s.score, 0) / stats.length) : 0
 
   // 상위 플레이어
-  const { data: topPlayersRaw, error: topPlayersError } = await supabase
+  const { data: topPlayersRaw, error: topPlayersError } = await db
     .from('blind_game_scores')
     .select(
       'user_id, score, account:user_accounts!blind_scores_accounts_fkey(id, member:member_profiles!member_profiles_id_fkey(id, nickname, avatar_url))'

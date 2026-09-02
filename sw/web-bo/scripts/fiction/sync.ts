@@ -14,7 +14,7 @@
 
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 
 type SourceRef = {
   work: string
@@ -67,14 +67,14 @@ const fileArg = argValue('--file')
 const apply = process.argv.includes('--apply')
 
 if (!fileArg) throw new Error('--file <명세 JSON>이 필요합니다.')
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_URL과 SUPABASE_SERVICE_ROLE_KEY가 필요합니다.')
+if (!process.env.NEXT_PUBLIC_DB_API_URL || !process.env.DB_SECRET_KEY) {
+  throw new Error('NEXT_PUBLIC_DB_API_URL과 DB_SECRET_KEY가 필요합니다.')
 }
 
 const manifest = JSON.parse(readFileSync(resolve(process.cwd(), fileArg), 'utf8')) as Manifest
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL,
+  process.env.DB_SECRET_KEY,
 )
 
 const allowedProfessions = new Set([
@@ -143,7 +143,7 @@ function validateManifest(input: Manifest) {
   }
 }
 
-async function fetchExisting(client: SupabaseClient, people: FictionProfileInput[]) {
+async function fetchExisting(client: DatabaseClient, people: FictionProfileInput[]) {
   const columns = [
     'id', 'slug', 'nickname', 'nickname_en', 'profession', 'title', 'nationality',
     'gender', 'birth_date', 'death_date', 'bio', 'virtual_monologue',
@@ -198,7 +198,7 @@ function changedKeys(existing: ExistingProfile, person: FictionProfileInput) {
   })
 }
 
-async function createFictionProfile(client: SupabaseClient, person: FictionProfileInput) {
+async function createFictionProfile(client: DatabaseClient, person: FictionProfileInput) {
   // 인물은 로그인 계정을 갖지 않는다. 도메인 식별자만 직접 발급한다.
   const celebId = crypto.randomUUID()
   try {
@@ -231,7 +231,7 @@ async function createFictionProfile(client: SupabaseClient, person: FictionProfi
 
 async function main() {
   validateManifest(manifest)
-  const existingRows = await fetchExisting(supabase, manifest.people)
+  const existingRows = await fetchExisting(db, manifest.people)
   const bySlug = new Map(existingRows.filter((row) => row.slug).map((row) => [row.slug!, row]))
   const byEnglishName = new Map(
     existingRows.filter((row) => row.nickname_en).map((row) => [row.nickname_en!, row]),
@@ -251,7 +251,7 @@ async function main() {
 
     if (!existing) {
       console.log(`[CREATE] ${person.slug}`)
-      if (apply) await createFictionProfile(supabase, person)
+      if (apply) await createFictionProfile(db, person)
       created += 1
       continue
     }
@@ -275,7 +275,7 @@ async function main() {
 
     console.log(`[UPDATE] ${person.slug}: ${fields.join(', ')}`)
     if (apply) {
-      const { error } = await supabase
+      const { error } = await db
         .from('celebs')
         .update(desiredProfile(person))
         .eq('id', existing.id)

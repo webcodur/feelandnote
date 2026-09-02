@@ -4,7 +4,7 @@ import { existsSync } from 'fs'
 import path from 'path'
 import { REMOTION_ROOT } from '@feelandnote/shared/bo/remotion-root'
 import { getSeriesById } from '@/features/book-recommend/lib/series-registry'
-import { createAdminClient } from '@/features/book-recommend/lib/supabase'
+import { createAdminClient } from '@/features/book-recommend/lib/database'
 import { guardAdminRoute } from '@/lib/admin-route'
 
 const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')

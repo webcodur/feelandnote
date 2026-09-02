@@ -15,7 +15,7 @@
  */
 
 import { randomUUID } from 'crypto'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import {
   buildFactionRows, IN_CHUNK, type DurationLookup,
 } from '@feelandnote/shared/lib/faction-assemble'
@@ -38,7 +38,7 @@ export interface ReplaceEpisodeResult {
  *   새로 만드는 경우에만 null 을 준다.
  */
 export async function replaceFactionEpisode(
-  db: SupabaseClient,
+  db: DatabaseClient,
   folder: string,
   script: Record<string, unknown>,
   expectedUpdatedAt: string | null,
@@ -171,7 +171,7 @@ function collectPeople(script: Record<string, unknown>): PersonRef[] {
  * UUID가 있는 편집 데이터는 UUID로 확인하고, 옛 렌더 파일처럼 slug만 있는 입력만 해소한다.
  */
 async function resolvePeople(
-  db: SupabaseClient, script: Record<string, unknown>,
+  db: DatabaseClient, script: Record<string, unknown>,
 ): Promise<{
   slugMap: Map<string, string>
   profilesById: Map<string, ProfileRef>
@@ -231,7 +231,7 @@ async function resolvePeople(
 }
 
 /** 태그는 수십 종뿐이라 전량 조회한다 */
-async function resolveTags(db: SupabaseClient): Promise<Map<string, string>> {
+async function resolveTags(db: DatabaseClient): Promise<Map<string, string>> {
   const { data, error } = await db.from('celeb_tags').select('id,slug')
   if (error) throw new Error(`태그 조회 실패: ${error.message}`)
   const map = new Map<string, string>()
@@ -269,7 +269,7 @@ export type ExistingTree = {
   people: Row[]
 }
 
-async function loadExistingTree(db: SupabaseClient, folder: string): Promise<ExistingTree | undefined> {
+async function loadExistingTree(db: DatabaseClient, folder: string): Promise<ExistingTree | undefined> {
   const { data, error } = await db
     .from('faction_episodes')
     .select(
@@ -421,7 +421,7 @@ export function groupTagLookupOf(tree: Pick<ExistingTree, 'groups'>): (groupRow:
 
 /** 편별 고정 댓글 — 편집기가 보내지 않으므로 저장 때 그대로 실어 보내 보존한다. 별도 표라 한 번 더 읽는다. */
 async function loadExistingParts(
-  db: SupabaseClient, episodeId: string,
+  db: DatabaseClient, episodeId: string,
 ): Promise<{ part: number; comment: string }[]> {
   const { data, error } = await db
     .from('faction_episode_parts').select('part,comment').eq('episode_id', episodeId)

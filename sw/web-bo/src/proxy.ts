@@ -33,11 +33,11 @@ export async function proxy(request: NextRequest) {
     )
   }
 
-  let supabaseResponse = NextResponse.next({ request })
+  let dbResponse = NextResponse.next({ request })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  const db = createServerClient(
+    process.env.NEXT_PUBLIC_DB_API_URL!,
+    process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY!,
     {
       cookies: {
         getAll() {
@@ -47,9 +47,9 @@ export async function proxy(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           )
-          supabaseResponse = NextResponse.next({ request })
+          dbResponse = NextResponse.next({ request })
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
+            dbResponse.cookies.set(name, value, options)
           )
         },
       },
@@ -58,7 +58,7 @@ export async function proxy(request: NextRequest) {
 
   // ECC 서명 JWT는 getClaims()로 로컬 검증한다. getUser()는 요청마다 Auth 서버를
   // 왕복하므로 로컬 관리 작업 중 하루 수만 건의 불필요한 egress를 만들었다.
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const { data: claimsData, error: claimsError } = await db.auth.getClaims()
   const userId = claimsData?.claims?.sub
 
   // 로그인 안 됨 → 로그인 페이지로
@@ -69,7 +69,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // 역할과 활성 계정 상태를 DB의 단일 관리자 판정으로 확인한다.
-  const { data: isAdmin, error: adminError } = await supabase.rpc('is_admin')
+  const { data: isAdmin, error: adminError } = await db.rpc('is_admin')
 
   if (adminError || !isAdmin) {
     // 권한 없음 → 로그인 페이지로 (에러 메시지 포함)
@@ -78,7 +78,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
-  return supabaseResponse
+  return dbResponse
 }
 
 export const config = {

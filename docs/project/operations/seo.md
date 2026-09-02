@@ -414,7 +414,7 @@ verification: {
 - **데이터·XML 단일원천**: `sw/web/src/lib/sitemap.ts`
 - **인덱스 라우트**: `sw/web/src/app/sitemap.xml/route.ts` → `https://feelandnote.com/sitemap.xml`
 - **하위 라우트**: `sw/web/src/app/sitemaps/[name]/route.ts` → `/sitemaps/*.xml`
-- **방식**: PostgREST API 직접 fetch (`@supabase/supabase-js`는 메타데이터 라우트에서 동작 안 함)
+- **방식**: PostgREST API 직접 fetch(DB SDK는 메타데이터 라우트에서 동작하지 않았음)
 - **캐시**: 인덱스·하위 파일 모두 `revalidate = 86400` (ISR 하루. Next.js route config 정적 분석 때문에 두 route 파일의 값은 숫자 리터럴이어야 하며, 데이터 fetch 주기는 `lib/sitemap.ts`가 쥔다)
 - **URL 구성**(2026-08-24 프로덕션 실측): 정적·기관 선정·직군 명부 `core.xml` 228 URL + 인물 3,059명 6,118 URL = 총 **6,346개**. 각 경로가 ko·en 2 URL로 나간다. 이는 계획된 3,000명 확장의 결과이며 크롤 병목의 원인이나 롤백 대상으로 판정하지 않는다. DB 증가에 따라 바뀌므로 규약값이 아니라 시각을 붙인 스냅샷이다.
 - **분할 구조**: 인덱스는 `core`·`celebs` 2개 파일을 가리킨다. 종전 `contents-0..7` 8개는 2026-08-14에 제거했고 해당 주소는 404다.
@@ -503,9 +503,9 @@ if (
 cd sw/web && source .env.local
 
 # 사이트맵 쿼리 테스트
-curl -s "${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/celebs?select=slug,created_at&publication_status=eq.active&celeb_tier=eq.full&slug=not.is.null&order=created_at.asc&limit=3" \
-  -H "apikey: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}" \
-  -H "Authorization: Bearer ${NEXT_PUBLIC_SUPABASE_ANON_KEY}"
+curl -s "${NEXT_PUBLIC_DB_API_URL}/rest/v1/celebs?select=slug,created_at&publication_status=eq.active&celeb_tier=eq.full&slug=not.is.null&order=created_at.asc&limit=3" \
+  -H "apikey: ${NEXT_PUBLIC_DB_PUBLISHABLE_KEY}" \
+  -H "Authorization: Bearer ${NEXT_PUBLIC_DB_PUBLISHABLE_KEY}"
 
 # 배포 후 검증
 curl -s "https://feelandnote.com/sitemap.xml" | grep -c "<sitemap>" # 현재 하위 파일 2개
@@ -523,7 +523,7 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
 
 ### sitemap.xml에 셀럽 URL 0개 (2026-03-12)
 - **원인 1**: 당시 `profiles.updated_at` 컬럼이 존재하지 않아 PostgreSQL 쿼리 에러 (42703). `?? []` 폴백으로 에러가 무시됨. 현재 인물 원천은 `celebs`다
-- **원인 2**: `@supabase/supabase-js` 클라이언트가 Next.js 메타데이터 라우트에서 동작하지 않음
+- **원인 2**: 당시 DB SDK 클라이언트가 Next.js 메타데이터 라우트에서 동작하지 않음
 - **해결**: PostgREST API 직접 fetch로 전환 + `created_at`으로 변경
 - **교훈**: 배포 전 로컬 curl로 REST 쿼리 검증 필수
 

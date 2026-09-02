@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: 'API 사용량',
@@ -27,16 +27,16 @@ export default async function ApiUsagePage({
   const successFilter = params.success || ''
   const perPage = 50
 
-  const supabase = await createClient()
+  const db = await createClient()
 
   // API 키 목록
-  const { data: apiKeys } = await supabase
+  const { data: apiKeys } = await db
     .from('api_keys')
     .select('id, title')
     .order('title')
 
   // 사용 로그 조회
-  let query = supabase
+  let query = db
     .from('api_key_usage')
     .select('*, api_key:api_key_id (id, title)', { count: 'exact' })
     .order('created_at', { ascending: false })
@@ -54,16 +54,16 @@ export default async function ApiUsagePage({
   const totalPages = Math.ceil(total / perPage)
 
   // 통계
-  const { count: totalUsage } = await supabase
+  const { count: totalUsage } = await db
     .from('api_key_usage')
     .select('*', { count: 'exact', head: true })
 
-  const { count: successCount } = await supabase
+  const { count: successCount } = await db
     .from('api_key_usage')
     .select('*', { count: 'exact', head: true })
     .eq('success', true)
 
-  const { count: failCount } = await supabase
+  const { count: failCount } = await db
     .from('api_key_usage')
     .select('*', { count: 'exact', head: true })
     .eq('success', false)
@@ -73,14 +73,14 @@ export default async function ApiUsagePage({
     : 0
 
   // 액션 타입별 통계
-  const { data: actionStatsData } = await supabase.from('api_key_usage').select('action_type')
+  const { data: actionStatsData } = await db.from('api_key_usage').select('action_type')
   const actionCountMap = (actionStatsData || []).reduce((acc, item) => {
     acc[item.action_type] = (acc[item.action_type] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
   // API 키별 통계
-  const { data: keyStatsData } = await supabase.from('api_key_usage').select('api_key_id')
+  const { data: keyStatsData } = await db.from('api_key_usage').select('api_key_id')
   const keyCountMap = (keyStatsData || []).reduce((acc, item) => {
     if (item.api_key_id) acc[item.api_key_id] = (acc[item.api_key_id] || 0) + 1
     return acc

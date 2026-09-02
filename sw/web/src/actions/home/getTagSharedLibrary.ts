@@ -8,7 +8,7 @@
 import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
 interface SharedContentCeleb {
@@ -31,10 +31,10 @@ export interface SharedContent {
 }
 
 async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   // 1. 태그에 속한 셀럽 ID 조회 — 단일 원천은 제작 테이블, 뷰가 웹 전용 배정과 합쳐 준다
-  const { data: assignments } = await supabase
+  const { data: assignments } = await db
     .from("faction_atlas_members")
     .select("celeb_id")
     .eq("tag_id", tagId)
@@ -45,7 +45,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   const celebIds = assignments.map((a) => a.celeb_id);
 
   // 2. 셀럽 프로필 조회 (닉네임, 아바타)
-  const { data: celebRows } = await supabase
+  const { data: celebRows } = await db
     .from("celebs")
     .select("id, nickname, nickname_en, avatar_url")
     .in("id", celebIds);
@@ -61,7 +61,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   );
 
   // 3. celeb_contents + contents JOIN
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from("celeb_contents")
     .select(
       `celeb_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`

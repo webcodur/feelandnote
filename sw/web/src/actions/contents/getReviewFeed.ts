@@ -4,8 +4,8 @@ import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { bulkTag, CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { getLocale } from 'next-intl/server'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 
 export interface ReviewFeedItem {
   id: string
@@ -105,7 +105,7 @@ async function fetchReviewFeed(
   currentUserId: string | null,
   locale: string,
 ): Promise<ReviewFeedItem[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
@@ -119,7 +119,7 @@ async function fetchReviewFeed(
       source_url
     `
 
-  let memberQuery = supabase
+  let memberQuery = db
     .from('member_contents')
     .select(`
       ${selectBase},
@@ -131,7 +131,7 @@ async function fetchReviewFeed(
     .not('review', 'is', null)
     .order('updated_at', { ascending: false })
 
-  let celebQuery = supabase
+  let celebQuery = db
     .from('celeb_contents')
     .select(`
       ${selectBase},
@@ -161,7 +161,7 @@ async function fetchReviewFeed(
   const memberRows = (memberResult.data || []) as unknown as MemberReviewFeedRow[]
   const memberIds = [...new Set(memberRows.map((record) => record.member_id))]
   const { data: memberProfiles, error: memberProfilesError } = memberIds.length
-    ? await supabase
+    ? await db
         .from('member_profiles')
         .select('id, nickname, avatar_url')
         .in('id', memberIds)
@@ -234,8 +234,8 @@ export async function getPublicReviewFeed(
 }
 
 export async function getReviewFeed(params: GetReviewFeedParams): Promise<ReviewFeedItem[]> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user } } = await db.auth.getUser()
   const locale = await getLocale()
 
   return withQueryFallback(

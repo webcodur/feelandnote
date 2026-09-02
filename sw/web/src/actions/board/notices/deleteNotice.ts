@@ -1,23 +1,23 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
-import { type ActionResult, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, success, handleDatabaseError } from '@/lib/errors'
 import { checkAdmin } from '@/lib/auth/checkAdmin'
 
 export async function deleteNotice(id: string): Promise<ActionResult<null>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const adminCheck = await checkAdmin(supabase)
+  const adminCheck = await checkAdmin(db)
   if (!adminCheck.success) return adminCheck
 
-  const { error } = await supabase
+  const { error } = await db
     .from('notices')
     .delete()
     .eq('id', id)
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[공지사항 삭제]' })
+    return handleDatabaseError(error, { logPrefix: '[공지사항 삭제]' })
   }
 
   revalidatePath('/agora/board/notice')

@@ -1,7 +1,7 @@
 'use server'
 
 // egress-allow: activity_logs는 본인·팔로잉 RLS — anon 전환 시 빈 결과라 캐시 분리 불가. 페이로드 슬림화로 대응
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { getTitleInfo } from '@/constants/titles'
 import type { ActivityActionType, ActivityTargetType, ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
@@ -49,15 +49,15 @@ export async function getFeedActivities(
 ): Promise<GetFeedActivitiesResult> {
   const { limit = 20, cursor, contentType } = params
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user } } = await db.auth.getUser()
 
   if (!user) {
     return { activities: [], nextCursor: null }
   }
 
   // 내가 팔로우하는 사람들 ID 조회
-  const { data: following } = await supabase
+  const { data: following } = await db
     .from('member_member_follows')
     .select('followed_member_id')
     .eq('follower_member_id', user.id)
@@ -82,7 +82,7 @@ export async function getFeedActivities(
   // contentType 필터가 있으면 해당 타입의 content_id 목록 조회
   let filteredContentIds: string[] | null = null
   if (contentType && contentType !== 'all') {
-    const { data: filteredContents } = await supabase
+    const { data: filteredContents } = await db
       .from('contents')
       .select('id')
       .eq('type', contentType)
@@ -96,7 +96,7 @@ export async function getFeedActivities(
   }
 
   // 팔로우한 사람들의 활동 로그 조회 (콘텐츠 추가, 리뷰 작성만)
-  let query = supabase
+  let query = db
     .from('activity_logs')
     .select(`
       id,
@@ -133,7 +133,7 @@ export async function getFeedActivities(
   const activityMemberIds = [...new Set(sliced.map(item => item.user_id))]
 
   const { data: memberProfiles } = activityMemberIds.length
-    ? await supabase
+    ? await db
         .from('member_profiles')
         .select('id, nickname, avatar_url, selected_title')
         .in('id', activityMemberIds)
@@ -148,11 +148,11 @@ export async function getFeedActivities(
   if (contentIds.length > 0) {
     // 콘텐츠 메타와 회원 감상 기록을 병렬 조회
     const [{ data: contents }, { data: userContents }] = await Promise.all([
-      supabase
+      db
         .from('contents')
         .select(`id, type, content_locales(${CL_SELECT_LIST})`)
         .in('id', contentIds),
-      supabase
+      db
         .from('member_contents')
         .select('user_id:member_id, content_id, review, rating, source_url')
         .in('member_id', activityMemberIds)

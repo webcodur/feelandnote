@@ -3,13 +3,13 @@
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
-type StaticSupabase = ReturnType<typeof createStaticClient>
+type StaticDatabaseClient = ReturnType<typeof createStaticClient>
 
 // contents 조인 select 결과 행
 interface ReviewContentRow {
@@ -51,13 +51,13 @@ interface CelebModalContent {
 const REPRESENTATIVE_REVIEW_LIMIT = 2
 
 async function fetchCelebModalContent(celebId: string, locale: string): Promise<CelebModalContent> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
   const [reviewsResult, explanationResult] = await Promise.all([
-    supabase
+    db
       .from('celeb_contents')
       .select(`
         id,
@@ -89,7 +89,7 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
       .order('is_recommended', { ascending: false, nullsFirst: false })
       .order('updated_at', { ascending: false })
       .limit(REPRESENTATIVE_REVIEW_LIMIT),
-    supabase
+    db
       .from('celeb_explanations')
       .select('plain_text, plain_text_en')
       .eq('profile_id', celebId)
@@ -114,7 +114,7 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
 
   const rows = data as unknown as ReviewRow[]
   const contentIds = [...new Set(rows.map(row => row.content_id))]
-  const contentCounts = await getContentCountsForContents(supabase, contentIds)
+  const contentCounts = await getContentCountsForContents(db, contentIds)
 
   const reviews: CelebReview[] = rows
     .filter((row): row is ReviewRow & { content: ReviewContentRow | ReviewContentRow[]; celeb: ReviewCelebRow | ReviewCelebRow[]; review: string } =>
@@ -180,12 +180,12 @@ interface ContentCounts {
 }
 
 async function getContentCountsForContents(
-  supabase: StaticSupabase,
+  db: StaticDatabaseClient,
   contentIds: string[]
 ): Promise<Record<string, ContentCounts>> {
   if (!contentIds.length) return {}
 
-  const { data, error } = await supabase.rpc('get_content_celeb_user_counts', {
+  const { data, error } = await db.rpc('get_content_celeb_user_counts', {
     p_content_ids: contentIds,
   })
 
@@ -235,10 +235,10 @@ const LIBRARY_PREVIEW_LIMIT = 4
  * (공개·감상문 보유, 고정 → 추천 → 최신)을 승계하되 부수 조회 없이 가볍게 간다.
  */
 async function fetchCelebLibraryPreview(celebId: string, locale: string): Promise<CelebLibraryPreviewItem[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_contents')
     .select(`
       id,

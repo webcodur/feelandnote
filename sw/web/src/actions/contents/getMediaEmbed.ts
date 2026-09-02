@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import type { ContentType } from '@/types/database'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { getVideoTrailer } from '@feelandnote/content-search/tmdb'
 import { getGameTrailer } from '@feelandnote/content-search/igdb'
 import { getTrackById } from '@feelandnote/content-search/itunes-music'
@@ -59,8 +59,8 @@ async function fetchMediaEmbed(
 ): Promise<MediaEmbedResult> {
   const none: MediaEmbedResult = { embedType: null, embedId: null }
 
-  const supabase = createStaticClient()
-  const { data } = await supabase
+  const db = createStaticClient()
+  const { data } = await db
     .from('contents')
     .select('external_id, external_source, metadata')
     .eq('id', contentId)
