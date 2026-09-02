@@ -585,6 +585,8 @@ test('apply SQL은 외부 검색 없이 짧은 단일 트랜잭션·service_role
   assert.match(sql, /material readback mismatch/)
   assert.match(sql, /INSERT INTO public\.fiction_source_contents/)
   assert.match(sql, /INSERT INTO public\.fiction_source_editions/)
+  assert.match(sql, /WHEN content\.release_date ~ '\^\[0-9\]\{4\}-\[0-9\]\{2\}-\[0-9\]\{2\}'/u)
+  assert.match(sql, /THEN left\(content\.release_date, 10\)::date/u)
   assert.match(sql, /fiction source edition readback mismatch/)
   assert.doesNotMatch(sql, /https?:\/\//u)
   assert.doesNotMatch(sql, /::uuid|\bid uuid\b/u)

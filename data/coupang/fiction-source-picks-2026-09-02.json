@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-02",
+  "checkedAt": "2026-09-02T18:02:50.627Z",
   "items": [
     {
       "content_id": "020eb69c-4f27-4f8e-a1b1-a35ddf26a66b",
@@ -414,6 +414,21 @@
         "수상삼국연의를 저본으로 시와 노래까지 옮긴 전 10권 3408쪽 완역",
         "쿠팡 판매 로켓배송·무료배송, 9/3 도착 보장",
         "상품평 11개, 검수 시점 재고 9개"
+      ],
+      "state": "linked"
+    },
+    {
+      "content_id": "265db3a8-af3e-5ad3-8441-c7b0283ee401",
+      "label": "Hoshin Engi — Fujisaki Ryu complete edition",
+      "isbn": "9791133469420",
+      "productId": "72999475",
+      "productUrl": "https://www.coupang.com/vp/products/72999475?itemId=243337686&vendorItemId=3598944902",
+      "affiliateUrl": "https://link.coupang.com/a/gI0FZqhMzY",
+      "qualityEvidence": [
+        "exact ISBN 9791133469420",
+        "후지사키 류·대원씨아이 완전판 전 18권 세트",
+        "쿠팡 판매 로켓배송·무료배송, 9/3 오늘 도착 보장",
+        "상품평 11개"
       ],
       "state": "linked"
     }
