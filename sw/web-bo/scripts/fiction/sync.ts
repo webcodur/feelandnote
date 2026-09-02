@@ -6,9 +6,9 @@
  * 명세와 다른 기본 정보·가상 독백만 갱신한다. avatar_url은 건드리지 않는다.
  *
  * 실행 예:
- *   node --env-file=.env --import tsx scripts/sync-fiction-profiles.ts \
+ *   node --env-file=.env --import tsx scripts/fiction/sync.ts \
  *     --file ../remotion/public/factions/Homer-Iliad/_docs/fiction-profiles.ko.json
- *   node --env-file=.env --import tsx scripts/sync-fiction-profiles.ts \
+ *   node --env-file=.env --import tsx scripts/fiction/sync.ts \
  *     --file ../remotion/public/factions/Homer-Iliad/_docs/fiction-profiles.ko.json --apply
  */
 
@@ -93,7 +93,6 @@ const allowedProfessions = new Set([
   'actor',
   'influencer',
   'athlete',
-  'other',
 ])
 
 function validateManifest(input: Manifest) {
