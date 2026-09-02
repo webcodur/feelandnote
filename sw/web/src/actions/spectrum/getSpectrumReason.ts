@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { parseSpectrumJsonbWithReasons } from '@/lib/spectrum/types'
 import type { SpectrumJsonb } from '@/lib/spectrum/types'
 
@@ -13,8 +13,8 @@ export interface SpectrumReason {
 }
 
 async function fetchSpectrumReason(celebId: string, axis: string): Promise<SpectrumReason | null> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celeb_persona')
     .select('spectrum:persona')
     .eq('celeb_id', celebId)
@@ -47,8 +47,8 @@ export async function getSpectrumReason(celebId: string, axis: string): Promise<
 export type SpectrumReasonMap = Record<string, SpectrumReason>
 
 async function fetchSpectrumReasons(celebId: string): Promise<SpectrumReasonMap> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celeb_persona')
     .select('spectrum:persona')
     .eq('celeb_id', celebId)

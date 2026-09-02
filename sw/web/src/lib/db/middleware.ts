@@ -5,13 +5,13 @@ import { NextResponse, type NextRequest } from 'next/server'
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30
 
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
+  let dbResponse = NextResponse.next({
     request
   })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  const db = createServerClient(
+    process.env.NEXT_PUBLIC_DB_API_URL!,
+    process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY!,
     {
       cookies: {
         getAll() {
@@ -21,11 +21,11 @@ export async function updateSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           )
-          supabaseResponse = NextResponse.next({
+          dbResponse = NextResponse.next({
             request
           })
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, {
+            dbResponse.cookies.set(name, value, {
               ...options,
               maxAge: SESSION_MAX_AGE,
               sameSite: 'lax',
@@ -40,7 +40,7 @@ export async function updateSession(request: NextRequest) {
   // 세션 갱신 (중요!)
   const {
     data: { user }
-  } = await supabase.auth.getUser()
+  } = await db.auth.getUser()
 
-  return { supabaseResponse, user }
+  return { dbResponse, user }
 }

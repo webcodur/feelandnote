@@ -680,8 +680,8 @@ async function main() {
   const env = loadEnv(boPath('.env'))
 
   for (const k of [
-    'NEXT_PUBLIC_SUPABASE_URL',
-    'SUPABASE_SERVICE_ROLE_KEY',
+    'NEXT_PUBLIC_DB_API_URL',
+    'DB_SECRET_KEY',
     'R2_ACCOUNT_ID',
     'R2_ACCESS_KEY_ID',
     'R2_SECRET_ACCESS_KEY',
@@ -691,11 +691,11 @@ async function main() {
     if (!env[k]) throw new Error(`.env에 ${k} 누락`)
   }
 
-  const supabase = createClient(
-    env.NEXT_PUBLIC_SUPABASE_URL,
-    env.SUPABASE_SERVICE_ROLE_KEY
+  const db = createClient(
+    env.NEXT_PUBLIC_DB_API_URL,
+    env.DB_SECRET_KEY
   )
-  const { data: profile, error: profileError } = await supabase
+  const { data: profile, error: profileError } = await db
     .from('celebs')
     .select('id, slug, nickname, celeb_tier')
     .eq('id', args.celebId)
@@ -826,7 +826,7 @@ async function main() {
   console.log(`     PUT ok: ${CELEB_AVATAR_SMALL.smallFile} (${smallBuf.length} bytes)`)
 
   console.log(`[5/6] DB celebs.avatar_url 갱신`)
-  const { error } = await supabase
+  const { error } = await db
     .from('celebs')
     .update({ avatar_url: publicUrl })
     .eq('id', args.celebId)

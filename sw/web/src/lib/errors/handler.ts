@@ -1,6 +1,6 @@
 import type { PostgrestError } from '@supabase/supabase-js'
-import type { ActionResult, ActionFailure, ErrorCode, SupabaseErrorCode } from './types'
-import { ERROR_MESSAGES, SUPABASE_ERROR_MAP, CONTEXT_MESSAGES } from './codes'
+import type { ActionResult, ActionFailure, ErrorCode, DatabaseErrorCode } from './types'
+import { ERROR_MESSAGES, DATABASE_ERROR_MAP, CONTEXT_MESSAGES } from './codes'
 
 type ErrorContext = keyof typeof CONTEXT_MESSAGES
 
@@ -10,8 +10,8 @@ interface HandleErrorOptions {
   logPrefix?: string
 }
 
-// #region Supabase 에러 → ActionResult 변환
-export function handleSupabaseError(
+// #region DB 에러 → ActionResult 변환
+export function handleDatabaseError(
   error: PostgrestError,
   options: HandleErrorOptions = {}
 ): ActionFailure {
@@ -22,7 +22,7 @@ export function handleSupabaseError(
   console.error(`${prefix} Error:`, error)
 
   // 에러 코드 매핑
-  const errorCode = SUPABASE_ERROR_MAP[error.code as SupabaseErrorCode] ?? fallbackCode
+  const errorCode = DATABASE_ERROR_MAP[error.code as DatabaseErrorCode] ?? fallbackCode
 
   // 컨텍스트별 메시지 또는 기본 메시지
   const message = context

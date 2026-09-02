@@ -52,15 +52,15 @@ const env = Object.fromEntries(
     .map((l) => [l.slice(0, l.indexOf('=')).trim(), l.slice(l.indexOf('=') + 1).trim().replace(/^["']|["']$/g, '')])
 ) as Record<string, string>
 
-for (const key of ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET_NAME', 'R2_PUBLIC_URL']) {
+for (const key of ['NEXT_PUBLIC_DB_API_URL', 'DB_SECRET_KEY', 'R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET_NAME', 'R2_PUBLIC_URL']) {
   if (!env[key]) throw new Error(`.env 에 ${key} 가 없다`)
 }
 
-const supabase = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
+const db = createClient(env.NEXT_PUBLIC_DB_API_URL, env.DB_SECRET_KEY)
 
 async function main() {
   console.log(`[1/4] 대상 확인`)
-  const { data: celeb, error: readError } = await supabase
+  const { data: celeb, error: readError } = await db
     .from('celebs')
     .select('id, slug, nickname, avatar_url, publication_status')
     .eq('id', celebId)
@@ -108,7 +108,7 @@ async function main() {
   console.log(`     PUT ok: ${publicUrl}`)
 
   console.log(`[4/4] celebs.avatar_url 갱신`)
-  const { error } = await supabase.from('celebs').update({ avatar_url: publicUrl }).eq('id', celebId)
+  const { error } = await db.from('celebs').update({ avatar_url: publicUrl }).eq('id', celebId)
   if (error) throw new Error(`DB 갱신 실패: ${error.message}`)
   console.log(`     완료 — ${celeb.nickname}`)
 }

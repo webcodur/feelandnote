@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { CelebFeedResponse, CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
@@ -57,12 +57,12 @@ async function fetchCelebFeed(
   limit: number,
   locale: string,
 ): Promise<CelebFeedResponse> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
-  let query = supabase
+  let query = db
     .from('celeb_contents')
     .select(`
       id,

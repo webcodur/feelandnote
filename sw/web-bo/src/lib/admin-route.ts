@@ -11,16 +11,16 @@
  */
 
 import { NextResponse } from 'next/server'
-import { createClient } from './supabase/server'
+import { createClient } from './db/server'
 
 export async function guardAdminRoute(): Promise<NextResponse | null> {
-  const supabase = await createClient()
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const db = await createClient()
+  const { data: claimsData, error: claimsError } = await db.auth.getClaims()
   if (claimsError || !claimsData?.claims?.sub) {
     return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 })
   }
 
-  const { data: isAdmin, error } = await supabase.rpc('is_admin')
+  const { data: isAdmin, error } = await db.rpc('is_admin')
   if (error || !isAdmin) {
     return NextResponse.json({ error: '관리자 권한이 필요합니다' }, { status: 403 })
   }

@@ -14,7 +14,7 @@ import { unstable_cache } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import type { TopFivePool } from "@/components/features/game/topfive/engine";
 import type { CategoryType, TopFiveCandidate, TopFivePuzzle } from "@/components/features/game/topfive/types";
 import { CANDIDATES_COUNT } from "@/components/features/game/topfive/types";
@@ -63,10 +63,10 @@ const PROFESSION_META: Record<string, { ko: string; en: string }> = {
 const MIN_TAG_MEMBERS_WITH_INFLUENCE = 5;
 
 async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   // 1) 영향력 순위를 직군별로 조회 (상위 2000명)
-  const { data: influences, error: infError } = await supabase
+  const { data: influences, error: infError } = await db
     .from("celeb_influence")
     .select(`
       celeb_id,
@@ -121,7 +121,7 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
 
   // ── 태그별 영향력 순위 퍼즐 ──
   // 태그 소속 인물 중 영향력 점수 보유 5명 이상인 태그만 퍼즐로 생성
-  const { data: tags, error: tagError } = await supabase
+  const { data: tags, error: tagError } = await db
     .from("celeb_tags")
     .select("id, name, name_en")
     .eq("is_featured", true)
@@ -131,7 +131,7 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
 
   if (tagError) throw new Error(`[getTopFivePool] tags: ${tagError.message}`);
 
-  const { data: assignments, error: assignError } = await supabase
+  const { data: assignments, error: assignError } = await db
     .from("celeb_tag_assignments")
     .select("celeb_id, tag_id")
     .eq("hidden", false)

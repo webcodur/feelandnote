@@ -7,8 +7,8 @@ import {
   resolveCelebContentCount,
 } from '@feelandnote/shared/constants/celeb-content-research'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/db/admin'
+import { createClient } from '@/lib/db/server'
 import { revalidateWebItems } from '@/lib/revalidate-web'
 import {
   type ContentResearchBucket,
@@ -290,13 +290,13 @@ export async function getContentResearchWorkspace(
 }
 
 async function assertAdmin(): Promise<{ id: string }> {
-  const supabase = await createClient()
-  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const db = await createClient()
+  const { data: claimsData, error: claimsError } = await db.auth.getClaims()
   const userId = claimsData?.claims?.sub
 
   if (claimsError || !userId) throw new Error('인증이 필요합니다.')
 
-  const { data: isAdmin, error } = await supabase.rpc('is_admin')
+  const { data: isAdmin, error } = await db.rpc('is_admin')
 
   if (error || !isAdmin) {
     throw new Error('관리자 권한이 필요합니다.')

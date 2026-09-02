@@ -24,7 +24,7 @@ import { requireFactionAdmin, factionAdminClient } from '@/lib/faction-db'
 import { FACTION_LOCAL } from '@/lib/faction-local'
 import { buildStatus } from '@/lib/faction-sync/diagnose'
 import { publishEpisode } from '@/lib/faction-sync/publish'
-import { missingSupabaseEnv } from '@/lib/faction-sync/supabase'
+import { missingDatabaseEnv } from '@/lib/faction-sync/database'
 import type {
   FactionPublishRequest, FactionPublishResult, FactionSyncStatus,
 } from '@/lib/faction-sync/types'
@@ -32,7 +32,7 @@ import type {
 /** 사람 확인 + 환경 점검. 조용한 폴백 금지 — 키가 없으면 사유를 들고 던진다 */
 async function guard(): Promise<void> {
   await requireFactionAdmin()
-  const missing = missingSupabaseEnv()
+  const missing = missingDatabaseEnv()
   if (missing.length) throw new Error(`DB 관리자 접속 환경변수 누락: ${missing.join(', ')}`)
 }
 

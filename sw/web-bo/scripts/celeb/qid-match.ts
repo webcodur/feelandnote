@@ -39,9 +39,9 @@ const APPLY = process.argv.includes('--apply')
 const limitArg = process.argv.indexOf('--limit')
 const LIMIT = limitArg >= 0 ? Number(process.argv[limitArg + 1]) : Infinity
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL!,
+  process.env.DB_SECRET_KEY!,
 )
 
 const UA = 'feelandnote-qid-match/1.0 (webcodur@gmail.com)'
@@ -76,7 +76,7 @@ interface CelebRow {
 async function loadCelebs(): Promise<CelebRow[]> {
   const rows: CelebRow[] = []
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celebs')
       .select('id, slug, nickname, nickname_en, profession, birth_date, celeb_tier, wikidata_qid')
       .order('slug')
@@ -240,7 +240,7 @@ async function run() {
   if (!APPLY) { console.log('\n※ 갱신하려면 --apply'); return }
 
   for (const h of hits) {
-    const { error } = await supabase.from('celebs').update({ wikidata_qid: h.qid }).eq('id', h.celeb.id)
+    const { error } = await db.from('celebs').update({ wikidata_qid: h.qid }).eq('id', h.celeb.id)
     if (error) throw error
   }
   console.log(`\n갱신 완료. ${hits.length}명에 wikidata_qid를 채웠다.`)

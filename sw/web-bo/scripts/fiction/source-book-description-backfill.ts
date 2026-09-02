@@ -6,9 +6,9 @@ import { CACHE_TAGS, type CacheItemTarget } from '@feelandnote/shared/constants/
 import { revalidateWebItems } from '../../src/lib/revalidate-web'
 import { decideDescriptionBackfill } from './source-book-description-contract'
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-if (!url || !key) throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY가 필요합니다.')
+const url = process.env.NEXT_PUBLIC_DB_API_URL
+const key = process.env.DB_SECRET_KEY
+if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY가 필요합니다.')
 
 const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 const PAGE_SIZE = 500

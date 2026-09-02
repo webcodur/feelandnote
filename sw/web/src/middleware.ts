@@ -6,7 +6,7 @@ import {
   MAINTENANCE_PREVIEW_COOKIE,
   MAINTENANCE_PREVIEW_PARAM,
 } from '@/lib/maintenance';
-import { updateSession } from '@/lib/supabase/middleware';
+import { updateSession } from '@/lib/db/middleware';
 import { isBlockedCrawler } from '@/lib/blocked-crawlers';
 
 const intlMiddleware = createIntlMiddleware(routing);
@@ -121,17 +121,17 @@ export async function middleware(request: NextRequest) {
 
   // 5) Auth 세션 갱신. 익명 크롤러/방문자는 인증 쿠키가 없으므로
   // auth.getUser() 왕복을 만들지 않는다. 로그인 쿠키가 있을 때만 기존 갱신을 수행한다.
-  const hasSupabaseAuthCookie = request.cookies.getAll().some(({ name }) =>
+  const hasDatabaseAuthCookie = request.cookies.getAll().some(({ name }) =>
     name.startsWith('sb-') && name.includes('-auth-token')
   );
   let user: Awaited<ReturnType<typeof updateSession>>['user'] = null;
 
-  if (hasSupabaseAuthCookie) {
+  if (hasDatabaseAuthCookie) {
     const session = await updateSession(request);
     user = session.user;
 
     // Auth가 갱신한 쿠키를 intl response에 복사
-    session.supabaseResponse.cookies.getAll().forEach((cookie) => {
+    session.dbResponse.cookies.getAll().forEach((cookie) => {
       intlResponse.cookies.set(cookie.name, cookie.value, {
         path: cookie.path,
         domain: cookie.domain,

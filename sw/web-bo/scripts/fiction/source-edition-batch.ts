@@ -10,10 +10,10 @@ import { isAbsolute, resolve } from 'node:path'
 import { createClient } from '@supabase/supabase-js'
 import { getBookByIsbnWithFullDescription } from '@feelandnote/content-search/kakao-books'
 
-const DB_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+const DB_URL = process.env.NEXT_PUBLIC_DB_API_URL
+const SERVICE_KEY = process.env.DB_SECRET_KEY
 if (!DB_URL || !SERVICE_KEY) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY가 필요합니다.')
+  throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY가 필요합니다.')
 }
 
 const db = createClient(DB_URL, SERVICE_KEY, {

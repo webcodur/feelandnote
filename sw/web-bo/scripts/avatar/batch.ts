@@ -577,12 +577,12 @@ async function processOne(
     profileId: string
     profile: ProfileRow
     env: Record<string, string>
-    supabase: ServiceClient
+    db: ServiceClient
     r2: S3Client
     dryRun: boolean
   }
 ): Promise<Outcome> {
-  const { slug, profileId, profile, env, supabase, r2, dryRun } = args
+  const { slug, profileId, profile, env, db, r2, dryRun } = args
   const searchName = profile.nickname_en || profile.nickname || slug.replace(/-/g, ' ')
 
   // 1. QID + 이미지 결정.
@@ -755,7 +755,7 @@ async function processOne(
   // 6. DB
   const update: Record<string, string> = { avatar_url: publicUrl }
   if (qidReassigned || (!profile.wikidata_qid && qid)) update.wikidata_qid = qid
-  const { error } = await supabase.from('celebs').update(update).eq('id', profileId)
+  const { error } = await db.from('celebs').update(update).eq('id', profileId)
   if (error) throw new Error(`celebs update 실패: ${error.message}`)
 
   // 7. 로그
@@ -820,8 +820,8 @@ async function main() {
 
   const env = loadEnv(boPath('.env'))
   for (const k of [
-    'NEXT_PUBLIC_SUPABASE_URL',
-    'SUPABASE_SERVICE_ROLE_KEY',
+    'NEXT_PUBLIC_DB_API_URL',
+    'DB_SECRET_KEY',
     'R2_ACCOUNT_ID',
     'R2_ACCESS_KEY_ID',
     'R2_SECRET_ACCESS_KEY',
@@ -844,7 +844,7 @@ async function main() {
   await ensureFaceModels()
   console.log('[init] face-api SSD MobileNet loaded')
 
-  const supabase = createServiceClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY)
+  const db = createServiceClient(env.NEXT_PUBLIC_DB_API_URL, env.DB_SECRET_KEY)
   const r2 = new S3Client({
     region: 'auto',
     endpoint: `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
@@ -856,7 +856,7 @@ async function main() {
 
   // --scan-db 모드: DB에서 avatar_url 비어있는 셀럽 전체를 자동 조회
   if (scanDb) {
-    const { data: rows, error: scanErr } = await supabase
+    const { data: rows, error: scanErr } = await db
       .from('celebs')
       .select('id, slug, nickname, nickname_en, wikidata_qid, profession, avatar_url')
       .or('avatar_url.is.null,avatar_url.eq.')
@@ -878,7 +878,7 @@ async function main() {
 
   // 프로필 일괄 조회
   const ids = targets.map((t) => t[1])
-  const { data: profiles, error: profErr } = await supabase
+  const { data: profiles, error: profErr } = await db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, wikidata_qid, profession')
     .in('id', ids)
@@ -912,7 +912,7 @@ async function main() {
         profileId,
         profile: prof,
         env,
-        supabase,
+        db,
         r2,
         dryRun,
       })

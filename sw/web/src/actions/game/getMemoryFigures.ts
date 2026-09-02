@@ -6,7 +6,7 @@ import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { getCelebYear } from "@/lib/celeb/lifespan";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import type { MemoryFigure } from "@/components/features/game/memory/types";
 
 interface ProfileBrief {
@@ -30,8 +30,8 @@ const CANDIDATE_LIMIT = 180;
 const FIGURE_LIMIT = 60;
 
 async function fetchMemoryFigures(locale: string): Promise<MemoryFigure[]> {
-  const supabase = createStaticClient();
-  const { data, error } = await supabase
+  const db = createStaticClient();
+  const { data, error } = await db
     .from("celeb_influence")
     .select(`
       celeb_id,
@@ -75,7 +75,7 @@ async function fetchMemoryFigures(locale: string): Promise<MemoryFigure[]> {
   if (candidates.length === 0) return [];
 
   // 게임이 끝나면 만난 인물의 감상 기록을 펼쳐 보여준다 — 기록이 없는 인물은 카드에 올리지 않는다
-  const { data: reviewed, error: reviewedError } = await supabase
+  const { data: reviewed, error: reviewedError } = await db
     .from("celeb_contents")
     .select("celeb_id")
     .in("celeb_id", candidates.map((figure) => figure.id))

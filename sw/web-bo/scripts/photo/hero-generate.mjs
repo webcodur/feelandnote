@@ -206,7 +206,7 @@ function runCodex(promptPath, refPath, outMsgPath, timeoutMs = 900000) {
 const looksRateLimited = (m = '') => /rate.?limit|quota|429|usage limit/i.test(m)
 
 async function processOne(ctx, row) {
-  const { s3, sb, bucket, publicUrl } = ctx
+  const { s3, db, bucket, publicUrl } = ctx
   const dir = join(WORK, row.slug.replace(/[^a-z0-9-]/gi, '_'))
   mkdirSync(dir, { recursive: true })
   const refPath = join(dir, 'ref.png')
@@ -216,7 +216,7 @@ async function processOne(ctx, row) {
 
   try {
     // 0. 이미 채워진 인물은 건너뛴다(중단 후 재실행해도 다시 뽑지 않도록)
-    const { data: cur } = await sb.from('celebs').select('portrait_url').eq('id', row.celeb_id).maybeSingle()
+    const { data: cur } = await db.from('celebs').select('portrait_url').eq('id', row.celeb_id).maybeSingle()
     if (cur?.portrait_url) return { skipped: true, slug: row.slug, nickname: row.nickname }
 
     // 1. 얼굴 REF 확보 (투명 배경이면 검정으로 깔아 codex가 읽기 좋게)
@@ -254,7 +254,7 @@ async function processOne(ctx, row) {
       ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${publicUrl}/${key}?v=${Date.now()}`
-    const { error } = await sb.from('celebs').update({ portrait_url: url }).eq('id', row.celeb_id)
+    const { error } = await db.from('celebs').update({ portrait_url: url }).eq('id', row.celeb_id)
     if (error) throw new Error(`DB 갱신 실패 ${error.message}`)
 
     return { ok: true, slug: row.slug, nickname: row.nickname, kb: Math.round(webp.length / 1024), size: `${portrait.info.width}x${portrait.info.height}` }
@@ -275,9 +275,9 @@ async function main() {
   loadEnv(resolve(__dirname, '..', '..', '.env'))
   const {
     R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME,
-    R2_PUBLIC_URL, NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
+    R2_PUBLIC_URL, NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY,
   } = process.env
-  for (const [k, v] of Object.entries({ R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, R2_PUBLIC_URL, NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY })) {
+  for (const [k, v] of Object.entries({ R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, R2_PUBLIC_URL, NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY })) {
     if (!v) throw new Error(`.env에 ${k} 누락`)
   }
 
@@ -287,7 +287,7 @@ async function main() {
       endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
       credentials: { accessKeyId: R2_ACCESS_KEY_ID, secretAccessKey: R2_SECRET_ACCESS_KEY },
     }),
-    sb: createClient(NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY),
+    db: createClient(NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY),
     bucket: R2_BUCKET_NAME,
     publicUrl: R2_PUBLIC_URL,
   }

@@ -11,7 +11,7 @@
 
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import {
   assertExactFictionSourceReadback,
   buildFictionSourceBatchPlan,
@@ -50,7 +50,7 @@ function argumentValue(name: string): string | undefined {
 }
 
 async function loadSourceBatchSnapshot(
-  db: SupabaseClient,
+  db: DatabaseClient,
   contentId: string,
 ): Promise<SourceBatchSnapshot> {
   const [contentResult, sourceResult, rowsResult] = await Promise.all([
@@ -90,7 +90,7 @@ async function loadSourceBatchSnapshot(
 }
 
 async function loadCelebs(
-  db: SupabaseClient,
+  db: DatabaseClient,
   column: 'id' | 'slug',
   values: string[],
 ): Promise<CelebRow[]> {
@@ -104,7 +104,7 @@ async function loadCelebs(
 }
 
 async function resolveCharacters(
-  db: SupabaseClient,
+  db: DatabaseClient,
   manifest: FictionSourceBatchManifest,
 ): Promise<ResolvedFictionSourceCharacter[]> {
   const slugs = manifest.characters.flatMap((character) => character.slug ? [character.slug] : [])
@@ -135,7 +135,7 @@ async function resolveCharacters(
   })
 }
 
-async function verifySourceDesignation(db: SupabaseClient, contentId: string): Promise<void> {
+async function verifySourceDesignation(db: DatabaseClient, contentId: string): Promise<void> {
   const { data, error } = await db
     .from('fiction_source_contents')
     .select('content_id')
@@ -148,7 +148,7 @@ async function verifySourceDesignation(db: SupabaseClient, contentId: string): P
 }
 
 async function loadReadbackRows(
-  db: SupabaseClient,
+  db: DatabaseClient,
   contentId: string,
 ): Promise<FictionSourceCharacterRow[]> {
   const { data, error } = await db
@@ -162,7 +162,7 @@ async function loadReadbackRows(
 }
 
 async function applySourceBatch(
-  db: SupabaseClient,
+  db: DatabaseClient,
   contentId: string,
   sourceDesignated: boolean,
   writeRows: FictionSourceCharacterRow[],
@@ -196,16 +196,16 @@ async function main(): Promise<void> {
   const file = argumentValue('file')
   const apply = process.argv.includes('--apply')
   if (!file) throw new Error('--file <작품 JSON>이 필요합니다.')
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error('NEXT_PUBLIC_SUPABASE_URL과 SUPABASE_SERVICE_ROLE_KEY가 필요합니다.')
+  if (!process.env.NEXT_PUBLIC_DB_API_URL || !process.env.DB_SECRET_KEY) {
+    throw new Error('NEXT_PUBLIC_DB_API_URL과 DB_SECRET_KEY가 필요합니다.')
   }
 
   const manifest = parseFictionSourceBatchManifest(
     JSON.parse(readFileSync(resolve(process.cwd(), file), 'utf8')) as unknown,
   )
   const db = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    process.env.NEXT_PUBLIC_DB_API_URL,
+    process.env.DB_SECRET_KEY,
     { auth: { autoRefreshToken: false, persistSession: false } },
   )
   const [snapshot, characters] = await Promise.all([

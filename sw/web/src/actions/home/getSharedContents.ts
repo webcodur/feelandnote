@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 
 export interface SharedContent {
@@ -22,8 +22,8 @@ async function fetchSharedContents(
   contentType: string,
   limit: number
 ): Promise<SharedContent[]> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase.rpc('get_shared_contents_by_celebs', {
+  const db = createStaticClient()
+  const { data, error } = await db.rpc('get_shared_contents_by_celebs', {
     p_celeb_ids: idsKey.split(','),
     p_content_type: contentType || null,
     p_limit: limit,

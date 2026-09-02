@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -9,11 +9,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ contents: [] })
   }
 
-  const supabase = await createClient()
+  const db = await createClient()
   const searchTerm = `%${query.trim()}%`
 
   // content_locales에서 검색 → content_id 추출
-  const { data: matchIds } = await supabase
+  const { data: matchIds } = await db
     .from('content_locales')
     .select('content_id')
     .ilike('title', searchTerm)
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
   const ids = [...new Set(matchIds.map(m => m.content_id))]
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('contents')
     .select('id, type, content_locales(locale, title, creator, thumbnail_url)')
     .in('id', ids)

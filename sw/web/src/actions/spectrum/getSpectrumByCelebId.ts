@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { SpectrumJsonb, SpectrumProfile } from '@/lib/spectrum/types'
 import { parseSpectrumJsonb } from '@/lib/spectrum/types'
 
@@ -17,8 +17,8 @@ interface SpectrumRow {
 }
 
 async function fetchSpectrumByCelebId(celebId: string): Promise<SpectrumProfile | null> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celeb_persona')
     .select(`
       celeb_id, spectrum:persona,

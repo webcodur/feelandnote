@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { getLocale } from 'next-intl/server'
 import type { LibraryContent, LibraryResult } from './types'
 
@@ -14,10 +14,10 @@ async function fetchChosenLibrary(
   limit: number,
   locale: string,
 ): Promise<LibraryResult> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const offset = (page - 1) * limit
 
-  const { data, error } = await supabase.rpc('get_chosen_scriptures', {
+  const { data, error } = await db.rpc('get_chosen_scriptures', {
     p_category: category,
     p_limit: limit,
     p_offset: offset,

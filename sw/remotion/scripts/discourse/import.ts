@@ -19,7 +19,7 @@
 
 import { randomUUID } from 'crypto'
 import { buildDiscourseRows } from '@feelandnote/shared/lib/discourse-assemble'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import {
   adminClient, readDiscourseData, parseArgs, selectEpisodes, pad,
   type EpisodeFolder,
@@ -48,7 +48,7 @@ interface EpisodeStats {
 /* ────────────────────────── 키 해소 ────────────────────────── */
 
 /** slug → celebs.id. 청크로 끊어 조회한 뒤 한 맵으로 합친다. */
-async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<string, string>> {
+async function resolveSlugs(db: DatabaseClient, slugs: string[]): Promise<Map<string, string>> {
   const map = new Map<string, string>()
   const uniq = [...new Set(slugs)]
   for (let i = 0; i < uniq.length; i += IN_CHUNK) {
@@ -67,7 +67,7 @@ async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<st
 /* ────────────────────────── 이관 ────────────────────────── */
 
 async function importEpisode(
-  db: SupabaseClient,
+  db: DatabaseClient,
   ep: EpisodeFolder,
   slugMap: Map<string, string>,
   dryRun: boolean,

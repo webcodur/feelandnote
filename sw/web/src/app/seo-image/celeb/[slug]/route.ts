@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { cachedDetail } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { createSeoImageResponse, createSquareSeoImage } from '@/lib/seoImage'
 
 export const runtime = 'nodejs'
@@ -13,8 +13,8 @@ interface CelebImageRow {
 }
 
 async function fetchCelebImage(slug: string): Promise<string | null> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celebs')
     .select('avatar_url, portrait_url')
     .eq('slug', slug)

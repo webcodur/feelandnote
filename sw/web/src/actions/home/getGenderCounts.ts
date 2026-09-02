@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 interface GenderCount {
   value: string  // 'all' | 'male' | 'female'
@@ -15,14 +15,14 @@ interface GenderCount {
 export type GenderCounts = GenderCount[]
 
 async function fetchGenderCounts(): Promise<GenderCounts> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // 병렬 조회 — 목록 노출 등급만 센다(목록과 수치 기준 일치)
   const tiers = [...LISTING_DEFAULT_TIERS]
   const [totalResult, maleResult, femaleResult] = await Promise.all([
-    supabase.from('celebs').select('*', { count: 'exact', head: true }).eq('publication_status', 'active').in('celeb_tier', tiers),
-    supabase.from('celebs').select('*', { count: 'exact', head: true }).eq('publication_status', 'active').in('celeb_tier', tiers).eq('gender', true),
-    supabase.from('celebs').select('*', { count: 'exact', head: true }).eq('publication_status', 'active').in('celeb_tier', tiers).eq('gender', false),
+    db.from('celebs').select('*', { count: 'exact', head: true }).eq('publication_status', 'active').in('celeb_tier', tiers),
+    db.from('celebs').select('*', { count: 'exact', head: true }).eq('publication_status', 'active').in('celeb_tier', tiers).eq('gender', true),
+    db.from('celebs').select('*', { count: 'exact', head: true }).eq('publication_status', 'active').in('celeb_tier', tiers).eq('gender', false),
   ])
 
   return [

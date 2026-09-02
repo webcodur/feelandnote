@@ -1,7 +1,7 @@
 import { CategoryId } from '@/constants/categories'
 import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
 import { throwOnQueryError } from '@/lib/cache'
-import type { CelebContentJoinRow, LibraryContent, StaticSupabase } from './types'
+import type { CelebContentJoinRow, LibraryContent, StaticDatabaseClient } from './types'
 
 // #region 헬퍼 함수 - 콘텐츠 집계 (페이지네이션 지원)
 export function aggregateContents(
@@ -74,7 +74,7 @@ function chunkArray<T>(array: T[], size: number): T[][] {
 
 // #region 헬퍼 함수 - 페이지네이션으로 모든 데이터 조회
 export async function fetchAllCelebContents(
-  supabase: StaticSupabase,
+  db: StaticDatabaseClient,
   celebIds: string[],
   // 요청 로케일은 unstable_cache 바깥에서 읽어 인자로 전달한다.
   locale: string,
@@ -97,7 +97,7 @@ export async function fetchAllCelebContents(
     let hasMore = true
 
     while (hasMore) {
-      let query = supabase
+      let query = db
         .from('celeb_contents')
         .select(`
           celeb_id,
@@ -153,12 +153,12 @@ export async function fetchAllCelebContents(
 // Map은 JSON 캐시 경계에서 보존되지 않으므로 unstable_cache로 감싸지 않는다.
 // 콘텐츠 ID별 셀럽(active CELEB, FINISHED) 카운트 — RPC로 카운트만 수신
 export async function fetchGlobalCelebCounts(
-  supabase: StaticSupabase,
+  db: StaticDatabaseClient,
   contentIds: string[]
 ): Promise<Map<string, number>> {
   if (!contentIds.length) return new Map()
 
-  const { data, error } = await supabase.rpc('get_celeb_content_counts', {
+  const { data, error } = await db.rpc('get_celeb_content_counts', {
     p_content_ids: contentIds,
   })
 
@@ -176,19 +176,19 @@ export async function fetchGlobalCelebCounts(
 // Map은 JSON 캐시 경계에서 보존되지 않으므로 unstable_cache로 감싸지 않는다.
 // 콘텐츠 ID별 일반 유저(USER, FINISHED) 카운트 — RPC로 카운트만 수신
 export async function fetchUserContentCounts(
-  supabase: StaticSupabase,
+  db: StaticDatabaseClient,
   category?: string,
   contentIds?: string[]
 ): Promise<Map<string, number>> {
   if (contentIds !== undefined && !contentIds.length) return new Map()
   if (contentIds?.length) {
-    const { data, error } = await supabase.rpc('get_content_celeb_user_counts', {
+    const { data, error } = await db.rpc('get_content_celeb_user_counts', {
       p_content_ids: contentIds,
     })
     throwOnQueryError('fetchUserContentCounts', error)
     return new Map<string, number>((data ?? []).map((row: { content_id: string; user_count: number }) => [row.content_id, Number(row.user_count)] as [string, number]))
   }
-  const { data, error } = await supabase.rpc('get_user_content_counts', {
+  const { data, error } = await db.rpc('get_user_content_counts', {
     p_category: category ?? undefined,
   })
 

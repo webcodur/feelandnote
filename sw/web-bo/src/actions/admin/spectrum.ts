@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { revalidateWebItem } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
@@ -47,7 +47,7 @@ export async function saveCelebSpectrum(
   stats: Omit<SpectrumData, 'id' | 'celeb_id' | 'nickname' | 'profession' | 'spectrum'>,
   spectrumJsonb?: Record<string, unknown>,
 ): Promise<void> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   const payload: Record<string, unknown> = {
     celeb_id: celebId,
@@ -56,7 +56,7 @@ export async function saveCelebSpectrum(
   }
   if (spectrumJsonb) payload.persona = spectrumJsonb
 
-  const { error } = await supabase
+  const { error } = await db
     .from('celeb_persona')
     .upsert(payload, { onConflict: 'celeb_id' })
 
@@ -79,12 +79,12 @@ interface SpectrumQueryRow {
 }
 
 export async function getSpectrumVectors(): Promise<SpectrumData[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 전량 페이징: 정렬 단독으로는 1,000행에서 잘려 스펙트럼 다수가 목록에서 빠진다.
   // created_at은 동시각 등록이 겹칠 수 있어 고유키 id를 2차 정렬키로 고정한다.
   const data = await selectAllPages<SpectrumQueryRow>((from, to) =>
-    supabase
+    db
       .from('celeb_persona')
       .select(`
         id,

@@ -5,12 +5,12 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { STATIC_REVALIDATE, LIST_REVALIDATE, spreadRevalidate, throwOnQueryError } from '@/lib/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
-import type { Tables } from '@/types/supabase'
+import type { Tables } from '@/types/database.generated'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending'
@@ -30,9 +30,9 @@ interface InfluenceRanking {
 }
 
 async function fetchInfluenceRanking(): Promise<InfluenceRanking> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const rows = await selectAllPages<Pick<Tables<'celeb_influence'>, 'celeb_id' | 'total_score'>>((from, to) =>
-    supabase.from('celeb_influence')
+    db.from('celeb_influence')
       .select('celeb_id, total_score')
       .gt('total_score', 0)
       .order('total_score', { ascending: false })
@@ -159,7 +159,7 @@ async function fetchCelebsPublic(
   search: string | null, tagId: string | null, minContentCount: number,
   includeInactive: boolean, tiers: string[], includeTotal: boolean
 ): Promise<PublicCelebData> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const offset = (page - 1) * limit
 
   let rows: CelebRow[]
@@ -169,7 +169,7 @@ async function fetchCelebsPublic(
     /* 최근 조회수 순 — 기간 창 순위라 필터·페이지 개념이 없다.
        누적으로 뽑으면 앞에 세우는 인물이 영원히 고정되므로 창을 쓴다.
        목록 단일 진입점(get_celebs_sorted)을 건드리지 않기 위해 별도 함수를 둔다. */
-    const { data, error } = await supabase.rpc('get_celebs_trending', {
+    const { data, error } = await db.rpc('get_celebs_trending', {
       p_days: TRENDING_DAYS, p_limit: limit,
     })
     throwOnQueryError('인기 인물 목록', error)
@@ -177,7 +177,7 @@ async function fetchCelebsPublic(
     total = rows.length
   } else {
     if (includeTotal) {
-      const { data: countData, error: countError } = await supabase.rpc('count_celebs_filtered', {
+      const { data: countData, error: countError } = await db.rpc('count_celebs_filtered', {
         p_profession: profession, p_nationality: nationality, p_content_type: contentType,
         p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
         p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
@@ -189,7 +189,7 @@ async function fetchCelebsPublic(
     }
 
     // 정렬된 셀럽 목록 조회
-    const { data, error } = await supabase.rpc('get_celebs_sorted', {
+    const { data, error } = await db.rpc('get_celebs_sorted', {
       p_profession: profession, p_nationality: nationality, p_content_type: contentType,
       p_sort_by: sortBy, p_search: search ?? '', p_limit: limit, p_offset: offset,
       p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
@@ -211,7 +211,7 @@ async function fetchCelebsPublic(
   const [tagJoinRows, dialogueResult, voiceResult, researchMarkerResult, influenceRanking] = await Promise.all([
     // 세력도감 소속 — UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다
     (async (): Promise<TagAssignmentJoinRow[]> => {
-      const { data: memberRows, error: memberError } = await supabase
+      const { data: memberRows, error: memberError } = await db
         .from('faction_atlas_members')
         .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order')
         .in('celeb_id', celebIds)
@@ -221,7 +221,7 @@ async function fetchCelebsPublic(
       if (!memberRows?.length) return []
 
       const memberTagIds = [...new Set(memberRows.map((r) => r.tag_id))]
-      const { data: tagRows, error: tagError } = await supabase
+      const { data: tagRows, error: tagError } = await db
         .from('celeb_tags')
         .select('id, name, name_en, color')
         .in('id', memberTagIds)
@@ -239,14 +239,14 @@ async function fetchCelebsPublic(
         tag: tagById.get(r.tag_id) ?? null,
       }))
     })(),
-    supabase.from('celeb_dialogues')
+    db.from('celeb_dialogues')
       .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
       .in('celeb_id', celebIds),
-    supabase.from('celebs')
+    db.from('celebs')
       .select('id, voice_v, voice_speed')
       .in('id', celebIds)
       .eq('has_voice', true),
-    supabase.from('celebs')
+    db.from('celebs')
       .select('id, content_research_confirmed_empty_at')
       .in('id', celebIds),
     getInfluenceRanking(),
@@ -364,11 +364,11 @@ export async function getCelebs(
 
   if (includeViewerState) {
     try {
-      const supabase = await createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const db = await createClient()
+      const { data: { user } } = await db.auth.getUser()
 
       if (user && celebIds.length > 0) {
-        const followingResult = await supabase
+        const followingResult = await db
           .from('member_celeb_follows')
           .select('celeb_id')
           .eq('member_id', user.id)

@@ -29,12 +29,12 @@ const BATCH = 'C:/Users/webco/AppData/Local/Temp/claude/C--project-feelandnote/2
 
 async function main() {
   loadEnv(boPath('.env'))
-  for (const k of ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET_NAME', 'R2_PUBLIC_URL', 'NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY']) {
+  for (const k of ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET_NAME', 'R2_PUBLIC_URL', 'NEXT_PUBLIC_DB_API_URL', 'DB_SECRET_KEY']) {
     if (!process.env[k]) throw new Error(`.env에 ${k} 누락`)
   }
   const {
     R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME,
-    R2_PUBLIC_URL, NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
+    R2_PUBLIC_URL, NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY,
   } = process.env as Record<string, string>
 
   const s3 = new S3Client({
@@ -42,7 +42,7 @@ async function main() {
     endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
     credentials: { accessKeyId: R2_ACCESS_KEY_ID, secretAccessKey: R2_SECRET_ACCESS_KEY },
   })
-  const sb = createClient(NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+  const db = createClient(NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY)
 
   const rows: { slug: string; celeb_id: string; tag: string; tag_id: string; image: string }[] =
     JSON.parse(readFileSync(BATCH, 'utf-8'))
@@ -58,7 +58,7 @@ async function main() {
       ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
-    const { error } = await sb.from('celeb_tag_assignments').update({ faction_image_url: url }).eq('tag_id', r.tag_id).eq('celeb_id', r.celeb_id)
+    const { error } = await db.from('celeb_tag_assignments').update({ faction_image_url: url }).eq('tag_id', r.tag_id).eq('celeb_id', r.celeb_id)
     if (error) { console.error(`[${r.slug}] 갱신 실패`, error.message); continue }
     ok++
     console.log(`  ${r.slug} (${r.tag}) <- ${r.image.split('/').pop()} (${(webp.length / 1024).toFixed(0)}KB)`)

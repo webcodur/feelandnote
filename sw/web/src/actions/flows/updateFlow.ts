@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 interface UpdateFlowParams {
   flowId: string
@@ -19,13 +19,13 @@ interface UpdateFlowParams {
 }
 
 export async function updateFlow(params: UpdateFlowParams): Promise<ActionResult<null>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) return failure('UNAUTHORIZED')
 
   // 소유권 확인
-  const { data: flow } = await supabase
+  const { data: flow } = await db
     .from('flows')
     .select('user_id')
     .eq('id', params.flowId)
@@ -51,13 +51,13 @@ export async function updateFlow(params: UpdateFlowParams): Promise<ActionResult
   if (params.hasTiers !== undefined) updateData.has_tiers = params.hasTiers
   if (params.tiers !== undefined) updateData.tiers = params.tiers
 
-  const { error } = await supabase
+  const { error } = await db
     .from('flows')
     .update(updateData)
     .eq('id', params.flowId)
 
   if (error) {
-    return handleSupabaseError(error, { context: 'flow', logPrefix: '[플로우 수정]' })
+    return handleDatabaseError(error, { context: 'flow', logPrefix: '[플로우 수정]' })
   }
 
   revalidatePath(`/${user.id}/reading/collections`)

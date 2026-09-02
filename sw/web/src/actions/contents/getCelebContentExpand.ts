@@ -7,7 +7,7 @@ import {
   detailCacheTags,
 } from '@feelandnote/shared/constants/cache-tags'
 import { cachedDetail, spreadRevalidate, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { CL_SELECT_LIST_WITH_AFFILIATE } from '@/lib/utils/content-locale'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
 import type { ContentType } from '@/types/database'

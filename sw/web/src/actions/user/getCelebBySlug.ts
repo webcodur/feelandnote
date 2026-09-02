@@ -7,8 +7,8 @@ import {
   type CelebRelationGroup,
 } from '@feelandnote/shared/constants/celeb-relations'
 import { cachedDetail, throwOnQueryError } from '@/lib/cache'
-import { createAdminClient } from '@/lib/supabase/admin'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createAdminClient } from '@/lib/db/admin'
+import { createStaticClient } from '@/lib/db/static'
 import { type ActionResult, failure } from '@/lib/errors'
 import { type PublicUserProfile, type CelebTier } from './getUserProfile'
 import { getTitleInfo } from '@/constants/titles'
@@ -186,9 +186,9 @@ interface PublicCelebBySlugData {
 }
 
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data: celeb, error: profileError } = await supabase
+  const { data: celeb, error: profileError } = await db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
     .eq('slug', slug)
@@ -203,7 +203,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
   const celebId = profile.id as string
   // 공개 RLS는 비활성 상대의 embedded profile을 null로 만든다. 인물 상세에 진입 가능한
   // active 주인공을 확인한 뒤, 관계 카드에 허용한 필드만 서버에서 읽어 이름 노드로 남긴다.
-  const relationSupabase = createAdminClient()
+  const relationDb = createAdminClient()
 
   // 카운트 쿼리는 head:true count:'exact' 로 row 송출 0, 타입별 카운트는 RPC 1회로 수신
   const [
@@ -218,28 +218,28 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     externalRelationsResult,
     explanationResult,
   ] = await Promise.all([
-    supabase
+    db
       .from('celeb_contents')
       .select('*', { count: 'exact', head: true })
       .eq('celeb_id', celebId),
-    supabase
+    db
       .from('member_celeb_follows')
       .select('*', { count: 'exact', head: true })
       .eq('celeb_id', celebId),
-    supabase
+    db
       .from('celeb_guestbook_entries')
       .select('*', { count: 'exact', head: true })
       .eq('celeb_id', celebId),
-    supabase
+    db
       .from('celeb_dialogues')
       .select(DIALOGUE_PROFILE_SELECT)
       .eq('celeb_id', celebId)
       .maybeSingle(),
-    supabase.rpc('get_celeb_type_counts', { p_celeb_id: celebId }),
+    db.rpc('get_celeb_type_counts', { p_celeb_id: celebId }),
     // 세력도감 소속 — 단일 원천은 제작 테이블(faction_people)이고 DB 뷰 faction_atlas_members가
     // 웹 전용 배정과 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽는다.
     (async (): Promise<FactionTagAssignmentRow[]> => {
-      const { data: memberRows, error: memberRowsError } = await supabase
+      const { data: memberRows, error: memberRowsError } = await db
         .from('faction_atlas_members')
         .select('tag_id, faction_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en')
         .eq('celeb_id', celebId)
@@ -250,7 +250,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       if (!memberRows?.length) return []
 
       const tagIds = [...new Set(memberRows.map((r) => r.tag_id))]
-      const { data: tagRows, error: tagRowsError } = await supabase
+      const { data: tagRows, error: tagRowsError } = await db
         .from('celeb_tags')
         .select('id, name, name_en, slug, color, description, description_en, youtube_videos, theme_music')
         .in('id', tagIds)
@@ -261,21 +261,21 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
       return memberRows.map((r) => ({ ...r, tag: tagById.get(r.tag_id) ?? null }))
     })(),
-    relationSupabase
+    relationDb
       .from('celeb_relations')
       .select('from_id, to_id, rel_type, rel_group, note, note_en, from:celebs!celeb_relations_from_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid), to:celebs!celeb_relations_to_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid)')
       .eq('from_id', celebId)
       .overrideTypes<CelebRelationRow[], { merge: false }>(),
-    relationSupabase
+    relationDb
       .from('celeb_relations')
       .select('from_id, to_id, rel_type, rel_group, note, note_en, from:celebs!celeb_relations_from_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid), to:celebs!celeb_relations_to_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid)')
       .eq('to_id', celebId)
       .overrideTypes<CelebRelationRow[], { merge: false }>(),
-    supabase
+    db
       .from('celeb_relations_external')
       .select('rel_type, rel_group, qid, name_ko, name_en, image_url, note, note_en')
       .eq('from_id', celebId),
-    supabase
+    db
       .from('celeb_explanations')
       .select('plain_text, plain_text_en, interpretive_title, interpretive_title_en, interpretive_text, interpretive_text_en')
       .eq('profile_id', celebId)

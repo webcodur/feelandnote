@@ -4,10 +4,10 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import type { CelebProfile, CelebInfluence, CelebTagInfo } from '@/types/home'
-import type { Tables } from '@/types/supabase'
+import type { Tables } from '@/types/database.generated'
 import { getCelebLevelByRanking } from '@/constants/materials'
 import {
   DIALOGUE_BRIEF_SELECT,
@@ -40,10 +40,10 @@ async function fetchCelebModalPublic(
   celebId: string,
   requireActive: boolean,
 ): Promise<CelebModalPublicData | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // 프로필 조회 (인물 미리보기에 필요한 필드만)
-  let profileQuery = supabase
+  let profileQuery = db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by_member_id, has_voice, voice_v, voice_speed, celeb_tier, publication_status, content_research_confirmed_empty_at')
     .eq('id', celebId)
@@ -60,13 +60,13 @@ async function fetchCelebModalPublic(
 
   // 병렬 조회
   const [contentResult, followerResult, influenceResult, tags, dialogueResult] = await Promise.all([
-    supabase.from('celeb_contents').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
-    supabase.from('member_celeb_follows').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
-    supabase.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
+    db.from('celeb_contents').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
+    db.from('member_celeb_follows').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
+    db.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
     // 세력도감 소속 — 단일 원천은 제작 테이블이고 DB 뷰 faction_atlas_members가 웹 전용 배정과
     // 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다.
     (async (): Promise<CelebTagInfo[]> => {
-      const { data: memberRows } = await supabase
+      const { data: memberRows } = await db
         .from('faction_atlas_members')
         .select('tag_id, short_desc, short_desc_en, long_desc, long_desc_en')
         .eq('celeb_id', celebId)
@@ -75,7 +75,7 @@ async function fetchCelebModalPublic(
       if (!memberRows?.length) return []
 
       const tagIds = [...new Set(memberRows.map((r) => r.tag_id))]
-      const { data: tagRows } = await supabase
+      const { data: tagRows } = await db
         .from('celeb_tags')
         .select('id, name, name_en, color')
         .in('id', tagIds)
@@ -97,7 +97,7 @@ async function fetchCelebModalPublic(
         }]
       })
     })(),
-    supabase.from('celeb_dialogues').select(DIALOGUE_BRIEF_SELECT).eq('celeb_id', celebId).maybeSingle(),
+    db.from('celeb_dialogues').select(DIALOGUE_BRIEF_SELECT).eq('celeb_id', celebId).maybeSingle(),
   ])
 
   return {
@@ -129,9 +129,9 @@ const getCelebModalCached = unstable_cache(
  */
 const getFactionCelebModalCached = unstable_cache(
   async (celebId: string, factionTagId: string) => {
-    const supabase = createStaticClient()
+    const db = createStaticClient()
     // 단일 원천은 제작 테이블 — 뷰(faction_atlas_members)가 웹 전용 배정과 합쳐 준다
-    const { data: assignment, error } = await supabase
+    const { data: assignment, error } = await db
       .from('faction_atlas_members')
       .select('celeb_id')
       .eq('celeb_id', celebId)
@@ -164,11 +164,11 @@ export async function getCelebForModal(
   // 인증 사용자 의존 — 캐시 밖에서 cookie 클라이언트로 조회
   let isFollowing = false
 
-  const supabase = await createClient()
-  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user: currentUser } } = await db.auth.getUser()
 
   if (currentUser) {
-    const followResult = await supabase
+    const followResult = await db
       .from('member_celeb_follows')
       .select('id')
       .eq('member_id', currentUser.id)

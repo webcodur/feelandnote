@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { requireAdmin } from '@/lib/admin-auth'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import { revalidateWebItems } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { CelebExplanationReviewStatus } from '@/lib/admin/celeb-explanations'
@@ -34,8 +34,8 @@ export async function saveCelebExplanation(input: SaveCelebExplanationInput): Pr
   if (!interpretiveTitle) throw new Error('인물 탐구 제목을 입력하세요.')
   if (!interpretiveText) throw new Error('인물 탐구 본문을 입력하세요.')
 
-  const supabase = createAdminClient()
-  const { error } = await supabase.from('celeb_explanations').upsert(
+  const db = createAdminClient()
+  const { error } = await db.from('celeb_explanations').upsert(
     {
       profile_id: input.profileId,
       plain_text: plainText,

@@ -297,7 +297,7 @@ export function getFixturePool(locale: string): TopFivePool {
 /** 체험 모드인지 여부 (환경값 미설정 시 true) */
 export function isFixtureMode(): boolean {
   return (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    !process.env.NEXT_PUBLIC_DB_API_URL ||
+    !process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
   );
 }

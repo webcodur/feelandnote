@@ -1,7 +1,7 @@
 'use server'
 
 // egress-allow: flows는 공개 or 본인 RLS — 본인 비공개 플로우가 섞여 anon 전환 불가
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import type { Flow, FlowSummary } from '@/types/database'
 
 // select 문자열에 대응하는 조인 행 타입
@@ -25,15 +25,15 @@ interface FlowQueryRow extends Flow {
 }
 
 export async function getFlows(targetUserId?: string): Promise<FlowSummary[]> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user } } = await db.auth.getUser()
 
   const userId = targetUserId || user?.id
   if (!userId) throw new Error('로그인이 필요합니다')
 
   const isOwner = user?.id === userId
 
-  let query = supabase
+  let query = db
     .from('flows')
     .select(`
       *,

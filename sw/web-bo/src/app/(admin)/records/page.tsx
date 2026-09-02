@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: '기록 관리',
@@ -39,9 +39,9 @@ export default async function RecordsPage({ searchParams }: PageProps) {
   const limit = 20
   const offset = (page - 1) * limit
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  let query = supabase
+  let query = db
     .from('records')
     .select(`
       *,

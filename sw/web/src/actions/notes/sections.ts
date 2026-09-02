@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 import type { NoteSection } from './types'
 
@@ -30,15 +30,15 @@ interface AddSectionParams {
 }
 
 export async function addSection(params: AddSectionParams): Promise<NoteSection> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     throw new Error('로그인이 필요합니다')
   }
 
   // 노트 소유권 확인
-  const { data: note } = await supabase
+  const { data: note } = await db
     .from('notes')
     .select('id, content_id')
     .eq('id', params.noteId)
@@ -50,7 +50,7 @@ export async function addSection(params: AddSectionParams): Promise<NoteSection>
   }
 
   // 현재 최대 sort_order 조회
-  const { data: maxOrder } = await supabase
+  const { data: maxOrder } = await db
     .from('note_sections')
     .select('sort_order')
     .eq('note_id', params.noteId)
@@ -60,7 +60,7 @@ export async function addSection(params: AddSectionParams): Promise<NoteSection>
 
   const newOrder = (maxOrder?.sort_order ?? -1) + 1
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('note_sections')
     .insert({
       note_id: params.noteId,
@@ -77,7 +77,7 @@ export async function addSection(params: AddSectionParams): Promise<NoteSection>
   }
 
   // 노트 updated_at 갱신
-  await supabase
+  await db
     .from('notes')
     .update({ updated_at: new Date().toISOString() })
     .eq('id', params.noteId)
@@ -95,15 +95,15 @@ interface UpdateSectionParams {
 }
 
 export async function updateSection(params: UpdateSectionParams): Promise<void> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     throw new Error('로그인이 필요합니다')
   }
 
   // 섹션 및 노트 소유권 확인
-  const { data: section } = await supabase
+  const { data: section } = await db
     .from('note_sections')
     .select(`
       id,
@@ -129,7 +129,7 @@ export async function updateSection(params: UpdateSectionParams): Promise<void> 
   if (params.memo !== undefined) updateData.memo = params.memo
   if (params.isCompleted !== undefined) updateData.is_completed = params.isCompleted
 
-  const { error } = await supabase
+  const { error } = await db
     .from('note_sections')
     .update(updateData)
     .eq('id', params.sectionId)
@@ -140,7 +140,7 @@ export async function updateSection(params: UpdateSectionParams): Promise<void> 
   }
 
   // 노트 updated_at 갱신
-  await supabase
+  await db
     .from('notes')
     .update({ updated_at: new Date().toISOString() })
     .eq('id', note.id)
@@ -149,15 +149,15 @@ export async function updateSection(params: UpdateSectionParams): Promise<void> 
 }
 
 export async function deleteSection(sectionId: string): Promise<void> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     throw new Error('로그인이 필요합니다')
   }
 
   // 섹션 및 노트 소유권 확인
-  const { data: section } = await supabase
+  const { data: section } = await db
     .from('note_sections')
     .select(`
       id,
@@ -175,7 +175,7 @@ export async function deleteSection(sectionId: string): Promise<void> {
     throw new Error('구획을 찾을 수 없습니다')
   }
 
-  const { error } = await supabase
+  const { error } = await db
     .from('note_sections')
     .delete()
     .eq('id', sectionId)
@@ -186,7 +186,7 @@ export async function deleteSection(sectionId: string): Promise<void> {
   }
 
   // 노트 updated_at 갱신
-  await supabase
+  await db
     .from('notes')
     .update({ updated_at: new Date().toISOString() })
     .eq('id', note.id)
@@ -200,15 +200,15 @@ interface ReorderSectionsParams {
 }
 
 export async function reorderSections(params: ReorderSectionsParams): Promise<void> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     throw new Error('로그인이 필요합니다')
   }
 
   // 노트 소유권 확인
-  const { data: note } = await supabase
+  const { data: note } = await db
     .from('notes')
     .select('id, content_id')
     .eq('id', params.noteId)
@@ -221,7 +221,7 @@ export async function reorderSections(params: ReorderSectionsParams): Promise<vo
 
   // 각 섹션의 sort_order 업데이트
   const updates = params.sectionIds.map((id, index) =>
-    supabase
+    db
       .from('note_sections')
       .update({ sort_order: index })
       .eq('id', id)
@@ -231,7 +231,7 @@ export async function reorderSections(params: ReorderSectionsParams): Promise<vo
   await Promise.all(updates)
 
   // 노트 updated_at 갱신
-  await supabase
+  await db
     .from('notes')
     .update({ updated_at: new Date().toISOString() })
     .eq('id', params.noteId)

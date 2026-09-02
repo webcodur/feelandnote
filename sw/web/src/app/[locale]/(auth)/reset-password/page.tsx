@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/db/client'
 import Button from '@/components/ui/Button'
 import Logo from '@/components/ui/Logo'
 import { Eye, EyeOff, Loader2, CheckCircle } from 'lucide-react'
@@ -34,8 +34,8 @@ export default function ResetPasswordPage() {
 
     setLoading(true)
 
-    const supabase = createClient()
-    const { error } = await supabase.auth.updateUser({ password })
+    const db = createClient()
+    const { error } = await db.auth.updateUser({ password })
 
     if (error) {
       setError(error.message)
@@ -44,7 +44,7 @@ export default function ResetPasswordPage() {
     }
 
     setSuccess(true)
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: { user } } = await db.auth.getUser()
     setTimeout(() => {
       router.push(user ? `/${user.id}/reading` : '/')
     }, 2000)

@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import type { FeedbackCategory, FeedbackWithAuthor } from '@/types/database'
 import { isLocale, type Locale } from '@/types/locale'
 import { attachMemberAuthor } from '@/lib/board/memberProfiles'
@@ -16,13 +16,13 @@ interface CreateFeedbackParams {
 
 export async function createFeedback(params: CreateFeedbackParams): Promise<ActionResult<FeedbackWithAuthor>> {
   const { locale, category, title, content } = params
-  const supabase = await createClient()
+  const db = await createClient()
 
   if (!isLocale(locale)) {
     return failure('VALIDATION_ERROR')
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
   }
@@ -43,7 +43,7 @@ export async function createFeedback(params: CreateFeedbackParams): Promise<Acti
     return failure('LIMIT_EXCEEDED', '내용은 2000자까지 작성할 수 있다.')
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('feedbacks')
     .insert({
       author_id: user.id,
@@ -56,13 +56,13 @@ export async function createFeedback(params: CreateFeedbackParams): Promise<Acti
     .single()
 
   if (error) {
-    return handleSupabaseError(error, { context: 'feedback', logPrefix: '[피드백 작성]' })
+    return handleDatabaseError(error, { context: 'feedback', logPrefix: '[피드백 작성]' })
   }
 
   revalidatePath('/agora/board/feedback')
   revalidatePath('/en/agora/board/feedback')
   revalidateTag('feedbacks', { expire: 0 })
 
-  const feedback = await attachMemberAuthor(supabase, data)
+  const feedback = await attachMemberAuthor(db, data)
   return success(feedback as FeedbackWithAuthor)
 }

@@ -4,7 +4,7 @@
  * celebs.virtual_monologue_locked_at 을 채우거나 비운다.
  * 잠긴 인물의 독백은 DB 트리거(guard_virtual_monologue_lock)가 모든 경로의 UPDATE 를 차단한다
  * — 관리자 폼·게시 RPC·번역/생성 스크립트 전부. 해제와 수정은 별도 문장으로만 가능하다.
- * (마이그레이션: sw/web/supabase/migrations/20260802220500_add_virtual_monologue_lock.sql)
+ * (마이그레이션: sw/web/database/migrations/20260802220500_add_virtual_monologue_lock.sql)
  *
  * [명령]  sw/web-bo 에서
  *   node --env-file=.env --import tsx scripts/fiction/monologue-lock.ts --slugs a,b            # 잠금
@@ -26,9 +26,9 @@ function loadEnv() {
 }
 loadEnv()
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL!,
+  process.env.DB_SECRET_KEY!,
 )
 
 const UNLOCK = process.argv.includes('--unlock')
@@ -40,7 +40,7 @@ const SLUGS = (() => {
 
 async function main() {
   if (LIST) {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('celebs')
       .select('slug, nickname, virtual_monologue_locked_at')
       .not('virtual_monologue_locked_at', 'is', null)
@@ -56,7 +56,7 @@ async function main() {
     process.exit(1)
   }
 
-  const { data: rows, error } = await supabase
+  const { data: rows, error } = await db
     .from('celebs')
     .select('slug, nickname, virtual_monologue, virtual_monologue_locked_at')
     .in('slug', SLUGS)
@@ -71,7 +71,7 @@ async function main() {
         console.log(`  - ${r.slug}: 이미 잠금 없음`)
         continue
       }
-      const { error: e } = await supabase
+      const { error: e } = await db
         .from('celebs')
         .update({ virtual_monologue_locked_at: null })
         .eq('slug', r.slug)
@@ -85,7 +85,7 @@ async function main() {
         console.log(`  - ${r.slug}: 이미 잠김 (${r.virtual_monologue_locked_at})`)
         continue
       }
-      const { error: e } = await supabase
+      const { error: e } = await db
         .from('celebs')
         .update({ virtual_monologue_locked_at: new Date().toISOString() })
         .eq('slug', r.slug)

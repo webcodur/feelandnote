@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 
 export interface ProfileBrief {
@@ -20,8 +20,8 @@ export interface ProfileBrief {
 async function fetchProfilesBySlugs(slugs: string[]): Promise<Record<string, ProfileBrief>> {
   if (slugs.length === 0) return {}
 
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celebs')
     .select('slug, nickname, nickname_en, avatar_url')
     .in('slug', slugs)

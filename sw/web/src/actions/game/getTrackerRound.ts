@@ -8,11 +8,11 @@
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { getLocale } from "next-intl/server";
 import { getCountryNameAsync } from "@/lib/countries";
-import type { Tables } from "@/types/supabase";
+import type { Tables } from "@/types/database.generated";
 import type { DialogueLines } from "@/lib/game/voice/types";
 
 export interface TrackerContent {
@@ -196,9 +196,9 @@ async function isKoreanLocale(): Promise<boolean> {
 // 등용 후보 전체 조회 캐시 — exclude 필터·랜덤 선택은 캐시 밖에서 수행 (라운드 고정 방지)
 const getCachedTrackerCandidates = unstable_cache(
   async () => {
-    const supabase = createStaticClient();
+    const db = createStaticClient();
     // 자격 있는 셀럽 목록 조회 (퍼블릭 도메인 + spectrum + review 있는 콘텐츠 + cultural journey)
-    const { data, error } = await supabase.rpc("get_tracker_candidates", {
+    const { data, error } = await db.rpc("get_tracker_candidates", {
       exclude_ids: [],
     });
     if (error) throw new Error(error.message);
@@ -213,7 +213,7 @@ export async function getTrackerRound(
   excludeIds: string[] = []
 ): Promise<TrackerRound | null> {
   const safeIds = Array.isArray(excludeIds) ? excludeIds : [];
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   // 1. 자격 있는 셀럽 목록 조회 (캐시) — RPC가 없으면 직접 쿼리
   let allCandidates;
@@ -239,12 +239,12 @@ export async function getTrackerRound(
 
   // quote만 JSON path로 조회 + 본문(여정·소개)은 선정된 1명만 수신
   const [{ data: chosenDialogue }, { data: chosenTexts }] = await Promise.all([
-    supabase
+    db
       .from("celeb_dialogues")
       .select("quote:lines->quote, quote_en:lines_en->quote")
       .eq("celeb_id", chosen.id)
       .maybeSingle(),
-    supabase
+    db
       .from("celebs")
       .select("cultural_journey, cultural_journey_en, bio, bio_en")
       .eq("id", chosen.id)
@@ -255,7 +255,7 @@ export async function getTrackerRound(
     (chosenDialogue as { quote?: string | null } | null)?.quote
   );
 
-  return buildRound(supabase, chosen.id, chosen.slug ?? null,
+  return buildRound(db, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession, chosen.avatar_url,
     resolve(chosenTexts?.cultural_journey_en, chosenTexts?.cultural_journey),
@@ -268,13 +268,13 @@ export async function getTrackerRound(
 // fallback 자격 셀럽 목록 캐시 — exclude 필터·랜덤 선택은 캐시 밖에서 수행
 const getCachedFallbackEligible = unstable_cache(
   async (): Promise<FallbackCelebRow[]> => {
-    const supabase = createStaticClient();
+    const db = createStaticClient();
 
     // 자격 있는 셀럽 목록: spectrum 존재 + cultural journey 존재 + 리뷰 있는 콘텐츠 존재
     // 여정·소개 전문은 여기서 받지 않는다 — 선정된 1명만 별도 수신 (egress 절감)
     // 1,000행 상한에 걸리므로 나눠 받는다(실측 1,148행 — 자르면 후보 148명이 조용히 탈락).
     const celebRows = await selectAllPages<FallbackCelebRow>((from, to) =>
-      supabase
+      db
         .from("celebs")
         .select("id, slug, nickname, nickname_en, profession, avatar_url, death_date, nationality, birth_date")
         .eq("publication_status", "active")
@@ -300,14 +300,14 @@ const getCachedFallbackEligible = unstable_cache(
     // spectrum 존재 확인
     const celebIds = publicDomain.map((c) => c.id);
     const spectra = await selectInChunks<{ celeb_id: string }>(celebIds, (chunk) =>
-      supabase.from("celeb_persona").select("celeb_id").in("celeb_id", chunk)
+      db.from("celeb_persona").select("celeb_id").in("celeb_id", chunk)
     );
 
     const spectrumSet = new Set(spectra.map((p) => p.celeb_id));
 
     // 리뷰 있는 콘텐츠 4건 이상인 셀럽만 허용
     const reviewRows = await selectInChunks<{ celeb_id: string }>(celebIds, (chunk) =>
-      supabase
+      db
         .from("celeb_contents")
         .select("celeb_id")
         .in("celeb_id", chunk)
@@ -336,7 +336,7 @@ const getCachedFallbackEligible = unstable_cache(
 async function getTrackerRoundFallback(
   excludeIds: string[]
 ): Promise<TrackerRound | null> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   const allEligible = await getCachedFallbackEligible();
   const safeExclude = Array.isArray(excludeIds) ? excludeIds : [];
@@ -352,12 +352,12 @@ async function getTrackerRoundFallback(
 
   // quote만 JSON path로 조회 + 본문(여정·소개)은 선정된 1명만 수신
   const [{ data: chosenDialogue }, { data: chosenTexts }] = await Promise.all([
-    supabase
+    db
       .from("celeb_dialogues")
       .select("quote:lines->quote, quote_en:lines_en->quote")
       .eq("celeb_id", chosen.id)
       .maybeSingle(),
-    supabase
+    db
       .from("celebs")
       .select("cultural_journey, cultural_journey_en, bio, bio_en")
       .eq("id", chosen.id)
@@ -368,7 +368,7 @@ async function getTrackerRoundFallback(
     (chosenDialogue as { quote?: string | null } | null)?.quote
   );
 
-  return buildRound(supabase, chosen.id, chosen.slug ?? null,
+  return buildRound(db, chosen.id, chosen.slug ?? null,
     (resolve(chosen.nickname_en, chosen.nickname) ?? chosen.nickname) as string,
     chosen.profession ?? "other", chosen.avatar_url,
     resolve(chosenTexts?.cultural_journey_en, chosenTexts?.cultural_journey),
@@ -381,8 +381,8 @@ async function getTrackerRoundFallback(
 // 오답 보기 후보 풀 캐시 — 라운드 무관 고정 데이터 (제외할 정답 셀럽은 캐시 밖에서 필터)
 const getCachedDistractorPool = unstable_cache(
   async (): Promise<DistractorRow[]> => {
-    const supabase = createStaticClient();
-    const { data } = await supabase
+    const db = createStaticClient();
+    const { data } = await db
       .from("celebs")
       .select("id, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date")
       .eq("publication_status", "active")
@@ -396,7 +396,7 @@ const getCachedDistractorPool = unstable_cache(
 );
 
 async function buildRound(
-  supabase: ReturnType<typeof createStaticClient>,
+  db: ReturnType<typeof createStaticClient>,
   celebId: string,
   celebSlug: string | null,
   nickname: string,
@@ -412,14 +412,14 @@ async function buildRound(
 ): Promise<TrackerRound | null> {
   // 2+3. 스펙트럼 + 리뷰 콘텐츠 병렬 조회
   const [{ data: spectrumData }, { data: ucData }] = await Promise.all([
-    supabase
+    db
       .from("celeb_persona")
       .select(
         "command, martial, intellect, charm, temperance, diligence, reflection, courage, loyalty, benevolence, fairness, humility, pessimism_optimism, conservative_progressive, individual_social, cautious_bold"
       )
       .eq("celeb_id", celebId)
       .single(),
-    supabase
+    db
       .from("celeb_contents")
       .select("content_id, review, review_en, source_url")
       .eq("celeb_id", celebId)
@@ -435,7 +435,7 @@ async function buildRound(
   let contents: TrackerContent[] = [];
 
   if (contentIds.length > 0) {
-    const { data: cData } = await supabase
+    const { data: cData } = await db
       .from("contents")
       .select("id, type, content_locales(locale, title, creator, thumbnail_url)")
       .in("id", contentIds);
@@ -537,9 +537,9 @@ async function buildRound(
 
   const optionIds = rawOptions.map(o => o.id);
   const [{ data: tones }, { data: dialogues }] = await Promise.all([
-    supabase.from("celebs").select("id, speech_tone, has_voice, voice_v, voice_speed").in("id", optionIds),
+    db.from("celebs").select("id, speech_tone, has_voice, voice_v, voice_speed").in("id", optionIds),
     // egress-allow: 게임 라운드가 4명 옵션의 21상황 × 3변형 대사를 모두 사용 (clash_attack 등)
-    supabase.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", optionIds)
+    db.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", optionIds)
   ]);
 
   const toneRows: ToneRow[] = tones ?? [];

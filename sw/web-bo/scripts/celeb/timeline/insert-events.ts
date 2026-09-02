@@ -17,8 +17,8 @@ function loadEnv() {
 loadEnv()
 
 const db = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  process.env.NEXT_PUBLIC_DB_API_URL!,
+  process.env.DB_SECRET_KEY!,
   { auth: { persistSession: false } },
 )
 

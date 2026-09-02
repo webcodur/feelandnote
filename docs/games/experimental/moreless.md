@@ -1,6 +1,6 @@
 # 어느 쪽 (More or Less) 발주서
 
-> **최종 실측 체크: 26.07.31** — 부분 대조: `celeb_influence` 스키마(`types/supabase.ts` 360–460행), `selectAllPages` 경로(`@feelandnote/shared/lib/paginate`), `CACHE_TAGS`·`LISTING_DEFAULT_TIERS` 정의, `createStaticClient` 구현, `ProximityGame.tsx`·`proximity.ts` 구조 참조, `i18n/request.ts` 네임스페이스 등록 확인, `messages/{ko,en}/game-moreless.json` 자리 확인, `.env` 부재 실측. DB 실측 없음(환경값 부재).
+> **최종 실측 체크: 26.07.31** — 부분 대조: `celeb_influence` 스키마(`types/database.generated.ts` 360–460행), `selectAllPages` 경로(`@feelandnote/shared/lib/paginate`), `CACHE_TAGS`·`LISTING_DEFAULT_TIERS` 정의, `createStaticClient` 구현, `ProximityGame.tsx`·`proximity.ts` 구조 참조, `i18n/request.ts` 네임스페이스 등록 확인, `messages/{ko,en}/game-moreless.json` 자리 확인, `.env` 부재 실측. DB 실측 없음(환경값 부재).
 
 ---
 

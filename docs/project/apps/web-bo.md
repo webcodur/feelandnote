@@ -192,7 +192,7 @@ pnpm dev:bo
 
 팩션 인물 검색창은 **기존 DB CELEB를 고르는 기능만** 가진다. 검색 결과가 없다고 팩션 편집 흐름에서 임시·최소 프로필을 즉석 생성하지 않는다. 신규 인물은 `/celebs/new`의 정식 셀럽 등록을 먼저 마친 뒤 검색해서 추가한다. 저장 코어·가져오기 CLI·DB 트리거도 미연결 인물을 각각 거부한다.
 
-편집기 헤더 「출간」 버튼이 `src/components/factions/FactionPublishPanel.tsx`를 펼친다. 배관은 `src/lib/faction-sync/` 8파일(`types`·`supabase`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`)이고, 창구는 API 라우트가 아니라 위 서버 액션 2개다 — **`curl`로 찌를 수 없다.**
+편집기 헤더 「출간」 버튼이 `src/components/factions/FactionPublishPanel.tsx`를 펼친다. 배관은 `src/lib/faction-sync/` 8파일(`types`·`database`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`)이고, 창구는 API 라우트가 아니라 위 서버 액션 2개다 — **`curl`로 찌를 수 없다.**
 
 제작과 서비스가 같은 DB 안에 있어 **텍스트 대조는 사라졌다.** 진단 항목은 5종이다.
 

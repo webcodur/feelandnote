@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags';
-import { createStaticClient } from '@/lib/supabase/static';
+import { createStaticClient } from '@/lib/db/static';
 import { STATIC_REVALIDATE } from '@/lib/cache';
 import { parseSpectrumJsonb, parseSpectrumJsonbWithReasons, type SpectrumStats, type SpectrumStatsWithReasons, type SpectrumJsonb } from '@/lib/spectrum/types';
 
@@ -14,15 +14,15 @@ export interface SpectrumQuickViewData {
 }
 
 async function fetchSpectrumQuickViewData(celebId: string): Promise<SpectrumQuickViewData> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   const [spectrumResult, dialoguesResult] = await Promise.all([
-    supabase
+    db
       .from('celeb_persona')
       .select('spectrum:persona')
       .eq('celeb_id', celebId)
       .maybeSingle(),
-    supabase
+    db
       .from('celeb_dialogues')
       .select('greeting:lines->greeting, greeting_en:lines_en->greeting')
       .eq('celeb_id', celebId)

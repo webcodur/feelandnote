@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, spreadRevalidate, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 import {
   ABILITY_KEYS,
@@ -96,9 +96,9 @@ function pickOne<T>(value: T | T[] | null): T | null {
 }
 
 async function fetchPeople(): Promise<Person[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const rows = await selectAllPages<PersonScoreRow>((from, to) =>
-    supabase
+    db
       .from('celeb_persona')
       .select(`
         celeb_id, ${AXIS_KEYS.join(', ')},
@@ -145,9 +145,9 @@ interface WorkMeta {
  * 식별자만 받으면 같은 행 수에 1.4MB·5.7초다. 제목은 뽑히고 나서 한 번에 붙인다.
  */
 async function fetchLibraryPairs(): Promise<Map<string, string[]>> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const rows = await selectAllPages<LibraryRow>((from, to) =>
-    supabase
+    db
       .from('celeb_contents')
       .select('celeb_id, content_id')
       .not('review', 'is', null)
@@ -174,9 +174,9 @@ async function fetchWorkMeta(contentIds: string[]): Promise<Map<string, WorkMeta
   const resolved = new Map<string, WorkMeta | null>()
   if (contentIds.length === 0) return resolved
 
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const rows = await selectInChunks<WorkMetaRow>(contentIds, (chunk) =>
-    supabase
+    db
       .from('contents')
       .select('id, type, content_locales (locale, title, thumbnail_url)')
       .in('id', chunk) as unknown as PromiseLike<{

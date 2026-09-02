@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 interface ChangePasswordParams {
   currentPassword: string
@@ -28,15 +28,15 @@ export async function changePassword({ currentPassword, newPassword }: ChangePas
     return { error: 'samePassword' as const }
   }
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user } } = await db.auth.getUser()
 
   if (!user?.email) {
     return { error: 'loginRequired' as const }
   }
 
   // 현재 비밀번호 확인
-  const { error: signInError } = await supabase.auth.signInWithPassword({
+  const { error: signInError } = await db.auth.signInWithPassword({
     email: user.email,
     password: currentPassword
   })
@@ -46,7 +46,7 @@ export async function changePassword({ currentPassword, newPassword }: ChangePas
   }
 
   // 새 비밀번호로 변경
-  const { error: updateError } = await supabase.auth.updateUser({
+  const { error: updateError } = await db.auth.updateUser({
     password: newPassword
   })
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, Suspense } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/db/client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { LogIn, Loader2, Eye, EyeOff } from 'lucide-react'
 import Button from '@/components/ui/Button'
@@ -55,8 +55,8 @@ function LoginForm() {
       localStorage.removeItem(STORAGE_KEY.SAVED_EMAIL)
     }
 
-    const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({
+    const db = createClient()
+    const { error } = await db.auth.signInWithPassword({
       email,
       password,
     })
@@ -67,9 +67,9 @@ function LoginForm() {
       return
     }
 
-    const { data: isAdmin, error: adminError } = await supabase.rpc('is_admin')
+    const { data: isAdmin, error: adminError } = await db.rpc('is_admin')
     if (adminError || !isAdmin) {
-      await supabase.auth.signOut({ scope: 'local' })
+      await db.auth.signOut({ scope: 'local' })
       setError('활성 관리자 계정만 로그인할 수 있습니다.')
       setLoading(false)
       return

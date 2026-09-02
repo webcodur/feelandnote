@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { getNotice } from '@/actions/board/notices'
 import { getComments } from '@/actions/board/comments'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import NoticeDetail from '@/components/features/board/notices/NoticeDetail'
 import { resolveLocale } from '@/types/locale'
@@ -24,13 +24,13 @@ export async function generateMetadata({ params }: NoticeDetailPageProps): Promi
 export default async function NoticeDetailPage({ params }: NoticeDetailPageProps) {
   const { id, locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
-  const supabase = await createClient()
+  const db = await createClient()
 
   const [notice, comments, admin, { data: { user } }] = await Promise.all([
     getNotice(id, locale),
     getComments({ boardType: 'NOTICE', postId: id, locale }),
-    isAdmin(supabase),
-    supabase.auth.getUser()
+    isAdmin(db),
+    db.auth.getUser()
   ])
 
   if (!notice) {

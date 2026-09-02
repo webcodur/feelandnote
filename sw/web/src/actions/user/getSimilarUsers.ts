@@ -1,7 +1,7 @@
 "use server";
 
 import { cache } from "react";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 
 // region 타입
 interface SimilarUser {
@@ -45,13 +45,13 @@ interface GetSimilarUsersResult {
 export const getSimilarUsers = cache(getSimilarUsersInner);
 
 async function getSimilarUsersInner(limit = 10): Promise<GetSimilarUsersResult> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const db = await createClient();
+  const { data: { user } } = await db.auth.getUser();
 
   if (!user) return { users: [], algorithm: "content_overlap" };
 
   // 1차: 콘텐츠 겹침 기반 유사 유저 조회
-  const { data: similarUsers } = await supabase.rpc("get_similar_users", {
+  const { data: similarUsers } = await db.rpc("get_similar_users", {
     target_user_id: user.id,
     result_limit: limit,
   });
@@ -79,15 +79,15 @@ async function getSimilarUsersInner(limit = 10): Promise<GetSimilarUsersResult> 
 
   // 폴백: 최근 활동 회원. 관계 FK와 공개 프로필 FK가 다르므로 ID를 먼저 모아 2단계로 읽는다.
   const [followingResult, blocksResult, recentResult] = await Promise.all([
-    supabase
+    db
       .from("member_member_follows")
       .select("followed_member_id")
       .eq("follower_member_id", user.id),
-    supabase
+    db
       .from("blocks")
       .select("blocker_id, blocked_id")
       .or(`blocker_id.eq.${user.id},blocked_id.eq.${user.id}`),
-    supabase
+    db
       .from("member_contents")
       .select("member_id")
       .neq("member_id", user.id)
@@ -107,7 +107,7 @@ async function getSimilarUsersInner(limit = 10): Promise<GetSimilarUsersResult> 
   if (recentUsers.length === 0) return { users: [], algorithm: "recent_activity" };
 
   const recentIds = [...new Set(recentUsers.map((row) => row.member_id))];
-  const { data: profiles } = await supabase
+  const { data: profiles } = await db
     .from("member_profiles")
     .select("id, nickname, avatar_url")
     .in("id", recentIds);

@@ -1,7 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { NoticeWithAuthor } from '@/types/database'
 import type { Locale } from '@/types/locale'
 import { localizeNotice } from '@/lib/board/localizeNotice'
@@ -14,9 +14,9 @@ interface GetNoticesParams {
 }
 
 async function fetchNotices(locale: Locale, limit: number, offset: number) {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error, count } = await supabase
+  const { data, error, count } = await db
     .from('notices')
     .select('*', { count: 'exact' })
     .order('is_pinned', { ascending: false })
@@ -28,13 +28,13 @@ async function fetchNotices(locale: Locale, limit: number, offset: number) {
     throw new Error('공지사항을 불러오는데 실패했습니다')
   }
 
-  const hydrated = await attachMemberAuthors(supabase, data ?? [])
+  const hydrated = await attachMemberAuthors(db, data ?? [])
   const notices = (hydrated as NoticeWithAuthor[])
     .map((notice) => localizeNotice(notice, locale))
 
   if (notices.length > 0) {
     const ids = notices.map(n => n.id)
-    const { data: counts } = await supabase
+    const { data: counts } = await db
       .from('board_comments')
       .select('post_id')
       .eq('board_type', 'NOTICE')

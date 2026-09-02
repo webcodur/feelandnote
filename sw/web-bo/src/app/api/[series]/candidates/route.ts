@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { listCandidates, loadCandidate, listEpisodes, promoteCandidate } from '@/features/book-recommend/lib/server-utils'
 import { isValidSeries } from '@/features/book-recommend/lib/series-registry'
-import { supabase } from '@/features/book-recommend/lib/supabase'
+import { db } from '@/features/book-recommend/lib/database'
 
 /** GET: Candidate 목록 */
 export async function GET(_req: Request, { params }: { params: Promise<{ series: string }> }) {
@@ -12,7 +12,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
 
   const toSlug = (n: string) => n.replace(/-\d+$/, '')
   const slugs = [...new Set(names.map(toSlug))]
-  const { data: celebs, error: celebsError } = await supabase
+  const { data: celebs, error: celebsError } = await db
     .from('celebs')
     .select('slug, birth_date')
     .in('slug', slugs)

@@ -121,7 +121,7 @@
 
 ### 방법
 
-`@supabase/supabase-js`로 전 활성 CELEB의 `nickname`·`nickname_en`·`slug`·`birth_date`·`death_date`·`nationality`·`profession`을 페이징 조회(500건씩, 1,000행 상한 회피)하고, 각 표본 항목을 slug → nickname_en → nickname 순으로 매칭해 값 대조. 임시 스크립트는 작업 후 삭제.
+DB 클라이언트로 전 활성 CELEB의 `nickname`·`nickname_en`·`slug`·`birth_date`·`death_date`·`nationality`·`profession`을 페이징 조회(500건씩, 1,000행 상한 회피)하고, 각 표본 항목을 slug → nickname_en → nickname 순으로 매칭해 값 대조. 임시 스크립트는 작업 후 삭제.
 
 ### 교정 전 결과
 

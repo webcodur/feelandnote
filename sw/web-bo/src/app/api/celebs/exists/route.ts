@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { guardAdminRoute } from '@/lib/admin-route'
 
-// 이식 시 교체: 원본의 anon 키 단일 클라이언트(`@/lib/supabase` 의 supabase) 대신
-// 이 앱의 관례인 `@/lib/supabase/server` 의 createClient() (사용자 권한)를 쓴다.
+// 이식 시 교체: 원본의 anon 키 단일 클라이언트(`@/lib/db` 의 db) 대신
+// 이 앱의 관례인 `@/lib/db/server` 의 createClient() (사용자 권한)를 쓴다.
 // 이식 시 추가: 이 앱의 `/api/**` 는 미들웨어가 없어 그냥 열려 있으므로 관리자 확인을 앞에 둔다.
 
 /**
@@ -23,9 +23,9 @@ export async function POST(req: Request) {
   const unique = [...new Set(slugs as string[])].filter(Boolean)
   if (unique.length === 0) return NextResponse.json({ existing: [] })
 
-  const supabase = await createClient()
+  const db = await createClient()
   // status 필터 없음 — 신규 셀럽은 검수 전 inactive로 생성되므로, 등록 여부 판정은 활성 여부와 무관하다
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celebs')
     .select('slug')
     .in('slug', unique)

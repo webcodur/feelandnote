@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { revalidatePath } from 'next/cache'
 import { type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnote/ai-services/celeb-profile'
 import { notifyIndexNow } from '@/lib/indexnow'
@@ -177,7 +177,7 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
   }
 }
 
-async function getCelebContentCounts(supabase: ReturnType<typeof createAdminClient>, celebIds: string[]) {
+async function getCelebContentCounts(db: ReturnType<typeof createAdminClient>, celebIds: string[]) {
   if (celebIds.length === 0) return new Map<string, number>()
 
   const counts = new Map<string, number>()
@@ -188,7 +188,7 @@ async function getCelebContentCounts(supabase: ReturnType<typeof createAdminClie
     const idChunk = celebIds.slice(chunkStart, chunkStart + idChunkSize)
 
     for (let from = 0; ; from += pageSize) {
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from('celeb_contents')
         .select('id, celeb_id')
         .in('celeb_id', idChunk)
@@ -288,7 +288,7 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
 }
 
 function buildCelebListQuery(
-  supabase: ReturnType<typeof createAdminClient>,
+  db: ReturnType<typeof createAdminClient>,
   params: Pick<GetCelebsParams, 'search' | 'status' | 'profession' | 'tier' | 'imageFilter'>,
   select: string,
   options?: { count?: 'exact'; head?: boolean },
@@ -296,7 +296,7 @@ function buildCelebListQuery(
 ) {
   const { search, status, profession, tier, imageFilter } = params
 
-  let query = supabase
+  let query = db
     .from('celebs')
     .select(select, options)
 
@@ -355,7 +355,7 @@ const CELEB_SORT_COLUMNS: Record<string, string> = {
 
 async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<CelebsResponse> {
   const { page = 1, limit = 20, search, status, profession, tier, imageFilter, tagId, sort = 'created_at', sortOrder = 'desc' } = params
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   const offset = (page - 1) * limit
   const filters = { search, status, profession, tier, imageFilter }
   const selectFields = `
@@ -370,7 +370,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   let tagCelebIds: string[] | undefined
   if (tagId && tagId !== 'all') {
     // 상위 테마를 고르면 그 아래 세력에 속한 인물까지 함께 담는다
-    const { data: childTags, error: childError } = await supabase
+    const { data: childTags, error: childError } = await db
       .from('celeb_tags')
       .select('id')
       .eq('parent_id', tagId)
@@ -382,7 +382,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
     const targetTagIds = [tagId, ...((childTags ?? []) as { id: string }[]).map((t) => t.id)]
 
-    const { data: tagAssignments, error: tagError } = await supabase
+    const { data: tagAssignments, error: tagError } = await db
       .from('faction_atlas_members')
       .select('celeb_id')
       .in('tag_id', targetTagIds)
@@ -396,7 +396,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     if (tagCelebIds.length === 0) return { celebs: [], total: 0 }
   }
 
-  const { count, error: countError } = await buildCelebListQuery(supabase, filters, 'id', { count: 'exact', head: true }, tagCelebIds)
+  const { count, error: countError } = await buildCelebListQuery(db, filters, 'id', { count: 'exact', head: true }, tagCelebIds)
 
   if (countError) {
     console.error('[getCelebsByDirectQuery] count 조회 실패:', countError)
@@ -413,7 +413,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     const ascending = sortOrder === 'asc'
     // 값이 빈 행은 JS 정렬(compareText)에서 빈 문자열로 취급돼 오름차순의 맨 앞에 왔다.
     // DB도 같은 자리에 두도록 nullsFirst를 오름차순 여부에 맞춘다.
-    let query = buildCelebListQuery(supabase, filters, selectFields, undefined, tagCelebIds)
+    let query = buildCelebListQuery(db, filters, selectFields, undefined, tagCelebIds)
       .order(sortColumn, { ascending, nullsFirst: ascending })
     if (sortColumn !== 'created_at') query = query.order('created_at', { ascending: false })
     query = query.order('nickname', { ascending: true, nullsFirst: true })
@@ -426,7 +426,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     }
 
     const pageRows = (data || []) as unknown as CelebListRow[]
-    const contentCounts = await getCelebContentCounts(supabase, pageRows.map((row) => row.id))
+    const contentCounts = await getCelebContentCounts(db, pageRows.map((row) => row.id))
 
     return {
       celebs: pageRows.map((row) => mapCelebListRow(row, contentCounts.get(row.id) || 0)),
@@ -439,7 +439,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   for (let batchOffset = 0; batchOffset < count; batchOffset += batchSize) {
     const batchEnd = Math.min(batchOffset + batchSize - 1, count - 1)
-    const { data: batch, error: batchError } = await buildCelebListQuery(supabase, filters, selectFields, undefined, tagCelebIds)
+    const { data: batch, error: batchError } = await buildCelebListQuery(db, filters, selectFields, undefined, tagCelebIds)
       .order('id', { ascending: true })
       .range(batchOffset, batchEnd)
 
@@ -453,7 +453,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   // 감상 기록 수로 줄을 세울 때만 후보 전원의 기록을 센다.
   if (sort === 'content_count') {
-    const contentCounts = await getCelebContentCounts(supabase, rows.map((row) => row.id))
+    const contentCounts = await getCelebContentCounts(db, rows.map((row) => row.id))
     const celebs = rows.map((row) => mapCelebListRow(row, contentCounts.get(row.id) || 0))
     sortCelebs(celebs, sort, sortOrder)
     return { celebs: celebs.slice(offset, offset + limit), total: count }
@@ -464,7 +464,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   sortCelebs(ordered, sort, sortOrder)
   const pageSlice = ordered.slice(offset, offset + limit)
   const rowById = new Map(rows.map((row) => [row.id, row]))
-  const contentCounts = await getCelebContentCounts(supabase, pageSlice.map((celeb) => celeb.id))
+  const contentCounts = await getCelebContentCounts(db, pageSlice.map((celeb) => celeb.id))
 
   return {
     celebs: pageSlice.map((celeb) => mapCelebListRow(rowById.get(celeb.id)!, contentCounts.get(celeb.id) || 0)),
@@ -490,7 +490,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, imageFilter, tagId, sort, sortOrder })
   }
 
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   const offset = (page - 1) * limit
 
   // RPC 함수 사용 (프로덕션과 동일한 방식)
@@ -511,7 +511,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   const includeInactive = status !== 'active'
 
   // 전체 개수 조회
-  const { data: countData, error: countError } = await supabase.rpc('count_celebs_filtered', {
+  const { data: countData, error: countError } = await db.rpc('count_celebs_filtered', {
     p_profession: profession && profession !== 'all' ? profession : null,
     p_nationality: null,
     p_content_type: null,
@@ -533,7 +533,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     : offset
 
   // 정렬된 셀럽 목록 조회
-  const { data, error } = await supabase.rpc('get_celebs_sorted', {
+  const { data, error } = await db.rpc('get_celebs_sorted', {
     p_profession: profession && profession !== 'all' ? profession : null,
     p_nationality: null,
     p_content_type: null,
@@ -562,7 +562,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   }>()
 
   if (rpcCelebIds.length > 0) {
-    const { data: researchRows, error: researchError } = await supabase
+    const { data: researchRows, error: researchError } = await db
       .from('celebs')
       .select(`
         id, portrait_url, awakened_image_url, content_research_confirmed_empty_at
@@ -638,9 +638,9 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
 // #region getCeleb
 export async function getCeleb(celebId: string): Promise<Celeb | null> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celebs')
     .select(
       `
@@ -658,7 +658,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
   if (error) throw error
   if (!data) return null
 
-  const { count: contentCount, error: contentCountError } = await supabase
+  const { count: contentCount, error: contentCountError } = await db
     .from('celeb_contents')
     .select('*', { count: 'exact', head: true })
     .eq('celeb_id', celebId)
@@ -950,10 +950,10 @@ export async function updateCeleb(
 // #region toggleCelebTier
 export async function toggleCelebTier(celebId: string, currentTier: string): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   const newTier = currentTier === 'light' ? 'full' : 'light'
 
-  const { data: updated, error } = await supabase
+  const { data: updated, error } = await db
     .from('celebs')
     .update({ celeb_tier: newTier })
     .eq('id', celebId)
@@ -977,7 +977,7 @@ export async function toggleCelebTier(celebId: string, currentTier: string): Pro
 // #region toggleCelebStatus
 export async function toggleCelebStatus(celebId: string, currentStatus: string): Promise<string> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   const cycle: Record<string, string> = {
     active: 'inactive',
     inactive: 'active',
@@ -985,7 +985,7 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
   const newStatus = cycle[currentStatus] || 'active'
 
   if (newStatus === 'active') {
-    const { data: profile, error: profileError } = await supabase
+    const { data: profile, error: profileError } = await db
       .from('celebs')
       .select('avatar_url')
       .eq('id', celebId)
@@ -997,7 +997,7 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
     }
   }
 
-  const { data: updated, error } = await supabase
+  const { data: updated, error } = await db
     .from('celebs')
     .update({ publication_status: newStatus })
     .eq('id', celebId)
@@ -1030,10 +1030,10 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
 // #region deleteCeleb
 export async function deleteCeleb(celebId: string): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
   // 소프트 삭제 (publication_status를 'deleted'로 변경)
-  const { data: deleted, error } = await supabase
+  const { data: deleted, error } = await db
     .from('celebs')
     .update({ publication_status: 'deleted' })
     .eq('id', celebId)
@@ -1085,14 +1085,14 @@ export async function getCelebContents(
   contentType?: string,
   search?: string
 ): Promise<{ contents: CelebContent[]; total: number }> {
-  const supabase = await createClient()
+  const db = await createClient()
   const offset = (page - 1) * limit
 
   // 검색어가 있으면 content_locales에서 먼저 content_id를 찾는 2-step 검색
   let searchContentIds: string[] | null = null
   if (search) {
     const searchTerm = `%${search}%`
-    const { data: matchIds, error: searchError } = await supabase
+    const { data: matchIds, error: searchError } = await db
       .from('content_locales')
       .select('content_id')
       .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
@@ -1108,7 +1108,7 @@ export async function getCelebContents(
     ? `*, content:contents!inner (id, type, external_source, content_locales(locale, title, creator, thumbnail_url))`
     : `*, content:contents (id, type, external_source, content_locales(locale, title, creator, thumbnail_url))`
 
-  let query = supabase
+  let query = db
     .from('celeb_contents')
     .select(selectQuery, { count: 'exact' })
     .eq('celeb_id', celebId)
@@ -1174,16 +1174,16 @@ interface AddCelebContentInput {
 }
 
 export async function addCelebContent(input: AddCelebContentInput): Promise<{ id: string; isExisting?: boolean }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 서명 검증된 현재 관리자 식별자 확인
-  const { data: claimsData, error: authError } = await supabase.auth.getClaims()
+  const { data: claimsData, error: authError } = await db.auth.getClaims()
   if (authError) throw authError
   const userId = claimsData?.claims?.sub
   if (!userId) throw new Error('인증이 필요합니다.')
 
   // 이미 등록된 콘텐츠인지 확인
-  const { data: existing, error: existingError } = await supabase
+  const { data: existing, error: existingError } = await db
     .from('celeb_contents')
     .select('id')
     .eq('celeb_id', input.celeb_id)
@@ -1197,7 +1197,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
   }
 
   // 없으면 새로 추가
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_contents')
     .insert({
       celeb_id: input.celeb_id,
@@ -1214,7 +1214,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
 
   if (error) throw error
 
-  const { data: celeb, error: celebError } = await supabase
+  const { data: celeb, error: celebError } = await db
     .from('celebs')
     .select('slug')
     .eq('id', input.celeb_id)
@@ -1365,9 +1365,9 @@ export interface CelebTitleItem {
 }
 
 export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celebs')
     .select('id, nickname, avatar_url, profession, title, cultural_journey:consumption_philosophy')
     .eq('publication_status', 'active')
@@ -1384,10 +1384,10 @@ export interface CelebsWithPaginationResponse {
 }
 
 export async function getCelebsForJourneyEdit(page: number = 1, limit: number = 50): Promise<CelebsWithPaginationResponse> {
-  const supabase = await createClient()
+  const db = await createClient()
   const offset = (page - 1) * limit
 
-  const { data, error, count } = await supabase
+  const { data, error, count } = await db
     .from('celebs')
     .select('id, nickname, avatar_url, profession, title, cultural_journey:consumption_philosophy', { count: 'exact' })
     .eq('publication_status', 'active')
@@ -1410,9 +1410,9 @@ export async function getCelebsForJourneyEdit(page: number = 1, limit: number = 
 // #region updateCelebTitle - 수식어만 업데이트
 export async function updateCelebTitle(celebId: string, title: string | null): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: updated, error } = await supabase
+  const { data: updated, error } = await db
     .from('celebs')
     .update({ title })
     .eq('id', celebId)
@@ -1451,9 +1451,9 @@ export interface CelebHeadlineItem {
 }
 
 export async function getCelebsForHeadlineEdit(): Promise<CelebHeadlineItem[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, headline, headline_en, status:publication_status, celeb_tier')
     .order('nickname', { ascending: true })
@@ -1482,9 +1482,9 @@ export async function updateCelebHeadline(
   headlineEn: string | null = null,
 ): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: updated, error } = await supabase
+  const { data: updated, error } = await db
     .from('celebs')
     .update({
       headline: headline ? headline.trim() : null,
@@ -1512,9 +1512,9 @@ export async function updateCelebHeadline(
 // #region updateCelebProfession - 직군만 업데이트
 export async function updateCelebProfession(celebId: string, profession: string | null): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: updated, error } = await supabase
+  const { data: updated, error } = await db
     .from('celebs')
     .update({ profession })
     .eq('id', celebId)
@@ -1539,9 +1539,9 @@ export async function updateCelebProfession(celebId: string, profession: string 
 // #region updateCelebJourney - 감상 여정만 업데이트
 export async function updateCelebJourney(celebId: string, journey: string | null): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: updated, error } = await supabase
+  const { data: updated, error } = await db
     .from('celebs')
     .update({ consumption_philosophy: journey })
     .eq('id', celebId)
@@ -1573,10 +1573,10 @@ export async function setCelebMonologueLock(
   locked: boolean
 ): Promise<{ locked_at: string | null }> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
   if (locked) {
-    const { data: row, error: readError } = await supabase
+    const { data: row, error: readError } = await db
       .from('celebs')
       .select('virtual_monologue')
       .eq('id', celebId)
@@ -1589,7 +1589,7 @@ export async function setCelebMonologueLock(
   }
 
   const lockedAt = locked ? new Date().toISOString() : null
-  const { error } = await supabase
+  const { error } = await db
     .from('celebs')
     .update({ virtual_monologue_locked_at: lockedAt })
     .eq('id', celebId)
@@ -1615,10 +1615,10 @@ export interface CelebStats {
 }
 
 export async function getCelebStats(): Promise<CelebStats> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 기본 통계
-  const { data: basicStats, error: basicStatsError } = await supabase
+  const { data: basicStats, error: basicStatsError } = await db
     .from('celebs')
     .select('id, status:publication_status, profession, nationality')
 
@@ -1643,7 +1643,7 @@ export async function getCelebStats(): Promise<CelebStats> {
     .sort((a, b) => b.count - a.count)
 
   // 상위 팔로워 셀럽
-  const { data: followerData, error: followerError } = await supabase
+  const { data: followerData, error: followerError } = await db
     .from('celebs')
     .select('id, slug, nickname, profession, celeb_metrics!celeb_metrics_celeb_id_fkey(follower_count)')
     .eq('publication_status', 'active')
@@ -1665,7 +1665,7 @@ export async function getCelebStats(): Promise<CelebStats> {
 
   // 상위 콘텐츠 셀럽 (별도 쿼리)
   const activeCelebIds = basicStats?.filter((c) => c.status === 'active').map((c) => c.id) || []
-  const { data: contentData, error: contentError } = await supabase
+  const { data: contentData, error: contentError } = await db
     .from('celeb_contents')
     .select('celeb_id')
     .in('celeb_id', activeCelebIds)
@@ -1684,7 +1684,7 @@ export async function getCelebStats(): Promise<CelebStats> {
   celebContentList.sort((a, b) => b.count - a.count)
   const top10ContentIds = celebContentList.slice(0, 10).map((c) => c.id)
 
-  const { data: topContentProfiles, error: topContentError } = await supabase
+  const { data: topContentProfiles, error: topContentError } = await db
     .from('celebs')
     .select('id, slug, nickname, profession')
     .in('id', top10ContentIds)
@@ -1703,7 +1703,7 @@ export async function getCelebStats(): Promise<CelebStats> {
   })
 
   // 최근 등록 셀럽
-  const { data: recentData, error: recentError } = await supabase
+  const { data: recentData, error: recentError } = await db
     .from('celebs')
     .select('id, slug, nickname, profession, created_at')
     .eq('publication_status', 'active')
@@ -1743,9 +1743,9 @@ export async function exportCelebContents(
   celebId: string,
   contentType?: string
 ): Promise<{ success: boolean; items?: ExportedContent[]; error?: string }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  let query = supabase
+  let query = db
     .from('celeb_contents')
     .select(`
       review,

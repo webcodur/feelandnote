@@ -13,8 +13,8 @@ interface CelebRow {
 }
 
 async function fetchRecentCelebs(): Promise<CelebRow[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
   if (!url || !key) return []
 
   const params = new URLSearchParams({

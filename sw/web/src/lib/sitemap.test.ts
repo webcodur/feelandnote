@@ -6,12 +6,12 @@ import { getSitemapEntries } from './sitemap'
 const CREATED_AT = '2026-08-01T00:00:00.000Z'
 
 test('동일 생성 시각이 페이지 경계를 넘어도 모든 인물을 한 번씩 싣는다', async (t) => {
-  const previousUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const previousKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const previousUrl = process.env.NEXT_PUBLIC_DB_API_URL
+  const previousKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
   const previousFetch = globalThis.fetch
 
-  process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://supabase.example'
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key'
+  process.env.NEXT_PUBLIC_DB_API_URL = 'https://db.example'
+  process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = 'test-anon-key'
 
   const celebs = Array.from({ length: 1001 }, (_, index) => ({
     slug: `celeb-${String(index + 1).padStart(4, '0')}`,
@@ -40,11 +40,11 @@ test('동일 생성 시각이 페이지 경계를 넘어도 모든 인물을 한
   }
 
   t.after(() => {
-    if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_SUPABASE_URL
-    else process.env.NEXT_PUBLIC_SUPABASE_URL = previousUrl
+    if (previousUrl === undefined) delete process.env.NEXT_PUBLIC_DB_API_URL
+    else process.env.NEXT_PUBLIC_DB_API_URL = previousUrl
 
-    if (previousKey === undefined) delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    else process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = previousKey
+    if (previousKey === undefined) delete process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY
+    else process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY = previousKey
 
     globalThis.fetch = previousFetch
   })

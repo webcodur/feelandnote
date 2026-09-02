@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: '대시보드',
@@ -10,7 +10,7 @@ import Image from 'next/image'
 import { CONTENT_TYPE_CONFIG, CONTENT_TYPES, type ContentType } from '@/constants/contentTypes'
 
 export default async function DashboardPage() {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 통계 데이터 조회
   const [
@@ -23,18 +23,18 @@ export default async function DashboardPage() {
     typeCounts,
     recentActivitiesResult,
   ] = await Promise.all([
-    supabase.from('user_accounts').select('*', { count: 'exact', head: true }),
-    supabase.from('contents').select('*', { count: 'exact', head: true }),
-    supabase.from('records').select('*', { count: 'exact', head: true }),
-    supabase.from('member_contents').select('*', { count: 'exact', head: true }),
-    supabase.from('celeb_contents').select('*', { count: 'exact', head: true }),
+    db.from('user_accounts').select('*', { count: 'exact', head: true }),
+    db.from('contents').select('*', { count: 'exact', head: true }),
+    db.from('records').select('*', { count: 'exact', head: true }),
+    db.from('member_contents').select('*', { count: 'exact', head: true }),
+    db.from('celeb_contents').select('*', { count: 'exact', head: true }),
     // 최근 가입은 회원만 해당한다. 계정 기록이 있는 사람이 곧 회원이다(26.08.07 분리).
-    supabase.from('user_accounts').select('id, email, created_at, member_profile:member_profiles!member_profiles_id_fkey(nickname, avatar_url)').order('created_at', { ascending: false }).limit(5),
+    db.from('user_accounts').select('id, email, created_at, member_profile:member_profiles!member_profiles_id_fkey(nickname, avatar_url)').order('created_at', { ascending: false }).limit(5),
     // 유형별 수는 DB에서 센다. 행을 끌어와 세면 PostgREST 1,000행 상한에 걸려
     // 위 '총 콘텐츠'(head 카운트라 정확)와 합이 어긋난다(실측 7,568행).
     Promise.all(
       CONTENT_TYPES.map(async type => {
-        const { count, error } = await supabase
+        const { count, error } = await db
           .from('contents')
           .select('*', { count: 'exact', head: true })
           .eq('type', type)
@@ -42,7 +42,7 @@ export default async function DashboardPage() {
         return [type, count ?? 0] as const
       })
     ),
-    supabase.from('activity_logs').select('*, account:user_accounts!activity_logs_accounts_fkey(member_profile:member_profiles!member_profiles_id_fkey(nickname, avatar_url))').order('created_at', { ascending: false }).limit(10),
+    db.from('activity_logs').select('*, account:user_accounts!activity_logs_accounts_fkey(member_profile:member_profiles!member_profiles_id_fkey(nickname, avatar_url))').order('created_at', { ascending: false }).limit(10),
   ])
 
   const queryError = [

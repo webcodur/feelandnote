@@ -111,10 +111,10 @@ def load_celeb(
     locale: str,
     env: dict[str, str],
 ) -> tuple[dict[str, object], list[dict[str, object]]]:
-    base_url = env.get("NEXT_PUBLIC_SUPABASE_URL", "").rstrip("/")
-    service_key = env.get("SUPABASE_SERVICE_ROLE_KEY", "")
+    base_url = env.get("NEXT_PUBLIC_DB_API_URL", "").rstrip("/")
+    service_key = env.get("DB_SECRET_KEY", "")
     if not base_url or not service_key:
-        raise RuntimeError("NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY is missing")
+        raise RuntimeError("NEXT_PUBLIC_DB_API_URL or DB_SECRET_KEY is missing")
 
     headers = {"apikey": service_key, "Authorization": f"Bearer {service_key}"}
     query_slug = urllib.parse.quote(slug, safe="")

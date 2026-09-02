@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, spreadRevalidate } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { TENDENCY_KEYS, type TendencyKey } from '@/lib/spectrum/constants'
 import { getInfluenceRanking } from '@/actions/home/getCelebs'
@@ -41,7 +41,7 @@ type SpectrumScoreRow = {
 } & Partial<Record<TendencyKey, number | null>>
 
 async function fetchSpectrumDistribution(minInfluence: number, limit: number): Promise<SpectrumPerson[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // 영향력 — getCelebs와 같은 캐시를 공유한다
   const { scoreMap: inflMapRaw } = await getInfluenceRanking()
@@ -62,7 +62,7 @@ async function fetchSpectrumDistribution(minInfluence: number, limit: number): P
   // 대상 UUID만 200개씩 묶어 조회한다. 허브 진입 때 1,000명 넘는 spectrum를 읽고
   // 클라이언트에서 버리던 비용과 단일 대형 RSC 응답을 함께 없앤다.
   const data = await selectInChunks<SpectrumScoreRow>(eligibleIds, (chunk) =>
-      supabase
+      db
         .from('celeb_persona')
         .select(`
           celeb_id, ${SCORE_SELECT},

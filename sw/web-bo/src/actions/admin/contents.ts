@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { revalidatePath } from 'next/cache'
 import {
   getWebContentRevalidationSnapshot,
@@ -64,9 +64,9 @@ function firstRelation<T>(value: T | T[] | null | undefined): T | null {
 }
 
 export async function getContent(contentId: string): Promise<ContentDetail | null> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: content, error } = await supabase
+  const { data: content, error } = await db
     .from('contents')
     .select('*')
     .eq('id', contentId)
@@ -76,12 +76,12 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
   if (!content) return null
 
   const [editionsResult, memberContentsResult, celebContentsResult, recordsResult] = await Promise.all([
-    supabase
+    db
       .from('content_locales')
       .select('locale, title, creator, isbn, thumbnail_url, publisher, description, affiliate_url, verified, sources')
       .eq('content_id', contentId)
       .order('locale'),
-    supabase
+    db
       .from('member_contents')
       .select(`
         status,
@@ -94,7 +94,7 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
       .eq('content_id', contentId)
       .order('created_at', { ascending: false })
       .limit(10),
-    supabase
+    db
       .from('celeb_contents')
       .select(`
         status,
@@ -104,7 +104,7 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
       .eq('content_id', contentId)
       .order('created_at', { ascending: false })
       .limit(10),
-    supabase
+    db
       .from('records')
       .select(`
         id,
@@ -229,11 +229,11 @@ export async function updateContent(
   }
 ): Promise<void> {
   await requireAdmin()
-  const supabase = await createClient()
+  const db = await createClient()
 
   // contents 테이블에는 release_date만 전송 (로케일 데이터는 content_locales에만)
   if (data.release_date !== undefined) {
-    const { error } = await supabase
+    const { error } = await db
       .from('contents')
       .update({ release_date: data.release_date })
       .eq('id', contentId)
@@ -242,7 +242,7 @@ export async function updateContent(
 
   // content_locales 업데이트 (ko)
   if (data.title || data.creator || data.description || data.publisher) {
-    const { error } = await supabase.from('content_locales').upsert({
+    const { error } = await db.from('content_locales').upsert({
       content_id: contentId,
       locale: 'ko',
       ...(data.title && { title: data.title }),
@@ -255,7 +255,7 @@ export async function updateContent(
 
   // content_locales 업데이트 (en)
   if (data.title_en || data.creator_en || data.isbn_en) {
-    const { error } = await supabase.from('content_locales').upsert({
+    const { error } = await db.from('content_locales').upsert({
       content_id: contentId,
       locale: 'en',
       ...(data.title_en && { title: data.title_en }),
@@ -283,12 +283,12 @@ export async function updateAffiliateLinks(
   links: AffiliateLink[] | null
 ): Promise<void> {
   await requireAdmin()
-  const supabase = await createClient()
+  const db = await createClient()
 
   const value = links && links.length > 0 ? links : null
 
   // content_locales에만 저장
-  const { error } = await supabase.from('content_locales').upsert({
+  const { error } = await db.from('content_locales').upsert({
     content_id: contentId,
     locale: 'ko',
     affiliate_url: value,
@@ -310,10 +310,10 @@ export async function upsertAffiliatePlatform(
   locale: string = 'ko'
 ): Promise<void> {
   await requireAdmin()
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 현재 값 조회 (content_locales에서 읽기)
-  const { data, error: localeError } = await supabase
+  const { data, error: localeError } = await db
     .from('content_locales')
     .select('affiliate_url')
     .eq('content_id', contentId)
@@ -339,7 +339,7 @@ export async function upsertAffiliatePlatform(
   const value = next.length > 0 ? next : null
 
   // content_locales에만 저장
-  const { error } = await supabase.from('content_locales').upsert({
+  const { error } = await db.from('content_locales').upsert({
     content_id: contentId,
     locale,
     affiliate_url: value,

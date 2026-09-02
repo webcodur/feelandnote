@@ -7,14 +7,14 @@
 'use server'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { cachedDetail, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 async function fetchCelebSlug(celebId: string): Promise<string | null> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celebs')
     .select('slug')
     .eq('id', celebId)

@@ -17,7 +17,7 @@ import {
   type HeadlineRow,
   type HeadlineStore,
 } from './apply'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { HEADLINE_REVIEW_VERSION, type LedgerEntry } from './lib'
 
 function patch(index: number): HeadlinePatch {
@@ -156,7 +156,7 @@ test('DB에 없는 ID가 있으면 UPDATE 전에 중단한다', async () => {
 test('다건 쓰기는 INSERT 없이 JSON 파라미터를 받는 단일 UPDATE 문장만 실행한다', async () => {
   const item = patch(7)
   const calls: Array<{ query: string; parameters: unknown[] }> = []
-  const store = createHeadlineStore({} as SupabaseClient, async (query, parameters) => {
+  const store = createHeadlineStore({} as DatabaseClient, async (query, parameters) => {
     calls.push({ query, parameters })
     return []
   })

@@ -38,9 +38,9 @@ type CelebRow = {
   celeb_tier: string | null
 }
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-if (!url || !key) throw new Error('Supabase environment variables are missing.')
+const url = process.env.NEXT_PUBLIC_DB_API_URL
+const key = process.env.DB_SECRET_KEY
+if (!url || !key) throw new Error('Database environment variables are missing.')
 const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 
 const folder = path.resolve(process.cwd(), '../../data/celeb/profession-reclass')

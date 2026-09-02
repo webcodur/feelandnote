@@ -11,7 +11,7 @@ import { unstable_cache } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import type { GroupDef, GroupItem } from "@/components/features/game/groups/types";
 import type { PuzzlePool } from "@/components/features/game/groups/engine";
 import { getFixturePool, isFixtureMode } from "@/components/features/game/groups/fixture";
@@ -48,10 +48,10 @@ interface TagAssignmentRow {
  * 4. 최종 조합 시 인물 중복이 없도록 필터.
  */
 async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   // 1) 인원 4명 이상인 세력 태그 조회
-  const { data: tags, error: tagError } = await supabase
+  const { data: tags, error: tagError } = await db
     .from("celeb_tags")
     .select("id, name, name_en, slug")
     .is("parent_id", null) // 최상위 태그만
@@ -60,7 +60,7 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
   if (tagError) throw new Error(`[getGroupsPool] tags: ${tagError.message}`);
 
   // 2) 태그별 인물 조회
-  const { data: assignments, error: assignError } = await supabase
+  const { data: assignments, error: assignError } = await db
     .from("celeb_tag_assignments")
     .select(`
       celeb_id,

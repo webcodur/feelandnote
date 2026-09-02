@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 import type { VisibilityType } from '@/types/database'
 
@@ -10,14 +10,14 @@ interface UpdateVisibilityParams {
 }
 
 export async function updateVisibility({ userContentId, visibility }: UpdateVisibilityParams) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     throw new Error('로그인이 필요합니다')
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('member_contents')
     .update({ visibility })
     .eq('id', userContentId)

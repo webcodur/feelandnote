@@ -7,7 +7,7 @@
 'use server'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { cachedDetail, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { fetchContentMetadata } from './fetchContentMetadata'
 import { fetchBookIntroEn } from './fetchBookIntroEn'
@@ -96,9 +96,9 @@ function isMetaDescUsable(locale: string, source?: string | null): boolean {
 }
 
 async function fetchBrief(contentId: string, locale: string): Promise<ContentBrief | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('contents')
     .select(`id, type, external_id, external_source, release_date, metadata, content_locales(${CL_SELECT})`)
     .eq('id', contentId)

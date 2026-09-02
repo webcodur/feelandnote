@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import { redirect } from '@/i18n/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import NoticeForm from '@/components/features/board/notices/NoticeForm'
 import { resolveLocale } from '@/types/locale'
@@ -17,8 +17,8 @@ export async function generateMetadata() {
 export default async function NoticeWritePage({ params }: NoticeWritePageProps) {
   const { locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
-  const supabase = await createClient()
-  const admin = await isAdmin(supabase)
+  const db = await createClient()
+  const admin = await isAdmin(db)
 
   if (!admin) {
     redirect({ href: '/agora/board/notice', locale })

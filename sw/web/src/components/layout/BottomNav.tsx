@@ -43,9 +43,9 @@ export default function BottomNav() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { createClient } = await import("@/lib/supabase/client");
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const { createClient } = await import("@/lib/db/client");
+      const db = createClient();
+      const { data: { user } } = await db.auth.getUser();
       setUserId(user?.id ?? null);
     };
     checkAuth();

@@ -21,7 +21,7 @@
  *  - WARN  `no-year`       : 연도가 없는 근거문. 행적이 아니라 인상 서술일 때가 많다.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 
 export const MAX_REASON_SHARE = 2
 export const MAX_PAIR_OVERLAP = 3
@@ -253,7 +253,7 @@ export interface ReasonCeleb {
 }
 
 /** 모든 인물의 근거문 행을 DB에서 읽는다. 게이트와 감사가 같은 질의를 쓴다. */
-export async function loadAllReasonRows(db: SupabaseClient): Promise<{ rows: ReasonRow[]; celebs: Map<string, ReasonCeleb> }> {
+export async function loadAllReasonRows(db: DatabaseClient): Promise<{ rows: ReasonRow[]; celebs: Map<string, ReasonCeleb> }> {
   const rows: ReasonRow[] = []
   const celebs = new Map<string, ReasonCeleb>()
   // persona jsonb가 커서 한 장을 크게 잡으면 statement timeout이 난다. 작게 끊고, 나면 절반으로 줄여 재시도한다.

@@ -1,7 +1,7 @@
 'use server'
 
 import { cache } from 'react'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { getTitleInfo } from '@/constants/titles'
 
 export interface UserProfile {
@@ -19,15 +19,15 @@ export interface UserProfile {
 export const getProfile = cache(getProfileInner)
 
 async function getProfileInner(): Promise<UserProfile | null> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return null
   }
 
   // 이메일은 계정 기록(user_accounts)에 있다(26.08.07 분리). 로그인 세션의 값을 그대로 쓴다.
-  const { data: profile, error } = await supabase
+  const { data: profile, error } = await db
     .from('member_profiles')
     .select('id, nickname, avatar_url, bio, birth_date, nationality, selected_title')
     .eq('id', user.id)

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import type { Locale } from "@/types/locale";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 import type { User } from "@supabase/supabase-js";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getBookEditions } from "@/lib/utils/editions";
@@ -62,8 +62,8 @@ export function useContentCardState(props: ContentCardProps) {
     let cancelled = false;
     const checkAuth = async () => {
       try {
-        const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
+        const db = createClient();
+        const { data: { user } } = await db.auth.getUser();
         if (!cancelled) {
           setUser(user);
           setIsCheckingAuth(false);

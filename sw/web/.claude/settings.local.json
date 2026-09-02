@@ -1,8 +1,6 @@
 {
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "supabase"
-  ],
+  "enabledMcpjsonServers": [],
   "permissions": {
     "allow": [
       "Bash(pnpm exec tsc:*)"

@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 /**
  * 공지 조회수 1 증가.
@@ -13,8 +13,8 @@ import { createClient } from '@/lib/supabase/server'
  */
 export async function incrementNoticeView(noticeId: string): Promise<void> {
   try {
-    const supabase = await createClient()
-    await supabase.rpc('increment_notice_view_count', { notice_id: noticeId })
+    const db = await createClient()
+    await db.rpc('increment_notice_view_count', { notice_id: noticeId })
   } catch (error) {
     // 조회수는 부가 정보다. 실패해도 본문 읽기를 막지 않는다
     console.error('[공지사항 조회수]', error)

@@ -10,7 +10,7 @@
 import { unstable_cache } from 'next/cache';
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags';
 import { STATIC_REVALIDATE } from '@/lib/cache';
-import { createStaticClient } from '@/lib/supabase/static';
+import { createStaticClient } from '@/lib/db/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers';
 import type { MorelessCeleb } from '@/components/features/game/moreless/types';
@@ -49,11 +49,11 @@ function pickProfile(celeb: InfluenceRow['celeb']) {
 }
 
 async function fetchMorelessCelebs(): Promise<MorelessCeleb[]> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
   // total_score가 동점이 많아 celeb_id를 2차 정렬키로 고정
   const rows = await selectAllPages<InfluenceRow>((from, to) =>
-    supabase
+    db
       .from('celeb_influence')
       .select(`
         celeb_id, total_score,

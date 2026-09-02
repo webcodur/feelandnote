@@ -7,7 +7,7 @@ import {
   type CacheItemTarget,
   type CacheTag,
 } from '@feelandnote/shared/constants/cache-tags'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 
 /**
  * web 앱의 캐시를 **도메인 통째로** 무효화한다.

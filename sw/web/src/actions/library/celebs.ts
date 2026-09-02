@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 interface CelebInfo {
   id: string
@@ -16,9 +16,9 @@ interface CelebInfo {
 
 // #region 콘텐츠를 감상한 셀럽 목록
 async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data: celebContents, error: ucError } = await supabase
+  const { data: celebContents, error: ucError } = await db
     .from('celeb_contents')
     .select('celeb_id')
     .eq('content_id', contentId)
@@ -29,7 +29,7 @@ async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
 
   const celebIds = celebContents.map(row => row.celeb_id)
 
-  const { data: celebs, error: profileError } = await supabase
+  const { data: celebs, error: profileError } = await db
     .from('celebs')
     .select('id, nickname, nickname_en, avatar_url, profession')
     .in('id', celebIds)

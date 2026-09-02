@@ -19,7 +19,7 @@ import {
   inheritCelebVoices,
   type CelebVoiceLookup, type CelebVoicePair, type FactionExportResult,
 } from '@feelandnote/shared/bo/faction-export'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import {
   adminClient, readFactionData, parseArgs, selectEpisodes, pad, FACTIONS_DIR,
   type EpisodeFolder,
@@ -27,8 +27,8 @@ import {
 
 const USAGE = '사용: pnpm faction:export -- (--episode <폴더명> | --all) [--force] [--stdout]'
 
-/** supabase 클라이언트를 조립기가 요구하는 행 공급자로 감싼다 (청크·정렬은 조립기가 한다) */
-export function supabaseRowSource(db: SupabaseClient): FactionRowSource {
+/** db 클라이언트를 조립기가 요구하는 행 공급자로 감싼다 (청크·정렬은 조립기가 한다) */
+export function dbRowSource(db: DatabaseClient): FactionRowSource {
   return async (table, col, values) => {
     const { data, error } = await db.from(table).select('*').in(col, values)
     if (error) throw new Error(`${table} 조회 실패(${col}): ${error.message}`)
@@ -37,7 +37,7 @@ export function supabaseRowSource(db: SupabaseClient): FactionRowSource {
 }
 
 /** CELEB 프로필의 국문·영문 목소리 조회 — 팩션이 비운 자리에 물려줄 값 */
-export function celebVoiceLookup(db: SupabaseClient): CelebVoiceLookup {
+export function celebVoiceLookup(db: DatabaseClient): CelebVoiceLookup {
   return async (celebIds) => {
     const out = new Map<string, CelebVoicePair>()
     for (let i = 0; i < celebIds.length; i += 200) {
@@ -56,11 +56,11 @@ export function celebVoiceLookup(db: SupabaseClient): CelebVoiceLookup {
 
 /** DB 에서 한 에피소드를 faction-data.json 구조로 재조립한다 (verify 가 이 함수를 쓴다) */
 export async function exportEpisode(
-  db: SupabaseClient,
+  db: DatabaseClient,
   folder: string,
   original?: Record<string, unknown>,
 ): Promise<Record<string, unknown>> {
-  const { script } = await assembleFactionEpisode(supabaseRowSource(db), folder, original)
+  const { script } = await assembleFactionEpisode(dbRowSource(db), folder, original)
   await inheritCelebVoices(script, celebVoiceLookup(db))
   return script
 }
@@ -70,7 +70,7 @@ export const inspectFile = inspectFactionDataFile
 
 /** 등록 목록(_episodes.json) 재생성 — DB 의 registered=true 를 sort_order 순으로 */
 export async function regenerateEpisodeRegistry(
-  db: SupabaseClient,
+  db: DatabaseClient,
 ): Promise<{ changed: boolean; list: string[] }> {
   const { data, error } = await db
     .from('faction_episodes').select('folder,sort_order')
@@ -83,9 +83,9 @@ export async function regenerateEpisodeRegistry(
 /* ────────────────────────── main ────────────────────────── */
 
 async function writeEpisode(
-  db: SupabaseClient, ep: EpisodeFolder, force: boolean,
+  db: DatabaseClient, ep: EpisodeFolder, force: boolean,
 ): Promise<FactionExportResult> {
-  const src = supabaseRowSource(db)
+  const src = dbRowSource(db)
   return exportFactionEpisodeToFile({
     folder: ep.folder,
     episodeDir: ep.dir,

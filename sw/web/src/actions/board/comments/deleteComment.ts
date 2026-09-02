@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import type { BoardType } from '@/types/database'
 
@@ -14,15 +14,15 @@ interface DeleteCommentParams {
 
 export async function deleteComment(params: DeleteCommentParams): Promise<ActionResult<null>> {
   const { commentId, boardType, postId } = params
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
   }
 
   // 작성자 또는 관리자만 삭제 가능
-  const { data: comment, error: fetchError } = await supabase
+  const { data: comment, error: fetchError } = await db
     .from('board_comments')
     .select('author_id')
     .eq('id', commentId)
@@ -32,17 +32,17 @@ export async function deleteComment(params: DeleteCommentParams): Promise<Action
     return failure('NOT_FOUND')
   }
 
-  if (comment.author_id !== user.id && !(await isAdmin(supabase))) {
+  if (comment.author_id !== user.id && !(await isAdmin(db))) {
     return failure('FORBIDDEN')
   }
 
-  const { error } = await supabase
+  const { error } = await db
     .from('board_comments')
     .delete()
     .eq('id', commentId)
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[댓글 삭제]' })
+    return handleDatabaseError(error, { logPrefix: '[댓글 삭제]' })
   }
 
   const basePath = boardType === 'NOTICE' ? '/agora/board/notice' : '/agora/board/feedback'

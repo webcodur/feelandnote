@@ -14,7 +14,7 @@
  * ⚠️ packages/content-search를 쓰지 않고 API를 직접 부른다 — 그 패키지가 편집 중이라
  *    미완성 상태에 이 작업이 발목 잡히지 않게 하기 위함이다.
  */
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { readFileSync, writeFileSync } from 'fs'
 import { boPath, repoPath } from '../lib/paths'
 
@@ -402,12 +402,12 @@ async function main() {
   const onlyList = listIdx >= 0 ? args[listIdx + 1] : null
 
   loadEnv(boPath('.env'))
-  const { NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = process.env as Record<string, string>
-  if (!NEXT_PUBLIC_SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) throw new Error('.env 누락')
-  const sb: SupabaseClient = createClient(NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+  const { NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY } = process.env as Record<string, string>
+  if (!NEXT_PUBLIC_DB_API_URL || !DB_SECRET_KEY) throw new Error('.env 누락')
+  const db: DatabaseClient = createClient(NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY)
 
   // 대상: 도서·영상 목록의 미연결 항목
-  let lq = sb.from('curated_lists').select('id, slug, title, content_type').in('content_type', ['BOOK', 'VIDEO'])
+  let lq = db.from('curated_lists').select('id, slug, title, content_type').in('content_type', ['BOOK', 'VIDEO'])
   if (onlyList) lq = lq.eq('slug', onlyList)
   const { data: lists, error: lErr } = await lq
   if (lErr) throw new Error(`목록 조회 실패: ${lErr.message}`)
@@ -415,7 +415,7 @@ async function main() {
     (lists ?? []).map((l) => [l.id as string, l as { id: string; slug: string; title: string; content_type: string }])
   )
 
-  const { data: items, error: iErr } = await sb
+  const { data: items, error: iErr } = await db
     .from('curated_list_items')
     .select('id, list_id, raw_title, raw_creator, year')
     .is('content_id', null)
@@ -506,14 +506,14 @@ async function main() {
     const externalId = isVideo ? (found.tmdbId ? `tmdb-movie-${found.tmdbId}` : null) : found.isbn
     let contentId: string | null = null
     if (externalId) {
-      const { data: existing } = await sb.from('contents').select('id').eq('external_id', externalId).limit(1)
+      const { data: existing } = await db.from('contents').select('id').eq('external_id', externalId).limit(1)
       if (existing?.length) contentId = existing[0].id as string
     }
 
     if (contentId) {
       linkedExisting++
     } else {
-      const { data: ins, error: cErr } = await sb
+      const { data: ins, error: cErr } = await db
         .from('contents')
         .insert({
           type: isVideo ? 'VIDEO' : 'BOOK',
@@ -555,12 +555,12 @@ async function main() {
         })
       }
 
-      const { error: locErr } = await sb.from('content_locales').insert(rows)
+      const { error: locErr } = await db.from('content_locales').insert(rows)
       if (locErr) throw new Error(`콘텐츠 언어정보 등록 실패(${label}): ${locErr.message}`)
       created++
     }
 
-    const { error: uErr } = await sb.from('curated_list_items').update({ content_id: contentId }).eq('id', it.id)
+    const { error: uErr } = await db.from('curated_list_items').update({ content_id: contentId }).eq('id', it.id)
     if (uErr) throw new Error(`연결 실패(${label}): ${uErr.message}`)
 
     if ((idx + 1) % 25 === 0) console.log(`  ... ${idx + 1}/${targets.length}`)

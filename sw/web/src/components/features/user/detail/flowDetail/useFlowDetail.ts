@@ -6,7 +6,7 @@ import { getFlow } from "@/actions/flows/getFlow";
 import { deleteFlow } from "@/actions/flows/deleteFlow";
 import { updateFlow } from "@/actions/flows/updateFlow";
 import { saveFlow, unsaveFlow, checkFlowSaved } from "@/actions/flows/savedFlows";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 import type { FlowWithStages } from "@/types/database";
 import { useTranslations } from "next-intl";
 
@@ -43,8 +43,8 @@ export function useFlowDetail(flowId: string) {
 
   useEffect(() => {
     const init = async () => {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const db = createClient();
+      const { data: { user } } = await db.auth.getUser();
       setCurrentUserId(user?.id || null);
       if (user) {
         const saved = await checkFlowSaved(flowId);

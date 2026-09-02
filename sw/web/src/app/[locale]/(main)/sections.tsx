@@ -6,7 +6,7 @@
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import { RetryBlock } from "@/components/ui/pending";
 import { getUserContents, type UserContentPublic } from "@/actions/contents/getUserContents";
 import { getProfile } from "@/actions/user/getProfile";
@@ -48,10 +48,10 @@ export async function GreetingSection() {
   // 1단계: 로그인 판정만. 판정 실패는 방문자로 취급한다 — 첫인사는 언제나 세울 수 있다
   let userId: string | null = null;
   try {
-    const supabase = await createClient();
+    const db = await createClient();
     const {
       data: { user },
-    } = await supabase.auth.getUser();
+    } = await db.auth.getUser();
     userId = user?.id ?? null;
   } catch (error) {
     console.error("[home] 로그인 판정 실패:", error);

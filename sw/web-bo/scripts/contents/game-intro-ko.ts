@@ -22,11 +22,11 @@ import { toKorean } from './lib/agy-korean'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+const url = process.env.NEXT_PUBLIC_DB_API_URL
+const key = process.env.DB_SECRET_KEY
 const clientId = process.env.TWITCH_CLIENT_ID
 const clientSecret = process.env.TWITCH_CLIENT_SECRET
-if (!url || !key) throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 없음')
+if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 없음')
 if (!clientId || !clientSecret) throw new Error('TWITCH_CLIENT_ID / TWITCH_CLIENT_SECRET 없음')
 
 const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })

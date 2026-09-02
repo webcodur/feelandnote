@@ -26,8 +26,8 @@ for (const filename of [".env.local", ".env"]) {
 
 const APPLY = process.argv.includes("--apply");
 const db = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  process.env.NEXT_PUBLIC_DB_API_URL,
+  process.env.DB_SECRET_KEY,
   { auth: { persistSession: false, autoRefreshToken: false } },
 );
 

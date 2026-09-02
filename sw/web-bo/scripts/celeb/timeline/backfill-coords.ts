@@ -36,9 +36,9 @@ function loadEnv() {
 }
 loadEnv()
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL!,
+  process.env.DB_SECRET_KEY!,
   { auth: { autoRefreshToken: false, persistSession: false } },
 )
 
@@ -86,7 +86,7 @@ type Row = { id: string; place_name: string | null; lat: number | null; lng: num
 async function page<T>(table: string, cols: string, build: (q: any) => any): Promise<T[]> {
   const out: T[] = []
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await build(supabase.from(table).select(cols)).order('id').range(from, from + 999)
+    const { data, error } = await build(db.from(table).select(cols)).order('id').range(from, from + 999)
     if (error) throw new Error(`${table}: ${error.message}`)
     out.push(...((data ?? []) as T[]))
     if (!data || data.length < 1000) return out
@@ -185,7 +185,7 @@ async function main() {
 
   let done = 0
   for (const [name, v] of plan) {
-    const { error, count } = await supabase
+    const { error, count } = await db
       .from('celeb_timeline_events')
       .update({ lat: v.lat, lng: v.lng }, { count: 'exact' })
       .is('lat', null)

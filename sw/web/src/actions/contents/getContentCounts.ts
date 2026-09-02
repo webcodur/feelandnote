@@ -3,9 +3,9 @@
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import type { SupabaseClient } from '@supabase/supabase-js'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import type { ContentType } from '@/types/database'
 import type { ContentTypeCounts } from '@/types/content'
 
@@ -17,7 +17,7 @@ function zeroCounts(): ContentTypeCounts {
 
 // 타입별 head 카운트 집계 — row 페치 없이 count만 송출
 async function countByType(
-  supabase: SupabaseClient,
+  db: DatabaseClient,
   userId: string,
   publicOnly: boolean,
   ownerKind: 'member' | 'celeb' = 'member',
@@ -28,7 +28,7 @@ async function countByType(
 
   await Promise.all(
     CONTENT_TYPES.map(async (type) => {
-      let query = supabase
+      let query = db
         .from(archiveTable)
         .select('content:contents!inner(type)', { count: 'exact', head: true })
         .eq(ownerColumn, userId)
@@ -51,15 +51,15 @@ async function countByType(
 
 // 본인 콘텐츠 타입별 개수 (FINISHED)
 export async function getContentCounts(): Promise<ContentTypeCounts> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return zeroCounts()
   }
 
   // egress-allow: 본인 서재 카운트 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (head 카운트만 송출)
-  return countByType(supabase, user.id, false)
+  return countByType(db, user.id, false)
 }
 
 // 특정 사용자의 공개 콘텐츠 타입별 개수 (FINISHED) — 공개 테이블, 캐시

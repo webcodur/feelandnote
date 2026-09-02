@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 /**
  * 인물을 가리키는 값은 두 가지다 — 불변 셀럽 ID(UUID)와 주소용 연결 키(slug).
@@ -13,8 +13,8 @@ export function celebKeyColumn(key: string): 'id' | 'slug' {
 /** 셀럽 ID·slug 어느 쪽을 받아도 불변 ID로 바꿔 준다. 없으면 null */
 export async function resolveCelebId(key: string): Promise<string | null> {
   if (celebKeyColumn(key) === 'id') return key
-  const supabase = await createClient()
-  const { data, error } = await supabase
+  const db = await createClient()
+  const { data, error } = await db
     .from('celebs')
     .select('id')
     .eq('slug', key)

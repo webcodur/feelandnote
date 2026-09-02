@@ -6,7 +6,7 @@
  * 별도 셀럽 태그 관리 화면이나 셀럽 편집 폼에서는 이 액션을 사용하지 않는다.
  */
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCeleb, revalidateWebItems, revalidateWebLists } from '@/lib/revalidate-web'
 import { CACHE_TAGS, type CacheItemTarget } from '@feelandnote/shared/constants/cache-tags'
@@ -138,9 +138,9 @@ function revalidateThemeScreens() {
 
 // #region getTags
 export async function getTags(): Promise<TagsResponse> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_tags')
     .select('*')
     .order('sort_order', { ascending: true })
@@ -159,9 +159,9 @@ export async function getTags(): Promise<TagsResponse> {
 
 // #region getTag
 export async function getTag(tagId: string): Promise<CelebTag | null> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_tags')
     .select('*')
     .eq('id', tagId)
@@ -176,10 +176,10 @@ export async function getTag(tagId: string): Promise<CelebTag | null> {
 
 // #region createTag
 export async function createTag(input: CreateTagInput): Promise<{ id: string } | { error: string }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 최대 sort_order 조회
-  const { data: maxData } = await supabase
+  const { data: maxData } = await db
     .from('celeb_tags')
     .select('sort_order')
     .order('sort_order', { ascending: false })
@@ -188,7 +188,7 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
 
   const nextSortOrder = (maxData?.sort_order ?? -1) + 1
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_tags')
     .insert({
       name: input.name.trim(),
@@ -228,14 +228,14 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
  * 손자 단계가 생기면 그릴 자리가 없다.
  */
 async function checkParentAssignment(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  db: Awaited<ReturnType<typeof createClient>>,
   tagId: string,
   parentId: string | null,
 ): Promise<string | null> {
   if (!parentId) return null
   if (parentId === tagId) return '테마를 자기 자신의 상위 그룹으로 지정할 수 없습니다.'
 
-  const { data, error } = await supabase.from('celeb_tags').select('id, parent_id, name')
+  const { data, error } = await db.from('celeb_tags').select('id, parent_id, name')
   if (error) return `상위 그룹 확인 실패: ${error.message}`
 
   const rows = (data ?? []) as { id: string; parent_id: string | null; name: string }[]
@@ -259,10 +259,10 @@ async function checkParentAssignment(
 // #endregion
 
 async function getAtlasTagCelebTargets(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  db: Awaited<ReturnType<typeof createClient>>,
   tagId: string,
 ): Promise<CacheItemTarget[]> {
-  const { data: assignments, error: assignmentsError } = await supabase
+  const { data: assignments, error: assignmentsError } = await db
     .from('faction_atlas_members')
     .select('celeb_id')
     .eq('tag_id', tagId)
@@ -271,7 +271,7 @@ async function getAtlasTagCelebTargets(
   const celebIds = [...new Set((assignments ?? []).map((row) => row.celeb_id))]
   if (celebIds.length === 0) return []
 
-  const { data: celebs, error: celebsError } = await supabase
+  const { data: celebs, error: celebsError } = await db
     .from('celebs')
     .select('id, slug')
     .in('id', celebIds)
@@ -298,10 +298,10 @@ async function revalidateAtlasTagCelebs(
 
 // #region updateTag
 export async function updateTag(input: UpdateTagInput): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   if (input.parent_id !== undefined) {
-    const reason = await checkParentAssignment(supabase, input.id, input.parent_id)
+    const reason = await checkParentAssignment(db, input.id, input.parent_id)
     if (reason) return { success: false, error: reason }
   }
 
@@ -321,7 +321,7 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
   if (input.start_date !== undefined) updateData.start_date = input.start_date || null
   if (input.end_date !== undefined) updateData.end_date = input.end_date || null
 
-  const { error } = await supabase
+  const { error } = await db
     .from('celeb_tags')
     .update(updateData)
     .eq('id', input.id)
@@ -336,17 +336,17 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
 
   revalidateThemeScreens()
   // celeb_tags 수정(이름·색·slug) — 태그명이 셀럽 목록 캐시에 박혀 있어 함께 갱신
-  await revalidateAtlasTagCelebs(await getAtlasTagCelebTargets(supabase, input.id))
+  await revalidateAtlasTagCelebs(await getAtlasTagCelebTargets(db, input.id))
   return { success: true }
 }
 // #endregion
 
 // #region deleteTag
 export async function deleteTag(tagId: string): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
-  const cacheTargets = await getAtlasTagCelebTargets(supabase, tagId)
+  const db = await createClient()
+  const cacheTargets = await getAtlasTagCelebTargets(db, tagId)
 
-  const { error } = await supabase
+  const { error } = await db
     .from('celeb_tags')
     .delete()
     .eq('id', tagId)
@@ -365,11 +365,11 @@ export async function deleteTag(tagId: string): Promise<{ success: boolean; erro
 
 // #region updateTagOrder
 export async function updateTagOrder(tagIds: string[]): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 순서대로 sort_order 업데이트
   const updates = tagIds.map((id, index) =>
-    supabase
+    db
       .from('celeb_tags')
       .update({ sort_order: index, updated_at: new Date().toISOString() })
       .eq('id', id)
@@ -396,11 +396,11 @@ export async function updateTagOrder(tagIds: string[]): Promise<{ success: boole
  * 웹 전용 배정은 뷰에서 빠진다) 단건 조회로 충분하다. 쓰기 액션들이 분기 근거로 쓴다.
  */
 async function findAtlasRow(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  db: Awaited<ReturnType<typeof createClient>>,
   tagId: string,
   celebId: string,
 ): Promise<{ row: AtlasMemberRow | null; error: string | null }> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('faction_atlas_members')
     .select('tag_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, hidden, source, person_id, assignment_id')
     .eq('tag_id', tagId)
@@ -417,10 +417,10 @@ async function findAtlasRow(
 
 /** 한 명의 도감 배정만 바뀐 뒤 그 인물 상세과 도감·인물 목록만 갱신한다. */
 async function revalidateAtlasCeleb(
-  supabase: Awaited<ReturnType<typeof createClient>>,
+  db: Awaited<ReturnType<typeof createClient>>,
   celebId: string,
 ): Promise<void> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celebs')
     .select('slug')
     .eq('id', celebId)
@@ -436,9 +436,9 @@ async function revalidateAtlasCeleb(
  * 뷰에는 celebs 조인이 없으므로 셀럽 정보는 celeb_id 로 2단계 조회한다.
  */
 export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('faction_atlas_members')
     .select('tag_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, hidden, source, person_id, assignment_id')
     .eq('tag_id', tagId)
@@ -455,7 +455,7 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
   const profileMap = new Map<string, NonNullable<CelebTagAssignment['celeb']>>()
 
   if (celebIds.length > 0) {
-    const { data: celebs, error: celebsError } = await supabase
+    const { data: celebs, error: celebsError } = await db
       .from('celebs')
       .select('id, nickname, avatar_url, title')
       .in('id', celebIds)
@@ -506,9 +506,9 @@ export async function updateTagAssignmentDesc(
   short_desc_en?: string | null,
   long_desc_en?: string | null
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { row, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  const { row, error: findError } = await findAtlasRow(db, tagId, celebId)
   if (findError) return { success: false, error: findError }
   if (!row) {
     console.error('태그 설명 수정 실패: 해당 레코드 없음')
@@ -543,7 +543,7 @@ export async function updateTagAssignmentDesc(
     if (short_desc_en !== undefined) updatePayload.short_desc_en = short_desc_en
     if (long_desc_en !== undefined) updatePayload.long_desc_en = long_desc_en
 
-    const { error } = await supabase
+    const { error } = await db
       .from('celeb_tag_assignments')
       .update(updatePayload)
       .eq('id', row.assignment_id)
@@ -556,7 +556,7 @@ export async function updateTagAssignmentDesc(
 
   revalidateThemeScreens()
   // 소개문 — 세력도감 소개글이 셀럽 캐시에도 실린다
-  await revalidateAtlasCeleb(supabase, celebId)
+  await revalidateAtlasCeleb(db, celebId)
   return { success: true }
 }
 // #endregion
@@ -574,9 +574,9 @@ export async function searchCelebsForTag(
   search: string,
   excludeTagId?: string
 ): Promise<CelebForTag[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  let query = supabase
+  let query = db
     .from('celebs')
     .select('id, nickname, avatar_url, title, profession')
     .eq('publication_status', 'active')
@@ -598,7 +598,7 @@ export async function searchCelebsForTag(
   // [단일화 전환 주의] 배정 테이블 기준이라 제작 유래 사본이 삭제되면(P4) 제작 유래 인물이
   // 검색에 다시 뜬다 — 그 경우 addCelebToTag 가 insert 대신 숨김 해제로 받아낸다.
   if (excludeTagId && data && data.length > 0) {
-    const { data: assigned } = await supabase
+    const { data: assigned } = await db
       .from('celeb_tag_assignments')
       .select('celeb_id')
       .eq('tag_id', excludeTagId)
@@ -636,9 +636,9 @@ export async function addCelebToTag(
   short_desc?: string | null,
   long_desc?: string | null
 ): Promise<{ success: boolean; error?: string; sort_order?: number; revived?: boolean }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { row: existing, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  const { row: existing, error: findError } = await findAtlasRow(db, tagId, celebId)
   if (findError) return { success: false, error: findError }
 
   if (existing?.source === 'production') {
@@ -657,12 +657,12 @@ export async function addCelebToTag(
     }
 
     revalidateThemeScreens()
-    await revalidateAtlasCeleb(supabase, celebId)
+    await revalidateAtlasCeleb(db, celebId)
     return { success: true, revived: true }
   }
 
   // 현재 태그의 최대 sort_order 조회
-  const { data: maxData } = await supabase
+  const { data: maxData } = await db
     .from('celeb_tag_assignments')
     .select('sort_order')
     .eq('tag_id', tagId)
@@ -672,7 +672,7 @@ export async function addCelebToTag(
 
   const nextSortOrder = (maxData?.sort_order ?? -1) + 1
 
-  const { error } = await supabase
+  const { error } = await db
     .from('celeb_tag_assignments')
     .insert({
       celeb_id: celebId,
@@ -692,7 +692,7 @@ export async function addCelebToTag(
 
   revalidateThemeScreens()
   // celeb_tag_assignments 신규 — 셀럽 목록 카드에도 배정 태그가 실린다
-  await revalidateAtlasCeleb(supabase, celebId)
+  await revalidateAtlasCeleb(db, celebId)
   return { success: true, sort_order: nextSortOrder }
 }
 // #endregion
@@ -708,9 +708,9 @@ export async function removeCelebFromTag(
   celebId: string,
   tagId: string
 ): Promise<{ success: boolean; error?: string; hiddenInstead?: boolean }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { row, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  const { row, error: findError } = await findAtlasRow(db, tagId, celebId)
   if (findError) return { success: false, error: findError }
   if (!row) return { success: false, error: '해당 태그 할당을 찾을 수 없다.' }
 
@@ -727,11 +727,11 @@ export async function removeCelebFromTag(
     }
 
     revalidateThemeScreens()
-    await revalidateAtlasCeleb(supabase, celebId)
+    await revalidateAtlasCeleb(db, celebId)
     return { success: true, hiddenInstead: true }
   }
 
-  const { error } = await supabase
+  const { error } = await db
     .from('celeb_tag_assignments')
     .delete()
     .eq('id', row.assignment_id)
@@ -743,7 +743,7 @@ export async function removeCelebFromTag(
 
   revalidateThemeScreens()
   // celeb_tag_assignments 삭제 — 셀럽 목록 카드에서도 배정 태그가 빠져야 한다
-  await revalidateAtlasCeleb(supabase, celebId)
+  await revalidateAtlasCeleb(db, celebId)
   return { success: true }
 }
 // #endregion
@@ -758,9 +758,9 @@ export async function updateTagCelebOrder(
   tagId: string,
   celebIds: string[]
 ): Promise<{ success: boolean; error?: string; skippedProduction?: number }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: viewRows, error: viewError } = await supabase
+  const { data: viewRows, error: viewError } = await db
     .from('faction_atlas_members')
     .select('celeb_id, source')
     .eq('tag_id', tagId)
@@ -778,7 +778,7 @@ export async function updateTagCelebOrder(
   if (manualOrder.length > 0) {
     // 웹 전용끼리의 상대 순서대로 sort_order 업데이트
     const updates = manualOrder.map((celebId, index) =>
-      supabase
+      db
         .from('celeb_tag_assignments')
         .update({ sort_order: index })
         .eq('tag_id', tagId)
@@ -806,9 +806,9 @@ export async function setTagTeamImages(
   tagId: string,
   images: FactionTeamImage[]
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { error } = await supabase
+  const { error } = await db
     .from('celeb_tags')
     .update({ team_images: serializeTeamImages(images), updated_at: new Date().toISOString() })
     .eq('id', tagId)
@@ -838,9 +838,9 @@ export async function setTagCelebHidden(
   celebId: string,
   hidden: boolean
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { row, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  const { row, error: findError } = await findAtlasRow(db, tagId, celebId)
   if (findError) return { success: false, error: findError }
   if (!row) return { success: false, error: '해당 태그 할당을 찾을 수 없다.' }
 
@@ -856,7 +856,7 @@ export async function setTagCelebHidden(
       return { success: false, error: error.message }
     }
   } else {
-    const { error } = await supabase
+    const { error } = await db
       .from('celeb_tag_assignments')
       .update({ hidden })
       .eq('id', row.assignment_id)
@@ -868,7 +868,7 @@ export async function setTagCelebHidden(
   }
 
   revalidateThemeScreens()
-  await revalidateAtlasCeleb(supabase, celebId)
+  await revalidateAtlasCeleb(db, celebId)
   return { success: true }
 }
 // #endregion
@@ -879,9 +879,9 @@ export async function setTagCelebImage(
   celebId: string,
   url: string | null
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { row, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  const { row, error: findError } = await findAtlasRow(db, tagId, celebId)
   if (findError) return { success: false, error: findError }
   if (!row) return { success: false, error: '해당 태그 할당을 찾을 수 없다.' }
 
@@ -897,7 +897,7 @@ export async function setTagCelebImage(
       return { success: false, error: error.message }
     }
   } else {
-    const { error } = await supabase
+    const { error } = await db
       .from('celeb_tag_assignments')
       .update({ faction_image_url: url })
       .eq('id', row.assignment_id)
@@ -910,7 +910,7 @@ export async function setTagCelebImage(
 
   revalidateThemeScreens()
   // faction_image_url — 셀럽 카드 이미지에도 반영된다
-  await revalidateAtlasCeleb(supabase, celebId)
+  await revalidateAtlasCeleb(db, celebId)
   return { success: true }
 }
 // #endregion

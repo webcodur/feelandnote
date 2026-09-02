@@ -10,7 +10,7 @@ import { unstable_cache } from 'next/cache'
 import { getLocale } from 'next-intl/server'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { cachedDetail, STATIC_REVALIDATE } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import type {
   CuratedHub,
@@ -131,14 +131,14 @@ const COVERS_PER_LIST = 5
 const COVER_SCAN_DEPTH = 30
 
 async function fetchCoversByList(
-  supabase: ReturnType<typeof createStaticClient>,
+  db: ReturnType<typeof createStaticClient>,
   listIds: string[],
   locale: string
 ): Promise<Map<string, string[]>> {
   const out = new Map<string, string[]>()
   if (listIds.length === 0) return out
 
-  const { data } = await supabase
+  const { data } = await db
     .from('curated_list_items')
     .select(`list_id, sort_order, contents(content_locales(${CL_SELECT_LIST}))`)
     .in('list_id', listIds)
@@ -164,16 +164,16 @@ async function fetchCoversByList(
 // ────────────────────────────────────────────────────
 // #region 허브 — 성격별 기관 진열
 async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   const [{ data: curators }, { data: lists }] = await Promise.all([
-    supabase
+    db
       .from('curators')
       .select(CURATOR_COLS)
       .eq('is_featured', true)
       .order('sort_order', { ascending: true })
       .order('id', { ascending: true }),
-    supabase
+    db
       .from('curated_lists')
       .select(`${LIST_COLS}, curated_list_items(count)`)
       .eq('is_featured', true)
@@ -185,7 +185,7 @@ async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
   const listRows = (lists ?? []) as (ListRow & { curated_list_items: { count: number }[] | null })[]
 
   const coversByList = await fetchCoversByList(
-    supabase,
+    db,
     listRows.map((l) => l.id),
     locale
   )
@@ -223,13 +223,13 @@ export async function getCuratedHub(): Promise<CuratedHub> {
 // ────────────────────────────────────────────────────
 // #region 기관 상세
 async function fetchCurator(slug: string, locale: string): Promise<CuratorDetail | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data: curator } = await supabase.from('curators').select(CURATOR_COLS).eq('slug', slug).maybeSingle()
+  const { data: curator } = await db.from('curators').select(CURATOR_COLS).eq('slug', slug).maybeSingle()
   if (!curator) return null
   const c = curator as CuratorRow
 
-  const { data: lists } = await supabase
+  const { data: lists } = await db
     .from('curated_lists')
     .select(`${LIST_COLS}, curated_list_items(count)`)
     .eq('curator_id', c.id)
@@ -239,7 +239,7 @@ async function fetchCurator(slug: string, locale: string): Promise<CuratorDetail
 
   const listRows = (lists ?? []) as (ListRow & { curated_list_items: { count: number }[] | null })[]
   const coversByList = await fetchCoversByList(
-    supabase,
+    db,
     listRows.map((l) => l.id),
     locale
   )
@@ -278,18 +278,18 @@ interface ItemRow {
 }
 
 async function fetchCuratedList(listSlug: string, locale: string, showAll: boolean): Promise<CuratedListDetail | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data: list } = await supabase.from('curated_lists').select(LIST_COLS).eq('slug', listSlug).maybeSingle()
+  const { data: list } = await db.from('curated_lists').select(LIST_COLS).eq('slug', listSlug).maybeSingle()
   if (!list) return null
   const l = list as ListRow
 
-  const { data: curator } = await supabase.from('curators').select(CURATOR_COLS).eq('id', l.curator_id).maybeSingle()
+  const { data: curator } = await db.from('curators').select(CURATOR_COLS).eq('id', l.curator_id).maybeSingle()
   if (!curator) return null
   const c = curator as CuratorRow
 
   const [{ data: items, count: totalItems }, { data: siblings }] = await Promise.all([
-    supabase
+    db
       .from('curated_list_items')
       .select(
         `id, content_id, raw_title, raw_creator, rank, year, note, note_en, sort_order,
@@ -303,7 +303,7 @@ async function fetchCuratedList(listSlug: string, locale: string, showAll: boole
       .limit(showAll ? MAX_ITEMS_PER_LIST : INITIAL_ITEMS),
     // 같은 계열의 다른 해 — 연도 전환용
     l.series_key
-      ? supabase
+      ? db
           .from('curated_lists')
           .select('slug, title, title_en, edition, published_year')
           .eq('series_key', l.series_key)
@@ -390,9 +390,9 @@ interface EntryRow {
 }
 
 async function fetchCuratedEntriesForContent(contentId: string, locale: string): Promise<ContentCuratedEntry[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data } = await supabase
+  const { data } = await db
     .from('curated_list_items')
     .select(
       `rank, year,

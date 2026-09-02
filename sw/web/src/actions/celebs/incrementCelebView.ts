@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 /**
  * 인물 화면 조회 1회를 반영하고 갱신된 누적 조회수를 돌려준다.
@@ -14,9 +14,9 @@ export async function incrementCelebView(
   celebId: string,
   count: boolean = true,
 ): Promise<number | null> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase.rpc('increment_celeb_view', {
+  const { data, error } = await db.rpc('increment_celeb_view', {
     p_celeb_id: celebId,
     p_increment: count,
   })

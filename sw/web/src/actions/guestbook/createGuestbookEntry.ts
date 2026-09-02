@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 interface CreateGuestbookEntryParams {
   profileId: string
@@ -27,9 +27,9 @@ interface GuestbookEntryData {
 
 export async function createGuestbookEntry(params: CreateGuestbookEntryParams): Promise<ActionResult<GuestbookEntryData>> {
   const { profileId, subjectKind, content, isPrivate = false } = params
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) return failure('UNAUTHORIZED')
 
   if (content.length > 500) {
@@ -40,14 +40,14 @@ export async function createGuestbookEntry(params: CreateGuestbookEntryParams): 
   }
 
   const subjectResult = subjectKind === 'member'
-    ? await supabase.from('member_profiles').select('id').eq('id', profileId).maybeSingle()
-    : await supabase.from('celebs').select('id, slug').eq('id', profileId).maybeSingle()
+    ? await db.from('member_profiles').select('id').eq('id', profileId).maybeSingle()
+    : await db.from('celebs').select('id, slug').eq('id', profileId).maybeSingle()
   if (subjectResult.error || !subjectResult.data) {
     return failure('NOT_FOUND', '방명록 대상을 찾을 수 없다.')
   }
 
   const insertResult = subjectKind === 'member'
-    ? await supabase
+    ? await db
         .from('member_guestbook_entries')
         .insert({
           owner_member_id: profileId,
@@ -57,7 +57,7 @@ export async function createGuestbookEntry(params: CreateGuestbookEntryParams): 
         })
         .select('id, owner_member_id, author_member_id, content, is_private, created_at')
         .single()
-    : await supabase
+    : await db
         .from('celeb_guestbook_entries')
         .insert({
           celeb_id: profileId,
@@ -70,10 +70,10 @@ export async function createGuestbookEntry(params: CreateGuestbookEntryParams): 
         .single()
 
   if (insertResult.error || !insertResult.data) {
-    return handleSupabaseError(insertResult.error!, { context: 'guestbook', logPrefix: '[방명록 작성]' })
+    return handleDatabaseError(insertResult.error!, { context: 'guestbook', logPrefix: '[방명록 작성]' })
   }
 
-  const { data: author } = await supabase
+  const { data: author } = await db
     .from('member_profiles')
     .select('id, nickname, avatar_url')
     .eq('id', user.id)

@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
@@ -18,9 +18,9 @@ export interface RecentContent {
 }
 
 async function fetchRecentContents(limit: number, locale: string): Promise<RecentContent[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('contents')
     .select(`id, type, created_at, content_locales(${CL_SELECT_LIST})`)
     .order('created_at', { ascending: false })

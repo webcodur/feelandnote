@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
@@ -70,11 +70,11 @@ export interface GetMyContentsResponse {
 const UC_SELECT_BASE = 'id, user_id:member_id, content_id, status, is_recommended, is_spoiler, rating, review, visibility, created_at, updated_at, completed_at, is_pinned, pinned_at, source_url'
 
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
-  const supabase = await createClient()
+  const db = await createClient()
   const locale = await getLocale()
   const { page = 1, limit = 20, type, status, excludeStatus, search, hasReview, sortBy = 'recent' } = params
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     throw new Error('로그인이 필요합니다')
   }
@@ -90,7 +90,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   if (safeSearch.length >= 2) {
     const searchTerm = `%${safeSearch}%`
     // egress-allow: 본인 서재 검색 1단계 — content_id만 송출
-    const { data: matchIds } = await supabase
+    const { data: matchIds } = await db
       .from('content_locales')
       .select('content_id')
       .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
@@ -104,7 +104,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   // egress-allow: 본인 서재 목록 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (컬럼 슬림화 적용)
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const ucSelect = locale === 'en' ? `${UC_SELECT_BASE}, review_en` : UC_SELECT_BASE
-  let query = supabase
+  let query = db
     .from('member_contents')
     .select(`
       ${ucSelect},

@@ -5,7 +5,7 @@ import {
   type RankingCelebProfile,
   type RankingThemeOption,
 } from '@/lib/ranking-celeb'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 
 export type { RankingCelebProfile, RankingThemeOption }
 

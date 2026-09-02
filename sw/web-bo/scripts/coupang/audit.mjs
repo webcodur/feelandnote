@@ -183,22 +183,22 @@ const options = parseArgs(process.argv.slice(2))
 const evidenceByEdition = loadEvidence(options.evidencePath)
 const envPath = path.join(REPO, 'sw/web/.env')
 const env = fs.readFileSync(envPath, 'utf8')
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL ?? envValue(env, 'NEXT_PUBLIC_SUPABASE_URL'),
-  process.env.SUPABASE_SERVICE_ROLE_KEY ?? envValue(env, 'SUPABASE_SERVICE_ROLE_KEY'),
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL ?? envValue(env, 'NEXT_PUBLIC_DB_API_URL'),
+  process.env.DB_SECRET_KEY ?? envValue(env, 'DB_SECRET_KEY'),
 )
 
 let catalogRows
 if (options.scope === 'fiction-sources') {
   const [editions, products] = await Promise.all([
-    paged(() => supabase
+    paged(() => db
       .from('fiction_source_editions')
       .select('id,content_id,title,creator,publisher,isbn,sort_order')
       .eq('locale', 'ko')
       .order('content_id')
       .order('sort_order')
       .order('id')),
-    paged(() => supabase
+    paged(() => db
       .from('fiction_source_products')
       .select('edition_id,product_id,product_url,affiliate_url,quality_evidence,checked_at')
       .eq('platform', 'coupang')
@@ -222,7 +222,7 @@ if (options.scope === 'fiction-sources') {
     }
   })
 } else {
-  const localeRows = await paged(() => supabase
+  const localeRows = await paged(() => db
     .from('content_locales')
     .select('content_id,title,creator,publisher,isbn,affiliate_url,contents!inner(type)')
     .eq('locale', 'ko')

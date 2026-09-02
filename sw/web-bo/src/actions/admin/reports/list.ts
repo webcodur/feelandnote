@@ -1,6 +1,6 @@
 'use server'
 
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import {
   ENUM_REPORT_STATUS,
@@ -92,12 +92,12 @@ function toReportPerson(person: RawReportPerson | null): ReportPerson | null {
 }
 
 async function loadStatusCounts(): Promise<Record<ReportStatus, number>> {
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
   // 카운트만 필요하므로 행을 끌어오지 않는다.
   const entries = await Promise.all(
     REPORT_STATUS_ORDER.map(async (status) => {
-      const { count, error } = await supabase
+      const { count, error } = await db
         .from('reports')
         .select('id', { count: 'exact', head: true })
         .eq('status', status)
@@ -116,11 +116,11 @@ async function loadStatusCounts(): Promise<Record<ReportStatus, number>> {
 export async function getReportQueue(params: ReportQueueParams): Promise<ReportQueue> {
   await requireAdmin()
 
-  const supabase = createAdminClient()
+  const db = createAdminClient()
   const page = Math.max(1, params.page)
   const offset = (page - 1) * REPORT_PAGE_SIZE
 
-  let query = supabase.from('reports').select(QUEUE_SELECT, { count: 'exact' })
+  let query = db.from('reports').select(QUEUE_SELECT, { count: 'exact' })
 
   if (isReportStatus(params.status)) query = query.eq('status', params.status)
   if (isReportTargetType(params.targetType)) query = query.eq('target_type', params.targetType)

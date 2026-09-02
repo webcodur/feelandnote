@@ -1,7 +1,7 @@
 'use server'
 
 // egress-allow: flows는 공개 or 본인 RLS — 본인 비공개 플로우가 섞여 anon 전환 불가
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import type { FlowWithStages, FlowStage, FlowStageWithNodes, FlowNode, FlowNodeWithContent, ContentType } from '@/types/database'
 
 // select 문자열에 대응하는 조인 행 타입
@@ -29,12 +29,12 @@ interface FlowNodeQueryRow extends FlowNode {
 }
 
 export async function getFlow(flowId: string): Promise<FlowWithStages> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
 
   // 플로우 기본 정보 조회
-  const { data: flow, error: flowError } = await supabase
+  const { data: flow, error: flowError } = await db
     .from('flows')
     .select('*')
     .eq('id', flowId)
@@ -50,7 +50,7 @@ export async function getFlow(flowId: string): Promise<FlowWithStages> {
   }
 
   // 스테이지 조회 (정렬 순서대로)
-  const { data: stages, error: stagesError } = await supabase
+  const { data: stages, error: stagesError } = await db
     .from('flow_stages')
     .select('*')
     .eq('flow_id', flowId)
@@ -62,7 +62,7 @@ export async function getFlow(flowId: string): Promise<FlowWithStages> {
   }
 
   // 노드 조회 (콘텐츠 정보 포함)
-  const { data: nodes, error: nodesError } = await supabase
+  const { data: nodes, error: nodesError } = await db
     .from('flow_nodes')
     .select(`
       *,

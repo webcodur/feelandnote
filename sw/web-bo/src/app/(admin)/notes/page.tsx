@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: '노트',
@@ -16,9 +16,9 @@ export default async function NotesPage({
   const visibilityFilter = params.visibility || ''
   const perPage = 24
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  let query = supabase
+  let query = db
     .from('notes')
     .select(
       `
@@ -55,7 +55,7 @@ export default async function NotesPage({
   const totalPages = Math.ceil(total / perPage)
 
   // 공개 설정별 통계
-  const { data: visibilityStats, error: visibilityStatsError } = await supabase
+  const { data: visibilityStats, error: visibilityStatsError } = await db
     .from('notes')
     .select('visibility')
   if (visibilityStatsError) {

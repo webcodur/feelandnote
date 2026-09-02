@@ -13,7 +13,7 @@
 import { unstable_cache } from 'next/cache';
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags';
 import { STATIC_REVALIDATE } from '@/lib/cache';
-import { createStaticClient } from '@/lib/supabase/static';
+import { createStaticClient } from '@/lib/db/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { getLocale } from 'next-intl/server';
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers';
@@ -85,9 +85,9 @@ function columnsToStats(row: ProximityColumnRow): SpectrumStats {
 }
 
 async function fetchProximityCelebs(): Promise<ProximityCelebFull[]> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
   const rows = await selectAllPages<ProximityColumnRow>((from, to) =>
-    supabase
+    db
       .from('celeb_persona')
       .select(`
         celeb_id, ${SPECTRUM_STAT_KEYS.join(', ')},

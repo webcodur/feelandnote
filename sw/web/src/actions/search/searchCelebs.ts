@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { SEARCHABLE_CELEB_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { getLocale } from 'next-intl/server'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
 
@@ -36,7 +36,7 @@ async function fetchSearchCelebs(
   locale: string,
 ): Promise<SearchCelebsResponse> {
   const isEn = locale === 'en'
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const offset = (page - 1) * limit
 
   // .or() 필터 보간 인젝션 차단
@@ -45,7 +45,7 @@ async function fetchSearchCelebs(
     return { items: [], total: 0, hasMore: false }
   }
 
-  const { data, count, error } = await supabase
+  const { data, count, error } = await db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en', { count: 'exact' })
     .eq('publication_status', 'active')

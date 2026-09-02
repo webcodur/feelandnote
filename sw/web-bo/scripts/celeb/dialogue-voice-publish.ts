@@ -167,8 +167,8 @@ async function main(): Promise<void> {
   const { runDir, apply } = parseArgs()
   const { manifest, files } = await loadAndValidateRun(runDir)
 
-  const supabaseUrl = requireEnv('NEXT_PUBLIC_SUPABASE_URL')
-  const serviceRoleKey = requireEnv('SUPABASE_SERVICE_ROLE_KEY')
+  const dbApiUrl = requireEnv('NEXT_PUBLIC_DB_API_URL')
+  const serviceRoleKey = requireEnv('DB_SECRET_KEY')
   const bucket = requireEnv('R2_BUCKET_NAME')
   const publicBase = requireEnv('R2_PUBLIC_URL').replace(/\/$/, '')
   const r2 = new S3Client({
@@ -179,7 +179,7 @@ async function main(): Promise<void> {
       secretAccessKey: requireEnv('R2_SECRET_ACCESS_KEY'),
     },
   })
-  const db = createClient(supabaseUrl, serviceRoleKey, {
+  const db = createClient(dbApiUrl, serviceRoleKey, {
     auth: { autoRefreshToken: false, persistSession: false },
   })
 

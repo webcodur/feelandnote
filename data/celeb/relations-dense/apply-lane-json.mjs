@@ -34,7 +34,7 @@ const skipExact = new Set([
   'son-heung-min|son-woong-jung|teacher',
 ])
 
-const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } })
+const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL, process.env.DB_SECRET_KEY, { auth: { persistSession: false } })
 const json = JSON.parse(readFileSync(file, 'utf8'))
 const pairs = json.pairs ?? []
 const slugs = [...new Set(pairs.flatMap((p) => [p.a, p.b]))]

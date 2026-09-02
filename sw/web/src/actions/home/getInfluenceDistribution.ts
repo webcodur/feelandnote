@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import {
@@ -50,14 +50,14 @@ interface InfluenceJoinRow {
 }
 
 async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // 영향력 데이터와 프로필 조인 — 비활성·목록 비노출 등급 셀럽은 DB단에서 걸러 수신 자체를 차단.
   // 1,000행 상한에 걸리므로 나눠 받는다. 자르면 점수 낮은 쪽이 통째로 사라져
   // 하위 오라 분포와 순위 총원이 조용히 축소된다.
   // total_score는 동점이 많아 정렬키로 불충분 — celeb_id를 2차 키로 둬 페이지 경계를 고정한다.
   const data = await selectAllPages<InfluenceJoinRow>((from, to) =>
-    supabase
+    db
       .from('celeb_influence')
       .select(`
         celeb_id,

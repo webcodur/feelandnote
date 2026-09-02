@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 export interface TagSearchResult {
   id: string
@@ -27,10 +27,10 @@ async function fetchSearchTags(
   page: number,
   limit: number,
 ): Promise<SearchTagsResponse> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const offset = (page - 1) * limit
 
-  const { data: tags, count, error } = await supabase
+  const { data: tags, count, error } = await db
     .from('tags')
     .select('id, name, post_count', { count: 'exact' })
     .ilike('name', `%${query}%`)

@@ -221,7 +221,7 @@ web-bo 로컬 빌드 검증 여부 · remotion-bo 디자인 토큰 목록 · 사
 - 26.07.26 **상위 그룹 위계를 코드 상수에서 DB로 승격.** 마이그레이션 `add_celeb_tags_parent_id`(자기참조 FK + 인덱스) 후 옛 상수 8그룹·자식 31종을 slug 대조로 백필하고 `sort_order`를 그룹→자식 차례로 0~39 재부여했다(자식 표시 순서 보존). `sw/web/src/constants/factionGroups.ts` 삭제, `getFeaturedTags`는 자식 보유 여부로 그룹을 판정한다. web-bo `/factions` 목록에 들여쓰기 위계, 테마 편집에 「상위 묶음」 지정(두 단계 제한·자기참조·순환 차단) 신설.
 
 - 26.07.25 **Phase 5 완료 — 출간 개조 + remotion-bo 팩션 구역 폐기 + 문서 동기화.** 팩션 통합 종료.
-  - **출간 배관을 옮기며 진단을 다시 정의했다.** `sw/web-bo/src/lib/faction-sync/` 8파일(`types`·`supabase`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`). `image`·`manifest` 는 규격 그대로, 업로드는 이 앱에 이미 있던 `lib/r2.ts` 를 재사용하고 출간에만 필요한 `missingR2Env`·`publicUrl` 만 새로 뒀다.
+  - **출간 배관을 옮기며 진단을 다시 정의했다.** `sw/web-bo/src/lib/faction-sync/` 8파일(`types`·`database`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`). `image`·`manifest` 는 규격 그대로, 업로드는 이 앱에 이미 있던 `lib/r2.ts` 를 재사용하고 출간에만 필요한 `missingR2Env`·`publicUrl` 만 새로 뒀다.
   - **입력이 파일에서 DB 로 바뀌었다** — `collect.ts` 가 `faction_{episodes,groups,clusters,people}` 을 읽어 출간 모형을 만든다. **대본 조립기(`assembleFactionEpisode`)를 쓰지 않는 이유**: 조립기는 `faction-data.json` 모양을 내므로 해소된 열쇠(`tag_id`·`celeb_id`)를 결과에 담지 않는데, 출간은 바로 그 두 열쇠가 본체다. 사진은 여전히 로컬 파일이라 경로 해석·해시는 그대로 남았다.
   - **텍스트 대조 진단을 소거했다**(제작·서비스가 한 DB). 옛 `desc: db|fillable|none` 폐기. 남는 항목 5종 — ① 셀럽 미해소 ② 태그 미지정 ③ 개인 화보+대사 음성·그룹샷 저장소 동기(매니페스트 해시·`web_quote_media`) ④ 얼굴 사진 유무 ⑤ 신화 표시 ↔ 셀럽 등급(`fiction`) 어긋남. ④⑤ 는 출간을 막지 않고 알리기만 한다.
   - **§4 배치 충돌 규칙을 실제 규칙으로 승격했다.** 옛 코드는 "이번 호출에서 먼저 만난 배치"를 채택해 세력을 하나씩 출간하면 결과가 갈릴 수 있었다. 이제 자리(세력·묶음·인물 순번) 최소 배치를 **편 전체를 보고** 미리 정한다(`winningPlacements`) — 세력별 순차 출간과 전체 출간의 결과가 같다.

@@ -22,9 +22,12 @@ import {
   createCloudflarePurgePlan,
 } from './lib/cloudflare-purge-impact.mjs'
 import {
+  createBridgeCaddyConfig,
   extractNextStaticAssetUrls,
+  inspectCaddyProxyPort,
   parseJpegDimensions,
   probeStaticAssetUrls,
+  PRIMARY_PORT,
 } from './lib/oracle-web-remote.mjs'
 
 const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
@@ -43,7 +46,7 @@ const HELP = `Usage:
 Options:
   --ref <git-ref>                 committed source to deploy (default: HEAD)
   --release-id <id>               safe release directory name
-  --canary-port <port>            transient origin probe port (default: 3100)
+  --canary-port <port>            verified traffic-bridge port (default: 3100)
   --probe-slug <slug>             published celeb used by canary (default: bill-gates)
   --purge-scopes <scope[,scope]>  explicit Cloudflare scopes when inference is blocked
   --allow-unpushed                allow a commit absent from remote branches (explicit approval only)
@@ -174,6 +177,29 @@ function readRemoteStatus(config) {
     }
   }
 
+  const caddyConfigResult = runSsh(config, [
+    'curl',
+    '--fail',
+    '--silent',
+    '--show-error',
+    'http://127.0.0.1:2019/config/',
+  ], { allowFailure: true })
+  let caddyProxyPort = null
+  let caddyConfigError = null
+  if (caddyConfigResult.status === 0 && caddyConfigResult.stdout) {
+    try {
+      const caddyConfig = JSON.parse(caddyConfigResult.stdout)
+      caddyProxyPort = inspectCaddyProxyPort(caddyConfig)
+      if (caddyProxyPort === PRIMARY_PORT) {
+        createBridgeCaddyConfig(caddyConfig, config.canaryPort)
+      }
+    } catch (error) {
+      caddyConfigError = error instanceof Error ? error.message : String(error)
+    }
+  } else {
+    caddyConfigError = caddyConfigResult.stderr || 'Caddy admin config is unavailable'
+  }
+
   return {
     currentRelease: metadata?.releaseId ?? currentPath,
     currentCommit: metadata?.commit ?? null,
@@ -185,6 +211,14 @@ function readRemoteStatus(config) {
       'is-active',
       'feelandnote-web.service',
     ], { allowFailure: true }).stdout || 'unknown',
+    caddy: runSsh(config, [
+      'sudo',
+      'systemctl',
+      'is-active',
+      'caddy',
+    ], { allowFailure: true }).stdout || 'unknown',
+    caddyProxyPort,
+    caddyConfigError,
   }
 }
 
@@ -572,7 +606,12 @@ async function main() {
   if (!/^[a-z0-9][a-z0-9-]{0,79}$/u.test(config.probeSlug)) {
     throw new Error(`Unsafe probe slug: ${config.probeSlug}`)
   }
-  if (!Number.isInteger(config.canaryPort) || config.canaryPort < 1024 || config.canaryPort > 65535) {
+  if (
+    !Number.isInteger(config.canaryPort)
+    || config.canaryPort < 1024
+    || config.canaryPort > 65535
+    || config.canaryPort === PRIMARY_PORT
+  ) {
     throw new Error(`Invalid canary port: ${config.canaryPort}`)
   }
 
@@ -589,6 +628,9 @@ async function main() {
     currentPath: remote.currentPath,
     currentSlot: remote.currentSlot,
     service: remote.service,
+    caddy: remote.caddy,
+    caddyProxyPort: remote.caddyProxyPort,
+    caddyConfigError: remote.caddyConfigError,
     canaryPort: config.canaryPort,
     probeSlug: config.probeSlug,
     remoteBranchContainsCommit,
@@ -615,6 +657,17 @@ async function main() {
     if (remote.service !== 'active') {
       throw new Error(`Current production service is not active: ${remote.service}`)
     }
+    if (remote.caddy !== 'active') {
+      throw new Error(`Caddy is not active: ${remote.caddy}`)
+    }
+    if (remote.caddyConfigError) {
+      throw new Error(`Caddy routing could not be verified: ${remote.caddyConfigError}`)
+    }
+    if (remote.caddyProxyPort !== PRIMARY_PORT) {
+      throw new Error(
+        `Caddy routes to port ${remote.caddyProxyPort}; recover the previous traffic bridge before deploying`,
+      )
+    }
     if (purgePlan.manualRequired) {
       throw new Error(`Cloudflare purge impact needs an explicit --purge-scopes decision: ${purgePlan.error}`)
     }
@@ -622,6 +675,7 @@ async function main() {
 
   let build
   let uploaded
+  let canaryCleanupPending = false
   let deployed = false
   try {
     build = createIsolatedBuild(repoRoot, commit, releaseId)
@@ -649,11 +703,13 @@ async function main() {
       '--archive', uploaded.remoteArchive,
       '--manifest', uploaded.remoteManifest,
     ], { releaseId, inherit: true })
+    canaryCleanupPending = true
     runRemoteHelper(config, uploaded, 'canary', [
       '--port', String(config.canaryPort),
       '--probe-slug', config.probeSlug,
     ], { releaseId, inherit: true })
     const activationOutput = runRemoteHelper(config, uploaded, 'activate', [
+      '--port', String(config.canaryPort),
       '--probe-slug', config.probeSlug,
     ], { releaseId, inherit: false }).stdout
     const activation = JSON.parse(activationOutput)
@@ -663,10 +719,10 @@ async function main() {
     try {
       publicPage = await verifyPublicPageAssets(releaseId, config.probeSlug)
       publicSeoImage = await verifyPublicSeoImage(releaseId, config.probeSlug)
-      deployed = true
     } catch (error) {
       runRemoteHelper(config, uploaded, 'rollback', [
         '--target', activation.previousTarget,
+        '--port', String(config.canaryPort),
         '--probe-slug', config.probeSlug,
       ], { releaseId, inherit: true })
       throw new Error(`Public verification failed; rolled back to ${activation.previousTarget}: ${error.message}`)
@@ -681,12 +737,19 @@ async function main() {
     } catch (error) {
       throw new Error(`Deployment is live and publicly verified, but Blue/Green finalization failed: ${error.message}`)
     }
+    const canaryCleanupOutput = runRemoteHelper(config, uploaded, 'stop-canary', [
+      '--port', String(config.canaryPort),
+    ], { releaseId, inherit: false }).stdout
+    const canaryCleanup = JSON.parse(canaryCleanupOutput)
+    canaryCleanupPending = false
+    deployed = true
     const requiredPurgeScopes = purgePlan.scopes.filter((scope) => scope !== 'none')
     printPlan({
       ...plan,
       deployed: true,
       activation,
       finalization,
+      canaryCleanup,
       publicPage,
       publicSeoImage,
       cloudflarePurgeRequired: requiredPurgeScopes,
@@ -698,18 +761,31 @@ async function main() {
     })
   } finally {
     if (uploaded) {
-      try {
-        runRemoteHelper(config, uploaded, 'stop-canary', [], {
-          releaseId,
-          inherit: false,
-        })
-      } catch {
-        // 실제 canary 명령도 finally에서 정지하며, 여기서는 남은 unit만 재차 정리한다.
+      if (canaryCleanupPending) {
+        try {
+          runRemoteHelper(config, uploaded, 'stop-canary', [
+            '--port', String(config.canaryPort),
+          ], {
+            releaseId,
+            inherit: false,
+          })
+          canaryCleanupPending = false
+        } catch (error) {
+          // 가용성을 지키기 위해 bridge로 선택된 canary는 사람이 복구할 때까지 남긴다.
+          process.stderr.write(
+            `[oracle-web-deploy] Canary cleanup deferred; remote helper preserved: ${error instanceof Error ? error.message : String(error)}\n`,
+          )
+        }
       }
-      try {
-        cleanupRemoteUploads(config, uploaded)
-      } catch {
-        // 업로드 임시 파일 정리 실패가 배포·롤백 결과를 가리지 않게 한다.
+      if (!canaryCleanupPending) {
+        try {
+          cleanupRemoteUploads(config, uploaded)
+        } catch (error) {
+          // 업로드 임시 파일 정리 실패가 배포·롤백 결과를 가리지 않게 한다.
+          process.stderr.write(
+            `[oracle-web-deploy] Temporary remote upload cleanup failed: ${error instanceof Error ? error.message : String(error)}\n`,
+          )
+        }
       }
     }
     removeBuildWorktree(repoRoot, build)

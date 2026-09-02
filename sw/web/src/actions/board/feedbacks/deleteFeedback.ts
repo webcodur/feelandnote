@@ -1,19 +1,19 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 export async function deleteFeedback(id: string): Promise<ActionResult<null>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
   }
 
   // 본인 글이고 PENDING 상태인지 확인
-  const { data: existing } = await supabase
+  const { data: existing } = await db
     .from('feedbacks')
     .select('author_id, status')
     .eq('id', id)
@@ -31,13 +31,13 @@ export async function deleteFeedback(id: string): Promise<ActionResult<null>> {
     return failure('FORBIDDEN', '처리 중인 피드백은 삭제할 수 없다.')
   }
 
-  const { error } = await supabase
+  const { error } = await db
     .from('feedbacks')
     .delete()
     .eq('id', id)
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[피드백 삭제]' })
+    return handleDatabaseError(error, { logPrefix: '[피드백 삭제]' })
   }
 
   revalidatePath('/agora/board/feedback')

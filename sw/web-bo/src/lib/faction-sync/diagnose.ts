@@ -13,7 +13,7 @@
  *      소속 재편으로 간판이 낡아도 시스템이 모른다. 영문(name_en) 기준으로 견줘 알리기만 한다
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
 import {
   collectEpisode, hashOfFile, logoKey, personPortraitKey, personVoiceKey, soloShotKey, tagKeyOf, teamShotKey,
@@ -23,7 +23,7 @@ import { readManifest, type FactionSyncManifest } from './manifest'
 import {
   PROFILE_COLUMNS, TAG_COLUMNS, toImageArray,
   type CelebProfileRow, type CelebTagRow,
-} from './supabase'
+} from './database'
 import type {
   FactionImageSyncSummary, FactionSyncGroup, FactionSyncLinkState, FactionSyncPerson,
   FactionSyncSignboardMismatch, FactionSyncSoloShotState, FactionSyncStatus,
@@ -45,7 +45,7 @@ export interface ServiceSnapshot {
 }
 
 async function inChunks(
-  db: SupabaseClient, table: string, col: string, values: string[], select: string,
+  db: DatabaseClient, table: string, col: string, values: string[], select: string,
 ): Promise<Record<string, unknown>[]> {
   const out: Record<string, unknown>[] = []
   for (let i = 0; i < values.length; i += IN_CHUNK) {
@@ -61,7 +61,7 @@ async function inChunks(
  * `celebs: false` 면 인물 조회를 뺀다 — 사진 동기 집계처럼 태그 해소만 필요한 자리용.
  */
 export async function loadServiceSnapshot(
-  db: SupabaseClient, episode: PublishEpisode, opts?: { celebs?: boolean },
+  db: DatabaseClient, episode: PublishEpisode, opts?: { celebs?: boolean },
 ): Promise<ServiceSnapshot> {
   const tagIds = [...new Set(episode.groups.map(g => g.tagId).filter((v): v is string => !!v))]
   const tagSlugs = [...new Set(episode.groups.map(g => g.tagSlug).filter((v): v is string => !!v))]
@@ -294,7 +294,7 @@ export function collectSignboardMismatches(
 }
 
 /** 에피소드 진단 — 읽기 전용 보고 */
-export async function buildStatus(db: SupabaseClient, folder: string): Promise<FactionSyncStatus> {
+export async function buildStatus(db: DatabaseClient, folder: string): Promise<FactionSyncStatus> {
   const episode = await collectEpisode(db, folder)
   const [snap, manifest] = await Promise.all([loadServiceSnapshot(db, episode), readManifest(folder)])
 
@@ -405,7 +405,7 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
  * 미반영에 섞으면 배지가 영영 안 꺼진다.
  */
 export async function buildImageSyncSummary(
-  db: SupabaseClient, folder: string,
+  db: DatabaseClient, folder: string,
 ): Promise<FactionImageSyncSummary> {
   const episode = await collectEpisode(db, folder)
   const [snap, manifest] = await Promise.all([

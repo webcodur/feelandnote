@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import type { AcademyLessonProgress } from '@/types/academy'
 
 interface AcademyLessonProgressRow {
@@ -49,19 +49,19 @@ function mapAcademyLessonProgress(row: AcademyLessonProgressRow): AcademyLessonP
 }
 
 async function getSignedInUser() {
-  const supabase = await createClient()
+  const db = await createClient()
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await db.auth.getUser()
 
-  return { supabase, user }
+  return { db, user }
 }
 
 async function upsertAcademyLessonProgress(
   params: AcademyLessonProgressParams,
   updates: Partial<AcademyLessonProgressRow>,
 ): Promise<AcademyLessonProgressResult> {
-  const { supabase, user } = await getSignedInUser()
+  const { db, user } = await getSignedInUser()
 
   if (!user) {
     return {
@@ -81,7 +81,7 @@ async function upsertAcademyLessonProgress(
     ...updates,
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('academy_lesson_progress')
     .upsert(payload, { onConflict: 'user_id,lesson_id' })
     .select('*')
@@ -103,7 +103,7 @@ async function upsertAcademyLessonProgress(
 }
 
 export async function getAcademyLessonProgressState(): Promise<AcademyLessonProgressState> {
-  const { supabase, user } = await getSignedInUser()
+  const { db, user } = await getSignedInUser()
 
   if (!user) {
     return {
@@ -112,7 +112,7 @@ export async function getAcademyLessonProgressState(): Promise<AcademyLessonProg
     }
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('academy_lesson_progress')
     .select('*')
     .eq('user_id', user.id)

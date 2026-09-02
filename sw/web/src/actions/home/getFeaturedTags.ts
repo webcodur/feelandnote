@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { LIST_REVALIDATE } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
 import { toFactionQuoteMedia, type FactionQuoteMedia } from '@feelandnote/shared/lib/faction-quote-media'
 import { toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
@@ -144,10 +144,10 @@ interface FeaturedProfileRow {
 // --- 공개 데이터 캐싱 (1시간) ---
 
 async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // 1. 모든 태그 조회
-  const { data: allTags, error: tagsError } = await supabase
+  const { data: allTags, error: tagsError } = await db
     .from('celeb_tags')
     .select('id, name, name_en, description, description_en, color, slug, team_images, youtube_videos, theme_music, is_featured, is_fiction, parent_id')
     .order('is_featured', { ascending: false })
@@ -177,7 +177,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   const tagIds = activeTags.map(t => t.id)
 
   // 2. 모든 태그의 인물을 한 번에 조회 — 감춘 배정은 DB 에서 걸러 자리를 차지하지 않게 한다
-  const { data: allAssignments, error: assignmentsError } = await supabase
+  const { data: allAssignments, error: assignmentsError } = await db
     .from('faction_atlas_members')
     .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url, faction_quote_media')
     .in('tag_id', tagIds)
@@ -231,7 +231,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
     게임용 celeb_dialogues는 읽지 않는다. 도감 버튼의 대사는 뷰의 faction quote만 사용한다.
   */
   const celebRows = await selectInChunks<FeaturedProfileRow>(celebIdArray, (chunk) =>
-    supabase.from('celebs').select(`
+    db.from('celebs').select(`
       id, nickname, nickname_en, avatar_url, title, title_en, profession, speech_tone
     `).in('id', chunk).overrideTypes<FeaturedProfileRow[], { merge: false }>()
   )

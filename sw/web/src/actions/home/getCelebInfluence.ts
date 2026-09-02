@@ -2,7 +2,7 @@
 
 import { cache } from "react";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { NO_ROWS_CODE, throwOnQueryError, cachedDetail } from '@/lib/cache';
 import { type CelebLevel, getCelebLevelByRanking, calculatePercentile } from "@/constants/materials";
 import { resolveLocale, type Locale } from "@/types/locale";
@@ -41,9 +41,9 @@ async function fetchCelebInfluence(
   celebId: string,
   locale: Locale,
 ): Promise<CelebInfluenceDetail | null> {
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from("celeb_influence")
     .select(`
       celeb_id,
@@ -85,11 +85,11 @@ async function fetchCelebInfluence(
   // 두 count 쿼리 병렬화 (Promise.all)
   const totalScore = data.total_score ?? 0;
   const [higherResult, totalResult] = await Promise.all([
-    supabase
+    db
       .from("celeb_influence")
       .select("*", { count: "exact", head: true })
       .gt("total_score", totalScore),
-    supabase
+    db
       .from("celeb_influence")
       .select("*", { count: "exact", head: true })
       .gt("total_score", 0),

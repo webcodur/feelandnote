@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
 import type { Locale } from '@/types/locale'
 import { attachMemberAuthors } from '@/lib/board/memberProfiles'
@@ -14,9 +14,9 @@ interface GetCommentsParams {
 }
 
 async function fetchComments(boardType: BoardType, postId: string, locale: Locale): Promise<BoardCommentWithAuthor[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('board_comments')
     .select('*')
     .eq('board_type', boardType)
@@ -26,7 +26,7 @@ async function fetchComments(boardType: BoardType, postId: string, locale: Local
 
   throwOnQueryError('[댓글 목록]', error)
 
-  const comments = await attachMemberAuthors(supabase, data ?? [])
+  const comments = await attachMemberAuthors(db, data ?? [])
   return comments as BoardCommentWithAuthor[]
 }
 

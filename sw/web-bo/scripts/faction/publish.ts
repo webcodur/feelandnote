@@ -26,9 +26,9 @@ async function main(): Promise<void> {
 
   // 로컬 파일(화보·음성)을 읽는 출간이라 렌더 저장소가 이 컴퓨터에 있어야 한다
   if (!process.env.FACTION_LOCAL) throw new Error('FACTION_LOCAL 없음 — 렌더 저장소가 연결된 컴퓨터에서만 돈다')
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 없음')
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.DB_SECRET_KEY
+  if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 없음')
 
   const { publishEpisode } = await import('../../src/lib/faction-sync/publish')
   const db = createClient(url, key, { auth: { persistSession: false } })

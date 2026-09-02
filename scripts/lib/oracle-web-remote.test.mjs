@@ -14,14 +14,17 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 import {
+  assertBridgePort,
   assertCommitHash,
   assertReleaseId,
   assertUnixAccountName,
   chooseInactiveSlot,
+  createBridgeCaddyConfig,
   deploymentTargetForPath,
   legacyReleasesRootRemoveArgs,
   inspectVersionedDeploymentHtml,
   inspectExploreWarmupHtml,
+  inspectCaddyProxyPort,
   mergeRetainedStaticAssets,
   normalizeManifestPath,
   parseJpegDimensions,
@@ -30,6 +33,7 @@ import {
   slotNameForPath,
   slotsRootInstallArgs,
   STATIC_ASSET_RETENTION_MS,
+  TRAFFIC_DRAIN_MS,
 } from './oracle-web-remote.mjs'
 
 test('release id accepts deploy names and rejects path traversal', () => {
@@ -96,6 +100,73 @@ test('Blue/Green deployment always selects the inactive fixed slot', () => {
   assert.throws(
     () => deploymentTargetForPath(path.join(tmpdir(), 'outside'), root, legacyRoot),
     /outside slots and legacy releases/u,
+  )
+})
+
+test('Caddy traffic bridge changes only the loopback upstream and its redirect correction', () => {
+  const config = {
+    apps: {
+      http: {
+        servers: {
+          srv0: {
+            routes: [{
+              handle: [{
+                handler: 'reverse_proxy',
+                upstreams: [{ dial: '127.0.0.1:3000' }],
+                headers: {
+                  response: {
+                    replace: {
+                      Location: [{
+                        search_regexp: '^https?://(?:localhost|127[.]0[.]0[.]1):3000(.*)$',
+                        replace: 'https://feelandnote.com$1',
+                      }],
+                    },
+                  },
+                },
+              }],
+            }],
+          },
+        },
+      },
+    },
+  }
+
+  const bridged = createBridgeCaddyConfig(config, 3100)
+  assert.equal(inspectCaddyProxyPort(config), 3000)
+  assert.equal(inspectCaddyProxyPort(bridged), 3100)
+  assert.equal(
+    config.apps.http.servers.srv0.routes[0].handle[0]
+      .headers.response.replace.Location[0].search_regexp,
+    '^https?://(?:localhost|127[.]0[.]0[.]1):3000(.*)$',
+  )
+  assert.equal(
+    bridged.apps.http.servers.srv0.routes[0].handle[0]
+      .headers.response.replace.Location[0].search_regexp,
+    '^https?://(?:localhost|127[.]0[.]0[.]1):3100(.*)$',
+  )
+  assert.equal(TRAFFIC_DRAIN_MS, 5_000)
+})
+
+test('Caddy traffic bridge rejects the primary port and ambiguous proxy configs', () => {
+  assert.equal(assertBridgePort(3100), 3100)
+  assert.throws(() => assertBridgePort(3000), /Unsafe bridge port/u)
+  assert.throws(() => assertBridgePort(80), /Unsafe bridge port/u)
+
+  const ambiguous = {
+    routes: [
+      { handler: 'reverse_proxy', upstreams: [{ dial: '127.0.0.1:3000' }] },
+      { handler: 'reverse_proxy', upstreams: [{ dial: '127.0.0.1:3100' }] },
+    ],
+  }
+  assert.throws(() => inspectCaddyProxyPort(ambiguous), /exactly one loopback Caddy upstream/u)
+
+  const missingLocationRewrite = {
+    handler: 'reverse_proxy',
+    upstreams: [{ dial: '127.0.0.1:3000' }],
+  }
+  assert.throws(
+    () => createBridgeCaddyConfig(missingLocationRewrite, 3100),
+    /Expected one upstream Location rewrite/u,
   )
 })
 

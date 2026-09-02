@@ -1,4 +1,4 @@
-import type { ErrorCode, SupabaseErrorCode } from './types'
+import type { ErrorCode, DatabaseErrorCode } from './types'
 
 // #region 에러 코드별 한국어 메시지
 export const ERROR_MESSAGES: Record<ErrorCode, string> = {
@@ -12,7 +12,7 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   // 검증
   VALIDATION_ERROR: '입력값이 올바르지 않다.',
   INVALID_INPUT: '잘못된 입력이다.',
-  // Supabase
+  // DB
   DB_ERROR: '데이터베이스 오류가 발생했다.',
   RLS_VIOLATION: '접근이 거부되었다.',
   // 비즈니스 로직
@@ -25,8 +25,8 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
 }
 // #endregion
 
-// #region Supabase 에러 코드 → ErrorCode 매핑
-export const SUPABASE_ERROR_MAP: Partial<Record<SupabaseErrorCode, ErrorCode>> = {
+// #region DB 에러 코드 → ErrorCode 매핑
+export const DATABASE_ERROR_MAP: Partial<Record<DatabaseErrorCode, ErrorCode>> = {
   '23505': 'ALREADY_EXISTS',
   '23503': 'NOT_FOUND',
   '42501': 'RLS_VIOLATION',

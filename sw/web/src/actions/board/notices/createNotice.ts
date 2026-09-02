@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import type { NoticeWithAuthor } from '@/types/database'
 import { checkAdmin } from '@/lib/auth/checkAdmin'
 import { attachMemberAuthor } from '@/lib/board/memberProfiles'
@@ -17,9 +17,9 @@ interface CreateNoticeParams {
 
 export async function createNotice(params: CreateNoticeParams): Promise<ActionResult<NoticeWithAuthor>> {
   const { title, content, titleEn, contentEn, is_pinned = false } = params
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const adminCheck = await checkAdmin(supabase)
+  const adminCheck = await checkAdmin(db)
   if (!adminCheck.success) return adminCheck
 
   if (title.trim().length === 0) {
@@ -38,7 +38,7 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
     return failure('LIMIT_EXCEEDED', '영문 제목은 100자까지 작성할 수 있다.')
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('notices')
     .insert({
       author_id: adminCheck.userId,
@@ -52,12 +52,12 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
     .single()
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[공지사항 작성]' })
+    return handleDatabaseError(error, { logPrefix: '[공지사항 작성]' })
   }
 
   revalidatePath('/agora/board/notice')
   revalidatePath('/en/agora/board/notice')
   revalidateTag('notices', { expire: 0 })
-  const notice = await attachMemberAuthor(supabase, data)
+  const notice = await attachMemberAuthor(db, data)
   return success(notice as NoticeWithAuthor)
 }

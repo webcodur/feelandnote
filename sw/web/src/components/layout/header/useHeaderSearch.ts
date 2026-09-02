@@ -9,7 +9,7 @@ import { SearchMode, ContentCategory, SEARCH_MODES, CONTENT_CATEGORIES } from "@
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
 import { getCategoryById } from "@/constants/categories";
 import type { ContentType, ContentStatus } from "@/types/database";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 import { useQuickRecord } from "@/contexts/QuickRecordContext";
 import { SEARCHABLE_CELEB_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 
@@ -106,8 +106,8 @@ export function useHeaderSearch() {
   // 현재 사용자 ID 가져오기
   useEffect(() => {
     const fetchUserId = async () => {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const db = createClient();
+      const { data: { user } } = await db.auth.getUser();
       if (user) setCurrentUserId(user.id);
     };
     fetchUserId();

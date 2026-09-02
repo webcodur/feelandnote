@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { redirect } from '@/i18n/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import { getNotice } from '@/actions/board/notices'
 import NoticeForm from '@/components/features/board/notices/NoticeForm'
@@ -19,8 +19,8 @@ export async function generateMetadata() {
 export default async function NoticeEditPage({ params }: NoticeEditPageProps) {
   const { id, locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
-  const supabase = await createClient()
-  const admin = await isAdmin(supabase)
+  const db = await createClient()
+  const admin = await isAdmin(db)
 
   if (!admin) {
     redirect({ href: '/agora/board/notice', locale })

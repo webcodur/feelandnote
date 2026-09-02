@@ -1,15 +1,15 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 
 export async function addStage(params: { flowId: string; name: string; description?: string; badge_title?: string; theme_color?: string }) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다.')
 
-  const { data: flow } = await supabase
+  const { data: flow } = await db
     .from('flows')
     .select('user_id')
     .eq('id', params.flowId)
@@ -19,7 +19,7 @@ export async function addStage(params: { flowId: string; name: string; descripti
     throw new Error('수정 권한이 없습니다.')
   }
 
-  const { data: maxStage } = await supabase
+  const { data: maxStage } = await db
     .from('flow_stages')
     .select('sort_order')
     .eq('flow_id', params.flowId)
@@ -29,7 +29,7 @@ export async function addStage(params: { flowId: string; name: string; descripti
 
   const nextOrder = (maxStage?.sort_order ?? -1) + 1
 
-  const { data: stage, error } = await supabase
+  const { data: stage, error } = await db
     .from('flow_stages')
     .insert({
       flow_id: params.flowId,
@@ -53,12 +53,12 @@ export async function addStage(params: { flowId: string; name: string; descripti
 }
 
 export async function updateStage(params: { stageId: string; name?: string; description?: string; badge_title?: string; theme_color?: string }) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다.')
 
-  const { data: stage } = await supabase
+  const { data: stage } = await db
     .from('flow_stages')
     .select('id, flow_id')
     .eq('id', params.stageId)
@@ -66,7 +66,7 @@ export async function updateStage(params: { stageId: string; name?: string; desc
 
   if (!stage) throw new Error('스테이지를 찾을 수 없습니다')
 
-  const { data: flow } = await supabase
+  const { data: flow } = await db
     .from('flows')
     .select('user_id')
     .eq('id', stage.flow_id)
@@ -82,7 +82,7 @@ export async function updateStage(params: { stageId: string; name?: string; desc
   if (params.badge_title !== undefined) updateData.badge_title = params.badge_title?.trim() || null
   if (params.theme_color !== undefined) updateData.theme_color = params.theme_color || null
 
-  const { error } = await supabase
+  const { error } = await db
     .from('flow_stages')
     .update(updateData)
     .eq('id', params.stageId)
@@ -98,12 +98,12 @@ export async function updateStage(params: { stageId: string; name?: string; desc
 }
 
 export async function deleteStage(stageId: string) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다.')
 
-  const { data: stage } = await supabase
+  const { data: stage } = await db
     .from('flow_stages')
     .select('id, flow_id')
     .eq('id', stageId)
@@ -111,7 +111,7 @@ export async function deleteStage(stageId: string) {
 
   if (!stage) throw new Error('스테이지를 찾을 수 없습니다')
 
-  const { data: flow } = await supabase
+  const { data: flow } = await db
     .from('flows')
     .select('user_id')
     .eq('id', stage.flow_id)
@@ -121,7 +121,7 @@ export async function deleteStage(stageId: string) {
     throw new Error('삭제 권한이 없습니다.')
   }
 
-  const { error } = await supabase
+  const { error } = await db
     .from('flow_stages')
     .delete()
     .eq('id', stageId)
@@ -137,12 +137,12 @@ export async function deleteStage(stageId: string) {
 }
 
 export async function reorderStages(params: { flowId: string; stageIds: string[] }) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다.')
 
-  const { data: flow } = await supabase
+  const { data: flow } = await db
     .from('flows')
     .select('user_id')
     .eq('id', params.flowId)
@@ -153,7 +153,7 @@ export async function reorderStages(params: { flowId: string; stageIds: string[]
   }
 
   const updates = params.stageIds.map((stageId, index) =>
-    supabase
+    db
       .from('flow_stages')
       .update({ sort_order: index })
       .eq('id', stageId)

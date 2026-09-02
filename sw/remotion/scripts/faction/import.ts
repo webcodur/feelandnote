@@ -17,7 +17,7 @@ import {
   splitEpisode, splitGroup, splitCluster, splitPerson,
 } from '@feelandnote/shared/lib/faction-schema'
 import { assertIndividualFactionSubject } from '@feelandnote/shared/lib/faction-person-subject'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import {
   adminClient, readEpisodeParts, readFactionData, parseArgs, selectEpisodes, pad,
   type EpisodeFolder,
@@ -55,7 +55,7 @@ interface EpisodeStats {
 
 /** 레거시 slug와 현재 UUID가 실제 CELEB 프로필을 가리키는지 함께 해소한다. */
 async function resolvePeople(
-  db: SupabaseClient, slugs: string[], ids: string[],
+  db: DatabaseClient, slugs: string[], ids: string[],
 ): Promise<{ slugMap: Map<string, string>; idSet: Set<string> }> {
   const slugMap = new Map<string, string>()
   const idSet = new Set<string>()
@@ -86,7 +86,7 @@ async function resolvePeople(
 }
 
 /** tagSlug → celeb_tags.id (태그는 40종뿐이라 전량 조회) */
-async function resolveTags(db: SupabaseClient): Promise<Map<string, string>> {
+async function resolveTags(db: DatabaseClient): Promise<Map<string, string>> {
   const { data, error } = await db.from('celeb_tags').select('id,slug')
   if (error) throw new Error(`celeb_tags 조회 실패: ${error.message}`)
   const map = new Map<string, string>()
@@ -98,7 +98,7 @@ async function resolveTags(db: SupabaseClient): Promise<Map<string, string>> {
 
 /* ────────────────────────── 이관 ────────────────────────── */
 
-async function insertChunked(db: SupabaseClient, table: string, rows: Row[], select?: string) {
+async function insertChunked(db: DatabaseClient, table: string, rows: Row[], select?: string) {
   const out: Row[] = []
   for (let i = 0; i < rows.length; i += INSERT_CHUNK) {
     const chunk = rows.slice(i, i + INSERT_CHUNK)
@@ -116,7 +116,7 @@ async function insertChunked(db: SupabaseClient, table: string, rows: Row[], sel
 }
 
 async function importEpisode(
-  db: SupabaseClient,
+  db: DatabaseClient,
   ep: EpisodeFolder,
   slugMap: Map<string, string>,
   validCelebIds: Set<string>,

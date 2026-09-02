@@ -65,15 +65,15 @@ for (const filename of [".env.local", ".env"]) {
   if (fs.existsSync(envPath)) dotenv.config({ path: envPath, override: false, quiet: true });
 }
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-if (!supabaseUrl || !supabaseKey) {
+const dbApiUrl = process.env.NEXT_PUBLIC_DB_API_URL;
+const dbKey = process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY;
+if (!dbApiUrl || !dbKey) {
   throw new Error(
-    "NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are required.",
+    "NEXT_PUBLIC_DB_API_URL and NEXT_PUBLIC_DB_PUBLISHABLE_KEY are required.",
   );
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey, {
+const db = createClient(dbApiUrl, dbKey, {
   auth: {
     persistSession: false,
     autoRefreshToken: false,
@@ -142,7 +142,7 @@ async function selectAllProfiles() {
   const rows = [];
   const pageSize = 500;
   for (let from = 0; ; from += pageSize) {
-    let query = supabase
+    let query = db
         .from("celebs")
         .select([
           "id",
@@ -178,7 +178,7 @@ async function selectAllProfiles() {
 
 async function selectProfiles() {
   if (scanAll) return selectAllProfiles();
-  let query = supabase
+  let query = db
     .from("celebs")
     .select([
       "id",
@@ -221,7 +221,7 @@ async function selectByCelebIds(table, columns, ids, foreignKey = "celeb_id") {
   const selectedColumns = new Set(columns.split(",").map((column) => column.trim()));
   for (const group of chunks(ids)) {
     for (let from = 0; ; from += pageSize) {
-      let query = supabase
+      let query = db
         .from(table)
         .select(columns)
         .in(foreignKey, group)

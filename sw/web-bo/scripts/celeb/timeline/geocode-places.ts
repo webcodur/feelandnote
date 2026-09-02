@@ -24,9 +24,9 @@ function loadEnv() {
 }
 loadEnv()
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL!,
+  process.env.DB_SECRET_KEY!,
   { auth: { autoRefreshToken: false, persistSession: false } },
 )
 
@@ -138,7 +138,7 @@ async function lookup() {
   // 좌표 없는 행을 페이지로 끌어와 메모리에서 이름별로 센다.
   const rows: { place_name: string | null; lat: number | null; celeb_id: string }[] = []
   for (let from = 0; ; from += 1000) {
-    const { data: page, error: e } = await supabase
+    const { data: page, error: e } = await db
       .from('celeb_timeline_events')
       .select('place_name,lat,celeb_id')
       .is('lat', null)
@@ -150,7 +150,7 @@ async function lookup() {
   }
   const fictionIds = new Set<string>()
   for (let from = 0; ; from += 1000) {
-    const { data: page } = await supabase
+    const { data: page } = await db
       .from('celebs').select('id').eq('celeb_tier', 'fiction').order('id').range(from, from + 999)
     for (const c of page ?? []) fictionIds.add(c.id)
     if (!page || page.length < 1000) break
@@ -191,7 +191,7 @@ async function apply() {
   const hits = JSON.parse(readFileSync(OUT, 'utf8')) as Hit[]
   let ok = 0
   for (const h of hits) {
-    const { error, count } = await supabase
+    const { error, count } = await db
       .from('celeb_timeline_events')
       .update({ lat: h.lat, lng: h.lng }, { count: 'exact' })
       .is('lat', null)

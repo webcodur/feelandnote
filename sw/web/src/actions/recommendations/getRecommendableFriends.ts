@@ -1,31 +1,31 @@
 "use server";
 
 // egress-allow: blocks(본인 RLS) 의존 + 팔로우·차단 직후 즉시 반영 필요(추천 모달) — 캐시 부적합
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import type { RecommendableUser } from "@/types/recommendation";
 import { type ActionResult, failure, success } from "@/lib/errors";
 
 // 추천 가능한 사용자 목록 조회 (팔로워/친구만, 차단 제외)
 export async function getRecommendableFriends(): Promise<ActionResult<RecommendableUser[]>> {
-  const supabase = await createClient();
+  const db = await createClient();
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await db.auth.getUser();
   if (!user) {
     return failure("UNAUTHORIZED");
   }
 
   const [blocksResult, followingResult, followerResult] = await Promise.all([
-    supabase
+    db
       .from("blocks")
       .select("blocker_id, blocked_id")
       .or(`blocker_id.eq.${user.id},blocked_id.eq.${user.id}`),
-    supabase
+    db
       .from("member_member_follows")
       .select("followed_member_id")
       .eq("follower_member_id", user.id),
-    supabase
+    db
       .from("member_member_follows")
       .select("follower_member_id")
       .eq("followed_member_id", user.id),
@@ -40,7 +40,7 @@ export async function getRecommendableFriends(): Promise<ActionResult<Recommenda
   const candidateIds = [...new Set([...followingIds, ...followerIds])];
 
   const { data: profiles } = candidateIds.length
-    ? await supabase
+    ? await db
         .from("member_profiles")
         .select("id, nickname, avatar_url")
         .in("id", candidateIds)

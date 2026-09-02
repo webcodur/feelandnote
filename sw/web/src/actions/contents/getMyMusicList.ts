@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import type { ContentStatus } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
@@ -29,13 +29,13 @@ function entityFromMetadata(metadata: Record<string, unknown> | null): MusicEnti
 
 // 플레이어 전용 경량 음악 목록 조회 (status + 재생원 포함)
 export async function getMyMusicList(): Promise<MusicTrack[]> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) return []
 
   // egress-allow: 본인 음악 목록 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (경량 select 적용)
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('member_contents')
     .select(`id, status, content:contents!inner(id, metadata, content_locales(${CL_SELECT_LIST}))`)
     .eq('member_id', user.id)

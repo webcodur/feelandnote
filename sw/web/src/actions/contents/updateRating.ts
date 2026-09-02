@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 
 interface UpdateRatingParams {
@@ -12,9 +12,9 @@ export async function updateUserContentRating({
   userContentId,
   rating,
 }: UpdateRatingParams): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return { success: false, error: '로그인이 필요하다.' }
   }
@@ -29,7 +29,7 @@ export async function updateUserContentRating({
     }
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('member_contents')
     .update({ rating, updated_at: new Date().toISOString() })
     .eq('id', userContentId)

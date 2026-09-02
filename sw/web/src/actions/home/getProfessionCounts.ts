@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
@@ -11,10 +11,10 @@ import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 export type ProfessionCounts = Record<string, number>
 
 async function fetchProfessionCounts(): Promise<ProfessionCounts> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   // 전체 셀럽 수 — 목록 노출 등급만 센다(목록과 수치 기준 일치)
-  const { count: totalCount } = await supabase
+  const { count: totalCount } = await db
     .from('celebs')
     .select('*', { count: 'exact', head: true })
     .eq('publication_status', 'active')
@@ -30,7 +30,7 @@ async function fetchProfessionCounts(): Promise<ProfessionCounts> {
   // 1,000행 상한에 걸리므로 나눠 받는다.
   // 자르면 직군별 합이 위 totalCount(head 카운트라 정확)와 어긋나 화면에서 바로 모순이 된다.
   const data = await selectAllPages<{ profession: string | null }>((from, to) =>
-    supabase
+    db
       .from('celebs')
       .select('profession')
       .eq('publication_status', 'active')

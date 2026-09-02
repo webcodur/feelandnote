@@ -21,7 +21,7 @@ import FictionCharactersSection from "./FictionCharactersSection";
 import CuratedEntriesSection from "./CuratedEntriesSection";
 import { useRecentContents } from "@/hooks/useRecentContents";
 import { getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 import { useTranslations } from "next-intl";
 
 interface ContentDetailPageProps {
@@ -52,13 +52,13 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
 
   useEffect(() => {
     let isActive = true;
-    const supabase = createClient();
+    const db = createClient();
 
     const hydrateViewer = async () => {
       try {
         // getSession은 브라우저 저장소만 확인한다. 익명 방문자는 여기서 끝나므로
         // 익명 방문자의 정적 페이지가 원본 서버에 추가 요청을 보내지 않게 한다.
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await db.auth.getSession();
         if (!session) return;
 
         const viewer = await getContentViewerState(content.id);

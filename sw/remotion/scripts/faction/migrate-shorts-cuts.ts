@@ -14,7 +14,7 @@
  * - DB 만 고친다. 파일은 `pnpm faction:export -- --episode <편>` 으로 다시 내보낸다.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { factionSequenceOf, withFactionSequenceCut, type FactionSequenceItem } from '@feelandnote/shared/lib/faction-sequence'
 import { hasFactionShortsCuts } from '@feelandnote/shared/lib/faction-shorts'
 import { adminClient, parseArgs } from './lib.js'
@@ -67,7 +67,7 @@ export function planShortsCuts(groups: GroupRow[]): { cutAfter: Set<string>; not
   return { cutAfter, note }
 }
 
-async function loadGroups(db: SupabaseClient, episodeId: string): Promise<GroupRow[]> {
+async function loadGroups(db: DatabaseClient, episodeId: string): Promise<GroupRow[]> {
   const { data, error } = await db
     .from('faction_groups')
     .select('id,position,name,part,disabled,longform_only,data,faction_clusters(id,position,data)')

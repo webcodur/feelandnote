@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: '활동 로그',
@@ -34,10 +34,10 @@ export default async function ActivityLogsPage({
   const searchQuery = params.search || ''
   const perPage = 30
 
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 쿼리 빌드
-  let query = supabase
+  let query = db
     .from('activity_logs')
     .select(
       '*, account:user_accounts!activity_logs_accounts_fkey(id, member:member_profiles!member_profiles_id_fkey(id, nickname, avatar_url))',
@@ -64,7 +64,7 @@ export default async function ActivityLogsPage({
   const totalPages = Math.ceil(total / perPage)
 
   // 액션 타입별 통계
-  const { data: actionStats, error: actionStatsError } = await supabase
+  const { data: actionStats, error: actionStatsError } = await db
     .from('activity_logs')
     .select('action_type')
 

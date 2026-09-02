@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { requireAccountManager, requireAdmin } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
@@ -71,11 +71,11 @@ export async function getUsers(
   sort: string = 'created_at',
   sortOrder: 'asc' | 'desc' = 'desc'
 ): Promise<UsersResponse> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   const offset = (page - 1) * limit
 
-  let query = supabase
+  let query = db
     .from('member_profiles')
     .select(`
       *,
@@ -85,7 +85,7 @@ export async function getUsers(
   // 검색: 이름은 사람 기록에, 이메일은 계정 기록에 있어 한 번에 걸 수 없다.
   // 이메일로 먼저 대상을 좁힌 뒤 이름과 함께 묶는다.
   if (search) {
-    const { data: byEmail, error: emailSearchError } = await supabase
+    const { data: byEmail, error: emailSearchError } = await db
       .from('user_accounts')
       .select('id')
       .ilike('email', `%${search}%`)
@@ -131,9 +131,9 @@ export async function getUsers(
   const userIds = (data || []).map(u => u.id)
   const [contentResult, socialResult, scoreResult] = userIds.length
     ? await Promise.all([
-        supabase.from('member_contents').select('member_id').in('member_id', userIds),
-        supabase.from('member_social_stats').select('member_id, follower_count, following_count').in('member_id', userIds),
-        supabase.from('member_scores').select('member_id, total_score').in('member_id', userIds),
+        db.from('member_contents').select('member_id').in('member_id', userIds),
+        db.from('member_social_stats').select('member_id, follower_count, following_count').in('member_id', userIds),
+        db.from('member_scores').select('member_id, total_score').in('member_id', userIds),
       ])
     : [{ data: [], error: null }, { data: [], error: null }, { data: [], error: null }]
 
@@ -190,9 +190,9 @@ export async function getUsers(
 }
 
 export async function getUser(userId: string): Promise<User | null> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('member_profiles')
     .select(`*, account:user_accounts!member_profiles_id_fkey (${ACCOUNT_COLUMNS})`)
     .eq('id', userId)
@@ -204,9 +204,9 @@ export async function getUser(userId: string): Promise<User | null> {
   const account = firstRelation<AccountRow>(data.account)
 
   const [contentResult, socialResult, scoreResult] = await Promise.all([
-    supabase.from('member_contents').select('*', { count: 'exact', head: true }).eq('member_id', userId),
-    supabase.from('member_social_stats').select('follower_count, following_count').eq('member_id', userId).maybeSingle(),
-    supabase.from('member_scores').select('total_score').eq('member_id', userId).maybeSingle(),
+    db.from('member_contents').select('*', { count: 'exact', head: true }).eq('member_id', userId),
+    db.from('member_social_stats').select('follower_count, following_count').eq('member_id', userId).maybeSingle(),
+    db.from('member_scores').select('total_score').eq('member_id', userId).maybeSingle(),
   ])
 
   if (contentResult.error) throw contentResult.error
@@ -319,13 +319,13 @@ export async function unsuspendUser(userId: string): Promise<void> {
 export async function updateUserRole(userId: string, role: string): Promise<void> {
   const { admin } = await requireAccountManager(userId)
   if (admin.role !== 'super_admin') throw new Error('최고 관리자 권한이 필요합니다.')
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
   if (!['user', 'admin', 'super_admin'].includes(role)) {
     throw new Error('Invalid role')
   }
 
-  const { error } = await supabase
+  const { error } = await db
     .from('user_accounts')
     .update({ role })
     .eq('id', userId)
@@ -344,9 +344,9 @@ export interface UpdateProfileData {
 
 export async function updateUserProfile(userId: string, data: UpdateProfileData): Promise<void> {
   await requireAdmin()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: updated, error } = await supabase
+  const { data: updated, error } = await db
     .from('member_profiles')
     .update(data)
     .eq('id', userId)

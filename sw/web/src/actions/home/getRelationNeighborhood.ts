@@ -13,7 +13,7 @@ import { unstable_cache } from 'next/cache'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import type { CelebRelationGroup } from '@feelandnote/shared/constants/celeb-relations'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import {
   groupNeighbors,
   type NeighborCandidate,
@@ -65,19 +65,19 @@ export interface RelationNeighborhood {
 const CENTER_COLUMNS = 'id, slug, nickname, nickname_en, avatar_url, title, title_en'
 
 async function fetchNeighborhood(celebId: string): Promise<RelationNeighborhood | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
   const relationSelect = `from_id, to_id, rel_type, rel_group, note, note_en,
     from:celebs!celeb_relations_from_celebs_fkey(${CENTER_COLUMNS}, celeb_tier, publication_status),
     to:celebs!celeb_relations_to_celebs_fkey(${CENTER_COLUMNS}, celeb_tier, publication_status)`
   const [centerResult, outgoingResult, incomingResult, ranking] = await Promise.all([
-    supabase.from('celebs').select(CENTER_COLUMNS).eq('id', celebId).maybeSingle(),
-    supabase
+    db.from('celebs').select(CENTER_COLUMNS).eq('id', celebId).maybeSingle(),
+    db
       .from('celeb_relations')
       .select(relationSelect)
       .eq('from_id', celebId)
       .overrideTypes<RelationRow[], { merge: false }>(),
-    supabase
+    db
       .from('celeb_relations')
       .select(relationSelect)
       .eq('to_id', celebId)

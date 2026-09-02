@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 
 export const metadata: Metadata = {
   title: '티어 리스트',
@@ -25,9 +25,9 @@ export default async function TierListsPage({
   const visibilityFilter = params.visibility || ''
   const perPage = 24
 
-  const supabase = await createClient()
+  const db = await createClient()
 
-  let query = supabase
+  let query = db
     .from('tier_lists')
     .select(
       '*, account:user_accounts!tier_lists_accounts_fkey(id, member:member_profiles!member_profiles_id_fkey(id, nickname, avatar_url))',
@@ -55,14 +55,14 @@ export default async function TierListsPage({
   const total = count || 0
   const totalPages = Math.ceil(total / perPage)
 
-  const { data: typeStats, error: typeStatsError } = await supabase.from('tier_lists').select('type')
+  const { data: typeStats, error: typeStatsError } = await db.from('tier_lists').select('type')
   if (typeStatsError) throw new Error(`Failed to load tier list statistics: ${typeStatsError.message}`)
   const typeCountMap = (typeStats || []).reduce((acc, item) => {
     acc[item.type] = (acc[item.type] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
-  const { count: publicCount, error: publicCountError } = await supabase
+  const { count: publicCount, error: publicCountError } = await db
     .from('tier_lists')
     .select('*', { count: 'exact', head: true })
     .eq('is_public', true)

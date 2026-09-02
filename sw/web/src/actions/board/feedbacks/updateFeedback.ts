@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import type { FeedbackWithAuthor } from '@/types/database'
 import { attachMemberAuthor } from '@/lib/board/memberProfiles'
 
@@ -14,15 +14,15 @@ interface UpdateFeedbackParams {
 
 export async function updateFeedback(params: UpdateFeedbackParams): Promise<ActionResult<FeedbackWithAuthor>> {
   const { id, title, content } = params
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return failure('UNAUTHORIZED')
   }
 
   // 본인 글이고 PENDING 상태인지 확인
-  const { data: existing } = await supabase
+  const { data: existing } = await db
     .from('feedbacks')
     .select('author_id, status')
     .eq('id', id)
@@ -61,7 +61,7 @@ export async function updateFeedback(params: UpdateFeedbackParams): Promise<Acti
     updates.content = content.trim()
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('feedbacks')
     .update(updates)
     .eq('id', id)
@@ -69,7 +69,7 @@ export async function updateFeedback(params: UpdateFeedbackParams): Promise<Acti
     .single()
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[피드백 수정]' })
+    return handleDatabaseError(error, { logPrefix: '[피드백 수정]' })
   }
 
   revalidatePath('/agora/board/feedback')
@@ -78,6 +78,6 @@ export async function updateFeedback(params: UpdateFeedbackParams): Promise<Acti
   revalidatePath(`/en/agora/board/feedback/${id}`)
   revalidateTag('feedbacks', { expire: 0 })
 
-  const feedback = await attachMemberAuthor(supabase, data)
+  const feedback = await attachMemberAuthor(db, data)
   return success(feedback as FeedbackWithAuthor)
 }

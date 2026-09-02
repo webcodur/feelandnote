@@ -18,7 +18,7 @@
  *    방금 채운 값을 지운다. 그래서 일부러 잠금을 무효화해 편집 화면이 다시 불러오게 만든다.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
 import { FACTION_VOICE_FIELDS, type FactionVoiceLocale } from './faction-sync/types'
 
@@ -77,7 +77,7 @@ function trimmed(v: unknown): string {
 
 /** `.in()` 청크 조회 — 462개를 단일 in() 에 실어 실패한 실측 이력이 있어 200 으로 끊는다 */
 async function inChunks(
-  db: SupabaseClient, table: string, col: string, values: string[], select: string,
+  db: DatabaseClient, table: string, col: string, values: string[], select: string,
 ): Promise<Row[]> {
   const out: Row[] = []
   for (let i = 0; i < values.length; i += IN_CHUNK) {
@@ -97,7 +97,7 @@ const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as n
  * @param locales 다룰 언어. 비우면 국문·영문 둘 다
  */
 export async function inheritVoicesFromProfiles(
-  db: SupabaseClient, folder: string,
+  db: DatabaseClient, folder: string,
   { dryRun = false, locales }: { dryRun?: boolean; locales?: FactionVoiceLocale[] } = {},
 ): Promise<FactionVoiceInheritResult> {
   if (!folder) throw new Error('에피소드 폴더명이 필요합니다')

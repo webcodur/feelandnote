@@ -46,9 +46,9 @@ const IN_DIR = arg('--in')
 
 if (!SRC) throw new Error('--src <원본 JSON 경로> 가 필요하다')
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-if (!url || !key) throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 필요')
+const url = process.env.NEXT_PUBLIC_DB_API_URL
+const key = process.env.DB_SECRET_KEY
+if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 필요')
 const db = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } })
 
 type SrcRow = {

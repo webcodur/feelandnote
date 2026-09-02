@@ -2,8 +2,8 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { CATEGORIES } from '@/constants/categories'
 
 // #region 타입 정의
@@ -46,14 +46,14 @@ interface UserContentStatRow {
   created_at: string | null
   contents: { type: string } | { type: string }[] | null
 }
-type AnySupabase = Awaited<ReturnType<typeof createClient>> | ReturnType<typeof createStaticClient>
+type AnyDatabaseClient = Awaited<ReturnType<typeof createClient>> | ReturnType<typeof createStaticClient>
 // #endregion
 
 async function fetchUserContentsStats(
-  supabase: AnySupabase,
+  db: AnyDatabaseClient,
   uid: string,
 ): Promise<UserContentStatRow[]> {
-  const { data } = await supabase
+  const { data } = await db
     .from('member_contents')
     .select('status, rating, created_at, contents(type)')
     .eq('member_id', uid)
@@ -72,19 +72,19 @@ const getUserContentsStatsCached = unstable_cache(
 )
 
 export async function getDetailedStats(targetUserId?: string): Promise<DetailedStats> {
-  const supabase = await createClient()
-  const currentUser = (await supabase.auth.getUser()).data.user
+  const db = await createClient()
+  const currentUser = (await db.auth.getUser()).data.user
   const uid = targetUserId ?? currentUser?.id
   if (!uid) return getEmptyStats()
 
   const contentRowsPromise = currentUser?.id === uid
-    ? fetchUserContentsStats(supabase, uid)
+    ? fetchUserContentsStats(db, uid)
     : getUserContentsStatsCached(uid)
 
   // records와 회원 감상 기록 모두 visibility RLS에 따라 viewer 범위를 지킨다.
   const [rows, recordsResult] = await Promise.all([
     contentRowsPromise,
-    supabase
+    db
       .from('records')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', uid),

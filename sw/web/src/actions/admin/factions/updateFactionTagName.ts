@@ -3,8 +3,8 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { checkAdmin } from '@/lib/auth/checkAdmin'
-import { createClient } from '@/lib/supabase/server'
-import { failure, handleSupabaseError, success, type ActionResult } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { failure, handleDatabaseError, success, type ActionResult } from '@/lib/errors'
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const MAX_NAME_LENGTH = 100
@@ -39,8 +39,8 @@ export async function updateFactionTagName(
     return failure('LIMIT_EXCEEDED', `팩션 이름은 ${MAX_NAME_LENGTH}자까지 작성할 수 있습니다.`)
   }
 
-  const supabase = await createClient()
-  const adminCheck = await checkAdmin(supabase)
+  const db = await createClient()
+  const adminCheck = await checkAdmin(db)
   if (!adminCheck.success) return adminCheck
 
   const updateData: {
@@ -53,7 +53,7 @@ export async function updateFactionTagName(
   }
   if (hasEnglishName) updateData.name_en = nameEn
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_tags')
     .update(updateData)
     .eq('id', id)
@@ -61,7 +61,7 @@ export async function updateFactionTagName(
     .single()
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[팩션 이름 수정]' })
+    return handleDatabaseError(error, { logPrefix: '[팩션 이름 수정]' })
   }
 
   revalidateTag(CACHE_TAGS.TAGS, { expire: 0 })

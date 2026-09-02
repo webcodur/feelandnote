@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import { getFreePost, getFreeComments } from '@/actions/board/free'
 import FreePostDetail from '@/components/features/board/free/FreePostDetail'
@@ -22,13 +22,13 @@ export async function generateMetadata({ params }: FreeDetailPageProps): Promise
 export default async function FreeDetailPage({ params }: FreeDetailPageProps) {
   const { id, locale: rawLocale } = await params
   const locale = resolveLocale(rawLocale)
-  const supabase = await createClient()
+  const db = await createClient()
 
   const [post, comments, admin, { data: { user } }] = await Promise.all([
     getFreePost(id, locale),
     getFreeComments(id),
-    isAdmin(supabase),
-    supabase.auth.getUser(),
+    isAdmin(db),
+    db.auth.getUser(),
   ])
 
   if (!post) {

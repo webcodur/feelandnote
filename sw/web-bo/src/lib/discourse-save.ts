@@ -14,7 +14,7 @@
  */
 
 import { randomUUID } from 'crypto'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import {
   buildDiscourseRows, IN_CHUNK,
   type TurnDurationLookup, type SpeakerDurationLookup,
@@ -36,7 +36,7 @@ export interface ReplaceDiscourseEpisodeResult {
  *   새로 만드는 경우에만 null 을 준다.
  */
 export async function replaceDiscourseEpisode(
-  db: SupabaseClient,
+  db: DatabaseClient,
   folder: string,
   script: Record<string, unknown>,
   expectedUpdatedAt: string | null,
@@ -98,7 +98,7 @@ function collectSlugs(script: Record<string, unknown>): string[] {
   return [...out]
 }
 
-async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<string, string>> {
+async function resolveSlugs(db: DatabaseClient, slugs: string[]): Promise<Map<string, string>> {
   const map = new Map<string, string>()
   for (let i = 0; i < slugs.length; i += IN_CHUNK) {
     const { data, error } = await db
@@ -135,7 +135,7 @@ const num = (v: unknown): number | null =>
  * numeric 컬럼은 PostgREST 가 문자열로 돌려주므로 숫자로 되돌린다.
  */
 async function loadExistingDurations(
-  db: SupabaseClient, episodeId: string,
+  db: DatabaseClient, episodeId: string,
 ): Promise<{ turnDurations: TurnDurationLookup; speakerDurations: SpeakerDurationLookup }> {
   const { data: spRows, error: spErr } = await db
     .from('discourse_speakers')

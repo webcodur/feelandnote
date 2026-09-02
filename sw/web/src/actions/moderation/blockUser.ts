@@ -1,8 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 interface BlockUserData {
   blocked: true
@@ -15,11 +15,11 @@ export async function blockUser(targetUserId: string): Promise<ActionResult<Bloc
     return failure('VALIDATION_ERROR', '차단할 사용자가 지정되지 않았다.')
   }
 
-  const supabase = await createClient()
+  const db = await createClient()
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await db.auth.getUser()
 
   if (!user) return failure('UNAUTHORIZED')
 
@@ -28,21 +28,21 @@ export async function blockUser(targetUserId: string): Promise<ActionResult<Bloc
   }
 
   // 대상 존재 확인 — 없는 id로 차단 행을 만들면 FK 위반이 되므로 미리 걸러 메시지를 명확히 한다
-  const { data: targetUser, error: targetError } = await supabase
+  const { data: targetUser, error: targetError } = await db
     .from('member_profiles')
     .select('id')
     .eq('id', targetUserId)
     .maybeSingle()
 
   if (targetError) {
-    return handleSupabaseError(targetError, { logPrefix: '[차단 대상 확인]' })
+    return handleDatabaseError(targetError, { logPrefix: '[차단 대상 확인]' })
   }
 
   if (!targetUser) {
     return failure('NOT_FOUND', '사용자를 찾을 수 없다.')
   }
 
-  const { error } = await supabase
+  const { error } = await db
     .from('blocks')
     .insert({ blocker_id: user.id, blocked_id: targetUserId })
 
@@ -52,7 +52,7 @@ export async function blockUser(targetUserId: string): Promise<ActionResult<Bloc
   }
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[사용자 차단]' })
+    return handleDatabaseError(error, { logPrefix: '[사용자 차단]' })
   }
 
   revalidatePath(`/${targetUserId}`)

@@ -17,7 +17,7 @@
  */
 
 import { readFile } from 'fs/promises'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { FactionQuoteMedia } from '@feelandnote/shared/lib/faction-quote-media'
 import {
@@ -38,7 +38,7 @@ import {
   ensureMusicUploaded, loadEpisodeMusicSource, musicChanged, pickTagMusic,
   type EpisodeMusicSource, type TagMusic,
 } from './music'
-import { TAG_COLUMNS, type CelebTagRow } from './supabase'
+import { TAG_COLUMNS, type CelebTagRow } from './database'
 import type {
   FactionPublishAction, FactionPublishItem, FactionPublishRequest,
   FactionPublishResult, FactionPublishScope,
@@ -90,7 +90,7 @@ function errText(e: unknown): string {
 
 /** 출간 실행 */
 export async function publishEpisode(
-  db: SupabaseClient, req: FactionPublishRequest,
+  db: DatabaseClient, req: FactionPublishRequest,
 ): Promise<FactionPublishResult> {
   const { folder, groupIndex, dryRun = false, force = false } = req
   const scope = normalizeScope(req.scope)
@@ -261,7 +261,7 @@ async function publishPersonMedia(ctx: {
   person: PublishPerson
   group: PublishGroup
   tagId: string
-  db: SupabaseClient
+  db: DatabaseClient
   manifest: FactionSyncManifest
   dryRun: boolean
   canUpload: boolean
@@ -382,7 +382,7 @@ async function publishPersonMedia(ctx: {
 async function publishGroupLogo(ctx: {
   group: PublishGroup
   tagId: string
-  db: SupabaseClient
+  db: DatabaseClient
   manifest: FactionSyncManifest
   dryRun: boolean
   canUpload: boolean
@@ -439,7 +439,7 @@ async function publishVideos(ctx: {
   targets: PublishGroup[]
   snap: ServiceSnapshot
   createdTags: Map<string, CelebTagRow>
-  db: SupabaseClient
+  db: DatabaseClient
   dryRun: boolean
   add: (item: FactionPublishItem) => void
   warnings: string[]
@@ -512,7 +512,7 @@ async function publishMusic(ctx: {
   targets: PublishGroup[]
   snap: ServiceSnapshot
   createdTags: Map<string, CelebTagRow>
-  db: SupabaseClient
+  db: DatabaseClient
   dryRun: boolean
   add: (item: FactionPublishItem) => void
   warnings: string[]
@@ -613,7 +613,7 @@ async function resolveOrCreateTag(ctx: {
   group: PublishGroup
   snap: ServiceSnapshot
   createdTags: Map<string, CelebTagRow>
-  db: SupabaseClient
+  db: DatabaseClient
   scope: ActiveScope
   dryRun: boolean
   force: boolean
@@ -718,7 +718,7 @@ async function resolveOrCreateTag(ctx: {
  * 방해하지 않는다(팩션 테이블에 트리거가 없음을 실측 확인).
  */
 async function linkGroupTag(
-  db: SupabaseClient,
+  db: DatabaseClient,
   g: PublishGroup,
   tagId: string,
   dryRun: boolean,
@@ -744,7 +744,7 @@ async function publishTagTeamShots(ctx: {
   tag: CelebTagRow
   /** 이 태그를 쓰는 세력 전체 — 출간 대상으로 좁히지 않는다 */
   groups: PublishGroup[]
-  db: SupabaseClient
+  db: DatabaseClient
   manifest: FactionSyncManifest
   dryRun: boolean
   canUpload: boolean

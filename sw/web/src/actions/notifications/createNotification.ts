@@ -1,7 +1,7 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
-import type { Json } from "@/types/supabase";
+import { createClient } from "@/lib/db/server";
+import type { Json } from "@/types/database.generated";
 
 type RecommendationNotificationType =
   | "recommendation"
@@ -26,8 +26,8 @@ export async function createNotification(
   params: CreateNotificationParams
 ): Promise<void> {
   try {
-    const supabase = await createClient();
-    const { error } = await supabase.rpc("create_recommendation_notification", {
+    const db = await createClient();
+    const { error } = await db.rpc("create_recommendation_notification", {
       p_recommendation_id: params.metadata.recommendation_id,
       p_type: params.type,
       p_message: params.message,

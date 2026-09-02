@@ -1,7 +1,7 @@
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import type { MemberProfileSummary } from '@/types/database'
 
-type BoardSupabaseClient = ReturnType<typeof createStaticClient>
+type BoardDatabaseClient = ReturnType<typeof createStaticClient>
 
 interface AuthoredRow {
   author_id: string | null
@@ -12,13 +12,13 @@ interface ResolvedRow {
 }
 
 async function getMemberProfileMap(
-  supabase: BoardSupabaseClient,
+  db: BoardDatabaseClient,
   memberIds: Array<string | null | undefined>,
 ): Promise<Map<string, MemberProfileSummary>> {
   const ids = [...new Set(memberIds.filter((id): id is string => Boolean(id)))]
   if (ids.length === 0) return new Map()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('member_profiles')
     .select('id, nickname, avatar_url')
     .in('id', ids)
@@ -36,10 +36,10 @@ function fallbackMemberProfile(memberId: string): MemberProfileSummary {
 }
 
 export async function attachMemberAuthors<T extends AuthoredRow>(
-  supabase: BoardSupabaseClient,
+  db: BoardDatabaseClient,
   rows: T[],
 ): Promise<Array<T & { author: MemberProfileSummary | null }>> {
-  const profileMap = await getMemberProfileMap(supabase, rows.map((row) => row.author_id))
+  const profileMap = await getMemberProfileMap(db, rows.map((row) => row.author_id))
 
   return rows.map((row) => ({
     ...row,
@@ -50,17 +50,17 @@ export async function attachMemberAuthors<T extends AuthoredRow>(
 }
 
 export async function attachMemberAuthor<T extends AuthoredRow>(
-  supabase: BoardSupabaseClient,
+  db: BoardDatabaseClient,
   row: T,
 ): Promise<T & { author: MemberProfileSummary | null }> {
-  return (await attachMemberAuthors(supabase, [row]))[0]
+  return (await attachMemberAuthors(db, [row]))[0]
 }
 
 export async function attachMemberAuthorAndResolver<T extends AuthoredRow & ResolvedRow>(
-  supabase: BoardSupabaseClient,
+  db: BoardDatabaseClient,
   row: T,
 ): Promise<T & { author: MemberProfileSummary | null; resolver: MemberProfileSummary | null }> {
-  const profileMap = await getMemberProfileMap(supabase, [row.author_id, row.resolved_by])
+  const profileMap = await getMemberProfileMap(db, [row.author_id, row.resolved_by])
 
   return {
     ...row,

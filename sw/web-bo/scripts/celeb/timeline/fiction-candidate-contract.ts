@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 
 export const FICTION_CANDIDATE_SCHEMA_VERSION = 1 as const
 export const FICTION_EVENT_COUNT_WARNING_MIN = 2
@@ -702,10 +702,10 @@ export function validateFictionCandidate(value: unknown): {
 }
 
 export async function fetchFictionProfileBySlug(
-  supabase: SupabaseClient,
+  db: DatabaseClient,
   slug: string,
 ): Promise<FictionProfileSnapshot | null> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celebs')
     .select(PROFILE_SELECT)
     .eq('slug', slug)
@@ -715,10 +715,10 @@ export async function fetchFictionProfileBySlug(
 }
 
 export async function fetchStoredTimelineEvents(
-  supabase: SupabaseClient,
+  db: DatabaseClient,
   celebId: string,
 ): Promise<StoredTimelineEvent[]> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_timeline_events')
     .select(TIMELINE_SELECT)
     .eq('celeb_id', celebId)
@@ -729,14 +729,14 @@ export async function fetchStoredTimelineEvents(
 }
 
 export async function fetchStoredTimelineEventsByCeleb(
-  supabase: SupabaseClient,
+  db: DatabaseClient,
   celebIds: string[],
 ): Promise<Map<string, StoredTimelineEvent[]>> {
   const result = new Map<string, StoredTimelineEvent[]>(celebIds.map((id) => [id, []]))
   for (let start = 0; start < celebIds.length; start += 100) {
     const ids = celebIds.slice(start, start + 100)
     for (let from = 0; ; from += 1000) {
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from('celeb_timeline_events')
         .select(TIMELINE_SELECT)
         .in('celeb_id', ids)
@@ -754,13 +754,13 @@ export async function fetchStoredTimelineEventsByCeleb(
 }
 
 export async function loadFictionSourceSnapshots(
-  supabase: SupabaseClient,
+  db: DatabaseClient,
   celebIds: string[],
 ): Promise<Map<string, FictionSourceSnapshot>> {
   const assignments: SourceAssignmentRow[] = []
   for (let start = 0; start < celebIds.length; start += 100) {
     const ids = celebIds.slice(start, start + 100)
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('fiction_source_characters')
       .select('content_id,celeb_id,relation_type,sort_order')
       .in('celeb_id', ids)
@@ -777,11 +777,11 @@ export async function loadFictionSourceSnapshots(
   for (let start = 0; start < contentIds.length; start += 100) {
     const ids = contentIds.slice(start, start + 100)
     const [contentResult, localeResult] = await Promise.all([
-      supabase
+      db
         .from('contents')
         .select('id,type,external_id,external_source')
         .in('id', ids),
-      supabase
+      db
         .from('content_locales')
         .select('content_id,locale,title,creator,description,sources')
         .in('content_id', ids),
@@ -843,10 +843,10 @@ export async function loadFictionSourceSnapshots(
 }
 
 export async function loadFictionSourceSnapshot(
-  supabase: SupabaseClient,
+  db: DatabaseClient,
   celebId: string,
 ): Promise<FictionSourceSnapshot> {
-  return (await loadFictionSourceSnapshots(supabase, [celebId])).get(celebId) ?? {
+  return (await loadFictionSourceSnapshots(db, [celebId])).get(celebId) ?? {
     fingerprint: fingerprintSourceAssignments([]),
     assignments: [],
   }

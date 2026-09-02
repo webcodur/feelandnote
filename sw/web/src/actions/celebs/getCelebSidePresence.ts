@@ -2,7 +2,7 @@ import 'server-only'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { cachedDetail, throwOnQueryError } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 export interface CelebSidePresence {
   influence: boolean
@@ -24,8 +24,8 @@ const EMPTY_SIDE_PRESENCE: CelebSidePresence = {
 }
 
 async function fetchInfluencePresence(celebId: string): Promise<boolean> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celeb_influence')
     .select('celeb_id')
     .eq('celeb_id', celebId)
@@ -45,8 +45,8 @@ function hasInfluenceCached(celebId: string): Promise<boolean> {
 }
 
 async function fetchSpectrumPresence(celebId: string): Promise<boolean> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celeb_persona')
     .select('celeb_id')
     .eq('celeb_id', celebId)

@@ -8,9 +8,9 @@
  *
  * 검사 항목 (순서대로 위험도 높은 것부터):
  *   1) celeb_dialogues 의 lines/lines_en 통째 select   (DIALOGUE_BRIEF_SELECT 사용 권장)
- *   2) 'use server' 파일에서 supabase 읽기인데 캐시 부재
+ *   2) 'use server' 파일에서 db 읽기인데 캐시 부재
  *      (next/cache 직접 호출과 @/lib/cache 도우미 둘 다 캐시로 인정한다)
- *   3) RSC 페이지(app 하위 page.tsx, layout.tsx)에서 supabase.from(...) 직접 호출
+ *   3) RSC 페이지(app 하위 page.tsx, layout.tsx)에서 db.from(...) 직접 호출
  *   4) 페이지네이션 풀스캔 + row 송출 (while + range PAGE_SIZE)
  *
  * 실행: node scripts/check-egress-patterns.mjs
@@ -107,11 +107,11 @@ for (const file of walk(SRC_ROOT)) {
 }
 
 // ── 검사 2: 'use server' read action 캐시 누락 (휴리스틱) ─────────────
-// 'use server' + supabase.from( + select( + (mutation 키워드 없음) + (auth.getUser 없음 또는 inner 분리됨)
+// 'use server' + db.from( + select( + (mutation 키워드 없음) + (auth.getUser 없음 또는 inner 분리됨)
 // + unstable_cache import 없음 → 의심
 const USE_SERVER_RE = /^['"]use server['"]/m
-const SUPABASE_FROM_RE = /supabase\s*\.\s*from\s*\(/
-const SUPABASE_RPC_RE = /supabase\s*\.\s*rpc\s*\(/
+const DB_FROM_RE = /db\s*\.\s*from\s*\(/
+const DB_RPC_RE = /db\s*\.\s*rpc\s*\(/
 const MUTATION_RE = /\.\s*(insert|update|delete|upsert)\s*\(/
 const UNSTABLE_CACHE_IMPORT_RE = /from\s+['"]next\/cache['"]/
 const REACT_CACHE_IMPORT_RE = /from\s+['"]react['"]/
@@ -123,7 +123,7 @@ if (statSync(ACTION_DIR).isDirectory()) {
   for (const file of walk(ACTION_DIR)) {
     const text = readFileSync(file, 'utf8')
     if (!USE_SERVER_RE.test(text)) continue
-    if (!(SUPABASE_FROM_RE.test(text) || SUPABASE_RPC_RE.test(text))) continue
+    if (!(DB_FROM_RE.test(text) || DB_RPC_RE.test(text))) continue
     if (MUTATION_RE.test(text)) continue // mutation 액션은 캐시 안 함
     if (ALLOW_COMMENT_RE.test(text)) continue // RLS 본인 데이터 등 의도된 비캐시 — // egress-allow: <사유> 화이트리스트
 
@@ -147,7 +147,7 @@ if (statSync(ACTION_DIR).isDirectory()) {
   }
 }
 
-// ── 검사 3: RSC 페이지에서 supabase.from / .rpc 직접 호출 ────────────
+// ── 검사 3: RSC 페이지에서 db.from / .rpc 직접 호출 ────────────
 const APP_DIR = join(SRC_ROOT, 'app')
 
 if (statSync(APP_DIR).isDirectory()) {
@@ -157,12 +157,12 @@ if (statSync(APP_DIR).isDirectory()) {
     // 'use client' 컴포넌트는 제외 (RSC 아님)
     if (/^['"]use client['"]/m.test(text)) continue
 
-    if (SUPABASE_FROM_RE.test(text) || SUPABASE_RPC_RE.test(text)) {
-      const m = findLine(text, /supabase\s*\.\s*(from|rpc)\s*\(/)
+    if (DB_FROM_RE.test(text) || DB_RPC_RE.test(text)) {
+      const m = findLine(text, /db\s*\.\s*(from|rpc)\s*\(/)
       report(
-        'rsc-direct-supabase',
+        'rsc-direct-db',
         file,
-        m ? `line ${m.line}: ${m.text}` : 'supabase.from / supabase.rpc 직접 호출',
+        m ? `line ${m.line}: ${m.text}` : 'db.from / db.rpc 직접 호출',
         'unstable_cache가 적용된 server action으로 분리. RSC 직접 호출은 캐시 우회됨.',
       )
     }
@@ -203,11 +203,11 @@ const CATEGORY_LABEL = {
   'lines-raw-select': '[CRITICAL] celeb_dialogues.lines / lines_en 통째 select (캐시도 미적용)',
   'lines-raw-select-cached': '[INFO] lines 통째 select (캐시 적용된 의도된 패턴)',
   'action-no-cache': '[WARN] server action 캐시 미적용 (휴리스틱)',
-  'rsc-direct-supabase': '[CRITICAL] RSC 페이지에서 supabase 직접 호출',
+  'rsc-direct-db': '[CRITICAL] RSC 페이지에서 db 직접 호출',
   'fullscan-pagination': '[WARN] 페이지네이션 풀스캔 패턴',
 }
 
-const CATEGORY_ORDER = ['lines-raw-select', 'rsc-direct-supabase', 'action-no-cache', 'fullscan-pagination', 'lines-raw-select-cached']
+const CATEGORY_ORDER = ['lines-raw-select', 'rsc-direct-db', 'action-no-cache', 'fullscan-pagination', 'lines-raw-select-cached']
 
 console.error(`DB/PostgREST egress 위험 패턴 ${violations.length}건 적발`)
 console.error('상세 가이드: docs/project/platform/external-services.md')
@@ -222,7 +222,7 @@ for (const cat of CATEGORY_ORDER) {
     console.error(`  ${v.file}`)
     console.error(`    └ ${v.detail}`)
     console.error(`    → ${v.hint}`)
-    if (cat === 'lines-raw-select' || cat === 'rsc-direct-supabase') criticalCount++
+    if (cat === 'lines-raw-select' || cat === 'rsc-direct-db') criticalCount++
   }
   console.error('')
 }

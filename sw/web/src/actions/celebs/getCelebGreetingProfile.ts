@@ -4,7 +4,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { unstable_cache } from 'next/cache'
 
 import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import {
   DIALOGUE_BRIEF_SELECT,
   getDisplayDialogueQuote,
@@ -27,15 +27,15 @@ export interface CelebGreetingProfile {
 }
 
 async function fetchCelebGreetingProfile(celebId: string): Promise<CelebGreetingProfile | null> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const [profileResult, dialogueResult] = await Promise.all([
-    supabase
+    db
       .from('celebs')
       .select('id, nickname, nickname_en, avatar_url, speech_tone, has_voice, voice_v, voice_speed')
       .eq('id', celebId)
       .eq('publication_status', 'active')
       .maybeSingle(),
-    supabase
+    db
       .from('celeb_dialogues')
       .select(DIALOGUE_BRIEF_SELECT)
       .eq('celeb_id', celebId)

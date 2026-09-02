@@ -10,7 +10,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { SEARCHABLE_CELEB_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { normalizeCreatorName } from '@/lib/utils/creator-names'
 
@@ -63,13 +63,13 @@ async function fetchCelebsByNames(
   if (names.length === 0) return {}
 
   const isEn = locale === 'en'
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const wanted = names.slice(0, MAX_NAMES)
 
   // 한글 이름과 영문 이름은 서로 다른 칸에 있어 각각 대조한다.
   // .or()에 이름을 이어 붙이면 쉼표·괄호가 든 표기에서 필터가 깨진다.
   const base = () =>
-    supabase
+    db
       .from('celebs')
       .select(SELECT)
       .eq('publication_status', 'active')

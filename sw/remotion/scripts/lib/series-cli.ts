@@ -8,7 +8,7 @@
  *   `npx tsc --noEmit` 으로는 검사되지 않으므로 컴파일러 옵션을 직접 줘서 따로 검사한다.
  */
 
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { existsSync, readFileSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -36,19 +36,19 @@ function loadEnvFile(p: string): void {
   }
 }
 
-/** web-bo → web 순으로 env 를 찾는다(둘 다 SUPABASE_SERVICE_ROLE_KEY 를 갖는다) */
+/** web-bo → web 순으로 env 를 찾는다(둘 다 DB_SECRET_KEY 를 갖는다) */
 export function loadEnv(): void {
   loadEnvFile(path.join(ROOT, '..', 'web-bo', '.env'))
   loadEnvFile(path.join(ROOT, '..', 'web', '.env'))
 }
 
 /** service role 클라이언트 — RLS 우회. 조용한 폴백 금지: 키가 없으면 즉시 던진다. */
-export function adminClient(): SupabaseClient {
+export function adminClient(): DatabaseClient {
   loadEnv()
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url) throw new Error('NEXT_PUBLIC_SUPABASE_URL 없음 (sw/web-bo/.env 또는 sw/web/.env 확인)')
-  if (!key) throw new Error('SUPABASE_SERVICE_ROLE_KEY 없음 (sw/web-bo/.env 또는 sw/web/.env 확인)')
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.DB_SECRET_KEY
+  if (!url) throw new Error('NEXT_PUBLIC_DB_API_URL 없음 (sw/web-bo/.env 또는 sw/web/.env 확인)')
+  if (!key) throw new Error('DB_SECRET_KEY 없음 (sw/web-bo/.env 또는 sw/web/.env 확인)')
   return createClient(url, key, { auth: { persistSession: false } })
 }
 

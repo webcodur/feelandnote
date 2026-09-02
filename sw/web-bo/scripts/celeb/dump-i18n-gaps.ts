@@ -4,7 +4,7 @@ import { writeFileSync, readFileSync } from 'node:fs'
 import 'dotenv/config'
 
 async function main() {
-  const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+  const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)
   const slugs: string[] = JSON.parse(readFileSync(process.argv[2], 'utf8')).both
   const out: any[] = []
   for (let i = 0; i < slugs.length; i += 100) {

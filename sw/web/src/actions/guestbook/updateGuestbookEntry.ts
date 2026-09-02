@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 
 interface UpdateGuestbookEntryParams {
@@ -12,21 +12,21 @@ interface UpdateGuestbookEntryParams {
 
 export async function updateGuestbookEntry(params: UpdateGuestbookEntryParams) {
   const { entryId, subjectKind, content, isPrivate } = params
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
   if (content.length > 500) throw new Error('방명록은 500자까지 작성할 수 있습니다')
   if (content.trim().length === 0) throw new Error('내용을 입력해주세요')
 
   const entryResult = subjectKind === 'member'
-    ? await supabase
+    ? await db
       .from('member_guestbook_entries')
       .select('id, owner_member_id')
       .eq('id', entryId)
       .eq('author_member_id', user.id)
       .maybeSingle()
-    : await supabase
+    : await db
       .from('celeb_guestbook_entries')
       .select('id, celeb_id')
       .eq('id', entryId)
@@ -43,14 +43,14 @@ export async function updateGuestbookEntry(params: UpdateGuestbookEntryParams) {
   }
 
   const result = subjectKind === 'member'
-    ? await supabase
+    ? await db
         .from('member_guestbook_entries')
         .update(isPrivate === undefined ? baseUpdate : { ...baseUpdate, is_private: isPrivate })
         .eq('id', entryId)
         .eq('author_member_id', user.id)
         .select()
         .single()
-    : await supabase
+    : await db
         .from('celeb_guestbook_entries')
         .update(baseUpdate)
         .eq('id', entryId)
@@ -67,7 +67,7 @@ export async function updateGuestbookEntry(params: UpdateGuestbookEntryParams) {
   if (subjectKind === 'member' && 'owner_member_id' in entryResult.data) {
     revalidatePath(`/${entryResult.data.owner_member_id}`)
   } else if ('celeb_id' in entryResult.data) {
-    const { data: celeb } = await supabase
+    const { data: celeb } = await db
       .from('celebs')
       .select('slug')
       .eq('id', entryResult.data.celeb_id)

@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { TempleBellIcon, SacredFlameIcon, MessageTabletIcon, BustIcon, LaurelIcon, ScrollIcon } from "@/components/ui/icons/neo-pantheon";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { formatDistanceToNow } from "date-fns";
@@ -33,17 +33,17 @@ export default function HeaderNotifications() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const supabase = useMemo(() => createClient(), []);
+  const db = useMemo(() => createClient(), []);
   const router = useRouter();
   const t = useTranslations("layout.notifications");
   const locale = useLocale();
 
   useEffect(() => {
-    let channel: ReturnType<typeof supabase.channel> | null = null;
+    let channel: ReturnType<typeof db.channel> | null = null;
     let cancelled = false;
 
     const init = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user } } = await db.auth.getUser();
       if (!user) {
         setLoading(false);
         return;
@@ -51,7 +51,7 @@ export default function HeaderNotifications() {
       if (cancelled) return;
 
       // Fetch initial data — 필요 컬럼만 select
-      const { data } = await supabase
+      const { data } = await db
         .from("member_notifications")
         .select(NOTIFICATION_BRIEF_COLUMNS)
         .eq("member_id", user.id)
@@ -67,7 +67,7 @@ export default function HeaderNotifications() {
       setLoading(false);
 
       // Realtime subscription
-      channel = supabase
+      channel = db
         .channel(`header-notifications:${user.id}`)
         .on(
           "postgres_changes",
@@ -95,7 +95,7 @@ export default function HeaderNotifications() {
 
       // await 도중 언마운트됐다면 즉시 정리
       if (cancelled) {
-        supabase.removeChannel(channel);
+        db.removeChannel(channel);
         channel = null;
       }
     };
@@ -104,9 +104,9 @@ export default function HeaderNotifications() {
 
     return () => {
       cancelled = true;
-      if (channel) supabase.removeChannel(channel);
+      if (channel) db.removeChannel(channel);
     };
-  }, [supabase]);
+  }, [db]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -129,7 +129,7 @@ export default function HeaderNotifications() {
       );
       setUnreadCount((prev) => Math.max(0, prev - 1));
       
-      await supabase.from("member_notifications").update({ is_read: true }).eq("id", notif.id);
+      await db.from("member_notifications").update({ is_read: true }).eq("id", notif.id);
     }
 
     if (notif.link) {
@@ -139,13 +139,13 @@ export default function HeaderNotifications() {
   };
 
   const handleReadAll = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await db.auth.getUser();
     if (!user) return;
 
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setUnreadCount(0);
     
-    await supabase
+    await db
       .from("member_notifications")
       .update({ is_read: true })
       .eq("member_id", user.id)

@@ -7,7 +7,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { buildSmallAvatar, smallAvatarKey } from '@/lib/avatar-small'
 import { revalidateWebCeleb } from '@/lib/revalidate-web'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 
 const NOBG_BATCH_DIR = 'C:\\project\\nobg\\batch'
 const NOBG_SCRIPT = path.join(NOBG_BATCH_DIR, 'batch_nobg.py')

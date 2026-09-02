@@ -8,7 +8,7 @@
 */
 
 import { unstable_cache } from 'next/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { getCelebYear } from '@/lib/celeb/lifespan'
@@ -37,10 +37,10 @@ interface InfluenceRow {
 }
 
 async function fetchCelebIndex(): Promise<CelebIndexRow[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   // 1,000행 상한에 걸리므로 나눠 받는다. 자르면 후보가 조용히 줄어 순위가 부실해진다.
   return await selectAllPages<CelebIndexRow>((from, to) =>
-    supabase
+    db
       .from('celebs')
       .select('id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, celeb_tier')
       .eq('publication_status', 'active')
@@ -51,9 +51,9 @@ async function fetchCelebIndex(): Promise<CelebIndexRow[]> {
 }
 
 async function fetchInfluenceScores(): Promise<InfluenceRow[]> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   return await selectAllPages<InfluenceRow>((from, to) =>
-    supabase
+    db
       .from('celeb_influence')
       .select('celeb_id, total_score')
       .order('celeb_id')

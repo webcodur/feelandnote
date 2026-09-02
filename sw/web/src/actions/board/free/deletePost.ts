@@ -1,9 +1,9 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import { canMutateFree } from '@/lib/board/freeAuth'
 import { FREE_BOARD_PATH } from '@/lib/board/freeBoard'
 
@@ -18,9 +18,9 @@ export async function deleteFreePost(params: DeleteFreePostParams): Promise<Acti
 
   const authClient = await createClient()
   const { data: { user } } = await authClient.auth.getUser()
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data: row, error: fetchError } = await supabase
+  const { data: row, error: fetchError } = await db
     .from('free_posts')
     .select('author_id, password_hash')
     .eq('id', id)
@@ -34,8 +34,8 @@ export async function deleteFreePost(params: DeleteFreePostParams): Promise<Acti
     return target.author_id ? failure('FORBIDDEN') : failure('FORBIDDEN', '비밀번호가 일치하지 않는다.')
   }
 
-  const { error } = await supabase.from('free_posts').delete().eq('id', id)
-  if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 삭제]' })
+  const { error } = await db.from('free_posts').delete().eq('id', id)
+  if (error) return handleDatabaseError(error, { logPrefix: '[자유게시판 삭제]' })
 
   revalidatePath(FREE_BOARD_PATH)
   revalidatePath(`/en${FREE_BOARD_PATH}`)

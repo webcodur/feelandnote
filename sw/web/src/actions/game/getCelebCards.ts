@@ -8,14 +8,14 @@
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createStaticClient } from "@/lib/db/static";
 import { getLocale } from "next-intl/server";
 import type { BattleCard, Domain } from "@/lib/game/types";
 import type { DialogueLines } from "@/lib/game/voice/types";
 import { isPublicDomainCeleb } from "@/components/features/game/utils";
 import { validateSpeechTone } from "@/lib/game/voice/speechTone";
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";
-import type { Tables } from "@/types/supabase";
+import type { Tables } from "@/types/database.generated";
 
 const DOMAIN_KEYS: Domain[] = ["political", "strategic", "tech", "social", "economic", "cultural"];
 
@@ -44,10 +44,10 @@ type CelebCardRow = Pick<
 /** 카드 풀 조회 (대사 미포함 — 경량, 1시간 캐시) */
 async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<BattleCard[]> {
   const celebIds = celebIdsKey ? celebIdsKey.split(",") : undefined;
-  const supabase = createStaticClient();
+  const db = createStaticClient();
   const isEn = locale === "en";
 
-  let query = supabase
+  let query = db
     .from("celebs")
     .select(`
       id, nickname, nickname_en, profession, title, title_en, nationality, avatar_url, death_date, gender, speech_tone, has_voice, voice_v, voice_speed,
@@ -75,7 +75,7 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
   const cardIds = cardRows.map(r => r.id);
   const quoteMap = new Map<string, string>();
   if (cardIds.length > 0) {
-    const { data: dRows } = await supabase
+    const { data: dRows } = await db
       .from("celeb_dialogues")
       .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
       .in("celeb_id", cardIds);
@@ -146,9 +146,9 @@ async function fetchCardDialogues(
   const cardIds = cardIdsKey ? cardIdsKey.split(",") : [];
   if (cardIds.length === 0) return {};
 
-  const supabase = createStaticClient();
+  const db = createStaticClient();
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from("celeb_dialogues")
     .select("celeb_id, lines, lines_en")
     .in("celeb_id", cardIds);

@@ -12,7 +12,7 @@
  * (group.position, cluster.position, person.position) 삼중키가 곧 wav 의 주소다.
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { adminClient } from './lib.js'
 
 /** 위치 삼중키 → DB 인물 행 */
@@ -43,7 +43,7 @@ const num = (v: unknown): number | null => (v === null || v === undefined ? null
  * 조회 실패는 던진다(조용한 폴백 금지).
  */
 export async function loadPersonSlots(
-  db: SupabaseClient, folder: string,
+  db: DatabaseClient, folder: string,
 ): Promise<Map<string, PersonSlot>> {
   const { data: ep, error: epErr } = await db
     .from('faction_episodes').select('id').eq('folder', folder).single()
@@ -107,7 +107,7 @@ export interface SceneClusterRow {
 
 /** 한 에피소드의 장면 data를 전부 읽는다. */
 export async function loadSceneClusters(
-  db: SupabaseClient, folder: string,
+  db: DatabaseClient, folder: string,
 ): Promise<SceneClusterRow[]> {
   const { data: ep, error: epErr } = await db
     .from('faction_episodes').select('id').eq('folder', folder).single()
@@ -135,7 +135,7 @@ export async function loadSceneClusters(
 
 /** 통합 장면 data jsonb에 실측 voiceDuration을 기록한다. */
 export async function updateSceneClusterData(
-  db: SupabaseClient, id: string, data: Record<string, unknown>,
+  db: DatabaseClient, id: string, data: Record<string, unknown>,
 ): Promise<void> {
   const { error } = await db.from('faction_clusters').update({ data }).eq('id', id)
   if (error) throw new Error(`장면 음성 길이 갱신 실패(${id}): ${error.message}`)
@@ -150,7 +150,7 @@ export interface NarrativeEntryRow {
 
 /** 한 에피소드의 is_person=false 행을 data jsonb 째로 읽는다. */
 export async function loadNarrativeEntries(
-  db: SupabaseClient, folder: string,
+  db: DatabaseClient, folder: string,
 ): Promise<NarrativeEntryRow[]> {
   const { data: ep, error: epErr } = await db
     .from('faction_episodes').select('id').eq('folder', folder).single()
@@ -186,7 +186,7 @@ export async function loadNarrativeEntries(
 
 /** 서사 항목 data jsonb 갱신 — 해설·대사 덩어리의 voiceDuration을 적는다. */
 export async function updateNarrativeEntryData(
-  db: SupabaseClient, id: string, data: Record<string, unknown>,
+  db: DatabaseClient, id: string, data: Record<string, unknown>,
 ): Promise<void> {
   const { error } = await db.from('faction_people').update({ data }).eq('id', id).eq('is_person', false)
   if (error) throw new Error(`서사 항목 낭독 길이 갱신 실패(${id}): ${error.message}`)
@@ -194,7 +194,7 @@ export async function updateNarrativeEntryData(
 
 /** quote_duration·epithet_duration 갱신 */
 export async function updateDurations(
-  db: SupabaseClient,
+  db: DatabaseClient,
   updates: { id: string; quoteDuration?: number; epithetDuration?: number }[],
 ): Promise<void> {
   for (const u of updates) {

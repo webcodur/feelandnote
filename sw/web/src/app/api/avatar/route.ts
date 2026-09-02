@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import sharp from 'sharp'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { uploadToR2, deleteFromR2, R2_PUBLIC_URL } from '@/lib/r2'
 
 // 서버 검증 기준 (클라이언트 검증은 우회 가능하므로 여기가 본선)
@@ -24,9 +24,9 @@ function extractOwnR2Key(avatarUrl: string | null): string | null {
 // #endregion
 
 export async function POST(req: NextRequest) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 })
   }
@@ -95,13 +95,13 @@ export async function POST(req: NextRequest) {
 
   // 지울 대상은 미리 알아두되, 삭제는 DB 갱신이 성공한 뒤에 한다.
   // 먼저 지우면 DB 갱신이 실패했을 때 옛 URL만 남고 파일은 사라져 프사가 깨진다.
-  const { data: prev } = await supabase
+  const { data: prev } = await db
     .from('member_profiles')
     .select('avatar_url')
     .eq('id', user.id)
     .single()
 
-  const { error } = await supabase
+  const { error } = await db
     .from('member_profiles')
     .update({ avatar_url: url })
     .eq('id', user.id)

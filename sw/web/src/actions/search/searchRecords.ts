@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
@@ -59,9 +59,9 @@ export async function searchRecords({
   page = 1,
   limit = 20,
 }: SearchRecordsParams): Promise<SearchRecordsResponse> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) {
     return { items: [], total: 0, hasMore: false }
   }
@@ -70,7 +70,7 @@ export async function searchRecords({
 
   // 2-step 검색: content_locales에서 먼저 content_id 검색
   // egress-allow: 본인 기록 검색 1단계 — content_id만 송출
-  const { data: matchIds } = await supabase
+  const { data: matchIds } = await db
     .from('content_locales')
     .select('content_id')
     .ilike('title', `%${query}%`)
@@ -79,7 +79,7 @@ export async function searchRecords({
 
   // 내 기록에서 검색 (rating 포함)
   // egress-allow: 본인 기록 검색 — 수정 즉시 반영 필요, 캐시 부적합 (경량 select 적용)
-  let searchQuery = supabase
+  let searchQuery = db
     .from('member_contents')
     .select(`
       id,

@@ -11,7 +11,7 @@
 
 import { readFile, readdir } from 'fs/promises'
 import path from 'path'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
 import {
   toFactionQuoteMedia,
@@ -397,7 +397,7 @@ function portraitsOf(
 
 /** `.in()` 청크 조회 — 462개를 단일 in() 에 실어 실패한 실측 이력이 있어 200 으로 끊는다 */
 async function inChunks(
-  db: SupabaseClient, table: string, col: string, values: string[], select: string,
+  db: DatabaseClient, table: string, col: string, values: string[], select: string,
 ): Promise<Row[]> {
   const out: Row[] = []
   for (let i = 0; i < values.length; i += IN_CHUNK) {
@@ -424,7 +424,7 @@ const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as n
  * 인물 순서는 자리 순서(세력 → 묶음 → 인물)를 그대로 쓴다. 영상에서 빼둔 항목(disabled)도 포함한다 —
  * 그 표시는 영상 노출 여부일 뿐이고 도감은 제작 데이터를 정본으로 삼는다.
  */
-export async function collectEpisode(db: SupabaseClient, folder: string): Promise<PublishEpisode> {
+export async function collectEpisode(db: DatabaseClient, folder: string): Promise<PublishEpisode> {
   const { data: epRow, error: epErr } = await db
     .from('faction_episodes').select('id, title, title_en, longform_layout').eq('folder', folder).maybeSingle()
   if (epErr) throw new Error(`에피소드 조회 실패(${folder}): ${epErr.message}`)

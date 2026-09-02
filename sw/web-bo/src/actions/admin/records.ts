@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/db/server'
+import { createAdminClient } from '@/lib/db/admin'
 import { revalidatePath } from 'next/cache'
 
 export interface Record {
@@ -52,10 +52,10 @@ function toRecordUser(raw: unknown): Record['user'] {
 }
 
 export async function getRecord(recordId: string): Promise<Record | null> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 이메일은 26.08.07에 계정 기록(user_accounts)으로 갈라졌다. 붙여 읽고 평평하게 편다.
-  const { data: record, error } = await supabase
+  const { data: record, error } = await db
     .from('records')
     .select(`
       *,
@@ -70,8 +70,8 @@ export async function getRecord(recordId: string): Promise<Record | null> {
 
   // 좋아요 수
   const [likeResult, commentResult] = await Promise.all([
-    supabase.from('record_likes').select('*', { count: 'exact', head: true }).eq('record_id', recordId),
-    supabase.from('record_comments').select('*', { count: 'exact', head: true }).eq('record_id', recordId),
+    db.from('record_likes').select('*', { count: 'exact', head: true }).eq('record_id', recordId),
+    db.from('record_comments').select('*', { count: 'exact', head: true }).eq('record_id', recordId),
   ])
   if (likeResult.error) throw new Error(`기록 좋아요 집계 실패: ${likeResult.error.message}`)
   if (commentResult.error) throw new Error(`기록 댓글 집계 실패: ${commentResult.error.message}`)
@@ -106,9 +106,9 @@ export async function getRecord(recordId: string): Promise<Record | null> {
 }
 
 export async function getRecordComments(recordId: string) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: comments, error } = await supabase
+  const { data: comments, error } = await db
     .from('record_comments')
     .select(`
       id,
@@ -148,9 +148,9 @@ export async function updateRecordVisibility(
   recordId: string,
   visibility: 'public' | 'followers' | 'private'
 ): Promise<void> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { error } = await supabase
+  const { error } = await db
     .from('records')
     .update({ visibility })
     .eq('id', recordId)

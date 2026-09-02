@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 
 // #region Types
@@ -38,12 +38,12 @@ interface ActionResult<T = void> {
 
 // #region CRUD
 export async function getApiKeys(): Promise<ActionResult<ApiKeyWithStats[]>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 오늘 날짜 기준 통계와 함께 조회
   const today = new Date().toISOString().split('T')[0]
 
-  const { data: keys, error: keysError } = await supabase
+  const { data: keys, error: keysError } = await db
     .from('api_keys')
     .select('*')
     .order('created_at', { ascending: true })
@@ -55,7 +55,7 @@ export async function getApiKeys(): Promise<ActionResult<ApiKeyWithStats[]>> {
   // 각 키별 오늘 사용 통계 조회
   const keysWithStats: ApiKeyWithStats[] = await Promise.all(
     (keys || []).map(async (key) => {
-      const { data: usage } = await supabase
+      const { data: usage } = await db
         .from('api_key_usage')
         .select('success, error_code, created_at')
         .eq('api_key_id', key.id)
@@ -87,9 +87,9 @@ export async function createApiKey(input: {
   google_id?: string
   memo?: string
 }): Promise<ActionResult<ApiKey>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('api_keys')
     .insert({
       title: input.title,
@@ -117,9 +117,9 @@ export async function updateApiKey(
     memo?: string
   }
 ): Promise<ActionResult<ApiKey>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('api_keys')
     .update(input)
     .eq('id', id)
@@ -135,9 +135,9 @@ export async function updateApiKey(
 }
 
 export async function deleteApiKey(id: string): Promise<ActionResult> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { error } = await supabase
+  const { error } = await db
     .from('api_keys')
     .delete()
     .eq('id', id)
@@ -195,9 +195,9 @@ export async function getBestAvailableKey(): Promise<ActionResult<ApiKey>> {
 
 // 특정 키 조회 (수동 선택 시)
 export async function getApiKeyById(id: string): Promise<ActionResult<ApiKey>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('api_keys')
     .select('*')
     .eq('id', id)
@@ -218,9 +218,9 @@ export async function recordApiKeyUsage(input: {
   success: boolean
   error_code?: string
 }): Promise<ActionResult> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { error } = await supabase
+  const { error } = await db
     .from('api_key_usage')
     .insert({
       api_key_id: input.api_key_id,
@@ -241,9 +241,9 @@ export async function getApiKeyUsage(
   apiKeyId: string,
   limit: number = 50
 ): Promise<ActionResult<ApiKeyUsage[]>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('api_key_usage')
     .select('*')
     .eq('api_key_id', apiKeyId)

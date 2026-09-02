@@ -3,14 +3,14 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { getLocale } from "next-intl/server";
 import type { GameCharacter } from '@/lib/game/suikoden/types'
 import type { SpectrumJsonb } from '@/lib/spectrum/types'
 import { parseSpectrumJsonb } from '@/lib/spectrum/types'
 import { dbToCharacter, getDeathYear } from '@/lib/game/suikoden/utils'
-import type { Tables } from '@/types/supabase'
+import type { Tables } from '@/types/database.generated'
 import { SUIKODEN_CHARACTER_IDS } from '@/lib/game/suikoden/scenarios'
 
 const CUTOFF_YEARS = 120
@@ -48,11 +48,11 @@ interface SuikodenDialogueRow {
 }
 
 async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
-  const supabase = await createClient()
+  const db = await createClient()
   const currentYear = new Date().getFullYear()
   const maxDeathYear = currentYear - CUTOFF_YEARS
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celebs')
     .select(`
       id, nickname, title, profession, nationality, gender,
@@ -91,7 +91,7 @@ async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
   const locale = await getLocale()
   const quoteMap = new Map<string, string>()
   if (filteredIds.length > 0) {
-    const { data: dRows } = await supabase
+    const { data: dRows } = await db
       .from('celeb_dialogues')
       .select('celeb_id, quote:lines->quote, quote_en:lines_en->quote')
       .in('celeb_id', filteredIds)
@@ -122,9 +122,9 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
 
 /** celeb_dialogues 로딩 — characterId → lines 매핑 (1시간 캐시) */
 async function fetchSuikodenDialogues(locale: string): Promise<Record<string, SuikodenLines>> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_dialogues')
     .select('celeb_id, lines, lines_en')
     .in('celeb_id', SUIKODEN_CHARACTER_IDS);

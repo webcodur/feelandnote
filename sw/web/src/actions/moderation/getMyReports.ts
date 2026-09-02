@@ -3,8 +3,8 @@
 // 내가 낸 신고 내역 조회. 처리 상태를 사용자에게 보여주기 위한 것이다.
 // 본인 데이터라 캐시하지 않는다.
 
-import { createClient } from '@/lib/supabase/server'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import {
   MODERATION_LIST_DEFAULT_LIMIT,
   MODERATION_LIST_MAX_LIMIT,
@@ -47,15 +47,15 @@ export async function getMyReports(
   const limit = Math.min(params.limit ?? MODERATION_LIST_DEFAULT_LIMIT, MODERATION_LIST_MAX_LIMIT)
   const offset = Math.max(params.offset ?? 0, 0)
 
-  const supabase = await createClient()
+  const db = await createClient()
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await db.auth.getUser()
 
   if (!user) return failure('UNAUTHORIZED')
 
-  let query = supabase
+  let query = db
     .from('reports')
     .select(REPORT_COLUMNS, { count: 'exact' })
     .eq('reporter_id', user.id)
@@ -71,7 +71,7 @@ export async function getMyReports(
     .range(offset, offset + limit - 1)
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[내 신고 목록 조회]' })
+    return handleDatabaseError(error, { logPrefix: '[내 신고 목록 조회]' })
   }
 
   // DB 는 target_type·reason·status 를 text + CHECK 로 두었으므로 좁은 문자열 타입으로 좁혀 넘긴다

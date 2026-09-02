@@ -1,7 +1,7 @@
 'use server'
 
 import { cache } from 'react'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { type ActionResult, failure } from '@/lib/errors'
 import { getTitleInfo } from '@/constants/titles'
 import type { CelebTier as SharedCelebTier } from '@feelandnote/shared/constants/celeb-tiers'
@@ -67,10 +67,10 @@ export interface PublicUserProfile {
 export const getUserProfile = cache(getUserProfileInner)
 
 async function getUserProfileInner(userId: string): Promise<ActionResult<PublicUserProfile>> {
-  const supabase = await createClient()
+  const db = await createClient()
   const [authResult, profileResult] = await Promise.all([
-    supabase.auth.getUser(),
-    supabase
+    db.auth.getUser(),
+    db
       .from('member_profiles')
       .select('id, nickname, avatar_url, bio, nationality, birth_date, is_verified, created_at, selected_title')
       .eq('id', userId)
@@ -84,12 +84,12 @@ async function getUserProfileInner(userId: string): Promise<ActionResult<PublicU
   }
 
   const [socialResult, guestbookResult] = await Promise.all([
-    supabase
+    db
       .from('member_social_stats')
       .select('content_count, follower_count, following_count, friend_count')
       .eq('member_id', userId)
       .maybeSingle(),
-    supabase
+    db
       .from('member_guestbook_entries')
       .select('id', { count: 'exact', head: true })
       .eq('owner_member_id', userId),
@@ -101,19 +101,19 @@ async function getUserProfileInner(userId: string): Promise<ActionResult<PublicU
 
   if (currentUser && currentUser.id !== userId) {
     const [followingResult, followerResult, blockResult] = await Promise.all([
-      supabase
+      db
         .from('member_member_follows')
         .select('id')
         .eq('follower_member_id', currentUser.id)
         .eq('followed_member_id', userId)
         .maybeSingle(),
-      supabase
+      db
         .from('member_member_follows')
         .select('id')
         .eq('follower_member_id', userId)
         .eq('followed_member_id', currentUser.id)
         .maybeSingle(),
-      supabase
+      db
         .from('blocks')
         .select('id')
         .in('blocker_id', [currentUser.id, userId])

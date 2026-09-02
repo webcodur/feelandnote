@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { logActivity } from '@/actions/activity'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
-import { createClient } from '@/lib/supabase/server'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
 
 interface UpdateReviewParams {
   userContentId: string
@@ -16,8 +16,8 @@ interface UpdateReviewParams {
 type UpdateReviewData = void
 
 export async function updateReview(params: UpdateReviewParams): Promise<ActionResult<UpdateReviewData>> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user } } = await db.auth.getUser()
 
   if (!user) {
     return failure('UNAUTHORIZED')
@@ -29,7 +29,7 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
     }
   }
 
-  const { data: existing, error: existingError } = await supabase
+  const { data: existing, error: existingError } = await db
     .from('member_contents')
     .select('id, rating, review, content_id')
     .eq('id', params.userContentId)
@@ -51,14 +51,14 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
   if (params.reviewPresets !== undefined) updateData.review_presets = params.reviewPresets
   if (params.isSpoiler !== undefined) updateData.is_spoiler = params.isSpoiler
 
-  const { error } = await supabase
+  const { error } = await db
     .from('member_contents')
     .update(updateData)
     .eq('id', params.userContentId)
     .eq('member_id', user.id)
 
   if (error) {
-    return handleSupabaseError(error, { context: 'content', logPrefix: '[리뷰 저장]' })
+    return handleDatabaseError(error, { context: 'content', logPrefix: '[리뷰 저장]' })
   }
 
   revalidatePath(`/${user.id}/records/${existing.content_id}`)

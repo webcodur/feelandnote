@@ -45,10 +45,10 @@ async function main() {
   loadEnv(boPath('.env'))
   const {
     R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME,
-    R2_PUBLIC_URL, NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
+    R2_PUBLIC_URL, NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY,
   } = process.env as Record<string, string>
 
-  for (const k of ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET_NAME', 'R2_PUBLIC_URL', 'NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY']) {
+  for (const k of ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET_NAME', 'R2_PUBLIC_URL', 'NEXT_PUBLIC_DB_API_URL', 'DB_SECRET_KEY']) {
     if (!process.env[k]) throw new Error(`.env에 ${k} 누락`)
   }
 
@@ -57,10 +57,10 @@ async function main() {
     endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
     credentials: { accessKeyId: R2_ACCESS_KEY_ID, secretAccessKey: R2_SECRET_ACCESS_KEY },
   })
-  const sb = createClient(NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+  const db = createClient(NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY)
 
   for (const m of MAP) {
-    const { data, error } = await sb.from('celeb_tags').select('id').eq('slug', m.slug).single()
+    const { data, error } = await db.from('celeb_tags').select('id').eq('slug', m.slug).single()
     if (error || !data) { console.error(`[${m.slug}] 태그 조회 실패`, error?.message); continue }
     const tagId = data.id as string
     const urls: string[] = []
@@ -75,7 +75,7 @@ async function main() {
       urls.push(`${R2_PUBLIC_URL}/${key}?v=${Date.now()}`)
       console.log(`  ${m.slug} <- ${m.dir}/${g}/group.png (${(webp.length / 1024).toFixed(0)}KB)`)
     }
-    const { error: upErr } = await sb.from('celeb_tags').update({ team_images: urls }).eq('id', tagId)
+    const { error: upErr } = await db.from('celeb_tags').update({ team_images: urls }).eq('id', tagId)
     if (upErr) { console.error(`[${m.slug}] team_images 갱신 실패`, upErr.message); continue }
     console.log(`[${m.slug}] team_images ${urls.length}장 설정 완료`)
   }

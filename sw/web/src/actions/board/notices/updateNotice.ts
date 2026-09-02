@@ -1,8 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import type { NoticeWithAuthor } from '@/types/database'
 import { checkAdmin } from '@/lib/auth/checkAdmin'
 import { attachMemberAuthor } from '@/lib/board/memberProfiles'
@@ -18,9 +18,9 @@ interface UpdateNoticeParams {
 
 export async function updateNotice(params: UpdateNoticeParams): Promise<ActionResult<NoticeWithAuthor>> {
   const { id, title, content, titleEn, contentEn, is_pinned } = params
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const adminCheck = await checkAdmin(supabase)
+  const adminCheck = await checkAdmin(db)
   if (!adminCheck.success) return adminCheck
 
   if (title.trim().length === 0) {
@@ -39,7 +39,7 @@ export async function updateNotice(params: UpdateNoticeParams): Promise<ActionRe
     return failure('LIMIT_EXCEEDED', '영문 제목은 100자까지 작성할 수 있다.')
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('notices')
     .update({
       title: title.trim(),
@@ -54,7 +54,7 @@ export async function updateNotice(params: UpdateNoticeParams): Promise<ActionRe
     .single()
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[공지사항 수정]' })
+    return handleDatabaseError(error, { logPrefix: '[공지사항 수정]' })
   }
 
   revalidatePath('/agora/board/notice')
@@ -62,6 +62,6 @@ export async function updateNotice(params: UpdateNoticeParams): Promise<ActionRe
   revalidatePath(`/agora/board/notice/${id}`)
   revalidatePath(`/en/agora/board/notice/${id}`)
   revalidateTag('notices', { expire: 0 })
-  const notice = await attachMemberAuthor(supabase, data)
+  const notice = await attachMemberAuthor(db, data)
   return success(notice as NoticeWithAuthor)
 }

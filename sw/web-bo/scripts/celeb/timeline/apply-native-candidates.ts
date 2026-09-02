@@ -78,13 +78,13 @@ function loadEnv() {
 }
 loadEnv()
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error('Supabase 환경변수가 없다')
+if (!process.env.NEXT_PUBLIC_DB_API_URL || !process.env.DB_SECRET_KEY) {
+  throw new Error('DB 환경변수가 없다')
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
+const db = createClient(
+  process.env.NEXT_PUBLIC_DB_API_URL,
+  process.env.DB_SECRET_KEY,
   { auth: { autoRefreshToken: false, persistSession: false } },
 )
 
@@ -221,7 +221,7 @@ function validateCandidate(candidate: NativeCandidate): string[] {
 }
 
 async function fetchStoredEvents(celebId: string): Promise<StoredTimelineEvent[]> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_timeline_events')
     .select('*')
     .eq('celeb_id', celebId)
@@ -256,11 +256,11 @@ function restoreRows(events: StoredTimelineEvent[]) {
 
 async function rollback(beforeEvents: StoredTimelineEvent[], insertedIds: string[]) {
   if (insertedIds.length > 0) {
-    const { error } = await supabase.from('celeb_timeline_events').delete().in('id', insertedIds)
+    const { error } = await db.from('celeb_timeline_events').delete().in('id', insertedIds)
     if (error) throw new Error(`추가 행 제거 실패: ${error.message}`)
   }
   if (beforeEvents.length > 0) {
-    const { error } = await supabase
+    const { error } = await db
       .from('celeb_timeline_events')
       .upsert(restoreRows(beforeEvents), { onConflict: 'id' })
     if (error) throw new Error(`기존 행 복구 실패: ${error.message}`)
@@ -309,13 +309,13 @@ async function applyCandidate(candidate: NativeCandidate, dry: boolean, root: st
   let insertedIds: string[] = []
   try {
     if (existingRows.length > 0) {
-      const { error } = await supabase
+      const { error } = await db
         .from('celeb_timeline_events')
         .upsert(existingRows, { onConflict: 'id' })
       if (error) throw new Error(`기존 행 UPDATE 실패: ${error.message}`)
     }
     if (newRows.length > 0) {
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from('celeb_timeline_events')
         .insert(newRows)
         .select('id')

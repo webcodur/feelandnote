@@ -66,7 +66,7 @@ import { readFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import path from 'node:path'
 import { config } from 'dotenv'
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import {
   assembleFactionEpisode,
   type FactionRowSource,
@@ -729,7 +729,7 @@ function assertKnownMinedShape(captured: CapturedRows, folder: string): void {
   }
 }
 
-function capturingSource(db: SupabaseClient): { source: FactionRowSource; captured: CapturedRows } {
+function capturingSource(db: DatabaseClient): { source: FactionRowSource; captured: CapturedRows } {
   const captured: CapturedRows = new Map()
   const source: FactionRowSource = async (table, col, values) => {
     const { data, error } = await db.from(table).select('*').in(col, values)
@@ -741,17 +741,17 @@ function capturingSource(db: SupabaseClient): { source: FactionRowSource; captur
   return { source, captured }
 }
 
-function createDb(): SupabaseClient {
+function createDb(): DatabaseClient {
   config({ path: path.join(WEB_BO_DIR, '.env'), quiet: true })
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) fail('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 없음')
+  const url = process.env.NEXT_PUBLIC_DB_API_URL
+  const key = process.env.DB_SECRET_KEY
+  if (!url || !key) fail('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 없음')
   return createClient(url, key, {
     auth: { autoRefreshToken: false, persistSession: false },
   })
 }
 
-function celebVoiceLookup(db: SupabaseClient): CelebVoiceLookup {
+function celebVoiceLookup(db: DatabaseClient): CelebVoiceLookup {
   return async (celebIds) => {
     const out = new Map<string, CelebVoicePair>()
     for (let i = 0; i < celebIds.length; i += 200) {
@@ -823,7 +823,7 @@ function assertFileMatchesDb(
 }
 
 async function buildEpisodePlan(
-  db: SupabaseClient,
+  db: DatabaseClient,
   folder: string,
   targets: BatchTarget[],
   lineup: Record<string, { uploads?: Record<string, unknown> }>,
@@ -954,7 +954,7 @@ function printCommands(folders: string[], phase: 'before' | 'after'): void {
   console.log('  ※ 새 음성 전에는 --update-json / faction:durations-pull을 실행하지 마세요.')
 }
 
-async function applyEpisode(db: SupabaseClient, plan: EpisodePlan): Promise<void> {
+async function applyEpisode(db: DatabaseClient, plan: EpisodePlan): Promise<void> {
   const updates = plan.targets.filter(item => item.action === 'update')
   if (!updates.length) return
   assertFileApplyReady(plan)

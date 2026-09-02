@@ -94,8 +94,8 @@ https://db.feelandnote.com/auth/v1/callback
 
 ### 로컬 개발 (.env)
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://db.feelandnote.com
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<self-hosted-publishable-key>
+NEXT_PUBLIC_DB_API_URL=https://db.feelandnote.com
+NEXT_PUBLIC_DB_PUBLISHABLE_KEY=<self-hosted-publishable-key>
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
@@ -118,8 +118,8 @@ NEXT_PUBLIC_SITE_URL=https://feelandnote.com
 | `src/actions/auth/login.ts` | OAuth 로그인 함수 (loginWithGoogle, loginWithKakao) |
 | `src/app/auth/callback/route.ts` | OAuth 콜백 처리 |
 | `src/middleware.ts` | 세션 갱신 (auth/callback 경로 제외) |
-| `src/lib/supabase/server.ts` | 서버용 Auth·PostgREST 클라이언트 |
-| `src/lib/supabase/middleware.ts` | 미들웨어용 Auth 클라이언트 |
+| `src/lib/db/server.ts` | 서버용 Auth·PostgREST 클라이언트 |
+| `src/lib/db/middleware.ts` | 미들웨어용 Auth 클라이언트 |
 
 ---
 

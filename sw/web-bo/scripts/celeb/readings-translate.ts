@@ -144,13 +144,13 @@ function acquireRunLock() {
 
 if (GENERATE || APPLY) acquireRunLock()
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-if (!supabaseUrl || !serviceRoleKey) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required.')
+const dbApiUrl = process.env.NEXT_PUBLIC_DB_API_URL
+const serviceRoleKey = process.env.DB_SECRET_KEY
+if (!dbApiUrl || !serviceRoleKey) {
+  throw new Error('NEXT_PUBLIC_DB_API_URL and DB_SECRET_KEY are required.')
 }
 
-const supabase = createClient(supabaseUrl, serviceRoleKey, {
+const db = createClient(dbApiUrl, serviceRoleKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 })
 
@@ -206,7 +206,7 @@ async function fetchAll<T>(
   const rows: T[] = []
   for (let from = 0; ; from += 1000) {
     const { data, error } = await configure(
-      supabase.from(table).select(select).range(from, from + 999),
+      db.from(table).select(select).range(from, from + 999),
     )
     if (error) throw error
     rows.push(...((data ?? []) as T[]))
@@ -527,7 +527,7 @@ async function generateBatch(materials: Material[]): Promise<Map<string, SavedTr
 }
 
 async function fetchExplanation(profileId: string): Promise<ExplanationRow> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('celeb_explanations')
     .select('profile_id,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,published_at,updated_at')
     .eq('profile_id', profileId)
@@ -558,7 +558,7 @@ async function applyTranslation(saved: SavedTranslation, material: Material): Pr
     if (!hasValue(current[field])) payload[field] = saved[field]
   }
 
-  const { data: updated, error } = await supabase
+  const { data: updated, error } = await db
     .from('celeb_explanations')
     .update(payload)
     .eq('profile_id', material.profile.id)

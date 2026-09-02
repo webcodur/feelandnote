@@ -1,4 +1,4 @@
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { type ActionResult, type ActionFailure, failure } from '@/lib/errors'
 
 type AdminRole = 'admin' | 'super_admin'
@@ -11,16 +11,16 @@ interface AdminCheckSuccess {
 
 type AdminCheckResult = AdminCheckSuccess | ActionFailure
 
-export async function checkAdmin(supabase: SupabaseClient): Promise<AdminCheckResult> {
-  const { data: { user } } = await supabase.auth.getUser()
+export async function checkAdmin(db: DatabaseClient): Promise<AdminCheckResult> {
+  const { data: { user } } = await db.auth.getUser()
 
   if (!user) {
     return failure('UNAUTHORIZED')
   }
 
   const [{ data: isAdmin }, { data: account }] = await Promise.all([
-    supabase.rpc('is_admin'),
-    supabase.from('user_accounts').select('role').eq('id', user.id).single(),
+    db.rpc('is_admin'),
+    db.from('user_accounts').select('role').eq('id', user.id).single(),
   ])
   const role = account?.role as string | null
 
@@ -35,7 +35,7 @@ export async function checkAdmin(supabase: SupabaseClient): Promise<AdminCheckRe
   }
 }
 
-export async function isAdmin(supabase: SupabaseClient): Promise<boolean> {
-  const result = await checkAdmin(supabase)
+export async function isAdmin(db: DatabaseClient): Promise<boolean> {
+  const result = await checkAdmin(db)
   return result.success === true
 }

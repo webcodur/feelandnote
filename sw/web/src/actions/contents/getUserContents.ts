@@ -1,9 +1,9 @@
 'use server'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import type { SupabaseClient } from '@supabase/supabase-js'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { cachedList, cachedDetail } from '@/lib/cache'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
@@ -88,7 +88,7 @@ interface QueryUserContentsOptions {
 // 회원·인물 감상 테이블의 공통 필드만 함께 읽는다. 별점은 회원 기록에만 있다.
 // 원본과 소유자 FK는 ownerKind로 분기하고 반환 형태는 기존 API를 유지한다.
 async function queryUserContents(
-  supabase: SupabaseClient,
+  db: DatabaseClient,
   opts: QueryUserContentsOptions,
 ): Promise<GetUserContentsResponse> {
   const {
@@ -117,7 +117,7 @@ async function queryUserContents(
   const safeSearch = search ? sanitizeSearchTerm(search) : ''
   if (safeSearch.length >= 2) {
     const searchTerm = `%${safeSearch}%`
-    const { data: matchIds } = await supabase
+    const { data: matchIds } = await db
       .from('content_locales')
       .select('content_id')
       .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
@@ -148,7 +148,7 @@ async function queryUserContents(
   `
 
   const buildQuery = () => {
-    let query = supabase
+    let query = db
       .from(archiveTable)
       .select(archiveSelect, { count: 'exact' })
       .eq(ownerColumn, userId)
@@ -412,16 +412,16 @@ export async function getPublicUserContents(
 
 export async function getUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
   const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
-  const supabase = await createClient()
+  const db = await createClient()
   const locale = await getLocale()
 
   // 현재 로그인한 사용자 확인 (viewer 의존 — 캐시 외부)
-  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  const { data: { user: currentUser } } = await db.auth.getUser()
   const isOwnProfile = currentUser?.id === userId
 
   if (isOwnProfile) {
     // egress-allow: 본인 서재 — 추가/삭제 즉시 반영 필요, 캐시 부적합
-    return queryUserContents(supabase, {
+    return queryUserContents(db, {
       userId, ownerKind: 'member', type, page, limit, search, hasReview, sortBy, locale,
       isOwnProfile: true,
     })

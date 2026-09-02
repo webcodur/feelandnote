@@ -11,7 +11,7 @@ import { Pagination } from "@/components/ui";
 import { LogIn, MessageSquare } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { updateGuestbookEntry, deleteGuestbookEntry, getGuestbookEntries } from "@/actions/guestbook";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/db/client";
 import { Link } from "@/i18n/navigation";
 import EntryItem from "./guestbook/EntryItem";
 import WriteForm from "./guestbook/WriteForm";
@@ -52,10 +52,10 @@ export default function GuestbookContent({
   useEffect(() => {
     if (currentUserIdProp !== undefined) return;
     let isActive = true;
-    const supabase = createClient();
+    const db = createClient();
     const resolveCurrentUser = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: { user } } = await db.auth.getUser();
         if (isActive) setSelfUserId(user?.id ?? null);
       } catch (error) {
         console.error("Resolve guestbook user error:", error);

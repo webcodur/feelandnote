@@ -9,7 +9,7 @@ import ArchiveSectionHeader from "@/components/features/user/profile/ArchiveSect
 import ArchiveTabs from "@/components/features/user/profile/ArchiveTabs";
 import PrismBanner from "@/components/lab/PrismBanner";
 import PageBanner from "@/components/shared/PageBanner";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/db/server";
 import MessageScope from "@/components/shared/MessageScope";
 
 interface LayoutProps {
@@ -19,10 +19,10 @@ interface LayoutProps {
 
 async function UserLayoutBody({ children, params }: LayoutProps) {
   const { userId, locale } = await params;
-  const supabase = await createClient();
+  const db = await createClient();
   const [profileResult, authResult, tCtx, tHome] = await Promise.all([
     getUserProfile(userId),
-    supabase.auth.getUser(),
+    db.auth.getUser(),
     getTranslations("contextHeader"),
     getTranslations("home"),
   ]);

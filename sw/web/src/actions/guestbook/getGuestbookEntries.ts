@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 import type { GuestbookEntryWithAuthor } from '@/types/database'
 
@@ -13,10 +13,10 @@ interface GetGuestbookEntriesParams {
 }
 
 type GuestbookSubjectKind = 'member' | 'celeb'
-type AnySupabase = Awaited<ReturnType<typeof createClient>> | ReturnType<typeof createStaticClient>
+type AnyDatabaseClient = Awaited<ReturnType<typeof createClient>> | ReturnType<typeof createStaticClient>
 
 async function fetchGuestbookEntries(
-  supabase: AnySupabase,
+  db: AnyDatabaseClient,
   profileId: string,
   limit: number,
   offset: number,
@@ -25,7 +25,7 @@ async function fetchGuestbookEntries(
   const table = subjectKind === 'member' ? 'member_guestbook_entries' : 'celeb_guestbook_entries'
   const ownerColumn = subjectKind === 'member' ? 'owner_member_id' : 'celeb_id'
 
-  const { data, error, count } = await supabase
+  const { data, error, count } = await db
     .from(table)
     .select(`
       id,
@@ -57,7 +57,7 @@ async function fetchGuestbookEntries(
   }>
   const authorIds = [...new Set(rows.map(row => row.author_id))]
   const authorResult = authorIds.length
-    ? await supabase
+    ? await db
         .from('member_profiles')
         .select('id, nickname, avatar_url')
         .in('id', authorIds)
@@ -88,8 +88,8 @@ export async function getGuestbookEntries(params: GetGuestbookEntriesParams) {
   const { profileId, subjectKind, limit = 20, offset = 0 } = params
 
   // 회원 방명록은 소유자·작성자에게만 보이는 비밀글이 있어 viewer 세션으로 읽어야 한다.
-  const supabase = await createClient()
-  const visible = await fetchGuestbookEntries(supabase, profileId, limit, offset, subjectKind)
+  const db = await createClient()
+  const visible = await fetchGuestbookEntries(db, profileId, limit, offset, subjectKind)
 
   // 차단 필터는 viewer별 값이므로 공유 캐시 밖에서 적용한다.
   const blockedIds = await getBlockedUserIds()

@@ -1,8 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/db/server'
+import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 
 interface UnblockUserData {
   blocked: false
@@ -15,16 +15,16 @@ export async function unblockUser(targetUserId: string): Promise<ActionResult<Un
     return failure('VALIDATION_ERROR', '차단을 해제할 사용자가 지정되지 않았다.')
   }
 
-  const supabase = await createClient()
+  const db = await createClient()
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await db.auth.getUser()
 
   if (!user) return failure('UNAUTHORIZED')
 
   // 삭제된 행을 돌려받아 실제 해제 여부를 판정한다 — 아무것도 안 지웠는데 해제됐다고 말하지 않는다
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('blocks')
     .delete()
     .eq('blocker_id', user.id)
@@ -32,7 +32,7 @@ export async function unblockUser(targetUserId: string): Promise<ActionResult<Un
     .select('id')
 
   if (error) {
-    return handleSupabaseError(error, { logPrefix: '[차단 해제]' })
+    return handleDatabaseError(error, { logPrefix: '[차단 해제]' })
   }
 
   const wasBlocked = (data ?? []).length > 0

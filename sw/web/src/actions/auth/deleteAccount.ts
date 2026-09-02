@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { redirect } from 'next/navigation'
 import { type ActionResult, failure } from '@/lib/errors'
 
@@ -11,16 +11,16 @@ import { type ActionResult, failure } from '@/lib/errors'
 // #endregion
 
 export async function deleteAccount(): Promise<ActionResult<null>> {
-  const supabase = await createClient()
+  const db = await createClient()
 
   // 현재 로그인한 사용자 확인
-  const { data: { user }, error: userError } = await supabase.auth.getUser()
+  const { data: { user }, error: userError } = await db.auth.getUser()
 
   if (userError || !user) {
     return failure('UNAUTHORIZED')
   }
 
-  const { error: deleteError } = await supabase.rpc('delete_my_account')
+  const { error: deleteError } = await db.rpc('delete_my_account')
 
   if (deleteError) {
     console.error('[회원탈퇴] 계정 삭제 실패:', deleteError)
@@ -28,7 +28,7 @@ export async function deleteAccount(): Promise<ActionResult<null>> {
   }
 
   // 현재 세션 로그아웃
-  await supabase.auth.signOut()
+  await db.auth.signOut()
 
   redirect('/login')
 }

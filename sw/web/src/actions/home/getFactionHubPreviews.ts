@@ -5,7 +5,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 const HUB_TAG_LIMIT = 4
 
@@ -46,8 +46,8 @@ export interface FactionHubPreview {
 }
 
 async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
-  const supabase = createStaticClient()
-  const { data: tags, error: tagsError } = await supabase
+  const db = createStaticClient()
+  const { data: tags, error: tagsError } = await db
     .from('celeb_tags')
     .select('id, slug, name, name_en, description, description_en, color, parent_id, team_images')
     .eq('is_featured', true)
@@ -63,7 +63,7 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   const assignments = await selectInChunks<HubAssignmentRow>(
     tagIds,
     (chunk) =>
-      supabase
+      db
         // 단일 원천은 제작 테이블(faction_people) — 뷰가 웹 전용 배정과 합쳐 준다
         .from('faction_atlas_members')
         .select('tag_id')

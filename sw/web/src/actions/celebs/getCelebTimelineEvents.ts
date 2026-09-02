@@ -1,6 +1,6 @@
 'use server'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 import { cachedDetail } from '@/lib/cache'
 
 /* ── 인물 타임라인 ──
@@ -39,8 +39,8 @@ interface EventRow {
 }
 
 async function fetchEvents(celebId: string): Promise<EventRow[]> {
-  const supabase = createStaticClient()
-  const { data, error } = await supabase
+  const db = createStaticClient()
+  const { data, error } = await db
     .from('celeb_timeline_events')
     .select(
       'id, year, year_end, sequence_label, sequence_label_en, title, title_en, description, description_en, kind, place_name, place_name_en, lat, lng, sort_order',

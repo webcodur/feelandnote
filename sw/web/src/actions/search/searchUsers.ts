@@ -2,8 +2,8 @@
 
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { getTitleInfo } from '@/constants/titles'
 
 export interface UserSearchResult {
@@ -40,10 +40,10 @@ async function fetchSearchUsersPublic(
   page: number,
   limit: number,
 ): Promise<PublicUserSearchData> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const offset = (page - 1) * limit
 
-  const { data: users, count, error } = await supabase
+  const { data: users, count, error } = await db
     .from('member_profiles')
     .select('id, nickname, avatar_url, selected_title', { count: 'exact' })
     .ilike('nickname', `%${query}%`)
@@ -56,7 +56,7 @@ async function fetchSearchUsersPublic(
     return { users: [], total: count ?? 0, followerCountMap: {} }
   }
 
-  const { data: followerCounts } = await supabase
+  const { data: followerCounts } = await db
     .from('member_social_stats')
     .select('member_id, follower_count')
     .in('member_id', users.map(u => u.id))
@@ -95,12 +95,12 @@ export async function searchUsers({
   }
 
   // 동적: 현재 사용자의 팔로우 여부 (캐시 불가)
-  const supabase = await createClient()
-  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user: currentUser } } = await db.auth.getUser()
 
   let followingIds: string[] = []
   if (currentUser) {
-    const { data: follows } = await supabase
+    const { data: follows } = await db
       .from('member_member_follows')
       .select('followed_member_id')
       .eq('follower_member_id', currentUser.id)

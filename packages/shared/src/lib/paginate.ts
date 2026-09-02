@@ -12,7 +12,7 @@
  * `unstable_cache`로 공유하는 경우에만 쓴다. 카운트만 필요하면
  * `head:true count:'exact'`를, 상위 N건만 필요하면 SQL 함수를 쓴다.
  *
- * 순수 함수다 — supabase 클라이언트에 의존하지 않고 `page(from, to)` 콜백만 받는다.
+ * 순수 함수다 — db 클라이언트에 의존하지 않고 `page(from, to)` 콜백만 받는다.
  * sw/web·sw/web-bo 양쪽이 공유한다.
  */
 

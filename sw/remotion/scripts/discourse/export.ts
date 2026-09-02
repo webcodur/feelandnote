@@ -18,7 +18,7 @@ import {
   exportDiscourseEpisodeToFiles, writeDiscourseRegistry, inspectDiscourseFiles,
   type DiscourseExportResult,
 } from '@feelandnote/shared/bo/discourse-export'
-import type { SupabaseClient } from '@supabase/supabase-js'
+import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import {
   adminClient, readDiscourseData, parseArgs, selectEpisodes, pad, DISCOURSES_DIR,
   type EpisodeFolder,
@@ -26,8 +26,8 @@ import {
 
 const USAGE = '사용: pnpm discourse:export -- (--episode <폴더명> | --all) [--force] [--stdout]'
 
-/** supabase 클라이언트를 조립기가 요구하는 행 공급자로 감싼다 (청크·정렬은 조립기가 한다) */
-export function supabaseRowSource(db: SupabaseClient): DiscourseRowSource {
+/** db 클라이언트를 조립기가 요구하는 행 공급자로 감싼다 (청크·정렬은 조립기가 한다) */
+export function dbRowSource(db: DatabaseClient): DiscourseRowSource {
   return async (table, col, values) => {
     const { data, error } = await db.from(table).select('*').in(col, values)
     if (error) throw new Error(`${table} 조회 실패(${col}): ${error.message}`)
@@ -37,11 +37,11 @@ export function supabaseRowSource(db: SupabaseClient): DiscourseRowSource {
 
 /** DB 에서 한 에피소드를 병합된 DiscourseScript 구조로 재조립한다 (verify 가 이 함수를 쓴다) */
 export async function exportEpisode(
-  db: SupabaseClient,
+  db: DatabaseClient,
   folder: string,
   original?: Record<string, unknown>,
 ): Promise<Record<string, unknown>> {
-  const { script } = await assembleDiscourseEpisode(supabaseRowSource(db), folder, original)
+  const { script } = await assembleDiscourseEpisode(dbRowSource(db), folder, original)
   return script
 }
 
@@ -50,7 +50,7 @@ export const inspectFiles = inspectDiscourseFiles
 
 /** 등록 목록(_episodes.json) 재생성 — DB 의 registered=true 를 sort_order 순으로 */
 export async function regenerateEpisodeRegistry(
-  db: SupabaseClient,
+  db: DatabaseClient,
 ): Promise<{ changed: boolean; list: string[] }> {
   const { data, error } = await db
     .from('discourse_episodes').select('folder,sort_order')
@@ -63,9 +63,9 @@ export async function regenerateEpisodeRegistry(
 /* ────────────────────────── main ────────────────────────── */
 
 async function writeEpisode(
-  db: SupabaseClient, ep: EpisodeFolder, force: boolean,
+  db: DatabaseClient, ep: EpisodeFolder, force: boolean,
 ): Promise<DiscourseExportResult> {
-  const src = supabaseRowSource(db)
+  const src = dbRowSource(db)
   return exportDiscourseEpisodeToFiles({
     folder: ep.folder,
     paths: ep.paths,

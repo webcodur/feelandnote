@@ -1,8 +1,8 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createClient } from '@/lib/db/server'
+import { createStaticClient } from '@/lib/db/static'
 import { TITLES, type TitleDefinition } from '@/constants/titles'
 
 export interface TitleWithStatus extends TitleDefinition {
@@ -30,7 +30,7 @@ export interface AchievementData {
   stats: Record<string, number>
 }
 
-type AnySupabase = Awaited<ReturnType<typeof createClient>> | ReturnType<typeof createStaticClient>
+type AnyDatabaseClient = Awaited<ReturnType<typeof createClient>> | ReturnType<typeof createStaticClient>
 
 // contents!inner(type) 조인 행
 interface CategoryJoinRow {
@@ -47,12 +47,12 @@ interface CreatorJoinRow {
 }
 
 async function fetchAchievementData(
-  supabase: AnySupabase,
+  db: AnyDatabaseClient,
   userId: string,
   includePrivateLogs: boolean
 ): Promise<AchievementData> {
   const scoreLogsPromise = includePrivateLogs
-    ? supabase
+    ? db
         .from('member_score_logs')
         .select('id, type, action, amount, created_at')
         .eq('member_id', userId)
@@ -61,9 +61,9 @@ async function fetchAchievementData(
     : Promise.resolve({ data: [] as ScoreLog[] })
 
   const [stats, scoreLogsResult, userScoreResult] = await Promise.all([
-    getUserStats(supabase, userId),
+    getUserStats(db, userId),
     scoreLogsPromise,
-    supabase
+    db
       .from('member_scores')
       .select('activity_score, title_bonus, total_score')
       .eq('member_id', userId)
@@ -96,8 +96,8 @@ const fetchAchievementDataCached = unstable_cache(
 )
 
 export async function getAchievementData(targetUserId?: string): Promise<AchievementData | null> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const db = await createClient()
+  const { data: { user } } = await db.auth.getUser()
   const userId = targetUserId ?? user?.id
 
   if (!userId) {
@@ -105,7 +105,7 @@ export async function getAchievementData(targetUserId?: string): Promise<Achieve
   }
 
   if (user?.id === userId) {
-    return fetchAchievementData(supabase, userId, true)
+    return fetchAchievementData(db, userId, true)
   }
 
   return fetchAchievementDataCached(userId)
@@ -113,7 +113,7 @@ export async function getAchievementData(targetUserId?: string): Promise<Achieve
 
 // 사용자 통계 조회 (selectTitle 등에서도 사용)
 export async function getUserStats(
-  supabase: AnySupabase,
+  db: AnyDatabaseClient,
   userId: string
 ): Promise<Record<string, number>> {
   const [
@@ -124,28 +124,28 @@ export async function getUserStats(
     completedResult,
     reviewLengthResult
   ] = await Promise.all([
-    supabase
+    db
       .from('member_contents')
       .select('id', { count: 'exact', head: true })
       .eq('member_id', userId),
-    supabase
+    db
       .from('records')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userId),
-    supabase
+    db
       .from('member_contents')
       .select('content_id, contents!inner(type)')
       .eq('member_id', userId),
-    supabase
+    db
       .from('member_contents')
       .select('content_id, contents!inner(content_locales(locale, creator))')
       .eq('member_id', userId),
-    supabase
+    db
       .from('member_contents')
       .select('id', { count: 'exact', head: true })
       .eq('member_id', userId)
       .in('status', ['FINISHED', 'RECOMMENDED', 'NOT_RECOMMENDED']),
-    supabase
+    db
       .from('member_contents')
       .select('review')
       .eq('member_id', userId)

@@ -1,6 +1,6 @@
 'use server'
 
-import { createAdminClient } from '@/lib/supabase/admin'
+import { createAdminClient } from '@/lib/db/admin'
 import { FREE_POST_COLS } from '@/lib/board/freeBoard'
 import { attachMemberAuthors } from '@/lib/board/memberProfiles'
 import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
@@ -15,9 +15,9 @@ interface GetFreePostsParams {
 
 export async function getFreePosts(params: GetFreePostsParams) {
   const { locale, limit = 20, offset = 0 } = params
-  const supabase = createAdminClient()
+  const db = createAdminClient()
 
-  const { data, error, count } = await supabase
+  const { data, error, count } = await db
     .from('free_posts')
     .select(FREE_POST_COLS, { count: 'exact' })
     .eq('is_deleted', false)
@@ -30,7 +30,7 @@ export async function getFreePosts(params: GetFreePostsParams) {
     throw new Error('자유게시판 목록을 불러오지 못했습니다')
   }
 
-  const hydrated = await attachMemberAuthors(supabase, data ?? [])
+  const hydrated = await attachMemberAuthors(db, data ?? [])
   const allPosts = hydrated as unknown as FreePost[]
 
   // 차단한 사용자의 글을 걷어낸다. 이 조회는 캐시하지 않으므로 요청마다 보는 사람 기준으로 걸러진다.
@@ -42,7 +42,7 @@ export async function getFreePosts(params: GetFreePostsParams) {
   // 각 글의 댓글 수 부착
   if (posts.length > 0) {
     const ids = posts.map((p) => p.id)
-    const { data: counts } = await supabase
+    const { data: counts } = await db
       .from('free_post_comments')
       .select('post_id')
       .eq('is_deleted', false)

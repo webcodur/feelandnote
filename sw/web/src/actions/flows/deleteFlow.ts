@@ -1,16 +1,16 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/db/server'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteFlow(flowId: string) {
-  const supabase = await createClient()
+  const db = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await db.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
 
   // 소유권 확인
-  const { data: flow } = await supabase
+  const { data: flow } = await db
     .from('flows')
     .select('user_id')
     .eq('id', flowId)
@@ -21,7 +21,7 @@ export async function deleteFlow(flowId: string) {
   }
 
   // 삭제 (CASCADE로 stages, nodes도 함께 삭제됨)
-  const { error } = await supabase
+  const { error } = await db
     .from('flows')
     .delete()
     .eq('id', flowId)

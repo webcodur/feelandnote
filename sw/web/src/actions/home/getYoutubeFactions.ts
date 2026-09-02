@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { YOUTUBE_SERIES_PLAYLISTS } from '@/constants/youtube'
 import { toFactionVideos } from '@/lib/faction-videos'
-import { createStaticClient } from '@/lib/supabase/static'
+import { createStaticClient } from '@/lib/db/static'
 
 const YOUTUBE_FEED_REVALIDATE = 60 * 60 * 6
 
@@ -165,9 +165,9 @@ function finishVideos(source: Map<string, MutableFactionVideo>) {
 }
 
 async function fetchYoutubeFactionVideos(): Promise<YoutubeFactionVideos> {
-  const supabase = createStaticClient()
+  const db = createStaticClient()
   const [{ data, error }, fullFeed, shortsFeed] = await Promise.all([
-    supabase
+    db
       .from('celeb_tags')
       .select('name, name_en, youtube_videos')
       .eq('is_featured', true)
