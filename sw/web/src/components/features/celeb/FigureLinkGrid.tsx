@@ -110,8 +110,11 @@ export default async function FigureLinkGrid({
 
           return (
             <li key={figure.id}>
+              {/* 지연 구획이 펼쳐지면 이 밀집 목록이 뷰포트에 여러 번 들어오며 Next가
+                  같은 상세 RSC를 반복해서 미리 읽는다. 클릭 이동만 남겨 요청 폭주를 막는다. */}
               <Link
                 href={`/celeb/${figure.slug}`}
+                prefetch={false}
                 className={`group flex h-full ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/5 bg-card hover:border-accent/30 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
               >
                 {/* 얼굴이 카드 왼쪽 끝에서 위아래를 채운다 — 여백 없이 붙여 인물이 먼저 읽히게 한다 */}
