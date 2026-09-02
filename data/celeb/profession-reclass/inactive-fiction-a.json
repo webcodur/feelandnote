@@ -94,7 +94,7 @@
     "slug": "argus",
     "profession": "visual_artist",
     "confidence": "high",
-    "alternatives": ["scientist"],
+    "alternatives": [],
     "reason": "아테나의 가르침을 받아 아르고호를 직접 설계·건조한 조선공으로, 제작 장인 직군에 가장 가깝다."
   },
   {
@@ -136,7 +136,7 @@
     "slug": "calchas",
     "profession": "humanities_scholar",
     "confidence": "high",
-    "alternatives": ["leader"],
+    "alternatives": [],
     "reason": "징조와 신탁을 해석해 아카이아군에 역병의 원인과 출항·전쟁 조건을 조언하는 전문 예언자다."
   },
   {
@@ -150,7 +150,7 @@
     "slug": "chiron",
     "profession": "humanities_scholar",
     "confidence": "high",
-    "alternatives": ["scientist"],
+    "alternatives": [],
     "reason": "아킬레우스·이아손·아스클레피오스에게 의술과 사냥 등 여러 지식을 가르친 영웅들의 전문 스승이다."
   },
   {
@@ -276,7 +276,7 @@
     "slug": "halitherses",
     "profession": "humanities_scholar",
     "confidence": "high",
-    "alternatives": ["leader"],
+    "alternatives": [],
     "reason": "독수리 징조를 해석해 구혼자들의 파멸을 예고하고 이타카인들에게 조언하는 전문 예언자다."
   },
   {

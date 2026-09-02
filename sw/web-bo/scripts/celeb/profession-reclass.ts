@@ -3,7 +3,7 @@ import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { revalidateWebItems } from '../../../sw/web-bo/src/lib/revalidate-web'
+import { revalidateWebItems } from '../../src/lib/revalidate-web'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 

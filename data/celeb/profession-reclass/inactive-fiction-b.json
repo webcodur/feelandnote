@@ -31,7 +31,7 @@
     "slug": "leiodes",
     "profession": "humanities_scholar",
     "confidence": "high",
-    "alternatives": ["leader"],
+    "alternatives": [],
     "reason": "구혼자들의 제사를 맡은 점술가로 종교 의례와 예언 지식을 전문으로 한다. 집단을 이끈 종교 지도자는 아니므로 인문학자가 더 정확하다."
   },
   {
@@ -94,14 +94,14 @@
     "slug": "nabu",
     "profession": "humanities_scholar",
     "confidence": "high",
-    "alternatives": ["author"],
+    "alternatives": [],
     "reason": "신들의 서기관이자 글쓰기·서판·지혜를 맡은 신으로 기록과 학문의 역할이 핵심이다."
   },
   {
     "slug": "namma",
     "profession": "visual_artist",
     "confidence": "high",
-    "alternatives": ["scientist"],
+    "alternatives": [],
     "reason": "태초의 진흙을 반죽해 인간의 몸을 빚는 창조 행위가 조각가·공예가의 역할과 직접 맞닿는다."
   },
   {
@@ -115,7 +115,7 @@
     "slug": "nidaba",
     "profession": "humanities_scholar",
     "confidence": "high",
-    "alternatives": ["author"],
+    "alternatives": [],
     "reason": "신들의 으뜸 서기관이자 기록·글쓰기·계산을 맡은 여신으로 학문 직군에 정확히 들어간다."
   },
   {
@@ -150,7 +150,7 @@
     "slug": "orion",
     "profession": "athlete",
     "confidence": "high",
-    "alternatives": ["commander"],
+    "alternatives": [],
     "reason": "대표 정체성이 거대한 사냥꾼이며 군사 지휘보다 사냥 기량과 활약이 중심이다."
   },
   {
@@ -164,7 +164,7 @@
     "slug": "patriarch-subhuti",
     "profession": "leader",
     "confidence": "high",
-    "alternatives": ["humanities_scholar"],
+    "alternatives": [],
     "reason": "방촌산의 조사로 문하를 이끌고 손오공에게 도술과 수행법을 가르치는 종교 지도자다."
   },
   {
@@ -269,14 +269,14 @@
     "slug": "seolmundae-halmang",
     "profession": "visual_artist",
     "confidence": "high",
-    "alternatives": ["scientist"],
+    "alternatives": [],
     "reason": "흙을 나르고 오름과 한라산을 만들며 제주 지형을 빚은 창조 행위가 거대한 조각가의 역할과 맞는다."
   },
   {
     "slug": "shen-gongbao",
     "profession": "commander",
     "confidence": "high",
-    "alternatives": ["humanities_scholar"],
+    "alternatives": [],
     "reason": "상나라 진영에 절교 선인들을 계속 끌어들여 전쟁을 확대하는 군사 모집·지휘 활동이 핵심이다. 도사 신분보다 전쟁 역할이 우선한다."
   },
   {
@@ -332,7 +332,7 @@
     "slug": "tiphys",
     "profession": "scientist",
     "confidence": "high",
-    "alternatives": ["commander"],
+    "alternatives": [],
     "reason": "별·바다·기상 징후를 읽어 아르고호를 운항하는 천문·항해 기술 전문가다. 직접 전투 근거가 없어 지휘관보다 과학자가 맞다."
   },
   {
@@ -360,7 +360,7 @@
     "slug": "utu-shamash",
     "profession": "politician",
     "confidence": "high",
-    "alternatives": ["humanities_scholar"],
+    "alternatives": [],
     "reason": "정의와 재판을 관장하고 판결 권위를 행사하는 신이라 정치·사법 권력에 해당한다."
   },
   {
