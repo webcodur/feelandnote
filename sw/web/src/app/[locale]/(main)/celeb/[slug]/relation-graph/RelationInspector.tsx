@@ -1,11 +1,8 @@
 "use client";
 
-import { ExternalLink, LoaderCircle, UserRound, X } from "lucide-react";
+import { ExternalLink, LoaderCircle, UserRound } from "lucide-react";
 import Image from "next/image";
-import { createPortal } from "react-dom";
-import { useEffect, type CSSProperties } from "react";
 
-import { Z_INDEX } from "@/constants/zIndex";
 import VoiceBadge from "@/components/ui/VoiceBadge";
 
 import styles from "./RelationGraphSection.module.css";
@@ -18,19 +15,15 @@ interface Props {
   total: number;
   profession: string | null;
   country: string | null;
-  mobile?: boolean;
   loading?: boolean;
   openLabel: string;
   wikidataLabel: string;
-  closeLabel: string;
   speakLabel: string;
   speakingLoading?: boolean;
   hasVoice?: boolean;
   voicePulse?: number;
   onOpen: () => void;
   onSpeak?: () => void;
-  onClose?: () => void;
-  materialStyle?: CSSProperties;
 }
 
 const year = (date: string | null) => date ? date.slice(0, 4).replace("-", "") : null;
@@ -82,7 +75,7 @@ function InspectorCard(props: Props) {
 
     <div className={styles.inspectorContent}>
       <div className={styles.inspectorIdentity}>
-        {!props.mobile && <small>{String(props.position).padStart(2, "0")} / {String(props.total).padStart(2, "0")}</small>}
+        <small>{String(props.position).padStart(2, "0")} / {String(props.total).padStart(2, "0")}</small>
         <strong>{person.name}</strong>
         <span>{props.relationLabel}</span>
       </div>
@@ -93,42 +86,13 @@ function InspectorCard(props: Props) {
         {years && <span>{years}</span>}
       </div>}
 
-      {!props.mobile && person.note && <p className={styles.inspectorNote}>{person.note}</p>}
+      {person.note && <p className={styles.inspectorNote}>{person.note}</p>}
     </div>
 
-    {props.mobile && person.note && <p className={styles.inspectorNote}>{person.note}</p>}
-
-    {props.mobile && <button type="button" onClick={props.onClose} className={styles.closeButton} aria-label={props.closeLabel}><X size={20} /></button>}
-
-    {!props.mobile && <InspectorActions {...props} />}
+    <InspectorActions {...props} />
   </div>;
 }
 
 export default function RelationInspector(props: Props) {
-  useEffect(() => {
-    if (!props.mobile) return;
-    const body = document.body;
-    const scrollY = window.scrollY;
-    const previous = {
-      overflow: body.style.overflow, position: body.style.position,
-      top: body.style.top, width: body.style.width,
-    };
-    Object.assign(body.style, {
-      overflow: "hidden", position: "fixed", top: `-${scrollY}px`, width: "100%",
-    });
-    return () => {
-      Object.assign(body.style, previous);
-      window.scrollTo(0, scrollY);
-    };
-  }, [props.mobile]);
-
-  if (!props.mobile) return <aside className={styles.desktopInspector}><InspectorCard {...props} /></aside>;
-  if (typeof document === "undefined") return null;
-  return createPortal(<>
-    <button type="button" className={styles.sheetBackdrop} style={{ zIndex: Z_INDEX.overlay }} onClick={props.onClose} aria-label={props.closeLabel} />
-    <aside className={styles.mobileSheet} style={{ ...props.materialStyle, zIndex: Z_INDEX.modal }} role="dialog" aria-modal="true" aria-label={props.person.name}>
-      <span className={styles.sheetHandle} aria-hidden />
-      <div className={styles.sheetScroll}><InspectorCard {...props} /></div>
-    </aside>
-  </>, document.body);
+  return <aside className={styles.desktopInspector}><InspectorCard {...props} /></aside>;
 }

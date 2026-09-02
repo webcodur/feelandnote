@@ -19,6 +19,7 @@ const KIND_OF: Record<string, NeighborKind> = {
   rival: "rival",
   colleague: "together",
   cofounder: "together",
+  counterpart: "together",
   partner: "together",
   spouse: "family",
   sibling: "family",

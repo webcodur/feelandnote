@@ -25,6 +25,37 @@ test('legacy inverse rows become one viewed relation', () => {
   assert.equal(mergeRelationRowsForViewer(rows, 'b')[0]?.relType, 'influence')
 })
 
+test('counterpart rows in both endpoint orders become one symmetric relation', () => {
+  const rows: StoredRelationRow[] = [
+    {
+      ...base,
+      rel_group: 'counterpart',
+      from_id: 'jupiter',
+      to_id: 'zeus',
+      rel_type: 'counterpart',
+      note: 'shared',
+    },
+    {
+      ...base,
+      rel_group: 'counterpart',
+      from_id: 'zeus',
+      to_id: 'jupiter',
+      rel_type: 'counterpart',
+      note: 'old reverse',
+    },
+  ]
+
+  assert.deepEqual(mergeRelationRowsForViewer(rows, 'zeus'), [{
+    factKey: 'jupiter|zeus|counterpart',
+    counterpartId: 'jupiter',
+    relType: 'counterpart',
+    relGroup: 'counterpart',
+    note: 'shared',
+    noteEn: null,
+  }])
+  assert.equal(mergeRelationRowsForViewer(rows, 'jupiter')[0]?.relType, 'counterpart')
+})
+
 test('specific parent type wins over a legacy child fallback', () => {
   const rows: StoredRelationRow[] = [
     { ...base, rel_group: 'family', from_id: 'child', to_id: 'parent', rel_type: 'mother', note: 'shared' },

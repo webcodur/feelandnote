@@ -4,13 +4,12 @@ import { Minus, Plus } from "lucide-react";
 import { bindCanvasPan } from "./canvasPan";
 import GraphBoundaryFeedback, { type GraphBoundaryFeedbackHandle } from "./GraphBoundaryFeedback";
 import { containGraphViewport, createBoundedGraphPan, focusGraphPerson, restoreGraphView, type CenterableGraph, type ImmediateCameraGraph, type TranslatableGraph } from "./graphCamera";
+import { fitRenderedGraph } from "./graphFit";
 import { buildGraphData, graphStageHeight, mobileGraphStageHeight } from "./graphLayout";
 import { bindRelationClicks, createReadyQueue } from "./relationInteraction";
 import { relationFocusesForMode } from "./relationModel";
 import styles from "./RelationDiagram.module.css";
-import type {
-  DiagramData, DiagramLabels, PersonNode, RelationFocus, RelationMode, RelationModel,
-} from "./types";
+import type { DiagramData, DiagramLabels, PersonNode, RelationFocus, RelationMode, RelationModel } from "./types";
 interface GraphApi extends ImmediateCameraGraph, CenterableGraph, TranslatableGraph {
   render: () => Promise<void>;
   destroy: () => void;
@@ -132,6 +131,7 @@ function RelationDiagram(props: Props) {
         } else {
           await graph.fitCenter({ duration: 0 });
           await graph.zoomTo(defaultZoom, undefined, [container.clientWidth / 2, container.clientHeight / 2]);
+          await fitRenderedGraph(graph, container, minZoom);
         }
         await applySelection(graph, data, null, selectedIdRef.current, container);
         graphRef.current = graph;

@@ -15,6 +15,7 @@ const REL_WEIGHT: Record<string, number> = {
   father: 1,
   mother: 1,
   cofounder: 1,
+  counterpart: 1,
   // 같은 그룹·팀·단체에 함께 속한 사이. 아이돌 멤버끼리가 여기 걸린다
   colleague: 0.95,
   partner: 0.95,

@@ -4,31 +4,38 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
-  margin-bottom: 12px;
-  border-bottom: 1px solid color-mix(in srgb, var(--material-edge) 58%, transparent);
+  margin-bottom: 4px;
+  border-block: 1px solid color-mix(in srgb, var(--material-edge) 58%, transparent);
+  background: color-mix(in srgb, var(--material-panel) 78%, transparent);
+  box-shadow: inset 0 1px color-mix(in srgb, var(--material-raised) 52%, transparent);
 }
 
 .viewTabs button {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px; padding: 10px 16px; border: 0; border-bottom: 2px solid transparent;
+  min-height: 48px; padding: 8px 14px; border: 0; border-right: 1px solid color-mix(in srgb, var(--material-edge) 34%, transparent); border-bottom: 2px solid transparent;
   color: var(--material-muted); background: transparent; cursor: pointer;
 }
-.viewTabs button:hover { color: var(--material-text); background: color-mix(in srgb, var(--material-raised) 70%, transparent); }
+.viewTabs button:last-child { border-right: 0; }
+.viewTabs button:not(:disabled):hover { color: var(--material-text); background: color-mix(in srgb, var(--material-raised) 70%, transparent); }
+.viewTabs button:not(:disabled):active { color: var(--material-deep); background: var(--material-accent); }
 .viewTabs button[aria-selected="true"] { color: var(--material-accent); border-bottom-color: var(--material-accent); background: color-mix(in srgb, var(--material-accent) 7%, transparent); }
 .viewTabs button:disabled { opacity: .35; cursor: default; }
-.viewTabs span { font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
-.viewTabs small { font: 650 11px/1 ui-monospace, SFMono-Regular, Consolas, monospace; opacity: .76; }
+.viewTabs button:focus-visible, .relationFilters button:focus-visible { z-index: 1; outline: 2px solid var(--material-accent); outline-offset: -2px; }
+.viewTabs span { font-size: 16px; font-weight: 800; letter-spacing: -.01em; }
+.viewTabs small { display: inline-grid; min-width: 22px; min-height: 18px; padding-inline: 5px; place-items: center; border: 1px solid color-mix(in srgb, var(--material-edge) 58%, transparent); color: var(--material-muted); background: color-mix(in srgb, var(--material-deep) 34%, transparent); font: 700 12px/1 ui-monospace, SFMono-Regular, Consolas, monospace; }
+.viewTabs button[aria-selected="true"] small { border-color: color-mix(in srgb, var(--material-accent) 42%, transparent); color: var(--material-accent); }
 
 .relationFilters {
-  display: flex; width: 100%; margin-bottom: 10px; overflow-x: auto; overflow-anchor: none;
+  display: flex; width: 100%; margin-bottom: 8px; overflow-x: auto; overflow-anchor: none;
   border-block: 1px solid color-mix(in srgb, var(--material-edge) 48%, transparent);
+  background: color-mix(in srgb, var(--material-deep) 24%, transparent);
   scrollbar-width: none;
 }
 .relationFilters::-webkit-scrollbar { display: none; }
 .relationFilters button {
-  position: relative; display: grid; min-width: 82px; min-height: 44px; padding: 9px 12px; flex: 1 1 0;
+  position: relative; display: grid; min-width: 96px; min-height: 48px; padding: 8px 10px; flex: 1 1 0;
   place-items: center; border: 0; border-right: 1px solid color-mix(in srgb, var(--material-edge) 30%, transparent);
-  color: var(--material-muted); background: transparent; font-size: 14px; font-weight: 720; line-height: 1.25;
+  color: color-mix(in srgb, var(--material-text) 68%, var(--material-muted)); background: transparent; font-size: 16px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em;
   white-space: nowrap; cursor: pointer;
 }
 .relationFilters button:last-child { border-right: 0; }
@@ -102,32 +109,14 @@
 .inspectorActions button:disabled { opacity: .5; cursor: wait; }
 .sourceNote { margin-top: 11px; color: var(--material-muted); font-size: 11px; line-height: 1.55; }
 
-.sheetBackdrop, .mobileSheet { display: none; }
-
 @media (max-width: 900px) {
   .viewTabs { width: 100%; margin-bottom: 4px; }
-  .viewTabs span { font-size: 16px; }
-  .relationFilters { margin-bottom: 7px; }
-  .relationFilters button { min-width: 0; min-height: 46px; padding-inline: 6px; flex: 1 1 0; font-size: 13px; }
+  .viewTabs button { min-height: 48px; padding-inline: 10px; }
+  .relationFilters { margin-bottom: 6px; }
+  .relationFilters button { min-width: 0; min-height: 48px; padding: 6px 4px; flex: 1 1 0; font-size: 16px; line-height: 1.15; white-space: normal; }
   .diagramOnly { display: block; }
   .desktopInspector { display: none; }
   .belowCue { display: none; }
-  .sheetBackdrop { position: fixed; inset: 0; display: block; width: 100%; border: 0; background: rgb(0 0 0 / 68%); touch-action: none; }
-  .mobileSheet { position: fixed; right: 0; bottom: 0; left: 0; display: flex; max-height: 82dvh; overflow: hidden; flex-direction: column; overscroll-behavior: contain; border-top: 1px solid var(--material-edge); border-radius: 12px 12px 0 0; background: var(--material-panel); box-shadow: 0 -18px 60px rgb(0 0 0 / 55%); }
-  .sheetHandle { display: block; width: 34px; height: 3px; margin: 9px auto 0; border-radius: 2px; background: var(--material-edge); }
-  .sheetScroll { min-height: 0; overflow-y: auto; overflow-anchor: none; overscroll-behavior-y: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; }
-  .mobileSheet .inspectorCard { grid-template-columns: 104px minmax(0, 1fr); min-height: 0; padding: 16px 18px max(22px, env(safe-area-inset-bottom)); column-gap: 14px; row-gap: 16px; align-items: start; }
-  .mobileSheet .inspectorPortrait { display: flex; grid-column: 1; align-self: start; flex-direction: column; }
-  .mobileSheet .inspectorAvatar { width: 104px; height: 104px; min-height: 104px; border-radius: 50%; font-size: 18px; }
-  .mobileSheet .inspectorProfileFallback { min-height: 104px; }
-  .mobileSheet .inspectorProfileFallback::before { display: none; }
-  .mobileSheet .inspectorContent { grid-column: 2; padding: 4px 38px 0 0; }
-  .mobileSheet .inspectorIdentity strong { font-size: 22px; }
-  .mobileSheet .inspectorIdentity > span { font-size: 14px; }
-  .mobileSheet .inspectorMeta { margin-top: 9px; font-size: 13px; }
-  .mobileSheet .inspectorNote { grid-column: 1 / -1; width: 100%; margin-top: 0; overflow: visible; font-size: 15px; line-height: 25px; }
-  .closeButton { position: absolute; top: 13px; right: 14px; display: grid; width: 38px; height: 38px; border: 1px solid transparent; color: var(--material-muted); background: transparent; place-items: center; cursor: pointer; }
-  .closeButton:hover { color: var(--material-accent); border-color: var(--material-accent); background: var(--material-raised); }
 }
 
 @media (prefers-reduced-motion: reduce) {

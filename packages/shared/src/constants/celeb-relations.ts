@@ -1,6 +1,7 @@
 export type CelebRelationGroup =
   | 'family'
   | 'thought'
+  | 'counterpart'
   | 'rivalry'
   | 'career'
   | 'friendship'
@@ -20,6 +21,7 @@ const REVERSED_TYPE: Record<string, string> = {
 const SYMMETRIC_TYPES = new Set([
   'cofounder',
   'colleague',
+  'counterpart',
   'friend',
   'partner',
   'relative',
@@ -57,6 +59,7 @@ export const CELEB_RELATION_TYPE_ORDER = [
   'partner',
   'sibling',
   'relative',
+  'counterpart',
   'teacher',
   'student',
   'influence',
