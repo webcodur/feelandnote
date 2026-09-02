@@ -31,6 +31,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--web-env", type=Path, default=Path(__file__).parents[2] / "web-bo" / ".env")
     parser.add_argument("--output-root", type=Path)
     parser.add_argument(
+        "--resume-run",
+        type=Path,
+        help="Continue a failed run and generate only slots missing from its manifest.",
+    )
+    parser.add_argument(
         "--tts-overrides",
         type=Path,
         help="JSON with synthesis-only text by slot. DB display text remains unchanged.",
@@ -39,7 +44,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--stability", type=float, default=0.5)
     parser.add_argument("--similarity", type=float, default=0.75)
     parser.add_argument("--style", type=float, default=0.3)
-    parser.add_argument("--speed", type=float, help="Override celebs.voice_speed")
+    parser.add_argument(
+        "--speed",
+        type=float,
+        help="ElevenLabs synthesis speed (default: 1.0; independent of web playback voice_speed)",
+    )
     parser.add_argument("--ffprobe", default="ffprobe")
     parser.add_argument(
         "--dry-run",
@@ -91,7 +100,7 @@ def main() -> None:
         args.locale,
     )
     voice_id = resolve_voice_id(celeb, args.locale, args.voice_id)
-    speed = float(args.speed if args.speed is not None else (celeb.get("voice_speed") or 1.0))
+    speed = float(args.speed if args.speed is not None else 1.0)
 
     preflight = {
         "mode": "basic",
@@ -120,40 +129,83 @@ def main() -> None:
         return
 
     api_key = resolve_api_key(audio_env, args.account)
-    configured_root = audio_env.get("CELEB_DIALOGUE_VOICE_ROOT")
-    output_root = args.output_root or Path(
-        configured_root or r"D:\audios\interview-cleaner\celeb-dialogue-voices"
-    )
-    run_id = datetime.now().strftime("%Y%m%d-%H%M%S")
-    run_dir = output_root / args.slug / args.locale / run_id
-    run_dir.mkdir(parents=True, exist_ok=False)
+    if args.resume_run:
+        run_dir = args.resume_run.resolve()
+        manifest_path = run_dir / "manifest.json"
+        if not manifest_path.is_file():
+            raise RuntimeError(f"Resume manifest not found: {manifest_path}")
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if manifest.get("mode") != "basic":
+            raise RuntimeError("Only basic-mode runs can be resumed.")
+        if (manifest.get("celeb") or {}).get("slug") != args.slug:
+            raise RuntimeError("Resume run slug does not match --slug.")
+        if manifest.get("locale") != args.locale:
+            raise RuntimeError("Resume run locale does not match --locale.")
+        if manifest.get("voiceId") != voice_id:
+            raise RuntimeError("Resume run voice ID does not match the requested voice ID.")
+        if manifest.get("settings") != preflight["settings"]:
+            raise RuntimeError("Resume run synthesis settings do not match this request.")
 
-    manifest: dict[str, object] = {
-        "schemaVersion": 1,
-        "mode": "basic",
-        "runId": run_id,
-        "createdAt": datetime.now().astimezone().isoformat(),
-        "status": "generating",
-        "celeb": {
-            "id": celeb["id"],
-            "slug": celeb["slug"],
-            "nickname": celeb.get("nickname"),
-            "speechTone": celeb.get("speech_tone"),
-        },
-        "locale": args.locale,
-        "voiceId": voice_id,
-        "settings": preflight["settings"],
-        "ttsOverrides": preflight["ttsOverrides"],
-        "samples": [],
-    }
+        all_jobs = {str(job["slot"]): job for job in jobs}
+        samples = list(manifest.get("samples") or [])
+        existing_slots: set[str] = set()
+        for sample in samples:
+            slot = str(sample.get("slot"))
+            if slot in existing_slots or slot not in all_jobs:
+                raise RuntimeError(f"Invalid or duplicate resume sample slot: {slot}")
+            expected = all_jobs[slot]
+            if sample.get("text") != expected.get("text") or sample.get("ttsText") != expected.get("ttsText"):
+                raise RuntimeError(f"Resume sample text no longer matches DB/overrides: {slot}")
+            if not (run_dir / str(sample.get("file"))).is_file():
+                raise RuntimeError(f"Resume sample file is missing: {slot}")
+            existing_slots.add(slot)
+        jobs = [job for job in jobs if str(job["slot"]) not in existing_slots]
+        run_id = str(manifest.get("runId") or run_dir.name)
+        manifest["status"] = "generating"
+        manifest.pop("error", None)
+    else:
+        configured_root = audio_env.get("CELEB_DIALOGUE_VOICE_ROOT")
+        output_root = args.output_root or Path(
+            configured_root or r"D:\audios\interview-cleaner\celeb-dialogue-voices"
+        )
+        run_id = datetime.now().strftime("%Y%m%d-%H%M%S")
+        run_dir = output_root / args.slug / args.locale / run_id
+        run_dir.mkdir(parents=True, exist_ok=False)
+        samples = []
+        manifest = {
+            "schemaVersion": 1,
+            "mode": "basic",
+            "runId": run_id,
+            "createdAt": datetime.now().astimezone().isoformat(),
+            "status": "generating",
+            "celeb": {
+                "id": celeb["id"],
+                "slug": celeb["slug"],
+                "nickname": celeb.get("nickname"),
+                "speechTone": celeb.get("speech_tone"),
+            },
+            "locale": args.locale,
+            "voiceId": voice_id,
+            "settings": preflight["settings"],
+            "ttsOverrides": preflight["ttsOverrides"],
+            "samples": [],
+        }
     write_manifest(run_dir, manifest)
 
-    samples: list[dict[str, object]] = []
+    initial_sample_count = len(samples)
+    if not jobs:
+        if initial_sample_count != 22:
+            raise RuntimeError(f"Resume run has no missing jobs but only {initial_sample_count} samples.")
+        manifest["status"] = "generated"
+        write_manifest(run_dir, manifest)
+        print(json.dumps({"runDirectory": str(run_dir), "mode": "basic", "generatedCount": 22, "resumedGeneratedCount": 0}, ensure_ascii=False, indent=2))
+        return
+
     try:
         for index, job in enumerate(jobs, start=1):
             slot = str(job["slot"])
             destination = run_dir / str(job["fileName"])
-            print(f"generate {index:02d}/22 {slot}", flush=True)
+            print(f"generate {index:02d}/{len(jobs):02d} {slot}", flush=True)
             api_meta = synthesize(
                 api_key,
                 voice_id,
@@ -181,11 +233,18 @@ def main() -> None:
         write_manifest(run_dir, manifest)
         raise
 
+    if len(samples) != 22:
+        raise RuntimeError(f"Completed run must contain 22 samples, found {len(samples)}.")
     manifest["status"] = "generated"
     write_manifest(run_dir, manifest)
     print(
         json.dumps(
-            {"runDirectory": str(run_dir), "mode": "basic", "generatedCount": len(samples)},
+            {
+                "runDirectory": str(run_dir),
+                "mode": "basic",
+                "generatedCount": len(samples),
+                "resumedGeneratedCount": len(samples) - initial_sample_count,
+            },
             ensure_ascii=False,
             indent=2,
         )
