@@ -19,6 +19,7 @@
     "celeb:spectrum:test": "tsx --test scripts/lib/spectrum-reason-check.test.ts",
     "celeb:claim": "tsx scripts/celeb/claim.ts",
     "celeb:fill": "tsx scripts/celeb/fill.ts",
+    "celeb:profession:reclass": "tsx scripts/celeb/profession-reclass.ts",
     "celeb:speech:1-targets": "tsx scripts/celeb/speech/1-targets.ts",
     "celeb:speech:2-collect": "tsx scripts/celeb/speech/2-collect.ts",
     "celeb:speech:3-patch": "tsx scripts/celeb/speech/3-patch.ts",
