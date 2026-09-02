@@ -41,6 +41,9 @@ test('다음 책 상세의 여러 문단 전체를 소개로 복원한다', () =
       <p class="desc">
         첫 문단 &amp; 설명.<br><br><br><br>
         250자 뒤에 이어지는 둘째 문단과 결말.
+        <a href="javascript:;" class="more_comm2">
+          <span>더보기</span><span class="ico_rwd ico_bot_s"></span>
+        </a>
       </p>
       <div class="cp_comp">출처</div>
     </div>
