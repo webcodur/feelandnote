@@ -17,6 +17,37 @@ export interface FictionSourceContentSummary {
   thumbnailUrl: string | null
   isbn: string | null
   hasEnglishAmazon: boolean
+  editionCount: number
+  activeProductCount: number
+}
+
+export interface FictionSourceProductAdminItem {
+  id: number
+  platform: 'coupang' | 'amazon'
+  productId: string | null
+  productUrl: string | null
+  affiliateUrl: string
+  qualityEvidence: string[]
+  checkedAt: string | null
+  isActive: boolean
+}
+
+export interface FictionSourceEditionAdminItem {
+  id: number
+  contentId: string
+  locale: 'ko' | 'en'
+  title: string
+  creator: string | null
+  description: string | null
+  isbn: string | null
+  publisher: string | null
+  thumbnailUrl: string | null
+  releaseDate: string | null
+  editionKind: string | null
+  textScope: string | null
+  sortOrder: number
+  verified: boolean | null
+  products: FictionSourceProductAdminItem[]
 }
 
 export interface FictionSourceCharacterAssignment {
@@ -29,6 +60,7 @@ export interface FictionSourceCharacterAssignment {
 export interface FictionSourceAdminItem extends FictionSourceContentSummary {
   characterIds: string[]
   assignments: FictionSourceCharacterAssignment[]
+  editions: FictionSourceEditionAdminItem[]
   updatedAt: string
 }
 
@@ -78,6 +110,35 @@ interface AssignmentRow {
   description_en: string | null
 }
 
+interface EditionRow {
+  id: number
+  content_id: string
+  locale: string
+  title: string
+  creator: string | null
+  description: string | null
+  isbn: string | null
+  publisher: string | null
+  thumbnail_url: string | null
+  release_date: string | null
+  edition_kind: string | null
+  text_scope: string | null
+  sort_order: number
+  verified: boolean | null
+}
+
+interface ProductRow {
+  id: number
+  edition_id: number
+  platform: string
+  product_id: string | null
+  product_url: string | null
+  affiliate_url: string
+  quality_evidence: unknown
+  checked_at: string | null
+  is_active: boolean
+}
+
 interface CharacterRow {
   id: string
   slug: string
@@ -120,6 +181,45 @@ async function loadAllAssignments(): Promise<AssignmentRow[]> {
       .range(from, from + ADMIN_PAGE_SIZE - 1)
     if (error) throw new Error(`대표 원전 인물 연결 조회 실패: ${error.message}`)
     const page = (data ?? []) as AssignmentRow[]
+    rows.push(...page)
+    if (page.length < ADMIN_PAGE_SIZE) break
+  }
+  return rows
+}
+
+async function loadAllEditions(): Promise<EditionRow[]> {
+  const admin = createAdminClient()
+  const rows: EditionRow[] = []
+  for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
+    const { data, error } = await admin
+      .from('fiction_source_editions')
+      .select('id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,verified')
+      .order('content_id')
+      .order('locale')
+      .order('sort_order')
+      .order('id')
+      .range(from, from + ADMIN_PAGE_SIZE - 1)
+    if (error) throw new Error(`원전 판본 조회 실패: ${error.message}`)
+    const page = (data ?? []) as EditionRow[]
+    rows.push(...page)
+    if (page.length < ADMIN_PAGE_SIZE) break
+  }
+  return rows
+}
+
+async function loadAllProducts(): Promise<ProductRow[]> {
+  const admin = createAdminClient()
+  const rows: ProductRow[] = []
+  for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
+    const { data, error } = await admin
+      .from('fiction_source_products')
+      .select('id,edition_id,platform,product_id,product_url,affiliate_url,quality_evidence,checked_at,is_active')
+      .order('edition_id')
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: false })
+      .range(from, from + ADMIN_PAGE_SIZE - 1)
+    if (error) throw new Error(`원전 상품 조회 실패: ${error.message}`)
+    const page = (data ?? []) as ProductRow[]
     rows.push(...page)
     if (page.length < ADMIN_PAGE_SIZE) break
   }
@@ -172,9 +272,9 @@ function summarizeContents(
       creator: primary?.creator?.trim() || null,
       thumbnailUrl: primary?.thumbnail_url || en?.thumbnail_url || null,
       isbn: primary?.isbn || null,
-      hasEnglishAmazon: Boolean(en?.affiliate_url?.some(
-        (link) => link.platform === 'amazon' && link.url?.trim(),
-      )),
+      hasEnglishAmazon: false,
+      editionCount: 0,
+      activeProductCount: 0,
     }
   })
 }
@@ -218,16 +318,60 @@ async function loadContentSummaries(
 
 export async function getFictionSourceAdminData(): Promise<FictionSourceAdminData> {
   await requireAdmin()
-  const [sourceRows, assignmentRows, characterRows] = await Promise.all([
+  const [sourceRows, assignmentRows, characterRows, editionRows, productRows] = await Promise.all([
     loadAllSources(),
     loadAllAssignments(),
     loadAllFictionCharacters(),
+    loadAllEditions(),
+    loadAllProducts(),
   ])
   const summaries = await loadContentSummaries(
     sourceRows.map((row) => row.content_id),
   )
   const summaryById = new Map(summaries.map((summary) => [summary.id, summary]))
   const assignmentsByContent = new Map<string, FictionSourceCharacterAssignment[]>()
+  const productsByEdition = new Map<number, FictionSourceProductAdminItem[]>()
+  for (const product of productRows) {
+    if (product.platform !== 'coupang' && product.platform !== 'amazon') continue
+    const current = productsByEdition.get(product.edition_id) ?? []
+    current.push({
+      id: product.id,
+      platform: product.platform,
+      productId: product.product_id,
+      productUrl: product.product_url,
+      affiliateUrl: product.affiliate_url,
+      qualityEvidence: Array.isArray(product.quality_evidence)
+        ? product.quality_evidence.filter((value): value is string => typeof value === 'string')
+        : [],
+      checkedAt: product.checked_at,
+      isActive: product.is_active,
+    })
+    productsByEdition.set(product.edition_id, current)
+  }
+
+  const editionsByContent = new Map<string, FictionSourceEditionAdminItem[]>()
+  for (const edition of editionRows) {
+    if (edition.locale !== 'ko' && edition.locale !== 'en') continue
+    const current = editionsByContent.get(edition.content_id) ?? []
+    current.push({
+      id: edition.id,
+      contentId: edition.content_id,
+      locale: edition.locale,
+      title: edition.title,
+      creator: edition.creator,
+      description: edition.description,
+      isbn: edition.isbn,
+      publisher: edition.publisher,
+      thumbnailUrl: edition.thumbnail_url,
+      releaseDate: edition.release_date,
+      editionKind: edition.edition_kind,
+      textScope: edition.text_scope,
+      sortOrder: edition.sort_order,
+      verified: edition.verified,
+      products: productsByEdition.get(edition.id) ?? [],
+    })
+    editionsByContent.set(edition.content_id, current)
+  }
 
   for (const assignment of assignmentRows) {
     const contentId = assignment.content_id
@@ -245,10 +389,21 @@ export async function getFictionSourceAdminData(): Promise<FictionSourceAdminDat
     const summary = summaryById.get(row.content_id)
     if (!summary) return []
     const assignments = assignmentsByContent.get(summary.id) ?? []
+    const editions = editionsByContent.get(summary.id) ?? []
+    const activeProducts = editions.flatMap((edition) => (
+      edition.products.filter((product) => product.isActive)
+    ))
     return [{
       ...summary,
+      hasEnglishAmazon: editions.some((edition) => (
+        edition.locale === 'en'
+        && edition.products.some((product) => product.isActive && product.platform === 'amazon')
+      )),
+      editionCount: editions.length,
+      activeProductCount: activeProducts.length,
       characterIds: assignments.map((assignment) => assignment.celebId),
       assignments,
+      editions,
       updatedAt: row.updated_at,
     }]
   })
@@ -372,25 +527,17 @@ export async function saveFictionSourceCharacterDescription(input: {
   const admin = createAdminClient()
   if (descriptionEn) {
     const { data: englishEdition, error: englishEditionError } = await admin
-      .from('content_locales')
-      .select('affiliate_url')
+      .from('fiction_source_purchase_options')
+      .select('edition_id')
       .eq('content_id', contentId)
       .eq('locale', 'en')
+      .eq('platform', 'amazon')
+      .limit(1)
       .maybeSingle()
     if (englishEditionError) {
       throw new Error(`영문판 구매 링크 조회 실패: ${englishEditionError.message}`)
     }
-    const hasAmazon = Array.isArray(englishEdition?.affiliate_url)
-      && englishEdition.affiliate_url.some((link) => (
-        link
-        && typeof link === 'object'
-        && 'platform' in link
-        && link.platform === 'amazon'
-        && 'url' in link
-        && typeof link.url === 'string'
-        && link.url.trim()
-      ))
-    if (!hasAmazon) {
+    if (!englishEdition) {
       throw new Error('영어 등장 설명은 실제 영문판의 Amazon 링크를 먼저 등록해야 저장할 수 있습니다')
     }
   }
@@ -445,6 +592,220 @@ export async function saveFictionSourceCharacterDescription(input: {
   } catch {
     // 운영 DB 트리거도 같은 태그를 무효화한다. 저장 성공을 캐시 호출 실패로 되돌리지 않는다.
   }
+}
+
+const EDITION_KINDS = new Set([
+  'full',
+  'abridged',
+  'retelling',
+  'adaptation',
+  'selection',
+  'volume',
+])
+
+function nullableText(value: string): string | null {
+  return value.trim() || null
+}
+
+function validateEditionInput(input: {
+  contentId: string
+  locale: string
+  title: string
+  isbn: string
+  releaseDate: string
+  editionKind: string
+  sortOrder: number
+}) {
+  if (!input.contentId.trim()) throw new Error('원전 작품 ID가 필요합니다')
+  if (input.locale !== 'ko' && input.locale !== 'en') throw new Error('판본 언어는 ko 또는 en이어야 합니다')
+  if (!input.title.trim()) throw new Error('판본 제목이 필요합니다')
+  const isbn = input.isbn.replace(/[\s-]/g, '')
+  if (!/^(?:97[89]\d{10}|\d{9}[\dXx])$/.test(isbn)) {
+    throw new Error('정확한 판본을 구별할 ISBN-10 또는 ISBN-13이 필요합니다')
+  }
+  if (input.releaseDate && !/^\d{4}-\d{2}-\d{2}$/.test(input.releaseDate)) {
+    throw new Error('출간일은 YYYY-MM-DD 형식이어야 합니다')
+  }
+  if (input.editionKind && !EDITION_KINDS.has(input.editionKind)) {
+    throw new Error('지원하지 않는 판본 성격입니다')
+  }
+  if (!Number.isInteger(input.sortOrder) || input.sortOrder < 0) {
+    throw new Error('판본 순서는 0 이상의 정수여야 합니다')
+  }
+  return isbn
+}
+
+async function revalidateSourceCatalog(contentId: string) {
+  revalidatePath('/fiction-sources')
+  revalidatePath(`/contents/${contentId}`)
+  await revalidateWebItems(
+    [{ domain: CACHE_TAGS.CONTENTS, id: contentId }],
+    [CACHE_TAGS.FICTION_SOURCES],
+  )
+}
+
+export async function saveFictionSourceEdition(input: {
+  editionId?: number
+  contentId: string
+  locale: string
+  title: string
+  creator: string
+  description: string
+  isbn: string
+  publisher: string
+  thumbnailUrl: string
+  releaseDate: string
+  editionKind: string
+  textScope: string
+  sortOrder: number
+  verified: boolean
+}): Promise<void> {
+  await requireAdmin()
+  const contentId = input.contentId.trim()
+  const isbn = validateEditionInput({ ...input, contentId })
+  const admin = createAdminClient()
+  const mutable = {
+    title: input.title.trim(),
+    creator: nullableText(input.creator),
+    description: nullableText(input.description),
+    publisher: nullableText(input.publisher),
+    thumbnail_url: nullableText(input.thumbnailUrl),
+    release_date: nullableText(input.releaseDate),
+    edition_kind: nullableText(input.editionKind),
+    text_scope: nullableText(input.textScope),
+    sort_order: input.sortOrder,
+    verified: input.verified,
+  }
+
+  if (input.editionId) {
+    const { data: current, error: currentError } = await admin
+      .from('fiction_source_editions')
+      .select('id,content_id,locale,isbn')
+      .eq('id', input.editionId)
+      .maybeSingle()
+    if (currentError) throw new Error(`기존 판본 조회 실패: ${currentError.message}`)
+    if (!current) throw new Error('수정할 판본을 찾을 수 없습니다')
+    if (current.content_id !== contentId || current.locale !== input.locale || current.isbn !== isbn) {
+      throw new Error('작품·언어·ISBN은 판본의 항구적 식별자입니다. 다른 판본은 새로 추가하세요')
+    }
+
+    const { error } = await admin
+      .from('fiction_source_editions')
+      .update(mutable)
+      .eq('id', input.editionId)
+    if (error) throw new Error(`판본 수정 실패: ${error.message}`)
+  } else {
+    const { error } = await admin
+      .from('fiction_source_editions')
+      .insert({
+        content_id: contentId,
+        locale: input.locale,
+        isbn,
+        ...mutable,
+      })
+    if (error?.code === '23505') throw new Error('이 작품에 같은 언어·ISBN 판본이 이미 있습니다')
+    if (error) throw new Error(`판본 추가 실패: ${error.message}`)
+  }
+
+  await revalidateSourceCatalog(contentId)
+}
+
+function validateProductInput(input: {
+  platform: string
+  productId: string
+  productUrl: string
+  affiliateUrl: string
+  qualityEvidence: string[]
+}) {
+  if (input.platform !== 'coupang' && input.platform !== 'amazon') {
+    throw new Error('판매처는 coupang 또는 amazon이어야 합니다')
+  }
+  if (!input.productId.trim()) throw new Error('상품 ID가 필요합니다')
+  if (!input.productUrl.startsWith('https://')) throw new Error('HTTPS 상품 주소가 필요합니다')
+  if (!input.affiliateUrl.startsWith('https://')) throw new Error('HTTPS 제휴 주소가 필요합니다')
+  const evidence = input.qualityEvidence.map((value) => value.trim()).filter(Boolean)
+  if (evidence.length === 0) throw new Error('상품 화면에서 확인한 품질 근거가 필요합니다')
+  if (input.platform === 'coupang') {
+    if (!/^\d+$/.test(input.productId)) throw new Error('쿠팡 상품 ID는 숫자여야 합니다')
+    if (!/^https:\/\/(?:www\.)?coupang\.com\/vp\/products\/\d+/.test(input.productUrl)) {
+      throw new Error('쿠팡 상품 상세 주소가 올바르지 않습니다')
+    }
+    const urlProductId = new URL(input.productUrl).pathname.match(/\/vp\/products\/(\d+)/)?.[1]
+    if (urlProductId !== input.productId) {
+      throw new Error('쿠팡 상품 ID와 상품 상세 주소의 상품 번호가 다릅니다')
+    }
+    if (!/^https:\/\/link\.coupang\.com\/a\/[A-Za-z0-9]+\/?$/.test(input.affiliateUrl)) {
+      throw new Error('쿠팡 파트너스 단축 주소가 올바르지 않습니다')
+    }
+    if (!evidence.some((value) => /badge|배지|뱃지|로켓\s*배송|도착\s*보장/i.test(value))) {
+      throw new Error('쿠팡 상품에는 로켓배송·도착 보장 같은 배송 배지 근거가 필요합니다')
+    }
+  }
+  return evidence
+}
+
+export async function replaceFictionSourceProduct(input: {
+  editionId: number
+  platform: string
+  productId: string
+  productUrl: string
+  affiliateUrl: string
+  qualityEvidence: string[]
+}): Promise<void> {
+  await requireAdmin()
+  if (!Number.isInteger(input.editionId) || input.editionId <= 0) {
+    throw new Error('판본 ID가 올바르지 않습니다')
+  }
+  const evidence = validateProductInput(input)
+  const admin = createAdminClient()
+  const { data: edition, error: editionError } = await admin
+    .from('fiction_source_editions')
+    .select('content_id,locale')
+    .eq('id', input.editionId)
+    .maybeSingle()
+  if (editionError) throw new Error(`판본 조회 실패: ${editionError.message}`)
+  if (!edition) throw new Error('상품을 연결할 판본을 찾을 수 없습니다')
+  const expectedPlatform = edition.locale === 'en' ? 'amazon' : 'coupang'
+  if (input.platform !== expectedPlatform) {
+    throw new Error(`${edition.locale} 판본의 판매처는 ${expectedPlatform}이어야 합니다`)
+  }
+
+  const { error } = await admin.rpc('replace_fiction_source_product', {
+    p_edition_id: input.editionId,
+    p_platform: input.platform,
+    p_product_id: input.productId.trim(),
+    p_product_url: input.productUrl.trim(),
+    p_affiliate_url: input.affiliateUrl.trim(),
+    p_quality_evidence: evidence,
+    p_checked_at: new Date().toISOString(),
+  })
+  if (error) throw new Error(`판본 상품 교체 실패: ${error.message}`)
+  await revalidateSourceCatalog(edition.content_id)
+}
+
+export async function deactivateFictionSourceProduct(input: {
+  editionId: number
+  platform: string
+}): Promise<void> {
+  await requireAdmin()
+  if (input.platform !== 'coupang' && input.platform !== 'amazon') {
+    throw new Error('판매처는 coupang 또는 amazon이어야 합니다')
+  }
+  const admin = createAdminClient()
+  const { data: edition, error: editionError } = await admin
+    .from('fiction_source_editions')
+    .select('content_id')
+    .eq('id', input.editionId)
+    .maybeSingle()
+  if (editionError) throw new Error(`판본 조회 실패: ${editionError.message}`)
+  if (!edition) throw new Error('상품을 해제할 판본을 찾을 수 없습니다')
+
+  const { error } = await admin.rpc('deactivate_fiction_source_product', {
+    p_edition_id: input.editionId,
+    p_platform: input.platform,
+  })
+  if (error) throw new Error(`판본 상품 해제 실패: ${error.message}`)
+  await revalidateSourceCatalog(edition.content_id)
 }
 
 export async function removeFictionSource(contentId: string): Promise<void> {
