@@ -45,7 +45,7 @@ test('작품 하나와 인물별 한국어 등장 설명을 정리한다', () =>
     title: ' 레 미제라블 ',
     characters: [{
       slug: ' jean-valjean ',
-      relationType: 'origin',
+      relationType: 'appearance',
       description: ' 장 발장은 작품의 주인공이다. ',
       sortOrder: 0,
     }, {
@@ -58,7 +58,7 @@ test('작품 하나와 인물별 한국어 등장 설명을 정리한다', () =>
     title: '레 미제라블',
     characters: [{
       slug: 'jean-valjean',
-      relationType: 'origin',
+      relationType: 'appearance',
       description: '장 발장은 작품의 주인공이다.',
       sortOrder: 0,
     }, {
@@ -84,7 +84,7 @@ test('관계 유형, 한국어 설명, 단일 식별자, 정렬값을 필수 검
       ...base,
       characters: [{ ...base.characters[0], relationType: 'cameo' }],
     }),
-    /appearance, origin, adaptation/,
+    /appearance, related/,
   )
   assert.throws(
     () => parseFictionSourceBatchManifest({
@@ -99,6 +99,26 @@ test('관계 유형, 한국어 설명, 단일 식별자, 정렬값을 필수 검
       characters: [{ ...base.characters[0], sortOrder: -1 }],
     }),
     /0 이상의 정수/,
+  )
+
+  assert.deepEqual(parseFictionSourceBatchManifest({
+    contentId: CONTENT_ID,
+    characters: [{ slug: 'javert', relationType: 'related' }],
+  }).characters[0], {
+    slug: 'javert',
+    relationType: 'related',
+    description: null,
+  })
+  assert.throws(
+    () => parseFictionSourceBatchManifest({
+      contentId: CONTENT_ID,
+      characters: [{
+        slug: 'javert',
+        relationType: 'related',
+        description: '연관 관계에는 넣을 수 없는 등장 설명',
+      }],
+    }),
+    /연관 도서 관계에 입력할 수 없습니다/,
   )
 })
 
@@ -127,8 +147,8 @@ test('지정한 인물만 증분 갱신하고 작품의 다른 기존 관계는 
     resolved({
       slug: 'jean-valjean',
       celebId: JEAN_VALJEAN_ID,
-      relationType: 'origin',
-      description: '장 발장은 작품의 중심인물이다.',
+      relationType: 'related',
+      description: null,
     }),
     resolved({ slug: 'cosette', celebId: COSETTE_ID }),
   ], current)
@@ -137,6 +157,8 @@ test('지정한 인물만 증분 갱신하고 작품의 다른 기존 관계는 
   assert.equal(plan.changes[0].after.sort_order, 2, '생략한 기존 정렬값은 보존한다')
   assert.equal(plan.changes[1].after.sort_order, 6, '새 관계는 기존 마지막 다음에 놓는다')
   assert.equal(plan.writeRows.length, 2)
+  assert.equal(plan.changes[0].after.description, null)
+  assert.equal(plan.changes[0].after.description_en, null)
   assert.deepEqual(
     plan.expectedRows.find((row) => row.celeb_id === JAVERT_ID),
     current[1],
@@ -185,7 +207,7 @@ test('같은 작품 판본은 별도 복사하지 않고 한 contentId의 설명
     copyFrom: 'another-edition-content-id',
     characters: [{
       slug: 'jean-valjean',
-      relationType: 'origin',
+      relationType: 'appearance',
       description: '한국어 설명',
     }],
   }), /허용되지 않은 키.*copyFrom/)

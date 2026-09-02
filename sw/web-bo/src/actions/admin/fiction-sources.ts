@@ -50,8 +50,11 @@ export interface FictionSourceEditionAdminItem {
   products: FictionSourceProductAdminItem[]
 }
 
+export type FictionSourceRelationType = 'appearance' | 'related'
+
 export interface FictionSourceCharacterAssignment {
   celebId: string
+  relationType: FictionSourceRelationType
   sortOrder: number
   description: string | null
   descriptionEn: string | null
@@ -105,6 +108,7 @@ interface SourceRow {
 interface AssignmentRow {
   content_id: string
   celeb_id: string
+  relation_type: string
   sort_order: number
   description: string | null
   description_en: string | null
@@ -160,7 +164,7 @@ async function loadAllSources(): Promise<SourceRow[]> {
       .select('content_id,updated_at')
       .order('content_id')
       .range(from, from + ADMIN_PAGE_SIZE - 1)
-    if (error) throw new Error(`대표 원전 목록 조회 실패: ${error.message}`)
+    if (error) throw new Error(`인물 도서 목록 조회 실패: ${error.message}`)
     const page = (data ?? []) as SourceRow[]
     rows.push(...page)
     if (page.length < ADMIN_PAGE_SIZE) break
@@ -174,12 +178,12 @@ async function loadAllAssignments(): Promise<AssignmentRow[]> {
   for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
     const { data, error } = await admin
       .from('fiction_source_characters')
-      .select('content_id,celeb_id,sort_order,description,description_en')
+      .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
       .order('content_id')
       .order('sort_order')
       .order('celeb_id')
       .range(from, from + ADMIN_PAGE_SIZE - 1)
-    if (error) throw new Error(`대표 원전 인물 연결 조회 실패: ${error.message}`)
+    if (error) throw new Error(`인물 도서 관계 조회 실패: ${error.message}`)
     const page = (data ?? []) as AssignmentRow[]
     rows.push(...page)
     if (page.length < ADMIN_PAGE_SIZE) break
@@ -199,7 +203,7 @@ async function loadAllEditions(): Promise<EditionRow[]> {
       .order('sort_order')
       .order('id')
       .range(from, from + ADMIN_PAGE_SIZE - 1)
-    if (error) throw new Error(`원전 판본 조회 실패: ${error.message}`)
+    if (error) throw new Error(`인물 도서 판본 조회 실패: ${error.message}`)
     const page = (data ?? []) as EditionRow[]
     rows.push(...page)
     if (page.length < ADMIN_PAGE_SIZE) break
@@ -218,7 +222,7 @@ async function loadAllProducts(): Promise<ProductRow[]> {
       .order('created_at', { ascending: false })
       .order('id', { ascending: false })
       .range(from, from + ADMIN_PAGE_SIZE - 1)
-    if (error) throw new Error(`원전 상품 조회 실패: ${error.message}`)
+    if (error) throw new Error(`인물 도서 상품 조회 실패: ${error.message}`)
     const page = (data ?? []) as ProductRow[]
     rows.push(...page)
     if (page.length < ADMIN_PAGE_SIZE) break
@@ -226,18 +230,18 @@ async function loadAllProducts(): Promise<ProductRow[]> {
   return rows
 }
 
-async function loadAllFictionCharacters(): Promise<CharacterRow[]> {
+async function loadAllCharacters(): Promise<CharacterRow[]> {
   const admin = createAdminClient()
   const rows: CharacterRow[] = []
   for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
     const { data, error } = await admin
       .from('celebs')
       .select('id,slug,nickname,nickname_en,title,avatar_url,status:publication_status')
-      .eq('celeb_tier', 'fiction')
+      .neq('publication_status', 'deleted')
       .order('nickname')
       .order('id')
       .range(from, from + ADMIN_PAGE_SIZE - 1)
-    if (error) throw new Error(`픽션 인물 목록 조회 실패: ${error.message}`)
+    if (error) throw new Error(`인물 목록 조회 실패: ${error.message}`)
     const page = (data ?? []) as CharacterRow[]
     rows.push(...page)
     if (page.length < ADMIN_PAGE_SIZE) break
@@ -288,7 +292,7 @@ async function loadContentSummaries(
   const contents: ContentRow[] = []
   const locales: LocaleRow[] = []
 
-  // .in() URL 길이 한계를 피한다. 대표 원전이 늘어도 200개씩 고정한다.
+  // .in() URL 길이 한계를 피한다. 인물 도서가 늘어도 200개씩 고정한다.
   for (let from = 0; from < contentIds.length; from += 200) {
     const ids = contentIds.slice(from, from + 200)
     const [contentResult, localeResult] = await Promise.all([
@@ -303,10 +307,10 @@ async function loadContentSummaries(
     ])
 
     if (contentResult.error) {
-      throw new Error(`대표 원전 콘텐츠 조회 실패: ${contentResult.error.message}`)
+      throw new Error(`인물 도서 콘텐츠 조회 실패: ${contentResult.error.message}`)
     }
     if (localeResult.error) {
-      throw new Error(`대표 원전 판본 조회 실패: ${localeResult.error.message}`)
+      throw new Error(`인물 도서 locale 조회 실패: ${localeResult.error.message}`)
     }
 
     contents.push(...((contentResult.data ?? []) as ContentRow[]))
@@ -321,7 +325,7 @@ export async function getFictionSourceAdminData(): Promise<FictionSourceAdminDat
   const [sourceRows, assignmentRows, characterRows, editionRows, productRows] = await Promise.all([
     loadAllSources(),
     loadAllAssignments(),
-    loadAllFictionCharacters(),
+    loadAllCharacters(),
     loadAllEditions(),
     loadAllProducts(),
   ])
@@ -374,10 +378,14 @@ export async function getFictionSourceAdminData(): Promise<FictionSourceAdminDat
   }
 
   for (const assignment of assignmentRows) {
+    if (assignment.relation_type !== 'appearance' && assignment.relation_type !== 'related') {
+      throw new Error(`지원하지 않는 인물 도서 관계입니다: ${assignment.relation_type}`)
+    }
     const contentId = assignment.content_id
     const current = assignmentsByContent.get(contentId) ?? []
     current.push({
       celebId: assignment.celeb_id,
+      relationType: assignment.relation_type,
       sortOrder: assignment.sort_order,
       description: assignment.description?.trim() || null,
       descriptionEn: assignment.description_en?.trim() || null,
@@ -459,7 +467,7 @@ export async function searchFictionSourceCandidates(
   ])].slice(0, 30)
 
   const summaries = await loadContentSummaries(contentIds)
-  return summaries.sort((a, b) => (
+  return summaries.filter((summary) => summary.type === 'BOOK').sort((a, b) => (
     b.recordCount - a.recordCount
     || a.title.localeCompare(b.title, 'ko')
   ))
@@ -467,33 +475,52 @@ export async function searchFictionSourceCandidates(
 
 export async function saveFictionSource(input: {
   contentId: string
-  celebIds: string[]
+  relations: Array<{
+    celebId: string
+    relationType: FictionSourceRelationType
+  }>
 }): Promise<void> {
   await requireAdmin()
   const contentId = input.contentId.trim()
-  const celebIds = [...new Set(input.celebIds)]
+  const relations = input.relations.map((relation) => ({
+    celebId: relation.celebId.trim(),
+    relationType: relation.relationType,
+  }))
+  const celebIds = relations.map((relation) => relation.celebId)
 
   if (!contentId) throw new Error('대표 콘텐츠 ID가 필요합니다')
   if (celebIds.some((id) => !id)) throw new Error('비어 있는 인물 ID가 포함되어 있습니다')
+  if (new Set(celebIds).size !== celebIds.length) {
+    throw new Error('동일한 인물을 한 도서에 중복 연결할 수 없습니다')
+  }
+  if (relations.some((relation) => (
+    relation.relationType !== 'appearance' && relation.relationType !== 'related'
+  ))) {
+    throw new Error('관계는 등장 도서 또는 연관 도서여야 합니다')
+  }
 
   const admin = createAdminClient()
   const { data: previous, error: previousError } = await admin
     .from('fiction_source_characters')
     .select('celeb_id')
     .eq('content_id', contentId)
-  if (previousError) throw new Error(`기존 대표 원전 인물 조회 실패: ${previousError.message}`)
+  if (previousError) throw new Error(`기존 인물 도서 관계 조회 실패: ${previousError.message}`)
 
-  const { error } = await admin.rpc('set_fiction_source_characters', {
+  const { error } = await admin.rpc('set_figure_book_relations', {
     p_content_id: contentId,
-    p_celeb_ids: celebIds,
+    p_relations: relations.map((relation, sortOrder) => ({
+      celeb_id: relation.celebId,
+      relation_type: relation.relationType,
+      sort_order: sortOrder,
+    })),
   })
-  if (error) throw new Error(`대표 원전 저장 실패: ${error.message}`)
+  if (error) throw new Error(`인물 도서 저장 실패: ${error.message}`)
 
   const affectedCelebIds = [...new Set([...(previous ?? []).map((row) => row.celeb_id), ...celebIds])]
   const { data: celebs, error: celebsError } = affectedCelebIds.length > 0
     ? await admin.from('celebs').select('id, slug').in('id', affectedCelebIds)
     : { data: [], error: null }
-  if (celebsError) throw new Error(`대표 원전 인물 slug 조회 실패: ${celebsError.message}`)
+  if (celebsError) throw new Error(`인물 slug 조회 실패: ${celebsError.message}`)
 
   revalidatePath('/fiction-sources')
   revalidatePath(`/contents/${contentId}`)
@@ -544,7 +571,7 @@ export async function saveFictionSourceCharacterDescription(input: {
   const [currentResult, celebResult] = await Promise.all([
     admin
       .from('fiction_source_characters')
-      .select('description,description_en')
+      .select('relation_type,description,description_en')
       .eq('content_id', contentId)
       .eq('celeb_id', celebId)
       .maybeSingle(),
@@ -557,9 +584,15 @@ export async function saveFictionSourceCharacterDescription(input: {
   if (currentResult.error) {
     throw new Error(`기존 등장 설명 조회 실패: ${currentResult.error.message}`)
   }
-  if (!currentResult.data) throw new Error('저장할 원전 인물 연결을 찾을 수 없습니다')
+  if (!currentResult.data) throw new Error('저장할 인물 도서 관계를 찾을 수 없습니다')
+  if (currentResult.data.relation_type === 'related') {
+    throw new Error('연관 도서에는 작품 속 등장 설명을 저장할 수 없습니다')
+  }
+  if (currentResult.data.relation_type !== 'appearance') {
+    throw new Error(`지원하지 않는 인물 도서 관계입니다: ${currentResult.data.relation_type}`)
+  }
   if (celebResult.error) {
-    throw new Error(`대표 원전 인물 slug 조회 실패: ${celebResult.error.message}`)
+    throw new Error(`인물 slug 조회 실패: ${celebResult.error.message}`)
   }
 
   const currentDescription = currentResult.data.description?.trim() || null
@@ -574,7 +607,7 @@ export async function saveFictionSourceCharacterDescription(input: {
     .select('celeb_id')
     .maybeSingle()
   if (updateError) throw new Error(`등장 설명 저장 실패: ${updateError.message}`)
-  if (!updated) throw new Error('저장할 원전 인물 연결을 찾을 수 없습니다')
+  if (!updated) throw new Error('저장할 인물 도서 관계를 찾을 수 없습니다')
 
   revalidatePath('/fiction-sources')
   revalidatePath(`/contents/${contentId}`)
@@ -616,7 +649,7 @@ function validateEditionInput(input: {
   editionKind: string
   sortOrder: number
 }) {
-  if (!input.contentId.trim()) throw new Error('원전 작품 ID가 필요합니다')
+  if (!input.contentId.trim()) throw new Error('인물 도서 작품 ID가 필요합니다')
   if (input.locale !== 'ko' && input.locale !== 'en') throw new Error('판본 언어는 ko 또는 en이어야 합니다')
   if (!input.title.trim()) throw new Error('판본 제목이 필요합니다')
   const isbn = input.isbn.replace(/[\s-]/g, '')
@@ -818,19 +851,19 @@ export async function removeFictionSource(contentId: string): Promise<void> {
     .from('fiction_source_characters')
     .select('celeb_id')
     .eq('content_id', id)
-  if (previousError) throw new Error(`기존 대표 원전 인물 조회 실패: ${previousError.message}`)
+  if (previousError) throw new Error(`기존 인물 도서 관계 조회 실패: ${previousError.message}`)
 
   const { error } = await admin
     .from('fiction_source_contents')
     .delete()
     .eq('content_id', id)
-  if (error) throw new Error(`대표 원전 지정 해제 실패: ${error.message}`)
+  if (error) throw new Error(`인물 도서 지정 해제 실패: ${error.message}`)
 
   const affectedCelebIds = [...new Set((previous ?? []).map((row) => row.celeb_id))]
   const { data: celebs, error: celebsError } = affectedCelebIds.length > 0
     ? await admin.from('celebs').select('id, slug').in('id', affectedCelebIds)
     : { data: [], error: null }
-  if (celebsError) throw new Error(`대표 원전 인물 slug 조회 실패: ${celebsError.message}`)
+  if (celebsError) throw new Error(`인물 slug 조회 실패: ${celebsError.message}`)
 
   revalidatePath('/fiction-sources')
   revalidatePath(`/contents/${id}`)

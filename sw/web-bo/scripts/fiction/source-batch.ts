@@ -1,5 +1,5 @@
 /**
- * 조사 완료된 작품 하나의 픽션 인물 관계와 한국어 등장 설명을 증분 반영한다.
+ * 조사 완료된 작품 하나의 인물 관계와 한국어 등장 설명을 증분 반영한다.
  * 기본은 dry-run이며 --apply에서만 기존 운영 DB 행을 추가·갱신한다.
  * 영어 설명은 실제 영문판과 Amazon 링크를 확인하는 별도 작업에서만 다룬다.
  * 콘텐츠 신규 생성과 기존 관계 삭제는 하지 않는다.
@@ -33,7 +33,6 @@ type FictionSourceRow = {
 type CelebRow = {
   id: string
   slug: string
-  celeb_tier: string | null
 }
 
 type SourceBatchSnapshot = {
@@ -77,9 +76,9 @@ async function loadSourceBatchSnapshot(
     throw new Error(`기존 contents에서 contentId를 찾을 수 없습니다: ${contentId}`)
   }
   if ((contentResult.data as ContentRow).type !== 'BOOK') {
-    throw new Error(`픽션 원전에는 BOOK만 지정할 수 있습니다: ${(contentResult.data as ContentRow).type}`)
+    throw new Error(`인물 도서에는 BOOK만 지정할 수 있습니다: ${(contentResult.data as ContentRow).type}`)
   }
-  if (sourceResult.error) throw new Error(`픽션 원전 지정 조회 실패: ${sourceResult.error.message}`)
+  if (sourceResult.error) throw new Error(`인물 도서 지정 조회 실패: ${sourceResult.error.message}`)
   if (rowsResult.error) throw new Error(`기존 등장 관계 조회 실패: ${rowsResult.error.message}`)
 
   return {
@@ -97,7 +96,7 @@ async function loadCelebs(
   if (values.length === 0) return []
   const { data, error } = await db
     .from('celebs')
-    .select('id,slug,celeb_tier')
+    .select('id,slug')
     .in(column, values)
   if (error) throw new Error(`인물 조회 실패 (${column}): ${error.message}`)
   return (data ?? []) as CelebRow[]
@@ -122,9 +121,6 @@ async function resolveCharacters(
       : byId.get(character.celebId!)
     const identifier = character.slug ?? character.celebId!
     if (!profile) throw new Error(`characters[${index}] 인물을 찾을 수 없습니다: ${identifier}`)
-    if (profile.celeb_tier !== 'fiction') {
-      throw new Error(`characters[${index}]은 fiction 인물이 아닙니다: ${profile.slug}`)
-    }
     return {
       celebId: profile.id,
       slug: profile.slug,
@@ -141,9 +137,9 @@ async function verifySourceDesignation(db: DatabaseClient, contentId: string): P
     .select('content_id')
     .eq('content_id', contentId)
     .maybeSingle()
-  if (error) throw new Error(`픽션 원전 지정 readback 실패: ${error.message}`)
+  if (error) throw new Error(`인물 도서 지정 readback 실패: ${error.message}`)
   if (!data || (data as FictionSourceRow).content_id !== contentId) {
-    throw new Error(`픽션 원전 지정 readback 실패: ${contentId}`)
+    throw new Error(`인물 도서 지정 readback 실패: ${contentId}`)
   }
 }
 
@@ -172,7 +168,7 @@ async function applySourceBatch(
     const { error } = await db
       .from('fiction_source_contents')
       .upsert({ content_id: contentId }, { onConflict: 'content_id', ignoreDuplicates: true })
-    if (error) throw new Error(`픽션 원전 지정 실패: ${error.message}`)
+    if (error) throw new Error(`인물 도서 지정 실패: ${error.message}`)
   }
 
   if (writeRows.length > 0) {
@@ -185,7 +181,7 @@ async function applySourceBatch(
       .from('fiction_source_contents')
       .update({ updated_at: new Date().toISOString() })
       .eq('content_id', contentId)
-    if (touchError) throw new Error(`픽션 원전 갱신 시각 저장 실패: ${touchError.message}`)
+    if (touchError) throw new Error(`인물 도서 갱신 시각 저장 실패: ${touchError.message}`)
   }
 
   await verifySourceDesignation(db, contentId)

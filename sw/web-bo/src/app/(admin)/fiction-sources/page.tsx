@@ -3,7 +3,7 @@ import { getFictionSourceAdminData } from '@/actions/admin/fiction-sources'
 import FictionSourcesManager from './FictionSourcesManager'
 
 export const metadata: Metadata = {
-  title: '픽션 원전 관리',
+  title: '인물 도서 관리',
 }
 
 export default async function FictionSourcesPage() {
