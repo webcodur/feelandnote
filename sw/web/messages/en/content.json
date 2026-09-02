@@ -58,11 +58,12 @@
     "contentInfo": "Content Info",
     "fictionCharacters": "Figures in This Work",
     "fictionCharactersCount": "{count}",
-    "fictionCharactersIntro": "These figures are linked to this designated source work. Select one to open their archive.",
-    "fictionRelation": {
-      "appearance": "Appears",
-      "origin": "Origin",
-      "adaptation": "Adaptation"
+    "fictionCharactersIntro": "These figures are linked to this designated source work. Select a name to open the figure archive, or use the image icon to enlarge the image.",
+    "fictionCharacterImage": "Enlarge image of {name}",
+    "imageViewer": {
+      "close": "Close image",
+      "previous": "Previous image",
+      "next": "Next image"
     },
     "myReview": "My Review",
     "myNote": "My Notes",
