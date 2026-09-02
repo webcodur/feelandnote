@@ -189,6 +189,7 @@ export function parseDaumBookDescription(html: string): string | null {
 
   const text = decodeHtmlEntities(
     match[1]
+      .replace(/<a[^>]+class=["'][^"']*\bmore_comm2\b[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, ' ')
       .replace(/<br\s*\/?>/gi, '\n')
       .replace(/<[^>]+>/g, ' '),
   )
