@@ -34,5 +34,13 @@ export default function CuratedListBrowseLinks({
   };
 
   // 링크 모드지만 기관별/주제별 갈아타기는 탭 행이 바뀌므로 살아 있어야 한다
-  return <CuratedBrowseTabs browse={browse} linkHref={linkHref} onView={browse.setViewTopic} />;
+  return (
+    <CuratedBrowseTabs
+      browse={browse}
+      linkHref={linkHref}
+      align="center"
+      size="md"
+      onView={browse.setViewTopic}
+    />
+  );
 }

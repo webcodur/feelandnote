@@ -1,5 +1,7 @@
 // 천도 — 셀럽 전략 시뮬레이션 타입 정의
 
+import type { CelebSpeechTone } from '@feelandnote/shared/constants/celeb-speech'
+
 // ── 기본 열거 ──
 
 export type UnitClass = 'general' | 'saint' | 'strategist' | 'official' | 'artist' | 'artisan' | 'ranger'
@@ -403,7 +405,7 @@ export interface GameState {
 
 // ── 대화 시스템 ──
 
-export type SpeechTone = 'loyal' | 'composed' | 'bold' | 'humble' | 'gentle' | 'free'
+export type SpeechTone = CelebSpeechTone
 
 export type DialogType =
   | 'join_accept' | 'join_refuse' | 'join_rejected'

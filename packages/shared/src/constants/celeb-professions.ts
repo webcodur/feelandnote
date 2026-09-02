@@ -1,13 +1,6 @@
-// 셀럽 직업 분류 상수
-import type { CelebProfession } from '../types'
-
-export interface ProfessionOption {
-  value: CelebProfession
-  label: string
-  label_en: string
-}
-
-export const CELEB_PROFESSIONS: readonly ProfessionOption[] = [
+// 셀럽 직군 허용값과 표시명의 코드 SSoT.
+// DB CHECK와 docs/project/celeb/celeb-01-01-profile-facts.md의 판정 규칙도 이 값 집합을 사용한다.
+export const CELEB_PROFESSIONS = [
   { value: 'leader', label: '지도자', label_en: 'Leader' },
   { value: 'politician', label: '정치인', label_en: 'Politician' },
   { value: 'commander', label: '지휘관', label_en: 'Commander' },
@@ -23,7 +16,11 @@ export const CELEB_PROFESSIONS: readonly ProfessionOption[] = [
   { value: 'actor', label: '배우', label_en: 'Actor' },
   { value: 'influencer', label: '인플루엔서', label_en: 'Influencer' },
   { value: 'athlete', label: '스포츠인', label_en: 'Athlete' },
+  { value: 'other', label: '기타', label_en: 'Other' },
 ] as const
+
+export type CelebProfession = (typeof CELEB_PROFESSIONS)[number]['value']
+export type ProfessionOption = (typeof CELEB_PROFESSIONS)[number]
 
 // 필터용 (전체 포함)
 export const CELEB_PROFESSION_FILTERS = [

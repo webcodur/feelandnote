@@ -107,6 +107,10 @@ export default function CelebHeroSection({
         { age: ageInfo.age },
       )
     : null;
+  const mobileAgeLabel =
+    ageInfo && !ageInfo.deceased && locale === "ko"
+      ? `${ageInfo.approximate ? "약 " : ""}${ageInfo.age}세`
+      : ageLabel;
   const zoomImageUrl = profile.photo_url ?? profile.avatar_url ?? null;
   const zoomCaption = profile.photo_url
     ? (locale === "en"
@@ -323,8 +327,14 @@ export default function CelebHeroSection({
                   ) : null}
                   {period ? <span className="font-mono">{period}</span> : null}
                   {ageLabel ? (
-                    <span className="rounded-md border border-accent-dim/25 bg-accent/[0.04] px-3 py-1.5 font-medium leading-tight text-text-secondary">
-                      {ageLabel}
+                    <span
+                      className="rounded-md border border-accent-dim/25 bg-accent/[0.04] px-3 py-1.5 font-medium leading-tight text-text-secondary"
+                      aria-label={ageLabel}
+                    >
+                      <span className={styles.desktopAgeLabel}>{ageLabel}</span>
+                      <span className={styles.mobileAgeLabel} aria-hidden="true">
+                        {mobileAgeLabel}
+                      </span>
                     </span>
                   ) : null}
                   <CelebTierBadge tier={celebTier} />

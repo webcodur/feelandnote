@@ -71,6 +71,8 @@ interface FigureLinkGridProps {
   /** 격자 아래 "전체 보기" 줄 — 명부 전체로 가는 길을 남길 때 쓴다 */
   moreHref?: string;
   moreLabel?: string;
+  /** 모바일에서 긴 목록만 내부 스크롤로 제한한다 */
+  mobileScrollable?: boolean;
 }
 
 /** 얼굴 칸 너비(px). 48을 넘기면 800px 원본을 받는다 — celeb-avatar-small.ts의 상한이다 */
@@ -83,6 +85,7 @@ export default async function FigureLinkGrid({
   figures,
   moreHref,
   moreLabel,
+  mobileScrollable = false,
 }: FigureLinkGridProps) {
   // slug가 없으면 상세로 갈 주소가 없다
   const linkable = figures.filter((figure) => figure.slug);
@@ -102,7 +105,13 @@ export default async function FigureLinkGrid({
         />
       )}
 
-      <ul className={`grid gap-3 ${colsFor(linkable.length)}`}>
+      <ul
+        className={`grid gap-3 ${colsFor(linkable.length)} ${
+          mobileScrollable
+            ? "max-h-[clamp(300px,52dvh,480px)] touch-pan-y overflow-y-auto overscroll-y-auto [overflow-anchor:none] [scrollbar-width:thin] md:max-h-none md:overflow-visible"
+            : ""
+        }`}
+      >
         {linkable.map((figure) => {
           const name = (isEn && figure.nickname_en) || figure.nickname;
           const sub =

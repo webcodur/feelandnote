@@ -159,7 +159,7 @@ export default function FictionSourceFeature({
             </dl>
           )}
 
-          {source.appearanceDescription ? (
+          {source.relationType === "appearance" && source.appearanceDescription ? (
             <div className="col-span-2 mt-5 border-s-2 border-accent bg-accent/[0.06] px-4 py-3 lg:col-span-1">
               <p className="text-sm font-black tracking-[0.16em] text-accent">
                 {t("sourceWorkCharacterAppearance", { name: nickname })}

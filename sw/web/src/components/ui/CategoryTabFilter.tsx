@@ -58,6 +58,7 @@ export function CategoryTabFilter<T extends string>({
 }: CategoryTabFilterProps<T>) {
   const pad = size === "sm" ? "px-3 py-1.5 text-xs sm:text-sm" : "px-4 sm:px-5 py-2 text-sm md:text-base";
   const isGrid = !!gridCols;
+  const justify = align === "left" ? "justify-start" : isGrid ? "justify-center" : "";
   const gridClass =
     gridCols === 2
       ? "grid grid-cols-2"
@@ -73,12 +74,10 @@ export function CategoryTabFilter<T extends string>({
 
   return (
     <div
-      className={`flex ${isGrid ? "justify-center pb-0" : wrap ? "flex-wrap pb-0" : "overflow-x-auto pb-1 scrollbar-hidden"} ${
-        align === "left" ? "justify-start" : "justify-center"
-      } ${className}`}
+      className={`flex min-w-0 max-w-full ${isGrid ? "pb-0" : wrap ? "flex-wrap pb-0" : "overflow-x-auto pb-1 scrollbar-hidden"} ${justify} ${className}`}
     >
       <div
-        className={`${isGrid ? `${gridClass} gap-1.5 p-1.5 max-w-md w-full` : wrap ? "flex flex-wrap justify-center gap-1.5 p-1.5 max-w-4xl" : "inline-flex min-w-max items-center gap-1 p-1"} ${
+        className={`${isGrid ? `${gridClass} gap-1.5 p-1.5 max-w-md w-full` : wrap ? "flex flex-wrap justify-center gap-1.5 p-1.5 max-w-4xl" : "inline-flex min-w-max items-center gap-1 p-1"} ${align === "center" && !isGrid ? "mx-auto" : ""} ${
           subtle
             ? "bg-neutral-950/60 backdrop-blur-sm border border-white/[0.08] rounded-xl shadow-inner"
             : "bg-neutral-900/80 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg p-1.5"

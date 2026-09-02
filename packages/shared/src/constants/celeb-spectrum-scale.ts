@@ -1,14 +1,7 @@
 // 인물 16축 스펙트럼 채점 척도 — 물리 저장소는 celeb_persona.persona를 유지한다.
 //
 // 이 파일이 유일한 척도다. 문서·백오피스 화면·채점 작업 지시문은 모두 여기를 참조한다.
-// 수치를 다른 곳에 옮겨 적지 마라. 26.08.08 통합 이전에는 척도가 두 벌이었고 서로 어긋나 있었다.
-//   - docs/project/celeb/celeb-5-spectrum.md : 실존 인물 기준 (무력 한 축만)
-//   - sw/web-bo/src/constants/spectrumReferencePoints.ts : KOEI 삼국지 기준 (능력 네 축)
-//   같은 무력인데 조조 79 · 이순신 88로 두 자가 갈라져 있었고, 채점 담당은 문서만 읽어
-//   삼국지 표를 보지 못했다. 그 결과 잣대 없는 축(통솔·덕목·성향)은 채점 회차마다 흔들렸다.
-//
-// 실측 근거(26.08.08): 잣대가 있는 무력은 회차가 바뀌어도 지휘관 평균이 76~78로 일정했으나,
-// 잣대가 없는 통솔은 인물 위상과의 상관이 -0.16 ~ +0.54로 요동쳤다.
+// 수치와 기준점 인물을 다른 문서나 화면 상수에 옮겨 적지 않는다.
 
 // ─────────────────────────────────────────────────────────────
 // 축 정의
@@ -41,6 +34,15 @@ export const SPECTRUM_AXES: readonly SpectrumAxis[] = [
   ...OUTER_VIRTUE_KEYS,
   ...DISPOSITION_KEYS,
 ] as const
+
+export const SPECTRUM_GROUPS = {
+  abilities: ABILITY_KEYS,
+  inner_virtues: INNER_VIRTUE_KEYS,
+  outer_virtues: OUTER_VIRTUE_KEYS,
+  dispositions: DISPOSITION_KEYS,
+} as const
+
+export type SpectrumGroup = keyof typeof SPECTRUM_GROUPS
 
 /** 축 한국어 이름. 사용자 화면 노출 문구는 이 값을 쓴다. */
 export const AXIS_LABELS: Record<SpectrumAxis, string> = {

@@ -22,6 +22,18 @@ export default function FictionCharactersSection({
 }: FictionCharactersSectionProps) {
   const t = useTranslations("contentDetail");
   const [preview, setPreview] = useState<FictionSourceCharacter | null>(null);
+  const groups = [
+    {
+      relationType: "appearance" as const,
+      label: t("fictionCharactersAppearance"),
+      characters: characters.filter((character) => character.relationType === "appearance"),
+    },
+    {
+      relationType: "related" as const,
+      label: t("fictionCharactersRelated"),
+      characters: characters.filter((character) => character.relationType === "related"),
+    },
+  ].filter((group) => group.characters.length > 0);
 
   return (
     <div className="space-y-4 pt-4">
@@ -32,63 +44,73 @@ export default function FictionCharactersSection({
         </p>
       </div>
 
-      <div className="grid gap-2 sm:grid-cols-2">
-        {characters.map((character) => {
-          const imageLabel = t("fictionCharacterImage", {
-            name: character.nickname,
-          });
+      {groups.map((group) => (
+        <section key={group.relationType}>
+          <h3 className="mb-2 flex items-center gap-2 text-sm font-black text-text-primary">
+            {group.label}
+            <span className="font-mono text-xs font-medium text-text-tertiary">
+              {group.characters.length}
+            </span>
+          </h3>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {group.characters.map((character) => {
+              const imageLabel = t("fictionCharacterImage", {
+                name: character.nickname,
+              });
 
-          return (
-            <div
-              key={character.id}
-              className="group flex h-[70px] items-stretch overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] hover:border-accent/60 hover:bg-accent/[0.07]"
-            >
-              <Link
-                href={`/celeb/${character.slug}`}
-                className="flex min-w-0 flex-1 items-stretch focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
-              >
-                <span className="relative w-12 shrink-0 overflow-hidden border-e border-white/10 bg-bg-secondary">
-                  {character.avatarUrl ? (
-                    <CelebAvatarImage
-                      src={character.avatarUrl}
-                      alt=""
-                      sizes="48px"
-                    />
-                  ) : (
-                    <span className="flex h-full w-full items-center justify-center text-text-tertiary">
-                      <UserRound size={18} />
-                    </span>
-                  )}
-                </span>
-
-                <span className="min-w-0 flex-1 self-center ps-3">
-                  <span className="block truncate text-sm font-semibold text-text-primary group-hover:text-accent">
-                    {character.nickname}
-                  </span>
-                  {character.title && (
-                    <span className="mt-0.5 block truncate text-[11px] text-text-secondary">
-                      {character.title}
-                    </span>
-                  )}
-                </span>
-              </Link>
-
-              {character.avatarUrl && (
-                <button
-                  type="button"
-                  onClick={() => setPreview(character)}
-                  aria-label={imageLabel}
-                  aria-haspopup="dialog"
-                  title={imageLabel}
-                  className="my-auto me-2.5 flex size-8 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:bg-accent/[0.12] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              return (
+                <div
+                  key={character.id}
+                  className="group flex h-[70px] items-stretch overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] hover:border-accent/60 hover:bg-accent/[0.07]"
                 >
-                  <Images size={16} aria-hidden />
-                </button>
-              )}
-            </div>
-          );
-        })}
-      </div>
+                  <Link
+                    href={`/celeb/${character.slug}`}
+                    className="flex min-w-0 flex-1 items-stretch focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+                  >
+                    <span className="relative w-12 shrink-0 overflow-hidden border-e border-white/10 bg-bg-secondary">
+                      {character.avatarUrl ? (
+                        <CelebAvatarImage
+                          src={character.avatarUrl}
+                          alt=""
+                          sizes="48px"
+                        />
+                      ) : (
+                        <span className="flex h-full w-full items-center justify-center text-text-tertiary">
+                          <UserRound size={18} />
+                        </span>
+                      )}
+                    </span>
+
+                    <span className="min-w-0 flex-1 self-center ps-3">
+                      <span className="block truncate text-sm font-semibold text-text-primary group-hover:text-accent">
+                        {character.nickname}
+                      </span>
+                      {character.title ? (
+                        <span className="mt-0.5 block truncate text-[11px] text-text-secondary">
+                          {character.title}
+                        </span>
+                      ) : null}
+                    </span>
+                  </Link>
+
+                  {character.avatarUrl ? (
+                    <button
+                      type="button"
+                      onClick={() => setPreview(character)}
+                      aria-label={imageLabel}
+                      aria-haspopup="dialog"
+                      title={imageLabel}
+                      className="my-auto me-2.5 flex size-8 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:bg-accent/[0.12] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    >
+                      <Images size={16} aria-hidden />
+                    </button>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ))}
 
       {preview?.avatarUrl && (
         <ImageGalleryModal

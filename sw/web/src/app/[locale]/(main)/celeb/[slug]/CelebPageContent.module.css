@@ -170,6 +170,10 @@
   font-weight: 700;
 }
 
+.mobileAgeLabel {
+  display: none;
+}
+
 .bio {
   max-width: 72ch;
   margin-top: 18px;
@@ -318,12 +322,15 @@
   }
 
   .recordsGrid {
-    width: 100%;
-    margin: 72px 0 0;
+    /* 읽어보기부터는 PageContainer(12px)와 바깥 본문 패딩(8px)을 걷고
+       모바일 공통 프레임의 2px 테두리 안쪽까지 쓴다. */
+    width: calc(100% + 40px);
+    margin: 72px -20px 0;
   }
 
   .trailing {
-    width: 100%;
+    width: calc(100% + 40px);
+    margin-inline: -20px;
   }
 
   .identityPanel {
@@ -382,6 +389,14 @@
     margin-top: 14px;
     gap: 8px 10px;
     line-height: 1.35;
+  }
+
+  .desktopAgeLabel {
+    display: none;
+  }
+
+  .mobileAgeLabel {
+    display: inline;
   }
 
   .bio,

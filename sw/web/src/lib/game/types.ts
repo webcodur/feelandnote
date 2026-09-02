@@ -4,23 +4,23 @@
   책임: 게임 전체에서 사용하는 타입을 단일 원천으로 관리한다.
 */
 
+import {
+  INFLUENCE_CATEGORY_FIELDS,
+  INFLUENCE_LABELS,
+  type InfluenceCategoryField,
+} from '@feelandnote/influence-constants/core'
 import type { AbilityKey } from "@/lib/spectrum/constants";
 import type { SpeechTone, DialogueLines } from "@/lib/game/voice/types";
 
 // ─── 도메인 (영향력 6대 영역) ───
 
-export type Domain = "political" | "strategic" | "tech" | "social" | "economic" | "cultural";
+export type Domain = InfluenceCategoryField
 
-export const DOMAINS: Domain[] = ["political", "strategic", "tech", "social", "economic", "cultural"];
+export const DOMAINS: Domain[] = [...INFLUENCE_CATEGORY_FIELDS]
 
-export const DOMAIN_LABELS: Record<Domain, string> = {
-  political: "정치",
-  strategic: "전략",
-  tech: "기술",
-  social: "사회",
-  economic: "경제",
-  cultural: "문화",
-};
+export const DOMAIN_LABELS: Record<Domain, string> = Object.fromEntries(
+  INFLUENCE_CATEGORY_FIELDS.map((domain) => [domain, INFLUENCE_LABELS[domain]]),
+) as Record<Domain, string>
 
 export const DOMAIN_LABELS_EN: Record<Domain, string> = {
   political: "POLITICAL",

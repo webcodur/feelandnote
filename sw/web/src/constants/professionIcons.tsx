@@ -14,10 +14,12 @@ import {
   Drama,
   Megaphone,
   Dribbble,
+  Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import type { CelebProfession } from "@feelandnote/shared/constants/celeb-professions";
 
-export const PROFESSION_ICONS: Record<string, LucideIcon> = {
+export const PROFESSION_ICONS: Readonly<Record<string, LucideIcon>> = {
   leader: Crown,
   politician: Landmark,
   commander: Shield,
@@ -33,10 +35,11 @@ export const PROFESSION_ICONS: Record<string, LucideIcon> = {
   actor: Drama,
   influencer: Megaphone,
   athlete: Dribbble,
-};
+  other: Sparkles,
+} satisfies Record<CelebProfession, LucideIcon>;
 
 /** 직군별 아이콘 색상 */
-export const PROFESSION_COLORS: Record<string, string> = {
+export const PROFESSION_COLORS: Readonly<Record<string, string>> = {
   leader: "text-yellow-400",
   politician: "text-blue-400",
   commander: "text-red-400",
@@ -52,4 +55,5 @@ export const PROFESSION_COLORS: Record<string, string> = {
   actor: "text-rose-400",
   influencer: "text-fuchsia-400",
   athlete: "text-sky-400",
-};
+  other: "text-stone-300",
+} satisfies Record<CelebProfession, string>;

@@ -48,17 +48,20 @@ export function buildCelebPageJsonLd({
   const alternateNames = [profile.nickname_ko, profile.nickname_en]
     .filter((name): name is string => Boolean(name && name !== profile.nickname));
 
-  const sourceNodes = fictionSources.map((source) => {
-    const workUrl = getAlternates(`/content/${source.id}`, seoLocale).canonical;
-    return {
-      "@type": schemaType(source.type),
-      "@id": `${workUrl}#creative-work`,
-      name: source.title,
-      url: workUrl,
-      ...getCreativeWorkCreatorJsonLd(source.type, source.creator),
-      character: { "@id": personId },
-    };
-  });
+  // 넓은 분야 연관 도서는 이 인물의 저작·등장 작품이라는 구조화 주장을 하지 않는다.
+  const sourceNodes = fictionSources
+    .filter((source) => source.relationType === "appearance")
+    .map((source) => {
+      const workUrl = getAlternates(`/content/${source.id}`, seoLocale).canonical;
+      return {
+        "@type": schemaType(source.type),
+        "@id": `${workUrl}#creative-work`,
+        name: source.title,
+        url: workUrl,
+        ...getCreativeWorkCreatorJsonLd(source.type, source.creator),
+        character: { "@id": personId },
+      };
+    });
 
   const person = {
     "@type": "Person",

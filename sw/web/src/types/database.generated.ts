@@ -4233,6 +4233,10 @@ export type Database = {
         Args: { p_celeb_ids?: string[]; p_content_id: string }
         Returns: undefined
       }
+      set_figure_book_relations: {
+        Args: { p_content_id: string; p_relations?: Json }
+        Returns: undefined
+      }
       deactivate_fiction_source_product: {
         Args: { p_edition_id: number; p_platform: string }
         Returns: boolean

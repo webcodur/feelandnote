@@ -341,6 +341,7 @@
         "festival": "Festivals"
       },
       "listCount": "{count} lists",
+      "since": "Since {year}",
       "itemCount": "{count} works",
       "viewList": "View list",
       "viewCurator": "More from this institution",

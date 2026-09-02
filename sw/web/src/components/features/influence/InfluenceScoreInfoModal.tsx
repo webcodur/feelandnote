@@ -1,7 +1,7 @@
 /*
   영향력 점수 안내 모달
   - 100점이 어떻게 짜였는지, 여섯 영역이 무엇을 보는지, 등급이 어떻게 갈리는지
-  - 기준 출처: docs/project/celeb/celeb-4-influence.md
+  - 기준 출처: docs/project/celeb/celeb-03-01-influence.md
 */
 "use client";
 

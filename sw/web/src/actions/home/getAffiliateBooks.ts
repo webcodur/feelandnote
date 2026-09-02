@@ -315,6 +315,7 @@ async function fetchOriginWorks(celebId: string): Promise<Set<string>> {
     .from('fiction_source_characters')
     .select('content_id')
     .eq('celeb_id', celebId)
+    .eq('relation_type', 'appearance')
     .limit(50)
 
   throwOnQueryError('getAffiliateBooks/origin', error)
@@ -378,11 +379,15 @@ async function tallyByCelebs(
 
   // 인물 수가 많으면 요청 주소가 길어져 거부당한다 — 나눠 묻는다
   for (let i = 0; i < celebIds.length; i += 60) {
-    const { data, error } = await db
+    let query = db
       .from(table)
       .select('content_id')
       .in('celeb_id', celebIds.slice(i, i + 60))
       .limit(1000)
+    if (table === 'fiction_source_characters') {
+      query = query.eq('relation_type', 'appearance')
+    }
+    const { data, error } = await query
     if (error) {
       console.error(`[getAffiliateBooks] ${table} 조회 실패:`, error)
       return new Map()

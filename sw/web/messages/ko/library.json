@@ -341,6 +341,7 @@
         "festival": "영화제"
       },
       "listCount": "목록 {count}개",
+      "since": "{year}년부터",
       "itemCount": "{count}편",
       "viewList": "목록 보기",
       "viewCurator": "이 기관의 다른 목록",

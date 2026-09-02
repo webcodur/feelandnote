@@ -38,7 +38,7 @@ function cleanSourceTitle(title: string): string {
 
 function primarySource(input: CelebMetaInput): string | null {
   const works = input.sourceWorks ?? [];
-  const source = works.find((work) => work.relationType === "origin") ?? works[0];
+  const source = works.find((work) => work.relationType === "appearance");
   return source?.title ? cleanSourceTitle(source.title) : null;
 }
 const sourceAfterPrepositionEn = (title: string) => /^The /.test(title) ? `the ${title.slice(4)}`

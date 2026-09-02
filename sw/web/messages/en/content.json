@@ -58,7 +58,9 @@
     "contentInfo": "Content Info",
     "fictionCharacters": "Figures in This Work",
     "fictionCharactersCount": "{count}",
-    "fictionCharactersIntro": "These figures are linked to this designated source work. Select a name to open the figure archive, or use the image icon to enlarge the image.",
+    "fictionCharactersIntro": "These figures either appear in this book or are directly related to it. Select a name to open the figure archive, or use the image icon to enlarge the image.",
+    "fictionCharactersAppearance": "Appearing Figures",
+    "fictionCharactersRelated": "Related Figures",
     "fictionCharacterImage": "Enlarge image of {name}",
     "imageViewer": {
       "close": "Close image",

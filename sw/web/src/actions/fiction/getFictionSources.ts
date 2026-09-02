@@ -19,7 +19,8 @@ import {
   type FictionSourcePurchaseOptionRow,
 } from './fictionSourceLocale'
 import {
-  getAllFictionSourceAssignments,
+  getFictionSourceAssignmentsByCeleb,
+  getFictionSourceAssignmentsByContent,
   type FictionSourceAssignmentRow,
   type FictionSourceRelationType,
 } from './fictionSourceAssignments'
@@ -76,8 +77,7 @@ async function fetchSourcesByCeleb(
   locale: string,
 ): Promise<FictionSourceContent[]> {
   const db = createStaticClient()
-  const assignments = (await getAllFictionSourceAssignments())
-    .filter((assignment) => assignment.celeb_id === celebId)
+  const assignments = await getFictionSourceAssignmentsByCeleb(celebId)
   if (assignments.length === 0) return []
 
   const platform = getFictionSourcePurchasePlatform(locale)
@@ -109,7 +109,7 @@ async function fetchSourcesByCeleb(
     ])
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
-    throw new Error(`픽션 인물 대표 원전 조회 실패: ${message}`)
+    throw new Error(`인물 도서 조회 실패: ${message}`)
   }
 
   const contentById = new Map(contentData.map((content) => [content.id, content]))
@@ -141,15 +141,14 @@ async function fetchSourcesByCeleb(
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
-      appearanceDescription: getFictionSourceCharacterDescription(assignment, locale),
+      appearanceDescription: assignment.relation_type === 'appearance'
+        ? getFictionSourceCharacterDescription(assignment, locale)
+        : null,
       editions,
     }]
   })
 
-  return sources.sort((a, b) => (
-    a.title.localeCompare(b.title, locale)
-    || a.id.localeCompare(b.id)
-  ))
+  return sources
 }
 
 async function fetchCharactersByContent(
@@ -158,9 +157,8 @@ async function fetchCharactersByContent(
   knownAssignments?: FictionSourceAssignmentRow[],
 ): Promise<FictionSourceCharacter[]> {
   const db = createStaticClient()
-  const assignments = (knownAssignments ?? await getAllFictionSourceAssignments())
-    .filter((assignment) => assignment.content_id === contentId)
-    .sort((a, b) => a.sort_order - b.sort_order || a.celeb_id.localeCompare(b.celeb_id))
+  const assignments = knownAssignments
+    ?? await getFictionSourceAssignmentsByContent(contentId)
   if (assignments.length === 0) return []
 
   let profileData: ProfileRow[]
@@ -171,13 +169,12 @@ async function fetchCharactersByContent(
         .from('celebs')
         .select('id,slug,nickname,nickname_en,title,title_en,avatar_url')
         .in('id', celebIds)
-        .eq('celeb_tier', 'fiction')
         .eq('publication_status', 'active')
         .overrideTypes<ProfileRow[], { merge: false }>(),
     )
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
-    throw new Error(`대표 원전 등장인물 조회 실패: ${message}`)
+    throw new Error(`도서 연결 인물 조회 실패: ${message}`)
   }
 
   const profileById = new Map(profileData.map((profile) => [profile.id, profile]))
@@ -207,7 +204,7 @@ export async function getFictionSourcesForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['fiction-sources-by-celeb-v6-work-editions', celebId, locale],
+    ['figure-books-by-celeb-v1-two-relations', celebId, locale],
     () => fetchSourcesByCeleb(celebId, locale),
     { extraTags: [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CONTENTS] },
   )
@@ -217,14 +214,11 @@ export async function getFictionCharactersForContent(
   contentId: string,
   locale: string = 'ko',
 ): Promise<FictionSourceCharacter[]> {
-  const assignments = await getAllFictionSourceAssignments()
-  if (!assignments.some((assignment) => assignment.content_id === contentId)) return []
-
   return cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['fiction-characters-by-content', contentId, locale],
-    () => fetchCharactersByContent(contentId, locale, assignments),
+    ['figure-book-people-by-content-v1', contentId, locale],
+    () => fetchCharactersByContent(contentId, locale),
     { extraTags: [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CELEBS] },
   )
 }

@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { ListOrdered, CalendarClock } from "lucide-react";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import type { CuratedListSummary } from "@/actions/library/types";
 import FilmHoles from "./FilmHoles";
 
@@ -45,7 +46,9 @@ export default function CuratedListCard({ list }: { list: CuratedListSummary }) 
                     : "relative aspect-[3/4] flex-1 overflow-hidden rounded bg-neutral-900"
                 }
               >
-                <Image src={src} alt="" fill className="object-cover" sizes="70px" />
+                <BlurDissolve className="absolute inset-0">
+                  <Image src={src} alt="" fill className="object-cover" sizes="70px" />
+                </BlurDissolve>
               </div>
             ))}
           </div>

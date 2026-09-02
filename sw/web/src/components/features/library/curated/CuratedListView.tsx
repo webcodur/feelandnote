@@ -100,10 +100,10 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
         {list.curator.name}
       </Link>
 
-      <header className="space-y-3">
+      <header className="mx-auto max-w-3xl space-y-3 text-center">
         <h2 className="text-[22px] font-serif font-bold leading-tight text-text-primary">{list.title}</h2>
 
-        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[12px] text-text-tertiary">
+        <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-[12px] text-text-tertiary">
           <span className="rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-accent">
             {t(`kind.${list.curator.kind}`)}
           </span>
@@ -128,7 +128,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
           </p>
         )}
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-4">
           <a
             href={list.sourceUrl}
             target="_blank"
@@ -149,7 +149,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
 
       {/* 같은 계열의 다른 해 — 대학 100선 개정판처럼 해마다 갈리는 목록에서 뜬다 */}
       {list.siblings.length > 1 && (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2">
           <span className="text-[12px] text-text-tertiary">{t("otherEditions")}</span>
           {list.siblings.map((s) => (
             <Link
