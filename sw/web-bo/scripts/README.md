@@ -26,6 +26,7 @@ scripts/
   photo/          인물 화보·얼굴 크롭·배너
   faction/        세력도감 출간·대사·이미지
   fiction/        신화·전설·허구 인물
+  figure-books/   전체 인물의 등장·연관 도서 후보·검수·반영
   curated/        기관 선정 목록
   coupang/        제휴 링크
   book-recommend/ 서재 탐방 자원
@@ -128,6 +129,13 @@ scripts/
 | 명령 | 하는 일 |
 |---|---|
 | `book-recommend:resources` | 서재 탐방 DB 연결·표지 캐시 운영 |
+| `figure-books:audit` | 전체 인물의 등장·연관 도서와 공개 쿠팡 판본 커버리지 감사 |
+| `figure-books:direct-candidates` | 기존 BOOK의 제목·저자에서 인물 이름이 직접 보이는 후보 추출 |
+| `figure-books:review-direct` | 후보를 agy로 검수하고 선택 결과를 로컬 JSON에 누적. `--shortlist`를 반복하면 여러 1차 결과를 합쳐 최종 심사 |
+| `figure-books:apply-reviewed` | 최종 검수 결과를 작품별 증분 관계로 dry-run·반영. 분할 결과는 `--reviews` 반복. 대량 반영은 `--verified-kakao-only --summary-only`로 출처·ISBN·검증 통과분만 적용 |
 | `coupang:candidates` | 제휴 링크 후보 수집 |
+| `coupang:inspect` | 선택 전 상품 상세의 배송·판매 근거 회수 |
 | `coupang:pick` | 후보 중 선택분 확정 |
 | `coupang:audit` | 연결된 제휴 링크 점검 |
+
+`figure-books:review-direct`는 같은 출력 파일로 다시 실행하면 저장 지점부터 이어진다. 검증 메타만 쓰는 대량 심사는 `--offline`, 병렬 분할은 서로 다른 출력 파일과 `--shard 1/3`, 합본 입력 검사는 외부 호출 없는 `--validate-only`를 쓴다.

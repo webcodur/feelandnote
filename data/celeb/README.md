@@ -12,6 +12,7 @@ data/celeb/
 │   └── _unregistered/{nickname}.json
 ├── headline-rewrite/            # 회차 중에만 존재
 │   └── ledger/lane-NN.json
+├── figure-books/                # 등장·연관 도서 후보와 반영 전 검수본
 ├── timeline-life-rewrite/
 │   ├── korean-diagnostic/
 │   ├── pilots/
