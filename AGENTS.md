@@ -105,6 +105,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 - BOOK 신규 메타는 한국어판 카카오, 영문 원서 OpenLibrary만 사용한다. 네이버 책 API와 Google Books를 되살리거나 신규 수집에 사용하지 않는다.
 - 셀럽 아바타는 독립된 신원 근거가 있어야 한다. 등록·교체는 `celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-avatar-spec.md`를 따른다.
 - 팩션 이미지와 얼굴 REF의 출처·누락 처리·창조 권한은 `faction-image` 스킬이 전부 쥔다. 루트에서 별도 대안을 만들지 않는다.
+- Google API는 무료 키와 로그인 경로만 쓴다. 결제 계정이 붙은 GCP 프로젝트의 키를 `.env`나 코드에 두지 않고, 유료 Gemini·Vertex·Cloud TTS 호출 코드를 만들지 않는다.
 
 ## 문서·스킬 라우팅
 
@@ -112,7 +113,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 - 전체 문서 지도: `docs/README.md`
 - 현역 프로젝트 문서: `docs/project/README.md`
 - 게임 문서: `docs/games/README.md`
-- 진행 중 작업: `docs/todo/README.md`
+- 진행 중 작업: `docs/todo/README.md` / 반복 지속 과제: `docs/continuous/README.md`
 - DB 반영 전 인물 원고·기계 산출물: `data/celeb/README.md`
 
 작업 전 `docs/README.md`에서 해당 영역만 찾아 읽는다. 모든 문서를 한꺼번에 읽지 않는다. 사용자의 요청과 일치하는 스킬이 있으면 그 `SKILL.md`를 먼저 읽고 스킬이 가리키는 현행 SSoT만 추가로 연다.
@@ -131,7 +132,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 ## 문서 수명주기
 
 - 현행 규격은 `docs/project/` 또는 `docs/games/`에 둔다.
-- 다음 작업이 남은 인수인계와 실행 큐는 `docs/todo/`에 둔다.
+- 끝이 있는 인수인계·실행 큐는 `docs/todo/`, 대상을 바꾸어 반복하는 작업의 현재 도달점은 `docs/continuous/`에 둔다.
 - 완료 보고서·회차 스냅샷·폐기 문서는 남기지 않는다. 규칙을 담당 SSoT로 옮긴 뒤 문서를 지운다. 경위가 필요하면 커밋 이력에서 꺼낸다.
 - DB 반영 전 원고·배치·기계 산출물은 `data/celeb/` 등 데이터 폴더에 둔다. 문서 폴더에 데이터를 쌓지 않는다.
 - 작업이 끝나면 현행 규칙을 담당 SSoT에 흡수하고, TODO에서 제거하고, 남은 문서를 지운다.

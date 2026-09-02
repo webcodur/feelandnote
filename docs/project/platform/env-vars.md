@@ -118,7 +118,6 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 |------|------------|------|
 | `ELEVENLABS_API_KEY` | web, web-bo, remotion | 🔴 **유료 종량제.** 인물 목소리 합성 |
 | `ELEVENLABS_API_KEY_FEELANDNOTE` | web-bo, remotion | 두 번째 계정 키. 한도 소진 시 갈아탄다 |
-| `GOOGLE_CLOUD_TTS_KEY` | web, web-bo, remotion | 구글 음성 합성 |
 
 ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시되는 실제 `sk_...` 비밀 키를 넣는다. Key ID는 인증 헤더에 사용할 수 없다.
 
@@ -128,11 +127,11 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 | 이름 꼴 | 들어가는 곳 | 개수(실측) |
 |---------|------------|-----------|
-| `GOOGLE_GENAI_API_KEY0` ~ `20` | web | 21개 |
+| `GOOGLE_GENAI_API_KEY0` ~ `20` | web | 21개(코드 미사용, `5`번은 폐기) |
 | `GOOGLE_GENAI_API_KEY_FREE1` ~ `99` | web-bo, remotion | 각 99개 |
-| `GOOGLE_GENAI_API_KEY_PAID1` | remotion | 유료 키 1개 |
-| `GOOGLE_VERTEX_API_KEY1` | remotion | Vertex AI 경유 |
 | `GEMINI_START_KEY` | web-bo | 몇 번 키부터 돌릴지 지정(1부터 셈) |
+
+> **Google 유료 키 금지**: 결제 계정이 붙은 GCP 프로젝트의 키는 `.env`에 두지 않는다. 2026-09-02에 `GOOGLE_GENAI_API_KEY_PAID1`을 콘솔에서 삭제하고 프로젝트 결제를 중지했으며, 쓰지 않던 `GOOGLE_VERTEX_API_KEY1`·`GOOGLE_CLOUD_TTS_KEY`도 `.env`에서 지웠다. 이미지·텍스트 생성이 월 1만 원 단위로 조용히 과금됐기 때문이다. Google 음성·이미지·텍스트는 무료 키 로테이션, agy·Gemini CLI 로그인, 또는 ElevenLabs로만 부른다.
 
 > **함정**: `web-bo`와 `remotion`의 `.env` 모두에 `GOOGLE_GENAI_API_KEY_FREE20`이 **두 번** 적혀 있다. 파일을 위에서 아래로 읽으므로 뒤쪽 값이 이긴다. 사고는 아니지만 키를 세거나 교체할 때 헷갈린다.
 
@@ -210,4 +209,4 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 4. 구글 서비스 계정 → 키 삭제 후 새 키 내려받아 `sw/web/credentials/ga-service-account.json` 교체
 5. 유튜브 OAuth → 구글 클라우드 콘솔에서 OAuth 클라이언트 비밀 재발급, `sw/remotion/credentials/client_secret.json` 교체 후 KO·EN 채널 토큰 재인증
 
-과금이 붙는 것은 ElevenLabs·Gemini 유료 키·구글 TTS다. 유출 시 여기부터 잠근다.
+과금이 붙는 것은 ElevenLabs다. 유출 시 여기부터 잠근다.
