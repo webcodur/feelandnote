@@ -12,12 +12,12 @@
  *   최종 차단값으로 분리하고, 실존 인물용 영향력·스펙트럼·영문 대사·사진·영상은 요구하지 않는다.
  *
  * 실행:
- *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts
- *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --json
- *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --apply
- *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --slugs=slug-a,slug-b
- *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --status=all --skip-link-check
- *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --html --skip-link-check
+ *   pnpm celeb:audit:activation
+ *   pnpm celeb:audit:activation --json
+ *   pnpm celeb:audit:activation --apply
+ *   pnpm celeb:audit:activation --slugs=slug-a,slug-b
+ *   pnpm celeb:audit:activation --status=all --skip-link-check
+ *   pnpm celeb:audit:activation --html --skip-link-check
  */
 
 import path from 'node:path'
@@ -463,7 +463,12 @@ async function assertActivationReadback(
 ) {
   const [profileRows, readingRows] = await Promise.all([
     byIds('celebs', 'id,publication_status', profileIds, 'id'),
-    byIds('celeb_explanations', 'profile_id,published_at', profileIds, 'profile_id'),
+    byIds(
+      'celeb_explanations',
+      'profile_id,review_status,published_at',
+      profileIds,
+      'profile_id',
+    ),
   ])
   const profileById = new Map(profileRows.map((row) => [row.id, row]))
   const readingById = new Map(readingRows.map((row) => [row.profile_id, row]))
@@ -478,7 +483,10 @@ async function assertActivationReadback(
 
     const reading = readingById.get(profileId)
     if (!reading) failures.push(`${profileId}:reading_missing`)
-    else if (!sameTimestamp(reading.published_at, expectedPublishedAt.get(profileId) ?? null)) {
+    else if (expectedStatus === 'active') {
+      if (blank(reading.review_status)) failures.push(`${profileId}:review_status=null`)
+      if (!reading.published_at) failures.push(`${profileId}:published_at=null`)
+    } else if (!sameTimestamp(reading.published_at, expectedPublishedAt.get(profileId) ?? null)) {
       failures.push(`${profileId}:published_at=${reading.published_at ?? 'null'}`)
     }
   }
@@ -498,7 +506,6 @@ async function compensateActivation(
   profileIds: string[],
   activatedProfileIds: string[],
   originalPublishedAt: Map<string, string | null>,
-  activationPublishedAt: string,
 ): Promise<string[]> {
   const failures: string[] = []
 
@@ -527,18 +534,6 @@ async function compensateActivation(
     failures.push(error instanceof Error ? error.message : String(error))
   }
 
-  const readingsToUnpublish = profileIds.filter((id) => (
-    inactiveIds.has(id) && originalPublishedAt.get(id) === null
-  ))
-  for (const group of chunks(readingsToUnpublish)) {
-    const { error } = await db
-      .from('celeb_explanations')
-      .update({ published_at: null })
-      .in('profile_id', group)
-      .eq('published_at', activationPublishedAt)
-    if (error) failures.push(`읽어보기 롤백 실패: ${error.message}`)
-  }
-
   try {
     await assertActivationReadback(profileIds, 'inactive', originalPublishedAt)
   } catch (error) {
@@ -556,35 +551,19 @@ async function activateReadyProfiles(
   for (const profileId of profileIds) {
     const explanation = explanationById.get(profileId)
     if (!explanation) throw new Error(`활성화 대상의 읽어보기 행 없음: ${profileId}`)
+    if (blank(explanation.review_status)) {
+      throw new Error(`활성화 대상의 읽어보기 미검수: ${profileId}`)
+    }
     originalPublishedAt.set(profileId, explanation.published_at ?? null)
   }
 
-  const activationPublishedAt = new Date().toISOString()
   const activatedProfileIds: string[] = []
-  const expectedPublishedAt = new Map(
-    [...originalPublishedAt].map(([profileId, publishedAt]) => [
-      profileId,
-      publishedAt ?? activationPublishedAt,
-    ]),
-  )
 
   try {
-    const readingsToPublish = profileIds.filter((id) => originalPublishedAt.get(id) === null)
-    for (const group of chunks(readingsToPublish)) {
-      const { data, error } = await db
-        .from('celeb_explanations')
-        .update({ published_at: activationPublishedAt })
-        .in('profile_id', group)
-        .is('published_at', null)
-        .select('profile_id,published_at')
-      if (error) throw new Error(`읽어보기 게시 실패: ${error.message}`)
-      if ((data?.length ?? 0) !== group.length) {
-        throw new Error(`읽어보기 게시 수 불일치: 후보 ${group.length}, 반영 ${data?.length ?? 0}`)
-      }
-    }
-
-    // 프로필을 바꾸기 전에 읽어보기 게시값과 inactive 상태를 함께 확인한다.
-    await assertActivationReadback(profileIds, 'inactive', expectedPublishedAt)
+    // DB 불변식이 inactive 인물의 published_at을 항상 null로 유지하고,
+    // publication_status가 active로 바뀌는 같은 문장 뒤에 검수된 안내를 자동 게시한다.
+    // 따라서 자식 행을 먼저 게시하려 하지 말고 현재 inactive 상태를 확인한 뒤 부모만 바꾼다.
+    await assertActivationReadback(profileIds, 'inactive', originalPublishedAt)
 
     for (const group of chunks(profileIds)) {
       const { data, error } = await db
@@ -600,7 +579,7 @@ async function activateReadyProfiles(
       }
     }
 
-    await assertActivationReadback(profileIds, 'active', expectedPublishedAt)
+    await assertActivationReadback(profileIds, 'active', originalPublishedAt)
     const readyById = new Map(ready.map((row) => [row.id, row]))
     return profileIds.map((id) => ({
       id,
@@ -613,7 +592,6 @@ async function activateReadyProfiles(
       profileIds,
       activatedProfileIds,
       originalPublishedAt,
-      activationPublishedAt,
     )
     const reason = error instanceof Error ? error.message : String(error)
     const rollback = rollbackFailures.length === 0
