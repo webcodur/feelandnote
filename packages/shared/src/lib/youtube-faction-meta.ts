@@ -87,6 +87,11 @@ export interface FactionMetaInput {
   longformLayout?: FactionLongformLayoutItem[]
   /** 에피소드별 추가 태그(주제 특화 키워드). 공통 브랜드 태그 뒤에 붙는다. 없으면 붙지 않는다. */
   tags?: string[]
+  /**
+   * 세력도감 테마 slug — 설명 첫 줄의 직링크(`/explore/faction/<slug>`)에 쓴다.
+   * 없으면 세력도감 허브(`/explore/faction`)로 건다.
+   */
+  factionSlug?: string
   groups: FactionGroupMeta[]
 }
 
@@ -525,9 +530,16 @@ export function buildFactionDescription(
     .map(p => (lang === 'en' ? (p.nameEn || p.name) : p.name))
     .map(tagToken)
 
+  // 설명 첫 줄에 세력도감 페이지 직링크를 둔다 — 접힌 상태에서 보이는 자리다.
+  const factionUrl = input.factionSlug
+    ? `https://feelandnote.com/explore/faction/${input.factionSlug}`
+    : 'https://feelandnote.com/explore/faction'
+
   if (lang === 'ko') {
     const hashtags = ['#세력도감', `#${tagToken(title)}`, ...heroNames.map(n => `#${n}`)]
     const lines = [
+      `🏛 등장 인물 전체 보기 → ${factionUrl}`,
+      '',
       `${heading}의 세력 지도.`,
       '',
       '🏛 등장 진영',
@@ -542,7 +554,12 @@ export function buildFactionDescription(
   }
 
   const hashtags = ['#FactionMap', `#${tagToken(title)}`, ...heroNames.map(n => `#${n}`)]
+  const enFactionUrl = input.factionSlug
+    ? `https://feelandnote.com/en/explore/faction/${input.factionSlug}`
+    : 'https://feelandnote.com/en/explore/faction'
   const lines = [
+    `🏛 See every figure in this faction map → ${enFactionUrl}`,
+    '',
     `A map of the factions behind ${heading}.`,
     '',
     '🏛 Factions',

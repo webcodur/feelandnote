@@ -220,6 +220,24 @@ function subjectMarker(name: string): string {
 // ─── 설명 ──────────────────────────────────────────────
 
 /**
+ * 인물 페이지 직링크 줄. 설명의 **첫 줄**에 둔다.
+ *
+ * 유튜브는 접힌 상태에서 첫 1~2줄만 보여주므로 이 자리가 노출·클릭·크롤 모두에 가장 유리하다.
+ * ko 는 canonical 인 `/celeb/<slug>` 를 쓴다 — `/ko/celeb/<slug>` 는 307 리다이렉트라 링크 힘이 샌다.
+ * en 은 `/en/celeb/<slug>` 가 canonical 이다.
+ */
+export function buildCelebProfileLine(
+  celebName: string,
+  lang: 'ko' | 'en',
+  celebSlug?: string,
+): string | undefined {
+  if (!celebSlug) return undefined
+  return lang === 'ko'
+    ? `📚 ${celebName}의 독서 목록 전체 보기 → https://feelandnote.com/celeb/${celebSlug}`
+    : `📚 Full reading list of ${celebName} → https://feelandnote.com/en/celeb/${celebSlug}`
+}
+
+/**
  * 영상 설명문 조립.
  *
  * - 롱폼: 인트로 → 타임라인 → 링크 → 해시태그. 트랙리스트(수록 도서)는 타임라인과 중복되므로 제외.
@@ -244,11 +262,7 @@ export function buildDescription(
     ? links.map(l => `${l.label} — ${l.url}`)
     : []
 
-  const celebProfileLine = celebSlug
-    ? lang === 'ko'
-      ? `${celebName} 프로필 — https://feelandnote.com/ko/celeb/${celebSlug}`
-      : `${celebName} Profile — https://feelandnote.com/en/celeb/${celebSlug}`
-    : undefined
+  const celebProfileLine = buildCelebProfileLine(celebName, lang, celebSlug)
 
   const isThreeKingdoms = isThreeKingdomsMember(celebSlug)
   const tkHashtagKo = isThreeKingdoms ? ` #${THREE_KINGDOMS_LABEL.ko}` : ''
@@ -268,6 +282,7 @@ export function buildDescription(
     const base = lang === 'ko'
       ? [`${celebName}의 서재를 탐방합니다.`, '', '📌 수록 도서', featuredLine]
       : [`Explore the library of ${celebName}.`, '', '📌 Featured Book', featuredLine]
+    if (celebProfileLine) base.unshift(celebProfileLine, '')
     if (linkLines.length) base.push('', ...linkLines)
     base.push(
       '',
@@ -276,7 +291,6 @@ export function buildDescription(
         : `#Shorts #LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`,
       '',
     )
-    if (celebProfileLine) base.push(celebProfileLine)
     base.push('Feelandnote — https://feelandnote.com')
     return base.join('\n')
   }
@@ -288,7 +302,9 @@ export function buildDescription(
   })
 
   if (lang === 'ko') {
-    const lines = [`${celebName}${subjectMarker(celebName)} 읽은 ${books.length}권의 책을 소개합니다.`, '']
+    const lines: string[] = []
+    if (celebProfileLine) lines.push(celebProfileLine, '')
+    lines.push(`${celebName}${subjectMarker(celebName)} 읽은 ${books.length}권의 책을 소개합니다.`, '')
     if (trackList.length) {
       lines.push('📚 수록 도서', ...trackList, '')
     }
@@ -296,14 +312,15 @@ export function buildDescription(
       lines.push('⏱ 타임라인', ...chapters.map(c => `${c.time} ${c.label}`), '')
     }
     lines.push('🔗 링크')
-    if (celebProfileLine) lines.push(celebProfileLine)
     lines.push('Feelandnote — https://feelandnote.com')
     if (linkLines.length) lines.push(...linkLines)
     lines.push('', `#서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천${tkHashtagKo}`)
     return lines.join('\n')
   }
 
-  const lines = [`Discover the ${books.length} books that ${celebName} read.`, '']
+  const lines: string[] = []
+  if (celebProfileLine) lines.push(celebProfileLine, '')
+  lines.push(`Discover the ${books.length} books that ${celebName} read.`, '')
   if (trackList.length) {
     lines.push('📚 Featured Books', ...trackList, '')
   }
@@ -311,7 +328,6 @@ export function buildDescription(
     lines.push('⏱ Timeline', ...chapters.map(c => `${c.time} ${c.label}`), '')
   }
   lines.push('🔗 Links')
-  if (celebProfileLine) lines.push(celebProfileLine)
   lines.push('Feelandnote — https://feelandnote.com')
   if (linkLines.length) lines.push(...linkLines)
   lines.push('', `#LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`)
@@ -337,11 +353,7 @@ export function buildSoloDescription(
     ? links.map(l => `${l.label} — ${l.url}`)
     : []
 
-  const celebProfileLine = celebSlug
-    ? lang === 'ko'
-      ? `${celebName} 프로필 — https://feelandnote.com/ko/celeb/${celebSlug}`
-      : `${celebName} Profile — https://feelandnote.com/en/celeb/${celebSlug}`
-    : undefined
+  const celebProfileLine = buildCelebProfileLine(celebName, lang, celebSlug)
 
   const isThreeKingdoms = isThreeKingdomsMember(celebSlug)
   const tkHashtagKo = isThreeKingdoms ? ` #${THREE_KINGDOMS_LABEL.ko}` : ''
@@ -351,30 +363,32 @@ export function buildSoloDescription(
   const bookLine = `${book.title} — ${book.creator}${year}`
 
   if (lang === 'ko') {
-    const lines = [
+    const lines: string[] = []
+    if (celebProfileLine) lines.push(celebProfileLine, '')
+    lines.push(
       `${celebName}의 서재에서 한 권을 깊이 들여다봅니다.`,
       '',
       '📖 오늘의 한 권',
       bookLine,
       '',
       '🔗 링크',
-    ]
-    if (celebProfileLine) lines.push(celebProfileLine)
+    )
     lines.push('Feelandnote — https://feelandnote.com')
     if (linkLines.length) lines.push(...linkLines)
     lines.push('', `#한권깊이 #서재탐방 #${celebName.replace(/\s/g, '')} #독서 #책추천${tkHashtagKo}`)
     return lines.join('\n')
   }
 
-  const lines = [
+  const lines: string[] = []
+  if (celebProfileLine) lines.push(celebProfileLine, '')
+  lines.push(
     `One book from ${celebName}'s shelf, examined in depth.`,
     '',
     '📖 Today\'s Book',
     bookLine,
     '',
     '🔗 Links',
-  ]
-  if (celebProfileLine) lines.push(celebProfileLine)
+  )
   lines.push('Feelandnote — https://feelandnote.com')
   if (linkLines.length) lines.push(...linkLines)
   lines.push('', `#OneBookDeep #LibraryTour #${celebName.replace(/\s/g, '')} #BookRecommendation${tkHashtagEn}`)
