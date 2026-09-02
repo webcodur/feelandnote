@@ -51,7 +51,7 @@ export default function FictionSourceIntroduction({
       <p className="text-sm font-black tracking-[0.16em] text-accent">{label}</p>
       <p
         ref={previewRef}
-        className="mt-2 line-clamp-4 whitespace-pre-line text-base leading-7 text-text-secondary"
+        className="mt-2 max-h-28 overflow-hidden whitespace-pre-line text-base leading-7 text-text-secondary"
       >
         <FormattedText text={description} />
       </p>

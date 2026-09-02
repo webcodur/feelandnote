@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
 import {
@@ -59,6 +59,31 @@ interface ContentInfoSectionProps {
   onRecordChange: (record: ContentDetailData["userRecord"]) => void;
 }
 
+function useCollapsedTextOverflow(text: string | null | undefined, expanded: boolean) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    if (expanded) return;
+    const element = ref.current;
+    if (!element) return;
+
+    const measure = () => {
+      setIsOverflowing(element.scrollHeight > element.clientHeight + 1);
+    };
+    const frame = window.requestAnimationFrame(measure);
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [expanded, text]);
+
+  return { ref, isOverflowing };
+}
+
 export default function ContentInfoSection({
   content,
   userRecord,
@@ -74,6 +99,14 @@ export default function ContentInfoSection({
   const [error, setError] = useState<string | null>(null);
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const [isStoryExpanded, setIsStoryExpanded] = useState(false);
+  const { ref: descriptionRef, isOverflowing: isDescLong } = useCollapsedTextOverflow(
+    content.description,
+    isDescExpanded,
+  );
+  const { ref: storylineRef, isOverflowing: isStoryLong } = useCollapsedTextOverflow(
+    content.metadata?.storyline as string | undefined,
+    isStoryExpanded,
+  );
 
   const Icon = TYPE_ICONS[content.type];
   const categoryLabel = t(`category.${content.category}`);
@@ -171,9 +204,6 @@ export default function ContentInfoSection({
       : content.type === "GAME"
       ? t("developer")
       : t("artist");
-
-  const isDescLong = (content.description?.length ?? 0) > 240;
-  const isStoryLong = (metadata?.storyline?.length ?? 0) > 240;
 
   // #region 기록 & 별점 액션 바 컴포넌트
   const renderActionBar = () => (
@@ -404,9 +434,10 @@ export default function ContentInfoSection({
           {content.description && (
             <div className="relative py-0.5">
               <div
+                ref={descriptionRef}
                 className={cn(
-                  "text-sm text-text-secondary/90 leading-relaxed whitespace-pre-wrap transition-all duration-300 font-normal",
-                  !isDescExpanded && isDescLong ? "line-clamp-4 md:line-clamp-6" : ""
+                  "text-sm text-text-secondary/90 leading-relaxed whitespace-pre-wrap font-normal",
+                  !isDescExpanded ? "max-h-[5.75rem] overflow-hidden md:max-h-[8.625rem]" : ""
                 )}
               >
                 <FormattedText text={content.description} />
@@ -424,7 +455,8 @@ export default function ContentInfoSection({
                   <button
                     type="button"
                     onClick={() => setIsDescExpanded(!isDescExpanded)}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent/80 transition-colors py-0.5 px-2 rounded-md hover:bg-accent/10 cursor-pointer"
+                    aria-expanded={isDescExpanded}
+                    className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold text-accent hover:bg-accent/10 hover:text-accent/80 active:bg-accent/15 cursor-pointer"
                   >
                     {isDescExpanded ? (
                       <>
@@ -447,9 +479,10 @@ export default function ContentInfoSection({
           {content.type === "GAME" && metadata?.storyline && (
             <div className="relative py-0.5">
               <div
+                ref={storylineRef}
                 className={cn(
-                  "text-sm text-text-secondary/90 leading-relaxed whitespace-pre-wrap transition-all duration-300 font-normal",
-                  !isStoryExpanded && isStoryLong ? "line-clamp-4 md:line-clamp-6" : ""
+                  "text-sm text-text-secondary/90 leading-relaxed whitespace-pre-wrap font-normal",
+                  !isStoryExpanded ? "max-h-[5.75rem] overflow-hidden md:max-h-[8.625rem]" : ""
                 )}
               >
                 <FormattedText text={metadata.storyline} />
@@ -467,7 +500,8 @@ export default function ContentInfoSection({
                   <button
                     type="button"
                     onClick={() => setIsStoryExpanded(!isStoryExpanded)}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent/80 transition-colors py-0.5 px-2 rounded-md hover:bg-accent/10 cursor-pointer"
+                    aria-expanded={isStoryExpanded}
+                    className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold text-accent hover:bg-accent/10 hover:text-accent/80 active:bg-accent/15 cursor-pointer"
                   >
                     {isStoryExpanded ? (
                       <>
