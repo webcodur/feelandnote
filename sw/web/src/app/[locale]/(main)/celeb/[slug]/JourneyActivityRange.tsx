@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] timeline — 행적 구간 레일(모바일)
+ * - 목차 위치: timeline
+ * - 데이터: events/current props
+ * - 함께 보기: JourneyEventCard.tsx, JourneySection.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { Fragment, useEffect, useRef } from "react";

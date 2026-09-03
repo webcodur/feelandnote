@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] timeline — 연도 표기·보기 모드 유틸
+ * - 목차 위치: timeline
+ * - 데이터: CelebTimelineEvent, next-intl 문구 함수
+ * - 함께 보기: JourneySection.tsx, JourneyMapPanel.tsx, JourneyEventCarousel.tsx
+ * ───────────────────────────────────────────── */
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 
 export type JourneyViewMode = "both" | "timeline" | "expand" | "atlas";

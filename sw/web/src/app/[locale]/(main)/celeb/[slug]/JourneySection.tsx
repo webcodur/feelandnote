@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] timeline — 연표·여정(지도 연동)
+ * - 목차 위치: timeline
+ * - 데이터: events(getCelebTimelineEvents) prop
+ * - 함께 보기: JourneyEventCarousel.tsx, JourneyMapPanel.tsx, journeyTimeline.ts
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
@@ -5,6 +11,7 @@ import { useTranslations } from "next-intl";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GlobeMarker } from "@/components/shared/WorldGlobe";
+import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 import JourneyEventCarousel from "./JourneyEventCarousel";
 import JourneyEventExpandedList from "./JourneyEventExpandedList";
 import JourneyMapPanel from "./JourneyMapPanel";
@@ -20,7 +27,8 @@ function mappedIdOf(event: CelebTimelineEvent | undefined): string | null {
 
 export default function JourneySection({ events }: Props) {
   const t = useTranslations("celebPage");
-  const [tab, setTab] = useState<"timeline" | "expand">("timeline");
+  /* ── 1. 상태·표식 준비 ── */
+  const [tab, setTab] = useState<"timeline" | "expand">("expand");
   const [showCard, setShowCard] = useState(true);
   const [showMap, setShowMap] = useState(true);
   const [activeId, setActiveId] = useState<string | null>(() => mappedIdOf(events[0]));
@@ -41,6 +49,7 @@ export default function JourneySection({ events }: Props) {
         })),
     [events],
   );
+  /* ── 2. 지도·연표 연동 ── */
   const handlePick = useCallback((id: string) => {
     setActiveId(id);
     setFocusId(id);
@@ -87,71 +96,52 @@ export default function JourneySection({ events }: Props) {
   const sideBySide = effectiveShowCard && effectiveShowMap;
   const mapOnly = !effectiveShowCard && effectiveShowMap;
   const panelView: JourneyViewMode = sideBySide ? "both" : mapOnly ? "atlas" : "timeline";
-  const mainTabs = [
-    { key: "timeline" as const, label: t("timelineViewList") },
-    { key: "expand" as const, label: t("timelineViewExpand") },
-  ];
+  // 칩줄은 탭줄과 달리 자체 경계가 없어 헤더에 붙으면 달라붙어 보인다. 위를 뗀다.
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col items-center gap-2">
-        <div className="flex w-full max-w-[240px] border-b border-accent-dim/25">
-          {mainTabs.map((item) => {
-            const on = tab === item.key;
-            return (
-              <button
-                key={item.key}
-                type="button"
-                onClick={() => setTab(item.key)}
-                aria-pressed={on}
-                className={`flex-1 py-1.5 text-center text-sm font-medium cursor-pointer ${
-                  on
-                    ? "text-accent border-b-2 border-accent font-semibold"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
-              >
-                {item.label}
-              </button>
-            );
-          })}
-        </div>
-        {tab === "timeline" && hasMap ? (
-          <div className="hidden items-center justify-center gap-3.5 text-xs text-text-secondary md:flex">
-            <label className="inline-flex items-center gap-1.5 cursor-pointer select-none hover:text-text-primary">
-              <input
-                data-timeline-card-toggle
-                type="checkbox"
-                checked={showCard}
-                onChange={(e) => {
-                  const next = e.target.checked;
-                  if (!next && !showMap) return;
-                  setShowCard(next);
-                }}
-                className="h-3.5 w-3.5 rounded border-accent-dim/30 bg-bg-secondary/60 accent-accent cursor-pointer"
-              />
-              <span className={showCard ? "text-text-primary font-medium" : "text-text-tertiary"}>
-                {t("timelineOptCard")}
-              </span>
-            </label>
-            <span className="text-accent-dim/30">·</span>
-            <label className="inline-flex items-center gap-1.5 cursor-pointer select-none hover:text-text-primary">
-              <input
-                data-timeline-map-toggle
-                type="checkbox"
-                checked={showMap}
-                onChange={(e) => {
-                  const next = e.target.checked;
-                  if (!next && !showCard) return;
-                  setShowMap(next);
-                }}
-                className="h-3.5 w-3.5 rounded border-accent-dim/30 bg-bg-secondary/60 accent-accent cursor-pointer"
-              />
-              <span className={showMap ? "text-text-primary font-medium" : "text-text-tertiary"}>
-                {t("timelineOptMap")}
-              </span>
-            </label>
+    <div className="space-y-4 pt-4 md:pt-6">
+      {/* 보기 전환과 카드·지도 겹선택을 한 줄에 둔다. 2지선다에 대형 탭은 과체중이다 */}
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        <CategoryTabFilter
+          size="sm"
+          options={[
+            { value: "expand", label: t("timelineViewExpand") },
+            { value: "timeline", label: t("timelineViewList") },
+          ]}
+          value={tab}
+          onChange={(v) => setTab(v)}
+        />
+        {hasMap ? (
+          // 펼치기에서도 자리를 지킨다. 못 누를 때는 옅어지고 손을 막는다.
+          <div className="hidden md:block" inert={tab !== "timeline" ? true : undefined}>
+            <div className={tab !== "timeline" ? "opacity-40 saturate-50" : undefined}>
+            {/* 카드·지도 겹선택은 library와 같은 공용 칩으로 그린다.
+                둘 다 켜진 전체 상태는 value를 옵션 밖에 두어 faintAllActive의
+                은은한 전체 활성으로 보인다. 하나만 켜진 상태에서 어느 쪽을
+                눌러도 전체로 돌아간다(library 필터와 같은 동작). */}
+            <CategoryTabFilter
+              subtle
+              size="sm"
+              faintAllActive
+              options={[
+                { value: "card", label: t("timelineOptCard") },
+                { value: "map", label: t("timelineOptMap") },
+              ]}
+              value={showCard && showMap ? "all" : showCard ? "card" : "map"}
+              onChange={(v) => {
+                if (showCard && showMap) {
+                  if (v === "card") setShowCard(false);
+                  else if (v === "map") setShowMap(false);
+                } else {
+                  setShowCard(true);
+                  setShowMap(true);
+                }
+              }}
+            />
+            </div>
           </div>
         ) : null}
       </div>
+      {/* ── 3. 보기 전환·연표/지도 ── */}
       {tab === "expand" ? (
         <JourneyEventExpandedList
           events={events}

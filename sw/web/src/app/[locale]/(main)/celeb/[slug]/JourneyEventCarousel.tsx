@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] timeline — 연표 넘김(스와이프)
+ * - 목차 위치: timeline
+ * - 데이터: events/current props
+ * - 함께 보기: JourneyEventCard.tsx, JourneySection.tsx, journeyTimeline.ts
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useCallback, useRef, type PointerEvent as ReactPointerEvent } from "react";

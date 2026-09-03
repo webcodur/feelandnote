@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] timeline — 연표 번호 전환 애니메이션
+ * - 목차 위치: timeline
+ * - 데이터: value prop
+ * - 함께 보기: JourneyEventCard.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
