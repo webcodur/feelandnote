@@ -61,7 +61,7 @@ export const CONTEXT_ANCHORS: ContextAnchor[] = [
   anchor('motorsport', '모터스포츠', /모터\s*스포츠|포뮬러\s*원|formula\s*1|F1\b|레이싱/iu),
   anchor('esports', 'e스포츠', /e스포츠|이스포츠|esports|프로게이머|리그\s*오브\s*레전드/iu),
   anchor('league-of-legends', '리그 오브 레전드', /리그\s*오브\s*레전드|League\s*of\s*Legends|LoL\b/iu),
-  anchor('chess', '체스', /체스|chess/iu),
+  anchor('chess', '체스', /(?<![\p{L}\p{N}])체스(?![\p{L}\p{N}])|\bchess\b/iu),
   anchor('olympics', '올림픽', /올림픽|olympic/iu),
 
   // 음악·공연
@@ -273,6 +273,7 @@ const PROFILE_ANCHOR_PROFESSIONS: Readonly<Record<string, readonly string[]>> = 
 
 export function profileContextText(value: string): string {
   return value
+    .replace(/[「『“‘'"][^」』”’'"]{1,80}[」』”’'"]\s*(?:(?:이?라는|이란)\s*)?(?:별명|별칭|애칭)(?:으로)?/gu, '')
     .replace(/노벨\s*(?:물리학|화학|생리(?:학[·ㆍ/]?)?의학|경제학)상/gu, '노벨상')
     .replace(/(?:경영|통치|교육|인생)\s*철학/gu, '')
 }

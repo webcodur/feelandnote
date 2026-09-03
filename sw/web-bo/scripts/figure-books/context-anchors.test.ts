@@ -26,6 +26,8 @@ test('다른 단어 안에 든 의사·화가·사이클은 책 분야로 오인
   assert(!book('해커와 화가').includes('painting'))
   assert(!book('선과 모터사이클 관리술').includes('cycling'))
   assert(!book('마켓 사이클의 법칙').includes('cycling'))
+  assert(!profile('맨체스터 유나이티드 축구 감독').includes('chess'))
+  assert(!book('맨체스터의 축구 역사').includes('chess'))
 })
 
 test('책 자체가 분야를 명시하면 해당 맥락을 유지한다', () => {
@@ -46,6 +48,7 @@ test('수상명과 비분야 철학 표현은 인물의 활동 분야로 쓰지 
   assert(!profile('공격적인 축구 철학을 만든 감독').includes('philosophy'))
   assert(!profile('아테네 학당에 철학자들을 모은 화가').includes('philosophy'))
   assert(profile('윤리학을 연구한 철학자').includes('philosophy'))
+  assert(!profileContextText('「Money」라는 별명으로 불렸다').includes('Money'))
 })
 
 test('육상 일반과 장거리 달리기를 구분한다', () => {
