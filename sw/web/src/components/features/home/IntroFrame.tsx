@@ -108,8 +108,11 @@ export default function IntroFrame({
                 </Link>
               );
             }
+            // 첫 문단만 오른쪽 위 ⓘ 버튼 자리를 비운다 — 비우지 않으면 첫 줄 끝 글자를 가린다
             return (
-              <p key={i} className="whitespace-pre-line">{renderHighlighted(para)}</p>
+              <p key={i} className={`whitespace-pre-line ${i === 0 ? "pe-9 md:pe-10" : ""}`}>
+                {renderHighlighted(para)}
+              </p>
             );
           })}
         </div>

@@ -79,9 +79,12 @@ export default function HomeNoticeList({ notices }: Props) {
                     </span>
                   )}
                 </span>
-                <span className="block text-center text-xs font-serif text-text-secondary mt-1.5 truncate">
-                  {notice.author.nickname}
-                </span>
+                {/* 작성자 프로필이 없는 공지가 있다 — 이름이 없으면 줄 자체를 두지 않는다 */}
+                {notice.author.nickname && (
+                  <span className="block text-center text-xs font-serif text-text-secondary mt-1.5 truncate">
+                    {notice.author.nickname}
+                  </span>
+                )}
                 {/* 메타는 좌우 2열 — 왼쪽은 상대 시각, 오른쪽은 조회수(댓글), 각 셀 안에서 가운데 둔다 */}
                 <span className="mt-2 grid grid-cols-2 text-xs text-text-secondary">
                   <span className="text-center">{formatBoardRelativeTime(notice.created_at, locale)}</span>
