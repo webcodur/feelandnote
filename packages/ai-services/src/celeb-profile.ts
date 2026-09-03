@@ -13,7 +13,6 @@ export interface GeneratedCelebProfile {
   nationality?: string
   birthDate?: string
   deathDate?: string
-  quotes?: string
   fullname?: string
 }
 
