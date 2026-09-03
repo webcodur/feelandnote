@@ -1,0 +1,1933 @@
+{
+  "input": "context-curated-candidates-2026-09-03.json",
+  "model": "gpt-5.6-sol",
+  "shard": "1/2-final",
+  "reviews": [
+    {
+      "slug": "jensen-huang",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능의 목표 정렬과 인간 통제 문제를 다뤄, ‘GPU를 AI 컴퓨팅으로 확장한 엔비디아 공동창업자’로 요약되는 젠슨 황의 AI 기술·산업 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탐색·추론·학습을 아우르는 현대 인공지능의 핵심 방법을 체계화해, ‘GPU를 AI 컴퓨팅으로 확장한 엔비디아 공동창업자’로 요약되는 젠슨 황의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘GPU를 AI 컴퓨팅으로 확장한 엔비디아 공동창업자’로 요약되는 젠슨 황의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jack-garabedian",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘그록 인간 데이터팀을 맡은 스타링크 출신 엔지니어’로 요약되는 잭 가라베디언의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "paul-the-apostle",
+      "selections": [
+        {
+          "contentId": "0ec1b3d9-5664-4043-af83-787a986b2f7d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "역사적 예수와 초기 그리스도교가 형성되기 전의 사회적 맥락을 살펴, ‘그리스도인 박해자에서 이방인의 사도로’로 요약되는 사도 바울의 종교·사상 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jiahui-yu",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘GPT-4o 시각 인식을 함께 이끈 연구자’로 요약되는 위 지아후이의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "cameron-winklevoss",
+      "selections": [
+        {
+          "contentId": "2626c7df-45be-4631-b168-324908b5fafc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "비트코인의 블록 크기 논쟁과 탈중앙 합의가 갈라진 역사를 추적해, ‘페이스북 소송 뒤 제미니를 세운 쌍둥이’로 요약되는 카메론 윙클보스의 비트코인 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ibn-sina",
+      "selections": [
+        {
+          "contentId": "f972ffa9-f789-413d-8003-03b6b1b76df1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "의료 현장의 판단·오류·불확실성과 의사의 책임을 실제 사례로 다뤄, ‘의학정전을 쓴 페르시아 의학자’로 요약되는 이븐 시나의 의학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "hongyu-ren",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능의 목표 정렬과 인간 통제 문제를 다뤄, ‘GPT-4o mini 개발을 이끈 AI 연구자’로 요약되는 홍위 렌의 AI 기술·산업 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탐색·추론·학습을 아우르는 현대 인공지능의 핵심 방법을 체계화해, ‘GPT-4o mini 개발을 이끈 AI 연구자’로 요약되는 홍위 렌의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘GPT-4o mini 개발을 이끈 AI 연구자’로 요약되는 홍위 렌의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "tom-anderson",
+      "selections": []
+    },
+    {
+      "slug": "napoleon-bonaparte",
+      "selections": [
+        {
+          "contentId": "c1a865d0-b2c1-4e06-b418-83145e4b674d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "1789년 프랑스혁명의 원리와 급진적 질서 재편을 동시대 보수주의 시각에서 비판해, ‘아우스터리츠에서 두 황제의 군대를 꺾은 프랑스 황제’로 요약되는 나폴레옹 보나파르트의 프랑스혁명사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jennifer-lawrence",
+      "selections": [
+        {
+          "contentId": "79c8c72c-1da6-4e88-81b4-ba9fae82c4ac",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제니퍼 로렌스가 티파니 맥스웰을 연기해 아카데미 여우주연상을 받은 동명 영화의 원작으로, 배역의 상처와 회복 과정을 직접 읽게 한다."
+        },
+        {
+          "contentId": "e314802a-4b7c-468d-ba4d-cb03ad320beb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제니퍼 로렌스의 대표 배역 캣니스 에버딘이 생존 경기에서 반란의 상징으로 변하는 영화 원작의 서사를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "noam-shazeer",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘챗GPT의 기반 기술 트랜스포머를 함께 만든 연구자’로 요약되는 노엄 샤지어의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "claude-ryan",
+      "selections": []
+    },
+    {
+      "slug": "daniel-ek",
+      "selections": []
+    },
+    {
+      "slug": "john-carmack",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘둠 엔진을 짠 프로그래머’로 요약되는 존 카맥의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "bernt-bornich",
+      "selections": []
+    },
+    {
+      "slug": "jason-ginsberg",
+      "selections": []
+    },
+    {
+      "slug": "yang-zhilin",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘Kimi를 만든 문샷 AI 창업자’로 요약되는 양지린의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "john-mccarthy",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능의 목표 정렬과 인간 통제 문제를 다뤄, ‘인공지능이라는 이름을 붙인 과학자’로 요약되는 존 매카시의 AI 기술·산업 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탐색·추론·학습을 아우르는 현대 인공지능의 핵심 방법을 체계화해, ‘인공지능이라는 이름을 붙인 과학자’로 요약되는 존 매카시의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "36a5bf99-fab8-4f54-bf36-2293d4c49847",
+          "relationType": "related",
+          "description": null,
+          "rationale": "알고리즘 분석과 효율적인 프로그램 설계의 고전적 방법을 깊이 다뤄, ‘인공지능이라는 이름을 붙인 과학자’로 요약되는 존 매카시의 프로그래밍 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "mike-krieger",
+      "selections": []
+    },
+    {
+      "slug": "tom-brown",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘GPT-3와 클로드를 잇는 AI 엔지니어’로 요약되는 톰 브라운의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "brad-pitt",
+      "selections": [
+        {
+          "contentId": "bba9e508-5d19-4e06-8d8f-65424e073c89",
+          "relationType": "related",
+          "description": null,
+          "rationale": "브래드 피트가 연기한 타일러 더든과 이름 없는 화자의 소비사회 반란을 담은 동명 영화의 원작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "fei-fei-li",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘이미지넷 구축을 이끈 컴퓨터 비전 연구자’로 요약되는 페이페이 리의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "robert-lynn",
+      "selections": []
+    },
+    {
+      "slug": "shengjia-zhao",
+      "selections": [
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탐색·추론·학습을 아우르는 현대 인공지능의 핵심 방법을 체계화해, ‘GPT-4와 o1을 잇는 연구자’로 요약되는 셩지아 자오의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘GPT-4와 o1을 잇는 연구자’로 요약되는 셩지아 자오의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "robin-li",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘중국 검색의 표준을 세운 창업가’로 요약되는 리옌훙의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "54d4c3c3-4695-43c9-af36-dd941b252cd8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "서로 다른 기계학습 계열을 하나의 보편 학습 원리로 설명하려는 논의를 통해, ‘중국 검색의 표준을 세운 창업가’로 요약되는 리옌훙의 알고리즘·AI 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "al-ghazali",
+      "selections": [
+        {
+          "contentId": "2c4fb84d-3f46-4ac3-8a61-71adccac8eb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "알 가잘리가 비판적으로 맞섰던 아리스토텔레스 형이상학의 핵심 개념을 직접 보여줘, ‘수피즘을 수니파 정통 신앙과 결합한 신학자’로 요약되는 알 가잘리의 철학·신학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "lucas-beyer",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘이미지를 단어처럼 쪼개 읽는 ViT를 함께 만든 연구자’로 요약되는 루카스 바이어의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "dario-amodei",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘클로드를 만든 앤트로픽 대표’로 요약되는 다리오 아모데이의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "hoan-ton-that",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘웹 사진을 긁어 얼굴검색을 만든 클리어뷰 공동창업자’로 요약되는 호안 톤-탓의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "drew-houston",
+      "selections": []
+    },
+    {
+      "slug": "mary-wollstonecraft",
+      "selections": [
+        {
+          "contentId": "c59ffcd5-253d-401e-9411-fda4c34d113b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "성차별을 끝내기 위한 페미니즘의 목표와 실천을 대중적으로 설명해, ‘여성도 동등하게 배워야 한다고 쓴 사상가’로 요약되는 메리 울스턴크래프트의 여성주의 사상 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "filippo-brunelleschi",
+      "selections": [
+        {
+          "contentId": "bd5e9549-efaf-4324-ac52-9ecd1a6e3bf7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "도시국가·인문주의·예술이 결합한 이탈리아 르네상스의 사회와 문화를 보여줘, ‘받침틀 없이 피렌체 돔을 올린 건축가’로 요약되는 필리포 브루넬레스키의 르네상스 건축·문화 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+          "relationType": "related",
+          "description": null,
+          "rationale": "점·선·비례·재료·공간을 실제 건물이 만들어지는 순서로 설명해, ‘받침틀 없이 피렌체 돔을 올린 건축가’로 요약되는 필리포 브루넬레스키의 건축 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "young-sam-kim",
+      "selections": []
+    },
+    {
+      "slug": "evan-spiegel",
+      "selections": []
+    },
+    {
+      "slug": "recep-tayyip-erdogan",
+      "selections": [
+        {
+          "contentId": "6871e75d-0f29-4a40-9dea-b9b54911a7fa",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이슬람권의 종교·학문·교역·정치가 형성한 문명의 장기 흐름을 설명해, ‘대통령중심제 전환을 주도한 튀르키예 정치인’로 요약되는 레제프 타이이프 에르도안의 이슬람사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "frank-gehry",
+      "selections": [
+        {
+          "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+          "relationType": "related",
+          "description": null,
+          "rationale": "점·선·비례·재료·공간을 실제 건물이 만들어지는 순서로 설명해, ‘빌바오 구겐하임 티타늄 곡선의 건축가’로 요약되는 프랭크 게리의 건축 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "larry-hillblom",
+      "selections": []
+    },
+    {
+      "slug": "heinrich-himmler",
+      "selections": [
+        {
+          "contentId": "a98ba070-d02c-4bf6-8895-20cc2741291b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "홀로코스트를 관료제·분업·합리화가 만든 현대 사회의 범죄로 분석해, ‘홀로코스트의 설계와 집행을 총괄한 SS 총수’로 요약되는 하인리히 힘러의 홀로코스트사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "robin-zeng",
+      "selections": []
+    },
+    {
+      "slug": "felix-mendelssohn",
+      "selections": [
+        {
+          "contentId": "b6b9da7c-54a1-40ba-9e54-2032e52b25dc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "멘델스존이 서곡과 극음악으로 옮긴 셰익스피어 희극의 원전을 직접 읽게 해, ‘「마태수난곡」으로 바흐 부흥을 이끈 작곡가’로 요약되는 펠릭스 멘델스존의 음악·문학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "lee-dong-hyung",
+      "selections": []
+    },
+    {
+      "slug": "ralph-fiennes",
+      "selections": [
+        {
+          "contentId": "5eb49924-2cd2-446e-b608-f5eebee41ea6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "레이프 파인스의 대표 배역 볼드모트가 육체를 되찾는 사건을 담은 영화 원작으로, 그 인물의 공포와 역할을 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "arthur-schopenhauer",
+      "selections": [
+        {
+          "contentId": "82b7927b-6739-4f85-b9a5-85c993f48f4d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "세계를 표상과 의지로 설명한 쇼펜하우어 자신의 핵심 철학 체계를 직접 제시해, ‘세계를 의지와 표상으로 설명한 철학자’로 요약되는 아르투어 쇼펜하우어의 철학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "gustav-mahler",
+      "selections": []
+    },
+    {
+      "slug": "tadao-ando",
+      "selections": [
+        {
+          "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+          "relationType": "related",
+          "description": null,
+          "rationale": "점·선·비례·재료·공간을 실제 건물이 만들어지는 순서로 설명해, ‘복싱 링을 떠나 프리츠커상을 받은 독학 건축가’로 요약되는 안도 다다오의 건축 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ian-mckellen",
+      "selections": [
+        {
+          "contentId": "5c6d77ce-65c8-4e80-90f7-6a4c1dfd95ef",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이언 매켈런이 연기한 간달프가 반지 원정대와 중간계 전쟁을 이끄는 영화 원작의 서사를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "fernando-botero",
+      "selections": [
+        {
+          "contentId": "4256b898-43bf-4999-ad24-375585df970c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "20세기 이후 미술 사조와 작가들의 표현 방식을 개괄해, ‘인물을 둥글게 부풀려 그린 화가’로 요약되는 페르난도 보테로의 현대미술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "danielle",
+      "selections": [
+        {
+          "contentId": "65be22d2-bbd6-474e-bb51-11824791ec5e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "다니엘이 한국어 목소리를 맡은 실사 영화의 주인공 에리얼로 이어지는 안데르센 원전으로, 인어공주 서사의 출발점을 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "alex-krizhevsky",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘2012 이미지넷 우승 모델 AlexNet 공동 개발자’로 요약되는 알렉스 크리제프스키의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "tomer-weingarten",
+      "selections": [
+        {
+          "contentId": "dce22311-fe11-495f-a3fb-748b86eb6cc7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "회귀·분류·정규화·앙상블을 통계학 관점에서 체계화해, ‘AI가 공격을 찾아 막는 보안회사를 세운 창업가’로 요약되는 토머 웨인가튼의 머신러닝 연구 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "quoc-le",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘신경망의 구조를 스스로 찾게 한 연구자’로 요약되는 쿽 레의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jared-isaacman",
+      "selections": [
+        {
+          "contentId": "70d4be63-2af6-486d-aaf5-eb6a663022a0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "우주비행 훈련과 궤도 생활·위기 대응을 우주비행사의 경험으로 설명해, ‘첫 상업 우주유영에 나선 NASA 국장’로 요약되는 재러드 아이작먼의 우주비행 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jude-law",
+      "selections": [
+        {
+          "contentId": "03febf2b-0297-4c79-b6a1-c89202a05845",
+          "relationType": "related",
+          "description": null,
+          "rationale": "주드 로가 가이 리치의 영화에서 연기한 존 왓슨이 셜록 홈즈와 함께 사건을 해결하는 원전 이야기들을 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "alex-graves",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘외부 메모리 신경망을 공동 제안한 연구자’로 요약되는 알렉스 그레이브스의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "gordon-moore",
+      "selections": [
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "DRAM·NAND의 재료와 팹 공정·장비·양산 구조를 설명해, ‘집적회로 부품 수의 배증을 내다본 인텔 공동창업자’로 요약되는 고든 무어의 반도체 제조 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공급망과 미·중 기술 패권 경쟁의 형성 과정을 추적해, ‘집적회로 부품 수의 배증을 내다본 인텔 공동창업자’로 요약되는 고든 무어의 반도체 산업 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "maximilien-robespierre",
+      "selections": [
+        {
+          "contentId": "c1a865d0-b2c1-4e06-b418-83145e4b674d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "1789년 프랑스혁명의 원리와 급진적 질서 재편을 동시대 보수주의 시각에서 비판해, ‘공포정치를 주도하다 단두대에 오른 혁명가’로 요약되는 막시밀리앙 드 로베스피에르의 프랑스혁명사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "marc-andreessen",
+      "selections": []
+    },
+    {
+      "slug": "clement-delangue",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘오픈소스 AI 허브 허깅페이스 공동창업자’로 요약되는 클레망 들랑그의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "marie-curie",
+      "selections": []
+    },
+    {
+      "slug": "adam-grant",
+      "selections": [
+        {
+          "contentId": "c11b6c08-5ad7-4de0-893d-ac88e211f9d6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "독창적인 생각을 실행하고 조직의 관성을 바꾸는 조건을 저자 자신의 연구로 설명해, ‘기버가 성공하는 조건을 연구한 조직심리학자’로 요약되는 아담 그랜트의 조직심리학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "antoni-gaudi",
+      "selections": [
+        {
+          "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+          "relationType": "related",
+          "description": null,
+          "rationale": "점·선·비례·재료·공간을 실제 건물이 만들어지는 순서로 설명해, ‘사그라다 파밀리아를 설계한 건축가’로 요약되는 안토니 가우디의 건축 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "a7679ad4-ee7c-4be8-8f67-74bd372e443e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아르누보부터 기능주의까지 1890~1940년 건축과 미술의 상호작용을 보여줘, ‘사그라다 파밀리아를 설계한 건축가’로 요약되는 안토니 가우디의 건축·미술사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ben-mann",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘GPT-3를 함께 만든 앤트로픽 공동창업자’로 요약되는 벤 맨의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "alex-spiro",
+      "selections": [
+        {
+          "contentId": "8b6e97fc-063c-41a1-bb0a-e30ff36818e3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "법의 효력·정의·권리와 실정법의 관계를 다루는 법철학의 핵심 쟁점을 설명해, ‘일론 머스크 측 수석 변호인’로 요약되는 알렉스 스파이로의 법률 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "takaichi-sanae",
+      "selections": [
+        {
+          "contentId": "ee55893a-8caa-4202-a4e3-caa81dc3bced",
+          "relationType": "related",
+          "description": null,
+          "rationale": "야스쿠니 신사의 전쟁 책임과 일본 정치의 기억 논쟁을 분석해, ‘일본 헌정 사상 첫 여성 총리’로 요약되는 다카이치 사나에의 일본 정치 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "brett-adcock",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘휴머노이드 로봇 기업 피규어의 창업자’로 요약되는 브렛 애드콕의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "rob-fergus",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘CNN 시각화로 딥러닝 해석을 연 연구자’로 요약되는 롭 퍼거스의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "shoichiro-irimajiri",
+      "selections": []
+    },
+    {
+      "slug": "joe-sutter",
+      "selections": []
+    },
+    {
+      "slug": "wang-chuanfu",
+      "selections": []
+    },
+    {
+      "slug": "jared-kaplan",
+      "selections": [
+        {
+          "contentId": "0cb7081b-0b61-42a2-ac4e-a3f93e911e6c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "상대성이론·양자역학·우주론을 현대 물리학의 큰 흐름으로 소개해, ‘언어모델 스케일링 법칙을 함께 세운 앤트로픽 공동창업자’로 요약되는 재러드 카플란의 이론물리학 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘언어모델 스케일링 법칙을 함께 세운 앤트로픽 공동창업자’로 요약되는 재러드 카플란의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ilya-sutskever",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘AlexNet을 함께 만든 딥러닝 연구자’로 요약되는 일리야 수츠케버의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jack-dorsey",
+      "selections": [
+        {
+          "contentId": "2626c7df-45be-4631-b168-324908b5fafc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "비트코인의 블록 크기 논쟁과 탈중앙 합의가 갈라진 역사를 추적해, ‘세상 첫 트윗을 올린 트위터 공동창업자’로 요약되는 잭 도시의 비트코인 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "steven-bartlett",
+      "selections": []
+    },
+    {
+      "slug": "harun-al-rashid",
+      "selections": [
+        {
+          "contentId": "0b463a8f-b257-4a35-9c32-51c7c830d485",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이슬람 신앙과 법·윤리의 토대가 된 꾸란 본문을 직접 읽게 해, ‘천일야화 속 전설이 된 아바스 왕조의 칼리프’로 요약되는 하룬 알 라시드의 종교·통치 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ingvar-kamprad",
+      "selections": []
+    },
+    {
+      "slug": "warren-mcculloch",
+      "selections": [
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탐색·추론·학습을 아우르는 현대 인공지능의 핵심 방법을 체계화해, ‘뉴런을 논리 소자로 바꾼 선구자’로 요약되는 워런 맥컬록의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "shah-rukh",
+      "selections": [
+        {
+          "contentId": "6871e75d-0f29-4a40-9dea-b9b54911a7fa",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이슬람권의 종교·학문·교역·정치가 형성한 문명의 장기 흐름을 설명해, ‘헤라트를 중심으로 티무르 제국의 문화 부흥을 이끈 군주’로 요약되는 샤 루흐의 이슬람사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "rosamund-pike",
+      "selections": [
+        {
+          "contentId": "90e36a18-7d45-475e-be15-f095a36d34a8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "로자먼드 파이크가 연기한 에이미 던이 결혼과 실종을 둘러싸고 벌이는 심리전을 담은 동명 영화의 원작이다."
+        }
+      ]
+    },
+    {
+      "slug": "peter-handke",
+      "selections": [
+        {
+          "contentId": "111790ad-de61-404d-8dd6-a0de95fae79b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "언어 중심의 재현극을 거부하고 몸·소리·공간을 중시한 잔혹극 이론을 제시해, ‘줄거리 대신 관객에게 말을 걸고 욕설을 던진 극작가’로 요약되는 페터 한트케의 실험 연극 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "niels-bohr",
+      "selections": [
+        {
+          "contentId": "4aa5bea3-b5fc-4ad3-b6fd-fda7086abbf1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "플랑크 상수와 복소수를 중심으로 양자 현상의 핵심 원리를 풀어, ‘원자 모형에 양자 규칙을 처음 넣은 물리학자’로 요약되는 닐스 보어의 양자물리학 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "50304b7e-f7be-45b7-a232-d56c1b9d4d8b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "파동함수·연산자·각운동량 등 양자역학의 수학적 체계를 설명해, ‘원자 모형에 양자 규칙을 처음 넣은 물리학자’로 요약되는 닐스 보어의 양자물리학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "kevin-scott",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘OpenAI 투자를 주도한 마이크로소프트 CTO’로 요약되는 케빈 스콧의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "oriol-vinyals",
+      "selections": [
+        {
+          "contentId": "f61d4164-4542-48c2-839d-afb63c3991de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가치함수·정책·탐험 등 강화학습의 표준 이론과 알고리즘을 체계화해, ‘알파스타와 제미니를 이끈 딥마인드 연구자’로 요약되는 오리올 비니알스의 강화학습 연구 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘알파스타와 제미니를 이끈 딥마인드 연구자’로 요약되는 오리올 비니알스의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "logan-paul",
+      "selections": []
+    },
+    {
+      "slug": "truett-cathy",
+      "selections": []
+    },
+    {
+      "slug": "olga-russakovsky",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘이미지넷 챌린지를 이끈 시각인식 연구자’로 요약되는 올가 루사코프스키의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "nikolai-bukharin",
+      "selections": [
+        {
+          "contentId": "b0ee027b-fa1b-4c1c-821f-a2eca62b15b2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "계급의식과 혁명적 실천을 마르크스주의 변증법으로 논한 사상적 쟁점을 보여줘, ‘신경제정책을 옹호한 볼셰비키 이론가’로 요약되는 니콜라이 부하린의 볼셰비키 사상 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "allen-zhang",
+      "selections": []
+    },
+    {
+      "slug": "james-gorman",
+      "selections": [
+        {
+          "contentId": "47378dcd-a52f-489c-85ca-9166003b19e9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "투기·신용 팽창·공황이 반복되는 금융위기의 구조를 역사적으로 분석해, ‘모건스탠리를 자산관리로 바꾼 최고경영자’로 요약되는 제임스 고먼의 금융 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "kazuo-ueda",
+      "selections": [
+        {
+          "contentId": "7492a02b-a6dd-4b61-9c9e-90f9113e0da3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고전파부터 행동경제학까지 주요 경제학자의 논쟁과 아이디어를 역사적으로 정리해, ‘마이너스 금리 종료를 이끈 일본은행 총재’로 요약되는 우에다 가즈오의 경제학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "baek-mun-oh",
+      "selections": [
+        {
+          "contentId": "200d6529-b0fd-484a-bffd-e847d76f368d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "한국전쟁의 발발·전선 변화·군 지휘 구조를 사료로 추적해, ‘특전사의 모체인 제1전투단 초대 지휘관’로 요약되는 백문오의 한국전쟁사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "bob-mumgaard",
+      "selections": []
+    },
+    {
+      "slug": "lee-sedol",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘78수로 알파고 5번기의 유일한 승리를 따낸 기사’로 요약되는 이세돌의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "max-levchin",
+      "selections": []
+    },
+    {
+      "slug": "andrew-tulloch",
+      "selections": [
+        {
+          "contentId": "dce22311-fe11-495f-a3fb-748b86eb6cc7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "회귀·분류·정규화·앙상블을 통계학 관점에서 체계화해, ‘GPT-4o의 데이터 시스템을 이끈 엔지니어’로 요약되는 앤드루 털럭의 머신러닝 연구 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘GPT-4o의 데이터 시스템을 이끈 엔지니어’로 요약되는 앤드루 털럭의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "orlando-bloom",
+      "selections": [
+        {
+          "contentId": "5c6d77ce-65c8-4e80-90f7-6a4c1dfd95ef",
+          "relationType": "related",
+          "description": null,
+          "rationale": "올랜도 블룸이 연기한 엘프 레골라스가 반지 원정대에 합류해 싸우는 영화 원작의 서사를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "rabia-al-adawiyya",
+      "selections": [
+        {
+          "contentId": "6871e75d-0f29-4a40-9dea-b9b54911a7fa",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이슬람권의 종교·학문·교역·정치가 형성한 문명의 장기 흐름을 설명해, ‘천국과 지옥이 아니라 사랑으로 신을 섬긴 수피’로 요약되는 라비아 알 아다위야의 이슬람사 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "0b463a8f-b257-4a35-9c32-51c7c830d485",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이슬람 신앙과 법·윤리의 토대가 된 꾸란 본문을 직접 읽게 해, ‘천국과 지옥이 아니라 사랑으로 신을 섬긴 수피’로 요약되는 라비아 알 아다위야의 종교·통치 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "claude-debussy",
+      "selections": [
+        {
+          "contentId": "aafa4ca1-4eca-4c69-8a9a-7a9bff8cdac0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "드뷔시의 관현악곡에 직접 영감을 준 말라르메의 상징주의 시를 읽게 해, ‘「달빛」을 남긴 인상주의 작곡가’로 요약되는 클로드 드뷔시의 음악·문학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "larry-page",
+      "selections": []
+    },
+    {
+      "slug": "jakub-pachocki",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘GPT-4 개발을 이끈 오픈AI 수석과학자’로 요약되는 야쿠브 파초키의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "lisa-su",
+      "selections": [
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "DRAM·NAND의 재료와 팹 공정·장비·양산 구조를 설명해, ‘젠으로 AMD의 반전을 이끈 반도체 CEO’로 요약되는 리사 수의 반도체 제조 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공급망과 미·중 기술 패권 경쟁의 형성 과정을 추적해, ‘젠으로 AMD의 반전을 이끈 반도체 CEO’로 요약되는 리사 수의 반도체 산업 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "mark-rober",
+      "selections": []
+    },
+    {
+      "slug": "albert-speer",
+      "selections": [
+        {
+          "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+          "relationType": "related",
+          "description": null,
+          "rationale": "나치 군수장관이 되기 전 건축가로 활동한 알베르트 슈페어의 설계 분야를 재료·비례·공간이라는 건축의 기본 요소에서 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "alexander-kolesnikov",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘이미지를 패치로 읽게 한 비전 트랜스포머 공동 개발자’로 요약되는 알렉산더 콜레스니코프의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "saoirse-ronan",
+      "selections": [
+        {
+          "contentId": "20f7251e-e377-490d-b6bb-6961d2c399dc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시얼샤 로넌이 연기한 조 March의 작가적 성장과 네 자매의 삶을 담은 동명 영화의 원작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "daniela-amodei",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘앤트로픽 공동창업자 겸 사장’로 요약되는 다니엘라 아모데이의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "selcuk-bayraktar",
+      "selections": []
+    },
+    {
+      "slug": "hal-finney",
+      "selections": [
+        {
+          "contentId": "2626c7df-45be-4631-b168-324908b5fafc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "비트코인의 블록 크기 논쟁과 탈중앙 합의가 갈라진 역사를 추적해, ‘사토시에게 첫 비트코인 송금을 받은 암호학자’로 요약되는 할 피니의 비트코인 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jb-straubel",
+      "selections": []
+    },
+    {
+      "slug": "gil-shwed",
+      "selections": []
+    },
+    {
+      "slug": "bae-doona",
+      "selections": [
+        {
+          "contentId": "42516d5f-e4fe-4ffd-a8e7-8a46aac16eab",
+          "relationType": "related",
+          "description": null,
+          "rationale": "배두나가 영화에서 연기한 손미-451을 비롯해 여섯 시대의 인물이 연결되는 워쇼스키 작품의 원작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "igor-babuschkin",
+      "selections": [
+        {
+          "contentId": "f61d4164-4542-48c2-839d-afb63c3991de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가치함수·정책·탐험 등 강화학습의 표준 이론과 알고리즘을 체계화해, ‘알파스타의 그랜드마스터 등극을 이끈 엔지니어’로 요약되는 이고르 바부슈킨의 강화학습 연구 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘알파스타의 그랜드마스터 등극을 이끈 엔지니어’로 요약되는 이고르 바부슈킨의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "saladin",
+      "selections": [
+        {
+          "contentId": "6871e75d-0f29-4a40-9dea-b9b54911a7fa",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이슬람권의 종교·학문·교역·정치가 형성한 문명의 장기 흐름을 설명해, ‘예루살렘을 되찾은 이슬람의 영웅’로 요약되는 살라딘의 이슬람사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-i.-jordan",
+      "selections": [
+        {
+          "contentId": "dce22311-fe11-495f-a3fb-748b86eb6cc7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "회귀·분류·정규화·앙상블을 통계학 관점에서 체계화해, ‘확률 그래프 모형을 머신러닝 주류로 올린 거장’로 요약되는 마이클 어빙 조던의 머신러닝 연구 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘확률 그래프 모형을 머신러닝 주류로 올린 거장’로 요약되는 마이클 어빙 조던의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "burton-malkiel",
+      "selections": [
+        {
+          "contentId": "30dcf1f8-0d6c-457c-9368-f94bb01764fb",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시장 가격의 무작위성과 저비용 분산투자의 논리를 제시해, ‘월가의 랜덤워크를 쓴 경제학자’로 요약되는 버턴 맬킬의 투자 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "sergey-brin",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘래리 페이지와 검색의 판을 바꾼 구글 창업자’로 요약되는 세르게이 브린의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "kristalina-georgieva",
+      "selections": [
+        {
+          "contentId": "624484e9-352e-4a87-a447-a22a2095f664",
+          "relationType": "related",
+          "description": null,
+          "rationale": "경제 체제와 주요 학파·생산·불평등을 복수의 관점에서 설명해, ‘불가리아 출신 IMF 총재’로 요약되는 크리스탈리나 게오르기에바의 경제학 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "604a90bc-f7f7-4e5a-9da8-776225b6cc37",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이민·무역·불평등·기후 문제를 실증경제학으로 분석해, ‘불가리아 출신 IMF 총재’로 요약되는 크리스탈리나 게오르기에바의 국제·개발경제 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "peter-beck",
+      "selections": []
+    },
+    {
+      "slug": "soumith-chintala",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘AI 연구의 표준 도구가 된 파이토치를 만든 개발자’로 요약되는 수미스 친탈라의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "andy-serkis",
+      "selections": [
+        {
+          "contentId": "5c6d77ce-65c8-4e80-90f7-6a4c1dfd95ef",
+          "relationType": "related",
+          "description": null,
+          "rationale": "앤디 서키스가 퍼포먼스 캡처로 구현한 골룸의 욕망과 비극을 담은 영화 원작의 서사를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "alan-rickman",
+      "selections": [
+        {
+          "contentId": "13c5b8fe-2671-4647-b101-545aa7ef44e6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "앨런 릭먼의 대표 배역 세베루스 스네이프가 호그와트 교수로 처음 등장하는 영화 원작의 출발권이다."
+        }
+      ]
+    },
+    {
+      "slug": "harvey-c.-jones",
+      "selections": [
+        {
+          "contentId": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공급망과 미·중 기술 패권 경쟁의 형성 과정을 추적해, ‘시놉시스를 증시에 올린 EDA 경영자’로 요약되는 하비 존스의 반도체 산업 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "frank-lloyd-wright",
+      "selections": [
+        {
+          "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+          "relationType": "related",
+          "description": null,
+          "rationale": "점·선·비례·재료·공간을 실제 건물이 만들어지는 순서로 설명해, ‘폭포 위에 낙수장을 설계한 건축가’로 요약되는 프랭크 로이드 라이트의 건축 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "bennett-golub",
+      "selections": []
+    },
+    {
+      "slug": "sam-altman",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능의 목표 정렬과 인간 통제 문제를 다뤄, ‘챗GPT 출시로 인공지능 대중화를 이끈 기업가’로 요약되는 샘 알트만의 AI 기술·산업 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탐색·추론·학습을 아우르는 현대 인공지능의 핵심 방법을 체계화해, ‘챗GPT 출시로 인공지능 대중화를 이끈 기업가’로 요약되는 샘 알트만의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘챗GPT 출시로 인공지능 대중화를 이끈 기업가’로 요약되는 샘 알트만의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "robert-mercer",
+      "selections": [
+        {
+          "contentId": "54d4c3c3-4695-43c9-af36-dd941b252cd8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "서로 다른 기계학습 계열을 하나의 보편 학습 원리로 설명하려는 논의를 통해, ‘알고리즘으로 번 돈을 보수 정치에 건 큰손’로 요약되는 로버트 머서의 알고리즘·AI 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "tim-berners-lee",
+      "selections": []
+    },
+    {
+      "slug": "andrew-huberman",
+      "selections": [
+        {
+          "contentId": "83c1320b-5a33-49aa-afa0-dfe1a6b79712",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정서의 신경회로와 뇌 시스템을 동물·인간 연구로 체계화해, ‘시각 회로 재생을 연구하는 스탠퍼드 신경과학자’로 요약되는 앤드류 후버만의 신경과학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "grant-sanderson",
+      "selections": [
+        {
+          "contentId": "9ada83e6-4456-40f1-9f91-c83a367e269f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "수학 개념이 상상과 시각적 사고에서 출발하는 과정을 대중적으로 풀어, ‘Manim으로 수학을 시각화한 창작자’로 요약되는 그랜트 샌더슨의 수학 창작 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "45833358-5c22-41a9-9f1d-67446bb5b4fe",
+          "relationType": "related",
+          "description": null,
+          "rationale": "근대 수학사의 전환과 수학적 발상의 힘을 서사적으로 설명해, ‘Manim으로 수학을 시각화한 창작자’로 요약되는 그랜트 샌더슨의 수학 창작 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "0b45dd2f-b8f0-4254-91ac-42a2d216439c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "수학의 구조와 현대 예술·문학이 서로 영향을 준 사례를 보여줘, ‘Manim으로 수학을 시각화한 창작자’로 요약되는 그랜트 샌더슨의 수학·시각화 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jeff-dean",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘MapReduce를 공동설계한 구글 과학자’로 요약되는 제프 딘의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "alex-karp",
+      "selections": []
+    },
+    {
+      "slug": "jack-clark",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘오픈AI를 떠나 앤트로픽 창립에 나선 정책가’로 요약되는 잭 클락의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "enrico-fermi",
+      "selections": [
+        {
+          "contentId": "50304b7e-f7be-45b7-a232-d56c1b9d4d8b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "파동함수·연산자·각운동량 등 양자역학의 수학적 체계를 설명해, ‘세계 첫 원자로를 켠 핵물리학자’로 요약되는 엔리코 페르미의 양자물리학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "adam-back",
+      "selections": [
+        {
+          "contentId": "2626c7df-45be-4631-b168-324908b5fafc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "비트코인의 블록 크기 논쟁과 탈중앙 합의가 갈라진 역사를 추적해, ‘비트코인 작업증명의 길을 연 해시캐시 발명가’로 요약되는 아담 백의 비트코인 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "aravind-srinivas",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘링크 대신 답을 내는 퍼플렉시티의 수장’로 요약되는 아라빈드 스리니바스의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "robert-pattinson",
+      "selections": [
+        {
+          "contentId": "fe5e86a8-4c11-4f05-975f-b7cf5574cc8d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "로버트 패틴슨을 세계적 스타로 만든 배역 에드워드 컬렌과 인간 벨라의 관계를 그린 영화 원작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "chey-tae-won",
+      "selections": [
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "DRAM·NAND의 재료와 팹 공정·장비·양산 구조를 설명해, ‘하이닉스를 인수한 SK그룹 회장’로 요약되는 최태원의 반도체 제조 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공급망과 미·중 기술 패권 경쟁의 형성 과정을 추적해, ‘하이닉스를 인수한 SK그룹 회장’로 요약되는 최태원의 반도체 산업 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-chun-su",
+      "selections": [
+        {
+          "contentId": "093c02ad-9bf5-404c-b454-9cd889b38b17",
+          "relationType": "related",
+          "description": null,
+          "rationale": "비극·서사·모방과 같은 문학 구성의 기본 원리를 고전 시학으로 제시해, ‘이름을 부르면 꽃이 되는 「꽃」의 시인’로 요약되는 김춘수의 시·문학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "steve-huffman",
+      "selections": []
+    },
+    {
+      "slug": "james-madison",
+      "selections": [
+        {
+          "contentId": "f8d62ee0-c4c9-4bb2-aacf-169cacb6e839",
+          "relationType": "related",
+          "description": null,
+          "rationale": "매디슨이 공동 집필한 연방헌법 비준 논설을 원문으로 제시해, ‘미국 헌법을 기초한 제4대 대통령’로 요약되는 제임스 매디슨의 헌법·정치사상 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "steve-wozniak",
+      "selections": []
+    },
+    {
+      "slug": "stephen-schwarzman",
+      "selections": []
+    },
+    {
+      "slug": "alec-radford",
+      "selections": [
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탐색·추론·학습을 아우르는 현대 인공지능의 핵심 방법을 체계화해, ‘첫 GPT 논문의 제1저자’로 요약되는 알렉 래드포드의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘첫 GPT 논문의 제1저자’로 요약되는 알렉 래드포드의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "pyotr-tchaikovsky",
+      "selections": [
+        {
+          "contentId": "778a349b-7411-4850-b60d-ab38d15a1c7a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "차이콥스키 발레로 이어진 호두까기 인형과 생쥐 왕의 원전 서사를 읽게 해, ‘백조를 춤추게 한 러시아의 선율’로 요약되는 표트르 차이콥스키의 음악·문학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "al-biruni",
+      "selections": [
+        {
+          "contentId": "6871e75d-0f29-4a40-9dea-b9b54911a7fa",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이슬람권의 종교·학문·교역·정치가 형성한 문명의 장기 흐름을 설명해, ‘산스크리트어를 배워 인도를 연구한 11세기 박학자’로 요약되는 알 비루니의 이슬람사 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "dec4fdc5-e1a5-4c20-8b3d-d19f34da5017",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정의와 공리에서 명제를 증명하는 유클리드 기하학의 체계를 제시해, ‘산스크리트어를 배워 인도를 연구한 11세기 박학자’로 요약되는 알 비루니의 수학·과학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "sepp-hochreiter",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘기울기 소실에서 기억의 해법을 찾은 연구자’로 요약되는 제프 호흐라이터의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "greg-yang",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘작은 모델로 대형 신경망을 튜닝한 연구자’로 요약되는 그렉 양의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "eduardo-saverin",
+      "selections": [
+        {
+          "contentId": "fd4bbd4d-4668-4516-b1b4-39718f06e59a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자본 수익률의 순환과 기업의 자본 배분 원칙을 투자 사례로 분석해, ‘페이스북 초기 재무를 맡은 공동창업자’로 요약되는 에두아르도 세버린의 투자 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "5bd6917e-adb1-40ca-be68-9ee300650dd6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기술혁명과 금융자본이 거품·확산·성숙 단계를 거치는 구조를 설명해, ‘페이스북 초기 재무를 맡은 공동창업자’로 요약되는 에두아르도 세버린의 기술투자 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-saylor",
+      "selections": [
+        {
+          "contentId": "2626c7df-45be-4631-b168-324908b5fafc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "비트코인의 블록 크기 논쟁과 탈중앙 합의가 갈라진 역사를 추적해, ‘기업 금고에 비트코인을 쌓은 스트래티지 회장’로 요약되는 마이클 세일러의 비트코인 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "john-romero",
+      "selections": []
+    },
+    {
+      "slug": "trapit-bansal",
+      "selections": [
+        {
+          "contentId": "f61d4164-4542-48c2-839d-afb63c3991de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가치함수·정책·탐험 등 강화학습의 표준 이론과 알고리즘을 체계화해, ‘강화학습으로 o1의 추론을 끌어낸 연구자’로 요약되는 트라핏 반살의 강화학습 연구 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘강화학습으로 o1의 추론을 끌어낸 연구자’로 요약되는 트라핏 반살의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "alex-kendall",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘차에 운전을 가르친 웨이브 창업자’로 요약되는 알렉스 켄달의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "teller",
+      "selections": []
+    },
+    {
+      "slug": "andrew-musk",
+      "selections": []
+    },
+    {
+      "slug": "noam-brown",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘프로들을 꺾은 다인 포커 AI의 공동 개발자’로 요약되는 노엄 브라운의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "wang-guowei",
+      "selections": [
+        {
+          "contentId": "bed05786-4a94-46ea-99b1-11fefd42ab44",
+          "relationType": "related",
+          "description": null,
+          "rationale": "왕국유가 정독하고 자신의 미학에 받아들인 쇼펜하우어의 인생론을 제시해, ‘갑골문으로 사마천의 상나라 왕 계보를 확인한 학자’로 요약되는 왕국유의 사상·미학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "lee-soo-man",
+      "selections": []
+    },
+    {
+      "slug": "matty-simmons",
+      "selections": []
+    },
+    {
+      "slug": "emma-watson",
+      "selections": [
+        {
+          "contentId": "13c5b8fe-2671-4647-b101-545aa7ef44e6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "엠마 왓슨의 대표 배역 헤르미온느 그레인저가 호그와트에 입학해 해리와 론을 만나는 영화 원작의 출발권이다."
+        }
+      ]
+    },
+    {
+      "slug": "linus-torvalds",
+      "selections": []
+    },
+    {
+      "slug": "chris-lattner",
+      "selections": [
+        {
+          "contentId": "fe0885cd-1e6d-4a80-853e-4406104a10d1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "어휘 분석·파싱·최적화·코드 생성을 잇는 컴파일러 설계 원리를 체계화해, ‘LLVM을 만든 컴파일러 공학자’로 요약되는 크리스 라트너의 컴파일러 공학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "zhang-yiming",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘추천 알고리즘으로 세계의 화면을 바꾼 창업자’로 요약되는 장이밍의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "54d4c3c3-4695-43c9-af36-dd941b252cd8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "서로 다른 기계학습 계열을 하나의 보편 학습 원리로 설명하려는 논의를 통해, ‘추천 알고리즘으로 세계의 화면을 바꾼 창업자’로 요약되는 장이밍의 알고리즘·AI 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "j.p.-morgan",
+      "selections": [
+        {
+          "contentId": "94ddb02e-8a02-4540-b296-6a34e91f24b8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제1차 세계대전 이후 중앙은행의 선택과 대공황의 형성 과정을 추적해, ‘1907년 공황에서 민간 구제를 조직한 은행가’로 요약되는 J. P. 모건의 은행·금융사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "casey-neistat",
+      "selections": []
+    },
+    {
+      "slug": "koo-kwang-mo",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능의 목표 정렬과 인간 통제 문제를 다뤄, ‘인공지능과 배터리 중심으로 사업을 재편한 회장’로 요약되는 구광모의 AI 기술·산업 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "탐색·추론·학습을 아우르는 현대 인공지능의 핵심 방법을 체계화해, ‘인공지능과 배터리 중심으로 사업을 재편한 회장’로 요약되는 구광모의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "shuchao-bi",
+      "selections": [
+        {
+          "contentId": "f61d4164-4542-48c2-839d-afb63c3991de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가치함수·정책·탐험 등 강화학습의 표준 이론과 알고리즘을 체계화해, ‘GPT-4o 보이스 모드를 만든 연구자’로 요약되는 슈차오 비의 강화학습 연구 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘GPT-4o 보이스 모드를 만든 연구자’로 요약되는 슈차오 비의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "lee-kuk-jong",
+      "selections": [
+        {
+          "contentId": "f972ffa9-f789-413d-8003-03b6b1b76df1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "의료 현장의 판단·오류·불확실성과 의사의 책임을 실제 사례로 다뤄, ‘석해균 선장과 귀순 병사를 치료한 외상외과 의사’로 요약되는 이국종의 의학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "gaius-cassius-longinus",
+      "selections": [
+        {
+          "contentId": "beec3e32-53ae-4d5b-b172-9ed457193a79",
+          "relationType": "related",
+          "description": null,
+          "rationale": "카시우스가 말년에 받아들인 에피쿠로스주의의 쾌락·죽음·평정 개념을 설명해, ‘브루투스를 끌어들인 카이사르 암살 공모자’로 요약되는 카시우스의 철학·정치 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "siva-sivaram",
+      "selections": [
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "DRAM·NAND의 재료와 팹 공정·장비·양산 구조를 설명해, ‘전고체 배터리를 양산 단계로 옮기는 지휘자’로 요약되는 시바 시바람의 반도체 제조 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공급망과 미·중 기술 패권 경쟁의 형성 과정을 추적해, ‘전고체 배터리를 양산 단계로 옮기는 지휘자’로 요약되는 시바 시바람의 반도체 산업 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jose-reyes",
+      "selections": []
+    },
+    {
+      "slug": "frank-x-mcnamara",
+      "selections": []
+    },
+    {
+      "slug": "andy-grove",
+      "selections": [
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "DRAM·NAND의 재료와 팹 공정·장비·양산 구조를 설명해, ‘인텔의 마이크로프로세서 전환을 이끈 경영자’로 요약되는 앤디 그로브의 반도체 제조 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-shannon",
+      "selections": [
+        {
+          "contentId": "99889afc-eda3-4c94-9b6d-83f385425596",
+          "relationType": "related",
+          "description": null,
+          "rationale": "마이클 섀넌이 존 기빙스 역으로 아카데미 남우조연상 후보에 오른 동명 영화의 원작으로, 교외 가족의 붕괴를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "david-fincher",
+      "selections": [
+        {
+          "contentId": "bba9e508-5d19-4e06-8d8f-65424e073c89",
+          "relationType": "related",
+          "description": null,
+          "rationale": "데이비드 핀처가 연출한 동명 영화의 원작으로, 이름 없는 화자와 타일러 더든의 소비사회 반란을 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "christian-szegedy",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘적대적 예제를 공동 발견한 AI 연구자’로 요약되는 크리스티안 세게디의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jamie-dimon",
+      "selections": [
+        {
+          "contentId": "47378dcd-a52f-489c-85ca-9166003b19e9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "투기·신용 팽창·공황이 반복되는 금융위기의 구조를 역사적으로 분석해, ‘금융위기 속 베어스턴스를 인수한 JP모건 수장’로 요약되는 제이미 다이먼의 금융 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "94ddb02e-8a02-4540-b296-6a34e91f24b8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제1차 세계대전 이후 중앙은행의 선택과 대공황의 형성 과정을 추적해, ‘금융위기 속 베어스턴스를 인수한 JP모건 수장’로 요약되는 제이미 다이먼의 은행·금융사 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "alexandr-wang",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리와 이론적 한계를 설명해, ‘메타 초지능 연구소를 이끄는 스케일 AI 공동창업자’로 요약되는 알렉산더 왕의 AI 연구·기술 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "16a85cff-b0e7-4e34-abb7-ac0aefa6a44b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "초지능의 출현 경로와 통제 실패 위험을 철학·기술 관점에서 검토해, ‘메타 초지능 연구소를 이끄는 스케일 AI 공동창업자’로 요약되는 알렉산더 왕의 초지능 연구·산업 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "amartya-sen",
+      "selections": [
+        {
+          "contentId": "7492a02b-a6dd-4b61-9c9e-90f9113e0da3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고전파부터 행동경제학까지 주요 경제학자의 논쟁과 아이디어를 역사적으로 정리해, ‘역량 접근법을 세운 경제학자’로 요약되는 아마르티아 센의 경제학 맥락을 직접 이해하게 한다."
+        },
+        {
+          "contentId": "624484e9-352e-4a87-a447-a22a2095f664",
+          "relationType": "related",
+          "description": null,
+          "rationale": "경제 체제와 주요 학파·생산·불평등을 복수의 관점에서 설명해, ‘역량 접근법을 세운 경제학자’로 요약되는 아마르티아 센의 경제학 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "park-seo-joon",
+      "selections": [
+        {
+          "contentId": "63a3c6b8-63ac-4c18-912f-f94f6328b277",
+          "relationType": "related",
+          "description": null,
+          "rationale": "박서준의 대표 배역 박새로이가 이태원에서 가게를 열고 장가에 맞서는 드라마 원작 만화의 출발권이다."
+        }
+      ]
+    },
+    {
+      "slug": "russel-simmons",
+      "selections": []
+    },
+    {
+      "slug": "frank-rosenblatt",
+      "selections": [
+        {
+          "contentId": "721463cd-389b-45a9-9938-9a5d5708e10a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "의식·습관·지각과 학습을 체계화한 근대 심리학의 토대를 제시해, ‘퍼셉트론을 창안한 심리학자’로 요약되는 프랭크 로젠블랫의 심리·학습 연구 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "keira-knightley",
+      "selections": [
+        {
+          "contentId": "f5fe36ce-63dd-486d-a760-94b1dfb94752",
+          "relationType": "related",
+          "description": null,
+          "rationale": "키이라 나이틀리가 연기한 엘리자베스 베넷과 다아시의 오해와 성장을 그린 동명 영화의 원작 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "marcus-agrippa",
+      "selections": [
+        {
+          "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+          "relationType": "related",
+          "description": null,
+          "rationale": "판테온과 공공시설 건설을 주도한 마르쿠스 아그리파의 건축가 역할을 재료·비례·공간이라는 건축의 기본 요소에서 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-beom-su",
+      "selections": []
+    },
+    {
+      "slug": "samuel-johnson",
+      "selections": [
+        {
+          "contentId": "aa0d0fab-50da-4daa-abb8-c5a2d3950cb4",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존슨이 편집하고 비평의 기준을 세운 셰익스피어의 희곡과 시 세계를 묶어 보여줘, ‘영어의 기준을 사전에 새긴 문인’로 요약되는 세뮤얼 존슨의 문학비평 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "koo-bon-moo",
+      "selections": [
+        {
+          "contentId": "3570a7af-1398-4b0a-95fb-be10cc632d8c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "생활 속 화학과 고분자 소재의 구조·성질·용도를 설명해, ‘철수론에도 전기차 배터리를 밀어붙인 LG 회장’로 요약되는 구본무의 화학·소재 산업 맥락을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "edward-norton",
+      "selections": [
+        {
+          "contentId": "bba9e508-5d19-4e06-8d8f-65424e073c89",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에드워드 노튼이 연기한 이름 없는 화자와 타일러 더든의 소비사회 반란을 담은 동명 영화의 원작 소설이다."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-03T00:33:54.748Z"
+}

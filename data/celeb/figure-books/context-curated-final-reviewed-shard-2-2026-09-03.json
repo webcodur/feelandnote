@@ -1,0 +1,1863 @@
+{
+  "input": "context-curated-candidates-2026-09-03.json",
+  "model": "gpt-5.6-sol",
+  "shard": "2/2-final",
+  "reviews": [
+    {
+      "slug": "im-kwon-taek",
+      "selections": [
+        {
+          "contentId": "51522560-43a0-4537-a888-4504bf790476",
+          "relationType": "related",
+          "description": null,
+          "rationale": "임권택의 대표 영화 「서편제」가 각색한 이청준의 원작 소설로, 영화가 옮긴 판소리 예술과 가족 서사의 출발점을 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "patrick-stewart",
+      "selections": []
+    },
+    {
+      "slug": "j.-robert-oppenheimer",
+      "selections": [
+        {
+          "contentId": "8b87bfe7-03c9-4888-847a-717f670839b9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "원자의 발견에서 입자물리학의 표준모형까지 이어지는 역사를 다뤄 이론물리학자 오펜하이머의 학문적 시대와 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "kyle-vogt",
+      "selections": []
+    },
+    {
+      "slug": "kim-whan-ki",
+      "selections": [
+        {
+          "contentId": "4256b898-43bf-4999-ad24-375585df970c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "재현에서 현대미술로 이동한 미술사를 설명해 점으로 우주를 그린 한국의 추상화가인 김환기의 작품이 놓인 미술사적 맥락을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "yong-hyun-kim",
+      "selections": []
+    },
+    {
+      "slug": "shin-dong-bin",
+      "selections": [
+        {
+          "contentId": "3570a7af-1398-4b0a-95fb-be10cc632d8c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "생활 화학과 고분자 소재의 성질을 설명해 한일 롯데를 잇고 화학·바이오로 재편한 회장인 신동빈이 관여한 화학 산업의 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ogedei-khan",
+      "selections": []
+    },
+    {
+      "slug": "albert-einstein",
+      "selections": []
+    },
+    {
+      "slug": "jan-leike",
+      "selections": [
+        {
+          "contentId": "f61d4164-4542-48c2-839d-afb63c3991de",
+          "relationType": "related",
+          "description": null,
+          "rationale": "강화학습의 보상·정책·가치함수를 체계적으로 설명해 인간의 선택을 인공지능 보상으로 바꾼 초기 연구자인 얀 라이케의 연구 기반을 직접 보여준다."
+        },
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능의 통제와 인간 가치 정렬 문제를 다뤄 인간의 선택을 인공지능 보상으로 바꾼 초기 연구자인 얀 라이케의 AI 안전 문제와 직접 연결된다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 인간의 선택을 인공지능 보상으로 바꾼 초기 연구자인 얀 라이케의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "sebastian-thrun",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정보이론·암호·인증 등 컴퓨터과학의 원천 개념을 다뤄 DARPA 그랜드 챌린지를 제패한 구글 자율주행 창시자인 세바스찬 스런의 기술적 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "shin-kyuk-ho",
+      "selections": []
+    },
+    {
+      "slug": "hypatia",
+      "selections": [
+        {
+          "contentId": "9b94892b-62d4-40db-9559-497b5b56b034",
+          "relationType": "related",
+          "description": null,
+          "rationale": "수학적 사고가 세계를 이해하는 방식을 설명해 알렉산드리아의 수학자이자 철학자였던 히파티아의 학문 분야를 현대 독자에게 풀어준다."
+        }
+      ]
+    },
+    {
+      "slug": "james-peng",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 중국과 미국 양쪽에서 로보택시를 굴린 창업가인 제임스 펑의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "eva-green",
+      "selections": [
+        {
+          "contentId": "9d000350-4423-4155-8e03-4053d7643084",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에바 그린이 베스퍼 린드로 출연한 동명 영화의 원작 소설로, 배역의 행동과 비극적 서사를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "lars-moravy",
+      "selections": [
+        {
+          "contentId": "840b6a0d-20bd-4082-b160-97211eebbc61",
+          "relationType": "related",
+          "description": null,
+          "rationale": "공학적 창조와 엔지니어의 책임을 함께 다뤄 테슬라 차량 엔지니어링 부사장인 라스 모라비의 기술 개발자 역할을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "luo-fuli",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 딥시크 출신 샤오미 MiMo 책임자인 뤄푸리의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "geoffrey-hinton",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 노벨물리학상을 함께 받은 인공신경망 선구자인 제프리 힌턴의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "batu-khan",
+      "selections": []
+    },
+    {
+      "slug": "lin-zexu",
+      "selections": [
+        {
+          "contentId": "15305d10-5d15-4247-b091-5a1e3dba0d06",
+          "relationType": "related",
+          "description": null,
+          "rationale": "위원의 『해국도지』는 임칙서가 편찬한 『사주지』를 바탕으로 확장된 저작이어서 그의 서양 인식과 개국 사상에 끼친 영향을 직접 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "marie-antoinette",
+      "selections": []
+    },
+    {
+      "slug": "ali-ghodsi",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정보이론·암호·인증 등 컴퓨터과학의 원천 개념을 다뤄 아파치 스파크를 공동 개발한 데이터브릭스 CEO인 알리 고드시의 기술적 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "judea-pearl",
+      "selections": [
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 인공지능의 핵심 개념과 알고리즘을 체계화해 인과를 계산하게 만든 컴퓨터과학자인 유다 펄의 연구 분야를 폭넓게 설명한다."
+        }
+      ]
+    },
+    {
+      "slug": "michel-de-montaigne",
+      "selections": []
+    },
+    {
+      "slug": "el-cid",
+      "selections": []
+    },
+    {
+      "slug": "chris-xu",
+      "selections": []
+    },
+    {
+      "slug": "julien-chaumond",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 허깅페이스로 모델 공유를 일상으로 만든 사람인 줄리앙 쇼몽의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "al-alcorn",
+      "selections": [
+        {
+          "contentId": "840b6a0d-20bd-4082-b160-97211eebbc61",
+          "relationType": "related",
+          "description": null,
+          "rationale": "공학적 창조와 엔지니어의 책임을 함께 다뤄 퐁 한 판으로 비디오게임 시대를 연 엔지니어인 알 알콘의 기술 개발자 역할을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "emmett-shear",
+      "selections": [
+        {
+          "contentId": "b5127bb9-d028-4bd0-858c-5e4577eadce6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가설 검증과 반복 개발을 다루는 창업 방법론으로 트위치를 십 년 이끈 공동창업자인 에밋 시어의 제품·사업 구축 맥락을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "frida-kahlo",
+      "selections": [
+        {
+          "contentId": "35cca4e5-81aa-4842-acd7-5a3d435948f2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "프리다 칼로의 자전적 회화가 흔히 함께 논의되는 초현실주의의 원칙과 그가 그 범주와 맺은 긴장을 이해하는 직접적인 미술사 배경이다."
+        }
+      ]
+    },
+    {
+      "slug": "devendra-singh-chaplot",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 미스트랄 7B를 함께 만든 창립팀 연구자인 데벤드라 차플로트의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "raphael-sanzio",
+      "selections": []
+    },
+    {
+      "slug": "ashish-vaswani",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 재귀망을 걷어낸 트랜스포머 공동설계자인 아쉬시 바스와니의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jason-momoa",
+      "selections": [
+        {
+          "contentId": "3af12937-0801-4f8a-9e8d-28d91fa29d54",
+          "relationType": "related",
+          "description": null,
+          "rationale": "제이슨 모모아가 칼 드로고로 출연한 드라마 「왕좌의 게임」의 원작 첫 권으로, 도트라키와 대너리스의 서사를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "james-musk",
+      "selections": [
+        {
+          "contentId": "840b6a0d-20bd-4082-b160-97211eebbc61",
+          "relationType": "related",
+          "description": null,
+          "rationale": "공학적 창조와 엔지니어의 책임을 함께 다뤄 테슬라 오토파일럿 개발에 참여한 AI 엔지니어인 제임스 머스크의 기술 개발자 역할을 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 테슬라 오토파일럿 개발에 참여한 AI 엔지니어인 제임스 머스크의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "john-von-neumann",
+      "selections": [
+        {
+          "contentId": "28a754c4-4d97-4edc-8f8f-ae49ca2c78b1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "수학의 공리와 확실성 문제를 다뤄 이름이 그대로 컴퓨터 구조가 된 수학자인 존 폰 노이만의 수학적 문제의식을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "peter-wennink",
+      "selections": [
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공정·장비·소재를 설명해 ASML의 EUV 독점 시대를 이끈 CEO인 피터 베닝크의 핵심 산업 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "sebastien-bubeck",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 「AGI의 불꽃」 논문을 이끈 연구자인 세바스티앙 뷔베크의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "al-kindi",
+      "selections": [
+        {
+          "contentId": "2c4fb84d-3f46-4ac3-8a61-71adccac8eb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스 철학을 아랍어권에 수용한 알 킨디의 형이상학적 문제의식을 그가 계승한 핵심 원전에서 확인하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "palmer-luckey",
+      "selections": [
+        {
+          "contentId": "b5127bb9-d028-4bd0-858c-5e4577eadce6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가설 검증과 반복 개발을 다루는 창업 방법론으로 오큘러스 리프트를 만든 뒤 안두릴을 세운 기술 창업가인 팔머 럭키의 제품·사업 구축 맥락을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jurgen-schmidhuber",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 LSTM을 공동 개발한 AI 연구자인 위르겐 슈미트후버의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "morris-chang",
+      "selections": [
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공정·장비·소재를 설명해 반도체 위탁생산 시대를 연 TSMC 창업자인 모리스 창의 핵심 산업 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "pythagoras",
+      "selections": [
+        {
+          "contentId": "dec4fdc5-e1a5-4c20-8b3d-d19f34da5017",
+          "relationType": "related",
+          "description": null,
+          "rationale": "수와 기하를 철학의 원리로 삼은 피타고라스 학파의 유산을 고대 기하학의 체계 자체로 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "chris-urmson",
+      "selections": []
+    },
+    {
+      "slug": "george-boole",
+      "selections": [
+        {
+          "contentId": "45833358-5c22-41a9-9f1d-67446bb5b4fe",
+          "relationType": "related",
+          "description": null,
+          "rationale": "근대 수학사의 주요 발상과 변화를 다뤄 논리를 대수의 언어로 바꾼 수학자인 조지 부울의 수학적 시대와 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "carl-gustav-jung",
+      "selections": [
+        {
+          "contentId": "721463cd-389b-45a9-9938-9a5d5708e10a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "의식·습관·자아를 체계화한 근대 심리학 고전으로, 분석심리학을 세운 융이 이어받고 달리 전개한 학문적 토대를 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "patrick-collison",
+      "selections": []
+    },
+    {
+      "slug": "lee-pace",
+      "selections": [
+        {
+          "contentId": "ad8766ac-df94-45eb-b3b5-9a07276d5191",
+          "relationType": "related",
+          "description": null,
+          "rationale": "리 페이스가 브라더 데이로 출연한 드라마 「파운데이션」의 명백한 원작으로, 은하제국과 심리역사학의 원형을 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ibn-rushd",
+      "selections": [
+        {
+          "contentId": "e52eb0dc-746c-4107-96bf-ad2f78f4f505",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 대주석가였던 이븐 루시드가 해석한 핵심 저작 가운데 윤리학의 원전을 직접 읽게 한다."
+        },
+        {
+          "contentId": "2c4fb84d-3f46-4ac3-8a61-71adccac8eb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이븐 루시드의 철학적 주석 작업 중심에 있던 아리스토텔레스 형이상학의 원문 체계를 보여준다."
+        },
+        {
+          "contentId": "9d9ca15d-df65-40e8-bac4-83d2096a91a0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아베로에스라는 이름으로 전해진 이븐 루시드의 아리스토텔레스 형이상학 해석을 직접 접하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "marlon-brando",
+      "selections": [
+        {
+          "contentId": "54b69876-0510-4bdf-a5c7-917b70423866",
+          "relationType": "related",
+          "description": null,
+          "rationale": "말론 브란도가 무대와 영화에서 스탠리 코왈스키를 연기한 희곡 원작으로, 그의 대표 연기를 만든 인물과 갈등을 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "melanie-perkins",
+      "selections": []
+    },
+    {
+      "slug": "michael-nicolls",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 스타링크 출신의 xAI 사장인 마이클 니콜스의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "demis-hassabis",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 알파폴드로 노벨화학상을 받은 딥마인드 창업자인 데미스 허사비스의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jonathan-abrams",
+      "selections": []
+    },
+    {
+      "slug": "li-dazhao",
+      "selections": [
+        {
+          "contentId": "b0ee027b-fa1b-4c1c-821f-a2eca62b15b2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "계급의식과 마르크스주의 변증법을 다룬 고전으로, 중국 공산당 창건자 이대조가 수용한 마르크스주의의 이론적 맥락을 설명한다."
+        }
+      ]
+    },
+    {
+      "slug": "timothee-lacroix",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 라마 연구원이자 미스트랄 공동창업자인 티모테 라크루아의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "mira-murati",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 챗GPT 출시를 이끈 전 오픈AI CTO인 미라 무라티의 핵심 기술 분야를 이해하게 한다."
+        },
+        {
+          "contentId": "d6a48875-a8d0-456d-b620-70cb93dd2b11",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자율 인공지능 시스템의 도덕적 판단과 설계 책임을 다뤄 챗GPT 출시를 이끈 전 오픈AI CTO인 미라 무라티의 AI 연구·제품 책임을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "anthony-hopkins",
+      "selections": [
+        {
+          "contentId": "f0b1d786-b2d8-49cc-9b21-9b3ebf6207c0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "앤서니 홉킨스가 한니발 렉터를 연기한 동명 영화의 원작 소설로, 렉터와 클라리스의 심리전을 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "arthur-mensch",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능의 통제와 인간 가치 정렬 문제를 다뤄 미스트랄로 유럽 인공지능 주권의 얼굴이 된 창업자인 아르투르 멘쉬의 AI 안전 문제와 직접 연결된다."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 인공지능의 핵심 개념과 알고리즘을 체계화해 미스트랄로 유럽 인공지능 주권의 얼굴이 된 창업자인 아르투르 멘쉬의 연구 분야를 폭넓게 설명한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 미스트랄로 유럽 인공지능 주권의 얼굴이 된 창업자인 아르투르 멘쉬의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "huda-kattan",
+      "selections": []
+    },
+    {
+      "slug": "donald-trump-jr.",
+      "selections": [
+        {
+          "contentId": "fd4bbd4d-4668-4516-b1b4-39718f06e59a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자본 순환을 기준으로 투자 수익과 위험을 판단하는 전략서로, 1789 캐피털 파트너인 도널드 트럼프 주니어의 투자 역할과 직접 연결된다."
+        }
+      ]
+    },
+    {
+      "slug": "susan-wagner",
+      "selections": []
+    },
+    {
+      "slug": "keller-rinaudo-cliffton",
+      "selections": []
+    },
+    {
+      "slug": "michelle-phan",
+      "selections": []
+    },
+    {
+      "slug": "kwon-na-ra",
+      "selections": [
+        {
+          "contentId": "63a3c6b8-63ac-4c18-912f-f94f6328b277",
+          "relationType": "related",
+          "description": null,
+          "rationale": "권나라가 오수아로 출연한 드라마 「이태원 클라쓰」의 원작 웹툰 첫 권으로, 인물 관계와 창업 경쟁의 출발점을 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "ingmar-bergman",
+      "selections": [
+        {
+          "contentId": "111790ad-de61-404d-8dd6-a0de95fae79b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "연극 연출가이기도 한 베리만의 무대와 영화에서 나타나는 의식·신체·잔혹성의 표현을 현대 연극론의 관점에서 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "robert-noyce",
+      "selections": [
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공정·장비·소재를 설명해 실리콘 칩 하나에 회로를 모은 인텔 창업자인 로버트 노이스의 핵심 산업 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "phil-zimmermann",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정보이론·암호·인증 등 컴퓨터과학의 원천 개념을 다뤄 강력한 암호화 프로그램 PGP를 누구나 쓰게 한 개발자인 필 짐머만의 기술적 기반을 이해하게 한다."
+        },
+        {
+          "contentId": "608c20ba-9afa-4bdc-b3c1-fbc633b12212",
+          "relationType": "related",
+          "description": null,
+          "rationale": "디지털 프라이버시가 왜 중요한지 다뤄 누구나 강한 암호화를 쓰게 하려 한 짐머만의 문제의식을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "bernhard-riemann",
+      "selections": [
+        {
+          "contentId": "45833358-5c22-41a9-9f1d-67446bb5b4fe",
+          "relationType": "related",
+          "description": null,
+          "rationale": "근대 수학사의 주요 발상과 변화를 다뤄 곡면 기하를 다차원으로 넓힌 수학자인 베르나르 리만의 수학적 시대와 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jonathan-pryce",
+      "selections": [
+        {
+          "contentId": "3af12937-0801-4f8a-9e8d-28d91fa29d54",
+          "relationType": "related",
+          "description": null,
+          "rationale": "조너선 프라이스가 하이 스패로우로 출연한 드라마 「왕좌의 게임」의 원작 시리즈 첫 권으로, 드라마 세계의 권력 구도를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "nikita-bier",
+      "selections": []
+    },
+    {
+      "slug": "gemma-arterton",
+      "selections": []
+    },
+    {
+      "slug": "thomas-wolf",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 트랜스포머를 모두의 도구로 만든 연구자인 토마스 울프의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "yoshua-bengio",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능의 통제와 인간 가치 정렬 문제를 다뤄 몬트리올에 밀라를 세운 인공지능 개척자인 요슈아 벤지오의 AI 안전 문제와 직접 연결된다."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 인공지능의 핵심 개념과 알고리즘을 체계화해 몬트리올에 밀라를 세운 인공지능 개척자인 요슈아 벤지오의 연구 분야를 폭넓게 설명한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 몬트리올에 밀라를 세운 인공지능 개척자인 요슈아 벤지오의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "antisthenes",
+      "selections": [
+        {
+          "contentId": "cbd80553-8a1c-433d-bfab-e0bdd02a1a1b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "안티스테네스의 스승 소크라테스가 재판에서 밝힌 삶과 덕의 태도를 원전으로 접하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "hwang-ji-u",
+      "selections": [
+        {
+          "contentId": "2b6d1850-d0d4-41b1-ac89-1f6f03555ba3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "모더니즘의 미학과 문화사를 다뤄 신문 기사와 광고를 시로 끌어들인 해체시인인 황지우의 작업이 놓인 예술사적 맥락을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "koray-kavukcuoglu",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 아타리 게임을 스스로 익힌 DQN 공동개발자인 코라이 카북추오글루의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "frederick-w-smith",
+      "selections": []
+    },
+    {
+      "slug": "gottfried-wilhelm-leibniz",
+      "selections": [
+        {
+          "contentId": "45833358-5c22-41a9-9f1d-67446bb5b4fe",
+          "relationType": "related",
+          "description": null,
+          "rationale": "근대 수학사의 주요 발상과 변화를 다뤄 ∫와 d로 미적분의 언어를 만든 수학자인 고트프리트 빌헬름 라이프니츠의 수학적 시대와 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "lee-hae-jin",
+      "selections": []
+    },
+    {
+      "slug": "hippocrates",
+      "selections": [
+        {
+          "contentId": "f972ffa9-f789-413d-8003-03b6b1b76df1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 의료 현장의 판단과 오류를 의사의 경험으로 다뤄 질병을 신벌이 아닌 자연현상으로 본 의사인 히포크라테스의 의료관을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "desiderius-erasmus",
+      "selections": [
+        {
+          "contentId": "6a3ed66e-2596-40a6-8cf8-ff123465c404",
+          "relationType": "related",
+          "description": null,
+          "rationale": "에라스무스가 직접 쓴 대표 풍자문으로, 어리석음의 목소리를 빌려 교회와 권력의 위선을 비판한 그의 인문주의를 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "leo-tolstoy",
+      "selections": [
+        {
+          "contentId": "53d10940-2ae5-4a9f-9e77-b056c41686e5",
+          "relationType": "related",
+          "description": null,
+          "rationale": "톨스토이가 직접 쓴 대표 장편으로 그의 사실주의와 인간·사회에 대한 문학적 탐구를 보여준다."
+        },
+        {
+          "contentId": "0f0b374d-cf65-406a-8dd2-f8f3e785c858",
+          "relationType": "related",
+          "description": null,
+          "rationale": "톨스토이가 직접 쓴 대표 역사소설로 전쟁과 개인의 삶을 바라본 그의 문학 세계를 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "christopher-nolan",
+      "selections": []
+    },
+    {
+      "slug": "marissa-mayer",
+      "selections": [
+        {
+          "contentId": "b5127bb9-d028-4bd0-858c-5e4577eadce6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가설 검증과 반복 개발을 다루는 창업 방법론으로 구글 검색을 10년 넘게 이끈 야후 CEO인 머리사 마이어의 제품·사업 구축 맥락을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-caine",
+      "selections": [
+        {
+          "contentId": "f53caf57-056c-487a-b10a-30f3deedfb98",
+          "relationType": "related",
+          "description": null,
+          "rationale": "영화 「인터스텔라」의 시간·중력·우주과학을 설명해 이 작품에 출연한 마이클 케인의 대표작을 과학적 맥락과 함께 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "doctor-mike",
+      "selections": [
+        {
+          "contentId": "f972ffa9-f789-413d-8003-03b6b1b76df1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 의료 현장의 판단과 오류를 의사의 경험으로 다뤄 의학 정보의 오류를 짚는 유튜브 가정의인 닥터 마이크의 의료관을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "pat-gelsinger",
+      "selections": [
+        {
+          "contentId": "840b6a0d-20bd-4082-b160-97211eebbc61",
+          "relationType": "related",
+          "description": null,
+          "rationale": "공학적 창조와 엔지니어의 책임을 함께 다뤄 인텔 최고경영자로 돌아온 486 설계자인 패트릭 겔싱어의 기술 개발자 역할을 이해하게 한다."
+        },
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공정·장비·소재를 설명해 인텔 최고경영자로 돌아온 486 설계자인 패트릭 겔싱어의 핵심 산업 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "shawn-stussy",
+      "selections": []
+    },
+    {
+      "slug": "dom-hofmann",
+      "selections": []
+    },
+    {
+      "slug": "brian-armstrong",
+      "selections": []
+    },
+    {
+      "slug": "werner-heisenberg",
+      "selections": [
+        {
+          "contentId": "50304b7e-f7be-45b7-a232-d56c1b9d4d8b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "양자역학의 수학적 체계와 측정 원리를 다뤄 위치와 운동량 사이에 한계를 그은 양자물리학자인 베르너 하이젠베르크의 핵심 연구 분야를 공부하게 한다."
+        },
+        {
+          "contentId": "4aa5bea3-b5fc-4ad3-b6fd-fda7086abbf1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "플랑크 상수에서 출발해 양자 현상을 설명하므로 위치와 운동량 사이에 한계를 그은 양자물리학자인 베르너 하이젠베르크의 연구 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "andrew-milich",
+      "selections": []
+    },
+    {
+      "slug": "jawed-karim",
+      "selections": []
+    },
+    {
+      "slug": "kim-jung-ju",
+      "selections": []
+    },
+    {
+      "slug": "dietrich-mateschitz",
+      "selections": []
+    },
+    {
+      "slug": "vinod-khosla",
+      "selections": [
+        {
+          "contentId": "9d9a8593-0748-460f-996c-69b4cad7df50",
+          "relationType": "related",
+          "description": null,
+          "rationale": "예측하기 어려운 극단적 사건과 불확실성을 다뤄 이른바 블랙 스완형 기술 기업에 투자하는 비노드 코슬라의 위험 판단을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jimmy-ba",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 Adam 최적화기의 공동 고안자인 지미 바의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "coen-brothers",
+      "selections": [
+        {
+          "contentId": "2faae06e-9ec7-4e41-8ef0-08793ef59eef",
+          "relationType": "related",
+          "description": null,
+          "rationale": "코엔 형제가 아카데미 작품상과 각색상을 받은 동명 영화의 원작 소설로서 핵심 연출 작업을 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "curtis-priem",
+      "selections": []
+    },
+    {
+      "slug": "mark-juncosa",
+      "selections": [
+        {
+          "contentId": "840b6a0d-20bd-4082-b160-97211eebbc61",
+          "relationType": "related",
+          "description": null,
+          "rationale": "공학적 창조와 엔지니어의 책임을 함께 다뤄 스페이스엑스 스타십 공학 총괄인 마크 준코사의 기술 개발자 역할을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "chris-olah",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 신경망 회로 해석을 개척한 연구자인 크리스 올라의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "andrew-feldman",
+      "selections": [
+        {
+          "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+          "relationType": "related",
+          "description": null,
+          "rationale": "반도체 공정·장비·소재를 설명해 웨이퍼 한 장짜리 AI 칩을 만든 세레브라스 공동창업자인 앤드류 펠드만의 핵심 산업 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ken-kutaragi",
+      "selections": [
+        {
+          "contentId": "840b6a0d-20bd-4082-b160-97211eebbc61",
+          "relationType": "related",
+          "description": null,
+          "rationale": "공학적 창조와 엔지니어의 책임을 함께 다뤄 플레이스테이션 개발을 밀어붙인 소니 엔지니어인 쿠타라기 켄의 기술 개발자 역할을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "henry-wells",
+      "selections": []
+    },
+    {
+      "slug": "jungho-shin",
+      "selections": []
+    },
+    {
+      "slug": "jason-wei",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 생각의 사슬 프롬프팅 논문의 제1저자인 제이슨 웨이의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "johann-rupert",
+      "selections": []
+    },
+    {
+      "slug": "ibn-khaldun",
+      "selections": [
+        {
+          "contentId": "633eefb2-8d19-452a-9c2a-72b206a78a2e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "이븐 할둔의 핵심 저작으로 아사비야와 왕조 순환을 통해 사회와 역사를 설명한 그의 이론을 직접 읽을 수 있다."
+        }
+      ]
+    },
+    {
+      "slug": "andrew-weinreich",
+      "selections": [
+        {
+          "contentId": "b5127bb9-d028-4bd0-858c-5e4577eadce6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가설 검증과 반복 개발을 다루는 창업 방법론으로 세계 최초 SNS 식스디그리스를 만든 연쇄창업가인 앤드루 와인라이크의 제품·사업 구축 맥락을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "sam-mccandlish",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 거대 언어모델의 성장 법칙을 찾은 물리학자인 샘 맥캔들리시의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ada-lovelace",
+      "selections": [
+        {
+          "contentId": "45833358-5c22-41a9-9f1d-67446bb5b4fe",
+          "relationType": "related",
+          "description": null,
+          "rationale": "근대 수학사의 주요 발상과 변화를 다뤄 해석기관용 베르누이 수 알고리즘을 출판한 수학자인 에이다 러브레이스의 수학적 시대와 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "andrew-ng",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 코세라를 공동 창업한 AI 교수인 앤드류 응의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "john-jay",
+      "selections": [
+        {
+          "contentId": "f8d62ee0-c4c9-4bb2-aacf-169cacb6e839",
+          "relationType": "related",
+          "description": null,
+          "rationale": "존 제이가 해밀턴·매디슨과 함께 집필한 연방주의자 논설을 담아, 헌법 비준과 연방 권력에 관한 그의 주장을 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "benji-taylor",
+      "selections": []
+    },
+    {
+      "slug": "ross-nordeen",
+      "selections": [
+        {
+          "contentId": "21421b46-2422-4f6c-981e-5c5f775b930d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "시모어 크레이와 슈퍼컴퓨터 발전사를 다뤄 테슬라의 슈퍼컴퓨터를 구축한 로스 노딘의 고성능 컴퓨팅 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "olga-tokarczuk",
+      "selections": [
+        {
+          "contentId": "54e8ae2e-f05b-48be-88fa-8da4ec8c9992",
+          "relationType": "related",
+          "description": null,
+          "rationale": "올가 토카르추크가 직접 쓴 대표 장편으로, 이동과 신체를 파편적 서사로 엮는 그의 문학적 형식과 세계관을 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "tilda-swinton",
+      "selections": [
+        {
+          "contentId": "c05ce824-efad-45e1-9cb9-d61b3102b9fe",
+          "relationType": "related",
+          "description": null,
+          "rationale": "틸다 스윈튼이 백색 마녀로 출연한 영화 시리즈의 원작으로, 나니아의 세계와 백색 마녀의 권력을 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "dmitri-mendeleev",
+      "selections": [
+        {
+          "contentId": "3570a7af-1398-4b0a-95fb-be10cc632d8c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "생활 화학과 고분자 소재의 성질을 설명해 주기율표 빈칸으로 새 원소를 예견한 화학자인 드미트리 멘델레예프이 관여한 화학 산업의 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "paul-cezanne",
+      "selections": [
+        {
+          "contentId": "4256b898-43bf-4999-ad24-375585df970c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "재현에서 현대미술로 이동한 미술사를 설명해 사과와 산에서 기하학을 찾아낸 화가인 폴 세잔의 작품이 놓인 미술사적 맥락을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ion-stoica",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정보이론·암호·인증 등 컴퓨터과학의 원천 개념을 다뤄 아파치 스파크 연구진과 데이터브릭스를 세운 버클리 교수인 이온 스토이카의 기술적 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "kevin-warsh",
+      "selections": [
+        {
+          "contentId": "47378dcd-a52f-489c-85ca-9166003b19e9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "투기 광풍과 금융위기의 반복 구조를 다뤄 제17대 미 연준(Fed) 의장인 케빈 워시의 통화·금융 정책 분야를 이해하게 한다."
+        },
+        {
+          "contentId": "94ddb02e-8a02-4540-b296-6a34e91f24b8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "중앙은행가들이 금융위기와 국제 금융질서를 움직인 역사를 통해 제17대 미 연준(Fed) 의장인 케빈 워시의 금융 리더십을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "darren-woods",
+      "selections": [
+        {
+          "contentId": "3570a7af-1398-4b0a-95fb-be10cc632d8c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "생활 화학과 고분자 소재의 성질을 설명해 파이오니어 인수를 이끈 엑슨모빌 CEO인 대런 우즈이 관여한 화학 산업의 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "andrej-karpathy",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 신경망을 처음부터 코딩해 가르치는 AI 교육자인 안드레 카파시의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "f.-scott-fitzgerald",
+      "selections": [
+        {
+          "contentId": "a4d43ff1-7568-450b-ace6-69ab9ce51f1a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "피츠제럴드가 재즈 시대의 욕망과 붕괴를 압축한 대표작으로, 작가의 문학적 성취를 가장 직접적으로 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "marcus-samuel",
+      "selections": []
+    },
+    {
+      "slug": "ashoka-the-great",
+      "selections": []
+    },
+    {
+      "slug": "greg-brockman",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 핵심 코드를 짠 OpenAI 공동창업자인 그렉 브록만의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "viktor-frankl",
+      "selections": [
+        {
+          "contentId": "a98ba070-d02c-4bf6-8895-20cc2741291b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "홀로코스트를 근대 관료제와 사회 구조의 문제로 분석해, 수용소 생존 경험에서 의미치료를 세운 빅터 프랑클의 역사적 배경을 넓혀준다."
+        }
+      ]
+    },
+    {
+      "slug": "john-schulman",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "인공지능의 통제와 인간 가치 정렬 문제를 다뤄 PPO를 함께 만든 오픈AI 창업자인 존 슐만의 AI 안전 문제와 직접 연결된다."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 인공지능의 핵심 개념과 알고리즘을 체계화해 PPO를 함께 만든 오픈AI 창업자인 존 슐만의 연구 분야를 폭넓게 설명한다."
+        },
+        {
+          "contentId": "54d4c3c3-4695-43c9-af36-dd941b252cd8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "슐만이 다룬 강화학습을 다른 기계학습 패러다임과 비교해 읽으며 그의 알고리즘적 위치를 파악하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "liang-wenfeng",
+      "selections": [
+        {
+          "contentId": "b5127bb9-d028-4bd0-858c-5e4577eadce6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "가설 검증과 반복 개발을 다루는 창업 방법론으로 월가를 뒤흔든 딥시크 창업자인 량원펑의 제품·사업 구축 맥락을 이해하게 한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 월가를 뒤흔든 딥시크 창업자인 량원펑의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "gong-byeong-ho",
+      "selections": [
+        {
+          "contentId": "7492a02b-a6dd-4b61-9c9e-90f9113e0da3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "경제학 주요 사상의 역사와 현실 적용을 설명해 경제학자이자 경영 저술가인 공병호의 지적 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "albertus-magnus",
+      "selections": [
+        {
+          "contentId": "e52eb0dc-746c-4107-96bf-ad2f78f4f505",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스 윤리학을 그리스도교 학문에 수용한 알베르투스 마그누스가 해석한 덕·행복·실천의 핵심 원전을 직접 읽게 한다."
+        },
+        {
+          "contentId": "2c4fb84d-3f46-4ac3-8a61-71adccac8eb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스 자연철학과 형이상학을 중세 스콜라학에 접목한 알베르투스 마그누스의 지적 토대가 된 원전을 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "daniel-levy",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 세이프 슈퍼인텔리전스를 공동 창업한 AI 연구자인 다니엘 레비의 핵심 기술 분야를 이해하게 한다."
+        },
+        {
+          "contentId": "16a85cff-b0e7-4e34-abb7-ac0aefa6a44b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "안전한 초지능을 목표로 한 SSI 공동 창업자의 문제의식을 초지능의 가능성과 위험을 통해 직접 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "wojciech-zaremba",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 로봇 손에서 코딩 AI까지 이끈 오픈AI 공동창업자인 보이지에크 자렘바의 핵심 기술 분야를 이해하게 한다."
+        },
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정보이론·암호·인증 등 컴퓨터과학의 원천 개념을 다뤄 로봇 손에서 코딩 AI까지 이끈 오픈AI 공동창업자인 보이지에크 자렘바의 기술적 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ludwig-mies-van-der-rohe",
+      "selections": [
+        {
+          "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+          "relationType": "related",
+          "description": null,
+          "rationale": "건축을 공간·형태·예술의 관계로 읽는 입문서로 철골의 질서를 건축의 아름다움으로 만든 거장인 미스 반데어로에의 건축 작업을 이해하게 한다."
+        },
+        {
+          "contentId": "a7679ad4-ee7c-4be8-8f67-74bd372e443e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "1890~1940년 건축과 미술의 상호작용을 다뤄 철골의 질서를 건축의 아름다움으로 만든 거장인 미스 반데어로에의 모더니즘 건축을 이해하게 한다."
+        },
+        {
+          "contentId": "2b6d1850-d0d4-41b1-ac89-1f6f03555ba3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "모더니즘의 미학과 문화사를 다뤄 철골의 질서를 건축의 아름다움으로 만든 거장인 미스 반데어로에의 작업이 놓인 예술사적 맥락을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "cathie-wood",
+      "selections": [
+        {
+          "contentId": "2626c7df-45be-4631-b168-324908b5fafc",
+          "relationType": "related",
+          "description": null,
+          "rationale": "비트코인 네트워크의 중대한 기술·거버넌스 논쟁을 다뤄 비트코인 장기 투자론을 펴는 캐시 우드의 주요 투자 분야를 이해하게 한다."
+        },
+        {
+          "contentId": "11a0385a-15d4-4c58-8b41-32c4c9cddae1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "파괴적 혁신이 기존 기업과 시장을 바꾸는 구조를 설명해 혁신 기업에 집중 투자하는 캐시 우드의 투자 관점을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "francis-bacon",
+      "selections": [
+        {
+          "contentId": "77c2893f-fbfa-45d9-afb4-ba583bd0cad1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "프랜시스 베이컨이 직접 쓴 대표 저작으로, 우상 비판과 귀납적 탐구를 통해 새로운 과학 방법을 제안한 그의 논리를 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "elijah-wood",
+      "selections": [
+        {
+          "contentId": "5c6d77ce-65c8-4e80-90f7-6a4c1dfd95ef",
+          "relationType": "related",
+          "description": null,
+          "rationale": "일라이저 우드의 대표 배역 프로도 배긴스가 중심 인물로 등장하는 영화 삼부작의 완결 원작을 한 권으로 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "dietrich-fischer-dieskau",
+      "selections": [
+        {
+          "contentId": "a98e868b-368f-4690-8b2e-214d268e62f6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "피셔디스카우가 거듭 녹음한 슈베르트 연가곡의 원시집으로 그의 대표 레퍼토리의 언어와 정서를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "christine-lagarde",
+      "selections": [
+        {
+          "contentId": "94ddb02e-8a02-4540-b296-6a34e91f24b8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "중앙은행가들이 금융위기와 국제 금융질서를 움직인 역사를 통해 IMF와 ECB를 모두 이끈 첫 여성 총재인 크리스틴 라가르드의 금융 리더십을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "colin-firth",
+      "selections": [
+        {
+          "contentId": "f5fe36ce-63dd-486d-a760-94b1dfb94752",
+          "relationType": "related",
+          "description": null,
+          "rationale": "콜린 퍼스가 다아시를 연기해 이름을 알린 BBC 드라마의 원작 소설로, 다아시와 엘리자베스의 관계 변화를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "jim-keller",
+      "selections": []
+    },
+    {
+      "slug": "thomas-sowell",
+      "selections": [
+        {
+          "contentId": "a2dd4041-9e4d-46de-bbf8-7f42bd8b6519",
+          "relationType": "related",
+          "description": null,
+          "rationale": "토머스 소웰이 직접 쓴 대표 저작으로, 인간 본성과 사회 제도를 보는 상충하는 비전을 통해 그의 정치경제 사상을 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "kevin-weil",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 OpenAI 과학 부문을 이끄는 부사장인 케빈 와일의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "harris-fricker",
+      "selections": []
+    },
+    {
+      "slug": "hyung-won-chung",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 오래 생각할수록 강해지는 o1의 기초 연구자인 정형원의 핵심 기술 분야를 이해하게 한다."
+        },
+        {
+          "contentId": "a847b546-1e83-4b1e-866a-8b3713d0e1b0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "초지능의 가능성과 통제 위험을 분석해 o1 추론 연구에 참여한 정형원이 다루는 고도화된 인공지능의 장기적 쟁점을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "bonaventure",
+      "selections": [
+        {
+          "contentId": "48d6d2ca-a5f3-4654-b02e-e3d108d7abf6",
+          "relationType": "related",
+          "description": null,
+          "rationale": "보나벤투라와 동시대 스콜라 신학을 대표하는 체계적 저작으로 그의 프란치스코회 신학과 대비되는 중세 신학의 핵심 쟁점을 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-bloomberg",
+      "selections": [
+        {
+          "contentId": "94ddb02e-8a02-4540-b296-6a34e91f24b8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "중앙은행가들이 금융위기와 국제 금융질서를 움직인 역사를 통해 블룸버그 터미널을 월가에 보급한 공동창업자인 마이클 블룸버그의 금융 리더십을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "dave-thomas",
+      "selections": []
+    },
+    {
+      "slug": "george-kurtz",
+      "selections": []
+    },
+    {
+      "slug": "aidan-gomez",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 트랜스포머 논문을 함께 쓴 코히어 창업자인 에이단 고메즈의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "al-farabi",
+      "selections": [
+        {
+          "contentId": "e52eb0dc-746c-4107-96bf-ad2f78f4f505",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스를 이슬람 철학에 전한 알 파라비가 계승한 윤리학의 핵심 원전을 직접 읽게 한다."
+        },
+        {
+          "contentId": "2c4fb84d-3f46-4ac3-8a61-71adccac8eb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "알 파라비가 제2의 스승으로 불릴 만큼 깊이 계승한 아리스토텔레스 형이상학의 원문 체계를 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "yang-song",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 노이즈를 이미지로 되돌리는 생성 모델을 개척한 연구자인 쑹양의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "guillaume-lample",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 LLaMA 논문 공저자인 미스트랄 AI 공동창업자인 기욤 람플의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "yann-lecun",
+      "selections": [
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "현대 인공지능의 핵심 개념과 알고리즘을 체계화해 합성곱 신경망으로 손글씨를 읽게 한 연구자인 얀 르쿤의 연구 분야를 폭넓게 설명한다."
+        },
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 합성곱 신경망으로 손글씨를 읽게 한 연구자인 얀 르쿤의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "thomas-more",
+      "selections": [
+        {
+          "contentId": "8b6e97fc-063c-41a1-bb0a-e30ff36818e3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "법의 효력과 정의의 충돌을 다루는 법철학 입문서로, 국왕의 수장령을 거부한 법률가 토마스 모어의 선택을 이해할 개념을 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "marc-raibert",
+      "selections": []
+    },
+    {
+      "slug": "peter-steinberger",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 PDF를 10억 기기에 심은 창업가인 피터 스타인버거의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "robert-kapito",
+      "selections": []
+    },
+    {
+      "slug": "kristen-stewart",
+      "selections": [
+        {
+          "contentId": "fe5e86a8-4c11-4f05-975f-b7cf5574cc8d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "크리스틴 스튜어트가 벨라 스완을 연기한 동명 영화 시리즈의 원작 첫 권으로, 벨라와 에드워드의 관계를 직접 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "tony-wu",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 자동화 추론·수학 증명을 연구한 xAI 공동창업자인 토니 우의 핵심 기술 분야를 이해하게 한다."
+        },
+        {
+          "contentId": "28a754c4-4d97-4edc-8f8f-ae49ca2c78b1",
+          "relationType": "related",
+          "description": null,
+          "rationale": "수학의 공리와 확실성 문제를 다뤄 자동화 추론·수학 증명을 연구한 xAI 공동창업자인 토니 우의 수학적 문제의식을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "brandon-tseng",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 네이비실 출신 실드AI 공동창업자인 브랜던 쳉의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "takafumi-horie",
+      "selections": []
+    },
+    {
+      "slug": "chagatai-khan",
+      "selections": [
+        {
+          "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "차가타이가 세운 중앙아시아 칸국과 몽골 관습법의 위치를 제국의 광역 통치와 세계사적 연결 속에서 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "muhammad-yunus",
+      "selections": [
+        {
+          "contentId": "604a90bc-f7f7-4e5a-9da8-776225b6cc37",
+          "relationType": "related",
+          "description": null,
+          "rationale": "빈곤·불평등·이주 등 현실 경제문제의 실증적 해법을 다뤄 소액금융으로 빈곤을 줄이려 한 유누스의 경제학적 문제의식과 직접 맞닿는다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-su-young",
+      "selections": [
+        {
+          "contentId": "2b6d1850-d0d4-41b1-ac89-1f6f03555ba3",
+          "relationType": "related",
+          "description": null,
+          "rationale": "모더니즘의 미학과 문화사를 다뤄 바람보다 먼저 일어나는 「풀」의 시인인 김수영의 작업이 놓인 예술사적 맥락을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "timothy-c.-may",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "정보이론·암호·인증 등 컴퓨터과학의 원천 개념을 다뤄 암호 기술로 국가의 통제를 벗어날 미래를 그린 사상가인 티모시 C. 메이의 기술적 기반을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "lilian-weng",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 AI 연구 노트를 공개하는 Lil'Log 저자인 릴리안 웽의 핵심 기술 분야를 이해하게 한다."
+        },
+        {
+          "contentId": "d6a48875-a8d0-456d-b620-70cb93dd2b11",
+          "relationType": "related",
+          "description": null,
+          "rationale": "자율 인공지능 시스템의 도덕적 판단과 설계 책임을 다뤄 AI 연구 노트를 공개하는 Lil'Log 저자인 릴리안 웽의 AI 연구·제품 책임을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "ashok-elluswamy",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 테슬라 AI 소프트웨어 부사장인 아쇼크 엘루스와미의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-ji-yeon",
+      "selections": [
+        {
+          "contentId": "04e371b3-6533-4d1b-82ad-692f0e8ec3b2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "케이가 아마네 미사로 출연한 뮤지컬 「데스노트」의 원작 만화 첫 권으로, 데스노트와 키라 사건의 출발점을 보여준다."
+        }
+      ]
+    },
+    {
+      "slug": "quintus-horatius-flaccus",
+      "selections": [
+        {
+          "contentId": "093c02ad-9bf5-404c-b454-9cd889b38b17",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 시학은 서양 시론의 고전으로서 『시학』을 남긴 호라티우스의 시 이론과 장르적 전통을 이해하는 직접적인 배경이 된다."
+        }
+      ]
+    },
+    {
+      "slug": "giotto-di-bondone",
+      "selections": []
+    },
+    {
+      "slug": "wang-xingxing",
+      "selections": []
+    },
+    {
+      "slug": "daniel-de-freitas",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 미나 개발을 이끈 캐릭터AI 공동창업자인 다니엘 데 프레이타스의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "colin-huang",
+      "selections": []
+    },
+    {
+      "slug": "pushmeet-kohli",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 알파폴드 개발을 이끈 딥마인드 과학자인 푸쉬미트 콜리의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "sara-blakely",
+      "selections": []
+    },
+    {
+      "slug": "paul-dirac",
+      "selections": [
+        {
+          "contentId": "50304b7e-f7be-45b7-a232-d56c1b9d4d8b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "양자역학의 수학적 체계와 측정 원리를 다뤄 양전자를 처음 예견한 이론가인 폴 디랙의 핵심 연구 분야를 공부하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "amancio-ortega",
+      "selections": []
+    },
+    {
+      "slug": "larry-ellison",
+      "selections": [
+        {
+          "contentId": "08ff9968-58ea-4bbe-8c05-0ebea04d91f9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "오라클을 기술 기업으로 키운 엘리슨의 기반 분야를 현대 소프트웨어의 주요 발명과 산업사 속에서 이해하게 한다."
+        },
+        {
+          "contentId": "f1b6ae80-b50e-48dc-8402-0a5f6c962c6f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "관계형 데이터베이스를 상용화한 엘리슨의 핵심 사업 분야를 서로 다른 데이터베이스 구조의 실제 비교로 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "pavel-durov",
+      "selections": []
+    },
+    {
+      "slug": "zaha-hadid",
+      "selections": [
+        {
+          "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+          "relationType": "related",
+          "description": null,
+          "rationale": "건축을 공간·형태·예술의 관계로 읽는 입문서로 여성 최초로 프리츠커상을 받은 건축가인 자하 하디드의 건축 작업을 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "mark-chen",
+      "selections": [
+        {
+          "contentId": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기계학습의 학습·일반화 원리를 다뤄 달리부터 o1까지 이끈 오픈에이아이 연구총괄인 마크 첸의 핵심 기술 분야를 이해하게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "alex-mashinsky",
+      "selections": []
+    },
+    {
+      "slug": "thomas-jefferson",
+      "selections": [
+        {
+          "contentId": "3e38a321-7a70-43bf-9e3c-fb99728e091d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "미국의 제도·평등·다수 지배를 분석한 고전으로, 독립선언을 쓴 제퍼슨이 남긴 민주주의 이상과 현실의 긴장을 이해하게 한다."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-03T00:31:51.570Z"
+}

@@ -1,0 +1,462 @@
+{
+  "input": "context-public-candidates-2026-09-03.json",
+  "model": "gpt-5.6-sol",
+  "reviews": [
+    {
+      "slug": "cliff-asness",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 가치투자 원칙은 가치와 모멘텀을 결합해 운용하는 클리프 애스니스의 투자 분야를 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "nat-friedman",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 AI Grant와 NFDG 펀드를 운영하는 냇 프리드먼의 투자자 역할을 읽는 기본 맥락을 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "bill-ackman",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 가치투자 고전은 퍼싱스퀘어를 이끄는 빌 애크먼의 집중투자와 행동주의 투자 맥락을 이해하는 기준점이 된다."
+        }
+      ]
+    },
+    {
+      "slug": "joe-lonsdale",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 원칙은 8VC를 세워 방산과 헬스케어 기업에 투자하는 조 론스데일의 벤처투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "jim-simons",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 수학적 모형으로 메달리온 펀드를 운용한 짐 사이먼스의 퀀트 투자와 대비해 투자 판단의 기본을 읽게 한다."
+        }
+      ]
+    },
+    {
+      "slug": "woodrow-wilson",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 정치학 고전은 정치학자이자 대통령으로 국가 제도와 국제질서를 다룬 우드로 윌슨의 핵심 분야를 이해하는 토대를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "ken-langone",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 홈디포의 창업 자금을 조달하고 기업 투자에 관여한 켄 랭곤의 투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "bernard-madoff",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 건전한 투자 원칙은 투자사업을 가장해 폰지 사기를 벌인 버나드 매도프의 증권업 맥락을 분별하는 직접적인 기준을 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "sun-yat-sen",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 국가와 정치 체제 연구는 삼민주의를 내걸고 공화국을 세운 손문의 정치사상가 역할을 이해하는 고전적 토대를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "kautilya",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 정치학 고전은 국가 운영을 논한 아르타샤스트라의 저자 카우틸랴를 비교해 읽을 수 있는 직접적인 정치사상 맥락을 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "ji-ling",
+      "selections": []
+    },
+    {
+      "slug": "cao-cao",
+      "selections": []
+    },
+    {
+      "slug": "steven-cohen",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 SAC 캐피털과 포인트72를 운용한 스티븐 코헨의 헤지펀드 투자 분야를 이해하는 기본 맥락을 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "wang-bi",
+      "selections": []
+    },
+    {
+      "slug": "germaine-de-stael",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 정치학 고전은 나폴레옹의 권위주의를 비판한 정치이론가 제르만 드 스탈의 사상적 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "reid-hoffman",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 링크드인 창업 뒤 벤처투자자로 활동한 리드 호프먼의 투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "daniel-gross",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 원칙은 NFDG 펀드를 공동 운영하며 AI 기업에 투자하는 다니엘 그로스의 투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "publius-vergilius-maro",
+      "selections": [
+        {
+          "contentId": "659578fc-407e-42a4-b378-33229c9b8ae2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "『아이네이스』는 베르길리우스가 로마의 기원과 아이네이아스의 방랑을 노래한 대표 서사시로, 그의 문학을 직접 읽는 핵심 작품이다."
+        }
+      ]
+    },
+    {
+      "slug": "chamath-palihapitiya",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 소셜 캐피탈을 세우고 SPAC 투자를 이끈 차마스 팔리하피티야의 투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "lee-chun-keun",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 국가와 정치 체제 연구는 국제정치와 전쟁사를 연구하는 정치학자 이춘근의 학문적 분야를 이해하는 기본 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "sun-quan",
+      "selections": []
+    },
+    {
+      "slug": "thomas-hobbes",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 정치학 고전은 주권과 국가 질서를 논한 토마스 홉스의 정치철학 분야를 이해하는 직접적인 비교 토대를 제공한다."
+        },
+        {
+          "contentId": "0d620197-af40-4501-9643-e4062b5b448b",
+          "relationType": "related",
+          "description": null,
+          "rationale": "루소의 사회계약론은 사회계약과 절대 주권을 논한 토마스 홉스의 정치철학을 비교해 이해하게 하는 직접 연관 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "daymond-john",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 샤크 탱크에서 기업을 심사하고 투자하는 데이먼드 존의 투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "paul-allen",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "『현명한 투자자』는 마이크로소프트 공동 창업 이후 여러 사업과 자산에 투자한 폴 앨런의 투자자 역할을 이해하는 기본 맥락을 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "trae-stephens",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 원칙은 파운더스 펀드에서 국방 기술 기업에 투자하는 트레이 스티븐스의 벤처투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "masayoshi-son",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 소프트뱅크를 통해 대규모 기술기업 투자를 이끈 손정의의 투자자 역할을 이해하는 기본 맥락을 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "guan-yu",
+      "selections": []
+    },
+    {
+      "slug": "isaiah-berlin",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 정치학 고전은 자유와 가치 다원주의를 탐구한 정치철학자 이사야 벌린의 연구 분야를 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "marc-faber",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 시장 폭락과 자산 가격을 분석해 온 마크 파버의 투자자 역할을 이해하는 기본 맥락을 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "antonio-gracias",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 원칙은 발로르 에쿼티 파트너스를 세워 기업 투자를 이끈 안토니오 그라시아스의 투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "derek-proudian",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 벤처투자사와 모건스탠리에서 투자 업무를 수행한 데릭 프라우디언의 투자자 경력을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "carl-icahn",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 가치투자 고전은 저평가 기업 지분을 사들여 경영진을 압박한 칼 아이칸의 행동주의 투자 전략을 이해하는 기준점이 된다."
+        }
+      ]
+    },
+    {
+      "slug": "luke-nosek",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 원칙은 파운더스 펀드와 기가펀드를 세운 루크 노섹의 벤처투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "mark-cuban",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 샤크 탱크에서 기업을 평가하고 투자해 온 마크 큐반의 투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "david-sacks",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 원칙은 크래프트 벤처스를 공동 창업해 기업 투자를 이끈 데이비드 색스의 벤처투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "brian-singerman",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 파운더스 펀드에서 기술기업 투자를 이끈 브라이언 싱어먼의 벤처투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-burry",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 가치투자 고전은 서브프라임 붕괴에 투자한 마이클 버리의 헤지펀드 투자 판단을 이해하는 직접적인 배경이 된다."
+        }
+      ]
+    },
+    {
+      "slug": "martha-nussbaum",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 정치학 고전은 정의와 인간 역량을 탐구한 정치철학자 마사 누스바움의 연구 분야를 이해하는 고전적 토대를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "russell-kirk",
+      "selections": [
+        {
+          "contentId": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아리스토텔레스의 정치학 고전은 미국 보수주의의 정치사상 체계를 세운 러셀 커크의 연구 분야를 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "keith-rabois",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 원칙은 파운더스 펀드에서 기술 스타트업을 발굴한 키스 라보이스의 벤처투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "shivon-zilis",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 원칙은 블룸버그 베타에서 AI 기업에 투자한 시본 질리스의 기술투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "steve-jurvetson",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 테슬라와 스페이스X의 초기 투자를 이끈 스티브 저벳슨의 벤처투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "mike-markkula",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 고전은 애플의 첫 주요 투자자로 자금과 경영 기반을 제공한 마이크 마쿨라의 투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    },
+    {
+      "slug": "roelof-botha",
+      "selections": [
+        {
+          "contentId": "c21ca51c-a7ab-4c8d-b842-46f3f7f6a682",
+          "relationType": "related",
+          "description": null,
+          "rationale": "벤저민 그레이엄의 투자 원칙은 세쿼이아 캐피탈에서 유튜브와 인스타그램 등에 투자한 로엘로프 보타의 벤처투자자 역할을 이해하는 기초를 제공한다."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-03T09:03:45.5417097+09:00"
+}
