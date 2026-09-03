@@ -20,8 +20,8 @@ Remotion 영상 제작 과정에서 새로 다듬어진 일화·디테일을 DB 
 
 실행 전 Read tool로 아래를 읽는다:
 - `AGENTS.md`
-- `docs/project/celeb/celeb-content-audit.md` — `celeb_contents`/`content_locales` 스키마·규칙
-- `docs/project/celeb/celeb-2-content-collector.md` §body 작성 가이드라인 — **첫 문장·출처·인물명·인용 말투 룰. 백필도 100% 준수**
+- `docs/project/celeb/celeb-02-04-content-audit.md` — 실존 인물 콘텐츠 관계·locale 감사 규칙
+- `docs/project/celeb/celeb-02-03-content-review.md` 「감상경위(review) 작성 규칙」 — **첫 문장·출처·인물명·인용 말투 룰. 백필도 100% 준수**
 
 ## 파일 위치
 
@@ -58,7 +58,7 @@ ko.json → `review`, en.json → `review_en`.
 
 ## 문체·룰
 
-`celeb-2-content-collector.md` §body 작성 가이드라인을 **100% 준수**한다.
+`celeb-02-03-content-review.md` 「감상경위(review) 작성 규칙」을 **100% 준수**한다.
 
 1. 나레이터체 "~합니다", "~입니다" → **서술체 "~다", "~이다"**로 변환
 2. **첫 문장 = 셀럽 풀네임 + "은/는"으로 시작**. 기존 DB가 룰 위반이면 이번 작업에서 손본다

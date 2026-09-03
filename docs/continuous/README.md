@@ -5,3 +5,5 @@
 | 문서 | 지속 과제 |
 |---|---|
 | [`celeb-dialogue-voices.md`](celeb-dialogue-voices.md) | 인물 대사 검수·한영 음성 합성·게시 도달점 |
+| [`naver-blog.md`](naver-blog.md) | 네이버 블로그를 인물 페이지 입구로 운영하는 규칙과 링크 정비 도달점 |
+| [`book-person.md`](book-person.md) | 「책과 사람」 한 권 형식 쇼츠의 제작 순서와 편별 도달점 |

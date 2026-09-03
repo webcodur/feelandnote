@@ -82,7 +82,7 @@
 | [`architecture.md`](../project/platform/architecture.md) | `/rest` 단일 페이지·앵커, `/lab`의 위치 같은 전체 라우팅 사실 |
 | [`card-images.md`](card-images.md) | 쉼터 카드 이미지 발주 규격, 파일 경로, 적용 현황 |
 | [`code-rules.md`](../project/platform/code-rules.md) | 앱 공통 UI·상호작용 규칙 |
-| [`db-core.md`](../project/data/db-core.md), [`db-celeb.md`](../project/data/db-celeb.md) | 게임이 읽는 공통 데이터의 스키마 |
+| [`data/README.md`](../project/data/README.md) | 게임이 읽는 회원·콘텐츠·인물 DB의 물리 구조 |
 | [`i18n.md`](../project/platform/i18n.md) | 앱 공통 다국어 구조와 운영 원칙 |
 
 사용자 대면 화면 문서 묶음은 게임을 다루지 않는다. 쉼터에서 시작하는 작업은 [`service/README.md`](../project/service/README.md)가 아니라 이 허브에서 시작한다.

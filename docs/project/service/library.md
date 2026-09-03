@@ -27,7 +27,7 @@
 |---|---|---|
 | `/library` | 허브. 하위 4개 미리보기를 쌓는다 | `getBestsellers`, `getCuratedHub`, `getAcademyLessonProgressState` |
 | `/library/popular` | **인기 작품.** 주간 베스트셀러 및 불후의 고전(시대·직군)을 2-Track으로 본다 | `getBestsellers`, `getChosenLibrary`, `getProfessionContentCounts` |
-| `/library/curated` | **기관 선정 허브.** 대학·언론·시상기관이 발표한 목록 | `getCuratedHub` |
+| `/library/curated` | **기관 선정 허브.** 대학·언론·시상 기관이 발표한 목록 | `getCuratedHub` |
 | `/library/curated/[curator]` · `/[curator]/[list]` | 기관 상세 · 목록 상세 | `actions/library/curated.ts` |
 | `/library/museum` | 박물관. 매체 역사 전시 | `constants/libraryMuseum.ts` (정적 JSON) |
 | `/library/academy` | 학당. `ACADEMY_CATEGORY_IDS` 4종을 카드로 깐다 | `ACADEMY_CATEGORY_IDS` (정적) |
@@ -164,5 +164,5 @@ AI 학당의 데이터와 `/library/academy/ai/{foundations|prompting|creation}`
 
 - 화면 지도: [README.md](README.md)
 - 탐색(오늘의 인물 본편): [explore.md](explore.md)
-- 셀럽 데이터: `docs/project/data/db-celeb.md`, `docs/project/celeb/`
+- 콘텐츠·셀럽 데이터: `docs/project/data/02-content.md`, `docs/project/data/03-celeb.md`, `docs/project/celeb/`
 - 다국어: `docs/project/platform/i18n.md`

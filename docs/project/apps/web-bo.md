@@ -50,7 +50,7 @@ pnpm dev:bo
 
 ### 셀럽
 
-셀럽 관련 데이터의 생성·검수 파이프라인 전반을 다룬다. 각 항목의 작성 기준과 에이전트 규칙은 [셀럽 파이프라인](../celeb/celeb-pipeline.md)에 있다.
+셀럽 관련 데이터의 생성·검수 파이프라인 전반을 다룬다. 각 항목의 작성 기준과 에이전트 규칙은 [셀럽 파이프라인](../celeb/celeb-00-01-pipeline.md)에 있다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
@@ -75,7 +75,7 @@ pnpm dev:bo
 | `/celebs/voice-gen/[slug]` | 대사/음성 워크스페이스 | 위와 동일하되 특정 셀럽 선택 상태로 진입 | `celeb_dialogues`, `celebs` |
 | `/celebs/stats` | 셀럽 통계 | 총수·활성률·직군 수·국적 수 요약, 직군 분포, 팔로워 TOP 10, 콘텐츠 수 TOP 10, 최근 등록 | `celebs`, `celeb_contents`, `celeb_metrics` |
 
-관련 문서: 영향력은 [celeb-4-influence.md](../celeb/celeb-4-influence.md), 스펙트럼은 [celeb-5-spectrum.md](../celeb/celeb-5-spectrum.md), 대사·말투는 [celeb-speech.md](../celeb/celeb-speech.md), 콘텐츠 수집은 [celeb-2-content-collector.md](../celeb/celeb-2-content-collector.md), 콘텐츠 검증은 [celeb-content-audit.md](../celeb/celeb-content-audit.md), 영문화는 [celeb-i18n.md](../celeb/celeb-i18n.md)를 본다. 세력도감 편성은 아래 「세력도감」 절, 셀럽 스키마는 [db-celeb.md](../data/db-celeb.md)가 단일원천이다.
+관련 문서: 영향력은 [celeb-03-01-influence.md](../celeb/celeb-03-01-influence.md), 스펙트럼은 [celeb-03-02-spectrum.md](../celeb/celeb-03-02-spectrum.md), 대사·말투는 [celeb-04-01-speech.md](../celeb/celeb-04-01-speech.md), 콘텐츠 조사는 [celeb-02-01-content-research.md](../celeb/celeb-02-01-content-research.md), 콘텐츠 검증은 [celeb-02-04-content-audit.md](../celeb/celeb-02-04-content-audit.md), 영문화는 [celeb-09-01-i18n.md](../celeb/celeb-09-01-i18n.md)를 본다. 세력도감 편성은 아래 「세력도감」 절, 셀럽 스키마는 [03-celeb.md](../data/03-celeb.md)를 본다.
 
 ### 유저
 
@@ -93,7 +93,7 @@ pnpm dev:bo
 | --- | --- | --- | --- |
 | `/contents` | 콘텐츠 관리 | 콘텐츠 목록(제목·제작자 검색, 유형 필터). 도서는 한국어·영문 판본 카드를 나란히 띄워 썸네일 출처까지 진단 | `contents`, `content_locales`, `member_contents`, `celeb_contents` |
 | `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 회원·셀럽·관련 기록. BOOK은 KO·EN 표지 URL·출처 편집과 서재 탐방 사용 현황 진입 제공. 픽션 대표 원전은 지정 해제 전 삭제를 거부한다 | `contents`, `content_locales`, `member_contents`, `celeb_contents`, `records` |
-| `/fiction-sources` | 픽션 원전 관리 | 기존 콘텐츠를 대표 원전으로 지정·해제하고 fiction 인물을 검색·선택해 등장 관계를 저장한다. 연결된 인물마다 해당 작품에서의 역할·사건·결말 설명을 한국어·영어로 편집한다 | `fiction_source_contents`, `fiction_source_characters`, `contents`, `celebs` |
+| `/fiction-sources` | 픽션 원전 관리 | 기존 콘텐츠를 원전 작품으로 지정하고 등장인물을 연결한다. 작품 아래 ISBN 판본을 추가·수정하고, 판본별 판매 상품을 교체·비활성화하며 상품 이력을 확인한다 | `fiction_source_contents`, `fiction_source_characters`, `fiction_source_editions`, `fiction_source_products`, `contents`, `celebs` |
 | `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `member_profiles`, `contents`, `content_locales` |
 | `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `member_profiles`, `contents` |
 
@@ -122,7 +122,7 @@ pnpm dev:bo
 | `/notes` | 노트 관리 | 노트 목록(24건 단위), 공개설정 필터와 설정별 개수, 섹션 완료 여부 | `notes`, `note_sections`, `member_profiles`, `contents` |
 | `/playlists` | 묶음 관리(옛 라우트명) | 플로우 목록, 콘텐츠 유형·공개여부 필터, 노드 수 통계 | `flows`, `flow_nodes`, `member_profiles` |
 
-도서 메타 출처 규칙(한국어판 카카오·영문 원서 OpenLibrary만 허용)은 [external-services.md](../platform/external-services.md)를 따른다. 스키마는 [db-core.md](../data/db-core.md)에 있다.
+도서 메타 출처 규칙(한국어판 카카오·영문 원서 OpenLibrary만 허용)은 [external-services.md](../platform/external-services.md)를 따른다. 스키마는 [02-content.md](../data/02-content.md)에 있다.
 
 ### 책과 사람
 

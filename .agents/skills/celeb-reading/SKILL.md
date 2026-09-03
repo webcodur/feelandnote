@@ -7,7 +7,7 @@ description: 인물 상세의 읽어보기 구획에 노출되는 인물 안내�
 
 ## 범위
 
-작업 전에 `docs/project/celeb/person-reading.md`를 끝까지 읽는다. 현재 화면은 인물 안내만
+작업 전에 `docs/project/celeb/celeb-05-01-reading.md`를 끝까지 읽는다. 현재 화면은 인물 안내만
 노출한다. 한국어 `plain_text`와 영어 `plain_text_en`을 한 작업으로 다루고, 닫힌
 `interpretive_*` 필드는 기존 값을 보존한다.
 

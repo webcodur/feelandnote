@@ -1,6 +1,6 @@
 # 넷씩 넷 (Groups) — 발주서
 
-> **최종 실측 체크: 26.07.31** — 부분 대조: `celeb_tags`·`celeb_tag_assignments` 스키마(db-celeb.md), 현재 `celebs.profession`·`nationality`로 이관된 컬럼, `celeb-professions.ts` 15종, `getPortraitFigures.ts` 조회 패턴, `GameFullScreen.tsx` 래퍼, `GameShell.tsx` 구조, `i18n/request.ts` 네임스페이스 등록 확인, `messages/{ko,en}/game-groups.json` 자리 파일 확인, `.env` 부재 실측. DB 실측 없음.
+> 현재 구현은 `celeb_tags`·`celeb_tag_assignments`, `celebs.profession`·`nationality`, `packages/shared/src/constants/celeb-professions.ts`를 기준으로 읽는다. 인물 스키마는 `docs/project/data/03-celeb.md`를 본다.
 
 ---
 

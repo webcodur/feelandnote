@@ -126,5 +126,5 @@
 
 - 화면 지도: [README.md](README.md)
 - 광장(팔로우·친구): [agora.md](agora.md)
-- 셀럽 상세·영향력: `docs/project/data/db-celeb.md`, `docs/project/celeb/celeb-4-influence.md`
-- 16축 스펙트럼(내부 레거시명 `persona`): `docs/project/celeb/celeb-5-spectrum.md`
+- 셀럽 상세·영향력: `docs/project/data/03-celeb.md`, `docs/project/celeb/celeb-03-01-influence.md`
+- 16축 스펙트럼(내부 레거시명 `persona`): `docs/project/celeb/celeb-03-02-spectrum.md`

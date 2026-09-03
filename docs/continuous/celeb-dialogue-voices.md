@@ -1,6 +1,6 @@
 # 인물 대사 음성
 
-대사 검수와 한영 22종 합성·검증·게시를 인물별로 이어가는 지속 과제다. 실행 규칙은 [`celeb-dialogue-voice-publish`](../../.agents/skills/celeb-dialogue-voice-publish/SKILL.md), 대사 규격은 [`celeb-speech.md`](../project/celeb/celeb-speech.md)를 따른다.
+대사 검수와 한영 22종 합성·검증·게시를 인물별로 이어가는 지속 과제다. 실행 규칙은 [`celeb-dialogue-voice-publish`](../../.agents/skills/celeb-dialogue-voice-publish/SKILL.md), 대사 규격은 [`celeb-04-01-speech.md`](../project/celeb/celeb-04-01-speech.md)를 따른다.
 
 ## 현재 도달점
 

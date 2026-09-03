@@ -79,7 +79,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 
 ### DB·Remotion 동기화
 
-- 독립 대상을 반복 조사하는 릴레이 작업은 `RESEARCH_RELAY_ALGORITHM.md`를 따른다. 실존 인물 연표 부분 수리는 `docs/project/celeb/celeb-timeline-agent-relay.md`를 따른다.
+- 독립 대상을 반복 조사하는 릴레이 작업은 `RESEARCH_RELAY_ALGORITHM.md`를 따른다. 실존 인물 연표 부분 수리는 `docs/project/celeb/celeb-06-02-timeline-real-relay.md`를 따른다.
 - 셀럽의 감상배경과 도서 목록은 DB와 Remotion이 일치해야 한다.
 - DB에 콘텐츠가 확정되면 `sw/remotion/public/episodes/<셀럽>/books/`에 폴더와 `book.ko.json` 초안을 스캐폴딩한다.
 - Remotion 원고의 신규 일화·인용을 DB에 백필할 때는 웹에서 독립적으로 팩트체크한다. 대본이나 3자 큐레이션 해석만으로 DB를 갱신하지 않는다.
@@ -103,7 +103,7 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 
 - 실행 규약·허용값·임계값은 코드 상수 하나를 SSoT로 두고 화면·서버 액션·스크립트가 import해 사용한다. 문서는 값을 복제하지 않는다.
 - BOOK 신규 메타는 한국어판 카카오, 영문 원서 OpenLibrary만 사용한다. 네이버 책 API와 Google Books를 되살리거나 신규 수집에 사용하지 않는다.
-- 셀럽 아바타는 독립된 신원 근거가 있어야 한다. 등록·교체는 `celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-avatar-spec.md`를 따른다.
+- 셀럽 아바타는 독립된 신원 근거가 있어야 한다. 등록·교체는 `celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-08-01-avatar.md`를 따른다.
 - 팩션 이미지와 얼굴 REF의 출처·누락 처리·창조 권한은 `faction-image` 스킬이 전부 쥔다. 루트에서 별도 대안을 만들지 않는다.
 - Google API는 무료 키와 로그인 경로만 쓴다. 결제 계정이 붙은 GCP 프로젝트의 키를 `.env`나 코드에 두지 않고, 유료 Gemini·Vertex·Cloud TTS 호출 코드를 만들지 않는다.
 
@@ -122,8 +122,8 @@ Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 �
 
 | 작업 | 물릴 룰북 |
 |------|-----------|
-| 셀럽 파이프라인 전 단계 | `docs/project/celeb/celeb-pipeline.md` (단계별 룰북 표를 그 안에서 쥔다) |
-| 셀럽 콘텐츠 감사 | `docs/project/celeb/celeb-content-audit.md` |
+| 셀럽 파이프라인 전 단계 | `docs/project/celeb/celeb-00-01-pipeline.md` (단계별 룰북 표를 그 안에서 쥔다) |
+| 셀럽 콘텐츠 감사 | `docs/project/celeb/celeb-02-04-content-audit.md` |
 | 영상 원고 0~7단계 | `docs/project/remotion/book-recommend/rules.md` + `writer/<단계>.md` |
 | 천도 게임 개발 | `docs/games/suikoden/dev-guide.md` |
 

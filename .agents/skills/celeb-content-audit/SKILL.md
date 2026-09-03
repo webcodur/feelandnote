@@ -1,25 +1,26 @@
 ---
 name: celeb-content-audit
-description: 셀럽 콘텐츠 데이터(출처, review, locale, thumbnail) 검증 및 보완. /celeb-content-audit 셀럽명으로 실행.
+description: full·light의 감상 관계·review와 fiction의 원전·등장 관계를 작품 메타·locale·표지와 함께 감사하고 확인된 오류를 보완한다. "/celeb-content-audit 셀럽명", "콘텐츠 데이터 감사", "출처·표지 검증"에 호출.
 ---
 
 # 콘텐츠 데이터 감사
 
-셀럽의 `celeb_contents` 데이터를 검증하고 보완한다.
+대상 인물의 티어를 먼저 확인하고, 그 티어가 사용하는 콘텐츠 관계와 연결 작품을 검증한다.
 
 ## 필수 사전 읽기
 
-실행 전 반드시 아래 문서를 Read tool로 읽는다:
+실행 전 아래 문서를 처음부터 끝까지 읽는다.
 
-- `docs/project/celeb/celeb-content-audit.md` — 감사 규칙 (5단계 절차, locale 규칙, thumbnail 확보법, 보고 형식)
+- `docs/project/celeb/celeb-02-04-content-audit.md` — 티어별 대상, 5단계 감사 절차, 보고 형식
+
+이 문서가 연결하는 조사·등록·감상경위·fiction 원전 규칙 가운데 대상 티어에 해당하는 문서도 반영 전에 읽는다.
 
 ## 실행
 
-사용자가 조사·보완을 요청하면 현재 DB 스키마를 조회한 뒤 `contents`·`content_locales`·
-`celeb_contents`의 실제 값만 바로 보완한다. 별도 요청이 없는 한 조사 관리용 컬럼·테이블·
-큐·RPC·worker·인수인계 문서를 새로 만들지 않는다.
+1. 입력 이름으로 대상을 고유하게 식별하고 `celebs.id`와 `celeb_tier`를 고정한다.
+2. 현행 DB 스키마와 티어에 맞는 관계·작품·모든 locale의 현재값을 불러온다.
+3. 룰북의 Phase 1~5를 순서대로 수행해 모든 관계 행과 locale의 존재·부재를 판정한다.
+4. 감사·검증 요청은 결과만 보고한다. 사용자가 보완·반영까지 명시한 경우에만 근거가 확인된 오류를 수정한다.
+5. 수정한 경우 같은 ID와 조건으로 재조회하고 룰북 형식으로 변경값과 미해결 항목을 보고한다.
 
-1. 대상 셀럽의 `celebs.id`를 조회한다 (`nickname` 또는 `nickname_en`으로 검색)
-2. 룰북의 Phase 1~5를 순서대로 수행한다
-3. `review_en` 공백을 번역 완료로 간주하지 않는다
-4. 보고 형식에 맞춰 결과를 출력한다
+모든 관계와 locale이 보고에 포함되고, 반영한 값은 재조회 결과와 일치해야 완료다.

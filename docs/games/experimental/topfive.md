@@ -1,6 +1,6 @@
 # 상위 다섯 (Top Five) 발주서
 
-> **최종 실측 체크: 26.07.31** — 부분 대조: `sw/web/src/actions/game/grid.ts`, `sw/web/src/components/features/game/grid/`, `sw/web/src/components/features/game/groups/`, `sw/web/src/components/shared/GameFullScreen.tsx`, `docs/project/data/db-core.md`, `docs/project/celeb/celeb-4-influence.md`, `sw/web/messages/{ko,en}/game-topfive.json`, `sw/web/src/lib/cache.ts`, `docs/games/experimental/README.md`. DB 실측 없음(환경값 부재).
+> 현재 구현은 `sw/web/src/actions/game/grid.ts`, `sw/web/src/components/features/game/grid/`, `docs/project/data/03-celeb.md`, `docs/project/celeb/celeb-03-01-influence.md`를 기준으로 읽는다.
 
 ## 무엇을 하는 게임인가
 

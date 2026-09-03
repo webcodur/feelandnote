@@ -357,7 +357,7 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 
 **금지는 하나뿐이다 — 다른 사람 얼굴을 붙이거나, 임의 생성 얼굴에 그 사람 이름을 다는 것.** 가리는 연출은 얼굴을 주장하지 않으므로 허용되고, 임의 얼굴은 "이 사람이 이렇게 생겼다"는 거짓 주장이라 금지다. `_refs/`의 현대인 스튜디오 사진을 역사 인물 얼굴로 쓰는 것도 같은 이유로 금지다(§8).
 
-**아바타(프로필 얼굴)는 이미 규격이 있다.** 얼굴 자료가 없는 실존 인물의 아바타는 `docs/project/celeb/celeb-avatar-spec.md` 「얼굴이 없는 인물 — 규격 밖이다」를 따른다(사토시 나카모토·클로윈디가 그 규격으로 등록돼 있다). 얼굴 기하 수치는 면제되고 등록에 `--allow-no-face true`가 필요하다. 여기서 다시 정하지 않는다.
+**아바타(프로필 얼굴)는 이미 규격이 있다.** 얼굴 자료가 없는 실존 인물의 아바타는 `docs/project/celeb/celeb-08-01-avatar.md` 「얼굴이 없는 인물 — 규격 밖이다」를 따른다(사토시 나카모토·클로윈디가 그 규격으로 등록돼 있다). 얼굴 기하 수치는 면제되고 등록에 `--allow-no-face true`가 필요하다. 여기서 다시 정하지 않는다.
 
 ---
 
@@ -365,32 +365,6 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 
 팩션 인물이 DB(`celebs`)에 등록돼도 프로필 아바타(`avatar_url`)가 비어 세력도감 카드에 이미지가 안 뜨는 경우가 있다. 팩션 영상용 개인샷을 아바타로 재활용하는 자동 승격은 **`celeb_tier='fiction'` 인물에만 허용한다.** 실존 인물은 팩션 개인샷만으로 신원을 입증할 수 없으므로 자동 승격하지 않는다.
 
-**기존 스크립트를 재사용한다:** `sw/web-bo/scripts/avatar/upload.ts`의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 얼굴 자동 검출 → 얼굴 중심 정사각 크롭 → 800×800 webp → R2 `celebs/{celebs.id}/avatar.webp` PUT → `celebs.avatar_url` UPDATE까지 자동이다. 필요한 env는 `sw/web-bo/.env`의 R2_* 7키와 Oracle DB VM의 Auth·PostgREST 전권 키 `DB_SECRET_KEY`다.
+fiction 개인샷을 후보로 쓸 때도 `_refs`·제작 재료와 인물별 완성 개인샷을 파일 위치만으로 구분하지 않는다. 이미지를 직접 열어 원전·팩션의 해당 인물인지 확인하고, 다른 인물용 얼굴이나 재료 이미지는 등록하지 않는다. 배경 제거가 필요하면 `nobg-cutout` 스킬로 먼저 처리한다.
 
-```
-npx tsx scripts/avatar/upload.ts --celeb-id <celebs.id UUID> \
-  --image-file "C:/abs/path.png" --slug <slug> \
-  --source-note "공식 사진을 바탕으로 한 신원 보존 재구성" \
-  --identity-evidence "https://공식·기관·본인 페이지"
-```
-
-`--celeb-id`는 slug가 아니라 `celebs.id`(UUID)다. 검출 score가 0.8대여도 크롭은 양호하다. 얼굴 자동 크롭이 싫으면 `--face-detect false --crop-gravity center`를 쓴다. `avatar_url` 최종값은 상대경로가 아니라 전체 URL이다(`https://pub-....r2.dev/celebs/{id}/avatar.webp?v={ts}`).
-
-**실존 인물 안전장치:** 로컬 파일·임의 URL 모드는 `--identity-evidence`가 필수다. 기존 서비스 R2 아바타는 근거로 인정하지 않으며, `_재료`·`서비스_재료`·`_refs` 경로는 업로드 입력 단계에서 거부한다. `celeb-id`와 `slug`도 DB에서 같은 인물인지 먼저 대조한다. 동시대 초상이나 외모 기록조차 없는 인물은 임의 얼굴을 넣지 않는다. 대신 익명성을 형상화한 아바타를 만들어 등록한다 — 규격은 `docs/project/celeb/celeb-avatar-spec.md` 「얼굴이 없는 인물」이 쥔다.
-
-**⚠️ `_refs/`를 절대 아바타로 쓰지 마라(2026-07-16 실측).** `_refs/<세력>/<인물>.png`는 "이 얼굴 골격으로 그려라"는 **재료**(현대인 스튜디오 사진)다. 페넬로페는 분홍머리 현대 여성, 늙은 유모 에우뤼클레이아는 젊은 금발이다. 아바타에는 DB `person.image`에 연결된 영상 개인샷만 쓴다. 경로 깊이는 클러스터 수와 무관하다.
-
-**폴더 구조가 같아도 개인샷이 아닐 수 있다.** Homer-Odyssey는 개인샷을 안 만들어 `01-ithaca/2/eurylochus.png` 등 4개가 전부 재료였다(개인샷으로 오인해 등록했다가 롤백). 등록 전에 이미지를 눈으로 전수 확인한다(표본만 보면 놓친다). 판별법: 갑옷·신전·전장 배경이면 개인샷, 현대 스튜디오 인물사진이면 재료다.
-
-**누끼(배경 제거) 파이프라인 — 유저 선호.** 순서가 중요하다: **rembg 먼저 → upload 스크립트.** 반대로 하면 목 단면을 배경으로 오인한다.
-
-- rembg 2.0.72가 설치돼 있고(u2net) CPU로 1장에 약 0.3초다. 실행은 `py -3.12`로 한다.
-- `removeAlpha()`는 얼굴 검출 텐서 변환에만 쓰이고 출력(extract→resize→webp)은 알파를 유지하므로 투명 webp가 그대로 나온다.
-- 누끼 이미지에서도 얼굴 검출이 정상이다(0.55~0.997). `--face-detect false`는 불필요하다.
-- CUDA dll 경고는 무시한다(CPU 폴백).
-- 얼굴 정사각 크롭은 upload 스크립트가 이미 한다. **2026-08-01부터 눈높이·턱끝 랜드마크 기준으로 통일됐다** — 상자에 배율(0.45·2.2배)을 곱하던 옛 방식과 조절 인자는 폐기됐고, 계산은 `sw/web-bo/src/lib/avatar-geometry.ts` 한 곳이 한다. 수치는 `docs/project/celeb/celeb-avatar-spec.md` §1·§6이 SSoT다. **얼굴을 못 찾으면 대체 크롭으로 올리지 않고 실패한다.**
-- `photo/crop-faces.ts`는 아바타용 얼굴 정사각 크롭 도구다(같은 규격·같은 계산). 무릎까지 전신 크롭은 `photo/crop-body.ts`가 따로 있다.
-
-**배치 주의:** 여러 명을 bash `while IFS= read`로 순회할 때 배치 tsv 마지막 줄에 개행이 없으면 마지막 1명이 스킵된다(개행을 추가하거나 마지막 인물은 개별 실행). `getFeaturedTags`는 `unstable_cache`(tags:['celebs'])라 갱신 후 새로고침·revalidate가 필요하다.
-
-아바타 이미지를 새로 생성할 때의 연출 규칙(골격 고정 금지)은 `docs/project/production/image-generation.md` §5.2를 따른다. **프레임 기하·안전 영역·발주 프롬프트·판정 기준은 `docs/project/celeb/celeb-avatar-spec.md`가 SSoT다**(눈높이·턱끝·콧대 수치와 FRAMING 블록 전문이 여기 있다. 머리 위와 턱 아래는 자유라 규격 항목이 아니다).
+아바타의 신원·구도·크롭·검수는 [`../../celeb/celeb-08-01-avatar.md`](../../celeb/celeb-08-01-avatar.md), 실제 R2·DB 등록은 `celeb-avatar-register` 스킬이 쥔다. 팩션 문서에는 업로드 명령·기하 수치·환경변수·실패 분류를 복제하지 않는다.
