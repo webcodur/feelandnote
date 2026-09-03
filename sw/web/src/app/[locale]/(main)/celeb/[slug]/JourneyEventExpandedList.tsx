@@ -47,7 +47,7 @@ export default function JourneyEventExpandedList({
     <div
       tabIndex={0}
       aria-label={t("timelineViewExpand")}
-      className="md:custom-scrollbar py-1 pe-2.5 ps-4.5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:max-h-[580px] md:overflow-y-auto md:[overflow-anchor:none] md:pe-4"
+      className="md:custom-scrollbar px-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:max-h-[580px] md:overflow-y-auto md:[overflow-anchor:none]"
     >
       {/* 연대기 카드와 같은 언어: 머리(번호·연도·지명) + 제목 + 본문. 수직선 레일은 걷는다.
           좁은 화면에서는 한 장씩 옆으로 넘긴다 — 세로로 전부 훑지 않아도 된다 */}

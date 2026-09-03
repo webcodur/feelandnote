@@ -170,10 +170,10 @@ export default function CelebCard({
   const vignetteBg = {
     background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)"
   };
-  // 카드는 800px 아바타를 190px 안팎으로 줄여 쓴다. 그 배율에서 잔 디테일이 사라져 뿌옇게
-  // 보이므로 가장자리를 살짝 세운 뒤 그림자를 얹는다(정의: PortraitSharpenFilter).
+  // 인물에는 선명화 필터를 걸지 않는다. 원본 입자까지 증폭돼 얼굴이 지글거려 보인다.
+  // 그림자만 얹는다.
   const subjectShadow =
-    "[filter:url(#portrait-sharpen)_drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]";
+    "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]";
 
   const GlowEffect = ({ isCelebGroup = false }: { isCelebGroup?: boolean }) => {
     const hoverClasses = isCelebGroup

@@ -21,6 +21,9 @@ interface LayoutProps {
   params: Promise<{ locale: string; slug: string }>;
 }
 
+// 눈아픔 신고로 세계 재질 테마를 뺀 인물. 늘려야 하면 이 목록에 slug만 추가한다.
+const NO_WORLD_THEME_SLUGS = new Set(["william-shakespeare"]);
+
 export default async function CelebLayout({ children, params }: LayoutProps) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
@@ -40,6 +43,7 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
 
   // 푸터·헤더는 월드 스코프 밖에 있어 스코프 변수(accent 등)를 못 받는다.
   // 셀럽 테마를 :root로 승격시켜 페이지 전체(푸터 포함)가 그때그때 맞게 따른다.
+  const disableTheme = NO_WORLD_THEME_SLUGS.has(slug);
   const material = getWorldMaterial(worldId);
   const rootThemeCss = `:root{${Object.entries(getWorldMaterialStyle(material))
     .map(([k, v]) => `${k}:${v}`)
@@ -49,8 +53,8 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
   // HTML·RSC 양쪽에 187KB가 복사된다(external-services.md「ISR 쓰기 비용 규칙」).
   return (
     <MessageScope paths={CELEB_MESSAGE_PATHS}>
-      <style dangerouslySetInnerHTML={{ __html: rootThemeCss }} />
-      <CelebWorldMaterialScope worldId={worldId}>
+      {!disableTheme && <style dangerouslySetInnerHTML={{ __html: rootThemeCss }} />}
+      <CelebWorldMaterialScope worldId={worldId} disableTheme={disableTheme}>
         <RecentProfileTracker
           profile={{
             id: profile.id,

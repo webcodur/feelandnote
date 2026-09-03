@@ -23,8 +23,6 @@ const DIALOGUE_TYPES = [
 
 type DialogueType = (typeof DIALOGUE_TYPES)[number];
 
-type Scope = "all" | DialogueType;
-
 interface DialogueTheme {
   chip: string;
   chipActive: string;
@@ -108,7 +106,8 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
   // 로드 대기 중인 행. 로딩이 끝나기 전에는 소리를 내지 않는다.
   const [loadingKey, setLoadingKey] = useState<string | null>(null);
   const [autoPlaying, setAutoPlaying] = useState(false);
-  const [activeScope, setActiveScope] = useState<Scope>("all");
+  // 빈 집합은 "전체"를 뜻한다 — 골라둔 상황이 하나도 없을 때 모두 보여준다
+  const [selectedTypes, setSelectedTypes] = useState<Set<DialogueType>>(() => new Set());
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const autoQueueRef = useRef<LineItem[]>([]);
   const stoppedRef = useRef(false);
@@ -215,7 +214,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
 
 /* ── 3. 전체 순차 재생 ── */
   // region 전체 순차 재생
-  const allLines = useMemo(() => DIALOGUE_TYPES.flatMap((type) => {
+  const linesForType = useCallback((type: DialogueType): LineItem[] => {
     const arr = lines[type];
     if (!Array.isArray(arr)) return [];
     return arr.reduce<LineItem[]>((acc, raw, i) => {
@@ -223,19 +222,20 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
       if (text.trim()) acc.push({ type, variant: i, text });
       return acc;
     }, []);
-  }), [lines]);
+  }, [lines]);
 
-  // 현재 스코프(전체 | 특정 유형)에서 표시·재생할 대사 목록
+  const allLines = useMemo(
+    () => DIALOGUE_TYPES.flatMap((type) => linesForType(type)),
+    [linesForType],
+  );
+
+  // 골라둔 상황이 없으면 전체, 있으면 고른 상황들만 합쳐 보여준다
   const displayLines = useMemo(() => {
-    if (activeScope === "all") return allLines;
-    const arr = lines[activeScope];
-    if (!Array.isArray(arr)) return [];
-    return arr.reduce<LineItem[]>((acc, raw, i) => {
-      const text = stripEmotionTag(raw);
-      if (text.trim()) acc.push({ type: activeScope, variant: i, text });
-      return acc;
-    }, []);
-  }, [activeScope, allLines, lines]);
+    if (selectedTypes.size === 0) return allLines;
+    return DIALOGUE_TYPES.filter((type) => selectedTypes.has(type)).flatMap(
+      (type) => linesForType(type),
+    );
+  }, [selectedTypes, allLines, linesForType]);
 
   const playNext = useCallback(function playNextLine() {
     if (stoppedRef.current || autoQueueRef.current.length === 0) {
@@ -274,16 +274,18 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
     const arr = lines[type];
     return Array.isArray(arr) && arr.length > 0 && arr.some((l) => l.trim() !== "");
   }), [lines]);
-  const scope: Scope = activeScope === "all" || visibleTypes.includes(activeScope)
-    ? activeScope
-    : "all";
 
-  const selectScope = useCallback((next: Scope) => {
+  const toggleType = useCallback((type: DialogueType) => {
     stoppedRef.current = true;
     autoQueueRef.current = [];
     setAutoPlaying(false);
     stopAudio();
-    setActiveScope(next);
+    setSelectedTypes((prev) => {
+      const next = new Set(prev);
+      if (next.has(type)) next.delete(type);
+      else next.add(type);
+      return next;
+    });
   }, [stopAudio]);
 
   // 전체 재생 중 현재 재생 중인 행의 표시 인덱스
@@ -305,39 +307,22 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
         </p>
       </div>
 
-      {/* ── 4. 상황 칩 ── */}
+      {/* ── 4. 상황 칩 — 하나씩 켜고 끈다. 아무것도 안 켜면 전체가 켜진 것과 같다 */}
       <div
         className="flex flex-wrap justify-center gap-2 pb-1"
-        role="tablist"
+        role="group"
         aria-label={t("mediaDialogues")}
       >
-        <button
-          type="button"
-          role="tab"
-          aria-selected={scope === "all"}
-          aria-controls="dialogue-panel-all"
-          onClick={() => selectScope("all")}
-          className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs hover:border-accent/45 hover:text-accent ${
-            scope === "all"
-              ? "border-accent/55 bg-accent/10 font-semibold text-accent"
-              : "border-white/10 text-text-secondary hover:bg-white/[0.035]"
-          }`}
-        >
-          {t("dialogueAll")}
-          <span className="font-mono text-[11px] opacity-65">{allLines.length}</span>
-        </button>
         {visibleTypes.map((type) => {
           const count = lines[type].filter((raw) => stripEmotionTag(raw).trim()).length;
-          const active = scope === type;
+          const active = selectedTypes.has(type);
           const theme = DIALOGUE_THEMES[type];
           return (
             <button
               key={type}
               type="button"
-              role="tab"
-              aria-selected={active}
-              aria-controls={`dialogue-panel-${type}`}
-              onClick={() => selectScope(type)}
+              aria-pressed={active}
+              onClick={() => toggleType(type)}
               className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${
                 active
                   ? theme.chipActive
@@ -353,8 +338,6 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
 
       {/* ── 5. 대사 목록 패널 ── */}
       <div
-        id={`dialogue-panel-${scope}`}
-        role="tabpanel"
         className="rounded-xl border border-white/10 bg-white/[0.018] px-3 py-3"
       >
         {hasVoice && (
