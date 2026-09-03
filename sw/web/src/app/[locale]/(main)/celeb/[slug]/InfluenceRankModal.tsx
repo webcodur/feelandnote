@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] analysis — 영향력 순위 상세 모달
+ * - 목차 위치: analysis > influence
+ * - 데이터: detail(순위·분야) prop
+ * - 함께 보기: CelebInfluenceSection.tsx, InfluenceExplorer.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { Trophy } from "lucide-react";
