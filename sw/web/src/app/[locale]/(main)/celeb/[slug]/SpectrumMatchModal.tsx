@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] spectrum — 비교 상세 겹창(수치 비교와 감상 기록)
+ * - 목차 위치: spectrum(분석 구획, service key `spectrum` / sectionId `analysis`)
+ * - 데이터: category·match·subjectName·subjectAvatarUrl·subjectSpectrumJsonb·loading·onClose·onViewPerson
+ * - 함께 보기: spectrum/SpectrumMatchGroup.tsx, spectrum/SpectrumSectionMain.tsx, spectrum-comparison/
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useEffect, useId, useState } from "react";
@@ -39,6 +45,8 @@ import {
   SUBJECT_COLOR,
 } from "./spectrum-comparison/shared";
 
+/* ── 1. 분류별 상수 ── */
+
 /** 분류마다 다른 강조색 — 제목과 일치율 고리가 함께 쓴다 */
 const CATEGORY_STYLES: Record<SpectrumMatchCategory, { label: string }> = {
   overall: { label: "text-accent" },
@@ -75,6 +83,8 @@ const CATEGORY_AXES: Record<
   virtue: VIRTUE_KEYS,
   ability: ABILITY_KEYS,
 };
+
+/* ── 2. 대상 인물 근거 읽기 ── */
 
 /** 대상 인물 근거는 화면이 이미 들고 있다 — 겹창에서 다시 조회하지 않는다 */
 function readSubjectReason(
@@ -126,6 +136,7 @@ export default function SpectrumMatchModal({
   const locale = useLocale();
   const titleId = useId();
   const style = CATEGORY_STYLES[category];
+  /* ── 3. 후보 자료 로드 ── */
   // 닮음의 근거(수치)를 먼저, 그 인물의 감상 기록을 뒤에 — 둘 다 펼친 채로 둔다
   const [library, setLibrary] = useState<CelebLibraryPreviewItem[] | null>(null);
   const [candidateReasons, setCandidateReasons] =
@@ -153,6 +164,7 @@ export default function SpectrumMatchModal({
     };
   }, [match.celeb_id]);
 
+  /* ── 4. 근거 행 조립 ── */
   const insight = useMatchInsight({ category, match, subjectName });
   const axes =
     CATEGORY_AXES[category] ??
@@ -224,7 +236,7 @@ export default function SpectrumMatchModal({
           <X size={16} />
         </button>
 
-        {/* 머리글 하나가 제목·두 인물·일치율을 다 쥔다 */}
+        {/* ── 5. 머리글 — 제목·두 인물·일치율 ── */}
         <header className="border-b border-white/[0.07] px-12 py-3 md:px-14 md:py-3.5">
           {/* 셋을 가운데로 모은다 — 넓은 화면에서 양 끝으로 벌어지면 선만 길어진다 */}
           <div className="mx-auto grid max-w-[460px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 md:gap-4">
@@ -311,7 +323,7 @@ export default function SpectrumMatchModal({
         </header>
 
         <div className="space-y-4 overflow-y-auto px-4 py-4 custom-scrollbar md:px-6">
-          {/* 수치 비교 — 닮음의 근거를 먼저 보여준다 */}
+          {/* ── 6. 수치 비교 — 닮음의 근거를 먼저 보여준다 ── */}
           <section className="overflow-hidden rounded-lg border border-white/[0.09] bg-white/[0.02]">
             <header className="border-b border-white/[0.07] bg-white/[0.02] px-4 py-2.5 text-center">
               <p className="text-sm font-bold text-text-primary md:text-base">
@@ -377,7 +389,7 @@ export default function SpectrumMatchModal({
             </div>
           </section>
 
-          {/* 감상 기록 — 그래서 이 사람은 무엇을 읽었는가 */}
+          {/* ── 7. 감상 기록 — 그래서 이 사람은 무엇을 읽었는가 ── */}
           {library === null ? (
             <div className="space-y-2" aria-hidden>
               {Array.from({ length: 2 }, (_, index) => (
