@@ -217,6 +217,7 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/actions/library/types.ts',
   'sw/web/src/app/[locale]/(main)/explore/page.tsx',
   'sw/web/src/app/[locale]/(main)/explore/sections.tsx',
+  'sw/web/src/app/[locale]/(main)/library/curated/page.tsx',
   'sw/web/src/app/[locale]/(main)/library/popular/page.tsx',
   'sw/web/src/app/[locale]/(main)/library/sections.tsx',
   'sw/web/src/components/features/landing/FactionShowcase.tsx',
