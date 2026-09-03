@@ -14,8 +14,8 @@ import { PendingBlock } from '@/components/ui/pending'
 // 홈은 티저다 — 다섯 줄만 세우고 나머지는 게시판이 쥔다
 const ITEMS_PER_PAGE = 5
 
-/** 공지 한 줄의 높이(제목 + 작성자 + 2열 메타 + p-4). 기다림이 실물과 같은 자리를 잡게 한다 */
-const ROW_H = 'h-[100px]'
+/** 공지 한 줄의 높이(제목 + 2열 메타 + p-4). 기다림이 실물과 같은 자리를 잡게 한다 */
+const ROW_H = 'h-[78px]'
 
 /** 이 목록이 채워지기를 기다리는 자리 */
 export function HomeNoticePending({ label }: { label?: string }) {
