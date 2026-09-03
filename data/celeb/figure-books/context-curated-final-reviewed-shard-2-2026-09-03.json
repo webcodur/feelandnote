@@ -1095,14 +1095,7 @@
     },
     {
       "slug": "ross-nordeen",
-      "selections": [
-        {
-          "contentId": "21421b46-2422-4f6c-981e-5c5f775b930d",
-          "relationType": "related",
-          "description": null,
-          "rationale": "시모어 크레이와 슈퍼컴퓨터 발전사를 다뤄 테슬라의 슈퍼컴퓨터를 구축한 로스 노딘의 고성능 컴퓨팅 분야를 이해하게 한다."
-        }
-      ]
+      "selections": []
     },
     {
       "slug": "olga-tokarczuk",
@@ -1859,5 +1852,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-03T00:31:51.570Z"
+  "updatedAt": "2026-09-03T01:05:11.096Z"
 }
