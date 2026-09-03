@@ -45,6 +45,7 @@ type EditionInput = {
   contentId: string
   locale: Locale
   isbn: string
+  editionTitle?: string
   editionKind: string
   textScope: string
   sortOrder: number
@@ -75,7 +76,8 @@ function usage() {
   위 명령 끝에 --apply를 붙이면 반영합니다.
 
 판본.json은 객체 한 건 또는 객체 배열이다.
-[{"contentId":"...","locale":"ko","isbn":"979...","editionKind":"full","textScope":"complete","sortOrder":0}]
+[{"contentId":"...","locale":"ko","isbn":"979...","editionTitle":"완역 특별판","editionKind":"full","textScope":"complete","sortOrder":0}]
+editionTitle은 ISBN 상세에 있는 판본 수식어가 메타 정규화 과정에서 빠질 때만 쓴다.
 상품은 선택 사항이며 product에 productId/productUrl/affiliateUrl/qualityEvidence를 함께 둔다.`)
 }
 
@@ -191,6 +193,9 @@ function parseInputs(document: unknown): EditionInput[] {
       contentId: text(raw.contentId, `${field}.contentId`),
       locale,
       isbn: isbn(raw.isbn, `${field}.isbn`),
+      ...(raw.editionTitle === undefined
+        ? {}
+        : { editionTitle: text(raw.editionTitle, `${field}.editionTitle`) }),
       editionKind,
       textScope,
       sortOrder,
@@ -227,7 +232,7 @@ async function resolveOpenLibrary(input: EditionInput): Promise<ResolvedEdition>
         return typeof name === 'string' && name.trim() ? [name.trim()] : []
       })
     : []
-  const title = text(book.title, `${input.isbn}.title`)
+  const title = input.editionTitle ?? text(book.title, `${input.isbn}.title`)
   const creators = names(book.authors)
   const publishers = names(book.publishers)
   const cover = book.cover && typeof book.cover === 'object' && !Array.isArray(book.cover)
@@ -256,7 +261,7 @@ async function resolveEdition(input: EditionInput): Promise<ResolvedEdition> {
   }
   return {
     ...input,
-    title: lookup.book.title,
+    title: input.editionTitle ?? lookup.book.title,
     creator: lookup.book.creator || null,
     description: lookup.fullDescription ?? lookup.book.metadata.description ?? null,
     publisher: lookup.book.metadata.publisher || null,
