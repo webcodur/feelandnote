@@ -348,7 +348,7 @@
       "ranked": "Ranked",
       "annual": "Annual",
       "source": "Original source",
-      "method": "Selection method",
+      "method": "Selection",
       "published": "Published {year}",
       "notRegistered": "Not yet in our catalogue",
       "linkedSummary": "{linked} of {total} works are available here.",
@@ -396,7 +396,8 @@
       },
       "viewByKind": "By institution",
       "viewByTopic": "By topic",
-      "backToLibrary": "Back to Works"
+      "backToLibrary": "Back to Works",
+      "overview": "Overview"
     },
     "popular": {
       "metaTitle": "Popular Works - Weekly Bestsellers & All-Time Classics",

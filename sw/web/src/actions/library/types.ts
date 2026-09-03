@@ -87,7 +87,7 @@ export interface BestsellerItem {
 }
 
 // ────────────────────────────────────────────────────
-// 기관 선정 — 대학·언론·시상기관 등이 발표한 작품 목록
+// 기관 선정 — 대학·언론·시상 기관 등이 발표한 작품 목록
 export interface CuratorSummary {
   slug: string
   name: string
@@ -104,6 +104,14 @@ export interface CuratorSummary {
 export interface CuratedListSummary {
   slug: string
   curatorSlug: string
+  /** 기관명 — 카드가 목록만으로 설 때 기관의 얼굴을 함께 세운다 */
+  curatorName?: string
+  /** 기관 로고·엠블럼 */
+  curatorLogoUrl?: string | null
+  /** 기관 갈래 (university, media, award 등) */
+  curatorKind?: string
+  /** 기관 소재 국가 */
+  curatorCountry?: string | null
   title: string
   description: string | null
   publishedYear: number | null

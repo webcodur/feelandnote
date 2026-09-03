@@ -21,7 +21,17 @@ export default function CuratedHubBrowse({ hub }: { hub: CuratedHub }) {
   const browse = useCuratedBrowse(hub.curators);
 
   // 고른 갈래(매체·기관/주제)에 맞는 목록만 앞부분에서 세운다
-  const lists = browse.shown.flatMap((c) => c.lists).slice(0, LISTS_LIMIT);
+  const lists = browse.shown
+    .flatMap((c) =>
+      c.lists.map((l) => ({
+        ...l,
+        curatorName: l.curatorName ?? c.name,
+        curatorLogoUrl: l.curatorLogoUrl ?? c.logoUrl,
+        curatorKind: l.curatorKind ?? c.kind,
+        curatorCountry: l.curatorCountry ?? c.country,
+      }))
+    )
+    .slice(0, LISTS_LIMIT);
 
   return (
     <div className="space-y-5">

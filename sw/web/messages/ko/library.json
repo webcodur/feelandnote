@@ -331,7 +331,7 @@
       "title": "기관 선정",
       "intro": "사람이 아니라 기관이 고른 목록입니다. 대학이 학생에게 권하는 책, 언론이 한 해를 정리하며 꼽은 작품, 심사위원단이 상을 준 작품을 원문 그대로 옮겨 담았습니다.",
       "kind": {
-        "university": "대학·교육기관",
+        "university": "교육 기관",
         "media": "언론·매체",
         "award": "시상 기관",
         "organization": "단체",
@@ -348,7 +348,7 @@
       "ranked": "순위 있음",
       "annual": "해마다 발표",
       "source": "출처 원문",
-      "method": "선정 방식",
+      "method": "선정",
       "published": "{year}년 발표",
       "notRegistered": "아직 등록되지 않은 작품",
       "linkedSummary": "{total}편 가운데 {linked}편을 서비스에서 볼 수 있습니다.",
@@ -396,7 +396,8 @@
       },
       "viewByKind": "기관별",
       "viewByTopic": "주제별",
-      "backToLibrary": "작품으로"
+      "backToLibrary": "작품으로",
+      "overview": "개요"
     },
     "popular": {
       "metaTitle": "인기 작품 - 주간 베스트셀러 & 불후의 고전",

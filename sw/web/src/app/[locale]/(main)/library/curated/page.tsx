@@ -1,7 +1,7 @@
 /*
   파일명: /app/(main)/library/curated/page.tsx
   기능: 기관 선정 허브
-  책임: 대학·언론·시상기관 등이 발표한 작품 목록을 성격별로 진열한다.
+  책임: 대학·언론·시상 기관 등이 발표한 작품 목록을 성격별로 진열한다.
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
