@@ -543,6 +543,7 @@
     "expandContentIntro": "작품 소개",
     "expandNoIntro": "작품 소개가 아직 없습니다.",
     "expandIntroSource": "출처: {source}",
+    "expandIntroMore": "소개 더 보기",
     "expandCover": "표지 크게 보기",
     "expandReviewOf": "{name}의 감상배경",
     "expandReview": "감상배경",
