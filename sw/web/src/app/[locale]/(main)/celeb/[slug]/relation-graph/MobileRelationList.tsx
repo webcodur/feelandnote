@@ -26,6 +26,15 @@ function ProfileFallback() {
   </span>;
 }
 
+/** 좁은 화면에서 한 쪽에 세우는 인물 수. 세로로 다 훑지 않고 옆으로 넘겨 본다 */
+const PEOPLE_PER_PAGE = 2;
+
+function chunk<T>(items: T[], size: number): T[][] {
+  return Array.from({ length: Math.ceil(items.length / size) }, (_, i) =>
+    items.slice(i * size, (i + 1) * size),
+  );
+}
+
 export default function MobileRelationList(props: Props) {
   const sections = useMemo(() => {
     const activeIds = new Set(props.activePeople.map(({ id }) => id));
@@ -46,8 +55,10 @@ export default function MobileRelationList(props: Props) {
   return <div className={styles.root} aria-label={props.label}>
     {sections.map((section) => <section key={section.key} className={styles.section}>
       <h3 className={styles.heading}>{section.label}</h3>
+      {/* 두 명씩 한 쪽으로 묶어 옆으로 넘긴다 */}
       <ul className={styles.list}>
-        {section.people.map((person) => {
+        {chunk(section.people, PEOPLE_PER_PAGE).map((page, pageIndex) => <li key={pageIndex} className={styles.page}>
+        {page.map((person) => {
           const relation = props.relationLabel(person);
           const portrait = <span className={styles.portrait}>
             {person.avatarUrl
@@ -61,12 +72,12 @@ export default function MobileRelationList(props: Props) {
           </span>;
           // 등록 인물만 진입 버튼을 단다. 데스크톱 인스펙터와 같은 미리보기로 잇는다.
           if (!person.listed || !person.slug) {
-            return <li key={person.id} className={styles.person}>
+            return <div key={person.id} role="listitem" className={styles.person}>
               {portrait}
               {copy}
-            </li>;
+            </div>;
           }
-          return <li key={person.id} className={styles.personAction}>
+          return <div key={person.id} role="listitem" className={styles.personAction}>
             <button type="button" className={styles.personGo}
               onClick={() => props.onOpenPerson(person)}
               aria-label={`${props.openLabel}: ${person.name}`}>
@@ -74,8 +85,9 @@ export default function MobileRelationList(props: Props) {
               {copy}
               <UserRound size={20} aria-hidden className={styles.goIcon} />
             </button>
-          </li>;
+          </div>;
         })}
+        </li>)}
       </ul>
     </section>)}
   </div>;

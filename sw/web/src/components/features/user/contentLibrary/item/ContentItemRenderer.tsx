@@ -35,6 +35,8 @@ interface ContentItemRendererProps {
   ownerAvatarUrl?: string | null;
   // 뷰어 모드: 보유 콘텐츠 ID 집합 (null = 비로그인)
   savedContentIds?: Set<string> | null;
+  /** 좁은 화면에서 목록형 카드를 한 장씩 옆으로 넘기게 한다 */
+  mobileCarousel?: boolean;
   effectsEnabled?: boolean;
   desktopPresentation?: boolean;
   initialContentBrief?: ContentBrief | null;
@@ -51,6 +53,7 @@ function ContentItemRenderer({
   ownerNickname,
   ownerAvatarUrl,
   savedContentIds,
+  mobileCarousel = false,
   effectsEnabled = true,
   desktopPresentation = false,
   initialContentBrief,
@@ -103,7 +106,7 @@ function ContentItemRenderer({
 
   return (
     <div className="space-y-4">
-      <ContentGrid variant="list">
+      <ContentGrid variant="list" mobileCarousel={mobileCarousel}>
         {items.map((item, index) => {
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
           const rawReview = (locale === 'en' && item.review_en) ? item.review_en : item.review;

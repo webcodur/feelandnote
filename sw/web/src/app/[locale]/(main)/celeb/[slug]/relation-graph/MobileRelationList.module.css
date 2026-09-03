@@ -40,8 +40,29 @@
     content: "";
   }
 
-  .list { margin: 0; padding: 0; list-style: none; }
-  .list li + li { border-top: 1px solid color-mix(in srgb, var(--material-edge) 28%, transparent); }
+  /* 인물은 두 명씩 한 쪽에 서고 쪽 단위로 옆으로 넘어간다 — 세로로 다 훑지 않게 한다 */
+  .list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-x pan-y;
+    scrollbar-width: none;
+  }
+  .list::-webkit-scrollbar { display: none; }
+
+  .page {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  .page > * + * { border-top: 1px solid color-mix(in srgb, var(--material-edge) 28%, transparent); }
+  .page + .page { border-left: 1px solid color-mix(in srgb, var(--material-edge) 28%, transparent); }
 
   .person, .personAction {
     width: 100%;

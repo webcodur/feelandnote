@@ -78,6 +78,8 @@ export default function ContentLibrary({
       ownerNickname={ownerNickname}
       ownerAvatarUrl={ownerAvatarUrl}
       savedContentIds={lib.savedContentIds}
+      // 인물 서가의 목록형은 좁은 화면에서 한 장씩 옆으로 넘긴다 — 세로로 다 훑지 않게 한다
+      mobileCarousel={ownerKind === "celeb"}
     />
   );
 

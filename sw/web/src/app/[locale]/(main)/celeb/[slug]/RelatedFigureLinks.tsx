@@ -66,6 +66,8 @@ export default async function RelatedFigureLinks({
       {/* 제목은 본문 구획 머리(relatedFigures 목차 항목)가 맡는다. 여기서 또 달면 겹친다 */}
       <FigureLinkGrid
         gridClassName="mx-auto w-full max-w-4xl"
+        // 좁은 화면에서 네 명씩 한 쪽으로 묶어 옆으로 넘긴다 — 세로로 다 훑지 않아도 된다
+        mobilePageSize={4}
         mobileScrollable
         figures={figures.map(({ candidate, kind, relGroup, note, noteEn }) => {
           // 왜 이 사람이 섰는지를 부제로 밝힌다. 근거 한 줄이 짧으면 그것부터 —

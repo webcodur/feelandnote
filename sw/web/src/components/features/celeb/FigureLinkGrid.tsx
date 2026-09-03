@@ -73,6 +73,11 @@ interface FigureLinkGridProps {
   moreLabel?: string;
   /** 모바일에서 긴 목록만 내부 스크롤로 제한한다 */
   mobileScrollable?: boolean;
+  /**
+   * 좁은 화면에서 이 수만큼 한 쪽으로 묶어 옆으로 넘기게 한다.
+   * 세로로 다 훑지 않아도 되고, 넓은 화면에서는 묶음이 사라져 격자 그대로 선다.
+   */
+  mobilePageSize?: number;
   /** ul에 덧붙이는 폭 제한 등 — 항목이 적을 때 카드가 가로로 늘어나는 화면용 */
   gridClassName?: string;
 }
@@ -88,6 +93,7 @@ export default async function FigureLinkGrid({
   moreHref,
   moreLabel,
   mobileScrollable = false,
+  mobilePageSize,
   gridClassName = "",
 }: FigureLinkGridProps) {
   // slug가 없으면 상세로 갈 주소가 없다
@@ -96,6 +102,15 @@ export default async function FigureLinkGrid({
 
   const locale = await getLocale();
   const isEn = locale === "en";
+
+  // 좁은 화면에서 옆으로 넘길 쪽 묶음. 한 쪽에 다 들어가면 묶을 이유가 없다
+  const mobilePages =
+    mobilePageSize && linkable.length > mobilePageSize
+      ? Array.from(
+          { length: Math.ceil(linkable.length / mobilePageSize) },
+          (_, i) => linkable.slice(i * mobilePageSize, (i + 1) * mobilePageSize),
+        )
+      : null;
 
   return (
     <section aria-labelledby={headingId}>
@@ -109,19 +124,34 @@ export default async function FigureLinkGrid({
       )}
 
       <ul
-        className={`grid gap-3 ${colsFor(linkable.length)} ${
-          mobileScrollable
+        className={`gap-3 ${
+          mobilePages
+            ? // 좁은 화면은 쪽 단위로 옆으로 넘기고, 넓어지면 쪽 묶음이 풀려 격자가 된다
+              "flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] md:grid md:overflow-visible"
+            : "grid"
+        } ${colsFor(linkable.length)} ${
+          mobileScrollable && !mobilePages
             ? "max-h-[clamp(300px,52dvh,480px)] touch-pan-y overflow-y-auto overscroll-y-auto [overflow-anchor:none] [scrollbar-width:thin] md:max-h-none md:overflow-visible"
             : ""
         } ${gridClassName}`}
       >
-        {linkable.map((figure) => {
+        {(mobilePages ?? [linkable]).map((page, pageIndex) => (
+          <li
+            key={pageIndex}
+            // 넓은 화면에서는 이 묶음을 없애 카드가 격자 칸에 그대로 앉는다
+            className={
+              mobilePages
+                ? "flex w-full shrink-0 snap-start flex-col gap-3 md:contents"
+                : "contents"
+            }
+          >
+        {page.map((figure) => {
           const name = (isEn && figure.nickname_en) || figure.nickname;
           const sub =
             figure.subtitle ?? ((isEn && figure.title_en) || figure.title);
 
           return (
-            <li key={figure.id}>
+            <div key={figure.id} role="listitem">
               {/* 지연 구획이 펼쳐지면 이 밀집 목록이 뷰포트에 여러 번 들어오며 Next가
                   같은 상세 RSC를 반복해서 미리 읽는다. 클릭 이동만 남겨 요청 폭주를 막는다. */}
               <Link
@@ -163,9 +193,11 @@ export default async function FigureLinkGrid({
                   </span>
                 )}
               </Link>
-            </li>
+            </div>
           );
         })}
+          </li>
+        ))}
       </ul>
 
       {moreHref && moreLabel && (
