@@ -4,6 +4,12 @@ import { createClient } from '@/lib/db/server'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { revalidateWebItem } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import type {
+  AbilityKey,
+  DispositionKey,
+  InnerVirtueKey,
+  OuterVirtueKey,
+} from '@feelandnote/shared/constants/celeb-spectrum-scale'
 import type { SpectrumJsonb } from './members'
 
 export interface SpectrumData {
@@ -33,14 +39,8 @@ export interface SpectrumData {
   cautious_bold: number
 }
 
-export type StatKey =
-  | 'temperance' | 'diligence' | 'reflection' | 'courage'
-  | 'loyalty' | 'benevolence' | 'fairness' | 'humility'
-  | 'command' | 'martial' | 'intellect' | 'charm'
-
-export type TendencyKey =
-  | 'pessimism_optimism' | 'conservative_progressive'
-  | 'individual_social' | 'cautious_bold'
+export type StatKey = AbilityKey | InnerVirtueKey | OuterVirtueKey
+export type TendencyKey = DispositionKey
 
 export async function saveCelebSpectrum(
   celebId: string,

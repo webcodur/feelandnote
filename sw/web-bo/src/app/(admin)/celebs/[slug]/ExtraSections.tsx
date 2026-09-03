@@ -2,7 +2,12 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { ChevronDown, ChevronUp, Loader2, Check } from 'lucide-react'
-import { saveCelebSpectrum, type StatKey, type TendencyKey } from '@/actions/admin/spectrum'
+import {
+  AXIS_LABELS,
+  SPECTRUM_AXES,
+  SPECTRUM_GROUPS,
+} from '@feelandnote/shared/constants/celeb-spectrum-scale'
+import { saveCelebSpectrum, type TendencyKey } from '@/actions/admin/spectrum'
 import type { MemberSpectrum, SpectrumJsonb } from '@/actions/admin/members'
 import type { VoiceGenCeleb } from '@/actions/admin/voice-gen'
 import { useToast } from '@/contexts/ToastContext'
@@ -12,9 +17,13 @@ import DeepProfileSection from './DeepProfileSection'
 
 // #region Constants
 const STAT_LABELS: Record<string, string> = {
-  temperance: '절제', diligence: '근면', reflection: '성찰', courage: '용기',
-  loyalty: '충의', benevolence: '인애', fairness: '공정', humility: '겸양',
-  command: '통솔', martial: '무력', intellect: '지력', charm: '매력',
+  ...Object.fromEntries(
+    [
+      ...SPECTRUM_GROUPS.abilities,
+      ...SPECTRUM_GROUPS.inner_virtues,
+      ...SPECTRUM_GROUPS.outer_virtues,
+    ].map((key) => [key, AXIS_LABELS[key]]),
+  ),
 }
 const TENDENCY_LABELS: Record<string, [string, string]> = {
   pessimism_optimism: ['비관', '낙관'],
@@ -23,26 +32,21 @@ const TENDENCY_LABELS: Record<string, [string, string]> = {
   cautious_bold: ['신중', '과감'],
 }
 
-const STAT_GROUPS: { label: string; jsonbGroup: string; keys: string[] }[] = [
-  { label: '능력', jsonbGroup: 'abilities', keys: ['command', 'martial', 'intellect', 'charm'] },
-  { label: '내적 덕목', jsonbGroup: 'inner_virtues', keys: ['temperance', 'diligence', 'reflection', 'courage'] },
-  { label: '외적 덕목', jsonbGroup: 'outer_virtues', keys: ['loyalty', 'benevolence', 'fairness', 'humility'] },
+const STAT_GROUPS: { label: string; jsonbGroup: string; keys: readonly string[] }[] = [
+  { label: '능력', jsonbGroup: 'abilities', keys: SPECTRUM_GROUPS.abilities },
+  { label: '내적 덕목', jsonbGroup: 'inner_virtues', keys: SPECTRUM_GROUPS.inner_virtues },
+  { label: '외적 덕목', jsonbGroup: 'outer_virtues', keys: SPECTRUM_GROUPS.outer_virtues },
 ]
 
-const TENDENCY_KEYS: TendencyKey[] = [
-  'pessimism_optimism', 'conservative_progressive',
-  'individual_social', 'cautious_bold',
-]
+const TENDENCY_KEYS: readonly TendencyKey[] = SPECTRUM_GROUPS.dispositions
 
-const JSONB_GROUP_MAP: Record<string, string> = {
-  command: 'abilities', martial: 'abilities', intellect: 'abilities', charm: 'abilities',
-  temperance: 'inner_virtues', diligence: 'inner_virtues', reflection: 'inner_virtues', courage: 'inner_virtues',
-  loyalty: 'outer_virtues', benevolence: 'outer_virtues', fairness: 'outer_virtues', humility: 'outer_virtues',
-  pessimism_optimism: 'dispositions', conservative_progressive: 'dispositions',
-  individual_social: 'dispositions', cautious_bold: 'dispositions',
-}
+const JSONB_GROUP_MAP: Record<string, string> = Object.fromEntries(
+  Object.entries(SPECTRUM_GROUPS).flatMap(([group, keys]) =>
+    keys.map((key) => [key, group]),
+  ),
+)
 
-const ALL_KEYS = [...Object.keys(STAT_LABELS), ...TENDENCY_KEYS]
+const ALL_KEYS = SPECTRUM_AXES
 // #endregion
 
 // #region CardAccordion

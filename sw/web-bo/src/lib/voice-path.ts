@@ -8,14 +8,16 @@
  * 부분 업로드 시 나머지 파일이 404되는 문제를 원천 차단한다.
  */
 
+import {
+  CELEB_DIALOGUE_SITUATIONS,
+  CELEB_DIALOGUE_VARIANTS,
+  type CelebDialogueSituation,
+} from '@feelandnote/shared/constants/celeb-speech'
 import { R2_PUBLIC_URL } from '@/lib/r2'
 
-export const DIALOGUE_TYPES = [
-  'greeting', 'roll_call', 'deploy',
-  'battle_win', 'battle_draw', 'battle_lose', 'clash_attack',
-] as const
+export const DIALOGUE_TYPES = CELEB_DIALOGUE_SITUATIONS
 
-export type DialogueType = (typeof DIALOGUE_TYPES)[number]
+export type DialogueType = CelebDialogueSituation
 
 export const TYPE_PREFIX: Record<string, string> = {
   greeting: 'g', roll_call: 'r', deploy: 'd',
@@ -27,7 +29,7 @@ export const TYPE_LABELS: Record<string, string> = {
   battle_win: '승리', battle_draw: '무승부', battle_lose: '패배', clash_attack: '공격',
 }
 
-export const VARIANTS = [1, 2, 3] as const
+export const VARIANTS = CELEB_DIALOGUE_VARIANTS
 export const LOCALES = ['ko', 'en'] as const
 
 /** 대사 유형 → 파일명 (e.g. "g1.mp3", "quote.mp3") */

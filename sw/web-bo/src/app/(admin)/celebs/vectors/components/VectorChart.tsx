@@ -1,37 +1,18 @@
 'use client'
 
 import { useState } from 'react'
+import { getCelebProfessionLabel } from '@feelandnote/shared/constants/celeb-professions'
+import { SPECTRUM_GROUPS } from '@feelandnote/shared/constants/celeb-spectrum-scale'
 import type { SpectrumData, StatKey, TendencyKey } from '@/actions/admin/spectrum'
 import SpectrumStatBars from '@/components/celeb/SpectrumStatBars'
 
-const ALL_STAT_KEYS: StatKey[] = [
-  'temperance', 'diligence', 'reflection', 'courage',
-  'loyalty', 'benevolence', 'fairness', 'humility',
-  'command', 'martial', 'intellect', 'charm',
+const ALL_STAT_KEYS: readonly StatKey[] = [
+  ...SPECTRUM_GROUPS.inner_virtues,
+  ...SPECTRUM_GROUPS.outer_virtues,
+  ...SPECTRUM_GROUPS.abilities,
 ]
 
-const TENDENCY_KEYS: TendencyKey[] = [
-  'pessimism_optimism', 'conservative_progressive',
-  'individual_social', 'cautious_bold',
-]
-
-const PROFESSION_LABELS: Record<string, string> = {
-  politician: '정치인',
-  humanities_scholar: '인문학자',
-  entrepreneur: '기업가',
-  scientist: '과학자',
-  commander: '지휘관',
-  author: '작가',
-  director: '감독',
-  musician: '음악인',
-  visual_artist: '미술인',
-  leader: '지도자',
-  investor: '투자자',
-  social_scientist: '사회과학자',
-  actor: '배우',
-  athlete: '스포츠인',
-  influencer: '인플루엔서',
-}
+const TENDENCY_KEYS: readonly TendencyKey[] = SPECTRUM_GROUPS.dispositions
 
 const COLORS = [
   '#d4af37', '#4fc3f7', '#ef5350', '#66bb6a', '#ab47bc',
@@ -127,7 +108,7 @@ export default function VectorDashboard({ vectors }: Props) {
                   <div className={isSelected ? '' : 'ml-[22px]'}>
                     <p className="text-sm font-medium text-text-primary">{v.nickname}</p>
                     <p className="text-xs text-text-secondary">
-                      {PROFESSION_LABELS[v.profession ?? ''] ?? v.profession}
+                      {v.profession ? getCelebProfessionLabel(v.profession) : null}
                     </p>
                   </div>
                 </button>
@@ -162,7 +143,7 @@ export default function VectorDashboard({ vectors }: Props) {
                     <div>
                       <p className="text-sm text-text-primary">{s.nickname}</p>
                       <p className="text-xs text-text-secondary">
-                        {PROFESSION_LABELS[s.profession ?? ''] ?? s.profession}
+                        {s.profession ? getCelebProfessionLabel(s.profession) : null}
                       </p>
                     </div>
                   </div>

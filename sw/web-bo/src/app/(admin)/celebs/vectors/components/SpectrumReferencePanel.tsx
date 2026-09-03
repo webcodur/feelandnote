@@ -3,6 +3,7 @@
 import { useMemo } from 'react'
 import type { SpectrumData, StatKey, TendencyKey } from '@/actions/admin/spectrum'
 import {
+  ABILITY_KEYS,
   AXIS_LABELS,
   SPECTRUM_ANCHORS,
   THREE_KINGDOMS_ANCHORS,
@@ -11,7 +12,7 @@ import {
 type ReferenceAxis = StatKey | TendencyKey
 
 // 실존 인물 통합 척도를 정본으로 보여주고, 삼국지 대응표는 아래에 따로 붙인다.
-const AXES: ReferenceAxis[] = ['command', 'martial', 'intellect', 'charm']
+const AXES: readonly ReferenceAxis[] = ABILITY_KEYS
 
 // DB 값이 이미 0~100(능력/덕목) 또는 -50~+50(성향) 스케일이므로 그대로 사용
 const toScore100 = (_axis: ReferenceAxis, value: number): number => value

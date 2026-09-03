@@ -1,11 +1,15 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useState, type DragEvent, type ReactNode } from 'react'
 import { Loader2, Move, Upload, X } from 'lucide-react'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import { useImageIntake } from '@/components/celeb/useImageIntake'
-import ImageCropModal from '@/components/ui/ImageCropModal'
+
+const ImageCropModal = dynamic(() => import('@/components/ui/ImageCropModal'), {
+  ssr: false,
+})
 
 interface Props {
   value?: string | null
@@ -69,6 +73,7 @@ export default function CelebPortraitEditor({
   const [dragging, setDragging] = useState(false)
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
   const [processing, setProcessing] = useState(false)
+  const [settledImageUrl, setSettledImageUrl] = useState<string | null>(null)
 
   const { acceptFile } = useImageIntake({
     onPreviewReady: setCropImageSrc,
@@ -91,6 +96,8 @@ export default function CelebPortraitEditor({
     if (nextTarget && event.currentTarget.contains(nextTarget)) return
     setDragging(false)
   }
+
+  const imageLoading = Boolean(value && settledImageUrl !== value)
 
   async function handleDrop(event: DragEvent<HTMLDivElement>) {
     if (!acceptsDrag(event)) return
@@ -177,6 +184,8 @@ export default function CelebPortraitEditor({
               unoptimized
               loading={loadImmediately ? 'eager' : 'lazy'}
               fetchPriority={highPriority ? 'high' : 'auto'}
+              onLoad={() => setSettledImageUrl(value)}
+              onError={() => setSettledImageUrl(value)}
               className="object-cover"
             />
           </a>
@@ -188,6 +197,8 @@ export default function CelebPortraitEditor({
             unoptimized
             loading={loadImmediately ? 'eager' : 'lazy'}
             fetchPriority={highPriority ? 'high' : 'auto'}
+            onLoad={() => setSettledImageUrl(value)}
+            onError={() => setSettledImageUrl(value)}
             className="object-cover"
           />
         ) : empty ? (
@@ -201,6 +212,16 @@ export default function CelebPortraitEditor({
             <span className="text-[10px]">{aspectLabel} · 위치와 확대 조정</span>
           </div>
         )}
+
+        {imageLoading ? (
+          <div
+            data-image-loading
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-bg-secondary"
+          >
+            <Loader2 className="h-6 w-6 animate-spin text-accent" />
+          </div>
+        ) : null}
 
         {value && !openOnClick && (
           <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-black/55 text-white opacity-0 group-hover/portrait:opacity-100">

@@ -1,9 +1,13 @@
+import type { CelebManagedPublicationStatus } from '@feelandnote/shared/constants/celeb-publication'
+
 const NEXT_STATUS = {
   active: 'inactive',
   inactive: 'active',
-} as const
+} as const satisfies Record<CelebManagedPublicationStatus, CelebManagedPublicationStatus>
 
-export function nextCelebPublicationStatus(current: string | null | undefined): 'active' | 'inactive' {
+export function nextCelebPublicationStatus(
+  current: string | null | undefined,
+): CelebManagedPublicationStatus {
   const next = current ? NEXT_STATUS[current as keyof typeof NEXT_STATUS] : undefined
   if (!next) {
     throw new Error(`이 상태(${current ?? '없음'})는 전환할 수 없습니다.`)

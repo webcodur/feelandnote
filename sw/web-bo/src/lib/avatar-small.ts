@@ -12,7 +12,7 @@ import { CELEB_AVATAR_SMALL } from '@feelandnote/shared/constants/celeb-avatar-s
 export async function buildSmallAvatar(original: Buffer): Promise<Buffer> {
   return sharp(original)
     .resize(CELEB_AVATAR_SMALL.sizePx, CELEB_AVATAR_SMALL.sizePx, { fit: 'cover' })
-    .webp({ quality: 82 })
+    .webp({ quality: CELEB_AVATAR_SMALL.webpQuality })
     .toBuffer()
 }
 

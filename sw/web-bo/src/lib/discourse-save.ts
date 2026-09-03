@@ -15,6 +15,7 @@
 
 import { randomUUID } from 'crypto'
 import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { CELEB_MANAGED_PUBLICATION_STATUSES } from '@feelandnote/shared/constants/celeb-publication'
 import {
   buildDiscourseRows, IN_CHUNK,
   type TurnDurationLookup, type SpeakerDurationLookup,
@@ -103,7 +104,7 @@ async function resolveSlugs(db: DatabaseClient, slugs: string[]): Promise<Map<st
   for (let i = 0; i < slugs.length; i += IN_CHUNK) {
     const { data, error } = await db
       .from('celebs').select('id,slug')
-      .in('publication_status', ['active', 'inactive'])
+      .in('publication_status', [...CELEB_MANAGED_PUBLICATION_STATUSES])
       .in('slug', slugs.slice(i, i + IN_CHUNK))
     if (error) throw new Error(`셀럽 조회 실패: ${error.message}`)
     for (const r of data ?? []) if (r.slug) map.set(r.slug as string, r.id as string)

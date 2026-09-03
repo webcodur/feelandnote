@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import {
   useEffect,
@@ -10,7 +11,10 @@ import {
 } from 'react'
 import { Check, Loader2, Move, Upload, X } from 'lucide-react'
 import { useImageIntake } from '@/components/celeb/useImageIntake'
-import ImageCropModal from '@/components/ui/ImageCropModal'
+
+const ImageCropModal = dynamic(() => import('@/components/ui/ImageCropModal'), {
+  ssr: false,
+})
 
 interface Props {
   value?: string | null
@@ -69,6 +73,7 @@ export default function CelebAvatarEditor({
   const [dragging, setDragging] = useState(false)
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
+  const [settledImageUrl, setSettledImageUrl] = useState<string | null>(null)
 
   useEffect(() => () => {
     if (savedTimerRef.current) clearTimeout(savedTimerRef.current)
@@ -140,6 +145,7 @@ export default function CelebAvatarEditor({
   }
 
   const busy = status === 'saving'
+  const imageLoading = Boolean(value && settledImageUrl !== value)
 
   return (
     <>
@@ -190,6 +196,8 @@ export default function CelebAvatarEditor({
                 unoptimized
                 loading={loadImmediately ? 'eager' : 'lazy'}
                 fetchPriority={highPriority ? 'high' : 'auto'}
+                onLoad={() => setSettledImageUrl(value)}
+                onError={() => setSettledImageUrl(value)}
                 className="object-cover"
               />
             </a>
@@ -201,11 +209,23 @@ export default function CelebAvatarEditor({
               unoptimized
               loading={loadImmediately ? 'eager' : 'lazy'}
               fetchPriority={highPriority ? 'high' : 'auto'}
+              onLoad={() => setSettledImageUrl(value)}
+              onError={() => setSettledImageUrl(value)}
               className="object-cover"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center">{empty}</div>
           )}
+
+          {imageLoading ? (
+            <div
+              data-image-loading
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-bg-secondary"
+            >
+              <Loader2 className="h-5 w-5 animate-spin text-accent" />
+            </div>
+          ) : null}
 
           {!openOnClick && (
             <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-black/55 opacity-0 group-hover/avatar:opacity-100">

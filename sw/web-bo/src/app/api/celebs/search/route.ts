@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/db/server'
 import { createAdminClient } from '@/lib/db/admin'
 import { NextRequest, NextResponse } from 'next/server'
+import { CELEB_MANAGED_PUBLICATION_STATUSES } from '@feelandnote/shared/constants/celeb-publication'
 
 /**
  * 셀럽 검색 — 관리 화면 두 곳이 함께 쓴다.
@@ -46,7 +47,7 @@ export async function GET(request: NextRequest) {
     다 보여주고, 서비스에 안 뜨는 인물을 새로 붙이면 저장할 때 도감에서 감춘 채로 들어간다
     (`lib/faction-save.ts`). 삭제(deleted)만 여기서 걸러낸다.
   */
-  query = query.in('publication_status', ['active', 'inactive'])
+  query = query.in('publication_status', [...CELEB_MANAGED_PUBLICATION_STATUSES])
 
   if (q) {
     // 연결 키(slug)로도 찾게 한다 — 세력도감는 이름보다 키를 먼저 아는 경우가 많다

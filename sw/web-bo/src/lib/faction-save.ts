@@ -16,6 +16,7 @@
 
 import { randomUUID } from 'crypto'
 import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { CELEB_MANAGED_PUBLICATION_STATUSES } from '@feelandnote/shared/constants/celeb-publication'
 import {
   buildFactionRows, IN_CHUNK, type DurationLookup,
 } from '@feelandnote/shared/lib/faction-assemble'
@@ -185,14 +186,14 @@ async function resolvePeople(
 
   for (let i = 0; i < ids.length; i += IN_CHUNK) {
     const { data, error } = await db.from('celebs').select('id,slug,status:publication_status,nickname,nickname_en')
-      .in('publication_status', ['active', 'inactive'])
+      .in('publication_status', [...CELEB_MANAGED_PUBLICATION_STATUSES])
       .in('id', ids.slice(i, i + IN_CHUNK))
     if (error) throw new Error(`셀럽 UUID 조회 실패: ${error.message}`)
     rows.push(...((data ?? []) as Row[]))
   }
   for (let i = 0; i < slugs.length; i += IN_CHUNK) {
     const { data, error } = await db.from('celebs').select('id,slug,status:publication_status,nickname,nickname_en')
-      .in('publication_status', ['active', 'inactive'])
+      .in('publication_status', [...CELEB_MANAGED_PUBLICATION_STATUSES])
       .in('slug', slugs.slice(i, i + IN_CHUNK))
     if (error) throw new Error(`셀럽 slug 조회 실패: ${error.message}`)
     rows.push(...((data ?? []) as Row[]))

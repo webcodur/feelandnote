@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { CELEB_MANAGED_PUBLICATION_STATUSES } from '@feelandnote/shared/constants/celeb-publication'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { requireAdmin } from '@/lib/admin-auth'
 import { createClient } from '@/lib/db/server'
@@ -37,7 +38,7 @@ async function loadCelebs(): Promise<CelebRow[]> {
     db
       .from('celebs')
       .select('slug, nickname, headline, title')
-      .in('publication_status', ['active', 'inactive'])
+      .in('publication_status', [...CELEB_MANAGED_PUBLICATION_STATUSES])
       .order('id')
       .range(from, to),
   )

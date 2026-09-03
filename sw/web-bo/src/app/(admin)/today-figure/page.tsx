@@ -1,28 +1,10 @@
 import type { Metadata } from 'next'
+import { getCelebProfessionLabel } from '@feelandnote/shared/constants/celeb-professions'
 import { getTodayFigureSchedule } from '@/actions/admin/today-figure'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: '오늘의 인물',
-}
-
-const PROFESSION_LABELS: Record<string, string> = {
-  leader: '지도자',
-  politician: '정치인',
-  commander: '지휘관',
-  entrepreneur: '기업가',
-  investor: '투자자',
-  humanities_scholar: '인문학자',
-  social_scientist: '사회과학자',
-  scientist: '과학자',
-  director: '감독',
-  musician: '음악인',
-  visual_artist: '미술인',
-  author: '작가',
-  actor: '배우',
-  influencer: '인플루엔서',
-  athlete: '스포츠인',
-  other: '기타',
 }
 
 const SOURCE_BADGE: Record<string, { label: string; className: string }> = {
@@ -111,7 +93,7 @@ export default async function TodayFigurePage() {
                   <td className="px-4 py-3">
                     <span className="text-sm text-text-secondary">
                       {item.celeb?.profession
-                        ? PROFESSION_LABELS[item.celeb.profession] || item.celeb.profession
+                        ? getCelebProfessionLabel(item.celeb.profession)
                         : '-'}
                     </span>
                   </td>

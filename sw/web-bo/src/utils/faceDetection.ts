@@ -6,7 +6,7 @@
  * 두 벌이 공존하던 시절에도 weights는 바이트 단위로 같았고 파일명 규약(`-shard1` vs `.bin`)만 달랐다.
  *
  * 검출 모델은 서버와 다르다(화면 TinyFaceDetector / 서버 SSD MobileNet v1). 규격 좌표는 눈·턱을
- * 랜드마크로 직접 재므로 모델이 달라도 같은 결과가 나온다 — celeb-avatar-spec.md §6.
+ * 랜드마크로 직접 재므로 모델이 달라도 같은 결과가 나온다 — celeb-08-01-avatar.md의 「크롭」.
  *
  * 좌표 계산은 하지 않는다. lib/avatar-geometry.ts 한 곳이 담당한다.
  */
