@@ -1,5 +1,6 @@
 /*
-  펼침 보기의 선택 상태와 4열 배치를 조율한다.
+  펼침 보기의 선택 상태와 배치를 조율한다.
+  목차 레일은 데스크톱에서 독립 열로 본문을 밀고, 모바일에서 본문 위에 덧띄운다.
   캐러셀·스와이프 없이 목록이나 이전·다음 버튼으로 본문을 즉시 교체한다.
 */
 "use client";
@@ -15,6 +16,7 @@ import { useDesktopLayout } from "../useDesktopLayout";
 import { buildExpandPresentation } from "./buildExpandPresentation";
 import ExpandCard from "./ExpandCard";
 import ExpandIndexRail from "./ExpandIndexRail";
+import MobileIndexModal from "./MobileIndexModal";
 import { getExpandIndexNavigationOrder } from "./groupExpandIndexItems";
 import {
   ExpandArrowButton,
@@ -166,7 +168,7 @@ export default function ExpandDetailView({
       ref={rootRef}
       data-expand-item-count={total}
       className={cn(
-        "relative -mx-2 grid w-[calc(100%+1rem)] min-w-0 grid-cols-[32px_minmax(0,1fr)] overflow-hidden rounded-xl border border-white/10 bg-bg-card md:mx-0 md:w-full",
+        "relative grid w-full min-w-0 grid-cols-[minmax(0,1fr)] overflow-hidden rounded-xl border border-white/20 bg-bg-card",
         "md:transition-[grid-template-columns] md:duration-300 md:ease-out",
         indexPreference === null
           ? "md:grid-cols-[48px_184px_minmax(0,1fr)_48px]"
@@ -204,12 +206,15 @@ export default function ExpandDetailView({
         disabled={isNavigationDisabled}
         onPrevious={goPrevious}
         onNext={goNext}
+        indexOpen={isIndexOpen}
+        indexToggleLabel={isIndexOpen ? indexLabels.collapse : indexLabels.expand}
+        onToggleIndex={toggleIndex}
       />
 
       <div
         data-testid="expand-detail-body"
         aria-busy={isBriefLoading || isRecordLoading}
-        className="col-start-2 row-start-2 min-w-0 md:col-start-3 [&>article]:rounded-none [&>article]:border-0"
+        className="col-start-1 row-start-2 min-w-0 md:col-start-3 [&>article]:rounded-none [&>article]:border-0"
       >
         <ExpandCard
           key={selectedItem.id}
@@ -242,6 +247,20 @@ export default function ExpandDetailView({
         placement="desktop"
         onClick={goNext}
       />
+
+      {isDesktop === false && isIndexOpen && (
+        <MobileIndexModal
+          groups={presentation.groups}
+          indexId={indexId}
+          labels={{ list: indexLabels.list, title: indexLabels.title, close: indexLabels.collapse }}
+          collapsedGroupTypes={collapsedGroupTypes}
+          scrollTargetIndex={keepSelectedItemVisible ? selectedIndex : null}
+          onToggleGroup={toggleGroup}
+          onSelect={selectDirectly}
+          onSelectedItemReady={keepIndexItemVisible}
+          onClose={toggleIndex}
+        />
+      )}
     </section>
   );
 }

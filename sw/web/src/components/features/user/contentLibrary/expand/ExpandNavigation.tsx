@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Menu } from "lucide-react";
 
 import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
 
@@ -25,8 +25,8 @@ export function ExpandArrowButton({
       ? "z-10 col-start-1 row-span-2 row-start-1 hidden border-e md:flex"
       : "z-10 col-start-4 row-span-2 row-start-1 hidden border-s md:flex"
     : direction === "previous"
-      ? "flex border-e md:hidden"
-      : "flex border-s md:hidden";
+      ? "flex w-12 shrink-0 border-e md:hidden"
+      : "flex w-12 shrink-0 border-s md:hidden";
 
   return (
     <button
@@ -49,6 +49,10 @@ interface HeaderProps {
   disabled: boolean;
   onPrevious: () => void;
   onNext: () => void;
+  /** 모바일 목록 모달 여닫이. 제목줄 우측에 고정한다. */
+  indexOpen: boolean;
+  indexToggleLabel: string;
+  onToggleIndex: () => void;
 }
 
 export function ExpandTitleHeader({
@@ -59,9 +63,12 @@ export function ExpandTitleHeader({
   disabled,
   onPrevious,
   onNext,
+  indexOpen,
+  indexToggleLabel,
+  onToggleIndex,
 }: HeaderProps) {
   return (
-    <header className="col-start-2 row-start-1 grid h-[64px] min-h-[64px] grid-cols-[40px_minmax(0,1fr)_40px] items-stretch border-b border-white/[0.08] bg-bg-secondary/80 text-center md:col-start-3 md:flex md:flex-col md:justify-center md:px-3 md:py-2">
+    <header className="col-start-1 row-start-1 flex h-[64px] min-h-[64px] items-stretch border-b border-white/[0.08] bg-bg-secondary/80 text-center md:col-start-3 md:flex md:flex-col md:justify-center md:px-3 md:py-2">
       <ExpandArrowButton
         direction="previous"
         label={previousLabel}
@@ -69,20 +76,33 @@ export function ExpandTitleHeader({
         placement="header"
         onClick={onPrevious}
       />
-      <div className="min-w-0 self-center px-1 md:w-full md:px-0">
-        <h3
-          data-testid="expand-selected-title"
-          className="truncate font-sans text-sm font-bold text-text-primary sm:text-base md:text-lg"
-          title={title}
-          aria-live="polite"
+      <div className="relative min-w-0 flex-1 self-stretch px-1 md:w-full md:px-0">
+        <div className="flex h-full min-w-0 flex-col justify-center text-center">
+          <h3
+            data-testid="expand-selected-title"
+            className="truncate font-sans text-sm font-bold text-text-primary sm:text-base md:text-lg"
+            title={title}
+            aria-live="polite"
+          >
+            {title}
+          </h3>
+          {creator && (
+            <p className="truncate text-sm text-text-secondary">
+              <CreatorNames text={creator} />
+            </p>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={onToggleIndex}
+          aria-expanded={indexOpen}
+          aria-label={indexToggleLabel}
+          title={indexToggleLabel}
+          onPointerDown={(event) => event.stopPropagation()}
+          className="absolute end-1.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center text-text-tertiary hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 md:hidden"
         >
-          {title}
-        </h3>
-        {creator && (
-          <p className="truncate text-sm text-text-secondary">
-            <CreatorNames text={creator} />
-          </p>
-        )}
+          <Menu className="h-4 w-4 shrink-0" strokeWidth={1.8} aria-hidden />
+        </button>
       </div>
       <ExpandArrowButton
         direction="next"
