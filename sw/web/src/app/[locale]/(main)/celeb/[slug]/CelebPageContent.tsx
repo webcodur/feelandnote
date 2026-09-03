@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 공통 — 머리말+본문 조립(클라이언트 루트)
+ * - 목차 위치: 공통 (머리말/introduction + 전 구획)
+ * - 데이터: page.tsx props, useCelebServiceModel 목차
+ * - 함께 보기: detail/CelebHeroSection.tsx, detail/CelebRecordSections.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
@@ -15,6 +21,7 @@ import type { Locale } from "@/types/locale";
 import styles from "./CelebPageContent.module.css";
 import CelebHeroSection from "./detail/CelebHeroSection";
 import CelebRecordSections from "./detail/CelebRecordSections";
+import CelebSwipeRail from "./CelebSwipeRail";
 import {
   useCelebServiceModel,
   type CelebSideAvailability,
@@ -36,7 +43,9 @@ interface CelebPageContentProps {
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
   externalLinksSlot: ReactNode;
-  children?: ReactNode;
+  /** 본문末 구획(이어지는 인물·관련 상품). 서버가 그려 클라이언트가 자리만 받는다 */
+  relatedFiguresSlot?: ReactNode;
+  affiliateBooksSlot?: ReactNode;
 }
 
 export default function CelebPageContent({
@@ -54,12 +63,14 @@ export default function CelebPageContent({
   worldId,
   worldBannerImages,
   externalLinksSlot,
-  children,
+  relatedFiguresSlot,
+  affiliateBooksSlot,
 }: CelebPageContentProps) {
   const locale = useLocale() as Locale;
 
   // 인물 화면이 한 장에서 끝나는 원인을 판별하기 위한 구획 열람 집계다.
   const contentRef = useRef<HTMLDivElement>(null);
+  /* ── 1. 목차 모델·열람 집계 ── */
   const serviceModel = useCelebServiceModel({
     profile,
     locale,
@@ -71,6 +82,7 @@ export default function CelebPageContent({
   });
   useSectionViewTracking(contentRef);
 
+  /* ── 2. 아틀라스 위치 실측 ── */
   useEffect(() => {
     const page = contentRef.current;
     const mainRegion = page?.closest<HTMLElement>("[data-main-content-region]");
@@ -80,36 +92,56 @@ export default function CelebPageContent({
     if (!page || !mainRegion || !middleColumn) return;
 
     const positionAtlas = () => {
-      const pageBox = page.getBoundingClientRect();
+      // 레일은 뷰포트 고정이라 중심도 뷰포트 기준으로 싣는다.
+      // 문서Element에 두면 페이지 좌표계와 무관해진다.
+      // 기준벽은 region이 아니라 보이는 프레임(main 첫 자식)이다.
+      // region 패딩까지 넣으면 중심이 벽 쪽으로 쏠린다.
       const regionBox = mainRegion.getBoundingClientRect();
       const middleBox = middleColumn.getBoundingClientRect();
-      const leftRegionWidth = Math.max(0, middleBox.left - regionBox.left);
-      const centerFromPage =
-        regionBox.left + leftRegionWidth / 2 - pageBox.left;
-      const atlasWidth = Math.min(160, Math.max(96, leftRegionWidth - 32));
+      const frameBox = mainRegion.closest("main")?.firstElementChild?.getBoundingClientRect() ?? null;
+      const wallLeft = frameBox ? frameBox.left : regionBox.left;
+      const leftWidth = Math.max(0, middleBox.left - wallLeft);
+      const centerViewport = wallLeft + leftWidth / 2;
+      const atlasWidth = Math.min(160, Math.max(96, leftWidth - 32));
 
-      page.style.setProperty(
+      document.documentElement.style.setProperty(
         "--celeb-atlas-center-inline",
-        `${centerFromPage}px`,
+        `${centerViewport}px`,
       );
-      page.style.setProperty("--celeb-atlas-width", `${atlasWidth}px`);
+      document.documentElement.style.setProperty(
+        "--celeb-atlas-width",
+        `${atlasWidth}px`,
+      );
+    };
+
+    // ResizeObserver·window resize가 같은 프레임에 여러 번 울려도
+    // 실측(getBoundingClientRect)은 프레임당 최대 1회로 합친다. 계산식은 그대로다.
+    let atlasRaf = 0;
+    const scheduleAtlas = () => {
+      if (atlasRaf) return;
+      atlasRaf = requestAnimationFrame(() => {
+        atlasRaf = 0;
+        positionAtlas();
+      });
     };
 
     positionAtlas();
-    const observer = new ResizeObserver(positionAtlas);
+    const observer = new ResizeObserver(scheduleAtlas);
     observer.observe(page);
     observer.observe(mainRegion);
     observer.observe(middleColumn);
-    window.addEventListener("resize", positionAtlas);
+    window.addEventListener("resize", scheduleAtlas);
 
     return () => {
+      if (atlasRaf) cancelAnimationFrame(atlasRaf);
       observer.disconnect();
-      window.removeEventListener("resize", positionAtlas);
-      page.style.removeProperty("--celeb-atlas-center-inline");
-      page.style.removeProperty("--celeb-atlas-width");
+      window.removeEventListener("resize", scheduleAtlas);
+      document.documentElement.style.removeProperty("--celeb-atlas-center-inline");
+      document.documentElement.style.removeProperty("--celeb-atlas-width");
     };
   }, []);
 
+  /* ── 3. 머리말·본문 렌더 ── */
   return (
     <div ref={contentRef} className={styles.page}>
       <CelebHeroSection
@@ -121,24 +153,26 @@ export default function CelebPageContent({
         worldId={worldId}
         worldBannerImages={worldBannerImages}
         serviceItems={serviceModel.items}
+        widestLabel={serviceModel.widestSectionLabel}
         externalLinksSlot={externalLinksSlot}
       />
+
+      <CelebSwipeRail />
 
       <CelebRecordSections
         profile={profile}
         slug={slug}
         userId={userId}
         locale={locale}
-        worldId={worldId}
         dialogueLines={dialogueLines}
         timelineEvents={timelineEvents}
         initialContents={initialContents}
         initialContentBrief={initialContentBrief}
         fictionSources={fictionSources}
         serviceModel={serviceModel}
+        relatedFiguresSlot={relatedFiguresSlot}
+        affiliateBooksSlot={affiliateBooksSlot}
       />
-
-      {children ? <div className={styles.trailing}>{children}</div> : null}
     </div>
   );
 }

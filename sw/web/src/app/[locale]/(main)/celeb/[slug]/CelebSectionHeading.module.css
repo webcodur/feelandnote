@@ -1,41 +1,50 @@
-/* 화살표는 제목 상자 양옆에 붙는다. 화면 폭이 아니라 제목 폭이 기준이다 */
+/* 화살표는 제목 상자 양옆에 붙는다. 화면 폭이 아니라 제목 폭이 기준이다.
+   제목 줄은 고정 헤더(64px) 아래에 달라붙는다. 아래 상자와 맞물려 하나의
+   외곽이 되도록 윗반쪽(아랫선 없음·윗모서리 둥글게)만 그린다. 바탕은 상자와
+   같은 색이라 붙었을 때 이음매가 없고, 떨어져 붙었을 때도 내용을 가린다. */
 .heading {
-  display: flex;
+  display: grid;
+  position: sticky;
+  top: 64px;
+  z-index: 40;
   min-width: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding-block: 2px 4px;
+  grid-template-columns: minmax(56px, 1fr) auto minmax(56px, 1fr);
+  align-items: stretch;
+  border: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 58%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-accent-dim) 30%, transparent);
+  border-radius: 12px 12px 0 0;
+  /* 본문과 결이 갈리게 악센트 기운을 한 겹 올린다 */
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-accent) 9%, transparent),
+      transparent 130%
+    ),
+    var(--material-panel, var(--color-bg-card));
 }
 
+/* 좌우 이동 영역. 단추가 아니라 구획 전체가 손잡이다. 원형 윤곽선은 없앤다 */
 .navButton {
-  display: inline-flex;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
+  display: flex;
+  min-height: 100%;
   align-items: center;
   justify-content: center;
-  /* 원형 윤곽선은 항상 보인다 */
-  border: 1px solid color-mix(in srgb, var(--color-accent) 36%, transparent);
-  border-radius: 999px;
+  padding-block: 14px;
+  border: 0;
+  background: transparent;
   color: var(--color-accent-dim);
+  cursor: pointer;
 }
 
-.navButton:hover:not(:disabled),
-.navButton:focus-visible:not(:disabled) {
-  border-color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+.navButton:hover,
+.navButton:focus-visible {
   color: var(--color-accent);
   background: color-mix(in srgb, var(--color-accent) 7%, transparent);
 }
 
 .navButton:focus-visible {
   outline: 1px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-.navButton:disabled {
-  cursor: default;
-  opacity: 0.14;
+  outline-offset: -1px;
 }
 
 .identity {
@@ -43,6 +52,8 @@
   min-width: 0;
   align-items: center;
   justify-content: center;
+  align-self: stretch;
+  border-inline: 1px solid color-mix(in srgb, var(--color-accent-dim) 22%, transparent);
 }
 
 .title {
@@ -50,6 +61,8 @@
   min-width: 0;
   align-items: center;
   gap: 10px;
+  /* 최장 제목에 딱 맞추면 숨이 막혀 양옆으로 한 뼘씩 둔다 */
+  padding-inline: 12px;
   color: var(--color-text-primary);
 }
 
@@ -67,15 +80,6 @@
 }
 
 @media (min-width: 640px) {
-  .heading {
-    gap: 10px;
-  }
-
-  .navButton {
-    width: 48px;
-    height: 48px;
-  }
-
   .label {
     font-size: 26px;
     letter-spacing: 0.1em;
@@ -84,4 +88,13 @@
   .title {
     gap: 12px;
   }
+}
+
+/* 목차 이동 중에는 머리와 모드줄을 흐름에 맡긴다. 출발·도착 스티키가 같은 자리에서
+   겹치는 충돌이 사라지고, 숨겼다가 터지듯 돌아오는 파열도 없다 */
+:global(.celeb-sec-travel) .heading {
+  position: static;
+}
+:global(.celeb-sec-travel) .celeb-mode-tabs {
+  position: static;
 }

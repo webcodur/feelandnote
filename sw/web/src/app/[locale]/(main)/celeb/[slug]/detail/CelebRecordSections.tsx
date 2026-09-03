@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 공통 — 목차 순서대로 본문 구획 조립
+ * - 목차 위치: 공통 (reading/timeline/library/sourceWorks/analysis/connections/media/guestbook)
+ * - 데이터: profile/timelineEvents/fictionSources/dialogueLines/serviceModel props
+ * - 함께 보기: detail/useCelebServiceModel.ts, CelebAtlasRails.tsx, CelebSectionHeading.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useMemo, type ReactNode } from "react";
@@ -10,10 +16,6 @@ import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import GuestbookDeferred from "@/components/features/profile/GuestbookDeferred";
 import { Deferred, PendingBlock } from "@/components/ui/pending";
-import {
-  formatSectionNumber,
-  getWorldStyle,
-} from "@/lib/celeb/worldStyle";
 import type { Locale } from "@/types/locale";
 
 import { CelebAtlasNavigation } from "../CelebAtlasRails";
@@ -30,10 +32,8 @@ import type { CelebServiceModel } from "./useCelebServiceModel";
 import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
 
 const SECTION_CLASS_NAME = `animate-fade-in ${styles.recordSection}`;
-const TAB_BOX_CLASS_NAME = "pt-0 md:pt-0";
-// 탭 없이 글만 담는 상자 — 여백과 그 근거는 CelebPageContent.module.css의 .proseSurface에 있다
-const PROSE_BOX_CLASS_NAME = styles.proseSurface;
 
+/* ── 1. 구획 공용 표면 — 바깥 상자 규격은 CSS 한 곳(sectionSurface)이 쥔다 ── */
 function SectionSurface({
   children,
   className = "",
@@ -51,13 +51,14 @@ interface CelebRecordSectionsProps {
   slug: string;
   userId: string;
   locale: Locale;
-  worldId: string;
   dialogueLines?: Record<string, string[]> | null;
   timelineEvents: CelebTimelineEvent[];
   initialContents: GetUserContentsResponse;
   initialContentBrief?: ContentBrief;
   fictionSources: FictionSourceContent[];
   serviceModel: CelebServiceModel;
+  relatedFiguresSlot?: ReactNode;
+  affiliateBooksSlot?: ReactNode;
 }
 
 export default function CelebRecordSections({
@@ -65,58 +66,60 @@ export default function CelebRecordSections({
   slug,
   userId,
   locale,
-  worldId,
   dialogueLines,
   timelineEvents,
   initialContents,
   initialContentBrief,
   fictionSources,
   serviceModel,
+  relatedFiguresSlot,
+  affiliateBooksSlot,
 }: CelebRecordSectionsProps) {
   const t = useTranslations("celebPage");
   const isFiction = (profile.celeb_tier ?? "full") === "fiction";
-  const { items: serviceItems, longform, shorts, hasVoice } = serviceModel;
+  const { items: serviceItems, longform, shorts, hasVoice, widestSectionLabel } = serviceModel;
   const { activeSectionId, navigate } = useCelebSectionNavigation(
     serviceItems.map((item) => item.target.sectionId),
   );
-  const worldStyle = getWorldStyle(worldId);
-  const numerals = worldStyle.numerals;
-  const { serviceItemsByKey, serviceItemIndexByKey, widestSectionLabel } =
-    useMemo(
-      () => ({
-        serviceItemsByKey: new Map(
-          serviceItems.map((item) => [item.key, item]),
-        ),
-        serviceItemIndexByKey: new Map(
-          serviceItems.map((item, index) => [item.key, index]),
-        ),
-        widestSectionLabel: serviceItems.reduce(
-          (widest, item) =>
-            item.label.length > widest.length ? item.label : widest,
-          "",
-        ),
-      }),
-      [serviceItems],
-    );
+  const { serviceItemsByKey, serviceItemIndexByKey } = useMemo(
+    () => ({
+      serviceItemsByKey: new Map(
+        serviceItems.map((item) => [item.key, item]),
+      ),
+      serviceItemIndexByKey: new Map(
+        serviceItems.map((item, index) => [item.key, index]),
+      ),
+    }),
+    [serviceItems],
+  );
 
+  /* ── 2. 구획 제목 렌더 ── */
   const renderSectionHeading = (key: string) => {
     const index = serviceItemIndexByKey.get(key);
     if (index === undefined) return null;
 
     const item = serviceItems[index];
+    const isFirst = index === 0;
+    const isLast = index === serviceItems.length - 1;
     return (
       <CelebSectionHeading
         item={item}
         previousItem={serviceItems[index - 1]}
         nextItem={serviceItems[index + 1]}
         onNavigate={navigate}
-        chapterLabel={formatSectionNumber(Number(item.chapter), numerals)}
-        numerals={numerals}
         widestLabel={widestSectionLabel}
+        loopTarget={
+          isFirst
+            ? serviceItems[serviceItems.length - 1]?.target
+            : isLast
+              ? serviceItems[0]?.target
+              : undefined
+        }
       />
     );
   };
 
+  /* ── 3. 관계 구획 렌더 ── */
   const renderConnectionsSection = () => {
     if (!serviceItemsByKey.has("connections")) return null;
 
@@ -125,7 +128,7 @@ export default function CelebRecordSections({
         {renderSectionHeading("connections")}
         {/* 인물 목록과 세력 화보는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다.
             제목은 서버 HTML에 그대로 남는다. */}
-        <SectionSurface className={TAB_BOX_CLASS_NAME}>
+        <SectionSurface>
           <Deferred
             fallback={
               <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
@@ -155,13 +158,17 @@ export default function CelebRecordSections({
       />
 
       <div className={styles.sectionStack}>
+        {/* ── 4. 읽어보기·연표 ── */}
         {serviceItemsByKey.has("reading") && (
           <section id="reading" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("reading")}
-            <SectionSurface className={PROSE_BOX_CLASS_NAME}>
-              <FigureReadingTabs
-                reading={profile.reading}
-              />
+            <SectionSurface>
+              {/* 상자 윗변에서 글을 소폭 떼어 시작한다. 아래 여백과 같은 값으로 맞춘다 */}
+              <div className="pt-4 md:pt-6">
+                <FigureReadingTabs
+                  reading={profile.reading}
+                />
+              </div>
             </SectionSurface>
           </section>
         )}
@@ -177,10 +184,11 @@ export default function CelebRecordSections({
 
         {isFiction && renderConnectionsSection()}
 
+        {/* ── 5. 서재·원전 ── */}
         {serviceItemsByKey.has("library") ? (
           <section id="library" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("library")}
-            <SectionSurface className={TAB_BOX_CLASS_NAME}>
+            <SectionSurface>
               <LibraryTabs
                 userId={userId}
                 nickname={profile.nickname}
@@ -197,7 +205,7 @@ export default function CelebRecordSections({
         {serviceItemsByKey.has("sourceWorks") ? (
           <section id="source-works" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("sourceWorks")}
-            <SectionSurface className={styles.sourceWorksSurface}>
+            <SectionSurface>
               <FictionSourceWorksSection
                 sources={fictionSources}
                 nickname={profile.nickname}
@@ -206,11 +214,12 @@ export default function CelebRecordSections({
           </section>
         ) : null}
 
+        {/* ── 6. 분석·관계·미디어 ── */}
         {serviceItemsByKey.has("analysis") && (
           <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("analysis")}
             {/* 점수와 그래프는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다 */}
-            <SectionSurface className={TAB_BOX_CLASS_NAME}>
+            <SectionSurface>
               <Deferred
                 fallback={
                   <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
@@ -231,7 +240,7 @@ export default function CelebRecordSections({
         {serviceItemsByKey.has("media") && (
           <section id="media" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("media")}
-            <SectionSurface className={TAB_BOX_CLASS_NAME}>
+            <SectionSurface>
               <FigureMediaTabs
                 item={serviceItemsByKey.get("media")!}
                 dialogueLines={dialogueLines}
@@ -248,6 +257,7 @@ export default function CelebRecordSections({
           </section>
         )}
 
+        {/* ── 7. 방명록 ── */}
         <section
           id="guestbook"
           tabIndex={-1}
@@ -257,19 +267,37 @@ export default function CelebRecordSections({
           {/* 방명록은 색인 가치가 없고 맨 아래에 있으며 캐시에 굳으면 안 되는 자료라
               화면이 다가올 때 비로소 불러온다. 제목은 서버 HTML에 그대로 남는다. */}
           <SectionSurface>
-            <Deferred
-              fallback={
-                <PendingBlock
-                  variant="rows"
-                  count={3}
-                  className="pb-2 pt-4 sm:pb-3 sm:pt-5 md:pb-4 md:pt-6"
-                />
-              }
-            >
-              <GuestbookDeferred profileId={userId} isFiction={isFiction} />
-            </Deferred>
+            {/* 방명록은 모드 없이 본문이 바로 오므로 위를 떼어 시작한다 */}
+            <div className="pt-4 md:pt-6">
+              <Deferred
+                fallback={
+                  <PendingBlock
+                    variant="rows"
+                    count={3}
+                    className="pb-2 pt-4 sm:pb-3 sm:pt-5 md:pb-4 md:pt-6"
+                  />
+                }
+              >
+                <GuestbookDeferred profileId={userId} isFiction={isFiction} />
+              </Deferred>
+            </div>
           </SectionSurface>
         </section>
+
+        {/* ── 8. 후행 구획 — 서버가 그린 자리를 본문 섹션 형태로 잇는다 ── */}
+        {serviceItemsByKey.has("relatedFigures") && relatedFiguresSlot ? (
+          <section id="related-figures" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("relatedFigures")}
+            <SectionSurface>{relatedFiguresSlot}</SectionSurface>
+          </section>
+        ) : null}
+
+        {serviceItemsByKey.has("affiliateBooks") && affiliateBooksSlot ? (
+          <section id="affiliate-books" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("affiliateBooks")}
+            <SectionSurface>{affiliateBooksSlot}</SectionSurface>
+          </section>
+        ) : null}
       </div>
     </div>
   );
