@@ -1,0 +1,105 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 공통 — 우측 스와이프 레일(PC 전용)
+ * - 목차 위치: 공통 (옆 드래그 막대)
+ * - 데이터: 없음. 잡아끌면 페이지가 따라온다
+ * - 함께 보기: CelebAtlasRails.module.css(바깥틀 공유)
+ * ───────────────────────────────────────────── */
+.swipeAside {
+  display: none;
+}
+
+/* 좌측 레일 바깥틀과 같은 결. 너비·높이만 막대 규격으로 둔다 */
+.swipeRail {
+  box-sizing: border-box;
+  /* 좌측 레일과 같은 폭. 막대 너비가 달라지면 중심 계산도 함께 바뀐다 */
+  width: var(--celeb-atlas-width, 160px);
+  height: clamp(220px, 44dvh, 380px);
+  padding: 10px 0;
+  border: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 62%, transparent);
+  border-radius: 2px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-accent) 6%, transparent),
+      transparent 22%
+    ),
+    color-mix(in srgb, var(--material-panel, var(--color-bg-card)) 88%, transparent);
+  box-shadow:
+    inset 0 0 0 3px color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 10%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--color-accent) 13%, transparent),
+    0 16px 34px color-mix(in srgb, black 28%, transparent);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.swipeRail.dragging {
+  cursor: grabbing;
+}
+
+/* 잡는 손잡이. 위아래 화살표는 손이 닿으면 즉시 뜬다(전이 없음) */
+.grip {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 12px;
+}
+
+.gripDots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.gripDots span {
+  width: 14px;
+  height: 2px;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--color-accent) 55%, transparent);
+}
+
+.hoverArrow {
+  color: color-mix(in srgb, var(--color-accent) 85%, transparent);
+  opacity: 0;
+}
+
+.swipeRail:hover .hoverArrow,
+.swipeRail:focus-visible .hoverArrow,
+.swipeRail.dragging .hoverArrow {
+  opacity: 1;
+}
+
+.swipeRail.dragging .gripDots span {
+  background: color-mix(in srgb, var(--color-accent) 90%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-accent) 60%, transparent);
+}
+
+.swipeRail:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (min-width: 1340px) {
+  .swipeAside {
+    display: block;
+  }
+
+  /* 좌측 레일 중심과 대칭. 프레임이 가운데에 서 있어 성립한다.
+     막대 너비 절반을 빼 중심을 맞춘다 */
+  .swipeRail {
+    position: fixed;
+    top: calc(50dvh + 2rem);
+    right: calc(
+      var(
+          --celeb-atlas-center-inline,
+          calc((100% - min(calc(100% - 32px), 1024px)) / 4)
+        ) - var(--celeb-atlas-width, 160px) / 2
+    );
+    z-index: 30;
+    transform: translateY(-50%);
+  }
+}

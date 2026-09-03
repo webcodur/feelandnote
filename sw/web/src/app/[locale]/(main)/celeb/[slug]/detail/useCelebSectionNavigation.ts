@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 공통 — 구획 스크롤 이동·현재 구획 추적
+ * - 목차 위치: 공통 (목차 내비게이션)
+ * - 데이터: sectionIds props, IntersectionObserver
+ * - 함께 보기: celebServiceItems.ts, detail/CelebRecordSections.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -7,6 +13,9 @@ import { trackEvent } from "@/lib/analytics/track";
 import type { ServiceTarget } from "../celebServiceItems";
 
 const NAVIGATION_RELEASE_MS = 1200;
+
+const sectionIdList = (sectionKey: string) =>
+  sectionKey.split("|").filter(Boolean);
 
 export function navigateToCelebSection(target: ServiceTarget) {
   trackEvent("celeb_guide_click", { section: target.sectionId });
@@ -18,6 +27,13 @@ export function navigateToCelebSection(target: ServiceTarget) {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    // 이동 중에는 구획 머리를 숨긴다. 출발지와 도착지 스티키가 같은 자리에서 겹쳐 어지럽다.
+    if (!reduceMotion) {
+      document.documentElement.classList.add("celeb-sec-travel");
+      const settle = () => document.documentElement.classList.remove("celeb-sec-travel");
+      window.addEventListener("scrollend", settle, { once: true });
+      window.setTimeout(settle, 1500);
+    }
     /* "auto"는 html의 scroll-behavior: smooth를 따라가므로 움직임 최소화가 먹지 않는다 */
     section.scrollIntoView({
       behavior: reduceMotion ? "instant" : "smooth",
@@ -36,9 +52,8 @@ export function useCelebSectionNavigation(sectionIds: string[]) {
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
 
-    const sections = sectionKey
-      .split("|")
-      .filter(Boolean)
+    const ids = sectionIdList(sectionKey);
+    const sections = ids
       .map((sectionId) => document.getElementById(sectionId))
       .filter((section): section is HTMLElement => section !== null);
     if (sections.length === 0) return;
@@ -68,14 +83,13 @@ export function useCelebSectionNavigation(sectionIds: string[]) {
           }
         }
 
-        if (!nearestId) return;
-
         // 목차 이동 중 지나치는 구획이 차례로 활성화되는 현상을 막는다.
         if (navTargetRef.current) {
           if (nearestId === navTargetRef.current) navTargetRef.current = null;
           return;
         }
 
+        if (!nearestId) return;
         setActiveSectionId(nearestId);
       },
       {
@@ -86,6 +100,26 @@ export function useCelebSectionNavigation(sectionIds: string[]) {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
+  }, [sectionKey]);
+
+  // 페이지 끝에 닿으면 마지막 구획을 켠다. 짧은末 구획은 기준선을 스치지 않아
+  // 관측 콜백이 안 불리므로 스크롤에서 직접 본다. 底 도착은 이동 완료로 쳐서
+  // 가드를 풀어준다 — 안 그러면 가드가 풀린 뒤 관측이 위로 튕겨올린다.
+  useEffect(() => {
+    const onScroll = () => {
+      const ids = sectionIdList(sectionKey);
+      if (ids.length === 0) return;
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 24;
+      if (!atBottom) return;
+      navTargetRef.current = null;
+      window.clearTimeout(navReleaseRef.current);
+      setActiveSectionId(ids[ids.length - 1]);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [sectionKey]);
 
   useEffect(
