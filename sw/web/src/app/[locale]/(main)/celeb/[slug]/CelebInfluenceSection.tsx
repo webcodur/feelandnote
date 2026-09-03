@@ -1,6 +1,12 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] analysis — 영향력 점수·탐색기
+ * - 목차 위치: analysis > influence
+ * - 데이터: data/explorerData props
+ * - 함께 보기: FigureAnalysisTabs.tsx, InfluenceExplorer.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Info } from "lucide-react";
 
@@ -26,18 +32,22 @@ export default function CelebInfluenceSection({ data, explorerData }: Props) {
   const [isScaleOpen, setIsScaleOpen] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
 
-  const baseScore = sumBaseScore(data);
+  const baseScore = useMemo(() => sumBaseScore(data), [data]);
 
   // 인물의 강세부터 읽히도록 점수 순으로 세운다 (0점도 어둡게 그대로 선다)
-  const rankedCategories = sortCategoriesByScore(data);
-  const rankedData = explorerData
-    ? {
-        ...data,
-        ranking: explorerData.current.ranking,
-        rankedTotal: explorerData.total,
-        percentile: explorerData.current.percentile,
-      }
-    : data;
+  const rankedCategories = useMemo(() => sortCategoriesByScore(data), [data]);
+  const rankedData = useMemo(
+    () =>
+      explorerData
+        ? {
+            ...data,
+            ranking: explorerData.current.ranking,
+            rankedTotal: explorerData.total,
+            percentile: explorerData.current.percentile,
+          }
+        : data,
+    [data, explorerData],
+  );
 
   return (
     <div className="space-y-5">
