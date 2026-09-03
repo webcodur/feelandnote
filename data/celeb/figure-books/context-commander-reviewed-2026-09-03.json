@@ -1,0 +1,131 @@
+{
+  "input": "context-commander-candidates-2026-09-03.json",
+  "model": "gemini-3.8-flash-high",
+  "reviewPasses": 2,
+  "reviews": [
+    {
+      "slug": "ogedei-khan",
+      "selections": [
+        {
+          "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "몽골 제국 제2대 대칸으로서 수도 카라코룸 건설과 제도 정비, 대외 원정을 추진한 역사적 맥락을 파악하는 데 적합하다."
+        }
+      ]
+    },
+    {
+      "slug": "batu-khan",
+      "selections": [
+        {
+          "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "몽골 제국의 대규모 유럽 원정을 총지휘하고 킵차크 칸국을 건설한 유라시아 대팽창의 배경을 이해하는 데 유익하다."
+        }
+      ]
+    },
+    {
+      "slug": "el-cid",
+      "selections": []
+    },
+    {
+      "slug": "jebe",
+      "selections": [
+        {
+          "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "칭기즈 칸 휘하에서 호라즘 추격전과 서방 원정을 주도한 몽골 제국 팽창기의 군사적 활동 맥락을 파악하는 데 유용하다."
+        }
+      ]
+    },
+    {
+      "slug": "douglas-macarthur",
+      "selections": [
+        {
+          "contentId": "200d6529-b0fd-484a-bffd-e847d76f368d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "유엔군 총사령관으로서 인천상륙작전을 이끈 한국전쟁의 발발과 군사적 전개 과정을 객관적 사료로 이해하는 데 적합하다."
+        },
+        {
+          "contentId": "7d5b2e0c-ba9b-43a6-bd6c-730bf9e12cca",
+          "relationType": "related",
+          "description": null,
+          "rationale": "국제전으로서의 한국전쟁 전개와 미군의 참전 배경을 다루어 맥아더의 작전 지휘 맥락을 거시적으로 조망하는 데 유익하다."
+        }
+      ]
+    },
+    {
+      "slug": "kanishka",
+      "selections": []
+    },
+    {
+      "slug": "mehmed-ii",
+      "selections": []
+    },
+    {
+      "slug": "nurhaci",
+      "selections": []
+    },
+    {
+      "slug": "suleiman-the-magnificent",
+      "selections": []
+    },
+    {
+      "slug": "tolui",
+      "selections": [
+        {
+          "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "금나라와 호라즘 원정에서 활약하고 후대 대칸 가계를 형성한 몽골 제국 초기의 핵심 맥락을 이해하는 데 도움이 된다."
+        }
+      ]
+    },
+    {
+      "slug": "clovis-i",
+      "selections": []
+    },
+    {
+      "slug": "chun-doo-hwan",
+      "selections": []
+    },
+    {
+      "slug": "shiro-ishii",
+      "selections": []
+    },
+    {
+      "slug": "lucius-sergius-catilina",
+      "selections": []
+    },
+    {
+      "slug": "hulagu-khan",
+      "selections": [
+        {
+          "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "서아시아 원정을 이끌어 바그다드를 함락하고 일칸국을 개창한 몽골 제국의 서방 팽창 맥락을 이해하는 데 적합하다."
+        }
+      ]
+    },
+    {
+      "slug": "emperor-wu-of-han",
+      "selections": []
+    },
+    {
+      "slug": "genghis-khan",
+      "selections": [
+        {
+          "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "유목 부족을 통합해 몽골 제국을 건국하고 유라시아 세계사의 전환을 이끈 역사적 배경과 구조를 조망하는 데 적합하다."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-03T03:19:40.651Z"
+}

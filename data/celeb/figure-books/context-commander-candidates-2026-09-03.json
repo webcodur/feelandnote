@@ -1,0 +1,1497 @@
+{
+  "generatedAt": "2026-09-03T01:54:41.276Z",
+  "filter": {
+    "profession": "commander",
+    "scope": "unlinked",
+    "publicOnly": false,
+    "representativeOnly": false,
+    "verifiedKakaoWithIsbn": true,
+    "maximumCandidates": 12,
+    "signals": [
+      "context"
+    ]
+  },
+  "totals": {
+    "peopleScanned": 282,
+    "targetPeople": 158,
+    "eligibleBooks": 5808,
+    "candidateRows": 30,
+    "candidatePeople": 17,
+    "unmatchedPeople": 141,
+    "publicCandidateRows": 0
+  },
+  "candidates": [
+    {
+      "person": {
+        "id": "09e71746-e801-4f2c-a4ab-9ba6372f6560",
+        "slug": "ogedei-khan",
+        "nickname": "오고타이 칸",
+        "nicknameEn": "Ogedei Khan",
+        "profession": "commander",
+        "headline": "카라코룸을 제국 수도로 삼은 몽골 제2대 대칸",
+        "bio": "몽골 제국 제2대 대칸. 칭기즈 칸의 셋째 아들로 처음 카간을 자칭했다. 카라코룸을 건설하고 역참과 조세 제도를 정비했으며 금나라와 유럽 원정을 추진했다."
+      },
+      "book": {
+        "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+        "title": "몽골제국과 세계사의 탄생",
+        "creator": "김호동",
+        "description": "우리 사회의 인문학에 대한 관심과 소양을 넓히는데 기여하고자 기획된「석학人文강좌」제12권『몽골제국과 세계사의 탄생』. 한국의 인문학계를 대표하는 각 분야의 석학들이 일생을 바쳐 축적해 온 학문적 성과와 문제의식을 관련 분야 학자와 지식인, 일반 대중과 함께 공유하고, 인간과 사회의 본질적인 문제에 대해 고민한다. 이번 책에서는 중앙유라시아 전문가 김호동 교수가 지금까지 축적한 주요 성과를 이해하기 쉽게 정리해 선보인다.",
+        "isbn": "9788971994047",
+        "publisher": "돌베개",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "몽골제국"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "18c68975-db36-406b-9e4a-9d240fe52896",
+        "slug": "batu-khan",
+        "nickname": "바투 칸",
+        "nicknameEn": "Batu Khan",
+        "profession": "commander",
+        "headline": "칭기즈 칸의 정복을 유럽까지 넓힌 손자",
+        "bio": "몽골 제국의 지휘관. 칭기즈 칸의 손자로 킵차크 칸국(금장한국)을 세우고 1236년부터 유럽 원정을 이끌어 루스와 폴란드, 헝가리를 무너뜨렸다."
+      },
+      "book": {
+        "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+        "title": "몽골제국과 세계사의 탄생",
+        "creator": "김호동",
+        "description": "우리 사회의 인문학에 대한 관심과 소양을 넓히는데 기여하고자 기획된「석학人文강좌」제12권『몽골제국과 세계사의 탄생』. 한국의 인문학계를 대표하는 각 분야의 석학들이 일생을 바쳐 축적해 온 학문적 성과와 문제의식을 관련 분야 학자와 지식인, 일반 대중과 함께 공유하고, 인간과 사회의 본질적인 문제에 대해 고민한다. 이번 책에서는 중앙유라시아 전문가 김호동 교수가 지금까지 축적한 주요 성과를 이해하기 쉽게 정리해 선보인다.",
+        "isbn": "9788971994047",
+        "publisher": "돌베개",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "몽골제국"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "1f02850f-113b-400c-a49d-745d7df9e98a",
+        "slug": "el-cid",
+        "nickname": "엘 시드",
+        "nicknameEn": "El Cid",
+        "profession": "commander",
+        "headline": "발렌시아를 정복한 카스티야 기사",
+        "bio": "카스티야의 기사이자 지휘관. 레콩키스타 시대 기독교와 이슬람 양측을 위해 싸웠으며, 발렌시아를 탈환하여 스페인의 국민 영웅이 되었다."
+      },
+      "book": {
+        "contentId": "6871e75d-0f29-4a40-9dea-b9b54911a7fa",
+        "title": "이슬람 문명",
+        "creator": "정수일",
+        "description": "문명교류사의 권위자인 정수일씨가 '신동아'에 연재한 글을 수정, 보완한 책. 이슬람 문명은 전세계 60여개국, 13억의 무슬림을 보유한 거대한 문명으로 지금 이 시점에도 놀라운 속도로 확산되고 있다. 총 13장으로 구성되어있는 이 책은 이슬람문명의 근간인 이슬람교와 이슬람문명의 여러 영역에 대한 소개를 담고 있다. 각 장의 내용에 맞춰 실린 110여컷의 생생한 화보와 이슬람사 연표, 이슬람력과 서력 대조표 등을 통해 이슬람 문명에 대한 더욱 쉬운 이해",
+        "isbn": "9788936470777",
+        "publisher": "창작과비평사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "포스텍 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.28,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "이슬람"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "이슬람"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "1f02850f-113b-400c-a49d-745d7df9e98a",
+        "slug": "el-cid",
+        "nickname": "엘 시드",
+        "nicknameEn": "El Cid",
+        "profession": "commander",
+        "headline": "발렌시아를 정복한 카스티야 기사",
+        "bio": "카스티야의 기사이자 지휘관. 레콩키스타 시대 기독교와 이슬람 양측을 위해 싸웠으며, 발렌시아를 탈환하여 스페인의 국민 영웅이 되었다."
+      },
+      "book": {
+        "contentId": "0ec1b3d9-5664-4043-af83-787a986b2f7d",
+        "title": "그리스도교 이전의 예수",
+        "creator": "앨버트 노울런",
+        "description": null,
+        "isbn": "9788941997221",
+        "publisher": "분도출판사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서강 필독서 230선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "기독교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "1f02850f-113b-400c-a49d-745d7df9e98a",
+        "slug": "el-cid",
+        "nickname": "엘 시드",
+        "nicknameEn": "El Cid",
+        "profession": "commander",
+        "headline": "발렌시아를 정복한 카스티야 기사",
+        "bio": "카스티야의 기사이자 지휘관. 레콩키스타 시대 기독교와 이슬람 양측을 위해 싸웠으며, 발렌시아를 탈환하여 스페인의 국민 영웅이 되었다."
+      },
+      "book": {
+        "contentId": "0b463a8f-b257-4a35-9c32-51c7c830d485",
+        "title": "꾸란(샴발라총서 11)",
+        "creator": "나종근",
+        "description": null,
+        "isbn": "9788952733542",
+        "publisher": "시공사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서강 필독서 230선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "이슬람"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "1f02850f-113b-400c-a49d-745d7df9e98a",
+        "slug": "el-cid",
+        "nickname": "엘 시드",
+        "nicknameEn": "El Cid",
+        "profession": "commander",
+        "headline": "발렌시아를 정복한 카스티야 기사",
+        "bio": "카스티야의 기사이자 지휘관. 레콩키스타 시대 기독교와 이슬람 양측을 위해 싸웠으며, 발렌시아를 탈환하여 스페인의 국민 영웅이 되었다."
+      },
+      "book": {
+        "contentId": "cf14c733-5cb0-428b-845c-275575fca8a5",
+        "title": "신학대전 1",
+        "creator": "토마스 아퀴나스",
+        "description": null,
+        "isbn": "9788933111680",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "기독교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "21c5feb7-a239-48c5-b0f5-be2bf07cefe3",
+        "slug": "jebe",
+        "nickname": "제베",
+        "nicknameEn": "Jebe",
+        "profession": "commander",
+        "headline": "칭기즈 칸의 말을 쏜 뒤 발탁된 궁수",
+        "bio": "타이치우드 출신 궁수로 칭기즈 칸에게 투항해 몽골 제국의 명장이 되었다. 쿠츨루크 정복과 호라즘 추격전을 지휘하고 수부타이와 함께 서방 원정을 이끌었다."
+      },
+      "book": {
+        "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+        "title": "몽골제국과 세계사의 탄생",
+        "creator": "김호동",
+        "description": "우리 사회의 인문학에 대한 관심과 소양을 넓히는데 기여하고자 기획된「석학人文강좌」제12권『몽골제국과 세계사의 탄생』. 한국의 인문학계를 대표하는 각 분야의 석학들이 일생을 바쳐 축적해 온 학문적 성과와 문제의식을 관련 분야 학자와 지식인, 일반 대중과 함께 공유하고, 인간과 사회의 본질적인 문제에 대해 고민한다. 이번 책에서는 중앙유라시아 전문가 김호동 교수가 지금까지 축적한 주요 성과를 이해하기 쉽게 정리해 선보인다.",
+        "isbn": "9788971994047",
+        "publisher": "돌베개",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "몽골제국"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "2f03a905-17de-4953-9904-7dc184d870fe",
+        "slug": "douglas-macarthur",
+        "nickname": "더글러스 맥아더",
+        "nicknameEn": "Douglas MacArthur",
+        "profession": "commander",
+        "headline": "인천상륙으로 전선을 뒤바꾼 원수",
+        "bio": "제2차 세계 대전 태평양 전선과 6.25 전쟁을 지휘한 미국의 육군 원수다. 인천상륙작전을 성공시켜 전세를 역전시킨 인물로 평가받는다."
+      },
+      "book": {
+        "contentId": "59da4d79-1821-4ad1-b7bd-45d1bbe64873",
+        "title": "마을로 간 한국전쟁",
+        "creator": "박찬승",
+        "description": "한양대학교 사학과 교수 박찬승의 『마을로 간 한국전쟁』. '마을'을 중심으로 한국전쟁을 재조명한다. 한국전쟁기에 종교나 이념, 친족과 신분 등의 갈등으로 인해 마을에서 벌어진 상호 학살 사건에 대해 치밀하게 파헤치고 있다. 아직까지도 짙게 드리워진 한국전쟁의 어두운 그림자를 확인하게 된다. 10여 년간의 답사와 연구를 모아 한국전쟁 발발 60주년을 기념하여 출간된 것이다.",
+        "isbn": "9788971993965",
+        "publisher": "돌베개",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "한국출판문화상 수상작"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "한국전쟁"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "2f03a905-17de-4953-9904-7dc184d870fe",
+        "slug": "douglas-macarthur",
+        "nickname": "더글러스 맥아더",
+        "nicknameEn": "Douglas MacArthur",
+        "profession": "commander",
+        "headline": "인천상륙으로 전선을 뒤바꾼 원수",
+        "bio": "제2차 세계 대전 태평양 전선과 6.25 전쟁을 지휘한 미국의 육군 원수다. 인천상륙작전을 성공시켜 전세를 역전시킨 인물로 평가받는다."
+      },
+      "book": {
+        "contentId": "200d6529-b0fd-484a-bffd-e847d76f368d",
+        "title": "한국전쟁",
+        "creator": "정병준",
+        "description": "문서' 등은 개별문건만으로도 중요한 기록들이다. 이처럼 저자는 여러 사료를 비교 분석하고 사건`사실의 객관적인 모습을 복원하는 데 중점을 두었다. 이 과정에서 지금까지 전혀 알려지지 않았거나 혹은 무시되었던 사건`사실`경과 등이 재조명되며, 남침유도설의 핵심인 '해주공격설'에 관한 해묵은 논쟁을 끝낼 분석이 제시된다. 그리고 1950년의 축소판과 같았던 1949년 남북한의 38선 충돌 과정을 세밀하게 분석함으로써 한국전쟁의 형성 과정을 역추적해낸다",
+        "isbn": "9788971992418",
+        "publisher": "돌베개",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "한국출판문화상 수상작"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "한국전쟁"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "2f03a905-17de-4953-9904-7dc184d870fe",
+        "slug": "douglas-macarthur",
+        "nickname": "더글러스 맥아더",
+        "nicknameEn": "Douglas MacArthur",
+        "profession": "commander",
+        "headline": "인천상륙으로 전선을 뒤바꾼 원수",
+        "bio": "제2차 세계 대전 태평양 전선과 6.25 전쟁을 지휘한 미국의 육군 원수다. 인천상륙작전을 성공시켜 전세를 역전시킨 인물로 평가받는다."
+      },
+      "book": {
+        "contentId": "7d5b2e0c-ba9b-43a6-bd6c-730bf9e12cca",
+        "title": "한국전쟁",
+        "creator": "박태균",
+        "description": "한국전쟁은 국내적으로 한국사에 있어서 거대한 역사적 사건이었지만 연구자들에 의한 연구가 금기시 될 정도로 복합적인 특수성을 내포하고 있다. 그러한 한국전쟁은 가깝게는 동북아, 멀게는 러시아까지 뒤흔드는 결과를 가져온, 가히 세계 체제 전체를 뒤흔든 사건이었다. 한국전쟁이 발발한 1950년 부터 1953년 사이, 조그마한 땅덩어리에 150만 명이 넘는 외국의 군대가 들어왔다. 도대체 이들은 한반도의 남북 간에 벌어진 싸움에서 무엇을 얻기 위해 왔던",
+        "isbn": "9788991221109",
+        "publisher": "책과함께",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "한국전쟁"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "3bf77c2d-f5d7-4b32-a04e-93e928e7bc41",
+        "slug": "kanishka",
+        "nickname": "카니슈카",
+        "nicknameEn": "Kanishka",
+        "profession": "commander",
+        "headline": "붓다를 금화에 새긴 쿠샨 황제",
+        "bio": "쿠샨 제국의 전성기를 이끈 황제. 제4차 불교 결집을 주재하고 대승불교의 확산에 기여했다."
+      },
+      "book": {
+        "contentId": "72c6247a-c221-41b4-aa3c-8ded65adcc94",
+        "title": "Beyond Happiness : Deepening the Dialogue Between Buddhism...",
+        "creator": "Watson Gay",
+        "description": null,
+        "isbn": "9781855754041",
+        "publisher": "Karnac Books",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "심리학자 117인이 고른 책"
+          ],
+          "topics": [
+            "psychology",
+            "nonfiction"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "불교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "6d555bf0-0859-4975-826e-62f49f90c45b",
+        "slug": "mehmed-ii",
+        "nickname": "메흐메트 2세",
+        "nicknameEn": "Mehmed II",
+        "profession": "commander",
+        "headline": "콘스탄티노플 함락으로 동로마를 끝낸 술탄",
+        "bio": "오스만 제국의 술탄이자 위대한 정복자. 콘스탄티노폴리스를 함락시켜 동로마 제국을 멸망시키고 오스만 제국의 영토를 크게 확장했다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "6dd61569-ea13-4261-b94b-057122f2dbc1",
+        "slug": "nurhaci",
+        "nickname": "누르하치",
+        "nicknameEn": "Nurhaci",
+        "profession": "commander",
+        "headline": "팔기로 여진을 하나로 묶은 창업자",
+        "bio": "여진족을 통일한 후금의 창건자. 팔기제도를 창설하고 만주 문자를 제정했다."
+      },
+      "book": {
+        "contentId": "03f33e77-4876-45c3-ba55-8c0642822cb1",
+        "title": "창업국가",
+        "creator": "댄 세노르, 사울 싱어",
+        "description": null,
+        "isbn": "9788989988731",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "창업"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "7736f0c0-7cf0-4dba-9444-e40cd50ada2e",
+        "slug": "suleiman-the-magnificent",
+        "nickname": "술레이만 1세",
+        "nicknameEn": "Suleiman the Magnificent",
+        "profession": "commander",
+        "headline": "유럽에는 장엄왕, 오스만에는 입법자로 남은 술탄",
+        "bio": "오스만 제국 제10대 술탄. 46년 재위 중 제국 최전성기를 이끌었으며 시인이자 입법자로서도 이름을 남겼다."
+      },
+      "book": {
+        "contentId": "093c02ad-9bf5-404c-b454-9cd889b38b17",
+        "title": "시학",
+        "creator": "아리스토텔레스",
+        "description": null,
+        "isbn": "9788964452721",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 4,
+          "featuredListCount": 4,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "연세 필독도서 200선",
+            "고려대 권장도서 100선",
+            "서강 필독서 230선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 84,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "시·시학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "7736f0c0-7cf0-4dba-9444-e40cd50ada2e",
+        "slug": "suleiman-the-magnificent",
+        "nickname": "술레이만 1세",
+        "nicknameEn": "Suleiman the Magnificent",
+        "profession": "commander",
+        "headline": "유럽에는 장엄왕, 오스만에는 입법자로 남은 술탄",
+        "bio": "오스만 제국 제10대 술탄. 46년 재위 중 제국 최전성기를 이끌었으며 시인이자 입법자로서도 이름을 남겼다."
+      },
+      "book": {
+        "contentId": "6659df23-3f02-4477-b799-c534bfcc708a",
+        "title": "시인의 별",
+        "creator": "이인화",
+        "description": "별》 《시인의 별》은 고려 충렬왕 때의 사람인 안현에 대한 이야기이다. 작가는 1997년 8월 앙카라대학의 라시드 교수가 발견한 17세기 필사본에 실린 ‘고려인 비칙치(서기) 안의 이야기’에 주목하여 이 소설을 썼다. 이 이야기는 안현에 대한 역사적인 기록을 바탕으로 안현과 동일 인물로 상정한 비칙치 안이라는 인물이 옥중에서 지었다는 의 내용을 더해 작가가 상상력을 발휘하여 한 편의 소설로 재구성한 것이다. 고려에서 몽골의 드넓은 초원까지 이어지는 안현의",
+        "isbn": "9791195294985",
+        "publisher": "피시스북",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "이상문학상 대상 수상작"
+          ],
+          "topics": [
+            "korean-literature"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "시·시학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "7da75221-1f74-4e4f-85ad-ee88b726e607",
+        "slug": "tolui",
+        "nickname": "툴루이",
+        "nicknameEn": "Tolui",
+        "profession": "commander",
+        "headline": "대칸 둘과 일한국 창건자의 아버지",
+        "bio": "칭기즈 칸과 보르테의 넷째 아들. 금나라와 호라즘 원정에서 활약한 몽골 제국 최고의 전사이자, 몽케 칸과 쿠빌라이 칸의 아버지."
+      },
+      "book": {
+        "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+        "title": "몽골제국과 세계사의 탄생",
+        "creator": "김호동",
+        "description": "우리 사회의 인문학에 대한 관심과 소양을 넓히는데 기여하고자 기획된「석학人文강좌」제12권『몽골제국과 세계사의 탄생』. 한국의 인문학계를 대표하는 각 분야의 석학들이 일생을 바쳐 축적해 온 학문적 성과와 문제의식을 관련 분야 학자와 지식인, 일반 대중과 함께 공유하고, 인간과 사회의 본질적인 문제에 대해 고민한다. 이번 책에서는 중앙유라시아 전문가 김호동 교수가 지금까지 축적한 주요 성과를 이해하기 쉽게 정리해 선보인다.",
+        "isbn": "9788971994047",
+        "publisher": "돌베개",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "몽골제국"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "8225a732-17cc-4c93-b6e9-e86c66394f76",
+        "slug": "clovis-i",
+        "nickname": "클로비스 1세",
+        "nicknameEn": "Clovis I",
+        "profession": "commander",
+        "headline": "가톨릭으로 개종한 프랑크 통일왕",
+        "bio": "메로빙거 왕조의 프랑크 왕국 초대 국왕. 갈리아 전역을 통일하고 기독교로 개종하여 서유럽 기독교 문명의 기틀을 놓았다."
+      },
+      "book": {
+        "contentId": "0ec1b3d9-5664-4043-af83-787a986b2f7d",
+        "title": "그리스도교 이전의 예수",
+        "creator": "앨버트 노울런",
+        "description": null,
+        "isbn": "9788941997221",
+        "publisher": "분도출판사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서강 필독서 230선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "기독교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "8225a732-17cc-4c93-b6e9-e86c66394f76",
+        "slug": "clovis-i",
+        "nickname": "클로비스 1세",
+        "nicknameEn": "Clovis I",
+        "profession": "commander",
+        "headline": "가톨릭으로 개종한 프랑크 통일왕",
+        "bio": "메로빙거 왕조의 프랑크 왕국 초대 국왕. 갈리아 전역을 통일하고 기독교로 개종하여 서유럽 기독교 문명의 기틀을 놓았다."
+      },
+      "book": {
+        "contentId": "cf14c733-5cb0-428b-845c-275575fca8a5",
+        "title": "신학대전 1",
+        "creator": "토마스 아퀴나스",
+        "description": null,
+        "isbn": "9788933111680",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "기독교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "99177b9c-2347-43d3-a9b8-28959959e4e6",
+        "slug": "chun-doo-hwan",
+        "nickname": "전두환",
+        "nicknameEn": "Chun Doo-hwan",
+        "profession": "commander",
+        "headline": "12·12 군사반란을 주도한 군사독재자",
+        "bio": "대한민국 군인 출신 정치가이자 제5공화국 대통령. 12·12 군사 반란과 광주민주화운동 진압으로 역사의 평가를 받는다."
+      },
+      "book": {
+        "contentId": "3e38a321-7a70-43bf-9e3c-fb99728e091d",
+        "title": "미국의 민주주의",
+        "creator": "알렉시스 드 토크빌",
+        "description": null,
+        "isbn": "9788975855436",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 4,
+          "featuredListCount": 4,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선",
+            "서강 필독서 230선",
+            "성균고전 100선",
+            "서울대 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 84,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "99177b9c-2347-43d3-a9b8-28959959e4e6",
+        "slug": "chun-doo-hwan",
+        "nickname": "전두환",
+        "nicknameEn": "Chun Doo-hwan",
+        "profession": "commander",
+        "headline": "12·12 군사반란을 주도한 군사독재자",
+        "bio": "대한민국 군인 출신 정치가이자 제5공화국 대통령. 12·12 군사 반란과 광주민주화운동 진압으로 역사의 평가를 받는다."
+      },
+      "book": {
+        "contentId": "fbe5c525-5e63-4d63-b0cc-80e54d83dfc8",
+        "title": "민주화 이후의 민주주의",
+        "creator": "최장집",
+        "description": "한국 민주주의의 보수적 기원과 위기『민주화 이후의 민주주의』. 민주주의에 대한 이해 방법을 새롭게 제시한 책으로, 지난 60여 년의 현대 한국 정치를 소재로 한국 민주주의의 기원과 구조, 변화를 다룬다. 오늘날 한국 민주주의가 안고 있는 문제들을 이해하기 위해서 이 책은 표피적이고 현상적인 해석의 차원을 넘어 좀 더 구조적이고 역사적인 차원에서 살펴보고자 했으며, 문제중심의 접근과 서술을 특징으로 한다. 이 책이 갖고 있는 가장 큰 강점은 풍부",
+        "isbn": "9788964371169",
+        "publisher": "후마니타스",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 2,
+          "featuredListCount": 2,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "중앙대 인문학 권장도서",
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 58,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "99177b9c-2347-43d3-a9b8-28959959e4e6",
+        "slug": "chun-doo-hwan",
+        "nickname": "전두환",
+        "nicknameEn": "Chun Doo-hwan",
+        "profession": "commander",
+        "headline": "12·12 군사반란을 주도한 군사독재자",
+        "bio": "대한민국 군인 출신 정치가이자 제5공화국 대통령. 12·12 군사 반란과 광주민주화운동 진압으로 역사의 평가를 받는다."
+      },
+      "book": {
+        "contentId": "7d237edc-8753-4ddc-99e8-d633cbb59e0f",
+        "title": "문학의 민주주의",
+        "creator": "장성규",
+        "description": "이 책은 ‘구로노동자문학회’를 중심으로 한국에서의 노동자 글쓰기의 문학사를 거칠게나마 조망해보려는 조그마한 시도이다. 1988년부터 2006년까지 지속된 구로노동자문학회는 ‘문학의 주체로서의 노동자’라는 상이 구현된 매우 특이한 문학사적 사례에 해당한다. 주지하다시피 한국의 근대문학은 일련의 지식인-엘리트 집단을 주체로 설정하였으며, 이러한 문학적 주체 설정은 지금까지도 통용되고 있다. 이들 중 일부는 식민지 시대의 카프나 1980년대 민족문학운동",
+        "isbn": "9791173961380",
+        "publisher": "역락",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "한국출판문화상 수상작"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "99177b9c-2347-43d3-a9b8-28959959e4e6",
+        "slug": "chun-doo-hwan",
+        "nickname": "전두환",
+        "nicknameEn": "Chun Doo-hwan",
+        "profession": "commander",
+        "headline": "12·12 군사반란을 주도한 군사독재자",
+        "bio": "대한민국 군인 출신 정치가이자 제5공화국 대통령. 12·12 군사 반란과 광주민주화운동 진압으로 역사의 평가를 받는다."
+      },
+      "book": {
+        "contentId": "f82a9e3b-f515-4d3b-8f1a-03316952bb08",
+        "title": "미국의 민주주의",
+        "creator": "알렉시 드 토크빌",
+        "description": null,
+        "isbn": "9788935601950",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "99177b9c-2347-43d3-a9b8-28959959e4e6",
+        "slug": "chun-doo-hwan",
+        "nickname": "전두환",
+        "nicknameEn": "Chun Doo-hwan",
+        "profession": "commander",
+        "headline": "12·12 군사반란을 주도한 군사독재자",
+        "bio": "대한민국 군인 출신 정치가이자 제5공화국 대통령. 12·12 군사 반란과 광주민주화운동 진압으로 역사의 평가를 받는다."
+      },
+      "book": {
+        "contentId": "0291a170-0725-4404-a474-04f7c575c215",
+        "title": "민주주의와 교육",
+        "creator": "존 듀이",
+        "description": null,
+        "isbn": "9788925400662",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "99177b9c-2347-43d3-a9b8-28959959e4e6",
+        "slug": "chun-doo-hwan",
+        "nickname": "전두환",
+        "nicknameEn": "Chun Doo-hwan",
+        "profession": "commander",
+        "headline": "12·12 군사반란을 주도한 군사독재자",
+        "bio": "대한민국 군인 출신 정치가이자 제5공화국 대통령. 12·12 군사 반란과 광주민주화운동 진압으로 역사의 평가를 받는다."
+      },
+      "book": {
+        "contentId": "0727c0b7-1113-4dfa-8edb-5c098aa86ce3",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "요제프 슘페터",
+        "description": "따르면 “사회주의라는 주제에 관하여 근 40년 동안 사색하고 관찰하고 연구해온 방대한 결과를 읽기 좋게 한 권의 단행본으로 묶은 것이다.” 슘페터는 이 책에서 자본주의 경제 체제의 성공을 견인했던 여러 요인들이 오히려 고도로 발달한 자본주의를 쇠퇴시키는 요인으로 작용할 것이며, 결국에는 자본주의가 사회주의로 전환될 것이라고 전망했다. 이런 내용으로 인해 출간 당시부터 상당히 파격적이고 위험한 사상으로 인식되었고, 당연하게도 뜨거운 논쟁의 중심에 설 수밖에 없었다",
+        "isbn": "9788996937432",
+        "publisher": "북길드",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "99177b9c-2347-43d3-a9b8-28959959e4e6",
+        "slug": "chun-doo-hwan",
+        "nickname": "전두환",
+        "nicknameEn": "Chun Doo-hwan",
+        "profession": "commander",
+        "headline": "12·12 군사반란을 주도한 군사독재자",
+        "bio": "대한민국 군인 출신 정치가이자 제5공화국 대통령. 12·12 군사 반란과 광주민주화운동 진압으로 역사의 평가를 받는다."
+      },
+      "book": {
+        "contentId": "9b2f1ef3-7b76-4bf6-b2f3-b55836d4b09a",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "조지프 슘페터",
+        "description": "미국 경제학자 슘페터의 대표작 경제학의 고전『자본주의 사회주의 민주주의』. 슘페터는 20세기 전반이 세계적인 이론경제학자로, 경제ㆍ사회 전반의 문제를 40여 년에 걸쳐 사색한 결정체를 이 책에 담았다. 그는 이 책에서 마르크스의 이론의 비판 및 자본주의의 운명, 민주주의 여러 모순들을 순수경제학의 범주를 넘어서 정치ㆍ사회적인 입장에서 광범위하고도 깊은 통찰력으로 분석하고 있다. 그의 사회주의와 자본주의에 대한 예언자적 이론은 수많은 현대 경제이론가들",
+        "isbn": "9788935664153",
+        "publisher": "한길사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "성균고전 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "a4f66d4e-9e80-4536-93b9-17e1a8826d2e",
+        "slug": "shiro-ishii",
+        "nickname": "이시이 시로",
+        "nicknameEn": "Shiro Ishii",
+        "profession": "commander",
+        "headline": "인간 생체실험을 지휘한 731부대장",
+        "bio": "일본의 군인이자 의사. 육군 군의로서 관동군 방역급수부, 이른바 731부대를 만들어 세균전 연구와 포로 생체실험을 지휘했으며, 패전 후 실험 자료를 미국에 넘기는 대가로 전범 소추를 면하고 1959년 병사했다."
+      },
+      "book": {
+        "contentId": "f972ffa9-f789-413d-8003-03b6b1b76df1",
+        "title": "나는 고백한다 현대의학을",
+        "creator": "아툴 가완디",
+        "description": null,
+        "isbn": "9788990247070",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "카이스트 추천도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "의학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "a97a7bf8-24d1-4e57-b1fe-9cc5d48974da",
+        "slug": "lucius-sergius-catilina",
+        "nickname": "루키우스 세르기우스 카틸리나",
+        "nicknameEn": "Lucius Sergius Catilina",
+        "profession": "commander",
+        "headline": "키케로가 고발한 로마 반란의 주모자",
+        "bio": "고대 로마 공화정 말기의 몰락 귀족이자 정치가. 집정관 선거에서 거듭 낙선한 뒤 무장 봉기로 원로원 전복을 꾀했고, 키케로의 탄핵 연설로 음모가 폭로되어 피스토리아 전투에서 전사했다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "b8eeb082-f666-4f52-beee-266c9cb0cd20",
+        "slug": "hulagu-khan",
+        "nickname": "훌라구",
+        "nicknameEn": "Hulagu Khan",
+        "profession": "commander",
+        "headline": "바그다드를 함락한 일칸국 창건자",
+        "bio": "몽골 제국의 왕족이자 지휘관. 칭기즈 칸의 손자로 서아시아 원정을 이끌어 1258년 바그다드를 함락하고 일칸국을 세웠으며, 학자를 후원해 마라게 천문대를 건립했다."
+      },
+      "book": {
+        "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+        "title": "몽골제국과 세계사의 탄생",
+        "creator": "김호동",
+        "description": "우리 사회의 인문학에 대한 관심과 소양을 넓히는데 기여하고자 기획된「석학人文강좌」제12권『몽골제국과 세계사의 탄생』. 한국의 인문학계를 대표하는 각 분야의 석학들이 일생을 바쳐 축적해 온 학문적 성과와 문제의식을 관련 분야 학자와 지식인, 일반 대중과 함께 공유하고, 인간과 사회의 본질적인 문제에 대해 고민한다. 이번 책에서는 중앙유라시아 전문가 김호동 교수가 지금까지 축적한 주요 성과를 이해하기 쉽게 정리해 선보인다.",
+        "isbn": "9788971994047",
+        "publisher": "돌베개",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52.59,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "몽골제국"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "학자"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "e58023e5-f59d-453e-8451-b72a5924a0a6",
+        "slug": "emperor-wu-of-han",
+        "nickname": "유철",
+        "nicknameEn": "Emperor Wu of Han",
+        "profession": "commander",
+        "headline": "한 제국의 영토를 최대로 넓힌 황제",
+        "bio": "한나라 제7대 황제(재위 기원전 141~87). 유교를 국교로 확립하고 흉노를 대대적으로 정벌해 한 제국의 판도를 최대로 확장했다."
+      },
+      "book": {
+        "contentId": "0d8ebc12-b5f5-4c12-b09e-dc67f3a2bd64",
+        "title": "유교적 사유와 삶의 변천(한국문화사 24)",
+        "creator": "국사편찬위원회",
+        "description": null,
+        "isbn": "9788900254419",
+        "publisher": "동아출판",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "유교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "e94f8fc2-9010-4f39-9d32-2dad78a83cd2",
+        "slug": "genghis-khan",
+        "nickname": "칭기즈 칸",
+        "nicknameEn": "Genghis Khan",
+        "profession": "commander",
+        "headline": "몽골 부족을 통일해 제국을 세운 정복자",
+        "bio": "몽골 제국의 창시자. 흩어져 있던 유목 부족을 통일하고 인류 역사상 가장 거대한 제국을 건설한 정복자."
+      },
+      "book": {
+        "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+        "title": "몽골제국과 세계사의 탄생",
+        "creator": "김호동",
+        "description": "우리 사회의 인문학에 대한 관심과 소양을 넓히는데 기여하고자 기획된「석학人文강좌」제12권『몽골제국과 세계사의 탄생』. 한국의 인문학계를 대표하는 각 분야의 석학들이 일생을 바쳐 축적해 온 학문적 성과와 문제의식을 관련 분야 학자와 지식인, 일반 대중과 함께 공유하고, 인간과 사회의 본질적인 문제에 대해 고민한다. 이번 책에서는 중앙유라시아 전문가 김호동 교수가 지금까지 축적한 주요 성과를 이해하기 쉽게 정리해 선보인다.",
+        "isbn": "9788971994047",
+        "publisher": "돌베개",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "몽골제국"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    }
+  ]
+}
