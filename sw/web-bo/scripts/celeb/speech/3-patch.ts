@@ -29,7 +29,7 @@
  * 직접 발언을 끝내 확보하지 못한 경우 `"unavailable": true` 와 `"unavailable_reason"` 을 넣는다.
  * 한마디는 표준 자리 표시 값으로 자동 대체되고, 룰북이 요구하는 출처 3곳·호스트 2곳을 여기서 먼저 센다.
  *
- * 전체 흐름은 docs/project/celeb/celeb-speech-pipeline.md 가 쥔다.
+ * 전체 흐름은 docs/project/celeb/celeb-04-02-speech-pipeline.md 가 쥔다.
  */
 
 import { readFile, mkdir, writeFile } from 'node:fs/promises'

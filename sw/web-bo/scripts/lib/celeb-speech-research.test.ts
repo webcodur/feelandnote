@@ -75,6 +75,91 @@ test('unavailable은 조사 경로와 표준 문구를 요구한다', () => {
   }))
 })
 
+test('preserved는 기존 한마디를 그대로 두고 상황 대사만 교정할 수 있다', () => {
+  const lines = { ...currentLines, quote: '기존 한마디' }
+  const research = base()
+  research.quoteOutcome = 'preserved'
+  research.voiceSamples = []
+  research.dialogueDecision = 'REVISE'
+  research.expectedLinesSha256 = speechLinesSha256(lines)
+  assert.doesNotThrow(() => validateSpeechResearch({
+    research,
+    currentLines: lines,
+    currentLinesEn: { quote: 'Existing quote' },
+    proposedQuoteKo: '기존 한마디',
+    proposedQuoteEn: 'Existing quote',
+    hasKoDialoguePatch: true,
+  }))
+})
+
+test('preserved는 기존 영문 한마디가 없으면 없는 상태를 보존한다', () => {
+  const lines = { ...currentLines, quote: '기존 한마디' }
+  const research = base()
+  research.quoteOutcome = 'preserved'
+  research.voiceSamples = []
+  research.dialogueDecision = 'REVISE'
+  research.expectedLinesSha256 = speechLinesSha256(lines)
+  assert.doesNotThrow(() => validateSpeechResearch({
+    research,
+    currentLines: lines,
+    currentLinesEn: {},
+    proposedQuoteKo: '기존 한마디',
+    proposedQuoteEn: undefined,
+    hasKoDialoguePatch: true,
+  }))
+})
+
+test('preserved는 비어 있던 영문 한마디를 새로 만들지 못한다', () => {
+  const lines = { ...currentLines, quote: '기존 한마디' }
+  const research = base()
+  research.quoteOutcome = 'preserved'
+  research.voiceSamples = []
+  research.dialogueDecision = 'REVISE'
+  research.expectedLinesSha256 = speechLinesSha256(lines)
+  assert.throws(() => validateSpeechResearch({
+    research,
+    currentLines: lines,
+    currentLinesEn: {},
+    proposedQuoteKo: '기존 한마디',
+    proposedQuoteEn: 'Created quote',
+    hasKoDialoguePatch: true,
+  }), /새로 만들지 않는다/)
+})
+
+test('preserved가 한국어 한마디를 바꾸면 거부한다', () => {
+  const lines = { ...currentLines, quote: '기존 한마디' }
+  const research = base()
+  research.quoteOutcome = 'preserved'
+  research.voiceSamples = []
+  research.dialogueDecision = 'REVISE'
+  research.expectedLinesSha256 = speechLinesSha256(lines)
+  assert.throws(() => validateSpeechResearch({
+    research,
+    currentLines: lines,
+    currentLinesEn: { quote: 'Existing quote' },
+    proposedQuoteKo: '바꾼 한마디',
+    proposedQuoteEn: 'Existing quote',
+    hasKoDialoguePatch: true,
+  }), /현재값을 그대로/)
+})
+
+test('preserved가 영문 한마디를 바꾸면 거부한다', () => {
+  const lines = { ...currentLines, quote: '기존 한마디' }
+  const research = base()
+  research.quoteOutcome = 'preserved'
+  research.voiceSamples = []
+  research.dialogueDecision = 'REVISE'
+  research.expectedLinesSha256 = speechLinesSha256(lines)
+  assert.throws(() => validateSpeechResearch({
+    research,
+    currentLines: lines,
+    currentLinesEn: { quote: 'Existing quote' },
+    proposedQuoteKo: '기존 한마디',
+    proposedQuoteEn: 'Changed quote',
+    hasKoDialoguePatch: true,
+  }), /영문 한마디 현재값/)
+})
+
 test('KEEP이 기존 21개를 보내면 거부한다', () => {
   assert.throws(() => validateSpeechResearch({
     research: base(),

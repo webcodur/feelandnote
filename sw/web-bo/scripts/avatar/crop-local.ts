@@ -5,11 +5,11 @@
  * 자를 영역이 원본 밖으로 나가면 가장자리 색으로 캔버스를 넓힌 뒤 자른다 —
  * 생성물은 얼굴이 프레임 위쪽·좌우에 붙는 일이 잦아 이 여유가 없으면 규격을 못 맞춘다.
  *
- * 규격 SSoT: docs/project/celeb/celeb-avatar-spec.md §1·§6
+ * 규격 의미: docs/project/celeb/celeb-08-01-avatar.md의 「구도」·「크롭」
  * 좌표 계산은 src/lib/avatar-geometry.ts 하나만 쓴다. 여기서 수치를 다시 만들지 않는다.
  *
  * 사용법 (sw/web-bo 에서):
- *   npx tsx scripts/avatar/crop-local.ts <입력폴더> <출력폴더> [--size 800] [--quality 95] [--png]
+ *   npx tsx scripts/avatar/crop-local.ts <입력폴더> <출력폴더> [--size <px>] [--quality <1~100>] [--png]
  *
  *   입력폴더의 <이름>.png|jpg|webp 를 읽어 출력폴더에 <이름>.webp 로 쓴다.
  *   --png 를 주면 webp 대신 png 로 쓴다(다음 단계에서 배경 제거를 할 때 쓴다).
@@ -18,11 +18,12 @@
  * 그쪽은 애초에 눈·턱 규격 대상이 아니므로 원본을 그대로 쓰면 된다.
  */
 import sharp from 'sharp'
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs'
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs'
 import { resolve, join, parse as parsePath } from 'path'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
 import { createRequire } from 'module'
+import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { AVATAR_SPEC, judgeGeometry, type FaceAnchors } from '../../src/lib/avatar-geometry'
 import { BO_ROOT } from '../lib/paths'
 
@@ -41,12 +42,12 @@ const flag = (name: string) => {
 const positional = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && args[i - 1].startsWith('--') && args[i - 1] !== '--png'))
 const inDir = positional[0]
 const outDir = positional[1]
-const size = Number(flag('size') ?? 800)
-const quality = Number(flag('quality') ?? 95)
+const size = Number(flag('size') ?? CELEB_AVATAR_ORIGINAL.sizePx)
+const quality = Number(flag('quality') ?? CELEB_AVATAR_ORIGINAL.webpQuality)
 const asPng = args.includes('--png')
 
 if (!inDir || !outDir) {
-  console.error('사용법: npx tsx scripts/avatar/crop-local.ts <입력폴더> <출력폴더> [--size 800] [--png]')
+  console.error('사용법: npx tsx scripts/avatar/crop-local.ts <입력폴더> <출력폴더> [--size <px>] [--png]')
   process.exit(1)
 }
 

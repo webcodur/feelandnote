@@ -7,7 +7,7 @@
  *
  * `--anchor` 로 신원이 보장된 사진 한 장을 주면 그것과 대조한다. 화질이 나빠도 상관없다 —
  * 위키미디어 P18이 여기에 맞다. **사진 창고로는 쓰지 않되 신원 대조 기준으로는 쓴다**
- * (`docs/project/celeb/celeb-avatar-spec.md` §0.3). anchor 가 없으면 최대 무리를 본인으로 보는데,
+ * (`docs/project/celeb/celeb-08-01-avatar.md`의 「원본과 제작」). anchor 가 없으면 최대 무리를 본인으로 보는데,
  * 남의 사진이 더 많이 섞이면 뒤집힌다.
  *
  * 사용법 (sw/web-bo 에서):
@@ -22,6 +22,7 @@ import { resolve, join, parse as parsePath } from 'path'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
 import { createRequire } from 'module'
+import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { AVATAR_SPEC } from '../../src/lib/avatar-geometry'
 import { BO_ROOT } from '../lib/paths'
 
@@ -40,7 +41,7 @@ const dir = args.find((a) => !a.startsWith('--') && !args[args.indexOf(a) - 1]?.
 const outPath = flag('out')
 /** 얼굴 임베딩 거리. 0.5 안쪽이면 같은 사람으로 본다(face-api 권장값 0.6보다 죄어 잡는다). */
 const threshold = Number(flag('threshold') ?? 0.5)
-const minCrop = Number(flag('min-crop') ?? 800)
+const minCrop = Number(flag('min-crop') ?? CELEB_AVATAR_ORIGINAL.sizePx)
 
 if (!dir) {
   console.error('사용법: npx tsx scripts/avatar/pick-face.ts <후보폴더> [--out <경로>]')
@@ -152,7 +153,7 @@ async function main() {
   // 신원 기준이 있으면 그것과 대조한다. 없으면 가장 큰 무리를 본인으로 본다.
   const anchorPath = flag('anchor')
   let main: Candidate[]
-  let groups: Candidate[][] = []
+  const groups: Candidate[][] = []
 
   if (anchorPath) {
     if (!existsSync(anchorPath)) { console.error(`기준 사진이 없다: ${anchorPath}`); process.exit(1) }

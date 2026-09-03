@@ -1,5 +1,5 @@
 /**
- * 팩션 DB의 mythical 인물을 검색 가능한 fiction 프로필로 만들고 연결한다.
+ * 팩션 DB의 mythical 인물을 비공개 fiction 프로필로 만들고 연결한다.
  *
  * 목표:
  * - 얼굴이 없어도 기본 프로필을 만든다. avatar_url은 null 그대로 둔다.
@@ -9,8 +9,8 @@
  * - 미출간 신화 편은 편 단위 tagSlug를 faction_groups.data에 넣는다.
  *
  * 기본은 dry-run:
- *   node --env-file=.env --import tsx scripts/sync-faction-fiction-data.ts
- *   node --env-file=.env --import tsx scripts/sync-faction-fiction-data.ts --apply
+ *   pnpm fiction:sync:faction
+ *   pnpm fiction:sync:faction --apply
  * 신규 프로필이 있으면 --profession-file <slug별 직군 JSON>이 필요하다.
  */
 
@@ -351,7 +351,7 @@ function desiredProfile(person: PersonRow, folder: string, slug: string, profess
     bio,
     bio_en: bioEn,
     celeb_tier: 'fiction',
-    publication_status: 'active',
+    publication_status: 'inactive',
     is_verified: false,
     // 근거 검토를 거치지 않은 장문을 채우지 않는다.
     virtual_monologue: null,

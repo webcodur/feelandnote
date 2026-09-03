@@ -1,22 +1,13 @@
 /**
- * 셀럽 아바타 작은 판(avatar-sm.webp) 생성 — R2의 원본 avatar.webp를 읽어 96px로 줄여 나란히 올린다.
+ * R2의 원본 아바타를 읽어 작은 판을 나란히 생성한다.
+ * 파일명·기본 출력값은 packages/shared/src/constants/celeb-avatar-small.ts가 쥔다.
+ * 원본은 읽기만 하고, 작은 판이 이미 있으면 `--force` 없이는 건너뛴다.
  *
- * 왜 필요한가:
- *   원본은 800×800 한 장뿐이라(레티나 3x 대응, docs/project/data/db-celeb.md) 얼굴이 지름 36~40px로
- *   나오는 화면(성향 분포 등)에서도 800px을 그대로 받는다. 성향 분포는 한 화면에 200장이 넘게 깔려
- *   합계 1억 4천만 화소가 되고, 브라우저가 그림 준비를 감당하지 못해 자리가 빈 채로 남는다
- *   (마우스가 지나간 자리만 뒤늦게 그려진다). 작은 판을 따로 두어 그런 화면이 이것만 받게 한다.
- *
- * 안전:
- *   원본 avatar.webp는 읽기만 한다. 이 스크립트는 avatar-sm.webp만 새로 쓴다.
- *   이미 있으면 건너뛰므로 여러 번 돌려도 안전하고, 중단된 지점부터 이어서 돌릴 수 있다.
- *
- * 사용법 (sw/web-bo 디렉토리에서):
- *   npx tsx scripts/generate-celeb-avatar-sm.ts --dry            (대상만 세어 본다)
- *   npx tsx scripts/generate-celeb-avatar-sm.ts --limit 20       (앞 20명만 시험 생성)
- *   npx tsx scripts/generate-celeb-avatar-sm.ts                  (전량)
- *   npx tsx scripts/generate-celeb-avatar-sm.ts --force          (이미 있어도 다시 만든다)
- *   npx tsx scripts/generate-celeb-avatar-sm.ts --size 96 --quality 82
+ * 사용법 (sw/web-bo 디렉터리):
+ *   pnpm avatar:sm --dry
+ *   pnpm avatar:sm --limit 20
+ *   pnpm avatar:sm
+ *   pnpm avatar:sm --force
  */
 
 import {
@@ -28,12 +19,13 @@ import {
 import { createClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
 import { readFileSync } from 'fs'
+import {
+  CELEB_AVATAR_ORIGINAL,
+  CELEB_AVATAR_SMALL,
+} from '@feelandnote/shared/constants/celeb-avatar-small'
 import { boPath } from '../lib/paths'
 
 
-/** 화면에는 지름 36~40px로 나온다. 고해상도 화면 2~3배까지 감당하는 크기다. */
-const DEFAULT_SIZE = 96
-const DEFAULT_QUALITY = 82
 /** R2를 동시에 두드리는 수. 올려도 이득이 적고 실패율만 오른다. */
 const CONCURRENCY = 8
 
@@ -60,12 +52,12 @@ function parseArgs(): Args {
     console.error(`--limit 값 부적절: ${limitRaw}. 1 이상 정수 필요`)
     process.exit(1)
   }
-  const size = sizeRaw ? Number(sizeRaw) : DEFAULT_SIZE
+  const size = sizeRaw ? Number(sizeRaw) : CELEB_AVATAR_SMALL.sizePx
   if (!Number.isInteger(size) || size < 32 || size > 400) {
     console.error(`--size 값 부적절: ${sizeRaw}. 32~400 정수 필요`)
     process.exit(1)
   }
-  const quality = qualityRaw ? Number(qualityRaw) : DEFAULT_QUALITY
+  const quality = qualityRaw ? Number(qualityRaw) : CELEB_AVATAR_SMALL.webpQuality
   if (!Number.isInteger(quality) || quality < 1 || quality > 100) {
     console.error(`--quality 값 부적절: ${qualityRaw}. 1~100 정수 필요`)
     process.exit(1)
@@ -175,8 +167,8 @@ async function main() {
   let done = 0
 
   async function processOne(t: Target): Promise<Outcome> {
-    const srcKey = `celebs/${t.id}/avatar.webp`
-    const dstKey = `celebs/${t.id}/avatar-sm.webp`
+    const srcKey = `celebs/${t.id}/${CELEB_AVATAR_ORIGINAL.file}`
+    const dstKey = `celebs/${t.id}/${CELEB_AVATAR_SMALL.smallFile}`
 
     if (!args.force) {
       try {

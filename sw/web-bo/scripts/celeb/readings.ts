@@ -1,6 +1,6 @@
 /**
  * 인물 안내 한영 검수·재작성 배치.
- * 규칙 SSoT: docs/project/celeb/person-reading.md
+ * 규칙 SSoT: docs/project/celeb/celeb-05-01-reading.md
  *
  * 실행 예:
  *   pnpm exec tsx scripts/celeb/readings.ts --slugs=hegel,werner-heisenberg --plan --include-existing
@@ -371,7 +371,7 @@ async function fetchJson(url: string): Promise<unknown> {
     try {
       await waitForResearchFetchSlot()
       const response = await fetch(url, {
-        headers: { 'User-Agent': 'FeelandNote/1.0 (person-reading research)' },
+        headers: { 'User-Agent': 'FeelandNote/1.0 (celeb-reading research)' },
         signal: AbortSignal.timeout(12_000),
       })
       if (response.status === 429) {
@@ -507,7 +507,7 @@ async function wikipediaPageByTitle(
     try {
       await waitForResearchFetchSlot()
       const response = await fetch(url, {
-        headers: { 'User-Agent': 'FeelandNote/1.0 (person-reading research)' },
+        headers: { 'User-Agent': 'FeelandNote/1.0 (celeb-reading research)' },
         signal: AbortSignal.timeout(12_000),
       })
       if (response.status === 404) return null
@@ -996,7 +996,7 @@ async function rejectExplicitlyMissingDeepSources(
           method: 'GET',
           redirect: 'follow',
           headers: {
-            'User-Agent': 'Mozilla/5.0 (compatible; FeelAndNote/1.0; person-reading source check)',
+            'User-Agent': 'Mozilla/5.0 (compatible; FeelAndNote/1.0; celeb-reading source check)',
             Range: 'bytes=0-2048',
           },
           signal: AbortSignal.timeout(15_000),

@@ -59,7 +59,7 @@ scripts/
 
 ## 셀럽 말투·대사
 
-번호 순서대로 실행한다. 4단계 반영은 위의 `celeb:fill` 이 맡는다. 전체 흐름은 [`docs/project/celeb/celeb-speech-pipeline.md`](../../../docs/project/celeb/celeb-speech-pipeline.md)가 쥔다.
+번호 순서대로 실행한다. 4단계 반영은 위의 `celeb:fill` 이 맡는다. 전체 흐름은 [`docs/project/celeb/celeb-04-02-speech-pipeline.md`](../../../docs/project/celeb/celeb-04-02-speech-pipeline.md)가 쥔다.
 
 | 명령 | 하는 일 |
 |---|---|
@@ -111,7 +111,7 @@ scripts/
 | `fiction:audit` | 프로필·대표 원전 연결 전수 감사 |
 | `fiction:seed:inactive` | 이름·영문명·식별 bio와 신규/기존 UUID 판단을 받아 fiction/inactive 후보와 숨김 신화 소속을 등록 |
 | `fiction:sync` | 인물 명세를 셀럽 테이블에 동기화 |
-| `fiction:sync:faction` | 세력도감의 신화 인물을 검색 가능한 프로필로 전환 |
+| `fiction:sync:faction` | 세력도감의 신화 인물을 비공개 fiction 프로필로 만들고 연결 |
 | `fiction:monologue-lock` | 가상 독백 확정 잠금·해제·목록 |
 
 ## 기관 선정 목록

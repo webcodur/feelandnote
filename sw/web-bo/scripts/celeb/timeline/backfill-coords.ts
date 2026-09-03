@@ -1,6 +1,6 @@
 /**
  * 연표 사건의 빈 좌표를 외부 호출 없이 채운다.
- * 규칙 SSoT: docs/project/celeb/celeb-timeline.md
+ * 규칙 SSoT: docs/project/celeb/celeb-06-01-timeline.md
  *
  * 조사가 아니라 정리 작업이다. 장소명은 이미 조사 단계에서 확인된 값이고, 여기서는
  * 그 이름에 해당하는 좌표를 테이블 안에서 찾아 붙이기만 한다. 사실관계는 건드리지 않는다.

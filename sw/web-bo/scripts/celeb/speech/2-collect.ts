@@ -15,7 +15,7 @@
  *
  * WAF로 막힌 호스트는 `--file` 로 우회한다. 별도 회수기로 페이지를 파일에 저장한 뒤
  * 그 파일을 넘기면 같은 추출기를 그대로 태울 수 있다. 자세한 절차는
- * docs/project/celeb/celeb-speech-pipeline.md §2 가 쥔다.
+ * docs/project/celeb/celeb-04-02-speech-pipeline.md의 「자료 회수」가 쥔다.
  */
 
 import { readFile } from 'node:fs/promises'

@@ -1,7 +1,7 @@
 /**
  * 셀럽 아바타 자동 등록 — 위키미디어 Commons 이미지 다운로드 → 얼굴 랜드마크 크롭 → R2 업로드 → DB celebs.avatar_url 갱신
  *
- * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb/celeb-avatar-spec.md §1·§6이고,
+ * 구도와 크롭의 의미는 docs/project/celeb/celeb-08-01-avatar.md가 쥐고,
  * 좌표 계산은 src/lib/avatar-geometry.ts 한 곳이 담당한다. 이 스크립트는 좌표를 직접 계산하지 않는다.
  *
  * 사용법 (sw/web-bo 디렉토리에서):
@@ -14,8 +14,8 @@
  *     [--face-detect true|false]              (기본 true)
  *     [--allow-no-face true]                  (기본 꺼짐. 얼굴 미검출은 실패가 기본이다)
  *     [--crop-gravity attention|entropy|...]  (--face-detect false 일 때만 쓰인다)
- *     [--size 800]                            (저장 정사각 한 변, 기본 800. 고해상도 원본이면 올린다)
- *     [--quality 95]                          (최종 WebP 품질, 기본 95)
+ *     [--size <px>]                           (미지정 시 공유 원본 규격)
+ *     [--quality <1~100>]                     (미지정 시 공유 원본 규격)
  *     [--preview-path C:\...\avatar.webp]
  *   폐기된 인자: --face-frame-ratio (규격이 코드로 고정됐다. 넘기면 경고 후 무시)
  *
@@ -25,7 +25,7 @@
  *  3) 얼굴 검출(SSD MobileNet) + 68점 랜드마크(vladmandic face-api + tfjs-wasm).
  *     가장 큰 얼굴의 눈·턱끝 좌표를 원본 좌표계로 환원한다
  *  4) avatar-geometry가 눈·턱 거리로 정사각 좌표를 산출(랜드마크를 못 얻으면 상자 기준 폴백 + 경고)
- *     → sharp.extract 좌표 크롭 → --size 정사각 resize → webp(기본 q=95), EXIF에 출처/라이선스 박음
+ *     → sharp.extract 좌표 크롭 → --size 정사각 resize → webp, EXIF에 출처/라이선스 박음
  *  5) 얼굴 미검출이면 업로드 전에 실패한다. --allow-no-face true 를 명시한 경우에만 중앙 크롭으로
  *     진행하되 얼굴 위치를 보장하지 않는다는 경고를 콘솔과 로그에 남긴다
  *  6) R2 PUT: celebs/{celebId}/avatar.webp
@@ -42,7 +42,11 @@ import { readFileSync, appendFileSync, writeFileSync, existsSync, mkdirSync } fr
 import { resolve, dirname } from 'path'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
-import { CELEB_AVATAR_SMALL } from '@feelandnote/shared/constants/celeb-avatar-small'
+import {
+  CELEB_AVATAR_ORIGINAL,
+  CELEB_AVATAR_SMALL,
+} from '@feelandnote/shared/constants/celeb-avatar-small'
+import { buildSmallAvatar, smallAvatarKey } from '../../src/lib/avatar-small'
 import {
   computeCropFromBox,
   computeCropFromLandmarks,
@@ -96,7 +100,7 @@ type Args = {
   previewPath?: string
   /** 저장할 정사각 한 변(px). 원본이 이보다 크면 줄이고, 작으면 늘린다 */
   outSize: number
-  /** 최종 WebP 저장 품질(1~100). 얼굴·머리카락 디테일 보존을 위해 기본 95 */
+  /** 최종 WebP 저장 품질(1~100). 기본값은 공유 원본 규격에서 읽는다. */
   webpQuality: number
 }
 
@@ -198,15 +202,17 @@ function parseArgs(): Args {
   if (faceFrameRatioRaw !== undefined) {
     console.warn(
       '[경고] --face-frame-ratio 는 이제 쓰지 않는다. '
-      + '규격은 docs/project/celeb/celeb-avatar-spec.md 가 정하며 src/lib/avatar-geometry.ts 가 그대로 따른다. 무시한다.'
+      + '규격은 docs/project/celeb/celeb-08-01-avatar.md 가 정하며 src/lib/avatar-geometry.ts 가 그대로 따른다. 무시한다.'
     )
   }
-  const outSize = outSizeRaw ? Number(outSizeRaw) : 800
+  const outSize = outSizeRaw ? Number(outSizeRaw) : CELEB_AVATAR_ORIGINAL.sizePx
   if (!Number.isInteger(outSize) || outSize < 64 || outSize > 4096) {
     console.error(`--size 값 부적절: ${outSizeRaw}. 64~4096 정수 필요`)
     process.exit(1)
   }
-  const webpQuality = webpQualityRaw ? Number(webpQualityRaw) : 95
+  const webpQuality = webpQualityRaw
+    ? Number(webpQualityRaw)
+    : CELEB_AVATAR_ORIGINAL.webpQuality
   if (!Number.isInteger(webpQuality) || webpQuality < 1 || webpQuality > 100) {
     console.error(`--quality 값 부적절: ${webpQualityRaw}. 1~100 정수 필요`)
     process.exit(1)
@@ -764,7 +770,7 @@ async function main() {
   }
 
   console.log(
-    `[3/6] webp 변환 (${args.outSize}x${args.outSize}, q=${args.webpQuality}, face-detect=${args.faceDetect}, allow-no-face=${args.allowNoFace}, 규격=celeb-avatar-spec.md §1)`
+    `[3/6] webp 변환 (${args.outSize}x${args.outSize}, q=${args.webpQuality}, face-detect=${args.faceDetect}, allow-no-face=${args.allowNoFace}, 규격=celeb-08-01-avatar.md)`
   )
   const conv = await toAvatarWebp(original, meta, sourceLabel, args)
   if (conv.faceDetected) {
@@ -796,7 +802,7 @@ async function main() {
       secretAccessKey: env.R2_SECRET_ACCESS_KEY,
     },
   })
-  const key = `celebs/${args.celebId}/avatar.webp`
+  const key = `celebs/${args.celebId}/${CELEB_AVATAR_ORIGINAL.file}`
   await r2.send(
     new PutObjectCommand({
       Bucket: env.R2_BUCKET_NAME,
@@ -810,14 +816,11 @@ async function main() {
   console.log(`     PUT ok: ${publicUrl}`)
 
   // 얼굴이 작게 나오는 화면(성향 분포 등)이 쓸 작은 판. 규격은 shared가 쥔다.
-  const smallBuf = await sharp(conv.buf)
-    .resize(CELEB_AVATAR_SMALL.sizePx, CELEB_AVATAR_SMALL.sizePx, { fit: 'cover' })
-    .webp({ quality: 82 })
-    .toBuffer()
+  const smallBuf = await buildSmallAvatar(conv.buf)
   await r2.send(
     new PutObjectCommand({
       Bucket: env.R2_BUCKET_NAME,
-      Key: `celebs/${args.celebId}/${CELEB_AVATAR_SMALL.smallFile}`,
+      Key: smallAvatarKey(args.celebId),
       Body: smallBuf,
       ContentType: 'image/webp',
       CacheControl: 'public, max-age=31536000, immutable',

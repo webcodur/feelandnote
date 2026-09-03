@@ -1,7 +1,7 @@
 /**
  * 셀럽 전 트랙 결손 전수 감사. 읽기 전용.
  *
- * 룰북(`docs/project/celeb/celeb-pipeline.md`) 티어 규칙에 따라 트랙별 필수 여부를 판정한다.
+ * 룰북(`docs/project/celeb/celeb-00-01-pipeline.md`) 티어 규칙에 따라 트랙별 필수 여부를 판정한다.
  * 가상독백(virtual_monologue)과 폐기 예정 감상 여정은 결손 판정에서 제외한다.
  * active 전환에는 전 티어 공통으로 avatar_url이 필수다.
  *
@@ -13,6 +13,12 @@
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
+import { INFLUENCE_CATEGORY_FIELDS } from '@feelandnote/influence-constants/core'
+import {
+  CELEB_DIALOGUE_SITUATIONS,
+  CELEB_DIALOGUE_VARIANTS_PER_SITUATION,
+} from '@feelandnote/shared/constants/celeb-speech'
+import { SPECTRUM_AXES } from '@feelandnote/shared/constants/celeb-spectrum-scale'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
@@ -23,15 +29,9 @@ if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 없음
 const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 
 const PAGE = 1000
-const INFLUENCE_AXES = ['political', 'strategic', 'tech', 'social', 'economic', 'cultural'] as const
-const SPECTRUM_SCORES = [
-  'temperance', 'diligence', 'reflection', 'courage', 'loyalty', 'benevolence', 'fairness',
-  'humility', 'command', 'martial', 'intellect', 'charm',
-  'pessimism_optimism', 'conservative_progressive', 'individual_social', 'cautious_bold',
-] as const
-const DIALOGUE_KEYS = [
-  'greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack',
-] as const
+const INFLUENCE_AXES = INFLUENCE_CATEGORY_FIELDS
+const SPECTRUM_SCORES = SPECTRUM_AXES
+const DIALOGUE_KEYS = CELEB_DIALOGUE_SITUATIONS
 
 const blank = (v: unknown) => v === null || v === undefined || String(v).trim().length === 0
 
@@ -65,7 +65,7 @@ type Profile = Record<string, any>
 async function main() {
   const profiles = await allRows<Profile>(
     'celebs',
-    'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, publication_status, celeb_tier, speech_tone, avatar_url',
+    'id, slug, nickname, nickname_en, headline, headline_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, publication_status, celeb_tier, speech_tone, avatar_url',
     'id',
   )
   const influence = await allRows<Record<string, any>>('celeb_influence', '*', 'celeb_id')
@@ -96,8 +96,12 @@ async function main() {
     if (blank(p.nickname_en)) gaps.push('basic:nickname_en')
     if (blank(p.slug)) gaps.push('basic:slug')
     if (blank(p.profession)) gaps.push('basic:profession')
+    if (blank(p.headline)) gaps.push('basic:headline')
+    if (blank(p.headline_en)) gaps.push('basic:headline_en')
     if (blank(p.title)) gaps.push('basic:title')
+    if (blank(p.title_en)) gaps.push('basic:title_en')
     if (blank(p.bio)) gaps.push('basic:bio')
+    if (blank(p.bio_en)) gaps.push('basic:bio_en')
     if (blank(p.avatar_url)) gaps.push('basic:avatar_url')
     // 직군·국적·성별은 전 티어 공통 결손이다. fiction 도 원전 근거로 채운다(집단·비인격만 예외).
     if (blank(p.nationality)) gaps.push('basic:nationality')
@@ -110,13 +114,6 @@ async function main() {
     const needsFullTracks = tier === 'full' || tier === 'light'
 
     if (needsFullTracks) {
-      // ── i18n (full·light 필수)
-      if (blank(p.title_en)) gaps.push('i18n:title_en')
-      if (blank(p.bio_en)) gaps.push('i18n:bio_en')
-
-      // ── speech tone
-      if (blank(p.speech_tone)) gaps.push('speech:tone')
-
       // ── 영향력
       const inf = infById.get(p.id)
       if (!inf) gaps.push('influence:row')
@@ -145,30 +142,29 @@ async function main() {
         }
       }
 
-      // ── 대사 21개 + quote
-      const dia = diaById.get(p.id)
-      if (!dia) gaps.push('speech:dialogue_row')
-      else {
-        const lines = (dia.lines ?? {}) as Record<string, any>
-        const linesEn = (dia.lines_en ?? {}) as Record<string, any>
-        if (blank(lines.quote)) gaps.push('speech:quote')
-        // 명언은 확인된 실제 발언이 없으면 비워 두는 것이 규격이다. 한국어 원문이 없는데
-        // 영문만 결손으로 세면 번역 담당이 채울 수 없는 항목을 영원히 물고 늘어진다.
-        if (!blank(lines.quote) && blank(linesEn.quote)) gaps.push('i18n:quote_en')
-        let missKo = 0
-        let missEn = 0
-        for (const k of DIALOGUE_KEYS) {
-          const ko = Array.isArray(lines[k]) ? lines[k] : []
-          const en = Array.isArray(linesEn[k]) ? linesEn[k] : []
-          for (let i = 0; i < 3; i++) {
-            if (blank(ko[i])) missKo++
-            // 대사도 마찬가지 — 한국어가 있는 자리만 번역 대상이다
-            if (!blank(ko[i]) && blank(en[i])) missEn++
-          }
+    }
+
+    // ── speech: 한국어는 전 티어, 영어 상황 대사는 full·light에만 요구한다.
+    if (blank(p.speech_tone)) gaps.push('speech:tone')
+    const dia = diaById.get(p.id)
+    if (!dia) gaps.push('speech:dialogue_row')
+    else {
+      const lines = (dia.lines ?? {}) as Record<string, any>
+      const linesEn = (dia.lines_en ?? {}) as Record<string, any>
+      if (blank(lines.quote)) gaps.push('speech:quote')
+      if (needsFullTracks && !blank(lines.quote) && blank(linesEn.quote)) gaps.push('i18n:quote_en')
+      let missKo = 0
+      let missEn = 0
+      for (const k of DIALOGUE_KEYS) {
+        const ko = Array.isArray(lines[k]) ? lines[k] : []
+        const en = Array.isArray(linesEn[k]) ? linesEn[k] : []
+        for (let i = 0; i < CELEB_DIALOGUE_VARIANTS_PER_SITUATION; i++) {
+          if (blank(ko[i])) missKo++
+          if (needsFullTracks && !blank(ko[i]) && blank(en[i])) missEn++
         }
-        if (missKo > 0) gaps.push(`speech:lines_ko(${missKo})`)
-        if (missEn > 0) gaps.push(`i18n:lines_en(${missEn})`)
       }
+      if (missKo > 0) gaps.push(`speech:lines_ko(${missKo})`)
+      if (missEn > 0) gaps.push(`i18n:lines_en(${missEn})`)
     }
 
     if (gaps.length > 0) {

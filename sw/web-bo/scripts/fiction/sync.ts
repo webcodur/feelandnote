@@ -15,6 +15,7 @@
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
+import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
 
 type SourceRef = {
   work: string
@@ -77,23 +78,7 @@ const db = createClient(
   process.env.DB_SECRET_KEY,
 )
 
-const allowedProfessions = new Set([
-  'leader',
-  'politician',
-  'commander',
-  'entrepreneur',
-  'investor',
-  'humanities_scholar',
-  'social_scientist',
-  'scientist',
-  'director',
-  'musician',
-  'visual_artist',
-  'author',
-  'actor',
-  'influencer',
-  'athlete',
-])
+const allowedProfessions = new Set<string>(CELEB_PROFESSIONS.map(({ value }) => value))
 
 function validateManifest(input: Manifest) {
   if (!input.episode?.trim()) throw new Error('episode이 비어 있습니다.')

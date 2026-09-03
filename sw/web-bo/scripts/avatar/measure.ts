@@ -2,7 +2,7 @@
  * 아바타 기하 측정·판정 도구
  *
  * 이미지 폴더를 훑어 인물의 눈높이·턱끝·얼굴 중심축을 재고, 규격에 드는지 판정한다.
- * 규격 SSoT: docs/project/celeb/celeb-avatar-spec.md §1
+ * 규격 의미: docs/project/celeb/celeb-08-01-avatar.md의 「구도」·「크롭」
  * 판정 기준은 src/lib/avatar-geometry.ts 의 AVATAR_SPEC 하나만 쓴다 — 이 파일에 수치를 따로 적지 않는다.
  *
  * 사용법 (sw/web-bo 에서):
