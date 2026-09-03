@@ -68,6 +68,20 @@
 }
 
 @layer base {
+  /*
+    화면 위에 겹겹이 고정되는 층의 높이. 인물 상세는 고정 헤더 → 구획 머리 → 모드줄
+    순으로 쌓이므로, 이 값이 어긋나면 아래 층이 위 층 밑으로 파고들거나 틈이 벌어진다.
+    붙는 자리를 계산하는 곳은 모두 이 변수를 쓴다 — 숫자를 각자 적으면 갈라진다.
+  */
+  :root {
+    /* 전역 고정 헤더(Header의 h-16) */
+    --layer-header-h: 64px;
+    /* 인물 상세 구획 머리(CelebSectionHeading) */
+    --layer-celeb-heading-h: 52px;
+    /* 구획 머리 아래에 붙는 층이 쓰는 자리 */
+    --layer-celeb-heading-bottom: calc(var(--layer-header-h) + var(--layer-celeb-heading-h));
+  }
+
   * {
     @apply m-0 p-0 box-border;
 
