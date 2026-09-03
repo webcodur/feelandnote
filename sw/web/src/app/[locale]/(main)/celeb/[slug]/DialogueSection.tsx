@@ -1,13 +1,20 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] dialogue — 게임 대사 재생(상황별·음성)
+ * - 목차 위치: media > dialogues
+ * - 데이터: lines/nickname/hasVoice/celebId/voiceV/voiceSpeed props
+ * - 함께 보기: FigureMediaTabs.tsx, VideosSection.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ListMusic, Square, Info } from "lucide-react";
+import { ListMusic, Square, Info, LoaderCircle } from "lucide-react";
 import { CELEB_DIALOGUE_SITUATIONS } from "@feelandnote/shared/constants/celeb-speech";
 import type { Locale } from "@/types/locale";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import { getVoiceUrl, getQuoteVoiceUrl, getMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
 
+/* ── 1. 대사 상황·테마 ── */
 // region 대사 상황 목록
 const DIALOGUE_TYPES = [
   "quote", "monologue", ...CELEB_DIALOGUE_SITUATIONS,
@@ -98,37 +105,94 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
   const t = useTranslations("celebPage");
   const locale = useLocale() as Locale;
   const [playingKey, setPlayingKey] = useState<string | null>(null);
+  // 로드 대기 중인 행. 로딩이 끝나기 전에는 소리를 내지 않는다.
+  const [loadingKey, setLoadingKey] = useState<string | null>(null);
   const [autoPlaying, setAutoPlaying] = useState(false);
   const [activeScope, setActiveScope] = useState<Scope>("all");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const autoQueueRef = useRef<LineItem[]>([]);
   const stoppedRef = useRef(false);
+  // 받아둔 오디오 엘리먼트 보관. 같은 행을 다시 누르면 로딩 표시 없이 바로 낸다.
+  const audioCacheRef = useRef(new Map<string, HTMLAudioElement>());
 
+/* ── 2. 개별 재생 ── */
   // region 개별 재생
   const stopAudio = useCallback(() => {
     audioRef.current?.pause();
     audioRef.current = null;
     setPlayingKey(null);
+    setLoadingKey(null);
   }, []);
+
+  const getUrl = useCallback((type: string, variant: number) =>
+    type === "quote"
+      ? getQuoteVoiceUrl(celebId, locale, voiceV)
+      : type === "monologue"
+      ? getMonologueVoiceUrl(celebId, locale, voiceV)
+      : getVoiceUrl(celebId, locale, type, variant + 1, voiceV),
+  [celebId, locale, voiceV]);
+
+  // 손대기 전에 미리 받아둔다. hover·포커스 시점에 조용히 로딩만 건다.
+  const prefetchOne = useCallback((type: string, variant: number) => {
+    if (!hasVoice) return;
+    const key = `${type}-${variant}`;
+    if (audioCacheRef.current.has(key)) return;
+    const audio = new Audio(getUrl(type, variant));
+    audio.preload = "auto";
+    audioCacheRef.current.set(key, audio);
+    audio.load();
+  }, [getUrl, hasVoice]);
 
   const playOne = useCallback((type: string, variant: number, onEnd?: () => void) => {
     stopAudio();
     const key = `${type}-${variant}`;
-    const url = type === "quote"
-      ? getQuoteVoiceUrl(celebId, locale, voiceV)
-      : type === "monologue"
-      ? getMonologueVoiceUrl(celebId, locale, voiceV)
-      : getVoiceUrl(celebId, locale, type, variant + 1, voiceV);
-    const audio = new Audio(url);
+    let audio = audioCacheRef.current.get(key) ?? null;
+    if (!audio || audio.error) {
+      if (audio) audioCacheRef.current.delete(key);
+      audio = new Audio(getUrl(type, variant));
+      audio.preload = "auto";
+      audioCacheRef.current.set(key, audio);
+    }
     audio.volume = 0.7;
     if (voiceSpeed !== 1.0) audio.playbackRate = voiceSpeed;
-    const cleanup = () => { setPlayingKey(null); audioRef.current = null; onEnd?.(); };
-    audio.addEventListener("ended", cleanup, { once: true });
-    audio.addEventListener("error", cleanup, { once: true });
-    audio.play().catch(() => cleanup());
+    let settled = false;
+    // canplaythrough도 error도 없이 멈추면 무한 대기에 빠지므로 20초 뒤 정리
+    const stallTimer = window.setTimeout(() => fail(), 20000);
+    const cleanup = () => {
+      window.clearTimeout(stallTimer);
+      setLoadingKey(null);
+      setPlayingKey(null);
+      // 끝난 오디오가 현재 것과 다르면(이미 다음 재생이 시작됨) 손대지 않는다
+      if (audioRef.current === audio) audioRef.current = null;
+      onEnd?.();
+    };
+    const fail = () => { if (!settled) { settled = true; cleanup(); } };
+    const begin = () => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(stallTimer);
+      setLoadingKey(null);
+      audio.play().then(() => {
+        // 그 사이 다른 재생이 시작됐으면 얌전히 물러난다
+        if (audioRef.current !== audio) { audio.pause(); return; }
+        setPlayingKey(key);
+      }).catch(() => cleanup());
+    };
+    // 핸들러는 재생마다 갈아낀다. 보관 엘리먼트를 돌려쓰므로 addEventListener 누적 방지.
+    audio.onended = cleanup;
+    audio.onerror = fail;
     audioRef.current = audio;
-    setPlayingKey(key);
-  }, [celebId, locale, voiceV, voiceSpeed, stopAudio]);
+    if (audio.readyState >= 3) {
+      // 이미 받아져 있다 — 로딩 표시 없이 처음부터 바로 낸다
+      audio.currentTime = 0;
+      begin();
+      return;
+    }
+    // 끊김 없이 통으로 재생할 만큼 받아진 뒤에만 소리를 낸다
+    setLoadingKey(key);
+    audio.oncanplaythrough = begin;
+    audio.load();
+  }, [getUrl, voiceSpeed, stopAudio]);
 
   const toggleOne = useCallback((type: string, variant: number) => {
     // 전체 재생 중이면 중단
@@ -140,14 +204,16 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
       return;
     }
     const key = `${type}-${variant}`;
-    if (playingKey === key) {
+    // 로딩 중 다시 누르면 취소, 재생 중 다시 누르면 정지
+    if (loadingKey === key || playingKey === key) {
       stopAudio();
     } else {
       playOne(type, variant);
     }
-  }, [playingKey, playOne, stopAudio, autoPlaying]);
+  }, [loadingKey, playingKey, playOne, stopAudio, autoPlaying]);
   // endregion
 
+/* ── 3. 전체 순차 재생 ── */
   // region 전체 순차 재생
   const allLines = useMemo(() => DIALOGUE_TYPES.flatMap((type) => {
     const arr = lines[type];
@@ -197,8 +263,12 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
   }, [autoPlaying, displayLines, playNext, stopAudio]);
   // endregion
 
-  // 언마운트 시 정리
-  useEffect(() => () => { stopAudio(); }, [stopAudio]);
+  // 언마운트 시 정리. 보관 엘리먼트도 놓아 버퍼를 반환한다.
+  useEffect(() => () => {
+    stopAudio();
+    audioCacheRef.current.forEach((cached) => cached.pause());
+    audioCacheRef.current.clear();
+  }, [stopAudio]);
 
   const visibleTypes = useMemo(() => DIALOGUE_TYPES.filter((type) => {
     const arr = lines[type];
@@ -221,7 +291,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
     if (!playingKey) return -1;
     return displayLines.findIndex((l) => `${l.type}-${l.variant}` === playingKey);
   }, [playingKey, displayLines]);
-  const isAudioPlaying = playingKey !== null;
+  const isAudioPlaying = playingKey !== null || loadingKey !== null;
 
   if (visibleTypes.length === 0) return null;
 
@@ -235,6 +305,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
         </p>
       </div>
 
+      {/* ── 4. 상황 칩 ── */}
       <div
         className="flex flex-wrap justify-center gap-2 pb-1"
         role="tablist"
@@ -280,6 +351,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
         })}
       </div>
 
+      {/* ── 5. 대사 목록 패널 ── */}
       <div
         id={`dialogue-panel-${scope}`}
         role="tabpanel"
@@ -316,12 +388,16 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
           {displayLines.map((item) => {
             const key = `${item.type}-${item.variant}`;
             const isPlaying = playingKey === key;
+            const isLoading = loadingKey === key;
             const theme = DIALOGUE_THEMES[item.type];
             return (
               <div
                 key={key}
                 role={hasVoice ? "button" : undefined}
                 tabIndex={hasVoice ? 0 : undefined}
+                aria-busy={isLoading || undefined}
+                onMouseEnter={hasVoice ? () => prefetchOne(item.type, item.variant) : undefined}
+                onFocus={hasVoice ? () => prefetchOne(item.type, item.variant) : undefined}
                 onClick={hasVoice ? () => toggleOne(item.type, item.variant) : undefined}
                 onKeyDown={hasVoice ? (e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -329,9 +405,13 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
                     toggleOne(item.type, item.variant);
                   }
                 } : undefined}
-                className={`flex items-center rounded-md border-s-2 px-2 py-2 text-text-primary ${hasVoice ? "cursor-pointer" : ""} ${isPlaying ? theme.rowPlaying : theme.row}`}
+                className={`flex items-center gap-2 rounded-md border-s-2 px-2 py-2 text-text-primary ${hasVoice ? "cursor-pointer" : ""} ${isPlaying || isLoading ? theme.rowPlaying : theme.row}`}
               >
-                <span className="w-full break-keep text-center text-sm leading-relaxed">
+                {isLoading && (
+                  <LoaderCircle size={14} aria-hidden className="shrink-0 animate-spin text-text-secondary" />
+                )}
+                {/* 재생 중에는 텍스트 아래로 진행광이 스친다. 글자색은 그대로 둔다 */}
+                <span className={`w-full break-keep text-center text-sm leading-relaxed ${isPlaying ? "bg-[linear-gradient(90deg,transparent_0%,currentColor_50%,transparent_100%)] bg-[length:35%_2px] bg-no-repeat motion-safe:animate-dialogue-flow" : ""}`}>
                   &ldquo;{item.text}&rdquo;
                 </span>
               </div>
