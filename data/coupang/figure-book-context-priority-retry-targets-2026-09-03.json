@@ -1,0 +1,38 @@
+[
+  {
+    "content_id": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+    "title": "기계 학습을 다시 묻다",
+    "creator": "Leslie Valiant",
+    "publisher": "인사이트",
+    "isbn": "9788966263264",
+    "linkedPeopleInFirstPass": 92,
+    "query": "기계 학습을 다시 묻다 Leslie Valiant"
+  },
+  {
+    "content_id": "840b6a0d-20bd-4082-b160-97211eebbc61",
+    "title": "교양있는 엔지니어",
+    "creator": "새뮤얼 C. 플러먼",
+    "publisher": "글램북스",
+    "isbn": "9791185628257",
+    "linkedPeopleInFirstPass": 13,
+    "query": "교양있는 엔지니어 새뮤얼 C. 플러먼"
+  },
+  {
+    "content_id": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+    "title": "칩워, 누가 반도체 전쟁의 최후 승자가 될 것인가",
+    "creator": "크리스 밀러",
+    "publisher": null,
+    "isbn": "9788960519831",
+    "linkedPeopleInFirstPass": 7,
+    "query": "칩워, 누가 반도체 전쟁의 최후 승자가 될 것인가 크리스 밀러"
+  },
+  {
+    "content_id": "94ddb02e-8a02-4540-b296-6a34e91f24b8",
+    "title": "금융의 제왕",
+    "creator": "리아콰트 아메드",
+    "publisher": "다른세상",
+    "isbn": "9788977661004",
+    "linkedPeopleInFirstPass": 7,
+    "query": "금융의 제왕 리아콰트 아메드"
+  }
+]

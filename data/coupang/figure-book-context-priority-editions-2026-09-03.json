@@ -1,0 +1,42 @@
+[
+  {
+    "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+    "locale": "ko",
+    "isbn": "9788966261437",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "book-9791185890418",
+    "locale": "ko",
+    "isbn": "9791185890418",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+    "locale": "ko",
+    "isbn": "9791166470677",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+    "locale": "ko",
+    "isbn": "9788934988434",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "66bb3155-4375-4102-9368-96e6621c9b63",
+    "locale": "ko",
+    "isbn": "9788958721260",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0
+  }
+]

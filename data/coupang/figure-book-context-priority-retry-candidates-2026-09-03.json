@@ -1,0 +1,574 @@
+[
+ {
+  "content_id": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+  "title": "기계 학습을 다시 묻다",
+  "creator": "Leslie Valiant",
+  "publisher": "인사이트",
+  "isbn": "9788966263264",
+  "linkedPeopleInFirstPass": 92,
+  "query": "기계 학습을 다시 묻다 Leslie Valiant",
+  "candidates": [
+   {
+    "idx": 1,
+    "name": "이지스퍼블리싱 기계는 어떻게 생각하는가? 기계 학습의 실제 사례와 작동 원리",
+    "price": "16200",
+    "productId": "1153462197",
+    "itemId": "2128284123",
+    "vendorItemId": "70121843462",
+    "productUrl": "https://www.coupang.com/vp/products/1153462197?itemId=2128284123&vendorItemId=70121843462",
+    "categoryId": "7997",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 2,
+    "name": "(영문도서) AI Engineering: Building Applications with Foundation Models Paperback, O'Reilly Media, English, 9781098166304",
+    "price": "84800",
+    "productId": "8259777482",
+    "itemId": "23792660047",
+    "vendorItemId": "90816678109",
+    "productUrl": "https://www.coupang.com/vp/products/8259777482?itemId=23792660047&vendorItemId=90816678109",
+    "categoryId": "7659",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 3,
+    "name": "기계는 왜 학습하는가 AI를 움직이는 우아한 수학, 까치, 아닐 아난타스와미",
+    "price": "22500",
+    "productId": "8739095824",
+    "itemId": "25399083675",
+    "vendorItemId": "92569188161",
+    "productUrl": "https://www.coupang.com/vp/products/8739095824?itemId=25399083675&vendorItemId=92569188161",
+    "categoryId": "2117",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 4,
+    "name": "기계는 왜 학습하는가 + 쁘띠수첩 증정, 까치, 아날 아난타스와미",
+    "price": "22500",
+    "productId": "8617118997",
+    "itemId": "24997919662",
+    "vendorItemId": "92003118413",
+    "productUrl": "https://www.coupang.com/vp/products/8617118997?itemId=24997919662&vendorItemId=92003118413",
+    "categoryId": "6401",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 5,
+    "name": "AI 탈활용 교수법 + 쁘띠수첩 증정, 테크빌교육, 박남기",
+    "price": "22500",
+    "productId": "9710580052",
+    "itemId": "29053624325",
+    "vendorItemId": "95980296573",
+    "productUrl": "https://www.coupang.com/vp/products/9710580052?itemId=29053624325&vendorItemId=95980296573",
+    "categoryId": "2143",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 6,
+    "name": "Machine Learning Applications : From Computer Vision to Robotics, Wiley",
+    "price": "235130",
+    "productId": "8710263349",
+    "itemId": "25295648760",
+    "vendorItemId": "92290973172",
+    "productUrl": "https://www.coupang.com/vp/products/8710263349?itemId=25295648760&vendorItemId=92290973172",
+    "categoryId": "7648",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 7,
+    "name": "아카데미프레스 체제적 교수 설계, (주)아카데미프레스, 김동식역, 없음",
+    "price": "28000",
+    "productId": "9700696175",
+    "itemId": "29018681021",
+    "vendorItemId": "94334344615",
+    "productUrl": "https://www.coupang.com/vp/products/9700696175?itemId=29018681021&vendorItemId=94334344615",
+    "categoryId": "2119",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 8,
+    "name": "북스힐 생산자동화의 기초 (2판), 북스힐(주), 이철수, 없음",
+    "price": "20000",
+    "productId": "9705044786",
+    "itemId": "29034204423",
+    "vendorItemId": "94332937211",
+    "productUrl": "https://www.coupang.com/vp/products/9705044786?itemId=29034204423&vendorItemId=94332937211",
+    "categoryId": "2119",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 9,
+    "name": "기계는 어떻게 생각하고 학습하는가:6인의 위대한 AI 석학이 조망하는 인공지능의 현재와 미래, 한빛미디어",
+    "price": "15300",
+    "productId": "162271132",
+    "itemId": "466206479",
+    "vendorItemId": "4161856992",
+    "productUrl": "https://www.coupang.com/vp/products/162271132?itemId=466206479&vendorItemId=4161856992",
+    "categoryId": "2151",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 10,
+    "name": "알기 쉬운기계수학:기계공학도의 수학 입문서, 동양북스, 에구치 히로후미",
+    "price": "17100",
+    "productId": "1734784351",
+    "itemId": "2953143530",
+    "vendorItemId": "4025878412",
+    "productUrl": "https://www.coupang.com/vp/products/1734784351?itemId=2953143530&vendorItemId=4025878412",
+    "categoryId": "2143",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 11,
+    "name": "문제 해결력을 키우는기계설계, 이상범, 한빛아카데미",
+    "price": "34000",
+    "productId": "6684993964",
+    "itemId": "15429410667",
+    "vendorItemId": "82730176076",
+    "productUrl": "https://www.coupang.com/vp/products/6684993964?itemId=15429410667&vendorItemId=82730176076",
+    "categoryId": "2143",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 12,
+    "name": "스케일링 시대:스케일링 법칙이 AGI의 탄생으로 이어질 것인가, 인사이트, 드와르케시 파텔,개빈 리치(Gavin Leech)",
+    "price": "22500",
+    "productId": "9680198230",
+    "itemId": "28946319387",
+    "vendorItemId": "95936322864",
+    "productUrl": "https://www.coupang.com/vp/products/9680198230?itemId=28946319387&vendorItemId=95936322864",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   }
+  ]
+ },
+ {
+  "content_id": "840b6a0d-20bd-4082-b160-97211eebbc61",
+  "title": "교양있는 엔지니어",
+  "creator": "새뮤얼 C. 플러먼",
+  "publisher": "글램북스",
+  "isbn": "9791185628257",
+  "linkedPeopleInFirstPass": 13,
+  "query": "교양있는 엔지니어 새뮤얼 C. 플러먼",
+  "candidates": [
+   {
+    "idx": 1,
+    "name": "DNA의 거의 모든 과학, 이상북스",
+    "price": "15300",
+    "productId": "7624061641",
+    "itemId": "20219740800",
+    "vendorItemId": "87309259359",
+    "productUrl": "https://www.coupang.com/vp/products/7624061641?itemId=20219740800&vendorItemId=87309259359",
+    "categoryId": "6421",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 2,
+    "name": "클로드 코드 제대로 시작하기:최신 클로드 코드 완벽 반영! 바이브 코딩부터 숏폼 자동화 AI 비서 SDD 하네스 엔지니어링까지 에이전틱 코딩, 길벗, 주홍철,황진성",
+    "price": "28800",
+    "productId": "9668507087",
+    "itemId": "28907035411",
+    "vendorItemId": "95844537804",
+    "productUrl": "https://www.coupang.com/vp/products/9668507087?itemId=28907035411&vendorItemId=95844537804",
+    "categoryId": "2151",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 3,
+    "name": "혼자 공부하는 C 언어:1:1 과외하듯 배우는 프로그래밍 자습서, 서현우, 한빛미디어",
+    "price": "23400",
+    "productId": "7357647248",
+    "itemId": "18948820157",
+    "vendorItemId": "86075131350",
+    "productUrl": "https://www.coupang.com/vp/products/7357647248?itemId=18948820157&vendorItemId=86075131350",
+    "categoryId": "2151",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 4,
+    "name": "2026 AXBG:인공지능 전환을 위한 필독서, 첨단 편집부(저), (주)첨단, ㈜첨단 뉴미디어팀 저",
+    "price": "95000",
+    "productId": "9540360079",
+    "itemId": "28457589804",
+    "vendorItemId": "95408204174",
+    "productUrl": "https://www.coupang.com/vp/products/9540360079?itemId=28457589804&vendorItemId=95408204174",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 5,
+    "name": "뚝딱 바로 써먹는 첫 클로드 : 프롬프트 엔지니어링 실전 가이드 [쁘띠수첩+책갈피]",
+    "price": "18900",
+    "productId": "9686252684",
+    "itemId": "28967306675",
+    "vendorItemId": "95897150164",
+    "productUrl": "https://www.coupang.com/vp/products/9686252684?itemId=28967306675&vendorItemId=95897150164",
+    "categoryId": "2151",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 6,
+    "name": "[생능] 만들면서 배우는 C언어, 생능출판",
+    "price": "30000",
+    "productId": "7516722532",
+    "itemId": "19706701789",
+    "vendorItemId": "86811241243",
+    "productUrl": "https://www.coupang.com/vp/products/7516722532?itemId=19706701789&vendorItemId=86811241243",
+    "categoryId": "2151",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 7,
+    "name": "Do it! C언어 입문, 이지스퍼블리싱",
+    "price": "22500",
+    "productId": "13589492",
+    "itemId": "201191075",
+    "vendorItemId": "3477952609",
+    "productUrl": "https://www.coupang.com/vp/products/13589492?itemId=201191075&vendorItemId=3477952609",
+    "categoryId": "2151",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 8,
+    "name": "하네스 엔지니어링 with 클로드 코드:AI 에이전트 팀을 설계하고 운영하는 개발자 실전 가이드, 한빛미디어, 황민호",
+    "price": "27000",
+    "productId": "9562307165",
+    "itemId": "28536100989",
+    "vendorItemId": "95635405368",
+    "productUrl": "https://www.coupang.com/vp/products/9562307165?itemId=28536100989&vendorItemId=95635405368",
+    "categoryId": "2151",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 9,
+    "name": "만들면서 배우는 C언어, 생능출판, 천인국(저), 1개",
+    "price": "30000",
+    "productId": "7543488305",
+    "itemId": "19836182372",
+    "vendorItemId": "91463218833",
+    "productUrl": "https://www.coupang.com/vp/products/7543488305?itemId=19836182372&vendorItemId=91463218833",
+    "categoryId": "2151",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 10,
+    "name": "프롬프트 엔지니어링 교과서 : 바로 써먹는 챗GPT 프롬프트 12기법, 애드앤미디어, 서승완",
+    "price": "14400",
+    "productId": "7597058572",
+    "itemId": "20087969392",
+    "vendorItemId": "87183395326",
+    "productUrl": "https://www.coupang.com/vp/products/7597058572?itemId=20087969392&vendorItemId=87183395326",
+    "categoryId": "2125",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 11,
+    "name": "포르잔 C++ 바이블:절차 지향부터 객체 지향 프로그래밍까지, 한빛아카데미",
+    "price": "40500",
+    "productId": "2093055495",
+    "itemId": "3555459067",
+    "vendorItemId": "71566828228",
+    "productUrl": "https://www.coupang.com/vp/products/2093055495?itemId=3555459067&vendorItemId=71566828228",
+    "categoryId": "2151",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 12,
+    "name": "C 언어 자료구조와 알고리즘 for Beginner, 우재남, 한빛아카데미",
+    "price": "29000",
+    "productId": "7446924919",
+    "itemId": "19378117465",
+    "vendorItemId": "86540608276",
+    "productUrl": "https://www.coupang.com/vp/products/7446924919?itemId=19378117465&vendorItemId=86540608276",
+    "categoryId": "2151",
+    "hasDeliveryBadge": false
+   }
+  ]
+ },
+ {
+  "content_id": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+  "title": "칩워, 누가 반도체 전쟁의 최후 승자가 될 것인가",
+  "creator": "크리스 밀러",
+  "publisher": null,
+  "isbn": "9788960519831",
+  "linkedPeopleInFirstPass": 7,
+  "query": "칩워, 누가 반도체 전쟁의 최후 승자가 될 것인가 크리스 밀러",
+  "candidates": [
+   {
+    "idx": 1,
+    "name": "질서의 소멸 - 일곱 가지 키워드로 보는 국제질서의 대전환 이춘근, 질서의 소멸 - 일곱 가지 키워드로 보는 국제질서의 대",
+    "price": "24400",
+    "productId": "9552060268",
+    "itemId": "28696445670",
+    "vendorItemId": "95637597903",
+    "productUrl": "https://www.coupang.com/vp/products/9552060268?itemId=28696445670&vendorItemId=95637597903",
+    "categoryId": "2241",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 2,
+    "name": "우리가 몰랐던 카지노:세계의 카지노에서 대한민국의 미래를 묻다, 백산출판사, 오경민",
+    "price": "18000",
+    "productId": "9707538344",
+    "itemId": "29042983004",
+    "vendorItemId": "95970102605",
+    "productUrl": "https://www.coupang.com/vp/products/9707538344?itemId=29042983004&vendorItemId=95970102605",
+    "categoryId": "2125",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 3,
+    "name": "반도체 투자의 원칙+칩워 전2권 세트 (사은품 증정)",
+    "price": "47700",
+    "productId": "8082622703",
+    "itemId": "22798067699",
+    "vendorItemId": "89833012449",
+    "productUrl": "https://www.coupang.com/vp/products/8082622703?itemId=22798067699&vendorItemId=89833012449",
+    "categoryId": "2127",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 4,
+    "name": "[더송북] 한눈에 보는 AI 반도체 산업 : GPU부터 HBM 파운드리 패키징 데이터센터까지 하나의 흐름으로 읽는 생태계 한빛미디어 2479207, MrTrigger",
+    "price": "36900",
+    "productId": "9705414907",
+    "itemId": "29063021150",
+    "vendorItemId": "95989444293",
+    "productUrl": "https://www.coupang.com/vp/products/9705414907?itemId=29063021150&vendorItemId=95989444293",
+    "categoryId": "2123",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 5,
+    "name": "작은 칩에 담긴 거대한 이야기 반도체 과학 교실, 풀과바람, 이영란, 7권",
+    "price": "12600",
+    "productId": "8635242617",
+    "itemId": "25054754841",
+    "vendorItemId": "92059163060",
+    "productUrl": "https://www.coupang.com/vp/products/8635242617?itemId=25054754841&vendorItemId=92059163060",
+    "categoryId": "2119",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 6,
+    "name": "작은 칩에 담긴 거대한 이야기 반도체 과학 교실, 작은 칩에 담긴 거대한 이야기, 반도체 과학 교실, 이영란(저) / 박상훈(그림), 풀과바람, 이영란 글/박상훈 그림",
+    "price": "12600",
+    "productId": "8618081585",
+    "itemId": "25001702018",
+    "vendorItemId": "93216924744",
+    "productUrl": "https://www.coupang.com/vp/products/8618081585?itemId=25001702018&vendorItemId=93216924744",
+    "categoryId": "2119",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 7,
+    "name": "[더송북] 정지훈의 양자 컴퓨터 강의: AI 다음의 게임 체인저 컴퓨터의 모든 한빛미디어 2479163, 정지훈",
+    "price": "34800",
+    "productId": "9705403172",
+    "itemId": "29063102868",
+    "vendorItemId": "95989513677",
+    "productUrl": "https://www.coupang.com/vp/products/9705403172?itemId=29063102868&vendorItemId=95989513677",
+    "categoryId": "2123",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 8,
+    "name": "공급망 붕괴의 시대 - 반도체칩부터 생필품까지 글로벌 공급망의 숨겨진 이야기 / How the World Ran Out of Everything + 사은품 증정, 피터 S. 굿맨",
+    "price": "21600",
+    "productId": "8573586683",
+    "itemId": "24842136898",
+    "vendorItemId": "91849317715",
+    "productUrl": "https://www.coupang.com/vp/products/8573586683?itemId=24842136898&vendorItemId=91849317715",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 9,
+    "name": "(수재 킹류) 반도체의 미래 -‘무어의 법칙’을 넘어 무한의 가능성을 찾아서, NSB9791190944564",
+    "price": "16200",
+    "productId": "7347373724",
+    "itemId": "18899136423",
+    "vendorItemId": "93923545498",
+    "productUrl": "https://www.coupang.com/vp/products/7347373724?itemId=18899136423&vendorItemId=93923545498",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 10,
+    "name": "반도체 슈퍼사이클에 올라타라 + 쁘띠수첩 증정, 블랙펜, 권영화",
+    "price": "19800",
+    "productId": "9367024855",
+    "itemId": "27797213823",
+    "vendorItemId": "94757330827",
+    "productUrl": "https://www.coupang.com/vp/products/9367024855?itemId=27797213823&vendorItemId=94757330827",
+    "categoryId": "2127",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 11,
+    "name": "반도체 성능을 좌우하는 패키징 기술",
+    "price": "28800",
+    "productId": "9422300563",
+    "itemId": "28005357121",
+    "vendorItemId": "94962805305",
+    "productUrl": "https://www.coupang.com/vp/products/9422300563?itemId=28005357121&vendorItemId=94962805305",
+    "categoryId": "2143",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 12,
+    "name": "K-반도체 초격차전략 : 기술이 국가 안보를 좌우하는 시대 K-반도체는 어떻게 살아남을 것인가!, 더봄, 이병철 저",
+    "price": "22500",
+    "productId": "9210672871",
+    "itemId": "27208280560",
+    "vendorItemId": "94175583164",
+    "productUrl": "https://www.coupang.com/vp/products/9210672871?itemId=27208280560&vendorItemId=94175583164",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   }
+  ]
+ },
+ {
+  "content_id": "94ddb02e-8a02-4540-b296-6a34e91f24b8",
+  "title": "금융의 제왕",
+  "creator": "리아콰트 아메드",
+  "publisher": "다른세상",
+  "isbn": "9788977661004",
+  "linkedPeopleInFirstPass": 7,
+  "query": "금융의 제왕 리아콰트 아메드",
+  "candidates": [
+   {
+    "idx": 1,
+    "name": "미국 성장주 처음 투자 : 지금 시작해도 늦지 않은 - 김운아 저자(글) - 씨엔케이플러스",
+    "price": "20700",
+    "productId": "9710279113",
+    "itemId": "29052581007",
+    "vendorItemId": "95979324949",
+    "productUrl": "https://www.coupang.com/vp/products/9710279113?itemId=29052581007&vendorItemId=95979324949",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 2,
+    "name": "인생을 바꾸는 투자학개론 (리노베이트 전용 사 은 품 증 정), 토네이도, 토네이도 편집부",
+    "price": "21600",
+    "productId": "9699339841",
+    "itemId": "29014000802",
+    "vendorItemId": "95942028255",
+    "productUrl": "https://www.coupang.com/vp/products/9699339841?itemId=29014000802&vendorItemId=95942028255",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 3,
+    "name": "K-금융을 꿈꾸며 + 존리 금융 자서전소설 + 금융교육 스토리, 존리의 부자학교, 존 리",
+    "price": "25000",
+    "productId": "9544630479",
+    "itemId": "28474017923",
+    "vendorItemId": "95424254990",
+    "productUrl": "https://www.coupang.com/vp/products/9544630479?itemId=28474017923&vendorItemId=95424254990",
+    "categoryId": "2123",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 4,
+    "name": "경제패권 500년:대항해시대부터 AI 혁명까지 세상을 바꾼 경제 권력의 세계사, 보다나은, 김정호",
+    "price": "19800",
+    "productId": "9659696353",
+    "itemId": "28876779421",
+    "vendorItemId": "95820119849",
+    "productUrl": "https://www.coupang.com/vp/products/9659696353?itemId=28876779421&vendorItemId=95820119849",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 5,
+    "name": "투자에 대한 생각, 비즈니스맵, 하워드 막스",
+    "price": "13500",
+    "productId": "9671999702",
+    "itemId": "28918865882",
+    "vendorItemId": "3274865811",
+    "productUrl": "https://www.coupang.com/vp/products/9671999702?itemId=28918865882&vendorItemId=3274865811",
+    "categoryId": "2125",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 6,
+    "name": "돈의 속성, 김승호 저, 스노우폭스북스",
+    "price": "16020",
+    "productId": "9700581085",
+    "itemId": "29018332972",
+    "vendorItemId": "80603153454",
+    "productUrl": "https://www.coupang.com/vp/products/9700581085?itemId=29018332972&vendorItemId=80603153454",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 7,
+    "name": "돈의 속성 400쇄 리커버, 김승호 저, 스노우폭스북스",
+    "price": "16020",
+    "productId": "1653150038",
+    "itemId": "2816558557",
+    "vendorItemId": "85962291835",
+    "productUrl": "https://www.coupang.com/vp/products/1653150038?itemId=2816558557&vendorItemId=85962291835",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 8,
+    "name": "존리의 금융교과서, 존리의 부자학교, 존리",
+    "price": "30000",
+    "productId": "9549062918",
+    "itemId": "28489862719",
+    "vendorItemId": "95439869823",
+    "productUrl": "https://www.coupang.com/vp/products/9549062918?itemId=28489862719&vendorItemId=95439869823",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 9,
+    "name": "금융시장의 기술적 분석, 국일증권경제연구소, 존 J. 머피",
+    "price": "37800",
+    "productId": "8915927968",
+    "itemId": "26050183526",
+    "vendorItemId": "93098421632",
+    "productUrl": "https://www.coupang.com/vp/products/8915927968?itemId=26050183526&vendorItemId=93098421632",
+    "categoryId": "2125",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 10,
+    "name": "New 존리의 금융문맹 탈출:자본주의 세상에서 살아남는 최후의 경제 독립 선언, 베가북스, 존 리",
+    "price": "19800",
+    "productId": "9668394561",
+    "itemId": "28906674418",
+    "vendorItemId": "95860841075",
+    "productUrl": "https://www.coupang.com/vp/products/9668394561?itemId=28906674418&vendorItemId=95860841075",
+    "categoryId": "2125",
+    "hasDeliveryBadge": true
+   },
+   {
+    "idx": 11,
+    "name": "존리의 부자되기 습관 (개정증보판) 경제 공부 한국주식 금융 투자 자산관리 부자 도서 책",
+    "price": "19500",
+    "productId": "9473912519",
+    "itemId": "28200847125",
+    "vendorItemId": "95155189273",
+    "productUrl": "https://www.coupang.com/vp/products/9473912519?itemId=28200847125&vendorItemId=95155189273",
+    "categoryId": "2125",
+    "hasDeliveryBadge": false
+   },
+   {
+    "idx": 12,
+    "name": "금융의 지배:세계금융사 이야기, 민음사, 니얼 퍼거슨",
+    "price": "22500",
+    "productId": "35298298",
+    "itemId": "130897148",
+    "vendorItemId": "3137083741",
+    "productUrl": "https://www.coupang.com/vp/products/35298298?itemId=130897148&vendorItemId=3137083741",
+    "categoryId": "2143",
+    "hasDeliveryBadge": false
+   }
+  ]
+ }
+]

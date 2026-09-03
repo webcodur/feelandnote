@@ -1,0 +1,82 @@
+[
+  {
+    "content_id": "03f33e77-4876-45c3-ba55-8c0642822cb1",
+    "title": "창업국가",
+    "creator": "댄 세노르, 사울 싱어",
+    "publisher": null,
+    "isbn": "9788989988731",
+    "linkedPeopleInFirstPass": 97
+  },
+  {
+    "content_id": "fe9e30cf-519d-4d6d-b6fe-75280616adb9",
+    "title": "기계 학습을 다시 묻다",
+    "creator": "Leslie Valiant",
+    "publisher": "인사이트",
+    "isbn": "9788966263264",
+    "linkedPeopleInFirstPass": 92
+  },
+  {
+    "content_id": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+    "title": "컴퓨터과학이 여는 세계",
+    "creator": "이광근",
+    "publisher": "인사이트",
+    "isbn": "9788966261437",
+    "linkedPeopleInFirstPass": 23
+  },
+  {
+    "content_id": "book-9791185890418",
+    "title": "인공지능 1: 현대적 접근방식 (제3판)",
+    "creator": "스튜어트 러셀, 피터 노빅",
+    "publisher": "제이펍",
+    "isbn": "9791185890418",
+    "linkedPeopleInFirstPass": 13
+  },
+  {
+    "content_id": "840b6a0d-20bd-4082-b160-97211eebbc61",
+    "title": "교양있는 엔지니어",
+    "creator": "새뮤얼 C. 플러먼",
+    "publisher": "글램북스",
+    "isbn": "9791185628257",
+    "linkedPeopleInFirstPass": 13
+  },
+  {
+    "content_id": "09bd2de2-465b-4f88-b500-9283882c50df",
+    "title": "반도체 제조기술의 이해",
+    "creator": "곽노열, 배병욱, 오경택, 윤태균, 이성희, 임정훈",
+    "publisher": "한올출판사",
+    "isbn": "9791166470677",
+    "linkedPeopleInFirstPass": 10
+  },
+  {
+    "content_id": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+    "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+    "creator": "스튜어트 러셀",
+    "publisher": null,
+    "isbn": "9788934988434",
+    "linkedPeopleInFirstPass": 9
+  },
+  {
+    "content_id": "66bb3155-4375-4102-9368-96e6621c9b63",
+    "title": "건축 음악처럼 듣고 미술처럼 보다",
+    "creator": "서현",
+    "publisher": "효형출판",
+    "isbn": "9788958721260",
+    "linkedPeopleInFirstPass": 9
+  },
+  {
+    "content_id": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+    "title": "칩워, 누가 반도체 전쟁의 최후 승자가 될 것인가",
+    "creator": "크리스 밀러",
+    "publisher": null,
+    "isbn": "9788960519831",
+    "linkedPeopleInFirstPass": 7
+  },
+  {
+    "content_id": "94ddb02e-8a02-4540-b296-6a34e91f24b8",
+    "title": "금융의 제왕",
+    "creator": "리아콰트 아메드",
+    "publisher": "다른세상",
+    "isbn": "9788977661004",
+    "linkedPeopleInFirstPass": 7
+  }
+]
