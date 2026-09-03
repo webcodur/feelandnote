@@ -12,7 +12,6 @@ import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 import { GameAudioProvider } from "@/contexts/GameAudioContext";
-import PortraitSharpenFilter from "@/components/shared/PortraitSharpenFilter";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
 import UiXray from "@/components/shared/ui-xray/UiXray";
 import {
@@ -125,7 +124,6 @@ export default async function LocaleLayout({
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
               />
-              <PortraitSharpenFilter />
               <ServiceWorkerRegistrar />
               <UiXray />
               {children}
