@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-09-03T01:37:31.304Z",
+  "items": [
+    {
+      "content_id": "79f559b6-7ea8-4855-81c4-1ddfd16ffafd",
+      "isbn": "9788952701183",
+      "title": "스크린 연기의 비밀",
+      "query": "스크린 연기의 비밀",
+      "name": "스크린 연기의 비밀, 시공아트, 패트릭 터커",
+      "productId": "4147461",
+      "productUrl": "https://www.coupang.com/vp/products/4147461?itemId=20182076&vendorItemId=3446419635",
+      "affiliateUrl": "https://link.coupang.com/a/gJw0m5ch5w",
+      "qualityEvidence": [
+        "카카오 도서 ISBN 9788952701183과 쿠팡 상세의 제목·저자·출판사·ISBN 일치",
+        "쿠팡 상품 상세 로켓배송 및 내일 도착 보장 확인",
+        "판매자 쿠팡, 상품평 11개, 재고 3개 확인"
+      ],
+      "state": "linked",
+      "checkedAt": "2026-09-03T01:37:31.304Z"
+    },
+    {
+      "content_id": "078d2a59-859a-4573-ae63-e7c398e7ce50",
+      "isbn": "9791188343492",
+      "title": "아무튼, 아이돌",
+      "query": "아무튼, 아이돌",
+      "name": "아무튼 아이돌:또 사랑에 빠져버린 거니?, 제철소, 윤혜은",
+      "productId": "6096608213",
+      "productUrl": "https://www.coupang.com/vp/products/6096608213?itemId=11397122573&vendorItemId=78673137787",
+      "affiliateUrl": "https://link.coupang.com/a/gJw3qT6hHM",
+      "qualityEvidence": [
+        "카카오 도서 ISBN 9791188343492와 쿠팡 상세의 제목·저자·출판사·ISBN 일치",
+        "쿠팡 상품 상세 로켓배송·새벽 도착 및 내일 도착 보장 확인",
+        "판매자 쿠팡, 상품평 5개 확인"
+      ],
+      "state": "linked",
+      "checkedAt": "2026-09-03T01:37:31.304Z"
+    }
+  ]
+}
