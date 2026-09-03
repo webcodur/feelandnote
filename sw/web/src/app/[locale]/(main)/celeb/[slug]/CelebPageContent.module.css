@@ -7,8 +7,8 @@
   display: grid;
   width: 100%;
   gap: 0;
-  /* 고정 헤더(64px) 바로 아래에 착지 — 스티키 제목이 붙는 자리와 같다 */
-  scroll-margin-top: 64px;
+  /* 고정 헤더 바로 아래에 착지 — 스티키 제목이 붙는 자리와 같다 */
+  scroll-margin-top: var(--layer-header-h);
 }
 
 /* 머리말 제목의 기둥폭. 프레임과 같은 값으로 묶는다. */
@@ -258,21 +258,37 @@
 
 .recordsGrid {
   width: min(calc(100% - 32px), 1024px);
-  margin: 96px auto 0;
+  margin: 0 auto;
+}
+
+/* 머리말과 첫 구획 사이 간격. 머리말 마지막 칸의 아래 여백으로 둬야
+   머리말 제목이 그 구간까지 붙어 있다(sectionStack과 같은 이유) */
+.opening > *:last-child {
+  margin-block-end: 96px;
 }
 
 .sectionStack {
   display: grid;
   min-width: 0;
-  gap: 96px;
+  gap: 0;
+}
+
+/*
+  구획 사이 간격. gap으로 벌리면 그 구간에는 머리가 하나도 없어 상단이 빈다.
+  구획 자신의 padding으로 줘도 안 된다 — 구획은 grid라 스티키 머리가 붙어 있는 범위가
+  content box까지이고 padding은 그 밖이라, 머리가 여백만큼 일찍 밀려난다.
+  마지막 칸의 아래 여백으로 줘야 그 구간이 content box에 들어와 머리가 끝까지 버틴다.
+*/
+.sectionStack > *:not(:last-child) > *:last-child {
+  margin-block-end: 96px;
 }
 
 .recordSection {
   display: grid;
   width: 100%;
   gap: 0;
-  /* 고정 헤더(64px) 바로 아래에 착지 — 스티키 제목이 붙는 자리와 같다 */
-  scroll-margin-top: 64px;
+  /* 고정 헤더 바로 아래에 착지 — 스티키 제목이 붙는 자리와 같다 */
+  scroll-margin-top: var(--layer-header-h);
   outline: none;
 }
 
@@ -340,7 +356,7 @@
     /* 읽어보기부터는 PageContainer(12px)와 바깥 본문 패딩(8px)을 걷고
        모바일 공통 프레임의 2px 테두리 안쪽까지 쓴다. */
     width: calc(100% + 40px);
-    margin: 72px -20px 0;
+    margin-inline: -20px;
   }
 
   .identityPanel {
@@ -460,8 +476,8 @@
     min-height: 32px !important;
   }
 
-  .sectionStack {
-    gap: 72px;
+  .sectionStack > *:not(:last-child) > *:last-child {
+    margin-block-end: 72px;
   }
 
   .guestbookSection {

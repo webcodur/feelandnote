@@ -27,13 +27,8 @@ export function navigateToCelebSection(target: ServiceTarget) {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    // 이동 중에는 구획 머리를 숨긴다. 출발지와 도착지 스티키가 같은 자리에서 겹쳐 어지럽다.
-    if (!reduceMotion) {
-      document.documentElement.classList.add("celeb-sec-travel");
-      const settle = () => document.documentElement.classList.remove("celeb-sec-travel");
-      window.addEventListener("scrollend", settle, { once: true });
-      window.setTimeout(settle, 1500);
-    }
+    // 이동 중에도 구획 머리는 붙어 있는 채로 둔다. 잠시 흐름으로 되돌리면
+    // 머리가 사라졌다가 튀어 돌아온다 — 구획끼리 빈틈 없이 이어지므로 겹치지도 않는다.
     /* "auto"는 html의 scroll-behavior: smooth를 따라가므로 움직임 최소화가 먹지 않는다 */
     section.scrollIntoView({
       behavior: reduceMotion ? "instant" : "smooth",

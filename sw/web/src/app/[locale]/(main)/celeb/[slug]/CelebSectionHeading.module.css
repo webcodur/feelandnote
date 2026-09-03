@@ -5,8 +5,10 @@
 .heading {
   display: grid;
   position: sticky;
-  top: 64px;
+  top: var(--layer-header-h);
   z-index: 40;
+  /* 아래 모드줄이 이 높이만큼 내려와 붙는다. 실제 높이가 변수와 어긋나면 층이 겹친다 */
+  min-height: var(--layer-celeb-heading-h);
   min-width: 0;
   grid-template-columns: minmax(56px, 1fr) auto minmax(56px, 1fr);
   align-items: stretch;
@@ -88,13 +90,4 @@
   .title {
     gap: 12px;
   }
-}
-
-/* 목차 이동 중에는 머리와 모드줄을 흐름에 맡긴다. 출발·도착 스티키가 같은 자리에서
-   겹치는 충돌이 사라지고, 숨겼다가 터지듯 돌아오는 파열도 없다 */
-:global(.celeb-sec-travel) .heading {
-  position: static;
-}
-:global(.celeb-sec-travel) .celeb-mode-tabs {
-  position: static;
 }

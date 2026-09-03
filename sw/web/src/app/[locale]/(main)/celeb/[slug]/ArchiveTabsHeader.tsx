@@ -46,8 +46,9 @@ export default function ArchiveTabsHeader<T extends string>({
       aria-label={ariaLabel}
       onMouseLeave={() => setHoveredIndex(null)}
       className={cn(
-        // 제목 줄(64px 고정 헤더 + 50px 제목) 아래에 달라붙는다. 판을 깔아 겹침을 막는다.
-        "celeb-mode-tabs sticky top-[114px] z-[39] mb-6 grid border-b border-white/10 bg-[color-mix(in_srgb,var(--material-panel,var(--color-bg-card))_92%,transparent)] backdrop-blur-md sm:mb-7",
+        // 고정 헤더 + 구획 머리 높이만큼 내려와 붙는다(--layer-celeb-heading-bottom).
+        // 숫자를 직접 적으면 머리 높이와 어긋나 밑으로 파고든다. 판을 깔아 겹침을 막는다.
+        "celeb-mode-tabs sticky top-[var(--layer-celeb-heading-bottom)] z-[39] mb-6 grid border-b border-white/10 bg-[color-mix(in_srgb,var(--material-panel,var(--color-bg-card))_92%,transparent)] backdrop-blur-md sm:mb-7",
         columnsClassName,
         className,
       )}
