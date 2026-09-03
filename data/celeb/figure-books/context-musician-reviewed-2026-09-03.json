@@ -1,0 +1,106 @@
+{
+  "input": "context-musician-candidates-2026-09-03.json",
+  "model": "gemini-3.8-flash-high",
+  "reviewPasses": 2,
+  "reviews": [
+    {
+      "slug": "jung-il-hoon",
+      "selections": []
+    },
+    {
+      "slug": "haechan",
+      "selections": []
+    },
+    {
+      "slug": "gustav-mahler",
+      "selections": []
+    },
+    {
+      "slug": "simon-rattle",
+      "selections": []
+    },
+    {
+      "slug": "gustavo-dudamel",
+      "selections": []
+    },
+    {
+      "slug": "daft-punk",
+      "selections": []
+    },
+    {
+      "slug": "lee-geum-jo",
+      "selections": []
+    },
+    {
+      "slug": "mina",
+      "selections": []
+    },
+    {
+      "slug": "kazuha",
+      "selections": []
+    },
+    {
+      "slug": "leonard-bernstein",
+      "selections": []
+    },
+    {
+      "slug": "christina-aguilera",
+      "selections": []
+    },
+    {
+      "slug": "myung-whun-chung",
+      "selections": []
+    },
+    {
+      "slug": "ryuichi-sakamoto",
+      "selections": []
+    },
+    {
+      "slug": "hans-zimmer",
+      "selections": []
+    },
+    {
+      "slug": "hector-berlioz",
+      "selections": []
+    },
+    {
+      "slug": "karl-urban",
+      "selections": [
+        {
+          "contentId": "5c6d77ce-65c8-4e80-90f7-6a4c1dfd95ef",
+          "relationType": "related",
+          "description": null,
+          "rationale": "칼 어번이 에오메르 역으로 출연해 세계적인 인지도를 얻은 대표작 〈반지의 제왕〉의 원작 판타지 소설이다."
+        }
+      ]
+    },
+    {
+      "slug": "igor-stravinsky",
+      "selections": [
+        {
+          "contentId": "09baa0da-65af-4c9c-b0d4-57e719bfcc1f",
+          "relationType": "related",
+          "description": null,
+          "rationale": "스트라빈스키의 대표작 〈봄의 제전〉 초연을 20세기 모더니즘과 시대정신의 전환점으로 조명한 문화사 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "arturo-toscanini",
+      "selections": []
+    },
+    {
+      "slug": "claudio-abbado",
+      "selections": []
+    },
+    {
+      "slug": "rihanna",
+      "selections": []
+    },
+    {
+      "slug": "herbert-von-karajan",
+      "selections": []
+    }
+  ],
+  "updatedAt": "2026-09-03T03:32:39.375Z"
+}

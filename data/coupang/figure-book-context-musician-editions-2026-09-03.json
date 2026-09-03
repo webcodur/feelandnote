@@ -1,0 +1,44 @@
+[
+  {
+    "contentId": "5c6d77ce-65c8-4e80-90f7-6a4c1dfd95ef",
+    "locale": "ko",
+    "isbn": "9788950922382",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0,
+    "product": {
+      "platform": "coupang",
+      "productId": "7216353160",
+      "productUrl": "https://www.coupang.com/vp/products/7216353160?itemId=18275842327&vendorItemId=85421921505",
+      "affiliateUrl": "https://link.coupang.com/a/gJE9h6jCSW",
+      "qualityEvidence": [
+        "ISBN 9788950922382의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 새벽 7시 전 도착 보장",
+        "3 개 상품평"
+      ],
+      "checkedAt": "2026-09-03T03:29:12.460Z"
+    },
+    "editionTitle": "반지의 제왕(일러스트 특별판)"
+  },
+  {
+    "contentId": "09baa0da-65af-4c9c-b0d4-57e719bfcc1f",
+    "locale": "ko",
+    "isbn": "9788967359447",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0,
+    "product": {
+      "platform": "coupang",
+      "productId": "6577305603",
+      "productUrl": "https://www.coupang.com/vp/products/6577305603?itemId=14787461323&vendorItemId=82027484084",
+      "affiliateUrl": "https://link.coupang.com/a/gJFaEhGjxA",
+      "qualityEvidence": [
+        "ISBN 9788967359447의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "1 개 상품평"
+      ],
+      "checkedAt": "2026-09-03T03:29:30.842Z"
+    },
+    "editionTitle": "봄의 제전: 세계대전과 현대의 탄생"
+  }
+]

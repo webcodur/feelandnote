@@ -1,0 +1,1393 @@
+{
+  "generatedAt": "2026-09-03T01:54:05.245Z",
+  "filter": {
+    "profession": "musician",
+    "scope": "unlinked",
+    "publicOnly": false,
+    "representativeOnly": false,
+    "verifiedKakaoWithIsbn": true,
+    "maximumCandidates": 12,
+    "signals": [
+      "context"
+    ]
+  },
+  "totals": {
+    "peopleScanned": 546,
+    "targetPeople": 461,
+    "eligibleBooks": 5808,
+    "candidateRows": 28,
+    "candidatePeople": 21,
+    "unmatchedPeople": 440,
+    "publicCandidateRows": 0
+  },
+  "candidates": [
+    {
+      "person": {
+        "id": "1762f1ca-2e1f-4c3e-9a1a-21834f5c62c2",
+        "slug": "jung-il-hoon",
+        "nickname": "일훈",
+        "nicknameEn": "Jung Il-hoon",
+        "profession": "musician",
+        "headline": "「MOVIE」를 작곡한 비투비 출신 래퍼",
+        "bio": "대한민국의 가수·래퍼로 BTOB에서 활동한 전 멤버다."
+      },
+      "book": {
+        "contentId": "ffab3ff5-f1a0-4225-902b-9ef7886e2128",
+        "title": "The Moviegoer",
+        "creator": "Walker Percy",
+        "description": null,
+        "isbn": "9780375701962",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 90,
+      "contextEvidence": {
+        "namedWorks": [
+          "MOVIE"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "1a3dc74d-cc64-4d52-80d6-03dd71af3aee",
+        "slug": "haechan",
+        "nickname": "해찬",
+        "nicknameEn": "Haechan",
+        "profession": "musician",
+        "headline": "「TASTE」로 솔로 데뷔한 NCT 보컬",
+        "bio": "NCT DREAM 메인보컬. 본명은 이동혁이며 예능감과 가창력으로 인기가 많다."
+      },
+      "book": {
+        "contentId": "d7f4d9a1-234c-415a-b17a-42236cb9e4c4",
+        "title": "Sweet Taste of Liberty",
+        "creator": "W. Caleb McDaniel",
+        "description": null,
+        "isbn": "9780197564288",
+        "publisher": "Oxford University Press, USA",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "퓰리처상 역사 부문"
+          ],
+          "topics": [
+            "history",
+            "nonfiction"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 147.87,
+      "contextEvidence": {
+        "namedWorks": [
+          "TASTE"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "taste"
+        ],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "35039b6f-199e-412c-9aca-dd198002101f",
+        "slug": "gustav-mahler",
+        "nickname": "구스타프 말러",
+        "nicknameEn": "Gustav Mahler",
+        "profession": "musician",
+        "headline": "천 명이 무대에 오른 교향곡 8번의 작곡가",
+        "bio": "오스트리아의 작곡가이자 지휘자. 10개의 교향곡으로 19세기 낭만주의와 20세기 모더니즘을 잇는 가교 역할을 했다."
+      },
+      "book": {
+        "contentId": "a22195ad-95d7-49f4-97ee-82a59d569a26",
+        "title": "다니엘 바렌보임: 평화의 지휘자(현대 예술의 거장 20)",
+        "creator": "다니엘 바렌보임",
+        "description": "세계를 살펴보는 시리즈이다. 순수 고전 예술의 계보를 뛰어 넘어 예술의 대중화와 대중문화의 예술적 승화에 기여한 대가들을 소개하고 있다. 이를 통해 거장들의 인간적인 숨결과 위대한 창조 정신을 새롭게 조명한다. 제20권《다니엘 바렌보임 | 평화의 지휘자》는 현존하는 지휘자로서 첫 손에 꼽히는 거장 다니엘 바렌보임의 자서전을 김성현 기자가 완역한 것이다. 어린 시절부터 천재성을 인정받으며 성장하여 처음에는 피아노로, 나중에는 지휘로 세상을 놀라게 한 바렌보임. 그",
+        "isbn": "9788932431253",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "지휘"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "지휘자"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "44bcb6fc-8997-4ca9-ae4d-af03dcff0d3d",
+        "slug": "simon-rattle",
+        "nickname": "사이먼 래틀",
+        "nicknameEn": "Simon Rattle",
+        "profession": "musician",
+        "headline": "버밍엄의 악단을 영국의 자랑으로 키운 지휘자",
+        "bio": "수석지휘자. 버밍엄 시립교향악단 · 런던 심포니 음악감독. 베를린 필하모닉 예술감독 (2002–2018)."
+      },
+      "book": {
+        "contentId": "a22195ad-95d7-49f4-97ee-82a59d569a26",
+        "title": "다니엘 바렌보임: 평화의 지휘자(현대 예술의 거장 20)",
+        "creator": "다니엘 바렌보임",
+        "description": "세계를 살펴보는 시리즈이다. 순수 고전 예술의 계보를 뛰어 넘어 예술의 대중화와 대중문화의 예술적 승화에 기여한 대가들을 소개하고 있다. 이를 통해 거장들의 인간적인 숨결과 위대한 창조 정신을 새롭게 조명한다. 제20권《다니엘 바렌보임 | 평화의 지휘자》는 현존하는 지휘자로서 첫 손에 꼽히는 거장 다니엘 바렌보임의 자서전을 김성현 기자가 완역한 것이다. 어린 시절부터 천재성을 인정받으며 성장하여 처음에는 피아노로, 나중에는 지휘로 세상을 놀라게 한 바렌보임. 그",
+        "isbn": "9788932431253",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "지휘"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "지휘자"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "54ea185f-04a7-47b3-886b-485cc3d9a154",
+        "slug": "gustavo-dudamel",
+        "nickname": "구스타보 두다멜",
+        "nicknameEn": "Gustavo Dudamel",
+        "profession": "musician",
+        "headline": "빈 필 신년음악회를 이끈 역대 최연소 지휘자",
+        "bio": "차기 음악·예술감독. 시몬 볼리바르 교향악단 음악감독 · 엘 시스테마 출신. LA 필하모닉 음악·예술감독 (2009–2026)."
+      },
+      "book": {
+        "contentId": "a22195ad-95d7-49f4-97ee-82a59d569a26",
+        "title": "다니엘 바렌보임: 평화의 지휘자(현대 예술의 거장 20)",
+        "creator": "다니엘 바렌보임",
+        "description": "세계를 살펴보는 시리즈이다. 순수 고전 예술의 계보를 뛰어 넘어 예술의 대중화와 대중문화의 예술적 승화에 기여한 대가들을 소개하고 있다. 이를 통해 거장들의 인간적인 숨결과 위대한 창조 정신을 새롭게 조명한다. 제20권《다니엘 바렌보임 | 평화의 지휘자》는 현존하는 지휘자로서 첫 손에 꼽히는 거장 다니엘 바렌보임의 자서전을 김성현 기자가 완역한 것이다. 어린 시절부터 천재성을 인정받으며 성장하여 처음에는 피아노로, 나중에는 지휘로 세상을 놀라게 한 바렌보임. 그",
+        "isbn": "9788932431253",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "지휘"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "지휘자"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "6b69fcc5-80bb-42f2-a388-c63043d8d422",
+        "slug": "daft-punk",
+        "nickname": "다프트 펑크",
+        "nicknameEn": "Daft Punk",
+        "profession": "musician",
+        "headline": "헬멧을 쓴 프랑스 하우스 듀오",
+        "bio": "프랑스 전자음악 듀오. 헬멧으로 정체성을 숨긴 채 하우스, 펑크, 테크노를 융합하며 전자음악의 새 지평을 열었다. Get Lucky, One More Time 등이 대표곡이다."
+      },
+      "book": {
+        "contentId": "ca4339c1-c871-402e-badd-9287868efe78",
+        "title": "테크노 페미니즘",
+        "creator": "주디 와이즈먼",
+        "description": "『테크노 페미니즘』은 디지털 시대를 사는 여성들의 일상생활과 기술변화가 어떠한 방식으로 관계를 맺고 있는지 살펴본다. 이 책은 여성이 기술을 대하는 태도, 기술에 대한 인식이 어떤 과정을 통해 형성하게 되고, 또한 이것이 여성의 정체성 형성과 어떤 연관을 맺는지를 보여준다. 또한 고정적이고 불변한 것으로 기술을 보는 페미니스트 관점을 비판하고, 사회 과정으로서 기술을 보는 관점을 도입할 것을 강조한다.",
+        "isbn": "9788958201748",
+        "publisher": "궁리",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "포스텍 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 60.29,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "전자음악"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "테크노",
+          "정체성"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "6b69fcc5-80bb-42f2-a388-c63043d8d422",
+        "slug": "daft-punk",
+        "nickname": "다프트 펑크",
+        "nicknameEn": "Daft Punk",
+        "profession": "musician",
+        "headline": "헬멧을 쓴 프랑스 하우스 듀오",
+        "bio": "프랑스 전자음악 듀오. 헬멧으로 정체성을 숨긴 채 하우스, 펑크, 테크노를 융합하며 전자음악의 새 지평을 열었다. Get Lucky, One More Time 등이 대표곡이다."
+      },
+      "book": {
+        "contentId": "b65c1fa6-8bb2-4d7a-b646-862617e16bf2",
+        "title": "테크노 폴리",
+        "creator": "닐 포스트만",
+        "description": null,
+        "isbn": "9788958200413",
+        "publisher": "궁리",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서강 필독서 230선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "전자음악"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "6b89bbce-c091-4bce-9999-e6e5f28077fd",
+        "slug": "lee-geum-jo",
+        "nickname": "금조",
+        "nicknameEn": "Lee Geum-jo",
+        "profession": "musician",
+        "headline": "「DRAMA」로 합류한 나인뮤지스 메인보컬",
+        "bio": "대한민국의 가수로 나인뮤지스의 멤버였다."
+      },
+      "book": {
+        "contentId": "b565a8e2-05f6-4a4f-bc74-f7aa5daa6e1b",
+        "title": "Opera and Drama (Dodo Press) Paperback",
+        "creator": "리하르트 바그너^Ellis, William Ashton",
+        "description": null,
+        "isbn": "9781409937111",
+        "publisher": "Dodo Press",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 130.29,
+      "contextEvidence": {
+        "namedWorks": [
+          "DRAMA"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "drama"
+        ],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "90e2e8aa-a960-4b20-8b37-d692b2a8af6e",
+        "slug": "mina",
+        "nickname": "미나",
+        "nicknameEn": "Mina",
+        "profession": "musician",
+        "headline": "11년 발레를 K팝 무대로 옮긴 트와이스 댄서",
+        "bio": "트와이스 리드댄서 겸 서브보컬. 본명 묘이 미나, 일본 출신."
+      },
+      "book": {
+        "contentId": "4bcd49f2-5514-4724-b123-1b10f6da5b72",
+        "title": "발레슈즈 2",
+        "creator": "노엘 스트릿필드",
+        "description": null,
+        "isbn": "9788979599800",
+        "publisher": "기탄출판",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세상을 빚어낸 소설 100"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "발레"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "91d93cd8-9318-4449-ac64-ab2fc4de9b76",
+        "slug": "kazuha",
+        "nickname": "카즈하",
+        "nicknameEn": "Kazuha",
+        "profession": "musician",
+        "headline": "15년 발레 뒤 르세라핌이 된 가수",
+        "bio": "일본 오사카 출신 르세라핌 메인댄서. 본명은 나카무라 카즈하, 보컬과 랩도 겸한다."
+      },
+      "book": {
+        "contentId": "4bcd49f2-5514-4724-b123-1b10f6da5b72",
+        "title": "발레슈즈 2",
+        "creator": "노엘 스트릿필드",
+        "description": null,
+        "isbn": "9788979599800",
+        "publisher": "기탄출판",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세상을 빚어낸 소설 100"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "발레"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "9a745910-1961-472b-b69e-23aa6f81182d",
+        "slug": "leonard-bernstein",
+        "nickname": "레너드 번스타인",
+        "nicknameEn": "Leonard Bernstein",
+        "profession": "musician",
+        "headline": "「웨스트 사이드 스토리」를 작곡한 지휘자",
+        "bio": "음악감독. 웨스트사이드 스토리 · 캔디드 작곡. TV 청소년 음악회 진행 (1958–1972)."
+      },
+      "book": {
+        "contentId": "a22195ad-95d7-49f4-97ee-82a59d569a26",
+        "title": "다니엘 바렌보임: 평화의 지휘자(현대 예술의 거장 20)",
+        "creator": "다니엘 바렌보임",
+        "description": "세계를 살펴보는 시리즈이다. 순수 고전 예술의 계보를 뛰어 넘어 예술의 대중화와 대중문화의 예술적 승화에 기여한 대가들을 소개하고 있다. 이를 통해 거장들의 인간적인 숨결과 위대한 창조 정신을 새롭게 조명한다. 제20권《다니엘 바렌보임 | 평화의 지휘자》는 현존하는 지휘자로서 첫 손에 꼽히는 거장 다니엘 바렌보임의 자서전을 김성현 기자가 완역한 것이다. 어린 시절부터 천재성을 인정받으며 성장하여 처음에는 피아노로, 나중에는 지휘로 세상을 놀라게 한 바렌보임. 그",
+        "isbn": "9788932431253",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "지휘"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "지휘자"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "9c5c226e-bce2-49ae-99bb-6eebbf83bd21",
+        "slug": "christina-aguilera",
+        "nickname": "크리스티나 아길레라",
+        "nicknameEn": "Christina Aguilera",
+        "profession": "musician",
+        "headline": "자기긍정의 찬가 〈Beautiful〉을 부른 가수",
+        "bio": "미국 팝·R&B 가수. 강렬한 보컬과 'Beautiful', 'Fighter' 등으로 2000년대 팝을 대표했다."
+      },
+      "book": {
+        "contentId": "e28a322f-661d-4e3e-8ecd-ed65f2741790",
+        "title": "A Beautifully Foolish Endeavor",
+        "creator": "행크 그린",
+        "description": null,
+        "isbn": "9781473224247",
+        "publisher": "Orion Publishing Co",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 90,
+      "contextEvidence": {
+        "namedWorks": [
+          "Beautiful"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "9ddd3e59-1900-4a03-a601-2e6b7ae86d5e",
+        "slug": "myung-whun-chung",
+        "nickname": "정명훈",
+        "nicknameEn": "Myung-Whun Chung",
+        "profession": "musician",
+        "headline": "라 스칼라가 차기 음악감독으로 택한 한국 지휘자",
+        "bio": "지휘자이자 피아니스트. 서울시립교향악단 음악감독을 지내며 국내외에서 활동했다."
+      },
+      "book": {
+        "contentId": "a22195ad-95d7-49f4-97ee-82a59d569a26",
+        "title": "다니엘 바렌보임: 평화의 지휘자(현대 예술의 거장 20)",
+        "creator": "다니엘 바렌보임",
+        "description": "세계를 살펴보는 시리즈이다. 순수 고전 예술의 계보를 뛰어 넘어 예술의 대중화와 대중문화의 예술적 승화에 기여한 대가들을 소개하고 있다. 이를 통해 거장들의 인간적인 숨결과 위대한 창조 정신을 새롭게 조명한다. 제20권《다니엘 바렌보임 | 평화의 지휘자》는 현존하는 지휘자로서 첫 손에 꼽히는 거장 다니엘 바렌보임의 자서전을 김성현 기자가 완역한 것이다. 어린 시절부터 천재성을 인정받으며 성장하여 처음에는 피아노로, 나중에는 지휘로 세상을 놀라게 한 바렌보임. 그",
+        "isbn": "9788932431253",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 57.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "지휘"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [
+          "피아노"
+        ],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "지휘자"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ae628456-9c22-4267-9ffa-64c71d7a08a7",
+        "slug": "ryuichi-sakamoto",
+        "nickname": "사카모토 류이치",
+        "nicknameEn": "Ryuichi Sakamoto",
+        "profession": "musician",
+        "headline": "마지막 황제의 운명을 음악으로 쓴 작곡가",
+        "bio": "일본 도쿄 출신 작곡가. Yellow Magic Orchestra로 일렉트로닉 팝의 새 장을 연 뒤 영화음악 「마지막 황제」로 아카데미 음악상 수상."
+      },
+      "book": {
+        "contentId": "ca4339c1-c871-402e-badd-9287868efe78",
+        "title": "테크노 페미니즘",
+        "creator": "주디 와이즈먼",
+        "description": "『테크노 페미니즘』은 디지털 시대를 사는 여성들의 일상생활과 기술변화가 어떠한 방식으로 관계를 맺고 있는지 살펴본다. 이 책은 여성이 기술을 대하는 태도, 기술에 대한 인식이 어떤 과정을 통해 형성하게 되고, 또한 이것이 여성의 정체성 형성과 어떤 연관을 맺는지를 보여준다. 또한 고정적이고 불변한 것으로 기술을 보는 페미니스트 관점을 비판하고, 사회 과정으로서 기술을 보는 관점을 도입할 것을 강조한다.",
+        "isbn": "9788958201748",
+        "publisher": "궁리",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "포스텍 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "전자음악"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ae628456-9c22-4267-9ffa-64c71d7a08a7",
+        "slug": "ryuichi-sakamoto",
+        "nickname": "사카모토 류이치",
+        "nicknameEn": "Ryuichi Sakamoto",
+        "profession": "musician",
+        "headline": "마지막 황제의 운명을 음악으로 쓴 작곡가",
+        "bio": "일본 도쿄 출신 작곡가. Yellow Magic Orchestra로 일렉트로닉 팝의 새 장을 연 뒤 영화음악 「마지막 황제」로 아카데미 음악상 수상."
+      },
+      "book": {
+        "contentId": "b65c1fa6-8bb2-4d7a-b646-862617e16bf2",
+        "title": "테크노 폴리",
+        "creator": "닐 포스트만",
+        "description": null,
+        "isbn": "9788958200413",
+        "publisher": "궁리",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서강 필독서 230선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "전자음악"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "af278d21-93fb-4539-9a32-4586b6a2f6df",
+        "slug": "hans-zimmer",
+        "nickname": "한스 짐머",
+        "nicknameEn": "Hans Zimmer",
+        "profession": "musician",
+        "headline": "인터스텔라에 파이프오르간을 울린 작곡가",
+        "bio": "독일 출신 영화 음악가. '라이온 킹', '글래디에이터', '인터스텔라' 등 대표적 영화음악을 작곡했다."
+      },
+      "book": {
+        "contentId": "f53caf57-056c-487a-b10a-30f3deedfb98",
+        "title": "인터스텔라의 과학",
+        "creator": "킵 손",
+        "description": null,
+        "isbn": "9788972915751",
+        "publisher": "까치",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 134.87,
+      "contextEvidence": {
+        "namedWorks": [
+          "인터스텔라"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "인터스텔라"
+        ],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "b7b65260-f453-4e89-9545-d4472a022745",
+        "slug": "hector-berlioz",
+        "nickname": "엑토르 베를리오즈",
+        "nicknameEn": "Hector Berlioz",
+        "profession": "musician",
+        "headline": "환상교향곡을 쓴 프랑스 작곡가",
+        "bio": "프랑스의 낭만주의 작곡가이자 지휘자. 1830년 환상교향곡을 작곡하여 표제음악의 선구자가 되었으며, 독창적인 관현악법으로 유명하다."
+      },
+      "book": {
+        "contentId": "a22195ad-95d7-49f4-97ee-82a59d569a26",
+        "title": "다니엘 바렌보임: 평화의 지휘자(현대 예술의 거장 20)",
+        "creator": "다니엘 바렌보임",
+        "description": "세계를 살펴보는 시리즈이다. 순수 고전 예술의 계보를 뛰어 넘어 예술의 대중화와 대중문화의 예술적 승화에 기여한 대가들을 소개하고 있다. 이를 통해 거장들의 인간적인 숨결과 위대한 창조 정신을 새롭게 조명한다. 제20권《다니엘 바렌보임 | 평화의 지휘자》는 현존하는 지휘자로서 첫 손에 꼽히는 거장 다니엘 바렌보임의 자서전을 김성현 기자가 완역한 것이다. 어린 시절부터 천재성을 인정받으며 성장하여 처음에는 피아노로, 나중에는 지휘로 세상을 놀라게 한 바렌보임. 그",
+        "isbn": "9788932431253",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "지휘"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "지휘자"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "bf26df84-1cc8-43a6-b2ec-285b8526c7c6",
+        "slug": "karl-urban",
+        "nickname": "칼 어번",
+        "nicknameEn": "Karl Urban",
+        "profession": "musician",
+        "headline": "더 보이즈의 빌리 부처",
+        "bio": "뉴질랜드 출신 배우다. 영화 「반지의 제왕」·「스타트렉」·「주드 드레드」와 드라마 「더 보이즈」의 부처 역으로 세계적 인지도를 얻었다."
+      },
+      "book": {
+        "contentId": "5c6d77ce-65c8-4e80-90f7-6a4c1dfd95ef",
+        "title": "반지의 제왕(일러스트 특별판)",
+        "creator": "J.R.R. 톨킨",
+        "description": null,
+        "isbn": "9788950922382",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 6,
+          "featuredListCount": 6,
+          "rankedListCount": 3,
+          "bestRank": 1,
+          "listTitles": [
+            "카이스트 추천도서 100선",
+            "NPR 최고의 SF·판타지 100",
+            "BBC 빅 리드 100",
+            "세기의 책 100선",
+            "타임 선정 100대 소설",
+            "세상을 빚어낸 소설 100"
+          ],
+          "topics": [
+            "sf",
+            "fantasy",
+            "novel"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 182.1,
+      "contextEvidence": {
+        "namedWorks": [
+          "반지의 제왕"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "bf26df84-1cc8-43a6-b2ec-285b8526c7c6",
+        "slug": "karl-urban",
+        "nickname": "칼 어번",
+        "nicknameEn": "Karl Urban",
+        "profession": "musician",
+        "headline": "더 보이즈의 빌리 부처",
+        "bio": "뉴질랜드 출신 배우다. 영화 「반지의 제왕」·「스타트렉」·「주드 드레드」와 드라마 「더 보이즈」의 부처 역으로 세계적 인지도를 얻었다."
+      },
+      "book": {
+        "contentId": "d1918f78-dc92-49df-9c9a-80173d705b73",
+        "title": "반지의 제왕 1: 반지 원정대",
+        "creator": "J.R.R. 톨킨",
+        "description": null,
+        "isbn": "9788950992460",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 90,
+      "contextEvidence": {
+        "namedWorks": [
+          "반지의 제왕"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "bf26df84-1cc8-43a6-b2ec-285b8526c7c6",
+        "slug": "karl-urban",
+        "nickname": "칼 어번",
+        "nicknameEn": "Karl Urban",
+        "profession": "musician",
+        "headline": "더 보이즈의 빌리 부처",
+        "bio": "뉴질랜드 출신 배우다. 영화 「반지의 제왕」·「스타트렉」·「주드 드레드」와 드라마 「더 보이즈」의 부처 역으로 세계적 인지도를 얻었다."
+      },
+      "book": {
+        "contentId": "a1f7f46f-036f-4d66-ac1c-f81fd6459412",
+        "title": "반지의 제왕 2: 두 개의 탑",
+        "creator": "J.R.R. 톨킨",
+        "description": null,
+        "isbn": "9788950992477",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 90,
+      "contextEvidence": {
+        "namedWorks": [
+          "반지의 제왕"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "bf26df84-1cc8-43a6-b2ec-285b8526c7c6",
+        "slug": "karl-urban",
+        "nickname": "칼 어번",
+        "nicknameEn": "Karl Urban",
+        "profession": "musician",
+        "headline": "더 보이즈의 빌리 부처",
+        "bio": "뉴질랜드 출신 배우다. 영화 「반지의 제왕」·「스타트렉」·「주드 드레드」와 드라마 「더 보이즈」의 부처 역으로 세계적 인지도를 얻었다."
+      },
+      "book": {
+        "contentId": "393659d6-b8f0-40f4-bb09-a3c8faaeef5f",
+        "title": "반지의 제왕 3: 왕의 귀환",
+        "creator": "J.R.R. 톨킨",
+        "description": null,
+        "isbn": "9788950992484",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 90,
+      "contextEvidence": {
+        "namedWorks": [
+          "반지의 제왕"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "bf26df84-1cc8-43a6-b2ec-285b8526c7c6",
+        "slug": "karl-urban",
+        "nickname": "칼 어번",
+        "nicknameEn": "Karl Urban",
+        "profession": "musician",
+        "headline": "더 보이즈의 빌리 부처",
+        "bio": "뉴질랜드 출신 배우다. 영화 「반지의 제왕」·「스타트렉」·「주드 드레드」와 드라마 「더 보이즈」의 부처 역으로 세계적 인지도를 얻었다."
+      },
+      "book": {
+        "contentId": "96117e93-59a2-4227-a329-0987afc4a1f6",
+        "title": "반지의 제왕 세트",
+        "creator": "J. R. R. 톨킨",
+        "description": null,
+        "isbn": "9788956371795",
+        "publisher": "씨앗을뿌리는사람",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=730840&q=%EB%B0%98%EC%A7%80%EC%9D%98+%EC%A0%9C%EC%99%95+%EC%84%B8%ED%8A%B8%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29%28%EC%A0%843%EA%B6%8C%29",
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 90,
+      "contextEvidence": {
+        "namedWorks": [
+          "반지의 제왕"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "bf26df84-1cc8-43a6-b2ec-285b8526c7c6",
+        "slug": "karl-urban",
+        "nickname": "칼 어번",
+        "nicknameEn": "Karl Urban",
+        "profession": "musician",
+        "headline": "더 보이즈의 빌리 부처",
+        "bio": "뉴질랜드 출신 배우다. 영화 「반지의 제왕」·「스타트렉」·「주드 드레드」와 드라마 「더 보이즈」의 부처 역으로 세계적 인지도를 얻었다."
+      },
+      "book": {
+        "contentId": "218b9be3-fe9c-4655-acde-779df8d34ac7",
+        "title": "반지의 제왕: 반지 원정대",
+        "creator": null,
+        "description": null,
+        "isbn": "9788950992460",
+        "publisher": "아르테(arte)",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 90,
+      "contextEvidence": {
+        "namedWorks": [
+          "반지의 제왕"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c2796ace-18f9-478d-a8d1-4e3597413546",
+        "slug": "igor-stravinsky",
+        "nickname": "이고르 스트라빈스키",
+        "nicknameEn": "Igor Stravinsky",
+        "profession": "musician",
+        "headline": "「봄의 제전」으로 20세기 음악을 뒤흔든 작곡가",
+        "bio": "러시아 출신 작곡가. 1913년 봄의 제전을 초연하여 20세기 음악에 혁명을 일으켰으며, 불새와 페트루슈카도 작곡했다."
+      },
+      "book": {
+        "contentId": "09baa0da-65af-4c9c-b0d4-57e719bfcc1f",
+        "title": "봄의 제전",
+        "creator": "모드리스 엑스타인스",
+        "description": null,
+        "isbn": "9788967359447",
+        "publisher": "글항아리",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 90,
+      "contextEvidence": {
+        "namedWorks": [
+          "봄의 제전"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "e15a19e5-6b4f-4b0d-b2ba-eb79a8b5768d",
+        "slug": "arturo-toscanini",
+        "nickname": "아르투로 토스카니니",
+        "nicknameEn": "Arturo Toscanini",
+        "profession": "musician",
+        "headline": "자신을 위해 창단된 NBC 심포니의 지휘자",
+        "bio": "음악감독. 라 스칼라 · 메트로폴리탄 오페라 수석지휘자. 뉴욕 필하모닉 음악감독 (1928–1936)."
+      },
+      "book": {
+        "contentId": "a22195ad-95d7-49f4-97ee-82a59d569a26",
+        "title": "다니엘 바렌보임: 평화의 지휘자(현대 예술의 거장 20)",
+        "creator": "다니엘 바렌보임",
+        "description": "세계를 살펴보는 시리즈이다. 순수 고전 예술의 계보를 뛰어 넘어 예술의 대중화와 대중문화의 예술적 승화에 기여한 대가들을 소개하고 있다. 이를 통해 거장들의 인간적인 숨결과 위대한 창조 정신을 새롭게 조명한다. 제20권《다니엘 바렌보임 | 평화의 지휘자》는 현존하는 지휘자로서 첫 손에 꼽히는 거장 다니엘 바렌보임의 자서전을 김성현 기자가 완역한 것이다. 어린 시절부터 천재성을 인정받으며 성장하여 처음에는 피아노로, 나중에는 지휘로 세상을 놀라게 한 바렌보임. 그",
+        "isbn": "9788932431253",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "지휘"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "지휘자"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "e981898c-6ae5-4680-bf12-d6c526a7a666",
+        "slug": "claudio-abbado",
+        "nickname": "클라우디오 아바도",
+        "nicknameEn": "Claudio Abbado",
+        "profession": "musician",
+        "headline": "단원들이 직접 뽑은 카라얀의 후임",
+        "bio": "창단 예술감독. 라 스칼라 · 빈 국립오페라 음악감독. 베를린 필하모닉 수석지휘자 (1989–2002)."
+      },
+      "book": {
+        "contentId": "a22195ad-95d7-49f4-97ee-82a59d569a26",
+        "title": "다니엘 바렌보임: 평화의 지휘자(현대 예술의 거장 20)",
+        "creator": "다니엘 바렌보임",
+        "description": "세계를 살펴보는 시리즈이다. 순수 고전 예술의 계보를 뛰어 넘어 예술의 대중화와 대중문화의 예술적 승화에 기여한 대가들을 소개하고 있다. 이를 통해 거장들의 인간적인 숨결과 위대한 창조 정신을 새롭게 조명한다. 제20권《다니엘 바렌보임 | 평화의 지휘자》는 현존하는 지휘자로서 첫 손에 꼽히는 거장 다니엘 바렌보임의 자서전을 김성현 기자가 완역한 것이다. 어린 시절부터 천재성을 인정받으며 성장하여 처음에는 피아노로, 나중에는 지휘로 세상을 놀라게 한 바렌보임. 그",
+        "isbn": "9788932431253",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "지휘"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "f6644941-b36e-4217-a993-03271c4092e3",
+        "slug": "rihanna",
+        "nickname": "리한나",
+        "nicknameEn": "Rihanna",
+        "profession": "musician",
+        "headline": "파운데이션 40가지 색으로 화장품 시장을 바꾼 팝스타",
+        "bio": "바베이도스 출신 팝·R&B 가수 겸 사업가. '엄브렐라','다이아몬드' 등 글로벌 히트곡을 양산했다. 페티 뷰티로 뷰티 산업에서도 성공했다."
+      },
+      "book": {
+        "contentId": "97961f56-185a-46eb-a2fc-c5cd4c328ce7",
+        "title": "다이아몬드 시대(그리폰북스)",
+        "creator": "닐 스티븐슨",
+        "description": null,
+        "isbn": "9788952734082",
+        "publisher": "시공사",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 2,
+          "featuredListCount": 2,
+          "rankedListCount": 1,
+          "bestRank": 75,
+          "listTitles": [
+            "NPR 최고의 SF·판타지 100",
+            "휴고상 장편소설 수상작"
+          ],
+          "topics": [
+            "sf",
+            "fantasy"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 162.2,
+      "contextEvidence": {
+        "namedWorks": [
+          "다이아몬드"
+        ],
+        "titleAnchors": [],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "다이아몬드"
+        ],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ffd310fe-4e31-42e6-aaf0-30ea174ccf5e",
+        "slug": "herbert-von-karajan",
+        "nickname": "헤르베르트 폰 카라얀",
+        "nicknameEn": "Herbert von Karajan",
+        "profession": "musician",
+        "headline": "베를린 필을 34년 이끈 종신 수석지휘자",
+        "bio": "종신 수석지휘자. 베를린 필하모닉 34년 (1955–1989). 빈 국립오페라 총감독 · 잘츠부르크 부활절 음악제 설립."
+      },
+      "book": {
+        "contentId": "a22195ad-95d7-49f4-97ee-82a59d569a26",
+        "title": "다니엘 바렌보임: 평화의 지휘자(현대 예술의 거장 20)",
+        "creator": "다니엘 바렌보임",
+        "description": "세계를 살펴보는 시리즈이다. 순수 고전 예술의 계보를 뛰어 넘어 예술의 대중화와 대중문화의 예술적 승화에 기여한 대가들을 소개하고 있다. 이를 통해 거장들의 인간적인 숨결과 위대한 창조 정신을 새롭게 조명한다. 제20권《다니엘 바렌보임 | 평화의 지휘자》는 현존하는 지휘자로서 첫 손에 꼽히는 거장 다니엘 바렌보임의 자서전을 김성현 기자가 완역한 것이다. 어린 시절부터 천재성을 인정받으며 성장하여 처음에는 피아노로, 나중에는 지휘로 세상을 놀라게 한 바렌보임. 그",
+        "isbn": "9788932431253",
+        "publisher": "을유문화사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "지휘"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    }
+  ]
+}

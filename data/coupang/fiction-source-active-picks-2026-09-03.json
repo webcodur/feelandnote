@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-03T03:03:55.097Z",
+  "checkedAt": "2026-09-03T03:29:30.842Z",
   "items": [
     {
       "content_id": "020eb69c-4f27-4f8e-a1b1-a35ddf26a66b",
@@ -842,6 +842,40 @@
       "affiliateUrl": "https://link.coupang.com/a/gJDlfk794u",
       "state": "linked",
       "checkedAt": "2026-09-03T03:03:55.097Z"
+    },
+    {
+      "content_id": "5c6d77ce-65c8-4e80-90f7-6a4c1dfd95ef",
+      "isbn": "9788950922382",
+      "title": "반지의 제왕(일러스트 특별판)",
+      "query": "반지의 제왕",
+      "name": "반지의 제왕(일러스트 특별판):반지 원정대+두 개의 탑+왕의 귀환, 아르테(arte), 존 로날드 로웰 톨킨",
+      "productId": "7216353160",
+      "productUrl": "https://www.coupang.com/vp/products/7216353160?itemId=18275842327&vendorItemId=85421921505",
+      "qualityEvidence": [
+        "ISBN 9788950922382의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 새벽 7시 전 도착 보장",
+        "3 개 상품평"
+      ],
+      "affiliateUrl": "https://link.coupang.com/a/gJE9h6jCSW",
+      "state": "linked",
+      "checkedAt": "2026-09-03T03:29:12.460Z"
+    },
+    {
+      "content_id": "09baa0da-65af-4c9c-b0d4-57e719bfcc1f",
+      "isbn": "9788967359447",
+      "title": "봄의 제전",
+      "query": "봄의 제전",
+      "name": "봄의 제전:세계대전과 현대의 탄생, 모드리스 엑스타인스, 글항아리",
+      "productId": "6577305603",
+      "productUrl": "https://www.coupang.com/vp/products/6577305603?itemId=14787461323&vendorItemId=82027484084",
+      "qualityEvidence": [
+        "ISBN 9788967359447의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "1 개 상품평"
+      ],
+      "affiliateUrl": "https://link.coupang.com/a/gJFaEhGjxA",
+      "state": "linked",
+      "checkedAt": "2026-09-03T03:29:30.842Z"
     }
   ]
 }
