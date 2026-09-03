@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import sharp from 'sharp'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { buildSmallAvatar, smallAvatarKey } from '@/lib/avatar-small'
 import { revalidateWebCeleb } from '@/lib/revalidate-web'
@@ -130,10 +131,10 @@ async function publishNobgAvatar(
   result: Buffer,
   revalidate: boolean
 ): Promise<string> {
-  // 파이썬 결과는 무손실 중간본이다. 서비스 등록 단계에서만 800px·q95로 한 번 인코딩한다.
+  // 파이썬 결과는 무손실 중간본이다. 서비스 등록 단계에서 공유 규격으로 한 번 인코딩한다.
   const finalAvatar = await sharp(result)
-    .resize(800, 800, { fit: 'fill' })
-    .webp({ quality: 95 })
+    .resize(CELEB_AVATAR_ORIGINAL.sizePx, CELEB_AVATAR_ORIGINAL.sizePx, { fit: 'fill' })
+    .webp({ quality: CELEB_AVATAR_ORIGINAL.webpQuality })
     .toBuffer()
   const stats = await sharp(finalAvatar).stats()
   const alpha = stats.channels[3]
@@ -141,7 +142,7 @@ async function publishNobgAvatar(
     throw new Error('배경 제거 결과에 투명 영역이 없습니다. 다른 원본으로 다시 시도하세요.')
   }
 
-  const key = `celebs/${celeb.id}/avatar.webp`
+  const key = `celebs/${celeb.id}/${CELEB_AVATAR_ORIGINAL.file}`
   await uploadToR2(key, finalAvatar, 'image/webp')
   // 배경을 지운 새 얼굴로 작은 판도 다시 만든다 — 안 하면 그 인물만 옛 얼굴이 남는다
   await uploadToR2(smallAvatarKey(celeb.id), await buildSmallAvatar(finalAvatar), 'image/webp')

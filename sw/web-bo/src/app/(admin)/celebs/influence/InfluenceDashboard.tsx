@@ -1,34 +1,20 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { INFLUENCE_CATEGORY_FIELDS } from '@feelandnote/influence-constants/core'
+import { getCelebProfessionLabel } from '@feelandnote/shared/constants/celeb-professions'
 import type { InfluenceData, InfluenceAxis } from '@/actions/admin/influence'
 
-const AXES: { key: InfluenceAxis; label: string }[] = [
-  { key: 'political', label: '정치·외교' },
-  { key: 'strategic', label: '전략·안보' },
-  { key: 'tech', label: '기술·과학' },
-  { key: 'social', label: '사회·윤리' },
-  { key: 'economic', label: '산업·경제' },
-  { key: 'cultural', label: '문화·예술' },
-]
-
-const PROFESSION_LABELS: Record<string, string> = {
-  politician: '정치인',
-  humanities_scholar: '인문학자',
-  entrepreneur: '기업가',
-  scientist: '과학자',
-  commander: '지휘관',
-  author: '작가',
-  director: '감독',
-  musician: '음악인',
-  visual_artist: '미술인',
-  leader: '지도자',
-  investor: '투자자',
-  social_scientist: '사회과학자',
-  actor: '배우',
-  athlete: '스포츠인',
-  influencer: '인플루엔서',
+const AXIS_LABELS: Record<InfluenceAxis, string> = {
+  political: '정치·외교',
+  strategic: '전략·안보',
+  tech: '기술·과학',
+  social: '사회·윤리',
+  economic: '산업·경제',
+  cultural: '문화·예술',
 }
+
+const AXES = INFLUENCE_CATEGORY_FIELDS.map((key) => ({ key, label: AXIS_LABELS[key] }))
 
 type SortKey = 'total_score' | 'transhistoricity' | InfluenceAxis
 
@@ -75,7 +61,7 @@ export default function InfluenceDashboard({ data }: Props) {
         >
           <option value="">전체 직군</option>
           {professions.map((p) => (
-            <option key={p} value={p}>{PROFESSION_LABELS[p] ?? p}</option>
+            <option key={p} value={p}>{getCelebProfessionLabel(p)}</option>
           ))}
         </select>
         <select
@@ -147,7 +133,7 @@ export default function InfluenceDashboard({ data }: Props) {
                       <td className="py-2 px-3">
                         <p className="text-text-primary font-medium">{row.nickname}</p>
                         <p className="text-[10px] text-text-tertiary">
-                          {PROFESSION_LABELS[row.profession ?? ''] ?? row.profession}
+                          {row.profession ? getCelebProfessionLabel(row.profession) : null}
                         </p>
                       </td>
                       {AXES.map((a) => (

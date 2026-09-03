@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/db/server'
+import type { InfluenceCategoryField } from '@feelandnote/influence-constants/core'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 
 export interface InfluenceData {
@@ -31,7 +32,7 @@ export interface InfluenceData {
   transhistoricity_exp_en: string | null
 }
 
-export type InfluenceAxis = 'political' | 'strategic' | 'tech' | 'social' | 'economic' | 'cultural'
+export type InfluenceAxis = InfluenceCategoryField
 
 interface InfluenceQueryRow {
   celeb_id: string

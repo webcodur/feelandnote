@@ -1,14 +1,16 @@
 /** 대사·음성 작업대가 쓰는 상수와 타입 */
 
+import {
+  CELEB_SPEECH_TONE_LABELS_KO,
+  CELEB_SPEECH_TONES,
+} from '@feelandnote/shared/constants/celeb-speech'
+
 export type Locale = 'ko' | 'en'
 export type ViewMode = 'both' | 'ko' | 'en'
 
-export const SPEECH_TONES = ['loyal', 'composed', 'bold', 'humble', 'gentle', 'free'] as const
+export const SPEECH_TONES = CELEB_SPEECH_TONES
 
-export const TONE_LABELS: Record<string, string> = {
-  loyal: '충의', composed: '침착', bold: '당돌',
-  humble: '겸양', gentle: '온화', free: '호방',
-}
+export const TONE_LABELS: Record<string, string> = CELEB_SPEECH_TONE_LABELS_KO
 
 export const MODE_OPTIONS: { value: ViewMode; label: string }[] = [
   { value: 'both', label: '한영본' },

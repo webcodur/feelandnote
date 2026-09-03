@@ -173,7 +173,7 @@ export default function CelebImageGrid({
         onRun={handleRunAllNobg}
       />
       <div className="grid grid-cols-1 gap-px bg-border">
-      {celebs.map((celeb, index) => (
+      {celebs.map((celeb) => (
         <CelebImageCard
           key={celeb.id}
           celeb={celeb}
@@ -186,7 +186,6 @@ export default function CelebImageGrid({
           incomingSlot={incoming?.celebId === celeb.id ? incoming.slot : null}
           incomingFile={incoming?.celebId === celeb.id ? incoming.file : null}
           onIncomingDone={clearIncoming}
-          highPriority={index < 4}
           onAvatarUrlChange={(url) => setAvatarUrls((current) => ({
             ...current,
             [celeb.id]: url,
@@ -222,7 +221,6 @@ function CelebImageCard({
   incomingSlot,
   incomingFile,
   onIncomingDone,
-  highPriority,
   onAvatarUrlChange,
   onPortraitUrlChange,
   onAwakenedImageUrlChange,
@@ -239,7 +237,6 @@ function CelebImageCard({
   incomingSlot: ImageSlot | null
   incomingFile: File | null
   onIncomingDone: () => void
-  highPriority: boolean
   onAvatarUrlChange: (url: string | null) => void
   onPortraitUrlChange: (url: string | null) => void
   onAwakenedImageUrlChange: (url: string | null) => void
@@ -309,8 +306,6 @@ function CelebImageCard({
             onSaved={onAvatarUrlChange}
             refreshAfterSave={false}
             openOnClick
-            loadImmediately
-            highPriority={highPriority}
             pasteActive={activeImageSlot === 'avatar'}
             incomingFile={incomingSlot === 'avatar' ? incomingFile : null}
             onIncomingDone={onIncomingDone}
@@ -341,8 +336,6 @@ function CelebImageCard({
             onSaved={onPortraitUrlChange}
             refreshAfterSave={false}
             openOnClick
-            loadImmediately
-            highPriority={highPriority}
             pasteActive={activeImageSlot === 'portrait'}
             incomingFile={incomingSlot === 'portrait' ? incomingFile : null}
             onIncomingDone={onIncomingDone}
@@ -361,8 +354,6 @@ function CelebImageCard({
             onSaved={onAwakenedImageUrlChange}
             refreshAfterSave={false}
             openOnClick
-            loadImmediately
-            highPriority={highPriority}
             pasteActive={activeImageSlot === 'awakened'}
             onActivate={() => onActivateImage('awakened')}
             className="group/portrait relative h-[280px] w-[280px] shrink-0 overflow-hidden rounded-xl border border-amber-500/30 bg-bg-secondary hover:border-amber-300 data-[dragging=true]:border-amber-300 data-[dragging=true]:bg-amber-500/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-amber-400/30"

@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/db/server'
 import { createAdminClient } from '@/lib/db/admin'
 import { revalidatePath } from 'next/cache'
-import { type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnote/ai-services/celeb-profile'
+import { type GeneratedInfluence } from '@feelandnote/ai-services/celeb-profile'
 import { notifyIndexNow } from '@/lib/indexnow'
 import {
   revalidateWebItems,
@@ -11,6 +11,11 @@ import {
 } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
+import {
+  CELEB_MANAGED_PUBLICATION_STATUSES,
+  DEFAULT_CELEB_PUBLICATION_STATUS,
+  type CelebManagedPublicationStatus,
+} from '@feelandnote/shared/constants/celeb-publication'
 import { requireAdmin } from '@/lib/admin-auth'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '@/lib/celeb-slug'
 
@@ -52,7 +57,7 @@ interface GetCelebsParams {
   page?: number
   limit?: number
   search?: string
-  status?: 'active' | 'inactive' | 'all'
+  status?: CelebManagedPublicationStatus | 'all'
   profession?: string
   tier?: 'full' | 'light' | 'all'
   imageFilter?: CelebImageFilter
@@ -74,7 +79,7 @@ interface CreateCelebInput {
   cultural_journey?: string
   avatar_url?: string
   is_verified?: boolean
-  status?: 'active' | 'inactive'
+  status?: CelebManagedPublicationStatus
   /** 등급은 받지 않는다 — 신규는 항상 light다(NEW_CELEB_TIER 주석 참조) */
   influence?: GeneratedInfluence
 }
@@ -104,7 +109,7 @@ interface UpdateCelebInput {
   /** 대표 사진과 별개인 각성 이미지. 빈 문자열이면 내린다 */
   awakened_image_url?: string
   is_verified?: boolean
-  status?: 'active' | 'inactive'
+  status?: CelebManagedPublicationStatus
   celeb_tier?: 'full' | 'light' | 'fiction'
   influence?: GeneratedInfluence
 }
@@ -303,7 +308,7 @@ function buildCelebListQuery(
   if (status && status !== 'all') {
     query = query.eq('publication_status', status)
   } else {
-    query = query.in('publication_status', ['active', 'inactive'])
+    query = query.in('publication_status', [...CELEB_MANAGED_PUBLICATION_STATUSES])
   }
 
   if (profession && profession !== 'all') {
@@ -705,7 +710,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
  * 새로 만드는 인물의 등급은 언제나 light다.
  *
  * DB 트리거 `trg_celeb_full_requires_content`가 감상 기록이 한 건도 없는 인물의
- * full 등급을 막는다(2026-06-22 설치). 방금 만든 인물은 기록이 있을 수 없으므로
+ * full 등급을 막는다. 방금 만든 인물은 기록이 있을 수 없으므로
  * 등록 시점에 full을 고를 여지 자체가 없다. 기록을 채운 뒤 목록에서 올린다.
  */
 const NEW_CELEB_TIER = 'light' as const
@@ -775,7 +780,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
         consumption_philosophy: input.cultural_journey || null,
         avatar_url: input.avatar_url || null,
         is_verified: input.is_verified || false,
-        publication_status: input.status || 'inactive',
+        publication_status: input.status || DEFAULT_CELEB_PUBLICATION_STATUS,
         celeb_tier: NEW_CELEB_TIER,
       })
       .select('slug')
