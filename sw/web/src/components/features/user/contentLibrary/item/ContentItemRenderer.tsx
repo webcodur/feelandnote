@@ -8,6 +8,7 @@
 import { memo, useState } from "react";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
+import SwipeControls from "@/components/ui/SwipeControls";
 import { getCategoryByDbType } from "@/constants/categories";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
@@ -163,6 +164,8 @@ function ContentItemRenderer({
           );
         })}
       </ContentGrid>
+
+      {mobileCarousel && <SwipeControls count={items.length} />}
 
       {hasAffiliateItem && (
         <p

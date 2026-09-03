@@ -11,6 +11,7 @@ import { User } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import CenteredSectionHeading from "@/components/ui/CenteredSectionHeading";
+import SwipeControls from "@/components/ui/SwipeControls";
 import { PendingBlock } from "@/components/ui/pending";
 
 /** 격자 열 구성. 기다림 표시가 같은 모양으로 서도록 카드와 한 규칙을 쓴다.
@@ -199,6 +200,8 @@ export default async function FigureLinkGrid({
           </li>
         ))}
       </ul>
+
+      {mobilePages && <SwipeControls count={mobilePages.length} />}
 
       {moreHref && moreLabel && (
         <div className="mt-4 flex justify-end">

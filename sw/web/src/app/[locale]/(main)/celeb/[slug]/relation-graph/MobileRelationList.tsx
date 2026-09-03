@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useMemo } from "react";
 import { UserRound } from "lucide-react";
 
+import SwipeControls from "@/components/ui/SwipeControls";
 import styles from "./MobileRelationList.module.css";
 import type { FocusOption } from "./RelationToolbar";
 import type { PersonNode, RelationFocus } from "./types";
@@ -89,6 +90,7 @@ export default function MobileRelationList(props: Props) {
         })}
         </li>)}
       </ul>
+      <SwipeControls count={Math.ceil(section.people.length / PEOPLE_PER_PAGE)} className="pb-3" />
     </section>)}
   </div>;
 }
