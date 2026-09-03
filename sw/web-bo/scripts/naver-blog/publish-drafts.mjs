@@ -5,7 +5,7 @@
 // 양식·주기는 docs/continuous/naver-blog.md 를 따른다.
 //   --dry : 제목·본문 입력과 발행 패널 설정까지만 하고 발행하지 않는다(스크린샷 저장).
 // 디버그 포트 9222 크롬에 네이버 로그인 상태여야 한다. 크롬은 --disable-features=CalculateNativeWinOcclusion 로 띄운다.
-import puppeteer from 'puppeteer';
+import { getBrowser, getNaverPage } from './lib/browser.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -329,9 +329,8 @@ async function addTags(page, tags) {
   return page.evaluate(() => [...document.querySelectorAll('[class*=option_tag] [class*=tag]')].map((e) => e.textContent.trim()).filter((t) => t.startsWith('#')).length);
 }
 
-const browser = await puppeteer.connect({ browserURL: 'http://localhost:9222', defaultViewport: null, protocolTimeout: 300000 });
-const pages = await browser.pages();
-const page = pages.find((p) => p.url().includes('blog.naver.com') && !p.url().includes('blog.stat')) ?? pages[0];
+const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });
+const page = await getNaverPage(browser);
 page.on('dialog', (d) => { d.accept().catch(() => {}); });
 const cdp = await page.createCDPSession();
 await cdp.send('DOM.enable'); await cdp.send('Page.enable');
@@ -398,7 +397,8 @@ for (const d of drafts) {
     const html = await (await fetch(`https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=${logNo}`, UA)).text();
     const live = html.includes(`feelandnote.com${d.target}`);
     d.status = live ? 'published' : 'check'; d.logNo = logNo; d.publishedAt = new Date().toISOString();
-    posts.push({ logNo, date: new Date().toISOString().slice(0, 10).replace(/-/g, '. ') + '.', title: d.title, kind: d.kind, slug: null, url: 'https://feelandnote.com' + d.target, link: live ? 'ok' : 'check' });
+    // 예약 시각을 남긴다. 한 번 잡힌 예약은 편집으로 못 바꾸므로, 다음 글의 빈 슬롯을 이 기록으로 고른다.
+    posts.push({ logNo, date: new Date().toISOString().slice(0, 10).replace(/-/g, '. ') + '.', title: d.title, kind: d.kind, slug: null, url: 'https://feelandnote.com' + d.target, link: live ? 'ok' : 'check', ...(schedText ? { scheduledAt: schedText } : {}) });
     saveAll();
     console.log(live ? 'OK   ' : 'CHECK', logNo, d.title, schedText ? '| 예약 ' + schedText : '');
     n++; await wait(10000);
@@ -409,4 +409,4 @@ for (const d of drafts) {
   }
 }
 await cdp.send('Page.setInterceptFileChooserDialog', { enabled: false }).catch(() => {});
-browser.disconnect();
+if (launched) await browser.close(); else browser.disconnect();   // 사용자 창은 끄지 않는다

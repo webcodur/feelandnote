@@ -43,6 +43,36 @@ const opt = (k) => { const i = args.indexOf(`--${k}`); return i >= 0 ? args[i + 
 const slugArg = opt('slug');
 const N = Number(opt('n') ?? 5);
 
+/**
+ * 초안 파일을 고칠 때 거는 잠금.
+ *
+ * 레인을 여럿 띄우면 같은 파일을 동시에 읽고 써서 나중에 쓴 쪽이 앞선 결과를 지운다.
+ * 읽기부터 쓰기까지를 이 안에서 끝내 그 틈을 없앤다. 임계구역이 짧아 대기는 길지 않다.
+ */
+function withDraftsLock(fn) {
+  const LOCK = `${DRAFTS}.lock`;
+  const nap = () => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 40 + Math.random() * 60);
+  for (let i = 0; i < 400; i++) {
+    let fd;
+    try {
+      fd = fs.openSync(LOCK, 'wx');
+    } catch (e) {
+      if (e.code !== 'EEXIST') throw e;
+      // 죽은 레인이 남긴 잠금은 걷어낸다
+      try { if (Date.now() - fs.statSync(LOCK).mtimeMs > 60000) fs.rmSync(LOCK, { force: true }); } catch {}
+      nap();
+      continue;
+    }
+    try {
+      return fn();
+    } finally {
+      fs.closeSync(fd);
+      fs.rmSync(LOCK, { force: true });
+    }
+  }
+  throw new Error('초안 파일 잠금을 얻지 못했다');
+}
+
 // 고유어 수사. 「열한 권」·「스무 권」처럼 세는 말 앞 형태를 쓴다. 100 이상은 숫자로 둔다.
 const ONES = ['', '한', '두', '세', '네', '다섯', '여섯', '일곱', '여덟', '아홉'];
 const TENS = ['', '열', '스물', '서른', '마흔', '쉰', '예순', '일흔', '여든', '아흔'];
@@ -83,12 +113,32 @@ function sentences(text) {
  * agy 가 다듬은 감상을 검사한다. 원문에 있던 큰따옴표 인용이 사라졌거나
  * 길이가 반토막이면 다듬기를 버리고 원문을 쓴다 — 사실이 날아가는 쪽이 훨씬 나쁘다.
  */
+const QUOTE_RE = /["“”]([^"“”]{6,200})["“”]/g;
+const quotesIn = (t) => [...String(t ?? "").matchAll(QUOTE_RE)].map((m) => m[1].trim());
+
+/**
+ * agy 가 다듬은 감상을 검사한다.
+ *
+ * 🔴 막아야 할 것은 인용의 **유실**이 아니라 **변조와 날조**다. 감상 한 편에 인용이
+ * 서넛 든 인물(마틴 루터 킹)이 있어 110~150자로 줄이면 일부는 반드시 빠진다.
+ * 「전부 살아남아야 한다」로 두었더니 그런 인물은 다섯 편 모두 원문으로 되돌아갔다.
+ *
+ * 그래서 세 가지만 본다.
+ *   1) 다듬은 글의 인용은 **모두 원문에 그대로 있어야 한다** — 바꾸거나 지어낸 것을 잡는다
+ *   2) 원문에 인용이 있었다면 **최소 하나는 남아야 한다** — 발언이 통째로 사라지지 않게
+ *   3) 길이가 원문의 40% 아래로 줄지 않아야 한다
+ */
 function safeReview(original, rewritten) {
   const raw = String(original ?? "").trim();
   const neu = String(rewritten ?? "").trim();
   if (!neu || neu.length < 40) return { text: raw, why: "다듬기가 비었다" };
-  const quotes = (raw.match(/[""]([^""]{6,})[""]/g) ?? []).map((q) => q.slice(1, -1));
-  for (const q of quotes) if (!neu.includes(q)) return { text: raw, why: `인용이 사라졌다: ${q.slice(0, 18)}…` };
+
+  const rawQ = quotesIn(raw);
+  const newQ = quotesIn(neu);
+  for (const q of newQ) {
+    if (!raw.includes(q)) return { text: raw, why: `없던 인용이 생겼다: ${q.slice(0, 18)}…` };
+  }
+  if (rawQ.length && !newQ.length) return { text: raw, why: "인용이 하나도 남지 않았다" };
   if (neu.length < raw.length * 0.4) return { text: raw, why: "너무 많이 잘렸다" };
   return { text: neu, why: null };
 }
@@ -214,6 +264,11 @@ ${five.map((b, i) => `${i + 1}. 『${b.title}』 — ${b.creator ?? ''}\n   감�
       지어내거나 「독서 뒤 남긴 소감」처럼 아무 말이나 채우지 마라.
       다섯 개가 모두 비슷한 꼴로 끝나면 라벨이 없느니만 못하다. 확실한 것만 적고 나머지는 비운다.
 - reviews: 위 감상 기록 다섯 편을 **모범값에 맞춰 다듬은 것**. 아래 규칙을 지킨다.
+    · **첫 문장은 그 책이 무엇인지 알려라.** 독자는 제목만 보고는 감이 안 잡힌다. 인물 이름으로 문장을 열지 마라.
+      쓸 수 있는 것: 어떤 종류의 책인지, 무엇을 다루는지, 누구의 이야기인지.
+      **쓰면 안 되는 것: 출간 연도, 수상 이력, 판매량, 「명작이다」 같은 평가.** 이것들이 지어내기가 시작되는 자리다.
+      엄밀할 필요는 없다. 독자가 「아 그런 책이구나」 하고 넘어가면 된다. 확실하지 않으면 좁게 단정하지 말고 넓게 써라.
+      예) "아우슈비츠에서 살아 나온 사람이 남긴 기록이다." · "눈에 보이지 않는 것이 소중하다고 말하는 동화다."
     · 길이를 110~150자로 맞춘다. 원문이 길면 곁가지를 덜어내고, 짧으면 억지로 늘리지 마라.
     · **큰따옴표 안의 말은 한 글자도 바꾸지 마라.** 본인 발언이다.
     · **사실을 더하지 마라.** 원문에 없는 연도·작품·평가를 만들어 넣으면 안 된다. 덜어내기만 한다.
@@ -243,7 +298,7 @@ function inspect(m, w) {
 
   // 인물 이름이 문장 첫머리에 되풀이되는가
   const headed = reviews.filter((r) => r.trim().startsWith(name)).length;
-  if (headed >= 3) bad.push(`감상 ${headed}편이 「${name}」으로 시작한다. 두 번째 권부터는 다른 방식으로 문장을 열어라.`);
+  if (headed >= 2) bad.push(`감상 ${headed}편이 「${name}」으로 시작한다. 첫 문장은 그 책이 무엇인지 알리는 말로 열어라.`);
 
   // 같은 낱말이 본문 전체에서 되풀이되는가
   const freq = {};
@@ -367,8 +422,17 @@ async function main() {
       if (notes.length) console.log(`   ⚠ 남은 문제: ${notes.join(" / ")}`);
       const row = assemble(m, j);
       if (dry) { console.log(`\n===== ${row.title}\n${row.body}\n`); ok++; continue; }
-      drafts.push(row);
-      fs.writeFileSync(DRAFTS, JSON.stringify(drafts, null, 1));
+      // 🔴 예약 작업이 같은 파일의 status 를 고치는 중일 수 있다. 통째로 덮어쓰면 그 갱신이 날아간다.
+      //    26.09.03에 그렇게 예약된 글이 draft 로 되돌아가 중복 발행 직전까지 갔다.
+      //    레인 여럿이 동시에 돌 때도 같은 일이 난다 — 읽기·쓰기를 잠금 안에서 한 번에 끝낸다.
+      const wrote = withDraftsLock(() => {
+        const live = fs.existsSync(DRAFTS) ? JSON.parse(fs.readFileSync(DRAFTS, "utf8")) : [];
+        if (live.some((d) => d.target === row.target)) return false;
+        live.push(row);
+        fs.writeFileSync(DRAFTS, JSON.stringify(live, null, 1));
+        return true;
+      });
+      if (!wrote) { console.log(`   건너뜀 ${slug} — 그 사이 다른 레인이 넣었다`); continue; }
       ok++;
       console.log(`OK ${slug} — ${row.title}`);
     } catch (e) {
