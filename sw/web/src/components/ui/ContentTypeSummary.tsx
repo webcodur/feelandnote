@@ -47,8 +47,14 @@ export function ContentTypeSummary({ items, value, onChange, size = "sm", classN
 
   if (typeCounts.length === 0) return null;
 
+  // 칩이 셋까지는 가로 한 줄, 넷이면 2×2 격자로 둔다 — 종류는 넷이 상한이다
+  const layoutClass =
+    typeCounts.length >= 4
+      ? `grid grid-cols-2 w-fit mx-auto ${cfg.gap}`
+      : `flex flex-wrap items-center justify-center ${cfg.gap}`;
+
   return (
-    <div className={`flex items-center justify-center ${cfg.gap} ${className}`}>
+    <div className={`${layoutClass} ${className}`}>
       {typeCounts.map((item) => {
         const isActive = value === item.type;
         return (

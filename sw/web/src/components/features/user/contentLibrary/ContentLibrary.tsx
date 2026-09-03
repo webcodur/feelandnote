@@ -31,6 +31,7 @@ export default function ContentLibrary({
   desktopViewMode,
   defaultPageSize,
   hideControlWrapper = false,
+  hideReviewFilter = false,
   initialContents,
   initialContentBrief,
 }: ContentLibraryProps) {
@@ -178,6 +179,7 @@ export default function ContentLibrary({
         onClearSearch={lib.clearSearch}
         showMonthControls={showMonthSections}
         allowRatingSort={ownerKind === "member"}
+        hideReviewFilter={hideReviewFilter}
         compact={hideControlWrapper}
         hideWrapper={hideControlWrapper}
       />

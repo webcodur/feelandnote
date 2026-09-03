@@ -12,6 +12,8 @@ interface VoiceBadgeProps {
   size?: BadgeSize;
   /** 실제 오디오가 있을 때만 색·발광·파동을 활성화한다 */
   active?: boolean;
+  /** 재생 중이면 지금 강도로 진하게, 평시(active만)에는 연하게 보인다 */
+  playing?: boolean;
   /** 음파 펄스 트리거 — 값이 바뀔 때마다 링 애니메이션 발동 */
   pulse?: number;
   className?: string;
@@ -32,17 +34,25 @@ const sizeConfig = {
 export default function VoiceBadge({
   size = "md",
   active = true,
+  playing = false,
   pulse = 0,
   className = "",
 }: VoiceBadgeProps) {
   const cfg = sizeConfig[size];
-  const stateClass = active
+  const stateClass = playing
     ? "bg-black/70 border-emerald-500/50 animate-[voiceGlow_2s_ease-in-out_infinite]"
-    : "bg-black/60 border-white/15";
+    : active
+      ? "bg-black/60 border-emerald-500/25"
+      : "bg-black/60 border-white/15";
+  const iconClass = playing
+    ? "text-emerald-400"
+    : active
+      ? "text-emerald-400/60"
+      : "text-white/60";
 
   return (
     <div className={`relative flex items-center justify-center ${cfg.badge} rounded-full border shadow-sm ${stateClass} ${className}`}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className={`${cfg.icon} ${active ? "text-emerald-400" : "text-white/60"}`}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className={`${cfg.icon} ${iconClass}`}>
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
         <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
       </svg>

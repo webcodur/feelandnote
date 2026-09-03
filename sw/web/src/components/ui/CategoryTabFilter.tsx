@@ -34,15 +34,21 @@ interface CategoryTabFilterProps<T extends string> {
   /** 고정 열 그리드로 렌더 — 직군 3열 등 공통 모듈로 레이아웃을 강제한다 */
   gridCols?: 2 | 3 | 4 | 5 | 6;
   className?: string;
+  /** 고른 값이 없을 때(전체 모드) 모든 칩을 은은한 선택 상태로 보여준다 — 별도 전체 칩을 두지 않는 둘러보기용 */
+  faintAllActive?: boolean;
 }
 
 // 1단 메인 모드용 솔리드 골드 그라디언트 pill
 const ACTIVE_PRIMARY_PILL =
   "text-neutral-950 bg-gradient-to-br from-accent via-yellow-200 to-accent font-bold shadow-[0_0_16px_rgba(212,175,55,0.4)] border border-transparent";
 
-// 2단 서브 칩용 글래시 악센트 pill (통일된 형태 + 은은한 계층 분리)
+// 2단 서브 칩용 글래시 악센트 pill — 선택은 쨍하게, 전체 모드의 절반 농도 faint와 대비된다
 const ACTIVE_SUBTLE_PILL =
-  "text-accent bg-accent/15 border border-accent/40 font-semibold shadow-[0_0_10px_rgba(212,175,55,0.15)]";
+  "text-accent bg-accent/25 border border-accent/60 font-semibold shadow-[0_0_16px_rgba(212,175,55,0.35)]";
+
+// 전체 모드용 절반 농도 pill — 선택 상태의 절반 느낌으로만 살짝 깔아준다
+const FAINT_ALL_PILL =
+  "text-accent/60 bg-accent/[0.07] border border-accent/20 font-medium";
 
 export function CategoryTabFilter<T extends string>({
   options,
@@ -55,7 +61,10 @@ export function CategoryTabFilter<T extends string>({
   wrap = false,
   gridCols,
   className = "",
+  faintAllActive = false,
 }: CategoryTabFilterProps<T>) {
+  // 전체 모드(고른 값이 옵션에 없음)에서는 모든 칩을 은은한 선택 상태로 보여준다
+  const showFaintAll = faintAllActive && !options.some((o) => o.value === value);
   const pad = size === "sm" ? "px-3 py-1.5 text-xs sm:text-sm" : "px-4 sm:px-5 py-2 text-sm md:text-base";
   const isGrid = !!gridCols;
   const justify = align === "left" ? "justify-start" : isGrid ? "justify-center" : "";
@@ -85,6 +94,8 @@ export function CategoryTabFilter<T extends string>({
       >
         {options.map((option) => {
           const isActive = value === option.value;
+          // 전체 모드에서는 개별 하이라이트 없이 모든 칩이 은은한 선택 상태로 보인다
+          const faint = showFaintAll;
 
           const cls = [
             "rounded-xl whitespace-nowrap border",
@@ -93,7 +104,9 @@ export function CategoryTabFilter<T extends string>({
               ? subtle
                 ? ACTIVE_SUBTLE_PILL
                 : ACTIVE_PRIMARY_PILL
-              : "border-transparent text-text-secondary hover:bg-white/[0.06] hover:text-white",
+              : faint
+                ? `${FAINT_ALL_PILL} hover:text-accent hover:border-accent/40 hover:bg-accent/[0.12]`
+                : "border-transparent text-text-secondary hover:bg-white/[0.06] hover:text-white",
             !linkTo && "active:scale-95",
           ]
             .filter(Boolean)
@@ -103,7 +116,7 @@ export function CategoryTabFilter<T extends string>({
             <span className={isActive && !subtle ? "font-serif" : undefined}>
               {option.label}
               {option.count !== undefined && (
-                <span className={`ml-1.5 text-xs ${isActive ? (subtle ? "text-accent/80" : "text-black/60") : "text-text-tertiary"}`}>
+                <span className={`ml-1.5 text-xs ${isActive ? (subtle ? "text-accent/80" : "text-black/60") : faint ? "text-accent/40" : "text-text-tertiary"}`}>
                   {option.count.toLocaleString()}
                 </span>
               )}

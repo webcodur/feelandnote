@@ -180,8 +180,9 @@ interface CarouselProps {
    * 넘김 단추를 놓는 자리.
    * `center`는 낱장 한가운데 좌우에 겹쳐 놓고, `top`은 낱장 제목 줄 높이의 좌우 끝에 놓는다.
    * 낱장이 제 제목을 품고 있어 바깥 제목 줄(header)을 쓸 수 없을 때 `top`을 쓴다.
+   * `tabs`는 이름표 줄 좌우에 붙인다. 낱장 위를 가리지 않는다.
    */
-  arrowsAlign?: "center" | "top";
+  arrowsAlign?: "center" | "top" | "tabs";
   /**
    * 제목 줄. 주면 넘김 단추가 낱장 위가 아니라 이 줄 오른쪽 끝에 붙는다.
    * 낱장 좌우에 단추 자리를 비워 둘 필요가 없어진다.
@@ -272,12 +273,25 @@ export function Carousel({
         </div>
       ) : null}
       {tabLabels && tabLabels.length > 1 ? (
-        <CarouselTabs
-          activeIndex={activeIndex}
-          labels={tabLabels}
-          onSelect={scrollTo}
-          className={cn("mb-3", tabsClassName)}
-        />
+        arrowsAlign === "tabs" ? (
+          <div className="mb-3 flex items-center gap-1.5">
+            {arrowButton("previous")}
+            <CarouselTabs
+              activeIndex={activeIndex}
+              labels={tabLabels}
+              onSelect={scrollTo}
+              className={cn("min-w-0 flex-1", tabsClassName)}
+            />
+            {arrowButton("next")}
+          </div>
+        ) : (
+          <CarouselTabs
+            activeIndex={activeIndex}
+            labels={tabLabels}
+            onSelect={scrollTo}
+            className={cn("mb-3", tabsClassName)}
+          />
+        )
       ) : null}
 
       <div className="relative">

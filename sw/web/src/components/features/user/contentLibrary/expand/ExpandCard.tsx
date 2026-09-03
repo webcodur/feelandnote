@@ -113,7 +113,8 @@ function ExpandCard({
           )}
           </div>
 
-          <div className="min-w-0 flex-1">
+          {/* 소개가 길어져도 버튼은 표지 바로 밑에 둔다. 소개가 두 행을 먹어 행이 늘어나지 않게 한다 */}
+          <div className="min-w-0 flex-1 md:row-span-2">
             {hasBriefError ? (
               <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
                 <p>{tExpand("loadFailed")}</p>
@@ -129,7 +130,7 @@ function ExpandCard({
             <AffiliateBookAction
               url={affiliateUrl}
               showNotice
-              className="sm:col-span-2 md:col-span-1 md:col-start-1"
+              className="sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 md:self-start"
             />
           )}
         </div>

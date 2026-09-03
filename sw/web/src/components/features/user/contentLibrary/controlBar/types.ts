@@ -25,5 +25,7 @@ export interface ArchiveControlBarProps {
   onClearSearch: () => void;
   showMonthControls?: boolean;
   allowRatingSort?: boolean;
+  /** 셀럽 서가는 감상에 리뷰가 항상 붙어 리뷰 필터를 숨긴다 */
+  hideReviewFilter?: boolean;
   compact?: boolean;
 }

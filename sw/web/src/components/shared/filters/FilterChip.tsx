@@ -39,7 +39,7 @@ export default function FilterChip({
       className={`
         flex items-center justify-center ${FILTER_CHIP_STYLES.base} 
         bg-white/5 whitespace-nowrap overflow-hidden !p-0
-        ${isActive ? 'border-accent shadow-[0_0_10px_rgba(212,175,55,0.1)]' : 'border-accent/25'}
+        ${isActive ? 'border-accent shadow-[0_0_10px_rgba(var(--color-accent-rgb,_212,_175,_55),0.1)]' : 'border-accent/25'}
         ${className}
       `}
     >
