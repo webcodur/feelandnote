@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 공통 — 목차 아이템 정의·정렬
+ * - 목차 위치: 공통 (전 구획)
+ * - 데이터: tier/showLibrary/availability props, next-intl celebPage
+ * - 함께 보기: celebSectionChapters.ts, celebServiceIcons.ts, detail/useCelebServiceModel.ts
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useMemo } from "react";
@@ -61,6 +67,7 @@ export function useCelebServiceItems({
 
   return useMemo(() => {
     const items = [
+      /* ── 1. 머리말·읽어보기·연표 ── */
       {
         key: "introduction",
         chapter: CELEB_SERVICE_CHAPTERS.introduction,
@@ -105,6 +112,7 @@ export function useCelebServiceItems({
         ready: availability.timeline,
         target: { sectionId: "timeline" },
       },
+      /* ── 2. 서재·원전 ── */
       {
         key: "library",
         chapter: CELEB_SERVICE_CHAPTERS.library,
@@ -121,6 +129,7 @@ export function useCelebServiceItems({
         ready: availability.sourceWorks,
         target: { sectionId: "source-works" },
       },
+      /* ── 3. 분석·관계 ── */
       {
         key: "analysis",
         chapter: CELEB_SERVICE_CHAPTERS.analysis,
@@ -175,6 +184,7 @@ export function useCelebServiceItems({
           },
         ],
       },
+      /* ── 4. 미디어·방명록 ── */
       {
         key: "media",
         chapter: CELEB_SERVICE_CHAPTERS.media,
@@ -221,7 +231,8 @@ export function useCelebServiceItems({
         target: { sectionId: "guestbook" },
       },
     ] satisfies ServiceItem[];
-    const sectionOrder = getCelebSectionOrder(tier);
+      /* ── 5. 순서 정렬·번호 재부여 ── */
+      const sectionOrder = getCelebSectionOrder(tier);
     const positionByKey = new Map(
       sectionOrder.map((key, index) => [key, index]),
     );
