@@ -35,14 +35,16 @@ export default function ReviewScrollBox({ children }: { children: ReactNode }) {
   }, [measure]);
 
   return (
-    <div
-      ref={ref}
-      onScroll={measure}
-      className={`custom-scrollbar max-h-[29.6em] min-w-0 w-full overflow-y-auto overscroll-y-auto whitespace-pre-line break-words pe-2 font-sans text-[15px] leading-[1.85] text-text-secondary ${
-        hasMoreBelow ? FADE : ""
-      }`}
-    >
-      {children}
+    <div className="min-w-0 w-full rounded-lg border border-white/10 bg-white/[0.02]">
+      <div
+        ref={ref}
+        onScroll={measure}
+        className={`custom-scrollbar max-h-[29.6em] min-w-0 w-full overflow-y-auto overscroll-y-auto whitespace-pre-line break-words px-4 py-3 font-sans text-[15px] leading-[1.85] text-text-secondary ${
+          hasMoreBelow ? FADE : ""
+        }`}
+      >
+        {children}
+      </div>
     </div>
   );
 }

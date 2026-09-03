@@ -10,6 +10,7 @@ import { useId, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import FormattedText from "@/components/ui/FormattedText";
+import Modal, { ModalBody } from "@/components/ui/Modal";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { ContentIntroSource } from "@/actions/contents/fetchMusicIntros";
 import type { CategoryId } from "@/constants/categories";
@@ -35,6 +36,10 @@ const PROVIDER_LABEL: Record<ContentIntroSource["provider"], string> = {
 const BODY_CLASS =
   "whitespace-pre-wrap text-sm leading-relaxed text-text-secondary";
 
+/* 이 길이를 넘으면 접고 모달로 마저 본다. 모바일은 여덟 줄, 데스크톱은 여섯 줄이다 */
+const INTRO_CLAMP_THRESHOLD = 240;
+const INTRO_CLAMP_CLASS = "line-clamp-8 md:line-clamp-6";
+
 interface ContentIntroProps {
   brief: ContentBrief | null;
   category: CategoryId;
@@ -53,6 +58,21 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   // 바깥에서 받아 온 소개들. 앞선 작품에서 고른 탭이 남아 있으면 첫 번째로 되돌린다
   const sources = brief?.introSources ?? [];
   const active = sources.find((item) => item.provider === pickedProvider) ?? sources[0] ?? null;
+  const activeText = active ? normalizeContentIntroText(active.text) : null;
+  const fullText = text ?? activeText;
+  const isLong = (fullText?.length ?? 0) > INTRO_CLAMP_THRESHOLD;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const bodyClass = `${BODY_CLASS}${isLong ? ` ${INTRO_CLAMP_CLASS}` : ""}`;
+  const moreButton = isLong ? (
+    <button
+      type="button"
+      onClick={() => setIsModalOpen(true)}
+      aria-expanded={isModalOpen}
+      className="mt-2 text-xs font-semibold text-accent hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+    >
+      {t("expandIntroMore")}
+    </button>
+  ) : null;
 
   return (
     <section aria-labelledby={headingId}>
@@ -75,9 +95,12 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
           <div className="h-3 w-4/5 animate-pulse rounded bg-white/[0.06]" />
         </div>
       ) : text ? (
-        <div className={BODY_CLASS}>
-          <FormattedText text={text} />
-        </div>
+        <>
+          <div className={bodyClass}>
+            <FormattedText text={text} />
+          </div>
+          {moreButton}
+        </>
       ) : active ? (
         <div>
           {sources.length > 1 && (
@@ -104,9 +127,10 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
             </div>
           )}
 
-          <div className={BODY_CLASS}>
+          <div className={bodyClass}>
             <FormattedText text={normalizeContentIntroText(active.text)} />
           </div>
+          {moreButton}
 
           {active.url && (
             <a
@@ -122,6 +146,31 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
       ) : (
         <p className="text-sm italic text-text-tertiary">{t("expandNoIntro")}</p>
       )}
+
+      {isModalOpen && fullText ? (
+        <Modal
+          isOpen
+          onClose={() => setIsModalOpen(false)}
+          title={t(INTRO_HEADING_KEY[headingCategory])}
+          size="lg"
+        >
+          <ModalBody>
+            <div className={BODY_CLASS}>
+              <FormattedText text={fullText} />
+            </div>
+            {active?.url && (
+              <a
+                href={active.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-block text-xs text-text-tertiary underline-offset-2 hover:text-accent hover:underline"
+              >
+                {t("expandIntroSource", { source: PROVIDER_LABEL[active.provider] })}
+              </a>
+            )}
+          </ModalBody>
+        </Modal>
+      ) : null}
     </section>
   );
 }

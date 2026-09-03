@@ -44,15 +44,17 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
   setItemRef,
   onSelect,
 }: ExpandIndexItemProps) {
+  const number = `${item.localIndex}.`;
   return (
     <button
       type="button"
+      data-original-index={item.originalIndex}
       ref={(element) => {
         setItemRef(item.originalIndex, element);
       }}
       onClick={() => onSelect(item.originalIndex)}
       aria-current={item.originalIndex === 0 ? "true" : undefined}
-      aria-label={`${label}. ${item.title}`}
+      aria-label={`${label} ${number} ${item.title}`}
       title={item.title}
       className={cn(
         "relative flex min-h-11 w-full items-center border-b border-white/[0.08] px-2 text-sm text-text-secondary last:border-b-0 hover:bg-white/[0.05] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
@@ -69,7 +71,16 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
       <span
         aria-hidden
         className={cn(
-          "line-clamp-2 min-w-0 w-full text-start text-sm leading-snug transition-opacity duration-150 ease-out",
+          "min-w-7 shrink-0 pe-2 text-end font-mono text-[11px] tabular-nums text-text-tertiary transition-opacity duration-150 ease-out",
+          styles.indexItemTitle,
+        )}
+      >
+        {number}
+      </span>
+      <span
+        aria-hidden
+        className={cn(
+          "min-w-0 flex-1 truncate text-center text-sm leading-snug transition-opacity duration-150 ease-out",
           styles.indexItemTitle,
         )}
       >
