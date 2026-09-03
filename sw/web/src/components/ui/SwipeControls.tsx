@@ -60,6 +60,12 @@ export default function SwipeControls({
   const anchorRef = useRef<HTMLDivElement>(null);
   const deckRef = useRef<HTMLElement | null>(null);
   const [active, setActive] = useState(0);
+  /**
+   * 단추로 옮기는 동안에는 위치 추적을 멈춘다. 부드럽게 미끄러지는 중간 위치를
+   * 다시 계산하면 번호가 1→2→1→2로 오락가락한다 — 목표를 이미 알고 있으니 도착까지 믿는다.
+   */
+  const movingRef = useRef(false);
+  const settleRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     // 넘기는 줄은 바로 앞 형제다. 구획마다 컨테이너가 ul·div로 달라 선택자로 찾지 않는다.
@@ -68,6 +74,7 @@ export default function SwipeControls({
     if (!deck) return;
 
     const sync = () => {
+      if (movingRef.current) return;
       const nearest = nearestIndex(deck);
       if (nearest === null) return;
       setActive((current) => (current === nearest ? current : nearest));
@@ -148,9 +155,25 @@ export default function SwipeControls({
     const bounded = Math.max(0, Math.min(count - 1, index));
     const target = pageOffset(deck, bounded);
     if (target === null) return;
+
+    // 도착할 때까지 추적을 멈춘다. scrollend를 주는 브라우저는 그것으로 풀고,
+    // 안 주는 브라우저는 넉넉한 시간 뒤에 스스로 푼다.
+    movingRef.current = true;
+    if (settleRef.current) clearTimeout(settleRef.current);
+    const release = () => {
+      movingRef.current = false;
+      settleRef.current = null;
+    };
+    settleRef.current = setTimeout(release, 700);
+    deck.addEventListener("scrollend", release, { once: true });
+
     deck.scrollTo({ left: target, behavior: "smooth" });
     setActive(bounded);
   }, [count]);
+
+  useEffect(() => () => {
+    if (settleRef.current) clearTimeout(settleRef.current);
+  }, []);
 
   if (count <= 1) return null;
 
