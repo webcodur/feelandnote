@@ -4,7 +4,7 @@
  * 입력: <dir>/<slug>.json — { title_en, english_lines: { 7상황: [3줄] } }
  *       (dump-i18n-gaps.ts가 뽑은 원본 JSON과 slug로 짝을 맞춘다)
  *
- * 규칙 SSoT: docs/project/celeb/celeb-i18n.md, docs/project/celeb/celeb-speech.md
+ * 규칙 SSoT: docs/project/celeb/celeb-09-01-i18n.md, docs/project/celeb/celeb-04-01-speech.md
  *   - lines_en은 기존 quote를 보존하고 7상황만 얹는다.
  *   - 감정 태그를 새로 만들지 않는다. 스키마를 바꾸지 않는다.
  *

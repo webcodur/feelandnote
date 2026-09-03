@@ -51,7 +51,18 @@ import { mkdir, readFile, readdir, rename, unlink } from 'node:fs/promises'
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
-import { femaleMartialAdjust } from '@feelandnote/shared/constants/celeb-spectrum-scale'
+import { INFLUENCE_FIELDS } from '@feelandnote/influence-constants/core'
+import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
+import {
+  CELEB_DIALOGUE_SITUATIONS,
+  CELEB_DIALOGUE_VARIANTS,
+  CELEB_DIALOGUE_VARIANTS_PER_SITUATION,
+  CELEB_SPEECH_TONES,
+} from '@feelandnote/shared/constants/celeb-speech'
+import {
+  SPECTRUM_GROUPS,
+  femaleMartialAdjust,
+} from '@feelandnote/shared/constants/celeb-spectrum-scale'
 import { findContentIssues, findReasonIssues, loadAllReasonRows, personaToRows, type ReasonRow } from '../lib/spectrum-reason-check'
 import {
   speechLinesSha256,
@@ -76,22 +87,11 @@ const PROFILE_FIELDS = [
 /** celebs의 boolean 전용 필드 (json → boolean 변환 필요) */
 const BOOL_PROFILE_FIELDS = ['gender'] as const
 
-const AXES = ['political', 'strategic', 'tech', 'social', 'economic', 'cultural', 'transhistoricity'] as const
-const SPECTRUM_GROUPS = {
-  abilities: ['command', 'martial', 'intellect', 'charm'],
-  inner_virtues: ['temperance', 'diligence', 'reflection', 'courage'],
-  outer_virtues: ['loyalty', 'benevolence', 'fairness', 'humility'],
-  dispositions: ['pessimism_optimism', 'conservative_progressive', 'individual_social', 'cautious_bold'],
-} as const
-const DIALOGUE_KEYS = [
-  'greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack',
-] as const
-const SPEECH_TONES = ['free', 'bold', 'composed', 'loyal', 'humble', 'gentle']
-const PROFESSIONS = [
-  'leader', 'politician', 'commander', 'entrepreneur', 'investor', 'humanities_scholar',
-  'social_scientist', 'scientist', 'director', 'musician', 'visual_artist', 'author',
-  'actor', 'influencer', 'athlete',
-]
+const AXES = INFLUENCE_FIELDS
+const DIALOGUE_KEYS = CELEB_DIALOGUE_SITUATIONS
+const DIALOGUE_INDEXES = CELEB_DIALOGUE_VARIANTS.map((variant) => variant - 1)
+const SPEECH_TONES: readonly string[] = CELEB_SPEECH_TONES
+const PROFESSIONS: readonly string[] = CELEB_PROFESSIONS.map(({ value }) => value)
 
 const blank = (v: unknown) => v === null || v === undefined || String(v).trim().length === 0
 const nil = (v: unknown) => v === null || v === undefined
@@ -158,8 +158,8 @@ async function dump() {
       dialogueExists: Boolean(c.dialogue),
       dialogueBlanks: {
         quote: blank(lines.quote), quote_en: blank(linesEn.quote),
-        ko: DIALOGUE_KEYS.flatMap((k) => [0, 1, 2].filter((i) => blank((lines[k] ?? [])[i])).map((i) => `${k}[${i}]`)),
-        en: DIALOGUE_KEYS.flatMap((k) => [0, 1, 2].filter((i) => blank((linesEn[k] ?? [])[i])).map((i) => `${k}[${i}]`)),
+        ko: DIALOGUE_KEYS.flatMap((k) => DIALOGUE_INDEXES.filter((i) => blank((lines[k] ?? [])[i])).map((i) => `${k}[${i}]`)),
+        en: DIALOGUE_KEYS.flatMap((k) => DIALOGUE_INDEXES.filter((i) => blank((linesEn[k] ?? [])[i])).map((i) => `${k}[${i}]`)),
       },
     })
   }
@@ -268,7 +268,9 @@ async function applyPatches(patches: Patch[], doWrite: boolean, replaceSpectrum 
         if (decision === 'CREATE' || decision === 'REVISE') {
           for (const key of DIALOGUE_KEYS) {
             const values = proposedKo[key]
-            if (!Array.isArray(values) || values.length !== 3 || values.some(blank)) {
+            if (!Array.isArray(values)
+              || values.length !== CELEB_DIALOGUE_VARIANTS_PER_SITUATION
+              || values.some(blank)) {
               throw new Error(`${decision} 판정은 ko.${key} 3개를 모두 제출해야 한다`)
             }
           }
@@ -276,6 +278,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean, replaceSpectrum 
         speechResearch = validateSpeechResearch({
           research: patch.speech_research,
           currentLines: c.dialogue?.lines ?? {},
+          currentLinesEn: c.dialogue?.lines_en ?? {},
           proposedQuoteKo: proposedKo.quote,
           proposedQuoteEn: proposedEn.quote,
           hasKoDialoguePatch,
@@ -432,11 +435,13 @@ async function applyPatches(patches: Patch[], doWrite: boolean, replaceSpectrum 
             target.quote = String(v); quoteTouched = true; continue
           }
           if (!(DIALOGUE_KEYS as readonly string[]).includes(k)) throw new Error(`허용되지 않은 대사 키 ${k}`)
-          if (!Array.isArray(v) || v.length !== 3) throw new Error(`${tag}.${k} 는 3개 배열이어야 한다`)
+          if (!Array.isArray(v) || v.length !== CELEB_DIALOGUE_VARIANTS_PER_SITUATION) {
+            throw new Error(`${tag}.${k} 는 ${CELEB_DIALOGUE_VARIANTS_PER_SITUATION}개 배열이어야 한다`)
+          }
           const curArr = Array.isArray(cur[k]) ? cur[k] : []
           const arr = Array.isArray(target[k]) ? [...target[k]] : [...curArr]
-          while (arr.length < 3) arr.push('')
-          for (let i = 0; i < 3; i++) {
+          while (arr.length < CELEB_DIALOGUE_VARIANTS_PER_SITUATION) arr.push('')
+          for (let i = 0; i < CELEB_DIALOGUE_VARIANTS_PER_SITUATION; i++) {
             const canReplace = tag === 'ko' && speechResearch?.dialogueDecision === 'REVISE'
             if (!blank(curArr[i]) && !canReplace) { preserved.push(`${tag}.${k}[${i}](기존값 보존)`); continue }
             if (blank(v[i])) { preserved.push(`${tag}.${k}[${i}](신규값 공란)`); continue }

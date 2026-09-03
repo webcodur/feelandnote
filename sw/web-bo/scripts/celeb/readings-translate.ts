@@ -2,7 +2,7 @@
  * 인물 상세 "읽어보기" 영문 번역 파이프라인.
  *
  * 규칙 SSoT:
- *   docs/project/celeb/person-reading.md
+ *   docs/project/celeb/celeb-05-01-reading.md
  *   docs/project/platform/i18n.md
  *
  * 사용 예:

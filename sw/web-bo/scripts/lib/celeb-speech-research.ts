@@ -1,20 +1,23 @@
 import { createHash } from 'node:crypto'
+import {
+  CELEB_DIALOGUE_SITUATIONS,
+  CELEB_DIALOGUE_VARIANTS_PER_SITUATION,
+  type CelebDialogueSituation,
+} from '@feelandnote/shared/constants/celeb-speech'
 
 export const NO_VERIFIED_QUOTE_KO = '[확인된 어록이 없습니다]'
 export const NO_VERIFIED_QUOTE_EN = '[No verified quote]'
 
 /**
  * 대사 실행 규약의 SSoT. 문서는 이 상수를 가리키고 값을 복제하지 않는다.
- * 규칙의 뜻과 목표 범위는 `docs/project/celeb/celeb-speech.md` §6.3이 쥔다.
+ * 규칙의 뜻과 목표 범위는 `docs/project/celeb/celeb-04-01-speech.md`의 「상황 대사」가 쥔다.
  */
-export const SPEECH_SITUATIONS = [
-  'greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack',
-] as const
+export const SPEECH_SITUATIONS = CELEB_DIALOGUE_SITUATIONS
 
-export type SpeechSituation = typeof SPEECH_SITUATIONS[number]
+export type SpeechSituation = CelebDialogueSituation
 
 /** 한 상황당 대사 개수. 7상황 × 3개 = 21개. */
-export const SPEECH_LINES_PER_SITUATION = 3
+export const SPEECH_LINES_PER_SITUATION = CELEB_DIALOGUE_VARIANTS_PER_SITUATION
 
 /** 표시용 한국어 한마디 상한. */
 export const SPEECH_QUOTE_MAX_KO = 50
@@ -100,7 +103,11 @@ export type SpeechResearch = {
   searchedChannels: string[]
   searchQueries: string[]
   inspectedSources: Array<{ sourceUrl: string; finding: string }>
-  quoteOutcome: 'verified' | 'unavailable'
+  /**
+   * `preserved`는 기존 한마디를 검증 완료로 가장하지 않고 상황 대사만 교정할 때 쓴다.
+   * 이 경우 제안한 한·영 한마디가 현재값과 완전히 같아야 한다.
+   */
+  quoteOutcome: 'verified' | 'unavailable' | 'preserved'
   unavailableReason?: string
   dialogueDecision: 'CREATE' | 'KEEP' | 'REVISE'
   dialogueAssessment: string
@@ -152,6 +159,7 @@ function uniqueTexts(values: unknown, label: string, minimum: number): string[] 
 export function validateSpeechResearch(args: {
   research: SpeechResearch | undefined
   currentLines: unknown
+  currentLinesEn?: unknown
   proposedQuoteKo: unknown
   proposedQuoteEn: unknown
   hasKoDialoguePatch: boolean
@@ -202,13 +210,40 @@ export function validateSpeechResearch(args: {
   }
 
   const quoteKo = text(args.proposedQuoteKo, 'dialogues.lines.quote')
-  const quoteEn = text(args.proposedQuoteEn, 'dialogues.lines_en.quote')
-  if (quoteKo.includes('\n') || quoteEn.includes('\n')) throw new Error('한마디에는 줄바꿈을 넣지 않는다')
+  if (quoteKo.includes('\n')) throw new Error('한마디에는 줄바꿈을 넣지 않는다')
   if (quoteKo.length > SPEECH_QUOTE_MAX_KO) {
     throw new Error(`한국어 한마디가 ${SPEECH_QUOTE_MAX_KO}자를 넘는다: ${quoteKo.length}`)
   }
 
-  if (research.quoteOutcome === 'verified') {
+  if (research.quoteOutcome === 'preserved') {
+    const current = (args.currentLines ?? {}) as Record<string, unknown>
+    const currentEn = (args.currentLinesEn ?? {}) as Record<string, unknown>
+    const currentQuoteKo = text(current.quote, '현재 dialogues.lines.quote')
+    if (quoteKo !== currentQuoteKo) {
+      throw new Error('preserved 결과는 한국어 한마디 현재값을 그대로 제출해야 한다')
+    }
+    const currentQuoteEnMissing = currentEn.quote === null || currentEn.quote === undefined
+      || (typeof currentEn.quote === 'string' && currentEn.quote.trim().length === 0)
+    const proposedQuoteEnMissing = args.proposedQuoteEn === null || args.proposedQuoteEn === undefined
+      || (typeof args.proposedQuoteEn === 'string' && args.proposedQuoteEn.trim().length === 0)
+    if (currentQuoteEnMissing) {
+      if (!proposedQuoteEnMissing) {
+        throw new Error('preserved 결과는 비어 있던 영문 한마디를 새로 만들지 않는다')
+      }
+    } else {
+      const currentQuoteEn = text(currentEn.quote, '현재 dialogues.lines_en.quote')
+      const quoteEn = text(args.proposedQuoteEn, 'dialogues.lines_en.quote')
+      if (quoteEn.includes('\n')) throw new Error('한마디에는 줄바꿈을 넣지 않는다')
+      if (quoteEn !== currentQuoteEn) {
+        throw new Error('preserved 결과는 영문 한마디 현재값을 그대로 제출해야 한다')
+      }
+    }
+    if (!Array.isArray(research.voiceSamples) || research.voiceSamples.length !== 0) {
+      throw new Error('preserved 결과는 한마디 검증을 주장하는 voiceSamples를 넣지 않는다')
+    }
+  } else if (research.quoteOutcome === 'verified') {
+    const quoteEn = text(args.proposedQuoteEn, 'dialogues.lines_en.quote')
+    if (quoteEn.includes('\n')) throw new Error('한마디에는 줄바꿈을 넣지 않는다')
     if (!Array.isArray(research.voiceSamples) || research.voiceSamples.length < 1) {
       throw new Error('verified 한마디에는 직접 발화 표본이 1개 이상 필요하다')
     }
@@ -238,6 +273,8 @@ export function validateSpeechResearch(args: {
       throw new Error('verified 결과에 자리 표시 값을 쓸 수 없다')
     }
   } else if (research.quoteOutcome === 'unavailable') {
+    const quoteEn = text(args.proposedQuoteEn, 'dialogues.lines_en.quote')
+    if (quoteEn.includes('\n')) throw new Error('한마디에는 줄바꿈을 넣지 않는다')
     if (quoteKo !== NO_VERIFIED_QUOTE_KO || quoteEn !== NO_VERIFIED_QUOTE_EN) {
       throw new Error('unavailable 결과는 표준 한·영 자리 표시 값을 함께 써야 한다')
     }
@@ -249,7 +286,7 @@ export function validateSpeechResearch(args: {
       throw new Error('unavailable은 실제로 연 출처 3개 이상·서로 다른 호스트 2개 이상이 필요하다')
     }
   } else {
-    throw new Error('speech_research.quoteOutcome은 verified|unavailable이어야 한다')
+    throw new Error('speech_research.quoteOutcome은 verified|unavailable|preserved여야 한다')
   }
 
   return research

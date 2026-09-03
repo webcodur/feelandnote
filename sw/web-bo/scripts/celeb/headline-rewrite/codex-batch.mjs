@@ -26,7 +26,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url))
 const REPO = path.resolve(HERE, '../../../../..')
 const ROOT = path.join(REPO, 'data/celeb/headline-rewrite')
 const TMP = path.join(ROOT, '.tmp/relay')
-const GUIDE = path.join(REPO, 'docs/project/celeb/celeb-1-basic-profile.md')
+const GUIDE = path.join(REPO, 'docs/project/celeb/celeb-01-02-profile-intro.md')
 const REVIEW_VERSION = 2
 const LANE_COUNT = 20
 const BAN = /(벼리|벼려|포개|변신가|결을 고르|비애|후광을 왕조)/
@@ -58,9 +58,11 @@ function reasonsOf(h) {
 
 function guideSection() {
   const md = readFileSync(GUIDE, 'utf8')
-  const start = md.indexOf('## 한 줄 정의(headline) 작성 가이드')
-  const end = md.indexOf('\n---', start)
-  return md.slice(start, end).trim()
+  const heading = '## 한 줄 정의(headline) 작성 가이드'
+  const start = md.indexOf(heading)
+  if (start < 0) throw new Error(`${GUIDE}: ${heading} 절을 찾지 못했습니다.`)
+  const nextHeading = md.indexOf('\n## ', start + heading.length)
+  return md.slice(start, nextHeading < 0 ? md.length : nextHeading).trim()
 }
 
 function db() {

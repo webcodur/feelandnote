@@ -13,6 +13,15 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
+import { INFLUENCE_CATEGORY_FIELDS } from '@feelandnote/influence-constants/core'
+import {
+  CELEB_DIALOGUE_SITUATIONS,
+  CELEB_DIALOGUE_VARIANTS_PER_SITUATION,
+} from '@feelandnote/shared/constants/celeb-speech'
+import {
+  SPECTRUM_GROUPS as SPECTRUM_GROUP_DEFINITIONS,
+  type SpectrumGroup,
+} from '@feelandnote/shared/constants/celeb-spectrum-scale'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
@@ -25,17 +34,9 @@ const db = createClient(url, key, {
 })
 
 const PAGE = 1000
-const DIALOGUE_KEYS = [
-  'greeting',
-  'roll_call',
-  'deploy',
-  'battle_win',
-  'battle_draw',
-  'battle_lose',
-  'clash_attack',
-] as const
-const INFLUENCE_AXES = ['political', 'strategic', 'tech', 'social', 'economic', 'cultural'] as const
-const SPECTRUM_GROUPS = ['abilities', 'inner_virtues', 'outer_virtues', 'dispositions'] as const
+const DIALOGUE_KEYS = CELEB_DIALOGUE_SITUATIONS
+const INFLUENCE_AXES = INFLUENCE_CATEGORY_FIELDS
+const SPECTRUM_GROUPS = Object.keys(SPECTRUM_GROUP_DEFINITIONS) as SpectrumGroup[]
 
 type DbError = { message: string } | null
 type PageResult<T> = { data: T[] | null; error: DbError }
@@ -353,7 +354,9 @@ async function main() {
 
     for (const key of DIALOGUE_KEYS) {
       const koValues = ko?.[key]
-      if (!Array.isArray(koValues) || koValues.length !== 3 || koValues.some(v => typeof v !== 'string')) {
+      if (!Array.isArray(koValues)
+        || koValues.length !== CELEB_DIALOGUE_VARIANTS_PER_SITUATION
+        || koValues.some(v => typeof v !== 'string')) {
         malformed = true
         shapeIssues.push(`ko.${key}:${Array.isArray(koValues) ? koValues.length : typeof koValues}`)
       }

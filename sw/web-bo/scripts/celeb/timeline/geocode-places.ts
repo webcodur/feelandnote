@@ -1,6 +1,6 @@
 /**
  * 연표 사건의 장소명을 Wikidata에서 조회해 좌표를 채운다.
- * 규칙 SSoT: docs/project/celeb/celeb-timeline.md (좌표는 그 장소의 P625만 쓴다)
+ * 규칙 SSoT: docs/project/celeb/celeb-06-01-timeline.md (좌표는 그 장소의 P625만 쓴다)
  *
  * 이미 확인된 장소명에 좌표만 붙이는 순수 조회 작업이며
  * 사건의 사실관계는 건드리지 않는다.

@@ -23,7 +23,13 @@
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
+import { INFLUENCE_FIELDS } from '@feelandnote/influence-constants/core'
 import { isCelebContentResearchTarget } from '@feelandnote/shared/constants/celeb-content-research'
+import {
+  CELEB_DIALOGUE_SITUATIONS,
+  CELEB_DIALOGUE_VARIANTS_PER_SITUATION,
+} from '@feelandnote/shared/constants/celeb-speech'
+import { SPECTRUM_GROUPS } from '@feelandnote/shared/constants/celeb-spectrum-scale'
 import { writeCelebReadinessHtml } from '../lib/celeb-readiness-report'
 import { activationRevalidationRequest } from './audit-activation-revalidation'
 
@@ -58,18 +64,8 @@ const TABLE_ORDERS: Record<string, readonly string[]> = {
   celebs: ['id'],
 }
 
-const INFLUENCE_AXES = [
-  'political', 'strategic', 'tech', 'social', 'economic', 'cultural', 'transhistoricity',
-] as const
-const SPECTRUM_GROUPS = {
-  abilities: ['command', 'martial', 'intellect', 'charm'],
-  inner_virtues: ['temperance', 'diligence', 'reflection', 'courage'],
-  outer_virtues: ['loyalty', 'benevolence', 'fairness', 'humility'],
-  dispositions: ['pessimism_optimism', 'conservative_progressive', 'individual_social', 'cautious_bold'],
-} as const
-const DIALOGUE_KEYS = [
-  'greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack',
-] as const
+const INFLUENCE_AXES = INFLUENCE_FIELDS
+const DIALOGUE_KEYS = CELEB_DIALOGUE_SITUATIONS
 const COVERAGE_DOMAINS = ['basic', 'influence', 'spectrum', 'speech', 'content', 'source'] as const
 
 const args = process.argv.slice(2)
@@ -307,8 +303,12 @@ function addDialogueGaps(dialogue: Row | undefined, gaps: string[]) {
   for (const key of DIALOGUE_KEYS) {
     const ko = dialogue.lines?.[key]
     const en = dialogue.lines_en?.[key]
-    if (!Array.isArray(ko) || ko.length !== 3 || ko.some(blank)) gaps.push(`speech:ko.${key}`)
-    if (!Array.isArray(en) || en.length !== 3 || en.some(blank)) gaps.push(`i18n:en.${key}`)
+    if (!Array.isArray(ko) || ko.length !== CELEB_DIALOGUE_VARIANTS_PER_SITUATION || ko.some(blank)) {
+      gaps.push(`speech:ko.${key}`)
+    }
+    if (!Array.isArray(en) || en.length !== CELEB_DIALOGUE_VARIANTS_PER_SITUATION || en.some(blank)) {
+      gaps.push(`i18n:en.${key}`)
+    }
   }
 }
 
@@ -321,7 +321,9 @@ function addFictionSpeechGaps(profile: Row, dialogue: Row | undefined, gaps: str
   if (blank(dialogue.lines?.quote)) gaps.push('speech:quote')
   for (const key of DIALOGUE_KEYS) {
     const values = dialogue.lines?.[key]
-    if (!Array.isArray(values) || values.length !== 3 || values.some(blank)) {
+    if (!Array.isArray(values)
+      || values.length !== CELEB_DIALOGUE_VARIANTS_PER_SITUATION
+      || values.some(blank)) {
       gaps.push(`speech:ko.${key}`)
     }
   }

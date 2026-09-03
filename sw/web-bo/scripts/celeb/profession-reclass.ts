@@ -3,6 +3,7 @@ import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
 import { revalidateWebItems } from '../../src/lib/revalidate-web'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
@@ -16,11 +17,12 @@ const FILES = [
   'nonfiction.json',
 ] as const
 
-const PROFESSIONS = new Set([
-  'leader', 'politician', 'commander', 'entrepreneur', 'investor',
-  'humanities_scholar', 'social_scientist', 'scientist', 'director',
-  'musician', 'visual_artist', 'author', 'actor', 'influencer', 'athlete',
-])
+// 이 도구는 기존 other를 구체 직군으로 해소하므로 other 자체는 제안값으로 받지 않는다.
+const PROFESSIONS = new Set<string>(
+  CELEB_PROFESSIONS
+    .filter(({ value }) => value !== 'other')
+    .map(({ value }) => value),
+)
 
 type Proposal = {
   slug: string

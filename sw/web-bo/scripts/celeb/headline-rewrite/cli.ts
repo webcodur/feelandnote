@@ -1,6 +1,6 @@
 /**
  * 셀럽 한 줄 정의 전량 개편 원장.
- * 룰: docs/project/celeb/celeb-1-basic-profile.md 한 줄 정의 절
+ * 룰: docs/project/celeb/celeb-01-02-profile-intro.md 한 줄 정의 절
  *
  *   pnpm exec tsx scripts/celeb/headline-rewrite/cli.ts --help
  *   pnpm exec tsx scripts/celeb/headline-rewrite/cli.ts claim --lane 0 --n 10

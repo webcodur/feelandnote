@@ -6,10 +6,10 @@
  *
  * 왜 필요한가:
  *   scripts/avatar/measure.ts 는 눈·턱·중심축만 잰다.
- *   시선·고개 각도·소품·쇄골 노출·얼굴 잘림·배경·질감은 기계가 보지 못한다(SSoT §5.2).
+ *   시선·고개 각도·소품·쇄골 노출·얼굴 잘림·배경·질감은 기계가 보지 못한다(아바타 문서 「검수」).
  *   그 나머지는 이미지를 실제로 보는 수밖에 없고, 이 도구가 그 입력을 만든다.
  *
- * 규격 SSoT: docs/project/celeb/celeb-avatar-spec.md
+ * 규격 SSoT: docs/project/celeb/celeb-08-01-avatar.md
  * 겹치는 기준선은 src/lib/avatar-geometry.ts 의 AVATAR_SPEC 에서 온다.
  *
  * 사용법 (sw/web-bo 에서):
@@ -198,7 +198,7 @@ async function main() {
   console.log(
     `기준선: 노랑=눈높이 ${AVATAR_SPEC.eyeLine * 100} · 주황=턱끝 ${AVATAR_SPEC.chinLine * 100} · 흰 세로=중심축 ${AVATAR_SPEC.centerX * 100}`
   )
-  console.log('판정 기준은 docs/project/celeb/celeb-avatar-spec.md §5.3')
+  console.log('판정 기준은 docs/project/celeb/celeb-08-01-avatar.md의 「검수」')
 }
 
 main().catch((e) => {

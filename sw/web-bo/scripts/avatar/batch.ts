@@ -9,7 +9,7 @@
  *
  * targets는 "slug<TAB>profile_id" 형식. --targets-file 미지정 시 스크립트 내 DEFAULT_TARGETS 사용.
  *
- * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb/celeb-avatar-spec.md §1·§6이고,
+ * 구도와 크롭의 의미는 docs/project/celeb/celeb-08-01-avatar.md가 쥐고,
  * 좌표 계산은 src/lib/avatar-geometry.ts 한 곳이 담당한다. 단건 등록기와 같은 구현을 쓴다.
  *
  * 흐름:
@@ -18,7 +18,7 @@
  *   3) wbgetentities로 P18(image) 가져옴
  *   4) Commons imageinfo로 원본 URL + 라이선스 조회. 부적합 라이선스면 스킵
  *   5) 원본 다운로드 → face-api SSD MobileNet 검출 + 68점 랜드마크로 눈·턱 좌표 추출
- *   6) avatar-geometry가 눈·턱 거리로 정사각 좌표 산출 → sharp.extract 좌표 크롭 → 800×800 webp(q=95)
+ *   6) avatar-geometry가 눈·턱 거리로 정사각 좌표 산출 → 공유 원본 규격 WebP로 변환
  *   7) R2 PUT celebs/{celeb_id}/avatar.webp → celebs.avatar_url 갱신 + wikidata_qid 보강
  *   8) credits.log 누적 — 규격 이탈 경고도 함께 적는다
  *
@@ -28,7 +28,8 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
-import { CELEB_AVATAR_SMALL } from '@feelandnote/shared/constants/celeb-avatar-small'
+import { CELEB_AVATAR_ORIGINAL } from '@feelandnote/shared/constants/celeb-avatar-small'
+import { buildSmallAvatar, smallAvatarKey } from '../../src/lib/avatar-small'
 import { readFileSync, appendFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import * as tf from '@tensorflow/tfjs'
@@ -541,9 +542,9 @@ async function toAvatarWebp(
   const { left, top, size } = toExtractArea(crop, W, H)
   const buf = await sharp(rotated, { limitInputPixels: false })
     .extract({ left, top, width: size, height: size })
-    .resize(800, 800, { fit: 'cover' })
+    .resize(CELEB_AVATAR_ORIGINAL.sizePx, CELEB_AVATAR_ORIGINAL.sizePx, { fit: 'cover' })
     .withMetadata(exifBlock)
-    .webp({ quality: 95 })
+    .webp({ quality: CELEB_AVATAR_ORIGINAL.webpQuality })
     .toBuffer()
   return { buf, faceScore: face.score, cropBasis: crop.basis, warnings: crop.warnings }
 }
@@ -726,7 +727,7 @@ async function processOne(
   }
 
   // 5. R2
-  const key = `celebs/${profileId}/avatar.webp`
+  const key = `celebs/${profileId}/${CELEB_AVATAR_ORIGINAL.file}`
   await r2.send(
     new PutObjectCommand({
       Bucket: env.R2_BUCKET_NAME,
@@ -742,11 +743,8 @@ async function processOne(
   await r2.send(
     new PutObjectCommand({
       Bucket: env.R2_BUCKET_NAME,
-      Key: `celebs/${profileId}/${CELEB_AVATAR_SMALL.smallFile}`,
-      Body: await sharp(buf)
-        .resize(CELEB_AVATAR_SMALL.sizePx, CELEB_AVATAR_SMALL.sizePx, { fit: 'cover' })
-        .webp({ quality: 82 })
-        .toBuffer(),
+      Key: smallAvatarKey(profileId),
+      Body: await buildSmallAvatar(buf),
       ContentType: 'image/webp',
       CacheControl: 'public, max-age=31536000, immutable',
     })

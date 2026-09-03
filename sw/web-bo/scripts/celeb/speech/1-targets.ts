@@ -7,7 +7,7 @@
  *   pnpm celeb:speech:1-targets --current-dialogue-batch --include-placeholders --include-quote-blanks \
  *     --out .tmp-celeb-fill/targets.json
  *
- * 전체 흐름은 docs/project/celeb/celeb-speech-pipeline.md 가 쥔다.
+ * 전체 흐름은 docs/project/celeb/celeb-04-02-speech-pipeline.md 가 쥔다.
  * 이 파일은 작업 중 현재값 충돌을 막기 위한 임시 입력이다. DB 진행 원장으로 사용하지 않는다.
  */
 
@@ -15,7 +15,12 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
-import { NO_VERIFIED_QUOTE_KO, SPEECH_SITUATIONS, speechLinesSha256 } from '../../lib/celeb-speech-research'
+import {
+  NO_VERIFIED_QUOTE_KO,
+  SPEECH_LINES_PER_SITUATION,
+  SPEECH_SITUATIONS,
+  speechLinesSha256,
+} from '../../lib/celeb-speech-research'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
@@ -61,7 +66,7 @@ function emptyEn(lines: Record<string, unknown> | null): boolean {
   const value = lines ?? {}
   return DIALOGUE_KEYS.every((key) => {
     const values = value[key]
-    return !Array.isArray(values) || values.length !== 3
+    return !Array.isArray(values) || values.length !== SPEECH_LINES_PER_SITUATION
       || values.every((item) => typeof item !== 'string' || item.trim().length === 0)
   })
 }
