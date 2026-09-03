@@ -18,33 +18,20 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  .section { padding: 16px 0 0; }
-  .section + .section { border-top: 1px solid color-mix(in srgb, var(--material-edge) 36%, transparent); }
-
-  .heading {
-    display: flex;
-    margin: 0;
-    padding: 0 16px 11px;
-    align-items: center;
-    gap: 12px;
-    color: var(--material-accent);
-    font-size: 14px;
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: .08em;
-  }
-  .heading::after {
-    height: 1px;
-    flex: 1;
-    background: linear-gradient(90deg, color-mix(in srgb, var(--material-accent) 42%, transparent), transparent);
-    content: "";
-  }
+  /*
+    갈래별 제목과 상자는 두지 않는다. 항목마다 누구와 어떤 사이인지 이미 적혀 있어
+    같은 말이 두 겹이 되고, 상자가 겹쳐 목록이 답답해진다. 대신 갈래를 색으로 가른다.
+  */
+  .person[data-tone="1"], .personAction[data-tone="1"] { --relation-tone: #7fb3ff; }
+  .person[data-tone="2"], .personAction[data-tone="2"] { --relation-tone: #6fd3b8; }
+  .person[data-tone="3"], .personAction[data-tone="3"] { --relation-tone: #e0a3d8; }
+  .person[data-tone="4"], .personAction[data-tone="4"] { --relation-tone: #f0c268; }
 
   /* 인물은 두 명씩 한 쪽에 서고 쪽 단위로 옆으로 넘어간다 — 세로로 다 훑지 않게 한다 */
   .list {
     display: flex;
     margin: 0;
-    padding: 0;
+    padding: 12px 0 0;
     list-style: none;
     overflow-x: auto;
     overscroll-behavior-x: contain;
@@ -68,7 +55,7 @@
     width: 100%;
     min-height: 84px;
     padding: 12px 12px 12px 16px;
-    border-inline-start: 2px solid color-mix(in srgb, var(--material-edge) 38%, transparent);
+    border-inline-start: 3px solid var(--relation-tone, color-mix(in srgb, var(--material-edge) 38%, transparent));
     color: var(--material-text);
     background: transparent;
   }
@@ -136,7 +123,8 @@
     overflow-wrap: anywhere;
   }
   .copy > span {
-    color: var(--material-accent);
+    /* 관계 이름도 갈래 색으로 물들여, 왼쪽 선과 함께 무슨 사이인지 바로 읽히게 한다 */
+    color: var(--relation-tone, var(--material-accent));
     font-size: 14px;
     font-weight: 730;
     line-height: 1.3;
