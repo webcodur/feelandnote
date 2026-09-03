@@ -18,6 +18,9 @@ import { cn } from "@/lib/utils";
 /** 이 거리를 넘겨 끌면 누른 것이 아니라 민 것으로 본다(px) */
 const DRAG_SLOP = 6;
 
+/** 점으로 세울 수 있는 쪽 수의 한계. 넘으면 좁은 화면에서 점 줄이 화면 밖으로 나간다 */
+const MAX_DOTS = 8;
+
 export default function SwipeControls({
   count,
   className,
@@ -40,7 +43,8 @@ export default function SwipeControls({
     const sync = () => {
       const page = deck.clientWidth;
       if (page <= 0) return;
-      setActive(Math.max(0, Math.min(count - 1, Math.round(deck.scrollLeft / page))));
+      const next = Math.max(0, Math.min(count - 1, Math.round(deck.scrollLeft / page)));
+      setActive((current) => (current === next ? current : next));
     };
     sync();
     deck.addEventListener("scroll", sync, { passive: true });
@@ -140,21 +144,39 @@ export default function SwipeControls({
         <ChevronLeft size={18} aria-hidden />
       </button>
 
-      <div className="flex items-center gap-1.5 px-1">
-        {Array.from({ length: count }, (_, index) => (
-          <button
-            key={index}
-            type="button"
-            onClick={() => goTo(index)}
-            aria-label={t("dot", { index: index + 1, count })}
-            aria-current={index === active}
-            className={cn(
-              "h-1.5 rounded-full",
-              index === active ? "w-4 bg-accent" : "w-1.5 bg-accent-dim/45 hover:bg-accent-dim",
-            )}
-          />
-        ))}
-      </div>
+      {count > MAX_DOTS ? (
+        // 쪽이 많으면 점 줄이 화면을 넘는다. 숫자 한 칸으로 대신하고 폭을 미리 잡아
+        // 9→10처럼 자릿수가 늘어도 좌우 단추가 밀리지 않게 한다
+        <span className="min-w-14 text-center font-mono text-xs tabular-nums text-text-secondary">
+          <span className="font-bold text-accent">{active + 1}</span>
+          {" / "}
+          {count}
+        </span>
+      ) : (
+        /* 점은 저마다 같은 폭의 자리를 차지한다. 활성만 늘리면 그 뒤 점들이 좌우로
+           밀려 넘길 때마다 줄 전체가 떨린다 — 자리는 고정하고 안쪽 막대만 늘인다 */
+        <div className="flex items-center gap-1 px-1">
+          {Array.from({ length: count }, (_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => goTo(index)}
+              aria-label={t("dot", { index: index + 1, count })}
+              aria-current={index === active}
+              className="group flex h-6 w-4 shrink-0 items-center justify-center"
+            >
+              <span
+                className={cn(
+                  "h-1.5 rounded-full transition-[width,background-color] duration-200 ease-out",
+                  index === active
+                    ? "w-4 bg-accent"
+                    : "w-1.5 bg-accent-dim/45 group-hover:bg-accent-dim",
+                )}
+              />
+            </button>
+          ))}
+        </div>
+      )}
 
       <button
         type="button"
