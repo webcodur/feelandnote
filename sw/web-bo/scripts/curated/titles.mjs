@@ -68,9 +68,16 @@ const CONCURRENCY = 6
 const EFFORT = 'low'
 
 /** 대상 추출 — 미연결이거나, 이어졌지만 한국어판이 없는 항목 */
-async function dump() {
+async function dump(onlySlugs) {
   const lists = await selectAll('curated_lists', 'id, slug, title, content_type')
-  const listById = new Map(lists.map((l) => [l.id, l]))
+  // --list 로 목록을 한정하면 그 목록의 항목만 다룬다. 다른 목록의 기존 연결을 건드리지 않는다
+  const scoped = onlySlugs?.length ? lists.filter((l) => onlySlugs.includes(l.slug)) : lists
+  if (onlySlugs?.length) {
+    const missing = onlySlugs.filter((s) => !scoped.some((l) => l.slug === s))
+    if (missing.length) throw new Error('없는 목록 slug: ' + missing.join(', '))
+    console.log('대상 목록', scoped.map((l) => l.slug).join(', '))
+  }
+  const listById = new Map(scoped.map((l) => [l.id, l]))
 
   const items = await selectAll(
     'curated_list_items',
@@ -180,9 +187,9 @@ function parseAnswer(text, batch) {
   return out
 }
 
-async function ask(limitBatches) {
+async function ask(limitBatches, onlySlugs) {
   const targetsPath = join(WORK, 'targets.json')
-  if (!existsSync(targetsPath)) await dump()
+  if (!existsSync(targetsPath)) await dump(onlySlugs)
   const targets = JSON.parse(readFileSync(targetsPath, 'utf-8'))
 
   const answersPath = join(WORK, 'answers.json')
@@ -225,7 +232,9 @@ async function ask(limitBatches) {
 const args = process.argv.slice(2)
 const limitIdx = args.indexOf('--limit')
 const limit = limitIdx >= 0 ? Number(args[limitIdx + 1]) : 0
+const listIdx = args.indexOf('--list')
+const onlySlugs = listIdx >= 0 ? String(args[listIdx + 1] ?? '').split(',').map((s) => s.trim()).filter(Boolean) : []
 
-if (args.includes('--dump')) await dump()
-else if (args.includes('--ask')) await ask(limit)
-else console.log('사용법: --dump | --ask [--limit N]')
+if (args.includes('--dump')) await dump(onlySlugs)
+else if (args.includes('--ask')) await ask(limit, onlySlugs)
+else console.log('사용법: --dump | --ask [--limit N] [--list slug1,slug2]')
