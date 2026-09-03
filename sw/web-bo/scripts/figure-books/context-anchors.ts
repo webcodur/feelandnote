@@ -2,6 +2,8 @@ export type ContextAnchor = {
   key: string
   label: string
   patterns: RegExp[]
+  profilePatterns?: RegExp[]
+  bookPatterns?: RegExp[]
 }
 
 const anchor = (key: string, label: string, ...patterns: RegExp[]): ContextAnchor => ({
@@ -9,6 +11,21 @@ const anchor = (key: string, label: string, ...patterns: RegExp[]): ContextAncho
   label,
   patterns,
 })
+
+const splitAnchor = (
+  key: string,
+  label: string,
+  profilePatterns: RegExp[],
+  bookPatterns: RegExp[],
+): ContextAnchor => ({
+  key,
+  label,
+  patterns: [],
+  profilePatterns,
+  bookPatterns,
+})
+
+const KOREAN_ROLE_ENDING = String.raw`(?:로서|로|이며|이고|이자|였다|였고|이다|인|가|는|의|와|과)?(?=$|[^\p{L}\p{N}])`
 
 /**
  * 프로필과 책 양쪽에 같은 항목이 나타날 때만 쓰는 구체 맥락 사전이다.
@@ -24,19 +41,27 @@ export const CONTEXT_ANCHORS: ContextAnchor[] = [
   anchor('boxing', '복싱', /복싱|권투|boxing|헤비급|라이트급|웰터급/iu),
   anchor('mma', '종합격투기', /종합\s*격투기|격투기|MMA\b|UFC\b/iu),
   anchor('swimming', '수영', /수영|swimming|자유형|배영|평영|접영/iu),
-  anchor('athletics', '육상', /육상|단거리|장거리|마라톤|marathon|높이뛰기|멀리뛰기/iu),
+  anchor('athletics', '육상', /육상|단거리\s*(?:달리기|육상|경주|선수)|높이뛰기|멀리뛰기|athletics|track\s+and\s+field/iu),
+  anchor('distance-running', '장거리 달리기', /마라톤|장거리\s*(?:달리기|육상|경주|주자)|marathon|distance\s+running/iu),
   anchor('gymnastics', '체조', /체조|gymnastics|도마|평행봉/iu),
   anchor('figure-skating', '피겨스케이팅', /피겨\s*스케이팅|figure\s*skat/iu),
   anchor('speed-skating', '스피드스케이팅', /스피드\s*스케이팅|speed\s*skat|쇼트트랙/iu),
   anchor('volleyball', '배구', /배구|volleyball/iu),
   anchor('badminton', '배드민턴', /배드민턴|badminton/iu),
   anchor('table-tennis', '탁구', /탁구|table\s*tennis|ping[ -]?pong/iu),
-  anchor('cycling', '사이클', /사이클|자전거\s*경주|cycling|투르\s*드\s*프랑스/iu),
+  splitAnchor(
+    'cycling',
+    '사이클',
+    [/자전거\s*(?:경주|선수)|사이클\s*(?:선수|경기|레이서)|cycling|투르\s*드\s*프랑스/iu],
+    [/자전거|사이클링|cycling|투르\s*드\s*프랑스/iu],
+  ),
   anchor('cricket', '크리켓', /크리켓|cricket/iu),
   anchor('american-football', '미식축구', /미식\s*축구|american\s*football|NFL\b|슈퍼볼/iu),
   anchor('rugby', '럭비', /럭비|rugby/iu),
   anchor('motorsport', '모터스포츠', /모터\s*스포츠|포뮬러\s*원|formula\s*1|F1\b|레이싱/iu),
   anchor('esports', 'e스포츠', /e스포츠|이스포츠|esports|프로게이머|리그\s*오브\s*레전드/iu),
+  anchor('league-of-legends', '리그 오브 레전드', /리그\s*오브\s*레전드|League\s*of\s*Legends|LoL\b/iu),
+  anchor('chess', '체스', /체스|chess/iu),
   anchor('olympics', '올림픽', /올림픽|olympic/iu),
 
   // 음악·공연
@@ -50,7 +75,8 @@ export const CONTEXT_ANCHORS: ContextAnchor[] = [
   anchor('musical-theatre', '뮤지컬', /뮤지컬|musical\s*theat/iu),
   anchor('country-music', '컨트리 음악', /컨트리\s*음악|country\s*music/iu),
   anchor('electronic-music', '전자음악', /전자\s*음악|일렉트로닉|electronic\s*music|테크노|하우스\s*뮤직/iu),
-  anchor('kpop', 'K-pop', /K[ -]?pop|케이팝|아이돌\s*그룹/iu),
+  anchor('kpop', 'K-pop', /K[ -]?pop|케이팝|아이돌(?:\s*그룹)?|보이\s*그룹|걸\s*그룹/iu),
+  anchor('popular-music', '대중음악', /대중\s*음악|팝\s*(?:음악|가수)|싱어송라이터|음악\s*프로듀서|popular\s*music|pop\s*(?:music|singer)/iu),
   anchor('piano', '피아노', /피아노|piano|피아니스트/iu),
   anchor('violin', '바이올린', /바이올린|violin|바이올리니스트/iu),
   anchor('guitar', '기타', /기타리스트|기타\s*연주|guitar|acoustic\s*guitar/iu),
@@ -61,8 +87,9 @@ export const CONTEXT_ANCHORS: ContextAnchor[] = [
   anchor('dance', '무용·춤', /무용|안무|춤|choreograph|댄서|dancer/iu),
 
   // 자연과학·의학·기술
-  anchor('physics', '물리학', /물리학|물리학자|physics|양자\s*역학|상대성\s*이론/iu),
+  anchor('physics', '물리학', /물리학|물리학자|physics/iu),
   anchor('quantum', '양자과학', /양자\s*(역학|물리|이론|컴퓨팅)|quantum/iu),
+  anchor('relativity', '상대성이론', /상대성\s*(이론|원리)|relativity/iu),
   anchor('astronomy', '천문학', /천문학|천문학자|astronomy|천체\s*물리/iu),
   anchor('space-science', '우주과학', /우주\s*(과학|탐사|비행|개발)|space\s*(science|exploration|flight)|NASA\b/iu),
   anchor('chemistry', '화학', /화학|화학자|chemistry|유기\s*화학|무기\s*화학/iu),
@@ -72,7 +99,12 @@ export const CONTEXT_ANCHORS: ContextAnchor[] = [
   anchor('ecology', '생태학', /생태학|생태계|ecology|ecosystem/iu),
   anchor('climate', '기후과학', /기후\s*(변화|과학|위기)|지구\s*온난화|climate\s*(change|science|crisis)/iu),
   anchor('geology', '지질학', /지질학|지질학자|geology|지구과학|판구조론/iu),
-  anchor('medicine', '의학', /의학|의사|임상의학|medicine|medical|외과|내과/iu),
+  splitAnchor(
+    'medicine',
+    '의학',
+    [new RegExp(String.raw`(?<!교)의학|(?<![\p{L}\p{N}])의사${KOREAN_ROLE_ENDING}|임상\s*의학|medicine|medical|physician|doctor|외과|내과`, 'iu')],
+    [/(?<!교)의학|임상\s*의학|medicine|medical|외과|내과|질병|치료|진단/iu],
+  ),
   anchor('epidemiology', '역학·감염병', /역학\s*연구|감염병|전염병|epidemiolog|pandemic/iu),
   anchor('neuroscience', '신경과학', /신경\s*과학|뇌\s*과학|neuroscience|신경학/iu),
   anchor('psychology', '심리학', /심리학|심리학자|psychology|정신분석/iu),
@@ -88,7 +120,12 @@ export const CONTEXT_ANCHORS: ContextAnchor[] = [
   anchor('energy', '에너지 기술', /원자력|핵에너지|태양광|풍력\s*발전|재생\s*에너지|energy\s*technology/iu),
 
   // 인문·사회
-  anchor('philosophy', '철학', /철학|철학자|philosophy|형이상학|인식론|윤리학/iu),
+  splitAnchor(
+    'philosophy',
+    '철학',
+    [new RegExp(String.raw`(?<![\p{L}\p{N}])철학자${KOREAN_ROLE_ENDING}|철학\s*(?:연구|전공|교수)|철학을\s*(?:연구|전공)|\bphilosopher\b|professor\s+of\s+philosophy|형이상학|인식론|윤리학`, 'iu')],
+    [/철학|철학자|philosophy|형이상학|인식론|윤리학/iu],
+  ),
   anchor('existentialism', '실존주의', /실존주의|existentialis/iu),
   anchor('stoicism', '스토아 철학', /스토아|stoicis/iu),
   anchor('confucianism', '유교', /유교|유학자|성리학|confucian/iu),
@@ -117,27 +154,63 @@ export const CONTEXT_ANCHORS: ContextAnchor[] = [
   anchor('finance', '금융', /금융|재무|월스트리트|finance|financial\s*market/iu),
   anchor('venture-capital', '벤처투자', /벤처\s*캐피털|벤처\s*투자|venture\s*capital/iu),
   anchor('advertising', '광고', /광고\s*(산업|기획|역사)|advertising/iu),
-  anchor('fashion', '패션', /패션\s*(산업|디자인|역사)|fashion\s*(industry|design|history)/iu),
+  anchor('fashion', '패션', /패션\s*(산업|디자인|디자이너|역사)|의류\s*디자이너|fashion\s*(industry|design|designer|history)/iu),
   anchor('automobile-industry', '자동차 산업', /자동차\s*(산업|경영|역사)|automotive\s*industry/iu),
 
   // 예술·미디어
-  anchor('film', '영화', /영화\s*(연출|제작|산업|역사|이론|미학)|cinema|filmmaking|film\s*(history|theory)/iu),
-  anchor('acting', '연기', /연기\s*(이론|훈련|방법론)|메소드\s*연기|acting\s*(theory|technique|method)/iu),
+  splitAnchor(
+    'film',
+    '영화',
+    [/영화\s*(?:감독|연출|제작|산업|역사|이론|미학)|cinema|filmmaking|film\s*(?:director|history|theory)/iu],
+    [/영화\s*(?:연출|제작|산업|역사|이론|미학)|영화를\s*만든다는\s*것|예술로서의\s*영화|시네마토그라프|cinema|filmmaking|film\s*(?:history|theory)/iu],
+  ),
+  splitAnchor(
+    'acting',
+    '연기',
+    [new RegExp(String.raw`영화\s*배우|(?<![\p{L}\p{N}])배우${KOREAN_ROLE_ENDING}|연기자|연기\s*(?:이론|훈련|방법론|활동)|actor|acting`, 'iu')],
+    [/스크린\s*연기|연기\s*(?:이론|훈련|방법론|기술|수업)|메소드\s*연기|acting\s*(?:theory|technique|method)/iu],
+  ),
   anchor('theatre', '연극', /연극|희곡|극작|theatre|theater|dramaturg/iu),
   anchor('photography', '사진', /사진\s*(예술|역사|이론|촬영)|사진가|photograph/iu),
-  anchor('painting', '회화', /회화|화가|유화|수채화|painting|painter/iu),
+  splitAnchor(
+    'painting',
+    '회화',
+    [new RegExp(String.raw`회화|(?<![\p{L}\p{N}])화가${KOREAN_ROLE_ENDING}|유화|수채화|painting|painter`, 'iu')],
+    [/회화|미술\s*(?:사|이론|비평|감상)|그림\s*(?:의|을|읽)|유화|수채화|painting/iu],
+  ),
   anchor('sculpture', '조각', /조각가|조각\s*예술|sculpture|sculptor/iu),
-  anchor('architecture', '건축', /건축|건축가|architecture|architect/iu),
-  anchor('design', '디자인', /그래픽\s*디자인|산업\s*디자인|제품\s*디자인|design\s*(history|theory|practice)/iu),
+  splitAnchor(
+    'architecture',
+    '건축',
+    [/건축가|건축\s*(?:설계|활동|사무소)|architecture|architect/iu],
+    [/건축|건축가|architecture|architect/iu],
+  ),
+  splitAnchor(
+    'design',
+    '디자인',
+    [/(?:그래픽|산업|제품|자동차|인터랙션)\s*(?:디자인|디자이너)|design\s*(?:history|theory|practice|designer)/iu],
+    [/(?:그래픽|산업|제품|자동차|인터랙션)\s*디자인|디자인과\s*인간\s*심리|design\s*(?:history|theory|practice)/iu],
+  ),
   anchor('animation', '애니메이션', /애니메이션|animation|애니메이터/iu),
   anchor('comics', '만화', /만화|그래픽\s*노블|코믹스|manga|comics|graphic\s*novel/iu),
   anchor('science-fiction', '과학소설', /과학\s*소설|SF\s*소설|science\s*fiction/iu),
   anchor('fantasy-literature', '판타지 문학', /판타지\s*(문학|소설)|fantasy\s*(literature|novel)/iu),
   anchor('detective-fiction', '추리문학', /추리\s*(문학|소설)|미스터리\s*소설|detective\s*fiction|mystery\s*novel/iu),
   anchor('poetry', '시·시학', /시인|시집|시학|poetry|poet/iu),
+  splitAnchor(
+    'writing',
+    '글쓰기',
+    [/소설가|산문가|에세이스트|극작가|시나리오\s*작가|기자|저널리스트|novelist|essayist|journalist|screenwriter/iu],
+    [/글쓰기|작법|소설\s*쓰기|writing\s*(?:craft|practice)|creative\s*writing/iu],
+  ),
 
   // 군사·역사적 맥락
-  anchor('military-strategy', '군사전략', /군사\s*전략|전쟁\s*전략|전략론|military\s*strategy/iu),
+  splitAnchor(
+    'military-strategy',
+    '군사전략',
+    [/군사\s*전략|전쟁\s*전략|군사\s*이론가|군사\s*전략가|야전\s*지휘관|총사령관|사령관|제독|장군|military\s*strategist|\bcommander\b|\badmiral\b|\bgeneral\b/iu],
+    [/군사\s*전략|전쟁\s*전략|전략론|손자병법|military\s*strategy/iu],
+  ),
   anchor('naval-warfare', '해전·해군', /해전|해군|naval\s*warfare|navy\s*history/iu),
   anchor('air-warfare', '공중전', /공중전|공군|air\s*warfare|air\s*force/iu),
   anchor('guerrilla-warfare', '게릴라전', /게릴라|유격전|guerrilla\s*warfare/iu),
@@ -160,9 +233,66 @@ export const CONTEXT_ANCHORS: ContextAnchor[] = [
   anchor('colonialism', '식민주의', /식민주의|제국주의|colonialis|imperialis/iu),
 ]
 
-export function findContextAnchorKeys(text: string): string[] {
+const PROFILE_ANCHOR_PROFESSIONS: Readonly<Record<string, readonly string[]>> = {
+  football: ['athlete'],
+  baseball: ['athlete'],
+  basketball: ['athlete'],
+  tennis: ['athlete'],
+  golf: ['athlete'],
+  boxing: ['athlete'],
+  mma: ['athlete'],
+  swimming: ['athlete'],
+  athletics: ['athlete'],
+  'distance-running': ['athlete'],
+  gymnastics: ['athlete'],
+  'figure-skating': ['athlete'],
+  'speed-skating': ['athlete'],
+  volleyball: ['athlete'],
+  badminton: ['athlete'],
+  'table-tennis': ['athlete'],
+  cycling: ['athlete'],
+  cricket: ['athlete'],
+  'american-football': ['athlete'],
+  rugby: ['athlete'],
+  motorsport: ['athlete'],
+  esports: ['athlete'],
+  'league-of-legends': ['athlete'],
+  chess: ['athlete'],
+  olympics: ['athlete'],
+  kpop: ['musician'],
+  'popular-music': ['musician'],
+  songwriting: ['musician'],
+  film: ['actor', 'director'],
+  acting: ['actor', 'director'],
+  painting: ['visual_artist'],
+  sculpture: ['visual_artist'],
+  architecture: ['visual_artist'],
+  writing: ['author'],
+  'military-strategy': ['commander', 'politician', 'leader'],
+}
+
+export function profileContextText(value: string): string {
+  return value
+    .replace(/노벨\s*(?:물리학|화학|생리(?:학[·ㆍ/]?)?의학|경제학)상/gu, '노벨상')
+    .replace(/(?:경영|통치|교육|인생)\s*철학/gu, '')
+}
+
+export function findContextAnchorKeys(
+  text: string,
+  surface: 'profile' | 'book',
+  profession?: string | null,
+): string[] {
   if (!text.trim()) return []
   return CONTEXT_ANCHORS
-    .filter((item) => item.patterns.some((pattern) => pattern.test(text)))
+    .filter((item) => {
+      const professions = PROFILE_ANCHOR_PROFESSIONS[item.key]
+      if (surface === 'profile' && profession && professions && !professions.includes(profession)) {
+        return false
+      }
+      const patterns = surface === 'profile'
+        ? item.profilePatterns ?? item.patterns
+        : item.bookPatterns ?? item.patterns
+      return patterns.some((pattern) => pattern.test(text))
+    })
     .map((item) => item.key)
 }

@@ -4,12 +4,14 @@
  *
  * pnpm figure-books:context-candidates -- --out ../../data/celeb/figure-books/context-candidates.json
  * pnpm figure-books:context-candidates -- --profession athlete --public-only
+ * pnpm figure-books:context-candidates -- --representative-only --out ../../data/celeb/figure-books/context-book-pool-candidates.json
  */
 
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createClient } from '@supabase/supabase-js'
-import { CONTEXT_ANCHORS, findContextAnchorKeys } from './context-anchors'
+import { CONTEXT_ANCHORS, findContextAnchorKeys, profileContextText } from './context-anchors'
+import { contextBook } from './context-book-pool'
 
 type CelebRow = {
   id: string
@@ -87,7 +89,9 @@ const STOPWORDS = new Set([
   '대한민국', '이탈리아', '이스라엘', '우크라이나', '이집트', '페르시아', '동아시아',
   '아메리칸', '프로젝트', '아카데미', '아티스트', '유니버스', '스페이스',
   '네트워크', '아름다움', '카리스마', 'dream',
+  '마스터스', '드라이버', '모터사이클',
   'the', 'and', 'for', 'from', 'with', 'that', 'this', 'his', 'her', 'their', 'into', 'book',
+  'masters', 'driver', 'money', 'motorcycle',
 ])
 
 const KOREAN_SUFFIXES = [
@@ -131,6 +135,11 @@ function normalized(value: string): string {
 
 function coreTitle(value: string): string {
   return value.split(/\s*[\(\[\{（【]/u, 1)[0].trim()
+}
+
+function isSupportedIsbn(value: string | null): value is string {
+  if (!value) return false
+  return /^97[89][0-9]{10}$/u.test(value.replace(/[^0-9]/gu, ''))
 }
 
 function sourcePrimary(value: unknown): string | null {
@@ -202,6 +211,7 @@ async function main(): Promise<void> {
   const output = argumentValue('out')
   const scope = argumentValue('scope') ?? 'unlinked'
   const publicOnly = process.argv.includes('--public-only')
+  const representativeOnly = process.argv.includes('--representative-only')
   const maximumCandidates = positiveInteger('max-candidates', 12)
   if (scope !== 'unlinked' && scope !== 'all') throw new Error('--scope는 unlinked 또는 all이어야 합니다.')
 
@@ -318,7 +328,7 @@ async function main(): Promise<void> {
       book.title
       && bookIds.has(book.content_id)
       && book.verified === true
-      && Boolean(book.isbn)
+      && isSupportedIsbn(book.isbn)
       && sourcePrimary(book.sources) === 'kakao_book'
       && (!publicOnly || publicContentIds.has(book.content_id))
     ))
@@ -326,6 +336,7 @@ async function main(): Promise<void> {
       const titleCore = coreTitle(book.title!)
       const titleTokens = tokens(titleCore)
       const descriptionTokens = tokens(book.description)
+      const representative = contextBook(book.content_id)
       const curation = curatedByContent.get(book.content_id) ?? {
         listCount: 0,
         featuredListCount: 0,
@@ -340,8 +351,9 @@ async function main(): Promise<void> {
         normalizedCoreTitle: normalized(titleCore),
         titleTokens,
         descriptionTokens,
-        titleAnchors: new Set(findContextAnchorKeys(titleCore)),
-        descriptionAnchors: new Set(findContextAnchorKeys(book.description ?? '')),
+        titleAnchors: new Set(findContextAnchorKeys(titleCore, 'book')),
+        representativeAnchors: new Set(representative?.contextKeys ?? []),
+        descriptionAnchors: new Set(findContextAnchorKeys(book.description ?? '', 'book')),
         curation,
       }
     })
@@ -361,7 +373,11 @@ async function main(): Promise<void> {
   const unmatchedPeople: Array<Record<string, unknown>> = []
   for (const person of targets) {
     const profileText = `${person.headline ?? ''} ${person.bio ?? ''}`.trim()
-    const profileAnchors = new Set(findContextAnchorKeys(profileText))
+    const profileAnchors = new Set(findContextAnchorKeys(
+      profileContextText(profileText),
+      'profile',
+      person.profession,
+    ))
     const profileTokens = tokens(profileText)
     for (const token of tokens(`${person.nickname} ${person.nickname_en ?? ''}`)) profileTokens.delete(token)
     const namedWorks = extractNamedWorks(profileText)
@@ -371,13 +387,15 @@ async function main(): Promise<void> {
       const workMatches = namedWorks.filter((work) => {
         const normalizedWork = normalized(work)
         if (book.normalizedCoreTitle === normalizedWork) return normalizedWork.length >= 3
-        if (normalizedWork.length < 4 || book.normalizedCoreTitle.length < 4) return false
+        if (normalizedWork.length < 5 || book.normalizedCoreTitle.length < 5) return false
         return book.normalizedCoreTitle.includes(normalizedWork)
           || normalizedWork.includes(book.normalizedCoreTitle)
       })
       const titleAnchors = intersection(profileAnchors, book.titleAnchors)
+      const representativeAnchors = intersection(profileAnchors, book.representativeAnchors)
+      if (representativeOnly && representativeAnchors.length === 0) return []
       const descriptionAnchors = intersection(profileAnchors, book.descriptionAnchors)
-        .filter((key) => !titleAnchors.includes(key))
+        .filter((key) => !titleAnchors.includes(key) && !representativeAnchors.includes(key))
       const sharedTitle = intersection(profileTokens, book.titleTokens)
         .filter((token) => (
           isSpecificSharedTitleToken(token)
@@ -391,17 +409,20 @@ async function main(): Promise<void> {
       if (
         workMatches.length === 0
         && titleAnchors.length === 0
+        && representativeAnchors.length === 0
         && sharedTitle.length === 0
       ) return []
       if (
         workMatches.length === 0
         && sharedTitle.length === 0
+        && representativeAnchors.length === 0
         && book.curation.listCount === 0
         && !publicContentIds.has(book.content_id)
       ) return []
 
       const score = workMatches.length * 90
         + titleAnchors.length * 32
+        + representativeAnchors.length * 48
         + descriptionAnchors.length * 4
         + sharedTitle.reduce((sum, token) => sum + inverseDocumentFrequency(token) * 5, 0)
         + sharedDescription.reduce((sum, token) => sum + inverseDocumentFrequency(token), 0)
@@ -411,6 +432,8 @@ async function main(): Promise<void> {
         + (book.curation.bestRank !== null ? Math.max(0, 6 - Math.log10(book.curation.bestRank + 1) * 3) : 0)
         + (publicContentIds.has(book.content_id) ? 20 : 0)
       const titleAnchorLabels = titleAnchors.map((key) => anchorByKey.get(key)?.label ?? key)
+      const representativeAnchorLabels = representativeAnchors
+        .map((key) => anchorByKey.get(key)?.label ?? key)
       const descriptionAnchorLabels = descriptionAnchors
         .map((key) => anchorByKey.get(key)?.label ?? key)
 
@@ -448,6 +471,7 @@ async function main(): Promise<void> {
         contextEvidence: {
           namedWorks: workMatches,
           titleAnchors: titleAnchorLabels,
+          representativeBookAnchors: representativeAnchorLabels,
           supportingDescriptionAnchors: descriptionAnchorLabels,
           sharedTitleTerms: sharedTitle.slice(0, 5),
           sharedDescriptionTerms: sharedDescription.slice(0, 5),
@@ -482,6 +506,7 @@ async function main(): Promise<void> {
       profession: profession ?? null,
       scope,
       publicOnly,
+      representativeOnly,
       verifiedKakaoWithIsbn: true,
       maximumCandidates,
     },
