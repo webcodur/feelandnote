@@ -1,7 +1,7 @@
 // 이미 올린 글의 본문에 서식만 입힌다. 글을 다시 쓰지 않고 수정 발행한다.
 // 사용: node scripts/naver-blog/format-posts.mjs <logNo> [logNo...] [--dry]   (sw/web-bo 에서)
 // 규칙: 『제목』 — 저자 줄과 「학과 · 『제목』 — 저자」 줄은 굵게, ━ 로만 된 줄은 진짜 구분선으로 바꾼다.
-import puppeteer from 'puppeteer';
+import { getBrowser, getNaverPage } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -74,9 +74,8 @@ async function insertDivider(page) {
   if ((await page.evaluate(() => document.querySelectorAll('.se-component.se-horizontalLine').length)) <= before) throw new Error('구분선이 들어가지 않았다');
 }
 
-const browser = await puppeteer.connect({ browserURL: 'http://localhost:9222', defaultViewport: null, protocolTimeout: 60000 });
-const pages = await browser.pages();
-const page = pages.find((p) => p.url().includes('blog.naver.com')) ?? pages[0];
+const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });
+const page = await getNaverPage(browser);
 page.on('dialog', (d) => { d.accept().catch(() => {}); });
 
 const posts = JSON.parse(fs.readFileSync(POSTS, 'utf8'));
@@ -124,4 +123,4 @@ for (const logNo of ids) {
   }
 }
 console.log(`완료 — ${done}/${ids.length}`);
-browser.disconnect();
+if (launched) await browser.close(); else browser.disconnect();   // 사용자 창은 끄지 않는다

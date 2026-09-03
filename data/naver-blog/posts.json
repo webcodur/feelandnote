@@ -1831,9 +1831,9 @@
   "slug": "max-levchin",
   "url": null,
   "line": null,
-  "link": "manual",
+  "link": "ok",
   "name": null,
-  "note": "첫 단락이 링크 텍스트라 자동 삽입 불가. 사용자가 직접 처리. 스크립트는 건너뛴다"
+  "note": "제목에 링크가 박혔던 사고를 복원했다. 본문 링크는 외부 링크 카드 뒤 단락에 있다"
  },
  {
   "logNo": "221798002471",
@@ -2636,7 +2636,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/hyundae-munhak/hyundae-munhak-award-fiction",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 09. 15 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399258648",
@@ -2645,7 +2647,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/hankook-ilbo/korea-publication-award",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 09. 22 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399260180",
@@ -2654,7 +2658,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/pulitzer-prize/pulitzer-fiction-winners",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 09. 29 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399261577",
@@ -2663,7 +2669,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/pulitzer-prize/pulitzer-history",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 10. 06 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399263121",
@@ -2672,7 +2680,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/academy-awards/academy-best-picture",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 10. 13 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399264659",
@@ -2681,7 +2691,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/cannes-film-festival/cannes-palme-dor",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 10. 20 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399266150",
@@ -2690,7 +2702,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/venice-film-festival/venice-golden-lion",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 10. 27 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399267580",
@@ -2699,7 +2713,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/blue-dragon-film-awards/blue-dragon-best-film",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 11. 03 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399269013",
@@ -2708,7 +2724,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/new-york-times/nyt-100-best-books-21st-century",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 11. 10 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399270516",
@@ -2717,7 +2735,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/time-magazine/time-100-novels",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 11. 17 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399272244",
@@ -2726,7 +2746,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/bbc/bbc-big-read-top-100",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 11. 24 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399274114",
@@ -2735,7 +2757,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/american-film-institute/afi-100-years-100-movies",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 12. 01 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399275821",
@@ -2744,7 +2768,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/sight-and-sound/sight-and-sound-greatest-films-2022",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 12. 08 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399277456",
@@ -2753,7 +2779,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/modern-library/modern-library-100-novels",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 12. 15 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399279169",
@@ -2762,7 +2790,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/national-book-foundation/national-book-award-fiction",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 12. 22 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399282460",
@@ -2771,7 +2801,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/academie-goncourt/prix-goncourt",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 12. 29 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399284153",
@@ -2780,7 +2812,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/nihon-bungaku-shinkokai/akutagawa-prize",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 01. 05 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399286162",
@@ -2789,7 +2823,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/womens-prize/womens-prize-fiction",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 01. 12 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399287896",
@@ -2798,7 +2834,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/baillie-gifford-prize/baillie-gifford-nonfiction",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 01. 19 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399579947",
@@ -2807,7 +2845,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/financial-times/ft-business-book",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 01. 26 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399582451",
@@ -2816,7 +2856,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/american-library-association/newbery-medal",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 02. 02 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399586078",
@@ -2825,7 +2867,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/american-library-association/caldecott-medal",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 02. 09 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399588693",
@@ -2834,7 +2878,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/hugo-awards/hugo-best-novel",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 02. 16 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399591440",
@@ -2843,7 +2889,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/sfwa/nebula-best-novel",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 02. 23 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399600051",
@@ -2852,7 +2900,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/locus-magazine/locus-fantasy-novel",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 03. 02 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399603071",
@@ -2861,7 +2911,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/npr/npr-top-100-sf-fantasy",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 03. 09 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399605897",
@@ -2870,7 +2922,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/mystery-writers-of-america/edgar-best-novel",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 03. 16 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399608670",
@@ -2879,7 +2933,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/crime-writers-association/cwa-gold-dagger",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 03. 23 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399611465",
@@ -2888,7 +2944,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/horror-writers-association/bram-stoker-novel",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 03. 30 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399614564",
@@ -2897,7 +2955,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/time-out/timeout-100-horror-films",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 04. 06 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399617490",
@@ -2906,7 +2966,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/bbc-culture/bbc-greatest-comedies",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 04. 13 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399620342",
@@ -2915,7 +2977,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/romance-writers-of-america/rita-award-romance",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 04. 20 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399623317",
@@ -2924,7 +2988,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/st-johns-college/st-johns-great-books",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 04. 27 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399626324",
@@ -2933,7 +2999,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/royal-society/royal-society-science-book",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 05. 04 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399629227",
@@ -2942,7 +3010,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/cambridge-philosophy/cambridge-philosophy-reading",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 05. 11 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399632147",
@@ -2951,7 +3021,9 @@
   "kind": "curated",
   "slug": null,
   "url": "https://feelandnote.com/library/curated/british-psychological-society/bps-psychology-books",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2027. 05. 18 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399635555",
@@ -2960,7 +3032,9 @@
   "kind": "celeb",
   "slug": null,
   "url": "https://feelandnote.com/celeb/han-kang",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 09. 04 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399638589",
@@ -2969,7 +3043,9 @@
   "kind": "celeb",
   "slug": null,
   "url": "https://feelandnote.com/celeb/yuval-noah-harari",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 09. 11 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399642099",
@@ -2978,7 +3054,9 @@
   "kind": "celeb",
   "slug": null,
   "url": "https://feelandnote.com/celeb/kim-namjoon",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 09. 18 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399645188",
@@ -2987,7 +3065,9 @@
   "kind": "celeb",
   "slug": null,
   "url": "https://feelandnote.com/celeb/kim-young-ha",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 09. 25 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399648359",
@@ -2996,7 +3076,9 @@
   "kind": "celeb",
   "slug": null,
   "url": "https://feelandnote.com/celeb/sam-altman",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 10. 02 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399651471",
@@ -3005,7 +3087,9 @@
   "kind": "celeb",
   "slug": null,
   "url": "https://feelandnote.com/celeb/naval-ravikant",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 10. 09 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399654542",
@@ -3014,7 +3098,9 @@
   "kind": "celeb",
   "slug": null,
   "url": "https://feelandnote.com/celeb/natalie-portman",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 10. 16 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
  },
  {
   "logNo": "224399657579",
@@ -3023,6 +3109,233 @@
   "kind": "celeb",
   "slug": null,
   "url": "https://feelandnote.com/celeb/quentin-tarantino",
-  "link": "check"
+  "link": "check",
+  "scheduledAt": "2026. 10. 23 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400070916",
+  "date": "2026. 09. 03.",
+  "title": "『무소유』 저자 법정 스님이 읽은 31권의 책 (Venerable Beopjeong)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/venerable-beopjeong",
+  "link": "check",
+  "scheduledAt": "2026. 10. 30 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400072964",
+  "date": "2026. 09. 03.",
+  "title": "T1 소속 프로게이머 페이커가 읽은 16권의 책 (Faker)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/faker",
+  "link": "check",
+  "scheduledAt": "2026. 11. 06 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400074842",
+  "date": "2026. 09. 03.",
+  "title": "배달의민족 창업자 김봉진이 읽은 32권의 책 (Bong-jin Kim)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/bong-jin-kim",
+  "link": "check",
+  "scheduledAt": "2026. 11. 13 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400076879",
+  "date": "2026. 09. 03.",
+  "title": "프랑스 황제 나폴레옹 보나파르트가 읽은 28권의 책 (Napoleon Bonaparte)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/napoleon-bonaparte",
+  "link": "check",
+  "scheduledAt": "2026. 11. 20 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400081103",
+  "date": "2026. 09. 03.",
+  "title": "『백년의 고독』 작가 가브리엘 가르시아 마르케스가 읽은 21권의 책 (Gabriel Garcia Marquez)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/gabriel-garcia-marquez",
+  "link": "check",
+  "scheduledAt": "2026. 11. 27 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400082984",
+  "date": "2026. 09. 03.",
+  "title": "『전쟁과 평화』 작가 레오 톨스토이가 읽은 20권의 책 (Leo Tolstoy)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/leo-tolstoy",
+  "link": "check",
+  "scheduledAt": "2026. 12. 04 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400084948",
+  "date": "2026. 09. 03.",
+  "title": "『사조영웅전』 작가 김용이 읽은 19권의 책 (Jin Yong)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/jin-yong",
+  "link": "check",
+  "scheduledAt": "2026. 12. 11 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400086937",
+  "date": "2026. 09. 03.",
+  "title": "노벨문학상 수상 작가 안니 에르노가 읽은 18권의 책 (Annie Ernaux)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/annie-ernaux",
+  "link": "check",
+  "scheduledAt": "2026. 12. 18 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400143701",
+  "date": "2026. 09. 03.",
+  "title": "제26대 미국 대통령 시어도어 루스벨트가 읽은 21권의 책 (Theodore Roosevelt)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/theodore-roosevelt",
+  "link": "check",
+  "scheduledAt": "2026. 12. 25 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400145964",
+  "date": "2026. 09. 03.",
+  "title": "『캉디드』 저자 볼테르가 읽은 16권의 책 (Voltaire)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/voltaire",
+  "link": "check",
+  "scheduledAt": "2027. 01. 01 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400148214",
+  "date": "2026. 09. 03.",
+  "title": "『데미안』 작가 헤르만 헤세가 읽은 15권의 책 (Hermann Hesse)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/hermann-hesse",
+  "link": "check",
+  "scheduledAt": "2027. 01. 08 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400152037",
+  "date": "2026. 09. 03.",
+  "title": "독일 관념론 철학자 게오르크 빌헬름 프리드리히 헤겔이 읽은 15권의 책 (Georg Wilhelm Friedrich Hegel)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/georg-wilhelm-friedrich-hegel",
+  "link": "check",
+  "scheduledAt": "2027. 01. 15 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400154250",
+  "date": "2026. 09. 03.",
+  "title": "카카오 창업자 김범수가 읽은 14권의 책 (Kim Beom-su)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/kim-beom-su",
+  "link": "check",
+  "scheduledAt": "2027. 01. 22 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400156688",
+  "date": "2026. 09. 03.",
+  "title": "노벨 평화상 수상 민권운동가 마틴 루터 킹 주니어가 읽은 15권의 책 (Martin Luther King Jr.)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/martin-luther-king-jr.",
+  "link": "check",
+  "scheduledAt": "2027. 01. 29 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400158967",
+  "date": "2026. 09. 03.",
+  "title": "『좁은 문』 작가 앙드레 지드가 읽은 15권의 책 (André Gide)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/andre-gide",
+  "link": "check",
+  "scheduledAt": "2027. 02. 05 09:00",
+  "scheduleNote": "발행 순서와 요일 규칙으로 계산한 값이다. 편집기에서 확인한 값이 아니다"
+ },
+ {
+  "logNo": "224400347351",
+  "date": "2026. 09. 03.",
+  "title": "『나목』의 소설가 박완서가 읽은 14권의 책 (Park Wan-suh)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/park-wan-suh",
+  "link": "check",
+  "scheduledAt": "2026. 09. 06 09:00"
+ },
+ {
+  "logNo": "224400348336",
+  "date": "2026. 09. 03.",
+  "title": "장애인 인권운동가 헬렌 켈러가 읽은 14권의 책 (Helen Keller)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/helen-keller",
+  "link": "check",
+  "scheduledAt": "2026. 09. 09 09:00"
+ },
+ {
+  "logNo": "224400349188",
+  "date": "2026. 09. 03.",
+  "title": "『자본론』 저자 칼 마르크스가 읽은 13권의 책 (Karl Marx)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/karl-marx",
+  "link": "check",
+  "scheduledAt": "2026. 09. 13 09:00"
+ },
+ {
+  "logNo": "224400350159",
+  "date": "2026. 09. 03.",
+  "title": "「운명」 교향곡 작곡가 루트비히 판 베토벤이 읽은 13권의 책 (Ludwig van Beethoven)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/ludwig-van-beethoven",
+  "link": "check",
+  "scheduledAt": "2026. 09. 16 09:00"
+ },
+ {
+  "logNo": "224400351026",
+  "date": "2026. 09. 03.",
+  "title": "『봄·봄』·『동백꽃』 작가 김유정이 읽은 13권의 책 (Kim Yu-jeong)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/kim-yu-jeong",
+  "link": "check",
+  "scheduledAt": "2026. 09. 20 09:00"
+ },
+ {
+  "logNo": "224400351898",
+  "date": "2026. 09. 03.",
+  "title": "중국 초대 국가주석 마오쩌둥이 읽은 13권의 책 (Mao Zedong)",
+  "kind": "celeb",
+  "slug": null,
+  "url": "https://feelandnote.com/celeb/mao-zedong",
+  "link": "check",
+  "scheduledAt": "2026. 09. 23 09:00"
  }
 ]

@@ -1,14 +1,13 @@
 // 발행(예약 포함)된 글의 서식이 원고대로 들어갔는지 편집기에서 센다. 글을 고치지 않는다.
 // 사용: node scripts/naver-blog/verify-post.mjs <logNo> [logNo...]   (sw/web-bo 에서)
-import puppeteer from 'puppeteer';
+import { getBrowser, getNaverPage } from './lib/browser.mjs';
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const ids = process.argv.slice(2).filter((a) => /^\d{9,}$/.test(a));
 if (!ids.length) { console.log('글 번호를 넘겨라'); process.exit(1); }
 
-const browser = await puppeteer.connect({ browserURL: 'http://localhost:9222', defaultViewport: null, protocolTimeout: 60000 });
-const pages = await browser.pages();
-const page = pages.find((p) => p.url().includes('blog.naver.com')) ?? pages[0];
+const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });
+const page = await getNaverPage(browser);
 page.on('dialog', (d) => { d.accept().catch(() => {}); });
 
 for (const logNo of ids) {
@@ -51,4 +50,4 @@ for (const logNo of ids) {
   if (rawMark.length) { console.log(`  ⚠ 마크업이 글자로 남았다 ${rawMark.length}줄`); rawMark.slice(0, 3).forEach((x) => console.log(`    · ${x.t.slice(0, 60)}`)); }
   if (!leaked && !noHr && !noImg && !rawHr.length && !rawMark.length) console.log('  ○ 서식 이상 없음');
 }
-await browser.disconnect();
+if (launched) await browser.close(); else browser.disconnect();   // 사용자 창은 끄지 않는다

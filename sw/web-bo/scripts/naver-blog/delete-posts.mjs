@@ -2,7 +2,7 @@
 // 사용: node scripts/naver-blog/delete-posts.mjs [최대건수] [--yes]   (sw/web-bo 에서)
 //   --yes 를 붙이지 않으면 대상만 보여 주고 지우지 않는다. 삭제는 되돌릴 수 없다.
 // 규칙은 docs/continuous/naver-blog.md 를 따른다. 디버그 포트 9222 크롬에 네이버 로그인 상태여야 한다.
-import puppeteer from 'puppeteer';
+import { getBrowser, getNaverPage } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -28,9 +28,8 @@ const live = async (logNo) => {
   return html.includes('se-main-container');
 };
 
-const browser = await puppeteer.connect({ browserURL: 'http://localhost:9222', defaultViewport: null, protocolTimeout: 60000 });
-const pages = await browser.pages();
-const page = pages.find((p) => p.url().includes('blog.naver.com')) ?? pages[0];
+const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });
+const page = await getNaverPage(browser);
 let accepted = false;
 page.on('dialog', async (d) => {           // "삭제된 글은 복구할 수 없습니다. 삭제하시겠습니까?"
   if (d.type() === 'beforeunload') { await d.accept().catch(() => {}); return; }   // 편집기 이탈 경고는 그냥 통과
@@ -76,4 +75,4 @@ for (const t of targets) {
   }
 }
 console.log(`완료 — 삭제 ${done} / 남은 대상 ${posts.filter((p) => p.link === 'to-delete').length}`);
-browser.disconnect();
+if (launched) await browser.close(); else browser.disconnect();   // 사용자 창은 끄지 않는다

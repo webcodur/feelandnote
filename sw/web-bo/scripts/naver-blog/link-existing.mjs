@@ -2,7 +2,7 @@
 // 사용: node scripts/naver-blog/link-existing.mjs [최대건수] [--dry] [--only=logNo]   (sw/web-bo 에서)
 // 규칙과 편집기 제약은 docs/continuous/naver-blog.md 를 따른다.
 //   --dry : 삽입까지만 하고 발행하지 않는다(스크린샷 저장). 디버그 포트 9222 크롬에 네이버 로그인 상태여야 한다.
-import puppeteer from 'puppeteer';
+import { getBrowser, getNaverPage } from './lib/browser.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -213,9 +213,8 @@ async function publish(page) {
   return page.url().includes('PostView') && page.url().includes('isAfterUpdateOnly');
 }
 
-const browser = await puppeteer.connect({ browserURL: 'http://localhost:9222', defaultViewport: null, protocolTimeout: 60000 });
-const pages = await browser.pages();
-const page = pages.find((p) => p.url().includes('PostUpdateForm')) ?? pages.find((p) => p.url().includes('blog.naver.com') && !p.url().includes('blog.stat')) ?? pages[0];
+const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });
+const page = await getNaverPage(browser);
 // 창이 최소화·가려짐이면 편집기가 클릭을 처리하지 않는다. 창을 복원하고 탭을 앞으로 가져온다.
 async function ensureVisible(page) {
   const cdp = await page.createCDPSession();
@@ -403,4 +402,4 @@ for (const post of map) {
 }
 const s = Object.values(done);
 console.log(`집계: ok ${s.filter((x) => x.status === 'ok').length} / 실패·확인 ${s.filter((x) => x.status !== 'ok').length}`);
-browser.disconnect();
+if (launched) await browser.close(); else browser.disconnect();   // 사용자 창은 끄지 않는다
