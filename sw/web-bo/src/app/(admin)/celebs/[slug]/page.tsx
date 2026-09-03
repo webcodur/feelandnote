@@ -7,7 +7,9 @@ import ExtraSections, { DeepProfileAccordion } from './ExtraSections'
 import { LangModeProvider } from '@/contexts/LangModeContext'
 import CelebSearchBar from '@/components/celeb/CelebSearchBar'
 import CelebExplanationSection from './CelebExplanationSection'
+import CelebLinkedData from './CelebLinkedData'
 import { getCelebExplanation } from '@/lib/admin/celeb-explanations'
+import { getCelebLinkedData } from '@/actions/admin/celeb-linked-data'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -27,9 +29,10 @@ export default async function CelebDetailPage({ params }: PageProps) {
 
   if (!celeb || celeb.subject_kind !== 'celeb') notFound()
 
-  const [voiceCeleb, explanation] = await Promise.all([
+  const [voiceCeleb, explanation, linkedData] = await Promise.all([
     getCelebVoiceDetail(celeb.id),
     getCelebExplanation(celeb.id),
+    getCelebLinkedData(celeb.id),
   ])
 
   return (
@@ -58,6 +61,8 @@ export default async function CelebDetailPage({ params }: PageProps) {
         </CelebForm>
 
         <DeepProfileAccordion celebId={celeb.id} slug={celeb.slug || slug} />
+
+        <CelebLinkedData data={linkedData} slug={celeb.slug || slug} />
       </LangModeProvider>
 
       <div className="h-20" />
