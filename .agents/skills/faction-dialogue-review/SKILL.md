@@ -7,6 +7,8 @@ description: 팩션(factions/) 인물의 한국어 대사를 새로 작성하거
 
 대사는 조사해 한 번 작성하고 끝낸다. 검토 과정 자체를 별도 자산으로 만들지 않는다.
 
+대량 점검에 외부 CLI를 나눠 쓸 때는 [`진단-편집 분업`](../../../docs/project/agent-cli/diagnose-edit-verify.md)을 따른다. 이 스킬의 원천·보호·반영 규칙은 그대로 유지한다.
+
 ## 금지
 
 - `_docs/dialogue-review/`, `index.md`, 인물별 검토 Markdown을 만들지 않는다.
@@ -22,7 +24,7 @@ description: 팩션(factions/) 인물의 한국어 대사를 새로 작성하거
 - DB `faction_*` 테이블이 단일원천이다.
 - `sw/remotion/scripts/youtube/faction-lineup.json`에서 업로드 이력이 있는 에피소드는 보호한다.
 - 보호편의 본문·영문·청크·음성은 사용자 명시 지시 없이는 바꾸지 않는다.
-- 특히 현재 보호편은 `AI-Supremacy`, `Digital-Resistance`, `Gods-Greek`, `Homer-Iliad`, `PayPal-Mafia`, `korea-football-best11`이다.
+- 본문을 바꿀 인물은 대표 화자 beat가 정확히 하나이고 그 beat에 `voiceFile`·`voiceDuration`이 없어야 한다. 대표가 없거나 여럿이면 BO에서 먼저 지정하고, 음성이 있으면 본문과 음성을 함께 교체하라는 사용자 지시를 받는다. 조건부 반영기의 중단을 우회하지 않는다.
 
 ## 작성
 

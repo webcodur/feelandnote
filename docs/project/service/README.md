@@ -109,7 +109,7 @@
 회원 서재(`member_contents`)만 읽으므로, 인물 화면이 그쪽을 부르면 쪽을 넘기거나 조건을 바꾸는
 순간 목록이 사라진다. `ContentLibrary`의 `ownerKind` prop이 두 경로를 가른다.
 
-인물 상세는 국적·생몰연도로 39개 세계를 정해 상단 배너·대표 화보 액자·구획 번호·서체를 바꾼다. 세계 배너 사진은 26.08.03 기준 4판 네이티브 3:1 규격으로 **39/39종 완료**했다. 화면은 `세계 배너 → 인물 입장부 → 기록` 순서이며, 배너·입장부·기록 본문은 같은 최대 1024px 가로축을 쓴다. 배너는 이 파노라마 면을 직접 채워 좌우 검은 칸이나 흐린 확대 채움을 만들지 않는다. 별도 대형 선언문과 PC 목차의 중복 인물 카드는 제거했다. PC 목차는 항목 아이콘·번호를 없애고 상단에 나침반 아이콘 하나와 외곽선을 둔 독립 박스로 만들어 1024px 본문 바깥 왼쪽 여백에 24px 간격으로 배치한다. 항목은 가운데 정렬하며 본문 폭을 나눠 쓰지 않는다. 대표 화보가 없는 인물은 같은 240px 인물 열에 큰 원형 아바타를 두는 정식 대체 레이아웃을 쓴다. 직군 기반 색 테마는 폐기했고 직군은 아이콘·명칭에만 쓴다. 바깥 배경·UI 면·테두리는 세계 ID를 5개 재질 계열로 배정해 39/39 운영 적용했으며, `/lab/celeb-themes`에서 개별 재질 15종과 대표 조합 5종을 같은 토큰으로 검증한다. 전체 결정 규칙은 `docs/project/celeb/celeb-detail-themes.md`, 배너 제작 규격과 완료 현황은 `docs/project/celeb/celeb-world-banners.md`가 쥔다.
+인물 상세의 세계 결정·화면 구성·대표 사진 fallback은 [`../celeb/celeb-08-03-detail-themes.md`](../celeb/celeb-08-03-detail-themes.md), 세계 배너의 자산 계약과 장면 기준은 [`../celeb/celeb-08-04-world-banners.md`](../celeb/celeb-08-04-world-banners.md)가 쥔다. 이 문서에는 세계 수·자산 보유 수·회차별 UI 변경을 복제하지 않는다.
 
 ## 네비게이션 단일원천
 
@@ -157,4 +157,4 @@
 - 다국어: `docs/project/platform/i18n.md`
 - SEO: `docs/project/operations/seo.md`
 - 코드 규칙: `docs/project/platform/code-rules.md`
-- 셀럽 데이터: `docs/project/celeb/`, `docs/project/data/db-celeb.md`
+- 셀럽 데이터: `docs/project/celeb/`, `docs/project/data/03-celeb.md`

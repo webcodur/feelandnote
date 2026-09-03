@@ -24,10 +24,10 @@
 
 ## 판정
 
-- 한국어 값 자체가 없으면 번역 누락으로 세지 않는다. `'미작성'` 자리표시자도 값이 없는 것과 같다(person-reading.md의 NOT NULL 처리).
+- 한국어 값 자체가 없으면 번역 누락으로 세지 않는다. `'미작성'` 자리표시자도 값이 없는 것과 같다(celeb-05-01-reading.md의 NOT NULL 처리).
 - `interpretive_title*`·`interpretive_text*`는 닫힌 인물 탐구 필드다. 현재 감사 스크립트가 이
   필드의 KO→EN 결손도 출력하지만 활성 화면 누락에는 합산하지 않고 값을 자동 보완하지 않는다.
-- `celeb_dialogues`는 fiction 티어를 번역 대상에서 제외한다(celeb-i18n.md). fiction 인물의 KO 전용 lines는 누락으로 세지 않으며, 키·shape 불일치는 티어와 무관하게 error로 본다.
+- `celeb_dialogues`는 fiction 티어를 번역 대상에서 제외한다(celeb-09-01-i18n.md). fiction 인물의 KO 전용 lines는 누락으로 세지 않으며, 키·shape 불일치는 티어와 무관하게 error로 본다.
 - 한국어 값이 있고 영어 값이 없으면 warning이다.
 - `nickname_en` 부재와 KO/EN JSON key·shape 불일치는 error다.
 - 숫자, 날짜, URL, 좌표처럼 언어 중립인 필드는 대상이 아니다.
@@ -40,7 +40,7 @@
   `plain_text_en`만 채우고 `interpretive_*`를 보존하도록 좁히기 전에는 쓰기 실행에 사용하지 않는다.
 - 스펙트럼은 평면 컬럼이 아니라 `persona` JSONB가 원본이다. `persona`는 레거시 저장소 식별자다.
 - 한마디는 `set_celeb_quote` RPC만 사용한다. `lines` 전체를 덮지 않는다.
-- 타임라인은 `docs/project/celeb/celeb-timeline.md`를 따른다.
+- 타임라인은 `docs/project/celeb/celeb-06-01-timeline.md`를 따른다.
 - 감상문은 DB↔Remotion SSoT와 팩트체크 원칙을 따른다.
 - 인용·대사·사료는 번역 누락이라는 이유만으로 생성하거나 의역하지 않는다.
 

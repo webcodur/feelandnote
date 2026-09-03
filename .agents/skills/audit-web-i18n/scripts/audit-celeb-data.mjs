@@ -30,7 +30,7 @@ function findRepoRoot(start) {
   while (true) {
     if (
       fs.existsSync(path.join(current, "sw", "web", "package.json"))
-      && fs.existsSync(path.join(current, "docs", "project", "data", "db-celeb.md"))
+      && fs.existsSync(path.join(current, "docs", "project", "data", "README.md"))
     ) {
       return current;
     }
@@ -100,7 +100,7 @@ function hasValue(value) {
   return true;
 }
 
-// '미작성'은 NOT NULL 제약을 채우기 위한 자리표시자다(person-reading.md).
+// '미작성'은 NOT NULL 제약을 채우기 위한 자리표시자다(celeb-05-01-reading.md).
 // data-coverage.md 원칙대로 한국어 데이터가 아예 없는 것과 같게 본다.
 function isPlaceholder(value) {
   return typeof value === "string" && value.trim() === "미작성";
@@ -461,7 +461,7 @@ if (ids.length > 0) {
   );
   for (const row of dialogueRows) {
     const context = slugContext(profileById, row.celeb_id);
-    // celeb-i18n.md: fiction 티어는 번역 대상이 아니다. KO만 있는 것을 누락으로 세지 않는다.
+    // celeb-09-01-i18n.md: fiction 티어는 번역 대상이 아니다. KO만 있는 것을 누락으로 세지 않는다.
     if (profileById.get(row.celeb_id)?.celeb_tier !== "fiction") {
       checkPair({
         row,

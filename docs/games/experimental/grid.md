@@ -1,6 +1,6 @@
 # 교차 격자 (Crossing Grid) 발주서
 
-> **최종 실측 체크: 26.07.31** — 부분 대조: `sw/web/src/actions/game/getPortraitFigures.ts`, `sw/web/src/components/features/game/portrait/`, `sw/web/src/components/shared/GameFullScreen.tsx`, `docs/project/data/db-core.md`, `docs/project/data/db-celeb.md`, `sw/web/messages/{ko,en}/game-grid.json`, `sw/web/src/lib/db/static.ts`, `sw/web/src/lib/cache.ts`. DB 실측 없음(환경값 부재).
+> 현재 구현은 `sw/web/src/actions/game/getPortraitFigures.ts`, `sw/web/src/components/features/game/portrait/`, `docs/project/data/03-celeb.md`를 기준으로 읽는다.
 
 ## 무엇을 하는 게임인가
 

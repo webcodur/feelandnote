@@ -1,6 +1,6 @@
 # 외부 서비스
 
-> **최종 실측 체크: 26.08.26** — Oracle DB VM의 Auth·PostgREST, OAuth 시작 경로, 웹 캐시 webhook, 암호화 백업과 격리 복원을 확인했다.
+> **최종 실측 체크: 26.09.02** — Oracle DB VM의 Auth·PostgREST, 앱의 DB 경로·환경변수, 웹 캐시 webhook, 암호화 백업과 격리 복원을 확인했다.
 
 ## Oracle DB 운영
 
@@ -96,9 +96,8 @@ Oracle 이전은 Supabase Cloud를 떠나 Oracle VM에서 PostgreSQL·Auth·Post
 - **네이버 도서 코드는 전량 제거했다**(26.08.01). 되살릴 API가 없어 폴백으로도 남기지 않았다.
   - `packages/content-search/src/naver-books.ts`(래퍼)와 package.json의 `./naver-books` export
   - 표지 정비 스크립트 4종 `scripts/naver-thumb-{verify,refresh,title-search,author-search}.mjs` — 네이버 ISBN 검색 전용이라 통째로 폐기. 표지 정비가 다시 필요하면 카카오 기준으로 새로 만든다
-  - fiction 원전 등록 스크립트 2종 `sw/web-bo/scripts/{search-naver-fiction-sources,sync-fiction-source-rosters}.ts` — 26.07.29 완료된 일회성 작업이고 결과는 DB와 `celeb-pipeline.md`「현행 연결 기준선」에 남아 있다. 회수하려면 `git show <삭제 직전 커밋>:<경로>`
 - 네이버 **뉴스·블로그·이미지** 래퍼는 그대로 쓴다(같은 키, 정상 동작).
-- 셀럽 콘텐츠 수집 파이프라인의 BOOK 트랙(`docs/project/celeb/celeb-2-content-collector.md`)도 카카오 기준으로 갱신했다.
+- 셀럽 BOOK의 작품·판본·메타 등록은 [`celeb-02-02-content-registration.md`](../celeb/celeb-02-02-content-registration.md)를 따른다.
 
 ### 카카오(다음) 도서 검색 — 네이버 대체 (26.08.01 전환)
 

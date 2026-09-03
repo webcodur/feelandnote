@@ -55,4 +55,6 @@ iTunes가 `저스틴 비버`를 `Justin Bieber`처럼 돌려줄 수 있다. 괄�
 | 문서 | 내용 |
 |------|------|
 | `docs/project/platform/external-services.md` 「외부 콘텐츠 검색 API」 | Apple 음악 연동 SSoT |
-| `docs/project/celeb/celeb-2-content-collector.md` 「MUSIC - Apple Music」 | 조사와 즉시 등록 절차 |
+| `docs/project/celeb/celeb-02-01-content-research.md` | 감상 근거와 `source_url` 채택 규칙 |
+| `docs/project/celeb/celeb-02-02-content-registration.md` 「MUSIC - Apple Music」 | iTunes 메타 확인과 즉시 등록 절차 |
+| `docs/project/celeb/celeb-02-03-content-review.md` | `review`·`review_en` 작성 규칙 |
