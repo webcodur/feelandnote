@@ -43,18 +43,44 @@
   .list { margin: 0; padding: 0; list-style: none; }
   .list li + li { border-top: 1px solid color-mix(in srgb, var(--material-edge) 28%, transparent); }
 
-  .person {
-    display: grid;
+  .person, .personAction {
     width: 100%;
     min-height: 84px;
     padding: 12px 12px 12px 16px;
-    grid-template-columns: 58px minmax(0, 1fr);
-    align-items: center;
-    gap: 13px;
     border-inline-start: 2px solid color-mix(in srgb, var(--material-edge) 38%, transparent);
     color: var(--material-text);
     background: transparent;
   }
+  /* 버튼 없는 행만 li 격자로 놓는다. 버튼 행은 li를 상자로 두고 버튼이 격자를 쥔다. */
+  .person {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    align-items: center;
+    gap: 13px;
+  }
+  .personAction { display: block; }
+
+  /* 등록 인물 행의 진입 버튼. li와 같은 격자 위에 아이콘 칸만 얹는다. */
+  .personGo {
+    display: grid;
+    width: 100%;
+    padding: 0;
+    grid-template-columns: 58px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 13px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .goIcon {
+    flex-shrink: 0;
+    color: var(--material-accent);
+    opacity: .7;
+  }
+  .personGo:hover .goIcon { opacity: 1; }
 
   .portrait {
     display: grid;

@@ -68,7 +68,7 @@ function InspectorCard(props: Props) {
         {portrait}
         <span className={styles.inspectorVoiceBadge} aria-hidden>
           {props.speakingLoading ? <LoaderCircle className="animate-spin" />
-            : <VoiceBadge size="lg" active={props.hasVoice} pulse={props.voicePulse} />}
+            : <VoiceBadge size="lg" active={props.hasVoice} playing={props.speakingLoading} pulse={props.voicePulse} />}
         </span>
       </button> : <span className={styles.inspectorAvatar}>{portrait}</span>}
     </div>
