@@ -1,6 +1,6 @@
 /*
   파일명: /actions/library/curated.ts
-  기능: 기관 선정 — 대학·언론·시상기관 등이 발표한 작품 목록 조회
+  기능: 기관 선정 — 대학·언론·시상 기관 등이 발표한 작품 목록 조회
   책임: 허브(성격별 기관 진열), 기관 상세, 목록 상세, 그리고 작품 상세의 선정 이력 역조회를 낸다.
 */ // ------------------------------
 
@@ -97,16 +97,28 @@ function toCuratorSummary(c: CuratorRow, locale: string, listCount: number): Cur
   }
 }
 
+interface CuratorMeta {
+  name: string
+  logoUrl: string | null
+  kind: string
+  country?: string | null
+}
+
 function toListSummary(
   l: ListRow,
   locale: string,
   itemCount: number,
   curatorSlug: string,
-  covers: string[] = []
+  covers: string[] = [],
+  curator?: CuratorMeta
 ): CuratedListSummary {
   return {
     slug: l.slug,
     curatorSlug,
+    curatorName: curator?.name,
+    curatorLogoUrl: curator?.logoUrl,
+    curatorKind: curator?.kind,
+    curatorCountry: curator?.country ?? null,
     title: pick(l.title, l.title_en, locale),
     description: pickOrNull(l.description, l.description_en, locale),
     publishedYear: l.published_year,
@@ -190,14 +202,32 @@ async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
     locale
   )
 
-  const slugById = new Map(curatorRows.map((c) => [c.id, c.slug]))
+  const curatorById = new Map(
+    curatorRows.map((c) => [
+      c.id,
+      {
+        slug: c.slug,
+        name: pick(c.name, c.name_en, locale),
+        logoUrl: c.logo_url,
+        kind: c.kind,
+        country: c.country,
+      },
+    ])
+  )
   const listsByCurator = new Map<string, CuratedListSummary[]>()
   for (const l of listRows) {
-    const curatorSlug = slugById.get(l.curator_id)
-    if (!curatorSlug) continue
+    const curatorInfo = curatorById.get(l.curator_id)
+    if (!curatorInfo) continue
     const itemCount = l.curated_list_items?.[0]?.count ?? 0
     const arr = listsByCurator.get(l.curator_id)
-    const summary = toListSummary(l, locale, itemCount, curatorSlug, coversByList.get(l.id) ?? [])
+    const summary = toListSummary(
+      l,
+      locale,
+      itemCount,
+      curatorInfo.slug,
+      coversByList.get(l.id) ?? [],
+      curatorInfo
+    )
     if (arr) arr.push(summary)
     else listsByCurator.set(l.curator_id, [summary])
   }
@@ -247,7 +277,12 @@ async function fetchCurator(slug: string, locale: string): Promise<CuratorDetail
   return {
     ...toCuratorSummary(c, locale, listRows.length),
     lists: listRows.map((l) =>
-      toListSummary(l, locale, l.curated_list_items?.[0]?.count ?? 0, c.slug, coversByList.get(l.id) ?? [])
+      toListSummary(l, locale, l.curated_list_items?.[0]?.count ?? 0, c.slug, coversByList.get(l.id) ?? [], {
+        name: pick(c.name, c.name_en, locale),
+        logoUrl: c.logo_url,
+        kind: c.kind,
+        country: c.country,
+      })
     ),
   }
 }
@@ -345,7 +380,12 @@ async function fetchCuratedList(listSlug: string, locale: string, showAll: boole
 
   return {
     // 편수는 화면에 그린 수가 아니라 목록이 담은 전체 수다(잘라 보내도 「100편」은 그대로여야 한다)
-    ...toListSummary(l, locale, total, c.slug),
+    ...toListSummary(l, locale, total, c.slug, [], {
+      name: pick(c.name, c.name_en, locale),
+      logoUrl: c.logo_url,
+      kind: c.kind,
+      country: c.country,
+    }),
     method: pickOrNull(l.method, l.method_en, locale),
     sourceUrl: l.source_url,
     curator: toCuratorSummary(c, locale, 0),

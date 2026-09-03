@@ -92,7 +92,9 @@ export interface CuratedBrowse {
   kind: string | null;
   topic: string | null;
   activeMedia: string | null;
+  /** null이면 전체 모드 — 갈래를 가리지 않고 매체 안을 전부 보여준다 */
   activeKind: string | null;
+  /** null이면 전체 모드 — 주제를 가리지 않고 매체 안을 전부 보여준다 */
   activeTopic: string | null;
   useTopics: boolean;
   /** 고른 매체 안에서 다시 센 갈래 — 책↔영상 갈아탈 때 함께 갈린다 */
@@ -103,8 +105,8 @@ export interface CuratedBrowse {
   shown: ScopeCurator[];
   setMedia: (media: string | null) => void;
   setViewTopic: (view: boolean) => void;
-  setKind: (kind: string) => void;
-  setTopic: (topic: string) => void;
+  setKind: (kind: string | null) => void;
+  setTopic: (topic: string | null) => void;
 }
 
 export function useCuratedBrowse(
@@ -175,13 +177,18 @@ export function useCuratedBrowse(
     [topicCounts]
   );
 
-  // 매체를 갈아타면 구성이 통째로 바뀐다. 지금 매체에 없는 값은 첫 항목으로 흘려보낸다
-  const activeKind = kind && kindCounts.has(kind) ? kind : kinds[0] ?? null;
-  const activeTopic = topic && topicCounts.has(topic) ? topic : topics[0] ?? null;
+  // null은 전체 모드다 — 매체 안을 가리지 않고 전부 보여준다.
+  // 같은 칩을 다시 누르면 선택이 풀려 전체로 돌아간다.
+  const activeKind = kind && kindCounts.has(kind) ? kind : null;
+  const activeTopic = topic && topicCounts.has(topic) ? topic : null;
   const useTopics = viewTopic && topics.length > 0;
   const inMediaShown = useTopics
-    ? (topicGroups.get(activeTopic ?? "") ?? [])
-    : inMedia.filter((c) => c.kind === activeKind);
+    ? activeTopic
+      ? (topicGroups.get(activeTopic) ?? [])
+      : inMedia
+    : activeKind
+      ? inMedia.filter((c) => c.kind === activeKind)
+      : inMedia;
 
   const setMedia = (m: string | null) => {
     setMediaState(m);
@@ -189,12 +196,12 @@ export function useCuratedBrowse(
     setTopicState(null);
   };
   const setViewTopic = (v: boolean) => setViewTopicState(v);
-  const setKind = (k: string) => {
-    setKindState(k);
+  const setKind = (k: string | null) => {
+    setKindState((prev) => (k === null || k === prev ? null : k));
     setViewTopicState(false);
   };
-  const setTopic = (t: string) => {
-    setTopicState(t);
+  const setTopic = (t: string | null) => {
+    setTopicState((prev) => (t === null || t === prev ? null : t));
     setViewTopicState(true);
   };
 

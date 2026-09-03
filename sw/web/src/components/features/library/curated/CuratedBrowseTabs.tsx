@@ -25,8 +25,8 @@ export interface CuratedBrowseTabsProps {
   /** 이 값이 있으면 link 모드다 — 항목이 주어진 주소로 이동한다 */
   linkHref?: (query: CuratedBrowseTabsLinkQuery) => string;
   onSelectMedia?: (media: string | null) => void;
-  onSelectKind?: (kind: string) => void;
-  onSelectTopic?: (topic: string) => void;
+  onSelectKind?: (kind: string | null) => void;
+  onSelectTopic?: (topic: string | null) => void;
   onView?: (viewTopic: boolean) => void;
   /** 매체 탭 표시 여부를 강제할 때(단일 매체 화면 등) */
   showMedia?: boolean;
@@ -72,7 +72,8 @@ export default function CuratedBrowseTabs({
   // link 모드에서도 토글 자체는 살아 있어 탭 줄을 바꾼다(허브 조합으로 이동하는 길목을 제공).
   const showViewToggle = browse.topics.length > 0;
 
-  // 고른 갈래에 따라 탭 줄이 바뀐다 — 주제를 안 골랐으면 기관(성격) 탭을 본다.
+  // 고른 갈래에 따라 탭 줄이 바뀐다. 전체 칩은 두지 않는다.
+  // 활성화된 칩을 다시 누르면 선택이 풀려 전체 모드(매체 안 전부)가 된다.
   // 책↔영상으로 갈아타면 이 집계도 매체 안에서 다시 센 값으로 따라 갈린다.
   const showTopicView = browse.useTopics;
   const tabOptions: CategoryTabOption[] = showTopicView
@@ -86,7 +87,8 @@ export default function CuratedBrowseTabs({
         label: kindLabel(t, k),
         count: browse.kindCounts.get(k) ?? 0,
       }));
-  const activeTab = showTopicView ? activeTopic : activeKind;
+  // 전체 모드(null)에서는 고른 값이 없어 모든 칩이 비활성으로 보인다
+  const activeTab = (showTopicView ? activeTopic : activeKind) ?? "";
 
   // 책/영상 갈래와 「기관별/주제별」 토글은 같은 성격의 선택(카테고리)이라 한 행에 두고,
   // 그 아래에 고른 갈래의 세부 탭(기관 목록·주제 목록) 줄을 별도로 둔다.
@@ -125,27 +127,30 @@ export default function CuratedBrowseTabs({
         )}
       </div>
 
-      {/* ── 세부 탭 줄 — 고른 갈래(기관 or 주제)의 목록 */}
+      {/* ── 세부 탭 줄 — 고른 갈래(기관 or 주제)의 목록. 전체 칩 없이 개별 칩만 둔다.
+          전체 모드에서는 모든 칩이 은은한 선택 상태로 보인다 */}
       {showTopicView && tabOptions.length > 0 && (
         <CategoryTabFilter
           options={tabOptions}
-          value={activeTab ?? ""}
+          value={activeTab}
           linkTo={linkHref ? (v) => linkFor({ media: activeMedia ?? undefined, topic: v }) : undefined}
           onChange={linkHref ? undefined : (v) => onSelectTopic?.(v)}
           align={align}
           size={size}
           subtle
+          faintAllActive
         />
       )}
       {!showTopicView && tabOptions.length > 0 && (
         <CategoryTabFilter
           options={tabOptions}
-          value={activeTab ?? ""}
+          value={activeTab}
           linkTo={linkHref ? (v) => linkFor({ media: activeMedia ?? undefined, kind: v }) : undefined}
           onChange={linkHref ? undefined : (v) => onSelectKind?.(v)}
           align={align}
           size={size}
           subtle
+          faintAllActive
         />
       )}
     </div>
