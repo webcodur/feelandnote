@@ -18,6 +18,7 @@ import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/s
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { REPO_ROOT } from '../lib/paths'
+import { normTitle, creatorMatches, titleMatches, titleAlternatives } from './lib/match'
 
 const ROOT = REPO_ROOT
 const WORK = join(ROOT, 'data/curated-lists/_korean-titles')
@@ -37,47 +38,8 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 // ────────────────────────────────────────────────────
 // #region 대조 규칙
-/** 제목 정규화 — 부제·괄호주석·관사·문장부호를 털어낸다 */
-function normTitle(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/\([^)]*\)/g, ' ')
-    .replace(/[:：].*$/, ' ')
-    .replace(/\b(the|a|an)\b/g, ' ')
-    .replace(/[^\p{L}\p{N}]/gu, '')
-}
-
-/** 저자 정규화 — 공백·구두점을 털고 소문자로 */
-function normCreator(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/\([^)]*\)/g, ' ')
-    .replace(/[^\p{L}\p{N}]/gu, '')
-}
-
-/** 한글 저자끼리는 성씨 한 글자 차이도 크므로 포함 관계까지만 인정한다 */
-function creatorMatches(want: string | null, got: string | null): boolean {
-  if (!want || !got) return false
-  const a = normCreator(want)
-  const b = normCreator(got)
-  if (!a || !b) return false
-  if (a === b) return true
-  // 여러 저자를 ^ 나 , 로 이어 붙인 표기
-  for (const part of got.split(/[\^,·&]/)) {
-    const p = normCreator(part)
-    if (p && (p === a || (p.length >= 2 && a.includes(p)) || (a.length >= 2 && p.includes(a)))) return true
-  }
-  return a.includes(b) || b.includes(a)
-}
-
-function titleMatches(want: string, got: string): boolean {
-  const a = normTitle(want)
-  const b = normTitle(got)
-  if (!a || !b) return false
-  if (a === b) return true
-  // 「파운데이션」과 「파운데이션 1」처럼 권수만 붙은 경우
-  return (a.length >= 2 && b.startsWith(a)) || (b.length >= 2 && a.startsWith(b))
-}
+// 판별 규칙은 lib/match.ts 하나가 쥔다. 여기에 복사본을 만들지 마라 —
+// 진단 스크립트와 자가 어긋나 「진단은 통과인데 적재는 실패」가 난다.
 // #endregion
 
 // ────────────────────────────────────────────────────
@@ -105,6 +67,32 @@ function fullSizeCover(url: string | null | undefined): string | null {
   const m = url.match(/[?&]fname=([^&]+)/)
   if (!m) return url
   return decodeURIComponent(m[1]).replace(/^http:\/\//, 'https://')
+}
+
+/**
+ * 카카오에서 그 책을 찾는다. 제목+저자 → 제목 → 대체 제목 순으로 물러난다.
+ *
+ * 도서관 표기가 두 작품을 묶어 둔 「등대로, 자기만의 방」 같은 항목은 그대로 검색하면
+ * 0건이라 그냥 「없는 책」이 됐다. 저자가 맞을 때만 부제 뒤에 제목이 오는 표기도 인정한다.
+ */
+async function findOnKakao(koTitle: string, koCreator: string | null) {
+  const queries = [
+    koCreator ? `${koTitle} ${koCreator}` : koTitle,
+    koTitle,
+    ...titleAlternatives(koTitle).map((t) => (koCreator ? `${t} ${koCreator}` : t)),
+  ]
+  for (const q of queries) {
+    const found = await searchKakao(q)
+    await sleep(120)
+    if (!found.length) continue
+    const best = found.find((f) => {
+      const ck = koCreator ? creatorMatches(koCreator, f.creator) : false
+      const gate = koCreator ? ck : true // 저자를 모르면 제목만 본다(엄격)
+      return gate && titleMatches(koTitle, f.title, ck)
+    })
+    if (best) return best
+  }
+  return null
 }
 // #endregion
 
@@ -139,6 +127,12 @@ async function main() {
   const args = process.argv.slice(2)
   const dry = args.includes('--dry')
   const unlinkOnly = args.includes('--unlink')
+  /**
+   * 이미 한국어 책이 붙어 있고 GPT도 같은 작품이라 한 항목은 그대로 둔다.
+   * 다시 이으면 같은 작품의 다른 판으로 갈아 끼워질 뿐이고(「레베카」→「레베카(양장본)」)
+   * 축약본·합본으로 내려앉는 쪽도 섞인다. --relink 를 주면 옛 동작대로 전부 다시 잇는다
+   */
+  const relink = args.includes('--relink')
 
   const db = createClient(
     process.env.NEXT_PUBLIC_DB_API_URL!,
@@ -146,10 +140,12 @@ async function main() {
   )
 
   const answers: Record<string, Answer> = JSON.parse(readFileSync(join(WORK, 'answers.json'), 'utf-8'))
-  const rows = Object.values(answers)
   const targets: Target[] = JSON.parse(readFileSync(join(WORK, 'targets.json'), 'utf-8'))
   const targetById = new Map(targets.map((t) => [t.id, t]))
-  console.log(`답변 ${rows.length}건`)
+  // answers.json 은 지난 회차 답까지 누적한다. 이번 대상(targets.json)에 든 것만 손댄다 —
+  // 그래야 --list 로 목록을 한정했을 때 다른 목록의 기존 연결이 흔들리지 않는다
+  const rows = Object.values(answers).filter((r) => targetById.has(r.id))
+  console.log(`답변 ${Object.keys(answers).length}건 중 이번 대상 ${rows.length}건`)
 
   // ── 1) 오연결 해제
   const wrong = rows.filter((r) => r.linkedOk === false)
@@ -188,6 +184,7 @@ async function main() {
   let registered = 0
   let addedLocale = 0
   let notFound = 0
+  let keptLinked = 0
   /** 영문판만 있는 책에 한국어판을 더해야 하는 것 — 새 책을 만들면 같은 작품이 둘로 갈린다 */
   const needKoLocale: { id: string; contentId: string; koTitle: string; koCreator: string | null }[] = []
   const stillMissing: { id: string; koTitle: string; koCreator: string | null }[] = []
@@ -195,6 +192,12 @@ async function main() {
   for (const [idx, r] of withKo.entries()) {
     if (idx % 200 === 0 && idx > 0) console.log(`  ... ${idx}/${withKo.length}`)
     const tgt = targetById.get(r.id)
+
+    // 멀쩡히 붙어 있는 한국어 연결은 건드리지 않는다
+    if (!relink && tgt?.state === 'linked-ko' && tgt.contentId && r.linkedOk !== false) {
+      keptLinked++
+      continue
+    }
 
     // 이미 붙어 있는 책이 영문판만 가진 경우 — 그 책에 한국어판을 더한다.
     // 갈아 끼우면 감상 기록이 붙은 원래 작품과 갈라진다
@@ -217,7 +220,8 @@ async function main() {
     stillMissing.push({ id: r.id, koTitle: r.koTitle!, koCreator: r.koCreator })
   }
 
-  console.log(`\n서재에 이미 있어 이어 붙인 것 ${matchedExisting}건`)
+  console.log(`\n이미 맞게 붙어 있어 그대로 둔 것 ${keptLinked}건`)
+  console.log(`서재에 이미 있어 이어 붙인 것 ${matchedExisting}건`)
   console.log(`영문판 책에 한국어판을 더할 것 ${needKoLocale.length}건`)
   console.log(`서점에서 찾아야 하는 것 ${stillMissing.length}건`)
   if (dry) {
@@ -230,14 +234,7 @@ async function main() {
   for (const [idx, m] of needKoLocale.entries()) {
     if (idx % 100 === 0) console.log(`  한국어판 추가 ${idx}/${needKoLocale.length}`)
     try {
-      const q = m.koCreator ? `${m.koTitle} ${m.koCreator}` : m.koTitle
-      let found = await searchKakao(q)
-      if (found.length === 0) found = await searchKakao(m.koTitle)
-      await sleep(120)
-
-      const best = found.find(
-        (f) => titleMatches(m.koTitle, f.title) && (!m.koCreator || creatorMatches(m.koCreator, f.creator))
-      )
+      const best = await findOnKakao(m.koTitle, m.koCreator)
       if (!best) {
         notFound++
         continue
@@ -267,14 +264,7 @@ async function main() {
   for (const [idx, m] of stillMissing.entries()) {
     if (idx % 50 === 0) console.log(`  등록 ${idx}/${stillMissing.length}`)
     try {
-      const q = m.koCreator ? `${m.koTitle} ${m.koCreator}` : m.koTitle
-      let found = await searchKakao(q)
-      if (found.length === 0) found = await searchKakao(m.koTitle)
-      await sleep(120)
-
-      const best = found.find(
-        (f) => titleMatches(m.koTitle, f.title) && (!m.koCreator || creatorMatches(m.koCreator, f.creator))
-      )
+      const best = await findOnKakao(m.koTitle, m.koCreator)
       if (!best) {
         notFound++
         continue

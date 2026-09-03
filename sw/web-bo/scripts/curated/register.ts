@@ -10,6 +10,8 @@
  *   npx tsx scripts/register-curated-books.ts --limit 30         # 30건만
  *   npx tsx scripts/register-curated-books.ts --list <slug>      # 특정 목록만
  *   npx tsx scripts/register-curated-books.ts                    # 전량
+ *   --exact                    제목 정규화 후 완전일치만 채택하고, 분권·원서·합본·요약·해설 표식이 붙은 후보는 버린다
+ *   --skip <파일>              한 줄에 raw_title 하나. 적힌 항목은 등록하지 않는다(dry에서 사람이 걸러낸 것)
  *
  * ⚠️ packages/content-search를 쓰지 않고 API를 직접 부른다 — 그 패키지가 편집 중이라
  *    미완성 상태에 이 작업이 발목 잡히지 않게 하기 위함이다.
@@ -63,11 +65,27 @@ function editDistance(a: string, b: string): number {
   return prev[n]
 }
 
+/** --exact: 제목이 정규화 후 완전히 같을 때만 채택한다 */
+let EXACT = false
+
+/**
+ * 정규화가 지워 버리는 괄호·부제 안에 숨는 「다른 판본」 표식.
+ * 『영국노동계급의 형성(하)』『어둠의 속 (영어 원서)』『금강삼매경론 제1권』은 정규화 뒤 원문과 같아지지만
+ * 목록이 가리키는 작품 그 자체가 아니다. --exact에서만 거른다.
+ */
+const VARIANT_MARK =
+  /(합본|전집|세트|요약|해설|문제집|축약|다이제스트|만화|필사|워크북|오디오북|원서|영어판|독일어판|일본어판|프랑스어판|중국어판|영문판|윗대목|아랫대목|상권|하권|중권|\((상|중|하)\)|제\s*\d+\s*권|\d+\s*권|(^|[\s(])(상|하)([\s)]|$))/
+
+function variantMarked(title: string): boolean {
+  return EXACT && VARIANT_MARK.test(title.normalize('NFKC'))
+}
+
 function titleClose(a: string, b: string): boolean {
   const x = normTitle(a)
   const y = normTitle(b)
   if (!x || !y) return false
   if (x === y) return true
+  if (EXACT) return false
   // 부제가 붙거나 떨어진 경우까지 인정하되, 한쪽이 다른 쪽에 온전히 들어 있을 때만
   if (x.length >= 6 && y.length >= 6 && (x.startsWith(y) || y.startsWith(x))) return true
   const len = Math.max(x.length, y.length)
@@ -363,7 +381,7 @@ function scriptOf(s: string): 'ko' | 'ja' | 'cjk' | 'latin' | 'other' {
  *   글자 대조가 불가능한 경우에 한해 제목 완전일치만으로 채택한다.
  */
 function bestOf(cands: Found[], rawTitle: string, rawCreator: string | null, authorInQuery = false): Found | null {
-  const titleOk = cands.filter((c) => c.title && titleClose(rawTitle, c.title))
+  const titleOk = cands.filter((c) => c.title && titleClose(rawTitle, c.title) && !variantMarked(c.title))
   if (titleOk.length === 0) return null
   if (!rawCreator) {
     // 저자가 없는 항목은 표지가 있는 쪽을 고른다 — 목록 화면이 표지로 읽히기 때문이다
@@ -400,6 +418,16 @@ async function main() {
   const limit = limitIdx >= 0 ? Number(args[limitIdx + 1]) : Infinity
   const listIdx = args.indexOf('--list')
   const onlyList = listIdx >= 0 ? args[listIdx + 1] : null
+  EXACT = args.includes('--exact')
+  const skipIdx = args.indexOf('--skip')
+  const skipTitles = new Set<string>(
+    skipIdx >= 0
+      ? readFileSync(args[skipIdx + 1], 'utf-8')
+          .split('\n')
+          .map((l) => l.replace(/\r$/, '').trim())
+          .filter(Boolean)
+      : []
+  )
 
   loadEnv(boPath('.env'))
   const { NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY } = process.env as Record<string, string>
@@ -423,7 +451,9 @@ async function main() {
     .order('id', { ascending: true })
   if (iErr) throw new Error(`항목 조회 실패: ${iErr.message}`)
 
-  const targets = (items ?? []).slice(0, limit === Infinity ? undefined : limit) as ItemRow[]
+  const targets = ((items ?? []) as ItemRow[])
+    .filter((it) => !skipTitles.has(it.raw_title.trim()))
+    .slice(0, limit === Infinity ? undefined : limit)
   console.log(`${dry ? '[점검만]' : '[등록]'} 미연결 항목 ${targets.length}건\n`)
 
   let linkedExisting = 0
