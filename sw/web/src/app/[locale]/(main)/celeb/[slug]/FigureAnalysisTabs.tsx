@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] analysis — 분석 탭(스펙트럼·영향력)
+ * - 목차 위치: analysis (spectrum/influence)
+ * - 데이터: item.children/spectrumData/influenceData props
+ * - 함께 보기: SpectrumSection.tsx, CelebInfluenceSection.tsx, ArchiveTabsHeader.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useState } from "react";
@@ -55,7 +61,6 @@ export default function FigureAnalysisTabs({
         onChange={setTab}
         columnsClassName={visibleTabs.length === 1 ? "grid-cols-1" : "grid-cols-2"}
         ariaLabel={t("analysis")}
-        mobileTextClassName="text-lg"
       />
 
       <div

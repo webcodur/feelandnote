@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] sourceWorks — 원전 소개글(펼침 모달)
+ * - 목차 위치: sourceWorks
+ * - 데이터: description/label/sourceTitle props
+ * - 함께 보기: FictionSourceFeature.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
@@ -24,6 +30,7 @@ export default function FictionSourceIntroduction({
   const [isOverflowing, setIsOverflowing] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  /* ── 1. 넘침 측정 ── */
   useEffect(() => {
     const preview = previewRef.current;
     if (!preview) return;
@@ -81,6 +88,7 @@ export default function FictionSourceIntroduction({
   );
 }
 
+/* ── 2. 전체 보기 모달 ── */
 function IntroductionModal({
   description,
   label,

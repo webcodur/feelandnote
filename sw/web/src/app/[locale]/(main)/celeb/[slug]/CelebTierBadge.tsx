@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 머리말 — 가상 인물 뱃지
+ * - 목차 위치: 머리말 (introduction)
+ * - 데이터: tier prop
+ * - 함께 보기: detail/CelebHeroSection.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useTranslations } from "next-intl";

@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 공통 — 기록 탭 머리(공용 탭 UI)
+ * - 목차 위치: 공통 (library/media 등 탭 구획)
+ * - 데이터: tabs/activeKey props
+ * - 함께 보기: LibraryTabs.tsx, FigureMediaTabs.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useState } from "react";
@@ -40,7 +46,8 @@ export default function ArchiveTabsHeader<T extends string>({
       aria-label={ariaLabel}
       onMouseLeave={() => setHoveredIndex(null)}
       className={cn(
-        "relative mb-6 grid border-b border-white/10 sm:mb-7",
+        // 제목 줄(64px 고정 헤더 + 50px 제목) 아래에 달라붙는다. 판을 깔아 겹침을 막는다.
+        "celeb-mode-tabs sticky top-[114px] z-[39] mb-6 grid border-b border-white/10 bg-[color-mix(in_srgb,var(--material-panel,var(--color-bg-card))_92%,transparent)] backdrop-blur-md sm:mb-7",
         columnsClassName,
         className,
       )}
@@ -72,7 +79,7 @@ export default function ArchiveTabsHeader<T extends string>({
             onFocus={() => setHoveredIndex(index)}
             onBlur={() => setHoveredIndex(null)}
             className={cn(
-              "relative flex h-12 items-center justify-center px-1 text-center text-base font-medium leading-none sm:h-16 sm:px-2 sm:text-[22px]",
+              "relative flex h-10 items-center justify-center px-1 text-center text-sm font-medium leading-none sm:h-12 sm:px-2 sm:text-xl",
               mobileTextClassName,
               isActive ? "text-accent" : "",
             )}

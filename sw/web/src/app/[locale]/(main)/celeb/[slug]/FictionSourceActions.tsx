@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] sourceWorks — 원전 바로가기·구매 단추
+ * - 목차 위치: sourceWorks
+ * - 데이터: source/edition props
+ * - 함께 보기: FictionSourceFeature.tsx, FictionSourceWorksSection.tsx
+ * ───────────────────────────────────────────── */
 import { ArrowUpRight, BookOpenText, ShoppingBag } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type {

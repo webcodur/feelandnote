@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 머리말 — SEO 메타데이터 조립
+ * - 목차 위치: 머리말
+ * - 데이터: getCelebBySlug, getFictionSourcesForCeleb 서버액션
+ * - 함께 보기: celebPageJsonLd.ts, page.tsx
+ * ───────────────────────────────────────────── */
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 

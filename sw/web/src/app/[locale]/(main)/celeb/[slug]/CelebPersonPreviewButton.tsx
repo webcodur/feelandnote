@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] connections — 인물 미리보기 단추(공용)
+ * - 목차 위치: connections (relations)
+ * - 데이터: name/avatarUrl/onClick props
+ * - 함께 보기: useCelebPreview.ts, RelationGraphSection.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";

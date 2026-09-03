@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] videos — 서재탐방 영상(본편·쇼츠)
+ * - 목차 위치: media > videos
+ * - 데이터: longform/shorts(youtube_videos) props
+ * - 함께 보기: FigureMediaTabs.tsx, detail/celebDetailData.ts
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useTranslations } from "next-intl";
@@ -31,6 +37,7 @@ export default function VideosSection({
     );
   }
 
+  /* ── 1. 본편·단편 렌더 ── */
   return (
     <div className="relative space-y-9">
       {/* ── 본편 ── */}
@@ -105,6 +112,7 @@ export default function VideosSection({
 /* ─────────────────────────────────────────────────────────
  * 섹션 헤더 — "마르퀴(marquee)": 고전 극장 프로그램판 톤
  * ─────────────────────────────────────────────────────── */
+/* ── 2. 마르퀴 헤더 ── */
 function Marquee({
   ordinal,
   title,
@@ -134,6 +142,7 @@ function Marquee({
 /* ─────────────────────────────────────────────────────────
  * 본편 카드 — 로만 번호 원형 인장 + 모서리 브래킷
  * ─────────────────────────────────────────────────────── */
+/* ── 3. 본편·단편 카드 ── */
 function FeatureCard({
   index,
   videoId,
@@ -146,7 +155,7 @@ function FeatureCard({
   return (
     <div className="group relative">
       {/* 좌상단 로만 인장 */}
-      <div className="absolute -top-2.5 -left-2.5 z-20 w-9 h-9 rounded-full bg-bg-main border border-accent/50 flex items-center justify-center font-serif text-sm text-accent shadow-[0_2px_12px_rgba(0,0,0,0.4)] group-hover:border-accent group-hover:shadow-[0_2px_16px_rgba(180,150,90,0.25)] transition-all duration-500">
+      <div className="absolute -top-2.5 -left-2.5 z-20 w-9 h-9 rounded-full bg-bg-main border border-accent/50 flex items-center justify-center font-serif text-sm text-accent shadow-[0_2px_12px_rgba(0,0,0,0.4)] group-hover:border-accent group-hover:shadow-[0_2px_16px_rgba(180,150,90,0.25)] transition-[border-color,box-shadow] duration-500">
         {romanOf(index)}
       </div>
 
@@ -155,7 +164,7 @@ function FeatureCard({
       <CornerBracket pos="bl" />
 
       {/* 영상 프레임 */}
-      <div className="relative aspect-video rounded-[2px] overflow-hidden bg-bg-secondary ring-1 ring-accent/10 group-hover:ring-accent/50 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+      <div className="relative aspect-video rounded-[2px] overflow-hidden bg-bg-secondary ring-1 ring-accent/10 group-hover:ring-accent/50 transition-[box-shadow,border-color] duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
         {/* 필름 노이즈 오버레이 (미묘) */}
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.04] mix-blend-overlay z-10"
@@ -167,6 +176,7 @@ function FeatureCard({
         <iframe
           src={`https://www.youtube.com/embed/${videoId}`}
           title={title ?? "YouTube video"}
+          loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           className="w-full h-full relative"
@@ -205,10 +215,11 @@ function VignetteCard({
       </div>
 
       {/* 영상 프레임 */}
-      <div className="aspect-[9/16] rounded-[2px] overflow-hidden bg-bg-secondary ring-1 ring-accent/10 group-hover:ring-accent/60 transition-all duration-500 shadow-[0_3px_14px_rgba(0,0,0,0.35)] group-hover:shadow-[0_6px_20px_rgba(0,0,0,0.5)]">
+      <div className="aspect-[9/16] rounded-[2px] overflow-hidden bg-bg-secondary ring-1 ring-accent/10 group-hover:ring-accent/60 transition-[box-shadow,border-color] duration-500 shadow-[0_3px_14px_rgba(0,0,0,0.35)] group-hover:shadow-[0_6px_20px_rgba(0,0,0,0.5)]">
         <iframe
           src={`https://www.youtube.com/embed/${videoId}`}
           title={title ?? "YouTube Shorts"}
+          loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           className="w-full h-full"

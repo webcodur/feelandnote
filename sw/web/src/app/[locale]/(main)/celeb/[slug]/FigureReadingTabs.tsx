@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] reading — 읽어보기(인물 안내)
+ * - 목차 위치: reading (person-guide)
+ * - 데이터: profile.reading prop
+ * - 함께 보기: detail/CelebRecordSections.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";

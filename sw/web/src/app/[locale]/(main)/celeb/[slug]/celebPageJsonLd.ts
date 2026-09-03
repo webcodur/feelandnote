@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 머리말 — 구조화 데이터(JSON-LD) 조립
+ * - 목차 위치: 머리말
+ * - 데이터: profile/contents/fictionSources/externalLinks props
+ * - 함께 보기: celebPageMetadata.ts, page.tsx
+ * ───────────────────────────────────────────── */
 import type { JsonLdContentRow } from "@/actions/celebs/getCelebJsonLdData";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
