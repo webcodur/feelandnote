@@ -1,19 +1,16 @@
 /*
   파일명: /components/features/library/curated/CuratedHubView.tsx
   기능: 기관 선정 허브 화면
-  책임: 고른 갈래(카테고리·기관·주제)에 따라 선정 기관들을 단정한 아코디언 서가로 진열한다.
-        기관을 누르면 해당 기관의 소개와 목록이 집중도 있게 열리고,
-        목록을 누르면 그 자리에서 퀵 프리뷰 모달을 띄워 탐색 흐름을 가볍게 유지한다.
+  책임: 고른 갈래(카테고리·기관·주제)에 따라 선정 기관들을 서가 카드로 진열한다.
+        기관 카드는 늘 펼쳐진 채로 전용관과 선정 목록으로 가는 길을 함께 내보인다.
 */ // ------------------------------
 
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
-import type { CuratedHub, CuratedListSummary } from "@/actions/library/types";
+import type { CuratedHub } from "@/actions/library/types";
 import CuratedBrowseTabs from "./CuratedBrowseTabs";
-import CuratorAccordion from "./CuratorAccordion";
-import CuratedListModal from "./CuratedListModal";
+import CuratorCard from "./CuratorCard";
 import { useCuratedBrowse, type CuratedBrowseInitial } from "./useCuratedBrowse";
 
 export default function CuratedHubView({
@@ -36,14 +33,6 @@ export default function CuratedHubView({
   };
   const browse = useCuratedBrowse(hub.curators, initial);
   const { shown } = browse;
-
-  // 현재 열려 있는 기관 (한 번에 1곳만 펼쳐 시각적 피로도를 방지, 기본값은 첫 번째 기관)
-  const [openCuratorSlug, setOpenCuratorSlug] = useState<string | null>(
-    shown[0]?.slug ?? null
-  );
-
-  // 퀵 프리뷰 모달에 띄울 목록
-  const [activeList, setActiveList] = useState<CuratedListSummary | null>(null);
 
   /**
    * 탭을 갈아도 서버를 다시 다녀오지 않는다 — 기관 자료는 이미 전부 받아 두었다.
@@ -88,15 +77,10 @@ export default function CuratedHubView({
         onSelectKind={(k) => {
           browse.setKind(k);
           syncUrl({ media: browse.activeMedia, kind: k });
-          // 카테고리가 바뀌면 바뀐 목록의 첫 번째 기관을 열어준다
-          const nextShown = browse.shown;
-          if (nextShown.length > 0) setOpenCuratorSlug(nextShown[0].slug);
         }}
         onSelectTopic={(tp) => {
           browse.setTopic(tp);
           syncUrl({ media: browse.activeMedia, topic: tp });
-          const nextShown = browse.shown;
-          if (nextShown.length > 0) setOpenCuratorSlug(nextShown[0].slug);
         }}
         onView={(v) => {
           browse.setViewTopic(v);
@@ -108,23 +92,12 @@ export default function CuratedHubView({
         }}
       />
 
-      {/* ── 기관 아코디언 서가 목록 (정갈한 단일 스택) ── */}
-      <div className="space-y-3 pt-1">
+      {/* ── 기관 서가 카드 ── */}
+      <div className="grid gap-3 pt-1 lg:grid-cols-2">
         {shown.map((curator) => (
-          <CuratorAccordion
-            key={curator.slug}
-            curator={curator}
-            isOpen={openCuratorSlug === curator.slug}
-            onToggle={() =>
-              setOpenCuratorSlug((prev) => (prev === curator.slug ? null : curator.slug))
-            }
-            onSelectList={(list) => setActiveList(list)}
-          />
+          <CuratorCard key={curator.slug} curator={curator} />
         ))}
       </div>
-
-      {/* ── 목록 퀵 프리뷰 모달 ── */}
-      <CuratedListModal list={activeList} onClose={() => setActiveList(null)} />
     </div>
   );
 }
