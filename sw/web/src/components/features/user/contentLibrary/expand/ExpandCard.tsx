@@ -76,7 +76,9 @@ function ExpandCard({
     <>
       <article className="flex w-full shrink-0 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-bg-card">
         {/* 윗칸 — 표지와 작품 소개 */}
-        <div className="grid grid-cols-1 gap-4 p-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:p-4 md:gap-x-5 md:gap-y-2 md:p-5">
+        {/* 첫 행은 표지 높이에 고정하고 나머지는 둘째 행이 먹는다.
+            소개가 두 행에 걸려도 첫 행이 늘어나지 않아 버튼이 표지 밑에 붙는다 */}
+        <div className="grid grid-cols-1 gap-4 p-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:p-4 md:grid-rows-[min-content_1fr] md:gap-x-5 md:gap-y-2 md:p-5">
           <div className="mx-auto w-36 shrink-0 sm:mx-0 sm:w-full">
           {coverUrl ? (
             <button
