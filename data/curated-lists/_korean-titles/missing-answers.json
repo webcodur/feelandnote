@@ -5668,5 +5668,140 @@
   "author": null,
   "publisher": null,
   "isbn": null
+ },
+ "15e2613a-6093-43e3-99ed-185df9079e23": {
+  "id": "15e2613a-6093-43e3-99ed-185df9079e23",
+  "rawTitle": "The Berlin Stories",
+  "published": true,
+  "title": "노리스 씨 기차를 갈아타다",
+  "author": "크리스토퍼 이셔우드",
+  "publisher": "창비",
+  "isbn": "9788936464455"
+ },
+ "164054ac-f682-48a9-88fd-1f00f9235556": {
+  "id": "164054ac-f682-48a9-88fd-1f00f9235556",
+  "rawTitle": "Speaker for the Dead",
+  "published": true,
+  "title": "사자의 대변인 1",
+  "author": "오슨 스콧 카드",
+  "publisher": "시공사",
+  "isbn": "9788952708533"
+ },
+ "1651c4c4-ad86-4b31-9904-6c43f13fd75e": {
+  "id": "1651c4c4-ad86-4b31-9904-6c43f13fd75e",
+  "rawTitle": "Mourning and Melancholia",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "165266a2-dcff-4b95-9635-0fac7ed0a31d": {
+  "id": "165266a2-dcff-4b95-9635-0fac7ed0a31d",
+  "rawTitle": "Down the River Unto the Sea",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "1655a3bf-ecd7-414e-bce5-298f43ab815a": {
+  "id": "1655a3bf-ecd7-414e-bce5-298f43ab815a",
+  "rawTitle": "Deliverance",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "165ef38d-b706-4f91-8ac5-1e9c70ea44c4": {
+  "id": "165ef38d-b706-4f91-8ac5-1e9c70ea44c4",
+  "rawTitle": "Vision",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "16a02db0-4c53-49e8-987c-2d7ddeb560e0": {
+  "id": "16a02db0-4c53-49e8-987c-2d7ddeb560e0",
+  "rawTitle": "Poems",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "17061367-932e-4161-97c6-9b2b84aab7e0": {
+  "id": "17061367-932e-4161-97c6-9b2b84aab7e0",
+  "rawTitle": "Nettle & Bone",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "173d2b69-e76a-4062-ab4e-740a0f5c3efe": {
+  "id": "173d2b69-e76a-4062-ab4e-740a0f5c3efe",
+  "rawTitle": "A Dark Matter",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "1758b1a7-08b9-44ba-8c7d-350cd3c40ee5": {
+  "id": "1758b1a7-08b9-44ba-8c7d-350cd3c40ee5",
+  "rawTitle": "Knowledge: A very short introduction",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "178eb73b-6ec5-4001-8282-0fba31042682": {
+  "id": "178eb73b-6ec5-4001-8282-0fba31042682",
+  "rawTitle": "Gift of Therapy",
+  "published": true,
+  "title": "치료의 선물",
+  "author": "어빈 D. 얄롬",
+  "publisher": "시그마프레스",
+  "isbn": "9788958321132"
+ },
+ "18b26022-9c5c-4a9b-899c-6079d1bc5fdb": {
+  "id": "18b26022-9c5c-4a9b-899c-6079d1bc5fdb",
+  "rawTitle": "Night Watch",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "1909a020-ff85-4820-adaf-13a0b2c1c4de": {
+  "id": "1909a020-ff85-4820-adaf-13a0b2c1c4de",
+  "rawTitle": "The Ghost Road",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "1929e4a4-196a-49c5-83d5-b6471bb34d22": {
+  "id": "1929e4a4-196a-49c5-83d5-b6471bb34d22",
+  "rawTitle": "Dans la main de l'Ange",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
+ },
+ "1979fa8c-d2c2-4de4-8757-c2dcc2414bf3": {
+  "id": "1979fa8c-d2c2-4de4-8757-c2dcc2414bf3",
+  "rawTitle": "This Time Forever",
+  "published": false,
+  "title": null,
+  "author": null,
+  "publisher": null,
+  "isbn": null
  }
 }

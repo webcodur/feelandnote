@@ -52,7 +52,8 @@ export default function FactionSection({
   };
 
   return (
-    <div className="space-y-6">
+    // 모드줄 다음 요소라 위를 소폭 떼어 시작한다
+    <div className="space-y-6 pt-4 md:pt-6">
       <div className="border-b border-white/10 pb-4">
         <div className="mx-auto flex w-full min-w-0 items-center justify-center gap-3 whitespace-nowrap">
           <button
