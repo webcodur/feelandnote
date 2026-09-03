@@ -436,6 +436,11 @@ async function main(): Promise<void> {
         .map((key) => anchorByKey.get(key)?.label ?? key)
       const descriptionAnchorLabels = descriptionAnchors
         .map((key) => anchorByKey.get(key)?.label ?? key)
+      const signal = workMatches.length > 0
+        || titleAnchors.length > 0
+        || representativeAnchors.length > 0
+        ? 'context'
+        : 'weak'
 
       return [{
         person: {
@@ -466,7 +471,7 @@ async function main(): Promise<void> {
             topics: [...new Set(book.curation.topics)],
           },
         },
-        signal: 'context',
+        signal,
         contextScore: Number(score.toFixed(2)),
         contextEvidence: {
           namedWorks: workMatches,
