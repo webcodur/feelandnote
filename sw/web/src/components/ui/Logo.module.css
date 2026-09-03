@@ -142,6 +142,15 @@
   background: linear-gradient(90deg, rgba(249, 215, 110, 0.9), transparent);
 }
 
+@media (max-width: 380px) {
+  .subtitle {
+    gap: 0.5em;
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-indent: 0.22em;
+  }
+}
+
 @media (min-width: 768px) {
   .fullMark {
     display: inline-flex;

@@ -25,6 +25,8 @@ export default function CelebWorldBannerView({
             src={images.mb}
             alt=""
             aria-hidden
+            fetchPriority="high"
+            decoding="async"
             className="h-full w-full object-cover"
             draggable={false}
           />

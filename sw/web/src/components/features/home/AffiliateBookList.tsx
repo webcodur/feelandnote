@@ -12,6 +12,8 @@ interface AffiliateBookListProps {
   buyLabel: string
   detailLabel: string
   compact?: boolean
+  /** 바깥 구획 머리가 제목을 맡을 때 레일 제목·윗여백을 뺀다 */
+  hideHeading?: boolean
 }
 
 /**
@@ -23,20 +25,22 @@ interface AffiliateBookListProps {
  * 좁은 화면에서는 옆으로 넘겨 보게 해 세로로 길어지지 않게 한다.
  * 대가성 안내 문구는 쿠팡 정책상 링크와 같은 화면에 있어야 하므로 여기서 함께 낸다.
  */
-export default function AffiliateBookList({ books, heading, buyLabel, detailLabel, compact = false }: AffiliateBookListProps) {
+export default function AffiliateBookList({ books, heading, buyLabel, detailLabel, compact = false, hideHeading = false }: AffiliateBookListProps) {
   if (books.length === 0) return null
 
   return (
     <section className={cn(
       "w-full border-t border-white/5",
-      compact ? "mt-3 pb-2 pt-2 md:mt-4" : "mt-12 pb-6 pt-6 md:mt-20 md:pb-10 md:pt-10",
+      hideHeading ? "mt-0 pb-2 pt-4 md:pt-6" : compact ? "mt-3 pb-2 pt-2 md:mt-4" : "mt-12 pb-6 pt-6 md:mt-20 md:pb-10 md:pt-10",
     )}>
-      <CenteredSectionHeading
-        title={heading}
-        className={compact
-          ? "mb-1 items-start px-4 text-start [&>span]:hidden [&_h2]:text-sm [&_h2]:leading-5"
-          : "mb-4 md:mb-7"}
-      />
+      {!hideHeading && (
+        <CenteredSectionHeading
+          title={heading}
+          className={compact
+            ? "mb-1 items-start px-4 text-start [&>span]:hidden [&_h2]:text-sm [&_h2]:leading-5"
+            : "mb-4 md:mb-7"}
+        />
+      )}
 
       {/* 좁은 화면: 한 줄로 옆으로 넘김 · 넓은 화면: 가운데 정렬해 줄바꿈 */}
       <div className={cn(

@@ -130,13 +130,13 @@ export default async function Footer() {
         <div className="relative mx-auto px-6 pt-10 pb-24 z-10">
           {/* Logo */}
           <div className="flex flex-col items-center mb-8 text-center">
-            <Logo size="sm" variant="default" />
+            <Logo size="sm" variant="hero" />
           </div>
 
           {/* Navigation Sections - 2x2 Grid */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-8 text-left mb-8">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-8 text-center mb-8">
             {FOOTER_SECTIONS.map((section) => (
-              <div key={section.key}>
+              <div key={section.key} className="flex flex-col items-center">
                 {section.href ? (
                   <Link href={section.href} className="inline-block hover:opacity-80">
                     <span className={sectionTitleClassName}>
@@ -148,7 +148,7 @@ export default async function Footer() {
                     {t(section.titleKey)}
                   </span>
                 )}
-                <nav className="flex flex-col gap-2">
+                <nav className="flex flex-col gap-2 items-center">
                   {section.links.map((link) => (
                     <Link key={link.href} href={link.href} className={linkClassName}>
                       {t(`nav.footer.${link.key}`)}
