@@ -51,9 +51,7 @@ export default function JourneyEventCarousel({
   const handleDragStart = useCallback((pointer: ReactPointerEvent) => {
     if (
       pointer.target instanceof Element &&
-      pointer.target.closest(
-        "[data-timeline-title-scroll], [data-timeline-range-scroll]",
-      )
+      pointer.target.closest("[data-timeline-range-scroll]")
     ) {
       swipeRef.current.active = false;
       return;
@@ -129,11 +127,9 @@ export default function JourneyEventCarousel({
           )}
           currentNumber={current + 1}
           currentLabel={t("timelineCurrent", { current: current + 1 })}
-          totalLabel={t("timelineTotal", { total })}
+          pageLabel={t("timelinePage", { current: current + 1, total })}
           activityRangeLabel={t("timelineViewMap")}
-          activityRangeCountLabel={t("timelineMapRecordCount", {
-            count: total,
-          })}
+          unknownPlaceLabel={t("timelineUnknownPlace")}
           previousLabel={t("timelinePrev")}
           nextLabel={t("timelineNext")}
           previousDisabled={current === 0}

@@ -40,7 +40,7 @@ export default function MythPortraitMedia({ person }: Props) {
             className="object-cover"
             style={{
               objectPosition: activeImage.focus ? `${activeImage.focus.x}% ${activeImage.focus.y}%` : "50% 20%",
-              // 전역 portrait-sharpen은 작은 아바타용이다. 대형 화보에서는 원본 입자를 과장한다.
+              // 대형 화보는 원본 그대로 둔다.
               filter: "none",
             }}
           />
