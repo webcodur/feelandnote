@@ -51,9 +51,9 @@
   {
     "slug": "polyphemus",
     "profession": "entrepreneur",
-    "confidence": "low",
-    "alternatives": ["commander"],
-    "reason": "양 떼를 기르고 치즈를 만드는 목축 생산자가 일상 역할이지만 판매나 사업 운영 근거가 없어 entrepreneur로 확정할 수 없다. 오디세우스와의 한 차례 충돌도 전쟁·수호 역할이 아니어서 commander가 성립하지 않는다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "자신의 양 떼를 기르고 치즈를 생산하며 독립적으로 목축 생업을 운영하므로 entrepreneur에 둔다."
   },
   {
     "slug": "poseidon",
@@ -128,9 +128,9 @@
   {
     "slug": "scylla",
     "profession": "commander",
-    "confidence": "low",
+    "confidence": "high",
     "alternatives": [],
-    "reason": "해협에서 선원을 잡아먹는 포식이 대표 기능이지 전쟁·지휘·수호가 아니므로 commander가 성립하지 않는다. 다른 기존 직군에도 실제 역할로 대응할 근거가 없다."
+    "reason": "해협을 지배하며 통과하는 선원들을 반복해서 공격하는 적대 괴물이라는 대표 서사를 기준으로 commander에 둔다."
   },
   {
     "slug": "sekhmet",
@@ -170,9 +170,9 @@
   {
     "slug": "shamhat",
     "profession": "influencer",
-    "confidence": "high",
+    "confidence": "low",
     "alternatives": [],
-    "reason": "엔키두에게 옷·음식·도시의 생활을 가르치고 야생을 떠나 우루크로 가도록 선택을 실제로 바꾸는 문화 매개가 대표 역할이다."
+    "reason": "엔키두를 인간 사회로 이끈 일대일 문화 매개가 대표 서사지만 공연·대중 소통 직군은 아니다. 현행 직군에 정확히 맞는 값이 없다."
   },
   {
     "slug": "shiva",
@@ -183,10 +183,10 @@
   },
   {
     "slug": "shu",
-    "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["scientist"],
-    "reason": "하늘과 땅을 갈라 공기와 공간을 유지하는 자연신 기능이 대표이며, 라의 뒤를 이은 왕이라는 일부 전승만으로 politician을 확정하기 어렵다. 자연 현상을 구현하지만 연구·기술을 수행하지 않아 scientist도 정확하지 않다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "하늘과 땅을 갈라 공기와 공간을 유지하는 고대 이집트의 공기 신이므로 신격 우선 규칙에 따라 leader로 확정한다."
   },
   {
     "slug": "siduri",
@@ -218,10 +218,10 @@
   },
   {
     "slug": "sita",
-    "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "왕비라는 지위는 있으나 원전에서 통치권을 행사하지 않아 politician이 성립하지 않는다. 결단과 저항이 타인의 행동에 영향을 주지만 대중 소통이나 선택 조정이 대표 역할은 아니어서 influencer도 확정할 수 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "라마의 왕비인 동시에 락슈미의 화신으로 숭배되는 힌두 여신이므로 왕족보다 신격을 우선해 leader로 확정한다."
   },
   {
     "slug": "skadi",
@@ -295,10 +295,10 @@
   },
   {
     "slug": "tefnut",
-    "profession": "scientist",
-    "confidence": "low",
-    "alternatives": ["politician"],
-    "reason": "습기와 물·질서를 구현하는 자연신 기능은 scientist에 가장 가깝지만 연구·치유·기술을 수행하지 않아 확정할 수 없다. 슈의 배우자라는 혈연 지위만으로 politician을 줄 수도 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "습기와 질서를 구현하고 숭배된 고대 이집트 여신이므로 슈의 배우자 지위보다 신격을 우선해 leader로 확정한다."
   },
   {
     "slug": "telamon",
@@ -331,9 +331,9 @@
   {
     "slug": "tiger-korea",
     "profession": "athlete",
-    "confidence": "low",
+    "confidence": "high",
     "alternatives": [],
-    "reason": "동굴의 인내 시험은 단 한 번의 사건일 뿐 반복되는 운동·경기 기능이 아니므로 athlete가 성립하지 않는다. 원전에서 다른 기존 직군에 해당하는 역할도 수행하지 않는다."
+    "reason": "인내 시험과 강한 신체 능력이 정체성인 동물이므로 대표 신체 활동을 기준으로 athlete에 둔다."
   },
   {
     "slug": "tiresias",
@@ -386,10 +386,10 @@
   },
   {
     "slug": "ungnyeo",
-    "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["leader"],
-    "reason": "환웅의 배우자이자 단군의 어머니라는 왕조 혈연만 있을 뿐 통치권을 행사하지 않아 politician이 성립하지 않는다. 의례를 직접 수행하지만 집단이나 제의를 이끌지 않아 leader도 아니다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "단군의 시조모이며 민속학 연구에서 자연신과 인간 여성의 복합적 존재이자 국모신으로 해석되는 신격이므로 leader로 확정한다."
   },
   {
     "slug": "utnapishtim",
@@ -407,10 +407,10 @@
   },
   {
     "slug": "venus",
-    "profession": "influencer",
+    "profession": "leader",
     "confidence": "high",
     "alternatives": [],
-    "reason": "사랑과 욕망을 움직여 신과 인간의 선택·관계를 바꾸고 아이네이아스의 행동과 로마 혈통의 진로에도 반복적으로 개입하는 것이 대표 기능이다."
+    "reason": "사랑과 미를 관장하며 숭배된 로마 여신이므로 대중 소통 여부와 무관하게 신격 우선 규칙에 따라 leader로 확정한다."
   },
   {
     "slug": "vibhishana",
@@ -435,10 +435,10 @@
   },
   {
     "slug": "wadjet",
-    "profession": "commander",
+    "profession": "leader",
     "confidence": "high",
     "alternatives": [],
-    "reason": "왕관의 코브라로 불을 뿜어 왕과 왕권의 적을 막고 하이집트를 지속적으로 지키는 무력 수호가 대표 기능이다."
+    "reason": "하이집트와 파라오를 지키는 코브라 여신으로 숭배된 신격이므로 왕권 보호 방식과 무관하게 leader로 확정한다."
   },
   {
     "slug": "wen-zhong",
@@ -449,24 +449,24 @@
   },
   {
     "slug": "white-bone-demon",
-    "profession": "actor",
+    "profession": "commander",
     "confidence": "high",
     "alternatives": [],
-    "reason": "소녀·노파·노인이라는 세 역할을 차례로 꾸미고 말과 행동까지 연기해 상대를 속이는 지속적 역할 수행이 대표 수단이다."
+    "reason": "삼장법사 일행을 반복해서 공격하고 손오공과 맞서는 적대 괴물이라는 대표 서사를 기준으로 commander에 둔다."
   },
   {
     "slug": "white-dragon-horse",
-    "profession": "athlete",
-    "confidence": "low",
-    "alternatives": ["commander"],
-    "reason": "서천까지 삼장법사를 태우는 장거리 이동·운반이 대표 기능이라 athlete에 가장 가깝지만 경기나 운동 수행은 아니다. 드문 전투 장면만으로 commander를 확정할 수도 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "서해 용왕의 삼태자이며 《서유기》 제100회에서 취경 뒤 팔부천룡마의 정과를 받으므로 왕자 지위보다 신격을 우선해 leader로 확정한다."
   },
   {
     "slug": "yamata-no-orochi",
     "profession": "commander",
-    "confidence": "low",
+    "confidence": "high",
     "alternatives": [],
-    "reason": "처녀를 잡아먹다가 술에 취해 스사노오에게 살해되는 재난형 괴물로 군사 활동·지휘·수호를 하지 않아 commander가 성립하지 않는다. 다른 기존 직군에 해당하는 실제 기능도 없다."
+    "reason": "지역을 위협하고 희생자를 반복해서 잡아먹으며 스사노오와 대결하는 적대 괴물이라는 대표 서사를 기준으로 commander에 둔다."
   },
   {
     "slug": "yamato-takeru",
@@ -478,9 +478,9 @@
   {
     "slug": "ymir",
     "profession": "leader",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "거인족의 조상이라는 계보상 위치만 있을 뿐 집단을 이끌지 않아 leader가 성립하지 않는다. 다른 존재의 선택을 움직이는 활동도 없어 influencer를 피난처로 쓸 수 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "거인족의 최초 조상이자 계보의 출발점이라는 시조 역할이 대표이므로 leader에 둔다."
   },
   {
     "slug": "yuanshi-tianzun",
@@ -498,10 +498,10 @@
   },
   {
     "slug": "yuhwa",
-    "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["humanities_scholar"],
-    "reason": "금와왕 궁에 머문 왕실 여성·주몽의 어머니라는 지위만으로 통치자라 할 수 없어 politician이 성립하지 않는다. 씨앗과 조언을 보내는 단발 조력도 전문 자문 기능은 아니어서 humanities_scholar로 확정할 수 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "고구려에서 주몽의 국모이자 부여신·동신성모로 사당에 모셔 숭배한 여신이므로 왕가 혈통보다 신격을 우선해 leader로 확정한다."
   },
   {
     "slug": "zeus",

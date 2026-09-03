@@ -7,6 +7,7 @@
 | [`celeb/`](celeb/README.md) | DB 반영 전 인물 대사 원고와 조사 스냅샷 | [`docs/project/celeb/`](../docs/project/celeb/README.md) |
 | [`curated-lists/`](curated-lists/README.md) | 기관·시상·분야별 선정 목록과 수집·매칭 보고서 | [`docs/project/service/curated-lists.md`](../docs/project/service/curated-lists.md) |
 | `coupang/` | 제휴 상품 연결 대상과 선별 결과 | [`docs/project/operations/monetization.md`](../docs/project/operations/monetization.md) |
+| `naver-blog/` | 네이버 블로그 글 번호·인물 slug·링크 처리 상태 대응표 | [`docs/continuous/naver-blog.md`](../docs/continuous/naver-blog.md) |
 
 ## 배치 원칙
 

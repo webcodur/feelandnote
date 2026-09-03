@@ -1,0 +1,733 @@
+{
+  "curator": {
+    "slug": "le-monde",
+    "name": "르몽드",
+    "name_en": "Le Monde",
+    "kind": "media",
+    "country": "FR",
+    "founded_year": 1944,
+    "homepage_url": "https://www.lemonde.fr",
+    "description": "1944년 파리에서 창간한 프랑스의 일간지다. 매주 서평면 「르몽드 데 리브르」를 내며 프랑스 출판계에서 영향력이 크다. 1999년 유통사 프낙과 함께 20세기 최고의 책 100권을 뽑는 국민 투표를 진행했다.",
+    "description_en": "A French daily newspaper founded in Paris in 1944. Its weekly book supplement, Le Monde des livres, carries considerable weight in French publishing. In 1999 the paper ran a nationwide readers' poll with the retailer Fnac to name the 100 best books of the 20th century."
+  },
+  "list": {
+    "slug": "le-monde-100-books-of-the-century",
+    "title": "세기의 책 100선",
+    "title_en": "Le Monde's 100 Books of the Century",
+    "description": "르몽드와 프낙이 1999년 10월 15일 발표한 20세기 최고의 책 100권이다. 프랑스인 1만 7천 명이 「당신의 기억에 남은 책은 무엇인가」라는 질문에 답한 투표 결과이며, 1위는 알베르 카뮈의 『이방인』이다. 소설뿐 아니라 시·희곡·만화까지 섞여 있고 프랑스어권 작품이 절반 가까이를 차지한다.",
+    "description_en": "The 100 best books of the 20th century, published by Le Monde and the retailer Fnac on 15 October 1999. Some 17,000 French readers voted on the question \"Which books have stayed in your memory?\", putting Albert Camus's L'Etranger first. The list mixes novels with poetry, drama and comics, and close to half the titles are French.",
+    "published_year": 1999,
+    "edition": null,
+    "series_key": null,
+    "method": "프낙 서점원과 르몽드 기자들이 먼저 200편의 예비 목록을 만들었다. 그 목록을 두고 프랑스인 1만 7천 명이 「어떤 책이 당신의 기억에 남아 있는가」라는 질문에 투표했고, 득표순으로 100권을 추렸다. 대상은 소설에 한정하지 않아 시집·희곡·만화·인문서가 함께 올랐다.",
+    "method_en": "Booksellers at Fnac and journalists at Le Monde first drew up a shortlist of 200 titles. Around 17,000 French readers then voted on the question \"Which books have stayed in your memory?\", and the top 100 were ranked by the number of votes. The field was not limited to novels: poetry, drama, comics and non-fiction all appear.",
+    "source_url": "https://www.lemonde.fr/archives/article/1999/10/15/cent-disques-cent-films-et-cent-livres-pour-un-siecle_3570803_1819218.html",
+    "cover_image_url": null,
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": []
+  },
+  "items": [
+    {
+      "raw_title": "The Stranger",
+      "raw_creator": "Albert Camus",
+      "rank": 1,
+      "year": 1942,
+      "note": "원제: L'Étranger / 한국어판 제목: 이방인"
+    },
+    {
+      "raw_title": "In Search of Lost Time",
+      "raw_creator": "Marcel Proust",
+      "rank": 2,
+      "year": 1913,
+      "note": "원제: À la recherche du temps perdu / 한국어판 제목: 잃어버린 시간을 찾아서"
+    },
+    {
+      "raw_title": "The Trial",
+      "raw_creator": "Franz Kafka",
+      "rank": 3,
+      "year": 1925,
+      "note": "원제: Le Procès / 한국어판 제목: 심판"
+    },
+    {
+      "raw_title": "The Little Prince",
+      "raw_creator": "Antoine de Saint-Exupéry",
+      "rank": 4,
+      "year": 1943,
+      "note": "원제: Le Petit Prince / 한국어판 제목: 어린 왕자"
+    },
+    {
+      "raw_title": "Man's Fate",
+      "raw_creator": "André Malraux",
+      "rank": 5,
+      "year": 1933,
+      "note": "원제: La Condition humaine / 한국어판 제목: 인간의 조건"
+    },
+    {
+      "raw_title": "Journey to the End of the Night",
+      "raw_creator": "Louis-Ferdinand Céline",
+      "rank": 6,
+      "year": 1932,
+      "note": "원제: Voyage au bout de la nuit / 한국어판 제목: 밤 끝으로의 여행"
+    },
+    {
+      "raw_title": "The Grapes of Wrath",
+      "raw_creator": "John Steinbeck",
+      "rank": 7,
+      "year": 1939,
+      "note": "원제: Les Raisins de la colère / 한국어판 제목: 분노의 포도"
+    },
+    {
+      "raw_title": "For Whom the Bell Tolls",
+      "raw_creator": "Ernest Hemingway",
+      "rank": 8,
+      "year": 1940,
+      "note": "원제: Pour qui sonne le glas / 한국어판 제목: 누구를 위하여 종은 울리나"
+    },
+    {
+      "raw_title": "Le Grand Meaulnes",
+      "raw_creator": "Alain-Fournier",
+      "rank": 9,
+      "year": 1913,
+      "note": "원제: Le Grand Meaulnes / 한국어판 제목: 대장 몬느"
+    },
+    {
+      "raw_title": "Froth on the Daydream",
+      "raw_creator": "Boris Vian",
+      "rank": 10,
+      "year": 1947,
+      "note": "원제: L'Écume des jours / 한국어판 제목: 도레미파솔라시도"
+    },
+    {
+      "raw_title": "The Second Sex",
+      "raw_creator": "Simone de Beauvoir",
+      "rank": 11,
+      "year": 1949,
+      "note": "원제: Le Deuxième Sexe / 한국어판 제목: 제2의 성"
+    },
+    {
+      "raw_title": "Waiting for Godot",
+      "raw_creator": "Samuel Beckett",
+      "rank": 12,
+      "year": 1952,
+      "note": "원제: En attendant Godot / 한국어판 제목: 고도를 기다리며"
+    },
+    {
+      "raw_title": "Being and Nothingness",
+      "raw_creator": "Jean-Paul Sartre",
+      "rank": 13,
+      "year": 1943,
+      "note": "원제: L'Être et le Néant / 한국어판 제목: 함무라비 법전"
+    },
+    {
+      "raw_title": "The Name of the Rose",
+      "raw_creator": "Umberto Eco",
+      "rank": 14,
+      "year": 1980,
+      "note": "원제: Le Nom de la rose / 한국어판 제목: 장미의 이름"
+    },
+    {
+      "raw_title": "The Gulag Archipelago",
+      "raw_creator": "Alexandre Soljenitsyne",
+      "rank": 15,
+      "year": 1973,
+      "note": "원제: L'Archipel du Goulag / 한국어판 제목: 수용소 군도"
+    },
+    {
+      "raw_title": "Paroles",
+      "raw_creator": "Jacques Prévert",
+      "rank": 16,
+      "year": 1946,
+      "note": "원제: Paroles / 한국어판 제목: 꽃집에서"
+    },
+    {
+      "raw_title": "Alcools",
+      "raw_creator": "Guillaume Apollinaire",
+      "rank": 17,
+      "year": 1913,
+      "note": "원제: Alcools / 한국어판 제목: 알코올"
+    },
+    {
+      "raw_title": "The Blue Lotus",
+      "raw_creator": "Hergé",
+      "rank": 18,
+      "year": 1936,
+      "note": "원제: Le Lotus bleu / 한국어판 제목: 푸른 연꽃"
+    },
+    {
+      "raw_title": "The Diary of a Young Girl",
+      "raw_creator": "Anne Frank",
+      "rank": 19,
+      "year": 1947,
+      "note": "원제: Le Journal d'Anne Frank / 한국어판 제목: 안네의 일기"
+    },
+    {
+      "raw_title": "Tristes Tropiques",
+      "raw_creator": "Claude Lévi-Strauss",
+      "rank": 20,
+      "year": 1955,
+      "note": "원제: Tristes Tropiques / 한국어판 제목: 슬픈 열대"
+    },
+    {
+      "raw_title": "Brave New World",
+      "raw_creator": "Aldous Huxley",
+      "rank": 21,
+      "year": 1932,
+      "note": "원제: Le Meilleur des mondes / 한국어판 제목: 멋진 신세계"
+    },
+    {
+      "raw_title": "Nineteen Eighty-Four",
+      "raw_creator": "George Orwell",
+      "rank": 22,
+      "year": 1949,
+      "note": "원제: 1984 / 한국어판 제목: 1984년"
+    },
+    {
+      "raw_title": "Asterix the Gaul René Goscinny and Albert",
+      "raw_creator": "René Goscinny<br/> et Albert Uderzo",
+      "rank": 23,
+      "year": 1959,
+      "note": "원제: Astérix le Gaulois / 한국어판 제목: 골족(族)의 영웅, 아스테릭스"
+    },
+    {
+      "raw_title": "The Bald Soprano",
+      "raw_creator": "Eugène Ionesco",
+      "rank": 24,
+      "year": 1952,
+      "note": "원제: La Cantatrice chauve / 한국어판 제목: 대머리 가희"
+    },
+    {
+      "raw_title": "Three Essays on the Theory of Sexuality",
+      "raw_creator": "Sigmund Freud",
+      "rank": 25,
+      "year": 1905,
+      "note": "원제: Trois essais sur la théorie sexuelle / 한국어판 제목: 성욕에 관한 세 편의 에세이"
+    },
+    {
+      "raw_title": "The Abyss",
+      "raw_creator": "Marguerite Yourcenar",
+      "rank": 26,
+      "year": 1968,
+      "note": "원제: L'Œuvre au noir / 한국어판 제목: 암흑 작업"
+    },
+    {
+      "raw_title": "Lolita",
+      "raw_creator": "Vladimir Nabokov",
+      "rank": 27,
+      "year": 1955,
+      "note": "원제: Lolita / 한국어판 제목: 롤리타"
+    },
+    {
+      "raw_title": "Ulysses",
+      "raw_creator": "James Joyce",
+      "rank": 28,
+      "year": 1922,
+      "note": "원제: Ulysse / 한국어판 제목: 율리시스"
+    },
+    {
+      "raw_title": "The Tartar Steppe",
+      "raw_creator": "Dino Buzzati",
+      "rank": 29,
+      "year": 1940,
+      "note": "원제: Le Désert des Tartares / 한국어판 제목: 타르타리의 황야"
+    },
+    {
+      "raw_title": "The Counterfeiters",
+      "raw_creator": "André Gide",
+      "rank": 30,
+      "year": 1925,
+      "note": "원제: Les Faux-monnayeurs / 한국어판 제목: 위폐범들"
+    },
+    {
+      "raw_title": "The Horseman on the Roof",
+      "raw_creator": "Jean Giono",
+      "rank": 31,
+      "year": 1951,
+      "note": "원제: Le Hussard sur le toit / 한국어판 제목: 지붕위의 기병"
+    },
+    {
+      "raw_title": "Belle du Seigneur",
+      "raw_creator": "Albert Cohen",
+      "rank": 32,
+      "year": 1968,
+      "note": "원제: Belle du Seigneur / 한국어판 제목: 영주의 연인"
+    },
+    {
+      "raw_title": "One Hundred Years of Solitude",
+      "raw_creator": "Gabriel García Márquez",
+      "rank": 33,
+      "year": 1967,
+      "note": "원제: Cent ans de solitude / 한국어판 제목: 백년 동안의 고독"
+    },
+    {
+      "raw_title": "The Sound and the Fury",
+      "raw_creator": "William Faulkner",
+      "rank": 34,
+      "year": 1929,
+      "note": "원제: Le Bruit et la Fureur / 한국어판 제목: 소리와 분노"
+    },
+    {
+      "raw_title": "Thérèse Desqueyroux",
+      "raw_creator": "François Mauriac",
+      "rank": 35,
+      "year": 1927,
+      "note": "원제: Thérèse Desqueyroux / 한국어판 제목: 테레즈 데케루"
+    },
+    {
+      "raw_title": "Zazie in the Metro",
+      "raw_creator": "Raymond Queneau",
+      "rank": 36,
+      "year": 1959,
+      "note": "원제: Zazie dans le métro / 한국어판 제목: 지하철 소녀 쟈지"
+    },
+    {
+      "raw_title": "Confusion of Feelings",
+      "raw_creator": "Stefan Zweig",
+      "rank": 37,
+      "year": 1927,
+      "note": "원제: La Confusion des sentiments / 한국어판 제목: 감정의 혼란"
+    },
+    {
+      "raw_title": "Gone with the Wind",
+      "raw_creator": "Margaret Mitchell",
+      "rank": 38,
+      "year": 1936,
+      "note": "원제: Autant en emporte le vent / 한국어판 제목: 바람과 함께 사라지다"
+    },
+    {
+      "raw_title": "Lady Chatterley's Lover",
+      "raw_creator": "D. H. Lawrence",
+      "rank": 39,
+      "year": 1928,
+      "note": "원제: L'Amant de lady Chatterley / 한국어판 제목: 채털리 부인의 연인"
+    },
+    {
+      "raw_title": "The Magic Mountain",
+      "raw_creator": "Thomas Mann",
+      "rank": 40,
+      "year": 1924,
+      "note": "원제: La Montagne magique / 한국어판 제목: 마의 산"
+    },
+    {
+      "raw_title": "Bonjour Tristesse",
+      "raw_creator": "Françoise Sagan",
+      "rank": 41,
+      "year": 1954,
+      "note": "원제: Bonjour tristesse / 한국어판 제목: 슬픔이여 안녕"
+    },
+    {
+      "raw_title": "Le Silence de la mer",
+      "raw_creator": "Vercors",
+      "rank": 42,
+      "year": 1942,
+      "note": "원제: Le Silence de la mer / 한국어판 제목: 바다의 침묵"
+    },
+    {
+      "raw_title": "Life: A User's Manual",
+      "raw_creator": "Georges Perec",
+      "rank": 43,
+      "year": 1978,
+      "note": "원제: La Vie mode d'emploi / 한국어판 제목: 인생 사용법"
+    },
+    {
+      "raw_title": "The Hound of the Baskervilles",
+      "raw_creator": "Arthur Conan Doyle",
+      "rank": 44,
+      "year": 1901,
+      "note": "원제: Le Chien des Baskerville / 한국어판 제목: 바스커빌 가문의 개"
+    },
+    {
+      "raw_title": "Under the Sun of Satan",
+      "raw_creator": "Georges Bernanos",
+      "rank": 45,
+      "year": 1926,
+      "note": "원제: Sous le soleil de Satan / 한국어판 제목: 사탄의 태양 아래"
+    },
+    {
+      "raw_title": "The Great Gatsby F. Scott",
+      "raw_creator": "Francis Scott Fitzgerald",
+      "rank": 46,
+      "year": 1925,
+      "note": "원제: Gatsby le Magnifique / 한국어판 제목: 위대한 개츠비"
+    },
+    {
+      "raw_title": "The Joke",
+      "raw_creator": "Milan Kundera",
+      "rank": 47,
+      "year": 1967,
+      "note": "원제: La Plaisanterie / 한국어판 제목: 농담"
+    },
+    {
+      "raw_title": "Contempt/A Ghost at Noon",
+      "raw_creator": "Alberto Moravia",
+      "rank": 48,
+      "year": 1954,
+      "note": "원제: Le Mépris / 한국어판 제목: 경멸"
+    },
+    {
+      "raw_title": "The Murder of Roger Ackroyd",
+      "raw_creator": "Agatha Christie",
+      "rank": 49,
+      "year": 1926,
+      "note": "원제: Le Meurtre de Roger Ackroyd / 한국어판 제목: 애크로이드 살인 사건"
+    },
+    {
+      "raw_title": "Nadja",
+      "raw_creator": "André Breton",
+      "rank": 50,
+      "year": 1928,
+      "note": "원제: Nadja / 한국어판 제목: 나자"
+    },
+    {
+      "raw_title": "Aurélien",
+      "raw_creator": "Louis Aragon",
+      "rank": 51,
+      "year": 1944,
+      "note": "원제: Aurélien / 한국어판 제목: 오렐리엥"
+    },
+    {
+      "raw_title": "The Satin Slipper",
+      "raw_creator": "Paul Claudel",
+      "rank": 52,
+      "year": 1929,
+      "note": "원제: Le Soulier de satin / 한국어판 제목: 비단구두"
+    },
+    {
+      "raw_title": "Six Characters in Search of an Author",
+      "raw_creator": "Luigi Pirandello",
+      "rank": 53,
+      "year": 1921,
+      "note": "원제: Six Personnages en quête d'auteur / 한국어판 제목: 작가를 찾는 6인의 등장인물"
+    },
+    {
+      "raw_title": "The Resistible Rise of Arturo Ui",
+      "raw_creator": "Bertolt Brecht",
+      "rank": 54,
+      "year": 1959,
+      "note": "원제: La Résistible Ascension d'Arturo Ui / 한국어판 제목: 아르투로 우이의 저지 가능한 상승"
+    },
+    {
+      "raw_title": "Friday",
+      "raw_creator": "Michel Tournier",
+      "rank": 55,
+      "year": 1967,
+      "note": "원제: Vendredi ou les Limbes du Pacifique / 한국어판 제목: 방드르디, 태평양의 끝"
+    },
+    {
+      "raw_title": "The War of the Worlds",
+      "raw_creator": "H. G. Wells",
+      "rank": 56,
+      "year": 1898,
+      "note": "원제: La Guerre des mondes / 한국어판 제목: 우주 전쟁"
+    },
+    {
+      "raw_title": "If This Is a Man",
+      "raw_creator": "Primo Levi",
+      "rank": 57,
+      "year": 1947,
+      "note": "원제: Si c'est un homme / 한국어판 제목: 이것이 인간인가"
+    },
+    {
+      "raw_title": "The Lord of the Rings",
+      "raw_creator": "J. R. R. Tolkien",
+      "rank": 58,
+      "year": 1954,
+      "note": "원제: Le Seigneur des anneaux / 한국어판 제목: 반지의 제왕"
+    },
+    {
+      "raw_title": "The Tendrils of the Vine",
+      "raw_creator": "Colette",
+      "rank": 59,
+      "year": 1908,
+      "note": "원제: Les Vrilles de la vigne / 한국어판 제목: 포도덩굴"
+    },
+    {
+      "raw_title": "Capital of Pain",
+      "raw_creator": "Paul Éluard",
+      "rank": 60,
+      "year": 1926,
+      "note": "원제: Capitale de la douleur / 한국어판 제목: 고뇌의 수도"
+    },
+    {
+      "raw_title": "Martin Eden",
+      "raw_creator": "Jack London",
+      "rank": 61,
+      "year": 1909,
+      "note": "원제: Martin Eden / 한국어판 제목: 마틴 에덴"
+    },
+    {
+      "raw_title": "Ballad of the Salt Sea",
+      "raw_creator": "Hugo Pratt",
+      "rank": 62,
+      "year": 1967,
+      "note": "원제: La Ballade de la mer salée / 한국어판 제목: 염해의 발라드"
+    },
+    {
+      "raw_title": "Writing Degree Zero",
+      "raw_creator": "Roland Barthes",
+      "rank": 63,
+      "year": 1953,
+      "note": "원제: Le Degré zéro de l'écriture / 한국어판 제목: 영도의 글쓰기"
+    },
+    {
+      "raw_title": "The Lost Honour of Katharina Blum",
+      "raw_creator": "Heinrich Böll",
+      "rank": 64,
+      "year": 1974,
+      "note": "원제: L'Honneur perdu de Katharina Blum / 한국어판 제목: 카타리나 블룸의 잃어버린 명예"
+    },
+    {
+      "raw_title": "The Opposing Shore",
+      "raw_creator": "Julien Gracq",
+      "rank": 65,
+      "year": 1951,
+      "note": "원제: Le Rivage des Syrtes / 한국어판 제목: 시르트의 바닷가"
+    },
+    {
+      "raw_title": "The Order of Things",
+      "raw_creator": "Michel Foucault",
+      "rank": 66,
+      "year": 1966,
+      "note": "원제: Les Mots et les Choses / 한국어판 제목: 말과 사물"
+    },
+    {
+      "raw_title": "On the Road",
+      "raw_creator": "Jack Kerouac",
+      "rank": 67,
+      "year": 1957,
+      "note": "원제: Sur la route / 한국어판 제목: 고을과 도시"
+    },
+    {
+      "raw_title": "The Wonderful Adventures of Nils",
+      "raw_creator": "Selma Lagerlöf",
+      "rank": 68,
+      "year": 1906,
+      "note": "원제: Le Merveilleux Voyage de Nils Holgersson à travers la Suède / 한국어판 제목: 닐스 소년의 신비로운 여행"
+    },
+    {
+      "raw_title": "A Room of One's Own",
+      "raw_creator": "Virginia Woolf",
+      "rank": 69,
+      "year": 1929,
+      "note": "원제: Une chambre à soi / 한국어판 제목: 자기만의 방"
+    },
+    {
+      "raw_title": "The Martian Chronicles",
+      "raw_creator": "Ray Bradbury",
+      "rank": 70,
+      "year": 1950,
+      "note": "원제: Chroniques martiennes / 한국어판 제목: 화성 연대기"
+    },
+    {
+      "raw_title": "The Ravishing of Lol Stein",
+      "raw_creator": "Marguerite Duras",
+      "rank": 71,
+      "year": 1964,
+      "note": "원제: Le Ravissement de Lol V. Stein / 한국어판 제목: 롤라 V. 스타인의 환희"
+    },
+    {
+      "raw_title": "The Interrogation",
+      "raw_creator": "J. M. G. Le Clézio",
+      "rank": 72,
+      "year": 1963,
+      "note": "원제: Le Procès-verbal / 한국어판 제목: 조서"
+    },
+    {
+      "raw_title": "Tropisms",
+      "raw_creator": "Nathalie Sarraute",
+      "rank": 73,
+      "year": 1939,
+      "note": "원제: Tropismes / 한국어판 제목: 트로피즘"
+    },
+    {
+      "raw_title": "Journal, 1887–1910",
+      "raw_creator": "Jules Renard",
+      "rank": 74,
+      "year": 1925,
+      "note": "원제: Journal / 한국어판 제목: 일기"
+    },
+    {
+      "raw_title": "Lord Jim",
+      "raw_creator": "Joseph Conrad",
+      "rank": 75,
+      "year": 1900,
+      "note": "원제: Lord Jim / 한국어판 제목: 로드 짐"
+    },
+    {
+      "raw_title": "Écrits",
+      "raw_creator": "Jacques Lacan",
+      "rank": 76,
+      "year": 1966,
+      "note": "원제: Écrits / 한국어판 제목: 에크리"
+    },
+    {
+      "raw_title": "The Theatre and its Double",
+      "raw_creator": "Antonin Artaud",
+      "rank": 77,
+      "year": 1938,
+      "note": "원제: Le Théâtre et son double / 한국어판 제목: 연극와 이중성"
+    },
+    {
+      "raw_title": "Manhattan Transfer",
+      "raw_creator": "John Dos Passos",
+      "rank": 78,
+      "year": 1925,
+      "note": "원제: Manhattan Transfer / 한국어판 제목: 맨해튼 트랜스퍼"
+    },
+    {
+      "raw_title": "Ficciones",
+      "raw_creator": "Jorge Luis Borges",
+      "rank": 79,
+      "year": 1944,
+      "note": "원제: Fictions / 한국어판 제목: 픽션들"
+    },
+    {
+      "raw_title": "Moravagine",
+      "raw_creator": "Blaise Cendrars",
+      "rank": 80,
+      "year": 1926,
+      "note": "원제: Moravagine / 한국어판 제목: 모라바지누"
+    },
+    {
+      "raw_title": "The General of the Dead Army",
+      "raw_creator": "Ismail Kadaré",
+      "rank": 81,
+      "year": 1963,
+      "note": "원제: Le Général de l'armée morte / 한국어판 제목: 죽은 군대의 장군"
+    },
+    {
+      "raw_title": "Sophie's Choice",
+      "raw_creator": "William Styron",
+      "rank": 82,
+      "year": 1979,
+      "note": "원제: Le Choix de Sophie / 한국어판 제목: 소피의 선택"
+    },
+    {
+      "raw_title": "Gypsy Ballads",
+      "raw_creator": "Federico García Lorca",
+      "rank": 83,
+      "year": 1928,
+      "note": "원제: Romancero gitano / 한국어판 제목: 집시 시집"
+    },
+    {
+      "raw_title": "The Strange Case of Peter the Lett",
+      "raw_creator": "Georges Simenon",
+      "rank": 84,
+      "year": 1931,
+      "note": "원제: Pietr-le-Letton / 한국어판 제목: 수상한 라트비아인"
+    },
+    {
+      "raw_title": "Our Lady of the Flowers",
+      "raw_creator": "Jean Genet",
+      "rank": 85,
+      "year": 1944,
+      "note": "원제: Notre-Dame des Fleurs / 한국어판 제목: 꽃의 노트르담"
+    },
+    {
+      "raw_title": "The Man Without Qualities",
+      "raw_creator": "Robert Musil",
+      "rank": 86,
+      "year": 1930,
+      "note": "원제: L'Homme sans qualités / 한국어판 제목: 특성없는 남자"
+    },
+    {
+      "raw_title": "Furor and Mystery",
+      "raw_creator": "René Char",
+      "rank": 87,
+      "year": 1948,
+      "note": "원제: Fureur et Mystère / 한국어판 제목: 분노와 신비"
+    },
+    {
+      "raw_title": "The Catcher in the Rye",
+      "raw_creator": "J. D. Salinger",
+      "rank": 88,
+      "year": 1951,
+      "note": "원제: L'Attrape-cœurs / 한국어판 제목: 호밀밭의 파수꾼"
+    },
+    {
+      "raw_title": "No Orchids For Miss Blandish",
+      "raw_creator": "James Hadley Chase",
+      "rank": 89,
+      "year": 1939,
+      "note": "원제: Pas d'orchidées pour miss Blandish / 한국어판 제목: 미스 블랜디시"
+    },
+    {
+      "raw_title": "Blake and Mortimer",
+      "raw_creator": "Edgar P. Jacobs",
+      "rank": 90,
+      "year": 1950,
+      "note": "원제: Blake et Mortimer / 한국어판 제목: 블레이크와 모티머"
+    },
+    {
+      "raw_title": "The Notebooks of Malte Laurids Brigge",
+      "raw_creator": "Rainer Maria Rilke",
+      "rank": 91,
+      "year": 1910,
+      "note": "원제: Les Cahiers de Malte Laurids Brigge / 한국어판 제목: 말테의 수기"
+    },
+    {
+      "raw_title": "Second Thoughts",
+      "raw_creator": "Michel Butor",
+      "rank": 92,
+      "year": 1957,
+      "note": "원제: La Modification / 한국어판 제목: 변경"
+    },
+    {
+      "raw_title": "The Origins of Totalitarianism",
+      "raw_creator": "Hannah Arendt",
+      "rank": 93,
+      "year": 1951,
+      "note": "원제: Les Origines du totalitarisme / 한국어판 제목: 전체주의의 기원"
+    },
+    {
+      "raw_title": "The Master and Margarita",
+      "raw_creator": "Mikhaïl Boulgakov",
+      "rank": 94,
+      "year": 1967,
+      "note": "원제: Le Maître et Marguerite / 한국어판 제목: 거장과 마르가리타"
+    },
+    {
+      "raw_title": "The Rosy Crucifixion",
+      "raw_creator": "Henry Miller",
+      "rank": 95,
+      "year": 1949,
+      "note": "원제: La Crucifixion en rose / 한국어판 제목: 섹서스"
+    },
+    {
+      "raw_title": "The Big Sleep",
+      "raw_creator": "Raymond Chandler",
+      "rank": 96,
+      "year": 1939,
+      "note": "원제: Le Grand Sommeil / 한국어판 제목: 거대한 잠"
+    },
+    {
+      "raw_title": "Amers",
+      "raw_creator": "Saint-John Perse",
+      "rank": 97,
+      "year": 1957,
+      "note": "원제: Amers / 한국어판 제목: 항로 표지"
+    },
+    {
+      "raw_title": "Gaston",
+      "raw_creator": "André Franquin",
+      "rank": 98,
+      "year": 1957,
+      "note": "원제: Gaston Lagaffe / 한국어판 제목: 가스통"
+    },
+    {
+      "raw_title": "Under the Volcano",
+      "raw_creator": "Malcolm Lowry",
+      "rank": 99,
+      "year": 1947,
+      "note": "원제: Au-dessous du volcan / 한국어판 제목: 화산 아래서"
+    },
+    {
+      "raw_title": "Midnight's Children",
+      "raw_creator": "Salman Rushdie",
+      "rank": 100,
+      "year": 1981,
+      "note": "원제: Les Enfants de minuit / 한국어판 제목: 자정의 아이들"
+    }
+  ]
+}

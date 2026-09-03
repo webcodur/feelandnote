@@ -1,0 +1,570 @@
+{
+  "curator": {
+    "slug": "hanyang-university",
+    "name": "한양대학교",
+    "name_en": "Hanyang University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1939,
+    "homepage_url": "https://www.hanyang.ac.kr",
+    "description": "한양대학교는 1939년 공과 학원으로 출발한 사립 종합대학이다. 서울 성동구 캠퍼스와 안산의 ERICA 캠퍼스를 함께 운영한다. 백남학술정보관이 학생 독서를 위한 권장도서 목록을 맡아 해마다 손본다.",
+    "description_en": "Hanyang University is a private comprehensive university that began in 1939 as an engineering institute. It operates a campus in Seongdong-gu, Seoul, alongside the ERICA campus in Ansan. Its Paiknam Academic Information Center maintains the university's recommended reading list and revises it each year."
+  },
+  "list": {
+    "slug": "hanyang-recommended-76",
+    "title": "한양인 권장도서 76선",
+    "title_en": "Hanyang Recommended Books 76",
+    "description": "한양대학교 백남학술정보관이 관리하는 학생 권장도서 목록의 2015년판이다. 2009년 개교 70주년에 70선으로 출발해 해마다 한 권씩 더하는 방식이라 개교 100주년에 100선이 완성된다. 명저를 모아 두는 기존 목록과 달리 당대성과 시의성을 함께 따져 고르고 인문·사회·과학·예술 네 영역으로 나눈다.",
+    "description_en": "The 2015 edition of the recommended reading list maintained by Hanyang University's Paiknam Academic Information Center. It began as seventy titles for the university's seventieth anniversary in 2009 and grows by one book a year, reaching one hundred at the centenary. Unlike lists that simply collect acknowledged masterpieces, its selections weigh contemporary relevance and timeliness, and are grouped into four areas: humanities, society, science, and the arts.",
+    "published_year": 2015,
+    "edition": "2015년판",
+    "method": "백남학술정보관이 2009년 개교 70주년을 기념해 70선을 선정한 뒤 해마다 한 권씩 더하며 목록을 손본다. 명저 목록과 달리 당대성과 시의성을 종합적으로 고려해 고르고, 교양을 넓히면서 독서 습관을 기르도록 인문·사회·과학·예술 네 영역으로 나눈다. 순위는 매기지 않았다.",
+    "method_en": "The Paiknam Academic Information Center chose seventy titles for the university's seventieth anniversary in 2009 and has revised the list since, adding one book a year. Rather than assembling acknowledged masterpieces it weighs contemporary relevance and timeliness, sorting the books into humanities, society, science, and the arts so that readers broaden their general knowledge while building a reading habit. The list is not ranked.",
+    "source_url": "https://www.newshyu.com/news/articleView.html?idxno=17081",
+    "is_ranked": false,
+    "is_annual": false,
+    "series_key": "hanyang-recommended",
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "사기열전",
+      "raw_creator": "사마천",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "조선의 뒷골목 풍경",
+      "raw_creator": "강명관",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "고양이 대학살",
+      "raw_creator": "로버트 단턴",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "문명과 바다",
+      "raw_creator": "주경철",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "정조의 비밀편지",
+      "raw_creator": "안대회",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "세계 최고의 여행기 열하일기(상,하)",
+      "raw_creator": "박지원",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "월든",
+      "raw_creator": "데이비드 소로",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "오리엔탈리즘",
+      "raw_creator": "에드워드 사이드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "미쳐야 미친다",
+      "raw_creator": "정민",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "마음은 어떻게 작동하는가",
+      "raw_creator": "스티브 핑거",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "한글세대가 본 논어 1-2",
+      "raw_creator": "배병삼",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "꿈의 해석",
+      "raw_creator": "G. 프로이트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "독서의 역사",
+      "raw_creator": "알베르토 망구엘",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "그림으로 보는 황금가지",
+      "raw_creator": "G. 프레이저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "삼국지 강의 1-2",
+      "raw_creator": "이중텐",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "철학적 탐구",
+      "raw_creator": "비트겐슈타인",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "신화의 힘",
+      "raw_creator": "조셉 켐벨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "생각의 지도",
+      "raw_creator": "리처드 니스벳",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "역사란 무엇인가",
+      "raw_creator": "E. H. 카아",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "호모 에티쿠스",
+      "raw_creator": "김상봉",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문 / 출처 목록 번호 20"
+    },
+    {
+      "raw_title": "오래된 미래",
+      "raw_creator": "헬레나 호지",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 21"
+    },
+    {
+      "raw_title": "왜 세계의 절반은 굶주리는가",
+      "raw_creator": "장 지글러",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 22"
+    },
+    {
+      "raw_title": "총, 균, 쇠",
+      "raw_creator": "J. 다이아몬드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 23"
+    },
+    {
+      "raw_title": "스티브 잡스",
+      "raw_creator": "윌터 아이작슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 24"
+    },
+    {
+      "raw_title": "설득의 심리학",
+      "raw_creator": "로버트 치알디니",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 25"
+    },
+    {
+      "raw_title": "정의란 무엇인가",
+      "raw_creator": "마이클 샌델",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 26"
+    },
+    {
+      "raw_title": "육식의 종말",
+      "raw_creator": "제레미 리프킨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 27"
+    },
+    {
+      "raw_title": "음식문화의 수수께끼",
+      "raw_creator": "마빈 해리스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 28"
+    },
+    {
+      "raw_title": "나쁜 사마리아인들",
+      "raw_creator": "장하준",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 29"
+    },
+    {
+      "raw_title": "미디어의 이해",
+      "raw_creator": "마샬 맥루한",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 30"
+    },
+    {
+      "raw_title": "폭력의 시대",
+      "raw_creator": "에릭 홉스봄",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 31"
+    },
+    {
+      "raw_title": "슬픈 열대",
+      "raw_creator": "C. 레비스트로스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 32"
+    },
+    {
+      "raw_title": "현대사회의 성 사랑 에로티시즘",
+      "raw_creator": "앤소니 기든스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 33"
+    },
+    {
+      "raw_title": "성의 역사 1-3",
+      "raw_creator": "미셀 푸코",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 34"
+    },
+    {
+      "raw_title": "감정자본주의",
+      "raw_creator": "에바 일루즈",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 35"
+    },
+    {
+      "raw_title": "문명의 충돌",
+      "raw_creator": "새뮤얼 헌팅턴",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 36"
+    },
+    {
+      "raw_title": "국가는 왜 실패하는가",
+      "raw_creator": "대런 애쓰모글루 외",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 37"
+    },
+    {
+      "raw_title": "집단지성:사이버 공간의 인류학을 위하여",
+      "raw_creator": "피에르 레비",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 38"
+    },
+    {
+      "raw_title": "가재 걸음",
+      "raw_creator": "움베르토 에코",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회 / 출처 목록 번호 39"
+    },
+    {
+      "raw_title": "거의 모든 것의 역사",
+      "raw_creator": "빌 브라이슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 41"
+    },
+    {
+      "raw_title": "링크",
+      "raw_creator": "알버트 바라바시",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 42"
+    },
+    {
+      "raw_title": "이기적 유전자",
+      "raw_creator": "리처드 도킨스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 43"
+    },
+    {
+      "raw_title": "침묵의 봄",
+      "raw_creator": "레이첼 카슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 44"
+    },
+    {
+      "raw_title": "인간에 대한 오해",
+      "raw_creator": "스티븐 J. 굴드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 45"
+    },
+    {
+      "raw_title": "통섭",
+      "raw_creator": "에드워드 윌슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 46"
+    },
+    {
+      "raw_title": "창백한 푸른점",
+      "raw_creator": "칼 세이건",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 47"
+    },
+    {
+      "raw_title": "호열자 조선을 습격하다",
+      "raw_creator": "신동원",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 48"
+    },
+    {
+      "raw_title": "같기도 하고 아니 같기도 하고",
+      "raw_creator": "로얼드 호프만",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 49"
+    },
+    {
+      "raw_title": "화학의 변명",
+      "raw_creator": "존 엠슬리",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 50"
+    },
+    {
+      "raw_title": "수학의 몽상",
+      "raw_creator": "이진경",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 51"
+    },
+    {
+      "raw_title": "빅히스토리",
+      "raw_creator": "데이비드 크리스천",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 52"
+    },
+    {
+      "raw_title": "인간 등정의 발자취",
+      "raw_creator": "제이콥 브로노우스키",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 53"
+    },
+    {
+      "raw_title": "동물해방",
+      "raw_creator": "피터 싱어",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 54"
+    },
+    {
+      "raw_title": "불완전한 미래",
+      "raw_creator": "데이비드 프리드먼",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 55"
+    },
+    {
+      "raw_title": "다윈의 서재",
+      "raw_creator": "장대익",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 56"
+    },
+    {
+      "raw_title": "원자폭탄 만들기 1-2",
+      "raw_creator": "리처드 로즈",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 57"
+    },
+    {
+      "raw_title": "사라진 스푼",
+      "raw_creator": "샘 킨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 58"
+    },
+    {
+      "raw_title": "경도 이야기",
+      "raw_creator": "데이바 소렐",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학 / 출처 목록 번호 59"
+    },
+    {
+      "raw_title": "건축, 음악처럼 듣고 미술처럼 보다",
+      "raw_creator": "서 현",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 60"
+    },
+    {
+      "raw_title": "나의 문화유산답사기 1",
+      "raw_creator": "유홍준",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 61"
+    },
+    {
+      "raw_title": "변신이야기 1-2",
+      "raw_creator": "오비디우스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 62"
+    },
+    {
+      "raw_title": "지식의 미술관",
+      "raw_creator": "이주헌",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 63"
+    },
+    {
+      "raw_title": "타인의 고통",
+      "raw_creator": "수잔 손택",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 64"
+    },
+    {
+      "raw_title": "한국의 미 특강",
+      "raw_creator": "오주석",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 65"
+    },
+    {
+      "raw_title": "그림 속의 음식, 음식 속의 역사",
+      "raw_creator": "주영하",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 66"
+    },
+    {
+      "raw_title": "천재, 광기, 열정 1-2",
+      "raw_creator": "슈테판 츠바이크",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 67"
+    },
+    {
+      "raw_title": "서양미술사",
+      "raw_creator": "E. H. 곰브리치",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 68"
+    },
+    {
+      "raw_title": "놀이와 예술 그리고 상상력",
+      "raw_creator": "진중권",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 69"
+    },
+    {
+      "raw_title": "그림 아는 만큼 보인다",
+      "raw_creator": "손철주",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 70"
+    },
+    {
+      "raw_title": "건축과 미술이 만나다 1890-1940",
+      "raw_creator": "임석재",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 71"
+    },
+    {
+      "raw_title": "예술가란 무엇인가",
+      "raw_creator": "베레나 크리거",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 72"
+    },
+    {
+      "raw_title": "신의 독약 1-2",
+      "raw_creator": "알렉산더 쿠퍼",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 73"
+    },
+    {
+      "raw_title": "문학과 예술의 사회사 1-4",
+      "raw_creator": "아놀드 하우저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 74"
+    },
+    {
+      "raw_title": "간송 전형필",
+      "raw_creator": "이충렬",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 75"
+    },
+    {
+      "raw_title": "거장신화",
+      "raw_creator": "노먼 레브레이트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 예술 / 출처 목록 번호 76"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=221806206461",
+      "https://www.newshyu.com/news/articleView.html?idxno=17081",
+      "https://www.newshyu.com/news/articleView.html?idxno=13855",
+      "https://blog.naver.com/hyulibrary/222285646502",
+      "https://lib.hanyang.ac.kr/search/hanyang-collection/book-recommendations",
+      "https://www.hanyang.ac.kr"
+    ],
+    "item_count": 75,
+    "expected_count": 76,
+    "gaps": "블로그 전사본이 40번 항목을 통째로 빠뜨렸다. 인문 1~20, 사회 21~39, 과학 41~59, 예술 60~76으로 번호가 이어지는데 사회와 과학 사이의 40번 자리가 비어 있다. 76선이라는 이름과 달리 실제로 담긴 것은 75건이다.",
+    "uncertainties": "한양대 도서관의 권장도서 컬렉션 페이지는 살아 있으나 목록 자료가 비어 있어 원본으로 대조하지 못했다. 2015년 76선 발표를 전한 학내 언론 기사를 source_url로 걸었다. 목록은 해마다 갱신되며 2021년에는 82선이었으므로 이 목록은 2015년판으로 두고 series_key를 붙였다. 빠진 40번 항목은 채우지 않았다."
+  }
+}

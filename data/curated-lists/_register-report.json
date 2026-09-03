@@ -1,57 +1,647 @@
 {
-  "created": 51,
-  "linkedExisting": 1,
-  "notFound": 10,
+  "created": 0,
+  "linkedExisting": 0,
+  "notFound": 128,
   "failures": [
     {
-      "list": "fivebooks-philosophy",
-      "title": "How Are We to Live?: Ethics in an Age of Self-Interest",
-      "creator": "Peter Singer"
+      "list": "korea-dept-recommended",
+      "title": "범죄에 관한 10가지 신화",
+      "creator": "Pepinsky, Harold E"
     },
     {
-      "list": "fivebooks-philosophy",
-      "title": "The Existentialist Reader",
-      "creator": "Paul S. MacDonald (ed.)"
+      "list": "korea-dept-recommended",
+      "title": "고려시대 사람들은 어떻게 살았을까. 1 : 사회ㆍ문화생활 이야기 개정판",
+      "creator": "한국역사연구회"
     },
     {
-      "list": "fivebooks-philosophy",
-      "title": "Daodejing (Tao Te Ching)",
-      "creator": "Laozi"
+      "list": "korea-dept-recommended",
+      "title": "정의와 행동 그리고 4월혁명의 기억",
+      "creator": "허은"
     },
     {
-      "list": "fivebooks-philosophy",
-      "title": "The Kennedy Tapes",
-      "creator": "E. May"
+      "list": "korea-dept-recommended",
+      "title": "Crazy English : the ultimate joy ride through our language",
+      "creator": "Lederer, Richard"
     },
     {
-      "list": "fivebooks-philosophy",
-      "title": "Xunzi: The Complete Text",
-      "creator": "Xunzi (trans. Eric L. Hutton)"
+      "list": "korea-dept-recommended",
+      "title": "원효의 금강삼매경론",
+      "creator": "은정희"
     },
     {
-      "list": "fivebooks-philosophy",
-      "title": "The Collected Philosophical Papers",
-      "creator": "G.E.M. Anscombe"
+      "list": "korea-dept-recommended",
+      "title": "아시아에서의 냉전",
+      "creator": "沈志華"
     },
     {
-      "list": "fivebooks-philosophy",
-      "title": "Black Box Thinking: The Surprising Truth About Success",
-      "creator": "Matthew Syed"
+      "list": "korea-dept-recommended",
+      "title": "삼국지 / 개정 신판",
+      "creator": "羅貫中"
     },
     {
-      "list": "fivebooks-philosophy",
-      "title": "The Bodhicaryāvatāra",
-      "creator": "Śāntideva"
+      "list": "korea-dept-recommended",
+      "title": "(세계사를 바꾼) 12가지 신소재 : 문명의 기반이 된 '철'부터 미래를 이끌 '메타물질'까지!",
+      "creator": "佐藤健太郎"
     },
     {
-      "list": "fivebooks-philosophy",
-      "title": "Pharsalia",
-      "creator": "Marcus Annaeus Lucanus (trans. Jane Wilson Joyce)"
+      "list": "korea-dept-recommended",
+      "title": "육구연집",
+      "creator": "陸九淵"
     },
     {
-      "list": "fivebooks-philosophy",
-      "title": "Tractatus Theologico-Politicus",
-      "creator": "Baruch Spinoza (trans. Samuel Shirley)"
+      "list": "korea-dept-recommended",
+      "title": "위대한 수학문제들 : 골드바흐 추측에서 질량간극 가설까지, 한 권으로 읽는 최강의 수학난제",
+      "creator": "Stewart, Ian"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "한국 서지학 개정증보 2판",
+      "creator": "천혜봉"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "UI 디자인 교과서 : 멀티 디바이스 시대의 인터페이스 디자인",
+      "creator": "原田秀司"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "실천이성비판 / 개정2판",
+      "creator": "Kant, Immanuel"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "두려움 없는 조직 : 심리적 안정감은 어떻게 조직의 학습, 혁신, 성장을 일으키는가",
+      "creator": "Edmondson, Amy C."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "코뮤니스트 : 마르크스에서 카스트로까지, 공산주의 승리와 실패의 세계사",
+      "creator": "Service, Robert"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "수학의 언어: 안 보이는 것을 보이게 하는 수학",
+      "creator": "Devlin, Keith"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "세계사를 바꾼 전염병 13가지",
+      "creator": "Wright, Jennifer Ashley"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "종의 기원 / 2판",
+      "creator": "Darwin, Charles"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "진래 교수의 유학과 현대사회",
+      "creator": "陳來"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "중국철학사. 하",
+      "creator": "馮友蘭"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "(반도체의 부가가치를 올리는) 패키지와 테스트",
+      "creator": "서민석"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "어떻게 수학을 사랑하지 않을 수 있을까? : 삶의 해를 구하는 공부",
+      "creator": "Sigmund, Karl"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "시각디자인 : 좋은 것에 담긴 감각과 생각",
+      "creator": "Falcinelli, Riccardo"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "삶의 정도 : 윤석철 교수 제4의 10년 주기 작(作)",
+      "creator": "윤석철"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "고려시대 사람들은 어떻게 살았을까. 2 : 정치·경제생활 이야기 개정판",
+      "creator": "한국역사연구회"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "진리와 방법. 1 : 철학적 해석학의 기본 특징들. 개정판",
+      "creator": "Gadamer, Hans-Georg"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "한학입문 / [신판]",
+      "creator": "심경호"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "인생의 괴로움과 깨달음 : 미처 몰랐던 불교, 알고 싶었던 붓다",
+      "creator": "강성용"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "X의 즐거움 : 인생을 해석하고 지성을 자극하는 수학 여행",
+      "creator": "Strogatz, Steven"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "불교란 무엇이 아닌가 : 불교를 둘러싼 23가지 오해와 답변",
+      "creator": "Faure, Bernard"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "새 민족문학사 강좌",
+      "creator": "김동준"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "사회계약론 ; 인간불평등기원론",
+      "creator": "Rousseau, Jean-Jacques"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "계몽의 변증법 : 철학적 단상",
+      "creator": "Adorno, Theodor W."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "지리의 힘. 2, 지리는 어떻게 나라의 운명을, 세계의 분쟁을, 우리의 선택을 좌우하는가",
+      "creator": "Marshall, Tim"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "역사란 무엇인가 / 개역판(개정판)",
+      "creator": "Carr, Edward Hallett"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "선가귀감 : 언해본과 한문본을 아루른 校勘과 詳註",
+      "creator": "휴정"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "(아리스토텔레스) 형이상학",
+      "creator": "Aristoteles"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "예술 이후",
+      "creator": "Joselit, David"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "디지털 역사란 무엇인가?",
+      "creator": "Salmi, Hannu"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "傳習錄 / 제2판",
+      "creator": "王守仁"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "유배지에서 보낸 편지 / 개정3판",
+      "creator": "정약용"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "도덕과 입법의 원리 서설",
+      "creator": "Bentham, Jeremy"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "오픈 디자인",
+      "creator": "Abel, Bas van"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "바다에서 본 역사 : 개방, 경합, 공생 : 동아시아 700년의 문명 교류사",
+      "creator": "羽田正"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "인학본체론 : 사람에 대한 유학의 최종 인식",
+      "creator": "陳來"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "화학이란 무엇인가 : 세상에서 가장 쓸모 있는 과학의 핵심",
+      "creator": "Atkins, P. W"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "리바이어던 / 3판",
+      "creator": "Hobbes, Thomas"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "감시와 처벌 : 감옥의 탄생 / 번역개정 2판",
+      "creator": "Foucault, Michel"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "사라진 스푼 : 주기율표에 얽힌 광기와 사랑, 그리고 세계사",
+      "creator": "Kean, Sam"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "의사소통행위이론. 2 , 기능주의적 이성 비판을 위하여",
+      "creator": "Habermas, Jürgen"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "왜 지금 지리학인가 : 슈퍼바이러스의 확산, 거대 유럽의 위기, IS의 출현까지 혼돈의 세계정세를 꿰뚫는 공간적 사유의 힘",
+      "creator": "De Blij, Harm J."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "사회학적 상상력 / 개정판",
+      "creator": "Mills, C. Wright"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "에티카 / 개정 1판",
+      "creator": "Baruch de Spinoza"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "氣學 : 19세기 한 조선인의 우주론 / 개정증보판",
+      "creator": "최한기"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "법철학 : 베를린, 1821년",
+      "creator": "Hegel, Georg Wilhelm Friedrich"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "괴짜경제학 / 개정증보판",
+      "creator": "Levitt, Steven D"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "(왕보의) 장자 강의",
+      "creator": "王博"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "근대 일본의 사상가들",
+      "creator": "鹿野政直"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "Turing's vision [electronic resource] : the birth of computer science",
+      "creator": "Bernhardt, Chris"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "세계사를 바꾼 10가지 약",
+      "creator": "佐藤健太郞"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "Stocks for the long run : the definitive guide to financial market returns & long-term investment strategies / 5th ed",
+      "creator": "Siegel, Jeremy J."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "슈퍼버그 : 보이지 않는 적과의 전쟁",
+      "creator": "McCarthy, Matt"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "The human condition / 2nd ed",
+      "creator": "Arendt, Hannah"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "공학의 명장면 12 : 페니실린에서 월드 와이드 웹까지",
+      "creator": "Hill, Christian"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "꽃은 알고 있다 : 꽃가루로 진실을 밝히는 여성 식물학자의 사건 일지",
+      "creator": "Wiltshire, Patricia E. J"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "나는 선량한 기후파괴자입니다 : 기후위기를 외면하며 우리가 내뱉는 수많은 변명에 관하여",
+      "creator": "Brudermann, Thomas"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "깨진 틈이 있어야 그 사이로 빛이 들어온다 : 차라투스트라는 이렇게 말했다",
+      "creator": "Nietzsche, Friedrich Wilhelm"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "식물의 사회생활 : 한곳에 뿌리내린 식물이 다른 식물, 미생물, 동물, 인간과 맺는 친밀하거나 적대적인 모든 관계",
+      "creator": "이영숙"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "(오늘의) 사회이론가들",
+      "creator": "김문조"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "진리와 방법. 2 : 철학적 해석학의 기본 특징들",
+      "creator": "Gadamer, Hans-Georg"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "중국현대사상사론",
+      "creator": "李澤厚"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "(EBS 다큐프라임) 자본주의 : [금융ㆍ소비ㆍ돈에 관한 33가지 비밀]",
+      "creator": "EBS. 자본주의 제작팀"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "사회학으로의 초대 : 인간주의적 시각",
+      "creator": "Berger, Peter L."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "순언 / 개정판",
+      "creator": "이이"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "이자수어 : 성호 이익이 가려 뽑은 퇴계학의 정수",
+      "creator": "이황"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "설탕과 권력",
+      "creator": "Sidney W. Mintz"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "논리적 관점에서",
+      "creator": "Quine, Willard Van Orman"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "중국철학사. 상",
+      "creator": "馮友蘭"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "한국 노동계급의 형성",
+      "creator": "Koo, Hagen"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "의사소통행위이론. 1 , 행위 합리성과 사회 합리화",
+      "creator": "Habermas, Jürgen"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "무지한 스승 : 지적 해방에 대한 다섯 가지 교훈 / 2판(개정판)",
+      "creator": "Rancière, Jacques"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "과학혁명의 구조 / 제4판",
+      "creator": "Kuhn, Thomas S"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "총, 균, 쇠 / 3판",
+      "creator": "Diamond, Jared M."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "존재와 시간 / 5판",
+      "creator": "Heidegger, Martin"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "유닉스의 탄생 : 세상을 바꾼 운영체제를 만든 천재들의 숨은 이야기",
+      "creator": "Kernighan, Brian W."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "기하학 세상을 설명하다 : 만물의 기저에 숨어 있는 기하학",
+      "creator": "Ellenberg, Jordan"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "공자 평전 : 권위와 신화의 옷을 벗은 인간 공자를 찾아서",
+      "creator": "金安平"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "비극의 탄생 / 개정판",
+      "creator": "Nietzsche, Friedrich Wilhelm"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "논리-철학 논고 / 개정 1판",
+      "creator": "Wittgenstein, Ludwig"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "어떻게 민주주의는 무너지는가 : 우리가 놓치는 민주주의 위기 신호",
+      "creator": "Levitsky, Steven"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "식물을 미치도록 사랑한 남자들",
+      "creator": "Mancuso, Stefano"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "(처음 읽는) 플랜트 엔지니어링 이야기",
+      "creator": "박정호"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "디자인 정의 : 우리에게 필요한 세상을 위한",
+      "creator": "Costanza-Chock, Sasha"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "어떻게 세계는 서양이 주도하게 되었는가 : 세계 경제를 장악했던 동양은 어떻게 불과 2백 년 사이에 서양에게 역전당했는가",
+      "creator": "Marks, Robert B."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "자유로부터의 도피 / 2판",
+      "creator": "Fromm, Erich"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "슈퍼배터리와 전기자동차 이야기",
+      "creator": "Fletcher, Seth"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "Decentering citizenship : gender, labor, and migrant rights in South Korea",
+      "creator": "Choo, Hae Yeon"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "退溪選集 / 개정판",
+      "creator": "이황"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "모나드론 외",
+      "creator": "Leibniz, Gottfried Wilhelm , Freiherr von"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "(인류를 식량 위기에서 구할) 음식의 모험가들",
+      "creator": "Little, Amanda"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "The structure of scientific revolutions / 4th ed",
+      "creator": "Kuhn, Thomas S."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "세상은 이야기로 만들어졌다 : 신화·거짓말·유토피아",
+      "creator": "El Ouassil, Samira"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "동서 문화와 철학",
+      "creator": "梁漱溟"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "Designing pleasurable products : an introduction to the new human factors",
+      "creator": "Jordan, Patrick W"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "거의 모든 것의 역사 / 개역판",
+      "creator": "Bryson, Bill"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "처음 읽는 2차전지 이야기 : 탄생부터 전망, 원리부터 활용까지 전지에 관한 거의 모든 것!",
+      "creator": "白石拓"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "엔치클로페디 : 제1부 논리의 학",
+      "creator": "Hegel, Georg Wilhelm Friedrich"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "그 많은 개념어는 누가 만들었을까 : 서양 학술용어 번역과 근대어의 탄생",
+      "creator": "山本貴光"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "니코마코스 윤리학 : 그리스어 원전 완역본",
+      "creator": "Aristoteles"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "Human behavior and the principle of least effort : an introduction to human ecology",
+      "creator": "Zipf, George Kingsley"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "한국미술의 역사 : 선사시대에서 조선시대까지",
+      "creator": "김원용"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "현대중국철학사",
+      "creator": "馮友蘭"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "세상의 모든 원소 118 : 눈으로 보는 세상의 모든 원소들",
+      "creator": "Gray, Theodore W."
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "나노바이오테크놀로지",
+      "creator": "Georgescu, Vlad"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "한 권의 화학 : 화약부터 그래핀까지, 화학을 만든 250가지 이야기",
+      "creator": "Lowe, Derek B"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "교사로 산다는 것 : 학교교육의 진실과 불복종 교육",
+      "creator": "Kozol, Jonathan"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "거대한 역설 : 왜 개발할수록 불평등해지는가",
+      "creator": "McMichael, Philip"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "Structure and interpretation of computer programs 2nd ed",
+      "creator": "Abelson, Harold"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "유럽학문의 위기와 선험적 현상학 / 개정판",
+      "creator": "Husserl, Edmund"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "수학으로 생각하는 힘 : 일상의 모든 순간, 수학은 어떻게 최선의 선택을 돕는가",
+      "creator": "Yates, Kit"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "한국 문화유산 산책 / 개정판",
+      "creator": "박대재"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "(중국 근대의)지식인",
+      "creator": "梁啓超"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "高麗時代 對外交流史 硏究",
+      "creator": "이진한"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "(정선) 목민심서 / 개정판",
+      "creator": "정약용"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "화학 연대기 : 세상을 바꾼 작고도 거대한 화학의 역사",
+      "creator": "장홍제"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "판단력 비판 / 보정판",
+      "creator": "Kant, Immanuel"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "고백록 / 5판",
+      "creator": "Augustine, of Hippo, Saint"
+    },
+    {
+      "list": "korea-dept-recommended",
+      "title": "방법서설 ; 정신지도 규칙 / 제3판",
+      "creator": "Descartes, René"
     }
   ]
 }

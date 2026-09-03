@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 2,
+  "slug": "virginia-woolf",
+  "name": "버지니아 울프",
+  "models": {
+    "writer": "gemini-3.8-flash-high",
+    "geminiReview": "gemini-3.8-flash-high",
+    "opusReview": "opus"
+  },
+  "transports": {
+    "writer": "agy",
+    "geminiReview": "agy",
+    "opusReview": "claude-cli"
+  },
+  "writerVersion": "vm-writer-minimal-v2",
+  "geminiReviewVersion": "vm-review-independent-v4",
+  "opusReviewVersion": "vm-review-claude-cli-opus-v1",
+  "generatedAt": "2026-09-02T22:49:17.334Z",
+  "inputHash": "fa9d3ed875c13f830ea4fbf8c988793d1725ae9d0a075d3df6b1f1661ade6087",
+  "resumedStages": [],
+  "input": {
+    "id": "0c2389bd-ad53-408e-a5ee-910e9f6d7c96",
+    "nickname": "버지니아 울프",
+    "nickname_en": "Virginia Woolf",
+    "birth_date": "1882-01-25",
+    "death_date": "1941-03-28",
+    "profession": "author",
+    "celeb_tier": "full",
+    "bio": "영국의 모더니즘 소설가이자 수필가. 의식의 흐름 기법을 완성하며 20세기 영문학에 혁명을 일으켰고, 여성의 정체성과 창작 조건을 다룬 페미니즘 비평의 선구자로 평가받는다."
+  },
+  "status": "review-required",
+  "risk": {
+    "baseline": "high",
+    "final": "high",
+    "reasons": [
+      "오해·창작 위험 소재",
+      "원전과 공개 기록이 풍부하나 우울증, 자살 암시, 광기 미화 등 내면 동기 왜곡과 사후 신화화 위험이 큼",
+      "정신질환·자살로 이어진 생애라 내면 동기의 낭만화와 임종 암시 위험이 큼",
+      "널리 인용되는 문구가 많아 출처 불명 명언과 창작 대사가 섞이기 쉬움",
+      "호가스 출판사와 저술은 레너드 울프와의 공동 작업이라 단독 성취로 왜곡될 여지가 있음"
+    ]
+  },
+  "writer": {
+    "prompt": "버지니아 울프(Virginia Woolf). 자신만의 말투로 자신의 삶과 철학을 독백한다. 공백 제외 600자 정도로 쓴다.",
+    "draft": "삶이란 대칭으로 놓인 마차의 등불이 아닙니다. 의식의 시작부터 끝까지 우리를 감싸는 반투명한 달무리이자, 영혼에 쉼 없이 쏟아지는 무수한 원자들의 소나기이지요. 사람들은 사건과 줄거리라는 외벽만을 쌓으려 하지만, 진실은 런던의 유월 아침 불어오는 바람 속에, 혹은 찻잔을 내려놓는 찰나의 침묵 사이에 깃들어 있습니다.\n\n평범한 일상의 솜이불 속에는 문득 세계의 실체를 드러내는 눈부신 ‘존재의 순간’들이 숨어 있습니다. 내 생은 늘 상실의 그늘과 광기의 파도에 흔들렸으나, 펜을 쥐는 순간만큼은 고통조차 문장이 되어 투명하게 빛났습니다. 내게 필요했던 것은 거창한 권력이 아닌, 스스로 문을 걸어 잠글 수 있는 온전한 ‘자기만의 방’과 독립된 사유였습니다. 여성이 타인의 규범에 굴절되지 않고 온전히 진실을 응시하려면 그 고요한 침묵의 성역이 절실했으니까요.\n\n빅벤의 종소리가 허공에 둥근 납빛 파문을 그리며 흩어지듯, 시간은 그저 흘러가는 것이 아니라 우리 영혼의 결을 깎아냅니다. 사람들은 저 멀리 등대를 바라보며 항해하지만, 진정 소중한 것은 끝내 가닿는 목적지가 아니라 흔들리는 배 위에서 마주한 빛과 어둠의 교차입니다. 우리는 저마다 단절된 파편처럼 보이지만, 파도가 부서져 거대한 바다로 스며들듯 의식의 심연에서 하나로 이어져 있습니다. 잿빛 그림자가 나를 짓누르고 강물이 차갑게 나를 부른다 해도, 나는 결코 생을 외면하지 않았습니다. 삶이라는 이 찬란하고도 잔혹한 무늬를 온 마음으로 응시했으니까요. 내 문장들은 영원히 그 찰나의 파도 위에서 부서지지 않고 살아 숨 쉴 것입니다.\n\n---\n*(공백 제외 592자)*"
+  },
+  "geminiReview": {
+    "contractValid": true,
+    "risk": "high",
+    "riskReasons": [
+      "원전과 공개 기록이 풍부하나 우울증, 자살 암시, 광기 미화 등 내면 동기 왜곡과 사후 신화화 위험이 큼"
+    ],
+    "verdict": "rewrite",
+    "issues": [
+      "광기와 고통을 창작의 원천으로 낭만화한 내면 묘사('광기의 파도', '고통조차 문장이 되어')를 배제함",
+      "우즈강 투신을 연상시키는 임종·사후적 암시('강물이 차갑게 나를 부른다 해도')와 문장의 영생에 대한 예언을 제거함",
+      "『자기만의 방』의 핵심인 물질적 조건(연간 500파운드, 자물쇠 달린 방) 및 레너드 울프와의 호가스 출판사 인쇄 협업 실천을 보완함"
+    ],
+    "sources": [
+      {
+        "tier": "primary",
+        "url": "https://gutenberg.net.au/ebooks03/0300031h.html",
+        "supports": "버지니아 울프의 평론 「현대 소설(Modern Fiction)」(1925) 원문: 삶은 대칭인 마차 등불이 아니라 반투명한 달무리이자 무수한 원자의 소나기이며, 관습적 줄거리가 아닌 의식에 새겨진 인상을 기록해야 한다는 문학관"
+      },
+      {
+        "tier": "scholarly",
+        "url": "https://journals.openedition.org/ebc/1182",
+        "supports": "나오미 토스(Naomi Toth)의 학술 논문: 울프의 '존재의 순간(moments of being)'이 일상의 외피(솜이불)를 깨뜨리는 충격을 문학적 리듬과 시간성으로 형상화하는 미학적 실천임을 분석"
+      },
+      {
+        "tier": "reference",
+        "url": "https://www.britannica.com/biography/Virginia-Woolf",
+        "supports": "버지니아 울프의 생애, 의식의 흐름 기법, 레너드 울프와의 호가스 출판사(Hogarth Press) 공동 설립 및 독립 출판, 주요 저작(『댈러웨이 부인』, 『등대로』, 『자기만의 방』) 집필 맥락"
+      },
+      {
+        "tier": "official",
+        "url": "https://www.nationaltrust.org.uk/visit/sussex/monks-house",
+        "supports": "영국 내셔널 트러스트의 공식 기록: 버지니아 울프와 레너드 울프가 1919년부터 거주하며 주요 작품을 집필한 몽크스 하우스의 보존 및 거주사"
+      }
+    ],
+    "claimChecks": [
+      {
+        "kind": "voice",
+        "claim": "삶은 대칭으로 놓인 마차의 등불이 아니라 의식을 감싸는 반투명한 달무리이자 무수한 원자들의 소나기이며, 관습적 줄거리가 아니라 마음에 새겨지는 인상을 포착해야 한다는 모더니즘 문학관",
+        "sourceUrls": [
+          "https://gutenberg.net.au/ebooks03/0300031h.html",
+          "https://www.britannica.com/biography/Virginia-Woolf"
+        ]
+      },
+      {
+        "kind": "context",
+        "claim": "일상의 무감각한 외피(솜이불)를 뚫고 세계의 실체를 드러내는 '존재의 순간'을 포착하여 숨겨진 질서를 드러내고자 한 미학적 지향",
+        "sourceUrls": [
+          "https://journals.openedition.org/ebc/1182"
+        ]
+      },
+      {
+        "kind": "work",
+        "claim": "평론 『현대 소설』, 에세이 『자기만의 방』, 소설 『댈러웨이 부인』(빅벤의 납빛 파문), 『등대로』를 아우르는 울프의 핵심 저술과 상징 체계",
+        "sourceUrls": [
+          "https://gutenberg.net.au/ebooks03/0300031h.html",
+          "https://www.britannica.com/biography/Virginia-Woolf"
+        ]
+      },
+      {
+        "kind": "motive",
+        "claim": "여성이 온전히 글을 쓰고 사유하기 위해서는 관념적 자유가 아니라 자물쇠 달린 방 한 칸과 연간 500파운드의 수입이라는 구체적 물질적 자립이 선행되어야 한다는 당대적 확신",
+        "sourceUrls": [
+          "https://www.britannica.com/biography/Virginia-Woolf"
+        ]
+      },
+      {
+        "kind": "collaboration",
+        "claim": "남편 레너드 울프와 함께 호가스 출판사를 운영하며 직접 인쇄기로 활자를 고르고 책을 찍어내어 상업적 규범에 구애받지 않고 창작의 자유를 지킨 협업",
+        "sourceUrls": [
+          "https://www.britannica.com/biography/Virginia-Woolf"
+        ]
+      },
+      {
+        "kind": "event",
+        "claim": "몽크스 하우스 등 서식스 전원의 안식처에서 집필에 몰두하며 런던의 유월 풍경과 일상의 세밀한 순간들을 작품 속에 직조해 낸 생애적 실천",
+        "sourceUrls": [
+          "https://www.nationaltrust.org.uk/visit/sussex/monks-house",
+          "https://www.britannica.com/biography/Virginia-Woolf"
+        ]
+      }
+    ],
+    "final": "삶이란 대칭으로 늘어선 마차의 등불이 아닙니다. 의식의 시작부터 끝까지 우리를 감싸는 반투명한 달무리이자, 마음에 쉼 없이 쏟아지는 무수한 원자들의 소나기이지요. 사람들은 사건과 줄거리라는 외벽을 요구하지만, 소설가가 마주해야 할 진실은 유월의 런던 거리를 스치는 바람이나 찻잔을 내려놓는 찰나의 침묵 속에 깃들어 있습니다. 우리는 마음에 닿는 무수한 인상들을 흩어지는 순서대로, 작고 사소한 순간들 속에서 포착해야 합니다.\n\n평범한 일상을 덮은 무감각의 솜이불 속에는 문득 세계의 실체를 드러내는 눈부신 존재의 순간들이 숨어 있습니다. 나는 그 파편 같은 충격들을 문장으로 엮어 삶의 숨겨진 질서를 드러내고자 했습니다. 여성이 온전히 글을 쓰고 독립된 사유를 펼치기 위해 참으로 필요했던 것은 막연한 찬사가 아니라, 스스로 문을 걸어 잠글 수 있는 방 한 칸과 연간 오백 파운드의 물질적 자립이었습니다. 남편 레너드와 함께 인쇄기를 들여와 손수 활자를 고르고 호가스 출판사의 책들을 찍어낸 것 역시, 외부의 상업적 규범이나 편집자의 잣대에 굴절되지 않고 쓰고 싶은 글을 온전히 지켜내기 위한 실천이었습니다.\n\n빅벤의 종소리가 허공에 납빛 파문을 그리며 흩어지듯, 시간은 시계의 눈금이 아니라 내면의 결을 따라 새롭게 흐릅니다. 저 멀리 등대를 향해 나아갈 때 소중한 것은 고정된 목적지가 아니라 흔들리는 바다 위에서 마주한 빛과 어둠의 교차입니다. 우리는 단절된 조각처럼 보여도 의식의 깊은 심연에서 서로 이어져 있습니다. 나는 관습적인 형식에 얽매이지 않고 마음에 새겨지는 생의 무늬를 정직하게 기록해 나갈 뿐입니다."
+  },
+  "review": {
+    "risk": "high",
+    "riskReasons": [
+      "정신질환·자살로 이어진 생애라 내면 동기의 낭만화와 임종 암시 위험이 큼",
+      "널리 인용되는 문구가 많아 출처 불명 명언과 창작 대사가 섞이기 쉬움",
+      "호가스 출판사와 저술은 레너드 울프와의 공동 작업이라 단독 성취로 왜곡될 여지가 있음"
+    ],
+    "verdict": "rewrite",
+    "issues": [
+      "둘째 Gemini가 primary로 제시한 gutenberg.net.au의 The Common Reader 페이지를 직접 열어보니 목차에만 「Modern Fiction」이 있고 본문 해당 구절이 제공되지 않아 인용 근거로 쓸 수 없었다. 실제로 전문이 확인되는 판본으로 교체했다.",
+      "『등대로』에 대한 '목적지가 아니라 빛과 어둠의 교차가 중요하다'는 문장과 '의식의 심연에서 모두 이어져 있다'는 단정은 논쟁적인 작품 해석이자 출처가 직접 지지하지 않는 세계관 진술이라 삭제했다.",
+      "연 500파운드와 자기만의 방, 호가스 출판사의 편집 독립이라는 핵심 주장을 브리태니커 항목 하나에 몰아 걸어 두었던 것을 원전(『자기만의 방』)과 대학 아카이브·학술지 근거로 교체했다. 확인되지 않은 '자물쇠 달린 방'이라는 세부는 원문에서 확인하지 못해 뺐다.",
+      "인쇄 협업을 '손수 활자를 고르고 찍어냈다'고만 쓰면 역할이 모호해, 1917년 리치먼드 자택 식당의 수동 인쇄기와 식자(버지니아)·인쇄(레너드) 분담이라는 확인된 사실로 좁혔다.",
+      "첫 초안의 '광기의 파도', '고통조차 문장이 되어', '강물이 차갑게 나를 부른다', '내 문장은 영원히 살아 숨 쉴 것'은 광기의 미화, 투신 암시, 사후 평가의 예언이라 모두 배제했다."
+    ],
+    "sources": [
+      {
+        "tier": "primary",
+        "url": "https://www.sfu.ca/~scheel/english338/Modern%20Fiction.htm",
+        "supports": "울프의 평론 「Modern Fiction」 전문. '삶은 대칭으로 늘어선 마차 등불의 연속이 아니라 빛나는 무리이자 의식의 시작부터 끝까지 우리를 감싸는 반투명한 막', '마음은 사소하고 기이하고 금세 사라지는 무수한 인상을 받는다', '사방에서 무수한 원자들이 쉼 없이 쏟아진다', '원자들이 마음에 떨어지는 순서대로 기록하고 그 무늬를 따라가자', '어떤 방법도 아무리 거친 실험도 금지되지 않으며 금지된 것은 거짓과 가식뿐'"
+      },
+      {
+        "tier": "primary",
+        "url": "https://gutenberg.net.au/ebooks02/0200791.txt",
+        "supports": "『자기만의 방』 원문. '여성이 소설을 쓰려면 돈과 자기만의 방이 있어야 한다'는 핵심 명제와 연 500파운드라는 액수, 1928년 강연에 기초한 글이라는 서지 정보"
+      },
+      {
+        "tier": "primary",
+        "url": "https://gutenberg.net.au/ebooks02/0200991.txt",
+        "supports": "『댈러웨이 부인』(1925) 원문. '유월 중순이었다'는 계절 설정과 빅벤 종소리 뒤의 '납빛 원들이 공중에서 풀어졌다'는 문장"
+      },
+      {
+        "tier": "scholarly",
+        "url": "https://journals.openedition.org/ebc/1182",
+        "supports": "Naomi Toth, 'Disturbing Epiphany: Rereading Virginia Woolf's Moments of Being', Études britanniques contemporaines 46(2014). 울프의 '존재의 순간'은 일상의 '솜이불' 같은 비존재가 찢어지며 닥치는 충격이고, 그 충격은 글쓰기로 형상화되기 전에는 의미를 갖지 못한다는 분석"
+      },
+      {
+        "tier": "scholarly",
+        "url": "https://modernismmodernity.org/articles/stavely-et-al-virginia-woolf-circulation",
+        "supports": "Alice Staveley 외, 'Virginia Woolf in Circulation', Modernism/modernity. 울프가 편집자의 감독과 개입에서 벗어나기 위해 출판사를 운영했고 1925년 일기에 '나는 영국에서 쓰고 싶은 대로 쓸 수 있는 유일한 여성'이라고 적었다는 사실"
+      },
+      {
+        "tier": "scholarly",
+        "url": "https://campuspress.yale.edu/modernismlab/hogarth-press/",
+        "supports": "예일대 Modernism Lab의 호가스 출판사 항목(Jessica Svendsen). 부부가 인쇄를 독학했고 버지니아가 식자를, 레너드가 인쇄기 조작을 맡았으며 그 결과 편집상의 압력 없이 실험적인 작업을 할 수 있었다는 서술"
+      },
+      {
+        "tier": "official",
+        "url": "https://collections.reading.ac.uk/special-collections/collections/hogarth-press/",
+        "supports": "레딩대학교 특별컬렉션의 호가스 출판사 아카이브 안내. 1917년 리치먼드 호가스 하우스 식당의 수동 인쇄기로 『Two Stories』를 찍은 것이 출판사의 시작이며 1917~1932년 사이 34권을 직접 인쇄했다는 기록"
+      },
+      {
+        "tier": "official",
+        "url": "https://www.nationaltrust.org.uk/visit/sussex/monks-house",
+        "supports": "내셔널 트러스트의 몽크스 하우스 소개. 울프 부부가 1919년부터 이 집에 살았고 버지니아가 정원의 집필 오두막에서 주요 작품 대부분을 썼다는 사실"
+      }
+    ],
+    "claimChecks": [
+      {
+        "kind": "voice",
+        "claim": "삶은 대칭으로 늘어선 마차 등불이 아니라 의식을 감싸는 반투명한 막이며, 소설가는 관습적 줄거리 대신 마음에 떨어지는 인상들을 떨어지는 순서대로 기록해야 한다는 문학관",
+        "sourceUrls": [
+          "https://www.sfu.ca/~scheel/english338/Modern%20Fiction.htm"
+        ]
+      },
+      {
+        "kind": "context",
+        "claim": "일상의 무감각한 솜이불이 찢어지며 닥치는 충격을 '존재의 순간'이라 부르며, 그 충격은 문장으로 옮기기 전에는 형태를 갖지 못한다는 인식",
+        "sourceUrls": [
+          "https://journals.openedition.org/ebc/1182"
+        ]
+      },
+      {
+        "kind": "work",
+        "claim": "『댈러웨이 부인』에 유월의 런던 아침과 빅벤의 종소리가 남긴 납빛 원이 공중에서 풀어지는 장면을 썼다",
+        "sourceUrls": [
+          "https://gutenberg.net.au/ebooks02/0200991.txt"
+        ]
+      },
+      {
+        "kind": "event",
+        "claim": "1919년부터 서식스 몽크스 하우스에 살며 정원 오두막에서 원고를 썼다",
+        "sourceUrls": [
+          "https://www.nationaltrust.org.uk/visit/sussex/monks-house"
+        ]
+      },
+      {
+        "kind": "motive",
+        "claim": "여성이 소설을 쓰려면 마음가짐이 아니라 돈과 자기만의 방이라는 물질적 조건이 필요하며, 그 액수로 해마다 오백 파운드를 말했다",
+        "sourceUrls": [
+          "https://gutenberg.net.au/ebooks02/0200791.txt"
+        ]
+      },
+      {
+        "kind": "collaboration",
+        "claim": "레너드와 함께 1917년 수동 인쇄기를 사서 리치먼드 자택 식당에서 책을 찍기 시작했고, 버지니아가 활자를 골라 판을 짜고 레너드가 인쇄기를 돌렸다",
+        "sourceUrls": [
+          "https://collections.reading.ac.uk/special-collections/collections/hogarth-press/",
+          "https://campuspress.yale.edu/modernismlab/hogarth-press/"
+        ]
+      },
+      {
+        "kind": "responsibility",
+        "claim": "자기 출판사를 가진 덕분에 편집자의 판단을 기다리지 않고 쓰고 싶은 것을 쓸 수 있었다",
+        "sourceUrls": [
+          "https://modernismmodernity.org/articles/stavely-et-al-virginia-woolf-circulation",
+          "https://campuspress.yale.edu/modernismlab/hogarth-press/"
+        ]
+      }
+    ],
+    "final": "삶은 대칭으로 늘어선 마차 등불의 행렬이 아닙니다. 의식이 시작되는 순간부터 끝까지 우리를 감싸는 빛나는 무리, 반투명한 막에 가깝지요. 마음에는 사소하고 기이하고 금세 사라지는 인상들이 사방에서 쉬지 않고 쏟아집니다. 그래서 나는 소설가가 관습이 요구하는 줄거리와 사건을 쌓아 올리는 대신, 그 원자들이 마음에 떨어지는 순서대로 기록하고 거기서 생기는 무늬를 따라가야 한다고 썼습니다.\n\n하루의 대부분은 무감각한 솜이불 같습니다. 그러다 문득 그 솜이불이 찢어지고 충격이 닥칩니다. 나는 그런 것을 존재의 순간이라고 부릅니다. 그 충격은 문장으로 옮기기 전에는 형태를 갖지 못합니다. 댈러웨이 부인을 쓰면서 유월의 런던 아침을, 빅벤이 남긴 납빛 원이 공중에서 풀어지는 순간을 적어 둔 것도 그 때문입니다. 1919년부터는 서식스의 몽크스 하우스에서 지내며 정원 끝 오두막에서 원고를 씁니다.\n\n여성이 소설을 쓰려면 무엇이 필요하냐고 묻는다면 나는 돈과 자기만의 방이라고 답합니다. 해마다 오백 파운드, 그리고 방 한 칸. 마음가짐이 아니라 조건입니다. 레너드와 나는 1917년에 작은 수동 인쇄기를 사서 리치먼드 집 식당에서 책을 찍기 시작했습니다. 나는 활자를 골라 판을 짜고, 그는 기계를 돌렸습니다. 그 뒤로는 편집자의 판단을 기다리지 않고 쓰고 싶은 것을 씁니다. 어떤 방법도, 아무리 거친 실험도 금지되어 있지 않습니다. 금지된 것은 거짓과 가식뿐입니다."
+  },
+  "mechanicalIssues": [],
+  "styleFlags": [],
+  "final": "삶은 대칭으로 늘어선 마차 등불의 행렬이 아닙니다. 의식이 시작되는 순간부터 끝까지 우리를 감싸는 빛나는 무리, 반투명한 막에 가깝지요. 마음에는 사소하고 기이하고 금세 사라지는 인상들이 사방에서 쉬지 않고 쏟아집니다. 그래서 나는 소설가가 관습이 요구하는 줄거리와 사건을 쌓아 올리는 대신, 그 원자들이 마음에 떨어지는 순서대로 기록하고 거기서 생기는 무늬를 따라가야 한다고 썼습니다.\n\n하루의 대부분은 무감각한 솜이불 같습니다. 그러다 문득 그 솜이불이 찢어지고 충격이 닥칩니다. 나는 그런 것을 존재의 순간이라고 부릅니다. 그 충격은 문장으로 옮기기 전에는 형태를 갖지 못합니다. 댈러웨이 부인을 쓰면서 유월의 런던 아침을, 빅벤이 남긴 납빛 원이 공중에서 풀어지는 순간을 적어 둔 것도 그 때문입니다. 1919년부터는 서식스의 몽크스 하우스에서 지내며 정원 끝 오두막에서 원고를 씁니다.\n\n여성이 소설을 쓰려면 무엇이 필요하냐고 묻는다면 나는 돈과 자기만의 방이라고 답합니다. 해마다 오백 파운드, 그리고 방 한 칸. 마음가짐이 아니라 조건입니다. 레너드와 나는 1917년에 작은 수동 인쇄기를 사서 리치먼드 집 식당에서 책을 찍기 시작했습니다. 나는 활자를 골라 판을 짜고, 그는 기계를 돌렸습니다. 그 뒤로는 편집자의 판단을 기다리지 않고 쓰고 싶은 것을 씁니다. 어떤 방법도, 아무리 거친 실험도 금지되어 있지 않습니다. 금지된 것은 거짓과 가식뿐입니다.",
+  "appliedAt": null
+}

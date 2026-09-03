@@ -1,0 +1,245 @@
+{
+  "curator": {
+    "slug": "korea-university",
+    "name": "고려대학교",
+    "name_en": "Korea University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1905,
+    "homepage_url": "https://www.korea.ac.kr",
+    "description": "고려대학교는 1905년 보성전문학교로 문을 연 사립 종합대학이다. 서울 안암동 본교와 세종특별자치시의 세종캠퍼스를 함께 운영한다. 학부 교양교육을 뒷받침하는 독서 프로그램을 도서관과 학술정보원이 맡아 왔다.",
+    "description_en": "Korea University is a private comprehensive university founded in 1905 as Bosung College. It operates its main campus in Anam-dong, Seoul, alongside a second campus in Sejong. Its libraries and academic information centers have long run the reading programs that support undergraduate liberal education."
+  },
+  "list": {
+    "slug": "korea-classics-fiction-30",
+    "title": "고려대 도서관 추천 고전 소설 30선",
+    "title_en": "Korea University Library 30 Classic Novels",
+    "description": "고려대학교 도서관이 「도서관 추천 고전도서」 컬렉션으로 내놓은 고전 소설 30권이다. 박경리 『토지』와 최인훈 『광장』 같은 한국 소설과 도스토옙스키·카뮈·카프카·마르케스 등 세계 문학을 함께 담았다. 같은 컬렉션의 「고전 사상 20선」과 짝을 이룬다.",
+    "description_en": "Thirty classic novels presented by the Korea University Library in its “Library Recommended Classics” collection. It combines Korean fiction such as Pak Kyongni’s Land and Choi In-hun’s The Square with world literature by Dostoevsky, Camus, Kafka and García Márquez. It is paired with the collection’s “20 Classics of Thought.”",
+    "published_year": null,
+    "edition": null,
+    "series_key": null,
+    "method": "도서관이 고전도서 컬렉션으로 30권을 골라 저자·서명과 함께 게시한다. 선정 연도와 심사 절차는 페이지에 적혀 있지 않다. 붙은 번호는 순위가 아니라 일련번호로, 발표 연대순도 저자 가나다순도 아니다.",
+    "method_en": "The library selected thirty titles for its classics collection and posts them with author and title only. The page states neither a selection year nor a review procedure. The numbers are sequential rather than ranks, following neither publication chronology nor alphabetical order.",
+    "source_url": "https://library.korea.ac.kr/datause/collection/gaje/gojeon30/",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "novel",
+      "classics"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "토지",
+      "raw_creator": "박경리",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 1"
+    },
+    {
+      "raw_title": "페스트",
+      "raw_creator": "알베르 카뮈",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 2"
+    },
+    {
+      "raw_title": "죄와 벌",
+      "raw_creator": "표도르 도스토옙스키",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 3"
+    },
+    {
+      "raw_title": "끝없는 밤",
+      "raw_creator": "애거서 크리스티",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 4"
+    },
+    {
+      "raw_title": "모비 딕",
+      "raw_creator": "허먼 멜빌",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 5"
+    },
+    {
+      "raw_title": "파우스트",
+      "raw_creator": "요한 볼프강 폰 괴테",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 6"
+    },
+    {
+      "raw_title": "신곡(지옥편)",
+      "raw_creator": "단테 알리기에리",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 7"
+    },
+    {
+      "raw_title": "돈키호테",
+      "raw_creator": "미겔 데 세르반테스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 8"
+    },
+    {
+      "raw_title": "아Q정전",
+      "raw_creator": "루쉰",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 9"
+    },
+    {
+      "raw_title": "설국",
+      "raw_creator": "가와바타 야스나리",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 10"
+    },
+    {
+      "raw_title": "당신들의 천국",
+      "raw_creator": "이청준",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 11"
+    },
+    {
+      "raw_title": "전쟁과 평화",
+      "raw_creator": "레프 니콜라예비치 톨스토이",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 12"
+    },
+    {
+      "raw_title": "위대한 유산",
+      "raw_creator": "찰스 디킨스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 13"
+    },
+    {
+      "raw_title": "파리의 노트르담",
+      "raw_creator": "빅토르 위고",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 14"
+    },
+    {
+      "raw_title": "백년의 고독",
+      "raw_creator": "가브리엘 가르시아 마르케스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 15"
+    },
+    {
+      "raw_title": "장미의 이름",
+      "raw_creator": "움베르토 에코",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 16"
+    },
+    {
+      "raw_title": "성",
+      "raw_creator": "프란츠 카프카",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 17"
+    },
+    {
+      "raw_title": "그리스인 조르바",
+      "raw_creator": "니코스 카잔차키스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 18"
+    },
+    {
+      "raw_title": "스토너",
+      "raw_creator": "존 윌리엄스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 19"
+    },
+    {
+      "raw_title": "우리들",
+      "raw_creator": "예브게니 이바노비치 자먀친",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 20"
+    },
+    {
+      "raw_title": "광장",
+      "raw_creator": "최인훈",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 21"
+    },
+    {
+      "raw_title": "싯다르타",
+      "raw_creator": "헤르만 헤세",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 22"
+    },
+    {
+      "raw_title": "거장과 마르가리타",
+      "raw_creator": "미하일 불가코프",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 23"
+    },
+    {
+      "raw_title": "도리언 그레이의 초상",
+      "raw_creator": "오스카 와일드",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 24"
+    },
+    {
+      "raw_title": "고리오 영감",
+      "raw_creator": "오노레 드 발자크",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 25"
+    },
+    {
+      "raw_title": "더블린 사람들",
+      "raw_creator": "제임스 조이스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 26"
+    },
+    {
+      "raw_title": "마의 산",
+      "raw_creator": "토마스 만",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 27"
+    },
+    {
+      "raw_title": "동물농장",
+      "raw_creator": "조지 오웰",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 28"
+    },
+    {
+      "raw_title": "마음",
+      "raw_creator": "나츠메 소세키",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 29"
+    },
+    {
+      "raw_title": "인간의 조건",
+      "raw_creator": "앙드레 말로",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 30"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "slug": "miyamoto-musashi",
+  "name": "미야모토 무사시",
+  "models": {
+    "writer": "gemini-3.8-flash-high",
+    "geminiReview": "gemini-3.8-flash-high",
+    "opusReview": "opus"
+  },
+  "transports": {
+    "writer": "agy",
+    "geminiReview": "agy",
+    "opusReview": "claude-cli"
+  },
+  "writerVersion": "vm-writer-minimal-v2",
+  "geminiReviewVersion": "vm-review-independent-v4",
+  "opusReviewVersion": "vm-review-claude-cli-opus-v1",
+  "generatedAt": "2026-09-02T22:59:46.835Z",
+  "inputHash": "66442bc9bd5bf99142ab84b66c15a78e9f51573983e5e930008f59de6a574da0",
+  "resumedStages": [],
+  "input": {
+    "id": "cdd36fdd-b90b-4b5d-bfc3-4f5fa9f10905",
+    "nickname": "미야모토 무사시",
+    "nickname_en": "Miyamoto Musashi",
+    "birth_date": "1584-03-01",
+    "death_date": "1645-06-13",
+    "profession": "commander",
+    "celeb_tier": "full",
+    "bio": "일본 전국시대 최고의 검객. 60여 회 결투에서 무패를 기록했으며, 만년에 저술한 오륜서는 무도 철학과 전략의 고전으로 세계적 영향력을 갖는다."
+  },
+  "status": "error",
+  "risk": {
+    "baseline": "high",
+    "final": "high",
+    "reasons": [
+      "근세 이전 인물",
+      "오해·창작 위험 소재"
+    ]
+  },
+  "writer": null,
+  "geminiReview": null,
+  "rawOpusReview": null,
+  "errorStage": "writer",
+  "error": "agy exit 1: Error: Individual quota reached. Please upgrade your subscription to increase your limits. Resets in 3h2m18s.\n",
+  "appliedAt": null
+}

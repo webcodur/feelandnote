@@ -29,10 +29,10 @@
   },
   {
     "slug": "alecto",
-    "profession": "influencer",
+    "profession": "leader",
     "confidence": "high",
     "alternatives": [],
-    "reason": "광기와 변장으로 아마타와 투르누스의 선택을 바꾸고 라티움 전쟁을 일으키는 설득·조종 기능이 핵심이다."
+    "reason": "그리스·로마 신화에서 복수와 형벌을 집행하는 에리니에스 여신이므로 leader로 분류한다."
   },
   {
     "slug": "amata",
@@ -51,9 +51,9 @@
   {
     "slug": "amphinomus",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer", "commander"],
-    "reason": "이타카 왕권을 노린 귀족 구혼자지만 통치권을 행사하지 않으며, 살해 반대 발언과 마지막 전투도 직군을 확정할 만큼 반복되는 기능은 아니다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "둘리키온 왕 아레티아스의 손자이자 니소스의 아들로 확인되는 왕가 혈통이므로 politician으로 분류한다."
   },
   {
     "slug": "amycus",
@@ -85,10 +85,10 @@
   },
   {
     "slug": "antinous",
-    "profession": "influencer",
+    "profession": "commander",
     "confidence": "high",
     "alternatives": [],
-    "reason": "구혼자 무리를 이끌며 텔레마코스 암살과 궁전 약탈을 주도하는 선택 조종자이자 파벌 선동자다."
+    "reason": "무장한 구혼자 파벌의 우두머리로 궁전을 점거하고 텔레마코스 암살 매복과 오디세우스에 대한 무력 대응을 주도하므로 대표 서사상 지휘관에 해당한다."
   },
   {
     "slug": "anubis",
@@ -106,10 +106,10 @@
   },
   {
     "slug": "aphrodite",
-    "profession": "influencer",
+    "profession": "leader",
     "confidence": "high",
     "alternatives": [],
-    "reason": "욕망을 일으켜 파리스·헬레나·메데이아의 선택과 전쟁·원정의 향방을 바꾸는 영향 행사가 대표 기능이다."
+    "reason": "그리스 신화에서 사랑과 미, 욕망을 관장하는 여신이므로 leader로 분류한다."
   },
   {
     "slug": "apollo",
@@ -121,12 +121,9 @@
   {
     "slug": "apsu",
     "profession": "leader",
-    "confidence": "low",
-    "alternatives": [
-      "influencer",
-      "commander"
-    ],
-    "reason": "첫 신들을 낳고 제거를 제안하지만 집단을 이끌거나 제의를 주재하지 않으며, 한 번의 살해 계획도 지휘관 기능으로 보기 어렵다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "메소포타미아 창세 신화에서 담수를 신격화한 태초의 남성 신이므로 leader로 분류한다."
   },
   {
     "slug": "ares",
@@ -138,12 +135,9 @@
   {
     "slug": "argos",
     "profession": "athlete",
-    "confidence": "low",
-    "alternatives": [
-      "influencer",
-      "commander"
-    ],
-    "reason": "젊을 때 사냥개였다는 이력은 있으나 대표 서사는 귀환한 주인을 알아보고 죽는 충견의 장면이며, 지속적인 스포츠 기능이 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "사냥개로서의 신체 능력과 추적 활동이 고유 정체성이므로 동물의 대표 신체 활동을 기준으로 athlete에 둔다."
   },
   {
     "slug": "arjuna",
@@ -183,12 +177,9 @@
   {
     "slug": "atum",
     "profession": "leader",
-    "confidence": "low",
-    "alternatives": [
-      "influencer",
-      "scientist"
-    ],
-    "reason": "스스로 생겨 신들의 계보를 시작하는 창조 기능은 핵심이지만, 통치·제의 지도·연구·기술 가운데 어느 직군에도 해당하지 않는다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "고대 이집트에서 스스로 생겨 신들의 계보를 시작한 창조신이므로 leader로 분류한다."
   },
   {
     "slug": "augeas",
@@ -200,12 +191,9 @@
   {
     "slug": "baldr",
     "profession": "leader",
-    "confidence": "low",
-    "alternatives": [
-      "influencer",
-      "politician"
-    ],
-    "reason": "모두에게 사랑받다가 겨우살이에 죽고 귀환이 예고되는 희생자 역할이 중심이며, 통치나 집단 지도 기능이 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "오딘과 프리그의 아들이며 에시르에 속하는 북유럽 신이므로 leader로 분류한다."
   },
   {
     "slug": "bastet",
@@ -245,12 +233,9 @@
   {
     "slug": "brahma",
     "profession": "leader",
-    "confidence": "low",
-    "alternatives": [
-      "author",
-      "humanities_scholar"
-    ],
-    "reason": "대표 기능은 우주 창조이며, 비야사에게 기록 방식을 한 차례 조언한 장면만으로 작가나 인문학자로 확정할 수 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "힌두교 트리무르티에 속하며 우주 창조를 맡는 창조신이므로 leader로 분류한다."
   },
   {
     "slug": "brynhild",
@@ -275,13 +260,10 @@
   },
   {
     "slug": "calypso",
-    "profession": "influencer",
-    "confidence": "low",
-    "alternatives": [
-      "leader",
-      "politician"
-    ],
-    "reason": "오디세우스를 붙잡고 불멸을 권하는 연인·억류자 역할이 중심이며, 대중 소통이나 지속적인 선택 조정 기능은 아니다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "호메로스가 신적 님프로 묘사하고 전승에서 오기기아의 여신으로 다루는 신격이므로 leader로 분류한다."
   },
   {
     "slug": "camilla",
@@ -320,20 +302,17 @@
   },
   {
     "slug": "creusa",
-    "profession": "humanities_scholar",
-    "confidence": "low",
-    "alternatives": [
-      "politician",
-      "influencer"
-    ],
-    "reason": "죽은 뒤 아이네이아스에게 이탈리아의 새 왕국을 예고하지만 한 차례의 예언이며, 대표 역할은 잃어버린 배우자라 자문 직군으로 확정하기 어렵다."
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "트로이 왕 프리아모스와 왕비 헤카베의 딸인 트로이 왕녀이므로 politician으로 분류한다."
   },
   {
     "slug": "daji",
-    "profession": "influencer",
+    "profession": "politician",
     "confidence": "high",
     "alternatives": [],
-    "reason": "주왕의 선택을 지속적으로 조종해 처벌과 국정, 상나라의 몰락을 이끄는 궁정 영향력 행사가 대표 기능이다."
+    "reason": "주왕의 총희로서 국정과 형벌에 지속적으로 개입하고 왕실 권력을 움직이는 궁정 정치 행위가 대표 역할이다."
   },
   {
     "slug": "dangun",
@@ -344,13 +323,10 @@
   },
   {
     "slug": "deianira",
-    "profession": "scientist",
-    "confidence": "low",
-    "alternatives": [
-      "influencer",
-      "politician"
-    ],
-    "reason": "네소스의 피를 사랑의 약으로 오인해 옷에 바르는 행위가 핵심이지만, 한 번의 잘못된 사용일 뿐 치유·기술 전문가는 아니다."
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "칼리돈 왕 오이네우스의 딸로 태어난 왕녀이므로 politician으로 분류한다."
   },
   {
     "slug": "demeter",
@@ -368,10 +344,10 @@
   },
   {
     "slug": "diaochan",
-    "profession": "influencer",
+    "profession": "politician",
     "confidence": "high",
     "alternatives": [],
-    "reason": "왕윤의 연환계를 실행해 동탁과 여포의 감정과 선택을 바꾸고 권력 구도를 무너뜨리는 영향 행사가 핵심이다."
+    "reason": "동탁과 여포의 관계를 갈라 권력 구도를 무너뜨리는 정치 공작이 대표 서사이므로 politician에 둔다."
   },
   {
     "slug": "dido",
@@ -431,10 +407,10 @@
   },
   {
     "slug": "electra",
-    "profession": "influencer",
+    "profession": "politician",
     "confidence": "high",
     "alternatives": [],
-    "reason": "오레스테스의 귀환과 복수 결심을 붙들고 궁정 살해 계획이 실행되도록 독려하는 선택 조정이 대표 기능이다."
+    "reason": "미케네 왕 아가멤논과 왕비 클리타임네스트라의 딸인 왕녀이므로 politician으로 분류한다."
   },
   {
     "slug": "elpenor",
@@ -462,13 +438,10 @@
   },
   {
     "slug": "eumaeus",
-    "profession": "commander",
-    "confidence": "low",
-    "alternatives": [
-      "influencer",
-      "politician"
-    ],
-    "reason": "대표 역할은 충직한 돼지치기와 환대자이며, 궁전 결전의 한 차례 무장 지원만으로 전쟁 직군을 부여할 수 없다."
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "시리아섬 두 도시를 다스린 왕 크테시오스의 아들로 태어난 왕자이므로 politician으로 분류한다."
   },
   {
     "slug": "eurycleia",
@@ -482,10 +455,10 @@
   },
   {
     "slug": "eurymachus",
-    "profession": "influencer",
+    "profession": "commander",
     "confidence": "high",
     "alternatives": [],
-    "reason": "페넬로페와 구혼자들을 속이고 안티노오스 사후에는 책임 전가와 배상안으로 무리의 선택을 바꾸려는 조종자다."
+    "reason": "무장 구혼자 파벌의 핵심 인물로 왕궁 점거와 오디세우스에 대한 무력 대응을 이끄는 대표 서사를 기준으로 commander에 둔다."
   },
   {
     "slug": "eurystheus",
@@ -517,10 +490,10 @@
   },
   {
     "slug": "freyr",
-    "profession": "commander",
-    "confidence": "low",
-    "alternatives": ["leader", "politician"],
-    "reason": "대표 기능은 비·햇빛·수확·평화의 관장이며, 벨리와 수르트에게 맞선 두 전투만으로 전쟁 직군을 확정하기 어렵다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "바니르에 속하며 풍요·평화·수확을 관장하는 북유럽 신이므로 leader로 분류한다."
   },
   {
     "slug": "frigg",
@@ -531,10 +504,10 @@
   },
   {
     "slug": "gandhari",
-    "profession": "humanities_scholar",
+    "profession": "politician",
     "confidence": "high",
     "alternatives": [],
-    "reason": "국왕과 두료다나에게 전쟁 중단과 바른 통치를 거듭 권하고 전쟁 뒤에는 파국을 예고하는 왕실 조언자다."
+    "reason": "쿠루 왕비로서 왕실과 왕위 분쟁에 놓여 조언과 저지를 이어 가며, 직접 전투보다 왕실 정치 역할이 대표적이다."
   },
   {
     "slug": "geb",

@@ -10,15 +10,18 @@
     "slug": "ahalya",
     "profession": "leader",
     "confidence": "low",
-    "alternatives": ["influencer", "politician"],
+    "alternatives": [
+      "influencer",
+      "politician"
+    ],
     "reason": "라마를 맞아 저주에서 풀려나는 종교적 귀감이지만 제의나 교단을 이끌지 않는다. leader를 포함해 기존 직군 어느 것도 대표 서사 기능과 정확히 맞지 않는다."
   },
   {
     "slug": "alcmene",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "왕가 출신이지만 통치나 정치 권력 행사는 없고 대표 기능은 헤라클레스와 이피클레스의 어머니다. politician은 혈연상 가장 가까운 잠정안일 뿐이다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "미케네 왕 엘렉트리온의 딸로 실제 왕가 혈통이므로 사용자 확정 규칙에 따라 politician으로 분류한다."
   },
   {
     "slug": "ame-no-koyane",
@@ -51,15 +54,18 @@
   {
     "slug": "andromache",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "왕세자비이자 후대의 왕비지만 원전에서 직접 통치하거나 정치 권력을 행사하지 않는다. 대표 기능은 아내·어머니·전쟁 포로라 politician도 정확하지 않다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "킬리키아 테베 왕 에에티온의 딸이자 트로이 왕자 헥토르의 배우자로 실제 왕족이므로 politician으로 분류한다."
   },
   {
     "slug": "angrboda",
     "profession": "leader",
     "confidence": "low",
-    "alternatives": ["influencer", "politician"],
+    "alternatives": [
+      "influencer",
+      "politician"
+    ],
     "reason": "펜리르·요르문간드·헬의 어머니라는 모계 중심성 때문에 leader를 잠정 제안하지만 집단을 이끌지 않는다. 기존 직군 어느 것도 대표 기능인 어머니 역할과 맞지 않는다."
   },
   {
@@ -72,16 +78,16 @@
   {
     "slug": "anticlea",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "이타카 왕비라는 지위는 있으나 통치나 정치 활동이 없고 대표 기능은 오디세우스의 어머니와 저승의 가족 소식 전달자다. politician은 잠정안이다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "이타카 왕 라에르테스의 배우자인 실제 왕비이므로 사용자 확정 규칙에 따라 politician으로 분류한다."
   },
   {
     "slug": "antiope-of-thebes",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "테베 왕가의 공주지만 통치나 정치 활동은 없고 대표 서사는 박해받은 어머니가 두 아들과 재회하는 이야기다. politician은 혈연상 잠정안일 뿐이다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "테베 왕가의 공주로 실제 왕가 혈통이므로 사용자 확정 규칙에 따라 politician으로 분류한다."
   },
   {
     "slug": "ao-guang",
@@ -107,16 +113,16 @@
   {
     "slug": "astyanax",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "트로이 왕가의 후계자라는 이유로 살해되지만 어린아이여서 통치나 정치 활동을 하지 않는다. politician은 왕위 계승상의 잠정안일 뿐이다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "트로이 왕세자 헥토르의 아들이자 왕위 계승자인 실제 왕자로서 politician으로 분류한다."
   },
   {
     "slug": "atlas",
-    "profession": "athlete",
-    "confidence": "low",
-    "alternatives": ["commander", "leader"],
-    "reason": "하늘을 떠받치는 초월적 완력이 대표 서사라 athlete가 가장 가깝지만 경기·스포츠 활동은 아니다. 티탄 전쟁 참여도 대표 군 지휘 역할이 아니어서 기존 직군 어느 것도 정확하지 않다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "그리스 신화의 티탄 신족에 속하는 실제 신격이므로 사용자 확정 규칙에 따라 leader로 분류한다."
   },
   {
     "slug": "boyi-kao",
@@ -128,9 +134,9 @@
   {
     "slug": "briseis",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "왕의 배우자였다는 전승은 있으나 《일리아스》의 대표 기능은 아킬레우스와 아가멤논의 갈등에 놓인 포로다. 통치나 정치 활동이 없어 politician도 정확하지 않다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "리르네소스 왕 미네스의 배우자로 전승되는 실제 왕실 배우자이므로 politician으로 분류한다."
   },
   {
     "slug": "calchas",
@@ -157,28 +163,34 @@
     "slug": "chryseis",
     "profession": "politician",
     "confidence": "low",
-    "alternatives": ["leader", "influencer"],
+    "alternatives": [
+      "leader",
+      "influencer"
+    ],
     "reason": "석방 협상과 군 지휘부의 갈등을 일으키는 외교적 쟁점이지만 본인은 정치 권력을 행사하지 않는 포로다. politician을 포함해 정확히 맞는 직군이 없다."
   },
   {
     "slug": "chrysippus",
-    "profession": "athlete",
-    "confidence": "low",
-    "alternatives": ["politician", "influencer"],
-    "reason": "전차 몰기를 배웠거나 경기장에서 납치됐다는 전승은 있지만 선수로 활약한 서사가 아니다. 대표 기능은 피랍과 왕가 비극의 희생자라 athlete도 확정할 수 없다."
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "피사 왕 펠롭스의 아들인 실제 왕자로서 왕가 혈통이므로 politician으로 분류한다."
   },
   {
     "slug": "chrysothemis",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "궁정 권력에 맞설지를 두고 엘렉트라에게 현실적인 조언을 하지만 관직·통치권은 없다. 공주 혈연만으로 politician을 확정할 수 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "미케네 왕 아가멤논과 왕비 클리타임네스트라의 딸인 실제 공주이므로 politician으로 분류한다."
   },
   {
     "slug": "cilissa",
     "profession": "scientist",
     "confidence": "low",
-    "alternatives": ["leader", "influencer"],
+    "alternatives": [
+      "leader",
+      "influencer"
+    ],
     "reason": "오레스테스를 젖먹여 기른 돌봄 기능 때문에 scientist의 치유·보건 범주가 가장 가깝지만 전문 의술이나 기술 활동은 없다. 유모에 맞는 기존 직군이 없다."
   },
   {
@@ -205,9 +217,9 @@
   {
     "slug": "danggeum-aegi",
     "profession": "leader",
-    "confidence": "low",
-    "alternatives": ["scientist", "influencer"],
-    "reason": "제석신모로 숭배되며 출산과 자손의 복을 맡지만 제의나 교단을 직접 이끌지 않는다. 숭배 대상이라는 사실만으로 leader를 확정할 수 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "제석본풀이에서 출산과 자손의 복을 맡는 제석신모로 좌정한 실제 신격이므로 leader로 분류한다."
   },
   {
     "slug": "dolon",
@@ -226,23 +238,23 @@
   {
     "slug": "elaine-of-corbenic",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "성배왕의 딸이지만 직접 통치하지 않으며 대표 기능은 랜슬롯을 속여 갤러해드를 낳고 뒤에 그를 치료하는 어머니다. 왕족 혈연만으로 politician을 확정할 수 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "성배왕 펠레스의 딸인 실제 공주이므로 사용자 확정 규칙에 따라 politician으로 분류한다."
   },
   {
     "slug": "erigone",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer", "leader"],
-    "reason": "오레스테스를 고발하거나 그와 혼인한다는 전승은 있지만 통치·정치 활동이 대표 기능은 아니다. 공주 혈연과 단일 고발만으로 politician을 확정할 수 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "미케네 왕 아이기스토스와 왕비 클리타임네스트라의 딸인 실제 왕가 혈통이므로 politician으로 분류한다."
   },
   {
     "slug": "eros",
-    "profession": "influencer",
+    "profession": "leader",
     "confidence": "high",
     "alternatives": [],
-    "reason": "신과 인간의 욕망을 일으켜 사랑과 행동의 선택을 반복해서 바꾸는 것이 존재의 대표 기능이므로 influencer에 직접 대응한다."
+    "reason": "그리스 신화에서 사랑과 욕망을 관장하는 실제 신격이므로 사용자 확정 규칙에 따라 leader로 분류한다."
   },
   {
     "slug": "futodama",
@@ -253,24 +265,24 @@
   },
   {
     "slug": "gaia",
-    "profession": "commander",
-    "confidence": "low",
-    "alternatives": ["politician", "leader"],
-    "reason": "반란의 무기와 전쟁 조언을 제공하지만 대표 정체성은 대지와 신족을 낳는 원초적 어머니다. 직접 전투·군 지휘가 없어 commander를 확정할 수 없고 다른 직군도 맞지 않는다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "그리스 신화에서 대지 자체를 의인화한 원초 여신으로 실제 신격이므로 leader로 분류한다."
   },
   {
     "slug": "gameunjang-aegi",
-    "profession": "entrepreneur",
-    "confidence": "low",
-    "alternatives": ["investor", "influencer"],
-    "reason": "쫓겨난 뒤 새 살림을 꾸려 부자가 되지만 구체적인 창업·경영·투자 활동은 없다. 자립과 행운의 서사를 entrepreneur로 확정할 수 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "제주 삼공본풀이에서 인간의 운명을 관장하는 전상신으로 좌정한 실제 신격이므로 leader로 분류한다."
   },
   {
     "slug": "gangnim-doryeong",
-    "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["commander", "leader"],
-    "reason": "관청의 명을 집행하고 저승차사가 되는 공적 관리 기능 때문에 politician이 가장 가깝지만 정치 권력을 행사하지 않는다. 전령·집행자에 맞는 기존 직군이 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "제주 차사본풀이에서 저승차사로 좌정한 실제 신격이므로 사용자 확정 규칙에 따라 leader로 분류한다."
   },
   {
     "slug": "halitherses",
@@ -281,10 +293,10 @@
   },
   {
     "slug": "hallakgungi",
-    "profession": "scientist",
-    "confidence": "low",
-    "alternatives": ["commander", "influencer"],
-    "reason": "생명꽃과 환생꽃을 사용해 어머니를 되살리지만 꽃의 지식을 연구·관리하는 전문가는 아니다. 한 번의 처단만으로 commander라 할 수도 없어 정확한 직군이 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "제주 이공본풀이에서 서천꽃밭을 관장하는 이공신·꽃감관으로 좌정한 실제 신격이므로 leader로 분류한다."
   },
   {
     "slug": "hecate",
@@ -296,58 +308,58 @@
   {
     "slug": "hermione",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "왕실 혼인과 계승 갈등의 대상이지만 직접 통치하거나 정치적 결정을 내리는 역할은 없다. 공주 혈연과 혼인만으로 politician을 확정할 수 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "스파르타 왕 메넬라오스와 왕비 헬레네의 딸인 실제 공주이므로 politician으로 분류한다."
   },
   {
     "slug": "hestia",
     "profession": "leader",
-    "confidence": "low",
-    "alternatives": ["politician", "influencer"],
-    "reason": "가정과 도시의 성화 및 제의의 중심 신격이지만 제의나 교단을 직접 이끌지 않는다. 숭배 대상이라는 사실만으로 leader를 확정할 수 없다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "그리스 신화에서 화로와 가정을 관장하는 올림포스 여신으로 실제 신격이므로 leader로 분류한다."
   },
   {
     "slug": "hippodamia",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "마부를 설득해 전차 경주의 결과와 왕위 교체에 영향을 주지만 대표 기능은 혼인담의 왕녀다. 한 번의 모의와 왕비 신분만으로 politician을 확정하기 어렵다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "피사 왕 오이노마오스의 딸이자 펠롭스의 왕비인 실제 왕족이므로 politician으로 분류한다."
   },
   {
     "slug": "hodr",
-    "profession": "commander",
-    "confidence": "low",
-    "alternatives": ["influencer", "athlete"],
-    "reason": "겨우살이를 던져 발드르를 죽이지만 전쟁·수호·군 지휘가 아니라 로키에게 이용된 단발성 살해다. commander를 포함해 눈먼 신이라는 대표 기능에 맞는 직군이 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "북유럽 신화의 아스 신족에 속하는 실제 신격이므로 사용자 확정 규칙에 따라 leader로 분류한다."
   },
   {
     "slug": "hylas",
-    "profession": "commander",
-    "confidence": "low",
-    "alternatives": ["influencer", "athlete"],
-    "reason": "아르고호 원정대에 동행하지만 직접 전투·수호·지휘를 하지 않고 물을 길으러 갔다 납치된다. 원정대 소속만으로 commander를 확정할 수 없다."
+    "profession": "politician",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "드리오페스 왕 테이오다마스의 아들인 실제 왕자로서 왕가 혈통이므로 politician으로 분류한다."
   },
   {
     "slug": "idunn",
-    "profession": "scientist",
-    "confidence": "low",
-    "alternatives": ["entrepreneur", "leader"],
-    "reason": "젊음을 회복시키는 사과를 보관하지만 치료·연구·기술 개발을 수행하지 않는다. scientist는 기능상 잠정안이며 자원 보관자에 맞는 기존 직군이 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "북유럽 신화에서 젊음의 사과를 지키는 실제 여신이므로 사용자 확정 규칙에 따라 leader로 분류한다."
   },
   {
     "slug": "igraine",
     "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer"],
-    "reason": "공작부인과 왕비의 지위는 있으나 직접 통치하거나 정치 활동을 하지 않는다. 대표 기능은 속임수의 피해자이자 아서의 어머니라 politician도 정확하지 않다."
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "브리튼 왕 우서 펜드래건의 배우자인 실제 왕비이므로 사용자 확정 규칙에 따라 politician으로 분류한다."
   },
   {
     "slug": "ino",
-    "profession": "politician",
-    "confidence": "low",
-    "alternatives": ["influencer", "leader"],
-    "reason": "왕비였지만 통치가 대표 기능은 아니며 디오뉘소스의 양육, 가족 비극, 오디세우스 구조가 중심이다. 왕실 신분만으로 politician을 확정할 수 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "바다 여신 레우코테아로 신격화되므로 왕비 신분보다 신격을 우선해 leader로 분류한다."
   },
   {
     "slug": "iphicles",
@@ -358,16 +370,16 @@
   },
   {
     "slug": "iris",
-    "profession": "influencer",
+    "profession": "leader",
     "confidence": "high",
     "alternatives": [],
-    "reason": "신과 인간 사이를 오가며 명령·경고·정보를 반복해서 전달하는 공적 소통이 대표 기능이므로 communicator형 influencer에 해당한다."
+    "reason": "그리스 신화에서 무지개를 의인화하고 신들의 전령을 맡는 실제 여신이므로 leader로 분류한다."
   },
   {
     "slug": "ishkur-adad",
-    "profession": "scientist",
-    "confidence": "low",
-    "alternatives": ["commander", "leader"],
-    "reason": "대표 기능은 비·천둥·홍수 같은 기상 현상의 통제라 scientist가 가장 가깝지만 연구·기술 활동은 아니다. 전사적 비유만으로 commander를 확정할 수도 없다."
+    "profession": "leader",
+    "confidence": "high",
+    "alternatives": [],
+    "reason": "메소포타미아에서 폭풍과 비를 관장하는 실제 신격이므로 사용자 확정 규칙에 따라 leader로 분류한다."
   }
 ]

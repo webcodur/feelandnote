@@ -1,0 +1,698 @@
+[
+ {
+  "itemId": "cea9b9e5-119c-44df-84eb-92e48c5e2b2e",
+  "from": "ee9f534c-263b-4e29-adab-623cfa3bd64a",
+  "to": "adb9ebbb-66cd-49eb-b3f2-44fbb8aeeea9",
+  "slug": "national-book-award-fiction",
+  "raw": "From Here to Eternity",
+  "list_id": "40751fc0-2b2e-49d9-bf08-965f6346d5c7"
+ },
+ {
+  "itemId": "a3d2dbe7-d8a2-48fd-a5e3-2413007fabaa",
+  "from": "ee9f534c-263b-4e29-adab-623cfa3bd64a",
+  "to": "adb9ebbb-66cd-49eb-b3f2-44fbb8aeeea9",
+  "slug": "modern-library-100-novels",
+  "raw": "From Here to Eternity",
+  "list_id": "7c3f595d-17f1-4de0-b7b0-a581e3c993ab"
+ },
+ {
+  "itemId": "ade1cb91-6708-4dd2-b202-0c9db0321740",
+  "from": "9df09c16-203e-436f-b9c0-2a71ea5c260e",
+  "to": "c802e2e8-1318-48c4-a495-90554af956a7",
+  "slug": "nyt-100-best-books-21st-century",
+  "raw": "My Brilliant Friend",
+  "list_id": "a1f9b348-0df8-40dd-b9db-56eecd115e18"
+ },
+ {
+  "itemId": "b7904733-144a-4d5a-8445-cdb09df9dac9",
+  "from": "9df09c16-203e-436f-b9c0-2a71ea5c260e",
+  "to": "c802e2e8-1318-48c4-a495-90554af956a7",
+  "slug": "bps-psychology-books",
+  "raw": "My Brilliant Best Friend",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "30f1f449-1802-4e24-8c59-8ecd7fc42b63",
+  "from": "9df09c16-203e-436f-b9c0-2a71ea5c260e",
+  "to": "c802e2e8-1318-48c4-a495-90554af956a7",
+  "slug": "guardian-100-best-books-21st-century",
+  "raw": "My Brilliant Friend",
+  "list_id": "e342f75b-854c-4012-bbbb-79d63f1a61d6"
+ },
+ {
+  "itemId": "ab266d97-ce74-4cda-bd66-99ef5a29138a",
+  "from": "f22fa313-14f6-4a18-9949-0549c44de553",
+  "to": "db18fe6a-30f2-44fb-95a5-d085280563ab",
+  "slug": "nebula-best-novel",
+  "raw": "Red Mars",
+  "list_id": "b3fdba11-5c28-4d35-a2cc-c400081e4a99"
+ },
+ {
+  "itemId": "6cf45dc2-fb3f-4531-8723-4a295831b762",
+  "from": "10bac854-3f0d-4124-b27e-02f96be2ec0a",
+  "to": "3159ff42-1282-48d4-92cd-c51df5d17169",
+  "slug": "national-book-award-fiction",
+  "raw": "The Collected Stories of Katherine Anne Porter",
+  "list_id": "40751fc0-2b2e-49d9-bf08-965f6346d5c7"
+ },
+ {
+  "itemId": "190caeb8-9f7a-4238-8483-18b40f7ccc09",
+  "from": "10bac854-3f0d-4124-b27e-02f96be2ec0a",
+  "to": "3159ff42-1282-48d4-92cd-c51df5d17169",
+  "slug": "pulitzer-fiction-winners",
+  "raw": "The Collected Stories",
+  "list_id": "65313c7e-1e09-469e-8339-b3f57f11324f"
+ },
+ {
+  "itemId": "ae933744-5814-49cc-8408-413ca0d9cde6",
+  "from": "07a7b775-940d-434e-91fe-91166f624626",
+  "to": "7347ca62-eab4-46ea-a400-754ab48df0ab",
+  "slug": "national-book-award-fiction",
+  "raw": "The Complete Stories",
+  "list_id": "40751fc0-2b2e-49d9-bf08-965f6346d5c7"
+ },
+ {
+  "itemId": "b6b714b1-df86-4194-85ca-cd6eb59860c9",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "Brave New World",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "9eca5df9-d416-40ee-a01d-811c78cf7169",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+  "slug": "bbc-big-read-top-100",
+  "raw": "Brave New World",
+  "list_id": "e6be344e-508f-4077-953c-fb95c38141e9"
+ },
+ {
+  "itemId": "07d0f17f-410a-4004-930a-91f572feaaa2",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+  "slug": "modern-library-100-novels",
+  "raw": "Brave New World",
+  "list_id": "7c3f595d-17f1-4de0-b7b0-a581e3c993ab"
+ },
+ {
+  "itemId": "e9e5d540-9e70-4434-979f-08781c47d1cf",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+  "slug": "bps-psychology-books",
+  "raw": "Brave New World",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "b6b714b1-df86-4194-85ca-cd6eb59860c9",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "c1730e97-78fa-4919-b8de-27572ea0c830",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "Brave New World",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "9eca5df9-d416-40ee-a01d-811c78cf7169",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "c1730e97-78fa-4919-b8de-27572ea0c830",
+  "slug": "bbc-big-read-top-100",
+  "raw": "Brave New World",
+  "list_id": "e6be344e-508f-4077-953c-fb95c38141e9"
+ },
+ {
+  "itemId": "07d0f17f-410a-4004-930a-91f572feaaa2",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "c1730e97-78fa-4919-b8de-27572ea0c830",
+  "slug": "modern-library-100-novels",
+  "raw": "Brave New World",
+  "list_id": "7c3f595d-17f1-4de0-b7b0-a581e3c993ab"
+ },
+ {
+  "itemId": "e9e5d540-9e70-4434-979f-08781c47d1cf",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "c1730e97-78fa-4919-b8de-27572ea0c830",
+  "slug": "bps-psychology-books",
+  "raw": "Brave New World",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "b6b714b1-df86-4194-85ca-cd6eb59860c9",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "0c8676c7-00a3-427b-a287-ecc25dd7d1d7",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "Brave New World",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "9eca5df9-d416-40ee-a01d-811c78cf7169",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "0c8676c7-00a3-427b-a287-ecc25dd7d1d7",
+  "slug": "bbc-big-read-top-100",
+  "raw": "Brave New World",
+  "list_id": "e6be344e-508f-4077-953c-fb95c38141e9"
+ },
+ {
+  "itemId": "07d0f17f-410a-4004-930a-91f572feaaa2",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "0c8676c7-00a3-427b-a287-ecc25dd7d1d7",
+  "slug": "modern-library-100-novels",
+  "raw": "Brave New World",
+  "list_id": "7c3f595d-17f1-4de0-b7b0-a581e3c993ab"
+ },
+ {
+  "itemId": "e9e5d540-9e70-4434-979f-08781c47d1cf",
+  "from": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+  "to": "0c8676c7-00a3-427b-a287-ecc25dd7d1d7",
+  "slug": "bps-psychology-books",
+  "raw": "Brave New World",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "e425d2e8-b824-41e4-a633-9f0a37223596",
+  "from": "4e2b0d2c-78b8-4f92-bfff-fab8af838d46",
+  "to": "f398d96f-5a6f-4fbd-99c0-7196d33d4693",
+  "slug": "booker-prize-winners",
+  "raw": "The Sea, the Sea",
+  "list_id": "996bf400-ccab-4e20-b62b-e4902bb73cac"
+ },
+ {
+  "itemId": "2de0b450-de54-4a50-9b12-117027c48ef7",
+  "from": "cdf918df-e3bb-42fd-afb2-280b08f5b25f",
+  "to": "3a953357-57aa-4217-aebe-5e51ca8bd988",
+  "slug": "booker-prize-winners",
+  "raw": "The Seven Moons of Maali Almeida",
+  "list_id": "996bf400-ccab-4e20-b62b-e4902bb73cac"
+ },
+ {
+  "itemId": "a55fcb56-dd8e-4811-9911-8fab134b99ad",
+  "from": "7ae93b49-aab0-446e-b8df-e5c605f995c9",
+  "to": "63da3393-f1f7-43c5-bd67-268bc69e4fda",
+  "slug": "bbc-big-read-top-100",
+  "raw": "Persuasion",
+  "list_id": "e6be344e-508f-4077-953c-fb95c38141e9"
+ },
+ {
+  "itemId": "71eb5b68-62d4-40e8-8440-071b58b41678",
+  "from": "469b1947-1cd4-4e6f-ab18-8a05b23916be",
+  "to": "ca61325b-050b-46d2-ab32-5f18c5ebd985",
+  "slug": "bbc-big-read-top-100",
+  "raw": "Charlie And The Chocolate Factory",
+  "list_id": "e6be344e-508f-4077-953c-fb95c38141e9"
+ },
+ {
+  "itemId": "7ef1ca7e-d829-46d0-8e38-4dcb5cd02414",
+  "from": "d4c9da30-3562-4977-8d92-ece5be3dd648",
+  "to": "a3b4ba2e-cc47-4167-8318-5288e7ac239f",
+  "slug": "bbc-big-read-top-100",
+  "raw": "Holes",
+  "list_id": "e6be344e-508f-4077-953c-fb95c38141e9"
+ },
+ {
+  "itemId": "cb28772c-b15e-493a-afd7-b915a9ee7318",
+  "from": "d4c9da30-3562-4977-8d92-ece5be3dd648",
+  "to": "a3b4ba2e-cc47-4167-8318-5288e7ac239f",
+  "slug": "newbery-medal",
+  "raw": "Holes",
+  "list_id": "54235bbd-7a1d-4a58-90e2-ffcb7e29e8e3"
+ },
+ {
+  "itemId": "ca844e97-6d35-4af7-8ba0-a863a840361c",
+  "from": "c6724520-6b71-4950-8652-f229115ae50f",
+  "to": "4dd80fb8-3b4e-4160-a33b-497e2953395f",
+  "slug": "bbc-big-read-top-100",
+  "raw": "The Lion, the Witch and the Wardrobe",
+  "list_id": "e6be344e-508f-4077-953c-fb95c38141e9"
+ },
+ {
+  "itemId": "85b816bf-31b1-4aed-8452-ebec53465635",
+  "from": "c6724520-6b71-4950-8652-f229115ae50f",
+  "to": "4dd80fb8-3b4e-4160-a33b-497e2953395f",
+  "slug": "time-100-novels",
+  "raw": "The Lion, The Witch and the Wardrobe",
+  "list_id": "9398a3d9-d736-4644-b46f-47c31ae077bd"
+ },
+ {
+  "itemId": "8b7a0d0e-167d-4b65-b2af-8995425276ca",
+  "from": "76ee7bbe-894d-4568-9277-06f165f9d149",
+  "to": "ca23d182-839d-449e-acb6-d70a4feb01d2",
+  "slug": "nyt-100-best-books-21st-century",
+  "raw": "The Flamethrowers",
+  "list_id": "a1f9b348-0df8-40dd-b9db-56eecd115e18"
+ },
+ {
+  "itemId": "b32af4b1-a53f-4ea7-87af-ad8abe4ba36b",
+  "from": "b113cabe-2a06-4671-89f8-cca8db632ea4",
+  "to": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+  "slug": "nyt-100-best-books-21st-century",
+  "raw": "The Road",
+  "list_id": "a1f9b348-0df8-40dd-b9db-56eecd115e18"
+ },
+ {
+  "itemId": "a0db3cfe-f92b-4637-8f8c-bdbadec27ce6",
+  "from": "b113cabe-2a06-4671-89f8-cca8db632ea4",
+  "to": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+  "slug": "pulitzer-fiction-winners",
+  "raw": "The Road",
+  "list_id": "65313c7e-1e09-469e-8339-b3f57f11324f"
+ },
+ {
+  "itemId": "fd5d826f-d106-4357-9800-15c4924ab4df",
+  "from": "b113cabe-2a06-4671-89f8-cca8db632ea4",
+  "to": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "The Road",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "59285c57-9703-4990-80b1-2e6009f2bcad",
+  "from": "b113cabe-2a06-4671-89f8-cca8db632ea4",
+  "to": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+  "slug": "guardian-100-best-books-21st-century",
+  "raw": "The Road",
+  "list_id": "e342f75b-854c-4012-bbbb-79d63f1a61d6"
+ },
+ {
+  "itemId": "5f1e9a98-b12e-4ff3-81f4-7cedeecbc73a",
+  "from": "b113cabe-2a06-4671-89f8-cca8db632ea4",
+  "to": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+  "slug": "bbc-100-novels-shaped-our-world",
+  "raw": "The Road",
+  "list_id": "89a8f5e6-ea91-41f7-b9d4-f1a0903c3b0f"
+ },
+ {
+  "itemId": "c4fd9303-9d2d-4ccb-8031-c20cdbba4b7c",
+  "from": "b364cc9a-db68-4288-a8f2-f63d6e0168e7",
+  "to": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+  "slug": "bps-psychology-books",
+  "raw": "The Road",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "8f42bb54-0791-498e-8bcd-fdfaace02183",
+  "from": "b792fe30-fb77-409a-81d9-acba5ec13a8c",
+  "to": "21fa88c8-41fd-407c-91f0-6ab36899f2c2",
+  "slug": "modern-library-100-novels",
+  "raw": "Darkness at Noon",
+  "list_id": "7c3f595d-17f1-4de0-b7b0-a581e3c993ab"
+ },
+ {
+  "itemId": "f99451bb-8bb7-4306-9671-ee19281419eb",
+  "from": "ea17ec25-0e7d-4e8c-81ab-a3023c8383c2",
+  "to": "356d8dc5-754b-44e8-854a-fe91da64d172",
+  "slug": "nyt-100-best-books-21st-century",
+  "raw": "Trust",
+  "list_id": "a1f9b348-0df8-40dd-b9db-56eecd115e18"
+ },
+ {
+  "itemId": "ef1c8955-2d4c-4bd4-8fca-7c6641b07fa8",
+  "from": "ea17ec25-0e7d-4e8c-81ab-a3023c8383c2",
+  "to": "356d8dc5-754b-44e8-854a-fe91da64d172",
+  "slug": "pulitzer-fiction-winners",
+  "raw": "Trust",
+  "list_id": "65313c7e-1e09-469e-8339-b3f57f11324f"
+ },
+ {
+  "itemId": "99689f08-be38-4aef-ae3b-291845074275",
+  "from": "2d047a5f-cfae-4b20-a066-031ba2e26b6c",
+  "to": "a87c3461-9adb-4d9b-9a75-0d6c6351e60e",
+  "slug": "nyt-100-best-books-21st-century",
+  "raw": "The Years",
+  "list_id": "a1f9b348-0df8-40dd-b9db-56eecd115e18"
+ },
+ {
+  "itemId": "8c823aba-fa6d-4f1b-ab6c-bd5874cb406a",
+  "from": "850da27b-a2d8-4875-90b9-ab8df66fd47f",
+  "to": "4cc18b2c-7e34-49af-b22a-d619b612aad5",
+  "slug": "modern-library-100-novels",
+  "raw": "Death Comes for the Archbishop",
+  "list_id": "7c3f595d-17f1-4de0-b7b0-a581e3c993ab"
+ },
+ {
+  "itemId": "08dc9524-27b3-41c4-9c32-80ef567d7008",
+  "from": "850da27b-a2d8-4875-90b9-ab8df66fd47f",
+  "to": "4cc18b2c-7e34-49af-b22a-d619b612aad5",
+  "slug": "time-100-novels",
+  "raw": "Death Comes for the Archbishop",
+  "list_id": "9398a3d9-d736-4644-b46f-47c31ae077bd"
+ },
+ {
+  "itemId": "dc63933b-5527-4421-b461-41c6436d9b4d",
+  "from": "19403e28-60b6-4bd2-b888-9ff206fa5dc4",
+  "to": "f8bda4fa-b936-41d6-a01c-f9f027024595",
+  "slug": "modern-library-100-novels",
+  "raw": "Light in August",
+  "list_id": "7c3f595d-17f1-4de0-b7b0-a581e3c993ab"
+ },
+ {
+  "itemId": "637e089d-7c4a-481d-9621-7870eed0a795",
+  "from": "ed86c9e3-fdf7-49f9-8a0d-40dda8b67332",
+  "to": "c629ba0c-0466-475c-beb0-b9e551c7bbae",
+  "slug": "modern-library-100-novels",
+  "raw": "The Sound and the Fury",
+  "list_id": "7c3f595d-17f1-4de0-b7b0-a581e3c993ab"
+ },
+ {
+  "itemId": "c019c734-ecac-4847-a173-530c90f30a38",
+  "from": "ed86c9e3-fdf7-49f9-8a0d-40dda8b67332",
+  "to": "c629ba0c-0466-475c-beb0-b9e551c7bbae",
+  "slug": "time-100-novels",
+  "raw": "The Sound and the Fury",
+  "list_id": "9398a3d9-d736-4644-b46f-47c31ae077bd"
+ },
+ {
+  "itemId": "0fa0255b-f934-4d0b-97e4-1375cbafe2cd",
+  "from": "5802fc90-d6f8-4d1d-b8e4-a7acb85d3a60",
+  "to": "c2296048-fcbf-4894-8656-8237a7e97b59",
+  "slug": "locus-fantasy-novel",
+  "raw": "The Ocean at the End of the Lane",
+  "list_id": "6aba01c3-81bc-4c82-bad7-90e34f5a92ba"
+ },
+ {
+  "itemId": "bb9daa3e-0fea-4a40-9ddb-9551708a9845",
+  "from": "434a1b70-8374-444a-b3e6-0f13ef84eb79",
+  "to": "eb568a55-dd55-45c3-b170-e898e35dfac3",
+  "slug": "st-johns-great-books",
+  "raw": "Discourse on Method",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "bb9daa3e-0fea-4a40-9ddb-9551708a9845",
+  "from": "434a1b70-8374-444a-b3e6-0f13ef84eb79",
+  "to": "fc9d0fcc-726b-44e2-9f2c-9089d7bce559",
+  "slug": "st-johns-great-books",
+  "raw": "Discourse on Method",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "d3a57db7-51fa-4833-9c39-4de4e4a12c9a",
+  "from": "b52580cd-7963-49e0-86d8-643f27bf439a",
+  "to": "10beee78-5112-4434-a2c1-f87fccd06c2a",
+  "slug": "st-johns-great-books",
+  "raw": "Politics",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "d3a57db7-51fa-4833-9c39-4de4e4a12c9a",
+  "from": "b52580cd-7963-49e0-86d8-643f27bf439a",
+  "to": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+  "slug": "st-johns-great-books",
+  "raw": "Politics",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "6e1574f8-969f-48d2-922f-610b0e7936cb",
+  "from": "86b8923c-b55e-4c23-b98a-f0b50b8c012e",
+  "to": "cf14c733-5cb0-428b-845c-275575fca8a5",
+  "slug": "st-johns-great-books",
+  "raw": "Summa Theologiae",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "163354c6-c113-4209-8d30-37ab0b97def7",
+  "from": "86745bbf-d1f9-4eff-8280-3de503f3b4b4",
+  "to": "8ebf4087-a728-4313-8e05-d0d89ab3f1c6",
+  "slug": "st-johns-great-books",
+  "raw": "Discourses",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "785752d2-b692-4726-afca-e61152f64bb2",
+  "from": "53951bd0-5091-40a2-b3b3-8cd0fa2129ee",
+  "to": "8f27cc18-2ff8-4e5b-a08b-5efbded408c9",
+  "slug": "pulitzer-fiction-winners",
+  "raw": "The Optimist's Daughter",
+  "list_id": "65313c7e-1e09-469e-8339-b3f57f11324f"
+ },
+ {
+  "itemId": "999a328e-2080-42e2-bfd4-351950e2a923",
+  "from": "f3c42ebb-dd91-4926-956e-69cb7ebb5d1c",
+  "to": "bf6f1f38-eab6-4815-b461-c1ee8e356f1a",
+  "slug": "st-johns-great-books",
+  "raw": "On the Nature of Things",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "d4e07b65-9175-49f6-a89c-09ac705f5c56",
+  "from": "4ac57dae-fbef-4c3a-b841-2573ed150578",
+  "to": "985cefe5-6b76-47e5-b6f8-ec32a691706b",
+  "slug": "st-johns-great-books",
+  "raw": "On the Revolution of the Heavenly Spheres",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "44da7fec-fefb-4810-a177-a9b825a7eeaf",
+  "from": "cf47687c-cea0-4deb-8692-ae08cbd51ec8",
+  "to": "11c017ee-cd99-410b-82ca-f8b096af84d2",
+  "slug": "nyt-100-best-books-21st-century",
+  "raw": "Bel Canto",
+  "list_id": "a1f9b348-0df8-40dd-b9db-56eecd115e18"
+ },
+ {
+  "itemId": "6454c2d1-3314-445d-972a-4e67bd633ee2",
+  "from": "252168fe-6b1e-4b0a-a6bc-0fcb3ffa3d54",
+  "to": "47c3813d-6af4-4945-96f3-c881db934215",
+  "slug": "st-johns-great-books",
+  "raw": "Maxims",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "297c83ee-f83e-4f37-8ec7-29bf9705fd06",
+  "from": "252168fe-6b1e-4b0a-a6bc-0fcb3ffa3d54",
+  "to": "47c3813d-6af4-4945-96f3-c881db934215",
+  "slug": "bps-psychology-books",
+  "raw": "The maxims of the Duc de la Rochefoucauld",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "e37fe646-5d94-4b39-83ac-28b36cd2d220",
+  "from": "e856542e-4bc9-47e2-8e5d-432044215899",
+  "to": "5e4939f2-db24-4b6d-9b9e-1f45b95b3570",
+  "slug": "st-johns-great-books",
+  "raw": "Tristan and Isolde",
+  "list_id": "e33e8363-2dae-4a36-996b-b11b9336604e"
+ },
+ {
+  "itemId": "18ce6335-4bba-40b3-b783-369ef1f4c10d",
+  "from": "0e406f4d-a547-4c64-afd5-7502480418bb",
+  "to": "25586145-ba94-4d9b-8550-c54d53aea716",
+  "slug": "newbery-medal",
+  "raw": "Roll of Thunder, Hear My Cry",
+  "list_id": "54235bbd-7a1d-4a58-90e2-ffcb7e29e8e3"
+ },
+ {
+  "itemId": "c33ba533-e8fc-4d16-9698-17290bf696d7",
+  "from": "be9474aa-828c-403d-ada8-9e19e8666b96",
+  "to": "bc0fc598-7506-4ec7-8be3-40423b420a5a",
+  "slug": "time-100-novels",
+  "raw": "The Spy Who Came in From the Cold",
+  "list_id": "9398a3d9-d736-4644-b46f-47c31ae077bd"
+ },
+ {
+  "itemId": "c3c2f499-1533-47d1-b7b9-a2a22487a843",
+  "from": "be9474aa-828c-403d-ada8-9e19e8666b96",
+  "to": "bc0fc598-7506-4ec7-8be3-40423b420a5a",
+  "slug": "edgar-best-novel",
+  "raw": "The Spy Who Came in from the Cold",
+  "list_id": "a572a7cf-d008-473e-b650-3dc9eaeebd85"
+ },
+ {
+  "itemId": "b0c75a9a-8513-4317-968f-64d3066f6b76",
+  "from": "be9474aa-828c-403d-ada8-9e19e8666b96",
+  "to": "bc0fc598-7506-4ec7-8be3-40423b420a5a",
+  "slug": "cwa-gold-dagger",
+  "raw": "The Spy Who Came in from the Cold",
+  "list_id": "1394b14e-e242-44b7-8372-abf1adf29048"
+ },
+ {
+  "itemId": "15e9c85c-bb8d-4a78-a081-31b814b18c25",
+  "from": "4f4e48cc-a760-4f02-9927-2890c7a173d0",
+  "to": "13447dfa-31ea-5a05-b93c-c74cd1ee584e",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "Anathem",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "9dec4832-0dda-4099-827f-642cc0dd0e13",
+  "from": "b144d76e-fcfa-44df-abd5-f1f7dc2a121d",
+  "to": "850d98ad-467b-4c24-ae5c-ceb40b71b30b",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "Old Man's War",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "a744b398-c10a-4dd6-ada4-2fa94f358a60",
+  "from": "e5d5830b-f20b-40bc-b744-b7e30c82b4dd",
+  "to": "6f7cd982-1381-43e7-aa85-51fdebae2989",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "20,000 Leagues Under The Sea",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "444903c9-d4de-4124-badf-2b01dca84ab3",
+  "from": "cbb96dbf-f73b-4c88-a475-dd69acea9d08",
+  "to": "1c7a9ca1-27ed-4754-8c5b-fb5f0c9033ae",
+  "slug": "caldecott-medal",
+  "raw": "Make Way for Ducklings",
+  "list_id": "36d7b7b7-c138-4d1e-9297-b98f07a5b881"
+ },
+ {
+  "itemId": "4d91a3b3-33e6-4293-856d-ca8e33ccbfd5",
+  "from": "e8346f61-00e6-4f97-8153-fa3edadec4cc",
+  "to": "4c2f9ce0-777e-40c9-b30e-f488856d7d8d",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "Cryptonomicon",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "9bafe99e-384c-4b1f-9ce7-d1e0ba5e6880",
+  "from": "d73416a6-34b4-4f65-9b8a-4dad002f5194",
+  "to": "96813ed6-059d-48cc-a6bd-823e872ac709",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "Wicked",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "c1082e8d-79f8-49b7-a7c0-30634ea6dcc2",
+  "from": "fe20ff9b-a0c6-445c-bd50-acd95f8e17a4",
+  "to": "b18ced9c-64bc-4640-ab6c-ee5ed3572e72",
+  "slug": "womens-prize-fiction",
+  "raw": "The Tiger's Wife",
+  "list_id": "861d3c19-89b5-4328-abba-dd7b17195449"
+ },
+ {
+  "itemId": "5fee93aa-af1b-4c51-ab1d-afe8cd7b4d06",
+  "from": "3265b967-37f7-4000-b90e-76ac6fc70542",
+  "to": "ed85fd85-5cb7-434b-8d07-12bd5767629a",
+  "slug": "npr-top-100-sf-fantasy",
+  "raw": "Neverwhere",
+  "list_id": "9d57dab5-e8be-4896-bc0f-330a2d0d035c"
+ },
+ {
+  "itemId": "9d223e6a-afdc-4aad-afd1-11d39ba9ae8a",
+  "from": "ce333db2-101e-46f2-ae3d-30a2661592f4",
+  "to": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+  "slug": "ft-business-book",
+  "raw": "Chip War: The Fight for the World's Most Critical Technology",
+  "list_id": "8dceeafb-7d1b-46b7-98d2-3f3295710e59"
+ },
+ {
+  "itemId": "09aa8d53-d320-40b3-96f7-cd023120f9b9",
+  "from": "65a343cf-c4fb-499f-82f7-1907b81ce826",
+  "to": "20b71537-6be6-432e-8724-50cdf318f369",
+  "slug": "bps-psychology-books",
+  "raw": "Hard-Boiled Wonderland and the End of the World",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "5585cb09-1b6a-42ee-853c-10cc177fdda8",
+  "from": "921fade8-d4a1-41ee-a3fb-1b8b7124d50f",
+  "to": "f9cfd131-a114-41c9-bea9-9db31e75ea14",
+  "slug": "bps-psychology-books",
+  "raw": "Open",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "ad6a097a-0348-4eba-aad6-b227cd87f8cd",
+  "from": "bb8f085c-9020-4114-9f31-447d403cc2d2",
+  "to": "48f5fc31-e0a4-4af3-b48b-3b78c3cf6da8",
+  "slug": "bps-psychology-books",
+  "raw": "The Righteous Mind",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "4dcf77f4-b584-48a4-929c-e68c67b4f935",
+  "from": "7f191f6a-a7e3-4a36-a02a-0c6a9e55dec4",
+  "to": "c2b7d4fe-d6cd-4bea-95de-1c66f09f560b",
+  "slug": "bps-psychology-books",
+  "raw": "Thinking, Fast and Slow",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "38d388a2-3299-4c64-b45b-8aa03477ff7e",
+  "from": "2bf3fc3e-36d7-4964-a08d-ecf94e29e1dc",
+  "to": "cadfc40e-fc41-48d6-b3d4-793244fb7e64",
+  "slug": "bps-psychology-books",
+  "raw": "The Origin of Consciousness in the Breakdown of the Bicameral Mind",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "c0eb2378-d9a5-4a80-8619-f5564e5e5f70",
+  "from": "ecc59ed2-5f7e-4f2f-8e94-9ed15d292ee2",
+  "to": "a81a08f7-8f0c-434e-a349-aa6d208fec80",
+  "slug": "bps-psychology-books",
+  "raw": "The Social Animal",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "fbe62319-386a-48d9-92e2-1b76dc4b92be",
+  "from": "5c02746d-ee04-4d3c-a119-16122b7b4ba1",
+  "to": "8344d6c8-35de-4a55-8298-11f861e85eaa",
+  "slug": "bps-psychology-books",
+  "raw": "Originals",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "fbe62319-386a-48d9-92e2-1b76dc4b92be",
+  "from": "5c02746d-ee04-4d3c-a119-16122b7b4ba1",
+  "to": "c11b6c08-5ad7-4de0-893d-ac88e211f9d6",
+  "slug": "bps-psychology-books",
+  "raw": "Originals",
+  "list_id": "54d393e0-7d09-433e-ab5a-0ff066ab9213"
+ },
+ {
+  "itemId": "5c8c5c45-ebde-4a8f-8bf2-bb2e317bc6e0",
+  "from": "a564d4f1-c554-4731-ad0d-b6732fc6b976",
+  "to": "4483dfa1-3e63-439b-bc45-ab037945b33a",
+  "slug": "prix-goncourt",
+  "raw": "The Life Before Us",
+  "list_id": "6f2bc621-8443-40e4-9c5f-1074ba1129a7"
+ },
+ {
+  "itemId": "83e8a5e2-e4db-4c32-85e1-bf2faeb439fe",
+  "from": "3b5d66ad-819f-4e10-b0ff-344cff7651bd",
+  "to": "5024b463-3916-4b5e-b9ca-eba410d28745",
+  "slug": "royal-society-science-book",
+  "raw": "An Immense World: How Animal Senses Reveal the Hidden Realms Around Us",
+  "list_id": "52b0311f-eb09-4d55-999a-561d63e50ba7"
+ },
+ {
+  "itemId": "b287111b-515a-4dac-9e83-67dea3388ced",
+  "from": "1f59832f-e4ff-4236-9237-4ebe9d959043",
+  "to": "cb18e23c-cb02-4651-8fd9-2df0388d0e90",
+  "slug": "bbc-big-read-top-100",
+  "raw": "The Colour Of Magic",
+  "list_id": "e6be344e-508f-4077-953c-fb95c38141e9"
+ },
+ {
+  "itemId": "1d7e67a9-34b9-430d-ad4c-b2893a4b742c",
+  "from": "baaa31fc-6c9f-4563-a1b4-f55349a3d773",
+  "to": "7e327555-4027-467e-9d18-d10db4375991",
+  "slug": "academy-best-picture",
+  "raw": "The Sound of Music",
+  "list_id": "a420f7ab-95ad-422d-ab91-38630c6c01d1"
+ },
+ {
+  "itemId": "a13e7cc7-80f7-40d7-a529-9009c437c81b",
+  "from": "baaa31fc-6c9f-4563-a1b4-f55349a3d773",
+  "to": "7e327555-4027-467e-9d18-d10db4375991",
+  "slug": "afi-100-years-100-movies",
+  "raw": "The Sound of Music",
+  "list_id": "8f168c09-1a8a-4ef8-be4d-c0ca364cc93e"
+ },
+ {
+  "itemId": "56015bf2-e2db-417e-b82d-64bd8090cac8",
+  "from": "6e13fecd-ea5b-4782-9459-bbcb05e3b348",
+  "to": "35b479da-22ab-4375-a61e-3c5fbc091c22",
+  "slug": "bbc-greatest-comedies",
+  "raw": "Clueless",
+  "list_id": "19053c31-0754-4e0f-b3ac-13fa80cc031e"
+ },
+ {
+  "itemId": "6baca484-5976-444a-9595-8e16e4ff8dd4",
+  "from": "98575b40-d3ff-4c54-9b6e-3cd8bce8d94b",
+  "to": "8136a556-df75-46e8-99d7-22f51098e7a4",
+  "slug": "sight-and-sound-greatest-films-2022",
+  "raw": "Spirited Away",
+  "list_id": "0ae3c187-6295-46ed-9ce9-4d79bc566062"
+ }
+]

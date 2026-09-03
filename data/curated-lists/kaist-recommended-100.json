@@ -1,0 +1,742 @@
+{
+  "curator": {
+    "slug": "kaist",
+    "name": "한국과학기술원",
+    "name_en": "Korea Advanced Institute of Science and Technology",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1971,
+    "homepage_url": "https://www.kaist.ac.kr",
+    "description": "한국과학기술원(KAIST)은 1971년 정부가 세운 이공계 연구중심 대학이다. 대전 유성구에 본원을 두고 학사·석사·박사 과정을 함께 운영한다. 이공계 학부생의 기본 소양을 넓히려는 목적에서 독서마일리지제 같은 교양 독서 제도를 두어 왔다.",
+    "description_en": "KAIST is a research-focused science and engineering university established by the Korean government in 1971. Its main campus sits in Yuseong-gu, Daejeon, and it runs undergraduate, master's, and doctoral programs together. To broaden the general education of science and engineering undergraduates it has run reading schemes such as its reading-mileage program."
+  },
+  "list": {
+    "slug": "kaist-recommended-100",
+    "title": "카이스트 추천도서 100선",
+    "title_en": "KAIST 100 Recommended Books",
+    "description": "한국과학기술원이 학부생 독서마일리지제를 운영하며 고른 추천도서 100권이다. 대학 생활 동안 폭넓게 읽어 21세기 리더로서 기본 소양을 갖추게 한다는 목적으로 문학·인문사회·과학 분야의 교양서와 고전을 함께 담았다. 희망 학부생이 참여해 졸업할 때 읽은 양에 따라 등급 인증서를 받는 제도와 짝을 이룬다.",
+    "description_en": "One hundred books chosen by KAIST for the reading-mileage program it runs for undergraduates. Meant to give students the broad grounding expected of a twenty-first-century leader, the list mixes general-interest titles and classics across literature, the humanities and social sciences, and science. It pairs with a scheme in which participating undergraduates receive a graded certificate at graduation according to how much they have read.",
+    "published_year": null,
+    "edition": null,
+    "method": "독서마일리지제 운영위원인 시정곤(위원장)·신동원·전봉관·김탁환·정재승 교수와 이석봉 대덕넷 대표가 문학, 인문사회, 과학 분야에서 교양서와 고전을 포함해 100권을 골랐다. 카이스트 교수와 외부 인사가 함께 참여했다. 순위는 매기지 않았다.",
+    "method_en": "The steering committee for the reading-mileage program — professors Si Jeong-gon (chair), Shin Dong-won, Jeon Bong-gwan, Kim Tak-hwan and Jung Jae-seung, together with Lee Seok-bong of HelloDD — selected one hundred titles across literature, the humanities and social sciences, and science, taking in both general-interest books and classics. KAIST faculty and outside figures both took part. The list is not ranked.",
+    "source_url": "http://web.archive.org/web/20101215021642/http://bookclub.kaist.ac.kr:80/mileage/index.php?",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "엘러건트 유니버스",
+      "raw_creator": "브라이언 그린",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "인간 등정의 발자취",
+      "raw_creator": "제이콥 브로노우스키",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "빈 서판",
+      "raw_creator": "스티븐 핑커",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "나는 고백한다, 현대의학을",
+      "raw_creator": "아툴 가완디",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "교양있는 엔지니어",
+      "raw_creator": "새뮤얼 C. 플러먼 저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "아내를 모자로 착각한 남자",
+      "raw_creator": "올리버 색스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "통섭",
+      "raw_creator": "에드워드 윌슨 저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "링크",
+      "raw_creator": "바라바시 저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "iCon 스티브 잡스",
+      "raw_creator": "제프리 영,윌리엄 사이먼 저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "진실을 배반한 과학자들",
+      "raw_creator": "윌리엄 브로드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "인간은 기후를 지배할 수 있을까",
+      "raw_creator": "윌리엄 스티븐스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "생각의 탄생",
+      "raw_creator": "로버트 루트번스타인",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "총, 균, 쇠",
+      "raw_creator": "제레드 다이아몬드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "붉은 여왕",
+      "raw_creator": "매트 리들리",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "내 안의 유인원",
+      "raw_creator": "프란스 드 발",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학예술 분야 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "서양미술사",
+      "raw_creator": "E.H.곰브리치",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "미학 오디세이 1,2,3",
+      "raw_creator": "진중권",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "반 룬의 예술사 이야기 1,2,3",
+      "raw_creator": "헨드릭 빌렘 반 룬",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "jazz it up! 1,2",
+      "raw_creator": "남무성 글",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "오주석의 한국의 미 특강",
+      "raw_creator": "오주석",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 20"
+    },
+    {
+      "raw_title": "해석에 반대한다",
+      "raw_creator": "수전 손택",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 21"
+    },
+    {
+      "raw_title": "박찬욱의 몽타주, 오마주",
+      "raw_creator": "박찬욱",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 22"
+    },
+    {
+      "raw_title": "앙리 카르티에 브레송",
+      "raw_creator": "피에르 아술린",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 23"
+    },
+    {
+      "raw_title": "위대한 영화 1,2",
+      "raw_creator": "로저 에버트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 24"
+    },
+    {
+      "raw_title": "건축, 음악처럼 듣고 미술처럼 보다",
+      "raw_creator": "서현",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문화예술 분야 / 출처 목록 번호 25"
+    },
+    {
+      "raw_title": "삼국지강의",
+      "raw_creator": "이중톈",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 26"
+    },
+    {
+      "raw_title": "선비답게 산다는 것",
+      "raw_creator": "안대회",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 27"
+    },
+    {
+      "raw_title": "실크로드 문명기행",
+      "raw_creator": "정수일",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 28"
+    },
+    {
+      "raw_title": "미쳐야 미친다",
+      "raw_creator": "정민",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 29"
+    },
+    {
+      "raw_title": "몰입: 미치도록 행복한 나를 만난다",
+      "raw_creator": "미하이 칙센트미하이",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 30"
+    },
+    {
+      "raw_title": "오래된 미래: 라다크로부터 배운다",
+      "raw_creator": "헬레나 노르베리-호지",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 31"
+    },
+    {
+      "raw_title": "만들어진 신: 신은 과연 인간을 창조했는가?",
+      "raw_creator": "리처드 도킨스저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 32"
+    },
+    {
+      "raw_title": "5백년 내력의 명문가 이야기",
+      "raw_creator": "조용헌",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 33"
+    },
+    {
+      "raw_title": "핀볼 효과: 우연적 사건의 연쇄가 세상을 움직인다",
+      "raw_creator": "제임스버크",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 34"
+    },
+    {
+      "raw_title": "발자크 평전",
+      "raw_creator": "슈테판 츠바이크",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 35"
+    },
+    {
+      "raw_title": "소유의 종말",
+      "raw_creator": "제레미 러프킨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 36"
+    },
+    {
+      "raw_title": "렉서스와 올리브나무",
+      "raw_creator": "토머스 L. 프리드먼",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 37"
+    },
+    {
+      "raw_title": "만들어진 전통",
+      "raw_creator": "에릭 홉스봄",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 38"
+    },
+    {
+      "raw_title": "도쿄대생은 바보가 되었는가",
+      "raw_creator": "다치바나 다카시",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 39"
+    },
+    {
+      "raw_title": "경제 저격수의 고백",
+      "raw_creator": "존 퍼킨스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 40"
+    },
+    {
+      "raw_title": "칭기스칸, 잠든 유럽을 깨우다",
+      "raw_creator": "잭 웨더포드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 41"
+    },
+    {
+      "raw_title": "강의: 나의 동양고전 독법",
+      "raw_creator": "신영복",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 42"
+    },
+    {
+      "raw_title": "번역과 일본의 근대",
+      "raw_creator": "마루야마 마사오",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 43"
+    },
+    {
+      "raw_title": "아동의 탄생",
+      "raw_creator": "필립 아리에스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 44"
+    },
+    {
+      "raw_title": "대한민국 이야기",
+      "raw_creator": "이영훈",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 45"
+    },
+    {
+      "raw_title": "이정 박헌영 일대기",
+      "raw_creator": "임경석",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 46"
+    },
+    {
+      "raw_title": "당신들의 대한민국 1, 2",
+      "raw_creator": "박노자",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 47"
+    },
+    {
+      "raw_title": "대한민국사 1, 2, 3, 4",
+      "raw_creator": "한홍구",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 48"
+    },
+    {
+      "raw_title": "철학과 굴뚝청소부",
+      "raw_creator": "이진경",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 49"
+    },
+    {
+      "raw_title": "한국현대사 60년",
+      "raw_creator": "서중석",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 50"
+    },
+    {
+      "raw_title": "내 딸들을 위한 여성사",
+      "raw_creator": "정기문",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 51"
+    },
+    {
+      "raw_title": "우리문화의 수수께끼1·2",
+      "raw_creator": "주강현",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 52"
+    },
+    {
+      "raw_title": "브랜드와 디자인의 힘",
+      "raw_creator": "손혜원",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 53"
+    },
+    {
+      "raw_title": "야만의 시대",
+      "raw_creator": "김성진",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 54"
+    },
+    {
+      "raw_title": "왜 세계의 절반은 굶주리는가",
+      "raw_creator": "장 지글러",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 55"
+    },
+    {
+      "raw_title": "문화의 수수께끼",
+      "raw_creator": "마빈 해리스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 56"
+    },
+    {
+      "raw_title": "야스쿠니 문제(결코 피할 수 없는)",
+      "raw_creator": "다카하시 데쓰요",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 57"
+    },
+    {
+      "raw_title": "거울에 비친 유럽",
+      "raw_creator": "조셉 폰타나",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 58"
+    },
+    {
+      "raw_title": "사라져가는 목소리들",
+      "raw_creator": "다니엘 네틀",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 59"
+    },
+    {
+      "raw_title": "스키너의 심리상자",
+      "raw_creator": "로렌 슬레이터 저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문사회 분야 / 출처 목록 번호 60"
+    },
+    {
+      "raw_title": "지도자의 조건",
+      "raw_creator": "프란체스코 알베로니",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 61"
+    },
+    {
+      "raw_title": "카르마 경영",
+      "raw_creator": "이나모리 가즈오",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 62"
+    },
+    {
+      "raw_title": "료마가 간다",
+      "raw_creator": "시바 료타로",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 63"
+    },
+    {
+      "raw_title": "무지개 원리",
+      "raw_creator": "차동엽",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 64"
+    },
+    {
+      "raw_title": "카론의 동전 한 닢",
+      "raw_creator": "정갑영",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 65"
+    },
+    {
+      "raw_title": "롱테일 경제학",
+      "raw_creator": "크리스 앤더슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 66"
+    },
+    {
+      "raw_title": "죽은 경제학자의 살아있는 아이디어",
+      "raw_creator": "토드 부크홀츠",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 67"
+    },
+    {
+      "raw_title": "행동 경제학",
+      "raw_creator": "도모노 노리오",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 68"
+    },
+    {
+      "raw_title": "지도 밖으로 행군하라",
+      "raw_creator": "한비야",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 69"
+    },
+    {
+      "raw_title": "부의 미래",
+      "raw_creator": "앨빈 토플러",
+      "rank": null,
+      "year": null,
+      "note": "분야: 경제경영 분야 / 출처 목록 번호 70"
+    },
+    {
+      "raw_title": "우울과 몽상",
+      "raw_creator": "에드가 앨런 포",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 71"
+    },
+    {
+      "raw_title": "나르치스와 골드문트",
+      "raw_creator": "헤르만 헷세",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 72"
+    },
+    {
+      "raw_title": "농담",
+      "raw_creator": "밀란 쿤데라",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 73"
+    },
+    {
+      "raw_title": "장미의 이름",
+      "raw_creator": "움베르토 에코",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 74"
+    },
+    {
+      "raw_title": "단순한 열정",
+      "raw_creator": "아니 에르노",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 75"
+    },
+    {
+      "raw_title": "내 이름은 빨강",
+      "raw_creator": "오르한 파묵",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 76"
+    },
+    {
+      "raw_title": "해변의 카프카",
+      "raw_creator": "무라카미 하루키",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 77"
+    },
+    {
+      "raw_title": "남쪽으로 튀어",
+      "raw_creator": "오쿠다 히데오",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 78"
+    },
+    {
+      "raw_title": "형제",
+      "raw_creator": "위화",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 79"
+    },
+    {
+      "raw_title": "나, 제왕의 생애",
+      "raw_creator": "쑤퉁",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 80"
+    },
+    {
+      "raw_title": "달의 궁전",
+      "raw_creator": "폴 오스터",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 81"
+    },
+    {
+      "raw_title": "뉴로맨서",
+      "raw_creator": "윌리엄 깁슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 82"
+    },
+    {
+      "raw_title": "라마와의 랑데부",
+      "raw_creator": "아서 클라크",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 83"
+    },
+    {
+      "raw_title": "반지의 제왕",
+      "raw_creator": "J.R.R. 톨킨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 84"
+    },
+    {
+      "raw_title": "빼앗긴 자들",
+      "raw_creator": "어슐러 K 르 귄",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 85"
+    },
+    {
+      "raw_title": "픽션들",
+      "raw_creator": "보르헤스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 86"
+    },
+    {
+      "raw_title": "백 년 동안의 고독",
+      "raw_creator": "마르케스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 87"
+    },
+    {
+      "raw_title": "애완동물 공동묘지",
+      "raw_creator": "스티븐 킹",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 88"
+    },
+    {
+      "raw_title": "충만한 힘",
+      "raw_creator": "네루다",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 89"
+    },
+    {
+      "raw_title": "대중의 취향에 따귀를 때려라",
+      "raw_creator": "마야코프스키",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 90"
+    },
+    {
+      "raw_title": "황제를 위하여",
+      "raw_creator": "이문열",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 91"
+    },
+    {
+      "raw_title": "손님",
+      "raw_creator": "황석영",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 92"
+    },
+    {
+      "raw_title": "그 남자네 집",
+      "raw_creator": "박완서",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 93"
+    },
+    {
+      "raw_title": "강산무진",
+      "raw_creator": "김훈",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 94"
+    },
+    {
+      "raw_title": "새의 선물",
+      "raw_creator": "은희경",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 95"
+    },
+    {
+      "raw_title": "어머니와 할머니의 실루엣",
+      "raw_creator": "신경림",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 96"
+    },
+    {
+      "raw_title": "가만히 좋아하는",
+      "raw_creator": "김사인",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 97"
+    },
+    {
+      "raw_title": "세상의 모든 저녁",
+      "raw_creator": "유하",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 98"
+    },
+    {
+      "raw_title": "아무도 울지 않는 밤은 없다",
+      "raw_creator": "이면우",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 99"
+    },
+    {
+      "raw_title": "일곱 개의 단어로 된 사전",
+      "raw_creator": "진은영",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문학 분야 / 출처 목록 번호 100"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=221805300256",
+      "http://web.archive.org/web/20101215021642/http://bookclub.kaist.ac.kr:80/mileage/index.php?",
+      "http://web.archive.org/web/20110917120434/http://bookclub.kaist.ac.kr/recommend/index.php?mode=booklist",
+      "https://www.kaist.ac.kr/kr/"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "gaps": "빠진 항목 없다.",
+    "uncertainties": "공식 사이트 bookclub.kaist.ac.kr은 도메인 자체가 사라져 접속되지 않는다. 2010년 웹아카이브 보존본에서 제도 설명과 선정 주체·방식을 확인해 source_url로 걸었으나, 보존된 목록 화면은 1쪽(12권)만 남아 100권 전량을 공식 경로로 대조하지는 못했다. 항목 데이터는 네이버 블로그 전사본에서 옮겼다. 발표 연도는 보존본에 표기가 없어 비워 두었다."
+  }
+}

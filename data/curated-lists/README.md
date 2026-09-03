@@ -2,6 +2,8 @@
 
 작품 화면의 「기관 선정」에 넣는 기관·시상·분야별 목록 JSON과 수집·매칭 보고서를 보관한다. 화면 구조와 적재 도구의 현역 규격은 [`docs/project/service/curated-lists.md`](../../docs/project/service/curated-lists.md)가 쥔다.
 
+- `_split-rows/` — 같은 작품이 두 행으로 갈린 사례의 판정·실행 계획·되돌리기 백업. 규격은 위 문서의 「5-3」이 쥔다.
+
 ## 파일 규칙
 
 | 형태 | 성격 |

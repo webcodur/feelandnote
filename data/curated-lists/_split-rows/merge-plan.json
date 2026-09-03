@@ -1,0 +1,5633 @@
+{
+ "sure": [
+  {
+   "lid": "ee9f534c-263b-4e29-adab-623cfa3bd64a",
+   "rid": "adb9ebbb-66cd-49eb-b3f2-44fbb8aeeea9",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "national-book-award-fiction",
+    "modern-library-100-novels"
+   ],
+   "hidden": 1,
+   "title": "From Here to Eternity",
+   "items": [
+    {
+     "id": "cea9b9e5-119c-44df-84eb-92e48c5e2b2e",
+     "raw": "From Here to Eternity",
+     "slug": "national-book-award-fiction"
+    },
+    {
+     "id": "a3d2dbe7-d8a2-48fd-a5e3-2413007fabaa",
+     "raw": "From Here to Eternity",
+     "slug": "modern-library-100-novels"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "ee9f534c-263b-4e29-adab-623cfa3bd64a",
+    "locale": "ko",
+    "title": "지상에서 영원으로 상(MR KNOW 세계문학 57)",
+    "creator": "제임스 존스",
+    "isbn": "9788932908298",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/506485?timestamp=20220701034903",
+    "publisher": "열린책들",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "adb9ebbb-66cd-49eb-b3f2-44fbb8aeeea9",
+    "locale": "ko",
+    "title": "지상에서 영원으로",
+    "creator": "제임스 존스",
+    "isbn": "9788932909875",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/505063?timestamp=20231121151109",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "ee9f534c-263b-4e29-adab-623cfa3bd64a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "adb9ebbb-66cd-49eb-b3f2-44fbb8aeeea9",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788932909875",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "9df09c16-203e-436f-b9c0-2a71ea5c260e",
+   "rid": "c802e2e8-1318-48c4-a495-90554af956a7",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "nyt-100-best-books-21st-century",
+    "bps-psychology-books",
+    "guardian-100-best-books-21st-century"
+   ],
+   "hidden": 3,
+   "title": "나의 눈부신 친구",
+   "items": [
+    {
+     "id": "ade1cb91-6708-4dd2-b202-0c9db0321740",
+     "raw": "My Brilliant Friend",
+     "slug": "nyt-100-best-books-21st-century"
+    },
+    {
+     "id": "b7904733-144a-4d5a-8445-cdb09df9dac9",
+     "raw": "My Brilliant Best Friend",
+     "slug": "bps-psychology-books"
+    },
+    {
+     "id": "30f1f449-1802-4e24-8c59-8ecd7fc42b63",
+     "raw": "My Brilliant Friend",
+     "slug": "guardian-100-best-books-21st-century"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "9df09c16-203e-436f-b9c0-2a71ea5c260e",
+    "locale": "ko",
+    "title": "나의 눈부신 친구",
+    "creator": "엘레나 페란테",
+    "isbn": "9788935669738",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/526309?timestamp=20260408111104",
+    "publisher": "한길사",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "c802e2e8-1318-48c4-a495-90554af956a7",
+    "locale": "ko",
+    "title": "나의 눈부신 친구",
+    "creator": "엘레나 페란테",
+    "isbn": "9788935669738",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/526309?timestamp=20260408111104",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "9df09c16-203e-436f-b9c0-2a71ea5c260e",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9798889661443",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "c802e2e8-1318-48c4-a495-90554af956a7",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788935669738",
+    "celeb_count": 3,
+    "record_count": 3
+   }
+  },
+  {
+   "lid": "f22fa313-14f6-4a18-9949-0549c44de553",
+   "rid": "db18fe6a-30f2-44fb-95a5-d085280563ab",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "nebula-best-novel"
+   ],
+   "hidden": 1,
+   "title": "Red Mars",
+   "items": [
+    {
+     "id": "ab266d97-ce74-4cda-bd66-99ef5a29138a",
+     "raw": "Red Mars",
+     "slug": "nebula-best-novel"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "f22fa313-14f6-4a18-9949-0549c44de553",
+    "locale": "en",
+    "title": "Red Mars",
+    "creator": "Kim Stanley Robinson",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/382552-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "db18fe6a-30f2-44fb-95a5-d085280563ab",
+    "locale": "ko",
+    "title": "Red Mars",
+    "creator": "킴 스탠리 로빈슨",
+    "isbn": "9780553560732",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5334654?timestamp=20260225135724",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "f22fa313-14f6-4a18-9949-0549c44de553",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "db18fe6a-30f2-44fb-95a5-d085280563ab",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780553560732",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "10bac854-3f0d-4124-b27e-02f96be2ec0a",
+   "rid": "3159ff42-1282-48d4-92cd-c51df5d17169",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "national-book-award-fiction",
+    "pulitzer-fiction-winners"
+   ],
+   "hidden": 1,
+   "title": "캐서린 앤 포터",
+   "items": [
+    {
+     "id": "6cf45dc2-fb3f-4531-8723-4a295831b762",
+     "raw": "The Collected Stories of Katherine Anne Porter",
+     "slug": "national-book-award-fiction"
+    },
+    {
+     "id": "190caeb8-9f7a-4238-8483-18b40f7ccc09",
+     "raw": "The Collected Stories",
+     "slug": "pulitzer-fiction-winners"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "10bac854-3f0d-4124-b27e-02f96be2ec0a",
+    "locale": "en",
+    "title": "The Collected Stories of Kaherine Anne Porter",
+    "creator": "Katherine Anne Porter",
+    "isbn": null,
+    "thumbnail_url": null,
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "3159ff42-1282-48d4-92cd-c51df5d17169",
+    "locale": "ko",
+    "title": "캐서린 앤 포터",
+    "creator": "캐서린 앤 포터",
+    "isbn": "9788972758129",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1005620?timestamp=20260801111006",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "10bac854-3f0d-4124-b27e-02f96be2ec0a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "3159ff42-1282-48d4-92cd-c51df5d17169",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788972758129",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "07a7b775-940d-434e-91fe-91166f624626",
+   "rid": "7347ca62-eab4-46ea-a400-754ab48df0ab",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "national-book-award-fiction"
+   ],
+   "hidden": 1,
+   "title": "A Good Man Is Hard to Find and Other Stories",
+   "items": [
+    {
+     "id": "ae933744-5814-49cc-8408-413ca0d9cde6",
+     "raw": "The Complete Stories",
+     "slug": "national-book-award-fiction"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "07a7b775-940d-434e-91fe-91166f624626",
+    "locale": "ko",
+    "title": "플래너리 오코너",
+    "creator": "플래너리 오코너",
+    "isbn": "9788972757108",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1006645?timestamp=20260319110829",
+    "publisher": "현대문학",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "7347ca62-eab4-46ea-a400-754ab48df0ab",
+    "locale": "en",
+    "title": "A Good Man Is Hard to Find and Other Stories",
+    "creator": "Flannery O'Connor",
+    "isbn": "9780156364652",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9780156364652-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "07a7b775-940d-434e-91fe-91166f624626",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "7347ca62-eab4-46ea-a400-754ab48df0ab",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788972757108",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+   "rid": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy",
+    "bbc-big-read-top-100",
+    "modern-library-100-novels",
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "Brave New World",
+   "items": [
+    {
+     "id": "b6b714b1-df86-4194-85ca-cd6eb59860c9",
+     "raw": "Brave New World",
+     "slug": "npr-top-100-sf-fantasy"
+    },
+    {
+     "id": "9eca5df9-d416-40ee-a01d-811c78cf7169",
+     "raw": "Brave New World",
+     "slug": "bbc-big-read-top-100"
+    },
+    {
+     "id": "07d0f17f-410a-4004-930a-91f572feaaa2",
+     "raw": "Brave New World",
+     "slug": "modern-library-100-novels"
+    },
+    {
+     "id": "e9e5d540-9e70-4434-979f-08781c47d1cf",
+     "raw": "Brave New World",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "locale": "ko",
+    "title": "멋진 신세계",
+    "creator": "올더스 헉슬리",
+    "isbn": "9788973814725",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1027553?timestamp=20260110110821",
+    "publisher": "소담출판사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+    "locale": "en",
+    "title": "Brave New World",
+    "creator": "Aldous Huxley",
+    "isbn": "9780060850524",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9780060850524-L.jpg?default=false",
+    "publisher": "Harper Perennial",
+    "verified": true
+   },
+   "lc": {
+    "id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788931010831",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+   "rid": "c1730e97-78fa-4919-b8de-27572ea0c830",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy",
+    "bbc-big-read-top-100",
+    "modern-library-100-novels",
+    "bps-psychology-books"
+   ],
+   "hidden": 2,
+   "title": "멋진 신세계",
+   "items": [
+    {
+     "id": "b6b714b1-df86-4194-85ca-cd6eb59860c9",
+     "raw": "Brave New World",
+     "slug": "npr-top-100-sf-fantasy"
+    },
+    {
+     "id": "9eca5df9-d416-40ee-a01d-811c78cf7169",
+     "raw": "Brave New World",
+     "slug": "bbc-big-read-top-100"
+    },
+    {
+     "id": "07d0f17f-410a-4004-930a-91f572feaaa2",
+     "raw": "Brave New World",
+     "slug": "modern-library-100-novels"
+    },
+    {
+     "id": "e9e5d540-9e70-4434-979f-08781c47d1cf",
+     "raw": "Brave New World",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "locale": "ko",
+    "title": "멋진 신세계",
+    "creator": "올더스 헉슬리",
+    "isbn": "9788973814725",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1027553?timestamp=20260110110821",
+    "publisher": "소담출판사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "c1730e97-78fa-4919-b8de-27572ea0c830",
+    "locale": "ko",
+    "title": "멋진 신세계",
+    "creator": "올더스 헉슬리",
+    "isbn": "9788931024029",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6768669?timestamp=20260623122152",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "c1730e97-78fa-4919-b8de-27572ea0c830",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788931024029",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+   "rid": "0c8676c7-00a3-427b-a287-ecc25dd7d1d7",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy",
+    "bbc-big-read-top-100",
+    "modern-library-100-novels",
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "Brave New World",
+   "items": [
+    {
+     "id": "b6b714b1-df86-4194-85ca-cd6eb59860c9",
+     "raw": "Brave New World",
+     "slug": "npr-top-100-sf-fantasy"
+    },
+    {
+     "id": "9eca5df9-d416-40ee-a01d-811c78cf7169",
+     "raw": "Brave New World",
+     "slug": "bbc-big-read-top-100"
+    },
+    {
+     "id": "07d0f17f-410a-4004-930a-91f572feaaa2",
+     "raw": "Brave New World",
+     "slug": "modern-library-100-novels"
+    },
+    {
+     "id": "e9e5d540-9e70-4434-979f-08781c47d1cf",
+     "raw": "Brave New World",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "locale": "ko",
+    "title": "멋진 신세계",
+    "creator": "올더스 헉슬리",
+    "isbn": "9788973814725",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1027553?timestamp=20260110110821",
+    "publisher": "소담출판사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "0c8676c7-00a3-427b-a287-ecc25dd7d1d7",
+    "locale": "ko",
+    "title": "Brave New World",
+    "creator": "Aldous Huxley",
+    "isbn": "9780060850524",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3827911?timestamp=20260810111305",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "0c8676c7-00a3-427b-a287-ecc25dd7d1d7",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": "9780060850524",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+   "rid": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy",
+    "bbc-big-read-top-100",
+    "modern-library-100-novels",
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "Brave New World",
+   "items": [
+    {
+     "id": "b6b714b1-df86-4194-85ca-cd6eb59860c9",
+     "raw": "Brave New World",
+     "slug": "npr-top-100-sf-fantasy"
+    },
+    {
+     "id": "9eca5df9-d416-40ee-a01d-811c78cf7169",
+     "raw": "Brave New World",
+     "slug": "bbc-big-read-top-100"
+    },
+    {
+     "id": "07d0f17f-410a-4004-930a-91f572feaaa2",
+     "raw": "Brave New World",
+     "slug": "modern-library-100-novels"
+    },
+    {
+     "id": "e9e5d540-9e70-4434-979f-08781c47d1cf",
+     "raw": "Brave New World",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "locale": "ko",
+    "title": "멋진 신세계",
+    "creator": "올더스 헉슬리",
+    "isbn": "9788973814725",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1027553?timestamp=20260110110821",
+    "publisher": "소담출판사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+    "locale": "en",
+    "title": "Brave New World",
+    "creator": "Aldous Huxley",
+    "isbn": "9780060850524",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9780060850524-L.jpg?default=false",
+    "publisher": "Harper Perennial",
+    "verified": true
+   },
+   "lc": {
+    "id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "aecdbe51-ffae-413c-b861-c4f52fff98f8",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788931010831",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+   "rid": "c1730e97-78fa-4919-b8de-27572ea0c830",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy",
+    "bbc-big-read-top-100",
+    "modern-library-100-novels",
+    "bps-psychology-books"
+   ],
+   "hidden": 2,
+   "title": "멋진 신세계",
+   "items": [
+    {
+     "id": "b6b714b1-df86-4194-85ca-cd6eb59860c9",
+     "raw": "Brave New World",
+     "slug": "npr-top-100-sf-fantasy"
+    },
+    {
+     "id": "9eca5df9-d416-40ee-a01d-811c78cf7169",
+     "raw": "Brave New World",
+     "slug": "bbc-big-read-top-100"
+    },
+    {
+     "id": "07d0f17f-410a-4004-930a-91f572feaaa2",
+     "raw": "Brave New World",
+     "slug": "modern-library-100-novels"
+    },
+    {
+     "id": "e9e5d540-9e70-4434-979f-08781c47d1cf",
+     "raw": "Brave New World",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "locale": "ko",
+    "title": "멋진 신세계",
+    "creator": "올더스 헉슬리",
+    "isbn": "9788973814725",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1027553?timestamp=20260110110821",
+    "publisher": "소담출판사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "c1730e97-78fa-4919-b8de-27572ea0c830",
+    "locale": "ko",
+    "title": "멋진 신세계",
+    "creator": "올더스 헉슬리",
+    "isbn": "9788931024029",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6768669?timestamp=20260623122152",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "5cba759b-bba4-4151-9bd3-01782d8cb66a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "c1730e97-78fa-4919-b8de-27572ea0c830",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788931024029",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "4e2b0d2c-78b8-4f92-bfff-fab8af838d46",
+   "rid": "f398d96f-5a6f-4fbd-99c0-7196d33d4693",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "booker-prize-winners"
+   ],
+   "hidden": 2,
+   "title": "바다여 바다여",
+   "items": [
+    {
+     "id": "e425d2e8-b824-41e4-a633-9f0a37223596",
+     "raw": "The Sea, the Sea",
+     "slug": "booker-prize-winners"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "4e2b0d2c-78b8-4f92-bfff-fab8af838d46",
+    "locale": "en",
+    "title": "The Sea, the Sea",
+    "creator": "Iris Murdoch",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/5277962-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "f398d96f-5a6f-4fbd-99c0-7196d33d4693",
+    "locale": "ko",
+    "title": "바다여 바다여",
+    "creator": "아이리스 머독",
+    "isbn": "9788931024180",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6788326?timestamp=20250813151835",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "4e2b0d2c-78b8-4f92-bfff-fab8af838d46",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "f398d96f-5a6f-4fbd-99c0-7196d33d4693",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788931024180",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "cdf918df-e3bb-42fd-afb2-280b08f5b25f",
+   "rid": "3a953357-57aa-4217-aebe-5e51ca8bd988",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "booker-prize-winners"
+   ],
+   "hidden": 1,
+   "title": "The Seven Moons of Maali Almeida",
+   "items": [
+    {
+     "id": "2de0b450-de54-4a50-9b12-117027c48ef7",
+     "raw": "The Seven Moons of Maali Almeida",
+     "slug": "booker-prize-winners"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "cdf918df-e3bb-42fd-afb2-280b08f5b25f",
+    "locale": "en",
+    "title": "The seven moons of Maali Almeida",
+    "creator": "Shehan Karunatilaka",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/13822859-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "3a953357-57aa-4217-aebe-5e51ca8bd988",
+    "locale": "en",
+    "title": "The Seven Moons of Maali Almeida",
+    "creator": "Shehan Karunatilaka",
+    "isbn": "9781908745903",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9781908745903-L.jpg?default=false",
+    "publisher": "Sort of Books",
+    "verified": true
+   },
+   "lc": {
+    "id": "cdf918df-e3bb-42fd-afb2-280b08f5b25f",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "3a953357-57aa-4217-aebe-5e51ca8bd988",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791168341289",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "7ae93b49-aab0-446e-b8df-e5c605f995c9",
+   "rid": "63da3393-f1f7-43c5-bd67-268bc69e4fda",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bbc-big-read-top-100"
+   ],
+   "hidden": 1,
+   "title": "설득",
+   "items": [
+    {
+     "id": "a55fcb56-dd8e-4811-9911-8fab134b99ad",
+     "raw": "Persuasion",
+     "slug": "bbc-big-read-top-100"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 10,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "7ae93b49-aab0-446e-b8df-e5c605f995c9",
+    "locale": "ko",
+    "title": "설득",
+    "creator": "제인 오스틴",
+    "isbn": "9788937463488",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/541015?timestamp=20251128110638",
+    "publisher": "민음사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "63da3393-f1f7-43c5-bd67-268bc69e4fda",
+    "locale": "ko",
+    "title": "설득",
+    "creator": "제인 오스틴",
+    "isbn": "9791155814918",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6106819?timestamp=20251106151150",
+    "publisher": "윌북",
+    "verified": true
+   },
+   "lc": {
+    "id": "7ae93b49-aab0-446e-b8df-e5c605f995c9",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788937463488",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "63da3393-f1f7-43c5-bd67-268bc69e4fda",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791155814918",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "469b1947-1cd4-4e6f-ab18-8a05b23916be",
+   "rid": "ca61325b-050b-46d2-ab32-5f18c5ebd985",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bbc-big-read-top-100"
+   ],
+   "hidden": 2,
+   "title": "찰리와 초콜릿 공장",
+   "items": [
+    {
+     "id": "71eb5b68-62d4-40e8-8440-071b58b41678",
+     "raw": "Charlie And The Chocolate Factory",
+     "slug": "bbc-big-read-top-100"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "469b1947-1cd4-4e6f-ab18-8a05b23916be",
+    "locale": "ko",
+    "title": "찰리와 초콜릿 공장",
+    "creator": "로알드 달",
+    "isbn": "9788952788719",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4872939?timestamp=20260123123906",
+    "publisher": "시공주니어",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "ca61325b-050b-46d2-ab32-5f18c5ebd985",
+    "locale": "ko",
+    "title": "찰리와 초콜릿 공장",
+    "creator": "로알드 달",
+    "isbn": "9788952788719",
+    "thumbnail_url": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F4872939%3Ftimestamp%3D20260123123906",
+    "publisher": "시공주니어",
+    "verified": true
+   },
+   "lc": {
+    "id": "469b1947-1cd4-4e6f-ab18-8a05b23916be",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "ca61325b-050b-46d2-ab32-5f18c5ebd985",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788952788719",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "d4c9da30-3562-4977-8d92-ece5be3dd648",
+   "rid": "a3b4ba2e-cc47-4167-8318-5288e7ac239f",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bbc-big-read-top-100",
+    "newbery-medal"
+   ],
+   "hidden": 1,
+   "title": "Holes",
+   "items": [
+    {
+     "id": "7ef1ca7e-d829-46d0-8e38-4dcb5cd02414",
+     "raw": "Holes",
+     "slug": "bbc-big-read-top-100"
+    },
+    {
+     "id": "cb28772c-b15e-493a-afd7-b915a9ee7318",
+     "raw": "Holes",
+     "slug": "newbery-medal"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "d4c9da30-3562-4977-8d92-ece5be3dd648",
+    "locale": "ko",
+    "title": "구덩이",
+    "creator": "루이스 새커",
+    "isbn": "9788936456023",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/533701?timestamp=20260601111306",
+    "publisher": "창비",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "a3b4ba2e-cc47-4167-8318-5288e7ac239f",
+    "locale": "en",
+    "title": "Holes",
+    "creator": "Louis Sachar",
+    "isbn": "9780440414803",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9780440414803-L.jpg?default=false",
+    "publisher": "Dell Yearling",
+    "verified": true
+   },
+   "lc": {
+    "id": "d4c9da30-3562-4977-8d92-ece5be3dd648",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "a3b4ba2e-cc47-4167-8318-5288e7ac239f",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788936456023",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "c6724520-6b71-4950-8652-f229115ae50f",
+   "rid": "4dd80fb8-3b4e-4160-a33b-497e2953395f",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bbc-big-read-top-100",
+    "time-100-novels"
+   ],
+   "hidden": 1,
+   "title": "The Lion, the Witch and the Wardrobe",
+   "items": [
+    {
+     "id": "ca844e97-6d35-4af7-8ba0-a863a840361c",
+     "raw": "The Lion, the Witch and the Wardrobe",
+     "slug": "bbc-big-read-top-100"
+    },
+    {
+     "id": "85b816bf-31b1-4aed-8452-ebec53465635",
+     "raw": "The Lion, The Witch and the Wardrobe",
+     "slug": "time-100-novels"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "c6724520-6b71-4950-8652-f229115ae50f",
+    "locale": "ko",
+    "title": "사자와 마녀와 옷장",
+    "creator": "C. S. 루이스",
+    "isbn": "9788952723161",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/641964?timestamp=20240718113140",
+    "publisher": "시공주니어",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "4dd80fb8-3b4e-4160-a33b-497e2953395f",
+    "locale": "en",
+    "title": "The Lion, the Witch and the Wardrobe",
+    "creator": "C. S. Lewis",
+    "isbn": "9780064471046",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9780064471046-L.jpg",
+    "publisher": "HarperTrophy",
+    "verified": true
+   },
+   "lc": {
+    "id": "c6724520-6b71-4950-8652-f229115ae50f",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "4dd80fb8-3b4e-4160-a33b-497e2953395f",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788952723161",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "d4c9da30-3562-4977-8d92-ece5be3dd648",
+   "rid": "a3b4ba2e-cc47-4167-8318-5288e7ac239f",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bbc-big-read-top-100",
+    "newbery-medal"
+   ],
+   "hidden": 1,
+   "title": "Holes",
+   "items": [
+    {
+     "id": "7ef1ca7e-d829-46d0-8e38-4dcb5cd02414",
+     "raw": "Holes",
+     "slug": "bbc-big-read-top-100"
+    },
+    {
+     "id": "cb28772c-b15e-493a-afd7-b915a9ee7318",
+     "raw": "Holes",
+     "slug": "newbery-medal"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "d4c9da30-3562-4977-8d92-ece5be3dd648",
+    "locale": "ko",
+    "title": "구덩이",
+    "creator": "루이스 새커",
+    "isbn": "9788936456023",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/533701?timestamp=20260601111306",
+    "publisher": "창비",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "a3b4ba2e-cc47-4167-8318-5288e7ac239f",
+    "locale": "en",
+    "title": "Holes",
+    "creator": "Louis Sachar",
+    "isbn": "9780440414803",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9780440414803-L.jpg?default=false",
+    "publisher": "Dell Yearling",
+    "verified": true
+   },
+   "lc": {
+    "id": "d4c9da30-3562-4977-8d92-ece5be3dd648",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "a3b4ba2e-cc47-4167-8318-5288e7ac239f",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788936456023",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "76ee7bbe-894d-4568-9277-06f165f9d149",
+   "rid": "ca23d182-839d-449e-acb6-d70a4feb01d2",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "nyt-100-best-books-21st-century"
+   ],
+   "hidden": 1,
+   "title": "The Flamethrowers",
+   "items": [
+    {
+     "id": "8b7a0d0e-167d-4b65-b2af-8995425276ca",
+     "raw": "The Flamethrowers",
+     "slug": "nyt-100-best-books-21st-century"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "76ee7bbe-894d-4568-9277-06f165f9d149",
+    "locale": "en",
+    "title": "The flamethrowers",
+    "creator": "Rachel Kushner",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/9036741-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "ca23d182-839d-449e-acb6-d70a4feb01d2",
+    "locale": "en",
+    "title": "The Flamethrowers",
+    "creator": "Rachel Kushner, Amelia Pérez de Villar Herranz",
+    "isbn": "9781469287102",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9781469287102-L.jpg",
+    "publisher": "Brilliance Audio",
+    "verified": true
+   },
+   "lc": {
+    "id": "76ee7bbe-894d-4568-9277-06f165f9d149",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "ca23d182-839d-449e-acb6-d70a4feb01d2",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9781448182282",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "b113cabe-2a06-4671-89f8-cca8db632ea4",
+   "rid": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "nyt-100-best-books-21st-century",
+    "pulitzer-fiction-winners",
+    "npr-top-100-sf-fantasy",
+    "guardian-100-best-books-21st-century",
+    "bbc-100-novels-shaped-our-world"
+   ],
+   "hidden": 4,
+   "title": "로드",
+   "items": [
+    {
+     "id": "b32af4b1-a53f-4ea7-87af-ad8abe4ba36b",
+     "raw": "The Road",
+     "slug": "nyt-100-best-books-21st-century"
+    },
+    {
+     "id": "a0db3cfe-f92b-4637-8f8c-bdbadec27ce6",
+     "raw": "The Road",
+     "slug": "pulitzer-fiction-winners"
+    },
+    {
+     "id": "fd5d826f-d106-4357-9800-15c4924ab4df",
+     "raw": "The Road",
+     "slug": "npr-top-100-sf-fantasy"
+    },
+    {
+     "id": "59285c57-9703-4990-80b1-2e6009f2bcad",
+     "raw": "The Road",
+     "slug": "guardian-100-best-books-21st-century"
+    },
+    {
+     "id": "5f1e9a98-b12e-4ff3-81f4-7cedeecbc73a",
+     "raw": "The Road",
+     "slug": "bbc-100-novels-shaped-our-world"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "b113cabe-2a06-4671-89f8-cca8db632ea4",
+    "locale": "en",
+    "title": "The Road",
+    "creator": "Cormac McCarthy",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/198120-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+    "locale": "ko",
+    "title": "로드",
+    "creator": "코맥 매카시",
+    "isbn": "9788954605908",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/690185?timestamp=20260625111019",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "b113cabe-2a06-4671-89f8-cca8db632ea4",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788954605908",
+    "celeb_count": 4,
+    "record_count": 4
+   }
+  },
+  {
+   "lid": "b364cc9a-db68-4288-a8f2-f63d6e0168e7",
+   "rid": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 4,
+   "title": "로드",
+   "items": [
+    {
+     "id": "c4fd9303-9d2d-4ccb-8031-c20cdbba4b7c",
+     "raw": "The Road",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "b364cc9a-db68-4288-a8f2-f63d6e0168e7",
+    "locale": "en",
+    "title": "The Road",
+    "creator": "Cormac McCarthy",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/198120-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+    "locale": "ko",
+    "title": "로드",
+    "creator": "코맥 매카시",
+    "isbn": "9788954605908",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/690185?timestamp=20260625111019",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "b364cc9a-db68-4288-a8f2-f63d6e0168e7",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "17c8c464-5abe-4f99-9c86-cf2fe46e003c",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788954605908",
+    "celeb_count": 4,
+    "record_count": 4
+   }
+  },
+  {
+   "lid": "b792fe30-fb77-409a-81d9-acba5ec13a8c",
+   "rid": "21fa88c8-41fd-407c-91f0-6ab36899f2c2",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "modern-library-100-novels"
+   ],
+   "hidden": 3,
+   "title": "한낮의 어둠",
+   "items": [
+    {
+     "id": "8f42bb54-0791-498e-8bcd-fdfaace02183",
+     "raw": "Darkness at Noon",
+     "slug": "modern-library-100-novels"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "b792fe30-fb77-409a-81d9-acba5ec13a8c",
+    "locale": "en",
+    "title": "darkness at noon ",
+    "creator": "arthur koestler ",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/14896145-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "21fa88c8-41fd-407c-91f0-6ab36899f2c2",
+    "locale": "ko",
+    "title": "한낮의 어둠",
+    "creator": "아서 쾨슬러",
+    "isbn": "9788964371220",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/900501?timestamp=20221107221706",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "b792fe30-fb77-409a-81d9-acba5ec13a8c",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "21fa88c8-41fd-407c-91f0-6ab36899f2c2",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788964371220",
+    "celeb_count": 3,
+    "record_count": 3
+   }
+  },
+  {
+   "lid": "ea17ec25-0e7d-4e8c-81ab-a3023c8383c2",
+   "rid": "356d8dc5-754b-44e8-854a-fe91da64d172",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "nyt-100-best-books-21st-century",
+    "pulitzer-fiction-winners"
+   ],
+   "hidden": 1,
+   "title": "트러스트",
+   "items": [
+    {
+     "id": "f99451bb-8bb7-4306-9671-ee19281419eb",
+     "raw": "Trust",
+     "slug": "nyt-100-best-books-21st-century"
+    },
+    {
+     "id": "ef1c8955-2d4c-4bd4-8fca-7c6641b07fa8",
+     "raw": "Trust",
+     "slug": "pulitzer-fiction-winners"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "ea17ec25-0e7d-4e8c-81ab-a3023c8383c2",
+    "locale": "ko",
+    "title": "트러스트",
+    "creator": "에르난 디아스",
+    "isbn": "9788954691673",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6295007?timestamp=20260415121540",
+    "publisher": "문학동네",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "356d8dc5-754b-44e8-854a-fe91da64d172",
+    "locale": "ko",
+    "title": "트러스트",
+    "creator": "에르난 디아스",
+    "isbn": "9788954691673",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6295007?timestamp=20260415121540",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "ea17ec25-0e7d-4e8c-81ab-a3023c8383c2",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "356d8dc5-754b-44e8-854a-fe91da64d172",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788954691673",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "2d047a5f-cfae-4b20-a066-031ba2e26b6c",
+   "rid": "a87c3461-9adb-4d9b-9a75-0d6c6351e60e",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "nyt-100-best-books-21st-century"
+   ],
+   "hidden": 1,
+   "title": "The years",
+   "items": [
+    {
+     "id": "99689f08-be38-4aef-ae3b-291845074275",
+     "raw": "The Years",
+     "slug": "nyt-100-best-books-21st-century"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "2d047a5f-cfae-4b20-a066-031ba2e26b6c",
+    "locale": "ko",
+    "title": "세월",
+    "creator": "아니 에르노",
+    "isbn": "9791190533126",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6074865?timestamp=20260320123525",
+    "publisher": "1984BOOKS",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "a87c3461-9adb-4d9b-9a75-0d6c6351e60e",
+    "locale": "en",
+    "title": "The years",
+    "creator": "Annie Ernaux",
+    "isbn": "9781609807870",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/9243771-L.jpg",
+    "publisher": "Seven Stories Press",
+    "verified": true
+   },
+   "lc": {
+    "id": "2d047a5f-cfae-4b20-a066-031ba2e26b6c",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9781839044496",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "a87c3461-9adb-4d9b-9a75-0d6c6351e60e",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791196632403",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "850da27b-a2d8-4875-90b9-ab8df66fd47f",
+   "rid": "4cc18b2c-7e34-49af-b22a-d619b612aad5",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "modern-library-100-novels",
+    "time-100-novels"
+   ],
+   "hidden": 1,
+   "title": "Death Comes for the Archbishop",
+   "items": [
+    {
+     "id": "8c823aba-fa6d-4f1b-ab6c-bd5874cb406a",
+     "raw": "Death Comes for the Archbishop",
+     "slug": "modern-library-100-novels"
+    },
+    {
+     "id": "08dc9524-27b3-41c4-9c32-80ef567d7008",
+     "raw": "Death Comes for the Archbishop",
+     "slug": "time-100-novels"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "850da27b-a2d8-4875-90b9-ab8df66fd47f",
+    "locale": "ko",
+    "title": "대주교에게 죽음이 오다",
+    "creator": "윌라 캐더",
+    "isbn": "9788932911458",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/506785?timestamp=20260701111017",
+    "publisher": "열린책들",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "4cc18b2c-7e34-49af-b22a-d619b612aad5",
+    "locale": "ko",
+    "title": "Death Comes for the Archbishop",
+    "creator": "윌라 캐더",
+    "isbn": "9780679728894",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1761945?timestamp=20230307183540",
+    "publisher": "Vintage",
+    "verified": true
+   },
+   "lc": {
+    "id": "850da27b-a2d8-4875-90b9-ab8df66fd47f",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "4cc18b2c-7e34-49af-b22a-d619b612aad5",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780679728894",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "19403e28-60b6-4bd2-b888-9ff206fa5dc4",
+   "rid": "f8bda4fa-b936-41d6-a01c-f9f027024595",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "modern-library-100-novels"
+   ],
+   "hidden": 1,
+   "title": "Light in August",
+   "items": [
+    {
+     "id": "dc63933b-5527-4421-b461-41c6436d9b4d",
+     "raw": "Light in August",
+     "slug": "modern-library-100-novels"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "19403e28-60b6-4bd2-b888-9ff206fa5dc4",
+    "locale": "ko",
+    "title": "팔월의 빛 1",
+    "creator": "윌리엄 포크너",
+    "isbn": "9791171311415",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6740403?timestamp=20260522122002",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "f8bda4fa-b936-41d6-a01c-f9f027024595",
+    "locale": "ko",
+    "title": "Light in August",
+    "creator": "윌리엄 포크너",
+    "isbn": "9780679732266",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1761909?timestamp=20251002111413",
+    "publisher": "Vintage International",
+    "verified": true
+   },
+   "lc": {
+    "id": "19403e28-60b6-4bd2-b888-9ff206fa5dc4",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791171311415",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "f8bda4fa-b936-41d6-a01c-f9f027024595",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780679732266",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "ed86c9e3-fdf7-49f9-8a0d-40dda8b67332",
+   "rid": "c629ba0c-0466-475c-beb0-b9e551c7bbae",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "modern-library-100-novels",
+    "time-100-novels"
+   ],
+   "hidden": 1,
+   "title": "음향과 분노",
+   "items": [
+    {
+     "id": "637e089d-7c4a-481d-9621-7870eed0a795",
+     "raw": "The Sound and the Fury",
+     "slug": "modern-library-100-novels"
+    },
+    {
+     "id": "c019c734-ecac-4847-a173-530c90f30a38",
+     "raw": "The Sound and the Fury",
+     "slug": "time-100-novels"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "ed86c9e3-fdf7-49f9-8a0d-40dda8b67332",
+    "locale": "ko",
+    "title": "소리와 분노",
+    "creator": "윌리엄 포크너",
+    "isbn": "9788954620611",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/691432?timestamp=20240604112746",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "c629ba0c-0466-475c-beb0-b9e551c7bbae",
+    "locale": "ko",
+    "title": "음향과 분노",
+    "creator": "윌리엄 포크너",
+    "isbn": "9788987522968",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1256156?timestamp=20221025114949",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "ed86c9e3-fdf7-49f9-8a0d-40dda8b67332",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788954620611",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "c629ba0c-0466-475c-beb0-b9e551c7bbae",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788987522968",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "5802fc90-d6f8-4d1d-b8e4-a7acb85d3a60",
+   "rid": "c2296048-fcbf-4894-8656-8237a7e97b59",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "locus-fantasy-novel"
+   ],
+   "hidden": 1,
+   "title": "The Ocean at the End of the Lane",
+   "items": [
+    {
+     "id": "0fa0255b-f934-4d0b-97e4-1375cbafe2cd",
+     "raw": "The Ocean at the End of the Lane",
+     "slug": "locus-fantasy-novel"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "5802fc90-d6f8-4d1d-b8e4-a7acb85d3a60",
+    "locale": "ko",
+    "title": "오솔길 끝 바다",
+    "creator": "닐 게이먼",
+    "isbn": "9788952771605",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/645869?timestamp=20220121130653",
+    "publisher": "시공사",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "c2296048-fcbf-4894-8656-8237a7e97b59",
+    "locale": "ko",
+    "title": "The Ocean at the End of the Lane",
+    "creator": "닐 게이먼",
+    "isbn": "9780062325136",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3055943?timestamp=20230604141008",
+    "publisher": "Harper",
+    "verified": true
+   },
+   "lc": {
+    "id": "5802fc90-d6f8-4d1d-b8e4-a7acb85d3a60",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788952771605",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "c2296048-fcbf-4894-8656-8237a7e97b59",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780062325136",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "434a1b70-8374-444a-b3e6-0f13ef84eb79",
+   "rid": "eb568a55-dd55-45c3-b170-e898e35dfac3",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 1,
+   "title": "Discourse on the Method",
+   "items": [
+    {
+     "id": "bb9daa3e-0fea-4a40-9ddb-9551708a9845",
+     "raw": "Discourse on Method",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "434a1b70-8374-444a-b3e6-0f13ef84eb79",
+    "locale": "en",
+    "title": "Discourse on Method and Meditations on First Philosophy, 4th Ed",
+    "creator": "René Descartes",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/662303-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "eb568a55-dd55-45c3-b170-e898e35dfac3",
+    "locale": "en",
+    "title": "Discourse on the Method",
+    "creator": "Rene Descartes",
+    "isbn": "9780872204225",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/662305-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "434a1b70-8374-444a-b3e6-0f13ef84eb79",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "eb568a55-dd55-45c3-b170-e898e35dfac3",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788931022759",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "434a1b70-8374-444a-b3e6-0f13ef84eb79",
+   "rid": "fc9d0fcc-726b-44e2-9f2c-9089d7bce559",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 2,
+   "title": "방법서설",
+   "items": [
+    {
+     "id": "bb9daa3e-0fea-4a40-9ddb-9551708a9845",
+     "raw": "Discourse on Method",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "434a1b70-8374-444a-b3e6-0f13ef84eb79",
+    "locale": "en",
+    "title": "Discourse on Method and Meditations on First Philosophy, 4th Ed",
+    "creator": "René Descartes",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/662303-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "fc9d0fcc-726b-44e2-9f2c-9089d7bce559",
+    "locale": "ko",
+    "title": "방법서설",
+    "creator": "르네 데카르트",
+    "isbn": "9788931011333",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4874388?timestamp=20230219140918",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "434a1b70-8374-444a-b3e6-0f13ef84eb79",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "fc9d0fcc-726b-44e2-9f2c-9089d7bce559",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788931011333",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "b52580cd-7963-49e0-86d8-643f27bf439a",
+   "rid": "10beee78-5112-4434-a2c1-f87fccd06c2a",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 1,
+   "title": "정치학",
+   "items": [
+    {
+     "id": "d3a57db7-51fa-4833-9c39-4de4e4a12c9a",
+     "raw": "Politics",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "b52580cd-7963-49e0-86d8-643f27bf439a",
+    "locale": "en",
+    "title": "Politics",
+    "creator": "Aristotle",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/12863144-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "10beee78-5112-4434-a2c1-f87fccd06c2a",
+    "locale": "ko",
+    "title": "정치학",
+    "creator": "아리스토텔레스",
+    "isbn": "9788976828392",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6431948?timestamp=20251001141129",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "b52580cd-7963-49e0-86d8-643f27bf439a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "10beee78-5112-4434-a2c1-f87fccd06c2a",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788976828392",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "b52580cd-7963-49e0-86d8-643f27bf439a",
+   "rid": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 5,
+   "title": "정치학",
+   "items": [
+    {
+     "id": "d3a57db7-51fa-4833-9c39-4de4e4a12c9a",
+     "raw": "Politics",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "b52580cd-7963-49e0-86d8-643f27bf439a",
+    "locale": "en",
+    "title": "Politics",
+    "creator": "Aristotle",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/12863144-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+    "locale": "ko",
+    "title": "정치학",
+    "creator": "아리스토텔레스",
+    "isbn": "9791139716962",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6663708?timestamp=20260715124102",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "b52580cd-7963-49e0-86d8-643f27bf439a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "9a440027-cdd0-4f91-8c98-bdd5527b7cee",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791139716962",
+    "celeb_count": 5,
+    "record_count": 5
+   }
+  },
+  {
+   "lid": "86b8923c-b55e-4c23-b98a-f0b50b8c012e",
+   "rid": "cf14c733-5cb0-428b-845c-275575fca8a5",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 5,
+   "title": "신학대전 1",
+   "items": [
+    {
+     "id": "6e1574f8-969f-48d2-922f-610b0e7936cb",
+     "raw": "Summa Theologiae",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "86b8923c-b55e-4c23-b98a-f0b50b8c012e",
+    "locale": "en",
+    "title": "Summa theologiae",
+    "creator": "Thomas Aquinas",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/10810480-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "cf14c733-5cb0-428b-845c-275575fca8a5",
+    "locale": "ko",
+    "title": "신학대전 1",
+    "creator": "토마스 아퀴나스",
+    "isbn": "9788933111680",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/507653?timestamp=20250723110524",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "86b8923c-b55e-4c23-b98a-f0b50b8c012e",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "cf14c733-5cb0-428b-845c-275575fca8a5",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788933111680",
+    "celeb_count": 5,
+    "record_count": 5
+   }
+  },
+  {
+   "lid": "86745bbf-d1f9-4eff-8280-3de503f3b4b4",
+   "rid": "8ebf4087-a728-4313-8e05-d0d89ab3f1c6",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 4,
+   "title": "Discourses of Epictetus",
+   "items": [
+    {
+     "id": "163354c6-c113-4209-8d30-37ab0b97def7",
+     "raw": "Discourses",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "86745bbf-d1f9-4eff-8280-3de503f3b4b4",
+    "locale": "en",
+    "title": "The discourses of Epictetus",
+    "creator": "Epictetus",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/6034053-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "8ebf4087-a728-4313-8e05-d0d89ab3f1c6",
+    "locale": "en",
+    "title": "Discourses of Epictetus",
+    "creator": "Epictetus",
+    "isbn": "9798409700539",
+    "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1544396904i/43185339.jpg",
+    "publisher": "E. P. Dutton & Co.",
+    "verified": true
+   },
+   "lc": {
+    "id": "86745bbf-d1f9-4eff-8280-3de503f3b4b4",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "8ebf4087-a728-4313-8e05-d0d89ab3f1c6",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788976828194",
+    "celeb_count": 4,
+    "record_count": 4
+   }
+  },
+  {
+   "lid": "53951bd0-5091-40a2-b3b3-8cd0fa2129ee",
+   "rid": "8f27cc18-2ff8-4e5b-a08b-5efbded408c9",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "pulitzer-fiction-winners"
+   ],
+   "hidden": 1,
+   "title": "낙천주의자의 딸(양장본 HardCover)",
+   "items": [
+    {
+     "id": "785752d2-b692-4726-afca-e61152f64bb2",
+     "raw": "The Optimist's Daughter",
+     "slug": "pulitzer-fiction-winners"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "53951bd0-5091-40a2-b3b3-8cd0fa2129ee",
+    "locale": "ko",
+    "title": "낙천주의자의 딸(양장본 HardCover)",
+    "creator": "유도라 웰티",
+    "isbn": "9788992512183",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1374380?timestamp=20220613185740",
+    "publisher": "토파즈",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "8f27cc18-2ff8-4e5b-a08b-5efbded408c9",
+    "locale": "ko",
+    "title": "낙천주의자의 딸(양장본 HardCover)",
+    "creator": "유도라 웰티",
+    "isbn": "9788992512183",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1374380?timestamp=20220613185740",
+    "publisher": "토파즈",
+    "verified": true
+   },
+   "lc": {
+    "id": "53951bd0-5091-40a2-b3b3-8cd0fa2129ee",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "8f27cc18-2ff8-4e5b-a08b-5efbded408c9",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788992512183",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "f3c42ebb-dd91-4926-956e-69cb7ebb5d1c",
+   "rid": "bf6f1f38-eab6-4815-b461-c1ee8e356f1a",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 8,
+   "title": "사물의 본성에 관하여",
+   "items": [
+    {
+     "id": "999a328e-2080-42e2-bfd4-351950e2a923",
+     "raw": "On the Nature of Things",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "f3c42ebb-dd91-4926-956e-69cb7ebb5d1c",
+    "locale": "en",
+    "title": "On the nature of things",
+    "creator": "Titus Lucretius Carus",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/6782246-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "bf6f1f38-eab6-4815-b461-c1ee8e356f1a",
+    "locale": "ko",
+    "title": "사물의 본성에 관하여",
+    "creator": "루크레티우스",
+    "isbn": "9788957332221",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/756962?timestamp=20260611111436",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "f3c42ebb-dd91-4926-956e-69cb7ebb5d1c",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "bf6f1f38-eab6-4815-b461-c1ee8e356f1a",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788957332221",
+    "celeb_count": 8,
+    "record_count": 8
+   }
+  },
+  {
+   "lid": "4ac57dae-fbef-4c3a-b841-2573ed150578",
+   "rid": "985cefe5-6b76-47e5-b6f8-ec32a691706b",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 2,
+   "title": "천구의 회전에 관하여(큰글자도서)",
+   "items": [
+    {
+     "id": "d4e07b65-9175-49f6-a89c-09ac705f5c56",
+     "raw": "On the Revolution of the Heavenly Spheres",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "4ac57dae-fbef-4c3a-b841-2573ed150578",
+    "locale": "en",
+    "title": "On the revolution of heavenly spheres",
+    "creator": "Nicolaus Copernicus",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/825677-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "985cefe5-6b76-47e5-b6f8-ec32a691706b",
+    "locale": "ko",
+    "title": "천구의 회전에 관하여(큰글자도서)",
+    "creator": "니콜라스 코페르니쿠스",
+    "isbn": "9791193828076",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6764244?timestamp=20260618122143",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "4ac57dae-fbef-4c3a-b841-2573ed150578",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "985cefe5-6b76-47e5-b6f8-ec32a691706b",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791193828076",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "cf47687c-cea0-4deb-8692-ae08cbd51ec8",
+   "rid": "11c017ee-cd99-410b-82ca-f8b096af84d2",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "nyt-100-best-books-21st-century"
+   ],
+   "hidden": 1,
+   "title": "벨칸토",
+   "items": [
+    {
+     "id": "44da7fec-fefb-4810-a177-a9b825a7eeaf",
+     "raw": "Bel Canto",
+     "slug": "nyt-100-best-books-21st-century"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "cf47687c-cea0-4deb-8692-ae08cbd51ec8",
+    "locale": "ko",
+    "title": "벨칸토2",
+    "creator": "앤 패쳇",
+    "isbn": "4808982739682",
+    "thumbnail_url": null,
+    "publisher": "민음사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "11c017ee-cd99-410b-82ca-f8b096af84d2",
+    "locale": "ko",
+    "title": "벨칸토",
+    "creator": "Ann Patchett",
+    "isbn": "9788954654357",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4853538?timestamp=20220630125941",
+    "publisher": "문학동네",
+    "verified": true
+   },
+   "lc": {
+    "id": "cf47687c-cea0-4deb-8692-ae08cbd51ec8",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "11c017ee-cd99-410b-82ca-f8b096af84d2",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788954654357",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "252168fe-6b1e-4b0a-a6bc-0fcb3ffa3d54",
+   "rid": "47c3813d-6af4-4945-96f3-c881db934215",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books",
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "Maxims",
+   "items": [
+    {
+     "id": "6454c2d1-3314-445d-972a-4e67bd633ee2",
+     "raw": "Maxims",
+     "slug": "st-johns-great-books"
+    },
+    {
+     "id": "297c83ee-f83e-4f37-8ec7-29bf9705fd06",
+     "raw": "The maxims of the Duc de la Rochefoucauld",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "252168fe-6b1e-4b0a-a6bc-0fcb3ffa3d54",
+    "locale": "en",
+    "title": "Maxims",
+    "creator": "François duc de La Rochefoucauld",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/103669-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "47c3813d-6af4-4945-96f3-c881db934215",
+    "locale": "en",
+    "title": "Maxims",
+    "creator": "Joseph Smith Fletcher",
+    "isbn": "9781986665070",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/1845490-L.jpg",
+    "publisher": "Liese. Outside The Box, Andreas",
+    "verified": true
+   },
+   "lc": {
+    "id": "252168fe-6b1e-4b0a-a6bc-0fcb3ffa3d54",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "47c3813d-6af4-4945-96f3-c881db934215",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791128857904",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "e856542e-4bc9-47e2-8e5d-432044215899",
+   "rid": "5e4939f2-db24-4b6d-9b9e-1f45b95b3570",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 1,
+   "title": "Tristan and Isolde",
+   "items": [
+    {
+     "id": "e37fe646-5d94-4b39-83ac-28b36cd2d220",
+     "raw": "Tristan and Isolde",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "e856542e-4bc9-47e2-8e5d-432044215899",
+    "locale": "en",
+    "title": "Tristan and Isolde",
+    "creator": "Richard Wagner",
+    "isbn": null,
+    "thumbnail_url": null,
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "5e4939f2-db24-4b6d-9b9e-1f45b95b3570",
+    "locale": "en",
+    "title": "Tristan and Isolde",
+    "creator": "Louis Kaufman Anspacher",
+    "isbn": "9780341750246",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/10898493-L.jpg",
+    "publisher": "Franklin Classics",
+    "verified": true
+   },
+   "lc": {
+    "id": "e856542e-4bc9-47e2-8e5d-432044215899",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "5e4939f2-db24-4b6d-9b9e-1f45b95b3570",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791189346249",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "0e406f4d-a547-4c64-afd5-7502480418bb",
+   "rid": "25586145-ba94-4d9b-8550-c54d53aea716",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "newbery-medal"
+   ],
+   "hidden": 1,
+   "title": "천둥아 내 외침을 들어라",
+   "items": [
+    {
+     "id": "18ce6335-4bba-40b3-b783-369ef1f4c10d",
+     "raw": "Roll of Thunder, Hear My Cry",
+     "slug": "newbery-medal"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "0e406f4d-a547-4c64-afd5-7502480418bb",
+    "locale": "ko",
+    "title": "천둥아 내 외침을 들어라",
+    "creator": "밀드레드 테일러",
+    "isbn": "9788995296974",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1434159?timestamp=20260211111147",
+    "publisher": "내인생의책",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "25586145-ba94-4d9b-8550-c54d53aea716",
+    "locale": "ko",
+    "title": "천둥아 내 외침을 들어라",
+    "creator": "밀드레드 테일러",
+    "isbn": "9788995296974",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1434159?timestamp=20260211111147",
+    "publisher": "내인생의책",
+    "verified": true
+   },
+   "lc": {
+    "id": "0e406f4d-a547-4c64-afd5-7502480418bb",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "25586145-ba94-4d9b-8550-c54d53aea716",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788995296974",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "be9474aa-828c-403d-ada8-9e19e8666b96",
+   "rid": "bc0fc598-7506-4ec7-8be3-40423b420a5a",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "time-100-novels",
+    "edgar-best-novel",
+    "cwa-gold-dagger"
+   ],
+   "hidden": 3,
+   "title": "추운 나라에서 돌아온 스파이",
+   "items": [
+    {
+     "id": "c33ba533-e8fc-4d16-9698-17290bf696d7",
+     "raw": "The Spy Who Came in From the Cold",
+     "slug": "time-100-novels"
+    },
+    {
+     "id": "c3c2f499-1533-47d1-b7b9-a2a22487a843",
+     "raw": "The Spy Who Came in from the Cold",
+     "slug": "edgar-best-novel"
+    },
+    {
+     "id": "b0c75a9a-8513-4317-968f-64d3066f6b76",
+     "raw": "The Spy Who Came in from the Cold",
+     "slug": "cwa-gold-dagger"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "be9474aa-828c-403d-ada8-9e19e8666b96",
+    "locale": "ko",
+    "title": "추운 나라에서 돌아온 스파이",
+    "creator": "존 르카레",
+    "isbn": "9788932909639",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/506609?timestamp=20260601111304",
+    "publisher": "열린책들",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "bc0fc598-7506-4ec7-8be3-40423b420a5a",
+    "locale": "ko",
+    "title": "추운 나라에서 돌아온 스파이",
+    "creator": "존 르카레",
+    "isbn": "9788932909639",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/506609?timestamp=20260601111304",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "be9474aa-828c-403d-ada8-9e19e8666b96",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "bc0fc598-7506-4ec7-8be3-40423b420a5a",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788932909639",
+    "celeb_count": 3,
+    "record_count": 3
+   }
+  },
+  {
+   "lid": "4f4e48cc-a760-4f02-9927-2890c7a173d0",
+   "rid": "13447dfa-31ea-5a05-b93c-c74cd1ee584e",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy"
+   ],
+   "hidden": 1,
+   "title": "Anathem",
+   "items": [
+    {
+     "id": "15e9c85c-bb8d-4a78-a081-31b814b18c25",
+     "raw": "Anathem",
+     "slug": "npr-top-100-sf-fantasy"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 10,
+   "lTitle": {
+    "content_id": "4f4e48cc-a760-4f02-9927-2890c7a173d0",
+    "locale": "en",
+    "title": "Anathem",
+    "creator": "Neal Stephenson",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/6304233-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "13447dfa-31ea-5a05-b93c-c74cd1ee584e",
+    "locale": "en",
+    "title": "Anathem",
+    "creator": "Neal Stephenson",
+    "isbn": "9780061474095",
+    "thumbnail_url": null,
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "4f4e48cc-a760-4f02-9927-2890c7a173d0",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "13447dfa-31ea-5a05-b93c-c74cd1ee584e",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": "9780061474095",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "b144d76e-fcfa-44df-abd5-f1f7dc2a121d",
+   "rid": "850d98ad-467b-4c24-ae5c-ceb40b71b30b",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy"
+   ],
+   "hidden": 1,
+   "title": "Old Man's War",
+   "items": [
+    {
+     "id": "9dec4832-0dda-4099-827f-642cc0dd0e13",
+     "raw": "Old Man's War",
+     "slug": "npr-top-100-sf-fantasy"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "b144d76e-fcfa-44df-abd5-f1f7dc2a121d",
+    "locale": "en",
+    "title": "Old Man’s War",
+    "creator": "John Scalzi",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/524402-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "850d98ad-467b-4c24-ae5c-ceb40b71b30b",
+    "locale": "ko",
+    "title": "Old Man's War",
+    "creator": "John Scalzi",
+    "isbn": "9780765348272",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9780765348272-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "b144d76e-fcfa-44df-abd5-f1f7dc2a121d",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "850d98ad-467b-4c24-ae5c-ceb40b71b30b",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": "9780765348272",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "e5d5830b-f20b-40bc-b744-b7e30c82b4dd",
+   "rid": "6f7cd982-1381-43e7-aa85-51fdebae2989",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy"
+   ],
+   "hidden": 1,
+   "title": "해저 2만 리",
+   "items": [
+    {
+     "id": "a744b398-c10a-4dd6-ada4-2fa94f358a60",
+     "raw": "20,000 Leagues Under The Sea",
+     "slug": "npr-top-100-sf-fantasy"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "e5d5830b-f20b-40bc-b744-b7e30c82b4dd",
+    "locale": "en",
+    "title": "20,000 Leagues under The Sea",
+    "creator": "Jules Verne",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/7385699-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "6f7cd982-1381-43e7-aa85-51fdebae2989",
+    "locale": "ko",
+    "title": "해저 2만 리",
+    "creator": "쥘 베른",
+    "isbn": "9788972883548",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1010645?timestamp=20251024110256",
+    "publisher": "작가정신",
+    "verified": true
+   },
+   "lc": {
+    "id": "e5d5830b-f20b-40bc-b744-b7e30c82b4dd",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "6f7cd982-1381-43e7-aa85-51fdebae2989",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788972883548",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "cbb96dbf-f73b-4c88-a475-dd69acea9d08",
+   "rid": "1c7a9ca1-27ed-4754-8c5b-fb5f0c9033ae",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "caldecott-medal"
+   ],
+   "hidden": 1,
+   "title": "아기 오리들한테 길을 비켜 주세요",
+   "items": [
+    {
+     "id": "444903c9-d4de-4124-badf-2b01dca84ab3",
+     "raw": "Make Way for Ducklings",
+     "slug": "caldecott-medal"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "cbb96dbf-f73b-4c88-a475-dd69acea9d08",
+    "locale": "ko",
+    "title": "아기 오리들한테 길을 비켜 주세요",
+    "creator": "로버트 맥클로스키",
+    "isbn": "9788972591887",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1003514?timestamp=20230728165850",
+    "publisher": "시공주니어",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "1c7a9ca1-27ed-4754-8c5b-fb5f0c9033ae",
+    "locale": "ko",
+    "title": "아기 오리들한테 길을 비켜 주세요",
+    "creator": "로버트 맥클로스키",
+    "isbn": "9788952782823",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/646410?timestamp=20250521180943",
+    "publisher": "시공주니어",
+    "verified": true
+   },
+   "lc": {
+    "id": "cbb96dbf-f73b-4c88-a475-dd69acea9d08",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "1c7a9ca1-27ed-4754-8c5b-fb5f0c9033ae",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788952782823",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "e8346f61-00e6-4f97-8153-fa3edadec4cc",
+   "rid": "4c2f9ce0-777e-40c9-b30e-f488856d7d8d",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy"
+   ],
+   "hidden": 1,
+   "title": "크립토노미콘 1",
+   "items": [
+    {
+     "id": "4d91a3b3-33e6-4293-856d-ca8e33ccbfd5",
+     "raw": "Cryptonomicon",
+     "slug": "npr-top-100-sf-fantasy"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 10,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "e8346f61-00e6-4f97-8153-fa3edadec4cc",
+    "locale": "ko",
+    "title": "크립토노미콘 1",
+    "creator": "닐 스티븐슨",
+    "isbn": "9788970133690",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/955204?timestamp=20221117202154",
+    "publisher": "책세상",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "4c2f9ce0-777e-40c9-b30e-f488856d7d8d",
+    "locale": "ko",
+    "title": "크립토노미콘 1",
+    "creator": "닐 스티븐슨",
+    "isbn": "9788970133690",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/955204?timestamp=20221117202154",
+    "publisher": "책세상",
+    "verified": null
+   },
+   "lc": {
+    "id": "e8346f61-00e6-4f97-8153-fa3edadec4cc",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788970133690",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "4c2f9ce0-777e-40c9-b30e-f488856d7d8d",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": "9780060575502",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "d73416a6-34b4-4f65-9b8a-4dad002f5194",
+   "rid": "96813ed6-059d-48cc-a6bd-823e872ac709",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy"
+   ],
+   "hidden": 1,
+   "title": "위키드 3: 리르 이야기",
+   "items": [
+    {
+     "id": "9bafe99e-384c-4b1f-9ce7-d1e0ba5e6880",
+     "raw": "Wicked",
+     "slug": "npr-top-100-sf-fantasy"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "d73416a6-34b4-4f65-9b8a-4dad002f5194",
+    "locale": "ko",
+    "title": "위키드 3: 리르 이야기",
+    "creator": "그레고리 머과이어",
+    "isbn": "9788937428418",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6779828?timestamp=20260513150439",
+    "publisher": "민음사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "96813ed6-059d-48cc-a6bd-823e872ac709",
+    "locale": "ko",
+    "title": "위키드 3: 리르 이야기",
+    "creator": "그레고리 머과이어",
+    "isbn": "9788937428418",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6779828?timestamp=20260513150439",
+    "publisher": "민음사",
+    "verified": true
+   },
+   "lc": {
+    "id": "d73416a6-34b4-4f65-9b8a-4dad002f5194",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "96813ed6-059d-48cc-a6bd-823e872ac709",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788937428418",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "fe20ff9b-a0c6-445c-bd50-acd95f8e17a4",
+   "rid": "b18ced9c-64bc-4640-ab6c-ee5ed3572e72",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "womens-prize-fiction"
+   ],
+   "hidden": 1,
+   "title": "The tiger's wife",
+   "items": [
+    {
+     "id": "c1082e8d-79f8-49b7-a7c0-30634ea6dcc2",
+     "raw": "The Tiger's Wife",
+     "slug": "womens-prize-fiction"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "fe20ff9b-a0c6-445c-bd50-acd95f8e17a4",
+    "locale": "ko",
+    "title": "호랑이의 아내",
+    "creator": "테이아 오브레트",
+    "isbn": "9788972755593",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1007697?timestamp=20241030114213",
+    "publisher": "현대문학",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "b18ced9c-64bc-4640-ab6c-ee5ed3572e72",
+    "locale": "ko",
+    "title": "호랑이의 아내",
+    "creator": "테이아 오브레트",
+    "isbn": "9788972755593",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1007697?timestamp=20241030114213",
+    "publisher": "현대문학",
+    "verified": true
+   },
+   "lc": {
+    "id": "fe20ff9b-a0c6-445c-bd50-acd95f8e17a4",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "b18ced9c-64bc-4640-ab6c-ee5ed3572e72",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788972755593",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "3265b967-37f7-4000-b90e-76ac6fc70542",
+   "rid": "ed85fd85-5cb7-434b-8d07-12bd5767629a",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "npr-top-100-sf-fantasy"
+   ],
+   "hidden": 1,
+   "title": "Neverwhere",
+   "items": [
+    {
+     "id": "5fee93aa-af1b-4c51-ab1d-afe8cd7b4d06",
+     "raw": "Neverwhere",
+     "slug": "npr-top-100-sf-fantasy"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "3265b967-37f7-4000-b90e-76ac6fc70542",
+    "locale": "ko",
+    "title": "네버웨어(노블마인 판타 빌리지(FANTA VILLAGE))",
+    "creator": "닐 게이먼",
+    "isbn": "9788901072456",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/346582?timestamp=20220123154608",
+    "publisher": "노블마인",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "ed85fd85-5cb7-434b-8d07-12bd5767629a",
+    "locale": "ko",
+    "title": "Neverwhere",
+    "creator": "Neil Gaiman",
+    "isbn": "9780060557812",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9780060557812-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "3265b967-37f7-4000-b90e-76ac6fc70542",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "ed85fd85-5cb7-434b-8d07-12bd5767629a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": "9780060557812",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "ce333db2-101e-46f2-ae3d-30a2661592f4",
+   "rid": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "ft-business-book"
+   ],
+   "hidden": 1,
+   "title": "칩워, 누가 반도체 전쟁의 최후 승자가 될 것인가",
+   "items": [
+    {
+     "id": "9d223e6a-afdc-4aad-afd1-11d39ba9ae8a",
+     "raw": "Chip War: The Fight for the World's Most Critical Technology",
+     "slug": "ft-business-book"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "ce333db2-101e-46f2-ae3d-30a2661592f4",
+    "locale": "ko",
+    "title": "칩워, 누가 반도체 전쟁의 최후 승자가 될 것인가",
+    "creator": "크리스 밀러",
+    "isbn": "9788960519831",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6340225?timestamp=20250913142453",
+    "publisher": "부키",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+    "locale": "ko",
+    "title": "칩워, 누가 반도체 전쟁의 최후 승자가 될 것인가",
+    "creator": "크리스 밀러",
+    "isbn": "9788960519831",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6340225?timestamp=20250913142453",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "ce333db2-101e-46f2-ae3d-30a2661592f4",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9781668012055",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "62bc8016-c3d8-47e8-a581-e70bd0caed0e",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788960519831",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "65a343cf-c4fb-499f-82f7-1907b81ce826",
+   "rid": "20b71537-6be6-432e-8724-50cdf318f369",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 2,
+   "title": "Hard-Boiled Wonderland and the End of the World",
+   "items": [
+    {
+     "id": "09aa8d53-d320-40b3-96f7-cd023120f9b9",
+     "raw": "Hard-Boiled Wonderland and the End of the World",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "65a343cf-c4fb-499f-82f7-1907b81ce826",
+    "locale": "ko",
+    "title": "세계의 끝과 하드보일드 원더랜드 1",
+    "creator": "무라카미 하루키",
+    "isbn": "9788937479625",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5414814?timestamp=20260609115626",
+    "publisher": "민음사",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "20b71537-6be6-432e-8724-50cdf318f369",
+    "locale": "en",
+    "title": "Hard-Boiled Wonderland and the End of the World",
+    "creator": "Haruki Murakami",
+    "isbn": "9781448103683",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/14558822-L.jpg",
+    "publisher": "Penguin Random House",
+    "verified": true
+   },
+   "lc": {
+    "id": "65a343cf-c4fb-499f-82f7-1907b81ce826",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9781529957754",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "20b71537-6be6-432e-8724-50cdf318f369",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788937464294",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "921fade8-d4a1-41ee-a3fb-1b8b7124d50f",
+   "rid": "f9cfd131-a114-41c9-bea9-9db31e75ea14",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "오픈",
+   "items": [
+    {
+     "id": "5585cb09-1b6a-42ee-853c-10cc177fdda8",
+     "raw": "Open",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "921fade8-d4a1-41ee-a3fb-1b8b7124d50f",
+    "locale": "en",
+    "title": "Open",
+    "creator": "Andre Agassi",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/6714053-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "f9cfd131-a114-41c9-bea9-9db31e75ea14",
+    "locale": "ko",
+    "title": "오픈",
+    "creator": "안드레 애거시",
+    "isbn": "9788997743063",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1488173?timestamp=20260429110908",
+    "publisher": "진성북스",
+    "verified": true
+   },
+   "lc": {
+    "id": "921fade8-d4a1-41ee-a3fb-1b8b7124d50f",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "f9cfd131-a114-41c9-bea9-9db31e75ea14",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788997743063",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "bb8f085c-9020-4114-9f31-447d403cc2d2",
+   "rid": "48f5fc31-e0a4-4af3-b48b-3b78c3cf6da8",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 6,
+   "title": "바른 마음",
+   "items": [
+    {
+     "id": "ad6a097a-0348-4eba-aad6-b227cd87f8cd",
+     "raw": "The Righteous Mind",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "bb8f085c-9020-4114-9f31-447d403cc2d2",
+    "locale": "en",
+    "title": "The Righteous Mind",
+    "creator": "Jonathan Haidt",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/7256782-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "48f5fc31-e0a4-4af3-b48b-3b78c3cf6da8",
+    "locale": "ko",
+    "title": "바른 마음",
+    "creator": "조너선 하이트",
+    "isbn": "9788901163673",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/351531?timestamp=20260522111315",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "bb8f085c-9020-4114-9f31-447d403cc2d2",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "48f5fc31-e0a4-4af3-b48b-3b78c3cf6da8",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788901163673",
+    "celeb_count": 6,
+    "record_count": 6
+   }
+  },
+  {
+   "lid": "7f191f6a-a7e3-4a36-a02a-0c6a9e55dec4",
+   "rid": "c2b7d4fe-d6cd-4bea-95de-1c66f09f560b",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "생각에 관한 생각",
+   "items": [
+    {
+     "id": "4dcf77f4-b584-48a4-929c-e68c67b4f935",
+     "raw": "Thinking, Fast and Slow",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "7f191f6a-a7e3-4a36-a02a-0c6a9e55dec4",
+    "locale": "ko",
+    "title": "생각에 관한 생각",
+    "creator": "대니얼 카너먼",
+    "isbn": "9788934981213",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/521135?timestamp=20260708111643",
+    "publisher": "김영사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "c2b7d4fe-d6cd-4bea-95de-1c66f09f560b",
+    "locale": "ko",
+    "title": "생각에 관한 생각",
+    "creator": "대니얼 카너먼",
+    "isbn": "9788934956150",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/520511?timestamp=20230728195529",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "7f191f6a-a7e3-4a36-a02a-0c6a9e55dec4",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "c2b7d4fe-d6cd-4bea-95de-1c66f09f560b",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788934956150",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "2bf3fc3e-36d7-4964-a08d-ecf94e29e1dc",
+   "rid": "cadfc40e-fc41-48d6-b3d4-793244fb7e64",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "의식의 기원",
+   "items": [
+    {
+     "id": "38d388a2-3299-4c64-b45b-8aa03477ff7e",
+     "raw": "The Origin of Consciousness in the Breakdown of the Bicameral Mind",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "2bf3fc3e-36d7-4964-a08d-ecf94e29e1dc",
+    "locale": "ko",
+    "title": "의식의 기원",
+    "creator": "줄리언 제인스",
+    "isbn": "9791160870077",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1597730?timestamp=20260610110940",
+    "publisher": "연암서가",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "cadfc40e-fc41-48d6-b3d4-793244fb7e64",
+    "locale": "ko",
+    "title": "의식의 기원",
+    "creator": "줄리언 제인스",
+    "isbn": "9791160870077",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1597730?timestamp=20260610110940",
+    "publisher": "연암서가",
+    "verified": true
+   },
+   "lc": {
+    "id": "2bf3fc3e-36d7-4964-a08d-ecf94e29e1dc",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "cadfc40e-fc41-48d6-b3d4-793244fb7e64",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791160870077",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "ecc59ed2-5f7e-4f2f-8e94-9ed15d292ee2",
+   "rid": "a81a08f7-8f0c-434e-a349-aa6d208fec80",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "인간, 사회적 동물",
+   "items": [
+    {
+     "id": "c0eb2378-d9a5-4a80-8619-f5564e5e5f70",
+     "raw": "The Social Animal",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "ecc59ed2-5f7e-4f2f-8e94-9ed15d292ee2",
+    "locale": "ko",
+    "title": "인간 사회적 동물",
+    "creator": "엘리엇 애런슨",
+    "isbn": "9788964990179",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/909371?timestamp=20221011175735",
+    "publisher": "탐구당",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "a81a08f7-8f0c-434e-a349-aa6d208fec80",
+    "locale": "ko",
+    "title": "인간, 사회적 동물",
+    "creator": "엘리엇 애런슨, 조슈아 애런슨",
+    "isbn": "9788964990643",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6184064?timestamp=20240316163433",
+    "publisher": "탐구당",
+    "verified": true
+   },
+   "lc": {
+    "id": "ecc59ed2-5f7e-4f2f-8e94-9ed15d292ee2",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "a81a08f7-8f0c-434e-a349-aa6d208fec80",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788964990643",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "5c02746d-ee04-4d3c-a119-16122b7b4ba1",
+   "rid": "8344d6c8-35de-4a55-8298-11f861e85eaa",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 6,
+   "title": "Originals: How Non-Conformists Move the World",
+   "items": [
+    {
+     "id": "fbe62319-386a-48d9-92e2-1b76dc4b92be",
+     "raw": "Originals",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "5c02746d-ee04-4d3c-a119-16122b7b4ba1",
+    "locale": "en",
+    "title": "Originals",
+    "creator": "Adam Grant",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/8870353-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "8344d6c8-35de-4a55-8298-11f861e85eaa",
+    "locale": "en",
+    "title": "Originals: How Non-Conformists Move the World",
+    "creator": "Adam Grant",
+    "isbn": "9780525429562",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/8237054-L.jpg",
+    "publisher": "Viking",
+    "verified": true
+   },
+   "lc": {
+    "id": "5c02746d-ee04-4d3c-a119-16122b7b4ba1",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "8344d6c8-35de-4a55-8298-11f861e85eaa",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788947540674",
+    "celeb_count": 6,
+    "record_count": 6
+   }
+  },
+  {
+   "lid": "5c02746d-ee04-4d3c-a119-16122b7b4ba1",
+   "rid": "c11b6c08-5ad7-4de0-893d-ac88e211f9d6",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 2,
+   "title": "Originals: How Non-Conformists Move the World",
+   "items": [
+    {
+     "id": "fbe62319-386a-48d9-92e2-1b76dc4b92be",
+     "raw": "Originals",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "5c02746d-ee04-4d3c-a119-16122b7b4ba1",
+    "locale": "en",
+    "title": "Originals",
+    "creator": "Adam Grant",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/8870353-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "c11b6c08-5ad7-4de0-893d-ac88e211f9d6",
+    "locale": "en",
+    "title": "Originals: How Non-Conformists Move the World",
+    "creator": "Adam Grant",
+    "isbn": "9780525429562",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/8599546-L.jpg",
+    "publisher": "Viking",
+    "verified": true
+   },
+   "lc": {
+    "id": "5c02746d-ee04-4d3c-a119-16122b7b4ba1",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "c11b6c08-5ad7-4de0-893d-ac88e211f9d6",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788947546720",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "a564d4f1-c554-4731-ad0d-b6732fc6b976",
+   "rid": "4483dfa1-3e63-439b-bc45-ab037945b33a",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "prix-goncourt"
+   ],
+   "hidden": 2,
+   "title": "자기 앞의 생",
+   "items": [
+    {
+     "id": "5c8c5c45-ebde-4a8f-8bf2-bb2e317bc6e0",
+     "raw": "The Life Before Us",
+     "slug": "prix-goncourt"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 7,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "a564d4f1-c554-4731-ad0d-b6732fc6b976",
+    "locale": "ko",
+    "title": "자기앞의 생",
+    "creator": "에밀 아자르",
+    "isbn": "4808930706193",
+    "thumbnail_url": null,
+    "publisher": "청목사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "4483dfa1-3e63-439b-bc45-ab037945b33a",
+    "locale": "ko",
+    "title": "자기 앞의 생",
+    "creator": "로맹 가리(에밀 아자르)",
+    "isbn": "9788982816635",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1153955?timestamp=20251127110851",
+    "publisher": "문학동네",
+    "verified": true
+   },
+   "lc": {
+    "id": "a564d4f1-c554-4731-ad0d-b6732fc6b976",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "4808930706193",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "4483dfa1-3e63-439b-bc45-ab037945b33a",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788982816635",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "3b5d66ad-819f-4e10-b0ff-344cff7651bd",
+   "rid": "5024b463-3916-4b5e-b9ca-eba410d28745",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "royal-society-science-book"
+   ],
+   "hidden": 1,
+   "title": "이토록 굉장한 세계",
+   "items": [
+    {
+     "id": "83e8a5e2-e4db-4c32-85e1-bf2faeb439fe",
+     "raw": "An Immense World: How Animal Senses Reveal the Hidden Realms Around Us",
+     "slug": "royal-society-science-book"
+    }
+   ],
+   "isbnHit": true,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "3b5d66ad-819f-4e10-b0ff-344cff7651bd",
+    "locale": "ko",
+    "title": "이토록 굉장한 세계",
+    "creator": "에드 용",
+    "isbn": "9791167740946",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6319775?timestamp=20260103151529",
+    "publisher": "어크로스",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "5024b463-3916-4b5e-b9ca-eba410d28745",
+    "locale": "ko",
+    "title": "이토록 굉장한 세계",
+    "creator": "에드 용",
+    "isbn": "9791167740946",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6319775?timestamp=20260103151529",
+    "publisher": "어크로스",
+    "verified": true
+   },
+   "lc": {
+    "id": "3b5d66ad-819f-4e10-b0ff-344cff7651bd",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780593133255",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "5024b463-3916-4b5e-b9ca-eba410d28745",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791167740946",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "1f59832f-e4ff-4236-9237-4ebe9d959043",
+   "rid": "cb18e23c-cb02-4651-8fd9-2df0388d0e90",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bbc-big-read-top-100"
+   ],
+   "hidden": 1,
+   "title": "마법의 색 (디스크월드1)",
+   "items": [
+    {
+     "id": "b287111b-515a-4dac-9e83-67dea3388ced",
+     "raw": "The Colour Of Magic",
+     "slug": "bbc-big-read-top-100"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": true,
+   "noCred": false,
+   "sList": 7,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "1f59832f-e4ff-4236-9237-4ebe9d959043",
+    "locale": "ko",
+    "title": "마법의 색 (디스크월드1)",
+    "creator": "테리 프래쳇",
+    "isbn": "4808952741950",
+    "thumbnail_url": null,
+    "publisher": "시공사",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "cb18e23c-cb02-4651-8fd9-2df0388d0e90",
+    "locale": "ko",
+    "title": "마법의 색 (디스크월드1)",
+    "creator": "테리 프래쳇",
+    "isbn": "9788952741950",
+    "thumbnail_url": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F643215%3Ftimestamp%3D20250722110539",
+    "publisher": "시공사",
+    "verified": true
+   },
+   "lc": {
+    "id": "1f59832f-e4ff-4236-9237-4ebe9d959043",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "4808952741950",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "cb18e23c-cb02-4651-8fd9-2df0388d0e90",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": "9780552166591",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  }
+ ],
+ "unsure": [
+  {
+   "lid": "bdb0d679-e02d-4806-8212-9728e3e9363f",
+   "rid": "7df3df95-97c2-4a99-9dd2-36b2fef96645",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "locus-fantasy-novel"
+   ],
+   "hidden": 1,
+   "title": "Last Call",
+   "items": [
+    {
+     "id": "3c976005-f9e6-4fc8-b330-8880a46487c0",
+     "raw": "Last Call",
+     "slug": "locus-fantasy-novel"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "bdb0d679-e02d-4806-8212-9728e3e9363f",
+    "locale": "en",
+    "title": "Last Call",
+    "creator": "Tim Powers",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/235337-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "7df3df95-97c2-4a99-9dd2-36b2fef96645",
+    "locale": "en",
+    "title": "Last Call",
+    "creator": "Daniel Okrent",
+    "isbn": "9780743277020",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/6459169-L.jpg",
+    "publisher": "Scribner",
+    "verified": true
+   },
+   "lc": {
+    "id": "bdb0d679-e02d-4806-8212-9728e3e9363f",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "7df3df95-97c2-4a99-9dd2-36b2fef96645",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780743277020",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "5bf691b8-463e-4364-ae25-f3d4851cb8e4",
+   "rid": "137a168d-1700-478c-9ebd-5409ed469bbc",
+   "lt": "VIDEO",
+   "rt": "VIDEO",
+   "listType": "VIDEO",
+   "listSlugs": [
+    "academy-best-picture"
+   ],
+   "hidden": 1,
+   "title": "바운티호의 반란",
+   "items": [
+    {
+     "id": "2a0af2d9-cdc2-4733-9f9c-232907903ff4",
+     "raw": "Mutiny on the Bounty",
+     "slug": "academy-best-picture"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 11,
+   "sRev": 11,
+   "lTitle": {
+    "content_id": "5bf691b8-463e-4364-ae25-f3d4851cb8e4",
+    "locale": "ko",
+    "title": "바운티호의 반란",
+    "creator": "Frank Lloyd",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/GD98ozz6F6tSu8BWGulpseEKhv.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "137a168d-1700-478c-9ebd-5409ed469bbc",
+    "locale": "ko",
+    "title": "바운티호의 반란",
+    "creator": "루이스 마일스톤",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/caxk06SANEacvycZFiApv1LA6Kl.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "5bf691b8-463e-4364-ae25-f3d4851cb8e4",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-12311",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "137a168d-1700-478c-9ebd-5409ed469bbc",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-11085",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "55a6ffaf-ca23-4819-9eda-d437c2064d60",
+   "rid": "54f5964b-5204-4cb6-941f-eddd199b406f",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bram-stoker-novel"
+   ],
+   "hidden": 1,
+   "title": "The Blood of the Lamb",
+   "items": [
+    {
+     "id": "d73bfdd4-5b5a-44d1-b47b-bfa12c9d404a",
+     "raw": "Blood of the Lamb",
+     "slug": "bram-stoker-novel"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "55a6ffaf-ca23-4819-9eda-d437c2064d60",
+    "locale": "en",
+    "title": "The blood of the lamb",
+    "creator": "Thomas F. Monteleone",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/6943741-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "54f5964b-5204-4cb6-941f-eddd199b406f",
+    "locale": "ko",
+    "title": "The Blood of the Lamb",
+    "creator": "피터 드 브리스",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/140446-L.jpg",
+    "publisher": null,
+    "verified": false
+   },
+   "lc": {
+    "id": "55a6ffaf-ca23-4819-9eda-d437c2064d60",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "54f5964b-5204-4cb6-941f-eddd199b406f",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": "9780226143880",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "a79a8aa1-8fd9-474f-abef-d243b8b850d2",
+   "rid": "f1bfe4f8-502b-495b-84ee-416030ecb867",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "edgar-best-novel"
+   ],
+   "hidden": 1,
+   "title": "약속의 땅",
+   "items": [
+    {
+     "id": "9e8257cf-1bdd-46ed-be5e-e774c4d6f330",
+     "raw": "Promised Land",
+     "slug": "edgar-best-novel"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "a79a8aa1-8fd9-474f-abef-d243b8b850d2",
+    "locale": "en",
+    "title": "Promised land",
+    "creator": "Robert B. Parker",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/4451688-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "f1bfe4f8-502b-495b-84ee-416030ecb867",
+    "locale": "ko",
+    "title": "약속의 땅",
+    "creator": "버락 오바마",
+    "isbn": "9788901251868",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5797882?timestamp=20250618180000",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "a79a8aa1-8fd9-474f-abef-d243b8b850d2",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "f1bfe4f8-502b-495b-84ee-416030ecb867",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788901251868",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "baaa31fc-6c9f-4563-a1b4-f55349a3d773",
+   "rid": "7e327555-4027-467e-9d18-d10db4375991",
+   "lt": "BOOK",
+   "rt": "VIDEO",
+   "listType": "VIDEO",
+   "listSlugs": [
+    "academy-best-picture",
+    "afi-100-years-100-movies"
+   ],
+   "hidden": 8,
+   "title": "사운드 오브 뮤직",
+   "items": [
+    {
+     "id": "1d7e67a9-34b9-430d-ad4c-b2893a4b742c",
+     "raw": "The Sound of Music",
+     "slug": "academy-best-picture"
+    },
+    {
+     "id": "a13e7cc7-80f7-40d7-a529-9009c437c81b",
+     "raw": "The Sound of Music",
+     "slug": "afi-100-years-100-movies"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 7,
+   "sRev": 11,
+   "lTitle": {
+    "content_id": "baaa31fc-6c9f-4563-a1b4-f55349a3d773",
+    "locale": "ko",
+    "title": "사운드 오브 뮤직",
+    "creator": "로버트 와이즈 감독",
+    "isbn": "2090000080094",
+    "thumbnail_url": null,
+    "publisher": "출판사없음",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "7e327555-4027-467e-9d18-d10db4375991",
+    "locale": "ko",
+    "title": "사운드 오브 뮤직",
+    "creator": "Robert Wise",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/3l1ATCYNuHep6evzX8GSUigWOLs.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "baaa31fc-6c9f-4563-a1b4-f55349a3d773",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "2090000080094",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "7e327555-4027-467e-9d18-d10db4375991",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-15121",
+    "celeb_count": 8,
+    "record_count": 8
+   }
+  },
+  {
+   "lid": "4982389d-ae36-4ab8-b658-3fbfd294f9b4",
+   "rid": "a4bbfdc7-0a0e-4c9b-8c67-a3595db58cf4",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "national-book-award-fiction"
+   ],
+   "hidden": 1,
+   "title": "Them",
+   "items": [
+    {
+     "id": "d62ebe7e-5ecf-47c1-9485-61a5265ca523",
+     "raw": "them",
+     "slug": "national-book-award-fiction"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "4982389d-ae36-4ab8-b658-3fbfd294f9b4",
+    "locale": "en",
+    "title": "Them",
+    "creator": "Joyce Carol Oates",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/419595-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "a4bbfdc7-0a0e-4c9b-8c67-a3595db58cf4",
+    "locale": "en",
+    "title": "Them",
+    "creator": "Ben Sasse",
+    "isbn": "9781250195029",
+    "thumbnail_url": "https://covers.openlibrary.org/b/isbn/9781250195029-L.jpg",
+    "publisher": "Griffin",
+    "verified": true
+   },
+   "lc": {
+    "id": "4982389d-ae36-4ab8-b658-3fbfd294f9b4",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "a4bbfdc7-0a0e-4c9b-8c67-a3595db58cf4",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": "9781250195029",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "406fa019-95bd-44c2-a057-40c2a31b19ce",
+   "rid": "1e7b6424-4bd8-49d0-b6f0-82009d1b5207",
+   "lt": "VIDEO",
+   "rt": "VIDEO",
+   "listType": "VIDEO",
+   "listSlugs": [
+    "venice-golden-lion"
+   ],
+   "hidden": 1,
+   "title": "Romeo + Juliet",
+   "items": [
+    {
+     "id": "3122c5cf-bf68-4310-bf00-03f16944b3cb",
+     "raw": "Romeo and Juliet",
+     "slug": "venice-golden-lion"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 11,
+   "sRev": 11,
+   "lTitle": {
+    "content_id": "406fa019-95bd-44c2-a057-40c2a31b19ce",
+    "locale": "ko",
+    "title": "로미오와 줄리엣",
+    "creator": "Renato Castellani",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/8dazSg9J6CxC8mUMKs5AMj12eqF.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "1e7b6424-4bd8-49d0-b6f0-82009d1b5207",
+    "locale": "en",
+    "title": "Romeo + Juliet",
+    "creator": "Baz Luhrmann",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/eLf4jclPijOqfEp6bDAmezRFxk5.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "406fa019-95bd-44c2-a057-40c2a31b19ce",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-92784",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "1e7b6424-4bd8-49d0-b6f0-82009d1b5207",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-454",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "abf883cc-5078-4a5e-83c8-4dd2da45ef11",
+   "rid": "5c5e79f3-13b7-4976-a6dd-4b6a47a63979",
+   "lt": "VIDEO",
+   "rt": "VIDEO",
+   "listType": "VIDEO",
+   "listSlugs": [
+    "venice-golden-lion"
+   ],
+   "hidden": 1,
+   "title": "안나 카레니나",
+   "items": [
+    {
+     "id": "cc889b94-8a51-4f9b-8b02-778c8b0af0f3",
+     "raw": "Anna Karenina",
+     "slug": "venice-golden-lion"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 11,
+   "sRev": 11,
+   "lTitle": {
+    "content_id": "abf883cc-5078-4a5e-83c8-4dd2da45ef11",
+    "locale": "ko",
+    "title": "안나 카레니나",
+    "creator": "Clarence Brown",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/39bSsAvMGOgN8I5lt2rOQgAXsj7.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "5c5e79f3-13b7-4976-a6dd-4b6a47a63979",
+    "locale": "ko",
+    "title": "안나 카레니나",
+    "creator": "Julien Duvivier",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/fWIjqoYdNSJFJIQtT9aaeCmjCeP.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "abf883cc-5078-4a5e-83c8-4dd2da45ef11",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-70881",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "5c5e79f3-13b7-4976-a6dd-4b6a47a63979",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-32066",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "abf883cc-5078-4a5e-83c8-4dd2da45ef11",
+   "rid": "5c5e79f3-13b7-4976-a6dd-4b6a47a63979",
+   "lt": "VIDEO",
+   "rt": "VIDEO",
+   "listType": "VIDEO",
+   "listSlugs": [
+    "venice-golden-lion"
+   ],
+   "hidden": 1,
+   "title": "안나 카레니나",
+   "items": [
+    {
+     "id": "cc889b94-8a51-4f9b-8b02-778c8b0af0f3",
+     "raw": "Anna Karenina",
+     "slug": "venice-golden-lion"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 11,
+   "sRev": 11,
+   "lTitle": {
+    "content_id": "abf883cc-5078-4a5e-83c8-4dd2da45ef11",
+    "locale": "ko",
+    "title": "안나 카레니나",
+    "creator": "Clarence Brown",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/39bSsAvMGOgN8I5lt2rOQgAXsj7.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "5c5e79f3-13b7-4976-a6dd-4b6a47a63979",
+    "locale": "ko",
+    "title": "안나 카레니나",
+    "creator": "Julien Duvivier",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/fWIjqoYdNSJFJIQtT9aaeCmjCeP.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "abf883cc-5078-4a5e-83c8-4dd2da45ef11",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-70881",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "5c5e79f3-13b7-4976-a6dd-4b6a47a63979",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-32066",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "7e39897a-fa33-4a0a-be0c-5573204a4aeb",
+   "rid": "29c5564f-ec8b-4ecf-95b5-e27555ae59a1",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "prix-goncourt"
+   ],
+   "hidden": 1,
+   "title": "The Law",
+   "items": [
+    {
+     "id": "4beb74b1-a020-4db6-9d26-998bbfc72975",
+     "raw": "The Law",
+     "slug": "prix-goncourt"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 3,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "7e39897a-fa33-4a0a-be0c-5573204a4aeb",
+    "locale": "en",
+    "title": "The Law",
+    "creator": "Roger Vailland",
+    "isbn": null,
+    "thumbnail_url": null,
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "29c5564f-ec8b-4ecf-95b5-e27555ae59a1",
+    "locale": "en",
+    "title": "The Law",
+    "creator": "Frédéric Bastiat",
+    "isbn": "9781091614307",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/8819903-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "7e39897a-fa33-4a0a-be0c-5573204a4aeb",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "29c5564f-ec8b-4ecf-95b5-e27555ae59a1",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788987579276",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "6e13fecd-ea5b-4782-9459-bbcb05e3b348",
+   "rid": "35b479da-22ab-4375-a61e-3c5fbc091c22",
+   "lt": "BOOK",
+   "rt": "VIDEO",
+   "listType": "VIDEO",
+   "listSlugs": [
+    "bbc-greatest-comedies"
+   ],
+   "hidden": 4,
+   "title": "클루리스",
+   "items": [
+    {
+     "id": "56015bf2-e2db-417e-b82d-64bd8090cac8",
+     "raw": "Clueless",
+     "slug": "bbc-greatest-comedies"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 10,
+   "sRev": 11,
+   "lTitle": {
+    "content_id": "6e13fecd-ea5b-4782-9459-bbcb05e3b348",
+    "locale": "ko",
+    "title": "클루리스",
+    "creator": "에이미 헤커링",
+    "isbn": "9788980500185",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1123900?timestamp=20190126220759",
+    "publisher": "맑은소리",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "35b479da-22ab-4375-a61e-3c5fbc091c22",
+    "locale": "ko",
+    "title": "클루리스",
+    "creator": "Amy Heckerling",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/8AwVTcgpTnmeOs4TdTWqcFDXEsA.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "6e13fecd-ea5b-4782-9459-bbcb05e3b348",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788980500185",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "35b479da-22ab-4375-a61e-3c5fbc091c22",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-9603",
+    "celeb_count": 4,
+    "record_count": 4
+   }
+  },
+  {
+   "lid": "cf1c78ae-2f27-4507-bbc2-7959c5961d95",
+   "rid": "68cbcb8e-9366-4ec6-bf18-31433170c12b",
+   "lt": "VIDEO",
+   "rt": "VIDEO",
+   "listType": "VIDEO",
+   "listSlugs": [
+    "cannes-palme-dor"
+   ],
+   "hidden": 1,
+   "title": "미씽: 사라진 여자",
+   "items": [
+    {
+     "id": "1a5165a8-5b6e-40b7-b342-b6a244bc6ac3",
+     "raw": "Missing",
+     "slug": "cannes-palme-dor"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 11,
+   "sRev": 11,
+   "lTitle": {
+    "content_id": "cf1c78ae-2f27-4507-bbc2-7959c5961d95",
+    "locale": "ko",
+    "title": "의문의 실종",
+    "creator": "Costa-Gavras",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/fAAhC4RkpXu7SJgIESWQwVxcelo.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "68cbcb8e-9366-4ec6-bf18-31433170c12b",
+    "locale": "ko",
+    "title": "미씽: 사라진 여자",
+    "creator": "이언희",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/sfBmGPD4oCEiOe1UPBjjrd45Kng.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "cf1c78ae-2f27-4507-bbc2-7959c5961d95",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-15600",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "68cbcb8e-9366-4ec6-bf18-31433170c12b",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-417199",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "98575b40-d3ff-4c54-9b6e-3cd8bce8d94b",
+   "rid": "8136a556-df75-46e8-99d7-22f51098e7a4",
+   "lt": "BOOK",
+   "rt": "VIDEO",
+   "listType": "VIDEO",
+   "listSlugs": [
+    "sight-and-sound-greatest-films-2022"
+   ],
+   "hidden": 8,
+   "title": "센과 치히로의 행방불명",
+   "items": [
+    {
+     "id": "6baca484-5976-444a-9595-8e16e4ff8dd4",
+     "raw": "Spirited Away",
+     "slug": "sight-and-sound-greatest-films-2022"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 10,
+   "sRev": 11,
+   "lTitle": {
+    "content_id": "98575b40-d3ff-4c54-9b6e-3cd8bce8d94b",
+    "locale": "ko",
+    "title": "센과 치히로의 행방불명",
+    "creator": "미야자키 하야오",
+    "isbn": "9791133469710",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1547563?timestamp=20260327110950",
+    "publisher": "대원씨아이",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "8136a556-df75-46e8-99d7-22f51098e7a4",
+    "locale": "ko",
+    "title": "센과 치히로의 행방불명",
+    "creator": "Hayao Miyazaki",
+    "isbn": null,
+    "thumbnail_url": "https://image.tmdb.org/t/p/w500/aZuBfbR0PnCb2up7lqHDsgJlLjs.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "98575b40-d3ff-4c54-9b6e-3cd8bce8d94b",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791133469710",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "8136a556-df75-46e8-99d7-22f51098e7a4",
+    "type": "VIDEO",
+    "external_source": "tmdb",
+    "external_id": "tmdb-movie-129",
+    "celeb_count": 8,
+    "record_count": 8
+   }
+  },
+  {
+   "lid": "d389b1e1-7c00-4255-8b96-2ada3b6c0177",
+   "rid": "2f5b51bc-8163-451f-8046-fc1d3d2c8992",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "pulitzer-fiction-winners"
+   ],
+   "hidden": 1,
+   "title": "Elbow Room",
+   "items": [
+    {
+     "id": "31e1e763-8405-498e-9262-7d28a200bb62",
+     "raw": "Elbow Room",
+     "slug": "pulitzer-fiction-winners"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "d389b1e1-7c00-4255-8b96-2ada3b6c0177",
+    "locale": "ko",
+    "title": "행동반경",
+    "creator": "제임스 앨런 맥퍼슨",
+    "isbn": "9788960901643",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/841437?timestamp=20220818010509",
+    "publisher": "마음산책",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "2f5b51bc-8163-451f-8046-fc1d3d2c8992",
+    "locale": "ko",
+    "title": "Elbow Room",
+    "creator": "대니얼 C. 데닛",
+    "isbn": "9780262540421",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1706946?timestamp=20230918231338",
+    "publisher": "MIT Press",
+    "verified": true
+   },
+   "lc": {
+    "id": "d389b1e1-7c00-4255-8b96-2ada3b6c0177",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "2f5b51bc-8163-451f-8046-fc1d3d2c8992",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780262540421",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "5a7a94ee-1908-40e1-9076-cf8c2cccae63",
+   "rid": "92b66182-c080-4ec7-9d72-2796155ecf0f",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 2,
+   "title": "페더럴리스트",
+   "items": [
+    {
+     "id": "7dd44afe-7ebc-4668-a089-f3b3a033b4ce",
+     "raw": "The Federalist",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "5a7a94ee-1908-40e1-9076-cf8c2cccae63",
+    "locale": "en",
+    "title": "The Federalist Papers",
+    "creator": "John Jay and James Madison Alexander Hamilton",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/15188050-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "92b66182-c080-4ec7-9d72-2796155ecf0f",
+    "locale": "ko",
+    "title": "페더럴리스트",
+    "creator": "알렉산더 해밀턴, 제임스 매디슨, 존 제이",
+    "isbn": "9788964373262",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4966215?timestamp=20260206124055",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "5a7a94ee-1908-40e1-9076-cf8c2cccae63",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "92b66182-c080-4ec7-9d72-2796155ecf0f",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788964373262",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "0c57b16d-08b5-4eba-b26d-c0ea7010c71a",
+   "rid": "6755315d-7d93-4798-8649-c1849655efb0",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 2,
+   "title": "라퐁텐 우화집",
+   "items": [
+    {
+     "id": "bb36740e-669b-4aa1-8ab2-2f355b28a765",
+     "raw": "Fables",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "0c57b16d-08b5-4eba-b26d-c0ea7010c71a",
+    "locale": "ko",
+    "title": "라퐁텐 우화집",
+    "creator": "라퐁텐",
+    "isbn": "9788988674901",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1277990?timestamp=20221025154414",
+    "publisher": "크레용하우스",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "6755315d-7d93-4798-8649-c1849655efb0",
+    "locale": "ko",
+    "title": "라퐁텐 우화집",
+    "creator": "장 드 라퐁텐",
+    "isbn": "9788942375561",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/578219?timestamp=20250924110453",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "0c57b16d-08b5-4eba-b26d-c0ea7010c71a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "6755315d-7d93-4798-8649-c1849655efb0",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788942375561",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "0c57b16d-08b5-4eba-b26d-c0ea7010c71a",
+   "rid": "6755315d-7d93-4798-8649-c1849655efb0",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "st-johns-great-books"
+   ],
+   "hidden": 2,
+   "title": "라퐁텐 우화집",
+   "items": [
+    {
+     "id": "bb36740e-669b-4aa1-8ab2-2f355b28a765",
+     "raw": "Fables",
+     "slug": "st-johns-great-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "0c57b16d-08b5-4eba-b26d-c0ea7010c71a",
+    "locale": "ko",
+    "title": "라퐁텐 우화집",
+    "creator": "라퐁텐",
+    "isbn": "9788988674901",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1277990?timestamp=20221025154414",
+    "publisher": "크레용하우스",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "6755315d-7d93-4798-8649-c1849655efb0",
+    "locale": "ko",
+    "title": "라퐁텐 우화집",
+    "creator": "장 드 라퐁텐",
+    "isbn": "9788942375561",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/578219?timestamp=20250924110453",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "0c57b16d-08b5-4eba-b26d-c0ea7010c71a",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "6755315d-7d93-4798-8649-c1849655efb0",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788942375561",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "c3cbc0f7-0ebd-4ce2-a181-19094c7732b9",
+   "rid": "6755315d-7d93-4798-8649-c1849655efb0",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "caldecott-medal"
+   ],
+   "hidden": 2,
+   "title": "라퐁텐 우화집",
+   "items": [
+    {
+     "id": "01524c2e-b0c6-4124-a3df-5350d84037bb",
+     "raw": "Fables",
+     "slug": "caldecott-medal"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 13,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "c3cbc0f7-0ebd-4ce2-a181-19094c7732b9",
+    "locale": "ko",
+    "title": "아놀드 로벨 우화집",
+    "creator": "아놀드 로벨",
+    "isbn": "9788949114224",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6065864?timestamp=20260310123834",
+    "publisher": "비룡소",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "6755315d-7d93-4798-8649-c1849655efb0",
+    "locale": "ko",
+    "title": "라퐁텐 우화집",
+    "creator": "장 드 라퐁텐",
+    "isbn": "9788942375561",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/578219?timestamp=20250924110453",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "c3cbc0f7-0ebd-4ce2-a181-19094c7732b9",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "6755315d-7d93-4798-8649-c1849655efb0",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788942375561",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "6756b30e-422c-459f-990d-d482a6cb4243",
+   "rid": "07912672-9d1e-41f9-923b-15a639f60efc",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "time-100-novels"
+   ],
+   "hidden": 1,
+   "title": "Money",
+   "items": [
+    {
+     "id": "028fa1a6-5610-4a4e-93e2-74aa0744f583",
+     "raw": "Money",
+     "slug": "time-100-novels"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "6756b30e-422c-459f-990d-d482a6cb4243",
+    "locale": "en",
+    "title": "Money",
+    "creator": "Martin Amis",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/94212-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "07912672-9d1e-41f9-923b-15a639f60efc",
+    "locale": "en",
+    "title": "Money",
+    "creator": "P. T. Barnum",
+    "isbn": "9781619401044",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/756095-L.jpg",
+    "publisher": "Wilder Publications",
+    "verified": true
+   },
+   "lc": {
+    "id": "6756b30e-422c-459f-990d-d482a6cb4243",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "07912672-9d1e-41f9-923b-15a639f60efc",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788937490262",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "e35a39aa-8b5c-4880-9dcd-3977b3c7ed6c",
+   "rid": "0ec6ace9-3be5-4988-8559-ddc8e18e85c5",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "pulitzer-history"
+   ],
+   "hidden": 1,
+   "title": "Unfinished Business",
+   "items": [
+    {
+     "id": "4abdd08c-1291-4e34-bb60-b48260239dcc",
+     "raw": "Unfinished Business",
+     "slug": "pulitzer-history"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "e35a39aa-8b5c-4880-9dcd-3977b3c7ed6c",
+    "locale": "en",
+    "title": "Unfinished business",
+    "creator": "Bonsal, Stephen",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/9286705-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "0ec6ace9-3be5-4988-8559-ddc8e18e85c5",
+    "locale": "en",
+    "title": "Unfinished Business",
+    "creator": "Anne-Marie Slaughter",
+    "isbn": "9780345812902",
+    "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1212126594i/246362.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "e35a39aa-8b5c-4880-9dcd-3977b3c7ed6c",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "0ec6ace9-3be5-4988-8559-ddc8e18e85c5",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791185600185",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "a492bf11-e7f2-4fb4-b355-2493739097f5",
+   "rid": "a9269c1d-5aca-4a7b-bf13-6e48a28de47c",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "caldecott-medal"
+   ],
+   "hidden": 1,
+   "title": "Abraham Lincoln",
+   "items": [
+    {
+     "id": "8586fb6d-9346-4985-b0a9-d088a99cf7ba",
+     "raw": "Abraham Lincoln",
+     "slug": "caldecott-medal"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "a492bf11-e7f2-4fb4-b355-2493739097f5",
+    "locale": "en",
+    "title": "Abraham Lincoln",
+    "creator": "Ingri Parin D'Aulaire",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/6375973-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "a9269c1d-5aca-4a7b-bf13-6e48a28de47c",
+    "locale": "en",
+    "title": "Abraham Lincoln",
+    "creator": "Kim Myeong-hui",
+    "isbn": null,
+    "thumbnail_url": null,
+    "publisher": null,
+    "verified": false
+   },
+   "lc": {
+    "id": "a492bf11-e7f2-4fb4-b355-2493739097f5",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "a9269c1d-5aca-4a7b-bf13-6e48a28de47c",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788963124636",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "27897212-22a4-4a7c-8c43-6ea8bfdb21f0",
+   "rid": "0f126c66-d4bf-4cb2-8994-c5b287097b3e",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "cwa-gold-dagger"
+   ],
+   "hidden": 1,
+   "title": "The Book of Secrets",
+   "items": [
+    {
+     "id": "97b2da19-2927-486a-be11-859753f1988b",
+     "raw": "The Book of Secrets",
+     "slug": "cwa-gold-dagger"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "27897212-22a4-4a7c-8c43-6ea8bfdb21f0",
+    "locale": "ko",
+    "title": "The Book of Secrets",
+    "creator": "Anna Mazzola",
+    "isbn": "9781398714328",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7219621?timestamp=20260521123442",
+    "publisher": "Orion Publishing Co",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "0f126c66-d4bf-4cb2-8994-c5b287097b3e",
+    "locale": "en",
+    "title": "The Book of Secrets",
+    "creator": "Osho",
+    "isbn": "9780312180584",
+    "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1388296300i/96998.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "27897212-22a4-4a7c-8c43-6ea8bfdb21f0",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9781398714328",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "0f126c66-d4bf-4cb2-8994-c5b287097b3e",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788935703340",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "6228d311-f23c-4080-9c34-0172a5253750",
+   "rid": "25da9766-6bde-410d-a9c6-51c9b3da7f91",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "The Organization of Behavior Paperback",
+   "items": [
+    {
+     "id": "24c858a3-8173-4b9a-b8d3-fd84208c01df",
+     "raw": "Organization of Behavior",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 6,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "6228d311-f23c-4080-9c34-0172a5253750",
+    "locale": "en",
+    "title": "The organization of behavior",
+    "creator": "Donald Olding Hebb",
+    "isbn": null,
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/8703356-L.jpg",
+    "publisher": null,
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "25da9766-6bde-410d-a9c6-51c9b3da7f91",
+    "locale": "en",
+    "title": "The Organization of Behavior Paperback",
+    "creator": "Donald O. Hebb",
+    "isbn": "9780415654531",
+    "thumbnail_url": null,
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "6228d311-f23c-4080-9c34-0172a5253750",
+    "type": "BOOK",
+    "external_source": "openlibrary",
+    "external_id": null,
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "25da9766-6bde-410d-a9c6-51c9b3da7f91",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780415654531",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "fa4bbe47-bf7e-43b8-898b-595f47b444bd",
+   "rid": "cfb1aafb-55da-414a-ba1a-1380569cc4d5",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "우리들",
+   "items": [
+    {
+     "id": "31e431bf-3eba-4dd6-b62f-ff35470f0f22",
+     "raw": "We",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "fa4bbe47-bf7e-43b8-898b-595f47b444bd",
+    "locale": "ko",
+    "title": "We",
+    "creator": "Zamyatin Yevgeny",
+    "isbn": "9780241458747",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5744567?timestamp=20250802140238",
+    "publisher": "Penguin Classic",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "cfb1aafb-55da-414a-ba1a-1380569cc4d5",
+    "locale": "ko",
+    "title": "우리들",
+    "creator": "예브게니 자먀찐",
+    "isbn": "9788932909547",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/507023?timestamp=20231007145426",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "fa4bbe47-bf7e-43b8-898b-595f47b444bd",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780241458747",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "cfb1aafb-55da-414a-ba1a-1380569cc4d5",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788932909547",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "30b98221-03c4-497b-b709-e369f37d1d65",
+   "rid": "4e82f9ef-f3ba-4056-9d34-f49a80640b26",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "bps-psychology-books"
+   ],
+   "hidden": 1,
+   "title": "플랫랜드",
+   "items": [
+    {
+     "id": "4d2080c2-1da4-402f-8bdf-1aec89daf81e",
+     "raw": "Flatland",
+     "slug": "bps-psychology-books"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "30b98221-03c4-497b-b709-e369f37d1d65",
+    "locale": "ko",
+    "title": "플랫랜드",
+    "creator": "에드윈 A 애벗",
+    "isbn": "9791157830770",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1581030?timestamp=20240530113040",
+    "publisher": "필로소픽",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "4e82f9ef-f3ba-4056-9d34-f49a80640b26",
+    "locale": "ko",
+    "title": "플랫랜드",
+    "creator": "에드윈 A. 애봇",
+    "isbn": "9788961673099",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5903962?timestamp=20251023142206",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "30b98221-03c4-497b-b709-e369f37d1d65",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9780199537501",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "4e82f9ef-f3ba-4056-9d34-f49a80640b26",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788961673099",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  },
+  {
+   "lid": "8aac29ae-8bac-48ff-8169-476c3b4c96b7",
+   "rid": "b5534b63-61a3-48f8-b507-eb548f14f40b",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "yonsei-must-reads-200"
+   ],
+   "hidden": 2,
+   "title": "The Arabian Nights",
+   "items": [
+    {
+     "id": "a09e8f47-763f-4573-867b-86ed7b00153c",
+     "raw": "아라비안 나이트[천일야화]",
+     "slug": "yonsei-must-reads-200"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 10,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "8aac29ae-8bac-48ff-8169-476c3b4c96b7",
+    "locale": "ko",
+    "title": "아라비안 나이트",
+    "creator": "리처드 F 버턴",
+    "isbn": "9788901298627",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7075345?timestamp=20260124151556",
+    "publisher": "웅진지식하우스",
+    "verified": null
+   },
+   "rTitle": {
+    "content_id": "b5534b63-61a3-48f8-b507-eb548f14f40b",
+    "locale": "en",
+    "title": "The Arabian Nights",
+    "creator": "Anonymous",
+    "isbn": "0448110067",
+    "thumbnail_url": "https://covers.openlibrary.org/b/id/12729087-L.jpg",
+    "publisher": "Grosset & Dunlap",
+    "verified": true
+   },
+   "lc": {
+    "id": "8aac29ae-8bac-48ff-8169-476c3b4c96b7",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788901298627",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "b5534b63-61a3-48f8-b507-eb548f14f40b",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791127268671",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "c11d6b4e-0e72-4317-8a51-bb6c5479a232",
+   "rid": "a75b4073-9e9c-4b65-a287-467c0e8e136c",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "sogang-required-230"
+   ],
+   "hidden": 2,
+   "title": "육조단경",
+   "items": [
+    {
+     "id": "45ea21ff-74e5-46b8-a34b-b361e35d590a",
+     "raw": "육조단경",
+     "slug": "sogang-required-230"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "c11d6b4e-0e72-4317-8a51-bb6c5479a232",
+    "locale": "ko",
+    "title": "육조단경",
+    "creator": "혜능",
+    "isbn": "9791166845284",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7244198?timestamp=20260619122319",
+    "publisher": "세창출판사",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "a75b4073-9e9c-4b65-a287-467c0e8e136c",
+    "locale": "ko",
+    "title": "육조단경",
+    "creator": "법해",
+    "isbn": "9791198967541",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7040862?timestamp=20251106153050",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "c11d6b4e-0e72-4317-8a51-bb6c5479a232",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791166845284",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "a75b4073-9e9c-4b65-a287-467c0e8e136c",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9791198967541",
+    "celeb_count": 2,
+    "record_count": 2
+   }
+  },
+  {
+   "lid": "975788bb-c5f9-4727-9126-8006ecbf02c1",
+   "rid": "7d0f87df-32cb-49e4-861b-4d78dfdb5c0e",
+   "lt": "BOOK",
+   "rt": "BOOK",
+   "listType": "BOOK",
+   "listSlugs": [
+    "sogang-required-230"
+   ],
+   "hidden": 1,
+   "title": "The True Meaning of the Lord of Heaven",
+   "items": [
+    {
+     "id": "8633757d-a843-40f8-99d1-938d705cdf58",
+     "raw": "천주실의",
+     "slug": "sogang-required-230"
+    }
+   ],
+   "isbnHit": false,
+   "titleHit": true,
+   "credHit": false,
+   "noCred": false,
+   "sList": 12,
+   "sRev": 13,
+   "lTitle": {
+    "content_id": "975788bb-c5f9-4727-9126-8006ecbf02c1",
+    "locale": "ko",
+    "title": "천주실의",
+    "creator": "마테오 리치",
+    "isbn": "9788970968957",
+    "thumbnail_url": "https://t1.daumcdn.net/lbook/image/976315?timestamp=20190126074144",
+    "publisher": "서울대학교출판부",
+    "verified": true
+   },
+   "rTitle": {
+    "content_id": "7d0f87df-32cb-49e4-861b-4d78dfdb5c0e",
+    "locale": "en",
+    "title": "The True Meaning of the Lord of Heaven",
+    "creator": "Matteo Ricci",
+    "isbn": "9788982750151",
+    "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/nophoto/book/111x148.png",
+    "publisher": null,
+    "verified": true
+   },
+   "lc": {
+    "id": "975788bb-c5f9-4727-9126-8006ecbf02c1",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788970968957",
+    "celeb_count": 0,
+    "record_count": 0
+   },
+   "rc": {
+    "id": "7d0f87df-32cb-49e4-861b-4d78dfdb5c0e",
+    "type": "BOOK",
+    "external_source": "kakao_book",
+    "external_id": "9788992321082",
+    "celeb_count": 1,
+    "record_count": 1
+   }
+  }
+ ]
+}

@@ -1,0 +1,749 @@
+{
+  "curator": {
+    "slug": "inha-university",
+    "name": "인하대학교",
+    "name_en": "Inha University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1954,
+    "homepage_url": "https://www.inha.ac.kr",
+    "description": "인하대학교는 1954년 인천에 세워진 사립 종합대학이다. 도서관 기능은 정석학술정보관이 맡아 주제별 정보실을 층마다 나누어 운영한다. 학생 교양 독서를 위해 추천도서 컬렉션을 따로 두고 관리한다.",
+    "description_en": "Inha University is a private comprehensive university established in Incheon in 1954. Its library functions are carried out by the Jungseok Academic Information Center, which divides its reading rooms by subject across several floors. It maintains a separate recommended-reading collection to support general reading among students."
+  },
+  "list": {
+    "slug": "inha-jungseok-100",
+    "title": "인하대 정석100선",
+    "title_en": "Inha Jungseok 100",
+    "description": "인하대학교 정석학술정보관이 학생에게 권하는 도서 100권을 모은 컬렉션이다. 자연과학·인문과학·사회과학 세 갈래로 나누어 각 주제정보실에 나누어 배치한다. 2012년 「인하100선」으로 처음 나왔고 2014년부터 「정석100선」이라는 이름으로 개정을 이어 왔다.",
+    "description_en": "A collection of one hundred books that Inha University's Jungseok Academic Information Center recommends to its students. The titles are split across the natural sciences, humanities, and social sciences and shelved in the corresponding subject reading rooms. It first appeared in 2012 under an earlier name and has been revised under its present name since 2014.",
+    "published_year": null,
+    "edition": null,
+    "method": "정석학술정보관이 선정하며 자연과학·인문과학·사회과학 세 갈래로 나눈다. 선정 위원회 구성과 절차는 공개돼 있지 않다. 번호는 순위가 아니라 갈래 안의 도서명 가나다순 일련번호다.",
+    "method_en": "The selection is made by the Jungseok Academic Information Center and divided into the natural sciences, humanities, and social sciences. No committee or procedure is published. The numbering is not a ranking but a running sequence ordered by Korean title within each group.",
+    "source_url": "https://lib.inha.ac.kr/collections/js100",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "(사람이 알아야 할 모든 것) 과학",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "(짧고 쉽게 쓴) 시간의 역사",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "(칼 세이건) 코스모스",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "가이아",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "거의 모든 것의 역사",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "과학혁명의 구조",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "김상욱의 과학공부",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "링크",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "마음은 어떻게 작동하는가",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "부분과 전체",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "생명이란 무엇인가",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "이기적 유전자",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "이중나선",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "인간의 그늘에서",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "털 없는 원숭이",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 자연과학 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "(지식의 대통합)통섭",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "(플라톤의)국가",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "간디 자서전",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "고백록",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "관촌수필",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "광장 ; 구운몽",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "구운몽",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "그리스 로마 신화",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "나목 ; 도둑맞은 가난",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "난장이가 쏘아올린 작은 공",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "논어",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "다산시선",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "당신들의 천국",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "도리언 그레이의 초상 : 오스카 와일드 장편소설",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "돈키호테.",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "마당깊은 집",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "만들어진 신",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "맹자",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "멋진 신세계",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "몽테뉴 수상록",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 20"
+    },
+    {
+      "raw_title": "무정 : 이광수 장편소설",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 21"
+    },
+    {
+      "raw_title": "무진기행",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 22"
+    },
+    {
+      "raw_title": "문명의 충돌",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 23"
+    },
+    {
+      "raw_title": "문학과 예술의 사회사.",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 24"
+    },
+    {
+      "raw_title": "방법서설 : 정신지도를 위한 규칙들",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 25"
+    },
+    {
+      "raw_title": "베토벤의 생애",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 26"
+    },
+    {
+      "raw_title": "변신",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 27"
+    },
+    {
+      "raw_title": "사기열전.",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 28"
+    },
+    {
+      "raw_title": "사반의 십자가 : 김동리 장편소설",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 29"
+    },
+    {
+      "raw_title": "삼국유사",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 30"
+    },
+    {
+      "raw_title": "서양미술사",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 31"
+    },
+    {
+      "raw_title": "세계사 편력 : 아버지가 딸에게 들려 주는 세계사...",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 32"
+    },
+    {
+      "raw_title": "셰익스피어 4대 비극",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 33"
+    },
+    {
+      "raw_title": "스피노자의 뇌 : 기쁨, 슬픔, 느낌의 뇌과학",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 34"
+    },
+    {
+      "raw_title": "신곡",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 35"
+    },
+    {
+      "raw_title": "아Q정전 : 루쉰 소설",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 36"
+    },
+    {
+      "raw_title": "역사 속의 영웅들",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 37"
+    },
+    {
+      "raw_title": "역사란 무엇인가",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 38"
+    },
+    {
+      "raw_title": "예술로서의 영화",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 39"
+    },
+    {
+      "raw_title": "예술이란 무엇인가",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 40"
+    },
+    {
+      "raw_title": "오이디푸스 왕",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 41"
+    },
+    {
+      "raw_title": "오주석의 한국의 美 특강",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 42"
+    },
+    {
+      "raw_title": "월든",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 43"
+    },
+    {
+      "raw_title": "위대한 개츠비",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 44"
+    },
+    {
+      "raw_title": "위대한 유산 : 찰스 디킨스 장편소설",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 45"
+    },
+    {
+      "raw_title": "이방인",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 46"
+    },
+    {
+      "raw_title": "인간의 이해력에 관한 탐구",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 47"
+    },
+    {
+      "raw_title": "인도로 가는 길",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 48"
+    },
+    {
+      "raw_title": "인형의 집",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 49"
+    },
+    {
+      "raw_title": "젊은 예술가의 초상",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 50"
+    },
+    {
+      "raw_title": "정의란 무엇인가",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 51"
+    },
+    {
+      "raw_title": "존재와 무 : 자유를 향한 실존적 탐색",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 52"
+    },
+    {
+      "raw_title": "주홍글씨",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 53"
+    },
+    {
+      "raw_title": "죽음에 이르는 병",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 54"
+    },
+    {
+      "raw_title": "차라투스트라는 이렇게 말했다",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 55"
+    },
+    {
+      "raw_title": "참을 수 없는 존재의 가벼움",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 56"
+    },
+    {
+      "raw_title": "카라마조프 형제들.",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 57"
+    },
+    {
+      "raw_title": "칼의 노래 : 김훈 장편소설",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 58"
+    },
+    {
+      "raw_title": "토지 : 박경리 대하소설.",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 59"
+    },
+    {
+      "raw_title": "파우스트",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 60"
+    },
+    {
+      "raw_title": "하늘과 바람과 별과 시 : 윤동주 시·수필·화보집",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 61"
+    },
+    {
+      "raw_title": "향연",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 62"
+    },
+    {
+      "raw_title": "호밀밭의 파수꾼",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 63"
+    },
+    {
+      "raw_title": "호질·양반전·허생전",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 64"
+    },
+    {
+      "raw_title": "혼불.",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 65"
+    },
+    {
+      "raw_title": "황석영",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 인문과학 / 출처 목록 번호 66"
+    },
+    {
+      "raw_title": "감시와 처벌",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "국부론",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "국화와 칼",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "군주론",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "도덕적 동물",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "리바이어던",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "법의 정신",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "불평등의 대가",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "생각의 탄생",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "세계전쟁사",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "소유냐 존재냐",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "에밀",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "엔트로피",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "유토피아",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "일차원적 인간",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "자유론",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "제3의 물결",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "총, 균, 쇠",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "페다고지",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "프로테스탄트 윤리와 자본주의 정신",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회과학 / 출처 목록 번호 20"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=221808133511",
+      "https://lib.inha.ac.kr/collections/js100",
+      "https://web.archive.org/web/20170915051435/http://lib.inha.ac.kr/book/book_100.asp",
+      "https://www.inha.ac.kr"
+    ],
+    "item_count": 101,
+    "expected_count": 100,
+    "gaps": "빠진 항목은 없으나 블로그 전사본이 100선이라는 이름과 달리 101건을 싣고 있다. 갈래별로 자연과학 15, 인문과학 66, 사회과학 20건이며 각 갈래 안에서 번호가 1부터 빠짐없이 이어진다. 어느 갈래가 한 건 많은지 판별할 근거가 없어 101건을 그대로 담았다.",
+    "uncertainties": "현행 공식 컬렉션 페이지는 살아 있어 source_url로 걸었으나 판(개정 연도)이 블로그 전사본과 같은지 확인하지 못했다. 옛 페이지 보존본에서 2012·2013·2014·2017년 판이 있었음은 확인했으나 이 전사본이 어느 판인지 특정하지 못해 발표 연도를 비워 두었다. 원문에 저자 표기가 아예 없어 모든 항목의 저자가 비어 있다."
+  }
+}

@@ -1,0 +1,603 @@
+{
+  "curator": {
+    "slug": "chung-ang-university",
+    "name": "중앙대학교",
+    "name_en": "Chung-Ang University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1916,
+    "homepage_url": "https://www.cau.ac.kr",
+    "description": "중앙대학교는 1916년에 뿌리를 둔 사립 종합대학이다. 서울 동작구 흑석동 캠퍼스와 경기도 안성 캠퍼스를 함께 운영한다. 학술정보원이 학부·대학원생을 위한 독서 프로그램을 운영하며 권장도서 목록을 관리한다.",
+    "description_en": "Chung-Ang University is a private comprehensive university whose origins date to 1916. It operates a campus in Heukseok-dong, Dongjak-gu, Seoul, alongside a second campus in Anseong, Gyeonggi Province. Its academic information center runs a reading program for undergraduate and graduate students and maintains the accompanying recommended reading list."
+  },
+  "list": {
+    "slug": "cau-humanities-reading",
+    "title": "중앙대 인문학 권장도서",
+    "title_en": "Chung-Ang University Humanities Reading List",
+    "description": "중앙대학교 학술정보원이 독서 프로그램 「중독」의 「인문학 40선 읽기」를 위해 고른 인문학 권장도서 목록이다. 학부생과 대학원생이 졸업할 때까지 이 목록에서 40권 이상을 읽고 독후감을 올려 인증을 받는 방식으로 운영된다. 인증을 마치면 졸업할 때 독서포트폴리오를 발급해 취업 전형에 쓸 수 있게 한다.",
+    "description_en": "The humanities reading list assembled by Chung-Ang University's academic information center for the forty-book humanities strand of its student reading program. Undergraduates and graduate students work through at least forty titles from the list before graduating, submitting a written response for each to have it certified. Those who complete the requirement receive a reading portfolio at graduation that they can use in job applications.",
+    "published_year": null,
+    "edition": null,
+    "method": "학술정보원이 인문학 소양과 인성을 기른다는 취지로 도서를 선정했다고만 밝히고 있고 선정 위원회나 절차는 공개돼 있지 않다. 동양고전·역사·사회·과학·문학·철학 등 주제군으로 이어지며 순위는 매기지 않았다. 우수 독후감과 독후 활동 실적에는 표창과 장학금을 준다.",
+    "method_en": "The academic information center states only that the books were chosen to build humanistic understanding and character; no committee or procedure is published. The titles run through subject groups covering East Asian classics, history, society, science, literature and philosophy, and are not ranked. Outstanding written responses and reading activity are recognized with commendations and scholarships.",
+    "source_url": "https://book.cau.ac.kr/humanitiesBook/index",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "(클라우스 슈밥의)제4차 산업혁명",
+      "raw_creator": "Schwab, Klaus",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 1"
+    },
+    {
+      "raw_title": "맹자집주",
+      "raw_creator": "성백효",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 2"
+    },
+    {
+      "raw_title": "걸리버 여행기",
+      "raw_creator": "Swift, Jonathan",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 3"
+    },
+    {
+      "raw_title": "노인과 바다",
+      "raw_creator": "Hemingway, Ernest",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 4"
+    },
+    {
+      "raw_title": "마음",
+      "raw_creator": "하목",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 5"
+    },
+    {
+      "raw_title": "피로사회",
+      "raw_creator": "한병철",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 6"
+    },
+    {
+      "raw_title": "난장이가 쏘아올린 작은 공",
+      "raw_creator": "조세희",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 7"
+    },
+    {
+      "raw_title": "데미안",
+      "raw_creator": "Hesse, Hermann",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 8"
+    },
+    {
+      "raw_title": "동물농장",
+      "raw_creator": "Orwell, George",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 9"
+    },
+    {
+      "raw_title": "1984",
+      "raw_creator": "Orwell, George",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 10"
+    },
+    {
+      "raw_title": "인간, 아담을 창조하다",
+      "raw_creator": "Gassen, Hans G¨unter",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 11"
+    },
+    {
+      "raw_title": "일리아스",
+      "raw_creator": "Homeros",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 12"
+    },
+    {
+      "raw_title": "돈키호테",
+      "raw_creator": "Cervantes Saavedra, Miguel de",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 13"
+    },
+    {
+      "raw_title": "인간의 조건",
+      "raw_creator": "Malraux, André",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 14"
+    },
+    {
+      "raw_title": "로빈슨 크루소",
+      "raw_creator": "Defoe, Daniel",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 15"
+    },
+    {
+      "raw_title": "카라마조프 가의 형제들",
+      "raw_creator": "Dostoevskii, Fyodor Mikhailovich",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 16"
+    },
+    {
+      "raw_title": "아큐정전",
+      "raw_creator": "루쉰",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 17"
+    },
+    {
+      "raw_title": "레 미제라블",
+      "raw_creator": "Hugo, Victor",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 18"
+    },
+    {
+      "raw_title": "월든",
+      "raw_creator": "Thoreau, Henry David",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 19"
+    },
+    {
+      "raw_title": "전쟁은 여자의 얼굴을 하지 않았다",
+      "raw_creator": "Aleksievich, Svetlana",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 20"
+    },
+    {
+      "raw_title": "픽션들",
+      "raw_creator": "Borges, Jorge Luis",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 21"
+    },
+    {
+      "raw_title": "파우스트",
+      "raw_creator": "Goethe, Johann Wolfgang von",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 22"
+    },
+    {
+      "raw_title": "차라투스트라는 이렇게 말했다",
+      "raw_creator": "Nietzsche, Friedrich Wilhelm",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 23"
+    },
+    {
+      "raw_title": "남한산성",
+      "raw_creator": "김훈",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 24"
+    },
+    {
+      "raw_title": "(플라톤의) 국가(政體)",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 25"
+    },
+    {
+      "raw_title": "니코마코스 윤리학",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 26"
+    },
+    {
+      "raw_title": "군주론",
+      "raw_creator": "Machiavelli, Niccolò",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 27"
+    },
+    {
+      "raw_title": "방법서설",
+      "raw_creator": "Descartes, Rene",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 28"
+    },
+    {
+      "raw_title": "꿈의 해석",
+      "raw_creator": "Freud, Sigmund",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 29"
+    },
+    {
+      "raw_title": "정의란 무엇인가",
+      "raw_creator": "Sandel, Michael J",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 30"
+    },
+    {
+      "raw_title": "논어",
+      "raw_creator": "이강수",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 31"
+    },
+    {
+      "raw_title": "도덕경",
+      "raw_creator": "노자현암사ISBN : 9788932308470",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 32"
+    },
+    {
+      "raw_title": "징비록",
+      "raw_creator": "유성룡",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 33"
+    },
+    {
+      "raw_title": "성학십도",
+      "raw_creator": "이황",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 34"
+    },
+    {
+      "raw_title": "세계 최고의 여행기, 열하일기",
+      "raw_creator": "박지원",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 35"
+    },
+    {
+      "raw_title": "사기열전",
+      "raw_creator": "사마천",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 36"
+    },
+    {
+      "raw_title": "삼국유사",
+      "raw_creator": "일연",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 37"
+    },
+    {
+      "raw_title": "역사란 무엇인가",
+      "raw_creator": "Carr, Edward Hallett",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 38"
+    },
+    {
+      "raw_title": "통치론",
+      "raw_creator": "Locke, John",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 39"
+    },
+    {
+      "raw_title": "에밀",
+      "raw_creator": "Rousseau, Jean Jacques",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 40"
+    },
+    {
+      "raw_title": "莊子",
+      "raw_creator": "장자",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 41"
+    },
+    {
+      "raw_title": "담론",
+      "raw_creator": "신영복",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 42"
+    },
+    {
+      "raw_title": "새로운 서양 문명의 역사",
+      "raw_creator": "Coffin, Judith G",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 43"
+    },
+    {
+      "raw_title": "문명의 충돌",
+      "raw_creator": "Huntington, Samuel P",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 44"
+    },
+    {
+      "raw_title": "소유냐 삶이냐",
+      "raw_creator": "Fromm, Erich",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 45"
+    },
+    {
+      "raw_title": "공산당선언",
+      "raw_creator": "Marx, Karl",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 46"
+    },
+    {
+      "raw_title": "국화와 칼",
+      "raw_creator": "Benedict, Ruth",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 47"
+    },
+    {
+      "raw_title": "리바이어던",
+      "raw_creator": "Hobbes, Thomas",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 48"
+    },
+    {
+      "raw_title": "물질문명과 자본주의 읽기",
+      "raw_creator": "Braudel, Fernand",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 49"
+    },
+    {
+      "raw_title": "돈으로 살 수 없는 것들",
+      "raw_creator": "Sandel, Michael J",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 50"
+    },
+    {
+      "raw_title": "민주화 이후의 민주주의",
+      "raw_creator": "최장집",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 51"
+    },
+    {
+      "raw_title": "사회계약론",
+      "raw_creator": "Rousseau, Jean Jacques",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 52"
+    },
+    {
+      "raw_title": "(월러스틴의)세계체제 분석",
+      "raw_creator": "Wallerstein, Immanuel Maurice",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 53"
+    },
+    {
+      "raw_title": "오래된 미래 - Norberg",
+      "raw_creator": "Hodge, Helena",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 54"
+    },
+    {
+      "raw_title": "일차원적 인간",
+      "raw_creator": "Marcuse, Herbert",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 55"
+    },
+    {
+      "raw_title": "자유론",
+      "raw_creator": "Mill, John Stuart",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 56"
+    },
+    {
+      "raw_title": "프로테스탄티즘의 윤리와 자본주의 정신",
+      "raw_creator": "Weber, Max",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 57"
+    },
+    {
+      "raw_title": "세상을 바꾼 법정",
+      "raw_creator": "Lief, Michael S",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 58"
+    },
+    {
+      "raw_title": "시적 정의",
+      "raw_creator": "Nussbaum, Martha Craven",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 59"
+    },
+    {
+      "raw_title": "공감의 시대",
+      "raw_creator": "Rifkin, Jeremy",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 60"
+    },
+    {
+      "raw_title": "유토피아",
+      "raw_creator": "More, Thomas",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 61"
+    },
+    {
+      "raw_title": "(컬러판) 종의 기원",
+      "raw_creator": "Darwin, Charles",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 62"
+    },
+    {
+      "raw_title": "과학혁명의 구조",
+      "raw_creator": "Kuhn, Thomas S",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 63"
+    },
+    {
+      "raw_title": "거인들의 어깨 위에 서서",
+      "raw_creator": "Hawking, S. W",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 64"
+    },
+    {
+      "raw_title": "엔트로피",
+      "raw_creator": "Rifkin, Jeremy",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 65"
+    },
+    {
+      "raw_title": "이기적 유전자",
+      "raw_creator": "Dawkins, Richard",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 66"
+    },
+    {
+      "raw_title": "부분과 전체",
+      "raw_creator": "Heisenberg, Werner Karl",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 67"
+    },
+    {
+      "raw_title": "빈 서판",
+      "raw_creator": "Pinker, Steven",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 68"
+    },
+    {
+      "raw_title": "생명이란 무엇인가",
+      "raw_creator": "Schrödinger, Erwin",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 69"
+    },
+    {
+      "raw_title": "슈뢰딩거의 고양이",
+      "raw_creator": "Fischer, Ernst Peter",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 70"
+    },
+    {
+      "raw_title": "우연과 필연",
+      "raw_creator": "Monod, Jacques",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 71"
+    },
+    {
+      "raw_title": "이중나선",
+      "raw_creator": "Watson, James",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 72"
+    },
+    {
+      "raw_title": "거의 모든 것의 역사",
+      "raw_creator": "Bryson, Bill",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 73"
+    },
+    {
+      "raw_title": "총, 균, 쇠",
+      "raw_creator": "Diamond, Jared",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 74"
+    },
+    {
+      "raw_title": "통섭",
+      "raw_creator": "Wilson, Edward",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 75"
+    },
+    {
+      "raw_title": "판다의 엄지",
+      "raw_creator": "Gould, Stephen Jay",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 76"
+    },
+    {
+      "raw_title": "(칼 세이건) 코스모스",
+      "raw_creator": "Sagan, Carl",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 77"
+    },
+    {
+      "raw_title": "사피엔스",
+      "raw_creator": "Harari, Yuval",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 78"
+    },
+    {
+      "raw_title": "이타적 인간의 출현",
+      "raw_creator": "최정규",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 79"
+    },
+    {
+      "raw_title": "대화",
+      "raw_creator": "Galilei, Gali",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 80"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=221808057868",
+      "https://book.cau.ac.kr/humanitiesBook/index",
+      "https://book.cau.ac.kr/humanitiesReadingProgram/index",
+      "https://book.cau.ac.kr/staticView/readingIntro",
+      "https://www.cau.ac.kr"
+    ],
+    "item_count": 80,
+    "expected_count": 81,
+    "gaps": "블로그 전사본은 80건이지만 현행 공식 페이지의 권장도서는 81건이다. 블로그 글 제목도 「80선」으로 적혀 있어 전사 시점의 목록이 80건이었을 수 있고, 그 뒤 한 권이 더해졌을 수도 있다. 어느 책이 늘었는지 확인하지 못해 전사본 80건을 그대로 담았다.",
+    "uncertainties": "공식 권장도서 페이지는 살아 있어 source_url로 걸었으나 권수가 전사본과 한 건 다르다. 발표 연도와 선정 주체·절차는 공개 자료에서 확인되지 않아 비워 두었다. 원문이 외국 저자를 로마자 성-이름 순으로 적은 부분이 있는데 목록 원문 표기를 그대로 두었다."
+  }
+}

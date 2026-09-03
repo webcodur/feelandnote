@@ -1,0 +1,38 @@
+{
+  "generatedAt": "2026-09-03T04:06:00.280Z",
+  "models": {
+    "writer": "gemini-3.8-flash-high",
+    "geminiReview": "gemini-3.8-flash-high",
+    "opusReview": "opus"
+  },
+  "transports": {
+    "writer": "agy",
+    "geminiReview": "agy",
+    "opusReview": "claude-cli"
+  },
+  "total": 1,
+  "counts": {
+    "review-required": 1
+  },
+  "risks": {
+    "standard": 0,
+    "high": 1
+  },
+  "candidates": [
+    {
+      "slug": "niccolo-machiavelli",
+      "status": "review-required",
+      "risk": "high",
+      "verdict": "rewrite",
+      "sourceCount": 9,
+      "claimCheckCount": 9,
+      "nonWhitespaceChars": 851,
+      "resumedStages": [],
+      "errorStage": null,
+      "error": null,
+      "issueCount": 8,
+      "path": "data/celeb/virtual-monologue/candidates/niccolo-machiavelli.json",
+      "reused": false
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "curator": {
+    "slug": "cnn",
+    "name": "CNN",
+    "name_en": "CNN",
+    "kind": "media",
+    "country": "US",
+    "founded_year": 1980,
+    "homepage_url": "https://www.cnn.com",
+    "description": "1980년 테드 터너가 세운 미국의 24시간 뉴스 전문 방송이다. 텔레비전과 함께 CNN.com을 운영하며 국제 뉴스와 문화 기사를 낸다. 연말·연대 결산 기획으로 책과 영화 목록을 발표해 왔다.",
+    "description_en": "An American 24-hour news channel launched by Ted Turner in 1980. Alongside its television operation it runs CNN.com, covering international news and culture. It regularly publishes year-end and end-of-decade round-ups, including book lists."
+  },
+  "list": {
+    "slug": "cnn-most-influential-books-of-the-decade",
+    "title": "2010년대 가장 영향력 있는 책 10",
+    "title_en": "CNN's 10 Most Influential Books of the Decade",
+    "description": "CNN이 2019년 12월 30일 2010년대를 결산하며 고른 책 10권이다. 문학적 완성도가 아니라 사회에 남긴 자국을 기준으로 삼았고, 2010년 『헨리에타 랙스의 불멸의 삶』부터 2017년 『당신이 남긴 증오』까지 출간 연도순으로 실렸다. 순위는 매기지 않았다.",
+    "description_en": "Ten books chosen by CNN on 30 December 2019 to sum up the 2010s. The criterion was the mark a book left on public conversation rather than critical standing, and the titles run in order of publication from The Immortal Life of Henrietta Lacks (2010) to The Hate U Give (2017). They are not ranked.",
+    "published_year": 2019,
+    "edition": null,
+    "series_key": null,
+    "method": "CNN 엔터테인먼트 기자 엘리자베스 울프와 브랜던 그릭스가 골랐다. 비평가들이 꼽는 문학적 성취 대신 「미국인이 실제로 무엇을 읽고 무엇을 논쟁했는가」를 기준으로 삼았으며, 영화·상품·넷플릭스 프로그램으로 확장된 파급력을 근거로 들었다. 순위 없이 출간 연도순으로 실었다.",
+    "method_en": "Selected by CNN entertainment writers Elizabeth Wolfe and Brandon Griggs. Instead of critical acclaim, the criterion was what Americans actually read and argued about over the decade, with reach into films, merchandise and Netflix specials cited as evidence. The titles are listed unranked in order of publication.",
+    "source_url": "https://edition.cnn.com/2019/12/30/entertainment/decades-most-influential-books-trnd/index.html",
+    "cover_image_url": null,
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": []
+  },
+  "items": [
+    {
+      "raw_title": "The Immortal Life of Henrietta Lacks",
+      "raw_creator": "Rebecca Skloot",
+      "rank": null,
+      "year": 2010,
+      "note": "한국어판 제목: 헨리에타 랙스의 불멸의 삶"
+    },
+    {
+      "raw_title": "Fifty Shades of Grey",
+      "raw_creator": "E.L. James",
+      "rank": null,
+      "year": 2011,
+      "note": "한국어판 제목: 그레이의 50가지 그림자"
+    },
+    {
+      "raw_title": "Gone Girl",
+      "raw_creator": "Gillian Flynn",
+      "rank": null,
+      "year": 2012,
+      "note": "한국어판 제목: 나를 찾아줘"
+    },
+    {
+      "raw_title": "I Am Malala",
+      "raw_creator": "Malala Yousafzai",
+      "rank": null,
+      "year": 2013,
+      "note": "한국어판 제목: 나는 말랄라"
+    },
+    {
+      "raw_title": "Bad Feminist",
+      "raw_creator": "Roxane Gay",
+      "rank": null,
+      "year": 2014,
+      "note": "한국어판 제목: 나쁜 페미니스트"
+    },
+    {
+      "raw_title": "Just Mercy: A Story of Justice and Redemption",
+      "raw_creator": "Bryan Stevenson",
+      "rank": null,
+      "year": 2014,
+      "note": "한국어판 제목: 월터가 나에게 가르쳐 준 것"
+    },
+    {
+      "raw_title": "The Life-Changing Magic of Tidying Up",
+      "raw_creator": "Marie Kondo",
+      "rank": null,
+      "year": 2014,
+      "note": "한국어판 제목: 인생이 빛나는 정리의 마법"
+    },
+    {
+      "raw_title": "Between the World and Me",
+      "raw_creator": "Ta-Nehisi Coates",
+      "rank": null,
+      "year": 2015,
+      "note": "한국어판 제목: 세상과 나 사이"
+    },
+    {
+      "raw_title": "The Underground Railroad",
+      "raw_creator": "Colson Whitehead",
+      "rank": null,
+      "year": 2016,
+      "note": "한국어판 제목: 언더그라운드 레일로드"
+    },
+    {
+      "raw_title": "The Hate U Give",
+      "raw_creator": "Angie Thomas",
+      "rank": null,
+      "year": 2017,
+      "note": "한국어판 제목: 당신이 남긴 증오"
+    }
+  ]
+}

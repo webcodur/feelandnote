@@ -1,0 +1,733 @@
+{
+  "curator": {
+    "slug": "the-guardian",
+    "name": "가디언",
+    "name_en": "The Guardian",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 1821,
+    "homepage_url": "https://www.theguardian.com",
+    "description": "1821년 맨체스터에서 창간한 영국의 일간지다. 1959년 지금의 제호로 바꾸고 뒤이어 런던으로 본사를 옮겼으며, 소유권이 스콧 트러스트 재단에 묶여 있어 개인 소유주가 없다. 서평면 「가디언 리뷰」를 통해 도서 순위 기획을 여러 차례 발표했다.",
+    "description_en": "Founded in Manchester in 1821 as The Manchester Guardian, the paper took its present name in 1959 and later moved to London. It is owned by the Scott Trust, which leaves it without a proprietor. Its books section, the Guardian Review, has published several large-scale book lists."
+  },
+  "list": {
+    "slug": "guardian-100-best-novels",
+    "title": "영어로 쓰인 최고의 소설 100선",
+    "title_en": "The 100 Best Novels Written in English",
+    "description": "가디언 문학 편집자 로버트 매크럼이 2013년 9월부터 2015년 8월까지 매주 한 권씩 연재해 완성한 영어 소설 100선이다. 1번은 존 버니언의 『천로역정』(1678), 100번은 피터 케리의 『켈리 갱의 진짜 이야기』(2000)로 번호가 출간 연대순을 따른다.",
+    "description_en": "A list of 100 novels written in English, chosen by Guardian literary editor Robert McCrum and published one a week from September 2013 to August 2015. The numbering follows publication chronology, beginning with John Bunyan's The Pilgrim's Progress (1678) and ending with Peter Carey's True History of the Kelly Gang (2000).",
+    "published_year": 2015,
+    "edition": null,
+    "series_key": null,
+    "method": "로버트 매크럼이 영어로 쓰인 소설만을 대상으로 혼자 골랐다. 투표나 심사 절차는 없다. 번호는 순위가 아니라 출간 연대순이며, 각 권은 매주 한 편의 소개 기사로 연재된 뒤 전체 목록 기사로 정리됐다.",
+    "method_en": "Robert McCrum made the selection himself, limited to novels written in English; there was no vote or judging panel. The numbers denote chronological order of publication rather than rank. Each title ran as a weekly essay before the full list was collected in a single article.",
+    "source_url": "https://www.theguardian.com/books/2015/aug/17/the-100-best-novels-written-in-english-the-full-list",
+    "cover_image_url": null,
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": []
+  },
+  "items": [
+    {
+      "raw_title": "The Pilgrim’s Progress",
+      "raw_creator": "John Bunyan",
+      "rank": 1,
+      "year": 1678,
+      "note": null
+    },
+    {
+      "raw_title": "Robinson Crusoe",
+      "raw_creator": "Daniel Defoe",
+      "rank": 2,
+      "year": 1719,
+      "note": null
+    },
+    {
+      "raw_title": "Gulliver’s Travels",
+      "raw_creator": "Jonathan Swift",
+      "rank": 3,
+      "year": 1726,
+      "note": null
+    },
+    {
+      "raw_title": "Clarissa",
+      "raw_creator": "Samuel Richardson",
+      "rank": 4,
+      "year": 1748,
+      "note": null
+    },
+    {
+      "raw_title": "Tom Jones",
+      "raw_creator": "Henry Fielding",
+      "rank": 5,
+      "year": 1749,
+      "note": null
+    },
+    {
+      "raw_title": "The Life and Opinions of Tristram Shandy, Gentleman",
+      "raw_creator": "Laurence Sterne",
+      "rank": 6,
+      "year": 1759,
+      "note": null
+    },
+    {
+      "raw_title": "Emma",
+      "raw_creator": "Jane Austen",
+      "rank": 7,
+      "year": 1816,
+      "note": null
+    },
+    {
+      "raw_title": "Frankenstein",
+      "raw_creator": "Mary Shelley",
+      "rank": 8,
+      "year": 1818,
+      "note": null
+    },
+    {
+      "raw_title": "Nightmare Abbey",
+      "raw_creator": "Thomas Love Peacock",
+      "rank": 9,
+      "year": 1818,
+      "note": null
+    },
+    {
+      "raw_title": "The Narrative of Arthur Gordon Pym of Nantucket",
+      "raw_creator": "Edgar Allan Poe",
+      "rank": 10,
+      "year": 1838,
+      "note": null
+    },
+    {
+      "raw_title": "Sybil",
+      "raw_creator": "Benjamin Disraeli",
+      "rank": 11,
+      "year": 1845,
+      "note": null
+    },
+    {
+      "raw_title": "Jane Eyre",
+      "raw_creator": "Charlotte Brontë",
+      "rank": 12,
+      "year": 1847,
+      "note": null
+    },
+    {
+      "raw_title": "Wuthering Heights",
+      "raw_creator": "Emily Brontë",
+      "rank": 13,
+      "year": 1847,
+      "note": null
+    },
+    {
+      "raw_title": "Vanity Fair",
+      "raw_creator": "William Thackeray",
+      "rank": 14,
+      "year": 1848,
+      "note": null
+    },
+    {
+      "raw_title": "David Copperfield",
+      "raw_creator": "Charles Dickens",
+      "rank": 15,
+      "year": 1850,
+      "note": null
+    },
+    {
+      "raw_title": "The Scarlet Letter",
+      "raw_creator": "Nathaniel Hawthorne",
+      "rank": 16,
+      "year": 1850,
+      "note": null
+    },
+    {
+      "raw_title": "Moby-Dick",
+      "raw_creator": "Herman Melville",
+      "rank": 17,
+      "year": 1851,
+      "note": null
+    },
+    {
+      "raw_title": "Alice’s Adventures in Wonderland",
+      "raw_creator": "Lewis Carroll",
+      "rank": 18,
+      "year": 1865,
+      "note": null
+    },
+    {
+      "raw_title": "The Moonstone",
+      "raw_creator": "Wilkie Collins",
+      "rank": 19,
+      "year": 1868,
+      "note": null
+    },
+    {
+      "raw_title": "Little Women",
+      "raw_creator": "Louisa May Alcott",
+      "rank": 20,
+      "year": 1868,
+      "note": null
+    },
+    {
+      "raw_title": "Middlemarch",
+      "raw_creator": "George Eliot",
+      "rank": 21,
+      "year": 1871,
+      "note": null
+    },
+    {
+      "raw_title": "The Way We Live Now",
+      "raw_creator": "Anthony Trollope",
+      "rank": 22,
+      "year": 1875,
+      "note": null
+    },
+    {
+      "raw_title": "The Adventures of Huckleberry Finn",
+      "raw_creator": "Mark Twain",
+      "rank": 23,
+      "year": 1884,
+      "note": null
+    },
+    {
+      "raw_title": "Kidnapped",
+      "raw_creator": "Robert Louis Stevenson",
+      "rank": 24,
+      "year": 1886,
+      "note": null
+    },
+    {
+      "raw_title": "Three Men in a Boat",
+      "raw_creator": "Jerome K Jerome",
+      "rank": 25,
+      "year": 1889,
+      "note": null
+    },
+    {
+      "raw_title": "The Sign of Four",
+      "raw_creator": "Arthur Conan Doyle",
+      "rank": 26,
+      "year": 1890,
+      "note": null
+    },
+    {
+      "raw_title": "The Picture of Dorian Gray",
+      "raw_creator": "Oscar Wilde",
+      "rank": 27,
+      "year": 1891,
+      "note": null
+    },
+    {
+      "raw_title": "New Grub Street",
+      "raw_creator": "George Gissing",
+      "rank": 28,
+      "year": 1891,
+      "note": null
+    },
+    {
+      "raw_title": "Jude the Obscure",
+      "raw_creator": "Thomas Hardy",
+      "rank": 29,
+      "year": 1895,
+      "note": null
+    },
+    {
+      "raw_title": "The Red Badge of Courage",
+      "raw_creator": "Stephen Crane",
+      "rank": 30,
+      "year": 1895,
+      "note": null
+    },
+    {
+      "raw_title": "Dracula",
+      "raw_creator": "Bram Stoker",
+      "rank": 31,
+      "year": 1897,
+      "note": null
+    },
+    {
+      "raw_title": "Heart of Darkness",
+      "raw_creator": "Joseph Conrad",
+      "rank": 32,
+      "year": 1899,
+      "note": null
+    },
+    {
+      "raw_title": "Sister Carrie",
+      "raw_creator": "Theodore Dreiser",
+      "rank": 33,
+      "year": 1900,
+      "note": null
+    },
+    {
+      "raw_title": "Kim",
+      "raw_creator": "Rudyard Kipling",
+      "rank": 34,
+      "year": 1901,
+      "note": null
+    },
+    {
+      "raw_title": "The Call of the Wild",
+      "raw_creator": "Jack London",
+      "rank": 35,
+      "year": 1903,
+      "note": null
+    },
+    {
+      "raw_title": "The Golden Bowl",
+      "raw_creator": "Henry James",
+      "rank": 36,
+      "year": 1904,
+      "note": null
+    },
+    {
+      "raw_title": "Hadrian the Seventh",
+      "raw_creator": "Frederick Rolfe",
+      "rank": 37,
+      "year": 1904,
+      "note": null
+    },
+    {
+      "raw_title": "The Wind in the Willows",
+      "raw_creator": "Kenneth Grahame",
+      "rank": 38,
+      "year": 1908,
+      "note": null
+    },
+    {
+      "raw_title": "The History of Mr Polly",
+      "raw_creator": "HG Wells",
+      "rank": 39,
+      "year": 1910,
+      "note": null
+    },
+    {
+      "raw_title": "Zuleika Dobson",
+      "raw_creator": "Max Beerbohm",
+      "rank": 40,
+      "year": 1911,
+      "note": null
+    },
+    {
+      "raw_title": "The Good Soldier",
+      "raw_creator": "Ford Madox Ford",
+      "rank": 41,
+      "year": 1915,
+      "note": null
+    },
+    {
+      "raw_title": "The Thirty-Nine Steps",
+      "raw_creator": "John Buchan",
+      "rank": 42,
+      "year": 1915,
+      "note": null
+    },
+    {
+      "raw_title": "The Rainbow",
+      "raw_creator": "DH Lawrence",
+      "rank": 43,
+      "year": 1915,
+      "note": null
+    },
+    {
+      "raw_title": "Of Human Bondage",
+      "raw_creator": "W Somerset Maugham",
+      "rank": 44,
+      "year": 1915,
+      "note": null
+    },
+    {
+      "raw_title": "The Age of Innocence",
+      "raw_creator": "Edith Wharton",
+      "rank": 45,
+      "year": 1920,
+      "note": null
+    },
+    {
+      "raw_title": "Ulysses",
+      "raw_creator": "James Joyce",
+      "rank": 46,
+      "year": 1922,
+      "note": null
+    },
+    {
+      "raw_title": "Babbitt",
+      "raw_creator": "Sinclair Lewis",
+      "rank": 47,
+      "year": 1922,
+      "note": null
+    },
+    {
+      "raw_title": "A Passage to India",
+      "raw_creator": "EM Forster",
+      "rank": 48,
+      "year": 1924,
+      "note": null
+    },
+    {
+      "raw_title": "Gentlemen Prefer Blondes",
+      "raw_creator": "Anita Loos",
+      "rank": 49,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "Mrs Dalloway",
+      "raw_creator": "Virginia Woolf",
+      "rank": 50,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "The Great Gatsby",
+      "raw_creator": "F Scott Fitzgerald",
+      "rank": 51,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "Lolly Willowes",
+      "raw_creator": "Sylvia Townsend Warner",
+      "rank": 52,
+      "year": 1926,
+      "note": null
+    },
+    {
+      "raw_title": "The Sun Also Rises",
+      "raw_creator": "Ernest Hemingway",
+      "rank": 53,
+      "year": 1926,
+      "note": null
+    },
+    {
+      "raw_title": "The Maltese Falcon",
+      "raw_creator": "Dashiell Hammett",
+      "rank": 54,
+      "year": 1929,
+      "note": null
+    },
+    {
+      "raw_title": "As I Lay Dying",
+      "raw_creator": "William Faulkner",
+      "rank": 55,
+      "year": 1930,
+      "note": null
+    },
+    {
+      "raw_title": "Brave New World",
+      "raw_creator": "Aldous Huxley",
+      "rank": 56,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "Cold Comfort Farm",
+      "raw_creator": "Stella Gibbons",
+      "rank": 57,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "Nineteen Nineteen",
+      "raw_creator": "John Dos Passos",
+      "rank": 58,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "Tropic of Cancer",
+      "raw_creator": "Henry Miller",
+      "rank": 59,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "Scoop",
+      "raw_creator": "Evelyn Waugh",
+      "rank": 60,
+      "year": 1938,
+      "note": null
+    },
+    {
+      "raw_title": "Murphy",
+      "raw_creator": "Samuel Beckett",
+      "rank": 61,
+      "year": 1938,
+      "note": null
+    },
+    {
+      "raw_title": "The Big Sleep",
+      "raw_creator": "Raymond Chandler",
+      "rank": 62,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Party Going",
+      "raw_creator": "Henry Green",
+      "rank": 63,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "At Swim-Two-Birds",
+      "raw_creator": "Flann O’Brien",
+      "rank": 64,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "The Grapes of Wrath",
+      "raw_creator": "John Steinbeck",
+      "rank": 65,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Joy in the Morning",
+      "raw_creator": "PG Wodehouse",
+      "rank": 66,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "All the King’s Men",
+      "raw_creator": "Robert Penn Warren",
+      "rank": 67,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "Under the Volcano",
+      "raw_creator": "Malcolm Lowry",
+      "rank": 68,
+      "year": 1947,
+      "note": null
+    },
+    {
+      "raw_title": "The Heat of the Day",
+      "raw_creator": "Elizabeth Bowen",
+      "rank": 69,
+      "year": 1948,
+      "note": null
+    },
+    {
+      "raw_title": "Nineteen Eighty-Four",
+      "raw_creator": "George Orwell",
+      "rank": 70,
+      "year": 1949,
+      "note": null
+    },
+    {
+      "raw_title": "The End of the Affair",
+      "raw_creator": "Graham Greene",
+      "rank": 71,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "The Catcher in the Rye",
+      "raw_creator": "JD Salinger",
+      "rank": 72,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "The Adventures of Augie March",
+      "raw_creator": "Saul Bellow",
+      "rank": 73,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "Lord of the Flies",
+      "raw_creator": "William Golding",
+      "rank": 74,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "Lolita",
+      "raw_creator": "Vladimir Nabokov",
+      "rank": 75,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "On the Road",
+      "raw_creator": "Jack Kerouac",
+      "rank": 76,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "Voss",
+      "raw_creator": "Patrick White",
+      "rank": 77,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "To Kill a Mockingbird",
+      "raw_creator": "Harper Lee",
+      "rank": 78,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "The Prime of Miss Jean Brodie",
+      "raw_creator": "Muriel Spark",
+      "rank": 79,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "Catch-22",
+      "raw_creator": "Joseph Heller",
+      "rank": 80,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "The Golden Notebook",
+      "raw_creator": "Doris Lessing",
+      "rank": 81,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "A Clockwork Orange",
+      "raw_creator": "Anthony Burgess",
+      "rank": 82,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "A Single Man",
+      "raw_creator": "Christopher Isherwood",
+      "rank": 83,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "In Cold Blood",
+      "raw_creator": "Truman Capote",
+      "rank": 84,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "The Bell Jar",
+      "raw_creator": "Sylvia Plath",
+      "rank": 85,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "Portnoy’s Complaint",
+      "raw_creator": "Philip Roth",
+      "rank": 86,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "Mrs Palfrey at the Claremont",
+      "raw_creator": "Elizabeth Taylor",
+      "rank": 87,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "Rabbit Redux",
+      "raw_creator": "John Updike",
+      "rank": 88,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "Song of Solomon",
+      "raw_creator": "Toni Morrison",
+      "rank": 89,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "A Bend in the River",
+      "raw_creator": "VS Naipaul",
+      "rank": 90,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Midnight’s Children",
+      "raw_creator": "Salman Rushdie",
+      "rank": 91,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Housekeeping",
+      "raw_creator": "Marilynne Robinson",
+      "rank": 92,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Money: A Suicide Note",
+      "raw_creator": "Martin Amis",
+      "rank": 93,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "An Artist of the Floating World",
+      "raw_creator": "Kazuo Ishiguro",
+      "rank": 94,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "The Beginning of Spring",
+      "raw_creator": "Penelope Fitzgerald",
+      "rank": 95,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Breathing Lessons",
+      "raw_creator": "Anne Tyler",
+      "rank": 96,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Amongst Women",
+      "raw_creator": "John McGahern",
+      "rank": 97,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Underworld",
+      "raw_creator": "Don DeLillo",
+      "rank": 98,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Disgrace",
+      "raw_creator": "JM Coetzee",
+      "rank": 99,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "True History of the Kelly Gang",
+      "raw_creator": "Peter Carey",
+      "rank": 100,
+      "year": 2000,
+      "note": null
+    }
+  ]
+}

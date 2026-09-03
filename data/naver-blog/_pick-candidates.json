@@ -1,0 +1,3495 @@
+[
+ {
+  "slug": "john-green",
+  "nickname": "존 그린",
+  "headline": "『잘못은 우리 별에 있어』를 쓴 청소년 소설가",
+  "profession": "author",
+  "books": 166
+ },
+ {
+  "slug": "ali-abdaal",
+  "nickname": "알리 압달",
+  "headline": "의사 출신 생산성 유튜버",
+  "profession": "influencer",
+  "books": 147
+ },
+ {
+  "slug": "penn-jillette",
+  "nickname": "펜 질렛",
+  "headline": "트릭을 밝히면서도 관객을 속이는 마술사",
+  "profession": "influencer",
+  "books": 35
+ },
+ {
+  "slug": "destin-sandlin",
+  "nickname": "데스틴 샌들린",
+  "headline": "고속 촬영으로 물리 현상을 설명하는 로켓 기술자",
+  "profession": "influencer",
+  "books": 33
+ },
+ {
+  "slug": "bong-jin-kim",
+  "nickname": "김봉진",
+  "headline": "버려진 전단지를 음식점 DB로 바꾼 창업자",
+  "profession": "entrepreneur",
+  "books": 32
+ },
+ {
+  "slug": "venerable-beopjeong",
+  "nickname": "법정 스님",
+  "headline": "무소유의 삶을 가르친 승려",
+  "profession": "author",
+  "books": 30
+ },
+ {
+  "slug": "changpeng-zhao",
+  "nickname": "자오창펑",
+  "headline": "세계 최대 암호화폐 거래소 바이낸스 창업자",
+  "profession": "entrepreneur",
+  "books": 27
+ },
+ {
+  "slug": "tobias-lutke",
+  "nickname": "토비 뤼트케",
+  "headline": "스노보드 쇼핑몰에서 쇼피파이를 출시한 개발자",
+  "profession": "entrepreneur",
+  "books": 26
+ },
+ {
+  "slug": "steven-bartlett",
+  "nickname": "스티븐 바틀렛",
+  "headline": "소셜체인을 창업한 《CEO의 일기》 진행자",
+  "profession": "influencer",
+  "books": 25
+ },
+ {
+  "slug": "grant-sanderson",
+  "nickname": "그랜트 샌더슨",
+  "headline": "Manim으로 수학을 시각화한 창작자",
+  "profession": "influencer",
+  "books": 25
+ },
+ {
+  "slug": "bill-gurley",
+  "nickname": "빌 걸리",
+  "headline": "우버를 고른 벤치마크 파트너",
+  "profession": "investor",
+  "books": 24
+ },
+ {
+  "slug": "napoleon-bonaparte",
+  "nickname": "나폴레옹 보나파르트",
+  "headline": "아우스터리츠에서 두 황제의 군대를 꺾은 프랑스 황제",
+  "profession": "commander",
+  "books": 24
+ },
+ {
+  "slug": "gabriel-garcia-marquez",
+  "nickname": "가브리엘 가르시아 마르케스",
+  "headline": "마콘도에 현실과 환상을 겹친 노벨문학상 작가",
+  "profession": "author",
+  "books": 21
+ },
+ {
+  "slug": "marc-andreessen",
+  "nickname": "마크 안드레센",
+  "headline": "Mosaic 브라우저로 웹을 대중화한 공동개발자",
+  "profession": "investor",
+  "books": 21
+ },
+ {
+  "slug": "casey-neistat",
+  "nickname": "케이시 네이스탯",
+  "headline": "일상 브이로그 형식을 정립한 영상가",
+  "profession": "influencer",
+  "books": 20
+ },
+ {
+  "slug": "leo-tolstoy",
+  "nickname": "레오 톨스토이",
+  "headline": "「전쟁과 평화」와 「안나 카레니나」를 쓴 러시아 소설가",
+  "profession": "author",
+  "books": 20
+ },
+ {
+  "slug": "pat-gelsinger",
+  "nickname": "패트릭 겔싱어",
+  "headline": "인텔 최고경영자로 돌아온 486 설계자",
+  "profession": "entrepreneur",
+  "books": 20
+ },
+ {
+  "slug": "jin-yong",
+  "nickname": "김용",
+  "headline": "신문에 「사조영웅전」의 강호를 펼친 작가",
+  "profession": "author",
+  "books": 19
+ },
+ {
+  "slug": "william-mcraven",
+  "nickname": "윌리엄 맥레이븐",
+  "headline": "침대 정리로 세상을 바꾸라고 말한 제독",
+  "profession": "commander",
+  "books": 19
+ },
+ {
+  "slug": "greg-yang",
+  "nickname": "그렉 양",
+  "headline": "작은 모델로 대형 신경망을 튜닝한 연구자",
+  "profession": "scientist",
+  "books": 19
+ },
+ {
+  "slug": "christopher-hitchens",
+  "nickname": "크리스토퍼 히친스",
+  "headline": "「신은 위대하지 않다」를 쓴 논객",
+  "profession": "author",
+  "books": 19
+ },
+ {
+  "slug": "phil-jackson",
+  "nickname": "필 잭슨",
+  "headline": "NBA 최다 우승 감독",
+  "profession": "athlete",
+  "books": 18
+ },
+ {
+  "slug": "annie-ernaux",
+  "nickname": "안니 에르노",
+  "headline": "자신의 기억으로 한 세대의 역사를 쓴 작가",
+  "profession": "author",
+  "books": 18
+ },
+ {
+  "slug": "kim-chan-mi",
+  "nickname": "김찬미",
+  "headline": "엘비스로 에이오에이의 시작을 함께한 막내",
+  "profession": "musician",
+  "books": 17
+ },
+ {
+  "slug": "theodore-roosevelt",
+  "nickname": "시어도어 루스벨트",
+  "headline": "독점 재벌을 깨고 자연을 지킨 대통령",
+  "profession": "politician",
+  "books": 17
+ },
+ {
+  "slug": "voltaire",
+  "nickname": "볼테르",
+  "headline": "캉디드로 낙관론을 조롱한 작가",
+  "profession": "author",
+  "books": 16
+ },
+ {
+  "slug": "marc-benioff",
+  "nickname": "마크 베니오프",
+  "headline": "클라우드 CRM을 함께 개척한 세일즈포스 공동창업자",
+  "profession": "entrepreneur",
+  "books": 16
+ },
+ {
+  "slug": "james-madison",
+  "nickname": "제임스 매디슨",
+  "headline": "미국 헌법을 기초한 제4대 대통령",
+  "profession": "politician",
+  "books": 16
+ },
+ {
+  "slug": "faker",
+  "nickname": "페이커",
+  "headline": "월즈를 여섯 번 든 T1 미드",
+  "profession": "athlete",
+  "books": 16
+ },
+ {
+  "slug": "andrej-karpathy",
+  "nickname": "안드레 카파시",
+  "headline": "신경망을 처음부터 코딩해 가르치는 AI 교육자",
+  "profession": "scientist",
+  "books": 16
+ },
+ {
+  "slug": "andre-gide",
+  "nickname": "앙드레 지드",
+  "headline": "도덕과 욕망의 경계를 해부한 소설가",
+  "profession": "author",
+  "books": 15
+ },
+ {
+  "slug": "michael-i.-jordan",
+  "nickname": "마이클 어빙 조던",
+  "headline": "확률 그래프 모형을 머신러닝 주류로 올린 거장",
+  "profession": "scientist",
+  "books": 15
+ },
+ {
+  "slug": "lex-fridman",
+  "nickname": "렉스 프리드먼",
+  "headline": "과학자와 정치인을 장시간 대담하는 팟캐스터",
+  "profession": "influencer",
+  "books": 15
+ },
+ {
+  "slug": "hermann-hesse",
+  "nickname": "헤르만 헤세",
+  "headline": "데미안과 싯다르타의 작가",
+  "profession": "author",
+  "books": 15
+ },
+ {
+  "slug": "martin-luther-king-jr.",
+  "nickname": "마틴 루터 킹 주니어",
+  "headline": "「나에게는 꿈이 있습니다」를 외친 비폭력 민권운동가",
+  "profession": "leader",
+  "books": 15
+ },
+ {
+  "slug": "emmett-shear",
+  "nickname": "에밋 시어",
+  "headline": "트위치를 십 년 이끈 공동창업자",
+  "profession": "entrepreneur",
+  "books": 15
+ },
+ {
+  "slug": "georg-wilhelm-friedrich-hegel",
+  "nickname": "게오르크 빌헬름 프리드리히 헤겔",
+  "headline": "역사를 자유의식의 진보로 본 철학자",
+  "profession": "humanities_scholar",
+  "books": 15
+ },
+ {
+  "slug": "kim-beom-su",
+  "nickname": "김범수",
+  "headline": "카카오톡으로 한국 메신저의 표준을 만든 창업자",
+  "profession": "entrepreneur",
+  "books": 14
+ },
+ {
+  "slug": "patrick-collison",
+  "nickname": "패트릭 콜리슨",
+  "headline": "코드 몇 줄로 온라인 결제를 쉽게 만든 설계자",
+  "profession": "entrepreneur",
+  "books": 14
+ },
+ {
+  "slug": "park-wan-suh",
+  "nickname": "박완서",
+  "headline": "마흔에 「나목」으로 등단한 한국 소설가",
+  "profession": "author",
+  "books": 14
+ },
+ {
+  "slug": "chris-williamson",
+  "nickname": "크리스 윌리엄슨",
+  "headline": "팟캐스트 모던 위즈덤의 진행자",
+  "profession": "influencer",
+  "books": 14
+ },
+ {
+  "slug": "emily-dickinson",
+  "nickname": "에밀리 디킨슨",
+  "headline": "약 1,800편 중 열 편 남짓만 생전에 나온 시인",
+  "profession": "author",
+  "books": 14
+ },
+ {
+  "slug": "helen-keller",
+  "nickname": "헬렌 켈러",
+  "headline": "대학 학위를 받은 최초의 시청각장애인",
+  "profession": "author",
+  "books": 14
+ },
+ {
+  "slug": "francesco-petrarca",
+  "nickname": "프란체스코 페트라르카",
+  "headline": "「칸초니에레」로 유럽 소네트의 전범을 세운 시인",
+  "profession": "author",
+  "books": 14
+ },
+ {
+  "slug": "plutarch",
+  "nickname": "플루타르코스",
+  "headline": "그리스와 로마의 영웅을 짝지어 성품을 비교한 전기 작가",
+  "profession": "humanities_scholar",
+  "books": 14
+ },
+ {
+  "slug": "jeremy-hammond",
+  "nickname": "제러미 해먼드",
+  "headline": "스트랫포 해킹으로 10년형을 받은 어나니머스 해커",
+  "profession": "scientist",
+  "books": 13
+ },
+ {
+  "slug": "phineas-fisher",
+  "nickname": "피니어스 피셔",
+  "headline": "해킹팀 400GB를 털어 공개한 익명 해커",
+  "profession": "scientist",
+  "books": 13
+ },
+ {
+  "slug": "karl-marx",
+  "nickname": "칼 마르크스",
+  "headline": "자본주의를 「자본론」으로 해부한 사상가",
+  "profession": "social_scientist",
+  "books": 13
+ },
+ {
+  "slug": "doctor-mike",
+  "nickname": "닥터 마이크",
+  "headline": "의학 정보의 오류를 짚는 유튜브 가정의",
+  "profession": "influencer",
+  "books": 13
+ },
+ {
+  "slug": "nat-friedman",
+  "nickname": "냇 프리드먼",
+  "headline": "코드 옆에 AI 동료를 앉힌 깃허브 수장",
+  "profession": "entrepreneur",
+  "books": 13
+ },
+ {
+  "slug": "ludwig-van-beethoven",
+  "nickname": "루트비히 판 베토벤",
+  "headline": "「환희의 송가」를 교향곡의 피날레로 만든 작곡가",
+  "profession": "musician",
+  "books": 13
+ },
+ {
+  "slug": "aaron-swartz",
+  "nickname": "애런 슈워츠",
+  "headline": "열네 살에 RSS 1.0을 공동 집필한 인터넷 운동가",
+  "profession": "leader",
+  "books": 13
+ },
+ {
+  "slug": "kim-yu-jeong",
+  "nickname": "김유정",
+  "headline": "강원 춘천에서 농촌 해학을 길어 올린 작가",
+  "profession": "author",
+  "books": 13
+ },
+ {
+  "slug": "brett-adcock",
+  "nickname": "브렛 애드콕",
+  "headline": "휴머노이드 로봇 기업 피규어의 창업자",
+  "profession": "entrepreneur",
+  "books": 13
+ },
+ {
+  "slug": "mao-zedong",
+  "nickname": "마오쩌둥",
+  "headline": "중화인민공화국 수립을 이끈 공산혁명가",
+  "profession": "politician",
+  "books": 13
+ },
+ {
+  "slug": "lana-del-rey",
+  "nickname": "라나 델 레이",
+  "headline": "「본 투 다이」를 만든 싱어송라이터",
+  "profession": "musician",
+  "books": 13
+ },
+ {
+  "slug": "alfred-nobel",
+  "nickname": "알프레드 노벨",
+  "headline": "유언으로 노벨상을 세운 발명가",
+  "profession": "scientist",
+  "books": 13
+ },
+ {
+  "slug": "george-s.-patton",
+  "nickname": "조지 패튼",
+  "headline": "바스토뉴로 제3군을 돌린 사령관",
+  "profession": "commander",
+  "books": 12
+ },
+ {
+  "slug": "kenji-mizoguchi",
+  "nickname": "미조구치 겐지",
+  "headline": "베니스영화제 3년 연속 수상작의 감독",
+  "profession": "director",
+  "books": 12
+ },
+ {
+  "slug": "montesquieu",
+  "nickname": "몽테스키외",
+  "headline": "권력은 나눠야 자유를 지킬 수 있다고 본 사상가",
+  "profession": "social_scientist",
+  "books": 12
+ },
+ {
+  "slug": "desiderius-erasmus",
+  "nickname": "데시데리우스 에라스무스",
+  "headline": "가톨릭에 남은 「우신예찬」의 저자",
+  "profession": "humanities_scholar",
+  "books": 12
+ },
+ {
+  "slug": "mrbeast",
+  "nickname": "미스터비스트",
+  "headline": "거액 상금을 내건 대형 도전 영상을 만드는 유튜버",
+  "profession": "influencer",
+  "books": 12
+ },
+ {
+  "slug": "chung-se-rang",
+  "nickname": "정세랑",
+  "headline": "「보건교사 안은영」 원작자이자 넷플릭스 각본가",
+  "profession": "author",
+  "books": 12
+ },
+ {
+  "slug": "cao-xueqin",
+  "nickname": "조설근",
+  "headline": "《홍루몽》 첫 80회를 쓴 청대 소설가",
+  "profession": "author",
+  "books": 12
+ },
+ {
+  "slug": "arthur-schopenhauer",
+  "nickname": "아르투어 쇼펜하우어",
+  "headline": "세계를 의지와 표상으로 설명한 철학자",
+  "profession": "humanities_scholar",
+  "books": 12
+ },
+ {
+  "slug": "michel-de-montaigne",
+  "nickname": "미셸 드 몽테뉴",
+  "headline": "「수상록」으로 에세이 장르를 연 사상가",
+  "profession": "humanities_scholar",
+  "books": 12
+ },
+ {
+  "slug": "hayao-miyazaki",
+  "nickname": "미야자키 하야오",
+  "headline": "장편 애니 두 편으로 오스카를 받은 지브리 감독",
+  "profession": "director",
+  "books": 12
+ },
+ {
+  "slug": "alice-munro",
+  "nickname": "앨리스 먼로",
+  "headline": "단편만으로 노벨문학상을 받은 작가",
+  "profession": "author",
+  "books": 12
+ },
+ {
+  "slug": "marilyn-monroe",
+  "nickname": "마릴린 먼로",
+  "headline": "1950년대 할리우드를 상징한 금발 스타",
+  "profession": "actor",
+  "books": 12
+ },
+ {
+  "slug": "sima-qian",
+  "nickname": "사마천",
+  "headline": "궁형을 감내하고 「사기」를 완성한 역사가",
+  "profession": "humanities_scholar",
+  "books": 12
+ },
+ {
+  "slug": "jeong-yak-yong",
+  "nickname": "정약용",
+  "headline": "강진 유배지에서 「목민심서」를 완성한 실학자",
+  "profession": "humanities_scholar",
+  "books": 12
+ },
+ {
+  "slug": "chamath-palihapitiya",
+  "nickname": "차마스 팔리하피티야",
+  "headline": "SPAC으로 버진 갤럭틱을 상장시킨 투자자",
+  "profession": "investor",
+  "books": 12
+ },
+ {
+  "slug": "harry-s.-truman",
+  "nickname": "해리 S. 트루먼",
+  "headline": "원자폭탄 실전 사용을 최종 승인한 미국 대통령",
+  "profession": "politician",
+  "books": 12
+ },
+ {
+  "slug": "zhu-xi",
+  "nickname": "주희",
+  "headline": "사서집주가 과거 시험의 표준이 된 유학자",
+  "profession": "humanities_scholar",
+  "books": 12
+ },
+ {
+  "slug": "mary-shelley",
+  "nickname": "메리 셸리",
+  "headline": "생명 창조의 공포를 쓴 「프랑켄슈타인」 작가",
+  "profession": "author",
+  "books": 12
+ },
+ {
+  "slug": "leonardo-da-vinci",
+  "nickname": "레오나르도 다빈치",
+  "headline": "모나리자와 최후의 만찬을 남긴 화가이자 과학자",
+  "profession": "scientist",
+  "books": 12
+ },
+ {
+  "slug": "francis-bacon",
+  "nickname": "프란시스 베이컨",
+  "headline": "「신기관」에서 새 귀납 논리를 제시한 철학자",
+  "profession": "humanities_scholar",
+  "books": 12
+ },
+ {
+  "slug": "nassim-nicholas-taleb",
+  "nickname": "나심 니콜라스 탈레브",
+  "headline": "예측 불가능한 사건을 말한 「블랙 스완」의 저자",
+  "profession": "social_scientist",
+  "books": 12
+ },
+ {
+  "slug": "ben-horowitz",
+  "nickname": "벤 호로위츠",
+  "headline": "평시와 전시의 최고경영자를 구분한 저자",
+  "profession": "investor",
+  "books": 12
+ },
+ {
+  "slug": "dua-lipa",
+  "nickname": "두아 리파",
+  "headline": "「퓨처 노스탤지어」의 팝스타",
+  "profession": "musician",
+  "books": 12
+ },
+ {
+  "slug": "reed-hastings",
+  "nickname": "리드 헤이스팅스",
+  "headline": "넷플릭스를 DVD에서 스트리밍으로 돌린 공동창업자",
+  "profession": "entrepreneur",
+  "books": 12
+ },
+ {
+  "slug": "wang-guowei",
+  "nickname": "왕국유",
+  "headline": "갑골문으로 사마천의 상나라 왕 계보를 확인한 학자",
+  "profession": "humanities_scholar",
+  "books": 12
+ },
+ {
+  "slug": "martha-nussbaum",
+  "nickname": "마사 누스바움",
+  "headline": "소득이 아니라 살아갈 역량으로 정의를 묻는 철학자",
+  "profession": "humanities_scholar",
+  "books": 11
+ },
+ {
+  "slug": "derek-muller",
+  "nickname": "데릭 뮬러",
+  "headline": "오개념부터 짚는 베리타시움 창립자",
+  "profession": "influencer",
+  "books": 11
+ },
+ {
+  "slug": "drew-houston",
+  "nickname": "드류 휴스턴",
+  "headline": "파일이 따라다니는 드롭박스의 창업자",
+  "profession": "entrepreneur",
+  "books": 11
+ },
+ {
+  "slug": "john-stuart-mill",
+  "nickname": "존 스튜어트 밀",
+  "headline": "자유론을 남긴 공리주의 철학자",
+  "profession": "humanities_scholar",
+  "books": 11
+ },
+ {
+  "slug": "liu-xie",
+  "nickname": "유협",
+  "headline": "문심조룡으로 동아시아 첫 문학 이론을 세운 비평가",
+  "profession": "humanities_scholar",
+  "books": 11
+ },
+ {
+  "slug": "david-blaine",
+  "nickname": "데이비드 블레인",
+  "headline": "공중 유리 상자에서 44일을 단식한 마술사",
+  "profession": "influencer",
+  "books": 11
+ },
+ {
+  "slug": "kang-dong-won",
+  "nickname": "강동원",
+  "headline": "「늑대의 유혹」 우산 아래의 정태성",
+  "profession": "actor",
+  "books": 11
+ },
+ {
+  "slug": "federico-garcia-lorca",
+  "nickname": "페데리코 가르시아 로르카",
+  "headline": "국민파에 총살된 「피의 결혼」의 시인",
+  "profession": "author",
+  "books": 11
+ },
+ {
+  "slug": "andrew-huberman",
+  "nickname": "앤드류 후버만",
+  "headline": "시각 회로 재생을 연구하는 스탠퍼드 신경과학자",
+  "profession": "scientist",
+  "books": 11
+ },
+ {
+  "slug": "go-ah-sung",
+  "nickname": "고아성",
+  "headline": "「괴물」의 현서로 청룡 신인상을 받은 배우",
+  "profession": "actor",
+  "books": 11
+ },
+ {
+  "slug": "michel-foucault",
+  "nickname": "미셸 푸코",
+  "headline": "판옵티콘으로 규율 권력을 해부한 철학자",
+  "profession": "humanities_scholar",
+  "books": 11
+ },
+ {
+  "slug": "noam-chomsky",
+  "nickname": "노암 촘스키",
+  "headline": "언어의 규칙이 인간 마음에 타고난다고 본 언어학자",
+  "profession": "humanities_scholar",
+  "books": 11
+ },
+ {
+  "slug": "john-milton",
+  "nickname": "존 밀턴",
+  "headline": "실명한 채 『실낙원』을 구술한 시인",
+  "profession": "author",
+  "books": 11
+ },
+ {
+  "slug": "mark-ruffalo",
+  "nickname": "마크 러팔로",
+  "headline": "어벤져스 시리즈의 헐크",
+  "profession": "actor",
+  "books": 11
+ },
+ {
+  "slug": "max-weber",
+  "nickname": "막스 베버",
+  "headline": "프로테스탄트 윤리로 자본주의 정신을 해명한 사회학자",
+  "profession": "social_scientist",
+  "books": 11
+ },
+ {
+  "slug": "j.d.-vance",
+  "nickname": "J.D. 밴스",
+  "headline": "힐빌리 엘레지를 쓴 미국 부통령",
+  "profession": "politician",
+  "books": 11
+ },
+ {
+  "slug": "han-yu",
+  "nickname": "한유",
+  "headline": "황제의 불사리 영접에 맞서 유배된 문장가",
+  "profession": "humanities_scholar",
+  "books": 11
+ },
+ {
+  "slug": "toni-morrison",
+  "nickname": "토니 모리슨",
+  "headline": "노예제의 기억을 유령 이야기로 되살린 소설가",
+  "profession": "author",
+  "books": 11
+ },
+ {
+  "slug": "mustafa-suleyman",
+  "nickname": "무스타파 술레이만",
+  "headline": "더 커밍 웨이브로 인공지능 통제를 화두로 만든 저자",
+  "profession": "entrepreneur",
+  "books": 11
+ },
+ {
+  "slug": "lucius-annaeus-seneca",
+  "nickname": "루키우스 안나이우스 세네카",
+  "headline": "네로를 가르친 스토아 철학자",
+  "profession": "humanities_scholar",
+  "books": 11
+ },
+ {
+  "slug": "bertrand-russell",
+  "nickname": "버트런드 러셀",
+  "headline": "노벨문학상을 받은 분석철학자",
+  "profession": "humanities_scholar",
+  "books": 11
+ },
+ {
+  "slug": "garry-kasparov",
+  "nickname": "가리 카스파로프",
+  "headline": "딥 블루와 맞선 체스 세계 챔피언",
+  "profession": "athlete",
+  "books": 11
+ },
+ {
+  "slug": "f.-scott-fitzgerald",
+  "nickname": "F. 스콧 피츠제럴드",
+  "headline": "「위대한 개츠비」를 쓴 재즈 시대 작가",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "gottfried-wilhelm-leibniz",
+  "nickname": "고트프리트 빌헬름 라이프니츠",
+  "headline": "∫와 d로 미적분의 언어를 만든 수학자",
+  "profession": "scientist",
+  "books": 10
+ },
+ {
+  "slug": "david-sacks",
+  "nickname": "데이비드 색스",
+  "headline": "미 대통령 과학기술자문위를 공동 이끄는 페이팔 마피아",
+  "profession": "investor",
+  "books": 10
+ },
+ {
+  "slug": "rory-mcilroy",
+  "nickname": "로리 매킬로이",
+  "headline": "커리어 그랜드슬램을 완성한 북아일랜드 골퍼",
+  "profession": "athlete",
+  "books": 10
+ },
+ {
+  "slug": "henry-varnum-poor",
+  "nickname": "헨리 바넘 푸어",
+  "headline": "푸어스 철도편람의 창간인",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "son-woong-jung",
+  "nickname": "손웅정",
+  "headline": "프리미어리그 득점왕을 길러낸 아버지",
+  "profession": "athlete",
+  "books": 10
+ },
+ {
+  "slug": "daniel-ek",
+  "nickname": "다니엘 에크",
+  "headline": "광고·구독 모델을 내세운 스포티파이 공동창업자",
+  "profession": "entrepreneur",
+  "books": 10
+ },
+ {
+  "slug": "daniel-goleman",
+  "nickname": "대니얼 골먼",
+  "headline": "감성지능을 대중화한 심리학자",
+  "profession": "social_scientist",
+  "books": 10
+ },
+ {
+  "slug": "david-ben-gurion",
+  "nickname": "다비드 벤구리온",
+  "headline": "이스라엘 독립을 선포한 초대 총리",
+  "profession": "politician",
+  "books": 10
+ },
+ {
+  "slug": "vinod-khosla",
+  "nickname": "비노드 코슬라",
+  "headline": "실리콘밸리의 블랙 스완 사냥꾼",
+  "profession": "investor",
+  "books": 10
+ },
+ {
+  "slug": "larry-fink",
+  "nickname": "래리 핑크",
+  "headline": "리스크 관리로 블랙록을 키운 공동창업자",
+  "profession": "investor",
+  "books": 10
+ },
+ {
+  "slug": "lily",
+  "nickname": "릴리",
+  "headline": "멜버른에서 건너온 엔믹스의 목소리",
+  "profession": "musician",
+  "books": 10
+ },
+ {
+  "slug": "thomas-more",
+  "nickname": "토마스 모어",
+  "headline": "헨리 8세의 수장령을 거부하다 처형된 대법관",
+  "profession": "politician",
+  "books": 10
+ },
+ {
+  "slug": "abraham-lincoln",
+  "nickname": "에이브러햄 링컨",
+  "headline": "노예해방을 남북전쟁의 대의로 세운 대통령",
+  "profession": "politician",
+  "books": 10
+ },
+ {
+  "slug": "marcus-aurelius",
+  "nickname": "마르쿠스 아우렐리우스",
+  "headline": "「명상록」을 남긴 로마 황제",
+  "profession": "humanities_scholar",
+  "books": 10
+ },
+ {
+  "slug": "agatha-christie",
+  "nickname": "애거서 크리스티",
+  "headline": "포와로와 미스 마플을 탄생시킨 추리소설가",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "t.s.-eliot",
+  "nickname": "T.S. 엘리엇",
+  "headline": "「황무지」로 영어 시를 바꾼 시인",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "boethius",
+  "nickname": "보에티우스",
+  "headline": "감옥에서 철학의 위안을 쓴 원로원 의원",
+  "profession": "humanities_scholar",
+  "books": 10
+ },
+ {
+  "slug": "taylor-swift",
+  "nickname": "테일러 스위프트",
+  "headline": "그래미 올해의 앨범 4관왕을 세운 싱어송라이터",
+  "profession": "musician",
+  "books": 10
+ },
+ {
+  "slug": "michael-burry",
+  "nickname": "마이클 버리",
+  "headline": "서브프라임 채권 붕괴에 돈을 건 「빅 쇼트」 투자자",
+  "profession": "investor",
+  "books": 10
+ },
+ {
+  "slug": "vladimir-lenin",
+  "nickname": "블라디미르 레닌",
+  "headline": "볼셰비키를 이끌어 10월 혁명으로 권력을 잡은 혁명가",
+  "profession": "politician",
+  "books": 10
+ },
+ {
+  "slug": "george-orwell",
+  "nickname": "조지 오웰",
+  "headline": "빅 브라더를 만든 「1984」의 작가",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "thomas-aquinas",
+  "nickname": "토마스 아퀴나스",
+  "headline": "아리스토텔레스와 기독교 신학을 종합한 신학자",
+  "profession": "humanities_scholar",
+  "books": 10
+ },
+ {
+  "slug": "rene-girard",
+  "nickname": "르네 지라르",
+  "headline": "희생양이 공동체를 묶는 방식을 밝힌 이론가",
+  "profession": "humanities_scholar",
+  "books": 10
+ },
+ {
+  "slug": "paul-the-apostle",
+  "nickname": "사도 바울",
+  "headline": "그리스도인 박해자에서 이방인의 사도로",
+  "profession": "leader",
+  "books": 10
+ },
+ {
+  "slug": "adam-grant",
+  "nickname": "아담 그랜트",
+  "headline": "기버가 성공하는 조건을 연구한 조직심리학자",
+  "profession": "social_scientist",
+  "books": 10
+ },
+ {
+  "slug": "coen-brothers",
+  "nickname": "코엔 형제",
+  "headline": "「노인을 위한 나라는 없다」의 감독",
+  "profession": "director",
+  "books": 10
+ },
+ {
+  "slug": "denis-villeneuve",
+  "nickname": "데니 빌뇌브",
+  "headline": "컨택트와 듄으로 21세기 SF를 이끈 감독",
+  "profession": "director",
+  "books": 10
+ },
+ {
+  "slug": "han-yong-un",
+  "nickname": "한용운",
+  "headline": "3·1 독립선언식에서 만세를 선창한 승려 시인",
+  "profession": "humanities_scholar",
+  "books": 10
+ },
+ {
+  "slug": "salman-rushdie",
+  "nickname": "살만 루슈디",
+  "headline": "「악마의 시」로 파트와에 쫓긴 부커상 작가",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "zhang-yiming",
+  "nickname": "장이밍",
+  "headline": "추천 알고리즘으로 세계의 화면을 바꾼 창업자",
+  "profession": "entrepreneur",
+  "books": 10
+ },
+ {
+  "slug": "su-shi",
+  "nickname": "소동파",
+  "headline": "「적벽부」를 남긴 북송의 시인·서예가·화가",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "john-lennon",
+  "nickname": "존 레논",
+  "headline": "상상하라는 한마디를 평화의 노래로 만든 가수",
+  "profession": "musician",
+  "books": 10
+ },
+ {
+  "slug": "kim-chi-ha",
+  "nickname": "김지하",
+  "headline": "「오적」으로 재벌과 권력층을 풍자해 투옥된 시인",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "stefan-zweig",
+  "nickname": "슈테판 츠바이크",
+  "headline": "《어제의 세계》에 사라진 유럽을 기록한 망명 작가",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "fyodor-dostoevsky",
+  "nickname": "표도르 도스토옙스키",
+  "headline": "모의 처형을 겪은 「죄와 벌」의 작가",
+  "profession": "author",
+  "books": 10
+ },
+ {
+  "slug": "derren-brown",
+  "nickname": "데런 브라운",
+  "headline": "한 사람에게 세상의 종말을 믿게 한 쇼맨",
+  "profession": "influencer",
+  "books": 10
+ },
+ {
+  "slug": "qianlong-emperor",
+  "nickname": "건륭제",
+  "headline": "청나라 영토를 가장 넓힌 60년의 황제",
+  "profession": "politician",
+  "books": 10
+ },
+ {
+  "slug": "akira-kurosawa",
+  "nickname": "쿠로사와 아키라",
+  "headline": "라쇼몽으로 일본 영화를 세계에 알린 감독",
+  "profession": "director",
+  "books": 10
+ },
+ {
+  "slug": "jawaharlal-nehru",
+  "nickname": "자와할랄 네루",
+  "headline": "독립 전야 연설로 인도의 새벽을 연 총리",
+  "profession": "politician",
+  "books": 9
+ },
+ {
+  "slug": "benedict-cumberbatch",
+  "nickname": "베네딕트 컴버배치",
+  "headline": "한 세대를 대표한 셜록 홈즈",
+  "profession": "actor",
+  "books": 9
+ },
+ {
+  "slug": "wu-chengen",
+  "nickname": "오승은",
+  "headline": "손오공의 여든한 번 시련을 엮은 이야기꾼",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "gu-yanwu",
+  "nickname": "고염무",
+  "headline": "왕조의 몰락과 문명의 붕괴를 가른 사상가",
+  "profession": "humanities_scholar",
+  "books": 9
+ },
+ {
+  "slug": "guillermo-del-toro",
+  "nickname": "기예르모 델 토로",
+  "headline": "괴물과 인간의 사랑을 그린 오스카 감독상 수상자",
+  "profession": "director",
+  "books": 9
+ },
+ {
+  "slug": "aristotle",
+  "nickname": "아리스토텔레스",
+  "headline": "삼단논법을 체계화한 철학자",
+  "profession": "humanities_scholar",
+  "books": 9
+ },
+ {
+  "slug": "samuel-taylor-coleridge",
+  "nickname": "새뮤얼 테일러 콜리지",
+  "headline": "알바트로스를 죽인 선원의 저주를 노래한 낭만주의 시인",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "benjamin-netanyahu",
+  "nickname": "베냐민 네타냐후",
+  "headline": "이스라엘을 가장 오래 이끈 총리",
+  "profession": "politician",
+  "books": 9
+ },
+ {
+  "slug": "david-bowie",
+  "nickname": "데이비드 보위",
+  "headline": "지기 스타더스트로 변신한 록 스타",
+  "profession": "musician",
+  "books": 9
+ },
+ {
+  "slug": "martin-heidegger",
+  "nickname": "마르틴 하이데거",
+  "headline": "《존재와 시간》으로 존재를 다시 물은 철학자",
+  "profession": "humanities_scholar",
+  "books": 9
+ },
+ {
+  "slug": "kareem-abdul-jabbar",
+  "nickname": "카림 압둘 자바",
+  "headline": "NBA 최다 6회 MVP를 받은 스카이훅 센터",
+  "profession": "athlete",
+  "books": 9
+ },
+ {
+  "slug": "charles-darwin",
+  "nickname": "찰스 다윈",
+  "headline": "자연선택으로 진화를 설명한 박물학자",
+  "profession": "scientist",
+  "books": 9
+ },
+ {
+  "slug": "viktor-frankl",
+  "nickname": "빅터 프랑클",
+  "headline": "삶의 의미를 치료의 출발점으로 삼은 정신과 의사",
+  "profession": "humanities_scholar",
+  "books": 9
+ },
+ {
+  "slug": "umberto-eco",
+  "nickname": "움베르토 에코",
+  "headline": "「장미의 이름」을 쓴 기호학자",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "dk",
+  "nickname": "도겸",
+  "headline": "뮤지컬 아서왕을 맡은 세븐틴 메인보컬",
+  "profession": "musician",
+  "books": 9
+ },
+ {
+  "slug": "j.-robert-oppenheimer",
+  "nickname": "J. 로버트 오펜하이머",
+  "headline": "원자폭탄 개발을 이끈 로스앨러모스 연구소장",
+  "profession": "scientist",
+  "books": 9
+ },
+ {
+  "slug": "lilly-singh",
+  "nickname": "릴리 싱",
+  "headline": "NBC 심야 토크쇼를 진행한 유튜브 슈퍼우먼",
+  "profession": "influencer",
+  "books": 9
+ },
+ {
+  "slug": "hayley-atwell",
+  "nickname": "헤일리 앳웰",
+  "headline": "캡틴 아메리카와 마지막 춤을 완성한 페기 카터",
+  "profession": "actor",
+  "books": 9
+ },
+ {
+  "slug": "park-geun-hye",
+  "nickname": "박근혜",
+  "headline": "탄핵으로 대통령직에서 파면된 첫 대통령",
+  "profession": "politician",
+  "books": 9
+ },
+ {
+  "slug": "jon-fosse",
+  "nickname": "욘 포세",
+  "headline": "한 문장으로 이어지는 7부작 〈셉톨로지〉의 작가",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "stan-lee",
+  "nickname": "스탠 리",
+  "headline": "영웅에게 인간의 고민을 안긴 마블의 이야기꾼",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "neil-gaiman",
+  "nickname": "닐 게이먼",
+  "headline": "신화를 현대 만화로 엮은 「샌드맨」 작가",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "aaron-d'souza",
+  "nickname": "아론 드수자",
+  "headline": "도핑 허용 대회 인핸스드 게임즈 창설자",
+  "profession": "entrepreneur",
+  "books": 9
+ },
+ {
+  "slug": "federico-fellini",
+  "nickname": "페데리코 펠리니",
+  "headline": "트레비 분수의 밤을 영화사에 남긴 감독",
+  "profession": "director",
+  "books": 9
+ },
+ {
+  "slug": "pu-songling",
+  "nickname": "포송령",
+  "headline": "여우와 귀신에게 인간의 속내를 말하게 한 소설가",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "mel-gibson",
+  "nickname": "멜 깁슨",
+  "headline": "리썰 웨폰으로 액션 스타의 자리를 굳힌 배우",
+  "profession": "actor",
+  "books": 9
+ },
+ {
+  "slug": "robert-pattinson",
+  "nickname": "로버트 패틴슨",
+  "headline": "뱀파이어를 지나 배트맨이 된 배우",
+  "profession": "actor",
+  "books": 9
+ },
+ {
+  "slug": "al-farabi",
+  "nickname": "알 파라비",
+  "headline": "아리스토텔레스를 이은 제2의 스승",
+  "profession": "humanities_scholar",
+  "books": 9
+ },
+ {
+  "slug": "john-moody",
+  "nickname": "존 무디",
+  "headline": "철도채권의 첫 공개 신용등급을 펴낸 무디스 창업자",
+  "profession": "entrepreneur",
+  "books": 9
+ },
+ {
+  "slug": "claude-levi-strauss",
+  "nickname": "클로드 레비스트로스",
+  "headline": "「신화학」 4부작으로 신화의 문법을 찾은 구조주의자",
+  "profession": "social_scientist",
+  "books": 9
+ },
+ {
+  "slug": "fei-fei-li",
+  "nickname": "페이페이 리",
+  "headline": "이미지넷 구축을 이끈 컴퓨터 비전 연구자",
+  "profession": "scientist",
+  "books": 9
+ },
+ {
+  "slug": "mary-wollstonecraft",
+  "nickname": "메리 울스턴크래프트",
+  "headline": "여성도 동등하게 배워야 한다고 쓴 사상가",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "allen-zhang",
+  "nickname": "장샤오룽",
+  "headline": "위챗을 10억 명의 일상으로 키운 설계자",
+  "profession": "entrepreneur",
+  "books": 9
+ },
+ {
+  "slug": "margot-robbie",
+  "nickname": "마고 로비",
+  "headline": "〈바비〉를 제작하고 주연한 배우",
+  "profession": "actor",
+  "books": 9
+ },
+ {
+  "slug": "marilyn-manson",
+  "nickname": "마릴린 맨슨",
+  "headline": "안티크라이스트 슈퍼스타의 쇼크 록커",
+  "profession": "musician",
+  "books": 9
+ },
+ {
+  "slug": "walt-disney",
+  "nickname": "월트 디즈니",
+  "headline": "스크린의 꿈을 현실의 공원으로 옮긴 창업자",
+  "profession": "entrepreneur",
+  "books": 9
+ },
+ {
+  "slug": "enid-blyton",
+  "nickname": "에니드 블라이튼",
+  "headline": "「페이머스 파이브」를 만든 아동문학가",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "kazuo-ishiguro",
+  "nickname": "가즈오 이시구로",
+  "headline": "「남아 있는 나날」에 집사의 후회를 담은 소설가",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "kenzaburo-oe",
+  "nickname": "오에 겐자부로",
+  "headline": "「개인적인 체험」을 쓴 노벨문학상 작가",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "stephen-king",
+  "nickname": "스티븐 킹",
+  "headline": "‘샤이닝’과 ‘쇼생크 탈출’을 모두 쓴 이야기꾼",
+  "profession": "author",
+  "books": 9
+ },
+ {
+  "slug": "alex-karp",
+  "nickname": "알렉스 카프",
+  "headline": "정보기관이 쓰는 팔란티어의 수장",
+  "profession": "entrepreneur",
+  "books": 8
+ },
+ {
+  "slug": "coco-chanel",
+  "nickname": "코코 샤넬",
+  "headline": "리틀 블랙 드레스를 대중화한 디자이너",
+  "profession": "entrepreneur",
+  "books": 8
+ },
+ {
+  "slug": "victor-hugo",
+  "nickname": "빅토르 위고",
+  "headline": "가난한 사람들의 삶을 프랑스의 대서사로 만든 작가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "jim-keller",
+  "nickname": "짐 켈러",
+  "headline": "x86-64 명세를 공동 설계한 칩 아키텍트",
+  "profession": "entrepreneur",
+  "books": 8
+ },
+ {
+  "slug": "park-ji-won",
+  "nickname": "박지원",
+  "headline": "열하를 다녀와 청의 기술을 배우자고 한 실학자",
+  "profession": "humanities_scholar",
+  "books": 8
+ },
+ {
+  "slug": "karina",
+  "nickname": "카리나",
+  "headline": "솔로곡 「UP」 가사를 쓴 에스파 멤버",
+  "profession": "musician",
+  "books": 8
+ },
+ {
+  "slug": "dante-alighieri",
+  "nickname": "단테 알리기에리",
+  "headline": "피렌체를 잃고 「신곡」을 쓴 시인",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "jesse-eisenberg",
+  "nickname": "제시 아이젠버그",
+  "headline": "소셜 네트워크의 마크 저커버그",
+  "profession": "actor",
+  "books": 8
+ },
+ {
+  "slug": "larry-ellison",
+  "nickname": "래리 엘리슨",
+  "headline": "관계형 DB 상용화를 이끈 오라클 공동창업자",
+  "profession": "entrepreneur",
+  "books": 8
+ },
+ {
+  "slug": "emperor-xiaowen-of-northern-wei",
+  "nickname": "북위 효문제",
+  "headline": "북위의 수도를 낙양으로 옮긴 선비족 황제",
+  "profession": "politician",
+  "books": 8
+ },
+ {
+  "slug": "frank-lloyd-wright",
+  "nickname": "프랭크 로이드 라이트",
+  "headline": "폭포 위에 낙수장을 설계한 건축가",
+  "profession": "visual_artist",
+  "books": 8
+ },
+ {
+  "slug": "wang-anshi",
+  "nickname": "왕안석",
+  "headline": "신법을 추진해 북송의 재정과 군사 제도를 개혁한 재상",
+  "profession": "politician",
+  "books": 8
+ },
+ {
+  "slug": "wang-yangming",
+  "nickname": "왕양명",
+  "headline": "앎과 실천을 하나로 본 양명학의 스승",
+  "profession": "politician",
+  "books": 8
+ },
+ {
+  "slug": "yann-lecun",
+  "nickname": "얀 르쿤",
+  "headline": "합성곱 신경망으로 손글씨를 읽게 한 연구자",
+  "profession": "scientist",
+  "books": 8
+ },
+ {
+  "slug": "bernard-montgomery",
+  "nickname": "버나드 몽고메리",
+  "headline": "제2차 엘 알라메인의 영국 제8군 사령관",
+  "profession": "commander",
+  "books": 8
+ },
+ {
+  "slug": "niccolo-machiavelli",
+  "nickname": "니콜로 마키아벨리",
+  "headline": "군주론을 쓴 피렌체의 외교관",
+  "profession": "humanities_scholar",
+  "books": 8
+ },
+ {
+  "slug": "daniel-kahneman",
+  "nickname": "대니얼 카너먼",
+  "headline": "전망 이론으로 노벨상을 받은 심리학자",
+  "profession": "social_scientist",
+  "books": 8
+ },
+ {
+  "slug": "paul-gauguin",
+  "nickname": "폴 고갱",
+  "headline": "우리는 어디서 왔는가를 물은 화가",
+  "profession": "visual_artist",
+  "books": 8
+ },
+ {
+  "slug": "jose-saramago",
+  "nickname": "주제 사라마구",
+  "headline": "포르투갈어권 첫 노벨문학상 작가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "albert-speer",
+  "nickname": "알베르트 슈페어",
+  "headline": "강제노동을 나치 군수생산에 이용한 전범",
+  "profession": "politician",
+  "books": 8
+ },
+ {
+  "slug": "liu-zongyuan",
+  "nickname": "유종원",
+  "headline": "유배지 산수를 「영주팔기」로 남긴 문장가",
+  "profession": "humanities_scholar",
+  "books": 8
+ },
+ {
+  "slug": "pedro-almodovar",
+  "nickname": "페드로 알모도바르",
+  "headline": "욕망에 원색을 입힌 영화감독",
+  "profession": "director",
+  "books": 8
+ },
+ {
+  "slug": "steve-bannon",
+  "nickname": "스티브 배넌",
+  "headline": "분노를 표로 바꾼 포퓰리즘 설계자",
+  "profession": "politician",
+  "books": 8
+ },
+ {
+  "slug": "alexander-hamilton",
+  "nickname": "알렉산더 해밀턴",
+  "headline": "미국 재정을 세운 초대 재무장관",
+  "profession": "politician",
+  "books": 8
+ },
+ {
+  "slug": "yun-dong-ju",
+  "nickname": "윤동주",
+  "headline": "별을 세며 양심을 지킨 시인",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "toussaint-louverture",
+  "nickname": "투생 루베르튀르",
+  "headline": "노예 반란을 아이티 독립의 길로 이끈 장군",
+  "profession": "commander",
+  "books": 8
+ },
+ {
+  "slug": "hector-berlioz",
+  "nickname": "엑토르 베를리오즈",
+  "headline": "환상교향곡을 쓴 프랑스 작곡가",
+  "profession": "musician",
+  "books": 8
+ },
+ {
+  "slug": "patti-smith",
+  "nickname": "패티 스미스",
+  "headline": "시를 록 무대로 옮긴 「Horses」의 펑크 시인",
+  "profession": "musician",
+  "books": 8
+ },
+ {
+  "slug": "camilo-jose-cela",
+  "nickname": "카밀로 호세 셀라",
+  "headline": "「벌집」을 쓴 노벨문학상 작가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "alexander-the-great",
+  "nickname": "알렉산더 대왕",
+  "headline": "페르시아 제국을 무너뜨린 마케도니아 왕",
+  "profession": "commander",
+  "books": 8
+ },
+ {
+  "slug": "reid-hoffman",
+  "nickname": "리드 호프먼",
+  "headline": "사람들의 경력과 인맥을 연결한 링크드인 공동 창업자",
+  "profession": "entrepreneur",
+  "books": 8
+ },
+ {
+  "slug": "raphael-sanzio",
+  "nickname": "라파엘로 산치오",
+  "headline": "아테네 학당에 철학자들을 모은 화가",
+  "profession": "visual_artist",
+  "books": 8
+ },
+ {
+  "slug": "ludwig-wittgenstein",
+  "nickname": "루트비히 비트겐슈타인",
+  "headline": "언어의 한계를 세계의 한계로 그은 철학자",
+  "profession": "humanities_scholar",
+  "books": 8
+ },
+ {
+  "slug": "cameron-diaz",
+  "nickname": "캐머런 디애즈",
+  "headline": "「마스크」와 「찰리스 앤젤」의 주연",
+  "profession": "actor",
+  "books": 8
+ },
+ {
+  "slug": "frederick-w-smith",
+  "nickname": "프레드 스미스",
+  "headline": "익일배송 항공 허브망을 세운 페덱스 창업자",
+  "profession": "entrepreneur",
+  "books": 8
+ },
+ {
+  "slug": "mo-yan",
+  "nickname": "모옌",
+  "headline": "「붉은 수수밭」의 중국 본토 최초 노벨문학상 소설가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "zheng-xuan",
+  "nickname": "정현",
+  "headline": "서로 갈린 유교 경전 해석을 한데 모은 후한의 학자",
+  "profession": "humanities_scholar",
+  "books": 8
+ },
+ {
+  "slug": "friedrich-nietzsche",
+  "nickname": "프리드리히 니체",
+  "headline": "신은 죽었다고 선언한 독일 철학자",
+  "profession": "humanities_scholar",
+  "books": 8
+ },
+ {
+  "slug": "joseph-stalin",
+  "nickname": "이오시프 스탈린",
+  "headline": "대숙청을 지휘한 소련의 독재자",
+  "profession": "politician",
+  "books": 8
+ },
+ {
+  "slug": "park-sang-young",
+  "nickname": "박상영",
+  "headline": "게이 청년의 서울살이를 웃음과 상처로 그린 소설가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "roh-moo-hyun",
+  "nickname": "노무현",
+  "headline": "대한민국 제16대 대통령",
+  "profession": "politician",
+  "books": 8
+ },
+ {
+  "slug": "beto-orourke",
+  "nickname": "베토 오로크",
+  "headline": "크루즈를 거의 끌어내린 텍사스 상원 도전자",
+  "profession": "politician",
+  "books": 8
+ },
+ {
+  "slug": "henry-miller",
+  "nickname": "헨리 밀러",
+  "headline": "미국에서 금지된 「북회귀선」의 작가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "li-jing",
+  "nickname": "이정",
+  "headline": "동돌궐을 무너뜨린 당의 명장",
+  "profession": "commander",
+  "books": 8
+ },
+ {
+  "slug": "kate-beckinsale",
+  "nickname": "케이트 베킨세일",
+  "headline": "언더월드의 흡혈귀 전사 셀린",
+  "profession": "actor",
+  "books": 8
+ },
+ {
+  "slug": "giovanni-boccaccio",
+  "nickname": "조반니 보카치오",
+  "headline": "흑사병 속 열 명의 목소리로 백 편을 쓴 작가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "martin-scorsese",
+  "nickname": "마틴 스콜세지",
+  "headline": "「택시 드라이버」와 「좋은 친구들」의 감독",
+  "profession": "director",
+  "books": 8
+ },
+ {
+  "slug": "dolly-parton",
+  "nickname": "돌리 파튼",
+  "headline": "「아이 윌 올웨이즈 러브 유」를 쓴 컨트리 아이콘",
+  "profession": "musician",
+  "books": 8
+ },
+ {
+  "slug": "masashi-kishimoto",
+  "nickname": "키시모토 마사시",
+  "headline": "나루토를 15년 연재한 만화가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "stephen-hawking",
+  "nickname": "스티븐 호킹",
+  "headline": "블랙홀도 빛을 낼 수 있다고 예측한 이론물리학자",
+  "profession": "scientist",
+  "books": 8
+ },
+ {
+  "slug": "miguel-de-cervantes",
+  "nickname": "미겔 데 세르반테스",
+  "headline": "돈키호테로 근대 소설을 연 스페인 작가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "doris-lessing",
+  "nickname": "도리스 레싱",
+  "headline": "「황금 노트북」의 노벨문학상 소설가",
+  "profession": "author",
+  "books": 8
+ },
+ {
+  "slug": "lewis-hamilton",
+  "nickname": "루이스 해밀턴",
+  "headline": "F1 최초의 흑인 세계 챔피언",
+  "profession": "athlete",
+  "books": 8
+ },
+ {
+  "slug": "kevin-systrom",
+  "nickname": "케빈 시스트롬",
+  "headline": "인스타그램 공동 창업자",
+  "profession": "entrepreneur",
+  "books": 8
+ },
+ {
+  "slug": "michelle-williams",
+  "nickname": "미셸 윌리엄스",
+  "headline": "브로크백 마운틴의 앨마",
+  "profession": "actor",
+  "books": 8
+ },
+ {
+  "slug": "jo-sung-hee",
+  "nickname": "조성희",
+  "headline": "한국 첫 우주 블록버스터 〈승리호〉의 감독",
+  "profession": "director",
+  "books": 7
+ },
+ {
+  "slug": "selena-gomez",
+  "nickname": "셀레나 고메즈",
+  "headline": "디즈니 마법사에서 팝스타와 뷰티 창업가가 된 배우",
+  "profession": "musician",
+  "books": 7
+ },
+ {
+  "slug": "franz-liszt",
+  "nickname": "프란츠 리스트",
+  "headline": "현대 피아노 독주회를 연 비르투오소",
+  "profession": "musician",
+  "books": 7
+ },
+ {
+  "slug": "kim-whan-ki",
+  "nickname": "김환기",
+  "headline": "점으로 우주를 그린 한국의 추상화가",
+  "profession": "visual_artist",
+  "books": 7
+ },
+ {
+  "slug": "rabindranath-tagore",
+  "nickname": "라빈드라나트 타고르",
+  "headline": "인도와 방글라데시의 국가를 쓴 작가",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "kim-dae-jung",
+  "nickname": "김대중",
+  "headline": "햇볕정책으로 첫 남북정상회담을 연 대통령",
+  "profession": "politician",
+  "books": 7
+ },
+ {
+  "slug": "immanuel-kant",
+  "nickname": "임마누엘 칸트",
+  "headline": "순수이성비판으로 이성의 한계를 밝힌 철학자",
+  "profession": "humanities_scholar",
+  "books": 7
+ },
+ {
+  "slug": "thomas-hobbes",
+  "nickname": "토마스 홉스",
+  "headline": "만인의 투쟁을 끝낼 절대 주권을 주장한 철학자",
+  "profession": "humanities_scholar",
+  "books": 7
+ },
+ {
+  "slug": "charlotte-bronte",
+  "nickname": "샬럿 브론테",
+  "headline": "커러 벨로 《제인 에어》를 낸 소설가",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "zhou-enlai",
+  "nickname": "저우언라이",
+  "headline": "신중국 외교를 설계한 초대 총리",
+  "profession": "politician",
+  "books": 7
+ },
+ {
+  "slug": "andrew-ng",
+  "nickname": "앤드류 응",
+  "headline": "코세라를 공동 창업한 AI 교수",
+  "profession": "scientist",
+  "books": 7
+ },
+ {
+  "slug": "mariah-carey",
+  "nickname": "머라이어 캐리",
+  "headline": "휘슬 보컬을 팝의 정점에 올린 디바",
+  "profession": "musician",
+  "books": 7
+ },
+ {
+  "slug": "demis-hassabis",
+  "nickname": "데미스 허사비스",
+  "headline": "알파폴드로 노벨화학상을 받은 딥마인드 창업자",
+  "profession": "entrepreneur",
+  "books": 7
+ },
+ {
+  "slug": "lee-tae-jun",
+  "nickname": "이태준",
+  "headline": "달밤과 복덕방으로 서민의 삶을 그린 소설가",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "paul-graham",
+  "nickname": "폴 그레이엄",
+  "headline": "에어비앤비와 드롭박스를 키운 Y콤비네이터 창립자",
+  "profession": "entrepreneur",
+  "books": 7
+ },
+ {
+  "slug": "john-adams",
+  "nickname": "존 애덤스",
+  "headline": "대륙회의에서 미국 독립을 밀어붙인 2대 대통령",
+  "profession": "politician",
+  "books": 7
+ },
+ {
+  "slug": "anthony-bourdain",
+  "nickname": "앤서니 부르댕",
+  "headline": "주방 노동과 음식 여행을 기록한 셰프",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "carl-gustav-jung",
+  "nickname": "칼 융",
+  "headline": "집단무의식의 지도를 그린 정신의학자",
+  "profession": "social_scientist",
+  "books": 7
+ },
+ {
+  "slug": "hyerim",
+  "nickname": "혜림",
+  "headline": "〈Why So Lonely〉 공동 작곡자",
+  "profession": "musician",
+  "books": 7
+ },
+ {
+  "slug": "dong-zhongshu",
+  "nickname": "동중서",
+  "headline": "하늘의 징조로 황제의 잘못을 경계한 유학자",
+  "profession": "humanities_scholar",
+  "books": 7
+ },
+ {
+  "slug": "dhar-mann",
+  "nickname": "다르 만",
+  "headline": "교훈 단편을 찍어 온 유튜브 스튜디오 설립자",
+  "profession": "influencer",
+  "books": 7
+ },
+ {
+  "slug": "ham-seok-heon",
+  "nickname": "함석헌",
+  "headline": "《씨알의 소리》로 군부독재에 맞선 사상가",
+  "profession": "leader",
+  "books": 7
+ },
+ {
+  "slug": "james-joyce",
+  "nickname": "제임스 조이스",
+  "headline": "의식의 흐름으로 더블린의 하루를 쓴 「율리시스」의 작가",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "slavoj-zizek",
+  "nickname": "슬라보예 지젝",
+  "headline": "변기 모양에서 유럽의 이념을 읽은 철학자",
+  "profession": "humanities_scholar",
+  "books": 7
+ },
+ {
+  "slug": "marlon-brando",
+  "nickname": "말론 브란도",
+  "headline": "「대부」로 현대 연기의 기준을 세운 배우",
+  "profession": "actor",
+  "books": 7
+ },
+ {
+  "slug": "simone-giertz",
+  "nickname": "시몬 예르치",
+  "headline": "일부러 엉망인 로봇으로 실패를 보여준 발명가",
+  "profession": "influencer",
+  "books": 7
+ },
+ {
+  "slug": "king-jeongjo",
+  "nickname": "정조",
+  "headline": "아버지의 묘를 옮기고 수원 화성을 세운 조선 왕",
+  "profession": "politician",
+  "books": 7
+ },
+ {
+  "slug": "samuel-beckett",
+  "nickname": "사뮈엘 베케트",
+  "headline": "끝내 오지 않는 고도를 기다리게 한 부조리극의 작가",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "peter-drucker",
+  "nickname": "피터 드러커",
+  "headline": "현대 경영학의 창시자",
+  "profession": "social_scientist",
+  "books": 7
+ },
+ {
+  "slug": "anna-akhmatova",
+  "nickname": "안나 아흐마토바",
+  "headline": "감옥 앞 대기 행렬을 「레퀴엠」으로 증언한 시인",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "george-boole",
+  "nickname": "조지 부울",
+  "headline": "논리를 대수의 언어로 바꾼 수학자",
+  "profession": "scientist",
+  "books": 7
+ },
+ {
+  "slug": "cai-yong",
+  "nickname": "채옹",
+  "headline": "유교 경전의 정본을 돌에 쓴 후한 서예가",
+  "profession": "humanities_scholar",
+  "books": 7
+ },
+ {
+  "slug": "warren-mcculloch",
+  "nickname": "워런 맥컬록",
+  "headline": "뉴런을 논리 소자로 바꾼 선구자",
+  "profession": "scientist",
+  "books": 7
+ },
+ {
+  "slug": "mikhail-bulgakov",
+  "nickname": "미하일 불가코프",
+  "headline": "불태운 원고를 다시 쓴 「거장과 마르가리타」의 작가",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "kim-gu",
+  "nickname": "김구",
+  "headline": "분단을 막으려 38선을 넘은 임시정부 주석",
+  "profession": "leader",
+  "books": 7
+ },
+ {
+  "slug": "edward-thorp",
+  "nickname": "에드워드 소프",
+  "headline": "카드 카운팅으로 카지노를 이긴 수학자",
+  "profession": "scientist",
+  "books": 7
+ },
+ {
+  "slug": "sima-guang",
+  "nickname": "사마광",
+  "headline": "엇갈린 사료를 따져 『자치통감』을 쓴 역사가",
+  "profession": "social_scientist",
+  "books": 7
+ },
+ {
+  "slug": "nikolai-bukharin",
+  "nickname": "니콜라이 부하린",
+  "headline": "신경제정책을 옹호한 볼셰비키 이론가",
+  "profession": "politician",
+  "books": 7
+ },
+ {
+  "slug": "timothee-chalamet",
+  "nickname": "티모시 샬라메",
+  "headline": "소년의 눈빛으로 사막을 지배한 배우",
+  "profession": "actor",
+  "books": 7
+ },
+ {
+  "slug": "ho-chi-minh",
+  "nickname": "호치민",
+  "headline": "베트남 독립을 선언한 초대 국가주석",
+  "profession": "politician",
+  "books": 7
+ },
+ {
+  "slug": "henry-kissinger",
+  "nickname": "헨리 키신저",
+  "headline": "비밀 방중에서 닉슨의 중국 정상회담에 합의한 안보보좌관",
+  "profession": "politician",
+  "books": 7
+ },
+ {
+  "slug": "timothy-c.-may",
+  "nickname": "티모시 C. 메이",
+  "headline": "암호 기술로 국가의 통제를 벗어날 미래를 그린 사상가",
+  "profession": "scientist",
+  "books": 7
+ },
+ {
+  "slug": "kai-fu-lee",
+  "nickname": "리카이푸",
+  "headline": "구글 차이나를 연 초대 사장",
+  "profession": "entrepreneur",
+  "books": 7
+ },
+ {
+  "slug": "sejong-the-great",
+  "nickname": "세종대왕",
+  "headline": "훈민정음을 창제하고 조선 과학의 황금기를 이끈 왕",
+  "profession": "politician",
+  "books": 7
+ },
+ {
+  "slug": "rosamund-pike",
+  "nickname": "로자먼드 파이크",
+  "headline": "에이미 던의 미소를 스릴러로 만든 배우",
+  "profession": "actor",
+  "books": 7
+ },
+ {
+  "slug": "jonathan-abrams",
+  "nickname": "조너선 에이브럼스",
+  "headline": "공개 첫해 300만 명을 모은 프렌드스터 창업자",
+  "profession": "entrepreneur",
+  "books": 7
+ },
+ {
+  "slug": "jay-graber",
+  "nickname": "제이 그레이버",
+  "headline": "트위터에서 독립한 블루스카이를 이끈 초대 CEO",
+  "profession": "entrepreneur",
+  "books": 7
+ },
+ {
+  "slug": "brian-chesky",
+  "nickname": "브라이언 체스키",
+  "headline": "에어매트리스 세 개로 시작한 에어비앤비 공동 창업자",
+  "profession": "entrepreneur",
+  "books": 7
+ },
+ {
+  "slug": "j.r.r.-tolkien",
+  "nickname": "J.R.R. 톨킨",
+  "headline": "엘프어에서 중간계를 세운 판타지 작가",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "gaius-plinius-secundus",
+  "nickname": "가이우스 플리니우스 세쿤두스",
+  "headline": "베수비오 구조 항해에 나선 『박물지』 저자",
+  "profession": "scientist",
+  "books": 7
+ },
+ {
+  "slug": "william-shakespeare",
+  "nickname": "윌리엄 셰익스피어",
+  "headline": "세계에서 가장 자주 공연되는 영국 극작가",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "thomas-wolf",
+  "nickname": "토마스 울프",
+  "headline": "트랜스포머를 모두의 도구로 만든 연구자",
+  "profession": "entrepreneur",
+  "books": 7
+ },
+ {
+  "slug": "wu-qi",
+  "nickname": "오기",
+  "headline": "군대를 이끌고 나라의 법까지 고친 전국시대 장군",
+  "profession": "commander",
+  "books": 7
+ },
+ {
+  "slug": "wang-chong",
+  "nickname": "왕충",
+  "headline": "미신의 시대에 징조와 귀신을 따져 물은 사상가",
+  "profession": "humanities_scholar",
+  "books": 7
+ },
+ {
+  "slug": "sundar-pichai",
+  "nickname": "순다르 피차이",
+  "headline": "크롬을 이끈 구글 최고경영자",
+  "profession": "entrepreneur",
+  "books": 7
+ },
+ {
+  "slug": "yan-fu",
+  "nickname": "옌푸",
+  "headline": "헉슬리의 진화와 윤리를 천연론으로 옮긴 번역가",
+  "profession": "humanities_scholar",
+  "books": 7
+ },
+ {
+  "slug": "pearl-s.-buck",
+  "nickname": "펄 벅",
+  "headline": "미국 여성 최초로 노벨문학상을 받은 소설가",
+  "profession": "author",
+  "books": 7
+ },
+ {
+  "slug": "lee-kuan-yew",
+  "nickname": "리콴유",
+  "headline": "싱가포르를 부국으로 키운 초대 총리",
+  "profession": "politician",
+  "books": 7
+ },
+ {
+  "slug": "tadashi-yanai",
+  "nickname": "야나이 다다시",
+  "headline": "시골 양복점을 세계적 의류 기업으로 키운",
+  "profession": "entrepreneur",
+  "books": 7
+ },
+ {
+  "slug": "elizabeth-i",
+  "nickname": "엘리자베스 1세",
+  "headline": "스페인 무적함대에 맞선 처녀 여왕",
+  "profession": "politician",
+  "books": 6
+ },
+ {
+  "slug": "meryl-streep",
+  "nickname": "메릴 스트립",
+  "headline": "아카데미 후보를 가장 많이 받은 배우",
+  "profession": "actor",
+  "books": 6
+ },
+ {
+  "slug": "jorge-luis-borges",
+  "nickname": "호르헤 루이스 보르헤스",
+  "headline": "미로를 쓴 눈먼 국립도서관장",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "xenophon",
+  "nickname": "크세노폰",
+  "headline": "페르시아 적진에서 만 명을 귀환시킨 지휘관",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "marc-chagall",
+  "nickname": "마르크 샤갈",
+  "headline": "연인들을 하늘에 띄운 화가",
+  "profession": "visual_artist",
+  "books": 6
+ },
+ {
+  "slug": "zhu-yuanzhang",
+  "nickname": "주원장",
+  "headline": "굶주림을 피해 승려가 됐다가 명나라를 세운 황제",
+  "profession": "commander",
+  "books": 6
+ },
+ {
+  "slug": "woodrow-wilson",
+  "nickname": "우드로 윌슨",
+  "headline": "국제연맹 창설을 이끌고도 미국의 가입은 이루지 못한 대통령",
+  "profession": "politician",
+  "books": 6
+ },
+ {
+  "slug": "ji-kang",
+  "nickname": "혜강",
+  "headline": "형장에서 〈광릉산〉을 연주한 죽림칠현의 영수",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "richard-wagner",
+  "nickname": "리하르트 바그너",
+  "headline": "관현악단을 무대 아래 숨긴 작곡가",
+  "profession": "musician",
+  "books": 6
+ },
+ {
+  "slug": "ba-jin",
+  "nickname": "바진",
+  "headline": "봉건 대가족을 고발한 「가」의 작가",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "g-dragon",
+  "nickname": "지드래곤",
+  "headline": "「거짓말」을 쓴 빅뱅 리더",
+  "profession": "musician",
+  "books": 6
+ },
+ {
+  "slug": "chung-hyun-jong",
+  "nickname": "정현종",
+  "headline": "한 사람이 오면 한 생애가 온다고 쓴 시인",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "michael-jackson",
+  "nickname": "마이클 잭슨",
+  "headline": "「Thriller」를 낸 팝의 황제",
+  "profession": "musician",
+  "books": 6
+ },
+ {
+  "slug": "mike-tyson",
+  "nickname": "마이크 타이슨",
+  "headline": "핵주먹으로 불린 최연소 헤비급 챔피언",
+  "profession": "athlete",
+  "books": 6
+ },
+ {
+  "slug": "simone-de-beauvoir",
+  "nickname": "시몬 드 보부아르",
+  "headline": "여성은 만들어진다고 선언한 철학자",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "rupert-murdoch",
+  "nickname": "루퍼트 머독",
+  "headline": "가업 신문에서 미디어 제국을 일군 경영자",
+  "profession": "entrepreneur",
+  "books": 6
+ },
+ {
+  "slug": "jurgen-schmidhuber",
+  "nickname": "위르겐 슈미트후버",
+  "headline": "LSTM을 공동 개발한 AI 연구자",
+  "profession": "scientist",
+  "books": 6
+ },
+ {
+  "slug": "helmut-schmidt",
+  "nickname": "헬무트 슈미트",
+  "headline": "독일의 가을에 RAF와 맞선 서독 총리",
+  "profession": "politician",
+  "books": 6
+ },
+ {
+  "slug": "jennifer-lopez",
+  "nickname": "제니퍼 로페즈",
+  "headline": "구글 이미지 검색을 낳은 초록 드레스의 주인공",
+  "profession": "actor",
+  "books": 6
+ },
+ {
+  "slug": "ibn-rushd",
+  "nickname": "이븐 루시드",
+  "headline": "아리스토텔레스의 ‘대주석가’로 불린 안달루시아 철학자",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "li-dazhao",
+  "nickname": "이대조",
+  "headline": "마르크스주의를 중국에 심은 공산당 창건자",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "fidel-castro",
+  "nickname": "피델 카스트로",
+  "headline": "바티스타 정권을 무너뜨린 쿠바 혁명의 지도자",
+  "profession": "politician",
+  "books": 6
+ },
+ {
+  "slug": "andrew-lincoln",
+  "nickname": "앤드루 링컨",
+  "headline": "병원에서 깨어나 워킹 데드를 연 보안관",
+  "profession": "actor",
+  "books": 6
+ },
+ {
+  "slug": "justin-bieber",
+  "nickname": "저스틴 비버",
+  "headline": "유튜브 커버 영상에서 발굴된 「Baby」의 팝스타",
+  "profession": "musician",
+  "books": 6
+ },
+ {
+  "slug": "fernando-pessoa",
+  "nickname": "페르난두 페소아",
+  "headline": "생애와 문체까지 다른 작가들을 창조한 시인",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "kim-yeon-koung",
+  "nickname": "김연경",
+  "headline": "메달 없이 런던 올림픽 MVP에 오른 배구 선수",
+  "profession": "athlete",
+  "books": 6
+ },
+ {
+  "slug": "cai-yuanpei",
+  "nickname": "채원배",
+  "headline": "사상자유로 베이징대를 근대 대학으로 만든 총장",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "sean-penn",
+  "nickname": "숀 펜",
+  "headline": "할리우드에서 재난 현장으로 간 배우",
+  "profession": "actor",
+  "books": 6
+ },
+ {
+  "slug": "yi-mun-yol",
+  "nickname": "이문열",
+  "headline": "엄석대의 교실에서 권력의 민낯을 드러낸 작가",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "chimchakman",
+  "nickname": "침착맨",
+  "headline": "이말년 서유기를 그린 만화가 겸 방송인",
+  "profession": "influencer",
+  "books": 6
+ },
+ {
+  "slug": "teller",
+  "nickname": "텔러",
+  "headline": "비법을 공개하고도 관객을 속이는 침묵의 마술사",
+  "profession": "influencer",
+  "books": 6
+ },
+ {
+  "slug": "xunzi",
+  "nickname": "순자",
+  "headline": "타고난 욕망에 예를 세운 사상가",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "kristalina-georgieva",
+  "nickname": "크리스탈리나 게오르기에바",
+  "headline": "불가리아 출신 IMF 총재",
+  "profession": "social_scientist",
+  "books": 6
+ },
+ {
+  "slug": "joe-gebbia",
+  "nickname": "조 게비아",
+  "headline": "거실 에어매트리스로 에어비앤비를 연 공동창업자",
+  "profession": "entrepreneur",
+  "books": 6
+ },
+ {
+  "slug": "keller-rinaudo-cliffton",
+  "nickname": "켈러 리나우도",
+  "headline": "르완다에 혈액 배송 드론망을 연 집라인 공동창업자",
+  "profession": "entrepreneur",
+  "books": 6
+ },
+ {
+  "slug": "rene-descartes",
+  "nickname": "르네 데카르트",
+  "headline": "모든 믿음을 의심해 확실함만 남긴 철학자",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "liu-yifei",
+  "nickname": "유역비",
+  "headline": "디즈니 실사 「뮬란」의 주인공",
+  "profession": "actor",
+  "books": 6
+ },
+ {
+  "slug": "yu-gil-jun",
+  "nickname": "유길준",
+  "headline": "서유견문으로 서양을 알린 개화사상가",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "larry-culp",
+  "nickname": "래리 컬프",
+  "headline": "제너럴 일렉트릭을 세 회사로 나눈 수장",
+  "profession": "entrepreneur",
+  "books": 6
+ },
+ {
+  "slug": "travis-kalanick",
+  "nickname": "트래비스 캘러닉",
+  "headline": "규제와 충돌하며 우버를 세계로 확장한 공동창업자",
+  "profession": "entrepreneur",
+  "books": 6
+ },
+ {
+  "slug": "tommy-lee-jones",
+  "nickname": "토미 리 존스",
+  "headline": "아카데미를 거머쥔 도망자 추격자",
+  "profession": "actor",
+  "books": 6
+ },
+ {
+  "slug": "anne-frank",
+  "nickname": "안네 프랑크",
+  "headline": "은신처에서 일기를 쓴 소녀",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "chiang-kai-shek",
+  "nickname": "장제스",
+  "headline": "대륙을 잃고 대만으로 간 총통",
+  "profession": "politician",
+  "books": 6
+ },
+ {
+  "slug": "fan-zhongyan",
+  "nickname": "범중엄",
+  "headline": "악양루기를 남긴 북송 재상",
+  "profession": "politician",
+  "books": 6
+ },
+ {
+  "slug": "kangxi-emperor",
+  "nickname": "강희제",
+  "headline": "61년 재위하며 청 전성기를 연 황제",
+  "profession": "commander",
+  "books": 6
+ },
+ {
+  "slug": "gustave-flaubert",
+  "nickname": "귀스타브 플로베르",
+  "headline": "보바리 부인으로 법정에 선 소설가",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "william-f.-buckley-jr.",
+  "nickname": "윌리엄 F. 버클리 주니어",
+  "headline": "「내셔널 리뷰」를 창간한 보수 정치평론가",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "daesung",
+  "nickname": "대성",
+  "headline": "〈날 봐, 귀순〉을 부른 빅뱅 보컬",
+  "profession": "musician",
+  "books": 6
+ },
+ {
+  "slug": "nikos-kazantzakis",
+  "nickname": "니코스 카잔차키스",
+  "headline": "실존 광부를 「그리스인 조르바」로 만든 작가",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "gilles-deleuze",
+  "nickname": "질 들뢰즈",
+  "headline": "차이를 동일성보다 앞세운 철학자",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "emily-bronte",
+  "nickname": "에밀리 브론테",
+  "headline": "유일한 소설로 「폭풍의 언덕」을 남긴 작가",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "susan-sontag",
+  "nickname": "수전 손택",
+  "headline": "해석 대신 감각을 요구한 미국의 비평가",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "john-carmack",
+  "nickname": "존 카맥",
+  "headline": "둠 엔진을 짠 프로그래머",
+  "profession": "entrepreneur",
+  "books": 6
+ },
+ {
+  "slug": "publius-ovidius-naso",
+  "nickname": "오비디우스",
+  "headline": "변신 신화를 우주의 시작부터 로마까지 이어 쓴 시인",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "erwin-schrodinger",
+  "nickname": "에르빈 슈뢰딩거",
+  "headline": "상자 속 고양이 역설을 고안한 물리학자",
+  "profession": "scientist",
+  "books": 6
+ },
+ {
+  "slug": "kim-bu-sik",
+  "nickname": "김부식",
+  "headline": "「삼국사기」 편찬을 이끈 고려 재상",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "tom-scott",
+  "nickname": "톰 스콧",
+  "headline": "세상의 별난 원리를 현장에서 풀어낸 지식 유튜버",
+  "profession": "influencer",
+  "books": 6
+ },
+ {
+  "slug": "shin-kyung-sook",
+  "nickname": "신경숙",
+  "headline": "‘엄마를 부탁해’로 맨 아시아 문학상을 받은 소설가",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "ibn-khaldun",
+  "nickname": "이븐 할둔",
+  "headline": "집단 결속으로 왕조의 흥망을 설명한 역사가",
+  "profession": "social_scientist",
+  "books": 6
+ },
+ {
+  "slug": "galileo-galilei",
+  "nickname": "갈릴레오 갈릴레이",
+  "headline": "목성의 네 위성을 처음 보고한 천문학자",
+  "profession": "scientist",
+  "books": 6
+ },
+ {
+  "slug": "ban-gu",
+  "nickname": "반고",
+  "headline": "『한서』의 주저자인 후한의 역사가",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "marla-maples",
+  "nickname": "말라 메이플스",
+  "headline": "브로드웨이에서 웰니스로 무대를 넓힌 배우",
+  "profession": "actor",
+  "books": 6
+ },
+ {
+  "slug": "thomas-sowell",
+  "nickname": "토머스 소웰",
+  "headline": "분산된 지식에서 시장의 힘을 찾은 사상가",
+  "profession": "social_scientist",
+  "books": 6
+ },
+ {
+  "slug": "benjamin-graham",
+  "nickname": "벤저민 그레이엄",
+  "headline": "안전마진을 투자의 원칙으로 만든 가치투자자",
+  "profession": "investor",
+  "books": 6
+ },
+ {
+  "slug": "kim-su-young",
+  "nickname": "김수영",
+  "headline": "바람보다 먼저 일어나는 「풀」의 시인",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "sean-astin",
+  "nickname": "숀 애스틴",
+  "headline": "프로도를 끝까지 지킨 샘와이즈를 연기한 배우",
+  "profession": "actor",
+  "books": 6
+ },
+ {
+  "slug": "quintus-horatius-flaccus",
+  "nickname": "퀸투스 호라티우스 플라쿠스",
+  "headline": "카르페 디엠을 처음 적은 로마 시인",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "nora-roberts",
+  "nickname": "노라 로버츠",
+  "headline": "200권 넘는 로맨스와 추리소설을 쓴 베스트셀러 작가",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "blaise-pascal",
+  "nickname": "블레즈 파스칼",
+  "headline": "신을 두고 내기를 건 수학자",
+  "profession": "scientist",
+  "books": 6
+ },
+ {
+  "slug": "martin-luther",
+  "nickname": "마틴 루터",
+  "headline": "「95개조 반박문」으로 면죄부 판매에 맞선 종교개혁가",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "melanie-perkins",
+  "nickname": "멜러니 퍼킨스",
+  "headline": "누구나 쓰는 캔바의 창업자",
+  "profession": "entrepreneur",
+  "books": 6
+ },
+ {
+  "slug": "j.k.-rowling",
+  "nickname": "J.K. 롤링",
+  "headline": "늦어진 열차에서 해리 포터를 떠올린 이야기꾼",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "charles-baudelaire",
+  "nickname": "샤를 보들레르",
+  "headline": "「악의 꽃」으로 현대시의 문을 연 시인",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "arthur-conan-doyle",
+  "nickname": "아서 코난 도일",
+  "headline": "셜록 홈즈를 만든 작가",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "russell-kirk",
+  "nickname": "러셀 커크",
+  "headline": "버크의 전통을 미국 보수주의로 되살린 정치철학자",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "ethan-hawke",
+  "nickname": "에단 호크",
+  "headline": "「비포」 3부작에서 18년을 함께 늙어간 배우",
+  "profession": "actor",
+  "books": 6
+ },
+ {
+  "slug": "leonhard-euler",
+  "nickname": "레온하르트 오일러",
+  "headline": "e와 파이와 i를 한 식에 묶은 수학자",
+  "profession": "scientist",
+  "books": 6
+ },
+ {
+  "slug": "bernard-arnault",
+  "nickname": "베르나르 아르노",
+  "headline": "세계 최대 명품 그룹 LVMH 회장",
+  "profession": "entrepreneur",
+  "books": 6
+ },
+ {
+  "slug": "otto-von-bismarck",
+  "nickname": "오토 폰 비스마르크",
+  "headline": "세 차례 전쟁으로 독일 제국을 세운 프로이센 재상",
+  "profession": "politician",
+  "books": 6
+ },
+ {
+  "slug": "rainer-maria-rilke",
+  "nickname": "라이너 마리아 릴케",
+  "headline": "「두이노의 비가」를 남긴 시인",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "wang-fuzhi",
+  "nickname": "왕부지",
+  "headline": "명나라가 망한 뒤에도 청을 섬기지 않은 유학자",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "dalai-lama",
+  "nickname": "달라이 라마 14세",
+  "headline": "비폭력으로 노벨평화상을 받은 티베트 지도자",
+  "profession": "leader",
+  "books": 6
+ },
+ {
+  "slug": "sima-yi",
+  "nickname": "사마의",
+  "headline": "제갈량을 막고 사마씨 왕조의 길을 연 지휘관",
+  "profession": "politician",
+  "books": 6
+ },
+ {
+  "slug": "xin-qiji",
+  "nickname": "신기질",
+  "headline": "칼을 들고 금나라에 맞선 남송의 시인",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "yongzheng-emperor",
+  "nickname": "옹정제",
+  "headline": "군기처와 비밀 보고로 청나라 행정을 직접 지휘한 황제",
+  "profession": "politician",
+  "books": 6
+ },
+ {
+  "slug": "octavio-paz",
+  "nickname": "옥타비오 파스",
+  "headline": "멕시코인의 고독에서 한 나라의 정체성을 읽은 시인",
+  "profession": "author",
+  "books": 6
+ },
+ {
+  "slug": "zhang-zai",
+  "nickname": "장재",
+  "headline": "횡거사구로 사대부의 사명을 선언한 유학자",
+  "profession": "humanities_scholar",
+  "books": 6
+ },
+ {
+  "slug": "cheng-yi",
+  "nickname": "정이",
+  "headline": "「주역」을 도덕 원리로 읽은 북송 성리학자",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "olga-tokarczuk",
+  "nickname": "올가 토카르추크",
+  "headline": "2018년 노벨문학상을 받은 폴란드 소설가",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "mark-rothko",
+  "nickname": "마크 로스코",
+  "headline": "거대한 색 사각형으로 비극과 황홀을 그린 화가",
+  "profession": "visual_artist",
+  "books": 5
+ },
+ {
+  "slug": "alan-rickman",
+  "nickname": "앨런 릭먼",
+  "headline": "다이하드 악당에서 스네이프로",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "amber-heard",
+  "nickname": "엠버 허드",
+  "headline": "《아쿠아맨》의 전사 여왕 메라",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "howard-schultz",
+  "nickname": "하워드 슐츠",
+  "headline": "밀라노 커피바 문화를 스타벅스에 들여온 기업가",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "shin-chae-ho",
+  "nickname": "신채호",
+  "headline": "의열단의 「조선혁명선언」을 쓴 역사학자",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "luo-guanzhong",
+  "nickname": "나관중",
+  "headline": "「삼국지연의」 저자로 전해지는 소설가",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "hwang-hui",
+  "nickname": "황희",
+  "headline": "세종의 국정을 18년 총괄한 영의정",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "james-mattis",
+  "nickname": "제임스 매티스",
+  "headline": "바그다드 진격을 지휘한 해병대 사단장",
+  "profession": "commander",
+  "books": 5
+ },
+ {
+  "slug": "kanye-west",
+  "nickname": "칸예 웨스트",
+  "headline": "「808s」에서 오토튠으로 상처를 노래한 래퍼",
+  "profession": "musician",
+  "books": 5
+ },
+ {
+  "slug": "ahn-hyo-seop",
+  "nickname": "안효섭",
+  "headline": "《케이팝 데몬 헌터스》 진우의 영어판 성우",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "andrei-tarkovsky",
+  "nickname": "안드레이 타르콥스키",
+  "headline": "스토커와 솔라리스를 만든 소련 감독",
+  "profession": "director",
+  "books": 5
+ },
+ {
+  "slug": "james-cameron",
+  "nickname": "제임스 카메론",
+  "headline": "20억 달러 흥행작 세 편을 연출한 감독",
+  "profession": "director",
+  "books": 5
+ },
+ {
+  "slug": "hulk-hogan",
+  "nickname": "헐크 호건",
+  "headline": "헐크매니아로 프로레슬링 붐을 일으킨 주역",
+  "profession": "athlete",
+  "books": 5
+ },
+ {
+  "slug": "giuseppe-verdi",
+  "nickname": "주세페 베르디",
+  "headline": "당대 파리를 그린 〈라 트라비아타〉 작곡가",
+  "profession": "musician",
+  "books": 5
+ },
+ {
+  "slug": "cliff-asness",
+  "nickname": "클리프 애스니스",
+  "headline": "가치와 모멘텀을 결합한 퀀트 투자자",
+  "profession": "investor",
+  "books": 5
+ },
+ {
+  "slug": "nero",
+  "nickname": "네로",
+  "headline": "로마 대화재 뒤 그리스도인을 희생양 삼은 황제",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "isang-yun",
+  "nickname": "윤이상",
+  "headline": "뮌헨 올림픽 문화무대에 오페라 《심청》을 올린 작곡가",
+  "profession": "musician",
+  "books": 5
+ },
+ {
+  "slug": "florence-pugh",
+  "nickname": "플로렌스 퓨",
+  "headline": "작은 아씨들의 에이미를 다시 보게 한 배우",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "jeff-dean",
+  "nickname": "제프 딘",
+  "headline": "MapReduce를 공동설계한 구글 과학자",
+  "profession": "scientist",
+  "books": 5
+ },
+ {
+  "slug": "heinrich-himmler",
+  "nickname": "하인리히 힘러",
+  "headline": "홀로코스트의 설계와 집행을 총괄한 SS 총수",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "van-morrison",
+  "nickname": "밴 모리슨",
+  "headline": "록과 소울을 넘나든 「문댄스」의 가수",
+  "profession": "musician",
+  "books": 5
+ },
+ {
+  "slug": "felix-mendelssohn",
+  "nickname": "펠릭스 멘델스존",
+  "headline": "「마태수난곡」으로 바흐 부흥을 이끈 작곡가",
+  "profession": "musician",
+  "books": 5
+ },
+ {
+  "slug": "owen-wilson",
+  "nickname": "오언 윌슨",
+  "headline": "웨스 앤더슨과 '로열 테넌바움'을 함께 쓴 배우",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "takafumi-horie",
+  "nickname": "호리에 다카후미",
+  "headline": "후지TV를 정면으로 겨냥한 IT 승부사",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "dmitri-dolgov",
+  "nickname": "드미트리 돌고프",
+  "headline": "구글 자율주행차 프로젝트의 창립 엔지니어",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "tao-yuanming",
+  "nickname": "도연명",
+  "headline": "쌀 다섯 말에 허리 굽히지 않은 시인",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "jennifer-connelly",
+  "nickname": "제니퍼 코넬리",
+  "headline": "「뷰티풀 마인드」로 아카데미 여우조연상을 받은 배우",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "emmanuel-macron",
+  "nickname": "에마뉘엘 마크롱",
+  "headline": "39세에 당선된 프랑스 최연소 대통령",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "dai-vernon",
+  "nickname": "다이 버논",
+  "headline": "후디니를 속인 카드 마술의 교수",
+  "profession": "influencer",
+  "books": 5
+ },
+ {
+  "slug": "joaquin-phoenix",
+  "nickname": "호아킨 피닉스",
+  "headline": "조커로 아카데미 남우주연상을 받은 배우",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "stuart-russell",
+  "nickname": "스튜어트 러셀",
+  "headline": "기계에 확신보다 질문을 가르친 학자",
+  "profession": "scientist",
+  "books": 5
+ },
+ {
+  "slug": "daniel-gross",
+  "nickname": "다니엘 그로스",
+  "headline": "일리야와 SSI를 공동창업한 NFDG 파트너",
+  "profession": "investor",
+  "books": 5
+ },
+ {
+  "slug": "alexander-pushkin",
+  "nickname": "알렉산드르 푸시킨",
+  "headline": "러시아 근대 문학어를 세운 시인",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "rembrandt-van-rijn",
+  "nickname": "렘브란트 판 레인",
+  "headline": "빛과 어둠으로 인간을 그린 화가",
+  "profession": "visual_artist",
+  "books": 5
+ },
+ {
+  "slug": "nicolaus-copernicus",
+  "nickname": "니콜라우스 코페르니쿠스",
+  "headline": "지구 대신 태양을 중심에 놓아 우주관을 바꾼 천문학자",
+  "profession": "scientist",
+  "books": 5
+ },
+ {
+  "slug": "lu-hsun",
+  "nickname": "노신",
+  "headline": "「광인일기」로 현대 중국문학을 연 작가",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "julia-child",
+  "nickname": "줄리아 차일드",
+  "headline": "프랑스 요리를 미국 가정의 식탁에 올린 요리사",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "zhou-dunyi",
+  "nickname": "주돈이",
+  "headline": "태극도 한 장으로 성리학의 밑그림을 그린 철학자",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "lorenzo-de-medici",
+  "nickname": "로렌초 데 메디치",
+  "headline": "미켈란젤로를 집에 들인 피렌체의 통치자",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "michael-stevens",
+  "nickname": "마이클 스티븐스",
+  "headline": "엉뚱한 질문을 파고드는 「브이소스」 창작자",
+  "profession": "influencer",
+  "books": 5
+ },
+ {
+  "slug": "ayn-rand",
+  "nickname": "아인 랜드",
+  "headline": "객관주의를 세운 소설가",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "zhuge-liang",
+  "nickname": "제갈량",
+  "headline": "천하삼분지계를 세우고 촉한을 떠받친 승상",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "friedrich-hayek",
+  "nickname": "프리드리히 하이에크",
+  "headline": "계획경제를 노예의 길이라 부른 경제학자",
+  "profession": "social_scientist",
+  "books": 5
+ },
+ {
+  "slug": "chris-pine",
+  "nickname": "크리스 파인",
+  "headline": "스타트렉 리부트의 제임스 커크",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "clive-owen",
+  "nickname": "클라이브 오웬",
+  "headline": "클로저로 골든글로브를 받은 영국 배우",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "cameron-winklevoss",
+  "nickname": "카메론 윙클보스",
+  "headline": "페이스북 소송 뒤 제미니를 세운 쌍둥이",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "zhang-hong",
+  "nickname": "장굉",
+  "headline": "손권에게 수도를 지금의 난징으로 옮기라고 권한 참모",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "judea-pearl",
+  "nickname": "유다 펄",
+  "headline": "인과를 계산하게 만든 컴퓨터과학자",
+  "profession": "scientist",
+  "books": 5
+ },
+ {
+  "slug": "aravind-srinivas",
+  "nickname": "아라빈드 스리니바스",
+  "headline": "링크 대신 답을 내는 퍼플렉시티의 수장",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "alexandr-wang",
+  "nickname": "알렉산더 왕",
+  "headline": "메타 초지능 연구소를 이끄는 스케일 AI 공동창업자",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "cheng-hao",
+  "nickname": "정호",
+  "headline": "만물을 한몸으로 본 북송 성리학자",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "john-mccarthy",
+  "nickname": "존 매카시",
+  "headline": "인공지능이라는 이름을 붙인 과학자",
+  "profession": "scientist",
+  "books": 5
+ },
+ {
+  "slug": "jared-kushner",
+  "nickname": "재러드 쿠슈너",
+  "headline": "아브라함 협정 타결에 앞장선 백악관 선임고문",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "hwang-sok-yong",
+  "nickname": "황석영",
+  "headline": "의적 장길산을 되살린 소설가",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "edwin-hubble",
+  "nickname": "에드윈 허블",
+  "headline": "안드로메다가 은하수 밖의 은하임을 입증한 천문학자",
+  "profession": "scientist",
+  "books": 5
+ },
+ {
+  "slug": "ricky-jay",
+  "nickname": "리키 제이",
+  "headline": "카드 52장을 조수로 둔 마술사",
+  "profession": "influencer",
+  "books": 5
+ },
+ {
+  "slug": "jamie-oliver",
+  "nickname": "제이미 올리버",
+  "headline": "영국 학교 급식 개혁을 촉발한 TV 셰프",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "james-franco",
+  "nickname": "제임스 프랭코",
+  "headline": "「디재스터 아티스트」로 괴작의 주인을 되살린 감독",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "yan-yuan",
+  "nickname": "안원",
+  "headline": "책상 공부보다 몸으로 익히는 배움을 택한 유학자",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "igor-babuschkin",
+  "nickname": "이고르 바부슈킨",
+  "headline": "알파스타의 그랜드마스터 등극을 이끈 엔지니어",
+  "profession": "scientist",
+  "books": 5
+ },
+ {
+  "slug": "benito-mussolini",
+  "nickname": "베니토 무솔리니",
+  "headline": "최초의 파시스트 일당 독재를 세운 이탈리아 독재자",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "johnny-cash",
+  "nickname": "조니 캐시",
+  "headline": "폴섬 교도소 라이브로 부활한 맨 인 블랙",
+  "profession": "musician",
+  "books": 5
+ },
+ {
+  "slug": "virginia-woolf",
+  "nickname": "버지니아 울프",
+  "headline": "댈러웨이의 하루로 시대를 해부한 작가",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "im-kwon-taek",
+  "nickname": "임권택",
+  "headline": "「서편제」로 판소리 열풍을 일으킨 감독",
+  "profession": "director",
+  "books": 5
+ },
+ {
+  "slug": "bai-juyi",
+  "nickname": "백거이",
+  "headline": "장한가에 현종과 양귀비를 노래한 시인",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "john-maynard-keynes",
+  "nickname": "존 메이너드 케인스",
+  "headline": "총수요로 불황과 실업을 설명한 경제학자",
+  "profession": "social_scientist",
+  "books": 5
+ },
+ {
+  "slug": "sam-harris",
+  "nickname": "샘 해리스",
+  "headline": "「신앙의 종말」로 신무신론을 대표한 철학자",
+  "profession": "scientist",
+  "books": 5
+ },
+ {
+  "slug": "maximilien-robespierre",
+  "nickname": "막시밀리앙 드 로베스피에르",
+  "headline": "공포정치를 주도하다 단두대에 오른 혁명가",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "cao-pi",
+  "nickname": "조비",
+  "headline": "문학을 나라의 대업이라 선언한 황제",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "emperor-yang-of-sui",
+  "nickname": "수 양제",
+  "headline": "대운하 확장을 밀어붙인 수나라 황제",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "jean-paul-sartre",
+  "nickname": "장 폴 사르트르",
+  "headline": "노벨문학상을 거부한 실존주의 철학자",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "ali-ghodsi",
+  "nickname": "알리 고드시",
+  "headline": "아파치 스파크를 공동 개발한 데이터브릭스 CEO",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "wright-brothers",
+  "nickname": "라이트 형제",
+  "headline": "비행보다 조종 문제를 먼저 푼 자전거 기술자 형제",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "empress-elisabeth",
+  "nickname": "시시 황후",
+  "headline": "헝가리 왕비로 대관된 오스트리아 황후",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "isadora-duncan",
+  "nickname": "이사도라 덩컨",
+  "headline": "맨발로 현대무용을 개척한 무용가",
+  "profession": "influencer",
+  "books": 5
+ },
+ {
+  "slug": "franz-schubert",
+  "nickname": "프란츠 슈베르트",
+  "headline": "서른한 살에 리트 600여 곡을 남긴 작곡가",
+  "profession": "musician",
+  "books": 5
+ },
+ {
+  "slug": "meng-haoran",
+  "nickname": "맹호연",
+  "headline": "춘효를 남긴 당나라 산수 시인",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "david-hockney",
+  "nickname": "데이비드 호크니",
+  "headline": "캘리포니아 수영장을 그린 영국 화가",
+  "profession": "visual_artist",
+  "books": 5
+ },
+ {
+  "slug": "edward-snowden",
+  "nickname": "에드워드 스노든",
+  "headline": "NSA 대량감시를 폭로한 내부고발자",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "socrates",
+  "nickname": "소크라테스",
+  "headline": "질문과 대화로 삶과 덕을 탐구한 고대 아테네의 철학자",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "tony-robbins",
+  "nickname": "토니 로빈스",
+  "headline": "불 위를 걷게 한 동기부여 강사",
+  "profession": "influencer",
+  "books": 5
+ },
+ {
+  "slug": "john-jay",
+  "nickname": "존 제이",
+  "headline": "영국과의 전쟁을 막으러 간 미국 초대 대법원장",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "jean-jacques-rousseau",
+  "nickname": "장 자크 루소",
+  "headline": "자유롭게 태어난 인간이 사슬에 묶였다고 쓴 철학자",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "roger-bacon",
+  "nickname": "로저 베이컨",
+  "headline": "실험을 학문의 방법으로 세운 중세 수도사",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "jonathan-haidt",
+  "nickname": "조너선 하이트",
+  "headline": "도덕 판단은 직관이 먼저라 본 사회심리학자",
+  "profession": "social_scientist",
+  "books": 5
+ },
+ {
+  "slug": "benjamin-franklin",
+  "nickname": "벤자민 프랭클린",
+  "headline": "번개를 땅으로 이끈 피뢰침 발명가",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "hieronymus",
+  "nickname": "히에로니무스",
+  "headline": "히브리어 구약을 라틴어로 옮긴 교부",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "salvador-dali",
+  "nickname": "살바도르 달리",
+  "headline": "녹아내리는 시계로 초현실주의를 각인한 화가",
+  "profession": "visual_artist",
+  "books": 5
+ },
+ {
+  "slug": "alfred-hitchcock",
+  "nickname": "알프레드 히치콕",
+  "headline": "관객에게 먼저 폭탄을 보여준 서스펜스 설계자",
+  "profession": "director",
+  "books": 5
+ },
+ {
+  "slug": "malcolm-x",
+  "nickname": "말콤 엑스",
+  "headline": "흑인의 자유를 어떤 수단으로든 요구한 인권운동가",
+  "profession": "leader",
+  "books": 5
+ },
+ {
+  "slug": "li-zhi",
+  "nickname": "이탁오",
+  "headline": "「분서」를 내고 옥사한 명나라 사상가",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "stephen-curry",
+  "nickname": "스테판 커리",
+  "headline": "3점슛으로 농구의 표준을 바꾼 워리어스 슈터",
+  "profession": "athlete",
+  "books": 5
+ },
+ {
+  "slug": "clarice-lispector",
+  "nickname": "클라리시 리스펙토르",
+  "headline": "「G.H.에 따른 수난」의 저자",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "peter-lynch",
+  "nickname": "피터 린치",
+  "headline": "일상에서 투자 기회를 찾은 마젤란펀드의 전설",
+  "profession": "investor",
+  "books": 5
+ },
+ {
+  "slug": "tom-anderson",
+  "nickname": "톰 앤더슨",
+  "headline": "모든 가입자의 첫 친구였던 마이스페이스 공동창업자",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "ryuichi-sakamoto",
+  "nickname": "사카모토 류이치",
+  "headline": "마지막 황제의 운명을 음악으로 쓴 작곡가",
+  "profession": "musician",
+  "books": 5
+ },
+ {
+  "slug": "wang-wei",
+  "nickname": "왕유",
+  "headline": "시 속에 그림이 있는 당의 시불",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "lee-o-young",
+  "nickname": "이어령",
+  "headline": "「축소지향의 일본인」을 쓴 문화비평가",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "ralph-fiennes",
+  "nickname": "레이프 파인스",
+  "headline": "볼드모트에게 얼굴을 준 배우",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "ben-mann",
+  "nickname": "벤 맨",
+  "headline": "GPT-3를 함께 만든 앤트로픽 공동창업자",
+  "profession": "entrepreneur",
+  "books": 5
+ },
+ {
+  "slug": "paul-valery",
+  "nickname": "폴 발레리",
+  "headline": "20년간 시를 끊고 매일 새벽 노트를 쓴 시인",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "ingmar-bergman",
+  "nickname": "잉마르 베리만",
+  "headline": "죽음과의 체스 대국을 연출한 영화감독",
+  "profession": "director",
+  "books": 5
+ },
+ {
+  "slug": "hwang-hyun-san",
+  "nickname": "황현산",
+  "headline": "「밤이 선생이다」를 쓴 문학평론가",
+  "profession": "humanities_scholar",
+  "books": 5
+ },
+ {
+  "slug": "kim-chun-su",
+  "nickname": "김춘수",
+  "headline": "이름을 부르면 꽃이 되는 「꽃」의 시인",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "che-guevara",
+  "nickname": "체 게바라",
+  "headline": "쿠바 혁명군의 아르헨티나 출신 사령관",
+  "profession": "politician",
+  "books": 5
+ },
+ {
+  "slug": "victor-wembanyama",
+  "nickname": "빅터 웸반야마",
+  "headline": "가드와 센터를 겸한 222cm의 외계인",
+  "profession": "athlete",
+  "books": 5
+ },
+ {
+  "slug": "sting",
+  "nickname": "스팅",
+  "headline": "폴리스에서 「잉글리시맨」까지 이어진 목소리",
+  "profession": "musician",
+  "books": 5
+ },
+ {
+  "slug": "shohei-ohtani",
+  "nickname": "오타니 쇼헤이",
+  "headline": "타석에서는 홈런, 마운드에서는 삼진",
+  "profession": "athlete",
+  "books": 5
+ },
+ {
+  "slug": "stanley-kubrick",
+  "nickname": "스탠리 큐브릭",
+  "headline": "SF·공포·전쟁 모두에서 걸작을 남긴 감독",
+  "profession": "director",
+  "books": 5
+ },
+ {
+  "slug": "mark-twain",
+  "nickname": "마크 트웨인",
+  "headline": "미시시피강의 경험으로 톰 소여와 허클베리 핀을 쓴 작가",
+  "profession": "author",
+  "books": 5
+ },
+ {
+  "slug": "robert-downey-jr.",
+  "nickname": "로버트 다우니 주니어",
+  "headline": "아이언맨으로 재기해 오펜하이머로 오스카를 거머쥔 배우",
+  "profession": "actor",
+  "books": 5
+ },
+ {
+  "slug": "wachowski-sisters",
+  "nickname": "워쇼스키 자매",
+  "headline": "빨간 약을 건넨 영화감독 자매",
+  "profession": "director",
+  "books": 5
+ },
+ {
+  "slug": "diane-arbus",
+  "nickname": "다이앤 아버스",
+  "headline": "피사체와 정면으로 마주한 뉴욕 초상사진가",
+  "profession": "visual_artist",
+  "books": 5
+ }
+]

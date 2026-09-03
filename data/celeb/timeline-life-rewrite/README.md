@@ -14,6 +14,6 @@
 국문 중간 개선은 제목·서술만 바꾸고 연도·종류·영문·장소·좌표는 보존했다. 이 반영 이력은 사실
 감사 완료를 뜻하지 않으며, 현재 라이브 DB 값이 다음 작업의 seed다.
 
-현행 실행은 `docs/project/celeb/celeb-timeline-agent-relay.md`를 따른다. 현재 DB 또는 DB 지문이 같은
+현행 실행은 `docs/project/celeb/celeb-06-02-timeline-real-relay.md`를 따른다. 현재 DB 또는 DB 지문이 같은
 최신 미반영 산출물을 후보로 잡고, 문제 index만 수정·교체하며 생애 공백만 추가한다. 이 폴더의 과거
 JSON을 전체 재작성 지시나 완료 집계로 사용하지 않는다.

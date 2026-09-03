@@ -1,0 +1,733 @@
+{
+  "curator": {
+    "slug": "bokklubben",
+    "name": "노르웨이 북클럽",
+    "name_en": "Norwegian Book Clubs (De norske Bokklubbene)",
+    "kind": "organization",
+    "country": "NO",
+    "founded_year": 1961,
+    "homepage_url": "https://bokklubben.no",
+    "description": "1961년 노르웨이 출판사 길덴달·아스케하우그·티덴·카펠렌이 함께 세운 우편 주문 독서회다. 회원에게 책을 정기적으로 보내는 방식으로 운영하며 현재 지분은 길덴달과 아스케하우그가 각각 48.5%, 팍스 출판사가 3%를 갖고 있다. 2002년 세계 작가 100명의 투표로 「세계문학 100선」을 발표하고 같은 이름의 총서를 냈다.",
+    "description_en": "A Norwegian mail-order book club founded in 1961 by the publishers Gyldendal, Aschehoug, Tiden and Cappelen. It sends books to subscribing members and is now owned by Gyldendal and Aschehoug (48.5% each) with Pax forlag holding 3%. In 2002 it polled 100 writers worldwide to name the 100 best books of all time and published the results as the Bokklubben World Library series."
+  },
+  "list": {
+    "slug": "bokklubben-world-library-100",
+    "title": "세계문학 100선",
+    "title_en": "Bokklubben World Library (The 100 Best Books of All Time)",
+    "description": "노르웨이 북클럽이 2002년 5월 발표한 세계문학 100선이다. 54개국 작가 100명에게 「세계 문화사에 가장 결정적인 영향을 남기고 자신의 생각에도 자취를 남긴 책 열 권」을 꼽게 해 모은 결과이며, 노르웨이어로는 「베르덴스비블리오테케트(세계도서관)」라 부르는 총서로도 나왔다. 순위는 매기지 않았고 100권을 모두 같은 자리에 두되, 세르반테스의 『돈키호테』만 최다 득표작으로서 「역사상 가장 위대한 문학 작품」이라는 별도의 지위를 받았다. 소설뿐 아니라 서사시·희곡·시집·수필이 함께 올랐고 고대 메소포타미아부터 20세기 후반까지를 아우른다.",
+    "description_en": "A list of the 100 best books of all time announced by the Norwegian Book Clubs in May 2002. One hundred writers from fifty-four countries were each asked to name the ten books that had most decisively shaped world culture and their own thinking. The results were also issued as a book series, the Bokklubben World Library (Verdensbiblioteket). The titles are unranked and presented as equals, with one exception: Cervantes's Don Quixote drew the most votes and was singled out as the best literary work ever written. Alongside novels the list carries epics, plays, poetry and essays, spanning ancient Mesopotamia to the late twentieth century.",
+    "published_year": 2002,
+    "edition": null,
+    "series_key": null,
+    "method": "54개국 작가 100명이 각자 열 권씩 골라 제출했고, 북클럽이 그 표를 모아 100권을 추렸다. 응답한 작가는 남성 69명·여성 31명이며 영어를 모어로 쓰는 작가가 26명이었다. 순위를 발표하지 않았고 목록은 저자 이름순으로 정리된다. 다만 『돈키호테』는 최다 득표작으로 별도 표기를 받았다.",
+    "method_en": "One hundred writers from fifty-four countries each submitted ten titles, and the book club compiled the votes into a list of one hundred. The respondents were 69 men and 31 women, and 26 of them wrote in English as a first language. No ranking was published and the list is ordered by author name, with the single exception of Don Quixote, which was marked out as the most-voted title.",
+    "source_url": "https://www.theguardian.com/world/2002/may/08/books.booksnews",
+    "cover_image_url": null,
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": []
+  },
+  "items": [
+    {
+      "raw_title": "Things Fall Apart",
+      "raw_creator": "Chinua Achebe",
+      "rank": null,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "Fairy Tales",
+      "raw_creator": "Hans Christian Andersen",
+      "rank": null,
+      "year": 1835,
+      "note": "원제: Eventyr, fortalte for Børn (덴마크어) / 1835~1837년 연작"
+    },
+    {
+      "raw_title": "The Divine Comedy",
+      "raw_creator": "Dante Alighieri",
+      "rank": null,
+      "year": 1321,
+      "note": "원제: Divina Commedia (이탈리아어) / 1308~1321년 집필"
+    },
+    {
+      "raw_title": "The Epic of Gilgamesh",
+      "raw_creator": "작자 미상",
+      "rank": null,
+      "year": null,
+      "note": "아카드어 점토판 서사시. 기원전 18~17세기"
+    },
+    {
+      "raw_title": "The Book of Job",
+      "raw_creator": "작자 미상",
+      "rank": null,
+      "year": null,
+      "note": "히브리어 성서의 「욥기」. 기원전 7~4세기"
+    },
+    {
+      "raw_title": "One Thousand and One Nights",
+      "raw_creator": "작자 미상",
+      "rank": null,
+      "year": null,
+      "note": "원제: ألف ليلة وليلة (아랍어) / 700~1500년에 걸쳐 형성"
+    },
+    {
+      "raw_title": "Njál's Saga",
+      "raw_creator": "작자 미상",
+      "rank": null,
+      "year": null,
+      "note": "원제: Brennu-Njáls saga (고대 노르드어) / 13세기 아이슬란드"
+    },
+    {
+      "raw_title": "Pride and Prejudice",
+      "raw_creator": "Jane Austen",
+      "rank": null,
+      "year": 1813,
+      "note": null
+    },
+    {
+      "raw_title": "Père Goriot",
+      "raw_creator": "Honoré de Balzac",
+      "rank": null,
+      "year": 1835,
+      "note": "원제: Le Père Goriot (프랑스어) / 가디언 표기: Old Goriot"
+    },
+    {
+      "raw_title": "Trilogy: Molloy, Malone Dies, The Unnamable",
+      "raw_creator": "Samuel Beckett",
+      "rank": null,
+      "year": 1951,
+      "note": "원제: Molloy, Malone meurt, L'Innommable (프랑스어) / 1951~1953년"
+    },
+    {
+      "raw_title": "The Decameron",
+      "raw_creator": "Giovanni Boccaccio",
+      "rank": null,
+      "year": 1353,
+      "note": "원제: Decameron (이탈리아어) / 1349~1353년"
+    },
+    {
+      "raw_title": "Ficciones",
+      "raw_creator": "Jorge Luis Borges",
+      "rank": null,
+      "year": 1944,
+      "note": "원제: Ficciones (스페인어) / 가디언 표기: Collected Fictions"
+    },
+    {
+      "raw_title": "Wuthering Heights",
+      "raw_creator": "Emily Brontë",
+      "rank": null,
+      "year": 1847,
+      "note": null
+    },
+    {
+      "raw_title": "The Stranger",
+      "raw_creator": "Albert Camus",
+      "rank": null,
+      "year": 1942,
+      "note": "원제: L'Étranger (프랑스어)"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Paul Celan",
+      "rank": null,
+      "year": 1952,
+      "note": "독일어 시선집"
+    },
+    {
+      "raw_title": "Journey to the End of the Night",
+      "raw_creator": "Louis-Ferdinand Céline",
+      "rank": null,
+      "year": 1932,
+      "note": "원제: Voyage au bout de la nuit (프랑스어)"
+    },
+    {
+      "raw_title": "Don Quixote",
+      "raw_creator": "Miguel de Cervantes",
+      "rank": null,
+      "year": 1605,
+      "note": "원제: El ingenioso hidalgo don Quijote de la Mancha (스페인어) / 1부 1605년, 2부 1615년. 이 목록에서 유일하게 순위가 매겨진 책으로, 작가 100명의 투표에서 최다 득표해 「역사상 가장 위대한 문학 작품」으로 선정됐다"
+    },
+    {
+      "raw_title": "The Canterbury Tales",
+      "raw_creator": "Geoffrey Chaucer",
+      "rank": null,
+      "year": 1400,
+      "note": "1380년대~1400년 집필"
+    },
+    {
+      "raw_title": "Stories",
+      "raw_creator": "Anton Chekhov",
+      "rank": null,
+      "year": 1886,
+      "note": "러시아어 단편선 / 가디언 표기: Selected Stories"
+    },
+    {
+      "raw_title": "Nostromo",
+      "raw_creator": "Joseph Conrad",
+      "rank": null,
+      "year": 1904,
+      "note": null
+    },
+    {
+      "raw_title": "Great Expectations",
+      "raw_creator": "Charles Dickens",
+      "rank": null,
+      "year": 1861,
+      "note": null
+    },
+    {
+      "raw_title": "Jacques the Fatalist",
+      "raw_creator": "Denis Diderot",
+      "rank": null,
+      "year": 1796,
+      "note": "원제: Jacques le fataliste et son maître (프랑스어)"
+    },
+    {
+      "raw_title": "Berlin Alexanderplatz",
+      "raw_creator": "Alfred Döblin",
+      "rank": null,
+      "year": 1929,
+      "note": "독일어"
+    },
+    {
+      "raw_title": "Crime and Punishment",
+      "raw_creator": "Fyodor Dostoevsky",
+      "rank": null,
+      "year": 1866,
+      "note": "원제: Преступление и наказание (러시아어)"
+    },
+    {
+      "raw_title": "The Idiot",
+      "raw_creator": "Fyodor Dostoevsky",
+      "rank": null,
+      "year": 1869,
+      "note": "원제: Идиот (러시아어)"
+    },
+    {
+      "raw_title": "Demons",
+      "raw_creator": "Fyodor Dostoevsky",
+      "rank": null,
+      "year": 1872,
+      "note": "원제: Бесы (러시아어) / 가디언 표기: The Possessed"
+    },
+    {
+      "raw_title": "The Brothers Karamazov",
+      "raw_creator": "Fyodor Dostoevsky",
+      "rank": null,
+      "year": 1880,
+      "note": "원제: Братья Карамазовы (러시아어)"
+    },
+    {
+      "raw_title": "Middlemarch",
+      "raw_creator": "George Eliot",
+      "rank": null,
+      "year": 1871,
+      "note": null
+    },
+    {
+      "raw_title": "Invisible Man",
+      "raw_creator": "Ralph Ellison",
+      "rank": null,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "Medea",
+      "raw_creator": "Euripides",
+      "rank": null,
+      "year": null,
+      "note": "원제: Μήδεια (고대 그리스어) / 기원전 431년"
+    },
+    {
+      "raw_title": "Absalom, Absalom!",
+      "raw_creator": "William Faulkner",
+      "rank": null,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "The Sound and the Fury",
+      "raw_creator": "William Faulkner",
+      "rank": null,
+      "year": 1929,
+      "note": null
+    },
+    {
+      "raw_title": "Madame Bovary",
+      "raw_creator": "Gustave Flaubert",
+      "rank": null,
+      "year": 1857,
+      "note": "프랑스어"
+    },
+    {
+      "raw_title": "Sentimental Education",
+      "raw_creator": "Gustave Flaubert",
+      "rank": null,
+      "year": 1869,
+      "note": "원제: L'Éducation sentimentale (프랑스어)"
+    },
+    {
+      "raw_title": "Gypsy Ballads",
+      "raw_creator": "Federico García Lorca",
+      "rank": null,
+      "year": 1928,
+      "note": "원제: Romancero gitano (스페인어)"
+    },
+    {
+      "raw_title": "One Hundred Years of Solitude",
+      "raw_creator": "Gabriel García Márquez",
+      "rank": null,
+      "year": 1967,
+      "note": "원제: Cien años de soledad (스페인어)"
+    },
+    {
+      "raw_title": "Love in the Time of Cholera",
+      "raw_creator": "Gabriel García Márquez",
+      "rank": null,
+      "year": 1985,
+      "note": "원제: El amor en los tiempos del cólera (스페인어)"
+    },
+    {
+      "raw_title": "Faust",
+      "raw_creator": "Johann Wolfgang von Goethe",
+      "rank": null,
+      "year": 1832,
+      "note": "독일어 / 1부 1808년, 2부 1832년"
+    },
+    {
+      "raw_title": "Dead Souls",
+      "raw_creator": "Nikolai Gogol",
+      "rank": null,
+      "year": 1842,
+      "note": "원제: Мёртвые души (러시아어)"
+    },
+    {
+      "raw_title": "The Tin Drum",
+      "raw_creator": "Günter Grass",
+      "rank": null,
+      "year": 1959,
+      "note": "원제: Die Blechtrommel (독일어)"
+    },
+    {
+      "raw_title": "The Devil to Pay in the Backlands",
+      "raw_creator": "João Guimarães Rosa",
+      "rank": null,
+      "year": 1956,
+      "note": "원제: Grande Sertão: Veredas (포르투갈어)"
+    },
+    {
+      "raw_title": "Hunger",
+      "raw_creator": "Knut Hamsun",
+      "rank": null,
+      "year": 1890,
+      "note": "원제: Sult (노르웨이어)"
+    },
+    {
+      "raw_title": "The Old Man and the Sea",
+      "raw_creator": "Ernest Hemingway",
+      "rank": null,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "The Iliad",
+      "raw_creator": "Homer",
+      "rank": null,
+      "year": null,
+      "note": "원제: Ἰλιάς (고대 그리스어) / 기원전 8세기"
+    },
+    {
+      "raw_title": "The Odyssey",
+      "raw_creator": "Homer",
+      "rank": null,
+      "year": null,
+      "note": "원제: Ὀδύσσεια (고대 그리스어) / 기원전 8세기"
+    },
+    {
+      "raw_title": "A Doll's House",
+      "raw_creator": "Henrik Ibsen",
+      "rank": null,
+      "year": 1879,
+      "note": "원제: Et dukkehjem (노르웨이어)"
+    },
+    {
+      "raw_title": "Ulysses",
+      "raw_creator": "James Joyce",
+      "rank": null,
+      "year": 1922,
+      "note": null
+    },
+    {
+      "raw_title": "Stories",
+      "raw_creator": "Franz Kafka",
+      "rank": null,
+      "year": 1924,
+      "note": "독일어 단편선 / 가디언 표기: The Complete Stories"
+    },
+    {
+      "raw_title": "The Trial",
+      "raw_creator": "Franz Kafka",
+      "rank": null,
+      "year": 1925,
+      "note": "원제: Der Process (독일어)"
+    },
+    {
+      "raw_title": "The Castle",
+      "raw_creator": "Franz Kafka",
+      "rank": null,
+      "year": 1926,
+      "note": "원제: Das Schloss (독일어)"
+    },
+    {
+      "raw_title": "Shakuntala",
+      "raw_creator": "Kālidāsa",
+      "rank": null,
+      "year": null,
+      "note": "원제: अभिज्ञानशाकुन्तलम् / Abhijñānaśākuntalam (산스크리트어) / 가디언 표기: The Recognition of Sakuntala"
+    },
+    {
+      "raw_title": "The Sound of the Mountain",
+      "raw_creator": "Yasunari Kawabata",
+      "rank": null,
+      "year": 1954,
+      "note": "원제: 山の音 (일본어)"
+    },
+    {
+      "raw_title": "Zorba the Greek",
+      "raw_creator": "Nikos Kazantzakis",
+      "rank": null,
+      "year": 1946,
+      "note": "원제: Βίος και Πολιτεία του Αλέξη Ζορμπά (그리스어)"
+    },
+    {
+      "raw_title": "Sons and Lovers",
+      "raw_creator": "D. H. Lawrence",
+      "rank": null,
+      "year": 1913,
+      "note": null
+    },
+    {
+      "raw_title": "Independent People",
+      "raw_creator": "Halldór Laxness",
+      "rank": null,
+      "year": 1934,
+      "note": "원제: Sjálfstætt fólk (아이슬란드어) / 1934~1935년"
+    },
+    {
+      "raw_title": "Complete Poems",
+      "raw_creator": "Giacomo Leopardi",
+      "rank": null,
+      "year": 1835,
+      "note": "원제: Canti (이탈리아어) / 1818~1835년"
+    },
+    {
+      "raw_title": "The Golden Notebook",
+      "raw_creator": "Doris Lessing",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "Pippi Longstocking",
+      "raw_creator": "Astrid Lindgren",
+      "rank": null,
+      "year": 1945,
+      "note": "원제: Pippi Långstrump (스웨덴어)"
+    },
+    {
+      "raw_title": "Diary of a Madman and Other Stories",
+      "raw_creator": "Lu Xun",
+      "rank": null,
+      "year": 1918,
+      "note": "원제: 狂人日記 (중국어)"
+    },
+    {
+      "raw_title": "Children of Gebelawi",
+      "raw_creator": "Naguib Mahfouz",
+      "rank": null,
+      "year": 1959,
+      "note": "원제: أولاد حارتنا / Awlad Haratina (아랍어)"
+    },
+    {
+      "raw_title": "Buddenbrooks",
+      "raw_creator": "Thomas Mann",
+      "rank": null,
+      "year": 1901,
+      "note": "독일어"
+    },
+    {
+      "raw_title": "The Magic Mountain",
+      "raw_creator": "Thomas Mann",
+      "rank": null,
+      "year": 1924,
+      "note": "원제: Der Zauberberg (독일어)"
+    },
+    {
+      "raw_title": "Moby-Dick",
+      "raw_creator": "Herman Melville",
+      "rank": null,
+      "year": 1851,
+      "note": null
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "Michel de Montaigne",
+      "rank": null,
+      "year": 1595,
+      "note": "원제: Essais (프랑스어)"
+    },
+    {
+      "raw_title": "History",
+      "raw_creator": "Elsa Morante",
+      "rank": null,
+      "year": 1974,
+      "note": "원제: La Storia (이탈리아어)"
+    },
+    {
+      "raw_title": "Beloved",
+      "raw_creator": "Toni Morrison",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "The Tale of Genji",
+      "raw_creator": "Murasaki Shikibu",
+      "rank": null,
+      "year": 1010,
+      "note": "원제: 源氏物語 (일본어) / 1000~1012년경"
+    },
+    {
+      "raw_title": "The Man Without Qualities",
+      "raw_creator": "Robert Musil",
+      "rank": null,
+      "year": 1930,
+      "note": "원제: Der Mann ohne Eigenschaften (독일어) / 1930~1932년"
+    },
+    {
+      "raw_title": "Lolita",
+      "raw_creator": "Vladimir Nabokov",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Nineteen Eighty-Four",
+      "raw_creator": "George Orwell",
+      "rank": null,
+      "year": 1949,
+      "note": "가디언 표기: 1984"
+    },
+    {
+      "raw_title": "Metamorphoses",
+      "raw_creator": "Ovid",
+      "rank": null,
+      "year": null,
+      "note": "원제: Metamorphoses (라틴어) / 서기 1세기"
+    },
+    {
+      "raw_title": "The Book of Disquiet",
+      "raw_creator": "Fernando Pessoa",
+      "rank": null,
+      "year": 1928,
+      "note": "원제: Livro do Desassossego (포르투갈어)"
+    },
+    {
+      "raw_title": "Tales",
+      "raw_creator": "Edgar Allan Poe",
+      "rank": null,
+      "year": 1849,
+      "note": "1832~1849년 단편 / 가디언 표기: The Complete Tales"
+    },
+    {
+      "raw_title": "In Search of Lost Time",
+      "raw_creator": "Marcel Proust",
+      "rank": null,
+      "year": 1913,
+      "note": "원제: À la recherche du temps perdu (프랑스어) / 1913~1927년 / 가디언 표기: Remembrance of Things Past"
+    },
+    {
+      "raw_title": "Gargantua and Pantagruel",
+      "raw_creator": "François Rabelais",
+      "rank": null,
+      "year": 1534,
+      "note": "원제: La vie de Gargantua et de Pantagruel (프랑스어) / 1532~1534년"
+    },
+    {
+      "raw_title": "Pedro Páramo",
+      "raw_creator": "Juan Rulfo",
+      "rank": null,
+      "year": 1955,
+      "note": "스페인어"
+    },
+    {
+      "raw_title": "Masnavi",
+      "raw_creator": "Rumi",
+      "rank": null,
+      "year": 1273,
+      "note": "원제: مثنوی معنوی (페르시아어) / 1258~1273년 / 가디언 표기: The Mathnawi"
+    },
+    {
+      "raw_title": "Midnight's Children",
+      "raw_creator": "Salman Rushdie",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Bostan",
+      "raw_creator": "Saadi",
+      "rank": null,
+      "year": 1257,
+      "note": "원제: بوستان (페르시아어) / 가디언 표기: The Orchard"
+    },
+    {
+      "raw_title": "Season of Migration to the North",
+      "raw_creator": "Tayeb Salih",
+      "rank": null,
+      "year": 1966,
+      "note": "원제: موسم الهجرة إلى الشمال (아랍어)"
+    },
+    {
+      "raw_title": "Blindness",
+      "raw_creator": "José Saramago",
+      "rank": null,
+      "year": 1995,
+      "note": "원제: Ensaio sobre a Cegueira (포르투갈어)"
+    },
+    {
+      "raw_title": "Hamlet",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": 1603,
+      "note": null
+    },
+    {
+      "raw_title": "King Lear",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": 1608,
+      "note": null
+    },
+    {
+      "raw_title": "Othello",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": 1609,
+      "note": null
+    },
+    {
+      "raw_title": "Oedipus the King",
+      "raw_creator": "Sophocles",
+      "rank": null,
+      "year": null,
+      "note": "원제: Οἰδίπους Τύραννος (고대 그리스어) / 기원전 430년경"
+    },
+    {
+      "raw_title": "The Red and the Black",
+      "raw_creator": "Stendhal",
+      "rank": null,
+      "year": 1830,
+      "note": "원제: Le Rouge et le Noir (프랑스어)"
+    },
+    {
+      "raw_title": "Tristram Shandy",
+      "raw_creator": "Laurence Sterne",
+      "rank": null,
+      "year": 1760,
+      "note": "가디언 표기: The Life and Opinions of Tristram Shandy"
+    },
+    {
+      "raw_title": "Confessions of Zeno",
+      "raw_creator": "Italo Svevo",
+      "rank": null,
+      "year": 1923,
+      "note": "원제: La coscienza di Zeno (이탈리아어)"
+    },
+    {
+      "raw_title": "Gulliver's Travels",
+      "raw_creator": "Jonathan Swift",
+      "rank": null,
+      "year": 1726,
+      "note": null
+    },
+    {
+      "raw_title": "War and Peace",
+      "raw_creator": "Leo Tolstoy",
+      "rank": null,
+      "year": 1869,
+      "note": "원제: Война и мир (러시아어) / 1865~1869년"
+    },
+    {
+      "raw_title": "Anna Karenina",
+      "raw_creator": "Leo Tolstoy",
+      "rank": null,
+      "year": 1877,
+      "note": "원제: Анна Каренина (러시아어)"
+    },
+    {
+      "raw_title": "The Death of Ivan Ilyich and Other Stories",
+      "raw_creator": "Leo Tolstoy",
+      "rank": null,
+      "year": 1886,
+      "note": "원제: Смерть Ивана Ильича (러시아어)"
+    },
+    {
+      "raw_title": "Adventures of Huckleberry Finn",
+      "raw_creator": "Mark Twain",
+      "rank": null,
+      "year": 1884,
+      "note": null
+    },
+    {
+      "raw_title": "The Ramayana",
+      "raw_creator": "Valmiki",
+      "rank": null,
+      "year": null,
+      "note": "원제: रामायण (산스크리트어) / 기원전 5~4세기"
+    },
+    {
+      "raw_title": "The Aeneid",
+      "raw_creator": "Virgil",
+      "rank": null,
+      "year": null,
+      "note": "원제: Aeneis (라틴어) / 기원전 29~19년"
+    },
+    {
+      "raw_title": "The Mahabharata",
+      "raw_creator": "Vyasa",
+      "rank": null,
+      "year": null,
+      "note": "원제: महाभारत (산스크리트어) / 기원전 9~5세기"
+    },
+    {
+      "raw_title": "Leaves of Grass",
+      "raw_creator": "Walt Whitman",
+      "rank": null,
+      "year": 1855,
+      "note": null
+    },
+    {
+      "raw_title": "Mrs Dalloway",
+      "raw_creator": "Virginia Woolf",
+      "rank": null,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "To the Lighthouse",
+      "raw_creator": "Virginia Woolf",
+      "rank": null,
+      "year": 1927,
+      "note": null
+    },
+    {
+      "raw_title": "Memoirs of Hadrian",
+      "raw_creator": "Marguerite Yourcenar",
+      "rank": null,
+      "year": 1951,
+      "note": "원제: Mémoires d'Hadrien (프랑스어)"
+    }
+  ]
+}

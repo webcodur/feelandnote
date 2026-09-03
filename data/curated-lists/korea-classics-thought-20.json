@@ -1,0 +1,175 @@
+{
+  "curator": {
+    "slug": "korea-university",
+    "name": "고려대학교",
+    "name_en": "Korea University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1905,
+    "homepage_url": "https://www.korea.ac.kr",
+    "description": "고려대학교는 1905년 보성전문학교로 문을 연 사립 종합대학이다. 서울 안암동 본교와 세종특별자치시의 세종캠퍼스를 함께 운영한다. 학부 교양교육을 뒷받침하는 독서 프로그램을 도서관과 학술정보원이 맡아 왔다.",
+    "description_en": "Korea University is a private comprehensive university founded in 1905 as Bosung College. It operates its main campus in Anam-dong, Seoul, alongside a second campus in Sejong. Its libraries and academic information centers have long run the reading programs that support undergraduate liberal education."
+  },
+  "list": {
+    "slug": "korea-classics-thought-20",
+    "title": "고려대 도서관 추천 고전 사상 20선",
+    "title_en": "Korea University Library 20 Classics of Thought",
+    "description": "고려대학교 도서관이 「도서관 추천 고전도서」 컬렉션으로 내놓은 사상 고전 20권이다. 플라톤 『국가』부터 로버트 피어시그 『선과 모터사이클 관리술』까지 동서양 사상서를 저자가 활동한 시대 순으로 늘어놓았다. 같은 컬렉션의 「고전 소설 30선」과 짝을 이룬다.",
+    "description_en": "Twenty classic works of thought presented by the Korea University Library in its “Library Recommended Classics” collection. It runs from Plato’s Republic to Robert Pirsig’s Zen and the Art of Motorcycle Maintenance, ordering Eastern and Western works by the era of their authors. It is paired with the collection’s “30 Classic Novels.”",
+    "published_year": null,
+    "edition": null,
+    "series_key": null,
+    "method": "도서관이 고전도서 컬렉션으로 20권을 골라 저자·서명과 함께 게시한다. 선정 연도와 심사 절차는 페이지에 적혀 있지 않다. 붙은 번호는 순위가 아니라 일련번호로, 플라톤·아리스토텔레스·공자·노자에서 시작해 20세기 저작으로 끝나는 시대 순 배열이다.",
+    "method_en": "The library selected twenty titles for its classics collection and posts them with author and title only. The page states neither a selection year nor a review procedure. The numbers are sequential rather than ranks: the sequence runs chronologically by author era, beginning with Plato, Aristotle, Confucius and Laozi and ending with twentieth-century works.",
+    "source_url": "https://library.korea.ac.kr/datause/collection/gaje/gojeon20/",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "philosophy",
+      "classics"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "국가",
+      "raw_creator": "플라톤",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 1"
+    },
+    {
+      "raw_title": "니코마코스 윤리학",
+      "raw_creator": "아리스토텔레스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 2"
+    },
+    {
+      "raw_title": "논어",
+      "raw_creator": "공자",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 3"
+    },
+    {
+      "raw_title": "도덕경",
+      "raw_creator": "노자",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 4"
+    },
+    {
+      "raw_title": "법구경",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 5 / 원문 저자 표기: 작자미상"
+    },
+    {
+      "raw_title": "인생에 관하여",
+      "raw_creator": "루키우스 세네카",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 6"
+    },
+    {
+      "raw_title": "고백록",
+      "raw_creator": "아우구스티누스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 7"
+    },
+    {
+      "raw_title": "수상록",
+      "raw_creator": "몽테뉴",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 8"
+    },
+    {
+      "raw_title": "팡세",
+      "raw_creator": "블레즈 파스칼",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 9"
+    },
+    {
+      "raw_title": "법의 정신",
+      "raw_creator": "몽테스키외",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 10"
+    },
+    {
+      "raw_title": "국부론",
+      "raw_creator": "애덤 스미스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 11"
+    },
+    {
+      "raw_title": "순수이성비판",
+      "raw_creator": "칸트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 12"
+    },
+    {
+      "raw_title": "목민심서",
+      "raw_creator": "정약용",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 13"
+    },
+    {
+      "raw_title": "종교적 경험의 다양성",
+      "raw_creator": "윌리엄 제임스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 14"
+    },
+    {
+      "raw_title": "창조적 진화",
+      "raw_creator": "앙리 베르그송",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 15"
+    },
+    {
+      "raw_title": "논리철학논고",
+      "raw_creator": "비트겐슈타인",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 16"
+    },
+    {
+      "raw_title": "원형과 무의식",
+      "raw_creator": "칼 융",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 17"
+    },
+    {
+      "raw_title": "맹신자들",
+      "raw_creator": "에릭 호퍼",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 18"
+    },
+    {
+      "raw_title": "과학 혁명의 구조",
+      "raw_creator": "토마스 쿤",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 19"
+    },
+    {
+      "raw_title": "선과 모터사이클 관리술",
+      "raw_creator": "로버트 피어시그",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 20"
+    }
+  ]
+}

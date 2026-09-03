@@ -1,0 +1,1442 @@
+{
+  "curator": {
+    "slug": "yonsei-university",
+    "name": "연세대학교",
+    "name_en": "Yonsei University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1885,
+    "homepage_url": "https://www.yonsei.ac.kr",
+    "description": "연세대학교는 1885년에 뿌리를 둔 대한민국의 사립 종합대학이다. 서울 신촌 캠퍼스를 중심으로 원주·국제 캠퍼스를 함께 운영한다. 중앙도서관은 전시 코너별 컬렉션을 두어 교양 독서를 위한 자료를 따로 모아 제공한다.",
+    "description_en": "Yonsei University is a private comprehensive university in Korea whose origins date to 1885. Centered on its Sinchon campus in Seoul, it also operates campuses in Wonju and Songdo. Its central library maintains curated shelf collections that gather material for general reading in one place."
+  },
+  "list": {
+    "slug": "yonsei-must-reads-200",
+    "title": "연세 필독도서 200선",
+    "title_en": "Yonsei Must Reads 200",
+    "description": "연세대학교 교수들로 짜인 연세필독도서 추천위원회가 고른 고전 200권이다. 계열과 전공을 가리지 않고 인간과 사회, 생활과 문학예술을 폭넓게 이해하며 상상력과 창의력을 기르는 데 도움이 될 책을 모았다. 중앙도서관 2층 인문자료실에 별도 코너로 두어 대출할 수 있게 했다.",
+    "description_en": "Two hundred classics selected by the Yonsei Must Reads Recommendation Committee, made up of professors from across the university. Chosen without regard to faculty or major, they are meant to give students a broad understanding of people and society, of daily life and of literature and the arts, and to nurture imagination and creativity. The books are shelved as a separate collection in the humanities reading room on the second floor of the central library and may be borrowed.",
+    "published_year": null,
+    "edition": null,
+    "method": "연세대 교수들로 구성된 연세필독도서 추천위원회가 선정했고 위원회가 엮은 『연세필독도서』를 연세대학교 대학출판문화원이 펴냈다. 문학작품 100권을 한국·중국·일본·영미·독일·러시아·프랑스·제3세계 문학과 서양고전 아홉 갈래로, 사상 이론서 100권을 역사지리·철학심리종교언어예술·사회과학·자연수학기술 네 갈래로 나눴다. 순위는 매기지 않았다.",
+    "method_en": "Selected by the Yonsei Must Reads Recommendation Committee, formed of Yonsei professors; the committee also edited a companion volume issued by the Yonsei University Press. The hundred literary works are divided into nine groups — Korean, Chinese, Japanese, Anglo-American, German, Russian, French and Third World literature plus Western classics — and the hundred works of thought and theory into four: history and geography; philosophy, psychology, religion, language and the arts; social science; and natural science, mathematics and technology. The list is not ranked.",
+    "source_url": "https://library.yonsei.ac.kr/digicol/list/9",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "파한집",
+      "raw_creator": "이인로",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "금오신화",
+      "raw_creator": "김시습",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "송강가사",
+      "raw_creator": "정철",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "홍길동전",
+      "raw_creator": "허균",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "구운몽",
+      "raw_creator": "김만중",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "열하일기",
+      "raw_creator": "박지원",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "춘향전",
+      "raw_creator": "작가미상",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "청구영언",
+      "raw_creator": "김천택",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "여한십가문초",
+      "raw_creator": "김택영",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "청구야담",
+      "raw_creator": "작가미상",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "서유견문",
+      "raw_creator": "유길준",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "무정",
+      "raw_creator": "이광수",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "삼대",
+      "raw_creator": "염상섭",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "임꺽정",
+      "raw_creator": "홍명희",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "고향",
+      "raw_creator": "이기영",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "천변풍경",
+      "raw_creator": "박태원",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "태평천하",
+      "raw_creator": "채만식",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "정지용 전집",
+      "raw_creator": "정지용",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "하늘과 바람과 별과 시",
+      "raw_creator": "윤동주",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "김수영 전집",
+      "raw_creator": "김수영",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 20"
+    },
+    {
+      "raw_title": "토지",
+      "raw_creator": "박경리",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 21"
+    },
+    {
+      "raw_title": "난쟁이가 쏘아올린 작은 공",
+      "raw_creator": "조세희",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 22"
+    },
+    {
+      "raw_title": "광장",
+      "raw_creator": "최인훈",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅰ. 한국문학 (23권) / 출처 목록 번호 23"
+    },
+    {
+      "raw_title": "중국신화전설",
+      "raw_creator": "위안커",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 24"
+    },
+    {
+      "raw_title": "시경",
+      "raw_creator": "작가미상",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 25"
+    },
+    {
+      "raw_title": "초사",
+      "raw_creator": "작가미상",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 26"
+    },
+    {
+      "raw_title": "삼국지연의",
+      "raw_creator": "나관중",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 27"
+    },
+    {
+      "raw_title": "수호전",
+      "raw_creator": "시내암",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 28"
+    },
+    {
+      "raw_title": "서유기",
+      "raw_creator": "오승은",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 29"
+    },
+    {
+      "raw_title": "금병매",
+      "raw_creator": "소소생",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 30"
+    },
+    {
+      "raw_title": "홍루몽",
+      "raw_creator": "조설근",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 31"
+    },
+    {
+      "raw_title": "이백 시집",
+      "raw_creator": "이백",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 32"
+    },
+    {
+      "raw_title": "두보 시집",
+      "raw_creator": "두보",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 33"
+    },
+    {
+      "raw_title": "라오찬 여행기",
+      "raw_creator": "유악",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 34"
+    },
+    {
+      "raw_title": "루쉰 소설집",
+      "raw_creator": "루쉰",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 35"
+    },
+    {
+      "raw_title": "칠흑같이 어두운 밤",
+      "raw_creator": "마오뚠",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 36"
+    },
+    {
+      "raw_title": "루어투어 시앙쯔",
+      "raw_creator": "라오서",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 37"
+    },
+    {
+      "raw_title": "사람아 아, 사람아",
+      "raw_creator": "다이호우잉",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅱ. 중국문학 (15권) / 출처 목록 번호 38"
+    },
+    {
+      "raw_title": "겐지이야기[源氏物語]",
+      "raw_creator": "무라사키 시키부",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅲ. 일본문학 (5권) / 출처 목록 번호 39"
+    },
+    {
+      "raw_title": "도련님",
+      "raw_creator": "나쓰메 소세키",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅲ. 일본문학 (5권) / 출처 목록 번호 40"
+    },
+    {
+      "raw_title": "산쇼다유",
+      "raw_creator": "모리 오가이",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅲ. 일본문학 (5권) / 출처 목록 번호 41"
+    },
+    {
+      "raw_title": "설국",
+      "raw_creator": "가와바타 야스나리",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅲ. 일본문학 (5권) / 출처 목록 번호 42"
+    },
+    {
+      "raw_title": "사육",
+      "raw_creator": "오에 겐자부로",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅲ. 일본문학 (5권) / 출처 목록 번호 43"
+    },
+    {
+      "raw_title": "캔터베리 이야기",
+      "raw_creator": "제프리 초서",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 44"
+    },
+    {
+      "raw_title": "4대 비극",
+      "raw_creator": "월리엄 셰익스피어",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 45"
+    },
+    {
+      "raw_title": "실락원",
+      "raw_creator": "존 밀튼",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 46"
+    },
+    {
+      "raw_title": "오만과 편견",
+      "raw_creator": "제인 오스틴",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 47"
+    },
+    {
+      "raw_title": "제인 에어",
+      "raw_creator": "샬롯 브론테",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 48"
+    },
+    {
+      "raw_title": "주홍글씨",
+      "raw_creator": "너새니얼 호손",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 49"
+    },
+    {
+      "raw_title": "모비딕",
+      "raw_creator": "허먼 멜빌",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 50"
+    },
+    {
+      "raw_title": "위대한 유산",
+      "raw_creator": "찰슨 디킨즈",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 51"
+    },
+    {
+      "raw_title": "허클베리핀의 모험",
+      "raw_creator": "마크 트웨인",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 52"
+    },
+    {
+      "raw_title": "어둠의 속",
+      "raw_creator": "조셉 콘래드",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 53"
+    },
+    {
+      "raw_title": "젊은 예술가의 초상",
+      "raw_creator": "제임스 조이스",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 54"
+    },
+    {
+      "raw_title": "음향과 분노",
+      "raw_creator": "월리엄 포크너",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 55"
+    },
+    {
+      "raw_title": "빌러비드",
+      "raw_creator": "토니 모리슨",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅳ. 영미문학 (13권) / 출처 목록 번호 56"
+    },
+    {
+      "raw_title": "간계와 사랑",
+      "raw_creator": "프리드리히 쉴러",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 독일문학 (9권) / 출처 목록 번호 57"
+    },
+    {
+      "raw_title": "파우스트",
+      "raw_creator": "요한 볼프강 괴테",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 독일문학 (9권) / 출처 목록 번호 58"
+    },
+    {
+      "raw_title": "독일 겨울동화",
+      "raw_creator": "하인리히 하이네",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 독일문학 (9권) / 출처 목록 번호 59"
+    },
+    {
+      "raw_title": "말테의 수기",
+      "raw_creator": "라이너 마리아 릴케",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 독일문학 (9권) / 출처 목록 번호 60"
+    },
+    {
+      "raw_title": "변신",
+      "raw_creator": "프란츠 카프카",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 독일문학 (9권) / 출처 목록 번호 61"
+    },
+    {
+      "raw_title": "마의 산",
+      "raw_creator": "토마스 만",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 독일문학 (9권) / 출처 목록 번호 62"
+    },
+    {
+      "raw_title": "황야의 늑대",
+      "raw_creator": "헤르마 헤세",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 독일문학 (9권) / 출처 목록 번호 63"
+    },
+    {
+      "raw_title": "사천의 선인",
+      "raw_creator": "베르톨트 브레히트",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 독일문학 (9권) / 출처 목록 번호 64"
+    },
+    {
+      "raw_title": "양철북",
+      "raw_creator": "권터 그라스",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 독일문학 (9권) / 출처 목록 번호 65"
+    },
+    {
+      "raw_title": "예브게니 오네긴",
+      "raw_creator": "뿌쉬낀",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 러시아문학 (9권) / 출처 목록 번호 66"
+    },
+    {
+      "raw_title": "검찰관",
+      "raw_creator": "고골",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 러시아문학 (9권) / 출처 목록 번호 67"
+    },
+    {
+      "raw_title": "우리 시대의 영웅",
+      "raw_creator": "레르몬 또프",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 러시아문학 (9권) / 출처 목록 번호 68"
+    },
+    {
+      "raw_title": "사냥꾼의 일기",
+      "raw_creator": "뚜르게네프",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 러시아문학 (9권) / 출처 목록 번호 69"
+    },
+    {
+      "raw_title": "안나 까레니나",
+      "raw_creator": "똘스또이",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 러시아문학 (9권) / 출처 목록 번호 70"
+    },
+    {
+      "raw_title": "까라마죠프가의 형제들",
+      "raw_creator": "도스또옙스끼",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 러시아문학 (9권) / 출처 목록 번호 71"
+    },
+    {
+      "raw_title": "갈매기",
+      "raw_creator": "체홉",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 러시아문학 (9권) / 출처 목록 번호 72"
+    },
+    {
+      "raw_title": "의사 지바고",
+      "raw_creator": "빠스떼르나끄",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 러시아문학 (9권) / 출처 목록 번호 73"
+    },
+    {
+      "raw_title": "이반 데니소비치의 하루",
+      "raw_creator": "솔제니찐",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅴ. 러시아문학 (9권) / 출처 목록 번호 74"
+    },
+    {
+      "raw_title": "타르튀프",
+      "raw_creator": "몰리에르",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅵ. 프랑스문학 (9권) / 출처 목록 번호 75"
+    },
+    {
+      "raw_title": "페르시아인의 편지",
+      "raw_creator": "몽테스키외",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅵ. 프랑스문학 (9권) / 출처 목록 번호 76"
+    },
+    {
+      "raw_title": "마농 레스코",
+      "raw_creator": "아베 프레보",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅵ. 프랑스문학 (9권) / 출처 목록 번호 77"
+    },
+    {
+      "raw_title": "적과 흑",
+      "raw_creator": "스탕달",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅵ. 프랑스문학 (9권) / 출처 목록 번호 78"
+    },
+    {
+      "raw_title": "고리오 영감",
+      "raw_creator": "발자크",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅵ. 프랑스문학 (9권) / 출처 목록 번호 79"
+    },
+    {
+      "raw_title": "보바리 부인",
+      "raw_creator": "폴로베르",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅵ. 프랑스문학 (9권) / 출처 목록 번호 80"
+    },
+    {
+      "raw_title": "악의 꽃",
+      "raw_creator": "보들레르",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅵ. 프랑스문학 (9권) / 출처 목록 번호 81"
+    },
+    {
+      "raw_title": "스와네 집쪽에서",
+      "raw_creator": "마르셀 프루스트",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅵ. 프랑스문학 (9권) / 출처 목록 번호 82 / 원문 부기: 『잃어버린 시간을 찾아서』의 제 1부"
+    },
+    {
+      "raw_title": "이방인",
+      "raw_creator": "까뮈",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅵ. 프랑스문학 (9권) / 출처 목록 번호 83"
+    },
+    {
+      "raw_title": "리그베다",
+      "raw_creator": "작가 미상",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 84"
+    },
+    {
+      "raw_title": "라마야나 마하바라타",
+      "raw_creator": "발미키 비야사",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 85"
+    },
+    {
+      "raw_title": "백년동안의 고독",
+      "raw_creator": "가브리엘 마르께스",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 86"
+    },
+    {
+      "raw_title": "아라비안 나이트[천일야화]",
+      "raw_creator": "리차드 버튼",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 87"
+    },
+    {
+      "raw_title": "쿠오바디스",
+      "raw_creator": "헨릭 셴께비치",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 887"
+    },
+    {
+      "raw_title": "스무 편의 사랑의 시와 한 편의 절망의 노래",
+      "raw_creator": "파블로 네루다",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 89"
+    },
+    {
+      "raw_title": "검은 영혼의 춤",
+      "raw_creator": "레오폴드 세다르 생고르",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 90"
+    },
+    {
+      "raw_title": "모든 것이 무너지다",
+      "raw_creator": "치누아 아체베",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 91"
+    },
+    {
+      "raw_title": "불한당의 세계사",
+      "raw_creator": "호르헤 보르헤스",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 92"
+    },
+    {
+      "raw_title": "참을 수 없는 존재의 가벼움",
+      "raw_creator": "밀란 쿤데라",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅶ. 제3세계 문학 (10권) / 출처 목록 번호 93"
+    },
+    {
+      "raw_title": "일리아드 / 오딧세이",
+      "raw_creator": "호머",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅷ. 서양고전 (7권) / 출처 목록 번호 94"
+    },
+    {
+      "raw_title": "그리스 비극",
+      "raw_creator": "아이스킬로스 외",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅷ. 서양고전 (7권) / 출처 목록 번호 95"
+    },
+    {
+      "raw_title": "변신이야기",
+      "raw_creator": "오비디우스",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅷ. 서양고전 (7권) / 출처 목록 번호 96"
+    },
+    {
+      "raw_title": "플루타크르 영웅전",
+      "raw_creator": "플루타르코스",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅷ. 서양고전 (7권) / 출처 목록 번호 97"
+    },
+    {
+      "raw_title": "신곡",
+      "raw_creator": "단테",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅷ. 서양고전 (7권) / 출처 목록 번호 98"
+    },
+    {
+      "raw_title": "데카메론",
+      "raw_creator": "보카치오",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅷ. 서양고전 (7권) / 출처 목록 번호 99"
+    },
+    {
+      "raw_title": "돈키호테",
+      "raw_creator": "세르반테스",
+      "rank": null,
+      "year": null,
+      "note": "문학작품 100권 > Ⅷ. 서양고전 (7권) / 출처 목록 번호 100"
+    },
+    {
+      "raw_title": "삼국유사",
+      "raw_creator": "일연",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "택리지",
+      "raw_creator": "이중환",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "한국통사",
+      "raw_creator": "박은식",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "조선혁명선언",
+      "raw_creator": "신채호",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "양명학연론",
+      "raw_creator": "정인보",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "조선사회경제사",
+      "raw_creator": "백남운",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "백범일지",
+      "raw_creator": "김구",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "한국사의 방법",
+      "raw_creator": "홍이섭",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "한국의 역사가와 역사학",
+      "raw_creator": "조동걸 외",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 9 / 원문 부기: 상, 하"
+    },
+    {
+      "raw_title": "동아시아의 전통과 변용",
+      "raw_creator": "고병익",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "시간과의 경쟁: 동아시아 근현대사론",
+      "raw_creator": "민두기",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "사기",
+      "raw_creator": "사마천",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "건건록",
+      "raw_creator": "무츠 마네미츠",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "중국의 붉은 별",
+      "raw_creator": "에드가 스노우",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "아리랑",
+      "raw_creator": "님 웨일즈",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "고대 중국인의 생사관",
+      "raw_creator": "마이클 로이",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "중국 역사의 발전형태",
+      "raw_creator": "마크 엘빈",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "오리엔탈리즘",
+      "raw_creator": "에드워드 사이드",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "천안문 : 근대 중국을 만든 사람들",
+      "raw_creator": "조너선 D. 스펜스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "그림 속의 그림",
+      "raw_creator": "우홍",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 20"
+    },
+    {
+      "raw_title": "역사",
+      "raw_creator": "헤로도토스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 21"
+    },
+    {
+      "raw_title": "동방견문록",
+      "raw_creator": "마르코 폴로",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 22"
+    },
+    {
+      "raw_title": "이탈리아 르네상스 문화",
+      "raw_creator": "야곱 부르크하르트",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 23"
+    },
+    {
+      "raw_title": "역사를 위한 변명",
+      "raw_creator": "마르크 블로크",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 24"
+    },
+    {
+      "raw_title": "역사란 무엇인가",
+      "raw_creator": "E.H.카",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 25"
+    },
+    {
+      "raw_title": "혁명의 시대",
+      "raw_creator": "에릭 홉스봄",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 26"
+    },
+    {
+      "raw_title": "영국 노동계급의 형성",
+      "raw_creator": "E.P.톰슨",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 27"
+    },
+    {
+      "raw_title": "미국혁명의 이데올로기적 기원",
+      "raw_creator": "버나드 베일린",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 28"
+    },
+    {
+      "raw_title": "연옥의 탄생",
+      "raw_creator": "자크 르 고프",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 29"
+    },
+    {
+      "raw_title": "20세기의 사학사",
+      "raw_creator": "조지 이거스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅰ. 역사, 지리 분야 (30권) / 출처 목록 번호 30"
+    },
+    {
+      "raw_title": "화엄경",
+      "raw_creator": "작가미상",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 31"
+    },
+    {
+      "raw_title": "주역",
+      "raw_creator": "작가미상",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 32"
+    },
+    {
+      "raw_title": "도덕경",
+      "raw_creator": "노자",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 33"
+    },
+    {
+      "raw_title": "논어",
+      "raw_creator": "공자",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 34"
+    },
+    {
+      "raw_title": "중용",
+      "raw_creator": "작가미상",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 35"
+    },
+    {
+      "raw_title": "맹자",
+      "raw_creator": "맹자",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 36"
+    },
+    {
+      "raw_title": "장자",
+      "raw_creator": "장자",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 37"
+    },
+    {
+      "raw_title": "근사록",
+      "raw_creator": "주자",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 38"
+    },
+    {
+      "raw_title": "국가",
+      "raw_creator": "플라톤",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 39"
+    },
+    {
+      "raw_title": "시학",
+      "raw_creator": "아리스토텔레스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 40"
+    },
+    {
+      "raw_title": "고백록",
+      "raw_creator": "아우구스티누스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 41"
+    },
+    {
+      "raw_title": "신학대전",
+      "raw_creator": "토마스 아퀴나스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 42"
+    },
+    {
+      "raw_title": "성찰",
+      "raw_creator": "데카르트",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 43"
+    },
+    {
+      "raw_title": "팡세",
+      "raw_creator": "파스칼",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 44"
+    },
+    {
+      "raw_title": "순수이성비판",
+      "raw_creator": "임마누엘 칸트",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 45"
+    },
+    {
+      "raw_title": "정신현상학",
+      "raw_creator": "헤겔",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 46"
+    },
+    {
+      "raw_title": "짜라투스투라는 이렇게 말했다",
+      "raw_creator": "니체",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 47"
+    },
+    {
+      "raw_title": "이성과 실존",
+      "raw_creator": "야스퍼스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 48"
+    },
+    {
+      "raw_title": "철학적 탐구",
+      "raw_creator": "비트켄슈타인",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 49"
+    },
+    {
+      "raw_title": "예술작품의 근원",
+      "raw_creator": "하이데거",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 50"
+    },
+    {
+      "raw_title": "신에게 솔직히",
+      "raw_creator": "존 로빈슨",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 51"
+    },
+    {
+      "raw_title": "일차원적 인간",
+      "raw_creator": "마르쿠제",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 52"
+    },
+    {
+      "raw_title": "계몽의 변증법",
+      "raw_creator": "아도르노, 호르크 하이머",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 53"
+    },
+    {
+      "raw_title": "의사소통 행위이론",
+      "raw_creator": "하버마스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 54"
+    },
+    {
+      "raw_title": "욕망이론",
+      "raw_creator": "자캉",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 55"
+    },
+    {
+      "raw_title": "금강삼매경론",
+      "raw_creator": "원효",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 56"
+    },
+    {
+      "raw_title": "성학십도",
+      "raw_creator": "이황",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 57"
+    },
+    {
+      "raw_title": "성학집요",
+      "raw_creator": "이이",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 58"
+    },
+    {
+      "raw_title": "성호사설",
+      "raw_creator": "이익",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 59"
+    },
+    {
+      "raw_title": "목민심서",
+      "raw_creator": "정약용",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅱ. 철학/심리학/종교/언어/예술 (30권) / 출처 목록 번호 60"
+    },
+    {
+      "raw_title": "군주론",
+      "raw_creator": "니콜로 마키아벨리",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 61"
+    },
+    {
+      "raw_title": "리바이어던",
+      "raw_creator": "토마스 홉스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 62"
+    },
+    {
+      "raw_title": "통치론",
+      "raw_creator": "존 로크",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 63"
+    },
+    {
+      "raw_title": "사회계약론",
+      "raw_creator": "장 자크 루소",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 64"
+    },
+    {
+      "raw_title": "국부론",
+      "raw_creator": "아담 스미스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 65"
+    },
+    {
+      "raw_title": "공산당 선언",
+      "raw_creator": "칼 맑스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 66"
+    },
+    {
+      "raw_title": "자유론",
+      "raw_creator": "존 스튜어트 밀",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 67"
+    },
+    {
+      "raw_title": "꿈의 해석",
+      "raw_creator": "지그문트 프로이트",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 68"
+    },
+    {
+      "raw_title": "개신교 윤리와 자본주의 정신",
+      "raw_creator": "막스 베버",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 69"
+    },
+    {
+      "raw_title": "역사와 계급의식",
+      "raw_creator": "게오르그 루카치",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 70"
+    },
+    {
+      "raw_title": "도덕적 인간과 비도덕적 사회",
+      "raw_creator": "라인홀드 니이버",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 71"
+    },
+    {
+      "raw_title": "고용, 이자 및 화폐의 일반이론",
+      "raw_creator": "존 메이너드 케인즈",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 72"
+    },
+    {
+      "raw_title": "옥중수고",
+      "raw_creator": "안토니오 그람씨",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 73"
+    },
+    {
+      "raw_title": "국화와 칼",
+      "raw_creator": "루스 베네딕트",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 74"
+    },
+    {
+      "raw_title": "제2의 성",
+      "raw_creator": "시몬느 드 보봐르",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 75"
+    },
+    {
+      "raw_title": "슬픈열대",
+      "raw_creator": "끌로드 레비스트로스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 76"
+    },
+    {
+      "raw_title": "미디어의 이해",
+      "raw_creator": "마샬 맥루한",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 77"
+    },
+    {
+      "raw_title": "성의 역사",
+      "raw_creator": "미셀 푸코",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 78"
+    },
+    {
+      "raw_title": "정의론",
+      "raw_creator": "존 롤스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 79"
+    },
+    {
+      "raw_title": "근대 세계체제론",
+      "raw_creator": "임마누엘 월러스타인",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 80 / 원문 부기: 1권"
+    },
+    {
+      "raw_title": "제3의 물결",
+      "raw_creator": "앨빈 토플러",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 81"
+    },
+    {
+      "raw_title": "엔트로피",
+      "raw_creator": "제레미 리프킨",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 82"
+    },
+    {
+      "raw_title": "현대정치의 사상과 행동",
+      "raw_creator": "마루야마 마사오",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 83"
+    },
+    {
+      "raw_title": "문명화 과정",
+      "raw_creator": "노르베르트 엘리아스",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 84"
+    },
+    {
+      "raw_title": "문명의 충동",
+      "raw_creator": "새뮤얼 헌팅턴",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅲ. 사회과학 (25권) / 출처 목록 번호 85"
+    },
+    {
+      "raw_title": "종의 기원",
+      "raw_creator": "다윈",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 86"
+    },
+    {
+      "raw_title": "과학혁명의 구조",
+      "raw_creator": "토마스 쿤",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 87"
+    },
+    {
+      "raw_title": "유전학의 분자 생물학",
+      "raw_creator": "제임스 왓트슨",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 88"
+    },
+    {
+      "raw_title": "이중나선",
+      "raw_creator": "제임스 왓트슨",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 89"
+    },
+    {
+      "raw_title": "혼돈으로부터의 질서",
+      "raw_creator": "프리고진 외",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 90"
+    },
+    {
+      "raw_title": "시간의 발견",
+      "raw_creator": "콜린 월슨",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 91"
+    },
+    {
+      "raw_title": "사회생물학",
+      "raw_creator": "에드워드 월슨",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 92 / 원문 부기: 1, 2"
+    },
+    {
+      "raw_title": "민족과학의 뿌리를 찾아서",
+      "raw_creator": "박성래",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 93"
+    },
+    {
+      "raw_title": "하나뿐인 지구",
+      "raw_creator": "신영식",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 94"
+    },
+    {
+      "raw_title": "시간의 역사",
+      "raw_creator": "스티븐 호킹",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 95"
+    },
+    {
+      "raw_title": "카오스",
+      "raw_creator": "제임스 클리크",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 96"
+    },
+    {
+      "raw_title": "유전자들의 전쟁 – 행동으로 본 사회생물학의 세계 -",
+      "raw_creator": "이병훈",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 97"
+    },
+    {
+      "raw_title": "식물의 사생활",
+      "raw_creator": "데이비드 애튼보로",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 98"
+    },
+    {
+      "raw_title": "과학은 모든 의문에 답할 수 있는가",
+      "raw_creator": "존 브록만 외",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 99"
+    },
+    {
+      "raw_title": "20세기 수학의 다섯가지 황금률",
+      "raw_creator": "존 L. 캐스티",
+      "rank": null,
+      "year": null,
+      "note": "사상 이론서 100권 > Ⅳ. 자연/수학/기술 (15권) / 출처 목록 번호 100"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=221805344556",
+      "https://library.yonsei.ac.kr/digicol/list/9",
+      "https://www.yes24.com/product/goods/1419491",
+      "https://www.yonsei.ac.kr"
+    ],
+    "item_count": 200,
+    "expected_count": 200,
+    "gaps": "빠진 항목 없다. 문학작품 100권(23+15+5+13+9+9+9+10+7)과 사상 이론서 100권(30+30+25+15)이 각 분야 표기 권수와 정확히 맞는다.",
+    "uncertainties": "발표 연도를 확인하지 못해 비워 두었다. 위원회가 엮은 단행본 『연세필독도서』가 2001년에 나왔다는 검색 결과가 있으나 1차 자료로 확인하지 못했다. 도서관 컬렉션 페이지는 살아 있어 source_url로 걸었다. 원문이 한 항목에 권수나 부제를 덧붙인 다섯 건(스와네 집쪽에서, 한국의 역사가와 역사학, 근대 세계체제론, 사회생물학, 4대 비극)은 제목만 담고 덧붙은 표기를 항목 설명에 남겼다."
+  }
+}

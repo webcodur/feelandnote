@@ -1,0 +1,742 @@
+{
+  "curator": {
+    "slug": "sungkyunkwan-university",
+    "name": "성균관대학교",
+    "name_en": "Sungkyunkwan University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1398,
+    "homepage_url": "https://www.skku.edu",
+    "description": "성균관대학교는 1398년에 세워진 조선의 성균관을 계승한다고 밝히는 사립 종합대학이다. 서울 명륜동의 인문사회과학캠퍼스와 수원의 자연과학캠퍼스를 함께 운영한다. 독서 플랫폼 「오거서」와 중앙학술정보관이 학생 독서 활동을 맡는다.",
+    "description_en": "Sungkyunkwan University is a private comprehensive university that traces its lineage to the Joseon-era Sungkyunkwan academy founded in 1398. It operates a humanities and social sciences campus in Myeongnyun-dong, Seoul, alongside a natural sciences campus in Suwon. Its reading platform and central library together run the university's student reading programs."
+  },
+  "list": {
+    "slug": "skku-classic-100",
+    "title": "성균고전 100선",
+    "title_en": "Sungkyunkwan 100 Classics",
+    "description": "성균관대학교가 학생 필독 고전으로 고른 100권이다. 문학·인문·자연과학 세 영역으로 나누어 동서양 고전을 함께 담았다. 중앙학술정보관 3층 「성균인의 서재」에 별도 서가로 두고 독서 플랫폼 「오거서」에서 책마다 해설을 붙여 소개한다.",
+    "description_en": "One hundred classics designated by Sungkyunkwan University as required reading for its students, spanning literature, the humanities, and the natural sciences and drawing on both Eastern and Western traditions. The books occupy a dedicated shelf on the third floor of the central library, and the university's reading platform presents each title with a short commentary.",
+    "published_year": null,
+    "edition": null,
+    "method": "성균관대학교가 선정했다고만 밝혀져 있고 선정 위원회나 절차는 공개돼 있지 않다. 문학·인문·자연과학 세 영역으로 나뉘며, 목록은 순위 없이 도서명 가나다순으로 배열한다.",
+    "method_en": "The university states only that it made the selection; no committee or procedure is published. The list is divided into literature, the humanities, and the natural sciences, and is arranged by Korean title rather than by rank.",
+    "source_url": "https://book.skku.edu/guide/classic100",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "구운몽",
+      "raw_creator": "김만중",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 1"
+    },
+    {
+      "raw_title": "그리스 비극",
+      "raw_creator": "소포클레스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 2"
+    },
+    {
+      "raw_title": "김창숙문존",
+      "raw_creator": "김창숙",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 3"
+    },
+    {
+      "raw_title": "난중일기",
+      "raw_creator": "이순신",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 4"
+    },
+    {
+      "raw_title": "다산시선",
+      "raw_creator": "정약용",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 5"
+    },
+    {
+      "raw_title": "당시선",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 6"
+    },
+    {
+      "raw_title": "데카메론",
+      "raw_creator": "조반니 보카치오",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 7"
+    },
+    {
+      "raw_title": "돈 키호테",
+      "raw_creator": "미구엘 드 세르반테스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 8"
+    },
+    {
+      "raw_title": "마의 산",
+      "raw_creator": "토마스 만",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 9"
+    },
+    {
+      "raw_title": "몽테뉴 수상록",
+      "raw_creator": "미셸 드 몽테뉴",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 10"
+    },
+    {
+      "raw_title": "변신",
+      "raw_creator": "프란츠 카프카",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 11"
+    },
+    {
+      "raw_title": "서양미술사",
+      "raw_creator": "에른스트 곰브리치",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 12"
+    },
+    {
+      "raw_title": "서양음악사",
+      "raw_creator": "도널드 그라우트 외",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 13"
+    },
+    {
+      "raw_title": "셰익스피어 4대 비극",
+      "raw_creator": "윌리엄 셰익스피어",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 14"
+    },
+    {
+      "raw_title": "신곡",
+      "raw_creator": "단테 알리기에리",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 15"
+    },
+    {
+      "raw_title": "\"실낙원, 복낙원\"",
+      "raw_creator": "존 밀턴",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 16"
+    },
+    {
+      "raw_title": "열하일기",
+      "raw_creator": "박지원",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 17"
+    },
+    {
+      "raw_title": "오만과 편견",
+      "raw_creator": "제인 오스틴",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 18"
+    },
+    {
+      "raw_title": "위대한 유산",
+      "raw_creator": "찰스 디킨스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 19"
+    },
+    {
+      "raw_title": "이방인",
+      "raw_creator": "알베르 카뮈",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 20"
+    },
+    {
+      "raw_title": "일리아스, 오뒷세이아",
+      "raw_creator": "호메로스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 21"
+    },
+    {
+      "raw_title": "전쟁과 평화",
+      "raw_creator": "레프 톨스토이",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 22"
+    },
+    {
+      "raw_title": "젊은 예술가의 초상",
+      "raw_creator": "제임스 조이스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 23"
+    },
+    {
+      "raw_title": "주홍글자",
+      "raw_creator": "나다니엘 호손",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 24"
+    },
+    {
+      "raw_title": "차라투스트라는 이렇게 말했다",
+      "raw_creator": "프리드리히 니체",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 25"
+    },
+    {
+      "raw_title": "채근담",
+      "raw_creator": "홍자성",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 26"
+    },
+    {
+      "raw_title": "체호프 희곡 전집",
+      "raw_creator": "안톤 체호프",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 27"
+    },
+    {
+      "raw_title": "카라마조프 가의 형제들",
+      "raw_creator": "도스토옙스키",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 28"
+    },
+    {
+      "raw_title": "퇴계와 고봉, 편지를 쓰다",
+      "raw_creator": "이황, 기대승",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 29"
+    },
+    {
+      "raw_title": "퇴계집",
+      "raw_creator": "이황",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 30"
+    },
+    {
+      "raw_title": "파우스트 요한",
+      "raw_creator": "볼프강 폰 괴테",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 31"
+    },
+    {
+      "raw_title": "한국고전시가선",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 32"
+    },
+    {
+      "raw_title": "한중록",
+      "raw_creator": "혜경궁 홍씨",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 33"
+    },
+    {
+      "raw_title": "고백록",
+      "raw_creator": "아우구스티누스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 34"
+    },
+    {
+      "raw_title": "국가",
+      "raw_creator": "플라톤",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 35"
+    },
+    {
+      "raw_title": "국부론",
+      "raw_creator": "애덤 스미스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 36"
+    },
+    {
+      "raw_title": "군주론",
+      "raw_creator": "마키아벨리",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 37"
+    },
+    {
+      "raw_title": "꿈의 해석",
+      "raw_creator": "프로이트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 38"
+    },
+    {
+      "raw_title": "그리스 로마 신화",
+      "raw_creator": "토마스 벌핀치",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 39"
+    },
+    {
+      "raw_title": "노자",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 40"
+    },
+    {
+      "raw_title": "논어",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 41"
+    },
+    {
+      "raw_title": "니코마코스 윤리학",
+      "raw_creator": "아리스토텔레스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 42"
+    },
+    {
+      "raw_title": "대학, 중용(中庸)",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 43"
+    },
+    {
+      "raw_title": "리바이어던",
+      "raw_creator": "토마스 홉스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 44"
+    },
+    {
+      "raw_title": "맹자 맹자",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 45"
+    },
+    {
+      "raw_title": "목민심서",
+      "raw_creator": "정약용",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 46"
+    },
+    {
+      "raw_title": "미국의 민주주의",
+      "raw_creator": "알렉시스 드 토크빌",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 47"
+    },
+    {
+      "raw_title": "반야심경",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 48"
+    },
+    {
+      "raw_title": "방법서설",
+      "raw_creator": "르네 데카르트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 49"
+    },
+    {
+      "raw_title": "법의 정신",
+      "raw_creator": "샤를 드 몽테스키외",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 50"
+    },
+    {
+      "raw_title": "사기",
+      "raw_creator": "사마천",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 51"
+    },
+    {
+      "raw_title": "사회계약론",
+      "raw_creator": "장 자크 루소",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 52"
+    },
+    {
+      "raw_title": "삼국사기",
+      "raw_creator": "김부식",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 53"
+    },
+    {
+      "raw_title": "삼국유사",
+      "raw_creator": "일연",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 54"
+    },
+    {
+      "raw_title": "서유견문",
+      "raw_creator": "유길준",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 55"
+    },
+    {
+      "raw_title": "성학집요",
+      "raw_creator": "이이",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 56"
+    },
+    {
+      "raw_title": "성호사설",
+      "raw_creator": "이익",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 57"
+    },
+    {
+      "raw_title": "순자",
+      "raw_creator": "순자",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 58"
+    },
+    {
+      "raw_title": "심리학의 원리",
+      "raw_creator": "윌리엄 제임스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 59"
+    },
+    {
+      "raw_title": "플라톤의 대화편",
+      "raw_creator": "플라톤",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 60"
+    },
+    {
+      "raw_title": "역사",
+      "raw_creator": "헤로도토스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 61"
+    },
+    {
+      "raw_title": "유럽 학문의 위기와 선험적 현상학",
+      "raw_creator": "에드문트 후설",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 62"
+    },
+    {
+      "raw_title": "윤리형이상학 정초",
+      "raw_creator": "임마누엘 칸트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 63"
+    },
+    {
+      "raw_title": "자본론",
+      "raw_creator": "칼 마르크스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 64"
+    },
+    {
+      "raw_title": "자본주의, 사회주의, 민주주의",
+      "raw_creator": "조지프 슘페터",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 65"
+    },
+    {
+      "raw_title": "자살론",
+      "raw_creator": "에밀 뒤르케임",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 66"
+    },
+    {
+      "raw_title": "자유론",
+      "raw_creator": "존 스튜어트 밀",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 67"
+    },
+    {
+      "raw_title": "장자",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 68"
+    },
+    {
+      "raw_title": "정신현상학",
+      "raw_creator": "게오르그 빌헬름 프리드리히 헤겔",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 69"
+    },
+    {
+      "raw_title": "정의론",
+      "raw_creator": "존 롤스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 70"
+    },
+    {
+      "raw_title": "징비록",
+      "raw_creator": "류성룡",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 71"
+    },
+    {
+      "raw_title": "키케로의 의무론",
+      "raw_creator": "키케로",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 72"
+    },
+    {
+      "raw_title": "택리지",
+      "raw_creator": "이중환",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 73"
+    },
+    {
+      "raw_title": "통치론",
+      "raw_creator": "존 로크",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 74"
+    },
+    {
+      "raw_title": "프로테스탄티즘의 윤리와 자본주의",
+      "raw_creator": "정신 막스 베버",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 75"
+    },
+    {
+      "raw_title": "플루타르코스 영웅전",
+      "raw_creator": "플루타르코스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 76"
+    },
+    {
+      "raw_title": "한국통사",
+      "raw_creator": "박은식",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 77"
+    },
+    {
+      "raw_title": "한비자",
+      "raw_creator": "한비",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 78"
+    },
+    {
+      "raw_title": "게놈",
+      "raw_creator": "매트 리들리",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 79"
+    },
+    {
+      "raw_title": "과학과 근대세계",
+      "raw_creator": "알프레드 노스 화이트헤드",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 80"
+    },
+    {
+      "raw_title": "과학혁명의 구조",
+      "raw_creator": "토마스 쿤",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 81"
+    },
+    {
+      "raw_title": "부분과 전체",
+      "raw_creator": "베르너 하이젠베르크",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 82"
+    },
+    {
+      "raw_title": "상대성 이론",
+      "raw_creator": "알베르트 아인슈타인",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 83"
+    },
+    {
+      "raw_title": "새로운 두 과학",
+      "raw_creator": "갈릴레오 갈릴레이",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 84"
+    },
+    {
+      "raw_title": "생명이란 무엇인가",
+      "raw_creator": "에르빈 슈뢰딩거",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 85"
+    },
+    {
+      "raw_title": "슬픈 열대 - 클로비 렙",
+      "raw_creator": "스트로스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 86"
+    },
+    {
+      "raw_title": "시간의 역사",
+      "raw_creator": "스티브 호킹",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 87"
+    },
+    {
+      "raw_title": "신기관",
+      "raw_creator": "프란시스 베이컨",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 88"
+    },
+    {
+      "raw_title": "엔트로피",
+      "raw_creator": "제레미 리프킨",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 89"
+    },
+    {
+      "raw_title": "우연과 필연",
+      "raw_creator": "자크 뤼시엥 모노",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 90"
+    },
+    {
+      "raw_title": "이기적 유전자",
+      "raw_creator": "리처드 도킨스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 91"
+    },
+    {
+      "raw_title": "이중나선",
+      "raw_creator": "제임스 왓슨",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 92"
+    },
+    {
+      "raw_title": "인간 본성에 대하여",
+      "raw_creator": "에드워드 월슨",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 93"
+    },
+    {
+      "raw_title": "종의 기원",
+      "raw_creator": "찰스 다윈",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 94"
+    },
+    {
+      "raw_title": "창조적 진화",
+      "raw_creator": "앙리 베르그손",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 95"
+    },
+    {
+      "raw_title": "천체의 회전에 관하여",
+      "raw_creator": "코페르니쿠스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 96"
+    },
+    {
+      "raw_title": "침묵의 봄",
+      "raw_creator": "레이첼 카슨",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 97"
+    },
+    {
+      "raw_title": "카오스",
+      "raw_creator": "제임스 글락",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 98"
+    },
+    {
+      "raw_title": "코스모스",
+      "raw_creator": "칼 세이건",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 99"
+    },
+    {
+      "raw_title": "프린키피아",
+      "raw_creator": "아이작 뉴턴",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 100"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=221806148351",
+      "https://book.skku.edu/guide/classic100",
+      "https://lib.skku.edu/#/sc/classic?scId1=150",
+      "https://www.skku.edu"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "gaps": "빠진 항목 없다.",
+    "uncertainties": "블로그 글 제목은 「성균관대학교 권장도서 100선」이지만 대학이 실제로 쓰는 이름은 「성균고전 100선」이어서 후자를 목록 제목으로 삼았다. 공식 페이지에서 앞머리 다섯 권(구운몽·그리스 비극·김창숙문존·난중일기·다산시선)의 순서가 블로그 전사본과 같음을 확인했으나 100권 전량을 대조하지는 못했다. 선정 주체와 발표 연도는 공개 자료에서 확인되지 않아 비워 두었다. 저자가 비어 있는 여덟 항목(당시선·한국고전시가선·노자·논어·대학, 중용·반야심경·장자 등)은 원문에도 저자 표기가 없다."
+  }
+}

@@ -1,0 +1,833 @@
+{
+  "curator": {
+    "slug": "bbc",
+    "name": "BBC",
+    "name_en": "BBC",
+    "kind": "community",
+    "country": "GB",
+    "founded_year": 1922,
+    "homepage_url": "https://www.bbc.co.uk",
+    "description": "BBC는 1922년 설립된 영국의 공영방송이다. 텔레비전·라디오·온라인 서비스를 운영하며 영국 안팎에서 뉴스와 문화 프로그램을 내보낸다. 2003년 「The Big Read」처럼 시청자 참여형 대규모 투표 기획을 진행한 이력이 있다.",
+    "description_en": "The BBC is the United Kingdom's public service broadcaster, founded in 1922. It operates television, radio and online services in the UK and internationally. In 2003 it ran The Big Read, a year-long nationwide public vote to find the nation's best-loved novel."
+  },
+  "list": {
+    "slug": "bbc-100-novels-shaped-our-world",
+    "title": "세상을 빚어낸 소설 100",
+    "title_en": "BBC 100 Novels That Shaped Our World",
+    "description": "BBC가 2019년 11월 5일 발표한 영어 소설 100편이다. 작가·큐레이터·평론가로 구성된 전문가 위원회가 지난 300년 사이에 나온 영어 소설 가운데 삶에 영향을 준 작품을 골랐다. 순위는 없고 정체성·모험·성장 등 열 개 분야에 열 편씩 나뉘어 있다.",
+    "description_en": "One hundred English-language novels announced by the BBC on 5 November 2019. A panel of writers, curators and critics chose novels from the past 300 years that had shaped their lives. The list is unranked and divided into ten themes of ten books each, from Identity to Adventure to Coming of Age.",
+    "published_year": 2019,
+    "edition": null,
+    "series_key": null,
+    "method": "BBC가 작가·큐레이터·평론가로 구성된 전문가 위원회에 지난 300년 동안 영어로 쓰인 소설 가운데 자신의 삶에 영향을 준 작품을 고르게 했다. 도서관 단체 라이브러리즈 커넥티드도 참여했다. 위원회는 열 개 주제 분야를 두고 분야마다 열 편씩 골랐으며 작품 사이에 순위는 매기지 않았다.",
+    "method_en": "The BBC asked a panel of writers, curators and critics to choose the novels written in English over the past 300 years that had shaped their own lives; the library body Libraries Connected also took part. The panel worked across ten themed categories, selecting ten novels for each, and did not rank the titles against one another.",
+    "source_url": "https://www.bbc.co.uk/programmes/articles/494P41NCbVYHlY319VwGbxp/explore-the-list-of-100-novels-that-shaped-our-world",
+    "cover_image_url": null,
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": []
+  },
+  "items": [
+    {
+      "raw_title": "A Confederacy of Dunces",
+      "raw_creator": "John Kennedy Toole",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 바보들의 결탁",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "Bartleby, the Scrivener",
+      "raw_creator": "Herman Melville",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 버틀비",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "Habibi",
+      "raw_creator": "Craig Thompson",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 하비비",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "How to be Both",
+      "raw_creator": "Ali Smith",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 하우 투비 보스",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "Nights at the Circus",
+      "raw_creator": "Angela Carter",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 써커스의 밤",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "Nineteen Eighty-Four",
+      "raw_creator": "George Orwell",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 1984년",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "Orlando",
+      "raw_creator": "Virginia Woolf",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 올란도",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "Psmith, Journalist",
+      "raw_creator": "P. G. Wodehouse",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 피스미스, 저널리스트",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "The Moor’s Last Sigh",
+      "raw_creator": "Salman Rushdie",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 무어의 마지막 한숨",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "Zami: A New Spelling of My Name",
+      "raw_creator": "Audre Lorde",
+      "rank": null,
+      "year": null,
+      "note": "분야: 규칙을 깬 작품(Rule Breakers) / 한국어판 제목: 자미: 내 이름의 새로운 철자",
+      "note_en": "Category: Rule Breakers"
+    },
+    {
+      "raw_title": "Beloved",
+      "raw_creator": "Toni Morrison",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 빌러비드",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "Days Without End",
+      "raw_creator": "Sebastian Barry",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 끝없는 나날",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "Fugitive Pieces",
+      "raw_creator": "Anne Michaels",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 덧없는 시편들",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "Half of a Yellow Sun",
+      "raw_creator": "Chimamanda Ngozi Adichie",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 태양은 노랗게 타오른다",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "Homegoing",
+      "raw_creator": "Yaa Gyasi",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 귀향",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "Small Island",
+      "raw_creator": "Andrea Levy",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 스몰 아일랜드",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "The Bell Jar",
+      "raw_creator": "Sylvia Plath",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 벨 자",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "The God of Small Things",
+      "raw_creator": "Arundhati Roy",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 작은 것들의 신",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "Things Fall Apart",
+      "raw_creator": "Chinua Achebe",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 모든 것이 산산이 부서지다",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "White Teeth",
+      "raw_creator": "Zadie Smith",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정체성(Identity) / 한국어판 제목: 하얀 이빨",
+      "note_en": "Category: Identity"
+    },
+    {
+      "raw_title": "Bridget Jones’s Diary",
+      "raw_creator": "Helen Fielding",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 브리짓 존스의 일기",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "Forever",
+      "raw_creator": "Judy Blume",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 포에버",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "Giovanni’s Room",
+      "raw_creator": "James Baldwin",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 조반니의 방",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "Pride and Prejudice",
+      "raw_creator": "Jane Austen",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 오만과 편견",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "Riders",
+      "raw_creator": "Jilly Cooper",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 라이더즈",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "The Far Pavilions",
+      "raw_creator": "M. M. Kaye",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 파빌리온",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "The Forty Rules of Love",
+      "raw_creator": "Elif Shafak",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 40가지 사랑의 법칙",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "Their Eyes Were Watching God",
+      "raw_creator": "Zora Neale Hurston",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 그들의 눈은 신을 보고 있었다",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "The Passion",
+      "raw_creator": "Jeanette Winterson",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 열정",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "The Slaves of Solitude",
+      "raw_creator": "Patrick Hamilton",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사랑·성·로맨스(Love, Sex & Romance) / 한국어판 제목: 고독의 노예",
+      "note_en": "Category: Love, Sex & Romance"
+    },
+    {
+      "raw_title": "City of Bohane",
+      "raw_creator": "Kevin Barry",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 보헤인의 도시",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "Eye of the Needle",
+      "raw_creator": "Ken Follett",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 바늘구멍",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "For Whom the Bell Tolls",
+      "raw_creator": "Ernest Hemingway",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 누구를 위하여 종은 울리나",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "His Dark Materials Trilogy",
+      "raw_creator": "Philip Pullman",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 황금나침반",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "Ivanhoe",
+      "raw_creator": "Walter Scott",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 아이반호",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "Mr Standfast",
+      "raw_creator": "John Buchan",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 미스터 스탠패스트",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "The Big Sleep",
+      "raw_creator": "Raymond Chandler",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 빅슬립",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "The Hunger Games",
+      "raw_creator": "Suzanne Collins",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 헝거 게임",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "The Jack Aubrey Novels",
+      "raw_creator": "Patrick O’Brian",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 잭 오브린 소설",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "The Lord of the Rings Trilogy",
+      "raw_creator": "J.R.R. Tolkien",
+      "rank": null,
+      "year": null,
+      "note": "분야: 모험(Adventure) / 한국어판 제목: 반지의 제왕",
+      "note_en": "Category: Adventure"
+    },
+    {
+      "raw_title": "A Game of Thrones",
+      "raw_creator": "George R. R. Martin",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 왕좌의 게임",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "Astonishing the Gods",
+      "raw_creator": "Ben Okri",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 신을 놀라게 한다는 것",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "Dune",
+      "raw_creator": "Frank Herbert",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 듄",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "Frankenstein",
+      "raw_creator": "Mary Shelley",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 프랑켄슈타인",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "Gilead",
+      "raw_creator": "Marilynne Robinson",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 길리아드",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "The Chronicles of Narnia",
+      "raw_creator": "C. S. Lewis",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 나니아 연대기",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "The Discworld Series",
+      "raw_creator": "Terry Pratchett",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 디스크월드 시리즈",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "The Earthsea Trilogy",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 어스시",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "The Road",
+      "raw_creator": "Cormac McCarthy",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 로드",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "The Sandman Series",
+      "raw_creator": "Neil Gaiman",
+      "rank": null,
+      "year": null,
+      "note": "분야: 삶·죽음·다른 세계(Life, Death & Other Worlds) / 한국어판 제목: 샌드맨 시리즈",
+      "note_en": "Category: Life, Death & Other Worlds"
+    },
+    {
+      "raw_title": "A Thousand Splendid Suns",
+      "raw_creator": "Khaled Hosseini",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 천 개의 찬란한 태양",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "Brave New World",
+      "raw_creator": "Aldous Huxley",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 멋진 신세계",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "Home Fire",
+      "raw_creator": "Kamila Shamsie",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 홈 파이어",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "Lord of the Flies",
+      "raw_creator": "William Golding",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 파리 대왕",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "Noughts & Crosses",
+      "raw_creator": "Malorie Blackman",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 노츠&크로스",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "Strumpet City",
+      "raw_creator": "James Plunkett",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 스트럼퍼 시티",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "The Color Purple",
+      "raw_creator": "Alice Walker",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 더 컬러 퍼플",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "To Kill a Mockingbird",
+      "raw_creator": "Harper Lee",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 앵무새 죽이기",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "Unless",
+      "raw_creator": "Carol Shields",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 언레스",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "V for Vendetta",
+      "raw_creator": "Alan Moore",
+      "rank": null,
+      "year": null,
+      "note": "분야: 정치·권력·저항(Politics, Power & Protest) / 한국어판 제목: 브이 포 벤데타",
+      "note_en": "Category: Politics, Power & Protest"
+    },
+    {
+      "raw_title": "A House for Mr Biswas",
+      "raw_creator": "V. S. Naipaul",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 비스와스씨를 위한 집",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "Cannery Row",
+      "raw_creator": "John Steinbeck",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 통조림공장 골목",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "Disgrace",
+      "raw_creator": "J.M. Coetzee",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 추락",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "Our Mutual Friend",
+      "raw_creator": "Charles Dickens",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 우리들의 친구",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "Poor Cow",
+      "raw_creator": "Nell Dunn",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 불쌍한 암소",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "Saturday Night and Sunday Morning",
+      "raw_creator": "Alan Sillitoe",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 토요일 밤과 일요일 아침",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "The Lonely Passion of Judith Hearne",
+      "raw_creator": "Brian Moore",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 주디의 외로운 열정",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "The Prime of Miss Jean Brodie",
+      "raw_creator": "Muriel Spark",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 진 브로디 선생의 전성기",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "The Remains of the Day",
+      "raw_creator": "Kazuo Ishiguro",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 남아있는 나날",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "Wide Sargasso Sea",
+      "raw_creator": "Jean Rhys",
+      "rank": null,
+      "year": null,
+      "note": "분야: 계급과 사회(Class & Society) / 한국어판 제목: 광막한 사르가소 바다",
+      "note_en": "Category: Class & Society"
+    },
+    {
+      "raw_title": "Emily of New Moon",
+      "raw_creator": "L. M. Montgomery",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 귀여운 에밀리",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "Golden Child",
+      "raw_creator": "Claire Adam",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 골든 차일드",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "Oryx and Crake",
+      "raw_creator": "Margaret Atwood",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 인간종말 리포트",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "So Long, See You Tomorrow",
+      "raw_creator": "William Maxwell",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 안녕, 내일 또 만나",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "Swami and Friends",
+      "raw_creator": "R. K. Narayan",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 스와미와 친구들",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "The Country Girls",
+      "raw_creator": "Edna O’Brien",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 시골 소녀들",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "The Harry Potter series",
+      "raw_creator": "J. K. Rowling",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 해리 포터 시리즈",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "The Outsiders",
+      "raw_creator": "S. E. Hinton",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 아웃사이더",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "The Secret Diary of Adrian Mole, Aged 13 ¾",
+      "raw_creator": "Sue Townsend",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 13세 3⁄4세 아드리안 몰의 비밀 일기",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "The Twilight Saga",
+      "raw_creator": "Stephenie Meyer",
+      "rank": null,
+      "year": null,
+      "note": "분야: 성장(Coming of Age) / 한국어판 제목: 트와일라잇",
+      "note_en": "Category: Coming of Age"
+    },
+    {
+      "raw_title": "A Suitable Boy",
+      "raw_creator": "Vikram Seth",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 수터블 보이",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "Ballet Shoes",
+      "raw_creator": "Noel Streatfeild",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 발레슈즈",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "Cloudstreet",
+      "raw_creator": "Tim Winton",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 클라우드 스트리트",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "Cold Comfort Farm",
+      "raw_creator": "Stella Gibbons",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 춥지만 편한 농장",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "I Capture the Castle",
+      "raw_creator": "Dodie Smith",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 아이 캡처 더 캐슬",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "Middlemarch",
+      "raw_creator": "George Eliot",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 미들마치",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "Tales of the City",
+      "raw_creator": "Armistead Maupin",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 테일즈 오브 더 시티",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "The Shipping News",
+      "raw_creator": "E. Annie Proulx",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 시핑 뉴스",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "The Tenant of Wildfell Hall",
+      "raw_creator": "Anne Brontë",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 와일드펠 홀의 소작인",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "The Witches",
+      "raw_creator": "Roald Dahl",
+      "rank": null,
+      "year": null,
+      "note": "분야: 가족과 우정(Family & Friendship) / 한국어판 제목: 마녀를 잡아라",
+      "note_en": "Category: Family & Friendship"
+    },
+    {
+      "raw_title": "American Tabloid",
+      "raw_creator": "James Ellroy",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 아메리칸 타블로이드",
+      "note_en": "Category: Crime & Conflict"
+    },
+    {
+      "raw_title": "American War",
+      "raw_creator": "Omar El Akkad",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 아메리칸 워",
+      "note_en": "Category: Crime & Conflict"
+    },
+    {
+      "raw_title": "Ice Candy Man",
+      "raw_creator": "Bapsi Sidhwa",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 아이스 캔디 맨",
+      "note_en": "Category: Crime & Conflict"
+    },
+    {
+      "raw_title": "Rebecca",
+      "raw_creator": "Daphne du Maurier",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 레베카",
+      "note_en": "Category: Crime & Conflict"
+    },
+    {
+      "raw_title": "Regeneration",
+      "raw_creator": "Pat Barker",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 리제네레이션",
+      "note_en": "Category: Crime & Conflict"
+    },
+    {
+      "raw_title": "The Children of Men",
+      "raw_creator": "P.D. James",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 인간의 아이들",
+      "note_en": "Category: Crime & Conflict"
+    },
+    {
+      "raw_title": "The Hound of the Baskervilles",
+      "raw_creator": "Arthur Conan Doyle",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 바스커빌 가문의 개",
+      "note_en": "Category: Crime & Conflict"
+    },
+    {
+      "raw_title": "The Quiet American",
+      "raw_creator": "Graham Greene",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 조용한 미국인",
+      "note_en": "Category: Crime & Conflict"
+    },
+    {
+      "raw_title": "The Reluctant Fundamentalist",
+      "raw_creator": "Mohsin Hamid",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 주저하는 근본주의자",
+      "note_en": "Category: Crime & Conflict"
+    },
+    {
+      "raw_title": "The Talented Mr Ripley",
+      "raw_creator": "Patricia Highsmith",
+      "rank": null,
+      "year": null,
+      "note": "분야: 범죄와 갈등(Crime & Conflict) / 한국어판 제목: 재능있는 리플리씨",
+      "note_en": "Category: Crime & Conflict"
+    }
+  ]
+}

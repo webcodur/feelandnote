@@ -1,0 +1,744 @@
+{
+  "curator": {
+    "slug": "university-of-seoul",
+    "name": "서울시립대학교",
+    "name_en": "University of Seoul",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1918,
+    "homepage_url": "https://www.uos.ac.kr",
+    "description": "서울시립대학교는 1918년에 뿌리를 둔 서울특별시립 종합대학이다. 서울 동대문구 전농동에 자리하며 도시 관련 학문에 강점을 두어 왔다. 자유융합대학이 교양교육을 맡고 중앙도서관이 관련 컬렉션을 운영한다.",
+    "description_en": "The University of Seoul is a municipal comprehensive university, established by the city of Seoul, whose origins date to 1918. Located in Jeonnong-dong, Dongdaemun-gu, it has long been strong in urban studies. Its College of Liberal Arts and Convergence Studies oversees general education, while the central library maintains the associated collections."
+  },
+  "list": {
+    "slug": "uos-books-of-our-time-100",
+    "title": "서울시립대 「시대가 읽는 책」 100선",
+    "title_en": "University of Seoul Books of Our Time 100",
+    "description": "서울시립대학교가 2017년 3월에 확정해 발표한 학생 권장도서 100선이다. 명저 위주로 짜여 실제로는 읽히지 않는 기존 대학 권장도서 목록과 달리, 학생이 실제로 읽을 수 있는 책을 고르는 데 무게를 두었다. 「시대」는 학교의 약칭이면서 동시에 시대라는 뜻이어서, 학교의 정체성과 지금의 문제를 함께 담는다는 뜻을 이름에 걸었다.",
+    "description_en": "One hundred recommended books finalized and announced by the University of Seoul in March 2017. Unlike university reading lists built around acknowledged masterpieces that students rarely finish, this one is weighted toward books students can actually read. Its Korean name puns on the university's abbreviation and the word for the present age, tying the university's identity to the questions of its own time.",
+    "published_year": 2017,
+    "edition": null,
+    "method": "자유융합대학 교양교육부가 구성한 분야별 교수 선정위원회가 기존 자료 검토와 분류 체계 설정, 목록 초안 작성, 교내 회람과 의견 수렴, 목록 조정을 거쳐 최종 100선을 확정했다. 교수나 전문가의 도움 없이 학생이 스스로 읽을 수 있는 책을 우선하고, 외국 도서는 번역의 질을 따져 번역서를 추천하며, 영역을 넘나드는 융합 도서를 적극 넣고, 대중성보다 학문적 가치를 앞세웠다. 목록은 문명, 사상·사고, 사회·인식, 도시·지역 네 범주로 나뉘며 순위는 없다.",
+    "method_en": "A selection committee of professors from across the disciplines, formed by the general education division of the College of Liberal Arts and Convergence Studies, reviewed existing lists, set a classification scheme, drafted the list, circulated it for comment within the university, adjusted it and confirmed the final hundred. Priority went to books students can read on their own without faculty guidance; foreign works are recommended in translation with the quality of the translation weighed; books that bridge fields were actively included; and scholarly value was placed ahead of popularity. The list is grouped into civilization, thought, society, and city and region, and is not ranked.",
+    "source_url": "https://library.uos.ac.kr/digicol/list/2",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "일리아드 오딧세이아",
+      "raw_creator": "호메로스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "그리스 로마 신화",
+      "raw_creator": "토마스 벌핀치 편",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "역사란 무엇인가",
+      "raw_creator": "에드워드카",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "사기열전",
+      "raw_creator": "사마천",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "몽골제국과 세계사의 탄생",
+      "raw_creator": "김호동",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "한국전쟁",
+      "raw_creator": "박태균",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "서양 중세 문명",
+      "raw_creator": "자크 르고프",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "물질문명과 자본주의 읽기",
+      "raw_creator": "페르낭 브로델",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "역사론",
+      "raw_creator": "에릭 홉스봄",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "만주족의 청제국",
+      "raw_creator": "마크 엘리엇",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "거의 모든 것의 역사",
+      "raw_creator": "빌브라이슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "사피엔스",
+      "raw_creator": "유발하라리",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "이기적인 유전자",
+      "raw_creator": "리처드 도킨스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "총,균,쇠",
+      "raw_creator": "재레드다이아몬드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "특이점이 온다",
+      "raw_creator": "레이커츠와일",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "시간의 역사",
+      "raw_creator": "스티븐 호킹",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "미래의 물리학",
+      "raw_creator": "미치오 가쿠",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "미술관에 간 화학자",
+      "raw_creator": "전창림",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "현대미술사전",
+      "raw_creator": "안연희",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "한눈에 보는 조각사",
+      "raw_creator": "김석",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 20"
+    },
+    {
+      "raw_title": "스포츠 문화를 읽다",
+      "raw_creator": "이노우에 슌",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 21"
+    },
+    {
+      "raw_title": "파운데이션(아이, 로봇)",
+      "raw_creator": "아이작아시모프",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 22"
+    },
+    {
+      "raw_title": "별의계승자",
+      "raw_creator": "제임스 호건",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 23"
+    },
+    {
+      "raw_title": "익스팬스",
+      "raw_creator": "제임스 코리",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 24"
+    },
+    {
+      "raw_title": "회계는 어떻게 역사를 지배해 왔는가",
+      "raw_creator": "제이컵 솔",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 25"
+    },
+    {
+      "raw_title": "국가는 왜 실패하는가",
+      "raw_creator": "대런애쓰모글루‧제임스A.로빈슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 문명 / 출처 목록 번호 26"
+    },
+    {
+      "raw_title": "마음",
+      "raw_creator": "나쓰메 소세키",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 27"
+    },
+    {
+      "raw_title": "젊은 예술가의 초상",
+      "raw_creator": "제임스 조이스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 28"
+    },
+    {
+      "raw_title": "토니오 크뢰거",
+      "raw_creator": "토마스만",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 29"
+    },
+    {
+      "raw_title": "국가‧정체",
+      "raw_creator": "플라톤",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 30"
+    },
+    {
+      "raw_title": "니코마코스 윤리학",
+      "raw_creator": "아리스토텔레스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 31"
+    },
+    {
+      "raw_title": "마흔, 논어를 읽어야 할 시간",
+      "raw_creator": "신정근",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 32"
+    },
+    {
+      "raw_title": "장자, 나를 깨우다",
+      "raw_creator": "이석명",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 33"
+    },
+    {
+      "raw_title": "독일 이데올로기",
+      "raw_creator": "마르크스‧엥겔스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 34"
+    },
+    {
+      "raw_title": "자유론",
+      "raw_creator": "존 스튜어트 밀",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 35"
+    },
+    {
+      "raw_title": "도덕의 계보학",
+      "raw_creator": "프리드리히 니체",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 36"
+    },
+    {
+      "raw_title": "감시와 처벌",
+      "raw_creator": "미셸 푸코",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 37"
+    },
+    {
+      "raw_title": "정의론",
+      "raw_creator": "존 롤스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 38"
+    },
+    {
+      "raw_title": "인정투쟁",
+      "raw_creator": "악셀 호네트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 39"
+    },
+    {
+      "raw_title": "프로테스탄트 윤리와 자본주의 정신",
+      "raw_creator": "막스 베버",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 40"
+    },
+    {
+      "raw_title": "도덕적 인간과 비도덕적 사회",
+      "raw_creator": "라인홀드 니부어",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 41"
+    },
+    {
+      "raw_title": "오리엔탈리즘",
+      "raw_creator": "에드워드 사이드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 42"
+    },
+    {
+      "raw_title": "세계사편력",
+      "raw_creator": "자와할랄 네루",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 43"
+    },
+    {
+      "raw_title": "생각에 관한 생각",
+      "raw_creator": "대니얼 카너먼",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 44"
+    },
+    {
+      "raw_title": "죽은 경제학자의 살아있는 아이디어",
+      "raw_creator": "토드 부크홀츠",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 45"
+    },
+    {
+      "raw_title": "과학혁명의 구조",
+      "raw_creator": "토마스쿤",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 46"
+    },
+    {
+      "raw_title": "부분과 전체",
+      "raw_creator": "베르너하이젠베르크",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 47"
+    },
+    {
+      "raw_title": "이야기 파라독스",
+      "raw_creator": "마틴가드너",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 48"
+    },
+    {
+      "raw_title": "인간에 대한 오해",
+      "raw_creator": "스티븐제이굴드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 49"
+    },
+    {
+      "raw_title": "최종 이론의 꿈",
+      "raw_creator": "스티븐와인버그",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 50"
+    },
+    {
+      "raw_title": "페르마의 마지막 정리",
+      "raw_creator": "사이먼싱",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 51"
+    },
+    {
+      "raw_title": "식물의 역사",
+      "raw_creator": "이상태",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 52"
+    },
+    {
+      "raw_title": "반 고흐, 영혼의 편지",
+      "raw_creator": "빈센트 반 고흐",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 53"
+    },
+    {
+      "raw_title": "미학오디세이",
+      "raw_creator": "진중권",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사상, 사고 / 출처 목록 번호 54"
+    },
+    {
+      "raw_title": "백석 시선집",
+      "raw_creator": "백석",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 55"
+    },
+    {
+      "raw_title": "김수영 전집",
+      "raw_creator": "김수영",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 56"
+    },
+    {
+      "raw_title": "지금 조선의 시를 쓰라",
+      "raw_creator": "박지원",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 57"
+    },
+    {
+      "raw_title": "의산문답",
+      "raw_creator": "홍대용",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 58"
+    },
+    {
+      "raw_title": "덴동어미화전가",
+      "raw_creator": "미상",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 59"
+    },
+    {
+      "raw_title": "삼국지",
+      "raw_creator": "나관중",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 60"
+    },
+    {
+      "raw_title": "외침",
+      "raw_creator": "루쉰",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 61"
+    },
+    {
+      "raw_title": "낙타 샹쯔",
+      "raw_creator": "라오서",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 62"
+    },
+    {
+      "raw_title": "허삼관 매혈기",
+      "raw_creator": "위화",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 63"
+    },
+    {
+      "raw_title": "게공선",
+      "raw_creator": "고바야시다키지",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 64"
+    },
+    {
+      "raw_title": "셰익스피어 4대 비극",
+      "raw_creator": "셰익스피어",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 65"
+    },
+    {
+      "raw_title": "주홍글자",
+      "raw_creator": "너새니얼호손",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 66"
+    },
+    {
+      "raw_title": "보바리 부인",
+      "raw_creator": "귀스타브 플로베르",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 67"
+    },
+    {
+      "raw_title": "백년 동안의 고독",
+      "raw_creator": "가브리엘 마르케스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 68"
+    },
+    {
+      "raw_title": "안나 카레니나",
+      "raw_creator": "레프 톨스토이",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 69"
+    },
+    {
+      "raw_title": "체호프 희곡선",
+      "raw_creator": "안톤 체호프",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 70"
+    },
+    {
+      "raw_title": "태백산맥",
+      "raw_creator": "조정래",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 71"
+    },
+    {
+      "raw_title": "시장체제",
+      "raw_creator": "찰스 린드블롬",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 72"
+    },
+    {
+      "raw_title": "공유의 비극을 넘어",
+      "raw_creator": "엘리너 오스트롬",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 73"
+    },
+    {
+      "raw_title": "집단행동의 논리",
+      "raw_creator": "맨큐어올슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 74"
+    },
+    {
+      "raw_title": "자본주의와 자유",
+      "raw_creator": "밀턴 프리드먼",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 75"
+    },
+    {
+      "raw_title": "미국의 민주주의",
+      "raw_creator": "알렉시스 드 토크빌",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 76"
+    },
+    {
+      "raw_title": "군주론",
+      "raw_creator": "니콜로 마키아벨리",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 77"
+    },
+    {
+      "raw_title": "돈으로 살 수 없는 것들",
+      "raw_creator": "마이클 샌델",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 78"
+    },
+    {
+      "raw_title": "시민권과 복지국가",
+      "raw_creator": "토마스 험프리 마셜",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 79"
+    },
+    {
+      "raw_title": "복지와 이데올로기",
+      "raw_creator": "빅조지‧폴윌딩",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 80"
+    },
+    {
+      "raw_title": "문학과 예술의 사회사",
+      "raw_creator": "아르놀트 하우저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 81"
+    },
+    {
+      "raw_title": "소유의 종말",
+      "raw_creator": "제레미리프킨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 82"
+    },
+    {
+      "raw_title": "탈산업사회의 도래",
+      "raw_creator": "다니엘 벨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 83"
+    },
+    {
+      "raw_title": "나 홀로 볼링",
+      "raw_creator": "로버트 퍼트넘",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 84"
+    },
+    {
+      "raw_title": "호모 루덴스",
+      "raw_creator": "요한 하위징아",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 85"
+    },
+    {
+      "raw_title": "침묵의 봄",
+      "raw_creator": "레이첼카슨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 86"
+    },
+    {
+      "raw_title": "삼체",
+      "raw_creator": "류츠신",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 87"
+    },
+    {
+      "raw_title": "첼리스트 카잘스, 나의 기쁨과 슬픔",
+      "raw_creator": "앨버트 칸",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 88"
+    },
+    {
+      "raw_title": "예술과 경제를 움직이는 다섯 가지 힘",
+      "raw_creator": "김형태",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 89"
+    },
+    {
+      "raw_title": "다니엘 바렌보임: 평화의 지휘자",
+      "raw_creator": "다니엘 바렌보임",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 90"
+    },
+    {
+      "raw_title": "머니볼",
+      "raw_creator": "마이클루이스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 91"
+    },
+    {
+      "raw_title": "스포츠 팬을 잡아라",
+      "raw_creator": "필립 코틀러‧어빌레인‧벤 쉴즈",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 92"
+    },
+    {
+      "raw_title": "창업국가",
+      "raw_creator": "댄 세노르‧사울 싱어",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 93"
+    },
+    {
+      "raw_title": "부자나라는 어떻게 부자가 되었고, 가난한 나라는 왜 여전히 가난한가",
+      "raw_creator": "에릭 라이너트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 94"
+    },
+    {
+      "raw_title": "자본주의 사회주의 민주주의",
+      "raw_creator": "조셉 슘페터",
+      "rank": null,
+      "year": null,
+      "note": "분야: 사회, 인식 / 출처 목록 번호 95"
+    },
+    {
+      "raw_title": "장소와 장소상실",
+      "raw_creator": "에드워드랠프",
+      "rank": null,
+      "year": null,
+      "note": "분야: 도시, 지역 / 출처 목록 번호 96"
+    },
+    {
+      "raw_title": "미국 대도시의 죽음과 삶",
+      "raw_creator": "제인 제이콥스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 도시, 지역 / 출처 목록 번호 97"
+    },
+    {
+      "raw_title": "내일의 도시",
+      "raw_creator": "피터 홀",
+      "rank": null,
+      "year": null,
+      "note": "분야: 도시, 지역 / 출처 목록 번호 98"
+    },
+    {
+      "raw_title": "서울도시계획이야기",
+      "raw_creator": "손정목",
+      "rank": null,
+      "year": null,
+      "note": "분야: 도시, 지역 / 출처 목록 번호 99"
+    },
+    {
+      "raw_title": "신창조계급",
+      "raw_creator": "리처드 플로리다",
+      "rank": null,
+      "year": null,
+      "note": "분야: 도시, 지역 / 출처 목록 번호 100"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=221808095208",
+      "https://library.uos.ac.kr/digicol/list/2",
+      "http://press.uos.ac.kr/news/articleView.html?idxno=10652",
+      "http://press.uos.ac.kr/news/articleView.html?idxno=10637",
+      "https://library.uos.ac.kr/bbs/content/1_13986",
+      "https://www.uos.ac.kr"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "gaps": "빠진 항목 없다. 범주별로 문명 26, 사상·사고 28, 사회·인식 41, 도시·지역 5건이며 합이 100에 맞는다.",
+    "uncertainties": "중앙도서관 컬렉션 페이지가 살아 있어 source_url로 걸었으나, 그 페이지는 다권본을 낱권으로 세어 144건으로 집계되므로 100종과 그대로 대조되지는 않는다. 선정을 알린 학내 신문 기사와 도서관 공지에서 발표 시점과 주체를 확인했다. 교양교육부의 원 공지 전문과 선정위원 명단은 확인하지 못했다."
+  }
+}

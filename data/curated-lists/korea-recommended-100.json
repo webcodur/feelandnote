@@ -1,0 +1,731 @@
+{
+  "curator": {
+    "slug": "korea-university",
+    "name": "고려대학교",
+    "name_en": "Korea University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1905,
+    "homepage_url": "https://www.korea.ac.kr",
+    "description": "고려대학교는 1905년 보성전문학교로 문을 연 사립 종합대학이다. 서울 안암동 본교와 세종특별자치시의 세종캠퍼스를 함께 운영한다. 학부 교양교육을 뒷받침하는 독서 프로그램을 도서관과 학술정보원이 맡아 왔다.",
+    "description_en": "Korea University is a private comprehensive university founded in 1905 as Bosung College. It operates its main campus in Anam-dong, Seoul, alongside a second campus in Sejong. Its libraries and academic information centers have long run the reading programs that support undergraduate liberal education."
+  },
+  "list": {
+    "slug": "korea-recommended-100",
+    "title": "고려대 권장도서 100선",
+    "title_en": "Korea University 100 Recommended Books",
+    "description": "고려대학교 학부대학이 「학부대학 추천도서」 화면에 「추천 도서 100권」이라는 제목으로 공개하는 목록이다. 저자·도서명과 함께 국내 번역본의 역자·출판사·출간연도까지 판본을 지정해 적어, 학부생이 어느 판으로 읽으면 되는지 바로 알 수 있게 했다. 글쓰기 안내서에서 시작해 문학·사회사상·철학·미학·과학·공간론·법철학으로 이어지고 대학이란 무엇인가를 묻는 책으로 끝난다.",
+    "description_en": "A list of one hundred titles published by the University College of Korea University on its “University College Recommended Books” page under the heading “100 Recommended Books.” Each entry names a specific Korean edition — translator, publisher and year — so that undergraduates know which edition to read. The sequence opens with guides to writing and moves through literature, social thought, philosophy, aesthetics, science, theories of place and legal philosophy before closing on books that ask what a university is for.",
+    "published_year": null,
+    "edition": null,
+    "series_key": null,
+    "method": "학부대학이 저자·도서명·역자·출판사·출간연도를 담은 표 하나로 100권을 게시한다. 선정 연도와 선정 절차는 페이지에 적혀 있지 않다. 붙은 번호는 순위가 아니라 일련번호이며, 글쓰기·문학·사회사상·철학·미학·과학·공간·법철학처럼 주제가 비슷한 책끼리 묶여 이어진다.",
+    "method_en": "The University College posts all one hundred titles in a single table listing author, title, translator, publisher and year of publication. The page states neither a selection year nor a selection procedure. The numbers are sequential rather than ranks, and titles on related subjects — writing, literature, social thought, philosophy, aesthetics, science, place, legal philosophy — run in adjacent blocks.",
+    "source_url": "https://univ.korea.ac.kr/uc/design/book.do",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "아픔이 길이 되려면",
+      "raw_creator": "김승섭",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 1 / 출판사·출간연도: 동아시아 (2017)"
+    },
+    {
+      "raw_title": "유혹하는 글쓰기",
+      "raw_creator": "스티븐 킹",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 2 / 역자: 김진준 / 출판사·출간연도: 김영사 (2002)"
+    },
+    {
+      "raw_title": "유시민의 글쓰기 특강",
+      "raw_creator": "유시민",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 3 / 출판사·출간연도: 생각의 길: 아름다운 사람들 (2015)"
+    },
+    {
+      "raw_title": "하버드 글쓰기 강의",
+      "raw_creator": "바버라 베이그",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 4 / 역자: 박병화 / 출판사·출간연도: 글항아리 (2011)"
+    },
+    {
+      "raw_title": "보는 눈의 여덟가지 얼굴",
+      "raw_creator": "마리우스 리멜레",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 5 / 역자: 문화학연구회 / 출판사·출간연도: 글항아리 (2015)"
+    },
+    {
+      "raw_title": "아내를 모자로 착각한 남자",
+      "raw_creator": "올리버 색스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 6 / 역자: 조석현 / 출판사·출간연도: 알마 (2015)"
+    },
+    {
+      "raw_title": "몸의 노래",
+      "raw_creator": "구리야마 시게히사",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 7 / 역자: 정우진 외 1명 / 출판사·출간연도: 이음 (2013)"
+    },
+    {
+      "raw_title": "시간의 탄생",
+      "raw_creator": "알렉산더 데만트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 8 / 역자: 이덕임 / 출판사·출간연도: 북라이프 (2018)"
+    },
+    {
+      "raw_title": "보이는 세상은 실재가 아니다",
+      "raw_creator": "카를로 로벨리",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 9 / 역자: 김정훈 / 출판사·출간연도: 쌤앤파커스 (2018)"
+    },
+    {
+      "raw_title": "증여론",
+      "raw_creator": "마르셀 모스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 10 / 역자: 류정아 / 출판사·출간연도: 지만지 (2008)"
+    },
+    {
+      "raw_title": "사랑과 경제의 로고스",
+      "raw_creator": "나카자와 신이치",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 11 / 역자: 김옥희 / 출판사·출간연도: 동아시아 (2004)"
+    },
+    {
+      "raw_title": "이것이 인간인가",
+      "raw_creator": "프리모 레비",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 12 / 역자: 이현경 / 출판사·출간연도: 돌베개 (2007)"
+    },
+    {
+      "raw_title": "소년이 온다",
+      "raw_creator": "한강",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 13 / 출판사·출간연도: 창비 (2014)"
+    },
+    {
+      "raw_title": "검은 꽃",
+      "raw_creator": "김영하",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 14 / 출판사·출간연도: 문학동네 (2003)"
+    },
+    {
+      "raw_title": "디디의 우산",
+      "raw_creator": "황정은",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 15 / 출판사·출간연도: 창비 (2019)"
+    },
+    {
+      "raw_title": "비행운",
+      "raw_creator": "김애란",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 16 / 출판사·출간연도: 문학과지성사 (2012)"
+    },
+    {
+      "raw_title": "가면의 고백",
+      "raw_creator": "미시마 유키오",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 17 / 역자: 양윤옥 / 출판사·출간연도: 문학동네 (2009)"
+    },
+    {
+      "raw_title": "픽션들",
+      "raw_creator": "호르헤 루이스 보르헤스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 18 / 출판사·출간연도: 민음사 (2011)"
+    },
+    {
+      "raw_title": "돈키호테",
+      "raw_creator": "미겔 데 세르반테스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 19 / 역자: 김정우 / 출판사·출간연도: 푸른숲 (2007)"
+    },
+    {
+      "raw_title": "삼국유사",
+      "raw_creator": "일연",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 20 / 출판사·출간연도: 한길사 (2006)"
+    },
+    {
+      "raw_title": "다산 문선",
+      "raw_creator": "정약용",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 21 / 출판사·출간연도: 솔 (1997)"
+    },
+    {
+      "raw_title": "정의론",
+      "raw_creator": "존 롤스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 22 / 역자: 황경식 / 출판사·출간연도: 이학사 (2003)"
+    },
+    {
+      "raw_title": "연암 산문선",
+      "raw_creator": "박지원",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 23 / 출판사·출간연도: 꿈과희망 (2008)"
+    },
+    {
+      "raw_title": "주역",
+      "raw_creator": "김인환",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 24 / 출판사·출간연도: 고려대학교출판부 (2006)"
+    },
+    {
+      "raw_title": "피로사회",
+      "raw_creator": "한병철",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 25 / 출판사·출간연도: 문학과지성사 (2012)"
+    },
+    {
+      "raw_title": "밤이 선생이다",
+      "raw_creator": "황현산",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 26 / 출판사·출간연도: 난다 (2013)"
+    },
+    {
+      "raw_title": "코스모스",
+      "raw_creator": "칼 세이건",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 27 / 역자: 홍승수 / 출판사·출간연도: 사이언스북스 (2006)"
+    },
+    {
+      "raw_title": "이기적 유전자",
+      "raw_creator": "리처드 도킨스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 28 / 역자: 홍영남, 이상임 / 출판사·출간연도: 을유문화사 (2018)"
+    },
+    {
+      "raw_title": "장하준의 경제학 강의",
+      "raw_creator": "장하준",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 29 / 출판사·출간연도: 부키 (2014)"
+    },
+    {
+      "raw_title": "해러웨이 선언문",
+      "raw_creator": "도나 해러웨이",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 30 / 역자: 황희선 / 출판사·출간연도: 책세상 (2019)"
+    },
+    {
+      "raw_title": "총균쇠",
+      "raw_creator": "재레드 다이아몬드",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 31 / 역자: 김진준 / 출판사·출간연도: 문학사상 (2013)"
+    },
+    {
+      "raw_title": "당신 인생의 이야기",
+      "raw_creator": "테드 창",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 32 / 역자: 김상훈 / 출판사·출간연도: 엘리: 북하우스 (2016)"
+    },
+    {
+      "raw_title": "영초언니",
+      "raw_creator": "서명숙",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 33 / 출판사·출간연도: 문학동네 (2017)"
+    },
+    {
+      "raw_title": "방법서설·성찰-데카르트 연구",
+      "raw_creator": "데카르트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 34 / 역자: 최명관 / 출판사·출간연도: 창 (2010)"
+    },
+    {
+      "raw_title": "사피엔스",
+      "raw_creator": "유발 하라리",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 35 / 역자: 조현욱 / 출판사·출간연도: 김영사 (2015)"
+    },
+    {
+      "raw_title": "특이점이 온다",
+      "raw_creator": "레이 커즈와일",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 36 / 역자: 장시형, 김명남 / 출판사·출간연도: 김영사 (2007)"
+    },
+    {
+      "raw_title": "포스트 휴먼",
+      "raw_creator": "로지 브라이도티",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 37 / 역자: 이경란 / 출판사·출간연도: 아카넷 (2015)"
+    },
+    {
+      "raw_title": "일반언어학 강의",
+      "raw_creator": "페르디낭 드 소쉬르",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 38 / 역자: 최승언 / 출판사·출간연도: 민음사 (2006)"
+    },
+    {
+      "raw_title": "철학적 탐구",
+      "raw_creator": "루드비히 비트겐슈타인",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 39 / 역자: 이영철 / 출판사·출간연도: 책세상 (2006)"
+    },
+    {
+      "raw_title": "고양이 대학살",
+      "raw_creator": "로버트 단턴",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 40 / 역자: 조한욱 / 출판사·출간연도: 문학과지성사 (1996)"
+    },
+    {
+      "raw_title": "오리엔탈리즘",
+      "raw_creator": "에드워드 사이드",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 41 / 역자: 방홍규 / 출판사·출간연도: 교보문고 (2015)"
+    },
+    {
+      "raw_title": "감시와 처벌",
+      "raw_creator": "미셸 푸코",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 42 / 역자: 오생근 / 출판사·출간연도: 나남출판 (2016)"
+    },
+    {
+      "raw_title": "광기의 역사",
+      "raw_creator": "미셸 푸코",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 43 / 역자: 이규현 / 출판사·출간연도: 나남출판 (2003)"
+    },
+    {
+      "raw_title": "현대성과 홀로코스트",
+      "raw_creator": "지그문트 바우만",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 44 / 역자: 정일준 / 출판사·출간연도: 새물결 (2013)"
+    },
+    {
+      "raw_title": "과학혁명의 구조",
+      "raw_creator": "토마스 쿤",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 45 / 역자: 김명자, 홍성욱 / 출판사·출간연도: 까치글방 (2013)"
+    },
+    {
+      "raw_title": "1984",
+      "raw_creator": "조지 오웰",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 46 / 역자: 김기혁 / 출판사·출간연도: 문학동네 (2009)"
+    },
+    {
+      "raw_title": "꿈의 해석",
+      "raw_creator": "지그문트 프로이트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 47 / 역자: 김인순 / 출판사·출간연도: 열린책들 (2004)"
+    },
+    {
+      "raw_title": "문명 속의 불만",
+      "raw_creator": "지그문트 프로이트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 48 / 역자: 김석희 / 출판사·출간연도: 열린책들 (2004)"
+    },
+    {
+      "raw_title": "초현실주의 선언",
+      "raw_creator": "앙드레 브르통",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 49 / 역자: 황현산 / 출판사·출간연도: 미메시스 (2012)"
+    },
+    {
+      "raw_title": "\"새로운\" 무의식: 정신분석에서 뇌과학으로",
+      "raw_creator": "레오나르드 믈로디노프",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 50 / 역자: 김명남 / 출판사·출간연도: 까치글방 (2013) / 출간연도 표기가 표에서 「2013..」으로 잘려 있다"
+    },
+    {
+      "raw_title": "소포클레스 비극 전집",
+      "raw_creator": "소포클레스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 51 / 역자: 천병희 / 출판사·출간연도: 숲 (2008)"
+    },
+    {
+      "raw_title": "슬픈 열대",
+      "raw_creator": "클로드 레비스트로스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 52 / 역자: 박옥줄 / 출판사·출간연도: 한길사 (1998)"
+    },
+    {
+      "raw_title": "야생의 사고",
+      "raw_creator": "클로드 레비스트로스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 53 / 역자: 안정남 / 출판사·출간연도: 한길사 (1996)"
+    },
+    {
+      "raw_title": "예루살렘의 아이히만",
+      "raw_creator": "한나 아렌트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 54 / 역자: 김선욱 / 출판사·출간연도: 한길사 (2006)"
+    },
+    {
+      "raw_title": "책 읽어주는 남자",
+      "raw_creator": "베른하르트 슐링크",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 55 / 역자: 김재혁 / 출판사·출간연도: 시공사 (2013)"
+    },
+    {
+      "raw_title": "수학이 사랑한 예술",
+      "raw_creator": "아미르 악젤",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 56 / 역자: 이충호 / 출판사·출간연도: 알마 (2008)"
+    },
+    {
+      "raw_title": "타타르키비츠 미학사 1·2·3",
+      "raw_creator": "블라디슬로프 타타르키비츠",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 57 / 역자: 손효주 / 출판사·출간연도: 미술문화 (2005)"
+    },
+    {
+      "raw_title": "기술복제시대의 예술작품/ 사진의 작은 역사 외",
+      "raw_creator": "발터 벤야민",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 58 / 역자: 최성만 / 출판사·출간연도: 길 (2007)"
+    },
+    {
+      "raw_title": "예술의 종말 이후",
+      "raw_creator": "아서 단토",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 59 / 역자: 김광우, 이성훈 / 출판사·출간연도: 미술문화 (2004)"
+    },
+    {
+      "raw_title": "현대의 예술과 미학",
+      "raw_creator": "미학대계간행회",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 60 / 출판사·출간연도: 서울대학교 출판사 (2007)"
+    },
+    {
+      "raw_title": "시학",
+      "raw_creator": "아리스토텔레스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 61 / 역자: 천병희 / 출판사·출간연도: 문예출판사 (2002)"
+    },
+    {
+      "raw_title": "계몽의 변증법",
+      "raw_creator": "테오도르 아도르노, 호르크하이머",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 62 / 역자: 김유동 / 출판사·출간연도: 문학과지성사 (2001) / 저자 표기가 표에서 「테오도르 아도르노, 호르크하이」로 잘려 있다"
+    },
+    {
+      "raw_title": "부정변증법",
+      "raw_creator": "테오도르 아도르노",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 63 / 역자: 홍승용 / 출판사·출간연도: 한길사 (1999)"
+    },
+    {
+      "raw_title": "판단력 비판",
+      "raw_creator": "이마누엘 칸트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 64 / 역자: 백종현 / 출판사·출간연도: 아카넷 (2009)"
+    },
+    {
+      "raw_title": "정신현상학1·2",
+      "raw_creator": "게오르그 빌헬름 프리드리히 헤겔",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 65 / 역자: 임석진 / 출판사·출간연도: 한길사 (2005) / 저자 표기가 표에서 「게오르그 빌헬름 프리드리히 헤」로 잘려 있다"
+    },
+    {
+      "raw_title": "추측과 논박1·2",
+      "raw_creator": "칼 포퍼",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 66 / 역자: 이한구 / 출판사·출간연도: 민음사 (2001)"
+    },
+    {
+      "raw_title": "과학적 발견의 논리",
+      "raw_creator": "칼 포퍼",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 67 / 역자: 박우석 / 출판사·출간연도: 고려원 (1994)"
+    },
+    {
+      "raw_title": "물리법칙의 특성",
+      "raw_creator": "리처드 파인먼",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 68 / 역자: 이정호 / 출판사·출간연도: 전파과학사 (1992) / 출간연도 표기가 표에서 「1992..」로 잘려 있다"
+    },
+    {
+      "raw_title": "중세의 지식인들",
+      "raw_creator": "자크 르 고프",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 69 / 역자: 최애리 / 출판사·출간연도: 동문선 (1999)"
+    },
+    {
+      "raw_title": "대학의 이념",
+      "raw_creator": "카를 야스퍼스",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 70 / 역자: 정영도 / 출판사·출간연도: 지만지 (2011)"
+    },
+    {
+      "raw_title": "학부들의 논쟁",
+      "raw_creator": "이마누엘 칸트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 71 / 역자: 오진석 / 출판사·출간연도: b판고전 (2012)"
+    },
+    {
+      "raw_title": "예술과 환영",
+      "raw_creator": "에른스트 곰브리치",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 72 / 역자: 차미례 / 출판사·출간연도: 열화당 (2003)"
+    },
+    {
+      "raw_title": "시각과 현대성",
+      "raw_creator": "주은우",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 73 / 출판사·출간연도: 한나래 (2003)"
+    },
+    {
+      "raw_title": "사진에 관하여",
+      "raw_creator": "수잔 손택",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 74 / 역자: 이재원 / 출판사·출간연도: 이후 (2005)"
+    },
+    {
+      "raw_title": "타인의 고통",
+      "raw_creator": "수잔 손택",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 75 / 역자: 이재원 / 출판사·출간연도: 이후 (2004)"
+    },
+    {
+      "raw_title": "밝은 방",
+      "raw_creator": "롤랑 바르트",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 76 / 역자: 김웅권 / 출판사·출간연도: 동문선 (2006)"
+    },
+    {
+      "raw_title": "차라투스트라는 이렇게 말했다",
+      "raw_creator": "프리드리히 니체",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 77 / 역자: 정동호 / 출판사·출간연도: 책세상 (2000)"
+    },
+    {
+      "raw_title": "몸의 인지과학",
+      "raw_creator": "프란시스코 바렐라 외",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 78 / 역자: 석봉래 / 출판사·출간연도: 김영사 (2013)"
+    },
+    {
+      "raw_title": "젠더 허물기",
+      "raw_creator": "주디스 버틀러",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 79 / 역자: 조현준 / 출판사·출간연도: 문학과지성사 (2015)"
+    },
+    {
+      "raw_title": "이타주의자의 은밀한 뇌구조",
+      "raw_creator": "김학진",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 80 / 출판사·출간연도: 갈매나무 (2017)"
+    },
+    {
+      "raw_title": "우주의 구조",
+      "raw_creator": "브라이언 그린",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 81 / 역자: 박병철 / 출판사·출간연도: 승산 (2005)"
+    },
+    {
+      "raw_title": "장소와 장소상실",
+      "raw_creator": "에드워드 렐프",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 82 / 역자: 김덕현 외 / 출판사·출간연도: 논형 (2005)"
+    },
+    {
+      "raw_title": "장소론",
+      "raw_creator": "마루타 하지메",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 83 / 역자: 윤상현 외 / 출판사·출간연도: 심산 (2011)"
+    },
+    {
+      "raw_title": "공간과 장소",
+      "raw_creator": "이 푸 투안",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 84 / 역자: 구동회 / 출판사·출간연도: 대윤 (1999)"
+    },
+    {
+      "raw_title": "헤테로토피아",
+      "raw_creator": "미셸 푸코",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 85 / 역자: 이상길 / 출판사·출간연도: 문학과지성사 (2014)"
+    },
+    {
+      "raw_title": "젠더, 정체성, 장소",
+      "raw_creator": "린다 맥도웰",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 86 / 역자: 여성과공간연구회 / 출판사·출간연도: 한울 (2017)"
+    },
+    {
+      "raw_title": "(그림으로 보는) 시간의 역사",
+      "raw_creator": "스티븐 호킹",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 87 / 역자: 김동광 / 출판사·출간연도: 까치 (1998)"
+    },
+    {
+      "raw_title": "아인슈타인의 시계, 푸앵카레의 지도",
+      "raw_creator": "피터 갤리슨",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 88 / 역자: 김재영 외 / 출판사·출간연도: 동아시아 (2017)"
+    },
+    {
+      "raw_title": "상대성이란 무엇인가",
+      "raw_creator": "알베르트 아인슈타인",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 89 / 역자: 고중숙 / 출판사·출간연도: 김영사 (2011)"
+    },
+    {
+      "raw_title": "존재와 시간",
+      "raw_creator": "마르틴 하이데거",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 90 / 역자: 이기상 / 출판사·출간연도: 까치 (1998)"
+    },
+    {
+      "raw_title": "비동시성의 동시성",
+      "raw_creator": "임혁백",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 91 / 출판사·출간연도: 고려대학교 출판문화원 (2014)"
+    },
+    {
+      "raw_title": "소송",
+      "raw_creator": "프란츠 카프카",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 92 / 역자: 이주동 / 출판사·출간연도: 솔 (2017)"
+    },
+    {
+      "raw_title": "인간 불평등 기원론",
+      "raw_creator": "장-자크 루소",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 93 / 역자: 주경복·고봉만 / 출판사·출간연도: 책세상 (2003)"
+    },
+    {
+      "raw_title": "사회 계약론",
+      "raw_creator": "장-자크 루소",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 94 / 역자: 박호성 / 출판사·출간연도: 책세상 (2015)"
+    },
+    {
+      "raw_title": "법철학",
+      "raw_creator": "아르투어 카우프만",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 95 / 역자: 김영환 / 출판사·출간연도: 나남출판 (2007)"
+    },
+    {
+      "raw_title": "법철학",
+      "raw_creator": "구스타브 라드브루흐",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 96 / 역자: 최종고 / 출판사·출간연도: 삼영사 (2011)"
+    },
+    {
+      "raw_title": "시민불복종-저항과 장의 길",
+      "raw_creator": "헨리 데이비드 소로",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 97 / 역자: 오현철 / 출판사·출간연도: 책세상 (2001)"
+    },
+    {
+      "raw_title": "추측과 논박",
+      "raw_creator": "칼 포퍼",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 98 / 역자: 이한구 / 출판사·출간연도: 민음사 (2001)"
+    },
+    {
+      "raw_title": "대학이란 무엇인가",
+      "raw_creator": "요시미 순야",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 99 / 역자: 서재길 / 출판사·출간연도: 글항아리 (2014)"
+    },
+    {
+      "raw_title": "21세기를 위한 21가지 제언",
+      "raw_creator": "유발 하라리",
+      "rank": null,
+      "year": null,
+      "note": "출처 목록 번호 100 / 역자: 전병근 / 출판사·출간연도: 김영사 (2018)"
+    }
+  ]
+}

@@ -1,0 +1,733 @@
+{
+  "curator": {
+    "slug": "the-guardian",
+    "name": "가디언",
+    "name_en": "The Guardian",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 1821,
+    "homepage_url": "https://www.theguardian.com",
+    "description": "1821년 맨체스터에서 창간한 영국의 일간지다. 1959년 지금의 제호로 바꾸고 뒤이어 런던으로 본사를 옮겼으며, 소유권이 스콧 트러스트 재단에 묶여 있어 개인 소유주가 없다. 서평면 「가디언 리뷰」를 통해 도서 순위 기획을 여러 차례 발표했다.",
+    "description_en": "Founded in Manchester in 1821 as The Manchester Guardian, the paper took its present name in 1959 and later moved to London. It is owned by the Scott Trust, which leaves it without a proprietor. Its books section, the Guardian Review, has published several large-scale book lists."
+  },
+  "list": {
+    "slug": "guardian-100-best-nonfiction-books",
+    "title": "역대 최고의 논픽션 100선",
+    "title_en": "The 100 Best Nonfiction Books of All Time",
+    "description": "가디언 문학 편집자 로버트 매크럼이 2016년 2월부터 매주 한 권씩 연재해 2017년 12월 31일 전체 목록으로 마무리한 영어 논픽션 100선이다. 1번은 엘리자베스 콜버트의 『여섯 번째 대멸종』이고 100번은 1611년 흠정역 성경으로, 번호가 최신작에서 옛 문헌으로 거슬러 올라가는 역연대순이다.",
+    "description_en": "A list of 100 non-fiction books written in English, chosen by Guardian literary editor Robert McCrum and published one a week from February 2016 until the full list appeared on 31 December 2017. It is ordered in reverse chronology, running from Elizabeth Kolbert's The Sixth Extinction at No 1 back to the 1611 Authorised Version of the Bible at No 100.",
+    "published_year": 2017,
+    "edition": null,
+    "series_key": null,
+    "method": "로버트 매크럼이 영어로 쓰인 논픽션을 대상으로 혼자 골랐다. 투표나 심사단은 없다. 소설을 다룬 앞선 연재 「영어로 쓰인 최고의 소설 100선」의 후속 기획이며, 번호는 우열이 아니라 출간 연대의 역순이다. 각 권은 매주 한 편의 소개 기사로 연재됐고 전체 목록 기사가 마지막에 실렸다.",
+    "method_en": "Robert McCrum made the selection himself, restricted to non-fiction written in English; there was no vote or judging panel. It followed his earlier series on the 100 best novels, and the numbering reflects reverse chronological order of publication rather than merit. Each title ran as a weekly essay, with the full list published at the end of the series.",
+    "source_url": "https://www.theguardian.com/books/2017/dec/31/the-100-best-nonfiction-books-of-all-time-the-full-list",
+    "cover_image_url": null,
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": []
+  },
+  "items": [
+    {
+      "raw_title": "The Sixth Extinction",
+      "raw_creator": "Elizabeth Kolbert",
+      "rank": 1,
+      "year": 2014,
+      "note": "한국어판 제목: 여섯번째 대멸종"
+    },
+    {
+      "raw_title": "The Year of Magical Thinking",
+      "raw_creator": "Joan Didion",
+      "rank": 2,
+      "year": 2005,
+      "note": "한국어판 제목: 상실"
+    },
+    {
+      "raw_title": "No Logo",
+      "raw_creator": "Naomi Klein",
+      "rank": 3,
+      "year": 1999,
+      "note": "한국어판 제목: 노 로고"
+    },
+    {
+      "raw_title": "Birthday Letters",
+      "raw_creator": "Ted Hughes",
+      "rank": 4,
+      "year": 1998,
+      "note": "한국어판 제목: 생일편지"
+    },
+    {
+      "raw_title": "Dreams from My Father",
+      "raw_creator": "Barack Obama",
+      "rank": 5,
+      "year": 1995,
+      "note": "한국어판 제목: 내 아버지로부터의 꿈"
+    },
+    {
+      "raw_title": "A Brief History of Time",
+      "raw_creator": "Stephen Hawking",
+      "rank": 6,
+      "year": 1988,
+      "note": "한국어판 제목: 시간의 역사"
+    },
+    {
+      "raw_title": "The Right Stuff",
+      "raw_creator": "Tom Wolfe",
+      "rank": 7,
+      "year": 1979,
+      "note": "한국어판 제목: 필사의 도전"
+    },
+    {
+      "raw_title": "Orientalism",
+      "raw_creator": "Edward Said",
+      "rank": 8,
+      "year": 1978,
+      "note": "한국어판 제목: 오리엔탈리즘"
+    },
+    {
+      "raw_title": "Dispatches",
+      "raw_creator": "Michael Herr",
+      "rank": 9,
+      "year": 1977,
+      "note": "한국어판 제목: 디스패치"
+    },
+    {
+      "raw_title": "The Selfish Gene",
+      "raw_creator": "Richard Dawkins",
+      "rank": 10,
+      "year": 1976,
+      "note": "한국어판 제목: 이기적 유전자"
+    },
+    {
+      "raw_title": "North",
+      "raw_creator": "Seamus Heaney",
+      "rank": 11,
+      "year": 1975,
+      "note": "한국어판 제목: 노스"
+    },
+    {
+      "raw_title": "Awakenings",
+      "raw_creator": "Oliver Sacks",
+      "rank": 12,
+      "year": 1973,
+      "note": "한국어판 제목: 깨어남"
+    },
+    {
+      "raw_title": "The Female Eunuch",
+      "raw_creator": "Germaine Greer",
+      "rank": 13,
+      "year": 1970,
+      "note": "한국어판 제목: 여성 거세당하다(거세된 여자)"
+    },
+    {
+      "raw_title": "Awopbopaloobop Alopbamboom",
+      "raw_creator": "Nik Cohn",
+      "rank": 14,
+      "year": 1969,
+      "note": "한국어판 제목: Awopbopaloobop Alopbamboom"
+    },
+    {
+      "raw_title": "The Double Helix",
+      "raw_creator": "James D Watson",
+      "rank": 15,
+      "year": 1968,
+      "note": "한국어판 제목: 이중나선"
+    },
+    {
+      "raw_title": "Against Interpretation",
+      "raw_creator": "Susan Sontag",
+      "rank": 16,
+      "year": 1966,
+      "note": "한국어판 제목: 해석에 반대한다"
+    },
+    {
+      "raw_title": "Ariel",
+      "raw_creator": "Sylvia Plath",
+      "rank": 17,
+      "year": 1965,
+      "note": "한국어판 제목: 에어리얼"
+    },
+    {
+      "raw_title": "The Feminine Mystique",
+      "raw_creator": "Betty Friedan",
+      "rank": 18,
+      "year": 1963,
+      "note": "한국어판 제목: 여성의 신비"
+    },
+    {
+      "raw_title": "The Making of the English Working Class",
+      "raw_creator": "EP Thompson",
+      "rank": 19,
+      "year": 1963,
+      "note": "한국어판 제목: 영국 노동계급의 형성"
+    },
+    {
+      "raw_title": "Silent Spring",
+      "raw_creator": "Rachel Carson",
+      "rank": 20,
+      "year": 1962,
+      "note": "한국어판 제목: 침묵의 봄"
+    },
+    {
+      "raw_title": "The Structure of Scientific Revolutions",
+      "raw_creator": "Thomas S Kuhn",
+      "rank": 21,
+      "year": 1962,
+      "note": "한국어판 제목: 과학혁명의 구조"
+    },
+    {
+      "raw_title": "A Grief Observed",
+      "raw_creator": "CS Lewis",
+      "rank": 22,
+      "year": 1961,
+      "note": "한국어판 제목: 헤아려 본 슬픔"
+    },
+    {
+      "raw_title": "The Elements of Style",
+      "raw_creator": "William Strunk and EB White",
+      "rank": 23,
+      "year": 1959,
+      "note": "한국어판 제목: 영어 글쓰기의 기본"
+    },
+    {
+      "raw_title": "The Affluent Society",
+      "raw_creator": "John Kenneth Galbraith",
+      "rank": 24,
+      "year": 1958,
+      "note": "한국어판 제목: 풍요한 사회"
+    },
+    {
+      "raw_title": "The Uses of Literacy: Aspects of Working-Class Life",
+      "raw_creator": "Richard Hoggart",
+      "rank": 25,
+      "year": 1957,
+      "note": "한국어판 제목: 교양의 효용"
+    },
+    {
+      "raw_title": "Notes of a Native Son",
+      "raw_creator": "James Baldwin",
+      "rank": 26,
+      "year": 1955,
+      "note": "한국어판 제목: 미국 아들의 메모"
+    },
+    {
+      "raw_title": "The Nude: A Study of Ideal Art",
+      "raw_creator": "Kenneth Clark",
+      "rank": 27,
+      "year": 1956,
+      "note": "한국어판 제목: 누드의 미술사"
+    },
+    {
+      "raw_title": "The Hedgehog and the Fox",
+      "raw_creator": "Isaiah Berlin",
+      "rank": 28,
+      "year": 1953,
+      "note": "한국어판 제목: 고슴도치와 여우"
+    },
+    {
+      "raw_title": "Waiting for Godot",
+      "raw_creator": "Samuel Beckett",
+      "rank": 29,
+      "year": 1952,
+      "note": "한국어판 제목: 고도를 기다리며"
+    },
+    {
+      "raw_title": "A Book of Mediterranean Food",
+      "raw_creator": "Elizabeth David",
+      "rank": 30,
+      "year": 1950,
+      "note": "한국어판 제목: 지중해의 식량에 관한 책"
+    },
+    {
+      "raw_title": "The Great Tradition",
+      "raw_creator": "FR Leavis",
+      "rank": 31,
+      "year": 1948,
+      "note": "한국어판 제목: 영국 소설의 위대한 전통"
+    },
+    {
+      "raw_title": "The Last Days of Hitler",
+      "raw_creator": "Hugh Trevor-Roper",
+      "rank": 32,
+      "year": 1947,
+      "note": "한국어판 제목: 히틀러의 마지막 날들"
+    },
+    {
+      "raw_title": "The Common Sense Book of Baby and Child Care",
+      "raw_creator": "Dr Benjamin Spock",
+      "rank": 33,
+      "year": 1946,
+      "note": "한국어판 제목: 아기와 육아에 관한 상식"
+    },
+    {
+      "raw_title": "Hiroshima",
+      "raw_creator": "John Hersey",
+      "rank": 34,
+      "year": 1946,
+      "note": "한국어판 제목: 1945 히로시마(존 허시) - 일본근현대사"
+    },
+    {
+      "raw_title": "The Open Society and Its Enemies",
+      "raw_creator": "Karl Popper",
+      "rank": 35,
+      "year": 1945,
+      "note": "한국어판 제목: 열린 사회와 그 적들"
+    },
+    {
+      "raw_title": "Black Boy: A Record of Childhood and Youth",
+      "raw_creator": "Richard Wright",
+      "rank": 36,
+      "year": 1945,
+      "note": "한국어판 제목: 흑인 소년"
+    },
+    {
+      "raw_title": "How to Cook a Wolf",
+      "raw_creator": "MFK Fisher",
+      "rank": 37,
+      "year": 1942,
+      "note": "한국어판 제목: 늑대를 요리하는 법"
+    },
+    {
+      "raw_title": "Enemies of Promise",
+      "raw_creator": "Cyril Connolly",
+      "rank": 38,
+      "year": 1938,
+      "note": "한국어판 제목: 적들의 약속"
+    },
+    {
+      "raw_title": "The Road to Wigan Pier",
+      "raw_creator": "George Orwell",
+      "rank": 39,
+      "year": 1937,
+      "note": "한국어판 제목: 위건 부두로 가는 길"
+    },
+    {
+      "raw_title": "The Road to Oxiana",
+      "raw_creator": "Robert Byron",
+      "rank": 40,
+      "year": 1937,
+      "note": "한국어판 제목: 옥시아나로 가는길"
+    },
+    {
+      "raw_title": "How to Win Friends and Influence People",
+      "raw_creator": "Dale Carnegie",
+      "rank": 41,
+      "year": 1936,
+      "note": "한국어판 제목: 인간관계론"
+    },
+    {
+      "raw_title": "Testament of Youth",
+      "raw_creator": "Vera Brittain",
+      "rank": 42,
+      "year": 1933,
+      "note": "한국어판 제목: 청춘의 증언"
+    },
+    {
+      "raw_title": "My Early Life: A Roving Commission",
+      "raw_creator": "Winston Churchill",
+      "rank": 43,
+      "year": 1930,
+      "note": "한국어판 제목: My Early Life"
+    },
+    {
+      "raw_title": "Goodbye to All That",
+      "raw_creator": "Robert Graves",
+      "rank": 44,
+      "year": 1929,
+      "note": "한국어판 제목: 모든 것에 안녕"
+    },
+    {
+      "raw_title": "A Room of One’s Own",
+      "raw_creator": "Virginia Woolf",
+      "rank": 45,
+      "year": 1929,
+      "note": "한국어판 제목: 자기만의 방"
+    },
+    {
+      "raw_title": "The Waste Land",
+      "raw_creator": "TS Eliot",
+      "rank": 46,
+      "year": 1922,
+      "note": "한국어판 제목: 황무지"
+    },
+    {
+      "raw_title": "Ten Days That Shook the World",
+      "raw_creator": "John Reed",
+      "rank": 47,
+      "year": 1919,
+      "note": "한국어판 제목: 세계를 뒤흔든 열흘"
+    },
+    {
+      "raw_title": "The Economic Consequences of the Peace",
+      "raw_creator": "John Maynard Keynes",
+      "rank": 48,
+      "year": 1919,
+      "note": "한국어판 제목: 평화의 경제적 결과"
+    },
+    {
+      "raw_title": "The American Language",
+      "raw_creator": "HL Mencken",
+      "rank": 49,
+      "year": 1919,
+      "note": "한국어판 제목: 미국 언어"
+    },
+    {
+      "raw_title": "Eminent Victorians",
+      "raw_creator": "Lytton Strachey",
+      "rank": 50,
+      "year": 1918,
+      "note": "한국어판 제목: 빅토리아 시대 명사들 / 명망있는 빅토리아인들 또는 빅토리아 왕조의 명사들"
+    },
+    {
+      "raw_title": "The Souls of Black Folk",
+      "raw_creator": "WEB Du Bois",
+      "rank": 51,
+      "year": 1903,
+      "note": "한국어판 제목: 흑인의 영혼"
+    },
+    {
+      "raw_title": "De Profundis",
+      "raw_creator": "Oscar Wilde",
+      "rank": 52,
+      "year": 1905,
+      "note": "한국어판 제목: 심연으로부터"
+    },
+    {
+      "raw_title": "The Varieties of Religious Experience",
+      "raw_creator": "William James",
+      "rank": 53,
+      "year": 1902,
+      "note": "한국어판 제목: 종교적 경험의 다양성"
+    },
+    {
+      "raw_title": "Brief Lives",
+      "raw_creator": "John Aubrey, edited by Andrew Clark",
+      "rank": 54,
+      "year": 1898,
+      "note": "한국어판 제목: 소전기집"
+    },
+    {
+      "raw_title": "Personal Memoirs",
+      "raw_creator": "Ulysses S Grant",
+      "rank": 55,
+      "year": 1885,
+      "note": "한국어판 제목: 개인회고록"
+    },
+    {
+      "raw_title": "Life on the Mississippi",
+      "raw_creator": "Mark Twain",
+      "rank": 56,
+      "year": 1883,
+      "note": "한국어판 제목: 미시시피 강의 추억"
+    },
+    {
+      "raw_title": "Travels With a Donkey in the Cévennes",
+      "raw_creator": "Robert Louis Stevenson",
+      "rank": 57,
+      "year": 1879,
+      "note": "한국어판 제목: 세벤느에서 당나귀와 함께한 여행 - 작가의 세벤느 여행기"
+    },
+    {
+      "raw_title": "Nonsense Songs",
+      "raw_creator": "Edward Lear",
+      "rank": 58,
+      "year": 1871,
+      "note": "한국어판 제목: 넌센스 노래"
+    },
+    {
+      "raw_title": "Culture and Anarchy",
+      "raw_creator": "Matthew Arnold",
+      "rank": 59,
+      "year": 1869,
+      "note": "한국어판 제목: 교양과 무질서"
+    },
+    {
+      "raw_title": "On the Origin of Species",
+      "raw_creator": "Charles Darwin",
+      "rank": 60,
+      "year": 1859,
+      "note": "한국어판 제목: 종의 기원"
+    },
+    {
+      "raw_title": "On Liberty",
+      "raw_creator": "John Stuart Mill",
+      "rank": 61,
+      "year": 1859,
+      "note": "한국어판 제목: 자유론"
+    },
+    {
+      "raw_title": "The Wonderful Adventures of Mrs Seacole in Many Lands",
+      "raw_creator": "Mary Seacole",
+      "rank": 62,
+      "year": 1857,
+      "note": "한국어판 제목: 여러 지역에서의 멋진 모험"
+    },
+    {
+      "raw_title": "The Life of Charlotte Brontë",
+      "raw_creator": "Elizabeth Gaskell",
+      "rank": 63,
+      "year": 1857,
+      "note": "한국어판 제목: 샬럿 브론테의 전기"
+    },
+    {
+      "raw_title": "Walden",
+      "raw_creator": "Henry David Thoreau",
+      "rank": 64,
+      "year": 1854,
+      "note": "한국어판 제목: 월든"
+    },
+    {
+      "raw_title": "Thesaurus",
+      "raw_creator": "Dr Peter Mark Roget",
+      "rank": 65,
+      "year": 1852,
+      "note": "한국어판 제목: 로제의 시소러스"
+    },
+    {
+      "raw_title": "London Labour and the London Poor",
+      "raw_creator": "Henry Mayhew",
+      "rank": 66,
+      "year": 1851,
+      "note": "한국어판 제목: 런던의 노동자계급과 빈민"
+    },
+    {
+      "raw_title": "Household Education",
+      "raw_creator": "Harriet Martineau",
+      "rank": 67,
+      "year": 1848,
+      "note": "한국어판 제목: 가정교육"
+    },
+    {
+      "raw_title": "Narrative of the Life of Frederick Douglass, an American Slave",
+      "raw_creator": "Frederick Douglass",
+      "rank": 68,
+      "year": 1845,
+      "note": "한국어판 제목: 노예의 노래 또는 미국 노예, 프레더릭 더글러스의 삶에 관한 이야기"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "RW Emerson",
+      "rank": 69,
+      "year": 1841,
+      "note": "한국어판 제목: 에세이"
+    },
+    {
+      "raw_title": "Domestic Manners of the Americans",
+      "raw_creator": "Frances Trollope",
+      "rank": 70,
+      "year": 1832,
+      "note": "한국어판 제목: 미국인의 가정 예의"
+    },
+    {
+      "raw_title": "An American Dictionary of the English Language",
+      "raw_creator": "Noah Webster",
+      "rank": 71,
+      "year": 1828,
+      "note": "한국어판 제목: 미국 영어 사전"
+    },
+    {
+      "raw_title": "Confessions of an English Opium-Eater",
+      "raw_creator": "Thomas De Quincey",
+      "rank": 72,
+      "year": 1822,
+      "note": "한국어판 제목: 어느 영국인 아편쟁이의 고백(토머스 드 퀸시) - 아편 체험에 대한 자서전"
+    },
+    {
+      "raw_title": "Tales from Shakespeare",
+      "raw_creator": "Charles and Mary Lamb",
+      "rank": 73,
+      "year": 1807,
+      "note": "한국어판 제목: 셰익스피어 이야기"
+    },
+    {
+      "raw_title": "Travels in the Interior Districts of Africa",
+      "raw_creator": "Mungo Park",
+      "rank": 74,
+      "year": 1799,
+      "note": "한국어판 제목: 아프리카 내지 탐험"
+    },
+    {
+      "raw_title": "The Autobiography of Benjamin Franklin",
+      "raw_creator": "Benjamin Franklin",
+      "rank": 75,
+      "year": 1793,
+      "note": "한국어판 제목: 프랭클린 자서전(벤저민 프랭클린) - 유명한 책"
+    },
+    {
+      "raw_title": "A Vindication of the Rights of Woman",
+      "raw_creator": "Mary Wollstonecraft",
+      "rank": 76,
+      "year": 1792,
+      "note": "한국어판 제목: 여성의 권리 옹호"
+    },
+    {
+      "raw_title": "The Life of Samuel Johnson LLD",
+      "raw_creator": "James Boswell",
+      "rank": 77,
+      "year": 1791,
+      "note": "한국어판 제목: 사무엘 존슨 평전"
+    },
+    {
+      "raw_title": "Reflections on the Revolution in France",
+      "raw_creator": "Edmund Burke",
+      "rank": 78,
+      "year": 1790,
+      "note": "한국어판 제목: 프랑스 혁명에 관한 성찰"
+    },
+    {
+      "raw_title": "The Interesting Narrative of the Life of Olaudah Equiano",
+      "raw_creator": "Olaudah Equiano",
+      "rank": 79,
+      "year": 1789,
+      "note": "한국어판 제목: 에퀴아노의 흥미로운 이야기"
+    },
+    {
+      "raw_title": "The Natural History and Antiquities of Selborne",
+      "raw_creator": "Gilbert White",
+      "rank": 80,
+      "year": 1789,
+      "note": "한국어판 제목: 셀본의 박물학과 고대 유물들"
+    },
+    {
+      "raw_title": "The Federalist Papers",
+      "raw_creator": "‘Publius’",
+      "rank": 81,
+      "year": 1788,
+      "note": "한국어판 제목: 연방주의자 논집"
+    },
+    {
+      "raw_title": "The Diary of Fanny Burney",
+      "raw_creator": null,
+      "rank": 82,
+      "year": 1778,
+      "note": "한국어판 제목: 화니 버니의 일기"
+    },
+    {
+      "raw_title": "The History of the Decline and Fall of the Roman Empire",
+      "raw_creator": "Edward Gibbon",
+      "rank": 83,
+      "year": 1776,
+      "note": "한국어판 제목: 로마 제국 쇠망사"
+    },
+    {
+      "raw_title": "The Wealth of Nations",
+      "raw_creator": "Adam Smith",
+      "rank": 84,
+      "year": 1776,
+      "note": "한국어판 제목: 국부론"
+    },
+    {
+      "raw_title": "Common Sense",
+      "raw_creator": "Tom Paine",
+      "rank": 85,
+      "year": 1776,
+      "note": "한국어판 제목: 상식"
+    },
+    {
+      "raw_title": "A Dictionary of the English Language",
+      "raw_creator": "Samuel Johnson",
+      "rank": 86,
+      "year": 1755,
+      "note": "한국어판 제목: 영어사전"
+    },
+    {
+      "raw_title": "A Treatise of Human Nature",
+      "raw_creator": "David Hume",
+      "rank": 87,
+      "year": 1739,
+      "note": "한국어판 제목: 도덕에 관하여"
+    },
+    {
+      "raw_title": "A Modest Proposal",
+      "raw_creator": "Jonathan Swift",
+      "rank": 88,
+      "year": 1729,
+      "note": "한국어판 제목: 겸손한 제안"
+    },
+    {
+      "raw_title": "A Tour Through the Whole Island of Great Britain",
+      "raw_creator": "Daniel Defoe",
+      "rank": 89,
+      "year": 1727,
+      "note": "한국어판 제목: 대영 제국 일주 여행기"
+    },
+    {
+      "raw_title": "An Essay Concerning Human Understanding",
+      "raw_creator": "John Locke",
+      "rank": 90,
+      "year": 1689,
+      "note": "한국어판 제목: 인간지성론"
+    },
+    {
+      "raw_title": "The Book of Common Prayer",
+      "raw_creator": "Thomas Cranmer",
+      "rank": 91,
+      "year": 1662,
+      "note": "한국어판 제목: 공동기도서"
+    },
+    {
+      "raw_title": "The Diary of Samuel Pepys",
+      "raw_creator": "Samuel Pepys",
+      "rank": 92,
+      "year": 1660,
+      "note": "한국어판 제목: 사무엘 피프스의 일기"
+    },
+    {
+      "raw_title": "Hydriotaphia, Urn Burial, or A Brief Discourse of the Sepulchral Urns Lately Found in Norfolk",
+      "raw_creator": "Sir Thomas Browne",
+      "rank": 93,
+      "year": 1658,
+      "note": "한국어판 제목: Hydriotaphia, Urn Burial"
+    },
+    {
+      "raw_title": "Leviathan",
+      "raw_creator": "Thomas Hobbes",
+      "rank": 94,
+      "year": 1651,
+      "note": "한국어판 제목: 리바이어던"
+    },
+    {
+      "raw_title": "Areopagitica",
+      "raw_creator": "John Milton",
+      "rank": 95,
+      "year": 1644,
+      "note": "한국어판 제목: 아레오파기티카"
+    },
+    {
+      "raw_title": "Devotions Upon Emergent Occasions",
+      "raw_creator": "John Donne",
+      "rank": 96,
+      "year": 1624,
+      "note": "한국어판 제목: 뜻하지 않았던 일들에 대한 묵상"
+    },
+    {
+      "raw_title": "The First Folio",
+      "raw_creator": "William Shakespeare",
+      "rank": 97,
+      "year": 1623,
+      "note": "한국어판 제목: 퍼스트 폴리오 또는 첫번째 이절판"
+    },
+    {
+      "raw_title": "The Anatomy of Melancholy",
+      "raw_creator": "Robert Burton",
+      "rank": 98,
+      "year": 1621,
+      "note": "한국어판 제목: 우울증의 해부"
+    },
+    {
+      "raw_title": "The History of the World",
+      "raw_creator": "Walter Raleigh",
+      "rank": 99,
+      "year": 1614,
+      "note": "한국어판 제목: 세계사"
+    },
+    {
+      "raw_title": "King James Bible: The Authorised Version",
+      "raw_creator": null,
+      "rank": 100,
+      "year": 1611,
+      "note": "한국어판 제목: 킹 제임스 성경"
+    }
+  ]
+}

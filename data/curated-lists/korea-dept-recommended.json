@@ -1,0 +1,1649 @@
+{
+  "curator": {
+    "slug": "korea-university",
+    "name": "고려대학교",
+    "name_en": "Korea University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1905,
+    "homepage_url": "https://www.korea.ac.kr",
+    "description": "고려대학교는 1905년 보성전문학교로 문을 연 사립 종합대학이다. 서울 안암동 본교와 세종특별자치시의 세종캠퍼스를 함께 운영한다. 학부 교양교육을 뒷받침하는 독서 프로그램을 도서관과 학술정보원이 맡아 왔다.",
+    "description_en": "Korea University is a private comprehensive university founded in 1905 as Bosung College. It operates its main campus in Anam-dong, Seoul, alongside a second campus in Sejong. Its libraries and academic information centers have long run the reading programs that support undergraduate liberal education."
+  },
+  "list": {
+    "slug": "korea-dept-recommended",
+    "title": "고려대 학과별 권장도서",
+    "title_en": "Korea University Recommended Books by Department",
+    "description": "고려대학교 도서관이 「학과별 권장도서」 컬렉션으로 공개하는 목록이다. 도서관은 이 컬렉션을 학부생의 학습지원 및 전공에 필요한 기초 지식 습득과 소양 함양을 위하여 학과에서 추천받은 도서를 제공하는 것이라고 밝히고, 대상을 10개 대학 18개 학과로 적고 있다. 판 표기도 선정 연도 표기도 없이 도서관이 계속 갱신하는 컬렉션이라, 항목마다 어느 학과가 추천한 것인지만 함께 적었다.",
+    "description_en": "The “Recommended Books by Department” collection published by the Korea University Library. The library states that the collection provides books recommended by each department to support undergraduate study and to build the foundational knowledge and cultural grounding a major requires, and gives its scope as 18 departments across 10 colleges. The page carries neither an edition nor a selection year and the library keeps updating it, so each entry records only the department that recommended it.",
+    "published_year": null,
+    "edition": null,
+    "series_key": null,
+    "method": "각 학과가 추천한 도서를 도서관이 하나의 컬렉션으로 묶어 공개한다. 선정 연도·심사 절차·순위는 공식 페이지에 적혀 있지 않다. 학과별 권수는 2권에서 73권까지 고르지 않다. 두 학과가 같은 책을 추천한 경우가 네 건 있어 항목을 하나로 두고 학과명을 나란히 적었다.",
+    "method_en": "Each department recommends the titles and the library publishes them as a single collection. The official page states no selection year, review procedure, or ranking. The number of titles per department ranges from 2 to 73. Four titles were recommended by two departments each and are held as a single entry naming both.",
+    "source_url": "https://library.korea.ac.kr/datause/collection/by-dept/",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": []
+  },
+  "items": [
+    {
+      "raw_title": "May contain lies : how stories, statistics, and studies exploit our biases - and what we can do about it",
+      "raw_creator": "Edmans, Alex",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: University of California Press (2024)"
+    },
+    {
+      "raw_title": "(인공지능 시대) 무기가 되는 생각법",
+      "raw_creator": "변창우",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: SAY KOREA : 커리어케어 (2024)"
+    },
+    {
+      "raw_title": "히든 포텐셜 : 성공을 이루는 숨은 잠재력의 과학",
+      "raw_creator": "Grant, Adam",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: 한국경제신문 : 한경BP (2024)"
+    },
+    {
+      "raw_title": "Missing the target : why stock-market short-termism is not the problem",
+      "raw_creator": "Roe, Mark J.",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: Oxford University Press (2022)"
+    },
+    {
+      "raw_title": "두려움 없는 조직 : 심리적 안정감은 어떻게 조직의 학습, 혁신, 성장을 일으키는가",
+      "raw_creator": "Edmondson, Amy C.",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: 다산북스 (2019)"
+    },
+    {
+      "raw_title": "Stocks for the long run : the definitive guide to financial market returns & long-term investment strategies / 5th ed",
+      "raw_creator": "Siegel, Jeremy J.",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: McGraw-Hill Education (2014)"
+    },
+    {
+      "raw_title": "(EBS 다큐프라임) 자본주의 : [금융ㆍ소비ㆍ돈에 관한 33가지 비밀]",
+      "raw_creator": "EBS. 자본주의 제작팀",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: 가나출판사 (2013)"
+    },
+    {
+      "raw_title": "Creating capabilities : the human development approach",
+      "raw_creator": "Nussbaum, Martha C",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 국제학부 · 출판사·발행년: Belknap Press of Harvard University Press (2011)"
+    },
+    {
+      "raw_title": "삶의 정도 : 윤석철 교수 제4의 10년 주기 작(作)",
+      "raw_creator": "윤석철",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: 위즈덤하우스 (2011)"
+    },
+    {
+      "raw_title": "The human condition / 2nd ed",
+      "raw_creator": "Arendt, Hannah",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: University of Chicago Press (1998)"
+    },
+    {
+      "raw_title": "The intelligent investor : a book of practical counsel / 4th rev. ed., with a new pref. and apppendix",
+      "raw_creator": "Graham, Benjamin",
+      "rank": null,
+      "year": null,
+      "note": "경영학과 · 출판사·발행년: Harper & Row (1985)"
+    },
+    {
+      "raw_title": "(처음 읽는) 플랜트 엔지니어링 이야기",
+      "raw_creator": "박정호",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 플루토 (2022)"
+    },
+    {
+      "raw_title": "수소경제의 과학 : 다가올 수소경제, 우리가 꼭 알아야 할 과학 이야기",
+      "raw_creator": "김희준",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 사회평론 (2023)"
+    },
+    {
+      "raw_title": "공학의 명장면 12 : 페니실린에서 월드 와이드 웹까지",
+      "raw_creator": "Hill, Christian",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 푸른숲주니어 (2019)"
+    },
+    {
+      "raw_title": "처음 읽는 2차전지 이야기 : 탄생부터 전망, 원리부터 활용까지 전지에 관한 거의 모든 것!",
+      "raw_creator": "白石拓",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 플루토 (2021)"
+    },
+    {
+      "raw_title": "K 배터리 레볼루션 : 향후 3년, 새로운 부의 시장에서 승자가 되는 법",
+      "raw_creator": "박순혁",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 지와인 (2023)"
+    },
+    {
+      "raw_title": "수소경제 : 2050 탄소 배출제로, 수소가 답이다",
+      "raw_creator": "이민환",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 맥스media (2022)"
+    },
+    {
+      "raw_title": "반도체 제조기술의 이해 : 현장 최고 전문가들의 결정체",
+      "raw_creator": "곽노열",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 한올출판사 (2021)"
+    },
+    {
+      "raw_title": "(반도체의 부가가치를 올리는) 패키지와 테스트",
+      "raw_creator": "서민석",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 한올출판사 (2020)"
+    },
+    {
+      "raw_title": "이러다 지구에 플라스틱만 남겠어",
+      "raw_creator": "강신호",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 북센스 (2019)"
+    },
+    {
+      "raw_title": "(세계사를 바꾼) 12가지 신소재 : 문명의 기반이 된 '철'부터 미래를 이끌 '메타물질'까지!",
+      "raw_creator": "佐藤健太郎",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 북라이프 : 비즈니스북스 (2019)"
+    },
+    {
+      "raw_title": "생명공학 기술과 바이오 산업",
+      "raw_creator": "김승욱",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 고려대학교출판문화원 (2016)"
+    },
+    {
+      "raw_title": "슈퍼배터리와 전기자동차 이야기",
+      "raw_creator": "Fletcher, Seth",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 성안당 (2015)"
+    },
+    {
+      "raw_title": "과학혁명의 구조 / 제4판",
+      "raw_creator": "Kuhn, Thomas S",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 까치글방 (2013)"
+    },
+    {
+      "raw_title": "(생활 속의) 화학과 고분자",
+      "raw_creator": "정진철",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 자유아카데미 (2010)"
+    },
+    {
+      "raw_title": "나노바이오테크놀로지",
+      "raw_creator": "Georgescu, Vlad",
+      "rank": null,
+      "year": null,
+      "note": "화공생명공학과 · 출판사·발행년: 생각의나무 (2004)"
+    },
+    {
+      "raw_title": "힘든 시대를 위한 좋은 경제학",
+      "raw_creator": "Banerjee, Abhijit V.",
+      "rank": null,
+      "year": null,
+      "note": "국제학부 · 출판사·발행년: 생각의힘 (2020)"
+    },
+    {
+      "raw_title": "괴짜경제학 / 개정증보판",
+      "raw_creator": "Levitt, Steven D",
+      "rank": null,
+      "year": null,
+      "note": "국제학부 · 출판사·발행년: 웅진지식하우스 (2007)"
+    },
+    {
+      "raw_title": "한국인의 발견 : 한국 현대사를 움직인 힘의 정체를 찾아서",
+      "raw_creator": "최정운",
+      "rank": null,
+      "year": null,
+      "note": "국제학부 · 글로벌한국융합학부 · 출판사·발행년: 미지북스 (2016)"
+    },
+    {
+      "raw_title": "외교의 시대 : 한반도의 길을 묻다",
+      "raw_creator": "윤영관",
+      "rank": null,
+      "year": null,
+      "note": "국제학부 · 글로벌한국융합학부 · 출판사·발행년: 미지북스 (2015)"
+    },
+    {
+      "raw_title": "장하준의 경제학강의 : 지금 우리를 위한 새로운 경제학 교과서",
+      "raw_creator": "장하준",
+      "rank": null,
+      "year": null,
+      "note": "국제학부 · 출판사·발행년: 부키 (2014)"
+    },
+    {
+      "raw_title": "Arms and influence",
+      "raw_creator": "Schelling, Thomas C.",
+      "rank": null,
+      "year": null,
+      "note": "국제학부 · 출판사·발행년: Yale University Press (2008)"
+    },
+    {
+      "raw_title": "20년의 위기",
+      "raw_creator": "Carr, Edward Hallett",
+      "rank": null,
+      "year": null,
+      "note": "국제학부 · 출판사·발행년: 녹문당 (2000)"
+    },
+    {
+      "raw_title": "자살하는 대한민국 : 우리가 선택한 파국과 소멸의 사회경제학",
+      "raw_creator": "김현성",
+      "rank": null,
+      "year": null,
+      "note": "글로벌한국융합학부 · 출판사·발행년: Sideways (2024)"
+    },
+    {
+      "raw_title": "세습 중산층 사회 : 90년대생이 경험하는 불평등은 어떻게 다른가",
+      "raw_creator": "조귀동",
+      "rank": null,
+      "year": null,
+      "note": "글로벌한국융합학부 · 출판사·발행년: 생각의힘 (2020)"
+    },
+    {
+      "raw_title": "한국 정치의 결정적 순간들 : 독재부터 촛불까지, 대한민국은 어떻게 만들어졌는가",
+      "raw_creator": "강원택",
+      "rank": null,
+      "year": null,
+      "note": "글로벌한국융합학부 · 출판사·발행년: 21세기북스 (2019)"
+    },
+    {
+      "raw_title": "Decentering citizenship : gender, labor, and migrant rights in South Korea",
+      "raw_creator": "Choo, Hae Yeon",
+      "rank": null,
+      "year": null,
+      "note": "글로벌한국융합학부 · 출판사·발행년: Stanford University Press (2016)"
+    },
+    {
+      "raw_title": "민중 만들기 : 한국의 민주화운동과 재현의 정치학",
+      "raw_creator": "이남희",
+      "rank": null,
+      "year": null,
+      "note": "글로벌한국융합학부 · 출판사·발행년: 후마니타스 (2015)"
+    },
+    {
+      "raw_title": "비동시성의 동시성 : 한국 근대정치의 다중적 시간",
+      "raw_creator": "임혁백",
+      "rank": null,
+      "year": null,
+      "note": "글로벌한국융합학부 · 출판사·발행년: 고려대학교출판부 (2014)"
+    },
+    {
+      "raw_title": "한국 노동계급의 형성",
+      "raw_creator": "Koo, Hagen",
+      "rank": null,
+      "year": null,
+      "note": "글로벌한국융합학부 · 출판사·발행년: 창작과 비평사 (2002)"
+    },
+    {
+      "raw_title": "디자인 정의 : 우리에게 필요한 세상을 위한",
+      "raw_creator": "Costanza-Chock, Sasha",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: 에이콘 (2023)"
+    },
+    {
+      "raw_title": "UI 디자인 교과서 : 멀티 디바이스 시대의 인터페이스 디자인",
+      "raw_creator": "原田秀司",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: 유엑스리뷰 (2022)"
+    },
+    {
+      "raw_title": "예술 이후",
+      "raw_creator": "Joselit, David",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: 현실문화연구 (2022)"
+    },
+    {
+      "raw_title": "우리는 인간인가? : 디자인-인간의 고고학",
+      "raw_creator": "Colomina, Beatriz",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: 미진사 (2021)"
+    },
+    {
+      "raw_title": "디자인과 도덕",
+      "raw_creator": "김상규",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: 안그라픽스 (2018)"
+    },
+    {
+      "raw_title": "현대미술 강의 : 순수 미술의 탄생과 죽음",
+      "raw_creator": "조주연",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: 글항아리 (2017)"
+    },
+    {
+      "raw_title": "시각디자인 : 좋은 것에 담긴 감각과 생각",
+      "raw_creator": "Falcinelli, Riccardo",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: 홍디자인 (2016)"
+    },
+    {
+      "raw_title": "오픈 디자인",
+      "raw_creator": "Abel, Bas van",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: 안그라픽스 (2015)"
+    },
+    {
+      "raw_title": "한국미술의 역사 : 선사시대에서 조선시대까지",
+      "raw_creator": "김원용",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: Sigongart (2003)"
+    },
+    {
+      "raw_title": "Designing pleasurable products : an introduction to the new human factors",
+      "raw_creator": "Jordan, Patrick W",
+      "rank": null,
+      "year": null,
+      "note": "디자인조형학부 · 출판사·발행년: Taylor Francis (2000)"
+    },
+    {
+      "raw_title": "사회학으로의 초대 : 인간주의적 시각",
+      "raw_creator": "Berger, Peter L.",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 문예출판사 (2023)"
+    },
+    {
+      "raw_title": "자유로부터의 도피 / 2판",
+      "raw_creator": "Fromm, Erich",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 휴머니스트 (2020)"
+    },
+    {
+      "raw_title": "감시와 처벌 : 감옥의 탄생 / 번역개정 2판",
+      "raw_creator": "Foucault, Michel",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 철학과 · 출판사·발행년: 나남 (2020)"
+    },
+    {
+      "raw_title": "(오늘의) 사회이론가들",
+      "raw_creator": "김문조",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 한울아카데미 (2015)"
+    },
+    {
+      "raw_title": "거대한 역설 : 왜 개발할수록 불평등해지는가",
+      "raw_creator": "McMichael, Philip",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 교양인 (2013)"
+    },
+    {
+      "raw_title": "나 홀로 볼링 : 볼링 얼론 : 사회적 커뮤니티의 붕괴와 소생",
+      "raw_creator": "Putnam, Robert D.",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 페이퍼로드 (2009)"
+    },
+    {
+      "raw_title": "(체사레 벡카리아의) 범죄와 형벌",
+      "raw_creator": "Beccaria, Cesare, marchese di",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 博英社 (2006)"
+    },
+    {
+      "raw_title": "구별짓기 : 문화와 취향의 사회학",
+      "raw_creator": "Bourdieu, Pierre",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 새물결 (2005-2006)"
+    },
+    {
+      "raw_title": "사회학적 상상력 / 개정판",
+      "raw_creator": "Mills, C. Wright",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 돌베개 (2004)"
+    },
+    {
+      "raw_title": "범죄에 관한 10가지 신화",
+      "raw_creator": "Pepinsky, Harold E",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 한울 (2003)"
+    },
+    {
+      "raw_title": "설탕과 권력",
+      "raw_creator": "Sidney W. Mintz",
+      "rank": null,
+      "year": null,
+      "note": "사회학과 · 출판사·발행년: 지호 (1998)"
+    },
+    {
+      "raw_title": "도학시대의 사상과 문학",
+      "raw_creator": "이동환",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 지식산업사 (2023)"
+    },
+    {
+      "raw_title": "고전시대의 사상과 문학",
+      "raw_creator": "이동환",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 지식산업사 (2023)"
+    },
+    {
+      "raw_title": "四書集註",
+      "raw_creator": "朱熹",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 법보원 (2011)"
+    },
+    {
+      "raw_title": "한문산문미학 / 개정증보판",
+      "raw_creator": "심경호",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 고려대학교출판부 (2013)"
+    },
+    {
+      "raw_title": "한국 서지학 개정증보 2판",
+      "raw_creator": "천혜봉",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 민음사 (2006)"
+    },
+    {
+      "raw_title": "새 민족문학사 강좌",
+      "raw_creator": "김동준",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 창비 (2009)"
+    },
+    {
+      "raw_title": "한학입문 / [신판]",
+      "raw_creator": "심경호",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 황소자리 (2007)"
+    },
+    {
+      "raw_title": "실학시대의 사상과 문학",
+      "raw_creator": "이동환",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 지식산업사 (2006)"
+    },
+    {
+      "raw_title": "한자의 뿌리. 2",
+      "raw_creator": "김언종",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 문학동네 (2001)"
+    },
+    {
+      "raw_title": "한자의 뿌리. 1",
+      "raw_creator": "김언종",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 문학동네 (2001)"
+    },
+    {
+      "raw_title": "한국한시의 이해",
+      "raw_creator": "심경호",
+      "rank": null,
+      "year": null,
+      "note": "한문학과 · 출판사·발행년: 태학사 (2000)"
+    },
+    {
+      "raw_title": "한국 초기사 연구 : 고대의 조선과 한국",
+      "raw_creator": "박대재",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 세창출판사 (2024)"
+    },
+    {
+      "raw_title": "高麗時代 對外交流史 硏究",
+      "raw_creator": "이진한",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 景仁文化社 (2023)"
+    },
+    {
+      "raw_title": "의식과 전쟁 : 고대 국가를 바라보는 새로운 시각 / 개정 1판",
+      "raw_creator": "박대재",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 책세상 (2021)"
+    },
+    {
+      "raw_title": "냉전과 새마을 : 동아시아 냉전의 연쇄와 분단국가체제",
+      "raw_creator": "허은",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 창비 (2022)"
+    },
+    {
+      "raw_title": "한국 문화유산 산책 / 개정판",
+      "raw_creator": "박대재",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 새문사 (2019)"
+    },
+    {
+      "raw_title": "해동성국, 고구려를 품은 발해",
+      "raw_creator": "김은국",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 동북아역사재단 (2019)"
+    },
+    {
+      "raw_title": "정조와 정조 이후 : 정조 시대와 19세기의 연속과 단절",
+      "raw_creator": "역사비평 편집위원회",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 역사비평사 (2017)"
+    },
+    {
+      "raw_title": "실크로드와 한국문화",
+      "raw_creator": "최광식",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 나남 (2013)"
+    },
+    {
+      "raw_title": "정의와 행동 그리고 4월혁명의 기억",
+      "raw_creator": "허은",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 선인 (2012)"
+    },
+    {
+      "raw_title": "최남선 평전 : 우리 근대와 민족주의가 담긴 판도라의 상자",
+      "raw_creator": "류시현",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 한겨레 (2011)"
+    },
+    {
+      "raw_title": "(문답으로 읽는) 20세기 한국경제사",
+      "raw_creator": "정태헌",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 역사비평사 (2010)"
+    },
+    {
+      "raw_title": "유교적 사유와 삶의 변천",
+      "raw_creator": "국사편찬위원회",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 두산동아 (2009)"
+    },
+    {
+      "raw_title": "한국의 식민지적 근대 성찰 : 근대주의 비판과 평화공존의 역사학 모색",
+      "raw_creator": "정태헌",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 선인 (2007)"
+    },
+    {
+      "raw_title": "고려시대 사람들은 어떻게 살았을까. 2 : 정치·경제생활 이야기 개정판",
+      "raw_creator": "한국역사연구회",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 청년사 (2005)"
+    },
+    {
+      "raw_title": "고려시대 사람들은 어떻게 살았을까. 1 : 사회ㆍ문화생활 이야기 개정판",
+      "raw_creator": "한국역사연구회",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 청년사 (2005)"
+    },
+    {
+      "raw_title": "조선후기사 연구의 현황과 과제",
+      "raw_creator": "강만길",
+      "rank": null,
+      "year": null,
+      "note": "한국사학과 · 출판사·발행년: 창작과비평사 (2000)"
+    },
+    {
+      "raw_title": "인생의 괴로움과 깨달음 : 미처 몰랐던 불교, 알고 싶었던 붓다",
+      "raw_creator": "강성용",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 불광출판사 : 불광미디어 (2024)"
+    },
+    {
+      "raw_title": "엔치클로페디 : 제1부 논리의 학",
+      "raw_creator": "Hegel, Georg Wilhelm Friedrich",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: b (2024)"
+    },
+    {
+      "raw_title": "깨진 틈이 있어야 그 사이로 빛이 들어온다 : 차라투스트라는 이렇게 말했다",
+      "raw_creator": "Nietzsche, Friedrich Wilhelm",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: page2 (2024)"
+    },
+    {
+      "raw_title": "심리철학",
+      "raw_creator": "김재권",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 필로소픽 (2023)"
+    },
+    {
+      "raw_title": "리바이어던 / 3판",
+      "raw_creator": "Hobbes, Thomas",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 동서문화사 (2021)"
+    },
+    {
+      "raw_title": "고백록 / 5판",
+      "raw_creator": "Augustine, of Hippo, Saint",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 집문당 (2023)"
+    },
+    {
+      "raw_title": "비극의 탄생 / 개정판",
+      "raw_creator": "Nietzsche, Friedrich Wilhelm",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 읻다 (2023)"
+    },
+    {
+      "raw_title": "그 많은 개념어는 누가 만들었을까 : 서양 학술용어 번역과 근대어의 탄생",
+      "raw_creator": "山本貴光",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 메멘토 (2023)"
+    },
+    {
+      "raw_title": "정신현상학",
+      "raw_creator": "Hegel, Georg Wilhelm Friedrich",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 아카넷 (2022)"
+    },
+    {
+      "raw_title": "(아리스토텔레스) 형이상학",
+      "raw_creator": "Aristoteles",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 서광사 (2022)"
+    },
+    {
+      "raw_title": "자본론 : 정치경제학 비판",
+      "raw_creator": "Marx, Karl",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 모두의책 (2022-)"
+    },
+    {
+      "raw_title": "순언 / 개정판",
+      "raw_creator": "이이",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 지식을만드는지식 : ZMANZ : 커뮤니케이션북스 (2022)"
+    },
+    {
+      "raw_title": "방법서설 ; 정신지도 규칙 / 제3판",
+      "raw_creator": "Descartes, René",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 문예출판사 (2022)"
+    },
+    {
+      "raw_title": "니코마코스 윤리학 : 그리스어 원전 완역본",
+      "raw_creator": "Aristoteles",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 현대지성 (2022)"
+    },
+    {
+      "raw_title": "(정선) 목민심서 / 개정판",
+      "raw_creator": "정약용",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 창비 (2019)"
+    },
+    {
+      "raw_title": "(왕보의) 장자 강의",
+      "raw_creator": "王博",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 바다출판사 (2021)"
+    },
+    {
+      "raw_title": "인학본체론 : 사람에 대한 유학의 최종 인식",
+      "raw_creator": "陳來",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 글항아리 (2021)"
+    },
+    {
+      "raw_title": "사회계약론 ; 인간불평등기원론",
+      "raw_creator": "Rousseau, Jean-Jacques",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 범우 (2021)"
+    },
+    {
+      "raw_title": "신기관",
+      "raw_creator": "Bacon, Francis",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: Olje (2020)"
+    },
+    {
+      "raw_title": "인간 불평등 기원론",
+      "raw_creator": "Rousseau, Jean-Jacques",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 세창출판사 (2021)"
+    },
+    {
+      "raw_title": "순수이성비판 : 한글번역판 / 보정판",
+      "raw_creator": "Kant, Immanuel",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 박영사 (2019)"
+    },
+    {
+      "raw_title": "논리-철학 논고 / 개정 1판",
+      "raw_creator": "Wittgenstein, Ludwig",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 책세상 (2020)"
+    },
+    {
+      "raw_title": "유럽학문의 위기와 선험적 현상학 / 개정판",
+      "raw_creator": "Husserl, Edmund",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 한길사 (2016)"
+    },
+    {
+      "raw_title": "파이돈",
+      "raw_creator": "Platon",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 아카넷 (2020)"
+    },
+    {
+      "raw_title": "향연",
+      "raw_creator": "Platon",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 아카넷 (2020)"
+    },
+    {
+      "raw_title": "자유론",
+      "raw_creator": "Mill, John Stuart",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 더클래식 (2020)"
+    },
+    {
+      "raw_title": "존재와 시간 / 5판",
+      "raw_creator": "Heidegger, Martin",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 동서문화사 (2016)"
+    },
+    {
+      "raw_title": "판단력 비판 / 보정판",
+      "raw_creator": "Kant, Immanuel",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 박영사 (2017)"
+    },
+    {
+      "raw_title": "법철학 : 베를린, 1821년",
+      "raw_creator": "Hegel, Georg Wilhelm Friedrich",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 지식을만드는지식 (2020)"
+    },
+    {
+      "raw_title": "유배지에서 보낸 편지 / 개정3판",
+      "raw_creator": "정약용",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 창비 (2019)"
+    },
+    {
+      "raw_title": "실천이성비판 / 개정2판",
+      "raw_creator": "Kant, Immanuel",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 아카넷 (2019)"
+    },
+    {
+      "raw_title": "에티카 / 개정 1판",
+      "raw_creator": "Baruch de Spinoza",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 책세상 (2019)"
+    },
+    {
+      "raw_title": "선악의 저편 : 미래 철학의 서곡",
+      "raw_creator": "Nietzsche, Friedrich Wilhelm",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 아카넷 (2018)"
+    },
+    {
+      "raw_title": "육구연집",
+      "raw_creator": "陸九淵",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 學古房 (2018)"
+    },
+    {
+      "raw_title": "율곡이 묻고 퇴계가 답하다 : 퇴계와 율곡의 성리학과 정치 철학",
+      "raw_creator": "김형찬",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 바다출판사 (2018)"
+    },
+    {
+      "raw_title": "진래 교수의 유학과 현대사회",
+      "raw_creator": "陳來",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 예문서원 (2016)"
+    },
+    {
+      "raw_title": "국가",
+      "raw_creator": "Platon",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 숲 (2013)"
+    },
+    {
+      "raw_title": "진리와 방법. 1 : 철학적 해석학의 기본 특징들. 개정판",
+      "raw_creator": "Gadamer, Hans-Georg",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 문학동네 (2012)"
+    },
+    {
+      "raw_title": "진리와 방법. 2 : 철학적 해석학의 기본 특징들",
+      "raw_creator": "Gadamer, Hans-Georg",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 문학동네 (2012)"
+    },
+    {
+      "raw_title": "동물 해방",
+      "raw_creator": "Singer, Peter",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 연암서가 (2012)"
+    },
+    {
+      "raw_title": "인간의 이해력에 관한 탐구",
+      "raw_creator": "Hume, David",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 지식을만드는지식 (2012)"
+    },
+    {
+      "raw_title": "도덕과 입법의 원리 서설",
+      "raw_creator": "Bentham, Jeremy",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 나남 (2011)"
+    },
+    {
+      "raw_title": "성찰",
+      "raw_creator": "Descartes, René",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 책세상 (2011)"
+    },
+    {
+      "raw_title": "불교란 무엇이 아닌가 : 불교를 둘러싼 23가지 오해와 답변",
+      "raw_creator": "Faure, Bernard",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 그린비 (2011)"
+    },
+    {
+      "raw_title": "공자 평전 : 권위와 신화의 옷을 벗은 인간 공자를 찾아서",
+      "raw_creator": "金安平",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 돌베개 (2010)"
+    },
+    {
+      "raw_title": "이자수어 : 성호 이익이 가려 뽑은 퇴계학의 정수",
+      "raw_creator": "이황",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 예문서원 (2010)"
+    },
+    {
+      "raw_title": "근대 일본의 사상가들",
+      "raw_creator": "鹿野政直",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 삼천리 (2009)"
+    },
+    {
+      "raw_title": "모나드론 외",
+      "raw_creator": "Leibniz, Gottfried Wilhelm , Freiherr von",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 책세상 (2007)"
+    },
+    {
+      "raw_title": "성학집요 : 성인이 갖추어야 할 배움의 모든 것",
+      "raw_creator": "이이",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 청어람미디어 (2007)"
+    },
+    {
+      "raw_title": "傳習錄 / 제2판",
+      "raw_creator": "王守仁",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 청계 (2007)"
+    },
+    {
+      "raw_title": "현대중국철학사",
+      "raw_creator": "馮友蘭",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: EJB (2006)"
+    },
+    {
+      "raw_title": "의사소통행위이론. 2 , 기능주의적 이성 비판을 위하여",
+      "raw_creator": "Habermas, Jürgen",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 나남출판 (2006)"
+    },
+    {
+      "raw_title": "의사소통행위이론. 1 , 행위 합리성과 사회 합리화",
+      "raw_creator": "Habermas, Jürgen",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 나남 (2006)"
+    },
+    {
+      "raw_title": "중국현대사상사론",
+      "raw_creator": "李澤厚",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 한길사 (2005)"
+    },
+    {
+      "raw_title": "타인의 얼굴 : 레비나스의 철학",
+      "raw_creator": "강영안",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 문학과지성사 (2005)"
+    },
+    {
+      "raw_title": "(중국 근대의)지식인",
+      "raw_creator": "梁啓超",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 혜안 (2005)"
+    },
+    {
+      "raw_title": "동서 문화와 철학",
+      "raw_creator": "梁漱溟",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 솔 (2005)"
+    },
+    {
+      "raw_title": "아나키에서 유토피아로 : 自由主義 國家의 철학적 기초 / 재판",
+      "raw_creator": "Nozick, Robert",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 문학과 지성사 (1997)"
+    },
+    {
+      "raw_title": "氣學 : 19세기 한 조선인의 우주론 / 개정증보판",
+      "raw_creator": "최한기",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 통나무 (2004)"
+    },
+    {
+      "raw_title": "退溪選集 / 개정판",
+      "raw_creator": "이황",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 현암사 (1993)"
+    },
+    {
+      "raw_title": "선가귀감 : 언해본과 한문본을 아루른 校勘과 詳註",
+      "raw_creator": "휴정",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 예문서원 (2003)"
+    },
+    {
+      "raw_title": "정의론",
+      "raw_creator": "Rawls, John",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 이학사 (2003)"
+    },
+    {
+      "raw_title": "조선 유학의 개념들",
+      "raw_creator": "한국사상사연구회",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 예문서원 (2002)"
+    },
+    {
+      "raw_title": "계몽의 변증법 : 철학적 단상",
+      "raw_creator": "Adorno, Theodor W.",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 문학과지성사 (2001)"
+    },
+    {
+      "raw_title": "시뮬라시옹",
+      "raw_creator": "Baudrillard, Jean",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 민음사 (2001)"
+    },
+    {
+      "raw_title": "원효의 금강삼매경론",
+      "raw_creator": "은정희",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 일지사 (2000)"
+    },
+    {
+      "raw_title": "명이대방록",
+      "raw_creator": "黃宗羲",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 한길사 (2000)"
+    },
+    {
+      "raw_title": "철학의 문제들",
+      "raw_creator": "Russell, Bertrand",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 이학사 (2000)"
+    },
+    {
+      "raw_title": "중국철학사. 하",
+      "raw_creator": "馮友蘭",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 까치 (1999)"
+    },
+    {
+      "raw_title": "중국철학사. 상",
+      "raw_creator": "馮友蘭",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 까치 (1999)"
+    },
+    {
+      "raw_title": "日本政治思想史硏究",
+      "raw_creator": "丸山眞男",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 통나무 (1995)"
+    },
+    {
+      "raw_title": "논리적 관점에서",
+      "raw_creator": "Quine, Willard Van Orman",
+      "rank": null,
+      "year": null,
+      "note": "철학과 · 출판사·발행년: 서광사 (1993)"
+    },
+    {
+      "raw_title": "지리의 힘. 2, 지리는 어떻게 나라의 운명을, 세계의 분쟁을, 우리의 선택을 좌우하는가",
+      "raw_creator": "Marshall, Tim",
+      "rank": null,
+      "year": null,
+      "note": "지리교육과 · 출판사·발행년: 사이 (2022)"
+    },
+    {
+      "raw_title": "지도와 거짓말",
+      "raw_creator": "Monmonier, Mark S.",
+      "rank": null,
+      "year": null,
+      "note": "지리교육과 · 출판사·발행년: 푸른길 (2021)"
+    },
+    {
+      "raw_title": "한글 대동여지도",
+      "raw_creator": "민병준",
+      "rank": null,
+      "year": null,
+      "note": "지리교육과 · 출판사·발행년: 진선출판사 (2017)"
+    },
+    {
+      "raw_title": "지리의 힘 : 지리는 어떻게 개인의 운명을, 세계사를, 세계 경제를 좌우하는가",
+      "raw_creator": "Marshall, Tim",
+      "rank": null,
+      "year": null,
+      "note": "지리교육과 · 출판사·발행년: 사이 (2016)"
+    },
+    {
+      "raw_title": "왜 지금 지리학인가 : 슈퍼바이러스의 확산, 거대 유럽의 위기, IS의 출현까지 혼돈의 세계정세를 꿰뚫는 공간적 사유의 힘",
+      "raw_creator": "De Blij, Harm J.",
+      "rank": null,
+      "year": null,
+      "note": "지리교육과 · 출판사·발행년: 사회평론 (2015)"
+    },
+    {
+      "raw_title": "총, 균, 쇠 / 3판",
+      "raw_creator": "Diamond, Jared M.",
+      "rank": null,
+      "year": null,
+      "note": "지리교육과 · 출판사·발행년: 문학사상 (2013)"
+    },
+    {
+      "raw_title": "사회갈등과 역사교육",
+      "raw_creator": "강선주",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 한울아카데미 (2022)"
+    },
+    {
+      "raw_title": "나는 선량한 기후파괴자입니다 : 기후위기를 외면하며 우리가 내뱉는 수많은 변명에 관하여",
+      "raw_creator": "Brudermann, Thomas",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 동녘 (2024)"
+    },
+    {
+      "raw_title": "디지털 역사란 무엇인가?",
+      "raw_creator": "Salmi, Hannu",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 앨피 (2024)"
+    },
+    {
+      "raw_title": "세상은 이야기로 만들어졌다 : 신화·거짓말·유토피아",
+      "raw_creator": "El Ouassil, Samira",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 원더박스 (2023)"
+    },
+    {
+      "raw_title": "아시아에서의 냉전",
+      "raw_creator": "沈志華",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 소명출판 (2023)"
+    },
+    {
+      "raw_title": "유유의 귀향, 조선의 상속",
+      "raw_creator": "권내현",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 너머북스 (2021)"
+    },
+    {
+      "raw_title": "바다에서 본 역사 : 개방, 경합, 공생 : 동아시아 700년의 문명 교류사",
+      "raw_creator": "羽田正",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 민음사 (2018)"
+    },
+    {
+      "raw_title": "무지한 스승 : 지적 해방에 대한 다섯 가지 교훈 / 2판(개정판)",
+      "raw_creator": "Rancière, Jacques",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 궁리 (2016)"
+    },
+    {
+      "raw_title": "어떻게 세계는 서양이 주도하게 되었는가 : 세계 경제를 장악했던 동양은 어떻게 불과 2백 년 사이에 서양에게 역전당했는가",
+      "raw_creator": "Marks, Robert B.",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 사이 (2014)"
+    },
+    {
+      "raw_title": "코뮤니스트 : 마르크스에서 카스트로까지, 공산주의 승리와 실패의 세계사",
+      "raw_creator": "Service, Robert",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 교양인 (2012)"
+    },
+    {
+      "raw_title": "교사로 산다는 것 : 학교교육의 진실과 불복종 교육",
+      "raw_creator": "Kozol, Jonathan",
+      "rank": null,
+      "year": null,
+      "note": "역사교육과 · 출판사·발행년: 양철북 (2011)"
+    },
+    {
+      "raw_title": "에밀",
+      "raw_creator": "Rousseau, Jean-Jacques",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: 책세상 (2021)"
+    },
+    {
+      "raw_title": "군주론",
+      "raw_creator": "Machiavelli, Niccolò",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: 페이지2북스 (2023)"
+    },
+    {
+      "raw_title": "종의 기원 / 2판",
+      "raw_creator": "Darwin, Charles",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: 집문당 (2020)"
+    },
+    {
+      "raw_title": "삼국지 / 개정 신판",
+      "raw_creator": "羅貫中",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: 알에이치코리아 (2020)"
+    },
+    {
+      "raw_title": "역사란 무엇인가 / 개역판(개정판)",
+      "raw_creator": "Carr, Edward Hallett",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: 까치 (2015)"
+    },
+    {
+      "raw_title": "The structure of scientific revolutions / 4th ed",
+      "raw_creator": "Kuhn, Thomas S.",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: The University of Chicago Press (2012)"
+    },
+    {
+      "raw_title": "Crazy English : the ultimate joy ride through our language",
+      "raw_creator": "Lederer, Richard",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: Pocket Books (1998)"
+    },
+    {
+      "raw_title": "(펄벅) 대지",
+      "raw_creator": "Buck, Pearl S",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: 소담출판사 (2010)"
+    },
+    {
+      "raw_title": "Metaphors we live by",
+      "raw_creator": "Lakoff, George",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: University of Chicago Press (2003)"
+    },
+    {
+      "raw_title": "The stories of English",
+      "raw_creator": "Crystal, David",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: Overlook Press (2005)"
+    },
+    {
+      "raw_title": "The stuff of thought : language as a window into human nature",
+      "raw_creator": "Pinker, Steven",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: Viking (2007)"
+    },
+    {
+      "raw_title": "Aspects of the theory of syntax",
+      "raw_creator": "Chomsky, Noam",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: M.I.T. Press (1965)"
+    },
+    {
+      "raw_title": "부활",
+      "raw_creator": "Tolstoy, Leo, graf",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: 민음사 (2003)"
+    },
+    {
+      "raw_title": "모모",
+      "raw_creator": "Ende, Michael",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: 비룡소 (1999)"
+    },
+    {
+      "raw_title": "Human behavior and the principle of least effort : an introduction to human ecology",
+      "raw_creator": "Zipf, George Kingsley",
+      "rank": null,
+      "year": null,
+      "note": "영어교육과 · 출판사·발행년: Addison-Wesley Press (1949)"
+    },
+    {
+      "raw_title": "식물의 사회생활 : 한곳에 뿌리내린 식물이 다른 식물, 미생물, 동물, 인간과 맺는 친밀하거나 적대적인 모든 관계",
+      "raw_creator": "이영숙",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: 동아시아 (2024)"
+    },
+    {
+      "raw_title": "프로젝트 헤일메리",
+      "raw_creator": "Weir, Andy",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: RH Korea (2021)"
+    },
+    {
+      "raw_title": "(인류를 식량 위기에서 구할) 음식의 모험가들",
+      "raw_creator": "Little, Amanda",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: 세종 (2021)"
+    },
+    {
+      "raw_title": "세계사를 바꾼 전염병 13가지",
+      "raw_creator": "Wright, Jennifer Ashley",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: 산처럼 (2020)"
+    },
+    {
+      "raw_title": "슈퍼버그 : 보이지 않는 적과의 전쟁",
+      "raw_creator": "McCarthy, Matt",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: 흐름출판 (2020)"
+    },
+    {
+      "raw_title": "꽃은 알고 있다 : 꽃가루로 진실을 밝히는 여성 식물학자의 사건 일지",
+      "raw_creator": "Wiltshire, Patricia E. J",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: 웅진지식하우스 (2019)"
+    },
+    {
+      "raw_title": "암 정복 연대기 : 암과 싸운 과학자들",
+      "raw_creator": "남궁석",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: Bio Spectator (2019)"
+    },
+    {
+      "raw_title": "세계사를 바꾼 10가지 약",
+      "raw_creator": "佐藤健太郞",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: 사람과나무사이 (2018)"
+    },
+    {
+      "raw_title": "식물을 미치도록 사랑한 남자들",
+      "raw_creator": "Mancuso, Stefano",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: 푸른지식 (2016)"
+    },
+    {
+      "raw_title": "암 : 만병의 황제의 역사",
+      "raw_creator": "Mukherjee, Siddhartha",
+      "rank": null,
+      "year": null,
+      "note": "생명과학부 · 출판사·발행년: 까치 (2011)"
+    },
+    {
+      "raw_title": "(고등과학원 수학부 김상현 교수의) 수학은 상상",
+      "raw_creator": "김상현",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: EBS Books : 한국교육방송공사 (2021)"
+    },
+    {
+      "raw_title": "어떻게 수학을 사랑하지 않을 수 있을까? : 삶의 해를 구하는 공부",
+      "raw_creator": "Sigmund, Karl",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 윌북 (2024)"
+    },
+    {
+      "raw_title": "기하학 세상을 설명하다 : 만물의 기저에 숨어 있는 기하학",
+      "raw_creator": "Ellenberg, Jordan",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 브론스테인 : 로크미디어 (2022)"
+    },
+    {
+      "raw_title": "미적분의 힘 : 복잡한 세상을 푸는 단순하고 강력한 도구",
+      "raw_creator": "Strogatz, Steven",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 해나무 : 북하우스 퍼블리셔스 (2021)"
+    },
+    {
+      "raw_title": "수학으로 생각하는 힘 : 일상의 모든 순간, 수학은 어떻게 최선의 선택을 돕는가",
+      "raw_creator": "Yates, Kit",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 웅진지식하우스 (2020)"
+    },
+    {
+      "raw_title": "수학이 필요한 순간 : 인간은 얼마나 깊게 생각할 수 있는가",
+      "raw_creator": "김민형",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 인플루엔셜 (2018)"
+    },
+    {
+      "raw_title": "틀리지 않는 법 : 수학적 사고의 힘 : 세상을 더 깊게, 더 올바르게, 더 의미 있게 이해하는 법!",
+      "raw_creator": "Ellenberg, Jordan",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 열린책들 (2016)"
+    },
+    {
+      "raw_title": "X의 즐거움 : 인생을 해석하고 지성을 자극하는 수학 여행",
+      "raw_creator": "Strogatz, Steven",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 웅진지식하우스 : 웅진씽크빅 (2014)"
+    },
+    {
+      "raw_title": "위대한 수학문제들 : 골드바흐 추측에서 질량간극 가설까지, 한 권으로 읽는 최강의 수학난제",
+      "raw_creator": "Stewart, Ian",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 반니 (2013)"
+    },
+    {
+      "raw_title": "대칭 : 자연의 패턴 속으로 떠나는 여행",
+      "raw_creator": "Du Sautoy, Marcus",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 승산 (2011)"
+    },
+    {
+      "raw_title": "수학의 언어: 안 보이는 것을 보이게 하는 수학",
+      "raw_creator": "Devlin, Keith",
+      "rank": null,
+      "year": null,
+      "note": "수학과 · 출판사·발행년: 해나무 (2003)"
+    },
+    {
+      "raw_title": "화학 연대기 : 세상을 바꾼 작고도 거대한 화학의 역사",
+      "raw_creator": "장홍제",
+      "rank": null,
+      "year": null,
+      "note": "화학과 · 출판사·발행년: EBS Books (2021)"
+    },
+    {
+      "raw_title": "거의 모든 것의 역사 / 개역판",
+      "raw_creator": "Bryson, Bill",
+      "rank": null,
+      "year": null,
+      "note": "화학과 · 출판사·발행년: 까치 (2020)"
+    },
+    {
+      "raw_title": "화학이란 무엇인가 : 세상에서 가장 쓸모 있는 과학의 핵심",
+      "raw_creator": "Atkins, P. W",
+      "rank": null,
+      "year": null,
+      "note": "화학과 · 출판사·발행년: 사이언스북스 (2019)"
+    },
+    {
+      "raw_title": "한 권의 화학 : 화약부터 그래핀까지, 화학을 만든 250가지 이야기",
+      "raw_creator": "Lowe, Derek B",
+      "rank": null,
+      "year": null,
+      "note": "화학과 · 출판사·발행년: 프리렉 (2017)"
+    },
+    {
+      "raw_title": "사라진 스푼 : 주기율표에 얽힌 광기와 사랑, 그리고 세계사",
+      "raw_creator": "Kean, Sam",
+      "rank": null,
+      "year": null,
+      "note": "화학과 · 출판사·발행년: 해나무 : 북하우스 퍼블리셔스 (2011)"
+    },
+    {
+      "raw_title": "세상의 모든 원소 118 : 눈으로 보는 세상의 모든 원소들",
+      "raw_creator": "Gray, Theodore W.",
+      "rank": null,
+      "year": null,
+      "note": "화학과 · 출판사·발행년: 영림카디널 (2010)"
+    },
+    {
+      "raw_title": "어떻게 민주주의는 무너지는가 : 우리가 놓치는 민주주의 위기 신호",
+      "raw_creator": "Levitsky, Steven",
+      "rank": null,
+      "year": null,
+      "note": "정치외교학과 · 출판사·발행년: 어크로스 (2018)"
+    },
+    {
+      "raw_title": "강대국 국제정치의 비극 : 미중 패권경쟁의 시대",
+      "raw_creator": "Mearsheimer, John J",
+      "rank": null,
+      "year": null,
+      "note": "정치외교학과 · 출판사·발행년: 김앤김북스 (2017)"
+    },
+    {
+      "raw_title": "국가는 왜 실패하는가",
+      "raw_creator": "Acemoglu, Daron",
+      "rank": null,
+      "year": null,
+      "note": "정치외교학과 · 출판사·발행년: 시공사 (2012)"
+    },
+    {
+      "raw_title": "민주화 이후의 민주주의 : 한국 민주주의의 보수적 기원과 위기 / 개정2판",
+      "raw_creator": "최장집",
+      "rank": null,
+      "year": null,
+      "note": "정치외교학과 · 출판사·발행년: 후마니타스 (2010)"
+    },
+    {
+      "raw_title": "서양 근대 정치사상사 : 마키아벨리에서 니체까지",
+      "raw_creator": "강정인",
+      "rank": null,
+      "year": null,
+      "note": "정치외교학과 · 출판사·발행년: 책세상 (2007)"
+    },
+    {
+      "raw_title": "유닉스의 탄생 : 세상을 바꾼 운영체제를 만든 천재들의 숨은 이야기",
+      "raw_creator": "Kernighan, Brian W.",
+      "rank": null,
+      "year": null,
+      "note": "컴퓨터학과 · 출판사·발행년: 한빛미디어 (2020)"
+    },
+    {
+      "raw_title": "Turing's vision [electronic resource] : the birth of computer science",
+      "raw_creator": "Bernhardt, Chris",
+      "rank": null,
+      "year": null,
+      "note": "컴퓨터학과 · 출판사·발행년: The MIT Press (2016)"
+    },
+    {
+      "raw_title": "컴퓨터과학이 여는 세계 : 세상을 바꾼 컴퓨터, 소프트웨어의 원천 아이디어 그리고 미래",
+      "raw_creator": "이광근",
+      "rank": null,
+      "year": null,
+      "note": "컴퓨터학과 · 출판사·발행년: 인사이트 (2015)"
+    },
+    {
+      "raw_title": "Structure and interpretation of computer programs 2nd ed",
+      "raw_creator": "Abelson, Harold",
+      "rank": null,
+      "year": null,
+      "note": "컴퓨터학과 · 출판사·발행년: MIT Press (1996)"
+    },
+    {
+      "raw_title": "The C programming language",
+      "raw_creator": "Kernighan, Brian W.",
+      "rank": null,
+      "year": null,
+      "note": "컴퓨터학과 · 출판사·발행년: Prentice-Hall (1978)"
+    },
+    {
+      "raw_title": "오렌지3 with 파이썬 : 머신러닝으로 쉽게 따라 하는 데이터 과학 프로젝트",
+      "raw_creator": "김현철",
+      "rank": null,
+      "year": null,
+      "note": "데이터과학과 · 출판사·발행년: 생능북스 : 생능출판사 (2024)"
+    },
+    {
+      "raw_title": "기계 학습을 다시 묻다",
+      "raw_creator": "Valiant, Leslie",
+      "rank": null,
+      "year": null,
+      "note": "데이터과학과 · 출판사·발행년: 인사이트 (2021)"
+    }
+  ]
+}

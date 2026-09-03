@@ -1,0 +1,1651 @@
+{
+  "curator": {
+    "slug": "sogang-university",
+    "name": "서강대학교",
+    "name_en": "Sogang University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1960,
+    "homepage_url": "https://www.sogang.ac.kr",
+    "description": "서강대학교는 예수회가 1960년 서울에 세운 사립 종합대학이다. 가톨릭 정신에 기초한 교양·인성 교육을 학교 운영의 축으로 삼는다. 로욜라도서관이 교양 독서를 위한 테마 컬렉션을 두고 관련 자료를 모아 둔다.",
+    "description_en": "Sogang University is a private comprehensive university founded in Seoul by the Society of Jesus in 1960. Liberal and character education grounded in the Catholic tradition is central to how it runs. Its Loyola Library maintains themed collections that gather material for general reading."
+  },
+  "list": {
+    "slug": "sogang-required-230",
+    "title": "서강 필독서 230선",
+    "title_en": "Sogang 230 Required Books",
+    "description": "서강대학교 교양·인성교육위원회가 21세기에 걸맞은 교양인성 교육 목표를 실천하려고 선정한 필독서 목록이다. 동서고금의 고전을 두루 담되 모든 전공이 함께 읽을 책을 1차 100선으로, 더 깊이 읽을 책을 2차 100선으로 나누고 건학 정신에 맞는 가톨릭 영성 도서 30선을 더했다. 로욜라도서관 1관 4층 「생각하는 숲」에 모아 두고 읽기·쓰기와 고전 관련 강의에서 다룬다.",
+    "description_en": "A required reading list assembled by Sogang University's Committee on Liberal and Character Education to put its twenty-first-century educational aims into practice. It ranges across Eastern and Western classics, splitting into a first hundred that students of every major should read, a second hundred for deeper study, and thirty works of Catholic spirituality reflecting the university's founding mission. The books are gathered on the fourth floor of the Loyola Library and are used in the university's reading, writing, and classics courses.",
+    "published_year": null,
+    "edition": null,
+    "method": "교양·인성교육위원회가 세 가지 원칙을 두고 골랐다. 세계화 시대에 맞게 동서고금의 고전을 두루 망라하고, 모든 전공 학생이 공통으로 읽을 고전을 우선하되 심화 독서 대상이 될 고전을 더하며, 건학 정신에 합당한 가톨릭 영성 도서를 넣는다는 것이다. 1차 100선은 문학 52·인문사회 33·과학기술 15권, 2차 100선은 문학 29·인문사회 56·과학기술 15권, 가톨릭 30선은 공통 15·심화 15권이다. 순위는 매기지 않았다.",
+    "method_en": "The committee worked to three stated principles: range widely across Eastern and Western classics as befits a globalized age; give priority to classics that students of every major can read in common while adding titles for deeper study; and include works of Catholic spirituality consonant with the university's founding mission. The first hundred holds 52 literary works, 33 in the humanities and social sciences and 15 in science and technology; the second hundred holds 29, 56 and 15; the Catholic thirty splits evenly between common and advanced reading. The list is not ranked.",
+    "source_url": "https://library.sogang.ac.kr/digicol/list/1",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "구운몽",
+      "raw_creator": "김만중",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "열하일기",
+      "raw_creator": "박지원",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "세계민담전집1:한국편",
+      "raw_creator": "신동흔 편",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "삼대",
+      "raw_creator": "염상섭",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "인간문제",
+      "raw_creator": "강경애",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "태평천하",
+      "raw_creator": "채만식",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "정지용시전집",
+      "raw_creator": "정지용",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "회색인",
+      "raw_creator": "최인훈",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "김수영시전집",
+      "raw_creator": "김수영",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "당신들의 천국",
+      "raw_creator": "이청준",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "난장이가 쏘아올린 작은 공",
+      "raw_creator": "조세희",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "산해경 -",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "당시선 -",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "홍루몽",
+      "raw_creator": "조설근",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "기탄잘리",
+      "raw_creator": "타고르",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "루쉰소설집",
+      "raw_creator": "루쉰",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "설국",
+      "raw_creator": "가와바타 야스나리",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "사육",
+      "raw_creator": "오에 겐자부로",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "변신인형",
+      "raw_creator": "왕멍",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "일리아스/오뒷세이아",
+      "raw_creator": "호메로스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 20"
+    },
+    {
+      "raw_title": "희랍비극",
+      "raw_creator": "아이스킬로스 외",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 21"
+    },
+    {
+      "raw_title": "변신",
+      "raw_creator": "오비디우스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 22"
+    },
+    {
+      "raw_title": "햄릿",
+      "raw_creator": "셰익스피어",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 23"
+    },
+    {
+      "raw_title": "돈키호테",
+      "raw_creator": "세르반테스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 24"
+    },
+    {
+      "raw_title": "실락원",
+      "raw_creator": "밀턴",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 25"
+    },
+    {
+      "raw_title": "파우스트",
+      "raw_creator": "괴테",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 26"
+    },
+    {
+      "raw_title": "포 단편집",
+      "raw_creator": "에드거 앨런 포",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 27"
+    },
+    {
+      "raw_title": "백경",
+      "raw_creator": "멜빌",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 28"
+    },
+    {
+      "raw_title": "악의 꽃",
+      "raw_creator": "보들레르",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 29"
+    },
+    {
+      "raw_title": "보바리 부인",
+      "raw_creator": "플로베르",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 30"
+    },
+    {
+      "raw_title": "사일러스 마너",
+      "raw_creator": "조지 엘리엇",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 31"
+    },
+    {
+      "raw_title": "위대한 유산",
+      "raw_creator": "찰스 디킨스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 32"
+    },
+    {
+      "raw_title": "안나 카레니나",
+      "raw_creator": "톨스토이",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 33"
+    },
+    {
+      "raw_title": "인형의 집",
+      "raw_creator": "입센",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 34"
+    },
+    {
+      "raw_title": "카라마조프가의 형제들",
+      "raw_creator": "도스토예프스키",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 35"
+    },
+    {
+      "raw_title": "말테의 수기",
+      "raw_creator": "릴케",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 36"
+    },
+    {
+      "raw_title": "스완네 집 쪽으로(잃어버린 시간을 찾아서 1부)",
+      "raw_creator": "마르셀 프루스트",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 37"
+    },
+    {
+      "raw_title": "더블린 사람들",
+      "raw_creator": "제임스 조이스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 38"
+    },
+    {
+      "raw_title": "스무 편의 사랑의 시와 한 편의 절망의 노래",
+      "raw_creator": "파블로 네루다",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 39"
+    },
+    {
+      "raw_title": "황무지",
+      "raw_creator": "T.S 엘리엇",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 40"
+    },
+    {
+      "raw_title": "마의 산",
+      "raw_creator": "토마스 만",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 41"
+    },
+    {
+      "raw_title": "소송/성",
+      "raw_creator": "카프카",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 42"
+    },
+    {
+      "raw_title": "자기만의 방",
+      "raw_creator": "버지니아 울프",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 43"
+    },
+    {
+      "raw_title": "분노의 포도",
+      "raw_creator": "존 스타인벡",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 44"
+    },
+    {
+      "raw_title": "이방인",
+      "raw_creator": "카뮈",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 45"
+    },
+    {
+      "raw_title": "독사를 죽였어야 했는데",
+      "raw_creator": "야사르 케말",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 46"
+    },
+    {
+      "raw_title": "불한당들의 세계사",
+      "raw_creator": "보르헤스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 47"
+    },
+    {
+      "raw_title": "닥터 지바고",
+      "raw_creator": "빠스제르낙",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 48"
+    },
+    {
+      "raw_title": "양철북",
+      "raw_creator": "귄터 그라스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 49"
+    },
+    {
+      "raw_title": "백년의 고독",
+      "raw_creator": "마르케스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 50"
+    },
+    {
+      "raw_title": "장미의 이름",
+      "raw_creator": "움베르토 에코",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 51"
+    },
+    {
+      "raw_title": "참을 수 없는 존재의 가벼움",
+      "raw_creator": "밀란 쿤데라",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 공통 / 출처 목록 번호 52"
+    },
+    {
+      "raw_title": "논어",
+      "raw_creator": "공자",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 53"
+    },
+    {
+      "raw_title": "도덕경",
+      "raw_creator": "노자",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 54"
+    },
+    {
+      "raw_title": "아함경",
+      "raw_creator": "석가세존",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 55"
+    },
+    {
+      "raw_title": "소크라테스의 변론",
+      "raw_creator": "플라톤",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 56"
+    },
+    {
+      "raw_title": "니코마코스 윤리학",
+      "raw_creator": "아리스토텔레스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 57"
+    },
+    {
+      "raw_title": "맹자",
+      "raw_creator": "맹자",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 58"
+    },
+    {
+      "raw_title": "장자",
+      "raw_creator": "장자",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 59"
+    },
+    {
+      "raw_title": "사기",
+      "raw_creator": "사마천",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 60"
+    },
+    {
+      "raw_title": "의무론",
+      "raw_creator": "키케로",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 61"
+    },
+    {
+      "raw_title": "성경 -",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 62"
+    },
+    {
+      "raw_title": "명상록",
+      "raw_creator": "아우렐리우스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 63"
+    },
+    {
+      "raw_title": "고백록",
+      "raw_creator": "아우구스티누스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 64"
+    },
+    {
+      "raw_title": "꾸란 -",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 65"
+    },
+    {
+      "raw_title": "삼국유사",
+      "raw_creator": "일연",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 66"
+    },
+    {
+      "raw_title": "우신예찬",
+      "raw_creator": "에라스무스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 67"
+    },
+    {
+      "raw_title": "유토피아",
+      "raw_creator": "토마스 모어",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 68"
+    },
+    {
+      "raw_title": "그리스도인의 자유",
+      "raw_creator": "루터",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 69"
+    },
+    {
+      "raw_title": "성학십도",
+      "raw_creator": "이황",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 70"
+    },
+    {
+      "raw_title": "신기관",
+      "raw_creator": "프랜시스 베이컨",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 71"
+    },
+    {
+      "raw_title": "방법서설",
+      "raw_creator": "르네 데카르트",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 72"
+    },
+    {
+      "raw_title": "팡세",
+      "raw_creator": "파스칼",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 73"
+    },
+    {
+      "raw_title": "국부론",
+      "raw_creator": "아담 스미스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 74"
+    },
+    {
+      "raw_title": "도덕의 계보",
+      "raw_creator": "니체",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 75"
+    },
+    {
+      "raw_title": "프로테스탄트 윤리와 자본주의 정신",
+      "raw_creator": "막스 베버",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 76"
+    },
+    {
+      "raw_title": "쾌락원칙을 넘어서",
+      "raw_creator": "지그문트 프로이트",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 77"
+    },
+    {
+      "raw_title": "호모 루덴스",
+      "raw_creator": "요한 하이징아",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 78"
+    },
+    {
+      "raw_title": "자유로부터의 도피",
+      "raw_creator": "에리히 프롬",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 79"
+    },
+    {
+      "raw_title": "국화와 칼",
+      "raw_creator": "루스 베네딕트",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 80"
+    },
+    {
+      "raw_title": "죽음의 수용소에서",
+      "raw_creator": "빅터 프랭클",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 81"
+    },
+    {
+      "raw_title": "서양미술사",
+      "raw_creator": "곰브리치",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 82"
+    },
+    {
+      "raw_title": "옥중서간",
+      "raw_creator": "본회퍼",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 83"
+    },
+    {
+      "raw_title": "역사란 무엇인가",
+      "raw_creator": "E.H.카아",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 84"
+    },
+    {
+      "raw_title": "대지의 저주받는 사람들",
+      "raw_creator": "프란츠 파농",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 인문·사회 / 출처 목록 번호 85"
+    },
+    {
+      "raw_title": "침묵의 봄",
+      "raw_creator": "레이첼 카슨",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 86"
+    },
+    {
+      "raw_title": "부분과 전체",
+      "raw_creator": "하이젠베르크",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 87"
+    },
+    {
+      "raw_title": "사상사 속의 과학",
+      "raw_creator": "히로시게 토오루 외",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 88"
+    },
+    {
+      "raw_title": "최초의 3분",
+      "raw_creator": "와인버그",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 89"
+    },
+    {
+      "raw_title": "생명의 느낌",
+      "raw_creator": "이블린 폭스 켈러",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 90"
+    },
+    {
+      "raw_title": "카오스",
+      "raw_creator": "제임스 글릭",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 91"
+    },
+    {
+      "raw_title": "천재, 리처드 파인만의 삶과 과학",
+      "raw_creator": "제임스 글릭",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 92"
+    },
+    {
+      "raw_title": "디지털이다",
+      "raw_creator": "네그로폰테",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 93"
+    },
+    {
+      "raw_title": "우리 수학자 모두는 약간 미친 겁니다",
+      "raw_creator": "폴 호프먼",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 94"
+    },
+    {
+      "raw_title": "아톰으로 이루어진 세상",
+      "raw_creator": "라이너 그리스하머",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 95"
+    },
+    {
+      "raw_title": "과학이 종교를 만날 때",
+      "raw_creator": "이언 바버",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 96"
+    },
+    {
+      "raw_title": "게놈",
+      "raw_creator": "매트 리들리",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 97"
+    },
+    {
+      "raw_title": "정재승의 과학 콘서트",
+      "raw_creator": "정재승",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 98"
+    },
+    {
+      "raw_title": "20세기를 만든 아름다운 방정식들",
+      "raw_creator": "그레이엄 파멜로 외",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 99"
+    },
+    {
+      "raw_title": "거의 모든 것의 역사",
+      "raw_creator": "빌 브라이슨",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(1차) 100선 > 과학·기술 / 출처 목록 번호 100"
+    },
+    {
+      "raw_title": "가르강튀아 팡타그뤼엘",
+      "raw_creator": "라블레",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "고도를 기다리며",
+      "raw_creator": "베케트",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "고향",
+      "raw_creator": "이기영",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "관촌수필",
+      "raw_creator": "이문구",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "금오신화",
+      "raw_creator": "김시습",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "데카메론",
+      "raw_creator": "복카치오",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "도리언그레이의 초상",
+      "raw_creator": "와일드",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "드리나강의 다리",
+      "raw_creator": "이보 안드리치",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "매천야록",
+      "raw_creator": "황현",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "주홍글씨",
+      "raw_creator": "호손",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "사람아 아, 사람아!",
+      "raw_creator": "다이오우잉",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "신곡",
+      "raw_creator": "단테",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "아이네이스",
+      "raw_creator": "베르길리우스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "유리알 유희",
+      "raw_creator": "헤세",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "음향과 분노",
+      "raw_creator": "윌리암 포크너",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "이반 데니소비치의 하루",
+      "raw_creator": "솔제니친",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "인간조건",
+      "raw_creator": "말로",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "고리오영감",
+      "raw_creator": "발자크",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "장 크리스토프",
+      "raw_creator": "롤랑",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "죽음의 한 연구",
+      "raw_creator": "박상륭",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 20"
+    },
+    {
+      "raw_title": "천변풍경",
+      "raw_creator": "박태원",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 21"
+    },
+    {
+      "raw_title": "바람의 넋",
+      "raw_creator": "오정희",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 22"
+    },
+    {
+      "raw_title": "트리스트럼 샌디",
+      "raw_creator": "로렌스 스턴",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 23"
+    },
+    {
+      "raw_title": "페테르부르크",
+      "raw_creator": "안드레이 벨르이",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 24"
+    },
+    {
+      "raw_title": "폭풍의 언덕",
+      "raw_creator": "브론테",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 25"
+    },
+    {
+      "raw_title": "피의 꽃잎",
+      "raw_creator": "은구기 와 시옹고",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 26"
+    },
+    {
+      "raw_title": "하인리히 폰 오프딩겐(푸른 꽃)",
+      "raw_creator": "노발리스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 27"
+    },
+    {
+      "raw_title": "한중록",
+      "raw_creator": "혜경궁 홍씨",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 28"
+    },
+    {
+      "raw_title": "허삼관 매혈기",
+      "raw_creator": "여화",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 공통 / 출처 목록 번호 29"
+    },
+    {
+      "raw_title": "감시와 처벌",
+      "raw_creator": "미셀 푸코",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "경제발전의 이론",
+      "raw_creator": "죠셉 슘페터",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "계몽의 변증법",
+      "raw_creator": "아도르노/호르크하이머",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "공포와 전율",
+      "raw_creator": "키에르케고어",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "국가",
+      "raw_creator": "플라톤",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "근사록",
+      "raw_creator": "주희",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "대동서",
+      "raw_creator": "강유위",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "도덕적 인간과 비도덕적 사회",
+      "raw_creator": "니버",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "도덕형이상학 기초",
+      "raw_creator": "칸트",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "동경대전",
+      "raw_creator": "최제우",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "목민심서",
+      "raw_creator": "정약용",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "리바이어던",
+      "raw_creator": "홉스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "명이대방록",
+      "raw_creator": "황종희",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "문명화의 과정",
+      "raw_creator": "엘리아스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "문학과 예술의 사회사",
+      "raw_creator": "아놀드 하우저",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "물질문명과 자본주의",
+      "raw_creator": "페르낭 브로델",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 16"
+    },
+    {
+      "raw_title": "미국의 민주주의",
+      "raw_creator": "토크빌",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 17"
+    },
+    {
+      "raw_title": "미디어의 이해",
+      "raw_creator": "마셜 맥루한",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 18"
+    },
+    {
+      "raw_title": "블루오션 전략",
+      "raw_creator": "김위찬",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 19"
+    },
+    {
+      "raw_title": "불평등기원론",
+      "raw_creator": "루소",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 20"
+    },
+    {
+      "raw_title": "선가귀감",
+      "raw_creator": "서산대사",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 21"
+    },
+    {
+      "raw_title": "선택할 자유",
+      "raw_creator": "밀턴 프리드만",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 22"
+    },
+    {
+      "raw_title": "설득의 심리학",
+      "raw_creator": "로버트 치알디니",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 23"
+    },
+    {
+      "raw_title": "성과 속",
+      "raw_creator": "엘리아데",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 24"
+    },
+    {
+      "raw_title": "세속의 철학자들",
+      "raw_creator": "헤일브로너",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 25"
+    },
+    {
+      "raw_title": "시간과 타자",
+      "raw_creator": "레비나스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 26"
+    },
+    {
+      "raw_title": "시학",
+      "raw_creator": "아리스토텔레스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 27"
+    },
+    {
+      "raw_title": "신화의 힘",
+      "raw_creator": "조셉 켐벨",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 28"
+    },
+    {
+      "raw_title": "언어에 대한 지식",
+      "raw_creator": "노엄 촘스키",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 29"
+    },
+    {
+      "raw_title": "여성의 역사",
+      "raw_creator": "조르주 뒤비, 미셀 페로",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 30"
+    },
+    {
+      "raw_title": "역사연구",
+      "raw_creator": "토인비",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 31"
+    },
+    {
+      "raw_title": "열린사회와 그 적들",
+      "raw_creator": "칼 포퍼",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 32"
+    },
+    {
+      "raw_title": "예종에의 길",
+      "raw_creator": "하이에크",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 33"
+    },
+    {
+      "raw_title": "오리엔탈리즘",
+      "raw_creator": "에드워드 사이드",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 34"
+    },
+    {
+      "raw_title": "옥중수고",
+      "raw_creator": "그람씨",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 35"
+    },
+    {
+      "raw_title": "우주에서의 인간의 지위",
+      "raw_creator": "막스 셸러",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 36"
+    },
+    {
+      "raw_title": "육조단경",
+      "raw_creator": "혜능",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 37"
+    },
+    {
+      "raw_title": "이탈리아 르네상스의 문화",
+      "raw_creator": "부르크하르트",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 38"
+    },
+    {
+      "raw_title": "인간의 조건",
+      "raw_creator": "한나 아렌트",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 39"
+    },
+    {
+      "raw_title": "자본주의 정신과 반자본주의 심리",
+      "raw_creator": "미제스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 40"
+    },
+    {
+      "raw_title": "자유론",
+      "raw_creator": "J.S.밀",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 41"
+    },
+    {
+      "raw_title": "전습록",
+      "raw_creator": "왕양명",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 42"
+    },
+    {
+      "raw_title": "정의론",
+      "raw_creator": "존 롤스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 43"
+    },
+    {
+      "raw_title": "제2의 성",
+      "raw_creator": "보부와르",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 44"
+    },
+    {
+      "raw_title": "존재와 시간",
+      "raw_creator": "하이데거",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 45"
+    },
+    {
+      "raw_title": "좋은 기업을 넘어 위대한 기업으로",
+      "raw_creator": "짐 콜린스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 46"
+    },
+    {
+      "raw_title": "종교의 의미와 목적",
+      "raw_creator": "일프레드 캔트웰 스미스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 47"
+    },
+    {
+      "raw_title": "죽은 경제학자들의 살아있는 아이디어",
+      "raw_creator": "부크홀츠",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 48"
+    },
+    {
+      "raw_title": "중국 고대사상의 세계",
+      "raw_creator": "벤자민 슈워츠",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 49"
+    },
+    {
+      "raw_title": "중국 근대 종교윤리와 상인정신",
+      "raw_creator": "여영서",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 50"
+    },
+    {
+      "raw_title": "중용",
+      "raw_creator": "자사",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 51"
+    },
+    {
+      "raw_title": "징비록",
+      "raw_creator": "유성룡",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 52"
+    },
+    {
+      "raw_title": "천주실의",
+      "raw_creator": "마테오 리치",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 53"
+    },
+    {
+      "raw_title": "철학의 위안",
+      "raw_creator": "보에티우스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 54"
+    },
+    {
+      "raw_title": "충성과 반역",
+      "raw_creator": "마루야마 마사오",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 55"
+    },
+    {
+      "raw_title": "프로페셔널의 조건",
+      "raw_creator": "피터 드러커",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 인문·사회 / 출처 목록 번호 56"
+    },
+    {
+      "raw_title": "21세기 컴퓨터학",
+      "raw_creator": "사카무라 겐",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "가이아 : 생명체로서의 지구",
+      "raw_creator": "J. E. 러브룩",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "놀랄만한 수학 아이디어와 문제들",
+      "raw_creator": "맬컴 E. 라인스",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "누가 소프트웨어의 심장을 만들었는가",
+      "raw_creator": "박지훈",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "생명이란 무엇인가?",
+      "raw_creator": "린 마굴리스 외",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "섹스란 무엇인가?",
+      "raw_creator": "린 마굴리스 외",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "신과학 산책",
+      "raw_creator": "김재희",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "엔트로피",
+      "raw_creator": "리프킨",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "엘러건트 유니버스",
+      "raw_creator": "브라이언 그린",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "우연과 필연",
+      "raw_creator": "장 자크 모노",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "이중나선",
+      "raw_creator": "J D 왓트슨",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "종의 기원",
+      "raw_creator": "다윈",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "테크노폴리",
+      "raw_creator": "닐 포스트만",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "프린키피아",
+      "raw_creator": "뉴턴",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "호두껍질 속의 우주",
+      "raw_creator": "스티븐 호킹",
+      "rank": null,
+      "year": null,
+      "note": "서강필독서(2차) 100선 > 과학·기술 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "고통의 문제",
+      "raw_creator": "C. S. 루이스",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "그리스도교 이전의 예수",
+      "raw_creator": "앨버트 노울런",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "그리스도의 신비",
+      "raw_creator": "토마스 키팅",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "나를 이끄시는 분",
+      "raw_creator": "월터 J. 취제크",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "내 영혼을 울린 이야기",
+      "raw_creator": "존 포웰",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "새 명상의 씨",
+      "raw_creator": "토마스 머튼",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "성녀 소화 데레사 자서전",
+      "raw_creator": "소화 데레사",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "성프란치스꼬의 잔꽃송이",
+      "raw_creator": "아쎄롱",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "이냐시오 로욜라 자서전",
+      "raw_creator": "이냐시오 로욜라",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "이보다 더 큰 사랑은 없다",
+      "raw_creator": "마더 데레사",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "일분 헛소리",
+      "raw_creator": "앤서니 드 멜로",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "천국의 열쇠",
+      "raw_creator": "A. J. 크로닌",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "칠층산",
+      "raw_creator": "토마스 머튼",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "침묵",
+      "raw_creator": "엔도 슈사쿠",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "행복한 선물",
+      "raw_creator": "안셀름 그륀",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 공통 / 출처 목록 번호 15"
+    },
+    {
+      "raw_title": "가르멜의 산길",
+      "raw_creator": "십자가의 요한",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 1"
+    },
+    {
+      "raw_title": "그리스도인의 비전",
+      "raw_creator": "존 포웰",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 2"
+    },
+    {
+      "raw_title": "그리스도인의 참선",
+      "raw_creator": "윌리엄 존슨",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 3"
+    },
+    {
+      "raw_title": "마르티니의 성서묵상(1-7)",
+      "raw_creator": "C. M. 마르티니",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 4"
+    },
+    {
+      "raw_title": "마음을 열고 가슴을 열고",
+      "raw_creator": "토마스 키팅",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 5"
+    },
+    {
+      "raw_title": "마이스터 엑카르트는 이렇게 말했다",
+      "raw_creator": "메튜 폭스 (편)",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 6"
+    },
+    {
+      "raw_title": "선과 성서",
+      "raw_creator": "가도와끼 가끼찌",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 7"
+    },
+    {
+      "raw_title": "아빌라의 데레사",
+      "raw_creator": "마르셀 오클레르",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 8"
+    },
+    {
+      "raw_title": "아시시 성 프란치스코의 영적인 권고 묵상집",
+      "raw_creator": "멜키올 프란치스코",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 9"
+    },
+    {
+      "raw_title": "어둔 밤",
+      "raw_creator": "십자가의 요한",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 10"
+    },
+    {
+      "raw_title": "완덕의 길",
+      "raw_creator": "예수의 데레사",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 11"
+    },
+    {
+      "raw_title": "이냐시오 영신수련",
+      "raw_creator": "이냐시오 로욜라",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 12"
+    },
+    {
+      "raw_title": "주여, 왜?",
+      "raw_creator": "까를로 까레또",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 13"
+    },
+    {
+      "raw_title": "준주 성범(大)-그리스도를 본받음",
+      "raw_creator": "토마스 아 켐피스",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 14"
+    },
+    {
+      "raw_title": "하느님과의 만남",
+      "raw_creator": "앤소니 드 멜로",
+      "rank": null,
+      "year": null,
+      "note": "서강권장도서(가톨릭) 30선 > 심화 / 출처 목록 번호 15"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://blog.naver.com/PostView.naver?blogId=dmx777&logNo=221806174658",
+      "https://library.sogang.ac.kr/digicol/list/1",
+      "https://www.sogang.ac.kr"
+    ],
+    "item_count": 230,
+    "expected_count": 230,
+    "gaps": "빠진 항목 없다. 1차 100선(52+33+15), 2차 100선(29+56+15), 가톨릭 30선(15+15)이 원문이 밝힌 구성과 정확히 맞는다.",
+    "uncertainties": "발표 연도를 확인하지 못해 비워 두었다. 도서관 컬렉션 페이지는 살아 있어 source_url로 걸었으나 그 페이지가 안내하는 학교 홈페이지 링크는 끊겨 있다. 항목 데이터는 네이버 블로그 전사본에서 옮겼다. 원문에 저자 표기가 없는 다섯 항목(산해경·당시선·성경·꾸란·구운몽)은 저자를 비워 두되 구운몽은 원문이 구분 기호 없이 붙여 적은 것이라 김만중으로 나눴다."
+  }
+}

@@ -1,0 +1,733 @@
+{
+  "curator": {
+    "slug": "the-guardian",
+    "name": "가디언",
+    "name_en": "The Guardian",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 1821,
+    "homepage_url": "https://www.theguardian.com",
+    "description": "1821년 맨체스터에서 창간한 영국의 일간지다. 1959년 지금의 제호로 바꾸고 뒤이어 런던으로 본사를 옮겼으며, 소유권이 스콧 트러스트 재단에 묶여 있어 개인 소유주가 없다. 서평면 「가디언 리뷰」를 통해 도서 순위 기획을 여러 차례 발표했다.",
+    "description_en": "Founded in Manchester in 1821 as The Manchester Guardian, the paper took its present name in 1959 and later moved to London. It is owned by the Scott Trust, which leaves it without a proprietor. Its books section, the Guardian Review, has published several large-scale book lists."
+  },
+  "list": {
+    "slug": "guardian-100-best-books-21st-century",
+    "title": "21세기 최고의 책 100선",
+    "title_en": "The 100 Best Books of the 21st Century",
+    "description": "가디언이 2019년 9월 21일 발표한 순위 목록이다. 2000년 이후 출간된 소설과 논픽션을 함께 다루며 1위는 힐러리 맨틀의 『울프 홀』이다. 데뷔 소설, 논쟁적 시사서, 역사서, 회고록이 한 목록에 섞여 있다.",
+    "description_en": "A ranked list published by The Guardian on 21 September 2019 covering books issued since 2000, mixing fiction and non-fiction. Hilary Mantel's Wolf Hall took first place. The selection ranges across debut novels, polemics, histories and memoirs.",
+    "published_year": 2019,
+    "edition": null,
+    "series_key": null,
+    "method": "가디언 문화면 편집진과 서평진이 2000년 1월 이후 영어로 출간된 책(번역서 포함)을 대상으로 100권을 골라 1위부터 100위까지 순위를 매겼다. 기사에는 100위부터 1위까지 역순으로 실려 있고, 항목마다 짧은 소개와 가디언 원 서평 링크가 붙어 있다.",
+    "method_en": "The Guardian's culture desk and reviewers selected 100 books published in English (including translations) since January 2000 and ranked them from 1 to 100. The article presents them in reverse order from 100 to 1, each with a short note and a link to the paper's original review.",
+    "source_url": "https://www.theguardian.com/books/2019/sep/21/best-books-of-the-21st-century",
+    "cover_image_url": null,
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": []
+  },
+  "items": [
+    {
+      "raw_title": "Wolf Hall",
+      "raw_creator": "Hilary Mantel",
+      "rank": 1,
+      "year": 2009,
+      "note": "한국어판 제목: 울프 홀"
+    },
+    {
+      "raw_title": "Gilead",
+      "raw_creator": "Marilynne Robinson",
+      "rank": 2,
+      "year": 2004,
+      "note": "한국어판 제목: 길리아드"
+    },
+    {
+      "raw_title": "Secondhand Time",
+      "raw_creator": "Svetlana Alexievich, translated by Bela Shayevich",
+      "rank": 3,
+      "year": 2013,
+      "note": "한국어판 제목: 세컨드핸드 타임"
+    },
+    {
+      "raw_title": "Never Let Me Go",
+      "raw_creator": "Kazuo Ishiguro",
+      "rank": 4,
+      "year": 2005,
+      "note": "한국어판 제목: 나를 보내지 마"
+    },
+    {
+      "raw_title": "Austerlitz",
+      "raw_creator": "WG Sebald, translated by Anthea Bell",
+      "rank": 5,
+      "year": 2001,
+      "note": "한국어판 제목: 아우스터리츠"
+    },
+    {
+      "raw_title": "The Amber Spyglass",
+      "raw_creator": "Philip Pullman",
+      "rank": 6,
+      "year": 2000,
+      "note": "한국어판 제목: 황금나침반 3부 - 호박색 망원경"
+    },
+    {
+      "raw_title": "Between the World and Me",
+      "raw_creator": "Ta-Nehisi Coates",
+      "rank": 7,
+      "year": 2015,
+      "note": "한국어판 제목: 세상과 나 사이"
+    },
+    {
+      "raw_title": "Autumn",
+      "raw_creator": "Ali Smith",
+      "rank": 8,
+      "year": 2016,
+      "note": "한국어판 제목: 가을"
+    },
+    {
+      "raw_title": "Cloud Atlas",
+      "raw_creator": "David Mitchell",
+      "rank": 9,
+      "year": 2004,
+      "note": "한국어판 제목: 클라우드 아틀라스"
+    },
+    {
+      "raw_title": "Half of a Yellow Sun",
+      "raw_creator": "Chimamanda Ngozi Adichie",
+      "rank": 10,
+      "year": 2006,
+      "note": "한국어판 제목: 태양은 노랗게 타오른다"
+    },
+    {
+      "raw_title": "My Brilliant Friend",
+      "raw_creator": "Elena Ferrante, translated by Ann Goldstein",
+      "rank": 11,
+      "year": 2011,
+      "note": "한국어판 제목: 나의 눈부신 친구"
+    },
+    {
+      "raw_title": "The Plot Against America",
+      "raw_creator": "Philip Roth",
+      "rank": 12,
+      "year": 2004,
+      "note": "한국어판 제목: 미국에 맞서는 음모"
+    },
+    {
+      "raw_title": "Nickel and Dimed",
+      "raw_creator": "Barbara Ehrenreich",
+      "rank": 13,
+      "year": 2001,
+      "note": "한국어판 제목: 노동의 배신"
+    },
+    {
+      "raw_title": "Fingersmith",
+      "raw_creator": "Sarah Waters",
+      "rank": 14,
+      "year": 2002,
+      "note": "한국어판 제목: 핑거스미스"
+    },
+    {
+      "raw_title": "The Sixth Extinction",
+      "raw_creator": "Elizabeth Kolbert",
+      "rank": 15,
+      "year": 2014,
+      "note": "한국어판 제목: 여섯 번째 대멸종"
+    },
+    {
+      "raw_title": "The Corrections",
+      "raw_creator": "Jonathan Franzen",
+      "rank": 16,
+      "year": 2001,
+      "note": "한국어판 제목: 인생 수정"
+    },
+    {
+      "raw_title": "The Road",
+      "raw_creator": "Cormac McCarthy",
+      "rank": 17,
+      "year": 2006,
+      "note": "한국어판 제목: 로드"
+    },
+    {
+      "raw_title": "The Shock Doctrine",
+      "raw_creator": "Naomi Klein",
+      "rank": 18,
+      "year": 2007,
+      "note": "한국어판 제목: 쇼크 독트린"
+    },
+    {
+      "raw_title": "The Curious Incident of the Dog in the Night‑Time",
+      "raw_creator": "Mark Haddon",
+      "rank": 19,
+      "year": 2003,
+      "note": "한국어판 제목: 한밤중에 개에게 일어난 의문의 사건"
+    },
+    {
+      "raw_title": "Life After Life",
+      "raw_creator": "Kate Atkinson",
+      "rank": 20,
+      "year": 2013,
+      "note": "한국어판 제목: 라이프 애프터 라이프"
+    },
+    {
+      "raw_title": "Sapiens",
+      "raw_creator": "Yuval Noah Harari, translated by Harari with John Purcell and Haim Watzman",
+      "rank": 21,
+      "year": 2011,
+      "note": "한국어판 제목: 사피엔스"
+    },
+    {
+      "raw_title": "Tenth of December",
+      "raw_creator": "George Saunders",
+      "rank": 22,
+      "year": 2013,
+      "note": "한국어판 제목: 12월 10일"
+    },
+    {
+      "raw_title": "The Noonday Demon",
+      "raw_creator": "Andrew Solomon",
+      "rank": 23,
+      "year": 2001,
+      "note": "한국어판 제목: 한낮의 우울"
+    },
+    {
+      "raw_title": "A Visit from The Goon Squad",
+      "raw_creator": "Jennifer Egan",
+      "rank": 24,
+      "year": 2011,
+      "note": "한국어판 제목: 깡패단의 방문"
+    },
+    {
+      "raw_title": "Normal People",
+      "raw_creator": "Sally Rooney",
+      "rank": 25,
+      "year": 2018,
+      "note": "한국어판 제목: 평범한 사람들"
+    },
+    {
+      "raw_title": "Capital in the Twenty First Century",
+      "raw_creator": "Thomas Piketty, translated by Arthur Goldhammer",
+      "rank": 26,
+      "year": 2013,
+      "note": "한국어판 제목: 21세기 자본"
+    },
+    {
+      "raw_title": "Hateship, Friendship, Courtship, Loveship, Marriage",
+      "raw_creator": "Alice Munro",
+      "rank": 27,
+      "year": 2001,
+      "note": "한국어판 제목: 미움, 우정, 구애, 사랑, 결혼"
+    },
+    {
+      "raw_title": "Rapture",
+      "raw_creator": "Carol Ann Duffy",
+      "rank": 28,
+      "year": 2005,
+      "note": "한국어판 제목: Rapture"
+    },
+    {
+      "raw_title": "A Death in the Family",
+      "raw_creator": "Karl Ove Knausgaard, translated by Don Bartlett",
+      "rank": 29,
+      "year": 2009,
+      "note": "한국어판 제목: 나의 투쟁 1"
+    },
+    {
+      "raw_title": "The Underground Railroad",
+      "raw_creator": "Colson Whitehead",
+      "rank": 30,
+      "year": 2016,
+      "note": "한국어판 제목: 언더그라운드 레일로드"
+    },
+    {
+      "raw_title": "The Argonauts",
+      "raw_creator": "Maggie Nelson",
+      "rank": 31,
+      "year": 2015,
+      "note": "한국어판 제목: 항해사들(Argonauts)"
+    },
+    {
+      "raw_title": "The Emperor of All Maladies",
+      "raw_creator": "Siddhartha Mukherjee",
+      "rank": 32,
+      "year": 2010,
+      "note": "한국어판 제목: 암: 만병의 황제의 역사"
+    },
+    {
+      "raw_title": "Fun Home",
+      "raw_creator": "Alison Bechdel",
+      "rank": 33,
+      "year": 2006,
+      "note": "한국어판 제목: 펀 홈: 가족 희비극"
+    },
+    {
+      "raw_title": "Outline",
+      "raw_creator": "Rachel Cusk",
+      "rank": 34,
+      "year": 2014,
+      "note": "한국어판 제목: Outline"
+    },
+    {
+      "raw_title": "The Hare with Amber Eyes",
+      "raw_creator": "Edmund de Waal",
+      "rank": 35,
+      "year": 2010,
+      "note": "한국어판 제목: The Hare with Amber Eyes"
+    },
+    {
+      "raw_title": "Experience",
+      "raw_creator": "Martin Amis",
+      "rank": 36,
+      "year": 2000,
+      "note": "한국어판 제목: Experience"
+    },
+    {
+      "raw_title": "The Green Road",
+      "raw_creator": "Anne Enright",
+      "rank": 37,
+      "year": 2015,
+      "note": "한국어판 제목: The Green Road"
+    },
+    {
+      "raw_title": "The Line of Beauty",
+      "raw_creator": "Alan Hollinghurst",
+      "rank": 38,
+      "year": 2004,
+      "note": "한국어판 제목: 아름다움의 선"
+    },
+    {
+      "raw_title": "White Teeth",
+      "raw_creator": "Zadie Smith",
+      "rank": 39,
+      "year": 2000,
+      "note": "한국어판 제목: 하얀 이빨"
+    },
+    {
+      "raw_title": "The Year of Magical Thinking",
+      "raw_creator": "Joan Didion",
+      "rank": 40,
+      "year": 2005,
+      "note": "한국어판 제목: 상실"
+    },
+    {
+      "raw_title": "Atonement",
+      "raw_creator": "Ian McEwan",
+      "rank": 41,
+      "year": 2001,
+      "note": "한국어판 제목: 속죄"
+    },
+    {
+      "raw_title": "Moneyball",
+      "raw_creator": "Michael Lewis",
+      "rank": 42,
+      "year": 2010,
+      "note": "한국어판 제목: 머니볼"
+    },
+    {
+      "raw_title": "Citizen: An American Lyric",
+      "raw_creator": "Claudia Rankine",
+      "rank": 43,
+      "year": 2014,
+      "note": "한국어판 제목: 시민: 한 미국인의 노래"
+    },
+    {
+      "raw_title": "Hope in the Dark",
+      "raw_creator": "Rebecca Solnit",
+      "rank": 44,
+      "year": 2004,
+      "note": "한국어판 제목: 어둠 속의 희망"
+    },
+    {
+      "raw_title": "Levels of Life",
+      "raw_creator": "Julian Barnes",
+      "rank": 45,
+      "year": 2013,
+      "note": "한국어판 제목: 사랑은 그렇게 끝나지 않는다"
+    },
+    {
+      "raw_title": "Human Chain",
+      "raw_creator": "Seamus Heaney",
+      "rank": 46,
+      "year": 2010,
+      "note": "한국어판 제목: Human Chain"
+    },
+    {
+      "raw_title": "Persepolis",
+      "raw_creator": "Marjane Satrapi, translated by Mattias Ripa",
+      "rank": 47,
+      "year": 2000,
+      "note": "한국어판 제목: 페르세폴리스"
+    },
+    {
+      "raw_title": "Night Watch",
+      "raw_creator": "Terry Pratchett",
+      "rank": 48,
+      "year": 2002,
+      "note": "한국어판 제목: 나이트워치"
+    },
+    {
+      "raw_title": "Why Be Happy When You Could Be Normal?",
+      "raw_creator": "Jeanette Winterson",
+      "rank": 49,
+      "year": 2011,
+      "note": "한국어판 제목: 왜 평범할 수 있을 때 행복한가"
+    },
+    {
+      "raw_title": "Oryx and Crake",
+      "raw_creator": "Margaret Atwood",
+      "rank": 50,
+      "year": 2003,
+      "note": "한국어판 제목: 인간 종말 리포트"
+    },
+    {
+      "raw_title": "Brooklyn",
+      "raw_creator": "Colm Tóibín",
+      "rank": 51,
+      "year": 2009,
+      "note": "한국어판 제목: 브루클린"
+    },
+    {
+      "raw_title": "Small Island",
+      "raw_creator": "Andrea Levy",
+      "rank": 52,
+      "year": 2004,
+      "note": "한국어판 제목: Small Island"
+    },
+    {
+      "raw_title": "True History of the Kelly Gang",
+      "raw_creator": "Peter Carey",
+      "rank": 53,
+      "year": 2000,
+      "note": "한국어판 제목: True History of the Kelly Gang"
+    },
+    {
+      "raw_title": "Women & Power",
+      "raw_creator": "Mary Beard",
+      "rank": 54,
+      "year": 2017,
+      "note": "한국어판 제목: 여성, 전적으로 권력에 관한"
+    },
+    {
+      "raw_title": "The Omnivore’s Dilemma",
+      "raw_creator": "Michael Pollan",
+      "rank": 55,
+      "year": 2006,
+      "note": "한국어판 제목: 잡식동물의 딜레마"
+    },
+    {
+      "raw_title": "Underland",
+      "raw_creator": "Robert Macfarlane",
+      "rank": 56,
+      "year": 2019,
+      "note": "한국어판 제목: 언더랜드"
+    },
+    {
+      "raw_title": "The Amazing Adventures of Kavalier and Clay",
+      "raw_creator": "Michael Chabon",
+      "rank": 57,
+      "year": 2000,
+      "note": "한국어판 제목: 캐벌리어와 클레이의 놀라운 모험"
+    },
+    {
+      "raw_title": "Postwar",
+      "raw_creator": "Tony Judt",
+      "rank": 58,
+      "year": 2005,
+      "note": "한국어판 제목: 전후 유럽 1945~2005"
+    },
+    {
+      "raw_title": "The Beauty of the Husband",
+      "raw_creator": "Anne Carson",
+      "rank": 59,
+      "year": 2002,
+      "note": "한국어판 제목: 남편의 아름다움"
+    },
+    {
+      "raw_title": "Dart",
+      "raw_creator": "Alice Oswald",
+      "rank": 60,
+      "year": 2002,
+      "note": "한국어판 제목: 다트"
+    },
+    {
+      "raw_title": "This House of Grief",
+      "raw_creator": "Helen Garner",
+      "rank": 61,
+      "year": 2014,
+      "note": "한국어판 제목: 이 우울한 집(This House of Grief)"
+    },
+    {
+      "raw_title": "Mother’s Milk",
+      "raw_creator": "Edward St Aubyn",
+      "rank": 62,
+      "year": 2006,
+      "note": "한국어판 제목: 모유"
+    },
+    {
+      "raw_title": "The Immortal Life of Henrietta Lacks",
+      "raw_creator": "Rebecca Skloot",
+      "rank": 63,
+      "year": 2010,
+      "note": "한국어판 제목: 헨리에타 랙스의 불멸의 삶"
+    },
+    {
+      "raw_title": "On Writing",
+      "raw_creator": "Stephen King",
+      "rank": 64,
+      "year": 2000,
+      "note": "한국어판 제목: 유혹하는 글쓰기"
+    },
+    {
+      "raw_title": "Gone Girl",
+      "raw_creator": "Gillian Flynn",
+      "rank": 65,
+      "year": 2012,
+      "note": "한국어판 제목: 나를 찾아줘"
+    },
+    {
+      "raw_title": "Seven Brief Lessons on Physics",
+      "raw_creator": "Carlo Rovelli",
+      "rank": 66,
+      "year": 2014,
+      "note": "한국어판 제목: 모든 순간의 물리학"
+    },
+    {
+      "raw_title": "The Silence of the Girls",
+      "raw_creator": "Pat Barker",
+      "rank": 67,
+      "year": 2018,
+      "note": "한국어판 제목: The Silence of the Girls"
+    },
+    {
+      "raw_title": "The Constant Gardener",
+      "raw_creator": "John le Carré",
+      "rank": 68,
+      "year": 2001,
+      "note": "한국어판 제목: Constant Gardener"
+    },
+    {
+      "raw_title": "The Infatuations",
+      "raw_creator": "Javier Marías, translated by Margaret Jull Costa",
+      "rank": 69,
+      "year": 2011,
+      "note": "한국어판 제목: The Infatuations"
+    },
+    {
+      "raw_title": "Notes on a Scandal",
+      "raw_creator": "Zoë Heller",
+      "rank": 70,
+      "year": 2003,
+      "note": "한국어판 제목: Notes on a Scandal"
+    },
+    {
+      "raw_title": "Jimmy Corrigan: The Smartest Kid on Earth",
+      "raw_creator": "Chris Ware",
+      "rank": 71,
+      "year": 2000,
+      "note": "한국어판 제목: 지미 코리건"
+    },
+    {
+      "raw_title": "The Age of Surveillance Capitalism",
+      "raw_creator": "Shoshana Zuboff",
+      "rank": 72,
+      "year": 2019,
+      "note": "한국어판 제목: The Age of Surveillance Capitalism"
+    },
+    {
+      "raw_title": "Nothing to Envy",
+      "raw_creator": "Barbara Demick",
+      "rank": 73,
+      "year": 2009,
+      "note": "한국어판 제목: Nothing to Envy"
+    },
+    {
+      "raw_title": "Days Without End",
+      "raw_creator": "Sebastian Barry",
+      "rank": 74,
+      "year": 2016,
+      "note": "한국어판 제목: Days Without End"
+    },
+    {
+      "raw_title": "Drive Your Plow Over the Bones of the Dead",
+      "raw_creator": "Olga Tokarczuk, translated by Antonia Lloyd-Jones",
+      "rank": 75,
+      "year": 2009,
+      "note": "한국어판 제목: Drive Your Plow Over the Bones of the Dead"
+    },
+    {
+      "raw_title": "Thinking, Fast and Slow",
+      "raw_creator": "Daniel Kahneman",
+      "rank": 76,
+      "year": 2011,
+      "note": "한국어판 제목: 생각에 관한 생각"
+    },
+    {
+      "raw_title": "Signs Preceding the End of the World",
+      "raw_creator": "Yuri Herrera, translated by Lisa Dillman",
+      "rank": 77,
+      "year": 2009,
+      "note": "한국어판 제목: Signs Preceding the End of the World"
+    },
+    {
+      "raw_title": "The Fifth Season",
+      "raw_creator": "NK Jemisin",
+      "rank": 78,
+      "year": 2015,
+      "note": "한국어판 제목: 다섯 번째 계절"
+    },
+    {
+      "raw_title": "The Spirit Level",
+      "raw_creator": "Richard Wilkinson and Kate Pickett",
+      "rank": 79,
+      "year": 2009,
+      "note": "한국어판 제목: 평등이 답이다"
+    },
+    {
+      "raw_title": "Stories of Your Life and Others",
+      "raw_creator": "Ted Chiang",
+      "rank": 80,
+      "year": 2002,
+      "note": "한국어판 제목: 당신 인생의 이야기"
+    },
+    {
+      "raw_title": "Harvest",
+      "raw_creator": "Jim Crace",
+      "rank": 81,
+      "year": 2013,
+      "note": "한국어판 제목: Harvest"
+    },
+    {
+      "raw_title": "Coraline",
+      "raw_creator": "Neil Gaiman",
+      "rank": 82,
+      "year": 2002,
+      "note": "한국어판 제목: 코랄린"
+    },
+    {
+      "raw_title": "Tell Me How It Ends",
+      "raw_creator": "Valeria Luiselli, translated by Luiselli with Lizzie Davis",
+      "rank": 83,
+      "year": 2016,
+      "note": "한국어판 제목: Tell Me How It Ends"
+    },
+    {
+      "raw_title": "The Cost of Living",
+      "raw_creator": "Deborah Levy",
+      "rank": 84,
+      "year": 2018,
+      "note": "한국어판 제목: The Cost of Living"
+    },
+    {
+      "raw_title": "The God Delusion",
+      "raw_creator": "Richard Dawkins",
+      "rank": 85,
+      "year": 2006,
+      "note": "한국어판 제목: 만들어진 신(The God Delusion)"
+    },
+    {
+      "raw_title": "Adults in the Room",
+      "raw_creator": "Yanis Varoufakis",
+      "rank": 86,
+      "year": 2017,
+      "note": "한국어판 제목: Adults in the Room"
+    },
+    {
+      "raw_title": "Priestdaddy",
+      "raw_creator": "Patricia Lockwood",
+      "rank": 87,
+      "year": 2017,
+      "note": "한국어판 제목: Priestdaddy"
+    },
+    {
+      "raw_title": "Noughts & Crosses",
+      "raw_creator": "Malorie Blackman",
+      "rank": 88,
+      "year": 2001,
+      "note": "한국어판 제목: Noughts & Crosses"
+    },
+    {
+      "raw_title": "Bad Blood",
+      "raw_creator": "Lorna Sage",
+      "rank": 89,
+      "year": 2000,
+      "note": "한국어판 제목: Bad Blood"
+    },
+    {
+      "raw_title": "Visitation",
+      "raw_creator": "Jenny Erpenbeck, translated by Susan Bernofsky",
+      "rank": 90,
+      "year": 2008,
+      "note": "한국어판 제목: 그곳에 집이 있었을까"
+    },
+    {
+      "raw_title": "Light",
+      "raw_creator": "M John Harrison",
+      "rank": 91,
+      "year": 2002,
+      "note": "한국어판 제목: Light"
+    },
+    {
+      "raw_title": "The Siege",
+      "raw_creator": "Helen Dunmore",
+      "rank": 92,
+      "year": 2001,
+      "note": "한국어판 제목: The Siege"
+    },
+    {
+      "raw_title": "Darkmans",
+      "raw_creator": "Nicola Barker",
+      "rank": 93,
+      "year": 2007,
+      "note": "한국어판 제목: Darkmans"
+    },
+    {
+      "raw_title": "The Tipping Point",
+      "raw_creator": "Malcolm Gladwell",
+      "rank": 94,
+      "year": 2000,
+      "note": "한국어판 제목: 티핑 포인트"
+    },
+    {
+      "raw_title": "Chronicles: Volume One",
+      "raw_creator": "Bob Dylan",
+      "rank": 95,
+      "year": 2004,
+      "note": "한국어판 제목: 밥 딜런 자서전"
+    },
+    {
+      "raw_title": "A Little Life",
+      "raw_creator": "Hanya Yanagihara",
+      "rank": 96,
+      "year": 2015,
+      "note": "한국어판 제목: 리틀 라이프"
+    },
+    {
+      "raw_title": "Harry Potter and the Goblet of Fire",
+      "raw_creator": "JK Rowling",
+      "rank": 97,
+      "year": 2000,
+      "note": "한국어판 제목: 해리포터와 불의 잔"
+    },
+    {
+      "raw_title": "The Girl With the Dragon Tattoo",
+      "raw_creator": "Stieg Larsson, translated by Steven T Murray",
+      "rank": 98,
+      "year": 2005,
+      "note": "한국어판 제목: 여자를 증오한 남자들"
+    },
+    {
+      "raw_title": "Broken Glass",
+      "raw_creator": "Alain Mabanckou, translated by Helen Stevenson",
+      "rank": 99,
+      "year": 2005,
+      "note": "한국어판 제목: 아프리카 술집, 외상은 어림없지"
+    },
+    {
+      "raw_title": "I Feel Bad About My Neck",
+      "raw_creator": "Nora Ephron",
+      "rank": 100,
+      "year": 2006,
+      "note": "한국어판 제목: 내 인생은 로맨틱 코미디"
+    }
+  ]
+}
