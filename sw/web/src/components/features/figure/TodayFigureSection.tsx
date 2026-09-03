@@ -78,11 +78,7 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
     const today = new Date();
     const dateStr = t("dateLabel", { month: today.getMonth() + 1, day: today.getDate() });
 
-    // 제목은 한 줄이다. 종류별 개수는 바로 아래 분류 칩이 이미 말하므로 문구로 되풀이하지 않는다
-    const libraryLabel = t("libraryLabelEmpty", {
-        profession: professionLabel,
-        nickname: displayName,
-    });
+    // 제목은 칩만 둔다. 종류별 개수는 분류 칩이 이미 말하므로 문구로 되풀이하지 않는다
 
     if (!figure) return null;
 
@@ -126,7 +122,7 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                 {/* 인물 프로필 */}
                 <Link
                     href={`/celeb/${figure.slug || figure.id}`}
-                    className="group relative inline-flex flex-col items-center gap-5 mb-0 py-6 px-10 rounded-2xl hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent"
+                    className="group relative inline-flex w-full min-w-0 max-w-full flex-col items-center gap-4 px-4 py-6 sm:gap-5 sm:px-10 hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent rounded-2xl mb-0"
                 >
                     <div className="relative">
                         <BlurDissolve className="inline-block">
@@ -146,8 +142,8 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                         </div>
                     </div>
 
-                    <div className="text-center space-y-2">
-                        <h2 className="text-3xl md:text-4xl font-serif font-bold text-text-primary group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent group-hover:via-amber-200 group-hover:to-accent">
+                    <div className="text-center space-y-2 min-w-0 max-w-full">
+                        <h2 className="text-[1.65rem] sm:text-3xl md:text-4xl leading-tight font-serif font-bold text-text-primary break-keep group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent group-hover:via-amber-200 group-hover:to-accent">
                             {displayName}
                         </h2>
                         <div className="flex items-center justify-center gap-3">
@@ -158,35 +154,22 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                     </div>
                 </Link>
 
-                {/* 간단한 소개글 */}
+                {/* 간단한 소개글 — 잘라내지 않고 전문을 보인다. 영역은 가운데, 글은 왼쪽 정렬이다 */}
                 {displayBio && (
-                    <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
+                    <p className="text-left text-sm text-text-secondary max-w-xl mx-auto mb-4 mt-2 px-4 break-keep">
                         {displayBio}
                     </p>
                 )}
             </div>
 
             <div className="min-h-[200px]">
-                {/* 제목 — 가로선 대신 이 문구만 박스로 감싼다. 카드까지 묶으면 서가 전체가
-                    액자에 갇혀 답답하고, 구획 경계가 이중이 된다 */}
-                <div className="mx-auto mb-6 w-fit max-w-full rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4 md:px-8 md:py-5">
-                    <h3
-                        className={cn(
-                            "text-center font-serif font-black text-text-primary leading-[1.4] whitespace-pre-line",
-                            // 홈에서는 구획 제목(오늘의 인물)의 아래 위계다
-                            embedded ? "text-lg sm:text-xl" : "text-2xl sm:text-3xl",
-                        )}
-                    >
-                        {libraryLabel}
-                    </h3>
-
-                    {/* 종류별 개수는 이 칩이 말한다 — 제목에 "6권의 책"을 또 쓰지 않는다 */}
+                {/* 칩은 상자 없이 바로 둔다 — 종류별 박스가 따로 노는 느낌을 없앤다 */}
+                <div className="mb-6 flex justify-center">
                     <ContentTypeSummary
                         items={contents}
                         value={categoryFilter}
                         onChange={(type) => setCategoryFilter(type)}
                         size="md"
-                        className="mt-4"
                     />
                 </div>
 

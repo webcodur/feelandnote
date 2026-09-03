@@ -73,6 +73,8 @@ interface FigureLinkGridProps {
   moreLabel?: string;
   /** 모바일에서 긴 목록만 내부 스크롤로 제한한다 */
   mobileScrollable?: boolean;
+  /** ul에 덧붙이는 폭 제한 등 — 항목이 적을 때 카드가 가로로 늘어나는 화면용 */
+  gridClassName?: string;
 }
 
 /** 얼굴 칸 너비(px). 48을 넘기면 800px 원본을 받는다 — celeb-avatar-small.ts의 상한이다 */
@@ -86,6 +88,7 @@ export default async function FigureLinkGrid({
   moreHref,
   moreLabel,
   mobileScrollable = false,
+  gridClassName = "",
 }: FigureLinkGridProps) {
   // slug가 없으면 상세로 갈 주소가 없다
   const linkable = figures.filter((figure) => figure.slug);
@@ -110,7 +113,7 @@ export default async function FigureLinkGrid({
           mobileScrollable
             ? "max-h-[clamp(300px,52dvh,480px)] touch-pan-y overflow-y-auto overscroll-y-auto [overflow-anchor:none] [scrollbar-width:thin] md:max-h-none md:overflow-visible"
             : ""
-        }`}
+        } ${gridClassName}`}
       >
         {linkable.map((figure) => {
           const name = (isEn && figure.nickname_en) || figure.nickname;
@@ -124,7 +127,7 @@ export default async function FigureLinkGrid({
               <Link
                 href={`/celeb/${figure.slug}`}
                 prefetch={false}
-                className={`group flex h-full ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/5 bg-card hover:border-accent/30 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
+                className={`group flex h-full ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/10 bg-white/[0.05] hover:border-accent/30 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
               >
                 {/* 얼굴이 카드 왼쪽 끝에서 위아래를 채운다 — 여백 없이 붙여 인물이 먼저 읽히게 한다 */}
                 <span className="relative w-12 shrink-0 overflow-hidden bg-main">

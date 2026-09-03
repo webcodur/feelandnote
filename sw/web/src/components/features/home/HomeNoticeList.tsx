@@ -19,7 +19,6 @@ import { Link } from '@/i18n/navigation'
 import {
   formatBoardDateTime,
   formatBoardRelativeTime,
-  formatBoardShortDateTime,
 } from '@/lib/board/boardDate'
 import { resolveLocale } from '@/types/locale'
 
@@ -72,7 +71,7 @@ export default function HomeNoticeList({ notices }: Props) {
                 </span>
               )}
               <span className="flex-1 min-w-0">
-                <span className="block text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent">
+                <span className="block text-center text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent">
                   {notice.title}
                   {isNew(notice.created_at) && (
                     <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/20 text-accent align-middle">
@@ -80,27 +79,22 @@ export default function HomeNoticeList({ notices }: Props) {
                     </span>
                   )}
                 </span>
-                <span className="flex items-center gap-3 mt-2 text-xs">
-                  <span className="font-serif">{notice.author.nickname}</span>
-                  <span className="text-accent-dim/50">·</span>
-                  <span>{formatBoardRelativeTime(notice.created_at, locale)}</span>
-                  <span className="text-accent-dim/30">
-                    ({formatBoardShortDateTime(notice.created_at, locale)})
-                  </span>
-                  <span className="text-accent-dim/50">·</span>
-                  <span className="flex items-center gap-1">
+                <span className="block text-center text-xs font-serif text-text-secondary mt-1.5 truncate">
+                  {notice.author.nickname}
+                </span>
+                {/* 메타는 좌우 2열 — 왼쪽은 상대 시각, 오른쪽은 조회수(댓글), 각 셀 안에서 가운데 둔다 */}
+                <span className="mt-2 grid grid-cols-2 text-xs text-text-secondary">
+                  <span className="text-center">{formatBoardRelativeTime(notice.created_at, locale)}</span>
+                  <span className="flex items-center justify-center gap-1">
                     <Eye size={12} className="text-accent-dim" />
                     {viewCountOf(notice)}
-                  </span>
-                  {(notice.comment_count ?? 0) > 0 && (
-                    <>
-                      <span className="text-accent-dim/50">·</span>
-                      <span className="flex items-center gap-1">
+                    {(notice.comment_count ?? 0) > 0 && (
+                      <span className="ml-2 flex items-center gap-1">
                         <MessageSquare size={12} className="text-accent-dim" />
                         {notice.comment_count}
                       </span>
-                    </>
-                  )}
+                    )}
+                  </span>
                 </span>
               </span>
             </span>

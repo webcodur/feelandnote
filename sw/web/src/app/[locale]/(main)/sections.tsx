@@ -84,13 +84,10 @@ export async function GreetingSection() {
   }
 
   const t = await getTranslations("home.ui.quickRecordDock");
-  const unreviewedCount = unreviewedResult.items.length;
 
   return (
     <QuickRecordDock
       title={t("title")}
-      unreviewedCount={unreviewedCount}
-      countLabel={t("unreviewed", { count: unreviewedCount })}
     >
       {/* userId를 빠뜨리면 로그인한 사람도 손님으로 취급돼 기록이 기기에만 남는다 */}
       <HomeRecordSection

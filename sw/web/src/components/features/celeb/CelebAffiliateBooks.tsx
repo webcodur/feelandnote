@@ -18,6 +18,7 @@ interface CelebAffiliateBooksProps {
   actualOnly?: boolean
   embedded?: boolean
   initialData?: AffiliateBooksResult | null
+  hideHeading?: boolean
 }
 
 type LoadStatus = 'idle' | 'ready' | 'failed'
@@ -45,6 +46,7 @@ export default function CelebAffiliateBooks({
   actualOnly = false,
   embedded = false,
   initialData,
+  hideHeading = false,
 }: CelebAffiliateBooksProps) {
   const locale = useLocale()
   const t = useTranslations('popularBooks')
@@ -90,6 +92,7 @@ export default function CelebAffiliateBooks({
           buyLabel={t('buyOnCoupang')}
           detailLabel={t('viewBookDetails')}
           compact={embedded}
+          hideHeading={hideHeading}
         />
       ) : null}
     </div>

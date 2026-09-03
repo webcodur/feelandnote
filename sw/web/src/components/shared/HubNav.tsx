@@ -92,7 +92,7 @@ export default function HubNav({ hubItems, standaloneItems, featureItem, groupId
   };
 
   return (
-    <div className="flex items-center gap-2 w-max max-w-full mx-auto px-1 pb-1 overflow-x-auto scrollbar-hide">
+    <div className="flex w-full items-center justify-start gap-2 overflow-x-auto px-1 pb-1 scrollbar-hide md:mx-auto md:w-max md:max-w-full md:justify-center">
       {/* 이 화면 안의 구획 — 목차 */}
       {hubItems.map((item, i) => {
         const isActive = activeIndex === i;

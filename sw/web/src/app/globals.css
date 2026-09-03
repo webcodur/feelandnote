@@ -58,6 +58,13 @@
     0%, 100% { transform: scaleY(0.35); }
     50% { transform: scaleY(1); }
   }
+
+  /* 재생 중 대사 텍스트 아래를 스치는 진행광 */
+  --animate-dialogue-flow: dialogueFlow 2.2s linear infinite;
+  @keyframes dialogueFlow {
+    0% { background-position: -120% 100%; }
+    100% { background-position: 220% 100%; }
+  }
 }
 
 @layer base {

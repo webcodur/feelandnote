@@ -21,10 +21,10 @@ export default function HomeBrandHeader({
   aboutLabel,
 }: HomeBrandHeaderProps) {
   return (
-    <header className="flex flex-col items-center pt-12 pb-4 md:pt-16">
+    <header className="flex w-full min-w-0 flex-col items-center px-4 pt-12 pb-4 md:pt-16">
       <h1 className="sr-only">{brandHeading}</h1>
       <Logo size="lg" variant="hero" subtitle="YOUR CULTURAL LEGACY" />
-      <p className="mt-5 text-sm font-medium tracking-[0.08em] text-accent md:mt-6">
+      <p className="mt-5 max-w-full text-center text-sm font-medium tracking-[0.08em] text-accent text-balance break-keep md:mt-6">
         {brandAlias}
       </p>
       <Link

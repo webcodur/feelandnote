@@ -71,8 +71,8 @@ export default function IntroFrame({
   const paragraphs = labels.intro.split("\n\n");
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-2 md:px-6">
-      <div className="relative px-4 py-6 md:px-10 md:py-12 bg-white/[0.02] rounded-sm">
+    <div className="w-full max-w-2xl mx-auto min-w-0 md:px-6">
+      <div className="relative min-w-0 px-4 py-6 md:px-10 md:py-12 bg-white/[0.02] rounded-sm">
         {/* Corner accents */}
         <div className="absolute top-0 left-0 w-5 h-5 md:w-7 md:h-7 border-t border-l border-accent/20" />
         <div className="absolute top-0 right-0 w-5 h-5 md:w-7 md:h-7 border-t border-r border-accent/20" />
