@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-03T02:12:50.695Z",
+  "checkedAt": "2026-09-03T02:40:48.416Z",
   "items": [
     {
       "content_id": "020eb69c-4f27-4f8e-a1b1-a35ddf26a66b",
@@ -722,6 +722,58 @@
       ],
       "state": "linked",
       "checkedAt": "2026-09-03T01:37:31.304Z"
+    },
+    {
+      "content_id": "0cb7081b-0b61-42a2-ac4e-a3f93e911e6c",
+      "isbn": "9788965703112",
+      "title": "모든 순간의 물리학",
+      "query": "모든 순간의 물리학",
+      "name": "모든 순간의 물리학:우리는 누구인가라는 물음에 대한 물리학의 대답, 쌤앤파커스, <카를로 로벨리> 저/<김현주> 역/<이중원> 감수",
+      "productId": "3704775",
+      "productUrl": "https://www.coupang.com/vp/products/3704775?itemId=18244233&vendorItemId=3048981580",
+      "qualityEvidence": [
+        "ISBN 9788965703112의 제목·저자와 쿠팡 상품명 일치",
+        "쿠팡 상세 저자·출판사 표기: 카를로 로벨리·쌤앤파커스(박하,달물)",
+        "쿠팡 판매 로켓배송·내일 새벽 7시 전 도착 보장",
+        "83 개 상품평"
+      ],
+      "affiliateUrl": "https://link.coupang.com/a/gJBD9caroy",
+      "state": "linked",
+      "checkedAt": "2026-09-03T02:40:11.757Z"
+    },
+    {
+      "content_id": "26fe5146-f2be-40ef-b2ca-cb6e07c1a12a",
+      "isbn": "9791124280379",
+      "title": "생명 설계도, 게놈",
+      "query": "게놈",
+      "name": "생명 설계도 게놈, 반니출판, 매트 리들리",
+      "productId": "9428157160",
+      "productUrl": "https://www.coupang.com/vp/products/9428157160?itemId=28028865408&vendorItemId=94985989091",
+      "qualityEvidence": [
+        "2026년 반니 재출간 ISBN 9791124280379의 제목·저자·판매가와 쿠팡 상품 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "11 개 상품평"
+      ],
+      "affiliateUrl": "https://link.coupang.com/a/gJBFvc9lmu",
+      "state": "linked",
+      "checkedAt": "2026-09-03T02:40:30.145Z"
+    },
+    {
+      "content_id": "63b3b4c7-eabf-42cb-89e0-83514ef1d486",
+      "isbn": "9788984012554",
+      "title": "페르마의 마지막 정리",
+      "query": "페르마의 마지막 정리",
+      "name": "페르마의 마지막 정리, 영림카디널, 사이먼 싱",
+      "productId": "6661377229",
+      "productUrl": "https://www.coupang.com/vp/products/6661377229?itemId=15292147780&vendorItemId=82512558258",
+      "qualityEvidence": [
+        "개정4판 ISBN 9788984012554의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "73 개 상품평"
+      ],
+      "affiliateUrl": "https://link.coupang.com/a/gJBGQLauvk",
+      "state": "linked",
+      "checkedAt": "2026-09-03T02:40:48.416Z"
     }
   ]
 }

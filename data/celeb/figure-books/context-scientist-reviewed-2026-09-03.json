@@ -1,0 +1,212 @@
+{
+  "input": "context-scientist-candidates-2026-09-03.json",
+  "model": "gemini-3.8-flash-high",
+  "reviewPasses": 2,
+  "reviews": [
+    {
+      "slug": "fritz-haber",
+      "selections": []
+    },
+    {
+      "slug": "jungsang-kim",
+      "selections": []
+    },
+    {
+      "slug": "albert-einstein",
+      "selections": [
+        {
+          "contentId": "0cb7081b-0b61-42a2-ac4e-a3f93e911e6c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "아인슈타인이 정립한 일반상대성이론을 비롯해 현대 이론물리학의 핵심 흐름을 압축적으로 조망한 대표적 교양서이다."
+        }
+      ]
+    },
+    {
+      "slug": "eratosthenes",
+      "selections": []
+    },
+    {
+      "slug": "james-watt",
+      "selections": []
+    },
+    {
+      "slug": "gregor-mendel",
+      "selections": [
+        {
+          "contentId": "26fe5146-f2be-40ef-b2ca-cb6e07c1a12a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "멘델이 발견한 유전 법칙을 기초로 현대 유전체학의 발전 과정과 핵심 원리를 조망한 대표적인 교양 과학서이다."
+        }
+      ]
+    },
+    {
+      "slug": "edward-teller",
+      "selections": []
+    },
+    {
+      "slug": "marie-curie",
+      "selections": []
+    },
+    {
+      "slug": "alfred-nobel",
+      "selections": []
+    },
+    {
+      "slug": "john-dalton",
+      "selections": []
+    },
+    {
+      "slug": "william-harvey",
+      "selections": []
+    },
+    {
+      "slug": "zhang-zhongjing",
+      "selections": []
+    },
+    {
+      "slug": "jonathan-hurst",
+      "selections": []
+    },
+    {
+      "slug": "dennis-whyte",
+      "selections": []
+    },
+    {
+      "slug": "francis-crick",
+      "selections": [
+        {
+          "contentId": "26fe5146-f2be-40ef-b2ca-cb6e07c1a12a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "크릭이 규명한 DNA 이중나선 구조를 바탕으로 인간 유전체와 유전 정보의 본질을 탐구한 대표 저작이다."
+        }
+      ]
+    },
+    {
+      "slug": "johannes-kepler",
+      "selections": []
+    },
+    {
+      "slug": "pierre-de-fermat",
+      "selections": [
+        {
+          "contentId": "63b3b4c7-eabf-42cb-89e0-83514ef1d486",
+          "relationType": "appearance",
+          "description": "페르마가 책 여백에 남긴 마지막 정리와, 그 문제를 350여 년 만에 증명한 앤드루 와일스까지의 수학사를 따라간다.",
+          "rationale": "제목과 서사가 페르마가 남긴 정리를 중심으로 전개되므로 연관 도서가 아니라 등장 도서로 분류한다."
+        }
+      ]
+    },
+    {
+      "slug": "tim-berners-lee",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "웹을 창시한 컴퓨터 과학자로서 컴퓨터과학의 근본 아이디어와 소프트웨어의 원천을 이해하는 데 유익한 개론서이다."
+        }
+      ]
+    },
+    {
+      "slug": "leonardo-fibonacci",
+      "selections": []
+    },
+    {
+      "slug": "dj-seo",
+      "selections": []
+    },
+    {
+      "slug": "david-patterson",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "컴퓨터 구조 설계자이자 튜링상 수상자로서 컴퓨터과학의 원천 개념과 작동 원리를 다룬 도서와 직접적으로 부합한다."
+        }
+      ]
+    },
+    {
+      "slug": "louis-pasteur",
+      "selections": []
+    },
+    {
+      "slug": "karl-landsteiner",
+      "selections": []
+    },
+    {
+      "slug": "evariste-galois",
+      "selections": []
+    },
+    {
+      "slug": "carl-friedrich-gauss",
+      "selections": []
+    },
+    {
+      "slug": "michael-faraday",
+      "selections": []
+    },
+    {
+      "slug": "marc-raibert",
+      "selections": []
+    },
+    {
+      "slug": "ernest-rutherford",
+      "selections": []
+    },
+    {
+      "slug": "maksim-yakubets",
+      "selections": []
+    },
+    {
+      "slug": "max-planck",
+      "selections": [
+        {
+          "contentId": "0cb7081b-0b61-42a2-ac4e-a3f93e911e6c",
+          "relationType": "related",
+          "description": null,
+          "rationale": "막스 플랑크가 토대를 놓은 양자론을 비롯해 현대 이론물리학의 핵심 체계를 대중적인 시각에서 다룬 교양서이다."
+        }
+      ]
+    },
+    {
+      "slug": "shane-legg",
+      "selections": []
+    },
+    {
+      "slug": "edward-thorp",
+      "selections": []
+    },
+    {
+      "slug": "rosalind-franklin",
+      "selections": [
+        {
+          "contentId": "26fe5146-f2be-40ef-b2ca-cb6e07c1a12a",
+          "relationType": "related",
+          "description": null,
+          "rationale": "DNA 구조 규명에 결정적으로 기여한 학자로서 DNA와 인간 유전체(게놈)에 관한 과학적 탐구를 다룬 대표 교양서이다."
+        }
+      ]
+    },
+    {
+      "slug": "al-khwarizmi",
+      "selections": []
+    },
+    {
+      "slug": "bill-dally",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "병렬 컴퓨팅과 GPU 아키텍처를 이끈 컴퓨터 설계자로서 컴퓨터과학의 원천적 토대와 작동 원리를 탐구하는 데 적합하다."
+        }
+      ]
+    }
+  ],
+  "editorialAdjustment": "pierre-de-fermat: related를 appearance로 교정",
+  "updatedAt": "2026-09-03T02:38:40.746Z"
+}
