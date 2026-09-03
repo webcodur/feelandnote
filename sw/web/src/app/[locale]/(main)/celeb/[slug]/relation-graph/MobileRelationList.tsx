@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useMemo } from "react";
+import { UserRound } from "lucide-react";
 
 import styles from "./MobileRelationList.module.css";
 import type { FocusOption } from "./RelationToolbar";
@@ -11,6 +12,9 @@ interface Props {
   selectedFocus: RelationFocus | null;
   activePeople: PersonNode[];
   relationLabel: (person: PersonNode) => string;
+  /** 등록된 인물은 눌러 인물 미리보기(인물 페이지 진입)로 잇는다 */
+  onOpenPerson: (person: PersonNode) => void;
+  openLabel: string;
 }
 
 function ProfileFallback() {
@@ -45,17 +49,31 @@ export default function MobileRelationList(props: Props) {
       <ul className={styles.list}>
         {section.people.map((person) => {
           const relation = props.relationLabel(person);
-          return <li key={person.id} className={styles.person}>
-            <span className={styles.portrait}>
-              {person.avatarUrl
-                ? <Image src={person.avatarUrl} alt="" width={112} height={112} unoptimized />
-                : <ProfileFallback />}
-            </span>
-            <span className={styles.copy}>
-              <strong>{person.name}</strong>
-              <span>{relation}</span>
-              {person.note ? <small>{person.note}</small> : null}
-            </span>
+          const portrait = <span className={styles.portrait}>
+            {person.avatarUrl
+              ? <Image src={person.avatarUrl} alt="" width={112} height={112} unoptimized />
+              : <ProfileFallback />}
+          </span>;
+          const copy = <span className={styles.copy}>
+            <strong>{person.name}</strong>
+            <span>{relation}</span>
+            {person.note ? <small>{person.note}</small> : null}
+          </span>;
+          // 등록 인물만 진입 버튼을 단다. 데스크톱 인스펙터와 같은 미리보기로 잇는다.
+          if (!person.listed || !person.slug) {
+            return <li key={person.id} className={styles.person}>
+              {portrait}
+              {copy}
+            </li>;
+          }
+          return <li key={person.id} className={styles.personAction}>
+            <button type="button" className={styles.personGo}
+              onClick={() => props.onOpenPerson(person)}
+              aria-label={`${props.openLabel}: ${person.name}`}>
+              {portrait}
+              {copy}
+              <UserRound size={20} aria-hidden className={styles.goIcon} />
+            </button>
           </li>;
         })}
       </ul>

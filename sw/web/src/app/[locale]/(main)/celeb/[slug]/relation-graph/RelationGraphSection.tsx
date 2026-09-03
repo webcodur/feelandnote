@@ -164,7 +164,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         labels={labels} zoomInLabel={t("timelineZoomIn")} zoomOutLabel={t("timelineZoomOut")}
         selectedId={selected?.id ?? null} onSelect={selectDesktop} /> : null}
       <MobileRelationList label={t("relAllTitle", { name: centerName })} focusOptions={focusOptions}
-        selectedFocus={selectedFocus} activePeople={activePeople} relationLabel={relationLabel} />
+        selectedFocus={selectedFocus} activePeople={activePeople} relationLabel={relationLabel}
+        onOpenPerson={(person) => void openPerson(person)} openLabel={t("relViewPersonCard")} />
       {belowCue > 0 && selected && <BelowInspectorCue key={belowCue} signal={belowCue}
         label={selected.name} onExpire={dismissBelowCue} onReveal={revealDesktopInspector} />}
       {desktopDiagramReady && inspectorProps && <RelationInspector {...inspectorProps} />}

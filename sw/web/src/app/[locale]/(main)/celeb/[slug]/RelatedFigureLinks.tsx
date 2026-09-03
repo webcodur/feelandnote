@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] connections — 이어지는 인물 링크(서버)
+ * - 목차 위치: 공통 (페이지 하단, 크롤러용 실링크)
+ * - 데이터: getRelatedFigures 서버액션
+ * - 함께 보기: RelationGraphSection.tsx, page.tsx
+ * ───────────────────────────────────────────── */
 /*
   파일명: /app/(main)/celeb/[slug]/RelatedFigureLinks.tsx
   기능: 인물 상세 하단의 이어지는 인물 — 서버 렌더 전용
@@ -12,13 +18,11 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { getRelatedFigures } from "@/actions/celebs/getRelatedFigures";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import FigureLinkGrid from "@/components/features/celeb/FigureLinkGrid";
-import { withParticle } from "@/lib/korean-particle";
 
 /** 세울 링크 상한 — 관계가 수십이면 다 걸지 않고 가까운 순으로 앞을 취한다 */
 const MAX_LINKS = 12;
 
 interface RelatedFigureLinksProps {
-  displayName: string;
   celebId: string;
   profession: string | null;
   nationality: string | null;
@@ -28,7 +32,6 @@ interface RelatedFigureLinksProps {
 }
 
 export default async function RelatedFigureLinks({
-  displayName,
   celebId,
   profession,
   nationality,
@@ -57,16 +60,12 @@ export default async function RelatedFigureLinks({
   // 카드 한 줄에 들어갈 길이. 같은 뜻이라도 영문이 길어 자릿수를 달리 잡는다
   const noteMax = locale === "en" ? 40 : 24;
 
-  // 여백·구분선을 아래 「읽은 책」 구획과 같은 값으로 맞춘다 — 둘이 같은 리듬으로 서야 한다
+  // 상자 윗변에서 목록을 떼어 시작한다. 아래 여백과 같은 값으로 맞춘다
   return (
-    <div className="mt-12 w-full border-t border-white/5 pt-6 md:mt-20 md:pt-10">
+    <div className="w-full pt-4 md:pt-6">
+      {/* 제목은 본문 구획 머리(relatedFigures 목차 항목)가 맡는다. 여기서 또 달면 겹친다 */}
       <FigureLinkGrid
-        headingId="related-figure-links"
-        title={t("relatedLinksTitle")}
-        // 이름 받침에 따라 조사를 골라 붙인다 — 화면에 「정국와(과)」가 남지 않게 한다
-        description={t("relatedLinksDesc", {
-          name: locale === "en" ? displayName : withParticle(displayName, "with"),
-        })}
+        gridClassName="mx-auto w-full max-w-4xl"
         mobileScrollable
         figures={figures.map(({ candidate, kind, relGroup, note, noteEn }) => {
           // 왜 이 사람이 섰는지를 부제로 밝힌다. 근거 한 줄이 짧으면 그것부터 —
