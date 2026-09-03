@@ -46,18 +46,32 @@ export const BookPersonShort: React.FC<Props> = ({ script, episodeName }) => {
         const img = imageOf(script, beats, i)
         const op = fade(frame, starts[i], frames[i])
         if (op <= 0 || !img) return null
-        const scale = interpolate(frame, [starts[i], starts[i] + frames[i]], [1, 1.06], CL)
+        // 짝수 비트는 확대, 홀수 비트는 축소 — 컷마다 움직임 방향을 바꿔 정지 이미지 나열로 보이지 않게 한다
+        const zoom = i % 2 === 0 ? [1, 1.1] : [1.1, 1]
+        const scale = interpolate(frame, [starts[i], starts[i] + frames[i]], zoom, CL)
+        const src = staticFile(bookPersonImageRel(episodeName, img) ?? img)
+        // 책 표지는 세로 비율이라 화면을 채우면 제목이 잘린다. 원본 비율로 가운데 두고 뒤를 같은 이미지의 흐림으로 채운다
+        const isCover = /(^|\/)cover\.[a-z]+$/i.test(img)
         return (
           <div key={`bg-${beat.id}`} style={{
             position: 'absolute', top: HEADER_H, left: 0, width: W, height: MID_H,
             overflow: 'hidden', opacity: op, zIndex: 1,
           }}>
+            {isCover ? (
+              <Img src={src} style={{
+                position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover',
+                transform: 'scale(1.3)', filter: 'blur(40px) brightness(0.45)',
+              }} />
+            ) : null}
             <Img
-              src={staticFile(bookPersonImageRel(episodeName, img) ?? img)}
+              src={src}
               style={{
-                width: '100%', height: '100%', objectFit: 'cover',
+                position: 'absolute', inset: 0, width: '100%', height: '100%',
+                objectFit: isCover ? 'contain' : 'cover',
+                padding: isCover ? 48 : 0,
                 transform: `scale(${scale})`,
-                filter: 'brightness(0.38) saturate(0.55)',
+                // 문장마다 이미지가 바뀌는 형식에서는 이미지가 주역이다. 자막 가독성은 자막 그림자가 맡는다
+                filter: isCover ? 'none' : 'brightness(0.8) saturate(0.85)',
               }}
             />
           </div>

@@ -44,12 +44,14 @@ export const STAGE_ROOT = existsSync(ARCHIVE_ROOT)
 const SERIES_DIR: Record<string, string> = {
   faction: 'factions',
   discourse: 'discourses',
+  'book-person': 'book-person',
 }
 
 /** 시리즈별 데이터 파일 이름 — 선곡을 읽으려면 이 파일을 연다 */
 const DATA_FILE: Record<string, string> = {
   faction: 'faction-data.json',
   discourse: 'discourse-data.json',
+  'book-person': 'ko.json',
 }
 
 /**
@@ -57,6 +59,8 @@ const DATA_FILE: Record<string, string> = {
  * `public/factions/<폴더 키>` 한 단계에 있다.
  */
 function episodeSrcDir(series: string, episode: string): string {
+  // 책과 사람은 `public/book-person/<slug>` 실체 한 단계뿐이라 폴더 키 해석이 없다
+  if (series === 'book-person') return path.join(PUBLIC_DIR, 'book-person', episode)
   const root = series === 'discourse' ? DISCOURSES_DIR : FACTIONS_DIR
   return episodeDirOf(root, episode)
 }
@@ -144,6 +148,7 @@ function placeDir(srcDir: string, dstDir: string, c: Counter, skipDirs?: Readonl
  * (한 번의 렌더는 한 변형이지만, 편 하나가 쓰는 곡은 많아야 서너 곡이라 넉넉히 담는 편이 안전하다).
  */
 async function pickMusic(series: string, episode: string): Promise<string[]> {
+  if (series === 'book-person') return [] // 나레이션만 있고 곡이 없는 시리즈
   const dataPath = path.join(episodeSrcDir(series, episode), DATA_FILE[series])
   if (!existsSync(dataPath)) return []
   const script = JSON.parse(readFileSync(dataPath, 'utf-8')) as Record<string, unknown>
