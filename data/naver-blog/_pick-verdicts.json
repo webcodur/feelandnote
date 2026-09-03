@@ -418,5 +418,3078 @@
   "books": 12,
   "verdict": "write",
   "why": "삼권분립을 주창한 유명 사상가"
+ },
+ "t.s.-eliot": {
+  "slug": "t.s.-eliot",
+  "nickname": "T.S. 엘리엇",
+  "books": 10,
+  "verdict": "write",
+  "why": "「황무지」 시인으로 대중 인지도 높음"
+ },
+ "boethius": {
+  "slug": "boethius",
+  "nickname": "보에티우스",
+  "books": 10,
+  "verdict": "skip",
+  "why": "철학 전공자 외 국내 인지도 낮음"
+ },
+ "taylor-swift": {
+  "slug": "taylor-swift",
+  "nickname": "테일러 스위프트",
+  "books": 10,
+  "verdict": "write",
+  "why": "세계적 팝스타로 국내 인지도 높음"
+ },
+ "michael-burry": {
+  "slug": "michael-burry",
+  "nickname": "마이클 버리",
+  "books": 10,
+  "verdict": "skip",
+  "why": "투자 관심층 외 일반 대중 인지도 낮음"
+ },
+ "vladimir-lenin": {
+  "slug": "vladimir-lenin",
+  "nickname": "블라디미르 레닌",
+  "books": 10,
+  "verdict": "write",
+  "why": "러시아 혁명 지도자로 인지도 높음"
+ },
+ "george-orwell": {
+  "slug": "george-orwell",
+  "nickname": "조지 오웰",
+  "books": 10,
+  "verdict": "write",
+  "why": "「1984」 작가로 대중 인지도 높음"
+ },
+ "thomas-aquinas": {
+  "slug": "thomas-aquinas",
+  "nickname": "토마스 아퀴나스",
+  "books": 10,
+  "verdict": "write",
+  "why": "중세 대표 신학자로 교과서 수록"
+ },
+ "rene-girard": {
+  "slug": "rene-girard",
+  "nickname": "르네 지라르",
+  "books": 10,
+  "verdict": "skip",
+  "why": "인문학 전공자 외 대중 인지도 낮음"
+ },
+ "paul-the-apostle": {
+  "slug": "paul-the-apostle",
+  "nickname": "사도 바울",
+  "books": 10,
+  "verdict": "write",
+  "why": "기독교 핵심 인물로 대중 인지도 높음"
+ },
+ "adam-grant": {
+  "slug": "adam-grant",
+  "nickname": "아담 그랜트",
+  "books": 10,
+  "verdict": "skip",
+  "why": "자기계발 독자 외 대중 인지도 낮음"
+ },
+ "coen-brothers": {
+  "slug": "coen-brothers",
+  "nickname": "코엔 형제",
+  "books": 10,
+  "verdict": "skip",
+  "why": "영화 팬 외 일반 대중 인지도 낮음"
+ },
+ "denis-villeneuve": {
+  "slug": "denis-villeneuve",
+  "nickname": "데니 빌뇌브",
+  "books": 10,
+  "verdict": "skip",
+  "why": "듄 감독이나 일반 대중 인지도 애매"
+ },
+ "han-yong-un": {
+  "slug": "han-yong-un",
+  "nickname": "한용운",
+  "books": 10,
+  "verdict": "write",
+  "why": "독립운동가 시인으로 인지도 높음"
+ },
+ "salman-rushdie": {
+  "slug": "salman-rushdie",
+  "nickname": "살만 루슈디",
+  "books": 10,
+  "verdict": "skip",
+  "why": "해외 유명세 대비 국내 인지도 낮음"
+ },
+ "zhang-yiming": {
+  "slug": "zhang-yiming",
+  "nickname": "장이밍",
+  "books": 10,
+  "verdict": "skip",
+  "why": "틱톡 창업자이나 국내 인지도 낮음"
+ },
+ "su-shi": {
+  "slug": "su-shi",
+  "nickname": "소동파",
+  "books": 10,
+  "verdict": "write",
+  "why": "적벽부와 동파육으로 대중 인지도 높음"
+ },
+ "john-lennon": {
+  "slug": "john-lennon",
+  "nickname": "존 레논",
+  "books": 10,
+  "verdict": "write",
+  "why": "비틀즈 멤버로 전국민적 인지도"
+ },
+ "kim-chi-ha": {
+  "slug": "kim-chi-ha",
+  "nickname": "김지하",
+  "books": 10,
+  "verdict": "write",
+  "why": "대표 저항시인으로 대중 인지도 높음"
+ },
+ "stefan-zweig": {
+  "slug": "stefan-zweig",
+  "nickname": "슈테판 츠바이크",
+  "books": 10,
+  "verdict": "skip",
+  "why": "문학 애독자 외 대중 인지도 낮음"
+ },
+ "fyodor-dostoevsky": {
+  "slug": "fyodor-dostoevsky",
+  "nickname": "표도르 도스토옙스키",
+  "books": 10,
+  "verdict": "write",
+  "why": "「죄와 벌」 작가로 대중 인지도 높음"
+ },
+ "derren-brown": {
+  "slug": "derren-brown",
+  "nickname": "데런 브라운",
+  "books": 10,
+  "verdict": "skip",
+  "why": "영국 쇼맨으로 국내 인지도 없음"
+ },
+ "qianlong-emperor": {
+  "slug": "qianlong-emperor",
+  "nickname": "건륭제",
+  "books": 10,
+  "verdict": "skip",
+  "why": "청나라 황제이나 대중 인지도 애매"
+ },
+ "akira-kurosawa": {
+  "slug": "akira-kurosawa",
+  "nickname": "쿠로사와 아키라",
+  "books": 10,
+  "verdict": "skip",
+  "why": "영화 거장이나 일반 대중 인지도 애매"
+ },
+ "jawaharlal-nehru": {
+  "slug": "jawaharlal-nehru",
+  "nickname": "자와할랄 네루",
+  "books": 9,
+  "verdict": "skip",
+  "why": "역사 인물이나 일반 대중 인지도 애매"
+ },
+ "benedict-cumberbatch": {
+  "slug": "benedict-cumberbatch",
+  "nickname": "베네딕트 컴버배치",
+  "books": 9,
+  "verdict": "write",
+  "why": "셜록 주연 배우로 대중 인지도 높음"
+ },
+ "wu-chengen": {
+  "slug": "wu-chengen",
+  "nickname": "오승은",
+  "books": 9,
+  "verdict": "skip",
+  "why": "서유기 작가이나 이름 인지도 낮음"
+ },
+ "gu-yanwu": {
+  "slug": "gu-yanwu",
+  "nickname": "고염무",
+  "books": 9,
+  "verdict": "skip",
+  "why": "동양사 사상가로 국내 인지도 낮음"
+ },
+ "guillermo-del-toro": {
+  "slug": "guillermo-del-toro",
+  "nickname": "기예르모 델 토로",
+  "books": 9,
+  "verdict": "skip",
+  "why": "영화 팬 외 일반 대중 인지도 낮음"
+ },
+ "aristotle": {
+  "slug": "aristotle",
+  "nickname": "아리스토텔레스",
+  "books": 9,
+  "verdict": "write",
+  "why": "고대 그리스 철학자로 누구나 앎"
+ },
+ "samuel-taylor-coleridge": {
+  "slug": "samuel-taylor-coleridge",
+  "nickname": "새뮤얼 테일러 콜리지",
+  "books": 9,
+  "verdict": "skip",
+  "why": "영문학 전공자 외 대중 인지도 낮음"
+ },
+ "benjamin-netanyahu": {
+  "slug": "benjamin-netanyahu",
+  "nickname": "베냐민 네타냐후",
+  "books": 9,
+  "verdict": "write",
+  "why": "이스라엘 총리로 뉴스 인지도 높음"
+ },
+ "david-bowie": {
+  "slug": "david-bowie",
+  "nickname": "데이비드 보위",
+  "books": 9,
+  "verdict": "skip",
+  "why": "록 매니아 외 일반 대중 인지도 낮음"
+ },
+ "martin-heidegger": {
+  "slug": "martin-heidegger",
+  "nickname": "마르틴 하이데거",
+  "books": 9,
+  "verdict": "skip",
+  "why": "철학 관심층 외 일반 대중 인지도 낮음"
+ },
+ "kareem-abdul-jabbar": {
+  "slug": "kareem-abdul-jabbar",
+  "nickname": "카림 압둘 자바",
+  "books": 9,
+  "verdict": "skip",
+  "why": "농구 팬 외 국내 대중 인지도 낮음"
+ },
+ "charles-darwin": {
+  "slug": "charles-darwin",
+  "nickname": "찰스 다윈",
+  "books": 9,
+  "verdict": "write",
+  "why": "진화론 창시자로 전 국민이 앎"
+ },
+ "viktor-frankl": {
+  "slug": "viktor-frankl",
+  "nickname": "빅터 프랑클",
+  "books": 9,
+  "verdict": "skip",
+  "why": "도서 유명세 대비 저자 인지도 낮음"
+ },
+ "umberto-eco": {
+  "slug": "umberto-eco",
+  "nickname": "움베르토 에코",
+  "books": 9,
+  "verdict": "skip",
+  "why": "독서가층 외 일반 대중 인지도 낮음"
+ },
+ "dk": {
+  "slug": "dk",
+  "nickname": "도겸",
+  "books": 9,
+  "verdict": "skip",
+  "why": "아이돌 팬덤 외 일반 대중 인지도 낮음"
+ },
+ "j.-robert-oppenheimer": {
+  "slug": "j.-robert-oppenheimer",
+  "nickname": "J. 로버트 오펜하이머",
+  "books": 9,
+  "verdict": "write",
+  "why": "영화 흥행과 원폭 개발로 인지도 높음"
+ },
+ "lilly-singh": {
+  "slug": "lilly-singh",
+  "nickname": "릴리 싱",
+  "books": 9,
+  "verdict": "skip",
+  "why": "해외 유튜버로 국내 인지도 낮음"
+ },
+ "hayley-atwell": {
+  "slug": "hayley-atwell",
+  "nickname": "헤일리 앳웰",
+  "books": 9,
+  "verdict": "skip",
+  "why": "배역 대비 배우 본명 인지도 낮음"
+ },
+ "park-geun-hye": {
+  "slug": "park-geun-hye",
+  "nickname": "박근혜",
+  "books": 9,
+  "verdict": "write",
+  "why": "전직 대통령으로 국민적 인지도 높음"
+ },
+ "jon-fosse": {
+  "slug": "jon-fosse",
+  "nickname": "욘 포세",
+  "books": 9,
+  "verdict": "skip",
+  "why": "노벨상 수상자이나 대중 인지도 낮음"
+ },
+ "stan-lee": {
+  "slug": "stan-lee",
+  "nickname": "스탠 리",
+  "books": 9,
+  "verdict": "write",
+  "why": "마블의 아버지로 대중 인지도 높음"
+ },
+ "neil-gaiman": {
+  "slug": "neil-gaiman",
+  "nickname": "닐 게이먼",
+  "books": 9,
+  "verdict": "skip",
+  "why": "판타지 독자 외 국내 인지도 낮음"
+ },
+ "aaron-d'souza": {
+  "slug": "aaron-d'souza",
+  "nickname": "아론 드수자",
+  "books": 9,
+  "verdict": "skip",
+  "why": "국내에 거의 알려지지 않은 인물"
+ },
+ "federico-fellini": {
+  "slug": "federico-fellini",
+  "nickname": "페데리코 펠리니",
+  "books": 9,
+  "verdict": "skip",
+  "why": "고전 영화 팬 외 대중 인지도 낮음"
+ },
+ "pu-songling": {
+  "slug": "pu-songling",
+  "nickname": "포송령",
+  "books": 9,
+  "verdict": "skip",
+  "why": "요재지이 작가이나 인지도 낮음"
+ },
+ "mel-gibson": {
+  "slug": "mel-gibson",
+  "nickname": "멜 깁슨",
+  "books": 9,
+  "verdict": "write",
+  "why": "원로 액션 스타로 대중 인지도 높음"
+ },
+ "robert-pattinson": {
+  "slug": "robert-pattinson",
+  "nickname": "로버트 패틴슨",
+  "books": 9,
+  "verdict": "write",
+  "why": "트와일라잇 주연으로 인지도 높음"
+ },
+ "al-farabi": {
+  "slug": "al-farabi",
+  "nickname": "알 파라비",
+  "books": 9,
+  "verdict": "skip",
+  "why": "이슬람 철학자로 국내 인지도 없음"
+ },
+ "john-moody": {
+  "slug": "john-moody",
+  "nickname": "존 무디",
+  "books": 9,
+  "verdict": "skip",
+  "why": "무디스 창업자이나 인물 인지도 낮음"
+ },
+ "claude-levi-strauss": {
+  "slug": "claude-levi-strauss",
+  "nickname": "클로드 레비스트로스",
+  "books": 9,
+  "verdict": "skip",
+  "why": "인문학자이나 일반 대중 인지도 낮음"
+ },
+ "fei-fei-li": {
+  "slug": "fei-fei-li",
+  "nickname": "페이페이 리",
+  "books": 9,
+  "verdict": "skip",
+  "why": "AI 전문가이나 일반 대중 인지도 낮음"
+ },
+ "mary-wollstonecraft": {
+  "slug": "mary-wollstonecraft",
+  "nickname": "메리 울스턴크래프트",
+  "books": 9,
+  "verdict": "skip",
+  "why": "여성주의 사상가이나 인지도 낮음"
+ },
+ "allen-zhang": {
+  "slug": "allen-zhang",
+  "nickname": "장샤오룽",
+  "books": 9,
+  "verdict": "skip",
+  "why": "위챗 개발자이나 국내 인지도 낮음"
+ },
+ "margot-robbie": {
+  "slug": "margot-robbie",
+  "nickname": "마고 로비",
+  "books": 9,
+  "verdict": "write",
+  "why": "할리 퀸과 바비로 대중 인지도 높음"
+ },
+ "marilyn-manson": {
+  "slug": "marilyn-manson",
+  "nickname": "마릴린 맨슨",
+  "books": 9,
+  "verdict": "skip",
+  "why": "록 매니아 외 현재 대중 인지도 낮음"
+ },
+ "walt-disney": {
+  "slug": "walt-disney",
+  "nickname": "월트 디즈니",
+  "books": 9,
+  "verdict": "write",
+  "why": "디즈니 창업자로 전 국민이 앎"
+ },
+ "enid-blyton": {
+  "slug": "enid-blyton",
+  "nickname": "에니드 블라이튼",
+  "books": 9,
+  "verdict": "skip",
+  "why": "영국 아동문학가이나 국내 인지도 낮음"
+ },
+ "desiderius-erasmus": {
+  "slug": "desiderius-erasmus",
+  "nickname": "데시데리우스 에라스무스",
+  "books": 12,
+  "verdict": "skip",
+  "why": "우신예찬 저자이나 대중 인지도 낮음"
+ },
+ "mrbeast": {
+  "slug": "mrbeast",
+  "nickname": "미스터비스트",
+  "books": 12,
+  "verdict": "write",
+  "why": "구독자 1위 유튜버로 인지도 높음"
+ },
+ "chung-se-rang": {
+  "slug": "chung-se-rang",
+  "nickname": "정세랑",
+  "books": 12,
+  "verdict": "write",
+  "why": "보건교사 안은영 원작자로 인지도 높음"
+ },
+ "cao-xueqin": {
+  "slug": "cao-xueqin",
+  "nickname": "조설근",
+  "books": 12,
+  "verdict": "skip",
+  "why": "홍루몽 저자이나 국내 인지도 낮음"
+ },
+ "arthur-schopenhauer": {
+  "slug": "arthur-schopenhauer",
+  "nickname": "아르투어 쇼펜하우어",
+  "books": 12,
+  "verdict": "write",
+  "why": "베스트셀러 열풍으로 대중 인지도 높음"
+ },
+ "michel-de-montaigne": {
+  "slug": "michel-de-montaigne",
+  "nickname": "미셸 드 몽테뉴",
+  "books": 12,
+  "verdict": "skip",
+  "why": "수상록 저자이나 대중 인지도 낮음"
+ },
+ "hayao-miyazaki": {
+  "slug": "hayao-miyazaki",
+  "nickname": "미야자키 하야오",
+  "books": 12,
+  "verdict": "write",
+  "why": "지브리 대표 감독으로 국민적 인지도"
+ },
+ "alice-munro": {
+  "slug": "alice-munro",
+  "nickname": "앨리스 먼로",
+  "books": 12,
+  "verdict": "skip",
+  "why": "노벨문학상 작가이나 국내 인지도 낮음"
+ },
+ "marilyn-monroe": {
+  "slug": "marilyn-monroe",
+  "nickname": "마릴린 먼로",
+  "books": 12,
+  "verdict": "write",
+  "why": "세기의 스타로 국내 대중 인지도 높음"
+ },
+ "sima-qian": {
+  "slug": "sima-qian",
+  "nickname": "사마천",
+  "books": 12,
+  "verdict": "write",
+  "why": "사기 저자로 교과서 필수 수록 인물"
+ },
+ "jeong-yak-yong": {
+  "slug": "jeong-yak-yong",
+  "nickname": "정약용",
+  "books": 12,
+  "verdict": "write",
+  "why": "조선 대표 실학자로 국민적 인지도"
+ },
+ "chamath-palihapitiya": {
+  "slug": "chamath-palihapitiya",
+  "nickname": "차마스 팔리하피티야",
+  "books": 12,
+  "verdict": "skip",
+  "why": "미국 투자자로 국내 대중 인지도 없음"
+ },
+ "harry-s.-truman": {
+  "slug": "harry-s.-truman",
+  "nickname": "해리 S. 트루먼",
+  "books": 12,
+  "verdict": "write",
+  "why": "한국전쟁 참전 결정한 미국 대통령"
+ },
+ "zhu-xi": {
+  "slug": "zhu-xi",
+  "nickname": "주희",
+  "books": 12,
+  "verdict": "write",
+  "why": "주자로 널리 알려진 성리학 집대성자"
+ },
+ "mary-shelley": {
+  "slug": "mary-shelley",
+  "nickname": "메리 셸리",
+  "books": 12,
+  "verdict": "skip",
+  "why": "프랑켄슈타인 저자이나 작가명 생소함"
+ },
+ "leonardo-da-vinci": {
+  "slug": "leonardo-da-vinci",
+  "nickname": "레오나르도 다빈치",
+  "books": 12,
+  "verdict": "write",
+  "why": "모나리자 그린 천재로 국민적 인지도"
+ },
+ "francis-bacon": {
+  "slug": "francis-bacon",
+  "nickname": "프란시스 베이컨",
+  "books": 12,
+  "verdict": "write",
+  "why": "'아는 것이 힘이다'로 국민적 인지도"
+ },
+ "nassim-nicholas-taleb": {
+  "slug": "nassim-nicholas-taleb",
+  "nickname": "나심 니콜라스 탈레브",
+  "books": 12,
+  "verdict": "skip",
+  "why": "블랙스완 저자이나 대중 인지도 낮음"
+ },
+ "ben-horowitz": {
+  "slug": "ben-horowitz",
+  "nickname": "벤 호로위츠",
+  "books": 12,
+  "verdict": "skip",
+  "why": "실리콘밸리 투자자로 국내 인지도 낮음"
+ },
+ "dua-lipa": {
+  "slug": "dua-lipa",
+  "nickname": "두아 리파",
+  "books": 12,
+  "verdict": "write",
+  "why": "히트곡 다수 보유한 글로벌 팝스타"
+ },
+ "reed-hastings": {
+  "slug": "reed-hastings",
+  "nickname": "리드 헤이스팅스",
+  "books": 12,
+  "verdict": "skip",
+  "why": "넷플릭스 창업자이나 이름 인지도 낮음"
+ },
+ "wang-guowei": {
+  "slug": "wang-guowei",
+  "nickname": "왕국유",
+  "books": 12,
+  "verdict": "skip",
+  "why": "중국 근대 학자로 국내 인지도 없음"
+ },
+ "martha-nussbaum": {
+  "slug": "martha-nussbaum",
+  "nickname": "마사 누스바움",
+  "books": 11,
+  "verdict": "skip",
+  "why": "저명 철학자이나 대중적 인지도 낮음"
+ },
+ "derek-muller": {
+  "slug": "derek-muller",
+  "nickname": "데릭 뮬러",
+  "books": 11,
+  "verdict": "skip",
+  "why": "영어권 유튜버로 국내 인지도 낮음"
+ },
+ "drew-houston": {
+  "slug": "drew-houston",
+  "nickname": "드류 휴스턴",
+  "books": 11,
+  "verdict": "skip",
+  "why": "드롭박스 창업자이나 이름 인지도 낮음"
+ },
+ "john-stuart-mill": {
+  "slug": "john-stuart-mill",
+  "nickname": "존 스튜어트 밀",
+  "books": 11,
+  "verdict": "write",
+  "why": "자유론과 공리주의로 교과서 수록"
+ },
+ "liu-xie": {
+  "slug": "liu-xie",
+  "nickname": "유협",
+  "books": 11,
+  "verdict": "skip",
+  "why": "문심조룡 저자이나 대중 인지도 없음"
+ },
+ "david-blaine": {
+  "slug": "david-blaine",
+  "nickname": "데이비드 블레인",
+  "books": 11,
+  "verdict": "skip",
+  "why": "미국 마술사로 국내 대중 인지도 낮음"
+ },
+ "kang-dong-won": {
+  "slug": "kang-dong-won",
+  "nickname": "강동원",
+  "books": 11,
+  "verdict": "write",
+  "why": "국내 최정상 배우로 대중 인지도 높음"
+ },
+ "federico-garcia-lorca": {
+  "slug": "federico-garcia-lorca",
+  "nickname": "페데리코 가르시아 로르카",
+  "books": 11,
+  "verdict": "skip",
+  "why": "스페인 시인으로 국내 대중 인지도 낮음"
+ },
+ "andrew-huberman": {
+  "slug": "andrew-huberman",
+  "nickname": "앤드류 후버만",
+  "books": 11,
+  "verdict": "skip",
+  "why": "유명 팟캐스터이나 국내 대중 인지도 낮음"
+ },
+ "go-ah-sung": {
+  "slug": "go-ah-sung",
+  "nickname": "고아성",
+  "books": 11,
+  "verdict": "write",
+  "why": "괴물·설국열차 주연으로 인지도 높음"
+ },
+ "michel-foucault": {
+  "slug": "michel-foucault",
+  "nickname": "미셸 푸코",
+  "books": 11,
+  "verdict": "write",
+  "why": "감시와 처벌로 널리 알려진 철학자"
+ },
+ "noam-chomsky": {
+  "slug": "noam-chomsky",
+  "nickname": "노암 촘스키",
+  "books": 11,
+  "verdict": "write",
+  "why": "세계적 언어학자이자 비판적 지식인"
+ },
+ "john-milton": {
+  "slug": "john-milton",
+  "nickname": "존 밀턴",
+  "books": 11,
+  "verdict": "skip",
+  "why": "실낙원 저자이나 작가 이름 인지도 낮음"
+ },
+ "mark-ruffalo": {
+  "slug": "mark-ruffalo",
+  "nickname": "마크 러팔로",
+  "books": 11,
+  "verdict": "write",
+  "why": "어벤져스 헐크 역으로 대중 인지도 높음"
+ },
+ "max-weber": {
+  "slug": "max-weber",
+  "nickname": "막스 베버",
+  "books": 11,
+  "verdict": "write",
+  "why": "사회학 거두이자 교과서 필수 수록 인물"
+ },
+ "j.d.-vance": {
+  "slug": "j.d.-vance",
+  "nickname": "J.D. 밴스",
+  "books": 11,
+  "verdict": "write",
+  "why": "미국 현직 부통령이자 베스트셀러 저자"
+ },
+ "han-yu": {
+  "slug": "han-yu",
+  "nickname": "한유",
+  "books": 11,
+  "verdict": "skip",
+  "why": "당송팔대가 문장가이나 대중 인지도 낮음"
+ },
+ "toni-morrison": {
+  "slug": "toni-morrison",
+  "nickname": "토니 모리슨",
+  "books": 11,
+  "verdict": "skip",
+  "why": "미국 노벨문학상 작가이나 인지도 낮음"
+ },
+ "mustafa-suleyman": {
+  "slug": "mustafa-suleyman",
+  "nickname": "무스타파 술레이만",
+  "books": 11,
+  "verdict": "skip",
+  "why": "AI 기업가이나 국내 일반 인지도 낮음"
+ },
+ "lucius-annaeus-seneca": {
+  "slug": "lucius-annaeus-seneca",
+  "nickname": "루키우스 안나이우스 세네카",
+  "books": 11,
+  "verdict": "skip",
+  "why": "스토아 철학자이나 대중적 인지도 낮음"
+ },
+ "bertrand-russell": {
+  "slug": "bertrand-russell",
+  "nickname": "버트런드 러셀",
+  "books": 11,
+  "verdict": "write",
+  "why": "행복의 정복 저자로 대중 인지도 높음"
+ },
+ "garry-kasparov": {
+  "slug": "garry-kasparov",
+  "nickname": "가리 카스파로프",
+  "books": 11,
+  "verdict": "skip",
+  "why": "체스 챔피언이나 국내 대중 인지도 낮음"
+ },
+ "f.-scott-fitzgerald": {
+  "slug": "f.-scott-fitzgerald",
+  "nickname": "F. 스콧 피츠제럴드",
+  "books": 10,
+  "verdict": "write",
+  "why": "위대한 개츠비 저자로 대중 인지도 높음"
+ },
+ "gottfried-wilhelm-leibniz": {
+  "slug": "gottfried-wilhelm-leibniz",
+  "nickname": "고트프리트 빌헬름 라이프니츠",
+  "books": 10,
+  "verdict": "write",
+  "why": "미적분 창시 수학자로 교과서 수록"
+ },
+ "david-sacks": {
+  "slug": "david-sacks",
+  "nickname": "데이비드 색스",
+  "books": 10,
+  "verdict": "skip",
+  "why": "미국 투자자로 국내 대중 인지도 없음"
+ },
+ "rory-mcilroy": {
+  "slug": "rory-mcilroy",
+  "nickname": "로리 매킬로이",
+  "books": 10,
+  "verdict": "skip",
+  "why": "골프 스타이나 일반 대중 인지도 낮음"
+ },
+ "henry-varnum-poor": {
+  "slug": "henry-varnum-poor",
+  "nickname": "헨리 바넘 푸어",
+  "books": 10,
+  "verdict": "skip",
+  "why": "S&P 창업자이나 국내 인지도 없음"
+ },
+ "son-woong-jung": {
+  "slug": "son-woong-jung",
+  "nickname": "손웅정",
+  "books": 10,
+  "verdict": "write",
+  "why": "손흥민 부친이자 베스트셀러 저자"
+ },
+ "daniel-ek": {
+  "slug": "daniel-ek",
+  "nickname": "다니엘 에크",
+  "books": 10,
+  "verdict": "skip",
+  "why": "스포티파이 창업자이나 이름 인지도 낮음"
+ },
+ "daniel-goleman": {
+  "slug": "daniel-goleman",
+  "nickname": "대니얼 골먼",
+  "books": 10,
+  "verdict": "skip",
+  "why": "EQ 이론가이나 국내 이름 인지도 낮음"
+ },
+ "david-ben-gurion": {
+  "slug": "david-ben-gurion",
+  "nickname": "다비드 벤구리온",
+  "books": 10,
+  "verdict": "skip",
+  "why": "이스라엘 초대 총리이나 인지도 낮음"
+ },
+ "vinod-khosla": {
+  "slug": "vinod-khosla",
+  "nickname": "비노드 코슬라",
+  "books": 10,
+  "verdict": "skip",
+  "why": "실리콘밸리 투자자로 국내 인지도 없음"
+ },
+ "larry-fink": {
+  "slug": "larry-fink",
+  "nickname": "래리 핑크",
+  "books": 10,
+  "verdict": "skip",
+  "why": "블랙록 회장이나 일반 대중 인지도 낮음"
+ },
+ "lily": {
+  "slug": "lily",
+  "nickname": "릴리",
+  "books": 10,
+  "verdict": "skip",
+  "why": "걸그룹 멤버이나 단독 이름 인지도 낮음"
+ },
+ "thomas-more": {
+  "slug": "thomas-more",
+  "nickname": "토마스 모어",
+  "books": 10,
+  "verdict": "write",
+  "why": "유토피아 저자로 교과서 필수 수록"
+ },
+ "abraham-lincoln": {
+  "slug": "abraham-lincoln",
+  "nickname": "에이브러햄 링컨",
+  "books": 10,
+  "verdict": "write",
+  "why": "노예해방 대통령으로 국민적 인지도"
+ },
+ "marcus-aurelius": {
+  "slug": "marcus-aurelius",
+  "nickname": "마르쿠스 아우렐리우스",
+  "books": 10,
+  "verdict": "write",
+  "why": "명상록을 남긴 황제로 대중 인지도 높음"
+ },
+ "agatha-christie": {
+  "slug": "agatha-christie",
+  "nickname": "애거서 크리스티",
+  "books": 10,
+  "verdict": "write",
+  "why": "추리소설 여왕으로 대중 인지도 매우 높음"
+ },
+ "kazuo-ishiguro": {
+  "slug": "kazuo-ishiguro",
+  "nickname": "가즈오 이시구로",
+  "books": 9,
+  "verdict": "write",
+  "why": "노벨문학상 수상으로 국내 인지도 높음"
+ },
+ "kenzaburo-oe": {
+  "slug": "kenzaburo-oe",
+  "nickname": "오에 겐자부로",
+  "books": 9,
+  "verdict": "write",
+  "why": "노벨문학상 수상한 대표적 일본 작가"
+ },
+ "stephen-king": {
+  "slug": "stephen-king",
+  "nickname": "스티븐 킹",
+  "books": 9,
+  "verdict": "write",
+  "why": "베스트셀러 작가로 대중 인지도 높음"
+ },
+ "alex-karp": {
+  "slug": "alex-karp",
+  "nickname": "알렉스 카프",
+  "books": 8,
+  "verdict": "skip",
+  "why": "미국 테크 대표로 대중 인지도 낮음"
+ },
+ "coco-chanel": {
+  "slug": "coco-chanel",
+  "nickname": "코코 샤넬",
+  "books": 8,
+  "verdict": "write",
+  "why": "패션 브랜드 창립자로 대중 인지도 높음"
+ },
+ "victor-hugo": {
+  "slug": "victor-hugo",
+  "nickname": "빅토르 위고",
+  "books": 8,
+  "verdict": "write",
+  "why": "레미제라블 작가로 대중 인지도 높음"
+ },
+ "jim-keller": {
+  "slug": "jim-keller",
+  "nickname": "짐 켈러",
+  "books": 8,
+  "verdict": "skip",
+  "why": "반도체 설계자로 대중 인지도 낮음"
+ },
+ "park-ji-won": {
+  "slug": "park-ji-won",
+  "nickname": "박지원",
+  "books": 8,
+  "verdict": "write",
+  "why": "열하일기를 쓴 조선 대표 실학자"
+ },
+ "karina": {
+  "slug": "karina",
+  "nickname": "카리나",
+  "books": 8,
+  "verdict": "write",
+  "why": "에스파 멤버로 대중 인지도 높음"
+ },
+ "dante-alighieri": {
+  "slug": "dante-alighieri",
+  "nickname": "단테 알리기에리",
+  "books": 8,
+  "verdict": "write",
+  "why": "신곡의 작가로 교양 인지도 높음"
+ },
+ "jesse-eisenberg": {
+  "slug": "jesse-eisenberg",
+  "nickname": "제시 아이젠버그",
+  "books": 8,
+  "verdict": "skip",
+  "why": "출연작 대비 배우 이름 인지도 낮음"
+ },
+ "larry-ellison": {
+  "slug": "larry-ellison",
+  "nickname": "래리 엘리슨",
+  "books": 8,
+  "verdict": "skip",
+  "why": "오라클 창업자이나 대중 인지도 낮음"
+ },
+ "emperor-xiaowen-of-northern-wei": {
+  "slug": "emperor-xiaowen-of-northern-wei",
+  "nickname": "북위 효문제",
+  "books": 8,
+  "verdict": "skip",
+  "why": "중국사 인물로 일반 대중 인지도 낮음"
+ },
+ "frank-lloyd-wright": {
+  "slug": "frank-lloyd-wright",
+  "nickname": "프랭크 로이드 라이트",
+  "books": 8,
+  "verdict": "skip",
+  "why": "건축 거장이나 일반 대중 인지도 낮음"
+ },
+ "wang-anshi": {
+  "slug": "wang-anshi",
+  "nickname": "왕안석",
+  "books": 8,
+  "verdict": "skip",
+  "why": "역사적 개혁가이나 대중 인지도 낮음"
+ },
+ "wang-yangming": {
+  "slug": "wang-yangming",
+  "nickname": "왕양명",
+  "books": 8,
+  "verdict": "skip",
+  "why": "양명학 창시자이나 대중 인지도 낮음"
+ },
+ "yann-lecun": {
+  "slug": "yann-lecun",
+  "nickname": "얀 르쿤",
+  "books": 8,
+  "verdict": "skip",
+  "why": "AI 연구자로 일반 대중 인지도 낮음"
+ },
+ "bernard-montgomery": {
+  "slug": "bernard-montgomery",
+  "nickname": "버나드 몽고메리",
+  "books": 8,
+  "verdict": "skip",
+  "why": "2차대전 장군이나 대중 인지도 낮음"
+ },
+ "niccolo-machiavelli": {
+  "slug": "niccolo-machiavelli",
+  "nickname": "니콜로 마키아벨리",
+  "books": 8,
+  "verdict": "write",
+  "why": "군주론 저자로 국내 대중 인지도 높음"
+ },
+ "daniel-kahneman": {
+  "slug": "daniel-kahneman",
+  "nickname": "대니얼 카너먼",
+  "books": 8,
+  "verdict": "skip",
+  "why": "행동경제학자이나 대중 인지도 낮음"
+ },
+ "paul-gauguin": {
+  "slug": "paul-gauguin",
+  "nickname": "폴 고갱",
+  "books": 8,
+  "verdict": "write",
+  "why": "유명 서양화가로 대중 인지도 높음"
+ },
+ "jose-saramago": {
+  "slug": "jose-saramago",
+  "nickname": "주제 사라마구",
+  "books": 8,
+  "verdict": "skip",
+  "why": "작품 대비 작가 이름 인지도 낮음"
+ },
+ "albert-speer": {
+  "slug": "albert-speer",
+  "nickname": "알베르트 슈페어",
+  "books": 8,
+  "verdict": "skip",
+  "why": "나치 군수장관으로 대중 인지도 낮음"
+ },
+ "liu-zongyuan": {
+  "slug": "liu-zongyuan",
+  "nickname": "유종원",
+  "books": 8,
+  "verdict": "skip",
+  "why": "당나라 문장가로 대중 인지도 낮음"
+ },
+ "pedro-almodovar": {
+  "slug": "pedro-almodovar",
+  "nickname": "페드로 알모도바르",
+  "books": 8,
+  "verdict": "skip",
+  "why": "영화감독이나 국내 대중 인지도 낮음"
+ },
+ "steve-bannon": {
+  "slug": "steve-bannon",
+  "nickname": "스티브 배넌",
+  "books": 8,
+  "verdict": "skip",
+  "why": "미국 정치 참모로 대중 인지도 낮음"
+ },
+ "alexander-hamilton": {
+  "slug": "alexander-hamilton",
+  "nickname": "알렉산더 해밀턴",
+  "books": 8,
+  "verdict": "skip",
+  "why": "미국 정치가로 국내 대중 인지도 낮음"
+ },
+ "yun-dong-ju": {
+  "slug": "yun-dong-ju",
+  "nickname": "윤동주",
+  "books": 8,
+  "verdict": "write",
+  "why": "교과서에 실린 대표적 국민 시인"
+ },
+ "toussaint-louverture": {
+  "slug": "toussaint-louverture",
+  "nickname": "투생 루베르튀르",
+  "books": 8,
+  "verdict": "skip",
+  "why": "아이티 혁명가로 국내 인지도 낮음"
+ },
+ "hector-berlioz": {
+  "slug": "hector-berlioz",
+  "nickname": "엑토르 베를리오즈",
+  "books": 8,
+  "verdict": "skip",
+  "why": "클래식 작곡가이나 대중 인지도 낮음"
+ },
+ "patti-smith": {
+  "slug": "patti-smith",
+  "nickname": "패티 스미스",
+  "books": 8,
+  "verdict": "skip",
+  "why": "펑크 록 뮤지션이나 대중 인지도 낮음"
+ },
+ "camilo-jose-cela": {
+  "slug": "camilo-jose-cela",
+  "nickname": "카밀로 호세 셀라",
+  "books": 8,
+  "verdict": "skip",
+  "why": "노벨상 작가이나 국내 인지도 낮음"
+ },
+ "alexander-the-great": {
+  "slug": "alexander-the-great",
+  "nickname": "알렉산더 대왕",
+  "books": 8,
+  "verdict": "write",
+  "why": "세계사 속 정복 군주로 인지도 높음"
+ },
+ "reid-hoffman": {
+  "slug": "reid-hoffman",
+  "nickname": "리드 호프먼",
+  "books": 8,
+  "verdict": "skip",
+  "why": "링크드인 창업자이나 대중 인지도 낮음"
+ },
+ "raphael-sanzio": {
+  "slug": "raphael-sanzio",
+  "nickname": "라파엘로 산치오",
+  "books": 8,
+  "verdict": "write",
+  "why": "르네상스 3대 화가로 인지도 높음"
+ },
+ "ludwig-wittgenstein": {
+  "slug": "ludwig-wittgenstein",
+  "nickname": "루트비히 비트겐슈타인",
+  "books": 8,
+  "verdict": "skip",
+  "why": "철학자이나 일반 대중 인지도 낮음"
+ },
+ "cameron-diaz": {
+  "slug": "cameron-diaz",
+  "nickname": "캐머런 디애즈",
+  "books": 8,
+  "verdict": "write",
+  "why": "유명 할리우드 배우로 인지도 높음"
+ },
+ "frederick-w-smith": {
+  "slug": "frederick-w-smith",
+  "nickname": "프레드 스미스",
+  "books": 8,
+  "verdict": "skip",
+  "why": "페덱스 창업자이나 대중 인지도 낮음"
+ },
+ "mo-yan": {
+  "slug": "mo-yan",
+  "nickname": "모옌",
+  "books": 8,
+  "verdict": "skip",
+  "why": "중국 작가로 국내 대중 인지도 낮음"
+ },
+ "zheng-xuan": {
+  "slug": "zheng-xuan",
+  "nickname": "정현",
+  "books": 8,
+  "verdict": "skip",
+  "why": "후한 유학자로 국내 대중 인지도 낮음"
+ },
+ "friedrich-nietzsche": {
+  "slug": "friedrich-nietzsche",
+  "nickname": "프리드리히 니체",
+  "books": 8,
+  "verdict": "write",
+  "why": "독일 대표 철학자로 대중 인지도 높음"
+ },
+ "joseph-stalin": {
+  "slug": "joseph-stalin",
+  "nickname": "이오시프 스탈린",
+  "books": 8,
+  "verdict": "write",
+  "why": "소련 독재자로 대중 인지도 높음"
+ },
+ "park-sang-young": {
+  "slug": "park-sang-young",
+  "nickname": "박상영",
+  "books": 8,
+  "verdict": "skip",
+  "why": "신진 소설가로 일반 대중 인지도 낮음"
+ },
+ "roh-moo-hyun": {
+  "slug": "roh-moo-hyun",
+  "nickname": "노무현",
+  "books": 8,
+  "verdict": "write",
+  "why": "전직 대통령으로 국민적 인지도 높음"
+ },
+ "beto-orourke": {
+  "slug": "beto-orourke",
+  "nickname": "베토 오로크",
+  "books": 8,
+  "verdict": "skip",
+  "why": "미국 정치인으로 국내 인지도 낮음"
+ },
+ "henry-miller": {
+  "slug": "henry-miller",
+  "nickname": "헨리 밀러",
+  "books": 8,
+  "verdict": "skip",
+  "why": "북회귀선 작가이나 대중 인지도 낮음"
+ },
+ "li-jing": {
+  "slug": "li-jing",
+  "nickname": "이정",
+  "books": 8,
+  "verdict": "skip",
+  "why": "당나라 장군으로 국내 인지도 낮음"
+ },
+ "kate-beckinsale": {
+  "slug": "kate-beckinsale",
+  "nickname": "케이트 베킨세일",
+  "books": 8,
+  "verdict": "skip",
+  "why": "영화배우이나 국내 대중 인지도 낮음"
+ },
+ "giovanni-boccaccio": {
+  "slug": "giovanni-boccaccio",
+  "nickname": "조반니 보카치오",
+  "books": 8,
+  "verdict": "skip",
+  "why": "데카메론 저자이나 대중 인지도 낮음"
+ },
+ "martin-scorsese": {
+  "slug": "martin-scorsese",
+  "nickname": "마틴 스콜세지",
+  "books": 8,
+  "verdict": "write",
+  "why": "유명 영화감독으로 대중 인지도 높음"
+ },
+ "dolly-parton": {
+  "slug": "dolly-parton",
+  "nickname": "돌리 파튼",
+  "books": 8,
+  "verdict": "skip",
+  "why": "미국 가수로 국내 대중 인지도 낮음"
+ },
+ "masashi-kishimoto": {
+  "slug": "masashi-kishimoto",
+  "nickname": "키시모토 마사시",
+  "books": 8,
+  "verdict": "skip",
+  "why": "원작 만화 대비 작가 이름 인지도 낮음"
+ },
+ "stephen-hawking": {
+  "slug": "stephen-hawking",
+  "nickname": "스티븐 호킹",
+  "books": 8,
+  "verdict": "write",
+  "why": "세계적 물리학자로 대중 인지도 높음"
+ },
+ "miguel-de-cervantes": {
+  "slug": "miguel-de-cervantes",
+  "nickname": "미겔 데 세르반테스",
+  "books": 8,
+  "verdict": "write",
+  "why": "돈키호테 작가로 대중 인지도 높음"
+ },
+ "doris-lessing": {
+  "slug": "doris-lessing",
+  "nickname": "도리스 레싱",
+  "books": 8,
+  "verdict": "skip",
+  "why": "노벨문학상 작가이나 대중 인지도 낮음"
+ },
+ "lewis-hamilton": {
+  "slug": "lewis-hamilton",
+  "nickname": "루이스 해밀턴",
+  "books": 8,
+  "verdict": "skip",
+  "why": "F1 챔피언이나 국내 대중 인지도 낮음"
+ },
+ "kevin-systrom": {
+  "slug": "kevin-systrom",
+  "nickname": "케빈 시스트롬",
+  "books": 8,
+  "verdict": "skip",
+  "why": "인스타그램 창업자이나 인지도 낮음"
+ },
+ "michelle-williams": {
+  "slug": "michelle-williams",
+  "nickname": "미셸 윌리엄스",
+  "books": 8,
+  "verdict": "skip",
+  "why": "헐리우드 배우이나 국내 인지도 낮음"
+ },
+ "jo-sung-hee": {
+  "slug": "jo-sung-hee",
+  "nickname": "조성희",
+  "books": 7,
+  "verdict": "skip",
+  "why": "영화감독이나 이름의 대중 인지도 낮음"
+ },
+ "selena-gomez": {
+  "slug": "selena-gomez",
+  "nickname": "셀레나 고메즈",
+  "books": 7,
+  "verdict": "write",
+  "why": "글로벌 팝스타로 대중 인지도 높음"
+ },
+ "franz-liszt": {
+  "slug": "franz-liszt",
+  "nickname": "프란츠 리스트",
+  "books": 7,
+  "verdict": "write",
+  "why": "피아노 거장으로 교과서 수록 작곡가"
+ },
+ "kim-whan-ki": {
+  "slug": "kim-whan-ki",
+  "nickname": "김환기",
+  "books": 7,
+  "verdict": "write",
+  "why": "한국 대표 추상화가로 인지도 높음"
+ },
+ "rabindranath-tagore": {
+  "slug": "rabindranath-tagore",
+  "nickname": "라빈드라나트 타고르",
+  "books": 7,
+  "verdict": "write",
+  "why": "동방의 등불로 교과서에 실린 시인"
+ },
+ "kim-dae-jung": {
+  "slug": "kim-dae-jung",
+  "nickname": "김대중",
+  "books": 7,
+  "verdict": "write",
+  "why": "전직 대통령이자 노벨평화상 수상자"
+ },
+ "immanuel-kant": {
+  "slug": "immanuel-kant",
+  "nickname": "임마누엘 칸트",
+  "books": 7,
+  "verdict": "write",
+  "why": "교과서에 나오는 대표적 서양 철학자"
+ },
+ "thomas-hobbes": {
+  "slug": "thomas-hobbes",
+  "nickname": "토마스 홉스",
+  "books": 7,
+  "verdict": "write",
+  "why": "만인의 투쟁으로 교과서 수록 사상가"
+ },
+ "charlotte-bronte": {
+  "slug": "charlotte-bronte",
+  "nickname": "샬럿 브론테",
+  "books": 7,
+  "verdict": "write",
+  "why": "고전 명작 제인 에어의 대표 작가"
+ },
+ "zhou-enlai": {
+  "slug": "zhou-enlai",
+  "nickname": "저우언라이",
+  "books": 7,
+  "verdict": "write",
+  "why": "중국 초대 총리 주은래로 널리 알려짐"
+ },
+ "andrew-ng": {
+  "slug": "andrew-ng",
+  "nickname": "앤드류 응",
+  "books": 7,
+  "verdict": "skip",
+  "why": "AI 분야 외 국내 일반 인지도 낮음"
+ },
+ "mariah-carey": {
+  "slug": "mariah-carey",
+  "nickname": "머라이어 캐리",
+  "books": 7,
+  "verdict": "write",
+  "why": "캐럴 연금과 히트곡으로 널리 알려짐"
+ },
+ "demis-hassabis": {
+  "slug": "demis-hassabis",
+  "nickname": "데미스 허사비스",
+  "books": 7,
+  "verdict": "skip",
+  "why": "알파고 개발자이나 개인 인지도 낮음"
+ },
+ "lee-tae-jun": {
+  "slug": "lee-tae-jun",
+  "nickname": "이태준",
+  "books": 7,
+  "verdict": "write",
+  "why": "국어 교과서 단골 수록 대표 작가"
+ },
+ "paul-graham": {
+  "slug": "paul-graham",
+  "nickname": "폴 그레이엄",
+  "books": 7,
+  "verdict": "skip",
+  "why": "스타트업계 외 일반 대중 인지도 낮음"
+ },
+ "john-adams": {
+  "slug": "john-adams",
+  "nickname": "존 애덤스",
+  "books": 7,
+  "verdict": "skip",
+  "why": "미국 대통령이나 국내에선 생소함"
+ },
+ "anthony-bourdain": {
+  "slug": "anthony-bourdain",
+  "nickname": "앤서니 부르댕",
+  "books": 7,
+  "verdict": "skip",
+  "why": "해외 유명 셰프이나 국내 인지도 낮음"
+ },
+ "carl-gustav-jung": {
+  "slug": "carl-gustav-jung",
+  "nickname": "칼 융",
+  "books": 7,
+  "verdict": "write",
+  "why": "융 심리학과 MBTI 원형으로 유명"
+ },
+ "hyerim": {
+  "slug": "hyerim",
+  "nickname": "혜림",
+  "books": 7,
+  "verdict": "write",
+  "why": "원더걸스 멤버로 대중적 인지도 높음"
+ },
+ "dong-zhongshu": {
+  "slug": "dong-zhongshu",
+  "nickname": "동중서",
+  "books": 7,
+  "verdict": "skip",
+  "why": "고대 중국 유학자로 일반 인지도 낮음"
+ },
+ "dhar-mann": {
+  "slug": "dhar-mann",
+  "nickname": "다르 만",
+  "books": 7,
+  "verdict": "skip",
+  "why": "영어권 유튜버로 국내 인지도 없음"
+ },
+ "ham-seok-heon": {
+  "slug": "ham-seok-heon",
+  "nickname": "함석헌",
+  "books": 7,
+  "verdict": "skip",
+  "why": "현대사 사상가이나 대중적 인지도 낮음"
+ },
+ "james-joyce": {
+  "slug": "james-joyce",
+  "nickname": "제임스 조이스",
+  "books": 7,
+  "verdict": "write",
+  "why": "율리시스 작가로 세계문학 대표 인물"
+ },
+ "slavoj-zizek": {
+  "slug": "slavoj-zizek",
+  "nickname": "슬라보예 지젝",
+  "books": 7,
+  "verdict": "skip",
+  "why": "인문학계 외 일반 대중 인지도 낮음"
+ },
+ "marlon-brando": {
+  "slug": "marlon-brando",
+  "nickname": "말론 브란도",
+  "books": 7,
+  "verdict": "write",
+  "why": "영화 대부의 주연으로 널리 알려짐"
+ },
+ "simone-giertz": {
+  "slug": "simone-giertz",
+  "nickname": "시몬 예르치",
+  "books": 7,
+  "verdict": "skip",
+  "why": "해외 유튜버로 국내 대중 인지도 낮음"
+ },
+ "king-jeongjo": {
+  "slug": "king-jeongjo",
+  "nickname": "정조",
+  "books": 7,
+  "verdict": "write",
+  "why": "조선 후기 대표 국왕으로 인지도 높음"
+ },
+ "samuel-beckett": {
+  "slug": "samuel-beckett",
+  "nickname": "사뮈엘 베케트",
+  "books": 7,
+  "verdict": "write",
+  "why": "고도를 기다리며 작가로 널리 알려짐"
+ },
+ "peter-drucker": {
+  "slug": "peter-drucker",
+  "nickname": "피터 드러커",
+  "books": 7,
+  "verdict": "write",
+  "why": "현대 경영학의 아버지로 널리 알려짐"
+ },
+ "anna-akhmatova": {
+  "slug": "anna-akhmatova",
+  "nickname": "안나 아흐마토바",
+  "books": 7,
+  "verdict": "skip",
+  "why": "러시아 시인으로 국내엔 생소함"
+ },
+ "george-boole": {
+  "slug": "george-boole",
+  "nickname": "조지 부울",
+  "books": 7,
+  "verdict": "skip",
+  "why": "불 대수 창시자이나 인물 인지도 낮음"
+ },
+ "cai-yong": {
+  "slug": "cai-yong",
+  "nickname": "채옹",
+  "books": 7,
+  "verdict": "skip",
+  "why": "후한 시대 서예가로 대중 인지도 낮음"
+ },
+ "warren-mcculloch": {
+  "slug": "warren-mcculloch",
+  "nickname": "워런 맥컬록",
+  "books": 7,
+  "verdict": "skip",
+  "why": "신경망 선구자이나 일반 인지도 없음"
+ },
+ "mikhail-bulgakov": {
+  "slug": "mikhail-bulgakov",
+  "nickname": "미하일 불가코프",
+  "books": 7,
+  "verdict": "skip",
+  "why": "러시아 작가로 국내 일반 인지도 낮음"
+ },
+ "kim-gu": {
+  "slug": "kim-gu",
+  "nickname": "김구",
+  "books": 7,
+  "verdict": "write",
+  "why": "백범일지와 독립운동으로 유명한 위인"
+ },
+ "edward-thorp": {
+  "slug": "edward-thorp",
+  "nickname": "에드워드 소프",
+  "books": 7,
+  "verdict": "skip",
+  "why": "퀀트 투자자이나 국내에선 생소함"
+ },
+ "sima-guang": {
+  "slug": "sima-guang",
+  "nickname": "사마광",
+  "books": 7,
+  "verdict": "skip",
+  "why": "자치통감 저자이나 사마천보다 생소함"
+ },
+ "nikolai-bukharin": {
+  "slug": "nikolai-bukharin",
+  "nickname": "니콜라이 부하린",
+  "books": 7,
+  "verdict": "skip",
+  "why": "볼셰비키 이론가로 국내 인지도 낮음"
+ },
+ "timothee-chalamet": {
+  "slug": "timothee-chalamet",
+  "nickname": "티모시 샬라메",
+  "books": 7,
+  "verdict": "write",
+  "why": "영화 듄과 웡카 주연으로 대중적 인기"
+ },
+ "ho-chi-minh": {
+  "slug": "ho-chi-minh",
+  "nickname": "호치민",
+  "books": 7,
+  "verdict": "write",
+  "why": "베트남 국부로 국내 대중 인지도 높음"
+ },
+ "henry-kissinger": {
+  "slug": "henry-kissinger",
+  "nickname": "헨리 키신저",
+  "books": 7,
+  "verdict": "write",
+  "why": "미국 외교의 거두로 국내 인지도 높음"
+ },
+ "timothy-c.-may": {
+  "slug": "timothy-c.-may",
+  "nickname": "티모시 C. 메이",
+  "books": 7,
+  "verdict": "skip",
+  "why": "암호화폐 사상가로 국내 인지도 없음"
+ },
+ "kai-fu-lee": {
+  "slug": "kai-fu-lee",
+  "nickname": "리카이푸",
+  "books": 7,
+  "verdict": "skip",
+  "why": "중국 IT 전문가이나 일반 인지도 낮음"
+ },
+ "sejong-the-great": {
+  "slug": "sejong-the-great",
+  "nickname": "세종대왕",
+  "books": 7,
+  "verdict": "write",
+  "why": "한글을 창제한 전 국민이 아는 성군"
+ },
+ "rosamund-pike": {
+  "slug": "rosamund-pike",
+  "nickname": "로자먼드 파이크",
+  "books": 7,
+  "verdict": "skip",
+  "why": "영화는 유명하나 배우 이름은 생소함"
+ },
+ "jonathan-abrams": {
+  "slug": "jonathan-abrams",
+  "nickname": "조너선 에이브럼스",
+  "books": 7,
+  "verdict": "skip",
+  "why": "초기 SNS 창업자로 국내 인지도 없음"
+ },
+ "jay-graber": {
+  "slug": "jay-graber",
+  "nickname": "제이 그레이버",
+  "books": 7,
+  "verdict": "skip",
+  "why": "블루스카이 대표이나 국내 인지도 없음"
+ },
+ "brian-chesky": {
+  "slug": "brian-chesky",
+  "nickname": "브라이언 체스키",
+  "books": 7,
+  "verdict": "skip",
+  "why": "에어비앤비 창업자이나 이름은 생소함"
+ },
+ "j.r.r.-tolkien": {
+  "slug": "j.r.r.-tolkien",
+  "nickname": "J.R.R. 톨킨",
+  "books": 7,
+  "verdict": "write",
+  "why": "반지의 제왕 작가로 널리 알려짐"
+ },
+ "gaius-plinius-secundus": {
+  "slug": "gaius-plinius-secundus",
+  "nickname": "가이우스 플리니우스 세쿤두스",
+  "books": 7,
+  "verdict": "skip",
+  "why": "고대 로마 학자로 국내에선 생소함"
+ },
+ "william-shakespeare": {
+  "slug": "william-shakespeare",
+  "nickname": "윌리엄 셰익스피어",
+  "books": 7,
+  "verdict": "write",
+  "why": "세계 최고 극작가로 전 국민이 앎"
+ },
+ "thomas-wolf": {
+  "slug": "thomas-wolf",
+  "nickname": "토마스 울프",
+  "books": 7,
+  "verdict": "skip",
+  "why": "AI 연구자이나 국내 대중 인지도 없음"
+ },
+ "wu-qi": {
+  "slug": "wu-qi",
+  "nickname": "오기",
+  "books": 7,
+  "verdict": "skip",
+  "why": "손자에 비해 국내 대중 인지도 낮음"
+ },
+ "wang-chong": {
+  "slug": "wang-chong",
+  "nickname": "왕충",
+  "books": 7,
+  "verdict": "skip",
+  "why": "고대 중국 사상가로 국내 인지도 없음"
+ },
+ "sundar-pichai": {
+  "slug": "sundar-pichai",
+  "nickname": "순다르 피차이",
+  "books": 7,
+  "verdict": "skip",
+  "why": "구글 CEO이나 국내 일반 인지도 낮음"
+ },
+ "yan-fu": {
+  "slug": "yan-fu",
+  "nickname": "옌푸",
+  "books": 7,
+  "verdict": "skip",
+  "why": "중국 근대 번역가로 국내 인지도 없음"
+ },
+ "pearl-s.-buck": {
+  "slug": "pearl-s.-buck",
+  "nickname": "펄 벅",
+  "books": 7,
+  "verdict": "write",
+  "why": "소설 대지의 작가로 국내 인지도 높음"
+ },
+ "lee-kuan-yew": {
+  "slug": "lee-kuan-yew",
+  "nickname": "리콴유",
+  "books": 7,
+  "verdict": "write",
+  "why": "싱가포르 국부로 국내 인지도 높음"
+ },
+ "tadashi-yanai": {
+  "slug": "tadashi-yanai",
+  "nickname": "야나이 다다시",
+  "books": 7,
+  "verdict": "skip",
+  "why": "유니클로 창업자이나 이름은 생소함"
+ },
+ "elizabeth-i": {
+  "slug": "elizabeth-i",
+  "nickname": "엘리자베스 1세",
+  "books": 6,
+  "verdict": "write",
+  "why": "영국 황금기 여왕으로 널리 알려짐"
+ },
+ "meryl-streep": {
+  "slug": "meryl-streep",
+  "nickname": "메릴 스트립",
+  "books": 6,
+  "verdict": "write",
+  "why": "유명 할리우드 배우로 대중 인지 높음"
+ },
+ "jorge-luis-borges": {
+  "slug": "jorge-luis-borges",
+  "nickname": "호르헤 루이스 보르헤스",
+  "books": 6,
+  "verdict": "skip",
+  "why": "문학계 외 국내 일반 대중엔 생소함"
+ },
+ "xenophon": {
+  "slug": "xenophon",
+  "nickname": "크세노폰",
+  "books": 6,
+  "verdict": "skip",
+  "why": "고대 그리스 인물로 국내 인지도 낮음"
+ },
+ "marc-chagall": {
+  "slug": "marc-chagall",
+  "nickname": "마르크 샤갈",
+  "books": 6,
+  "verdict": "write",
+  "why": "샤갈의 마을 등 대중적 서양 화가"
+ },
+ "zhu-yuanzhang": {
+  "slug": "zhu-yuanzhang",
+  "nickname": "주원장",
+  "books": 6,
+  "verdict": "write",
+  "why": "명 태조로 국사·세계사 수록"
+ },
+ "woodrow-wilson": {
+  "slug": "woodrow-wilson",
+  "nickname": "우드로 윌슨",
+  "books": 6,
+  "verdict": "write",
+  "why": "민족자결주의로 교과서 수록"
+ },
+ "ji-kang": {
+  "slug": "ji-kang",
+  "nickname": "혜강",
+  "books": 6,
+  "verdict": "skip",
+  "why": "죽림칠현이나 국내 인지도 낮음"
+ },
+ "richard-wagner": {
+  "slug": "richard-wagner",
+  "nickname": "리하르트 바그너",
+  "books": 6,
+  "verdict": "write",
+  "why": "유명 작곡가로 널리 알려짐"
+ },
+ "ba-jin": {
+  "slug": "ba-jin",
+  "nickname": "바진",
+  "books": 6,
+  "verdict": "skip",
+  "why": "중국 작가로 국내 인지도 낮음"
+ },
+ "g-dragon": {
+  "slug": "g-dragon",
+  "nickname": "지드래곤",
+  "books": 6,
+  "verdict": "write",
+  "why": "빅뱅 리더로 전 국민적 인지"
+ },
+ "chung-hyun-jong": {
+  "slug": "chung-hyun-jong",
+  "nickname": "정현종",
+  "books": 6,
+  "verdict": "skip",
+  "why": "유명 시인이나 이름 인지도 애매"
+ },
+ "michael-jackson": {
+  "slug": "michael-jackson",
+  "nickname": "마이클 잭슨",
+  "books": 6,
+  "verdict": "write",
+  "why": "팝의 황제로 전 국민적 인지"
+ },
+ "mike-tyson": {
+  "slug": "mike-tyson",
+  "nickname": "마이크 타이슨",
+  "books": 6,
+  "verdict": "write",
+  "why": "핵주먹 복서로 전 국민 인지"
+ },
+ "simone-de-beauvoir": {
+  "slug": "simone-de-beauvoir",
+  "nickname": "시몬 드 보부아르",
+  "books": 6,
+  "verdict": "write",
+  "why": "제2의 성 등 대표적 여성 철학자"
+ },
+ "rupert-murdoch": {
+  "slug": "rupert-murdoch",
+  "nickname": "루퍼트 머독",
+  "books": 6,
+  "verdict": "skip",
+  "why": "미디어 재벌이나 대중 인지도 낮음"
+ },
+ "jurgen-schmidhuber": {
+  "slug": "jurgen-schmidhuber",
+  "nickname": "위르겐 슈미트후버",
+  "books": 6,
+  "verdict": "skip",
+  "why": "AI 연구자로 대중 인지도 없음"
+ },
+ "helmut-schmidt": {
+  "slug": "helmut-schmidt",
+  "nickname": "헬무트 슈미트",
+  "books": 6,
+  "verdict": "skip",
+  "why": "독일 총리이나 국내 인지도 낮음"
+ },
+ "jennifer-lopez": {
+  "slug": "jennifer-lopez",
+  "nickname": "제니퍼 로페즈",
+  "books": 6,
+  "verdict": "write",
+  "why": "유명 팝스타 겸 배우로 인지도 높음"
+ },
+ "ibn-rushd": {
+  "slug": "ibn-rushd",
+  "nickname": "이븐 루시드",
+  "books": 6,
+  "verdict": "skip",
+  "why": "중세 철학자로 국내 인지도 없음"
+ },
+ "li-dazhao": {
+  "slug": "li-dazhao",
+  "nickname": "이대조",
+  "books": 6,
+  "verdict": "skip",
+  "why": "국내 일반 대중 인지도 없음"
+ },
+ "fidel-castro": {
+  "slug": "fidel-castro",
+  "nickname": "피델 카스트로",
+  "books": 6,
+  "verdict": "write",
+  "why": "쿠바 혁명 지도자로 널리 알려짐"
+ },
+ "andrew-lincoln": {
+  "slug": "andrew-lincoln",
+  "nickname": "앤드루 링컨",
+  "books": 6,
+  "verdict": "skip",
+  "why": "워킹데드 주연이나 배우명 생소"
+ },
+ "justin-bieber": {
+  "slug": "justin-bieber",
+  "nickname": "저스틴 비버",
+  "books": 6,
+  "verdict": "write",
+  "why": "세계적 팝스타로 국내 인지도 최상"
+ },
+ "fernando-pessoa": {
+  "slug": "fernando-pessoa",
+  "nickname": "페르난두 페소아",
+  "books": 6,
+  "verdict": "skip",
+  "why": "문학 애호가 외 대중 인지도 낮음"
+ },
+ "kim-yeon-koung": {
+  "slug": "kim-yeon-koung",
+  "nickname": "김연경",
+  "books": 6,
+  "verdict": "write",
+  "why": "배구 여제로 전 국민적 인지"
+ },
+ "cai-yuanpei": {
+  "slug": "cai-yuanpei",
+  "nickname": "채원배",
+  "books": 6,
+  "verdict": "skip",
+  "why": "국내 일반 대중 인지도 없음"
+ },
+ "sean-penn": {
+  "slug": "sean-penn",
+  "nickname": "숀 펜",
+  "books": 6,
+  "verdict": "skip",
+  "why": "할리우드 배우이나 국내 인지도 애매"
+ },
+ "yi-mun-yol": {
+  "slug": "yi-mun-yol",
+  "nickname": "이문열",
+  "books": 6,
+  "verdict": "write",
+  "why": "대표 소설가로 전 국민적 인지"
+ },
+ "chimchakman": {
+  "slug": "chimchakman",
+  "nickname": "침착맨",
+  "books": 6,
+  "verdict": "write",
+  "why": "인기 웹툰작가 겸 대형 방송인"
+ },
+ "teller": {
+  "slug": "teller",
+  "nickname": "텔러",
+  "books": 6,
+  "verdict": "skip",
+  "why": "미국 마술사로 국내 인지도 없음"
+ },
+ "xunzi": {
+  "slug": "xunzi",
+  "nickname": "순자",
+  "books": 6,
+  "verdict": "write",
+  "why": "성악설 주장한 대표 사상가"
+ },
+ "kristalina-georgieva": {
+  "slug": "kristalina-georgieva",
+  "nickname": "크리스탈리나 게오르기에바",
+  "books": 6,
+  "verdict": "skip",
+  "why": "IMF 총재이나 국내 인지도 낮음"
+ },
+ "joe-gebbia": {
+  "slug": "joe-gebbia",
+  "nickname": "조 게비아",
+  "books": 6,
+  "verdict": "skip",
+  "why": "에어비앤비 창업자나 인지도 없음"
+ },
+ "keller-rinaudo-cliffton": {
+  "slug": "keller-rinaudo-cliffton",
+  "nickname": "켈러 리나우도",
+  "books": 6,
+  "verdict": "skip",
+  "why": "스타트업 창업자로 국내 인지도 없음"
+ },
+ "rene-descartes": {
+  "slug": "rene-descartes",
+  "nickname": "르네 데카르트",
+  "books": 6,
+  "verdict": "write",
+  "why": "생각한다 고로 존재한다 철학자"
+ },
+ "liu-yifei": {
+  "slug": "liu-yifei",
+  "nickname": "유역비",
+  "books": 6,
+  "verdict": "write",
+  "why": "뮬란 주연 등 중화권 유명 배우"
+ },
+ "yu-gil-jun": {
+  "slug": "yu-gil-jun",
+  "nickname": "유길준",
+  "books": 6,
+  "verdict": "write",
+  "why": "서유견문 저자로 국사 교과서 수록"
+ },
+ "larry-culp": {
+  "slug": "larry-culp",
+  "nickname": "래리 컬프",
+  "books": 6,
+  "verdict": "skip",
+  "why": "기업 경영인으로 국내 인지도 없음"
+ },
+ "travis-kalanick": {
+  "slug": "travis-kalanick",
+  "nickname": "트래비스 캘러닉",
+  "books": 6,
+  "verdict": "skip",
+  "why": "우버 창업자이나 대중 인지도 낮음"
+ },
+ "tommy-lee-jones": {
+  "slug": "tommy-lee-jones",
+  "nickname": "토미 리 존스",
+  "books": 6,
+  "verdict": "skip",
+  "why": "맨인블랙 배우이나 본명 생소"
+ },
+ "anne-frank": {
+  "slug": "anne-frank",
+  "nickname": "안네 프랑크",
+  "books": 6,
+  "verdict": "write",
+  "why": "안네의 일기로 전 국민적 인지"
+ },
+ "chiang-kai-shek": {
+  "slug": "chiang-kai-shek",
+  "nickname": "장제스",
+  "books": 6,
+  "verdict": "write",
+  "why": "대만 총통 장개석으로 널리 알려짐"
+ },
+ "fan-zhongyan": {
+  "slug": "fan-zhongyan",
+  "nickname": "범중엄",
+  "books": 6,
+  "verdict": "skip",
+  "why": "송나라 문인으로 국내 인지도 없음"
+ },
+ "kangxi-emperor": {
+  "slug": "kangxi-emperor",
+  "nickname": "강희제",
+  "books": 6,
+  "verdict": "write",
+  "why": "청 전성기 황제로 널리 알려짐"
+ },
+ "gustave-flaubert": {
+  "slug": "gustave-flaubert",
+  "nickname": "귀스타브 플로베르",
+  "books": 6,
+  "verdict": "skip",
+  "why": "보바리 부인 작가이나 이름 생소"
+ },
+ "william-f.-buckley-jr.": {
+  "slug": "william-f.-buckley-jr.",
+  "nickname": "윌리엄 F. 버클리 주니어",
+  "books": 6,
+  "verdict": "skip",
+  "why": "미국 평론가로 국내 인지도 없음"
+ },
+ "daesung": {
+  "slug": "daesung",
+  "nickname": "대성",
+  "books": 6,
+  "verdict": "write",
+  "why": "빅뱅 보컬로 전 국민적 인지"
+ },
+ "nikos-kazantzakis": {
+  "slug": "nikos-kazantzakis",
+  "nickname": "니코스 카잔차키스",
+  "books": 6,
+  "verdict": "skip",
+  "why": "조르바 작가이나 이름 인지도 낮음"
+ },
+ "gilles-deleuze": {
+  "slug": "gilles-deleuze",
+  "nickname": "질 들뢰즈",
+  "books": 6,
+  "verdict": "skip",
+  "why": "현대 철학자로 일반 인지도 낮음"
+ },
+ "emily-bronte": {
+  "slug": "emily-bronte",
+  "nickname": "에밀리 브론테",
+  "books": 6,
+  "verdict": "skip",
+  "why": "폭풍의 언덕 작가이나 이름 생소"
+ },
+ "susan-sontag": {
+  "slug": "susan-sontag",
+  "nickname": "수전 손택",
+  "books": 6,
+  "verdict": "skip",
+  "why": "미국 비평가로 대중 인지도 낮음"
+ },
+ "john-carmack": {
+  "slug": "john-carmack",
+  "nickname": "존 카맥",
+  "books": 6,
+  "verdict": "skip",
+  "why": "둠 개발자이나 대중 인지도 낮음"
+ },
+ "publius-ovidius-naso": {
+  "slug": "publius-ovidius-naso",
+  "nickname": "오비디우스",
+  "books": 6,
+  "verdict": "skip",
+  "why": "로마 시인으로 국내 인지도 없음"
+ },
+ "erwin-schrodinger": {
+  "slug": "erwin-schrodinger",
+  "nickname": "에르빈 슈뢰딩거",
+  "books": 6,
+  "verdict": "write",
+  "why": "슈뢰딩거의 고양이로 널리 알려짐"
+ },
+ "kim-bu-sik": {
+  "slug": "kim-bu-sik",
+  "nickname": "김부식",
+  "books": 6,
+  "verdict": "write",
+  "why": "삼국사기 편찬자로 국사 교과서 수록"
+ },
+ "tom-scott": {
+  "slug": "tom-scott",
+  "nickname": "톰 스콧",
+  "books": 6,
+  "verdict": "skip",
+  "why": "영국 유튜버로 국내 인지도 낮음"
+ },
+ "shin-kyung-sook": {
+  "slug": "shin-kyung-sook",
+  "nickname": "신경숙",
+  "books": 6,
+  "verdict": "write",
+  "why": "엄마를 부탁해로 전 국민적 인지"
+ },
+ "ibn-khaldun": {
+  "slug": "ibn-khaldun",
+  "nickname": "이븐 할둔",
+  "books": 6,
+  "verdict": "skip",
+  "why": "이슬람 학자로 국내 인지도 없음"
+ },
+ "galileo-galilei": {
+  "slug": "galileo-galilei",
+  "nickname": "갈릴레오 갈릴레이",
+  "books": 6,
+  "verdict": "write",
+  "why": "지구는 돈다로 전 국민이 인지"
+ },
+ "ban-gu": {
+  "slug": "ban-gu",
+  "nickname": "반고",
+  "books": 6,
+  "verdict": "skip",
+  "why": "한서 저자이나 국내 인지도 없음"
+ },
+ "marla-maples": {
+  "slug": "marla-maples",
+  "nickname": "말라 메이플스",
+  "books": 6,
+  "verdict": "skip",
+  "why": "트럼프 전처이나 국내 인지도 없음"
+ },
+ "thomas-sowell": {
+  "slug": "thomas-sowell",
+  "nickname": "토머스 소웰",
+  "books": 6,
+  "verdict": "skip",
+  "why": "미국 학자로 국내 대중 인지도 낮음"
+ },
+ "benjamin-graham": {
+  "slug": "benjamin-graham",
+  "nickname": "벤저민 그레이엄",
+  "books": 6,
+  "verdict": "write",
+  "why": "가치투자 창시자로 인지도 높음"
+ },
+ "kim-su-young": {
+  "slug": "kim-su-young",
+  "nickname": "김수영",
+  "books": 6,
+  "verdict": "write",
+  "why": "교과서 수록 대표 저항 시인"
+ },
+ "sean-astin": {
+  "slug": "sean-astin",
+  "nickname": "숀 애스틴",
+  "books": 6,
+  "verdict": "skip",
+  "why": "배역 대비 배우 인지도 낮음"
+ },
+ "quintus-horatius-flaccus": {
+  "slug": "quintus-horatius-flaccus",
+  "nickname": "퀸투스 호라티우스 플라쿠스",
+  "books": 6,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 매우 낮음"
+ },
+ "nora-roberts": {
+  "slug": "nora-roberts",
+  "nickname": "노라 로버츠",
+  "books": 6,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "blaise-pascal": {
+  "slug": "blaise-pascal",
+  "nickname": "블레즈 파스칼",
+  "books": 6,
+  "verdict": "write",
+  "why": "팡세와 정리로 유명한 학자"
+ },
+ "martin-luther": {
+  "slug": "martin-luther",
+  "nickname": "마틴 루터",
+  "books": 6,
+  "verdict": "write",
+  "why": "종교개혁 이끈 역사적 인물"
+ },
+ "melanie-perkins": {
+  "slug": "melanie-perkins",
+  "nickname": "멜러니 퍼킨스",
+  "books": 6,
+  "verdict": "skip",
+  "why": "창업자 개인의 인지도 낮음"
+ },
+ "j.k.-rowling": {
+  "slug": "j.k.-rowling",
+  "nickname": "J.K. 롤링",
+  "books": 6,
+  "verdict": "write",
+  "why": "해리 포터 작가로 전국민 인지"
+ },
+ "charles-baudelaire": {
+  "slug": "charles-baudelaire",
+  "nickname": "샤를 보들레르",
+  "books": 6,
+  "verdict": "write",
+  "why": "악의 꽃으로 널리 알려진 시인"
+ },
+ "arthur-conan-doyle": {
+  "slug": "arthur-conan-doyle",
+  "nickname": "아서 코난 도일",
+  "books": 6,
+  "verdict": "write",
+  "why": "셜록 홈즈 원작자로 유명"
+ },
+ "russell-kirk": {
+  "slug": "russell-kirk",
+  "nickname": "러셀 커크",
+  "books": 6,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "ethan-hawke": {
+  "slug": "ethan-hawke",
+  "nickname": "에단 호크",
+  "books": 6,
+  "verdict": "write",
+  "why": "비포 시리즈로 친숙한 배우"
+ },
+ "leonhard-euler": {
+  "slug": "leonhard-euler",
+  "nickname": "레온하르트 오일러",
+  "books": 6,
+  "verdict": "write",
+  "why": "교과서에 나오는 대표 수학자"
+ },
+ "bernard-arnault": {
+  "slug": "bernard-arnault",
+  "nickname": "베르나르 아르노",
+  "books": 6,
+  "verdict": "skip",
+  "why": "명품 회장이나 이름 인지도 애매"
+ },
+ "otto-von-bismarck": {
+  "slug": "otto-von-bismarck",
+  "nickname": "오토 폰 비스마르크",
+  "books": 6,
+  "verdict": "write",
+  "why": "철혈재상으로 유명한 정치가"
+ },
+ "rainer-maria-rilke": {
+  "slug": "rainer-maria-rilke",
+  "nickname": "라이너 마리아 릴케",
+  "books": 6,
+  "verdict": "write",
+  "why": "한국인에게 친숙한 서정 시인"
+ },
+ "wang-fuzhi": {
+  "slug": "wang-fuzhi",
+  "nickname": "왕부지",
+  "books": 6,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "dalai-lama": {
+  "slug": "dalai-lama",
+  "nickname": "달라이 라마 14세",
+  "books": 6,
+  "verdict": "write",
+  "why": "세계적 불교 지도자로 유명"
+ },
+ "sima-yi": {
+  "slug": "sima-yi",
+  "nickname": "사마의",
+  "books": 6,
+  "verdict": "write",
+  "why": "삼국지 인물로 대중 인지도 높음"
+ },
+ "xin-qiji": {
+  "slug": "xin-qiji",
+  "nickname": "신기질",
+  "books": 6,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "yongzheng-emperor": {
+  "slug": "yongzheng-emperor",
+  "nickname": "옹정제",
+  "books": 6,
+  "verdict": "skip",
+  "why": "청나라 황제 중 인지도 애매"
+ },
+ "octavio-paz": {
+  "slug": "octavio-paz",
+  "nickname": "옥타비오 파스",
+  "books": 6,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "zhang-zai": {
+  "slug": "zhang-zai",
+  "nickname": "장재",
+  "books": 6,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "cheng-yi": {
+  "slug": "cheng-yi",
+  "nickname": "정이",
+  "books": 5,
+  "verdict": "skip",
+  "why": "성리학자 외 대중 인지도 없음"
+ },
+ "olga-tokarczuk": {
+  "slug": "olga-tokarczuk",
+  "nickname": "올가 토카르추크",
+  "books": 5,
+  "verdict": "skip",
+  "why": "노벨상 수상자나 국내 인지도 낮음"
+ },
+ "mark-rothko": {
+  "slug": "mark-rothko",
+  "nickname": "마크 로스코",
+  "books": 5,
+  "verdict": "skip",
+  "why": "미술 애호가 외 대중 인지도 낮음"
+ },
+ "alan-rickman": {
+  "slug": "alan-rickman",
+  "nickname": "앨런 릭먼",
+  "books": 5,
+  "verdict": "skip",
+  "why": "배역 대비 배우 이름 인지도 낮음"
+ },
+ "amber-heard": {
+  "slug": "amber-heard",
+  "nickname": "엠버 허드",
+  "books": 5,
+  "verdict": "write",
+  "why": "조니 뎁 재판으로 대중적 인지"
+ },
+ "howard-schultz": {
+  "slug": "howard-schultz",
+  "nickname": "하워드 슐츠",
+  "books": 5,
+  "verdict": "write",
+  "why": "스타벅스 신화로 인지도 높음"
+ },
+ "shin-chae-ho": {
+  "slug": "shin-chae-ho",
+  "nickname": "신채호",
+  "books": 5,
+  "verdict": "write",
+  "why": "조선상고사 쓴 대표 독립운동가"
+ },
+ "luo-guanzhong": {
+  "slug": "luo-guanzhong",
+  "nickname": "나관중",
+  "books": 5,
+  "verdict": "write",
+  "why": "삼국지연의 저자로 유명"
+ },
+ "hwang-hui": {
+  "slug": "hwang-hui",
+  "nickname": "황희",
+  "books": 5,
+  "verdict": "write",
+  "why": "조선 최고 명재상으로 유명"
+ },
+ "james-mattis": {
+  "slug": "james-mattis",
+  "nickname": "제임스 매티스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "군사·정치 외 일반 인지도 낮음"
+ },
+ "kanye-west": {
+  "slug": "kanye-west",
+  "nickname": "칸예 웨스트",
+  "books": 5,
+  "verdict": "write",
+  "why": "세계적 래퍼로 국내 인지도 높음"
+ },
+ "ahn-hyo-seop": {
+  "slug": "ahn-hyo-seop",
+  "nickname": "안효섭",
+  "books": 5,
+  "verdict": "write",
+  "why": "인기 드라마 주연으로 인지도 높음"
+ },
+ "andrei-tarkovsky": {
+  "slug": "andrei-tarkovsky",
+  "nickname": "안드레이 타르콥스키",
+  "books": 5,
+  "verdict": "skip",
+  "why": "영화 마니아 외 일반 인지도 낮음"
+ },
+ "james-cameron": {
+  "slug": "james-cameron",
+  "nickname": "제임스 카메론",
+  "books": 5,
+  "verdict": "write",
+  "why": "아바타·타이타닉 거장 감독"
+ },
+ "hulk-hogan": {
+  "slug": "hulk-hogan",
+  "nickname": "헐크 호건",
+  "books": 5,
+  "verdict": "write",
+  "why": "전설적 프로레슬러로 유명"
+ },
+ "giuseppe-verdi": {
+  "slug": "giuseppe-verdi",
+  "nickname": "주세페 베르디",
+  "books": 5,
+  "verdict": "write",
+  "why": "오페라 라 트라비아타 작곡가"
+ },
+ "cliff-asness": {
+  "slug": "cliff-asness",
+  "nickname": "클리프 애스니스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "nero": {
+  "slug": "nero",
+  "nickname": "네로",
+  "books": 5,
+  "verdict": "write",
+  "why": "로마 폭군으로 대중적 인지"
+ },
+ "isang-yun": {
+  "slug": "isang-yun",
+  "nickname": "윤이상",
+  "books": 5,
+  "verdict": "write",
+  "why": "세계적 작곡가이자 현대사 인물"
+ },
+ "florence-pugh": {
+  "slug": "florence-pugh",
+  "nickname": "플로렌스 퓨",
+  "books": 5,
+  "verdict": "skip",
+  "why": "영화팬 외 일반 대중 인지도 애매"
+ },
+ "jeff-dean": {
+  "slug": "jeff-dean",
+  "nickname": "제프 딘",
+  "books": 5,
+  "verdict": "skip",
+  "why": "IT 개발자 외 대중 인지도 낮음"
+ },
+ "heinrich-himmler": {
+  "slug": "heinrich-himmler",
+  "nickname": "하인리히 힘러",
+  "books": 5,
+  "verdict": "skip",
+  "why": "역사 관심층 외 대중 인지도 낮음"
+ },
+ "van-morrison": {
+  "slug": "van-morrison",
+  "nickname": "밴 모리슨",
+  "books": 5,
+  "verdict": "skip",
+  "why": "팝 애호가 외 국내 인지도 낮음"
+ },
+ "felix-mendelssohn": {
+  "slug": "felix-mendelssohn",
+  "nickname": "펠릭스 멘델스존",
+  "books": 5,
+  "verdict": "write",
+  "why": "축혼행진곡 등 교과서 작곡가"
+ },
+ "owen-wilson": {
+  "slug": "owen-wilson",
+  "nickname": "오언 윌슨",
+  "books": 5,
+  "verdict": "skip",
+  "why": "얼굴 대비 배우 이름 인지도 낮음"
+ },
+ "takafumi-horie": {
+  "slug": "takafumi-horie",
+  "nickname": "호리에 다카후미",
+  "books": 5,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "dmitri-dolgov": {
+  "slug": "dmitri-dolgov",
+  "nickname": "드미트리 돌고프",
+  "books": 5,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "tao-yuanming": {
+  "slug": "tao-yuanming",
+  "nickname": "도연명",
+  "books": 5,
+  "verdict": "write",
+  "why": "귀거래사 쓴 대표적 고전문학가"
+ },
+ "jennifer-connelly": {
+  "slug": "jennifer-connelly",
+  "nickname": "제니퍼 코넬리",
+  "books": 5,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 애매함"
+ },
+ "emmanuel-macron": {
+  "slug": "emmanuel-macron",
+  "nickname": "에마뉘엘 마크롱",
+  "books": 5,
+  "verdict": "write",
+  "why": "현직 프랑스 대통령으로 유명"
+ },
+ "dai-vernon": {
+  "slug": "dai-vernon",
+  "nickname": "다이 버논",
+  "books": 5,
+  "verdict": "skip",
+  "why": "마술계 외 국내 인지도 없음"
+ },
+ "joaquin-phoenix": {
+  "slug": "joaquin-phoenix",
+  "nickname": "호아킨 피닉스",
+  "books": 5,
+  "verdict": "write",
+  "why": "영화 조커 주연으로 인지도 높음"
+ },
+ "stuart-russell": {
+  "slug": "stuart-russell",
+  "nickname": "스튜어트 러셀",
+  "books": 5,
+  "verdict": "skip",
+  "why": "AI 전공자 외 대중 인지도 낮음"
+ },
+ "daniel-gross": {
+  "slug": "daniel-gross",
+  "nickname": "다니엘 그로스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "alexander-pushkin": {
+  "slug": "alexander-pushkin",
+  "nickname": "알렉산드르 푸시킨",
+  "books": 5,
+  "verdict": "write",
+  "why": "삶이 그대를 속일지라도의 대문호"
+ },
+ "rembrandt-van-rijn": {
+  "slug": "rembrandt-van-rijn",
+  "nickname": "렘브란트 판 레인",
+  "books": 5,
+  "verdict": "write",
+  "why": "빛의 화가로 유명한 서양화 거장"
+ },
+ "tom-anderson": {
+  "slug": "tom-anderson",
+  "nickname": "톰 앤더슨",
+  "books": 5,
+  "verdict": "skip",
+  "why": "국내 마이스페이스 인지도 낮음"
+ },
+ "ryuichi-sakamoto": {
+  "slug": "ryuichi-sakamoto",
+  "nickname": "사카모토 류이치",
+  "books": 5,
+  "verdict": "write",
+  "why": "영화음악 거장으로 국내 인지도 높음"
+ },
+ "wang-wei": {
+  "slug": "wang-wei",
+  "nickname": "왕유",
+  "books": 5,
+  "verdict": "skip",
+  "why": "한시 시인으로 대중 인지도 낮음"
+ },
+ "lee-o-young": {
+  "slug": "lee-o-young",
+  "nickname": "이어령",
+  "books": 5,
+  "verdict": "write",
+  "why": "국내 대표 석학으로 인지도 높음"
+ },
+ "ralph-fiennes": {
+  "slug": "ralph-fiennes",
+  "nickname": "레이프 파인스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "유명 배역 대비 본명 인지도 낮음"
+ },
+ "ben-mann": {
+  "slug": "ben-mann",
+  "nickname": "벤 맨",
+  "books": 5,
+  "verdict": "skip",
+  "why": "국내 대중 인지도 거의 없음"
+ },
+ "paul-valery": {
+  "slug": "paul-valery",
+  "nickname": "폴 발레리",
+  "books": 5,
+  "verdict": "skip",
+  "why": "문학 애호가 외 대중 인지도 낮음"
+ },
+ "ingmar-bergman": {
+  "slug": "ingmar-bergman",
+  "nickname": "잉마르 베리만",
+  "books": 5,
+  "verdict": "skip",
+  "why": "시네필 외 일반 대중 인지도 낮음"
+ },
+ "hwang-hyun-san": {
+  "slug": "hwang-hyun-san",
+  "nickname": "황현산",
+  "books": 5,
+  "verdict": "skip",
+  "why": "출판계 외 일반 대중 인지도 낮음"
+ },
+ "kim-chun-su": {
+  "slug": "kim-chun-su",
+  "nickname": "김춘수",
+  "books": 5,
+  "verdict": "write",
+  "why": "대표 시 「꽃」으로 국민적 인지도"
+ },
+ "che-guevara": {
+  "slug": "che-guevara",
+  "nickname": "체 게바라",
+  "books": 5,
+  "verdict": "write",
+  "why": "혁명의 상징으로 국내 인지도 높음"
+ },
+ "victor-wembanyama": {
+  "slug": "victor-wembanyama",
+  "nickname": "빅터 웸반야마",
+  "books": 5,
+  "verdict": "skip",
+  "why": "농구 팬 외 일반 대중 인지도 낮음"
+ },
+ "sting": {
+  "slug": "sting",
+  "nickname": "스팅",
+  "books": 5,
+  "verdict": "write",
+  "why": "유명 팝스타로 국내 인지도 높음"
+ },
+ "shohei-ohtani": {
+  "slug": "shohei-ohtani",
+  "nickname": "오타니 쇼헤이",
+  "books": 5,
+  "verdict": "write",
+  "why": "메이저리그 스타로 국민적 인지도"
+ },
+ "stanley-kubrick": {
+  "slug": "stanley-kubrick",
+  "nickname": "스탠리 큐브릭",
+  "books": 5,
+  "verdict": "write",
+  "why": "거장 영화감독으로 인지도 높음"
+ },
+ "mark-twain": {
+  "slug": "mark-twain",
+  "nickname": "마크 트웨인",
+  "books": 5,
+  "verdict": "write",
+  "why": "톰 소여 작가로 국내 인지도 높음"
+ },
+ "robert-downey-jr.": {
+  "slug": "robert-downey-jr.",
+  "nickname": "로버트 다우니 주니어",
+  "books": 5,
+  "verdict": "write",
+  "why": "아이언맨 배우로 국내 인지도 높음"
+ },
+ "wachowski-sisters": {
+  "slug": "wachowski-sisters",
+  "nickname": "워쇼스키 자매",
+  "books": 5,
+  "verdict": "write",
+  "why": "매트릭스 연출로 국내 인지도 높음"
+ },
+ "diane-arbus": {
+  "slug": "diane-arbus",
+  "nickname": "다이앤 아버스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "예술계 외 일반 대중 인지도 낮음"
+ },
+ "nicolaus-copernicus": {
+  "slug": "nicolaus-copernicus",
+  "nickname": "니콜라우스 코페르니쿠스",
+  "books": 5,
+  "verdict": "write",
+  "why": "지동설로 유명한 과학사 대표 인물"
+ },
+ "lu-hsun": {
+  "slug": "lu-hsun",
+  "nickname": "노신",
+  "books": 5,
+  "verdict": "write",
+  "why": "아Q정전 작가로 교과서 수록 인물"
+ },
+ "julia-child": {
+  "slug": "julia-child",
+  "nickname": "줄리아 차일드",
+  "books": 5,
+  "verdict": "skip",
+  "why": "미국 요리사로 국내 대중 인지도 낮음"
+ },
+ "zhou-dunyi": {
+  "slug": "zhou-dunyi",
+  "nickname": "주돈이",
+  "books": 5,
+  "verdict": "skip",
+  "why": "유학 전공자 외 국내 대중 인지도 낮음"
+ },
+ "lorenzo-de-medici": {
+  "slug": "lorenzo-de-medici",
+  "nickname": "로렌초 데 메디치",
+  "books": 5,
+  "verdict": "skip",
+  "why": "메디치 가문 대비 개인 인지도 애매"
+ },
+ "michael-stevens": {
+  "slug": "michael-stevens",
+  "nickname": "마이클 스티븐스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "영어권 유튜버로 국내 인지도 낮음"
+ },
+ "ayn-rand": {
+  "slug": "ayn-rand",
+  "nickname": "아인 랜드",
+  "books": 5,
+  "verdict": "skip",
+  "why": "미국 소설가로 국내 대중 인지도 낮음"
+ },
+ "zhuge-liang": {
+  "slug": "zhuge-liang",
+  "nickname": "제갈량",
+  "books": 5,
+  "verdict": "write",
+  "why": "삼국지 최고 지략가로 전 국민이 앎"
+ },
+ "friedrich-hayek": {
+  "slug": "friedrich-hayek",
+  "nickname": "프리드리히 하이에크",
+  "books": 5,
+  "verdict": "write",
+  "why": "신자유주의 대표 경제학자로 교과서 수록"
+ },
+ "chris-pine": {
+  "slug": "chris-pine",
+  "nickname": "크리스 파인",
+  "books": 5,
+  "verdict": "skip",
+  "why": "출연작 대비 배우 이름 인지도 애매"
+ },
+ "clive-owen": {
+  "slug": "clive-owen",
+  "nickname": "클라이브 오웬",
+  "books": 5,
+  "verdict": "skip",
+  "why": "영국 배우로 국내 일반 인지도 낮음"
+ },
+ "cameron-winklevoss": {
+  "slug": "cameron-winklevoss",
+  "nickname": "카메론 윙클보스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "가상화폐 업계 외 대중 인지도 낮음"
+ },
+ "zhang-hong": {
+  "slug": "zhang-hong",
+  "nickname": "장굉",
+  "books": 5,
+  "verdict": "skip",
+  "why": "삼국지 매니아 외 대중 인지도 낮음"
+ },
+ "judea-pearl": {
+  "slug": "judea-pearl",
+  "nickname": "유다 펄",
+  "books": 5,
+  "verdict": "skip",
+  "why": "컴퓨터과학 분야 외 대중 인지도 낮음"
+ },
+ "aravind-srinivas": {
+  "slug": "aravind-srinivas",
+  "nickname": "아라빈드 스리니바스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "IT 업계 외 국내 대중 인지도 낮음"
+ },
+ "alexandr-wang": {
+  "slug": "alexandr-wang",
+  "nickname": "알렉산더 왕",
+  "books": 5,
+  "verdict": "skip",
+  "why": "AI 스타트업 외 국내 인지도 낮음"
+ },
+ "cheng-hao": {
+  "slug": "cheng-hao",
+  "nickname": "정호",
+  "books": 5,
+  "verdict": "skip",
+  "why": "성리학 학자라 일반 대중 인지도 낮음"
+ },
+ "john-mccarthy": {
+  "slug": "john-mccarthy",
+  "nickname": "존 매카시",
+  "books": 5,
+  "verdict": "skip",
+  "why": "AI 창시자이나 국내 대중 인지도 낮음"
+ },
+ "jared-kushner": {
+  "slug": "jared-kushner",
+  "nickname": "재러드 쿠슈너",
+  "books": 5,
+  "verdict": "skip",
+  "why": "트럼프 사위이나 이름 인지도 낮음"
+ },
+ "hwang-sok-yong": {
+  "slug": "hwang-sok-yong",
+  "nickname": "황석영",
+  "books": 5,
+  "verdict": "write",
+  "why": "장길산 등을 쓴 한국 대표 거장 작가"
+ },
+ "edwin-hubble": {
+  "slug": "edwin-hubble",
+  "nickname": "에드윈 허블",
+  "books": 5,
+  "verdict": "write",
+  "why": "허블 망원경으로 교과서에 널리 알려짐"
+ },
+ "ricky-jay": {
+  "slug": "ricky-jay",
+  "nickname": "리키 제이",
+  "books": 5,
+  "verdict": "skip",
+  "why": "미국 마술사로 국내 인지도 전무"
+ },
+ "jamie-oliver": {
+  "slug": "jamie-oliver",
+  "nickname": "제이미 올리버",
+  "books": 5,
+  "verdict": "skip",
+  "why": "영국 스타 셰프이나 국내 인지도 애매"
+ },
+ "james-franco": {
+  "slug": "james-franco",
+  "nickname": "제임스 프랭코",
+  "books": 5,
+  "verdict": "skip",
+  "why": "영화 팬 외 일반 대중 인지도 애매"
+ },
+ "yan-yuan": {
+  "slug": "yan-yuan",
+  "nickname": "안원",
+  "books": 5,
+  "verdict": "skip",
+  "why": "국내 대중에게 생소한 청나라 유학자"
+ },
+ "igor-babuschkin": {
+  "slug": "igor-babuschkin",
+  "nickname": "이고르 바부슈킨",
+  "books": 5,
+  "verdict": "skip",
+  "why": "AI 연구원이라 일반 대중 인지도 없음"
+ },
+ "benito-mussolini": {
+  "slug": "benito-mussolini",
+  "nickname": "베니토 무솔리니",
+  "books": 5,
+  "verdict": "write",
+  "why": "파시즘 창시자로 세계사 교과서 필수"
+ },
+ "johnny-cash": {
+  "slug": "johnny-cash",
+  "nickname": "조니 캐시",
+  "books": 5,
+  "verdict": "skip",
+  "why": "미국 전설이나 국내 대중 인지도 낮음"
+ },
+ "virginia-woolf": {
+  "slug": "virginia-woolf",
+  "nickname": "버지니아 울프",
+  "books": 5,
+  "verdict": "write",
+  "why": "자기만의 방 작가로 국내 인지도 높음"
+ },
+ "im-kwon-taek": {
+  "slug": "im-kwon-taek",
+  "nickname": "임권택",
+  "books": 5,
+  "verdict": "write",
+  "why": "서편제를 연출한 한국 영화계 거장"
+ },
+ "bai-juyi": {
+  "slug": "bai-juyi",
+  "nickname": "백거이",
+  "books": 5,
+  "verdict": "skip",
+  "why": "이백과 두보에 비해 대중 인지도 낮음"
+ },
+ "john-maynard-keynes": {
+  "slug": "john-maynard-keynes",
+  "nickname": "존 메이너드 케인스",
+  "books": 5,
+  "verdict": "write",
+  "why": "수정자본주의 대표 경제학자로 유명"
+ },
+ "sam-harris": {
+  "slug": "sam-harris",
+  "nickname": "샘 해리스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "신무신론 철학자로 국내 인지도 낮음"
+ },
+ "maximilien-robespierre": {
+  "slug": "maximilien-robespierre",
+  "nickname": "막시밀리앙 드 로베스피에르",
+  "books": 5,
+  "verdict": "write",
+  "why": "프랑스 혁명 공포정치 주도로 유명"
+ },
+ "cao-pi": {
+  "slug": "cao-pi",
+  "nickname": "조비",
+  "books": 5,
+  "verdict": "skip",
+  "why": "조조에 비해 일반 대중 인지도 낮음"
+ },
+ "emperor-yang-of-sui": {
+  "slug": "emperor-yang-of-sui",
+  "nickname": "수 양제",
+  "books": 5,
+  "verdict": "write",
+  "why": "살수대첩 상대 수나라 황제로 유명"
+ },
+ "jean-paul-sartre": {
+  "slug": "jean-paul-sartre",
+  "nickname": "장 폴 사르트르",
+  "books": 5,
+  "verdict": "write",
+  "why": "실존주의 철학 대표자로 널리 알려짐"
+ },
+ "ali-ghodsi": {
+  "slug": "ali-ghodsi",
+  "nickname": "알리 고드시",
+  "books": 5,
+  "verdict": "skip",
+  "why": "데이터 업계 외 국내 대중 인지도 없음"
+ },
+ "wright-brothers": {
+  "slug": "wright-brothers",
+  "nickname": "라이트 형제",
+  "books": 5,
+  "verdict": "write",
+  "why": "비행기 발명가로 전 국민이 아는 인물"
+ },
+ "empress-elisabeth": {
+  "slug": "empress-elisabeth",
+  "nickname": "시시 황후",
+  "books": 5,
+  "verdict": "skip",
+  "why": "뮤지컬 외 일반 대중 인지도 애매"
+ },
+ "isadora-duncan": {
+  "slug": "isadora-duncan",
+  "nickname": "이사도라 덩컨",
+  "books": 5,
+  "verdict": "skip",
+  "why": "무용계 거장이나 대중 인지도 애매"
+ },
+ "franz-schubert": {
+  "slug": "franz-schubert",
+  "nickname": "프란츠 슈베르트",
+  "books": 5,
+  "verdict": "write",
+  "why": "가곡의 왕으로 음악 교과서 필수 인물"
+ },
+ "meng-haoran": {
+  "slug": "meng-haoran",
+  "nickname": "맹호연",
+  "books": 5,
+  "verdict": "skip",
+  "why": "한문 교육 외 일반 대중 인지도 낮음"
+ },
+ "david-hockney": {
+  "slug": "david-hockney",
+  "nickname": "데이비드 호크니",
+  "books": 5,
+  "verdict": "skip",
+  "why": "미술 애호가 외 일반 대중 인지도 애매"
+ },
+ "edward-snowden": {
+  "slug": "edward-snowden",
+  "nickname": "에드워드 스노든",
+  "books": 5,
+  "verdict": "write",
+  "why": "NSA 감시 폭로로 국내에도 널리 알려짐"
+ },
+ "socrates": {
+  "slug": "socrates",
+  "nickname": "소크라테스",
+  "books": 5,
+  "verdict": "write",
+  "why": "고대 그리스 철학자로 전 국민이 앎"
+ },
+ "tony-robbins": {
+  "slug": "tony-robbins",
+  "nickname": "토니 로빈스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "자기계발 독자 외 대중 인지도 낮음"
+ },
+ "john-jay": {
+  "slug": "john-jay",
+  "nickname": "존 제이",
+  "books": 5,
+  "verdict": "skip",
+  "why": "미국사 전공자 외 국내 인지도 낮음"
+ },
+ "jean-jacques-rousseau": {
+  "slug": "jean-jacques-rousseau",
+  "nickname": "장 자크 루소",
+  "books": 5,
+  "verdict": "write",
+  "why": "사회계약론·에밀로 유명한 사상가"
+ },
+ "roger-bacon": {
+  "slug": "roger-bacon",
+  "nickname": "로저 베이컨",
+  "books": 5,
+  "verdict": "skip",
+  "why": "프랜시스 베이컨 대비 국내 인지도 낮음"
+ },
+ "jonathan-haidt": {
+  "slug": "jonathan-haidt",
+  "nickname": "조너선 하이트",
+  "books": 5,
+  "verdict": "skip",
+  "why": "심리학 도서 독자 외 대중 인지도 낮음"
+ },
+ "benjamin-franklin": {
+  "slug": "benjamin-franklin",
+  "nickname": "벤자민 프랭클린",
+  "books": 5,
+  "verdict": "write",
+  "why": "100달러 지폐 인물이자 피뢰침 발명가"
+ },
+ "hieronymus": {
+  "slug": "hieronymus",
+  "nickname": "히에로니무스",
+  "books": 5,
+  "verdict": "skip",
+  "why": "신학·종교계 외 국내 대중 인지도 낮음"
+ },
+ "salvador-dali": {
+  "slug": "salvador-dali",
+  "nickname": "살바도르 달리",
+  "books": 5,
+  "verdict": "write",
+  "why": "녹아내리는 시계로 유명한 거장 화가"
+ },
+ "alfred-hitchcock": {
+  "slug": "alfred-hitchcock",
+  "nickname": "알프레드 히치콕",
+  "books": 5,
+  "verdict": "write",
+  "why": "서스펜스 영화 거장으로 널리 알려짐"
+ },
+ "malcolm-x": {
+  "slug": "malcolm-x",
+  "nickname": "말콤 엑스",
+  "books": 5,
+  "verdict": "write",
+  "why": "흑인 민권운동가로 국내 인지도 높음"
+ },
+ "li-zhi": {
+  "slug": "li-zhi",
+  "nickname": "이탁오",
+  "books": 5,
+  "verdict": "skip",
+  "why": "명나라 사상가로 국내 대중 모름"
+ },
+ "stephen-curry": {
+  "slug": "stephen-curry",
+  "nickname": "스테판 커리",
+  "books": 5,
+  "verdict": "write",
+  "why": "NBA 스타로 무한도전 출연 등 유명"
+ },
+ "clarice-lispector": {
+  "slug": "clarice-lispector",
+  "nickname": "클라리시 리스펙토르",
+  "books": 5,
+  "verdict": "skip",
+  "why": "국내 대중에게 매우 생소한 브라질 작가"
+ },
+ "peter-lynch": {
+  "slug": "peter-lynch",
+  "nickname": "피터 린치",
+  "books": 5,
+  "verdict": "skip",
+  "why": "주식 투자자 외 일반 대중 인지도 애매"
  }
 }

@@ -109,8 +109,7 @@ export default function FilterChipDropdown({
 
   const handleToggle = () => {
     if (!isOpen && containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      setDropdownPos({ top: rect.bottom + 4, left: rect.left });
+      updateDropdownPosition();
       // 스코프 안에 포털하면 isolation 쌓임 맥락에 갇혀 스티키 헤더 뒤에 깔린다.
       // body 포털을 유지하고 accent 변수만 복사해 패널에 직접 실는다.
       const scope = containerRef.current.closest("[data-world-material]");
