@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 머리말 — 대표 화보·얼굴 사진
+ * - 목차 위치: 머리말 (introduction)
+ * - 데이터: photoUrl/avatarUrl/nickname props
+ * - 함께 보기: detail/CelebHeroSection.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import Image from "next/image";
@@ -59,9 +65,24 @@ export default function CelebHeroPhoto({
   const badgeEnd = photoUrl ? "end-2" : "end-[-6px]";
   const badgeStart = photoUrl ? "start-2" : "start-[-6px]";
 
-  const voiceBadge = (
-    <div className={`pointer-events-none absolute ${badgeY} ${badgeEnd} z-[2]`} aria-hidden="true">
-      <VoiceBadge size="lg" active={hasVoice} />
+  /* ── 1. 음성 뱃지·확대 단추 ── */
+  // 배지는 아바타 위로 확실히 띄운다. VoiceBadge 바탕이 반투명이라
+  // 아바타가 비쳐 보이므로 뒤에 불투명 원을 깔고 층위도 위로 둔다.
+  const badgePlace = `absolute ${badgeY} ${badgeEnd} z-[4] rounded-full bg-black shadow-md`;
+  // 스피커 배지도 아바타와 같은 인사 대사를 낸다. 모양은 그대로 두고 누를 수만 있게 한다.
+  const voiceBadge = canShowGreeting ? (
+    <button
+      type="button"
+      onClick={handleGreetingClick}
+      aria-label={greetLabel}
+      aria-pressed={hasVoice ? isVoicePlaying : undefined}
+      className={`${badgePlace} cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
+    >
+      <VoiceBadge size="lg" active={hasVoice} playing={isVoicePlaying} />
+    </button>
+  ) : (
+    <div className={`pointer-events-none ${badgePlace}`} aria-hidden="true">
+      <VoiceBadge size="lg" active={hasVoice} playing={isVoicePlaying} />
     </div>
   );
 
@@ -78,6 +99,7 @@ export default function CelebHeroPhoto({
     </button>
   );
 
+  /* ── 2. 화보 렌더 ── */
   if (photoUrl) {
     return (
       <div
@@ -104,6 +126,8 @@ export default function CelebHeroPhoto({
             alt={nickname}
             fill
             unoptimized
+            priority
+            fetchPriority="high"
             sizes={`${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px`}
             className="object-cover"
             style={{ filter: "none" }}
@@ -115,6 +139,7 @@ export default function CelebHeroPhoto({
     );
   }
 
+  /* ── 3. 아바타 대체 렌더 ── */
   return (
     <div className={`relative flex-shrink-0 self-start ${avatarSize}`}>
       <button
