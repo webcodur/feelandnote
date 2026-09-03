@@ -441,6 +441,11 @@
         "next": "Next",
         "last": "Last",
         "perPage": "/ page"
+      },
+      "swipe": {
+        "previous": "Previous page",
+        "next": "Next page",
+        "dot": "Page {index} of {count}"
       }
     },
     "search": {

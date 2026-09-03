@@ -442,6 +442,11 @@
         "next": "다음",
         "last": "마지막",
         "perPage": "/ 페이지"
+      },
+      "swipe": {
+        "previous": "이전 쪽",
+        "next": "다음 쪽",
+        "dot": "{index}번째 / 전체 {count}개"
       }
     },
     "search": {

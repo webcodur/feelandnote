@@ -9,6 +9,7 @@
 import { useTranslations } from "next-intl";
 import { MapPin } from "lucide-react";
 
+import SwipeControls from "@/components/ui/SwipeControls";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import { timelineYearCopy } from "./journeyTimeline";
 import TimelineIndexTick from "./TimelineIndexTick";
@@ -136,6 +137,9 @@ export default function JourneyEventExpandedList({
           );
         })}
       </div>
+
+      {/* 넘길 수 있다는 표시 — 넓은 화면에서는 목록이 세로로 서므로 사라진다 */}
+      <SwipeControls count={events.length} />
     </div>
   );
 }
