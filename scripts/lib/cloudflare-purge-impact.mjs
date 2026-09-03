@@ -122,6 +122,9 @@ const CELEB_PREFIXES = [
 ]
 
 const CELEB_FILES = new Set([
+  // 세계관 배너와 스냅 캐러셀은 보관 대상 화면 중 인물 상세(히어로·스펙트럼)에만 실린다.
+  'sw/web/src/components/features/celeb/CelebWorldBannerView.tsx',
+  'sw/web/src/components/ui/SnapCarousel.tsx',
   // 인사 대사는 인물 상세의 관계망에서만 부른다.
   'sw/web/src/actions/celebs/getCelebGreetingProfile.ts',
   'sw/web/src/actions/celebs/getCelebSideData.ts',
@@ -217,6 +220,28 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/actions/library/types.ts',
   'sw/web/src/app/[locale]/(main)/explore/page.tsx',
   'sw/web/src/app/[locale]/(main)/explore/sections.tsx',
+  'sw/web/src/app/[locale]/(main)/sections.tsx',
+  'sw/web/src/app/[locale]/not-found.tsx',
+  // 홈 전용 부품. 같은 폴더의 AffiliateBookList는 인물 상세도 그리므로 celeb에 남는다.
+  'sw/web/src/components/features/home/HomeBrandHeader.tsx',
+  'sw/web/src/components/features/home/HomeNoticeList.tsx',
+  'sw/web/src/components/features/home/HomeNoticeSection.tsx',
+  'sw/web/src/components/features/home/IntroFrame.tsx',
+  'sw/web/src/components/features/home/QuickRecordDock.tsx',
+  // 오늘의 인물 구획은 홈과 explore/today에만 선다. 둘 다 보관 대상이 아니다.
+  'sw/web/src/components/features/figure/TodayFigureSection.tsx',
+  // 기관 선정 허브·목록은 서재 화면 전용이다.
+  'sw/web/src/components/features/library/curated/CuratedBrowseTabs.tsx',
+  'sw/web/src/components/features/library/curated/CuratedHubView.tsx',
+  'sw/web/src/components/features/library/curated/CuratedListCard.tsx',
+  'sw/web/src/components/features/library/curated/CuratedListModal.tsx',
+  'sw/web/src/components/features/library/curated/CuratorAccordion.tsx',
+  'sw/web/src/components/features/library/curated/CuratorView.tsx',
+  'sw/web/src/components/features/library/curated/curatorBrandPalettes.ts',
+  'sw/web/src/components/features/library/curated/useCuratedBrowse.ts',
+  'sw/web/src/components/features/library/hub/CuratedHubBrowse.tsx',
+  // 종류별 개수 칩의 소비자는 오늘의 인물 구획(홈·explore/today)뿐이다.
+  'sw/web/src/components/ui/ContentTypeSummary.tsx',
   'sw/web/src/app/[locale]/(main)/library/curated/page.tsx',
   'sw/web/src/app/[locale]/(main)/library/popular/page.tsx',
   'sw/web/src/app/[locale]/(main)/library/sections.tsx',
@@ -267,6 +292,7 @@ const CACHED_HTML_FILES = new Set([
   // 로고는 그 바닥글 안에서만 쓰인다.
   'sw/web/src/components/ui/Layout/Footer.tsx',
   'sw/web/src/components/ui/Logo.tsx',
+  'sw/web/src/components/ui/Logo.module.css',
   // 공용 UI 배럴은 보관 대상 화면 전반이 함께 끌어 쓴다.
   'sw/web/src/components/ui/index.ts',
   'sw/web/src/app/[locale]/(main)/layout.tsx',
