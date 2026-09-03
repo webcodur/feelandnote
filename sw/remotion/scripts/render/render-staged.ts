@@ -15,7 +15,7 @@
 import { spawn } from 'child_process'
 import { buildRenderStage, cleanRenderStage, mb } from './stage.js'
 
-const USAGE = '사용: pnpm render:staged -- --episode <편> [--series faction|discourse] [--still] [--full-public] <컴포지션> <출력> [렌더 옵션…]'
+const USAGE = '사용: pnpm render:staged -- --episode <편> [--series faction|discourse|book-person] [--still] [--full-public] <컴포지션> <출력> [렌더 옵션…]'
 
 interface Args {
   episode: string

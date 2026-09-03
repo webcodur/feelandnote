@@ -27,6 +27,8 @@ export type BookPersonScript = {
   role?: string
   /** 가운데 문장 제목. 나레이터가 읽고 지나간다 */
   lead?: string
+  leadDuration?: number
+  leadVoice?: string
   intro: string
   books: BookPersonBook[]
   title?: string
@@ -47,7 +49,7 @@ export type BookPersonBeat = {
 export function buildBeats(script: BookPersonScript): BookPersonBeat[] {
   const beats: BookPersonBeat[] = []
   if (script.lead?.trim()) {
-    beats.push({ id: 'lead', kind: 'lead', text: script.lead.trim() })
+    beats.push({ id: 'lead', kind: 'lead', text: script.lead.trim(), duration: script.leadDuration, voice: script.leadVoice })
   }
   if (script.intro.trim()) {
     beats.push({ id: 'intro', kind: 'intro', text: script.intro })
