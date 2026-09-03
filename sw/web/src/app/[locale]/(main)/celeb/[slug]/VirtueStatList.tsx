@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] analysis — 덕목(내면·외면) 스탯 목록
+ * - 목차 위치: analysis > spectrum
+ * - 데이터: innerItems/outerItems props
+ * - 함께 보기: StatReasonBox.tsx, SpectrumSection.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useState } from "react";

@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] videos — 로케일별 영상 선별 유틸
+ * - 목차 위치: media > videos
+ * - 데이터: profile.youtube_videos, locale
+ * - 함께 보기: detail/useCelebServiceModel.ts, VideosSection.tsx
+ * ───────────────────────────────────────────── */
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { formatCelebPeriod } from "@/lib/utils/celeb-period";
 import type { Locale } from "@/types/locale";

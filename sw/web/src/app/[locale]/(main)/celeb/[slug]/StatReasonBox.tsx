@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] analysis — 스탯 근거 상자(공용)
+ * - 목차 위치: analysis > spectrum
+ * - 데이터: hint/empty/reason/active props
+ * - 함께 보기: AbilityStatList.tsx, DispositionStatList.tsx, VirtueStatList.tsx
+ * ───────────────────────────────────────────── */
 interface Props {
   hint: string;
   empty: string;

@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] analysis — 분석 구획 지연 로더
+ * - 목차 위치: analysis (spectrum/influence)
+ * - 데이터: getCelebAnalysis(celebId, locale) 서버액션
+ * - 함께 보기: FigureAnalysisTabs.tsx, detail/CelebRecordSections.tsx
+ * ───────────────────────────────────────────── */
 /*
   파일명: /app/(main)/celeb/[slug]/detail/CelebAnalysisDeferred.tsx
   기능: 분석 구획(성향 스펙트럼·영향력)을 화면이 다가왔을 때 불러온다

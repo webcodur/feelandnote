@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] connections — 인물·시대 탭(관계망·세력)
+ * - 목차 위치: connections (relations/faction)
+ * - 데이터: item.children/relations/factions props
+ * - 함께 보기: RelationGraphSection.tsx, FactionSection.tsx, ArchiveTabsHeader.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useState } from "react";
@@ -65,8 +71,7 @@ export default function PeopleAndEraTabs({
         onChange={setTab}
         columnsClassName={columnsClassName}
         ariaLabel={t(isFiction ? "fictionConnections" : "connections")}
-        className="mb-3 sm:mb-3"
-        mobileTextClassName="h-12 text-lg font-bold hover:text-accent focus-visible:text-accent sm:h-14 sm:text-xl"
+        className="mb-0 sm:mb-0"
       />
 
       <div

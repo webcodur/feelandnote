@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] connections — 관계 구획 지연 로더
+ * - 목차 위치: connections (relations/faction)
+ * - 데이터: getCelebConnections(slug, locale) 서버액션
+ * - 함께 보기: PeopleAndEraTabs.tsx, detail/CelebRecordSections.tsx
+ * ───────────────────────────────────────────── */
 /*
   파일명: /app/(main)/celeb/[slug]/detail/CelebConnectionsDeferred.tsx
   기능: 관계 구획(관계망·세력도감)을 화면이 다가왔을 때 불러온다

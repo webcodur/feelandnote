@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 머리말 — 조회수 집계·안내 모달
+ * - 목차 위치: 머리말 (introduction)
+ * - 데이터: incrementCelebView/getCelebViewStats 서버액션
+ * - 함께 보기: CelebViewsModal(공용), detail/CelebHeroSection.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useEffect, useState } from "react";

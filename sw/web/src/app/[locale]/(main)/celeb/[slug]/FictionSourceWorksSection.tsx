@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] sourceWorks — 등장·연관 작품 고름틀
+ * - 목차 위치: sourceWorks
+ * - 데이터: sources/nickname props
+ * - 함께 보기: FictionSourceFeature.tsx, detail/CelebRecordSections.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useState } from "react";

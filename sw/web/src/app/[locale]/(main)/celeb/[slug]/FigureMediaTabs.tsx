@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] media — 미디어 탭(대사·영상)
+ * - 목차 위치: media (dialogues/videos)
+ * - 데이터: item.children/dialogueLines/longform/shorts props
+ * - 함께 보기: DialogueSection.tsx, VideosSection.tsx, ArchiveTabsHeader.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useState } from "react";

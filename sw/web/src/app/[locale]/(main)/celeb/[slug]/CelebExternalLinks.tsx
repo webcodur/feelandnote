@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] 머리말 — 외부 링크 모달(클라이언트)
+ * - 목차 위치: 머리말 (introduction)
+ * - 데이터: links/copy props
+ * - 함께 보기: CelebExternalLinksServer.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useCallback, useState } from "react";

@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] analysis — 성향(양극) 스탯 목록
+ * - 목차 위치: analysis > spectrum
+ * - 데이터: items(neg/pos/값/근거) props
+ * - 함께 보기: StatReasonBox.tsx, SpectrumSection.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useState } from "react";

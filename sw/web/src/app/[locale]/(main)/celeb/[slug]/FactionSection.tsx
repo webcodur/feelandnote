@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] faction — 세력도감 넘김
+ * - 목차 위치: connections > faction
+ * - 데이터: factions/currentCelebId props
+ * - 함께 보기: PeopleAndEraTabs.tsx, detail/CelebConnectionsDeferred.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import dynamic from "next/dynamic";
