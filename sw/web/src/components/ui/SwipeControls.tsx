@@ -21,6 +21,33 @@ const DRAG_SLOP = 6;
 /** 점으로 세울 수 있는 쪽 수의 한계. 넘으면 좁은 화면에서 점 줄이 화면 밖으로 나간다 */
 const MAX_DOTS = 8;
 
+/**
+ * 쪽 하나가 놓인 자리. 쪽 사이에 틈(gap)이 있어 「폭 × 번호」와 실제 자리가 다르다.
+ * 그 값으로 옮기면 엉뚱한 데로 갔다가 스냅이 도로 끌어당겨, 갔다 되돌아오는 것처럼 보인다.
+ */
+function pageOffset(deck: HTMLElement, index: number): number | null {
+  const child = deck.children[index] as HTMLElement | undefined;
+  if (!child) return null;
+  return child.getBoundingClientRect().left - deck.getBoundingClientRect().left + deck.scrollLeft;
+}
+
+/** 지금 화면 왼쪽 끝에 가장 가까운 쪽 */
+function nearestIndex(deck: HTMLElement): number | null {
+  const children = Array.from(deck.children) as HTMLElement[];
+  if (children.length === 0) return null;
+  const deckLeft = deck.getBoundingClientRect().left;
+  let best = 0;
+  let bestGap = Number.POSITIVE_INFINITY;
+  children.forEach((child, index) => {
+    const gap = Math.abs(child.getBoundingClientRect().left - deckLeft);
+    if (gap < bestGap) {
+      bestGap = gap;
+      best = index;
+    }
+  });
+  return best;
+}
+
 export default function SwipeControls({
   count,
   className,
@@ -41,10 +68,9 @@ export default function SwipeControls({
     if (!deck) return;
 
     const sync = () => {
-      const page = deck.clientWidth;
-      if (page <= 0) return;
-      const next = Math.max(0, Math.min(count - 1, Math.round(deck.scrollLeft / page)));
-      setActive((current) => (current === next ? current : next));
+      const nearest = nearestIndex(deck);
+      if (nearest === null) return;
+      setActive((current) => (current === nearest ? current : nearest));
     };
     sync();
     deck.addEventListener("scroll", sync, { passive: true });
@@ -82,11 +108,9 @@ export default function SwipeControls({
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
+      // 스냅을 되돌리면 브라우저가 스스로 가장 가까운 쪽에 붙인다.
+      // 여기서 또 옮기면 두 힘이 겹쳐 갔다가 되돌아온다.
       deck.style.scrollSnapType = "";
-      const page = deck.clientWidth;
-      if (page > 0) {
-        deck.scrollTo({ left: Math.round(deck.scrollLeft / page) * page, behavior: "smooth" });
-      }
     };
 
     // 끌어서 밀고 손을 뗀 자리가 링크 위였다고 그 링크로 가면 안 된다
@@ -122,7 +146,9 @@ export default function SwipeControls({
     const deck = deckRef.current;
     if (!deck) return;
     const bounded = Math.max(0, Math.min(count - 1, index));
-    deck.scrollTo({ left: bounded * deck.clientWidth, behavior: "smooth" });
+    const target = pageOffset(deck, bounded);
+    if (target === null) return;
+    deck.scrollTo({ left: target, behavior: "smooth" });
     setActive(bounded);
   }, [count]);
 
@@ -167,10 +193,12 @@ export default function SwipeControls({
             >
               <span
                 className={cn(
-                  "h-1.5 rounded-full transition-[width,background-color] duration-200 ease-out",
+                  // 크기는 건드리지 않는다. 활성만 폭을 늘리면 넘길 때마다 점이
+                  // 제자리에서 줄었다 커졌다 해 눈에 거슬린다 — 색으로만 가른다
+                  "size-1.5 rounded-full transition-colors duration-200 ease-out",
                   index === active
-                    ? "w-4 bg-accent"
-                    : "w-1.5 bg-accent-dim/45 group-hover:bg-accent-dim",
+                    ? "bg-accent ring-2 ring-accent/25"
+                    : "bg-text-secondary/55 group-hover:bg-text-secondary",
                 )}
               />
             </button>
