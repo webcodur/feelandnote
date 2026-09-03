@@ -1,0 +1,3224 @@
+{
+  "generatedAt": "2026-09-03T01:54:41.557Z",
+  "filter": {
+    "profession": "politician",
+    "scope": "unlinked",
+    "publicOnly": false,
+    "representativeOnly": false,
+    "verifiedKakaoWithIsbn": true,
+    "maximumCandidates": 12,
+    "signals": [
+      "context"
+    ]
+  },
+  "totals": {
+    "peopleScanned": 240,
+    "targetPeople": 189,
+    "eligibleBooks": 5808,
+    "candidateRows": 64,
+    "candidatePeople": 29,
+    "unmatchedPeople": 160,
+    "publicCandidateRows": 0
+  },
+  "candidates": [
+    {
+      "person": {
+        "id": "1b2fd1a5-eaca-439a-9465-eaf6ae2d2906",
+        "slug": "marie-antoinette",
+        "nickname": "마리 앙투아네트",
+        "nicknameEn": "Marie Antoinette",
+        "profession": "politician",
+        "headline": "바렌 탈출에 실패한 프랑스 왕비",
+        "bio": "오스트리아 출신 프랑스 왕비. 프랑스 혁명의 상징적 희생자로, 사치와 무관심의 대명사로 각인되었으나 실제로는 예술 후원과 비밀 독서에 몰두한 지적 여성이다."
+      },
+      "book": {
+        "contentId": "c1a865d0-b2c1-4e06-b418-83145e4b674d",
+        "title": "프랑스혁명에 관한 성찰",
+        "creator": "에드먼드 버크",
+        "description": null,
+        "isbn": "9788935664542",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 1,
+          "bestRank": 78,
+          "listTitles": [
+            "역대 최고의 논픽션 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 48.31,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "프랑스혁명"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "2bbb5d80-b0f5-4af0-8218-8c2ed13fb2be",
+        "slug": "louis-xvi",
+        "nickname": "루이 16세",
+        "nicknameEn": "Louis XVI",
+        "profession": "politician",
+        "headline": "프랑스 혁명 중 단두대에 오른 왕",
+        "bio": "프랑스 부르봉 왕조의 마지막 국왕. 프랑스 혁명으로 왕위를 잃고 단두대에서 처형되었다."
+      },
+      "book": {
+        "contentId": "c1a865d0-b2c1-4e06-b418-83145e4b674d",
+        "title": "프랑스혁명에 관한 성찰",
+        "creator": "에드먼드 버크",
+        "description": null,
+        "isbn": "9788935664542",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 1,
+          "bestRank": 78,
+          "listTitles": [
+            "역대 최고의 논픽션 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 48.31,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "프랑스혁명"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "30333d9d-2b2a-432f-afd8-5c18d8a03e02",
+        "slug": "syngman-rhee",
+        "nickname": "이승만",
+        "nicknameEn": "Syngman Rhee",
+        "profession": "politician",
+        "headline": "대한민국 초대 대통령에서 4·19로 물러난 권력자",
+        "bio": "대한민국의 초대 대통령. 독립운동가이자 정치가로, 대한민국 건국에 지대한 역할을 했으며 자유민주주의 체제를 확립했다."
+      },
+      "book": {
+        "contentId": "3e38a321-7a70-43bf-9e3c-fb99728e091d",
+        "title": "미국의 민주주의",
+        "creator": "알렉시스 드 토크빌",
+        "description": null,
+        "isbn": "9788975855436",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 4,
+          "featuredListCount": 4,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선",
+            "서강 필독서 230선",
+            "성균고전 100선",
+            "서울대 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 84,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "30333d9d-2b2a-432f-afd8-5c18d8a03e02",
+        "slug": "syngman-rhee",
+        "nickname": "이승만",
+        "nicknameEn": "Syngman Rhee",
+        "profession": "politician",
+        "headline": "대한민국 초대 대통령에서 4·19로 물러난 권력자",
+        "bio": "대한민국의 초대 대통령. 독립운동가이자 정치가로, 대한민국 건국에 지대한 역할을 했으며 자유민주주의 체제를 확립했다."
+      },
+      "book": {
+        "contentId": "fbe5c525-5e63-4d63-b0cc-80e54d83dfc8",
+        "title": "민주화 이후의 민주주의",
+        "creator": "최장집",
+        "description": "한국 민주주의의 보수적 기원과 위기『민주화 이후의 민주주의』. 민주주의에 대한 이해 방법을 새롭게 제시한 책으로, 지난 60여 년의 현대 한국 정치를 소재로 한국 민주주의의 기원과 구조, 변화를 다룬다. 오늘날 한국 민주주의가 안고 있는 문제들을 이해하기 위해서 이 책은 표피적이고 현상적인 해석의 차원을 넘어 좀 더 구조적이고 역사적인 차원에서 살펴보고자 했으며, 문제중심의 접근과 서술을 특징으로 한다. 이 책이 갖고 있는 가장 큰 강점은 풍부",
+        "isbn": "9788964371169",
+        "publisher": "후마니타스",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 2,
+          "featuredListCount": 2,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "중앙대 인문학 권장도서",
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 66.28,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "했으며"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "30333d9d-2b2a-432f-afd8-5c18d8a03e02",
+        "slug": "syngman-rhee",
+        "nickname": "이승만",
+        "nicknameEn": "Syngman Rhee",
+        "profession": "politician",
+        "headline": "대한민국 초대 대통령에서 4·19로 물러난 권력자",
+        "bio": "대한민국의 초대 대통령. 독립운동가이자 정치가로, 대한민국 건국에 지대한 역할을 했으며 자유민주주의 체제를 확립했다."
+      },
+      "book": {
+        "contentId": "0727c0b7-1113-4dfa-8edb-5c098aa86ce3",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "요제프 슘페터",
+        "description": "따르면 “사회주의라는 주제에 관하여 근 40년 동안 사색하고 관찰하고 연구해온 방대한 결과를 읽기 좋게 한 권의 단행본으로 묶은 것이다.” 슘페터는 이 책에서 자본주의 경제 체제의 성공을 견인했던 여러 요인들이 오히려 고도로 발달한 자본주의를 쇠퇴시키는 요인으로 작용할 것이며, 결국에는 자본주의가 사회주의로 전환될 것이라고 전망했다. 이런 내용으로 인해 출간 당시부터 상당히 파격적이고 위험한 사상으로 인식되었고, 당연하게도 뜨거운 논쟁의 중심에 설 수밖에 없었다",
+        "isbn": "9788996937432",
+        "publisher": "북길드",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52.18,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "체제"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "30333d9d-2b2a-432f-afd8-5c18d8a03e02",
+        "slug": "syngman-rhee",
+        "nickname": "이승만",
+        "nicknameEn": "Syngman Rhee",
+        "profession": "politician",
+        "headline": "대한민국 초대 대통령에서 4·19로 물러난 권력자",
+        "bio": "대한민국의 초대 대통령. 독립운동가이자 정치가로, 대한민국 건국에 지대한 역할을 했으며 자유민주주의 체제를 확립했다."
+      },
+      "book": {
+        "contentId": "7d237edc-8753-4ddc-99e8-d633cbb59e0f",
+        "title": "문학의 민주주의",
+        "creator": "장성규",
+        "description": "이 책은 ‘구로노동자문학회’를 중심으로 한국에서의 노동자 글쓰기의 문학사를 거칠게나마 조망해보려는 조그마한 시도이다. 1988년부터 2006년까지 지속된 구로노동자문학회는 ‘문학의 주체로서의 노동자’라는 상이 구현된 매우 특이한 문학사적 사례에 해당한다. 주지하다시피 한국의 근대문학은 일련의 지식인-엘리트 집단을 주체로 설정하였으며, 이러한 문학적 주체 설정은 지금까지도 통용되고 있다. 이들 중 일부는 식민지 시대의 카프나 1980년대 민족문학운동",
+        "isbn": "9791173961380",
+        "publisher": "역락",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "한국출판문화상 수상작"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "30333d9d-2b2a-432f-afd8-5c18d8a03e02",
+        "slug": "syngman-rhee",
+        "nickname": "이승만",
+        "nicknameEn": "Syngman Rhee",
+        "profession": "politician",
+        "headline": "대한민국 초대 대통령에서 4·19로 물러난 권력자",
+        "bio": "대한민국의 초대 대통령. 독립운동가이자 정치가로, 대한민국 건국에 지대한 역할을 했으며 자유민주주의 체제를 확립했다."
+      },
+      "book": {
+        "contentId": "f82a9e3b-f515-4d3b-8f1a-03316952bb08",
+        "title": "미국의 민주주의",
+        "creator": "알렉시 드 토크빌",
+        "description": null,
+        "isbn": "9788935601950",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "30333d9d-2b2a-432f-afd8-5c18d8a03e02",
+        "slug": "syngman-rhee",
+        "nickname": "이승만",
+        "nicknameEn": "Syngman Rhee",
+        "profession": "politician",
+        "headline": "대한민국 초대 대통령에서 4·19로 물러난 권력자",
+        "bio": "대한민국의 초대 대통령. 독립운동가이자 정치가로, 대한민국 건국에 지대한 역할을 했으며 자유민주주의 체제를 확립했다."
+      },
+      "book": {
+        "contentId": "0291a170-0725-4404-a474-04f7c575c215",
+        "title": "민주주의와 교육",
+        "creator": "존 듀이",
+        "description": null,
+        "isbn": "9788925400662",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "30333d9d-2b2a-432f-afd8-5c18d8a03e02",
+        "slug": "syngman-rhee",
+        "nickname": "이승만",
+        "nicknameEn": "Syngman Rhee",
+        "profession": "politician",
+        "headline": "대한민국 초대 대통령에서 4·19로 물러난 권력자",
+        "bio": "대한민국의 초대 대통령. 독립운동가이자 정치가로, 대한민국 건국에 지대한 역할을 했으며 자유민주주의 체제를 확립했다."
+      },
+      "book": {
+        "contentId": "9b2f1ef3-7b76-4bf6-b2f3-b55836d4b09a",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "조지프 슘페터",
+        "description": "미국 경제학자 슘페터의 대표작 경제학의 고전『자본주의 사회주의 민주주의』. 슘페터는 20세기 전반이 세계적인 이론경제학자로, 경제ㆍ사회 전반의 문제를 40여 년에 걸쳐 사색한 결정체를 이 책에 담았다. 그는 이 책에서 마르크스의 이론의 비판 및 자본주의의 운명, 민주주의 여러 모순들을 순수경제학의 범주를 넘어서 정치ㆍ사회적인 입장에서 광범위하고도 깊은 통찰력으로 분석하고 있다. 그의 사회주의와 자본주의에 대한 예언자적 이론은 수많은 현대 경제이론가들",
+        "isbn": "9788935664153",
+        "publisher": "한길사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "성균고전 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "3674667d-990d-415e-bbfb-e20ec30b96bd",
+        "slug": "hadrian",
+        "nickname": "하드리아누스",
+        "nicknameEn": "Hadrian",
+        "profession": "politician",
+        "headline": "브리튼에 방벽을 세운 로마 황제",
+        "bio": "로마 제국 오현제 중 한 명. 제국 전역을 순행하며 하드리아누스 방벽을 축조했고, 그리스 문화를 깊이 사랑하여 아테나이를 재건했다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "379817f8-f95c-4e28-bca6-98cf9618a387",
+        "slug": "kim-young-sam",
+        "nickname": "김영삼",
+        "nicknameEn": "Kim Young-sam",
+        "profession": "politician",
+        "headline": "문민정부를 연 제14대 대통령",
+        "bio": "대한민국 제14대 대통령. 최연소 국회의원으로 9선 의원을 역임했으며, 금융실명제를 도입하고 역사바로세우기를 추진했다."
+      },
+      "book": {
+        "contentId": "94ddb02e-8a02-4540-b296-6a34e91f24b8",
+        "title": "금융의 제왕",
+        "creator": "리아콰트 아메드",
+        "description": null,
+        "isbn": "9788977661004",
+        "publisher": "다른세상",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book",
+          "localized_creator": true
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 2,
+          "featuredListCount": 2,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "FT 올해의 경제경영서",
+            "퓰리처상 역사 부문"
+          ],
+          "topics": [
+            "economics",
+            "business",
+            "nonfiction",
+            "history"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 58,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "금융"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "3a6d4622-92da-45aa-816e-f0a8dfea76fd",
+        "slug": "tiberius",
+        "nickname": "티베리우스",
+        "nicknameEn": "Tiberius",
+        "profession": "politician",
+        "headline": "로마를 떠나 카프리섬에서 제국을 다스린 황제",
+        "bio": "로마 제국 제2대 황제. 아우구스투스의 양자로 즉위하여 재정을 안정시켰으나 말년에 카프리섬에 은둔하며 공포정치를 펼쳤다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "45ca6ab1-a682-41f1-a0b8-7746004fda92",
+        "slug": "harry-s.-truman",
+        "nickname": "해리 S. 트루먼",
+        "nicknameEn": "Harry S. Truman",
+        "profession": "politician",
+        "headline": "원자폭탄 실전 사용을 최종 승인한 미국 대통령",
+        "bio": "미국의 정치인. 부통령 취임 석 달 만에 루스벨트가 사망해 대통령직을 승계했고, 히로시마와 나가사키 원자폭탄 투하를 승인했다. 트루먼 독트린과 마셜 플랜으로 냉전 초기 대외 정책을 짰다."
+      },
+      "book": {
+        "contentId": "d9fc0271-418c-490d-9998-11bf87d8ab3f",
+        "title": "냉전과 새마을",
+        "creator": "허은",
+        "description": "라는 노랫소리와 함께 마을길이 넓혀지고 초가지붕이 슬레이트나 기와지붕으로 개량되던 ‘새마을운동’을 떠올릴 것이다. 그러나 이러한 모습은 박정희 정부가 건설하려고 했던 새마을의 한 단면일 뿐이다. 허은 교수의 신간 『냉전과 새마을: 동아시아 냉전의 연쇄와 분단국가체제』는 새마을의 전모를 동아시아 냉전의 맥락에서 거시 역사적으로 탐구하고, 새마을에 기반한 ‘1972년 분단국가체제’의 역사적 성격을 규명한 역저이다. 박정희 정부가 수립한 분단국가체제는 ‘냉전의",
+        "isbn": "9788936482978",
+        "publisher": "창비",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "냉전"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "냉전"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "50dbda6b-4151-4af0-9a14-f48fa451c593",
+        "slug": "theodosius-ii",
+        "nickname": "테오도시우스 2세",
+        "nicknameEn": "Theodosius II",
+        "profession": "politician",
+        "headline": "콘스탄티노폴리스를 성벽으로 감싼 황제",
+        "bio": "동로마 제국 황제. 테오도시우스 법전을 편찬하고 콘스탄티노폴리스 성벽을 증축했다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "525fd227-5f41-456c-a33a-2367fc02bb42",
+        "slug": "justinian-i",
+        "nickname": "유스티니아누스 1세",
+        "nicknameEn": "Justinian I",
+        "profession": "politician",
+        "headline": "로마법대전 편찬을 명한 동로마 황제",
+        "bio": "동로마 제국 황제. 로마법대전을 편찬하고 하기아 소피아를 건축하며 옛 로마 영토 회복을 시도했다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "5354a51b-2a6c-4a55-98aa-acd7140861a0",
+        "slug": "charlemagne",
+        "nickname": "샤를마뉴",
+        "nicknameEn": "Charlemagne",
+        "profession": "politician",
+        "headline": "로마에서 황제관을 쓴 프랑크 왕",
+        "bio": "프랑크 왕국의 왕이자 신성 로마 제국의 초대 황제. 유럽을 통일하고 기독교 문명을 확산시켜 중세 유럽의 기틀을 세웠다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "5354a51b-2a6c-4a55-98aa-acd7140861a0",
+        "slug": "charlemagne",
+        "nickname": "샤를마뉴",
+        "nicknameEn": "Charlemagne",
+        "profession": "politician",
+        "headline": "로마에서 황제관을 쓴 프랑크 왕",
+        "bio": "프랑크 왕국의 왕이자 신성 로마 제국의 초대 황제. 유럽을 통일하고 기독교 문명을 확산시켜 중세 유럽의 기틀을 세웠다."
+      },
+      "book": {
+        "contentId": "0ec1b3d9-5664-4043-af83-787a986b2f7d",
+        "title": "그리스도교 이전의 예수",
+        "creator": "앨버트 노울런",
+        "description": null,
+        "isbn": "9788941997221",
+        "publisher": "분도출판사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서강 필독서 230선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "기독교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "5354a51b-2a6c-4a55-98aa-acd7140861a0",
+        "slug": "charlemagne",
+        "nickname": "샤를마뉴",
+        "nicknameEn": "Charlemagne",
+        "profession": "politician",
+        "headline": "로마에서 황제관을 쓴 프랑크 왕",
+        "bio": "프랑크 왕국의 왕이자 신성 로마 제국의 초대 황제. 유럽을 통일하고 기독교 문명을 확산시켜 중세 유럽의 기틀을 세웠다."
+      },
+      "book": {
+        "contentId": "cf14c733-5cb0-428b-845c-275575fca8a5",
+        "title": "신학대전 1",
+        "creator": "토마스 아퀴나스",
+        "description": null,
+        "isbn": "9788933111680",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "기독교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "55db7444-083a-4ec3-8595-25dd0940f014",
+        "slug": "jeong-mong-ju",
+        "nickname": "정몽주",
+        "nicknameEn": "Jeong Mong-ju",
+        "profession": "politician",
+        "headline": "고려를 지키다 선죽교에서 살해된 문신",
+        "bio": "고려 말기의 문신이자 성리학자. 고려 왕조에 대한 절의를 지키다 선죽교에서 이방원에 의해 피살되었다."
+      },
+      "book": {
+        "contentId": "0d8ebc12-b5f5-4c12-b09e-dc67f3a2bd64",
+        "title": "유교적 사유와 삶의 변천(한국문화사 24)",
+        "creator": "국사편찬위원회",
+        "description": null,
+        "isbn": "9788900254419",
+        "publisher": "동아출판",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "유교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "57c7411d-7763-4fae-88d6-8a66ab81f5a7",
+        "slug": "borte",
+        "nickname": "보르테",
+        "nicknameEn": "Borte",
+        "profession": "politician",
+        "headline": "칭기즈칸의 정실이자 몽골 제국의 황후",
+        "bio": "몽골 제국 칭기즈칸의 정실 황후. 대오르도를 다스리며 아시아 교역로를 관리하고 칸의 조언자로서 제국의 기틀을 세웠다."
+      },
+      "book": {
+        "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+        "title": "몽골제국과 세계사의 탄생",
+        "creator": "김호동",
+        "description": "우리 사회의 인문학에 대한 관심과 소양을 넓히는데 기여하고자 기획된「석학人文강좌」제12권『몽골제국과 세계사의 탄생』. 한국의 인문학계를 대표하는 각 분야의 석학들이 일생을 바쳐 축적해 온 학문적 성과와 문제의식을 관련 분야 학자와 지식인, 일반 대중과 함께 공유하고, 인간과 사회의 본질적인 문제에 대해 고민한다. 이번 책에서는 중앙유라시아 전문가 김호동 교수가 지금까지 축적한 주요 성과를 이해하기 쉽게 정리해 선보인다.",
+        "isbn": "9788971994047",
+        "publisher": "돌베개",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "몽골제국"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "620eef01-5254-4ec3-9fac-bf046ba9db79",
+        "slug": "lorenzo-de-medici",
+        "nickname": "로렌초 데 메디치",
+        "nicknameEn": "Lorenzo de Medici",
+        "profession": "politician",
+        "headline": "미켈란젤로를 집에 들인 피렌체의 통치자",
+        "bio": "피렌체 공화국의 실질적 통치자. 플라톤 아카데미를 후원하고 보티첼리·미켈란젤로 등 예술가를 양성하며 르네상스 전성기를 이끌었다."
+      },
+      "book": {
+        "contentId": "bd5e9549-efaf-4324-ac52-9ecd1a6e3bf7",
+        "title": "이탈리아 르네상스의 문화",
+        "creator": "야코프 부르크하르트",
+        "description": "이 책에는 중세 말부터 근대에 이르기까지 이탈리아인들이 영위해온 삶이 정치 ·종교 ·문화 ·일상생활에 걸쳐 기술되어 있다. 중세에서 벗어나 근대로 이행하는 과도기에 삶의 모든 분야에서 거세게 몰아치는 역사의 바람을 마주하며 새로운 문화를 창조한 르네상스 시기 이탈리아인들. 그들의 역동적인 모습을 마치 한 편의 문학작품처럼 묘사한 기념비적인 대작이다.",
+        "isbn": "9788935654802",
+        "publisher": "한길사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 2,
+          "featuredListCount": 2,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "연세 필독도서 200선",
+            "서강 필독서 230선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 93.91,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "르네상스"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "르네상스"
+        ],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "620eef01-5254-4ec3-9fac-bf046ba9db79",
+        "slug": "lorenzo-de-medici",
+        "nickname": "로렌초 데 메디치",
+        "nicknameEn": "Lorenzo de Medici",
+        "profession": "politician",
+        "headline": "미켈란젤로를 집에 들인 피렌체의 통치자",
+        "bio": "피렌체 공화국의 실질적 통치자. 플라톤 아카데미를 후원하고 보티첼리·미켈란젤로 등 예술가를 양성하며 르네상스 전성기를 이끌었다."
+      },
+      "book": {
+        "contentId": "d8c3f102-8644-4ffb-8953-c6bbc849b5aa",
+        "title": "르네상스 미술가 평전 1",
+        "creator": "조르조 바사리",
+        "description": null,
+        "isbn": "9788935664696",
+        "publisher": "한길사",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 67.91,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "르네상스"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "르네상스"
+        ],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "620eef01-5254-4ec3-9fac-bf046ba9db79",
+        "slug": "lorenzo-de-medici",
+        "nickname": "로렌초 데 메디치",
+        "nicknameEn": "Lorenzo de Medici",
+        "profession": "politician",
+        "headline": "미켈란젤로를 집에 들인 피렌체의 통치자",
+        "bio": "피렌체 공화국의 실질적 통치자. 플라톤 아카데미를 후원하고 보티첼리·미켈란젤로 등 예술가를 양성하며 르네상스 전성기를 이끌었다."
+      },
+      "book": {
+        "contentId": "6767797f-9201-4b10-9ecf-2fdfc2f42dd1",
+        "title": "이탈리아 르네상스의 문화",
+        "creator": "야콥 부르크하르트",
+        "description": null,
+        "isbn": "9788971842461",
+        "publisher": "푸른숲",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 67.91,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "르네상스"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "르네상스"
+        ],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "652cd9a4-f2df-4ff9-a4d3-605ccdb411c0",
+        "slug": "constantine-i",
+        "nickname": "콘스탄티누스 1세",
+        "nicknameEn": "Constantine I",
+        "profession": "politician",
+        "headline": "로마 제국 최초의 기독교 황제",
+        "bio": "밀라노 칙령으로 기독교를 공인하고, 제국의 수도를 콘스탄티노폴리스로 천도하여 비잔티움 제국의 기틀을 닦은 로마 최초의 기독교 황제."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "652cd9a4-f2df-4ff9-a4d3-605ccdb411c0",
+        "slug": "constantine-i",
+        "nickname": "콘스탄티누스 1세",
+        "nicknameEn": "Constantine I",
+        "profession": "politician",
+        "headline": "로마 제국 최초의 기독교 황제",
+        "bio": "밀라노 칙령으로 기독교를 공인하고, 제국의 수도를 콘스탄티노폴리스로 천도하여 비잔티움 제국의 기틀을 닦은 로마 최초의 기독교 황제."
+      },
+      "book": {
+        "contentId": "0ec1b3d9-5664-4043-af83-787a986b2f7d",
+        "title": "그리스도교 이전의 예수",
+        "creator": "앨버트 노울런",
+        "description": null,
+        "isbn": "9788941997221",
+        "publisher": "분도출판사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서강 필독서 230선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "기독교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "652cd9a4-f2df-4ff9-a4d3-605ccdb411c0",
+        "slug": "constantine-i",
+        "nickname": "콘스탄티누스 1세",
+        "nicknameEn": "Constantine I",
+        "profession": "politician",
+        "headline": "로마 제국 최초의 기독교 황제",
+        "bio": "밀라노 칙령으로 기독교를 공인하고, 제국의 수도를 콘스탄티노폴리스로 천도하여 비잔티움 제국의 기틀을 닦은 로마 최초의 기독교 황제."
+      },
+      "book": {
+        "contentId": "cf14c733-5cb0-428b-845c-275575fca8a5",
+        "title": "신학대전 1",
+        "creator": "토마스 아퀴나스",
+        "description": null,
+        "isbn": "9788933111680",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "기독교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "6f941508-3efe-4bfa-8a77-0c6744ea1a18",
+        "slug": "khosrow-i",
+        "nickname": "호스로 1세",
+        "nicknameEn": "Khosrow I",
+        "profession": "politician",
+        "headline": "사산조 페르시아의 전성기를 연 군주",
+        "bio": "사산 왕조 페르시아의 전성기를 이끈 군주. 그리스 철학자를 궁정에 초청하고 법률·세제를 대대적으로 개혁했다."
+      },
+      "book": {
+        "contentId": "8b6e97fc-063c-41a1-bb0a-e30ff36818e3",
+        "title": "법철학",
+        "creator": "구스타브 라드브루",
+        "description": "▶ 이 책은 법철학에 대해 다룬 도서입니다. 법철학에 대한 기초적이고 전반적인 내용을 확인할 수 있도록 구성했습니다.",
+        "isbn": "9791130336787",
+        "publisher": "박영사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "법학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "6f941508-3efe-4bfa-8a77-0c6744ea1a18",
+        "slug": "khosrow-i",
+        "nickname": "호스로 1세",
+        "nicknameEn": "Khosrow I",
+        "profession": "politician",
+        "headline": "사산조 페르시아의 전성기를 연 군주",
+        "bio": "사산 왕조 페르시아의 전성기를 이끈 군주. 그리스 철학자를 궁정에 초청하고 법률·세제를 대대적으로 개혁했다."
+      },
+      "book": {
+        "contentId": "f3368ec2-6c5c-4fac-8d9d-73dda37d332d",
+        "title": "법철학",
+        "creator": "아르투어 카우프만",
+        "description": "[표지글] 카우프만의 법철학은 크게 두 가지 문제로 구성되는데 그 하나는 객관적 관점에서 올바른 법이 존재하는가라는 법의 내용에 관한 것이고, 그 다른 하나는 주관적 측면에서 그것을 어떻게 인식할 수 있는가에 관한 것이다. 사실상 이 두 문제는 밀접하게 관련되는데, 왜냐하면 객관적으로 법이 존재한다고 하더라도 주관적으로 이를 제대로 인식하지 못하면 아무 소용이 없는 것과 마찬가지로, 객관적으로 있지도 않은 법을 누군가 있다고 주장하는 것은",
+        "isbn": "9788930082372",
+        "publisher": "나남",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "법학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "744725a9-0108-4142-a797-35d75ec4f14e",
+        "slug": "mikhail-gorbachev",
+        "nickname": "미하일 고르바초프",
+        "nicknameEn": "Mikhail Gorbachev",
+        "profession": "politician",
+        "headline": "냉전의 문을 닫은 소련의 마지막 지도자",
+        "bio": "소련의 마지막 지도자. 글라스노스트와 페레스트로이카로 개혁을 추진했으나 결과적으로 소련 해체를 이끌었고, 냉전 종식에 기여한 공로로 1990년 노벨 평화상을 수상했다."
+      },
+      "book": {
+        "contentId": "d9fc0271-418c-490d-9998-11bf87d8ab3f",
+        "title": "냉전과 새마을",
+        "creator": "허은",
+        "description": "라는 노랫소리와 함께 마을길이 넓혀지고 초가지붕이 슬레이트나 기와지붕으로 개량되던 ‘새마을운동’을 떠올릴 것이다. 그러나 이러한 모습은 박정희 정부가 건설하려고 했던 새마을의 한 단면일 뿐이다. 허은 교수의 신간 『냉전과 새마을: 동아시아 냉전의 연쇄와 분단국가체제』는 새마을의 전모를 동아시아 냉전의 맥락에서 거시 역사적으로 탐구하고, 새마을에 기반한 ‘1972년 분단국가체제’의 역사적 성격을 규명한 역저이다. 박정희 정부가 수립한 분단국가체제는 ‘냉전의",
+        "isbn": "9788936482978",
+        "publisher": "창비",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "냉전"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "냉전"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
+        "slug": "emperor-showa",
+        "nickname": "쇼와 천황",
+        "nicknameEn": "Emperor Shōwa",
+        "profession": "politician",
+        "headline": "라디오로 일본의 항복을 알린 전시 천황",
+        "bio": "일본 제124대 천황. 태평양 전쟁 시대를 거쳐 전후 일본의 민주화와 경제 부흥을 주도했다."
+      },
+      "book": {
+        "contentId": "3e38a321-7a70-43bf-9e3c-fb99728e091d",
+        "title": "미국의 민주주의",
+        "creator": "알렉시스 드 토크빌",
+        "description": null,
+        "isbn": "9788975855436",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 4,
+          "featuredListCount": 4,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선",
+            "서강 필독서 230선",
+            "성균고전 100선",
+            "서울대 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 84,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
+        "slug": "emperor-showa",
+        "nickname": "쇼와 천황",
+        "nicknameEn": "Emperor Shōwa",
+        "profession": "politician",
+        "headline": "라디오로 일본의 항복을 알린 전시 천황",
+        "bio": "일본 제124대 천황. 태평양 전쟁 시대를 거쳐 전후 일본의 민주화와 경제 부흥을 주도했다."
+      },
+      "book": {
+        "contentId": "fbe5c525-5e63-4d63-b0cc-80e54d83dfc8",
+        "title": "민주화 이후의 민주주의",
+        "creator": "최장집",
+        "description": "한국 민주주의의 보수적 기원과 위기『민주화 이후의 민주주의』. 민주주의에 대한 이해 방법을 새롭게 제시한 책으로, 지난 60여 년의 현대 한국 정치를 소재로 한국 민주주의의 기원과 구조, 변화를 다룬다. 오늘날 한국 민주주의가 안고 있는 문제들을 이해하기 위해서 이 책은 표피적이고 현상적인 해석의 차원을 넘어 좀 더 구조적이고 역사적인 차원에서 살펴보고자 했으며, 문제중심의 접근과 서술을 특징으로 한다. 이 책이 갖고 있는 가장 큰 강점은 풍부",
+        "isbn": "9788964371169",
+        "publisher": "후마니타스",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 2,
+          "featuredListCount": 2,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "중앙대 인문학 권장도서",
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 66.97,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "민주화"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
+        "slug": "emperor-showa",
+        "nickname": "쇼와 천황",
+        "nicknameEn": "Emperor Shōwa",
+        "profession": "politician",
+        "headline": "라디오로 일본의 항복을 알린 전시 천황",
+        "bio": "일본 제124대 천황. 태평양 전쟁 시대를 거쳐 전후 일본의 민주화와 경제 부흥을 주도했다."
+      },
+      "book": {
+        "contentId": "0727c0b7-1113-4dfa-8edb-5c098aa86ce3",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "요제프 슘페터",
+        "description": "따르면 “사회주의라는 주제에 관하여 근 40년 동안 사색하고 관찰하고 연구해온 방대한 결과를 읽기 좋게 한 권의 단행본으로 묶은 것이다.” 슘페터는 이 책에서 자본주의 경제 체제의 성공을 견인했던 여러 요인들이 오히려 고도로 발달한 자본주의를 쇠퇴시키는 요인으로 작용할 것이며, 결국에는 자본주의가 사회주의로 전환될 것이라고 전망했다. 이런 내용으로 인해 출간 당시부터 상당히 파격적이고 위험한 사상으로 인식되었고, 당연하게도 뜨거운 논쟁의 중심에 설 수밖에 없었다",
+        "isbn": "9788996937432",
+        "publisher": "북길드",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 51.17,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "경제"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
+        "slug": "emperor-showa",
+        "nickname": "쇼와 천황",
+        "nicknameEn": "Emperor Shōwa",
+        "profession": "politician",
+        "headline": "라디오로 일본의 항복을 알린 전시 천황",
+        "bio": "일본 제124대 천황. 태평양 전쟁 시대를 거쳐 전후 일본의 민주화와 경제 부흥을 주도했다."
+      },
+      "book": {
+        "contentId": "7d237edc-8753-4ddc-99e8-d633cbb59e0f",
+        "title": "문학의 민주주의",
+        "creator": "장성규",
+        "description": "이 책은 ‘구로노동자문학회’를 중심으로 한국에서의 노동자 글쓰기의 문학사를 거칠게나마 조망해보려는 조그마한 시도이다. 1988년부터 2006년까지 지속된 구로노동자문학회는 ‘문학의 주체로서의 노동자’라는 상이 구현된 매우 특이한 문학사적 사례에 해당한다. 주지하다시피 한국의 근대문학은 일련의 지식인-엘리트 집단을 주체로 설정하였으며, 이러한 문학적 주체 설정은 지금까지도 통용되고 있다. 이들 중 일부는 식민지 시대의 카프나 1980년대 민족문학운동",
+        "isbn": "9791173961380",
+        "publisher": "역락",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "한국출판문화상 수상작"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
+        "slug": "emperor-showa",
+        "nickname": "쇼와 천황",
+        "nicknameEn": "Emperor Shōwa",
+        "profession": "politician",
+        "headline": "라디오로 일본의 항복을 알린 전시 천황",
+        "bio": "일본 제124대 천황. 태평양 전쟁 시대를 거쳐 전후 일본의 민주화와 경제 부흥을 주도했다."
+      },
+      "book": {
+        "contentId": "f82a9e3b-f515-4d3b-8f1a-03316952bb08",
+        "title": "미국의 민주주의",
+        "creator": "알렉시 드 토크빌",
+        "description": null,
+        "isbn": "9788935601950",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
+        "slug": "emperor-showa",
+        "nickname": "쇼와 천황",
+        "nicknameEn": "Emperor Shōwa",
+        "profession": "politician",
+        "headline": "라디오로 일본의 항복을 알린 전시 천황",
+        "bio": "일본 제124대 천황. 태평양 전쟁 시대를 거쳐 전후 일본의 민주화와 경제 부흥을 주도했다."
+      },
+      "book": {
+        "contentId": "0291a170-0725-4404-a474-04f7c575c215",
+        "title": "민주주의와 교육",
+        "creator": "존 듀이",
+        "description": null,
+        "isbn": "9788925400662",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
+        "slug": "emperor-showa",
+        "nickname": "쇼와 천황",
+        "nicknameEn": "Emperor Shōwa",
+        "profession": "politician",
+        "headline": "라디오로 일본의 항복을 알린 전시 천황",
+        "bio": "일본 제124대 천황. 태평양 전쟁 시대를 거쳐 전후 일본의 민주화와 경제 부흥을 주도했다."
+      },
+      "book": {
+        "contentId": "9b2f1ef3-7b76-4bf6-b2f3-b55836d4b09a",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "조지프 슘페터",
+        "description": "미국 경제학자 슘페터의 대표작 경제학의 고전『자본주의 사회주의 민주주의』. 슘페터는 20세기 전반이 세계적인 이론경제학자로, 경제ㆍ사회 전반의 문제를 40여 년에 걸쳐 사색한 결정체를 이 책에 담았다. 그는 이 책에서 마르크스의 이론의 비판 및 자본주의의 운명, 민주주의 여러 모순들을 순수경제학의 범주를 넘어서 정치ㆍ사회적인 입장에서 광범위하고도 깊은 통찰력으로 분석하고 있다. 그의 사회주의와 자본주의에 대한 예언자적 이론은 수많은 현대 경제이론가들",
+        "isbn": "9788935664153",
+        "publisher": "한길사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "성균고전 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "90a07304-4186-4e01-b6b2-3e44c16d3911",
+        "slug": "nero",
+        "nickname": "네로",
+        "nicknameEn": "Nero",
+        "profession": "politician",
+        "headline": "로마 대화재 뒤 그리스도인을 희생양 삼은 황제",
+        "bio": "로마제국 5대 황제. 율리우스-클라우디우스 왕조 최후의 황제로 54년 즉위 후 예술 후원과 폭정으로 악명을 남겼다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 115.63,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "로마제국"
+        ],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "90a07304-4186-4e01-b6b2-3e44c16d3911",
+        "slug": "nero",
+        "nickname": "네로",
+        "nicknameEn": "Nero",
+        "profession": "politician",
+        "headline": "로마 대화재 뒤 그리스도인을 희생양 삼은 황제",
+        "bio": "로마제국 5대 황제. 율리우스-클라우디우스 왕조 최후의 황제로 54년 즉위 후 예술 후원과 폭정으로 악명을 남겼다."
+      },
+      "book": {
+        "contentId": "4d385c22-81b8-45dc-b6e0-8b2f1c81c6b4",
+        "title": "로마의 성공 로마제국의 실패",
+        "creator": "샤를 드 몽테스키외",
+        "description": "마키아벨리, 에드워드 기번을 잇는 몽테스키외의 대표작 『로마의 성공, 로마제국의 실패』. 18세기 계몽주의 사상을 대표하는 샤를 드 몽테스키외는 도시 국가 로마의 탄생에서 동로마 제국의 멸망에 이르기까지 2천 년 로마사 전체를 살펴보면서, 로마의 번영과 멸망의 원인을 색다르게 분석한다. 그는 이 책에서 로마의 멸망에 대한 일반적 통설과는 달리, 로마가 내부의 ‘분열과 혼란’ 때문이 아니라, 정복사업으로 인한 ‘번영’ 때문에 멸망했다고 주장한다. 몽테스키외는",
+        "isbn": "9788993178203",
+        "publisher": "사이",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 80.03,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "로마제국"
+        ],
+        "sharedDescriptionTerms": [
+          "로마"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "99372d9f-4340-4fed-84d3-2d3f1baf174f",
+        "slug": "claudius",
+        "nickname": "클라우디우스",
+        "nicknameEn": "Claudius",
+        "profession": "politician",
+        "headline": "브리타니아 침공을 명령한 로마 황제",
+        "bio": "로마 제국 제4대 황제. 신체 장애를 극복하고 학문에 몰두하여 역사서를 집필했으며, 브리타니아를 정복하고 행정 개혁을 단행했다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "99fbe20c-b1c6-4a76-8fb8-3f83b6f0e01d",
+        "slug": "john-f.-kennedy",
+        "nickname": "존 F. 케네디",
+        "nicknameEn": "John F. Kennedy",
+        "profession": "politician",
+        "headline": "쿠바 미사일 위기에서 해상 봉쇄를 택한 미국 대통령",
+        "bio": "미국 제35대 대통령. '뉴 프런티어' 정책을 추진하며 냉전 시대 미국의 변화를 이끌었다."
+      },
+      "book": {
+        "contentId": "d9fc0271-418c-490d-9998-11bf87d8ab3f",
+        "title": "냉전과 새마을",
+        "creator": "허은",
+        "description": "라는 노랫소리와 함께 마을길이 넓혀지고 초가지붕이 슬레이트나 기와지붕으로 개량되던 ‘새마을운동’을 떠올릴 것이다. 그러나 이러한 모습은 박정희 정부가 건설하려고 했던 새마을의 한 단면일 뿐이다. 허은 교수의 신간 『냉전과 새마을: 동아시아 냉전의 연쇄와 분단국가체제』는 새마을의 전모를 동아시아 냉전의 맥락에서 거시 역사적으로 탐구하고, 새마을에 기반한 ‘1972년 분단국가체제’의 역사적 성격을 규명한 역저이다. 박정희 정부가 수립한 분단국가체제는 ‘냉전의",
+        "isbn": "9788936482978",
+        "publisher": "창비",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 53.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "냉전"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "냉전"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "a3e7c45f-5b6a-47f3-bac2-86a8fea99d33",
+        "slug": "ashoka-the-great",
+        "nickname": "아소카 왕",
+        "nicknameEn": "Ashoka the Great",
+        "profession": "politician",
+        "headline": "칼링가 정복의 살육과 후회를 바위에 새긴 황제",
+        "bio": "인도 마우리아 왕조 제3대 황제. 칼링가 전쟁 후 불교로 개종하여 인도 전역과 아시아에 불교를 전파했으며, 법칙을 새긴 석주를 세웠다."
+      },
+      "book": {
+        "contentId": "72c6247a-c221-41b4-aa3c-8ded65adcc94",
+        "title": "Beyond Happiness : Deepening the Dialogue Between Buddhism...",
+        "creator": "Watson Gay",
+        "description": null,
+        "isbn": "9781855754041",
+        "publisher": "Karnac Books",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "심리학자 117인이 고른 책"
+          ],
+          "topics": [
+            "psychology",
+            "nonfiction"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "불교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "baaff2e6-0e31-49e2-9efe-27b3200d5cfd",
+        "slug": "zenobia",
+        "nickname": "제노비아",
+        "nicknameEn": "Zenobia",
+        "profession": "politician",
+        "headline": "이집트와 소아시아를 차지하고 로마에 맞선 팔미라의 여왕",
+        "bio": "팔미라 왕국의 여왕으로 로마 제국에 맞선 정복자. 그리스·아람 문화를 후원하며 학자 롱기누스를 궁정에 초청했다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c1a2b3d4-e5f6-7890-abcd-ef1234567890",
+        "slug": "augustus",
+        "nickname": "아우구스투스",
+        "nicknameEn": "Augustus",
+        "profession": "politician",
+        "headline": "카이사르의 양자로 로마 제국을 연 초대 황제",
+        "bio": "로마 공화정 말기의 정치가. 율리우스 카이사르의 양자로 제2차 삼두정치를 주도하고 로마 제국을 창건, 초대 황제로 44년간 통치하며 팍스 로마나의 기틀을 마련했다."
+      },
+      "book": {
+        "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+        "title": "로마제국 쇠망사",
+        "creator": "에드워드 기번",
+        "description": null,
+        "isbn": "9791128832482",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 3,
+          "featuredListCount": 3,
+          "rankedListCount": 1,
+          "bestRank": 83,
+          "listTitles": [
+            "역대 최고의 논픽션 100선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 74.23,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "고대 로마"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c69d2a1a-2bd8-40a2-9c3d-148f1eafca7e",
+        "slug": "kim-dae-jung",
+        "nickname": "김대중",
+        "nicknameEn": "Kim Dae-jung",
+        "profession": "politician",
+        "headline": "햇볕정책으로 첫 남북정상회담을 연 대통령",
+        "bio": "대한민국 제15대 대통령. 민주화 운동가로 네 번의 도전 끝에 대통령에 당선되었으며, 2000년 노벨평화상을 수상했다."
+      },
+      "book": {
+        "contentId": "3e38a321-7a70-43bf-9e3c-fb99728e091d",
+        "title": "미국의 민주주의",
+        "creator": "알렉시스 드 토크빌",
+        "description": null,
+        "isbn": "9788975855436",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 4,
+          "featuredListCount": 4,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선",
+            "서강 필독서 230선",
+            "성균고전 100선",
+            "서울대 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 84,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c69d2a1a-2bd8-40a2-9c3d-148f1eafca7e",
+        "slug": "kim-dae-jung",
+        "nickname": "김대중",
+        "nicknameEn": "Kim Dae-jung",
+        "profession": "politician",
+        "headline": "햇볕정책으로 첫 남북정상회담을 연 대통령",
+        "bio": "대한민국 제15대 대통령. 민주화 운동가로 네 번의 도전 끝에 대통령에 당선되었으며, 2000년 노벨평화상을 수상했다."
+      },
+      "book": {
+        "contentId": "fbe5c525-5e63-4d63-b0cc-80e54d83dfc8",
+        "title": "민주화 이후의 민주주의",
+        "creator": "최장집",
+        "description": "한국 민주주의의 보수적 기원과 위기『민주화 이후의 민주주의』. 민주주의에 대한 이해 방법을 새롭게 제시한 책으로, 지난 60여 년의 현대 한국 정치를 소재로 한국 민주주의의 기원과 구조, 변화를 다룬다. 오늘날 한국 민주주의가 안고 있는 문제들을 이해하기 위해서 이 책은 표피적이고 현상적인 해석의 차원을 넘어 좀 더 구조적이고 역사적인 차원에서 살펴보고자 했으며, 문제중심의 접근과 서술을 특징으로 한다. 이 책이 갖고 있는 가장 큰 강점은 풍부",
+        "isbn": "9788964371169",
+        "publisher": "후마니타스",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 2,
+          "featuredListCount": 2,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "중앙대 인문학 권장도서",
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 66.97,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "민주화"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c69d2a1a-2bd8-40a2-9c3d-148f1eafca7e",
+        "slug": "kim-dae-jung",
+        "nickname": "김대중",
+        "nicknameEn": "Kim Dae-jung",
+        "profession": "politician",
+        "headline": "햇볕정책으로 첫 남북정상회담을 연 대통령",
+        "bio": "대한민국 제15대 대통령. 민주화 운동가로 네 번의 도전 끝에 대통령에 당선되었으며, 2000년 노벨평화상을 수상했다."
+      },
+      "book": {
+        "contentId": "7d237edc-8753-4ddc-99e8-d633cbb59e0f",
+        "title": "문학의 민주주의",
+        "creator": "장성규",
+        "description": "이 책은 ‘구로노동자문학회’를 중심으로 한국에서의 노동자 글쓰기의 문학사를 거칠게나마 조망해보려는 조그마한 시도이다. 1988년부터 2006년까지 지속된 구로노동자문학회는 ‘문학의 주체로서의 노동자’라는 상이 구현된 매우 특이한 문학사적 사례에 해당한다. 주지하다시피 한국의 근대문학은 일련의 지식인-엘리트 집단을 주체로 설정하였으며, 이러한 문학적 주체 설정은 지금까지도 통용되고 있다. 이들 중 일부는 식민지 시대의 카프나 1980년대 민족문학운동",
+        "isbn": "9791173961380",
+        "publisher": "역락",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "한국출판문화상 수상작"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c69d2a1a-2bd8-40a2-9c3d-148f1eafca7e",
+        "slug": "kim-dae-jung",
+        "nickname": "김대중",
+        "nicknameEn": "Kim Dae-jung",
+        "profession": "politician",
+        "headline": "햇볕정책으로 첫 남북정상회담을 연 대통령",
+        "bio": "대한민국 제15대 대통령. 민주화 운동가로 네 번의 도전 끝에 대통령에 당선되었으며, 2000년 노벨평화상을 수상했다."
+      },
+      "book": {
+        "contentId": "f82a9e3b-f515-4d3b-8f1a-03316952bb08",
+        "title": "미국의 민주주의",
+        "creator": "알렉시 드 토크빌",
+        "description": null,
+        "isbn": "9788935601950",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c69d2a1a-2bd8-40a2-9c3d-148f1eafca7e",
+        "slug": "kim-dae-jung",
+        "nickname": "김대중",
+        "nicknameEn": "Kim Dae-jung",
+        "profession": "politician",
+        "headline": "햇볕정책으로 첫 남북정상회담을 연 대통령",
+        "bio": "대한민국 제15대 대통령. 민주화 운동가로 네 번의 도전 끝에 대통령에 당선되었으며, 2000년 노벨평화상을 수상했다."
+      },
+      "book": {
+        "contentId": "0291a170-0725-4404-a474-04f7c575c215",
+        "title": "민주주의와 교육",
+        "creator": "존 듀이",
+        "description": null,
+        "isbn": "9788925400662",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c69d2a1a-2bd8-40a2-9c3d-148f1eafca7e",
+        "slug": "kim-dae-jung",
+        "nickname": "김대중",
+        "nicknameEn": "Kim Dae-jung",
+        "profession": "politician",
+        "headline": "햇볕정책으로 첫 남북정상회담을 연 대통령",
+        "bio": "대한민국 제15대 대통령. 민주화 운동가로 네 번의 도전 끝에 대통령에 당선되었으며, 2000년 노벨평화상을 수상했다."
+      },
+      "book": {
+        "contentId": "0727c0b7-1113-4dfa-8edb-5c098aa86ce3",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "요제프 슘페터",
+        "description": "따르면 “사회주의라는 주제에 관하여 근 40년 동안 사색하고 관찰하고 연구해온 방대한 결과를 읽기 좋게 한 권의 단행본으로 묶은 것이다.” 슘페터는 이 책에서 자본주의 경제 체제의 성공을 견인했던 여러 요인들이 오히려 고도로 발달한 자본주의를 쇠퇴시키는 요인으로 작용할 것이며, 결국에는 자본주의가 사회주의로 전환될 것이라고 전망했다. 이런 내용으로 인해 출간 당시부터 상당히 파격적이고 위험한 사상으로 인식되었고, 당연하게도 뜨거운 논쟁의 중심에 설 수밖에 없었다",
+        "isbn": "9788996937432",
+        "publisher": "북길드",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "c69d2a1a-2bd8-40a2-9c3d-148f1eafca7e",
+        "slug": "kim-dae-jung",
+        "nickname": "김대중",
+        "nicknameEn": "Kim Dae-jung",
+        "profession": "politician",
+        "headline": "햇볕정책으로 첫 남북정상회담을 연 대통령",
+        "bio": "대한민국 제15대 대통령. 민주화 운동가로 네 번의 도전 끝에 대통령에 당선되었으며, 2000년 노벨평화상을 수상했다."
+      },
+      "book": {
+        "contentId": "9b2f1ef3-7b76-4bf6-b2f3-b55836d4b09a",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "조지프 슘페터",
+        "description": "미국 경제학자 슘페터의 대표작 경제학의 고전『자본주의 사회주의 민주주의』. 슘페터는 20세기 전반이 세계적인 이론경제학자로, 경제ㆍ사회 전반의 문제를 40여 년에 걸쳐 사색한 결정체를 이 책에 담았다. 그는 이 책에서 마르크스의 이론의 비판 및 자본주의의 운명, 민주주의 여러 모순들을 순수경제학의 범주를 넘어서 정치ㆍ사회적인 입장에서 광범위하고도 깊은 통찰력으로 분석하고 있다. 그의 사회주의와 자본주의에 대한 예언자적 이론은 수많은 현대 경제이론가들",
+        "isbn": "9788935664153",
+        "publisher": "한길사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "성균고전 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "cb919c9a-3175-4797-8e63-427fd8d14250",
+        "slug": "da-qiao",
+        "nickname": "대교",
+        "nicknameEn": "Da Qiao",
+        "profession": "politician",
+        "headline": "강동이교의 언니, 손책의 아내",
+        "bio": "후한 말 여강군 환현 출신. 동생 소교와 함께 '강동이교'로 불렸으며 손책에게 시집갔다. 손책 요절 후 아들 손소가 오후를 이었다."
+      },
+      "book": {
+        "contentId": "093c02ad-9bf5-404c-b454-9cd889b38b17",
+        "title": "시학",
+        "creator": "아리스토텔레스",
+        "description": null,
+        "isbn": "9788964452721",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 4,
+          "featuredListCount": 4,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "연세 필독도서 200선",
+            "고려대 권장도서 100선",
+            "서강 필독서 230선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 84,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "시·시학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "cb919c9a-3175-4797-8e63-427fd8d14250",
+        "slug": "da-qiao",
+        "nickname": "대교",
+        "nicknameEn": "Da Qiao",
+        "profession": "politician",
+        "headline": "강동이교의 언니, 손책의 아내",
+        "bio": "후한 말 여강군 환현 출신. 동생 소교와 함께 '강동이교'로 불렸으며 손책에게 시집갔다. 손책 요절 후 아들 손소가 오후를 이었다."
+      },
+      "book": {
+        "contentId": "6659df23-3f02-4477-b799-c534bfcc708a",
+        "title": "시인의 별",
+        "creator": "이인화",
+        "description": "별》 《시인의 별》은 고려 충렬왕 때의 사람인 안현에 대한 이야기이다. 작가는 1997년 8월 앙카라대학의 라시드 교수가 발견한 17세기 필사본에 실린 ‘고려인 비칙치(서기) 안의 이야기’에 주목하여 이 소설을 썼다. 이 이야기는 안현에 대한 역사적인 기록을 바탕으로 안현과 동일 인물로 상정한 비칙치 안이라는 인물이 옥중에서 지었다는 의 내용을 더해 작가가 상상력을 발휘하여 한 편의 소설로 재구성한 것이다. 고려에서 몽골의 드넓은 초원까지 이어지는 안현의",
+        "isbn": "9791195294985",
+        "publisher": "피시스북",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "이상문학상 대상 수상작"
+          ],
+          "topics": [
+            "korean-literature"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "시·시학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "d5e49754-ea1c-4486-b291-15cdf8d12f9e",
+        "slug": "prince-shotoku",
+        "nickname": "쇼토쿠 태자",
+        "nicknameEn": "Prince Shotoku",
+        "profession": "politician",
+        "headline": "십칠조헌법을 반포한 섭정",
+        "bio": "아스카 시대 일본의 섭정. 십칠조 헌법을 제정하고 불교를 국가 이념으로 수용하여 일본 고대 국가의 기틀을 놓았다."
+      },
+      "book": {
+        "contentId": "72c6247a-c221-41b4-aa3c-8ded65adcc94",
+        "title": "Beyond Happiness : Deepening the Dialogue Between Buddhism...",
+        "creator": "Watson Gay",
+        "description": null,
+        "isbn": "9781855754041",
+        "publisher": "Karnac Books",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "심리학자 117인이 고른 책"
+          ],
+          "topics": [
+            "psychology",
+            "nonfiction"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "불교"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ebc9f3ab-7ef7-46b4-818e-d6b2ae4169b7",
+        "slug": "kim-jong-un",
+        "nickname": "김정은",
+        "nicknameEn": "Kim Jong-un",
+        "profession": "politician",
+        "headline": "3대 세습 뒤 핵무장을 고도화한 북한 지도자",
+        "bio": "조선민주주의인민공화국의 최고 지도자. 2011년 김정일 사망 이후 권력을 승계하여 핵무력 고도화와 경제 개발 병진 노선을 추구하고 있다."
+      },
+      "book": {
+        "contentId": "3e38a321-7a70-43bf-9e3c-fb99728e091d",
+        "title": "미국의 민주주의",
+        "creator": "알렉시스 드 토크빌",
+        "description": null,
+        "isbn": "9788975855436",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 4,
+          "featuredListCount": 4,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선",
+            "서강 필독서 230선",
+            "성균고전 100선",
+            "서울대 권장도서 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 84,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ebc9f3ab-7ef7-46b4-818e-d6b2ae4169b7",
+        "slug": "kim-jong-un",
+        "nickname": "김정은",
+        "nicknameEn": "Kim Jong-un",
+        "profession": "politician",
+        "headline": "3대 세습 뒤 핵무장을 고도화한 북한 지도자",
+        "bio": "조선민주주의인민공화국의 최고 지도자. 2011년 김정일 사망 이후 권력을 승계하여 핵무력 고도화와 경제 개발 병진 노선을 추구하고 있다."
+      },
+      "book": {
+        "contentId": "fbe5c525-5e63-4d63-b0cc-80e54d83dfc8",
+        "title": "민주화 이후의 민주주의",
+        "creator": "최장집",
+        "description": "한국 민주주의의 보수적 기원과 위기『민주화 이후의 민주주의』. 민주주의에 대한 이해 방법을 새롭게 제시한 책으로, 지난 60여 년의 현대 한국 정치를 소재로 한국 민주주의의 기원과 구조, 변화를 다룬다. 오늘날 한국 민주주의가 안고 있는 문제들을 이해하기 위해서 이 책은 표피적이고 현상적인 해석의 차원을 넘어 좀 더 구조적이고 역사적인 차원에서 살펴보고자 했으며, 문제중심의 접근과 서술을 특징으로 한다. 이 책이 갖고 있는 가장 큰 강점은 풍부",
+        "isbn": "9788964371169",
+        "publisher": "후마니타스",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 2,
+          "featuredListCount": 2,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "중앙대 인문학 권장도서",
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 58,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ebc9f3ab-7ef7-46b4-818e-d6b2ae4169b7",
+        "slug": "kim-jong-un",
+        "nickname": "김정은",
+        "nicknameEn": "Kim Jong-un",
+        "profession": "politician",
+        "headline": "3대 세습 뒤 핵무장을 고도화한 북한 지도자",
+        "bio": "조선민주주의인민공화국의 최고 지도자. 2011년 김정일 사망 이후 권력을 승계하여 핵무력 고도화와 경제 개발 병진 노선을 추구하고 있다."
+      },
+      "book": {
+        "contentId": "0727c0b7-1113-4dfa-8edb-5c098aa86ce3",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "요제프 슘페터",
+        "description": "따르면 “사회주의라는 주제에 관하여 근 40년 동안 사색하고 관찰하고 연구해온 방대한 결과를 읽기 좋게 한 권의 단행본으로 묶은 것이다.” 슘페터는 이 책에서 자본주의 경제 체제의 성공을 견인했던 여러 요인들이 오히려 고도로 발달한 자본주의를 쇠퇴시키는 요인으로 작용할 것이며, 결국에는 자본주의가 사회주의로 전환될 것이라고 전망했다. 이런 내용으로 인해 출간 당시부터 상당히 파격적이고 위험한 사상으로 인식되었고, 당연하게도 뜨거운 논쟁의 중심에 설 수밖에 없었다",
+        "isbn": "9788996937432",
+        "publisher": "북길드",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "서울시립대 「시대가 읽는 책」 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 51.17,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "경제"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ebc9f3ab-7ef7-46b4-818e-d6b2ae4169b7",
+        "slug": "kim-jong-un",
+        "nickname": "김정은",
+        "nicknameEn": "Kim Jong-un",
+        "profession": "politician",
+        "headline": "3대 세습 뒤 핵무장을 고도화한 북한 지도자",
+        "bio": "조선민주주의인민공화국의 최고 지도자. 2011년 김정일 사망 이후 권력을 승계하여 핵무력 고도화와 경제 개발 병진 노선을 추구하고 있다."
+      },
+      "book": {
+        "contentId": "7d237edc-8753-4ddc-99e8-d633cbb59e0f",
+        "title": "문학의 민주주의",
+        "creator": "장성규",
+        "description": "이 책은 ‘구로노동자문학회’를 중심으로 한국에서의 노동자 글쓰기의 문학사를 거칠게나마 조망해보려는 조그마한 시도이다. 1988년부터 2006년까지 지속된 구로노동자문학회는 ‘문학의 주체로서의 노동자’라는 상이 구현된 매우 특이한 문학사적 사례에 해당한다. 주지하다시피 한국의 근대문학은 일련의 지식인-엘리트 집단을 주체로 설정하였으며, 이러한 문학적 주체 설정은 지금까지도 통용되고 있다. 이들 중 일부는 식민지 시대의 카프나 1980년대 민족문학운동",
+        "isbn": "9791173961380",
+        "publisher": "역락",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "한국출판문화상 수상작"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ebc9f3ab-7ef7-46b4-818e-d6b2ae4169b7",
+        "slug": "kim-jong-un",
+        "nickname": "김정은",
+        "nicknameEn": "Kim Jong-un",
+        "profession": "politician",
+        "headline": "3대 세습 뒤 핵무장을 고도화한 북한 지도자",
+        "bio": "조선민주주의인민공화국의 최고 지도자. 2011년 김정일 사망 이후 권력을 승계하여 핵무력 고도화와 경제 개발 병진 노선을 추구하고 있다."
+      },
+      "book": {
+        "contentId": "f82a9e3b-f515-4d3b-8f1a-03316952bb08",
+        "title": "미국의 민주주의",
+        "creator": "알렉시 드 토크빌",
+        "description": null,
+        "isbn": "9788935601950",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ebc9f3ab-7ef7-46b4-818e-d6b2ae4169b7",
+        "slug": "kim-jong-un",
+        "nickname": "김정은",
+        "nicknameEn": "Kim Jong-un",
+        "profession": "politician",
+        "headline": "3대 세습 뒤 핵무장을 고도화한 북한 지도자",
+        "bio": "조선민주주의인민공화국의 최고 지도자. 2011년 김정일 사망 이후 권력을 승계하여 핵무력 고도화와 경제 개발 병진 노선을 추구하고 있다."
+      },
+      "book": {
+        "contentId": "0291a170-0725-4404-a474-04f7c575c215",
+        "title": "민주주의와 교육",
+        "creator": "존 듀이",
+        "description": null,
+        "isbn": "9788925400662",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ebc9f3ab-7ef7-46b4-818e-d6b2ae4169b7",
+        "slug": "kim-jong-un",
+        "nickname": "김정은",
+        "nicknameEn": "Kim Jong-un",
+        "profession": "politician",
+        "headline": "3대 세습 뒤 핵무장을 고도화한 북한 지도자",
+        "bio": "조선민주주의인민공화국의 최고 지도자. 2011년 김정일 사망 이후 권력을 승계하여 핵무력 고도화와 경제 개발 병진 노선을 추구하고 있다."
+      },
+      "book": {
+        "contentId": "9b2f1ef3-7b76-4bf6-b2f3-b55836d4b09a",
+        "title": "자본주의 사회주의 민주주의",
+        "creator": "조지프 슘페터",
+        "description": "미국 경제학자 슘페터의 대표작 경제학의 고전『자본주의 사회주의 민주주의』. 슘페터는 20세기 전반이 세계적인 이론경제학자로, 경제ㆍ사회 전반의 문제를 40여 년에 걸쳐 사색한 결정체를 이 책에 담았다. 그는 이 책에서 마르크스의 이론의 비판 및 자본주의의 운명, 민주주의 여러 모순들을 순수경제학의 범주를 넘어서 정치ㆍ사회적인 입장에서 광범위하고도 깊은 통찰력으로 분석하고 있다. 그의 사회주의와 자본주의에 대한 예언자적 이론은 수많은 현대 경제이론가들",
+        "isbn": "9788935664153",
+        "publisher": "한길사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "성균고전 100선"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "민주주의"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "f123f9fb-4f5a-4038-a53c-998767f8e92d",
+        "slug": "qiu-jin",
+        "nickname": "추근",
+        "nicknameEn": "Qiu Jin",
+        "profession": "politician",
+        "headline": "대통학당을 무장 봉기의 거점으로 삼은 교장",
+        "bio": "청말 절강 사대부 가문 출신 혁명가이자 시인. 일본 유학 후 동맹회·광복회에 가담해 여성 해방과 무장 봉기를 동시에 추진했고, 1907년 소흥 헌정구에서 32세에 참수되었다."
+      },
+      "book": {
+        "contentId": "093c02ad-9bf5-404c-b454-9cd889b38b17",
+        "title": "시학",
+        "creator": "아리스토텔레스",
+        "description": null,
+        "isbn": "9788964452721",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 4,
+          "featuredListCount": 4,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "연세 필독도서 200선",
+            "고려대 권장도서 100선",
+            "서강 필독서 230선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 84,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "시·시학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "f123f9fb-4f5a-4038-a53c-998767f8e92d",
+        "slug": "qiu-jin",
+        "nickname": "추근",
+        "nicknameEn": "Qiu Jin",
+        "profession": "politician",
+        "headline": "대통학당을 무장 봉기의 거점으로 삼은 교장",
+        "bio": "청말 절강 사대부 가문 출신 혁명가이자 시인. 일본 유학 후 동맹회·광복회에 가담해 여성 해방과 무장 봉기를 동시에 추진했고, 1907년 소흥 헌정구에서 32세에 참수되었다."
+      },
+      "book": {
+        "contentId": "6659df23-3f02-4477-b799-c534bfcc708a",
+        "title": "시인의 별",
+        "creator": "이인화",
+        "description": "별》 《시인의 별》은 고려 충렬왕 때의 사람인 안현에 대한 이야기이다. 작가는 1997년 8월 앙카라대학의 라시드 교수가 발견한 17세기 필사본에 실린 ‘고려인 비칙치(서기) 안의 이야기’에 주목하여 이 소설을 썼다. 이 이야기는 안현에 대한 역사적인 기록을 바탕으로 안현과 동일 인물로 상정한 비칙치 안이라는 인물이 옥중에서 지었다는 의 내용을 더해 작가가 상상력을 발휘하여 한 편의 소설로 재구성한 것이다. 고려에서 몽골의 드넓은 초원까지 이어지는 안현의",
+        "isbn": "9791195294985",
+        "publisher": "피시스북",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "이상문학상 대상 수상작"
+          ],
+          "topics": [
+            "korean-literature"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 51.45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "시·시학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": [
+          "시인"
+        ]
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "f22428af-3bf3-4f92-94b8-c1ff36a6d9cf",
+        "slug": "sun-shangxiang",
+        "nickname": "손상향",
+        "nicknameEn": "Sun Shangxiang",
+        "profession": "politician",
+        "headline": "칼 든 시녀들을 거느린 유비의 부인",
+        "bio": "후한 말 오(吳)의 인물. 손권의 여동생으로 유비에게 정략결혼으로 시집갔으나, 유비가 익주로 진군한 뒤 오로 돌아왔다."
+      },
+      "book": {
+        "contentId": "093c02ad-9bf5-404c-b454-9cd889b38b17",
+        "title": "시학",
+        "creator": "아리스토텔레스",
+        "description": null,
+        "isbn": "9788964452721",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 4,
+          "featuredListCount": 4,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "연세 필독도서 200선",
+            "고려대 권장도서 100선",
+            "서강 필독서 230선",
+            "세인트존스 고전 목록"
+          ],
+          "topics": [
+            "classics"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 84,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "시·시학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "f22428af-3bf3-4f92-94b8-c1ff36a6d9cf",
+        "slug": "sun-shangxiang",
+        "nickname": "손상향",
+        "nicknameEn": "Sun Shangxiang",
+        "profession": "politician",
+        "headline": "칼 든 시녀들을 거느린 유비의 부인",
+        "bio": "후한 말 오(吳)의 인물. 손권의 여동생으로 유비에게 정략결혼으로 시집갔으나, 유비가 익주로 진군한 뒤 오로 돌아왔다."
+      },
+      "book": {
+        "contentId": "6659df23-3f02-4477-b799-c534bfcc708a",
+        "title": "시인의 별",
+        "creator": "이인화",
+        "description": "별》 《시인의 별》은 고려 충렬왕 때의 사람인 안현에 대한 이야기이다. 작가는 1997년 8월 앙카라대학의 라시드 교수가 발견한 17세기 필사본에 실린 ‘고려인 비칙치(서기) 안의 이야기’에 주목하여 이 소설을 썼다. 이 이야기는 안현에 대한 역사적인 기록을 바탕으로 안현과 동일 인물로 상정한 비칙치 안이라는 인물이 옥중에서 지었다는 의 내용을 더해 작가가 상상력을 발휘하여 한 편의 소설로 재구성한 것이다. 고려에서 몽골의 드넓은 초원까지 이어지는 안현의",
+        "isbn": "9791195294985",
+        "publisher": "피시스북",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": false,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "이상문학상 대상 수상작"
+          ],
+          "topics": [
+            "korean-literature"
+          ]
+        }
+      },
+      "signal": "context",
+      "contextScore": 45,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "시·시학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    }
+  ]
+}

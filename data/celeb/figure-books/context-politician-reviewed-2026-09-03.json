@@ -1,0 +1,180 @@
+{
+  "input": "context-politician-candidates-2026-09-03.json",
+  "model": "gemini-3.8-flash-high",
+  "reviewPasses": 2,
+  "reviews": [
+    {
+      "slug": "marie-antoinette",
+      "selections": [
+        {
+          "contentId": "c1a865d0-b2c1-4e06-b418-83145e4b674d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "프랑스 혁명의 상징적 희생자인 마리 앙투아네트의 수난과 군주정 몰락의 격변을 당대 보수주의 시각에서 성찰한 대표적 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "louis-xvi",
+      "selections": [
+        {
+          "contentId": "c1a865d0-b2c1-4e06-b418-83145e4b674d",
+          "relationType": "related",
+          "description": null,
+          "rationale": "루이 16세의 폐위와 단두대 처형으로 이어진 프랑스 혁명의 격변과 군주정의 위기를 당대 보수주의 시각에서 비판한 대표작이다."
+        }
+      ]
+    },
+    {
+      "slug": "syngman-rhee",
+      "selections": []
+    },
+    {
+      "slug": "hadrian",
+      "selections": []
+    },
+    {
+      "slug": "kim-young-sam",
+      "selections": []
+    },
+    {
+      "slug": "tiberius",
+      "selections": []
+    },
+    {
+      "slug": "harry-s.-truman",
+      "selections": []
+    },
+    {
+      "slug": "theodosius-ii",
+      "selections": []
+    },
+    {
+      "slug": "justinian-i",
+      "selections": [
+        {
+          "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "유스티니아누스 1세의 로마법대전 편찬과 옛 영토 회복 전쟁, 비잔티움 제국의 통치 체제를 집중적으로 조망한 대표적 역사 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "charlemagne",
+      "selections": []
+    },
+    {
+      "slug": "jeong-mong-ju",
+      "selections": [
+        {
+          "contentId": "0d8ebc12-b5f5-4c12-b09e-dc67f3a2bd64",
+          "relationType": "related",
+          "description": null,
+          "rationale": "고려 말 성리학을 수용하고 실천하며 유학의 기틀을 닦은 정몽주의 사상적 배경과 한국 유교사의 흐름을 조망하는 역사서다."
+        }
+      ]
+    },
+    {
+      "slug": "borte",
+      "selections": [
+        {
+          "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+          "relationType": "related",
+          "description": null,
+          "rationale": "칭기즈칸과 함께 대오르도를 관할하며 제국의 기틀을 닦은 보르테 황후의 활동 무대이자 몽골 제국의 발흥 과정을 조망한 대표 역사서다."
+        }
+      ]
+    },
+    {
+      "slug": "lorenzo-de-medici",
+      "selections": [
+        {
+          "contentId": "bd5e9549-efaf-4324-ac52-9ecd1a6e3bf7",
+          "relationType": "related",
+          "description": null,
+          "rationale": "피렌체를 통치하며 학문과 예술 후원으로 르네상스 황금기를 이끈 로렌초 데 메디치의 정치적·문화적 활동 배경을 조망한 기념비적 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "constantine-i",
+      "selections": [
+        {
+          "contentId": "e3af1b50-0c2e-404b-9f83-3f8a470974a0",
+          "relationType": "related",
+          "description": null,
+          "rationale": "기독교 공인과 수도 천도를 통해 로마 제국의 거대한 전환점을 마련한 콘스탄티누스 1세의 치세와 제국의 체제 변화를 깊이 있게 다룬 역사적 고전이다."
+        }
+      ]
+    },
+    {
+      "slug": "khosrow-i",
+      "selections": []
+    },
+    {
+      "slug": "mikhail-gorbachev",
+      "selections": []
+    },
+    {
+      "slug": "emperor-showa",
+      "selections": []
+    },
+    {
+      "slug": "nero",
+      "selections": []
+    },
+    {
+      "slug": "claudius",
+      "selections": []
+    },
+    {
+      "slug": "john-f.-kennedy",
+      "selections": []
+    },
+    {
+      "slug": "ashoka-the-great",
+      "selections": []
+    },
+    {
+      "slug": "zenobia",
+      "selections": []
+    },
+    {
+      "slug": "augustus",
+      "selections": []
+    },
+    {
+      "slug": "kim-dae-jung",
+      "selections": [
+        {
+          "contentId": "fbe5c525-5e63-4d63-b0cc-80e54d83dfc8",
+          "relationType": "related",
+          "description": null,
+          "rationale": "대한민국의 민주화 운동을 이끌고 정권 교체를 이룬 대통령으로서, 1987년 민주화 이후 한국 정치와 민주주의의 구조적 변화와 과제를 분석한 대표적 연구서다."
+        }
+      ]
+    },
+    {
+      "slug": "da-qiao",
+      "selections": []
+    },
+    {
+      "slug": "prince-shotoku",
+      "selections": []
+    },
+    {
+      "slug": "kim-jong-un",
+      "selections": []
+    },
+    {
+      "slug": "qiu-jin",
+      "selections": []
+    },
+    {
+      "slug": "sun-shangxiang",
+      "selections": []
+    }
+  ],
+  "updatedAt": "2026-09-03T02:57:40.792Z"
+}

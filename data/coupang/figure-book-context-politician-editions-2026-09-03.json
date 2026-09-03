@@ -1,0 +1,82 @@
+[
+  {
+    "contentId": "c1a865d0-b2c1-4e06-b418-83145e4b674d",
+    "locale": "ko",
+    "isbn": "9788935664542",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0,
+    "product": {
+      "platform": "coupang",
+      "productId": "16261791",
+      "productUrl": "https://www.coupang.com/vp/products/16261791?itemId=134662979&vendorItemId=3285588371",
+      "affiliateUrl": "https://link.coupang.com/a/gJDg2JE936",
+      "qualityEvidence": [
+        "ISBN 9788935664542의 제목·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "11 개 상품평"
+      ],
+      "checkedAt": "2026-09-03T03:02:58.117Z"
+    }
+  },
+  {
+    "contentId": "fbe5c525-5e63-4d63-b0cc-80e54d83dfc8",
+    "locale": "ko",
+    "isbn": "9788964371169",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0,
+    "product": {
+      "platform": "coupang",
+      "productId": "20434624",
+      "productUrl": "https://www.coupang.com/vp/products/20434624?itemId=80605381&vendorItemId=3189353884",
+      "affiliateUrl": "https://link.coupang.com/a/gJDin0aU2u",
+      "qualityEvidence": [
+        "ISBN 9788964371169의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "12 개 상품평"
+      ],
+      "checkedAt": "2026-09-03T03:03:16.369Z"
+    }
+  },
+  {
+    "contentId": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+    "locale": "ko",
+    "isbn": "9788971994047",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0,
+    "product": {
+      "platform": "coupang",
+      "productId": "35016296",
+      "productUrl": "https://www.coupang.com/vp/products/35016296?itemId=130115759&vendorItemId=3272445693",
+      "affiliateUrl": "https://link.coupang.com/a/gJDjJQryaO",
+      "qualityEvidence": [
+        "ISBN 9788971994047의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "로켓배송·내일 새벽 7시 전 도착 보장",
+        "9 개 상품평"
+      ],
+      "checkedAt": "2026-09-03T03:03:34.687Z"
+    }
+  },
+  {
+    "contentId": "bd5e9549-efaf-4324-ac52-9ecd1a6e3bf7",
+    "locale": "ko",
+    "isbn": "9788935654802",
+    "editionKind": "full",
+    "textScope": "complete",
+    "sortOrder": 0,
+    "product": {
+      "platform": "coupang",
+      "productId": "17656114",
+      "productUrl": "https://www.coupang.com/vp/products/17656114?itemId=70783505&vendorItemId=3285588297",
+      "affiliateUrl": "https://link.coupang.com/a/gJDlfk794u",
+      "qualityEvidence": [
+        "ISBN 9788935654802의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "3 개 상품평"
+      ],
+      "checkedAt": "2026-09-03T03:03:55.097Z"
+    }
+  }
+]

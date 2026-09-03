@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-03T02:40:48.416Z",
+  "checkedAt": "2026-09-03T03:03:55.097Z",
   "items": [
     {
       "content_id": "020eb69c-4f27-4f8e-a1b1-a35ddf26a66b",
@@ -774,6 +774,74 @@
       "affiliateUrl": "https://link.coupang.com/a/gJBGQLauvk",
       "state": "linked",
       "checkedAt": "2026-09-03T02:40:48.416Z"
+    },
+    {
+      "content_id": "c1a865d0-b2c1-4e06-b418-83145e4b674d",
+      "isbn": "9788935664542",
+      "title": "프랑스혁명에 관한 성찰",
+      "query": "프랑스혁명에 관한 성찰",
+      "name": "프랑스혁명에 관한 성찰:, 한길사",
+      "productId": "16261791",
+      "productUrl": "https://www.coupang.com/vp/products/16261791?itemId=134662979&vendorItemId=3285588371",
+      "qualityEvidence": [
+        "ISBN 9788935664542의 제목·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "11 개 상품평"
+      ],
+      "affiliateUrl": "https://link.coupang.com/a/gJDg2JE936",
+      "state": "linked",
+      "checkedAt": "2026-09-03T03:02:58.117Z"
+    },
+    {
+      "content_id": "fbe5c525-5e63-4d63-b0cc-80e54d83dfc8",
+      "isbn": "9788964371169",
+      "title": "민주화 이후의 민주주의",
+      "query": "민주화 이후의 민주주의",
+      "name": "민주화 이후의 민주주의:한국 민주주의의 보수적 기원과 위기, 후마니타스, 최장집",
+      "productId": "20434624",
+      "productUrl": "https://www.coupang.com/vp/products/20434624?itemId=80605381&vendorItemId=3189353884",
+      "qualityEvidence": [
+        "ISBN 9788964371169의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "12 개 상품평"
+      ],
+      "affiliateUrl": "https://link.coupang.com/a/gJDin0aU2u",
+      "state": "linked",
+      "checkedAt": "2026-09-03T03:03:16.369Z"
+    },
+    {
+      "content_id": "ec1ac17b-2a9a-41b4-b987-4b6086bfbeb2",
+      "isbn": "9788971994047",
+      "title": "몽골제국과 세계사의 탄생",
+      "query": "몽골제국과 세계사의 탄생",
+      "name": "몽골제국과 세계사의 탄생, 돌베개, 김호동 저",
+      "productId": "35016296",
+      "productUrl": "https://www.coupang.com/vp/products/35016296?itemId=130115759&vendorItemId=3272445693",
+      "qualityEvidence": [
+        "ISBN 9788971994047의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "로켓배송·내일 새벽 7시 전 도착 보장",
+        "9 개 상품평"
+      ],
+      "affiliateUrl": "https://link.coupang.com/a/gJDjJQryaO",
+      "state": "linked",
+      "checkedAt": "2026-09-03T03:03:34.687Z"
+    },
+    {
+      "content_id": "bd5e9549-efaf-4324-ac52-9ecd1a6e3bf7",
+      "isbn": "9788935654802",
+      "title": "이탈리아 르네상스의 문화",
+      "query": "이탈리아 르네상스의 문화",
+      "name": "이탈리아 르네상스의 문화, 한길사, 야코프 부르크하르트 저/이기숙 역",
+      "productId": "17656114",
+      "productUrl": "https://www.coupang.com/vp/products/17656114?itemId=70783505&vendorItemId=3285588297",
+      "qualityEvidence": [
+        "ISBN 9788935654802의 제목·저자·출판사와 쿠팡 상품명 일치",
+        "쿠팡 판매 로켓배송·내일 도착 보장",
+        "3 개 상품평"
+      ],
+      "affiliateUrl": "https://link.coupang.com/a/gJDlfk794u",
+      "state": "linked",
+      "checkedAt": "2026-09-03T03:03:55.097Z"
     }
   ]
 }
