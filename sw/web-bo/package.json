@@ -52,6 +52,7 @@
     "fiction:audit": "node --env-file=.env --import tsx scripts/fiction/audit.ts",
     "figure-books:audit": "node --env-file=.env --import tsx scripts/figure-books/audit.ts",
     "figure-books:direct-candidates": "node --env-file=.env --import tsx scripts/figure-books/direct-title-candidates.ts",
+    "figure-books:context-candidates": "node --env-file=.env --import tsx scripts/figure-books/context-candidates.ts",
     "figure-books:review-direct": "node scripts/figure-books/review-direct-candidates.mjs",
     "figure-books:apply-reviewed": "node --env-file=.env --import tsx scripts/figure-books/apply-reviewed.ts",
     "fiction:source:batch": "node --env-file=.env --import tsx scripts/fiction/source-batch.ts",

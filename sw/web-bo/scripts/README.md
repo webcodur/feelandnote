@@ -131,6 +131,7 @@ scripts/
 | `book-recommend:resources` | 서재 탐방 DB 연결·표지 캐시 운영 |
 | `figure-books:audit` | 전체 인물의 등장·연관 도서와 공개 쿠팡 판본 커버리지 감사 |
 | `figure-books:direct-candidates` | 기존 BOOK의 제목·저자에서 인물 이름이 직접 보이는 후보 추출 |
+| `figure-books:context-candidates` | 실존 인물 프로필의 세부 분야·작품·사건과 기존 선정 도서가 만나는 연관 후보 추출. 결과는 최종 관계가 아니라 모델 검수 입력 |
 | `figure-books:review-direct` | 후보를 agy로 검수하고 선택 결과를 로컬 JSON에 누적. `--shortlist`를 반복하면 여러 1차 결과를 합쳐 최종 심사 |
 | `figure-books:apply-reviewed` | 최종 검수 결과를 작품별 증분 관계로 dry-run·반영. 분할 결과는 `--reviews` 반복. 대량 반영은 `--verified-kakao-only --summary-only`로 출처·ISBN·검증 통과분만 적용 |
 | `coupang:candidates` | 제휴 링크 후보 수집 |
