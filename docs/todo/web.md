@@ -27,3 +27,8 @@
 - 공개 GitHub 저장소의 홈페이지 값을 `https://feelandnote.com`으로 바꾼다.
 - Oracle public vantage point에서 홈 REST를 10분마다 확인하고
   `MemoryUtilization[5m].mean() > 90` 알람을 기존 이메일 topic에 연결한다.
+- (우선순위 낮음) 인물 상세(`/celeb/[slug]`) 크롬 반응형 모드에서 상단 구획 제목줄(`CelebSectionHeading`,
+  `position: sticky` + 근처 `backdrop-blur`)이 간헐적으로 이전 폭 그대로 잘려 보이고 새로고침으로도
+  안 풀릴 때가 있다. 실제 창 크기 변경으로는 재현 안 되고 스스로 복구됨 — 서비스 워커·CSS 그리드
+  구조 자체는 정상 확인됨. 크롬 DevTools 반응형(에뮬레이션) 렌더링 경로 쪽 버그로 추정, 실사용자
+  화면에선 이 경로를 안 타 실서비스 영향 낮음. 재현 시 콘솔 에러와 함께 다시 본다.
