@@ -46,10 +46,11 @@ export default function JourneyEventExpandedList({
     <div
       tabIndex={0}
       aria-label={t("timelineViewExpand")}
-      className="custom-scrollbar max-h-[500px] overflow-y-auto [overflow-anchor:none] py-1 pe-2.5 ps-4.5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:max-h-[580px] md:pe-4"
+      className="md:custom-scrollbar py-1 pe-2.5 ps-4.5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:max-h-[580px] md:overflow-y-auto md:[overflow-anchor:none] md:pe-4"
     >
-      {/* 연대기 카드와 같은 언어: 머리(번호·연도·지명) + 제목 + 본문. 수직선 레일은 걷는다 */}
-      <div className="space-y-3 py-1">
+      {/* 연대기 카드와 같은 언어: 머리(번호·연도·지명) + 제목 + 본문. 수직선 레일은 걷는다.
+          좁은 화면에서는 한 장씩 옆으로 넘긴다 — 세로로 전부 훑지 않아도 된다 */}
+      <div className="flex snap-x snap-mandatory items-start gap-3 overflow-x-auto overscroll-x-contain py-1 [scrollbar-width:none] md:block md:space-y-3 md:overflow-visible">
         {events.map((event, index) => {
           const yearLabel = formatEventYear(event, yearCopy);
           const sourceLabel = event.sequenceLabel?.trim() ?? "";
@@ -60,7 +61,7 @@ export default function JourneyEventExpandedList({
           return (
             <article
               key={event.id ?? index}
-              className="group overflow-hidden rounded-xl border border-white/[0.08] bg-bg-secondary/35"
+              className="group w-full shrink-0 snap-start overflow-hidden rounded-xl border border-white/[0.08] bg-bg-secondary/35 md:w-auto md:shrink"
             >
               {/* 머리: 번호 + 연도·지명 — 연대기 카드 머리줄과 같은 자리 */}
               <div className="flex items-center gap-3 border-b border-accent-dim/20 px-4 py-2.5">
