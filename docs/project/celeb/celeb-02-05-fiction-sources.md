@@ -61,6 +61,8 @@ pnpm --dir sw/web-bo fiction:source:book -- --file <명세.json>
 pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/fiction/source-edition-batch.ts --file <판본.json>
 ```
 
+카카오·OpenLibrary 정규화 제목에서 합본·완역·일러스트 같은 실제 판본 수식어가 빠질 때만 명세의 `editionTitle`로 복원한다. 작품명과 판본명을 다시 섞기 위한 임의 제목에는 쓰지 않는다.
+
 한국어판 메타는 카카오 ISBN, 영문판 메타는 OpenLibrary ISBN만 사용한다. 상품은 판본이 확정된 뒤 `coupang-book-affiliate` 절차로 연결한다. 검증 가능한 한국어 번역본이 없으면 임의 번역 제목을 만들지 않고 확인 URL과 원제 정보를 남긴다.
 
 작품별 인물 관계는 다음 명령으로 dry-run한다.
