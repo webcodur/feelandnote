@@ -1,0 +1,1331 @@
+{
+  "generatedAt": "2026-09-03T01:55:02.959Z",
+  "filter": {
+    "profession": null,
+    "scope": "unlinked",
+    "publicOnly": true,
+    "representativeOnly": false,
+    "verifiedKakaoWithIsbn": true,
+    "maximumCandidates": 12
+  },
+  "totals": {
+    "peopleScanned": 2809,
+    "targetPeople": 1447,
+    "eligibleBooks": 44,
+    "candidateRows": 28,
+    "candidatePeople": 17,
+    "unmatchedPeople": 1430,
+    "publicCandidateRows": 28
+  },
+  "candidates": [
+    {
+      "person": {
+        "id": "02431479-7229-4218-8768-9aea37a5c783",
+        "slug": "john-hering",
+        "nickname": "존 허링",
+        "nicknameEn": "John Hering",
+        "profession": "entrepreneur",
+        "headline": "1마일 밖 휴대전화를 해킹한 룩아웃 공동창업자",
+        "bio": "미국의 사이버보안 기업가. 모바일 보안 기업 Lookout을 공동 창업했으며, 일론 머스크의 xAI 초기 자금 조달과 인재 영입에 관여했다."
+      },
+      "book": {
+        "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+        "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+        "creator": "스튜어트 러셀",
+        "description": null,
+        "isbn": "9788934988434",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "02431479-7229-4218-8768-9aea37a5c783",
+        "slug": "john-hering",
+        "nickname": "존 허링",
+        "nicknameEn": "John Hering",
+        "profession": "entrepreneur",
+        "headline": "1마일 밖 휴대전화를 해킹한 룩아웃 공동창업자",
+        "bio": "미국의 사이버보안 기업가. 모바일 보안 기업 Lookout을 공동 창업했으며, 일론 머스크의 xAI 초기 자금 조달과 인재 영입에 관여했다."
+      },
+      "book": {
+        "contentId": "book-9791185890418",
+        "title": "인공지능 1: 현대적 접근방식 (제3판)",
+        "creator": "스튜어트 러셀, 피터 노빅",
+        "description": null,
+        "isbn": "9791185890418",
+        "publisher": "제이펍",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "11aa71ce-e16a-4268-9416-f8a449bf72f5",
+        "slug": "park-tae-hoon",
+        "nickname": "박태훈",
+        "nicknameEn": "Park Tae-hoon",
+        "profession": "entrepreneur",
+        "headline": "영화 별점 추천을 스트리밍 서비스로 넓힌 창업자",
+        "bio": "카이스트 전산학과 출신 기업인. 2011년 프로그램스를 창업해 개인화 추천 서비스 왓챠피디아와 토종 OTT 왓챠를 만들었다."
+      },
+      "book": {
+        "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+        "title": "컴퓨터과학이 여는 세계",
+        "creator": "이광근",
+        "description": "『컴퓨터과학이 여는 세계』는 정보이론, 암호, 개인인증 등 컴퓨터과학이 보여주는 풍경 아래 흐르는, 원천 아이디어가 나온 이야기와 의미를 들려준다. 원천지식의 동기와 근본을 꿰뚫는 시각을 튼튼히 한다면 다양한 응용의 한계와 가능성을 쉽게 파악할 수 있고, 남들이 미처 보지 못하는 곳을 볼 수 있을 것이다. 이 책은 소프트웨어 교육을 둘러싼 움직임에 대한 학계의 한 응답으로 만들어졌다.",
+        "isbn": "9788966261437",
+        "publisher": "인사이트",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 65,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "컴퓨터과학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "1505d9ed-4557-4c98-a79c-209aaef3befc",
+        "slug": "jason-ginsberg",
+        "nickname": "제이슨 긴즈버그",
+        "nicknameEn": "Jason Ginsberg",
+        "profession": "entrepreneur",
+        "headline": "종단 간 암호화로 구글 독스에 맞선 스키프 공동창업자",
+        "bio": "미국 소프트웨어 엔지니어. 스탠퍼드 졸업 후 애플을 거쳐 보안 메일 Skiff를 공동창업했고, Cursor 제품 엔지니어링을 이끌다 2026년 일론 머스크의 xAI에 합류했다."
+      },
+      "book": {
+        "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+        "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+        "creator": "스튜어트 러셀",
+        "description": null,
+        "isbn": "9788934988434",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "1505d9ed-4557-4c98-a79c-209aaef3befc",
+        "slug": "jason-ginsberg",
+        "nickname": "제이슨 긴즈버그",
+        "nicknameEn": "Jason Ginsberg",
+        "profession": "entrepreneur",
+        "headline": "종단 간 암호화로 구글 독스에 맞선 스키프 공동창업자",
+        "bio": "미국 소프트웨어 엔지니어. 스탠퍼드 졸업 후 애플을 거쳐 보안 메일 Skiff를 공동창업했고, Cursor 제품 엔지니어링을 이끌다 2026년 일론 머스크의 xAI에 합류했다."
+      },
+      "book": {
+        "contentId": "book-9791185890418",
+        "title": "인공지능 1: 현대적 접근방식 (제3판)",
+        "creator": "스튜어트 러셀, 피터 노빅",
+        "description": null,
+        "isbn": "9791185890418",
+        "publisher": "제이펍",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "21c16158-1f58-4583-853a-47359dbe851a",
+        "slug": "drew-houston",
+        "nickname": "드류 휴스턴",
+        "nicknameEn": "Drew Houston",
+        "profession": "entrepreneur",
+        "headline": "파일이 따라다니는 드롭박스의 창업자",
+        "bio": "미국 IT 기업가. MIT 컴퓨터과학 졸업. 2007년 클라우드 파일 동기화 서비스 드롭박스를 공동 창업했다. 2018년 나스닥 상장, 2013년 MIT 졸업식 축사로 널리 알려졌다."
+      },
+      "book": {
+        "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+        "title": "컴퓨터과학이 여는 세계",
+        "creator": "이광근",
+        "description": "『컴퓨터과학이 여는 세계』는 정보이론, 암호, 개인인증 등 컴퓨터과학이 보여주는 풍경 아래 흐르는, 원천 아이디어가 나온 이야기와 의미를 들려준다. 원천지식의 동기와 근본을 꿰뚫는 시각을 튼튼히 한다면 다양한 응용의 한계와 가능성을 쉽게 파악할 수 있고, 남들이 미처 보지 못하는 곳을 볼 수 있을 것이다. 이 책은 소프트웨어 교육을 둘러싼 움직임에 대한 학계의 한 응답으로 만들어졌다.",
+        "isbn": "9788966261437",
+        "publisher": "인사이트",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 85.57,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "컴퓨터과학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [
+          "컴퓨터과학"
+        ],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "5ffd3f43-4fba-459a-942e-232718df9f29",
+        "slug": "wang-bi",
+        "nickname": "왕필",
+        "nicknameEn": "Wang Bi",
+        "profession": "humanities_scholar",
+        "headline": "주석을 철학으로 바꾼 현학의 선구자",
+        "bio": "삼국시대 위(魏)의 사상가. 24세에 요절했으나 노자·주역·논어에 단 한 권씩의 주해를 남겨 위진현학(玄學)을 열었다."
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "creator": "나관중",
+        "description": "김구용이 모종강본을 저본으로 완역한 전10권 세트다. 원문의 시문과 회목, 명대 삽화를 살린 정통 완역본이다.",
+        "isbn": "9791160200164",
+        "publisher": "솔",
+        "verified": true,
+        "sources": {
+          "url": "https://search.daum.net/search?w=bookpage&bookId=1136051&q=%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%B0%EC%9D%98+1",
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "삼국지·삼국시대"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "63f25aa3-092a-4d3c-ab82-e0a83580a050",
+        "slug": "lola-montez",
+        "nickname": "롤라 몬테즈",
+        "nicknameEn": "Lola Montez",
+        "profession": "actor",
+        "headline": "스페인인으로 가장해 바이에른 궁정을 뒤흔든 무희",
+        "bio": "아일랜드 출신 무용가이자 배우. '스페인 무용수'를 자처하며 유럽을 누볐고, 바이에른 국왕 루트비히 1세의 정부로서 정치에까지 영향을 미친 19세기 최고의 모험가다."
+      },
+      "book": {
+        "contentId": "79f559b6-7ea8-4855-81c4-1ddfd16ffafd",
+        "title": "스크린 연기의 비밀",
+        "creator": "패트릭 터커",
+        "description": null,
+        "isbn": "9788952701183",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 100,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "연기"
+        ],
+        "representativeBookAnchors": [
+          "연기"
+        ],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "70c4ee9e-bf20-453d-b0c4-2f00a1706392",
+        "slug": "andrew-milich",
+        "nickname": "앤드루 밀리치",
+        "nicknameEn": "Andrew Milich",
+        "profession": "entrepreneur",
+        "headline": "암호화 협업툴 스키프의 공동창업자",
+        "bio": "미국의 기업가이자 엔지니어. 종단간 암호화 협업 서비스 Skiff를 공동 창업해 이끌었고, Notion Mail과 Cursor를 거쳐 현재 xAI에서 일한다."
+      },
+      "book": {
+        "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+        "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+        "creator": "스튜어트 러셀",
+        "description": null,
+        "isbn": "9788934988434",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "70c4ee9e-bf20-453d-b0c4-2f00a1706392",
+        "slug": "andrew-milich",
+        "nickname": "앤드루 밀리치",
+        "nicknameEn": "Andrew Milich",
+        "profession": "entrepreneur",
+        "headline": "암호화 협업툴 스키프의 공동창업자",
+        "bio": "미국의 기업가이자 엔지니어. 종단간 암호화 협업 서비스 Skiff를 공동 창업해 이끌었고, Notion Mail과 Cursor를 거쳐 현재 xAI에서 일한다."
+      },
+      "book": {
+        "contentId": "book-9791185890418",
+        "title": "인공지능 1: 현대적 접근방식 (제3판)",
+        "creator": "스튜어트 러셀, 피터 노빅",
+        "description": null,
+        "isbn": "9791185890418",
+        "publisher": "제이펍",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "77433fc2-9080-4533-8ca5-0106a9a7dfb4",
+        "slug": "larry-page",
+        "nickname": "래리 페이지",
+        "nicknameEn": "Larry Page",
+        "profession": "entrepreneur",
+        "headline": "페이지랭크를 공동 개발한 구글 공동창업자",
+        "bio": "미국 컴퓨터 과학자이자 기업가. 세르게이 브린과 함께 구글을 창립하여 인터넷 검색의 혁명을 일으켰고 알파벳의 CEO를 역임했다."
+      },
+      "book": {
+        "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+        "title": "컴퓨터과학이 여는 세계",
+        "creator": "이광근",
+        "description": "『컴퓨터과학이 여는 세계』는 정보이론, 암호, 개인인증 등 컴퓨터과학이 보여주는 풍경 아래 흐르는, 원천 아이디어가 나온 이야기와 의미를 들려준다. 원천지식의 동기와 근본을 꿰뚫는 시각을 튼튼히 한다면 다양한 응용의 한계와 가능성을 쉽게 파악할 수 있고, 남들이 미처 보지 못하는 곳을 볼 수 있을 것이다. 이 책은 소프트웨어 교육을 둘러싼 움직임에 대한 학계의 한 응답으로 만들어졌다.",
+        "isbn": "9788966261437",
+        "publisher": "인사이트",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 65,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "컴퓨터과학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "92d854ff-9438-45bb-887b-746e89f58027",
+        "slug": "ross-nordeen",
+        "nickname": "로스 노딘",
+        "nicknameEn": "Ross Nordeen",
+        "profession": "entrepreneur",
+        "headline": "테슬라 슈퍼컴퓨터를 구축하고 xAI를 창립한 기술자",
+        "bio": "미국의 컴퓨팅 인프라 전문가. xAI 공동 창립 멤버이자 테슬라 슈퍼컴퓨터 인프라 구축을 이끌었고, 현재 앤트로픽의 컴퓨팅 인프라를 총괄한다."
+      },
+      "book": {
+        "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+        "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+        "creator": "스튜어트 러셀",
+        "description": null,
+        "isbn": "9788934988434",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "92d854ff-9438-45bb-887b-746e89f58027",
+        "slug": "ross-nordeen",
+        "nickname": "로스 노딘",
+        "nicknameEn": "Ross Nordeen",
+        "profession": "entrepreneur",
+        "headline": "테슬라 슈퍼컴퓨터를 구축하고 xAI를 창립한 기술자",
+        "bio": "미국의 컴퓨팅 인프라 전문가. xAI 공동 창립 멤버이자 테슬라 슈퍼컴퓨터 인프라 구축을 이끌었고, 현재 앤트로픽의 컴퓨팅 인프라를 총괄한다."
+      },
+      "book": {
+        "contentId": "book-9791185890418",
+        "title": "인공지능 1: 현대적 접근방식 (제3판)",
+        "creator": "스튜어트 러셀, 피터 노빅",
+        "description": null,
+        "isbn": "9791185890418",
+        "publisher": "제이펍",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "a1e88cf4-e734-46ed-81c4-a602eb9bc7c4",
+        "slug": "tim-berners-lee",
+        "nickname": "팀 버너스 리",
+        "nicknameEn": "Tim Berners-Lee",
+        "profession": "scientist",
+        "headline": "세상의 문서를 링크로 연결한 웹의 발명가",
+        "bio": "영국의 컴퓨터 과학자. 1989년 월드 와이드 웹을 발명하여 정보 공유의 혁명을 일으켰다."
+      },
+      "book": {
+        "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+        "title": "컴퓨터과학이 여는 세계",
+        "creator": "이광근",
+        "description": "『컴퓨터과학이 여는 세계』는 정보이론, 암호, 개인인증 등 컴퓨터과학이 보여주는 풍경 아래 흐르는, 원천 아이디어가 나온 이야기와 의미를 들려준다. 원천지식의 동기와 근본을 꿰뚫는 시각을 튼튼히 한다면 다양한 응용의 한계와 가능성을 쉽게 파악할 수 있고, 남들이 미처 보지 못하는 곳을 볼 수 있을 것이다. 이 책은 소프트웨어 교육을 둘러싼 움직임에 대한 학계의 한 응답으로 만들어졌다.",
+        "isbn": "9788966261437",
+        "publisher": "인사이트",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 65,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "컴퓨터과학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "b3cfa20f-418c-4d65-b2f6-0cfd42c5910d",
+        "slug": "david-patterson",
+        "nickname": "데이비드 패터슨",
+        "nicknameEn": "David Patterson",
+        "profession": "scientist",
+        "headline": "버클리 RISC-I를 이끈 컴퓨터 구조 설계자",
+        "bio": "미국 컴퓨터 과학자. UC 버클리 명예교수로 RISC 아키텍처를 창안했고 2017년 튜링상을 공동 수상했다. Google TPU 개발에 참여해 인공지능 시대의 칩 설계를 이끌고 있다."
+      },
+      "book": {
+        "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+        "title": "컴퓨터과학이 여는 세계",
+        "creator": "이광근",
+        "description": "『컴퓨터과학이 여는 세계』는 정보이론, 암호, 개인인증 등 컴퓨터과학이 보여주는 풍경 아래 흐르는, 원천 아이디어가 나온 이야기와 의미를 들려준다. 원천지식의 동기와 근본을 꿰뚫는 시각을 튼튼히 한다면 다양한 응용의 한계와 가능성을 쉽게 파악할 수 있고, 남들이 미처 보지 못하는 곳을 볼 수 있을 것이다. 이 책은 소프트웨어 교육을 둘러싼 움직임에 대한 학계의 한 응답으로 만들어졌다.",
+        "isbn": "9788966261437",
+        "publisher": "인사이트",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 65,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "컴퓨터과학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "b3cfa20f-418c-4d65-b2f6-0cfd42c5910d",
+        "slug": "david-patterson",
+        "nickname": "데이비드 패터슨",
+        "nicknameEn": "David Patterson",
+        "profession": "scientist",
+        "headline": "버클리 RISC-I를 이끈 컴퓨터 구조 설계자",
+        "bio": "미국 컴퓨터 과학자. UC 버클리 명예교수로 RISC 아키텍처를 창안했고 2017년 튜링상을 공동 수상했다. Google TPU 개발에 참여해 인공지능 시대의 칩 설계를 이끌고 있다."
+      },
+      "book": {
+        "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+        "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+        "creator": "스튜어트 러셀",
+        "description": null,
+        "isbn": "9788934988434",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "b3cfa20f-418c-4d65-b2f6-0cfd42c5910d",
+        "slug": "david-patterson",
+        "nickname": "데이비드 패터슨",
+        "nicknameEn": "David Patterson",
+        "profession": "scientist",
+        "headline": "버클리 RISC-I를 이끈 컴퓨터 구조 설계자",
+        "bio": "미국 컴퓨터 과학자. UC 버클리 명예교수로 RISC 아키텍처를 창안했고 2017년 튜링상을 공동 수상했다. Google TPU 개발에 참여해 인공지능 시대의 칩 설계를 이끌고 있다."
+      },
+      "book": {
+        "contentId": "book-9791185890418",
+        "title": "인공지능 1: 현대적 접근방식 (제3판)",
+        "creator": "스튜어트 러셀, 피터 노빅",
+        "description": null,
+        "isbn": "9791185890418",
+        "publisher": "제이펍",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "b592c599-3b1d-468d-bddf-b867de6cbd0f",
+        "slug": "brad-lightcap",
+        "nickname": "브래드 라이트캡",
+        "nicknameEn": "Brad Lightcap",
+        "profession": "entrepreneur",
+        "headline": "OpenAI 사업과 운영을 이끈 전 COO",
+        "bio": "미국 출신 OpenAI 최고운영책임자. 2018년 합류해 마이크로소프트 130억 달러 투자와 소프트뱅크 스타게이트 프로젝트 등 대형 협상을 주도하며 사업 운영 전반을 총괄한다."
+      },
+      "book": {
+        "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+        "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+        "creator": "스튜어트 러셀",
+        "description": null,
+        "isbn": "9788934988434",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "b592c599-3b1d-468d-bddf-b867de6cbd0f",
+        "slug": "brad-lightcap",
+        "nickname": "브래드 라이트캡",
+        "nicknameEn": "Brad Lightcap",
+        "profession": "entrepreneur",
+        "headline": "OpenAI 사업과 운영을 이끈 전 COO",
+        "bio": "미국 출신 OpenAI 최고운영책임자. 2018년 합류해 마이크로소프트 130억 달러 투자와 소프트뱅크 스타게이트 프로젝트 등 대형 협상을 주도하며 사업 운영 전반을 총괄한다."
+      },
+      "book": {
+        "contentId": "book-9791185890418",
+        "title": "인공지능 1: 현대적 접근방식 (제3판)",
+        "creator": "스튜어트 러셀, 피터 노빅",
+        "description": null,
+        "isbn": "9791185890418",
+        "publisher": "제이펍",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "bda68fab-c01d-4a3c-9ef2-0b8f365e58b4",
+        "slug": "jim-keller",
+        "nickname": "짐 켈러",
+        "nicknameEn": "Jim Keller",
+        "profession": "entrepreneur",
+        "headline": "x86-64 명세를 공동 설계한 칩 아키텍트",
+        "bio": "미국의 반도체 설계 엔지니어. DEC 알파, AMD K8·Zen, 애플 A4·A5, 테슬라 자율주행 칩을 잇달아 설계했고 현재 AI 반도체 스타트업 Tenstorrent를 이끈다."
+      },
+      "book": {
+        "contentId": "09bd2de2-465b-4f88-b500-9283882c50df",
+        "title": "반도체 제조기술의 이해",
+        "creator": "곽노열, 배병욱, 오경택, 윤태균, 이성희, 임정훈",
+        "description": "분들께 도움이 될 것으로 생각하며 특히 메모리 반도체인 DRAM과 NAND의 기본적인 이해 및 FabFabrication, 반도체 공장의 제조공정과 각종 장비에 대한 궁금증 또는 필요성이 있는 직접 관련 업무의 종사자분들, 반도체 산업의 기반이라 할 수있는 재료, 부품, 장비업에 종사하시는 분들, 그리고 교육 현장에서 학생들을 가르치시는 선생님들과 미래의 반도체 세계최고 전문가를 꿈꾸는 대한민국의 많은 희망들께 도움이 될 것으로 기대합니다. 다만 한",
+        "isbn": "9791166470677",
+        "publisher": "한올출판사",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 65,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "반도체"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "bda68fab-c01d-4a3c-9ef2-0b8f365e58b4",
+        "slug": "jim-keller",
+        "nickname": "짐 켈러",
+        "nicknameEn": "Jim Keller",
+        "profession": "entrepreneur",
+        "headline": "x86-64 명세를 공동 설계한 칩 아키텍트",
+        "bio": "미국의 반도체 설계 엔지니어. DEC 알파, AMD K8·Zen, 애플 A4·A5, 테슬라 자율주행 칩을 잇달아 설계했고 현재 AI 반도체 스타트업 Tenstorrent를 이끈다."
+      },
+      "book": {
+        "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+        "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+        "creator": "스튜어트 러셀",
+        "description": null,
+        "isbn": "9788934988434",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "bda68fab-c01d-4a3c-9ef2-0b8f365e58b4",
+        "slug": "jim-keller",
+        "nickname": "짐 켈러",
+        "nicknameEn": "Jim Keller",
+        "profession": "entrepreneur",
+        "headline": "x86-64 명세를 공동 설계한 칩 아키텍트",
+        "bio": "미국의 반도체 설계 엔지니어. DEC 알파, AMD K8·Zen, 애플 A4·A5, 테슬라 자율주행 칩을 잇달아 설계했고 현재 AI 반도체 스타트업 Tenstorrent를 이끈다."
+      },
+      "book": {
+        "contentId": "book-9791185890418",
+        "title": "인공지능 1: 현대적 접근방식 (제3판)",
+        "creator": "스튜어트 러셀, 피터 노빅",
+        "description": null,
+        "isbn": "9791185890418",
+        "publisher": "제이펍",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "d22b46a0-e493-4e2c-8ed8-e37f4766ed3f",
+        "slug": "marc-raibert",
+        "nickname": "마크 라이버트",
+        "nicknameEn": "Marc Raibert",
+        "profession": "scientist",
+        "headline": "한 발로 뛰는 로봇을 만든 보스턴 다이내믹스 창업자",
+        "bio": "미국 로봇공학자. 보스턴 다이내믹스를 창업해 빅도그·스팟·아틀라스 같은 사족·이족 동적 로봇의 시조가 됐다. 현재 AI Institute 의장이다."
+      },
+      "book": {
+        "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+        "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+        "creator": "스튜어트 러셀",
+        "description": null,
+        "isbn": "9788934988434",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "d22b46a0-e493-4e2c-8ed8-e37f4766ed3f",
+        "slug": "marc-raibert",
+        "nickname": "마크 라이버트",
+        "nicknameEn": "Marc Raibert",
+        "profession": "scientist",
+        "headline": "한 발로 뛰는 로봇을 만든 보스턴 다이내믹스 창업자",
+        "bio": "미국 로봇공학자. 보스턴 다이내믹스를 창업해 빅도그·스팟·아틀라스 같은 사족·이족 동적 로봇의 시조가 됐다. 현재 AI Institute 의장이다."
+      },
+      "book": {
+        "contentId": "book-9791185890418",
+        "title": "인공지능 1: 현대적 접근방식 (제3판)",
+        "creator": "스튜어트 러셀, 피터 노빅",
+        "description": null,
+        "isbn": "9791185890418",
+        "publisher": "제이펍",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "e4531a0d-7b26-4160-8e10-c4ffee40092b",
+        "slug": "anthony-armstrong",
+        "nickname": "앤서니 암스트롱",
+        "nicknameEn": "Anthony Armstrong",
+        "profession": "entrepreneur",
+        "headline": "머스크의 트위터 인수를 자문한 투자은행가",
+        "bio": "미국의 금융 전문가. 모건스탠리에서 일론 머스크의 트위터 인수를 자문했고, 2025년 xAI와 X의 재무를 맡았다가 2026년 xAI를 떠났다."
+      },
+      "book": {
+        "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+        "title": "어떻게 인간과 공존하는 인공지능을 만들 것인가",
+        "creator": "스튜어트 러셀",
+        "description": null,
+        "isbn": "9788934988434",
+        "publisher": null,
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "e4531a0d-7b26-4160-8e10-c4ffee40092b",
+        "slug": "anthony-armstrong",
+        "nickname": "앤서니 암스트롱",
+        "nicknameEn": "Anthony Armstrong",
+        "profession": "entrepreneur",
+        "headline": "머스크의 트위터 인수를 자문한 투자은행가",
+        "bio": "미국의 금융 전문가. 모건스탠리에서 일론 머스크의 트위터 인수를 자문했고, 2025년 xAI와 X의 재무를 맡았다가 2026년 xAI를 떠났다."
+      },
+      "book": {
+        "contentId": "book-9791185890418",
+        "title": "인공지능 1: 현대적 접근방식 (제3판)",
+        "creator": "스튜어트 러셀, 피터 노빅",
+        "description": null,
+        "isbn": "9791185890418",
+        "publisher": "제이펍",
+        "verified": true,
+        "sources": {
+          "primary": "kakao_book",
+          "thumbnail": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 0,
+          "featuredListCount": 0,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 52,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "인공지능"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "ead9649b-6115-4be8-abd8-b2b80b2602e3",
+        "slug": "dmitri-dolgov",
+        "nickname": "드미트리 돌고프",
+        "nicknameEn": "Dmitri Dolgov",
+        "profession": "entrepreneur",
+        "headline": "구글 자율주행차 프로젝트의 창립 엔지니어",
+        "bio": "러시아 출신 미국 소프트웨어 공학자. 2009년 구글 자율주행차 프로젝트 창립 멤버로 참여해 기술을 총괄했고, 2021년부터 웨이모 공동 최고경영자로 기술 부문을 맡고 있다."
+      },
+      "book": {
+        "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+        "title": "컴퓨터과학이 여는 세계",
+        "creator": "이광근",
+        "description": "『컴퓨터과학이 여는 세계』는 정보이론, 암호, 개인인증 등 컴퓨터과학이 보여주는 풍경 아래 흐르는, 원천 아이디어가 나온 이야기와 의미를 들려준다. 원천지식의 동기와 근본을 꿰뚫는 시각을 튼튼히 한다면 다양한 응용의 한계와 가능성을 쉽게 파악할 수 있고, 남들이 미처 보지 못하는 곳을 볼 수 있을 것이다. 이 책은 소프트웨어 교육을 둘러싼 움직임에 대한 학계의 한 응답으로 만들어졌다.",
+        "isbn": "9788966261437",
+        "publisher": "인사이트",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 65,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "컴퓨터과학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    },
+    {
+      "person": {
+        "id": "fb903a29-6da6-46b2-b8b5-528c748478e3",
+        "slug": "bill-dally",
+        "nickname": "빌 댈리",
+        "nicknameEn": "Bill Dally",
+        "profession": "scientist",
+        "headline": "병렬컴퓨터의 연결 방식을 바꾼 설계자",
+        "bio": "미국 컴퓨터과학자. NVIDIA 수석과학자이자 연구 부사장. 스탠퍼드 CS 학과장 출신으로 GPU 아키텍처와 병렬 컴퓨팅의 이론적 토대를 닦았다."
+      },
+      "book": {
+        "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+        "title": "컴퓨터과학이 여는 세계",
+        "creator": "이광근",
+        "description": "『컴퓨터과학이 여는 세계』는 정보이론, 암호, 개인인증 등 컴퓨터과학이 보여주는 풍경 아래 흐르는, 원천 아이디어가 나온 이야기와 의미를 들려준다. 원천지식의 동기와 근본을 꿰뚫는 시각을 튼튼히 한다면 다양한 응용의 한계와 가능성을 쉽게 파악할 수 있고, 남들이 미처 보지 못하는 곳을 볼 수 있을 것이다. 이 책은 소프트웨어 교육을 둘러싼 움직임에 대한 학계의 한 응답으로 만들어졌다.",
+        "isbn": "9788966261437",
+        "publisher": "인사이트",
+        "verified": true,
+        "sources": {
+          "note": "curated-list import",
+          "primary": "kakao_book"
+        },
+        "publicKoCoupang": true,
+        "curation": {
+          "listCount": 1,
+          "featuredListCount": 1,
+          "rankedListCount": 0,
+          "bestRank": null,
+          "listTitles": [
+            "고려대 학과별 권장도서"
+          ],
+          "topics": []
+        }
+      },
+      "signal": "context",
+      "contextScore": 65,
+      "contextEvidence": {
+        "namedWorks": [],
+        "titleAnchors": [
+          "컴퓨터과학"
+        ],
+        "representativeBookAnchors": [],
+        "supportingDescriptionAnchors": [],
+        "sharedTitleTerms": [],
+        "sharedDescriptionTerms": []
+      },
+      "existingRelation": null
+    }
+  ]
+}

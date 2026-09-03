@@ -1,0 +1,32 @@
+[
+  {
+    "contentId": "book-9791185890418",
+    "locale": "ko",
+    "isbn": "9791185890418",
+    "editionKind": "volume",
+    "textScope": "volume-1",
+    "sortOrder": 0
+  },
+  {
+    "contentId": "book-9791185890418",
+    "locale": "ko",
+    "isbn": "9791191600315",
+    "editionKind": "volume",
+    "textScope": "volume-1",
+    "sortOrder": 0,
+    "product": {
+      "platform": "coupang",
+      "productId": "6055215332",
+      "productUrl": "https://www.coupang.com/vp/products/6055215332?itemId=11112684915&vendorItemId=78391772684",
+      "affiliateUrl": "https://link.coupang.com/a/gJs5jlrtIZ",
+      "qualityEvidence": [
+        "카카오 도서 ISBN 9791191600315의 저자·출판사·발행일과 쿠팡 상품 상세 일치",
+        "제이펍 공식 서명 인공지능(제4판): 현대적 접근방식 1권과 쿠팡 상품 구성 일치",
+        "쿠팡 상품 상세 로켓배송 표식 확인",
+        "내일(금) 9/4 도착 보장",
+        "4 개 상품평"
+      ],
+      "checkedAt": "2026-09-03T02:12:50.695Z"
+    }
+  }
+]

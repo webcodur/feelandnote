@@ -1,0 +1,102 @@
+{
+  "input": "context-public-remainder-candidates-2026-09-03.json",
+  "model": "gemini-3.8-flash-high",
+  "reviews": [
+    {
+      "slug": "john-hering",
+      "selections": []
+    },
+    {
+      "slug": "park-tae-hoon",
+      "selections": []
+    },
+    {
+      "slug": "jason-ginsberg",
+      "selections": []
+    },
+    {
+      "slug": "drew-houston",
+      "selections": []
+    },
+    {
+      "slug": "wang-bi",
+      "selections": []
+    },
+    {
+      "slug": "lola-montez",
+      "selections": []
+    },
+    {
+      "slug": "andrew-milich",
+      "selections": []
+    },
+    {
+      "slug": "larry-page",
+      "selections": []
+    },
+    {
+      "slug": "ross-nordeen",
+      "selections": []
+    },
+    {
+      "slug": "tim-berners-lee",
+      "selections": []
+    },
+    {
+      "slug": "david-patterson",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "RISC 아키텍처를 창안한 대표적인 컴퓨터 구조 설계자로서 컴퓨터의 기본 원리와 시스템 구현을 다룬 컴퓨터과학서와 활동 맥락이 직접 맞닿아 있다."
+        }
+      ]
+    },
+    {
+      "slug": "brad-lightcap",
+      "selections": [
+        {
+          "contentId": "b1ad9dd1-e8a1-49f6-8a5e-eb06f44c6d25",
+          "relationType": "related",
+          "description": null,
+          "rationale": "OpenAI의 사업과 운영을 총괄한 AI 기업가로서 인공지능의 안전성과 인류와의 공존을 다룬 핵심 주제와 활동 맥락이 일치한다."
+        },
+        {
+          "contentId": "book-9791185890418",
+          "relationType": "related",
+          "description": null,
+          "rationale": "OpenAI 사업을 이끈 AI 기업가로서 인공지능의 핵심 이론과 체계를 포괄하는 대표적인 AI 개론서와 직접 연결된다."
+        }
+      ]
+    },
+    {
+      "slug": "jim-keller",
+      "selections": []
+    },
+    {
+      "slug": "marc-raibert",
+      "selections": []
+    },
+    {
+      "slug": "anthony-armstrong",
+      "selections": []
+    },
+    {
+      "slug": "dmitri-dolgov",
+      "selections": []
+    },
+    {
+      "slug": "bill-dally",
+      "selections": [
+        {
+          "contentId": "2651cf2e-79e4-48de-aef5-0c5cfbc07d6e",
+          "relationType": "related",
+          "description": null,
+          "rationale": "GPU 아키텍처와 병렬 컴퓨팅을 개척한 컴퓨터 설계자로서 컴퓨터 시스템의 이론과 원천 아이디어를 다룬 컴퓨터과학서와 활동 맥락이 직접 맞닿아 있다."
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-03T02:07:13.381Z"
+}
