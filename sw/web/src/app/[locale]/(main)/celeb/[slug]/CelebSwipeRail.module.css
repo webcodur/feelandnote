@@ -8,8 +8,11 @@
   display: none;
 }
 
+
 /* 좌측 레일 바깥틀과 같은 결. 너비·높이만 막대 규격으로 둔다 */
 .swipeRail {
+  /* 좌측 레일과 같은 이유 — body 포털로 나가면 바깥틀의 숨김이 따라오지 않는다 */
+  display: none;
   box-sizing: border-box;
   /* 좌측 레일과 같은 폭. 막대 너비가 달라지면 중심 계산도 함께 바뀐다 */
   width: var(--celeb-atlas-width, 160px);
@@ -91,6 +94,7 @@
   /* 좌측 레일 중심과 대칭. 프레임이 가운데에 서 있어 성립한다.
      막대 너비 절반을 빼 중심을 맞춘다 */
   .swipeRail {
+    display: block;
     position: fixed;
     top: calc(50dvh + 2rem);
     right: calc(
