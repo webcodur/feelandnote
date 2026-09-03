@@ -2,12 +2,18 @@
   display: none;
 }
 
+
 .profileRail,
 .profileNav {
   width: 100%;
 }
 
 .profileRail {
+  /*
+    레일은 body 포털로 옮겨 간다. 그러면 바깥틀(profileAside)의 숨김이 따라가지 않아
+    좁은 화면에서 문서 맨 끝에 그대로 그려졌다. 나가는 요소 자신이 조건을 쥔다.
+  */
+  display: none;
   box-sizing: border-box;
   padding: 9px 8px 8px;
   border: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 62%, transparent);
@@ -251,6 +257,7 @@
   }
 
   .profileRail {
+    display: block;
     position: fixed;
     top: calc(50dvh + 2rem);
     /* 실측 중심이 화면 밖으로 나가면 잘리므로 최소 여백으로 받친다 */
