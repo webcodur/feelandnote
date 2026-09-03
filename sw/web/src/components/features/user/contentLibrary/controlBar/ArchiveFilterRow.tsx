@@ -25,6 +25,8 @@ interface ArchiveFilterRowProps {
   reviewFilter: ReviewFilter;
   onReviewFilterChange: (filter: ReviewFilter) => void;
   allowRatingSort?: boolean;
+  /** 셀럽 서가는 감상에 리뷰가 항상 붙어 리뷰 필터를 숨긴다 */
+  hideReviewFilter?: boolean;
   compact: boolean;
 }
 
@@ -39,6 +41,7 @@ export default function ArchiveFilterRow({
   reviewFilter,
   onReviewFilterChange,
   allowRatingSort = true,
+  hideReviewFilter = false,
   compact,
 }: ArchiveFilterRowProps) {
   const t = useTranslations("archiveSearch");
@@ -47,15 +50,20 @@ export default function ArchiveFilterRow({
   const totalCount = typeCounts
     ? Object.values(typeCounts).reduce((sum, count) => sum + count, 0)
     : undefined;
-  const categoryOptions: FilterOption[] = TAB_OPTIONS.map((tab) => ({
-    value: tab.value,
-    label: tCategory(tab.value),
-    count: typeCounts
-      ? tab.type
-        ? typeCounts[tab.type]
-        : totalCount
-      : undefined,
-  }));
+  // 카테고리는 아이콘+숫자로 고른다. 아이콘은 드롭다운과 모바일 모달 양쪽에 뜬다.
+  const categoryOptions: FilterOption[] = TAB_OPTIONS.map((tab) => {
+    const Icon = tab.icon;
+    return {
+      value: tab.value,
+      label: tCategory(tab.value),
+      icon: <Icon size={14} aria-hidden />,
+      count: typeCounts
+        ? tab.type
+          ? typeCounts[tab.type]
+          : totalCount
+        : undefined,
+    };
+  });
   const availableSortOptions = allowRatingSort
     ? SORT_OPTIONS
     : SORT_OPTIONS.filter(({ value }) => value !== "rating_desc" && value !== "rating_asc");
@@ -93,15 +101,17 @@ export default function ArchiveFilterRow({
             currentValue={activeTab}
             onSelect={(value) => onTabChange(value as CategoryId)}
           />
-          <FilterChipDropdown
-            label={t("filter.review")}
-            value={reviewLabel}
-            icon={<MessageSquareText size={18} strokeWidth={1.7} aria-hidden />}
-            isActive={reviewFilter !== "all"}
-            options={reviewOptions}
-            currentValue={reviewFilter}
-            onSelect={(value) => onReviewFilterChange(value as ReviewFilter)}
-          />
+          {!hideReviewFilter && (
+            <FilterChipDropdown
+              label={t("filter.review")}
+              value={reviewLabel}
+              icon={<MessageSquareText size={18} strokeWidth={1.7} aria-hidden />}
+              isActive={reviewFilter !== "all"}
+              options={reviewOptions}
+              currentValue={reviewFilter}
+              onSelect={(value) => onReviewFilterChange(value as ReviewFilter)}
+            />
+          )}
           <FilterChipDropdown
             label={t("filter.sort")}
             value={sortLabel}
@@ -113,7 +123,10 @@ export default function ArchiveFilterRow({
           />
         </div>
 
-        <div className="grid w-full min-w-0 grid-cols-3 items-center gap-2 md:hidden">
+        <div className={cn(
+          "grid w-full min-w-0 items-center gap-2 md:hidden",
+          hideReviewFilter ? "grid-cols-2" : "grid-cols-3",
+        )}>
           <FilterChip
             label={t("filter.category")}
             value={categoryLabel}
@@ -122,14 +135,16 @@ export default function ArchiveFilterRow({
             onClick={() => setActiveFilter("category")}
             className="min-w-0"
           />
-          <FilterChip
-            label={t("filter.review")}
-            value={reviewLabel}
-            icon={<MessageSquareText size={16} strokeWidth={1.7} aria-hidden />}
-            isActive={reviewFilter !== "all"}
-            onClick={() => setActiveFilter("review")}
-            className="min-w-0"
-          />
+          {!hideReviewFilter && (
+            <FilterChip
+              label={t("filter.review")}
+              value={reviewLabel}
+              icon={<MessageSquareText size={16} strokeWidth={1.7} aria-hidden />}
+              isActive={reviewFilter !== "all"}
+              onClick={() => setActiveFilter("review")}
+              className="min-w-0"
+            />
+          )}
           <FilterChip
             label={t("filter.sort")}
             value={sortLabel}
@@ -142,7 +157,9 @@ export default function ArchiveFilterRow({
       </div>
 
       <FilterModal title={t("filter.category")} isOpen={activeFilter === "category"} current={activeTab} options={categoryOptions} onClose={() => setActiveFilter(null)} onChange={(value) => onTabChange(value as CategoryId)} />
-      <FilterModal title={t("filter.review")} isOpen={activeFilter === "review"} current={reviewFilter} options={reviewOptions} onClose={() => setActiveFilter(null)} onChange={(value) => onReviewFilterChange(value as ReviewFilter)} />
+      {!hideReviewFilter && (
+        <FilterModal title={t("filter.review")} isOpen={activeFilter === "review"} current={reviewFilter} options={reviewOptions} onClose={() => setActiveFilter(null)} onChange={(value) => onReviewFilterChange(value as ReviewFilter)} />
+      )}
       <FilterModal title={t("filter.sort")} isOpen={activeFilter === "sort"} current={sortOption} options={sortOptions} onClose={() => setActiveFilter(null)} onChange={(value) => onSortOptionChange(value as SortOption)} />
     </>
   );

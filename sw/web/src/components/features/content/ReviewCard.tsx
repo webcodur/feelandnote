@@ -15,6 +15,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { EyeOff, Star, ExternalLink } from "lucide-react";
 import { BlurDissolve, FormattedText } from "@/components/ui";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import Button from "@/components/ui/Button";
 import UserAvatarWithPopover from "@/components/shared/UserAvatarWithPopover";
 import { BLUR_DATA_URL } from "@/constants/image";
@@ -72,24 +73,26 @@ export default function ReviewCard({
         {/* 상단 앰비언트 라인 */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
-        {/* 상단 헤더: 아바타 + 2단 신원 + (우측: 별점 & 출처 텍스트 버튼) */}
-        <div className="flex items-center justify-between gap-2.5 sm:gap-3 pb-3 sm:pb-3.5 border-b border-white/[0.06]">
-          <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-            {/* 셀럽 아바타 (모바일 44px, 태블릿 52px, PC 60px로 유려한 비례) */}
+        {/* 상단 헤더: 전면 아바타 바 + 2단 신원 + (우측: 별점 & 출처 텍스트 버튼).
+            바는 헤더 박스에 절대 배치해 가장자리만 메우고, 텍스트 행은 스스로 중앙에 선다. */}
+        <div className="relative flex items-stretch gap-2.5 sm:gap-3 border-b border-white/[0.06] -mt-3.5 -ml-3.5 sm:-mt-5 sm:-ml-5">
+          {/* 셀럽 아바타 바. 헤더 높이에 맞춘 근사 정사각 너비를 명시한다.
+              아바타 파이프라인이 정사각(원본 800·작은 판 96 한 변)이라 원본 비율과 일치한다. */}
+          <div className="flex w-16 sm:w-20 shrink-0 self-stretch">
             <UserAvatarWithPopover
               userId={item.user.id}
               subjectKind={item.user.subject_kind}
               trigger={
-                <div className="relative w-11 h-11 sm:w-13 sm:h-13 md:w-15 md:h-15 rounded-xl sm:rounded-2xl overflow-hidden ring-2 ring-accent/35 hover:ring-accent/70 transition-all cursor-pointer shrink-0 shadow-md bg-black/40">
+                <div className="relative h-full w-16 sm:w-20 overflow-hidden rounded-tl-2xl border-e border-white/10 bg-black/40 cursor-pointer">
                   {item.user.avatar_url ? (
                     <BlurDissolve className="absolute inset-0">
-                      <Image
+                      {/* 연관인물 칸과 같은 작은 판(96px)을 쓴다. 원본 800px은 입자가 살아 있어
+                          바 크기에서 노이즈로 보이므로 레티나 2배를 조금 밑돌더라도 작은 판을 우선한다. */}
+                      <CelebAvatarImage
                         src={item.user.avatar_url}
                         alt={nickname}
-                        fill
-                        unoptimized
+                        sizes="48px"
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        placeholder="blur"
                         blurDataURL={BLUR_DATA_URL}
                       />
                     </BlurDissolve>
@@ -99,11 +102,13 @@ export default function ReviewCard({
                     </div>
                   )}
                 </div>
-              }
-            />
+                }
+              />
+            </div>
 
             {/* 2단: 위(헤드라인/직함) → 아래(인물명 + 직군 아이콘) */}
-            <div className="flex flex-col min-w-0 justify-center gap-0.5 sm:gap-1">
+            <div className="flex flex-1 items-center justify-between gap-2.5 sm:gap-3 min-w-0 py-3.5 sm:py-5">
+              <div className="flex flex-col min-w-0 justify-center gap-0.5 sm:gap-1">
               {/* 1행 (위): 헤드라인 또는 타이틀 */}
               {topSubtitle && (
                 <p className="text-[11px] sm:text-xs md:text-sm text-text-secondary/85 font-normal truncate leading-tight">
@@ -132,12 +137,11 @@ export default function ReviewCard({
                     className="inline-flex items-center justify-center p-1 sm:p-1.5 rounded-full bg-white/[0.06] border border-white/[0.09] shrink-0 shadow-sm"
                     title={professionKey ?? undefined}
                   >
-                    <ProfessionIcon size={11} className={cn(professionColor || "text-accent", "sm:w-3 sm:h-3")} />
-                  </span>
+                  <ProfessionIcon size={11} className={cn(professionColor || "text-accent", "sm:w-3 sm:h-3")} />
+                </span>
                 )}
               </div>
-            </div>
-          </div>
+              </div>
 
           {/* 우측: 별점 & 출처 텍스트 버튼 (모바일에서도 콤팩트하게 안착) */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -160,6 +164,7 @@ export default function ReviewCard({
                 <ExternalLink size={11} />
               </a>
             )}
+          </div>
           </div>
         </div>
 
