@@ -10,6 +10,11 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import {
+  CACHE_TAGS,
+  type CacheItemTarget,
+} from '@feelandnote/shared/constants/cache-tags'
+import { revalidateWebItems } from '../../src/lib/revalidate-web'
+import {
   assertExactFictionSourceReadback,
   buildFictionSourceBatchPlan,
   type FictionSourceCharacterRow,
@@ -329,6 +334,16 @@ async function main(): Promise<void> {
       console.log(`APPLIED ${appliedWorks}/${plans.length}`)
     }
   }
+
+  const cacheTargets: CacheItemTarget[] = [
+    ...plans.map(({ contentId }) => ({ domain: CACHE_TAGS.CONTENTS, id: contentId })),
+    ...[...selectedByContent.values()].flatMap((rows): CacheItemTarget[] => rows.flatMap((row) => [
+      { domain: CACHE_TAGS.CELEBS, id: row.celebId },
+      { domain: CACHE_TAGS.CELEBS, id: row.slug },
+    ])),
+  ]
+  await revalidateWebItems(cacheTargets)
+  console.log(`REVALIDATED ${new Set(cacheTargets.map((target) => `${target.domain}:${target.id}`)).size} item tags`)
 }
 
 void main().catch((error: unknown) => {

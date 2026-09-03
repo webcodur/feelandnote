@@ -49,6 +49,7 @@ const profession = value('profession')
 const includeWeak = process.argv.includes('--include-weak')
 const offline = process.argv.includes('--offline')
 const validateOnly = process.argv.includes('--validate-only')
+const relatedOnly = process.argv.includes('--related-only')
 const shortlistPaths = values('shortlist')
 const shardRaw = value('shard')
 const shard = (() => {
@@ -177,6 +178,9 @@ function validateReviews(raw, batch) {
       if (relationType !== 'appearance' && relationType !== 'related') {
         throw new Error(`${slug}.${contentId}: relationType이 잘못됐습니다.`)
       }
+      if (relatedOnly && relationType !== 'related') {
+        throw new Error(`${slug}.${contentId}: --related-only 심사에서는 related만 허용됩니다.`)
+      }
       const description = selection?.description ?? null
       if (relationType === 'appearance' && (typeof description !== 'string' || !description.trim())) {
         throw new Error(`${slug}.${contentId}: 등장 도서에는 description이 필요합니다.`)
@@ -207,20 +211,27 @@ function promptFor(batch) {
     },
     candidates,
   }))
-  const task = shortlists.length > 0
+  const task = relatedOnly
+    ? `아래는 인물 프로필의 구체적인 종목·장르·연구 분야·팀·사건·시대·대표 배역과 한국어 도서 메타가 맞닿은 후보들이다. 각 사람을 이해하는 데 실제로 도움이 되고, 카드의 제목과 저자만 보아도 연결이 납득되는 책만 최대 4권 고른다.
+
+직군이 같다는 이유만으로 고르지 않는다. 선수는 실제 종목·포지션·팀, 음악인은 장르·악기, 과학자는 연구 분야, 배우·감독은 프로필에 확인되는 대표 작품이나 영화 분야처럼 그 사람의 구체적인 맥락과 책이 직접 맞아야 한다. 전기·평전·자서전처럼 인물 자체를 다루는 책은 이 단계에서 고르지 않는다. 후보 점수와 contextEvidence는 검색 단서일 뿐 정답이 아니다.`
+    : shortlists.length > 0
     ? `아래는 1차 모델이 고른 인물별 책이다. 독립 편집자로 다시 심사해 실제 책장에 남길 가치가 명백한 책만 최대 4권 확정한다.
 
 같은 작품의 판본·선집이 겹치거나 전집과 낱권이 중복되면 더 읽기 좋은 대표 선택만 남긴다. 시리즈 전권 세트가 있는데 중간 권을 함께 남기지 않는다. 서로 다른 작품·번역·선집이 실제로 다른 읽을거리를 주면 복수 선택은 가능하다. 한국어 사용자에게 보여 줄 책장이므로, 같은 가치라면 검증된 한국어판·완역·전집을 정체 불명 영문판이나 후속권보다 우선한다. 1차 판정과 rationale은 참고일 뿐 그대로 믿지 않는다.`
     : '아래는 서비스 인물 이름이 책 제목에 문자열로 걸린 후보들이다. 오탐이 많다. 각 사람에게 실제로 보여 줄 가치가 명백한 책만 최대 4권 고른다.'
+  const relationRule = relatedOnly
+    ? `관계는 related 하나만 쓴다. description은 반드시 null이다. related는 인물의 사상적 동의나 실제 독서를 뜻하지 않고, 그 사람의 활동 맥락을 읽는 책이라는 뜻이다.`
+    : `관계는 딱 둘이다.
+- appearance: 전기·평전·회고록·인터뷰집·역사서·소설 등에서 그 인물이 실질적인 중심 대상 또는 등장인물이다. 제공된 책 소개로 확인되는 사실만 써서, 사용자가 무엇으로 등장하는지 알 수 있는 자연스러운 한국어 description 한 문장을 작성한다.
+- related: 그 인물이 쓴 대표 저작이거나, 인물의 팀·사건·세부 분야와 제목/저자만 봐도 연결되는 책이다. description은 반드시 null이다. 관련은 사상적 동의를 뜻하지 않는다.`
   return `${task}
 
-관계는 딱 둘이다.
-- appearance: 전기·평전·회고록·인터뷰집·역사서·소설 등에서 그 인물이 실질적인 중심 대상 또는 등장인물이다. 제공된 책 소개로 확인되는 사실만 써서, 사용자가 무엇으로 등장하는지 알 수 있는 자연스러운 한국어 description 한 문장을 작성한다.
-- related: 그 인물이 쓴 대표 저작이거나, 인물의 팀·사건·세부 분야와 제목/저자만 봐도 연결되는 책이다. description은 반드시 null이다. 관련은 사상적 동의를 뜻하지 않는다.
+${relationRule}
 
 동명이인, 일반 단어 충돌, 책 제목 속 우연한 부분 문자열, 다른 사람의 책은 버린다. 저자 이름이 제목 괄호에 적힌 저작은 appearance가 아니라 related다. 자서전처럼 저자가 자기 생애의 대상이면 appearance다. 같은 작품의 질 낮은 판본을 여러 개 채우지 말고, 제공 메타 기준으로 읽을 가치가 높은 대표판을 우선한다. 불확실하면 고르지 않는다. 사람마다 0권도 정상이다. ${offline ? '웹 검색이나 외부 도구를 사용하지 말고 제공된 메타만으로 판단한다.' : '웹 검색은 메타만으로 판단할 수 없을 때에만 사용한다.'} 사실을 지어내지 않는다.
 
-그 인물의 생애·사상·업적 자체를 해설하거나 연구하는 책도 인물을 중심 대상으로 다루므로 appearance다. related는 인물 자체가 아니라 그 인물의 직접 저작 또는 구체적인 활동 맥락을 읽는 책에 쓴다.
+${relatedOnly ? '인물 자체를 다루는 책은 선택하지 않는다.' : '그 인물의 생애·사상·업적 자체를 해설하거나 연구하는 책도 인물을 중심 대상으로 다루므로 appearance다. related는 인물 자체가 아니라 그 인물의 직접 저작 또는 구체적인 활동 맥락을 읽는 책에 쓴다.'}
 
 JSON 배열만 반환한다. 입력의 모든 slug를 정확히 한 번씩 반환한다.
 [
