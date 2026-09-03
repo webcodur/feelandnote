@@ -1,6 +1,12 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] timeline — 여정 지도 패널(지구본)
+ * - 목차 위치: timeline
+ * - 데이터: markers/activeId/focusId/event props
+ * - 함께 보기: JourneySection.tsx, JourneyGlobeModal.tsx, journeyTimeline.ts
+ * ───────────────────────────────────────────── */
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 
@@ -60,23 +66,27 @@ export default function JourneyMapPanel({
     [t],
   );
 
-  const globeProps = {
-    markers,
-    showPath: true,
-    activeId,
-    focusId,
-    focusKey,
-    unknownKey,
-    onSelect,
-    label: t("timelineMapLabel"),
-    controlLabels: {
-      zoomIn: t("timelineZoomIn"),
-      zoomOut: t("timelineZoomOut"),
-      reset: t("timelineResetView"),
-    },
-    mapNote: t("timelineModernBorders"),
-    formatMarkerCount: formatRecordCount,
-  };
+  // 매 렌더 새 객체가 되면 지구본이 불필요하게 다시 그린다. 값 기준 메모로 고정한다.
+  const globeProps = useMemo(
+    () => ({
+      markers,
+      showPath: true,
+      activeId,
+      focusId,
+      focusKey,
+      unknownKey,
+      onSelect,
+      label: t("timelineMapLabel"),
+      controlLabels: {
+        zoomIn: t("timelineZoomIn"),
+        zoomOut: t("timelineZoomOut"),
+        reset: t("timelineResetView"),
+      },
+      mapNote: t("timelineModernBorders"),
+      formatMarkerCount: formatRecordCount,
+    }),
+    [markers, activeId, focusId, focusKey, unknownKey, onSelect, t, formatRecordCount],
+  );
 
   return (
     <>
@@ -100,12 +110,14 @@ export default function JourneyMapPanel({
       <JourneyGlobeModal
         open={expanded}
         globe={
-          <WorldGlobe
-            {...globeProps}
-            className="h-full rounded-none border-0"
-            fillContainer
-            initialZoom={0.48}
-          />
+          expanded ? (
+            <WorldGlobe
+              {...globeProps}
+              className="h-full rounded-none border-0"
+              fillContainer
+              initialZoom={0.48}
+            />
+          ) : null
         }
         event={event}
         yearLabel={event ? formatTimelinePosition(event, yearCopy) : null}

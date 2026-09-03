@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] timeline — 전체화면 지구본 모달
+ * - 목차 위치: timeline
+ * - 데이터: globe/event/current/total props
+ * - 함께 보기: JourneyMapPanel.tsx, JourneySection.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
@@ -44,6 +50,7 @@ export default function JourneyGlobeModal({
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
+  /* ── 1. 포커스·스크롤 잠금 ── */
   useEffect(() => {
     if (!open) return;
 
@@ -91,6 +98,7 @@ export default function JourneyGlobeModal({
 
   if (!open) return null;
 
+  /* ── 2. 전체화면 렌더 ── */
   return createPortal(
     <div
       ref={dialogRef}

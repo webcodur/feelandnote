@@ -1,3 +1,9 @@
+/* ─────────────────────────────────────────────
+ * [celeb 상세] timeline — 연표 사건 카드
+ * - 목차 위치: timeline
+ * - 데이터: event/events/표시 문구 props
+ * - 함께 보기: JourneyEventCarousel.tsx, JourneyActivityRange.tsx, TimelineIndexTick.tsx
+ * ───────────────────────────────────────────── */
 "use client";
 
 import { useRef, type PointerEvent as ReactPointerEvent } from "react";
@@ -50,6 +56,7 @@ export default function JourneyEventCard({
   const hasPlace = event.lat != null && event.lng != null;
   const titleDragRef = useRef({ pointerId: -1, x: 0, left: 0 });
 
+  /* ── 1. 제목 드래그 처리 ── */
   const handleTitlePointerDown = (pointer: ReactPointerEvent<HTMLDivElement>) => {
     if (pointer.pointerType !== "mouse" || pointer.button !== 0) return;
     titleDragRef.current = {
@@ -82,6 +89,7 @@ export default function JourneyEventCard({
       aria-hidden={!isCurrent}
       className="flex h-full min-h-0 w-full flex-col overflow-hidden bg-bg-secondary/35"
     >
+      {/* ── 2. 머리·제목 이동 ── */}
       <div className="grid h-12 shrink-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-accent-dim/20 px-4 md:px-5">
         <p
           className="flex size-7 items-center justify-center justify-self-start rounded-full border border-accent/70 bg-accent/10 font-mono text-xs font-black leading-none tabular-nums text-accent"
@@ -119,16 +127,17 @@ export default function JourneyEventCard({
         </p>
       </div>
 
-      <div className="grid h-14 shrink-0 grid-cols-[40px_minmax(0,1fr)_40px] items-stretch border-b border-accent-dim/20 md:grid-cols-[52px_minmax(0,1fr)_52px]">
+      {/* 넘김 단추는 제목 양옆에 둔다. 양 끝 레일은 허전함만 키웠다 */}
+      <div className="flex shrink-0 items-center gap-1 border-b border-accent-dim/20 px-2 py-2 md:px-3">
         <button
           data-timeline-rail="previous"
           type="button"
           onClick={onPrevious}
           disabled={previousDisabled}
           aria-label={previousLabel}
-          className="flex items-center justify-center border-e border-accent-dim/20 bg-bg-secondary/30 text-text-secondary cursor-pointer hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-20"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/[0.04] text-text-primary cursor-pointer hover:border-accent hover:bg-accent/15 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent disabled:cursor-default disabled:opacity-25"
         >
-          <ArrowLeft size={20} strokeWidth={1.6} aria-hidden />
+          <ArrowLeft size={16} aria-hidden />
         </button>
 
         <div
@@ -138,9 +147,9 @@ export default function JourneyEventCard({
           onPointerMove={handleTitlePointerMove}
           onPointerUp={handleTitlePointerEnd}
           onPointerCancel={handleTitlePointerEnd}
-          className="scrollbar-hide min-w-0 cursor-grab select-none overflow-x-auto overscroll-x-contain touch-pan-x hover:bg-white/5 active:cursor-grabbing [overflow-anchor:none]"
+          className="scrollbar-hide min-w-0 flex-1 cursor-grab select-none overflow-x-auto overscroll-x-contain touch-pan-x hover:bg-white/5 active:cursor-grabbing [overflow-anchor:none]"
         >
-          <h3 className="flex h-full w-max min-w-full items-center justify-center whitespace-nowrap px-3 text-center text-lg font-bold leading-snug text-text-primary md:text-xl">
+          <h3 className="flex h-full w-max min-w-full items-center justify-center whitespace-nowrap px-2 text-center text-lg font-bold leading-snug text-text-primary md:text-xl">
             {event.title}
           </h3>
         </div>
@@ -152,12 +161,13 @@ export default function JourneyEventCard({
           onClick={onNext}
           disabled={nextDisabled}
           aria-label={nextLabel}
-          className="flex items-center justify-center border-s border-accent-dim/20 bg-bg-secondary/30 text-text-secondary cursor-pointer hover:bg-accent/10 hover:text-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-20"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/[0.04] text-text-primary cursor-pointer hover:border-accent hover:bg-accent/15 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent disabled:cursor-default disabled:opacity-25"
         >
-          <ArrowRight size={20} strokeWidth={1.6} aria-hidden />
+          <ArrowRight size={16} aria-hidden />
         </button>
       </div>
 
+      {/* ── 3. 본문 ── */}
       <div
         data-timeline-body-scroll
         tabIndex={isCurrent ? 0 : -1}
