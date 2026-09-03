@@ -372,9 +372,9 @@ async function main(): Promise<void> {
   const candidates: Array<Record<string, unknown>> = []
   const unmatchedPeople: Array<Record<string, unknown>> = []
   for (const person of targets) {
-    const profileText = `${person.headline ?? ''} ${person.bio ?? ''}`.trim()
+    const profileText = profileContextText(`${person.headline ?? ''} ${person.bio ?? ''}`.trim())
     const profileAnchors = new Set(findContextAnchorKeys(
-      profileContextText(profileText),
+      profileText,
       'profile',
       person.profession,
     ))
