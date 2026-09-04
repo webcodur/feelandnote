@@ -4,7 +4,6 @@ import {
   useCallback,
   useEffect,
   useId,
-  useMemo,
   useRef,
   useState,
   type MouseEvent as ReactMouseEvent,
@@ -33,10 +32,9 @@ interface RailDragState {
 
 export default function MythPersonPicker({ people, selectedId, onSelect, traditionId, layout = "sidebar" }: Props) {
   const t = useTranslations("explore.hub.myth");
-  const visible = useMemo(
-    () => [...people].sort((a, b) => b.sourceIds.length - a.sourceIds.length),
-    [people],
-  );
+  /* 조회가 넘긴 차례를 그대로 쓴다. 전에는 연결 작품 수로 다시 줄을 세워서
+     전승마다 잡아 둔 계보·이야기 순서가 화면에서 통째로 뒤집혔다 */
+  const visible = people;
   const isRail = layout === "rail";
   const railId = useId();
   const scrollRef = useRef<HTMLDivElement>(null);

@@ -20,6 +20,7 @@ interface TagRow {
 }
 interface MemberRow {
   tag_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null; sort_order: number | null;
+  quote: string | null; quote_en: string | null;
 }
 interface PersonRow {
   id: string; slug: string | null; nickname: string; nickname_en: string | null;
@@ -126,7 +127,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
 
   const { data: memberData, error: memberError } = await db
     .from("faction_atlas_members")
-    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order")
+    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,quote,quote_en")
     .in("tag_id", tagIds).eq("hidden", false).order("sort_order");
   if (memberError) throw new Error(`신화 인물 조회 실패: ${memberError.message}`);
   const members = (memberData ?? []) as MemberRow[];
@@ -186,9 +187,11 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     const images = imageUrl ? [{ url: imageUrl }] : [];
     const explanation = explanationByPerson.get(profile.id);
     const guide = (isEn ? explanation?.plain_text_en || explanation?.plain_text : explanation?.plain_text)?.trim() || null;
+    /* 대사는 전승마다 다르다 — 영상 대본이 그 편의 인물에게 준 말이라 같은 신도 편마다 다르게 말한다 */
     const appearances = placements.map((placement) => ({
       traditionId: placement.tag_id,
       summary: (isEn ? placement.short_desc_en || placement.short_desc : placement.short_desc)?.trim() || null,
+      quote: (isEn ? placement.quote_en || placement.quote : placement.quote)?.trim() || null,
     }));
     return [{ id: profile.id, slug: profile.slug,
       name: isEn ? profile.nickname_en || profile.nickname : profile.nickname,
@@ -200,7 +203,9 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
       appearances,
       avatarUrl: profile.avatar_url, imageUrl, images,
       traditionIds: unique(placements.map((row) => row.tag_id)), sourceIds }];
-  }).sort((a, b) => b.sourceIds.length - a.sourceIds.length);
+  });
+  /* 차례는 전승이 쥔다(tradition.personIds). 여기서 연결 작품 수로 다시 줄을 세우면
+     전승마다 잡아 둔 계보·이야기 순서가 화면에서 통째로 뒤집힌다 */
 
   const parentIdsWithPopulatedChildren = new Set(
     nestedTags

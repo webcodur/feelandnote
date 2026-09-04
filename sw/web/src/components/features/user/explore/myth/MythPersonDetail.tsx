@@ -1,7 +1,7 @@
 "use client";
 
 import { useId } from "react";
-import { ArrowLeft, ArrowUpRight, BookOpenText, UserRound, type LucideIcon } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, BookOpenText, Quote, UserRound, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { MythPerson, MythTradition, MythWork } from "@/actions/home/mythAtlasTypes";
@@ -55,7 +55,9 @@ function IconLedParagraphs({ icon, label, text, emptyText }: { icon: LucideIcon;
 
 export default function MythPersonDetail({ person, tradition, works, onClose }: Props) {
   const t = useTranslations("explore.hub.myth");
-  const appearance = person.appearances.find((item) => item.traditionId === tradition.id)?.summary ?? null;
+  const here = person.appearances.find((item) => item.traditionId === tradition.id);
+  const appearance = here?.summary ?? null;
+  const quote = here?.quote ?? null;
   const lead = person.headline ?? person.summary;
 
   return (
@@ -77,6 +79,16 @@ export default function MythPersonDetail({ person, tradition, works, onClose }: 
 
         <div className="flex min-w-0 flex-col bg-bg-secondary px-6 py-7 md:px-8 md:py-9 lg:px-10 lg:py-10">
           <div className="space-y-7">
+            {/* 그 편에서 이 인물이 한 말. 영상 대본이 준 대사라 전승마다 다르다 */}
+            {quote && (
+              <blockquote className="border-s-2 border-accent/70 ps-4 md:ps-5">
+                <p className="break-keep font-serif text-lg leading-8 text-text-primary md:text-xl md:leading-9">
+                  <Quote size={15} className="me-1.5 inline-block -translate-y-1 text-accent/70" aria-hidden />
+                  {quote}
+                </p>
+              </blockquote>
+            )}
+
             {lead && <p className="break-keep font-serif text-xl font-bold leading-8 text-text-primary md:text-2xl md:leading-9">{lead}</p>}
 
             <IconLedParagraphs
