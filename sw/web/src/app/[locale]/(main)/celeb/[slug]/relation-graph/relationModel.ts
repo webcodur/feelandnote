@@ -11,7 +11,7 @@ const KIN_RANK: Record<string, KinRank> = {
 const SOCIAL_BAND: Record<string, SocialBand> = {
   teacher: "up", influence: "up",
   student: "down", influenced: "down",
-  cofounder: "left", colleague: "left", counterpart: "left", friend: "left",
+  cofounder: "left", colleague: "left", friend: "left",
   rival: "right",
 };
 
@@ -47,28 +47,40 @@ export function buildRelationModel(relations: CelebRelationItem[], locale: strin
   const people = [...merged.values()];
   const family: RelationModel["family"] = { parents: [], siblings: [], spouses: [], children: [] };
   const social: RelationModel["social"] = { up: [], left: [], right: [], down: [] };
+  // 가족 갈래에도 사회 갈래에도 안 걸리는 관계를 담는 자리. 지금은 counterpart(대응 신격)가
+  // 여기 온다 — 제우스와 유피테르처럼 「같은 신을 문화권마다 다르게 부른 것」은 협력도 대립도
+  // 아니라서, 사회 갈래에 끼워 넣으면 둘이 무슨 사이인 것처럼 읽힌다. 앞으로 어느 갈래에도
+  // 안 맞는 관계 종류가 생기면 따로 손대지 않아도 같은 자리로 모인다.
+  const other: PersonNode[] = [];
   for (const person of people) {
-    for (const rank of new Set(person.types.map((type) => KIN_RANK[type]).filter(Boolean))) family[rank].push(person);
+    const kinRanks = new Set(person.types.map((type) => KIN_RANK[type]).filter(Boolean));
+    for (const rank of kinRanks) family[rank].push(person);
     const socialTypes = person.types.filter((type) => SOCIAL_BAND[type]);
     const band = socialTypes.includes("rival")
       ? "right"
-      : socialTypes.map((type) => SOCIAL_BAND[type]).find(Boolean)
-        ?? (person.groups.some((group) => group !== "family") ? "left" : null);
+      : socialTypes.map((type) => SOCIAL_BAND[type]).find(Boolean) ?? null;
     if (band) social[band].push(person);
+    if (!kinRanks.size && !band) other.push(person);
   }
 
   return {
-    people, family, social,
+    people, family, social, other,
     familyPeople: uniquePeople(Object.values(family)),
     socialPeople: uniquePeople(Object.values(social)),
   };
 }
 
 export function peopleForMode(model: RelationModel, mode: RelationMode) {
-  return mode === "family" ? model.familyPeople : model.socialPeople;
+  if (mode === "family") return model.familyPeople;
+  return mode === "other" ? model.other : model.socialPeople;
 }
 
+// 기타는 갈래가 하나뿐이라 왼쪽 자리 하나만 쓴다 — 나침반 그림과 좁은 화면 목록이
+// 갈래 키를 요구하므로 빈 목록 대신 자리 하나를 준다.
+export const OTHER_FOCUS = "left" as const;
+
 export function relationFocusesForMode(model: RelationModel, mode: RelationMode): RelationFocus[] {
+  if (mode === "other") return model.other.length ? [OTHER_FOCUS] : [];
   const entries = mode === "family"
     ? Object.entries(model.family)
     : Object.entries(model.social);
@@ -76,6 +88,7 @@ export function relationFocusesForMode(model: RelationModel, mode: RelationMode)
 }
 
 export function peopleForFocuses(model: RelationModel, mode: RelationMode, focuses: RelationFocus[]) {
+  if (mode === "other") return focuses.includes(OTHER_FOCUS) ? model.other : [];
   const selectedIds = new Set((mode === "family"
     ? focuses.flatMap((focus) => model.family[focus as KinRank] ?? [])
     : focuses.flatMap((focus) => model.social[focus as SocialBand] ?? []))
@@ -84,6 +97,7 @@ export function peopleForFocuses(model: RelationModel, mode: RelationMode, focus
 }
 
 export function typesForMode(person: PersonNode, mode: RelationMode) {
+  if (mode === "other") return person.types;
   const types = person.types.filter((type) => mode === "family" ? Boolean(KIN_RANK[type]) : Boolean(SOCIAL_BAND[type]));
   return types.length ? types : person.types;
 }

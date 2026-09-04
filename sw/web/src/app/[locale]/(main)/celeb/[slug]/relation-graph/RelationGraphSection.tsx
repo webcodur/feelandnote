@@ -12,7 +12,7 @@ import MobileRelationList from "./MobileRelationList";
 import styles from "./RelationGraphSection.module.css";
 import RelationInspector from "./RelationInspector";
 import RelationToolbar, { type FocusOption } from "./RelationToolbar";
-import { buildRelationModel, peopleForFocuses, relationFocusesForMode, typesForMode } from "./relationModel";
+import { buildRelationModel, OTHER_FOCUS, peopleForFocuses, relationFocusesForMode, typesForMode } from "./relationModel";
 import type { DiagramLabels, PersonNode, RelationFocus, RelationGraphProps, RelationMode } from "./types";
 import useRelationDialogue from "./useRelationDialogue";
 import useViewportAnchor from "./useViewportAnchor";
@@ -25,10 +25,11 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const tp = useTranslations("profession");
   useCountries();
   const model = useMemo(() => buildRelationModel(relations, locale), [relations, locale]);
-  const initialMode: RelationMode = model.socialPeople.length ? "social" : "family";
+  const initialMode: RelationMode = model.socialPeople.length
+    ? "social" : model.familyPeople.length ? "family" : "other";
   const [mode, setMode] = useState<RelationMode>(initialMode);
   const [focusByMode, setFocusByMode] = useState<Record<RelationMode, RelationFocus | null>>({
-    family: null, social: null,
+    family: null, social: null, other: null,
   });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [belowCue, setBelowCue] = useState(0);
@@ -47,20 +48,36 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     return () => desktop.removeEventListener("change", sync);
   }, []);
 
+  const modeCounts = useMemo<Record<RelationMode, number>>(() => ({
+    family: model.familyPeople.length, social: model.socialPeople.length, other: model.other.length,
+  }), [model]);
+  // 고른 갈래가 비어 있으면 사람이 있는 갈래로 물러선다
+  const effectiveMode: RelationMode = modeCounts[mode]
+    ? mode : (["social", "family", "other"] as const).find((key) => modeCounts[key]) ?? mode;
+
+  // 기타 자리의 이름표. 탭 이름을 되풀이하지 않고 실제 관계 이름(대응 신격 등)을 적는다.
+  // 종류가 섞여 있을 때만 「기타」로 물러선다.
+  const otherLabel = useMemo(() => {
+    const types = [...new Set(model.other.flatMap((person) => person.types))];
+    return types.length === 1 && t.has(`relType_${types[0]}`) ? t(`relType_${types[0]}`) : t("relSubOther");
+  }, [model.other, t]);
+
   const labels = useMemo<DiagramLabels>(() => ({
     parents: t("relType_parent"), siblings: t("relType_sibling"),
     spouses: t("relType_spouse"), children: t("relType_child"),
-    up: t("relBandUp", { name: centerName }), left: t("relBandSideL"),
+    up: t("relBandUp", { name: centerName }),
+    // 기타는 왼쪽 자리 하나만 쓰므로 그 자리 이름표가 곧 기타 갈래의 이름표다
+    left: effectiveMode === "other" ? otherLabel : t("relBandSideL"),
     right: t("relBandSideR"), down: t("relBandDown", { name: centerName }),
-  }), [t, centerName]);
+  }), [t, centerName, effectiveMode, otherLabel]);
 
-  const effectiveMode: RelationMode = mode === "family" && !model.familyPeople.length
-    ? "social" : mode === "social" && !model.socialPeople.length ? "family" : mode;
   const focusOptions = useMemo<FocusOption[]>(() => (effectiveMode === "family" ? [
     { key: "parents", label: labels.parents, people: model.family.parents },
     { key: "siblings", label: labels.siblings, people: model.family.siblings },
     { key: "spouses", label: labels.spouses, people: model.family.spouses },
     { key: "children", label: labels.children, people: model.family.children },
+  ] : effectiveMode === "other" ? [
+    { key: OTHER_FOCUS, label: labels.left, people: model.other },
   ] : [
     { key: "up", label: t("relType_influence"), people: model.social.up },
     { key: "left", label: labels.left, people: model.social.left },
@@ -153,9 +170,12 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
 
   return <div ref={shellRef} className={styles.shell}>
     <RelationToolbar title={t("relAllTitle", { name: centerName })} mode={effectiveMode}
-      socialLabel={t("relSubSocial")} familyLabel={t("relSubFamily")}
-      socialCount={model.socialPeople.length} familyCount={model.familyPeople.length}
-      focusLabel={effectiveMode === "social" ? t("relSubSocial") : t("relSubFamily")}
+      modeTabs={[
+        { key: "social", label: t("relSubSocial"), count: modeCounts.social },
+        { key: "family", label: t("relSubFamily"), count: modeCounts.family },
+        { key: "other", label: t("relSubOther"), count: modeCounts.other },
+      ]}
+      focusLabel={t(effectiveMode === "social" ? "relSubSocial" : effectiveMode === "family" ? "relSubFamily" : "relSubOther")}
       focusOptions={focusOptions} selectedFocus={selectedFocus}
       onModeChange={changeMode} onFocusChange={changeFocus} />
 

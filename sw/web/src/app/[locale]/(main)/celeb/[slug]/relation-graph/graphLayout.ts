@@ -30,6 +30,7 @@ const centeredXs = (centerX: number, count: number, gap: number) => Array.from(
 const sideColumns = (count: number) => count > 18 ? 4 : count > 2 ? 3 : 2;
 const sideRowCount = (count: number) => count ? Math.ceil(count / sideColumns(count)) : 0;
 function visibleGroups(mode: RelationMode, model: RelationModel, focuses: RelationFocus[]) {
+  // 기타는 갈래가 하나뿐이라 왼쪽 날개만 쓴다 — 위·아래·오른쪽은 비워 둔다
   const groups = mode === "family"
     ? {
       up: model.family.parents,
@@ -37,12 +38,14 @@ function visibleGroups(mode: RelationMode, model: RelationModel, focuses: Relati
       right: model.family.spouses,
       down: model.family.children,
     }
-    : {
-      up: model.social.up,
-      left: model.social.left,
-      right: model.social.right,
-      down: model.social.down,
-    };
+    : mode === "other"
+      ? { up: [], left: model.other, right: [], down: [] }
+      : {
+        up: model.social.up,
+        left: model.social.left,
+        right: model.social.right,
+        down: model.social.down,
+      };
   const keys = mode === "family"
     ? { up: "parents", left: "siblings", right: "spouses", down: "children" } as const
     : { up: "up", left: "left", right: "right", down: "down" } as const;
