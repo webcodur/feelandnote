@@ -68,7 +68,12 @@ export async function generateMetadata({
       images: ["/opengraph-image"],
     },
     verification: {
-      google: "Rstp-6NcSTn3BTPnDH06HS5PN2goDih-CVNg",
+      // 두 개다. 앞은 원래 소유 계정, 뒤는 feelandnote@gmail.com 이 26.09.05 에 확인한 URL 접두어
+      // 속성(https://feelandnote.com/). 도메인 속성은 DNS 로만 확인되어 그 계정에서는 화면이 안 열린다.
+      google: [
+        "Rstp-6NcSTn3BTPnDH06HS5PN2goDih-CVNg",
+        "T7ZylbeabtPvV55la720kqhWakxGDQDgh6MJ3k4q6ms",
+      ],
       other: {
         "naver-site-verification": "693d325afc4dad4701aa2c7c4a29c78f2ee7e445",
       },
