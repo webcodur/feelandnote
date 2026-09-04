@@ -207,6 +207,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/actions/auth/login.ts',
   'sw/web/src/actions/home/getCelebFeed.ts',
   'sw/web/src/actions/library/helpers.ts',
+  // 인기 작품(/library/popular)의 직군별 집계다. 서재는 보관 대상이 아니라 helpers 와 같다.
+  'sw/web/src/actions/library/profession.ts',
   'sw/web/src/actions/library/today-figure.ts',
   'sw/web/src/actions/spectrum/getSimilarByCelebId.ts',
   'sw/web/src/components/lab/CelebMaterialsPreview.tsx',
