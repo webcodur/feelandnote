@@ -11,7 +11,7 @@ description: 쿠팡 도서 상품을 신규 등록·교체·감사할 때 판본
 
 - 상품 판정은 `docs/project/operations/monetization.md`의 「쿠팡 파트너스」를 따른다.
 - 후보 수집·확정 명령과 입력 형식은 `sw/web-bo/scripts/coupang/README.md`를 따른다.
-- 인물의 등장·연관 작품을 새로 찾거나 기존 작품 구성을 재선정하는 작업은 `../fiction-source-curation/SKILL.md`에서 먼저 확정한다.
+- 인물의 등장·연관 작품을 새로 찾거나 기존 작품 구성을 재선정하는 작업은 `../figure-book-curation/SKILL.md`에서 먼저 확정한다.
 
 ## 실행
 
@@ -23,7 +23,7 @@ description: 쿠팡 도서 상품을 신규 등록·교체·감사할 때 판본
 3. 선택 자료에는 후보의 `productId`와 `productUrl`, 파트너스 `affiliateUrl`, 화면에서 확인한 `qualityEvidence`를 보존한다. `qualityEvidence`에는 실제 배송 배지 문구가 반드시 들어가야 하며 검색 순번은 상품 식별자가 아니다.
 4. `pick.mjs`가 검토한 상품 ID·판매 항목과 현재 검색 결과가 일치할 때만 파트너스 링크를 만든다.
 5. 같은 판본·플랫폼에는 활성 상품 하나만 둔다. 교체할 때 기존 상품은 이력으로 비활성화하고 새 상품만 활성화한다. 반영 뒤 DB의 최종 URL이 `https://link.coupang.com/a/...`인지, 그 링크가 선택한 상품으로 가는지 다시 확인한다. 같은 상품 안의 도착 보장 판매자를 골랐더라도 단축 링크가 판매자를 고정하지 못해 무배지 기본 판매자로 열리면 탈락시킨다. 바뀐 콘텐츠 ID만 캐시 무효화한다.
-6. 인물 도서 BOOK은 작품 소개도 확인한다. 카카오 검색 요약이 문장 중간에서 끊겼다면 `fiction:source:descriptions`를 dry-run한 뒤 반영한다. 이 도구는 같은 ISBN의 전체 소개와 현재 앞부분이 일치할 때만 늘리고, 관련 작품·인물 캐시까지 갱신한다.
+6. 인물 도서 BOOK은 작품 소개도 확인한다. 카카오 검색 요약이 문장 중간에서 끊겼다면 `figure-books:descriptions`를 dry-run한 뒤 반영한다. 이 도구는 같은 ISBN의 전체 소개와 현재 앞부분이 일치할 때만 늘리고, 관련 작품·인물 캐시까지 갱신한다.
 
 ## 탈락
 

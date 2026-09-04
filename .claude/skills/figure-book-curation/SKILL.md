@@ -1,5 +1,5 @@
 ---
-name: fiction-source-curation
+name: figure-book-curation
 description: 픽션·신화·실존 인물의 등장 도서와 연관 도서를 찾거나 기존 연결의 실제 등장, 눈에 보이는 관련성, 읽을 가치를 재선정할 때 사용한다. 판본별 쿠팡 상품·배송·제휴링크 검증은 작품 후보를 확정한 뒤 coupang-book-affiliate로 넘긴다.
 ---
 
@@ -29,9 +29,9 @@ description: 픽션·신화·실존 인물의 등장 도서와 연관 도서를 
 
 ## 반영
 
-1. 백오피스 `/fiction-sources`, `fiction:audit`, `figure-books:audit`으로 기존 작품과 서비스 전체 인물 커버리지를 먼저 확인한다.
+1. 백오피스 `/figure-books`와 `figure-books:audit`으로 기존 작품과 서비스 전체 인물 커버리지를 먼저 확인한다.
 2. 서비스 전체 실존 인물은 `figure-books:context-candidates`로 프로필의 구체 맥락과 기존 선정 도서가 만나는 후보만 추린다. 출력은 후보일 뿐이므로 모델이 관계를 최종 검수하고, `figure-books:apply-reviewed --verified-kakao-only`로 후보 밖 ID와 미검증 ISBN을 거부한 뒤 반영한다.
-3. 작품이 없으면 `fiction:source:book`으로 작품과 첫 판본을 dry-run한다. 같은 작품의 추가 판본은 `scripts/fiction/source-edition-batch.ts`로 넣고, 작품별 인물 관계는 `fiction:source:batch`로 dry-run한다. 운영 DB 반영은 사용자가 등록·반영을 명시했을 때만 `--apply`한다.
+3. 작품이 없으면 `figure-books:book`으로 작품과 첫 판본을 dry-run한다. 같은 작품의 추가 판본은 `scripts/figure-books/source-edition-batch.ts`로 넣고, 작품별 인물 관계는 `figure-books:batch`로 dry-run한다. 운영 DB 반영은 사용자가 등록·반영을 명시했을 때만 `--apply`한다.
 4. `appearance` 설명에는 확인한 작품 안의 역할·사건·결말만 쓴다. `related`는 `description`과 `description_en`을 모두 `NULL`로 둔다.
 5. 제휴링크가 없다는 이유로 콘텐츠나 관계를 삭제하지 않는다. 관계 자체가 잘못됐을 때만 지정을 해제하며 기존 콘텐츠와 이용 기록은 보존한다.
 
