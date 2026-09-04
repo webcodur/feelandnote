@@ -50,7 +50,7 @@ const done = new Set(reviewed.map((row) => `${row.content_id}:${row.productId}`)
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const browser = await puppeteer.connect({
-  browserURL: 'http://localhost:9222',
+  browserURL: `http://localhost:${process.env.COUPANG_CHROME_PORT ?? 9222}`,
   defaultViewport: null,
   protocolTimeout: 240000,
 })
