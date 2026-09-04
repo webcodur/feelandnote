@@ -15,12 +15,12 @@ import {
 } from '@feelandnote/shared/constants/cache-tags'
 import { revalidateWebItems } from '../../src/lib/revalidate-web'
 import {
-  assertExactFictionSourceReadback,
-  buildFictionSourceBatchPlan,
-  type FictionSourceCharacterRow,
-  type FictionSourceRelationType,
-  type ResolvedFictionSourceCharacter,
-} from '../fiction/source-batch-contract'
+  assertExactFigureBookReadback,
+  buildFigureBookBatchPlan,
+  type FigureBookCharacterRow,
+  type FigureBookRelationType,
+  type ResolvedFigureBookCharacter,
+} from './source-batch-contract'
 
 type Candidate = {
   person: { id: string; slug: string }
@@ -35,7 +35,7 @@ type Candidate = {
 
 type ReviewSelection = {
   contentId: string
-  relationType: FictionSourceRelationType
+  relationType: FigureBookRelationType
   description: string | null
   rationale: string
 }
@@ -159,7 +159,7 @@ function parseReviews(document: unknown): Review[] {
 async function loadRows(
   client: SupabaseClient,
   contentId: string,
-): Promise<FictionSourceCharacterRow[]> {
+): Promise<FigureBookCharacterRow[]> {
   const { data, error } = await client
     .from('figure_book_characters')
     .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
@@ -167,12 +167,12 @@ async function loadRows(
     .order('sort_order')
     .order('celeb_id')
   if (error) throw new Error(`${contentId}: 현재 관계 조회 실패: ${error.message}`)
-  return (data ?? []) as FictionSourceCharacterRow[]
+  return (data ?? []) as FigureBookCharacterRow[]
 }
 
 async function applyPlan(
   contentId: string,
-  plan: ReturnType<typeof buildFictionSourceBatchPlan>,
+  plan: ReturnType<typeof buildFigureBookBatchPlan>,
 ): Promise<void> {
   const { error: sourceError } = await db
     .from('figure_book_contents')
@@ -190,7 +190,7 @@ async function applyPlan(
       .eq('content_id', contentId)
     if (touchError) throw new Error(`${contentId}: 갱신 시각 저장 실패: ${touchError.message}`)
   }
-  assertExactFictionSourceReadback(plan.expectedRows, await loadRows(db, contentId))
+  assertExactFigureBookReadback(plan.expectedRows, await loadRows(db, contentId))
 }
 
 async function main(): Promise<void> {
@@ -217,7 +217,7 @@ async function main(): Promise<void> {
   for (const candidate of candidates) {
     candidateByKey.set(`${candidate.person.slug}\u0000${candidate.book.contentId}`, candidate)
   }
-  const selectedByContent = new Map<string, ResolvedFictionSourceCharacter[]>()
+  const selectedByContent = new Map<string, ResolvedFigureBookCharacter[]>()
   const titleByContent = new Map<string, string | null>()
   const held: Array<{
     slug: string
@@ -269,7 +269,7 @@ async function main(): Promise<void> {
   }> = []
   const plans: Array<{
     contentId: string
-    plan: ReturnType<typeof buildFictionSourceBatchPlan>
+    plan: ReturnType<typeof buildFigureBookBatchPlan>
   }> = []
   for (const [contentId, selections] of selectedByContent) {
     const current = await loadRows(db, contentId)
@@ -283,7 +283,7 @@ async function main(): Promise<void> {
       }
       return [selection]
     })
-    const plan = buildFictionSourceBatchPlan(contentId, safeSelections, current)
+    const plan = buildFigureBookBatchPlan(contentId, safeSelections, current)
     const counts = { insert: 0, update: 0, unchanged: 0 }
     for (const change of plan.changes) counts[change.kind] += 1
     summaries.push({

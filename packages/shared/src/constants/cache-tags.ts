@@ -25,8 +25,8 @@ export const CACHE_TAGS = {
   SPECTRUM: 'spectrum',
   /** 세력도감(faction) 태그 편성 */
   TAGS: 'tags',
-  /** 픽션 인물 ↔ 대표 원전 콘텐츠 연결 */
-  FICTION_SOURCES: 'fiction-sources',
+  /** 인물 ↔ 등장·연관 도서 연결 */
+  FIGURE_BOOKS: 'figure-books',
   /** 기관 선정 목록(선정 주체·목록·담긴 작품) */
   CURATED: 'curated',
 } as const
@@ -54,7 +54,7 @@ export const CACHE_TAG_BULK_ROUTE_FAMILIES = {
   [CACHE_TAGS.DIALOGUES]: ['celeb'],
   [CACHE_TAGS.SPECTRUM]: ['celeb'],
   [CACHE_TAGS.TAGS]: ['celeb'],
-  [CACHE_TAGS.FICTION_SOURCES]: ['celeb'],
+  [CACHE_TAGS.FIGURE_BOOKS]: ['celeb'],
   [CACHE_TAGS.CURATED]: [],
 } as const satisfies Record<CacheTag, readonly CacheDetailRouteFamily[]>
 

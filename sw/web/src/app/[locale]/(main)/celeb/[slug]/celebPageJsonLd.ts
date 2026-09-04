@@ -1,11 +1,11 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 머리말 — 구조화 데이터(JSON-LD) 조립
  * - 목차 위치: 머리말
- * - 데이터: profile/contents/fictionSources/externalLinks props
+ * - 데이터: profile/contents/figureBooks/externalLinks props
  * - 함께 보기: celebPageMetadata.ts, page.tsx
  * ───────────────────────────────────────────── */
 import type { JsonLdContentRow } from "@/actions/celebs/getCelebJsonLdData";
-import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
+import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getCountryNameByLocale } from "@/lib/countries";
@@ -19,7 +19,7 @@ interface BuildCelebPageJsonLdInput {
   locale: string;
   pageTitle: string;
   contents: readonly JsonLdContentRow[];
-  fictionSources: readonly FictionSourceContent[];
+  figureBooks: readonly FigureBookContent[];
   externalLinks: readonly CelebExternalLink[];
 }
 
@@ -37,7 +37,7 @@ export function buildCelebPageJsonLd({
   locale,
   pageTitle,
   contents,
-  fictionSources,
+  figureBooks,
   externalLinks,
 }: BuildCelebPageJsonLdInput): object {
   const seoLocale = locale === "en" ? "en" : "ko";
@@ -56,7 +56,7 @@ export function buildCelebPageJsonLd({
     .filter((name): name is string => Boolean(name && name !== profile.nickname));
 
   // 넓은 분야 연관 도서는 이 인물의 저작·등장 작품이라는 구조화 주장을 하지 않는다.
-  const sourceNodes = fictionSources
+  const sourceNodes = figureBooks
     .filter((source) => source.relationType === "appearance")
     .map((source) => {
       const workUrl = getAlternates(`/content/${source.id}`, seoLocale).canonical;

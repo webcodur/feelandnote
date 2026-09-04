@@ -6,11 +6,11 @@ import { selectInChunks } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
-import { getFictionSourceAssignmentsByCelebs } from "@/actions/fiction/fictionSourceAssignments";
+import { getFigureBookAssignmentsByCelebs } from "@/actions/figure-books/figureBookAssignments";
 import {
-  mapFictionSourcePurchaseOptions,
-  type FictionSourcePurchaseOptionRow,
-} from "@/actions/fiction/fictionSourceLocale";
+  mapFigureBookPurchaseOptions,
+  type FigureBookPurchaseOptionRow,
+} from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
 import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "./mythAtlasTypes";
 
@@ -38,12 +38,11 @@ const CATEGORY: Record<ContentType, MythWork["category"]> = {
 
 const unique = <T,>(items: T[]) => [...new Set(items)];
 
-const PUBLISHED_TRADITION_NAMES = new Set([
-  "그리스 로마 신화",
-  "일리아스",
-  "오디세이아",
-]);
-const PUBLISH_ALL_TRADITIONS = process.env.NODE_ENV === "development";
+// 미공개 전승 — 이름을 여기 적은 전승만 잠긴다(칩이 비활성 + 「준비 중」 안내).
+// 26.09.04: 공개 목록 방식을 뒤집었다. 17개 전승 284명이 안내글·아바타·등장 작품까지
+// 모두 갖춘 상태에서 3개만 열려 있었고, 나머지 200여 명은 사이트 어디에서도 닿을 수
+// 없었다. 기본을 공개로 두고, 자료가 덜 된 전승이 생기면 그 이름만 여기 넣는다.
+const UNPUBLISHED_TRADITION_NAMES = new Set<string>([]);
 
 const MYTH_REGIONS = [
   { id: "korea", ko: "한국", en: "Korea", prefixes: ["myth-korea"] },
@@ -135,7 +134,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     selectInChunks<PersonRow>(personIds, (ids) => db.from("celebs")
       .select("id,slug,nickname,nickname_en,title,title_en,headline,headline_en,bio,bio_en,avatar_url,portrait_url")
       .in("id", ids).overrideTypes<PersonRow[], { merge: false }>()),
-    getFictionSourceAssignmentsByCelebs(personIds),
+    getFigureBookAssignmentsByCelebs(personIds),
     selectInChunks<ExplanationRow>(personIds, (ids) => db.from("celeb_explanations")
       .select("profile_id,plain_text,plain_text_en").in("profile_id", ids)
       .not("published_at", "is", null).overrideTypes<ExplanationRow[], { merge: false }>()),
@@ -149,15 +148,15 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
       .overrideTypes<ContentRow[], { merge: false }>()),
     isEn
       ? Promise.resolve([])
-      : selectInChunks<FictionSourcePurchaseOptionRow>(contentIds, (ids) => db
+      : selectInChunks<FigureBookPurchaseOptionRow>(contentIds, (ids) => db
           .from("figure_book_purchase_options")
           .select("edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url")
           .in("content_id", ids)
           .eq("locale", "ko")
           .eq("platform", "coupang")
-          .overrideTypes<FictionSourcePurchaseOptionRow[], { merge: false }>()),
+          .overrideTypes<FigureBookPurchaseOptionRow[], { merge: false }>()),
   ]);
-  const optionsByContent = new Map<string, FictionSourcePurchaseOptionRow[]>();
+  const optionsByContent = new Map<string, FigureBookPurchaseOptionRow[]>();
   for (const option of purchaseOptions) {
     const current = optionsByContent.get(option.content_id) ?? [];
     current.push(option);
@@ -168,7 +167,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
 
   const works = contents.map((content): MythWork => {
     const flat = flattenLocales(content.content_locales, locale);
-    const edition = mapFictionSourcePurchaseOptions(optionsByContent.get(content.id) ?? [], "ko")[0];
+    const edition = mapFigureBookPurchaseOptions(optionsByContent.get(content.id) ?? [], "ko")[0];
     return { id: content.id, title: edition?.title ?? flat.title, creator: edition?.creator ?? flat.creator,
       thumbnailUrl: edition?.thumbnailUrl ?? flat.thumbnail_url,
       category: CATEGORY[content.type], coupangUrl: isEn ? null : edition?.purchaseUrl ?? null,
@@ -214,7 +213,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     const images = titleArt ? [{ url: titleArt, label: null }] : [];
     return [{ id: tag.id, slug: tag.slug, name: isEn ? tag.name_en || tag.name : tag.name,
       description: isEn ? tag.description_en || tag.description : tag.description,
-      isPublished: PUBLISH_ALL_TRADITIONS || PUBLISHED_TRADITION_NAMES.has(tag.name),
+      isPublished: !UNPUBLISHED_TRADITION_NAMES.has(tag.name),
       regionId: region.id, images, personIds: ids }];
   });
   const regions = MYTH_REGIONS.map((region): MythRegion => ({
@@ -230,7 +229,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
 
 const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v12-source-products"], {
   revalidate: STATIC_REVALIDATE,
-  tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FICTION_SOURCES],
+  tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });
 
 export async function getMythAtlas(locale: string = "ko") {

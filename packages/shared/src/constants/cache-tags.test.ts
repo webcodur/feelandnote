@@ -328,7 +328,7 @@ test('bulk endpoint routing is versioned and unsupported bulk domains fail close
     ['feelandnote.com/celeb/', 'feelandnote.com/en/celeb/'],
   )
   assert.deepEqual(
-    cloudflarePurgeExpectationForTags(['fiction-sources:__all__']).prefixes,
+    cloudflarePurgeExpectationForTags(['figure-books:__all__']).prefixes,
     ['feelandnote.com/celeb/', 'feelandnote.com/en/celeb/'],
   )
 })

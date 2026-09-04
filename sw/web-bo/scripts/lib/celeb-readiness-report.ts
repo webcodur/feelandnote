@@ -93,7 +93,7 @@ function gapLabel(gap: string): string {
     'content:row': '콘텐츠 locale 행 누락',
     'speech:quote': '한국어 명언 누락',
     'i18n:quote_en': '영문 명언 누락',
-    'fiction:source_missing': 'fiction 대표 원전 연결 누락',
+    'source:missing': '대표 원전 연결 누락',
     'basic:bio_en': '영문 소개 누락',
     'basic:gender': '성별 누락',
     'basic:nationality': '국적 누락',

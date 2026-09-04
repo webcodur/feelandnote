@@ -155,47 +155,49 @@ test('global runtime changes evict all cached HTML but not static chunks or SEO'
   assert.equal(JSON.stringify(plan).includes('sitemap'), false)
 })
 
-test('web package remains global while unknown feature and action paths fail closed', () => {
+test('web package remains global while unknown feature and action paths widen to cached HTML', () => {
   assert.deepEqual(
     classifyCloudflarePurgeImpact(['sw/web/package.json']).scopes,
     ['cached-html'],
   )
-  assert.throws(
-    () => classifyCloudflarePurgeImpact(['sw/web/src/actions/home/getCelebInfluence.ts']),
-    /Unclassified public-web runtime path/,
-  )
-  assert.throws(
-    () => classifyCloudflarePurgeImpact(['sw/web/src/components/features/home/HomeHero.tsx']),
-    /Unclassified public-web runtime path/,
-  )
+
+  const plan = classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/home/getCelebInfluence.ts',
+    'sw/web/src/components/features/home/HomeHero.tsx',
+  ])
+
+  assert.deepEqual(plan.scopes, ['cached-html'])
+  assert.deepEqual(plan.unclassifiedPaths, [
+    'sw/web/src/actions/home/getCelebInfluence.ts',
+    'sw/web/src/components/features/home/HomeHero.tsx',
+  ])
 })
 
-test('known celeb-detail dependencies stay scoped while generic celeb internals fail closed', () => {
-  assert.deepEqual(
-    classifyCloudflarePurgeImpact([
-      'sw/web/src/actions/user/getCelebBySlug.ts',
-    ]).scopes,
-    ['celeb'],
-  )
-  assert.throws(
-    () => classifyCloudflarePurgeImpact(['sw/web/src/actions/celebs/getCelebDirectory.ts']),
-    /Unclassified public-web runtime path/,
-  )
-  assert.throws(
-    () => classifyCloudflarePurgeImpact([
-      'sw/web/src/components/features/celeb/modals/LightCelebModal.tsx',
-    ]),
-    /Unclassified public-web runtime path/,
-  )
-  assert.throws(
-    () => classifyCloudflarePurgeImpact(['sw/web/src/lib/celeb/world.ts']),
-    /Unclassified public-web runtime path/,
-  )
+test('known celeb-detail dependencies stay narrowly scoped and never widen on their own', () => {
+  const plan = classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/user/getCelebBySlug.ts',
+  ])
+
+  assert.deepEqual(plan.scopes, ['celeb'])
+  // 규칙에 있는 경로만 왔으므로 미분류 목록 자체가 생기지 않는다.
+  assert.equal('unclassifiedPaths' in plan, false)
+})
+
+test('generic celeb internals widen to cached HTML and are reported as unclassified', () => {
+  for (const file of [
+    'sw/web/src/actions/celebs/getCelebDirectory.ts',
+    'sw/web/src/components/features/celeb/modals/LightCelebModal.tsx',
+    'sw/web/src/lib/celeb/world.ts',
+  ]) {
+    const plan = classifyCloudflarePurgeImpact([file])
+    assert.deepEqual(plan.scopes, ['cached-html'])
+    assert.deepEqual(plan.unclassifiedPaths, [file])
+  }
 })
 
 test('fiction sources evict both detail families without evicting directory or timeline', () => {
   const plan = classifyCloudflarePurgeImpact([
-    'sw/web/src/actions/fiction/getFictionSources.ts',
+    'sw/web/src/actions/figure-books/getFigureBooks.ts',
   ])
 
   assert.deepEqual(plan.scopes, ['celeb', 'content'])
@@ -273,18 +275,19 @@ test('cached-html subsumes detail scopes while changed SEO remains independent',
   assert.equal(plan.prefixes.includes('feelandnote.com/celeb/'), true)
 })
 
-test('unclassified public runtime paths fail without escalating to a zone purge', () => {
-  assert.throws(
-    () => classifyCloudflarePurgeImpact(['sw/web/src/new-runtime-root.ts']),
-    /Unclassified public-web runtime path/,
-  )
+test('unclassified public runtime paths widen to cached HTML without escalating to a zone purge', () => {
+  for (const file of ['sw/web/src/new-runtime-root.ts', 'sw/web/instrumentation.ts']) {
+    const plan = classifyCloudflarePurgeImpact([file])
+    assert.deepEqual(plan.scopes, ['cached-html'])
+    assert.deepEqual(plan.unclassifiedPaths, [file])
+    assert.equal(plan.emergencyZone, false)
+    assert.equal(JSON.stringify(plan).includes('emergency-zone'), false)
+  }
+
+  // 자동 분류는 존 전체 비우기로 올라갈 수 없다.
   assert.throws(
     () => createCloudflarePurgePlan(['emergency-zone']),
     /manual-only/,
-  )
-  assert.throws(
-    () => classifyCloudflarePurgeImpact(['sw/web/instrumentation.ts']),
-    /Unclassified public-web project path/,
   )
 })
 
