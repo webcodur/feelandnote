@@ -30,7 +30,7 @@ export default function HeroIdentity({ profile, locale }: HeroIdentityProps) {
 
   /* ── 1. 신원 파생값 ── */
   const nickname = profile.nickname;
-  const celebTier = profile.celeb_tier ?? "full";
+  const celebReality = profile.celeb_reality ?? "REAL";
   const professionLabel = profile.profession
     ? tp.has(profile.profession)
       ? tp(profile.profession)
@@ -118,7 +118,7 @@ export default function HeroIdentity({ profile, locale }: HeroIdentityProps) {
               </span>
             </span>
           ) : null}
-          <CelebTierBadge tier={celebTier} />
+          <CelebTierBadge reality={celebReality} />
         </div>
 
         {locale === "en" && profile.translationFallbacks.length > 0 ? (

@@ -1150,6 +1150,7 @@ export type Database = {
           bio: string | null
           bio_en: string | null
           birth_date: string | null
+          celeb_reality: string
           celeb_tier: string
           claimed_by_member_id: string | null
           content_research_confirmed_empty_at: string | null
@@ -1192,6 +1193,7 @@ export type Database = {
           bio?: string | null
           bio_en?: string | null
           birth_date?: string | null
+          celeb_reality?: string
           celeb_tier?: string
           claimed_by_member_id?: string | null
           content_research_confirmed_empty_at?: string | null
@@ -1234,6 +1236,7 @@ export type Database = {
           bio?: string | null
           bio_en?: string | null
           birth_date?: string | null
+          celeb_reality?: string
           celeb_tier?: string
           claimed_by_member_id?: string | null
           content_research_confirmed_empty_at?: string | null
