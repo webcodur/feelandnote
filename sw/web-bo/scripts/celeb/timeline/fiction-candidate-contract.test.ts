@@ -17,7 +17,8 @@ const activeProfile: FictionProfileSnapshot = {
   nickname: '시험 영웅',
   nickname_en: 'Test Hero',
   publication_status: 'active',
-  celeb_tier: 'fiction',
+  celeb_tier: 'light',
+  celeb_reality: 'FICTION',
   birth_date: null,
   death_date: null,
   headline: '시험용 영웅',
@@ -50,7 +51,7 @@ function candidate(): FictionCandidate {
     schema_version: FICTION_CANDIDATE_SCHEMA_VERSION,
     slug: activeProfile.slug,
     celeb_id: activeProfile.id,
-    celeb_tier: 'fiction',
+    celeb_reality: 'FICTION',
     before_events: [],
     before_fingerprint: fingerprintStoredEvents([]),
     source_snapshot: {

@@ -65,7 +65,7 @@ type Profile = Record<string, any>
 async function main() {
   const profiles = await allRows<Profile>(
     'celebs',
-    'id, slug, nickname, nickname_en, headline, headline_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, publication_status, celeb_tier, speech_tone, avatar_url',
+    'id, slug, nickname, nickname_en, headline, headline_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, publication_status, celeb_tier,celeb_reality, speech_tone, avatar_url',
     'id',
   )
   const influence = await allRows<Record<string, any>>('celeb_influence', '*', 'celeb_id')
@@ -89,6 +89,7 @@ async function main() {
 
   for (const p of profiles) {
     const tier = p.celeb_tier ?? 'full'
+    const reality = p.celeb_reality ?? 'REAL'
     const gaps: string[] = []
 
     // ── basic (전 티어 공통)
@@ -107,7 +108,7 @@ async function main() {
     if (blank(p.nationality)) gaps.push('basic:nationality')
     if (p.gender === null || p.gender === undefined) gaps.push('basic:gender')
     // 생몰만 fiction 에서 특정 불가가 정상이라 결손으로 세지 않는다
-    if (tier !== 'fiction') {
+    if (reality !== 'FICTION') {
       if (blank(p.birth_date)) gaps.push('basic:birth_date')
     }
 

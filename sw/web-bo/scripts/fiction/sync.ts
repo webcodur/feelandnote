@@ -57,6 +57,7 @@ type ExistingProfile = {
   bio: string | null
   virtual_monologue: string | null
   celeb_tier: string | null
+  celeb_reality: string | null
 }
 
 const argValue = (name: string): string | null => {
@@ -132,7 +133,7 @@ async function fetchExisting(client: DatabaseClient, people: FictionProfileInput
   const columns = [
     'id', 'slug', 'nickname', 'nickname_en', 'profession', 'title', 'nationality',
     'gender', 'birth_date', 'death_date', 'bio', 'virtual_monologue',
-    'celeb_tier',
+    'celeb_tier', 'celeb_reality',
   ].join(',')
 
   const [bySlug, byEnglishName] = await Promise.all([
@@ -172,6 +173,7 @@ function desiredProfile(person: FictionProfileInput) {
     bio: person.bio,
     virtual_monologue: person.virtual_monologue,
     celeb_tier: 'fiction',
+    celeb_reality: 'fiction',
   }
 }
 
@@ -240,7 +242,7 @@ async function main() {
       created += 1
       continue
     }
-    if (existing.celeb_tier !== 'fiction') {
+    if (existing.celeb_reality === 'REAL') {
       throw new Error(
         `${person.slug}: 기존 인물의 celeb_tier가 fiction이 아닙니다. (${existing.celeb_tier})`,
       )

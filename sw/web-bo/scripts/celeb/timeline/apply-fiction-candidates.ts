@@ -452,7 +452,7 @@ async function validateProfileState(input: {
   const profile = await fetchFictionProfileBySlug(db, input.slug)
   if (!profile) throw new Error(`${input.slug}: 라이브 DB에 인물이 없다`)
   if (profile.id !== input.celebId) throw new Error(`${input.slug}: celeb_id 불일치`)
-  if (profile.celeb_tier !== 'fiction') throw new Error(`${input.slug}: fiction 등급이 아니다`)
+  if (profile.celeb_reality === 'REAL') throw new Error(`${input.slug}: 서사 연표 대상(FICTION·BOTH)이 아니다`)
   if (input.publicationStatus === 'inactive') {
     if (!input.allowInactive) {
       throw new Error(`${input.slug}: inactive 후보에는 --allow-inactive와 명시적인 --slugs가 필요하다`)

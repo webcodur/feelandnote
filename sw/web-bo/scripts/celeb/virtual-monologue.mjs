@@ -65,7 +65,7 @@ function baselineRisk(row) {
   const birthYear = parseYear(row.birth_date)
   const identityText = `${row.nickname ?? ''} ${row.bio ?? ''}`
 
-  if (row.celeb_tier === 'fiction') reasons.push('fiction 또는 원전 인물')
+  if (row.celeb_reality === 'FICTION') reasons.push('허구 인물')
   if (birthYear === null) reasons.push('생몰 식별 정보 부족')
   else if (birthYear < 1700) reasons.push('근세 이전 인물')
   if (!String(row.bio ?? '').trim()) reasons.push('소개 정보 없음')

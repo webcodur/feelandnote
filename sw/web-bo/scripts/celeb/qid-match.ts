@@ -70,6 +70,7 @@ interface CelebRow {
   profession: string | null
   birth_date: string | null
   celeb_tier: string | null
+  celeb_reality: string | null
   wikidata_qid: string | null
 }
 
@@ -78,7 +79,7 @@ async function loadCelebs(): Promise<CelebRow[]> {
   for (let from = 0; ; from += 1000) {
     const { data, error } = await db
       .from('celebs')
-      .select('id, slug, nickname, nickname_en, profession, birth_date, celeb_tier, wikidata_qid')
+      .select('id, slug, nickname, nickname_en, profession, birth_date, celeb_tier,celeb_reality, wikidata_qid')
       .order('slug')
       .range(from, from + 999)
     if (error) throw error
@@ -168,7 +169,7 @@ async function run() {
 
   // 가상 인물은 위키데이터의 실존 인물과 이어질 수 없다 — 대상에서 뺀다
   const targets = celebs
-    .filter((c) => !c.wikidata_qid && c.celeb_tier !== 'fiction' && c.birth_date)
+    .filter((c) => !c.wikidata_qid && c.celeb_reality !== 'FICTION' && c.birth_date)
     .slice(0, LIMIT)
 
   console.log(`셀럽 ${celebs.length} | QID 보유 ${taken.size} | 매칭 대상 ${targets.length} | 모드 ${APPLY ? '갱신' : '실측만'}`)

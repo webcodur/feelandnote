@@ -64,6 +64,7 @@ type ProfileRow = {
   nickname: string | null
   nickname_en: string | null
   celeb_tier: string | null
+  celeb_reality: string | null
   publication_status: string | null
   avatar_url: string | null
   virtual_monologue: string | null
@@ -246,7 +247,7 @@ async function main() {
   const profiles = await allRows<ProfileRow>('celebs', async (from, to) => {
     const { data, error } = await db
       .from('celebs')
-      .select('id,slug,nickname,nickname_en,celeb_tier,publication_status,avatar_url,virtual_monologue')
+      .select('id,slug,nickname,nickname_en,celeb_tier,celeb_reality,publication_status,avatar_url,virtual_monologue')
       .order('id')
       .range(from, to)
     return { data: data as unknown as ProfileRow[] | null, error }
@@ -434,7 +435,7 @@ async function main() {
       : person.slug
         ? profileBySlug.get(person.slug)
         : undefined
-    if (profile?.celeb_tier !== 'fiction') return []
+    if (profile?.celeb_reality === 'REAL') return []
     return [{
       episode: personEpisode(person)?.folder ?? '(orphan)',
       personId: person.id,
@@ -509,7 +510,7 @@ async function main() {
   const wrongTier = mythicalPeople.flatMap((person) => {
     if (!person.celeb_id) return []
     const profile = profileById.get(person.celeb_id)
-    if (profile?.celeb_tier === 'fiction') return []
+    if (profile?.celeb_reality !== 'REAL') return []
     return [{
       episode: personEpisode(person)?.folder ?? '(orphan)',
       slug: person.slug,
@@ -526,7 +527,7 @@ async function main() {
     }]
   })
 
-  const fictionProfiles = profiles.filter((row) => row.celeb_tier === 'fiction')
+  const fictionProfiles = profiles.filter((row) => row.celeb_reality !== 'REAL')
   const fictionProfileIds = new Set(fictionProfiles.map((row) => row.id))
   const sourceRelationsToNonFiction = sourceRelations
     .filter((row) => !fictionProfileIds.has(row.celeb_id))

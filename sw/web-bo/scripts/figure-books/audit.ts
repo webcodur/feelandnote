@@ -14,6 +14,7 @@ type CelebRow = {
   nickname: string | null
   profession: string | null
   celeb_tier: string | null
+  celeb_reality: string | null
   publication_status: string
 }
 
@@ -65,7 +66,7 @@ async function loadCelebs(client: SupabaseClient): Promise<CelebRow[]> {
   return allRows('celebs', async (from, to) => {
     const { data, error } = await client
       .from('celebs')
-      .select('id,slug,nickname,profession,celeb_tier,publication_status')
+      .select('id,slug,nickname,profession,celeb_tier,celeb_reality,publication_status')
       .eq('publication_status', 'active')
       .order('id')
       .range(from, to)
@@ -140,7 +141,7 @@ async function main(): Promise<void> {
     .sort((left, right) => left.tier.localeCompare(right.tier))
 
   const coverageByProfession = [...Map.groupBy(
-    celebs.filter((celeb) => celeb.celeb_tier !== 'fiction'),
+    celebs.filter((celeb) => celeb.celeb_reality !== 'FICTION'),
     (celeb) => celeb.profession ?? '(없음)',
   )]
     .map(([profession, rows]) => ({

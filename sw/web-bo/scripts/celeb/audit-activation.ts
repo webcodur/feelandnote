@@ -119,6 +119,7 @@ type AuditRow = {
   slug: string
   nickname: string
   tier: string
+  reality: string
   publicationStatus: string
   gaps: string[]
   warnings: string[]
@@ -151,7 +152,7 @@ async function allProfiles(): Promise<Row[]> {
       .from('celebs')
       .select([
         'id', 'slug', 'nickname', 'nickname_en', 'headline', 'headline_en', 'title', 'title_en', 'bio', 'bio_en',
-        'profession', 'nationality', 'gender', 'birth_date', 'publication_status', 'celeb_tier', 'speech_tone',
+        'profession', 'nationality', 'gender', 'birth_date', 'publication_status', 'celeb_tier', 'celeb_reality', 'speech_tone',
         'avatar_url', 'content_research_confirmed_empty_at',
       ].join(','))
       .order('id')
@@ -373,12 +374,10 @@ function addLocaleWarnings(contentId: string, content: Row | undefined, locales:
   }
 }
 
-function requiredCoverageDomains(tier: string): CoverageDomain[] {
-  if (tier === 'full' || tier === 'light') {
-    return ['basic', 'influence', 'spectrum', 'speech', 'content']
-  }
-  if (tier === 'fiction') return ['basic', 'source']
-  return ['basic']
+// 요구 트랙은 실존 축이 가른다. 허구 인물은 원전만, 그 밖(REAL·BOTH)은 실존 트랙 전부다.
+function requiredCoverageDomains(reality: string): CoverageDomain[] {
+  if (reality === 'FICTION') return ['basic', 'source']
+  return ['basic', 'influence', 'spectrum', 'speech', 'content']
 }
 
 function hasDomainGap(domain: CoverageDomain, gaps: string[]): boolean {
@@ -396,8 +395,8 @@ function hasDomainGap(domain: CoverageDomain, gaps: string[]): boolean {
   return gaps.some((gap) => gap.startsWith('fiction:'))
 }
 
-function coverageOf(tier: string, gaps: string[]): Coverage {
-  const domains = requiredCoverageDomains(tier)
+function coverageOf(reality: string, gaps: string[]): Coverage {
+  const domains = requiredCoverageDomains(reality)
   const completeDomains = domains.filter((domain) => !hasDomainGap(domain, gaps))
   const missingDomains = domains.filter((domain) => hasDomainGap(domain, gaps))
   return {
@@ -413,7 +412,7 @@ function summarizeCoverage(rows: AuditRow[]) {
   const percentages = rows.map((row) => row.coverage.percentage)
   const domainCoverage = Object.fromEntries(
     COVERAGE_DOMAINS.flatMap((domain) => {
-      const applicable = rows.filter((row) => requiredCoverageDomains(row.tier).includes(domain))
+      const applicable = rows.filter((row) => requiredCoverageDomains(row.reality).includes(domain))
       if (applicable.length === 0) return []
       const complete = applicable.filter((row) => row.coverage.completeDomains.includes(domain)).length
       return [[domain, {
@@ -725,6 +724,7 @@ async function main() {
 
   const audited: AuditRow[] = profiles.map((profile) => {
     const tier = profile.celeb_tier ?? 'full'
+    const reality = profile.celeb_reality ?? 'REAL'
     const gaps: string[] = []
     const warnings: string[] = []
     const linked = celebContentsByCeleb.get(profile.id) ?? []
@@ -732,14 +732,25 @@ async function main() {
 
     addProfileGaps(profile, gaps)
     addReadingGaps(explanationById.get(profile.id), gaps)
-    if (tier === 'full' || tier === 'light') {
+    // 허구 인물에게는 영향력·스펙트럼을 요구하지 않는다. 실존·전승 양쪽인 BOTH는 요구한다.
+    if (reality !== 'FICTION') {
       if (blank(profile.speech_tone)) gaps.push('speech:tone')
       addInfluenceGaps(profile, influenceById.get(profile.id), gaps)
       addSpectrumGaps(spectrumById.get(profile.id), gaps)
       addDialogueGaps(dialogueById.get(profile.id), gaps)
     }
 
-    if (tier === 'full') {
+    if (reality === 'FICTION') {
+      if (sources.length === 0) gaps.push('fiction:source_missing')
+      for (const source of sources) {
+        addLocaleWarnings(
+          source.content_id,
+          contentById.get(source.content_id),
+          localesByContent.get(source.content_id) ?? [],
+          warnings,
+        )
+      }
+    } else if (tier === 'full') {
       if (linked.length === 0) gaps.push('content:full_without_content')
       // 읽고 싶은 책을 담아 두는 것은 서비스의 정상 기능이다. FINISHED 가 한 건도 없을 때만 막는다.
       // 전부 FINISHED 를 요구하면 WANT 한 건 때문에 완비 인물이 탈락한다(실측 3명).
@@ -758,16 +769,6 @@ async function main() {
     } else if (tier === 'light') {
       if (linked.length > 0) gaps.push('content:light_has_content')
       if (blank(profile.content_research_confirmed_empty_at)) gaps.push('content:empty_not_confirmed')
-    } else if (tier === 'fiction') {
-      if (sources.length === 0) gaps.push('fiction:source_missing')
-      for (const source of sources) {
-        addLocaleWarnings(
-          source.content_id,
-          contentById.get(source.content_id),
-          localesByContent.get(source.content_id) ?? [],
-          warnings,
-        )
-      }
     } else {
       gaps.push(`tier:unsupported(${tier})`)
     }
@@ -778,10 +779,11 @@ async function main() {
       slug: profile.slug ?? '',
       nickname: profile.nickname ?? '',
       tier,
+      reality,
       publicationStatus: profile.publication_status,
       gaps: uniqueGaps,
       warnings: [...new Set(warnings)],
-      coverage: coverageOf(tier, uniqueGaps),
+      coverage: coverageOf(reality, uniqueGaps),
     }
   })
 
@@ -817,7 +819,7 @@ async function main() {
         const target = audited.find((row) => row.id === item.celeb_id)
         if (target) {
           target.gaps.push(`content:${item.content_id}.source_http(${state?.status ?? 0})`)
-          target.coverage = coverageOf(target.tier, target.gaps)
+          target.coverage = coverageOf(target.reality, target.gaps)
         }
       }
     }
@@ -847,7 +849,7 @@ async function main() {
 
   const auditedById = new Map(audited.map((row) => [row.id, row]))
   const fictionReadinessRows: FictionReadinessRow[] = profiles
-    .filter((profile) => profile.celeb_tier === 'fiction')
+    .filter((profile) => profile.celeb_reality === 'FICTION')
     .map((profile) => {
       const auditRow = auditedById.get(profile.id)
       const explanation = explanationById.get(profile.id)
