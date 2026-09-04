@@ -45,7 +45,11 @@ export async function generateMetadata() {
 export default function ExplorePage() {
   const t = useTranslations("explore.hub");
   const tPending = useTranslations("pending");
-  const sec = (key: string) => hubSection(EXPLORE_SECTIONS, EXPLORE_GROUP_ID, key, t);
+  const devMode = process.env.NODE_ENV === "development";
+  const exploreSections = devMode
+    ? EXPLORE_SECTIONS
+    : EXPLORE_SECTIONS.filter((section) => section.key !== "myth");
+  const sec = (key: string) => hubSection(exploreSections, EXPLORE_GROUP_ID, key, t);
   const loading = tPending("loading");
 
   return (
@@ -53,7 +57,7 @@ export default function ExplorePage() {
       <div className="space-y-12 md:space-y-16">
         {/* 목차 줄 — 구획 전체 + 별도 화면. 라벨·순서·번호는 config 단일원천에서 온다 */}
         <HubNav
-          hubItems={hubNavItems(EXPLORE_SECTIONS, t)}
+          hubItems={hubNavItems(exploreSections, t)}
           standaloneItems={EXPLORE_STANDALONE.map((s) => ({ label: t(s.key), href: s.href, icon: s.icon }))}
           groupId={EXPLORE_GROUP_ID}
         />
@@ -83,12 +87,14 @@ export default function ExplorePage() {
           </Lane>
         </HubSection>
 
-        {/* 신화·전승 — 실존 인물 목록에서 빠지는 인물들의 유일한 진입점이다 */}
-        <HubSection {...withoutMore(sec("myth"))}>
-          <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-[520px]" label={loading} />}>
-            <MythSection />
-          </Lane>
-        </HubSection>
+        {/* 공개 전까지 로컬 개발 서버에서만 노출한다. */}
+        {devMode && (
+          <HubSection {...withoutMore(sec("myth"))}>
+            <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-[520px]" label={loading} />}>
+              <MythSection />
+            </Lane>
+          </HubSection>
+        )}
 
         {/* 세력도감 */}
         <HubSection {...sec("faction")}>
