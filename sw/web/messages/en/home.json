@@ -45,6 +45,7 @@
       "filterNationality": "Nationality",
       "filterContent": "Content",
       "filterGender": "Gender",
+      "filterTier": "Depth",
       "filterSort": "Sort",
       "all": "All",
       "genderMale": "Male",
@@ -167,6 +168,11 @@
       "quickRecordDock": {
         "title": "Quick Record",
         "unreviewed": "{count} unreviewed"
+      },
+      "tier": {
+        "all": "All",
+        "full": "Full",
+        "light": "Brief"
       }
     },
     "hub": {

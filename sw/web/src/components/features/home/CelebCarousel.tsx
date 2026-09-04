@@ -69,9 +69,6 @@ export default function CelebCarousel({
     return <CarouselMode celebs={filters.celebs} total={initialTotal} />;
   }
 
-  // 초기 데이터 없으면 숨김
-  if (initialTotal === 0) return null;
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       onFilterInteraction?.();
@@ -121,13 +118,14 @@ export default function CelebCarousel({
           </button>
         </div>
 
-        {/* 2~4행: 필터 2개 · 필터 2개 · 정렬 */}
+        {/* 2~4행: 2열 3행 — 직군·국적 / 콘텐츠·성별 / 수록·정렬 */}
         <CelebFiltersDesktop
-          wrapperClassName="grid w-full max-w-xl grid-cols-2 gap-2 [&>div]:w-full [&>div>button]:w-full [&>div:last-child]:col-span-2"
+          wrapperClassName="grid w-full max-w-xl grid-cols-2 gap-2 [&>div]:w-full [&>div>button]:w-full"
           profession={filters.profession}
           nationality={filters.nationality}
           contentType={filters.contentType}
           gender={filters.gender}
+          tier={filters.tierValue}
           sortBy={filters.sortBy}
           search=""
           professionCounts={professionCounts}
@@ -140,6 +138,7 @@ export default function CelebCarousel({
           onNationalityChange={withInteraction(filters.handleNationalityChange)}
           onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
           onGenderChange={withInteraction(filters.handleGenderChange)}
+          onTierChange={withInteraction(filters.handleTierValueChange)}
           onSortChange={withInteraction(filters.handleSortChange)}
           onSearchInput={() => {}}
           onSearchSubmit={() => {}}
@@ -154,6 +153,7 @@ export default function CelebCarousel({
         nationality={filters.nationality}
         contentType={filters.contentType}
         gender={filters.gender}
+        tier={filters.tierValue}
         sortBy={filters.sortBy}
         search={filters.search}
         professionCounts={professionCounts}
@@ -169,6 +169,7 @@ export default function CelebCarousel({
         onNationalityChange={withInteraction(filters.handleNationalityChange)}
         onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
         onGenderChange={withInteraction(filters.handleGenderChange)}
+        onTierChange={withInteraction(filters.handleTierValueChange)}
         onSortChange={withInteraction(filters.handleSortChange)}
         onSearchInput={(v) => { onFilterInteraction?.(); filters.handleSearchInput(v); }}
         onSearchSubmit={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
