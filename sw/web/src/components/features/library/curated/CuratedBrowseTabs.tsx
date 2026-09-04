@@ -57,7 +57,22 @@ export default function CuratedBrowseTabs({
   const t = useTranslations("library.curated");
   const { summary, activeMedia, activeTopic, activeKind, viewTopic } = browse;
 
-  const linkFor = (query: CuratedBrowseTabsLinkQuery) => (linkHref ? linkHref(query) : undefined);
+  /**
+   * 탭이 가리킬 주소.
+   *
+   * 링크 모드가 아니어도 주소는 만들어 둔다. 허브에서 탭은 화면만 갈아 끼우지만,
+   * 주소가 없으면 서버가 보내는 HTML 에 다른 탭으로 가는 길이 한 줄도 남지 않아
+   * 그 탭에만 걸린 기관들이 크롤러에게 통째로 안 보인다(영상 매체 8곳이 그랬다).
+   */
+  const linkFor = (query: CuratedBrowseTabsLinkQuery) => {
+    if (linkHref) return linkHref(query);
+    const params = new URLSearchParams();
+    if (query.media) params.set("media", query.media);
+    if (query.topic) params.set("topic", query.topic);
+    if (!query.topic && query.kind) params.set("kind", query.kind);
+    const qs = params.toString();
+    return qs ? `/library/curated?${qs}` : "/library/curated";
+  };
 
   // 보여줄 매체 — 값이 없는 매체 탭은 세지 않는다(항목이 없는데 pill만 차지하면 어색하다)
   const medias = summary.medias.filter((m) => (summary.mediaCounts.get(m) ?? 0) > 0);
@@ -105,7 +120,7 @@ export default function CuratedBrowseTabs({
           <CategoryTabFilter
             options={mediaOptions}
             value={activeMedia ?? ""}
-            linkTo={linkHref ? (m) => linkFor({ media: m }) : undefined}
+            linkTo={(m) => linkFor({ media: m })}
             onChange={linkHref ? undefined : (m) => onSelectMedia?.(m)}
             align={align}
             size={size}
@@ -133,7 +148,7 @@ export default function CuratedBrowseTabs({
         <CategoryTabFilter
           options={tabOptions}
           value={activeTab}
-          linkTo={linkHref ? (v) => linkFor({ media: activeMedia ?? undefined, topic: v }) : undefined}
+          linkTo={(v) => linkFor({ media: activeMedia ?? undefined, topic: v })}
           onChange={linkHref ? undefined : (v) => onSelectTopic?.(v)}
           align={align}
           size={size}
@@ -145,7 +160,7 @@ export default function CuratedBrowseTabs({
         <CategoryTabFilter
           options={tabOptions}
           value={activeTab}
-          linkTo={linkHref ? (v) => linkFor({ media: activeMedia ?? undefined, kind: v }) : undefined}
+          linkTo={(v) => linkFor({ media: activeMedia ?? undefined, kind: v })}
           onChange={linkHref ? undefined : (v) => onSelectKind?.(v)}
           align={align}
           size={size}
