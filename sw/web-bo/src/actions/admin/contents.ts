@@ -356,13 +356,13 @@ export async function deleteContent(contentId: string): Promise<void> {
   const admin = createAdminClient()
 
   // 대표 원전은 먼저 지정을 해제해야 한다. 콘텐츠 삭제가 FK에서 막히기 전에 안내한다.
-  const { data: fictionSource, error: fictionSourceError } = await admin
+  const { data: figureBook, error: figureBookError } = await admin
     .from('figure_book_contents')
     .select('content_id')
     .eq('content_id', contentId)
     .maybeSingle()
-  if (fictionSourceError) throw fictionSourceError
-  if (fictionSource) {
+  if (figureBookError) throw figureBookError
+  if (figureBook) {
     throw new Error('픽션 대표 원전으로 지정된 콘텐츠입니다. 픽션 원전 관리에서 지정을 먼저 해제하세요.')
   }
 

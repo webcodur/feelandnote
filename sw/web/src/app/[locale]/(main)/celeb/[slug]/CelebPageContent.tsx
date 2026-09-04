@@ -12,7 +12,7 @@ import { useLocale } from "next-intl";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
-import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
+import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { useSectionViewTracking } from "@/lib/analytics/track";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
@@ -39,7 +39,7 @@ interface CelebPageContentProps {
   sideAvailability: CelebSideAvailability;
   initialContents: GetUserContentsResponse;
   initialContentBrief?: ContentBrief;
-  fictionSources: FictionSourceContent[];
+  figureBooks: FigureBookContent[];
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
   externalLinksSlot: ReactNode;
@@ -59,7 +59,7 @@ export default function CelebPageContent({
   sideAvailability,
   initialContents,
   initialContentBrief,
-  fictionSources,
+  figureBooks,
   worldId,
   worldBannerImages,
   externalLinksSlot,
@@ -77,7 +77,7 @@ export default function CelebPageContent({
     timelineEvents,
     sideAvailability,
     dialogueLines,
-    fictionSources,
+    figureBooks,
     initialContents,
   });
   useSectionViewTracking(contentRef);
@@ -168,7 +168,7 @@ export default function CelebPageContent({
         timelineEvents={timelineEvents}
         initialContents={initialContents}
         initialContentBrief={initialContentBrief}
-        fictionSources={fictionSources}
+        figureBooks={figureBooks}
         serviceModel={serviceModel}
         relatedFiguresSlot={relatedFiguresSlot}
         affiliateBooksSlot={affiliateBooksSlot}

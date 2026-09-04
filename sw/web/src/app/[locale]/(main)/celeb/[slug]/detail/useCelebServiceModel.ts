@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 공통 — 목차 모델(서비스 아이템 조립)
  * - 목차 위치: 공통 (전 구획: introduction/reading/timeline/library/sourceWorks/analysis/connections/media/guestbook)
- * - 데이터: profile/timelineEvents/sideAvailability/dialogueLines/fictionSources/initialContents props
+ * - 데이터: profile/timelineEvents/sideAvailability/dialogueLines/figureBooks/initialContents props
  * - 함께 보기: celebServiceItems.ts, detail/celebDetailData.ts
  * ───────────────────────────────────────────── */
 "use client";
@@ -10,7 +10,7 @@ import { useMemo } from "react";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
-import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
+import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 
@@ -45,7 +45,7 @@ interface UseCelebServiceModelProps {
   timelineEvents: CelebTimelineEvent[];
   sideAvailability: CelebSideAvailability;
   dialogueLines?: Record<string, string[]> | null;
-  fictionSources: FictionSourceContent[];
+  figureBooks: FigureBookContent[];
   initialContents: GetUserContentsResponse;
 }
 
@@ -69,7 +69,7 @@ export function useCelebServiceModel({
   timelineEvents,
   sideAvailability,
   dialogueLines,
-  fictionSources,
+  figureBooks,
   initialContents,
 }: UseCelebServiceModelProps): CelebServiceModel {
   const celebTier = profile.celeb_tier ?? "full";
@@ -93,7 +93,7 @@ export function useCelebServiceModel({
     dialogueVoice: hasDialogues && hasVoice,
     influence: sideAvailability.influence,
     spectrum: sideAvailability.spectrum,
-    sourceWorks: fictionSources.length > 0,
+    sourceWorks: figureBooks.length > 0,
     library: initialContents.items.length > 0,
   };
 

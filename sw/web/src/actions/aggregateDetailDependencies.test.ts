@@ -15,12 +15,12 @@ const curatedSource = readFileSync(
   new URL('./library/curated.ts', import.meta.url),
   'utf8',
 )
-const fictionSource = readFileSync(
-  new URL('./fiction/getFictionSources.ts', import.meta.url),
+const figureBookSource = readFileSync(
+  new URL('./figure-books/getFigureBooks.ts', import.meta.url),
   'utf8',
 )
-const fictionAssignmentSource = readFileSync(
-  new URL('./fiction/fictionSourceAssignments.ts', import.meta.url),
+const figureBookAssignmentSource = readFileSync(
+  new URL('./figure-books/figureBookAssignments.ts', import.meta.url),
   'utf8',
 )
 const contentDetailSource = readFileSync(
@@ -61,11 +61,11 @@ test('작품별 선정 이력은 bare 목록이 아니라 item + bulk 상세 태
 })
 
 test('픽션 공유 원장은 bare와 bulk에 갱신되고 빈 결과도 bulk 의존성을 소비한다', () => {
-  assert.doesNotMatch(fictionAssignmentSource, /unstable_cache/)
-  assert.match(fictionAssignmentSource, /getFictionSourceAssignmentsByContent/)
-  assert.match(fictionAssignmentSource, /getFictionSourceAssignmentsByCelebs/)
+  assert.doesNotMatch(figureBookAssignmentSource, /unstable_cache/)
+  assert.match(figureBookAssignmentSource, /getFigureBookAssignmentsByContent/)
+  assert.match(figureBookAssignmentSource, /getFigureBookAssignmentsByCelebs/)
 
-  const characters = exportedFunctionSource(fictionSource, 'getFictionCharactersForContent')
+  const characters = exportedFunctionSource(figureBookSource, 'getFigureBookCharactersForContent')
   assert.match(characters, /return cachedDetail\(/)
   assert.match(characters, /\(\) => fetchCharactersByContent\(contentId, locale\)/)
 
@@ -73,14 +73,14 @@ test('픽션 공유 원장은 bare와 bulk에 갱신되고 빈 결과도 bulk �
     detailCacheTags(
       CACHE_TAGS.CONTENTS,
       'content-1',
-      [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CELEBS],
+      [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CELEBS],
     ),
     [
       'contents:content-1',
-      'fiction-sources:content-1',
+      'figure-books:content-1',
       'celebs:content-1',
       'contents:__all__',
-      'fiction-sources:__all__',
+      'figure-books:__all__',
       'celebs:__all__',
     ],
   )
@@ -94,6 +94,6 @@ test('공개 작품 상세 route가 세 aggregate 의존 소비자를 모두 호
   const publicDetail = contentDetailSource.slice(publicDetailStart, viewerStateStart)
 
   assert.match(publicDetail, /getPublicReviewFeed\(/)
-  assert.match(publicDetail, /getFictionCharactersForContent\(/)
+  assert.match(publicDetail, /getFigureBookCharactersForContent\(/)
   assert.match(publicDetail, /getCuratedEntriesForContent\(/)
 })

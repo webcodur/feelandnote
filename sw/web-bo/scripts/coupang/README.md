@@ -43,7 +43,7 @@ node inspect.mjs <검토대상.json> <근거.json>
 node pick.mjs <선택.json>
 
 # 언제든 — 인물 등장·연관 도서의 현재 링크를 선정 근거와 대조한다
-node audit.mjs --fiction-sources --evidence ../../../../data/coupang/fiction-source-picks-2026-09-02.json
+node audit.mjs --figure-books --evidence ../../../../data/coupang/fiction-source-picks-2026-09-02.json
 ```
 
 ### 대상.json
@@ -62,7 +62,7 @@ node audit.mjs --fiction-sources --evidence ../../../../data/coupang/fiction-sou
 후보에서 실제 판매 중인 적절한 책을 고르고 본문·목차·색인으로 대상 인물의 등장 범위를
 확인한 다음 서비스의 기존 작품을 검색한다. 같은 작품이 있으면 그 `content_id`를
 재사용하고, 없으면 한국어판 ISBN을 카카오에서 확인해 BOOK으로 등록한다. 그 뒤에만
-`선택.json`에 `content_id`를 넣어 `pick.mjs`를 실행한다. 인물 관계는 `fiction:source:batch`로 별도 반영하며, `related`에는 등장 설명을 넣지 않는다.
+`선택.json`에 `content_id`를 넣어 `pick.mjs`를 실행한다. 인물 관계는 `figure-books:batch`로 별도 반영하며, `related`에는 등장 설명을 넣지 않는다.
 
 검색은 **제목만으로** 한다. 저자·출판사를 붙이면 후보가 좁아져 더 나은 상품을
 놓친다. 다만 제목이 흔한 낱말이면 엉뚱한 물건이 나오므로(「풀잎」→조화,
@@ -125,8 +125,8 @@ node audit.mjs --fiction-sources --evidence ../../../../data/coupang/fiction-sou
 작품·인물 캐시까지 갱신한다.
 
 ```bash
-pnpm fiction:source:descriptions
-pnpm fiction:source:descriptions --apply
+pnpm figure-books:descriptions
+pnpm figure-books:descriptions --apply
 ```
 
 ## 넣은 뒤

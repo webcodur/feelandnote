@@ -10,19 +10,19 @@ const { createClient } = require('@supabase/supabase-js')
 
 function usage() {
   console.log(`사용:
-  node audit.mjs [--fiction-sources] [--evidence <선정.json>] [--output <결과.json>]
+  node audit.mjs [--figure-books] [--evidence <선정.json>] [--output <결과.json>]
   node audit.mjs --all-books --evidence <선정.json> [--output <결과.json>]`)
 }
 
 function parseArgs(argv) {
   const options = {
-    scope: 'fiction-sources',
+    scope: 'figure-books',
     evidencePath: null,
     outputPath: null,
   }
   for (let index = 0; index < argv.length; index++) {
     const arg = argv[index]
-    if (arg === '--fiction-sources') options.scope = 'fiction-sources'
+    if (arg === '--figure-books') options.scope = 'figure-books'
     else if (arg === '--all-books') options.scope = 'all-books'
     else if (arg === '--evidence') options.evidencePath = argv[++index] ?? null
     else if (arg === '--output') options.outputPath = argv[++index] ?? null
@@ -189,7 +189,7 @@ const db = createClient(
 )
 
 let catalogRows
-if (options.scope === 'fiction-sources') {
+if (options.scope === 'figure-books') {
   const [editions, products] = await Promise.all([
     paged(() => db
       .from('figure_book_editions')

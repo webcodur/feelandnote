@@ -1,13 +1,13 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 머리말 — SEO 메타데이터 조립
  * - 목차 위치: 머리말
- * - 데이터: getCelebBySlug, getFictionSourcesForCeleb 서버액션
+ * - 데이터: getCelebBySlug, getFigureBooksForCeleb 서버액션
  * - 함께 보기: celebPageJsonLd.ts, page.tsx
  * ───────────────────────────────────────────── */
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
-import { getFictionSourcesForCeleb, type FictionSourceContent } from "@/actions/fiction/getFictionSources";
+import { getFigureBooksForCeleb, type FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import { getCelebBySlug, type CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { buildCelebDescription, buildCelebTitle, type CelebMetaInput } from "@/lib/celeb/meta";
 import { getAlternates, getSeoImageUrl } from "@/lib/seo";
@@ -15,7 +15,7 @@ import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 
 export function createCelebMetaInput(
   profile: CelebBySlugProfile,
-  sources: readonly FictionSourceContent[] = [],
+  sources: readonly FigureBookContent[] = [],
 ): CelebMetaInput {
   return {
     nickname: profile.nickname,
@@ -50,7 +50,7 @@ export async function buildCelebPageMetadata(
   // 원전·등장 작품은 celeb_tier와 무관하게 모든 인물이 가질 수 있다. REAL이 아니면
   // (BOTH·FICTION) 실제 감상 기록이 얇으므로 원전 정보로 메타 설명을 보강한다.
   const sources = (profile.celeb_reality ?? "REAL") !== "REAL"
-    ? await getFictionSourcesForCeleb(profile.id, locale)
+    ? await getFigureBooksForCeleb(profile.id, locale)
     : [];
   const metaInput = createCelebMetaInput(profile, sources);
   const title = buildCelebTitle(metaInput, locale);

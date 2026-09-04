@@ -9,15 +9,15 @@ import { fetchContentMetadata } from './fetchContentMetadata'
 import { getPublicReviewFeed, getReviewFeed, type ReviewFeedItem } from './getReviewFeed'
 import { getProfile } from '@/actions/user'
 import {
-  getFictionCharactersForContent,
-  type FictionSourceCharacter,
-} from '@/actions/fiction/getFictionSources'
+  getFigureBookCharactersForContent,
+  type FigureBookCharacter,
+} from '@/actions/figure-books/getFigureBooks'
 import {
-  getFictionSourcePurchasePlatform,
-  mapFictionSourcePurchaseOptions,
-  type FictionSourceEdition,
-  type FictionSourcePurchaseOptionRow,
-} from '@/actions/fiction/fictionSourceLocale'
+  getFigureBookPurchasePlatform,
+  mapFigureBookPurchaseOptions,
+  type FigureBookEdition,
+  type FigureBookPurchaseOptionRow,
+} from '@/actions/figure-books/figureBookLocale'
 import { getCuratedEntriesForContent } from '@/actions/library/curated'
 import type { ContentCuratedEntry } from '@/actions/library/types'
 import type { CategoryId } from '@/constants/categories'
@@ -59,7 +59,7 @@ export interface ContentDetailData {
   } | null
   isLoggedIn: boolean
   initialReviews: ReviewFeedItem[]
-  fictionCharacters: FictionSourceCharacter[]
+  fictionCharacters: FigureBookCharacter[]
   /** 이 작품을 뽑은 기관·목록 (대학 필독서·언론 선정·수상 이력) */
   curatedEntries: ContentCuratedEntry[]
 }
@@ -99,11 +99,11 @@ function overrideBookLink(metadata: Record<string, unknown> | null, bookLocale: 
   return metadata
 }
 
-async function fetchDefaultFictionSourceEdition(
+async function fetchDefaultFigureBookEdition(
   contentId: string,
   locale: string,
-): Promise<FictionSourceEdition | null> {
-  const platform = getFictionSourcePurchasePlatform(locale)
+): Promise<FigureBookEdition | null> {
+  const platform = getFigureBookPurchasePlatform(locale)
   if (!platform) return null
 
   const db = createStaticClient()
@@ -120,8 +120,8 @@ async function fetchDefaultFictionSourceEdition(
 
   if (error) throw new Error(`원전 기본 판본 조회 실패: ${error.message}`)
   if (!data) return null
-  return mapFictionSourcePurchaseOptions(
-    [data as unknown as FictionSourcePurchaseOptionRow],
+  return mapFigureBookPurchaseOptions(
+    [data as unknown as FigureBookPurchaseOptionRow],
     locale,
   )[0] ?? null
 }
@@ -153,7 +153,7 @@ async function fetchContentDataPublic(
       isbn_en: flat.isbn_en,
       release_date: raw.release_date as string | null,
       affiliate_url: flat.affiliate_url,
-      is_fiction_source: Array.isArray(sourceMarker)
+      is_figure_book: Array.isArray(sourceMarker)
         ? sourceMarker.length > 0
         : Boolean(sourceMarker && typeof sourceMarker === 'object'),
     }
@@ -196,8 +196,8 @@ async function fetchContentDataPublic(
       dbContent.type === 'MUSIC' && storedMetadata
         ? Promise.resolve(null)
         : fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source, locale === 'en' ? 'en' : 'ko'),
-      dbContent.type === 'BOOK' && dbContent.is_fiction_source
-        ? fetchDefaultFictionSourceEdition(dbContent.id, locale)
+      dbContent.type === 'BOOK' && dbContent.is_figure_book
+        ? fetchDefaultFigureBookEdition(dbContent.id, locale)
         : Promise.resolve(null),
     ])
     /* 소개문 필드 이름이 출처마다 다르다 — TMDB는 overview, IGDB는 summary·storyline이다. */
@@ -242,7 +242,7 @@ async function fetchContentDataPublic(
       type: dbContent.type as ContentType,
       category: categoryId,
       metadata: dbMetadata,
-      affiliateLinks: dbContent.is_fiction_source
+      affiliateLinks: dbContent.is_figure_book
         ? sourceEdition
           ? [{ platform: sourceEdition.platform, url: sourceEdition.purchaseUrl }]
           : undefined
@@ -327,7 +327,7 @@ async function getPublicContentDetailInner(
 
   const [initialReviews, fictionCharacters, curatedEntries] = await Promise.all([
     getPublicReviewFeed({ contentId: content.id, limit: 10 }, locale),
-    getFictionCharactersForContent(content.id, locale),
+    getFigureBookCharactersForContent(content.id, locale),
     getCuratedEntriesForContent(content.id, locale),
   ])
 
@@ -378,7 +378,7 @@ async function getContentDetailInner(
 
   const [initialReviews, fictionCharacters, curatedEntries] = await Promise.all([
     reviewsPromise,
-    getFictionCharactersForContent(content.id, locale),
+    getFigureBookCharactersForContent(content.id, locale),
     getCuratedEntriesForContent(content.id, locale),
   ])
 

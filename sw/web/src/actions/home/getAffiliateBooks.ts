@@ -9,9 +9,9 @@ import type { AffiliatePlatformKey } from '@/constants/affiliatePlatforms'
 import { FACTION_BOOK_TOPICS } from '@/constants/factionBookTopics'
 import { findAffiliateLink } from './affiliateLinks'
 import {
-  mapFictionSourcePurchaseOptions,
-  type FictionSourcePurchaseOptionRow,
-} from '@/actions/fiction/fictionSourceLocale'
+  mapFigureBookPurchaseOptions,
+  type FigureBookPurchaseOptionRow,
+} from '@/actions/figure-books/figureBookLocale'
 import {
   BESTSELLER_CONTENT_IDS,
   BESTSELLER_MAX_SLOTS,
@@ -100,7 +100,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
           .overrideTypes<SourceContentCountRow[], { merge: false }>())
       : Promise.resolve([]),
     sourcePlatform
-      ? selectAllPages<FictionSourcePurchaseOptionRow>((from, to) => db
+      ? selectAllPages<FigureBookPurchaseOptionRow>((from, to) => db
           .from('figure_book_purchase_options')
           .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
           .eq('locale', sourceLocale)
@@ -108,7 +108,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
           .order('content_id')
           .order('edition_id')
           .range(from, to)
-          .overrideTypes<FictionSourcePurchaseOptionRow[], { merge: false }>())
+          .overrideTypes<FigureBookPurchaseOptionRow[], { merge: false }>())
       : Promise.resolve([]),
   ])
 
@@ -122,7 +122,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
     row.content_id,
     row.contents?.record_count ?? 0,
   ]))
-  const optionsByContent = new Map<string, FictionSourcePurchaseOptionRow[]>()
+  const optionsByContent = new Map<string, FigureBookPurchaseOptionRow[]>()
   for (const row of optionRows) {
     const current = optionsByContent.get(row.content_id) ?? []
     current.push(row)
@@ -132,7 +132,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
   // 일반 추천 카드에는 작품마다 기본 판본 하나만 쓴다. 인물 원전 책장에서는 모든 판본을 보여준다.
   for (const [contentId, options] of optionsByContent) {
     if (excluded.has(contentId)) continue
-    const edition = mapFictionSourcePurchaseOptions(options, sourceLocale)[0]
+    const edition = mapFigureBookPurchaseOptions(options, sourceLocale)[0]
     if (!edition) continue
     pool.push({
       book: {
@@ -239,7 +239,7 @@ const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-
   // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
   // 인물 상세을 연쇄 무효화하므로, 한 시간 만료로만 새 후보를 흡수한다.
   revalidate: LIST_REVALIDATE,
-  tags: [CACHE_TAGS.FICTION_SOURCES],
+  tags: [CACHE_TAGS.FIGURE_BOOKS],
 })
 
 export async function getAffiliateBooks(
@@ -365,7 +365,7 @@ export async function getAffiliateBooksForCeleb(
     celebId,
     ['affiliate-books-celeb-v3-source-editions', celebId, platform, String(limit)],
     () => fetchAffiliateBooksForCeleb(celebId, platform, limit),
-    { revalidate: LIST_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FICTION_SOURCES] },
+    { revalidate: LIST_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
   )
 }
 
@@ -488,7 +488,7 @@ async function fetchBooksForTag(
 
 const fetchBooksForTagCached = unstable_cache(fetchBooksForTag, ['affiliate-books-tag'], {
   revalidate: STATIC_REVALIDATE,
-  tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FICTION_SOURCES],
+  tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FIGURE_BOOKS],
 })
 
 export async function getAffiliateBooksForTag(

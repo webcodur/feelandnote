@@ -392,7 +392,7 @@ function hasDomainGap(domain: CoverageDomain, gaps: string[]): boolean {
     )
   }
   if (domain === 'content') return gaps.some((gap) => gap.startsWith('content:'))
-  return gaps.some((gap) => gap.startsWith('fiction:'))
+  return gaps.some((gap) => gap.startsWith('source:'))
 }
 
 function coverageOf(reality: string, gaps: string[]): Coverage {
@@ -632,7 +632,7 @@ async function main() {
     dialogues,
     explanations,
     celebContents,
-    fictionSources,
+    figureBooks,
     timelineEvents,
     relationsFrom,
     relationsTo,
@@ -671,7 +671,7 @@ async function main() {
 
   const contentIds = [...new Set([
     ...celebContents.map((row) => row.content_id),
-    ...fictionSources.map((row) => row.content_id),
+    ...figureBooks.map((row) => row.content_id),
   ])]
   const [contents, locales, sourcePurchaseOptions] = await Promise.all([
     byIds('contents', 'id,type,external_source', contentIds, 'id'),
@@ -683,7 +683,7 @@ async function main() {
     byContentIds(
       'figure_book_purchase_options',
       'edition_id,content_id,locale,platform,affiliate_url',
-      [...new Set(fictionSources.map((row) => row.content_id))],
+      [...new Set(figureBooks.map((row) => row.content_id))],
     ),
   ])
 
@@ -693,7 +693,7 @@ async function main() {
   const explanationById = new Map(explanations.map((row) => [row.profile_id, row]))
   const contentById = new Map(contents.map((row) => [row.id, row]))
   const celebContentsByCeleb = groupBy(celebContents, (row) => row.celeb_id)
-  const fictionSourcesByCeleb = groupBy(fictionSources, (row) => row.celeb_id)
+  const figureBooksByCeleb = groupBy(figureBooks, (row) => row.celeb_id)
   const timelineByCeleb = groupBy(timelineEvents, (row) => row.celeb_id)
   const scopedIds = new Set(ids)
   const relationIdsByCeleb = new Map<string, Set<string>>()
@@ -728,7 +728,7 @@ async function main() {
     const gaps: string[] = []
     const warnings: string[] = []
     const linked = celebContentsByCeleb.get(profile.id) ?? []
-    const sources = fictionSourcesByCeleb.get(profile.id) ?? []
+    const sources = figureBooksByCeleb.get(profile.id) ?? []
 
     addProfileGaps(profile, gaps)
     addReadingGaps(explanationById.get(profile.id), gaps)
@@ -741,7 +741,7 @@ async function main() {
     }
 
     if (reality === 'FICTION') {
-      if (sources.length === 0) gaps.push('fiction:source_missing')
+      if (sources.length === 0) gaps.push('source:missing')
       for (const source of sources) {
         addLocaleWarnings(
           source.content_id,
@@ -853,7 +853,7 @@ async function main() {
     .map((profile) => {
       const auditRow = auditedById.get(profile.id)
       const explanation = explanationById.get(profile.id)
-      const sources = fictionSourcesByCeleb.get(profile.id) ?? []
+      const sources = figureBooksByCeleb.get(profile.id) ?? []
       const events = timelineByCeleb.get(profile.id) ?? []
       const placements = factionPlacementsByCeleb.get(profile.id) ?? []
       const nonAvatarGaps = (auditRow?.gaps ?? []).filter((gap) => gap !== 'basic:avatar_url')
@@ -867,19 +867,19 @@ async function main() {
         nonAvatarGaps.push('reading:published_while_inactive')
       }
       if (sources.some((source) => blank(source.description))) {
-        nonAvatarGaps.push('fiction:source_description_ko')
+        nonAvatarGaps.push('source:description_ko')
       }
       if (sources.some((source) => (
         sourceContentsWithEnglishAmazon.has(source.content_id)
         && blank(source.description_en)
       ))) {
-        nonAvatarGaps.push('fiction:source_description_en')
+        nonAvatarGaps.push('source:description_en')
       }
       if (sources.some((source) => (
         !sourceContentsWithEnglishAmazon.has(source.content_id)
         && !blank(source.description_en)
       ))) {
-        nonAvatarGaps.push('fiction:source_description_en_without_amazon')
+        nonAvatarGaps.push('source:description_en_without_amazon')
       }
       addFictionFactionGaps(profile, placements, factionGaps)
 

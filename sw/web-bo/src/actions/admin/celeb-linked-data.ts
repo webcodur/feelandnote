@@ -7,7 +7,7 @@ import { getTimelineEvents, type TimelineEvent } from './timeline'
    docs/project/celeb/celeb-02-05-figure-books.md (원전·등장),
    docs/project/celeb/celeb-07-01-relations.md (관계),
    docs/project/celeb/celeb-06-01-timeline.md (연표)다.
-   읽기 전용이며 수정은 각 담당 화면(/fiction-sources, /celebs/timeline/[slug])에서 한다. */
+   읽기 전용이며 수정은 각 담당 화면(/figure-books, /celebs/timeline/[slug])에서 한다. */
 
 export interface LinkedSource {
   content_id: string

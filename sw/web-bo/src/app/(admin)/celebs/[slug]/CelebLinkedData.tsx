@@ -69,7 +69,7 @@ function Section({ title, count, linkHref, linkLabel, defaultOpen = false, child
 export default function CelebLinkedData({ data, slug }: { data: CelebLinkedData; slug: string }) {
   return (
     <div className="space-y-4">
-      <Section title="원전 · 등장 작품" count={data.sources.length} linkHref="/fiction-sources" linkLabel="인물 도서에서 편집">
+      <Section title="원전 · 등장 작품" count={data.sources.length} linkHref="/figure-books" linkLabel="인물 도서에서 편집">
         {data.sources.length === 0 && (
           <p className="text-xs text-text-secondary">연결된 작품이 없다.</p>
         )}

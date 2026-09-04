@@ -55,7 +55,7 @@ test('bulk tag는 의존 상세 경로군만 scheme 없는 prefix로 매핑하�
   assert.deepEqual(tagsToPrefixes(['dialogues:__all__']), celebOnly)
   assert.deepEqual(tagsToPrefixes(['spectrum:__all__']), celebOnly)
   assert.deepEqual(tagsToPrefixes(['tags:__all__']), celebOnly)
-  assert.deepEqual(tagsToPrefixes(['fiction-sources:__all__']), celebOnly)
+  assert.deepEqual(tagsToPrefixes(['figure-books:__all__']), celebOnly)
   assert.throws(() => tagsToPrefixes(['curated:__all__']), /Unsupported bulk cache tag/)
   assert.deepEqual(
     tagsToPrefixes(['contents:__all__', 'celebs:__all__', 'contents:__all__']),

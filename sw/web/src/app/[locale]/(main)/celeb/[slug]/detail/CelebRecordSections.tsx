@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 공통 — 목차 순서대로 본문 구획 조립
  * - 목차 위치: 공통 (reading/timeline/library/sourceWorks/analysis/connections/media/guestbook)
- * - 데이터: profile/timelineEvents/fictionSources/dialogueLines/serviceModel props
+ * - 데이터: profile/timelineEvents/figureBooks/dialogueLines/serviceModel props
  * - 함께 보기: detail/useCelebServiceModel.ts, CelebAtlasRails.tsx, CelebSectionHeading.tsx
  * ───────────────────────────────────────────── */
 "use client";
@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
-import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
+import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import GuestbookDeferred from "@/components/features/profile/GuestbookDeferred";
 import { Deferred, PendingBlock } from "@/components/ui/pending";
@@ -21,7 +21,7 @@ import type { Locale } from "@/types/locale";
 import { CelebAtlasNavigation } from "../CelebAtlasRails";
 import styles from "../CelebPageContent.module.css";
 import CelebSectionHeading from "../CelebSectionHeading";
-import FictionSourceWorksSection from "../FictionSourceWorksSection";
+import FigureBookWorksSection from "../FigureBookWorksSection";
 import FigureMediaTabs from "../FigureMediaTabs";
 import FigureReadingTabs from "../FigureReadingTabs";
 import JourneySection from "../JourneySection";
@@ -55,7 +55,7 @@ interface CelebRecordSectionsProps {
   timelineEvents: CelebTimelineEvent[];
   initialContents: GetUserContentsResponse;
   initialContentBrief?: ContentBrief;
-  fictionSources: FictionSourceContent[];
+  figureBooks: FigureBookContent[];
   serviceModel: CelebServiceModel;
   relatedFiguresSlot?: ReactNode;
   affiliateBooksSlot?: ReactNode;
@@ -70,7 +70,7 @@ export default function CelebRecordSections({
   timelineEvents,
   initialContents,
   initialContentBrief,
-  fictionSources,
+  figureBooks,
   serviceModel,
   relatedFiguresSlot,
   affiliateBooksSlot,
@@ -208,8 +208,8 @@ export default function CelebRecordSections({
           <section id="source-works" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("sourceWorks")}
             <SectionSurface>
-              <FictionSourceWorksSection
-                sources={fictionSources}
+              <FigureBookWorksSection
+                sources={figureBooks}
                 nickname={profile.nickname}
               />
             </SectionSurface>

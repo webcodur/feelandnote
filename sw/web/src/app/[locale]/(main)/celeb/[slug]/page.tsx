@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 공통 — 서버 페이지(데이터 조회·조립)
  * - 목차 위치: 공통 (전 구획 자료 준비)
- * - 데이터: getCelebBySlug/getCelebTimelineEvents/getFictionSourcePresentations 등 서버액션
+ * - 데이터: getCelebBySlug/getCelebTimelineEvents/getFigureBookPresentations 등 서버액션
  * - 함께 보기: CelebPageContent.tsx, celebPageMetadata.ts, celebPageJsonLd.ts
  * ───────────────────────────────────────────── */
 import type { Metadata } from "next";
@@ -15,7 +15,7 @@ import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/g
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
 import { getAffiliateBooksForCeleb } from "@/actions/home/getAffiliateBooks";
-import { getFictionSourcePresentationsForCeleb } from "@/actions/fiction/getFictionSourcePresentations";
+import { getFigureBookPresentationsForCeleb } from "@/actions/figure-books/getFigureBookPresentations";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
@@ -108,7 +108,7 @@ export default async function CelebPage({ params }: PageProps) {
     dialogueData,
     timelineEvents,
     initialContents,
-    fictionSources,
+    figureBooks,
     initialContentBrief,
     externalLinks,
     initialAffiliateBooks,
@@ -123,14 +123,14 @@ export default async function CelebPage({ params }: PageProps) {
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
     initialContentsPromise,
-    getFictionSourcePresentationsForCeleb(userId, locale),
+    getFigureBookPresentationsForCeleb(userId, locale),
     initialContentBriefPromise,
     getCelebExternalLinks(profile.wikidata_qid, locale),
     initialAffiliateBooksPromise,
   ]);
 
   const pageTitle = buildCelebTitle(
-    createCelebMetaInput(profile, fictionSources),
+    createCelebMetaInput(profile, figureBooks),
     locale,
   );
 
@@ -188,7 +188,7 @@ export default async function CelebPage({ params }: PageProps) {
     locale,
     pageTitle,
     contents: contentList,
-    fictionSources,
+    figureBooks,
     externalLinks,
   });
 
@@ -211,7 +211,7 @@ export default async function CelebPage({ params }: PageProps) {
         sideAvailability={sideAvailability}
         initialContents={initialContents}
         initialContentBrief={initialContentBrief ?? undefined}
-        fictionSources={fictionSources}
+        figureBooks={figureBooks}
         worldId={worldId}
         worldBannerImages={worldBannerImages}
         externalLinksSlot={

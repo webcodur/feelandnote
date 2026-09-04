@@ -163,7 +163,7 @@ const CELEB_FILES = new Set([
   // 판본 표기. contentLibrary 묶음과 같은 이유로 인물 상세의 감상배경에 걸린다.
   'sw/web/src/lib/utils/editions.ts',
   // 원전·등장 작품 구획에 쓰는 작품별 표시 자료. 소비자는 인물 상세뿐이다.
-  'sw/web/src/actions/fiction/getFictionSourcePresentations.ts',
+  'sw/web/src/actions/figure-books/getFigureBookPresentations.ts',
 ])
 
 const CONTENT_PREFIXES = [
@@ -181,10 +181,10 @@ const CONTENT_FILES = new Set([
 
 const CELEB_AND_CONTENT_FILES = new Set([
   // 픽션 원전·등장인물은 인물 상세와 작품 상세 양쪽에서 렌더링한다.
-  'sw/web/src/actions/fiction/getFictionSources.ts',
+  'sw/web/src/actions/figure-books/getFigureBooks.ts',
   // 위 조회에서 분해한 모듈이라 같은 두 화면에 걸린다.
-  'sw/web/src/actions/fiction/fictionSourceAssignments.ts',
-  'sw/web/src/actions/fiction/fictionSourceLocale.ts',
+  'sw/web/src/actions/figure-books/figureBookAssignments.ts',
+  'sw/web/src/actions/figure-books/figureBookLocale.ts',
   // 인물 모달은 인물 카드와 작품 상세의 기록 모달 양쪽에서 연다.
   'sw/web/src/actions/celebs/getCelebForModal.ts',
   // 음성 배지와 본문 서식은 인물 상세와 작품 상세가 함께 그린다.
@@ -363,7 +363,11 @@ function isTestOnlyPath(file) {
   )
 }
 
-function classifyFile(file) {
+// 규칙에 없는 공개 웹 경로가 떨어질 안전 스코프. 보관 중인 HTML을 전부 비우되
+// 존 전체 비우기(emergency-zone)로는 절대 올라가지 않는다.
+const UNCLASSIFIED_FALLBACK_SCOPE = 'cached-html'
+
+function classifyFile(file, unclassified) {
   if (
     !file
     || isTestOnlyPath(file)
@@ -415,16 +419,19 @@ function classifyFile(file) {
     return ['cached-html']
   }
 
-  if (file.startsWith('sw/web/src/')) {
-    throw new Error(`Unclassified public-web runtime path: ${file}`)
-  }
-
+  // 공개 자산은 HTML 스코프로 갱신할 수 없다. 같은 URL을 덮어썼는지는 경로만으로
+  // 알 수 없으므로 이 갈래만 닫아 두고 사람이 판단하게 한다.
   if (file.startsWith('sw/web/public/')) {
     throw new Error(`Unclassified public asset path: ${file}`)
   }
 
+  // 규칙에 없는 공개 웹 경로. 예전에는 여기서 던져 배포를 막았지만 운영자는 매번
+  // --purge-scopes cached-html 을 손으로 넣어 통과시켰다. 넘치게 비우는 것은 캐시 미스
+  // 비용이고 덜 비우는 것은 낡은 화면을 내보내는 사고이므로, 가장 넓은 안전 스코프로
+  // 떨어뜨리고 그 경로를 계획에 남겨 규칙을 조일 수 있게 한다.
   if (file.startsWith('sw/web/')) {
-    throw new Error(`Unclassified public-web project path: ${file}`)
+    unclassified.push(file)
+    return [UNCLASSIFIED_FALLBACK_SCOPE]
   }
 
   return []
@@ -476,12 +483,19 @@ export function classifyCloudflarePurgeImpact(changedFiles) {
   }
 
   const scopes = []
+  const unclassified = []
   for (const rawFile of changedFiles) {
     const file = normalizeGitPath(rawFile)
-    scopes.push(...classifyFile(file))
+    scopes.push(...classifyFile(file, unclassified))
   }
 
-  return createCloudflarePurgePlan(scopes)
+  const plan = createCloudflarePurgePlan(scopes)
+  // 규칙에 없던 경로는 계획에 남겨 운영자가 보고 규칙을 조일 수 있게 한다. SEO 응답까지
+  // 바뀌는 변경이었다면 이 목록을 보고 --purge-scopes 로 seo 를 더한다.
+  // 하나도 없을 때는 필드를 만들지 않아 기존 계획 모양을 그대로 유지한다.
+  return unclassified.length
+    ? { ...plan, unclassifiedPaths: unique(unclassified) }
+    : plan
 }
 
 export function createManualCloudflarePurgePlan(scope, confirmation = '') {
