@@ -7,6 +7,7 @@
 // 디버그 포트 9222 크롬에 네이버 로그인 상태여야 한다. 크롬은 --disable-features=CalculateNativeWinOcclusion 로 띄운다.
 import { getBrowser, getNaverPage } from './lib/browser.mjs';
 import fs from 'node:fs';
+import sharp from 'sharp';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -91,13 +92,28 @@ const IMGDIR = path.join(os.tmpdir(), 'naver-blog', 'img');
 fs.mkdirSync(IMGDIR, { recursive: true });
 
 // 파일 이름이 그대로 대체 텍스트가 되므로 뜻이 통하는 이름을 붙인다.
+/**
+ * 이미지를 받아 올릴 파일로 만든다.
+ *
+ * 🔴 아바타는 배경을 지운 투명 이미지다. 그대로 올리면 네이버가 JPEG 로 바꾸며 투명한 자리를
+ *    검정으로 채워 얼굴만 뜬 시커먼 그림이 된다. 블로그는 흰 바탕이므로 받아서 흰색으로 합친다.
+ *    webp 도 네이버가 받지 않을 수 있어 함께 jpeg 로 바꾼다.
+ */
 async function download(url, name) {
   const res = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0' } });
   if (!res.ok) throw new Error(`이미지 내려받기 실패 ${res.status}`);
   const buf = Buffer.from(await res.arrayBuffer());
   if (buf.length < 1000) throw new Error('이미지가 너무 작다');
-  const ext = /png/i.test(res.headers.get('content-type') ?? '') ? 'png' : 'jpg';
   const safe = (name ?? '이미지').replace(/[\/:*?"<>|]/g, '').replace(/\s+/g, ' ').trim().slice(0, 40) || '이미지';
+
+  const meta = await sharp(buf).metadata().catch(() => null);
+  if (meta && (meta.hasAlpha || meta.format === 'webp')) {
+    const f = path.join(IMGDIR, `${safe}-${Date.now().toString(36)}.jpg`);
+    await sharp(buf).flatten({ background: '#ffffff' }).jpeg({ quality: 90 }).toFile(f);
+    return f;
+  }
+
+  const ext = /png/i.test(res.headers.get('content-type') ?? '') ? 'png' : 'jpg';
   const f = path.join(IMGDIR, `${safe}-${Date.now().toString(36)}.${ext}`);
   fs.writeFileSync(f, buf); return f;
 }
@@ -133,18 +149,61 @@ async function insertImage(page, cdp, url, width, name) {
       if (Math.abs(got - width) > 30) console.log(`  경고: 폭 ${got} (요청 ${width})`);
     }
   }
-  const ctr = await page.evaluate(() => { const e = [...document.querySelectorAll('button')].find((x) => x.offsetParent && /^가운데 정렬$/.test((x.getAttribute('aria-label') || x.textContent).trim())); if (!e) return null; const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
-  if (ctr) { await page.mouse.click(ctr.x, ctr.y); await wait(700); }
+  /**
+   * 🔴 이미지 정렬은 컴포넌트의 `se-l-*` 가 아니라 안쪽 `.se-section` 의
+   *    `se-section-align-*` 이 쥔다. 컴포넌트는 늘 `se-l-default` 라 그것만 보면
+   *    영영 「안 바뀐다」고 판정한다. 26.09.04에 여섯 장 모두 왼쪽으로 나갔다.
+   *
+   *    단추도 함정이다. 글자가 「가운데 정렬가운데 정렬」처럼 두 번 나오고, 클래스가
+   *    `se-align-center` 인 단추의 글자는 「왼쪽 정렬」이다. 글자로 찾지 말고,
+   *    돌려가며 바꾸는 단추(se-context-toolbar-cycle-toggle-button)를 가운데가 될
+   *    때까지 누른다.
+   */
+  const alignNowImg = () => page.evaluate(() => {
+    const cs = [...document.querySelectorAll('.se-component.se-image')];
+    const sec = cs[cs.length - 1]?.querySelector('.se-section');
+    return String(sec?.className ?? '').match(/se-section-align-(\w+)/)?.[1] ?? null;
+  });
+  for (let attempt = 0; attempt < 4; attempt++) {
+    if ((await alignNowImg()) === 'center') break;
+    // 🔴 좌표 클릭은 먹지 않는다. 이 툴바는 화면 맨 위에 떠 다른 것에 가린다.
+    //    요소를 직접 눌러야 한다. 순환 단추가 둘이라 클래스가 se-align-center 인 쪽을 고른다.
+    const hit = await page.evaluate(() => {
+      const e = [...document.querySelectorAll('button.se-context-toolbar-cycle-toggle-button')]
+        .find((x) => x.offsetParent && /se-align-center/.test(String(x.className)));
+      if (!e) return false;
+      e.click();
+      return true;
+    });
+    if (!hit) {
+      // 이미지가 골라져 있지 않으면 툴바가 없다. 다시 눌러 고른다.
+      const again = await page.evaluate(() => {
+        const cs = [...document.querySelectorAll('.se-component.se-image')];
+        const c = cs[cs.length - 1];
+        if (!c) return null;
+        c.scrollIntoView({ block: 'center', behavior: 'instant' });
+        const i = c.querySelector('img') ?? c;
+        const r = i.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      });
+      if (again) { await page.mouse.click(again.x, again.y); await wait(1200); }
+      continue;
+    }
+    await wait(1300);
+  }
+  if ((await alignNowImg()) !== 'center') throw new Error(`이미지를 가운데로 놓지 못했다(현재 ${await alignNowImg()})`);
   // 캐럿을 본문 끝으로 되돌린다.
   const back = await page.evaluate(() => { const ps = [...document.querySelectorAll('.se-component.se-text:not(.se-documentTitle) .se-text-paragraph')]; const q = ps[ps.length - 1]; if (!q) return null; q.scrollIntoView({ block: 'center', behavior: 'instant' }); const r = q.getBoundingClientRect(); return { x: r.left + 20, y: r.top + r.height / 2 }; });
   if (back) { await page.mouse.click(back.x, back.y); await wait(400); }
   fs.unlinkSync(file);
 }
 
-// 원고 서식 표시. **굵게** · [c]가운데 정렬[/c] · 한 줄 --- 은 구분선.
-const strip = (l) => l.replace(/\*\*/g, '').replace(/^\[c\]/, '').replace(/\[\/c\]$/, '');
+// 원고 서식 표시. **굵게** · [c]가운데 정렬[/c] · [q]인용구[/q] · 한 줄 --- 은 구분선.
+const strip = (l) => l.replace(/\*\*/g, '').replace(/^\[c\]/, '').replace(/\[\/c\]$/, '').replace(/^\[q\]/, '').replace(/\[\/q\]$/, '');
 const isDivider = (l) => /^[━─—–-]{3,}$/.test(l.replace(/[s​]/g, ''));   // --- 와 ━━━ 둘 다 받는다
 const isCenter = (l) => /^\[c\].*\[\/c\]$/.test(l.trim());
+// [q]…[/q] — 인용구로 감싼다. 간결체 덩어리를 나레이터의 정중체와 눈으로 가른다.
+const isQuote = (l) => /^\[q\].*\[\/q\]$/.test(l.trim());
 
 async function insertDivider(page) {
   const before = await page.evaluate(() => document.querySelectorAll('.se-component.se-horizontalLine').length);
@@ -153,6 +212,73 @@ async function insertDivider(page) {
   await page.mouse.click(pos.x, pos.y); await wait(1200);
   const after = await page.evaluate(() => document.querySelectorAll('.se-component.se-horizontalLine').length);
   if (after <= before) throw new Error('구분선이 들어가지 않았다');
+}
+
+/**
+ * 인용구 블록을 넣고 그 안에 글을 친다.
+ *
+ * 나레이터는 정중체, 인물 정리와 감상은 간결체다. 아무 표시 없이 맞붙으면 문체가 덜컹거린다.
+ * 간결체 덩어리를 인용구로 감싸 눈으로 갈라 두면 전환이 자연스럽다.
+ */
+async function insertQuote(page, text) {
+  const count = () => page.evaluate(() => document.querySelectorAll('.se-component.se-quotation').length);
+  const before = await count();
+  const pos = await page.evaluate(() => {
+    const e = document.querySelector('.se-toolbar-item-insert-quotation button, .se-toolbar-item-insert-quotation');
+    if (!e) return null;
+    const r = e.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  });
+  if (!pos) throw new Error('인용구 단추를 찾지 못했다');
+  await page.mouse.click(pos.x, pos.y); await wait(1000);
+
+  // 인용구 모양을 고르는 목록이 뜨면 첫 번째(세로줄)를 고른다
+  const picked = await page.evaluate(() => {
+    const li = [...document.querySelectorAll('.se-toolbar-item-insert-quotation li, [class*=quotation] [role=menuitem]')].filter((e) => e.offsetParent);
+    if (!li.length) return false;
+    const r = li[0].getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  });
+  if (picked && picked.x) { await page.mouse.click(picked.x, picked.y); await wait(900); }
+
+  for (let i = 0; i < 30 && (await count()) <= before; i++) await wait(300);
+  if ((await count()) <= before) throw new Error('인용구가 들어가지 않았다');
+  await wait(600);
+
+  for (let j = 0; j < text.length; j += 60) { await page.keyboard.type(text.slice(j, j + 60), { delay: 12 }); await wait(120); }
+  await wait(500);
+  const got = await page.evaluate(() => {
+    const q = [...document.querySelectorAll('.se-component.se-quotation')].pop();
+    return q ? q.textContent.replace(/​/g, '').trim() : '';
+  });
+  if (!got.includes(text.slice(0, 20))) throw new Error(`인용구 입력 실패: ${JSON.stringify(got.slice(0, 30))}`);
+
+  // 인용구 밖으로 빠져나온다. 인용구 안에서는 정렬 툴바가 사라져 다음 줄 처리가 막힌다.
+  await page.keyboard.down('Control'); await page.keyboard.press('End'); await page.keyboard.up('Control');
+  await wait(400);
+  await page.keyboard.press('Enter'); await wait(600);
+
+  // 캐럿이 아직 인용구 안이면 맨 끝 본문 단락을 눌러 빠져나온다
+  for (let i = 0; i < 6; i++) {
+    const inQuote = await page.evaluate(() => {
+      const a = getSelection().anchorNode;
+      const el = a && (a.nodeType === 1 ? a : a.parentElement);
+      return !!el?.closest('.se-component.se-quotation');
+    });
+    if (!inQuote) break;
+    const pos = await page.evaluate(() => {
+      const ps = [...document.querySelectorAll('.se-component.se-text:not(.se-documentTitle)')]
+        .filter((c) => !c.closest('.se-quotation'));
+      const last = ps.pop()?.querySelector('.se-text-paragraph');
+      if (!last) return null;
+      last.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = last.getBoundingClientRect();
+      return { x: r.left + 20, y: r.top + r.height / 2 };
+    });
+    if (!pos) { await page.keyboard.press('ArrowDown'); await wait(300); continue; }
+    await page.mouse.click(pos.x, pos.y); await wait(400);
+  }
+  await wait(300);
 }
 
 // 툴바의 정렬 드롭다운 단추는 현재 정렬을 클래스로 드러낸다(se-align-center-toolbar-button).
@@ -166,7 +292,27 @@ const alignNow = (page) => page.evaluate(() => {
 async function setAlign(page, want) {
   if ((await alignNow(page)) === want) return;
   const label = want === 'center' ? '가운데 정렬' : '왼쪽 정렬';
-  const t = await page.evaluate(() => { const e = document.querySelector('.se-toolbar-item-align .se-property-toolbar-drop-down-button'); if (!e) return null; const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
+  // 인용구·이미지 안에 캐럿이 있으면 글자 서식 툴바가 통째로 사라진다. 본문 단락으로 나온 뒤 잡는다.
+  let t = null;
+  for (let i = 0; i < 8 && !t; i++) {
+    t = await page.evaluate(() => { const e = document.querySelector('.se-toolbar-item-align .se-property-toolbar-drop-down-button'); if (!e || !e.offsetParent) return null; const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
+    if (t) break;
+    const moved = await page.evaluate(() => {
+      const ps = [...document.querySelectorAll('.se-component.se-text:not(.se-documentTitle)')].filter((c) => !c.closest('.se-quotation'));
+      const last = ps.pop()?.querySelector('.se-text-paragraph');
+      if (!last) return false;
+      last.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = last.getBoundingClientRect();
+      const ev = { x: r.left + 20, y: r.top + r.height / 2 };
+      window.__alignClick = ev;
+      return true;
+    });
+    if (moved) {
+      const p = await page.evaluate(() => window.__alignClick);
+      await page.mouse.click(p.x, p.y);
+    }
+    await wait(500);
+  }
   if (!t) throw new Error('정렬 단추를 찾지 못했다');
   await page.mouse.click(t.x, t.y); await wait(900);
   // 항목 글자는 「가운데 정렬선택됨」처럼 상태 라벨이 붙는다. 완전일치로 찾으면 빗나간다.
@@ -336,6 +482,87 @@ const cdp = await page.createCDPSession();
 await cdp.send('DOM.enable'); await cdp.send('Page.enable');
 cdp.on('Page.fileChooserOpened', (e) => { cdp.__chooser = e; });
 await cdp.send('Page.setInterceptFileChooserDialog', { enabled: true });
+/**
+ * 이미 올라간 글의 본문만 초안대로 다시 쓴다(`--rewrite <logNo…>`).
+ *
+ * 단락을 하나씩 손보다 감상이 사라지거나 두 번 들어가는 사고가 났다. 통째로 갈아 끼우면
+ * 중복·유실·깨진 글자·낡은 이미지가 한 번에 정리된다. 제목·카테고리·예약 시각은 건드리지 않는다.
+ */
+const rewriteIds = args.includes('--rewrite') ? args.filter((a) => /^\d{9,}$/.test(a)) : [];
+if (rewriteIds.length) {
+  const cdpR = cdp;
+  let ok = 0, fail = 0;
+  for (const logNo of rewriteIds) {
+    const d = drafts.find((x) => String(x.logNo) === String(logNo));
+    if (!d) { console.log(`건너뜀 ${logNo} — 초안에 없다`); continue; }
+    const slug = (d.target || '').replace('/celeb/', '');
+    try {
+      await ensureVisible(page);
+      await page.goto(`https://blog.naver.com/PostUpdateForm.naver?blogId=dmx777&logNo=${logNo}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.waitForSelector('.se-component.se-text .se-text-paragraph', { timeout: 40000 });
+      await wait(4500);
+
+      // 본문을 통째로 비운다 — 제목 칸은 건드리지 않는다.
+      await page.evaluate(() => {
+        const first = [...document.querySelectorAll('.se-component.se-text')].find((c) => !c.classList.contains('se-documentTitle'));
+        const p = first?.querySelector('.se-text-paragraph');
+        if (!p) return;
+        const r = document.createRange(); r.selectNodeContents(p); r.collapse(true);
+        const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      });
+      await wait(400);
+      await page.keyboard.down('Control'); await page.keyboard.press('KeyA'); await page.keyboard.up('Control');
+      await wait(400);
+      // 전체 선택 뒤 지워도 마지막 단락에 글자가 남을 수 있다. 빈 줄만 남을 때까지 지운다.
+      // 다 비우면 편집기가 자리표시 문구를 보여 준다. 그것은 글이 아니다.
+      const PLACEHOLDER = /글감과 함께|나의 일상을 기록/;
+      const realLines = async () => (await bodyParas(page)).filter((t) => t && !PLACEHOLDER.test(t));
+      for (let z = 0; z < 400; z++) {
+        if (!(await realLines()).length) break;
+        await page.keyboard.press('Backspace'); await wait(60);
+      }
+      await wait(800);
+      const leftover = await realLines();
+      if (leftover.length) throw new Error(`본문이 비워지지 않았다(${leftover.length}줄 남음: ${leftover[0].slice(0, 30)})`);
+
+      // 초안대로 다시 쓴다
+      for (const ln of d.body.split('\n')) {
+        if (isDivider(ln)) { await insertDivider(page); continue; }
+      if (isQuote(ln)) { await insertQuote(page, strip(ln).trim()); continue; }
+        if (isQuote(ln)) { await insertQuote(page, strip(ln).trim()); continue; }
+        const im = ln.trim().match(IMG_RE);
+        if (im) { await insertImage(page, cdpR, im[1], Number(im[2] ?? 400), im[3]); continue; }
+        await typeLine(page, ln);
+      }
+      await wait(800);
+      const got = (await bodyParas(page)).filter(Boolean);
+      const want = d.body.split('\n').filter((l) => l && !isDivider(l) && !isImg(l)).map(strip);
+      if (got.length !== want.length || !got.every((g, i) => g === want[i])) {
+        throw new Error(`본문 불일치(${got.length} ≠ ${want.length})`);
+      }
+
+      await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
+      const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
+      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(7000);
+      const okPos = await page.evaluate(() => {
+        const b = [...document.querySelectorAll('.se-popup button')].find((x) => x.textContent.trim() === '확인');
+        if (!b) return null; const r = b.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      });
+      if (okPos) { await page.mouse.click(okPos.x, okPos.y); await wait(4000); }
+      d.rewrittenAt = new Date().toISOString();
+      saveAll();
+      ok++;
+      console.log(`OK ${slug} — 본문 다시 씀`);
+    } catch (e) {
+      fail++;
+      console.log(`실패 ${slug}: ${String(e).split('\n')[0].slice(0, 180)}`);
+    }
+  }
+  console.log(`\n다시 쓰기 완료 — 성공 ${ok} / 실패 ${fail}`);
+  if (launched) await browser.close(); else browser.disconnect();
+  process.exit(0);
+}
+
 let n = 0;
 const pending = drafts.filter((d) => d.status === 'draft' || d.status === 'republish').filter((d) => !onlyTarget || d.target === onlyTarget);
 const slotList = scheduling ? slots(Math.min(limit, pending.length)) : [];

@@ -207,7 +207,7 @@ const CATEGORY = {
 async function material(slug) {
   const { data: c, error } = await db
     .from('celebs')
-    .select('id,slug,nickname,nickname_en,headline,bio,title,profession,consumption_philosophy')
+    .select('id,slug,nickname,nickname_en,headline,bio,title,profession,consumption_philosophy,avatar_url')
     .eq('slug', slug).single();
   if (error || !c) throw new Error(`인물을 찾지 못했다: ${slug}`);
 
@@ -353,7 +353,9 @@ function assemble(m, w) {
   const L = [];
   L.push(`📚 ${c.nickname}의 감상 기록 전체 보기 → ${link}`);
   L.push('');
-  L.push(`[img:${SITE}/seo-image/celeb/${c.slug}?locale=ko|420|${c.nickname} 사진]`);
+  // 🔴 seo-image 는 사이트 다크 테마에 맞춰 검은 배경을 깐다. 흰 바탕인 블로그에서는
+  //    시커먼 덩어리로 보인다. 배경을 지운 아바타 원본을 쓰고, 흰색 합성은 발행기가 한다.
+  L.push(`[img:${c.avatar_url ?? `${SITE}/seo-image/celeb/${c.slug}?locale=ko`}|420|${c.nickname} 사진]`);
   L.push('');
   L.push(`[c]${w.intro}[/c]`);
   L.push('');
@@ -370,11 +372,13 @@ function assemble(m, w) {
     L.push('');
     const blurb = Array.isArray(w.blurbs) ? String(w.blurbs[i] ?? "").trim() : "";
     if (blurb) { L.push(blurb); L.push(""); }
+    // 감상배경 라벨은 감상과 한 줄로 붙인다. 따로 떼면 「감상배경: 어린 시절」 한 마디가
+    // 덩그렇게 뜬다. 앞이 굵어 라벨 구실은 그대로 하고 `|` 뒤로 이야기가 이어진다.
     const ctx = (labels[i] ?? "").trim();
-    if (ctx) L.push(`**감상배경:** ${ctx}`);
     const fixed = Array.isArray(w.reviews) ? safeReview(b.review, w.reviews[i]) : { text: null, why: "다듬기 없음" };
     if (fixed.why) fallbacks.push(`${i + 1}번 ${fixed.why}`);
-    L.push(fixed.text ? fixed.text : trimReview(b.review, seen));
+    const review = fixed.text ? fixed.text : trimReview(b.review, seen);
+    L.push(ctx ? `**감상배경:** ${ctx} | ${review}` : review);
     if (i < five.length - 1) L.push('');
   });
   L.push('');
