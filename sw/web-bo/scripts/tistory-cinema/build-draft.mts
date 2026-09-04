@@ -82,6 +82,8 @@ if (tmdbId) {
     fetch(`${base}/videos?api_key=${TMDB}&language=ko-KR`).then((r) => r.json()),
     fetch(`${base}/videos?api_key=${TMDB}`).then((r) => r.json()),
   ])
+  // `contents.release_date` 가 비어 있는 작품이 있다. TMDB 값으로 메운다.
+  tmdb.release = detail.release_date || null
   tmdb.runtime = detail.runtime
   tmdb.vote = detail.vote_average
   tmdb.voteCount = detail.vote_count
