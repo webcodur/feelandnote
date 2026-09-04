@@ -8,7 +8,7 @@
  */
 
 import { useState } from 'react'
-import { X, Sparkles } from 'lucide-react'
+import { X, Sparkles, BookOpenText } from 'lucide-react'
 import { type CelebTag, createTag } from '@/actions/admin/tags'
 
 interface Props {
@@ -38,6 +38,7 @@ export default function ThemeFormModal({ tag, onClose }: Props) {
   const [color, setColor] = useState(tag?.color ?? '#7c4dff')
   const [slug, setSlug] = useState(tag?.slug ?? '')
   const [isFeatured, setIsFeatured] = useState(tag?.is_featured ?? false)
+  const [atlasPublished, setAtlasPublished] = useState(tag?.atlas_published ?? false)
   const [startDate, setStartDate] = useState(tag?.start_date ?? '')
   const [endDate, setEndDate] = useState(tag?.end_date ?? '')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -61,6 +62,7 @@ export default function ThemeFormModal({ tag, onClose }: Props) {
       color,
       slug: slug.trim() || null,
       is_featured: isFeatured,
+      atlas_published: atlasPublished,
       start_date: startDate || null,
       end_date: endDate || null,
     }
@@ -72,6 +74,8 @@ export default function ThemeFormModal({ tag, onClose }: Props) {
         id: result.id,
         ...tagData,
         team_images: [],
+        // 신화 갈래인지는 편집 화면에서 정한다
+        is_fiction: false,
         // 새 테마는 언제나 무소속으로 시작한다 — 묶음 소속은 편집 화면에서 정한다
         parent_id: null,
         sort_order: 999,
@@ -199,6 +203,24 @@ export default function ThemeFormModal({ tag, onClose }: Props) {
                   type="checkbox"
                   checked={isFeatured}
                   onChange={(e) => setIsFeatured(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-bg-tertiary rounded-full peer peer-checked:bg-accent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full" />
+              </label>
+            </div>
+
+            {/* 신화 아틀라스 공개 — 세력도감 노출과 다른 축이다.
+                이 값이 꺼지면 전승 칩이 잠기고 「작업 예정」이 붙는다 */}
+            <div className="flex items-center justify-between pt-3 border-t border-border/50">
+              <div className="flex items-center gap-2">
+                <BookOpenText className="w-4 h-4 text-accent" />
+                <span className="text-sm font-medium text-text-primary">신화의 세계에 공개</span>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={atlasPublished}
+                  onChange={(e) => setAtlasPublished(e.target.checked)}
                   className="sr-only peer"
                 />
                 <div className="w-11 h-6 bg-bg-tertiary rounded-full peer peer-checked:bg-accent after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full" />

@@ -41,17 +41,26 @@ export function formatUpdatedAt(value: string): string {
   return Number.isNaN(date.getTime()) ? '—' : DATE_FORMATTER.format(date)
 }
 
+/** 켜고 끄는 축. 세력도감 노출과 신화 공개는 서로 다른 축이라 한 화면에 둘 다 선다 */
+const TOGGLE_AXES = {
+  is_featured: { long: '웹 활성', off: '웹 비공개', short: '활성', shortOff: '비공개', noun: '웹 활성 상태' },
+  atlas_published: { long: '신화 공개', off: '신화 잠금', short: '공개', shortOff: '잠금', noun: '신화 공개 상태' },
+} as const
+
 export function ThemeActiveToggle({
   themeId,
   themeName,
   initialActive,
   compact = false,
+  axis = 'is_featured',
 }: {
   themeId: string
   themeName: string
   initialActive: boolean
   compact?: boolean
+  axis?: keyof typeof TOGGLE_AXES
 }) {
+  const label = TOGGLE_AXES[axis]
   const router = useRouter()
   const { showToast } = useToast()
   const [active, setActive] = useState(initialActive)
@@ -69,18 +78,18 @@ export function ThemeActiveToggle({
 
     startTransition(async () => {
       try {
-        const result = await updateTag({ id: themeId, is_featured: next })
+        const result = await updateTag({ id: themeId, [axis]: next })
         if (!result.success) {
           setActive(previous)
-          showToast('error', result.error ?? '웹 활성 상태를 저장하지 못했습니다.')
+          showToast('error', result.error ?? `${label.noun}를 저장하지 못했습니다.`)
           return
         }
 
-        showToast('success', `${themeName} 웹 ${next ? '활성' : '비공개'}으로 변경했습니다.`)
+        showToast('success', `${themeName} · ${next ? label.long : label.off}으로 바꿨습니다.`)
         router.refresh()
       } catch (error) {
         setActive(previous)
-        showToast('error', `웹 활성 상태 저장 실패: ${error instanceof Error ? error.message : String(error)}`)
+        showToast('error', `${label.noun} 저장 실패: ${error instanceof Error ? error.message : String(error)}`)
       }
     })
   }
@@ -89,8 +98,8 @@ export function ThemeActiveToggle({
     <button
       type="button"
       aria-pressed={active}
-      aria-label={`${themeName} 웹 ${active ? '비공개로 변경' : '활성화'}`}
-      title={`${themeName} · ${active ? '웹 활성 — 클릭하면 비공개' : '웹 비공개 — 클릭하면 활성'}`}
+      aria-label={`${themeName} ${active ? `${label.off}으로 변경` : label.long}`}
+      title={`${themeName} · ${active ? `${label.long} — 누르면 ${label.off}` : `${label.off} — 누르면 ${label.long}`}`}
       onClick={toggle}
       disabled={pending}
       className={`inline-flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-medium disabled:cursor-wait disabled:opacity-60 ${
@@ -100,7 +109,7 @@ export function ThemeActiveToggle({
       }`}
     >
       {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : active ? <Sparkles className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
-      {compact ? (active ? '활성' : '비공개') : (active ? '웹 활성' : '웹 비공개')}
+      {compact ? (active ? label.short : label.shortOff) : (active ? label.long : label.off)}
     </button>
   )
 }
@@ -334,12 +343,24 @@ export function ThemeAtlasRow({ theme }: { theme: FactionThemeSummary }) {
       </FactionTableCell>
 
       <FactionTableCell>
-        <ThemeActiveToggle
-          themeId={theme.id}
-          themeName={theme.name}
-          initialActive={theme.is_featured}
-          compact
-        />
+        <span className="inline-flex flex-wrap items-center gap-1.5">
+          <ThemeActiveToggle
+            themeId={theme.id}
+            themeName={theme.name}
+            initialActive={theme.is_featured}
+            compact
+          />
+          {/* 신화 갈래만 신화의 세계 공개 축을 함께 다룬다 */}
+          {theme.is_fiction && (
+            <ThemeActiveToggle
+              themeId={theme.id}
+              themeName={theme.name}
+              initialActive={theme.atlas_published}
+              axis="atlas_published"
+              compact
+            />
+          )}
+        </span>
       </FactionTableCell>
 
       <FactionTableCell align="center">
