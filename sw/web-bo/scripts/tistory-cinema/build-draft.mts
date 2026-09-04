@@ -12,6 +12,7 @@
  * (`docs/continuous/naver-blog.md` 「원고 생산」). 여기서도 조립이 먼저다.
  */
 import { createClient } from '@supabase/supabase-js'
+import { usableReview } from './lib/quality.mts'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -24,7 +25,13 @@ const args = process.argv.slice(2)
 const argOf = (k: string) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : undefined }
 const wantTitle = argOf('--title')
 const wantId = argOf('--id')
-const PICK = Number(argOf('--pick') ?? 15)
+/**
+ * 인물은 **최대 4명**이다. 10명을 실으면 100자 넘는 감상이 10명 이상인 영화가 9편뿐이라
+ * 글감이 말라 버리고(3명 기준이면 141편), 대부처럼 27명이 있는 작품에서도 남는 인원이
+ * 중앙값 6명뿐이라 「나머지는 사이트에서」가 무색해진다. 3명을 못 채우면 글로 쓰지 않는다.
+ */
+const PICK = Number(argOf('--pick') ?? 4)
+const MIN_PICK = 3
 if (!wantTitle && !wantId) throw new Error('--title 또는 --id 가 필요하다')
 
 const page = async <T,>(t: string, s: string, f?: (q: any) => any): Promise<T[]> => {
@@ -97,8 +104,8 @@ if (tmdbId) {
 }
 
 // ── 감상 모으기 ─────────────────────────────────────────────
-const celebs = await page<{ id: string; slug: string; nickname: string; profession: string | null; title: string | null }>(
-  'celebs', 'id, slug, nickname, profession, title', (q) => q.eq('publication_status', 'active'))
+const celebs = await page<{ id: string; slug: string; nickname: string; profession: string | null; title: string | null; headline: string | null; bio: string | null; avatar_url: string | null }>(
+  'celebs', 'id, slug, nickname, profession, title, headline, bio, avatar_url', (q) => q.eq('publication_status', 'active'))
 const cmap = new Map(celebs.map((c) => [c.id, c]))
 // 제목에 쓰는 수는 **사이트에 실제로 보이는 수**여야 한다. 100자 필터를 통과한 수를 쓰면
 // 「27명」이라 적어 놓고 도착 페이지에는 48명이 있어 숫자가 어긋난다.
@@ -109,7 +116,7 @@ const all = cc.filter((r) => r.content_id === work.id)
    * 🔴 60자로는 「누가 누구와 함께 봤다」 같은 목격담이 들어온다(26.09.05 재러드 쿠슈너 82자).
    *    본인이 말한 근거가 담기려면 100자는 있어야 한다. 그 아래는 원고에 쓰지 않는다.
    */
-  .filter((r): r is NonNullable<typeof r> => !!r && r.review.length >= 100)
+  .filter((r): r is NonNullable<typeof r> => !!r && usableReview(r.review))
 
 // 직군을 고루 섞는다. 한 직군만 나오면 「감독들이 좋아하는 영화」가 되어 각이 좁아진다.
 const byProf = new Map<string, typeof all>()
@@ -120,7 +127,31 @@ for (let round = 0; picked.length < PICK && round < 20; round++) {
   for (const [, v] of byProf) { if (v[round] && picked.length < PICK) picked.push(v[round]) }
 }
 
-const out = { work: { id: work.id, title: info.title, poster: info.thumbnail_url, creator: info.creator, release: work.release_date }, tmdb, total: totalOnSite, usable: all.length, picked }
+/**
+ * 「필앤노트 리뷰」에 쓸 재료. **이 영화를 꼽은 사람들이 또 무엇을 꼽았는가** — 감상 기록을
+ * 가진 쪽만 셀 수 있는 값이라 이 글을 다른 영화 소개 글과 가르는 지점이다.
+ * 직군 분포도 함께 담는다(영화인만 꼽은 영화인지, 밖에서도 꼽는 영화인지).
+ */
+const byId = new Map(contents.map((c) => [c.id, c]))
+const fans = new Set(all.map((r) => r.id))
+const together = new Map<string, number>()
+cc.forEach((r) => {
+  if (r.content_id === work.id || !fans.has(r.celeb_id)) return
+  const c = byId.get(r.content_id)
+  if (!/tmdb-movie-/.test(c?.external_id ?? '')) return
+  together.set(r.content_id, (together.get(r.content_id) ?? 0) + 1)
+})
+const alsoLiked = [...together.entries()]
+  .sort((a, b) => b[1] - a[1]).slice(0, 3)
+  .map(([id, n]) => ({ id, title: ko.get(id)?.title ?? '', n }))
+  .filter((x) => x.title)
+
+const profCount: Record<string, number> = {}
+all.forEach((r) => { const k = r.profession ?? 'other'; profCount[k] = (profCount[k] ?? 0) + 1 })
+
+if (picked.length < MIN_PICK) throw new Error(`쓸 만한 감상이 ${picked.length}명뿐이다(최소 ${MIN_PICK}명). 이 작품은 쓰지 않는다`)
+
+const out = { work: { id: work.id, title: info.title, poster: info.thumbnail_url, creator: info.creator, release: work.release_date }, tmdb, total: totalOnSite, usable: all.length, picked, alsoLiked, profCount }
 fs.mkdirSync(OUT_DIR, { recursive: true })
 const file = path.join(OUT_DIR, `${info.title.replace(/[\/:*?"<>|]/g, '')}.json`)
 fs.writeFileSync(file, JSON.stringify(out, null, 2))

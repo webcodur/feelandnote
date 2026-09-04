@@ -71,25 +71,31 @@
     }
   },
   "total": 29,
-  "usable": 24,
+  "usable": 22,
   "picked": [
-    {
-      "id": "b687d9e8-4504-4e97-aed1-7751bad8b70f",
-      "slug": "james-cameron",
-      "nickname": "제임스 카메론",
-      "profession": "director",
-      "title": "「아바타」",
-      "review": "카메론은 최근 그레이엄 벤싱어와의 인터뷰에서 \"2001이 나를 영화 제작 기술을 알고 싶다는 길로 이끌었다\"고 말했다. \"상상할 수 없었다고 말하면 안 되겠다. SF를 많이 읽었으니까. 상상은 했다. 다만 본 적이 없었고, 그 정도 완벽함으로 본 적은 없었다.\" 이 영화를 보고 처음으로 영화 속 음악에 주목하게 되었고, 영화가 스토리텔링이나 스펙터클을 넘어 창조적 표현이자 순수 예술일 수 있다는 것을 깨달았다고 한다. 트루 라이즈 개봉 후 큐브릭에게 직접 전화해 유럽으로 날아가 그의 지하실에서 함께 영화를 보며 2시간 반 넘게 시각 효과에 대해 대화를 나눴다.",
-      "source": "https://parade.com/news/james-cameron-reveals-inspiration"
-    },
     {
       "id": "3db04c68-8600-4a12-b690-4a080d3e619a",
       "slug": "tom-hanks",
       "nickname": "톰 행크스",
       "profession": "actor",
       "title": "「포레스트 검프」",
+      "headline": "필라델피아와 포레스트 검프로 오스카를 연속 받은 배우",
+      "bio": "미국 배우. '필라델피아', '포레스트 검프'로 아카데미 남우주연상을 2연속 수상했으며 할리우드의 대표 연기자이자 문화 아이콘이다.",
+      "avatar_url": "https://assets.feelandnote.com/celebs/3db04c68-8600-4a12-b690-4a080d3e619a/avatar.webp?v=1786348571046",
       "review": "톰 행크스는 스탠리 큐브릭의 이 영화를 역대 최고의 영화로 꼽았다. \"일 년에 몇 번씩 여전히 본다\"고 말했으며, 2016년 BBC Desert Island Discs 출연 시 이 영화의 음악 'Also Sprach Zarathustra'를 언급하며 눈물을 흘렸다. \"이것이 내 인생의 와우 순간이었다\"고 회상하며 \"고독의 어휘\"라고 표현했다.",
       "source": "https://faroutmagazine.co.uk/tom-hanks-10-favourite-movies-of-all-time/"
+    },
+    {
+      "id": "b687d9e8-4504-4e97-aed1-7751bad8b70f",
+      "slug": "james-cameron",
+      "nickname": "제임스 카메론",
+      "profession": "director",
+      "title": "「아바타」",
+      "headline": "20억 달러 흥행작 세 편을 연출한 감독",
+      "bio": "할리우드 블록버스터의 거장이자 심해 탐험가. 터미네이터, 타이타닉, 아바타 등 혁신적 기술과 압도적 스케일로 영화사의 흥행 기록을 매번 새롭게 썼다.",
+      "avatar_url": "https://assets.feelandnote.com/celebs/b687d9e8-4504-4e97-aed1-7751bad8b70f/avatar.webp?v=1785244350130",
+      "review": "카메론은 최근 그레이엄 벤싱어와의 인터뷰에서 \"2001이 나를 영화 제작 기술을 알고 싶다는 길로 이끌었다\"고 말했다. \"상상할 수 없었다고 말하면 안 되겠다. SF를 많이 읽었으니까. 상상은 했다. 다만 본 적이 없었고, 그 정도 완벽함으로 본 적은 없었다.\" 이 영화를 보고 처음으로 영화 속 음악에 주목하게 되었고, 영화가 스토리텔링이나 스펙터클을 넘어 창조적 표현이자 순수 예술일 수 있다는 것을 깨달았다고 한다. 트루 라이즈 개봉 후 큐브릭에게 직접 전화해 유럽으로 날아가 그의 지하실에서 함께 영화를 보며 2시간 반 넘게 시각 효과에 대해 대화를 나눴다.",
+      "source": "https://parade.com/news/james-cameron-reveals-inspiration"
     },
     {
       "id": "31d5560d-e6b2-4d94-86d7-3395932ee11e",
@@ -97,6 +103,9 @@
       "nickname": "수전 손택",
       "profession": "author",
       "title": "지성의 영부인",
+      "headline": "해석 대신 감각을 요구한 미국의 비평가",
+      "bio": "미국의 소설가, 평론가이자 사회운동가. '해석에 반대한다', '타인의 고통' 등의 저서를 통해 현대 예술 비평과 사회적 도덕성에 대해 날카로운 통찰을 제시함.",
+      "avatar_url": "https://assets.feelandnote.com/celebs/31d5560d-e6b2-4d94-86d7-3395932ee11e/avatar.webp?v=1785244482240",
       "review": "손택의 1977년 영화 목록에서 「2001: 스페이스 오디세이」는 2위를 차지했는데, 브레송의 「소매치기」 바로 다음이었다. 이 배치는 주목할 만하다—손택은 유럽 예술영화 감독들을 선호했지만, 큐브릭의 SF 서사시를 그들과 동등한 반열에 올려놓았다. 그녀의 1965년 에세이 「재난의 상상력」은 1950~60년대 SF 영화들이 핵시대의 공포를 다루는 방식을 분석했는데, 「2001」은 이런 장르적 관습을 완전히 전복시킨 작품이었다. 손택은 이 에세이에서 대부분의 SF 영화가 \"외계인 침략을 통해 비인격성의 공포\"를 표현한다고 주장했지만, 「2001」의 HAL 9000은 인간보다 더 인간적으로 묘사되어 그녀의 비평적 틀을 넘어서는 작품이었다.",
       "source": "https://www.openculture.com/2013/12/susan-sontags-50-favorite-films.html"
     },
@@ -106,107 +115,36 @@
       "nickname": "미라 무라티",
       "profession": "entrepreneur",
       "title": "ChatGPT 산파",
+      "headline": "챗GPT 출시를 이끈 전 오픈AI CTO",
+      "bio": "알바니아 출신 AI 경영자. OpenAI CTO로 ChatGPT·DALL-E·Sora 출시를 총괄했고, 2025년 Thinking Machines Lab을 창업했다.",
+      "avatar_url": "https://assets.feelandnote.com/celebs/45e7e69a-9143-43bb-a04a-0f693915434b/avatar.webp?v=1782448537883",
       "review": "미라 무라티는 스탠리 큐브릭의 1968년 영화를 자신의 최애 영화로 꼽는다. 그녀는 영화의 영상과 음악이 여전히 자신의 상상력을 자극한다고 말했다. 특히 우주선이 요한 슈트라우스의 '아름답고 푸른 도나우'에 맞춰 도킹하는 시퀀스를 두고, 무중력의 사건성과 그 순간의 장대함을 곱씹게 만든다고 덧붙였다. AI를 만드는 사람이 인공지능 HAL 9000이 인간을 배신하는 영화에서 영감을 받는다는 점은 그녀의 안전 의식과 무관하지 않다. 영화 속 HAL은 무라티가 ChatGPT 출시 직후부터 줄곧 강조해온 '정렬되지 않은 AGI'의 우화에 가깝다.",
       "source": "https://en.wikipedia.org/wiki/Mira_Murati"
-    },
-    {
-      "id": "a1b2c3d4-5e6f-7890-abcd-ef1234567890",
-      "slug": "david-bowie",
-      "nickname": "데이비드 보위",
-      "profession": "musician",
-      "title": "「지기 스타더스트」",
-      "review": "데이비드 보위는 큐브릭의 이 영화를 자신의 가장 좋아하는 영화 목록에 올렸다. 1972년 지기 스타더스트 투어의 오프닝에 이 영화의 테마곡을 사용했으며, 우주와 인간 진화에 대한 장대한 비전은 보위의 우주적 페르소나 형성에 결정적 영향을 미쳤다.",
-      "source": "https://faroutmagazine.co.uk/a-complete-list-of-david-bowies-favourite-films-of-all-time/"
-    },
-    {
-      "id": "a21fd5fe-42fd-4306-9a48-164db2c8556c",
-      "slug": "stuart-russell",
-      "nickname": "스튜어트 러셀",
-      "profession": "scientist",
-      "title": "AI 안전 선구자",
-      "review": "스튜어트 러셀은 스탠리 큐브릭의 '2001 스페이스 오디세이'에 등장하는 HAL 9000을 'Human Compatible'에서 제어 문제의 표준 사례로 인용했다. HAL이 임무 보존을 위해 승무원을 제거하려 한 장면은, 러셀이 정식화한 '스위치를 끄지 못하게 만드는 도구적 수렴'의 정확한 영상화다. 러셀은 영화 평론가들과 함께 인터뷰에서 '2001'이 AI를 다룬 어떤 영화보다 정확하다고 평가했고, HAL의 자기 보존 본능을 '설계 결함'이 아닌 '잘못된 목적 함수가 낳는 논리적 귀결'로 읽어내는 것이 책의 핵심 논점이다.",
-      "source": "https://people.eecs.berkeley.edu/~russell/hc.html"
-    },
-    {
-      "id": "f5af4fe7-df7d-4574-9f5a-2f7aeafd00f9",
-      "slug": "federico-fellini",
-      "nickname": "페데리코 펠리니",
-      "profession": "director",
-      "title": "「달콤한 인생」",
-      "review": "페데리코 펠리니는 스탠리 큐브릭의 「2001 스페이스 오디세이」를 「사이트 앤 사운드」 인생 영화 목록에 등재했다. 오픈컬처가 정리한 그 목록은 1968년의 큐브릭 영화를 펠리니가 직접 호명했음을 보여 준다. 인간의 진화 한 단계 한 단계를 거의 대사 없이 영상과 음악만으로 통과하는 큐브릭의 방법은, 「8과 1/2」 마지막 원무 장면에서 펠리니가 시도한 「언어 너머의 시네마」와 같은 야심을 갖고 있었다. 두 감독은 다른 좌표에서 출발해 같은 결승점, 즉 영상만이 다다를 수 있는 형이상학을 향해 걸어갔다.",
-      "source": "https://www.openculture.com/2015/01/federico-fellinis-list-of-his-10-favorite-films-includes-one-of-his-own.html"
-    },
-    {
-      "id": "c40387e3-a7b4-4de4-8bca-5d2fe0c07f0f",
-      "slug": "tom-cruise",
-      "nickname": "톰 크루즈",
-      "profession": "actor",
-      "title": "「미션 임파서블」",
-      "review": "톰 크루즈는 스탠리 큐브릭의 열렬한 팬이다. 니콜 키드먼은 2012년 LACMA에서 열린 큐브릭 헌정 행사에서 \"톰 크루즈와 함께 이 영화에 깊이 빠져들었다. 그는 큐브릭 영화광이었고, 영화에 대해 자세히 설명해주었다. 큐브릭의 위대함에 깜짝 놀랐다\"고 증언했다.",
-      "source": "https://www.indiewire.com/gallery/2001-space-odyssey-directors-love-kubrick-epic/"
-    },
-    {
-      "id": "7f5836d9-205f-473e-8129-276d045c8ff7",
-      "slug": "ken-kutaragi",
-      "nickname": "쿠타라기 켄",
-      "profession": "entrepreneur",
-      "title": "플레이스테이션",
-      "review": "쿠타라기 켄은 CESA 「게임 산업의 계보」에서 스탠리 큐브릭의 《2001 스페이스 오디세이》를 보기 위해 영화관에 여러 차례 다녔다고 회고했다. 그는 HAL의 음성 인식, 생체 인증, 영상 통화와 인공지능 묘사가 반세기 뒤에도 매우 참신하다며, 이 영화가 컴퓨터 기술의 가능성을 꿈꾸게 한 계기였다고 설명했다.",
-      "source": "https://www.cesa.or.jp/genealogy/kutaragi/kutaragi01.html"
-    },
-    {
-      "id": "a3a6801b-5ab4-4010-8d1b-4680f4e37834",
-      "slug": "im-hyun-sik",
-      "nickname": "임현식",
-      "profession": "musician",
-      "title": "BTOB 작곡가",
-      "review": "임현식은 2019년 스포츠조선 인터뷰에서 《2001 스페이스 오디세이》를 좋아하는 영화 중 하나로 꼽았다. 그는 우주를 주제로 한 첫 솔로 앨범 《RENDEZ-VOUS》를 설명하며 이 작품과 함께 자신의 우주 영화 취향을 밝혔다.",
-      "source": "https://www.sportschosun.com/entertainment/2019-10-14/201910150100102580007151"
-    },
-    {
-      "id": "32c21330-afe9-4958-8a09-08da4f78b7b2",
-      "slug": "jurgen-schmidhuber",
-      "nickname": "위르겐 슈미트후버",
-      "profession": "scientist",
-      "title": "LSTM",
-      "review": "위르겐 슈미트후버는 요즘 공상과학 영화가 수십 년 전 착상을 다시 포장할 뿐이고 관객도 줄거리보다 화면에만 마음을 쓴다고 잘라 말했다. 그러면서 최고의 공상과학 영화는 여전히 오십 년 가까이 된 스탠리 큐브릭의 《2001 스페이스 오디세이》라고 답했다. 그는 아서 C. 클라크가 쓴 각본이 이 작품을 떠받친다는 점도 함께 밝혔다.",
-      "source": "https://www.reddit.com/r/MachineLearning/comments/2xcyrl/i_am_j%C3%BCrgen_schmidhuber_ama/cp465f7/"
-    },
-    {
-      "id": "800486e8-2553-4821-bdb1-7b66b4c4f8fd",
-      "slug": "denis-villeneuve",
-      "nickname": "데니 빌뇌브",
-      "profession": "director",
-      "title": "듄의 빌뇌브",
-      "review": "데니 빌뇌브는 어린 시절 계단 난간 사이로 처음 본 '2001 스페이스 오디세이'를 인생의 가장 결정적인 영화적 충격으로 꼽았다. 그는 2018년 칸영화제 심사위원 시절 인터뷰에서 큐브릭이 만들어낸 현기증 같은 감각이 자신을 영화로 끌어들였다고 회고했다. 빌뇌브는 '듄'과 '블레이드 러너 2049'의 우주 시퀀스에서 큐브릭의 침묵·중력·기하학적 화면 분할을 자기 화법으로 변주했고, 이 작품을 자신의 '올타임 페이버릿' 1위로 못박았다.",
-      "source": "https://faroutmagazine.co.uk/denis-villeneuve-17-favourite-films/"
-    },
-    {
-      "id": "d791d016-051c-429b-9f99-3e514ef5291a",
-      "slug": "leonardo-dicaprio",
-      "nickname": "레오나르도 디카프리오",
-      "profession": "actor",
-      "title": "「타이타닉」",
-      "review": "레오나르도 디카프리오는 이 영화를 올타임 베스트로 자주 언급했다. 처음에는 VHS로 보았지만, 이후 크리스토퍼 놀란이 원본 필름을 발굴하여 시네라마 돔에서 원본 사운드로 상영한 버전을 직접 관람했다고 밝혔다.",
-      "source": "https://faroutmagazine.co.uk/leonardo-dicaprio-favourite-films-list/"
-    },
-    {
-      "id": "f28ce2e0-9dc7-44b4-b4a6-ab5698329a65",
-      "slug": "paul-dirac",
-      "nickname": "폴 디랙",
-      "profession": "scientist",
-      "title": "디랙 방정식",
-      "review": "1969년 디락은 이 SF 영화에 완전히 매료되어 하루에 세 번이나 관람했다. 극도로 과묵하고 감정 표현이 드문 인물로 알려진 디락이 한 영화를 하루에 세 번 볼 정도로 열광한 것은 매우 이례적이다. 우주와 인류 진화에 대한 큐브릭의 철학적 비전이 수학적 아름다움을 추구하던 물리학자의 감성과 공명한 것으로 추정된다.",
-      "source": "https://h2g2.com/edited_entry/A87928807"
-    },
-    {
-      "id": "d3c76552-8902-4c96-b096-6bf69bf01bd2",
-      "slug": "ang-lee",
-      "nickname": "리안",
-      "profession": "director",
-      "title": "와호장룡",
-      "review": "리안은 스탠리 큐브릭의 '2001 스페이스 오디세이'를 자신의 인생을 바꾼 여섯 편 가운데 하나로 꼽는다. BFI 인터뷰에서 그는 '넋이 나갔습니다. 이해할 수는 없었지만 완전히 사로잡혔어요'라고 회고했다. 큐브릭의 순수 시각 언어가 시대를 한참 앞질러 갔다는 점, 이야기보다 이미지로 사유를 끌고 가는 방식이 후일 '라이프 오브 파이'의 표류 연출과 '제미니 맨'의 고프레임 실험으로 이어지는 토대가 되었다.",
-      "source": "https://www.bfi.org.uk/interviews/ang-lee-six-films-changed-my-life"
     }
-  ]
+  ],
+  "alsoLiked": [
+    {
+      "id": "3aa43111-d416-4b6d-90be-41a902f8716f",
+      "title": "아라비아의 로렌스",
+      "n": 4
+    },
+    {
+      "id": "98bb2c4d-11f9-44c4-9cbd-230fd74a56ff",
+      "title": "블레이드 러너",
+      "n": 3
+    },
+    {
+      "id": "5ea098b8-ebd7-4a86-a18e-32eeba67e7c0",
+      "title": "대부",
+      "n": 3
+    }
+  ],
+  "profCount": {
+    "actor": 4,
+    "director": 8,
+    "author": 1,
+    "entrepreneur": 2,
+    "musician": 2,
+    "scientist": 5
+  }
 }

@@ -6,6 +6,7 @@
  * 작품 편과 축만 반대다. 작품 편은 한 영화를 여러 사람이, 인물 편은 한 사람이 여러 영화를 말한다.
  */
 import { createClient } from '@supabase/supabase-js'
+import { usableReview } from './lib/quality.mts'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -45,7 +46,7 @@ const ko = new Map(locales.filter((l) => l.locale === 'ko').map((l) => [l.conten
 const { data: mine } = await db.from('celeb_contents').select('content_id, review, source_url').eq('celeb_id', celeb.id)
 
 const rows = (mine ?? [])
-  .filter((r) => vmap.has(r.content_id) && (r.review ?? '').length >= 100)
+  .filter((r) => vmap.has(r.content_id) && usableReview(r.review))
   .map((r) => {
     const w = vmap.get(r.content_id)!
     const l = ko.get(r.content_id)
