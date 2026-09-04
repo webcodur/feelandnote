@@ -2,7 +2,7 @@
 
 이 문서는 픽션·신화·실존 인물의 등장 도서와 연관 도서를 판정하고, 작품 아래 읽을 판본을 두는 규칙을 쥔다. 인물이 작품을 감상했다는 뜻이 아니므로 `celeb_contents`와 혼용하지 않는다.
 
-후보 작품의 발굴과 재선정은 [`fiction-source-curation`](../../../.agents/skills/fiction-source-curation/SKILL.md), 작품·판본·locale 메타는 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), 한국어 판매 판본과 제휴 상품은 [`coupang-book-affiliate`](../../../.agents/skills/coupang-book-affiliate/SKILL.md)를 따른다.
+후보 작품의 발굴과 재선정은 [`figure-book-curation`](../../../.agents/skills/figure-book-curation/SKILL.md), 작품·판본·locale 메타는 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), 한국어 판매 판본과 제휴 상품은 [`coupang-book-affiliate`](../../../.agents/skills/coupang-book-affiliate/SKILL.md)를 따른다.
 
 이 카탈로그는 `celeb_tier`(`full`·`light`)와 `celeb_reality`(`REAL`·`BOTH`·`FICTION`) 어느 쪽과도 무관하게 모든 인물을 연결할 수 있다. 관우가 『삼국지연의』 원전을 가지듯 실존 인물도 등장 도서를 가진다. 물리 테이블 이름이 `fiction_source_*`였을 때 "픽션 인물 전용 테이블"이라는 오해를 계속 만들어 `figure_book_*`로 정정했다. 인물의 실존·전승 판정은 `celebs.celeb_reality`가 쥐며, 자세한 구분은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「존재와 속성을 구분한다」를 따른다.
 
@@ -45,7 +45,7 @@
 
 ## 등록
 
-먼저 백오피스 `/fiction-sources`(라우트 이름은 아직 정정 전이다)와 아래 감사 명령으로 기존 작품·판본·인물 관계를 확인한다. `fiction:audit`는 팩션(세력도감) 영상 시리즈 감사 명령이라 이름이 비슷할 뿐 이 카탈로그와 무관하다 — 혼동해 잘못된 감사를 돌리지 않는다.
+먼저 백오피스 `/figure-books`와 아래 감사 명령으로 기존 작품·판본·인물 관계를 확인한다. `faction:audit`는 팩션(세력도감) 영상 시리즈 감사 명령이라 이름이 비슷할 뿐 이 카탈로그와 무관하다 — 혼동해 잘못된 감사를 돌리지 않는다.
 
 ```text
 pnpm --dir sw/web-bo figure-books:audit -- --json
@@ -54,13 +54,13 @@ pnpm --dir sw/web-bo figure-books:audit -- --json
 신규 BOOK과 locale은 작품 정체성과 본문 범위를 명시한 JSON으로 dry-run한다.
 
 ```text
-pnpm --dir sw/web-bo fiction:source:book -- --file <명세.json>
+pnpm --dir sw/web-bo figure-books:book -- --file <명세.json>
 ```
 
 명세는 원저자·작품·제목 이명, 첫 판본 종류, 본문 범위와 확인된 ko/en ISBN을 구분한다. 구매 링크는 이 명세에 넣지 않는다. 같은 작품의 추가 판본은 다음 명령으로 dry-run한다.
 
 ```text
-pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/fiction/source-edition-batch.ts --file <판본.json>
+pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/figure-books/source-edition-batch.ts --file <판본.json>
 ```
 
 카카오·OpenLibrary 정규화 제목에서 합본·완역·일러스트 같은 실제 판본 수식어가 빠질 때만 명세의 `editionTitle`로 복원한다. 작품명과 판본명을 다시 섞기 위한 임의 제목에는 쓰지 않는다.
@@ -70,7 +70,7 @@ pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/fiction/
 작품별 인물 관계는 다음 명령으로 dry-run한다.
 
 ```text
-pnpm --dir sw/web-bo fiction:source:batch -- --file <명세.json>
+pnpm --dir sw/web-bo figure-books:batch -- --file <명세.json>
 ```
 
 이 명령들은 기본적으로 DB를 쓰지 않는다. 사용자가 등록·반영을 명시한 경우에만 `--apply`한다. 반영 뒤 `figure-books:audit`으로 다음을 확인한다.

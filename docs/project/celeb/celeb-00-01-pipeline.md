@@ -34,7 +34,7 @@
 신규 실존 인물은 단순 인지도보다 그 사람을 독립적으로 설명할 사료와 서술이 충분한지 본다. 정식 단독 전기 한 권으로 좁히지는 않는다. 분야사·산업사·기관 기록·인터뷰 등으로 다른 인물과 같은 깊이의 프로필을 만들 수 있으면 채택할 수 있다. 반대로 화제성만 있고 독립 근거가 빈약한 후보는 신규 발주하지 않는다. 이 기준은 기존 인물을 소급 삭제하는 근거가 아니다.
 
 - 실존 인물은 web-bo `/celebs/new`의 `createCeleb`로 등록한다. 이 경로는 UUID·slug·`celeb_metrics`를 만들고 `light`로 시작하며 공개 상태 기본값은 `inactive`, 실존 축 기본값은 `REAL`이다. 전승·허구 인물은 등록 화면에서 실존 축을 직접 고른다.
-- 허구 인물 일괄 등록은 이름·영문명·식별 가능한 bio를 준비한 뒤 `pnpm --dir sw/web-bo fiction:seed:inactive --file <명세.json>`을 사용한다. 이 경로는 `light` 티어에 `celeb_reality='FICTION'`으로 넣는다. 기본은 dry-run이며 사용자가 DB 반영을 지시했을 때만 `--apply`한다.
+- 허구 인물 일괄 등록은 이름·영문명·식별 가능한 bio를 준비한 뒤 `pnpm --dir sw/web-bo faction:seed:inactive --file <명세.json>`을 사용한다. 이 경로는 `light` 티어에 `celeb_reality='FICTION'`으로 넣는다. 기본은 dry-run이며 사용자가 DB 반영을 지시했을 때만 `--apply`한다.
 - 공통 결과 계약은 [`celeb-01-00-profile.md`](celeb-01-00-profile.md), 사실 판정은 [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md), 소개 문구는 [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md)를 따른다.
 - 모든 신규 인물은 공개 전에 [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md)에 맞는 아바타를 등록한다.
 
