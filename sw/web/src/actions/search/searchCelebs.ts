@@ -3,7 +3,6 @@
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { SEARCHABLE_CELEB_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/db/static'
 import { getLocale } from 'next-intl/server'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
@@ -49,8 +48,7 @@ async function fetchSearchCelebs(
     .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en', { count: 'exact' })
     .eq('publication_status', 'active')
-    // 기본 목록 등급에 픽션 인물을 더해 검색한다.
-    .in('celeb_tier', [...SEARCHABLE_CELEB_TIERS])
+    // 검색은 celeb_reality와 무관하게 전체를 대상으로 한다(FICTION도 검색되어야 한다).
     .or(`nickname.ilike.%${safeQuery}%,nickname_en.ilike.%${safeQuery}%`)
     .range(offset, offset + limit - 1)
     .order(isEn ? 'nickname_en' : 'nickname', { ascending: true, nullsFirst: false })

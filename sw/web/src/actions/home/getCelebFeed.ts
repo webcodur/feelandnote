@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/db/static'
 import type { CelebFeedResponse, CelebReview } from '@/types/home'
 import type { ContentType } from '@/types/database'
@@ -90,7 +90,7 @@ async function fetchCelebFeed(
     .eq('visibility', 'public')
     .eq('celeb.publication_status', 'active')
     // 신화·관계 인물은 피드에서 제외
-    .in('celeb.celeb_tier', [...LISTING_DEFAULT_TIERS])
+    .in('celeb.celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .order('updated_at', { ascending: false })
     .limit(limit + 1)
 

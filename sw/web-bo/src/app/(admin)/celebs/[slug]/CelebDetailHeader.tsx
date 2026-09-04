@@ -17,11 +17,11 @@ interface CelebDetailHeaderProps {
   createdAt: string
   isVerified: boolean
   status: 'active' | 'inactive'
-  tier: 'full' | 'light' | 'fiction'
+  tier: 'full' | 'light'
   contentCount?: number
   onVerified: (value: boolean) => void
   onStatus: (value: 'active' | 'inactive') => void
-  onTier: (value: 'full' | 'light' | 'fiction') => void
+  onTier: (value: 'full' | 'light') => void
 }
 
 export default function CelebDetailHeader({
@@ -161,7 +161,6 @@ export default function CelebDetailHeader({
               options={[
                 { value: 'full', label: 'full' },
                 { value: 'light', label: 'light', className: 'bg-orange-500/15 text-orange-400' },
-                { value: 'fiction', label: 'fiction', className: 'bg-purple-500/15 text-purple-400' },
               ]}
             />
           </Field>

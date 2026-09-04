@@ -100,7 +100,8 @@ test("fiction title states the linked source relationship and never claims viewi
   const input: CelebMetaInput = {
     nickname: "아킬레우스",
     title: "트로이 전쟁의 영웅",
-    tier: "fiction",
+    tier: "light",
+    reality: "FICTION",
     counts: emptyCounts,
     sourceWorks: [
       { title: "트로이 전쟁", relationType: "related" },
@@ -137,7 +138,8 @@ test("fiction without a linked source falls back to its existing title", () => {
   const input: CelebMetaInput = {
     nickname: "멤논",
     title: "에티오피아의 왕",
-    tier: "fiction",
+    tier: "light",
+    reality: "FICTION",
     counts: emptyCounts,
     bio: "오래된 이야기에서 선택의 대가를 보여주는 인물이다.",
     hasReading: true,
@@ -176,7 +178,8 @@ test("headline takes priority for fiction and light profiles", () => {
     title: "트로이 전쟁의 영웅",
     headline: "그리스군 최강의 전사",
     headline_en: "The Greatest Warrior of the Achaean Army",
-    tier: "fiction",
+    tier: "light",
+    reality: "FICTION",
     counts: emptyCounts,
     sourceWorks: [{ title: "《일리아스》", relationType: "appearance" }],
   };

@@ -11,7 +11,7 @@ export interface CelebSidePresence {
 
 interface CelebSidePresenceInput {
   celebId: string
-  tier: string | null | undefined
+  reality: string | null | undefined
 }
 
 interface PresenceRow {
@@ -69,9 +69,11 @@ function hasSpectrumCached(celebId: string): Promise<boolean> {
 /** 페이지의 고정 목차용 존재 여부. 클라이언트가 직접 호출할 공개 Action이 아니다. */
 export async function getCelebSidePresence({
   celebId,
-  tier,
+  reality,
 }: CelebSidePresenceInput): Promise<CelebSidePresence> {
-  if (tier === 'fiction') return EMPTY_SIDE_PRESENCE
+  // FICTION만 끈다 — celeb_influence·celeb_persona는 FICTION 인물에게 절대 만들지 않는다.
+  // BOTH는 실존 핵심이 있는 인물이라 값이 실제로 있을 수 있다.
+  if (reality === 'FICTION') return EMPTY_SIDE_PRESENCE
 
   const [influence, spectrum] = await Promise.all([
     hasInfluenceCached(celebId),

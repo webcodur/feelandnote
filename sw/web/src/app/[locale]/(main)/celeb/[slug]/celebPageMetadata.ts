@@ -24,6 +24,7 @@ export function createCelebMetaInput(
     headline_en: profile.headline_en,
     counts: profile.contentTypeCounts,
     tier: profile.celeb_tier ?? "full",
+    reality: profile.celeb_reality ?? "REAL",
     quote: profile.quotes,
     bio: profile.bio,
     hasReading: Boolean(profile.reading),
@@ -46,7 +47,9 @@ export async function buildCelebPageMetadata(
   }
 
   const profile = result.data;
-  const sources = profile.celeb_tier === "fiction"
+  // 원전·등장 작품은 celeb_tier와 무관하게 모든 인물이 가질 수 있다. REAL이 아니면
+  // (BOTH·FICTION) 실제 감상 기록이 얇으므로 원전 정보로 메타 설명을 보강한다.
+  const sources = (profile.celeb_reality ?? "REAL") !== "REAL"
     ? await getFictionSourcesForCeleb(profile.id, locale)
     : [];
   const metaInput = createCelebMetaInput(profile, sources);
@@ -74,7 +77,8 @@ export async function buildCelebPageMetadata(
       title,
       description,
       url: alternates.canonical,
-      type: profile.celeb_tier === "fiction" ? "website" : "profile",
+      // 순수 전승(FICTION)만 website로 낮춘다. BOTH는 실존 핵심이 있으니 profile을 유지한다.
+      type: profile.celeb_reality === "FICTION" ? "website" : "profile",
       images: [{
         url: imageUrl,
         width: 800,

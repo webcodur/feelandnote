@@ -1,4 +1,4 @@
-import type { CelebTier } from "@feelandnote/shared/constants/celeb-tiers";
+import type { CelebTier, CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 
 export interface ContentCounts { BOOK: number; VIDEO: number; GAME: number; MUSIC: number }
 export interface CelebMetaSourceWork { title: string; relationType?: string }
@@ -10,6 +10,9 @@ export interface CelebMetaInput {
   headline_en?: string | null;
   counts: ContentCounts;
   tier?: CelebTier;
+  /** REAL이 아니면(BOTH·FICTION) 원전·전승 중심 타이틀·설명을 쓴다.
+   *  BOTH 인물도 실제 감상 기록·인용문이 얇아 이 문체가 더 맞는다. */
+  reality?: CelebReality;
   quote?: string | null;
   bio?: string | null;
   hasReading?: boolean;
@@ -106,8 +109,9 @@ function countPartsKo(counts: ContentCounts): string[] {
 
 export function buildCelebTitleKo(input: CelebMetaInput): string {
   const tier = input.tier ?? "full";
+  const reality = input.reality ?? "REAL";
   const headline = input.headline?.trim();
-  if (tier === "fiction") {
+  if (reality !== "REAL") {
     if (headline) return `${headline}, ${input.nickname}`;
     const source = primarySource(input);
     return source
@@ -145,7 +149,8 @@ function descriptionHeadKo(input: CelebMetaInput): string {
 
 export function buildCelebDescriptionKo(input: CelebMetaInput): string {
   const tier = input.tier ?? "full";
-  if (tier === "fiction") {
+  const reality = input.reality ?? "REAL";
+  if (reality !== "REAL") {
     const source = primarySource(input);
     const parts = [source ? `《${source}》 등 원전과 등장 작품` : "신화와 이야기 속 행적"];
     if (input.hasReading) parts.push("인물 안내와 탐구");
@@ -184,8 +189,9 @@ function countPartsEn(counts: ContentCounts): string[] {
 
 export function buildCelebTitleEn(input: CelebMetaInput): string {
   const tier = input.tier ?? "full";
+  const reality = input.reality ?? "REAL";
   const headlineEn = (input.headline_en || input.headline)?.trim();
-  if (tier === "fiction") {
+  if (reality !== "REAL") {
     if (headlineEn) return `${headlineEn} — ${input.nickname}`;
     const source = primarySource(input);
     return source ? `${input.nickname} in ${sourceAfterPrepositionEn(source)}` : titleLabel(input);
@@ -219,8 +225,9 @@ function descriptionHeadEn(input: CelebMetaInput): string {
 
 export function buildCelebDescriptionEn(input: CelebMetaInput): string {
   const tier = input.tier ?? "full";
+  const reality = input.reality ?? "REAL";
   const parts: string[] = [];
-  if (tier === "fiction") {
+  if (reality !== "REAL") {
     const source = primarySource(input);
     parts.push(source ? `source works including ${sourceAfterPrepositionEn(source)}` : "the figure's place in myth and story");
     if (input.hasReading) parts.push("a character guide");

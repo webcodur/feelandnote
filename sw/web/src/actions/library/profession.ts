@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
@@ -43,7 +43,7 @@ async function fetchProfessionAggregate(
     .select('id')
     .eq('publication_status', 'active')
     // 신화·관계 인물은 목록에서 제외
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .eq('profession', profession)
 
   throwOnQueryError('getLibraryByProfession 프로필 조회', profileError)
@@ -147,7 +147,7 @@ async function fetchProfessionContentCounts(): Promise<Array<{ profession: strin
         .select('id', { count: 'exact', head: true })
         .eq('publication_status', 'active')
         // 신화·관계 인물은 목록에서 제외
-        .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+        .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
         .eq('profession', key)
 
       return count && count > 0 ? { profession: key, label, count } : null

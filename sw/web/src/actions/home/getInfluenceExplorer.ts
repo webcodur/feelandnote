@@ -6,7 +6,7 @@ import {
   type InfluenceField,
 } from "@feelandnote/influence-constants";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
+import { LISTING_DEFAULT_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 
 import { STATIC_REVALIDATE } from "@/lib/cache";
@@ -97,7 +97,7 @@ async function fetchInfluenceExplorerRows(): Promise<InfluenceExplorerRow[]> {
         )
       `)
       .eq("celeb.publication_status", "active")
-      .in("celeb.celeb_tier", [...LISTING_DEFAULT_TIERS])
+      .in("celeb.celeb_reality", [...LISTING_DEFAULT_REALITIES])
       .gt("total_score", 0)
       .order("total_score", { ascending: false })
       .order("celeb_id", { ascending: true })

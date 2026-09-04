@@ -3,8 +3,8 @@ import test from "node:test";
 
 import { getCelebSectionOrder } from "../../app/[locale]/(main)/celeb/[slug]/celebSectionChapters";
 
-test("fiction uses story-first section order without analysis", () => {
-  assert.deepEqual(getCelebSectionOrder("fiction"), [
+test("FICTION reality uses story-first section order without analysis", () => {
+  assert.deepEqual(getCelebSectionOrder("FICTION"), [
     "introduction",
     "reading",
     "timeline",
@@ -15,7 +15,7 @@ test("fiction uses story-first section order without analysis", () => {
   ]);
 });
 
-test("non-fiction keeps records and adds person books as a separate section", () => {
+test("REAL and BOTH reality keep records and add person books as a separate section", () => {
   const expected = [
     "introduction",
     "reading",
@@ -28,6 +28,6 @@ test("non-fiction keeps records and adds person books as a separate section", ()
     "guestbook",
   ];
 
-  assert.deepEqual(getCelebSectionOrder("full"), expected);
-  assert.deepEqual(getCelebSectionOrder("light"), expected);
+  assert.deepEqual(getCelebSectionOrder("REAL"), expected);
+  assert.deepEqual(getCelebSectionOrder("BOTH"), expected);
 });

@@ -8,7 +8,7 @@ import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
-import { LISTING_DEFAULT_TIERS, parseCelebTiers, type CelebTier } from "@feelandnote/shared/constants/celeb-tiers";
+import { CELEB_TIERS, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 
 // #region 상수
 export const SORT_VALUES: CelebSortBy[] = [
@@ -83,10 +83,16 @@ export function useCelebFilters({
     const ps = parseInt(searchParams.get("pageSize") || String(DEFAULT_PAGE_SIZE), 10);
     return PAGE_SIZE_OPTIONS.includes(ps) ? ps : DEFAULT_PAGE_SIZE;
   });
-  // 등급 필터. 미지정이면 getCelebs가 기본 등급(full·light)만 노출한다.
+  // 파이프라인 등급 좁히기(full·light). 미지정이면 제한하지 않는다.
   const [tiers, setTiers] = useState<CelebTier[] | undefined>(() => {
     if (!syncToUrl) return undefined;
     return parseCelebTiers(searchParams.get("tier"));
+  });
+  // 실존 축 필터. 미지정이면 getCelebs가 기본(REAL·BOTH)만 노출한다 — FICTION은 빠진다.
+  // 값은 URL(상단 검색이 붙이는 reality=)에서만 들어오므로 화면에서 바꾸는 setter는 두지 않는다.
+  const [realities] = useState<CelebReality[] | undefined>(() => {
+    if (!syncToUrl) return undefined;
+    return parseCelebRealities(searchParams.get("reality"));
   });
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -146,12 +152,13 @@ export function useCelebFilters({
       minContentCount: 0,
       includeInactive: isInactive,
       tiers: tiersOverride ?? tiers,
+      realities,
     });
     setCelebs(result.celebs);
     setTotalPages(result.totalPages);
     setTotal(result.total);
     setIsLoading(false);
-  }, [includeInactive, pageSize, tiers]);
+  }, [includeInactive, pageSize, tiers, realities]);
 
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);
@@ -188,13 +195,13 @@ export function useCelebFilters({
     updateUrlParams({ sortBy: sort, page: null });
   }, [loadCelebs, profession, nationality, contentType, gender, search, updateUrlParams]);
 
-  // 등급 필터 변경. 기본 등급과 같으면 URL에서 지운다.
+  // 등급 필터 변경. 전체 등급을 고르면 좁히는 의미가 없으므로 URL에서 지운다.
   const handleTiersChange = useCallback((next: CelebTier[]) => {
     const value = next.length > 0 ? next : undefined;
     setTiers(value);
     setCurrentPage(1);
     loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, value);
-    const isDefault = !value || (value.length === LISTING_DEFAULT_TIERS.length && LISTING_DEFAULT_TIERS.every(t => value.includes(t)));
+    const isDefault = !value || (value.length === CELEB_TIERS.length && CELEB_TIERS.every(t => value.includes(t)));
     updateUrlParams({ tier: isDefault ? null : value.join(","), page: null });
   }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
@@ -251,8 +258,9 @@ export function useCelebFilters({
     gender,
     sortBy,
     search,
-    tiers: tiers ?? [...LISTING_DEFAULT_TIERS],
+    tiers: tiers ?? [...CELEB_TIERS],
     handleTiersChange,
+    realities,
     contentUnit,
     activeFilter,
     setActiveFilter,

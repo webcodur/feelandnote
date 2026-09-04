@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] 공통 — 목차 아이템 정의·정렬
  * - 목차 위치: 공통 (전 구획)
- * - 데이터: tier/showLibrary/availability props, next-intl celebPage
+ * - 데이터: reality/showLibrary/availability props, next-intl celebPage
  * - 함께 보기: celebSectionChapters.ts, celebServiceIcons.ts, detail/useCelebServiceModel.ts
  * ───────────────────────────────────────────── */
 "use client";
@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import type { LucideIcon } from "lucide-react";
 
-import type { CelebTier } from "@/actions/user/getUserProfile";
+import type { CelebReality } from "@/actions/user/getUserProfile";
 
 import { CELEB_SERVICE_ICONS } from "./celebServiceIcons";
 import {
@@ -53,13 +53,13 @@ export interface CelebServiceAvailability {
 }
 
 interface UseCelebServiceItemsProps {
-  tier: CelebTier;
+  reality: CelebReality;
   showLibrary: boolean;
   availability: CelebServiceAvailability;
 }
 
 export function useCelebServiceItems({
-  tier,
+  reality,
   showLibrary,
   availability,
 }: UseCelebServiceItemsProps): ServiceItem[] {
@@ -107,7 +107,7 @@ export function useCelebServiceItems({
       {
         key: "timeline",
         chapter: CELEB_SERVICE_CHAPTERS.timeline,
-        label: tier === "fiction" ? t("fictionTimeline") : t("timeline"),
+        label: reality !== "REAL" ? t("fictionTimeline") : t("timeline"),
         icon: CELEB_SERVICE_ICONS.timeline,
         ready: availability.timeline,
         target: { sectionId: "timeline" },
@@ -133,7 +133,7 @@ export function useCelebServiceItems({
       {
         key: "analysis",
         chapter: CELEB_SERVICE_CHAPTERS.analysis,
-        label: tier === "fiction" ? t("fictionAnalysis") : t("analysis"),
+        label: reality !== "REAL" ? t("fictionAnalysis") : t("analysis"),
         icon: CELEB_SERVICE_ICONS.analysis,
         // 가상 인물도 자료가 있을 때만 그린다. 예전에는 무조건 열려 빈 상자가 남았다
         ready: availability.spectrum || availability.influence,
@@ -160,7 +160,7 @@ export function useCelebServiceItems({
       {
         key: "connections",
         chapter: CELEB_SERVICE_CHAPTERS.connections,
-        label: tier === "fiction" ? t("fictionConnections") : t("connections"),
+        label: reality !== "REAL" ? t("fictionConnections") : t("connections"),
         icon: CELEB_SERVICE_ICONS.connections,
         ready:
           availability.relations || availability.faction,
@@ -177,7 +177,7 @@ export function useCelebServiceItems({
           {
             key: "faction",
             chapter: "05-C",
-            label: tier === "fiction" ? t("fictionFaction") : t("serviceFaction"),
+            label: reality !== "REAL" ? t("fictionFaction") : t("serviceFaction"),
             icon: CELEB_SERVICE_ICONS.faction,
             ready: availability.faction,
             target: { sectionId: "connections" },
@@ -189,7 +189,7 @@ export function useCelebServiceItems({
         key: "media",
         chapter: CELEB_SERVICE_CHAPTERS.media,
         label:
-          tier === "fiction" && availability.dialogues && !availability.videos
+          reality !== "REAL" && availability.dialogues && !availability.videos
             ? t("mediaDialogues")
             : t("media"),
         icon: CELEB_SERVICE_ICONS.media,
@@ -225,14 +225,14 @@ export function useCelebServiceItems({
       {
         key: "guestbook",
         chapter: CELEB_SERVICE_CHAPTERS.guestbook,
-        label: tier === "fiction" ? t("fictionGuestbook") : t("guestbook"),
+        label: reality !== "REAL" ? t("fictionGuestbook") : t("guestbook"),
         icon: CELEB_SERVICE_ICONS.guestbook,
         ready: true,
         target: { sectionId: "guestbook" },
       },
     ] satisfies ServiceItem[];
       /* ── 5. 순서 정렬·번호 재부여 ── */
-      const sectionOrder = getCelebSectionOrder(tier);
+      const sectionOrder = getCelebSectionOrder(reality);
     const positionByKey = new Map(
       sectionOrder.map((key, index) => [key, index]),
     );
@@ -273,7 +273,7 @@ export function useCelebServiceItems({
       availability.videos,
       showLibrary,
       t,
-      tier,
+      reality,
     ],
   );
 }

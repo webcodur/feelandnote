@@ -11,7 +11,7 @@ import { getCategoryById } from "@/constants/categories";
 import type { ContentType, ContentStatus } from "@/types/database";
 import { createClient } from "@/lib/db/client";
 import { useQuickRecord } from "@/contexts/QuickRecordContext";
-import { SEARCHABLE_CELEB_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
+import { CELEB_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 
 // 마지막으로 고른 검색 종류를 브라우저에 남겨 다음 방문에 되살린다.
 const SEARCH_PREF_KEY = "search_pref";
@@ -265,7 +265,7 @@ export function useHeaderSearch() {
     // 셀럽 검색: 탐색 페이지로 이동
     if (mode === "celeb") {
       router.push(
-        `/explore/figures?search=${encodeURIComponent(query.trim())}&tier=${SEARCHABLE_CELEB_TIERS.join(",")}`
+        `/explore/figures?search=${encodeURIComponent(query.trim())}&reality=${CELEB_REALITIES.join(",")}`
       );
       setIsOpen(false);
       return;

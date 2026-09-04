@@ -15,7 +15,7 @@ import {
   getCelebsByProfession,
 } from "@/actions/home";
 import type { CelebSortBy } from "@/actions/home";
-import type { CelebTier } from "@feelandnote/shared/constants/celeb-tiers";
+import type { CelebTier, CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
 import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
 import CelebStatsBar from "@/components/features/user/explore/sections/CelebStatsBar";
@@ -84,6 +84,7 @@ export interface FiguresFilterParams {
   search?: string;
   tagId?: string;
   tiers?: readonly CelebTier[];
+  realities?: readonly CelebReality[];
 }
 
 /* 필터 결과(그리드 뷰) — 필터 줄과 목록이 같은 상호작용 상태(검색어·정렬·페이지)를 공유하는
@@ -110,6 +111,7 @@ export async function FiguresFilterResult({ params }: { params: FiguresFilterPar
         search: params.search,
         tagId: params.tagId,
         tiers: params.tiers,
+        realities: params.realities,
       }),
       getProfessionCounts(),
       getNationalityCounts(),

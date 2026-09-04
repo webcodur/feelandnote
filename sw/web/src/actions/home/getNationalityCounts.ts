@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
@@ -24,14 +24,14 @@ async function fetchNationalityCounts(): Promise<NationalityCounts> {
     .from('celebs')
     .select('*', { count: 'exact', head: true })
     .eq('publication_status', 'active')
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
 
   // 국적 정보 없는 셀럽 수
   const { count: noNationalityCount } = await db
     .from('celebs')
     .select('*', { count: 'exact', head: true })
     .eq('publication_status', 'active')
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .is('nationality', null)
 
   // 모든 국적 데이터 조회 — 1,000행 상한에 걸리므로 나눠 받는다.
@@ -41,7 +41,7 @@ async function fetchNationalityCounts(): Promise<NationalityCounts> {
       .from('celebs')
       .select('nationality')
       .eq('publication_status', 'active')
-      .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
       .not('nationality', 'is', null)
       .order('id')
       .range(from, to)

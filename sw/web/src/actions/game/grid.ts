@@ -3,7 +3,7 @@
 import { unstable_cache } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
+import { LISTING_DEFAULT_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { selectAllPages } from "@feelandnote/shared/lib/paginate";
@@ -45,7 +45,7 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
       .from("celebs")
       .select("id, nickname, nickname_en, slug, nationality, profession, birth_date, death_date")
       .eq("publication_status", "active")
-      .in("celeb_tier", [...LISTING_DEFAULT_TIERS])
+      .in("celeb_reality", [...LISTING_DEFAULT_REALITIES])
       .not("nationality", "is", null)
       .not("profession", "is", null)
       .order("id", { ascending: true })

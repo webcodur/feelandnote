@@ -23,6 +23,7 @@ type Draft = Omit<TimelineEvent, 'id' | 'celeb_id' | 'source'>
 const makeEmpty = (isFiction: boolean): Draft => ({
   year: isFiction ? null : new Date().getFullYear(),
   year_end: null,
+  month: null,
   sequence_label: isFiction ? '' : null,
   sequence_label_en: isFiction ? '' : null,
   title: '',

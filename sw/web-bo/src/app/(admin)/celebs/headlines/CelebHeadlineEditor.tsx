@@ -26,7 +26,7 @@ interface Props {
 
 type MissingFilter = 'all' | 'filled' | 'missing'
 type StatusFilter = 'all' | 'active' | 'inactive'
-type TierFilter = 'all' | 'full' | 'light' | 'fiction'
+type TierFilter = 'all' | 'full' | 'light'
 
 export default function CelebHeadlineEditor({ initialCelebs }: Props) {
   const { showToast } = useToast()
@@ -286,7 +286,6 @@ export default function CelebHeadlineEditor({ initialCelebs }: Props) {
               <option value="all">티어 전체</option>
               <option value="full">full</option>
               <option value="light">light</option>
-              <option value="fiction">fiction</option>
             </select>
 
             {/* Profession Select */}
@@ -429,7 +428,7 @@ export default function CelebHeadlineEditor({ initialCelebs }: Props) {
                         <div>
                           <span
                             className={`inline-block px-1.5 py-0.2 rounded text-[10px] font-mono ${
-                              celeb.celeb_tier === 'fiction'
+                              celeb.celeb_reality && celeb.celeb_reality !== 'REAL'
                                 ? 'bg-purple-500/15 text-purple-400'
                                 : celeb.celeb_tier === 'light'
                                 ? 'bg-orange-500/15 text-orange-400'

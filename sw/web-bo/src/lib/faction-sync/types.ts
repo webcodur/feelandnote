@@ -83,7 +83,7 @@ export interface FactionSyncPerson {
   /** celebs.celeb_tier */
   tier?: string
   /**
-   * 신화 표시와 셀럽 등급이 어긋남 — 제작 데이터는 신화라는데 셀럽 등급이 fiction 이 아니거나 그 반대.
+   * 신화 표시와 셀럽 실존 축이 어긋남 — 제작 데이터는 신화라는데 celeb_reality가 REAL이거나 그 반대.
    * 어느 쪽이 맞는지는 사람이 판단한다(출간을 막지는 않는다).
    */
   tierMismatch: boolean

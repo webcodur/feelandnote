@@ -13,7 +13,7 @@
 
 import { NextResponse } from 'next/server'
 import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { countRecentTitleMentions } from '@feelandnote/content-search/naver-news'
 import { getKSTDateKey } from '@/lib/game/date-seed'
 
@@ -72,7 +72,7 @@ async function pickNewsCeleb(
     .from('celebs')
     .select('id, nickname')
     .eq('publication_status', 'active')
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .is('death_date', null)
     .not('nickname', 'is', null)
 
@@ -127,7 +127,7 @@ async function pickBirthdayCeleb(db: DatabaseClient, today: string): Promise<str
     .select('id')
     .eq('publication_status', 'active')
     // 신화·관계 인물은 목록에서 제외
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .like('birth_date', `%-${monthDay}`)
 
   const ids = ((data ?? []) as { id: string }[]).map((c) => c.id)
@@ -180,7 +180,7 @@ export async function GET(request: Request) {
         .select('id')
         .eq('publication_status', 'active')
         // 신화·관계 인물은 목록에서 제외
-        .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+        .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
 
       const pool = (celebProfiles ?? []) as { id: string }[]
       if (pool.length === 0) {

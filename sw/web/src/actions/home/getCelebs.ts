@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES, type CelebTier, type CelebReality } from '@feelandnote/shared/constants/celeb-tiers'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { STATIC_REVALIDATE, LIST_REVALIDATE, spreadRevalidate, throwOnQueryError } from '@/lib/cache'
 import { createClient } from '@/lib/db/server'
@@ -69,7 +69,8 @@ interface GetCelebsParams {
   tagId?: string  // 태그 필터
   minContentCount?: number // 최소 컨텐츠 개수
   includeInactive?: boolean // 비활성화된 셀럽 포함 여부
-  tiers?: readonly CelebTier[] // 노출 등급 필터. 미지정 시 LISTING_DEFAULT_TIERS(full·light)
+  tiers?: readonly CelebTier[] // 파이프라인 등급 좁히기(full·light). 미지정 시 제한 없음
+  realities?: readonly CelebReality[] // 실존 축 필터. 미지정 시 LISTING_DEFAULT_REALITIES(REAL·BOTH) — FICTION 제외
   /** 쪽수 UI가 없는 미리보기는 전체 건수를 세지 않는다. */
   includeTotal?: boolean
   /** 팔로우 표시가 없는 카드 묶음은 로그인·팔로우 상태를 읽지 않는다. */
@@ -157,7 +158,7 @@ async function fetchCelebsPublic(
   page: number, limit: number, profession: string | null, nationality: string | null,
   contentType: string | null, gender: string | null, sortBy: string,
   search: string | null, tagId: string | null, minContentCount: number,
-  includeInactive: boolean, tiers: string[], includeTotal: boolean
+  includeInactive: boolean, tiers: string[], realities: string[], includeTotal: boolean
 ): Promise<PublicCelebData> {
   const db = createStaticClient()
   const offset = (page - 1) * limit
@@ -181,6 +182,7 @@ async function fetchCelebsPublic(
         p_profession: profession, p_nationality: nationality, p_content_type: contentType,
         p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
         p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
+        p_celeb_realities: realities,
       })
       throwOnQueryError('인물 목록 개수', countError)
       total = countData ?? 0
@@ -194,6 +196,7 @@ async function fetchCelebsPublic(
       p_sort_by: sortBy, p_search: search ?? '', p_limit: limit, p_offset: offset,
       p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
       p_include_inactive: includeInactive, p_celeb_tiers: tiers,
+      p_celeb_realities: realities,
     })
     throwOnQueryError('인물 목록', error)
     rows = (data || []) as CelebRow[]
@@ -341,6 +344,7 @@ export async function getCelebs(
     minContentCount = 0,
     includeInactive = false,
     tiers,
+    realities,
     includeTotal = true,
     includeViewerState = true,
   } = params
@@ -351,7 +355,7 @@ export async function getCelebs(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
     search ?? null, tagId ?? null, minContentCount,
-    includeInactive, [...(tiers ?? LISTING_DEFAULT_TIERS)], includeTotal
+    includeInactive, [...(tiers ?? [])], [...(realities ?? LISTING_DEFAULT_REALITIES)], includeTotal
   )
 
   if (pub.rows.length === 0) {

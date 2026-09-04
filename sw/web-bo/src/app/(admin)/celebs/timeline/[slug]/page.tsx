@@ -31,7 +31,9 @@ export default async function TimelineDetailPage({ params }: PageProps) {
   }
 
   const events = await getTimelineEvents(member.id)
-  const isFiction = member.celeb_tier === 'fiction'
+  // BOTH도 지금은 서사 단계 형식으로 통일해 편집한다(기존 자료가 전부 그 형식이다).
+  // REAL로 갈린 뒤에만 연도 입력으로 바뀐다. 이벤트별 형식 선택 UI는 후속 작업이다.
+  const isFiction = (member.celeb_reality ?? 'REAL') !== 'REAL'
   const sectionName = '타임라인'
 
   return (

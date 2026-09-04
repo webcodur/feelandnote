@@ -3,7 +3,7 @@
 import { unstable_cache } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
+import { LISTING_DEFAULT_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { getCelebYear } from "@/lib/celeb/lifespan";
 import { createStaticClient } from "@/lib/db/static";
@@ -46,7 +46,7 @@ async function fetchMemoryFigures(locale: string): Promise<MemoryFigure[]> {
       )
     `)
     .eq("celeb.publication_status", "active")
-    .in("celeb.celeb_tier", [...LISTING_DEFAULT_TIERS])
+    .in("celeb.celeb_reality", [...LISTING_DEFAULT_REALITIES])
     .not("celeb.avatar_url", "is", null)
     .order("total_score", { ascending: false })
     .order("celeb_id", { ascending: true })

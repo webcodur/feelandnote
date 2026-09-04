@@ -29,6 +29,7 @@ interface CelebIndexRow {
   nationality: string | null
   birth_date: string | null
   celeb_tier: string | null
+  celeb_reality: string | null
 }
 
 interface InfluenceRow {
@@ -42,7 +43,7 @@ async function fetchCelebIndex(): Promise<CelebIndexRow[]> {
   return await selectAllPages<CelebIndexRow>((from, to) =>
     db
       .from('celebs')
-      .select('id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, celeb_tier')
+      .select('id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, celeb_tier, celeb_reality')
       .eq('publication_status', 'active')
       .order('id')
       .range(from, to)
@@ -81,7 +82,7 @@ export interface RelatedFiguresInput {
   profession: string | null
   nationality: string | null
   birthDate: string | null
-  celebTier?: string | null
+  celebReality?: string | null
   relations: readonly RelatedRelationInput[]
   limit: number
 }
@@ -92,7 +93,7 @@ export async function getRelatedFigures({
   profession,
   nationality,
   birthDate,
-  celebTier,
+  celebReality,
   relations,
   limit,
 }: RelatedFiguresInput): Promise<RelatedFigureRanked[]> {
@@ -115,7 +116,7 @@ export async function getRelatedFigures({
     nationality: row.nationality,
     birthYear: getCelebYear(row.birth_date),
     influence: scoreById.get(row.id) ?? 0,
-    isFiction: row.celeb_tier === 'fiction',
+    isFiction: row.celeb_reality !== 'REAL',
   }))
 
   return rankRelatedFigures({
@@ -124,7 +125,7 @@ export async function getRelatedFigures({
       profession,
       nationality,
       birthYear: getCelebYear(birthDate),
-      isFiction: celebTier === 'fiction',
+      isFiction: (celebReality ?? 'REAL') !== 'REAL',
     },
     relations,
     candidates,

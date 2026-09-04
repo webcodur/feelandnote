@@ -144,7 +144,7 @@ export async function promoteSoloShotToAvatar(
   if (!existsSync(image.abs)) throw new Error(`${name} — 개인샷 파일이 없습니다: ${image.rel}`)
 
   const { data: profile, error: prErr } = await db
-    .from('celebs').select('id, slug, avatar_url, celeb_tier').eq('id', celebId).maybeSingle()
+    .from('celebs').select('id, slug, avatar_url, celeb_reality').eq('id', celebId).maybeSingle()
   if (prErr) throw new Error(`셀럽 프로필 조회 실패: ${prErr.message}`)
   if (!profile) throw new Error(`${name} — 셀럽 프로필(${celebId})이 없습니다`)
 
@@ -152,7 +152,8 @@ export async function promoteSoloShotToAvatar(
   if (had && !force) {
     throw new Error(`${name} — 이미 얼굴 사진이 있습니다. 갈아치우려면 덮어쓰기를 켜고 다시 실행하세요.`)
   }
-  if (profile.celeb_tier !== 'fiction') {
+  // REAL만 막는다 — BOTH도 실제 사진이 없는 전승 인물(단군왕검 등)이라 개인샷은 창조 렌더링이다.
+  if (profile.celeb_reality === 'REAL') {
     throw new Error(
       `${name} — 실존 인물의 팩션 개인샷은 신원 근거 없이 셀럽 아바타로 자동 승격할 수 없습니다. `
       + '공식·기관·본인 페이지를 대조한 뒤 아바타 업로드 도구에 --identity-evidence를 명시해 수동 등록하세요.'

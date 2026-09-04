@@ -15,10 +15,10 @@ test('페이지 전용 presence 모듈은 공개 Server Action 경계가 아니�
   assert.doesNotMatch(publicActions, /getCelebSidePresence|celeb_persona|celeb_influence/)
 })
 
-test('가상 인물은 DB 조회 전에 존재 여부를 모두 끈다', () => {
+test('순수 전승(FICTION) 인물은 DB 조회 전에 존재 여부를 모두 끈다', () => {
   assert.match(
     presenceSource,
-    /if \(tier === 'fiction'\) return EMPTY_SIDE_PRESENCE/,
+    /if \(reality === 'FICTION'\) return EMPTY_SIDE_PRESENCE/,
   )
   assert.match(presenceSource, /EMPTY_SIDE_PRESENCE[\s\S]*?influence: false[\s\S]*?spectrum: false/)
 })
