@@ -198,6 +198,87 @@ async function insertImage(page, cdp, url, width, name) {
   fs.unlinkSync(file);
 }
 
+/**
+ * 사진에 액자(얇은 테두리)를 두른다. 흰 배경 이미지가 흰 바탕에 묻히지 않게 경계를 준다.
+ *
+ * 사진 편집기를 열어 한 장에만 걸고 「모든 사진」을 누르면 그 글의 사진 전부에 퍼진다.
+ * 액자는 `data-frame` 0~6 이고 5번이 얇은 검은 테두리다.
+ */
+async function applyPhotoFrame(page, frame = 5) {
+  const n = await page.evaluate(() => document.querySelectorAll('.se-component.se-image').length);
+  if (!n) return false;
+
+  /** 화면에 보이는 요소를 좌표로 누른다. 숨은 `click()` 은 시각만 바뀌고 내부 상태가 안 따라온다. */
+  const hit = async (sel, label) => {
+    const pos = await page.evaluate((q) => {
+      const b = [...document.querySelectorAll(q)].find((x) => x.offsetParent);
+      if (!b) return null;
+      b.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = b.getBoundingClientRect();
+      return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    }, sel);
+    if (!pos) throw new Error(`${label}을 찾지 못했다`);
+    await page.mouse.click(pos.x, pos.y);
+  };
+
+  const p = await page.evaluate(() => {
+    const c = document.querySelector('.se-component.se-image');
+    c.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const r = (c.querySelector('img') ?? c).getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  });
+  await page.mouse.click(p.x, p.y);
+  await wait(1500);
+
+  await hit('button[class*=se-image-edit-toolbar-button]', '사진 편집');
+  for (let i = 0; i < 30; i++) {
+    if (await page.evaluate(() => !!document.querySelector('button[class*=npe_btn_frame]'))) break;
+    await wait(500);
+  }
+  await wait(2000);
+
+  await hit('button[class*=npe_btn_frame]', '액자 도구');
+  for (let i = 0; i < 20; i++) {
+    if (await page.evaluate(() => [...document.querySelectorAll('button[class*=npe_btn_detail_frame]')].some((x) => x.offsetParent))) break;
+    await wait(500);
+  }
+  await wait(1200);
+
+  /**
+   * 🔴 「모든 사진」은 **액자를 골라 변화가 생겨야** 열린다. 패널은 언제 열든 0번(액자 없음)이
+   *    선택된 채 시작하므로, 원하는 액자를 먼저 누르고 그 단추가 `disable` 을 벗었는지 본다.
+   *    순서를 거꾸로 했더니 26.09.04에 인물 사진 한 장에만 걸리고 책 표지 다섯 장은 그대로 나갔다.
+   *    같은 번호를 다시 누르면 「변화 없음」이라 잠긴 채이므로 다른 번호를 거쳐 돌아온다.
+   */
+  const allOpen = () => page.evaluate(() => {
+    const b = [...document.querySelectorAll('button[class*=npe_all_normal_button]')].find((x) => x.offsetParent);
+    return !!b && !/disable/i.test(String(b.className));
+  });
+  const pickFrame = async (k) => { await hit(`button[class*=npe_btn_detail_frame][data-frame="${k}"]`, `액자 ${k}번`); await wait(2200); };
+
+  await pickFrame(frame);
+  if (!(await allOpen())) { await pickFrame(frame === 3 ? 2 : 3); await pickFrame(frame); }
+  if (!(await allOpen())) throw new Error('「모든 사진」이 잠긴 채다 — 액자가 한 장에만 걸린다');
+
+  await hit('button[class*=npe_all_normal_button]', '「모든 사진」');
+  await wait(3500);
+
+  // 편집기를 닫고 본문으로 돌아온다
+  const done = await page.evaluate(() => {
+    const b = [...document.querySelectorAll('button')].find((x) => x.offsetParent && /^완료$/.test(x.textContent.trim()));
+    if (!b) return false;
+    b.click();
+    return true;
+  });
+  if (!done) throw new Error('사진 편집을 닫지 못했다');
+  for (let i = 0; i < 40; i++) {
+    if (await page.evaluate(() => !document.querySelector('button[class*=npe_btn_frame]'))) break;
+    await wait(500);
+  }
+  await wait(2000);
+  return true;
+}
+
 // 원고 서식 표시. **굵게** · [c]가운데 정렬[/c] · [q]인용구[/q] · 한 줄 --- 은 구분선.
 const strip = (l) => l.replace(/\*\*/g, '').replace(/^\[c\]/, '').replace(/\[\/c\]$/, '').replace(/^\[q\]/, '').replace(/\[\/q\]$/, '');
 const isDivider = (l) => /^[━─—–-]{3,}$/.test(l.replace(/[s​]/g, ''));   // --- 와 ━━━ 둘 다 받는다
@@ -483,6 +564,56 @@ await cdp.send('DOM.enable'); await cdp.send('Page.enable');
 cdp.on('Page.fileChooserOpened', (e) => { cdp.__chooser = e; });
 await cdp.send('Page.setInterceptFileChooserDialog', { enabled: true });
 /**
+ * 이미 올라간 글의 **사진에 액자만 두르고 나온다**(`--frame-only <logNo…>` 또는 `--frame-only --all`).
+ *
+ * 본문은 한 글자도 건드리지 않는다. 글을 열고, 첫 사진을 골라 사진 편집기에서 액자를 「모든 사진」에
+ * 퍼뜨리고, 수정 발행하고 나간다. 액자 하나 때문에 며칠 다듬은 본문을 다시 쓰지 마라.
+ */
+const frameOnly = args.includes('--frame-only');
+if (frameOnly) {
+  const ids = args.filter((a) => /^\d{9,}$/.test(a));
+  const targets = ids.length
+    ? drafts.filter((d) => ids.includes(String(d.logNo)))
+    : drafts.filter((d) => d.logNo && !d.framed);
+  console.log(`액자 대상 ${targets.length}편`);
+  let ok = 0, fail = 0;
+  for (const d of targets) {
+    const slug = (d.target || '').replace('/celeb/', '');
+    try {
+      await ensureVisible(page);
+      await page.goto(`https://blog.naver.com/PostUpdateForm.naver?blogId=dmx777&logNo=${d.logNo}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.waitForSelector('.se-component.se-image', { timeout: 40000 });
+      await wait(4000);
+
+      const before = await page.evaluate(() => document.querySelectorAll('.se-component.se-text:not(.se-documentTitle) .se-text-paragraph').length);
+      await applyPhotoFrame(page);
+      const after = await page.evaluate(() => document.querySelectorAll('.se-component.se-text:not(.se-documentTitle) .se-text-paragraph').length);
+      if (before !== after) throw new Error(`본문 단락이 ${before}→${after} 로 바뀌었다 — 발행하지 않는다`);
+
+      await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
+      const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
+      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(7000);
+      const okPos = await page.evaluate(() => {
+        const b = [...document.querySelectorAll('.se-popup button')].find((x) => x.textContent.trim() === '확인');
+        if (!b) return null; const r = b.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      });
+      if (okPos) { await page.mouse.click(okPos.x, okPos.y); await wait(4000); }
+      d.framed = true;
+      saveAll();
+      ok++;
+      console.log(`OK ${slug} — 액자`);
+    } catch (e) {
+      fail++;
+      console.log(`실패 ${slug}: ${String(e).split(String.fromCharCode(10))[0].slice(0, 160)}`);
+    }
+  }
+  console.log(`
+액자 완료 — 성공 ${ok} / 실패 ${fail}`);
+  if (launched) await browser.close(); else browser.disconnect();
+  process.exit(0);
+}
+
+/**
  * 이미 올라간 글의 본문만 초안대로 다시 쓴다(`--rewrite <logNo…>`).
  *
  * 단락을 하나씩 손보다 감상이 사라지거나 두 번 들어가는 사고가 났다. 통째로 갈아 끼우면
@@ -541,6 +672,8 @@ if (rewriteIds.length) {
         throw new Error(`본문 불일치(${got.length} ≠ ${want.length})`);
       }
 
+      await applyPhotoFrame(page);   // 사진에 액자를 두른다
+
       await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
       const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
       await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(7000);
@@ -550,6 +683,7 @@ if (rewriteIds.length) {
       });
       if (okPos) { await page.mouse.click(okPos.x, okPos.y); await wait(4000); }
       d.rewrittenAt = new Date().toISOString();
+      d.framed = true;   // 액자를 둘렀다. 다시 두르면 겹치니 이 표시를 보고 건너뛴다.
       saveAll();
       ok++;
       console.log(`OK ${slug} — 본문 다시 씀`);
