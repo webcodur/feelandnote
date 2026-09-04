@@ -37,6 +37,13 @@ const eul = (w: string) => josa(w, '을', '를')
 const eun = (w: string) => josa(w, '은', '는')
 const ga = (w: string) => josa(w, '이', '가')
 
+/**
+ * 판본 표기를 제목에서 걷는다. `content_locales.title` 에 「그린 북[Blu-ray]」처럼 상품명이
+ * 섞여 들어온 것이 있다. DB 를 고치는 것은 별건이고, 글에는 작품명만 싣는다.
+ */
+const cleanTitle = (t: string) =>
+  t.replace(/\s*[\[(]\s*(Blu-?ray|DVD|4K|UHD|블루레이|디비디)[^\])]*[\])]/gi, '').trim()
+
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const anchor = (i: number) => `fn-${i}`
 
@@ -44,7 +51,7 @@ const anchor = (i: number) => `fn-${i}`
 const celebUrl = (slug: string) => `https://feelandnote.com/celeb/${slug}`
 
 export function renderWork(m: Material): { title: string; html: string; tags: string[] } {
-  const t = m.work.title
+  const t = cleanTitle(m.work.title)
   const year = (m.work.release ?? '').slice(0, 4)
   const names = m.picked.slice(0, 3).map((p) => p.nickname)
   const title = `『${t}』${eul(t)} 인생 영화로 꼽은 ${m.total}명 | ${names.join('·')}까지`
@@ -142,7 +149,7 @@ export type PersonMaterial = {
 export function renderPerson(m: PersonMaterial): { title: string; html: string; tags: string[] } {
   const who = m.celeb.name
   const prof = PROF[m.celeb.profession ?? ''] ?? ''
-  const title = `${who}${ga(who)} 꼽은 영화 ${m.total}편 | ${m.picked.slice(0, 3).map((p) => p.title).join('·')}`
+  const title = `${who}${ga(who)} 꼽은 영화 ${m.total}편 | ${m.picked.slice(0, 3).map((p) => cleanTitle(p.title)).join('·')}`
   const L: string[] = []
   const p = (s: string) => L.push(s)
 
@@ -160,13 +167,13 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
   p(`<div style="margin:28px 0;padding:18px 22px;background:#f7f7f8;border-radius:6px;">`)
   p(`<div style="font-weight:700;margin-bottom:10px;">목차</div>`)
   p(`<ul style="margin:0;padding-left:18px;line-height:2;">`)
-  m.picked.forEach((r, i) => p(`<li><a href="#fn-${i}">${esc(r.title)}</a></li>`))
+  m.picked.forEach((r, i) => p(`<li><a href="#fn-${i}">${esc(cleanTitle(r.title))}</a></li>`))
   p(`</ul></div>`)
 
   m.picked.forEach((r, i) => {
-    p(`<h2 id="fn-${i}">${i + 1}. ${esc(r.title)}</h2>`)
+    p(`<h2 id="fn-${i}">${i + 1}. ${esc(cleanTitle(r.title))}</h2>`)
     p(`<div style="display:flex;gap:18px;align-items:flex-start;margin:14px 0 6px;flex-wrap:wrap;">`)
-    if (r.poster) p(`<img src="${r.poster}" alt="${esc(r.title)} 포스터" style="width:150px;border:1px solid #e3e3e3;border-radius:2px;flex:0 0 auto;" />`)
+    if (r.poster) p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" style="width:150px;border:1px solid #e3e3e3;border-radius:2px;flex:0 0 auto;" />`)
     p(`<div style="flex:1 1 260px;min-width:240px;font-size:14px;line-height:2;color:#555;">`)
     if (r.creator) p(`<div>감독 <b style="color:#222;">${esc(r.creator)}</b></div>`)
     if (r.release) p(`<div>개봉 ${r.release}</div>`)
@@ -193,17 +200,48 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
 // ── 목록 편 ────────────────────────────────────────────────
 type Voice = { name: string; slug: string; profession: string | null; title: string | null; review: string }
 export type ListMaterial = {
-  list: { slug: string; title: string; description: string | null; method: string | null; publishedYear: number | null; sourceUrl: string | null; isRanked: boolean }
+  list: { slug: string; title: string; description: string | null; method: string | null; publishedYear: number | null; sourceUrl: string | null; isRanked: boolean; isAnnual?: boolean }
   curator: { slug: string; name: string; kind: string | null; homepage: string | null } | null
   totalItems: number
   withVoice: number
+  closing?: (Voice & { work: string; year: number | null }) | null
   all: { rank: number | null; year: number | null; title: string; creator: string | null; contentId: string | null; voices: Voice[] }[]
   picked: (ListMaterial['all'][number] & { poster?: string | null; vote?: number | null; release?: string | null; overview?: string; runtime?: number; genres?: string[] })[]
 }
 
+/**
+ * 목록 편 제목의 대괄호 태그. 네이버 기관 선정 안내글이 쓰는 것과 같은 표를 쓴다 —
+ * 두 채널이 같은 목록을 다룰 때 독자가 같은 시리즈로 알아본다.
+ * 표에 없는 목록은 태그 없이 나간다(억지로 약어를 만들지 않는다).
+ */
+const LIST_TAG: Record<string, string> = {
+  'afi-100-years-100-movies': 'AFI',
+  'sight-and-sound-greatest-films-2022': 'BFI',
+  'academy-best-picture': 'OSCAR',
+  'cannes-palme-dor': 'CANNES',
+  'venice-golden-lion': 'VENICE',
+  'blue-dragon-film-awards': 'BLUEDRAGON',
+  'timeout-horror-films': 'TIMEOUT',
+  'bbc-greatest-comedies': 'BBC',
+}
+
+/**
+ * 「목록명 + 편수」. 이름에 이미 숫자가 있으면 편수를 겹쳐 붙이지 않는다 —
+ * 「AFI 선정 100대 영화 100편」이 되어 버린다.
+ */
+function listCount(title: string, n: number) {
+  if (/\d\s*$/.test(title)) return `${title}편`
+  if (/\d/.test(title)) return title
+  return `${title} ${n}편`
+}
+
 export function renderList(m: ListMaterial): { title: string; html: string; tags: string[] } {
   const name = m.list.title
-  const title = `${name} 전체 목록 | 이 가운데 ${m.withVoice}편은 누군가의 인생 영화였다`
+  const tag = LIST_TAG[m.list.slug]
+  const years = m.all.map((r) => r.year).filter((y): y is number => !!y)
+  // 해마다 주는 상은 몇 년부터 몇 년까지인지가 정보다. 한 번 뽑은 순위 목록에는 붙이지 않는다.
+  const span = m.list.isAnnual && years.length ? ` (${Math.min(...years)}~${Math.max(...years)})` : ''
+  const title = `${tag ? `[${tag}] ` : ''}${listCount(name, m.totalItems)}${span} | 이 가운데 ${m.withVoice}편은 누군가의 인생 영화였습니다`
   const L: string[] = []
   const p = (s: string) => L.push(s)
 
@@ -226,9 +264,9 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
 
   p(`<h2 id="fn-top">가장 많이 꼽힌 ${m.picked.length}편</h2>`)
   m.picked.forEach((r, i) => {
-    p(`<h3 style="margin-top:30px;">${i + 1}. ${esc(r.title)}${r.year ? ` <span style="font-weight:400;color:#999;">(${r.year})</span>` : ''}</h3>`)
+    p(`<h3 style="margin-top:30px;">${i + 1}. ${esc(cleanTitle(r.title))}${r.year ? ` <span style="font-weight:400;color:#999;">(${r.year})</span>` : ''}</h3>`)
     p(`<div style="display:flex;gap:18px;align-items:flex-start;margin:12px 0;flex-wrap:wrap;">`)
-    if (r.poster) p(`<img src="${r.poster}" alt="${esc(r.title)} 포스터" style="width:130px;border:1px solid #e3e3e3;border-radius:2px;flex:0 0 auto;" />`)
+    if (r.poster) p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" style="width:130px;border:1px solid #e3e3e3;border-radius:2px;flex:0 0 auto;" />`)
     p(`<div style="flex:1 1 260px;min-width:240px;font-size:14px;line-height:2;color:#555;">`)
     if (r.creator) p(`<div>감독 <b style="color:#222;">${esc(r.creator)}</b></div>`)
     if (m.list.isRanked && r.rank) p(`<div>${esc(name)} <b style="color:#222;">${r.rank}위</b></div>`)
@@ -246,7 +284,7 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
       p(`</div>`)
     })
     if (r.contentId && r.voices.length > 2) {
-      p(`<p style="font-size:14px;"><a href="https://feelandnote.com/content/${r.contentId}">『${esc(r.title)}』${eul(r.title)} 꼽은 ${r.voices.length}명 전부 보기 →</a></p>`)
+      p(`<p style="font-size:14px;"><a href="https://feelandnote.com/content/${r.contentId}">『${esc(cleanTitle(r.title))}』${eul(r.title)} 꼽은 ${r.voices.length}명 전부 보기 →</a></p>`)
     }
   })
 
@@ -260,7 +298,7 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
   m.all.forEach((r) => {
     p(`<tr style="border-bottom:1px solid #eee;">`)
     if (m.list.isRanked) p(`<td style="padding:8px 0;color:#999;">${r.rank ?? ''}</td>`)
-    const t = r.contentId && r.voices.length ? `<a href="https://feelandnote.com/content/${r.contentId}" style="color:#111;">${esc(r.title)}</a>` : esc(r.title)
+    const t = r.contentId && r.voices.length ? `<a href="https://feelandnote.com/content/${r.contentId}" style="color:#111;">${esc(cleanTitle(r.title))}</a>` : esc(cleanTitle(r.title))
     p(`<td style="padding:8px 0;">${t}</td>`)
     p(`<td style="padding:8px 0;color:#666;">${esc(r.creator ?? '')}</td>`)
     p(`<td style="padding:8px 0;text-align:right;color:#999;">${r.year ?? ''}</td>`)
@@ -274,6 +312,18 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
   p(`<div style="color:#bbb;font-size:14px;margin-bottom:14px;">누가 어떤 작품을 꼽았는지 인물별로 볼 수 있습니다.</div>`)
   p(`<a href="https://feelandnote.com/library/curated/${m.curator?.slug ?? ''}/${m.list.slug}" style="display:inline-block;padding:11px 22px;background:#fff;color:#111;border-radius:4px;text-decoration:none;font-weight:700;">목록 페이지로 →</a>`)
   p(`</div>`)
+  /**
+   * 마무리 인용. 본문에 안 나온 작품에서 고른 **실제 발언**이다. 기관의 표어를 지어 붙이지
+   * 않는다 — 확인할 수 없는 문장은 한 줄로도 글 전체의 신뢰를 깎는다.
+   */
+  if (m.closing) {
+    const who = [esc(m.closing.name), (m.closing.title ?? '').replace(/[「」『』]/g, '')].filter(Boolean).join(' · ')
+    p(`<blockquote style="margin:36px 0 8px;padding:22px 26px;border:0;border-top:1px solid #e6e6e6;border-bottom:1px solid #e6e6e6;text-align:center;">`)
+    p(`<div style="font-size:16px;line-height:1.9;color:#333;">${esc(m.closing.review)}</div>`)
+    p(`<div style="margin-top:12px;font-size:13px;color:#999;">— ${who} · 『${esc(cleanTitle(m.closing.work))}』${m.closing.year ? ` (${m.closing.year})` : ''}에 대하여</div>`)
+    p(`</blockquote>`)
+  }
+
   p(`<p style="font-size:13px;color:#999;">${m.list.sourceUrl ? `원문 출처 <a href="${m.list.sourceUrl}" rel="nofollow">${esc(m.curator?.name ?? '발표처')}</a>. ` : ''}작품 정보·포스터 출처 TMDB. 필앤노트가 운영합니다.</p>`)
 
   const tags = [name, `${name} 목록`, '영화목록', '명작영화', '영화추천', '인생영화', m.curator?.name ?? '', '필앤노트']
