@@ -121,7 +121,11 @@
       "englishVersion": "영어",
       "pinLabel": "상단에 고정",
       "deleteConfirm": "공지사항을 삭제하시겠습니까?",
-      "viewDetail": "공지 페이지에서 보기"
+      "viewDetail": "공지 페이지에서 보기",
+      "publishAtLabel": "발행 시각",
+      "publishAtHint": "미래 시각을 넣으면 그때까지 목록에 뜨지 않습니다. 지난 시각으로 두면 바로 올라갑니다.",
+      "publishNow": "지금 올리기",
+      "scheduledBadge": "예약"
     },
     "feedback": {
       "write": "피드백 작성",

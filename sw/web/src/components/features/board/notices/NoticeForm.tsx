@@ -8,10 +8,19 @@ import { Button } from '@/components/ui'
 import type { NoticeWithAuthor } from '@/types/database'
 import { createNotice, updateNotice } from '@/actions/board/notices'
 import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
+import { isScheduledNotice } from '@/lib/board/noticeSchedule'
 
 interface NoticeFormProps {
   mode: 'create' | 'edit'
   notice?: NoticeWithAuthor
+}
+
+/** datetime-local 입력이 읽는 값으로 바꾼다. 관리자가 보는 시각은 자기 시간대다. */
+function toLocalInputValue(iso: string): string {
+  const date = new Date(iso)
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+    + `T${pad(date.getHours())}:${pad(date.getMinutes())}`
 }
 
 export default function NoticeForm({ mode, notice }: NoticeFormProps) {
@@ -23,7 +32,20 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
   const [titleEn, setTitleEn] = useState(notice?.title_en ?? '')
   const [contentEn, setContentEn] = useState(notice?.content_en ?? '')
   const [isPinned, setIsPinned] = useState(notice?.is_pinned ?? false)
+  const [publishAt, setPublishAt] = useState(
+    notice?.created_at ? toLocalInputValue(notice.created_at) : ''
+  )
   const [isSubmitting, setIsSubmitting] = useState(false)
+  // 목록의 「예약」 딱지와 같은 기준을 본다. 시계는 렌더가 아니라 입력이 바뀔 때만 읽는다.
+  const [isScheduled, setIsScheduled] = useState(
+    () => (notice?.created_at ? isScheduledNotice(notice.created_at) : false)
+  )
+
+  const applyPublishAt = (value: string) => {
+    setPublishAt(value)
+    const at = value === '' ? null : new Date(value)
+    setIsScheduled(at !== null && !Number.isNaN(at.getTime()) && isScheduledNotice(at.toISOString()))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,8 +54,8 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
     setIsSubmitting(true)
 
     const result = mode === 'create'
-      ? await createNotice({ title, content, titleEn, contentEn, is_pinned: isPinned })
-      : await updateNotice({ id: notice!.id, title, content, titleEn, contentEn, is_pinned: isPinned })
+      ? await createNotice({ title, content, titleEn, contentEn, is_pinned: isPinned, publishAt: publishAt || null })
+      : await updateNotice({ id: notice!.id, title, content, titleEn, contentEn, is_pinned: isPinned, publishAt: publishAt || null })
 
     if (result.success) {
       router.push(mode === 'create' ? '/agora/board/notice' : `/agora/board/notice/${notice!.id}`)
@@ -145,6 +167,39 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
           <label htmlFor="isPinned" className="text-sm text-text-secondary font-serif">
             {t('notice.pinLabel')}
           </label>
+        </div>
+
+        <div className="space-y-2 p-4 rounded-lg bg-bg-card/40 border border-accent-dim/10">
+          <label htmlFor="notice-publish-at" className="block text-sm font-serif font-medium text-text-primary">
+            {t('notice.publishAtLabel')}
+          </label>
+          <div className="flex flex-wrap items-center gap-3">
+            <input
+              id="notice-publish-at"
+              type="datetime-local"
+              value={publishAt}
+              onChange={e => applyPublishAt(e.target.value)}
+              className="px-4 py-3 bg-bg-card/60 border border-accent-dim/20 rounded-lg text-text-primary font-serif focus:outline-none focus:border-accent/40 transition-colors"
+            />
+            {publishAt !== '' && (
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => applyPublishAt('')}
+                className="font-serif text-xs"
+              >
+                {t('notice.publishNow')}
+              </Button>
+            )}
+            {isScheduled && (
+              <span className="px-2 py-1 text-xs font-serif rounded bg-accent/20 text-accent">
+                {t('notice.scheduledBadge')}
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-text-secondary font-serif">
+            {t('notice.publishAtHint')}
+          </p>
         </div>
 
         {/* 하단 장식 */}

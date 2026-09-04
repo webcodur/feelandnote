@@ -8,6 +8,7 @@ import type { NoticeWithAuthor } from '@/types/database'
 import type { Locale } from '@/types/locale'
 import { localizeNotice } from '@/lib/board/localizeNotice'
 import { attachMemberAuthor } from '@/lib/board/memberProfiles'
+import { isScheduledNotice } from '@/lib/board/noticeSchedule'
 
 async function fetchNoticeData(id: string, locale: Locale): Promise<NoticeWithAuthor | null> {
   const db = createStaticClient()
@@ -33,12 +34,24 @@ const getNoticeDataCached = unstable_cache(
   { revalidate: 3600, tags: ['notices'] }
 )
 
-export async function getNotice(id: string, locale: Locale, incrementView = true) {
+export async function getNotice(
+  id: string,
+  locale: Locale,
+  incrementView = true,
+  /** 발행 시각이 아직 오지 않은 공지도 연다. 관리자 화면만 켠다. */
+  includeScheduled = false,
+) {
+  const notice = await withQueryFallback('getNotice', () => getNoticeDataCached(id, locale), null)
+  if (!notice) return null
+
+  // 주소를 아는 사람이 예약 공지를 미리 읽는 길을 막는다. 조회수도 이 앞에서 끊는다.
+  if (!includeScheduled && isScheduledNotice(notice.created_at)) return null
+
   // 조회수 증가는 캐시 외부에서 fire-and-forget
   if (incrementView) {
     const db = await createClient()
     await db.rpc('increment_notice_view_count', { notice_id: id })
   }
 
-  return withQueryFallback('getNotice', () => getNoticeDataCached(id, locale), null)
+  return notice
 }
