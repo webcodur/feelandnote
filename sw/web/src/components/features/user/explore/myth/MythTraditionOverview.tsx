@@ -2,19 +2,23 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { BookOpenText, ChevronLeft, ChevronRight } from "lucide-react";
-import { useTranslations } from "next-intl";
-import type { MythTradition } from "@/actions/home/mythAtlasTypes";
+import { ArrowUpRight, BookOpenText, ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import type { MythTradition, MythWork } from "@/actions/home/mythAtlasTypes";
 import { BlurDissolve, FormattedText, splitReadableParagraphs } from "@/components/ui";
 
 interface Props {
   tradition: MythTradition | null;
   memberCount: number;
   workCount: number;
+  /** 이 전승으로 들어가는 책 한 권. 인물을 고르기 전에도 살 수 있게 개요에 세운다 */
+  entryWork: MythWork | null;
 }
 
-export default function MythTraditionOverview({ tradition, memberCount, workCount }: Props) {
+export default function MythTraditionOverview({ tradition, memberCount, workCount, entryWork }: Props) {
   const t = useTranslations("explore.hub.myth");
+  const locale = useLocale();
   const [imageIndex, setImageIndex] = useState(0);
   const images = tradition?.images ?? [];
   const activeImage = images[imageIndex] ?? images[0] ?? null;
@@ -98,6 +102,8 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
               </div>
             </div>
 
+            {entryWork && <EntryWorkCard work={entryWork} locale={locale} label={t("entryWork")} buyLabel={t("buyOnCoupang")} />}
+
             {images.length > 1 && (
               <div className="mt-4 flex items-center justify-end gap-1.5" aria-hidden>
                 {images.map((image, index) => (
@@ -109,5 +115,50 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
         </div>
       </div>
     </section>
+  );
+}
+
+/* 전승으로 들어가는 책 한 줄. 살 수 있는 판본이면 쿠팡으로, 아니면 작품 화면으로 보낸다.
+   테두리 색과 제휴 표기는 인물 카드 아래 책 선반과 같은 규칙을 쓴다 */
+function EntryWorkCard({ work, locale, label, buyLabel }: { work: MythWork; locale: string; label: string; buyLabel: string }) {
+  const purchaseUrl = locale === "ko" ? work.coupangUrl : null;
+  const body = (
+    <>
+      <div className="relative h-[68px] w-[52px] shrink-0 overflow-hidden rounded-lg bg-bg-secondary">
+        {work.thumbnailUrl ? (
+          <Image src={work.thumbnailUrl} alt="" fill unoptimized sizes="52px" className="object-cover" />
+        ) : (
+          <div className="grid h-full place-items-center px-1 text-center text-[10px] font-black leading-tight text-accent/50">{work.title}</div>
+        )}
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className={`text-[11px] font-bold tracking-[.14em] ${purchaseUrl ? "text-[#ff776a]" : "text-accent"}`}>{label}</p>
+        <h4 className={`mt-0.5 line-clamp-2 text-sm font-bold leading-5 ${purchaseUrl ? "text-white group-hover:text-[#ff9a8f]" : "text-text-primary group-hover:text-accent"}`}>{work.title}</h4>
+        {work.creator && <p className="mt-0.5 truncate text-xs text-text-secondary">{work.creator}</p>}
+      </div>
+      <span className={`grid size-8 shrink-0 place-items-center rounded-full bg-black/85 ${purchaseUrl ? "text-[#ff776a]" : "text-text-tertiary"}`} aria-hidden>
+        {purchaseUrl ? <ShoppingBag size={15} /> : <ArrowUpRight size={15} />}
+      </span>
+    </>
+  );
+
+  const shared = "group mt-4 flex shrink-0 items-center gap-3 rounded-2xl border bg-bg-card p-2.5";
+  if (purchaseUrl) {
+    return (
+      <a
+        href={purchaseUrl}
+        target="_blank"
+        rel="noopener noreferrer nofollow sponsored"
+        title={`${work.title} · ${buyLabel}`}
+        className={`${shared} border-[#E44232]/35 hover:border-[#E44232]/70`}
+      >
+        {body}
+      </a>
+    );
+  }
+  return (
+    <Link href={`/content/${work.id}?category=${work.category}`} className={`${shared} border-stone-heavy hover:border-accent/70`}>
+      {body}
+    </Link>
   );
 }

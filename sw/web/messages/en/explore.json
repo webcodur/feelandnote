@@ -257,6 +257,7 @@
         },
         "relationFallback": "A relationship with {name} is recorded.",
         "works": "Works",
+        "entryWork": "Start reading here",
         "worksLead": "Works featuring the selected figure are shown first.",
         "selectedWorks": "{count} connected works",
         "traditionWorks": "{count} works in this collection",
