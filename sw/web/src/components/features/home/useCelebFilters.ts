@@ -8,7 +8,7 @@ import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
-import { CELEB_TIERS, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
+import { CELEB_TIERS, isCelebTier, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 
 // #region 상수
 export const SORT_VALUES: CelebSortBy[] = [
@@ -205,6 +205,12 @@ export function useCelebFilters({
     updateUrlParams({ tier: isDefault ? null : value.join(","), page: null });
   }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
+  // 필터 UI는 등급을 한 값("all"·"full"·"light")으로 다룬다. 내부 배열과의 변환은 여기서만 한다.
+  const tierValue = tiers?.length === 1 ? tiers[0] : "all";
+  const handleTierValueChange = useCallback((value: string) => {
+    handleTiersChange(isCelebTier(value) ? [value] : []);
+  }, [handleTiersChange]);
+
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
     loadCelebs(profession, nationality, contentType, gender, sortBy, page, appliedSearch);
@@ -260,6 +266,8 @@ export function useCelebFilters({
     search,
     tiers: tiers ?? [...CELEB_TIERS],
     handleTiersChange,
+    tierValue,
+    handleTierValueChange,
     realities,
     contentUnit,
     activeFilter,

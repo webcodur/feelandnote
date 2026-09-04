@@ -45,6 +45,7 @@
       "filterNationality": "국적",
       "filterContent": "콘텐츠",
       "filterGender": "성별",
+      "filterTier": "수록",
       "filterSort": "정렬",
       "all": "전체",
       "genderMale": "남성",
@@ -167,6 +168,11 @@
       "quickRecordDock": {
         "title": "빠른기록",
         "unreviewed": "미기록 {count}건"
+      },
+      "tier": {
+        "all": "전체",
+        "full": "상세",
+        "light": "간략"
       }
     },
     "hub": {

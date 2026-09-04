@@ -1,14 +1,15 @@
 /*
   파일명: /components/features/home/CelebFiltersDesktop.tsx
   기능: 셀럽 컨트롤 (PC) - 1행 정렬/필터 영역
-  책임: 직군, 국적, 콘텐츠, 성별, 정렬 필터 UI 제공
+  책임: 직군, 국적, 콘텐츠, 성별, 수록, 정렬 필터 UI 제공
 */
 "use client";
 
 import { useMemo } from "react";
-import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus } from "lucide-react";
+import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus, FileText } from "lucide-react";
 import { FilterCombobox, type FilterOption } from "@/components/shared/filters";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
+import { CELEB_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { CATEGORIES } from "@/constants/categories";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
@@ -23,6 +24,7 @@ interface CelebFiltersDesktopProps {
   nationality: string;
   contentType: string;
   gender: string;
+  tier: string;
   sortBy: CelebSortBy;
   search: string;
   professionCounts: ProfessionCounts;
@@ -41,6 +43,7 @@ interface CelebFiltersDesktopProps {
   onNationalityChange: (value: string) => void;
   onContentTypeChange: (value: string) => void;
   onGenderChange: (value: string) => void;
+  onTierChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
   onSearchInput: (value: string) => void;
   onSearchSubmit: () => void;
@@ -60,6 +63,7 @@ export default function CelebFiltersDesktop({
   nationality,
   contentType,
   gender,
+  tier,
   sortBy,
   search,
   professionCounts,
@@ -72,6 +76,7 @@ export default function CelebFiltersDesktop({
   onNationalityChange,
   onContentTypeChange,
   onGenderChange,
+  onTierChange,
   onSortChange,
   onSearchInput,
   onSearchSubmit,
@@ -128,6 +133,10 @@ export default function CelebFiltersDesktop({
       count,
       icon: GENDER_ICONS[value] ?? undefined,
     })), [genderCounts, getGenderLabel]);
+
+  // 수록 정보 필터 — 상세(full)는 기록·연표까지 있는 인물, 간략(light)은 소개만 있는 인물이다.
+  const tierOptions: FilterOption[] = useMemo(() =>
+    ["all", ...CELEB_TIERS].map((value) => ({ value, label: t(`tier.${value}`) })), [t]);
 
   const sortOptions: FilterOption[] = SORT_VALUES.map((value) => ({ value, label: t(`sort.${value}`) }));
 
@@ -212,6 +221,16 @@ export default function CelebFiltersDesktop({
         currentValue={gender}
         onSelect={onGenderChange}
         icon={<Users size={14} />}
+      />
+      <FilterCombobox
+        label={t("filterTier")}
+        value={t(`tier.${tier}`)}
+        isActive={tier !== "all"}
+        isLoading={isLoading}
+        options={tierOptions}
+        currentValue={tier}
+        onSelect={onTierChange}
+        icon={<FileText size={14} />}
       />
       <FilterCombobox
         label={t("filterSort")}
