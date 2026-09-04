@@ -160,6 +160,19 @@ AI 학당의 데이터와 `/library/academy/ai/{foundations|prompting|creation}`
 | `academyProgress.ts` | 학당 진도 |
 | `helpers.ts` · `types.ts` · `index.ts` | 공용 헬퍼·타입·배럴 |
 
+### 감상 인원 수는 필요한 작품만 묻는다
+
+`fetchUserContentCounts(db)` 를 인자 없이 부르면 `get_user_content_counts` 가 `member_contents` 전체를 `contents` 와 조인해 집계한다. 26.09.04에 `/library/popular` 가 그 호출로 **문 시간을 넘겨(57014) 서버 렌더가 통째로 실패**했다. 결과가 비면 감상 인원이 0으로 굳으므로 코드가 일부러 에러를 던지는 자리다.
+
+**쓸 작품의 id 를 모아 넘긴다.** 그러면 `get_content_celeb_user_counts` 로 범위가 좁혀진다. id 가 많으면 그것도 무거우므로 500개씩 나눠 부르고 합친다.
+
+```ts
+const contentIds = [...new Set(typedData.map(item => item.content_id))]
+const userCountMap = await fetchUserContentCounts(db, undefined, contentIds)
+```
+
+캐시(`unstable_cache`)가 평소에는 이 호출을 가려 주지만, 캐시가 비는 순간 그대로 드러난다. 캐시를 믿고 무거운 쿼리를 두지 않는다.
+
 ## 연계 문서
 
 - 화면 지도: [README.md](README.md)

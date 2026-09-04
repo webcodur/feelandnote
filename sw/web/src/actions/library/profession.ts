@@ -80,7 +80,10 @@ async function fetchProfessionAggregate(
     }
   })
 
-  const userCountMap = await fetchUserContentCounts(db)
+  // 이 화면이 쓰는 것은 위에서 고른 작품들의 감상 인원뿐이다. 전체를 집계하면
+  // member_contents 를 통째로 훑다 문 시간을 넘겨(57014) 화면이 통째로 죽는다.
+  const contentIds = [...new Set(typedData.map(item => item.content_id))]
+  const userCountMap = await fetchUserContentCounts(db, undefined, contentIds)
 
   // limit을 크게 줘 전체 정렬 리스트를 확보. 페이지 분할은 호출부에서 수행.
   const { contents, total } = aggregateContents(typedData, { page: 1, limit: Number.MAX_SAFE_INTEGER, userCountMap })
