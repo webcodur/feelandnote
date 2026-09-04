@@ -44,6 +44,32 @@ const ga = (w: string) => josa(w, '이', '가')
 const cleanTitle = (t: string) =>
   t.replace(/\s*[\[(]\s*(Blu-?ray|DVD|4K|UHD|블루레이|디비디)[^\])]*[\])]/gi, '').trim()
 
+/**
+ * 제목 길이 예산. 티스토리 목록은 496px 에서 자르고 구글은 그보다 짧게 자른다. 26.09.05에
+ * 9편 중 8편이 「…」로 잘렸다(594~626px). 온전히 보인 박찬욱 편이 31자·391px 이었다.
+ *
+ * 앞머리는 그대로 두고 **부제를 예산 안에서 채울 수 있는 만큼만** 붙인다. 잘릴 바에는
+ * 짧게 끝내는 편이 낫다 — 잘린 부제는 클릭을 부르지 못하고 자리만 먹는다.
+ */
+const TITLE_MAX = 36
+/**
+ * 부제는 **둘 이상 들어갈 때만** 붙인다. 하나만 남으면 「『택시 드라이버』… | 탑」처럼
+ * 초라해져 안 붙이느니만 못하다. 한 글자짜리 이름(그룹명 등)도 대표로 세우지 않는다.
+ */
+function fitTitle(head: string, parts: string[], max = TITLE_MAX) {
+  const sub: string[] = []
+  for (const p of parts.filter((x) => x.length >= 2)) {
+    const next = [...sub, p]
+    if (`${head} | ${next.join('·')}`.length <= max) sub.push(p)
+  }
+  return sub.length >= 2 ? `${head} | ${sub.join('·')}` : head
+}
+
+/** 후보를 긴 것부터 훑어 예산에 드는 첫 번째를 쓴다. 목록 편처럼 앞머리가 긴 글에 쓴다. */
+function pickTitle(cands: string[], max = TITLE_MAX) {
+  return cands.find((c) => c.length <= max) ?? cands[cands.length - 1]
+}
+
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const anchor = (i: number) => `fn-${i}`
 
@@ -53,8 +79,9 @@ const celebUrl = (slug: string) => `https://feelandnote.com/celeb/${slug}`
 export function renderWork(m: Material): { title: string; html: string; tags: string[] } {
   const t = cleanTitle(m.work.title)
   const year = (m.work.release ?? '').slice(0, 4)
-  const names = m.picked.slice(0, 3).map((p) => p.nickname)
-  const title = `『${t}』${eul(t)} 인생 영화로 꼽은 ${m.total}명 | ${names.join('·')}까지`
+  // 이름이 짧은 쪽을 앞세운다 — 긴 이름 하나가 자리를 다 먹으면 다른 이름이 못 들어간다
+  const names = m.picked.slice(0, 6).map((p) => p.nickname).sort((a, b) => a.length - b.length)
+  const title = fitTitle(`『${t}』${eul(t)} 인생 영화로 꼽은 ${m.total}명`, names)
 
   const L: string[] = []
   const p = (s: string) => L.push(s)
@@ -149,7 +176,7 @@ export type PersonMaterial = {
 export function renderPerson(m: PersonMaterial): { title: string; html: string; tags: string[] } {
   const who = m.celeb.name
   const prof = PROF[m.celeb.profession ?? ''] ?? ''
-  const title = `${who}${ga(who)} 꼽은 영화 ${m.total}편 | ${m.picked.slice(0, 3).map((p) => cleanTitle(p.title)).join('·')}`
+  const title = fitTitle(`${who}${ga(who)} 꼽은 영화 ${m.total}편`, m.picked.slice(0, 5).map((p) => cleanTitle(p.title)))
   const L: string[] = []
   const p = (s: string) => L.push(s)
 
@@ -238,10 +265,22 @@ function listCount(title: string, n: number) {
 export function renderList(m: ListMaterial): { title: string; html: string; tags: string[] } {
   const name = m.list.title
   const tag = LIST_TAG[m.list.slug]
-  const years = m.all.map((r) => r.year).filter((y): y is number => !!y)
   // 해마다 주는 상은 몇 년부터 몇 년까지인지가 정보다. 한 번 뽑은 순위 목록에는 붙이지 않는다.
-  const span = m.list.isAnnual && years.length ? ` (${Math.min(...years)}~${Math.max(...years)})` : ''
-  const title = `${tag ? `[${tag}] ` : ''}${listCount(name, m.totalItems)}${span} | 이 가운데 ${m.withVoice}편은 누군가의 인생 영화였습니다`
+  // 연도 범위는 제목에서 뺀다 — 자리를 먹고 검색어로는 거의 쓰이지 않는다. 본문 표에 다 있다.
+  /**
+   * 우선순위는 **목록명 > 헤드라인 > 태그**다. 목록명은 검색어라 못 줄이고, 헤드라인은
+   * 이 채널만의 각이며, 태그는 브랜딩이라 자리가 없으면 먼저 뺀다.
+   */
+  const base = listCount(name, m.totalItems)
+  const pre = tag ? `[${tag}] ` : ''
+  const title = pickTitle([
+    `${pre}${base} | ${m.withVoice}편은 누군가의 인생 영화`,
+    `${pre}${base} | ${m.withVoice}편은 인생 영화`,
+    `${base} | ${m.withVoice}편은 누군가의 인생 영화`,
+    `${base} | ${m.withVoice}편은 인생 영화`,
+    `${pre}${base}`,
+    base,
+  ])
   const L: string[] = []
   const p = (s: string) => L.push(s)
 
