@@ -48,6 +48,18 @@ function nearestIndex(deck: HTMLElement): number | null {
   return best;
 }
 
+/**
+ * 정말로 옆으로 밀 수 있는 줄인가. 넓은 화면에서는 같은 줄이 격자나 세로 목록으로
+ * 풀려 넘칠 것도 넘길 것도 없다 — 그때는 손 모양 커서도 끌기도 주지 않는다.
+ * 화면 폭을 직접 재지 않는 것은 구획마다 푸는 지점(md·lg)이 달라서다.
+ */
+function canDrag(deck: HTMLElement): boolean {
+  return (
+    deck.scrollWidth > deck.clientWidth &&
+    getComputedStyle(deck).overflowX !== "visible"
+  );
+}
+
 export default function SwipeControls({
   count,
   className,
@@ -79,9 +91,20 @@ export default function SwipeControls({
       if (nearest === null) return;
       setActive((current) => (current === nearest ? current : nearest));
     };
+    /* 손 모양은 실제로 끌 수 있을 때만 준다. 인라인 커서는 반응형 클래스로 덮이지
+       않아, 한 번 박아두면 격자로 풀린 넓은 화면에서도 마우스가 거짓말을 한다 */
+    const syncCursor = () => {
+      deck.style.cursor = canDrag(deck) ? "grab" : "";
+    };
+    const onResize = () => {
+      sync();
+      syncCursor();
+    };
+
     sync();
+    syncCursor();
     deck.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("resize", sync);
+    window.addEventListener("resize", onResize);
 
     /* ── 마우스로 끌어 밀기 ──
        손가락은 브라우저가 알아서 굴리므로 마우스만 받는다. 끌던 중에는 스냅을 꺼야
@@ -93,7 +116,7 @@ export default function SwipeControls({
 
     const onPointerDown = (event: PointerEvent) => {
       if (event.pointerType !== "mouse" || event.button !== 0) return;
-      if (deck.scrollWidth <= deck.clientWidth) return;
+      if (!canDrag(deck)) return;
       dragging = true;
       moved = 0;
       startX = event.clientX;
@@ -134,11 +157,10 @@ export default function SwipeControls({
     window.addEventListener("pointerup", endDrag);
     window.addEventListener("pointercancel", endDrag);
     deck.addEventListener("click", onClickCapture, true);
-    deck.style.cursor = "grab";
 
     return () => {
       deck.removeEventListener("scroll", sync);
-      window.removeEventListener("resize", sync);
+      window.removeEventListener("resize", onResize);
       deck.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", endDrag);
