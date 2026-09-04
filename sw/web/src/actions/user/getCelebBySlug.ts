@@ -10,7 +10,7 @@ import { cachedDetail, throwOnQueryError } from '@/lib/cache'
 import { createAdminClient } from '@/lib/db/admin'
 import { createStaticClient } from '@/lib/db/static'
 import { type ActionResult, failure } from '@/lib/errors'
-import { type PublicUserProfile, type CelebTier } from './getUserProfile'
+import { type PublicUserProfile, type CelebTier, type CelebReality } from './getUserProfile'
 import { getTitleInfo } from '@/constants/titles'
 import {
   DIALOGUE_PROFILE_SELECT,
@@ -156,6 +156,7 @@ interface PublicCelebBySlugData {
     voice_speed: number | null
     wikidata_qid: string | null
     celeb_tier: string | null
+    celeb_reality: string | null
     content_research_confirmed_empty_at: string | null
     view_count: number | null
     youtube_videos: Record<string, { videoId: string; uploadedAt: string }> | null
@@ -190,7 +191,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: celeb, error: profileError } = await db
     .from('celebs')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, celeb_reality, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
     .eq('slug', slug)
     .eq('publication_status', 'active')
     .maybeSingle()
@@ -509,6 +510,7 @@ async function getCelebBySlugInner(
       voice_speed: profile.voice_speed ?? 1.0,
       wikidata_qid: profile.wikidata_qid ?? null,
       celeb_tier: ((profile.celeb_tier as CelebTier) ?? 'full'),
+      celeb_reality: ((profile.celeb_reality as CelebReality) ?? 'REAL'),
       view_count: profile.view_count ?? 0,
       youtube_videos: profile.youtube_videos ?? null,
       contentTypeCounts: pub.contentTypeCounts,
