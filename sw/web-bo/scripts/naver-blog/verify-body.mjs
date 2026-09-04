@@ -30,7 +30,7 @@ const BROKEN = /[�]/;
 
 const raw = JSON.parse(fs.readFileSync(DRAFTS, 'utf8'));
 const rows = Array.isArray(raw) ? raw : raw.items ?? raw.drafts ?? [];
-const targets = one ? rows.filter((r) => String(r.logNo) === String(one)) : rows.filter((r) => r.logNo && r.applied);
+const targets = one ? rows.filter((r) => String(r.logNo) === String(one)) : rows.filter((r) => r.logNo);
 console.log(`검사 대상 ${targets.length}편\n`);
 
 const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });

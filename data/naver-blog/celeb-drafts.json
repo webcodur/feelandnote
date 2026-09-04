@@ -732,7 +732,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T09:48:59.152Z"
  },
  {
   "kind": "celeb",
@@ -754,7 +755,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T09:51:44.781Z"
  },
  {
   "kind": "celeb",
@@ -777,7 +779,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T09:54:24.059Z"
  },
  {
   "kind": "celeb",
@@ -799,7 +802,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T09:57:06.697Z"
  },
  {
   "kind": "celeb",
@@ -822,7 +826,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T09:59:49.822Z"
  },
  {
   "kind": "celeb",
@@ -845,7 +850,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:02:50.254Z"
  },
  {
   "kind": "celeb",
@@ -868,7 +874,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:05:33.673Z"
  },
  {
   "kind": "celeb",
@@ -890,7 +897,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:08:26.527Z"
  },
  {
   "kind": "celeb",
@@ -913,7 +921,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:11:25.288Z"
  },
  {
   "kind": "celeb",
@@ -935,7 +944,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:14:08.596Z"
  },
  {
   "kind": "celeb",
@@ -958,7 +968,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:16:54.416Z"
  },
  {
   "kind": "celeb",
@@ -981,7 +992,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:19:34.091Z"
  },
  {
   "kind": "celeb",
@@ -996,14 +1008,16 @@
    "추천도서"
   ],
   "category": "학자",
-  "status": "draft",
+  "status": "check",
   "blurbed": true,
   "trimmed": true,
   "error": "Error: 왼쪽 정렬이 적용되지 않았다",
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "logNo": "224401220941",
+  "publishedAt": "2026-09-04T11:01:14.686Z"
  },
  {
   "kind": "celeb",
@@ -1025,7 +1039,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:22:26.003Z"
  },
  {
   "kind": "celeb",
@@ -1048,7 +1063,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:25:07.453Z"
  },
  {
   "kind": "celeb",
@@ -1070,7 +1086,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:27:51.075Z"
  },
  {
   "kind": "celeb",
@@ -1092,7 +1109,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:30:41.625Z"
  },
  {
   "kind": "celeb",
@@ -1115,7 +1133,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:33:22.690Z"
  },
  {
   "kind": "celeb",
@@ -1130,13 +1149,15 @@
    "추천도서"
   ],
   "category": "배우",
-  "status": "draft",
+  "status": "check",
   "blurbed": true,
   "error": "Error: 줄 입력 실패: \"신화적 세계를 배경으로 이야기를 펼쳐가는 판타지 만화다. 그는 디테일한 \" ≠ \"신화적 세계를 배경으로 이야기를 펼쳐가는 판타지 만화다. 그는 디테일한 \"",
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "logNo": "224401223170",
+  "publishedAt": "2026-09-04T11:04:24.824Z"
  },
  {
   "kind": "celeb",
@@ -1151,13 +1172,15 @@
    "추천도서"
   ],
   "category": "학자",
-  "status": "draft",
+  "status": "check",
   "blurbed": true,
   "trimmed": true,
   "error": "ProtocolError: Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.",
   "avatarSwapped": true,
   "openingFixed": true,
-  "profilePolished": true
+  "profilePolished": true,
+  "logNo": "224401225297",
+  "publishedAt": "2026-09-04T11:07:27.684Z"
  },
  {
   "kind": "celeb",
@@ -1180,7 +1203,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:36:07.532Z"
  },
  {
   "kind": "celeb",
@@ -1195,12 +1219,14 @@
    "추천도서"
   ],
   "category": "학자",
-  "status": "draft",
+  "status": "check",
   "blurbed": true,
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "logNo": "224401227623",
+  "publishedAt": "2026-09-04T11:10:34.815Z"
  },
  {
   "kind": "celeb",
@@ -1221,7 +1247,8 @@
   "publishedAt": "2026-09-04T03:38:59.015Z",
   "avatarSwapped": true,
   "openingFixed": true,
-  "profilePolished": true
+  "profilePolished": true,
+  "rewrittenAt": "2026-09-04T10:38:55.568Z"
  },
  {
   "kind": "celeb",
@@ -1243,7 +1270,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:41:41.134Z"
  },
  {
   "kind": "celeb",
@@ -1265,7 +1293,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:44:30.359Z"
  },
  {
   "kind": "celeb",
@@ -1287,7 +1316,8 @@
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "rewrittenAt": "2026-09-04T10:47:14.981Z"
  },
  {
   "kind": "celeb",
@@ -1302,13 +1332,15 @@
    "추천도서"
   ],
   "category": "작가",
-  "status": "draft",
+  "status": "check",
   "blurbed": true,
   "error": "Error: 정렬 단추를 찾지 못했다",
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "logNo": "224401230305",
+  "publishedAt": "2026-09-04T11:13:47.987Z"
  },
  {
   "kind": "celeb",
@@ -1323,13 +1355,15 @@
    "추천도서"
   ],
   "category": "학자",
-  "status": "draft",
+  "status": "check",
   "blurbed": true,
   "trimmed": true,
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "logNo": "224401232653",
+  "publishedAt": "2026-09-04T11:16:48.916Z"
  },
  {
   "kind": "celeb",
@@ -1344,12 +1378,14 @@
    "추천도서"
   ],
   "category": "배우",
-  "status": "draft",
+  "status": "check",
   "blurbed": true,
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "logNo": "224401234804",
+  "publishedAt": "2026-09-04T11:19:56.904Z"
  },
  {
   "kind": "celeb",
@@ -1364,11 +1400,13 @@
    "추천도서"
   ],
   "category": "작가",
-  "status": "draft",
+  "status": "check",
   "blurbed": true,
   "avatarSwapped": true,
   "openingFixed": true,
   "profilePolished": true,
-  "labelMerged": true
+  "labelMerged": true,
+  "logNo": "224401236948",
+  "publishedAt": "2026-09-04T11:23:09.892Z"
  }
 ]
