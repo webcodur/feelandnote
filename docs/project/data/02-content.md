@@ -54,7 +54,7 @@ where content.id = :content_id;
 
 ## 인물 등장·연관 도서
 
-인물의 등장·연관 도서 관계는 감상이 아니므로 `celeb_contents`를 사용하지 않는다. 물리 테이블 이름은 26.09.04 `fiction_source_*` → `figure_book_*`로 정정했다 — 이 카탈로그는 `celeb_tier`와 무관하게 모든 인물을 연결할 수 있어 "fiction 전용"이라는 옛 이름이 오해를 낳았기 때문이다.
+인물의 등장·연관 도서 관계는 감상이 아니므로 `celeb_contents`를 사용하지 않는다. 이 카탈로그는 `celeb_tier`·`celeb_reality` 어느 쪽과도 무관하게 모든 인물을 연결한다 — 옛 이름 `fiction_source_*`가 "픽션 전용"이라는 오해를 낳아 `figure_book_*`로 정정했다.
 
 ```text
 contents

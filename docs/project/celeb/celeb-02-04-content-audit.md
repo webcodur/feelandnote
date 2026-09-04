@@ -2,28 +2,31 @@
 
 이 문서는 인물과 콘텐츠의 관계, 작품 정체성, locale, 표지 데이터를 함께 대조해 잘못 연결되거나 근거 없이 채워진 값을 찾고 보완하는 규칙을 쥔다.
 
-실존 인물의 관계 채택 근거는 [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md), 작품·판본·외부 메타·locale 규칙은 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), `review`·`review_en` 문장은 [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md)가 정본이다. fiction의 등장 관계와 설명은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)를 따른다.
+실존 인물의 관계 채택 근거는 [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md), 작품·판본·외부 메타·locale 규칙은 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), `review`·`review_en` 문장은 [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md)가 정본이다. 등장 관계와 설명은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)를 따른다.
 
-## 티어별 감사 대상
+## 감사 대상
+
+감상 관계 감사는 `celeb_tier`가 가른다.
 
 | 티어 | 관계 데이터 | 감사 범위 |
 |---|---|---|
 | `full` | `celeb_contents` | 모든 감상 관계와 연결 작품·locale |
 | `light` | `celeb_contents` 없음 | 0건 확정 여부와 실제 관계 부재. 관계가 있다면 티어·트리거 불일치로 보고 |
-| `fiction` | `figure_book_contents`·`figure_book_characters` | 원전·등장 관계와 연결 작품·locale |
 
-fiction 작품도 `contents`·`content_locales`의 작품 정체성과 판본 규칙은 공유한다. 다만 인물이 작품을 감상한 것이 아니므로 `source_url`·`review`를 요구하거나 `celeb_contents`로 옮기지 않는다.
+등장·연관 도서 감사는 `figure_book_contents`·`figure_book_characters`를 본다. 이 카탈로그는 실존 축과 무관하게 모든 인물에 붙을 수 있으므로, 관계가 있는 인물이면 티어와 관계없이 감사 대상이다.
 
-이 표의 티어는 `celeb_tier`(파이프라인 배정)만 가른다. `celeb_reality='BOTH'`인 인물(단군왕검·주몽 등)도 실제 `celeb_tier`가 `full`·`light`면 위 칸의 실존 인물 감사를, `fiction`이면 원전·등장 관계 감사를 그대로 받는다 — 실존·가상 이중성 자체는 이 문서의 감사 대상이 아니다.
+등장 작품도 `contents`·`content_locales`의 작품 정체성과 판본 규칙은 공유한다. 다만 인물이 작품을 감상한 것이 아니므로 `source_url`·`review`를 요구하거나 `celeb_contents`로 옮기지 않는다.
+
+`celeb_reality='FICTION'`은 `celeb_contents`를 쓰지 않으므로 감상 관계 감사에서 관계 부재가 정상이다. 실존·전승 판정 자체는 이 문서의 감사 대상이 아니다.
 
 ## 감사 절차
 
 ### Phase 1: 현재값을 빠짐없이 불러온다
 
-대상의 `celebs.id`·`celeb_tier`를 먼저 고정한 뒤 티어에 맞는 관계, `contents`, 모든 `content_locales`를 함께 조회한다.
+대상의 `celebs.id`·`celeb_tier`·`celeb_reality`를 먼저 고정한 뒤 해당하는 관계, `contents`, 모든 `content_locales`를 함께 조회한다.
 
-- full·light는 `celeb_contents → contents → content_locales`를 본다.
-- fiction은 `figure_book_characters → figure_book_contents → contents → content_locales`를 본다.
+- 감상 관계는 `celeb_contents → contents → content_locales`를 본다.
+- 등장·연관 도서는 `figure_book_characters → figure_book_contents → contents → content_locales`를 본다.
 - locale이 없는 작품도 결과에서 사라지지 않도록 LEFT JOIN한다.
 - 수정 전 관계 ID·콘텐츠 ID와 원래 값을 보존한다.
 
@@ -39,7 +42,7 @@ full의 각 `source_url`을 열어 인물과 정확한 작품, 감상·추천·�
 - `FINISHED`와 `WANT`가 출처에서 확인되는 행위와 맞는지 본다.
 - `review`와 요청 범위의 `review_en`이 출처에 없는 동기·영향·감정을 보태지 않았는지 확인한다.
 
-fiction은 작품 안에서 인물의 실제 등장 여부, `relation_type`, 순서, `description`·`description_en`의 작품별 범위를 확인한다. 같은 세계관에 속한다는 이유로 관계를 통과시키지 않는다.
+등장·연관 도서는 작품 안에서 인물의 실제 등장 여부, `relation_type`, 순서, `description`·`description_en`의 작품별 범위를 확인한다. 같은 세계관에 속한다는 이유로 관계를 통과시키지 않는다.
 
 ### Phase 3: 작품 정체성과 판본을 검증한다
 
