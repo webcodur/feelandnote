@@ -1,12 +1,13 @@
 /**
  * 티스토리 「필앤노트 시네마」에 글을 올린다.
  *
- *   node scripts/tistory-cinema/publish.mjs --file "목록-AFI 선정 100대 영화" --at "2026-09-07 09:00"
+ *   node scripts/tistory-cinema/publish.mjs --file "대부" --at "2026-09-07 09:00"
  *   node scripts/tistory-cinema/publish.mjs --all --start 2026-09-07 --dow 1,4 --time 09:00
+ *   node scripts/tistory-cinema/publish.mjs --file "대부" --draft      # 임시저장만
  *
  * 본문은 **HTML 모드**로 통째로 넣는다. 네이버처럼 한 줄씩 치지 않으므로 글자가 빠지거나
- * 정렬이 어긋날 자리가 없다. 대신 HTML 모드 전환에 `confirm` 이 붙어 있어 대화상자
- * 핸들러가 필수다(`lib/browser.mjs` 참고).
+ * 정렬이 어긋날 자리가 없다. 대신 모드 전환에 `confirm` 이 붙어 있어 대화상자 핸들러가
+ * 필수다(`lib/browser.mjs`).
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -19,118 +20,221 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const args = process.argv.slice(2);
 const argOf = (k) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : undefined; };
 
-const CATEGORY = {
-  work: '이 영화를 꼽은 사람들',
-  person: '인물이 꼽은 영화',
-  list: '영화제와 선정 목록',
-};
-
+const CATEGORY = { work: '이 영화를 꼽은 사람들', person: '인물이 꼽은 영화', list: '영화제와 선정 목록' };
+const kindOf = (n) => (n.startsWith('목록-') ? 'list' : n.startsWith('인물-') ? 'person' : 'work');
 const load = () => (fs.existsSync(STATE) ? JSON.parse(fs.readFileSync(STATE, 'utf8')) : []);
 const save = (v) => fs.writeFileSync(STATE, JSON.stringify(v, null, 2));
 
-/** 재료 파일명 → 종류 */
-const kindOf = (name) => (name.startsWith('목록-') ? 'list' : name.startsWith('인물-') ? 'person' : 'work');
+/** 보이는 요소를 좌표로 누른다. 숨은 click() 은 레이어가 안 열리는 일이 있다. */
+async function hit(page, sel, label) {
+  const pos = await page.evaluate((q) => {
+    const b = [...document.querySelectorAll(q)].find((x) => x.offsetParent);
+    if (!b) return null;
+    b.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const r = b.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  }, sel);
+  if (!pos) throw new Error(`${label}을 찾지 못했다`);
+  await page.mouse.click(pos.x, pos.y);
+}
 
-async function publishOne(page, name, at) {
+/** 열린 메뉴에서 글자가 정확히 맞는 항목을 누른다(TinyMCE 메뉴는 span.mce-text 다). */
+async function pickMenu(page, text, label) {
+  const pos = await page.evaluate((t) => {
+    const e = [...document.querySelectorAll('span.mce-text, span.mce-txt, li, a, button')]
+      .find((x) => x.offsetParent && x.textContent.trim() === t);
+    if (!e) return null;
+    const r = (e.closest('li, button, a') ?? e).getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  }, text);
+  if (!pos) throw new Error(`${label}에서 「${text}」를 찾지 못했다`);
+  await page.mouse.click(pos.x, pos.y);
+}
+
+export async function composeOne(page, cdp, name) {
   const meta = JSON.parse(fs.readFileSync(path.join(DIR, `_meta-${name}.json`), 'utf8'));
   const html = fs.readFileSync(path.join(DIR, `_body-${name}.html`), 'utf8');
   const kind = kindOf(name);
 
   await page.bringToFront();
   await page.goto(`https://${BLOG}.tistory.com/manage/newpost/`, { waitUntil: 'domcontentloaded', timeout: 60000 });
-  await page.waitForSelector('#post-title-inp, textarea#markdown-source, .textarea_tit', { timeout: 40000 }).catch(() => {});
-  await wait(4000);
+  await page.waitForSelector('#post-title-inp', { timeout: 40000 });
+  await wait(4500);
 
   // 1) 카테고리
-  const catOk = await page.evaluate((label) => {
-    const btn = [...document.querySelectorAll('button, a')].find((b) => /카테고리/.test(b.textContent) && b.offsetParent);
-    if (btn) btn.click();
-    return !!btn;
-  }, CATEGORY[kind]);
+  await hit(page, '#category-btn', '카테고리 단추');
+  await wait(1600);
+  await pickMenu(page, CATEGORY[kind], '카테고리 목록');
   await wait(1200);
-  const catSet = await page.evaluate((label) => {
-    const item = [...document.querySelectorAll('li, button, a, span')].find((e) => e.offsetParent && e.textContent.trim() === label);
-    if (!item) return false;
-    item.click();
-    return true;
-  }, CATEGORY[kind]);
-  if (!catSet) throw new Error(`카테고리를 고르지 못했다: ${CATEGORY[kind]}`);
-  await wait(1000);
+  const cat = await page.evaluate(() => document.querySelector('#category-btn')?.textContent.trim() ?? '');
+  if (!cat.includes(CATEGORY[kind])) throw new Error(`카테고리가 안 잡혔다(현재 ${cat})`);
 
   // 2) 제목
-  const titleOk = await page.evaluate((t) => {
-    const el = document.querySelector('#post-title-inp') ?? [...document.querySelectorAll('textarea, input')].find((e) => /제목/.test(e.placeholder ?? ''));
-    if (!el) return false;
+  await page.evaluate((t) => {
+    const el = document.querySelector('#post-title-inp');
     const setter = Object.getOwnPropertyDescriptor(el.constructor.prototype, 'value')?.set;
     setter ? setter.call(el, t) : (el.value = t);
     el.dispatchEvent(new Event('input', { bubbles: true }));
-    return true;
   }, meta.title);
-  if (!titleOk) throw new Error('제목 칸을 찾지 못했다');
-  await wait(800);
+  await wait(700);
 
-  // 3) HTML 모드로 바꾼다 — confirm 이 뜨므로 dialog 핸들러가 받아 준다
-  await page.evaluate(() => {
-    const b = [...document.querySelectorAll('button, a')].find((x) => x.offsetParent && /기본모드|마크다운|HTML/.test(x.textContent) && x.closest('[class*=mce], header, .header, #editor') !== null);
-    (b ?? [...document.querySelectorAll('button')].find((x) => x.offsetParent && /기본모드|HTML/.test(x.textContent)))?.click();
-  });
-  await wait(1200);
-  const toHtml = await page.evaluate(() => {
-    const item = [...document.querySelectorAll('li, button, a, span')].find((e) => e.offsetParent && e.textContent.trim() === 'HTML');
-    if (!item) return false;
-    item.click();
-    return true;
-  });
-  if (!toHtml) throw new Error('HTML 모드로 바꾸지 못했다');
-  await wait(3000);
+  // 3) HTML 모드 — confirm 이 뜨고 dialog 핸들러가 받는다
+  await hit(page, '#editor-mode-layer-btn-open', '모드 단추');
+  await wait(1600);
+  await pickMenu(page, 'HTML', '모드 목록');
+  await wait(3500);
 
-  // 4) 본문 — CodeMirror 든 textarea 든 값을 넣고 이벤트를 쏜다
-  const bodyOk = await page.evaluate((h) => {
-    const cm = document.querySelector('.CodeMirror')?.CodeMirror;
-    if (cm) { cm.setValue(h); return 'codemirror'; }
-    const ta = document.querySelector('textarea#html-source, textarea.textarea_code, #editor textarea, textarea');
-    if (!ta) return '';
-    const setter = Object.getOwnPropertyDescriptor(ta.constructor.prototype, 'value')?.set;
-    setter ? setter.call(ta, h) : (ta.value = h);
-    ta.dispatchEvent(new Event('input', { bubbles: true }));
-    ta.dispatchEvent(new Event('change', { bubbles: true }));
-    return 'textarea';
-  }, html);
-  if (!bodyOk) throw new Error('본문 칸을 찾지 못했다');
+  /**
+   * 4) 본문 — 🔴 **CodeMirror.setValue 로는 저장되지 않는다.**
+   *
+   *    티스토리 HTML 편집기는 `ReactCodemirror` 다. `setValue` 는 화면만 바꾸고 React state 를
+   *    건드리지 않아, 저장할 때 빈 본문이 나간다. 26.09.05에 9편을 올렸는데 제목·카테고리·예약만
+   *    남고 본문이 통째로 비어 있었다(getValue 로는 값이 보여서 성공한 줄 알았다).
+   *    CodeMirror 안을 눌러 포커스를 준 뒤 CDP `Input.insertText` 로 **진짜 입력**을 넣는다.
+   */
+  const cmPos = await page.evaluate(() => {
+    const el = [...document.querySelectorAll('.CodeMirror')].find((e) => e.offsetParent);
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + Math.min(14, r.height / 2) };
+  });
+  if (!cmPos) throw new Error('HTML 편집기를 찾지 못했다');
+  await page.mouse.click(cmPos.x, cmPos.y);
+  await wait(900);
+  await cdp.send('Input.insertText', { text: html });
   await wait(2500);
+  const got = await page.evaluate(() => [...document.querySelectorAll('.CodeMirror')].find((e) => e.offsetParent)?.CodeMirror?.getValue()?.length ?? 0);
+  if (got < html.length * 0.9) throw new Error(`본문이 덜 들어갔다(${got}/${html.length})`);
+  const how = `insertText ${got}자`;
 
   // 5) 태그
   for (const tag of meta.tags) {
     await page.evaluate((t) => {
-      const el = [...document.querySelectorAll('input')].find((e) => e.offsetParent && /태그/.test(e.placeholder ?? ''));
+      const el = document.querySelector('#tagText');
       if (!el) return;
       const setter = Object.getOwnPropertyDescriptor(el.constructor.prototype, 'value')?.set;
       setter ? setter.call(el, t) : (el.value = t);
       el.dispatchEvent(new Event('input', { bubbles: true }));
     }, tag);
     await page.keyboard.press('Enter');
-    await wait(350);
+    await wait(400);
   }
-
-  // 6) 완료 → 발행 패널
-  await page.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.offsetParent && /^완료$/.test(b.textContent.trim()))?.click());
-  await wait(2500);
-
-  const state = { name, kind, title: meta.title, at: at ?? null, publishedAt: new Date().toISOString() };
-  return { page, state };
+  return { meta, kind, how };
 }
 
-// 이 파일은 아래에서 이어 붙인다(발행 패널 조작은 화면을 보고 확정한다)
-export { publishOne, CATEGORY, kindOf, load, save, DIR, STATE };
+/**
+ * URL 슬러그. 제목을 그대로 쓰면 `|`·`·`·『』 가 주소에 박혀 지저분하고 공유할 때 깨진다.
+ * 파이프 뒤 부제를 버리고 특수문자를 걷어 짧게 만든다. 한글 주소는 검색엔진이 디코드해 읽는다.
+ */
+function slugOf(title) {
+  return title
+    .split('|')[0]
+    .replace(/[『』「」《》\[\]()·,.!?"'`~@#$%^&*+=/\:;<>{}]/g, ' ')
+    .replace(/\s+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60)
+}
+
+/** 발행 패널을 열고 공개·예약·주소를 잡은 뒤 발행한다. `at` 이 없으면 바로 낸다. */
+export async function publishNow(page, title, at) {
+  await hit(page, '#publish-layer-btn', '완료 단추')
+  await wait(3000)
+
+  // 공개
+  await page.evaluate(() => {
+    const el = document.querySelector('#open20')
+    ;(el?.closest('label') ?? el)?.click()
+  })
+  await wait(1200)
+  const open = await page.evaluate(() => document.querySelector('#open20')?.checked)
+  if (!open) throw new Error('공개를 고르지 못했다')
+
+  // 주소
+  await page.evaluate((s) => {
+    const el = document.querySelector('#urlPublish')
+    if (!el) return
+    const setter = Object.getOwnPropertyDescriptor(el.constructor.prototype, 'value')?.set
+    setter ? setter.call(el, s) : (el.value = s)
+    el.dispatchEvent(new Event('input', { bubbles: true }))
+    el.dispatchEvent(new Event('change', { bubbles: true }))
+  }, slugOf(title))
+  await wait(600)
+
+  if (at) {
+    const [ymd, hm] = at.split(' ')
+    const [Y, M, D] = ymd.split('-').map(Number)
+    const [h, mi] = (hm ?? '09:00').split(':').map(Number)
+
+    await page.evaluate(() => [...document.querySelectorAll('button.btn_date')].find((b) => b.offsetParent && b.textContent.trim() === '예약')?.click())
+    await wait(1500)
+    await hit(page, 'button.btn_reserve', '날짜 단추')
+    await wait(1800)
+
+    // 달이 다르면 화살표로 옮긴다
+    for (let i = 0; i < 14; i++) {
+      const cur = await page.evaluate(() => document.querySelector('.txt_calendar')?.textContent.trim() ?? '')
+      const m = cur.match(/(\d{4})년\s*(\d{1,2})월/)
+      if (!m) break
+      const [cy, cm] = [Number(m[1]), Number(m[2])]
+      if (cy === Y && cm === M) break
+      const next = cy < Y || (cy === Y && cm < M)
+      const moved = await page.evaluate((n) => {
+        const b = [...document.querySelectorAll('.box_calendar button')].find((x) => x.offsetParent && new RegExp(n ? '다음|next' : '이전|prev', 'i').test(x.className + x.textContent + (x.getAttribute('aria-label') ?? '')))
+        if (!b) return false
+        b.click(); return true
+      }, next)
+      if (!moved) throw new Error(`달력을 ${Y}-${M} 로 옮기지 못했다(현재 ${cur})`)
+      await wait(900)
+    }
+
+    const dayOk = await page.evaluate((d) => {
+      const b = [...document.querySelectorAll('button.btn_day')].find((x) => x.offsetParent && Number(x.textContent.trim()) === d && !x.disabled)
+      if (!b) return false
+      b.click(); return true
+    }, D)
+    if (!dayOk) throw new Error(`${D}일을 고르지 못했다`)
+    await wait(1200)
+
+    await page.evaluate(({ h, mi }) => {
+      const set = (sel, v) => {
+        const el = document.querySelector(sel); if (!el) return
+        const setter = Object.getOwnPropertyDescriptor(el.constructor.prototype, 'value')?.set
+        setter ? setter.call(el, String(v).padStart(2, '0')) : (el.value = String(v))
+        el.dispatchEvent(new Event('input', { bubbles: true }))
+        el.dispatchEvent(new Event('change', { bubbles: true }))
+      }
+      set('#dateHour', h); set('#dateMinute', mi)
+    }, { h, mi })
+    await wait(900)
+
+    const shown = await page.evaluate(() => ({
+      date: document.querySelector('button.btn_reserve')?.textContent.trim(),
+      h: document.querySelector('#dateHour')?.value, m: document.querySelector('#dateMinute')?.value,
+    }))
+    const want = `${Y}-${String(M).padStart(2, '0')}-${String(D).padStart(2, '0')}`
+    if (shown.date !== want) throw new Error(`예약 날짜가 어긋났다(원한 ${want}, 화면 ${shown.date})`)
+    console.log(`   예약 ${shown.date} ${shown.h}:${shown.m}`)
+  }
+
+  await hit(page, '#publish-btn', '발행 단추')
+  await wait(6000)
+  const url = page.url()
+  return url
+}
 
 if (process.argv[1] && process.argv[1].includes('publish.mjs')) {
-  const name = argOf('--file');
-  if (!name) throw new Error('--file 이 필요하다');
-  const { browser, launched } = await getBrowser();
-  const page = await getTistoryPage(browser);
-  await ensureLoggedIn(page);
-  const { state } = await publishOne(page, name, argOf('--at'));
-  console.log('본문까지 넣었다. 발행 패널은 화면에서 확인한다:', state.title);
-  if (launched) console.log('(이 크롬은 스크립트가 띄웠다)');
-  browser.disconnect();
+  const name = argOf('--file')
+  const at = argOf('--at')
+  if (!name) throw new Error('--file 이 필요하다')
+  const { browser } = await getBrowser()
+  const page = await getTistoryPage(browser)
+  await ensureLoggedIn(page)
+  const cdp = await page.createCDPSession()
+  const { meta } = await composeOne(page, cdp, name)
+  const url = await publishNow(page, meta.title, at)
+  const state = load()
+  state.push({ name, kind: kindOf(name), title: meta.title, at: at ?? null, url, at_iso: new Date().toISOString() })
+  save(state)
+  console.log(`올림: ${meta.title}`)
+  browser.disconnect()
 }

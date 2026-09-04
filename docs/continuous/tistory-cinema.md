@@ -39,15 +39,32 @@ pnpm tsx scripts/tistory-cinema/build-person.mts --slug park-chan-wook --pick 6
 pnpm tsx scripts/tistory-cinema/build-draft.mts  --title 대부 --pick 15
 pnpm tsx scripts/tistory-cinema/build-list.mts   --slug afi-100-years-100-movies --pick 10
 pnpm tsx scripts/tistory-cinema/preview.mts "대부"        # HTML 생성 + 육안 확인용 파일
-node scripts/tistory-cinema/publish.mjs --file "대부" --at "2026-09-07 09:00"
+node scripts/tistory-cinema/publish.mjs   --file "대부" --at "2026-09-07 09:00"
+node scripts/tistory-cinema/fill-body.mjs --id 1 --file "대부"   # 본문만 덮어쓴다
 ```
 
-재료는 `data/tistory-cinema/*.json`, 본문은 `_body-*.html`, 발행기가 읽는 제목·태그는 `_meta-*.json`이다.
+재료는 `data/tistory-cinema/*.json`, 본문은 `_body-*.html`, 발행기가 읽는 제목·태그는 `_meta-*.json`이다. 미리보기 HTML 은 로컬 서버로 띄워 눈으로 본다(`python -m http.server 8899`).
+
+## 현재 도달점
+
+2026-09-05에 블로그를 열고 **9편을 예약**했다. 카테고리 3종 × 3편이 09-07(월)·09-08·09-09 각 09:00·12:00·18:00 에 나간다.
+
+| 종류 | 본문 | 이미지 | H2 | 예고편 | 사이트 링크 |
+|---|---:|---:|---:|---:|---:|
+| 작품 편 | 1.8~2.1만 자 | 1 | 4 | 2 | 28~32 |
+| 인물 편 | 1.3만 자 | 7 | 6 | 0 | 4 |
+| 목록 편 | 10.6~12만 자 | 10 | 2 | 0 | 180~220 |
+
+목록 편은 전체 목록 표에서 감상이 붙은 작품마다 사이트 작품 페이지로 링크가 나가 한 편에 200개 안팎이 걸린다. 인물 편에는 예고편을 넣지 않았다 — 여섯 편을 모두 임베드하면 화면이 무거워진다.
 
 ## 편집기 제약 — 네이버와 다른 점
 
 - **HTML 모드가 있다.** 본문을 통째로 넣으므로 네이버처럼 한 줄씩 치다 글자가 빠지거나 가로선이 왼쪽으로 기울 일이 없다. 가운데 정렬·목차·표·강조를 HTML 로 못 박는다.
 - 🔴 **MCP 브라우저 확장으로는 티스토리를 몰 수 없다.** 스킨 적용과 HTML 모드 전환 자리에서 네이티브 `confirm` 이 뜨는데, 그 대화상자가 뜨면 CDP 명령이 통째로 막혀 렌더러가 얼어붙은 것처럼 보인다. **Puppeteer 로만 조작한다** — `page.on('dialog', d => d.accept())` 가 그 창을 받아 넘긴다(`lib/browser.mjs`).
+- 🔴 **`CodeMirror.setValue` 로는 본문이 저장되지 않는다.** 티스토리 HTML 편집기는 `ReactCodemirror` 다. `setValue` 는 화면만 바꾸고 React state 를 건드리지 않아, 저장할 때 **빈 본문**이 나간다. 26.09.05에 9편을 예약 발행했는데 제목·카테고리·예약 시각만 남고 본문이 통째로 비어 있었다 — `getValue()` 로는 값이 보여서 성공한 줄 알았다. 편집기 안을 눌러 포커스를 준 뒤 CDP `Input.insertText` 로 **진짜 입력**을 넣는다. 12만 자짜리 목록 편도 한 번에 들어간다.
+- **넣은 뒤 길이를 재고, 올린 뒤 다시 열어 확인한다.** 위 사고는 스크립트가 「본문 입력 완료」를 찍으며 지나갔다. 주입 직후 `getValue().length` 가 원본의 90% 이상인지 보고, 발행 뒤에는 수정 화면의 편집기 iframe 을 열어 이미지·H2·링크 수까지 센다.
+- **예약글은 공개 주소에서 본문이 보이지 않는다.** 발행 전 확인은 반드시 `/manage/post/{id}` 로 한다. 공개 URL 로 열면 껍데기만 보여 「본문이 날아갔다」고 오진한다.
+- **글 목록의 「삭제」는 hover 때만 보인다.** 전체 선택 체크박스를 눌러도 상단 삭제 단추가 DOM 에 없다. 잘못 올린 글은 지우려 들지 말고 `fill-body.mjs` 로 본문만 덮는다 — 예약 시각과 카테고리가 그대로 남아 다시 잡을 필요가 없다.
 - 크롬 프로필은 네이버와 나눈다. 포트 9333, 프로필 `C:\project\_chrome-tistory`. 카카오 로그인은 사람이 한 번 해 두면 그 프로필에 남는다.
 - **포스트 주소는 「문자」로 두었다.** 숫자 주소(`/123`)는 URL 에 검색어가 들어가지 않는다. 글이 쌓인 뒤에는 바꿀 수 없으므로 개설 직후에 정했다.
 
@@ -77,7 +94,6 @@ node scripts/tistory-cinema/publish.mjs --file "대부" --at "2026-09-07 09:00"
 
 ## 다음 할 일
 
-1. 종류별 3편씩 9편을 예약 발행한다(월요일 시작).
-2. 스킨과 사이드바를 정리한다. 플로팅 목차는 스킨 편집(HTML/CSS)이 필요하다.
-3. 글이 쌓이면 Search Console 에 `feelandnote-cinema.tistory.com` 사이트맵을 제출한다.
-4. 애드센스는 글 20편 이상, 소개·개인정보처리방침 페이지를 갖춘 뒤에 신청한다.
+1. 스킨과 사이드바를 정리한다. 플로팅 목차는 스킨 편집(HTML/CSS)이 필요하다.
+2. 글이 쌓이면 Search Console 에 `feelandnote-cinema.tistory.com` 사이트맵을 제출한다.
+3. 애드센스는 글 20편 이상, 소개·개인정보처리방침 페이지를 갖춘 뒤에 신청한다.
