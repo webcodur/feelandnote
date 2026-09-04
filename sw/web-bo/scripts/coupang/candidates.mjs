@@ -47,7 +47,7 @@ function cleanCreator(c) {
 }
 
 const browser = await puppeteer.connect({
-  browserURL: 'http://localhost:9222',
+  browserURL: `http://localhost:${process.env.COUPANG_CHROME_PORT ?? 9222}`,
   defaultViewport: null,
   protocolTimeout: 240000,
 })
