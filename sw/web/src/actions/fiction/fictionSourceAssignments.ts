@@ -18,7 +18,7 @@ async function fetchAssignments(
 ): Promise<FictionSourceAssignmentRow[]> {
   const db = createStaticClient()
   const { data, error } = await db
-    .from('fiction_source_characters')
+    .from('figure_book_characters')
     .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
     .eq(column, value)
     .order('relation_type')
@@ -51,7 +51,7 @@ export async function getFictionSourceAssignmentsByCelebs(
 
   const db = createStaticClient()
   const rows = await selectInChunks<FictionSourceAssignmentRow>(celebIds, (ids) => db
-    .from('fiction_source_characters')
+    .from('figure_book_characters')
     .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
     .in('celeb_id', ids)
     .overrideTypes<FictionSourceAssignmentRow[], { merge: false }>())

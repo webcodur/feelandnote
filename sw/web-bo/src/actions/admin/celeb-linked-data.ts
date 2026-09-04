@@ -40,7 +40,7 @@ export async function getCelebLinkedData(celebId: string): Promise<CelebLinkedDa
 
   const [sourceRows, relRows, extRows, timeline] = await Promise.all([
     admin
-      .from('fiction_source_characters')
+      .from('figure_book_characters')
       .select('content_id,relation_type,sort_order,description')
       .eq('celeb_id', celebId)
       .order('sort_order'),

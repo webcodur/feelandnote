@@ -2261,7 +2261,7 @@ export type Database = {
           },
         ]
       }
-      fiction_source_characters: {
+      figure_book_characters: {
         Row: {
           celeb_id: string
           content_id: string
@@ -2298,15 +2298,15 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "fiction_source_characters_content_id_fkey"
+            foreignKeyName: "figure_book_characters_content_id_fkey"
             columns: ["content_id"]
             isOneToOne: false
-            referencedRelation: "fiction_source_contents"
+            referencedRelation: "figure_book_contents"
             referencedColumns: ["content_id"]
           },
         ]
       }
-      fiction_source_contents: {
+      figure_book_contents: {
         Row: {
           content_id: string
           created_at: string
@@ -2324,7 +2324,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fiction_source_contents_content_id_fkey"
+            foreignKeyName: "figure_book_contents_content_id_fkey"
             columns: ["content_id"]
             isOneToOne: true
             referencedRelation: "contents"
@@ -2332,7 +2332,7 @@ export type Database = {
           },
         ]
       }
-      fiction_source_editions: {
+      figure_book_editions: {
         Row: {
           content_id: string
           created_at: string
@@ -2392,15 +2392,15 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fiction_source_editions_content_id_fkey"
+            foreignKeyName: "figure_book_editions_content_id_fkey"
             columns: ["content_id"]
             isOneToOne: false
-            referencedRelation: "fiction_source_contents"
+            referencedRelation: "figure_book_contents"
             referencedColumns: ["content_id"]
           },
         ]
       }
-      fiction_source_products: {
+      figure_book_products: {
         Row: {
           affiliate_url: string
           checked_at: string | null
@@ -2442,10 +2442,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fiction_source_products_edition_id_fkey"
+            foreignKeyName: "figure_book_products_edition_id_fkey"
             columns: ["edition_id"]
             isOneToOne: false
-            referencedRelation: "fiction_source_editions"
+            referencedRelation: "figure_book_editions"
             referencedColumns: ["id"]
           },
         ]
@@ -3716,7 +3716,7 @@ export type Database = {
       }
     }
     Views: {
-      fiction_source_purchase_options: {
+      figure_book_purchase_options: {
         Row: {
           affiliate_url: string | null
           content_id: string | null
@@ -3736,17 +3736,17 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fiction_source_editions_content_id_fkey"
+            foreignKeyName: "figure_book_editions_content_id_fkey"
             columns: ["content_id"]
             isOneToOne: false
-            referencedRelation: "fiction_source_contents"
+            referencedRelation: "figure_book_contents"
             referencedColumns: ["content_id"]
           },
           {
-            foreignKeyName: "fiction_source_products_edition_id_fkey"
+            foreignKeyName: "figure_book_products_edition_id_fkey"
             columns: ["edition_id"]
             isOneToOne: false
-            referencedRelation: "fiction_source_editions"
+            referencedRelation: "figure_book_editions"
             referencedColumns: ["id"]
           },
         ]
@@ -4229,7 +4229,7 @@ export type Database = {
         Args: { p_celeb_id: string; p_quote_en?: string; p_quote_ko: string }
         Returns: boolean
       }
-      set_fiction_source_characters: {
+      set_figure_book_characters: {
         Args: { p_celeb_ids?: string[]; p_content_id: string }
         Returns: undefined
       }
@@ -4237,11 +4237,11 @@ export type Database = {
         Args: { p_content_id: string; p_relations?: Json }
         Returns: undefined
       }
-      deactivate_fiction_source_product: {
+      deactivate_figure_book_product: {
         Args: { p_edition_id: number; p_platform: string }
         Returns: boolean
       }
-      replace_fiction_source_product: {
+      replace_figure_book_product: {
         Args: {
           p_affiliate_url: string
           p_checked_at: string
