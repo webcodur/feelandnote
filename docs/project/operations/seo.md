@@ -389,6 +389,40 @@ DB 스키마는 건드리지 않았다.
 2020년부터 쌓인 계정(글 217·방문 32만)에 인물 안내글 59편을 예약해 사이트 인물 페이지로 링크를
 내보낸다. 운영 규칙·양식·자동화는 [`naver-blog.md`](../../continuous/naver-blog.md)가 전부 쥔다.
 
+### 페널티가 아니다 — 수동 조치·보안 문제 없음 (2026-09-05 확인)
+
+5개월째 회복이 없어 페널티를 의심했으나 **직접 조치·보안 문제 모두 「감지된 문제 없음」**이다.
+색인이 안 붙는 원인은 제재가 아니라 권위다.
+
+확인하려면 화면을 봐야 하는데 두 항목은 Search Console API로 읽을 수 없다. 그때 막힌 것이
+**속성 종류**였다. `sc-domain:feelandnote.com`(도메인 속성)은 DNS 로만 확인되고 그 확인은 다른
+계정이 했다. MCP 는 서비스 계정 자격이라 데이터는 읽지만 화면은 못 연다. 그래서 같은 사이트를
+`https://feelandnote.com/`(URL 접두어 속성)으로 한 번 더 등록하고 확인 태그를 하나 더 실었다.
+`layout.tsx` 의 `verification.google` 이 배열인 이유가 이것이다 — 둘 다 지워서는 안 된다.
+
+새로 만든 속성은 색인·링크 데이터를 처음부터 모으므로 「페이지」와 「링크」 화면은 며칠 뒤에 찬다.
+
+### 같은 콘텐츠로 네이버 44,000 · 구글 47 (2026-09-04 실측)
+
+30일 노출 47회·클릭 3회, 노출된 페이지 20개다. 인물은 3,285명 중 11명만 뜬다. 색인된
+`/explore/directory` 조차 마지막 크롤이 07-24 이고 `/celeb/han-kang` 은 「발견됨 - 색인 생성
+안 됨」이다. 그런데 같은 콘텐츠로 네이버 노출은 월 44,000이다.
+
+기술 요소를 다시 전수로 재고 **결함을 찾지 못했다** — Googlebot 기준 TTFB 0.4초, robots 허용,
+자기참조 canonical, hreflang(ko·en·x-default) 정상, JSON-LD `@graph` 안 Person 정상, 제목·설명·
+h1 정상, 서버 HTML 에 본문 6,508자(영문 11,945자), `/explore/directory` 가 2,817명을 쪽 나눔 없이
+한 장에 링크. 07-15 에 잡았던 결함(JS 뒤 본문·canonical=홈·쿼리 전면 차단)은 모두 해소됐다.
+
+**사이트맵 크기는 답이 아니다.** 07-15 에 2,196 → 15,884 로 늘렸고 08-14 에 3,914 로 줄였다.
+둘 다 색인을 움직이지 못했다. 세 번째로 줄이자는 제안은 같은 처방의 반복이라 접었다. 남은 축은
+외부 링크뿐이고 그것을 네이버 블로그가 친다([`naver-blog.md`](../../continuous/naver-blog.md)).
+
+한편 08-14 에 인물 3,716 URL 로 줄인 기준은 지금 6,200 으로 되돌아가 있다. 26.09.04 커밋
+`ebf69b81` 이 `celeb_tier` 에서 fiction 을 폐기하며 `INDEXABLE_TIERS` 가 공개 인물 전체가 됐고,
+그 김에 감상 0건 1,037명이 사이트맵에 들어왔다. 사이트맵과 `meta robots` 가 둘 다 색인 허용이라
+「등재 후 색인 거부」 모순은 없다. 크기가 색인을 안 움직이므로 급히 되돌리지 않는다 — 다만
+**공개 범위를 넓힐 때 색인 기준이 딸려 넓어진다**는 것은 다음 결정 때 의식한다.
+
 ## 검색엔진 등록 현황
 
 | 서비스 | 상태 | 인증 방식 | 제출 항목 | 비고 |
@@ -404,12 +438,18 @@ DB 스키마는 건드리지 않았다.
 `sw/web/src/app/[locale]/layout.tsx` → `generateMetadata()` → `verification`:
 ```ts
 verification: {
-  google: "Rstp-6NcSTn3BTPnDH06HS5PN2goDih-CVNg",
+  google: [
+    "Rstp-6NcSTn3BTPnDH06HS5PN2goDih-CVNg",        // 도메인 속성 sc-domain:feelandnote.com
+    "T7ZylbeabtPvV55la720kqhWakxGDQDgh6MJ3k4q6ms", // URL 접두어 속성 https://feelandnote.com/
+  ],
   other: {
     "naver-site-verification": "693d325afc4dad4701aa2c7c4a29c78f2ee7e445",
   },
 },
 ```
+
+두 개를 다 유지한다. 하나를 지우면 그 속성의 소유권 확인이 풀린다. 왜 둘인지는
+「페널티가 아니다」 절이 쥔다.
 
 ## 내부 링크 통로
 
