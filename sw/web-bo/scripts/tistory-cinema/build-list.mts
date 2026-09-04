@@ -7,6 +7,7 @@
  * 둘이다. 앞은 「AFI 100대 영화 목록」 검색을 받고, 뒤는 우리만 쓸 수 있다.
  */
 import { createClient } from '@supabase/supabase-js'
+import { usableReview } from './lib/quality.mts'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -48,16 +49,16 @@ const ko = new Map(locales.filter((l) => l.locale === 'ko').map((l) => [l.conten
 const contents = await page<{ id: string; external_id: string | null; metadata: any; release_date: string | null }>(
   'contents', 'id, external_id, metadata, release_date')
 const cmapC = new Map(contents.map((c) => [c.id, c]))
-const celebs = await page<{ id: string; slug: string; nickname: string; profession: string | null; title: string | null }>(
-  'celebs', 'id, slug, nickname, profession, title', (q) => q.eq('publication_status', 'active'))
+const celebs = await page<{ id: string; slug: string; nickname: string; profession: string | null; title: string | null; avatar_url: string | null }>(
+  'celebs', 'id, slug, nickname, profession, title, avatar_url', (q) => q.eq('publication_status', 'active'))
 const people = new Map(celebs.map((c) => [c.id, c]))
 const cc = await page<{ celeb_id: string; content_id: string; review: string | null }>('celeb_contents', 'celeb_id, content_id, review')
 const byContent = new Map<string, { name: string; slug: string; profession: string | null; title: string | null; review: string }[]>()
 cc.forEach((r) => {
-  if (!ids.includes(r.content_id) || (r.review ?? '').length < 100) return
+  if (!ids.includes(r.content_id) || !usableReview(r.review)) return
   const c = people.get(r.celeb_id); if (!c) return
   if (!byContent.has(r.content_id)) byContent.set(r.content_id, [])
-  byContent.get(r.content_id)!.push({ name: c.nickname, slug: c.slug, profession: c.profession, title: c.title, review: r.review! })
+  byContent.get(r.content_id)!.push({ name: c.nickname, slug: c.slug, profession: c.profession, title: c.title, review: r.review!, avatar_url: c.avatar_url })
 })
 byContent.forEach((v) => v.sort((a, b) => b.review.length - a.review.length))
 
