@@ -135,7 +135,7 @@ async function main() {
   const dry = process.argv.includes('--dry')
 
   const fiction = new Set(
-    (await page<{ id: string }>('celebs', 'id', (q) => q.eq('celeb_tier', 'fiction'))).map((c) => c.id),
+    (await page<{ id: string }>('celebs', 'id', (q) => q.in('celeb_reality', ['FICTION', 'BOTH']))).map((c) => c.id),
   )
   const rows = await page<Row>('celeb_timeline_events', 'id,place_name,lat,lng,celeb_id', (q) => q)
 
