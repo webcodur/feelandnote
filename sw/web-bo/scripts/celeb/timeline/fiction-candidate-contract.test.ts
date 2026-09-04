@@ -17,7 +17,6 @@ const activeProfile: FictionProfileSnapshot = {
   nickname: '시험 영웅',
   nickname_en: 'Test Hero',
   publication_status: 'active',
-  celeb_tier: 'light',
   celeb_reality: 'FICTION',
   birth_date: null,
   death_date: null,

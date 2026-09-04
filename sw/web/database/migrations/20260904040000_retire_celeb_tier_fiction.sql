@@ -74,6 +74,61 @@ begin
 end;
 $function$;
 
+-- 1-1. celebs 쪽 짝 트리거도 함께 옮긴다.
+--      trg_timeline_celeb_tier_position_guard는 티어를 바꿀 때 기존 연표 형식이 깨지지
+--      않는지 검사했다. 연표 형식은 이제 celeb_reality가 정하므로 감시 대상을 그 컬럼으로
+--      옮긴다. 덧붙여 이 함수는 존재하지 않는 event.day 컬럼을 참조하는 잠복 버그가 있어
+--      실행되는 순간 반드시 실패했다(이번 이관에서 처음 드러났다). 함께 고친다.
+drop trigger if exists trg_timeline_celeb_tier_position_guard on public.celebs;
+drop function if exists private.timeline_celeb_tier_position_guard();
+
+create or replace function private.timeline_reality_position_guard()
+returns trigger
+language plpgsql
+security definer
+set search_path to 'pg_catalog'
+as $function$
+begin
+  if new.celeb_reality is not distinct from old.celeb_reality then
+    return new;
+  end if;
+
+  -- BOTH는 두 형식을 모두 허용하므로 어떤 기존 연표도 무효가 되지 않는다.
+  if new.celeb_reality = 'FICTION' and exists (
+    select 1
+    from public.celeb_timeline_events as event
+    where event.celeb_id = new.id
+      and not (
+        event.year is null
+        and event.year_end is null
+        and event.month is null
+        and nullif(btrim(event.sequence_label), '') is not null
+        and nullif(btrim(event.sequence_label_en), '') is not null
+      )
+  ) then
+    raise exception 'FICTION 전환이 기존 연표 형식을 무효로 만든다(서사 라벨 없는 사건이 있다)';
+  elsif new.celeb_reality = 'REAL' and exists (
+    select 1
+    from public.celeb_timeline_events as event
+    where event.celeb_id = new.id
+      and not (
+        event.sequence_label is null
+        and event.sequence_label_en is null
+        and (event.year is not null or (event.year_end is null and event.month is null))
+      )
+  ) then
+    raise exception 'REAL 전환이 기존 연표 형식을 무효로 만든다(서사 라벨이 남은 사건이 있다)';
+  end if;
+
+  return new;
+end;
+$function$;
+
+create trigger trg_timeline_reality_position_guard
+  before update of celeb_reality on public.celebs
+  for each row
+  execute function private.timeline_reality_position_guard();
+
 -- 2. celeb_tier='fiction' 행을 light로 옮긴다. celeb_reality는 그대로 둔다 — 이미
 --    BOTH/FICTION으로 정확히 분류돼 있고(20260904020000 백필 + 이번 세션 수동 분류),
 --    fiction 티어였던 행은 정의상 celeb_contents가 없으므로 light 승격 트리거와 충돌하지 않는다.

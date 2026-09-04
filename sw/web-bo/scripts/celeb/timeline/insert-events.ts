@@ -34,7 +34,7 @@ async function main() {
   }
   const { data: celeb, error } = await db
     .from('celebs')
-    .select('id,slug,celeb_tier,celeb_reality,death_date')
+    .select('id,slug,celeb_reality,death_date')
     .eq('slug', payload.slug)
     .maybeSingle()
   if (error || !celeb) throw new Error(`인물 없음: ${payload.slug}`)

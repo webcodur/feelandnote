@@ -24,7 +24,6 @@ export type FictionProfileSnapshot = {
   nickname: string | null
   nickname_en: string | null
   publication_status: string
-  celeb_tier: string
   celeb_reality: string
   birth_date: string | null
   death_date: string | null
@@ -320,7 +319,6 @@ export function fingerprintFictionProfile(profile: FictionProfileSnapshot): stri
     nickname: profile.nickname ?? null,
     nickname_en: profile.nickname_en ?? null,
     publication_status: profile.publication_status,
-    celeb_tier: profile.celeb_tier,
     celeb_reality: profile.celeb_reality,
     birth_date: profile.birth_date ?? null,
     death_date: profile.death_date ?? null,

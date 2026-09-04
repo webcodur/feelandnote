@@ -151,7 +151,7 @@ async function lookup() {
   const fictionIds = new Set<string>()
   for (let from = 0; ; from += 1000) {
     const { data: page } = await db
-      .from('celebs').select('id').eq('celeb_tier', 'fiction').order('id').range(from, from + 999)
+      .from('celebs').select('id').in('celeb_reality', ['FICTION', 'BOTH']).order('id').range(from, from + 999)
     for (const c of page ?? []) fictionIds.add(c.id)
     if (!page || page.length < 1000) break
   }
