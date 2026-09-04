@@ -24,10 +24,14 @@ export default async function NoticePage({ params, searchParams }: NoticePagePro
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
   const db = await createClient()
-  const [{ notices, total }, admin] = await Promise.all([
-    getNotices({ locale, limit: ITEMS_PER_PAGE, offset }),
-    isAdmin(db)
-  ])
+  // 관리자 여부가 조회 범위를 정한다 — 예약분을 포함해야 페이지 수도 함께 맞는다.
+  const admin = await isAdmin(db)
+  const { notices, total } = await getNotices({
+    locale,
+    limit: ITEMS_PER_PAGE,
+    offset,
+    includeScheduled: admin
+  })
 
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE)
 

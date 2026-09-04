@@ -26,10 +26,10 @@ export default async function NoticeDetailPage({ params }: NoticeDetailPageProps
   const locale = resolveLocale(rawLocale)
   const db = await createClient()
 
-  const [notice, comments, admin, { data: { user } }] = await Promise.all([
-    getNotice(id, locale),
+  const admin = await isAdmin(db)
+  const [notice, comments, { data: { user } }] = await Promise.all([
+    getNotice(id, locale, true, admin),
     getComments({ boardType: 'NOTICE', postId: id, locale }),
-    isAdmin(db),
     db.auth.getUser()
   ])
 

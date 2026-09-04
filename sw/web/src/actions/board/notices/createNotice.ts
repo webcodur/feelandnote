@@ -13,10 +13,12 @@ interface CreateNoticeParams {
   titleEn: string
   contentEn: string
   is_pinned?: boolean
+  /** 발행 시각. 비우면 지금 올라간다. 미래를 넣으면 그때까지 목록에 뜨지 않는다. */
+  publishAt?: string | null
 }
 
 export async function createNotice(params: CreateNoticeParams): Promise<ActionResult<NoticeWithAuthor>> {
-  const { title, content, titleEn, contentEn, is_pinned = false } = params
+  const { title, content, titleEn, contentEn, is_pinned = false, publishAt = null } = params
   const db = await createClient()
 
   const adminCheck = await checkAdmin(db)
@@ -38,6 +40,16 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
     return failure('LIMIT_EXCEEDED', '영문 제목은 100자까지 작성할 수 있다.')
   }
 
+  // created_at이 곧 발행 시각이다 — 예약을 위해 컬럼을 따로 두지 않는다.
+  let createdAt: string | null = null
+  if (publishAt) {
+    const parsed = new Date(publishAt)
+    if (Number.isNaN(parsed.getTime())) {
+      return failure('VALIDATION_ERROR', '발행 시각이 올바르지 않다.')
+    }
+    createdAt = parsed.toISOString()
+  }
+
   const { data, error } = await db
     .from('notices')
     .insert({
@@ -46,7 +58,8 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
       content: content.trim(),
       title_en: titleEn.trim(),
       content_en: contentEn.trim(),
-      is_pinned
+      is_pinned,
+      ...(createdAt ? { created_at: createdAt } : {})
     })
     .select('*')
     .single()

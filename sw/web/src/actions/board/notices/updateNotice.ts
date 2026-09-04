@@ -14,10 +14,12 @@ interface UpdateNoticeParams {
   titleEn: string
   contentEn: string
   is_pinned?: boolean
+  /** 발행 시각을 옮긴다. 비우면 지금 값을 그대로 둔다. */
+  publishAt?: string | null
 }
 
 export async function updateNotice(params: UpdateNoticeParams): Promise<ActionResult<NoticeWithAuthor>> {
-  const { id, title, content, titleEn, contentEn, is_pinned } = params
+  const { id, title, content, titleEn, contentEn, is_pinned, publishAt = null } = params
   const db = await createClient()
 
   const adminCheck = await checkAdmin(db)
@@ -39,6 +41,15 @@ export async function updateNotice(params: UpdateNoticeParams): Promise<ActionRe
     return failure('LIMIT_EXCEEDED', '영문 제목은 100자까지 작성할 수 있다.')
   }
 
+  let createdAt: string | null = null
+  if (publishAt) {
+    const parsed = new Date(publishAt)
+    if (Number.isNaN(parsed.getTime())) {
+      return failure('VALIDATION_ERROR', '발행 시각이 올바르지 않다.')
+    }
+    createdAt = parsed.toISOString()
+  }
+
   const { data, error } = await db
     .from('notices')
     .update({
@@ -47,7 +58,8 @@ export async function updateNotice(params: UpdateNoticeParams): Promise<ActionRe
       title_en: titleEn.trim(),
       content_en: contentEn.trim(),
       is_pinned: is_pinned ?? false,
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
+      ...(createdAt ? { created_at: createdAt } : {})
     })
     .eq('id', id)
     .select('*')

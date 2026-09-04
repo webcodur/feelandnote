@@ -121,7 +121,11 @@
       "englishVersion": "English",
       "pinLabel": "Pin to top",
       "deleteConfirm": "Are you sure you want to delete this announcement?",
-      "viewDetail": "Open full page"
+      "viewDetail": "Open full page",
+      "publishAtLabel": "Publish time",
+      "publishAtHint": "Set a future time to hold the notice until then. A past time publishes it right away.",
+      "publishNow": "Publish now",
+      "scheduledBadge": "Scheduled"
     },
     "feedback": {
       "write": "Write Feedback",

@@ -1,11 +1,12 @@
 'use client'
 
 import { Link } from "@/i18n/navigation"
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Eye, MessageSquare } from 'lucide-react'
 import type { NoticeWithAuthor } from '@/types/database'
 import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
 import { formatBoardRelativeTime, formatBoardShortDateTime } from '@/lib/board/boardDate'
+import { isScheduledNotice } from '@/lib/board/noticeSchedule'
 import { resolveLocale } from '@/types/locale'
 
 interface NoticeItemProps {
@@ -17,6 +18,10 @@ const isNew = (dateStr: string) =>
 
 export default function NoticeItem({ notice }: NoticeItemProps) {
   const locale = resolveLocale(useLocale())
+  const t = useTranslations('board')
+
+  // 목록에 예약분이 섞여 오는 건 관리자 화면뿐이다 — 방문자에게는 애초에 오지 않는다.
+  const scheduled = isScheduledNotice(notice.created_at)
 
   return (
     <Link
@@ -46,7 +51,11 @@ export default function NoticeItem({ notice }: NoticeItemProps) {
         <div className="flex-1 min-w-0">
           <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent">
             {notice.title}
-            {isNew(notice.created_at) && (
+            {scheduled ? (
+              <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent-dim/30 text-accent-dim align-middle">
+                {t('notice.scheduledBadge')}
+              </span>
+            ) : isNew(notice.created_at) && (
               <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/20 text-accent align-middle">
                 N
               </span>
