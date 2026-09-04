@@ -44,7 +44,6 @@ const unique = <T,>(items: T[]) => [...new Set(items)];
 // 상품이 준비된 세 전승을 먼저 열고 나머지는 도서를 채우는 대로 한 줄씩 더한다.
 const PUBLISHED_TRADITION_NAMES = new Set([
   "그리스 신화",
-  "오디세이아",
   "일리아스",
 ]);
 
