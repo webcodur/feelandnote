@@ -60,6 +60,8 @@ type ProfileRow = {
   nickname: string | null
   nickname_en: string | null
   celeb_tier: string | null
+
+  celeb_reality: string | null
   publication_status: string | null
 }
 
@@ -351,6 +353,8 @@ function desiredProfile(person: PersonRow, folder: string, slug: string, profess
     bio,
     bio_en: bioEn,
     celeb_tier: 'fiction',
+
+    celeb_reality: 'fiction',
     publication_status: 'inactive',
     is_verified: false,
     // 근거 검토를 거치지 않은 장문을 채우지 않는다.
@@ -381,7 +385,7 @@ async function createDataOnlyProfile(
         content_count: 0,
       }),
       client.from('celebs')
-        .select('id,slug,nickname,nickname_en,celeb_tier,publication_status')
+        .select('id,slug,nickname,nickname_en,celeb_tier,celeb_reality,publication_status')
         .eq('id', celebId)
         .single(),
     ])
@@ -425,7 +429,7 @@ async function main() {
   })
   const profiles = await allRows<ProfileRow>('celebs', async (from, to) => {
     const { data, error } = await db.from('celebs')
-      .select('id,slug,nickname,nickname_en,celeb_tier,publication_status')
+      .select('id,slug,nickname,nickname_en,celeb_tier,celeb_reality,publication_status')
       .order('id').range(from, to)
     return { data: data as unknown as ProfileRow[] | null, error }
   })
@@ -474,10 +478,10 @@ async function main() {
   for (const [slug, variants] of canonicalGroups) {
     const existing = profileBySlug.get(slug)
     if (existing) {
-      if (existing.celeb_tier !== 'fiction') {
+      if (existing.celeb_reality === 'REAL') {
         throw new Error(
-          `${slug}: canonical slug가 fiction CELEB가 아닙니다. `
-          + `(${existing.celeb_tier}, ${existing.nickname_en})`,
+          `${slug}: canonical slug가 신화·허구 인물이 아닙니다. `
+          + `(${existing.celeb_reality}, ${existing.nickname_en})`,
         )
       }
       profileForCanonical.set(slug, existing)

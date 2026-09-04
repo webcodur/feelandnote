@@ -35,7 +35,7 @@ async function pageAll<T>(table: string, cols: string, apply?: (q: any) => any):
 
 async function main() {
   const celebs = await pageAll<any>('celebs',
-    'id, slug, nickname, nickname_en, headline, headline_en, bio, bio_en, avatar_url, profession, nationality, birth_date, celeb_tier',
+    'id, slug, nickname, nickname_en, headline, headline_en, bio, bio_en, avatar_url, profession, nationality, birth_date, celeb_tier,celeb_reality',
     (q) => q.eq('publication_status', 'inactive'))
   console.log('inactive ' + celebs.length + '명')
 
@@ -70,13 +70,14 @@ async function main() {
   for (const c of celebs) {
     const g: string[] = []
     const tier = c.celeb_tier ?? 'full'
+    const reality = c.celeb_reality ?? 'REAL'
     if (blank(c.avatar_url)) g.push('avatar_url')
     if (blank(c.nickname)) g.push('nickname')
     if (blank(c.headline)) g.push('headline')
     if (blank(c.bio)) g.push('bio')
     if (blank(c.profession)) g.push('profession')
     if (blank(c.nationality)) g.push('nationality')
-    if (tier !== 'fiction' && blank(c.birth_date)) g.push('birth_date')
+    if (reality === 'REAL' && blank(c.birth_date)) g.push('birth_date')
     if (blank(c.nickname_en)) g.push('nickname_en')
     if (blank(c.headline_en)) g.push('headline_en')
     if (blank(c.bio_en)) g.push('bio_en')

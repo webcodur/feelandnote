@@ -219,6 +219,8 @@ type ProfileRow = {
   death_date: string | null
   publication_status: 'active' | 'inactive'
   celeb_tier: string | null
+
+  celeb_reality: string | null
   wikidata_qid: string | null
   virtual_monologue: string | null
 }
@@ -1325,7 +1327,7 @@ function inputForModel(material: Material) {
     slug: profile.slug,
     name: profile.nickname,
     nameEn: profile.nickname_en,
-    type: profile.celeb_tier === 'fiction' ? 'fiction' : 'real',
+    type: profile.celeb_reality === 'FICTION' ? 'fiction' : 'real',
     profession: profile.profession,
     title: profile.title,
     nationality: profile.nationality,
@@ -1870,7 +1872,7 @@ function batchesOf<T>(items: T[], size: number): T[][] {
 }
 
 async function main() {
-  const profileSelect = 'id,slug,nickname,nickname_en,bio,profession,title,nationality,birth_date,death_date,publication_status,celeb_tier,wikidata_qid'
+  const profileSelect = 'id,slug,nickname,nickname_en,bio,profession,title,nationality,birth_date,death_date,publication_status,celeb_tier,celeb_reality,wikidata_qid'
   const explanationSelect = 'profile_id,review_status,published_at,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at'
   let profiles: ProfileRow[]
   let explanations: ExplanationRow[]

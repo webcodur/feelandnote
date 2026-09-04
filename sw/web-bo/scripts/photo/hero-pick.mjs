@@ -40,7 +40,7 @@ const { data: people, error: e1 } = await db
   .limit(5000)
 if (e1) throw e1
 
-const usable = people.filter(p => p.celeb_tier !== 'fiction')
+const usable = people.filter(p => p.celeb_reality === 'REAL')
 
 const { data: infl } = await db.from('celeb_influence').select('celeb_id, total_score').limit(5000)
 const scoreOf = new Map((infl || []).map(r => [r.celeb_id, r.total_score || 0]))

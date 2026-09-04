@@ -34,7 +34,7 @@ async function main() {
   }
   const { data: celeb, error } = await db
     .from('celebs')
-    .select('id,slug,celeb_tier,death_date')
+    .select('id,slug,celeb_tier,celeb_reality,death_date')
     .eq('slug', payload.slug)
     .maybeSingle()
   if (error || !celeb) throw new Error(`인물 없음: ${payload.slug}`)
@@ -52,7 +52,7 @@ async function main() {
 
   const kinds = payload.events.map((e) => e.kind)
   if (!kinds.includes('birth')) throw new Error(`${payload.slug}: birth 없음`)
-  if (celeb.celeb_tier !== 'fiction' && celeb.death_date && !kinds.includes('death')) {
+  if (celeb.celeb_reality === 'REAL' && celeb.death_date && !kinds.includes('death')) {
     throw new Error(`${payload.slug}: 사망자인데 death 없음`)
   }
 
@@ -64,7 +64,7 @@ async function main() {
       : mode === 'caps'
         ? max + 1 + i
         : (i + 1) * 10
-    const fiction = celeb.celeb_tier === 'fiction'
+    const fiction = celeb.celeb_reality !== 'REAL'
     return {
       celeb_id: celeb.id,
       year: fiction ? null : e.year ?? null,

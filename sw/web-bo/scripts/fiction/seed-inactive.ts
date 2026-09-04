@@ -39,6 +39,7 @@ type ExistingProfile = {
   nickname_en: string | null
   bio: string | null
   celeb_tier: string | null
+  celeb_reality: string | null
   publication_status: string | null
 }
 
@@ -138,7 +139,7 @@ async function verifyApplied(
   const [profilesResult, assignmentsResult, metricsResult] = await Promise.all([
     client
       .from('celebs')
-      .select('id,nickname,nickname_en,bio,celeb_tier,publication_status')
+      .select('id,nickname,nickname_en,bio,celeb_tier,celeb_reality,publication_status')
       .in('id', celebIds),
     client
       .from('celeb_tag_assignments')
@@ -168,9 +169,9 @@ async function verifyApplied(
       ? profile.nickname !== plan.person.nickname
         || profile.nickname_en !== plan.person.nickname_en
         || profile.bio !== plan.person.bio
-        || profile.celeb_tier !== 'fiction'
+        || profile.celeb_reality !== 'FICTION'
         || profile.publication_status !== 'inactive'
-      : profile.celeb_tier !== 'fiction'
+      : profile.celeb_reality !== 'FICTION'
     const metricsMissing = plan.kind === 'create' && !metricCelebIds.has(plan.celebId)
     if (profileMismatch || assignment.hidden !== true || metricsMissing) {
       throw new Error(`${plan.slug}: 선등록 readback이 계획과 다릅니다.`)
@@ -209,7 +210,7 @@ async function main() {
     allRows<ExistingProfile>(
       client,
       'celebs',
-      'id,slug,nickname,nickname_en,bio,celeb_tier,publication_status',
+      'id,slug,nickname,nickname_en,bio,celeb_tier,celeb_reality,publication_status',
     ),
     client
       .from('faction_atlas_members')
@@ -241,7 +242,7 @@ async function main() {
       ) {
         throw new Error(`${person.nickname}: 기존 프로필과 한영 이름이 일치하지 않습니다.`)
       }
-      if (existing.celeb_tier !== 'fiction') {
+      if (existing.celeb_reality === 'REAL') {
         throw new Error(`${person.nickname}: 기존 인물의 티어가 fiction이 아닙니다.`)
       }
       if (existing.publication_status === 'deleted') {
@@ -312,7 +313,7 @@ async function main() {
         nickname_en: plan.person.nickname_en,
         slug_suffix: plan.slugSuffix,
         bio: plan.person.bio,
-        celeb_tier: 'fiction',
+        celeb_tier: 'light',
         celeb_reality: 'FICTION',
         publication_status: 'inactive',
         is_verified: false,

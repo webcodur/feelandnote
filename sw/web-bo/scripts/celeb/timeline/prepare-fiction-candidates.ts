@@ -29,7 +29,7 @@ const PROFILE_SELECT = [
   'nickname',
   'nickname_en',
   'publication_status',
-  'celeb_tier',
+  'celeb_reality',
   'birth_date',
   'death_date',
   'headline',
@@ -83,7 +83,7 @@ async function loadActiveFictionProfiles(): Promise<FictionProfileSnapshot[]> {
     const { data, error } = await db
       .from('celebs')
       .select(PROFILE_SELECT)
-      .eq('celeb_tier', 'fiction')
+      .in('celeb_reality', ['FICTION', 'BOTH'])
       .eq('publication_status', 'active')
       .order('slug')
       .range(from, from + 999)
@@ -103,7 +103,7 @@ async function loadSelectedProfiles(
   for (const slug of slugs) {
     const profile = await fetchFictionProfileBySlug(db, slug)
     if (!profile) throw new Error(`${slug}: 인물이 없다`)
-    if (profile.celeb_tier !== 'fiction') throw new Error(`${slug}: fiction 인물이 아니다`)
+    if (profile.celeb_reality === 'REAL') throw new Error(`${slug}: 서사 연표 대상(FICTION·BOTH)이 아니다`)
     if (profile.publication_status !== 'active'
       && !(allowInactive && profile.publication_status === 'inactive')) {
       const hint = profile.publication_status === 'inactive'
@@ -277,7 +277,7 @@ async function main() {
       schema_version: FICTION_CANDIDATE_SCHEMA_VERSION,
       slug: profile.slug,
       celeb_id: profile.id,
-      celeb_tier: 'fiction',
+      celeb_reality: profile.celeb_reality === 'BOTH' ? 'BOTH' : 'FICTION',
       profile,
       profile_fingerprint: fingerprintFictionProfile(profile),
       before_events: beforeEvents,

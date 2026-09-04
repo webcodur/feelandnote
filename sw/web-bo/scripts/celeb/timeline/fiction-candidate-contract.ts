@@ -25,6 +25,7 @@ export type FictionProfileSnapshot = {
   nickname_en: string | null
   publication_status: string
   celeb_tier: string
+  celeb_reality: string
   birth_date: string | null
   death_date: string | null
   headline: string | null
@@ -114,7 +115,7 @@ export type FictionCandidate = {
   schema_version: typeof FICTION_CANDIDATE_SCHEMA_VERSION
   slug: string
   celeb_id: string
-  celeb_tier: 'fiction'
+  celeb_reality: 'FICTION' | 'BOTH'
   publication_status?: 'active' | 'inactive'
   profile_fingerprint?: string
   before_events: StoredTimelineEvent[]
@@ -136,7 +137,7 @@ export type FictionCandidateSeed = {
   schema_version: typeof FICTION_CANDIDATE_SCHEMA_VERSION
   slug: string
   celeb_id: string
-  celeb_tier: 'fiction'
+  celeb_reality: 'FICTION' | 'BOTH'
   profile: FictionProfileSnapshot
   profile_fingerprint: string
   before_events: StoredTimelineEvent[]
@@ -218,7 +219,7 @@ const PROFILE_SELECT = [
   'nickname',
   'nickname_en',
   'publication_status',
-  'celeb_tier',
+  'celeb_reality',
   'birth_date',
   'death_date',
   'headline',
@@ -231,7 +232,7 @@ const TOP_LEVEL_KEYS = new Set([
   'schema_version',
   'slug',
   'celeb_id',
-  'celeb_tier',
+  'celeb_reality',
   'publication_status',
   'profile_fingerprint',
   'before_events',
@@ -320,6 +321,7 @@ export function fingerprintFictionProfile(profile: FictionProfileSnapshot): stri
     nickname_en: profile.nickname_en ?? null,
     publication_status: profile.publication_status,
     celeb_tier: profile.celeb_tier,
+    celeb_reality: profile.celeb_reality,
     birth_date: profile.birth_date ?? null,
     death_date: profile.death_date ?? null,
     headline: profile.headline ?? null,
@@ -562,7 +564,9 @@ export function validateFictionCandidate(value: unknown): {
   }
   validateRequiredText(candidate.slug, 'slug', errors)
   validateRequiredText(candidate.celeb_id, 'celeb_id', errors)
-  if (candidate.celeb_tier !== 'fiction') errors.push('celeb_tier는 fiction이어야 함')
+  if (!['FICTION', 'BOTH'].includes(candidate.celeb_reality as string)) {
+    errors.push('celeb_reality는 FICTION 또는 BOTH여야 함')
+  }
   const hasPublicationStatus = candidate.publication_status !== undefined
   const hasProfileFingerprint = candidate.profile_fingerprint !== undefined
   if (hasPublicationStatus !== hasProfileFingerprint) {
@@ -761,7 +765,7 @@ export async function loadFictionSourceSnapshots(
   for (let start = 0; start < celebIds.length; start += 100) {
     const ids = celebIds.slice(start, start + 100)
     const { data, error } = await db
-      .from('fiction_source_characters')
+      .from('figure_book_characters')
       .select('content_id,celeb_id,relation_type,sort_order')
       .in('celeb_id', ids)
       .order('celeb_id')
