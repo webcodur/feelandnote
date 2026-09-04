@@ -38,6 +38,8 @@ export interface Celeb {
   is_verified: boolean | null
   status: string
   celeb_tier: string | null
+
+  celeb_reality: string | null
   claimed_by: string | null
   created_at: string
   content_count: number
@@ -60,6 +62,7 @@ interface GetCelebsParams {
   status?: CelebManagedPublicationStatus | 'all'
   profession?: string
   tier?: 'full' | 'light' | 'all'
+  reality?: 'REAL' | 'BOTH' | 'FICTION' | 'all'
   imageFilter?: CelebImageFilter
   tagId?: string
   sort?: string
@@ -81,6 +84,8 @@ interface CreateCelebInput {
   is_verified?: boolean
   status?: CelebManagedPublicationStatus
   /** 등급은 받지 않는다 — 신규는 항상 light다(NEW_CELEB_TIER 주석 참조) */
+  /** 실존 축. 미지정이면 REAL이다 — 전승·허구 인물은 등록 시 명시한다 */
+  celeb_reality?: 'REAL' | 'BOTH' | 'FICTION'
   influence?: GeneratedInfluence
 }
 
@@ -111,6 +116,7 @@ interface UpdateCelebInput {
   is_verified?: boolean
   status?: CelebManagedPublicationStatus
   celeb_tier?: 'full' | 'light'
+  celeb_reality?: 'REAL' | 'BOTH' | 'FICTION'
   influence?: GeneratedInfluence
 }
 
@@ -137,6 +143,8 @@ type CelebListRow = {
   is_verified: boolean | null
   status: string
   celeb_tier: string | null
+
+  celeb_reality: string | null
   claimed_by: string | null
   created_at: string | null
   celeb_metrics?: { follower_count?: number | null }[] | { follower_count?: number | null } | null
@@ -170,6 +178,7 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     is_verified: row.is_verified,
     status: row.status,
     celeb_tier: row.celeb_tier || 'full',
+    celeb_reality: row.celeb_reality || 'REAL',
     claimed_by: row.claimed_by,
     created_at: row.created_at || '',
     content_count: resolveCelebContentCount(
@@ -294,12 +303,12 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
 
 function buildCelebListQuery(
   db: ReturnType<typeof createAdminClient>,
-  params: Pick<GetCelebsParams, 'search' | 'status' | 'profession' | 'tier' | 'imageFilter'>,
+  params: Pick<GetCelebsParams, 'search' | 'status' | 'profession' | 'tier' | 'reality' | 'imageFilter'>,
   select: string,
   options?: { count?: 'exact'; head?: boolean },
   inIds?: string[]
 ) {
-  const { search, status, profession, tier, imageFilter } = params
+  const { search, status, profession, tier, reality, imageFilter } = params
 
   let query = db
     .from('celebs')
@@ -367,7 +376,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     id, slug, nickname, avatar_url, portrait_url, awakened_image_url, profession, title, nationality, gender,
     birth_date, death_date, bio, cultural_journey:consumption_philosophy,
     content_research_confirmed_empty_at,
-    is_verified, status:publication_status, celeb_tier, claimed_by:claimed_by_member_id, created_at,
+    is_verified, status:publication_status, celeb_tier, celeb_reality, claimed_by:claimed_by_member_id, created_at,
     celeb_metrics!celeb_metrics_celeb_id_fkey (follower_count),
     celeb_influence!celeb_influence_celebs_fkey (total_score)
   `
@@ -481,18 +490,20 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, tier, imageFilter, tagId, sort = 'created_at', sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, search, status, profession, tier, reality, imageFilter, tagId, sort = 'created_at', sortOrder = 'desc' } = params
   const rpcUnsupportedSorts = ['avatar_url', 'title', 'gender', 'celeb_tier']
   const needsExactFiltering =
     rpcUnsupportedSorts.includes(sort) ||
     sort === 'content_count' ||
     status === 'inactive' ||
     (tier && tier !== 'all') ||
+    // RPC는 실존 축을 모른다. 이 필터가 걸리면 직접 조회 경로로 넘긴다
+    (reality && reality !== 'all') ||
     (imageFilter && imageFilter !== 'all') ||
     (tagId && tagId !== 'all')
 
   if (needsExactFiltering) {
-    return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, imageFilter, tagId, sort, sortOrder })
+    return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, reality, imageFilter, tagId, sort, sortOrder })
   }
 
   const db = createAdminClient()
@@ -604,6 +615,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       is_verified: celeb.is_verified,
       status: celeb.status,
       celeb_tier: celeb.celeb_tier || 'full',
+      celeb_reality: celeb.celeb_reality || 'REAL',
       claimed_by: celeb.claimed_by,
       created_at: celeb.created_at || '',
       content_count: resolveCelebContentCount(
@@ -622,6 +634,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   }
 
   // tier 필터링 (RPC 미지원 → JS 후처리)
+  // 실존 축 필터는 여기 오지 않는다 — needsExactFiltering이 직접 조회 경로로 보낸다
   if (tier && tier !== 'all') {
     celebs = celebs.filter((c) => c.celeb_tier === tier)
   }
@@ -691,6 +704,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     is_verified: data.is_verified,
     status: data.status,
     celeb_tier: data.celeb_tier || 'full',
+    celeb_reality: data.celeb_reality || 'REAL',
     claimed_by: data.claimed_by,
     created_at: data.created_at,
     influence_total: influence?.total_score || 0,
@@ -782,6 +796,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
         is_verified: input.is_verified || false,
         publication_status: input.status || DEFAULT_CELEB_PUBLICATION_STATUS,
         celeb_tier: NEW_CELEB_TIER,
+        celeb_reality: input.celeb_reality || 'REAL',
       })
       .select('slug')
       .single()
@@ -873,6 +888,7 @@ export async function updateCeleb(
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
   if (input.status !== undefined) updateData.publication_status = input.status
   if (input.celeb_tier !== undefined) updateData.celeb_tier = input.celeb_tier
+  if (input.celeb_reality !== undefined) updateData.celeb_reality = input.celeb_reality
 
   const { data: profile, error } = await adminClient
     .from('celebs')

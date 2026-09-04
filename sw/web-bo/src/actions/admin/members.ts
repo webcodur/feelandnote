@@ -144,6 +144,7 @@ export interface GetMembersParams {
   role?: string
   profession?: string
   tier?: string
+  reality?: string
   imageFilter?: CelebImageFilter
   tagId?: string
   sort?: string
@@ -151,7 +152,7 @@ export interface GetMembersParams {
 }
 
 export async function getMembers(params: GetMembersParams = {}): Promise<MembersResponse> {
-  const { profileType, page = 1, limit = 20, search, status, role, profession, tier, imageFilter, tagId, sort, sortOrder } = params
+  const { profileType, page = 1, limit = 20, search, status, role, profession, tier, reality, imageFilter, tagId, sort, sortOrder } = params
 
   if (profileType === 'CELEB') {
     const { celebs, total } = await getCelebs({
@@ -161,6 +162,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
       status: status as 'active' | 'inactive' | 'all',
       profession,
       tier: tier as 'full' | 'light' | 'all' | undefined,
+      reality: reality as 'REAL' | 'BOTH' | 'FICTION' | 'all' | undefined,
       imageFilter,
       tagId,
       sort,

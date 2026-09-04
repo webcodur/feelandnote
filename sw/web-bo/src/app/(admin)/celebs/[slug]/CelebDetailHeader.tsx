@@ -18,10 +18,12 @@ interface CelebDetailHeaderProps {
   isVerified: boolean
   status: 'active' | 'inactive'
   tier: 'full' | 'light'
+  reality: 'REAL' | 'BOTH' | 'FICTION'
   contentCount?: number
   onVerified: (value: boolean) => void
   onStatus: (value: 'active' | 'inactive') => void
   onTier: (value: 'full' | 'light') => void
+  onReality: (value: 'REAL' | 'BOTH' | 'FICTION') => void
 }
 
 export default function CelebDetailHeader({
@@ -36,10 +38,12 @@ export default function CelebDetailHeader({
   isVerified,
   status,
   tier,
+  reality,
   contentCount = 0,
   onVerified,
   onStatus,
   onTier,
+  onReality,
 }: CelebDetailHeaderProps) {
   const webBaseUrl =
     process.env.NEXT_PUBLIC_WEB_URL ||
@@ -161,6 +165,18 @@ export default function CelebDetailHeader({
               options={[
                 { value: 'full', label: 'full' },
                 { value: 'light', label: 'light', className: 'bg-orange-500/15 text-orange-400' },
+              ]}
+            />
+          </Field>
+          {/* 실존 축은 티어와 독립이다. 목록 노출과 상세의 [사실]·[가상] 칩을 이 값이 가른다 */}
+          <Field label="celeb_reality">
+            <ChoiceGroup
+              value={reality}
+              onChange={onReality}
+              options={[
+                { value: 'REAL', label: '사실' },
+                { value: 'BOTH', label: '사실+가상', className: 'bg-amber-500/15 text-amber-400' },
+                { value: 'FICTION', label: '가상', className: 'bg-purple-500/15 text-purple-400' },
               ]}
             />
           </Field>
