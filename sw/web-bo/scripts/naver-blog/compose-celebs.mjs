@@ -187,11 +187,21 @@ function pickFive(books) {
   return chosen.slice(0, 5);
 }
 
-/** 직군 → 블로그 카테고리 (「거물의 책추천」 하위) */
+/**
+ * 직군 → 블로그 카테고리 (「거물의 책추천」 하위)
+ *
+ * 🔴 빠진 직군을 기본값으로 흘리지 마라. 26.09.04에 `humanities_scholar`·`social_scientist`·
+ *    `leader` 가 표에 없어 **철학자·역사학자 13명이 「인플루엔서」로 분류**됐다. 몽테스키외와
+ *    사마천이 미스터비스트 옆에 놓일 뻔했다. 모르는 직군은 멈추고 사람이 표를 채운다.
+ */
 const CATEGORY = {
-  author: '작가', writer: '작가', director: '아티스트', musician: '아티스트', artist: '아티스트',
-  actor: '배우', entrepreneur: '기업가', investor: '투자자', politician: '정치인',
-  scholar: '학자', scientist: '학자', philosopher: '학자', influencer: '인플루엔서', athlete: '스포츠인',
+  author: '작가', writer: '작가', poet: '작가',
+  director: '아티스트', musician: '아티스트', artist: '아티스트',
+  actor: '배우', entrepreneur: '기업가', investor: '투자자',
+  politician: '정치인', leader: '정치인', commander: '정치인',
+  scholar: '학자', scientist: '학자', philosopher: '학자',
+  humanities_scholar: '학자', social_scientist: '학자', natural_scientist: '학자',
+  influencer: '인플루엔서', athlete: '스포츠인',
 };
 
 async function material(slug) {
@@ -263,12 +273,16 @@ ${five.map((b, i) => `${i + 1}. 『${b.title}』 — ${b.creator ?? ''}\n   감�
     · 주소에서도 매체를 알 수 없고 감상 기록에도 시점·자리가 없을 때만 빈 문자열("")로 둔다.
       지어내거나 「독서 뒤 남긴 소감」처럼 아무 말이나 채우지 마라.
       다섯 개가 모두 비슷한 꼴로 끝나면 라벨이 없느니만 못하다. 확실한 것만 적고 나머지는 비운다.
+- blurbs: 책 다섯 권 각각의 **소개 두세 문장**. 감상 앞에 따로 세운다.
+    · 제목만 본 사람이 「아, 그런 책이구나」 하고 넘어갈 수 있게 쓰는 것이 유일한 목표다.
+      쓸 것: 어떤 종류의 책인지, 무엇을 다루는지, 누구의 이야기인지, 어떤 물음을 던지는지.
+    · **쓰지 마라: 출간 연도, 수상 이력, 판매량, 「명작이다」·「필독서다」 같은 평가.** 지어내기가 시작되는 자리다.
+      줄거리를 끝까지 밝히지 말고 결말을 적지 마라.
+    · 확실하지 않으면 좁게 단정하지 말고 넓게 써라. 틀린 사실을 적느니 두루뭉술한 편이 낫다.
+    · 60~110자. 간결체. 「이 책은」으로 열지 마라 — 다섯이 같은 꼴로 시작하면 안 된다.
+      예) "아우슈비츠에서 살아 나온 사람이 남긴 기록이다. 인간이 어디까지 무너질 수 있는지를 담담한 문장으로 적었다."
 - reviews: 위 감상 기록 다섯 편을 **모범값에 맞춰 다듬은 것**. 아래 규칙을 지킨다.
-    · **첫 문장은 그 책이 무엇인지 알려라.** 독자는 제목만 보고는 감이 안 잡힌다. 인물 이름으로 문장을 열지 마라.
-      쓸 수 있는 것: 어떤 종류의 책인지, 무엇을 다루는지, 누구의 이야기인지.
-      **쓰면 안 되는 것: 출간 연도, 수상 이력, 판매량, 「명작이다」 같은 평가.** 이것들이 지어내기가 시작되는 자리다.
-      엄밀할 필요는 없다. 독자가 「아 그런 책이구나」 하고 넘어가면 된다. 확실하지 않으면 좁게 단정하지 말고 넓게 써라.
-      예) "아우슈비츠에서 살아 나온 사람이 남긴 기록이다." · "눈에 보이지 않는 것이 소중하다고 말하는 동화다."
+    · **책이 무엇인지는 blurbs 가 맡는다. 여기서는 그 사람의 이야기로 곧장 들어가라.** 「~한 소설이다」로 열면 소개와 겹친다.
     · 길이를 110~150자로 맞춘다. 원문이 길면 곁가지를 덜어내고, 짧으면 억지로 늘리지 마라.
     · **큰따옴표 안의 말은 한 글자도 바꾸지 마라.** 본인 발언이다.
     · **사실을 더하지 마라.** 원문에 없는 연도·작품·평가를 만들어 넣으면 안 된다. 덜어내기만 한다.
@@ -283,7 +297,7 @@ ${five.map((b, i) => `${i + 1}. 『${b.title}』 — ${b.creator ?? ''}\n   감�
 
 ## 출력
 아래 JSON 하나만 출력한다. 설명·머리말·코드펜스를 붙이지 마라.
-{"suffix":"…","intro":"…","profile":"…","bridge":"…","contexts":["…","…","…","…","…"],"reviews":["…","…","…","…","…"],"outro":"…"}`;
+{"suffix":"…","intro":"…","profile":"…","bridge":"…","blurbs":["…","…","…","…","…"],"contexts":["…","…","…","…","…"],"reviews":["…","…","…","…","…"],"outro":"…"}`;
 }
 
 /**
@@ -354,6 +368,8 @@ function assemble(m, w) {
     L.push('');
     L.push(`[img:${b.thumbnail_url}|240|${b.title} 표지]`);
     L.push('');
+    const blurb = Array.isArray(w.blurbs) ? String(w.blurbs[i] ?? "").trim() : "";
+    if (blurb) { L.push(blurb); L.push(""); }
     const ctx = (labels[i] ?? "").trim();
     if (ctx) L.push(`**감상배경:** ${ctx}`);
     const fixed = Array.isArray(w.reviews) ? safeReview(b.review, w.reviews[i]) : { text: null, why: "다듬기 없음" };
@@ -370,7 +386,9 @@ function assemble(m, w) {
   L.push(`→ ${link}`);
 
   const title = `${w.suffix} ${c.nickname}${subjectParticle(c.nickname)} 읽은 ${totalBooks}권의 책${c.nickname_en ? ` (${c.nickname_en})` : ''}`;
-  const tags = [c.nickname, CATEGORY[c.profession] ?? '인플루엔서', '책추천', '독서', '추천도서'];
+  const cat = CATEGORY[c.profession];
+  if (!cat) throw new Error(`직군 '${c.profession}' 이 카테고리 표에 없다 — CATEGORY 에 넣고 다시 돌려라`);
+  const tags = [c.nickname, cat, '책추천', '독서', '추천도서'];
   if (fallbacks.length) console.log(`   ↩ 원문 사용: ${fallbacks.join(", ")}`);
   return {
     kind: 'celeb',
@@ -378,7 +396,7 @@ function assemble(m, w) {
     title,
     body: L.join('\n'),
     tags,
-    category: CATEGORY[c.profession] ?? '인플루엔서',
+    category: cat,
     status: 'draft',
   };
 }
