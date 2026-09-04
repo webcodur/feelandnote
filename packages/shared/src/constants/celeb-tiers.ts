@@ -33,3 +33,23 @@ export function parseCelebTiers(raw: string | null | undefined): CelebTier[] | u
   const tiers = raw.split(',').map(s => s.trim()).filter(isCelebTier)
   return tiers.length > 0 ? [...new Set(tiers)] : undefined
 }
+
+// 셀럽 실존 축(celeb_reality) — 이 인물을 세상이 실존(REAL)·전승(FICTION)·양쪽 다(BOTH)로
+// 다루는가. celeb_tier(파이프라인 분기: celeb_contents 스펙트럼을 쓰는가, 원전 관계를
+// 쓰는가)와 독립된 축이다. DB celebs.celeb_reality의 CHECK 제약이 값 집합의 최종 규약이다.
+//
+// 지금은 celeb_tier='fiction' 행이 그대로 남아 있어(celeb_reality는 거기서 역산 백필만
+// 됨) 목록·검색 노출은 여전히 tier 기준으로 정확하다. 이 상수는 BOTH 인물이 실제로 생겨
+// tier(full/light, 실존 파이프라인 유지)와 reality(BOTH, 신화 자료도 있음)가 갈리는
+// 순간부터 쓰기 시작한다 — 그 전까지 목록 필터를 reality로 미리 바꿔봐야 결과가 같다.
+export type CelebReality = 'REAL' | 'BOTH' | 'FICTION'
+
+export const CELEB_REALITIES: readonly CelebReality[] = ['REAL', 'BOTH', 'FICTION'] as const
+
+// 실존 인물 목록(홈·탐색·타임라인·검색·게임)에 나올 자격. FICTION만 제외한다 —
+// BOTH는 실존 쪽에도 걸쳐 있으므로 계속 나온다.
+export const LISTING_DEFAULT_REALITIES: readonly CelebReality[] = ['REAL', 'BOTH'] as const
+
+export function isCelebReality(value: string | null | undefined): value is CelebReality {
+  return !!value && (CELEB_REALITIES as readonly string[]).includes(value)
+}
