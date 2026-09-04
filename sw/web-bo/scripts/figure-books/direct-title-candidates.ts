@@ -156,18 +156,18 @@ async function main(): Promise<void> {
         .range(from, to)
       return { data: data as LocaleRow[] | null, error }
     }),
-    allRows<RelationRow>('fiction_source_characters', async (from, to) => {
+    allRows<RelationRow>('figure_book_characters', async (from, to) => {
       const { data, error } = await db
-        .from('fiction_source_characters')
+        .from('figure_book_characters')
         .select('content_id,celeb_id,relation_type')
         .order('content_id')
         .order('celeb_id')
         .range(from, to)
       return { data: data as RelationRow[] | null, error }
     }),
-    allRows<ProductRow>('fiction_source_purchase_options', async (from, to) => {
+    allRows<ProductRow>('figure_book_purchase_options', async (from, to) => {
       const { data, error } = await db
-        .from('fiction_source_purchase_options')
+        .from('figure_book_purchase_options')
         .select('content_id,locale,platform')
         .eq('locale', 'ko')
         .eq('platform', 'coupang')

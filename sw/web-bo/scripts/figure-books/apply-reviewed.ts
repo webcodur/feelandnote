@@ -161,7 +161,7 @@ async function loadRows(
   contentId: string,
 ): Promise<FictionSourceCharacterRow[]> {
   const { data, error } = await client
-    .from('fiction_source_characters')
+    .from('figure_book_characters')
     .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
     .eq('content_id', contentId)
     .order('sort_order')
@@ -175,17 +175,17 @@ async function applyPlan(
   plan: ReturnType<typeof buildFictionSourceBatchPlan>,
 ): Promise<void> {
   const { error: sourceError } = await db
-    .from('fiction_source_contents')
+    .from('figure_book_contents')
     .upsert({ content_id: contentId }, { onConflict: 'content_id', ignoreDuplicates: true })
   if (sourceError) throw new Error(`${contentId}: 인물 도서 지정 실패: ${sourceError.message}`)
 
   if (plan.writeRows.length > 0) {
     const { error } = await db
-      .from('fiction_source_characters')
+      .from('figure_book_characters')
       .upsert(plan.writeRows, { onConflict: 'content_id,celeb_id' })
     if (error) throw new Error(`${contentId}: 관계 저장 실패: ${error.message}`)
     const { error: touchError } = await db
-      .from('fiction_source_contents')
+      .from('figure_book_contents')
       .update({ updated_at: new Date().toISOString() })
       .eq('content_id', contentId)
     if (touchError) throw new Error(`${contentId}: 갱신 시각 저장 실패: ${touchError.message}`)

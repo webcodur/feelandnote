@@ -40,7 +40,7 @@ async function loadTargets(limit: number | null): Promise<Target[]> {
   const editions: EditionRow[] = []
   let cursor = 0
   while (true) {
-    let query = db.from('fiction_source_editions')
+    let query = db.from('figure_book_editions')
       .select('id,content_id,title,description,isbn,sources')
       .eq('locale', 'ko')
       .order('id')
@@ -125,7 +125,7 @@ async function applyResult(result: Result): Promise<void> {
           : {}),
         description: result.sourceUrl,
       }
-  let query = db.from('fiction_source_editions')
+  let query = db.from('figure_book_editions')
     .update({ description: result.description, sources })
     .eq('id', result.target.editionId)
   query = result.target.description === null
@@ -149,7 +149,7 @@ async function applyResult(result: Result): Promise<void> {
 async function revalidate(results: Result[]): Promise<void> {
   const contentIds = results.map((result) => result.target.contentId)
   const { data: relations, error: relationError } = await db
-    .from('fiction_source_characters').select('content_id,celeb_id').in('content_id', contentIds)
+    .from('figure_book_characters').select('content_id,celeb_id').in('content_id', contentIds)
   if (relationError) throw new Error(`원전 인물 캐시 조회 실패: ${relationError.message}`)
   const celebIds = [...new Set((relations ?? []).map((row) => row.celeb_id))]
   const { data: celebs, error: celebError } = celebIds.length

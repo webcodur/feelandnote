@@ -22,7 +22,7 @@
 | 인물 안내 | [`celeb-05-01-reading.md`](celeb-05-01-reading.md) |
 | 생애·서사 연표 | [`celeb-06-01-timeline.md`](celeb-06-01-timeline.md) |
 | 관계 설명과 외부 인물명 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |
-| fiction 원전별 인물 설명 | [`celeb-02-05-fiction-sources.md`](celeb-02-05-fiction-sources.md) |
+| fiction 원전별 인물 설명 | [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md) |
 | 대표 화보 캡션 | [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md) |
 | 세력도감 인물 텍스트 | [`../remotion/faction/README.md`](../remotion/faction/README.md) |
 

@@ -1,6 +1,6 @@
 # Fiction 인물 연표 릴레이
 
-fiction 인물의 연표를 연결된 원전의 독립 전환점 기준으로 교정하고 운영 DB까지 반영하는 실행 계약이다. 공통 사건 규격은 [`celeb-06-01-timeline.md`](celeb-06-01-timeline.md), 원전·등장 작품 연결은 [`celeb-02-05-fiction-sources.md`](celeb-02-05-fiction-sources.md)가 쥔다.
+fiction 인물의 연표를 연결된 원전의 독립 전환점 기준으로 교정하고 운영 DB까지 반영하는 실행 계약이다. 공통 사건 규격은 [`celeb-06-01-timeline.md`](celeb-06-01-timeline.md), 원전·등장 작품 연결은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)가 쥔다.
 
 ## 경계
 

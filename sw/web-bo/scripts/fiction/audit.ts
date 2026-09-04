@@ -278,10 +278,10 @@ async function main() {
     return { data: data as unknown as AtlasMemberRow[] | null, error }
   })
   const sourceRelations = await allRows<SourceRelationRow>(
-    'fiction_source_characters',
+    'figure_book_characters',
     async (from, to) => {
       const { data, error } = await db
-        .from('fiction_source_characters')
+        .from('figure_book_characters')
         .select('content_id,celeb_id,description,description_en')
         .order('content_id')
         .order('celeb_id')
@@ -290,10 +290,10 @@ async function main() {
     },
   )
   const sourceContents = await allRows<SourceContentRow>(
-    'fiction_source_contents',
+    'figure_book_contents',
     async (from, to) => {
       const { data, error } = await db
-        .from('fiction_source_contents')
+        .from('figure_book_contents')
         .select('content_id')
         .order('content_id')
         .range(from, to)
@@ -301,27 +301,36 @@ async function main() {
     },
   )
   const sourceContentIds = sourceContents.map((row) => row.content_id)
-  const { data: sourceContentRows, error: sourceContentError } = await db
-    .from('contents')
-    .select('id,type,external_source,external_id')
-    .in('id', sourceContentIds)
-  if (sourceContentError) {
-    throw new Error(`대표 원전 contents 조회 실패: ${sourceContentError.message}`)
+  const idChunks: string[][] = []
+  for (let start = 0; start < sourceContentIds.length; start += 100) {
+    idChunks.push(sourceContentIds.slice(start, start + 100))
   }
-  const { data: sourceLocaleRows, error: sourceLocaleError } = await db
-    .from('content_locales')
-    .select('content_id,locale,title')
-    .in('content_id', sourceContentIds)
-  if (sourceLocaleError) {
-    throw new Error(`대표 원전 locale 조회 실패: ${sourceLocaleError.message}`)
+  const sourceContentRows: unknown[] = []
+  for (const chunk of idChunks) {
+    if (chunk.length === 0) continue
+    const { data, error } = await db
+      .from('contents')
+      .select('id,type,external_source,external_id')
+      .in('id', chunk)
+    if (error) throw new Error(`대표 원전 contents 조회 실패: ${error.message}`)
+    sourceContentRows.push(...(data ?? []))
+  }
+  const sourceLocaleRows: unknown[] = []
+  for (const chunk of idChunks) {
+    if (chunk.length === 0) continue
+    const { data, error } = await db
+      .from('content_locales')
+      .select('content_id,locale,title')
+      .in('content_id', chunk)
+    if (error) throw new Error(`대표 원전 locale 조회 실패: ${error.message}`)
+    sourceLocaleRows.push(...(data ?? []))
   }
   const sourceEditions = await allRows<SourceEditionRow>(
-    'fiction_source_editions',
+    'figure_book_editions',
     async (from, to) => {
       const { data, error } = await db
-        .from('fiction_source_editions')
+        .from('figure_book_editions')
         .select('id,content_id,locale,isbn')
-        .in('content_id', sourceContentIds)
         .order('content_id')
         .order('locale')
         .order('id')
@@ -330,12 +339,11 @@ async function main() {
     },
   )
   const sourcePurchaseOptions = await allRows<SourcePurchaseOptionRow>(
-    'fiction_source_purchase_options',
+    'figure_book_purchase_options',
     async (from, to) => {
       const { data, error } = await db
-        .from('fiction_source_purchase_options')
+        .from('figure_book_purchase_options')
         .select('edition_id,content_id,locale,platform,affiliate_url')
-        .in('content_id', sourceContentIds)
         .order('content_id')
         .order('locale')
         .order('edition_id')

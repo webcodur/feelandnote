@@ -2,7 +2,7 @@
 
 이 문서는 실존 인물이 직접 감상했거나 감상할 의사를 밝힌 BOOK·VIDEO·GAME·MUSIC을 어떤 근거로 찾고 채택하는지 쥔다. 작품·판본 메타와 DB 등록은 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), 인물별 감상경위는 [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md)를 따른다.
 
-fiction은 이 조사 대상이 아니다. 허구 인물이 작품에 등장한다는 관계는 `celeb_contents`가 아니라 `fiction_source_*`에 저장하며, 현재 판정 규칙은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「fiction 원전·등장 도서 연결」이 쥔다.
+fiction은 이 조사 대상이 아니다. 허구 인물이 작품에 등장한다는 관계는 `celeb_contents`가 아니라 `figure_book_*`에 저장하며, 현재 판정 규칙은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)가 쥔다.
 
 ## 채택 기준
 

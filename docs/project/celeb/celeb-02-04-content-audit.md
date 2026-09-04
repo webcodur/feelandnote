@@ -2,7 +2,7 @@
 
 이 문서는 인물과 콘텐츠의 관계, 작품 정체성, locale, 표지 데이터를 함께 대조해 잘못 연결되거나 근거 없이 채워진 값을 찾고 보완하는 규칙을 쥔다.
 
-실존 인물의 관계 채택 근거는 [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md), 작품·판본·외부 메타·locale 규칙은 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), `review`·`review_en` 문장은 [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md)가 정본이다. fiction의 등장 관계와 설명은 [`celeb-02-05-fiction-sources.md`](celeb-02-05-fiction-sources.md)를 따른다.
+실존 인물의 관계 채택 근거는 [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md), 작품·판본·외부 메타·locale 규칙은 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), `review`·`review_en` 문장은 [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md)가 정본이다. fiction의 등장 관계와 설명은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)를 따른다.
 
 ## 티어별 감사 대상
 
@@ -10,9 +10,11 @@
 |---|---|---|
 | `full` | `celeb_contents` | 모든 감상 관계와 연결 작품·locale |
 | `light` | `celeb_contents` 없음 | 0건 확정 여부와 실제 관계 부재. 관계가 있다면 티어·트리거 불일치로 보고 |
-| `fiction` | `fiction_source_contents`·`fiction_source_characters` | 원전·등장 관계와 연결 작품·locale |
+| `fiction` | `figure_book_contents`·`figure_book_characters` | 원전·등장 관계와 연결 작품·locale |
 
 fiction 작품도 `contents`·`content_locales`의 작품 정체성과 판본 규칙은 공유한다. 다만 인물이 작품을 감상한 것이 아니므로 `source_url`·`review`를 요구하거나 `celeb_contents`로 옮기지 않는다.
+
+이 표의 티어는 `celeb_tier`(파이프라인 배정)만 가른다. `celeb_reality='BOTH'`인 인물(단군왕검·주몽 등)도 실제 `celeb_tier`가 `full`·`light`면 위 칸의 실존 인물 감사를, `fiction`이면 원전·등장 관계 감사를 그대로 받는다 — 실존·가상 이중성 자체는 이 문서의 감사 대상이 아니다.
 
 ## 감사 절차
 
@@ -21,7 +23,7 @@ fiction 작품도 `contents`·`content_locales`의 작품 정체성과 판본 �
 대상의 `celebs.id`·`celeb_tier`를 먼저 고정한 뒤 티어에 맞는 관계, `contents`, 모든 `content_locales`를 함께 조회한다.
 
 - full·light는 `celeb_contents → contents → content_locales`를 본다.
-- fiction은 `fiction_source_characters → fiction_source_contents → contents → content_locales`를 본다.
+- fiction은 `figure_book_characters → figure_book_contents → contents → content_locales`를 본다.
 - locale이 없는 작품도 결과에서 사라지지 않도록 LEFT JOIN한다.
 - 수정 전 관계 ID·콘텐츠 ID와 원래 값을 보존한다.
 

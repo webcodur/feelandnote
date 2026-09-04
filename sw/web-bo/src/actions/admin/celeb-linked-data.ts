@@ -4,7 +4,7 @@ import { createAdminClient } from '@/lib/db/admin'
 import { getTimelineEvents, type TimelineEvent } from './timeline'
 
 /* 인물 상세에 함께 보여줄 연결 데이터 — 규격 SSoT는
-   docs/project/celeb/celeb-02-05-fiction-sources.md (원전·등장),
+   docs/project/celeb/celeb-02-05-figure-books.md (원전·등장),
    docs/project/celeb/celeb-07-01-relations.md (관계),
    docs/project/celeb/celeb-06-01-timeline.md (연표)다.
    읽기 전용이며 수정은 각 담당 화면(/fiction-sources, /celebs/timeline/[slug])에서 한다. */

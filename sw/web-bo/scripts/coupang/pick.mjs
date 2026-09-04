@@ -83,11 +83,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const contentIds = [...new Set(picks.map((pick) => pick.content_id))]
 const [sourceResult, editionResult, localeResult] = await Promise.all([
   db
-    .from('fiction_source_contents')
+    .from('figure_book_contents')
     .select('content_id')
     .in('content_id', contentIds),
   db
-    .from('fiction_source_editions')
+    .from('figure_book_editions')
     .select('id,content_id,isbn')
     .eq('locale', 'ko')
     .in('content_id', contentIds),
@@ -211,7 +211,7 @@ try {
 
     const checkedAt = new Date().toISOString()
     const { error } = p.sourceEditionId
-      ? await db.rpc('replace_fiction_source_product', {
+      ? await db.rpc('replace_figure_book_product', {
           p_edition_id: p.sourceEditionId,
           p_platform: 'coupang',
           p_product_id: p.productId,

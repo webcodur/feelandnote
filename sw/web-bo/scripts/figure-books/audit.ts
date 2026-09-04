@@ -74,9 +74,9 @@ async function loadCelebs(client: SupabaseClient): Promise<CelebRow[]> {
 }
 
 async function loadRelations(client: SupabaseClient): Promise<RelationRow[]> {
-  return allRows('fiction_source_characters', async (from, to) => {
+  return allRows('figure_book_characters', async (from, to) => {
     const { data, error } = await client
-      .from('fiction_source_characters')
+      .from('figure_book_characters')
       .select('content_id,celeb_id,relation_type,description,description_en')
       .order('content_id')
       .order('celeb_id')
@@ -86,9 +86,9 @@ async function loadRelations(client: SupabaseClient): Promise<RelationRow[]> {
 }
 
 async function loadPurchaseOptions(client: SupabaseClient): Promise<PurchaseRow[]> {
-  return allRows('fiction_source_purchase_options', async (from, to) => {
+  return allRows('figure_book_purchase_options', async (from, to) => {
     const { data, error } = await client
-      .from('fiction_source_purchase_options')
+      .from('figure_book_purchase_options')
       .select('content_id,locale,platform')
       .order('content_id')
       .order('edition_id')

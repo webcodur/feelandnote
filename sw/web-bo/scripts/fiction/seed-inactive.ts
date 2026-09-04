@@ -313,6 +313,7 @@ async function main() {
         slug_suffix: plan.slugSuffix,
         bio: plan.person.bio,
         celeb_tier: 'fiction',
+        celeb_reality: 'FICTION',
         publication_status: 'inactive',
         is_verified: false,
       })))

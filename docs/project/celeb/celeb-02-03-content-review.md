@@ -2,7 +2,7 @@
 
 이 문서는 실존 인물과 콘텐츠의 관계에 저장하는 `celeb_contents.review`·`review_en`의 작성 규칙을 쥔다. 작품 메타는 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), 관계를 채택할 증거는 [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md)를 따른다.
 
-fiction의 `fiction_source_characters.description`은 감상경위가 아니다. 해당 작품 안에서 인물이 맡는 역할·사건·결말만 쓰며 이 문서를 적용하지 않는다.
+fiction의 `figure_book_characters.description`은 감상경위가 아니다. 해당 작품 안에서 인물이 맡는 역할·사건·결말만 쓰며 이 문서를 적용하지 않는다.
 
 ## 감상경위(review) 작성 규칙
 
