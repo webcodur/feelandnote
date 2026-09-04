@@ -19,6 +19,7 @@ export interface CelebsSearchParams {
   status?: string
   profession?: string
   tier?: string
+  reality?: string
   image?: string
   faction?: string
   sort?: string
@@ -37,6 +38,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
   const status = params.status || 'all'
   const profession = params.profession || 'all'
   const tier = params.tier || 'all'
+  const reality = params.reality || 'all'
   const imageFilter: CelebImageFilter = params.image === 'missing-avatar'
     || params.image === 'missing-portrait'
     || params.image === 'missing-awakened'
@@ -46,7 +48,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
   const sort = params.sort || 'created_at'
   const sortOrder = params.sortOrder || 'desc'
   const baseHref = view === 'images' ? '/celebs/images' : '/celebs'
-  const resultSetKey = [page, search, status, profession, tier, imageFilter, faction, sort, sortOrder].join(':')
+  const resultSetKey = [page, search, status, profession, tier, reality, imageFilter, faction, sort, sortOrder].join(':')
 
   const [{ members: celebs, total }, { tags }] = await Promise.all([
     getMembers({
@@ -57,6 +59,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
       status,
       profession: profession !== 'all' ? profession : undefined,
       tier: tier !== 'all' ? tier : undefined,
+      reality: reality !== 'all' ? reality : undefined,
       imageFilter: view === 'images' ? imageFilter : undefined,
       tagId: faction !== 'all' ? faction : undefined,
       sort,
@@ -78,6 +81,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
     status: status !== 'all' ? status : undefined,
     profession: profession !== 'all' ? profession : undefined,
     tier: tier !== 'all' ? tier : undefined,
+    reality: reality !== 'all' ? reality : undefined,
     image: imageFilter !== 'all' ? imageFilter : undefined,
     faction: faction !== 'all' ? faction : undefined,
     sort: sort !== 'created_at' ? sort : undefined,
@@ -144,11 +148,11 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
       </div>
 
       <CelebFilter
-        key={`${search}:${status}:${profession}:${tier}:${imageFilter}:${faction}`}
+        key={`${search}:${status}:${profession}:${tier}:${reality}:${imageFilter}:${faction}`}
         action={baseHref}
         showImageFilter={view === 'images'}
         factionThemes={factionThemes}
-        defaultValues={{ search, status, profession, tier, imageFilter, faction }}
+        defaultValues={{ search, status, profession, tier, reality, imageFilter, faction }}
       />
 
       <ActiveSortChips />

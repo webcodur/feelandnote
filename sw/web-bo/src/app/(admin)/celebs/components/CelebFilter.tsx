@@ -20,13 +20,14 @@ interface CelebFilterProps {
     status: string
     profession: string
     tier: string
+    reality: string
     imageFilter: CelebImageFilter
     faction?: string
   }
 }
 
 export default function CelebFilter({ action = '/celebs', showImageFilter = false, factionThemes = [], defaultValues }: CelebFilterProps) {
-  const { search, status, profession, tier, imageFilter, faction = 'all' } = defaultValues
+  const { search, status, profession, tier, reality, imageFilter, faction = 'all' } = defaultValues
 
   const initial = resolveFactionSelection(factionThemes, faction)
   const [themeId, setThemeId] = useState(initial.theme)
@@ -115,7 +116,17 @@ export default function CelebFilter({ action = '/celebs', showImageFilter = fals
             <option value="all">모든 티어</option>
             <option value="full">full</option>
             <option value="light">light</option>
-            <option value="fiction">fiction</option>
+          </select>
+
+          <select
+            name="reality"
+            defaultValue={reality}
+            className={SELECT_CLASS}
+          >
+            <option value="all">모든 실존 표시</option>
+            <option value="REAL">사실</option>
+            <option value="BOTH">사실+가상</option>
+            <option value="FICTION">가상</option>
           </select>
 
           {showImageFilter && (

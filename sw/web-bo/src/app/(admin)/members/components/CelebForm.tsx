@@ -48,6 +48,7 @@ interface CelebFormData {
   is_verified: boolean
   status: 'active' | 'inactive'
   celeb_tier: 'full' | 'light'
+  celeb_reality: 'REAL' | 'BOTH' | 'FICTION'
   cultural_journey: string
   cultural_journey_en: string
 }
@@ -121,6 +122,8 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     status: (celeb?.status as 'active' | 'inactive') || 'inactive',
     // 새로 만드는 인물은 감상 기록이 있을 수 없어 full로 저장되지 않는다(DB가 막는다)
     celeb_tier: celeb ? ((celeb.celeb_tier as 'full' | 'light') || 'full') : 'light',
+    // 실존 축은 티어와 독립이다. 새 인물은 별도 판단이 없으면 실존 인물로 본다
+    celeb_reality: (celeb?.celeb_reality as 'REAL' | 'BOTH' | 'FICTION') || 'REAL',
     cultural_journey: celeb?.cultural_journey || '',
     cultural_journey_en: celeb?.cultural_journey_en || '',
   }
@@ -340,6 +343,28 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
     }
   }
 
+  const REALITY_LABELS: Record<'REAL' | 'BOTH' | 'FICTION', string> = {
+    REAL: '사실',
+    BOTH: '사실+가상',
+    FICTION: '가상',
+  }
+
+  async function persistReality(next: 'REAL' | 'BOTH' | 'FICTION') {
+    const previous = formData.celeb_reality
+    handleChange('celeb_reality', next)
+    if (mode !== 'edit' || !celeb || previous === next) return
+    try {
+      await updateCeleb({ id: celeb.id, celeb_reality: next })
+      initialFormData.current = { ...initialFormData.current, celeb_reality: next }
+      showToast('success', `실존 표시를 ${REALITY_LABELS[next]}로 변경했습니다.`)
+      router.refresh()
+    } catch (error) {
+      handleChange('celeb_reality', previous)
+      // 연표 형식과 어긋나면 DB 가드가 막는다. 그 사유를 그대로 보여 준다
+      showToast('error', error instanceof Error ? error.message : '실존 표시를 변경하지 못했습니다.')
+    }
+  }
+
   function handleImageRemove() {
     setAvatarFile(null)
     setAvatarPreview(null)
@@ -505,6 +530,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
           avatar_url: avatarUrl,
           is_verified: formData.is_verified,
           status: formData.status,
+          celeb_reality: formData.celeb_reality,
           cultural_journey: formData.cultural_journey || undefined,
           influence: hasInfluence ? influence : undefined,
         })
@@ -665,6 +691,28 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
           </>
         )}
       </div>
+      {/* 실존 축 — 등급과 독립이다. 목록 노출과 상세의 [사실]·[가상] 칩을 이 값이 가른다 */}
+      <div className="flex items-center gap-2 border-l border-border pl-4">
+        <span className="text-xs text-text-secondary">실존</span>
+        {(['REAL', 'BOTH', 'FICTION'] as const).map((value) => (
+          <label key={value} className="flex items-center gap-1 cursor-pointer">
+            <input
+              type="radio"
+              name="celeb_reality"
+              value={value}
+              checked={formData.celeb_reality === value}
+              onChange={() => {
+                if (mode === 'create') handleChange('celeb_reality', value)
+                else void persistReality(value)
+              }}
+              className="w-3 h-3"
+            />
+            <span className={`text-xs ${value === 'REAL' ? 'text-text-primary' : value === 'BOTH' ? 'text-amber-400' : 'text-purple-400'}`}>
+              {REALITY_LABELS[value]}
+            </span>
+          </label>
+        ))}
+      </div>
     </div>
   )
 
@@ -683,10 +731,12 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
         isVerified={formData.is_verified}
         status={formData.status}
         tier={formData.celeb_tier}
+        reality={formData.celeb_reality}
         contentCount={celeb.content_count || 0}
         onVerified={(value) => { void persistVerified(value) }}
         onStatus={(value) => { void persistPublicationStatus(value) }}
         onTier={(value) => { void persistTier(value) }}
+        onReality={(value) => { void persistReality(value) }}
       />
     )}
     <form id="celeb-form" onSubmit={handleSubmit} className="space-y-4">
