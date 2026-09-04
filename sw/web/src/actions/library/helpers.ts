@@ -182,11 +182,19 @@ export async function fetchUserContentCounts(
 ): Promise<Map<string, number>> {
   if (contentIds !== undefined && !contentIds.length) return new Map()
   if (contentIds?.length) {
-    const { data, error } = await db.rpc('get_content_celeb_user_counts', {
-      p_content_ids: contentIds,
-    })
-    throwOnQueryError('fetchUserContentCounts', error)
-    return new Map<string, number>((data ?? []).map((row: { content_id: string; user_count: number }) => [row.content_id, Number(row.user_count)] as [string, number]))
+    // 한 번에 다 넣으면 배열이 커져 그 RPC도 문 시간을 넘긴다. 나눠 부르고 합친다.
+    const CHUNK = 500
+    const counts = new Map<string, number>()
+    for (let i = 0; i < contentIds.length; i += CHUNK) {
+      const { data, error } = await db.rpc('get_content_celeb_user_counts', {
+        p_content_ids: contentIds.slice(i, i + CHUNK),
+      })
+      throwOnQueryError('fetchUserContentCounts', error)
+      for (const row of (data ?? []) as Array<{ content_id: string; user_count: number }>) {
+        counts.set(row.content_id, Number(row.user_count))
+      }
+    }
+    return counts
   }
   const { data, error } = await db.rpc('get_user_content_counts', {
     p_category: category ?? undefined,
