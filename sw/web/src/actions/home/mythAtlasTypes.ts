@@ -24,7 +24,7 @@ export interface MythPerson {
   bio: string | null;
   reading: { guide: string } | null;
   summary: string | null;
-  appearances: Array<{ traditionId: string; summary: string | null }>;
+  appearances: Array<{ traditionId: string; summary: string | null; quote: string | null }>;
   avatarUrl: string | null;
   imageUrl: string | null;
   images: Array<{ url: string; focus?: { x: number; y: number } }>;

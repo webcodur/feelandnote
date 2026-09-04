@@ -2,9 +2,9 @@
 
 import type { ContentType } from './database'
 import type { CelebLevel } from '@/constants/materials'
-import type { CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
+import type { CelebTier, CelebReality } from '@feelandnote/shared/constants/celeb-tiers'
 
-export type { CelebTier }
+export type { CelebTier, CelebReality }
 
 // region: 셀럽 관련 타입
 
@@ -58,7 +58,8 @@ export interface CelebProfile {
   has_voice?: boolean  // R2 음성 파일 보유 여부
   voice_v?: number  // 음성 버전 (CDN 캐시 키)
   voice_speed?: number  // 음성 재생 속도 (기본 1.0)
-  celeb_tier?: CelebTier  // full: 감상 기록 보유, light: 실존 인물, fiction: 허구 인물
+  celeb_tier?: CelebTier  // 파이프라인 등급. full: 감상 기록까지 갖춘 인물, light: 소개만 있는 인물
+  celeb_reality?: CelebReality  // 실존 축(REAL·BOTH·FICTION). celeb_tier와 독립이다
   /* 아래 4종은 trending 정렬로 받은 목록에만 담긴다 (조회수 안내 모달용) */
   /** 최근 기간(기본 30일) 조회수 */
   recent_views?: number | null

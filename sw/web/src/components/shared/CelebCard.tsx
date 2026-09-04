@@ -78,6 +78,9 @@ export default function CelebCard({
   const t = useTranslations("shared.celeb");
   const locale = useLocale();
   const isLight = celebProfile?.celeb_tier === 'light';
+  /* 실존 축 표시 — 실존 인물(REAL)은 기본이라 붙이지 않고, 전승 쪽만 알려 준다 */
+  const reality = celebProfile?.celeb_reality;
+  const realityLabel = reality === 'FICTION' ? t('reality.myth') : reality === 'BOTH' ? t('reality.both') : null;
   const displayNickname = (locale === "en" && celebProfile?.nickname_en) ? celebProfile.nickname_en : nickname;
   const displayTitle = (locale === "en" && celebProfile?.title_en) ? celebProfile.title_en : title;
   const [selectedCeleb, setSelectedCeleb] = useState<CelebProfile | null>(null);
@@ -253,6 +256,15 @@ export default function CelebCard({
                 <Eye className="shrink-0 opacity-70 w-[clamp(8px,6cqw,14px)] h-[clamp(8px,6cqw,14px)]" />
                 <span className="font-bold leading-none tabular-nums">{badgeViews}</span>
               </button>
+            )}
+
+            {!isActive && realityLabel && (
+              <span
+                className="absolute bottom-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] z-20 flex h-[clamp(17px,13cqw,24px)] items-center rounded-full border border-white/15 bg-black/70 px-[clamp(4px,2cqw,8px)] text-[clamp(9px,6.5cqw,12px)] font-bold leading-none text-white/75 group-hover:border-white/35 group-hover:text-white"
+                title={realityLabel}
+              >
+                {realityLabel}
+              </span>
             )}
 
             {isLoading && (

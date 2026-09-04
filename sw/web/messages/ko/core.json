@@ -510,7 +510,11 @@
       "following": "팔로잉",
       "follow": "팔로우",
       "contentCount": "보유 콘텐츠 {count}개",
-      "viewsBadge": "누적 조회 {count}회 — 눌러서 자세히"
+      "viewsBadge": "누적 조회 {count}회 — 눌러서 자세히",
+      "reality": {
+        "myth": "신화",
+        "both": "실존·신화"
+      }
     },
     "celebViews": {
       "title": "이 프로필을 본 사람",

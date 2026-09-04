@@ -509,7 +509,11 @@
       "following": "Following",
       "follow": "Follow",
       "contentCount": "{count} contents collected",
-      "viewsBadge": "{count} views in total — click for details"
+      "viewsBadge": "{count} views in total — click for details",
+      "reality": {
+        "myth": "Myth",
+        "both": "Real & myth"
+      }
     },
     "celebViews": {
       "title": "Who viewed this profile",

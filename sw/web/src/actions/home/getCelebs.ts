@@ -106,6 +106,7 @@ interface CelebRow {
   total_score: number
   content_count: number
   celeb_tier: string | null
+  celeb_reality: string | null
   /* 아래 4종은 trending 정렬에서만 채워진다 — 다른 정렬 함수는 이 값을 내지 않는다 */
   recent_views?: number | null
   view_count?: number | null
@@ -433,6 +434,7 @@ export async function getCelebs(
       voice_v: voice?.voice_v ?? 0,
       voice_speed: voice?.voice_speed ?? 1.0,
       celeb_tier: (row.celeb_tier as CelebTier) ?? 'full',
+      celeb_reality: (row.celeb_reality as CelebReality) ?? 'REAL',
       recent_views: row.recent_views ?? null,
       view_count: row.view_count ?? null,
       views_window_start: row.window_start ?? null,

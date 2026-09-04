@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Clock3, MapPinned } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythAtlasData, MythRegion, MythWork } from "@/actions/home/mythAtlasTypes";
+import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythAtlasTypes";
 import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
 import MythTraditionOverview from "./MythTraditionOverview";
@@ -43,9 +43,13 @@ export default function MythAtlas({ data }: Props) {
   const activeTradition = regionTraditions.find((tradition) => tradition.id === traditionId && tradition.isPublished)
     ?? regionTraditions.find((tradition) => tradition.isPublished)
     ?? null;
+  /* 전승이 정한 차례를 그대로 따른다. 인물 목록을 훑어 거르면 전승과 무관한 전역 차례가
+     나오고, 한 인물이 여러 전승에 속할 때 각 전승에서 잡아 둔 자리도 잃는다 */
   const activePeople = useMemo(() => {
-    const ids = new Set(activeTradition?.personIds ?? []);
-    return data.people.filter((person) => ids.has(person.id));
+    const byId = new Map(data.people.map((person) => [person.id, person]));
+    return (activeTradition?.personIds ?? [])
+      .map((id) => byId.get(id))
+      .filter((person): person is MythPerson => Boolean(person));
   }, [activeTradition, data.people]);
   const activeIds = useMemo(() => new Set(activePeople.map((person) => person.id)), [activePeople]);
   const activeWorks = useMemo(
