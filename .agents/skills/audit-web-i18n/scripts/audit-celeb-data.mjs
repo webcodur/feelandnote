@@ -149,6 +149,8 @@ async function selectAllProfiles() {
           "slug",
           "publication_status",
           "celeb_tier",
+      "celeb_reality",
+          "celeb_reality",
           "nickname",
           "nickname_en",
           "bio",
@@ -185,6 +187,7 @@ async function selectProfiles() {
       "slug",
       "publication_status",
       "celeb_tier",
+      "celeb_reality",
       "nickname",
       "nickname_en",
       "bio",
@@ -251,7 +254,7 @@ function slugContext(profileById, celebId, extra = {}) {
 
 function auditProfileRows(profiles) {
   for (const profile of profiles) {
-    const context = { slug: profile.slug, celebId: profile.id, tier: profile.celeb_tier };
+    const context = { slug: profile.slug, celebId: profile.id, tier: profile.celeb_tier, reality: profile.celeb_reality };
     checkPair({
       row: profile,
       ko: "nickname",
@@ -461,8 +464,8 @@ if (ids.length > 0) {
   );
   for (const row of dialogueRows) {
     const context = slugContext(profileById, row.celeb_id);
-    // celeb-09-01-i18n.md: fiction 티어는 번역 대상이 아니다. KO만 있는 것을 누락으로 세지 않는다.
-    if (profileById.get(row.celeb_id)?.celeb_tier !== "fiction") {
+    // celeb-09-01-i18n.md: 허구 인물은 번역 대상이 아니다. KO만 있는 것을 누락으로 세지 않는다.
+    if (profileById.get(row.celeb_id)?.celeb_reality !== "FICTION") {
       checkPair({
         row,
         ko: "lines",
