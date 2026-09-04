@@ -17,7 +17,7 @@ import MyReviewSection from "./MyReviewSection";
 import MyNoteSection from "./MyNoteSection";
 import AllReviewsSection from "./AllReviewsSection";
 import RecentContentsSection from "./RecentContentsSection";
-import FictionCharactersSection from "./FictionCharactersSection";
+import FigureBookCharactersSection from "./FigureBookCharactersSection";
 import CuratedEntriesSection from "./CuratedEntriesSection";
 import { useRecentContents } from "@/hooks/useRecentContents";
 import { getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
@@ -121,7 +121,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
             )}
             defaultOpen
           >
-            <FictionCharactersSection characters={fictionCharacters} />
+            <FigureBookCharactersSection characters={fictionCharacters} />
           </AccordionSection>
         )}
 
