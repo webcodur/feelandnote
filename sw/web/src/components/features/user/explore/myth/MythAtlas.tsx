@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Clock3, MapPinned } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { MythAtlasData, MythRegion } from "@/actions/home/mythAtlasTypes";
+import type { MythAtlasData, MythRegion, MythWork } from "@/actions/home/mythAtlasTypes";
 import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
 import MythTraditionOverview from "./MythTraditionOverview";
@@ -54,6 +54,16 @@ export default function MythAtlas({ data }: Props) {
   );
   const selectedPerson = activePeople.find((person) => person.id === selectedPersonId) ?? null;
   const selectedWorks = selectedPerson ? activeWorks.filter((work) => selectedPerson.sourceIds.includes(work.id)) : [];
+
+  /* 이 전승으로 들어가는 책 한 권. 신화 원전은 한 권이 수십 명에게 걸리는 세계 단위 책이라
+     인물을 고르기 전에도 살 수 있어야 한다. 이 전승 인물을 가장 많이 담은 책을 세우되,
+     살 수 있는 판본이 있으면 그쪽을 앞세운다(영문 화면은 구매 링크를 받지 않아 첫 권이 온다). */
+  const entryWork = useMemo(() => {
+    if (activeWorks.length === 0) return null;
+    const castHere = (work: MythWork) => work.personIds.filter((id) => activeIds.has(id)).length;
+    const ranked = [...activeWorks].sort((a, b) => castHere(b) - castHere(a));
+    return ranked.find((work) => work.coupangUrl) ?? ranked[0] ?? null;
+  }, [activeWorks, activeIds]);
 
   useEffect(() => {
     if (window.matchMedia("(min-width: 768px)").matches) return;
@@ -167,7 +177,7 @@ export default function MythAtlas({ data }: Props) {
       <div className="min-w-0 px-4 pb-4 pt-2 md:px-6 md:pb-6">
         <div className="mx-auto max-w-[1040px]">
           {!selectedPerson && (
-            <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} />
+            <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} entryWork={entryWork} />
           )}
           {selectedPerson && (
             <div ref={contentRef} className="min-w-0 overflow-hidden rounded-[24px] border border-white/[0.08] scroll-mt-20">

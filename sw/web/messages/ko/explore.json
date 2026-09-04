@@ -257,6 +257,7 @@
         },
         "relationFallback": "{name}와의 관계가 등록되어 있습니다.",
         "works": "등장 작품",
+        "entryWork": "이 세계로 들어가는 책",
         "worksLead": "선택한 인물이 나오는 작품을 먼저 보여줍니다.",
         "selectedWorks": "연결된 작품 {count}개",
         "traditionWorks": "이 묶음의 작품 {count}개",

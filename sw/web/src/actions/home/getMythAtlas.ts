@@ -38,18 +38,21 @@ const CATEGORY: Record<ContentType, MythWork["category"]> = {
 
 const unique = <T,>(items: T[]) => [...new Set(items)];
 
-// 미공개 전승 — 이름을 여기 적은 전승만 잠긴다(칩이 비활성 + 「준비 중」 안내).
-// 26.09.04: 공개 목록 방식을 뒤집었다. 17개 전승 284명이 안내글·아바타·등장 작품까지
-// 모두 갖춘 상태에서 3개만 열려 있었고, 나머지 200여 명은 사이트 어디에서도 닿을 수
-// 없었다. 기본을 공개로 두고, 자료가 덜 된 전승이 생기면 그 이름만 여기 넣는다.
-const UNPUBLISHED_TRADITION_NAMES = new Set<string>([]);
+// 공개 전승 — 이름을 여기 적은 전승만 열린다. 나머지는 칩이 비활성으로 남고 「작업 예정」이 붙는다.
+// 인물·안내글은 17개 전승 284명이 다 갖췄지만 살 수 있는 원전이 그리스 쪽에만 모여 있어,
+// 상품이 준비된 세 전승을 먼저 열고 나머지는 도서를 채우는 대로 한 줄씩 더한다.
+const PUBLISHED_TRADITION_NAMES = new Set([
+  "그리스 신화",
+  "오디세이아",
+  "일리아스",
+]);
 
 const MYTH_REGIONS = [
   { id: "korea", ko: "한국", en: "Korea", prefixes: ["myth-korea"] },
   { id: "japan", ko: "일본", en: "Japan", prefixes: ["myth-japan"] },
   { id: "china", ko: "중국", en: "China", prefixes: ["myth-china"] },
   { id: "india", ko: "인도", en: "India", prefixes: ["myth-hindu"] },
-  { id: "greek-roman", ko: "그리스·로마", en: "Greece & Rome", prefixes: ["myth-greek", "myth-argonaut", "myth-atreus", "myth-heracles", "myth-iliad", "myth-odyssey", "myth-aeneid"] },
+  { id: "greek-roman", ko: "그리스·로마", en: "Greece & Rome", prefixes: ["myth-greek", "myth-roman", "myth-argonaut", "myth-atreus", "myth-heracles", "myth-iliad", "myth-odyssey", "myth-aeneid"] },
   { id: "egypt", ko: "이집트", en: "Egypt", prefixes: ["myth-egypt"] },
   { id: "mesopotamia", ko: "메소포타미아", en: "Mesopotamia", prefixes: ["myth-mesopotamia"] },
   { id: "northern-europe", ko: "북유럽", en: "Northern Europe", prefixes: ["myth-norse"] },
@@ -57,7 +60,7 @@ const MYTH_REGIONS = [
 ] as const;
 
 const NAME_REGION_IDS: Array<{ id: (typeof MYTH_REGIONS)[number]["id"]; names: string[] }> = [
-  { id: "greek-roman", names: ["아르고 원정대", "아트레우스 가문", "아이네이스", "헤라클레스의 열두 과제", "일리아스", "오디세이아", "그리스 로마 신화"] },
+  { id: "greek-roman", names: ["아르고 원정대", "아트레우스 가문", "아이네이스", "헤라클레스의 열두 과제", "일리아스", "오디세이아", "그리스 신화"] },
   { id: "britain", names: ["아서왕과 원탁의 기사들"] },
 ];
 
@@ -77,7 +80,7 @@ const TITLE_ART_BY_NAME: Record<string, string> = {
   "아르고 원정대": "argonauts.png",
   "아트레우스 가문": "house-of-atreus.png",
   "아서왕과 원탁의 기사들": "arthur-round-table.png",
-  "그리스 로마 신화": "myth-greek-roman.png",
+  "그리스 신화": "myth-greek-roman.png",
   "일리아스": "homer-iliad.png",
   "오디세이아": "homer-odyssey.png",
   "아이네이스": "virgil-aeneid.png",
@@ -213,7 +216,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     const images = titleArt ? [{ url: titleArt, label: null }] : [];
     return [{ id: tag.id, slug: tag.slug, name: isEn ? tag.name_en || tag.name : tag.name,
       description: isEn ? tag.description_en || tag.description : tag.description,
-      isPublished: !UNPUBLISHED_TRADITION_NAMES.has(tag.name),
+      isPublished: PUBLISHED_TRADITION_NAMES.has(tag.name),
       regionId: region.id, images, personIds: ids }];
   });
   const regions = MYTH_REGIONS.map((region): MythRegion => ({
