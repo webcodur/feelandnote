@@ -108,7 +108,7 @@ async function fetchDefaultFictionSourceEdition(
 
   const db = createStaticClient()
   const { data, error } = await db
-    .from('fiction_source_purchase_options')
+    .from('figure_book_purchase_options')
     .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
     .eq('content_id', contentId)
     .eq('locale', locale)
@@ -133,12 +133,12 @@ async function fetchContentDataPublic(
   locale: string,
 ): Promise<ContentDetailData['content'] | null> {
   const db = createStaticClient()
-  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), fiction_source_contents(content_id)`
+  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), figure_book_contents(content_id)`
 
   function buildDbContent(raw: Record<string, unknown>) {
     const locales = raw.content_locales as ContentLocaleRow[] | null
     const flat = flattenLocales(locales, locale)
-    const sourceMarker = raw.fiction_source_contents
+    const sourceMarker = raw.figure_book_contents
     return {
       id: raw.id as string,
       external_id: raw.external_id as string | null,

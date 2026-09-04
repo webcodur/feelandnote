@@ -93,7 +93,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
       .limit(1000),
     sourcePlatform
       ? selectAllPages<SourceContentCountRow>((from, to) => db
-          .from('fiction_source_contents')
+          .from('figure_book_contents')
           .select('content_id,contents!inner(record_count)')
           .order('content_id')
           .range(from, to)
@@ -101,7 +101,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
       : Promise.resolve([]),
     sourcePlatform
       ? selectAllPages<FictionSourcePurchaseOptionRow>((from, to) => db
-          .from('fiction_source_purchase_options')
+          .from('figure_book_purchase_options')
           .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
           .eq('locale', sourceLocale)
           .eq('platform', sourcePlatform)
@@ -312,7 +312,7 @@ async function fetchReadByProfession(celebId: string): Promise<Set<string>> {
 async function fetchOriginWorks(celebId: string): Promise<Set<string>> {
   const db = createStaticClient()
   const { data, error } = await db
-    .from('fiction_source_characters')
+    .from('figure_book_characters')
     .select('content_id')
     .eq('celeb_id', celebId)
     .eq('relation_type', 'appearance')
@@ -371,7 +371,7 @@ export async function getAffiliateBooksForCeleb(
 
 /** 여러 인물의 기록을 모아 작품별로 몇 명이 겹치는지 센다. 겹치는 인물이 많을수록 그 진영을 대표한다. */
 async function tallyByCelebs(
-  table: 'fiction_source_characters' | 'celeb_contents',
+  table: 'figure_book_characters' | 'celeb_contents',
   celebIds: string[],
 ): Promise<Map<string, number>> {
   const db = createStaticClient()
@@ -384,7 +384,7 @@ async function tallyByCelebs(
       .select('content_id')
       .in('celeb_id', celebIds.slice(i, i + 60))
       .limit(1000)
-    if (table === 'fiction_source_characters') {
+    if (table === 'figure_book_characters') {
       query = query.eq('relation_type', 'appearance')
     }
     const { data, error } = await query
@@ -455,7 +455,7 @@ async function fetchBooksForTag(
 
   // ── 첫째 묶음: 그 진영이 다루는 분야의 책 ──
   // 신화 진영은 인물들이 나오는 원전이 곧 분야다. 나머지는 정해 둔 분야 낱말로 찾는다.
-  const originWeight = await tallyByCelebs('fiction_source_characters', celebIds)
+  const originWeight = await tallyByCelebs('figure_book_characters', celebIds)
   let topic = pick(originWeight)
 
   const keywords = FACTION_BOOK_TOPICS[tagName]

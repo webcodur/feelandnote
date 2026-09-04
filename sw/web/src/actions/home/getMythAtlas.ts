@@ -150,7 +150,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     isEn
       ? Promise.resolve([])
       : selectInChunks<FictionSourcePurchaseOptionRow>(contentIds, (ids) => db
-          .from("fiction_source_purchase_options")
+          .from("figure_book_purchase_options")
           .select("edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url")
           .in("content_id", ids)
           .eq("locale", "ko")

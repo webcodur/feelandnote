@@ -160,7 +160,7 @@ async function loadAllSources(): Promise<SourceRow[]> {
   const rows: SourceRow[] = []
   for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
     const { data, error } = await admin
-      .from('fiction_source_contents')
+      .from('figure_book_contents')
       .select('content_id,updated_at')
       .order('content_id')
       .range(from, from + ADMIN_PAGE_SIZE - 1)
@@ -177,7 +177,7 @@ async function loadAllAssignments(): Promise<AssignmentRow[]> {
   const rows: AssignmentRow[] = []
   for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
     const { data, error } = await admin
-      .from('fiction_source_characters')
+      .from('figure_book_characters')
       .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
       .order('content_id')
       .order('sort_order')
@@ -196,7 +196,7 @@ async function loadAllEditions(): Promise<EditionRow[]> {
   const rows: EditionRow[] = []
   for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
     const { data, error } = await admin
-      .from('fiction_source_editions')
+      .from('figure_book_editions')
       .select('id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,verified')
       .order('content_id')
       .order('locale')
@@ -216,7 +216,7 @@ async function loadAllProducts(): Promise<ProductRow[]> {
   const rows: ProductRow[] = []
   for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
     const { data, error } = await admin
-      .from('fiction_source_products')
+      .from('figure_book_products')
       .select('id,edition_id,platform,product_id,product_url,affiliate_url,quality_evidence,checked_at,is_active')
       .order('edition_id')
       .order('created_at', { ascending: false })
@@ -501,7 +501,7 @@ export async function saveFictionSource(input: {
 
   const admin = createAdminClient()
   const { data: previous, error: previousError } = await admin
-    .from('fiction_source_characters')
+    .from('figure_book_characters')
     .select('celeb_id')
     .eq('content_id', contentId)
   if (previousError) throw new Error(`기존 인물 도서 관계 조회 실패: ${previousError.message}`)
@@ -554,7 +554,7 @@ export async function saveFictionSourceCharacterDescription(input: {
   const admin = createAdminClient()
   if (descriptionEn) {
     const { data: englishEdition, error: englishEditionError } = await admin
-      .from('fiction_source_purchase_options')
+      .from('figure_book_purchase_options')
       .select('edition_id')
       .eq('content_id', contentId)
       .eq('locale', 'en')
@@ -570,7 +570,7 @@ export async function saveFictionSourceCharacterDescription(input: {
   }
   const [currentResult, celebResult] = await Promise.all([
     admin
-      .from('fiction_source_characters')
+      .from('figure_book_characters')
       .select('relation_type,description,description_en')
       .eq('content_id', contentId)
       .eq('celeb_id', celebId)
@@ -600,7 +600,7 @@ export async function saveFictionSourceCharacterDescription(input: {
   if (currentDescription === description && currentDescriptionEn === descriptionEn) return
 
   const { data: updated, error: updateError } = await admin
-    .from('fiction_source_characters')
+    .from('figure_book_characters')
     .update({ description, description_en: descriptionEn })
     .eq('content_id', contentId)
     .eq('celeb_id', celebId)
@@ -712,7 +712,7 @@ export async function saveFictionSourceEdition(input: {
 
   if (input.editionId) {
     const { data: current, error: currentError } = await admin
-      .from('fiction_source_editions')
+      .from('figure_book_editions')
       .select('id,content_id,locale,isbn')
       .eq('id', input.editionId)
       .maybeSingle()
@@ -723,13 +723,13 @@ export async function saveFictionSourceEdition(input: {
     }
 
     const { error } = await admin
-      .from('fiction_source_editions')
+      .from('figure_book_editions')
       .update(mutable)
       .eq('id', input.editionId)
     if (error) throw new Error(`판본 수정 실패: ${error.message}`)
   } else {
     const { error } = await admin
-      .from('fiction_source_editions')
+      .from('figure_book_editions')
       .insert({
         content_id: contentId,
         locale: input.locale,
@@ -792,7 +792,7 @@ export async function replaceFictionSourceProduct(input: {
   const evidence = validateProductInput(input)
   const admin = createAdminClient()
   const { data: edition, error: editionError } = await admin
-    .from('fiction_source_editions')
+    .from('figure_book_editions')
     .select('content_id,locale')
     .eq('id', input.editionId)
     .maybeSingle()
@@ -803,7 +803,7 @@ export async function replaceFictionSourceProduct(input: {
     throw new Error(`${edition.locale} 판본의 판매처는 ${expectedPlatform}이어야 합니다`)
   }
 
-  const { error } = await admin.rpc('replace_fiction_source_product', {
+  const { error } = await admin.rpc('replace_figure_book_product', {
     p_edition_id: input.editionId,
     p_platform: input.platform,
     p_product_id: input.productId.trim(),
@@ -826,14 +826,14 @@ export async function deactivateFictionSourceProduct(input: {
   }
   const admin = createAdminClient()
   const { data: edition, error: editionError } = await admin
-    .from('fiction_source_editions')
+    .from('figure_book_editions')
     .select('content_id')
     .eq('id', input.editionId)
     .maybeSingle()
   if (editionError) throw new Error(`판본 조회 실패: ${editionError.message}`)
   if (!edition) throw new Error('상품을 해제할 판본을 찾을 수 없습니다')
 
-  const { error } = await admin.rpc('deactivate_fiction_source_product', {
+  const { error } = await admin.rpc('deactivate_figure_book_product', {
     p_edition_id: input.editionId,
     p_platform: input.platform,
   })
@@ -848,13 +848,13 @@ export async function removeFictionSource(contentId: string): Promise<void> {
 
   const admin = createAdminClient()
   const { data: previous, error: previousError } = await admin
-    .from('fiction_source_characters')
+    .from('figure_book_characters')
     .select('celeb_id')
     .eq('content_id', id)
   if (previousError) throw new Error(`기존 인물 도서 관계 조회 실패: ${previousError.message}`)
 
   const { error } = await admin
-    .from('fiction_source_contents')
+    .from('figure_book_contents')
     .delete()
     .eq('content_id', id)
   if (error) throw new Error(`인물 도서 지정 해제 실패: ${error.message}`)

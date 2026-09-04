@@ -357,7 +357,7 @@ export async function deleteContent(contentId: string): Promise<void> {
 
   // 대표 원전은 먼저 지정을 해제해야 한다. 콘텐츠 삭제가 FK에서 막히기 전에 안내한다.
   const { data: fictionSource, error: fictionSourceError } = await admin
-    .from('fiction_source_contents')
+    .from('figure_book_contents')
     .select('content_id')
     .eq('content_id', contentId)
     .maybeSingle()
