@@ -55,8 +55,8 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
 - `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data(`sequence`: 장면 `cluster`와 장면 사이 쇼츠 편 경계 `cut`). unique(episode_id, position)
 - `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data(`beats`: 장면의 모든 대사 항목과 화자 할당). 인물 실체는 관계형 행으로 유지하고 `faction_groups.data.sequence`의 `clusterIndex`가 position-1을 가리킨다. unique(group_id, position)
 - `faction_people` — cluster_id·position(P{pos:02d})·**is_person**·name(+en)·slug·celeb_id·org·mythical·epithet(+en)·lines(+en)·image·quote(+en)·음성 길이·disabled·longform_only·mined·data. `is_person=true`만 celeb_id/slug/도감 필드를 쓰고, `false`는 name/image/beats/durationSec/sfx를 공통 행에 둔다. unique(cluster_id, position)
-  - `mythical=true` 인물은 `celebs.celeb_tier='fiction'` 프로필에 연결한다.
-    2026-08-05 이후 신규 active 전환에는 fiction도 아바타가 필수다. 기존
+  - `mythical=true` 인물은 `celebs.celeb_reality`가 `REAL`이 아닌(`FICTION`·`BOTH`) 프로필에 연결한다.
+    2026-08-05 이후 신규 active 전환에는 이들도 아바타가 필수다. 기존
     `avatar_url=null` active 데이터형 프로필은 소급 비활성화하지 않는다
   - 2026-07-29 전수 기준: 신화·서사 18편, 285배치, 정규 fiction 257명.
     `celeb_id` 미해소 0, 태그 배정 누락 0, 원전 연결 255명(20작품·285관계)
@@ -194,7 +194,7 @@ faction-sync 개조: `collectEpisode` 입력을 DB로, 진단은 이미지·연�
 
 ## 12. 미확인
 
-web-bo 로컬 빌드 검증 여부 · remotion-bo 디자인 토큰 목록 · 사문 필드 최종 폐기 여부(현재 보존) · fiction 티어 vs mythical 98건 정합.
+web-bo 로컬 빌드 검증 여부 · remotion-bo 디자인 토큰 목록 · 사문 필드 최종 폐기 여부(현재 보존) · 실존 축 vs mythical 98건 정합.
 
 ## 진행 로그
 
@@ -223,7 +223,7 @@ web-bo 로컬 빌드 검증 여부 · remotion-bo 디자인 토큰 목록 · 사
 - 26.07.25 **Phase 5 완료 — 출간 개조 + remotion-bo 팩션 구역 폐기 + 문서 동기화.** 팩션 통합 종료.
   - **출간 배관을 옮기며 진단을 다시 정의했다.** `sw/web-bo/src/lib/faction-sync/` 8파일(`types`·`database`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`). `image`·`manifest` 는 규격 그대로, 업로드는 이 앱에 이미 있던 `lib/r2.ts` 를 재사용하고 출간에만 필요한 `missingR2Env`·`publicUrl` 만 새로 뒀다.
   - **입력이 파일에서 DB 로 바뀌었다** — `collect.ts` 가 `faction_{episodes,groups,clusters,people}` 을 읽어 출간 모형을 만든다. **대본 조립기(`assembleFactionEpisode`)를 쓰지 않는 이유**: 조립기는 `faction-data.json` 모양을 내므로 해소된 열쇠(`tag_id`·`celeb_id`)를 결과에 담지 않는데, 출간은 바로 그 두 열쇠가 본체다. 사진은 여전히 로컬 파일이라 경로 해석·해시는 그대로 남았다.
-  - **텍스트 대조 진단을 소거했다**(제작·서비스가 한 DB). 옛 `desc: db|fillable|none` 폐기. 남는 항목 5종 — ① 셀럽 미해소 ② 태그 미지정 ③ 개인 화보+대사 음성·그룹샷 저장소 동기(매니페스트 해시·`web_quote_media`) ④ 얼굴 사진 유무 ⑤ 신화 표시 ↔ 셀럽 등급(`fiction`) 어긋남. ④⑤ 는 출간을 막지 않고 알리기만 한다.
+  - **텍스트 대조 진단을 소거했다**(제작·서비스가 한 DB). 옛 `desc: db|fillable|none` 폐기. 남는 항목 5종 — ① 셀럽 미해소 ② 태그 미지정 ③ 개인 화보+대사 음성·그룹샷 저장소 동기(매니페스트 해시·`web_quote_media`) ④ 얼굴 사진 유무 ⑤ 신화 표시 ↔ 셀럽 실존 축(`celeb_reality`) 어긋남. ④⑤ 는 출간을 막지 않고 알리기만 한다.
   - **§4 배치 충돌 규칙을 실제 규칙으로 승격했다.** 옛 코드는 "이번 호출에서 먼저 만난 배치"를 채택해 세력을 하나씩 출간하면 결과가 갈릴 수 있었다. 이제 자리(세력·묶음·인물 순번) 최소 배치를 **편 전체를 보고** 미리 정한다(`winningPlacements`) — 세력별 순차 출간과 전체 출간의 결과가 같다.
   - **태그 묶음 열쇠는 `tag_id` 가 아니라 연결 키(`data.tagSlug`)를 먼저 본다.** `tag_id` 는 연결 키의 파생값이라 한쪽 세력만 이어져 있는 상태가 실재하는데, `tag_id` 로 묶으면 태그를 나눠 쓰는 세력이 남남이 되어 **도감 단체사진 배열을 한쪽 몫만으로 갈아끼우는 사고**가 난다(페이팔 마피아 4장이 그 위험이었다).
   - **태그 연결을 그 자리에서 되쓴다** — 연결 키로 태그를 찾았거나 새로 만들었으면 `faction_groups.tag_id` 를 채운다. 안 그러면 다음 저장까지 진단이 계속 「태그 미지정」이라 알린다. 팩션 5테이블에 **트리거가 없음을 실측 확인**(`information_schema.triggers` 0건)했으므로 열려 있는 편집 화면의 저장 잠금(에피소드 갱신 시각)을 방해하지 않는다.

@@ -30,7 +30,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
    | 태그 미지정 세력 | `faction_groups.tag_id`가 null |
    | 개인 화보+대사 음성·그룹샷 저장소 동기 상태 | 로컬 파일 해시·전환 시각 ↔ 매니페스트(`_db-sync.json`)·`web_quote_media` 대조 |
    | 얼굴 사진(아바타) 유무 | `celebs.avatar_url` |
-   | 신화 표시 ↔ 셀럽 등급 어긋남 | `mythical`과 `fiction` 등급이 서로 다름 |
+   | 신화 표시 ↔ 셀럽 실존 축 어긋남 | `mythical`과 `celeb_reality`(REAL 아님)가 서로 다름 |
 
 4. **미리보기(dry-run)** — 변경 예정 목록(created/updated/skipped/blocked)을 확인한다.
 5. **출간(사진·음성·영상·음악)** — 태그 upsert → 개인 화보 전량(`image`+`quoteImage`+`imageChanges`)과 위치 기반 팩션 대사 wav R2 업로드(`web_image_url` 표지 + `web_quote_media` 재생 타임라인) → 그룹샷 R2 업로드(`celeb_tags.team_images` 재구성) → 영상·음악 → 운영 웹 캐시 무효화(`[TAGS, CELEBS]`)까지 한 번에 돈다. 전환 초는 `data.timing.p*.ko.json`의 `subTimings`와 `quoteChunks`를 렌더와 같은 규칙으로 맞춘다. 멱등(해시 매니페스트 `_db-sync.json`) — 재실행하면 skipped 전량이 정상. **텍스트(배정 upsert·소개문 복사)는 26.08.03에 폐기돼 돌지 않는다.**
@@ -65,7 +65,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 ## 파이프라인이 못 하는 것 (예외 작업)
 
-- **신규 인물 등록** — 프로필 없는 **개별 인물**(blocked 명단)은 celeb 파이프라인(web-bo `/celebs/new`·`docs/project/celeb/celeb-00-01-pipeline.md`)으로 먼저 등록. 신화·허구도 하나의 개별 인물일 때만 `fiction` 티어 + 인물 데이터 `mythical: true`로 등록한다. 종족·형제 묶음·신화 집단은 등록하지 않는다.
+- **신규 인물 등록** — 프로필 없는 **개별 인물**(blocked 명단)은 celeb 파이프라인(web-bo `/celebs/new`·`docs/project/celeb/celeb-00-01-pipeline.md`)으로 먼저 등록. 신화·허구도 하나의 개별 인물일 때만 `celeb_reality=FICTION` + 인물 데이터 `mythical: true`로 등록한다. 종족·형제 묶음·신화 집단은 등록하지 않는다.
 - **상위 그룹 계층** — `celeb_tags.parent_id`가 SSoT다. 신규 태그를 그룹에 넣으려면 web-bo `/factions/themes/[tagId]`의 「상위 묶음」에서 고른다.
 - **태그 노출 결정** — 신규 태그는 `is_featured=false`로 생성된다. 노출 전환·설명문(`description`)·색은 web-bo 태그 화면에서 사람이 다듬는다.
 - **아바타** — 위 표 참조.

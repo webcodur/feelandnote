@@ -4,7 +4,7 @@
 
 후보 작품의 발굴과 재선정은 [`fiction-source-curation`](../../../.agents/skills/fiction-source-curation/SKILL.md), 작품·판본·locale 메타는 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), 한국어 판매 판본과 제휴 상품은 [`coupang-book-affiliate`](../../../.agents/skills/coupang-book-affiliate/SKILL.md)를 따른다.
 
-물리 테이블은 26.09.04에 `fiction_source_*`에서 `figure_book_*`로 이름을 정정했다. 이 카탈로그는 `celeb_tier`(`full`·`light`·`fiction`)와 무관하게 모든 인물을 연결할 수 있고, `fiction`은 이제 픽션 존재 여부가 아니라 파이프라인 분류일 뿐이다 — 옛 이름이 "픽션 인물 전용 테이블"이라는 오해를 계속 만들어 정정했다. 인물의 실존·가상 이중성은 별도 축 `celebs.celeb_reality`(`REAL`·`BOTH`·`FICTION`)가 쥔다. 자세한 구분은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「존재와 속성을 구분한다」를 따른다.
+이 카탈로그는 `celeb_tier`(`full`·`light`)와 `celeb_reality`(`REAL`·`BOTH`·`FICTION`) 어느 쪽과도 무관하게 모든 인물을 연결할 수 있다. 관우가 『삼국지연의』 원전을 가지듯 실존 인물도 등장 도서를 가진다. 물리 테이블 이름이 `fiction_source_*`였을 때 "픽션 인물 전용 테이블"이라는 오해를 계속 만들어 `figure_book_*`로 정정했다. 인물의 실존·전승 판정은 `celebs.celeb_reality`가 쥐며, 자세한 구분은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「존재와 속성을 구분한다」를 따른다.
 
 ## 작품 판정
 

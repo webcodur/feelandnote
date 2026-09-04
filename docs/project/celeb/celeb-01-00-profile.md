@@ -31,9 +31,9 @@
 ## 등록 기본값
 
 - 셀럽은 로그인 계정이 아니다. `auth.users`나 가짜 이메일을 만들지 않는다.
-- 신규 실존 인물은 `light`, 신규 fiction 인물은 `fiction`으로 시작한다.
+- 신규 인물은 실존 축과 무관하게 `light`로 시작한다. 실존 축은 등록 시 고르며 기본값은 `REAL`이다.
 - 공개 상태의 기본값은 `inactive`, 공식 인증 여부의 기본값은 `false`다. `active` 전환은 기본 프로필 생성과 분리한다.
 - UUID·slug·`celeb_metrics` 초기 행은 정식 등록 경로가 만든다. slug의 원천은 `nickname_en`이며 직접 작성하지 않는다.
 - 명언은 기본 프로필에 넣지 않는다. 정본은 `celeb_dialogues.lines.quote`·`lines_en.quote`이고 [`celeb-04-01-speech.md`](celeb-04-01-speech.md)의 「한마디 작성·검수」가 맡는다.
-- fiction은 기본 프로필만 만들었다고 끝나지 않는다. 인물이 실제 등장하거나 인물을 다루는 작품을 확인해 `figure_book_*` 관계까지 연결한다. 현재 규칙은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「fiction 원전·등장 도서 연결」이 쥔다.
-- `celeb_tier`(`full`·`light`·`fiction`)는 어느 데이터 파이프라인을 타는지만 정한다. 세상이 그 인물의 실존을 어떻게 보는지는 별도 축 `celeb_reality`(`REAL`·`BOTH`·`FICTION`)가 쥔다 — 단군왕검·주몽처럼 실존 핵심과 신화 층위가 함께 있는 인물은 `celeb_reality='BOTH'`로 표시하되 `celeb_tier`는 실제로 어떤 파이프라인이 맞는지로 정한다. 자세한 구분은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「존재와 속성을 구분한다」가 쥔다.
+- `celeb_reality='FICTION'`은 기본 프로필만 만들었다고 끝나지 않는다. 인물이 실제 등장하거나 인물을 다루는 작품을 확인해 `figure_book_*` 관계까지 연결한다. 현재 규칙은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「원전·등장 도서 연결」이 쥔다.
+- `celeb_tier`(`full`·`light`)는 감상 콘텐츠 파이프라인의 단계만 정한다. 세상이 그 인물의 실존을 어떻게 보는지는 별도 축 `celeb_reality`(`REAL`·`BOTH`·`FICTION`)가 쥔다 — 단군왕검·주몽처럼 실존 핵심과 신화 층위가 함께 있는 인물은 `celeb_reality='BOTH'`다. 자세한 구분은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「존재와 속성을 구분한다」가 쥔다.

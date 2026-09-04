@@ -1,6 +1,6 @@
 # 영향력 평가
 
-이 문서는 실존 인물이 각 분야의 변화를 얼마나 인과적으로 만들었는지 평가해 `celeb_influence`에 저장하는 규칙을 쥔다. full·light에 적용하고 fiction에는 `celeb_influence` 행을 만들지 않는다. 티어 경계는 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)를 따른다.
+이 문서는 실존 인물이 각 분야의 변화를 얼마나 인과적으로 만들었는지 평가해 `celeb_influence`에 저장하는 규칙을 쥔다. `celeb_reality`가 `REAL`·`BOTH`인 인물에 적용하고 `FICTION`에는 `celeb_influence` 행을 만들지 않는다. 축 경계는 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)를 따른다.
 
 ## 정본
 
@@ -34,7 +34,7 @@
 
 ## 실행
 
-1. 이름과 식별 정보를 대조해 한 명의 `celebs.id`와 현재 `celeb_tier`를 고정한다. fiction이면 영향력 행을 만들지 않고 종료한다.
+1. 이름과 식별 정보를 대조해 한 명의 `celebs.id`와 현재 `celeb_reality`를 고정한다. `FICTION`이면 영향력 행을 만들지 않고 종료한다.
 2. 정본 코드와 현재 `celeb_influence` 값을 모두 읽는다.
 3. 각 축에 실제 변화를 만든 행적과 결과를 조사하고, 프롬프트 기준으로 점수와 한국어·영문 설명을 작성한다.
 4. 축 키·점수 범위·설명 누락을 코드 상수와 대조한다. 추측·희망적 미래·과도한 간접 연결은 제거한다.
