@@ -92,7 +92,9 @@
     "naver:pick": "node scripts/naver-blog/pick-celebs.mjs",
     "naver:compose": "node scripts/naver-blog/compose-celebs.mjs",
     "naver:audit-titles": "node scripts/naver-blog/audit-titles.mjs",
-    "naver:audit-links": "node scripts/naver-blog/audit-links.mjs"
+    "naver:audit-links": "node scripts/naver-blog/audit-links.mjs",
+    "naver:audit-drafts": "node scripts/naver-blog/audit-drafts.mjs",
+    "naver:verify-blurbs": "node scripts/naver-blog/verify-blurbs.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",
