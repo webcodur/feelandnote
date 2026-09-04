@@ -124,8 +124,16 @@ export function CategoryTabFilter<T extends string>({
           );
 
           const href = linkTo ? linkTo(option.value) : undefined;
+          // 주소와 손잡이를 함께 받으면 링크로 그리되 누름은 가로챈다.
+          // 화면은 그대로 갈아 끼우면서, 서버가 보내는 HTML 에는 그 탭으로 가는 길이 남는다.
           return href ? (
-            <Link key={option.value} href={href} aria-current={isActive ? "page" : undefined} className={cls}>
+            <Link
+              key={option.value}
+              href={href}
+              aria-current={isActive ? "page" : undefined}
+              onClick={onChange ? (e) => { e.preventDefault(); onChange(option.value); } : undefined}
+              className={cls}
+            >
               {content}
             </Link>
           ) : (
