@@ -1,0 +1,198 @@
+{
+  "work": {
+    "id": "baf268af-0966-44ae-b939-a33d2be2e8fe",
+    "title": "택시 드라이버",
+    "poster": "https://image.tmdb.org/t/p/w500/nJFKg6pyfmkLKttiLQKQuLZBLKH.jpg",
+    "creator": "마틴 스코세이지",
+    "release": null
+  },
+  "tmdb": {
+    "runtime": 114,
+    "vote": 8.122,
+    "voteCount": 13746,
+    "genres": [
+      "범죄",
+      "드라마"
+    ],
+    "overview": "트래비스는 베트남전에서 귀환한 후 불면증에 시달리며 사회에 적응하지 못하고 있다. 그래서 그는 택시 운전기사로 일하며 뉴욕의 밤거리를 다니며 타락한 사회를 보고 자신이 직접 이 악들을 제거하려고 마음 먹는다. 어느 날 트래비스는 우연히 12살 짜리 창녀 아이리스를 만나게 되고 그녀의 인생을 구하려 하지만 그녀는 집으로 돌아가길 꺼려 한다. 자신은 아무 것도 할 수 없다는 생각에 무기력해진 트래비스는 4개의 권총을 구입하고 상원의원 팔렌타인을 저격하러 나선다. 하지만 엉뚱하게도 사창가에서 피비린내 나는 총격전을 벌인 끝에 아이리스를 묶어두고 있던 포주 스포츠를 살해하고 마는데...",
+    "original": "Taxi Driver",
+    "cast": [
+      {
+        "name": "로버트 드 니로",
+        "role": "Travis Bickle"
+      },
+      {
+        "name": "조디 포스터",
+        "role": "Iris"
+      },
+      {
+        "name": "Cybill Shepherd",
+        "role": "Betsy"
+      },
+      {
+        "name": "하비 카이텔",
+        "role": "Sport"
+      },
+      {
+        "name": "Peter Boyle",
+        "role": "Wizard"
+      }
+    ],
+    "director": [
+      "마틴 스콜세지"
+    ],
+    "trailers": [
+      {
+        "key": "dPdmoCG5K24",
+        "name": "Peak Cinema",
+        "type": "Teaser"
+      },
+      {
+        "key": "zdqCqDSTVNI",
+        "name": "Modern Trailer",
+        "type": "Trailer"
+      },
+      {
+        "key": "lbSisPcYQFQ",
+        "name": "Fathom Events Spot",
+        "type": "Teaser"
+      },
+      {
+        "key": "S7ORyD-e7-0",
+        "name": "Official 40th Anniversary Reissue Trailer",
+        "type": "Trailer"
+      },
+      {
+        "key": "UUxD4-dEzn0",
+        "name": "Trailer",
+        "type": "Trailer"
+      }
+    ],
+    "trailer": {
+      "key": "dPdmoCG5K24",
+      "name": "Peak Cinema",
+      "type": "Teaser"
+    }
+  },
+  "total": 23,
+  "usable": 13,
+  "picked": [
+    {
+      "id": "50cd8b72-1079-4ce5-8729-a4b6a152fa6e",
+      "slug": "mark-wahlberg",
+      "nickname": "마크 월버그",
+      "profession": "actor",
+      "title": "「트랜스포머」",
+      "review": "마크 월버그는 인생 최애 영화로 마틴 스코세이지 감독의 택시 드라이버를 꼽았다. \"택시 드라이버가 진짜 저한테 와닿습니다\"라고 밝히면서도, 이유를 묻자 \"그건 제 뒤틀린 마음속을 너무 많이 보여줄 것 같습니다\"라며 웃었다. 보스턴 빈민가 출신으로 10대에 범죄와 마약에 빠졌던 자신의 과거와 트래비스 비클의 어둠이 겹치는 부분이 있었을 것이다.",
+      "source": "https://faroutmagazine.co.uk/mark-wahlberg-favourite-movie-of-all-time-mon/"
+    },
+    {
+      "id": "b687d9e8-4504-4e97-aed1-7751bad8b70f",
+      "slug": "james-cameron",
+      "nickname": "제임스 카메론",
+      "profession": "director",
+      "title": "「아바타」",
+      "review": "카메론이 Fandor 인터뷰에서 \"나는 택시 드라이버를 사랑한다\"고 밝힌 역대 최고의 영화 5편 중 하나이다. 로버트 드 니로가 연기한 정신적으로 불안정한 베트남전 참전용사 트래비스 비클의 이야기는 대도시의 어둠과 인간 소외를 다룬다. 드 니로의 즉흥 연기 \"나한테 말하는 거야?\"는 영화사에서 가장 상징적인 대사 중 하나가 되었다.",
+      "source": "https://editorial.rottentomatoes.com/article/five-favorite-films-with-james-cameron/"
+    },
+    {
+      "id": "f3bdfcc8-067f-4dae-b382-8cd7830baee6",
+      "slug": "t.o.p",
+      "nickname": "탑",
+      "profession": "musician",
+      "title": "빅뱅 전 멤버",
+      "review": "탑(T.O.P)은 W Korea 인터뷰에서 로버트 드니로의 연기 가운데 특히 《택시 드라이버》를 가장 좋아했다고 말했다. 어린 시절 처음 본 뒤 다시 볼 때마다 해석이 달라지고, 큰 표현보다 작은 손동작에도 드러나는 드니로의 섬세한 연기를 좋아한다고 설명했다.",
+      "source": "https://www.wkorea.com/2013/11/25/%EB%B0%B0%EC%9A%B0%EB%8F%84-%EC%95%84%EC%9D%B4%EB%8F%8C%EB%8F%84-%EC%95%84%EB%8B%8C-27%EC%84%B8%EC%9D%98-%EC%B5%9C%EC%8A%B9%ED%98%842/"
+    },
+    {
+      "id": "ebc02606-4ac4-4e5f-857c-f0b210983bd0",
+      "slug": "lex-fridman",
+      "nickname": "렉스 프리드먼",
+      "profession": "influencer",
+      "title": "인공지능 대담",
+      "review": "렉스 프리드먼은 탈 윌켄펠드와의 대담에서 《택시 드라이버》를 두고 \"저는 그 영화를 사랑합니다\"라고 말했다. 트래비스 비클이 안고 있는 깊은 외로움을 설명하며 그런 고독을 어떻게 보느냐고 물었다.",
+      "source": "https://lexfridman.com/tal-wilkenfeld-transcript/"
+    },
+    {
+      "id": "c146ab18-47d1-4779-a488-f1857401ca80",
+      "slug": "mads-mikkelsen",
+      "nickname": "매즈 미켈슨",
+      "profession": "actor",
+      "title": "「Another Round」",
+      "review": "매즈 미켈슨은 이 영화가 자신의 영화관을 완전히 바꿨다고 말했다. \"제 가장 좋아하는 영화입니다. 이 영화를 본 이후로 항상 캐릭터에 딜레마를 만들어 넣으려 했습니다. 완전히 좋거나 완전히 나쁜 캐릭터는 없습니다\"라고 밝혔다. 20대에 로버트 드 니로의 독백을 전부 외웠으며, 스코세이지를 직접 만났을 때 그 독백을 처음부터 끝까지 암송했다.",
+      "source": "https://faroutmagazine.co.uk/mads-mikkelsen-five-favourite-movies/"
+    },
+    {
+      "id": "9f642c80-2bdd-4b10-b63b-01d161c7440c",
+      "slug": "pedro-almodovar",
+      "nickname": "페드로 알모도바르",
+      "profession": "director",
+      "title": "시네마틱 황제",
+      "review": "페드로 알모도바르는 스코세이지의 『택시 드라이버』를 보고 도시가 캐릭터가 될 수 있다는 사실을 받아들였다고 말했다. 매드리드의 밤거리를 그가 『신경쇠약 직전의 여자』(1988)에서 무대로 끌어올릴 때 트라비스의 뉴욕이 길잡이였다고 그는 더 필름 스테이지 베스트 리스트에서 밝혔다.",
+      "source": "https://thefilmstage.com/pedro-almodovars-favorite-films-of-all-time/"
+    },
+    {
+      "id": "d791d016-051c-429b-9f99-3e514ef5291a",
+      "slug": "leonardo-dicaprio",
+      "nickname": "레오나르도 디카프리오",
+      "profession": "actor",
+      "title": "「타이타닉」",
+      "review": "레오나르도 디카프리오는 이 영화를 자신에게 \"심각한 영향을 미친 작품\"이라 말했다. 로버트 드 니로의 트래비스 비클 연기를 가장 인상 깊은 영화 연기 중 하나로 꼽았으며, 이 작품의 감독 마틴 스코세이지와는 이후 여섯 편의 영화를 함께 만들었다.",
+      "source": "https://faroutmagazine.co.uk/leonardo-dicaprio-favourite-films-list/"
+    },
+    {
+      "id": "1933285f-e0d0-4d52-9add-187234f46bf0",
+      "slug": "lee-myung-se",
+      "nickname": "이명세",
+      "profession": "director",
+      "title": "인정사정볼것없다",
+      "review": "이명세는 마틴 스코세이지의 《택시 드라이버》를 자신의 최애 영화 중 하나로 꼽는다. 1ROW 인생 영화 월드컵에서 그는 뉴욕이라는 도시를 담아낸 새로운 카메라와 로버트 드니로의 진면목을 이유로 들며 이 영화를 골랐다.",
+      "source": "https://www.youtube.com/watch?v=Exsf2ShvVuw"
+    },
+    {
+      "id": "8eca68d2-1427-4334-b465-e198eae3aaaa",
+      "slug": "benedict-cumberbatch",
+      "nickname": "베네딕트 컴버배치",
+      "profession": "actor",
+      "title": "셜록",
+      "review": "베네딕트 컴버배치는 아카데미 뉴스레터에서 이 영화를 논의했다. 로버트 드 니로의 비범한 연기가 독성적 남성성과 참전 군인의 사회 복귀 실패를 날카롭게 포착한다고 분석했다. 스코세이지 감독의 도시 속 고독의 묘사가 지금까지도 유효하다고 덧붙였다.",
+      "source": "https://newsletter.oscars.org/what-to-watch/post/benedict-cumberbatch-6-movies-i-cant-stop-thinking-about"
+    },
+    {
+      "id": "e76c5833-f949-426f-93d5-1fd0a0555bc7",
+      "slug": "david-fincher",
+      "nickname": "데이비드 핀처",
+      "profession": "director",
+      "title": "「세븐」",
+      "review": "데이비드 핀처는 스코세이지의 택시 드라이버를 즐겨찾기 영화로 선정했다. 도시의 어둠 속에서 고립된 인간의 광기를 포착하는 스코세이지의 시선은 핀처가 세븐과 파이트 클럽에서 반복적으로 탐구한 주제다.",
+      "source": "https://nofilmschool.com/david-fincher-favorite-films"
+    },
+    {
+      "id": "c76b4c2b-c0ba-4b8a-97a2-2a9ddfe21caf",
+      "slug": "oscar-isaac",
+      "nickname": "오스카 아이작",
+      "profession": "actor",
+      "title": "「문나이트」",
+      "review": "오스카 아이작은 1970년대 안티히어로가 중심이 된 영화들을 깊이 사랑한다고 밝혔다. 그는 \"서피코, 택시 드라이버, 뜨거운 오후, 이것들은 제가 가장 좋아하는 영화들입니다. 삶의 회색 지대를 더 많이 볼 수 있기 때문입니다\"라고 말했다.",
+      "source": "https://www.indiewire.com/features/general/oscar-isaac-pedro-almodovar-david-lynch-inspired-comic-book-1234773571/"
+    },
+    {
+      "id": "4e15f30f-8a96-4b02-b5db-ba4a81d37261",
+      "slug": "quentin-tarantino",
+      "nickname": "쿠엔틴 타란티노",
+      "profession": "director",
+      "title": "「펄프 픽션」",
+      "review": "타란티노의 역대 최고 영화 목록 상위권에 항상 오르는 작품으로, 그의 극단적 폭력 묘사의 청사진이 되었다. \"스코세이지의 클래식이 타란티노의 극단적 폭력에 대한 매혹의 청사진을 제시했다.\"",
+      "source": "https://wiki.tarantino.info/index.php/Tarantino's_favorite_films"
+    },
+    {
+      "id": "7e07fa43-43ab-404c-bb5b-20cc35cc6149",
+      "slug": "saoirse-ronan",
+      "nickname": "시얼샤 로넌",
+      "profession": "actor",
+      "title": "「레이디버드」",
+      "review": "시얼샤 로넌은 로튼 토마토 인터뷰에서 이 영화를 자신의 5대 영화로 꼽았다. \"감정적 차원에서 저를 강타한 영화예요. 스코세이지가 선택한 촬영 기법의 창의성과 상상력에 압도당했어요\"라고 말했다.",
+      "source": "https://editorial.rottentomatoes.com/article/five-favorite-films-with-saoirse-ronan/"
+    }
+  ]
+}

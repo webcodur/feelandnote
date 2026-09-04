@@ -1,0 +1,216 @@
+{
+  "work": {
+    "id": "5ea098b8-ebd7-4a86-a18e-32eeba67e7c0",
+    "title": "대부",
+    "poster": "https://image.tmdb.org/t/p/w500/1yvBkSv4ZLS1GohlmMDmdpSgfYo.jpg",
+    "creator": "프란시스 포드 코폴라",
+    "release": "1972-03-14"
+  },
+  "tmdb": {
+    "runtime": 175,
+    "vote": 8.687,
+    "voteCount": 23481,
+    "genres": [
+      "드라마",
+      "범죄"
+    ],
+    "overview": "시실리에서 이민온 뒤, 정치권까지 영향력을 미치는 거물로 자리잡은 돈 꼴레오네는 갖가지 고민을 호소하는 사람들의 문제를 해결해주며 대부라 불리운다. 한편 솔로소라는 인물은 꼴레오네가와 라이벌인 탓타리아 패밀리와 손잡고 새로운 마약 사업을 제안한다. 돈 꼴레오네가 마약 사업에 참여하지 않기로 하자, 돈 꼴레오네를 저격해 그는 중상을 입고 사경을 헤매게 된다. 그 뒤, 돈 꼴레오네의 아들 소니는 조직력을 총 동원해 다른 패밀리들과 피를 부르는 전쟁을 시작하는데... 가족의 사업과 상관없이 대학에 진학한 뒤 인텔리로 지내왔던 막내 아들 마이클은 아버지가 총격을 당한 뒤, 아버지를 구하기 위해 위험천만한 협상 자리에 나선다.",
+    "original": "The Godfather",
+    "cast": [
+      {
+        "name": "말론 브란도",
+        "role": "Don Vito Corleone"
+      },
+      {
+        "name": "알 파치노",
+        "role": "Michael Corleone"
+      },
+      {
+        "name": "제임스 칸",
+        "role": "Sonny Corleone"
+      },
+      {
+        "name": "로버트 듀발",
+        "role": "Tom Hagen"
+      },
+      {
+        "name": "리차드 S. 카텔라노",
+        "role": "Clemenza"
+      }
+    ],
+    "director": [
+      "프란시스 포드 코폴라"
+    ],
+    "trailers": [
+      {
+        "key": "Ew9ngL1GZvs",
+        "name": "50th Anniversary Trailer",
+        "type": "Trailer"
+      },
+      {
+        "key": "gMjmsqvIPGc",
+        "name": "45th Anniversary Spot",
+        "type": "Teaser"
+      },
+      {
+        "key": "8V2k2YQEQJ4",
+        "name": "Original Trailer",
+        "type": "Trailer"
+      },
+      {
+        "key": "Cu7ArRoRhUQ",
+        "name": "[대부] 2025.09.17 4K 리마스터링 개봉 - 30초 예고편",
+        "type": "Trailer"
+      },
+      {
+        "key": "WCppiDQcl2I",
+        "name": "[대부] 2025. 09. 17 4K 리마스터링 개봉 - 메인 예고편",
+        "type": "Trailer"
+      }
+    ],
+    "trailer": {
+      "key": "Ew9ngL1GZvs",
+      "name": "50th Anniversary Trailer",
+      "type": "Trailer"
+    }
+  },
+  "total": 48,
+  "usable": 27,
+  "picked": [
+    {
+      "id": "4bf72536-3807-4417-b240-5e9079922883",
+      "slug": "adrien-brody",
+      "nickname": "에이드리언 브로디",
+      "profession": "actor",
+      "title": "「피아니스트」",
+      "review": "에이드리언 브로디는 인터뷰에서 올타임 최애 영화로 대부를 꼽았다. \"뛰어난 연기, 숙련되고 복잡한 연출, 아름다운 촬영, 장대한 스토리텔링의 조합입니다. 이 장르가 수없이 반복되었지만 이 작품에 견줄 만한 것은 없습니다\"라고 말했다. 브로디는 젊은이들이 다양한 이유로 대부에 끌리며, 자신도 언제나 이 작품으로 돌아간다고 밝혔다.",
+      "source": "https://faroutmagazine.co.uk/adrien-brody-favourite-film-all-time/"
+    },
+    {
+      "id": "43916730-32d8-468a-8c7a-964799323591",
+      "slug": "madonna",
+      "nickname": "마돈나",
+      "profession": "musician",
+      "title": "「라이크 어 버진」",
+      "review": "마돈나는 2014년 Interview Magazine에서 기억에 남는 연기를 묻는 질문에 \"알 파치노가 대부에서 마이클 콜레오네로 보여준 모든 장면\"이라고 답했다. 특정 장면이 아닌 캐릭터 전체를 관통하는 연기에 감탄했다.",
+      "source": "https://www.interviewmagazine.com/music/madonna-1"
+    },
+    {
+      "id": "58873892-a0e9-4049-aaa3-361b34674db2",
+      "slug": "carlo-ancelotti",
+      "nickname": "카를로 안첼로티",
+      "profession": "athlete",
+      "title": "챔피언스리그 4회",
+      "review": "카를로 안첼로티는 독일 언론 인터뷰에서 대부 시리즈의 열렬한 팬이라고 밝혔다. 특히 1편을 가장 좋아한다고 말했다. \"가족 중심의 리더십과 충성심이라는 주제가 제 철학과 맞닿아 있습니다\"라고 덧붙였다. 안첼로티는 자신의 감독 스타일을 영화감독에 비유하며, 대부의 돈 코를레오네처럼 선수들과의 관계를 가족적으로 구축하는 방식을 추구한다.",
+      "source": "https://www.espn.com/soccer/story/_/id/37455083/bayern-munich-boss-carlo-ancelotti-seeks-inspiration-al-pacino"
+    },
+    {
+      "id": "1d82022d-23f0-489d-9258-ea41b0dc940d",
+      "slug": "jeffrey-katzenberg",
+      "nickname": "제프리 카첸버그",
+      "profession": "entrepreneur",
+      "title": "드림웍스 창업자",
+      "review": "제프리 카첸버그는 2023년 ACMI 대담에서 《아라비아의 로렌스》와 《대부》를 자기가 가장 아끼는 두 편이라고 말했다. 2012년 할리우드 리포터 좌담에서는 동석한 경영자들이 그가 《대부》를 고를 줄 알았다고 할 만큼, 이 영화를 향한 그의 애착은 업계에 알려져 있었다.",
+      "source": "https://www.youtube.com/watch?v=PkfXYnjUjCI"
+    },
+    {
+      "id": "d4abcc3f-6644-4412-83b0-cd8be1c586d0",
+      "slug": "barack-obama",
+      "nickname": "버락 오바마",
+      "profession": "politician",
+      "title": "첫 흑인 대통령",
+      "review": "버락 오바마는 이 영화를 자신의 올타임 최애 영화로 꼽았다. 케이티 커릭과의 2008년 인터뷰에서 \"구세계의 품격과 의례가 그 아래 깔린 야만성과 결합된 점이 매력적이다\"라고 말했다.",
+      "source": "https://www.huffpost.com/entry/obama-movie-buff_n_5880c3b2e4b04b69667e9ed9"
+    },
+    {
+      "id": "b687d9e8-4504-4e97-aed1-7751bad8b70f",
+      "slug": "james-cameron",
+      "nickname": "제임스 카메론",
+      "profession": "director",
+      "title": "「아바타」",
+      "review": "카메론이 Fandor 인터뷰에서 밝힌 역대 최고의 영화 5편 중 하나이다. \"코폴라의 영화 절반 정도\"를 좋아한다고 말하며 대부를 명시적으로 언급했다. 말론 브란도와 알 파치노가 출연한 이 마피아 서사시는 가족, 권력, 충성심이라는 주제를 다루며 미국 영화사의 정점으로 평가받는다.",
+      "source": "https://editorial.rottentomatoes.com/article/five-favorite-films-with-james-cameron/"
+    },
+    {
+      "id": "a405b0b1-6c64-4280-acaa-c9e718b0c0c4",
+      "slug": "hirohiko-araki",
+      "nickname": "아라키 히로히코",
+      "profession": "author",
+      "title": "죠죠의 만화가",
+      "review": "아라키 히로히코는 프랜시스 포드 코폴라의 『대부』를 '반복해 본 영화'로 꼽으며 5부 '황금의 바람'의 직접적 출발점이라고 밝혔다. 그는 한 세대에서 다음 세대로 권력이 이양되는 가문 서사, 충성과 배신이 같은 식탁에서 결정되는 분위기, 그리고 이탈리아라는 무대 자체가 5부 무대 설정에 그대로 옮겨졌다고 인정했다. 디아볼로의 갱단 '파시오네'와 죠르노 죠바나의 '두목 자리에 오르는 자'라는 야망 역시 비토 코를레오네 가문의 권력 이양 구도를 변주한 것이다.",
+      "source": "https://jgjhgjf.hatenablog.com/entry/2021/04/04/164230"
+    },
+    {
+      "id": "555aa914-1527-4d4b-bb48-de88c7a43d94",
+      "slug": "sean-o'brien",
+      "nickname": "숀 오브라이언",
+      "profession": "leader",
+      "title": "팀스터스 위원장",
+      "review": "숀 오브라이언은 2025년 패트릭 벳데이비드의 팟캐스트에서 이 영화를 넉 달 전에야 처음 봤다고 털어놓았다. 주변에서 다들 꼭 보라고 했지만 여태 당기지 않았고, 서부 해안에서 자기 팟캐스트를 찍고 돌아오는 비행기에서 세 시간을 내 1편만 봤다고 했다. 배우들의 면면에 놀랐고, 요즘 텔레비전과 달리 욕설이 들리지 않는다는 점이 인상에 남았다고 말했다. 보길 잘했다는 것이 그의 결론이었다.",
+      "source": "https://www.youtube.com/watch?v=5GlQgu9WepA"
+    },
+    {
+      "id": "e7d749e4-06fe-40d1-8342-fff7d9b3c1e5",
+      "slug": "michael-sandel",
+      "nickname": "마이클 샌델",
+      "profession": "humanities_scholar",
+      "title": "정의란 무엇인가",
+      "review": "마이클 샌델은 《The Focus》 인터뷰에서 《대부》를 자신이 가장 좋아하는 영화 중 하나라고 말했다. 그는 가족과 전통에서 벗어나려다 다시 끌려 들어가는 마이클 코를레오네의 비극이 인간의 정체성에 관해 깊은 이야기를 들려준다고 설명했다.",
+      "source": "https://www.egonzehnder.com/cn/insight/interview-with-political-philosopher-michael-j-sandel"
+    },
+    {
+      "id": "d900f256-8d62-4354-a171-683b2fc5c031",
+      "slug": "casey-neistat",
+      "nickname": "케이시 네이스탯",
+      "profession": "influencer",
+      "title": "브이로그",
+      "review": "케이시 네이스탯은 2023년 플래그런트 팟캐스트에서 좋은 이야기란 듣는 사람을 안으로 끌어들이는 이야기라고 말하며 《대부》를 들었다. \"7천 번은 봐서 훤히 압니다. 그래서 인물들과 함께 있는 기분이 듭니다\"라며 이 영화가 자기가 가장 좋아하는 작품 가운데 하나인 이유를 설명했다.",
+      "source": "https://www.youtube.com/watch?v=sdUzors72GQ"
+    },
+    {
+      "id": "c40387e3-a7b4-4de4-8bca-5d2fe0c07f0f",
+      "slug": "tom-cruise",
+      "nickname": "톰 크루즈",
+      "profession": "actor",
+      "title": "「미션 임파서블」",
+      "review": "톰 크루즈는 로버트 드 니로에게 깊은 영향을 받았다. 드 니로는 대부 2에서 젊은 비토 콜레오네 역할을 위해 시칠리아에서 4개월간 거주하며 언어학자들과 함께 일하고 문화에 녹아들었다. 이러한 헌신적인 접근 방식은 톰 크루즈가 전설적인 배우들의 영화를 연구하며 자신만의 교육으로 삼은 것에 반영되어 있다.",
+      "source": "https://screenrant.com/robert-deniro-movie-roles-characters-body-transformations-explained/"
+    },
+    {
+      "id": "bcc0007b-da24-4a51-a2e5-db08d12bc335",
+      "slug": "lana-del-rey",
+      "nickname": "라나 델 레이",
+      "profession": "musician",
+      "title": "「비디오 게임」",
+      "review": "라나 델 레이는 이 영화를 자신의 \"인생 영화 두 편\" 중 하나로 꼽으며, \"스토리와 배우뿐 아니라 세트가 너무 아름답고 화려해요. 역대 최고의 연기가 담긴 영화예요\"라고 극찬했다.",
+      "source": "https://faroutmagazine.co.uk/two-movies-lana-del-rey-is-obsessed-with/"
+    },
+    {
+      "id": "1980700f-1cc3-485b-b417-9f257d6f6123",
+      "slug": "rafael-nadal",
+      "nickname": "라파엘 나달",
+      "profession": "athlete",
+      "title": "클레이 황제",
+      "review": "라파엘 나달은 프란시스 포드 코폴라 감독의 「대부」를 가장 아끼는 고전 영화로 꼽았다. 패밀리의 결속과 침묵의 무게, 한 세대를 통째로 짊어진 후계자 마이클의 변모가 그가 좋아하는 「조용한 위엄」의 표상이라고 인터뷰에서 언급했다. 비토 콜레오네 역의 말런 브랜도 연기를 영화사상 가장 절제된 카리스마로 평가했다.",
+      "source": "https://www.the-sun.com/sport/742284/rafael-nadal-roger-federer-game-of-thrones-gladiator/"
+    },
+    {
+      "id": "b6c59af1-ad01-4dbb-9fc4-6c0f65a5a04a",
+      "slug": "ted-sarandos",
+      "nickname": "테드 사란도스",
+      "profession": "entrepreneur",
+      "title": "넷플릭스 CEO",
+      "review": "테드 사란도스는 2016년 Mediaweek 인터뷰에서 《대부》를 자신이 가장 좋아하는 영화 가운데 하나로 꼽았다. 이는 넷플릭스의 제작·구매 실적을 설명하는 대목이 아니라 개인의 역대 선호작을 묻는 문답에서 나온 답변이다.",
+      "source": "https://www.mediaweek.com.au/ted-sarandos-netflix-get-down"
+    },
+    {
+      "id": "1933285f-e0d0-4d52-9add-187234f46bf0",
+      "slug": "lee-myung-se",
+      "nickname": "이명세",
+      "profession": "director",
+      "title": "인정사정볼것없다",
+      "review": "이명세는 충무로영화제에서 《대부》 전편을 상영할 때 처음으로 극장에서 제대로 봤다. 1ROW 인생 영화 월드컵에서 그는 당시 1편보다 2편이 낫다는 논쟁이 있었지만 자신은 언제나 1편이 최고라며, 고든 윌리스의 촬영과 묵직한 요소가 모두 종합된 작품이라고 말했다.",
+      "source": "https://www.youtube.com/watch?v=Exsf2ShvVuw"
+    }
+  ]
+}
