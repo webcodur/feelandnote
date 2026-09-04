@@ -106,6 +106,9 @@ const h2 = (id: string, text: string) =>
   `<h2 id="${id}" style="margin:0 !important;padding:34px 0 16px !important;font-size:21px;line-height:1.45;border-top:1px solid #eee;">${text}</h2>`
 const h3 = (text: string) => `<h3 style="margin:0 !important;padding:24px 0 10px !important;font-size:17px;">${text}</h3>`
 /** 배경·테두리가 있는 블록의 바깥 여백. 스킨이 margin 을 죽여도 이 래퍼는 남는다. */
+/** 첫 문단은 늘 같은 인사로 연다. 채널의 표지이자 읽는 사람이 붙잡을 손잡이다. */
+const HELLO = '안녕하세요, 필앤노트입니다.'
+
 const gap = (html: string, px = 26) => `<div style="margin:0 !important;padding:0 0 ${px}px !important;">${html}</div>`
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -149,9 +152,22 @@ export function renderWork(m: Material): { title: string; html: string; tags: st
    * 앞서 쓴 「이 글은 세 가지를 차례로 봅니다…」는 목차가 바로 아래 있어 겹쳤고, 단문을
    * 늘어놓아 읽기도 나빴다. 마지막을 물음으로 닫아 목차와 본문으로 넘긴다.
    */
-  const madeBy = [year ? `${year}년` : '', m.tmdb.director?.length ? `${esc(m.tmdb.director[0])}${ga(m.tmdb.director[0])} 만든` : '',
+  /**
+   * 작품 소개는 **한 문단에 정보를 몰아 넣는다.** 연도·감독·장르만 적으면 「그래서 어떤
+   * 영화인데」가 남는다. 러닝타임·주연·평점까지 한 번에 읽히도록 이어 붙인다.
+   * 줄거리는 아래 「어떤 영화인가」 절이 온전히 쥔다 — 여기서 겹쳐 쓰지 않는다.
+   */
+  const bits: string[] = []
+  const made = [year ? `${year}년` : '', m.tmdb.director?.length ? `${esc(m.tmdb.director[0])}${ga(m.tmdb.director[0])} 만든` : '',
     m.tmdb.genres?.length ? `${esc(m.tmdb.genres.slice(0, 2).join('·'))} 영화` : '작품'].filter(Boolean).join(' ')
-  p(para(`오늘 만나볼 영화는 『${esc(t)}』입니다. ${madeBy}입니다.`))
+  bits.push(m.tmdb.runtime ? `${made}로 러닝타임은 ${m.tmdb.runtime}분입니다.` : `${made}입니다.`)
+  const cast = (m.tmdb.cast ?? []).filter((c) => /[가-힣]/.test(c.name)).slice(0, 3).map((c) => esc(c.name))
+  if (cast.length >= 2) bits.push(`${cast[0]}${ga(cast[0])} 주연을 맡았고 ${cast.slice(1).join(', ')}${eul(cast[cast.length - 1])} 비롯한 배우들이 함께 나옵니다.`)
+  else if (cast.length === 1) bits.push(`${cast[0]}${ga(cast[0])} 주연을 맡았습니다.`)
+  if (m.tmdb.vote) bits.push(`TMDB 평점은 10점 만점에 <b>${m.tmdb.vote.toFixed(1)}점</b>이고 ${(m.tmdb.voteCount ?? 0).toLocaleString()}명이 매겼습니다.`)
+
+  p(para(HELLO))
+  p(para(`오늘 만나볼 영화는 『${esc(t)}』입니다. ${bits.join(' ')}`))
   p(para(`이 작품을 인생 영화로 꼽은 사람이 <b>${m.total}명</b> 있습니다.${pair.length === 2 ? ` 감독과 배우만이 아니라 ${pair[0]}·${pair[1]} 쪽에서도 이 영화를 말했습니다.` : ''} 그들은 어디서 무슨 말을 했을까요?`))
 
   p(`<div style="margin:0 !important;padding:10px 0 32px !important;"><div style="padding:20px 24px;background:#f7f7f8;border-radius:6px;">`)
@@ -257,7 +273,16 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
   }
 
   const intro = (m.celeb.headline || m.celeb.title || '').replace(/[「」『』]/g, '')
+  p(para(HELLO))
+  /**
+   * `bio` 는 「…얻었다」처럼 **간결체**로 쓰여 있다. 정중체 문단에 그대로 이으면 말투가
+   * 어긋나므로 인용 상자에 따로 담는다. 소개는 `headline` 한 줄로 끝낸다.
+   */
+  const bio = (m.celeb.bio ?? '').trim()
   p(para(`오늘 만나볼 사람은 ${esc(who)}입니다.${intro ? ` ${esc(intro)}${ro(intro)} 알려져 있습니다.` : ''}`))
+  if (bio && bio !== intro) {
+    p(`<div style="margin:0 !important;padding:0 0 20px !important;"><div style="padding:16px 18px;background:#f7f7f8;border-radius:6px;font-size:15px;line-height:1.8;color:#555;">${esc(bio)}</div></div>`)
+  }
   p(para(`${esc(who)}${ga(who)} 인터뷰와 방송에서 직접 말한 영화가 <b>${m.total}편</b> 있습니다. 아래는 그 가운데 널리 알려진 ${m.picked.length}편입니다. 그는 무엇을 보고 무슨 말을 했을까요?`))
 
   p(`<div style="margin:28px 0;padding:18px 22px;background:#f7f7f8;border-radius:6px;">`)
@@ -353,14 +378,18 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
   const L: string[] = []
   const p = (s: string) => L.push(s)
 
+  p(para(HELLO))
   p(para(`오늘 살펴볼 목록은 <b>${esc(name)}</b>입니다.${m.curator ? ` ${esc(m.curator.name)}가 고른 ${m.totalItems}편이고, 아래에 전체를 실었습니다.` : ` 아래에 ${m.totalItems}편 전체를 실었습니다.`}`))
-  if (m.list.description) p(para(esc(m.list.description)))
+  // `description`·`method` 도 간결체다. 정중체 본문과 섞이지 않게 상자에 담는다.
+  const box = (html: string) =>
+    p(`<div style="margin:0 !important;padding:0 0 20px !important;"><div style="padding:16px 18px;background:#f7f7f8;border-radius:6px;font-size:15px;line-height:1.8;color:#555;">${html}</div></div>`)
+  if (m.list.description) box(esc(m.list.description))
   /**
    * `method` 에는 「…를 필자가 연 출처에서 확인하지 못했다」 같은 **작업 메모**가 괄호로 붙어
    * 있다. 사이트에서는 근거로 쓰이지만 블로그 독자에게는 군더더기다. 괄호 블록을 걷는다.
    */
   const method = (m.list.method ?? '').replace(/\s*\([^)]*(?:확인|미상|추정|필자|출처)[^)]*\)/g, '').trim()
-  if (method) p(`<p style="${P_STYLE}color:#555;">${esc(method)}</p>`)
+  if (method) box(esc(method))
   p(para(`이 목록이 다른 곳과 갈리는 지점이 하나 있습니다. ${m.totalItems}편 가운데 <b>${m.withVoice}편</b>은 필앤노트에 기록이 있는 감독·배우·작가가 자기 인생 영화로 꼽은 작품입니다. 그들은 어디서 무슨 말을 했을까요?`))
 
   p(`<div style="margin:28px 0;padding:18px 22px;background:#f7f7f8;border-radius:6px;">`)
