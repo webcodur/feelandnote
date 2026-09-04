@@ -13,6 +13,8 @@ data/celeb/
 ├── headline-rewrite/            # 회차 중에만 존재
 │   └── ledger/lane-NN.json
 ├── figure-books/                # 등장·연관 도서 후보와 반영 전 검수본
+├── hero-photo/                  # 대표 사진 연출문 초안. 생성·등록 뒤 삭제
+│   └── scene-manifest.md
 ├── timeline-life-rewrite/
 │   ├── korean-diagnostic/
 │   ├── pilots/
@@ -36,6 +38,10 @@ data/celeb/
 인물별 고유 대사의 등록 전 원고와 등록 완료 참고본이다. 작성·등록 규칙은
 `docs/project/celeb/celeb-04-01-speech.md`를 따른다. 실제 서비스 값의 원천은
 `celeb_dialogues` 테이블이다.
+
+### `hero-photo/`
+
+아바타·대표 사진이 둘 다 없는 인물의 대표 사진 연출문 초안이다. `SHOT MODE`·`ACTION`·`SETTING`을 인물별로 배분해 두고 발주할 때 꺼내 쓴다. 규격은 `docs/project/celeb/celeb-08-02-hero-photo.md`, 얼굴·복식과 금지 항목은 `docs/todo/celeb/avatar-backlog.md`가 쥔다. 생성과 등록이 끝나면 지운다.
 
 ### `viewing-research/`
 
