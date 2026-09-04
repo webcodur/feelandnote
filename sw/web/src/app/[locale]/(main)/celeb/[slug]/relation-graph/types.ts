@@ -1,6 +1,6 @@
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
-export type RelationMode = "family" | "social";
+export type RelationMode = "family" | "social" | "other";
 export type KinRank = "parents" | "siblings" | "spouses" | "children";
 export type SocialBand = "up" | "left" | "right" | "down";
 export type RelationFocus = KinRank | SocialBand;
@@ -32,6 +32,8 @@ export interface RelationModel {
   people: PersonNode[];
   family: Record<KinRank, PersonNode[]>;
   social: Record<SocialBand, PersonNode[]>;
+  /** 가족도 사회도 아닌 관계(대응 신격 등). 갈래를 더 나누지 않고 한 자리에 모은다 */
+  other: PersonNode[];
   familyPeople: PersonNode[];
   socialPeople: PersonNode[];
 }

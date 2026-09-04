@@ -17,6 +17,7 @@ const model: RelationModel = {
   people: [...rivals, upPerson, downPerson],
   family: { parents: [], siblings: [], spouses: [], children: [] },
   social: { up: [upPerson], left: [], right: rivals, down: [downPerson] },
+  other: [],
   familyPeople: [], socialPeople: [...rivals, upPerson, downPerson],
 };
 const labels: DiagramLabels = {

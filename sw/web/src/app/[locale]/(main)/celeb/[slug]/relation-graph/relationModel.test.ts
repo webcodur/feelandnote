@@ -3,7 +3,7 @@ import test from "node:test";
 
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
-import { buildRelationModel, typesForMode } from "./relationModel";
+import { buildRelationModel, peopleForMode, relationFocusesForMode, typesForMode } from "./relationModel";
 
 const counterpart: CelebRelationItem = {
   relType: "counterpart",
@@ -23,10 +23,22 @@ const counterpart: CelebRelationItem = {
   note_en: "Greek and Roman counterpart deities",
 };
 
-test("대응 신격은 상세 관계망의 왼쪽 사회 관계에 둔다", () => {
+test("대응 신격은 사회가 아니라 기타 갈래로 간다", () => {
   const model = buildRelationModel([counterpart], "ko");
 
-  assert.deepEqual(model.social.left.map(({ id }) => id), ["jupiter"]);
-  assert.deepEqual(model.socialPeople.map(({ id }) => id), ["jupiter"]);
-  assert.deepEqual(typesForMode(model.people[0], "social"), ["counterpart"]);
+  assert.deepEqual(model.other.map(({ id }) => id), ["jupiter"]);
+  assert.deepEqual(model.social.left, []);
+  assert.deepEqual(model.socialPeople, []);
+  assert.deepEqual(model.familyPeople, []);
+  assert.deepEqual(relationFocusesForMode(model, "other"), ["left"]);
+  assert.deepEqual(peopleForMode(model, "other").map(({ id }) => id), ["jupiter"]);
+  assert.deepEqual(typesForMode(model.people[0], "other"), ["counterpart"]);
+});
+
+test("협력·대립처럼 갈래가 있는 관계는 기타로 새지 않는다", () => {
+  const colleague = { ...counterpart, id: "ally", relType: "colleague", relGroup: "career" } as CelebRelationItem;
+  const model = buildRelationModel([colleague], "ko");
+
+  assert.deepEqual(model.social.left.map(({ id }) => id), ["ally"]);
+  assert.deepEqual(model.other, []);
 });
