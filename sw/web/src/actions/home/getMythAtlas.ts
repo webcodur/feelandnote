@@ -17,6 +17,8 @@ import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "./mythAtla
 interface TagRow {
   id: string; parent_id: string | null; slug: string | null; name: string; name_en: string | null;
   description: string | null; description_en: string | null;
+  /* 공개 여부는 DB가 쥔다. 전에는 코드에 이름 목록을 적어 두어 전승 하나를 잠그는 데도 배포가 필요했다 */
+  atlas_published: boolean | null;
 }
 interface MemberRow {
   tag_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null; sort_order: number | null;
@@ -38,14 +40,6 @@ const CATEGORY: Record<ContentType, MythWork["category"]> = {
 };
 
 const unique = <T,>(items: T[]) => [...new Set(items)];
-
-// 공개 전승 — 이름을 여기 적은 전승만 열린다. 나머지는 칩이 비활성으로 남고 「작업 예정」이 붙는다.
-// 인물·안내글은 17개 전승 284명이 다 갖췄지만 살 수 있는 원전이 그리스 쪽에만 모여 있어,
-// 상품이 준비된 세 전승을 먼저 열고 나머지는 도서를 채우는 대로 한 줄씩 더한다.
-const PUBLISHED_TRADITION_NAMES = new Set([
-  "그리스 신화",
-  "일리아스",
-]);
 
 const MYTH_REGIONS = [
   { id: "korea", ko: "한국", en: "Korea", prefixes: ["myth-korea"] },
@@ -109,13 +103,13 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
 
   const { data: rootTagData, error: tagError } = await db
     .from("celeb_tags")
-    .select("id,parent_id,slug,name,name_en,description,description_en")
+    .select("id,parent_id,slug,name,name_en,description,description_en,atlas_published")
     .eq("parent_id", parent.id).order("sort_order");
   if (tagError) throw new Error(`신화 목록 조회 실패: ${tagError.message}`);
   const rootTags = (rootTagData ?? []) as TagRow[];
   const { data: nestedTagData, error: nestedTagError } = rootTags.length > 0
     ? await db.from("celeb_tags")
-      .select("id,parent_id,slug,name,name_en,description,description_en")
+      .select("id,parent_id,slug,name,name_en,description,description_en,atlas_published")
       .in("parent_id", rootTags.map((tag) => tag.id)).order("sort_order")
     : { data: [], error: null };
   if (nestedTagError) throw new Error(`Failed to load nested mythology tags: ${nestedTagError.message}`);
@@ -220,7 +214,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     const images = titleArt ? [{ url: titleArt, label: null }] : [];
     return [{ id: tag.id, slug: tag.slug, name: isEn ? tag.name_en || tag.name : tag.name,
       description: isEn ? tag.description_en || tag.description : tag.description,
-      isPublished: PUBLISHED_TRADITION_NAMES.has(tag.name),
+      isPublished: tag.atlas_published === true,
       regionId: region.id, images, personIds: ids }];
   });
   const regions = MYTH_REGIONS.map((region): MythRegion => ({

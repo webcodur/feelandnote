@@ -16,6 +16,8 @@ function tag(id: string, name: string, parentId: string | null): CelebTag {
     team_images: [],
     sort_order: 0,
     is_featured: false,
+    atlas_published: false,
+    is_fiction: false,
     parent_id: parentId,
     start_date: null,
     end_date: null,

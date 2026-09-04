@@ -28,6 +28,10 @@ export interface CelebTag {
   team_images: FactionTeamImage[]
   sort_order: number
   is_featured: boolean
+  /** 신화 아틀라스에서 이 전승을 공개하는가. 세력도감 노출(is_featured)과 다른 축이다 */
+  atlas_published: boolean
+  /** 신화·전승 갈래인가. 참인 테마만 신화 공개 축을 다룬다 */
+  is_fiction: boolean
   /** 상위 그룹 테마의 id. null 이면 무소속(최상위). 자식을 가진 테마가 곧 그룹이다 */
   parent_id: string | null
   start_date: string | null
@@ -108,6 +112,7 @@ interface UpdateTagInput {
   slug?: string | null
   sort_order?: number
   is_featured?: boolean
+  atlas_published?: boolean
   /** 상위 그룹 지정. null 이면 무소속으로 되돌린다 */
   parent_id?: string | null
   start_date?: string | null
@@ -317,6 +322,7 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
   if (input.slug !== undefined) updateData.slug = input.slug?.trim() || null
   if (input.sort_order !== undefined) updateData.sort_order = input.sort_order
   if (input.is_featured !== undefined) updateData.is_featured = input.is_featured
+  if (input.atlas_published !== undefined) updateData.atlas_published = input.atlas_published
   if (input.parent_id !== undefined) updateData.parent_id = input.parent_id || null
   if (input.start_date !== undefined) updateData.start_date = input.start_date || null
   if (input.end_date !== undefined) updateData.end_date = input.end_date || null
