@@ -19,6 +19,9 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || '.next',
   env: {
     NEXT_PUBLIC_R2_PUBLIC_URL: process.env.R2_PUBLIC_URL,
+    // 배포마다 달라지는 값. 브라우저에 박아 두고 서버가 내주는 값과 비교해,
+    // 배포 순간 열려 있던 탭이 낡은 번들을 쥔 채라는 것을 화면에서 알린다.
+    NEXT_PUBLIC_DEPLOYMENT_ID: process.env.NEXT_DEPLOYMENT_ID ?? '',
   },
   webpack(config, { dev }) {
     if (!dev) {

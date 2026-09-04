@@ -13,6 +13,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 import { GameAudioProvider } from "@/contexts/GameAudioContext";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
+import DeploymentNotice from "@/components/layout/DeploymentNotice";
 import UiXray from "@/components/shared/ui-xray/UiXray";
 import {
   getOrganizationJsonLd,
@@ -125,6 +126,7 @@ export default async function LocaleLayout({
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
               />
               <ServiceWorkerRegistrar />
+              <DeploymentNotice />
               <UiXray />
               {children}
               <Footer />
