@@ -613,10 +613,12 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       bio: celeb.bio,
       cultural_journey: celeb.consumption_philosophy,
       is_verified: celeb.is_verified,
-      status: celeb.status,
+      // RPC는 publication_status·claimed_by_member_id라는 이름으로 돌려준다.
+      // 예전에는 celeb.status·celeb.claimed_by로 읽어 전원 active·미청구로 보였다
+      status: celeb.publication_status,
       celeb_tier: celeb.celeb_tier || 'full',
       celeb_reality: celeb.celeb_reality || 'REAL',
-      claimed_by: celeb.claimed_by,
+      claimed_by: celeb.claimed_by_member_id,
       created_at: celeb.created_at || '',
       content_count: resolveCelebContentCount(
         celeb.content_count || 0,

@@ -151,7 +151,10 @@ function StatusToggleIcon({ celebId, status: initialStatus }: { celebId: string;
     inactive: { className: 'text-yellow-400', hoverClass: 'hover:bg-green-500/10', icon: Clock, title: 'inactive → active' },
     deleted: { className: 'text-gray-400', hoverClass: '', icon: Ban, title: 'deleted' },
   }
-  const { className, hoverClass, icon: Icon, title } = config[status] || config.active
+  // 값이 없으면 active로 보여 주지 않는다 — 실제로 그 폴백 때문에 비공개 인물이
+  // 전원 활성으로 보이는 사고가 있었다. 모르는 값은 모른다고 표시한다
+  const unknownConfig = { className: 'text-text-dim', hoverClass: '', icon: Ban, title: '상태 미상' }
+  const { className, hoverClass, icon: Icon, title } = config[status] || unknownConfig
 
   const handleClick = async () => {
     if (status !== 'active' && status !== 'inactive') return
