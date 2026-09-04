@@ -191,13 +191,13 @@ async function personMediaStateOf(
 }
 
 /**
- * 신화 표시 ↔ 셀럽 등급 어긋남.
- * 제작 데이터가 신화라 했는데 셀럽 등급이 fiction 이 아니거나, 반대로 fiction 인데 표시가 없는 경우다.
+ * 신화 표시 ↔ 셀럽 실존 축 어긋남.
+ * 제작 데이터가 신화라 했는데 celeb_reality가 REAL이거나, 반대로 REAL이 아닌데 표시가 없는 경우다.
  * 어느 쪽이 맞는지는 사람이 판단하므로 출간을 막지 않고 알리기만 한다.
  */
-function tierMismatchOf(mythical: boolean, tier: string | undefined): boolean {
-  if (!tier) return false
-  return mythical !== (tier === 'fiction')
+function tierMismatchOf(mythical: boolean, reality: string | undefined): boolean {
+  if (!reality) return false
+  return mythical !== (reality !== 'REAL')
 }
 
 /**
@@ -308,6 +308,7 @@ export async function buildStatus(db: DatabaseClient, folder: string): Promise<F
       const profile = p.celebId ? snap.celebsById.get(p.celebId) : undefined
       const personMedia = await personMediaStateOf(p, tagId, manifest)
       const tier = profile?.celeb_tier ?? undefined
+      const reality = profile?.celeb_reality ?? undefined
       people.push({
         id: p.id,
         name: p.name,
@@ -319,7 +320,7 @@ export async function buildStatus(db: DatabaseClient, folder: string): Promise<F
         soloShot: personMedia.state,
         avatar: !!profile?.avatar_url,
         tier,
-        tierMismatch: tierMismatchOf(p.mythical, tier),
+        tierMismatch: tierMismatchOf(p.mythical, reality),
         // 정상 DB 행은 항상 프로필이 있다. 값이 없으면 무결성 오류라 대조 결과도 두지 않는다.
         ...(profile ? { voice: voicePairOf(p, profile) } : {}),
       })

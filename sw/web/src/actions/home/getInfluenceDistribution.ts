@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
@@ -71,7 +71,7 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
         )
       `)
       .eq('celeb.publication_status', 'active')
-      .in('celeb.celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .in('celeb.celeb_reality', [...LISTING_DEFAULT_REALITIES])
       .order('total_score', { ascending: false })
       .order('celeb_id', { ascending: true })
       .range(from, to)

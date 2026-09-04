@@ -10,7 +10,7 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
 import type { CelebSortBy } from "@/actions/home";
-import { parseCelebTiers } from "@feelandnote/shared/constants/celeb-tiers";
+import { parseCelebTiers, parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
 import { FiguresStatsBar, FiguresList, FiguresFilterResult, type FiguresFilterParams } from "./sections";
 
 /* 콜드 상태에서 봇이 받는 완성 HTML이 중간에 잘리지 않게 상한을 넉넉히 둔다 */
@@ -36,7 +36,7 @@ function parseParam(params: Record<string, string | string[] | undefined>, key: 
 }
 
 // 그리드 뷰인지 판단: 필터 파라미터가 있으면 그리드
-const FILTER_KEYS = ["profession", "nationality", "contentType", "gender", "search", "sortBy", "page", "pageSize", "tagId", "tier"];
+const FILTER_KEYS = ["profession", "nationality", "contentType", "gender", "search", "sortBy", "page", "pageSize", "tagId", "tier", "reality"];
 function isGridView(params: Record<string, string | string[] | undefined>): boolean {
   return FILTER_KEYS.some((key) => {
     const v = params[key];
@@ -57,8 +57,10 @@ function parseFilterParams(params: Record<string, string | string[] | undefined>
     page,
     pageSize,
     sortBy,
-    // 등급 필터. 미지정이면 getCelebs가 기본 등급(full·light)만 노출한다.
+    // 파이프라인 등급 좁히기(full·light). 실존 여부 노출은 realities가 맡는다.
     tiers: parseCelebTiers(parseParam(params, "tier")),
+    // 실존 축 필터. 미지정이면 getCelebs가 기본(REAL·BOTH, FICTION 제외)만 노출한다.
+    realities: parseCelebRealities(parseParam(params, "reality")),
     profession: notAll(parseParam(params, "profession")),
     nationality: notAll(parseParam(params, "nationality")),
     contentType: notAll(parseParam(params, "contentType")),

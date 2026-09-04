@@ -73,6 +73,7 @@ export function useCelebServiceModel({
   initialContents,
 }: UseCelebServiceModelProps): CelebServiceModel {
   const celebTier = profile.celeb_tier ?? "full";
+  const celebReality = profile.celeb_reality ?? "REAL";
   const hasVoice = profile.has_voice ?? false;
   const hasDialogues = Boolean(
     dialogueLines && Object.keys(dialogueLines).length > 0,
@@ -97,7 +98,7 @@ export function useCelebServiceModel({
   };
 
   const baseItems = useCelebServiceItems({
-    tier: celebTier,
+    reality: celebReality,
     showLibrary: celebTier === "full",
     availability,
   });

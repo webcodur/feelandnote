@@ -10,7 +10,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import type { CelebRelationGroup } from '@feelandnote/shared/constants/celeb-relations'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
@@ -41,7 +41,7 @@ interface RelationRow {
     avatar_url: string | null
     title: string | null
     title_en: string | null
-    celeb_tier: string | null
+    celeb_reality: string | null
     publication_status: string | null
   } | null
   to: {
@@ -52,7 +52,7 @@ interface RelationRow {
     avatar_url: string | null
     title: string | null
     title_en: string | null
-    celeb_tier: string | null
+    celeb_reality: string | null
     publication_status: string | null
   } | null
 }
@@ -68,8 +68,8 @@ async function fetchNeighborhood(celebId: string): Promise<RelationNeighborhood 
   const db = createStaticClient()
 
   const relationSelect = `from_id, to_id, rel_type, rel_group, note, note_en,
-    from:celebs!celeb_relations_from_celebs_fkey(${CENTER_COLUMNS}, celeb_tier, publication_status),
-    to:celebs!celeb_relations_to_celebs_fkey(${CENTER_COLUMNS}, celeb_tier, publication_status)`
+    from:celebs!celeb_relations_from_celebs_fkey(${CENTER_COLUMNS}, celeb_reality, publication_status),
+    to:celebs!celeb_relations_to_celebs_fkey(${CENTER_COLUMNS}, celeb_reality, publication_status)`
   const [centerResult, outgoingResult, incomingResult, ranking] = await Promise.all([
     db.from('celebs').select(CENTER_COLUMNS).eq('id', celebId).maybeSingle(),
     db
@@ -124,7 +124,7 @@ async function fetchNeighborhood(celebId: string): Promise<RelationNeighborhood 
     if (!target) continue
     // 목록에 서지 않는 등급과 비공개 인물은 파고들 곳이 없다
     if (target.publication_status !== 'active') continue
-    if (!(LISTING_DEFAULT_TIERS as readonly string[]).includes(target.celeb_tier ?? 'full')) continue
+    if (!(LISTING_DEFAULT_REALITIES as readonly string[]).includes(target.celeb_reality ?? 'REAL')) continue
 
     candidates.set(target.id, toCandidate(target))
     relations.push({

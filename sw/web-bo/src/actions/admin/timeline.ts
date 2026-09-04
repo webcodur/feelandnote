@@ -17,6 +17,8 @@ export interface TimelineEvent {
   celeb_id: string
   year: number | null
   year_end: number | null
+  /** DB에는 있으나 타입에서 빠져 있던 컬럼. 연표 가드가 이 값도 함께 본다 */
+  month: number | null
   sequence_label: string | null
   sequence_label_en: string | null
   title: string
@@ -117,20 +119,29 @@ export async function getTimelineEvents(celebId: string): Promise<TimelineEvent[
 
 type EventInput = Omit<TimelineEvent, 'id' | 'celeb_id' | 'source'>
 
-function validate(e: Partial<EventInput>, isFiction: boolean) {
+function validate(e: Partial<EventInput>, reality: string) {
   const hasYear = Number.isInteger(e.year)
   const hasSequence = !!e.sequence_label?.trim()
   const hasSequenceEn = !!e.sequence_label_en?.trim()
   if (!e.title?.trim()) throw new Error('제목을 넣으세요.')
-  if (isFiction) {
+  const isSequenceRow = e.year == null && e.year_end == null && e.month == null && hasSequence && hasSequenceEn
+  const isCalendarRow = !e.sequence_label?.trim() && !e.sequence_label_en?.trim()
+    && (hasYear || (e.year === null && e.year_end == null))
+  if (reality === 'FICTION') {
     if (e.year != null || e.year_end != null)
-      throw new Error('fiction 사건에는 연도를 넣을 수 없습니다.')
+      throw new Error('FICTION 인물 사건에는 연도를 넣을 수 없습니다.')
     if (!hasSequence || !hasSequenceEn)
-      throw new Error('fiction 사건에는 한국어·영문 서사 단계를 모두 넣으세요.')
-  } else {
-    if (!hasYear && e.year !== null) throw new Error('실존 인물의 연도는 정수 또는 날짜 미상(null)이어야 합니다.')
+      throw new Error('FICTION 인물 사건에는 한국어·영문 서사 단계를 모두 넣으세요.')
+  } else if (reality === 'REAL') {
+    if (!hasYear && e.year !== null) throw new Error('REAL 인물의 연도는 정수 또는 날짜 미상(null)이어야 합니다.')
     if (e.sequence_label != null || e.sequence_label_en != null)
-      throw new Error('실존 인물 사건에는 서사 단계 라벨을 넣을 수 없습니다.')
+      throw new Error('REAL 인물 사건에는 서사 단계 라벨을 넣을 수 없습니다.')
+    if (e.year === null && e.year_end != null)
+      throw new Error('날짜 미상 사건에는 끝 연도를 넣을 수 없습니다.')
+  } else {
+    // BOTH: 서사 단계 행 또는 달력 날짜 행 중 하나로 완결돼야 한다(섞어 쓰지 않는다).
+    if (!isSequenceRow && !isCalendarRow)
+      throw new Error('BOTH 인물 사건은 서사 단계(한국어·영문 모두)만 넣거나 연도만 넣어야 합니다. 섞어 쓸 수 없습니다.')
     if (e.year === null && e.year_end != null)
       throw new Error('날짜 미상 사건에는 끝 연도를 넣을 수 없습니다.')
   }
@@ -146,15 +157,15 @@ function validate(e: Partial<EventInput>, isFiction: boolean) {
     throw new Error(`종류 '${e.kind}'는 쓸 수 없는 값입니다.`)
 }
 
-async function isFictionCeleb(celebId: string): Promise<boolean> {
+async function celebRealityOf(celebId: string): Promise<string> {
   const db = createAdminClient()
   const { data, error } = await db
     .from('celebs')
-    .select('celeb_tier')
+    .select('celeb_reality')
     .eq('id', celebId)
     .single()
   if (error) throw error
-  return data.celeb_tier === 'fiction'
+  return data.celeb_reality ?? 'REAL'
 }
 
 async function afterWrite(celebId: string) {
@@ -172,7 +183,7 @@ export async function updateTimelineEvent(eventId: string, data: Partial<EventIn
     .eq('id', eventId)
     .single()
   if (readError) throw readError
-  validate(data, await isFictionCeleb(current.celeb_id))
+  validate(data, await celebRealityOf(current.celeb_id))
   const { error } = await db
     .from('celeb_timeline_events')
     .update({ ...data, source: 'manual' })
@@ -182,7 +193,7 @@ export async function updateTimelineEvent(eventId: string, data: Partial<EventIn
 }
 
 export async function createTimelineEvent(celebId: string, data: EventInput): Promise<string> {
-  validate(data, await isFictionCeleb(celebId))
+  validate(data, await celebRealityOf(celebId))
   const db = createAdminClient()
   const { data: row, error } = await db
     .from('celeb_timeline_events')

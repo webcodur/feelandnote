@@ -13,7 +13,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
@@ -62,7 +62,7 @@ interface CelebRow {
   title: string | null
   title_en: string | null
   birth_date: string | null
-  celeb_tier: string | null
+  celeb_reality: string | null
 }
 
 /** 탐색기가 처음 세울 인물과, 옆에 둘 시작점 후보들 */
@@ -100,7 +100,7 @@ async function fetchShapeCelebs(): Promise<CelebRow[]> {
   return await selectAllPages<CelebRow>((from, to) =>
     db
       .from('celebs')
-      .select('id, slug, nickname, nickname_en, avatar_url, title, title_en, birth_date, celeb_tier')
+      .select('id, slug, nickname, nickname_en, avatar_url, title, title_en, birth_date, celeb_reality')
       .eq('publication_status', 'active')
       .order('id')
       .range(from, to)
@@ -125,7 +125,7 @@ export async function getRelationShapes(): Promise<RelationShapes> {
   ])
 
   const candidates: ShapeCandidate[] = celebs
-    .filter((row) => (LISTING_DEFAULT_TIERS as readonly string[]).includes(row.celeb_tier ?? 'full'))
+    .filter((row) => (LISTING_DEFAULT_REALITIES as readonly string[]).includes(row.celeb_reality ?? 'REAL'))
     .map((row) => ({
       id: row.id,
       slug: row.slug,

@@ -116,6 +116,7 @@ export interface Member {
   virtual_monologue?: string | null
   virtual_monologue_locked_at?: string | null
   celeb_tier?: string | null
+  celeb_reality?: string | null
   claimed_by?: string | null
   speech_tone?: string | null
   has_voice?: boolean
@@ -348,6 +349,7 @@ async function celebProfileToMember(data: any): Promise<Member> {
     speech_tone: data.speech_tone ?? null,
     has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',
+    celeb_reality: data.celeb_reality ?? 'REAL',
     claimed_by: data.claimed_by_member_id ?? null,
     influence,
     influence_total: influence?.total_score || 0,

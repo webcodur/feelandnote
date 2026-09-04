@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 
@@ -35,7 +35,7 @@ async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
     .in('id', celebIds)
     .eq('publication_status', 'active')
     // 신화·관계 인물은 목록에서 제외
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
 
   throwOnQueryError('getCelebsForContent 프로필 조회', profileError)
 

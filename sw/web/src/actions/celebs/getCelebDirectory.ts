@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
@@ -28,7 +28,7 @@ async function fetchCelebDirectory(): Promise<CelebDirectoryRow[]> {
       .select('slug, nickname, nickname_en, profession, title, title_en')
       .eq('publication_status', 'active')
       // 신화·관계 인물은 목록에서 제외
-      .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
       .not('slug', 'is', null)
       .order('nickname', { ascending: true })
       .order('id', { ascending: true })

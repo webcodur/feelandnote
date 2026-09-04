@@ -76,7 +76,9 @@ export interface CelebWorldInput {
   birthDate?: string | null;
   /** 생년이 없을 때 시대 판정에 쓴다. 옛 인물은 사망 연도만 남은 경우가 많다 */
   deathDate?: string | null;
-  tier?: string | null;
+  /** REAL이 아니면(BOTH·FICTION) 신화 세계로 보낸다. 전승·신화층이 있는 인물은
+   *  실존 핵심이 있어도(BOTH) 실제 연도로 시대를 가르기보다 신화 세계에 남긴다. */
+  reality?: string | null;
   /** 규칙이 틀리는 인물을 손으로 바로잡는 자리 */
   worldOverride?: string | null;
 }
@@ -92,7 +94,7 @@ function parseYear(value?: string | null): number | null {
 
 export function resolveCelebWorld(input: CelebWorldInput): string {
   if (input.worldOverride && WORLD_IDS.has(input.worldOverride)) return input.worldOverride;
-  if (input.tier === "fiction") return "myth";
+  if (input.reality && input.reality !== "REAL") return "myth";
 
   const nat = input.nationality ?? "";
   const year = parseYear(input.birthDate) ?? parseYear(input.deathDate);

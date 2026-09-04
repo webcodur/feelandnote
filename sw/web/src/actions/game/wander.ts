@@ -3,7 +3,7 @@
 import { unstable_cache } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
+import { LISTING_DEFAULT_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate";
 import { createStaticClient } from "@/lib/db/static";
 import { STATIC_REVALIDATE } from "@/lib/cache";
@@ -48,7 +48,7 @@ async function fetchWanderPools(locale: string): Promise<WanderPools> {
     selectAllPages<ProfileRow>((from, to) => db.from("celebs")
       .select("id, nickname, nickname_en, title, title_en, nationality, avatar_url, birth_date, death_date")
       .eq("publication_status", "active")
-      .in("celeb_tier", [...LISTING_DEFAULT_TIERS]).not("birth_date", "is", null)
+      .in("celeb_reality", [...LISTING_DEFAULT_REALITIES]).not("birth_date", "is", null)
       .order("id").range(from, to).overrideTypes<ProfileRow[], { merge: false }>()),
     selectAllPages<InfluenceRow>((from, to) => db.from("celeb_influence")
       .select("celeb_id, total_score").order("celeb_id").range(from, to)),

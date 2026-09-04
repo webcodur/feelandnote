@@ -72,7 +72,7 @@ export default async function CelebPage({ params }: PageProps) {
     nationality: profile.nationality,
     birthDate: profile.birth_date,
     deathDate: profile.death_date,
-    tier: profile.celeb_tier,
+    reality: profile.celeb_reality,
   });
   const worldBannerImages = getWorldBannerImages(worldId);
 
@@ -115,7 +115,7 @@ export default async function CelebPage({ params }: PageProps) {
   ] = await Promise.all([
     getCelebSidePresence({
       celebId: userId,
-      tier: profile.celeb_tier,
+      reality: profile.celeb_reality,
     }),
     profile.celeb_tier === "full" ? getCelebJsonLdContents(userId) : Promise.resolve([]),
     getCelebDialogueFull(userId),
@@ -228,7 +228,7 @@ export default async function CelebPage({ params }: PageProps) {
             profession={profile.profession}
             nationality={profile.nationality}
             birthDate={profile.birth_date}
-            celebTier={profile.celeb_tier}
+            celebReality={profile.celeb_reality}
             relations={profile.relations}
           />
         }

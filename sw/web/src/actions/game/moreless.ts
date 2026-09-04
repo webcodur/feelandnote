@@ -12,7 +12,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags';
 import { STATIC_REVALIDATE } from '@/lib/cache';
 import { createStaticClient } from '@/lib/db/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers';
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers';
 import type { MorelessCeleb } from '@/components/features/game/moreless/types';
 
 /** celeb_influence + celebs 임베드 조회 행 */
@@ -63,7 +63,7 @@ async function fetchMorelessCelebs(): Promise<MorelessCeleb[]> {
         )
       `)
       .eq('celeb.publication_status', 'active')
-      .in('celeb.celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .in('celeb.celeb_reality', [...LISTING_DEFAULT_REALITIES])
       .not('total_score', 'is', null)
       .gte('total_score', 10) // 너무 낮은 점수는 제외 (비교 의미 없음)
       .order('celeb_id')

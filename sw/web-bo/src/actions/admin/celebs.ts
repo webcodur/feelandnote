@@ -110,7 +110,7 @@ interface UpdateCelebInput {
   awakened_image_url?: string
   is_verified?: boolean
   status?: CelebManagedPublicationStatus
-  celeb_tier?: 'full' | 'light' | 'fiction'
+  celeb_tier?: 'full' | 'light'
   influence?: GeneratedInfluence
 }
 
@@ -1453,6 +1453,7 @@ export interface CelebHeadlineItem {
   headline_en: string | null
   status: string
   celeb_tier: string | null
+  celeb_reality: string | null
 }
 
 export async function getCelebsForHeadlineEdit(): Promise<CelebHeadlineItem[]> {
@@ -1460,7 +1461,7 @@ export async function getCelebsForHeadlineEdit(): Promise<CelebHeadlineItem[]> {
 
   const { data, error } = await db
     .from('celebs')
-    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, headline, headline_en, status:publication_status, celeb_tier')
+    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, headline, headline_en, status:publication_status, celeb_tier, celeb_reality')
     .order('nickname', { ascending: true })
 
   if (error) throw error
@@ -1478,6 +1479,7 @@ export async function getCelebsForHeadlineEdit(): Promise<CelebHeadlineItem[]> {
     headline_en: row.headline_en,
     status: row.status,
     celeb_tier: row.celeb_tier,
+    celeb_reality: row.celeb_reality,
   }))
 }
 

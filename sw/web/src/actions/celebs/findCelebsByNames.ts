@@ -9,7 +9,6 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { SEARCHABLE_CELEB_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/db/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { normalizeCreatorName } from '@/lib/utils/creator-names'
@@ -73,7 +72,6 @@ async function fetchCelebsByNames(
       .from('celebs')
       .select(SELECT)
       .eq('publication_status', 'active')
-      .in('celeb_tier', [...SEARCHABLE_CELEB_TIERS])
 
   const [ko, en] = await Promise.all([
     base().in('nickname', wanted),

@@ -43,7 +43,8 @@ export function buildCelebPageJsonLd({
   const seoLocale = locale === "en" ? "en" : "ko";
   const canonicalUrl = getAlternates(`/celeb/${slug}`, seoLocale).canonical;
   const personId = `${canonicalUrl}#person`;
-  const isFiction = profile.celeb_tier === "fiction";
+  // 순수 전승(FICTION)만 실존 사실 필드를 뺀다. BOTH는 실존 핵심이 있으니 그대로 싣는다.
+  const isFiction = profile.celeb_reality === "FICTION";
   const image = getSeoImageUrl(
     "celeb",
     slug,

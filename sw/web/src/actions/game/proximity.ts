@@ -16,7 +16,7 @@ import { STATIC_REVALIDATE } from '@/lib/cache';
 import { createStaticClient } from '@/lib/db/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { getLocale } from 'next-intl/server';
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers';
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers';
 import type { SpectrumStats } from '@/lib/spectrum/types';
 import type { ProximityCeleb, ProximityCelebFull } from '@/components/features/game/proximity/types';
 import {
@@ -97,7 +97,7 @@ async function fetchProximityCelebs(): Promise<ProximityCelebFull[]> {
         )
       `)
       .eq('celeb.publication_status', 'active')
-      .in('celeb.celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .in('celeb.celeb_reality', [...LISTING_DEFAULT_REALITIES])
       .order('celeb_id')
       .range(from, to) as unknown as PromiseLike<{
       data: ProximityColumnRow[] | null;

@@ -38,7 +38,7 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
     nationality: profile.nationality,
     birthDate: profile.birth_date,
     deathDate: profile.death_date,
-    tier: profile.celeb_tier,
+    reality: profile.celeb_reality,
   });
 
   // 푸터·헤더는 월드 스코프 밖에 있어 스코프 변수(accent 등)를 못 받는다.

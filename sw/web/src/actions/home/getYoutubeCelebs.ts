@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/db/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 
@@ -27,7 +27,7 @@ async function fetchYoutubeCelebsPublic(): Promise<YoutubeCeleb[]> {
     .select('slug, nickname, nickname_en, avatar_url, youtube_videos')
     .eq('publication_status', 'active')
     // 신화·관계 인물은 목록에서 제외
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .not('youtube_videos', 'is', null)
     .neq('youtube_videos', '{}')
     .not('slug', 'is', null)

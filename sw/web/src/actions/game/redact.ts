@@ -16,7 +16,7 @@ import { STATIC_REVALIDATE } from '@/lib/cache';
 import { createStaticClient } from '@/lib/db/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { getLocale } from 'next-intl/server';
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers';
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers';
 import type { RedactRoundData } from '@/components/features/game/redact/types';
 
 /** 최소 bio 길이 (글자 수) — 너무 짧으면 게임 성립 불가 */
@@ -87,7 +87,7 @@ const getCachedRedactCandidates = unstable_cache(
         .from('celebs')
         .select('id, nickname, nickname_en, profession, nationality, birth_date, death_date, avatar_url, bio, bio_en')
         .eq('publication_status', 'active')
-        .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+        .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
         .not('bio', 'is', null)
         .neq('bio', '')
         .order('id')

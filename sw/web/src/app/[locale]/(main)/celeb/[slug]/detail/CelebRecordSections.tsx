@@ -76,7 +76,9 @@ export default function CelebRecordSections({
   affiliateBooksSlot,
 }: CelebRecordSectionsProps) {
   const t = useTranslations("celebPage");
-  const isFiction = (profile.celeb_tier ?? "full") === "fiction";
+  // 섹션 배치 순서(celebSectionChapters.ts)와 맞춰 FICTION만 이야기 우선 배치를 쓴다.
+  // BOTH는 실존 핵심이 있어 표준 배치(분석 뒤 관계)를 쓴다.
+  const isFiction = (profile.celeb_reality ?? "REAL") === "FICTION";
   const { items: serviceItems, longform, shorts, hasVoice, widestSectionLabel } = serviceModel;
   const { activeSectionId, navigate } = useCelebSectionNavigation(
     serviceItems.map((item) => item.target.sectionId),

@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
@@ -18,7 +18,7 @@ async function fetchProfessionCounts(): Promise<ProfessionCounts> {
     .from('celebs')
     .select('*', { count: 'exact', head: true })
     .eq('publication_status', 'active')
-    .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+    .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
 
   const counts: ProfessionCounts = {
     all: totalCount ?? 0,
@@ -34,7 +34,7 @@ async function fetchProfessionCounts(): Promise<ProfessionCounts> {
       .from('celebs')
       .select('profession')
       .eq('publication_status', 'active')
-      .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
       .in('profession', professionValues)
       .order('id')
       .range(from, to)

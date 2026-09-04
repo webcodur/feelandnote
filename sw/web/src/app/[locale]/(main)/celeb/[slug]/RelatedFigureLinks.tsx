@@ -27,7 +27,7 @@ interface RelatedFigureLinksProps {
   profession: string | null;
   nationality: string | null;
   birthDate: string | null;
-  celebTier?: string | null;
+  celebReality?: string | null;
   relations: CelebRelationItem[];
 }
 
@@ -36,7 +36,7 @@ export default async function RelatedFigureLinks({
   profession,
   nationality,
   birthDate,
-  celebTier,
+  celebReality,
   relations,
 }: RelatedFigureLinksProps) {
   const figures = await getRelatedFigures({
@@ -44,7 +44,7 @@ export default async function RelatedFigureLinks({
     profession,
     nationality,
     birthDate,
-    celebTier,
+    celebReality,
     // 관계 원본은 note_en으로 오고 순위 함수는 noteEn을 읽는다 — 여기서 맞춰 넘긴다
     relations: relations.map((relation) => ({
       ...relation,

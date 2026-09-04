@@ -47,7 +47,7 @@ interface CelebFormData {
   awakened_image_url: string
   is_verified: boolean
   status: 'active' | 'inactive'
-  celeb_tier: 'full' | 'light' | 'fiction'
+  celeb_tier: 'full' | 'light'
   cultural_journey: string
   cultural_journey_en: string
 }
@@ -120,7 +120,7 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     is_verified: celeb?.is_verified || false,
     status: (celeb?.status as 'active' | 'inactive') || 'inactive',
     // 새로 만드는 인물은 감상 기록이 있을 수 없어 full로 저장되지 않는다(DB가 막는다)
-    celeb_tier: celeb ? ((celeb.celeb_tier as 'full' | 'light' | 'fiction') || 'full') : 'light',
+    celeb_tier: celeb ? ((celeb.celeb_tier as 'full' | 'light') || 'full') : 'light',
     cultural_journey: celeb?.cultural_journey || '',
     cultural_journey_en: celeb?.cultural_journey_en || '',
   }
@@ -325,7 +325,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
     }
   }
 
-  async function persistTier(next: 'full' | 'light' | 'fiction') {
+  async function persistTier(next: 'full' | 'light') {
     const previous = formData.celeb_tier
     handleChange('celeb_tier', next)
     if (mode !== 'edit' || !celeb || previous === next) return
@@ -661,10 +661,6 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
             <label className="flex items-center gap-1 cursor-pointer">
               <input type="radio" name="celeb_tier" value="light" checked={formData.celeb_tier === 'light'} onChange={() => handleChange('celeb_tier', 'light')} className="w-3 h-3" />
               <span className="text-xs font-mono text-orange-400">light</span>
-            </label>
-            <label className="flex items-center gap-1 cursor-pointer">
-              <input type="radio" name="celeb_tier" value="fiction" checked={formData.celeb_tier === 'fiction'} onChange={() => handleChange('celeb_tier', 'fiction')} className="w-3 h-3" />
-              <span className="text-xs font-mono text-purple-400">fiction</span>
             </label>
           </>
         )}
