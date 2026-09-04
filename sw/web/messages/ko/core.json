@@ -71,6 +71,12 @@
       "neoPantheon": "신들의 기록관",
       "copyright": "Feel&Note. All rights reserved.",
       "archiveOfTaste": "감상의 기록관"
+    },
+    "update": {
+      "title": "새 버전이 나왔습니다",
+      "body": "이 화면은 이전 버전이라 검색과 기록이 동작하지 않을 수 있습니다.",
+      "refresh": "새로고침",
+      "dismiss": "닫기"
     }
   },
   "pages": {

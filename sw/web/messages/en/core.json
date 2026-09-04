@@ -70,6 +70,12 @@
       "neoPantheon": "Neo Pantheon Archive",
       "copyright": "Feel&Note. All rights reserved.",
       "archiveOfTaste": "Archive of Taste"
+    },
+    "update": {
+      "title": "A new version is available",
+      "body": "This tab is running an older version, so search and saving may not work.",
+      "refresh": "Refresh",
+      "dismiss": "Dismiss"
     }
   },
   "pages": {
