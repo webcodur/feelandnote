@@ -6,22 +6,22 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
-import type { FictionSourceCharacter } from "@/actions/fiction/getFictionSources";
+import type { FigureBookCharacter } from "@/actions/figure-books/getFigureBooks";
 
 const ImageGalleryModal = dynamic(
   () => import("@/components/ui/ImageGalleryModal"),
   { ssr: false },
 );
 
-interface FictionCharactersSectionProps {
-  characters: FictionSourceCharacter[];
+interface FigureBookCharactersSectionProps {
+  characters: FigureBookCharacter[];
 }
 
-export default function FictionCharactersSection({
+export default function FigureBookCharactersSection({
   characters,
-}: FictionCharactersSectionProps) {
+}: FigureBookCharactersSectionProps) {
   const t = useTranslations("contentDetail");
-  const [preview, setPreview] = useState<FictionSourceCharacter | null>(null);
+  const [preview, setPreview] = useState<FigureBookCharacter | null>(null);
   const groups = [
     {
       relationType: "appearance" as const,
