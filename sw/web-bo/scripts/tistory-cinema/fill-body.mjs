@@ -42,10 +42,20 @@ const pickMenu = async (page, text, label) => {
 
 export async function fillOne(page, cdp, id, name) {
   const html = fs.readFileSync(path.join(DIR, `_body-${name}.html`), 'utf8');
+  const meta = JSON.parse(fs.readFileSync(path.join(DIR, `_meta-${name}.json`), 'utf8'));
   await page.bringToFront();
   await page.goto(`https://${BLOG}.tistory.com/manage/post/${id}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
   await page.waitForSelector('#post-title-inp', { timeout: 40000 });
   await wait(6000);
+
+  // 제목도 함께 덮는다 — 양식을 고치면 제목 형식이 바뀐다
+  await page.evaluate((t) => {
+    const el = document.querySelector('#post-title-inp');
+    const setter = Object.getOwnPropertyDescriptor(el.constructor.prototype, 'value')?.set;
+    setter ? setter.call(el, t) : (el.value = t);
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+  }, meta.title);
+  await wait(800);
 
   await hit(page, '#editor-mode-layer-btn-open', '모드 단추');
   await wait(1600);
@@ -82,7 +92,7 @@ export async function fillOne(page, cdp, id, name) {
   }));
   await hit(page, '#publish-btn', '발행 단추');
   await wait(6000);
-  return { got, before };
+  return { got, before, title: meta.title };
 }
 
 if (process.argv[1] && process.argv[1].includes('fill-body.mjs')) {
@@ -92,7 +102,8 @@ if (process.argv[1] && process.argv[1].includes('fill-body.mjs')) {
   const page = await getTistoryPage(browser);
   await ensureLoggedIn(page);
   const cdp = await page.createCDPSession();
-  const { got, before } = await fillOne(page, cdp, id, name);
-  console.log(`#${id} ${name}: 본문 ${got}자 · ${before.btn} ${before.date ?? ''} ${before.h ?? ''}:${before.m ?? ''}`);
+  const { got, before, title } = await fillOne(page, cdp, id, name);
+  console.log(`#${id} 본문 ${got}자 · ${before.btn} ${before.date ?? ''} ${before.h ?? ''}:${before.m ?? ''}
+   ${title}`);
   browser.disconnect();
 }

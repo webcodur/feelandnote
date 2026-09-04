@@ -91,10 +91,23 @@ for (const r of picked) {
   ;(r as any).genres = (d.genres ?? []).map((g: any) => g.name)
 }
 
+/**
+ * 마무리에 걸 인용 한 줄. **본문 상위 10편에 안 나온 작품**에서 고른다 — 이미 읽은 말을
+ * 끝에서 다시 보여 줄 이유가 없다. 짧고 따옴표가 든 발언을 앞세운다(인용문이 실린 것).
+ * 기관 명언을 지어내지 않는 이유: 출처를 확인할 수 없는 문장은 한 줄로도 신뢰를 깎는다.
+ */
+const usedIds = new Set(picked.map((r) => r.contentId))
+const closingPool = withVoice
+  .filter((r) => !usedIds.has(r.contentId))
+  .flatMap((r) => r.voices.map((v) => ({ ...v, work: r.title, year: r.year })))
+  .filter((v) => /["'“”「『]/.test(v.review) && v.review.length <= 260)
+closingPool.sort((a, b) => a.review.length - b.review.length)
+const closing = closingPool[0] ?? null
+
 const out = { list: { slug: list.slug, title: list.title, description: list.description, method: list.method,
-                      publishedYear: list.published_year, sourceUrl: list.source_url, isRanked: list.is_ranked },
+                      publishedYear: list.published_year, sourceUrl: list.source_url, isRanked: list.is_ranked, isAnnual: list.is_annual },
               curator: curator ? { slug: curator.slug, name: curator.name, kind: curator.kind, homepage: curator.homepage_url } : null,
-              totalItems: all.length, withVoice: withVoice.length, all, picked }
+              totalItems: all.length, withVoice: withVoice.length, all, picked, closing }
 fs.mkdirSync(path.join(ROOT, 'data/tistory-cinema'), { recursive: true })
 const file = path.join(ROOT, `data/tistory-cinema/목록-${list.title.replace(/[\/:*?"<>|]/g, '')}.json`)
 fs.writeFileSync(file, JSON.stringify(out, null, 2))

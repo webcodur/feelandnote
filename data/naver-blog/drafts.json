@@ -223,9 +223,10 @@
    "인생영화"
   ],
   "category": "매체별 책추천",
-  "status": "check",
+  "status": "skip",
   "logNo": "224399263121",
-  "publishedAt": "2026-09-02T22:36:04.272Z"
+  "publishedAt": "2026-09-02T22:36:04.272Z",
+  "skipReason": "영화 목록은 티스토리 「필앤노트 시네마」가 다룬다(26.09.05)"
  },
  {
   "kind": "curated",
@@ -241,9 +242,10 @@
    "인생영화"
   ],
   "category": "매체별 책추천",
-  "status": "check",
+  "status": "skip",
   "logNo": "224399264659",
-  "publishedAt": "2026-09-02T22:38:48.078Z"
+  "publishedAt": "2026-09-02T22:38:48.078Z",
+  "skipReason": "영화 목록은 티스토리 「필앤노트 시네마」가 다룬다(26.09.05)"
  },
  {
   "kind": "curated",
@@ -258,9 +260,10 @@
    "예술영화"
   ],
   "category": "매체별 책추천",
-  "status": "check",
+  "status": "skip",
   "logNo": "224399266150",
-  "publishedAt": "2026-09-02T22:41:27.999Z"
+  "publishedAt": "2026-09-02T22:41:27.999Z",
+  "skipReason": "영화 목록은 티스토리 「필앤노트 시네마」가 다룬다(26.09.05)"
  },
  {
   "kind": "curated",
@@ -275,9 +278,10 @@
    "명작영화"
   ],
   "category": "매체별 책추천",
-  "status": "check",
+  "status": "skip",
   "logNo": "224399267580",
-  "publishedAt": "2026-09-02T22:44:02.326Z"
+  "publishedAt": "2026-09-02T22:44:02.326Z",
+  "skipReason": "영화 목록은 티스토리 「필앤노트 시네마」가 다룬다(26.09.05)"
  },
  {
   "kind": "curated",
@@ -343,9 +347,10 @@
    "명작영화"
   ],
   "category": "매체별 책추천",
-  "status": "check",
+  "status": "skip",
   "logNo": "224399274114",
-  "publishedAt": "2026-09-02T22:54:19.926Z"
+  "publishedAt": "2026-09-02T22:54:19.926Z",
+  "skipReason": "영화 목록은 티스토리 「필앤노트 시네마」가 다룬다(26.09.05)"
  },
  {
   "kind": "curated",
@@ -360,9 +365,10 @@
    "명작영화"
   ],
   "category": "언론사별 추천",
-  "status": "check",
+  "status": "skip",
   "logNo": "224399275821",
-  "publishedAt": "2026-09-02T22:56:58.442Z"
+  "publishedAt": "2026-09-02T22:56:58.442Z",
+  "skipReason": "영화 목록은 티스토리 「필앤노트 시네마」가 다룬다(26.09.05)"
  },
  {
   "kind": "curated",
@@ -668,9 +674,10 @@
    "공포영화추천"
   ],
   "category": "언론사별 추천",
-  "status": "check",
+  "status": "skip",
   "logNo": "224399614564",
-  "publishedAt": "2026-09-03T04:23:48.131Z"
+  "publishedAt": "2026-09-03T04:23:48.131Z",
+  "skipReason": "영화 목록은 티스토리 「필앤노트 시네마」가 다룬다(26.09.05)"
  },
  {
   "kind": "curated",
@@ -685,9 +692,10 @@
    "명작영화"
   ],
   "category": "언론사별 추천",
-  "status": "check",
+  "status": "skip",
   "logNo": "224399617490",
-  "publishedAt": "2026-09-03T04:26:30.039Z"
+  "publishedAt": "2026-09-03T04:26:30.039Z",
+  "skipReason": "영화 목록은 티스토리 「필앤노트 시네마」가 다룬다(26.09.05)"
  },
  {
   "kind": "curated",

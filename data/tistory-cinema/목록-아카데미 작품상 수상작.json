@@ -6,7 +6,8 @@
     "method": "아카데미 회원 전원이 후보 지명과 최종 투표에 모두 참여하는 유일한 부문이다. 후보 지명 단계에서 정회원과 종신회원은 최대 열 편까지 선호 순위를 매겨 투표하고, 표를 가장 많이 얻은 열 편이 후보가 된다. 후보작 수는 오랫동안 다섯 편이었으나 2009년 열 편으로 늘었고, 2011년부터 다섯~열 편 사이에서 유동적으로 운영되다가 제94회부터 열 편으로 고정됐다. 2009년 후보 확대와 함께 집계 방식도 최다득표제에서 순위를 옮겨가며 계산하는 선호투표로 바뀌었다. 상을 받는 사람은 '제작(producer/produced by)' 크레디트를 가진 최대 세 명의 제작자다.",
     "publishedYear": null,
     "sourceUrl": "https://en.wikipedia.org/wiki/Academy_Award_for_Best_Picture",
-    "isRanked": false
+    "isRanked": false,
+    "isAnnual": true
   },
   "curator": {
     "slug": "academy-awards",
@@ -2859,5 +2860,14 @@
         "드라마"
       ]
     }
-  ]
+  ],
+  "closing": {
+    "name": "존 크라신스키",
+    "slug": "john-krasinski",
+    "profession": "actor",
+    "title": "「콰이어트 플레이스」",
+    "review": "존 크라신스키는 이 영화를 \"내가 본 최고의 각본, 가장 대담한 연기\"라고 평가했다. 1970년대 영화의 정수를 보여주는 작품으로, 여과되지 않은 날것의 에너지가 담겨있다고 말했다.",
+    "work": "크레이머 대 크레이머",
+    "year": 1979
+  }
 }
