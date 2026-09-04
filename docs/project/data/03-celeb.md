@@ -11,6 +11,7 @@
 | 이름·분류·생몰 | `nickname(_en)`, `profession`, `gender`, `nationality`, `birth_date`, `death_date`, `wikidata_qid` | [`celeb-01-01-profile-facts.md`](../celeb/celeb-01-01-profile-facts.md) |
 | 소개 | `title(_en)`, `headline(_en)`, `bio(_en)` | [`celeb-01-02-profile-intro.md`](../celeb/celeb-01-02-profile-intro.md) |
 | 티어·공개 | `celeb_tier`, `publication_status`, `content_research_confirmed_empty_at` | [`celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md) · [`celeb-00-02-publication.md`](../celeb/celeb-00-02-publication.md) |
+| 실존 표시 | `celeb_reality`(`REAL`·`BOTH`·`FICTION`, DB CHECK `celebs_celeb_reality_check`) — `celeb_tier`와 독립된 축. 파이프라인이 아니라 세상이 그 인물을 실존·가상 중 어느 쪽으로 보는지만 나타낸다 | [`celeb-00-01-pipeline.md`](../celeb/celeb-00-01-pipeline.md) |
 | 이미지 | `avatar_url`, `portrait_url`, `portrait_caption(_en)`, `awakened_image_url` | [`celeb-08-00-image-map.md`](../celeb/celeb-08-00-image-map.md) |
 | 발화·음성 | `speech_tone`, `has_voice`, `voice_id_ko`, `voice_id_en`, `voice_v`, `voice_speed` | [`celeb-04-01-speech.md`](../celeb/celeb-04-01-speech.md) · `celeb-dialogue-voice-publish` 스킬 |
 | 보존값 | `cultural_journey(_en)`, `virtual_monologue(_en)`, `virtual_monologue_locked_at` | 신규 기본 트랙에서 만들지 않으며 기존값만 보존 |
@@ -63,7 +64,7 @@
 
 ## 다른 도메인에 속하는 연결
 
-- `celeb_contents`와 `fiction_source_*`: [`02-content.md`](02-content.md)
+- `celeb_contents`와 `figure_book_*`: [`02-content.md`](02-content.md)
 - `celeb_tags`·`celeb_tag_assignments`·`faction_people`·`faction_atlas_members`: [`../remotion/faction/README.md`](../remotion/faction/README.md)
 - BookRecommend 영상 데이터: [`../remotion/book-recommend/README.md`](../remotion/book-recommend/README.md)
 - 이미지 파일 규격과 fallback: [`../celeb/celeb-08-00-image-map.md`](../celeb/celeb-08-00-image-map.md)

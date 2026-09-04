@@ -248,7 +248,7 @@ async function main(): Promise<void> {
     }),
     allRows<RelationRow>('인물 도서 관계', async (from, to) => {
       const { data, error } = await db
-        .from('fiction_source_characters')
+        .from('figure_book_characters')
         .select('content_id,celeb_id,relation_type')
         .order('content_id')
         .order('celeb_id')
@@ -257,7 +257,7 @@ async function main(): Promise<void> {
     }),
     allRows<ProductRow>('공개 쿠팡 상품', async (from, to) => {
       const { data, error } = await db
-        .from('fiction_source_purchase_options')
+        .from('figure_book_purchase_options')
         .select('content_id,locale,platform')
         .eq('locale', 'ko')
         .eq('platform', 'coupang')

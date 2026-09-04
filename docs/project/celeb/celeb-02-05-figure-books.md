@@ -4,6 +4,8 @@
 
 후보 작품의 발굴과 재선정은 [`fiction-source-curation`](../../../.agents/skills/fiction-source-curation/SKILL.md), 작품·판본·locale 메타는 [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md), 한국어 판매 판본과 제휴 상품은 [`coupang-book-affiliate`](../../../.agents/skills/coupang-book-affiliate/SKILL.md)를 따른다.
 
+물리 테이블은 26.09.04에 `fiction_source_*`에서 `figure_book_*`로 이름을 정정했다. 이 카탈로그는 `celeb_tier`(`full`·`light`·`fiction`)와 무관하게 모든 인물을 연결할 수 있고, `fiction`은 이제 픽션 존재 여부가 아니라 파이프라인 분류일 뿐이다 — 옛 이름이 "픽션 인물 전용 테이블"이라는 오해를 계속 만들어 정정했다. 인물의 실존·가상 이중성은 별도 축 `celebs.celeb_reality`(`REAL`·`BOTH`·`FICTION`)가 쥔다. 자세한 구분은 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)의 「존재와 속성을 구분한다」를 따른다.
+
 ## 작품 판정
 
 - 등장 도서는 본문·목차·색인·검색 가능한 미리보기에서 인물명이나 확인된 이명·표기 변형을 찾는다. 최초 원전·각색·외전으로 다시 나누지 않고, 실제로 등장하거나 중심 대상으로 다뤄지면 `appearance`다.
@@ -15,9 +17,9 @@
 
 ## 작품·판본·상품
 
-- `fiction_source_characters`는 인물과 작품의 등장·연관 관계를 연결한다. 물리 이름은 기존 호환을 위해 유지한다.
-- `fiction_source_editions`는 작품 아래 ISBN별 판본을 둔다. 번역자·출판사·장정·개정·합본·분권·축약 차이는 여기서 구분하며 `contents`를 복제하지 않는다.
-- `fiction_source_products`는 판본 아래 판매 상품을 둔다. 상품은 바뀔 수 있으므로 같은 판본·플랫폼의 기존 상품을 비활성 이력으로 남기고 현재 상품 하나만 활성화한다.
+- `figure_book_characters`는 인물과 작품의 등장·연관 관계를 연결한다.
+- `figure_book_editions`는 작품 아래 ISBN별 판본을 둔다. 번역자·출판사·장정·개정·합본·분권·축약 차이는 여기서 구분하며 `contents`를 복제하지 않는다.
+- `figure_book_products`는 판본 아래 판매 상품을 둔다. 상품은 바뀔 수 있으므로 같은 판본·플랫폼의 기존 상품을 비활성 이력으로 남기고 현재 상품 하나만 활성화한다.
 - 독립된 저작인 재화·각색·파생 작품만 새 `contents`가 될 수 있다. 단지 본문 범위나 ISBN이 다르다는 이유로 새 작품을 만들지 않는다.
 - 시리즈 후속권에서 이야기가 중간부터 시작되면 실제 진입에 필요한 선행권이나 합본을 함께 검토한다. 인물이 나오지 않는 선행권을 등장 작품으로 꾸미지 않는다.
 - 기존 BOOK이 제목·저자만 같고 작품 정체성이 불명확하면 자동 재사용하지 않는다. 같은 작품임을 확인한 뒤 기존 행을 명시적으로 재사용하고 판본을 그 아래 등록한다.
@@ -33,7 +35,7 @@
 
 ## 등장 설명
 
-`fiction_source_characters.description`과 `description_en`은 `appearance` 관계에서 그 작품 안에 확인되는 인물의 역할·관여 사건·결말만 쓴다. `related` 관계에서는 두 필드가 모두 `NULL`이어야 하며 DB와 백오피스가 입력을 막는다.
+`figure_book_characters.description`과 `description_en`은 `appearance` 관계에서 그 작품 안에 확인되는 인물의 역할·관여 사건·결말만 쓴다. `related` 관계에서는 두 필드가 모두 `NULL`이어야 하며 DB와 백오피스가 입력을 막는다.
 
 - 작품 세계 전체의 설정이나 다른 원전의 일화를 섞지 않는다.
 - 작품 소개인 `content_locales.description`으로 대신하지 않는다.
@@ -43,10 +45,10 @@
 
 ## 등록
 
-먼저 백오피스 `/fiction-sources`와 아래 감사 명령으로 기존 작품·판본·인물 관계를 확인한다.
+먼저 백오피스 `/fiction-sources`(라우트 이름은 아직 정정 전이다)와 아래 감사 명령으로 기존 작품·판본·인물 관계를 확인한다. `fiction:audit`는 팩션(세력도감) 영상 시리즈 감사 명령이라 이름이 비슷할 뿐 이 카탈로그와 무관하다 — 혼동해 잘못된 감사를 돌리지 않는다.
 
 ```text
-pnpm --dir sw/web-bo fiction:audit -- --json
+pnpm --dir sw/web-bo figure-books:audit -- --json
 ```
 
 신규 BOOK과 locale은 작품 정체성과 본문 범위를 명시한 JSON으로 dry-run한다.
@@ -71,7 +73,7 @@ pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/fiction/
 pnpm --dir sw/web-bo fiction:source:batch -- --file <명세.json>
 ```
 
-이 명령들은 기본적으로 DB를 쓰지 않는다. 사용자가 등록·반영을 명시한 경우에만 `--apply`한다. 반영 뒤 `fiction:audit`으로 다음을 확인한다.
+이 명령들은 기본적으로 DB를 쓰지 않는다. 사용자가 등록·반영을 명시한 경우에만 `--apply`한다. 반영 뒤 `figure-books:audit`으로 다음을 확인한다.
 
 - `content_id`와 인물 ID가 정확한가
 - 같은 작품이 판본마다 중복 생성되지 않았는가

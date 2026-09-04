@@ -35,9 +35,9 @@ Feelandnote 서비스의 수익화 전략을 탐색·정리하는 문서.
 
 ### 제휴 링크 (26.08.08 가동)
 
-- 일반 콘텐츠는 `content_locales.affiliate_url`에 플랫폼별 링크를 담는다. 인물의 등장·연관 도서는 작품 아래 `fiction_source_editions` 판본을 두고, 검증한 판매 상품과 교체 이력은 `fiction_source_products`에 둔다
+- 일반 콘텐츠는 `content_locales.affiliate_url`에 플랫폼별 링크를 담는다. 인물의 등장·연관 도서는 작품 아래 `figure_book_editions` 판본을 두고, 검증한 판매 상품과 교체 이력은 `figure_book_products`에 둔다
 - `sw/web/src/constants/affiliatePlatforms.ts`: 플랫폼별 라벨·색·**locale**·대가성 문구. locale이 노출 국가를 가른다
-- **일반 추천 도서 풀의 조회 단일 지점은 `sw/web/src/actions/home/getAffiliateBooks.ts`다.** 인물의 등장·연관 도서 화면은 판본 선택이 필요하므로 `fiction_source_purchase_options`를 읽는다
+- **일반 추천 도서 풀의 조회 단일 지점은 `sw/web/src/actions/home/getAffiliateBooks.ts`다.** 인물의 등장·연관 도서 화면은 판본 선택이 필요하므로 `figure_book_purchase_options`를 읽는다
 
 **노출 지점과 선택 근거** (26.08.11 실측)
 

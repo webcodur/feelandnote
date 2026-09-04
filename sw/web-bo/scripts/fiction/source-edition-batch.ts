@@ -290,7 +290,7 @@ async function concurrentMap<T, R>(items: T[], worker: (item: T) => Promise<R>):
 async function verifySourceWorks(inputs: EditionInput[]) {
   const ids = [...new Set(inputs.map((input) => input.contentId))]
   const { data, error } = await db
-    .from('fiction_source_contents')
+    .from('figure_book_contents')
     .select('content_id')
     .in('content_id', ids)
   if (error) throw new Error(`원전 작품 조회 실패: ${error.message}`)
@@ -301,7 +301,7 @@ async function verifySourceWorks(inputs: EditionInput[]) {
 
 async function findStoredEdition(input: EditionInput): Promise<StoredEdition | null> {
   const { data, error } = await db
-    .from('fiction_source_editions')
+    .from('figure_book_editions')
     .select('id,content_id,locale,isbn,title')
     .eq('content_id', input.contentId)
     .eq('locale', input.locale)
@@ -313,7 +313,7 @@ async function findStoredEdition(input: EditionInput): Promise<StoredEdition | n
 
 async function insertEdition(input: ResolvedEdition): Promise<StoredEdition> {
   const { data, error } = await db
-    .from('fiction_source_editions')
+    .from('figure_book_editions')
     .insert({
       content_id: input.contentId,
       locale: input.locale,
@@ -338,7 +338,7 @@ async function insertEdition(input: ResolvedEdition): Promise<StoredEdition> {
 
 async function updateEdition(id: number, input: ResolvedEdition): Promise<StoredEdition> {
   const { data, error } = await db
-    .from('fiction_source_editions')
+    .from('figure_book_editions')
     .update({
       title: input.title,
       creator: input.creator,
@@ -363,7 +363,7 @@ async function updateEdition(id: number, input: ResolvedEdition): Promise<Stored
 }
 
 async function replaceProduct(editionId: number, product: ProductInput) {
-  const { error } = await db.rpc('replace_fiction_source_product', {
+  const { error } = await db.rpc('replace_figure_book_product', {
     p_edition_id: editionId,
     p_platform: product.platform,
     p_product_id: product.productId,

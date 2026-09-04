@@ -9,7 +9,7 @@ description: 픽션·신화·실존 인물의 등장 도서와 연관 도서를 
 
 ## 먼저 읽기
 
-- 관계 유형과 DB 반영 규칙은 [`celeb-02-05-fiction-sources.md`](../../../docs/project/celeb/celeb-02-05-fiction-sources.md)를 따른다.
+- 관계 유형과 DB 반영 규칙은 [`celeb-02-05-figure-books.md`](../../../docs/project/celeb/celeb-02-05-figure-books.md)를 따른다.
 - 후보 작품을 확정한 뒤 한국어 판본과 쿠팡 상품을 고를 때는 [`coupang-book-affiliate`](../coupang-book-affiliate/SKILL.md)를 이어서 사용한다.
 
 ## 관계와 작품 선정

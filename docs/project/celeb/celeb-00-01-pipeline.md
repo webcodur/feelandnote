@@ -96,7 +96,7 @@ fiction은 다음 경계를 지킨다.
 
 ### fiction 원전·등장 도서 연결
 
-픽션 셀럽 등록은 원전·등장 작품 관계까지 연결해야 끝난다. 인물은 작품에 연결하고, ISBN 판본은 작품 아래, 교체 가능한 판매 상품은 판본 아래 둔다. 작품 판정·판본 범위·관계 유형·설명·반영 명령은 [`celeb-02-05-fiction-sources.md`](celeb-02-05-fiction-sources.md)가 쥔다.
+픽션 셀럽 등록은 원전·등장 작품 관계까지 연결해야 끝난다. 인물은 작품에 연결하고, ISBN 판본은 작품 아래, 교체 가능한 판매 상품은 판본 아래 둔다. 작품 판정·판본 범위·관계 유형·설명·반영 명령은 [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md)가 쥔다.
 
 서사 연표는 원전 연결 뒤 [`celeb-06-03-timeline-fiction-relay.md`](celeb-06-03-timeline-fiction-relay.md)를 실행한다. 관계와 세력 소속은 원전에서 확인되는 것만 등록한다.
 

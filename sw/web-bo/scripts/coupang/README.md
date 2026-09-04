@@ -93,8 +93,8 @@ node audit.mjs --fiction-sources --evidence ../../../../data/coupang/fiction-sou
 선택하지 않는다. `pick.mjs`는 다시 검색한 결과에서 같은
 상품 ID와 판매 항목을 찾아 링크를 만들며, 사라졌거나 달라졌으면 반영하지 않는다.
 `content_id`·`isbn`이 없거나 검색 순번 `idx`만 적힌 옛 선택 자료는 거부한다. 인물 도서는
-`content_id + isbn`으로 `fiction_source_editions`의 정확한 판본을 찾고, 상품을
-`fiction_source_products`에 등록한다. 일반 도서는 기존 `content_locales` 경로를 쓴다.
+`content_id + isbn`으로 `figure_book_editions`의 정확한 판본을 찾고, 상품을
+`figure_book_products`에 등록한다. 일반 도서는 기존 `content_locales` 경로를 쓴다.
 
 ## 고르는 기준
 

@@ -1101,8 +1101,8 @@ SET LOCAL lock_timeout = '5s';
 SET LOCAL statement_timeout = '30s';
 SET LOCAL idle_in_transaction_session_timeout = '45s';
 SET LOCAL ROLE service_role;
-LOCK TABLE public.contents, public.content_locales, public.fiction_source_contents,
-  public.fiction_source_editions IN SHARE ROW EXCLUSIVE MODE;
+LOCK TABLE public.contents, public.content_locales, public.figure_book_contents,
+  public.figure_book_editions IN SHARE ROW EXCLUSIVE MODE;
 
 CREATE TEMP TABLE source_book_batch (payload jsonb NOT NULL) ON COMMIT DROP;
 INSERT INTO source_book_batch VALUES (${jsonbLiteral(payload)});
@@ -1295,12 +1295,12 @@ ON CONFLICT (content_id, locale) DO UPDATE SET
   verified = excluded.verified,
   updated_at = now();
 
-INSERT INTO public.fiction_source_contents (content_id)
+INSERT INTO public.figure_book_contents (content_id)
 SELECT batch.payload ->> 'contentId'
 FROM source_book_batch AS batch
 ON CONFLICT (content_id) DO NOTHING;
 
-INSERT INTO public.fiction_source_editions (
+INSERT INTO public.figure_book_editions (
   content_id, locale, title, creator, description, isbn, publisher,
   thumbnail_url, release_date, edition_kind, text_scope, sort_order,
   verified, sources
@@ -1399,7 +1399,7 @@ BEGIN
     RAISE EXCEPTION 'fiction source BOOK material readback mismatch';
   END IF;
   IF NOT EXISTS (
-    SELECT 1 FROM public.fiction_source_contents
+    SELECT 1 FROM public.figure_book_contents
     WHERE content_id = batch ->> 'contentId'
   ) THEN
     RAISE EXCEPTION 'fiction source work marker readback mismatch';
@@ -1415,7 +1415,7 @@ BEGIN
     )
     WHERE NOT EXISTS (
       SELECT 1
-      FROM public.fiction_source_editions AS edition
+      FROM public.figure_book_editions AS edition
       WHERE edition.content_id = expected.content_id
         AND edition.locale = expected.locale
         AND edition.isbn = expected.isbn

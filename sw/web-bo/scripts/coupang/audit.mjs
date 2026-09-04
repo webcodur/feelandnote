@@ -192,14 +192,14 @@ let catalogRows
 if (options.scope === 'fiction-sources') {
   const [editions, products] = await Promise.all([
     paged(() => db
-      .from('fiction_source_editions')
+      .from('figure_book_editions')
       .select('id,content_id,title,creator,publisher,isbn,sort_order')
       .eq('locale', 'ko')
       .order('content_id')
       .order('sort_order')
       .order('id')),
     paged(() => db
-      .from('fiction_source_products')
+      .from('figure_book_products')
       .select('edition_id,product_id,product_url,affiliate_url,quality_evidence,checked_at')
       .eq('platform', 'coupang')
       .eq('is_active', true)

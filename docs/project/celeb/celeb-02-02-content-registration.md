@@ -2,7 +2,7 @@
 
 이 문서는 작품 정체성·판본·외부 메타·locale을 확인하고 `contents`와 관계 테이블에 등록하는 규칙을 쥔다. 실존 인물의 감상 근거는 [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md), 감상경위 문장은 [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md)를 따른다.
 
-fiction도 BOOK 메타와 `content_locales` 규칙은 이 문서를 공유하지만 `celeb_contents`를 사용하지 않는다. 작품 속 인물 관계는 `fiction_source_contents`·`fiction_source_characters`에 저장한다.
+fiction도 BOOK 메타와 `content_locales` 규칙은 이 문서를 공유하지만 `celeb_contents`를 사용하지 않는다. 작품 속 인물 관계는 `figure_book_contents`·`figure_book_characters`에 저장한다.
 
 ## 작품과 판본
 
@@ -97,7 +97,7 @@ IGDB 결과의 정확한 게임과 커버를 사용한다. 기본 영문 메타�
 1. 제목과 원저자로 기존 작품을 다시 조회한다.
 2. 없을 때만 `contents`를 만들고 외부 ID를 확보한다.
 3. 확인된 언어의 `content_locales`를 저장한다.
-4. 실존 인물 감상은 `celeb_contents`, fiction 등장은 `fiction_source_*`에 연결한다. 둘을 혼용하지 않는다.
+4. 실존 인물 감상은 `celeb_contents`, fiction 등장은 `figure_book_*`에 연결한다. 둘을 혼용하지 않는다.
 5. 실존 인물 관계의 `source_url`·`review`와 요청 범위의 `review_en`을 함께 저장한다.
 6. 새 행과 재사용한 행을 모두 재조회해 작품·locale·관계가 의도한 ID에 붙었는지 확인한다.
 

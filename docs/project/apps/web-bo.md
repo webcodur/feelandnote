@@ -93,7 +93,7 @@ pnpm dev:bo
 | --- | --- | --- | --- |
 | `/contents` | 콘텐츠 관리 | 콘텐츠 목록(제목·제작자 검색, 유형 필터). 도서는 한국어·영문 판본 카드를 나란히 띄워 썸네일 출처까지 진단 | `contents`, `content_locales`, `member_contents`, `celeb_contents` |
 | `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 회원·셀럽·관련 기록. BOOK은 KO·EN 표지 URL·출처 편집과 서재 탐방 사용 현황 진입 제공. 픽션 대표 원전은 지정 해제 전 삭제를 거부한다 | `contents`, `content_locales`, `member_contents`, `celeb_contents`, `records` |
-| `/fiction-sources` | 픽션 원전 관리 | 기존 콘텐츠를 원전 작품으로 지정하고 등장인물을 연결한다. 작품 아래 ISBN 판본을 추가·수정하고, 판본별 판매 상품을 교체·비활성화하며 상품 이력을 확인한다 | `fiction_source_contents`, `fiction_source_characters`, `fiction_source_editions`, `fiction_source_products`, `contents`, `celebs` |
+| `/fiction-sources`(라우트 이름은 아직 정정 전) | 인물 등장·연관 도서 관리 | 기존 콘텐츠를 작품으로 지정하고 등장·연관 인물을 연결한다. 작품 아래 ISBN 판본을 추가·수정하고, 판본별 판매 상품을 교체·비활성화하며 상품 이력을 확인한다. `celeb_tier`와 무관하게 모든 인물을 연결할 수 있다 | `figure_book_contents`, `figure_book_characters`, `figure_book_editions`, `figure_book_products`, `contents`, `celebs` |
 | `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `member_profiles`, `contents`, `content_locales` |
 | `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `member_profiles`, `contents` |
 

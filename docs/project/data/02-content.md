@@ -54,22 +54,22 @@ where content.id = :content_id;
 
 ## 인물 등장·연관 도서
 
-인물의 등장·연관 도서 관계는 감상이 아니므로 `celeb_contents`를 사용하지 않는다. 기존 물리 테이블 이름은 호환을 위해 유지한다.
+인물의 등장·연관 도서 관계는 감상이 아니므로 `celeb_contents`를 사용하지 않는다. 물리 테이블 이름은 26.09.04 `fiction_source_*` → `figure_book_*`로 정정했다 — 이 카탈로그는 `celeb_tier`와 무관하게 모든 인물을 연결할 수 있어 "fiction 전용"이라는 옛 이름이 오해를 낳았기 때문이다.
 
 ```text
 contents
-  └─ fiction_source_contents       작품을 원전 카탈로그에 지정
-       ├─ fiction_source_characters  작품 ↔ 인물
-       └─ fiction_source_editions    작품 아래 실제 읽는 판본
-            └─ fiction_source_products  판본별 판매 상품과 교체 이력
+  └─ figure_book_contents       작품을 카탈로그에 지정
+       ├─ figure_book_characters  작품 ↔ 인물
+       └─ figure_book_editions    작품 아래 실제 읽는 판본
+            └─ figure_book_products  판본별 판매 상품과 교체 이력
 ```
 
-- `fiction_source_contents.content_id`는 `contents.id`를 재사용하는 PK다.
-- `fiction_source_characters`의 PK는 `(content_id, celeb_id)`다. `relation_type`은 `appearance`·`related`만 허용하며 모든 인물 티어를 연결할 수 있다. `related`에서는 `description`·`description_en`이 모두 `NULL`이어야 한다.
-- `fiction_source_editions.id`가 판본 PK다. locale은 `ko`·`en`, `edition_kind`는 마이그레이션 CHECK 값만 허용한다. ISBN이 있으면 `(content_id, locale, isbn)`이 유일하다. ISBN 없는 판본은 이 유일성 조건에 들어가지 않는다.
-- `fiction_source_products`는 `edition_id`를 참조한다. 플랫폼은 `coupang`·`amazon`이며, 한 판본·플랫폼에는 활성 상품 하나만 허용한다. 공개 조회는 활성 상품만 노출한다.
+- `figure_book_contents.content_id`는 `contents.id`를 재사용하는 PK다.
+- `figure_book_characters`의 PK는 `(content_id, celeb_id)`다. `relation_type`은 `appearance`·`related`만 허용하며 모든 인물 티어를 연결할 수 있다. `related`에서는 `description`·`description_en`이 모두 `NULL`이어야 한다.
+- `figure_book_editions.id`가 판본 PK다. locale은 `ko`·`en`, `edition_kind`는 마이그레이션 CHECK 값만 허용한다. ISBN이 있으면 `(content_id, locale, isbn)`이 유일하다. ISBN 없는 판본은 이 유일성 조건에 들어가지 않는다.
+- `figure_book_products`는 `edition_id`를 참조한다. 플랫폼은 `coupang`·`amazon`이며, 한 판본·플랫폼에는 활성 상품 하나만 허용한다. 공개 조회는 활성 상품만 노출한다.
 
-작품 선정, 판본 범위, 등장 관계와 설명은 [`../celeb/celeb-02-05-fiction-sources.md`](../celeb/celeb-02-05-fiction-sources.md)가 유일하게 쥔다. 쿠팡 상품 검증은 `coupang-book-affiliate` 스킬을 따른다.
+작품 선정, 판본 범위, 등장 관계와 설명은 [`../celeb/celeb-02-05-figure-books.md`](../celeb/celeb-02-05-figure-books.md)가 유일하게 쥔다. 쿠팡 상품 검증은 `coupang-book-affiliate` 스킬을 따른다.
 
 ## 플로우와 학습
 

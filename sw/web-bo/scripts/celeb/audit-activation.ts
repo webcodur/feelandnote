@@ -53,8 +53,8 @@ const TABLE_ORDERS: Record<string, readonly string[]> = {
   celeb_dialogues: ['celeb_id'],
   celeb_explanations: ['profile_id'],
   celeb_contents: ['id'],
-  fiction_source_characters: ['content_id', 'celeb_id'],
-  fiction_source_purchase_options: ['content_id', 'locale', 'edition_id', 'platform'],
+  figure_book_characters: ['content_id', 'celeb_id'],
+  figure_book_purchase_options: ['content_id', 'locale', 'edition_id', 'platform'],
   celeb_timeline_events: ['id'],
   celeb_relations: ['id'],
   celeb_relations_external: ['id'],
@@ -651,7 +651,7 @@ async function main() {
     ),
     byIds('celeb_contents', 'celeb_id,content_id,status,review,review_en,source_url', ids, 'celeb_id'),
     byIds(
-      'fiction_source_characters',
+      'figure_book_characters',
       'celeb_id,content_id,relation_type,description,description_en',
       ids,
     ),
@@ -682,7 +682,7 @@ async function main() {
       contentIds,
     ),
     byContentIds(
-      'fiction_source_purchase_options',
+      'figure_book_purchase_options',
       'edition_id,content_id,locale,platform,affiliate_url',
       [...new Set(fictionSources.map((row) => row.content_id))],
     ),
