@@ -17,7 +17,11 @@ const TMDB = process.env.TMDB_API_KEY!
 const args = process.argv.slice(2)
 const argOf = (k: string) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : undefined }
 const slug = argOf('--slug')
-const PICK = Number(argOf('--pick') ?? 10)
+/**
+ * 자세히 쓰는 편수는 **5편**이다. 10편을 쓰면 포스터·줄거리·예고편·인용이 겹겹이 쌓여
+ * 전체 목록 표에 닿기 전에 지친다(26.09.05). 나머지는 아래 표가 전부 보여 준다.
+ */
+const PICK = Number(argOf('--pick') ?? 5)
 if (!slug) throw new Error('--slug 가 필요하다')
 
 const page = async <T,>(t: string, s: string, f?: (q: any) => any): Promise<T[]> => {
@@ -86,10 +90,25 @@ for (const r of picked) {
   ;(r as any).vote = c?.metadata?.voteAverage ?? null
   ;(r as any).release = c?.release_date ?? null
   if (!id) continue
-  const d: any = await (await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB}&language=ko-KR`)).json()
+  const base = `https://api.themoviedb.org/3/movie/${id}`
+  const [d, vidsKo, vidsEn]: any[] = await Promise.all([
+    fetch(`${base}?api_key=${TMDB}&language=ko-KR`).then((x) => x.json()),
+    fetch(`${base}/videos?api_key=${TMDB}&language=ko-KR`).then((x) => x.json()),
+    fetch(`${base}/videos?api_key=${TMDB}`).then((x) => x.json()),
+  ])
   ;(r as any).overview = d.overview ?? ''
   ;(r as any).runtime = d.runtime
   ;(r as any).genres = (d.genres ?? []).map((g: any) => g.name)
+  // 원어 공식 예고편을 앞세운다 — 국내 배급사 영상은 임베드가 막혀 있는 일이 잦다
+  const seen = new Set<string>()
+  const tr = [...(vidsEn.results ?? []), ...(vidsKo.results ?? [])]
+    .filter((v: any) => v.site === 'YouTube' && /Trailer|Teaser/i.test(v.type))
+    .filter((v: any) => !seen.has(v.key) && seen.add(v.key))[0]
+  ;(r as any).trailer = tr ? { key: tr.key, name: tr.name } : null
+  if (!r.creator) {
+    const cr: any = await (await fetch(`${base}/credits?api_key=${TMDB}&language=ko-KR`)).json()
+    ;(r as any).creator = (cr.crew ?? []).filter((c: any) => c.job === 'Director').map((c: any) => c.name).join(', ') || null
+  }
 }
 
 /**
