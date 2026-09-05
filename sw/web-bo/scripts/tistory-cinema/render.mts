@@ -299,9 +299,14 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
 
   m.picked.forEach((r, i) => {
     p(h2(`fn-${i}`, `${i + 1}. ${esc(cleanTitle(r.title))}`))
-    p(`<div style="display:flex;gap:18px;align-items:flex-start;margin:14px 0 6px;flex-wrap:wrap;">`)
-    if (r.poster) p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" style="width:150px !important;border:1px solid #e3e3e3;border-radius:2px;flex:0 0 auto;" />`)
-    p(`<div style="flex:1 1 260px;min-width:240px;font-size:14px;line-height:2;color:#555;">`)
+    /**
+     * 🔴 가로 배치를 쓰지 않는다. 포스터 폭이 스킨에 밀려 148px 로 쪼그라들면 옆 정보 칸이
+     *    화면 끝까지 벌어져 글이 휑해 보인다(26.09.05). 게다가 아래 예고편(560px)과 폭이
+     *    어긋나 단이 들쭉날쭉해진다. **포스터 위, 정보 아래**로 세로로 쌓고 폭을 560px 에 맞춘다.
+     */
+    p(`<div style="margin:0 !important;padding:0 0 6px !important;max-width:560px;">`)
+    if (r.poster) p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" width="200" style="width:200px !important;max-width:100% !important;border:1px solid #e3e3e3;border-radius:2px;display:block;" />`)
+    p(`<div style="padding-top:12px;font-size:14px;line-height:2;color:#555;">`)
     if (r.creator) p(`<div>감독 <b style="color:#222;">${esc(r.creator)}</b></div>`)
     if (r.release) p(`<div>개봉 ${r.release}</div>`)
     if (r.runtime) p(`<div>러닝타임 ${r.runtime}분</div>`)
@@ -413,9 +418,9 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
   p(h2('fn-top', `가장 많이 꼽힌 ${m.picked.length}편`))
   m.picked.forEach((r, i) => {
     p(`<h3 style="margin:34px 0 12px;font-size:18px;">${i + 1}. ${esc(cleanTitle(r.title))}${r.year ? ` <span style="font-weight:400;color:#999;">(${r.year})</span>` : ''}</h3>`)
-    p(`<div style="display:flex;gap:18px;align-items:flex-start;margin:12px 0;flex-wrap:wrap;">`)
-    if (r.poster) p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" style="width:130px !important;border:1px solid #e3e3e3;border-radius:2px;flex:0 0 auto;" />`)
-    p(`<div style="flex:1 1 260px;min-width:240px;font-size:14px;line-height:2;color:#555;">`)
+    p(`<div style="margin:0 !important;padding:0 0 6px !important;max-width:560px;">`)
+    if (r.poster) p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" width="200" style="width:200px !important;max-width:100% !important;border:1px solid #e3e3e3;border-radius:2px;display:block;" />`)
+    p(`<div style="padding-top:12px;font-size:14px;line-height:2;color:#555;">`)
     if (r.creator) p(`<div>감독 <b style="color:#222;">${esc(r.creator)}</b></div>`)
     if (m.list.isRanked && r.rank) p(`<div>${esc(name)} <b style="color:#222;">${r.rank}위</b></div>`)
     if (r.runtime) p(`<div>러닝타임 ${r.runtime}분</div>`)
