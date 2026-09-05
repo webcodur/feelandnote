@@ -15,7 +15,7 @@
       "id": "e391d4a9-37fe-4f33-b576-a20a26555e67",
       "title": "현기증",
       "poster": "https://image.tmdb.org/t/p/w500/fqePCJXuCAAmUnG935fLFgk9H6L.jpg",
-      "creator": null,
+      "creator": "알프레드 히치콕",
       "release": null,
       "vote": 8.151,
       "external": "tmdb-movie-426",
@@ -27,13 +27,17 @@
         "로맨스",
         "스릴러"
       ],
-      "voteCount": 6479
+      "voteCount": 6480,
+      "trailer": {
+        "key": "nA2ZcD_XAuY",
+        "name": "TCM 60th Anniversary Spot"
+      }
     },
     {
       "id": "e578b343-7f53-4efa-a3d1-f13fbc0bdbd5",
       "title": "폭스캐처",
       "poster": "https://image.tmdb.org/t/p/w500/rqCUrWRkE7DhhUn49qWVDbQsl5l.jpg",
-      "creator": null,
+      "creator": "베넷 밀러",
       "release": null,
       "vote": 6.654,
       "external": "tmdb-movie-87492",
@@ -44,13 +48,17 @@
         "드라마",
         "스릴러"
       ],
-      "voteCount": 2532
+      "voteCount": 2532,
+      "trailer": {
+        "key": "clu0QN5umNg",
+        "name": "TV Spot"
+      }
     },
     {
       "id": "0437d05a-c752-446e-97ea-04f4d4cd710b",
       "title": "포제션",
       "poster": "https://image.tmdb.org/t/p/w500/gtseOQqh2nPIdTNsZB3iWTfafct.jpg",
-      "creator": null,
+      "creator": "안드레이 줄랍스키",
       "release": null,
       "vote": 7.333,
       "external": "tmdb-movie-21484",
@@ -60,13 +68,17 @@
       "genres": [
         "공포"
       ],
-      "voteCount": 1410
+      "voteCount": 1410,
+      "trailer": {
+        "key": "aLXW-oVbTxE",
+        "name": "Official Trailer"
+      }
     },
     {
       "id": "03fa4269-6933-4caa-be85-f802fc67520b",
       "title": "쳐다보지 마라",
       "poster": "https://image.tmdb.org/t/p/w500/ivWsU3QtcstImCTOjItsH0SAbNn.jpg",
-      "creator": null,
+      "creator": "Nicolas Roeg",
       "release": null,
       "vote": 6.9,
       "external": "tmdb-movie-931",
@@ -78,13 +90,17 @@
         "드라마",
         "공포"
       ],
-      "voteCount": 1214
+      "voteCount": 1214,
+      "trailer": {
+        "key": "BI9bYR0SoMs",
+        "name": "Don't Look Now (1973) Trailer #1 | Movieclips Classic Trailers"
+      }
     },
     {
       "id": "cc34056a-c4e0-440d-87c7-0fb169c211e6",
       "title": "천국과 지옥",
       "poster": "https://image.tmdb.org/t/p/w500/qyMsijzCXBTFlsGeVkER6KqSJOm.jpg",
-      "creator": null,
+      "creator": "구로사와 아키라",
       "release": null,
       "vote": 8.343,
       "external": "tmdb-movie-12493",
@@ -97,13 +113,17 @@
         "스릴러",
         "미스터리"
       ],
-      "voteCount": 1186
+      "voteCount": 1186,
+      "trailer": {
+        "key": "ELsgPvgDBoY",
+        "name": "High and Low (1963) Original Trailer [4K]"
+      }
     },
     {
       "id": "791485fb-28de-44e8-8b88-9a54ee356bff",
       "title": "순응자",
       "poster": "https://image.tmdb.org/t/p/w500/nBJhFI9HJX2EAejk0ksNtwQTGFp.jpg",
-      "creator": null,
+      "creator": "베르나르도 베르톨루치",
       "release": null,
       "vote": 7.652,
       "external": "tmdb-movie-8416",
@@ -113,7 +133,11 @@
       "genres": [
         "드라마"
       ],
-      "voteCount": 783
+      "voteCount": 783,
+      "trailer": {
+        "key": "04kMeEjVGIk",
+        "name": "The Conformist – 4K Re-Release Trailer – Bernardo Bertolucci, Jean-Louis Trintignant"
+      }
     }
   ]
 }

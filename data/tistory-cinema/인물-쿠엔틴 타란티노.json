@@ -27,7 +27,11 @@
         "액션",
         "드라마"
       ],
-      "voteCount": 17923
+      "voteCount": 17923,
+      "trailer": {
+        "key": "kvbiVcj4l0c",
+        "name": "Weapon :30 TV Spot"
+      }
     },
     {
       "id": "bc045dcd-452e-4bb0-bb13-e6fbbffa82e3",
@@ -43,7 +47,11 @@
       "genres": [
         "서부"
       ],
-      "voteCount": 9908
+      "voteCount": 9908,
+      "trailer": {
+        "key": "WCnRSl24FPA",
+        "name": "Official Sizzle"
+      }
     },
     {
       "id": "4d2edbb8-9a23-437c-805f-71cc6c9c3cb9",
@@ -60,7 +68,11 @@
         "공포",
         "코미디"
       ],
-      "voteCount": 9590
+      "voteCount": 9590,
+      "trailer": {
+        "key": "_QuY93B2FS0",
+        "name": "20th Anniversary Release Official Trailer"
+      }
     },
     {
       "id": "b7c31d60-2b3b-4a16-bccd-40a227ead9bd",
@@ -78,13 +90,17 @@
         "코미디",
         "로맨스"
       ],
-      "voteCount": 7866
+      "voteCount": 7866,
+      "trailer": {
+        "key": "FAfR8omt-CY",
+        "name": "Official Trailer"
+      }
     },
     {
       "id": "eb113829-08f1-4d39-afca-45a97436242c",
       "title": "데어 윌 비 블러드",
       "poster": "https://image.tmdb.org/t/p/w500/yOW9Q1rZ6EJHGc0ZzyUurxacKsE.jpg",
-      "creator": null,
+      "creator": "폴 토마스 앤더슨",
       "release": "2007-12-26",
       "vote": 8.079,
       "external": "tmdb-movie-7345",
@@ -94,7 +110,11 @@
       "genres": [
         "드라마"
       ],
-      "voteCount": 7672
+      "voteCount": 7672,
+      "trailer": {
+        "key": "-bEwlq_7f4s",
+        "name": "There Will Be Blood (2007) Original Trailer [FHD]"
+      }
     },
     {
       "id": "ab477232-9f9f-4ee0-ac93-8111bce10f00",
@@ -112,7 +132,11 @@
         "전쟁",
         "역사"
       ],
-      "voteCount": 6551
+      "voteCount": 6551,
+      "trailer": {
+        "key": "V1UV3Vj4z0w",
+        "name": "Official Trailer: Black Hawk Down (2001)"
+      }
     }
   ]
 }

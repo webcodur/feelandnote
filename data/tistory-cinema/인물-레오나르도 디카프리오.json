@@ -26,7 +26,11 @@
         "공포",
         "스릴러"
       ],
-      "voteCount": 19311
+      "voteCount": 19311,
+      "trailer": {
+        "key": "jAE7dNurHR4",
+        "name": "Original Trailer"
+      }
     },
     {
       "id": "8136a556-df75-46e8-99d7-22f51098e7a4",
@@ -44,7 +48,11 @@
         "가족",
         "판타지"
       ],
-      "voteCount": 18824
+      "voteCount": 18824,
+      "trailer": {
+        "key": "GAp2_0JJskk",
+        "name": "Official Trailer [Subtitled]"
+      }
     },
     {
       "id": "baf268af-0966-44ae-b939-a33d2be2e8fe",
@@ -61,7 +69,11 @@
         "범죄",
         "드라마"
       ],
-      "voteCount": 13746
+      "voteCount": 13746,
+      "trailer": {
+        "key": "dPdmoCG5K24",
+        "name": "Peak Cinema"
+      }
     },
     {
       "id": "828d7c44-6c03-47e5-bb80-b69ff7af7c11",
@@ -79,7 +91,11 @@
         "미스터리",
         "모험"
       ],
-      "voteCount": 12896
+      "voteCount": 12897,
+      "trailer": {
+        "key": "kR2r-A9H3Kg",
+        "name": "4K Trailer"
+      }
     },
     {
       "id": "3aa43111-d416-4b6d-90be-41a902f8716f",
@@ -97,7 +113,11 @@
         "역사",
         "전쟁"
       ],
-      "voteCount": 3559
+      "voteCount": 3559,
+      "trailer": {
+        "key": "KR1yTI8zFJk",
+        "name": "Fathom Events Trailer"
+      }
     },
     {
       "id": "2551e5c3-147e-4747-be5a-e184eba91514",
@@ -113,7 +133,11 @@
       "genres": [
         "드라마"
       ],
-      "voteCount": 3011
+      "voteCount": 3011,
+      "trailer": {
+        "key": "p32W7uJl3G4",
+        "name": "75th Anniversary Spot"
+      }
     }
   ]
 }

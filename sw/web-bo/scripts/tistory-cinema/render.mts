@@ -258,7 +258,8 @@ export type PersonMaterial = {
   total: number
   usable: number
   picked: { id: string; title: string; poster: string | null; creator: string | null; release: string | null
-            vote: number | null; voteCount?: number; overview?: string; runtime?: number; genres?: string[]; review: string }[]
+            vote: number | null; voteCount?: number; overview?: string; runtime?: number; genres?: string[]; review: string
+            trailer?: { key: string; name: string } | null }[]
 }
 
 export function renderPerson(m: PersonMaterial): { title: string; html: string; tags: string[] } {
@@ -270,7 +271,7 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
 
   if (m.celeb.avatar) {
     p(`<figure style="margin:0 0 24px;text-align:center;">`)
-    p(`<img src="${m.celeb.avatar}" alt="${esc(who)}" style="width:150px !important;height:150px !important;object-fit:cover;border-radius:50%;border:1px solid #e3e3e3;" />`)
+    p(`<img src="${m.celeb.avatar}" alt="${esc(who)}" style="width:130px !important;height:130px !important;object-fit:cover;border-radius:50%;border:1px solid #e3e3e3;" />`)
     p(`<figcaption style="margin-top:8px;font-size:13px;color:#888;">${esc(who)}${prof ? ` · ${prof}` : ''}</figcaption>`)
     p(`</figure></div>`)
   }
@@ -281,11 +282,13 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
    * `bio` 는 「…얻었다」처럼 **간결체**로 쓰여 있다. 정중체 문단에 그대로 이으면 말투가
    * 어긋나므로 인용 상자에 따로 담는다. 소개는 `headline` 한 줄로 끝낸다.
    */
-  const bio = (m.celeb.bio ?? '').trim()
+  /**
+   * 🔴 상단에 블록을 겹겹이 쌓지 않는다. 아바타·캡션·인사·소개·bio 상자·안내 문단이
+   *    줄줄이 서 있어 어지러웠다(26.09.05). `bio` 는 `headline` 과 겹치는 내용이라 뺀다 —
+   *    간결체라 정중체 문단에 섞이지도 않는다. 작품 편과 같은 리듬(사진 → 인사 → 소개 →
+   *    물음 → 목차)으로 맞춘다.
+   */
   p(para(`오늘 만나볼 사람은 ${esc(who)}입니다.${intro ? ` ${esc(intro)}${ro(intro)} 알려져 있습니다.` : ''}`))
-  if (bio && bio !== intro) {
-    p(`<div style="margin:0 !important;padding:0 0 20px !important;"><div style="padding:16px 18px;background:#f7f7f8;border-radius:6px;font-size:15px;line-height:1.8;color:#555;">${esc(bio)}</div></div>`)
-  }
   p(para(`${esc(who)}${ga(who)} 인터뷰와 방송에서 직접 말한 영화가 <b>${m.total}편</b> 있습니다. 아래는 그 가운데 널리 알려진 ${m.picked.length}편입니다. 그는 무엇을 보고 무슨 말을 했을까요?`))
 
   p(`<div style="margin:28px 0;padding:18px 22px;background:#f7f7f8;border-radius:6px;">`)
@@ -306,7 +309,12 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
     if (r.vote) p(`<div>평점 <b style="color:#222;">${r.vote.toFixed(1)}</b> / 10 <span style="color:#999;">(TMDB)</span></div>`)
     p(`</div></div>`)
     if (r.overview) p(`<p style="${P_STYLE}color:#555;">${esc(r.overview)}</p>`)
-    p(`<div style="margin:16px 0 34px;padding:20px 22px;border-left:3px solid #222;background:#fafafa;line-height:1.9;">${revHtml(r.review)}</div>`)
+    if (r.trailer) {
+      p(`<div style="margin:0 !important;padding:0 0 14px !important;">`)
+      p(`<iframe src="https://www.youtube.com/embed/${r.trailer.key}" title="${esc(cleanTitle(r.title))} 예고편" width="560" height="315" loading="lazy" frameborder="0" allowfullscreen style="width:100% !important;max-width:560px !important;height:315px !important;border:0;display:block;"></iframe>`)
+      p(`</div>`)
+    }
+    p(`<div style="margin:0 !important;padding:0 0 34px !important;"><div style="padding:20px 22px;border-left:3px solid #222;background:#fafafa;line-height:1.9;">${revHtml(r.review)}</div></div>`)
   })
 
   const rest = m.total - m.picked.length
@@ -330,7 +338,7 @@ export type ListMaterial = {
   withVoice: number
   closing?: (Voice & { work: string; year: number | null }) | null
   all: { rank: number | null; year: number | null; title: string; creator: string | null; contentId: string | null; voices: Voice[] }[]
-  picked: (ListMaterial['all'][number] & { poster?: string | null; vote?: number | null; release?: string | null; overview?: string; runtime?: number; genres?: string[] })[]
+  picked: (ListMaterial['all'][number] & { poster?: string | null; vote?: number | null; release?: string | null; overview?: string; runtime?: number; genres?: string[]; trailer?: { key: string; name: string } | null })[]
 }
 
 /**
@@ -416,7 +424,13 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
     p(`<div>이 영화를 꼽은 사람 <b style="color:#222;">${r.voices.length}명</b></div>`)
     p(`</div></div>`)
     if (r.overview) p(`<p style="${P_STYLE}color:#555;">${esc(r.overview)}</p>`)
-    r.voices.slice(0, 2).forEach((v) => {
+    if (r.trailer) {
+      p(`<div style="margin:0 !important;padding:0 0 14px !important;">`)
+      p(`<iframe src="https://www.youtube.com/embed/${r.trailer.key}" title="${esc(cleanTitle(r.title))} 예고편" width="560" height="315" loading="lazy" frameborder="0" allowfullscreen style="width:100% !important;max-width:560px !important;height:315px !important;border:0;display:block;"></iframe>`)
+      p(`</div>`)
+    }
+    // 인용은 **최대 3건**이다. 모자라면 있는 만큼 싣는다 — 억지로 채우지 않는다.
+    r.voices.slice(0, 3).forEach((v) => {
       const label = [PROF[v.profession ?? ''] ?? '', (v.title ?? '').replace(/[「」『』]/g, '')].filter(Boolean).join(' · ')
       p(`<div style="margin:14px 0;padding:18px 20px;border-left:3px solid #222;background:#fafafa;">`)
       p(`<div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">`)
@@ -426,7 +440,7 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
       p(`<div style="line-height:1.9;">${revHtml(v.review)}</div>`)
       p(`</div>`)
     })
-    if (r.contentId && r.voices.length > 2) {
+    if (r.contentId && r.voices.length > 3) {
       p(`<p style="font-size:14px;"><a href="https://feelandnote.com/content/${r.contentId}">『${esc(cleanTitle(r.title))}』${eul(r.title)} 꼽은 ${r.voices.length}명 전부 보기 →</a></p>`)
     }
   })

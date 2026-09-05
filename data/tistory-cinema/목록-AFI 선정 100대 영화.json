@@ -99,7 +99,11 @@
       "genres": [
         "미스터리",
         "드라마"
-      ]
+      ],
+      "trailer": {
+        "key": "HvZRZoF4Ld0",
+        "name": "Fathom Events Spot"
+      }
     },
     {
       "rank": 2,
@@ -302,7 +306,11 @@
       "genres": [
         "드라마",
         "범죄"
-      ]
+      ],
+      "trailer": {
+        "key": "Ew9ngL1GZvs",
+        "name": "50th Anniversary Trailer"
+      }
     },
     {
       "rank": 3,
@@ -377,7 +385,11 @@
       "genres": [
         "드라마",
         "로맨스"
-      ]
+      ],
+      "trailer": {
+        "key": "MF7JH_54d8c",
+        "name": "4K Trailer"
+      }
     },
     {
       "rank": 4,
@@ -428,7 +440,11 @@
       "genres": [
         "드라마",
         "역사"
-      ]
+      ],
+      "trailer": {
+        "key": "G5RHRg6zEhY",
+        "name": "4K Restoration Official Trailer"
+      }
     },
     {
       "rank": 5,
@@ -455,7 +471,11 @@
       "genres": [
         "코미디",
         "로맨스"
-      ]
+      ],
+      "trailer": {
+        "key": "7gQTEyVwwwo",
+        "name": "TCM 70th Anniversary Spot"
+      }
     },
     {
       "rank": 6,
@@ -513,16 +533,6 @@
           "review": "카즈하는 2025년 위버스 라이브에서 《바람과 함께 사라지다》를 무척 좋아해 영화뿐 아니라 뮤지컬도 봤다고 말했다. 어릴 때는 여주인공의 흰 의상을 산타에게 부탁해 받아 집에서 입었다고 회상했다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/91d93cd8-9318-4449-ac64-ab2fc4de9b76/avatar.webp?v=1785953997227"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/s7nCZSELEAHO6xIcVj2ONolmC59.jpg",
-      "vote": null,
-      "release": "1939-12-15",
-      "overview": "옛 전통과 관습에 묻혀 살아가는 미국 남부. 그러나 북부가 노예 제도를 폐지하고 이를 남부에도 강요하자 두 지역은 남북전쟁이란 소용돌이에 휘말린다. 아름다운 미모와 당당한 성격으로 마을 청년들의 선망의 대상이 되던 스칼렛 오하라는 애슐리 윌크스를 사랑하고 있었다. 그러나 그녀가 사랑하는 애슐리는 멜라니와 결혼을 해버리고 화가 난 스칼렛은 자신의 여동생이 좋아하는 멜라니의 남동생 찰스와 결혼을 한다. 얼마 후 애슐리와 찰스는 입대를 하게 되고, 결국 찰스는 전사하고 마는데...",
-      "runtime": 232,
-      "genres": [
-        "드라마",
-        "전쟁",
-        "로맨스"
       ]
     },
     {
@@ -589,16 +599,6 @@
           "review": "데이비드 핀처는 데이비드 린의 아라비아의 로렌스를 자신의 즐겨찾기 영화 목록에 포함시켰다. 린의 서사적 스케일과 인물의 내면을 동시에 포착하는 능력은 핀처가 조디악과 소셜 네트워크에서 추구한 방향과 일치한다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/e76c5833-f949-426f-93d5-1fd0a0555bc7/avatar.webp?v=1785244434692"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/p2PG2nXE4e6piHdAcDLhDlCA30E.jpg",
-      "vote": 7.994,
-      "release": null,
-      "overview": "영국 정보국 소속 장교 로렌스 는 1차대전 중 중동지역의 전투에서 아랍 부족의 지원을 받기 위해 아랍 지역으로 파견된다. 그런데 그는 영국 정부가 바라던 것 이상으로 아랍의 지도자들을 사로 잡고 아랍의 독립을 위해 열심히 싸워 아랍 민족으로 부터 ‘아라비아의 로렌스’라는 영웅적인 칭호를 받게 된다. 그는 아랍 전사들을 이끌고 터키군들과 싸우면서 규율을 잡기 위해 남의 마을의 우물물을 마신 병사를 과감히 처형하는 등 독한 모습을 보여준다. 그러나 그의 그런 용맹성은 터키 군에게 포로로 잡힌 후 그곳에서 받은 성적 학대를 통해 병적으로 발전된다. 그리고 마침내 영국 정부의 소환을 받고 런던으로 돌아오지만 중동으로 보내 줄 것을 요구하면서 사막으로 돌아가길 원한다. 그러나 이미 정치적으로 타결이 된 아라비아 사막은 그를 원치 않았는데.",
-      "runtime": 216,
-      "genres": [
-        "모험",
-        "역사",
-        "전쟁"
       ]
     },
     {
@@ -625,16 +625,6 @@
           "review": "부반 밤은 쉰들러 리스트를 자기 목록의 또 다른 최애로 꼽았다. IMDb가 찍은 영상에서 이 작품은 사실상 공포물이라며 평생 두 번 봤는데 그것도 끊어 가며 봤다고 밝혔다. 한 번에 끝까지 볼 수는 없었다고 했다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/62aacfd5-c173-4bf2-80d6-b790d6e76cdb/avatar.webp?v=1787414736664"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/oyyUcGwLX7LTFS1pQbLrQpyzIyt.jpg",
-      "vote": null,
-      "release": null,
-      "overview": "2차 세계대전 당시 독일군이 점령한 폴란드. 시류에 맞춰 자신의 성공을 추구하는 기회주의자 쉰들러는 유태인이 경영하는 그릇 공장을 인수한다. 그는 공장을 인수하기 위해 나찌 당원이 되고 독일군에게 뇌물을 바치는 등 갖은 방법을 동원한다. 그러나 냉혹한 기회주의자였던 쉰들러는 유태인 회계사인 스턴과 친분을 맺으면서 냉혹한 유태인 학살에 대한 양심의 소리를 듣기 시작한다. 마침내 그는 강제 수용소로 끌려가 죽음을 맞게될 유태인들을 구해내기로 결심하고, 독일군 장교에게 빼내는 사람 숫자대로 뇌물을 주는 방법으로 유태인들을 구해내려는 계획을 세우는데...",
-      "runtime": 195,
-      "genres": [
-        "드라마",
-        "역사",
-        "전쟁"
       ]
     },
     {
@@ -685,16 +675,6 @@
           "review": "「시네마」에서 들뢰즈는 히치콕을 '사유를 주는' 감독으로 특별히 논했다. 프레임 안에 실제로 존재하지 않는 '더 불안한 현존', 즉 시간, 사유, 감정, 삶 전체를 드레이어(정신), 안토니오니(공허), 히치콕(사유)과 연결지어 분석했다. 히치콕의 영화에서 카메라가 자신의 운동을 따르는 '위대한 순간들'을 포착하며, 정신-이미지의 전형으로 평가했다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/a10fbf9f-46f1-4f09-a8f0-1718f3dfb5b4/avatar.webp?v=1785217186426"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/fqePCJXuCAAmUnG935fLFgk9H6L.jpg",
-      "vote": 8.151,
-      "release": null,
-      "overview": "스카티는 고소공포증 때문에 경찰을 그만 두고 사립탐정의 길로 들어서게 된다. 어느 날 그는 대학 친구였던 개빈로부터 망령에 사로잡힌 자신의 부인 매들린을 미행해 달라는 부탁을 받는다. 얼마 후 그는 금문교 아래에서 강물에 뛰어든 매들린을 구한 후로 그녀와 사랑에 빠지고 매들린 역시 그에게 사랑을 느끼게 되는데...",
-      "runtime": 129,
-      "genres": [
-        "미스터리",
-        "로맨스",
-        "스릴러"
       ]
     },
     {
@@ -761,16 +741,6 @@
           "review": "피어스 브로스넌은 Rotten Tomatoes 인터뷰에서 5대 좋아하는 영화 중 하나로 선정했다. 무대 공연 경험도 있으며 \"걸작이다. 훌륭하게 구성되고 연기된 영화\"라고 극찬했다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/cd98b582-73f8-4e5d-b48e-d52df7e0be5f/avatar.webp?v=1785244818267"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/9FzHxca1OybjwOdTmWLfhdD4u0g.jpg",
-      "vote": 7.589,
-      "release": null,
-      "overview": "회오리 바람에 휩쓸려 오즈의 나라로 내던져진 도로시는 집으로 되돌아갈 수 있는 유일한 길이 위대한 오즈의 마법사를 만나는 것임을 알고 그를 찾아 긴 여정이 시작된다. 도로시는 애견 토토와 함께 노란 길을 따라 오즈의 마법사가 사는 에메랄드 시티로 향한다. 도중에 만난 세 명의 친구들, 지능을 얻고자 하는 허수아비와 심장을 원하는 양철 나뭇꾼, 용기를 가지고 싶어하는 겁장이 사자와 함께 오즈의 마법사에게 자신의 소원이 이루어지도록 부탁하기 위해 도로시와 함께 경쾌한 발걸음을 옮긴다. 그러나 도로시 일행을 방해하기 위해 뒤쫓아오는 서쪽 나라 마녀의 검은 그림자.",
-      "runtime": 102,
-      "genres": [
-        "모험",
-        "판타지",
-        "가족"
       ]
     },
     {
@@ -3199,7 +3169,11 @@
       "genres": [
         "미스터리",
         "드라마"
-      ]
+      ],
+      "trailer": {
+        "key": "HvZRZoF4Ld0",
+        "name": "Fathom Events Spot"
+      }
     },
     {
       "rank": 2,
@@ -3402,7 +3376,11 @@
       "genres": [
         "드라마",
         "범죄"
-      ]
+      ],
+      "trailer": {
+        "key": "Ew9ngL1GZvs",
+        "name": "50th Anniversary Trailer"
+      }
     },
     {
       "rank": 3,
@@ -3477,7 +3455,11 @@
       "genres": [
         "드라마",
         "로맨스"
-      ]
+      ],
+      "trailer": {
+        "key": "MF7JH_54d8c",
+        "name": "4K Trailer"
+      }
     },
     {
       "rank": 4,
@@ -3528,7 +3510,11 @@
       "genres": [
         "드라마",
         "역사"
-      ]
+      ],
+      "trailer": {
+        "key": "G5RHRg6zEhY",
+        "name": "4K Restoration Official Trailer"
+      }
     },
     {
       "rank": 5,
@@ -3555,333 +3541,21 @@
       "genres": [
         "코미디",
         "로맨스"
-      ]
-    },
-    {
-      "rank": 6,
-      "year": 1939,
-      "note": null,
-      "contentId": "6036a630-44d1-4980-af86-b26160a8a8fa",
-      "title": "바람과 함께 사라지다",
-      "creator": "빅터 플레밍",
-      "voices": [
-        {
-          "name": "알렉스 퍼거슨",
-          "slug": "alex-ferguson",
-          "profession": "athlete",
-          "title": "맨유 27년",
-          "review": "알렉스 퍼거슨은 1939년작 《바람과 함께 사라지다》를 '역대 가장 위대한 영화 중 한 편'으로 꼽는다. 그는 글래스고의 치매 환자 음악 회상 자선단체 플레이리스트 포 라이프(Playlist for Life)에 본인 플레이리스트를 공개하며 이 영화의 사랑 테마곡 'My Own True Love'를 직접 골랐고, 그 자리에서 영화에 대한 자신의 평가를 덧붙였다.\n\n같은 인터뷰에서 그는 아내 캐시와 미국 남북전쟁을 공부하던 시기에 애틀랜타로 직접 가 마거릿 미첼의 생가를 둘러본 일화를 남겼다. 영화가 그리는 패배한 남부의 풍경이, 빅터 플레밍의 카메라가 잡은 '타라' 농장의 일몰이 그에게는 단순한 멜로드라마가 아니라 19세기 미국의 분기점을 가장 정직하게 보여주는 영상 사료였다는 회상이다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/f895c45f-d7bf-4c2d-b971-f832f0a211d7/avatar.webp?v=1785589882711"
-        },
-        {
-          "name": "오즈 야스지로",
-          "slug": "yasujiro-ozu",
-          "profession": "director",
-          "title": "동경 이야기",
-          "review": "오즈 야스지로는 1943년 싱가포르에서 군 압수품 사이에 끼어 있던 '바람과 함께 사라지다'를 보았다. 패전을 향해 가는 일본의 한 영화감독이, 남북전쟁의 폐허 위에서 한 여자가 끝내 '내일은 내일의 태양이 뜬다'고 말하는 미국 영화를 적국 도시에서 응시한 것이다. 그는 이후 한 시대의 끝과 새 출발을 같은 평면에 놓는 자신의 결말 화법을 다듬어 갔다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/73b1d922-cb5b-4c09-a90b-ca063b57396b/avatar.webp?v=1781408080793"
-        },
-        {
-          "name": "빈 디젤",
-          "slug": "vin-diesel",
-          "profession": "actor",
-          "title": "「분노의 질주」",
-          "review": "빈 디젤은 2007년 신디 펄먼의 인터뷰에서 이 영화를 역대 최애 영화로 꼽았다. \"정말로 열기와 위험을 체감할 수 있었습니다. 스칼렛이 보여주는 강인함과 용기가 대단합니다\"라고 말했다. 액션 장르 배우인 그가 1939년 로맨스 대서사시를 최고로 선택한 점이 의외로 받아들여졌다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/d56c5c86-a9fa-481f-8e6b-1dd99d75c73c/avatar.webp?v=1785244780144"
-        },
-        {
-          "name": "필 스펜서",
-          "slug": "phil-spencer",
-          "profession": "entrepreneur",
-          "title": "Xbox 총괄",
-          "review": "필 스펜서는 고전 예술 매체를 다시 찾는 자신의 습관을 설명하며 영화 《바람과 함께 사라지다》를 다시 본다고 말했다. 그는 오래된 영화·책·음반처럼 게임도 후대가 계속 접하고 배울 수 있도록 보존돼야 한다는 논지에서 이 작품을 구체적인 예로 들었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/dfc6bc58-af7e-4239-8662-0988840d118a/avatar.webp?v=1785894269596"
-        },
-        {
-          "name": "테드 터너",
-          "slug": "ted-turner",
-          "profession": "entrepreneur",
-          "title": "CNN 설립자",
-          "review": "테드 터너는 2019년 CNN 이메일 인터뷰에서 자신의 가장 좋아하는 영화로 《바람과 함께 사라지다》를 직접 꼽고, 작품 속 땅에 관한 대사가 수십 년 이어온 토지 보전 활동의 정신과 잘 맞는다고 설명했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/0c56c6d9-be57-441c-b238-e465bff3bde4/avatar.webp?v=1785869965262"
-        },
-        {
-          "name": "카즈하",
-          "slug": "kazuha",
-          "profession": "musician",
-          "title": "르세라핌",
-          "review": "카즈하는 2025년 위버스 라이브에서 《바람과 함께 사라지다》를 무척 좋아해 영화뿐 아니라 뮤지컬도 봤다고 말했다. 어릴 때는 여주인공의 흰 의상을 산타에게 부탁해 받아 집에서 입었다고 회상했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/91d93cd8-9318-4449-ac64-ab2fc4de9b76/avatar.webp?v=1785953997227"
-        }
       ],
-      "poster": "https://image.tmdb.org/t/p/w500/s7nCZSELEAHO6xIcVj2ONolmC59.jpg",
-      "vote": null,
-      "release": "1939-12-15",
-      "overview": "옛 전통과 관습에 묻혀 살아가는 미국 남부. 그러나 북부가 노예 제도를 폐지하고 이를 남부에도 강요하자 두 지역은 남북전쟁이란 소용돌이에 휘말린다. 아름다운 미모와 당당한 성격으로 마을 청년들의 선망의 대상이 되던 스칼렛 오하라는 애슐리 윌크스를 사랑하고 있었다. 그러나 그녀가 사랑하는 애슐리는 멜라니와 결혼을 해버리고 화가 난 스칼렛은 자신의 여동생이 좋아하는 멜라니의 남동생 찰스와 결혼을 한다. 얼마 후 애슐리와 찰스는 입대를 하게 되고, 결국 찰스는 전사하고 마는데...",
-      "runtime": 232,
-      "genres": [
-        "드라마",
-        "전쟁",
-        "로맨스"
-      ]
-    },
-    {
-      "rank": 7,
-      "year": 1962,
-      "note": null,
-      "contentId": "3aa43111-d416-4b6d-90be-41a902f8716f",
-      "title": "아라비아의 로렌스",
-      "creator": "데이비드 린",
-      "voices": [
-        {
-          "name": "톰 앤더슨",
-          "slug": "tom-anderson",
-          "profession": "entrepreneur",
-          "title": "마이스페이스",
-          "review": "톰 앤더슨은 2017년 5월 인스타그램에서 이 영화를 인생 영화로 꼽았다. 그는 \"제 인생 영화 가운데 하나인데 여러분은 지루해서 눈물이 날지도 모릅니다. 저도 처음 두 번은 보다가 잠들었어요\"라고 적고, \"이 영화를 사랑한 것이 제가 사진을 찍고 싶게 만든 이유의 한 자락입니다\"라고 덧붙였다. 2012년 페타픽셀 인터뷰에서도 데이비드 린을 가장 좋아하는 감독으로 들었고, 2005년 마이스페이스 프로필 영화 칸의 첫 줄도 이 작품이었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/09c6aa46-9aeb-4ba9-9388-48dab47f1c1d/avatar.webp?v=1785318754694"
-        },
-        {
-          "name": "데니 빌뇌브",
-          "slug": "denis-villeneuve",
-          "profession": "director",
-          "title": "듄의 빌뇌브",
-          "review": "데니 빌뇌브는 18, 19세 무렵 혼자 70mm 상영관에서 본 '아라비아의 로렌스'가 자신의 진로를 바꿔놓았다고 말했다. 그는 데이비드 린의 광활한 사막 장면과 정치극의 결합을 '듄' 시리즈의 시각적 설계에 그대로 흡수했다. 아라키스의 황금빛 모래 능선과 권력 다툼의 호흡은 린에게 진 빚을 숨기지 않는다. 빌뇌브는 이 작품을 '듄'에 가장 큰 영향을 준 영화 한 편으로 거듭 지목한다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/800486e8-2553-4821-bdb1-7b66b4c4f8fd/avatar.webp?v=1785386359099"
-        },
-        {
-          "name": "스티븐 스필버그",
-          "slug": "steven-spielberg",
-          "profession": "director",
-          "title": "드림웍스 창립자",
-          "review": "스티븐 스필버그는 이 영화를 그의 영화 제작 여정을 시작하게 만든 작품으로 꼽았다. \"아라비아의 로렌스는 나를 이 여정으로 이끈 영화입니다. 이 작품은 나를 고양시켰고, 영화가 어떻게 만들어지는지 더 알고 싶게 만든 작은 것들이 있었습니다\"라고 말했다. 그는 이 작품을 단순한 기적이라고 표현했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/9093f09c-1e17-484f-8622-b66307d81519/avatar.webp?v=1785245185073"
-        },
-        {
-          "name": "제프리 카첸버그",
-          "slug": "jeffrey-katzenberg",
-          "profession": "entrepreneur",
-          "title": "드림웍스 창업자",
-          "review": "제프리 카첸버그는 2012년 할리우드 리포터 제작자 좌담에서 평생 한 편만 가져간다면 무엇을 고르겠느냐는 물음에 《아라비아의 로렌스》를 답했다. 자기에게 가장 큰 영향을 남긴 영화라고 했다. 2023년 ACMI 대담에서도 《대부》와 함께 가장 아끼는 두 편으로 다시 꼽았다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/1d82022d-23f0-489d-9258-ea41b0dc940d/avatar.webp?v=1785317110131"
-        },
-        {
-          "name": "리처드 닉슨",
-          "slug": "richard-nixon",
-          "profession": "politician",
-          "title": "37대 대통령",
-          "review": "리처드 닉슨은 데이비드 린 감독의 열렬한 팬이었다. 아라비아의 로렌스를 1971년 3월과 1973년 8월 두 차례 관람했다. 제국의 야망과 사막의 고독한 영웅이라는 주제가 닉슨의 외교 철학, 특히 중동 정책에 대한 관심과 맞닿아 있었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/2db7ec50-c775-4110-808d-f9205fe147f1/avatar.webp?v=1785217110825"
-        },
-        {
-          "name": "레오나르도 디카프리오",
-          "slug": "leonardo-dicaprio",
-          "profession": "actor",
-          "title": "「타이타닉」",
-          "review": "레오나르도 디카프리오는 2006년 자신의 올타임 베스트 10 리스트에 이 영화를 포함시켰다. 데이비드 린 감독의 웅장한 서사와 피터 오툴의 카리스마 넘치는 연기는 디카프리오가 추구하는 서사적 영화의 기준점이 되었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/d791d016-051c-429b-9f99-3e514ef5291a/avatar.webp?v=1785217309774"
-        },
-        {
-          "name": "데이비드 핀처",
-          "slug": "david-fincher",
-          "profession": "director",
-          "title": "「세븐」",
-          "review": "데이비드 핀처는 데이비드 린의 아라비아의 로렌스를 자신의 즐겨찾기 영화 목록에 포함시켰다. 린의 서사적 스케일과 인물의 내면을 동시에 포착하는 능력은 핀처가 조디악과 소셜 네트워크에서 추구한 방향과 일치한다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/e76c5833-f949-426f-93d5-1fd0a0555bc7/avatar.webp?v=1785244434692"
-        }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/p2PG2nXE4e6piHdAcDLhDlCA30E.jpg",
-      "vote": 7.994,
-      "release": null,
-      "overview": "영국 정보국 소속 장교 로렌스 는 1차대전 중 중동지역의 전투에서 아랍 부족의 지원을 받기 위해 아랍 지역으로 파견된다. 그런데 그는 영국 정부가 바라던 것 이상으로 아랍의 지도자들을 사로 잡고 아랍의 독립을 위해 열심히 싸워 아랍 민족으로 부터 ‘아라비아의 로렌스’라는 영웅적인 칭호를 받게 된다. 그는 아랍 전사들을 이끌고 터키군들과 싸우면서 규율을 잡기 위해 남의 마을의 우물물을 마신 병사를 과감히 처형하는 등 독한 모습을 보여준다. 그러나 그의 그런 용맹성은 터키 군에게 포로로 잡힌 후 그곳에서 받은 성적 학대를 통해 병적으로 발전된다. 그리고 마침내 영국 정부의 소환을 받고 런던으로 돌아오지만 중동으로 보내 줄 것을 요구하면서 사막으로 돌아가길 원한다. 그러나 이미 정치적으로 타결이 된 아라비아 사막은 그를 원치 않았는데.",
-      "runtime": 216,
-      "genres": [
-        "모험",
-        "역사",
-        "전쟁"
-      ]
-    },
-    {
-      "rank": 8,
-      "year": 1993,
-      "note": null,
-      "contentId": "48473954-3449-4b80-83ad-adad8f41637d",
-      "title": "쉰들러 리스트",
-      "creator": "스티븐 스필버그",
-      "voices": [
-        {
-          "name": "제프리 카첸버그",
-          "slug": "jeffrey-katzenberg",
-          "profession": "entrepreneur",
-          "title": "드림웍스 창업자",
-          "review": "제프리 카첸버그는 2023년 ACMI 대담에서 근래 영화 가운데 스티븐 스필버그의 작품 둘이 각별했다며 《쉰들러 리스트》를 들었다. 그 시대를 살아낸 사람들이 어떤 처지에 놓였는지 이 영화로 이해하게 됐다고 말했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/1d82022d-23f0-489d-9258-ea41b0dc940d/avatar.webp?v=1785317110131"
-        },
-        {
-          "name": "부반 밤",
-          "slug": "bhuvan-bam",
-          "profession": "influencer",
-          "title": "1인 다역",
-          "review": "부반 밤은 쉰들러 리스트를 자기 목록의 또 다른 최애로 꼽았다. IMDb가 찍은 영상에서 이 작품은 사실상 공포물이라며 평생 두 번 봤는데 그것도 끊어 가며 봤다고 밝혔다. 한 번에 끝까지 볼 수는 없었다고 했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/62aacfd5-c173-4bf2-80d6-b790d6e76cdb/avatar.webp?v=1787414736664"
-        }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/oyyUcGwLX7LTFS1pQbLrQpyzIyt.jpg",
-      "vote": null,
-      "release": null,
-      "overview": "2차 세계대전 당시 독일군이 점령한 폴란드. 시류에 맞춰 자신의 성공을 추구하는 기회주의자 쉰들러는 유태인이 경영하는 그릇 공장을 인수한다. 그는 공장을 인수하기 위해 나찌 당원이 되고 독일군에게 뇌물을 바치는 등 갖은 방법을 동원한다. 그러나 냉혹한 기회주의자였던 쉰들러는 유태인 회계사인 스턴과 친분을 맺으면서 냉혹한 유태인 학살에 대한 양심의 소리를 듣기 시작한다. 마침내 그는 강제 수용소로 끌려가 죽음을 맞게될 유태인들을 구해내기로 결심하고, 독일군 장교에게 빼내는 사람 숫자대로 뇌물을 주는 방법으로 유태인들을 구해내려는 계획을 세우는데...",
-      "runtime": 195,
-      "genres": [
-        "드라마",
-        "역사",
-        "전쟁"
-      ]
-    },
-    {
-      "rank": 9,
-      "year": 1958,
-      "note": null,
-      "contentId": "e391d4a9-37fe-4f33-b576-a20a26555e67",
-      "title": "현기증",
-      "creator": "Alfred Hitchcock",
-      "voices": [
-        {
-          "name": "박찬욱",
-          "slug": "park-chan-wook",
-          "profession": "director",
-          "title": "「올드보이」",
-          "review": "박찬욱은 1982년 서강대학교 3학년 겨울방학, 학교 커뮤니케이션센터에서 열린 작은 상영회에서 이 영화를 처음 접했다. 전직 형사가 현기증에 시달리며 한 여인의 죽음과 재생을 목격하는 이 미스터리는 스물한 살 철학과 학생에게 충격 그 자체였다. 이 경험 이후 영화감독이 되기로 결심했다. 처음 봤을 때의 충격과 감동이 너무 강렬해서 그 환상을 깨고 싶지 않아 지금까지 단 한 번도 다시 보지 않았다고 밝혔다. 한 편의 영화가 한 사람의 인생 진로를 결정지을 수 있다는 것을 보여주는 사례다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/270694e5-edc5-4e78-bf77-114adef324a9/avatar.webp?v=1785244519694"
-        },
-        {
-          "name": "페드로 알모도바르",
-          "slug": "pedro-almodovar",
-          "profession": "director",
-          "title": "시네마틱 황제",
-          "review": "페드로 알모도바르는 히치콕의 『현기증』을 자신이 평생 변주해 온 한 줄, 즉 '잃은 여자를 다시 만들어 내려는 남자'의 원전이라고 불렀다. 『하이힐』에서 어머니를 흉내 내는 딸, 『줄리에타』에서 떠난 딸을 다시 만들어 내려는 어머니, 모두 스코티의 변형이라고 그는 한 인터뷰에서 시인했다. 그는 화면 속 초록 드레스와 붉은 머리가 히치콕이 자기 색채에 흘려 보낸 가장 큰 유산이라고 적었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/9f642c80-2bdd-4b10-b63b-01d161c7440c/avatar.webp?v=1785389875687"
-        },
-        {
-          "name": "데니 빌뇌브",
-          "slug": "denis-villeneuve",
-          "profession": "director",
-          "title": "듄의 빌뇌브",
-          "review": "데니 빌뇌브는 '현기증'을 자신이 가장 사랑하는 영화 중 하나로 꼽으며, '에너미'를 만들 때 히치콕의 도플갱어 구조와 회전하는 시점 숏을 의식적으로 끌어왔다고 밝혔다. 동일한 얼굴이 두 번 등장할 때 관객의 신경이 어떻게 어긋나는지, 빌뇌브는 그 메커니즘을 히치콕에게서 배웠다고 말한다. 토론토의 노란 안개와 거대한 거미는 '현기증'의 강박을 21세기 시네마로 옮겨 적은 헌사다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/800486e8-2553-4821-bdb1-7b66b4c4f8fd/avatar.webp?v=1785386359099"
-        },
-        {
-          "name": "잭 킹",
-          "slug": "zach-king",
-          "profession": "influencer",
-          "title": "편집 마술",
-          "review": "잭 킹은 소셜미디어 이그재미너 인터뷰에서 요즘 앨프리드 히치콕에게 크게 영감을 받는다며 그의 숏을 프레임 단위로 뜯어보며 공부한다고 말했다. 작품을 하나로 집어 말하지는 않아, 영국영화협회의 세계 비평가 투표에서 역대 최고 영화로 뽑힌 「현기증」을 히치콕의 대표작으로 놓는다. 킹은 창작자라면 자신을 자극하는 것에 파고들어 시간을 들여야 한다고 덧붙였다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/57dca174-0abe-41db-89ce-1abbef4d9ac1/avatar.webp?v=1787420048060"
-        },
-        {
-          "name": "질 들뢰즈",
-          "slug": "gilles-deleuze",
-          "profession": "humanities_scholar",
-          "title": "「차이와 반복」",
-          "review": "「시네마」에서 들뢰즈는 히치콕을 '사유를 주는' 감독으로 특별히 논했다. 프레임 안에 실제로 존재하지 않는 '더 불안한 현존', 즉 시간, 사유, 감정, 삶 전체를 드레이어(정신), 안토니오니(공허), 히치콕(사유)과 연결지어 분석했다. 히치콕의 영화에서 카메라가 자신의 운동을 따르는 '위대한 순간들'을 포착하며, 정신-이미지의 전형으로 평가했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/a10fbf9f-46f1-4f09-a8f0-1718f3dfb5b4/avatar.webp?v=1785217186426"
-        }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/fqePCJXuCAAmUnG935fLFgk9H6L.jpg",
-      "vote": 8.151,
-      "release": null,
-      "overview": "스카티는 고소공포증 때문에 경찰을 그만 두고 사립탐정의 길로 들어서게 된다. 어느 날 그는 대학 친구였던 개빈로부터 망령에 사로잡힌 자신의 부인 매들린을 미행해 달라는 부탁을 받는다. 얼마 후 그는 금문교 아래에서 강물에 뛰어든 매들린을 구한 후로 그녀와 사랑에 빠지고 매들린 역시 그에게 사랑을 느끼게 되는데...",
-      "runtime": 129,
-      "genres": [
-        "미스터리",
-        "로맨스",
-        "스릴러"
-      ]
-    },
-    {
-      "rank": 10,
-      "year": 1939,
-      "note": null,
-      "contentId": "8c197b1e-615c-48c6-8e80-1b2631f34c5d",
-      "title": "오즈의 마법사",
-      "creator": "Victor Fleming",
-      "voices": [
-        {
-          "name": "제임스 카메론",
-          "slug": "james-cameron",
-          "profession": "director",
-          "title": "「아바타」",
-          "review": "카메론은 2022년 엠파이어 매거진 인터뷰에서 \"내 가장 좋아하는 영화는 오즈의 마법사이다. 1960년대 초 어린 시절 흑백 TV로 처음 본 이래 평생 함께해왔고, 지금도 가족과 주기적으로 본다\"고 말했다. \"도로시가 문을 열고 흑백 세계에서 선명한 테크니컬러의 오즈 나라로 나가는 순간이 여전히 나를 사로잡는다. 그 천재성, 1939년 관객들의 숨을 멎게 했을 그 순간.\" 이 영화의 메시지는 '집 같은 곳은 없다'가 아니라, 여정에서 만난 이들을 존중하면 그들과 친구가 되고 어떤 역경도 함께 헤쳐나갈 수 있다는 것이라고 해석했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/b687d9e8-4504-4e97-aed1-7751bad8b70f/avatar.webp?v=1785244350130"
-        },
-        {
-          "name": "데이비드 린치",
-          "slug": "david-lynch",
-          "profession": "director",
-          "title": "「트윈 픽스」",
-          "review": "데이비드 린치는 2001년 뉴욕 영화제 Q&A에서 \"오즈의 마법사를 생각하지 않는 날이 하루도 없다\"고 말했다. 와일드 앳 하트를 비롯한 여러 작품에서 이 영화에 대한 오마주를 반복했다. 순수한 동화적 표면 아래 기이한 공포가 공존하는 구조는 린치 영화의 핵심 문법이 되었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/ccb161a5-3998-41f3-9e3c-4532cea655ae/avatar.webp?v=1785244431786"
-        },
-        {
-          "name": "니콜 키드먼",
-          "slug": "nicole-kidman",
-          "profession": "actor",
-          "title": "「아워스」",
-          "review": "니콜 키드먼은 14살 때 이 영화에서 마가렛 해밀턴이 연기한 서쪽 마녀를 보고 배우가 되기로 결심했다. \"사람들에게 감정을 느끼게 하는 것, 그걸 하고 싶었다\"고 밝혔다. 수줍음 많고 말을 더듬던 아이가 연기를 통해 자신을 표현하는 법을 찾았다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/c47bc202-db94-4e6a-9945-3db9e787b266/avatar.webp?v=1785244540228"
-        },
-        {
-          "name": "백남준",
-          "slug": "nam-june-paik",
-          "profession": "visual_artist",
-          "title": "비디오 아트",
-          "review": "백남준은 1995년 대작 '일렉트로닉 슈퍼하이웨이'에서 이 영화의 영상을 캔자스주 섹션에 배치했다. 미국 50개 주를 네온과 텔레비전으로 표현한 이 설치 작품에서 오즈의 마법사는 미국 대중문화의 상징으로 활용되었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/8fe07402-811c-45d7-92d0-d447998c8abc/avatar.webp?v=1785244402736"
-        },
-        {
-          "name": "조지 R.R. 마틴",
-          "slug": "george-r.r.-martin",
-          "profession": "author",
-          "title": "「왕좌의 게임」",
-          "review": "마틴의 좋아하는 판타지 영화 3위. 마틴은 \"이보다 더 고전적인 영화는 없다\"라고 평했으며, 마가렛 해밀턴의 사악한 마녀 연기를 \"이보다 더 훌륭한 사악한 마녀는 없었고, 앞으로도 없을 것\"이라고 극찬했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/f811dc77-59fb-48ba-9be0-1977364fe7e8/avatar.webp?v=1785217313912"
-        },
-        {
-          "name": "유나",
-          "slug": "yuna",
-          "profession": "musician",
-          "title": "있지",
-          "review": "유나는 2022년 누메로 도쿄 인터뷰에서 최근 마음에 남은 책이나 영화를 묻는 질문에 영화 《오즈의 마법사》를 꼽았다. 그는 CG와 배우, 화면 전환이 아름다워 마음이 편안해졌다고 말했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/6f0d1580-0169-4cdf-b0ca-8dbee5de2746/avatar.webp?v=1785940791356"
-        },
-        {
-          "name": "피어스 브로스넌",
-          "slug": "pierce-brosnan",
-          "profession": "actor",
-          "title": "「007」",
-          "review": "피어스 브로스넌은 Rotten Tomatoes 인터뷰에서 5대 좋아하는 영화 중 하나로 선정했다. 무대 공연 경험도 있으며 \"걸작이다. 훌륭하게 구성되고 연기된 영화\"라고 극찬했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/cd98b582-73f8-4e5d-b48e-d52df7e0be5f/avatar.webp?v=1785244818267"
-        }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/9FzHxca1OybjwOdTmWLfhdD4u0g.jpg",
-      "vote": 7.589,
-      "release": null,
-      "overview": "회오리 바람에 휩쓸려 오즈의 나라로 내던져진 도로시는 집으로 되돌아갈 수 있는 유일한 길이 위대한 오즈의 마법사를 만나는 것임을 알고 그를 찾아 긴 여정이 시작된다. 도로시는 애견 토토와 함께 노란 길을 따라 오즈의 마법사가 사는 에메랄드 시티로 향한다. 도중에 만난 세 명의 친구들, 지능을 얻고자 하는 허수아비와 심장을 원하는 양철 나뭇꾼, 용기를 가지고 싶어하는 겁장이 사자와 함께 오즈의 마법사에게 자신의 소원이 이루어지도록 부탁하기 위해 도로시와 함께 경쾌한 발걸음을 옮긴다. 그러나 도로시 일행을 방해하기 위해 뒤쫓아오는 서쪽 나라 마녀의 검은 그림자.",
-      "runtime": 102,
-      "genres": [
-        "모험",
-        "판타지",
-        "가족"
-      ]
+      "trailer": {
+        "key": "7gQTEyVwwwo",
+        "name": "TCM 70th Anniversary Spot"
+      }
     }
   ],
   "closing": {
-    "name": "시얼샤 로넌",
-    "slug": "saoirse-ronan",
+    "name": "피어스 브로스넌",
+    "slug": "pierce-brosnan",
     "profession": "actor",
-    "title": "「레이디버드」",
-    "review": "시얼샤 로넌은 이 영화에서 브란도와 에바 마리 세인트의 케미를 \"화면에서 보는 것만으로도 아름다워요\"라고 극찬했다. 자신의 5대 영화 목록에 포함시키며 시대를 초월한 매력을 강조했다.",
-    "avatar_url": "https://assets.feelandnote.com/celebs/7e07fa43-43ab-404c-bb5b-20cc35cc6149/avatar.webp?v=1785244731277",
-    "work": "워터프론트",
-    "year": 1954
+    "title": "「007」",
+    "review": "피어스 브로스넌은 Rotten Tomatoes 인터뷰에서 5대 좋아하는 영화 중 하나로 선정했다. 무대 공연 경험도 있으며 \"걸작이다. 훌륭하게 구성되고 연기된 영화\"라고 극찬했다.",
+    "avatar_url": "https://assets.feelandnote.com/celebs/cd98b582-73f8-4e5d-b48e-d52df7e0be5f/avatar.webp?v=1785244818267",
+    "work": "오즈의 마법사",
+    "year": 1939
   }
 }

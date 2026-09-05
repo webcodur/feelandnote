@@ -85,7 +85,11 @@
         "미스터리",
         "로맨스",
         "스릴러"
-      ]
+      ],
+      "trailer": {
+        "key": "nA2ZcD_XAuY",
+        "name": "TCM 60th Anniversary Spot"
+      }
     },
     {
       "rank": 3,
@@ -168,7 +172,11 @@
       "genres": [
         "미스터리",
         "드라마"
-      ]
+      ],
+      "trailer": {
+        "key": "HvZRZoF4Ld0",
+        "name": "Fathom Events Spot"
+      }
     },
     {
       "rank": 4,
@@ -202,7 +210,11 @@
       "runtime": 137,
       "genres": [
         "드라마"
-      ]
+      ],
+      "trailer": {
+        "key": "xqO0d3328Do",
+        "name": "BFI Re-Release Trailer [Subtitled]"
+      }
     },
     {
       "rank": 5,
@@ -245,7 +257,11 @@
       "genres": [
         "드라마",
         "로맨스"
-      ]
+      ],
+      "trailer": {
+        "key": "rc3QleuaQMw",
+        "name": "Re-release Trailer"
+      }
     },
     {
       "rank": 6,
@@ -441,7 +457,11 @@
         "SF",
         "미스터리",
         "모험"
-      ]
+      ],
+      "trailer": {
+        "key": "kR2r-A9H3Kg",
+        "name": "4K Trailer"
+      }
     },
     {
       "rank": 7,
@@ -477,14 +497,6 @@
           "review": "1929년 소비에트 실험적 무성 다큐멘터리. 지젝은 이를 \"표준적이지만 좋아한다\"고 간결하게 평가했다. 1920년대 후반 모스크바, 키이우, 오데사의 도시 생활을 촬영한 작품이다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/7e869f82-f74d-4f2e-9ecd-912f8857f599/avatar.webp?v=1785243570268"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/3iXQrMNuIWfBpd02ri842AHTKsF.jpg",
-      "vote": 7.8,
-      "release": null,
-      "overview": "카메라맨이 카메라를 어깨에 메고 돌아다니며 눈부신 창의력으로 도시 생활을 기록합니다.",
-      "runtime": 68,
-      "genres": [
-        "다큐멘터리"
       ]
     },
     {
@@ -503,15 +515,6 @@
           "review": "알 파치노는 AFI 인터뷰에서 역대 최고의 영화 중 하나로 이 작품을 선택했다. 나막신 나무와 함께 자신이 생각하는 최고의 영화 목록에 포함시켰으며, \"사랑은 비를 타고, 좋지\"라며 미소를 지었다. 자신의 출연작이 아닌 작품 중 5~6편을 최고로 꼽는다고 밝혔는데, 그 장르의 폭이 매우 넓다고 강조했다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/adc41b8e-416a-405b-91ca-7c50cf98d15d/avatar.webp?v=1785217371508"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/xF6VrA1PZHd6IcypGpjmQ3UgLXx.jpg",
-      "vote": null,
-      "release": null,
-      "overview": "아마츄어 쇼 코미디언인 돈 록우드(진 켈리)와 코스모(도날드 오코너)는 공연을 하며 이곳저곳을 떠돌아다니다 뜻대로 되지않자 새 일자리를 얻기위해 헐리우드로 온다. 그런데 우연찮게 돈 록우드는 마뉴멘탈 영화사의 스턴트맨 역을 따내게 되고, 당시 최고의 인기를 누리고 있던 여배우인 리나 레이먼트(쟌 하겐)와 함께 다수의 영화에 출연함으로써 단연 스타로 급부상하게 된다. 그러나 화려한 영광도 잠시, 헐리웃 영화계가 무성영화에서 유성영화 체제로 전환됨으로써 목소리 연기가 너무나 형편없는 리나 레이먼트 때문에 영화를 완전히 망치게 되는데...",
-      "runtime": 102,
-      "genres": [
-        "코미디",
-        "로맨스"
       ]
     },
     {
@@ -715,15 +718,6 @@
           "review": "라나 델 레이는 이 영화를 자신의 \"인생 영화 두 편\" 중 하나로 꼽으며, \"스토리와 배우뿐 아니라 세트가 너무 아름답고 화려해요. 역대 최고의 연기가 담긴 영화예요\"라고 극찬했다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/bcc0007b-da24-4a51-a2e5-db08d12bc335/avatar.webp?v=1785217395686"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/1yvBkSv4ZLS1GohlmMDmdpSgfYo.jpg",
-      "vote": 8.687,
-      "release": "1972-03-14",
-      "overview": "시실리에서 이민온 뒤, 정치권까지 영향력을 미치는 거물로 자리잡은 돈 꼴레오네는 갖가지 고민을 호소하는 사람들의 문제를 해결해주며 대부라 불리운다. 한편 솔로소라는 인물은 꼴레오네가와 라이벌인 탓타리아 패밀리와 손잡고 새로운 마약 사업을 제안한다. 돈 꼴레오네가 마약 사업에 참여하지 않기로 하자, 돈 꼴레오네를 저격해 그는 중상을 입고 사경을 헤매게 된다. 그 뒤, 돈 꼴레오네의 아들 소니는 조직력을 총 동원해 다른 패밀리들과 피를 부르는 전쟁을 시작하는데... 가족의 사업과 상관없이 대학에 진학한 뒤 인텔리로 지내왔던 막내 아들 마이클은 아버지가 총격을 당한 뒤, 아버지를 구하기 위해 위험천만한 협상 자리에 나선다.",
-      "runtime": 175,
-      "genres": [
-        "드라마",
-        "범죄"
       ]
     },
     {
@@ -750,16 +744,6 @@
           "review": "페드로 알모도바르는 장 르누아르의 『게임의 규칙』을 '귀족과 하인이 한 무대에서 동시에 무너지는 영화'라 평했다. 그가 매드리드의 부르주아와 그 주변 인물을 한 화면에 모을 때 르누아르의 시골 별장이 자신의 매뉴얼이었다고 더 필름 스테이지 베스트 리스트에서 밝혔다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/9f642c80-2bdd-4b10-b63b-01d161c7440c/avatar.webp?v=1785389875687"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/om6zjUiGvY9IXgIhcK5llsppg9E.jpg",
-      "vote": 7.5,
-      "release": null,
-      "overview": "인상파 화가 르노와르의 아들인 장 르노와르의 야유와 풍자가 난무하는 클래식 필름. 프랑스 지배계층에 대한 부도덕한 묘사로 인해 1959년에야 검열 삭제 부분이 복원, 완성된 영화로 공개되는 비운을 겪기도 했다. 영화가 표현할 수 있는 미장센의 모든 것을 담고 있는 작품이라 추앙받기도 하는 이 작품은 갖가지 계층의 프랑스인들이 모인 대저택에서 벌어지는 며칠간의 에피소드를 줄거리로 하고 있다. 하지만 줄거리 보다도 내러티브, 즉흥연기, 딥 포커스, 카메라 무브먼트, 모짜르트 음악 등이 영화의 풍부함을 더해준다. 감독 스스로가 이야기하는 이 영화의 주제는 '인생은 멈추어 있지 않고 항상 흐른다'라는 것.",
-      "runtime": 110,
-      "genres": [
-        "드라마",
-        "코미디",
-        "로맨스"
       ]
     },
     {
@@ -811,14 +795,6 @@
           "review": "샘 엘리엇은 어린 시절부터 이 영화를 가장 좋아한 서부극으로 꼽았다. 존 웨인이 주연한 작품이지만, 단순히 배우 때문이 아니라 서부극이 담아낸 진정성과 이야기의 힘에 매료되었다고 밝혔다. \"어릴 때부터 가장 좋아한 영화입니다\"라고 인터뷰에서 직접 말했다.",
           "avatar_url": "https://assets.feelandnote.com/celebs/63b33ea6-648f-4ada-ad3e-b9abc7c3d338/avatar.webp?v=1785244797960"
         }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg",
-      "vote": 7.7,
-      "release": null,
-      "overview": "이산 에드워즈는 남북전쟁 후 텍사스의 목장에 있는 집으로 돌아온다. 그는 동생과 동생의 처인 마사 곁에서 쉬고 싶어한다. 그러나 인디언인 코만치 무리들의 습격으로 그의 이러한 바람은 처참히 짓밟아진다. 복수를 다짐하며 이산은 인디언에게 납치된 조카 데비를 찾아 인디언과 백인 혼혈인 조카 마틴과 함께 머나먼 길을 떠난다.  그러나 마틴은 추적이 계속되어가면서, 삼촌의 인디언을 향한 강한 적개심을 알게 된다. 그로 인해 이제는 인디언으로 동화된 조카 데비를 죽이려고 하는 게 아닌가 의심을 품게 되는데...",
-      "runtime": 119,
-      "genres": [
-        "서부"
       ]
     },
     {
@@ -2725,7 +2701,11 @@
         "미스터리",
         "로맨스",
         "스릴러"
-      ]
+      ],
+      "trailer": {
+        "key": "nA2ZcD_XAuY",
+        "name": "TCM 60th Anniversary Spot"
+      }
     },
     {
       "rank": 3,
@@ -2808,7 +2788,11 @@
       "genres": [
         "미스터리",
         "드라마"
-      ]
+      ],
+      "trailer": {
+        "key": "HvZRZoF4Ld0",
+        "name": "Fathom Events Spot"
+      }
     },
     {
       "rank": 4,
@@ -2842,7 +2826,11 @@
       "runtime": 137,
       "genres": [
         "드라마"
-      ]
+      ],
+      "trailer": {
+        "key": "xqO0d3328Do",
+        "name": "BFI Re-Release Trailer [Subtitled]"
+      }
     },
     {
       "rank": 5,
@@ -2885,7 +2873,11 @@
       "genres": [
         "드라마",
         "로맨스"
-      ]
+      ],
+      "trailer": {
+        "key": "rc3QleuaQMw",
+        "name": "Re-release Trailer"
+      }
     },
     {
       "rank": 6,
@@ -3081,359 +3073,21 @@
         "SF",
         "미스터리",
         "모험"
-      ]
-    },
-    {
-      "rank": 9,
-      "year": 1929,
-      "note": null,
-      "contentId": "8c1ef52f-db76-4c42-a1a8-11e342ceab38",
-      "title": "카메라를 든 사나이",
-      "creator": "Dziga Vertov",
-      "voices": [
-        {
-          "name": "슬라보예 지젝",
-          "slug": "slavoj-zizek",
-          "profession": "humanities_scholar",
-          "title": "비판이론가",
-          "review": "1929년 소비에트 실험적 무성 다큐멘터리. 지젝은 이를 \"표준적이지만 좋아한다\"고 간결하게 평가했다. 1920년대 후반 모스크바, 키이우, 오데사의 도시 생활을 촬영한 작품이다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/7e869f82-f74d-4f2e-9ecd-912f8857f599/avatar.webp?v=1785243570268"
-        }
       ],
-      "poster": "https://image.tmdb.org/t/p/w500/3iXQrMNuIWfBpd02ri842AHTKsF.jpg",
-      "vote": 7.8,
-      "release": null,
-      "overview": "카메라맨이 카메라를 어깨에 메고 돌아다니며 눈부신 창의력으로 도시 생활을 기록합니다.",
-      "runtime": 68,
-      "genres": [
-        "다큐멘터리"
-      ]
-    },
-    {
-      "rank": 10,
-      "year": 1951,
-      "note": null,
-      "contentId": "b4c742ed-d8b3-4720-aad2-5dbe4c104e1e",
-      "title": "사랑은 비를 타고",
-      "creator": "진 켈리",
-      "voices": [
-        {
-          "name": "알 파치노",
-          "slug": "al-pacino",
-          "profession": "actor",
-          "title": "「대부」",
-          "review": "알 파치노는 AFI 인터뷰에서 역대 최고의 영화 중 하나로 이 작품을 선택했다. 나막신 나무와 함께 자신이 생각하는 최고의 영화 목록에 포함시켰으며, \"사랑은 비를 타고, 좋지\"라며 미소를 지었다. 자신의 출연작이 아닌 작품 중 5~6편을 최고로 꼽는다고 밝혔는데, 그 장르의 폭이 매우 넓다고 강조했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/adc41b8e-416a-405b-91ca-7c50cf98d15d/avatar.webp?v=1785217371508"
-        }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/xF6VrA1PZHd6IcypGpjmQ3UgLXx.jpg",
-      "vote": null,
-      "release": null,
-      "overview": "아마츄어 쇼 코미디언인 돈 록우드(진 켈리)와 코스모(도날드 오코너)는 공연을 하며 이곳저곳을 떠돌아다니다 뜻대로 되지않자 새 일자리를 얻기위해 헐리우드로 온다. 그런데 우연찮게 돈 록우드는 마뉴멘탈 영화사의 스턴트맨 역을 따내게 되고, 당시 최고의 인기를 누리고 있던 여배우인 리나 레이먼트(쟌 하겐)와 함께 다수의 영화에 출연함으로써 단연 스타로 급부상하게 된다. 그러나 화려한 영광도 잠시, 헐리웃 영화계가 무성영화에서 유성영화 체제로 전환됨으로써 목소리 연기가 너무나 형편없는 리나 레이먼트 때문에 영화를 완전히 망치게 되는데...",
-      "runtime": 102,
-      "genres": [
-        "코미디",
-        "로맨스"
-      ]
-    },
-    {
-      "rank": 12,
-      "year": 1972,
-      "note": null,
-      "contentId": "5ea098b8-ebd7-4a86-a18e-32eeba67e7c0",
-      "title": "대부",
-      "creator": "프란시스 포드 코폴라",
-      "voices": [
-        {
-          "name": "아라키 히로히코",
-          "slug": "hirohiko-araki",
-          "profession": "author",
-          "title": "죠죠의 만화가",
-          "review": "아라키 히로히코는 프랜시스 포드 코폴라의 『대부』를 '반복해 본 영화'로 꼽으며 5부 '황금의 바람'의 직접적 출발점이라고 밝혔다. 그는 한 세대에서 다음 세대로 권력이 이양되는 가문 서사, 충성과 배신이 같은 식탁에서 결정되는 분위기, 그리고 이탈리아라는 무대 자체가 5부 무대 설정에 그대로 옮겨졌다고 인정했다. 디아볼로의 갱단 '파시오네'와 죠르노 죠바나의 '두목 자리에 오르는 자'라는 야망 역시 비토 코를레오네 가문의 권력 이양 구도를 변주한 것이다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/a405b0b1-6c64-4280-acaa-c9e718b0c0c4/avatar.webp?v=1785402694989"
-        },
-        {
-          "name": "숀 오브라이언",
-          "slug": "sean-o'brien",
-          "profession": "leader",
-          "title": "팀스터스 위원장",
-          "review": "숀 오브라이언은 2025년 패트릭 벳데이비드의 팟캐스트에서 이 영화를 넉 달 전에야 처음 봤다고 털어놓았다. 주변에서 다들 꼭 보라고 했지만 여태 당기지 않았고, 서부 해안에서 자기 팟캐스트를 찍고 돌아오는 비행기에서 세 시간을 내 1편만 봤다고 했다. 배우들의 면면에 놀랐고, 요즘 텔레비전과 달리 욕설이 들리지 않는다는 점이 인상에 남았다고 말했다. 보길 잘했다는 것이 그의 결론이었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/555aa914-1527-4d4b-bb48-de88c7a43d94/avatar.webp?v=1786058235876"
-        },
-        {
-          "name": "카를로 안첼로티",
-          "slug": "carlo-ancelotti",
-          "profession": "athlete",
-          "title": "챔피언스리그 4회",
-          "review": "카를로 안첼로티는 독일 언론 인터뷰에서 대부 시리즈의 열렬한 팬이라고 밝혔다. 특히 1편을 가장 좋아한다고 말했다. \"가족 중심의 리더십과 충성심이라는 주제가 제 철학과 맞닿아 있습니다\"라고 덧붙였다. 안첼로티는 자신의 감독 스타일을 영화감독에 비유하며, 대부의 돈 코를레오네처럼 선수들과의 관계를 가족적으로 구축하는 방식을 추구한다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/58873892-a0e9-4049-aaa3-361b34674db2/avatar.webp?v=1785244600371"
-        },
-        {
-          "name": "에이드리언 브로디",
-          "slug": "adrien-brody",
-          "profession": "actor",
-          "title": "「피아니스트」",
-          "review": "에이드리언 브로디는 인터뷰에서 올타임 최애 영화로 대부를 꼽았다. \"뛰어난 연기, 숙련되고 복잡한 연출, 아름다운 촬영, 장대한 스토리텔링의 조합입니다. 이 장르가 수없이 반복되었지만 이 작품에 견줄 만한 것은 없습니다\"라고 말했다. 브로디는 젊은이들이 다양한 이유로 대부에 끌리며, 자신도 언제나 이 작품으로 돌아간다고 밝혔다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/4bf72536-3807-4417-b240-5e9079922883/avatar.webp?v=1785244722440"
-        },
-        {
-          "name": "라파엘 나달",
-          "slug": "rafael-nadal",
-          "profession": "athlete",
-          "title": "클레이 황제",
-          "review": "라파엘 나달은 프란시스 포드 코폴라 감독의 「대부」를 가장 아끼는 고전 영화로 꼽았다. 패밀리의 결속과 침묵의 무게, 한 세대를 통째로 짊어진 후계자 마이클의 변모가 그가 좋아하는 「조용한 위엄」의 표상이라고 인터뷰에서 언급했다. 비토 콜레오네 역의 말런 브랜도 연기를 영화사상 가장 절제된 카리스마로 평가했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/1980700f-1cc3-485b-b417-9f257d6f6123/avatar.webp?v=1785295717668"
-        },
-        {
-          "name": "제임스 카메론",
-          "slug": "james-cameron",
-          "profession": "director",
-          "title": "「아바타」",
-          "review": "카메론이 Fandor 인터뷰에서 밝힌 역대 최고의 영화 5편 중 하나이다. \"코폴라의 영화 절반 정도\"를 좋아한다고 말하며 대부를 명시적으로 언급했다. 말론 브란도와 알 파치노가 출연한 이 마피아 서사시는 가족, 권력, 충성심이라는 주제를 다루며 미국 영화사의 정점으로 평가받는다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/b687d9e8-4504-4e97-aed1-7751bad8b70f/avatar.webp?v=1785244350130"
-        },
-        {
-          "name": "케이시 네이스탯",
-          "slug": "casey-neistat",
-          "profession": "influencer",
-          "title": "브이로그",
-          "review": "케이시 네이스탯은 2023년 플래그런트 팟캐스트에서 좋은 이야기란 듣는 사람을 안으로 끌어들이는 이야기라고 말하며 《대부》를 들었다. \"7천 번은 봐서 훤히 압니다. 그래서 인물들과 함께 있는 기분이 듭니다\"라며 이 영화가 자기가 가장 좋아하는 작품 가운데 하나인 이유를 설명했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/d900f256-8d62-4354-a171-683b2fc5c031/avatar.webp?v=1787421100029"
-        },
-        {
-          "name": "제프리 카첸버그",
-          "slug": "jeffrey-katzenberg",
-          "profession": "entrepreneur",
-          "title": "드림웍스 창업자",
-          "review": "제프리 카첸버그는 2023년 ACMI 대담에서 《아라비아의 로렌스》와 《대부》를 자기가 가장 아끼는 두 편이라고 말했다. 2012년 할리우드 리포터 좌담에서는 동석한 경영자들이 그가 《대부》를 고를 줄 알았다고 할 만큼, 이 영화를 향한 그의 애착은 업계에 알려져 있었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/1d82022d-23f0-489d-9258-ea41b0dc940d/avatar.webp?v=1785317110131"
-        },
-        {
-          "name": "요한 크루이프",
-          "slug": "johan-cruijff",
-          "profession": "athlete",
-          "title": "토탈 풋볼",
-          "review": "요한 크루이프는 World of Johan Cruyff 공식 프로필에서 가장 좋아하는 영화로 《대부》를 꼽았다. 같은 문답은 책과 음악 취향도 별도 항목으로 기록하고 있어 영화 항목의 작품 식별이 명확하다. 재단이 보존한 공식 인물 자료에 근거한 직접적인 선호 기록이다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/7f106cb4-219f-4ed7-828b-b7776d50f5ec/avatar.webp?v=1785386337106"
-        },
-        {
-          "name": "이명세",
-          "slug": "lee-myung-se",
-          "profession": "director",
-          "title": "인정사정볼것없다",
-          "review": "이명세는 충무로영화제에서 《대부》 전편을 상영할 때 처음으로 극장에서 제대로 봤다. 1ROW 인생 영화 월드컵에서 그는 당시 1편보다 2편이 낫다는 논쟁이 있었지만 자신은 언제나 1편이 최고라며, 고든 윌리스의 촬영과 묵직한 요소가 모두 종합된 작품이라고 말했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/1933285f-e0d0-4d52-9add-187234f46bf0/avatar.webp?v=1786172445082"
-        },
-        {
-          "name": "덴젤 워싱턴",
-          "slug": "denzel-washington",
-          "profession": "actor",
-          "title": "「트레이닝 데이」",
-          "review": "덴젤 워싱턴은 인생 영화 중 하나로 대부를 꼽았다. \"처음 대부를 봤을 때를 절대 잊지 못한다\"며, \"처음부터 끝까지 이것이 진짜 좋은 영화다\"라고 느꼈다고 회상했다. 다층적 인물 구축과 긴장감 있는 서사가 그의 연기 철학에 깊은 영향을 미쳤다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/f4a3f913-fcef-422e-8b6e-92ede8785fca/avatar.webp?v=1785217335438"
-        },
-        {
-          "name": "부반 밤",
-          "slug": "bhuvan-bam",
-          "profession": "influencer",
-          "title": "1인 다역",
-          "review": "부반 밤은 처음에는 대부의 결혼식 장면을 넘기지 못하고 번번이 잠들었다고 밝혔다. 인터뷰에서 커서는 졸지 않으려고 낮에 다시 봤고, 그 장면을 넘기고 나니 끝까지 눈을 뗄 수 없었다고 말했다. 끝까지 보지 않으면 그 영화에 대한 모독이라고 했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/62aacfd5-c173-4bf2-80d6-b790d6e76cdb/avatar.webp?v=1787414736664"
-        },
-        {
-          "name": "마이클 샌델",
-          "slug": "michael-sandel",
-          "profession": "humanities_scholar",
-          "title": "정의란 무엇인가",
-          "review": "마이클 샌델은 《The Focus》 인터뷰에서 《대부》를 자신이 가장 좋아하는 영화 중 하나라고 말했다. 그는 가족과 전통에서 벗어나려다 다시 끌려 들어가는 마이클 코를레오네의 비극이 인간의 정체성에 관해 깊은 이야기를 들려준다고 설명했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/e7d749e4-06fe-40d1-8342-fff7d9b3c1e5/avatar.webp?v=1785866973133"
-        },
-        {
-          "name": "테드 사란도스",
-          "slug": "ted-sarandos",
-          "profession": "entrepreneur",
-          "title": "넷플릭스 CEO",
-          "review": "테드 사란도스는 2016년 Mediaweek 인터뷰에서 《대부》를 자신이 가장 좋아하는 영화 가운데 하나로 꼽았다. 이는 넷플릭스의 제작·구매 실적을 설명하는 대목이 아니라 개인의 역대 선호작을 묻는 문답에서 나온 답변이다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/b6c59af1-ad01-4dbb-9fc4-6c0f65a5a04a/avatar.webp?v=1785920707590"
-        },
-        {
-          "name": "마돈나",
-          "slug": "madonna",
-          "profession": "musician",
-          "title": "「라이크 어 버진」",
-          "review": "마돈나는 2014년 Interview Magazine에서 기억에 남는 연기를 묻는 질문에 \"알 파치노가 대부에서 마이클 콜레오네로 보여준 모든 장면\"이라고 답했다. 특정 장면이 아닌 캐릭터 전체를 관통하는 연기에 감탄했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/43916730-32d8-468a-8c7a-964799323591/avatar.webp?v=1785244283211"
-        },
-        {
-          "name": "루시 리우",
-          "slug": "lucy-liu",
-          "profession": "actor",
-          "title": "「Kill Bill」",
-          "review": "루시 리우는 로튼 토마토 인터뷰에서 대부 시리즈를 다섯 편의 인생 영화 중 하나로 꼽았다. \"엄청나게 몰입되는 이야기예요. 뉴욕의 특정 역사적 순간을 포착하고 있죠\"라고 말하며 기억에 남는 대사와 명장면을 높이 평가했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/765a29df-23ef-463b-b874-c2529d899542/avatar.webp?v=1785244728354"
-        },
-        {
-          "name": "마이클 패스벤더",
-          "slug": "michael-fassbender",
-          "profession": "actor",
-          "title": "「엑스맨」",
-          "review": "마이클 패스벤더는 이 영화를 자신의 인생 영화 네 편 중 하나로 꼽았다. 10대 시절 배우의 꿈을 키우게 된 결정적 작품이라고 밝혔다. \"제게는 항상 10대와 10대 후반에 영감을 준 작품들이 기준입니다\"라고 말했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/f3bfbbe4-e94e-41a5-870b-a860ef536637/avatar.webp?v=1785244821339"
-        },
-        {
-          "name": "앤드루 링컨",
-          "slug": "andrew-lincoln",
-          "profession": "actor",
-          "title": "「워킹데드」",
-          "review": "앤드루 링컨은 프란시스 포드 코폴라의 대부를 자신에게 가장 큰 영향을 준 영화로 꼽았다. \"제가 연기를 시작하게 된 계기가 된 영화입니다\"라고 말하며 알 파치노의 마이클 콜레오네 연기에 깊이 감명받았다고 밝혔다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/dbb4286e-a2d0-45a0-854c-a0b5e7e4bd65/avatar.webp?v=1785244865371"
-        },
-        {
-          "name": "멜 깁슨",
-          "slug": "mel-gibson",
-          "profession": "actor",
-          "title": "「브레이브하트」",
-          "review": "멜 깁슨은 SiriusXM 인터뷰에서 자신이 가장 좋아하는 영화가 1970년대 작품이라고 밝히며 \"대부를 사랑한다\"고 직접 말했다. 프랜시스 포드 코폴라의 팬임을 공개적으로 밝힌 바 있다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/16ab6e0f-0a74-487b-9f54-2d833303d23a/avatar.webp?v=1786114194702"
-        },
-        {
-          "name": "돌프 룬드그렌",
-          "slug": "dolph-lundgren",
-          "profession": "actor",
-          "title": "「록키4」",
-          "review": "돌프 룬드그렌은 로튼 토마토 인터뷰에서 이 영화를 자신의 최애 영화 1순위로 꼽았다. \"조명, 연기, 스토리, 연출 모든 것이 갖춰져 있습니다. 언제 봐도 아름다운 영화입니다\"라고 말했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/a3ee8a39-258d-4289-994b-2044dd2b6dd6/avatar.webp?v=1785261886964"
-        },
-        {
-          "name": "버락 오바마",
-          "slug": "barack-obama",
-          "profession": "politician",
-          "title": "첫 흑인 대통령",
-          "review": "버락 오바마는 이 영화를 자신의 올타임 최애 영화로 꼽았다. 케이티 커릭과의 2008년 인터뷰에서 \"구세계의 품격과 의례가 그 아래 깔린 야만성과 결합된 점이 매력적이다\"라고 말했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/d4abcc3f-6644-4412-83b0-cd8be1c586d0/avatar.webp?v=1785217192181"
-        },
-        {
-          "name": "제이슨 스타뎀",
-          "slug": "jason-statham",
-          "profession": "actor",
-          "title": "「트랜스포터」",
-          "review": "제이슨 스타뎀은 이 영화를 최고 품질의 영화로 꼽았다. \"최고의 퀄리티 그 자체다. 환상적인 각본, 놀라운 수준의 연기\"라며 삼부작 어느 편이든 몇 번이고 다시 볼 수 있다고 말했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/8a974bbb-e5fd-4844-81e9-6a0f2e6352fe/avatar.webp?v=1785244845204"
-        },
-        {
-          "name": "라나 델 레이",
-          "slug": "lana-del-rey",
-          "profession": "musician",
-          "title": "「비디오 게임」",
-          "review": "라나 델 레이는 이 영화를 자신의 \"인생 영화 두 편\" 중 하나로 꼽으며, \"스토리와 배우뿐 아니라 세트가 너무 아름답고 화려해요. 역대 최고의 연기가 담긴 영화예요\"라고 극찬했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/bcc0007b-da24-4a51-a2e5-db08d12bc335/avatar.webp?v=1785217395686"
-        }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/1yvBkSv4ZLS1GohlmMDmdpSgfYo.jpg",
-      "vote": 8.687,
-      "release": "1972-03-14",
-      "overview": "시실리에서 이민온 뒤, 정치권까지 영향력을 미치는 거물로 자리잡은 돈 꼴레오네는 갖가지 고민을 호소하는 사람들의 문제를 해결해주며 대부라 불리운다. 한편 솔로소라는 인물은 꼴레오네가와 라이벌인 탓타리아 패밀리와 손잡고 새로운 마약 사업을 제안한다. 돈 꼴레오네가 마약 사업에 참여하지 않기로 하자, 돈 꼴레오네를 저격해 그는 중상을 입고 사경을 헤매게 된다. 그 뒤, 돈 꼴레오네의 아들 소니는 조직력을 총 동원해 다른 패밀리들과 피를 부르는 전쟁을 시작하는데... 가족의 사업과 상관없이 대학에 진학한 뒤 인텔리로 지내왔던 막내 아들 마이클은 아버지가 총격을 당한 뒤, 아버지를 구하기 위해 위험천만한 협상 자리에 나선다.",
-      "runtime": 175,
-      "genres": [
-        "드라마",
-        "범죄"
-      ]
-    },
-    {
-      "rank": 13,
-      "year": 1939,
-      "note": null,
-      "contentId": "949cb948-216a-47b7-bbd5-2c08836832c8",
-      "title": "게임의 규칙",
-      "creator": "Jean Renoir",
-      "voices": [
-        {
-          "name": "수전 손택",
-          "slug": "susan-sontag",
-          "profession": "author",
-          "title": "지성의 영부인",
-          "review": "손택의 1977년 최애 영화 목록에서 장 르누아르의 「게임의 규칙」은 9위를 차지했다. 르누아르의 다른 작품 「위대한 환상」도 42위에 포함되어 있다. 손택은 르누아르를 프랑스 영화의 정점으로 보았으며, 그의 딥 포커스 촬영 기법과 롱 테이크가 관객에게 더 능동적인 관람 경험을 제공한다고 평가했다. 「게임의 규칙」은 손택이 에세이 「해석에 반대한다」에서 주장한 바—형식 자체가 내용이라는 것—를 영화적으로 구현한 작품이었다. 부르주아 사회의 위선을 묘사하면서도 판단을 유보하는 르누아르의 방식은 손택이 예술에서 추구한 \"불투명함\"과 일치했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/31d5560d-e6b2-4d94-86d7-3395932ee11e/avatar.webp?v=1785244482240"
-        },
-        {
-          "name": "페드로 알모도바르",
-          "slug": "pedro-almodovar",
-          "profession": "director",
-          "title": "시네마틱 황제",
-          "review": "페드로 알모도바르는 장 르누아르의 『게임의 규칙』을 '귀족과 하인이 한 무대에서 동시에 무너지는 영화'라 평했다. 그가 매드리드의 부르주아와 그 주변 인물을 한 화면에 모을 때 르누아르의 시골 별장이 자신의 매뉴얼이었다고 더 필름 스테이지 베스트 리스트에서 밝혔다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/9f642c80-2bdd-4b10-b63b-01d161c7440c/avatar.webp?v=1785389875687"
-        }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/om6zjUiGvY9IXgIhcK5llsppg9E.jpg",
-      "vote": 7.5,
-      "release": null,
-      "overview": "인상파 화가 르노와르의 아들인 장 르노와르의 야유와 풍자가 난무하는 클래식 필름. 프랑스 지배계층에 대한 부도덕한 묘사로 인해 1959년에야 검열 삭제 부분이 복원, 완성된 영화로 공개되는 비운을 겪기도 했다. 영화가 표현할 수 있는 미장센의 모든 것을 담고 있는 작품이라 추앙받기도 하는 이 작품은 갖가지 계층의 프랑스인들이 모인 대저택에서 벌어지는 며칠간의 에피소드를 줄거리로 하고 있다. 하지만 줄거리 보다도 내러티브, 즉흥연기, 딥 포커스, 카메라 무브먼트, 모짜르트 음악 등이 영화의 풍부함을 더해준다. 감독 스스로가 이야기하는 이 영화의 주제는 '인생은 멈추어 있지 않고 항상 흐른다'라는 것.",
-      "runtime": 110,
-      "genres": [
-        "드라마",
-        "코미디",
-        "로맨스"
-      ]
-    },
-    {
-      "rank": 15,
-      "year": 1956,
-      "note": null,
-      "contentId": "5693d542-dc69-4842-9b6b-94b98c9183ed",
-      "title": "수색자",
-      "creator": "John Ford",
-      "voices": [
-        {
-          "name": "마틴 스콜세지",
-          "slug": "martin-scorsese",
-          "profession": "director",
-          "title": "「분노의 황소」",
-          "review": "스콜세지가 가장 좋아하는 서부극으로 오랫동안 꼽아온 작품이다. \"《수색자》는 공식적으로 위대한 미국 고전으로 인정받고 있다. 하지만 그런 종류의 인정이 무엇을 의미하는지 잘 모르겠다. 1956년 첫 상영 이후 수없이 봤는데, 볼 때마다 나를 사로잡고 괴롭힌다. 모든 위대한 예술 작품처럼 불편하다. 영화의 핵심은 깊이 고통스럽다\"고 말했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/7eeaf1ac-726f-45d0-938f-b7a675fdaafc/avatar.webp?v=1785217322823"
-        },
-        {
-          "name": "스티븐 스필버그",
-          "slug": "steven-spielberg",
-          "profession": "director",
-          "title": "드림웍스 창립자",
-          "review": "스티븐 스필버그는 존 포드의 작품에 대해 \"모든 영화를 시작하기 전에 존 포드 영화를 빌려서 보려고 합니다. 그는 저를 영감을 주는 존재입니다. 그는 고전 화가처럼 프레임 안의 것뿐만 아니라 프레임 자체를 기념합니다\"라고 설명했다. 이 영화는 그가 가장 좋아하는 존 포드 작품 중 하나다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/9093f09c-1e17-484f-8622-b66307d81519/avatar.webp?v=1785245185073"
-        },
-        {
-          "name": "페드로 알모도바르",
-          "slug": "pedro-almodovar",
-          "profession": "director",
-          "title": "시네마틱 황제",
-          "review": "페드로 알모도바르는 존 포드의 서부극을 '복수가 사랑인지 증오인지 끝내 가르지 않는 영화'라 평했다. 그가 『귀향』(2006)에서 어머니가 딸을 다시 찾아 라 만차로 돌아갈 때 이튼 에드워즈의 마지막 문턱 장면이 자신의 머리에 박혀 있었다고 그는 인터뷰에서 적었다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/9f642c80-2bdd-4b10-b63b-01d161c7440c/avatar.webp?v=1785389875687"
-        },
-        {
-          "name": "샘 엘리엇",
-          "slug": "sam-elliott",
-          "profession": "actor",
-          "title": "「빅 리보스키」",
-          "review": "샘 엘리엇은 어린 시절부터 이 영화를 가장 좋아한 서부극으로 꼽았다. 존 웨인이 주연한 작품이지만, 단순히 배우 때문이 아니라 서부극이 담아낸 진정성과 이야기의 힘에 매료되었다고 밝혔다. \"어릴 때부터 가장 좋아한 영화입니다\"라고 인터뷰에서 직접 말했다.",
-          "avatar_url": "https://assets.feelandnote.com/celebs/63b33ea6-648f-4ada-ad3e-b9abc7c3d338/avatar.webp?v=1785244797960"
-        }
-      ],
-      "poster": "https://image.tmdb.org/t/p/w500/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg",
-      "vote": 7.7,
-      "release": null,
-      "overview": "이산 에드워즈는 남북전쟁 후 텍사스의 목장에 있는 집으로 돌아온다. 그는 동생과 동생의 처인 마사 곁에서 쉬고 싶어한다. 그러나 인디언인 코만치 무리들의 습격으로 그의 이러한 바람은 처참히 짓밟아진다. 복수를 다짐하며 이산은 인디언에게 납치된 조카 데비를 찾아 인디언과 백인 혼혈인 조카 마틴과 함께 머나먼 길을 떠난다.  그러나 마틴은 추적이 계속되어가면서, 삼촌의 인디언을 향한 강한 적개심을 알게 된다. 그로 인해 이제는 인디언으로 동화된 조카 데비를 죽이려고 하는 게 아닌가 의심을 품게 되는데...",
-      "runtime": 119,
-      "genres": [
-        "서부"
-      ]
+      "trailer": {
+        "key": "kR2r-A9H3Kg",
+        "name": "4K Trailer"
+      }
     }
   ],
   "closing": {
-    "name": "폴 다노",
-    "slug": "paul-dano",
-    "profession": "actor",
-    "title": "「리틀 미스 선샤인」",
-    "review": "폴 다노는 에드워드 양의 이 작품을 자신이 가장 사랑하는 영화 중 하나로 언급했다. \"이 영화감독은 제게 정말 중요한 사람이고, 이 영화는 믿을 수 없이 훌륭한 작품입니다\"라고 말했다.",
-    "avatar_url": "https://assets.feelandnote.com/celebs/4e044573-94a8-48eb-a923-e334653eef17/avatar.webp?v=1785244835828",
-    "work": "하나 그리고 둘",
-    "year": 1999
+    "name": "슬라보예 지젝",
+    "slug": "slavoj-zizek",
+    "profession": "humanities_scholar",
+    "title": "비판이론가",
+    "review": "1929년 소비에트 실험적 무성 다큐멘터리. 지젝은 이를 \"표준적이지만 좋아한다\"고 간결하게 평가했다. 1920년대 후반 모스크바, 키이우, 오데사의 도시 생활을 촬영한 작품이다.",
+    "avatar_url": "https://assets.feelandnote.com/celebs/7e869f82-f74d-4f2e-9ecd-912f8857f599/avatar.webp?v=1785243570268",
+    "work": "카메라를 든 사나이",
+    "year": 1929
   }
 }

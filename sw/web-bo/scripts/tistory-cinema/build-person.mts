@@ -77,11 +77,27 @@ const shortlist = rows.slice(0, 20)
 for (const r of shortlist) {
   const id = (r.external ?? '').match(/tmdb-movie-(\d+)/)?.[1]
   if (!id) continue
-  const d: any = await (await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB}&language=ko-KR`)).json()
+  const base = `https://api.themoviedb.org/3/movie/${id}`
+  const [d, vidsKo, vidsEn]: any[] = await Promise.all([
+    fetch(`${base}?api_key=${TMDB}&language=ko-KR`).then((x) => x.json()),
+    fetch(`${base}/videos?api_key=${TMDB}&language=ko-KR`).then((x) => x.json()),
+    fetch(`${base}/videos?api_key=${TMDB}`).then((x) => x.json()),
+  ])
   ;(r as any).overview = d.overview ?? ''
   ;(r as any).runtime = d.runtime
   ;(r as any).genres = (d.genres ?? []).map((g: any) => g.name)
   ;(r as any).voteCount = d.vote_count ?? 0
+  // 원어 공식 예고편을 앞세운다 — 국내 배급사 영상은 임베드가 막혀 있는 일이 잦다
+  const seen = new Set<string>()
+  const tr = [...(vidsEn.results ?? []), ...(vidsKo.results ?? [])]
+    .filter((v: any) => v.site === 'YouTube' && /Trailer|Teaser/i.test(v.type))
+    .filter((v: any) => !seen.has(v.key) && seen.add(v.key))[0]
+  ;(r as any).trailer = tr ? { key: tr.key, name: tr.name } : null
+  // `content_locales.creator` 가 비어 있는 작품이 있다. TMDB credits 로 메운다.
+  if (!r.creator) {
+    const cr: any = await (await fetch(`${base}/credits?api_key=${TMDB}&language=ko-KR`)).json()
+    r.creator = (cr.crew ?? []).filter((c: any) => c.job === 'Director').map((c: any) => c.name).join(', ') || null
+  }
 }
 shortlist.sort((a, b) => ((b as any).voteCount ?? 0) - ((a as any).voteCount ?? 0))
 const picked = shortlist.slice(0, PICK)
