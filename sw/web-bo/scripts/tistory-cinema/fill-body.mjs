@@ -85,6 +85,29 @@ export async function fillOne(page, cdp, id, name) {
   // 완료 → 발행 패널. 예약은 이미 잡혀 있으므로 그대로 두고 발행만 누른다.
   await hit(page, '#publish-layer-btn', '완료 단추');
   await wait(3000);
+
+  /**
+   * 주소도 제목을 따라가게 한다. 제목을 고쳐도 `urlPublish` 는 처음 값이 남아
+   * 「아카데미 작품상 수상작 98편」이라는 글이 `…-전체-목록` 주소를 쓰게 된다(26.09.05).
+   * 주소에 든 말이 검색어와 맞아야 하므로 함께 갱신한다.
+   */
+  const slug = meta.title
+    .split('|')[0]
+    // 대괄호 태그는 주소에서 뺀다. 목록명과 겹쳐 「AFI-AFI-선정…」이 된다.
+    .replace(/^\s*\[[^\]]+\]\s*/, '')
+    .replace(/[『』「」《》\[\]()·,.!?"'`~@#$%^&*+=/\:;<>{}]/g, ' ')
+    .replace(/\s+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60);
+  await page.evaluate((v) => {
+    const el = document.querySelector('#urlPublish');
+    if (!el) return;
+    const setter = Object.getOwnPropertyDescriptor(el.constructor.prototype, 'value')?.set;
+    setter ? setter.call(el, v) : (el.value = v);
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  }, slug);
+  await wait(800);
   const before = await page.evaluate(() => ({
     btn: document.querySelector('#publish-btn')?.textContent.trim(),
     date: [...document.querySelectorAll('button.btn_reserve')].find((b) => b.offsetParent)?.textContent.trim(),

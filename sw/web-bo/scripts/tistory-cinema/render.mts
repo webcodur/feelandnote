@@ -212,9 +212,12 @@ export function renderWork(m: Material): { title: string; html: string; tags: st
     const label = [PROF[r.profession ?? ''] ?? '', (r.title ?? '').replace(/[「」『』]/g, '')].filter(Boolean).join(' · ')
     const intro = (r.headline || r.bio || '').trim()
     p(`<div style="margin:0 !important;padding:0 0 26px !important;"><div id="${anchor(i)}" style="padding:20px 22px;border-left:3px solid #222;background:#fafafa;">`)
-    p(`<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">`)
-    // 아바타는 작게 — 인물 페이지가 아니라 누구인지 알려 주는 표지다
-    if (r.avatar_url) p(`<img src="${r.avatar_url}" alt="${esc(r.nickname)}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#eee;" />`)
+    p(`<div style="display:flex;gap:14px;align-items:center;margin-bottom:14px;">`)
+    /**
+     * 아바타는 **얼굴이 분간될 만큼**은 커야 한다. 38px 로 줄였더니 누구인지 알아볼 수
+     * 없었다(26.09.05). 인물 페이지의 큰 사진과는 구별되게 64px 로 둔다.
+     */
+    if (r.avatar_url) p(`<img src="${r.avatar_url}" alt="${esc(r.nickname)}" width="64" height="64" style="width:64px !important;height:64px !important;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#eee;" />`)
     p(`<div style="flex:1 1 auto;min-width:0;">`)
     p(`<div><a href="${celebUrl(r.slug)}" style="font-weight:700;font-size:16px;color:#111;text-decoration:none;">${esc(r.nickname)}</a>${label ? ` <span style="font-size:13px;color:#888;">${esc(label)}</span>` : ''}</div>`)
     if (intro) p(`<div style="margin-top:2px;font-size:13.5px;color:#777;line-height:1.6;">${esc(intro)}</div>`)
@@ -417,7 +420,7 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
       const label = [PROF[v.profession ?? ''] ?? '', (v.title ?? '').replace(/[「」『』]/g, '')].filter(Boolean).join(' · ')
       p(`<div style="margin:14px 0;padding:18px 20px;border-left:3px solid #222;background:#fafafa;">`)
       p(`<div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">`)
-      if (v.avatar_url) p(`<img src="${v.avatar_url}" alt="${esc(v.name)}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#eee;" />`)
+      if (v.avatar_url) p(`<img src="${v.avatar_url}" alt="${esc(v.name)}" width="56" height="56" style="width:56px !important;height:56px !important;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#eee;" />`)
       p(`<div><a href="https://feelandnote.com/celeb/${v.slug}" style="font-weight:700;color:#111;text-decoration:none;">${esc(v.name)}</a>${label ? ` <span style="font-size:13px;color:#888;">${esc(label)}</span>` : ''}</div>`)
       p(`</div>`)
       p(`<div style="line-height:1.9;">${revHtml(v.review)}</div>`)
