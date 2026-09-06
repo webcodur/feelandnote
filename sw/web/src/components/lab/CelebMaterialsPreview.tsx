@@ -118,6 +118,20 @@ const MATERIAL_SAMPLES: readonly MaterialSample[] = [
     years: "1955–2011",
     direction: "도시 야경의 빛은 바깥 유리에만 남기고, 읽는 면은 빛을 삼키는 코팅지처럼 평평하게 정리한다.",
   },
+  {
+    worldId: "modern-latin-america",
+    worldLabel: "근현대 라틴아메리카",
+    person: "글로리아 에스테판",
+    years: "1957–",
+    direction: "바깥은 그늘 속 콘크리트로 두고 기록면만 코발트로 칠해, 벽에 색을 입히는 이 지역의 건축을 화면 안으로 들인다.",
+  },
+  {
+    worldId: "modern-africa",
+    worldLabel: "근현대 아프리카",
+    person: "넬슨 만델라",
+    years: "1918–2013",
+    direction: "검은 목재 위에 말라카이트 결의 기록면을 놓고, 놋쇠는 면을 결구하는 얇은 선으로만 남긴다.",
+  },
 ] as const;
 
 function MaterialLegend({ material }: { material: WorldMaterialDefinition }) {
