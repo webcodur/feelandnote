@@ -12,6 +12,7 @@ import {
   type FigureBookPurchaseOptionRow,
 } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
+import { toFactionQuoteMedia } from "@feelandnote/shared/lib/faction-quote-media";
 import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "./mythAtlasTypes";
 
 interface TagRow {
@@ -22,7 +23,7 @@ interface TagRow {
 }
 interface MemberRow {
   tag_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null; sort_order: number | null;
-  quote: string | null; quote_en: string | null;
+  quote: string | null; quote_en: string | null; faction_quote_media: unknown;
 }
 interface PersonRow {
   id: string; slug: string | null; nickname: string; nickname_en: string | null;
@@ -132,7 +133,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
 
   const { data: memberData, error: memberError } = await db
     .from("faction_atlas_members")
-    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,quote,quote_en")
+    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,quote,quote_en,faction_quote_media")
     .in("tag_id", tagIds).eq("hidden", false).order("sort_order");
   if (memberError) throw new Error(`신화 인물 조회 실패: ${memberError.message}`);
   const members = (memberData ?? []) as MemberRow[];
@@ -188,8 +189,11 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     const placements = members.filter((member) => member.celeb_id === profile.id);
     const sourceIds = unique(assignments.filter((row) => row.celeb_id === profile.id).map((row) => row.content_id));
     const lead = placements[0];
-    const imageUrl = profile.portrait_url ?? profile.avatar_url;
-    const images = imageUrl ? [{ url: imageUrl }] : [];
+    /* 대표 사진은 portrait_url만 쓴다. avatar_url은 작은 얼굴 썸네일이라
+       대형 화보 자리 fallback으로 늘려 쓰지 않는다 */
+    const portraitUrl = profile.portrait_url ?? null;
+    const imageUrl = portraitUrl;
+    const images = portraitUrl ? [{ url: portraitUrl }] : [];
     const explanation = explanationByPerson.get(profile.id);
     const guide = (isEn ? explanation?.plain_text_en || explanation?.plain_text : explanation?.plain_text)?.trim() || null;
     /* 대사는 전승마다 다르다 — 영상 대본이 그 편의 인물에게 준 말이라 같은 신도 편마다 다르게 말한다 */
@@ -197,6 +201,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
       traditionId: placement.tag_id,
       summary: (isEn ? placement.short_desc_en || placement.short_desc : placement.short_desc)?.trim() || null,
       quote: (isEn ? placement.quote_en || placement.quote : placement.quote)?.trim() || null,
+      quoteMedia: toFactionQuoteMedia(placement.faction_quote_media),
     }));
     return [{ id: profile.id, slug: profile.slug,
       name: isEn ? profile.nickname_en || profile.nickname : profile.nickname,
@@ -206,7 +211,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
       reading: guide ? { guide } : null,
       summary: (isEn ? lead?.short_desc_en || lead?.short_desc : lead?.short_desc) ?? null,
       appearances,
-      avatarUrl: profile.avatar_url, imageUrl, images,
+      avatarUrl: profile.avatar_url, imageUrl, portraitUrl, images,
       traditionIds: unique(placements.map((row) => row.tag_id)), sourceIds }];
   });
   /* 차례는 전승이 쥔다(tradition.personIds). 여기서 연결 작품 수로 다시 줄을 세우면
@@ -240,7 +245,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   return { regions, traditions, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v12-source-products"], {
+const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v13-portrait-only"], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

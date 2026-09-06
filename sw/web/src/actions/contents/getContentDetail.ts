@@ -243,7 +243,8 @@ async function fetchContentDataPublic(
       category: categoryId,
       metadata: dbMetadata,
       affiliateLinks: dbContent.is_figure_book
-        ? sourceEdition
+        // 구매처가 없는 판본도 책장에 서므로 링크가 실제로 있을 때만 내보낸다.
+        ? sourceEdition?.platform && sourceEdition.purchaseUrl
           ? [{ platform: sourceEdition.platform, url: sourceEdition.purchaseUrl }]
           : undefined
         : (dbContent.affiliate_url as unknown as AffiliateLink[])?.length

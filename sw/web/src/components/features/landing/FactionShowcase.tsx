@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef, lazy, Suspense, type CSSProperties, type MouseEvent } from "react";
+import { useEffect, useState, useRef, lazy, Suspense, type CSSProperties } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, Users, UserRound, Images, LoaderCircle, Loader2, Play, Pause, Pointer, Star, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, Users, UserRound, Images, LoaderCircle, Loader2, Play, Pause, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
@@ -14,82 +13,13 @@ import type { CelebProfile } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { toTeamImages, type FactionTeamImage } from "@feelandnote/shared/lib/faction-team-image";
-import { duckBgm } from "@/lib/audio-ducking";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
+import FactionQuoteOverlay from "@/components/features/faction/quote/FactionQuoteOverlay";
+import { useFactionQuoteStage } from "@/components/features/faction/quote/useFactionQuoteStage";
 import FactionMobileInfoPanel from "./FactionMobileInfoPanel";
 import FactionRoster, { type FactionRosterEntry } from "./FactionRoster";
 
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
-
-/** 화보 위에 뜨는 대사의 생김새 — 저절로 흐르는 쪽과 손으로 넘기는 쪽이 함께 쓴다 */
-const QUOTE_TEXT_CLASS =
-  "col-start-1 row-start-1 break-keep font-serif font-bold leading-[1.48] text-[#f2ebe0]";
-/** 짧은 장은 크게 박고, 긴 장은 한 단계 줄여 사진 밖으로 넘치지 않게 한다 */
-const QUOTE_SIZE_LARGE = "text-[clamp(1.35rem,4.8vw,1.75rem)] md:text-[clamp(1.65rem,2.5vw,2.25rem)]";
-const QUOTE_SIZE_SMALL = "text-[clamp(1.05rem,3.7vw,1.35rem)] md:text-[clamp(1.25rem,1.9vw,1.7rem)]";
-const QUOTE_TEXT_STYLE: CSSProperties = {
-  textShadow: "0 2px 8px rgba(0,0,0,.98), 0 0 24px rgba(0,0,0,.9)",
-};
-
-/*
-  한 장은 문장 하나다. 다만 이 길이에 못 미치는 토막은 다음 문장과 함께 띄운다.
-
-  토막을 합치지 않으면 "빠르게 생각하고, 공간을 찾습니다. 하루 종일 찾습니다. 여기? 아니야.
-  저기? 아니야. 공간, 공간, 공간."이 열 번을 눌러야 하는 말이 된다. 말 1,050건을 재 보니
-  문장 평균이 28자인데 20자도 안 되는 것이 3분의 1이었다(26.08.08 실측).
-  이 기준이면 71%가 한 장에 끝나고 저 말은 세 장이 된다.
-*/
-const QUOTE_PAGE_MIN = 25;
-/** 이 길이를 넘는 장은 글자를 한 단계 줄여야 세로 화면에서 잘리지 않는다 */
-const QUOTE_LONG_PAGE = 60;
-
-/** 마침표·물음표·느낌표·말줄임에서 끊는다. 끊을 자리가 없으면 통째로 하나다. */
-function splitIntoSentences(text: string): string[] {
-  const parts = text
-    .split(/(?<=[.!?…。？！])\s+/)
-    .map((part) => part.trim())
-    .filter(Boolean);
-  return parts.length ? parts : [text];
-}
-
-/**
- * 목소리가 없는 인물의 말을 손으로 넘길 장으로 나눈다 — 문장 하나가 한 장이다.
- *
- * 빈 줄은 쓴 사람이 일부러 끊은 자리라 그대로 장을 가르고, 한 줄 바꿈은 이어 붙인다.
- * 문장이 기준 길이에 못 미치면 다음 문장까지 담아야 장이 넘어간다.
- */
-function buildQuotePages(quote: string): string[] {
-  const blocks = quote.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
-  const pages: string[] = [];
-
-  for (const block of blocks.length ? blocks : [quote]) {
-    let buffer = '';
-    for (const sentence of splitIntoSentences(block.replace(/\s*\n\s*/g, ' '))) {
-      buffer = buffer ? buffer + ' ' + sentence : sentence;
-      if (buffer.length >= QUOTE_PAGE_MIN) {
-        pages.push(buffer);
-        buffer = '';
-      }
-    }
-    // 끝에 토막이 남으면 앞 장에 붙인다 — 한 줄짜리 장을 위해 한 번 더 누르게 하지 않는다
-    if (buffer) {
-      if (pages.length) pages[pages.length - 1] += ' ' + buffer;
-      else pages.push(buffer);
-    }
-  }
-  return pages.length ? pages : [quote];
-}
-
-const CAPTION_TRANSITION_SEC = 0.42;
-// 전환을 발화 시점에 시작하면 fade-in만큼 늦게 읽힌다. 새 문장이 거의 완성된 상태로 발화에 닿게 앞당긴다.
-const CAPTION_TRANSITION_LEAD_SEC = 0.2;
-const PORTRAIT_TRANSITION_LEAD_SEC = 0.4;
-/*
-  대사가 화면에 뜨지 않으면 재생 단추가 아무 일도 안 한 것처럼 보인다.
-  음성이 붙은 인물은 13명뿐이고 나머지 1,037명은 글자밖에 없다(26.08.08 실측) —
-  자막을 끄면 그 1,037명은 눌러도 화면이 그대로다. 그래서 자막은 항상 띄우고,
-  음성이 있으면 발화에 맞춰, 없으면 대사 전문을 잠시 띄운다.
-*/
 
 /*
   세력도감 쇼케이스.
@@ -288,21 +218,37 @@ export default function FactionShowcase({
   const [modalCelebIdx, setModalCelebIdx] = useState(-1);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const [modalError, setModalError] = useState(false);
-  const [activePortraitIndex, setActivePortraitIndex] = useState(0);
-  const activePortraitIndexRef = useRef(0);
-  const [activeCaptionIndex, setActiveCaptionIndex] = useState(-1);
-  const activeCaptionIndexRef = useRef(-1);
-  const [isFactionQuoteVisible, setIsFactionQuoteVisible] = useState(false);
-  /** 목소리 없는 인물의 말을 몇 번째 문장까지 넘겼는지. -1 이면 넘기는 중이 아니다 */
-  const [manualStepIndex, setManualStepIndex] = useState(-1);
+  // 테마 전환 시 상태 초기화는 부모가 key={activeTag.id}로 재마운트해 처리한다.
+  const current = items[selectedIdx] ?? items[0];
+
+  // 이 인물이 세력도감 영상에서 하는 말. 없으면 아무 표시도 하지 않는다(빈 말풍선을 띄우지 않는다)
+  const factionQuote =
+    current?.type === "celeb"
+      ? (locale === "en" ? current.celeb.faction_quote_en : current.celeb.faction_quote)?.trim() || null
+      : null;
+  const quoteMedia = current?.type === "celeb" ? current.celeb.faction_quote_media : null;
+  const portraitImages = current?.type === "celeb" && quoteMedia?.images.length
+    ? quoteMedia.images
+    : current?.type === "celeb" && current.celeb.faction_image_url
+      ? [{ url: current.celeb.faction_image_url, at: 0 }]
+      : [];
+  /* 대사 재생은 신화 아틀라스와 같은 무대를 쓴다 — 규칙이 갈리지 않게 한 곳에 둔다 */
+  const quoteStage = useFactionQuoteStage({
+    quote: factionQuote,
+    media: quoteMedia,
+    locale,
+    portraits: portraitImages,
+  });
+  const {
+    isVisible: isFactionQuoteVisible,
+    portraitIndex: activePortraitIndex,
+    hasPlayableAudio: hasPlayableQuoteAudio,
+  } = quoteStage;
   /** 이름 아래 소개를 다 펼쳐 놓았는지 — 잘린 글을 끝까지 읽는 자리다 */
   const [isInfoExpanded, setIsInfoExpanded] = useState(false);
   /** 소개가 실제로 잘렸는지. 다 보이는 글에까지 「더 보기」를 달면 눌러도 아무 일이 없다 */
   const [isIntroClipped, setIsIntroClipped] = useState(false);
   const introRef = useRef<HTMLParagraphElement | null>(null);
-  const factionAudioRef = useRef<HTMLAudioElement | null>(null);
-  const factionAudioRafRef = useRef<number | null>(null);
-  const duckRestoreRef = useRef<(() => void) | null>(null);
   const [isSettingCover, setIsSettingCover] = useState(false);
 
   const handleSetCover = async (imageUrl: string) => {
@@ -347,29 +293,6 @@ export default function FactionShowcase({
     return () => cancelAnimationFrame(frame);
   }, [selectedIdx]);
 
-  const stopFactionQuote = () => {
-    if (factionAudioRafRef.current !== null) {
-      cancelAnimationFrame(factionAudioRafRef.current);
-      factionAudioRafRef.current = null;
-    }
-    factionAudioRef.current?.pause();
-    factionAudioRef.current = null;
-    activePortraitIndexRef.current = 0;
-    activeCaptionIndexRef.current = -1;
-    setActivePortraitIndex(0);
-    setActiveCaptionIndex(-1);
-    setManualStepIndex(-1);
-    setIsFactionQuoteVisible(false);
-    // 대사 끝 — BGM 원음 복원
-    duckRestoreRef.current?.();
-    duckRestoreRef.current = null;
-  };
-
-  useEffect(() => () => {
-    factionAudioRef.current?.pause();
-    if (factionAudioRafRef.current !== null) cancelAnimationFrame(factionAudioRafRef.current);
-  }, []);
-
   /*
     소개가 두 줄에서 잘렸는지 직접 재서 「더 보기」를 달지 정한다.
     글이 짧아 다 보이는데도 단추가 있으면 눌러도 아무 변화가 없다.
@@ -386,14 +309,11 @@ export default function FactionShowcase({
     return () => window.removeEventListener("resize", measure);
   }, [selectedIdx, locale, isInfoExpanded, isFactionQuoteVisible]);
 
-  // 테마 전환 시 상태 초기화는 부모가 key={activeTag.id}로 재마운트해 처리한다.
-  const current = items[selectedIdx] ?? items[0];
-
   if (!current) return null;
 
   // 리스트 클릭: 좌측 화보·설명·팩션 대사를 한 번에 전환한다.
   const selectItem = (idx: number) => {
-    stopFactionQuote();
+    quoteStage.stop();
     setSelectedIdx(idx);
     setModalError(false);
     setIsInfoExpanded(false);
@@ -426,9 +346,7 @@ export default function FactionShowcase({
         ? targetItem.celeb.faction_quote_media?.images.length
           || (targetItem.celeb.faction_image_url || targetItem.celeb.avatar_url ? 1 : 0)
         : 0;
-      const targetPortraitIndex = Math.max(0, targetPortraitCount - 1);
-      activePortraitIndexRef.current = targetPortraitIndex;
-      setActivePortraitIndex(targetPortraitIndex);
+      quoteStage.movePortrait(Math.max(0, targetPortraitCount - 1));
     }
   };
 
@@ -471,15 +389,6 @@ export default function FactionShowcase({
     .map(id => items.findIndex(it => it.type === "celeb" && it.celeb.id === id))
     .filter(i => i >= 0)
     .map(itemIdx => ({ celeb: (items[itemIdx] as { celeb: FeaturedCeleb }).celeb, itemIdx }));
-  const quoteMedia = current.type === "celeb" ? current.celeb.faction_quote_media : null;
-  const hasPlayableQuoteAudio = Boolean(quoteMedia?.audioUrl && quoteMedia.locale === locale);
-  // 배포 직후 서버 캐시에 남은 구형 재생 묶음에는 captions 키가 없을 수 있다.
-  const quoteCaptions = quoteMedia?.locale === locale ? quoteMedia.captions ?? [] : [];
-  const portraitImages = current.type === "celeb" && quoteMedia?.images.length
-    ? quoteMedia.images
-    : current.type === "celeb" && current.celeb.faction_image_url
-      ? [{ url: current.celeb.faction_image_url, at: 0 }]
-      : [];
   const celebSrc = current.type === "celeb"
     ? portraitImages[Math.min(activePortraitIndex, Math.max(0, portraitImages.length - 1))]?.url
       ?? current.celeb.faction_image_url
@@ -518,30 +427,8 @@ export default function FactionShowcase({
     ? `${currentListOrdinalParts[0] ?? current.celebIdx + 1}-${currentListOrdinalParts[1] ?? 1}-${Math.min(activePortraitIndex, Math.max(0, portraitImages.length - 1)) + 1}`
     : null;
 
-  // 이 인물이 세력도감 영상에서 하는 말. 없으면 아무 표시도 하지 않는다(빈 말풍선을 띄우지 않는다)
-  const factionQuote =
-    current.type === "celeb"
-      ? (locale === "en" ? current.celeb.faction_quote_en : current.celeb.faction_quote)?.trim() || null
-      : null;
-
-  const setPortraitForTime = (seconds: number) => {
-    if (!portraitImages.length) return;
-    let next = 0;
-    for (let i = 0; i < portraitImages.length; i += 1) {
-      if (portraitImages[i].at <= seconds + PORTRAIT_TRANSITION_LEAD_SEC) next = i;
-      else break;
-    }
-    if (next === activePortraitIndexRef.current) return;
-    activePortraitIndexRef.current = next;
-    setActivePortraitIndex(next);
-  };
-
   const selectAdjacentPortrait = (direction: -1 | 1) => {
-    if (current.type !== "celeb") {
-      selectAdjacentSlide(direction, direction === -1 ? "last" : "first");
-      return;
-    }
-    if (portraitImages.length <= 1) {
+    if (current.type !== "celeb" || portraitImages.length <= 1) {
       selectAdjacentSlide(direction, direction === -1 ? "last" : "first");
       return;
     }
@@ -556,142 +443,9 @@ export default function FactionShowcase({
       return;
     }
 
-    stopFactionQuote();
-    activePortraitIndexRef.current = next;
-    setActivePortraitIndex(next);
+    quoteStage.movePortrait(next);
   };
 
-  const setCaptionForTime = (seconds: number) => {
-    if (!quoteCaptions.length) return;
-    let next = -1;
-    for (let i = 0; i < quoteCaptions.length; i += 1) {
-      if (quoteCaptions[i].at <= seconds + CAPTION_TRANSITION_LEAD_SEC) next = i;
-      else break;
-    }
-    if (next === activeCaptionIndexRef.current) return;
-    activeCaptionIndexRef.current = next;
-    setActiveCaptionIndex(next);
-  };
-
-  /*
-    손으로 넘길 장. 영상 자막 조각은 절대 쓰지 않는다 — 그 조각은 말소리에 맞춰 자막을
-    넘기려고 자른 것이라("모델의 지능은" / "데이터의 양이 아니라" / "질에서 나온다")
-    소리가 없으면 토막글을 다섯 번 누르게 만든다. 읽으라고 내놓는 장은 말 전문에서 다시 나눈다.
-    화보 전환 시각은 그 장이 시작되는 자막 조각에서 빌려 온다.
-  */
-  const quoteSteps: { text: string; at: number }[] = factionQuote
-    ? (() => {
-        let searchFrom = 0;
-        return buildQuotePages(factionQuote).map((text) => {
-          const hit = quoteCaptions.findIndex(
-            (caption, i) => i >= searchFrom && text.includes(caption.text.trim())
-          );
-          if (hit >= 0) searchFrom = hit + 1;
-          return { text, at: hit >= 0 ? quoteCaptions[hit].at : 0 };
-        });
-      })()
-    : [];
-  const isManualQuote = manualStepIndex >= 0;
-  const isLastManualStep = isManualQuote && manualStepIndex >= quoteSteps.length - 1;
-
-  const visibleFactionQuote = isManualQuote
-    ? quoteSteps[manualStepIndex]?.text ?? null
-    : quoteCaptions.length
-      ? (activeCaptionIndex >= 0 ? quoteCaptions[activeCaptionIndex]?.text ?? null : null)
-      : factionQuote;
-
-  /** 팩션 대사는 전역 게임 대사창을 거치지 않고 화보 안에서 음성·이미지와 함께 재생한다. */
-  const fireFactionQuote = () => {
-    if (current.type !== "celeb" || !factionQuote) return;
-    if (isFactionQuoteVisible) {
-      stopFactionQuote();
-      return;
-    }
-
-    const playableMedia = quoteMedia?.audioUrl && quoteMedia.locale === locale ? quoteMedia : null;
-    const audioUrl = playableMedia?.audioUrl;
-    activePortraitIndexRef.current = 0;
-    activeCaptionIndexRef.current = -1;
-    setActivePortraitIndex(0);
-    setActiveCaptionIndex(-1);
-    setIsFactionQuoteVisible(true);
-    setPortraitForTime(0);
-    setCaptionForTime(0);
-
-    /*
-      목소리가 없으면 저절로 흘러가지 않는다 — 첫 문장만 띄우고 다음은 사람이 눌러 넘긴다.
-      읽는 속도가 사람마다 달라 시간을 정해 두면 누구에게는 너무 빠르고 누구에게는 답답하다.
-    */
-    const startManualPaging = () => {
-      setManualStepIndex(0);
-      setPortraitForTime(quoteSteps[0]?.at ?? 0);
-    };
-
-    if (!playableMedia || !audioUrl) {
-      startManualPaging();
-      return;
-    }
-
-    // BGM 덕킹 — 대사 재생 직전 30%로 낮춘다
-    duckRestoreRef.current?.();
-    duckRestoreRef.current = duckBgm();
-
-    const audio = new Audio(audioUrl);
-    audio.volume = 0.7;
-    audio.playbackRate = playableMedia.playbackRate || 1;
-    factionAudioRef.current = audio;
-
-    const syncPortrait = () => {
-      if (factionAudioRef.current !== audio || audio.paused) return;
-      const playbackSeconds = audio.currentTime / Math.max(audio.playbackRate, 0.01);
-      setPortraitForTime(playbackSeconds);
-      setCaptionForTime(playbackSeconds);
-      factionAudioRafRef.current = requestAnimationFrame(syncPortrait);
-    };
-
-    audio.addEventListener("ended", stopFactionQuote, { once: true });
-    audio.addEventListener("error", () => {
-      if (factionAudioRef.current !== audio) return;
-      factionAudioRef.current = null;
-      duckRestoreRef.current?.();
-      duckRestoreRef.current = null;
-      startManualPaging();
-    }, { once: true });
-    void audio.play().then(() => {
-      if (factionAudioRef.current !== audio) return;
-      setPortraitForTime(0);
-      setCaptionForTime(0);
-      factionAudioRafRef.current = requestAnimationFrame(syncPortrait);
-    }).catch(() => {
-      if (factionAudioRef.current !== audio) return;
-      factionAudioRef.current = null;
-      duckRestoreRef.current?.();
-      duckRestoreRef.current = null;
-      startManualPaging();
-    });
-  };
-
-  /** 목소리 없는 말을 한 문장씩 넘긴다. 마지막에서 한 번 더 누르면 닫힌다. */
-  const advanceManualQuote = () => {
-    const next = manualStepIndex + 1;
-    if (next >= quoteSteps.length) {
-      stopFactionQuote();
-      return;
-    }
-    setManualStepIndex(next);
-    setPortraitForTime(quoteSteps[next].at);
-  };
-
-  const handlePhotoClick = (event: MouseEvent<HTMLDivElement>) => {
-    if (current.type !== "celeb" || !factionQuote) return;
-    const target = event.target;
-    if (target instanceof HTMLElement && target.closest("button, a")) return;
-    if (isManualQuote) {
-      advanceManualQuote();
-      return;
-    }
-    fireFactionQuote();
-  };
   const longDesc =
     current.type === "celeb"
       ? (locale === "en" ? current.celeb.long_desc_en : current.celeb.long_desc)
@@ -731,7 +485,7 @@ export default function FactionShowcase({
 
   const photo = (
     <div
-      onClick={handlePhotoClick}
+      onClick={quoteStage.handleSurfaceClick}
       className={cn(
         "relative w-full overflow-hidden rounded-xl bg-[#0a0a0a] ring-1 ring-white/10",
         current.type === "celeb" && variant === "embedded"
@@ -1104,81 +858,10 @@ export default function FactionShowcase({
       )}
 
       {current.type === "celeb" && factionQuote && isFactionQuoteVisible && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="pointer-events-none absolute inset-0 z-[15] flex items-center justify-center overflow-hidden px-7 py-16 md:px-14"
-        >
-          <figure className="relative w-full max-w-[88%] translate-y-3 animate-fade-in text-center md:max-w-[86%] md:translate-y-5">
-            <div className="grid min-h-[5.5rem] place-items-center md:min-h-[7rem]">
-              {/*
-                손으로 넘길 때는 부드러운 전환을 쓰지 않는다 — 누른 즉시 다음 문장이어야 하고,
-                전환이 한 번이라도 어긋나면 앞 문장이 그대로 남아 「안 넘어간다」로 보인다.
-                발화에 맞춰 저절로 흐르는 쪽만 전환을 얹는다.
-              */}
-              {isManualQuote ? (
-                visibleFactionQuote && (
-                  <blockquote
-                    key={manualStepIndex}
-                    className={cn(
-                      QUOTE_TEXT_CLASS,
-                      visibleFactionQuote.length > QUOTE_LONG_PAGE ? QUOTE_SIZE_SMALL : QUOTE_SIZE_LARGE,
-                      "animate-fade-in"
-                    )}
-                    style={QUOTE_TEXT_STYLE}
-                  >
-                    {visibleFactionQuote}
-                  </blockquote>
-                )
-              ) : (
-                <AnimatePresence initial={false}>
-                  {visibleFactionQuote && (
-                    <motion.blockquote
-                      key={activeCaptionIndex}
-                      initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
-                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      exit={{ opacity: 0, y: -6, filter: "blur(2px)" }}
-                      transition={{ duration: CAPTION_TRANSITION_SEC, ease: [0.22, 1, 0.36, 1] }}
-                      className={cn(QUOTE_TEXT_CLASS, QUOTE_SIZE_LARGE)}
-                      style={QUOTE_TEXT_STYLE}
-                    >
-                      {visibleFactionQuote}
-                    </motion.blockquote>
-                  )}
-                </AnimatePresence>
-              )}
-            </div>
-            {/*
-              목소리가 없어 손으로 넘기는 중임을 알린다 — 몇 번째 문장인지와
-              눌러서 다음으로 간다는 안내를 함께 둔다. 마지막 문장에서는 닫힌다고 알린다.
-            */}
-            {isManualQuote && (
-              <figcaption
-                className="mt-6 flex items-center justify-center gap-2"
-                title={isLastManualStep ? t("tapToCloseQuote") : t("tapForNextLine")}
-              >
-                {/* 눈으로는 손가락 그림만 보이고, 화면 낭독기에는 말로 읽힌다 */}
-                <span className="sr-only">
-                  {isLastManualStep ? t("tapToCloseQuote") : t("tapForNextLine")}
-                </span>
-                <span
-                  aria-hidden
-                  className="animate-tap-hint flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white/90 shadow-[0_2px_10px_rgba(0,0,0,0.7)] backdrop-blur-sm"
-                >
-                  {isLastManualStep ? <X size={16} aria-hidden /> : <Pointer size={16} aria-hidden />}
-                </span>
-                {quoteSteps.length > 1 && (
-                  <span
-                    aria-hidden
-                    className="text-[11px] font-bold tabular-nums tracking-[0.12em] text-white/75 md:text-xs"
-                  >
-                    {manualStepIndex + 1} / {quoteSteps.length}
-                  </span>
-                )}
-              </figcaption>
-            )}
-          </figure>
-        </div>
+        <FactionQuoteOverlay
+          stage={quoteStage}
+          labels={{ tapForNextLine: t("tapForNextLine"), tapToCloseQuote: t("tapToCloseQuote") }}
+        />
       )}
 
     </div>
@@ -1289,7 +972,7 @@ export default function FactionShowcase({
                 aria-label={isFactionQuoteVisible ? t("pauseQuote") : hasPlayableQuoteAudio ? t("playQuote") : t("showQuote")}
                 title={isFactionQuoteVisible ? t("pauseQuote") : hasPlayableQuoteAudio ? t("playQuote") : t("showQuote")}
                 disabled={current.type !== "celeb" || !factionQuote}
-                onClick={fireFactionQuote}
+                onClick={quoteStage.toggle}
                 className="mx-1 flex h-10 w-12 items-center justify-center rounded-lg border border-accent/35 bg-accent/10 text-accent hover:border-accent/70 hover:bg-accent/20 active:bg-accent/25 disabled:pointer-events-none disabled:border-white/10 disabled:bg-transparent disabled:text-white/20"
               >
                 {isFactionQuoteVisible ? (

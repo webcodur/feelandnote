@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
+import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
+import { getFigureBookPurchasePlatform } from '@/actions/figure-books/figureBookLocale'
 import {
   getAffiliateBooksForCeleb,
   type AffiliateBookSource,
@@ -12,6 +14,7 @@ import {
   createAffiliateBooksLoadGate,
   type AffiliateBooksResult,
 } from './CelebAffiliateBooksLoadGate'
+import { mapRelatedFigureBooksToAffiliateBooks } from './CelebRelatedAffiliateBooks'
 
 interface CelebAffiliateBooksProps {
   userId: string
@@ -19,6 +22,7 @@ interface CelebAffiliateBooksProps {
   embedded?: boolean
   initialData?: AffiliateBooksResult | null
   hideHeading?: boolean
+  relatedBooks?: FigureBookContent[]
 }
 
 type LoadStatus = 'idle' | 'ready' | 'failed'
@@ -38,8 +42,8 @@ const HEADING_KEY: Record<AffiliateBookSource, 'headingOrigin' | 'headingRead' |
 
 /**
  * 인물 화면 아래에 붙는 제휴 도서 구획.
- * 그 인물이 읽은 책을 먼저 내고, 없으면 같은 직군 인물들이 읽은 책, 그것도 없으면 많이 읽힌 책 순으로 물러난다.
- * 무엇을 기준으로 골랐는지에 따라 머리글이 달라진다 — 읽지도 않은 책을 "이 인물의 책"처럼 보이면 안 된다.
+ * 연관 도서의 판매 상품을 먼저 놓고 기존 추천 상품을 이어 붙인다.
+ * 연관 도서가 섞이면 감상 기록으로 오해하지 않도록 중립 제목을 쓴다.
  */
 export default function CelebAffiliateBooks({
   userId,
@@ -47,9 +51,12 @@ export default function CelebAffiliateBooks({
   embedded = false,
   initialData,
   hideHeading = false,
+  relatedBooks,
 }: CelebAffiliateBooksProps) {
   const locale = useLocale()
   const t = useTranslations('popularBooks')
+  const tPage = useTranslations('celebPage')
+  const platform = getFigureBookPurchasePlatform(locale)
   const { ref, isNear } = useNearViewport('600px 0px')
   const [attempt, setAttempt] = useState(0)
   const [loadGate] = useState(() => createAffiliateBooksLoadGate(
@@ -71,7 +78,7 @@ export default function CelebAffiliateBooks({
     },
   }), [initialData, isNear, loadGate, locale, requestKey, userId])
 
-  if (locale !== 'ko') return null
+  if (!platform) return null
 
   const handleRetry = () => {
     setLoadState({ key: '', status: 'idle', data: null })
@@ -79,21 +86,33 @@ export default function CelebAffiliateBooks({
   }
 
   const isCurrentRequest = loadState.key === requestKey
-  const data = isCurrentRequest ? loadState.data : null
+  const data = initialData !== undefined ? initialData : isCurrentRequest ? loadState.data : null
+  const products = mapRelatedFigureBooksToAffiliateBooks(relatedBooks ?? [], locale)
+  const hasRelatedProducts = products.length > 0
+  const productIds = new Set(products.map((book) => book.contentId))
+  if (locale === 'ko' && data && (!actualOnly || data.source === 'read')) {
+    for (const book of data.books) {
+      if (productIds.has(book.contentId)) continue
+      productIds.add(book.contentId)
+      products.push(book)
+    }
+  }
 
   return (
     <div ref={ref}>
-      {isCurrentRequest && loadState.status === 'failed' ? (
-        <RetryBlock onRetry={handleRetry} />
-      ) : data && (!actualOnly || data.source === 'read') ? (
+      {products.length > 0 ? (
         <AffiliateBookList
-          books={data.books}
-          heading={t(HEADING_KEY[data.source])}
-          buyLabel={t('buyOnCoupang')}
+          books={products}
+          heading={hasRelatedProducts || !data ? tPage('relatedProducts') : t(HEADING_KEY[data.source])}
+          buyLabel={platform === 'amazon' ? tPage('sourceWorkBuyAmazon') : t('buyOnCoupang')}
           detailLabel={t('viewBookDetails')}
           compact={embedded}
           hideHeading={hideHeading}
+          platform={platform}
         />
+      ) : null}
+      {initialData === undefined && isCurrentRequest && loadState.status === 'failed' ? (
+        <RetryBlock onRetry={handleRetry} />
       ) : null}
     </div>
   )

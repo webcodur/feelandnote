@@ -66,9 +66,9 @@ export default function CelebHeroPhoto({
   const badgeStart = photoUrl ? "start-2" : "start-[-6px]";
 
   /* ── 1. 음성 뱃지·확대 단추 ── */
-  // 배지는 아바타 위로 확실히 띄운다. VoiceBadge 바탕이 반투명이라
-  // 아바타가 비쳐 보이므로 뒤에 불투명 원을 깔고 층위도 위로 둔다.
-  const badgePlace = `absolute ${badgeY} ${badgeEnd} z-[4] rounded-full bg-black shadow-md`;
+  // 뱃지 원은 VoiceBadge 하나만 둔다. 바깥에 불투명 원을 덧씌우면
+  // 테두리·그림자가 겹쳐 스피커 아이콘이 두 겹으로 보인다.
+  const badgePlace = `absolute ${badgeY} ${badgeEnd} z-[4] rounded-full`;
   // 스피커 배지도 아바타와 같은 인사 대사를 낸다. 모양은 그대로 두고 누를 수만 있게 한다.
   const voiceBadge = canShowGreeting ? (
     <button

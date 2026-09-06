@@ -14,8 +14,10 @@ import type { ContentType } from '@/types/database'
 import {
   getFigureBookCharacterDescription,
   getFigureBookPurchasePlatform,
+  mapFigureBookEditions,
   mapFigureBookPurchaseOptions,
   type FigureBookEdition,
+  type FigureBookEditionRow,
   type FigureBookPurchaseOptionRow,
 } from './figureBookLocale'
 import {
@@ -38,6 +40,12 @@ export interface FigureBookContent {
   relationType: FigureBookRelationType
   appearanceDescription: string | null
   editions: FigureBookEdition[]
+  /** 저장된 원어 표제·저자를 창작 판정과 위키데이터 중복 대조에 사용한다. */
+  titleKo?: string | null
+  titleEn?: string | null
+  workTitle?: string | null
+  wikidataQid?: string | null
+  creatorNames?: string[]
 }
 
 export interface FigureBookCharacter {
@@ -52,6 +60,7 @@ export interface FigureBookCharacter {
 interface ContentRow {
   id: string
   type: ContentType
+  figureBook: { workTitle?: string; workCreator?: string; wikidataQid?: string } | null
   content_locales: ContentLocaleRow[] | null
 }
 
@@ -75,6 +84,7 @@ const TYPE_TO_CATEGORY: Record<ContentType, CategoryId> = {
 async function fetchSourcesByCeleb(
   celebId: string,
   locale: string,
+  includeCatalogOnly: boolean,
 ): Promise<FigureBookContent[]> {
   const db = createStaticClient()
   const assignments = await getFigureBookAssignmentsByCeleb(celebId)
@@ -86,13 +96,14 @@ async function fetchSourcesByCeleb(
 
   let contentData: ContentRow[]
   let purchaseOptions: FigureBookPurchaseOptionRow[]
+  let editionRows: FigureBookEditionRow[]
   try {
-    ;[contentData, purchaseOptions] = await Promise.all([
+    ;[contentData, purchaseOptions, editionRows] = await Promise.all([
       selectInChunks<ContentRow>(
         contentIds,
         (ids) => db
           .from('contents')
-          .select(`id,type,content_locales(${CL_SELECT_LIST})`)
+          .select(`id,type,figureBook:metadata->figureBook,content_locales(${CL_SELECT_LIST})`)
           .in('id', ids)
           .overrideTypes<ContentRow[], { merge: false }>(),
       ),
@@ -106,6 +117,16 @@ async function fetchSourcesByCeleb(
           .eq('platform', platform)
           .overrideTypes<FigureBookPurchaseOptionRow[], { merge: false }>(),
       ),
+      // 제휴 상품이 없는 작품도 판본 정보로 카드를 세우기 위해 판본 표를 함께 읽는다.
+      selectInChunks<FigureBookEditionRow>(
+        contentIds,
+        (ids) => db
+          .from('figure_book_editions')
+          .select('id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order')
+          .in('content_id', ids)
+          .eq('locale', locale)
+          .overrideTypes<FigureBookEditionRow[], { merge: false }>(),
+      ),
     ])
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
@@ -113,6 +134,10 @@ async function fetchSourcesByCeleb(
   }
 
   const contentById = new Map(contentData.map((content) => [content.id, content]))
+  const editionRowsByContent = new Map<string, FigureBookEditionRow[]>()
+  for (const row of editionRows) {
+    editionRowsByContent.set(row.content_id, [...(editionRowsByContent.get(row.content_id) ?? []), row])
+  }
   const optionRowsByContent = new Map<string, FigureBookPurchaseOptionRow[]>()
   for (const option of purchaseOptions) {
     const rows = optionRowsByContent.get(option.content_id) ?? []
@@ -124,20 +149,25 @@ async function fetchSourcesByCeleb(
     const content = contentById.get(assignment.content_id)
     if (!content) return []
 
-    const editions = mapFigureBookPurchaseOptions(
+    // 제휴 상품이 있으면 그 판본만 연다. 하나도 없으면 판본 정보만으로 카드를 세운다.
+    const purchasable = mapFigureBookPurchaseOptions(
       optionRowsByContent.get(content.id) ?? [],
       locale,
     )
-    // 관계는 작품에 남겨 두되, 공개 책장에는 활성 제휴 상품이 있는 판본만 연다.
-    if (editions.length === 0) return []
+    const editions = purchasable.length > 0
+      ? purchasable
+      : mapFigureBookEditions(editionRowsByContent.get(content.id) ?? [], locale)
+    // 창작 목록은 판매 판본이 없어도 확인된 해당 언어의 작품 메타로 보여줄 수 있다.
+    const exactLocale = content.content_locales?.find((row) => row.locale === locale)
+    if (editions.length === 0 && (!includeCatalogOnly || !exactLocale?.title?.trim())) return []
 
     const flat = flattenLocales(content.content_locales, locale)
     const leadEdition = editions[0]
     return [{
       id: content.id,
-      title: flat.title || leadEdition.title,
-      creator: flat.creator || leadEdition.creator,
-      thumbnailUrl: leadEdition.thumbnailUrl || flat.thumbnail_url,
+      title: flat.title || leadEdition?.title || '',
+      creator: flat.creator || leadEdition?.creator || null,
+      thumbnailUrl: leadEdition?.thumbnailUrl || flat.thumbnail_url,
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
@@ -145,6 +175,14 @@ async function fetchSourcesByCeleb(
         ? getFigureBookCharacterDescription(assignment, locale)
         : null,
       editions,
+      titleKo: flat.title_ko,
+      titleEn: flat.title_en,
+      workTitle: content.figureBook?.workTitle ?? null,
+      wikidataQid: content.figureBook?.wikidataQid ?? null,
+      creatorNames: [...new Set([
+        ...(content.content_locales ?? []).map((row) => row.creator),
+        content.figureBook?.workCreator,
+      ].filter((name): name is string => Boolean(name?.trim())))],
     }]
   })
 
@@ -200,12 +238,13 @@ async function fetchCharactersByContent(
 export async function getFigureBooksForCeleb(
   celebId: string,
   locale: string = 'ko',
+  includeCatalogOnly = false,
 ): Promise<FigureBookContent[]> {
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v1-two-relations', celebId, locale],
-    () => fetchSourcesByCeleb(celebId, locale),
+    ['figure-books-by-celeb-v2-creator-metadata', celebId, locale, String(includeCatalogOnly)],
+    () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )
 }

@@ -63,8 +63,8 @@
     "realityChipFiction": "가상",
     "library": "기록",
     "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
-    "sourceWorks": "등장·연관 도서",
-    "sourceWorksIntro": "이 인물이 실제로 등장하는 책과, 생애·시대·핵심 분야를 직접 이해하는 데 도움이 되는 책",
+    "sourceWorks": "등장 작품",
+    "sourceWorksIntro": "이 인물이 실제로 등장하거나 중심 대상으로 다뤄지는 작품",
     "sourceWorkCount": "작품 {count}편",
     "sourceWorkOpen": "작품 상세보기",
     "sourceWorkBuyCoupang": "쿠팡에서 보기",
@@ -81,8 +81,8 @@
     "sourceWorkPublisher": "출판사",
     "sourceWorkReleaseDate": "출간일",
     "sourceRelation": {
-      "appearance": "등장 도서",
-      "related": "연관 도서"
+      "appearance": "등장 작품",
+      "related": "연관 작품"
     },
     "analysis": "평가",
     "fictionAnalysis": "인물 해석",
@@ -305,7 +305,7 @@
     "virtueReasonEmpty": "이 덕목의 배경이 아직 없습니다.",
     "relatedLinksTitle": "이어지는 인물",
     "relatedLinksSimilar": "비슷한 인물",
-    "relatedProducts": "관련 상품",
+    "relatedProducts": "연관 작품과 추천 도서",
     "swipeRailLabel": "끌어서 위아래로 이동",
     "carouselMetricPrev": "이전 지표",
     "carouselMetricNext": "다음 지표",
@@ -315,6 +315,10 @@
     "carouselDispositionNext": "다음 성향 비교",
     "timelineViewExpand": "펼치기",
     "timelineOptCard": "사건 카드",
-    "timelineOptMap": "활동 반경"
+    "timelineOptMap": "활동 반경",
+    "readingPlay": "낭독 재생",
+    "readingPause": "일시정지",
+    "readingResume": "이어서 듣기",
+    "readingStop": "낭독 정지"
   }
 }

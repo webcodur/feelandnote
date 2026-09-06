@@ -9,7 +9,7 @@ export const MYTH_LAYOUT = {
   notice: "mx-2 mb-1 flex items-start justify-center gap-2 rounded-xl border border-accent/[0.12] bg-accent/[0.035] px-3 py-2.5 text-center text-xs leading-5 text-text-tertiary md:mx-3",
   railOuter: "px-4 py-2 md:px-6",
   rail: "min-w-0 overflow-hidden rounded-[20px] border border-white/[0.08] bg-black/[0.12] px-4 py-4 md:px-5 md:py-5",
-  railCardSize: "h-[108px] w-[224px] md:h-[116px] md:w-[252px]",
+  railCardSize: "w-[96px] md:w-[108px]",
   overviewOuter: "min-w-0 px-4 pb-4 pt-2 md:px-6 md:pb-6",
   overview: "overflow-hidden rounded-[24px] border border-white/[0.08] bg-black",
   artwork: "relative aspect-[3/2] w-full overflow-hidden",

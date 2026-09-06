@@ -17,10 +17,21 @@ interface WorkListItemProps {
 export default function WorkListItem({ item, resolved: r, roleLabel, typeLabel, description, onClick }: WorkListItemProps) {
   return (
     <div
-      className="w-full max-w-[300px] md:max-w-none cursor-pointer"
+      role="button"
+      tabIndex={0}
+      aria-label={r.title}
+      data-creative-source="wikidata"
+      data-work-id={item.id}
+      className="w-full max-w-[300px] rounded-xl md:max-w-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onClick();
+        }
+      }}
     >
-      <div className="flex gap-3 p-3 rounded-xl border border-border/30 bg-surface/30 hover:bg-surface-hover/50 transition-colors">
+      <div className="flex gap-3 p-3 rounded-xl border border-border/30 bg-surface/30 hover:bg-surface-hover/50 hover:border-accent/40">
         {/* 썸네일 */}
         {r.thumbnail ? (
           <div className="relative shrink-0 w-16 h-22 rounded-lg overflow-hidden bg-surface-hover">

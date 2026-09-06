@@ -133,7 +133,8 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
   for (const [contentId, options] of optionsByContent) {
     if (excluded.has(contentId)) continue
     const edition = mapFigureBookPurchaseOptions(options, sourceLocale)[0]
-    if (!edition) continue
+    // 홈 제휴 도서는 구매 링크가 있는 판본만 싣는다.
+    if (!edition?.purchaseUrl) continue
     pool.push({
       book: {
         contentId,

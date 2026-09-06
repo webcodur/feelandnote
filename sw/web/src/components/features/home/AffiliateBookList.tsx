@@ -12,6 +12,7 @@ interface AffiliateBookListProps {
   buyLabel: string
   detailLabel: string
   compact?: boolean
+  platform?: 'coupang' | 'amazon'
   /** 바깥 구획 머리가 제목을 맡을 때 레일 제목·윗여백을 뺀다 */
   hideHeading?: boolean
 }
@@ -25,7 +26,7 @@ interface AffiliateBookListProps {
  * 좁은 화면에서는 옆으로 넘겨 보게 해 세로로 길어지지 않게 한다.
  * 대가성 안내 문구는 쿠팡 정책상 링크와 같은 화면에 있어야 하므로 여기서 함께 낸다.
  */
-export default function AffiliateBookList({ books, heading, buyLabel, detailLabel, compact = false, hideHeading = false }: AffiliateBookListProps) {
+export default function AffiliateBookList({ books, heading, buyLabel, detailLabel, compact = false, hideHeading = false, platform = 'coupang' }: AffiliateBookListProps) {
   if (books.length === 0) return null
 
   return (
@@ -130,10 +131,10 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
         ))}
       </div>
 
-      <p className={cn(
+      {AFFILIATE_PLATFORMS[platform].notice && <p className={cn(
         "text-center px-4",
         compact ? "mt-1 text-[10px]" : "mt-3 text-[10px] md:text-xs",
-      )}>{AFFILIATE_PLATFORMS.coupang.notice}</p>
+      )}>{AFFILIATE_PLATFORMS[platform].notice}</p>}
     </section>
   )
 }

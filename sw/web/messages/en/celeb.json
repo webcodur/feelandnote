@@ -63,8 +63,8 @@
     "realityChipFiction": "Fiction",
     "library": "Records",
     "libraryEmpty": "No public viewing records yet.",
-    "sourceWorks": "Appearing & Related Books",
-    "sourceWorksIntro": "Books in which this figure appears, plus books that directly illuminate their life, era, or central field",
+    "sourceWorks": "Appearing Works",
+    "sourceWorksIntro": "Works in which this figure appears or is a central subject",
     "sourceWorkCount": "{count} works",
     "sourceWorkOpen": "View work details",
     "sourceWorkBuyCoupang": "View on Coupang",
@@ -81,8 +81,8 @@
     "sourceWorkPublisher": "Publisher",
     "sourceWorkReleaseDate": "Publication date",
     "sourceRelation": {
-      "appearance": "Appearing Books",
-      "related": "Related Books"
+      "appearance": "Appearing Works",
+      "related": "Related Works"
     },
     "analysis": "Evaluation",
     "fictionAnalysis": "Character Reading",
@@ -305,7 +305,7 @@
     "virtueReasonEmpty": "No background is recorded for this virtue yet.",
     "relatedLinksTitle": "Connected Figures",
     "relatedLinksSimilar": "Similar figure",
-    "relatedProducts": "Related products",
+    "relatedProducts": "Related works and recommended books",
     "swipeRailLabel": "Drag to move up and down",
     "carouselMetricPrev": "Previous metric",
     "carouselMetricNext": "Next metric",
@@ -315,6 +315,10 @@
     "carouselDispositionNext": "Next disposition comparison",
     "timelineViewExpand": "Expand",
     "timelineOptCard": "Cards",
-    "timelineOptMap": "Map"
+    "timelineOptMap": "Map",
+    "readingPlay": "Read aloud",
+    "readingPause": "Pause",
+    "readingResume": "Resume",
+    "readingStop": "Stop reading"
   }
 }

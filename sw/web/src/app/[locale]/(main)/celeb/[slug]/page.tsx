@@ -22,6 +22,8 @@ import { getWorldBannerImages } from "@/lib/celeb/worldImages";
 import CelebPageContent from "./CelebPageContent";
 import RelatedFigureLinks from "./RelatedFigureLinks";
 import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
+import { mapRelatedFigureBooksToAffiliateBooks } from "@/components/features/celeb/CelebRelatedAffiliateBooks";
+import { partitionFigureBooks } from "@/lib/celeb/authoredBooks";
 import { buildCelebTitle } from "@/lib/celeb/meta";
 import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
 import { buildCelebPageMetadata, createCelebMetaInput } from "./celebPageMetadata";
@@ -108,7 +110,7 @@ export default async function CelebPage({ params }: PageProps) {
     dialogueData,
     timelineEvents,
     initialContents,
-    figureBooks,
+    allFigureBooks,
     initialContentBrief,
     externalLinks,
     initialAffiliateBooks,
@@ -128,6 +130,17 @@ export default async function CelebPage({ params }: PageProps) {
     getCelebExternalLinks(profile.wikidata_qid, locale),
     initialAffiliateBooksPromise,
   ]);
+
+  // 창작(authored)은 「창작」 탭에, 연관(related)만 아래 상품 구획으로 보낸다.
+  const { appearanceBooks, authoredBooks, relatedBooks } = partitionFigureBooks(allFigureBooks);
+  const figureBooks = appearanceBooks.filter((book) => book.editions.length > 0);
+  const authoredIds = new Set(authoredBooks.map((book) => book.id));
+  const affiliateBooks = initialAffiliateBooks ? {
+    ...initialAffiliateBooks,
+    books: initialAffiliateBooks.books.filter((book) => !authoredIds.has(book.contentId)),
+  } : null;
+  const hasAffiliateBooks = mapRelatedFigureBooksToAffiliateBooks(relatedBooks, locale).length > 0
+    || (affiliateBooks?.books.length ?? 0) > 0;
 
   const pageTitle = buildCelebTitle(
     createCelebMetaInput(profile, figureBooks),
@@ -163,10 +176,7 @@ export default async function CelebPage({ params }: PageProps) {
     influence: sidePresence.influence,
     spectrum: sidePresence.spectrum,
     relatedFigures: profile.relations.length > 0,
-    affiliateBooks:
-      profile.celeb_tier === "full"
-      && locale === "ko"
-      && (initialAffiliateBooks?.books.length ?? 0) > 0,
+    affiliateBooks: hasAffiliateBooks,
   };
 
   // 관계 목록과 세력 배정표는 관계 구획이 화면에 다가올 때 브라우저가 다시 받는다.
@@ -212,6 +222,7 @@ export default async function CelebPage({ params }: PageProps) {
         initialContents={initialContents}
         initialContentBrief={initialContentBrief ?? undefined}
         figureBooks={figureBooks}
+        authoredBooks={authoredBooks}
         worldId={worldId}
         worldBannerImages={worldBannerImages}
         externalLinksSlot={
@@ -233,11 +244,12 @@ export default async function CelebPage({ params }: PageProps) {
           />
         }
         affiliateBooksSlot={
-          /* 페이지末 관련 상품. full 인물만. 서버 선행분 없으면 근접 시 불러온다 */
-          profile.celeb_tier === "full" && (initialAffiliateBooks?.books.length ?? 0) > 0 ? (
+          /* 연관 도서는 티어와 무관하게 하단 상품에 표시한다. */
+          hasAffiliateBooks ? (
             <CelebAffiliateBooks
               userId={userId}
-              initialData={initialAffiliateBooks}
+              initialData={affiliateBooks}
+              relatedBooks={relatedBooks}
               hideHeading
             />
           ) : undefined

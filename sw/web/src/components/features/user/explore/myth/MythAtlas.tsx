@@ -176,7 +176,7 @@ export default function MythAtlas({ data }: Props) {
 
       <div className={layout.railOuter}>
         <div className={layout.container}>
-          <MythPersonPicker layout="rail" people={activePeople} traditionId={activeTradition.id} selectedId={selectedPersonId} onSelect={choosePerson} />
+          <MythPersonPicker people={activePeople} selectedId={selectedPersonId} onSelect={choosePerson} />
         </div>
       </div>
 
@@ -187,7 +187,7 @@ export default function MythAtlas({ data }: Props) {
           )}
           {selectedPerson && (
             <div ref={contentRef} className="min-w-0 overflow-hidden rounded-[24px] border border-white/[0.08] scroll-mt-20">
-              <MythPersonDetail person={selectedPerson} tradition={activeTradition} works={selectedWorks} onClose={() => setSelectedPersonId(null)} />
+              <MythPersonDetail key={`${activeTradition.id}-${selectedPerson.id}`} person={selectedPerson} tradition={activeTradition} works={selectedWorks} onClose={() => setSelectedPersonId(null)} />
             </div>
           )}
         </div>
