@@ -2,7 +2,7 @@
   판본 대조를 통과한 건으로 pick.mjs 입력을 만든다.
   크롬 경로(verify-edition)와 codex 경로(by-codex) 결과를 함께 받아 한 목록으로 합친다.
 
-  content_id는 등록 영수증(manifests/*.receipt.json)에서 ISBN으로 되찾는다.
+  content_id는 등록 영수증(manifests/*.receipt.json)과 DB의 ko 판본 ISBN에서 되찾는다.
   작품이 아직 등록되지 않은 건은 링크를 만들 수 없으므로 제외한다.
 
   사용: node picks-from-verify.mjs <선택.json> [--verify <대조.json>] [--codex <조회.jsonl>] [--targets <대상.json>]
@@ -40,6 +40,16 @@ for (const name of fs.readdirSync(manifestDir)) {
   const isbn = bare(String(receipt.workIdentity ?? '').split('/').pop())
   const contentId = receipt.plan?.contentId
   if (isbn && contentId) contentByIsbn.set(isbn, contentId)
+}
+
+// 대량 등록분(bulk-register-books)은 영수증이 없다. DB의 ko 판본 ISBN으로도 작품을 되찾는다.
+const { allRows, dbClient } = await import('../figure-books/lib/figure-work.mjs')
+const db = dbClient()
+const editions = await allRows('figure_book_editions', (from, to) => db.from('figure_book_editions').select('content_id,isbn').eq('locale', 'ko').order('id').range(from, to))
+// 영수증은 통합·삭제된 옛 작품 ID를 가리킬 수 있다. DB의 현재 판본이 우선이다.
+for (const row of editions) {
+  const isbn = bare(row.isbn)
+  if (isbn) contentByIsbn.set(isbn, row.content_id)
 }
 
 // 상품명·검색어는 후보 수집 결과에 있다.
