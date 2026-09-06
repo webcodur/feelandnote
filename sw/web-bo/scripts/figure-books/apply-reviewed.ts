@@ -132,15 +132,15 @@ function parseReviews(document: unknown): Review[] {
       if (contentIds.has(contentId)) throw new Error(`${slug}에 같은 contentId가 중복됩니다: ${contentId}`)
       contentIds.add(contentId)
       const relationType = text(selection.relationType, `${slug}.${contentId}.relationType`)
-      if (relationType !== 'appearance' && relationType !== 'related') {
+      if (relationType !== 'appearance' && relationType !== 'related' && relationType !== 'authored') {
         throw new Error(`${slug}.${contentId}: 지원하지 않는 관계입니다.`)
       }
       const description = selection.description
       if (relationType === 'appearance' && (typeof description !== 'string' || !description.trim())) {
         throw new Error(`${slug}.${contentId}: 등장 설명이 필요합니다.`)
       }
-      if (relationType === 'related' && description !== null) {
-        throw new Error(`${slug}.${contentId}: 연관 도서 설명은 null이어야 합니다.`)
+      if (relationType !== 'appearance' && description !== null) {
+        throw new Error(`${slug}.${contentId}: 등장이 아닌 관계의 설명은 null이어야 합니다.`)
       }
       const appearanceDescription = typeof description === 'string'
         ? description.trim()
@@ -277,7 +277,7 @@ async function main(): Promise<void> {
     let preservedAppearance = 0
     const safeSelections = selections.flatMap((selection) => {
       const existing = currentByCelebId.get(selection.celebId)
-      if (existing?.relation_type === 'appearance' && selection.relationType === 'related') {
+      if (existing?.relation_type === 'appearance' && selection.relationType !== 'appearance') {
         preservedAppearance += 1
         return []
       }

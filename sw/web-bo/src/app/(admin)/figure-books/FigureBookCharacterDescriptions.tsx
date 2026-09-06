@@ -122,7 +122,7 @@ export default function FigureBookCharacterDescriptions({
 
       {appearanceAssignments.length === 0 ? (
         <p className="rounded-lg border border-dashed border-border px-4 py-8 text-center text-sm text-text-tertiary">
-          등장 도서 관계가 없습니다. 연관 도서에는 작품 속 등장 설명을 작성할 수 없습니다.
+          등장 관계가 없습니다. 연관·창작 관계에는 작품 속 등장 설명을 작성할 수 없습니다.
         </p>
       ) : (
         <div className="space-y-3">

@@ -50,7 +50,7 @@ export interface FigureBookEditionAdminItem {
   products: FigureBookProductAdminItem[]
 }
 
-export type FigureBookRelationType = 'appearance' | 'related'
+export type FigureBookRelationType = 'appearance' | 'related' | 'authored'
 
 export interface FigureBookCharacterAssignment {
   celebId: string
@@ -378,7 +378,7 @@ export async function getFigureBookAdminData(): Promise<FigureBookAdminData> {
   }
 
   for (const assignment of assignmentRows) {
-    if (assignment.relation_type !== 'appearance' && assignment.relation_type !== 'related') {
+    if (assignment.relation_type !== 'appearance' && assignment.relation_type !== 'related' && assignment.relation_type !== 'authored') {
       throw new Error(`지원하지 않는 인물 도서 관계입니다: ${assignment.relation_type}`)
     }
     const contentId = assignment.content_id
@@ -494,9 +494,9 @@ export async function saveFigureBook(input: {
     throw new Error('동일한 인물을 한 도서에 중복 연결할 수 없습니다')
   }
   if (relations.some((relation) => (
-    relation.relationType !== 'appearance' && relation.relationType !== 'related'
+    relation.relationType !== 'appearance' && relation.relationType !== 'related' && relation.relationType !== 'authored'
   ))) {
-    throw new Error('관계는 등장 도서 또는 연관 도서여야 합니다')
+    throw new Error('관계는 등장·연관·창작 가운데 하나여야 합니다')
   }
 
   const admin = createAdminClient()
@@ -585,8 +585,8 @@ export async function saveFigureBookCharacterDescription(input: {
     throw new Error(`기존 등장 설명 조회 실패: ${currentResult.error.message}`)
   }
   if (!currentResult.data) throw new Error('저장할 인물 도서 관계를 찾을 수 없습니다')
-  if (currentResult.data.relation_type === 'related') {
-    throw new Error('연관 도서에는 작품 속 등장 설명을 저장할 수 없습니다')
+  if (currentResult.data.relation_type !== 'appearance') {
+    throw new Error('등장 관계에만 작품 속 등장 설명을 저장할 수 있습니다')
   }
   if (currentResult.data.relation_type !== 'appearance') {
     throw new Error(`지원하지 않는 인물 도서 관계입니다: ${currentResult.data.relation_type}`)

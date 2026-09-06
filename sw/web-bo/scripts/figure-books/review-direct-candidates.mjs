@@ -183,10 +183,10 @@ function validateReviews(raw, batch) {
       }
       const description = selection?.description ?? null
       if (relationType === 'appearance' && (typeof description !== 'string' || !description.trim())) {
-        throw new Error(`${slug}.${contentId}: 등장 도서에는 description이 필요합니다.`)
+        throw new Error(`${slug}.${contentId}: 등장 관계에는 description이 필요합니다.`)
       }
       if (relationType === 'related' && description !== null) {
-        throw new Error(`${slug}.${contentId}: 연관 도서 description은 null이어야 합니다.`)
+        throw new Error(`${slug}.${contentId}: 등장이 아닌 관계의 description은 null이어야 합니다.`)
       }
       const rationale = String(selection?.rationale ?? '').trim()
       if (!rationale) throw new Error(`${slug}.${contentId}: rationale이 비었습니다.`)
@@ -216,9 +216,9 @@ function promptFor(batch) {
 
 직군이 같다는 이유만으로 고르지 않는다. 선수는 실제 종목·포지션·팀, 음악인은 장르·악기, 과학자는 연구 분야, 배우·감독은 프로필에 확인되는 대표 작품이나 영화 분야처럼 그 사람의 구체적인 맥락과 책이 직접 맞아야 한다. 전기·평전·자서전처럼 인물 자체를 다루는 책은 이 단계에서 고르지 않는다. 후보 점수와 contextEvidence는 검색 단서일 뿐 정답이 아니다.`
     : shortlists.length > 0
-    ? `아래는 1차 모델이 고른 인물별 책이다. 독립 편집자로 다시 심사해 실제 책장에 남길 가치가 명백한 책만 최대 4권 확정한다.
+    ? `아래는 1차 모델이 고른 인물별 책이다. 독립 편집자로 다시 심사해 실제 인물 도서에 남길 가치가 명백한 책만 최대 4권 확정한다.
 
-같은 작품의 판본·선집이 겹치거나 전집과 낱권이 중복되면 더 읽기 좋은 대표 선택만 남긴다. 시리즈 전권 세트가 있는데 중간 권을 함께 남기지 않는다. 서로 다른 작품·번역·선집이 실제로 다른 읽을거리를 주면 복수 선택은 가능하다. 한국어 사용자에게 보여 줄 책장이므로, 같은 가치라면 검증된 한국어판·완역·전집을 정체 불명 영문판이나 후속권보다 우선한다. 1차 판정과 rationale은 참고일 뿐 그대로 믿지 않는다.`
+같은 작품의 판본·선집이 겹치거나 전집과 낱권이 중복되면 더 읽기 좋은 대표 선택만 남긴다. 시리즈 전권 세트가 있는데 중간 권을 함께 남기지 않는다. 서로 다른 작품·번역·선집이 실제로 다른 읽을거리를 주면 복수 선택은 가능하다. 한국어 사용자에게 보여 줄 인물 도서이므로, 같은 가치라면 검증된 한국어판·완역·전집을 정체 불명 영문판이나 후속권보다 우선한다. 1차 판정과 rationale은 참고일 뿐 그대로 믿지 않는다.`
     : '아래는 서비스 인물 이름이 책 제목에 문자열로 걸린 후보들이다. 오탐이 많다. 각 사람에게 실제로 보여 줄 가치가 명백한 책만 최대 4권 고른다.'
   const relationRule = relatedOnly
     ? `관계는 related 하나만 쓴다. description은 반드시 null이다. related는 인물의 사상적 동의나 실제 독서를 뜻하지 않고, 그 사람의 활동 맥락을 읽는 책이라는 뜻이다.`

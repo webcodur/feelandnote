@@ -1,5 +1,6 @@
 'use client'
 
+import { FIGURE_BOOK_RELATION_TYPES, FIGURE_BOOK_TERMS } from '@feelandnote/shared/constants/figure-book-terms'
 import { useMemo, useState, useTransition } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -193,10 +194,10 @@ export default function FigureBooksManager({
       (assignment) => assignment.celebId === character.id,
     )
     if (
-      relationType === 'related'
+      relationType !== 'appearance'
       && previous?.relationType === 'appearance'
       && (previous.description || previous.descriptionEn)
-      && !window.confirm('연관 도서로 바꾸면 이 인물의 작품 속 등장 설명이 삭제됩니다. 계속할까요?')
+      && !window.confirm('등장이 아닌 관계로 바꾸면 이 인물의 작품 속 등장 설명이 삭제됩니다. 계속할까요?')
     ) {
       return
     }
@@ -458,7 +459,7 @@ export default function FigureBooksManager({
                   <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-bg-secondary/50 p-2.5">
                     <div className="flex items-center gap-1" role="group" aria-label="새 연결의 관계 유형">
                       <span className="mr-1 text-xs text-text-tertiary">새 선택:</span>
-                      {(['appearance', 'related'] as const).map((relationType) => (
+                      {FIGURE_BOOK_RELATION_TYPES.map((relationType) => (
                         <button
                           key={relationType}
                           type="button"
@@ -470,7 +471,7 @@ export default function FigureBooksManager({
                               : 'border-border bg-bg-card text-text-secondary hover:border-accent hover:text-accent'
                           }`}
                         >
-                          {relationType === 'appearance' ? '등장 도서' : '연관 도서'}
+                          {FIGURE_BOOK_TERMS.section[relationType].ko}
                         </button>
                       ))}
                     </div>
@@ -527,8 +528,8 @@ export default function FigureBooksManager({
                         </button>
 
                         {selected ? (
-                          <div className="grid grid-cols-2 border-t border-accent/25 p-1.5" role="group" aria-label={`${character.nickname} 관계 유형`}>
-                            {(['appearance', 'related'] as const).map((option) => (
+                          <div className="grid grid-cols-3 border-t border-accent/25 p-1.5" role="group" aria-label={`${character.nickname} 관계 유형`}>
+                            {FIGURE_BOOK_RELATION_TYPES.map((option) => (
                               <button
                                 key={option}
                                 type="button"
@@ -540,7 +541,7 @@ export default function FigureBooksManager({
                                     : 'text-text-tertiary hover:bg-accent/10 hover:text-accent'
                                 }`}
                               >
-                                {option === 'appearance' ? '등장' : '연관'}
+                                {FIGURE_BOOK_TERMS.relationType[option].ko}
                               </button>
                             ))}
                           </div>
@@ -552,7 +553,7 @@ export default function FigureBooksManager({
 
                 <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-xs text-text-tertiary">
-                    연관 도서로 저장하면 작품 속 등장 설명은 DB에서 NULL로 지워지고 다시 입력할 수 없습니다.
+                    등장이 아닌 관계로 저장하면 작품 속 등장 설명은 DB에서 NULL로 지워지고 다시 입력할 수 없습니다.
                   </p>
                   <button
                     type="button"

@@ -1,16 +1,16 @@
-# 인물 등장 도서 채우기
+# 인물 도서 채우기
 
-실존 인물의 책장을 등장 도서로 채우는 지속 과제의 현재 도달점이다. 판정 규칙은 [`../project/celeb/celeb-02-05-figure-books.md`](../project/celeb/celeb-02-05-figure-books.md), 작품 선정은 [`figure-book-curation`](../../.agents/skills/figure-book-curation/SKILL.md), 상품 연결은 [`coupang-book-affiliate`](../../.agents/skills/coupang-book-affiliate/SKILL.md)가 쥔다. 이 문서는 그 규칙을 복제하지 않고 어디까지 갔는지만 기록한다.
+실존 인물의 인물 도서를 등장 작품으로 채우는 지속 과제의 현재 도달점이다. 용어와 판정 규칙은 [`../project/celeb/celeb-02-05-figure-books.md`](../project/celeb/celeb-02-05-figure-books.md), 작품 선정은 [`figure-book-curation`](../../.agents/skills/figure-book-curation/SKILL.md), 상품 연결은 [`coupang-book-affiliate`](../../.agents/skills/coupang-book-affiliate/SKILL.md)가 쥔다. 이 문서는 그 규칙을 복제하지 않고 어디까지 갔는지만 기록한다. 말은 룰북 「용어」 표의 것만 쓴다.
 
 ## 무엇을 고치는 작업인가
 
-`FICTION` 인물은 전원이 등장 도서를 가지지만 실존 인물은 대부분 직군 공통책 한 권만 붙어 있다. 『스크린 연기의 비밀』 한 권이 배우 277명에게, 『스포츠 유전자』가 105명에게 붙은 식이다. 관계 전체의 59%가 스물아홉 권에서 나온다. 이는 [`celeb-02-05-figure-books.md`](../project/celeb/celeb-02-05-figure-books.md)가 금지한 직군 일괄 복사다.
+`FICTION` 인물은 전원이 등장 작품을 가지지만 실존 인물은 대부분 직군 공통책 한 권만 붙어 있다. 『스크린 연기의 비밀』 한 권이 배우 277명에게, 『스포츠 유전자』가 105명에게 붙은 식이다. 관계 전체의 59%가 스물아홉 권에서 나온다. 이는 [`celeb-02-05-figure-books.md`](../project/celeb/celeb-02-05-figure-books.md)가 금지한 직군 일괄 복사다.
 
-**얕은 연결을 지워서 고치지 않는다.** 화면 정렬이 `relation_type` → `sort_order`이고 `appearance`가 `related`보다 앞서므로(`sw/web/src/actions/figure-books/figureBookAssignments.ts`), 등장 도서를 등록하면 공통책은 저절로 뒤로 밀린다. 상품이 붙은 얕은 연결은 판매 경로로 남긴다.
+**얕은 연결을 지워서 고치지 않는다.** 화면 정렬이 `relation_type` → `sort_order`이고 `appearance`가 `related`보다 앞서므로(`sw/web/src/actions/figure-books/figureBookAssignments.ts`), 등장 작품을 등록하면 공통책은 저절로 뒤로 밀린다. 상품이 붙은 얕은 연결은 판매 경로로 남긴다.
 
 ## 통과 조건과 작업 순서는 다른 문제다
 
-공개 책장은 활성 제휴 상품이 있는 판본만 연다(`sw/web/src/actions/figure-books/getFigureBooks.ts`). 한 인물을 끝냈다고 말하려면 세 가지가 모두 참이어야 한다.
+인물 도서 화면은 활성 상품이 있는 작품이면 그 판본만, 없으면 요청 언어의 판본을 구매 버튼 없이 보여 준다(`sw/web/src/actions/figure-books/getFigureBooks.ts`). 한 인물을 끝냈다고 말하려면 세 가지가 모두 참이어야 한다.
 
 1. 그 책 본문에 인물이 실제로 나오거나 인물이 책의 중심 대상이다
 2. 작품과 판본이 카카오 ISBN으로 확정돼 등록됐다
@@ -18,34 +18,39 @@
 
 **이 셋은 통과 조건이지 작업 순서가 아니다.** 어느 쪽에서 출발하든 상관없고, 가장 적게 버리는 경로를 고른다. 인물에서 출발해 책을 찾다 보면 쿠팡에 없는 책을 조사하는 데 시간을 쓰고, 판매 목록에서 출발하면 그 낭비가 사라진다. 실측에서 인물 기준으로 찾은 285권 중 125권(44%)이 쿠팡 단계에서 탈락했다.
 
-판매 목록에서 출발하는 것은 규칙 위반이 아니다. [`coupang-book-affiliate`](../../.agents/skills/coupang-book-affiliate/SKILL.md)가 금지하는 것은 **후보 밖의 관련서를 판매가 좋다는 이유로 대신 고르는 일**이다. 후보 풀을 판매 중인 책으로 한정하는 것과, 등장 판정을 판매 상태로 대체하는 것은 다르다. 1번 조건은 어느 경로에서도 그대로 지킨다 — 잘 팔린다는 이유로 인물이 나오지도 않는 책을 등장 도서로 올리지 않는다.
+판매 목록에서 출발하는 것은 규칙 위반이 아니다. [`coupang-book-affiliate`](../../.agents/skills/coupang-book-affiliate/SKILL.md)가 금지하는 것은 **후보 밖의 관련서를 판매가 좋다는 이유로 대신 고르는 일**이다. 후보 풀을 판매 중인 책으로 한정하는 것과, 등장 판정을 판매 상태로 대체하는 것은 다르다. 1번 조건은 어느 경로에서도 그대로 지킨다 — 잘 팔린다는 이유로 인물이 나오지도 않는 책을 등장 작품으로 올리지 않는다.
 
 무료로 되는 필터를 유료·수동 단계 앞에 세운다. 카카오 판매 신호(`status`·`sale_price`)로 절판을 먼저 걷어내고, 인물당 대표 한 권으로 줄인 뒤에 쿠팡 화면을 연다. 실측에서 이 두 필터가 838건을 285건으로 줄였다.
 
 ## 도달점
 
+2026-09-07 기준.
+
 | 축 | 값 |
 |---|---|
-| 등장 도서를 가진 실존 인물 | 116명 / 2,814명 |
-| 실존 인물 중 얕은 연결만 있는 인물 | 681명 |
-| 상품이 붙어 화면에 뜨는 작품 | 54권 (판본 1,836개 대비) |
-| 끊어진 관계 | 483건 / 비활성·삭제 인물 204명 |
+| 등장 작품을 가진 실존 인물 | 1,192명 / 2,816명 |
+| 관계가 하나라도 있는 실존 인물 | 1,968명 (등장 없이 연관·창작만 776명) |
+| 인물 도서 작품 | 5,023권 — 정체성 위키데이터 작품 2,843 · 원작 122 · 국내서 1,500 · 미정 558 |
+| 한국어 화면에 뜨는 작품 / 영문 화면 | 3,439권 / 3,148권 (쿠팡 활성 상품이 붙은 작품 149권) |
+| 관계 | 7,945건 — 등장 3,747 · 창작 3,114 · 연관 1,084 |
 
-## 발굴 경로
+정체성 미정 558권은 예전 방식으로 인물 도서에 지정된 일반 BOOK이었다. `assign-domestic-identity.mjs`로 ISBN 3순위 정체성을 주어 미정 상태를 없앴고, 다음 회차의 번역서 원작 확인·작품 일치 확인이 1·2순위로 올린다.
+
+## 작품 후보 조사 경로
 
 **기존 재고 직접 매칭은 소진됐다.** `figure-books:direct-candidates`가 BOOK 7,949권을 훑어도 남은 후보는 오탐 위주다. '세트'·'리아'·'헤라'처럼 짧은 이름이 책 제목의 부분 문자열로 잡힌다. 상품까지 붙은 미연결 후보 11건 중 10건이 오탐이었다.
 
 ### 인물에서 출발하기
 
-`scripts/figure-books/appearance-muse-candidates.mjs`가 등장 도서 없는 실존 인물을 영향력 점수 순으로 세워 모델에 조사를 지시하고, 응답을 카카오 제목+저자 매칭으로 검증한다. 결과는 `data/celeb/figure-books/appearance-muse-*.jsonl`에 인물 단위로 쌓이며 같은 `--out`으로 다시 실행하면 이어서 돈다.
+`scripts/figure-books/appearance-muse-candidates.mjs`가 등장 작품 없는 실존 인물을 영향력 점수 순으로 세워 모델에 조사를 지시하고, 응답을 카카오 제목+저자 매칭으로 검증한다. 결과는 `data/celeb/figure-books/appearance-muse-*.jsonl`에 인물 단위로 쌓이며 같은 `--out`으로 다시 실행하면 이어서 돈다.
 
 ```bash
 node --env-file=.env scripts/figure-books/appearance-muse-candidates.mjs --backend claude --concurrency 5 --out ../../data/celeb/figure-books/appearance-muse-<날짜>.jsonl
 ```
 
-**조사 엔진은 자주 막히므로 갈아끼운다.** `--backend`가 `opencode`·`agy`·`claude`를 받는다. opencode 무료 라인은 Exa 검색 한도, Go 라인은 크레딧, agy는 구글 계정 쿼터(약 4시간 주기)에 걸린다. 막힌 엔진은 조사 실패를 기록하지 않고 넘기므로 다음 실행에서 그 인물을 다시 잡는다. 동시 실행 수를 올리면 한도가 빨리 소진된다 — 동시 12에서 실패율이 23%→53%로 올랐고 동시 6에서는 0이었다.
+**조사 엔진은 자주 막히므로 갈아끼운다.** `--backend`가 `opencode`·`agy`·`claude`·`codex`를 받는다. opencode 무료 라인은 Exa 검색 한도, Go 라인은 크레딧, agy는 구글 계정 쿼터(약 4시간 주기)에 걸린다. 막힌 엔진은 조사 실패를 기록하지 않고 넘기므로 다음 실행에서 그 인물을 다시 잡는다. 동시 실행 수를 올리면 한도가 빨리 소진된다 — 동시 12에서 실패율이 23%→53%로 올랐고 동시 6에서는 0이었다.
 
-**이 출력은 후보일 뿐 검수를 대신하지 않는다.** 모델은 책을 지어내지는 않았으나 서사로 엮는 단계에서 시점과 입장을 뒤집는 결함이 있다([`opencode-muse`](../../.agents/skills/opencode-muse/SKILL.md)). 등장 범위 설명은 반영 전에 사람이 본다.
+**이 출력은 후보일 뿐 검수를 대신하지 않는다.** 모델은 책을 지어내지는 않았으나 서사로 엮는 단계에서 시점과 입장을 뒤집는 결함이 있다([`opencode-muse`](../../.agents/skills/opencode-muse/SKILL.md)). 등장 설명은 반영 전에 사람이 본다.
 
 카카오 매칭이 실패해도 후보가 틀린 것은 아니다. 실측에서 실패 사유의 절반이 동일인 이명이었다(교황 베네딕토 16세 ↔ 요제프 라칭거, N.T. 라이트 ↔ 톰 라이트). 실패분은 버리지 말고 검수에서 되살린다.
 
@@ -53,8 +58,28 @@ node --env-file=.env scripts/figure-books/appearance-muse-candidates.mjs --backe
 
 인물 이름으로 쿠팡을 먼저 검색해 배송 배지가 붙은 도서만 받고, 그중 그 인물이 중심인 책을 고르는 방향이다. 조사 비용이 들지 않고 쿠팡 단계 탈락이 구조적으로 사라지므로, 등록 가능한 책을 빨리 늘려야 할 때 이쪽이 낫다. 대신 상품명만으로는 인물이 실제로 다뤄지는지 알 수 없으므로 등장 범위는 따로 확인한다. 어린이 위인전·문제집처럼 카드에 내놓기 어려운 상품이 섞이는 것도 이 경로의 몫이다.
 
-두 경로는 배타적이지 않다. 인물 기준 발굴은 쿠팡에 없는 책까지 파일에 남겨 두므로 나중에 상품이 생기면 그대로 쓴다.
+두 경로는 배타적이지 않다. 인물 기준 조사는 쿠팡에 없는 책까지 파일에 남겨 두므로 나중에 상품이 생기면 그대로 쓴다.
+
+## 쿠팡 상품을 붙일 때 걸리는 것
+
+**상품 페이지는 ISBN을 노출한다.** `.prod-atf` 안에 출판사·저자·ISBN이 함께 있다. 이것으로 판본을 대조하지 않으면 같은 제목·저자·출판사의 다른 판을 붙이게 된다. 실측에서 읽기에 성공한 82건 중 20건(24%)이 판본 불일치였다. `scripts/coupang/verify-edition.mjs`가 이 대조를 하고, 어긋난 상품은 `deactivate-mismatched.mjs`로 내린다. 작품·판본·인물 관계는 보존하고 `figure_book_products.is_active`만 내린다.
+
+**배송 배지는 상품 영역 안에서만 판정한다.** `document` 전역에서 긁으면 페이지 상단 메뉴의 로켓 아이콘이 잡혀 전건이 통과한다. `무료배송`은 배지가 아니다 — 일반배송 상품도 무료면 뜬다. `도착 보장`과 `도착 예정`이 갈림선이다. 검색 결과 카드의 `.delivery-badge img`(`candidates.mjs`의 `hasDeliveryBadge`)가 1차 판정으로 더 안전하다.
+
+**차단은 세션·프로필 단위다.** 요청이 쌓이면 쿠팡이 `Access Denied`를 준다. 이때 출판사·ISBN·배송문구가 전부 비어 나오므로 「배지 없음」과 구분되지 않는다. 실측에서 148건 중 80건이 이 오판이었다. 읽기에 실패한 행은 판정에서 제외해야 멀쩡한 링크를 내리는 사고를 막는다. 지연을 늘리는 것보다 다른 프로필의 크롬으로 바꾸는 쪽이 즉효다(`COUPANG_CHROME_PORT`).
+
+**판본 성격이 비어 있는 행이 많다.** ko 판본 1,163건 중 958건이 `edition_kind`·`text_scope` 미정이다. 대부분 제목에 인물명이 보인다는 이유로 뽑힌 후보에서 왔고 완역인지 축약인지 판정된 적이 없다. 작품당 판본이 하나면 당장 드러나지 않지만, 판본이 둘 이상인 작품 14권 중 9권이 여기에 걸려 있다. 그 9권부터 성격을 정한다.
 
 ## 반영
 
-작품이 DB에 이미 있으면 `figure-books:apply-reviewed`로 관계만 잇는다. 없으면 `figure-books:book`으로 작품과 첫 판본을 만든 뒤 잇는다. 두 명령 모두 기본이 dry-run이며 사용자가 반영을 지시했을 때만 `--apply`한다. 반영 뒤 `figure-books:audit`으로 확인한다.
+작품이 DB에 이미 있으면 `figure-books:apply-reviewed`로 관계만 잇는다. 없으면 검수표 단위로 `scripts/figure-books/bulk-register-books.mjs`가 작품·ko 언어 카드·판본을 한 번에 만든다(한두 권은 `figure-books:book`). 모두 기본이 dry-run이며 사용자가 반영을 지시했을 때만 `--apply`한다. 반영 뒤 `figure-books:audit`으로 확인한다.
+
+카카오 ISBN으로 등록된 작품은 국내서 정체성으로 굳은 상태다. 정체성을 바로잡고 영문판을 붙이는 후처리는 룰북 「용어」의 내부 작업 표 순서대로 돈다.
+
+1. **위키데이터 작품 정보 추출** `wikidata-works-extract.mjs` — QID 보유 실존 인물의 작품 항목(P50·P800·P170, P31이 책 유형)을 `data/celeb/figure-books/wikidata-works.jsonl`에 쌓는다. 이어받기가 되고 WDQS 429는 Retry-After만큼 쉰다.
+2. **작품 일치 확인** `wikidata-works-match.mjs` — 꺼낸 항목을 DB 작품과 QID → ISBN → 영문 제목 → 한국어 제목+저자 순으로 맞춘다. 판본 항목(P629)은 그 저작으로 접는다. `--apply`는 같은 작품에 QID를 붙여 정체성을 1순위로 올리고, **새 작품 책 정보 채우기**로 카카오·OpenLibrary에서 책 정보를 받은 새 작품만 만들며, 인물의 창작 관계(`authored`)를 만들고 `related`로 남은 쌍은 `authored`로 올린다. 두 작품에 걸린 항목은 `merge-candidates-wikidata.json`에 통합 후보로만 남긴다. 책 정보는 `wikidata-works-enrich.json`에 캐시되어 재실행 때 다시 묻지 않는다.
+3. **번역서 원작 확인** `translated-original-work.mjs` — QID가 없는 국내서 정체성 작품 가운데 역자가 있는 번역서의 원제·원저자·영문판 ISBN13을 모델에 묻고 OpenLibrary로 확인한다. `--apply`는 정체성을 원작으로 바꾸고 영어 판본이 확인되면 `en` 언어 카드·판본을 만든다. 같은 정체성으로 모인 작품은 `merge-candidates.json`에 남긴다.
+4. **중복 작품 통합** `merge-works.mjs` — 통합 후보 쌍을 한 행에 모은다. 감상 기록이 붙은 작품은 지우지 않는다. 일치 확인이 낸 후보에는 해설서가 원전으로 잡힌 오탐이 섞이므로 dry-run 표의 제목을 보고 승인 목록을 따로 만들어 `--apply`한다.
+5. **미완성 작품 복구·잘못 붙은 영문 카드 제거** `wikidata-works-match.mjs --repair` — 반영이 중간에 끊겨 언어 카드 없이 남은 작품 행을 캐시로 다시 채우거나 지우고, 영어권 ISBN(978-0·978-1·979-8)이 아닌 `en` 카드를 OpenLibrary 언어로 다시 확인해 뗀다. `en-locale-audit.mjs`는 한국어 해설서에 원전의 영문 카드가 붙은 행을 모델(기본 opencode 무료)에 "같은 저작인가"만 물어 가르고, 다르면 `en` 카드·판본을 뗀다.
+
+정체성 규칙 자체는 [`celeb-02-05-figure-books.md`](../project/celeb/celeb-02-05-figure-books.md)의 「작품 정체성」이 쥔다.

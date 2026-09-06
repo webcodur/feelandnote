@@ -25,7 +25,7 @@
 |---|---|---|
 | 00 | 두 축 분기와 공개 경계 | [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md) · [`celeb-00-02-publication.md`](celeb-00-02-publication.md) |
 | 01 | 기본 프로필 | [`celeb-01-00-profile.md`](celeb-01-00-profile.md) · [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md) · [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md) |
-| 02 | 감상 콘텐츠와 인물 등장·연관 도서 | [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md) · [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md) · [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md) · [`celeb-02-04-content-audit.md`](celeb-02-04-content-audit.md) · [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md) |
+| 02 | 감상 콘텐츠와 인물 도서 | [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md) · [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md) · [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md) · [`celeb-02-04-content-audit.md`](celeb-02-04-content-audit.md) · [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md) |
 | 03 | 영향력·스펙트럼 | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) · [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) |
 | 04 | 말투·한마디·상황 대사·가상독백 | [`celeb-04-01-speech.md`](celeb-04-01-speech.md) · [`celeb-04-02-speech-pipeline.md`](celeb-04-02-speech-pipeline.md) · [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md) |
 | 05 | 읽어보기 인물 안내 | [`celeb-05-01-reading.md`](celeb-05-01-reading.md) |

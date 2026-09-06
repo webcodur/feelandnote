@@ -1,6 +1,7 @@
 export const FICTION_SOURCE_RELATION_TYPES = [
   'appearance',
   'related',
+  'authored',
 ] as const
 
 export type FigureBookRelationType = typeof FICTION_SOURCE_RELATION_TYPES[number]
@@ -136,8 +137,8 @@ export function parseFigureBookBatchManifest(input: unknown): FigureBookBatchMan
     const description = relationType === 'appearance'
       ? requiredText(row.description, `${field}.description`)
       : null
-    if (relationType === 'related' && row.description !== undefined && row.description !== null) {
-      throw new Error(`${field}.description은 연관 도서 관계에 입력할 수 없습니다.`)
+    if (relationType !== 'appearance' && row.description !== undefined && row.description !== null) {
+      throw new Error(`${field}.description은 등장 관계에만 입력할 수 있습니다.`)
     }
 
     return {
