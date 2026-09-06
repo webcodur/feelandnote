@@ -1,4 +1,11 @@
 {
-  "generatedAt": "2026-09-06T10:53:57.066Z",
-  "merges": []
+  "generatedAt": "2026-09-06T20:56:25.860Z",
+  "merges": [
+    {
+      "keep": "35c97e9a-97f9-54f8-a834-90a5bfa5f8d1",
+      "drop": "4e2e1497-f329-410b-aee9-f577e654ae5b",
+      "identity": "marguerite-yourcenar/memoires-d-hadrien",
+      "reason": "same-original-work"
+    }
+  ]
 }

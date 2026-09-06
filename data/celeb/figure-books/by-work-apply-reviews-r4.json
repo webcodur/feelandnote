@@ -1,0 +1,4492 @@
+{
+  "reviews": [
+    {
+      "slug": "medea",
+      "selections": [
+        {
+          "contentId": "d0ae4f4f-2e9b-41e7-9670-72eaf2f85528",
+          "relationType": "appearance",
+          "description": "148~157장에서 황금 양털 획득을 돕고 156~157장 '메데이아의 망명'까지 이어져 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 148~157장에서 황금 양털 획득을 돕고 156~157장 '메데이아의 망명'까지 이어져 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "prince-shotoku",
+      "selections": [
+        {
+          "contentId": "72bb924a-0320-4005-bbbf-00d4cecf452d",
+          "relationType": "appearance",
+          "description": "스이코기(권22)에서 섭정으로서 관위 12계·17조 헌법 등 업적이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 스이코기(권22)에서 섭정으로서 관위 12계·17조 헌법 등 업적이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "anchises",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "제5찬가에서 아프로디테와 잠자리를 나누고 아이네이아스의 아버지가 되는 주요 인간 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제5찬가에서 아프로디테와 잠자리를 나누고 아이네이아스의 아버지가 되는 주요 인간 인물이다."
+        }
+      ]
+    },
+    {
+      "slug": "asclepius",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "제16찬가 전체가 다루는 대상으로, 코로니스의 아들이자 병을 고치는 주(主)로 찬미받는다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제16찬가 전체가 다루는 대상으로, 코로니스의 아들이자 병을 고치는 주(主)로 찬미받는다."
+        }
+      ]
+    },
+    {
+      "slug": "guan-zhong",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "제나라 재상으로서의 정치적 업적을 다룬 열전의 주인공이다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라 재상으로서의 정치적 업적을 다룬 열전의 주인공이다"
+        },
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "제나라 환공을 도와 패업을 이룬 재상으로, 관안열전에서 안영과 함께 한 편으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라 환공을 도와 패업을 이룬 재상으로, 관안열전에서 안영과 함께 한 편으로 다뤄진다"
+        },
+        {
+          "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+          "relationType": "appearance",
+          "description": "제환공을 도와 패업을 이루게 한 재상으로 관·안열전에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제환공을 도와 패업을 이루게 한 재상으로 관·안열전에서 다뤄진다"
+        },
+        {
+          "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+          "relationType": "appearance",
+          "description": "제나라 재상으로 환공을 도와 패업을 이루었으며 포숙아와의 우정(관포지교)으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라 재상으로 환공을 도와 패업을 이루었으며 포숙아와의 우정(관포지교)으로 다뤄진다."
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "관안열전에서 제나라 재상으로서의 정치적 업적이 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 관안열전에서 제나라 재상으로서의 정치적 업적이 다뤄짐"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "제나라 환공을 도와 패업을 이루게 한 재상으로, 관중·안영 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라 환공을 도와 패업을 이루게 한 재상으로, 관중·안영 열전에서 다뤄진다."
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권62 관안열전에서 안영과 함께 제나라의 명재상으로서 그의 정치적 업적이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권62 관안열전에서 안영과 함께 제나라의 명재상으로서 그의 정치적 업적이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "laozi",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "도가 사상의 시조로서 그 행적을 다룬 열전의 주인공이다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 도가 사상의 시조로서 그 행적을 다룬 열전의 주인공이다"
+        },
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "도가의 시조로 전해지는 인물로, 노장신한열전에서 장자·신불해·한비자와 함께 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 도가의 시조로 전해지는 인물로, 노장신한열전에서 장자·신불해·한비자와 함께 다뤄진다"
+        },
+        {
+          "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+          "relationType": "appearance",
+          "description": "도가 사상의 시조로, 주나라 왕실 문서 관리를 지내다 은거하며 도덕경을 남긴 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 도가 사상의 시조로, 주나라 왕실 문서 관리를 지내다 은거하며 도덕경을 남긴 인물로 다뤄진다."
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "노자한비열전에서 도가 사상가로서의 행적과 사상이 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 노자한비열전에서 도가 사상가로서의 행적과 사상이 다뤄짐"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "도가 사상의 시조로 전해지는 인물로, 노자·한비 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 도가 사상의 시조로 전해지는 인물로, 노자·한비 열전에서 다뤄진다."
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권63 노자한비열전에서 한비자와 함께 도가 사상가로서 그의 행적이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권63 노자한비열전에서 한비자와 함께 도가 사상가로서 그의 행적이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "han-feizi",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "법가 사상가로서의 생애와 사상을 다룬 열전의 주인공이다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 법가 사상가로서의 생애와 사상을 다룬 열전의 주인공이다"
+        },
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "법가 사상을 집대성한 인물로, 노장신한열전에서 노자 등과 함께 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 법가 사상을 집대성한 인물로, 노장신한열전에서 노자 등과 함께 다뤄진다"
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "노자한비열전에서 법가 사상가로서의 생애와 사상이 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 노자한비열전에서 법가 사상가로서의 생애와 사상이 다뤄짐"
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권63 노자한비열전에서 노자와 함께 법가 사상가로서 그의 생애와 죽음이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권63 노자한비열전에서 노자와 함께 법가 사상가로서 그의 생애와 죽음이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "wu-qi",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "병법가이자 개혁가로서의 생애를 다룬 열전의 주인공이다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 병법가이자 개혁가로서의 생애를 다룬 열전의 주인공이다"
+        },
+        {
+          "contentId": "4c885396-aa0c-502b-9997-d6896519815e",
+          "relationType": "appearance",
+          "description": "전국시대 무패의 병법가로 초나라 등에서 개혁을 이끈 행적을 한 장 전체로 다룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 전국시대 무패의 병법가로 초나라 등에서 개혁을 이끈 행적을 한 장 전체로 다룬다"
+        },
+        {
+          "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+          "relationType": "appearance",
+          "description": "노·위·초나라에서 활약한 병법가이자 개혁가로, 초나라에서 변법을 추진하다 살해된 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 노·위·초나라에서 활약한 병법가이자 개혁가로, 초나라에서 변법을 추진하다 살해된 인물로 다뤄진다."
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "위·초에서 활약한 병법가이자 개혁가로, 손자·오기 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위·초에서 활약한 병법가이자 개혁가로, 손자·오기 열전에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "homer",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "그리스 신화의 원전 작가로, 해밀턴이 책의 소개글에서 신화 서술의 핵심 전거로 그의 원전 연구를 밝힌다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 그리스 신화의 원전 작가로, 해밀턴이 책의 소개글에서 신화 서술의 핵심 전거로 그의 원전 연구를 밝힌다."
+        }
+      ]
+    },
+    {
+      "slug": "euripides",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "그리스 비극 작가로, 해밀턴이 책의 소개글에서 신화 서술의 원전 전거로 그의 작품 연구를 밝힌다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 그리스 비극 작가로, 해밀턴이 책의 소개글에서 신화 서술의 원전 전거로 그의 작품 연구를 밝힌다."
+        }
+      ]
+    },
+    {
+      "slug": "publius-ovidius-naso",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "로마 시인으로, 해밀턴이 책의 소개글에서 신화 서술의 원전 전거로 그의 작품 연구를 밝힌다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마 시인으로, 해밀턴이 책의 소개글에서 신화 서술의 원전 전거로 그의 작품 연구를 밝힌다."
+        },
+        {
+          "contentId": "f1d5d4ea-fcec-53e2-8aa6-6b69e54aaf4e",
+          "relationType": "appearance",
+          "description": "통치 후기 장의 \"시인 오비디우스\"라는 독립된 절에서 그의 삶과 추방이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 통치 후기 장의 \"시인 오비디우스\"라는 독립된 절에서 그의 삶과 추방이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "herodotus",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "\"역사학의 아버지\"로 소개되며, 해밀턴이 책의 소개글에서 신화의 역사적 배경 전거로 그의 원전 연구를 밝힌다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"역사학의 아버지\"로 소개되며, 해밀턴이 책의 소개글에서 신화의 역사적 배경 전거로 그의 원전 연구를 밝힌다."
+        }
+      ]
+    },
+    {
+      "slug": "plato",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "\"철학의 아버지\"로 소개되며, 해밀턴이 책의 소개글에서 신화의 사상적 배경 전거로 그의 원전 연구를 밝힌다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"철학의 아버지\"로 소개되며, 해밀턴이 책의 소개글에서 신화의 사상적 배경 전거로 그의 원전 연구를 밝힌다."
+        },
+        {
+          "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+          "relationType": "appearance",
+          "description": "플라톤의 다면체(정다면체)를 다루는 장에서 등장한다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 플라톤의 다면체(정다면체)를 다루는 장에서 등장한다"
+        },
+        {
+          "contentId": "472c9d1e-8ee3-5a41-b8c4-58d8fea57c00",
+          "relationType": "appearance",
+          "description": "전체주의 사상의 뿌리로 지목되어 그 그릇된 가르침이 비판적으로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 전체주의 사상의 뿌리로 지목되어 그 그릇된 가르침이 비판적으로 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "marduk",
+      "selections": [
+        {
+          "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+          "relationType": "appearance",
+          "description": "'창조서사시'와 '에라와 이슘' 편에서 주요 신으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: '창조서사시'와 '에라와 이슘' 편에서 주요 신으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "ea",
+      "selections": [
+        {
+          "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+          "relationType": "appearance",
+          "description": "'아다파' 편에서 아다파를 돕는 신으로, '아트라하시스'와 '창조서사시'에서도 주요하게 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: '아다파' 편에서 아다파를 돕는 신으로, '아트라하시스'와 '창조서사시'에서도 주요하게 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "elon-musk",
+      "selections": [
+        {
+          "contentId": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+          "relationType": "appearance",
+          "description": "엑스닷컴 창업자로 페이팔 합병을 주도하고, 지분 매각 대금으로 스페이스X와 테슬라를 세운 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 엑스닷컴 창업자로 페이팔 합병을 주도하고, 지분 매각 대금으로 스페이스X와 테슬라를 세운 인물로 다뤄진다"
+        },
+        {
+          "contentId": "50a1efe3-4af7-5a4e-9726-78cad7625168",
+          "relationType": "appearance",
+          "description": "스페이스X 창립자로 책 전체를 관통하는 중심 인물이다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 스페이스X 창립자로 책 전체를 관통하는 중심 인물이다"
+        },
+        {
+          "contentId": "9014c972-f90e-5555-9aa9-301933a09ab1",
+          "relationType": "appearance",
+          "description": "오픈AI 공동 창업 당시 함께한 동료였다가 이후 경쟁자로 돌아서는 인물로, 올트먼과의 갈등을 다루는 대목에서 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오픈AI 공동 창업 당시 함께한 동료였다가 이후 경쟁자로 돌아서는 인물로, 올트먼과의 갈등을 다루는 대목에서 등장한다."
+        },
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "테슬라 CEO로서 제5장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 테슬라 CEO로서 제5장 전체를 통해 그의 통찰이 다뤄진다"
+        },
+        {
+          "contentId": "124637ce-7920-5520-aa1b-cc2f38dd373c",
+          "relationType": "appearance",
+          "description": "오픈AI 공동 설립자로서 올트먼과의 협업과 결별, 이후의 권력 다툼 과정이 여러 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오픈AI 공동 설립자로서 올트먼과의 협업과 결별, 이후의 권력 다툼 과정이 여러 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "peter-thiel",
+      "selections": [
+        {
+          "contentId": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+          "relationType": "appearance",
+          "description": "맥스 레브친과 함께 페이팔의 전신 회사를 공동 창업한 핵심 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 맥스 레브친과 함께 페이팔의 전신 회사를 공동 창업한 핵심 인물로 다뤄진다"
+        },
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "페이팔 공동 창업자로서 제9장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 페이팔 공동 창업자로서 제9장 전체를 통해 그의 통찰이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "reid-hoffman",
+      "selections": [
+        {
+          "contentId": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+          "relationType": "appearance",
+          "description": "페이팔 마피아의 일원으로 실리콘밸리 부흥을 이끈 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 페이팔 마피아의 일원으로 실리콘밸리 부흥을 이끈 인물로 다뤄진다"
+        },
+        {
+          "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+          "relationType": "appearance",
+          "description": "AI 시장을 설계한 기업가 중 한 명으로 투자자·기업가로서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: AI 시장을 설계한 기업가 중 한 명으로 투자자·기업가로서 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "liu-bei",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "도원결의부터 촉한 건국과 백제성 유언까지 전권에 걸쳐 다뤄지는 주인공이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 도원결의부터 촉한 건국과 백제성 유언까지 전권에 걸쳐 다뤄지는 주인공이다."
+        },
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제4장 첫머리에서 인군(仁君)의 전형으로 독립된 장 전체에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장 첫머리에서 인군(仁君)의 전형으로 독립된 장 전체에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "촉한을 건국하고 황제에 오른 과정과 치세가 「선주전」한 권 전체에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한을 건국하고 황제에 오른 과정과 치세가 「선주전」한 권 전체에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "촉서 선주전(先主傳)에서 독립된 한 편으로 다뤄지는 촉한의 초대 황제",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉서 선주전(先主傳)에서 독립된 한 편으로 다뤄지는 촉한의 초대 황제"
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "촉한 세력 배신자로 분류되며, 저자가 이 책에서 삼국지 최고의 배신자로 재평가하는 핵심 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한 세력 배신자로 분류되며, 저자가 이 책에서 삼국지 최고의 배신자로 재평가하는 핵심 인물이다."
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제3장 '한나라를 계승하다'의 중심 인물로 촉한 건국 과정을 다룬 독립된 절이 있다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3장 '한나라를 계승하다'의 중심 인물로 촉한 건국 과정을 다룬 독립된 절이 있다."
+        },
+        {
+          "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+          "relationType": "appearance",
+          "description": "실패한 장수 원소·동탁과 비교되며 리더십을 보여준 인물로 1부에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 실패한 장수 원소·동탁과 비교되며 리더십을 보여준 인물로 1부에서 다뤄짐"
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "촉한을 세우기까지의 방랑과 건국 과정을 인물 중심으로 서술",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한을 세우기까지의 방랑과 건국 과정을 인물 중심으로 서술"
+        }
+      ]
+    },
+    {
+      "slug": "zhang-fei",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "도원결의부터 장판교 일갈, 죽음에 이르기까지 여러 장에서 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 도원결의부터 장판교 일갈, 죽음에 이르기까지 여러 장에서 비중 있게 다뤄진다."
+        },
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제4장에서 정당한 재평가가 필요한 용장으로 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장에서 정당한 재평가가 필요한 용장으로 독립된 장에서 다뤄진다."
+        },
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "유비의 장수로 「관장마황조전」에서 관우와 함께 주요 인물로 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유비의 장수로 「관장마황조전」에서 관우와 함께 주요 인물로 서술된다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "촉서 관장마황조전에서 한 편의 분량으로 다뤄지는 촉한의 장수",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉서 관장마황조전에서 한 편의 분량으로 다뤄지는 촉한의 장수"
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제3장에서 유비를 뒷받침한 대표 무장으로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3장에서 유비를 뒷받침한 대표 무장으로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+          "relationType": "appearance",
+          "description": "최고의 리더를 만들어 낸 일등공신으로 2부·3부에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 최고의 리더를 만들어 낸 일등공신으로 2부·3부에서 다뤄짐"
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "유비의 의형제로서 무장으로서의 활약을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유비의 의형제로서 무장으로서의 활약을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "zhuge-liang",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "삼고초려로 등장해 출사표, 육출기산, 오장원에서의 죽음까지 소설 후반부의 중심 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 삼고초려로 등장해 출사표, 육출기산, 오장원에서의 죽음까지 소설 후반부의 중심 인물이다."
+        },
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제4장에서 중국사에 손꼽히는 명재상으로 독립된 장 전체가 그를 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장에서 중국사에 손꼽히는 명재상으로 독립된 장 전체가 그를 다룬다."
+        },
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "촉한 편에서 원칙을 세우고 유연하게 움직인 2인자로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한 편에서 원칙을 세우고 유연하게 움직인 2인자로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "유비와 유선을 보좌한 승상으로, 「제갈량전」한 권 전체가 그의 생애와 북벌에 할애된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유비와 유선을 보좌한 승상으로, 「제갈량전」한 권 전체가 그의 생애와 북벌에 할애된다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "촉서 제갈량전에서 독립된 한 편으로 다뤄지는 촉한의 승상",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉서 제갈량전에서 독립된 한 편으로 다뤄지는 촉한의 승상"
+        },
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "사마의와의 지략 대결을 다룬 촉한의 명재상",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 사마의와의 지략 대결을 다룬 촉한의 명재상"
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "촉의 승상으로서 유비를 보좌하고 북벌을 이끈 생애를 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉의 승상으로서 유비를 보좌하고 북벌을 이끈 생애를 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "lu-bu",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "동탁 암살, 소패 전투, 하비성 최후까지 독립된 여러 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 동탁 암살, 소패 전투, 하비성 최후까지 독립된 여러 장에서 다뤄진다."
+        },
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제1장에서 삼국지 최고의 무예지존으로 독립된 장에서 그의 생애가 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제1장에서 삼국지 최고의 무예지존으로 독립된 장에서 그의 생애가 서술된다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "위서 여포장홍전에서 한 편의 분량으로 다뤄지는 군웅",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위서 여포장홍전에서 한 편의 분량으로 다뤄지는 군웅"
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "후한 세력 배신자로 분류되어 반(叛)·휼(譎)·입(入) 3단계 틀로 배신 행적이 분석된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 후한 세력 배신자로 분류되어 반(叛)·휼(譎)·입(入) 3단계 틀로 배신 행적이 분석된다."
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제1장에서 동탁을 배신하고 몰락한 용장으로 독립된 절을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제1장에서 동탁을 배신하고 몰락한 용장으로 독립된 절을 차지한다."
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "용맹하나 신의가 없던 무장으로서의 생애와 몰락을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 용맹하나 신의가 없던 무장으로서의 생애와 몰락을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "dong-zhuo",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "낙양 권력 찬탈부터 왕윤의 계략에 의한 몰락까지 초반부 여러 장의 중심 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 낙양 권력 찬탈부터 왕윤의 계략에 의한 몰락까지 초반부 여러 장의 중심 인물이다."
+        },
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제1장에서 포악한 독재자의 전형으로 한 장을 차지하며 집권과 폭정이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제1장에서 포악한 독재자의 전형으로 한 장을 차지하며 집권과 폭정이 다뤄진다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "위서 동이원유전에서 한 편의 분량으로 다뤄지는 후한 말 권신",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위서 동이원유전에서 한 편의 분량으로 다뤄지는 후한 말 권신"
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제1장 '군웅할거'에서 후한 말 조정을 장악했다가 몰락한 군웅으로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제1장 '군웅할거'에서 후한 말 조정을 장악했다가 몰락한 군웅으로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+          "relationType": "appearance",
+          "description": "조조·유비·손권과 대비되는 실패한 장수로 1부에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 조조·유비·손권과 대비되는 실패한 장수로 1부에서 다뤄짐"
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "후한 조정을 장악하고 폭정을 펼친 인물로서 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 후한 조정을 장악하고 폭정을 펼친 인물로서 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "yuan-shao",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "반동탁 연합 맹주부터 관도대전 패배까지 여러 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 반동탁 연합 맹주부터 관도대전 패배까지 여러 장에서 다뤄진다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "위서 동이원유전에서 한 편의 분량으로 다뤄지는 하북의 군웅",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위서 동이원유전에서 한 편의 분량으로 다뤄지는 하북의 군웅"
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "후한 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 후한 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다."
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제1장에서 관도대전 등 조조와 맞서다 패망한 군웅으로 한 절을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제1장에서 관도대전 등 조조와 맞서다 패망한 군웅으로 한 절을 차지한다."
+        },
+        {
+          "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+          "relationType": "appearance",
+          "description": "조조·유비·손권과 대비되는 실패한 장수로 1부에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 조조·유비·손권과 대비되는 실패한 장수로 1부에서 다뤄짐"
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "후한 말 최대 세력가였다가 조조에게 패한 과정을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 후한 말 최대 세력가였다가 조조에게 패한 과정을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "sun-ce",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "강동 평정 과정을 다룬 독립된 장에서 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 강동 평정 과정을 다룬 독립된 장에서 비중 있게 다뤄진다."
+        },
+        {
+          "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+          "relationType": "appearance",
+          "description": "강동 평정의 기틀을 다진 인물로, 손견과 함께 묶인 열전에서 그 생애가 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 강동 평정의 기틀을 다진 인물로, 손견과 함께 묶인 열전에서 그 생애가 서술된다."
+        },
+        {
+          "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+          "relationType": "appearance",
+          "description": "오서1 손파로토역전에서 손견과 함께 다뤄지는 오나라 창업 군주",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서1 손파로토역전에서 손견과 함께 다뤄지는 오나라 창업 군주"
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "동오 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 동오 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다."
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "오나라 건국의 기초를 닦은 손권의 형으로서의 활약을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오나라 건국의 기초를 닦은 손권의 형으로서의 활약을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "zhou-yu",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "적벽대전을 중심으로 여러 장에서 다뤄지는 오나라의 핵심 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 적벽대전을 중심으로 여러 장에서 다뤄지는 오나라의 핵심 인물이다."
+        },
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제3장에서 적벽대전의 영걸로 독립된 장을 통해 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3장에서 적벽대전의 영걸로 독립된 장을 통해 다뤄진다."
+        },
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "오나라 편에서 상대를 피하지 않고 정면돌파한 2인자로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오나라 편에서 상대를 피하지 않고 정면돌파한 2인자로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+          "relationType": "appearance",
+          "description": "적벽대전을 이끈 오나라의 명장으로, 노숙·여몽과 함께 묶인 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 적벽대전을 이끈 오나라의 명장으로, 노숙·여몽과 함께 묶인 열전에서 다뤄진다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "오서 주유노숙여몽전에서 한 편의 분량으로 다뤄지는 오나라의 도독",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서 주유노숙여몽전에서 한 편의 분량으로 다뤄지는 오나라의 도독"
+        },
+        {
+          "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+          "relationType": "appearance",
+          "description": "오서9 주유노숙여몽전에서 다뤄지는 오나라 대도독",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서9 주유노숙여몽전에서 다뤄지는 오나라 대도독"
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "오나라의 명장으로서 적벽대전 등에서의 활약을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오나라의 명장으로서 적벽대전 등에서의 활약을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "sima-yi",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "위나라 권력 장악과 제갈량과의 대결을 중심으로 후반부 여러 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위나라 권력 장악과 제갈량과의 대결을 중심으로 후반부 여러 장에서 다뤄진다."
+        },
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "위나라 편에서 자신을 숨기고 결정적 순간을 기다린 2인자로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위나라 편에서 자신을 숨기고 결정적 순간을 기다린 2인자로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "조위 세력 배신자로 분류되어 그의 권력 찬탈 과정이 배신의 관점에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 조위 세력 배신자로 분류되어 그의 권력 찬탈 과정이 배신의 관점에서 다뤄진다."
+        },
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "제갈량과 맞선 위나라의 책사",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제갈량과 맞선 위나라의 책사"
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "위나라의 실권을 장악하고 진나라 건국의 토대를 놓은 인물로 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위나라의 실권을 장악하고 진나라 건국의 토대를 놓은 인물로 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "jiang-wei",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "촉한 후반부 북벌을 이끄는 인물로 다수 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한 후반부 북벌을 이끄는 인물로 다수 장에서 다뤄진다."
+        },
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제4장에서 제갈량 사후 촉을 짊어진 명장으로 독립된 장이 배정된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장에서 제갈량 사후 촉을 짊어진 명장으로 독립된 장이 배정된다."
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "제갈량의 후계자로서 촉한 말기 북벌을 이어간 행적을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제갈량의 후계자로서 촉한 말기 북벌을 이어간 행적을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "ma-chao",
+      "selections": [
+        {
+          "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+          "relationType": "appearance",
+          "description": "동관 전투 등을 다룬 독립된 장에서 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 동관 전투 등을 다룬 독립된 장에서 비중 있게 다뤄진다."
+        },
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "서량 출신 장수로 「관장마황조전」에서 촉한 귀순 이후의 행적이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 서량 출신 장수로 「관장마황조전」에서 촉한 귀순 이후의 행적이 다뤄진다."
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "촉한 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다."
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제3장에서 유비 진영에 합류한 무장으로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3장에서 유비 진영에 합류한 무장으로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "서량 출신의 맹장으로서의 활약을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 서량 출신의 맹장으로서의 활약을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "genghis-khan",
+      "selections": [
+        {
+          "contentId": "7afb10c9-bf28-5c56-af66-90bc3b9efc8f",
+          "relationType": "appearance",
+          "description": "부제(\"칭기즈칸의 위대한 장군\")대로 수부타이를 등용하고 그의 정복전쟁 전반을 이끈 인물로 여러 장에 걸쳐 등장한다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 부제(\"칭기즈칸의 위대한 장군\")대로 수부타이를 등용하고 그의 정복전쟁 전반을 이끈 인물로 여러 장에 걸쳐 등장한다"
+        },
+        {
+          "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+          "relationType": "appearance",
+          "description": "몽골 제국을 건설한 정복자로서의 생애를 독립된 장에서 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 몽골 제국을 건설한 정복자로서의 생애를 독립된 장에서 다룬다."
+        },
+        {
+          "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+          "relationType": "appearance",
+          "description": "몽골 제국을 건설한 정복자로 중세 세계 편에서 독립된 장으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 몽골 제국을 건설한 정복자로 중세 세계 편에서 독립된 장으로 다뤄진다."
+        },
+        {
+          "contentId": "f5ff6a47-0444-59af-a6f0-af83de755c50",
+          "relationType": "appearance",
+          "description": "원 태조로서 출생부터 몽골 초원 통일, 서방 원정과 사망까지 제1장 전체를 통해 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 원 태조로서 출생부터 몽골 초원 통일, 서방 원정과 사망까지 제1장 전체를 통해 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "marcus-junius-brutus",
+      "selections": [
+        {
+          "contentId": "4ee36aab-cc98-426f-9302-39242a50b651",
+          "relationType": "appearance",
+          "description": "로마 왕정을 무너뜨리고 공화정을 세운 집정관으로 1~2권에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마 왕정을 무너뜨리고 공화정을 세운 집정관으로 1~2권에서 다뤄진다."
+        },
+        {
+          "contentId": "d6ce347c-b938-5eff-9be9-2ad2bb5f4175",
+          "relationType": "appearance",
+          "description": "카이사르 암살의 주역으로 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 카이사르 암살의 주역으로 한 장에서 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "augustus",
+      "selections": [
+        {
+          "contentId": "4ee36aab-cc98-426f-9302-39242a50b651",
+          "relationType": "appearance",
+          "description": "로마 제정을 연 황제로 책이 다루는 시대의 끝부분에 해당하는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마 제정을 연 황제로 책이 다루는 시대의 끝부분에 해당하는 인물이다."
+        },
+        {
+          "contentId": "358e37a1-4f00-557d-a856-55e667757f4e",
+          "relationType": "appearance",
+          "description": "로마 제국 체제를 확립한 초대 황제로 한 부(部)를 차지해 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마 제국 체제를 확립한 초대 황제로 한 부(部)를 차지해 다뤄진다"
+        },
+        {
+          "contentId": "c6b795a6-47f0-45e3-8c93-fad021445ba9",
+          "relationType": "appearance",
+          "description": "로마 초대 황제로 등장하며 클라우디우스의 할아버지로서 로마 황금기를 이끈 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마 초대 황제로 등장하며 클라우디우스의 할아버지로서 로마 황금기를 이끈 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "demis-hassabis",
+      "selections": [
+        {
+          "contentId": "c382adbd-0f84-5f43-b01b-dfe126efb3be",
+          "relationType": "appearance",
+          "description": "딥마인드를 이끌며 알파고를 개발한 인물로 저자와의 인터뷰가 수록됨",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 딥마인드를 이끌며 알파고를 개발한 인물로 저자와의 인터뷰가 수록됨"
+        },
+        {
+          "contentId": "f82aa835-9a9d-594e-a5df-6f6b3cfaa2e5",
+          "relationType": "appearance",
+          "description": "알파고 등 강화학습 기반 AI를 만든 인물로 한 장에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 알파고 등 강화학습 기반 AI를 만든 인물로 한 장에서 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "ray-kurzweil",
+      "selections": [
+        {
+          "contentId": "c382adbd-0f84-5f43-b01b-dfe126efb3be",
+          "relationType": "appearance",
+          "description": "구글에서 자연어 처리 프로젝트를 담당한 인물로 인터뷰가 수록됨",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 구글에서 자연어 처리 프로젝트를 담당한 인물로 인터뷰가 수록됨"
+        }
+      ]
+    },
+    {
+      "slug": "bill-gates",
+      "selections": [
+        {
+          "contentId": "23a1cc06-d64b-4f4d-9283-0357701aa2d1",
+          "relationType": "appearance",
+          "description": "71장(\"Bill Gates\")에서 일론 머스크와의 관계와 갈등이 독립된 장으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 71장(\"Bill Gates\")에서 일론 머스크와의 관계와 갈등이 독립된 장으로 다뤄진다."
+        },
+        {
+          "contentId": "d86f8555-9305-46c5-a19a-d57785b5d845",
+          "relationType": "appearance",
+          "description": "마이크로소프트 창업자로, 잡스와의 협력과 경쟁이 16장 \"Gates and Jobs\"에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 마이크로소프트 창업자로, 잡스와의 협력과 경쟁이 16장 \"Gates and Jobs\"에서 다뤄진다."
+        },
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "마이크로소프트 창립자로서 제2장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 마이크로소프트 창립자로서 제2장 전체를 통해 그의 통찰이 다뤄진다"
+        },
+        {
+          "contentId": "392357a3-cbee-5df0-85a8-84fc3404ebf6",
+          "relationType": "appearance",
+          "description": "9장 \"컴퓨터 업계의 선두주자 빌 게이츠와 래리 엘리슨\"에서 래리 엘리슨과 대비되는 인물로 독립적으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 9장 \"컴퓨터 업계의 선두주자 빌 게이츠와 래리 엘리슨\"에서 래리 엘리슨과 대비되는 인물로 독립적으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "guan-yu",
+      "selections": [
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제4장에서 신(神)이 된 최고의 무장으로 한 장 전체가 그에게 할애된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장에서 신(神)이 된 최고의 무장으로 한 장 전체가 그에게 할애된다."
+        },
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "촉한 편에서 어떤 유혹에도 흔들리지 않은 인물로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한 편에서 어떤 유혹에도 흔들리지 않은 인물로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "유비의 핵심 장수로 「관장마황조전」에서 형주 방비와 최후까지 독립된 분량으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유비의 핵심 장수로 「관장마황조전」에서 형주 방비와 최후까지 독립된 분량으로 다뤄진다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "촉서 관장마황조전에서 한 편의 분량으로 다뤄지는 촉한의 장수",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉서 관장마황조전에서 한 편의 분량으로 다뤄지는 촉한의 장수"
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제3장에서 유비를 뒷받침한 대표 무장으로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3장에서 유비를 뒷받침한 대표 무장으로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "유비의 의형제이자 촉의 명장으로서의 생애와 최후를 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유비의 의형제이자 촉의 명장으로서의 생애와 최후를 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "zhao-yun",
+      "selections": [
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제4장에서 장판파 전투의 영웅으로 한 장을 통해 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장에서 장판파 전투의 영웅으로 한 장을 통해 서술된다."
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제3장에서 유비 진영의 무장으로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3장에서 유비 진영의 무장으로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+          "relationType": "appearance",
+          "description": "최고의 리더를 만들어 낸 일등공신으로 2부·3부에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 최고의 리더를 만들어 낸 일등공신으로 2부·3부에서 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "pang-tong",
+      "selections": [
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제4장에서 제갈량에 버금가는 준재로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장에서 제갈량에 버금가는 준재로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "유비의 참모로 「방통법정전」에서 익주 공략 당시의 계책과 죽음이 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유비의 참모로 「방통법정전」에서 익주 공략 당시의 계책과 죽음이 서술된다."
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "촉한 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다."
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "제갈량과 나란한 촉의 책사로서의 생애를 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제갈량과 나란한 촉의 책사로서의 생애를 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "huang-zhong",
+      "selections": [
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제4장에서 노익장을 과시한 명궁으로 독립된 장에서 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장에서 노익장을 과시한 명궁으로 독립된 장에서 서술된다."
+        },
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "촉한의 노장으로 「관장마황조전」에서 정군산 전투 등의 공적이 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한의 노장으로 「관장마황조전」에서 정군산 전투 등의 공적이 서술된다."
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "촉한 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다."
+        }
+      ]
+    },
+    {
+      "slug": "wei-yan",
+      "selections": [
+        {
+          "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+          "relationType": "appearance",
+          "description": "제4장에서 제갈량에게 밉보인 비운의 맹장으로 한 장을 통해 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장에서 제갈량에게 밉보인 비운의 맹장으로 한 장을 통해 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "steve-wozniak",
+      "selections": [
+        {
+          "contentId": "d86f8555-9305-46c5-a19a-d57785b5d845",
+          "relationType": "appearance",
+          "description": "애플 공동창업자로, 잡스와의 관계가 2장 \"Odd Couple: The Two Steves\"에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 애플 공동창업자로, 잡스와의 관계가 2장 \"Odd Couple: The Two Steves\"에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "merlin",
+      "selections": [
+        {
+          "contentId": "ec4d0a84-2848-4afc-b13e-3c01b78fdb9d",
+          "relationType": "appearance",
+          "description": "우서 펜드래곤을 도와 아서의 탄생을 예비하고 아서의 즉위와 초기 통치를 뒤에서 인도하는 예언자·마법사",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 우서 펜드래곤을 도와 아서의 탄생을 예비하고 아서의 즉위와 초기 통치를 뒤에서 인도하는 예언자·마법사"
+        }
+      ]
+    },
+    {
+      "slug": "sir-gareth",
+      "selections": [
+        {
+          "contentId": "ec4d0a84-2848-4afc-b13e-3c01b78fdb9d",
+          "relationType": "appearance",
+          "description": "부엌데기로 시작해 기사로 인정받는 성장담이 독립된 장으로 다뤄지는 인물",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 부엌데기로 시작해 기사로 인정받는 성장담이 독립된 장으로 다뤄지는 인물"
+        }
+      ]
+    },
+    {
+      "slug": "xun-yu",
+      "selections": [
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "위나라 편에서 자기 성찰과 통찰력으로 조조를 보좌한 2인자로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위나라 편에서 자기 성찰과 통찰력으로 조조를 보좌한 2인자로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "조위 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 조위 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다."
+        },
+        {
+          "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+          "relationType": "appearance",
+          "description": "최고의 리더를 만들어 낸 일등공신으로 2부·3부에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 최고의 리더를 만들어 낸 일등공신으로 2부·3부에서 다뤄짐"
+        },
+        {
+          "contentId": "4fea7b95-f9ac-586b-92b3-41b3466b8dde",
+          "relationType": "appearance",
+          "description": "제3장에서 한실의 버팀목을 세우려다 꺾이고 만 비운의 지사이자 참모로 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3장에서 한실의 버팀목을 세우려다 꺾이고 만 비운의 지사이자 참모로 독립된 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "jia-xu",
+      "selections": [
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "위나라 편에서 위기를 기회로 전환하는 책사로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위나라 편에서 위기를 기회로 전환하는 책사로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "조위 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 조위 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다."
+        },
+        {
+          "contentId": "4fea7b95-f9ac-586b-92b3-41b3466b8dde",
+          "relationType": "appearance",
+          "description": "제7장에서 기지와 임기응변으로 탁월한 모략을 펼친 참모로 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제7장에서 기지와 임기응변으로 탁월한 모략을 펼친 참모로 독립된 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "guo-jia",
+      "selections": [
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "위나라 편에서 상대를 철저히 분석해 진퇴를 판단하는 참모로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위나라 편에서 상대를 철저히 분석해 진퇴를 판단하는 참모로 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "fa-zheng",
+      "selections": [
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "촉한 편에서 과감히 결정하고 끝까지 밀어붙인 참모로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 촉한 편에서 과감히 결정하고 끝까지 밀어붙인 참모로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "유비의 모사로 「방통법정전」에서 익주 평정과 한중 공방전에서의 역할이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유비의 모사로 「방통법정전」에서 익주 평정과 한중 공방전에서의 역할이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "lu-su",
+      "selections": [
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "오나라 편에서 상대방의 마음을 사로잡는 전략가로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오나라 편에서 상대방의 마음을 사로잡는 전략가로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+          "relationType": "appearance",
+          "description": "손권의 책사로, 주유·여몽과 함께 묶인 열전에서 그 행적이 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 손권의 책사로, 주유·여몽과 함께 묶인 열전에서 그 행적이 서술된다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "오서 주유노숙여몽전에서 한 편의 분량으로 다뤄지는 오나라의 도독",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서 주유노숙여몽전에서 한 편의 분량으로 다뤄지는 오나라의 도독"
+        },
+        {
+          "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+          "relationType": "appearance",
+          "description": "오서9 주유노숙여몽전에서 다뤄지는 오나라 대신",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서9 주유노숙여몽전에서 다뤄지는 오나라 대신"
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "동오 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 동오 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다."
+        }
+      ]
+    },
+    {
+      "slug": "lu-meng",
+      "selections": [
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "오나라 편에서 자신을 믿고 끊임없이 노력한 인물로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오나라 편에서 자신을 믿고 끊임없이 노력한 인물로 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "zhang-zhao",
+      "selections": [
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "오나라 편에서 이해를 계산하지 않고 잘못을 지적한 원로로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오나라 편에서 이해를 계산하지 않고 잘못을 지적한 원로로 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+          "relationType": "appearance",
+          "description": "오서7 장고제갈보전에서 다뤄지는 오나라 원로 중신",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서7 장고제갈보전에서 다뤄지는 오나라 원로 중신"
+        }
+      ]
+    },
+    {
+      "slug": "chen-gong",
+      "selections": [
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "주군을 잘못 만난 2인자의 반면교사 편에서 자신의 선택에 책임진 인물로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 주군을 잘못 만난 2인자의 반면교사 편에서 자신의 선택에 책임진 인물로 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "ju-shou",
+      "selections": [
+        {
+          "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+          "relationType": "appearance",
+          "description": "주군을 잘못 만난 2인자의 반면교사 편에서 끝까지 자기 원칙을 지킨 인물로 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 주군을 잘못 만난 2인자의 반면교사 편에서 끝까지 자기 원칙을 지킨 인물로 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "erich-von-manstein",
+      "selections": [
+        {
+          "contentId": "2e7cc94b-905a-5679-817c-d6b24996fa50",
+          "relationType": "appearance",
+          "description": "잃어버린 승자로 평가되는 원수로서 그의 생애와 활동이 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 잃어버린 승자로 평가되는 원수로서 그의 생애와 활동이 한 장에서 다뤄진다"
+        },
+        {
+          "contentId": "d382ff0e-eed7-5d81-8ee1-5f4fd4e934ac",
+          "relationType": "appearance",
+          "description": "쿠르스크·드네프르 강 전투를 포함한 독일군 작전 지연·전개 과정에서 지휘관으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 쿠르스크·드네프르 강 전투를 포함한 독일군 작전 지연·전개 과정에서 지휘관으로 다뤄진다."
+        },
+        {
+          "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+          "relationType": "appearance",
+          "description": "제2차 세계대전 독일군의 전략가로 현대 편에서 독립된 장으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2차 세계대전 독일군의 전략가로 현대 편에서 독립된 장으로 다뤄진다."
+        },
+        {
+          "contentId": "23c5772b-2dd1-5098-b882-e53a454d055f",
+          "relationType": "appearance",
+          "description": "동부전선(1941~1942) 관련 장들에서 주요 지휘관으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 동부전선(1941~1942) 관련 장들에서 주요 지휘관으로 다뤄진다."
+        },
+        {
+          "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+          "relationType": "appearance",
+          "description": "낫질 작전(만슈타인 계획)의 입안자로서 그의 구상과 회고록 내용이 서술된다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 낫질 작전(만슈타인 계획)의 입안자로서 그의 구상과 회고록 내용이 서술된다"
+        }
+      ]
+    },
+    {
+      "slug": "heinz-guderian",
+      "selections": [
+        {
+          "contentId": "2e7cc94b-905a-5679-817c-d6b24996fa50",
+          "relationType": "appearance",
+          "description": "기갑부대의 아버지로서 그의 생애와 활동이 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 기갑부대의 아버지로서 그의 생애와 활동이 한 장에서 다뤄진다"
+        },
+        {
+          "contentId": "23c5772b-2dd1-5098-b882-e53a454d055f",
+          "relationType": "appearance",
+          "description": "전격전 창시자이자 주요 지휘관으로 폴란드·서부·동부전선 관련 장에서 반복적으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 전격전 창시자이자 주요 지휘관으로 폴란드·서부·동부전선 관련 장에서 반복적으로 다뤄진다."
+        },
+        {
+          "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+          "relationType": "appearance",
+          "description": "뫼즈 강 도하와 독단적 진격, 이를 둘러싼 선전(프로파간다)이 책의 상당 비중을 차지하며 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 뫼즈 강 도하와 독단적 진격, 이를 둘러싼 선전(프로파간다)이 책의 상당 비중을 차지하며 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "erwin-rommel",
+      "selections": [
+        {
+          "contentId": "2e7cc94b-905a-5679-817c-d6b24996fa50",
+          "relationType": "appearance",
+          "description": "영웅이 되고자 했던 야심가로 평가되는 원수로서 그의 생애와 활동이 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 영웅이 되고자 했던 야심가로 평가되는 원수로서 그의 생애와 활동이 한 장에서 다뤄진다"
+        },
+        {
+          "contentId": "23c5772b-2dd1-5098-b882-e53a454d055f",
+          "relationType": "appearance",
+          "description": "북아프리카 전역을 다루는 장에서 핵심 지휘관으로 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 북아프리카 전역을 다루는 장에서 핵심 지휘관으로 등장한다."
+        },
+        {
+          "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+          "relationType": "appearance",
+          "description": "아라스 전투에서의 활약과 과장된 전과 보고, 5기갑사단과의 갈등이 상세히 서술된다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아라스 전투에서의 활약과 과장된 전과 보고, 5기갑사단과의 갈등이 상세히 서술된다"
+        }
+      ]
+    },
+    {
+      "slug": "donald-trump",
+      "selections": [
+        {
+          "contentId": "17618b6c-d3c6-5322-9dff-c1983cbb7c7d",
+          "relationType": "appearance",
+          "description": "대통령으로서 백악관 첫해 전반의 중심 인물로 책 전체에 걸쳐 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 대통령으로서 백악관 첫해 전반의 중심 인물로 책 전체에 걸쳐 다뤄진다"
+        },
+        {
+          "contentId": "33e3996f-c0d0-534e-8b6a-4f39ff5adf62",
+          "relationType": "appearance",
+          "description": "그가 트위터에 메릴 스트립을 비방한 사건과 이에 대한 메릴의 대응을 통해 두 사람의 상반된 태도가 서술된다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 그가 트위터에 메릴 스트립을 비방한 사건과 이에 대한 메릴의 대응을 통해 두 사람의 상반된 태도가 서술된다"
+        }
+      ]
+    },
+    {
+      "slug": "jared-kushner",
+      "selections": [
+        {
+          "contentId": "17618b6c-d3c6-5322-9dff-c1983cbb7c7d",
+          "relationType": "appearance",
+          "description": "'자바카(Jarvanka)' 장에서 이방카와 함께 백악관 내 영향력을 중심으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: '자바카(Jarvanka)' 장에서 이방카와 함께 백악관 내 영향력을 중심으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "ivanka-trump",
+      "selections": [
+        {
+          "contentId": "17618b6c-d3c6-5322-9dff-c1983cbb7c7d",
+          "relationType": "appearance",
+          "description": "'자바카(Jarvanka)' 장에서 쿠슈너와 함께 백악관 내 영향력을 중심으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: '자바카(Jarvanka)' 장에서 쿠슈너와 함께 백악관 내 영향력을 중심으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "qin-shi-huang",
+      "selections": [
+        {
+          "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+          "relationType": "appearance",
+          "description": "중국 최초의 통일 제국을 세운 인물로 그의 통일 과정과 통치를 독립된 장에서 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 중국 최초의 통일 제국을 세운 인물로 그의 통일 과정과 통치를 독립된 장에서 다룬다."
+        },
+        {
+          "contentId": "14764441-b2d1-55b0-a7da-a9bbd0833a6c",
+          "relationType": "appearance",
+          "description": "'진시황릉' 편에서 불로장생을 추구하며 거대한 무덤과 병마용을 남긴 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: '진시황릉' 편에서 불로장생을 추구하며 거대한 무덤과 병마용을 남긴 인물로 다뤄진다."
+        },
+        {
+          "contentId": "69fe0620-26ec-517b-b3cb-cbb2ab8d2974",
+          "relationType": "appearance",
+          "description": "책 제목과 4장 \"최초의 황제\"에서 천하통일과 황제로서의 행적을 중심으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 책 제목과 4장 \"최초의 황제\"에서 천하통일과 황제로서의 행적을 중심으로 다뤄진다."
+        },
+        {
+          "contentId": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+          "relationType": "appearance",
+          "description": "진시황본기 전체의 주인공으로, 천하를 통일하고 황제 칭호를 처음 쓴 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진시황본기 전체의 주인공으로, 천하를 통일하고 황제 칭호를 처음 쓴 인물로 다뤄진다"
+        },
+        {
+          "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+          "relationType": "appearance",
+          "description": "진시황본기(秦始皇本紀) 한 편 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진시황본기(秦始皇本紀) 한 편 전체의 주인공"
+        }
+      ]
+    },
+    {
+      "slug": "confucius",
+      "selections": [
+        {
+          "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+          "relationType": "appearance",
+          "description": "유가 사상의 창시자로서 그의 생애와 사상을 한 장에 걸쳐 서술한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유가 사상의 창시자로서 그의 생애와 사상을 한 장에 걸쳐 서술한다."
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "중니제자열전에서 제자들과 함께 그 사상과 행적이 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 중니제자열전에서 제자들과 함께 그 사상과 행적이 다뤄짐"
+        },
+        {
+          "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+          "relationType": "appearance",
+          "description": "공자세가(孔子世家) 한 편 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 공자세가(孔子世家) 한 편 전체의 주인공"
+        },
+        {
+          "contentId": "e47b8ad0-0a88-58e7-8edd-115412fae8b7",
+          "relationType": "appearance",
+          "description": "공자세가 전체에서 출생부터 주유천하와 만년까지 생애 전체를 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 공자세가 전체에서 출생부터 주유천하와 만년까지 생애 전체를 다룬다."
+        },
+        {
+          "contentId": "f75e0940-a28b-5dd6-907b-859a31d32d1a",
+          "relationType": "appearance",
+          "description": "제3부 「공자에게 묻는다(問孔)」 편에서 독립적으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3부 「공자에게 묻는다(問孔)」 편에서 독립적으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "wu-zetian",
+      "selections": [
+        {
+          "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+          "relationType": "appearance",
+          "description": "중국 유일의 여황제로서 권력 장악과 통치 과정을 독립된 장에서 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 중국 유일의 여황제로서 권력 장악과 통치 과정을 독립된 장에서 다룬다."
+        },
+        {
+          "contentId": "dd4b2b54-19a7-5821-8b68-48c36efb1050",
+          "relationType": "appearance",
+          "description": "당나라의 유일한 여황제로 권력 장악과 통치 수완을 중심으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 당나라의 유일한 여황제로 권력 장악과 통치 수완을 중심으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "yang-guifei",
+      "selections": [
+        {
+          "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+          "relationType": "appearance",
+          "description": "당 현종과의 관계 및 당나라 쇠락의 상징으로서 한 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 당 현종과의 관계 및 당나라 쇠락의 상징으로서 한 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "kangxi-emperor",
+      "selections": [
+        {
+          "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+          "relationType": "appearance",
+          "description": "청나라 최전성기를 이끈 황제의 통치를 독립된 장에서 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 청나라 최전성기를 이끈 황제의 통치를 독립된 장에서 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "empress-dowager-cixi",
+      "selections": [
+        {
+          "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+          "relationType": "appearance",
+          "description": "청 말 실권을 쥔 인물로서 그녀의 통치와 몰락을 한 장에서 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 청 말 실권을 쥔 인물로서 그녀의 통치와 몰락을 한 장에서 다룬다."
+        },
+        {
+          "contentId": "dd4b2b54-19a7-5821-8b68-48c36efb1050",
+          "relationType": "appearance",
+          "description": "청나라 말기 실권을 장악해 잔혹한 통치를 행한 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 청나라 말기 실권을 장악해 잔혹한 통치를 행한 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "mao-zedong",
+      "selections": [
+        {
+          "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+          "relationType": "appearance",
+          "description": "중화인민공화국을 건국한 인물로서 그의 생애와 통치를 독립된 장에서 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 중화인민공화국을 건국한 인물로서 그의 생애와 통치를 독립된 장에서 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "yan-ying",
+      "selections": [
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "제나라의 명재상으로, 관안열전에서 관중과 함께 한 편으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라의 명재상으로, 관안열전에서 관중과 함께 한 편으로 다뤄진다"
+        },
+        {
+          "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+          "relationType": "appearance",
+          "description": "제경공의 재상으로 검소함과 지략으로 이름난 인물로 관·안열전에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제경공의 재상으로 검소함과 지략으로 이름난 인물로 관·안열전에서 다뤄진다"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "제나라의 명재상으로 검소와 직간으로 이름났으며, 관중·안영 열전에서 함께 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라의 명재상으로 검소와 직간으로 이름났으며, 관중·안영 열전에서 함께 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "wu-zixu",
+      "selections": [
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "초나라 출신으로 오나라에서 복수극을 벌인 인물로, 오자서열전에서 단독으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 초나라 출신으로 오나라에서 복수극을 벌인 인물로, 오자서열전에서 단독으로 다뤄진다"
+        },
+        {
+          "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+          "relationType": "appearance",
+          "description": "초나라에서 오나라로 망명해 복수를 이룬 인물로 오자서열전에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 초나라에서 오나라로 망명해 복수를 이룬 인물로 오자서열전에서 다뤄진다"
+        },
+        {
+          "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+          "relationType": "appearance",
+          "description": "초나라에서 오나라로 망명해 복수를 이루었으나 후에 오왕 부차에게 죽임당한 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 초나라에서 오나라로 망명해 복수를 이루었으나 후에 오왕 부차에게 죽임당한 인물로 다뤄진다."
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "오자서열전 전체에서 그의 복수와 몰락 과정이 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오자서열전 전체에서 그의 복수와 몰락 과정이 다뤄짐"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "초나라에서 오나라로 망명해 복수를 이룬 인물로, 오자서 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 초나라에서 오나라로 망명해 복수를 이룬 인물로, 오자서 열전에서 다뤄진다."
+        },
+        {
+          "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+          "relationType": "appearance",
+          "description": "오자서열전(伍子胥列傳) 한 편 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오자서열전(伍子胥列傳) 한 편 전체의 주인공"
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권66 오자서열전에서 아버지와 형의 원수를 갚기 위한 복수극의 주인공으로 단독 편에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권66 오자서열전에서 아버지와 형의 원수를 갚기 위한 복수극의 주인공으로 단독 편에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "shang-yang",
+      "selections": [
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "진나라의 변법을 주도한 재상으로, 상군열전에서 단독으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라의 변법을 주도한 재상으로, 상군열전에서 단독으로 다뤄진다"
+        },
+        {
+          "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+          "relationType": "appearance",
+          "description": "진나라의 변법 개혁을 이끈 인물로서 일화가 진책에 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라의 변법 개혁을 이끈 인물로서 일화가 진책에 등장한다."
+        },
+        {
+          "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+          "relationType": "appearance",
+          "description": "진나라에서 변법을 시행해 부국강병을 이끈 인물로 상군열전에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라에서 변법을 시행해 부국강병을 이끈 인물로 상군열전에서 다뤄진다"
+        },
+        {
+          "contentId": "4c885396-aa0c-502b-9997-d6896519815e",
+          "relationType": "appearance",
+          "description": "진나라에서 변법을 시행해 통일의 기틀을 세운 개혁가로서 한 장 전체로 다룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라에서 변법을 시행해 통일의 기틀을 세운 개혁가로서 한 장 전체로 다룬다"
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "상군열전 전체에서 진나라의 변법 개혁이 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 상군열전 전체에서 진나라의 변법 개혁이 다뤄짐"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "진나라에서 변법을 시행해 부국강병을 이끈 인물로, 상군 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라에서 변법을 시행해 부국강병을 이끈 인물로, 상군 열전에서 다뤄진다."
+        },
+        {
+          "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+          "relationType": "appearance",
+          "description": "상군열전(商君列傳) 한 편 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 상군열전(商君列傳) 한 편 전체의 주인공"
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권68 상군열전에서 진나라의 변법 개혁을 이끈 인물로 단독 편에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권68 상군열전에서 진나라의 변법 개혁을 이끈 인물로 단독 편에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "zhang-yi",
+      "selections": [
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "연횡책을 주창한 유세가로, 장의열전에서 단독으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 연횡책을 주창한 유세가로, 장의열전에서 단독으로 다뤄진다"
+        },
+        {
+          "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+          "relationType": "appearance",
+          "description": "연횡책으로 진나라를 위해 각국을 설득한 행적이 진책을 비롯한 여러 편에서 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 연횡책으로 진나라를 위해 각국을 설득한 행적이 진책을 비롯한 여러 편에서 비중 있게 다뤄진다."
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "장의열전 전체에서 연횡책을 내세운 유세 행적이 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 장의열전 전체에서 연횡책을 내세운 유세 행적이 다뤄짐"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "연횡책을 주창한 유세가로, 장의 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 연횡책을 주창한 유세가로, 장의 열전에서 다뤄진다."
+        },
+        {
+          "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+          "relationType": "appearance",
+          "description": "장의열전(張儀列傳) 한 편 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 장의열전(張儀列傳) 한 편 전체의 주인공"
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권70 장의열전에서 연횡책을 주도한 유세가로서 단독 편에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권70 장의열전에서 연횡책을 주도한 유세가로서 단독 편에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "bai-qi",
+      "selections": [
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "진나라의 명장으로, 백기왕전열전에서 왕전과 함께 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라의 명장으로, 백기왕전열전에서 왕전과 함께 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "lord-mengchang",
+      "selections": [
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "식객 삼천을 거느린 것으로 유명한 제나라 공자로, 맹상군열전에서 단독으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 식객 삼천을 거느린 것으로 유명한 제나라 공자로, 맹상군열전에서 단독으로 다뤄진다"
+        },
+        {
+          "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+          "relationType": "appearance",
+          "description": "제나라 재상으로서 식객들과 얽힌 일화가 제책의 여러 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라 재상으로서 식객들과 얽힌 일화가 제책의 여러 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "맹상군열전 전체에서 식객 양성과 정치적 행적이 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 맹상군열전 전체에서 식객 양성과 정치적 행적이 다뤄짐"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "식객 삼천을 거느린 전국사공자의 한 사람으로, 맹상군 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 식객 삼천을 거느린 전국사공자의 한 사람으로, 맹상군 열전에서 다뤄진다."
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권75 맹상군열전에서 전국시대 사군자 중 한 명으로 단독 편에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권75 맹상군열전에서 전국시대 사군자 중 한 명으로 단독 편에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "lu-buwei",
+      "selections": [
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "상인 출신으로 진나라 재상에 오른 인물로, 여불위열전에서 단독으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 상인 출신으로 진나라 재상에 오른 인물로, 여불위열전에서 단독으로 다뤄진다"
+        },
+        {
+          "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+          "relationType": "appearance",
+          "description": "진나라 재상으로서의 행적이 진책에 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라 재상으로서의 행적이 진책에 등장한다."
+        },
+        {
+          "contentId": "69fe0620-26ec-517b-b3cb-cbb2ab8d2974",
+          "relationType": "appearance",
+          "description": "1장 \"여불위의 숙청\"에서 그의 실각과 몰락 과정을 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 1장 \"여불위의 숙청\"에서 그의 실각과 몰락 과정을 다룬다."
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "여불위열전 전체에서 진나라 승상으로서의 축재와 권력 행보가 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 여불위열전 전체에서 진나라 승상으로서의 축재와 권력 행보가 다뤄짐"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "진나라의 재상이 된 거상으로, 여불위 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라의 재상이 된 거상으로, 여불위 열전에서 다뤄진다."
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권85 여불위열전에서 진시황의 상국이자 기화가거 고사의 주인공으로 단독 편에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권85 여불위열전에서 진시황의 상국이자 기화가거 고사의 주인공으로 단독 편에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "jing-ke",
+      "selections": [
+        {
+          "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+          "relationType": "appearance",
+          "description": "진왕(훗날 진시황) 암살을 시도한 자객으로, 자객열전에서 주요 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진왕(훗날 진시황) 암살을 시도한 자객으로, 자객열전에서 주요 인물로 다뤄진다"
+        },
+        {
+          "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+          "relationType": "appearance",
+          "description": "연나라 태자 단을 위해 진왕 암살을 시도한 일화가 연책의 독립된 장으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 연나라 태자 단을 위해 진왕 암살을 시도한 일화가 연책의 독립된 장으로 다뤄진다."
+        },
+        {
+          "contentId": "aec8a9f0-6459-5de5-bca2-5019baaed74a",
+          "relationType": "appearance",
+          "description": "진나라 사신으로 위장해 진시황을 암살하려 한 시도가 이 책의 첫 이야기로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라 사신으로 위장해 진시황을 암살하려 한 시도가 이 책의 첫 이야기로 다뤄진다"
+        },
+        {
+          "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+          "relationType": "appearance",
+          "description": "진시황 암살을 시도한 자객으로 자객열전에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진시황 암살을 시도한 자객으로 자객열전에서 다뤄진다"
+        },
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "자객열전에서 진시황 암살 시도가 중심적으로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 자객열전에서 진시황 암살 시도가 중심적으로 다뤄짐"
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권86 자객열전에서 진시황 암살을 시도한 자객으로 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권86 자객열전에서 진시황 암살을 시도한 자객으로 비중 있게 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-yeon-koung",
+      "selections": [
+        {
+          "contentId": "63ccdd55-279a-5c91-b28a-4be189f306ee",
+          "relationType": "appearance",
+          "description": "배구 선수로서의 커리어와 도전을 다룬 독립 인터뷰 장",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 배구 선수로서의 커리어와 도전을 다룬 독립 인터뷰 장"
+        }
+      ]
+    },
+    {
+      "slug": "cl",
+      "selections": [
+        {
+          "contentId": "63ccdd55-279a-5c91-b28a-4be189f306ee",
+          "relationType": "appearance",
+          "description": "뮤지션으로서의 음악 인생을 다룬 독립 인터뷰 장",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 뮤지션으로서의 음악 인생을 다룬 독립 인터뷰 장"
+        }
+      ]
+    },
+    {
+      "slug": "kang-ji-young",
+      "selections": [
+        {
+          "contentId": "63ccdd55-279a-5c91-b28a-4be189f306ee",
+          "relationType": "appearance",
+          "description": "아나운서로서의 커리어를 다룬 독립 인터뷰 장",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아나운서로서의 커리어를 다룬 독립 인터뷰 장"
+        }
+      ]
+    },
+    {
+      "slug": "michael-jordan",
+      "selections": [
+        {
+          "contentId": "5888c516-e12d-5cab-be95-c4449693db16",
+          "relationType": "appearance",
+          "description": "시카고 불스 시절 필 잭슨이 이기심을 내려놓고 팀 중심으로 뛰도록 이끈 핵심 선수로 여러 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 시카고 불스 시절 필 잭슨이 이기심을 내려놓고 팀 중심으로 뛰도록 이끈 핵심 선수로 여러 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "2장에서 농구의 신으로 한 편을 통째로 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 2장에서 농구의 신으로 한 편을 통째로 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "kobe-bryant",
+      "selections": [
+        {
+          "contentId": "5888c516-e12d-5cab-be95-c4449693db16",
+          "relationType": "appearance",
+          "description": "반항적인 신인에서 우승팀의 성숙한 리더로 성장하는 과정이 레이커스 관련 장들에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 반항적인 신인에서 우승팀의 성숙한 리더로 성장하는 과정이 레이커스 관련 장들에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "shaquille-o'neal",
+      "selections": [
+        {
+          "contentId": "5888c516-e12d-5cab-be95-c4449693db16",
+          "relationType": "appearance",
+          "description": "레이커스 시절 코비 브라이언트와 함께 팀의 두 축으로 다뤄지는 선수다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 레이커스 시절 코비 브라이언트와 함께 팀의 두 축으로 다뤄지는 선수다."
+        }
+      ]
+    },
+    {
+      "slug": "geoffrey-hinton",
+      "selections": [
+        {
+          "contentId": "75aa0e24-7852-558d-9e51-19a9c55b49ef",
+          "relationType": "appearance",
+          "description": "AI 인물 열전 1에서 신경망 연구를 수십 년간 이어온 'AI의 대부'로 한 장 이상 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: AI 인물 열전 1에서 신경망 연구를 수십 년간 이어온 'AI의 대부'로 한 장 이상 다뤄짐"
+        },
+        {
+          "contentId": "f82aa835-9a9d-594e-a5df-6f6b3cfaa2e5",
+          "relationType": "appearance",
+          "description": "딥러닝 연구의 토대를 놓은 인물로 한 장에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 딥러닝 연구의 토대를 놓은 인물로 한 장에서 다뤄짐"
+        },
+        {
+          "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+          "relationType": "appearance",
+          "description": "심층학습을 대중화시켜 현대 딥러닝의 초석을 놓은 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 심층학습을 대중화시켜 현대 딥러닝의 초석을 놓은 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "liu-zhang",
+      "selections": [
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "아버지 유언을 이어 익주목이 되었다가 유비에게 익주를 넘겨준 과정이 「유이목전」에서 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아버지 유언을 이어 익주목이 되었다가 유비에게 익주를 넘겨준 과정이 「유이목전」에서 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "liu-shan",
+      "selections": [
+        {
+          "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+          "relationType": "appearance",
+          "description": "유비의 뒤를 이어 촉한의 2대 황제가 된 인물로, 「후주전」에서 그의 재위와 촉한 멸망까지 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유비의 뒤를 이어 촉한의 2대 황제가 된 인물로, 「후주전」에서 그의 재위와 촉한 멸망까지 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "mark-zuckerberg",
+      "selections": [
+        {
+          "contentId": "7a833fca-8ab6-4440-8882-bf8764a9ae12",
+          "relationType": "appearance",
+          "description": "하버드 기숙사에서 페이스매쉬를 만들고 페이스북을 창업하는 과정이 책 전반의 중심 서사로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 하버드 기숙사에서 페이스매쉬를 만들고 페이스북을 창업하는 과정이 책 전반의 중심 서사로 다뤄진다."
+        },
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "페이스북 창립자로서 제7장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 페이스북 창립자로서 제7장 전체를 통해 그의 통찰이 다뤄진다"
+        },
+        {
+          "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+          "relationType": "appearance",
+          "description": "AI 시장을 설계한 기업가 중 한 명으로 메타를 이끈 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: AI 시장을 설계한 기업가 중 한 명으로 메타를 이끈 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "sean-parker",
+      "selections": [
+        {
+          "contentId": "7a833fca-8ab6-4440-8882-bf8764a9ae12",
+          "relationType": "appearance",
+          "description": "냅스터 창업자 출신으로 페이스북에 합류해 회사 경영에 관여하는 과정이 여러 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 냅스터 창업자 출신으로 페이스북에 합류해 회사 경영에 관여하는 과정이 여러 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "sun-jian",
+      "selections": [
+        {
+          "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+          "relationType": "appearance",
+          "description": "손책의 아버지로, 후한 말 군벌로 활동한 행적이 손책과 함께 한 편(손파로토역전)에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 손책의 아버지로, 후한 말 군벌로 활동한 행적이 손책과 함께 한 편(손파로토역전)에서 다뤄진다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "오서 손파로토역전에서 한 편의 분량으로 다뤄지는 손씨 정권의 시조",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서 손파로토역전에서 한 편의 분량으로 다뤄지는 손씨 정권의 시조"
+        }
+      ]
+    },
+    {
+      "slug": "sun-quan",
+      "selections": [
+        {
+          "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+          "relationType": "appearance",
+          "description": "오나라의 초대 황제로, 독립된 본기 격인 오주전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오나라의 초대 황제로, 독립된 본기 격인 오주전에서 다뤄진다."
+        },
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "오서 오주전(吳主傳)에서 독립된 한 편으로 다뤄지는 오나라의 초대 황제",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서 오주전(吳主傳)에서 독립된 한 편으로 다뤄지는 오나라의 초대 황제"
+        },
+        {
+          "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+          "relationType": "appearance",
+          "description": "오서2 오주전에서 단독으로 다뤄지는 오나라 초대 황제",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서2 오주전에서 단독으로 다뤄지는 오나라 초대 황제"
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제4장 '강동을 내달리다'에서 오나라를 세운 군주로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장 '강동을 내달리다'에서 오나라를 세운 군주로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+          "relationType": "appearance",
+          "description": "실패한 장수 원소·동탁과 비교되며 리더십을 보여준 인물로 1부에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 실패한 장수 원소·동탁과 비교되며 리더십을 보여준 인물로 1부에서 다뤄짐"
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "오나라를 세우고 다스린 군주로서의 행적을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오나라를 세우고 다스린 군주로서의 행적을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "alan-turing",
+      "selections": [
+        {
+          "contentId": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06",
+          "relationType": "appearance",
+          "description": "1950년 \"기계가 생각할 수 있을까\"라는 질문으로 책의 서두를 여는 인물",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 1950년 \"기계가 생각할 수 있을까\"라는 질문으로 책의 서두를 여는 인물"
+        },
+        {
+          "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+          "relationType": "appearance",
+          "description": "20세기 가장 위대한 지성으로 \"기계가 생각할 수 있는가\"라는 질문을 던져 디지털 시대와 AI 논쟁의 출발점이 된 인물로 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 20세기 가장 위대한 지성으로 \"기계가 생각할 수 있는가\"라는 질문을 던져 디지털 시대와 AI 논쟁의 출발점이 된 인물로 비중 있게 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "john-mccarthy",
+      "selections": [
+        {
+          "contentId": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06",
+          "relationType": "appearance",
+          "description": "1956년 다트머스 회의를 주도하고 '인공지능'이라는 용어를 만든 인물로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 1956년 다트머스 회의를 주도하고 '인공지능'이라는 용어를 만든 인물로 다뤄짐"
+        },
+        {
+          "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+          "relationType": "appearance",
+          "description": "1955년 다트머스 회의를 구상하고 '인공지능'이라는 용어를 처음 만든 인물로 1부 '기호의 시대'에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 1955년 다트머스 회의를 구상하고 '인공지능'이라는 용어를 처음 만든 인물로 1부 '기호의 시대'에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "eric-schmidt",
+      "selections": [
+        {
+          "contentId": "a1816eae-5db7-57af-b079-b4d5ea39c357",
+          "relationType": "appearance",
+          "description": "구글의 CEO로 영입된 인물로, 9장 전체가 그의 영입 과정과 경영 스타일을 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 구글의 CEO로 영입된 인물로, 9장 전체가 그의 영입 과정과 경영 스타일을 다룬다."
+        },
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "구글 전 CEO로서 제11장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 구글 전 CEO로서 제11장 전체를 통해 그의 통찰이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "paul-graham",
+      "selections": [
+        {
+          "contentId": "9014c972-f90e-5555-9aa9-301933a09ab1",
+          "relationType": "appearance",
+          "description": "샘 올트먼이 Y콤비네이터 대표직을 이어받는 인물로, 그의 멘토이자 전임자로서 해당 시기를 다루는 대목에서 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 샘 올트먼이 Y콤비네이터 대표직을 이어받는 인물로, 그의 멘토이자 전임자로서 해당 시기를 다루는 대목에서 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "sun-bin",
+      "selections": [
+        {
+          "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+          "relationType": "appearance",
+          "description": "제나라의 군사 전략가로서 활약한 일화가 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라의 군사 전략가로서 활약한 일화가 등장한다."
+        },
+        {
+          "contentId": "4c885396-aa0c-502b-9997-d6896519815e",
+          "relationType": "appearance",
+          "description": "다리를 잃은 뒤에도 병법으로 방연을 이긴 지략가로서의 삶을 한 장 전체로 다룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 다리를 잃은 뒤에도 병법으로 방연을 이긴 지략가로서의 삶을 한 장 전체로 다룬다"
+        },
+        {
+          "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+          "relationType": "appearance",
+          "description": "손무의 후손으로 방연과의 대립 속에 병법으로 이름을 떨친 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 손무의 후손으로 방연과의 대립 속에 병법으로 이름을 떨친 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "mencius",
+      "selections": [
+        {
+          "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+          "relationType": "appearance",
+          "description": "사상가로서 제후들과 주고받은 문답이 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 사상가로서 제후들과 주고받은 문답이 등장한다."
+        },
+        {
+          "contentId": "78efabc5-ad92-5109-9931-dd4b7719842b",
+          "relationType": "appearance",
+          "description": "고전 저자로서 이야기 속에 등장하며, 「맹자, 밥을 차려 주다」 편에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 고전 저자로서 이야기 속에 등장하며, 「맹자, 밥을 차려 주다」 편에서 다뤄진다."
+        },
+        {
+          "contentId": "f75e0940-a28b-5dd6-907b-859a31d32d1a",
+          "relationType": "appearance",
+          "description": "제3부 「맹자를 풍자한다(刺孟)」 편에서 독립적으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3부 「맹자를 풍자한다(刺孟)」 편에서 독립적으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "mozi",
+      "selections": [
+        {
+          "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+          "relationType": "appearance",
+          "description": "사상가로서 관련 일화가 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 사상가로서 관련 일화가 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "cao-cao",
+      "selections": [
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "위서 권1 무제기(武帝紀)에서 독립된 한 편으로 다뤄지는 위나라의 실질적 창건자",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위서 권1 무제기(武帝紀)에서 독립된 한 편으로 다뤄지는 위나라의 실질적 창건자"
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제2장 '화북을 평정하다'의 중심 인물로 위나라 기틀을 세운 과정을 다룬 독립된 절이 있다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장 '화북을 평정하다'의 중심 인물로 위나라 기틀을 세운 과정을 다룬 독립된 절이 있다."
+        },
+        {
+          "contentId": "b617b69a-9e3e-5493-8e2e-0ec3ecda698d",
+          "relationType": "appearance",
+          "description": "제후 세력을 억제하는 삭번책을 주도하다 처형된 경제의 책사로, 원앙과 함께 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제후 세력을 억제하는 삭번책을 주도하다 처형된 경제의 책사로, 원앙과 함께 다뤄진다."
+        },
+        {
+          "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+          "relationType": "appearance",
+          "description": "실패한 장수 원소·동탁과 비교되며 인재 기용과 추진력을 보여준 리더로 1부에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 실패한 장수 원소·동탁과 비교되며 인재 기용과 추진력을 보여준 리더로 1부에서 다뤄짐"
+        },
+        {
+          "contentId": "4fea7b95-f9ac-586b-92b3-41b3466b8dde",
+          "relationType": "appearance",
+          "description": "제2장에서 위나라를 개창한 난세의 영웅으로 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장에서 위나라를 개창한 난세의 영웅으로 독립된 한 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "7ea04905-3703-58b0-b488-b60cbf822139",
+          "relationType": "appearance",
+          "description": "후한 말 실권자로서 위나라의 기틀을 세우는 과정을 독립된 장에서 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 후한 말 실권자로서 위나라의 기틀을 세우는 과정을 독립된 장에서 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "yuan-shu",
+      "selections": [
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "위서 동이원유전에서 한 편의 분량으로 다뤄지는 회남의 군웅",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위서 동이원유전에서 한 편의 분량으로 다뤄지는 회남의 군웅"
+        }
+      ]
+    },
+    {
+      "slug": "liu-biao",
+      "selections": [
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "위서 동이원유전에서 한 편의 분량으로 다뤄지는 형주의 군웅",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위서 동이원유전에서 한 편의 분량으로 다뤄지는 형주의 군웅"
+        }
+      ]
+    },
+    {
+      "slug": "gongsun-zan",
+      "selections": [
+        {
+          "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "relationType": "appearance",
+          "description": "위서 이공손도사장전에서 한 편의 분량으로 다뤄지는 유주의 군웅",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 위서 이공손도사장전에서 한 편의 분량으로 다뤄지는 유주의 군웅"
+        }
+      ]
+    },
+    {
+      "slug": "kimbal-musk",
+      "selections": [
+        {
+          "contentId": "bebdefca-6023-46bc-84dc-08c61af7849f",
+          "relationType": "appearance",
+          "description": "일론의 남동생으로, 초기 사업(Zip2 등)에 함께 참여한 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 일론의 남동생으로, 초기 사업(Zip2 등)에 함께 참여한 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "murasaki-shikibu",
+      "selections": [
+        {
+          "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+          "relationType": "appearance",
+          "description": "『겐지모노가타리』를 지은 헤이안 시대 여성 작가로 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 『겐지모노가타리』를 지은 헤이안 시대 여성 작가로 한 장에서 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "minamoto-no-yoritomo",
+      "selections": [
+        {
+          "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+          "relationType": "appearance",
+          "description": "가마쿠라 막부를 연 초대 쇼군으로 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 가마쿠라 막부를 연 초대 쇼군으로 한 장에서 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "takeda-shingen",
+      "selections": [
+        {
+          "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+          "relationType": "appearance",
+          "description": "전국 시대를 대표하는 무장으로 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 전국 시대를 대표하는 무장으로 한 장에서 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "oda-nobunaga",
+      "selections": [
+        {
+          "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+          "relationType": "appearance",
+          "description": "전국 시대 통일의 기틀을 놓은 무장으로 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 전국 시대 통일의 기틀을 놓은 무장으로 한 장에서 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "toyotomi-hideyoshi",
+      "selections": [
+        {
+          "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+          "relationType": "appearance",
+          "description": "전국 시대를 통일한 인물로 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 전국 시대를 통일한 인물로 한 장에서 다뤄진다"
+        },
+        {
+          "contentId": "1b449914-2f5b-5b36-a77f-f84f9a836a08",
+          "relationType": "appearance",
+          "description": "책의 2부(도요토미 히데요시 편) 전체가 그의 출세부터 천하통일까지 다룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 책의 2부(도요토미 히데요시 편) 전체가 그의 출세부터 천하통일까지 다룬다"
+        },
+        {
+          "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+          "relationType": "appearance",
+          "description": "일본을 통일하고 조선 침략을 감행한 무장으로 제국과 혁명의 시대 편의 한 장을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 일본을 통일하고 조선 침략을 감행한 무장으로 제국과 혁명의 시대 편의 한 장을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "tokugawa-ieyasu",
+      "selections": [
+        {
+          "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+          "relationType": "appearance",
+          "description": "에도 막부를 연 초대 쇼군으로 한 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 에도 막부를 연 초대 쇼군으로 한 장에서 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "jack-ma",
+      "selections": [
+        {
+          "contentId": "9a6ada80-755e-5f02-bed2-d418bd91e3ae",
+          "relationType": "appearance",
+          "description": "성룡이 만난 별난 인물 중 하나로 제5장의 독립된 절 \"기인 세 사람\"에서 소개된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 성룡이 만난 별난 인물 중 하나로 제5장의 독립된 절 \"기인 세 사람\"에서 소개된다."
+        },
+        {
+          "contentId": "5de18f9d-c7af-52f8-b47e-b7ef19be0955",
+          "relationType": "appearance",
+          "description": "제3장에서 마화텅의 라이벌로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3장에서 마화텅의 라이벌로 다뤄짐"
+        },
+        {
+          "contentId": "71f29c90-303a-5c89-84dd-fcc5f64b9230",
+          "relationType": "appearance",
+          "description": "\"중국 마윈과 손잡다\" 장에서 손정의와의 협력 관계가 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"중국 마윈과 손잡다\" 장에서 손정의와의 협력 관계가 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "will-smith",
+      "selections": [
+        {
+          "contentId": "9a6ada80-755e-5f02-bed2-d418bd91e3ae",
+          "relationType": "appearance",
+          "description": "만나자마자 의기투합한 인연으로 제5장의 독립된 절 \"만나자마자 친해지다\"에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 만나자마자 의기투합한 인연으로 제5장의 독립된 절 \"만나자마자 친해지다\"에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "steve-jobs",
+      "selections": [
+        {
+          "contentId": "c6b904d2-6013-50e6-96a1-1764a6c6346c",
+          "relationType": "appearance",
+          "description": "프롤로그(\"스티브 잡스에게서 온 전화 한 통\")와 \"스티브 잡스의 계속되는 방해 공작\" 장에서 애플 진영의 핵심 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 프롤로그(\"스티브 잡스에게서 온 전화 한 통\")와 \"스티브 잡스의 계속되는 방해 공작\" 장에서 애플 진영의 핵심 인물로 다뤄진다."
+        },
+        {
+          "contentId": "c46be5b3-e0b1-5264-af32-a385c57c5e26",
+          "relationType": "appearance",
+          "description": "제2장 내 독립된 소제목(\"클릭 세 번의 법칙\")으로 다뤄지며 애플의 제품 원칙이 에어비앤비 성장에 미친 영향과 관련해 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장 내 독립된 소제목(\"클릭 세 번의 법칙\")으로 다뤄지며 애플의 제품 원칙이 에어비앤비 성장에 미친 영향과 관련해 등장한다."
+        },
+        {
+          "contentId": "0a1769f1-9343-5dc8-9199-64b4ef4ed926",
+          "relationType": "appearance",
+          "description": "애플 창업자로서 경영 수완과 혁신 사례를 다룬 장에서 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 애플 창업자로서 경영 수완과 혁신 사례를 다룬 장에서 등장한다."
+        },
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "애플 창립자로서 제1장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 애플 창립자로서 제1장 전체를 통해 그의 통찰이 다뤄진다"
+        },
+        {
+          "contentId": "b7e2ce54-6a85-502d-85c2-f34707f3bd4d",
+          "relationType": "appearance",
+          "description": "모바일 혁명을 이뤄낸 인물로 책의 마지막 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 모바일 혁명을 이뤄낸 인물로 책의 마지막 장에서 다뤄진다"
+        },
+        {
+          "contentId": "71f29c90-303a-5c89-84dd-fcc5f64b9230",
+          "relationType": "appearance",
+          "description": "\"제2의 스티브 잡스\" 장에서 손정의와 비교되며 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"제2의 스티브 잡스\" 장에서 손정의와 비교되며 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "jay-z",
+      "selections": [
+        {
+          "contentId": "c6b904d2-6013-50e6-96a1-1764a6c6346c",
+          "relationType": "appearance",
+          "description": "\"라이벌이 된 제이 지\" 장에서 타이달 등을 통해 스포티파이의 경쟁자로 한 장을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"라이벌이 된 제이 지\" 장에서 타이달 등을 통해 스포티파이의 경쟁자로 한 장을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "taylor-swift",
+      "selections": [
+        {
+          "contentId": "c6b904d2-6013-50e6-96a1-1764a6c6346c",
+          "relationType": "appearance",
+          "description": "\"테일러 스위프트의 보이콧\" 장에서 스트리밍 서비스 보이콧 사건의 주역으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"테일러 스위프트의 보이콧\" 장에서 스트리밍 서비스 보이콧 사건의 주역으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "jimmy-iovine",
+      "selections": [
+        {
+          "contentId": "c6b904d2-6013-50e6-96a1-1764a6c6346c",
+          "relationType": "appearance",
+          "description": "비츠 뮤직 창업자로 \"애플과 비츠, 라이벌끼리 손잡다\" 장에서 스포티파이의 경쟁 구도 속 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 비츠 뮤직 창업자로 \"애플과 비츠, 라이벌끼리 손잡다\" 장에서 스포티파이의 경쟁 구도 속 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "georgy-zhukov",
+      "selections": [
+        {
+          "contentId": "d382ff0e-eed7-5d81-8ee1-5f4fd4e934ac",
+          "relationType": "appearance",
+          "description": "독소전쟁 전 기간에 걸쳐 소련군 최고사령부의 핵심 전략가이자 주요 작전 지휘관으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 독소전쟁 전 기간에 걸쳐 소련군 최고사령부의 핵심 전략가이자 주요 작전 지휘관으로 다뤄진다."
+        },
+        {
+          "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+          "relationType": "appearance",
+          "description": "제2차 세계대전 소련군을 이끈 원수로 현대 편의 한 장을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2차 세계대전 소련군을 이끈 원수로 현대 편의 한 장을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "friedrich-paulus",
+      "selections": [
+        {
+          "contentId": "d382ff0e-eed7-5d81-8ee1-5f4fd4e934ac",
+          "relationType": "appearance",
+          "description": "스탈린그라드 공방전과 천왕성 작전에 따른 독일 제6군 궤멸 과정에서 사령관으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 스탈린그라드 공방전과 천왕성 작전에 따른 독일 제6군 궤멸 과정에서 사령관으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "adolf-hitler",
+      "selections": [
+        {
+          "contentId": "d382ff0e-eed7-5d81-8ee1-5f4fd4e934ac",
+          "relationType": "appearance",
+          "description": "스탈린그라드 잔류 명령과 주요 작전 개시일 결정 등 독일군 작전 전반에 개입하는 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 스탈린그라드 잔류 명령과 주요 작전 개시일 결정 등 독일군 작전 전반에 개입하는 인물로 다뤄진다."
+        },
+        {
+          "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+          "relationType": "appearance",
+          "description": "됭케르크 철수를 가능케 한 정지 명령 등 그의 결정이 전격전 신화 형성 과정에서 비중 있게 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 됭케르크 철수를 가능케 한 정지 명령 등 그의 결정이 전격전 신화 형성 과정에서 비중 있게 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "hannibal-barca",
+      "selections": [
+        {
+          "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+          "relationType": "appearance",
+          "description": "스키피오와의 포에니 전쟁 대결을 중심으로 한 장 전체를 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 스키피오와의 포에니 전쟁 대결을 중심으로 한 장 전체를 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "scipio-africanus",
+      "selections": [
+        {
+          "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+          "relationType": "appearance",
+          "description": "한니발을 무찌른 로마 장군으로 같은 장에서 대등하게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 한니발을 무찌른 로마 장군으로 같은 장에서 대등하게 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "richard-i",
+      "selections": [
+        {
+          "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+          "relationType": "appearance",
+          "description": "존 왕과의 형제간 권력 다툼을 다룬 장의 주인공이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 존 왕과의 형제간 권력 다툼을 다룬 장의 주인공이다."
+        }
+      ]
+    },
+    {
+      "slug": "elizabeth-i",
+      "selections": [
+        {
+          "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+          "relationType": "appearance",
+          "description": "스코틀랜드 여왕 메리와의 대결을 다룬 독립된 장의 주인공이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 스코틀랜드 여왕 메리와의 대결을 다룬 독립된 장의 주인공이다."
+        },
+        {
+          "contentId": "6d7ee10c-3073-51d5-aa1c-80fad9e7db5d",
+          "relationType": "appearance",
+          "description": "제1장에서 드레이크를 후원하고, 제2장에서 암살 음모 저지의 중심 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제1장에서 드레이크를 후원하고, 제2장에서 암살 음모 저지의 중심 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "napoleon-bonaparte",
+      "selections": [
+        {
+          "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+          "relationType": "appearance",
+          "description": "웰링턴 공작과의 워털루 대결을 다룬 장의 주인공이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 웰링턴 공작과의 워털루 대결을 다룬 장의 주인공이다."
+        },
+        {
+          "contentId": "2f43630b-4265-5acc-82cd-a3ba103bdccb",
+          "relationType": "appearance",
+          "description": "프랑스 청년 장교로 조세핀과 만나 사랑에 빠지고 이집트 원정과 황제 즉위를 거치는 과정이 여러 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 프랑스 청년 장교로 조세핀과 만나 사랑에 빠지고 이집트 원정과 황제 즉위를 거치는 과정이 여러 장에 걸쳐 다뤄진다."
+        },
+        {
+          "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+          "relationType": "appearance",
+          "description": "8장 전체가 그의 생애와 역사적 평가를 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 8장 전체가 그의 생애와 역사적 평가를 다룬다."
+        },
+        {
+          "contentId": "753f05b2-7985-55dd-ac4b-3d51599352f1",
+          "relationType": "appearance",
+          "description": "다비드의 「성 베르나르 협곡을 넘는 나폴레옹」을 다룬 장에서 알프스 원정과 영웅적 이미지 조작이 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 다비드의 「성 베르나르 협곡을 넘는 나폴레옹」을 다룬 장에서 알프스 원정과 영웅적 이미지 조작이 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "taishi-ci",
+      "selections": [
+        {
+          "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+          "relationType": "appearance",
+          "description": "오서4 유요태사자사섭전에서 다뤄지는 인물",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오서4 유요태사자사섭전에서 다뤄지는 인물"
+        },
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "동오 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 동오 세력 배신자로 분류되어 독립된 장에서 다뤄지는 인물이다."
+        }
+      ]
+    },
+    {
+      "slug": "zhang-liao",
+      "selections": [
+        {
+          "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+          "relationType": "appearance",
+          "description": "조위 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 조위 세력 배신자로 분류되어 독립된 장에서 그의 행적이 분석된다."
+        },
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제2장에서 조조 휘하의 명장으로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장에서 조조 휘하의 명장으로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "4fea7b95-f9ac-586b-92b3-41b3466b8dde",
+          "relationType": "appearance",
+          "description": "제11장에서 합비대전 등에서 활약하며 용략을 떨친 명장으로 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제11장에서 합비대전 등에서 활약하며 용략을 떨친 명장으로 독립된 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "jensen-huang",
+      "selections": [
+        {
+          "contentId": "f82aa835-9a9d-594e-a5df-6f6b3cfaa2e5",
+          "relationType": "appearance",
+          "description": "AI 반도체(GPU) 발전을 이끈 인물로 한 장에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: AI 반도체(GPU) 발전을 이끈 인물로 한 장에서 다뤄짐"
+        },
+        {
+          "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+          "relationType": "appearance",
+          "description": "AI 시장을 설계한 기업가 중 한 명으로 엔비디아를 이끈 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: AI 시장을 설계한 기업가 중 한 명으로 엔비디아를 이끈 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "ilya-sutskever",
+      "selections": [
+        {
+          "contentId": "f82aa835-9a9d-594e-a5df-6f6b3cfaa2e5",
+          "relationType": "appearance",
+          "description": "ChatGPT 등 생성형 AI 개발의 핵심 연구자로 한 장에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: ChatGPT 등 생성형 AI 개발의 핵심 연구자로 한 장에서 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "larry-page",
+      "selections": [
+        {
+          "contentId": "fc7f912d-c584-472d-a43e-03073f712ff6",
+          "relationType": "appearance",
+          "description": "구글(웨이모) 공동창업자로, 24장 \"래리 페이지의 분노\"에서 무인자동차 기술 유출을 둘러싼 갈등이 독립된 장으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 구글(웨이모) 공동창업자로, 24장 \"래리 페이지의 분노\"에서 무인자동차 기술 유출을 둘러싼 갈등이 독립된 장으로 다뤄진다."
+        },
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "구글 전 CEO로서 제3장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 구글 전 CEO로서 제3장 전체를 통해 그의 통찰이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "cao-pi",
+      "selections": [
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제2장에서 조조의 뒤를 이어 위나라를 세운 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장에서 조조의 뒤를 이어 위나라를 세운 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "xiahou-dun",
+      "selections": [
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제2장에서 조조 휘하의 맹장으로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장에서 조조 휘하의 맹장으로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "4fea7b95-f9ac-586b-92b3-41b3466b8dde",
+          "relationType": "appearance",
+          "description": "제8장에서 전투 선봉이자 후방 군사력의 견인차 역할을 한 대장군으로 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제8장에서 전투 선봉이자 후방 군사력의 견인차 역할을 한 대장군으로 독립된 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "xiahou-yuan",
+      "selections": [
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제2장에서 조조 휘하의 맹장으로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장에서 조조 휘하의 맹장으로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "4fea7b95-f9ac-586b-92b3-41b3466b8dde",
+          "relationType": "appearance",
+          "description": "제9장에서 기동력과 용맹을 떨친 야전군 사령관으로 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제9장에서 기동력과 용맹을 떨친 야전군 사령관으로 독립된 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "cao-ren",
+      "selections": [
+        {
+          "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+          "relationType": "appearance",
+          "description": "제2장에서 조조를 도운 위나라 장수로 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장에서 조조를 도운 위나라 장수로 독립된 절에서 다뤄진다."
+        },
+        {
+          "contentId": "4fea7b95-f9ac-586b-92b3-41b3466b8dde",
+          "relationType": "appearance",
+          "description": "제10장에서 용의주도함과 지략, 용맹을 겸비한 방면군 사령관으로 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제10장에서 용의주도함과 지략, 용맹을 겸비한 방면군 사령관으로 독립된 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "ada-lovelace",
+      "selections": [
+        {
+          "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+          "relationType": "appearance",
+          "description": "최초의 프로그래머로서 \"기계는 시키는 일만 할 수 있다\"는 언급이 튜링의 논의와 맞물려 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 최초의 프로그래머로서 \"기계는 시키는 일만 할 수 있다\"는 언급이 튜링의 논의와 맞물려 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "muhammad",
+      "selections": [
+        {
+          "contentId": "1acee299-d1fb-531f-8c82-44cb694c72ca",
+          "relationType": "appearance",
+          "description": "이슬람의 기원과 확산을 다루는 독립된 장에서 상세히 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 이슬람의 기원과 확산을 다루는 독립된 장에서 상세히 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "solon",
+      "selections": [
+        {
+          "contentId": "10c44f7c-9797-5575-ac46-fab328b3a9ba",
+          "relationType": "appearance",
+          "description": "아테네 귀족정치를 타파한 금권정치 개혁을 이끈 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네 귀족정치를 타파한 금권정치 개혁을 이끈 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "peisistratus",
+      "selections": [
+        {
+          "contentId": "10c44f7c-9797-5575-ac46-fab328b3a9ba",
+          "relationType": "appearance",
+          "description": "아테네에 참주정치 시대를 연 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네에 참주정치 시대를 연 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "pericles",
+      "selections": [
+        {
+          "contentId": "10c44f7c-9797-5575-ac46-fab328b3a9ba",
+          "relationType": "appearance",
+          "description": "아테네 민주정치의 황금기를 이끈 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네 민주정치의 황금기를 이끈 인물로 다뤄진다."
+        },
+        {
+          "contentId": "62177356-1efa-581e-af57-e394853de28b",
+          "relationType": "appearance",
+          "description": "투키디데스가 그의 정치적 지도력을 실제보다 미화해 서술했다는 케이건의 핵심 주장을 통해 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 투키디데스가 그의 정치적 지도력을 실제보다 미화해 서술했다는 케이건의 핵심 주장을 통해 비중 있게 다뤄진다."
+        },
+        {
+          "contentId": "5e22cb75-aad1-5c79-8b10-926a608a8f40",
+          "relationType": "appearance",
+          "description": "아테네 민주정 전성기를 이끈 정치가로 그의 생애 전체가 한 장으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네 민주정 전성기를 이끈 정치가로 그의 생애 전체가 한 장으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "thucydides",
+      "selections": [
+        {
+          "contentId": "199c33d0-2999-5b66-8a2b-dd7aa1c34357",
+          "relationType": "appearance",
+          "description": "2부 1장에서 이븐 할둔과 비교되는 인물로 한 장 전체를 통해 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 2부 1장에서 이븐 할둔과 비교되는 인물로 한 장 전체를 통해 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "howard-schultz",
+      "selections": [
+        {
+          "contentId": "0a1769f1-9343-5dc8-9199-64b4ef4ed926",
+          "relationType": "appearance",
+          "description": "스타벅스 창업자로서 경영 철학과 성공 노하우를 다룬 장에서 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 스타벅스 창업자로서 경영 철학과 성공 노하우를 다룬 장에서 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "richard-branson",
+      "selections": [
+        {
+          "contentId": "0a1769f1-9343-5dc8-9199-64b4ef4ed926",
+          "relationType": "appearance",
+          "description": "버진 그룹 창업자로서 경영 노하우를 다룬 장에서 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 버진 그룹 창업자로서 경영 노하우를 다룬 장에서 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-dell",
+      "selections": [
+        {
+          "contentId": "0a1769f1-9343-5dc8-9199-64b4ef4ed926",
+          "relationType": "appearance",
+          "description": "델 컴퓨터 창업자로서 경영 수완을 다룬 장에서 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 델 컴퓨터 창업자로서 경영 수완을 다룬 장에서 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "angela-merkel",
+      "selections": [
+        {
+          "contentId": "14792b44-57d1-5739-8725-2c5e5b596bfd",
+          "relationType": "appearance",
+          "description": "OECD 컨퍼런스 연설을 다룬 장에서 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: OECD 컨퍼런스 연설을 다룬 장에서 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "george-soros",
+      "selections": [
+        {
+          "contentId": "0bdfe5fa-05c7-58e9-b84c-283b202bdb18",
+          "relationType": "appearance",
+          "description": "헤지펀드 대가로서 투자철학과 전략, 흥망성쇠가 주요하게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 헤지펀드 대가로서 투자철학과 전략, 흥망성쇠가 주요하게 다뤄진다."
+        },
+        {
+          "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+          "relationType": "appearance",
+          "description": "PART 1 CHAPTER 2(거시경제 전략가들)에서 독립된 장으로 다뤄지는 매크로 투자자",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: PART 1 CHAPTER 2(거시경제 전략가들)에서 독립된 장으로 다뤄지는 매크로 투자자"
+        }
+      ]
+    },
+    {
+      "slug": "zeus",
+      "selections": [
+        {
+          "contentId": "14764441-b2d1-55b0-a7da-a9bbd0833a6c",
+          "relationType": "appearance",
+          "description": "필론의 7대 불가사의 중 하나인 '제우스 신상' 편에서 그리스 최고신으로서 신상 건립의 배경으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 필론의 7대 불가사의 중 하나인 '제우스 신상' 편에서 그리스 최고신으로서 신상 건립의 배경으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "artemis",
+      "selections": [
+        {
+          "contentId": "14764441-b2d1-55b0-a7da-a9bbd0833a6c",
+          "relationType": "appearance",
+          "description": "'아르테미스 신전' 편에서 세 번 지어지고 세 번 파괴된 신전의 주신으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: '아르테미스 신전' 편에서 세 번 지어지고 세 번 파괴된 신전의 주신으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "chad-hurley",
+      "selections": [
+        {
+          "contentId": "2ab0a463-2a19-4670-963f-7ae4f5d001f0",
+          "relationType": "appearance",
+          "description": "유튜브 공동창업자로 4부(창업의 진실)~6부(영광의 날)에 걸쳐 스티브 첸과 함께 창업·성장 과정의 주역으로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유튜브 공동창업자로 4부(창업의 진실)~6부(영광의 날)에 걸쳐 스티브 첸과 함께 창업·성장 과정의 주역으로 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "kai-fu-lee",
+      "selections": [
+        {
+          "contentId": "2ab0a463-2a19-4670-963f-7ae4f5d001f0",
+          "relationType": "appearance",
+          "description": "전 구글차이나 사장으로, 책 서두 \"추천의 말\"을 쓴 인물로 소개됨",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 전 구글차이나 사장으로, 책 서두 \"추천의 말\"을 쓴 인물로 소개됨"
+        }
+      ]
+    },
+    {
+      "slug": "aeschylus",
+      "selections": [
+        {
+          "contentId": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+          "relationType": "appearance",
+          "description": "개구리에서 에우리피데스와 저승 비극 경연을 벌이는 주요 등장인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 개구리에서 에우리피데스와 저승 비극 경연을 벌이는 주요 등장인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "dionysus",
+      "selections": [
+        {
+          "contentId": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+          "relationType": "appearance",
+          "description": "개구리의 주인공으로 저승에 내려가 비극 경연을 주관하는 인물로 극 전체를 이끈다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 개구리의 주인공으로 저승에 내려가 비극 경연을 주관하는 인물로 극 전체를 이끈다."
+        }
+      ]
+    },
+    {
+      "slug": "heracles",
+      "selections": [
+        {
+          "contentId": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+          "relationType": "appearance",
+          "description": "개구리 초반에 디오니소스가 저승 가는 길을 상담하러 찾아가는 장면에서 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 개구리 초반에 디오니소스가 저승 가는 길을 상담하러 찾아가는 장면에서 비중 있게 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "hermes",
+      "selections": [
+        {
+          "contentId": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+          "relationType": "appearance",
+          "description": "부의 신에서 신들이 굶주리게 되자 인간 집에 얹혀살려 하는 장면의 주요 등장인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 부의 신에서 신들이 굶주리게 되자 인간 집에 얹혀살려 하는 장면의 주요 등장인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "mehmed-ii",
+      "selections": [
+        {
+          "contentId": "36a1892c-9b13-5c36-8aa1-87868a5b6559",
+          "relationType": "appearance",
+          "description": "오스만 제국의 술탄으로 콘스탄티노플 공략을 주도하는 이 책의 핵심 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오스만 제국의 술탄으로 콘스탄티노플 공략을 주도하는 이 책의 핵심 인물이다."
+        }
+      ]
+    },
+    {
+      "slug": "marcus-aurelius",
+      "selections": [
+        {
+          "contentId": "35c97e9a-97f9-54f8-a834-90a5bfa5f8d1",
+          "relationType": "appearance",
+          "description": "하드리아누스가 후계자의 후계자로 지목해 이 회상록을 전달하는 대상",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 하드리아누스가 후계자의 후계자로 지목해 이 회상록을 전달하는 대상"
+        },
+        {
+          "contentId": "4e2e1497-f329-410b-aee9-f577e654ae5b",
+          "relationType": "appearance",
+          "description": "하드리아누스가 후계자의 후계자로 지목하여 이 회상록 전체를 편지 형식으로 전하는 수신자.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 하드리아누스가 후계자의 후계자로 지목하여 이 회상록 전체를 편지 형식으로 전하는 수신자."
+        }
+      ]
+    },
+    {
+      "slug": "t.s.-eliot",
+      "selections": [
+        {
+          "contentId": "29443abb-2c1d-560d-98d5-effe6771305f",
+          "relationType": "appearance",
+          "description": "문우로서 여러 해에 걸쳐 반복적으로 언급·기록되는 인물",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 문우로서 여러 해에 걸쳐 반복적으로 언급·기록되는 인물"
+        }
+      ]
+    },
+    {
+      "slug": "claudius",
+      "selections": [
+        {
+          "contentId": "1de51489-f9aa-518a-b0b8-055a1bb36409",
+          "relationType": "appearance",
+          "description": "로마 제4대 황제로 그의 즉위 과정과 통치, 개인사를 한 장에 걸쳐 서술한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마 제4대 황제로 그의 즉위 과정과 통치, 개인사를 한 장에 걸쳐 서술한다."
+        },
+        {
+          "contentId": "f5477f4d-1b0f-5711-9218-6d066b3ac6d9",
+          "relationType": "appearance",
+          "description": "제3부 전체의 주인공으로 그의 통치 전반이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3부 전체의 주인공으로 그의 통치 전반이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "nero",
+      "selections": [
+        {
+          "contentId": "1de51489-f9aa-518a-b0b8-055a1bb36409",
+          "relationType": "appearance",
+          "description": "로마 제5대 황제로 그의 통치와 폭정, 예술적 야심과 몰락을 한 장에 걸쳐 서술한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마 제5대 황제로 그의 통치와 폭정, 예술적 야심과 몰락을 한 장에 걸쳐 서술한다."
+        },
+        {
+          "contentId": "f5477f4d-1b0f-5711-9218-6d066b3ac6d9",
+          "relationType": "appearance",
+          "description": "제4부 전체의 주인공으로 즉위부터 통치 전반이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4부 전체의 주인공으로 즉위부터 통치 전반이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "cyrus-the-great",
+      "selections": [
+        {
+          "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+          "relationType": "appearance",
+          "description": "페르시아 제국을 세운 정복왕으로 고대 세계 첫 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 페르시아 제국을 세운 정복왕으로 고대 세계 첫 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "julius-caesar",
+      "selections": [
+        {
+          "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+          "relationType": "appearance",
+          "description": "로마 공화정 말기 정복자이자 정치가로 고대 세계 편의 한 장을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마 공화정 말기 정복자이자 정치가로 고대 세계 편의 한 장을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "saladin",
+      "selections": [
+        {
+          "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+          "relationType": "appearance",
+          "description": "십자군에 맞선 아이유브 왕조의 지도자로 중세 세계 편의 한 장을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 십자군에 맞선 아이유브 왕조의 지도자로 중세 세계 편의 한 장을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "george-washington",
+      "selections": [
+        {
+          "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+          "relationType": "appearance",
+          "description": "미국 독립전쟁을 이끈 총사령관으로 제국과 혁명의 시대 편에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 미국 독립전쟁을 이끈 총사령관으로 제국과 혁명의 시대 편에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "oliver-cromwell",
+      "selections": [
+        {
+          "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+          "relationType": "appearance",
+          "description": "잉글랜드 내전을 이끈 군사·정치 지도자로 제국과 혁명의 시대 편의 한 장을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 잉글랜드 내전을 이끈 군사·정치 지도자로 제국과 혁명의 시대 편의 한 장을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "margaret-thatcher",
+      "selections": [
+        {
+          "contentId": "33e3996f-c0d0-534e-8b6a-4f39ff5adf62",
+          "relationType": "appearance",
+          "description": "18장 '철의 여인이 되다'에서 메릴 스트립이 연기한 영화 <철의 여인> 속 실존 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 18장 '철의 여인이 되다'에서 메릴 스트립이 연기한 영화 <철의 여인> 속 실존 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "yue-yi",
+      "selections": [
+        {
+          "contentId": "2569c6d4-cb05-5923-80a9-bd7678682262",
+          "relationType": "appearance",
+          "description": "악의열전 전체가 연나라 장수로서 제나라를 대파한 행적과 이후의 처신을 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 악의열전 전체가 연나라 장수로서 제나라를 대파한 행적과 이후의 처신을 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "lian-po",
+      "selections": [
+        {
+          "contentId": "2569c6d4-cb05-5923-80a9-bd7678682262",
+          "relationType": "appearance",
+          "description": "염파인상여열전 앞부분에서 조나라의 용맹한 명장으로 활약한 행적을 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 염파인상여열전 앞부분에서 조나라의 용맹한 명장으로 활약한 행적을 다룬다."
+        },
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "인상여와의 화해(문경지교)를 중심으로 다뤄진 조나라 장수",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 인상여와의 화해(문경지교)를 중심으로 다뤄진 조나라 장수"
+        }
+      ]
+    },
+    {
+      "slug": "lin-xiangru",
+      "selections": [
+        {
+          "contentId": "2569c6d4-cb05-5923-80a9-bd7678682262",
+          "relationType": "appearance",
+          "description": "염파인상여열전에서 완벽귀조와 민지회맹 등으로 조나라의 위신을 지킨 행적을 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 염파인상여열전에서 완벽귀조와 민지회맹 등으로 조나라의 위신을 지킨 행적을 다룬다."
+        },
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "염파와의 포용과 화해를 다룬 조나라 재상",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 염파와의 포용과 화해를 다룬 조나라 재상"
+        }
+      ]
+    },
+    {
+      "slug": "li-mu",
+      "selections": [
+        {
+          "contentId": "2569c6d4-cb05-5923-80a9-bd7678682262",
+          "relationType": "appearance",
+          "description": "염파인상여열전 말미에 별도 단락으로 조나라 최후의 명장으로 활약하다 참소로 죽은 행적을 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 염파인상여열전 말미에 별도 단락으로 조나라 최후의 명장으로 활약하다 참소로 죽은 행적을 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "peter-the-great",
+      "selections": [
+        {
+          "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+          "relationType": "appearance",
+          "description": "2장 전체가 그의 러시아 근대화 개혁을 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 2장 전체가 그의 러시아 근대화 개혁을 다룬다."
+        },
+        {
+          "contentId": "55a29d24-f51c-51c7-98c4-86686399cd45",
+          "relationType": "appearance",
+          "description": "모스크바 대공국 장에서 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 모스크바 대공국 장에서 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "marie-antoinette",
+      "selections": [
+        {
+          "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+          "relationType": "appearance",
+          "description": "3장의 중심 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 3장의 중심 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "louis-xvi",
+      "selections": [
+        {
+          "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+          "relationType": "appearance",
+          "description": "3장에서 마리 앙투아네트와 함께 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 3장에서 마리 앙투아네트와 함께 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "simon-bolivar",
+      "selections": [
+        {
+          "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+          "relationType": "appearance",
+          "description": "6장에서 라틴아메리카 독립운동의 주역으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 6장에서 라틴아메리카 독립운동의 주역으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "james-watt",
+      "selections": [
+        {
+          "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+          "relationType": "appearance",
+          "description": "7장에서 산업혁명의 영웅으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 7장에서 산업혁명의 영웅으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "pythagoras",
+      "selections": [
+        {
+          "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+          "relationType": "appearance",
+          "description": "피타고라스의 정리를 다루는 장에서 등장한다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 피타고라스의 정리를 다루는 장에서 등장한다"
+        }
+      ]
+    },
+    {
+      "slug": "euclid",
+      "selections": [
+        {
+          "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+          "relationType": "appearance",
+          "description": "저서 《원론》을 소개하는 장에서 등장한다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 저서 《원론》을 소개하는 장에서 등장한다"
+        }
+      ]
+    },
+    {
+      "slug": "eratosthenes",
+      "selections": [
+        {
+          "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+          "relationType": "appearance",
+          "description": "소수를 찾는 체와 지구 둘레 계산법을 다루는 두 장에서 등장한다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 소수를 찾는 체와 지구 둘레 계산법을 다루는 두 장에서 등장한다"
+        }
+      ]
+    },
+    {
+      "slug": "archimedes",
+      "selections": [
+        {
+          "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+          "relationType": "appearance",
+          "description": "그의 수학적 발견을 다루는 장에서 등장한다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 그의 수학적 발견을 다루는 장에서 등장한다"
+        }
+      ]
+    },
+    {
+      "slug": "al-khwarizmi",
+      "selections": [
+        {
+          "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+          "relationType": "appearance",
+          "description": "알고리즘의 기원을 다루는 장에서 등장한다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 알고리즘의 기원을 다루는 장에서 등장한다"
+        }
+      ]
+    },
+    {
+      "slug": "sergey-brin",
+      "selections": [
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "구글 창업자로서 제4장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 구글 창업자로서 제4장 전체를 통해 그의 통찰이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "jack-dorsey",
+      "selections": [
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "트위터 창업자로서 제8장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 트위터 창업자로서 제8장 전체를 통해 그의 통찰이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "tim-cook",
+      "selections": [
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "애플 CEO로서 제10장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 애플 CEO로서 제10장 전체를 통해 그의 통찰이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "satya-nadella",
+      "selections": [
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "마이크로소프트 CEO로서 제12장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 마이크로소프트 CEO로서 제12장 전체를 통해 그의 통찰이 다뤄진다"
+        },
+        {
+          "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+          "relationType": "appearance",
+          "description": "AI 시장을 설계한 기업가 중 한 명으로 마이크로소프트를 이끈 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: AI 시장을 설계한 기업가 중 한 명으로 마이크로소프트를 이끈 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "larry-ellison",
+      "selections": [
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "오라클 창업자로서 제14장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오라클 창업자로서 제14장 전체를 통해 그의 통찰이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "sam-altman",
+      "selections": [
+        {
+          "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+          "relationType": "appearance",
+          "description": "OpenAI(ChatGPT) 설립자로서 제15장 전체를 통해 그의 통찰이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: OpenAI(ChatGPT) 설립자로서 제15장 전체를 통해 그의 통찰이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "leonardo-da-vinci",
+      "selections": [
+        {
+          "contentId": "3b625a0c-7506-5a0b-9bed-31e814b6b7e3",
+          "relationType": "appearance",
+          "description": "한 장에서 그의 생애와 예술을 독립적으로 다룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 한 장에서 그의 생애와 예술을 독립적으로 다룬다"
+        },
+        {
+          "contentId": "783a2e3e-ecc7-5df4-95ac-c33e3713dfd1",
+          "relationType": "appearance",
+          "description": "사생아 신분의 제약 속에서도 시대를 앞선 상상력으로 예술과 과학을 넘나든 삶을 한 장에 걸쳐 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 사생아 신분의 제약 속에서도 시대를 앞선 상상력으로 예술과 과학을 넘나든 삶을 한 장에 걸쳐 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "michelangelo",
+      "selections": [
+        {
+          "contentId": "3b625a0c-7506-5a0b-9bed-31e814b6b7e3",
+          "relationType": "appearance",
+          "description": "한 장에서 그의 생애와 예술적 업적을 다룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 한 장에서 그의 생애와 예술적 업적을 다룬다"
+        }
+      ]
+    },
+    {
+      "slug": "shigeru-miyamoto",
+      "selections": [
+        {
+          "contentId": "4db94d5a-9ab2-5453-afad-2e4dca9c8668",
+          "relationType": "appearance",
+          "description": "6장 \"미야모토 시게루의 선택\" 전체가 그의 이야기로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 6장 \"미야모토 시게루의 선택\" 전체가 그의 이야기로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "napoleon-iii",
+      "selections": [
+        {
+          "contentId": "4752b901-49ee-506d-8fe3-abf8dc1c3209",
+          "relationType": "appearance",
+          "description": "프로이센-프랑스 전쟁에서 무능한 지휘로 몰락한 황제로 7장의 주인공이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 프로이센-프랑스 전쟁에서 무능한 지휘로 몰락한 황제로 7장의 주인공이다."
+        }
+      ]
+    },
+    {
+      "slug": "sundar-pichai",
+      "selections": [
+        {
+          "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+          "relationType": "appearance",
+          "description": "AI 시장을 설계한 기업가 중 한 명으로 구글을 이끈 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: AI 시장을 설계한 기업가 중 한 명으로 구글을 이끈 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "masayoshi-son",
+      "selections": [
+        {
+          "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+          "relationType": "appearance",
+          "description": "AI 시장을 설계한 기업가 중 한 명으로 소프트뱅크를 이끈 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: AI 시장을 설계한 기업가 중 한 명으로 소프트뱅크를 이끈 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "gwanggaeto-the-great",
+      "selections": [
+        {
+          "contentId": "649d463d-8c3e-5484-bb08-6ce2e089c5d3",
+          "relationType": "appearance",
+          "description": "아틸라와 비견되는 동아시아의 패자로서 제5장 전체에서 독립적으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아틸라와 비견되는 동아시아의 패자로서 제5장 전체에서 독립적으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "zhuangzi",
+      "selections": [
+        {
+          "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+          "relationType": "appearance",
+          "description": "노자의 사상을 이어받아 우언으로 도가 철학을 펼친 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 노자의 사상을 이어받아 우언으로 도가 철학을 펼친 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "zhu-yuanzhang",
+      "selections": [
+        {
+          "contentId": "61ebbbd2-6b41-51a7-96c0-5329decaeb62",
+          "relationType": "appearance",
+          "description": "명나라를 건국한 초대 황제로, \"역사 바로보기 2. 주원장과 영락제\" 장에서 별도로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 명나라를 건국한 초대 황제로, \"역사 바로보기 2. 주원장과 영락제\" 장에서 별도로 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "alcibiades",
+      "selections": [
+        {
+          "contentId": "62177356-1efa-581e-af57-e394853de28b",
+          "relationType": "appearance",
+          "description": "시켈리아 원정을 둘러싼 논의에서 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 시켈리아 원정을 둘러싼 논의에서 비중 있게 다뤄진다."
+        },
+        {
+          "contentId": "5e22cb75-aad1-5c79-8b10-926a608a8f40",
+          "relationType": "appearance",
+          "description": "아테네의 야심찬 정치가·장군으로 그의 파란만장한 생애가 한 장을 이룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네의 야심찬 정치가·장군으로 그의 파란만장한 생애가 한 장을 이룬다"
+        }
+      ]
+    },
+    {
+      "slug": "marcus-licinius-crassus",
+      "selections": [
+        {
+          "contentId": "5e22cb75-aad1-5c79-8b10-926a608a8f40",
+          "relationType": "appearance",
+          "description": "로마 삼두정치의 일원으로 부와 권력, 파르티아 원정에서의 최후까지 한 장으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마 삼두정치의 일원으로 부와 권력, 파르티아 원정에서의 최후까지 한 장으로 다뤄진다"
+        },
+        {
+          "contentId": "97cc5616-f74b-5eb3-94a0-3c62c22de1be",
+          "relationType": "appearance",
+          "description": "로마군을 지휘해 스파르타쿠스의 반란을 진압하는 장군으로, 반란 후반부와 결말을 다루는 장에서 비중 있게 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마군을 지휘해 스파르타쿠스의 반란을 진압하는 장군으로, 반란 후반부와 결말을 다루는 장에서 비중 있게 등장한다."
+        },
+        {
+          "contentId": "d6ce347c-b938-5eff-9be9-2ad2bb5f4175",
+          "relationType": "appearance",
+          "description": "갑부로서 삼두정치에 참여한 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 갑부로서 삼두정치에 참여한 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "coco-chanel",
+      "selections": [
+        {
+          "contentId": "5a9d35e3-93d6-5dca-b044-38919fc9a11b",
+          "relationType": "appearance",
+          "description": "샤넬의 날개 장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 샤넬의 날개 장에서 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "orpheus",
+      "selections": [
+        {
+          "contentId": "5a9d35e3-93d6-5dca-b044-38919fc9a11b",
+          "relationType": "appearance",
+          "description": "저승의 여신을 만난 오르페우스 장에서 신화 속 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 저승의 여신을 만난 오르페우스 장에서 신화 속 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "qu-yuan",
+      "selections": [
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "굴원가생열전에서 초나라 충신이자 시인으로서의 생애가 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 굴원가생열전에서 초나라 충신이자 시인으로서의 생애가 다뤄짐"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "초나라의 충신이자 시인으로, 굴원·가생 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 초나라의 충신이자 시인으로, 굴원·가생 열전에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "li-si",
+      "selections": [
+        {
+          "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+          "relationType": "appearance",
+          "description": "이사열전 전체에서 진나라 승상으로서의 권력과 몰락이 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 이사열전 전체에서 진나라 승상으로서의 권력과 몰락이 다뤄짐"
+        },
+        {
+          "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+          "relationType": "appearance",
+          "description": "진시황을 도와 통일을 이룬 승상으로, 이사 열전에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진시황을 도와 통일을 이룬 승상으로, 이사 열전에서 다뤄진다."
+        },
+        {
+          "contentId": "a8741e11-2927-531b-855a-ceb499a3077b",
+          "relationType": "appearance",
+          "description": "권87 이사열전에서 진나라의 승상으로서 그의 흥망이 단독 편에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 권87 이사열전에서 진나라의 승상으로서 그의 흥망이 단독 편에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "thomas-more",
+      "selections": [
+        {
+          "contentId": "783a2e3e-ecc7-5df4-95ac-c33e3713dfd1",
+          "relationType": "appearance",
+          "description": "헨리 8세의 재상까지 올랐다가 왕의 이혼·재혼에 반대해 사형에 처해진 생애를 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 헨리 8세의 재상까지 올랐다가 왕의 이혼·재혼에 반대해 사형에 처해진 생애를 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "caspar-david-friedrich",
+      "selections": [
+        {
+          "contentId": "753f05b2-7985-55dd-ac4b-3d51599352f1",
+          "relationType": "appearance",
+          "description": "낭만주의를 다룬 장에서 자연의 압도적 숭고함을 중심으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 낭만주의를 다룬 장에서 자연의 압도적 숭고함을 중심으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "eugene-delacroix",
+      "selections": [
+        {
+          "contentId": "753f05b2-7985-55dd-ac4b-3d51599352f1",
+          "relationType": "appearance",
+          "description": "낭만주의를 다룬 장에서 욕망과 절망의 표현을 중심으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 낭만주의를 다룬 장에서 욕망과 절망의 표현을 중심으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "vincent-van-gogh",
+      "selections": [
+        {
+          "contentId": "753f05b2-7985-55dd-ac4b-3d51599352f1",
+          "relationType": "appearance",
+          "description": "인상주의와 후기인상주의를 다룬 장에서 세기말 근현대 미술 변화를 중심으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 인상주의와 후기인상주의를 다룬 장에서 세기말 근현대 미술 변화를 중심으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "dong-zhongshu",
+      "selections": [
+        {
+          "contentId": "87804a39-538e-5c72-8d38-b0e420491baf",
+          "relationType": "appearance",
+          "description": "61편 유림열전에서 한나라 유학을 대표하는 학자로 비중 있게 다뤄지는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 61편 유림열전에서 한나라 유학을 대표하는 학자로 비중 있게 다뤄지는 인물이다."
+        },
+        {
+          "contentId": "f75e0940-a28b-5dd6-907b-859a31d32d1a",
+          "relationType": "appearance",
+          "description": "제6장 「동중서의 천인감응론 비판」에서 독립된 장으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제6장 「동중서의 천인감응론 비판」에서 독립된 장으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "sima-qian",
+      "selections": [
+        {
+          "contentId": "87804a39-538e-5c72-8d38-b0e420491baf",
+          "relationType": "appearance",
+          "description": "70편 태사공자서에서 저자 자신의 생애와 저술 동기를 서술한 편의 주인공이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 70편 태사공자서에서 저자 자신의 생애와 저술 동기를 서술한 편의 주인공이다."
+        }
+      ]
+    },
+    {
+      "slug": "ray-dalio",
+      "selections": [
+        {
+          "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+          "relationType": "appearance",
+          "description": "PART 1 CHAPTER 2(거시경제 전략가들)에서 독립된 장으로 다뤄지는 매크로 투자자",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: PART 1 CHAPTER 2(거시경제 전략가들)에서 독립된 장으로 다뤄지는 매크로 투자자"
+        }
+      ]
+    },
+    {
+      "slug": "carl-icahn",
+      "selections": [
+        {
+          "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+          "relationType": "appearance",
+          "description": "PART 1 CHAPTER 3(행동주의와 위기 투자자들)에서 독립된 장으로 다뤄지는 행동주의 투자자",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: PART 1 CHAPTER 3(행동주의와 위기 투자자들)에서 독립된 장으로 다뤄지는 행동주의 투자자"
+        }
+      ]
+    },
+    {
+      "slug": "bill-ackman",
+      "selections": [
+        {
+          "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+          "relationType": "appearance",
+          "description": "PART 1 CHAPTER 3(행동주의와 위기 투자자들)에서 독립된 장으로 다뤄지는 행동주의 투자자",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: PART 1 CHAPTER 3(행동주의와 위기 투자자들)에서 독립된 장으로 다뤄지는 행동주의 투자자"
+        }
+      ]
+    },
+    {
+      "slug": "michael-burry",
+      "selections": [
+        {
+          "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+          "relationType": "appearance",
+          "description": "PART 1 CHAPTER 3(행동주의와 위기 투자자들)에서 독립된 장으로 다뤄지는 위기 투자자",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: PART 1 CHAPTER 3(행동주의와 위기 투자자들)에서 독립된 장으로 다뤄지는 위기 투자자"
+        }
+      ]
+    },
+    {
+      "slug": "ken-griffin",
+      "selections": [
+        {
+          "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+          "relationType": "appearance",
+          "description": "PART 1 CHAPTER 4(퀀트 & 기술적 분석가들)에서 독립된 장으로 다뤄지는 퀀트 투자자",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: PART 1 CHAPTER 4(퀀트 & 기술적 분석가들)에서 독립된 장으로 다뤄지는 퀀트 투자자"
+        }
+      ]
+    },
+    {
+      "slug": "warren-buffett",
+      "selections": [
+        {
+          "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+          "relationType": "appearance",
+          "description": "PART 1 CHAPTER 6(가치투자의 거장들)에서 독립된 장으로 다뤄지는 가치투자자",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: PART 1 CHAPTER 6(가치투자의 거장들)에서 독립된 장으로 다뤄지는 가치투자자"
+        }
+      ]
+    },
+    {
+      "slug": "chung-eui-sun",
+      "selections": [
+        {
+          "contentId": "83f58dff-5c9f-5553-b9b6-3f9e06f65b11",
+          "relationType": "appearance",
+          "description": "현대자동차그룹 회장으로, \"소통\" 덕목 편에서 리더십 사례로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 현대자동차그룹 회장으로, \"소통\" 덕목 편에서 리더십 사례로 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "charles-de-gaulle",
+      "selections": [
+        {
+          "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+          "relationType": "appearance",
+          "description": "프랑스군 역습을 이끌며 독일군의 허를 찌른 지휘관으로 서술된다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 프랑스군 역습을 이끌며 독일군의 허를 찌른 지휘관으로 서술된다"
+        }
+      ]
+    },
+    {
+      "slug": "gustav-mahler",
+      "selections": [
+        {
+          "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+          "relationType": "appearance",
+          "description": "3장에서 오페라하우스를 지배한 명인으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 3장에서 오페라하우스를 지배한 명인으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "arturo-toscanini",
+      "selections": [
+        {
+          "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+          "relationType": "appearance",
+          "description": "4장에서 독재자형 지휘자의 대표로 푸르트벵글러와 대비되어 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 4장에서 독재자형 지휘자의 대표로 푸르트벵글러와 대비되어 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "herbert-von-karajan",
+      "selections": [
+        {
+          "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+          "relationType": "appearance",
+          "description": "5장 전체(\"카라얀의 경우\")가 그의 권력과 경력을 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 5장 전체(\"카라얀의 경우\")가 그의 권력과 경력을 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "leonard-bernstein",
+      "selections": [
+        {
+          "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+          "relationType": "appearance",
+          "description": "8장과 9장에 걸쳐 뉴욕 필하모닉과 빈 필하모닉에서의 활동이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 8장과 9장에 걸쳐 뉴욕 필하모닉과 빈 필하모닉에서의 활동이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "simon-rattle",
+      "selections": [
+        {
+          "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+          "relationType": "appearance",
+          "description": "15장에서 차세대 지휘자의 대표로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 15장에서 차세대 지휘자의 대표로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "park-chan-ho",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "1장에서 아시아 출신 메이저리그 최다승 투수로 한 편을 통째로 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 1장에서 아시아 출신 메이저리그 최다승 투수로 한 편을 통째로 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "lee-seung-yeop",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "1장에서 한국 프로야구 한 시즌 최다 홈런 기록의 주인공으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 1장에서 한국 프로야구 한 시즌 최다 홈런 기록의 주인공으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "cha-bum-kun",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "1장에서 한국 축구의 유럽 진출 선구자로 한 편을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 1장에서 한국 축구의 유럽 진출 선구자로 한 편을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "kim-yuna",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "2장에서 세계 피겨 역사를 새로 쓴 피겨 여왕으로 한 편을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 2장에서 세계 피겨 역사를 새로 쓴 피겨 여왕으로 한 편을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "michael-phelps",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "2장에서 올림픽 남자 수영의 전설로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 2장에서 올림픽 남자 수영의 전설로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "pele",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "2장에서 축구 역사상 가장 빛나는 별로 한 편을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 2장에서 축구 역사상 가장 빛나는 별로 한 편을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "muhammad-ali",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "2장에서 20세기 가장 위대한 복서로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 2장에서 20세기 가장 위대한 복서로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "usain-bolt",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "2장에서 세계에서 가장 빠른 사나이로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 2장에서 세계에서 가장 빠른 사나이로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "park-tae-hwan",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "3장에서 한국 수영의 역사를 다시 쓴 인물로 한 편을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 3장에서 한국 수영의 역사를 다시 쓴 인물로 한 편을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "park-ji-sung",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "3장에서 한국인 최초의 프리미어리거로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 3장에서 한국인 최초의 프리미어리거로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "se-ri-pak",
+      "selections": [
+        {
+          "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+          "relationType": "appearance",
+          "description": "3장에서 한국 여자 골프의 선구자로 한 편을 차지한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 3장에서 한국 여자 골프의 선구자로 한 편을 차지한다."
+        }
+      ]
+    },
+    {
+      "slug": "king-helu",
+      "selections": [
+        {
+          "contentId": "a270f41f-6737-5059-b73c-6d9faddd7098",
+          "relationType": "appearance",
+          "description": "오왕이 되어 욕심으로 화를 부르는 인물로 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오왕이 되어 욕심으로 화를 부르는 인물로 독립된 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "king-fuchai",
+      "selections": [
+        {
+          "contentId": "a270f41f-6737-5059-b73c-6d9faddd7098",
+          "relationType": "appearance",
+          "description": "아버지 합려의 원수를 갚는 오왕으로 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아버지 합려의 원수를 갚는 오왕으로 독립된 장에서 다뤄진다."
+        },
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "오월 항쟁에서 구천과 대결하며 복수극의 한 축을 이룬 오나라 왕",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오월 항쟁에서 구천과 대결하며 복수극의 한 축을 이룬 오나라 왕"
+        }
+      ]
+    },
+    {
+      "slug": "xi-shi",
+      "selections": [
+        {
+          "contentId": "a270f41f-6737-5059-b73c-6d9faddd7098",
+          "relationType": "appearance",
+          "description": "절세가인으로 오월 흥망 국면에서 독립된 장으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 절세가인으로 오월 흥망 국면에서 독립된 장으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "fan-li",
+      "selections": [
+        {
+          "contentId": "a270f41f-6737-5059-b73c-6d9faddd7098",
+          "relationType": "appearance",
+          "description": "오월 패권 다툼 속에서 재상이 되는 인물로 책 소개에서 주요 등장인물로 명시된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오월 패권 다툼 속에서 재상이 되는 인물로 책 소개에서 주요 등장인물로 명시된다."
+        }
+      ]
+    },
+    {
+      "slug": "winston-churchill",
+      "selections": [
+        {
+          "contentId": "a51f56a5-cc8c-5a13-896f-d5d7f73bc730",
+          "relationType": "appearance",
+          "description": "총리직 수락, 연설 화법, 패배주의 극복, 동맹군 확보 등 히틀러와 대비되는 리더십 사례로 책 전체를 관통하는 주인공으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 총리직 수락, 연설 화법, 패배주의 극복, 동맹군 확보 등 히틀러와 대비되는 리더십 사례로 책 전체를 관통하는 주인공으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "justinian-i",
+      "selections": [
+        {
+          "contentId": "a8eadd57-067a-59bf-9db6-fb2f51bff190",
+          "relationType": "appearance",
+          "description": "로마제국 쇠망사 4권 40장(황제 즉위와 통치), 41장(정복), 43장(죽음)에 걸쳐 다뤄지는 중심 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마제국 쇠망사 4권 40장(황제 즉위와 통치), 41장(정복), 43장(죽음)에 걸쳐 다뤄지는 중심 인물이다."
+        }
+      ]
+    },
+    {
+      "slug": "king-zhou",
+      "selections": [
+        {
+          "contentId": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+          "relationType": "appearance",
+          "description": "은본기에서 폭정을 일삼다 은나라를 멸망에 이르게 한 마지막 왕으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 은본기에서 폭정을 일삼다 은나라를 멸망에 이르게 한 마지막 왕으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "xiang-yu",
+      "selections": [
+        {
+          "contentId": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+          "relationType": "appearance",
+          "description": "항우본기 전체의 주인공으로, 진나라 멸망 후 초한쟁패를 이끈 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 항우본기 전체의 주인공으로, 진나라 멸망 후 초한쟁패를 이끈 인물로 다뤄진다"
+        },
+        {
+          "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+          "relationType": "appearance",
+          "description": "항우본기(項羽本紀) 한 편 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 항우본기(項羽本紀) 한 편 전체의 주인공"
+        },
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "유방과 맞선 초나라 패왕으로 초한쟁패의 한 축",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유방과 맞선 초나라 패왕으로 초한쟁패의 한 축"
+        },
+        {
+          "contentId": "96cff936-dde4-553e-aaad-ccd6a9c2e3ff",
+          "relationType": "appearance",
+          "description": "제15장 '서초의 패왕 항우'를 비롯해 팽성 대전과 진하 결전 등 유방의 최대 맞수로서 후반부 여러 장에 걸쳐 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제15장 '서초의 패왕 항우'를 비롯해 팽성 대전과 진하 결전 등 유방의 최대 맞수로서 후반부 여러 장에 걸쳐 비중 있게 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "empress-lu-zhi",
+      "selections": [
+        {
+          "contentId": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+          "relationType": "appearance",
+          "description": "여태후본기 전체의 주인공으로, 고조 사후 한나라 정권을 장악한 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 여태후본기 전체의 주인공으로, 고조 사후 한나라 정권을 장악한 인물로 다뤄진다"
+        },
+        {
+          "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+          "relationType": "appearance",
+          "description": "여태후본기(呂太后本紀) 한 편 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 여태후본기(呂太后本紀) 한 편 전체의 주인공"
+        },
+        {
+          "contentId": "dd4b2b54-19a7-5821-8b68-48c36efb1050",
+          "relationType": "appearance",
+          "description": "한나라 고조 유방의 황후로 황제 사후 권력을 장악하고 잔혹한 통치를 편 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 한나라 고조 유방의 황후로 황제 사후 권력을 장악하고 잔혹한 통치를 편 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "henry-ford",
+      "selections": [
+        {
+          "contentId": "b63ea512-874b-58e2-8690-7fee1268fe84",
+          "relationType": "appearance",
+          "description": "자동차 발명가로, 에디슨의 도움을 받아 사업에 성공하기까지의 이야기가 비중 있게 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 자동차 발명가로, 에디슨의 도움을 받아 사업에 성공하기까지의 이야기가 비중 있게 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "claude-shannon",
+      "selections": [
+        {
+          "contentId": "b7e2ce54-6a85-502d-85c2-f34707f3bd4d",
+          "relationType": "appearance",
+          "description": "책이 소개하는 주요 IT 혁신가 중 한 명으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 책이 소개하는 주요 IT 혁신가 중 한 명으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "kim-beom-su",
+      "selections": [
+        {
+          "contentId": "acc16876-5d14-5e3e-afe2-0ad7d9b4c8ab",
+          "relationType": "appearance",
+          "description": "카카오 이사회 의장으로서 벤처 철학과 카카오톡 성공 신화를 다룬 장(제2장)",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 카카오 이사회 의장으로서 벤처 철학과 카카오톡 성공 신화를 다룬 장(제2장)"
+        }
+      ]
+    },
+    {
+      "slug": "kim-jung-ju",
+      "selections": [
+        {
+          "contentId": "acc16876-5d14-5e3e-afe2-0ad7d9b4c8ab",
+          "relationType": "appearance",
+          "description": "넥슨 그룹 창업과 온라인 게임 시대 개척 과정을 다룬 장(제3장)",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 넥슨 그룹 창업과 온라인 게임 시대 개척 과정을 다룬 장(제3장)"
+        }
+      ]
+    },
+    {
+      "slug": "kim-taek-jin",
+      "selections": [
+        {
+          "contentId": "acc16876-5d14-5e3e-afe2-0ad7d9b4c8ab",
+          "relationType": "appearance",
+          "description": "엔씨소프트 창업과 '리니지' 성공 신화를 다룬 장(제4장)",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 엔씨소프트 창업과 '리니지' 성공 신화를 다룬 장(제4장)"
+        }
+      ]
+    },
+    {
+      "slug": "susan-sontag",
+      "selections": [
+        {
+          "contentId": "ba873b0b-f65f-5dc5-ada0-404651b77a37",
+          "relationType": "appearance",
+          "description": "인터뷰 한 장을 통해 에세이와 소설을 넘나드는 지적 작업 방식을 설명한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 인터뷰 한 장을 통해 에세이와 소설을 넘나드는 지적 작업 방식을 설명한다."
+        }
+      ]
+    },
+    {
+      "slug": "kazuo-ishiguro",
+      "selections": [
+        {
+          "contentId": "ba873b0b-f65f-5dc5-ada0-404651b77a37",
+          "relationType": "appearance",
+          "description": "인터뷰 한 장에서 기억과 서술자의 신뢰성이라는 주제를 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 인터뷰 한 장에서 기억과 서술자의 신뢰성이라는 주제를 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "tiberius",
+      "selections": [
+        {
+          "contentId": "c6b795a6-47f0-45e3-8c93-fad021445ba9",
+          "relationType": "appearance",
+          "description": "리비아의 그늘 아래 황제 자리에 올랐다가 인생이 파탄나는 과정이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 리비아의 그늘 아래 황제 자리에 올랐다가 인생이 파탄나는 과정이 다뤄진다."
+        },
+        {
+          "contentId": "f1d5d4ea-fcec-53e2-8aa6-6b69e54aaf4e",
+          "relationType": "appearance",
+          "description": "통치 중기의 \"은퇴\"와 통치 후기의 \"복귀\"라는 독립된 절에서 그의 정치적 부침이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 통치 중기의 \"은퇴\"와 통치 후기의 \"복귀\"라는 독립된 절에서 그의 정치적 부침이 다뤄진다."
+        },
+        {
+          "contentId": "f5477f4d-1b0f-5711-9218-6d066b3ac6d9",
+          "relationType": "appearance",
+          "description": "로마인 이야기 7권 제1부 전체의 주인공으로 즉위부터 카프리 은둔, 세야누스 숙청까지 황제 통치기 전체가 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마인 이야기 7권 제1부 전체의 주인공으로 즉위부터 카프리 은둔, 세야누스 숙청까지 황제 통치기 전체가 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "suleiman-the-magnificent",
+      "selections": [
+        {
+          "contentId": "d5b4d3ef-a84b-5bd4-a5f2-2ee8327331d1",
+          "relationType": "appearance",
+          "description": "\"장엄한 시대\"라는 제목 아래 그의 반세기 치세를 다루는 절의 주인공이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"장엄한 시대\"라는 제목 아래 그의 반세기 치세를 다루는 절의 주인공이다."
+        }
+      ]
+    },
+    {
+      "slug": "gustav-klimt",
+      "selections": [
+        {
+          "contentId": "d288ceb1-68b3-5f2a-9595-2401d2da5627",
+          "relationType": "appearance",
+          "description": "실레의 멘토로서 만남과 그로부터 받은 영향을 다루는 장에서 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 실레의 멘토로서 만남과 그로부터 받은 영향을 다루는 장에서 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "park-wan-suh",
+      "selections": [
+        {
+          "contentId": "d831eb6d-e3ae-5ef1-b0fc-069f6de06620",
+          "relationType": "appearance",
+          "description": "6부 원주 시절 박경리와의 교유가 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 6부 원주 시절 박경리와의 교유가 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "xiao-he",
+      "selections": [
+        {
+          "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+          "relationType": "appearance",
+          "description": "소상국세가(蕭相國世家) 한 편 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 소상국세가(蕭相國世家) 한 편 전체의 주인공"
+        }
+      ]
+    },
+    {
+      "slug": "zhang-liang",
+      "selections": [
+        {
+          "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+          "relationType": "appearance",
+          "description": "유후세가(留侯世家) 한 편 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 유후세가(留侯世家) 한 편 전체의 주인공"
+        }
+      ]
+    },
+    {
+      "slug": "john-lennon",
+      "selections": [
+        {
+          "contentId": "c4922a09-b4ea-50ee-bd40-0e5c73f0f410",
+          "relationType": "appearance",
+          "description": "비틀즈 해체 이후 폴과의 대립과 갈등, 그리고 1980년 존의 죽음에 이르기까지 폴이 겪는 심적 동요와 얽혀 책 전반에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 비틀즈 해체 이후 폴과의 대립과 갈등, 그리고 1980년 존의 죽음에 이르기까지 폴이 겪는 심적 동요와 얽혀 책 전반에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "alexander-the-great",
+      "selections": [
+        {
+          "contentId": "d6ce347c-b938-5eff-9be9-2ad2bb5f4175",
+          "relationType": "appearance",
+          "description": "세기의 영웅으로 등장해 헬레니즘 시대를 연 인물로 1장에서 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 세기의 영웅으로 등장해 헬레니즘 시대를 연 인물로 1장에서 다뤄진다"
+        },
+        {
+          "contentId": "c2efa57f-d32d-57c3-a915-1b8ed3abf1f8",
+          "relationType": "appearance",
+          "description": "\"유명한 정복자, 그러나 교만했던 청년\"이라는 제목의 독립된 편지에서 그의 정복 원정과 요절이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"유명한 정복자, 그러나 교만했던 청년\"이라는 제목의 독립된 편지에서 그의 정복 원정과 요절이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "pompey-the-great",
+      "selections": [
+        {
+          "contentId": "d6ce347c-b938-5eff-9be9-2ad2bb5f4175",
+          "relationType": "appearance",
+          "description": "로마의 실력자로 유대를 로마에 편입시키고 삼두정치에 참여한 인물로 여러 장에 걸쳐 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마의 실력자로 유대를 로마에 편입시키고 삼두정치에 참여한 인물로 여러 장에 걸쳐 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "king-goujian",
+      "selections": [
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "부차에게 패한 뒤 와신상담 끝에 오나라를 멸망시킨 월나라 왕",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 부차에게 패한 뒤 와신상담 끝에 오나라를 멸망시킨 월나라 왕"
+        }
+      ]
+    },
+    {
+      "slug": "pang-juan",
+      "selections": [
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "손빈을 시기한 교만한 병법가로 손빈과 대결 구도를 이룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 손빈을 시기한 교만한 병법가로 손빈과 대결 구도를 이룸"
+        }
+      ]
+    },
+    {
+      "slug": "sima-guang",
+      "selections": [
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "왕안석과 개혁·보수 정책 대결을 다룬 북송의 정치가",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 왕안석과 개혁·보수 정책 대결을 다룬 북송의 정치가"
+        }
+      ]
+    },
+    {
+      "slug": "wang-anshi",
+      "selections": [
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "사마광과 맞선 북송의 개혁파 정치가",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 사마광과 맞선 북송의 개혁파 정치가"
+        },
+        {
+          "contentId": "7aa5415d-7d63-5d85-83d6-38c0db39d4e8",
+          "relationType": "appearance",
+          "description": "제2장에서 신법 개혁을 주도한 인물로 경제 개혁과 그로 인한 당파 싸움이 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장에서 신법 개혁을 주도한 인물로 경제 개혁과 그로 인한 당파 싸움이 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "zeng-guofan",
+      "selections": [
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "홍수전의 태평천국을 진압한 청나라 관료",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 홍수전의 태평천국을 진압한 청나라 관료"
+        }
+      ]
+    },
+    {
+      "slug": "hong-xiuquan",
+      "selections": [
+        {
+          "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+          "relationType": "appearance",
+          "description": "증국번과 대립한 태평천국의 농민봉기 지도자",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 증국번과 대립한 태평천국의 농민봉기 지도자"
+        }
+      ]
+    },
+    {
+      "slug": "yan-hui",
+      "selections": [
+        {
+          "contentId": "e47b8ad0-0a88-58e7-8edd-115412fae8b7",
+          "relationType": "appearance",
+          "description": "중니제자열전에서 학문과 덕행이 가장 뛰어난 수제자로 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 중니제자열전에서 학문과 덕행이 가장 뛰어난 수제자로 독립된 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "gojong",
+      "selections": [
+        {
+          "contentId": "e5d70d44-b09b-5263-86f9-8aafb1a1b9e2",
+          "relationType": "appearance",
+          "description": "명성황후의 배우자이자 조선 왕·대한제국 황제로 2장 '명성황후의 가계와 행적'을 비롯해 국장 준비 및 대한제국 성립 과정에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 명성황후의 배우자이자 조선 왕·대한제국 황제로 2장 '명성황후의 가계와 행적'을 비롯해 국장 준비 및 대한제국 성립 과정에서 다뤄진다."
+        },
+        {
+          "contentId": "7aa5415d-7d63-5d85-83d6-38c0db39d4e8",
+          "relationType": "appearance",
+          "description": "제3장에서 남송 건국 이후 겪은 시련과 통치 과정이 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제3장에서 남송 건국 이후 겪은 시련과 통치 과정이 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "attila",
+      "selections": [
+        {
+          "contentId": "f5d3dae2-4ebb-579f-9082-44b85077fbe3",
+          "relationType": "appearance",
+          "description": "34장과 35장 두 개 장에 걸쳐 훈족의 왕으로서 집중적으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 34장과 35장 두 개 장에 걸쳐 훈족의 왕으로서 집중적으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "jeong-do-jeon",
+      "selections": [
+        {
+          "contentId": "fdd72e9c-f4c0-5b08-838e-b0d5af810ecd",
+          "relationType": "appearance",
+          "description": "개국의 설계자로서 이성계와 함께 역성혁명을 이끄는 과정을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 개국의 설계자로서 이성계와 함께 역성혁명을 이끄는 과정을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "jeong-mong-ju",
+      "selections": [
+        {
+          "contentId": "fdd72e9c-f4c0-5b08-838e-b0d5af810ecd",
+          "relationType": "appearance",
+          "description": "고려 왕조를 지키려다 제거된 온건파 충신으로 주요 인물로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 고려 왕조를 지키려다 제거된 온건파 충신으로 주요 인물로 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "anne-bonny",
+      "selections": [
+        {
+          "contentId": "e3010977-2e8c-5fa8-98c6-e31caca03260",
+          "relationType": "appearance",
+          "description": "독립된 장(The Life of Anne Bonny)에서 성장 배경과 래컴과의 도피, 해적 활동을 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 독립된 장(The Life of Anne Bonny)에서 성장 배경과 래컴과의 도피, 해적 활동을 다룬다."
+        },
+        {
+          "contentId": "26a055a4-7cd0-5540-8874-b2497f02951d",
+          "relationType": "appearance",
+          "description": "5장에서 여성 해적으로서의 활동이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 5장에서 여성 해적으로서의 활동이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "emperor-showa",
+      "selections": [
+        {
+          "contentId": "ffd71ba0-a3e4-5ace-a2ff-b88866db1221",
+          "relationType": "appearance",
+          "description": "4장에서 즉위와 정당내각·군부와의 갈등, '입헌군주'화 과정을 독립된 장으로 다룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 4장에서 즉위와 정당내각·군부와의 갈등, '입헌군주'화 과정을 독립된 장으로 다룬다."
+        }
+      ]
+    },
+    {
+      "slug": "andrew-carnegie",
+      "selections": [
+        {
+          "contentId": "f744841f-7299-5fe9-8d14-4510d77863b7",
+          "relationType": "appearance",
+          "description": "Story10에서 철강업 진출과 제철소 생산관리 등 카네기의 경영 이야기를 독립된 장으로 다룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: Story10에서 철강업 진출과 제철소 생산관리 등 카네기의 경영 이야기를 독립된 장으로 다룬다"
+        }
+      ]
+    },
+    {
+      "slug": "zhang-he",
+      "selections": [
+        {
+          "contentId": "4fea7b95-f9ac-586b-92b3-41b3466b8dde",
+          "relationType": "appearance",
+          "description": "제12장에서 제갈량의 기산 진출을 저지하는 등 용략을 구사한 숙장으로 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제12장에서 제갈량의 기산 진출을 저지하는 등 용략을 구사한 숙장으로 독립된 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "king-huai-of-chu",
+      "selections": [
+        {
+          "contentId": "96cff936-dde4-553e-aaad-ccd6a9c2e3ff",
+          "relationType": "appearance",
+          "description": "제12장 '회왕의 서약'에서 관중에 먼저 들어가는 자를 왕으로 삼겠다는 서약을 내린 군주로서 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제12장 '회왕의 서약'에서 관중에 먼저 들어가는 자를 왕으로 삼겠다는 서약을 내린 군주로서 독립된 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "han-xin",
+      "selections": [
+        {
+          "contentId": "96cff936-dde4-553e-aaad-ccd6a9c2e3ff",
+          "relationType": "appearance",
+          "description": "제18장 '한신의 활약'에서 유방 진영의 대장군이자 초한전쟁 승리의 주역으로서 독립된 한 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제18장 '한신의 활약'에서 유방 진영의 대장군이자 초한전쟁 승리의 주역으로서 독립된 한 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "theodora",
+      "selections": [
+        {
+          "contentId": "10a66558-ed31-5062-a071-f057b23327c4",
+          "relationType": "appearance",
+          "description": "황후로서 비인간적이고 부도덕한 인물로 그려지며 책에서 신랄하게 비판받는다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 황후로서 비인간적이고 부도덕한 인물로 그려지며 책에서 신랄하게 비판받는다"
+        }
+      ]
+    },
+    {
+      "slug": "prometheus",
+      "selections": [
+        {
+          "contentId": "124637ce-7920-5520-aa1b-cc2f38dd373c",
+          "relationType": "appearance",
+          "description": "신의 불을 훔쳐 인간에게 건넨 신화 속 인물로, 올트먼과 AI 기술을 견주는 핵심 비유로 책 전반에 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 신의 불을 훔쳐 인간에게 건넨 신화 속 인물로, 올트먼과 AI 기술을 견주는 핵심 비유로 책 전반에 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "francis-drake",
+      "selections": [
+        {
+          "contentId": "26a055a4-7cd0-5540-8874-b2497f02951d",
+          "relationType": "appearance",
+          "description": "1장에서 엘리자베스 시대 영국 사략선장으로 스페인 보물선과 항구를 약탈한 활동이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 1장에서 엘리자베스 시대 영국 사략선장으로 스페인 보물선과 항구를 약탈한 활동이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "koxinga",
+      "selections": [
+        {
+          "contentId": "26a055a4-7cd0-5540-8874-b2497f02951d",
+          "relationType": "appearance",
+          "description": "9장에서 대만을 거점으로 삼은 중국 해상세력의 지도자로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 9장에서 대만을 거점으로 삼은 중국 해상세력의 지도자로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "hideki-tojo",
+      "selections": [
+        {
+          "contentId": "58cb7ff4-ff0f-573a-a42a-cd9dc6bdca0d",
+          "relationType": "appearance",
+          "description": "태평양전쟁기 일본 수상으로 16장에서 집권과 개전 과정이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 태평양전쟁기 일본 수상으로 16장에서 집권과 개전 과정이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "isoroku-yamamoto",
+      "selections": [
+        {
+          "contentId": "58cb7ff4-ff0f-573a-a42a-cd9dc6bdca0d",
+          "relationType": "appearance",
+          "description": "연합함대 사령관으로 12장에서 그의 역할이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 연합함대 사령관으로 12장에서 그의 역할이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "fan-zhongyan",
+      "selections": [
+        {
+          "contentId": "7aa5415d-7d63-5d85-83d6-38c0db39d4e8",
+          "relationType": "appearance",
+          "description": "제2장에서 왕안석과 함께 개혁을 이끈 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제2장에서 왕안석과 함께 개혁을 이끈 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "zhu-xi",
+      "selections": [
+        {
+          "contentId": "7aa5415d-7d63-5d85-83d6-38c0db39d4e8",
+          "relationType": "appearance",
+          "description": "제4장에서 실패한 평화의 시대를 배경으로 그의 사상과 정치적 역할이 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제4장에서 실패한 평화의 시대를 배경으로 그의 사상과 정치적 역할이 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "psy",
+      "selections": [
+        {
+          "contentId": "7d3848f5-b59c-5f46-81e7-93675f739979",
+          "relationType": "appearance",
+          "description": "YG의 스타 발굴 성공 사례로 책 3부에서 구체적 사례로 비중 있게 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: YG의 스타 발굴 성공 사례로 책 3부에서 구체적 사례로 비중 있게 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "frederick-the-great",
+      "selections": [
+        {
+          "contentId": "7616ef90-5cd2-5f13-b643-557d49595019",
+          "relationType": "appearance",
+          "description": "이 책 하권 전체의 주인공으로, 만년의 교황과의 격돌부터 죽음까지 전 과정이 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 이 책 하권 전체의 주인공으로, 만년의 교황과의 격돌부터 죽음까지 전 과정이 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "mahatma-gandhi",
+      "selections": [
+        {
+          "contentId": "e33e96e8-0631-57fb-817e-cf970a5b345a",
+          "relationType": "appearance",
+          "description": "6장에서 인도 독립운동을 이끈 지도자로서 그의 명암을 조명하는 독립된 절에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 6장에서 인도 독립운동을 이끈 지도자로서 그의 명암을 조명하는 독립된 절에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "jawaharlal-nehru",
+      "selections": [
+        {
+          "contentId": "e33e96e8-0631-57fb-817e-cf970a5b345a",
+          "relationType": "appearance",
+          "description": "6장에서 간디와 대비되는 인도 독립운동 지도자로 같은 절에서 함께 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 6장에서 간디와 대비되는 인도 독립운동 지도자로 같은 절에서 함께 다뤄진다."
+        }
+      ]
+    }
+  ]
+}

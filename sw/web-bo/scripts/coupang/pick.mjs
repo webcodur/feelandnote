@@ -193,7 +193,8 @@ try {
       console.log(`건너뜀(검토한 상품이 현재 검색 결과에 없음): ${p.title} — ${p.productId}`)
       continue
     }
-    if (normalizeName(chosen.name) !== normalizeName(p.name)) {
+    // 상품 ID가 같은데 이름이 뒤에 출판사·저자만 더 붙은 경우(코덱스 경로는 제목만 남긴다)는 같은 상품이다.
+    if (!normalizeName(chosen.name).startsWith(normalizeName(p.name))) {
       console.log(`건너뜀(상품명 변경): ${p.title} — 검토 "${p.name}" / 현재 "${chosen.name}"`)
       continue
     }
