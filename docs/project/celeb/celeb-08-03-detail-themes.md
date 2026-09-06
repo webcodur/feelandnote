@@ -10,6 +10,7 @@
 | 세계별 액자·구획 번호 | `sw/web/src/lib/celeb/worldStyle.ts` |
 | 세계별 재질 계열과 색 토큰 | `sw/web/src/lib/celeb/worldMaterial.ts` |
 | 배너 파일 존재와 경로 | `sw/web/src/lib/celeb/worldImages.ts` |
+| 재질 비교와 재질별 인물 명단 | `/lab/celeb-themes` |
 | 배너 자산 제작 | [`celeb-08-04-world-banners.md`](celeb-08-04-world-banners.md) |
 | 인물 이미지 fallback | [`celeb-08-00-image-map.md`](celeb-08-00-image-map.md) |
 

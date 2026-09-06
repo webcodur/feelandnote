@@ -7,6 +7,7 @@
 - 원본은 처음부터 완결된 네이티브 3:1 파노라마 사진으로 만든다. 더 높은 비율에서 위아래를 잘라 맞추지 않는다.
 - 원본은 `sw/web-bo/output/worlds-raw/`, 운영본은 `sw/web/public/images/worlds/`에 둔다.
 - 파일명은 `CELEB_WORLDS`의 world ID를 그대로 사용한다.
+- 제 그림이 아직 없는 세계는 `worldImages.ts`의 `BORROWED_BANNERS`가 옛 시대 그림을 빌려 쓴다. 그림을 만들면 그 항목을 지운다.
 - PC·모바일 픽셀값, WebP 품질, 모바일 크롭 범위와 출력 파일명은 `sw/web-bo/scripts/photo/world-banner.mjs`가 SSoT다.
 - PC판은 원본 전체를 비율 그대로 줄이고, 모바일판은 세로를 보존한 채 좌우만 자른다.
 - `--mobile-left`는 자동 중앙값이 아니라 랜드마크와 길·소품이 살아 있는 위치를 원본마다 눈으로 고른다.
@@ -88,7 +89,9 @@ Absolutely no people or human silhouettes. No text, logos, signage or watermark.
 | `world-wars` | 철골 기차역, 증기·화물과 멀리 보이는 도시 |
 | `modern-west` | 베를린의 비 온 거리, 트램 선로·역사 건물·TV 타워 |
 | `latin-america` | 식민풍 광장, 성당 종탑·채색 건물과 화산 능선 |
+| `modern-latin-america` | 미제작 — `latin-america`를 빌려 쓴다 |
 | `africa` | 젠네 대모스크, 진흙벽과 빈 시장 좌판 |
+| `modern-africa` | 미제작 — `africa`를 빌려 쓴다 |
 | `myth` | 특정 문화권을 복제하지 않은 구름 위 거석 문턱과 젖은 돌길 |
 | `neutral` | 연대와 지역을 특정하지 않는 안개 속 돌 표면과 한 줄기 빛 |
 
