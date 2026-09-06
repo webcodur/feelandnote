@@ -55,7 +55,9 @@ export const CELEB_WORLDS: readonly CelebWorld[] = [
   { id: "world-wars", label: "20세기 전쟁기" },
   { id: "modern-west", label: "현대 서구" },
   { id: "latin-america", label: "라틴아메리카" },
+  { id: "modern-latin-america", label: "근현대 라틴아메리카" },
   { id: "africa", label: "아프리카" },
+  { id: "modern-africa", label: "근현대 아프리카" },
   { id: "myth", label: "신화" },
   { id: "neutral", label: "중립(연도 미상)" },
 ] as const;
@@ -146,8 +148,8 @@ export function resolveCelebWorld(input: CelebWorldInput): string {
     if (year < 1946) return "world-wars";
     return "modern-america";
   }
-  if (LATIN_AMERICA.includes(nat)) return "latin-america";
-  if (AFRICA.includes(nat)) return "africa";
+  if (LATIN_AMERICA.includes(nat)) return year < 1900 ? "latin-america" : "modern-latin-america";
+  if (AFRICA.includes(nat)) return year < 1900 ? "africa" : "modern-africa";
 
   // 남은 유럽·오세아니아와 국적 미상은 연도로만 가른다
   if (year < 1450) return "medieval-europe";
