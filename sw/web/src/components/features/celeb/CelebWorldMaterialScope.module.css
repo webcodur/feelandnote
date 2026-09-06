@@ -99,3 +99,38 @@
   --world-panel-texture-repeat: repeat;
   --world-outer-opacity: 0.34;
 }
+
+/* 그늘진 콘크리트 위에 코발트를 칠했다. 바깥은 분진 반점, 기록면은 롤러가 지나간 세로 결과 칠 얼룩이다 */
+.scope[data-world-material="concrete-cobalt"] {
+  --world-outer-texture:
+    radial-gradient(circle, rgba(226, 232, 245, 0.024) 0 0.6px, transparent 1px),
+    radial-gradient(circle, rgba(0, 0, 0, 0.15) 0 0.9px, transparent 1.3px),
+    var(--pattern-noise);
+  --world-outer-size: 27px 33px, 43px 39px, auto;
+  --world-outer-position: 0 0, 13px 19px, center;
+  --world-panel-texture:
+    repeating-linear-gradient(93deg, transparent 0 57px, rgba(176, 192, 226, 0.016) 58px 60px),
+    repeating-linear-gradient(93deg, transparent 0 149px, rgba(0, 0, 0, 0.05) 150px 156px),
+    repeating-linear-gradient(4deg, transparent 0 101px, rgba(0, 0, 0, 0.035) 102px 104px);
+  --world-panel-texture-size: auto;
+  --world-panel-texture-position: center;
+  --world-panel-texture-repeat: repeat;
+  --world-outer-opacity: 0.38;
+}
+
+/* 흑단의 촘촘한 세로 결 위에 말라카이트를 얹었다. 기록면의 겹친 타원은 이 광물의 띠무늬다 */
+.scope[data-world-material="ebony-malachite"] {
+  --world-outer-texture:
+    repeating-linear-gradient(90deg, transparent 0 6px, rgba(0, 0, 0, 0.12) 7px 8px),
+    repeating-linear-gradient(88deg, transparent 0 27px, rgba(202, 220, 209, 0.014) 28px 29px),
+    var(--pattern-noise);
+  --world-outer-size: auto;
+  --world-outer-position: center;
+  --world-panel-texture:
+    repeating-radial-gradient(ellipse at 21% 34%, transparent 0 9px, rgba(151, 199, 173, 0.018) 10px 13px, transparent 14px 21px),
+    repeating-radial-gradient(ellipse at 76% 68%, transparent 0 15px, rgba(0, 0, 0, 0.055) 16px 19px, transparent 20px 31px);
+  --world-panel-texture-size: auto;
+  --world-panel-texture-position: center;
+  --world-panel-texture-repeat: repeat;
+  --world-outer-opacity: 0.4;
+}
