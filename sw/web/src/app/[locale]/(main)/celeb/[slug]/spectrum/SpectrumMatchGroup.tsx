@@ -177,7 +177,7 @@ export function SpectrumMatchGroup({
                 ? { border: "2px solid #ef4444" }
                 : undefined
             }
-            className="h-full gap-2 border-white/[0.07] bg-white/[0.018] px-1.5 py-3 hover:border-accent/45 hover:bg-accent/[0.055] md:px-2 md:py-3.5"
+            className="h-full border-white/[0.07] bg-white/[0.018] hover:border-accent/45 hover:bg-accent/[0.055]"
           >
             <span className={`${styles.comparisonMetric} font-mono`}>
               {t(

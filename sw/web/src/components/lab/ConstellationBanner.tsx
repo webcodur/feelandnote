@@ -163,7 +163,7 @@ export default function ConstellationBanner({
   }, [height, compact]);
 
   return (
-    <div className={`relative w-full overflow-hidden ${compact ? "h-[250px] sm:h-[300px] md:h-[350px]" : ""}`} style={compact ? undefined : { height }}>
+    <div className={`relative w-full overflow-hidden ${compact ? "h-[160px] sm:h-[180px] md:h-[200px]" : ""}`} style={compact ? undefined : { height }}>
       <canvas ref={canvasRef} className="block" />
 
       {/* Overlay Content */}

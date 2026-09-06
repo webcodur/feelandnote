@@ -22,6 +22,9 @@ import SpectrumDistribution from "@/components/features/user/explore/spectrumAna
 import FactionCard from "@/components/features/user/explore/hub/FactionCard";
 import RelationMap from "@/components/features/celeb/RelationMap/RelationMap";
 import MythAtlas from "@/components/features/user/explore/myth/MythAtlas";
+import MythAtlasSkeleton from "@/components/features/user/explore/myth/MythAtlasSkeleton";
+import SpectrumDistributionSkeleton from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistributionSkeleton";
+import { FactionSkeleton, ReservedState } from "@/components/features/user/explore/hub/ExploreSkeleton";
 
 const HUB_SPECTRUM_MIN_INFLUENCE = 40;
 
@@ -86,7 +89,8 @@ export async function ProfileSection() {
 export async function MythSection() {
   const locale = await getLocale();
   const data = await load("신화 탐색", () => getMythAtlas(locale));
-  if (!data || data.people.length === 0) return null;
+  if (!data) return <ReservedState skeleton={<MythAtlasSkeleton />}><RetryBlock /></ReservedState>;
+  if (data.people.length === 0) return <ReservedState skeleton={<MythAtlasSkeleton />}><EmptyLine /></ReservedState>;
   return <MythAtlas data={data} />;
 }
 
@@ -96,8 +100,8 @@ export async function SpectrumSection() {
     getSpectrumDistribution({ minInfluence: HUB_SPECTRUM_MIN_INFLUENCE }),
   );
 
-  if (people === null) return <RetryBlock />;
-  if (people.length === 0) return <EmptyLine />;
+  if (people === null) return <ReservedState skeleton={<SpectrumDistributionSkeleton />}><RetryBlock /></ReservedState>;
+  if (people.length === 0) return <ReservedState skeleton={<SpectrumDistributionSkeleton />}><EmptyLine /></ReservedState>;
   return <SpectrumDistribution people={people} />;
 }
 
@@ -131,7 +135,7 @@ export async function FactionSection() {
   const locale = await getLocale();
   const tags = await load("세력도감", getFactionHubPreviews);
 
-  if (tags === null) return <RetryBlock />;
-  if (tags.length === 0) return <EmptyLine />;
+  if (tags === null) return <ReservedState skeleton={<FactionSkeleton label="" />}><RetryBlock /></ReservedState>;
+  if (tags.length === 0) return <ReservedState skeleton={<FactionSkeleton label="" />}><EmptyLine /></ReservedState>;
   return <FactionCard locale={locale} tags={tags} />;
 }

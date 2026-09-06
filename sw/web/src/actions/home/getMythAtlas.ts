@@ -41,16 +41,28 @@ const CATEGORY: Record<ContentType, MythWork["category"]> = {
 
 const unique = <T,>(items: T[]) => [...new Set(items)];
 
+// 전승 slug가 지역의 앞머리를 따르면(myth-china-fengshen → 중국) 자리가 저절로 잡힌다.
+// 어디에도 걸리지 않는 전승은 「기타 전승」으로 간다. 전승이 하나도 없는 지역은 아래에서 걸러져
+// 화면에 뜨지 않으므로, 아직 인물이 없는 문화권을 미리 적어 두어도 빈 칸이 생기지 않는다.
+// 순서가 곧 화면에 서는 차례다 — 동아시아에서 서쪽으로, 마지막이 신대륙과 오세아니아다.
 const MYTH_REGIONS = [
   { id: "korea", ko: "한국", en: "Korea", prefixes: ["myth-korea"] },
   { id: "japan", ko: "일본", en: "Japan", prefixes: ["myth-japan"] },
   { id: "china", ko: "중국", en: "China", prefixes: ["myth-china"] },
+  { id: "steppe", ko: "초원", en: "Eurasian Steppe", prefixes: ["myth-steppe", "myth-turkic", "myth-mongol", "myth-tibet", "myth-manchu"] },
+  { id: "southeast-asia", ko: "동남아", en: "Southeast Asia", prefixes: ["myth-southeast-asia", "myth-vietnam", "myth-malay"] },
   { id: "india", ko: "인도", en: "India", prefixes: ["myth-hindu"] },
-  { id: "greek-roman", ko: "그리스·로마", en: "Greece & Rome", prefixes: ["myth-greek", "myth-roman", "myth-argonaut", "myth-atreus", "myth-heracles", "myth-iliad", "myth-odyssey", "myth-aeneid"] },
-  { id: "egypt", ko: "이집트", en: "Egypt", prefixes: ["myth-egypt"] },
+  { id: "persia", ko: "페르시아", en: "Persia", prefixes: ["myth-persia", "myth-shahnameh"] },
   { id: "mesopotamia", ko: "메소포타미아", en: "Mesopotamia", prefixes: ["myth-mesopotamia"] },
-  { id: "northern-europe", ko: "북유럽", en: "Northern Europe", prefixes: ["myth-norse"] },
+  { id: "egypt", ko: "이집트", en: "Egypt", prefixes: ["myth-egypt"] },
+  { id: "africa", ko: "아프리카", en: "Africa", prefixes: ["myth-africa", "myth-mali", "myth-yoruba", "myth-ethiopia"] },
+  { id: "greek-roman", ko: "그리스·로마", en: "Greece & Rome", prefixes: ["myth-greek", "myth-roman", "myth-argonaut", "myth-atreus", "myth-heracles", "myth-iliad", "myth-odyssey", "myth-aeneid"] },
+  { id: "celtic", ko: "켈트", en: "Celtic Lands", prefixes: ["myth-celtic", "myth-irish"] },
   { id: "britain", ko: "브리튼", en: "Britain", prefixes: ["myth-arthur"] },
+  { id: "northern-europe", ko: "북유럽", en: "Northern Europe", prefixes: ["myth-norse", "myth-germanic"] },
+  { id: "slavic", ko: "슬라브", en: "Slavic Lands", prefixes: ["myth-slavic", "myth-rus"] },
+  { id: "americas", ko: "아메리카", en: "The Americas", prefixes: ["myth-americas", "myth-inca", "myth-aztec", "myth-maya"] },
+  { id: "oceania", ko: "오세아니아", en: "Oceania", prefixes: ["myth-oceania", "myth-polynesia"] },
 ] as const;
 
 const NAME_REGION_IDS: Array<{ id: (typeof MYTH_REGIONS)[number]["id"]; names: string[] }> = [

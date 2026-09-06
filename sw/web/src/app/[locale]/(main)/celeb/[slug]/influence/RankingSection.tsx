@@ -130,7 +130,7 @@ export default function RankingSection({
                       })
                     }
                     className={cn(
-                      "flex-1 gap-2 rounded-sm border-white/[0.07] bg-white/[0.018] px-1.5 py-3 hover:border-accent/45 hover:bg-accent/[0.055] md:px-2 md:py-3.5",
+                      "flex-1 rounded-sm border-white/[0.07] bg-white/[0.018] hover:border-accent/45 hover:bg-accent/[0.055]",
                       isCurrent
                         ? "!border-accent/55 !bg-accent/[0.08]"
                         : loadingId && !isLoading

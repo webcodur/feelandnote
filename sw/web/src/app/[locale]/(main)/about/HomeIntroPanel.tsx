@@ -22,6 +22,13 @@ async function buildIntroLabels(locale: string) {
   );
   // 캐시 키 안정화 — 명단 순서가 흔들려도 같은 캐시를 쓴다
   const profileMap = await getProfilesBySlugs(Array.from(slugSet).sort());
+  const figureLinks: Record<string, string> = {};
+  rawChains.flat().forEach((step) => {
+    const names = [...step.text.matchAll(/\[\[(.*?)\]\]/g)].map((match) => match[1]);
+    [step.reader, step.author].forEach((slug, index) => {
+      if (profileMap[slug] && names[index]) figureLinks[names[index]] = `/celeb/${profileMap[slug].slug}`;
+    });
+  });
   const isEn = locale === "en";
   const inspirationChains = rawChains.map((chain) =>
     chain.map((step) => {
@@ -36,6 +43,7 @@ async function buildIntroLabels(locale: string) {
   );
   return {
     intro: t("intro"),
+    figureLinks,
     inspirationChainTitle: t("inspirationChainTitle"),
     inspirationChains,
     inspirationConclusion: t("inspirationConclusion"),

@@ -511,8 +511,8 @@
       "contentCount": "{count} contents collected",
       "viewsBadge": "{count} views in total — click for details",
       "reality": {
-        "myth": "Myth",
-        "both": "Real & myth"
+        "myth": "Fiction",
+        "both": "Fact | Fiction"
       }
     },
     "celebViews": {
