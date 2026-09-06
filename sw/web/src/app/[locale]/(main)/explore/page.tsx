@@ -20,9 +20,12 @@ import {
   hubSection,
   withoutMore,
 } from "@/components/shared/hubSectionUtils";
-import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
 import PopularBooks from "@/components/features/home/PopularBooks";
+import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
+import { FactionSkeleton } from "@/components/features/user/explore/hub/ExploreSkeleton";
+import SpectrumDistributionSkeleton from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistributionSkeleton";
+import MythAtlasSkeleton from "@/components/features/user/explore/myth/MythAtlasSkeleton";
 
 import { FactionSection, MythSection, ProfileSection, SpectrumSection } from "./sections";
 
@@ -61,24 +64,15 @@ export default function ExplorePage() {
         {/* 프로필 — 인기 · 기록왕 · 랜덤 탭. 전체 링크는 탭 안에서 따로 걸어 래퍼에서 뗀다.
             헤더는 레인 밖이라 기다림 없이 뜨고, 본문만 채워진다 */}
         <HubSection {...withoutMore(sec("ranking"))}>
-          {/* 열 구성은 HubCelebGrid와 같아야 한다 — 어긋나면 자료가 들어올 때 격자가 다시 짜인다 */}
-          <Lane
-            fallback={
-              <PendingBlock
-                variant="grid"
-                cols="grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
-                count={12}
-                label={loading}
-              />
-            }
-          >
+          {/* 탭·설명·이름·전체 링크까지 본문과 같은 구조로 자리를 잡는다 */}
+          <Lane fallback={<RankingTabs />}>
             <ProfileSection />
           </Lane>
         </HubSection>
 
         {/* 성향 분석 — 성향 분포 */}
         <HubSection {...sec("spectrumAnalysis")}>
-          <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-40" label={loading} />}>
+          <Lane fallback={<SpectrumDistributionSkeleton />}>
             <SpectrumSection />
           </Lane>
         </HubSection>
@@ -86,18 +80,14 @@ export default function ExplorePage() {
         {/* 신화·전승 — 인물 목록에서 빠지는 신화 인물들의 유일한 진입점이다.
             전승별 공개 여부는 getMythAtlas의 공개 목록이 쥔다 */}
         <HubSection {...withoutMore(sec("myth"))}>
-          <Lane fallback={<PendingBlock variant="panel" minHeight="min-h-[520px]" label={loading} />}>
+          <Lane fallback={<MythAtlasSkeleton />}>
             <MythSection />
           </Lane>
         </HubSection>
 
         {/* 세력도감 */}
         <HubSection {...sec("faction")}>
-          <Lane
-            fallback={
-              <PendingBlock variant="grid" cols="grid-cols-1 md:grid-cols-2" count={4} label={loading} />
-            }
-          >
+          <Lane fallback={<FactionSkeleton label={loading} />}>
             <FactionSection />
           </Lane>
         </HubSection>

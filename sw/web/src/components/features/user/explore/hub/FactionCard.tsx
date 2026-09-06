@@ -6,6 +6,7 @@
 
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { HUB_FACTION_CARD, HUB_FACTION_GRID } from "./ExploreSkeleton";
 
 interface TagPreview {
   id: string;
@@ -26,7 +27,7 @@ export default function FactionCard({ locale = "ko", tags = [] }: FactionCardPro
   if (tags.length === 0) return null;
 
   return (
-    <div className="-mx-3 flex snap-x snap-mandatory scroll-px-3 gap-3 overflow-x-auto px-3 pb-2 scrollbar-hide overscroll-x-contain md:mx-auto md:grid md:w-full md:max-w-[1160px] md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 xl:gap-8">
+    <div className={HUB_FACTION_GRID}>
       {tags.map((tag, index) => {
         const title = locale === "en" ? (tag.name_en ?? tag.name) : tag.name;
         const desc = locale === "en" ? (tag.description_en ?? tag.description) : tag.description;
@@ -35,7 +36,7 @@ export default function FactionCard({ locale = "ko", tags = [] }: FactionCardPro
           <Link
             key={tag.id}
             href={`/explore/faction?tag=${tag.id}`}
-            className="group relative aspect-square w-[88%] max-w-[420px] shrink-0 snap-start overflow-hidden rounded-[1.25rem] border border-white/10 bg-[#0d0c0b] shadow-[0_18px_50px_rgba(0,0,0,0.28)] outline-none hover:border-white/35 focus-visible:border-[#d4af37] focus-visible:ring-2 focus-visible:ring-[#d4af37]/55 md:w-auto md:max-w-none md:snap-none md:rounded-2xl"
+            className={`${HUB_FACTION_CARD} group border-white/10 bg-[#0d0c0b] shadow-[0_18px_50px_rgba(0,0,0,0.28)] outline-none hover:border-white/35 focus-visible:border-[#d4af37] focus-visible:ring-2 focus-visible:ring-[#d4af37]/55`}
           >
             {tag.cover ? (
               <>
