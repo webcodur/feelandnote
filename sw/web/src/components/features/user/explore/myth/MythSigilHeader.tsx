@@ -10,8 +10,8 @@ import ImageViewerModal from "@/components/ui/ImageViewerModal";
 export function DetailBackButton({ onClose }: { onClose: () => void }) {
   const t = useTranslations("explore.hub.myth");
   return (
-    <button type="button" onClick={onClose} className="absolute start-4 top-4 z-30 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/70 px-3.5 py-2 text-sm font-bold text-white shadow-lg backdrop-blur-sm hover:border-accent hover:bg-black/85 hover:text-accent md:start-5 md:top-5">
-      <ArrowLeft size={16} />{t("backToOverview")}
+    <button type="button" onClick={onClose} aria-label={t("backToOverview")} title={t("backToOverview")} className="absolute start-4 top-4 z-30 inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white shadow-lg backdrop-blur-sm hover:border-accent hover:bg-black/85 hover:text-accent md:start-5 md:top-5">
+      <ArrowLeft size={18} aria-hidden />
     </button>
   );
 }
