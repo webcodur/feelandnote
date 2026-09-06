@@ -512,8 +512,8 @@
       "contentCount": "보유 콘텐츠 {count}개",
       "viewsBadge": "누적 조회 {count}회 — 눌러서 자세히",
       "reality": {
-        "myth": "신화",
-        "both": "실존·신화"
+        "myth": "가상",
+        "both": "사실 | 가상"
       }
     },
     "celebViews": {

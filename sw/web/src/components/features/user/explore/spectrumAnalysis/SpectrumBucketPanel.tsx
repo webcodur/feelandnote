@@ -62,13 +62,13 @@ export default function SpectrumBucketPanel({ items, label, labelColor, negLabel
       </div>
 
       {/* 인물 목록 (영향력 순) */}
-      <ul className="max-h-60 space-y-0.5 overflow-y-auto scrollbar-thin p-2">
+      <ul className="h-60 space-y-0.5 overflow-y-auto scrollbar-thin p-2 [overflow-anchor:none]">
         {sorted.map(({ p, v }) => (
           <li key={p.id}>
             <button
               type="button"
               onClick={() => onSelect(p)}
-              className="flex w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left transition-colors hover:bg-bg-card-hover"
+              className="flex w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left hover:bg-bg-card-hover"
             >
               <div
                 className="size-9 shrink-0 overflow-hidden rounded-full border-2 bg-bg-card"

@@ -158,7 +158,7 @@ export default function LeadersSection({
                     })
                   }
                   className={cn(
-                    "flex-1 gap-1.5 rounded-none border-white/[0.07] bg-white/[0.018] px-2 py-2.5 hover:border-accent/45 hover:bg-accent/[0.055]",
+                    "flex-1 rounded-none border-white/[0.07] bg-white/[0.018] hover:border-accent/45 hover:bg-accent/[0.055]",
                     isCurrent
                       ? "!bg-accent/[0.07]"
                       : loadingId && !isLoading

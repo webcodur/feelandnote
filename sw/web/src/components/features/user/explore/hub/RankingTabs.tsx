@@ -14,7 +14,8 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 // 모음(index)이 아니라 파일에서 바로 가져온다 — 모음에는 서버 전용 Lane이 함께 들어 있어
 // 클라이언트 번들에 next/headers가 딸려 들어간다
-import { PendingBlock, RetryBlock, LinkPending } from "@/components/ui/pending";
+import { RetryBlock, LinkPending } from "@/components/ui/pending";
+import { ProfileGridSkeleton, ReservedState } from "./ExploreSkeleton";
 import HubCelebGrid from "./HubCelebGrid";
 import TopByTypeGrid from "./TopByTypeGrid";
 import type { CelebProfile } from "@/types/home";
@@ -23,7 +24,7 @@ import { getCelebs } from "@/actions/home/getCelebs";
 
 interface RankingTabsProps {
   /** null이면 조회 실패, 빈 배열이면 정말 0건 */
-  trending: CelebProfile[] | null;
+  trending?: CelebProfile[] | null;
   topByType?: TopByTypeEntry[] | null;
   /** 랜덤 — 매일 새로 뽑는 인물들 */
   dailyPicks?: CelebProfile[] | null;
@@ -37,16 +38,9 @@ function tabBody<T>(
   loading: string,
 ): ReactNode {
   if (items === undefined) {
-    return (
-      <PendingBlock
-        variant="grid"
-        cols="grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
-        count={12}
-        label={loading}
-      />
-    );
+    return <ProfileGridSkeleton label={loading} />;
   }
-  if (items === null) return <RetryBlock onRetry={onRetry} />;
+  if (items === null) return <ReservedState skeleton={<ProfileGridSkeleton label={loading} />}><RetryBlock onRetry={onRetry} /></ReservedState>;
   if (items.length === 0) return null;
   return render(items);
 }
@@ -59,6 +53,7 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
   const [loadedDailyPicks, setLoadedDailyPicks] = useState(dailyPicks);
   const topByTypeRequest = useRef<Promise<void> | null>(null);
   const dailyPicksRequest = useRef<Promise<void> | null>(null);
+  const initialPending = trending === undefined;
 
   const loadTopByType = useCallback(() => {
     if (topByTypeRequest.current) return topByTypeRequest.current;
@@ -114,9 +109,6 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
     if (key === "allCelebs" && loadedDailyPicks === undefined) void loadDailyPicks();
   }, [loadDailyPicks, loadTopByType, loadedDailyPicks, loadedTopByType]);
 
-  // 셋 다 실패했으면 탭 자체가 의미 없다 — 구획 본문을 통째로 다시 시도 자리로 둔다
-  if (trending === null && loadedTopByType === null && loadedDailyPicks === null) return <RetryBlock />;
-
   const tabs = [
     {
       key: "trending",
@@ -139,7 +131,7 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
   const current = tabs[Math.min(tab, tabs.length - 1)];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" aria-busy={initialPending || undefined}>
       {/* 탭 — 색 강조는 지연 없이 즉시(즉각 반응 원칙), 배경만 부드럽게 */}
       <div className="flex flex-wrap justify-center gap-2">
         {tabs.map((tb, i) => {
@@ -148,7 +140,9 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
             <button
               key={tb.key}
               type="button"
-              onMouseEnter={() => ensureTabData(tb.key)}
+              disabled={initialPending}
+              aria-pressed={active}
+              onMouseEnter={() => { if (!initialPending) ensureTabData(tb.key); }}
               onFocus={() => ensureTabData(tb.key)}
               onClick={() => {
                 setTab(i);
