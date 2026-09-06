@@ -1,30 +1,43 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythPerson } from "@/actions/home/mythAtlasTypes";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 
-interface Props { person: MythPerson }
+export interface MythPortrait {
+  url: string;
+  /** 음성 재생 기준 초. 대사용 화보 묶음에서만 온다 */
+  at?: number;
+  focus?: { x: number; y: number };
+}
 
-export default function MythPortraitMedia({ person }: Props) {
+interface Props {
+  person: MythPerson;
+  /** 걸어 둘 화보들. 대사 묶음이 있으면 그 화보가 오고, 없으면 대표 사진 한 장이다 */
+  images: MythPortrait[];
+  /** 지금 보이는 화보. 대사 재생 중에는 발화 시각이 이 값을 옮긴다 */
+  index: number;
+  onMove: (index: number) => void;
+}
+
+export default function MythPortraitMedia({ person, images, index, onMove }: Props) {
   const t = useTranslations("explore.hub.myth");
-  const [index, setIndex] = useState(0);
-  const images = person.images.length > 0
-    ? person.images
-    : person.imageUrl ? [{ url: person.imageUrl }]
-      : person.avatarUrl ? [{ url: person.avatarUrl }]
-        : [];
   const activeImage = images[index] ?? images[0] ?? null;
 
   const move = (direction: -1 | 1) => {
-    setIndex((current) => (current + direction + images.length) % images.length);
+    onMove((index + direction + images.length) % images.length);
   };
 
   if (images.length === 0) {
-    return <div className="absolute inset-0 flex items-center justify-center bg-bg-card text-8xl font-black text-accent/20">{person.name.slice(0, 1)}</div>;
+    return (
+      <div aria-hidden className="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-[radial-gradient(circle_at_50%_28%,rgba(217,181,78,.13),transparent_55%),var(--color-bg-card)]">
+        <span className="grid size-28 place-items-center rounded-full border border-accent/30 bg-accent/[0.06] shadow-[0_0_60px_rgba(217,181,78,.12)]">
+          <span className="grid size-24 place-items-center rounded-full border border-accent/20 text-5xl font-black text-accent">{person.name.slice(0, 1)}</span>
+        </span>
+      </div>
+    );
   }
 
   return (

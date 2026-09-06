@@ -10,7 +10,7 @@ export async function getFigureBookPresentationsForCeleb(
   celebId: string,
   locale: string = 'ko',
 ): Promise<FigureBookContent[]> {
-  const sources = await getFigureBooksForCeleb(celebId, locale)
+  const sources = await getFigureBooksForCeleb(celebId, locale, true)
   const missingDescriptions = sources.filter((source) => (
     source.editions.some((edition) => !edition.description)
   ))

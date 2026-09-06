@@ -272,7 +272,14 @@
         "previousMembers": "이전 구성원",
         "nextMembers": "다음 구성원",
         "comingSoon": "작업 예정",
-        "releaseNotice": "아직 작업 중인 신화가 있습니다. 준비되는 대로 차례로 공개합니다."
+        "releaseNotice": "아직 작업 중인 신화가 있습니다. 준비되는 대로 차례로 공개합니다.",
+        "dialogue": "대사",
+        "enlargeAvatar": "아바타 크게 보기",
+        "playQuote": "대사 재생",
+        "pauseQuote": "대사 정지",
+        "showQuote": "대사 보기",
+        "tapForNextLine": "눌러서 다음",
+        "tapToCloseQuote": "눌러서 닫기"
       },
       "relationMap": {
         "title": "관계망",

@@ -35,7 +35,7 @@ export interface CelebSideAvailability {
   spectrum: boolean;
   /** 이어지는 인물 구획이 그려지는가(관계가 있어야 채운다) */
   relatedFigures: boolean;
-  /** 관련 상품 구획이 그려지는가(full+한국어+상품 있음) */
+  /** 요청 언어에서 판매할 연관 도서 또는 기존 관련 상품이 있는가 */
   affiliateBooks: boolean;
 }
 
@@ -46,6 +46,7 @@ interface UseCelebServiceModelProps {
   sideAvailability: CelebSideAvailability;
   dialogueLines?: Record<string, string[]> | null;
   figureBooks: FigureBookContent[];
+  authoredBooks: FigureBookContent[];
   initialContents: GetUserContentsResponse;
 }
 
@@ -70,6 +71,7 @@ export function useCelebServiceModel({
   sideAvailability,
   dialogueLines,
   figureBooks,
+  authoredBooks,
   initialContents,
 }: UseCelebServiceModelProps): CelebServiceModel {
   const celebTier = profile.celeb_tier ?? "full";
@@ -93,13 +95,13 @@ export function useCelebServiceModel({
     dialogueVoice: hasDialogues && hasVoice,
     influence: sideAvailability.influence,
     spectrum: sideAvailability.spectrum,
-    sourceWorks: figureBooks.length > 0,
-    library: initialContents.items.length > 0,
+    sourceWorks: figureBooks.some((book) => book.relationType === "appearance"),
+    library: initialContents.items.length > 0 || authoredBooks.length > 0,
   };
 
   const baseItems = useCelebServiceItems({
     reality: celebReality,
-    showLibrary: celebTier === "full",
+    showLibrary: celebTier === "full" || authoredBooks.length > 0,
     availability,
   });
 

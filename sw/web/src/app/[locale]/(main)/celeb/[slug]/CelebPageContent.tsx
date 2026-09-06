@@ -40,6 +40,7 @@ interface CelebPageContentProps {
   initialContents: GetUserContentsResponse;
   initialContentBrief?: ContentBrief;
   figureBooks: FigureBookContent[];
+  authoredBooks: FigureBookContent[];
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
   externalLinksSlot: ReactNode;
@@ -60,6 +61,7 @@ export default function CelebPageContent({
   initialContents,
   initialContentBrief,
   figureBooks,
+  authoredBooks,
   worldId,
   worldBannerImages,
   externalLinksSlot,
@@ -78,6 +80,7 @@ export default function CelebPageContent({
     sideAvailability,
     dialogueLines,
     figureBooks,
+    authoredBooks,
     initialContents,
   });
   useSectionViewTracking(contentRef);
@@ -169,6 +172,7 @@ export default function CelebPageContent({
         initialContents={initialContents}
         initialContentBrief={initialContentBrief}
         figureBooks={figureBooks}
+        authoredBooks={authoredBooks}
         serviceModel={serviceModel}
         relatedFiguresSlot={relatedFiguresSlot}
         affiliateBooksSlot={affiliateBooksSlot}

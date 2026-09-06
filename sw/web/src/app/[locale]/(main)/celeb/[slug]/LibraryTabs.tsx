@@ -14,6 +14,7 @@ import CreativeLibrary from "@/components/features/celeb/creativeLibrary/Creativ
 import { cn } from "@/lib/utils";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
+import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 
@@ -28,6 +29,7 @@ interface LibraryTabsProps {
   wikidataQid?: string | null;
   initialContents?: GetUserContentsResponse;
   initialContentBrief?: ContentBrief | null;
+  authoredBooks?: FigureBookContent[];
 }
 
 export default function LibraryTabs({
@@ -38,27 +40,32 @@ export default function LibraryTabs({
   wikidataQid,
   initialContents,
   initialContentBrief,
+  authoredBooks = [],
 }: LibraryTabsProps) {
   const t = useTranslations("celebPage");
-  const [tab, setTab] = useState<LibraryTab>("consume");
+  const hasConsumption = initialContents === undefined || initialContents.items.length > 0;
+  const hasCreation = authoredBooks.length > 0 || Boolean(wikidataQid);
+  const [tab, setTab] = useState<LibraryTab>(hasConsumption ? "consume" : "create");
+  const activeTab = tab === "consume" && !hasConsumption ? "create"
+    : tab === "create" && !hasCreation ? "consume" : tab;
 
   const tabs: ArchiveTabItem<LibraryTab>[] = [
-    { key: "consume", label: t("tabConsume") },
-    { key: "create", label: t("tabCreate") },
+    ...(hasConsumption ? [{ key: "consume" as const, label: t("tabConsume") }] : []),
+    ...(hasCreation ? [{ key: "create" as const, label: t("tabCreate") }] : []),
   ];
 
   return (
     <div>
       <ArchiveTabsHeader
         tabs={tabs}
-        activeKey={tab}
+        activeKey={activeTab}
         onChange={setTab}
-        columnsClassName="grid-cols-2"
+        columnsClassName={tabs.length === 1 ? "grid-cols-1" : "grid-cols-2"}
         ariaLabel={t("library")}
       />
 
       {/* 감상 탭은 초기 HTML에 포함하고 비활성 탭에서만 숨긴다. */}
-      <div className={cn(tab !== "consume" && "hidden")}>
+      {hasConsumption && <div className={cn(activeTab !== "consume" && "hidden")}>
         <ContentLibrary
           mode="viewer"
           ownerKind="celeb"
@@ -77,13 +84,14 @@ export default function LibraryTabs({
           initialContents={initialContents}
           initialContentBrief={initialContentBrief}
         />
-      </div>
+      </div>}
       {/* 창작 탭은 외부 Wikidata 조회를 유발하므로 선택 시에만 마운트한다 */}
-      {tab === "create" && (
+      {activeTab === "create" && hasCreation && (
         <CreativeLibrary
           celebId={userId}
           celebNickname={nickname}
           wikidataQid={wikidataQid}
+          authoredBooks={authoredBooks}
           hideControlWrapper
         />
       )}

@@ -56,6 +56,7 @@ interface CelebRecordSectionsProps {
   initialContents: GetUserContentsResponse;
   initialContentBrief?: ContentBrief;
   figureBooks: FigureBookContent[];
+  authoredBooks: FigureBookContent[];
   serviceModel: CelebServiceModel;
   relatedFiguresSlot?: ReactNode;
   affiliateBooksSlot?: ReactNode;
@@ -71,6 +72,7 @@ export default function CelebRecordSections({
   initialContents,
   initialContentBrief,
   figureBooks,
+  authoredBooks,
   serviceModel,
   relatedFiguresSlot,
   affiliateBooksSlot,
@@ -197,6 +199,7 @@ export default function CelebRecordSections({
                 avatarUrl={profile.avatar_url ?? null}
                 emptyMessage={t("libraryEmpty")}
                 wikidataQid={profile.wikidata_qid ?? null}
+                authoredBooks={authoredBooks}
                 initialContents={initialContents}
                 initialContentBrief={initialContentBrief}
               />

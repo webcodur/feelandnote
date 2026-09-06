@@ -60,15 +60,11 @@ export default function MythAtlasSkeleton() {
                 <p className="flex items-center gap-2 text-sm font-bold text-text-primary"><Sparkles size={16} className="text-accent" />{t("memberList")}</p>
                 <div className="flex gap-1"><Ghost className="size-8 rounded-full" /><Ghost className="size-8 rounded-full" /></div>
               </div>
-              <div className="scrollbar-thin -mx-1 flex gap-2.5 overflow-x-auto px-1 pb-3 md:gap-3">
-                {Array.from({ length: 5 }, (_, index) => (
-                  <div key={index} className={cn("flex shrink-0 overflow-hidden rounded-[16px] border border-white/[0.07] bg-bg-card", layout.railCardSize)}>
-                    <Ghost className="h-full w-[76px] shrink-0 rounded-none md:w-[86px]" />
-                    <div className="min-w-0 flex-1 p-3">
-                      <div className="flex h-5 items-center"><Ghost className="h-3 w-3/4" /></div>
-                      <div className="mt-0.5 flex h-4 items-center"><Ghost className="h-2 w-1/2" /></div>
-                      <div className="mt-2 space-y-2"><Ghost className="h-2 w-full" /><Ghost className="h-2 w-4/5" /></div>
-                    </div>
+              <div className="scrollbar-thin -mx-1 flex gap-2.5 overflow-x-auto px-1 pb-1 md:gap-3">
+                {Array.from({ length: 6 }, (_, index) => (
+                  <div key={index} className={cn("flex shrink-0 flex-col", layout.railCardSize)}>
+                    <Ghost className="aspect-square w-full rounded-[14px]" />
+                    <div className="mt-2 space-y-1.5 px-0.5 pb-1"><Ghost className="h-2.5 w-full" /><Ghost className="h-2.5 w-2/3" /></div>
                   </div>
                 ))}
               </div>

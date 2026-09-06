@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { SlidersHorizontal } from "lucide-react";
 import { useWikiSummaries } from "./useWikiSummaries";
 import WorkDetailModal, { type WorkDetailItem } from "./WorkDetailModal";
 import WorkListItem from "./WorkListItem";
+import AuthoredBookListItem from "./AuthoredBookListItem";
+import { mergeCreativeWorks } from "./mergeCreativeWorks";
 import { ROLE_I18N_MAP, WORK_TYPE_TABS, WORK_TYPE_I18N, PAGE_SIZE } from "./constants";
 import { resolveWorkItem, getSearchUrl } from "./resolveWorkItem";
 import type { LiveWorkItem } from "./types";
@@ -13,26 +15,30 @@ import ContentGrid from "@/components/ui/ContentGrid";
 import { Pagination } from "@/components/ui";
 import ControlPanel from "@/components/shared/ControlPanel";
 import type { Locale } from "@/types/locale";
+import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
+
+const EMPTY_AUTHORED_BOOKS: FigureBookContent[] = [];
 
 interface CreativeLibraryProps {
   celebId: string;
   celebNickname: string;
   wikidataQid?: string | null;
+  authoredBooks?: FigureBookContent[];
   hideControlWrapper?: boolean;
 }
 
 export default function CreativeLibrary({
-  celebId,
   celebNickname,
   wikidataQid,
+  authoredBooks = EMPTY_AUTHORED_BOOKS,
   hideControlWrapper = false,
 }: CreativeLibraryProps) {
   const locale = useLocale() as Locale;
   const t = useTranslations("celebPage");
 
   const [activeType, setActiveType] = useState("all");
-  const [allItems, setAllItems] = useState<LiveWorkItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [liveItems, setLiveItems] = useState<LiveWorkItem[]>([]);
+  const [isLoading, setIsLoading] = useState(Boolean(wikidataQid));
   const [currentPage, setCurrentPage] = useState(1);
   const [isControlsExpanded, setIsControlsExpanded] = useState(false);
   const [loadingElapsed, setLoadingElapsed] = useState(0);
@@ -47,22 +53,37 @@ export default function CreativeLibrary({
   }, [isLoading]);
 
   // 실시간 Wikidata 조회
-  const loadLive = useCallback(async () => {
+  useEffect(() => {
+    setLiveItems([]);
     if (!wikidataQid) { setIsLoading(false); return; }
+    const controller = new AbortController();
     setIsLoading(true);
-    try {
-      const res = await fetch(`/api/celeb-works?qid=${wikidataQid}`);
-      const data = await res.json();
-      setAllItems(data.works || []);
-    } catch {
-      setAllItems([]);
+    async function loadLive() {
+      try {
+        const res = await fetch(`/api/celeb-works?qid=${encodeURIComponent(wikidataQid!)}`, {
+          signal: controller.signal,
+        });
+        if (!res.ok) throw new Error(`Works request failed: ${res.status}`);
+        const data = await res.json();
+        if (!controller.signal.aborted) {
+          setLiveItems(Array.isArray(data.works) ? data.works : []);
+        }
+      } catch {
+        if (!controller.signal.aborted) setLiveItems([]);
+      } finally {
+        if (!controller.signal.aborted) setIsLoading(false);
+      }
     }
-    setIsLoading(false);
+    void loadLive();
+    return () => controller.abort();
   }, [wikidataQid]);
 
-  useEffect(() => { loadLive(); }, [loadLive]);
-
   useEffect(() => { setCurrentPage(1); }, [activeType]);
+
+  const allItems = useMemo(
+    () => mergeCreativeWorks(authoredBooks, liveItems),
+    [authoredBooks, liveItems],
+  );
 
   // 타입별 카운트
   const typeCounts = useMemo(() => {
@@ -93,7 +114,9 @@ export default function CreativeLibrary({
 
   // Wikipedia summary fallback
   const wikiSummaryItems = useMemo(
-    () => pageItems.map((item) => ({ id: item.id, title_en: item.title_en, description: null as string | null })),
+    () => pageItems.flatMap((item) => item.source === "wikidata"
+      ? [{ id: item.id, title_en: item.work.title_en, description: null as string | null }]
+      : []),
     [pageItems]
   );
   const wikiSummaries = useWikiSummaries(wikiSummaryItems, locale);
@@ -139,7 +162,7 @@ export default function CreativeLibrary({
 
   // ── 렌더 ──
 
-  if (!wikidataQid || (!isLoading && totalCount === 0)) {
+  if (!isLoading && totalCount === 0) {
     return (
       <div className="py-12 text-center text-text-secondary">
         {t("worksEmpty")}
@@ -156,8 +179,9 @@ export default function CreativeLibrary({
           <button
             key={tab.value}
             type="button"
+            aria-pressed={isActive}
             onClick={() => setActiveType(tab.value)}
-            className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
+            className={`px-3 py-1.5 rounded-lg border text-xs font-medium hover:border-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
               isActive
                 ? "bg-accent/10 border-accent/20 text-accent"
                 : "bg-surface/50 border-border/40  hover:bg-surface-hover hover:text-text-primary"
@@ -188,8 +212,8 @@ export default function CreativeLibrary({
       )}
 
       <div className="py-8">
-        {isLoading ? (
-          <div className="py-12 flex flex-col items-center gap-3">
+        {isLoading && totalCount === 0 ? (
+          <div role="status" className="py-12 flex flex-col items-center gap-3">
             <div className="w-8 h-8 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
             <p className="text-sm text-text-primary font-medium">
               {loadingElapsed < 3
@@ -210,21 +234,29 @@ export default function CreativeLibrary({
           </div>
         ) : (
           <ContentGrid variant="list">
-            {pageItems.map((item) => (
+            {pageItems.map((item) => item.source === "authored" ? (
+              <AuthoredBookListItem key={`authored:${item.id}`} book={item.book} />
+            ) : (
               <WorkListItem
-                key={item.id}
-                item={item}
-                resolved={resolveWorkItem(item, locale)}
-                roleLabel={getRoleLabel(item.role)}
+                key={`wikidata:${item.id}`}
+                item={item.work}
+                resolved={resolveWorkItem(item.work, locale)}
+                roleLabel={getRoleLabel(item.work.role)}
                 typeLabel={item.work_type ? getWorkTypeLabel(item.work_type) : null}
                 description={wikiSummaries[item.id] || null}
-                onClick={() => openDetail(item)}
+                onClick={() => openDetail(item.work)}
               />
             ))}
           </ContentGrid>
         )}
 
-        {!isLoading && totalPages > 1 && (
+        {isLoading && totalCount > 0 && (
+          <p role="status" className="mt-4 text-center text-xs text-text-secondary">
+            {t("worksLoadingStep1")}
+          </p>
+        )}
+
+        {totalPages > 1 && (
           <>
             <hr className="border-white/10 mt-8 mb-8" />
             <div className="flex justify-center">

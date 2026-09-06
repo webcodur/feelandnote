@@ -49,6 +49,7 @@ export default function FigureBookActions({
         )}
       </a>
 
+      {edition.purchaseUrl && (
       <div className="w-full">
         <a
           href={edition.purchaseUrl}
@@ -77,6 +78,7 @@ export default function FigureBookActions({
           </p>
         )}
       </div>
+      )}
     </div>
   );
 }

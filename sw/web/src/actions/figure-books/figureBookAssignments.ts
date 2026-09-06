@@ -1,7 +1,7 @@
 import { createStaticClient } from '@/lib/db/static'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 
-export type FigureBookRelationType = 'appearance' | 'related'
+export type FigureBookRelationType = 'appearance' | 'related' | 'authored'
 
 export interface FigureBookAssignmentRow {
   content_id: string

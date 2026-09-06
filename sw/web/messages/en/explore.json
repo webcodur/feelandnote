@@ -239,6 +239,8 @@
         "bio": "Introduction",
         "noBio": "No introduction is available.",
         "reading": "Read more",
+        "dialogue": "Dialogue",
+        "enlargeAvatar": "Enlarge avatar",
         "mythOverview": "MYTH OVERVIEW",
         "backToOverview": "Back to myth overview",
         "appearanceInMyth": "Role in {name}",
@@ -272,7 +274,12 @@
         "previousMembers": "Previous members",
         "nextMembers": "Next members",
         "comingSoon": "In preparation",
-        "releaseNotice": "Some traditions are still in production. We publish each one as it is ready."
+        "releaseNotice": "Some traditions are still in production. We publish each one as it is ready.",
+        "playQuote": "Play line",
+        "pauseQuote": "Stop line",
+        "showQuote": "Show line",
+        "tapForNextLine": "Tap for next",
+        "tapToCloseQuote": "Tap to close"
       },
       "relationMap": {
         "title": "Relation Map",
