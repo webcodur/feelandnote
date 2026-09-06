@@ -16,11 +16,19 @@ export interface WorldBannerImages {
 
 const WORLD_IDS_WITH_BANNERS = new Set(CELEB_WORLDS.map((world) => world.id));
 
+/** 제 그림이 아직 없어 옛 시대 그림을 빌려 쓰는 세계 */
+const BORROWED_BANNERS: Readonly<Record<string, string>> = {
+  "modern-latin-america": "latin-america",
+  "modern-africa": "africa",
+};
+
 export function getWorldBannerImages(worldId: string): WorldBannerImages | null {
   if (!WORLD_IDS_WITH_BANNERS.has(worldId)) return null;
 
+  const imageId = BORROWED_BANNERS[worldId] ?? worldId;
+
   return {
-    pc: `/images/worlds/${worldId}-pc.webp`,
-    mb: `/images/worlds/${worldId}-mb.webp`,
+    pc: `/images/worlds/${imageId}-pc.webp`,
+    mb: `/images/worlds/${imageId}-mb.webp`,
   };
 }
