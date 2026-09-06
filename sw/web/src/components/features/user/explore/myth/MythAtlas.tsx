@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Clock3, MapPinned } from "lucide-react";
+import { Clock3 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythAtlasTypes";
 import MythPersonPicker from "./MythPersonPicker";
@@ -35,7 +35,8 @@ export default function MythAtlas({ data }: Props) {
   );
   const hasUnpublishedTraditions = publishedTraditionIds.size < data.traditions.length;
   const isRegionPublished = (region: MythRegion) => region.traditionIds.some((id) => publishedTraditionIds.has(id));
-  const activeRegion = data.regions.find((region) => region.id === regionId && isRegionPublished(region))
+  /* 지역은 준비 여부와 무관하게 전부 고를 수 있다. 준비 중인 지역은 신화 칩이 잠긴 채 안내만 보인다 */
+  const activeRegion = data.regions.find((region) => region.id === regionId)
     ?? data.regions.find(isRegionPublished)
     ?? null;
   const regionTraditions = useMemo(
@@ -89,7 +90,7 @@ export default function MythAtlas({ data }: Props) {
 
   const chooseRegion = (nextRegionId: string) => {
     const nextRegion = data.regions.find((region) => region.id === nextRegionId);
-    if (!nextRegion || !isRegionPublished(nextRegion)) return;
+    if (!nextRegion) return;
     const nextTradition = data.traditions.find(
       (tradition) => nextRegion.traditionIds.includes(tradition.id) && tradition.isPublished,
     );
@@ -106,31 +107,24 @@ export default function MythAtlas({ data }: Props) {
 
   const choosePerson = (id: string) => setSelectedPersonId((current) => current === id ? null : id);
 
-  if (!activeRegion || !activeTradition || activePeople.length === 0) return null;
+  if (!activeRegion) return null;
+  const hasContent = Boolean(activeTradition) && activePeople.length > 0;
 
   return (
     <section id="myth-atlas" aria-label={t("title")} className={layout.atlas}>
       <div className={layout.navigationOuter}>
         <div className={layout.navigation}>
           <nav className={layout.nav} aria-label={t("regionNav")}>
-            <div className="flex items-center justify-center gap-2 text-sm font-bold text-text-primary">
-              <MapPinned size={16} className="text-accent" aria-hidden />
-              <span>{t("regionSelection")}</span>
-            </div>
             <div ref={regionScrollRef} className={layout.navList}>
               {data.regions.map((region) => {
                 const selected = region.id === activeRegion.id;
-                const published = isRegionPublished(region);
                 return (
                   <button
                     key={region.id}
                     type="button"
                     aria-pressed={selected}
-                    aria-label={published ? region.name : `${region.name} · ${t("comingSoon")}`}
-                    title={published ? undefined : t("comingSoon")}
-                    disabled={!published}
                     onClick={() => chooseRegion(region.id)}
-                    className={`flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-sm font-semibold ${selected ? "border-accent bg-accent/10 text-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : published ? "border-white/[0.08] bg-black/10 text-text-secondary hover:border-accent/60 hover:bg-accent/[0.05] hover:text-accent" : "cursor-not-allowed border-white/[0.045] bg-black/[0.08] text-text-tertiary opacity-45"}`}
+                    className={`flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-sm font-semibold ${selected ? "border-accent bg-accent/10 text-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : "border-white/[0.08] bg-black/10 text-text-secondary hover:border-accent/60 hover:bg-accent/[0.05] hover:text-accent"}`}
                   >
                     {region.name}
                   </button>
@@ -140,12 +134,9 @@ export default function MythAtlas({ data }: Props) {
           </nav>
 
           <nav className={layout.nav} aria-label={t("traditionNav")}>
-            <div className="flex items-center justify-center gap-2">
-              <p className="text-sm font-bold text-text-primary">{t("mythSelection")}</p>
-            </div>
             <div ref={traditionScrollRef} className={layout.navList}>
               {regionTraditions.map((tradition) => {
-                const selected = tradition.id === activeTradition.id;
+                const selected = tradition.id === activeTradition?.id;
                 const published = tradition.isPublished;
                 return (
                   <button
@@ -174,24 +165,37 @@ export default function MythAtlas({ data }: Props) {
         </div>
       </div>
 
-      <div className={layout.railOuter}>
-        <div className={layout.container}>
-          <MythPersonPicker people={activePeople} selectedId={selectedPersonId} onSelect={choosePerson} />
-        </div>
-      </div>
-
-      <div className={layout.overviewOuter}>
-        <div className={layout.container}>
-          {!selectedPerson && (
-            <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} entryWork={entryWork} />
-          )}
-          {selectedPerson && (
-            <div ref={contentRef} className="min-w-0 overflow-hidden rounded-[24px] border border-white/[0.08] scroll-mt-20">
-              <MythPersonDetail key={`${activeTradition.id}-${selectedPerson.id}`} person={selectedPerson} tradition={activeTradition} works={selectedWorks} onClose={() => setSelectedPersonId(null)} />
+      {hasContent && activeTradition ? (
+        <>
+          <div className={layout.railOuter}>
+            <div className={layout.container}>
+              <MythPersonPicker people={activePeople} selectedId={selectedPersonId} onSelect={choosePerson} />
             </div>
-          )}
+          </div>
+
+          <div className={layout.overviewOuter}>
+            <div className={layout.container}>
+              {!selectedPerson && (
+                <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} entryWork={entryWork} />
+              )}
+              {selectedPerson && (
+                <div ref={contentRef} className="min-w-0 overflow-hidden rounded-[24px] border border-white/[0.08] scroll-mt-20">
+                  <MythPersonDetail key={`${activeTradition.id}-${selectedPerson.id}`} person={selectedPerson} tradition={activeTradition} works={selectedWorks} onClose={() => setSelectedPersonId(null)} />
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className={layout.overviewOuter}>
+          <div className={layout.container}>
+            <div role="status" className={layout.notice}>
+              <Clock3 size={14} className="mt-0.5 shrink-0 text-accent/70" aria-hidden />
+              <p>{t("releaseNotice")}</p>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
