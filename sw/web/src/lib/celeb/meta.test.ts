@@ -21,7 +21,7 @@ test("full title describes only real viewing records", () => {
 
   assert.equal(
     buildCelebTitleKo(input),
-    "마이크로소프트 창업자 빌 게이츠가 감상한 책 10권, 본 영상 3편",
+    "마이크로소프트 창업자 빌 게이츠가 감상한 책 10권, 영상 3편",
   );
   assert.equal(
     buildCelebTitleEn({ ...input, nickname: "Bill Gates", title: "Microsoft co-founder" }),
@@ -41,7 +41,7 @@ test("full title leads with the headline while preserving viewing records", () =
 
   assert.equal(
     buildCelebTitleKo(input),
-    "AI 가속 컴퓨팅 시대를 연 엔비디아의 수장, 젠슨 황이 감상한 책 5권, 즐긴 게임 1개",
+    "AI 가속 컴퓨팅 시대를 연 엔비디아의 수장, 젠슨 황이 감상한 책 5권, 게임 1개",
   );
   assert.equal(
     buildCelebTitleEn({ ...input, nickname: "Jensen Huang" }),

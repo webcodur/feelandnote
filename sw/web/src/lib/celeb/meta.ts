@@ -100,10 +100,11 @@ const identityKo = (input: CelebMetaInput) =>
 function countPartsKo(counts: ContentCounts): string[] {
   const numbered = totalCount(counts) > COUNT_HIDE_THRESHOLD;
   const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(numbered ? `감상한 책 ${counts.BOOK}권` : "감상한 책");
-  if (counts.VIDEO > 0) parts.push(numbered ? `본 영상 ${counts.VIDEO}편` : "본 영상");
-  if (counts.MUSIC > 0) parts.push(numbered ? `들은 음악 ${counts.MUSIC}곡` : "들은 음악");
-  if (counts.GAME > 0) parts.push(numbered ? `즐긴 게임 ${counts.GAME}개` : "즐긴 게임");
+  if (counts.BOOK > 0) parts.push(numbered ? `책 ${counts.BOOK}권` : "책");
+  if (counts.VIDEO > 0) parts.push(numbered ? `영상 ${counts.VIDEO}편` : "영상");
+  if (counts.MUSIC > 0) parts.push(numbered ? `음악 ${counts.MUSIC}곡` : "음악");
+  if (counts.GAME > 0) parts.push(numbered ? `게임 ${counts.GAME}개` : "게임");
+  if (parts.length > 0) parts[0] = `감상한 ${parts[0]}`;
   return parts;
 }
 

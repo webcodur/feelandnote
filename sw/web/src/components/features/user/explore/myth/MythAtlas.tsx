@@ -8,6 +8,8 @@ import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
 import MythTraditionOverview from "./MythTraditionOverview";
 
+import { MYTH_LAYOUT as layout } from "./mythLayout";
+
 interface Props { data: MythAtlasData }
 
 function focusedTradition(data: MythAtlasData, personId: string | null) {
@@ -107,15 +109,15 @@ export default function MythAtlas({ data }: Props) {
   if (!activeRegion || !activeTradition || activePeople.length === 0) return null;
 
   return (
-    <section id="myth-atlas" aria-label={t("title")} className="scroll-mt-20 overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.045),transparent_30%),var(--color-bg-secondary)] [overflow-anchor:none]">
-      <div className="px-4 pb-2 pt-4 md:px-6 md:pb-2 md:pt-6">
-        <div className="mx-auto grid max-w-[1040px] gap-1 overflow-hidden rounded-[20px] border border-white/[0.08] bg-black/[0.16] p-2">
-          <nav className="min-w-0 rounded-xl px-2 py-3 md:px-3" aria-label={t("regionNav")}>
+    <section id="myth-atlas" aria-label={t("title")} className={layout.atlas}>
+      <div className={layout.navigationOuter}>
+        <div className={layout.navigation}>
+          <nav className={layout.nav} aria-label={t("regionNav")}>
             <div className="flex items-center justify-center gap-2 text-sm font-bold text-text-primary">
               <MapPinned size={16} className="text-accent" aria-hidden />
               <span>{t("regionSelection")}</span>
             </div>
-            <div ref={regionScrollRef} className="scrollbar-hide -mx-1 mt-2.5 flex justify-start gap-1.5 overflow-x-auto px-1 pb-1 md:flex-wrap md:justify-center md:overflow-visible">
+            <div ref={regionScrollRef} className={layout.navList}>
               {data.regions.map((region) => {
                 const selected = region.id === activeRegion.id;
                 const published = isRegionPublished(region);
@@ -137,11 +139,11 @@ export default function MythAtlas({ data }: Props) {
             </div>
           </nav>
 
-          <nav className="min-w-0 rounded-xl px-2 py-3 md:px-3" aria-label={t("traditionNav")}>
+          <nav className={layout.nav} aria-label={t("traditionNav")}>
             <div className="flex items-center justify-center gap-2">
               <p className="text-sm font-bold text-text-primary">{t("mythSelection")}</p>
             </div>
-            <div ref={traditionScrollRef} className="scrollbar-hide -mx-1 mt-2.5 flex justify-start gap-1.5 overflow-x-auto px-1 pb-1 md:flex-wrap md:justify-center md:overflow-visible">
+            <div ref={traditionScrollRef} className={layout.navList}>
               {regionTraditions.map((tradition) => {
                 const selected = tradition.id === activeTradition.id;
                 const published = tradition.isPublished;
@@ -164,7 +166,7 @@ export default function MythAtlas({ data }: Props) {
           </nav>
 
           {hasUnpublishedTraditions && (
-            <div role="status" className="mx-2 mb-1 flex items-start justify-center gap-2 rounded-xl border border-accent/[0.12] bg-accent/[0.035] px-3 py-2.5 text-center text-xs leading-5 text-text-tertiary md:mx-3">
+            <div role="status" className={layout.notice}>
               <Clock3 size={14} className="mt-0.5 shrink-0 text-accent/70" aria-hidden />
               <p>{t("releaseNotice")}</p>
             </div>
@@ -172,14 +174,14 @@ export default function MythAtlas({ data }: Props) {
         </div>
       </div>
 
-      <div className="px-4 py-2 md:px-6">
-        <div className="mx-auto max-w-[1040px]">
+      <div className={layout.railOuter}>
+        <div className={layout.container}>
           <MythPersonPicker layout="rail" people={activePeople} traditionId={activeTradition.id} selectedId={selectedPersonId} onSelect={choosePerson} />
         </div>
       </div>
 
-      <div className="min-w-0 px-4 pb-4 pt-2 md:px-6 md:pb-6">
-        <div className="mx-auto max-w-[1040px]">
+      <div className={layout.overviewOuter}>
+        <div className={layout.container}>
           {!selectedPerson && (
             <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} entryWork={entryWork} />
           )}

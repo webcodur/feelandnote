@@ -17,10 +17,17 @@ import InspirationChainGraphic from "./InspirationChainGraphic";
  * 《작품명》 → 텍스트 프라이머리
  * 나머지    → 기본 회색
  */
-export function renderHighlighted(text: string): ReactNode[] {
+export function renderHighlighted(text: string, figureLinks: Record<string, string> = {}): ReactNode[] {
   return text.split(/(\[\[.*?\]\]|《.*?》)/).map((seg, i) => {
     if (seg.startsWith("[[") && seg.endsWith("]]")) {
       const name = seg.slice(2, -2);
+      if (figureLinks[name]) {
+        return (
+          <Link key={i} href={figureLinks[name]} className="font-medium text-accent underline underline-offset-4 hover:text-accent-hover focus-visible:outline-2 focus-visible:outline-accent">
+            {name}
+          </Link>
+        );
+      }
       if (name === "Feel&Note") {
         return (
           <span key={i} className="font-cormorant font-semibold tracking-wide inline-flex items-baseline ml-0.5 mr-1.5 text-[17px] md:text-xl whitespace-nowrap">
@@ -50,6 +57,7 @@ export function renderHighlighted(text: string): ReactNode[] {
 
 export interface IntroFrameLabels {
   intro: string;
+  figureLinks?: Record<string, string>;
   inspirationChainTitle: string;
   inspirationChains: {
     text: string;
@@ -72,7 +80,7 @@ export default function IntroFrame({
 
   return (
     <div className="w-full max-w-2xl mx-auto min-w-0 md:px-6">
-      <div className="relative min-w-0 px-4 py-6 md:px-10 md:py-12 bg-white/[0.02] rounded-sm">
+      <div className="relative min-w-0 px-4 py-5 md:px-8 md:py-6 bg-white/[0.02] rounded-sm">
         {/* Corner accents */}
         <div className="absolute top-0 left-0 w-5 h-5 md:w-7 md:h-7 border-t border-l border-accent/20" />
         <div className="absolute top-0 right-0 w-5 h-5 md:w-7 md:h-7 border-t border-r border-accent/20" />
@@ -89,7 +97,7 @@ export default function IntroFrame({
         </button>
 
         {/* Prose */}
-        <div className="relative z-10 space-y-6 md:space-y-8 text-[14.5px] md:text-[16.5px] text-text-primary/80 leading-[2] md:leading-[2.1] break-keep font-light tracking-wide">
+        <div className="relative z-10 space-y-4 text-[14.5px] md:text-[16.5px] text-text-primary/80 leading-[1.8] break-keep font-light tracking-wide">
           {paragraphs.map((para, i) => {
             // 맺음 문장은 가운데 세우고, 누르면 서비스 소개로 가는 문으로 쓴다
             if (closingHref && i === paragraphs.length - 1) {
@@ -111,7 +119,7 @@ export default function IntroFrame({
             // 첫 문단만 오른쪽 위 ⓘ 버튼 자리를 비운다 — 비우지 않으면 첫 줄 끝 글자를 가린다
             return (
               <p key={i} className={`whitespace-pre-line ${i === 0 ? "pe-9 md:pe-10" : ""}`}>
-                {renderHighlighted(para)}
+                {renderHighlighted(para, labels.figureLinks)}
               </p>
             );
           })}

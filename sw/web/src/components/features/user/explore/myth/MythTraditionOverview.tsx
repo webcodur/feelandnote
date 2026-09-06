@@ -8,6 +8,8 @@ import { Link } from "@/i18n/navigation";
 import type { MythTradition, MythWork } from "@/actions/home/mythAtlasTypes";
 import { BlurDissolve, FormattedText, splitReadableParagraphs } from "@/components/ui";
 
+import { MYTH_LAYOUT as layout } from "./mythLayout";
+
 interface Props {
   tradition: MythTradition | null;
   memberCount: number;
@@ -30,9 +32,9 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
   };
 
   return (
-    <section aria-labelledby="myth-overview-title" className="overflow-hidden rounded-[24px] border border-white/[0.08] bg-black">
+    <section aria-labelledby="myth-overview-title" className={layout.overview}>
       <div className="relative bg-black">
-        <figure className="relative aspect-[3/2] w-full overflow-hidden" aria-label={tradition?.name ?? t("allTraditions")}>
+        <figure className={layout.artwork} aria-label={tradition?.name ?? t("allTraditions")}>
           {activeImage ? (
             <BlurDissolve key={activeImage.url} className="absolute inset-0">
               <Image
@@ -80,19 +82,19 @@ export default function MythTraditionOverview({ tradition, memberCount, workCoun
           </h3>
         </figure>
 
-        <div className="relative z-10 bg-black px-5 pb-6 pt-5 md:px-7 md:pb-7 md:pt-6 lg:absolute lg:inset-y-0 lg:end-0 lg:flex lg:w-[43%] lg:items-center lg:bg-transparent lg:px-6 lg:py-8 xl:px-8">
-          <div className="flex w-full min-w-0 flex-col lg:h-[430px] lg:rounded-[20px] lg:border lg:border-white/[0.09] lg:bg-black/[0.88] lg:p-6 lg:shadow-[0_18px_44px_rgba(0,0,0,.28)]">
-            <div className="flex items-center justify-between gap-3">
+        <div className={layout.overviewPanel}>
+          <div className={layout.overviewBody}>
+            <div className={layout.overviewHeader}>
               <p className="flex shrink-0 items-center gap-2 text-xs font-bold tracking-[.16em] text-accent md:text-sm">
                 <BookOpenText size={17} aria-hidden />
                 {t("mythOverview")}
               </p>
-              <p className="min-w-0 text-end text-[11px] font-semibold leading-5 text-text-tertiary md:text-xs">
+              <p className={layout.overviewStats}>
                 {t("mythOverviewStats", { people: memberCount, works: workCount })}
               </p>
             </div>
 
-            <div className="scrollbar-thin mt-4 h-56 overflow-y-auto pe-2 [overflow-anchor:none] md:h-64 lg:min-h-0 lg:flex-1">
+            <div className={layout.description}>
               <div className="space-y-5 break-keep text-[15px] leading-[1.9] text-text-secondary md:text-[16.5px] md:leading-[1.95]">
                 {splitReadableParagraphs(description).map((paragraph, index) => (
                   <p key={index}>
@@ -132,9 +134,9 @@ function EntryWorkCard({ work, locale, label, buyLabel }: { work: MythWork; loca
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <p className={`text-[11px] font-bold tracking-[.14em] ${purchaseUrl ? "text-[#ff776a]" : "text-accent"}`}>{label}</p>
-        <h4 className={`mt-0.5 line-clamp-2 text-sm font-bold leading-5 ${purchaseUrl ? "text-white group-hover:text-[#ff9a8f]" : "text-text-primary group-hover:text-accent"}`}>{work.title}</h4>
-        {work.creator && <p className="mt-0.5 truncate text-xs text-text-secondary">{work.creator}</p>}
+        <p className={`${layout.entryLabel} ${purchaseUrl ? "text-[#ff776a]" : "text-accent"}`}>{label}</p>
+        <h4 className={`${layout.entryTitle} ${purchaseUrl ? "text-white group-hover:text-[#ff9a8f]" : "text-text-primary group-hover:text-accent"}`}>{work.title}</h4>
+        <p className={layout.entryCreator}>{work.creator}</p>
       </div>
       <span className={`grid size-8 shrink-0 place-items-center rounded-full bg-black/85 ${purchaseUrl ? "text-[#ff776a]" : "text-text-tertiary"}`} aria-hidden>
         {purchaseUrl ? <ShoppingBag size={15} /> : <ArrowUpRight size={15} />}

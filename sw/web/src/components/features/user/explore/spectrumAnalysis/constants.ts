@@ -4,6 +4,8 @@
   책임: 분포 레이아웃 수치, 양극 8색, 색 보간·이니셜 헬퍼 단일원천.
 */ // ------------------------------
 
+import type { CSSProperties } from "react";
+
 export const DOT = 40; // 아바타 지름(px)
 export const GAP_Y = 6; // 세로 간격
 export const STEP = 3; // 같은 칸으로 묶는 값 폭
@@ -14,6 +16,15 @@ export const SEARCH_LIMIT = 8; // 검색 결과 최대 표시 수
 // 모바일(폭 640px 미만) — 아바타 수백 개를 좁은 폭에 못 그리므로 구간 막대로 전환
 export const BAR_STEP = 5; // 막대 하나가 덮는 값 폭 (-50~50 → 최대 21개)
 export const BAR_AREA = 150; // 막대 최대 높이(px)
+
+export const COMPACT_DOT = 32;
+export const SPECTRUM_CHART_CLASS = "relative w-full overflow-hidden rounded-2xl border border-border/50 bg-bg-card/30 h-[var(--chart-mobile)] @min-[640px]:h-[var(--chart-compact)] @min-[768px]:h-[var(--chart-desktop)]";
+export const SPECTRUM_CHART_STYLE = {
+  "--chart-mobile": `${BAR_AREA + AXIS_BOTTOM + 16}px`,
+  "--chart-compact": `${MAX_STACK * (COMPACT_DOT + GAP_Y) + AXIS_BOTTOM + 28}px`,
+  "--chart-desktop": `${MAX_STACK * (DOT + GAP_Y) + AXIS_BOTTOM + 28}px`,
+} as CSSProperties;
+export const SPECTRUM_GUIDE_CLASS = "min-h-10 text-center text-sm text-text-secondary @min-[640px]:min-h-5";
 
 // 성향 4지표 × 양극 = 8색. 축마다 좌(neg)·우(pos) 끝 색
 export const AXIS_POLE_COLORS: Record<string, { neg: string; pos: string }> = {

@@ -12,6 +12,7 @@ import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/use
 import { BookOpen, Film, Gamepad2, Music } from "lucide-react";
 import { useLocale } from "next-intl";
 import type { TopByTypeEntry } from "@/actions/home/getTopByContentType";
+import { HUB_CELEB_GRID } from "./ExploreSkeleton";
 
 /* 도서 아이콘은 공용 분류표(constants/categories.ts)와 같은 펼친 책을 쓴다 —
    닫힌 책은 이 크기(12px)에서 공책처럼 보인다. */
@@ -34,7 +35,7 @@ export default function TopByTypeGrid({ entries }: TopByTypeGridProps) {
 
   return (
     /* HubCelebGrid와 같은 격자 규격 — 탭을 오가도 카드 크기·간격이 흔들리지 않게 한다 */
-    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4">
+    <div className={HUB_CELEB_GRID}>
       {entries.flatMap((entry) => {
         const config = TYPE_CONFIG[entry.type];
         const Icon = config.icon;

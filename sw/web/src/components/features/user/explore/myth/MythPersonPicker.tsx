@@ -13,6 +13,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { MythPerson } from "@/actions/home/mythAtlasTypes";
+import { MYTH_LAYOUT as mythLayout } from "./mythLayout";
 
 interface Props {
   people: MythPerson[];
@@ -140,7 +141,7 @@ export default function MythPersonPicker({ people, selectedId, onSelect, traditi
 
   return (
     <aside className={isRail
-      ? "min-w-0 overflow-hidden rounded-[20px] border border-white/[0.08] bg-black/[0.12] px-4 py-4 md:px-5 md:py-5"
+      ? mythLayout.rail
       : "order-1 min-w-0 border-b border-white/[0.06] bg-black/[0.12] p-5 lg:order-none lg:border-b-0 lg:border-e lg:p-6"}
     >
       <div className={`flex items-center justify-between gap-3 ${isRail ? "mb-3 px-1" : "mb-4"}`}>
@@ -193,7 +194,7 @@ export default function MythPersonPicker({ people, selectedId, onSelect, traditi
             ? person.appearances.find((item) => item.traditionId === traditionId)?.summary
             : null;
           const context = appearance ?? person.headline ?? person.summary;
-          const className = `group relative flex shrink-0 snap-start overflow-hidden rounded-[16px] border text-start ${isRail ? "h-[108px] w-[224px] md:h-[116px] md:w-[252px]" : "h-[104px] w-[230px] lg:h-14 lg:w-full"} ${selected ? "border-accent bg-accent/10 shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : "border-white/[0.07] bg-bg-card hover:border-accent/60 hover:bg-white/[0.035]"}`;
+          const className = `group relative flex shrink-0 snap-start overflow-hidden rounded-[16px] border text-start ${isRail ? mythLayout.railCardSize : "h-[104px] w-[230px] lg:h-14 lg:w-full"} ${selected ? "border-accent bg-accent/10 shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : "border-white/[0.07] bg-bg-card hover:border-accent/60 hover:bg-white/[0.035]"}`;
 
           return (
             <button key={person.id} type="button" aria-pressed={selected} onClick={(event) => handlePersonClick(event, person.id)} className={className}>
