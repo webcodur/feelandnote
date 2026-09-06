@@ -5,7 +5,9 @@ export type WorldMaterialId =
   | "stone-bronze"
   | "plaster-iron"
   | "concrete-steel"
-  | "glass-paper";
+  | "glass-paper"
+  | "concrete-cobalt"
+  | "ebony-malachite";
 
 export interface WorldMaterialDefinition {
   id: WorldMaterialId;
@@ -94,11 +96,11 @@ export const WORLD_MATERIAL_DEFINITIONS: Readonly<Record<WorldMaterialId, WorldM
     backgroundMaterial: "그을린 회벽",
     panelMaterial: "짙은 참나무",
     edgeMaterial: "망치질한 흑철",
-    canvas: "#100d0b",
-    deep: "#080605",
-    panel: "#21170f",
-    raised: "#2a1d13",
-    edge: "#67513d",
+    canvas: "#0f0d0c",
+    deep: "#070606",
+    panel: "#1f1915",
+    raised: "#27201a",
+    edge: "#5e5146",
     accent: "#ae8a5a",
     accentHover: "#c6a371",
     accentRgb: "174, 138, 90",
@@ -141,10 +143,46 @@ export const WORLD_MATERIAL_DEFINITIONS: Readonly<Record<WorldMaterialId, WorldM
     text: "#e8eef0",
     muted: "#95a5ad",
   },
+  "concrete-cobalt": {
+    id: "concrete-cobalt",
+    labelKo: "그늘진 콘크리트 · 코발트 회벽 · 마리골드 놋쇠",
+    labelEn: "Shaded Concrete · Cobalt Stucco · Marigold Brass",
+    backgroundMaterial: "그늘진 콘크리트",
+    panelMaterial: "코발트로 칠한 회벽",
+    edgeMaterial: "마리골드 놋쇠",
+    canvas: "#0b0c0f",
+    deep: "#050608",
+    panel: "#11141f",
+    raised: "#171b27",
+    edge: "#3f4a5f",
+    accent: "#b88f51",
+    accentHover: "#c5a472",
+    accentRgb: "184, 143, 81",
+    text: "#e6e8ef",
+    muted: "#9297a6",
+  },
+  "ebony-malachite": {
+    id: "ebony-malachite",
+    labelKo: "흑단 · 말라카이트 · 베냉 놋쇠",
+    labelEn: "Ebony · Malachite · Benin Brass",
+    backgroundMaterial: "흑단",
+    panelMaterial: "말라카이트",
+    edgeMaterial: "베냉 놋쇠",
+    canvas: "#0b0e0c",
+    deep: "#050706",
+    panel: "#0f1a15",
+    raised: "#15221d",
+    edge: "#3b5447",
+    accent: "#b69d54",
+    accentHover: "#c3af74",
+    accentRgb: "182, 157, 84",
+    text: "#e4eae6",
+    muted: "#909c96",
+  },
 };
 
 /**
- * 39개 세계를 재질 계열 하나에 명시적으로 배정한다.
+ * 41개 세계를 재질 계열 하나에 명시적으로 배정한다.
  * 새 세계를 추가할 때 이 표와 lab 비교 화면을 함께 갱신한다.
  */
 export const WORLD_MATERIAL_BY_WORLD: Readonly<Record<string, WorldMaterialId>> = {
@@ -184,7 +222,9 @@ export const WORLD_MATERIAL_BY_WORLD: Readonly<Record<string, WorldMaterialId>> 
   "world-wars": "concrete-steel",
   "modern-west": "glass-paper",
   "latin-america": "plaster-iron",
-  africa: "plaster-iron",
+  "modern-latin-america": "concrete-cobalt",
+  africa: "ebony-malachite",
+  "modern-africa": "ebony-malachite",
   myth: "stone-bronze",
   neutral: "stone-bronze",
 };
