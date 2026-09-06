@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788957336366",
+    "title": "임마누엘 칸트",
+    "creator": "F 카울바흐",
+    "titleAliases": [],
+    "creatorAliases": [
+      "백종현 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788957336366"
+  }
+}

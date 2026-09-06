@@ -1,0 +1,1180 @@
+{
+  "candidates": [
+    {
+      "person": {
+        "id": "34daa6a0-f79c-4b2b-86aa-ffb1e8e69ccb",
+        "slug": "pythagoras"
+      },
+      "book": {
+        "contentId": "13410b89-7c1f-4461-a1e2-b3f2975148e6",
+        "title": "변신 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "597d8634-4b7e-40d5-82d5-ca8a5a2aa65a",
+        "slug": "julius-caesar"
+      },
+      "book": {
+        "contentId": "13410b89-7c1f-4461-a1e2-b3f2975148e6",
+        "title": "변신 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "55018059-bd45-4f98-acd6-4206680878a2",
+        "slug": "theseus"
+      },
+      "book": {
+        "contentId": "d0ae4f4f-2e9b-41e7-9670-72eaf2f85528",
+        "title": "그리스 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "55018059-bd45-4f98-acd6-4206680878a2",
+        "slug": "theseus"
+      },
+      "book": {
+        "contentId": "44f3609f-d4b5-4673-9db6-cd28e4c07025",
+        "title": "그리스 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "55018059-bd45-4f98-acd6-4206680878a2",
+        "slug": "theseus"
+      },
+      "book": {
+        "contentId": "905e4914-9aa2-59e3-94c6-1bf04e2fe97c",
+        "title": "Apollodorus' Library and Hyginus' Fabulae",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "84077a82-2e00-440b-8c0d-6cc86303abc9",
+        "slug": "kim-yu-sin"
+      },
+      "book": {
+        "contentId": "467d387e-c688-43b0-8570-01df791de22b",
+        "title": "원본 삼국사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b4e5ff19-1001-42c0-ae4e-c943cee2e65f",
+        "slug": "eulji-mundeok"
+      },
+      "book": {
+        "contentId": "467d387e-c688-43b0-8570-01df791de22b",
+        "title": "원본 삼국사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "555ce0cd-87bd-4334-ad6a-a528135b7b24",
+        "slug": "gilgamesh"
+      },
+      "book": {
+        "contentId": "9ddbafac-db85-5875-95e4-ae2bc91ec731",
+        "title": "The Literature of Ancient Sumer",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "70611178-c707-41a5-90a9-a8f7f03c42a7",
+        "slug": "enkidu"
+      },
+      "book": {
+        "contentId": "9ddbafac-db85-5875-95e4-ae2bc91ec731",
+        "title": "The Literature of Ancient Sumer",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "34540a1f-1771-4f4e-82b9-9393d8aefd0f",
+        "slug": "enlil"
+      },
+      "book": {
+        "contentId": "9ddbafac-db85-5875-95e4-ae2bc91ec731",
+        "title": "The Literature of Ancient Sumer",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "26f26af3-17f5-46e2-817b-2a47f502157b",
+        "slug": "ninlil"
+      },
+      "book": {
+        "contentId": "9ddbafac-db85-5875-95e4-ae2bc91ec731",
+        "title": "The Literature of Ancient Sumer",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "54c985ab-6d6a-4aed-b19d-439f30d187cf",
+        "slug": "wonhyo"
+      },
+      "book": {
+        "contentId": "79334378-a390-40bb-9dd9-025c41eed94f",
+        "title": "삼국유사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "84077a82-2e00-440b-8c0d-6cc86303abc9",
+        "slug": "kim-yu-sin"
+      },
+      "book": {
+        "contentId": "79334378-a390-40bb-9dd9-025c41eed94f",
+        "title": "삼국유사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b5a4bd00-664d-468e-a2fc-23c53d0422aa",
+        "slug": "queen-seondeok"
+      },
+      "book": {
+        "contentId": "79334378-a390-40bb-9dd9-025c41eed94f",
+        "title": "삼국유사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "147a3298-2754-4fc3-a4f6-80aa9703ee8a",
+        "slug": "dumuzi"
+      },
+      "book": {
+        "contentId": "6bbf26a8-979b-455d-aa6a-1e84e64e68af",
+        "title": "메소포타미아 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "555ce0cd-87bd-4334-ad6a-a528135b7b24",
+        "slug": "gilgamesh"
+      },
+      "book": {
+        "contentId": "6bbf26a8-979b-455d-aa6a-1e84e64e68af",
+        "title": "메소포타미아 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "38155a04-76e5-4694-9e82-c5c945f02105",
+        "slug": "nergal"
+      },
+      "book": {
+        "contentId": "6bbf26a8-979b-455d-aa6a-1e84e64e68af",
+        "title": "메소포타미아 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "02ce6160-21b1-43c0-a85e-9d64a051a51d",
+        "slug": "sejong-the-great"
+      },
+      "book": {
+        "contentId": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+        "title": "홍길동전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "dfb22ede-4426-4672-8afd-17b3a882dfd7",
+        "slug": "tiamat"
+      },
+      "book": {
+        "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+        "title": "Myths from Mesopotamia",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "34540a1f-1771-4f4e-82b9-9393d8aefd0f",
+        "slug": "enlil"
+      },
+      "book": {
+        "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+        "title": "Myths from Mesopotamia",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "555ce0cd-87bd-4334-ad6a-a528135b7b24",
+        "slug": "gilgamesh"
+      },
+      "book": {
+        "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+        "title": "Myths from Mesopotamia",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "70611178-c707-41a5-90a9-a8f7f03c42a7",
+        "slug": "enkidu"
+      },
+      "book": {
+        "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+        "title": "Myths from Mesopotamia",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fb0ed7e4-25a4-45fa-8931-bc641b5956e1",
+        "slug": "ishtar"
+      },
+      "book": {
+        "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+        "title": "Myths from Mesopotamia",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fb0ed7e4-25a4-45fa-8931-bc641b5956e1",
+        "slug": "ishtar"
+      },
+      "book": {
+        "contentId": "c783af31-7bcb-5b68-a13c-c81e4c6e0b20",
+        "title": "Before The Muses",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ed81c9e2-8bbe-4707-b7aa-faed39353f98",
+        "slug": "ereshkigal"
+      },
+      "book": {
+        "contentId": "c783af31-7bcb-5b68-a13c-c81e4c6e0b20",
+        "title": "Before The Muses",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "34540a1f-1771-4f4e-82b9-9393d8aefd0f",
+        "slug": "enlil"
+      },
+      "book": {
+        "contentId": "21dd08de-dc3f-4a9c-a8be-0af89ebdaaf6",
+        "title": "홍끼의 메소포타미아 신화 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b9d63471-ab26-48c6-aa3b-b3cd193101b1",
+        "slug": "ninurta"
+      },
+      "book": {
+        "contentId": "21dd08de-dc3f-4a9c-a8be-0af89ebdaaf6",
+        "title": "홍끼의 메소포타미아 신화 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "2164e219-3ee6-42dd-8c07-6bb54e0a32b3",
+        "slug": "electra"
+      },
+      "book": {
+        "contentId": "55a6b05c-a738-44ef-8a97-80b3d3d3feed",
+        "title": "소포클레스 전집",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5fc883bd-9534-41bc-b532-dc050fa3cf94",
+        "slug": "philoctetes"
+      },
+      "book": {
+        "contentId": "55a6b05c-a738-44ef-8a97-80b3d3d3feed",
+        "title": "소포클레스 전집",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "57f56912-0e4c-4ac1-8141-5ea1130d11c5",
+        "slug": "solon"
+      },
+      "book": {
+        "contentId": "da4fcc72-fd79-455f-95c5-21ee26b47d35",
+        "title": "헤로도토스 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "99f417cc-b585-4157-923f-0bcc1ddac079",
+        "slug": "themistocles"
+      },
+      "book": {
+        "contentId": "da4fcc72-fd79-455f-95c5-21ee26b47d35",
+        "title": "헤로도토스 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "85aa3986-1254-409c-8ded-b86cf48d2b98",
+        "slug": "leonidas-i"
+      },
+      "book": {
+        "contentId": "da4fcc72-fd79-455f-95c5-21ee26b47d35",
+        "title": "헤로도토스 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "57f56912-0e4c-4ac1-8141-5ea1130d11c5",
+        "slug": "solon"
+      },
+      "book": {
+        "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+        "title": "플루타르코스 영웅전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "99f417cc-b585-4157-923f-0bcc1ddac079",
+        "slug": "themistocles"
+      },
+      "book": {
+        "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+        "title": "플루타르코스 영웅전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a07bede-805e-4a57-a434-776bf7274b33",
+        "slug": "pericles"
+      },
+      "book": {
+        "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+        "title": "플루타르코스 영웅전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "545ebb2d-4d88-468d-8d64-811147221853",
+        "slug": "alcibiades"
+      },
+      "book": {
+        "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+        "title": "플루타르코스 영웅전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "98e10432-60cd-43fa-ad17-f6129e10c553",
+        "slug": "pompey-the-great"
+      },
+      "book": {
+        "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+        "title": "플루타르코스 영웅전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c2ae0091-14e4-41a3-a801-b5eb01d8176f",
+        "slug": "marcus-licinius-crassus"
+      },
+      "book": {
+        "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+        "title": "플루타르코스 영웅전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "def48a1c-e095-4f72-9efb-4cd3cca3f752",
+        "slug": "cicero"
+      },
+      "book": {
+        "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+        "title": "플루타르코스 영웅전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "29cc0551-0a36-47e7-b828-490c7624d4ee",
+        "slug": "marcus-junius-brutus"
+      },
+      "book": {
+        "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+        "title": "플루타르코스 영웅전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "19b51e12-d03e-4a8f-9f40-916bce9a9b38",
+        "slug": "tristan"
+      },
+      "book": {
+        "contentId": "ec4d0a84-2848-4afc-b13e-3c01b78fdb9d",
+        "title": "아서왕과 원탁의 기사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e14ceeca-c942-492f-8c75-c62cf702fc6f",
+        "slug": "demeter"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fad4a81e-bc48-4963-988d-02a452bf0867",
+        "slug": "persephone"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c7dae483-9a9b-4d92-8c86-c0954228101a",
+        "slug": "hades"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cdb263c5-b59c-46c8-9942-74c5347455df",
+        "slug": "apollo"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "874a2818-b593-4097-b27a-71ff33ed70b0",
+        "slug": "hermes"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "04440a25-0846-4ca1-9538-968427909caa",
+        "slug": "aphrodite"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a3c83e3e-dc4d-44fa-8a60-a37eb17287aa",
+        "slug": "zeus"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f19f6ee2-42fa-4f1a-b4fc-16568672b619",
+        "slug": "dionysus"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8a1b568e-2c35-4899-b02d-c10570bf72d6",
+        "slug": "artemis"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "222932c4-708b-417b-b258-ac062b9893e1",
+        "slug": "athena"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "274e2a28-1167-4dc0-be7c-f781a0ac2d6d",
+        "slug": "hera"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "01cee064-4a24-4988-ab4c-4733d58997f9",
+        "slug": "hephaestus"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "57f56912-0e4c-4ac1-8141-5ea1130d11c5",
+        "slug": "solon"
+      },
+      "book": {
+        "contentId": "5a2033a4-f623-42c3-bea8-5587dd850ac1",
+        "title": "유명한 철학자들의 생애와 사상 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a4fd97d2-199d-44e8-8d4c-3c5e0eb28bd2",
+        "slug": "wu-zixu"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+        "slug": "shang-yang"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1cd781f1-867a-4b60-8f8f-8f622597922e",
+        "slug": "qu-yuan"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f2776faa-2ca0-419c-b0ba-e413cacfa810",
+        "slug": "jia-yi"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "71956da3-739d-4ce9-ad1e-fb864eb3945c",
+        "slug": "lu-buwei"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ac3c3229-9bf0-4a5f-b449-8a169e123af5",
+        "slug": "li-si"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b887d46a-6aaa-42e6-916d-756c0685c8dd",
+        "slug": "meng-tian"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7c0afcc1-3941-40c3-98b7-185ee87ba768",
+        "slug": "han-xin"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "58cd2012-c679-48bc-8600-f71247aa31cb",
+        "slug": "xiang-yu"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3c4783cc-aa09-4ec8-b1cd-72a53ee7e1b3",
+        "slug": "medea"
+      },
+      "book": {
+        "contentId": "26dbc4a6-5497-4f40-8673-bb9083a09d9d",
+        "title": "세네카 비극 전집 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7307644b-c9bc-4b61-b856-c1cc6b73b5fa",
+        "slug": "thyestes"
+      },
+      "book": {
+        "contentId": "26dbc4a6-5497-4f40-8673-bb9083a09d9d",
+        "title": "세네카 비극 전집 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cedbb190-cba5-4799-adfc-61cb365c68bb",
+        "slug": "agamemnon"
+      },
+      "book": {
+        "contentId": "26dbc4a6-5497-4f40-8673-bb9083a09d9d",
+        "title": "세네카 비극 전집 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a3c83e3e-dc4d-44fa-8a60-a37eb17287aa",
+        "slug": "zeus"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "55018059-bd45-4f98-acd6-4206680878a2",
+        "slug": "theseus"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f77050db-044b-41dc-a24c-19c318807193",
+        "slug": "jason"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f339bfd8-3c95-4a08-bde2-825b9a5c7f2b",
+        "slug": "odysseus"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "89893aba-bd9b-47c1-b0eb-ad1f75ef885f",
+        "slug": "aeneas"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f9fc110a-82cd-4455-be57-8641cc5e924e",
+        "slug": "atalanta"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cedbb190-cba5-4799-adfc-61cb365c68bb",
+        "slug": "agamemnon"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e47f1743-56bb-4962-aa91-1ebe26acc1d0",
+        "slug": "orpheus"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1d790a9a-fce6-47a3-9124-c3bb4f2d19a2",
+        "slug": "thomas-edison"
+      },
+      "book": {
+        "contentId": "90604bc9-09e1-5935-8afe-a1521e230d68",
+        "title": "헨리 포드(새싹 인물전 14)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1c806103-210b-4b24-a996-7dcbc37ea192",
+        "slug": "yongle-emperor"
+      },
+      "book": {
+        "contentId": "3e371d2b-d428-5dde-a8a9-2a3f9912cf5f",
+        "title": "who? 인물 중국사: 주원장ㆍ영락제",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1b2fd1a5-eaca-439a-9465-eaf6ae2d2906",
+        "slug": "marie-antoinette"
+      },
+      "book": {
+        "contentId": "8d39a571-d309-5cd3-b390-85b411f4afe0",
+        "title": "설민석의 세계사 대모험 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ed6a1d9a-aaca-4feb-a47c-ddf8f4725652",
+        "slug": "wu-qi"
+      },
+      "book": {
+        "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "title": "명장: 그들에게 난세는 기회였다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e7151208-9ed2-4728-add6-c10596282dee",
+        "slug": "sun-bin"
+      },
+      "book": {
+        "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "title": "명장: 그들에게 난세는 기회였다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "30934929-04a2-4ede-879b-4d08a44bf8db",
+        "slug": "yue-yi"
+      },
+      "book": {
+        "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "title": "명장: 그들에게 난세는 기회였다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "bb56cc9a-319a-46f5-866b-f3b97134c769",
+        "slug": "tian-dan"
+      },
+      "book": {
+        "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "title": "명장: 그들에게 난세는 기회였다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7c0afcc1-3941-40c3-98b7-185ee87ba768",
+        "slug": "han-xin"
+      },
+      "book": {
+        "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "title": "명장: 그들에게 난세는 기회였다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "58cd2012-c679-48bc-8600-f71247aa31cb",
+        "slug": "xiang-yu"
+      },
+      "book": {
+        "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "title": "명장: 그들에게 난세는 기회였다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "db79bff2-108e-4986-9bb4-ed0f8a0f1d59",
+        "slug": "lian-po"
+      },
+      "book": {
+        "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "title": "명장: 그들에게 난세는 기회였다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "753f6491-8031-47df-a152-ca43698f7173",
+        "slug": "lin-xiangru"
+      },
+      "book": {
+        "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "title": "명장: 그들에게 난세는 기회였다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "368c8bc0-0e1e-441e-8240-3f957602accc",
+        "slug": "christopher-columbus"
+      },
+      "book": {
+        "contentId": "a328a27d-cfbb-44a1-b92c-e83645d21715",
+        "title": "위대한 탐험가 마젤란",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "07274841-01a0-4df6-8b7f-bb0e0ca88c75",
+        "slug": "duke-xiao-of-qin"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+        "slug": "shang-yang"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "668425fd-c202-46b2-8074-dcbc490c1275",
+        "slug": "zhang-yi"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "37f37a12-b2ae-42d8-ad65-e5d7b90d913f",
+        "slug": "king-zhaoxiang-of-qin"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "244d6243-e93e-4328-9c8b-0274bedfc283",
+        "slug": "bai-qi"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6a37e510-be7a-433d-acd0-f5a31d0b3dbd",
+        "slug": "lord-mengchang"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "753f6491-8031-47df-a152-ca43698f7173",
+        "slug": "lin-xiangru"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "71956da3-739d-4ce9-ad1e-fb864eb3945c",
+        "slug": "lu-buwei"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "511eac35-6f81-4305-947d-886e3f6ba130",
+        "slug": "wang-jian"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b887d46a-6aaa-42e6-916d-756c0685c8dd",
+        "slug": "meng-tian"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ac3c3229-9bf0-4a5f-b449-8a169e123af5",
+        "slug": "li-si"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cc5eda96-b662-4972-9d6d-c18409533b70",
+        "slug": "zhao-gao"
+      },
+      "book": {
+        "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "title": "사마천의 사기 속의 진시황",
+        "isbn": null,
+        "verified": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788965190264.json",
+  "manifestSha256": "3f97a8b1924c5cce2c9b4353e34d59702de3408b5492172eab473b147e2602bc",
+  "planSha256": "8953ed9a0fd4755a31bb0daf89d156b2e6f7f36d897cca733ac2d6822d90fbe3",
+  "workIdentity": "book/9788965190264",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788965190264"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "b6e22076-ca4c-5050-aa8f-27dc8949fe39",
+    "scopeKey": "book/9788965190264",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "b6e22076-ca4c-5050-aa8f-27dc8949fe39",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788965190264",
+      "release_date": "2011-09-27",
+      "metadata": {
+        "isbn": "9788965190264",
+        "publisher": "북스",
+        "publishDate": "2011-09-27",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788965190264",
+          "workTitle": "정치가 마거릿 대처",
+          "workCreator": "꼬나",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "정치가 마거릿 대처",
+          "creator": "꼬나",
+          "description": "무한한 가능성을 지닌 아이들을 위해 「세상을 이끈 여성 파워」 제5권 『정치가 마거릿 대처』. 이 시리즈는 여성으로서의 운명을 극복하고 꿈을 이룬 인물이 전하는 미래를 향한 희망찬 메시지를 담아냈다. 역사적 사실을 바탕으로 팩션을 섞어 흥미를 높였다. 제5권에서는 영국 최초의 여성 수상이 된 마거릿 대처를 만난다. 여성이 다가서기 참으로 힘든 정치계에서 모든 어려움과 편견을 극복하고 정상에 오른 마거릿 대처의 노력과 성실, 강인함과 열정과 투쟁, 그리고 뚝심을 배울 수 있다.",
+          "isbn": "9788965190264",
+          "publisher": "북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/912419?timestamp=20240221173629",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98"
+          },
+          "verified": true,
+          "content_id": "b6e22076-ca4c-5050-aa8f-27dc8949fe39"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "b6e22076-ca4c-5050-aa8f-27dc8949fe39",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788965190264",
+        "release_date": "2011-09-27",
+        "metadata": {
+          "isbn": "9788965190264",
+          "publisher": "북스",
+          "publishDate": "2011-09-27",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788965190264",
+            "workTitle": "정치가 마거릿 대처",
+            "workCreator": "꼬나",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "정치가 마거릿 대처",
+          "creator": "꼬나",
+          "description": "무한한 가능성을 지닌 아이들을 위해 「세상을 이끈 여성 파워」 제5권 『정치가 마거릿 대처』. 이 시리즈는 여성으로서의 운명을 극복하고 꿈을 이룬 인물이 전하는 미래를 향한 희망찬 메시지를 담아냈다. 역사적 사실을 바탕으로 팩션을 섞어 흥미를 높였다. 제5권에서는 영국 최초의 여성 수상이 된 마거릿 대처를 만난다. 여성이 다가서기 참으로 힘든 정치계에서 모든 어려움과 편견을 극복하고 정상에 오른 마거릿 대처의 노력과 성실, 강인함과 열정과 투쟁, 그리고 뚝심을 배울 수 있다.",
+          "isbn": "9788965190264",
+          "publisher": "북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/912419?timestamp=20240221173629",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98"
+          },
+          "verified": true,
+          "content_id": "b6e22076-ca4c-5050-aa8f-27dc8949fe39"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788965190264",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788965190264"
+      ],
+      "normalizedTitles": [
+        "정치가마거릿대처"
+      ],
+      "normalizedCreators": [
+        "꼬나"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:51:47.945Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "b6e22076-ca4c-5050-aa8f-27dc8949fe39",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788965190264",
+      "release_date": "2011-09-27",
+      "metadata": {
+        "isbn": "9788965190264",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+        "publisher": "북스",
+        "figureBook": {
+          "workTitle": "정치가 마거릿 대처",
+          "workCreator": "꼬나",
+          "workIdentity": "book/9788965190264",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2011-09-27",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:51:43.318302+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "b6e22076-ca4c-5050-aa8f-27dc8949fe39",
+        "locale": "ko",
+        "title": "정치가 마거릿 대처",
+        "creator": "꼬나",
+        "description": "무한한 가능성을 지닌 아이들을 위해 「세상을 이끈 여성 파워」 제5권 『정치가 마거릿 대처』. 이 시리즈는 여성으로서의 운명을 극복하고 꿈을 이룬 인물이 전하는 미래를 향한 희망찬 메시지를 담아냈다. 역사적 사실을 바탕으로 팩션을 섞어 흥미를 높였다. 제5권에서는 영국 최초의 여성 수상이 된 마거릿 대처를 만난다. 여성이 다가서기 참으로 힘든 정치계에서 모든 어려움과 편견을 극복하고 정상에 오른 마거릿 대처의 노력과 성실, 강인함과 열정과 투쟁, 그리고 뚝심을 배울 수 있다.",
+        "isbn": "9788965190264",
+        "publisher": "북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/912419?timestamp=20240221173629",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=912419&q=%EC%A0%95%EC%B9%98%EA%B0%80+%EB%A7%88%EA%B1%B0%EB%A6%BF+%EB%8C%80%EC%B2%98"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:51:43.318302+00:00",
+        "updated_at": "2026-09-04T17:51:43.318302+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791192275093",
+    "title": "박경리 이야기",
+    "creator": "김형국",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791192275093"
+  }
+}

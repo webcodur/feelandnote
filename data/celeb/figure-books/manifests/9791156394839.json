@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791156394839",
+    "title": "Who? 세계 인물: 앤드루 카네기",
+    "creator": "오영석",
+    "titleAliases": [
+      "Who? 세계 인물"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791156394839"
+  }
+}

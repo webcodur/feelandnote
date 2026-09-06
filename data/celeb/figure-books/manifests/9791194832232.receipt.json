@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791194832232.json",
+  "manifestSha256": "ada4742064525a4b2e6bd57bf6cfde7467334a2e9ec50f15567ed62078c6de72",
+  "planSha256": "6c0b204030d96106b6db2e5882d523fe24da5bc812e4f178518ec167e7c15738",
+  "workIdentity": "book/9791194832232",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791194832232"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "5d3b05e9-94c7-5d9e-9ddb-8382eb669a31",
+    "scopeKey": "book/9791194832232",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "5d3b05e9-94c7-5d9e-9ddb-8382eb669a31",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791194832232",
+      "release_date": "2025-09-12",
+      "metadata": {
+        "isbn": "9791194832232",
+        "publisher": "전파과학사",
+        "publishDate": "2025-09-12",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791194832232",
+          "workTitle": "왓슨과 크릭",
+          "workCreator": "데이비드 E. 뉴턴",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "왓슨과 크릭",
+          "creator": "데이비드 E. 뉴턴",
+          "description": "그들은 누구이며, 어떻게 생명의 원천인 DNA 분자 연구를 하게 됐는가?\n\n왓슨과 크릭은 1953년 DNA의 분자 구조를 밝혀 현대 유전학의 새로운 창을 연 과학자이다. 연구 동료인 윌킨스와 프랭클린의 DNA X선 회절 자료를 해석해 DNA는 서로 상보적인 두 가닥의 이중 나선이 역평행으로 이뤄져 있음을 밝혔다. 그들의 연구 업적은 유전자의 화학적 본체를 이해하는 데 크게 공헌했으며 이 업적으로 왓슨과 크릭은 1962년에 윌킨스와 함께 노벨 생리학·의학상을 수상했다.\n\n멘델이 유전 법칙을 발견한 이후 드디어 왓슨과 크릭이 유전자의 분자 구조를 규명하면서 20세기 후반 유전자의 기능 연구와 유전자 조작 기술 발전의 계기가 됐다. 이들은 그 후에도 분자유전학의 발전에 기여해 21세기의 시작과 함께 전개되고 있는 유전체의 구조, 기능을 밝혀내고자 하는 유전체학의 선구자였다.\n\n이 책은 분자유전학의 오늘이 있게 한 왓슨과 크릭의 연구 인생과 업적을 통해 과학자가 인류에 공헌할 수 있는 학문적 세계를 탐미해 보는 귀중한 길잡이가 될 것이다.",
+          "isbn": "9791194832232",
+          "publisher": "전파과학사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7019757?timestamp=20251112153522",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD"
+          },
+          "verified": true,
+          "content_id": "5d3b05e9-94c7-5d9e-9ddb-8382eb669a31"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "5d3b05e9-94c7-5d9e-9ddb-8382eb669a31",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791194832232",
+        "release_date": "2025-09-12",
+        "metadata": {
+          "isbn": "9791194832232",
+          "publisher": "전파과학사",
+          "publishDate": "2025-09-12",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791194832232",
+            "workTitle": "왓슨과 크릭",
+            "workCreator": "데이비드 E. 뉴턴",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "왓슨과 크릭",
+          "creator": "데이비드 E. 뉴턴",
+          "description": "그들은 누구이며, 어떻게 생명의 원천인 DNA 분자 연구를 하게 됐는가?\n\n왓슨과 크릭은 1953년 DNA의 분자 구조를 밝혀 현대 유전학의 새로운 창을 연 과학자이다. 연구 동료인 윌킨스와 프랭클린의 DNA X선 회절 자료를 해석해 DNA는 서로 상보적인 두 가닥의 이중 나선이 역평행으로 이뤄져 있음을 밝혔다. 그들의 연구 업적은 유전자의 화학적 본체를 이해하는 데 크게 공헌했으며 이 업적으로 왓슨과 크릭은 1962년에 윌킨스와 함께 노벨 생리학·의학상을 수상했다.\n\n멘델이 유전 법칙을 발견한 이후 드디어 왓슨과 크릭이 유전자의 분자 구조를 규명하면서 20세기 후반 유전자의 기능 연구와 유전자 조작 기술 발전의 계기가 됐다. 이들은 그 후에도 분자유전학의 발전에 기여해 21세기의 시작과 함께 전개되고 있는 유전체의 구조, 기능을 밝혀내고자 하는 유전체학의 선구자였다.\n\n이 책은 분자유전학의 오늘이 있게 한 왓슨과 크릭의 연구 인생과 업적을 통해 과학자가 인류에 공헌할 수 있는 학문적 세계를 탐미해 보는 귀중한 길잡이가 될 것이다.",
+          "isbn": "9791194832232",
+          "publisher": "전파과학사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7019757?timestamp=20251112153522",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD"
+          },
+          "verified": true,
+          "content_id": "5d3b05e9-94c7-5d9e-9ddb-8382eb669a31"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791194832232",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791194832232"
+      ],
+      "normalizedTitles": [
+        "왓슨과크릭"
+      ],
+      "normalizedCreators": [
+        "데이비드e뉴턴",
+        "한국유전학회역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:17:16.265Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "5d3b05e9-94c7-5d9e-9ddb-8382eb669a31",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791194832232",
+      "release_date": "2025-09-12",
+      "metadata": {
+        "isbn": "9791194832232",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+        "publisher": "전파과학사",
+        "figureBook": {
+          "workTitle": "왓슨과 크릭",
+          "workCreator": "데이비드 E. 뉴턴",
+          "workIdentity": "book/9791194832232",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-09-12",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:17:11.890127+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "5d3b05e9-94c7-5d9e-9ddb-8382eb669a31",
+        "locale": "ko",
+        "title": "왓슨과 크릭",
+        "creator": "데이비드 E. 뉴턴",
+        "description": "그들은 누구이며, 어떻게 생명의 원천인 DNA 분자 연구를 하게 됐는가?\n\n왓슨과 크릭은 1953년 DNA의 분자 구조를 밝혀 현대 유전학의 새로운 창을 연 과학자이다. 연구 동료인 윌킨스와 프랭클린의 DNA X선 회절 자료를 해석해 DNA는 서로 상보적인 두 가닥의 이중 나선이 역평행으로 이뤄져 있음을 밝혔다. 그들의 연구 업적은 유전자의 화학적 본체를 이해하는 데 크게 공헌했으며 이 업적으로 왓슨과 크릭은 1962년에 윌킨스와 함께 노벨 생리학·의학상을 수상했다.\n\n멘델이 유전 법칙을 발견한 이후 드디어 왓슨과 크릭이 유전자의 분자 구조를 규명하면서 20세기 후반 유전자의 기능 연구와 유전자 조작 기술 발전의 계기가 됐다. 이들은 그 후에도 분자유전학의 발전에 기여해 21세기의 시작과 함께 전개되고 있는 유전체의 구조, 기능을 밝혀내고자 하는 유전체학의 선구자였다.\n\n이 책은 분자유전학의 오늘이 있게 한 왓슨과 크릭의 연구 인생과 업적을 통해 과학자가 인류에 공헌할 수 있는 학문적 세계를 탐미해 보는 귀중한 길잡이가 될 것이다.",
+        "isbn": "9791194832232",
+        "publisher": "전파과학사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7019757?timestamp=20251112153522",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7019757&q=%EC%99%93%EC%8A%A8%EA%B3%BC+%ED%81%AC%EB%A6%AD"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:17:11.890127+00:00",
+        "updated_at": "2026-09-04T18:17:11.890127+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788941905172.json",
+  "manifestSha256": "070b7a05a34b1ed46c8c3d897b10c9219596da7268eae2d37b27794469724dea",
+  "planSha256": "91508519ba650399a2b47a1c76714d678b2aaec73af28be0906666a051a86978",
+  "workIdentity": "book/9788941905172",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788941905172"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "c39842e3-619a-5239-8b8c-bb5a8063b307",
+    "scopeKey": "book/9788941905172",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "c39842e3-619a-5239-8b8c-bb5a8063b307",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788941905172",
+      "release_date": "2005-09-27",
+      "metadata": {
+        "isbn": "9788941905172",
+        "publisher": "분도출판사",
+        "publishDate": "2005-09-27",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788941905172",
+          "workTitle": "토마스 아퀴나스",
+          "workCreator": "요셉 피퍼",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "토마스 아퀴나스",
+          "creator": "요셉 피퍼",
+          "description": null,
+          "isbn": "9788941905172",
+          "publisher": "분도출판사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/574486?timestamp=20190123210844",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "c39842e3-619a-5239-8b8c-bb5a8063b307"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "c39842e3-619a-5239-8b8c-bb5a8063b307",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788941905172",
+        "release_date": "2005-09-27",
+        "metadata": {
+          "isbn": "9788941905172",
+          "publisher": "분도출판사",
+          "publishDate": "2005-09-27",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788941905172",
+            "workTitle": "토마스 아퀴나스",
+            "workCreator": "요셉 피퍼",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "토마스 아퀴나스",
+          "creator": "요셉 피퍼",
+          "description": null,
+          "isbn": "9788941905172",
+          "publisher": "분도출판사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/574486?timestamp=20190123210844",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "c39842e3-619a-5239-8b8c-bb5a8063b307"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788941905172",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788941905172"
+      ],
+      "normalizedTitles": [
+        "토마스아퀴나스"
+      ],
+      "normalizedCreators": [
+        "신창석역",
+        "요셉피퍼"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:42:33.908Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "c39842e3-619a-5239-8b8c-bb5a8063b307",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788941905172",
+      "release_date": "2005-09-27",
+      "metadata": {
+        "isbn": "9788941905172",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+        "publisher": "분도출판사",
+        "figureBook": {
+          "workTitle": "토마스 아퀴나스",
+          "workCreator": "요셉 피퍼",
+          "workIdentity": "book/9788941905172",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2005-09-27",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:42:29.075783+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "c39842e3-619a-5239-8b8c-bb5a8063b307",
+        "locale": "ko",
+        "title": "토마스 아퀴나스",
+        "creator": "요셉 피퍼",
+        "description": null,
+        "isbn": "9788941905172",
+        "publisher": "분도출판사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/574486?timestamp=20190123210844",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=574486&q=%ED%86%A0%EB%A7%88%EC%8A%A4+%EC%95%84%ED%80%B4%EB%82%98%EC%8A%A4",
+          "description": "confirmed_unavailable"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:42:29.075783+00:00",
+        "updated_at": "2026-09-04T17:42:29.075783+00:00"
+      }
+    ]
+  }
+}

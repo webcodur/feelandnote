@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788954474436",
+    "title": "가우스가 들려주는 수열의 합 이야기",
+    "creator": "나소연",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788954474436"
+  }
+}

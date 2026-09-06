@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788954420556",
+    "title": "멘델레예프가 들려주는 주기율표 이야기",
+    "creator": "이미하",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788954420556"
+  }
+}

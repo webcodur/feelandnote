@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788962465389",
+    "title": "원나라 역대 황제 평전",
+    "creator": "강정만",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788962465389"
+  }
+}

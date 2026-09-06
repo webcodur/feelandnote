@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788965962410.json",
+  "manifestSha256": "17fa6d48b5166ffa6f3c1d91d643932c663b3f06a4392412309fb6b3dc3adfcc",
+  "planSha256": "edda8d42bc34d9f10630b9e0831f1d4f3098214b2721ef265a79856653ab5452",
+  "workIdentity": "book/9788965962410",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788965962410"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "01b27d85-0d50-557c-9ce6-09b0742147c1",
+    "scopeKey": "book/9788965962410",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "01b27d85-0d50-557c-9ce6-09b0742147c1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788965962410",
+      "release_date": "2018-01-10",
+      "metadata": {
+        "isbn": "9788965962410",
+        "publisher": "378",
+        "publishDate": "2018-01-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788965962410",
+          "workTitle": "묵자가 필요한 시간",
+          "workCreator": "천웨이런",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "묵자가 필요한 시간",
+          "creator": "천웨이런",
+          "description": "사랑과 평등, 평화를 외쳤던 선구적 사상가 묵자의 생애와 사상! 묵자는 공자에 비해 낯설다. 권력과 차별적 사회질서에 대항한 탓에 오랜 시간 금기의 사상가였기 때문이다. 춘추전국이라는 환란의 시기에 사랑과 평화, 평등을 이야기했던 묵자는 위정자들의 논리와 유가사상의 모순을 날카롭게 비판했다. 그리고 백성 속으로 뛰어들어 묵가사상이 지닌 합리성과 효율성을 행동으로 증명했다. 대척점에 있던 맹자마저 “묵가는 머리끝부터 발뒤꿈치까지 모두 닳아 없어진다 해도 천하를 이롭게 한다면 기꺼이 한다”고 평가했을 정도다. 이 책에서는 철학이자 과학자, 논리학자, 경제학자로서 묵자가 남긴 업적과 의미를 확인할 수 있다. 아울러 묵자에 대한 역사적 평가와 후대 사상가들의 평가를 오롯이 담아, 묵자를 객관적으로 해석할 단초도 제공한다. 무려 2500여 년을 앞서 진보 사상을 설파했던 선구적 사상가 묵자의 삶과 철학을 통해 ‘인간다운 삶이란 무엇이고, 이를 위해 우리는 무엇을 해야 하는가’에 관한 답을 찾을 수 있을 것이다.",
+          "isbn": "9788965962410",
+          "publisher": "378",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/922465?timestamp=20240814113258",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84"
+          },
+          "verified": true,
+          "content_id": "01b27d85-0d50-557c-9ce6-09b0742147c1"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "01b27d85-0d50-557c-9ce6-09b0742147c1",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788965962410",
+        "release_date": "2018-01-10",
+        "metadata": {
+          "isbn": "9788965962410",
+          "publisher": "378",
+          "publishDate": "2018-01-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788965962410",
+            "workTitle": "묵자가 필요한 시간",
+            "workCreator": "천웨이런",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "묵자가 필요한 시간",
+          "creator": "천웨이런",
+          "description": "사랑과 평등, 평화를 외쳤던 선구적 사상가 묵자의 생애와 사상! 묵자는 공자에 비해 낯설다. 권력과 차별적 사회질서에 대항한 탓에 오랜 시간 금기의 사상가였기 때문이다. 춘추전국이라는 환란의 시기에 사랑과 평화, 평등을 이야기했던 묵자는 위정자들의 논리와 유가사상의 모순을 날카롭게 비판했다. 그리고 백성 속으로 뛰어들어 묵가사상이 지닌 합리성과 효율성을 행동으로 증명했다. 대척점에 있던 맹자마저 “묵가는 머리끝부터 발뒤꿈치까지 모두 닳아 없어진다 해도 천하를 이롭게 한다면 기꺼이 한다”고 평가했을 정도다. 이 책에서는 철학이자 과학자, 논리학자, 경제학자로서 묵자가 남긴 업적과 의미를 확인할 수 있다. 아울러 묵자에 대한 역사적 평가와 후대 사상가들의 평가를 오롯이 담아, 묵자를 객관적으로 해석할 단초도 제공한다. 무려 2500여 년을 앞서 진보 사상을 설파했던 선구적 사상가 묵자의 삶과 철학을 통해 ‘인간다운 삶이란 무엇이고, 이를 위해 우리는 무엇을 해야 하는가’에 관한 답을 찾을 수 있을 것이다.",
+          "isbn": "9788965962410",
+          "publisher": "378",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/922465?timestamp=20240814113258",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84"
+          },
+          "verified": true,
+          "content_id": "01b27d85-0d50-557c-9ce6-09b0742147c1"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788965962410",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788965962410"
+      ],
+      "normalizedTitles": [
+        "묵자가필요한시간"
+      ],
+      "normalizedCreators": [
+        "윤무학역",
+        "천웨이런"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:52:38.743Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "01b27d85-0d50-557c-9ce6-09b0742147c1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788965962410",
+      "release_date": "2018-01-10",
+      "metadata": {
+        "isbn": "9788965962410",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+        "publisher": "378",
+        "figureBook": {
+          "workTitle": "묵자가 필요한 시간",
+          "workCreator": "천웨이런",
+          "workIdentity": "book/9788965962410",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2018-01-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:52:31.972109+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "01b27d85-0d50-557c-9ce6-09b0742147c1",
+        "locale": "ko",
+        "title": "묵자가 필요한 시간",
+        "creator": "천웨이런",
+        "description": "사랑과 평등, 평화를 외쳤던 선구적 사상가 묵자의 생애와 사상! 묵자는 공자에 비해 낯설다. 권력과 차별적 사회질서에 대항한 탓에 오랜 시간 금기의 사상가였기 때문이다. 춘추전국이라는 환란의 시기에 사랑과 평화, 평등을 이야기했던 묵자는 위정자들의 논리와 유가사상의 모순을 날카롭게 비판했다. 그리고 백성 속으로 뛰어들어 묵가사상이 지닌 합리성과 효율성을 행동으로 증명했다. 대척점에 있던 맹자마저 “묵가는 머리끝부터 발뒤꿈치까지 모두 닳아 없어진다 해도 천하를 이롭게 한다면 기꺼이 한다”고 평가했을 정도다. 이 책에서는 철학이자 과학자, 논리학자, 경제학자로서 묵자가 남긴 업적과 의미를 확인할 수 있다. 아울러 묵자에 대한 역사적 평가와 후대 사상가들의 평가를 오롯이 담아, 묵자를 객관적으로 해석할 단초도 제공한다. 무려 2500여 년을 앞서 진보 사상을 설파했던 선구적 사상가 묵자의 삶과 철학을 통해 ‘인간다운 삶이란 무엇이고, 이를 위해 우리는 무엇을 해야 하는가’에 관한 답을 찾을 수 있을 것이다.",
+        "isbn": "9788965962410",
+        "publisher": "378",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/922465?timestamp=20240814113258",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=922465&q=%EB%AC%B5%EC%9E%90%EA%B0%80+%ED%95%84%EC%9A%94%ED%95%9C+%EC%8B%9C%EA%B0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:52:31.972109+00:00",
+        "updated_at": "2026-09-04T17:52:31.972109+00:00"
+      }
+    ]
+  }
+}

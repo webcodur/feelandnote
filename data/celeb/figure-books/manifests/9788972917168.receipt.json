@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788972917168.json",
+  "manifestSha256": "c88be588de92700a1c34d079e214f7ffcd99cf27d88cea8f14935f7495a06d7f",
+  "planSha256": "cb5c7d82cf2711626b5ad19648b6022ab855a2d02879378ab4c76970268a08a6",
+  "workIdentity": "book/9788972917168",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788972917168"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d5b4d3ef-a84b-5bd4-a5f2-2ee8327331d1",
+    "scopeKey": "book/9788972917168",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d5b4d3ef-a84b-5bd4-a5f2-2ee8327331d1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788972917168",
+      "release_date": "2020-07-06",
+      "metadata": {
+        "isbn": "9788972917168",
+        "publisher": "까치",
+        "publishDate": "2020-07-06",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788972917168",
+          "workTitle": "오스만 제국",
+          "workCreator": "오가사와라 히로유키",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "오스만 제국",
+          "creator": "오가사와라 히로유키",
+          "description": "오랜 역사와 방대한 영토를 자랑하는 오스만 제국! 술탄, 하렘, 모스크, 이슬람은 우리가 오스만을 생각할 때면 가장 먼저 떠올리는 키워드들이다. 그러나 600년이라는 긴 시간 동안 존속하고 아시아, 아프리카, 유럽 등 3대륙에 걸친 영토를 소유한 오스만 제국은 이슬람 세계에서는 지도적인 역할을 했고 유럽 국가들에게는 선망과 두려움의 대상이었다. 이 책은 동방 기독교의 수호자이자, 동로마 제국의 심장부인 콘스탄티노폴리스를 정복하고, 그곳에 이슬람 대제국을 세운 오스만 제국의 역사를 그 시작부터 끝까지 모두 파헤친다. 오스만 제국을 단편적으로 다루었던 국내에 소개된 기존의 책들과 달리, 이 책은 오스만 제국을 세운 오스만 1세부터 최후의 술탄까지, 오스만 제국의 600년의 기록을 시대별로 빠짐없이 추적해나간다. 오스만 제국을 심층적으로 분석하고 그 역사를 정면으로 그려내는 이 책을 통해서 독자들은 오스만의 그 찬란한 역사 속으로 빠져들 것이다.",
+          "isbn": "9788972917168",
+          "publisher": "까치",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5414821?timestamp=20250923132459",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD"
+          },
+          "verified": true,
+          "content_id": "d5b4d3ef-a84b-5bd4-a5f2-2ee8327331d1"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d5b4d3ef-a84b-5bd4-a5f2-2ee8327331d1",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788972917168",
+        "release_date": "2020-07-06",
+        "metadata": {
+          "isbn": "9788972917168",
+          "publisher": "까치",
+          "publishDate": "2020-07-06",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788972917168",
+            "workTitle": "오스만 제국",
+            "workCreator": "오가사와라 히로유키",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "오스만 제국",
+          "creator": "오가사와라 히로유키",
+          "description": "오랜 역사와 방대한 영토를 자랑하는 오스만 제국! 술탄, 하렘, 모스크, 이슬람은 우리가 오스만을 생각할 때면 가장 먼저 떠올리는 키워드들이다. 그러나 600년이라는 긴 시간 동안 존속하고 아시아, 아프리카, 유럽 등 3대륙에 걸친 영토를 소유한 오스만 제국은 이슬람 세계에서는 지도적인 역할을 했고 유럽 국가들에게는 선망과 두려움의 대상이었다. 이 책은 동방 기독교의 수호자이자, 동로마 제국의 심장부인 콘스탄티노폴리스를 정복하고, 그곳에 이슬람 대제국을 세운 오스만 제국의 역사를 그 시작부터 끝까지 모두 파헤친다. 오스만 제국을 단편적으로 다루었던 국내에 소개된 기존의 책들과 달리, 이 책은 오스만 제국을 세운 오스만 1세부터 최후의 술탄까지, 오스만 제국의 600년의 기록을 시대별로 빠짐없이 추적해나간다. 오스만 제국을 심층적으로 분석하고 그 역사를 정면으로 그려내는 이 책을 통해서 독자들은 오스만의 그 찬란한 역사 속으로 빠져들 것이다.",
+          "isbn": "9788972917168",
+          "publisher": "까치",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5414821?timestamp=20250923132459",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD"
+          },
+          "verified": true,
+          "content_id": "d5b4d3ef-a84b-5bd4-a5f2-2ee8327331d1"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788972917168",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788972917168"
+      ],
+      "normalizedTitles": [
+        "오스만제국"
+      ],
+      "normalizedCreators": [
+        "노경아역",
+        "오가사와라히로유키"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:12:17.062Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d5b4d3ef-a84b-5bd4-a5f2-2ee8327331d1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788972917168",
+      "release_date": "2020-07-06",
+      "metadata": {
+        "isbn": "9788972917168",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+        "publisher": "까치",
+        "figureBook": {
+          "workTitle": "오스만 제국",
+          "workCreator": "오가사와라 히로유키",
+          "workIdentity": "book/9788972917168",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-07-06",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:12:09.678126+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d5b4d3ef-a84b-5bd4-a5f2-2ee8327331d1",
+        "locale": "ko",
+        "title": "오스만 제국",
+        "creator": "오가사와라 히로유키",
+        "description": "오랜 역사와 방대한 영토를 자랑하는 오스만 제국! 술탄, 하렘, 모스크, 이슬람은 우리가 오스만을 생각할 때면 가장 먼저 떠올리는 키워드들이다. 그러나 600년이라는 긴 시간 동안 존속하고 아시아, 아프리카, 유럽 등 3대륙에 걸친 영토를 소유한 오스만 제국은 이슬람 세계에서는 지도적인 역할을 했고 유럽 국가들에게는 선망과 두려움의 대상이었다. 이 책은 동방 기독교의 수호자이자, 동로마 제국의 심장부인 콘스탄티노폴리스를 정복하고, 그곳에 이슬람 대제국을 세운 오스만 제국의 역사를 그 시작부터 끝까지 모두 파헤친다. 오스만 제국을 단편적으로 다루었던 국내에 소개된 기존의 책들과 달리, 이 책은 오스만 제국을 세운 오스만 1세부터 최후의 술탄까지, 오스만 제국의 600년의 기록을 시대별로 빠짐없이 추적해나간다. 오스만 제국을 심층적으로 분석하고 그 역사를 정면으로 그려내는 이 책을 통해서 독자들은 오스만의 그 찬란한 역사 속으로 빠져들 것이다.",
+        "isbn": "9788972917168",
+        "publisher": "까치",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5414821?timestamp=20250923132459",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5414821&q=%EC%98%A4%EC%8A%A4%EB%A7%8C+%EC%A0%9C%EA%B5%AD"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:12:09.678126+00:00",
+        "updated_at": "2026-09-06T04:12:09.678126+00:00"
+      }
+    ]
+  }
+}

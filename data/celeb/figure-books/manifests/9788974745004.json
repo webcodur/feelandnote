@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788974745004",
+    "title": "궁금해요, 장영실",
+    "creator": "안선모",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788974745004"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791196460747",
+    "title": "드뷔시의 파리",
+    "creator": "캐서린 카우츠키",
+    "titleAliases": [],
+    "creatorAliases": [
+      "배인혜 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791196460747"
+  }
+}

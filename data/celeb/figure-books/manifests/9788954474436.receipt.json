@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954474436.json",
+  "manifestSha256": "1477d5a78435d45fc1a481314b468bd1b0d52a67b40c582f045c0c21a093d7e7",
+  "planSha256": "bd9ec4d5a1b10ea2b65b61f913f2fc8f836f17795bb487adb21d19fce70a1c1f",
+  "workIdentity": "book/9788954474436",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954474436"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "03257f4f-5cf8-5c90-92c0-f01fb28832ba",
+    "scopeKey": "book/9788954474436",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "03257f4f-5cf8-5c90-92c0-f01fb28832ba",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954474436",
+      "release_date": "2026-04-30",
+      "metadata": {
+        "isbn": "9788954474436",
+        "publisher": "자음과모음",
+        "publishDate": "2026-04-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954474436",
+          "workTitle": "가우스가 들려주는 수열의 합 이야기",
+          "workCreator": "나소연",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "가우스가 들려주는 수열의 합 이야기",
+          "creator": "나소연",
+          "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다. 특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《가우스가 들려주는 수열의 합 이야기》는 가우스의 실제 이야기를 들으면서 수열 속에 숨어 있는 규칙을 하나하나 발견하고, 수열과 수열의 합을 구하는 방법에 친근하게 접근한다. 마술로 변하는 동전의 수, 이집트 파피루스의 유명한 수학 문제, 원리합계 등 실제 우리가 생활하면서 접할 수 있는 상황에서 수의 규칙성을 찾아본다. 이 책을 통해 학생들은 수가 가진 규칙의 성질을 이해하고 적용하며 수학 능력을 자연스럽게 향상시킬 수 있다. 그리고 수와 친해질수록, 수를 겁내지 않고 수에 강해질수록 삶에 복잡한 문제가 생겼을 때 간단하게 해결 방법을 찾는 밑거름이 될 것이다.",
+          "isbn": "9788954474436",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7211262?timestamp=20260501124155",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "03257f4f-5cf8-5c90-92c0-f01fb28832ba"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "03257f4f-5cf8-5c90-92c0-f01fb28832ba",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954474436",
+        "release_date": "2026-04-30",
+        "metadata": {
+          "isbn": "9788954474436",
+          "publisher": "자음과모음",
+          "publishDate": "2026-04-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954474436",
+            "workTitle": "가우스가 들려주는 수열의 합 이야기",
+            "workCreator": "나소연",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "가우스가 들려주는 수열의 합 이야기",
+          "creator": "나소연",
+          "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다. 특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《가우스가 들려주는 수열의 합 이야기》는 가우스의 실제 이야기를 들으면서 수열 속에 숨어 있는 규칙을 하나하나 발견하고, 수열과 수열의 합을 구하는 방법에 친근하게 접근한다. 마술로 변하는 동전의 수, 이집트 파피루스의 유명한 수학 문제, 원리합계 등 실제 우리가 생활하면서 접할 수 있는 상황에서 수의 규칙성을 찾아본다. 이 책을 통해 학생들은 수가 가진 규칙의 성질을 이해하고 적용하며 수학 능력을 자연스럽게 향상시킬 수 있다. 그리고 수와 친해질수록, 수를 겁내지 않고 수에 강해질수록 삶에 복잡한 문제가 생겼을 때 간단하게 해결 방법을 찾는 밑거름이 될 것이다.",
+          "isbn": "9788954474436",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7211262?timestamp=20260501124155",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "03257f4f-5cf8-5c90-92c0-f01fb28832ba"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954474436",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954474436"
+      ],
+      "normalizedTitles": [
+        "가우스가들려주는수열의합이야기"
+      ],
+      "normalizedCreators": [
+        "나소연"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:49:11.394Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "03257f4f-5cf8-5c90-92c0-f01fb28832ba",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954474436",
+      "release_date": "2026-04-30",
+      "metadata": {
+        "isbn": "9788954474436",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "자음과모음",
+        "figureBook": {
+          "workTitle": "가우스가 들려주는 수열의 합 이야기",
+          "workCreator": "나소연",
+          "workIdentity": "book/9788954474436",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-04-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:49:06.40879+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "03257f4f-5cf8-5c90-92c0-f01fb28832ba",
+        "locale": "ko",
+        "title": "가우스가 들려주는 수열의 합 이야기",
+        "creator": "나소연",
+        "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다. 특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《가우스가 들려주는 수열의 합 이야기》는 가우스의 실제 이야기를 들으면서 수열 속에 숨어 있는 규칙을 하나하나 발견하고, 수열과 수열의 합을 구하는 방법에 친근하게 접근한다. 마술로 변하는 동전의 수, 이집트 파피루스의 유명한 수학 문제, 원리합계 등 실제 우리가 생활하면서 접할 수 있는 상황에서 수의 규칙성을 찾아본다. 이 책을 통해 학생들은 수가 가진 규칙의 성질을 이해하고 적용하며 수학 능력을 자연스럽게 향상시킬 수 있다. 그리고 수와 친해질수록, 수를 겁내지 않고 수에 강해질수록 삶에 복잡한 문제가 생겼을 때 간단하게 해결 방법을 찾는 밑거름이 될 것이다.",
+        "isbn": "9788954474436",
+        "publisher": "자음과모음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7211262?timestamp=20260501124155",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7211262&q=%EA%B0%80%EC%9A%B0%EC%8A%A4%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%88%98%EC%97%B4%EC%9D%98+%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:49:06.40879+00:00",
+        "updated_at": "2026-09-04T17:49:06.40879+00:00"
+      }
+    ]
+  }
+}

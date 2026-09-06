@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788991418363",
+    "title": "눈물꽃 소년",
+    "creator": "박노해",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788991418363"
+  }
+}

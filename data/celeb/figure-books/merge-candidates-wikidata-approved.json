@@ -1,0 +1,38 @@
+[
+  {
+    "keep": "2ae82b06-f5ba-4c5a-922e-7f96a7079b09",
+    "drop": "f2245f2c-b223-4c89-8a47-8c92c3cc0bda",
+    "identity": "wikidata:q485552",
+    "reason": "삼국사기 특별판 → 삼국사기"
+  },
+  {
+    "keep": "6cd56fc8-e44e-4b22-b4de-28d87353f24a",
+    "drop": "114321ce-f7b0-4abc-97c3-150b824956a0",
+    "identity": "wikidata:q470600",
+    "reason": "독일 이데올로기 1 → 독일 이데올로기"
+  },
+  {
+    "keep": "2c85915b-74e8-4135-a3a3-b983236d7743",
+    "drop": "b028ca80-1391-4f40-acd9-138b7934648c",
+    "identity": "wikidata:q1306656",
+    "reason": "흄 탐구 영문판 POD → 인간의 이해력에 관한 탐구"
+  },
+  {
+    "keep": "e49efd67-19e7-44ba-8cc3-89eddbe41719",
+    "drop": "64014617-3a3d-5c4b-8f71-eda5d537dac1",
+    "identity": "wikidata:q615137",
+    "reason": "마쿠라노소시 → 베갯머리 서책"
+  },
+  {
+    "keep": "2cbc5a70-51fa-4e15-b82e-35191646d58a",
+    "drop": "6ac44b3f-dbcf-4914-b2fc-e16638b7a38f",
+    "identity": "wikidata:q12595358",
+    "reason": "목민심서 정약용 → 목민심서"
+  },
+  {
+    "keep": "02e999d9-3a5c-4a7f-80de-2e8e2ec60781",
+    "drop": "7422419e-d2da-4e2e-8979-e37dacb02dd6",
+    "identity": "wikidata:q1050479",
+    "reason": "페르시아인의 편지 → 어느 페르시아인의 편지"
+  }
+]

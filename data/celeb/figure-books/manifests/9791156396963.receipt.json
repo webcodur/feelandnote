@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791156396963.json",
+  "manifestSha256": "1a918af64cf194fbc9bcf4a3cbaa894dc778ef68007f9babcc02b3812baf7c83",
+  "planSha256": "eaf5948e1766987be4f7f0a1efee15cf7214b44ed6b0021155ccb424d9ecb25a",
+  "workIdentity": "book/9791156396963",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791156396963"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "09877a46-ea47-5101-ab57-0ba2ff785e5f",
+    "scopeKey": "book/9791156396963",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "09877a46-ea47-5101-ab57-0ba2ff785e5f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791156396963",
+      "release_date": "2020-07-20",
+      "metadata": {
+        "isbn": "9791156396963",
+        "publisher": "다산어린이",
+        "publishDate": "2020-07-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791156396963",
+          "workTitle": "Who? 한국사: 광개토 대왕",
+          "workCreator": "권용찬",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "Who? 한국사: 광개토 대왕",
+          "creator": "권용찬, 김현수",
+          "description": "“만주벌판을 호령한 우리 역사 최고의 정복왕!”\n\n고구려가 척박한 땅을 일구며 외세의 침략에 시달리던 4세기 말. 광개토 대왕은 고구려의 강인한 군사들을 이끌고 정복의 역사를 시작했습니다. 너른 대륙을 달리며, 역사상 최대 영토를 정복했던 광개토 대왕의 발자취를 따라가 봅니다.\n\n혼란스러운 고구려\n고구려 제16대 고국원왕은 전연의 침입으로 고초를 겪었으며, 결국 백제와의 전쟁에서 죽음을 맞았습니다. 당시 중국은 여러 나라가 공존해 매우 혼란스러웠던 5호 16국의 시대였지요. 게다가 백제 역시 호시탐탐 고구려를 넘보고 있었어요. 고구려는 백제, 신라뿐 아니라 중국의 여러 강력한 나라들과 국경을 맞댄 채 많은 어려움을 겪고 있었습니다. 이에 제17대 소수림왕과 제18대 고국양왕은 왕권을 키워 나라를 안정시키기 위해 노력했어요.\n\n고구려 최고의 정복왕\n제17대 소수림왕의 조카이자 제18대 고국양왕의 아들로 태어난 광개토 대왕은 어릴 때부터 무예가 뛰어났어요. 병법에 관심도 많았지요. 할아버지인 제16대 고국원왕이 백제와의 전쟁에서 목숨을 잃은 데다 여러 나라와의 전쟁을 겼으며 고구려를 강한 나라로 만들겠다는 꿈을 품었습니다.\n왕위에 오른 광개토 대왕은 남쪽의 백제, 북쪽의 후연 등 국경을 접한 나라들과의 전쟁을 통해 영토를 넓혀 고구려를 강한 제국으로 만들어 갔습니다.",
+          "isbn": "9791156396963",
+          "publisher": "다산어린이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5419436?timestamp=20260612120243",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95"
+          },
+          "verified": true,
+          "content_id": "09877a46-ea47-5101-ab57-0ba2ff785e5f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "09877a46-ea47-5101-ab57-0ba2ff785e5f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791156396963",
+        "release_date": "2020-07-20",
+        "metadata": {
+          "isbn": "9791156396963",
+          "publisher": "다산어린이",
+          "publishDate": "2020-07-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791156396963",
+            "workTitle": "Who? 한국사: 광개토 대왕",
+            "workCreator": "권용찬",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "Who? 한국사: 광개토 대왕",
+          "creator": "권용찬, 김현수",
+          "description": "“만주벌판을 호령한 우리 역사 최고의 정복왕!”\n\n고구려가 척박한 땅을 일구며 외세의 침략에 시달리던 4세기 말. 광개토 대왕은 고구려의 강인한 군사들을 이끌고 정복의 역사를 시작했습니다. 너른 대륙을 달리며, 역사상 최대 영토를 정복했던 광개토 대왕의 발자취를 따라가 봅니다.\n\n혼란스러운 고구려\n고구려 제16대 고국원왕은 전연의 침입으로 고초를 겪었으며, 결국 백제와의 전쟁에서 죽음을 맞았습니다. 당시 중국은 여러 나라가 공존해 매우 혼란스러웠던 5호 16국의 시대였지요. 게다가 백제 역시 호시탐탐 고구려를 넘보고 있었어요. 고구려는 백제, 신라뿐 아니라 중국의 여러 강력한 나라들과 국경을 맞댄 채 많은 어려움을 겪고 있었습니다. 이에 제17대 소수림왕과 제18대 고국양왕은 왕권을 키워 나라를 안정시키기 위해 노력했어요.\n\n고구려 최고의 정복왕\n제17대 소수림왕의 조카이자 제18대 고국양왕의 아들로 태어난 광개토 대왕은 어릴 때부터 무예가 뛰어났어요. 병법에 관심도 많았지요. 할아버지인 제16대 고국원왕이 백제와의 전쟁에서 목숨을 잃은 데다 여러 나라와의 전쟁을 겼으며 고구려를 강한 나라로 만들겠다는 꿈을 품었습니다.\n왕위에 오른 광개토 대왕은 남쪽의 백제, 북쪽의 후연 등 국경을 접한 나라들과의 전쟁을 통해 영토를 넓혀 고구려를 강한 제국으로 만들어 갔습니다.",
+          "isbn": "9791156396963",
+          "publisher": "다산어린이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5419436?timestamp=20260612120243",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95"
+          },
+          "verified": true,
+          "content_id": "09877a46-ea47-5101-ab57-0ba2ff785e5f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791156396963",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791156396963"
+      ],
+      "normalizedTitles": [
+        "who한국사",
+        "who한국사광개토대왕"
+      ],
+      "normalizedCreators": [
+        "권용찬",
+        "권용찬김현수",
+        "김현수"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:05:22.819Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "09877a46-ea47-5101-ab57-0ba2ff785e5f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791156396963",
+      "release_date": "2020-07-20",
+      "metadata": {
+        "isbn": "9791156396963",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+        "publisher": "다산어린이",
+        "figureBook": {
+          "workTitle": "Who? 한국사: 광개토 대왕",
+          "workCreator": "권용찬",
+          "workIdentity": "book/9791156396963",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-07-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:05:16.781808+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "09877a46-ea47-5101-ab57-0ba2ff785e5f",
+        "locale": "ko",
+        "title": "Who? 한국사: 광개토 대왕",
+        "creator": "권용찬, 김현수",
+        "description": "“만주벌판을 호령한 우리 역사 최고의 정복왕!”\n\n고구려가 척박한 땅을 일구며 외세의 침략에 시달리던 4세기 말. 광개토 대왕은 고구려의 강인한 군사들을 이끌고 정복의 역사를 시작했습니다. 너른 대륙을 달리며, 역사상 최대 영토를 정복했던 광개토 대왕의 발자취를 따라가 봅니다.\n\n혼란스러운 고구려\n고구려 제16대 고국원왕은 전연의 침입으로 고초를 겪었으며, 결국 백제와의 전쟁에서 죽음을 맞았습니다. 당시 중국은 여러 나라가 공존해 매우 혼란스러웠던 5호 16국의 시대였지요. 게다가 백제 역시 호시탐탐 고구려를 넘보고 있었어요. 고구려는 백제, 신라뿐 아니라 중국의 여러 강력한 나라들과 국경을 맞댄 채 많은 어려움을 겪고 있었습니다. 이에 제17대 소수림왕과 제18대 고국양왕은 왕권을 키워 나라를 안정시키기 위해 노력했어요.\n\n고구려 최고의 정복왕\n제17대 소수림왕의 조카이자 제18대 고국양왕의 아들로 태어난 광개토 대왕은 어릴 때부터 무예가 뛰어났어요. 병법에 관심도 많았지요. 할아버지인 제16대 고국원왕이 백제와의 전쟁에서 목숨을 잃은 데다 여러 나라와의 전쟁을 겼으며 고구려를 강한 나라로 만들겠다는 꿈을 품었습니다.\n왕위에 오른 광개토 대왕은 남쪽의 백제, 북쪽의 후연 등 국경을 접한 나라들과의 전쟁을 통해 영토를 넓혀 고구려를 강한 제국으로 만들어 갔습니다.",
+        "isbn": "9791156396963",
+        "publisher": "다산어린이",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5419436?timestamp=20260612120243",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5419436&q=Who%3F+%ED%95%9C%EA%B5%AD%EC%82%AC%3A+%EA%B4%91%EA%B0%9C%ED%86%A0+%EB%8C%80%EC%99%95"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:05:16.781808+00:00",
+        "updated_at": "2026-09-04T18:05:16.781808+00:00"
+      }
+    ]
+  }
+}

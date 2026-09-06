@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791191053692.json",
+  "manifestSha256": "69924a4a2bccc223d66ca44103a24065485edab52f831dfe8294959be2ba042f",
+  "planSha256": "124ca1a00f01047244d03fa0c199aea42f970fb1b08385826a38ed13671eccee",
+  "workIdentity": "book/9791191053692",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791191053692"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "75aa0e24-7852-558d-9e51-19a9c55b49ef",
+    "scopeKey": "book/9791191053692",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "75aa0e24-7852-558d-9e51-19a9c55b49ef",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791191053692",
+      "release_date": "2026-07-08",
+      "metadata": {
+        "isbn": "9791191053692",
+        "publisher": "이은북",
+        "publishDate": "2026-07-08",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791191053692",
+          "workTitle": "AI 인물 열전 1",
+          "workCreator": "김경달",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "AI 인물 열전 1",
+          "creator": "김경달",
+          "description": "2022년 11월 30일, 샌프란시스코의 한 스타트업이 회사 블로그에 짧은 글을 올렸다.\n“챗GPT(ChatGPT)라는 대화형 모델을 리서치 프리뷰로 공개합니다.”\n그다음에 일어난 일? 우리는 모두 알고 있다. 세상이 이전과는 전혀 다르게 변해버렸다.\n생성형 AI는 순식간에 우리의 생각하는 방식, 일하는 방식을 바꿔버렸다. 이제 사람들은 챗GPT와 제미나이를, 클로드와 퍼플렉시티를 다양하게 활용하고 있다. 사람들은 자신보다 뛰어난 AI에 대한 공포와, 더 똑똑한 지능을 손쉽게 비서로 부린다는 편리함을 동시에 느끼고 있다.\n몇 년 만에 생성형 AI는 우리의 삶으로 녹아들었고, 경제와 사회, 삶을 이전과는 다른 방향으로 발전시키고 있다. 바야흐로 본격적인 21세기의 확장이 시작되는 시대인 것이다.\n\n『AI 인물 열전』은 그 변화를 만들어 낸 사람들의 이야기다. 총 4권으로 기획된 이 시리즈의 1권 〈AI의 토대를 놓은 사람들〉은 신경망이라는 아이디어를 수십 년간 외롭게 지켜내며 현대 AI의 학문적 뼈대를 세운 여섯 연구자를 다룬다. 제프리 힌턴(Geoffrey Hinton), 얀 르쿤(Yann LeCun), 요슈아 벤지오(Yoshua Bengio), 앤드루 응(Andrew Ng), 페이페이 리(Fei-Fei Li), 위르겐 슈미트후버(Jürgen Schmidhuber). ‘AI’와 ‘신경망’이라는 단어가 비웃음의 대상이던 시절, 정부 연구비가 끊기고 논문이 거절되고 동료들이 등을 돌리던 때에도 이들은 자신의 아이디어를 포기하지 발전시켜 나갔다.\n\n이 책은 이들의 삶을 통해 AI의 역사를 인물의 서사로 되짚는다. 뇌처럼 작동하는 기계를 만들겠다는 신념을 반세기 동안 지켜낸 힌턴이 어떻게 노벨상 수상자이자 가장 강력한 경고자가 되었는지, 은행 수표를 읽어낸 르쿤의 신경망이 어떻게 조용히 세상 속으로 침투했는지, 벤지오가 지핀 워드 임베딩(Word Embedding)의 불꽃이 어떻게 오늘날 모든 거대 언어 모델의 뿌리가 되었는지를 생생하게 그려낸다. 기술 용어를 몰라도 읽어나갈 수 있도록, 인물의 선택과 갈등, 우정과 결별을 중심으로 이야기를 풀어냈다.\n\n무엇보다 이 책은 같은 기술을 두고 서로 다른 미래를 그리는 사람들의 목소리가 어떻게 충돌하는지를 보여준다. 누군가는 두려워하고, 누군가는 가능성을 말하며, 누군가는 그 사이에서 가장 불편한 질문을 던진다. AI가 어디로 향하는지 궁금한 독자, 뉴스 속 이름들이 실제로 무엇을 했는지 알고 싶은 독자에게 이 책은 AI 시대를 이해하는 가장 인간적인 출발점이 되어줄 것이다.",
+          "isbn": "9791191053692",
+          "publisher": "이은북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7257295?timestamp=20260714122027",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1"
+          },
+          "verified": true,
+          "content_id": "75aa0e24-7852-558d-9e51-19a9c55b49ef"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "75aa0e24-7852-558d-9e51-19a9c55b49ef",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791191053692",
+        "release_date": "2026-07-08",
+        "metadata": {
+          "isbn": "9791191053692",
+          "publisher": "이은북",
+          "publishDate": "2026-07-08",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791191053692",
+            "workTitle": "AI 인물 열전 1",
+            "workCreator": "김경달",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "AI 인물 열전 1",
+          "creator": "김경달",
+          "description": "2022년 11월 30일, 샌프란시스코의 한 스타트업이 회사 블로그에 짧은 글을 올렸다.\n“챗GPT(ChatGPT)라는 대화형 모델을 리서치 프리뷰로 공개합니다.”\n그다음에 일어난 일? 우리는 모두 알고 있다. 세상이 이전과는 전혀 다르게 변해버렸다.\n생성형 AI는 순식간에 우리의 생각하는 방식, 일하는 방식을 바꿔버렸다. 이제 사람들은 챗GPT와 제미나이를, 클로드와 퍼플렉시티를 다양하게 활용하고 있다. 사람들은 자신보다 뛰어난 AI에 대한 공포와, 더 똑똑한 지능을 손쉽게 비서로 부린다는 편리함을 동시에 느끼고 있다.\n몇 년 만에 생성형 AI는 우리의 삶으로 녹아들었고, 경제와 사회, 삶을 이전과는 다른 방향으로 발전시키고 있다. 바야흐로 본격적인 21세기의 확장이 시작되는 시대인 것이다.\n\n『AI 인물 열전』은 그 변화를 만들어 낸 사람들의 이야기다. 총 4권으로 기획된 이 시리즈의 1권 〈AI의 토대를 놓은 사람들〉은 신경망이라는 아이디어를 수십 년간 외롭게 지켜내며 현대 AI의 학문적 뼈대를 세운 여섯 연구자를 다룬다. 제프리 힌턴(Geoffrey Hinton), 얀 르쿤(Yann LeCun), 요슈아 벤지오(Yoshua Bengio), 앤드루 응(Andrew Ng), 페이페이 리(Fei-Fei Li), 위르겐 슈미트후버(Jürgen Schmidhuber). ‘AI’와 ‘신경망’이라는 단어가 비웃음의 대상이던 시절, 정부 연구비가 끊기고 논문이 거절되고 동료들이 등을 돌리던 때에도 이들은 자신의 아이디어를 포기하지 발전시켜 나갔다.\n\n이 책은 이들의 삶을 통해 AI의 역사를 인물의 서사로 되짚는다. 뇌처럼 작동하는 기계를 만들겠다는 신념을 반세기 동안 지켜낸 힌턴이 어떻게 노벨상 수상자이자 가장 강력한 경고자가 되었는지, 은행 수표를 읽어낸 르쿤의 신경망이 어떻게 조용히 세상 속으로 침투했는지, 벤지오가 지핀 워드 임베딩(Word Embedding)의 불꽃이 어떻게 오늘날 모든 거대 언어 모델의 뿌리가 되었는지를 생생하게 그려낸다. 기술 용어를 몰라도 읽어나갈 수 있도록, 인물의 선택과 갈등, 우정과 결별을 중심으로 이야기를 풀어냈다.\n\n무엇보다 이 책은 같은 기술을 두고 서로 다른 미래를 그리는 사람들의 목소리가 어떻게 충돌하는지를 보여준다. 누군가는 두려워하고, 누군가는 가능성을 말하며, 누군가는 그 사이에서 가장 불편한 질문을 던진다. AI가 어디로 향하는지 궁금한 독자, 뉴스 속 이름들이 실제로 무엇을 했는지 알고 싶은 독자에게 이 책은 AI 시대를 이해하는 가장 인간적인 출발점이 되어줄 것이다.",
+          "isbn": "9791191053692",
+          "publisher": "이은북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7257295?timestamp=20260714122027",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1"
+          },
+          "verified": true,
+          "content_id": "75aa0e24-7852-558d-9e51-19a9c55b49ef"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791191053692",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791191053692"
+      ],
+      "normalizedTitles": [
+        "ai인물열전1"
+      ],
+      "normalizedCreators": [
+        "김경달"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:14:02.789Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "75aa0e24-7852-558d-9e51-19a9c55b49ef",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791191053692",
+      "release_date": "2026-07-08",
+      "metadata": {
+        "isbn": "9791191053692",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+        "publisher": "이은북",
+        "figureBook": {
+          "workTitle": "AI 인물 열전 1",
+          "workCreator": "김경달",
+          "workIdentity": "book/9791191053692",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-07-08",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:13:47.798591+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "75aa0e24-7852-558d-9e51-19a9c55b49ef",
+        "locale": "ko",
+        "title": "AI 인물 열전 1",
+        "creator": "김경달",
+        "description": "2022년 11월 30일, 샌프란시스코의 한 스타트업이 회사 블로그에 짧은 글을 올렸다.\n“챗GPT(ChatGPT)라는 대화형 모델을 리서치 프리뷰로 공개합니다.”\n그다음에 일어난 일? 우리는 모두 알고 있다. 세상이 이전과는 전혀 다르게 변해버렸다.\n생성형 AI는 순식간에 우리의 생각하는 방식, 일하는 방식을 바꿔버렸다. 이제 사람들은 챗GPT와 제미나이를, 클로드와 퍼플렉시티를 다양하게 활용하고 있다. 사람들은 자신보다 뛰어난 AI에 대한 공포와, 더 똑똑한 지능을 손쉽게 비서로 부린다는 편리함을 동시에 느끼고 있다.\n몇 년 만에 생성형 AI는 우리의 삶으로 녹아들었고, 경제와 사회, 삶을 이전과는 다른 방향으로 발전시키고 있다. 바야흐로 본격적인 21세기의 확장이 시작되는 시대인 것이다.\n\n『AI 인물 열전』은 그 변화를 만들어 낸 사람들의 이야기다. 총 4권으로 기획된 이 시리즈의 1권 〈AI의 토대를 놓은 사람들〉은 신경망이라는 아이디어를 수십 년간 외롭게 지켜내며 현대 AI의 학문적 뼈대를 세운 여섯 연구자를 다룬다. 제프리 힌턴(Geoffrey Hinton), 얀 르쿤(Yann LeCun), 요슈아 벤지오(Yoshua Bengio), 앤드루 응(Andrew Ng), 페이페이 리(Fei-Fei Li), 위르겐 슈미트후버(Jürgen Schmidhuber). ‘AI’와 ‘신경망’이라는 단어가 비웃음의 대상이던 시절, 정부 연구비가 끊기고 논문이 거절되고 동료들이 등을 돌리던 때에도 이들은 자신의 아이디어를 포기하지 발전시켜 나갔다.\n\n이 책은 이들의 삶을 통해 AI의 역사를 인물의 서사로 되짚는다. 뇌처럼 작동하는 기계를 만들겠다는 신념을 반세기 동안 지켜낸 힌턴이 어떻게 노벨상 수상자이자 가장 강력한 경고자가 되었는지, 은행 수표를 읽어낸 르쿤의 신경망이 어떻게 조용히 세상 속으로 침투했는지, 벤지오가 지핀 워드 임베딩(Word Embedding)의 불꽃이 어떻게 오늘날 모든 거대 언어 모델의 뿌리가 되었는지를 생생하게 그려낸다. 기술 용어를 몰라도 읽어나갈 수 있도록, 인물의 선택과 갈등, 우정과 결별을 중심으로 이야기를 풀어냈다.\n\n무엇보다 이 책은 같은 기술을 두고 서로 다른 미래를 그리는 사람들의 목소리가 어떻게 충돌하는지를 보여준다. 누군가는 두려워하고, 누군가는 가능성을 말하며, 누군가는 그 사이에서 가장 불편한 질문을 던진다. AI가 어디로 향하는지 궁금한 독자, 뉴스 속 이름들이 실제로 무엇을 했는지 알고 싶은 독자에게 이 책은 AI 시대를 이해하는 가장 인간적인 출발점이 되어줄 것이다.",
+        "isbn": "9791191053692",
+        "publisher": "이은북",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7257295?timestamp=20260714122027",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7257295&q=AI+%EC%9D%B8%EB%AC%BC+%EC%97%B4%EC%A0%84+1"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:13:47.798591+00:00",
+        "updated_at": "2026-09-04T18:13:47.798591+00:00"
+      }
+    ]
+  }
+}

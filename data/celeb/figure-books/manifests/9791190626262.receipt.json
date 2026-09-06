@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791190626262.json",
+  "manifestSha256": "99791d9bd467637e7cb0223943522df1dff730e654ef562253e0334f004a392a",
+  "planSha256": "a2d36736d6957d1c4aeeab8a0e73607c458838abd3f0ce3f093111861bd3e1b0",
+  "workIdentity": "book/9791190626262",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791190626262"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "0f3cd654-4e7e-58dc-969d-414c0005611e",
+    "scopeKey": "book/9791190626262",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "0f3cd654-4e7e-58dc-969d-414c0005611e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791190626262",
+      "release_date": "2023-10-23",
+      "metadata": {
+        "isbn": "9791190626262",
+        "publisher": "이화북스",
+        "publishDate": "2023-10-23",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791190626262",
+          "workTitle": "마리 앙투아네트: 베르사유와 프랑스혁명",
+          "workCreator": "슈테판 츠바이크",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "마리 앙투아네트: 베르사유와 프랑스혁명",
+          "creator": "슈테판 츠바이크",
+          "description": "그녀의 역사는 조작되었다. 끝나지 않는 그녀에 대한 진실과 거짓. “빵이 없으면 케이크를 먹으면 되지.” 정작 마리 앙투아네트는 이런 말을 한 적이 없다. 마리 앙투아네트는 오스트리아의 황녀로 태어나 프랑스의 왕비가 된다. 원하는 것은 무엇이든 가질 수 있었으며, 유행을 선도했고, 민중의 사랑을 몸소 받았다. 하지만 그토록 쉽게 그녀를 최고의 자리에 올려놓았던 운명은 그녀를 잔인한 저울대에 올려놓는다.\n\n영화 〈그랜드 부다페스트 호텔〉에 영감을 준 유럽의 지성, 독일 최고의 전기 작가 슈테판 츠바이크. 저자는 반세기 지나도록 공개가 금지되어 오스트리아의 문서 보관소에 잠자고 있던 편지들을 발굴했다. 마침내 완성된 전기소설 『마리 앙투아네트: 베르사유와 프랑스혁명』에서는 가장 솔직한 프랑스 왕실의 이야기와 역사가 펼쳐진다.\n프랑스 혁명의 가해자 혹은 피해자인 마리 앙투아네트, 시대의 흐름 속에서 희생 당해야만 했던 그녀. 혹은 희생 당해야 마땅했던 그녀. 역사가는 말한다. 이미 모든 일이 끝난 후에, 결말을 알고 있는 시점에서 어떤 일에 대해 평가하는 것은 너무나도 쉬운 일이라고.\n\n역사의 수렁 속에 그 깊이를 가늠할 새도 없이 빠져든 여인. 슈테판 츠바이크는 날카로운 심리 묘사와 분석으로 그녀의 일생을 재현한다. 역사라는 위대한 창조주는 더욱 드라마틱한 이야기를 만들어 내기 위해 영웅 대신 이 평범한 인물을 택했다. 필연적인 운명 속에서 당신은 어느 편에 설 것인가.",
+          "isbn": "9791190626262",
+          "publisher": "이화북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6467408?timestamp=20251222153200",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85"
+          },
+          "verified": true,
+          "content_id": "0f3cd654-4e7e-58dc-969d-414c0005611e"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "0f3cd654-4e7e-58dc-969d-414c0005611e",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791190626262",
+        "release_date": "2023-10-23",
+        "metadata": {
+          "isbn": "9791190626262",
+          "publisher": "이화북스",
+          "publishDate": "2023-10-23",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791190626262",
+            "workTitle": "마리 앙투아네트: 베르사유와 프랑스혁명",
+            "workCreator": "슈테판 츠바이크",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "마리 앙투아네트: 베르사유와 프랑스혁명",
+          "creator": "슈테판 츠바이크",
+          "description": "그녀의 역사는 조작되었다. 끝나지 않는 그녀에 대한 진실과 거짓. “빵이 없으면 케이크를 먹으면 되지.” 정작 마리 앙투아네트는 이런 말을 한 적이 없다. 마리 앙투아네트는 오스트리아의 황녀로 태어나 프랑스의 왕비가 된다. 원하는 것은 무엇이든 가질 수 있었으며, 유행을 선도했고, 민중의 사랑을 몸소 받았다. 하지만 그토록 쉽게 그녀를 최고의 자리에 올려놓았던 운명은 그녀를 잔인한 저울대에 올려놓는다.\n\n영화 〈그랜드 부다페스트 호텔〉에 영감을 준 유럽의 지성, 독일 최고의 전기 작가 슈테판 츠바이크. 저자는 반세기 지나도록 공개가 금지되어 오스트리아의 문서 보관소에 잠자고 있던 편지들을 발굴했다. 마침내 완성된 전기소설 『마리 앙투아네트: 베르사유와 프랑스혁명』에서는 가장 솔직한 프랑스 왕실의 이야기와 역사가 펼쳐진다.\n프랑스 혁명의 가해자 혹은 피해자인 마리 앙투아네트, 시대의 흐름 속에서 희생 당해야만 했던 그녀. 혹은 희생 당해야 마땅했던 그녀. 역사가는 말한다. 이미 모든 일이 끝난 후에, 결말을 알고 있는 시점에서 어떤 일에 대해 평가하는 것은 너무나도 쉬운 일이라고.\n\n역사의 수렁 속에 그 깊이를 가늠할 새도 없이 빠져든 여인. 슈테판 츠바이크는 날카로운 심리 묘사와 분석으로 그녀의 일생을 재현한다. 역사라는 위대한 창조주는 더욱 드라마틱한 이야기를 만들어 내기 위해 영웅 대신 이 평범한 인물을 택했다. 필연적인 운명 속에서 당신은 어느 편에 설 것인가.",
+          "isbn": "9791190626262",
+          "publisher": "이화북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6467408?timestamp=20251222153200",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85"
+          },
+          "verified": true,
+          "content_id": "0f3cd654-4e7e-58dc-969d-414c0005611e"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791190626262",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791190626262"
+      ],
+      "normalizedTitles": [
+        "마리앙투아네트",
+        "마리앙투아네트베르사유와프랑스혁명"
+      ],
+      "normalizedCreators": [
+        "슈테판츠바이크",
+        "육혜원역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:28:41.131Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "0f3cd654-4e7e-58dc-969d-414c0005611e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791190626262",
+      "release_date": "2023-10-23",
+      "metadata": {
+        "isbn": "9791190626262",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+        "publisher": "이화북스",
+        "figureBook": {
+          "workTitle": "마리 앙투아네트: 베르사유와 프랑스혁명",
+          "workCreator": "슈테판 츠바이크",
+          "workIdentity": "book/9791190626262",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-10-23",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:28:28.202324+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "0f3cd654-4e7e-58dc-969d-414c0005611e",
+        "locale": "ko",
+        "title": "마리 앙투아네트: 베르사유와 프랑스혁명",
+        "creator": "슈테판 츠바이크",
+        "description": "그녀의 역사는 조작되었다. 끝나지 않는 그녀에 대한 진실과 거짓. “빵이 없으면 케이크를 먹으면 되지.” 정작 마리 앙투아네트는 이런 말을 한 적이 없다. 마리 앙투아네트는 오스트리아의 황녀로 태어나 프랑스의 왕비가 된다. 원하는 것은 무엇이든 가질 수 있었으며, 유행을 선도했고, 민중의 사랑을 몸소 받았다. 하지만 그토록 쉽게 그녀를 최고의 자리에 올려놓았던 운명은 그녀를 잔인한 저울대에 올려놓는다.\n\n영화 〈그랜드 부다페스트 호텔〉에 영감을 준 유럽의 지성, 독일 최고의 전기 작가 슈테판 츠바이크. 저자는 반세기 지나도록 공개가 금지되어 오스트리아의 문서 보관소에 잠자고 있던 편지들을 발굴했다. 마침내 완성된 전기소설 『마리 앙투아네트: 베르사유와 프랑스혁명』에서는 가장 솔직한 프랑스 왕실의 이야기와 역사가 펼쳐진다.\n프랑스 혁명의 가해자 혹은 피해자인 마리 앙투아네트, 시대의 흐름 속에서 희생 당해야만 했던 그녀. 혹은 희생 당해야 마땅했던 그녀. 역사가는 말한다. 이미 모든 일이 끝난 후에, 결말을 알고 있는 시점에서 어떤 일에 대해 평가하는 것은 너무나도 쉬운 일이라고.\n\n역사의 수렁 속에 그 깊이를 가늠할 새도 없이 빠져든 여인. 슈테판 츠바이크는 날카로운 심리 묘사와 분석으로 그녀의 일생을 재현한다. 역사라는 위대한 창조주는 더욱 드라마틱한 이야기를 만들어 내기 위해 영웅 대신 이 평범한 인물을 택했다. 필연적인 운명 속에서 당신은 어느 편에 설 것인가.",
+        "isbn": "9791190626262",
+        "publisher": "이화북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6467408?timestamp=20251222153200",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6467408&q=%EB%A7%88%EB%A6%AC+%EC%95%99%ED%88%AC%EC%95%84%EB%84%A4%ED%8A%B8%3A+%EB%B2%A0%EB%A5%B4%EC%82%AC%EC%9C%A0%EC%99%80+%ED%94%84%EB%9E%91%EC%8A%A4%ED%98%81%EB%AA%85"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:28:28.202324+00:00",
+        "updated_at": "2026-09-06T04:28:28.202324+00:00"
+      }
+    ]
+  }
+}

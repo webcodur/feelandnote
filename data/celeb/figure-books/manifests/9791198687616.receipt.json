@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791198687616.json",
+  "manifestSha256": "02022103fc4fb75495b58c6fa104dd5a373ca72c5108b91ae75a1094a841075b",
+  "planSha256": "29acc7b8a58542df1d908b7855f5b9acd2c98d77325e3c84188a7c1c3155cc31",
+  "workIdentity": "book/9791198687616",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791198687616"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "9c24e2ba-ff5f-5bd4-85b5-509c6f931203",
+    "scopeKey": "book/9791198687616",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "9c24e2ba-ff5f-5bd4-85b5-509c6f931203",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791198687616",
+      "release_date": "2024-04-09",
+      "metadata": {
+        "isbn": "9791198687616",
+        "publisher": "아르바트",
+        "publishDate": "2024-04-09",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791198687616",
+          "workTitle": "러시아는 어떻게 제국이 되었나: 표트르 대제의 개혁 1",
+          "workCreator": "강평기",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "러시아는 어떻게 제국이 되었나: 표트르 대제의 개혁 1",
+          "creator": "강평기",
+          "description": "러시아 제국은 어떻게 탄생했을까. 어떻게 강대국이 되었을까. 제국은 어떤 방식으로 운영되고 발전했을까. 이 책은 변방의 러시아가 유럽의 중심국이 되고 제국이 된 원리를 밝혔다.\n제국 탄생의 중심에 있었던 표트르 대제(Peter the Great, 1672~1725)의 국가 대개혁(Great Reforms)을 이야기로 쓴 책이다.\n그의 친필 편지, 개인 수첩, 유럽 시찰 시 사용한 여권, 동인도 회사가 발급한 조선공 증명서, 러시아 제국 황실 유언장과 황실 문양, 제국 최초의 지도 등 300여 년 전의 원본 사료를 화보로 만든 책이다.\n프랑스 계몽사상가 볼테르(Voltaire, 1694~1778)는 “표트르의 개혁은 다른 국가가 500년에도 달성하기 힘든 일을 단지 50년 만에 이룩했다”라고 극찬했다.\n근대 역사학자 랑케(Ranke, 1795~1886)는 “표트르의 일기장에서 알 수 있듯이 정열적이고 위대한 사상을 지녔던 한 사람의 천재였다. 그는 러시아가 하나의 패권 세력이 되어야 한다는 자신의 목표를 완벽하게 의식하고 있었다”라고 평가했다.\n표트르 대제는 왜 국가를 개혁했을까. 그는 개혁을 위해 어떤 준비를 했을까. 개혁의 동료는 누구였고 누가 개혁을 기획했을까. 개혁의 핵심 내용은, 어려운 점은, 결과는 어떠했을까. 이 책은 이러한 궁금증에 대한 답이다.\n저자가 18세기 러시아에 일어났던 역사적 사실들을 원본을 해독하며 상세하게 썼기에 러시아가 어떻게 근대국가가 되었는지, 제국이 되었는지 쉽게 이해할 수 있을 것이다.\n\n오늘날 러시아 통치자들의 생각과 신념, 통치술, 러시아인의 행동과 습성, 그리고 사회 관습을 알고 싶으면 이 책을 권한다. 천년의 역사에서 뿜어내는 러시아의 행동을 예측할 수 있을 것이다.\n책은 I 권과 II 권으로 나뉘어 있다. 1장에서 5장까지가 I 권이다. 첫 장은 표트르가 직면한 대외환경으로 천년의 러시아 역사이다. 러시아의 역사를 알게 되면 그의 국가 개혁을 이해할 수 있을 것이다.\n2장은 제국의 여명으로 표트르 대제의 출생부터 국가 대개혁을 진두지휘하기까지이다. 어린 시기와 청소년기에 관한 이야기로 그의 자질과 용인술, 그리고 처세술을 엿볼 수 있으며 인품과 통솔력을 알 수 있다.\n3장부터 9장까지는 러시아가 어떻게 제국이 되었는지에 관한 개혁의 핵심 내용이 담겨있다. 표트르의 개혁에 대한 구체적인 사실, 개혁 과정, 방법과 결과를 썼다. 외교 개혁을 시작으로 군사 개혁과 군사·외교 전략, 정치·행정 개혁까지가 I 권이다.\nII 권은 6장 경제 개혁부터 교육 개혁, 사회·문화·종교 개혁, 예술 개혁이다. 마지막 10장은 표트르가 “나의 천국”이라고 불렀던 제국의 수도, 상트페테르부르크에 관한 도시 이야기다. 오늘날 누구나 가고 싶은 도시, 상트페테르부르크가 어떻게 세워지고 어떤 역사적 의미를 지니는지 알 수 있다.\n‘또 다른 에필로그’에서는 표트르의 치세, 제국의 흥망성쇠, 평가, 작가의 마침표, 표트르의 개혁 연표와 주요 사건을 넣었다.\n독자들이여! 표트르 대제를 안다는 것, 그의 국가 대개혁을 안다는 것, 그것만으로도 러시아를 이해하는 큰 눈을 가지는 것이다. 유럽으로 향하는 창이 아닌 러시아를 깊숙이 바라보는 내면의 눈이다.\n표트르 대제는 러시아 지도자와 러시아 국민의 삶에 절대적인 영향을 미쳤고 오늘날도 변함이 없다. 러시아인이 가장 좋아하는 1위의 통치자이다. 이제 표트르의 눈으로 러시아를 보기 바란다. 그 눈은 러시아를 이해할 뿐 아니라 러시아가 어디로 가는지 예측하는 데 도움을 줄 것이다.",
+          "isbn": "9791198687616",
+          "publisher": "아르바트",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6602834?timestamp=20250208153006",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1"
+          },
+          "verified": true,
+          "content_id": "9c24e2ba-ff5f-5bd4-85b5-509c6f931203"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "9c24e2ba-ff5f-5bd4-85b5-509c6f931203",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791198687616",
+        "release_date": "2024-04-09",
+        "metadata": {
+          "isbn": "9791198687616",
+          "publisher": "아르바트",
+          "publishDate": "2024-04-09",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791198687616",
+            "workTitle": "러시아는 어떻게 제국이 되었나: 표트르 대제의 개혁 1",
+            "workCreator": "강평기",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "러시아는 어떻게 제국이 되었나: 표트르 대제의 개혁 1",
+          "creator": "강평기",
+          "description": "러시아 제국은 어떻게 탄생했을까. 어떻게 강대국이 되었을까. 제국은 어떤 방식으로 운영되고 발전했을까. 이 책은 변방의 러시아가 유럽의 중심국이 되고 제국이 된 원리를 밝혔다.\n제국 탄생의 중심에 있었던 표트르 대제(Peter the Great, 1672~1725)의 국가 대개혁(Great Reforms)을 이야기로 쓴 책이다.\n그의 친필 편지, 개인 수첩, 유럽 시찰 시 사용한 여권, 동인도 회사가 발급한 조선공 증명서, 러시아 제국 황실 유언장과 황실 문양, 제국 최초의 지도 등 300여 년 전의 원본 사료를 화보로 만든 책이다.\n프랑스 계몽사상가 볼테르(Voltaire, 1694~1778)는 “표트르의 개혁은 다른 국가가 500년에도 달성하기 힘든 일을 단지 50년 만에 이룩했다”라고 극찬했다.\n근대 역사학자 랑케(Ranke, 1795~1886)는 “표트르의 일기장에서 알 수 있듯이 정열적이고 위대한 사상을 지녔던 한 사람의 천재였다. 그는 러시아가 하나의 패권 세력이 되어야 한다는 자신의 목표를 완벽하게 의식하고 있었다”라고 평가했다.\n표트르 대제는 왜 국가를 개혁했을까. 그는 개혁을 위해 어떤 준비를 했을까. 개혁의 동료는 누구였고 누가 개혁을 기획했을까. 개혁의 핵심 내용은, 어려운 점은, 결과는 어떠했을까. 이 책은 이러한 궁금증에 대한 답이다.\n저자가 18세기 러시아에 일어났던 역사적 사실들을 원본을 해독하며 상세하게 썼기에 러시아가 어떻게 근대국가가 되었는지, 제국이 되었는지 쉽게 이해할 수 있을 것이다.\n\n오늘날 러시아 통치자들의 생각과 신념, 통치술, 러시아인의 행동과 습성, 그리고 사회 관습을 알고 싶으면 이 책을 권한다. 천년의 역사에서 뿜어내는 러시아의 행동을 예측할 수 있을 것이다.\n책은 I 권과 II 권으로 나뉘어 있다. 1장에서 5장까지가 I 권이다. 첫 장은 표트르가 직면한 대외환경으로 천년의 러시아 역사이다. 러시아의 역사를 알게 되면 그의 국가 개혁을 이해할 수 있을 것이다.\n2장은 제국의 여명으로 표트르 대제의 출생부터 국가 대개혁을 진두지휘하기까지이다. 어린 시기와 청소년기에 관한 이야기로 그의 자질과 용인술, 그리고 처세술을 엿볼 수 있으며 인품과 통솔력을 알 수 있다.\n3장부터 9장까지는 러시아가 어떻게 제국이 되었는지에 관한 개혁의 핵심 내용이 담겨있다. 표트르의 개혁에 대한 구체적인 사실, 개혁 과정, 방법과 결과를 썼다. 외교 개혁을 시작으로 군사 개혁과 군사·외교 전략, 정치·행정 개혁까지가 I 권이다.\nII 권은 6장 경제 개혁부터 교육 개혁, 사회·문화·종교 개혁, 예술 개혁이다. 마지막 10장은 표트르가 “나의 천국”이라고 불렀던 제국의 수도, 상트페테르부르크에 관한 도시 이야기다. 오늘날 누구나 가고 싶은 도시, 상트페테르부르크가 어떻게 세워지고 어떤 역사적 의미를 지니는지 알 수 있다.\n‘또 다른 에필로그’에서는 표트르의 치세, 제국의 흥망성쇠, 평가, 작가의 마침표, 표트르의 개혁 연표와 주요 사건을 넣었다.\n독자들이여! 표트르 대제를 안다는 것, 그의 국가 대개혁을 안다는 것, 그것만으로도 러시아를 이해하는 큰 눈을 가지는 것이다. 유럽으로 향하는 창이 아닌 러시아를 깊숙이 바라보는 내면의 눈이다.\n표트르 대제는 러시아 지도자와 러시아 국민의 삶에 절대적인 영향을 미쳤고 오늘날도 변함이 없다. 러시아인이 가장 좋아하는 1위의 통치자이다. 이제 표트르의 눈으로 러시아를 보기 바란다. 그 눈은 러시아를 이해할 뿐 아니라 러시아가 어디로 가는지 예측하는 데 도움을 줄 것이다.",
+          "isbn": "9791198687616",
+          "publisher": "아르바트",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6602834?timestamp=20250208153006",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1"
+          },
+          "verified": true,
+          "content_id": "9c24e2ba-ff5f-5bd4-85b5-509c6f931203"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791198687616",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791198687616"
+      ],
+      "normalizedTitles": [
+        "러시아는어떻게제국이되었나",
+        "러시아는어떻게제국이되었나표트르대제의개혁1"
+      ],
+      "normalizedCreators": [
+        "강평기"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:34:27.865Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "9c24e2ba-ff5f-5bd4-85b5-509c6f931203",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791198687616",
+      "release_date": "2024-04-09",
+      "metadata": {
+        "isbn": "9791198687616",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+        "publisher": "아르바트",
+        "figureBook": {
+          "workTitle": "러시아는 어떻게 제국이 되었나: 표트르 대제의 개혁 1",
+          "workCreator": "강평기",
+          "workIdentity": "book/9791198687616",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-04-09",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:34:12.476453+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "9c24e2ba-ff5f-5bd4-85b5-509c6f931203",
+        "locale": "ko",
+        "title": "러시아는 어떻게 제국이 되었나: 표트르 대제의 개혁 1",
+        "creator": "강평기",
+        "description": "러시아 제국은 어떻게 탄생했을까. 어떻게 강대국이 되었을까. 제국은 어떤 방식으로 운영되고 발전했을까. 이 책은 변방의 러시아가 유럽의 중심국이 되고 제국이 된 원리를 밝혔다.\n제국 탄생의 중심에 있었던 표트르 대제(Peter the Great, 1672~1725)의 국가 대개혁(Great Reforms)을 이야기로 쓴 책이다.\n그의 친필 편지, 개인 수첩, 유럽 시찰 시 사용한 여권, 동인도 회사가 발급한 조선공 증명서, 러시아 제국 황실 유언장과 황실 문양, 제국 최초의 지도 등 300여 년 전의 원본 사료를 화보로 만든 책이다.\n프랑스 계몽사상가 볼테르(Voltaire, 1694~1778)는 “표트르의 개혁은 다른 국가가 500년에도 달성하기 힘든 일을 단지 50년 만에 이룩했다”라고 극찬했다.\n근대 역사학자 랑케(Ranke, 1795~1886)는 “표트르의 일기장에서 알 수 있듯이 정열적이고 위대한 사상을 지녔던 한 사람의 천재였다. 그는 러시아가 하나의 패권 세력이 되어야 한다는 자신의 목표를 완벽하게 의식하고 있었다”라고 평가했다.\n표트르 대제는 왜 국가를 개혁했을까. 그는 개혁을 위해 어떤 준비를 했을까. 개혁의 동료는 누구였고 누가 개혁을 기획했을까. 개혁의 핵심 내용은, 어려운 점은, 결과는 어떠했을까. 이 책은 이러한 궁금증에 대한 답이다.\n저자가 18세기 러시아에 일어났던 역사적 사실들을 원본을 해독하며 상세하게 썼기에 러시아가 어떻게 근대국가가 되었는지, 제국이 되었는지 쉽게 이해할 수 있을 것이다.\n\n오늘날 러시아 통치자들의 생각과 신념, 통치술, 러시아인의 행동과 습성, 그리고 사회 관습을 알고 싶으면 이 책을 권한다. 천년의 역사에서 뿜어내는 러시아의 행동을 예측할 수 있을 것이다.\n책은 I 권과 II 권으로 나뉘어 있다. 1장에서 5장까지가 I 권이다. 첫 장은 표트르가 직면한 대외환경으로 천년의 러시아 역사이다. 러시아의 역사를 알게 되면 그의 국가 개혁을 이해할 수 있을 것이다.\n2장은 제국의 여명으로 표트르 대제의 출생부터 국가 대개혁을 진두지휘하기까지이다. 어린 시기와 청소년기에 관한 이야기로 그의 자질과 용인술, 그리고 처세술을 엿볼 수 있으며 인품과 통솔력을 알 수 있다.\n3장부터 9장까지는 러시아가 어떻게 제국이 되었는지에 관한 개혁의 핵심 내용이 담겨있다. 표트르의 개혁에 대한 구체적인 사실, 개혁 과정, 방법과 결과를 썼다. 외교 개혁을 시작으로 군사 개혁과 군사·외교 전략, 정치·행정 개혁까지가 I 권이다.\nII 권은 6장 경제 개혁부터 교육 개혁, 사회·문화·종교 개혁, 예술 개혁이다. 마지막 10장은 표트르가 “나의 천국”이라고 불렀던 제국의 수도, 상트페테르부르크에 관한 도시 이야기다. 오늘날 누구나 가고 싶은 도시, 상트페테르부르크가 어떻게 세워지고 어떤 역사적 의미를 지니는지 알 수 있다.\n‘또 다른 에필로그’에서는 표트르의 치세, 제국의 흥망성쇠, 평가, 작가의 마침표, 표트르의 개혁 연표와 주요 사건을 넣었다.\n독자들이여! 표트르 대제를 안다는 것, 그의 국가 대개혁을 안다는 것, 그것만으로도 러시아를 이해하는 큰 눈을 가지는 것이다. 유럽으로 향하는 창이 아닌 러시아를 깊숙이 바라보는 내면의 눈이다.\n표트르 대제는 러시아 지도자와 러시아 국민의 삶에 절대적인 영향을 미쳤고 오늘날도 변함이 없다. 러시아인이 가장 좋아하는 1위의 통치자이다. 이제 표트르의 눈으로 러시아를 보기 바란다. 그 눈은 러시아를 이해할 뿐 아니라 러시아가 어디로 가는지 예측하는 데 도움을 줄 것이다.",
+        "isbn": "9791198687616",
+        "publisher": "아르바트",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6602834?timestamp=20250208153006",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6602834&q=%EB%9F%AC%EC%8B%9C%EC%95%84%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%A0%9C%EA%B5%AD%EC%9D%B4+%EB%90%98%EC%97%88%EB%82%98%3A+%ED%91%9C%ED%8A%B8%EB%A5%B4+%EB%8C%80%EC%A0%9C%EC%9D%98+%EA%B0%9C%ED%98%81+1"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:34:12.476453+00:00",
+        "updated_at": "2026-09-06T02:34:12.476453+00:00"
+      }
+    ]
+  }
+}

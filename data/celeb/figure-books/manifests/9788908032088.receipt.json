@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788908032088.json",
+  "manifestSha256": "a5908c9ec476b03535e9f7bc147d8e0fe254da40dd240172f99a9e1dac2d770b",
+  "planSha256": "718febd7891a497cdbcd08b6c2bf5b554e39822279f9078b15e82d70d67ad28f",
+  "workIdentity": "book/9788908032088",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788908032088"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "5cca0e6b-5acd-56b9-9ee2-47fd1e02181f",
+    "scopeKey": "book/9788908032088",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "5cca0e6b-5acd-56b9-9ee2-47fd1e02181f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788908032088",
+      "release_date": "2001-11-15",
+      "metadata": {
+        "isbn": "9788908032088",
+        "publisher": "범우사",
+        "publishDate": "2001-11-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788908032088",
+          "workTitle": "프랭클린 자서전",
+          "workCreator": "벤자민 프랭클린",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "프랭클린 자서전",
+          "creator": "벤자민 프랭클린",
+          "description": "미국의 정치가, 과학자, 저술가인 벤자민 프랭클린의 자서. 아버지의양초공장에서 일을 하다 신문발행에 참여하고 대학 창설, 피뢰침 발명, 독립선언서 기초위원으로서의 활약 등 자유를 사랑하고 과학을 존중한 삶이 초기 미국의 역사와 함께 전개된다.",
+          "isbn": "9788908032088",
+          "publisher": "범우사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/361525?timestamp=20240803112621",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "5cca0e6b-5acd-56b9-9ee2-47fd1e02181f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "5cca0e6b-5acd-56b9-9ee2-47fd1e02181f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788908032088",
+        "release_date": "2001-11-15",
+        "metadata": {
+          "isbn": "9788908032088",
+          "publisher": "범우사",
+          "publishDate": "2001-11-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788908032088",
+            "workTitle": "프랭클린 자서전",
+            "workCreator": "벤자민 프랭클린",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "프랭클린 자서전",
+          "creator": "벤자민 프랭클린",
+          "description": "미국의 정치가, 과학자, 저술가인 벤자민 프랭클린의 자서. 아버지의양초공장에서 일을 하다 신문발행에 참여하고 대학 창설, 피뢰침 발명, 독립선언서 기초위원으로서의 활약 등 자유를 사랑하고 과학을 존중한 삶이 초기 미국의 역사와 함께 전개된다.",
+          "isbn": "9788908032088",
+          "publisher": "범우사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/361525?timestamp=20240803112621",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "5cca0e6b-5acd-56b9-9ee2-47fd1e02181f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788908032088",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788908032088"
+      ],
+      "normalizedTitles": [
+        "프랭클린자서전"
+      ],
+      "normalizedCreators": [
+        "벤자민프랭클린",
+        "양수정역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:36:21.624Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "5cca0e6b-5acd-56b9-9ee2-47fd1e02181f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788908032088",
+      "release_date": "2001-11-15",
+      "metadata": {
+        "isbn": "9788908032088",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+        "publisher": "범우사",
+        "figureBook": {
+          "workTitle": "프랭클린 자서전",
+          "workCreator": "벤자민 프랭클린",
+          "workIdentity": "book/9788908032088",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2001-11-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:36:18.089984+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "5cca0e6b-5acd-56b9-9ee2-47fd1e02181f",
+        "locale": "ko",
+        "title": "프랭클린 자서전",
+        "creator": "벤자민 프랭클린",
+        "description": "미국의 정치가, 과학자, 저술가인 벤자민 프랭클린의 자서. 아버지의양초공장에서 일을 하다 신문발행에 참여하고 대학 창설, 피뢰침 발명, 독립선언서 기초위원으로서의 활약 등 자유를 사랑하고 과학을 존중한 삶이 초기 미국의 역사와 함께 전개된다.",
+        "isbn": "9788908032088",
+        "publisher": "범우사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/361525?timestamp=20240803112621",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=361525&q=%ED%94%84%EB%9E%AD%ED%81%B4%EB%A6%B0+%EC%9E%90%EC%84%9C%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:36:18.089984+00:00",
+        "updated_at": "2026-09-04T17:36:18.089984+00:00"
+      }
+    ]
+  }
+}

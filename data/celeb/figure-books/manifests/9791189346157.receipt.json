@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791189346157.json",
+  "manifestSha256": "29ccb7a2a158ced7f467853cca7ba703e2927c8797ee92a916878f77fade8c7f",
+  "planSha256": "0af1b2c9c9a06eb1034d2759cac0329348376b155391b9fdb6fa61f4865504f8",
+  "workIdentity": "book/9791189346157",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791189346157"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "3c4f7bbd-c19a-58ff-800b-a17198c40766",
+    "scopeKey": "book/9791189346157",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "3c4f7bbd-c19a-58ff-800b-a17198c40766",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189346157",
+      "release_date": "2020-08-15",
+      "metadata": {
+        "isbn": "9791189346157",
+        "publisher": "풍월당",
+        "publishDate": "2020-08-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791189346157",
+          "workTitle": "슈베르트 평전",
+          "workCreator": "엘리자베스 노먼 맥케이",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "슈베르트 평전",
+          "creator": "엘리자베스 노먼 맥케이",
+          "description": "세심하고 따뜻한 시선으로 헤아린\n\n슈베르트의 서른한 해의 이야기\n\n보통 사람들에게 음악을 선물해준\n\n영원한 청년 음악가의 마음을 들여다보다\n\n서른하나에 세상을 떠난 청년 예술가의 삶을 이토록 공들여 재구성해낸 작가는 없었다. 그러면서도 저자는 따사로운 시선을 한시도 잃어버리지 않는다. 그가 그려내는 슈베르트는 분명 위대한 예술가이지만 동시에 우리 주변의 보통 사람이기도 하다. 치열하게 살아가는 결점투성이요 미완의 청년인 것이다.\n\n그러나 천상의 고귀함이 깨질 듯 연약한 영혼 속에 담겨 있었다는 사실은 우리를 적잖이 위로해준다. 우리는 모두 연약하기에, 유한하기에 소중한 존재가 아니던가. 이 책을 읽으면 슈베르트를 사랑하게 될 것이다. 삶이 귀를 열어주어 누구라도 슈베르트 음악을 듣고 싶어질 것이다.\n\n1996년 영국에서 출간된 맥케이의《슈베르트 평전(Franz Schubert : A Biography)》은 영미권에서 나온 슈베르트에 관한 전기적 연구들 가운데 가장 독보적인 저작이다. 각종 연구서, 논문, 평론 등에서 가장 많이 인용되는 이 중요한 책이 우리말로 번역되어 독자들에게 선보인다. 많은 기록과 증언을 충실하게 검증했을 뿐 아니라 누구에게나 쉽게 읽히는 유연한 스토리텔링까지 더해져 그 가치를 더한다. 저자는 빈 외곽에서 태어난 순간부터 숨을 거두고 장례를 치르기까지. 31년이란 짧은 시간을 지상에서 보낸 슈베르트의 삶을 정통적인 연대기 방식으로 보여준다. 독일어권(독일, 오스트리아 등)의 자료에만 의지하지 않았으며, 여러 나라에서 나온 다양한 분석도 반영하여 그의 삶을 말하고 있다는 사실은 강력한 무기다. 또한 슈베르트가 살던 때 통용된 오스트리아 화폐 단위를 설명하는 등 빼놓을 수 없는 시대적 배경 역시 언급한다. 하지만 음악을 설명하는데 반드시 필요한 점들만 다뤄지기에 슈베르트의 음악과 삶이라는 서술 중심이 훼손되지 않았다는 점도 《슈베르트 평전》이 가진 장점이다.",
+          "isbn": "9791189346157",
+          "publisher": "풍월당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5459802?timestamp=20251101135901",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "3c4f7bbd-c19a-58ff-800b-a17198c40766"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "3c4f7bbd-c19a-58ff-800b-a17198c40766",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791189346157",
+        "release_date": "2020-08-15",
+        "metadata": {
+          "isbn": "9791189346157",
+          "publisher": "풍월당",
+          "publishDate": "2020-08-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791189346157",
+            "workTitle": "슈베르트 평전",
+            "workCreator": "엘리자베스 노먼 맥케이",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "슈베르트 평전",
+          "creator": "엘리자베스 노먼 맥케이",
+          "description": "세심하고 따뜻한 시선으로 헤아린\n\n슈베르트의 서른한 해의 이야기\n\n보통 사람들에게 음악을 선물해준\n\n영원한 청년 음악가의 마음을 들여다보다\n\n서른하나에 세상을 떠난 청년 예술가의 삶을 이토록 공들여 재구성해낸 작가는 없었다. 그러면서도 저자는 따사로운 시선을 한시도 잃어버리지 않는다. 그가 그려내는 슈베르트는 분명 위대한 예술가이지만 동시에 우리 주변의 보통 사람이기도 하다. 치열하게 살아가는 결점투성이요 미완의 청년인 것이다.\n\n그러나 천상의 고귀함이 깨질 듯 연약한 영혼 속에 담겨 있었다는 사실은 우리를 적잖이 위로해준다. 우리는 모두 연약하기에, 유한하기에 소중한 존재가 아니던가. 이 책을 읽으면 슈베르트를 사랑하게 될 것이다. 삶이 귀를 열어주어 누구라도 슈베르트 음악을 듣고 싶어질 것이다.\n\n1996년 영국에서 출간된 맥케이의《슈베르트 평전(Franz Schubert : A Biography)》은 영미권에서 나온 슈베르트에 관한 전기적 연구들 가운데 가장 독보적인 저작이다. 각종 연구서, 논문, 평론 등에서 가장 많이 인용되는 이 중요한 책이 우리말로 번역되어 독자들에게 선보인다. 많은 기록과 증언을 충실하게 검증했을 뿐 아니라 누구에게나 쉽게 읽히는 유연한 스토리텔링까지 더해져 그 가치를 더한다. 저자는 빈 외곽에서 태어난 순간부터 숨을 거두고 장례를 치르기까지. 31년이란 짧은 시간을 지상에서 보낸 슈베르트의 삶을 정통적인 연대기 방식으로 보여준다. 독일어권(독일, 오스트리아 등)의 자료에만 의지하지 않았으며, 여러 나라에서 나온 다양한 분석도 반영하여 그의 삶을 말하고 있다는 사실은 강력한 무기다. 또한 슈베르트가 살던 때 통용된 오스트리아 화폐 단위를 설명하는 등 빼놓을 수 없는 시대적 배경 역시 언급한다. 하지만 음악을 설명하는데 반드시 필요한 점들만 다뤄지기에 슈베르트의 음악과 삶이라는 서술 중심이 훼손되지 않았다는 점도 《슈베르트 평전》이 가진 장점이다.",
+          "isbn": "9791189346157",
+          "publisher": "풍월당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5459802?timestamp=20251101135901",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "3c4f7bbd-c19a-58ff-800b-a17198c40766"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791189346157",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791189346157"
+      ],
+      "normalizedTitles": [
+        "슈베르트평전"
+      ],
+      "normalizedCreators": [
+        "엘리자베스노먼맥케이",
+        "이석호역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:27:43.757Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "3c4f7bbd-c19a-58ff-800b-a17198c40766",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189346157",
+      "release_date": "2020-08-15",
+      "metadata": {
+        "isbn": "9791189346157",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+        "publisher": "풍월당",
+        "figureBook": {
+          "workTitle": "슈베르트 평전",
+          "workCreator": "엘리자베스 노먼 맥케이",
+          "workIdentity": "book/9791189346157",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-08-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:27:30.128164+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "3c4f7bbd-c19a-58ff-800b-a17198c40766",
+        "locale": "ko",
+        "title": "슈베르트 평전",
+        "creator": "엘리자베스 노먼 맥케이",
+        "description": "세심하고 따뜻한 시선으로 헤아린\n\n슈베르트의 서른한 해의 이야기\n\n보통 사람들에게 음악을 선물해준\n\n영원한 청년 음악가의 마음을 들여다보다\n\n서른하나에 세상을 떠난 청년 예술가의 삶을 이토록 공들여 재구성해낸 작가는 없었다. 그러면서도 저자는 따사로운 시선을 한시도 잃어버리지 않는다. 그가 그려내는 슈베르트는 분명 위대한 예술가이지만 동시에 우리 주변의 보통 사람이기도 하다. 치열하게 살아가는 결점투성이요 미완의 청년인 것이다.\n\n그러나 천상의 고귀함이 깨질 듯 연약한 영혼 속에 담겨 있었다는 사실은 우리를 적잖이 위로해준다. 우리는 모두 연약하기에, 유한하기에 소중한 존재가 아니던가. 이 책을 읽으면 슈베르트를 사랑하게 될 것이다. 삶이 귀를 열어주어 누구라도 슈베르트 음악을 듣고 싶어질 것이다.\n\n1996년 영국에서 출간된 맥케이의《슈베르트 평전(Franz Schubert : A Biography)》은 영미권에서 나온 슈베르트에 관한 전기적 연구들 가운데 가장 독보적인 저작이다. 각종 연구서, 논문, 평론 등에서 가장 많이 인용되는 이 중요한 책이 우리말로 번역되어 독자들에게 선보인다. 많은 기록과 증언을 충실하게 검증했을 뿐 아니라 누구에게나 쉽게 읽히는 유연한 스토리텔링까지 더해져 그 가치를 더한다. 저자는 빈 외곽에서 태어난 순간부터 숨을 거두고 장례를 치르기까지. 31년이란 짧은 시간을 지상에서 보낸 슈베르트의 삶을 정통적인 연대기 방식으로 보여준다. 독일어권(독일, 오스트리아 등)의 자료에만 의지하지 않았으며, 여러 나라에서 나온 다양한 분석도 반영하여 그의 삶을 말하고 있다는 사실은 강력한 무기다. 또한 슈베르트가 살던 때 통용된 오스트리아 화폐 단위를 설명하는 등 빼놓을 수 없는 시대적 배경 역시 언급한다. 하지만 음악을 설명하는데 반드시 필요한 점들만 다뤄지기에 슈베르트의 음악과 삶이라는 서술 중심이 훼손되지 않았다는 점도 《슈베르트 평전》이 가진 장점이다.",
+        "isbn": "9791189346157",
+        "publisher": "풍월당",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5459802?timestamp=20251101135901",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5459802&q=%EC%8A%88%EB%B2%A0%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:27:30.128164+00:00",
+        "updated_at": "2026-09-06T04:27:30.128164+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954452915.json",
+  "manifestSha256": "61e432737aec30392f3ca35da12fb051f6b172f408cad502bcf89b02eddaecf0",
+  "planSha256": "d2bd111734e37f5d946175feabae0ce5b0300afacaf7695722b86b12f026811f",
+  "workIdentity": "book/9788954452915",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954452915"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e5ba0bb2-9824-5007-9436-fafd0372dc53",
+    "scopeKey": "book/9788954452915",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e5ba0bb2-9824-5007-9436-fafd0372dc53",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954452915",
+      "release_date": "2025-08-20",
+      "metadata": {
+        "isbn": "9788954452915",
+        "publisher": "자음과모음",
+        "publishDate": "2025-08-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954452915",
+          "workTitle": "오일러가 들려주는 복소수 이야기",
+          "workCreator": "송온기",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "오일러가 들려주는 복소수 이야기",
+          "creator": "송온기",
+          "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다.\n특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《오일러가 들려주는 복소수 이야기》에서는 복소수 개념을 이야기로 쉽게 풀어 나간다. 수의 개념에서 마지막에 배우는 복소수는 제곱하면 ─1이 되는 수로, 실제로는 발견하지 못하는 수지만 실생활에서 많이 쓰이는 수이다. 수학을 잘하기 위해서, 더 심도 있게 공부하기 위해서 꼭 알아야 하는 복소수!\n선생님의 친절한 설명과 함께 복소수의 세계로 들어가 보자.",
+          "isbn": "9788954452915",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6994554?timestamp=20260414121659",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "e5ba0bb2-9824-5007-9436-fafd0372dc53"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e5ba0bb2-9824-5007-9436-fafd0372dc53",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954452915",
+        "release_date": "2025-08-20",
+        "metadata": {
+          "isbn": "9788954452915",
+          "publisher": "자음과모음",
+          "publishDate": "2025-08-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954452915",
+            "workTitle": "오일러가 들려주는 복소수 이야기",
+            "workCreator": "송온기",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "오일러가 들려주는 복소수 이야기",
+          "creator": "송온기",
+          "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다.\n특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《오일러가 들려주는 복소수 이야기》에서는 복소수 개념을 이야기로 쉽게 풀어 나간다. 수의 개념에서 마지막에 배우는 복소수는 제곱하면 ─1이 되는 수로, 실제로는 발견하지 못하는 수지만 실생활에서 많이 쓰이는 수이다. 수학을 잘하기 위해서, 더 심도 있게 공부하기 위해서 꼭 알아야 하는 복소수!\n선생님의 친절한 설명과 함께 복소수의 세계로 들어가 보자.",
+          "isbn": "9788954452915",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6994554?timestamp=20260414121659",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "e5ba0bb2-9824-5007-9436-fafd0372dc53"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954452915",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954452915"
+      ],
+      "normalizedTitles": [
+        "오일러가들려주는복소수이야기"
+      ],
+      "normalizedCreators": [
+        "송온기"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:48:35.719Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e5ba0bb2-9824-5007-9436-fafd0372dc53",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954452915",
+      "release_date": "2025-08-20",
+      "metadata": {
+        "isbn": "9788954452915",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "자음과모음",
+        "figureBook": {
+          "workTitle": "오일러가 들려주는 복소수 이야기",
+          "workCreator": "송온기",
+          "workIdentity": "book/9788954452915",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-08-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:48:20.386613+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e5ba0bb2-9824-5007-9436-fafd0372dc53",
+        "locale": "ko",
+        "title": "오일러가 들려주는 복소수 이야기",
+        "creator": "송온기",
+        "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다.\n특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《오일러가 들려주는 복소수 이야기》에서는 복소수 개념을 이야기로 쉽게 풀어 나간다. 수의 개념에서 마지막에 배우는 복소수는 제곱하면 ─1이 되는 수로, 실제로는 발견하지 못하는 수지만 실생활에서 많이 쓰이는 수이다. 수학을 잘하기 위해서, 더 심도 있게 공부하기 위해서 꼭 알아야 하는 복소수!\n선생님의 친절한 설명과 함께 복소수의 세계로 들어가 보자.",
+        "isbn": "9788954452915",
+        "publisher": "자음과모음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6994554?timestamp=20260414121659",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6994554&q=%EC%98%A4%EC%9D%BC%EB%9F%AC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%B3%B5%EC%86%8C%EC%88%98+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:48:20.386613+00:00",
+        "updated_at": "2026-09-04T17:48:20.386613+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788994054964.json",
+  "manifestSha256": "3f4e6a02a06cb0103ec2ee3daba8295b801a22dade1df74e52e905b1b63235b3",
+  "planSha256": "f01761565c12c88c6211fc8f539d7fa87ffd720cb80470cdbe2623a5c08e5833",
+  "workIdentity": "book/9788994054964",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788994054964"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "cd52064e-6bab-5a8c-9261-4920c914ba21",
+    "scopeKey": "book/9788994054964",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "cd52064e-6bab-5a8c-9261-4920c914ba21",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994054964",
+      "release_date": "2016-09-15",
+      "metadata": {
+        "isbn": "9788994054964",
+        "publisher": "연암서가",
+        "publishDate": "2016-09-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788994054964",
+          "workTitle": "앨리스 B 토클라스 자서전",
+          "workCreator": "거트루드 스타인",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "앨리스 B 토클라스 자서전",
+          "creator": "거트루드 스타인",
+          "description": "『앨리스 B. 토클라스 자서전』은 다른 사람의 눈으로 자신을 관찰한 독특한 자서전이다. 거트루드 스타인 자신의 인생을 자신이 직접 기록한 자서전이지만 독특하게도 그녀의 평생 동반자였던 앨리스 B. 토클라스의 이름을 빌려 『Autobiography of Alice B. Toklas』라는 제목으로 출간되었다. 이 책은 스타인의 필생의 꿈이던 『애틀랜틱 먼슬리』에 연재되는가 하면 30여 년 만에 고향으로 금의환향하게 되는 계기가 된다.",
+          "isbn": "9788994054964",
+          "publisher": "연암서가",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1416037?timestamp=20231006163317",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "cd52064e-6bab-5a8c-9261-4920c914ba21"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "cd52064e-6bab-5a8c-9261-4920c914ba21",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788994054964",
+        "release_date": "2016-09-15",
+        "metadata": {
+          "isbn": "9788994054964",
+          "publisher": "연암서가",
+          "publishDate": "2016-09-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788994054964",
+            "workTitle": "앨리스 B 토클라스 자서전",
+            "workCreator": "거트루드 스타인",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "앨리스 B 토클라스 자서전",
+          "creator": "거트루드 스타인",
+          "description": "『앨리스 B. 토클라스 자서전』은 다른 사람의 눈으로 자신을 관찰한 독특한 자서전이다. 거트루드 스타인 자신의 인생을 자신이 직접 기록한 자서전이지만 독특하게도 그녀의 평생 동반자였던 앨리스 B. 토클라스의 이름을 빌려 『Autobiography of Alice B. Toklas』라는 제목으로 출간되었다. 이 책은 스타인의 필생의 꿈이던 『애틀랜틱 먼슬리』에 연재되는가 하면 30여 년 만에 고향으로 금의환향하게 되는 계기가 된다.",
+          "isbn": "9788994054964",
+          "publisher": "연암서가",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1416037?timestamp=20231006163317",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "cd52064e-6bab-5a8c-9261-4920c914ba21"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788994054964",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788994054964"
+      ],
+      "normalizedTitles": [
+        "앨리스b토클라스자서전"
+      ],
+      "normalizedCreators": [
+        "거트루드스타인",
+        "권경희역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:15:47.102Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "cd52064e-6bab-5a8c-9261-4920c914ba21",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994054964",
+      "release_date": "2016-09-15",
+      "metadata": {
+        "isbn": "9788994054964",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+        "publisher": "연암서가",
+        "figureBook": {
+          "workTitle": "앨리스 B 토클라스 자서전",
+          "workCreator": "거트루드 스타인",
+          "workIdentity": "book/9788994054964",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2016-09-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:15:42.471639+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "cd52064e-6bab-5a8c-9261-4920c914ba21",
+        "locale": "ko",
+        "title": "앨리스 B 토클라스 자서전",
+        "creator": "거트루드 스타인",
+        "description": "『앨리스 B. 토클라스 자서전』은 다른 사람의 눈으로 자신을 관찰한 독특한 자서전이다. 거트루드 스타인 자신의 인생을 자신이 직접 기록한 자서전이지만 독특하게도 그녀의 평생 동반자였던 앨리스 B. 토클라스의 이름을 빌려 『Autobiography of Alice B. Toklas』라는 제목으로 출간되었다. 이 책은 스타인의 필생의 꿈이던 『애틀랜틱 먼슬리』에 연재되는가 하면 30여 년 만에 고향으로 금의환향하게 되는 계기가 된다.",
+        "isbn": "9788994054964",
+        "publisher": "연암서가",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1416037?timestamp=20231006163317",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1416037&q=%EC%95%A8%EB%A6%AC%EC%8A%A4+B+%ED%86%A0%ED%81%B4%EB%9D%BC%EC%8A%A4+%EC%9E%90%EC%84%9C%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:15:42.471639+00:00",
+        "updated_at": "2026-09-06T04:15:42.471639+00:00"
+      }
+    ]
+  }
+}

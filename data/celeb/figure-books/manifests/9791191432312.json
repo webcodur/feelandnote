@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791191432312",
+    "title": "미켈란젤로, 생의 마지막 도전",
+    "creator": "윌리엄 E. 월리스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이종인 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791191432312"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791186809150",
+    "title": "나는 이렇게 루소가 되었다",
+    "creator": "장 자크 루소",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김대웅 (편역) (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791186809150"
+  }
+}

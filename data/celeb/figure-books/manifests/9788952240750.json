@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788952240750",
+    "title": "메이지 천황",
+    "creator": "박진우",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788952240750"
+  }
+}

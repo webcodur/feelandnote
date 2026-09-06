@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791169091282",
+    "title": "여왕이 사랑한 사람들",
+    "creator": "리턴 스트레이치",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김윤경 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791169091282"
+  }
+}

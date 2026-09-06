@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791130310695",
+    "title": "조지 워싱턴",
+    "creator": "강성학",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791130310695"
+  }
+}

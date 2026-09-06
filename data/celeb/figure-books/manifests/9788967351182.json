@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788967351182",
+    "title": "세기말 빈(현대의 고전 5)(양장본 HardCover)",
+    "creator": "칼 쇼르스케",
+    "titleAliases": [
+      "세기말 빈(현대의 고전 5)"
+    ],
+    "creatorAliases": [
+      "김병화 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788967351182"
+  }
+}

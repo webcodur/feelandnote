@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788932431215.json",
+  "manifestSha256": "04048964316009a5043310a190651d9d57b532f4469329a3a10c10bce207692e",
+  "planSha256": "9621c5122e1cf62a9553f7d1f701f655f0321c626836402d347eafc02748ef97",
+  "workIdentity": "book/9788932431215",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788932431215"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "5a445c18-960f-5a5b-902b-57977fe2ad18",
+    "scopeKey": "book/9788932431215",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "5a445c18-960f-5a5b-902b-57977fe2ad18",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932431215",
+      "release_date": "2008-02-26",
+      "metadata": {
+        "isbn": "9788932431215",
+        "publisher": "을유문화사",
+        "publishDate": "2008-02-26",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788932431215",
+          "workTitle": "프랭크 로이드 라이트(현대 예술의 거장 16)(양장본 HardCover)",
+          "workCreator": "에이다 루이즈 헉스터블",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "프랭크 로이드 라이트(현대 예술의 거장 16)",
+          "creator": "에이다 루이즈 헉스터블",
+          "description": null,
+          "isbn": "9788932431215",
+          "publisher": "을유문화사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/502045?timestamp=20190123140210",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "5a445c18-960f-5a5b-902b-57977fe2ad18"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "5a445c18-960f-5a5b-902b-57977fe2ad18",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788932431215",
+        "release_date": "2008-02-26",
+        "metadata": {
+          "isbn": "9788932431215",
+          "publisher": "을유문화사",
+          "publishDate": "2008-02-26",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788932431215",
+            "workTitle": "프랭크 로이드 라이트(현대 예술의 거장 16)(양장본 HardCover)",
+            "workCreator": "에이다 루이즈 헉스터블",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "프랭크 로이드 라이트(현대 예술의 거장 16)",
+          "creator": "에이다 루이즈 헉스터블",
+          "description": null,
+          "isbn": "9788932431215",
+          "publisher": "을유문화사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/502045?timestamp=20190123140210",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "5a445c18-960f-5a5b-902b-57977fe2ad18"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788932431215",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788932431215"
+      ],
+      "normalizedTitles": [
+        "프랭크로이드라이트현대예술의거장16",
+        "프랭크로이드라이트현대예술의거장16양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "에이다루이즈헉스터블",
+        "이종인역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:38:49.214Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "5a445c18-960f-5a5b-902b-57977fe2ad18",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932431215",
+      "release_date": "2008-02-26",
+      "metadata": {
+        "isbn": "9788932431215",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "을유문화사",
+        "figureBook": {
+          "workTitle": "프랭크 로이드 라이트(현대 예술의 거장 16)(양장본 HardCover)",
+          "workCreator": "에이다 루이즈 헉스터블",
+          "workIdentity": "book/9788932431215",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2008-02-26",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:38:45.995498+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "5a445c18-960f-5a5b-902b-57977fe2ad18",
+        "locale": "ko",
+        "title": "프랭크 로이드 라이트(현대 예술의 거장 16)",
+        "creator": "에이다 루이즈 헉스터블",
+        "description": null,
+        "isbn": "9788932431215",
+        "publisher": "을유문화사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/502045?timestamp=20190123140210",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=502045&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EB%A1%9C%EC%9D%B4%EB%93%9C+%EB%9D%BC%EC%9D%B4%ED%8A%B8%28%ED%98%84%EB%8C%80+%EC%98%88%EC%88%A0%EC%9D%98+%EA%B1%B0%EC%9E%A5+16%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "confirmed_unavailable"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:38:45.995498+00:00",
+        "updated_at": "2026-09-04T17:38:45.995498+00:00"
+      }
+    ]
+  }
+}

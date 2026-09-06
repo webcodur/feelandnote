@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791159099434",
+    "title": "세상의 모든 전략은 삼국지에서 탄생했다",
+    "creator": "임용한",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791159099434"
+  }
+}

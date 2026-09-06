@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788994207377.json",
+  "manifestSha256": "248253bb44643db5cd1a94e364697e71761dfeadbc5bef6db19e55068383dcad",
+  "planSha256": "3f2c052c69910bffbd72b5f7e091623f0ff60c23965b7e09b494b9f6a7842653",
+  "workIdentity": "book/9788994207377",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788994207377"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "543d0420-f368-567b-9ca7-9ba768033398",
+    "scopeKey": "book/9788994207377",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "543d0420-f368-567b-9ca7-9ba768033398",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994207377",
+      "release_date": "2014-04-01",
+      "metadata": {
+        "isbn": "9788994207377",
+        "publisher": "워크룸프레스",
+        "publishDate": "2014-04-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788994207377",
+          "workTitle": "사뮈엘 베케트의 말 없는 삶",
+          "workCreator": "나탈리 레제",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "사뮈엘 베케트의 말 없는 삶",
+          "creator": "나탈리 레제",
+          "description": "숨은 문학 작품들에 주목한「워크롬 문학총서 제안들」. 이 총서는 마땅히 소개돼야 함에도 국내 번역본이 존재하지 않았던 ‘비밀스러운’ 작품들을 엄선하여, 정교한 번역으로 소개한다. 화려해지는 표지 디자인에 반해 단색 표지로 깔끔함을 더한 것이 멋스러우며, 작품의 성격에 맞게 색깔을 달리한 것도 특이점이다.\n\n네 번째 작품 『사뮈엘 베케트의 말 없는 삶』은 나탈리 레제의 밀도 높은 작업물로, 그녀의 첫 책이다. 2006년 프랑스 출판사 알리아에서 출간된 이 책은, 그 제목이 일차적으로 드러내듯, 작가 사뮈엘 베케트의 삶을 다룬 전기이지만 책의 두께가 상징하듯, 사뮈엘 베케트라는 한 인간에 대한 한 편의 산문이라고 일컬어야 불러도 좋을 만큼 여느 전기와는 확연히 다른 인상이다.\n\n베케트의 문서들을 다루고 베케트의 전시를 기획했던 저자가 베케트에 대한 글을 쓴 것은 당연해 보인다. 글은 베케트의 마지막 나날을 조망하며 시작된다. 베케트가 생애의 말년을 보냈던 파리 14구 르미뒤몽셀 가의 요양원, ‘티에르탕’. ‘제3의 시간’이라는 뜻의 이름을 지닌 이곳에서 베케트가 보냈을 날들을 레제는 그의 사물들을 묘사하며, 그가 즐겨 들췄던 책들을 인용하며, 익히 알려진 《고도를 기다리며》 너머의 이 회색 작가를 어떻게 읽어내야 할 것인지를 정교하고 세련된 방식으로 드러낸다.",
+          "isbn": "9788994207377",
+          "publisher": "워크룸프레스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1412319?timestamp=20250522113044",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6"
+          },
+          "verified": true,
+          "content_id": "543d0420-f368-567b-9ca7-9ba768033398"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "543d0420-f368-567b-9ca7-9ba768033398",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788994207377",
+        "release_date": "2014-04-01",
+        "metadata": {
+          "isbn": "9788994207377",
+          "publisher": "워크룸프레스",
+          "publishDate": "2014-04-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788994207377",
+            "workTitle": "사뮈엘 베케트의 말 없는 삶",
+            "workCreator": "나탈리 레제",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "사뮈엘 베케트의 말 없는 삶",
+          "creator": "나탈리 레제",
+          "description": "숨은 문학 작품들에 주목한「워크롬 문학총서 제안들」. 이 총서는 마땅히 소개돼야 함에도 국내 번역본이 존재하지 않았던 ‘비밀스러운’ 작품들을 엄선하여, 정교한 번역으로 소개한다. 화려해지는 표지 디자인에 반해 단색 표지로 깔끔함을 더한 것이 멋스러우며, 작품의 성격에 맞게 색깔을 달리한 것도 특이점이다.\n\n네 번째 작품 『사뮈엘 베케트의 말 없는 삶』은 나탈리 레제의 밀도 높은 작업물로, 그녀의 첫 책이다. 2006년 프랑스 출판사 알리아에서 출간된 이 책은, 그 제목이 일차적으로 드러내듯, 작가 사뮈엘 베케트의 삶을 다룬 전기이지만 책의 두께가 상징하듯, 사뮈엘 베케트라는 한 인간에 대한 한 편의 산문이라고 일컬어야 불러도 좋을 만큼 여느 전기와는 확연히 다른 인상이다.\n\n베케트의 문서들을 다루고 베케트의 전시를 기획했던 저자가 베케트에 대한 글을 쓴 것은 당연해 보인다. 글은 베케트의 마지막 나날을 조망하며 시작된다. 베케트가 생애의 말년을 보냈던 파리 14구 르미뒤몽셀 가의 요양원, ‘티에르탕’. ‘제3의 시간’이라는 뜻의 이름을 지닌 이곳에서 베케트가 보냈을 날들을 레제는 그의 사물들을 묘사하며, 그가 즐겨 들췄던 책들을 인용하며, 익히 알려진 《고도를 기다리며》 너머의 이 회색 작가를 어떻게 읽어내야 할 것인지를 정교하고 세련된 방식으로 드러낸다.",
+          "isbn": "9788994207377",
+          "publisher": "워크룸프레스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1412319?timestamp=20250522113044",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6"
+          },
+          "verified": true,
+          "content_id": "543d0420-f368-567b-9ca7-9ba768033398"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788994207377",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788994207377"
+      ],
+      "normalizedTitles": [
+        "사뮈엘베케트의말없는삶"
+      ],
+      "normalizedCreators": [
+        "김예령역",
+        "나탈리레제"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:58:16.689Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "543d0420-f368-567b-9ca7-9ba768033398",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994207377",
+      "release_date": "2014-04-01",
+      "metadata": {
+        "isbn": "9788994207377",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+        "publisher": "워크룸프레스",
+        "figureBook": {
+          "workTitle": "사뮈엘 베케트의 말 없는 삶",
+          "workCreator": "나탈리 레제",
+          "workIdentity": "book/9788994207377",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2014-04-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:58:10.29044+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "543d0420-f368-567b-9ca7-9ba768033398",
+        "locale": "ko",
+        "title": "사뮈엘 베케트의 말 없는 삶",
+        "creator": "나탈리 레제",
+        "description": "숨은 문학 작품들에 주목한「워크롬 문학총서 제안들」. 이 총서는 마땅히 소개돼야 함에도 국내 번역본이 존재하지 않았던 ‘비밀스러운’ 작품들을 엄선하여, 정교한 번역으로 소개한다. 화려해지는 표지 디자인에 반해 단색 표지로 깔끔함을 더한 것이 멋스러우며, 작품의 성격에 맞게 색깔을 달리한 것도 특이점이다.\n\n네 번째 작품 『사뮈엘 베케트의 말 없는 삶』은 나탈리 레제의 밀도 높은 작업물로, 그녀의 첫 책이다. 2006년 프랑스 출판사 알리아에서 출간된 이 책은, 그 제목이 일차적으로 드러내듯, 작가 사뮈엘 베케트의 삶을 다룬 전기이지만 책의 두께가 상징하듯, 사뮈엘 베케트라는 한 인간에 대한 한 편의 산문이라고 일컬어야 불러도 좋을 만큼 여느 전기와는 확연히 다른 인상이다.\n\n베케트의 문서들을 다루고 베케트의 전시를 기획했던 저자가 베케트에 대한 글을 쓴 것은 당연해 보인다. 글은 베케트의 마지막 나날을 조망하며 시작된다. 베케트가 생애의 말년을 보냈던 파리 14구 르미뒤몽셀 가의 요양원, ‘티에르탕’. ‘제3의 시간’이라는 뜻의 이름을 지닌 이곳에서 베케트가 보냈을 날들을 레제는 그의 사물들을 묘사하며, 그가 즐겨 들췄던 책들을 인용하며, 익히 알려진 《고도를 기다리며》 너머의 이 회색 작가를 어떻게 읽어내야 할 것인지를 정교하고 세련된 방식으로 드러낸다.",
+        "isbn": "9788994207377",
+        "publisher": "워크룸프레스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1412319?timestamp=20250522113044",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1412319&q=%EC%82%AC%EB%AE%88%EC%97%98+%EB%B2%A0%EC%BC%80%ED%8A%B8%EC%9D%98+%EB%A7%90+%EC%97%86%EB%8A%94+%EC%82%B6"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:58:10.29044+00:00",
+        "updated_at": "2026-09-04T17:58:10.29044+00:00"
+      }
+    ]
+  }
+}

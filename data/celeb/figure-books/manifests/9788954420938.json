@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788954420938",
+    "title": "하비가 들려주는 혈액 순환 이야기",
+    "creator": "손선영",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788954420938"
+  }
+}

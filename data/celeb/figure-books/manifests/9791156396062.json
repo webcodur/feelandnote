@@ -1,0 +1,20 @@
+{
+  "work": {
+    "identity": "book/9791156396062",
+    "title": "Who? 인물 사이언스: 마이클 패러데이(양장본 HardCover)",
+    "creator": "카툰박스",
+    "titleAliases": [
+      "Who? 인물 사이언스: 마이클 패러데이",
+      "Who? 인물 사이언스"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791156396062"
+  }
+}

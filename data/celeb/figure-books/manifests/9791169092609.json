@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791169092609",
+    "title": "애덤 스미스 평전",
+    "creator": "이언 심프슨 로스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "조재희 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791169092609"
+  }
+}

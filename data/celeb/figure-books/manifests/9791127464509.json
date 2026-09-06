@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791127464509",
+    "title": "태양왕 루이 14세",
+    "creator": "사사키 마코토",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김효진 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791127464509"
+  }
+}

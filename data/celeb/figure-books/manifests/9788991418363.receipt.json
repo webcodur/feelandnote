@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788991418363.json",
+  "manifestSha256": "204d762f19c6db5579a21f392d991e16ec1e06446a93053ad2a50aa1fd1c7512",
+  "planSha256": "ad7a2c1ef3654fd8094a449528d01ad47013fe64b588523afa54e89f6c2888b1",
+  "workIdentity": "book/9788991418363",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788991418363"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "07469278-e182-5102-b27b-17703b372b27",
+    "scopeKey": "book/9788991418363",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "07469278-e182-5102-b27b-17703b372b27",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788991418363",
+      "release_date": "2024-02-22",
+      "metadata": {
+        "isbn": "9788991418363",
+        "publisher": "느린걸음",
+        "publishDate": "2024-02-22",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788991418363",
+          "workTitle": "눈물꽃 소년",
+          "workCreator": "박노해",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "눈물꽃 소년",
+          "creator": "박노해",
+          "description": "박노해 시인이 ‘소년’의 얼굴로 돌아왔다. 그의 첫 자전수필 『눈물꽃 소년』은 남도의 작은 마을 동강에서 자라 국민학교를 졸업하기까지, “평이”라고 불리던 소년시절의 성장기이다. 어두웠고 가난했고 슬픔이 많았던 시절, 그러나 그는 “내 마음에는 어둠이 없었다”고 말한다. 독자들이 그에게 가장 많이 건넨 질문은 이것이었다. “무슨 힘으로 그런 삶을 살 수 있었나요?” 그는 답한다. “내 모든 것은 ‘눈물꽃 소년’에서 시작되었다”고.\n\n다독다독 등을 쓸어주는 엄니의 손길 같은 이야기에 빠져들다 보면, 어느덧 이 작은 아이가 웃음과 눈물로 우리의 마음을 휘젓는다. 곱고도 맛깔진 전라도 사투리의 글맛 속에 그가 뛰놀던 산과 들과 바다가 펼쳐지고, 계절 따라 진달래 해당화 동백꽃 향기가 스며오고, 흙마당과 마을 골목과 학교와 장터와 작은 공소와 그를 키운 풍경들이 영화처럼 그려진다. 33편의 글마다 박노해 시인이 직접 그린 연필 그림이 함께 담겼다.\n\n“그인들 그러고 싶어서 그리했겄는가. 누구도 탓허지 말고 자중자애허소.” 죄를 지은 청년을 보듬어 다시 살아갈 힘을 주던 할머니. 일곱 살에 아버지를 여읜 평이에게 ‘동네 한 바퀴’를 돌게 하며 씩씩하게 나아가게 한 이웃 어른들. 부당한 일에 “아닌 건 아닌디요” 함께 맞서며 같이 울어주던 동무들. “더 좋은 거 찾으면 날 가르쳐 주소잉” 늘 몸을 기울여 학생들의 말을 들어주던 ‘수그리’ 선생님. 세상 만물을 지고와 흥겨운 입담을 풀어놓던 방물장수. 말이 아닌 삶으로 가르치며 잠든 머리맡에서 눈물의 기도를 바치던 어머니. 작은 공소의 ‘나의 친구’ 호세 신부님. 낭만과 멋과 정감이 흐르던 동네 형과 누나들. 외톨이가 되었을 때 “나랑 같이 놀래?” 한 편의 시詩로 다가와 연필을 깎아주던 첫사랑의 소녀까지.\n\n무엇이 한 인간을 빚어내는지, 부모와 아이, 스승과 제자, 이웃과 친구는 어떠해야 하는지, 지금 나는 어떻게 살아야 하는지, 『눈물꽃 소년』은 저마다 자신의 이야기를 소중히 돌아보게 한다. ‘소년 평이’와 함께 울고 웃다보면 마음의 힘과 영혼의 키가 훌쩍 자라날 책, 『눈물꽃 소년』의 이야기 속으로 떠나보자.",
+          "isbn": "9788991418363",
+          "publisher": "느린걸음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6562150?timestamp=20250110153130",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84"
+          },
+          "verified": true,
+          "content_id": "07469278-e182-5102-b27b-17703b372b27"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "07469278-e182-5102-b27b-17703b372b27",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788991418363",
+        "release_date": "2024-02-22",
+        "metadata": {
+          "isbn": "9788991418363",
+          "publisher": "느린걸음",
+          "publishDate": "2024-02-22",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788991418363",
+            "workTitle": "눈물꽃 소년",
+            "workCreator": "박노해",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "눈물꽃 소년",
+          "creator": "박노해",
+          "description": "박노해 시인이 ‘소년’의 얼굴로 돌아왔다. 그의 첫 자전수필 『눈물꽃 소년』은 남도의 작은 마을 동강에서 자라 국민학교를 졸업하기까지, “평이”라고 불리던 소년시절의 성장기이다. 어두웠고 가난했고 슬픔이 많았던 시절, 그러나 그는 “내 마음에는 어둠이 없었다”고 말한다. 독자들이 그에게 가장 많이 건넨 질문은 이것이었다. “무슨 힘으로 그런 삶을 살 수 있었나요?” 그는 답한다. “내 모든 것은 ‘눈물꽃 소년’에서 시작되었다”고.\n\n다독다독 등을 쓸어주는 엄니의 손길 같은 이야기에 빠져들다 보면, 어느덧 이 작은 아이가 웃음과 눈물로 우리의 마음을 휘젓는다. 곱고도 맛깔진 전라도 사투리의 글맛 속에 그가 뛰놀던 산과 들과 바다가 펼쳐지고, 계절 따라 진달래 해당화 동백꽃 향기가 스며오고, 흙마당과 마을 골목과 학교와 장터와 작은 공소와 그를 키운 풍경들이 영화처럼 그려진다. 33편의 글마다 박노해 시인이 직접 그린 연필 그림이 함께 담겼다.\n\n“그인들 그러고 싶어서 그리했겄는가. 누구도 탓허지 말고 자중자애허소.” 죄를 지은 청년을 보듬어 다시 살아갈 힘을 주던 할머니. 일곱 살에 아버지를 여읜 평이에게 ‘동네 한 바퀴’를 돌게 하며 씩씩하게 나아가게 한 이웃 어른들. 부당한 일에 “아닌 건 아닌디요” 함께 맞서며 같이 울어주던 동무들. “더 좋은 거 찾으면 날 가르쳐 주소잉” 늘 몸을 기울여 학생들의 말을 들어주던 ‘수그리’ 선생님. 세상 만물을 지고와 흥겨운 입담을 풀어놓던 방물장수. 말이 아닌 삶으로 가르치며 잠든 머리맡에서 눈물의 기도를 바치던 어머니. 작은 공소의 ‘나의 친구’ 호세 신부님. 낭만과 멋과 정감이 흐르던 동네 형과 누나들. 외톨이가 되었을 때 “나랑 같이 놀래?” 한 편의 시詩로 다가와 연필을 깎아주던 첫사랑의 소녀까지.\n\n무엇이 한 인간을 빚어내는지, 부모와 아이, 스승과 제자, 이웃과 친구는 어떠해야 하는지, 지금 나는 어떻게 살아야 하는지, 『눈물꽃 소년』은 저마다 자신의 이야기를 소중히 돌아보게 한다. ‘소년 평이’와 함께 울고 웃다보면 마음의 힘과 영혼의 키가 훌쩍 자라날 책, 『눈물꽃 소년』의 이야기 속으로 떠나보자.",
+          "isbn": "9788991418363",
+          "publisher": "느린걸음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6562150?timestamp=20250110153130",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84"
+          },
+          "verified": true,
+          "content_id": "07469278-e182-5102-b27b-17703b372b27"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788991418363",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788991418363"
+      ],
+      "normalizedTitles": [
+        "눈물꽃소년"
+      ],
+      "normalizedCreators": [
+        "박노해"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:14:18.221Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "07469278-e182-5102-b27b-17703b372b27",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788991418363",
+      "release_date": "2024-02-22",
+      "metadata": {
+        "isbn": "9788991418363",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+        "publisher": "느린걸음",
+        "figureBook": {
+          "workTitle": "눈물꽃 소년",
+          "workCreator": "박노해",
+          "workIdentity": "book/9788991418363",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-02-22",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:14:06.681398+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "07469278-e182-5102-b27b-17703b372b27",
+        "locale": "ko",
+        "title": "눈물꽃 소년",
+        "creator": "박노해",
+        "description": "박노해 시인이 ‘소년’의 얼굴로 돌아왔다. 그의 첫 자전수필 『눈물꽃 소년』은 남도의 작은 마을 동강에서 자라 국민학교를 졸업하기까지, “평이”라고 불리던 소년시절의 성장기이다. 어두웠고 가난했고 슬픔이 많았던 시절, 그러나 그는 “내 마음에는 어둠이 없었다”고 말한다. 독자들이 그에게 가장 많이 건넨 질문은 이것이었다. “무슨 힘으로 그런 삶을 살 수 있었나요?” 그는 답한다. “내 모든 것은 ‘눈물꽃 소년’에서 시작되었다”고.\n\n다독다독 등을 쓸어주는 엄니의 손길 같은 이야기에 빠져들다 보면, 어느덧 이 작은 아이가 웃음과 눈물로 우리의 마음을 휘젓는다. 곱고도 맛깔진 전라도 사투리의 글맛 속에 그가 뛰놀던 산과 들과 바다가 펼쳐지고, 계절 따라 진달래 해당화 동백꽃 향기가 스며오고, 흙마당과 마을 골목과 학교와 장터와 작은 공소와 그를 키운 풍경들이 영화처럼 그려진다. 33편의 글마다 박노해 시인이 직접 그린 연필 그림이 함께 담겼다.\n\n“그인들 그러고 싶어서 그리했겄는가. 누구도 탓허지 말고 자중자애허소.” 죄를 지은 청년을 보듬어 다시 살아갈 힘을 주던 할머니. 일곱 살에 아버지를 여읜 평이에게 ‘동네 한 바퀴’를 돌게 하며 씩씩하게 나아가게 한 이웃 어른들. 부당한 일에 “아닌 건 아닌디요” 함께 맞서며 같이 울어주던 동무들. “더 좋은 거 찾으면 날 가르쳐 주소잉” 늘 몸을 기울여 학생들의 말을 들어주던 ‘수그리’ 선생님. 세상 만물을 지고와 흥겨운 입담을 풀어놓던 방물장수. 말이 아닌 삶으로 가르치며 잠든 머리맡에서 눈물의 기도를 바치던 어머니. 작은 공소의 ‘나의 친구’ 호세 신부님. 낭만과 멋과 정감이 흐르던 동네 형과 누나들. 외톨이가 되었을 때 “나랑 같이 놀래?” 한 편의 시詩로 다가와 연필을 깎아주던 첫사랑의 소녀까지.\n\n무엇이 한 인간을 빚어내는지, 부모와 아이, 스승과 제자, 이웃과 친구는 어떠해야 하는지, 지금 나는 어떻게 살아야 하는지, 『눈물꽃 소년』은 저마다 자신의 이야기를 소중히 돌아보게 한다. ‘소년 평이’와 함께 울고 웃다보면 마음의 힘과 영혼의 키가 훌쩍 자라날 책, 『눈물꽃 소년』의 이야기 속으로 떠나보자.",
+        "isbn": "9788991418363",
+        "publisher": "느린걸음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6562150?timestamp=20250110153130",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6562150&q=%EB%88%88%EB%AC%BC%EA%BD%83+%EC%86%8C%EB%85%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:14:06.681398+00:00",
+        "updated_at": "2026-09-06T04:14:06.681398+00:00"
+      }
+    ]
+  }
+}

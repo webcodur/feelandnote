@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788977287990",
+    "title": "들뢰즈와 가타리",
+    "creator": "로널드 보그",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이정우 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788977287990"
+  }
+}

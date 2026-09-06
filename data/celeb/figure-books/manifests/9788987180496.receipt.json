@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788987180496.json",
+  "manifestSha256": "0d091ec48b04f2c59e54c1b533536f4571d0ace454e57108156367065c4ba02d",
+  "planSha256": "f5baaed3a41e97a7a4ec520aa62dcbef5175c05e9d827baecaeef0c643672daf",
+  "workIdentity": "book/9788987180496",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788987180496"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ab380bd5-03e7-55ae-a92e-4d57f3049857",
+    "scopeKey": "book/9788987180496",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ab380bd5-03e7-55ae-a92e-4d57f3049857",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788987180496",
+      "release_date": "2000-03-07",
+      "metadata": {
+        "isbn": "9788987180496",
+        "publisher": "바다출판사",
+        "publishDate": "2000-03-07",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788987180496",
+          "workTitle": "나에게는 꿈이 있습니다",
+          "workCreator": "클레이본 카슨 엮음",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "나에게는 꿈이 있습니다",
+          "creator": "클레이본 카슨 엮음",
+          "description": "어린 시절부터 흑인에 대한 인종 차별과 경제적 불평등을 목격하면서 불의의 사회를 개혁하려는 열망을 지녔던 소년 킹은 대대로 목사였던 집안의 장남으로 태어났다. 그가 목사가 되기로 결심한 데는 이러한 가정환경 탓도 있었겠지만, 무엇보다 형제자매를 사랑하고 사회를 정의롭게 하라는 예수의 가르침에 본능적으로 충실했기 때문이었다.\n\n『나에게는 꿈이 있습니다』는 자유와 정의를 염원하는 흑인 인권지도자 마틴 루터 킹의 '자서전 아닌 자서전'으로, '킹 목사 문헌 편집 프로젝트'가 수집한 수많은 자료들(생전에 출간되었거나 출간되지 않은 글들, 연설과 설교들, 인터뷰와 편지, 기타 오디오 및 비디오 기록들) 가운데에서 그의 자전적 이야기 부분만을 골라내 따로 편집한 것이다. 1955년, 26세에 버스 내 흑백차별에 항의하여 보이콧 운동을 시작한 이후 35세에 노벨상을 받고 1968년 39세로 암살당하기까지 킹의 생애와 사상이 담겨있다.",
+          "isbn": "9788987180496",
+          "publisher": "바다출판사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1245918?timestamp=20211017165217",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "ab380bd5-03e7-55ae-a92e-4d57f3049857"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ab380bd5-03e7-55ae-a92e-4d57f3049857",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788987180496",
+        "release_date": "2000-03-07",
+        "metadata": {
+          "isbn": "9788987180496",
+          "publisher": "바다출판사",
+          "publishDate": "2000-03-07",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788987180496",
+            "workTitle": "나에게는 꿈이 있습니다",
+            "workCreator": "클레이본 카슨 엮음",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "나에게는 꿈이 있습니다",
+          "creator": "클레이본 카슨 엮음",
+          "description": "어린 시절부터 흑인에 대한 인종 차별과 경제적 불평등을 목격하면서 불의의 사회를 개혁하려는 열망을 지녔던 소년 킹은 대대로 목사였던 집안의 장남으로 태어났다. 그가 목사가 되기로 결심한 데는 이러한 가정환경 탓도 있었겠지만, 무엇보다 형제자매를 사랑하고 사회를 정의롭게 하라는 예수의 가르침에 본능적으로 충실했기 때문이었다.\n\n『나에게는 꿈이 있습니다』는 자유와 정의를 염원하는 흑인 인권지도자 마틴 루터 킹의 '자서전 아닌 자서전'으로, '킹 목사 문헌 편집 프로젝트'가 수집한 수많은 자료들(생전에 출간되었거나 출간되지 않은 글들, 연설과 설교들, 인터뷰와 편지, 기타 오디오 및 비디오 기록들) 가운데에서 그의 자전적 이야기 부분만을 골라내 따로 편집한 것이다. 1955년, 26세에 버스 내 흑백차별에 항의하여 보이콧 운동을 시작한 이후 35세에 노벨상을 받고 1968년 39세로 암살당하기까지 킹의 생애와 사상이 담겨있다.",
+          "isbn": "9788987180496",
+          "publisher": "바다출판사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1245918?timestamp=20211017165217",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "ab380bd5-03e7-55ae-a92e-4d57f3049857"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788987180496",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788987180496"
+      ],
+      "normalizedTitles": [
+        "나에게는꿈이있습니다"
+      ],
+      "normalizedCreators": [
+        "이순희역",
+        "클레이본카슨엮음"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:56:04.688Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ab380bd5-03e7-55ae-a92e-4d57f3049857",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788987180496",
+      "release_date": "2000-03-07",
+      "metadata": {
+        "isbn": "9788987180496",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+        "publisher": "바다출판사",
+        "figureBook": {
+          "workTitle": "나에게는 꿈이 있습니다",
+          "workCreator": "클레이본 카슨 엮음",
+          "workIdentity": "book/9788987180496",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2000-03-07",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:56:00.473122+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ab380bd5-03e7-55ae-a92e-4d57f3049857",
+        "locale": "ko",
+        "title": "나에게는 꿈이 있습니다",
+        "creator": "클레이본 카슨 엮음",
+        "description": "어린 시절부터 흑인에 대한 인종 차별과 경제적 불평등을 목격하면서 불의의 사회를 개혁하려는 열망을 지녔던 소년 킹은 대대로 목사였던 집안의 장남으로 태어났다. 그가 목사가 되기로 결심한 데는 이러한 가정환경 탓도 있었겠지만, 무엇보다 형제자매를 사랑하고 사회를 정의롭게 하라는 예수의 가르침에 본능적으로 충실했기 때문이었다.\n\n『나에게는 꿈이 있습니다』는 자유와 정의를 염원하는 흑인 인권지도자 마틴 루터 킹의 '자서전 아닌 자서전'으로, '킹 목사 문헌 편집 프로젝트'가 수집한 수많은 자료들(생전에 출간되었거나 출간되지 않은 글들, 연설과 설교들, 인터뷰와 편지, 기타 오디오 및 비디오 기록들) 가운데에서 그의 자전적 이야기 부분만을 골라내 따로 편집한 것이다. 1955년, 26세에 버스 내 흑백차별에 항의하여 보이콧 운동을 시작한 이후 35세에 노벨상을 받고 1968년 39세로 암살당하기까지 킹의 생애와 사상이 담겨있다.",
+        "isbn": "9788987180496",
+        "publisher": "바다출판사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1245918?timestamp=20211017165217",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1245918&q=%EB%82%98%EC%97%90%EA%B2%8C%EB%8A%94+%EA%BF%88%EC%9D%B4+%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:56:00.473122+00:00",
+        "updated_at": "2026-09-04T17:56:00.473122+00:00"
+      }
+    ]
+  }
+}

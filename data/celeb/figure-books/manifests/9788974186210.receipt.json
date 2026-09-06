@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788974186210.json",
+  "manifestSha256": "e5b08b1b081b545ca90866276dc138623e40cf81eed273c56e5430239c182982",
+  "planSha256": "9ab3418aa32c94208287c59cb997eb1ff6ba1294722b54eff904403eb994475c",
+  "workIdentity": "book/9788974186210",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788974186210"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "b7f4f226-e3a0-5829-a16a-ddd1cdd72125",
+    "scopeKey": "book/9788974186210",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "b7f4f226-e3a0-5829-a16a-ddd1cdd72125",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788974186210",
+      "release_date": "2024-10-10",
+      "metadata": {
+        "isbn": "9788974186210",
+        "publisher": "인간사랑",
+        "publishDate": "2024-10-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788974186210",
+          "workTitle": "스피노자와 그의 친구들",
+          "workCreator": "막심 로베르",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "스피노자와 그의 친구들",
+          "creator": "막심 로베르",
+          "description": "스피노자라는 한 철학자에 대한 전기가 아니라 스피노자를 만든 모든 사람들-그의 최초의 스승들, 그의 친구들, 그의 마지막 제자들, 그와 편지를 주고받던 사람들-과, 스피노자와 그들과의 관계에 관한 이야기다. 이념은 고독한 인간 혼자의 산물이 아니라, 사람들 간의 교류, 상호작용에서 태어난다는 믿음 하에서, 저자는 이 책에서 스피노자가 살았던 세계, 오늘날 사라진 한 세계의 진리에 접근하기 위해 모든 문학적 수단을 동원한다.",
+          "isbn": "9788974186210",
+          "publisher": "인간사랑",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6732136?timestamp=20250923141450",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "b7f4f226-e3a0-5829-a16a-ddd1cdd72125"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "b7f4f226-e3a0-5829-a16a-ddd1cdd72125",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788974186210",
+        "release_date": "2024-10-10",
+        "metadata": {
+          "isbn": "9788974186210",
+          "publisher": "인간사랑",
+          "publishDate": "2024-10-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788974186210",
+            "workTitle": "스피노자와 그의 친구들",
+            "workCreator": "막심 로베르",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "스피노자와 그의 친구들",
+          "creator": "막심 로베르",
+          "description": "스피노자라는 한 철학자에 대한 전기가 아니라 스피노자를 만든 모든 사람들-그의 최초의 스승들, 그의 친구들, 그의 마지막 제자들, 그와 편지를 주고받던 사람들-과, 스피노자와 그들과의 관계에 관한 이야기다. 이념은 고독한 인간 혼자의 산물이 아니라, 사람들 간의 교류, 상호작용에서 태어난다는 믿음 하에서, 저자는 이 책에서 스피노자가 살았던 세계, 오늘날 사라진 한 세계의 진리에 접근하기 위해 모든 문학적 수단을 동원한다.",
+          "isbn": "9788974186210",
+          "publisher": "인간사랑",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6732136?timestamp=20250923141450",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "b7f4f226-e3a0-5829-a16a-ddd1cdd72125"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788974186210",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788974186210"
+      ],
+      "normalizedTitles": [
+        "스피노자와그의친구들"
+      ],
+      "normalizedCreators": [
+        "막심로베르",
+        "박영옥역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:54:02.356Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "b7f4f226-e3a0-5829-a16a-ddd1cdd72125",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788974186210",
+      "release_date": "2024-10-10",
+      "metadata": {
+        "isbn": "9788974186210",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+        "publisher": "인간사랑",
+        "figureBook": {
+          "workTitle": "스피노자와 그의 친구들",
+          "workCreator": "막심 로베르",
+          "workIdentity": "book/9788974186210",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-10-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:53:59.601099+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "b7f4f226-e3a0-5829-a16a-ddd1cdd72125",
+        "locale": "ko",
+        "title": "스피노자와 그의 친구들",
+        "creator": "막심 로베르",
+        "description": "스피노자라는 한 철학자에 대한 전기가 아니라 스피노자를 만든 모든 사람들-그의 최초의 스승들, 그의 친구들, 그의 마지막 제자들, 그와 편지를 주고받던 사람들-과, 스피노자와 그들과의 관계에 관한 이야기다. 이념은 고독한 인간 혼자의 산물이 아니라, 사람들 간의 교류, 상호작용에서 태어난다는 믿음 하에서, 저자는 이 책에서 스피노자가 살았던 세계, 오늘날 사라진 한 세계의 진리에 접근하기 위해 모든 문학적 수단을 동원한다.",
+        "isbn": "9788974186210",
+        "publisher": "인간사랑",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6732136?timestamp=20250923141450",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6732136&q=%EC%8A%A4%ED%94%BC%EB%85%B8%EC%9E%90%EC%99%80+%EA%B7%B8%EC%9D%98+%EC%B9%9C%EA%B5%AC%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:53:59.601099+00:00",
+        "updated_at": "2026-09-04T17:53:59.601099+00:00"
+      }
+    ]
+  }
+}

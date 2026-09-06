@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788936515201",
+    "title": "사도 바울",
+    "creator": "존 폴락",
+    "titleAliases": [],
+    "creatorAliases": [
+      "홍종락 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788936515201"
+  }
+}

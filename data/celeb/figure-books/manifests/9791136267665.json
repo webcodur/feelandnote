@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791136267665",
+    "title": "도라에몽 이야기: 후지코 F 후지오 선생님의 뒷모습",
+    "creator": "무기와라 신타로",
+    "titleAliases": [
+      "도라에몽 이야기"
+    ],
+    "creatorAliases": [
+      "이은주 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791136267665"
+  }
+}

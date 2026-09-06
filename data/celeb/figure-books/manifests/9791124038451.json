@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791124038451",
+    "title": "미스터 나카모토: 비트코인의 창시자",
+    "creator": "벤저민 월리스",
+    "titleAliases": [
+      "미스터 나카모토"
+    ],
+    "creatorAliases": [
+      "이재득 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791124038451"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788932041896",
+    "title": "이청준 평전",
+    "creator": "이윤옥",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788932041896"
+  }
+}

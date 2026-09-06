@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788994015880",
+    "title": "엘튼 존(Elton John)",
+    "creator": "데이비드 버클리",
+    "titleAliases": [
+      "엘튼 존"
+    ],
+    "creatorAliases": [
+      "장호연 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788994015880"
+  }
+}

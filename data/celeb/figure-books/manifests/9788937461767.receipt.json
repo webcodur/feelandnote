@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788937461767.json",
+  "manifestSha256": "723803f51f941a26f1f2dcb9fe370e59860653630b8015b499eb251b4cb2f5a0",
+  "planSha256": "412379375af991459a2db703a5d6da0213929169bf52978b845f95146284d232",
+  "workIdentity": "book/9788937461767",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788937461767"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "99e30004-9ba3-5dd9-86f4-a9e25b65bffe",
+    "scopeKey": "book/9788937461767",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "99e30004-9ba3-5dd9-86f4-a9e25b65bffe",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788937461767",
+      "release_date": "2008-05-02",
+      "metadata": {
+        "isbn": "9788937461767",
+        "publisher": "민음사",
+        "publishDate": "2008-05-02",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788937461767",
+          "workTitle": "괴테와의 대화 1",
+          "workCreator": "요한 페터 에커만",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "괴테와의 대화 1",
+          "creator": "요한 페터 에커만",
+          "description": "요한 페터 에커만이 괴테와 나눈 대화를 담은 산문『괴테와의 대화』제1권. 젊은 문학도 에커만이 괴테가 세상을 떠날 때까지 10여 년에 걸쳐 약 1,000번의 만남을 가지면서 그와 나눈 대화를 꼼꼼하게 기록하여 정리한 것이다. 에커만이 말년의 괴테 곁에서 보고 듣고 기록한 괴테 사상의 집약체라고 할 수 있다.\n\n괴테를 만나기 전에는 가난한 문학청년에 불과했던 에커만이 그와의 대화를 통해 영혼의 성장을 이루어냈을 정도로, 괴테는 생의 의미와 본질을 깨닫게 해주는 다양한 이야기들을 들려주었다. 당대의 문학과 예술, 성서 해석과 종교 문제, 정치세계사의 흐름에 대한 지식인의 역할, 세계 문학의 대가들에 대한 독창적 해석, 삶의 지혜에 대한 잠언이 담겨 있다.\n\n이 작품은 1836년에 1부와 2부, 1848년에 3부가 출판된 이후 150년이 지난 지금까지 괴테 연구의 필독서로 평가받는다. 작품의 전체 구성은 괴테와 에커만의 대화 내용이 주를 이룬다. 그 밖에 괴테가 가족이나 친구들, 예술가와 학자, 멀리서 그를 찾아온 외국인들과 나눈 대화 등이 일기 형식으로 수록되어 있다.",
+          "isbn": "9788937461767",
+          "publisher": "민음사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/540942?timestamp=20260201110615",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1"
+          },
+          "verified": true,
+          "content_id": "99e30004-9ba3-5dd9-86f4-a9e25b65bffe"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "99e30004-9ba3-5dd9-86f4-a9e25b65bffe",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788937461767",
+        "release_date": "2008-05-02",
+        "metadata": {
+          "isbn": "9788937461767",
+          "publisher": "민음사",
+          "publishDate": "2008-05-02",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788937461767",
+            "workTitle": "괴테와의 대화 1",
+            "workCreator": "요한 페터 에커만",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "괴테와의 대화 1",
+          "creator": "요한 페터 에커만",
+          "description": "요한 페터 에커만이 괴테와 나눈 대화를 담은 산문『괴테와의 대화』제1권. 젊은 문학도 에커만이 괴테가 세상을 떠날 때까지 10여 년에 걸쳐 약 1,000번의 만남을 가지면서 그와 나눈 대화를 꼼꼼하게 기록하여 정리한 것이다. 에커만이 말년의 괴테 곁에서 보고 듣고 기록한 괴테 사상의 집약체라고 할 수 있다.\n\n괴테를 만나기 전에는 가난한 문학청년에 불과했던 에커만이 그와의 대화를 통해 영혼의 성장을 이루어냈을 정도로, 괴테는 생의 의미와 본질을 깨닫게 해주는 다양한 이야기들을 들려주었다. 당대의 문학과 예술, 성서 해석과 종교 문제, 정치세계사의 흐름에 대한 지식인의 역할, 세계 문학의 대가들에 대한 독창적 해석, 삶의 지혜에 대한 잠언이 담겨 있다.\n\n이 작품은 1836년에 1부와 2부, 1848년에 3부가 출판된 이후 150년이 지난 지금까지 괴테 연구의 필독서로 평가받는다. 작품의 전체 구성은 괴테와 에커만의 대화 내용이 주를 이룬다. 그 밖에 괴테가 가족이나 친구들, 예술가와 학자, 멀리서 그를 찾아온 외국인들과 나눈 대화 등이 일기 형식으로 수록되어 있다.",
+          "isbn": "9788937461767",
+          "publisher": "민음사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/540942?timestamp=20260201110615",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1"
+          },
+          "verified": true,
+          "content_id": "99e30004-9ba3-5dd9-86f4-a9e25b65bffe"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788937461767",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788937461767"
+      ],
+      "normalizedTitles": [
+        "괴테와의대화1"
+      ],
+      "normalizedCreators": [
+        "요한페터에커만",
+        "장희창역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:42:20.517Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "99e30004-9ba3-5dd9-86f4-a9e25b65bffe",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788937461767",
+      "release_date": "2008-05-02",
+      "metadata": {
+        "isbn": "9788937461767",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+        "publisher": "민음사",
+        "figureBook": {
+          "workTitle": "괴테와의 대화 1",
+          "workCreator": "요한 페터 에커만",
+          "workIdentity": "book/9788937461767",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2008-05-02",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:42:04.887941+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "99e30004-9ba3-5dd9-86f4-a9e25b65bffe",
+        "locale": "ko",
+        "title": "괴테와의 대화 1",
+        "creator": "요한 페터 에커만",
+        "description": "요한 페터 에커만이 괴테와 나눈 대화를 담은 산문『괴테와의 대화』제1권. 젊은 문학도 에커만이 괴테가 세상을 떠날 때까지 10여 년에 걸쳐 약 1,000번의 만남을 가지면서 그와 나눈 대화를 꼼꼼하게 기록하여 정리한 것이다. 에커만이 말년의 괴테 곁에서 보고 듣고 기록한 괴테 사상의 집약체라고 할 수 있다.\n\n괴테를 만나기 전에는 가난한 문학청년에 불과했던 에커만이 그와의 대화를 통해 영혼의 성장을 이루어냈을 정도로, 괴테는 생의 의미와 본질을 깨닫게 해주는 다양한 이야기들을 들려주었다. 당대의 문학과 예술, 성서 해석과 종교 문제, 정치세계사의 흐름에 대한 지식인의 역할, 세계 문학의 대가들에 대한 독창적 해석, 삶의 지혜에 대한 잠언이 담겨 있다.\n\n이 작품은 1836년에 1부와 2부, 1848년에 3부가 출판된 이후 150년이 지난 지금까지 괴테 연구의 필독서로 평가받는다. 작품의 전체 구성은 괴테와 에커만의 대화 내용이 주를 이룬다. 그 밖에 괴테가 가족이나 친구들, 예술가와 학자, 멀리서 그를 찾아온 외국인들과 나눈 대화 등이 일기 형식으로 수록되어 있다.",
+        "isbn": "9788937461767",
+        "publisher": "민음사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/540942?timestamp=20260201110615",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=540942&q=%EA%B4%B4%ED%85%8C%EC%99%80%EC%9D%98+%EB%8C%80%ED%99%94+1"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:42:04.887941+00:00",
+        "updated_at": "2026-09-04T17:42:04.887941+00:00"
+      }
+    ]
+  }
+}

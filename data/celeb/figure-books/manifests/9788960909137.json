@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788960909137",
+    "title": "토니 모리슨의 말",
+    "creator": "토니 모리슨",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이다희 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788960909137"
+  }
+}

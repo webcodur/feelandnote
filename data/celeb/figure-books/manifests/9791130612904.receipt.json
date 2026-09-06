@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791130612904.json",
+  "manifestSha256": "71d60054608b92258beacafba8e367abd09c520601e8a8f851efab3421044559",
+  "planSha256": "d4c36ee697582b5547a52101ba0707c7f5cb92a0e1aaa7dd1c07865c501d3563",
+  "workIdentity": "book/9791130612904",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791130612904"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "c46be5b3-e0b1-5264-af32-a385c57c5e26",
+    "scopeKey": "book/9791130612904",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "c46be5b3-e0b1-5264-af32-a385c57c5e26",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130612904",
+      "release_date": "2017-06-12",
+      "metadata": {
+        "isbn": "9791130612904",
+        "publisher": "다산북스",
+        "publishDate": "2017-06-12",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791130612904",
+          "workTitle": "에어비앤비 스토리",
+          "workCreator": "레이 갤러거",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "에어비앤비 스토리",
+          "creator": "레이 갤러거",
+          "description": "미국의 종합 경제지 《포춘》의 부편집장인 레이 갤러거가 수년에 걸쳐 4차 산업혁명 시대를 선도하는 기업, 에어비앤비의 창업자 브라이언 체스키와 조 게비아, 네이선 블레차르지크를 직접 인터뷰하고 분석한 『에어비앤비 스토리』. 방세를 내기도 어려울 만큼 가난했던 세 청년이 작은 아이디어 하나로 사업을 시작해 10년 만에 거대 산업을 파괴하고 세계 최고의 기업이 되기까지의 여정을 생생히 그려냈다.\n\n처음 그들의 사업에 관심을 보이는 사람은 아무도 없었다. ‘낯선 사람에게 개인적인 공간을 빌려준다는 것’도, ‘낯선 사람의 집에서 잠을 잔다는 것’도 너무 이상하기만 했다. 모두가 미쳤다고 말했던 아이디어를 포기하지 않고 비즈니스로 발전시킨 과정과 창업 초기 빚을 갚기 위해 시리얼박스를 조립해 팔았던 이야기, 경영 경험이 전혀 없던 세 사람이 2500여 명의 직원을 거느린 경영자로 성장하기까지의 시행착오와 끝없이 이어지는 반대세력과의 싸움까지, 그간 언론에 소개되지 않았던 에어비앤비만의 내밀한 성공전략과 기업문화가 모두 들어 있다.\n\n무엇보다도 이 책에서 4차 산업혁명 시대, 가장 대표적인 비즈니스 모델로 손꼽히는 ‘공유경제’ 카테고리에서 에어비앤비가 최고의 기업으로 우뚝 설 수 있었던 비결을 만나볼 수 있다. 이제는 기존의 유통 구조가 완전히 다른 구조에 의해 경쟁력을 잃는 시대이며 시장의 규모 또한 상상하기 힘들 만큼 빠른 속도로 확장되고 있다. 저자는 에어비앤비의 성공 사례를 통해 완전히 새로워진 산업의 지형과 파괴적 혁신 기술의 영향력에 대해 역설한다. 4차 산업혁명이라는 거대한 물결 속에서 안정적인 산업 기반이 어떻게 한순간에 파괴되는지, 또 어떤 기업이 새로운 강자로 자리매김하는지를 여실히 보여주는 이 책은 미래 시장을 준비하고 거대한 변화의 물결에 올라타고 싶은 사람들에게 깊은 영감을 선사해줄 것이다.",
+          "isbn": "9791130612904",
+          "publisher": "다산북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1536610?timestamp=20260115111111",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC"
+          },
+          "verified": true,
+          "content_id": "c46be5b3-e0b1-5264-af32-a385c57c5e26"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "c46be5b3-e0b1-5264-af32-a385c57c5e26",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791130612904",
+        "release_date": "2017-06-12",
+        "metadata": {
+          "isbn": "9791130612904",
+          "publisher": "다산북스",
+          "publishDate": "2017-06-12",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791130612904",
+            "workTitle": "에어비앤비 스토리",
+            "workCreator": "레이 갤러거",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "에어비앤비 스토리",
+          "creator": "레이 갤러거",
+          "description": "미국의 종합 경제지 《포춘》의 부편집장인 레이 갤러거가 수년에 걸쳐 4차 산업혁명 시대를 선도하는 기업, 에어비앤비의 창업자 브라이언 체스키와 조 게비아, 네이선 블레차르지크를 직접 인터뷰하고 분석한 『에어비앤비 스토리』. 방세를 내기도 어려울 만큼 가난했던 세 청년이 작은 아이디어 하나로 사업을 시작해 10년 만에 거대 산업을 파괴하고 세계 최고의 기업이 되기까지의 여정을 생생히 그려냈다.\n\n처음 그들의 사업에 관심을 보이는 사람은 아무도 없었다. ‘낯선 사람에게 개인적인 공간을 빌려준다는 것’도, ‘낯선 사람의 집에서 잠을 잔다는 것’도 너무 이상하기만 했다. 모두가 미쳤다고 말했던 아이디어를 포기하지 않고 비즈니스로 발전시킨 과정과 창업 초기 빚을 갚기 위해 시리얼박스를 조립해 팔았던 이야기, 경영 경험이 전혀 없던 세 사람이 2500여 명의 직원을 거느린 경영자로 성장하기까지의 시행착오와 끝없이 이어지는 반대세력과의 싸움까지, 그간 언론에 소개되지 않았던 에어비앤비만의 내밀한 성공전략과 기업문화가 모두 들어 있다.\n\n무엇보다도 이 책에서 4차 산업혁명 시대, 가장 대표적인 비즈니스 모델로 손꼽히는 ‘공유경제’ 카테고리에서 에어비앤비가 최고의 기업으로 우뚝 설 수 있었던 비결을 만나볼 수 있다. 이제는 기존의 유통 구조가 완전히 다른 구조에 의해 경쟁력을 잃는 시대이며 시장의 규모 또한 상상하기 힘들 만큼 빠른 속도로 확장되고 있다. 저자는 에어비앤비의 성공 사례를 통해 완전히 새로워진 산업의 지형과 파괴적 혁신 기술의 영향력에 대해 역설한다. 4차 산업혁명이라는 거대한 물결 속에서 안정적인 산업 기반이 어떻게 한순간에 파괴되는지, 또 어떤 기업이 새로운 강자로 자리매김하는지를 여실히 보여주는 이 책은 미래 시장을 준비하고 거대한 변화의 물결에 올라타고 싶은 사람들에게 깊은 영감을 선사해줄 것이다.",
+          "isbn": "9791130612904",
+          "publisher": "다산북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1536610?timestamp=20260115111111",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC"
+          },
+          "verified": true,
+          "content_id": "c46be5b3-e0b1-5264-af32-a385c57c5e26"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791130612904",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791130612904"
+      ],
+      "normalizedTitles": [
+        "에어비앤비스토리"
+      ],
+      "normalizedCreators": [
+        "레이갤러거",
+        "유정식역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:16:49.145Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "c46be5b3-e0b1-5264-af32-a385c57c5e26",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130612904",
+      "release_date": "2017-06-12",
+      "metadata": {
+        "isbn": "9791130612904",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+        "publisher": "다산북스",
+        "figureBook": {
+          "workTitle": "에어비앤비 스토리",
+          "workCreator": "레이 갤러거",
+          "workIdentity": "book/9791130612904",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2017-06-12",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:16:38.884321+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "c46be5b3-e0b1-5264-af32-a385c57c5e26",
+        "locale": "ko",
+        "title": "에어비앤비 스토리",
+        "creator": "레이 갤러거",
+        "description": "미국의 종합 경제지 《포춘》의 부편집장인 레이 갤러거가 수년에 걸쳐 4차 산업혁명 시대를 선도하는 기업, 에어비앤비의 창업자 브라이언 체스키와 조 게비아, 네이선 블레차르지크를 직접 인터뷰하고 분석한 『에어비앤비 스토리』. 방세를 내기도 어려울 만큼 가난했던 세 청년이 작은 아이디어 하나로 사업을 시작해 10년 만에 거대 산업을 파괴하고 세계 최고의 기업이 되기까지의 여정을 생생히 그려냈다.\n\n처음 그들의 사업에 관심을 보이는 사람은 아무도 없었다. ‘낯선 사람에게 개인적인 공간을 빌려준다는 것’도, ‘낯선 사람의 집에서 잠을 잔다는 것’도 너무 이상하기만 했다. 모두가 미쳤다고 말했던 아이디어를 포기하지 않고 비즈니스로 발전시킨 과정과 창업 초기 빚을 갚기 위해 시리얼박스를 조립해 팔았던 이야기, 경영 경험이 전혀 없던 세 사람이 2500여 명의 직원을 거느린 경영자로 성장하기까지의 시행착오와 끝없이 이어지는 반대세력과의 싸움까지, 그간 언론에 소개되지 않았던 에어비앤비만의 내밀한 성공전략과 기업문화가 모두 들어 있다.\n\n무엇보다도 이 책에서 4차 산업혁명 시대, 가장 대표적인 비즈니스 모델로 손꼽히는 ‘공유경제’ 카테고리에서 에어비앤비가 최고의 기업으로 우뚝 설 수 있었던 비결을 만나볼 수 있다. 이제는 기존의 유통 구조가 완전히 다른 구조에 의해 경쟁력을 잃는 시대이며 시장의 규모 또한 상상하기 힘들 만큼 빠른 속도로 확장되고 있다. 저자는 에어비앤비의 성공 사례를 통해 완전히 새로워진 산업의 지형과 파괴적 혁신 기술의 영향력에 대해 역설한다. 4차 산업혁명이라는 거대한 물결 속에서 안정적인 산업 기반이 어떻게 한순간에 파괴되는지, 또 어떤 기업이 새로운 강자로 자리매김하는지를 여실히 보여주는 이 책은 미래 시장을 준비하고 거대한 변화의 물결에 올라타고 싶은 사람들에게 깊은 영감을 선사해줄 것이다.",
+        "isbn": "9791130612904",
+        "publisher": "다산북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1536610?timestamp=20260115111111",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1536610&q=%EC%97%90%EC%96%B4%EB%B9%84%EC%95%A4%EB%B9%84+%EC%8A%A4%ED%86%A0%EB%A6%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:16:38.884321+00:00",
+        "updated_at": "2026-09-06T04:16:38.884321+00:00"
+      }
+    ]
+  }
+}

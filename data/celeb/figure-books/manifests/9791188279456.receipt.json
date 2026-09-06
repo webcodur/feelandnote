@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791188279456.json",
+  "manifestSha256": "8e838341fafa347fd0a2fda728d6b4334cd9acf2537eff23cfcfc13d43bb8f03",
+  "planSha256": "d624c9aa31e03d9ad9085381e28531c609834300914668b9a5465c0cdbc3f55c",
+  "workIdentity": "book/9791188279456",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791188279456"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d00e2292-a062-5d20-9678-4f1fabd9b7a6",
+    "scopeKey": "book/9791188279456",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d00e2292-a062-5d20-9678-4f1fabd9b7a6",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791188279456",
+      "release_date": "2019-04-25",
+      "metadata": {
+        "isbn": "9791188279456",
+        "publisher": "이레미디어",
+        "publishDate": "2019-04-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791188279456",
+          "workTitle": "나는 어떻게 시장을 이겼나",
+          "workCreator": "에드워드 O 소프",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "나는 어떻게 시장을 이겼나",
+          "creator": "에드워드 O 소프",
+          "description": "미국의 MIT공대 수학 교수를 지낸 천재 수학자, 퀀트투자의 아버지 에드워드 소프(Edward O. Thorp)는 라스베이거스에서 블랙잭(Blackjack) 게임으로 카지노를 이겼고, 월스트리트 주식시장 최초의 퀀트 기법으로 30년 동안 연평균 20프로 이상의 수익률을 올린 전설적인 인물이다. 그는 도박의 역사상 최초로 카지노를 상대로 이기는 방법을 수학적으로 증명했으며, 세계 최초로 ‘퀀트 펀드’를 운용하여 전례가 없는 확실한 수익률을 기록해 퀀트의 아버지라 불린다. 게다가 최초의 웨어러블 컴퓨터를 발명했다. 제임스 사이먼스는 소프에게 영향을 받아 르네상스 테크놀로지를 설립해 12조 원의 자산을 이루었고, 워런 버핏은 소프와 직접 교류하며 투자에 있어 상호 영감을 주고받은 것으로 널리 알려져 있다. 노벨 경제학상을 받은 블랙-숄즈 방정식의 근본을 고안한 사람이 바로 소프이며, 존 켈 리가 발표한 켈리공식을 그가 이론적으로 개선하여 현재의 베팅공식으로 체계화 했고 오늘날 리벨런싱 이론의 근간을 마련하기도 했다. 이 책으로 에드워드 소프의 투자와 철학을 만나볼 기획이다.",
+          "isbn": "9791188279456",
+          "publisher": "이레미디어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4919474?timestamp=20231228165847",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98"
+          },
+          "verified": true,
+          "content_id": "d00e2292-a062-5d20-9678-4f1fabd9b7a6"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d00e2292-a062-5d20-9678-4f1fabd9b7a6",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791188279456",
+        "release_date": "2019-04-25",
+        "metadata": {
+          "isbn": "9791188279456",
+          "publisher": "이레미디어",
+          "publishDate": "2019-04-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791188279456",
+            "workTitle": "나는 어떻게 시장을 이겼나",
+            "workCreator": "에드워드 O 소프",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "나는 어떻게 시장을 이겼나",
+          "creator": "에드워드 O 소프",
+          "description": "미국의 MIT공대 수학 교수를 지낸 천재 수학자, 퀀트투자의 아버지 에드워드 소프(Edward O. Thorp)는 라스베이거스에서 블랙잭(Blackjack) 게임으로 카지노를 이겼고, 월스트리트 주식시장 최초의 퀀트 기법으로 30년 동안 연평균 20프로 이상의 수익률을 올린 전설적인 인물이다. 그는 도박의 역사상 최초로 카지노를 상대로 이기는 방법을 수학적으로 증명했으며, 세계 최초로 ‘퀀트 펀드’를 운용하여 전례가 없는 확실한 수익률을 기록해 퀀트의 아버지라 불린다. 게다가 최초의 웨어러블 컴퓨터를 발명했다. 제임스 사이먼스는 소프에게 영향을 받아 르네상스 테크놀로지를 설립해 12조 원의 자산을 이루었고, 워런 버핏은 소프와 직접 교류하며 투자에 있어 상호 영감을 주고받은 것으로 널리 알려져 있다. 노벨 경제학상을 받은 블랙-숄즈 방정식의 근본을 고안한 사람이 바로 소프이며, 존 켈 리가 발표한 켈리공식을 그가 이론적으로 개선하여 현재의 베팅공식으로 체계화 했고 오늘날 리벨런싱 이론의 근간을 마련하기도 했다. 이 책으로 에드워드 소프의 투자와 철학을 만나볼 기획이다.",
+          "isbn": "9791188279456",
+          "publisher": "이레미디어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4919474?timestamp=20231228165847",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98"
+          },
+          "verified": true,
+          "content_id": "d00e2292-a062-5d20-9678-4f1fabd9b7a6"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791188279456",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791188279456"
+      ],
+      "normalizedTitles": [
+        "나는어떻게시장을이겼나"
+      ],
+      "normalizedCreators": [
+        "김인정역",
+        "에드워드o소프"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:26:07.273Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d00e2292-a062-5d20-9678-4f1fabd9b7a6",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791188279456",
+      "release_date": "2019-04-25",
+      "metadata": {
+        "isbn": "9791188279456",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+        "publisher": "이레미디어",
+        "figureBook": {
+          "workTitle": "나는 어떻게 시장을 이겼나",
+          "workCreator": "에드워드 O 소프",
+          "workIdentity": "book/9791188279456",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-04-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:26:00.899386+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d00e2292-a062-5d20-9678-4f1fabd9b7a6",
+        "locale": "ko",
+        "title": "나는 어떻게 시장을 이겼나",
+        "creator": "에드워드 O 소프",
+        "description": "미국의 MIT공대 수학 교수를 지낸 천재 수학자, 퀀트투자의 아버지 에드워드 소프(Edward O. Thorp)는 라스베이거스에서 블랙잭(Blackjack) 게임으로 카지노를 이겼고, 월스트리트 주식시장 최초의 퀀트 기법으로 30년 동안 연평균 20프로 이상의 수익률을 올린 전설적인 인물이다. 그는 도박의 역사상 최초로 카지노를 상대로 이기는 방법을 수학적으로 증명했으며, 세계 최초로 ‘퀀트 펀드’를 운용하여 전례가 없는 확실한 수익률을 기록해 퀀트의 아버지라 불린다. 게다가 최초의 웨어러블 컴퓨터를 발명했다. 제임스 사이먼스는 소프에게 영향을 받아 르네상스 테크놀로지를 설립해 12조 원의 자산을 이루었고, 워런 버핏은 소프와 직접 교류하며 투자에 있어 상호 영감을 주고받은 것으로 널리 알려져 있다. 노벨 경제학상을 받은 블랙-숄즈 방정식의 근본을 고안한 사람이 바로 소프이며, 존 켈 리가 발표한 켈리공식을 그가 이론적으로 개선하여 현재의 베팅공식으로 체계화 했고 오늘날 리벨런싱 이론의 근간을 마련하기도 했다. 이 책으로 에드워드 소프의 투자와 철학을 만나볼 기획이다.",
+        "isbn": "9791188279456",
+        "publisher": "이레미디어",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4919474?timestamp=20231228165847",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4919474&q=%EB%82%98%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EC%8B%9C%EC%9E%A5%EC%9D%84+%EC%9D%B4%EA%B2%BC%EB%82%98"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:26:00.899386+00:00",
+        "updated_at": "2026-09-06T04:26:00.899386+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791195450763.json",
+  "manifestSha256": "edf36d9edf5657f9f4dd4e88bf39639ce66e479f1685c4b6d3ad87f949406ad3",
+  "planSha256": "22add428c66ed1cb5f3933420193d43726ce58891c9e906f170206f7a7222374",
+  "workIdentity": "book/9791195450763",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791195450763"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "091be117-bf8b-595b-9982-1d9e3b8d9215",
+    "scopeKey": "book/9791195450763",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "091be117-bf8b-595b-9982-1d9e3b8d9215",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791195450763",
+      "release_date": "2018-03-12",
+      "metadata": {
+        "isbn": "9791195450763",
+        "publisher": "티티",
+        "publishDate": "2018-03-12",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791195450763",
+          "workTitle": "세계 곳곳의 너무 멋진 여자들",
+          "workCreator": "케이트 샤츠",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "세계 곳곳의 너무 멋진 여자들",
+          "creator": "케이트 샤츠",
+          "description": "「뉴욕타임스」베스트셀러 목록 선정\n『세계 곳곳의 너무 멋진 여자들』\n이 책마저 너무 멋진 여자들이 만들어온 역사의 극히 일부일 뿐이다\n\n전통을 거부하고 규칙을 부수고 열정적으로 살아간 40명의 멋진 여자들 이야기를 페이퍼컷 일러스트와 짤막한 전기로 담은 책. 어느 페이지부터, 어떤 사람부터 선택해도 좋고, 10대는 물론 그 이하의 아동이 읽기에도 편안한 구성의 책이다.\n\n이 책은 다양한 나라에서, 다양한 시기에 활동한 여자들의 이야기를 담고 있어 마치 세계를 여행하는 듯한 느낌을 준다. 천 년도 더 전에 살았던 고대 메소포타미아의 최초의 여성 작가 엔헤두안나, 이집트 최초이자 유일한 여왕인 하트셉수트부터 16세기 아일랜드 해적 그레이스 오말리, 1980년대 칠레에서 대기업의 댐공사에 저항하여 마을을 지킨 퀸트레만 자매, 나치의 만행을 알리다가 목숨을 잃은 조피 숄…. 익숙한 이름도 있지만, 한 번도 들어본 적 없는 이름들도 많다. 이들이 이룬 성취는 왜 잘 알려지지 않은 걸까?\n\n세계의 역사는 방대하고 놀랍고 흥미로운 일들로 가득 차 있다. 하지만 보통 우리가 듣고 배우는 역사는 주로 남자들의 일, 남자가 공헌한 일에 중심을 두고 있다. 이 책에서는 지금까지 들어보지 못한 여자들의 이름, 그들이 이룬 성취, 그리고 한 번도 가보지 못한 길을 만나게 될 것이다.\n_서문 중에서\n\n“역사는 승자에 의해 씌어진다”라는 말이 있다. 그 말에 동의한다. 하지만 거기에 한 마디 보태고 싶다. 역사는 작가에 의해 씌어진다. 나도 그런 작가 중 한 사람이다.\n_저자의 말 중에서\n\n이 책에 등장하는 여자들은 시대를 막론하고, 태어난 곳이 어디든, 그 사회가 어떻게 그들을 가두든 거기에 굴하지 않고, 세상을 마음껏, 다양한 의미로 누비며 살았다. 어떤 사람은 노래를 하면서, 어떤 사람은 글을 쓰고 연설을 하면서, 나무를 심거나, 남자들이 독점한 분야에 뛰어드는 등 방법은 다양하다. 이렇게 멋진 이들이 잘 알려지지 않은 까닭은 세상이 여자를 배제하는 데 그치지 않고, 여자가 이룬 성취마저 축소하거나 숨겼기 때문이다.\n이 책을 읽는 10대 혹은 그보다 어린 소녀들은 더 이상 여자라서 가지 못할 길은 없다고 생각하게 될 것이다. 그러나 이 책 또한 여자들이 이루어온 성취를 담은 일부일 뿐이다. 앞으로 더 많은 역사가 여자들에 의해 만들어질 것이고, 여자들에 의해 쓰일 것이다!",
+          "isbn": "9791195450763",
+          "publisher": "티티",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1658055?timestamp=20221227143658",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "091be117-bf8b-595b-9982-1d9e3b8d9215"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "091be117-bf8b-595b-9982-1d9e3b8d9215",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791195450763",
+        "release_date": "2018-03-12",
+        "metadata": {
+          "isbn": "9791195450763",
+          "publisher": "티티",
+          "publishDate": "2018-03-12",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791195450763",
+            "workTitle": "세계 곳곳의 너무 멋진 여자들",
+            "workCreator": "케이트 샤츠",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "세계 곳곳의 너무 멋진 여자들",
+          "creator": "케이트 샤츠",
+          "description": "「뉴욕타임스」베스트셀러 목록 선정\n『세계 곳곳의 너무 멋진 여자들』\n이 책마저 너무 멋진 여자들이 만들어온 역사의 극히 일부일 뿐이다\n\n전통을 거부하고 규칙을 부수고 열정적으로 살아간 40명의 멋진 여자들 이야기를 페이퍼컷 일러스트와 짤막한 전기로 담은 책. 어느 페이지부터, 어떤 사람부터 선택해도 좋고, 10대는 물론 그 이하의 아동이 읽기에도 편안한 구성의 책이다.\n\n이 책은 다양한 나라에서, 다양한 시기에 활동한 여자들의 이야기를 담고 있어 마치 세계를 여행하는 듯한 느낌을 준다. 천 년도 더 전에 살았던 고대 메소포타미아의 최초의 여성 작가 엔헤두안나, 이집트 최초이자 유일한 여왕인 하트셉수트부터 16세기 아일랜드 해적 그레이스 오말리, 1980년대 칠레에서 대기업의 댐공사에 저항하여 마을을 지킨 퀸트레만 자매, 나치의 만행을 알리다가 목숨을 잃은 조피 숄…. 익숙한 이름도 있지만, 한 번도 들어본 적 없는 이름들도 많다. 이들이 이룬 성취는 왜 잘 알려지지 않은 걸까?\n\n세계의 역사는 방대하고 놀랍고 흥미로운 일들로 가득 차 있다. 하지만 보통 우리가 듣고 배우는 역사는 주로 남자들의 일, 남자가 공헌한 일에 중심을 두고 있다. 이 책에서는 지금까지 들어보지 못한 여자들의 이름, 그들이 이룬 성취, 그리고 한 번도 가보지 못한 길을 만나게 될 것이다.\n_서문 중에서\n\n“역사는 승자에 의해 씌어진다”라는 말이 있다. 그 말에 동의한다. 하지만 거기에 한 마디 보태고 싶다. 역사는 작가에 의해 씌어진다. 나도 그런 작가 중 한 사람이다.\n_저자의 말 중에서\n\n이 책에 등장하는 여자들은 시대를 막론하고, 태어난 곳이 어디든, 그 사회가 어떻게 그들을 가두든 거기에 굴하지 않고, 세상을 마음껏, 다양한 의미로 누비며 살았다. 어떤 사람은 노래를 하면서, 어떤 사람은 글을 쓰고 연설을 하면서, 나무를 심거나, 남자들이 독점한 분야에 뛰어드는 등 방법은 다양하다. 이렇게 멋진 이들이 잘 알려지지 않은 까닭은 세상이 여자를 배제하는 데 그치지 않고, 여자가 이룬 성취마저 축소하거나 숨겼기 때문이다.\n이 책을 읽는 10대 혹은 그보다 어린 소녀들은 더 이상 여자라서 가지 못할 길은 없다고 생각하게 될 것이다. 그러나 이 책 또한 여자들이 이루어온 성취를 담은 일부일 뿐이다. 앞으로 더 많은 역사가 여자들에 의해 만들어질 것이고, 여자들에 의해 쓰일 것이다!",
+          "isbn": "9791195450763",
+          "publisher": "티티",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1658055?timestamp=20221227143658",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "091be117-bf8b-595b-9982-1d9e3b8d9215"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791195450763",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791195450763"
+      ],
+      "normalizedTitles": [
+        "세계곳곳의너무멋진여자들"
+      ],
+      "normalizedCreators": [
+        "이진규역",
+        "케이트샤츠"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:18:21.236Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "091be117-bf8b-595b-9982-1d9e3b8d9215",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791195450763",
+      "release_date": "2018-03-12",
+      "metadata": {
+        "isbn": "9791195450763",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+        "publisher": "티티",
+        "figureBook": {
+          "workTitle": "세계 곳곳의 너무 멋진 여자들",
+          "workCreator": "케이트 샤츠",
+          "workIdentity": "book/9791195450763",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2018-03-12",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:18:11.190788+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "091be117-bf8b-595b-9982-1d9e3b8d9215",
+        "locale": "ko",
+        "title": "세계 곳곳의 너무 멋진 여자들",
+        "creator": "케이트 샤츠",
+        "description": "「뉴욕타임스」베스트셀러 목록 선정\n『세계 곳곳의 너무 멋진 여자들』\n이 책마저 너무 멋진 여자들이 만들어온 역사의 극히 일부일 뿐이다\n\n전통을 거부하고 규칙을 부수고 열정적으로 살아간 40명의 멋진 여자들 이야기를 페이퍼컷 일러스트와 짤막한 전기로 담은 책. 어느 페이지부터, 어떤 사람부터 선택해도 좋고, 10대는 물론 그 이하의 아동이 읽기에도 편안한 구성의 책이다.\n\n이 책은 다양한 나라에서, 다양한 시기에 활동한 여자들의 이야기를 담고 있어 마치 세계를 여행하는 듯한 느낌을 준다. 천 년도 더 전에 살았던 고대 메소포타미아의 최초의 여성 작가 엔헤두안나, 이집트 최초이자 유일한 여왕인 하트셉수트부터 16세기 아일랜드 해적 그레이스 오말리, 1980년대 칠레에서 대기업의 댐공사에 저항하여 마을을 지킨 퀸트레만 자매, 나치의 만행을 알리다가 목숨을 잃은 조피 숄…. 익숙한 이름도 있지만, 한 번도 들어본 적 없는 이름들도 많다. 이들이 이룬 성취는 왜 잘 알려지지 않은 걸까?\n\n세계의 역사는 방대하고 놀랍고 흥미로운 일들로 가득 차 있다. 하지만 보통 우리가 듣고 배우는 역사는 주로 남자들의 일, 남자가 공헌한 일에 중심을 두고 있다. 이 책에서는 지금까지 들어보지 못한 여자들의 이름, 그들이 이룬 성취, 그리고 한 번도 가보지 못한 길을 만나게 될 것이다.\n_서문 중에서\n\n“역사는 승자에 의해 씌어진다”라는 말이 있다. 그 말에 동의한다. 하지만 거기에 한 마디 보태고 싶다. 역사는 작가에 의해 씌어진다. 나도 그런 작가 중 한 사람이다.\n_저자의 말 중에서\n\n이 책에 등장하는 여자들은 시대를 막론하고, 태어난 곳이 어디든, 그 사회가 어떻게 그들을 가두든 거기에 굴하지 않고, 세상을 마음껏, 다양한 의미로 누비며 살았다. 어떤 사람은 노래를 하면서, 어떤 사람은 글을 쓰고 연설을 하면서, 나무를 심거나, 남자들이 독점한 분야에 뛰어드는 등 방법은 다양하다. 이렇게 멋진 이들이 잘 알려지지 않은 까닭은 세상이 여자를 배제하는 데 그치지 않고, 여자가 이룬 성취마저 축소하거나 숨겼기 때문이다.\n이 책을 읽는 10대 혹은 그보다 어린 소녀들은 더 이상 여자라서 가지 못할 길은 없다고 생각하게 될 것이다. 그러나 이 책 또한 여자들이 이루어온 성취를 담은 일부일 뿐이다. 앞으로 더 많은 역사가 여자들에 의해 만들어질 것이고, 여자들에 의해 쓰일 것이다!",
+        "isbn": "9791195450763",
+        "publisher": "티티",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1658055?timestamp=20221227143658",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1658055&q=%EC%84%B8%EA%B3%84+%EA%B3%B3%EA%B3%B3%EC%9D%98+%EB%84%88%EB%AC%B4+%EB%A9%8B%EC%A7%84+%EC%97%AC%EC%9E%90%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:18:11.190788+00:00",
+        "updated_at": "2026-09-04T18:18:11.190788+00:00"
+      }
+    ]
+  }
+}

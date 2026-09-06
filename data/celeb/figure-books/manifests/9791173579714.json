@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791173579714",
+    "title": "비스마르크",
+    "creator": "조너선 스타인버그",
+    "titleAliases": [],
+    "creatorAliases": [
+      "은호익 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791173579714"
+  }
+}

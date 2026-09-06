@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788954420105",
+    "title": "돌턴이 들려주는 원자 이야기",
+    "creator": "최미화",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788954420105"
+  }
+}

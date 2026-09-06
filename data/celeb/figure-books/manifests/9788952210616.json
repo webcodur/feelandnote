@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788952210616",
+    "title": "명장: 그들에게 난세는 기회였다",
+    "creator": "우한",
+    "titleAliases": [
+      "명장"
+    ],
+    "creatorAliases": [
+      "김숙향 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788952210616"
+  }
+}

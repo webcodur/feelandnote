@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791197958717.json",
+  "manifestSha256": "08df89815798dc982bc6f3d09edd960ed579219fc18430724b1be1c85ad24239",
+  "planSha256": "3f66c5de696fe0e5fc3c7af68e9893af216743f8fe81dd1aa5eea177749f8fb4",
+  "workIdentity": "book/9791197958717",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791197958717"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "692918b3-df87-5bc1-b533-11e2cb1a89c6",
+    "scopeKey": "book/9791197958717",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "692918b3-df87-5bc1-b533-11e2cb1a89c6",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791197958717",
+      "release_date": "2025-03-01",
+      "metadata": {
+        "isbn": "9791197958717",
+        "publisher": "히스토리퀸",
+        "publishDate": "2025-03-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791197958717",
+          "workTitle": "시씨, 엘리자베트, 오스트리아의 황후",
+          "workCreator": "카를 퀴흘러",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "시씨, 엘리자베트, 오스트리아의 황후",
+          "creator": "카를 퀴흘러",
+          "description": "600년간 유럽을 제패한 제왕의 가문 합스부르크,\n제왕의 몰락은 화려하면서 비참했다\n합스부르크의 마지막 위세를 상징한 황후 엘리자베트,\n그녀의 애처로우면서 가련한 삶을 그려내다\n\n‘시씨(Sissi)’라는 애칭으로 불리는, 비텔스바흐 가문의 엘리자베트는 1854년 4월 24일, 합스부르크 가문의 오스트리아 황제 프란츠 요제프 1세와 결혼하였다. 언니 대신 황제의 사랑을 받고 결혼하게 된 엘리자베트. 이때부터 비극이 시작되었다. 한창 혁명과 전쟁으로 얼룩지던 19세기, 황후는 부상당한 병사들을 치료하고 빈민들을 돌보면서 ‘자비의 천사’로 칭송받았다. 아름다운 외모를 지녔고 심성이 고왔기에 국민들은 엘리자베트를 찬양했지만, 황실 사람들은 이러한 황후를 시기하였다. 설상가상으로 어린 시절, 바이에른의 초원 지대에서 말을 타고 농민들과 주로 어울리던 엘리자베트는 오스트리아 황실의 딱딱한 예법에 적응하지 못했다. 시어머니 조피는 황후가 낳은 자식들을, 교육을 명목으로 황후에게서 빼앗아 갔고, 남편은 아내가 처한 비극에 무관심했다. 화려한 위상 속에서 황후의 마음은 점점 닳아만 가기 시작한다.",
+          "isbn": "9791197958717",
+          "publisher": "히스토리퀸",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6858610?timestamp=20250313155057",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84"
+          },
+          "verified": true,
+          "content_id": "692918b3-df87-5bc1-b533-11e2cb1a89c6"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "692918b3-df87-5bc1-b533-11e2cb1a89c6",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791197958717",
+        "release_date": "2025-03-01",
+        "metadata": {
+          "isbn": "9791197958717",
+          "publisher": "히스토리퀸",
+          "publishDate": "2025-03-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791197958717",
+            "workTitle": "시씨, 엘리자베트, 오스트리아의 황후",
+            "workCreator": "카를 퀴흘러",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "시씨, 엘리자베트, 오스트리아의 황후",
+          "creator": "카를 퀴흘러",
+          "description": "600년간 유럽을 제패한 제왕의 가문 합스부르크,\n제왕의 몰락은 화려하면서 비참했다\n합스부르크의 마지막 위세를 상징한 황후 엘리자베트,\n그녀의 애처로우면서 가련한 삶을 그려내다\n\n‘시씨(Sissi)’라는 애칭으로 불리는, 비텔스바흐 가문의 엘리자베트는 1854년 4월 24일, 합스부르크 가문의 오스트리아 황제 프란츠 요제프 1세와 결혼하였다. 언니 대신 황제의 사랑을 받고 결혼하게 된 엘리자베트. 이때부터 비극이 시작되었다. 한창 혁명과 전쟁으로 얼룩지던 19세기, 황후는 부상당한 병사들을 치료하고 빈민들을 돌보면서 ‘자비의 천사’로 칭송받았다. 아름다운 외모를 지녔고 심성이 고왔기에 국민들은 엘리자베트를 찬양했지만, 황실 사람들은 이러한 황후를 시기하였다. 설상가상으로 어린 시절, 바이에른의 초원 지대에서 말을 타고 농민들과 주로 어울리던 엘리자베트는 오스트리아 황실의 딱딱한 예법에 적응하지 못했다. 시어머니 조피는 황후가 낳은 자식들을, 교육을 명목으로 황후에게서 빼앗아 갔고, 남편은 아내가 처한 비극에 무관심했다. 화려한 위상 속에서 황후의 마음은 점점 닳아만 가기 시작한다.",
+          "isbn": "9791197958717",
+          "publisher": "히스토리퀸",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6858610?timestamp=20250313155057",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84"
+          },
+          "verified": true,
+          "content_id": "692918b3-df87-5bc1-b533-11e2cb1a89c6"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791197958717",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791197958717"
+      ],
+      "normalizedTitles": [
+        "시씨엘리자베트오스트리아의황후"
+      ],
+      "normalizedCreators": [
+        "김연수역",
+        "카를퀴흘러"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:32:54.074Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "692918b3-df87-5bc1-b533-11e2cb1a89c6",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791197958717",
+      "release_date": "2025-03-01",
+      "metadata": {
+        "isbn": "9791197958717",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+        "publisher": "히스토리퀸",
+        "figureBook": {
+          "workTitle": "시씨, 엘리자베트, 오스트리아의 황후",
+          "workCreator": "카를 퀴흘러",
+          "workIdentity": "book/9791197958717",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-03-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:32:45.884343+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "692918b3-df87-5bc1-b533-11e2cb1a89c6",
+        "locale": "ko",
+        "title": "시씨, 엘리자베트, 오스트리아의 황후",
+        "creator": "카를 퀴흘러",
+        "description": "600년간 유럽을 제패한 제왕의 가문 합스부르크,\n제왕의 몰락은 화려하면서 비참했다\n합스부르크의 마지막 위세를 상징한 황후 엘리자베트,\n그녀의 애처로우면서 가련한 삶을 그려내다\n\n‘시씨(Sissi)’라는 애칭으로 불리는, 비텔스바흐 가문의 엘리자베트는 1854년 4월 24일, 합스부르크 가문의 오스트리아 황제 프란츠 요제프 1세와 결혼하였다. 언니 대신 황제의 사랑을 받고 결혼하게 된 엘리자베트. 이때부터 비극이 시작되었다. 한창 혁명과 전쟁으로 얼룩지던 19세기, 황후는 부상당한 병사들을 치료하고 빈민들을 돌보면서 ‘자비의 천사’로 칭송받았다. 아름다운 외모를 지녔고 심성이 고왔기에 국민들은 엘리자베트를 찬양했지만, 황실 사람들은 이러한 황후를 시기하였다. 설상가상으로 어린 시절, 바이에른의 초원 지대에서 말을 타고 농민들과 주로 어울리던 엘리자베트는 오스트리아 황실의 딱딱한 예법에 적응하지 못했다. 시어머니 조피는 황후가 낳은 자식들을, 교육을 명목으로 황후에게서 빼앗아 갔고, 남편은 아내가 처한 비극에 무관심했다. 화려한 위상 속에서 황후의 마음은 점점 닳아만 가기 시작한다.",
+        "isbn": "9791197958717",
+        "publisher": "히스토리퀸",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6858610?timestamp=20250313155057",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6858610&q=%EC%8B%9C%EC%94%A8%2C+%EC%97%98%EB%A6%AC%EC%9E%90%EB%B2%A0%ED%8A%B8%2C+%EC%98%A4%EC%8A%A4%ED%8A%B8%EB%A6%AC%EC%95%84%EC%9D%98+%ED%99%A9%ED%9B%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:32:45.884343+00:00",
+        "updated_at": "2026-09-06T04:32:45.884343+00:00"
+      }
+    ]
+  }
+}

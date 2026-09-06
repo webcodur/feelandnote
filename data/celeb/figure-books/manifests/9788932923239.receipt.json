@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788932923239.json",
+  "manifestSha256": "15c29549f111f0082b4bd4216134ca1de629c361a49e8d6f7e2299d353221027",
+  "planSha256": "0e2a8bfff534aeb63d9ca01df9d05bdf8b763e9cc3e461f60ca3e735b5e0cf17",
+  "workIdentity": "book/9788932923239",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788932923239"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "0531b305-b34c-58c3-81c4-176ebaadd9ea",
+    "scopeKey": "book/9788932923239",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "0531b305-b34c-58c3-81c4-176ebaadd9ea",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932923239",
+      "release_date": "2023-03-30",
+      "metadata": {
+        "isbn": "9788932923239",
+        "publisher": "사람의집",
+        "publishDate": "2023-03-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788932923239",
+          "workTitle": "안도 다다오, 건축을 살다",
+          "workCreator": "미야케 리이치",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "안도 다다오, 건축을 살다",
+          "creator": "미야케 리이치",
+          "description": "건축은 싸움입니다. 거기에는 긴장감을 지속시킬 수 있는지 그렇지 않은지에 모든 것이 걸려 있습니다. 긴장을 지속하고 사물을 끝까지 파고들어 그 원리까지 되돌아가서 재조합하는 구상력이야말로 문제를 분명하게 드러내고, 기존의 조합을 깨부수는 강력함을 가진 건축을 낳는 것입니다. - 안도 다다오",
+          "isbn": "9788932923239",
+          "publisher": "사람의집",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6316969?timestamp=20231007163434",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "0531b305-b34c-58c3-81c4-176ebaadd9ea"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "0531b305-b34c-58c3-81c4-176ebaadd9ea",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788932923239",
+        "release_date": "2023-03-30",
+        "metadata": {
+          "isbn": "9788932923239",
+          "publisher": "사람의집",
+          "publishDate": "2023-03-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788932923239",
+            "workTitle": "안도 다다오, 건축을 살다",
+            "workCreator": "미야케 리이치",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "안도 다다오, 건축을 살다",
+          "creator": "미야케 리이치",
+          "description": "건축은 싸움입니다. 거기에는 긴장감을 지속시킬 수 있는지 그렇지 않은지에 모든 것이 걸려 있습니다. 긴장을 지속하고 사물을 끝까지 파고들어 그 원리까지 되돌아가서 재조합하는 구상력이야말로 문제를 분명하게 드러내고, 기존의 조합을 깨부수는 강력함을 가진 건축을 낳는 것입니다. - 안도 다다오",
+          "isbn": "9788932923239",
+          "publisher": "사람의집",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6316969?timestamp=20231007163434",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "0531b305-b34c-58c3-81c4-176ebaadd9ea"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788932923239",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788932923239"
+      ],
+      "normalizedTitles": [
+        "안도다다오건축을살다"
+      ],
+      "normalizedCreators": [
+        "미야케리이치",
+        "위정훈역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:06:07.722Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "0531b305-b34c-58c3-81c4-176ebaadd9ea",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932923239",
+      "release_date": "2023-03-30",
+      "metadata": {
+        "isbn": "9788932923239",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+        "publisher": "사람의집",
+        "figureBook": {
+          "workTitle": "안도 다다오, 건축을 살다",
+          "workCreator": "미야케 리이치",
+          "workIdentity": "book/9788932923239",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-03-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:06:03.08913+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "0531b305-b34c-58c3-81c4-176ebaadd9ea",
+        "locale": "ko",
+        "title": "안도 다다오, 건축을 살다",
+        "creator": "미야케 리이치",
+        "description": "건축은 싸움입니다. 거기에는 긴장감을 지속시킬 수 있는지 그렇지 않은지에 모든 것이 걸려 있습니다. 긴장을 지속하고 사물을 끝까지 파고들어 그 원리까지 되돌아가서 재조합하는 구상력이야말로 문제를 분명하게 드러내고, 기존의 조합을 깨부수는 강력함을 가진 건축을 낳는 것입니다. - 안도 다다오",
+        "isbn": "9788932923239",
+        "publisher": "사람의집",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6316969?timestamp=20231007163434",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6316969&q=%EC%95%88%EB%8F%84+%EB%8B%A4%EB%8B%A4%EC%98%A4%2C+%EA%B1%B4%EC%B6%95%EC%9D%84+%EC%82%B4%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:06:03.08913+00:00",
+        "updated_at": "2026-09-06T04:06:03.08913+00:00"
+      }
+    ]
+  }
+}

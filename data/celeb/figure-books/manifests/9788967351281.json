@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788967351281",
+    "title": "수부타이(칭기즈칸의 위대한 장군)(양장본 HardCover)",
+    "creator": "리처드 A 가브리엘",
+    "titleAliases": [
+      "수부타이(칭기즈칸의 위대한 장군)"
+    ],
+    "creatorAliases": [
+      "박리라 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788967351281"
+  }
+}

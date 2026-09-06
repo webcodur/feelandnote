@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788930085038",
+    "title": "한 알의 밀알이 죽지 않으면",
+    "creator": "앙드레 지드",
+    "titleAliases": [],
+    "creatorAliases": [
+      "권은미 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788930085038"
+  }
+}

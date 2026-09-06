@@ -1,0 +1,442 @@
+[
+  {
+    "id": "03c9b43a-f384-4b25-9955-74afff9ea04a",
+    "ko": "꾸란 해석",
+    "koc": "공일주",
+    "en": "Quran",
+    "enc": "Muhammad",
+    "src": "openlibrary"
+  },
+  {
+    "id": "044e822c-eece-48ba-b14a-77e7259a7862",
+    "ko": "잭 웰치의 마지막 강의",
+    "koc": "잭 웰치, 수지 웰치",
+    "en": "The Real-Life MBA",
+    "enc": "Jack Welch",
+    "src": "openlibrary"
+  },
+  {
+    "id": "074bf8bc-8ebc-43b4-88df-89d79a1cea61",
+    "ko": "파인만의 물리학 강의 1 (LECTURES ON PHYSICS volume 1)",
+    "koc": "리처드 파인만",
+    "en": "The Feynman Lectures on Physics",
+    "enc": "Richard Phillips Feynman",
+    "src": "openlibrary"
+  },
+  {
+    "id": "08764482-5c88-4a84-ae21-0ad8bc79abc1",
+    "ko": "나일강의 죽음",
+    "koc": "애거서 크리스티",
+    "en": "Death on the Nile",
+    "enc": "Agatha Christie",
+    "src": "openlibrary"
+  },
+  {
+    "id": "0e411b71-3a9d-47e1-b858-a1fef94b0850",
+    "ko": "설득의 에세이",
+    "koc": "존 메이나드 케인스",
+    "en": "Essays in Persuasion",
+    "enc": "John Maynard Keynes",
+    "src": "openlibrary"
+  },
+  {
+    "id": "0e584a28-f11f-4283-a8a3-1c5d161960ac",
+    "ko": "플로스강의 물방앗간",
+    "koc": "조지 엘리엇",
+    "en": "The Mill on the Floss",
+    "enc": "George Eliot",
+    "src": "openlibrary"
+  },
+  {
+    "id": "114b741f-2deb-42df-923d-cf97ea72efcf",
+    "ko": "세 발로 하는 산책",
+    "koc": "문소리, 류영화",
+    "en": "Se Ballo Haneun Sanchaek",
+    "enc": "Moon So-ri, Ryu Young-hwa",
+    "src": "transliteration"
+  },
+  {
+    "id": "143ae563-2093-43f4-8af6-9e00fc2770b7",
+    "ko": "아름다운 너무나 아름다운 수학(경문수학산책11)",
+    "koc": "K. C. 콜",
+    "en": "The Universe and the Teacup",
+    "enc": "K. C. Cole",
+    "src": "openlibrary"
+  },
+  {
+    "id": "14e56fa2-05a8-484c-b4dc-2fdbc26af1f4",
+    "ko": "애덤 스미스 도덕감정론 읽기",
+    "koc": "김영용",
+    "en": "The Theory of Moral Sentiments",
+    "enc": "Adam Smith",
+    "src": "openlibrary"
+  },
+  {
+    "id": "16070e24-2702-58e5-8f18-8bdeba5312af",
+    "ko": "로크의 인간지성론 입문",
+    "koc": "윌리엄 우즈갈리스",
+    "en": "Locke's Essay Concerning Human Understanding",
+    "enc": "William Uzgalis",
+    "src": "openlibrary"
+  },
+  {
+    "id": "1c8349b9-523a-4982-8e29-601b5388a4df",
+    "ko": "수리철학의 기초(경문수학산책 19)",
+    "koc": "버트런드 러셀",
+    "en": "Introduction to Mathematical Philosophy",
+    "enc": "Bertrand Russell",
+    "src": "openlibrary"
+  },
+  {
+    "id": "1f9485f6-db02-4e38-94e5-8c6184a3e534",
+    "ko": "『장미의 이름』 움베르토 에코의 눈으로 해부하다",
+    "koc": "NomadSirius",
+    "en": "The Name of the Rose",
+    "enc": null,
+    "src": "openlibrary"
+  },
+  {
+    "id": "21a42678-4742-4268-aef2-6c13e40faf4c",
+    "ko": "미셸 푸코의 광기의 역사 읽기(큰글자책)",
+    "koc": "허경",
+    "en": "Madness and Civilization",
+    "enc": null,
+    "src": "wikidata"
+  },
+  {
+    "id": "2c1ee5d6-bc8f-4e44-a308-11ae587db4e7",
+    "ko": "컴퓨터 프로그램의 구조와 해석",
+    "koc": "해럴드 애빌슨",
+    "en": "Structure and Interpretation of Computer Programs",
+    "enc": "Harold Abelson",
+    "src": "openlibrary"
+  },
+  {
+    "id": "2e751960-47a6-40bf-9fa1-2f96c3d45732",
+    "ko": "최강의 영향력",
+    "koc": "탈리 샤롯",
+    "en": "The Influential Mind",
+    "enc": "Tali Sharot",
+    "src": "openlibrary"
+  },
+  {
+    "id": "31f096d7-e858-4f50-9ff9-8c44c7b25ad9",
+    "ko": "입중론 강해",
+    "koc": "월칭",
+    "en": "Introduction to the Middle Way",
+    "enc": "Chandrakirti; Jamgon Mipham",
+    "src": "openlibrary"
+  },
+  {
+    "id": "3883f2be-4841-4f66-8f97-730d91900daf",
+    "ko": "로버트 프로스트 명시 읽기",
+    "koc": "로버트 프로스트",
+    "en": "Selected Poems of Robert Frost",
+    "enc": "Robert Frost",
+    "src": "openlibrary"
+  },
+  {
+    "id": "3c989874-60bc-4c58-b1e6-4a6107cb07f0",
+    "ko": "능가경 강의",
+    "koc": "남회근",
+    "en": "The Lankavatara Sutra",
+    "enc": "Nan Huai-Chin",
+    "src": "google_books"
+  },
+  {
+    "id": "43c4f23c-c948-4442-bc60-3b00a81997dd",
+    "ko": "호세아서 강해",
+    "koc": "이정현",
+    "en": "Commentary on the Book of Hosea",
+    "enc": "Lee Jeong-hyeon",
+    "src": "none"
+  },
+  {
+    "id": "47ff06de-0384-4f6f-a64e-6634964c5ab7",
+    "ko": "원서발췌 미학 강의",
+    "koc": "게오르크 빌헬름 프리드리히 헤겔",
+    "en": "Lectures on Aesthetics",
+    "enc": "Bernard Bosanquet",
+    "src": "openlibrary"
+  },
+  {
+    "id": "4f31371f-33ce-4b35-9fdf-3701e674e4de",
+    "ko": "하이젠베르크의 『부분과 전체』 읽기",
+    "koc": "곽영직",
+    "en": "Physics and Beyond",
+    "enc": null,
+    "src": "wikidata"
+  },
+  {
+    "id": "60bec748-7e27-4028-8322-2ac193eb3cb2",
+    "ko": "나는 왜 쓰는가 (조지 오웰 에세이, 개정증보판)",
+    "koc": "조지 오웰",
+    "en": "Why I Write",
+    "enc": "George Orwell",
+    "src": "openlibrary"
+  },
+  {
+    "id": "63f077fb-04d0-46d6-a2d0-f6a537dc8b35",
+    "ko": "파인만의 물리학 강의",
+    "koc": "리처드 파인만",
+    "en": "The Feynman lectures on physics : Mainly mechanics, radiation, and heat\t",
+    "enc": "Richard Phillips Feynman, Robert B. Leighton, Matthew Sands",
+    "src": "openlibrary"
+  },
+  {
+    "id": "64620ece-56f8-413f-aaf5-e627434c88e1",
+    "ko": "미셸 푸코의 『감시와 처벌』 읽기",
+    "koc": "심재원",
+    "en": "Discipline and Punish",
+    "enc": "Michel Foucault",
+    "src": "openlibrary"
+  },
+  {
+    "id": "655ecfef-a926-4a66-98c9-207cf9482ad3",
+    "ko": "히브리 성서와 현대의 해석자들",
+    "koc": "더글라스 나이트",
+    "en": "The Hebrew Bible",
+    "enc": "Robert Alter",
+    "src": "openlibrary"
+  },
+  {
+    "id": "68c73922-d347-447d-98f3-486bdf2cd1fe",
+    "ko": "칼 세이건의 ’코스모스’ 읽기",
+    "koc": "곽영직",
+    "en": "Cosmos",
+    "enc": "Alexander von Humboldt",
+    "src": "openlibrary"
+  },
+  {
+    "id": "6d67bb8f-b4e8-4f31-8d57-0ced5d395e93",
+    "ko": "고독한 산책자의 몽상",
+    "koc": "장 자크 루소",
+    "en": "Reveries of the Solitary Walker",
+    "enc": "Jean-Jacques Rousseau",
+    "src": "openlibrary"
+  },
+  {
+    "id": "7d06d7d0-69f2-4e86-b11b-45010b33888a",
+    "ko": "꿈의 해석",
+    "koc": "지그문트 프로이드",
+    "en": "The Interpretation of Dreams",
+    "enc": "Sigmund Freud",
+    "src": "openlibrary"
+  },
+  {
+    "id": "83ed5105-2602-40a7-8193-69d058a62ec3",
+    "ko": "하이데거의 형이상학이란 무엇인가 읽기(큰글자책)",
+    "koc": "김종엽",
+    "en": "Introduction to Metaphysics",
+    "enc": "Martin Heidegger",
+    "src": "openlibrary"
+  },
+  {
+    "id": "86745bbf-d1f9-4eff-8280-3de503f3b4b4",
+    "ko": "에픽테토스 강의 1·2",
+    "koc": "에픽테토스",
+    "en": "The discourses of Epictetus",
+    "enc": "Epictetus",
+    "src": "openlibrary"
+  },
+  {
+    "id": "8751f690-8618-4644-8df0-7535469bac7a",
+    "ko": "꿈의 해석",
+    "koc": "지그문트 프로이트",
+    "en": "The Interpretation of Dreams",
+    "enc": "Sigmund Freud",
+    "src": "openlibrary"
+  },
+  {
+    "id": "88090196-07b5-4d0e-a130-43aa9d195a29",
+    "ko": "나일 강의 죽음 (애거서 크리스티 재단 공식 완역본)",
+    "koc": "애거서 크리스티",
+    "en": "Death on the Nile",
+    "enc": "Agatha Christie",
+    "src": "openlibrary"
+  },
+  {
+    "id": "8ebf4087-a728-4313-8e05-d0d89ab3f1c6",
+    "ko": "에픽테토스 강의 1·2",
+    "koc": "에픽테토스",
+    "en": "Discourses of Epictetus",
+    "enc": "Epictetus",
+    "src": "openlibrary"
+  },
+  {
+    "id": "95606ee1-73e1-46b6-b742-452abedc0ef0",
+    "ko": "이야기꾼 에세이",
+    "koc": "발터 벤야민",
+    "en": "The Storyteller: Essays",
+    "enc": "Walter Benjamin",
+    "src": "openlibrary"
+  },
+  {
+    "id": "975bb67f-62d7-40e7-a994-dd8c9c6ac380",
+    "ko": "최강의 단식",
+    "koc": "데이브 아스프리",
+    "en": "Fast This Way",
+    "enc": "Dave Asprey",
+    "src": "openlibrary"
+  },
+  {
+    "id": "a0106f32-5839-42df-acbf-f19e693098aa",
+    "ko": "태서신사 언역본 주해",
+    "koc": "허재영",
+    "en": "Taeseo Shinsa (Annotated Translation)",
+    "enc": "Heo Jae-young",
+    "src": "transliteration"
+  },
+  {
+    "id": "a589faa3-6add-4ab8-b0fb-877c61cfeb69",
+    "ko": "소쉬르의 1차 일반언어학 강의: 1907",
+    "koc": "페르디낭 드 소쉬르",
+    "en": "Course in General Linguistics",
+    "enc": "Ferdinand de Saussure",
+    "src": "openlibrary"
+  },
+  {
+    "id": "a601bef2-7eda-46b9-a22f-fafaf833465d",
+    "ko": "역사철학강의",
+    "koc": "게오르크 빌헬름 프리드리히 헤겔",
+    "en": "Lectures on the Philosophy of History",
+    "enc": "Georg Wilhelm Friedrich Hegel",
+    "src": "openlibrary"
+  },
+  {
+    "id": "a798ed32-53d3-44cf-a74a-c4a98e100f13",
+    "ko": "흄의 인간 오성에 관한 탐구 입문",
+    "koc": "A. 베일리, D. 오브리언",
+    "en": "An Enquiry Concerning Human Understanding",
+    "enc": "David Hume",
+    "src": "openlibrary"
+  },
+  {
+    "id": "ab6d934a-24e6-4ecb-b791-bb1cfc8f3170",
+    "ko": "원효의 대승기신론 소와 별기 (해설과 함께 보는)",
+    "koc": "원효",
+    "en": "Notes on the Meaning of Treatise on the Awakening of Faith in the Mahayana",
+    "enc": null,
+    "src": "wikidata"
+  },
+  {
+    "id": "b517f6f9-66e5-40be-a60b-05c4d91c32dd",
+    "ko": "동물 철학 - 발췌(지식을만드는지식 천줄읽기)",
+    "koc": "장 바티스트 드 라마르크",
+    "en": "Zoological philosophy",
+    "enc": "Jean Baptiste Pierre Antoine de Monet de Lamarck",
+    "src": "openlibrary"
+  },
+  {
+    "id": "b61e7562-6278-4456-8828-266750e99331",
+    "ko": "석보상절(주해)(제23.24)",
+    "koc": "김영배",
+    "en": "Annotated Seokbosangjeol (Vol. 23–24)",
+    "enc": "Kim Yeong-bae",
+    "src": "none"
+  },
+  {
+    "id": "bdbb5bde-1310-4fd2-901e-a6af87d39246",
+    "ko": "존 로크의 인간 오성론 읽기",
+    "koc": "안병웅",
+    "en": "An Essay Concerning Human Understanding",
+    "enc": "John Locke",
+    "src": "openlibrary"
+  },
+  {
+    "id": "ca6073fc-06f3-45c3-b491-d0d08998e5ef",
+    "ko": "송언 선생님이 챙겨 주신 저학년 책가방 고전 3: 박지원 소설(허생전 양반전 민옹전) (제대로 쉽고 재미있게 우리 고전 문학 읽기)",
+    "koc": "송언",
+    "en": "Heo Saeng jeon",
+    "enc": null,
+    "src": "wikidata"
+  },
+  {
+    "id": "d4db8b42-3906-427f-8cb5-4486ee274540",
+    "ko": "이상 오감도 해석",
+    "koc": "김유섭",
+    "en": "Crow's-Eye View",
+    "enc": "Yi, Sang",
+    "src": "openlibrary"
+  },
+  {
+    "id": "d617508c-c3c2-43ce-a29c-abaaeb73e770",
+    "ko": "학문의 진보 베이컨 에세이",
+    "koc": "베이컨",
+    "en": "The Advancement of Learning",
+    "enc": "Francis Bacon",
+    "src": "openlibrary"
+  },
+  {
+    "id": "d65a867d-6e3c-48b0-843c-986d70e8f839",
+    "ko": "논어(상) (『논어』 번역 완성판, 기존 해석 바로잡은 100여 구절 수록)",
+    "koc": "공자",
+    "en": "Translation: Analects of Confucius",
+    "enc": null,
+    "src": "openlibrary"
+  },
+  {
+    "id": "ddde59f3-eabb-41d4-8c3a-07eec31855bf",
+    "ko": "해석에 반대한다",
+    "koc": "수전 손택",
+    "en": "Against Interpretation",
+    "enc": "Susan Sontag",
+    "src": "openlibrary"
+  },
+  {
+    "id": "eb4bb310-4e41-4109-96d5-ad542504d2c3",
+    "ko": "열역학 강의",
+    "koc": "Max Planck",
+    "en": "Treatise on Thermodynamics",
+    "enc": "Max Planck",
+    "src": "openlibrary"
+  },
+  {
+    "id": "f1f089f6-9d41-4969-ab0e-c9418dd3592b",
+    "ko": "예학 강의 의례편",
+    "koc": "공병석",
+    "en": "The I-li, or Book of Etiquette and Ceremonial",
+    "enc": "John Steele",
+    "src": "openlibrary"
+  },
+  {
+    "id": "f5ce5f7f-5d55-4d61-b91f-7af0eac602f5",
+    "ko": "단테의 신곡, 에피소드와 함께 읽기",
+    "koc": "차기태",
+    "en": "Danteui Singok, Episodeuwa Hamkke Ilgi",
+    "enc": "Cha Gi-tae",
+    "src": "transliteration"
+  },
+  {
+    "id": "f87a051d-3db3-456b-902b-ff05fd6bf1a1",
+    "ko": "질 들뢰즈의 <감각의 논리> 읽기",
+    "koc": "최영송",
+    "en": "The Logic of Sense",
+    "enc": "Kevin C. Klement",
+    "src": "openlibrary"
+  },
+  {
+    "id": "f9121e2d-a676-426f-8d0c-f2a395c1f0e1",
+    "ko": "존재의 충만 간극의 현존 1 (장 폴 사르트르의 존재와 무 강해)",
+    "koc": "조광제",
+    "en": "Being and Nothingness",
+    "enc": "Jean-Paul Sartre",
+    "src": "google_books"
+  },
+  {
+    "id": "fb9f861c-32a6-46df-8ebd-a7b218e42f95",
+    "ko": "한강 채식주의자 다시 읽기 (외설인가 예술인가)",
+    "koc": "양관수",
+    "en": "The Vegetarian",
+    "enc": "Thomas R. Allinson",
+    "src": "openlibrary"
+  },
+  {
+    "id": "ff262d8a-3f2e-4230-b8fa-9ba5475be096",
+    "ko": "파인만의 QED 강의",
+    "koc": "리처드 파인만",
+    "en": "QED: The Strange Theory of Light and Matter",
+    "enc": "Richard Feynman",
+    "src": "openlibrary"
+  }
+]

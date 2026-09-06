@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788952205940",
+    "title": "르 코르뷔지에",
+    "creator": "이관석",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788952205940"
+  }
+}

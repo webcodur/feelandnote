@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788952210616.json",
+  "manifestSha256": "a8260d34fbc65e90430643080f7dfb15a6453324df6d967c2dd1db9ff688ff4d",
+  "planSha256": "607acb0cfa6a6923e62738aaac46680410c179a551f75a30743310ea1759c486",
+  "workIdentity": "book/9788952210616",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788952210616"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+    "scopeKey": "book/9788952210616",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952210616",
+      "release_date": "2008-12-31",
+      "metadata": {
+        "isbn": "9788952210616",
+        "publisher": "살림",
+        "publishDate": "2008-12-31",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788952210616",
+          "workTitle": "명장: 그들에게 난세는 기회였다",
+          "workCreator": "우한",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "명장: 그들에게 난세는 기회였다",
+          "creator": "우한",
+          "description": "이 책은 이기는 전쟁의 기획자 손무, 이유있는 원칙주의자 오기, 모락술의 귀재 전단, 말 위의 영웅 항우, 게릴라전의 대가 이광, 천재 장수 곽거병, 믿음의 통솔자 마원 등 단순히 과거의 인물 기록으로 묻어두기에는 너무 비범한 삶을 살았던 명장들을 소개한다. 각 명장들의 수준 높은 삶의 자세와 뛰어난 리더십을 보여준다.\n\n현실을 제대로 읽어낼 1인의 명장이 필요하다는 인식 아래 출간되었다. 안정된 사회에서 배웠던 가르침은 더 이상 통하지 않는다. 강대국의 침공, 오랑캐의 약탈, 내란과 민란……. 국운을 장담 못할 위기의 순간에 절실한 것은, 허세로 가득한 왕이나 귀족이 아니라 현실을 제대로 읽을 줄 알고 실천으로 옮길 1인의 장수였다.\n\n여기 춘추전국시대부터 당나라까지 중국 최고의 명장들이 한자리에 모였다. 과거 수천 년 전에도 사용했던 지혜를 터득하는 일은 현재를 보고 미래를 예상하는데 도움이 된다. 오로지 실력만으로 당대 최고의 명장 반열에 올라선 15인의 장수들의 인생을 통해, 우리 사회가 경험하고 있는 위기를 기회로 바꿀 수 있는 지혜를 배운다. [양장본]",
+          "isbn": "9788952210616",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/633785?timestamp=20230906152451",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "96fa1724-34a3-5844-ab7a-30c0cda06607"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788952210616",
+        "release_date": "2008-12-31",
+        "metadata": {
+          "isbn": "9788952210616",
+          "publisher": "살림",
+          "publishDate": "2008-12-31",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788952210616",
+            "workTitle": "명장: 그들에게 난세는 기회였다",
+            "workCreator": "우한",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "명장: 그들에게 난세는 기회였다",
+          "creator": "우한",
+          "description": "이 책은 이기는 전쟁의 기획자 손무, 이유있는 원칙주의자 오기, 모락술의 귀재 전단, 말 위의 영웅 항우, 게릴라전의 대가 이광, 천재 장수 곽거병, 믿음의 통솔자 마원 등 단순히 과거의 인물 기록으로 묻어두기에는 너무 비범한 삶을 살았던 명장들을 소개한다. 각 명장들의 수준 높은 삶의 자세와 뛰어난 리더십을 보여준다.\n\n현실을 제대로 읽어낼 1인의 명장이 필요하다는 인식 아래 출간되었다. 안정된 사회에서 배웠던 가르침은 더 이상 통하지 않는다. 강대국의 침공, 오랑캐의 약탈, 내란과 민란……. 국운을 장담 못할 위기의 순간에 절실한 것은, 허세로 가득한 왕이나 귀족이 아니라 현실을 제대로 읽을 줄 알고 실천으로 옮길 1인의 장수였다.\n\n여기 춘추전국시대부터 당나라까지 중국 최고의 명장들이 한자리에 모였다. 과거 수천 년 전에도 사용했던 지혜를 터득하는 일은 현재를 보고 미래를 예상하는데 도움이 된다. 오로지 실력만으로 당대 최고의 명장 반열에 올라선 15인의 장수들의 인생을 통해, 우리 사회가 경험하고 있는 위기를 기회로 바꿀 수 있는 지혜를 배운다. [양장본]",
+          "isbn": "9788952210616",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/633785?timestamp=20230906152451",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "96fa1724-34a3-5844-ab7a-30c0cda06607"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788952210616",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788952210616"
+      ],
+      "normalizedTitles": [
+        "명장",
+        "명장그들에게난세는기회였다"
+      ],
+      "normalizedCreators": [
+        "김숙향역",
+        "우한"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:46:06.712Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952210616",
+      "release_date": "2008-12-31",
+      "metadata": {
+        "isbn": "9788952210616",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+        "publisher": "살림",
+        "figureBook": {
+          "workTitle": "명장: 그들에게 난세는 기회였다",
+          "workCreator": "우한",
+          "workIdentity": "book/9788952210616",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2008-12-31",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:46:01.293198+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+        "locale": "ko",
+        "title": "명장: 그들에게 난세는 기회였다",
+        "creator": "우한",
+        "description": "이 책은 이기는 전쟁의 기획자 손무, 이유있는 원칙주의자 오기, 모락술의 귀재 전단, 말 위의 영웅 항우, 게릴라전의 대가 이광, 천재 장수 곽거병, 믿음의 통솔자 마원 등 단순히 과거의 인물 기록으로 묻어두기에는 너무 비범한 삶을 살았던 명장들을 소개한다. 각 명장들의 수준 높은 삶의 자세와 뛰어난 리더십을 보여준다.\n\n현실을 제대로 읽어낼 1인의 명장이 필요하다는 인식 아래 출간되었다. 안정된 사회에서 배웠던 가르침은 더 이상 통하지 않는다. 강대국의 침공, 오랑캐의 약탈, 내란과 민란……. 국운을 장담 못할 위기의 순간에 절실한 것은, 허세로 가득한 왕이나 귀족이 아니라 현실을 제대로 읽을 줄 알고 실천으로 옮길 1인의 장수였다.\n\n여기 춘추전국시대부터 당나라까지 중국 최고의 명장들이 한자리에 모였다. 과거 수천 년 전에도 사용했던 지혜를 터득하는 일은 현재를 보고 미래를 예상하는데 도움이 된다. 오로지 실력만으로 당대 최고의 명장 반열에 올라선 15인의 장수들의 인생을 통해, 우리 사회가 경험하고 있는 위기를 기회로 바꿀 수 있는 지혜를 배운다. [양장본]",
+        "isbn": "9788952210616",
+        "publisher": "살림",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/633785?timestamp=20230906152451",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=633785&q=%EB%AA%85%EC%9E%A5%3A+%EA%B7%B8%EB%93%A4%EC%97%90%EA%B2%8C+%EB%82%9C%EC%84%B8%EB%8A%94+%EA%B8%B0%ED%9A%8C%EC%98%80%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:46:01.293198+00:00",
+        "updated_at": "2026-09-04T17:46:01.293198+00:00"
+      }
+    ]
+  }
+}

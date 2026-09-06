@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788962465389.json",
+  "manifestSha256": "ed784ddd46112f4b3ab6c200ec75c0db63237ae9cfb9a583512c01b51b1bdd68",
+  "planSha256": "00510653e2968c6895a16e212419e23d8924c376f61620436b5300bc4054244a",
+  "workIdentity": "book/9788962465389",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788962465389"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "f5ff6a47-0444-59af-a6f0-af83de755c50",
+    "scopeKey": "book/9788962465389",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "f5ff6a47-0444-59af-a6f0-af83de755c50",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788962465389",
+      "release_date": "2024-07-17",
+      "metadata": {
+        "isbn": "9788962465389",
+        "publisher": "주류성",
+        "publishDate": "2024-07-17",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788962465389",
+          "workTitle": "원나라 역대 황제 평전",
+          "workCreator": "강정만",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "원나라 역대 황제 평전",
+          "creator": "강정만",
+          "description": "몽골 동북부 변방의 유목민에 불과했던 칭기즈 칸과 그의 후손들은 그들이 기르는 가축 수보다 적은 인구를 가지고도 세계 역사에서 유례없는 대제국을 이룩했다. 그들은 정확한 판단과 신속한 결정을 금과옥조로 삼았으며, 실질을 숭상하고 허례허식을 배격했다. 그리고 수시로 이동하는 유목민의 생활 습관 덕분에, 개방된 사회 분위기를 조성하고 교역을 중시했다. 누구라도 일정한 세금만 내면 자유롭게 통행하고 교역할 수 있었다. 또한 종교의 다양성을 인정하고 종교인을 탄압하지 않은 것도 원나라가 13∼14세기에 세계의 중심이 되는 원동력이 되었다.",
+          "isbn": "9788962465389",
+          "publisher": "주류성",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6682188?timestamp=20251130121522",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "f5ff6a47-0444-59af-a6f0-af83de755c50"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "f5ff6a47-0444-59af-a6f0-af83de755c50",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788962465389",
+        "release_date": "2024-07-17",
+        "metadata": {
+          "isbn": "9788962465389",
+          "publisher": "주류성",
+          "publishDate": "2024-07-17",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788962465389",
+            "workTitle": "원나라 역대 황제 평전",
+            "workCreator": "강정만",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "원나라 역대 황제 평전",
+          "creator": "강정만",
+          "description": "몽골 동북부 변방의 유목민에 불과했던 칭기즈 칸과 그의 후손들은 그들이 기르는 가축 수보다 적은 인구를 가지고도 세계 역사에서 유례없는 대제국을 이룩했다. 그들은 정확한 판단과 신속한 결정을 금과옥조로 삼았으며, 실질을 숭상하고 허례허식을 배격했다. 그리고 수시로 이동하는 유목민의 생활 습관 덕분에, 개방된 사회 분위기를 조성하고 교역을 중시했다. 누구라도 일정한 세금만 내면 자유롭게 통행하고 교역할 수 있었다. 또한 종교의 다양성을 인정하고 종교인을 탄압하지 않은 것도 원나라가 13∼14세기에 세계의 중심이 되는 원동력이 되었다.",
+          "isbn": "9788962465389",
+          "publisher": "주류성",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6682188?timestamp=20251130121522",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "f5ff6a47-0444-59af-a6f0-af83de755c50"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788962465389",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788962465389"
+      ],
+      "normalizedTitles": [
+        "원나라역대황제평전"
+      ],
+      "normalizedCreators": [
+        "강정만"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:51:15.189Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "f5ff6a47-0444-59af-a6f0-af83de755c50",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788962465389",
+      "release_date": "2024-07-17",
+      "metadata": {
+        "isbn": "9788962465389",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+        "publisher": "주류성",
+        "figureBook": {
+          "workTitle": "원나라 역대 황제 평전",
+          "workCreator": "강정만",
+          "workIdentity": "book/9788962465389",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-07-17",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:51:07.596121+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "f5ff6a47-0444-59af-a6f0-af83de755c50",
+        "locale": "ko",
+        "title": "원나라 역대 황제 평전",
+        "creator": "강정만",
+        "description": "몽골 동북부 변방의 유목민에 불과했던 칭기즈 칸과 그의 후손들은 그들이 기르는 가축 수보다 적은 인구를 가지고도 세계 역사에서 유례없는 대제국을 이룩했다. 그들은 정확한 판단과 신속한 결정을 금과옥조로 삼았으며, 실질을 숭상하고 허례허식을 배격했다. 그리고 수시로 이동하는 유목민의 생활 습관 덕분에, 개방된 사회 분위기를 조성하고 교역을 중시했다. 누구라도 일정한 세금만 내면 자유롭게 통행하고 교역할 수 있었다. 또한 종교의 다양성을 인정하고 종교인을 탄압하지 않은 것도 원나라가 13∼14세기에 세계의 중심이 되는 원동력이 되었다.",
+        "isbn": "9788962465389",
+        "publisher": "주류성",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6682188?timestamp=20251130121522",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6682188&q=%EC%9B%90%EB%82%98%EB%9D%BC+%EC%97%AD%EB%8C%80+%ED%99%A9%EC%A0%9C+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:51:07.596121+00:00",
+        "updated_at": "2026-09-04T17:51:07.596121+00:00"
+      }
+    ]
+  }
+}

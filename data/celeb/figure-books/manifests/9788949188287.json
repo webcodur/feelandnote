@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788949188287",
+    "title": "카이사르(새싹 인물전 28)(양장본 HardCover)",
+    "creator": "에마 피시엘",
+    "titleAliases": [
+      "카이사르(새싹 인물전 28)"
+    ],
+    "creatorAliases": [
+      "이민아 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788949188287"
+  }
+}

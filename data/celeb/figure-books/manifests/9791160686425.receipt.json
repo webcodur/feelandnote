@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791160686425.json",
+  "manifestSha256": "280b9bf2ce75ac234f13b3ad3ef908e431946fb2b0e3bff167f614a48d63fae2",
+  "planSha256": "bbbfb59dc6b56e25609486cbf0eb1484ea11a0b0c82e98a94716b64c4e55ce55",
+  "workIdentity": "book/9791160686425",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791160686425"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e268d06f-9959-5fc0-b9f2-b102c2a0a149",
+    "scopeKey": "book/9791160686425",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e268d06f-9959-5fc0-b9f2-b102c2a0a149",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160686425",
+      "release_date": "2021-12-20",
+      "metadata": {
+        "isbn": "9791160686425",
+        "publisher": "선인",
+        "publishDate": "2021-12-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791160686425",
+          "workTitle": "고종 평전(고종시대 인물연구 총서)(양장본 HardCover)",
+          "workCreator": "이민원",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "고종 평전(고종시대 인물연구 총서)",
+          "creator": "이민원",
+          "description": "이 책은 고종의 생애를 군주로서의 역할에 초점을 두어 살펴본 것이다. 전반부는 고종의 출생과 왕실의 가계, 고종의 즉위와 제왕 수업기의 학습내용, 청년기 국왕 고종의 국가 정책 추진 방향과 그가 직면했던 내외의 난관 그리고 조선의 붕괴를 불러온 청일전쟁 당시의 정황 등을 다루었다. 후반부는 고종의 러시아공사관 피난과 그 직후의 대책, 고종의 황제 즉위와 대한제국 선포, 황제 고종의 국가 운영 구상과 정책, 러일전쟁 전후의 상황과 고종의 대응을 다루었고, 헤이그 특사에 반영된 고종의 의도와 결과, 퇴위 이후 덕수궁 이태왕으로서의 존재 그리고 그의 최후와 삼일운동의 연계성 등을 다루었다.\n고종을 평전 형식으로 다루기에는 연구가 부족한 부분이 너무 많다. 국가의 인적, 물적 자원에 관한 통계 자료의 비교나 국내 각 집단의 동향이 더 깊이 분석될 필요가 있고, 국제관계의 변수는 너무도 다양하고 복잡하다. 게다가 고종이 직접 자신의 생각이나 감정을 기록으로 남긴 것이 드물고, 내면세계를 엿볼 수 있는 자료 역시 마찬가지이다. 이런 난점에 더하여 이 한 권의 책에 고종의 생애 모두를 다루려다 보니 일부 주요 대상을 스치듯 언급만 하고 생략한 점이 아쉽다. 다만 전체적으로는 변화하는 국제환경을 유념하며 고종의 주요 정책과 구상 그리고 이를 제약한 내외 인물과 사건의 연관성에 주목하고자 하였다. 고종의 재위 당시는 어떠한 시대이며, 그의 생애는 어떠했고, 그는 과연 어떤 고민을 안고 있던 군주인가를 이해하는데 많은 참고가 되기를 기대한다.",
+          "isbn": "9791160686425",
+          "publisher": "선인",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5936408?timestamp=20221011183129",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "e268d06f-9959-5fc0-b9f2-b102c2a0a149"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e268d06f-9959-5fc0-b9f2-b102c2a0a149",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791160686425",
+        "release_date": "2021-12-20",
+        "metadata": {
+          "isbn": "9791160686425",
+          "publisher": "선인",
+          "publishDate": "2021-12-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791160686425",
+            "workTitle": "고종 평전(고종시대 인물연구 총서)(양장본 HardCover)",
+            "workCreator": "이민원",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "고종 평전(고종시대 인물연구 총서)",
+          "creator": "이민원",
+          "description": "이 책은 고종의 생애를 군주로서의 역할에 초점을 두어 살펴본 것이다. 전반부는 고종의 출생과 왕실의 가계, 고종의 즉위와 제왕 수업기의 학습내용, 청년기 국왕 고종의 국가 정책 추진 방향과 그가 직면했던 내외의 난관 그리고 조선의 붕괴를 불러온 청일전쟁 당시의 정황 등을 다루었다. 후반부는 고종의 러시아공사관 피난과 그 직후의 대책, 고종의 황제 즉위와 대한제국 선포, 황제 고종의 국가 운영 구상과 정책, 러일전쟁 전후의 상황과 고종의 대응을 다루었고, 헤이그 특사에 반영된 고종의 의도와 결과, 퇴위 이후 덕수궁 이태왕으로서의 존재 그리고 그의 최후와 삼일운동의 연계성 등을 다루었다.\n고종을 평전 형식으로 다루기에는 연구가 부족한 부분이 너무 많다. 국가의 인적, 물적 자원에 관한 통계 자료의 비교나 국내 각 집단의 동향이 더 깊이 분석될 필요가 있고, 국제관계의 변수는 너무도 다양하고 복잡하다. 게다가 고종이 직접 자신의 생각이나 감정을 기록으로 남긴 것이 드물고, 내면세계를 엿볼 수 있는 자료 역시 마찬가지이다. 이런 난점에 더하여 이 한 권의 책에 고종의 생애 모두를 다루려다 보니 일부 주요 대상을 스치듯 언급만 하고 생략한 점이 아쉽다. 다만 전체적으로는 변화하는 국제환경을 유념하며 고종의 주요 정책과 구상 그리고 이를 제약한 내외 인물과 사건의 연관성에 주목하고자 하였다. 고종의 재위 당시는 어떠한 시대이며, 그의 생애는 어떠했고, 그는 과연 어떤 고민을 안고 있던 군주인가를 이해하는데 많은 참고가 되기를 기대한다.",
+          "isbn": "9791160686425",
+          "publisher": "선인",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5936408?timestamp=20221011183129",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "e268d06f-9959-5fc0-b9f2-b102c2a0a149"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791160686425",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791160686425"
+      ],
+      "normalizedTitles": [
+        "고종평전고종시대인물연구총서",
+        "고종평전고종시대인물연구총서양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "이민원"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:20:54.833Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e268d06f-9959-5fc0-b9f2-b102c2a0a149",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160686425",
+      "release_date": "2021-12-20",
+      "metadata": {
+        "isbn": "9791160686425",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "선인",
+        "figureBook": {
+          "workTitle": "고종 평전(고종시대 인물연구 총서)(양장본 HardCover)",
+          "workCreator": "이민원",
+          "workIdentity": "book/9791160686425",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2021-12-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:20:43.897377+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e268d06f-9959-5fc0-b9f2-b102c2a0a149",
+        "locale": "ko",
+        "title": "고종 평전(고종시대 인물연구 총서)",
+        "creator": "이민원",
+        "description": "이 책은 고종의 생애를 군주로서의 역할에 초점을 두어 살펴본 것이다. 전반부는 고종의 출생과 왕실의 가계, 고종의 즉위와 제왕 수업기의 학습내용, 청년기 국왕 고종의 국가 정책 추진 방향과 그가 직면했던 내외의 난관 그리고 조선의 붕괴를 불러온 청일전쟁 당시의 정황 등을 다루었다. 후반부는 고종의 러시아공사관 피난과 그 직후의 대책, 고종의 황제 즉위와 대한제국 선포, 황제 고종의 국가 운영 구상과 정책, 러일전쟁 전후의 상황과 고종의 대응을 다루었고, 헤이그 특사에 반영된 고종의 의도와 결과, 퇴위 이후 덕수궁 이태왕으로서의 존재 그리고 그의 최후와 삼일운동의 연계성 등을 다루었다.\n고종을 평전 형식으로 다루기에는 연구가 부족한 부분이 너무 많다. 국가의 인적, 물적 자원에 관한 통계 자료의 비교나 국내 각 집단의 동향이 더 깊이 분석될 필요가 있고, 국제관계의 변수는 너무도 다양하고 복잡하다. 게다가 고종이 직접 자신의 생각이나 감정을 기록으로 남긴 것이 드물고, 내면세계를 엿볼 수 있는 자료 역시 마찬가지이다. 이런 난점에 더하여 이 한 권의 책에 고종의 생애 모두를 다루려다 보니 일부 주요 대상을 스치듯 언급만 하고 생략한 점이 아쉽다. 다만 전체적으로는 변화하는 국제환경을 유념하며 고종의 주요 정책과 구상 그리고 이를 제약한 내외 인물과 사건의 연관성에 주목하고자 하였다. 고종의 재위 당시는 어떠한 시대이며, 그의 생애는 어떠했고, 그는 과연 어떤 고민을 안고 있던 군주인가를 이해하는데 많은 참고가 되기를 기대한다.",
+        "isbn": "9791160686425",
+        "publisher": "선인",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5936408?timestamp=20221011183129",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5936408&q=%EA%B3%A0%EC%A2%85+%ED%8F%89%EC%A0%84%28%EA%B3%A0%EC%A2%85%EC%8B%9C%EB%8C%80+%EC%9D%B8%EB%AC%BC%EC%97%B0%EA%B5%AC+%EC%B4%9D%EC%84%9C%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:20:43.897377+00:00",
+        "updated_at": "2026-09-06T04:20:43.897377+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788965234845.json",
+  "manifestSha256": "ad3cf4418a147b2ab0d145fa88781566b1090eb392a6f47c256899ddaaee9a44",
+  "planSha256": "cc62b29fbbc034dfea631356df64bee02ba2f033a455c306927ee64b21865a16",
+  "workIdentity": "book/9788965234845",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788965234845"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "326a6f73-37ad-56e2-9544-3d68ebfc716a",
+    "scopeKey": "book/9788965234845",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "326a6f73-37ad-56e2-9544-3d68ebfc716a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788965234845",
+      "release_date": "2025-03-24",
+      "metadata": {
+        "isbn": "9788965234845",
+        "publisher": "기파랑",
+        "publishDate": "2025-03-24",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788965234845",
+          "workTitle": "바다의 역사",
+          "workCreator": "남정욱",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "바다의 역사",
+          "creator": "남정욱",
+          "description": "바다는 단순한 자연환경이 아니라, 인류 문명의 핵심 무대였다. 『바다의 역사』는 고대 문명의 해양 교류부터 근대 해양 패권 경쟁까지, 바다를 중심으로 펼쳐진 세계사의 흐름을 생생하게 담아냈다.\n이 책은 인류가 바다를 개척하며 만들어온 역사와 문명을 조망한다. 해안 문명의 시작, 바이킹의 항해, 베네치아의 해상제국, 유럽 대항해 시대, 해양 무역의 발전 등 세계사에서 바다가 차지하는 중요성을 다채로운 사례와 이야기로 풀어낸다. 특히 단순한 사건 서술이 아니라 정치·경제·문화적 관점에서 해양 역사를 분석하고, 핵심지역과 요점만 넣어 단순화 한 지도로 설명을 더해 독자들에게 새로운 시각을 제공한다.",
+          "isbn": "9788965234845",
+          "publisher": "기파랑",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6868810?timestamp=20260123151204",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC"
+          },
+          "verified": true,
+          "content_id": "326a6f73-37ad-56e2-9544-3d68ebfc716a"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "326a6f73-37ad-56e2-9544-3d68ebfc716a",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788965234845",
+        "release_date": "2025-03-24",
+        "metadata": {
+          "isbn": "9788965234845",
+          "publisher": "기파랑",
+          "publishDate": "2025-03-24",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788965234845",
+            "workTitle": "바다의 역사",
+            "workCreator": "남정욱",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "바다의 역사",
+          "creator": "남정욱",
+          "description": "바다는 단순한 자연환경이 아니라, 인류 문명의 핵심 무대였다. 『바다의 역사』는 고대 문명의 해양 교류부터 근대 해양 패권 경쟁까지, 바다를 중심으로 펼쳐진 세계사의 흐름을 생생하게 담아냈다.\n이 책은 인류가 바다를 개척하며 만들어온 역사와 문명을 조망한다. 해안 문명의 시작, 바이킹의 항해, 베네치아의 해상제국, 유럽 대항해 시대, 해양 무역의 발전 등 세계사에서 바다가 차지하는 중요성을 다채로운 사례와 이야기로 풀어낸다. 특히 단순한 사건 서술이 아니라 정치·경제·문화적 관점에서 해양 역사를 분석하고, 핵심지역과 요점만 넣어 단순화 한 지도로 설명을 더해 독자들에게 새로운 시각을 제공한다.",
+          "isbn": "9788965234845",
+          "publisher": "기파랑",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6868810?timestamp=20260123151204",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC"
+          },
+          "verified": true,
+          "content_id": "326a6f73-37ad-56e2-9544-3d68ebfc716a"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788965234845",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788965234845"
+      ],
+      "normalizedTitles": [
+        "바다의역사"
+      ],
+      "normalizedCreators": [
+        "남정욱"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:52:16.385Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "326a6f73-37ad-56e2-9544-3d68ebfc716a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788965234845",
+      "release_date": "2025-03-24",
+      "metadata": {
+        "isbn": "9788965234845",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+        "publisher": "기파랑",
+        "figureBook": {
+          "workTitle": "바다의 역사",
+          "workCreator": "남정욱",
+          "workIdentity": "book/9788965234845",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-03-24",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:52:01.085243+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "326a6f73-37ad-56e2-9544-3d68ebfc716a",
+        "locale": "ko",
+        "title": "바다의 역사",
+        "creator": "남정욱",
+        "description": "바다는 단순한 자연환경이 아니라, 인류 문명의 핵심 무대였다. 『바다의 역사』는 고대 문명의 해양 교류부터 근대 해양 패권 경쟁까지, 바다를 중심으로 펼쳐진 세계사의 흐름을 생생하게 담아냈다.\n이 책은 인류가 바다를 개척하며 만들어온 역사와 문명을 조망한다. 해안 문명의 시작, 바이킹의 항해, 베네치아의 해상제국, 유럽 대항해 시대, 해양 무역의 발전 등 세계사에서 바다가 차지하는 중요성을 다채로운 사례와 이야기로 풀어낸다. 특히 단순한 사건 서술이 아니라 정치·경제·문화적 관점에서 해양 역사를 분석하고, 핵심지역과 요점만 넣어 단순화 한 지도로 설명을 더해 독자들에게 새로운 시각을 제공한다.",
+        "isbn": "9788965234845",
+        "publisher": "기파랑",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6868810?timestamp=20260123151204",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6868810&q=%EB%B0%94%EB%8B%A4%EC%9D%98+%EC%97%AD%EC%82%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:52:01.085243+00:00",
+        "updated_at": "2026-09-04T17:52:01.085243+00:00"
+      }
+    ]
+  }
+}

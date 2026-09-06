@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788992371810",
+    "title": "에밀리 디킨슨, 시인의 정원",
+    "creator": "마타 맥다월",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박혜란 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788992371810"
+  }
+}

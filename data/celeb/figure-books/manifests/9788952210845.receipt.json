@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788952210845.json",
+  "manifestSha256": "839cee4de0291111465a9954b9b1708fc531759644dddc98fc945aa547d8e398",
+  "planSha256": "1bfe9d0716f962c7228aaa890f41561281b246807cf4186a545b65de9cf44ec0",
+  "workIdentity": "book/9788952210845",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788952210845"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "08b3616a-69c0-573a-9895-352322141cb2",
+    "scopeKey": "book/9788952210845",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "08b3616a-69c0-573a-9895-352322141cb2",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952210845",
+      "release_date": "2023-12-07",
+      "metadata": {
+        "isbn": "9788952210845",
+        "publisher": "살림",
+        "publishDate": "2023-12-07",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788952210845",
+          "workTitle": "마쓰시타 고노스케: 일본이 낳은 경영의 신",
+          "workCreator": "권혁기",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "마쓰시타 고노스케: 일본이 낳은 경영의 신",
+          "creator": "권혁기",
+          "description": "'세상의 모든 지식'을 소개하는『살림지식총서』시리즈. 인류가 남긴 오래된 지식에서부터 현재 지식의 최전선에서 벌어지고 있는 흐름까지, 각 분야의 국내 전공자들과 필자들이 대중적 글쓰기를 통해 알기 쉽게 다루고 있다. 또한 언제 어디서나 쉽게 읽을 수 있는 문고 형식으로 구성하였다.\n\n제354권《마쓰시타 고노스케 | 일본이 낳은 경영의 신》. 이 책은 일본식 경영의 대표적 기업가인 마쓰시타 고노스케의 업적을 그의 생애와 기업경영의 관점에서 재조명하고 있다. 마쓰시타의 기업경영이 매우 현실적이고 실천적인 것이라는 점, 파란만장한 삶과 인간적인 고뇌를 바탕으로 하고 있음을 알려준다.",
+          "isbn": "9788952210845",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/634631?timestamp=20240601112710",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0"
+          },
+          "verified": true,
+          "content_id": "08b3616a-69c0-573a-9895-352322141cb2"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "08b3616a-69c0-573a-9895-352322141cb2",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788952210845",
+        "release_date": "2023-12-07",
+        "metadata": {
+          "isbn": "9788952210845",
+          "publisher": "살림",
+          "publishDate": "2023-12-07",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788952210845",
+            "workTitle": "마쓰시타 고노스케: 일본이 낳은 경영의 신",
+            "workCreator": "권혁기",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "마쓰시타 고노스케: 일본이 낳은 경영의 신",
+          "creator": "권혁기",
+          "description": "'세상의 모든 지식'을 소개하는『살림지식총서』시리즈. 인류가 남긴 오래된 지식에서부터 현재 지식의 최전선에서 벌어지고 있는 흐름까지, 각 분야의 국내 전공자들과 필자들이 대중적 글쓰기를 통해 알기 쉽게 다루고 있다. 또한 언제 어디서나 쉽게 읽을 수 있는 문고 형식으로 구성하였다.\n\n제354권《마쓰시타 고노스케 | 일본이 낳은 경영의 신》. 이 책은 일본식 경영의 대표적 기업가인 마쓰시타 고노스케의 업적을 그의 생애와 기업경영의 관점에서 재조명하고 있다. 마쓰시타의 기업경영이 매우 현실적이고 실천적인 것이라는 점, 파란만장한 삶과 인간적인 고뇌를 바탕으로 하고 있음을 알려준다.",
+          "isbn": "9788952210845",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/634631?timestamp=20240601112710",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0"
+          },
+          "verified": true,
+          "content_id": "08b3616a-69c0-573a-9895-352322141cb2"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788952210845",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788952210845"
+      ],
+      "normalizedTitles": [
+        "마쓰시타고노스케",
+        "마쓰시타고노스케일본이낳은경영의신"
+      ],
+      "normalizedCreators": [
+        "권혁기"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:46:18.605Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "08b3616a-69c0-573a-9895-352322141cb2",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952210845",
+      "release_date": "2023-12-07",
+      "metadata": {
+        "isbn": "9788952210845",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+        "publisher": "살림",
+        "figureBook": {
+          "workTitle": "마쓰시타 고노스케: 일본이 낳은 경영의 신",
+          "workCreator": "권혁기",
+          "workIdentity": "book/9788952210845",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-12-07",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:46:14.785797+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "08b3616a-69c0-573a-9895-352322141cb2",
+        "locale": "ko",
+        "title": "마쓰시타 고노스케: 일본이 낳은 경영의 신",
+        "creator": "권혁기",
+        "description": "'세상의 모든 지식'을 소개하는『살림지식총서』시리즈. 인류가 남긴 오래된 지식에서부터 현재 지식의 최전선에서 벌어지고 있는 흐름까지, 각 분야의 국내 전공자들과 필자들이 대중적 글쓰기를 통해 알기 쉽게 다루고 있다. 또한 언제 어디서나 쉽게 읽을 수 있는 문고 형식으로 구성하였다.\n\n제354권《마쓰시타 고노스케 | 일본이 낳은 경영의 신》. 이 책은 일본식 경영의 대표적 기업가인 마쓰시타 고노스케의 업적을 그의 생애와 기업경영의 관점에서 재조명하고 있다. 마쓰시타의 기업경영이 매우 현실적이고 실천적인 것이라는 점, 파란만장한 삶과 인간적인 고뇌를 바탕으로 하고 있음을 알려준다.",
+        "isbn": "9788952210845",
+        "publisher": "살림",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/634631?timestamp=20240601112710",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=634631&q=%EB%A7%88%EC%93%B0%EC%8B%9C%ED%83%80+%EA%B3%A0%EB%85%B8%EC%8A%A4%EC%BC%80%3A+%EC%9D%BC%EB%B3%B8%EC%9D%B4+%EB%82%B3%EC%9D%80+%EA%B2%BD%EC%98%81%EC%9D%98+%EC%8B%A0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:46:14.785797+00:00",
+        "updated_at": "2026-09-04T17:46:14.785797+00:00"
+      }
+    ]
+  }
+}

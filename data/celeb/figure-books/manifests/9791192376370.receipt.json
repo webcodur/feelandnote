@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791192376370.json",
+  "manifestSha256": "fb87d77f1db3123e7c40a9646acbfaa0fc25401f9b8a73f2a9420a5d79d462ba",
+  "planSha256": "a0562f4941652368b1a04b136442f24fbcc2c02021d4d9bed555e43d13ec8889",
+  "workIdentity": "book/9791192376370",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791192376370"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "297f5afe-b5f5-5365-b1fa-b3824996cdc0",
+    "scopeKey": "book/9791192376370",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "297f5afe-b5f5-5365-b1fa-b3824996cdc0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192376370",
+      "release_date": "2024-02-01",
+      "metadata": {
+        "isbn": "9791192376370",
+        "publisher": "페이퍼로드",
+        "publishDate": "2024-02-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791192376370",
+          "workTitle": "도쿠가와 이에야스는 어떻게 난세의 승자가 되었는가",
+          "workCreator": "아베 류타로",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "도쿠가와 이에야스는 어떻게 난세의 승자가 되었는가",
+          "creator": "아베 류타로",
+          "description": "어제의 친구가 오늘의 적이 되고, 아버지가 아들을 죽이며, 아들이 어머니를 배신해야 했던 일본 전국시대.\n\n도쿠가와 이에야스는 패륜과 하극상이 난무하던 폭력의 굴레를 부순 최후의 승자였다. 세계는 흔들리고 만인의 일상이 요동치던 시기, 기구한 운명의 나이 어린 인질이었던 도쿠가와 이에야스는 어떻게 시대의 주인이 됐을까?\n\n도쿠가와 이에야스가 태어나고 바로 그다음 해, 일본 열도에 ‘대항해시대’가 해일처럼 몰려왔다. 신식 무기로 무장한 서양 상인과 예수회 선교사는 일본 전국시대의 판도를 흔들었고, 그로 인한 ‘문화 충격’은 전국시대 다이묘들의 생존 전략을 송두리째 뒤바꾸었다. 이에야스는 변혁의 시대가 도래한 바로 그 시점에 태어났고, 일찍이 새로운 문물의 필요성을 느끼며 자신의 전략·전술에 적극적으로 활용했다. 이에야스의 일생에 막대한 영향을 끼친 건 다름 아닌 ‘바다 너머 세상’이었다.\n\n도쿠가와 이에야스는 수단과 방법을 가리지 않은 철저한 현실주의자였고, 동시에 천하통일의 대업을 끝끝내 포기하지 않았던 난세의 낭만가였다. 그는 오다 노부나가와의 동맹을 유지하기 위해 가족을 살해하기를 주저하지 않았고, 가문과 휘하 부하들을 지키기 위해 다른 이에게 머리 숙이는 일도 마다하지 않았다. 그는 꿈을 위해 단호하게 행동했던 처절한 정치가였고, 칼의 시대를 끝내라는 사명에 응답한 마지막 호걸이었다.\n\n이 책은 그의 생애를 추적하며 최후의 승자가 된 비결이 무엇인지 말한다. 나이 어린 인질 시절에 기른 인내심, 오다 노부나가의 동맹 시절에 익힌 통솔력, 세계의 변화를 감지하는 기민함, 적과 싸우며 터득한 외교술, 판세를 읽고 적절히 행동하는 유연한 처세술, 끝까지 방심하지 않는 신중함. 이 모든 것이 도쿠가와 이에야스를 시대의 주인으로 만든 원동력이었다.\n\n21세기인 오늘날에도 전쟁은 끊이지 않고, 크고 작은 경쟁과 불합리한 부조리는 우리의 삶을 혼란스럽게 한다. 이 책을 통해 이에야스가 위기를 돌파한 과정을 살펴보면, 휘몰아치는 삶의 풍파에 당당히 극복할 힘과 지혜를 얻을 수 있을 것이다.",
+          "isbn": "9791192376370",
+          "publisher": "페이퍼로드",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6547544?timestamp=20260501123750",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80"
+          },
+          "verified": true,
+          "content_id": "297f5afe-b5f5-5365-b1fa-b3824996cdc0"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "297f5afe-b5f5-5365-b1fa-b3824996cdc0",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791192376370",
+        "release_date": "2024-02-01",
+        "metadata": {
+          "isbn": "9791192376370",
+          "publisher": "페이퍼로드",
+          "publishDate": "2024-02-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791192376370",
+            "workTitle": "도쿠가와 이에야스는 어떻게 난세의 승자가 되었는가",
+            "workCreator": "아베 류타로",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "도쿠가와 이에야스는 어떻게 난세의 승자가 되었는가",
+          "creator": "아베 류타로",
+          "description": "어제의 친구가 오늘의 적이 되고, 아버지가 아들을 죽이며, 아들이 어머니를 배신해야 했던 일본 전국시대.\n\n도쿠가와 이에야스는 패륜과 하극상이 난무하던 폭력의 굴레를 부순 최후의 승자였다. 세계는 흔들리고 만인의 일상이 요동치던 시기, 기구한 운명의 나이 어린 인질이었던 도쿠가와 이에야스는 어떻게 시대의 주인이 됐을까?\n\n도쿠가와 이에야스가 태어나고 바로 그다음 해, 일본 열도에 ‘대항해시대’가 해일처럼 몰려왔다. 신식 무기로 무장한 서양 상인과 예수회 선교사는 일본 전국시대의 판도를 흔들었고, 그로 인한 ‘문화 충격’은 전국시대 다이묘들의 생존 전략을 송두리째 뒤바꾸었다. 이에야스는 변혁의 시대가 도래한 바로 그 시점에 태어났고, 일찍이 새로운 문물의 필요성을 느끼며 자신의 전략·전술에 적극적으로 활용했다. 이에야스의 일생에 막대한 영향을 끼친 건 다름 아닌 ‘바다 너머 세상’이었다.\n\n도쿠가와 이에야스는 수단과 방법을 가리지 않은 철저한 현실주의자였고, 동시에 천하통일의 대업을 끝끝내 포기하지 않았던 난세의 낭만가였다. 그는 오다 노부나가와의 동맹을 유지하기 위해 가족을 살해하기를 주저하지 않았고, 가문과 휘하 부하들을 지키기 위해 다른 이에게 머리 숙이는 일도 마다하지 않았다. 그는 꿈을 위해 단호하게 행동했던 처절한 정치가였고, 칼의 시대를 끝내라는 사명에 응답한 마지막 호걸이었다.\n\n이 책은 그의 생애를 추적하며 최후의 승자가 된 비결이 무엇인지 말한다. 나이 어린 인질 시절에 기른 인내심, 오다 노부나가의 동맹 시절에 익힌 통솔력, 세계의 변화를 감지하는 기민함, 적과 싸우며 터득한 외교술, 판세를 읽고 적절히 행동하는 유연한 처세술, 끝까지 방심하지 않는 신중함. 이 모든 것이 도쿠가와 이에야스를 시대의 주인으로 만든 원동력이었다.\n\n21세기인 오늘날에도 전쟁은 끊이지 않고, 크고 작은 경쟁과 불합리한 부조리는 우리의 삶을 혼란스럽게 한다. 이 책을 통해 이에야스가 위기를 돌파한 과정을 살펴보면, 휘몰아치는 삶의 풍파에 당당히 극복할 힘과 지혜를 얻을 수 있을 것이다.",
+          "isbn": "9791192376370",
+          "publisher": "페이퍼로드",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6547544?timestamp=20260501123750",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80"
+          },
+          "verified": true,
+          "content_id": "297f5afe-b5f5-5365-b1fa-b3824996cdc0"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791192376370",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791192376370"
+      ],
+      "normalizedTitles": [
+        "도쿠가와이에야스는어떻게난세의승자가되었는가"
+      ],
+      "normalizedCreators": [
+        "고선윤역",
+        "아베류타로"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:14:40.877Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "297f5afe-b5f5-5365-b1fa-b3824996cdc0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192376370",
+      "release_date": "2024-02-01",
+      "metadata": {
+        "isbn": "9791192376370",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+        "publisher": "페이퍼로드",
+        "figureBook": {
+          "workTitle": "도쿠가와 이에야스는 어떻게 난세의 승자가 되었는가",
+          "workCreator": "아베 류타로",
+          "workIdentity": "book/9791192376370",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-02-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:14:30.574001+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "297f5afe-b5f5-5365-b1fa-b3824996cdc0",
+        "locale": "ko",
+        "title": "도쿠가와 이에야스는 어떻게 난세의 승자가 되었는가",
+        "creator": "아베 류타로",
+        "description": "어제의 친구가 오늘의 적이 되고, 아버지가 아들을 죽이며, 아들이 어머니를 배신해야 했던 일본 전국시대.\n\n도쿠가와 이에야스는 패륜과 하극상이 난무하던 폭력의 굴레를 부순 최후의 승자였다. 세계는 흔들리고 만인의 일상이 요동치던 시기, 기구한 운명의 나이 어린 인질이었던 도쿠가와 이에야스는 어떻게 시대의 주인이 됐을까?\n\n도쿠가와 이에야스가 태어나고 바로 그다음 해, 일본 열도에 ‘대항해시대’가 해일처럼 몰려왔다. 신식 무기로 무장한 서양 상인과 예수회 선교사는 일본 전국시대의 판도를 흔들었고, 그로 인한 ‘문화 충격’은 전국시대 다이묘들의 생존 전략을 송두리째 뒤바꾸었다. 이에야스는 변혁의 시대가 도래한 바로 그 시점에 태어났고, 일찍이 새로운 문물의 필요성을 느끼며 자신의 전략·전술에 적극적으로 활용했다. 이에야스의 일생에 막대한 영향을 끼친 건 다름 아닌 ‘바다 너머 세상’이었다.\n\n도쿠가와 이에야스는 수단과 방법을 가리지 않은 철저한 현실주의자였고, 동시에 천하통일의 대업을 끝끝내 포기하지 않았던 난세의 낭만가였다. 그는 오다 노부나가와의 동맹을 유지하기 위해 가족을 살해하기를 주저하지 않았고, 가문과 휘하 부하들을 지키기 위해 다른 이에게 머리 숙이는 일도 마다하지 않았다. 그는 꿈을 위해 단호하게 행동했던 처절한 정치가였고, 칼의 시대를 끝내라는 사명에 응답한 마지막 호걸이었다.\n\n이 책은 그의 생애를 추적하며 최후의 승자가 된 비결이 무엇인지 말한다. 나이 어린 인질 시절에 기른 인내심, 오다 노부나가의 동맹 시절에 익힌 통솔력, 세계의 변화를 감지하는 기민함, 적과 싸우며 터득한 외교술, 판세를 읽고 적절히 행동하는 유연한 처세술, 끝까지 방심하지 않는 신중함. 이 모든 것이 도쿠가와 이에야스를 시대의 주인으로 만든 원동력이었다.\n\n21세기인 오늘날에도 전쟁은 끊이지 않고, 크고 작은 경쟁과 불합리한 부조리는 우리의 삶을 혼란스럽게 한다. 이 책을 통해 이에야스가 위기를 돌파한 과정을 살펴보면, 휘몰아치는 삶의 풍파에 당당히 극복할 힘과 지혜를 얻을 수 있을 것이다.",
+        "isbn": "9791192376370",
+        "publisher": "페이퍼로드",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6547544?timestamp=20260501123750",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6547544&q=%EB%8F%84%EC%BF%A0%EA%B0%80%EC%99%80+%EC%9D%B4%EC%97%90%EC%95%BC%EC%8A%A4%EB%8A%94+%EC%96%B4%EB%96%BB%EA%B2%8C+%EB%82%9C%EC%84%B8%EC%9D%98+%EC%8A%B9%EC%9E%90%EA%B0%80+%EB%90%98%EC%97%88%EB%8A%94%EA%B0%80"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:14:30.574001+00:00",
+        "updated_at": "2026-09-04T18:14:30.574001+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788993952513.json",
+  "manifestSha256": "91733cc7370ced9895d8b5bbbaa114e95870fa70ddcf1678592cb1c81fe1782e",
+  "planSha256": "8dd484c53651c27da8d119dd651e748e355309e87872c4682f23bc02e4407c01",
+  "workIdentity": "book/9788993952513",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788993952513"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "674101d5-b84e-5910-bf78-d769c3628d32",
+    "scopeKey": "book/9788993952513",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "674101d5-b84e-5910-bf78-d769c3628d32",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788993952513",
+      "release_date": "2013-10-29",
+      "metadata": {
+        "isbn": "9788993952513",
+        "publisher": "옥당",
+        "publishDate": "2013-10-29",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788993952513",
+          "workTitle": "데카르트의 사라진 유골",
+          "workCreator": "러셀 쇼토",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "데카르트의 사라진 유골",
+          "creator": "러셀 쇼토",
+          "description": "철학자의 유골을 둘러싸고 펼쳐지는 지식의 대향연 『데카르트의 사라진 유골』. 1650년, ‘근대 철학의 아버지’ 르네 데카르트는 독감이 폐렴으로 진행돼 머나먼 이국땅에서 외로이 숨을 거두었다. 그리고 세월이 흐른 어느 날, 무덤 속 그의 시신에서 두개골이 사라졌다. 저자 러셀 쇼토는 데카르트의 유골이 이장과정을 거치면서 사람들이 그 유골을 훔치기 시작했다는 괴기스런 사실을 우연히 접하고, 직접 데카르트의 유골을 찾아 나선다.\n\n저자는 유럽의 많은 철학자와 역사가를 인터뷰하며 그동안 잘 알려지지 않았던 데카르트의 이야기를 수집한다. 또한 데카르트의 생가에서부터 데카르트가 죽음을 맞이한 스톡홀름의 주택까지 직접 찾아가고, 데카르트의 유골이 횡단했던 서유럽 길을 차근차근 되짚어간다. 이를 통해 우리는 이성으로 학문의 진리를 탐구하기 위해 애썼던 위대한 철학자의 이야기와 유골을 둘러싸고 지성인들이 벌였던 각축전, 근대 철학과 과학의 지형도를 생생히 엿볼 수 있을 것이다.",
+          "isbn": "9788993952513",
+          "publisher": "옥당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1416640?timestamp=20260307110841",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8"
+          },
+          "verified": true,
+          "content_id": "674101d5-b84e-5910-bf78-d769c3628d32"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "674101d5-b84e-5910-bf78-d769c3628d32",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788993952513",
+        "release_date": "2013-10-29",
+        "metadata": {
+          "isbn": "9788993952513",
+          "publisher": "옥당",
+          "publishDate": "2013-10-29",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788993952513",
+            "workTitle": "데카르트의 사라진 유골",
+            "workCreator": "러셀 쇼토",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "데카르트의 사라진 유골",
+          "creator": "러셀 쇼토",
+          "description": "철학자의 유골을 둘러싸고 펼쳐지는 지식의 대향연 『데카르트의 사라진 유골』. 1650년, ‘근대 철학의 아버지’ 르네 데카르트는 독감이 폐렴으로 진행돼 머나먼 이국땅에서 외로이 숨을 거두었다. 그리고 세월이 흐른 어느 날, 무덤 속 그의 시신에서 두개골이 사라졌다. 저자 러셀 쇼토는 데카르트의 유골이 이장과정을 거치면서 사람들이 그 유골을 훔치기 시작했다는 괴기스런 사실을 우연히 접하고, 직접 데카르트의 유골을 찾아 나선다.\n\n저자는 유럽의 많은 철학자와 역사가를 인터뷰하며 그동안 잘 알려지지 않았던 데카르트의 이야기를 수집한다. 또한 데카르트의 생가에서부터 데카르트가 죽음을 맞이한 스톡홀름의 주택까지 직접 찾아가고, 데카르트의 유골이 횡단했던 서유럽 길을 차근차근 되짚어간다. 이를 통해 우리는 이성으로 학문의 진리를 탐구하기 위해 애썼던 위대한 철학자의 이야기와 유골을 둘러싸고 지성인들이 벌였던 각축전, 근대 철학과 과학의 지형도를 생생히 엿볼 수 있을 것이다.",
+          "isbn": "9788993952513",
+          "publisher": "옥당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1416640?timestamp=20260307110841",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8"
+          },
+          "verified": true,
+          "content_id": "674101d5-b84e-5910-bf78-d769c3628d32"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788993952513",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788993952513"
+      ],
+      "normalizedTitles": [
+        "데카르트의사라진유골"
+      ],
+      "normalizedCreators": [
+        "강경이역",
+        "러셀쇼토"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:58:02.140Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "674101d5-b84e-5910-bf78-d769c3628d32",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788993952513",
+      "release_date": "2013-10-29",
+      "metadata": {
+        "isbn": "9788993952513",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+        "publisher": "옥당",
+        "figureBook": {
+          "workTitle": "데카르트의 사라진 유골",
+          "workCreator": "러셀 쇼토",
+          "workIdentity": "book/9788993952513",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2013-10-29",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:57:54.276055+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "674101d5-b84e-5910-bf78-d769c3628d32",
+        "locale": "ko",
+        "title": "데카르트의 사라진 유골",
+        "creator": "러셀 쇼토",
+        "description": "철학자의 유골을 둘러싸고 펼쳐지는 지식의 대향연 『데카르트의 사라진 유골』. 1650년, ‘근대 철학의 아버지’ 르네 데카르트는 독감이 폐렴으로 진행돼 머나먼 이국땅에서 외로이 숨을 거두었다. 그리고 세월이 흐른 어느 날, 무덤 속 그의 시신에서 두개골이 사라졌다. 저자 러셀 쇼토는 데카르트의 유골이 이장과정을 거치면서 사람들이 그 유골을 훔치기 시작했다는 괴기스런 사실을 우연히 접하고, 직접 데카르트의 유골을 찾아 나선다.\n\n저자는 유럽의 많은 철학자와 역사가를 인터뷰하며 그동안 잘 알려지지 않았던 데카르트의 이야기를 수집한다. 또한 데카르트의 생가에서부터 데카르트가 죽음을 맞이한 스톡홀름의 주택까지 직접 찾아가고, 데카르트의 유골이 횡단했던 서유럽 길을 차근차근 되짚어간다. 이를 통해 우리는 이성으로 학문의 진리를 탐구하기 위해 애썼던 위대한 철학자의 이야기와 유골을 둘러싸고 지성인들이 벌였던 각축전, 근대 철학과 과학의 지형도를 생생히 엿볼 수 있을 것이다.",
+        "isbn": "9788993952513",
+        "publisher": "옥당",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1416640?timestamp=20260307110841",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1416640&q=%EB%8D%B0%EC%B9%B4%EB%A5%B4%ED%8A%B8%EC%9D%98+%EC%82%AC%EB%9D%BC%EC%A7%84+%EC%9C%A0%EA%B3%A8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:57:54.276055+00:00",
+        "updated_at": "2026-09-04T17:57:54.276055+00:00"
+      }
+    ]
+  }
+}

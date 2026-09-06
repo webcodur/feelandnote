@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788934991304.json",
+  "manifestSha256": "4fdc5917b1eee6c0b878ff15edf6f6d8fc4fb560d76f4217c30b89f8653d424b",
+  "planSha256": "76fc342eab0c99c562804f67efe7d435b2fc9323270f50fa1260cb4757bda297",
+  "workIdentity": "book/9788934991304",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788934991304"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "9cc9d572-24cf-5efb-a0ec-1d9255dc423e",
+    "scopeKey": "book/9788934991304",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "9cc9d572-24cf-5efb-a0ec-1d9255dc423e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788934991304",
+      "release_date": "2020-11-12",
+      "metadata": {
+        "isbn": "9788934991304",
+        "publisher": "지식향연",
+        "publishDate": "2020-11-12",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788934991304",
+          "workTitle": "페리클레스",
+          "workCreator": "도널드 케이건",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "페리클레스",
+          "creator": "도널드 케이건",
+          "description": "민주주의가 위기를 맞았다는 우려의 목소리가 어느 때보다 크다. 도전받는 민주주의의 시대, 우리 사회가 가장 치열하게 고민해야 할 문제는 ‘민주주의란 무엇인가’다. 민주주의에 대한 정의가 우선되어야 민주주의의 어떤 부분이 공격받는지, 어떤 부분을 지켜야 할지가 명확해지기 때문이다. 그렇다면 민주주의 창조자들이 왜 민주주의를 만들었는지, 그들이 생각한 민주주의의 본령이 무엇이었는지를 살펴봐야 하지 않을까? 그 시작점은 마땅히 페리클레스다.\n고대 그리스 역사 분야의 세계적 석학 도널드 케이건의 《페리클레스》는 페리클레스가 민주주의를 창조하고, 민주주의를 정치체제로 채택한 첫 공동체인 아테네를 위해 했던 모든 것을 담고 있다. 민주주의가 꽃을 피워 시민이 스스로를 다스렸고, 자유로운 개인들이 탁월해지기 위해 노력하던 시대를 이끈 페리클레스의 리더십은 과연 어떤 점에서 탁월했던 것일까? 페리클레스의 역할과 정체성을 ‘귀족’ ‘민주주의자’ ‘제국주의자’ ‘전략가’ ‘영웅’ 등 14가지로 분류하여 입체적으로 조명한다.",
+          "isbn": "9788934991304",
+          "publisher": "지식향연",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5518684?timestamp=20251230142324",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "9cc9d572-24cf-5efb-a0ec-1d9255dc423e"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "9cc9d572-24cf-5efb-a0ec-1d9255dc423e",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788934991304",
+        "release_date": "2020-11-12",
+        "metadata": {
+          "isbn": "9788934991304",
+          "publisher": "지식향연",
+          "publishDate": "2020-11-12",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788934991304",
+            "workTitle": "페리클레스",
+            "workCreator": "도널드 케이건",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "페리클레스",
+          "creator": "도널드 케이건",
+          "description": "민주주의가 위기를 맞았다는 우려의 목소리가 어느 때보다 크다. 도전받는 민주주의의 시대, 우리 사회가 가장 치열하게 고민해야 할 문제는 ‘민주주의란 무엇인가’다. 민주주의에 대한 정의가 우선되어야 민주주의의 어떤 부분이 공격받는지, 어떤 부분을 지켜야 할지가 명확해지기 때문이다. 그렇다면 민주주의 창조자들이 왜 민주주의를 만들었는지, 그들이 생각한 민주주의의 본령이 무엇이었는지를 살펴봐야 하지 않을까? 그 시작점은 마땅히 페리클레스다.\n고대 그리스 역사 분야의 세계적 석학 도널드 케이건의 《페리클레스》는 페리클레스가 민주주의를 창조하고, 민주주의를 정치체제로 채택한 첫 공동체인 아테네를 위해 했던 모든 것을 담고 있다. 민주주의가 꽃을 피워 시민이 스스로를 다스렸고, 자유로운 개인들이 탁월해지기 위해 노력하던 시대를 이끈 페리클레스의 리더십은 과연 어떤 점에서 탁월했던 것일까? 페리클레스의 역할과 정체성을 ‘귀족’ ‘민주주의자’ ‘제국주의자’ ‘전략가’ ‘영웅’ 등 14가지로 분류하여 입체적으로 조명한다.",
+          "isbn": "9788934991304",
+          "publisher": "지식향연",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5518684?timestamp=20251230142324",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "9cc9d572-24cf-5efb-a0ec-1d9255dc423e"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788934991304",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788934991304"
+      ],
+      "normalizedTitles": [
+        "페리클레스"
+      ],
+      "normalizedCreators": [
+        "도널드케이건",
+        "류현역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:40:07.884Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "9cc9d572-24cf-5efb-a0ec-1d9255dc423e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788934991304",
+      "release_date": "2020-11-12",
+      "metadata": {
+        "isbn": "9788934991304",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+        "publisher": "지식향연",
+        "figureBook": {
+          "workTitle": "페리클레스",
+          "workCreator": "도널드 케이건",
+          "workIdentity": "book/9788934991304",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-11-12",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:40:03.591349+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "9cc9d572-24cf-5efb-a0ec-1d9255dc423e",
+        "locale": "ko",
+        "title": "페리클레스",
+        "creator": "도널드 케이건",
+        "description": "민주주의가 위기를 맞았다는 우려의 목소리가 어느 때보다 크다. 도전받는 민주주의의 시대, 우리 사회가 가장 치열하게 고민해야 할 문제는 ‘민주주의란 무엇인가’다. 민주주의에 대한 정의가 우선되어야 민주주의의 어떤 부분이 공격받는지, 어떤 부분을 지켜야 할지가 명확해지기 때문이다. 그렇다면 민주주의 창조자들이 왜 민주주의를 만들었는지, 그들이 생각한 민주주의의 본령이 무엇이었는지를 살펴봐야 하지 않을까? 그 시작점은 마땅히 페리클레스다.\n고대 그리스 역사 분야의 세계적 석학 도널드 케이건의 《페리클레스》는 페리클레스가 민주주의를 창조하고, 민주주의를 정치체제로 채택한 첫 공동체인 아테네를 위해 했던 모든 것을 담고 있다. 민주주의가 꽃을 피워 시민이 스스로를 다스렸고, 자유로운 개인들이 탁월해지기 위해 노력하던 시대를 이끈 페리클레스의 리더십은 과연 어떤 점에서 탁월했던 것일까? 페리클레스의 역할과 정체성을 ‘귀족’ ‘민주주의자’ ‘제국주의자’ ‘전략가’ ‘영웅’ 등 14가지로 분류하여 입체적으로 조명한다.",
+        "isbn": "9788934991304",
+        "publisher": "지식향연",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5518684?timestamp=20251230142324",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5518684&q=%ED%8E%98%EB%A6%AC%ED%81%B4%EB%A0%88%EC%8A%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:40:03.591349+00:00",
+        "updated_at": "2026-09-04T17:40:03.591349+00:00"
+      }
+    ]
+  }
+}

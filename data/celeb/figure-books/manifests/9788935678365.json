@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788935678365",
+    "title": "불멸의 화가 카라바조",
+    "creator": "고종희",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788935678365"
+  }
+}

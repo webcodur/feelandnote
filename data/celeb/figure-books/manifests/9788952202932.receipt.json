@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788952202932.json",
+  "manifestSha256": "26ba66c7a42a929f068b444230c88a0b4610d87ccf16e0a1b913d2d900b0a4fb",
+  "planSha256": "905e01ee9f40c1e88c4cbbcf7c041f8cadcfe912db6f50d22a771d4431c7dee3",
+  "workIdentity": "book/9788952202932",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788952202932"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "694b1058-5147-50e6-bc2b-fb923349ead5",
+    "scopeKey": "book/9788952202932",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "694b1058-5147-50e6-bc2b-fb923349ead5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952202932",
+      "release_date": "2004-09-30",
+      "metadata": {
+        "isbn": "9788952202932",
+        "publisher": "살림",
+        "publishDate": "2004-09-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788952202932",
+          "workTitle": "프랭크 게리 : 최초의 해체주의 건축가",
+          "workCreator": "이일형",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "프랭크 게리 : 최초의 해체주의 건축가",
+          "creator": "이일형",
+          "description": "살림지식총서 시리즈 129번재 책, 21세기를 여는 건축가 프랭크 게리의 생애와 건축에 대해 담았다. 프랭크 게리의 성장과정에서부터 건축가로서의 수업, 예술가들과의 교류와 작업방식 등 프랭크 게리라는 개인과 그의 건축적 이념, 디자인 표현을 중심으로 기술하였다. 또한 게리의 건축작품중 많이 언급되는 '론 데이비스의 주택겸용 스튜디오', '게리 자택' 등의 주요 건축물을 구체적으로 소개하고 있다.",
+          "isbn": "9788952202932",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/633747?timestamp=20240615113044",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80"
+          },
+          "verified": true,
+          "content_id": "694b1058-5147-50e6-bc2b-fb923349ead5"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "694b1058-5147-50e6-bc2b-fb923349ead5",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788952202932",
+        "release_date": "2004-09-30",
+        "metadata": {
+          "isbn": "9788952202932",
+          "publisher": "살림",
+          "publishDate": "2004-09-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788952202932",
+            "workTitle": "프랭크 게리 : 최초의 해체주의 건축가",
+            "workCreator": "이일형",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "프랭크 게리 : 최초의 해체주의 건축가",
+          "creator": "이일형",
+          "description": "살림지식총서 시리즈 129번재 책, 21세기를 여는 건축가 프랭크 게리의 생애와 건축에 대해 담았다. 프랭크 게리의 성장과정에서부터 건축가로서의 수업, 예술가들과의 교류와 작업방식 등 프랭크 게리라는 개인과 그의 건축적 이념, 디자인 표현을 중심으로 기술하였다. 또한 게리의 건축작품중 많이 언급되는 '론 데이비스의 주택겸용 스튜디오', '게리 자택' 등의 주요 건축물을 구체적으로 소개하고 있다.",
+          "isbn": "9788952202932",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/633747?timestamp=20240615113044",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80"
+          },
+          "verified": true,
+          "content_id": "694b1058-5147-50e6-bc2b-fb923349ead5"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788952202932",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788952202932"
+      ],
+      "normalizedTitles": [
+        "프랭크게리",
+        "프랭크게리최초의해체주의건축가"
+      ],
+      "normalizedCreators": [
+        "이일형"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:07:44.483Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "694b1058-5147-50e6-bc2b-fb923349ead5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952202932",
+      "release_date": "2004-09-30",
+      "metadata": {
+        "isbn": "9788952202932",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+        "publisher": "살림",
+        "figureBook": {
+          "workTitle": "프랭크 게리 : 최초의 해체주의 건축가",
+          "workCreator": "이일형",
+          "workIdentity": "book/9788952202932",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2004-09-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:07:37.473502+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "694b1058-5147-50e6-bc2b-fb923349ead5",
+        "locale": "ko",
+        "title": "프랭크 게리 : 최초의 해체주의 건축가",
+        "creator": "이일형",
+        "description": "살림지식총서 시리즈 129번재 책, 21세기를 여는 건축가 프랭크 게리의 생애와 건축에 대해 담았다. 프랭크 게리의 성장과정에서부터 건축가로서의 수업, 예술가들과의 교류와 작업방식 등 프랭크 게리라는 개인과 그의 건축적 이념, 디자인 표현을 중심으로 기술하였다. 또한 게리의 건축작품중 많이 언급되는 '론 데이비스의 주택겸용 스튜디오', '게리 자택' 등의 주요 건축물을 구체적으로 소개하고 있다.",
+        "isbn": "9788952202932",
+        "publisher": "살림",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/633747?timestamp=20240615113044",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=633747&q=%ED%94%84%EB%9E%AD%ED%81%AC+%EA%B2%8C%EB%A6%AC+%3A+%EC%B5%9C%EC%B4%88%EC%9D%98+%ED%95%B4%EC%B2%B4%EC%A3%BC%EC%9D%98+%EA%B1%B4%EC%B6%95%EA%B0%80"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:07:37.473502+00:00",
+        "updated_at": "2026-09-06T04:07:37.473502+00:00"
+      }
+    ]
+  }
+}

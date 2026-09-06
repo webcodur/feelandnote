@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791197958717",
+    "title": "시씨, 엘리자베트, 오스트리아의 황후",
+    "creator": "카를 퀴흘러",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김연수 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791197958717"
+  }
+}

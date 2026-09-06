@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788958286295",
+    "title": "새벽: 김대중 평전",
+    "creator": "김택근",
+    "titleAliases": [
+      "새벽"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788958286295"
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788930106856.json",
+  "manifestSha256": "5dd71cfa7a5dd7ad87e010205959f0b293a30eba7d9589191dd9d6db18d69d99",
+  "planSha256": "cb19889022b0dfa9ac15eb1cb95b0b970f0e52158220c4c29bd7efc49f5bf679",
+  "workIdentity": "book/9788930106856",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788930106856"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d84da2f9-673e-51b5-acc0-eb5f3ec72e06",
+    "scopeKey": "book/9788930106856",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d84da2f9-673e-51b5-acc0-eb5f3ec72e06",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930106856",
+      "release_date": "2020-09-10",
+      "metadata": {
+        "isbn": "9788930106856",
+        "publisher": "열화당",
+        "publishDate": "2020-09-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788930106856",
+          "workTitle": "렘브란트",
+          "workCreator": "장 주네",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "렘브란트",
+          "creator": "장 주네",
+          "description": "이 책 『렘브란트(Rembrandt)』는 장 주네가 렘브란트 그림의 강렬한 특징들을 담아낸 예술론이자, 그의 회화들로부터 하나의 진실을 이끌어내는 여정을 기록한 수기이다. 주네는 1950년대에 렘브란트의 작품을 본 뒤 그에게 바치는 책을 구상하는데, 이 기획은 「렘브란트의 비밀」과 「렘브란트의 그림을 반듯한 작은 네모꼴로 찢어서 변소에 던져 버린 뒤에 남은 것」이라는 두 편의 글을 남긴다. 렘브란트의 그림에서 주네는 화려한 외양 뒤에 감춰진 인물들의 내면을 발견한다. 이어 렘브란트 작품에 대한 설명과 함께 기차 안에서 마주친 노인과의 일화를 파고들어 인간의 동일한 실존에 몰두한다. 각각 다른 형태, 다른 시기에 씌어진 두 가지 글은 결국 모든 것들은 동등한 가치를 지니며, 무(無)를 향해 나아간다는 진실을 보여준다.",
+          "isbn": "9788930106856",
+          "publisher": "열화당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5465232?timestamp=20230329154817",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "d84da2f9-673e-51b5-acc0-eb5f3ec72e06"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d84da2f9-673e-51b5-acc0-eb5f3ec72e06",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788930106856",
+        "release_date": "2020-09-10",
+        "metadata": {
+          "isbn": "9788930106856",
+          "publisher": "열화당",
+          "publishDate": "2020-09-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788930106856",
+            "workTitle": "렘브란트",
+            "workCreator": "장 주네",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "렘브란트",
+          "creator": "장 주네",
+          "description": "이 책 『렘브란트(Rembrandt)』는 장 주네가 렘브란트 그림의 강렬한 특징들을 담아낸 예술론이자, 그의 회화들로부터 하나의 진실을 이끌어내는 여정을 기록한 수기이다. 주네는 1950년대에 렘브란트의 작품을 본 뒤 그에게 바치는 책을 구상하는데, 이 기획은 「렘브란트의 비밀」과 「렘브란트의 그림을 반듯한 작은 네모꼴로 찢어서 변소에 던져 버린 뒤에 남은 것」이라는 두 편의 글을 남긴다. 렘브란트의 그림에서 주네는 화려한 외양 뒤에 감춰진 인물들의 내면을 발견한다. 이어 렘브란트 작품에 대한 설명과 함께 기차 안에서 마주친 노인과의 일화를 파고들어 인간의 동일한 실존에 몰두한다. 각각 다른 형태, 다른 시기에 씌어진 두 가지 글은 결국 모든 것들은 동등한 가치를 지니며, 무(無)를 향해 나아간다는 진실을 보여준다.",
+          "isbn": "9788930106856",
+          "publisher": "열화당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5465232?timestamp=20230329154817",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "d84da2f9-673e-51b5-acc0-eb5f3ec72e06"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788930106856",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788930106856"
+      ],
+      "normalizedTitles": [
+        "렘브란트"
+      ],
+      "normalizedCreators": [
+        "윤정임역",
+        "장주네"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:30:12.611Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d84da2f9-673e-51b5-acc0-eb5f3ec72e06",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930106856",
+      "release_date": "2020-09-10",
+      "metadata": {
+        "isbn": "9788930106856",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+        "publisher": "열화당",
+        "figureBook": {
+          "workTitle": "렘브란트",
+          "workCreator": "장 주네",
+          "workIdentity": "book/9788930106856",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-09-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:29:55.797096+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d84da2f9-673e-51b5-acc0-eb5f3ec72e06",
+        "locale": "ko",
+        "title": "렘브란트",
+        "creator": "장 주네",
+        "description": "이 책 『렘브란트(Rembrandt)』는 장 주네가 렘브란트 그림의 강렬한 특징들을 담아낸 예술론이자, 그의 회화들로부터 하나의 진실을 이끌어내는 여정을 기록한 수기이다. 주네는 1950년대에 렘브란트의 작품을 본 뒤 그에게 바치는 책을 구상하는데, 이 기획은 「렘브란트의 비밀」과 「렘브란트의 그림을 반듯한 작은 네모꼴로 찢어서 변소에 던져 버린 뒤에 남은 것」이라는 두 편의 글을 남긴다. 렘브란트의 그림에서 주네는 화려한 외양 뒤에 감춰진 인물들의 내면을 발견한다. 이어 렘브란트 작품에 대한 설명과 함께 기차 안에서 마주친 노인과의 일화를 파고들어 인간의 동일한 실존에 몰두한다. 각각 다른 형태, 다른 시기에 씌어진 두 가지 글은 결국 모든 것들은 동등한 가치를 지니며, 무(無)를 향해 나아간다는 진실을 보여준다.",
+        "isbn": "9788930106856",
+        "publisher": "열화당",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5465232?timestamp=20230329154817",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5465232&q=%EB%A0%98%EB%B8%8C%EB%9E%80%ED%8A%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:29:55.797096+00:00",
+        "updated_at": "2026-09-06T02:29:55.797096+00:00"
+      }
+    ]
+  }
+}

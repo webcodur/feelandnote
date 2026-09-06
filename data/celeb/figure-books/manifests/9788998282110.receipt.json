@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788998282110.json",
+  "manifestSha256": "e7979bfff2188b3ee1fc82366e1bf97418554e2bfe2feac6c8c11102272c5673",
+  "planSha256": "3939bc441b81c476c5ac43c445c3bb4272869c14dae440f916bdb6720999c89b",
+  "workIdentity": "book/9788998282110",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788998282110"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d53542a1-e3ae-5a79-b300-afcb07dc66af",
+    "scopeKey": "book/9788998282110",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d53542a1-e3ae-5a79-b300-afcb07dc66af",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788998282110",
+      "release_date": "2014-04-01",
+      "metadata": {
+        "isbn": "9788998282110",
+        "publisher": "푸른지식",
+        "publishDate": "2014-04-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788998282110",
+          "workTitle": "찰스 다윈: 그래픽 평전",
+          "workCreator": "유진 번",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "찰스 다윈: 그래픽 평전",
+          "creator": "유진 번",
+          "description": "『찰스 다윈 그래픽 평전』은 서구사회를 2천년 동안 지배한 기독교 창조신화를 뒤집은 진화론의 찰스 다윈, 그의 파란만장한 일대기를 그린 그래픽 평전이다. 소년시절의 다윈이야기, 그가 비글호를 타고 실제로 떠난 모험과 평생에 걸친 지적 모험을 100쪽 남짓한 그래픽 ‘논픽션’으로 흥미롭게 만나볼 수 있다.\n\n이 책은 가상의 채널 ‘유인원-TV'의 원숭이 제작진을 등장시켜 야생 프로그램을 제작하면서 이야기를 재치있게 풀어냈다. 아르마딜로, 카피바라, 이구아나, 레아, 핀치 등 다윈이 종의 기원을 밝히는 데 도움이 된 생물도 세밀한 그림으로 담아내고, 19세기 과학계와 산업혁명 이후 영국의 사회상도 엿볼 수 있도록 하였다.",
+          "isbn": "9788998282110",
+          "publisher": "푸른지식",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1498261?timestamp=20230321144023",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "d53542a1-e3ae-5a79-b300-afcb07dc66af"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d53542a1-e3ae-5a79-b300-afcb07dc66af",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788998282110",
+        "release_date": "2014-04-01",
+        "metadata": {
+          "isbn": "9788998282110",
+          "publisher": "푸른지식",
+          "publishDate": "2014-04-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788998282110",
+            "workTitle": "찰스 다윈: 그래픽 평전",
+            "workCreator": "유진 번",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "찰스 다윈: 그래픽 평전",
+          "creator": "유진 번",
+          "description": "『찰스 다윈 그래픽 평전』은 서구사회를 2천년 동안 지배한 기독교 창조신화를 뒤집은 진화론의 찰스 다윈, 그의 파란만장한 일대기를 그린 그래픽 평전이다. 소년시절의 다윈이야기, 그가 비글호를 타고 실제로 떠난 모험과 평생에 걸친 지적 모험을 100쪽 남짓한 그래픽 ‘논픽션’으로 흥미롭게 만나볼 수 있다.\n\n이 책은 가상의 채널 ‘유인원-TV'의 원숭이 제작진을 등장시켜 야생 프로그램을 제작하면서 이야기를 재치있게 풀어냈다. 아르마딜로, 카피바라, 이구아나, 레아, 핀치 등 다윈이 종의 기원을 밝히는 데 도움이 된 생물도 세밀한 그림으로 담아내고, 19세기 과학계와 산업혁명 이후 영국의 사회상도 엿볼 수 있도록 하였다.",
+          "isbn": "9788998282110",
+          "publisher": "푸른지식",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1498261?timestamp=20230321144023",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "d53542a1-e3ae-5a79-b300-afcb07dc66af"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788998282110",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788998282110"
+      ],
+      "normalizedTitles": [
+        "찰스다윈",
+        "찰스다윈그래픽평전"
+      ],
+      "normalizedCreators": [
+        "김소정역",
+        "유진번"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:31:39.200Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d53542a1-e3ae-5a79-b300-afcb07dc66af",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788998282110",
+      "release_date": "2014-04-01",
+      "metadata": {
+        "isbn": "9788998282110",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+        "publisher": "푸른지식",
+        "figureBook": {
+          "workTitle": "찰스 다윈: 그래픽 평전",
+          "workCreator": "유진 번",
+          "workIdentity": "book/9788998282110",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2014-04-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:31:33.38151+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d53542a1-e3ae-5a79-b300-afcb07dc66af",
+        "locale": "ko",
+        "title": "찰스 다윈: 그래픽 평전",
+        "creator": "유진 번",
+        "description": "『찰스 다윈 그래픽 평전』은 서구사회를 2천년 동안 지배한 기독교 창조신화를 뒤집은 진화론의 찰스 다윈, 그의 파란만장한 일대기를 그린 그래픽 평전이다. 소년시절의 다윈이야기, 그가 비글호를 타고 실제로 떠난 모험과 평생에 걸친 지적 모험을 100쪽 남짓한 그래픽 ‘논픽션’으로 흥미롭게 만나볼 수 있다.\n\n이 책은 가상의 채널 ‘유인원-TV'의 원숭이 제작진을 등장시켜 야생 프로그램을 제작하면서 이야기를 재치있게 풀어냈다. 아르마딜로, 카피바라, 이구아나, 레아, 핀치 등 다윈이 종의 기원을 밝히는 데 도움이 된 생물도 세밀한 그림으로 담아내고, 19세기 과학계와 산업혁명 이후 영국의 사회상도 엿볼 수 있도록 하였다.",
+        "isbn": "9788998282110",
+        "publisher": "푸른지식",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1498261?timestamp=20230321144023",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1498261&q=%EC%B0%B0%EC%8A%A4+%EB%8B%A4%EC%9C%88%3A+%EA%B7%B8%EB%9E%98%ED%94%BD+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:31:33.38151+00:00",
+        "updated_at": "2026-09-06T02:31:33.38151+00:00"
+      }
+    ]
+  }
+}

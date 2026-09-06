@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791190156585",
+    "title": "미나모토노 요리토모",
+    "creator": "하야시 이사무",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박현석 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791190156585"
+  }
+}

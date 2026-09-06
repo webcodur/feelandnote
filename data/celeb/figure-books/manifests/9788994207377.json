@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788994207377",
+    "title": "사뮈엘 베케트의 말 없는 삶",
+    "creator": "나탈리 레제",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김예령 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788994207377"
+  }
+}

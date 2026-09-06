@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788930087568.json",
+  "manifestSha256": "54f0d91024747cd1a120d369a78a57ccc59dc2907bdf536c3821ad60a3e34331",
+  "planSha256": "b5097e5864cc3cfafc689ad4a6484db646e7874ec5778e0dc3519a93e62edcbe",
+  "workIdentity": "book/9788930087568",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788930087568"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "c7d03f47-bc5c-5e9e-9370-3aa1ec04d626",
+    "scopeKey": "book/9788930087568",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "c7d03f47-bc5c-5e9e-9370-3aa1ec04d626",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930087568",
+      "release_date": "2014-04-23",
+      "metadata": {
+        "isbn": "9788930087568",
+        "publisher": "나남",
+        "publishDate": "2014-04-23",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788930087568",
+          "workTitle": "호암자전",
+          "workCreator": "이병철",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "호암자전",
+          "creator": "이병철",
+          "description": "삼성 창업주 호암 이병철 전 회장의 전기를 담은《호암자전》이 출간되었다. 한자 쓰기와 세로쓰기를 채택했던 1986년판을 21세기에 맞추어 손본 개정판이다. 일제강점기 당시 민족자본이 전무했던 상황에서 무역상사로 출발한 삼성이 OECD 국가경쟁력 30위권에 드는 선진국의 초일류기업으로 거듭나기까지 지나온 험난한 여정을 호암이 손수 적어 내려갔다. 근현대 한국 최초이자 제일의 창조적 창업가로 손꼽히는 인물이 전하는 이 회고담에는 ‘사업보국’으로 요약되는 그만의 독특한 경영철학과 함께 오늘날의 삼성을 만든 결정적 순간들이 빠짐없이 담겼다. 그러나 이 자전이 단순히 한 경영인의 성공담을 넘어 인물의 결이 생생히 살아 있는 입체적인 기록으로 거듭날 수 있었던 이유는, 끊임없이 격변하는 정세에 맞서 앞날을 제시해야 했던 리더로서 느낀 희로애락까지도 진솔하게 담아낸 덕분이다. 한국 경제발전사에 큰 족적을 남긴 냉철한 경영인이자, 시대의 파도에 맞서 스스로의 뜻을 이루길 포기하지 않았던 한 개인의 진면목이 궁금한 이들이라면 반드시 읽어볼 만한 책이다.",
+          "isbn": "9788930087568",
+          "publisher": "나남",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/471026?timestamp=20260101111033",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "c7d03f47-bc5c-5e9e-9370-3aa1ec04d626"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "c7d03f47-bc5c-5e9e-9370-3aa1ec04d626",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788930087568",
+        "release_date": "2014-04-23",
+        "metadata": {
+          "isbn": "9788930087568",
+          "publisher": "나남",
+          "publishDate": "2014-04-23",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788930087568",
+            "workTitle": "호암자전",
+            "workCreator": "이병철",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "호암자전",
+          "creator": "이병철",
+          "description": "삼성 창업주 호암 이병철 전 회장의 전기를 담은《호암자전》이 출간되었다. 한자 쓰기와 세로쓰기를 채택했던 1986년판을 21세기에 맞추어 손본 개정판이다. 일제강점기 당시 민족자본이 전무했던 상황에서 무역상사로 출발한 삼성이 OECD 국가경쟁력 30위권에 드는 선진국의 초일류기업으로 거듭나기까지 지나온 험난한 여정을 호암이 손수 적어 내려갔다. 근현대 한국 최초이자 제일의 창조적 창업가로 손꼽히는 인물이 전하는 이 회고담에는 ‘사업보국’으로 요약되는 그만의 독특한 경영철학과 함께 오늘날의 삼성을 만든 결정적 순간들이 빠짐없이 담겼다. 그러나 이 자전이 단순히 한 경영인의 성공담을 넘어 인물의 결이 생생히 살아 있는 입체적인 기록으로 거듭날 수 있었던 이유는, 끊임없이 격변하는 정세에 맞서 앞날을 제시해야 했던 리더로서 느낀 희로애락까지도 진솔하게 담아낸 덕분이다. 한국 경제발전사에 큰 족적을 남긴 냉철한 경영인이자, 시대의 파도에 맞서 스스로의 뜻을 이루길 포기하지 않았던 한 개인의 진면목이 궁금한 이들이라면 반드시 읽어볼 만한 책이다.",
+          "isbn": "9788930087568",
+          "publisher": "나남",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/471026?timestamp=20260101111033",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "c7d03f47-bc5c-5e9e-9370-3aa1ec04d626"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788930087568",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788930087568"
+      ],
+      "normalizedTitles": [
+        "호암자전"
+      ],
+      "normalizedCreators": [
+        "이병철"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:04:55.145Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "c7d03f47-bc5c-5e9e-9370-3aa1ec04d626",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930087568",
+      "release_date": "2014-04-23",
+      "metadata": {
+        "isbn": "9788930087568",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+        "publisher": "나남",
+        "figureBook": {
+          "workTitle": "호암자전",
+          "workCreator": "이병철",
+          "workIdentity": "book/9788930087568",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2014-04-23",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:04:49.480886+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "c7d03f47-bc5c-5e9e-9370-3aa1ec04d626",
+        "locale": "ko",
+        "title": "호암자전",
+        "creator": "이병철",
+        "description": "삼성 창업주 호암 이병철 전 회장의 전기를 담은《호암자전》이 출간되었다. 한자 쓰기와 세로쓰기를 채택했던 1986년판을 21세기에 맞추어 손본 개정판이다. 일제강점기 당시 민족자본이 전무했던 상황에서 무역상사로 출발한 삼성이 OECD 국가경쟁력 30위권에 드는 선진국의 초일류기업으로 거듭나기까지 지나온 험난한 여정을 호암이 손수 적어 내려갔다. 근현대 한국 최초이자 제일의 창조적 창업가로 손꼽히는 인물이 전하는 이 회고담에는 ‘사업보국’으로 요약되는 그만의 독특한 경영철학과 함께 오늘날의 삼성을 만든 결정적 순간들이 빠짐없이 담겼다. 그러나 이 자전이 단순히 한 경영인의 성공담을 넘어 인물의 결이 생생히 살아 있는 입체적인 기록으로 거듭날 수 있었던 이유는, 끊임없이 격변하는 정세에 맞서 앞날을 제시해야 했던 리더로서 느낀 희로애락까지도 진솔하게 담아낸 덕분이다. 한국 경제발전사에 큰 족적을 남긴 냉철한 경영인이자, 시대의 파도에 맞서 스스로의 뜻을 이루길 포기하지 않았던 한 개인의 진면목이 궁금한 이들이라면 반드시 읽어볼 만한 책이다.",
+        "isbn": "9788930087568",
+        "publisher": "나남",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/471026?timestamp=20260101111033",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=471026&q=%ED%98%B8%EC%95%94%EC%9E%90%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:04:49.480886+00:00",
+        "updated_at": "2026-09-06T04:04:49.480886+00:00"
+      }
+    ]
+  }
+}

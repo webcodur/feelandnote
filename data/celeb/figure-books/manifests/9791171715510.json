@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791171715510",
+    "title": "라흐마니노프, 피아노의 빛을 따라",
+    "creator": "피오나 매덕스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "장호연 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791171715510"
+  }
+}

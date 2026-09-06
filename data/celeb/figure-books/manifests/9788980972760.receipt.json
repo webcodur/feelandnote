@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788980972760.json",
+  "manifestSha256": "3ea5598a56f2fcb197f95c9722fe3845760cb724ffe6c4b13f34008dc346ac26",
+  "planSha256": "1f9b711b38c6dd35598de462fc48968a66770919f22f265fc7b675db0ec57892",
+  "workIdentity": "book/9788980972760",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788980972760"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e3be1371-85f2-5f28-848b-c97d3534bbd7",
+    "scopeKey": "book/9788980972760",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e3be1371-85f2-5f28-848b-c97d3534bbd7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788980972760",
+      "release_date": "2013-11-05",
+      "metadata": {
+        "isbn": "9788980972760",
+        "publisher": "산수야",
+        "publishDate": "2013-11-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788980972760",
+          "workTitle": "황제 유비",
+          "workCreator": "리아오",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "황제 유비",
+          "creator": "리아오",
+          "description": "『황제 유비』는 불인불의(不仁不義)한 일은 하지 않는다는 이미지 정치의 귀재, 황제 유비의 리더십을 살펴본 책이다. 전쟁터에서는 부지런한 투사, 인재를 사랑한 대인, 말한 바를 반드시 지키는 충신 지사, 전형적인 외유내강의 파이터 등 유비의 다양한 면모를 엿볼 수 있다.",
+          "isbn": "9788980972760",
+          "publisher": "산수야",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1126666?timestamp=20240425114235",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84"
+          },
+          "verified": true,
+          "content_id": "e3be1371-85f2-5f28-848b-c97d3534bbd7"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e3be1371-85f2-5f28-848b-c97d3534bbd7",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788980972760",
+        "release_date": "2013-11-05",
+        "metadata": {
+          "isbn": "9788980972760",
+          "publisher": "산수야",
+          "publishDate": "2013-11-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788980972760",
+            "workTitle": "황제 유비",
+            "workCreator": "리아오",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "황제 유비",
+          "creator": "리아오",
+          "description": "『황제 유비』는 불인불의(不仁不義)한 일은 하지 않는다는 이미지 정치의 귀재, 황제 유비의 리더십을 살펴본 책이다. 전쟁터에서는 부지런한 투사, 인재를 사랑한 대인, 말한 바를 반드시 지키는 충신 지사, 전형적인 외유내강의 파이터 등 유비의 다양한 면모를 엿볼 수 있다.",
+          "isbn": "9788980972760",
+          "publisher": "산수야",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1126666?timestamp=20240425114235",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84"
+          },
+          "verified": true,
+          "content_id": "e3be1371-85f2-5f28-848b-c97d3534bbd7"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788980972760",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788980972760"
+      ],
+      "normalizedTitles": [
+        "황제유비"
+      ],
+      "normalizedCreators": [
+        "리아오",
+        "홍순도역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:55:00.991Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e3be1371-85f2-5f28-848b-c97d3534bbd7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788980972760",
+      "release_date": "2013-11-05",
+      "metadata": {
+        "isbn": "9788980972760",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+        "publisher": "산수야",
+        "figureBook": {
+          "workTitle": "황제 유비",
+          "workCreator": "리아오",
+          "workIdentity": "book/9788980972760",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2013-11-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:54:58.374137+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e3be1371-85f2-5f28-848b-c97d3534bbd7",
+        "locale": "ko",
+        "title": "황제 유비",
+        "creator": "리아오",
+        "description": "『황제 유비』는 불인불의(不仁不義)한 일은 하지 않는다는 이미지 정치의 귀재, 황제 유비의 리더십을 살펴본 책이다. 전쟁터에서는 부지런한 투사, 인재를 사랑한 대인, 말한 바를 반드시 지키는 충신 지사, 전형적인 외유내강의 파이터 등 유비의 다양한 면모를 엿볼 수 있다.",
+        "isbn": "9788980972760",
+        "publisher": "산수야",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1126666?timestamp=20240425114235",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1126666&q=%ED%99%A9%EC%A0%9C+%EC%9C%A0%EB%B9%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:54:58.374137+00:00",
+        "updated_at": "2026-09-04T17:54:58.374137+00:00"
+      }
+    ]
+  }
+}

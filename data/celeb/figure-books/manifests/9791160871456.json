@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791160871456",
+    "title": "맹자 평전",
+    "creator": "양쩌보",
+    "titleAliases": [],
+    "creatorAliases": [
+      "장세후 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791160871456"
+  }
+}

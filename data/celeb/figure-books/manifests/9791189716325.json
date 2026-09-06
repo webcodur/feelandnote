@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791189716325",
+    "title": "구스타프 말러",
+    "creator": "브루노 발터",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김병화 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791189716325"
+  }
+}

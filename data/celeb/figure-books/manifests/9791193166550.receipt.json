@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791193166550.json",
+  "manifestSha256": "391eb8f35e1b0bf2402cdd57759127f48fa4ecb3291dc719b3ff2c3a1889e0a5",
+  "planSha256": "df3f71bbc1c9dea3fe1f4629e7436251c6b72704f7d146af87a35b37cf82b371",
+  "workIdentity": "book/9791193166550",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791193166550"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "efb9dd94-30df-50e3-9143-5ed5d9f5e33b",
+    "scopeKey": "book/9791193166550",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "efb9dd94-30df-50e3-9143-5ed5d9f5e33b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791193166550",
+      "release_date": "2024-06-20",
+      "metadata": {
+        "isbn": "9791193166550",
+        "publisher": "생각의힘",
+        "publishDate": "2024-06-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791193166550",
+          "workTitle": "세상이라는 나의 고향",
+          "workCreator": "아마티아 센",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "세상이라는 나의 고향",
+          "creator": "아마티아 센",
+          "description": "빈곤, 격차, 불평등에 주목하며 경제학은 물론, 철학, 정치학, 사회학 등 다양한 학문 영역에서 거대한 족적을 남긴 이 시대의 지성, 아마르티아 센. 『세상이라는 나의 고향』은 그의 사상을 형성하는 데 큰 영향을 미친 사건, 사람들, 그가 정면으로 맞선 시대에 대한 고찰을 담은 회고록이다.\n1933년, 아직 영국의 식민지였던 인도에서 태어나 타고르가 세운 학교에서 학문의 즐거움을 만끽하던 소년 아마르티아는 당시 인도를 뒤흔들었던 벵골 대기근과 힌두-무슬림 간 종교 분쟁을 목도하며 큰 충격을 받고, 이 유년 시절의 강렬했던 경험은 그를 경제학으로 이끄는 계기가 된다. 이후 케임브리지 트리니티 칼리지에서 당대 저명한 경제학자들에게 수학하며 당시 학문적으로 인정받지 못했던 후생경제학을 펼쳐나가려 분투한다. 경제학을 도구로 사회 전체의 행복 추구를 지향했던 위대한 사상가의 생애를 통해 그의 사상의 단초를 확인할 수 있는 ‘아마르티아 센 입문서’로서도 읽을 수 있다.",
+          "isbn": "9791193166550",
+          "publisher": "생각의힘",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6658211?timestamp=20241210154251",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5"
+          },
+          "verified": true,
+          "content_id": "efb9dd94-30df-50e3-9143-5ed5d9f5e33b"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "efb9dd94-30df-50e3-9143-5ed5d9f5e33b",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791193166550",
+        "release_date": "2024-06-20",
+        "metadata": {
+          "isbn": "9791193166550",
+          "publisher": "생각의힘",
+          "publishDate": "2024-06-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791193166550",
+            "workTitle": "세상이라는 나의 고향",
+            "workCreator": "아마티아 센",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "세상이라는 나의 고향",
+          "creator": "아마티아 센",
+          "description": "빈곤, 격차, 불평등에 주목하며 경제학은 물론, 철학, 정치학, 사회학 등 다양한 학문 영역에서 거대한 족적을 남긴 이 시대의 지성, 아마르티아 센. 『세상이라는 나의 고향』은 그의 사상을 형성하는 데 큰 영향을 미친 사건, 사람들, 그가 정면으로 맞선 시대에 대한 고찰을 담은 회고록이다.\n1933년, 아직 영국의 식민지였던 인도에서 태어나 타고르가 세운 학교에서 학문의 즐거움을 만끽하던 소년 아마르티아는 당시 인도를 뒤흔들었던 벵골 대기근과 힌두-무슬림 간 종교 분쟁을 목도하며 큰 충격을 받고, 이 유년 시절의 강렬했던 경험은 그를 경제학으로 이끄는 계기가 된다. 이후 케임브리지 트리니티 칼리지에서 당대 저명한 경제학자들에게 수학하며 당시 학문적으로 인정받지 못했던 후생경제학을 펼쳐나가려 분투한다. 경제학을 도구로 사회 전체의 행복 추구를 지향했던 위대한 사상가의 생애를 통해 그의 사상의 단초를 확인할 수 있는 ‘아마르티아 센 입문서’로서도 읽을 수 있다.",
+          "isbn": "9791193166550",
+          "publisher": "생각의힘",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6658211?timestamp=20241210154251",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5"
+          },
+          "verified": true,
+          "content_id": "efb9dd94-30df-50e3-9143-5ed5d9f5e33b"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791193166550",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791193166550"
+      ],
+      "normalizedTitles": [
+        "세상이라는나의고향"
+      ],
+      "normalizedCreators": [
+        "김승진역",
+        "아마티아센"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:31:07.428Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "efb9dd94-30df-50e3-9143-5ed5d9f5e33b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791193166550",
+      "release_date": "2024-06-20",
+      "metadata": {
+        "isbn": "9791193166550",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+        "publisher": "생각의힘",
+        "figureBook": {
+          "workTitle": "세상이라는 나의 고향",
+          "workCreator": "아마티아 센",
+          "workIdentity": "book/9791193166550",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-06-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:31:01.676766+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "efb9dd94-30df-50e3-9143-5ed5d9f5e33b",
+        "locale": "ko",
+        "title": "세상이라는 나의 고향",
+        "creator": "아마티아 센",
+        "description": "빈곤, 격차, 불평등에 주목하며 경제학은 물론, 철학, 정치학, 사회학 등 다양한 학문 영역에서 거대한 족적을 남긴 이 시대의 지성, 아마르티아 센. 『세상이라는 나의 고향』은 그의 사상을 형성하는 데 큰 영향을 미친 사건, 사람들, 그가 정면으로 맞선 시대에 대한 고찰을 담은 회고록이다.\n1933년, 아직 영국의 식민지였던 인도에서 태어나 타고르가 세운 학교에서 학문의 즐거움을 만끽하던 소년 아마르티아는 당시 인도를 뒤흔들었던 벵골 대기근과 힌두-무슬림 간 종교 분쟁을 목도하며 큰 충격을 받고, 이 유년 시절의 강렬했던 경험은 그를 경제학으로 이끄는 계기가 된다. 이후 케임브리지 트리니티 칼리지에서 당대 저명한 경제학자들에게 수학하며 당시 학문적으로 인정받지 못했던 후생경제학을 펼쳐나가려 분투한다. 경제학을 도구로 사회 전체의 행복 추구를 지향했던 위대한 사상가의 생애를 통해 그의 사상의 단초를 확인할 수 있는 ‘아마르티아 센 입문서’로서도 읽을 수 있다.",
+        "isbn": "9791193166550",
+        "publisher": "생각의힘",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6658211?timestamp=20241210154251",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6658211&q=%EC%84%B8%EC%83%81%EC%9D%B4%EB%9D%BC%EB%8A%94+%EB%82%98%EC%9D%98+%EA%B3%A0%ED%96%A5"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:31:01.676766+00:00",
+        "updated_at": "2026-09-06T04:31:01.676766+00:00"
+      }
+    ]
+  }
+}

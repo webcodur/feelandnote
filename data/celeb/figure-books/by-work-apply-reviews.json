@@ -1,0 +1,972 @@
+{
+  "reviews": [
+    {
+      "slug": "pythagoras",
+      "selections": [
+        {
+          "contentId": "13410b89-7c1f-4461-a1e2-b3f2975148e6",
+          "relationType": "appearance",
+          "description": "15권에서 그의 철학과 만물유전 사상이 긴 연설로 서술된다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 15권에서 그의 철학과 만물유전 사상이 긴 연설로 서술된다"
+        }
+      ]
+    },
+    {
+      "slug": "julius-caesar",
+      "selections": [
+        {
+          "contentId": "13410b89-7c1f-4461-a1e2-b3f2975148e6",
+          "relationType": "appearance",
+          "description": "15권 말미에서 그의 죽음과 신격화 과정이 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 15권 말미에서 그의 죽음과 신격화 과정이 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "theseus",
+      "selections": [
+        {
+          "contentId": "d0ae4f4f-2e9b-41e7-9670-72eaf2f85528",
+          "relationType": "appearance",
+          "description": "아테네 왕가의 영웅으로서 그의 사이클 전체가 독립된 장으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네 왕가의 영웅으로서 그의 사이클 전체가 독립된 장으로 다뤄진다."
+        },
+        {
+          "contentId": "44f3609f-d4b5-4673-9db6-cd28e4c07025",
+          "relationType": "appearance",
+          "description": "미노타우로스 퇴치를 포함한 아테네 영웅담의 주인공으로 3권 말미를 장식한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 미노타우로스 퇴치를 포함한 아테네 영웅담의 주인공으로 3권 말미를 장식한다."
+        },
+        {
+          "contentId": "905e4914-9aa2-59e3-94c6-1bf04e2fe97c",
+          "relationType": "appearance",
+          "description": "개요(에피토메) 후반부의 제목(\"테세우스에서 트로이 전쟁 종결까지\")으로 명시되어 해당 구간의 중심 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 개요(에피토메) 후반부의 제목(\"테세우스에서 트로이 전쟁 종결까지\")으로 명시되어 해당 구간의 중심 인물로 다뤄진다."
+        },
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "10장 전체가 미노타우로스 퇴치 등 그의 행적을 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 10장 전체가 미노타우로스 퇴치 등 그의 행적을 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "kim-yu-sin",
+      "selections": [
+        {
+          "contentId": "467d387e-c688-43b0-8570-01df791de22b",
+          "relationType": "appearance",
+          "description": "열전 1~3권에 걸쳐 가장 큰 비중으로 다뤄지는 신라 장군이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 열전 1~3권에 걸쳐 가장 큰 비중으로 다뤄지는 신라 장군이다."
+        },
+        {
+          "contentId": "79334378-a390-40bb-9dd9-025c41eed94f",
+          "relationType": "appearance",
+          "description": "기이편에서 독립된 장으로 다뤄지며 신라 통일 전쟁의 활약과 신이한 일화를 기록한다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 기이편에서 독립된 장으로 다뤄지며 신라 통일 전쟁의 활약과 신이한 일화를 기록한다"
+        }
+      ]
+    },
+    {
+      "slug": "eulji-mundeok",
+      "selections": [
+        {
+          "contentId": "467d387e-c688-43b0-8570-01df791de22b",
+          "relationType": "appearance",
+          "description": "열전 4권에 독립된 전으로 수록된 고구려 장수이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 열전 4권에 독립된 전으로 수록된 고구려 장수이다."
+        }
+      ]
+    },
+    {
+      "slug": "gilgamesh",
+      "selections": [
+        {
+          "contentId": "9ddbafac-db85-5875-95e4-ae2bc91ec731",
+          "relationType": "appearance",
+          "description": "\"길가메시, 엔키두, 그리고 저승\" 편의 주인공으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"길가메시, 엔키두, 그리고 저승\" 편의 주인공으로 다뤄진다."
+        },
+        {
+          "contentId": "6bbf26a8-979b-455d-aa6a-1e84e64e68af",
+          "relationType": "appearance",
+          "description": "길가메시 서사시 및 수메르의 길가메시 신화 편에서 불사를 찾아 떠나는 우루크의 왕으로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 길가메시 서사시 및 수메르의 길가메시 신화 편에서 불사를 찾아 떠나는 우루크의 왕으로 다뤄짐"
+        },
+        {
+          "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+          "relationType": "appearance",
+          "description": "길가메시 서사시 전체의 주인공으로 다뤄지는 우루크의 왕이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 길가메시 서사시 전체의 주인공으로 다뤄지는 우루크의 왕이다."
+        }
+      ]
+    },
+    {
+      "slug": "enkidu",
+      "selections": [
+        {
+          "contentId": "9ddbafac-db85-5875-95e4-ae2bc91ec731",
+          "relationType": "appearance",
+          "description": "같은 편에서 길가메시의 동반자로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 같은 편에서 길가메시의 동반자로 다뤄진다."
+        },
+        {
+          "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+          "relationType": "appearance",
+          "description": "길가메시 서사시에서 길가메시와 함께 모험하는 핵심 동반자다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 길가메시 서사시에서 길가메시와 함께 모험하는 핵심 동반자다."
+        }
+      ]
+    },
+    {
+      "slug": "enlil",
+      "selections": [
+        {
+          "contentId": "9ddbafac-db85-5875-95e4-ae2bc91ec731",
+          "relationType": "appearance",
+          "description": "\"엔릴과 닌릴\" 장 전체의 중심 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"엔릴과 닌릴\" 장 전체의 중심 인물로 다뤄진다."
+        },
+        {
+          "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+          "relationType": "appearance",
+          "description": "아트라하시스 서사시를 비롯한 여러 장에서 인간을 벌하려는 신들의 우두머리로 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아트라하시스 서사시를 비롯한 여러 장에서 인간을 벌하려는 신들의 우두머리로 등장한다."
+        },
+        {
+          "contentId": "21dd08de-dc3f-4a9c-a8be-0af89ebdaaf6",
+          "relationType": "appearance",
+          "description": "안과 키의 아들로 아버지의 명을 받아 땅을 다스리며 작은 신들에게 수로 대공사를 시키는 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 안과 키의 아들로 아버지의 명을 받아 땅을 다스리며 작은 신들에게 수로 대공사를 시키는 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "ninlil",
+      "selections": [
+        {
+          "contentId": "9ddbafac-db85-5875-95e4-ae2bc91ec731",
+          "relationType": "appearance",
+          "description": "같은 장에서 엔릴과 짝을 이루는 중심 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 같은 장에서 엔릴과 짝을 이루는 중심 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "wonhyo",
+      "selections": [
+        {
+          "contentId": "79334378-a390-40bb-9dd9-025c41eed94f",
+          "relationType": "appearance",
+          "description": "의해편 '원효불기' 장에서 파계와 대중교화 행적을 다룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 의해편 '원효불기' 장에서 파계와 대중교화 행적을 다룬다"
+        }
+      ]
+    },
+    {
+      "slug": "queen-seondeok",
+      "selections": [
+        {
+          "contentId": "79334378-a390-40bb-9dd9-025c41eed94f",
+          "relationType": "appearance",
+          "description": "기이편 '선덕왕지기삼사' 장에서 예지력을 보여주는 세 가지 일화를 다룬다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 기이편 '선덕왕지기삼사' 장에서 예지력을 보여주는 세 가지 일화를 다룬다"
+        }
+      ]
+    },
+    {
+      "slug": "dumuzi",
+      "selections": [
+        {
+          "contentId": "6bbf26a8-979b-455d-aa6a-1e84e64e68af",
+          "relationType": "appearance",
+          "description": "인안나·두무지 신화 편에서 인안나의 배우자로 저승과 재생을 상징하는 목자 신",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 인안나·두무지 신화 편에서 인안나의 배우자로 저승과 재생을 상징하는 목자 신"
+        }
+      ]
+    },
+    {
+      "slug": "nergal",
+      "selections": [
+        {
+          "contentId": "6bbf26a8-979b-455d-aa6a-1e84e64e68af",
+          "relationType": "appearance",
+          "description": "네르갈과 에레시키갈 편에서 저승의 여신을 정복하고 배우자가 되는 신",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 네르갈과 에레시키갈 편에서 저승의 여신을 정복하고 배우자가 되는 신"
+        }
+      ]
+    },
+    {
+      "slug": "sejong-the-great",
+      "selections": [
+        {
+          "contentId": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+          "relationType": "appearance",
+          "description": "홍길동의 뛰어남을 알아보고 병조판서에 제수하며, 길동 일행이 조선을 떠날 때 쌀 천 석을 하사하는 등 여러 장면에 걸쳐 등장한다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 홍길동의 뛰어남을 알아보고 병조판서에 제수하며, 길동 일행이 조선을 떠날 때 쌀 천 석을 하사하는 등 여러 장면에 걸쳐 등장한다."
+        }
+      ]
+    },
+    {
+      "slug": "tiamat",
+      "selections": [
+        {
+          "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+          "relationType": "appearance",
+          "description": "창조서사시에서 태초의 바다를 상징하며 마르둑과 맞서 싸우다 패배하는 원초의 여신이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 창조서사시에서 태초의 바다를 상징하며 마르둑과 맞서 싸우다 패배하는 원초의 여신이다."
+        }
+      ]
+    },
+    {
+      "slug": "ishtar",
+      "selections": [
+        {
+          "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+          "relationType": "appearance",
+          "description": "길가메시 서사시와 「저승으로 내려간 이슈타르」 장에서 주요 인물로 다뤄지는 여신이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 길가메시 서사시와 「저승으로 내려간 이슈타르」 장에서 주요 인물로 다뤄지는 여신이다."
+        },
+        {
+          "contentId": "c783af31-7bcb-5b68-a13c-c81e4c6e0b20",
+          "relationType": "appearance",
+          "description": "신화 속 여신으로, \"저승으로 내려간 이슈타르\" 이야기가 독립 작품으로 수록되어 있다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 신화 속 여신으로, \"저승으로 내려간 이슈타르\" 이야기가 독립 작품으로 수록되어 있다."
+        }
+      ]
+    },
+    {
+      "slug": "ereshkigal",
+      "selections": [
+        {
+          "contentId": "c783af31-7bcb-5b68-a13c-c81e4c6e0b20",
+          "relationType": "appearance",
+          "description": "저승의 여신으로, 위와 같은 \"네르갈과 에레쉬키갈\" 이야기에서 함께 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 저승의 여신으로, 위와 같은 \"네르갈과 에레쉬키갈\" 이야기에서 함께 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "ninurta",
+      "selections": [
+        {
+          "contentId": "21dd08de-dc3f-4a9c-a8be-0af89ebdaaf6",
+          "relationType": "appearance",
+          "description": "엔릴이 엔키를 견제하기 위해 닌후르쌍과 함께 탄생시킨 인물로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 엔릴이 엔키를 견제하기 위해 닌후르쌍과 함께 탄생시킨 인물로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "electra",
+      "selections": [
+        {
+          "contentId": "55a6b05c-a738-44ef-8a97-80b3d3d3feed",
+          "relationType": "appearance",
+          "description": "「엘렉트라」 한 편 전체의 주인공으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 「엘렉트라」 한 편 전체의 주인공으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "philoctetes",
+      "selections": [
+        {
+          "contentId": "55a6b05c-a738-44ef-8a97-80b3d3d3feed",
+          "relationType": "appearance",
+          "description": "「필록테테스」 한 편 전체의 주인공으로 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 「필록테테스」 한 편 전체의 주인공으로 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "solon",
+      "selections": [
+        {
+          "contentId": "da4fcc72-fd79-455f-95c5-21ee26b47d35",
+          "relationType": "appearance",
+          "description": "아테네의 개혁가로 크로이소스에게 인생의 지혜를 전하는 일화에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네의 개혁가로 크로이소스에게 인생의 지혜를 전하는 일화에서 다뤄진다."
+        },
+        {
+          "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+          "relationType": "appearance",
+          "description": "아테네의 입법가로서 그의 개혁과 생애가 한 편의 독립된 장으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네의 입법가로서 그의 개혁과 생애가 한 편의 독립된 장으로 다뤄진다."
+        },
+        {
+          "contentId": "5a2033a4-f623-42c3-bea8-5587dd850ac1",
+          "relationType": "appearance",
+          "description": "아테네의 입법가로서 그의 생애와 언행, 일화가 한 장을 이루어 다뤄진다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네의 입법가로서 그의 생애와 언행, 일화가 한 장을 이루어 다뤄진다"
+        }
+      ]
+    },
+    {
+      "slug": "themistocles",
+      "selections": [
+        {
+          "contentId": "da4fcc72-fd79-455f-95c5-21ee26b47d35",
+          "relationType": "appearance",
+          "description": "살라미스 해전에서 그리스 함대를 지휘한 인물로 제8권에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 살라미스 해전에서 그리스 함대를 지휘한 인물로 제8권에서 다뤄진다."
+        },
+        {
+          "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+          "relationType": "appearance",
+          "description": "페르시아 전쟁을 승리로 이끈 아테네 정치가로, 그의 생애와 몰락이 한 편으로 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 페르시아 전쟁을 승리로 이끈 아테네 정치가로, 그의 생애와 몰락이 한 편으로 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "leonidas-i",
+      "selections": [
+        {
+          "contentId": "da4fcc72-fd79-455f-95c5-21ee26b47d35",
+          "relationType": "appearance",
+          "description": "테르모필레 전투에서 스파르타군을 이끈 왕으로 제7권에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 테르모필레 전투에서 스파르타군을 이끈 왕으로 제7권에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "pericles",
+      "selections": [
+        {
+          "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+          "relationType": "appearance",
+          "description": "아테네 황금기를 이끈 정치가로, 그의 통치와 생애 전체가 한 편으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네 황금기를 이끈 정치가로, 그의 통치와 생애 전체가 한 편으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "alcibiades",
+      "selections": [
+        {
+          "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+          "relationType": "appearance",
+          "description": "아테네의 야심가이자 장군으로, 그의 파란만장한 생애가 한 편으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 아테네의 야심가이자 장군으로, 그의 파란만장한 생애가 한 편으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "pompey-the-great",
+      "selections": [
+        {
+          "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+          "relationType": "appearance",
+          "description": "로마의 장군이자 정치가로, 그의 생애와 몰락이 한 편으로 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마의 장군이자 정치가로, 그의 생애와 몰락이 한 편으로 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "marcus-licinius-crassus",
+      "selections": [
+        {
+          "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+          "relationType": "appearance",
+          "description": "로마의 부호이자 삼두정치가로, 그의 생애와 파르티아 원정이 한 편으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마의 부호이자 삼두정치가로, 그의 생애와 파르티아 원정이 한 편으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "cicero",
+      "selections": [
+        {
+          "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+          "relationType": "appearance",
+          "description": "로마의 웅변가이자 정치가로, 그의 생애와 최후가 한 편으로 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 로마의 웅변가이자 정치가로, 그의 생애와 최후가 한 편으로 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "marcus-junius-brutus",
+      "selections": [
+        {
+          "contentId": "e5621d04-8c77-41bf-8edb-0045baf8670d",
+          "relationType": "appearance",
+          "description": "카이사르 암살을 주도한 인물로, 그의 생애와 최후가 한 편으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 카이사르 암살을 주도한 인물로, 그의 생애와 최후가 한 편으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "tristan",
+      "selections": [
+        {
+          "contentId": "ec4d0a84-2848-4afc-b13e-3c01b78fdb9d",
+          "relationType": "appearance",
+          "description": "이졸데와의 사랑 이야기가 독립된 장으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 이졸데와의 사랑 이야기가 독립된 장으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "demeter",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "곡물의 여신으로 딸 페르세포네를 잃고 슬퍼하며 대지를 황폐하게 만드는 이야기가 데메테르 찬가 한 편 전체의 중심 서사를 이룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 곡물의 여신으로 딸 페르세포네를 잃고 슬퍼하며 대지를 황폐하게 만드는 이야기가 데메테르 찬가 한 편 전체의 중심 서사를 이룬다."
+        }
+      ]
+    },
+    {
+      "slug": "persephone",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "하데스에게 납치되어 저승으로 끌려갔다가 일 년의 일부만 지상으로 돌아오게 되는 데메테르 찬가의 핵심 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 하데스에게 납치되어 저승으로 끌려갔다가 일 년의 일부만 지상으로 돌아오게 되는 데메테르 찬가의 핵심 인물이다."
+        }
+      ]
+    },
+    {
+      "slug": "hades",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "페르세포네를 납치해 저승의 아내로 삼는 인물로 데메테르 찬가의 사건을 이끈다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 페르세포네를 납치해 저승의 아내로 삼는 인물로 데메테르 찬가의 사건을 이끈다."
+        }
+      ]
+    },
+    {
+      "slug": "apollo",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "델로스에서의 탄생과 델포이 신탁소 창건 과정이 긴 아폴론 찬가 한 편에 걸쳐 서술된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 델로스에서의 탄생과 델포이 신탁소 창건 과정이 긴 아폴론 찬가 한 편에 걸쳐 서술된다."
+        }
+      ]
+    },
+    {
+      "slug": "hermes",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "태어난 날 소를 훔치고 리라를 만드는 등의 행적이 헤르메스 찬가 전체의 줄거리를 이룬다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 태어난 날 소를 훔치고 리라를 만드는 등의 행적이 헤르메스 찬가 전체의 줄거리를 이룬다."
+        }
+      ]
+    },
+    {
+      "slug": "aphrodite",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "제우스의 뜻에 따라 인간 앙키세스를 사랑하게 되는 이야기가 아프로디테 찬가의 중심 내용이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제우스의 뜻에 따라 인간 앙키세스를 사랑하게 되는 이야기가 아프로디테 찬가의 중심 내용이다."
+        }
+      ]
+    },
+    {
+      "slug": "zeus",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "여러 찬가에서 다른 신들의 운명을 결정짓는 존재로 등장하며 그를 기리는 독립된 찬가도 있다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 여러 찬가에서 다른 신들의 운명을 결정짓는 존재로 등장하며 그를 기리는 독립된 찬가도 있다."
+        },
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "1장 \"신들\"에서 올림포스 최고신으로 비중 있게 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 1장 \"신들\"에서 올림포스 최고신으로 비중 있게 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "dionysus",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "해적들에게 납치되었다가 신성을 드러내 그들을 벌하는 이야기 등 여러 편의 찬가에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 해적들에게 납치되었다가 신성을 드러내 그들을 벌하는 이야기 등 여러 편의 찬가에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "artemis",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "사냥과 활의 여신으로 그 위엄과 활동을 기리는 독립된 찬가가 있다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 사냥과 활의 여신으로 그 위엄과 활동을 기리는 독립된 찬가가 있다."
+        }
+      ]
+    },
+    {
+      "slug": "athena",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "지혜와 전쟁의 여신으로 그녀의 탄생과 위업을 기리는 독립된 찬가가 있다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 지혜와 전쟁의 여신으로 그녀의 탄생과 위업을 기리는 독립된 찬가가 있다."
+        }
+      ]
+    },
+    {
+      "slug": "hera",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "제우스의 아내이자 여신들의 여왕으로 독립된 찬가에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제우스의 아내이자 여신들의 여왕으로 독립된 찬가에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "hephaestus",
+      "selections": [
+        {
+          "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+          "relationType": "appearance",
+          "description": "대장장이 신으로 인간에게 기술을 전한 공로를 기리는 독립된 찬가가 있다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 대장장이 신으로 인간에게 기술을 전한 공로를 기리는 독립된 찬가가 있다."
+        }
+      ]
+    },
+    {
+      "slug": "wu-zixu",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "오자서열전에서 원한을 갚고 파란만장한 삶을 산 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 오자서열전에서 원한을 갚고 파란만장한 삶을 산 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "shang-yang",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "상군열전에서 진나라의 변법을 추진한 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 상군열전에서 진나라의 변법을 추진한 인물로 다뤄진다."
+        },
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "진 효공 시대 변법을 주도해 진나라 부국강병의 토대를 놓은 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진 효공 시대 변법을 주도해 진나라 부국강병의 토대를 놓은 인물로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "qu-yuan",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "굴원가생열전에서 초나라의 충신이자 시인으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 굴원가생열전에서 초나라의 충신이자 시인으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "jia-yi",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "굴원가생열전에서 굴원과 함께 다뤄지는 한나라 문인으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 굴원가생열전에서 굴원과 함께 다뤄지는 한나라 문인으로 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "lu-buwei",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "여불위열전에서 상인에서 진나라 재상에 오른 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 여불위열전에서 상인에서 진나라 재상에 오른 인물로 다뤄진다."
+        },
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "진시황 즉위와 관련된 거상 출신 승상으로 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진시황 즉위와 관련된 거상 출신 승상으로 독립된 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "li-si",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "이사열전에서 진나라 승상을 지낸 인물로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 이사열전에서 진나라 승상을 지낸 인물로 다뤄진다."
+        },
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "진시황의 승상으로서 진 제국의 흥망과 얽힌 행적이 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진시황의 승상으로서 진 제국의 흥망과 얽힌 행적이 독립된 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "meng-tian",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "몽염열전에서 진나라의 장수로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 몽염열전에서 진나라의 장수로 다뤄진다."
+        },
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "진나라의 장군이자 진시황 측근으로 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라의 장군이자 진시황 측근으로 독립된 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "han-xin",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "회음후열전에서 한나라 개국공신으로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 회음후열전에서 한나라 개국공신으로 다뤄진다."
+        },
+        {
+          "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+          "relationType": "appearance",
+          "description": "한나라의 전쟁 전문가로, \"한나라의 전쟁 전문가 한신\"이라는 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 한나라의 전쟁 전문가로, \"한나라의 전쟁 전문가 한신\"이라는 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "xiang-yu",
+      "selections": [
+        {
+          "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "relationType": "appearance",
+          "description": "항우본기에서 초한쟁패의 패자로 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 항우본기에서 초한쟁패의 패자로 다뤄진다."
+        },
+        {
+          "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+          "relationType": "appearance",
+          "description": "초나라의 영웅으로, \"말 위의 영웅 항우\"라는 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 초나라의 영웅으로, \"말 위의 영웅 항우\"라는 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "medea",
+      "selections": [
+        {
+          "contentId": "26dbc4a6-5497-4f40-8673-bb9083a09d9d",
+          "relationType": "appearance",
+          "description": "세네카 비극 전집에 수록된 「메데이아」 편의 주인공으로, 이아손에게 배신당한 뒤 복수를 감행하는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 세네카 비극 전집에 수록된 「메데이아」 편의 주인공으로, 이아손에게 배신당한 뒤 복수를 감행하는 인물이다."
+        }
+      ]
+    },
+    {
+      "slug": "thyestes",
+      "selections": [
+        {
+          "contentId": "26dbc4a6-5497-4f40-8673-bb9083a09d9d",
+          "relationType": "appearance",
+          "description": "「티에스테스」 편의 주인공으로 다뤄지는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 「티에스테스」 편의 주인공으로 다뤄지는 인물이다."
+        }
+      ]
+    },
+    {
+      "slug": "agamemnon",
+      "selections": [
+        {
+          "contentId": "26dbc4a6-5497-4f40-8673-bb9083a09d9d",
+          "relationType": "appearance",
+          "description": "「아가멤논」 편의 주인공으로 다뤄지는 인물이다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 「아가멤논」 편의 주인공으로 다뤄지는 인물이다."
+        },
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "17장 \"아트레우스 가문\"에서 독립된 단락으로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 17장 \"아트레우스 가문\"에서 독립된 단락으로 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "jason",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "7장 \"황금 양털을 찾아서\" 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 7장 \"황금 양털을 찾아서\" 전체의 주인공"
+        }
+      ]
+    },
+    {
+      "slug": "odysseus",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "15장 \"오디세우스의 모험\" 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 15장 \"오디세우스의 모험\" 전체의 주인공"
+        }
+      ]
+    },
+    {
+      "slug": "aeneas",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "16장 \"아이네이아스의 모험\" 전체의 주인공",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 16장 \"아이네이아스의 모험\" 전체의 주인공"
+        }
+      ]
+    },
+    {
+      "slug": "atalanta",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "12장 전체가 그녀의 이야기를 다룸",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 12장 전체가 그녀의 이야기를 다룸"
+        }
+      ]
+    },
+    {
+      "slug": "orpheus",
+      "selections": [
+        {
+          "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+          "relationType": "appearance",
+          "description": "6장의 여덟 사랑 이야기 중 \"오르페우스와 에우리디케\"로 독립되게 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 6장의 여덟 사랑 이야기 중 \"오르페우스와 에우리디케\"로 독립되게 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "thomas-edison",
+      "selections": [
+        {
+          "contentId": "90604bc9-09e1-5935-8afe-a1521e230d68",
+          "relationType": "appearance",
+          "description": "포드가 근무했던 에디슨 조명 회사와의 인연, 이후 포드와의 관계가 부록에서 별도로 다뤄짐",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 포드가 근무했던 에디슨 조명 회사와의 인연, 이후 포드와의 관계가 부록에서 별도로 다뤄짐"
+        }
+      ]
+    },
+    {
+      "slug": "yongle-emperor",
+      "selections": [
+        {
+          "contentId": "3e371d2b-d428-5dde-a8a9-2a3f9912cf5f",
+          "relationType": "appearance",
+          "description": "주원장의 넷째 아들로 조카를 몰아내고 황제가 되어 명나라 전성기를 연 과정이 여러 장에 걸쳐 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 주원장의 넷째 아들로 조카를 몰아내고 황제가 되어 명나라 전성기를 연 과정이 여러 장에 걸쳐 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "marie-antoinette",
+      "selections": [
+        {
+          "contentId": "8d39a571-d309-5cd3-b390-85b411f4afe0",
+          "relationType": "appearance",
+          "description": "프랑스 혁명 속에서 처형당하는 왕비로, '소통'의 중요성을 다루는 핵심 인물로 등장한다",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 프랑스 혁명 속에서 처형당하는 왕비로, '소통'의 중요성을 다루는 핵심 인물로 등장한다"
+        }
+      ]
+    },
+    {
+      "slug": "wu-qi",
+      "selections": [
+        {
+          "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+          "relationType": "appearance",
+          "description": "원칙을 목숨보다 중시한 전국시대 장수로, \"이유있는 원칙주의자 오기\"라는 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 원칙을 목숨보다 중시한 전국시대 장수로, \"이유있는 원칙주의자 오기\"라는 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "sun-bin",
+      "selections": [
+        {
+          "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+          "relationType": "appearance",
+          "description": "심리전에 능한 전국시대 병법가로, \"심리전의 달인 손빈\"이라는 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 심리전에 능한 전국시대 병법가로, \"심리전의 달인 손빈\"이라는 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "yue-yi",
+      "selections": [
+        {
+          "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+          "relationType": "appearance",
+          "description": "연나라의 천재 지휘관으로, 전단과 함께 한 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 연나라의 천재 지휘관으로, 전단과 함께 한 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "tian-dan",
+      "selections": [
+        {
+          "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+          "relationType": "appearance",
+          "description": "제나라의 모략가로, 악의와 함께 \"천재 지휘관 악의와 모략술의 귀재 전단\" 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라의 모략가로, 악의와 함께 \"천재 지휘관 악의와 모략술의 귀재 전단\" 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "lian-po",
+      "selections": [
+        {
+          "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+          "relationType": "appearance",
+          "description": "조나라의 명장으로, 인상여와 함께 \"조나라의 두 기둥\" 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 조나라의 명장으로, 인상여와 함께 \"조나라의 두 기둥\" 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "lin-xiangru",
+      "selections": [
+        {
+          "contentId": "96fa1724-34a3-5844-ab7a-30c0cda06607",
+          "relationType": "appearance",
+          "description": "조나라의 명신으로, 염파와 함께 한 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 조나라의 명신으로, 염파와 함께 한 장에서 다뤄진다."
+        },
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "조나라의 인물로 화씨벽 일화를 중심으로 한 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 조나라의 인물로 화씨벽 일화를 중심으로 한 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "christopher-columbus",
+      "selections": [
+        {
+          "contentId": "a328a27d-cfbb-44a1-b92c-e83645d21715",
+          "relationType": "appearance",
+          "description": "\"향료\" 장에서 초상화와 함께 서쪽 항로를 개척한 인물로 소개되고, 마젤란의 계획과 거듭 비교되며 여러 차례 언급된다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: \"향료\" 장에서 초상화와 함께 서쪽 항로를 개척한 인물로 소개되고, 마젤란의 계획과 거듭 비교되며 여러 차례 언급된다."
+        }
+      ]
+    },
+    {
+      "slug": "duke-xiao-of-qin",
+      "selections": [
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "상앙을 등용해 변법 개혁을 단행한 군주로 한 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 상앙을 등용해 변법 개혁을 단행한 군주로 한 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "zhang-yi",
+      "selections": [
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "진 혜문왕 시대 연횡책을 편 책사로 한 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진 혜문왕 시대 연횡책을 편 책사로 한 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "king-zhaoxiang-of-qin",
+      "selections": [
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "외척 세력이 득세한 시기의 군주로 한 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 외척 세력이 득세한 시기의 군주로 한 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "bai-qi",
+      "selections": [
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "진나라 장군으로서 벌인 전투를 중심으로 한 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진나라 장군으로서 벌인 전투를 중심으로 한 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "lord-mengchang",
+      "selections": [
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "제나라의 인물로 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 제나라의 인물로 독립된 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "wang-jian",
+      "selections": [
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "천하통일 전쟁을 이끈 진나라 장군으로 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 천하통일 전쟁을 이끈 진나라 장군으로 독립된 장에서 다뤄진다."
+        }
+      ]
+    },
+    {
+      "slug": "zhao-gao",
+      "selections": [
+        {
+          "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+          "relationType": "appearance",
+          "description": "진시황 사후 권력을 농단한 환관으로 독립된 장에서 다뤄진다.",
+          "rationale": "작품 축 조사에서 확인한 등장 범위: 진시황 사후 권력을 농단한 환관으로 독립된 장에서 다뤄진다."
+        }
+      ]
+    }
+  ]
+}

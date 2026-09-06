@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791198701084",
+    "title": "젠슨 황 레볼루션",
+    "creator": "우중셴",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김외현 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791198701084"
+  }
+}

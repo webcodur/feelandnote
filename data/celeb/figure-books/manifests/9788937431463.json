@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788937431463",
+    "title": "장제스 평전",
+    "creator": "조너선 펜비",
+    "titleAliases": [],
+    "creatorAliases": [
+      "노만수 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788937431463"
+  }
+}

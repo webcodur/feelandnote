@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791158526320.json",
+  "manifestSha256": "cecef8e0604aa37d2f1daa9c482a43221c82cb93af4b7b302ea74003a1553d2c",
+  "planSha256": "26542020b314656edac9720457df1170f685ff460411236a4e669d319c91ce80",
+  "workIdentity": "book/9791158526320",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791158526320"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e0170dfb-393b-5a8a-a9ce-e974c19c6a8a",
+    "scopeKey": "book/9791158526320",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e0170dfb-393b-5a8a-a9ce-e974c19c6a8a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791158526320",
+      "release_date": "2026-03-31",
+      "metadata": {
+        "isbn": "9791158526320",
+        "publisher": "글로벌콘텐츠",
+        "publishDate": "2026-03-31",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791158526320",
+          "workTitle": "스페이스X 우주혁명이 온다",
+          "workCreator": "권군오",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "스페이스X 우주혁명이 온다",
+          "creator": "권군오",
+          "description": "세기의 IPO, 스페이스X를 해부한다\n2026년 상반기, 전 세계 자본시장이 단 하나의 IPO를 향해 시선을 고정하고 있다. 주인공은 텍사스주 스타베이스에 본사를 둔 스페이스X다. 목표 기업가치 1조 5,000억 달러, 약 2,100조 원을 내걸고 역사상 최대 규모의 IPO를 준비 중이며, 공모 규모만 최대 500억 달러에 달한다. 비교 기준을 한국으로 옮기면 그 규모는 더욱 실감 난다. 스페이스X의 예상 기업가치는 삼성전자 시가총액의 약 2배이고, 세계 최대 기업 애플 시가총액의 절반에 육박한다. 이 책은 스페이스X와 우주 섹터에 투자하려는 한국 투자자들을 위한 안내서이다.\n\n실패를 연료 삼아 날아오른 로켓, 그 25년의 서사\n2002년, 일론 머스크는 화성 이주라는 목표를 품고 스페이스X를 창업했다. 초기에 만든 팰컨 1은 1차, 2차, 3차 발사에서 모두 폭발로 끝났고, 회사의 자금은 바닥을 드러내고 있었다. 그러나 2008년 9월 팰컨 1의 4번째 발사가 마침내 성공했고, 직후 NASA와 체결한 16억 달러 규모의 CRS 계약이 스페이스X를 파산 직전에서 건져냈다. 이후 팰컨 9의 1단 로켓 회수·재사용 기술은 발사 비용을 수십 분의 일로 낮추며 우주산업의 경제학 자체를 뒤흔들었다. 25년간의 이 서사를 이해하지 않고서는 스페이스X의 미래를 제대로 평가할 수 없다.\n\n스타링크라는 이름의 현금 엔진\n스페이스X가 단순한 로켓 회사가 아닌 이유는 스타링크(Starlink)에 있다. 2025년 스페이스X의 전체 매출은 약 155억 달러로 추정되며, 2026년에는 220억~240억 달러에 달할 것으로 전망된다. 스타링크는 통신 인프라가 열악한 오지, 해상, 항공 노선 등 기존 통신망이 닿지 않는 곳을 집중 공략하며 독자적인 시장을 개척했다. 여기에 더해 2026년 2월 완료된 xAI와의 합병은 스페이스X에 우주 AI 데이터센터라는 새로운 성장 서사를 추가했다. 이 책은 그 사업 모델의 구조와 재무적 의미를 투자자의 눈높이에서 상세히 해부한다.\n\n정보의 비대칭을 넘어, 한국 투자자의 실전 무기\n스페이스X는 비상장 기업이었기 때문에 지금까지 재무제표 공개 의무가 없었고, 알려진 재무 정보는 대부분 단편적인 언론 보도에 의존해 왔다. 사업 구조를 제대로 이해하지 못한 채 IPO에 참여하거나 관련주를 매입하는 것은 복권을 사는 것과 다를 바 없다. 이 책은 그 정보 격차를 좁히기 위해 기획되었다. 최신 자료를 통한 스페이스X의 재무상태 분석과 미래 기대 수익을 해부한다. 또한 스페이스X의 공급망에 편입된 한국 기업, 우주 생태계의 간접 수혜 기업, 국내 우주 관련 ETF까지 한국 주식시장에 미치는 파급 효과를 체계적으로 정리했다.\n\n서사의 홍수 속에서 냉정을 지키면서 우주 섹터에 투자하는 방법\n스페이스X IPO를 둘러싼 시장의 소음은 IPO 전에도, IPO 후에도 멈추지 않는다. “○○ 기업이 스페이스X와 연관이 있다”라는 보도 한 줄에 해당 종 목의 주가가 급등하는 현상이 반복되고, IPO 완료 이후에는 락업(lock-up) 해제, 스타링크 분사 가능성, 테슬라와의 합병 가능성 같은 새로운 서사들이 투자자의 판단을 흔든다. 사전에 자신만의 투자 기준을 세워두지 않으면 서사에 끌려다닐 수밖에 없다. 이 책이 서사의 홍수 속에서 냉정한 판단의 기준을 세우는 데 실질적인 도움이 되기를 바란다.",
+          "isbn": "9791158526320",
+          "publisher": "글로벌콘텐츠",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7192569?timestamp=20260409124635",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "e0170dfb-393b-5a8a-a9ce-e974c19c6a8a"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e0170dfb-393b-5a8a-a9ce-e974c19c6a8a",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791158526320",
+        "release_date": "2026-03-31",
+        "metadata": {
+          "isbn": "9791158526320",
+          "publisher": "글로벌콘텐츠",
+          "publishDate": "2026-03-31",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791158526320",
+            "workTitle": "스페이스X 우주혁명이 온다",
+            "workCreator": "권군오",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "스페이스X 우주혁명이 온다",
+          "creator": "권군오",
+          "description": "세기의 IPO, 스페이스X를 해부한다\n2026년 상반기, 전 세계 자본시장이 단 하나의 IPO를 향해 시선을 고정하고 있다. 주인공은 텍사스주 스타베이스에 본사를 둔 스페이스X다. 목표 기업가치 1조 5,000억 달러, 약 2,100조 원을 내걸고 역사상 최대 규모의 IPO를 준비 중이며, 공모 규모만 최대 500억 달러에 달한다. 비교 기준을 한국으로 옮기면 그 규모는 더욱 실감 난다. 스페이스X의 예상 기업가치는 삼성전자 시가총액의 약 2배이고, 세계 최대 기업 애플 시가총액의 절반에 육박한다. 이 책은 스페이스X와 우주 섹터에 투자하려는 한국 투자자들을 위한 안내서이다.\n\n실패를 연료 삼아 날아오른 로켓, 그 25년의 서사\n2002년, 일론 머스크는 화성 이주라는 목표를 품고 스페이스X를 창업했다. 초기에 만든 팰컨 1은 1차, 2차, 3차 발사에서 모두 폭발로 끝났고, 회사의 자금은 바닥을 드러내고 있었다. 그러나 2008년 9월 팰컨 1의 4번째 발사가 마침내 성공했고, 직후 NASA와 체결한 16억 달러 규모의 CRS 계약이 스페이스X를 파산 직전에서 건져냈다. 이후 팰컨 9의 1단 로켓 회수·재사용 기술은 발사 비용을 수십 분의 일로 낮추며 우주산업의 경제학 자체를 뒤흔들었다. 25년간의 이 서사를 이해하지 않고서는 스페이스X의 미래를 제대로 평가할 수 없다.\n\n스타링크라는 이름의 현금 엔진\n스페이스X가 단순한 로켓 회사가 아닌 이유는 스타링크(Starlink)에 있다. 2025년 스페이스X의 전체 매출은 약 155억 달러로 추정되며, 2026년에는 220억~240억 달러에 달할 것으로 전망된다. 스타링크는 통신 인프라가 열악한 오지, 해상, 항공 노선 등 기존 통신망이 닿지 않는 곳을 집중 공략하며 독자적인 시장을 개척했다. 여기에 더해 2026년 2월 완료된 xAI와의 합병은 스페이스X에 우주 AI 데이터센터라는 새로운 성장 서사를 추가했다. 이 책은 그 사업 모델의 구조와 재무적 의미를 투자자의 눈높이에서 상세히 해부한다.\n\n정보의 비대칭을 넘어, 한국 투자자의 실전 무기\n스페이스X는 비상장 기업이었기 때문에 지금까지 재무제표 공개 의무가 없었고, 알려진 재무 정보는 대부분 단편적인 언론 보도에 의존해 왔다. 사업 구조를 제대로 이해하지 못한 채 IPO에 참여하거나 관련주를 매입하는 것은 복권을 사는 것과 다를 바 없다. 이 책은 그 정보 격차를 좁히기 위해 기획되었다. 최신 자료를 통한 스페이스X의 재무상태 분석과 미래 기대 수익을 해부한다. 또한 스페이스X의 공급망에 편입된 한국 기업, 우주 생태계의 간접 수혜 기업, 국내 우주 관련 ETF까지 한국 주식시장에 미치는 파급 효과를 체계적으로 정리했다.\n\n서사의 홍수 속에서 냉정을 지키면서 우주 섹터에 투자하는 방법\n스페이스X IPO를 둘러싼 시장의 소음은 IPO 전에도, IPO 후에도 멈추지 않는다. “○○ 기업이 스페이스X와 연관이 있다”라는 보도 한 줄에 해당 종 목의 주가가 급등하는 현상이 반복되고, IPO 완료 이후에는 락업(lock-up) 해제, 스타링크 분사 가능성, 테슬라와의 합병 가능성 같은 새로운 서사들이 투자자의 판단을 흔든다. 사전에 자신만의 투자 기준을 세워두지 않으면 서사에 끌려다닐 수밖에 없다. 이 책이 서사의 홍수 속에서 냉정한 판단의 기준을 세우는 데 실질적인 도움이 되기를 바란다.",
+          "isbn": "9791158526320",
+          "publisher": "글로벌콘텐츠",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7192569?timestamp=20260409124635",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "e0170dfb-393b-5a8a-a9ce-e974c19c6a8a"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791158526320",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791158526320"
+      ],
+      "normalizedTitles": [
+        "스페이스x우주혁명이온다"
+      ],
+      "normalizedCreators": [
+        "권군오"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:19:44.469Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e0170dfb-393b-5a8a-a9ce-e974c19c6a8a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791158526320",
+      "release_date": "2026-03-31",
+      "metadata": {
+        "isbn": "9791158526320",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+        "publisher": "글로벌콘텐츠",
+        "figureBook": {
+          "workTitle": "스페이스X 우주혁명이 온다",
+          "workCreator": "권군오",
+          "workIdentity": "book/9791158526320",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-03-31",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:19:24.484092+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e0170dfb-393b-5a8a-a9ce-e974c19c6a8a",
+        "locale": "ko",
+        "title": "스페이스X 우주혁명이 온다",
+        "creator": "권군오",
+        "description": "세기의 IPO, 스페이스X를 해부한다\n2026년 상반기, 전 세계 자본시장이 단 하나의 IPO를 향해 시선을 고정하고 있다. 주인공은 텍사스주 스타베이스에 본사를 둔 스페이스X다. 목표 기업가치 1조 5,000억 달러, 약 2,100조 원을 내걸고 역사상 최대 규모의 IPO를 준비 중이며, 공모 규모만 최대 500억 달러에 달한다. 비교 기준을 한국으로 옮기면 그 규모는 더욱 실감 난다. 스페이스X의 예상 기업가치는 삼성전자 시가총액의 약 2배이고, 세계 최대 기업 애플 시가총액의 절반에 육박한다. 이 책은 스페이스X와 우주 섹터에 투자하려는 한국 투자자들을 위한 안내서이다.\n\n실패를 연료 삼아 날아오른 로켓, 그 25년의 서사\n2002년, 일론 머스크는 화성 이주라는 목표를 품고 스페이스X를 창업했다. 초기에 만든 팰컨 1은 1차, 2차, 3차 발사에서 모두 폭발로 끝났고, 회사의 자금은 바닥을 드러내고 있었다. 그러나 2008년 9월 팰컨 1의 4번째 발사가 마침내 성공했고, 직후 NASA와 체결한 16억 달러 규모의 CRS 계약이 스페이스X를 파산 직전에서 건져냈다. 이후 팰컨 9의 1단 로켓 회수·재사용 기술은 발사 비용을 수십 분의 일로 낮추며 우주산업의 경제학 자체를 뒤흔들었다. 25년간의 이 서사를 이해하지 않고서는 스페이스X의 미래를 제대로 평가할 수 없다.\n\n스타링크라는 이름의 현금 엔진\n스페이스X가 단순한 로켓 회사가 아닌 이유는 스타링크(Starlink)에 있다. 2025년 스페이스X의 전체 매출은 약 155억 달러로 추정되며, 2026년에는 220억~240억 달러에 달할 것으로 전망된다. 스타링크는 통신 인프라가 열악한 오지, 해상, 항공 노선 등 기존 통신망이 닿지 않는 곳을 집중 공략하며 독자적인 시장을 개척했다. 여기에 더해 2026년 2월 완료된 xAI와의 합병은 스페이스X에 우주 AI 데이터센터라는 새로운 성장 서사를 추가했다. 이 책은 그 사업 모델의 구조와 재무적 의미를 투자자의 눈높이에서 상세히 해부한다.\n\n정보의 비대칭을 넘어, 한국 투자자의 실전 무기\n스페이스X는 비상장 기업이었기 때문에 지금까지 재무제표 공개 의무가 없었고, 알려진 재무 정보는 대부분 단편적인 언론 보도에 의존해 왔다. 사업 구조를 제대로 이해하지 못한 채 IPO에 참여하거나 관련주를 매입하는 것은 복권을 사는 것과 다를 바 없다. 이 책은 그 정보 격차를 좁히기 위해 기획되었다. 최신 자료를 통한 스페이스X의 재무상태 분석과 미래 기대 수익을 해부한다. 또한 스페이스X의 공급망에 편입된 한국 기업, 우주 생태계의 간접 수혜 기업, 국내 우주 관련 ETF까지 한국 주식시장에 미치는 파급 효과를 체계적으로 정리했다.\n\n서사의 홍수 속에서 냉정을 지키면서 우주 섹터에 투자하는 방법\n스페이스X IPO를 둘러싼 시장의 소음은 IPO 전에도, IPO 후에도 멈추지 않는다. “○○ 기업이 스페이스X와 연관이 있다”라는 보도 한 줄에 해당 종 목의 주가가 급등하는 현상이 반복되고, IPO 완료 이후에는 락업(lock-up) 해제, 스타링크 분사 가능성, 테슬라와의 합병 가능성 같은 새로운 서사들이 투자자의 판단을 흔든다. 사전에 자신만의 투자 기준을 세워두지 않으면 서사에 끌려다닐 수밖에 없다. 이 책이 서사의 홍수 속에서 냉정한 판단의 기준을 세우는 데 실질적인 도움이 되기를 바란다.",
+        "isbn": "9791158526320",
+        "publisher": "글로벌콘텐츠",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7192569?timestamp=20260409124635",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7192569&q=%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4X+%EC%9A%B0%EC%A3%BC%ED%98%81%EB%AA%85%EC%9D%B4+%EC%98%A8%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:19:24.484092+00:00",
+        "updated_at": "2026-09-06T04:19:24.484092+00:00"
+      }
+    ]
+  }
+}

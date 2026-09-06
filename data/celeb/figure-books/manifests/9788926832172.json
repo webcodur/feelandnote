@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788926832172",
+    "title": "영국혁명과 올리버 크롬웰",
+    "creator": "주연종",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788926832172"
+  }
+}

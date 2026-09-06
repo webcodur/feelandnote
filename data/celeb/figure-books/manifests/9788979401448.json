@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788979401448",
+    "title": "상앙: 이목지신을 지킨 아이언 맨",
+    "creator": "윤대식",
+    "titleAliases": [
+      "상앙"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788979401448"
+  }
+}

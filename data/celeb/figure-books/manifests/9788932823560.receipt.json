@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788932823560.json",
+  "manifestSha256": "3d33bb17125e06c0567aa4a8d541b3a8cb9587f53d3221545cef800b97879748",
+  "planSha256": "a4acee77d9c88108e8dc9babe7d625cadc57ecc073635234ea5a95f5b10b2176",
+  "workIdentity": "book/9788932823560",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788932823560"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "761bdb67-f775-515b-9e86-188390c0e250",
+    "scopeKey": "book/9788932823560",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "761bdb67-f775-515b-9e86-188390c0e250",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932823560",
+      "release_date": "2025-06-30",
+      "metadata": {
+        "isbn": "9788932823560",
+        "publisher": "IVP",
+        "publishDate": "2025-06-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788932823560",
+          "workTitle": "칼뱅",
+          "workCreator": "브루스 고든",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "칼뱅",
+          "creator": "브루스 고든",
+          "description": "프랑스 르네상스라는 영광스러웠던 시기에 젊은 장 칼뱅(1509-1564)은 종교개혁 신앙을 통한 심오한 회심을 경험했고, 남은 평생 그 변화의 의미를 몸으로 구현하는 삶을 살았다. 망명자이자 영감 넘치는 종교개혁자로서 그는 사실상 국경을 넘어 유럽 전체의 프로테스탄트 종교개혁을 주도하는 인물이었다. 칼뱅이 꿈꾼 기독교에 대한 비전은 많은 학자들을 자극해 지금까지 엄청난 양의 분석서가 나왔다. 그러나 이 세밀한 평전은 칼뱅의 삶을 다시 한번 두드러지게 주조해 낸다. 브루스 고든이 이 책에서 펼쳐 보여 주는 칼뱅의 생애를 통해 탁월하지만 오만하고, 카리스마 넘치지만 가차 없고, 관대하지만 기민하기 이를 데 없는 한 인간을 생생하게 만나는 기쁨을 누릴 것이다.",
+          "isbn": "9788932823560",
+          "publisher": "IVP",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7169989?timestamp=20260320124348",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85"
+          },
+          "verified": true,
+          "content_id": "761bdb67-f775-515b-9e86-188390c0e250"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "761bdb67-f775-515b-9e86-188390c0e250",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788932823560",
+        "release_date": "2025-06-30",
+        "metadata": {
+          "isbn": "9788932823560",
+          "publisher": "IVP",
+          "publishDate": "2025-06-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788932823560",
+            "workTitle": "칼뱅",
+            "workCreator": "브루스 고든",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "칼뱅",
+          "creator": "브루스 고든",
+          "description": "프랑스 르네상스라는 영광스러웠던 시기에 젊은 장 칼뱅(1509-1564)은 종교개혁 신앙을 통한 심오한 회심을 경험했고, 남은 평생 그 변화의 의미를 몸으로 구현하는 삶을 살았다. 망명자이자 영감 넘치는 종교개혁자로서 그는 사실상 국경을 넘어 유럽 전체의 프로테스탄트 종교개혁을 주도하는 인물이었다. 칼뱅이 꿈꾼 기독교에 대한 비전은 많은 학자들을 자극해 지금까지 엄청난 양의 분석서가 나왔다. 그러나 이 세밀한 평전은 칼뱅의 삶을 다시 한번 두드러지게 주조해 낸다. 브루스 고든이 이 책에서 펼쳐 보여 주는 칼뱅의 생애를 통해 탁월하지만 오만하고, 카리스마 넘치지만 가차 없고, 관대하지만 기민하기 이를 데 없는 한 인간을 생생하게 만나는 기쁨을 누릴 것이다.",
+          "isbn": "9788932823560",
+          "publisher": "IVP",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7169989?timestamp=20260320124348",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85"
+          },
+          "verified": true,
+          "content_id": "761bdb67-f775-515b-9e86-188390c0e250"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788932823560",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788932823560"
+      ],
+      "normalizedTitles": [
+        "칼뱅"
+      ],
+      "normalizedCreators": [
+        "브루스고든",
+        "이재근역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:39:06.933Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "761bdb67-f775-515b-9e86-188390c0e250",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932823560",
+      "release_date": "2025-06-30",
+      "metadata": {
+        "isbn": "9788932823560",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+        "publisher": "IVP",
+        "figureBook": {
+          "workTitle": "칼뱅",
+          "workCreator": "브루스 고든",
+          "workIdentity": "book/9788932823560",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-06-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:39:01.486057+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "761bdb67-f775-515b-9e86-188390c0e250",
+        "locale": "ko",
+        "title": "칼뱅",
+        "creator": "브루스 고든",
+        "description": "프랑스 르네상스라는 영광스러웠던 시기에 젊은 장 칼뱅(1509-1564)은 종교개혁 신앙을 통한 심오한 회심을 경험했고, 남은 평생 그 변화의 의미를 몸으로 구현하는 삶을 살았다. 망명자이자 영감 넘치는 종교개혁자로서 그는 사실상 국경을 넘어 유럽 전체의 프로테스탄트 종교개혁을 주도하는 인물이었다. 칼뱅이 꿈꾼 기독교에 대한 비전은 많은 학자들을 자극해 지금까지 엄청난 양의 분석서가 나왔다. 그러나 이 세밀한 평전은 칼뱅의 삶을 다시 한번 두드러지게 주조해 낸다. 브루스 고든이 이 책에서 펼쳐 보여 주는 칼뱅의 생애를 통해 탁월하지만 오만하고, 카리스마 넘치지만 가차 없고, 관대하지만 기민하기 이를 데 없는 한 인간을 생생하게 만나는 기쁨을 누릴 것이다.",
+        "isbn": "9788932823560",
+        "publisher": "IVP",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7169989?timestamp=20260320124348",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7169989&q=%EC%B9%BC%EB%B1%85"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:39:01.486057+00:00",
+        "updated_at": "2026-09-04T17:39:01.486057+00:00"
+      }
+    ]
+  }
+}

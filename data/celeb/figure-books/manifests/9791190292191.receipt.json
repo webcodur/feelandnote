@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791190292191.json",
+  "manifestSha256": "896efdf1fabb0fab8fc7cf8506abf36806be88b2475bcae15469a3ce03a3f430",
+  "planSha256": "535425b593bfad4532e1018d576e463d89cd04194d92f9a3c4506ac13d09e7e6",
+  "workIdentity": "book/9791190292191",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791190292191"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "bc0ea5f5-0664-5b01-b623-f99ea8c498af",
+    "scopeKey": "book/9791190292191",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "bc0ea5f5-0664-5b01-b623-f99ea8c498af",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791190292191",
+      "release_date": "2023-10-15",
+      "metadata": {
+        "isbn": "9791190292191",
+        "publisher": "리시올",
+        "publishDate": "2023-10-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791190292191",
+          "workTitle": "푸코: 그의 사유, 그의 인격",
+          "workCreator": "폴 벤느",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "푸코: 그의 사유, 그의 인격",
+          "creator": "폴 벤느",
+          "description": "폴 벤느는 1950년대 파리 고등 사범 학교에서 처음 푸코를 만나 그가 세상을 떠날 때까지 가까운 친구이자 지적 동지로 지냈다. 푸코주의를 역사학에 접목하는 한편 푸코 후기 작업이 고대사를 탐사하는 데 든든한 조언자 역할을 했던 벤느는 2008년 자신의 결정적 푸코론인 『푸코: 그의 인격, 그의 사유』를 펴내 오랜 벗에게 마지막 헌사를 바쳤다.\n이 책에서 벤느는 푸코에 대한 오랜 오해를 교정하고 그의 유산이 가진 의미와 잠재력을 전하는 데 진력한다. 그에 따르면 푸코는 무엇보다도 회의주의 철학자였다. 이 책은 푸코 작업의 전반을 아우르며 푸코 사상에 대한 가장 일관되고 에두르지 않는 설명을 제공한다. 그 과정에서 교차하는 벤느의 기억 속 인간 푸코의 면모는 회의주의적 고고학자이자 전투적 행동주의자였던 푸코의 초상을 선연히 그려 낸다.\n이 책은 『푸코, 사유와 인간』(이상길 옮김, 산책자, 2009)의 전면 개정판이다. 번역을 새롭게 가다듬고 주석의 보완 외에도 초판 부록이었던 푸코 연보와 저작 목록을 최신화했다. 더불어 2021년 ‘푸코 스캔들’의 전말과 함의를 담은 옮긴이 에세이 「푸코를 불태워야 하는가?」를 ‘개정판 후기’로 수록해 출간의 의의를 더했다.",
+          "isbn": "9791190292191",
+          "publisher": "리시올",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6465600?timestamp=20250411154713",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9"
+          },
+          "verified": true,
+          "content_id": "bc0ea5f5-0664-5b01-b623-f99ea8c498af"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "bc0ea5f5-0664-5b01-b623-f99ea8c498af",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791190292191",
+        "release_date": "2023-10-15",
+        "metadata": {
+          "isbn": "9791190292191",
+          "publisher": "리시올",
+          "publishDate": "2023-10-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791190292191",
+            "workTitle": "푸코: 그의 사유, 그의 인격",
+            "workCreator": "폴 벤느",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "푸코: 그의 사유, 그의 인격",
+          "creator": "폴 벤느",
+          "description": "폴 벤느는 1950년대 파리 고등 사범 학교에서 처음 푸코를 만나 그가 세상을 떠날 때까지 가까운 친구이자 지적 동지로 지냈다. 푸코주의를 역사학에 접목하는 한편 푸코 후기 작업이 고대사를 탐사하는 데 든든한 조언자 역할을 했던 벤느는 2008년 자신의 결정적 푸코론인 『푸코: 그의 인격, 그의 사유』를 펴내 오랜 벗에게 마지막 헌사를 바쳤다.\n이 책에서 벤느는 푸코에 대한 오랜 오해를 교정하고 그의 유산이 가진 의미와 잠재력을 전하는 데 진력한다. 그에 따르면 푸코는 무엇보다도 회의주의 철학자였다. 이 책은 푸코 작업의 전반을 아우르며 푸코 사상에 대한 가장 일관되고 에두르지 않는 설명을 제공한다. 그 과정에서 교차하는 벤느의 기억 속 인간 푸코의 면모는 회의주의적 고고학자이자 전투적 행동주의자였던 푸코의 초상을 선연히 그려 낸다.\n이 책은 『푸코, 사유와 인간』(이상길 옮김, 산책자, 2009)의 전면 개정판이다. 번역을 새롭게 가다듬고 주석의 보완 외에도 초판 부록이었던 푸코 연보와 저작 목록을 최신화했다. 더불어 2021년 ‘푸코 스캔들’의 전말과 함의를 담은 옮긴이 에세이 「푸코를 불태워야 하는가?」를 ‘개정판 후기’로 수록해 출간의 의의를 더했다.",
+          "isbn": "9791190292191",
+          "publisher": "리시올",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6465600?timestamp=20250411154713",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9"
+          },
+          "verified": true,
+          "content_id": "bc0ea5f5-0664-5b01-b623-f99ea8c498af"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791190292191",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791190292191"
+      ],
+      "normalizedTitles": [
+        "푸코",
+        "푸코그의사유그의인격"
+      ],
+      "normalizedCreators": [
+        "이상길역",
+        "폴벤느"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:34:04.807Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "bc0ea5f5-0664-5b01-b623-f99ea8c498af",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791190292191",
+      "release_date": "2023-10-15",
+      "metadata": {
+        "isbn": "9791190292191",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+        "publisher": "리시올",
+        "figureBook": {
+          "workTitle": "푸코: 그의 사유, 그의 인격",
+          "workCreator": "폴 벤느",
+          "workIdentity": "book/9791190292191",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-10-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:33:57.66791+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "bc0ea5f5-0664-5b01-b623-f99ea8c498af",
+        "locale": "ko",
+        "title": "푸코: 그의 사유, 그의 인격",
+        "creator": "폴 벤느",
+        "description": "폴 벤느는 1950년대 파리 고등 사범 학교에서 처음 푸코를 만나 그가 세상을 떠날 때까지 가까운 친구이자 지적 동지로 지냈다. 푸코주의를 역사학에 접목하는 한편 푸코 후기 작업이 고대사를 탐사하는 데 든든한 조언자 역할을 했던 벤느는 2008년 자신의 결정적 푸코론인 『푸코: 그의 인격, 그의 사유』를 펴내 오랜 벗에게 마지막 헌사를 바쳤다.\n이 책에서 벤느는 푸코에 대한 오랜 오해를 교정하고 그의 유산이 가진 의미와 잠재력을 전하는 데 진력한다. 그에 따르면 푸코는 무엇보다도 회의주의 철학자였다. 이 책은 푸코 작업의 전반을 아우르며 푸코 사상에 대한 가장 일관되고 에두르지 않는 설명을 제공한다. 그 과정에서 교차하는 벤느의 기억 속 인간 푸코의 면모는 회의주의적 고고학자이자 전투적 행동주의자였던 푸코의 초상을 선연히 그려 낸다.\n이 책은 『푸코, 사유와 인간』(이상길 옮김, 산책자, 2009)의 전면 개정판이다. 번역을 새롭게 가다듬고 주석의 보완 외에도 초판 부록이었던 푸코 연보와 저작 목록을 최신화했다. 더불어 2021년 ‘푸코 스캔들’의 전말과 함의를 담은 옮긴이 에세이 「푸코를 불태워야 하는가?」를 ‘개정판 후기’로 수록해 출간의 의의를 더했다.",
+        "isbn": "9791190292191",
+        "publisher": "리시올",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6465600?timestamp=20250411154713",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6465600&q=%ED%91%B8%EC%BD%94%3A+%EA%B7%B8%EC%9D%98+%EC%82%AC%EC%9C%A0%2C+%EA%B7%B8%EC%9D%98+%EC%9D%B8%EA%B2%A9"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:33:57.66791+00:00",
+        "updated_at": "2026-09-06T02:33:57.66791+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788954408400",
+    "title": "칼 포퍼가 들려주는 열린사회 이야기",
+    "creator": "이한구",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788954408400"
+  }
+}

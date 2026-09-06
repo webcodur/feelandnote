@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791188990696",
+    "title": "몽골제국의 후예들",
+    "creator": "이주엽",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791188990696"
+  }
+}

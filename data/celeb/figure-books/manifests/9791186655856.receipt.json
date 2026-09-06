@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791186655856.json",
+  "manifestSha256": "aa739de0dea60ecf680305f33b66d0c596cf04cf58c3b8265c80d27335344a8b",
+  "planSha256": "60f2c0801192500ec829cb88d52cae6f46ad8d4f08910cb1b543d862daf437e9",
+  "workIdentity": "book/9791186655856",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791186655856"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d7ac5cb0-1aab-5b0a-8348-71879c413e3a",
+    "scopeKey": "book/9791186655856",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d7ac5cb0-1aab-5b0a-8348-71879c413e3a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791186655856",
+      "release_date": "2022-03-01",
+      "metadata": {
+        "isbn": "9791186655856",
+        "publisher": "엠지에이치북스",
+        "publishDate": "2022-03-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791186655856",
+          "workTitle": "미스 반 더 로에 건축과 생애",
+          "workCreator": "프란츠 슐츠",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "미스 반 더 로에 건축과 생애",
+          "creator": "프란츠 슐츠, 에드워드 빈트호르스트",
+          "description": "프란츠 슐츠Franz Schulze가 1985년에 집필한 미스 반 더 로에 평전: 건축과 생애Mies van der Rohe: A Critical Biography는 당대 최고의 거장 반열에 오른 독일계 미국인 건축가의 삶을 빠트림 없이 되살려 낸 건축 기록의 정수였다. 그 초판본을 바탕으로 건축가 에드워드 빈트호르스트Edward Windhorst와 공동으로 집필한 이번 개정 증보판은 분량 면에서 1985년도 발행된 초판본에 비해 3배가량 더 늘어났으며, 미국과 독일 학자들의 최신 연구를 바탕으로 폭넓은 새로운 내용과 해설을 담고 있다",
+          "isbn": "9791186655856",
+          "publisher": "엠지에이치북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6043109?timestamp=20240312154651",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0"
+          },
+          "verified": true,
+          "content_id": "d7ac5cb0-1aab-5b0a-8348-71879c413e3a"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d7ac5cb0-1aab-5b0a-8348-71879c413e3a",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791186655856",
+        "release_date": "2022-03-01",
+        "metadata": {
+          "isbn": "9791186655856",
+          "publisher": "엠지에이치북스",
+          "publishDate": "2022-03-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791186655856",
+            "workTitle": "미스 반 더 로에 건축과 생애",
+            "workCreator": "프란츠 슐츠",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "미스 반 더 로에 건축과 생애",
+          "creator": "프란츠 슐츠, 에드워드 빈트호르스트",
+          "description": "프란츠 슐츠Franz Schulze가 1985년에 집필한 미스 반 더 로에 평전: 건축과 생애Mies van der Rohe: A Critical Biography는 당대 최고의 거장 반열에 오른 독일계 미국인 건축가의 삶을 빠트림 없이 되살려 낸 건축 기록의 정수였다. 그 초판본을 바탕으로 건축가 에드워드 빈트호르스트Edward Windhorst와 공동으로 집필한 이번 개정 증보판은 분량 면에서 1985년도 발행된 초판본에 비해 3배가량 더 늘어났으며, 미국과 독일 학자들의 최신 연구를 바탕으로 폭넓은 새로운 내용과 해설을 담고 있다",
+          "isbn": "9791186655856",
+          "publisher": "엠지에이치북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6043109?timestamp=20240312154651",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0"
+          },
+          "verified": true,
+          "content_id": "d7ac5cb0-1aab-5b0a-8348-71879c413e3a"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791186655856",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791186655856"
+      ],
+      "normalizedTitles": [
+        "미스반더로에건축과생애"
+      ],
+      "normalizedCreators": [
+        "에드워드빈트호르스트",
+        "천장환역",
+        "프란츠슐츠",
+        "프란츠슐츠에드워드빈트호르스트"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:10:30.423Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d7ac5cb0-1aab-5b0a-8348-71879c413e3a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791186655856",
+      "release_date": "2022-03-01",
+      "metadata": {
+        "isbn": "9791186655856",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+        "publisher": "엠지에이치북스",
+        "figureBook": {
+          "workTitle": "미스 반 더 로에 건축과 생애",
+          "workCreator": "프란츠 슐츠",
+          "workIdentity": "book/9791186655856",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-03-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:10:26.178332+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d7ac5cb0-1aab-5b0a-8348-71879c413e3a",
+        "locale": "ko",
+        "title": "미스 반 더 로에 건축과 생애",
+        "creator": "프란츠 슐츠, 에드워드 빈트호르스트",
+        "description": "프란츠 슐츠Franz Schulze가 1985년에 집필한 미스 반 더 로에 평전: 건축과 생애Mies van der Rohe: A Critical Biography는 당대 최고의 거장 반열에 오른 독일계 미국인 건축가의 삶을 빠트림 없이 되살려 낸 건축 기록의 정수였다. 그 초판본을 바탕으로 건축가 에드워드 빈트호르스트Edward Windhorst와 공동으로 집필한 이번 개정 증보판은 분량 면에서 1985년도 발행된 초판본에 비해 3배가량 더 늘어났으며, 미국과 독일 학자들의 최신 연구를 바탕으로 폭넓은 새로운 내용과 해설을 담고 있다",
+        "isbn": "9791186655856",
+        "publisher": "엠지에이치북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6043109?timestamp=20240312154651",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6043109&q=%EB%AF%B8%EC%8A%A4+%EB%B0%98+%EB%8D%94+%EB%A1%9C%EC%97%90+%EA%B1%B4%EC%B6%95%EA%B3%BC+%EC%83%9D%EC%95%A0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:10:26.178332+00:00",
+        "updated_at": "2026-09-04T18:10:26.178332+00:00"
+      }
+    ]
+  }
+}

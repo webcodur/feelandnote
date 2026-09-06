@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788992371810.json",
+  "manifestSha256": "6b5be9b0282b3b76093fd1834acbdc343897bf0977fadd2c39a92ca298084a5a",
+  "planSha256": "f23d206bb2dce946bfc048a9964d08a6a8cb0a5784efc6d604d5b305783025c0",
+  "workIdentity": "book/9788992371810",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788992371810"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "bc509005-4fec-5d94-bf1f-50de27506774",
+    "scopeKey": "book/9788992371810",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "bc509005-4fec-5d94-bf1f-50de27506774",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788992371810",
+      "release_date": "2021-09-10",
+      "metadata": {
+        "isbn": "9788992371810",
+        "publisher": "시금치",
+        "publishDate": "2021-09-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788992371810",
+          "workTitle": "에밀리 디킨슨, 시인의 정원",
+          "workCreator": "마타 맥다월",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "에밀리 디킨슨, 시인의 정원",
+          "creator": "마타 맥다월",
+          "description": "시인-정원사 에밀리 디킨슨의 삶과 시를 읽다\n은둔의 시인에서 자연, 사람과 교감한 시인으로 재해석하다\n\n이 책은 미국의 시인 에밀리 디킨슨Emily Dickinson(1830~1886)의 삶과 문학 세계를 자연과 식물이라는 독특한 관점에서 살펴본 책으로, 새로운 디킨슨 평전이자 비평서라고 할 수 있다. 디킨슨은 생전에 거의 작품을 발표하지 않고 사후에 문학적 명성을 얻은 데다 청교도적인 독신의 삶을 살고 은둔 생활을 한 탓에 비밀스러운 시인으로 알려져 있다. 이 책은 이러한 에밀리 디킨슨을 둘러싼 신화적 이미지를 깨고, 디킨슨이 친구들과 가족들에게 위트가 넘치는 수많은 시를 써서 채집하여 말린 꽃을 함께 보낸 다정한 친구이자 가족이었으며, 학교에서\n에밀리 디킨슨이 태어나 평생을 보낸 매사추세츠주 애머스트 메인 스트리트에 있는 디킨슨 홈스테드.\n배운 식물학 이론을 적용하여 식물을 탐구하고 기록한 열정적인 정원사이자 식물학자였음을 보여준다.\n이 책에 실린 디킨슨 생전에 미발표된 여러 시는 시 쓰기에 대한 시인의 애정과 열망을 보여주며, 상실과 아픔을 겪은 이들에게 보내는 시인의 격려와 위로는 디킨슨의 새로운 면모를 엿볼 수 있게 한다. 또한 155컷에 이르는 다양한 식물 그림과 사진을 싣고 디킨슨과 관련된 계절별 식물 설명과 주요 식물 목록도 수록하고 있어, 식물 정보책으로 읽어도 손색이 없다.\n이 책을 쓴 마타 맥다월은 조경 연구자로 시작하여 『피터 래빗』 시리즈의 작가 비어트릭스 포터, 『초원의 집』의 주인공이자 저자인 로라 잉걸스 와일더, 『비밀의 화원』의 프랜시스 호지슨 버넷, 『빨간 머리 앤』의 루시 모드 몽고메리 등 작가와 정원의 흥미로운 숨은 이야기를 들려주는 독특한 작가다. 그간 디킨슨의 시집 다수를 번역 출간한 번역자 박혜란은 상세한 주석과 꼼꼼한 번역으로 디킨슨의 생애와 시 세계를 이해하는 데 큰 도움을 준다.",
+          "isbn": "9788992371810",
+          "publisher": "시금치",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5837287?timestamp=20250801140826",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90"
+          },
+          "verified": true,
+          "content_id": "bc509005-4fec-5d94-bf1f-50de27506774"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "bc509005-4fec-5d94-bf1f-50de27506774",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788992371810",
+        "release_date": "2021-09-10",
+        "metadata": {
+          "isbn": "9788992371810",
+          "publisher": "시금치",
+          "publishDate": "2021-09-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788992371810",
+            "workTitle": "에밀리 디킨슨, 시인의 정원",
+            "workCreator": "마타 맥다월",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "에밀리 디킨슨, 시인의 정원",
+          "creator": "마타 맥다월",
+          "description": "시인-정원사 에밀리 디킨슨의 삶과 시를 읽다\n은둔의 시인에서 자연, 사람과 교감한 시인으로 재해석하다\n\n이 책은 미국의 시인 에밀리 디킨슨Emily Dickinson(1830~1886)의 삶과 문학 세계를 자연과 식물이라는 독특한 관점에서 살펴본 책으로, 새로운 디킨슨 평전이자 비평서라고 할 수 있다. 디킨슨은 생전에 거의 작품을 발표하지 않고 사후에 문학적 명성을 얻은 데다 청교도적인 독신의 삶을 살고 은둔 생활을 한 탓에 비밀스러운 시인으로 알려져 있다. 이 책은 이러한 에밀리 디킨슨을 둘러싼 신화적 이미지를 깨고, 디킨슨이 친구들과 가족들에게 위트가 넘치는 수많은 시를 써서 채집하여 말린 꽃을 함께 보낸 다정한 친구이자 가족이었으며, 학교에서\n에밀리 디킨슨이 태어나 평생을 보낸 매사추세츠주 애머스트 메인 스트리트에 있는 디킨슨 홈스테드.\n배운 식물학 이론을 적용하여 식물을 탐구하고 기록한 열정적인 정원사이자 식물학자였음을 보여준다.\n이 책에 실린 디킨슨 생전에 미발표된 여러 시는 시 쓰기에 대한 시인의 애정과 열망을 보여주며, 상실과 아픔을 겪은 이들에게 보내는 시인의 격려와 위로는 디킨슨의 새로운 면모를 엿볼 수 있게 한다. 또한 155컷에 이르는 다양한 식물 그림과 사진을 싣고 디킨슨과 관련된 계절별 식물 설명과 주요 식물 목록도 수록하고 있어, 식물 정보책으로 읽어도 손색이 없다.\n이 책을 쓴 마타 맥다월은 조경 연구자로 시작하여 『피터 래빗』 시리즈의 작가 비어트릭스 포터, 『초원의 집』의 주인공이자 저자인 로라 잉걸스 와일더, 『비밀의 화원』의 프랜시스 호지슨 버넷, 『빨간 머리 앤』의 루시 모드 몽고메리 등 작가와 정원의 흥미로운 숨은 이야기를 들려주는 독특한 작가다. 그간 디킨슨의 시집 다수를 번역 출간한 번역자 박혜란은 상세한 주석과 꼼꼼한 번역으로 디킨슨의 생애와 시 세계를 이해하는 데 큰 도움을 준다.",
+          "isbn": "9788992371810",
+          "publisher": "시금치",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5837287?timestamp=20250801140826",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90"
+          },
+          "verified": true,
+          "content_id": "bc509005-4fec-5d94-bf1f-50de27506774"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788992371810",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788992371810"
+      ],
+      "normalizedTitles": [
+        "에밀리디킨슨시인의정원"
+      ],
+      "normalizedCreators": [
+        "마타맥다월",
+        "박혜란역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:14:38.649Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "bc509005-4fec-5d94-bf1f-50de27506774",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788992371810",
+      "release_date": "2021-09-10",
+      "metadata": {
+        "isbn": "9788992371810",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+        "publisher": "시금치",
+        "figureBook": {
+          "workTitle": "에밀리 디킨슨, 시인의 정원",
+          "workCreator": "마타 맥다월",
+          "workIdentity": "book/9788992371810",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2021-09-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:14:25.482082+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "bc509005-4fec-5d94-bf1f-50de27506774",
+        "locale": "ko",
+        "title": "에밀리 디킨슨, 시인의 정원",
+        "creator": "마타 맥다월",
+        "description": "시인-정원사 에밀리 디킨슨의 삶과 시를 읽다\n은둔의 시인에서 자연, 사람과 교감한 시인으로 재해석하다\n\n이 책은 미국의 시인 에밀리 디킨슨Emily Dickinson(1830~1886)의 삶과 문학 세계를 자연과 식물이라는 독특한 관점에서 살펴본 책으로, 새로운 디킨슨 평전이자 비평서라고 할 수 있다. 디킨슨은 생전에 거의 작품을 발표하지 않고 사후에 문학적 명성을 얻은 데다 청교도적인 독신의 삶을 살고 은둔 생활을 한 탓에 비밀스러운 시인으로 알려져 있다. 이 책은 이러한 에밀리 디킨슨을 둘러싼 신화적 이미지를 깨고, 디킨슨이 친구들과 가족들에게 위트가 넘치는 수많은 시를 써서 채집하여 말린 꽃을 함께 보낸 다정한 친구이자 가족이었으며, 학교에서\n에밀리 디킨슨이 태어나 평생을 보낸 매사추세츠주 애머스트 메인 스트리트에 있는 디킨슨 홈스테드.\n배운 식물학 이론을 적용하여 식물을 탐구하고 기록한 열정적인 정원사이자 식물학자였음을 보여준다.\n이 책에 실린 디킨슨 생전에 미발표된 여러 시는 시 쓰기에 대한 시인의 애정과 열망을 보여주며, 상실과 아픔을 겪은 이들에게 보내는 시인의 격려와 위로는 디킨슨의 새로운 면모를 엿볼 수 있게 한다. 또한 155컷에 이르는 다양한 식물 그림과 사진을 싣고 디킨슨과 관련된 계절별 식물 설명과 주요 식물 목록도 수록하고 있어, 식물 정보책으로 읽어도 손색이 없다.\n이 책을 쓴 마타 맥다월은 조경 연구자로 시작하여 『피터 래빗』 시리즈의 작가 비어트릭스 포터, 『초원의 집』의 주인공이자 저자인 로라 잉걸스 와일더, 『비밀의 화원』의 프랜시스 호지슨 버넷, 『빨간 머리 앤』의 루시 모드 몽고메리 등 작가와 정원의 흥미로운 숨은 이야기를 들려주는 독특한 작가다. 그간 디킨슨의 시집 다수를 번역 출간한 번역자 박혜란은 상세한 주석과 꼼꼼한 번역으로 디킨슨의 생애와 시 세계를 이해하는 데 큰 도움을 준다.",
+        "isbn": "9788992371810",
+        "publisher": "시금치",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5837287?timestamp=20250801140826",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5837287&q=%EC%97%90%EB%B0%80%EB%A6%AC+%EB%94%94%ED%82%A8%EC%8A%A8%2C+%EC%8B%9C%EC%9D%B8%EC%9D%98+%EC%A0%95%EC%9B%90"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:14:25.482082+00:00",
+        "updated_at": "2026-09-06T04:14:25.482082+00:00"
+      }
+    ]
+  }
+}

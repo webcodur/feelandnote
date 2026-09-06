@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791189346157",
+    "title": "슈베르트 평전",
+    "creator": "엘리자베스 노먼 맥케이",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이석호 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791189346157"
+  }
+}

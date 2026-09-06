@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791165191511",
+    "title": "제갈량, 그와 다시 마주하다",
+    "creator": "류종민",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791165191511"
+  }
+}

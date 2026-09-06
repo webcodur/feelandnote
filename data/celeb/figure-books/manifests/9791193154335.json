@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791193154335",
+    "title": "무함마드",
+    "creator": "카렌 암스트롱",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김승완 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791193154335"
+  }
+}

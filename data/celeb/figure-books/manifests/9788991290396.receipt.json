@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788991290396.json",
+  "manifestSha256": "ca4df80d422b01f617551e642aefcb45c4cc3e6f1ebc344e0757b49025aabfc4",
+  "planSha256": "7710622fdc20e69867696d7a3b15298d08349a75d3440a1534010ad072615825",
+  "workIdentity": "book/9788991290396",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788991290396"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+    "scopeKey": "book/9788991290396",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788991290396",
+      "release_date": "2010-11-10",
+      "metadata": {
+        "isbn": "9788991290396",
+        "publisher": "숲",
+        "publishDate": "2010-11-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788991290396",
+          "workTitle": "아리스토파네스 희극 전집 2",
+          "workCreator": "아리스토파네스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "아리스토파네스 희극 전집 2",
+          "creator": "아리스토파네스",
+          "description": "지식의 찬란한 첫새벽을 연 「원전으로 읽는 순수 고전 세계」 시리즈 『아리스토파네스 희극 전집』 제2권. 고대 그리스 연극 황금기의 가장 대표적 희극작가로 아테나이에서 기원전 445년경 태어나 385년경 사망한 아리스토파네스의 희극 전집이다. 웃음의 기능에 충실한 풍자정신의 시조인 아리스토파네스가 사라져가는 그리스의 영광을 바라보며 향수를 담아 37년에 걸쳐 쓴 40여 편의 희극 중 지금까지도 온전하게 전해지는 11편의 희극을 완역했다. 제2권에는 5편의 희극을 담아냈다. 단국대학교 인문학부 명예교수 천병희의 꼼꼼하고 세심한 주석을 덧붙여 고전의 가치를 높였다.",
+          "isbn": "9788991290396",
+          "publisher": "숲",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1345279?timestamp=20260812111624",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2"
+          },
+          "verified": true,
+          "content_id": "1e6d1b9d-64e7-560b-8981-14fa03f9844f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788991290396",
+        "release_date": "2010-11-10",
+        "metadata": {
+          "isbn": "9788991290396",
+          "publisher": "숲",
+          "publishDate": "2010-11-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788991290396",
+            "workTitle": "아리스토파네스 희극 전집 2",
+            "workCreator": "아리스토파네스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "아리스토파네스 희극 전집 2",
+          "creator": "아리스토파네스",
+          "description": "지식의 찬란한 첫새벽을 연 「원전으로 읽는 순수 고전 세계」 시리즈 『아리스토파네스 희극 전집』 제2권. 고대 그리스 연극 황금기의 가장 대표적 희극작가로 아테나이에서 기원전 445년경 태어나 385년경 사망한 아리스토파네스의 희극 전집이다. 웃음의 기능에 충실한 풍자정신의 시조인 아리스토파네스가 사라져가는 그리스의 영광을 바라보며 향수를 담아 37년에 걸쳐 쓴 40여 편의 희극 중 지금까지도 온전하게 전해지는 11편의 희극을 완역했다. 제2권에는 5편의 희극을 담아냈다. 단국대학교 인문학부 명예교수 천병희의 꼼꼼하고 세심한 주석을 덧붙여 고전의 가치를 높였다.",
+          "isbn": "9788991290396",
+          "publisher": "숲",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1345279?timestamp=20260812111624",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2"
+          },
+          "verified": true,
+          "content_id": "1e6d1b9d-64e7-560b-8981-14fa03f9844f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788991290396",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788991290396"
+      ],
+      "normalizedTitles": [
+        "아리스토파네스희극전집2"
+      ],
+      "normalizedCreators": [
+        "아리스토파네스",
+        "천병희역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:56:30.093Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788991290396",
+      "release_date": "2010-11-10",
+      "metadata": {
+        "isbn": "9788991290396",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+        "publisher": "숲",
+        "figureBook": {
+          "workTitle": "아리스토파네스 희극 전집 2",
+          "workCreator": "아리스토파네스",
+          "workIdentity": "book/9788991290396",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2010-11-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:56:25.671933+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+        "locale": "ko",
+        "title": "아리스토파네스 희극 전집 2",
+        "creator": "아리스토파네스",
+        "description": "지식의 찬란한 첫새벽을 연 「원전으로 읽는 순수 고전 세계」 시리즈 『아리스토파네스 희극 전집』 제2권. 고대 그리스 연극 황금기의 가장 대표적 희극작가로 아테나이에서 기원전 445년경 태어나 385년경 사망한 아리스토파네스의 희극 전집이다. 웃음의 기능에 충실한 풍자정신의 시조인 아리스토파네스가 사라져가는 그리스의 영광을 바라보며 향수를 담아 37년에 걸쳐 쓴 40여 편의 희극 중 지금까지도 온전하게 전해지는 11편의 희극을 완역했다. 제2권에는 5편의 희극을 담아냈다. 단국대학교 인문학부 명예교수 천병희의 꼼꼼하고 세심한 주석을 덧붙여 고전의 가치를 높였다.",
+        "isbn": "9788991290396",
+        "publisher": "숲",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1345279?timestamp=20260812111624",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1345279&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%8C%8C%EB%84%A4%EC%8A%A4+%ED%9D%AC%EA%B7%B9+%EC%A0%84%EC%A7%91+2"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:56:25.671933+00:00",
+        "updated_at": "2026-09-04T17:56:25.671933+00:00"
+      }
+    ]
+  }
+}

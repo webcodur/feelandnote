@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788960773004.json",
+  "manifestSha256": "5e00a0ea1dea35fe8d07909b9b3823df1de1f681660caca2a351047ec406bd06",
+  "planSha256": "9f22d962977a787081574fe73d32856d7d0216de886c33b0ef4243a53ebe6031",
+  "workIdentity": "book/9788960773004",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788960773004"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "204246dd-7b27-50cf-9311-4027dc1a39de",
+    "scopeKey": "book/9788960773004",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "204246dd-7b27-50cf-9311-4027dc1a39de",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788960773004",
+      "release_date": "2012-05-02",
+      "metadata": {
+        "isbn": "9788960773004",
+        "publisher": "에이콘출판",
+        "publishDate": "2012-05-02",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788960773004",
+          "workTitle": "네트워크 속의 유령",
+          "workCreator": "케빈 미트닉",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "네트워크 속의 유령",
+          "creator": "케빈 미트닉, 윌리엄 사이먼",
+          "description": "전 세계에서 가장 유명한 전직 해커로서 보안컨설턴트로 활동 중인 케빈 미트닉이 베스트셀러 작가 윌리엄 사이먼과 함께 저술한 『네트워크 속의 유령』. 사회공학의 귀재로 FBI가 1급 지명수배령을 내린 해커의 전설 케빈 미트닉의 자전적 실화를 담았다. 모토로라, 퍼시픽벨, 그리고 노키아 등 1980년대에서 1990년대 최고의 IT기업의 컴퓨터시스템과 네트워크를 쉽게 드나들며 운영체제 소스를 훔쳐내면서 미국 전역 전화망을 원하는 대로 통제하고 조작하고 감청했을 뿐 아니라, 자신을 잡기 위해 출동하는 경찰과 FBI의 움직임도 먼저 파악해 추격을 피한 저자의 스릴 넘치는 회고를 들어본다. 특히 케빈 미트닉이 놀라운 해킹 기술은 첨단 컴퓨팅 기술에만 의존한 것이 아니라 오래된 사회공학 기술을 적극 활용하여 완성되었음을 보여주고 있다.",
+          "isbn": "9788960773004",
+          "publisher": "에이콘출판",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/837855?timestamp=20230714163925",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9"
+          },
+          "verified": true,
+          "content_id": "204246dd-7b27-50cf-9311-4027dc1a39de"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "204246dd-7b27-50cf-9311-4027dc1a39de",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788960773004",
+        "release_date": "2012-05-02",
+        "metadata": {
+          "isbn": "9788960773004",
+          "publisher": "에이콘출판",
+          "publishDate": "2012-05-02",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788960773004",
+            "workTitle": "네트워크 속의 유령",
+            "workCreator": "케빈 미트닉",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "네트워크 속의 유령",
+          "creator": "케빈 미트닉, 윌리엄 사이먼",
+          "description": "전 세계에서 가장 유명한 전직 해커로서 보안컨설턴트로 활동 중인 케빈 미트닉이 베스트셀러 작가 윌리엄 사이먼과 함께 저술한 『네트워크 속의 유령』. 사회공학의 귀재로 FBI가 1급 지명수배령을 내린 해커의 전설 케빈 미트닉의 자전적 실화를 담았다. 모토로라, 퍼시픽벨, 그리고 노키아 등 1980년대에서 1990년대 최고의 IT기업의 컴퓨터시스템과 네트워크를 쉽게 드나들며 운영체제 소스를 훔쳐내면서 미국 전역 전화망을 원하는 대로 통제하고 조작하고 감청했을 뿐 아니라, 자신을 잡기 위해 출동하는 경찰과 FBI의 움직임도 먼저 파악해 추격을 피한 저자의 스릴 넘치는 회고를 들어본다. 특히 케빈 미트닉이 놀라운 해킹 기술은 첨단 컴퓨팅 기술에만 의존한 것이 아니라 오래된 사회공학 기술을 적극 활용하여 완성되었음을 보여주고 있다.",
+          "isbn": "9788960773004",
+          "publisher": "에이콘출판",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/837855?timestamp=20230714163925",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9"
+          },
+          "verified": true,
+          "content_id": "204246dd-7b27-50cf-9311-4027dc1a39de"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788960773004",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788960773004"
+      ],
+      "normalizedTitles": [
+        "네트워크속의유령"
+      ],
+      "normalizedCreators": [
+        "윌리엄사이먼",
+        "차백만역",
+        "케빈미트닉",
+        "케빈미트닉윌리엄사이먼"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:09:57.031Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "204246dd-7b27-50cf-9311-4027dc1a39de",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788960773004",
+      "release_date": "2012-05-02",
+      "metadata": {
+        "isbn": "9788960773004",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+        "publisher": "에이콘출판",
+        "figureBook": {
+          "workTitle": "네트워크 속의 유령",
+          "workCreator": "케빈 미트닉",
+          "workIdentity": "book/9788960773004",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2012-05-02",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:09:51.091947+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "204246dd-7b27-50cf-9311-4027dc1a39de",
+        "locale": "ko",
+        "title": "네트워크 속의 유령",
+        "creator": "케빈 미트닉, 윌리엄 사이먼",
+        "description": "전 세계에서 가장 유명한 전직 해커로서 보안컨설턴트로 활동 중인 케빈 미트닉이 베스트셀러 작가 윌리엄 사이먼과 함께 저술한 『네트워크 속의 유령』. 사회공학의 귀재로 FBI가 1급 지명수배령을 내린 해커의 전설 케빈 미트닉의 자전적 실화를 담았다. 모토로라, 퍼시픽벨, 그리고 노키아 등 1980년대에서 1990년대 최고의 IT기업의 컴퓨터시스템과 네트워크를 쉽게 드나들며 운영체제 소스를 훔쳐내면서 미국 전역 전화망을 원하는 대로 통제하고 조작하고 감청했을 뿐 아니라, 자신을 잡기 위해 출동하는 경찰과 FBI의 움직임도 먼저 파악해 추격을 피한 저자의 스릴 넘치는 회고를 들어본다. 특히 케빈 미트닉이 놀라운 해킹 기술은 첨단 컴퓨팅 기술에만 의존한 것이 아니라 오래된 사회공학 기술을 적극 활용하여 완성되었음을 보여주고 있다.",
+        "isbn": "9788960773004",
+        "publisher": "에이콘출판",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/837855?timestamp=20230714163925",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=837855&q=%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC+%EC%86%8D%EC%9D%98+%EC%9C%A0%EB%A0%B9"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:09:51.091947+00:00",
+        "updated_at": "2026-09-06T04:09:51.091947+00:00"
+      }
+    ]
+  }
+}

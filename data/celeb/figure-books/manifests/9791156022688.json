@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791156022688",
+    "title": "리콴유가 말하다",
+    "creator": "그래엄 앨리슨",
+    "titleAliases": [],
+    "creatorAliases": [
+      "그래엄 앨리슨, 로버트 블랙윌",
+      "석동연 (역)",
+      "로버트 블랙윌"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791156022688"
+  }
+}

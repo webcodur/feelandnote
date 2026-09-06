@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791160870916.json",
+  "manifestSha256": "4709b8453a26e062232e20a68e91f356eaa493cc16f2ec293576f0cef485d19b",
+  "planSha256": "152398e376c1e9dfdb56c74f543cd8a29ae2ad5998b4bf32efc9670ec3799c0d",
+  "workIdentity": "book/9791160870916",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791160870916"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "6595ea4b-97bd-5926-98b3-f897e497b540",
+    "scopeKey": "book/9791160870916",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "6595ea4b-97bd-5926-98b3-f897e497b540",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160870916",
+      "release_date": "2022-01-25",
+      "metadata": {
+        "isbn": "9791160870916",
+        "publisher": "연암서가",
+        "publishDate": "2022-01-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791160870916",
+          "workTitle": "공자 평전",
+          "workCreator": "쾅야밍",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "공자 평전",
+          "creator": "쾅야밍",
+          "description": "공자는 중국과 아시아는 물론 전 세계적으로도 사상적인 측면에서 큰 영향을 끼친 인물이다. Confucius와 Confucianism은 공자와 유학의 영어 표기다. 이 말이 공자를 높여 부르는 공부자(孔夫子)에서 나온 말인 것만 봐도 그 영향력을 알 만하다. 우리나라에서는 말할 것도 없이 공자의 어록인 『논어』는 물론 공자의 학통을 이어받은 저작인 『사서』가 조선 500년의 굳건한 통치 이념이 되었다. 유교의 이념은 알게 모르게 우리나라 사람들이 의식하지 못하는 깊숙한 곳에서 여전히 적잖은 작용을 하고 있는 것도 사실이다.\n쾅야밍(匡亞明)이 지은 이 책은 공자의 생애와 다방면에 걸친 사상, 업적, 후세에 끼친 영향 등을 폭넓게 다루고 있다. 쾅은 옌안(延安) 양쟈링(楊家嶺)에서 마오쩌둥을 만나 공자에 대해서 토론한 적이 있다. 두 사람 모두 공자에 대한 이해도가 높았고, 실사구시라는 합리적인 태도를 취하였으며, 참 공자와 가짜 공자를 분별해야 한다는 데 공감했다. 이 책이 나오게 된 계기이다.",
+          "isbn": "9791160870916",
+          "publisher": "연암서가",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5936512?timestamp=20250523154804",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "6595ea4b-97bd-5926-98b3-f897e497b540"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "6595ea4b-97bd-5926-98b3-f897e497b540",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791160870916",
+        "release_date": "2022-01-25",
+        "metadata": {
+          "isbn": "9791160870916",
+          "publisher": "연암서가",
+          "publishDate": "2022-01-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791160870916",
+            "workTitle": "공자 평전",
+            "workCreator": "쾅야밍",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "공자 평전",
+          "creator": "쾅야밍",
+          "description": "공자는 중국과 아시아는 물론 전 세계적으로도 사상적인 측면에서 큰 영향을 끼친 인물이다. Confucius와 Confucianism은 공자와 유학의 영어 표기다. 이 말이 공자를 높여 부르는 공부자(孔夫子)에서 나온 말인 것만 봐도 그 영향력을 알 만하다. 우리나라에서는 말할 것도 없이 공자의 어록인 『논어』는 물론 공자의 학통을 이어받은 저작인 『사서』가 조선 500년의 굳건한 통치 이념이 되었다. 유교의 이념은 알게 모르게 우리나라 사람들이 의식하지 못하는 깊숙한 곳에서 여전히 적잖은 작용을 하고 있는 것도 사실이다.\n쾅야밍(匡亞明)이 지은 이 책은 공자의 생애와 다방면에 걸친 사상, 업적, 후세에 끼친 영향 등을 폭넓게 다루고 있다. 쾅은 옌안(延安) 양쟈링(楊家嶺)에서 마오쩌둥을 만나 공자에 대해서 토론한 적이 있다. 두 사람 모두 공자에 대한 이해도가 높았고, 실사구시라는 합리적인 태도를 취하였으며, 참 공자와 가짜 공자를 분별해야 한다는 데 공감했다. 이 책이 나오게 된 계기이다.",
+          "isbn": "9791160870916",
+          "publisher": "연암서가",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5936512?timestamp=20250523154804",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "6595ea4b-97bd-5926-98b3-f897e497b540"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791160870916",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791160870916"
+      ],
+      "normalizedTitles": [
+        "공자평전"
+      ],
+      "normalizedCreators": [
+        "장세후역",
+        "쾅야밍"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:06:08.899Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "6595ea4b-97bd-5926-98b3-f897e497b540",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160870916",
+      "release_date": "2022-01-25",
+      "metadata": {
+        "isbn": "9791160870916",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+        "publisher": "연암서가",
+        "figureBook": {
+          "workTitle": "공자 평전",
+          "workCreator": "쾅야밍",
+          "workIdentity": "book/9791160870916",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-01-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:06:02.387398+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "6595ea4b-97bd-5926-98b3-f897e497b540",
+        "locale": "ko",
+        "title": "공자 평전",
+        "creator": "쾅야밍",
+        "description": "공자는 중국과 아시아는 물론 전 세계적으로도 사상적인 측면에서 큰 영향을 끼친 인물이다. Confucius와 Confucianism은 공자와 유학의 영어 표기다. 이 말이 공자를 높여 부르는 공부자(孔夫子)에서 나온 말인 것만 봐도 그 영향력을 알 만하다. 우리나라에서는 말할 것도 없이 공자의 어록인 『논어』는 물론 공자의 학통을 이어받은 저작인 『사서』가 조선 500년의 굳건한 통치 이념이 되었다. 유교의 이념은 알게 모르게 우리나라 사람들이 의식하지 못하는 깊숙한 곳에서 여전히 적잖은 작용을 하고 있는 것도 사실이다.\n쾅야밍(匡亞明)이 지은 이 책은 공자의 생애와 다방면에 걸친 사상, 업적, 후세에 끼친 영향 등을 폭넓게 다루고 있다. 쾅은 옌안(延安) 양쟈링(楊家嶺)에서 마오쩌둥을 만나 공자에 대해서 토론한 적이 있다. 두 사람 모두 공자에 대한 이해도가 높았고, 실사구시라는 합리적인 태도를 취하였으며, 참 공자와 가짜 공자를 분별해야 한다는 데 공감했다. 이 책이 나오게 된 계기이다.",
+        "isbn": "9791160870916",
+        "publisher": "연암서가",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5936512?timestamp=20250523154804",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5936512&q=%EA%B3%B5%EC%9E%90+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:06:02.387398+00:00",
+        "updated_at": "2026-09-04T18:06:02.387398+00:00"
+      }
+    ]
+  }
+}

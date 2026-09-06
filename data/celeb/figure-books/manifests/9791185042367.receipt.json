@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791185042367.json",
+  "manifestSha256": "e893e5e30e210fca79c392acfeaa063d5292b1f689e69e0031caaf6c8a7e3b4f",
+  "planSha256": "e463c45a5e7bd88b259257c3b8c5633246655b747103dea6804652fb7b4bc00a",
+  "workIdentity": "book/9791185042367",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791185042367"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "7d9b5107-fe69-519d-916d-456d329b2382",
+    "scopeKey": "book/9791185042367",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "7d9b5107-fe69-519d-916d-456d329b2382",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791185042367",
+      "release_date": "2020-08-25",
+      "metadata": {
+        "isbn": "9791185042367",
+        "publisher": "1984(일구팔사)",
+        "publishDate": "2020-08-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791185042367",
+          "workTitle": "마이클 조던(Michael Jordan)",
+          "workCreator": "롤랜드 레이즌비",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "마이클 조던",
+          "creator": "롤랜드 레이즌비",
+          "description": "마이클 조던은 스포츠 역사에 길이 남을 찬란한 순간들을 남겼고 각 장면에는 상징적인 이름이 붙었다. 흔히 사람들은 그를 이야기할 때 절체절명의 위기마다 그가 던졌던 슛을 떠올린다.\n\n철썩 소리와 함께 역전을 이뤄낸 슛.\n\n하지만 숱한 업적을 쌓은 그에게도 어두운 면은 있다. 무자비한 경쟁심과 도박에 골몰하는 성향이 그것이다. 지금까지 그를 주제로 수많은 서적이 나왔지만 이런 측면까지 균형 있게 다룬 전기는 없었다. 롤랜드 레이즌비는 수십 년간 조던의 대학 시절과 프로 생활을 취재한 경험, 그를 가르친 농구 지도자들과의 친분, 또 그의 친구들, 팀 동료, 가족과 나눈 무수한 인터뷰를 통해 최고의 선수이자 시대의 아이콘 그리고 한 인간 마이클 조던의 초상을 가장 진실하게 그려냈다. 이것이 많은 스포츠 기자와 스포츠 전문 매거진이 서평을 통해 이 책을 극찬한 이유이다.",
+          "isbn": "9791185042367",
+          "publisher": "1984(일구팔사)",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5456128?timestamp=20251223141517",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29"
+          },
+          "verified": true,
+          "content_id": "7d9b5107-fe69-519d-916d-456d329b2382"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "7d9b5107-fe69-519d-916d-456d329b2382",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791185042367",
+        "release_date": "2020-08-25",
+        "metadata": {
+          "isbn": "9791185042367",
+          "publisher": "1984(일구팔사)",
+          "publishDate": "2020-08-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791185042367",
+            "workTitle": "마이클 조던(Michael Jordan)",
+            "workCreator": "롤랜드 레이즌비",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "마이클 조던",
+          "creator": "롤랜드 레이즌비",
+          "description": "마이클 조던은 스포츠 역사에 길이 남을 찬란한 순간들을 남겼고 각 장면에는 상징적인 이름이 붙었다. 흔히 사람들은 그를 이야기할 때 절체절명의 위기마다 그가 던졌던 슛을 떠올린다.\n\n철썩 소리와 함께 역전을 이뤄낸 슛.\n\n하지만 숱한 업적을 쌓은 그에게도 어두운 면은 있다. 무자비한 경쟁심과 도박에 골몰하는 성향이 그것이다. 지금까지 그를 주제로 수많은 서적이 나왔지만 이런 측면까지 균형 있게 다룬 전기는 없었다. 롤랜드 레이즌비는 수십 년간 조던의 대학 시절과 프로 생활을 취재한 경험, 그를 가르친 농구 지도자들과의 친분, 또 그의 친구들, 팀 동료, 가족과 나눈 무수한 인터뷰를 통해 최고의 선수이자 시대의 아이콘 그리고 한 인간 마이클 조던의 초상을 가장 진실하게 그려냈다. 이것이 많은 스포츠 기자와 스포츠 전문 매거진이 서평을 통해 이 책을 극찬한 이유이다.",
+          "isbn": "9791185042367",
+          "publisher": "1984(일구팔사)",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5456128?timestamp=20251223141517",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29"
+          },
+          "verified": true,
+          "content_id": "7d9b5107-fe69-519d-916d-456d329b2382"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791185042367",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791185042367"
+      ],
+      "normalizedTitles": [
+        "마이클조던",
+        "마이클조던michaeljordan"
+      ],
+      "normalizedCreators": [
+        "롤랜드레이즌비",
+        "서종기역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:24:14.196Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "7d9b5107-fe69-519d-916d-456d329b2382",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791185042367",
+      "release_date": "2020-08-25",
+      "metadata": {
+        "isbn": "9791185042367",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+        "publisher": "1984(일구팔사)",
+        "figureBook": {
+          "workTitle": "마이클 조던(Michael Jordan)",
+          "workCreator": "롤랜드 레이즌비",
+          "workIdentity": "book/9791185042367",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-08-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:24:08.08545+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "7d9b5107-fe69-519d-916d-456d329b2382",
+        "locale": "ko",
+        "title": "마이클 조던",
+        "creator": "롤랜드 레이즌비",
+        "description": "마이클 조던은 스포츠 역사에 길이 남을 찬란한 순간들을 남겼고 각 장면에는 상징적인 이름이 붙었다. 흔히 사람들은 그를 이야기할 때 절체절명의 위기마다 그가 던졌던 슛을 떠올린다.\n\n철썩 소리와 함께 역전을 이뤄낸 슛.\n\n하지만 숱한 업적을 쌓은 그에게도 어두운 면은 있다. 무자비한 경쟁심과 도박에 골몰하는 성향이 그것이다. 지금까지 그를 주제로 수많은 서적이 나왔지만 이런 측면까지 균형 있게 다룬 전기는 없었다. 롤랜드 레이즌비는 수십 년간 조던의 대학 시절과 프로 생활을 취재한 경험, 그를 가르친 농구 지도자들과의 친분, 또 그의 친구들, 팀 동료, 가족과 나눈 무수한 인터뷰를 통해 최고의 선수이자 시대의 아이콘 그리고 한 인간 마이클 조던의 초상을 가장 진실하게 그려냈다. 이것이 많은 스포츠 기자와 스포츠 전문 매거진이 서평을 통해 이 책을 극찬한 이유이다.",
+        "isbn": "9791185042367",
+        "publisher": "1984(일구팔사)",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5456128?timestamp=20251223141517",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5456128&q=%EB%A7%88%EC%9D%B4%ED%81%B4+%EC%A1%B0%EB%8D%98%28Michael+Jordan%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:24:08.08545+00:00",
+        "updated_at": "2026-09-06T04:24:08.08545+00:00"
+      }
+    ]
+  }
+}

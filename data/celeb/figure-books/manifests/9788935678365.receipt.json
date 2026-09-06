@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788935678365.json",
+  "manifestSha256": "727f0ad71080ddbfd589e2a7ccb22b78cd63808172544a4d72374952ea3d23cd",
+  "planSha256": "c2e8184eca02955551e59a796929144e6c0d44728cae7a65df0613d439532942",
+  "workIdentity": "book/9788935678365",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788935678365"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "3da691a8-f446-5a8b-9a1f-e69a85203c18",
+    "scopeKey": "book/9788935678365",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "3da691a8-f446-5a8b-9a1f-e69a85203c18",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788935678365",
+      "release_date": "2023-08-08",
+      "metadata": {
+        "isbn": "9788935678365",
+        "publisher": "한길사",
+        "publishDate": "2023-08-08",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+        "salesStatus": "주문판매",
+        "figureBook": {
+          "workIdentity": "book/9788935678365",
+          "workTitle": "불멸의 화가 카라바조",
+          "workCreator": "고종희",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "불멸의 화가 카라바조",
+          "creator": "고종희",
+          "description": "카라바조는 이탈리아에서 가장 사랑받는 화가다. 카라바조의 그림을 한 점이라도 소장하고 있는 미술관은 십중팔구 그의 그림을 도록의 표지로 쓴다. 2023년 국립중앙박물관에서 열리고 있는 런던 내셔널갤러리 명화전 ‘거장의 시선, 사람을 향하다’에서 라파엘로, 보티첼리, 벨라스케스, 고야, 르누아르 등 기라성 같은 작가들의 대표작 50점이 전시 중인데 이 전시에서도 카라바조의 그림을 포스터로 선정했다.\n\n사람들은 왜 카라바조에 열광하는가? 미술사학자 고종희는 카라바조의 특별한 생애와 새로운 스타일의 그림에서 그 답을 찾는다. 카라바조는 20대에 그림으로 로마인을 매료시키고, 30대에는 살인 사건에 연루되어 도망자 신세로 나폴리, 몰타, 시칠리아 등을 전전하다가, 39세에 에르콜레 해변가 마을에서 사망하는 드라마틱한 인생을 살았다.\n\n고종희 교수는 『불멸의 화가 카라바조』에서 카라바조가 살았던 시대적·지역적·정치적 배경과 그의 작품을 생애순으로 엮어낸다. 특히 카라바조를 스타로 만든 콜론나 가문, 보로메오 가문에 주목했다. 카라바조의 작품 73점을 포함해 그와 영향을 주고받은 티치아노, 페테르차노, 미켈란젤로, 루벤스 등 129점의 작품을 책에 실었다. 가로 24cm, 세로 28cm의 대형 판형으로, 마치 미술관에서 작품을 감상하는 듯한 황홀함을 누릴 수 있다.\n\n고종희 교수는 40년 전 피사대학교 미술사학과에 입학하면서부터 카라바조에게 매료되어 책과 자료를 수집했다. 『불멸의 화가 카라바조』는 저자의 미술사 전반에 대한 지식과 현장을 찾아가야만 한다는 탐사 본능으로 만들어진 책으로, “단순히 한 위대한 예술가에 대한 연구서가 아니라 평생을 바친 미술사 연구에 대한 열정의 결과물”이다.",
+          "isbn": "9788935678365",
+          "publisher": "한길사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6414664?timestamp=20250124151205",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0"
+          },
+          "verified": true,
+          "content_id": "3da691a8-f446-5a8b-9a1f-e69a85203c18"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "3da691a8-f446-5a8b-9a1f-e69a85203c18",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788935678365",
+        "release_date": "2023-08-08",
+        "metadata": {
+          "isbn": "9788935678365",
+          "publisher": "한길사",
+          "publishDate": "2023-08-08",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+          "salesStatus": "주문판매",
+          "figureBook": {
+            "workIdentity": "book/9788935678365",
+            "workTitle": "불멸의 화가 카라바조",
+            "workCreator": "고종희",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "불멸의 화가 카라바조",
+          "creator": "고종희",
+          "description": "카라바조는 이탈리아에서 가장 사랑받는 화가다. 카라바조의 그림을 한 점이라도 소장하고 있는 미술관은 십중팔구 그의 그림을 도록의 표지로 쓴다. 2023년 국립중앙박물관에서 열리고 있는 런던 내셔널갤러리 명화전 ‘거장의 시선, 사람을 향하다’에서 라파엘로, 보티첼리, 벨라스케스, 고야, 르누아르 등 기라성 같은 작가들의 대표작 50점이 전시 중인데 이 전시에서도 카라바조의 그림을 포스터로 선정했다.\n\n사람들은 왜 카라바조에 열광하는가? 미술사학자 고종희는 카라바조의 특별한 생애와 새로운 스타일의 그림에서 그 답을 찾는다. 카라바조는 20대에 그림으로 로마인을 매료시키고, 30대에는 살인 사건에 연루되어 도망자 신세로 나폴리, 몰타, 시칠리아 등을 전전하다가, 39세에 에르콜레 해변가 마을에서 사망하는 드라마틱한 인생을 살았다.\n\n고종희 교수는 『불멸의 화가 카라바조』에서 카라바조가 살았던 시대적·지역적·정치적 배경과 그의 작품을 생애순으로 엮어낸다. 특히 카라바조를 스타로 만든 콜론나 가문, 보로메오 가문에 주목했다. 카라바조의 작품 73점을 포함해 그와 영향을 주고받은 티치아노, 페테르차노, 미켈란젤로, 루벤스 등 129점의 작품을 책에 실었다. 가로 24cm, 세로 28cm의 대형 판형으로, 마치 미술관에서 작품을 감상하는 듯한 황홀함을 누릴 수 있다.\n\n고종희 교수는 40년 전 피사대학교 미술사학과에 입학하면서부터 카라바조에게 매료되어 책과 자료를 수집했다. 『불멸의 화가 카라바조』는 저자의 미술사 전반에 대한 지식과 현장을 찾아가야만 한다는 탐사 본능으로 만들어진 책으로, “단순히 한 위대한 예술가에 대한 연구서가 아니라 평생을 바친 미술사 연구에 대한 열정의 결과물”이다.",
+          "isbn": "9788935678365",
+          "publisher": "한길사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6414664?timestamp=20250124151205",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0"
+          },
+          "verified": true,
+          "content_id": "3da691a8-f446-5a8b-9a1f-e69a85203c18"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788935678365",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788935678365"
+      ],
+      "normalizedTitles": [
+        "불멸의화가카라바조"
+      ],
+      "normalizedCreators": [
+        "고종희"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:06:31.467Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "3da691a8-f446-5a8b-9a1f-e69a85203c18",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788935678365",
+      "release_date": "2023-08-08",
+      "metadata": {
+        "isbn": "9788935678365",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+        "publisher": "한길사",
+        "figureBook": {
+          "workTitle": "불멸의 화가 카라바조",
+          "workCreator": "고종희",
+          "workIdentity": "book/9788935678365",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-08-08",
+        "salesStatus": "주문판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:06:18.29485+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "3da691a8-f446-5a8b-9a1f-e69a85203c18",
+        "locale": "ko",
+        "title": "불멸의 화가 카라바조",
+        "creator": "고종희",
+        "description": "카라바조는 이탈리아에서 가장 사랑받는 화가다. 카라바조의 그림을 한 점이라도 소장하고 있는 미술관은 십중팔구 그의 그림을 도록의 표지로 쓴다. 2023년 국립중앙박물관에서 열리고 있는 런던 내셔널갤러리 명화전 ‘거장의 시선, 사람을 향하다’에서 라파엘로, 보티첼리, 벨라스케스, 고야, 르누아르 등 기라성 같은 작가들의 대표작 50점이 전시 중인데 이 전시에서도 카라바조의 그림을 포스터로 선정했다.\n\n사람들은 왜 카라바조에 열광하는가? 미술사학자 고종희는 카라바조의 특별한 생애와 새로운 스타일의 그림에서 그 답을 찾는다. 카라바조는 20대에 그림으로 로마인을 매료시키고, 30대에는 살인 사건에 연루되어 도망자 신세로 나폴리, 몰타, 시칠리아 등을 전전하다가, 39세에 에르콜레 해변가 마을에서 사망하는 드라마틱한 인생을 살았다.\n\n고종희 교수는 『불멸의 화가 카라바조』에서 카라바조가 살았던 시대적·지역적·정치적 배경과 그의 작품을 생애순으로 엮어낸다. 특히 카라바조를 스타로 만든 콜론나 가문, 보로메오 가문에 주목했다. 카라바조의 작품 73점을 포함해 그와 영향을 주고받은 티치아노, 페테르차노, 미켈란젤로, 루벤스 등 129점의 작품을 책에 실었다. 가로 24cm, 세로 28cm의 대형 판형으로, 마치 미술관에서 작품을 감상하는 듯한 황홀함을 누릴 수 있다.\n\n고종희 교수는 40년 전 피사대학교 미술사학과에 입학하면서부터 카라바조에게 매료되어 책과 자료를 수집했다. 『불멸의 화가 카라바조』는 저자의 미술사 전반에 대한 지식과 현장을 찾아가야만 한다는 탐사 본능으로 만들어진 책으로, “단순히 한 위대한 예술가에 대한 연구서가 아니라 평생을 바친 미술사 연구에 대한 열정의 결과물”이다.",
+        "isbn": "9788935678365",
+        "publisher": "한길사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6414664?timestamp=20250124151205",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6414664&q=%EB%B6%88%EB%A9%B8%EC%9D%98+%ED%99%94%EA%B0%80+%EC%B9%B4%EB%9D%BC%EB%B0%94%EC%A1%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:06:18.29485+00:00",
+        "updated_at": "2026-09-06T04:06:18.29485+00:00"
+      }
+    ]
+  }
+}

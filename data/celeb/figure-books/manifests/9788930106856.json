@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788930106856",
+    "title": "렘브란트",
+    "creator": "장 주네",
+    "titleAliases": [],
+    "creatorAliases": [
+      "윤정임 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788930106856"
+  }
+}

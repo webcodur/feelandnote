@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788937431463.json",
+  "manifestSha256": "d13c49579d3abaecfb7d4e2e1bdd2c8b306f77ac8bd69ea91857e0cfa8377f75",
+  "planSha256": "8f034db752fe214d80713a8f90cea32edcca286d9d5d2a8950b9cc19688ca6d7",
+  "workIdentity": "book/9788937431463",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788937431463"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d486f194-5122-5627-a243-3b77cb79f802",
+    "scopeKey": "book/9788937431463",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d486f194-5122-5627-a243-3b77cb79f802",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788937431463",
+      "release_date": "2014-12-05",
+      "metadata": {
+        "isbn": "9788937431463",
+        "publisher": "민음사",
+        "publishDate": "2014-12-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788937431463",
+          "workTitle": "장제스 평전",
+          "workCreator": "조너선 펜비",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "장제스 평전",
+          "creator": "조너선 펜비",
+          "description": "20세기 가장 중요한 인물 중 하나로 꼽히는 장제스, 그가 없었다면 중국과 세계사는 어떻게 바뀌었을까? 장제스는 청나라가 무너지고 현대 중국이 탄생하기까지 격동의 중국 근대사의 한복판에 서 있었던 인물이다. 산해혁명 이후 군벌이 할거하고 제국주의 열강이 침략하는 가운데 중국을 안정된 국가로 세우려는 이상과 실천 역량을 가진 지도자이다. 저명한 동아시아 전문가이자 저널리스트인 저자는 『장제스 평전』 에서 중국을 잃어버린 패배자라는 평을 듣는 장제스를 철저히 검토하고 현대 세계 대국으로 성장한 중국이 나아갈 방향을 가늠해 본다.\n\n1936년 12월 12일 중국 북부 시안성 부근에서 벌어진 시안 사건의 극적인 묘사로 이 책은 시작한다. 시안 사건으로 납치 되었던 장제스가 풀려난 뒤 마오쩌둥은 살아남아 장제스 이후 중국의 지배자가 될 수 있었던 20세기 역사적 결정적 한 순간이었다. 장제스는 숙적 마오쩌둥과의 내전에서 패하여 대만으로 물러갔다. 20세기 초 중국에서 가장 강력한 군사력을 거느리고 권력을 휘둘렀던 장제스가 어떻게 패배에 이르렀으며, 그 과정에서 어떠한 역사적 과제를 안고 있는지 알아본다.\n\n1부에서는 소금 장수의 아들로 태어난 장제스가 혁명가로 활동하며 쑨원의 신임을 얻는 젊은 시절을 묘사한다. 2부에선 군벌 정벌과 공산당을 탄압하고 국민당 입지를 얻는 과정을 3부에선 장제스가 통치한 난징 정부를 설명한다. 4부는 시안사건 이후 항일전을 선포한 장제스가 7년에 걸쳐 중일 전쟁을 지휘한 기록을 5부는 종전 후 연합의 시도가 결렬되고 내전으로 이어진 결과를 보여준다. 저자는 인터뷰와 현장 조사에 이르기까지 광범위한 자료를 망라하며 그의 초상을 그려낸다.",
+          "isbn": "9788937431463",
+          "publisher": "민음사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/540230?timestamp=20250905110326",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "d486f194-5122-5627-a243-3b77cb79f802"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d486f194-5122-5627-a243-3b77cb79f802",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788937431463",
+        "release_date": "2014-12-05",
+        "metadata": {
+          "isbn": "9788937431463",
+          "publisher": "민음사",
+          "publishDate": "2014-12-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788937431463",
+            "workTitle": "장제스 평전",
+            "workCreator": "조너선 펜비",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "장제스 평전",
+          "creator": "조너선 펜비",
+          "description": "20세기 가장 중요한 인물 중 하나로 꼽히는 장제스, 그가 없었다면 중국과 세계사는 어떻게 바뀌었을까? 장제스는 청나라가 무너지고 현대 중국이 탄생하기까지 격동의 중국 근대사의 한복판에 서 있었던 인물이다. 산해혁명 이후 군벌이 할거하고 제국주의 열강이 침략하는 가운데 중국을 안정된 국가로 세우려는 이상과 실천 역량을 가진 지도자이다. 저명한 동아시아 전문가이자 저널리스트인 저자는 『장제스 평전』 에서 중국을 잃어버린 패배자라는 평을 듣는 장제스를 철저히 검토하고 현대 세계 대국으로 성장한 중국이 나아갈 방향을 가늠해 본다.\n\n1936년 12월 12일 중국 북부 시안성 부근에서 벌어진 시안 사건의 극적인 묘사로 이 책은 시작한다. 시안 사건으로 납치 되었던 장제스가 풀려난 뒤 마오쩌둥은 살아남아 장제스 이후 중국의 지배자가 될 수 있었던 20세기 역사적 결정적 한 순간이었다. 장제스는 숙적 마오쩌둥과의 내전에서 패하여 대만으로 물러갔다. 20세기 초 중국에서 가장 강력한 군사력을 거느리고 권력을 휘둘렀던 장제스가 어떻게 패배에 이르렀으며, 그 과정에서 어떠한 역사적 과제를 안고 있는지 알아본다.\n\n1부에서는 소금 장수의 아들로 태어난 장제스가 혁명가로 활동하며 쑨원의 신임을 얻는 젊은 시절을 묘사한다. 2부에선 군벌 정벌과 공산당을 탄압하고 국민당 입지를 얻는 과정을 3부에선 장제스가 통치한 난징 정부를 설명한다. 4부는 시안사건 이후 항일전을 선포한 장제스가 7년에 걸쳐 중일 전쟁을 지휘한 기록을 5부는 종전 후 연합의 시도가 결렬되고 내전으로 이어진 결과를 보여준다. 저자는 인터뷰와 현장 조사에 이르기까지 광범위한 자료를 망라하며 그의 초상을 그려낸다.",
+          "isbn": "9788937431463",
+          "publisher": "민음사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/540230?timestamp=20250905110326",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "d486f194-5122-5627-a243-3b77cb79f802"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788937431463",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788937431463"
+      ],
+      "normalizedTitles": [
+        "장제스평전"
+      ],
+      "normalizedCreators": [
+        "노만수역",
+        "조너선펜비"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:41:44.407Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d486f194-5122-5627-a243-3b77cb79f802",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788937431463",
+      "release_date": "2014-12-05",
+      "metadata": {
+        "isbn": "9788937431463",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+        "publisher": "민음사",
+        "figureBook": {
+          "workTitle": "장제스 평전",
+          "workCreator": "조너선 펜비",
+          "workIdentity": "book/9788937431463",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2014-12-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:41:36.47801+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d486f194-5122-5627-a243-3b77cb79f802",
+        "locale": "ko",
+        "title": "장제스 평전",
+        "creator": "조너선 펜비",
+        "description": "20세기 가장 중요한 인물 중 하나로 꼽히는 장제스, 그가 없었다면 중국과 세계사는 어떻게 바뀌었을까? 장제스는 청나라가 무너지고 현대 중국이 탄생하기까지 격동의 중국 근대사의 한복판에 서 있었던 인물이다. 산해혁명 이후 군벌이 할거하고 제국주의 열강이 침략하는 가운데 중국을 안정된 국가로 세우려는 이상과 실천 역량을 가진 지도자이다. 저명한 동아시아 전문가이자 저널리스트인 저자는 『장제스 평전』 에서 중국을 잃어버린 패배자라는 평을 듣는 장제스를 철저히 검토하고 현대 세계 대국으로 성장한 중국이 나아갈 방향을 가늠해 본다.\n\n1936년 12월 12일 중국 북부 시안성 부근에서 벌어진 시안 사건의 극적인 묘사로 이 책은 시작한다. 시안 사건으로 납치 되었던 장제스가 풀려난 뒤 마오쩌둥은 살아남아 장제스 이후 중국의 지배자가 될 수 있었던 20세기 역사적 결정적 한 순간이었다. 장제스는 숙적 마오쩌둥과의 내전에서 패하여 대만으로 물러갔다. 20세기 초 중국에서 가장 강력한 군사력을 거느리고 권력을 휘둘렀던 장제스가 어떻게 패배에 이르렀으며, 그 과정에서 어떠한 역사적 과제를 안고 있는지 알아본다.\n\n1부에서는 소금 장수의 아들로 태어난 장제스가 혁명가로 활동하며 쑨원의 신임을 얻는 젊은 시절을 묘사한다. 2부에선 군벌 정벌과 공산당을 탄압하고 국민당 입지를 얻는 과정을 3부에선 장제스가 통치한 난징 정부를 설명한다. 4부는 시안사건 이후 항일전을 선포한 장제스가 7년에 걸쳐 중일 전쟁을 지휘한 기록을 5부는 종전 후 연합의 시도가 결렬되고 내전으로 이어진 결과를 보여준다. 저자는 인터뷰와 현장 조사에 이르기까지 광범위한 자료를 망라하며 그의 초상을 그려낸다.",
+        "isbn": "9788937431463",
+        "publisher": "민음사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/540230?timestamp=20250905110326",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=540230&q=%EC%9E%A5%EC%A0%9C%EC%8A%A4+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:41:36.47801+00:00",
+        "updated_at": "2026-09-04T17:41:36.47801+00:00"
+      }
+    ]
+  }
+}

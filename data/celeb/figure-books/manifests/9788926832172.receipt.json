@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788926832172.json",
+  "manifestSha256": "3cdc26b02cf4674c1195c3c56b1ed640c2867e83a6aa7d9257d55581d933026c",
+  "planSha256": "c148d1014e192ee2c159329d3293d7a06688c70d58f18a6b5fcfef236c536337",
+  "workIdentity": "book/9788926832172",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788926832172"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "c3d2bfc3-6294-5595-ad6d-66e110ddfd9a",
+    "scopeKey": "book/9788926832172",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "c3d2bfc3-6294-5595-ad6d-66e110ddfd9a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788926832172",
+      "release_date": "2012-03-27",
+      "metadata": {
+        "isbn": "9788926832172",
+        "publisher": "한국학술정보",
+        "publishDate": "2012-03-27",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788926832172",
+          "workTitle": "영국혁명과 올리버 크롬웰",
+          "workCreator": "주연종",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "영국혁명과 올리버 크롬웰",
+          "creator": "주연종",
+          "description": "『영국혁명과 올리버 크롬웰』은 영국혁명은 근본적으로 청교도주의에 기반한 혁명이었으며 그 혁명을 주도했던 인물들은 칼빈주의와 청교도주의의 배경속에서 교육받고 준비된 인물들이었다는 사실을 규명한 책이다. 특히 혁명의 최고 책임자로 역할 했으며 절대왕정(絶對王政)을 중단시키고 영국 역사상 최초로 공화정(共和政)을 선포한 크롬웰이 그와 같은 업적을 남길 수 있었던 사상적 기반은 무엇이었으며 그의 신앙이 이 혁명과정에서 한 역할은 무엇이었는가에 대해 밝히고자 하였다.",
+          "isbn": "9788926832172",
+          "publisher": "한국학술정보",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/445883?timestamp=20260201110642",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0"
+          },
+          "verified": true,
+          "content_id": "c3d2bfc3-6294-5595-ad6d-66e110ddfd9a"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "c3d2bfc3-6294-5595-ad6d-66e110ddfd9a",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788926832172",
+        "release_date": "2012-03-27",
+        "metadata": {
+          "isbn": "9788926832172",
+          "publisher": "한국학술정보",
+          "publishDate": "2012-03-27",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788926832172",
+            "workTitle": "영국혁명과 올리버 크롬웰",
+            "workCreator": "주연종",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "영국혁명과 올리버 크롬웰",
+          "creator": "주연종",
+          "description": "『영국혁명과 올리버 크롬웰』은 영국혁명은 근본적으로 청교도주의에 기반한 혁명이었으며 그 혁명을 주도했던 인물들은 칼빈주의와 청교도주의의 배경속에서 교육받고 준비된 인물들이었다는 사실을 규명한 책이다. 특히 혁명의 최고 책임자로 역할 했으며 절대왕정(絶對王政)을 중단시키고 영국 역사상 최초로 공화정(共和政)을 선포한 크롬웰이 그와 같은 업적을 남길 수 있었던 사상적 기반은 무엇이었으며 그의 신앙이 이 혁명과정에서 한 역할은 무엇이었는가에 대해 밝히고자 하였다.",
+          "isbn": "9788926832172",
+          "publisher": "한국학술정보",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/445883?timestamp=20260201110642",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0"
+          },
+          "verified": true,
+          "content_id": "c3d2bfc3-6294-5595-ad6d-66e110ddfd9a"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788926832172",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788926832172"
+      ],
+      "normalizedTitles": [
+        "영국혁명과올리버크롬웰"
+      ],
+      "normalizedCreators": [
+        "주연종"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:36:49.516Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "c3d2bfc3-6294-5595-ad6d-66e110ddfd9a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788926832172",
+      "release_date": "2012-03-27",
+      "metadata": {
+        "isbn": "9788926832172",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+        "publisher": "한국학술정보",
+        "figureBook": {
+          "workTitle": "영국혁명과 올리버 크롬웰",
+          "workCreator": "주연종",
+          "workIdentity": "book/9788926832172",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2012-03-27",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:36:45.981285+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "c3d2bfc3-6294-5595-ad6d-66e110ddfd9a",
+        "locale": "ko",
+        "title": "영국혁명과 올리버 크롬웰",
+        "creator": "주연종",
+        "description": "『영국혁명과 올리버 크롬웰』은 영국혁명은 근본적으로 청교도주의에 기반한 혁명이었으며 그 혁명을 주도했던 인물들은 칼빈주의와 청교도주의의 배경속에서 교육받고 준비된 인물들이었다는 사실을 규명한 책이다. 특히 혁명의 최고 책임자로 역할 했으며 절대왕정(絶對王政)을 중단시키고 영국 역사상 최초로 공화정(共和政)을 선포한 크롬웰이 그와 같은 업적을 남길 수 있었던 사상적 기반은 무엇이었으며 그의 신앙이 이 혁명과정에서 한 역할은 무엇이었는가에 대해 밝히고자 하였다.",
+        "isbn": "9788926832172",
+        "publisher": "한국학술정보",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/445883?timestamp=20260201110642",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=445883&q=%EC%98%81%EA%B5%AD%ED%98%81%EB%AA%85%EA%B3%BC+%EC%98%AC%EB%A6%AC%EB%B2%84+%ED%81%AC%EB%A1%AC%EC%9B%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:36:45.981285+00:00",
+        "updated_at": "2026-09-04T17:36:45.981285+00:00"
+      }
+    ]
+  }
+}

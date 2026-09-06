@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791166472824",
+    "title": "리처드 닉슨: 악당이 된 대통령",
+    "creator": "김형곤",
+    "titleAliases": [
+      "리처드 닉슨"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791166472824"
+  }
+}

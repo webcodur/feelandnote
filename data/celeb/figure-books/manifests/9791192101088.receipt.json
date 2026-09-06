@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791192101088.json",
+  "manifestSha256": "e7f5de959d3f5e76d4475feab2b62b360f0e09c139c63a234a306599436610c1",
+  "planSha256": "d7b46cc5de2fc5704ee45ce15fc0cc689e4317dd41e002fec17a0cde4e6ae69c",
+  "workIdentity": "book/9791192101088",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791192101088"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "5d292e80-f7c0-58cc-b50a-1316e2bf6426",
+    "scopeKey": "book/9791192101088",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "5d292e80-f7c0-58cc-b50a-1316e2bf6426",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192101088",
+      "release_date": "2022-04-29",
+      "metadata": {
+        "isbn": "9791192101088",
+        "publisher": "동아일보사",
+        "publishDate": "2022-04-29",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791192101088",
+          "workTitle": "매헌 윤봉길 의사 평전",
+          "workCreator": "김학준",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "매헌 윤봉길 의사 평전",
+          "creator": "김학준",
+          "description": "이 책은 윤봉길 의사의 상해 의거 90주년을 기념하여 펴내는 기념 도서이기도 하다. 저자는 1992년 펴낸 초판 도서를 바탕으로 하되, 한자가 많던 초판본의 어려운 글과 말 대신 한글로 쉽게 풀어 대중이 더욱 가깝게 읽고 이해할 수 있게 정리했다. 또한 지난 30년 간 더해진 윤봉길 의사에 대한 연구, 새로이 발견된 자료 등을 보태어 집필했다. 크게 12가지 항목이다.",
+          "isbn": "9791192101088",
+          "publisher": "동아일보사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6062222?timestamp=20260401123646",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "5d292e80-f7c0-58cc-b50a-1316e2bf6426"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "5d292e80-f7c0-58cc-b50a-1316e2bf6426",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791192101088",
+        "release_date": "2022-04-29",
+        "metadata": {
+          "isbn": "9791192101088",
+          "publisher": "동아일보사",
+          "publishDate": "2022-04-29",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791192101088",
+            "workTitle": "매헌 윤봉길 의사 평전",
+            "workCreator": "김학준",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "매헌 윤봉길 의사 평전",
+          "creator": "김학준",
+          "description": "이 책은 윤봉길 의사의 상해 의거 90주년을 기념하여 펴내는 기념 도서이기도 하다. 저자는 1992년 펴낸 초판 도서를 바탕으로 하되, 한자가 많던 초판본의 어려운 글과 말 대신 한글로 쉽게 풀어 대중이 더욱 가깝게 읽고 이해할 수 있게 정리했다. 또한 지난 30년 간 더해진 윤봉길 의사에 대한 연구, 새로이 발견된 자료 등을 보태어 집필했다. 크게 12가지 항목이다.",
+          "isbn": "9791192101088",
+          "publisher": "동아일보사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6062222?timestamp=20260401123646",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "5d292e80-f7c0-58cc-b50a-1316e2bf6426"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791192101088",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791192101088"
+      ],
+      "normalizedTitles": [
+        "매헌윤봉길의사평전"
+      ],
+      "normalizedCreators": [
+        "김학준"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:29:43.941Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "5d292e80-f7c0-58cc-b50a-1316e2bf6426",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192101088",
+      "release_date": "2022-04-29",
+      "metadata": {
+        "isbn": "9791192101088",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+        "publisher": "동아일보사",
+        "figureBook": {
+          "workTitle": "매헌 윤봉길 의사 평전",
+          "workCreator": "김학준",
+          "workIdentity": "book/9791192101088",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-04-29",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:29:38.41737+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "5d292e80-f7c0-58cc-b50a-1316e2bf6426",
+        "locale": "ko",
+        "title": "매헌 윤봉길 의사 평전",
+        "creator": "김학준",
+        "description": "이 책은 윤봉길 의사의 상해 의거 90주년을 기념하여 펴내는 기념 도서이기도 하다. 저자는 1992년 펴낸 초판 도서를 바탕으로 하되, 한자가 많던 초판본의 어려운 글과 말 대신 한글로 쉽게 풀어 대중이 더욱 가깝게 읽고 이해할 수 있게 정리했다. 또한 지난 30년 간 더해진 윤봉길 의사에 대한 연구, 새로이 발견된 자료 등을 보태어 집필했다. 크게 12가지 항목이다.",
+        "isbn": "9791192101088",
+        "publisher": "동아일보사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6062222?timestamp=20260401123646",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6062222&q=%EB%A7%A4%ED%97%8C+%EC%9C%A4%EB%B4%89%EA%B8%B8+%EC%9D%98%EC%82%AC+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:29:38.41737+00:00",
+        "updated_at": "2026-09-06T04:29:38.41737+00:00"
+      }
+    ]
+  }
+}

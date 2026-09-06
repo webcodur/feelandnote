@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788952731630",
+    "title": "비단버선은 흙 먼지속에 뒹굴고 - 안녹산과 양귀비",
+    "creator": "후지요시 마스미",
+    "titleAliases": [
+      "비단버선은 흙 먼지속에 뒹굴고"
+    ],
+    "creatorAliases": [
+      "정병준 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788952731630"
+  }
+}

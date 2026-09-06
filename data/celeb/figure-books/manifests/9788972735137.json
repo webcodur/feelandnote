@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788972735137",
+    "title": "라이프니츠의 형이상학",
+    "creator": "박제철",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788972735137"
+  }
+}

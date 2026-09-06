@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788996367734",
+    "title": "사기",
+    "creator": "사마천",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김하나 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788996367734"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791130312866.json",
+  "manifestSha256": "23f0ac5a2a99d4ce59861de721a9df451ff3e2b093d7d79ababd8571d682dd29",
+  "planSha256": "dab76b323764c9d5a263e0c315b381f7f91ff43c69093e8390068b1148366bf8",
+  "workIdentity": "book/9791130312866",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791130312866"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "9189ce01-8e7f-5b24-b66a-2211eabd5122",
+    "scopeKey": "book/9791130312866",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "9189ce01-8e7f-5b24-b66a-2211eabd5122",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130312866",
+      "release_date": "2021-04-20",
+      "metadata": {
+        "isbn": "9791130312866",
+        "publisher": "박영사",
+        "publishDate": "2021-04-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791130312866",
+          "workTitle": "해리 S 트루먼",
+          "workCreator": "강성학",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "해리 S 트루먼",
+          "creator": "강성학",
+          "description": "『해리 S. 트루먼』은 〈우연한 대통령〉, 〈무조건 승리와 유엔(the United Nations)의 창설〉, 〈포츠담(Potsdam)회담과 원자탄 사용 결정〉, 〈이스라엘(Israel) 국가 탄생의 산파(Midwife)〉, 〈베를린 공수(Airlift)작전과 NATO의 창설〉 등을 수록하고 있는 책이다.",
+          "isbn": "9791130312866",
+          "publisher": "박영사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5647974?timestamp=20230217181246",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC"
+          },
+          "verified": true,
+          "content_id": "9189ce01-8e7f-5b24-b66a-2211eabd5122"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "9189ce01-8e7f-5b24-b66a-2211eabd5122",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791130312866",
+        "release_date": "2021-04-20",
+        "metadata": {
+          "isbn": "9791130312866",
+          "publisher": "박영사",
+          "publishDate": "2021-04-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791130312866",
+            "workTitle": "해리 S 트루먼",
+            "workCreator": "강성학",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "해리 S 트루먼",
+          "creator": "강성학",
+          "description": "『해리 S. 트루먼』은 〈우연한 대통령〉, 〈무조건 승리와 유엔(the United Nations)의 창설〉, 〈포츠담(Potsdam)회담과 원자탄 사용 결정〉, 〈이스라엘(Israel) 국가 탄생의 산파(Midwife)〉, 〈베를린 공수(Airlift)작전과 NATO의 창설〉 등을 수록하고 있는 책이다.",
+          "isbn": "9791130312866",
+          "publisher": "박영사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5647974?timestamp=20230217181246",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC"
+          },
+          "verified": true,
+          "content_id": "9189ce01-8e7f-5b24-b66a-2211eabd5122"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791130312866",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791130312866"
+      ],
+      "normalizedTitles": [
+        "해리s트루먼"
+      ],
+      "normalizedCreators": [
+        "강성학"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:31:50.097Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "9189ce01-8e7f-5b24-b66a-2211eabd5122",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130312866",
+      "release_date": "2021-04-20",
+      "metadata": {
+        "isbn": "9791130312866",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+        "publisher": "박영사",
+        "figureBook": {
+          "workTitle": "해리 S 트루먼",
+          "workCreator": "강성학",
+          "workIdentity": "book/9791130312866",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2021-04-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:31:44.798419+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "9189ce01-8e7f-5b24-b66a-2211eabd5122",
+        "locale": "ko",
+        "title": "해리 S 트루먼",
+        "creator": "강성학",
+        "description": "『해리 S. 트루먼』은 〈우연한 대통령〉, 〈무조건 승리와 유엔(the United Nations)의 창설〉, 〈포츠담(Potsdam)회담과 원자탄 사용 결정〉, 〈이스라엘(Israel) 국가 탄생의 산파(Midwife)〉, 〈베를린 공수(Airlift)작전과 NATO의 창설〉 등을 수록하고 있는 책이다.",
+        "isbn": "9791130312866",
+        "publisher": "박영사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5647974?timestamp=20230217181246",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5647974&q=%ED%95%B4%EB%A6%AC+S+%ED%8A%B8%EB%A3%A8%EB%A8%BC"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:31:44.798419+00:00",
+        "updated_at": "2026-09-06T02:31:44.798419+00:00"
+      }
+    ]
+  }
+}

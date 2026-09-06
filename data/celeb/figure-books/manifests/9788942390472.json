@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788942390472",
+    "title": "장거정 시대를 구하다",
+    "creator": "오금성",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788942390472"
+  }
+}

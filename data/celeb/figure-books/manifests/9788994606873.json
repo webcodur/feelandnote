@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788994606873",
+    "title": "스탈린의 서재",
+    "creator": "제프리 로버츠",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김남섭 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788994606873"
+  }
+}

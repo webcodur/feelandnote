@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791130632339",
+    "title": "who? 인물 중국사: 주원장ㆍ영락제",
+    "creator": "김정욱",
+    "titleAliases": [
+      "who? 인물 중국사"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791130632339"
+  }
+}

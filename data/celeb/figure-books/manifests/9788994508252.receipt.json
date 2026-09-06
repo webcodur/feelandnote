@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788994508252.json",
+  "manifestSha256": "af583473cc292d0d5cbb4265bc91cff124ab7b4008d235dd1dd1900a94bb120a",
+  "planSha256": "600102b826d92d9167cfcf3f296ee3f324d6a1c17eee302451be057a11606e89",
+  "workIdentity": "book/9788994508252",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788994508252"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "1ce9eff4-f7d3-57a7-adee-e58b75a2fd4a",
+    "scopeKey": "book/9788994508252",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "1ce9eff4-f7d3-57a7-adee-e58b75a2fd4a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994508252",
+      "release_date": "2017-12-11",
+      "metadata": {
+        "isbn": "9788994508252",
+        "publisher": "주영사",
+        "publishDate": "2017-12-11",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788994508252",
+          "workTitle": "제임스 와트",
+          "workCreator": "앤드류 카네기",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "제임스 와트",
+          "creator": "앤드류 카네기",
+          "description": "이 책은 산업혁명을 일으켰던 도구인 증기 엔진의 아버지 제임스 와트의 생애를 다룬다. 그의 어린 시절과 증기 엔진과의 첫 만남, 그리고 증기 엔진에 매료되어 그만의 새로운 엔진을 만들기 위해 노력했던 일생의 과정을 보여 준다. 더 훌륭한 엔진을 만들겠다는 열정으로 뭉친 동업자와의 이야기 속에서 증기로 세상을 바꾼 위대한 발명가의 모습을 발견한다. 기술에 몰입하는 발명가와 그 발명가를 사업적으로 뒷받침하는 자본가의 동업 관계는 기술로 새로운 산업을 만드는 오늘날에도 시사하는 바가 크다.",
+          "isbn": "9788994508252",
+          "publisher": "주영사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1428144?timestamp=20260619110900",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "1ce9eff4-f7d3-57a7-adee-e58b75a2fd4a"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "1ce9eff4-f7d3-57a7-adee-e58b75a2fd4a",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788994508252",
+        "release_date": "2017-12-11",
+        "metadata": {
+          "isbn": "9788994508252",
+          "publisher": "주영사",
+          "publishDate": "2017-12-11",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788994508252",
+            "workTitle": "제임스 와트",
+            "workCreator": "앤드류 카네기",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "제임스 와트",
+          "creator": "앤드류 카네기",
+          "description": "이 책은 산업혁명을 일으켰던 도구인 증기 엔진의 아버지 제임스 와트의 생애를 다룬다. 그의 어린 시절과 증기 엔진과의 첫 만남, 그리고 증기 엔진에 매료되어 그만의 새로운 엔진을 만들기 위해 노력했던 일생의 과정을 보여 준다. 더 훌륭한 엔진을 만들겠다는 열정으로 뭉친 동업자와의 이야기 속에서 증기로 세상을 바꾼 위대한 발명가의 모습을 발견한다. 기술에 몰입하는 발명가와 그 발명가를 사업적으로 뒷받침하는 자본가의 동업 관계는 기술로 새로운 산업을 만드는 오늘날에도 시사하는 바가 크다.",
+          "isbn": "9788994508252",
+          "publisher": "주영사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1428144?timestamp=20260619110900",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "1ce9eff4-f7d3-57a7-adee-e58b75a2fd4a"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788994508252",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788994508252"
+      ],
+      "normalizedTitles": [
+        "제임스와트"
+      ],
+      "normalizedCreators": [
+        "앤드류카네기",
+        "이은종역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:58:27.951Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "1ce9eff4-f7d3-57a7-adee-e58b75a2fd4a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994508252",
+      "release_date": "2017-12-11",
+      "metadata": {
+        "isbn": "9788994508252",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+        "publisher": "주영사",
+        "figureBook": {
+          "workTitle": "제임스 와트",
+          "workCreator": "앤드류 카네기",
+          "workIdentity": "book/9788994508252",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2017-12-11",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:58:24.977802+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "1ce9eff4-f7d3-57a7-adee-e58b75a2fd4a",
+        "locale": "ko",
+        "title": "제임스 와트",
+        "creator": "앤드류 카네기",
+        "description": "이 책은 산업혁명을 일으켰던 도구인 증기 엔진의 아버지 제임스 와트의 생애를 다룬다. 그의 어린 시절과 증기 엔진과의 첫 만남, 그리고 증기 엔진에 매료되어 그만의 새로운 엔진을 만들기 위해 노력했던 일생의 과정을 보여 준다. 더 훌륭한 엔진을 만들겠다는 열정으로 뭉친 동업자와의 이야기 속에서 증기로 세상을 바꾼 위대한 발명가의 모습을 발견한다. 기술에 몰입하는 발명가와 그 발명가를 사업적으로 뒷받침하는 자본가의 동업 관계는 기술로 새로운 산업을 만드는 오늘날에도 시사하는 바가 크다.",
+        "isbn": "9788994508252",
+        "publisher": "주영사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1428144?timestamp=20260619110900",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1428144&q=%EC%A0%9C%EC%9E%84%EC%8A%A4+%EC%99%80%ED%8A%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:58:24.977802+00:00",
+        "updated_at": "2026-09-04T17:58:24.977802+00:00"
+      }
+    ]
+  }
+}

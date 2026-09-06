@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788952202932",
+    "title": "프랭크 게리 : 최초의 해체주의 건축가",
+    "creator": "이일형",
+    "titleAliases": [
+      "프랭크 게리"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788952202932"
+  }
+}

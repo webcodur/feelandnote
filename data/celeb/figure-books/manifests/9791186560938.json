@@ -1,0 +1,23 @@
+{
+  "work": {
+    "identity": "book/9791186560938",
+    "title": "구글 스토리(The Google Story)",
+    "creator": "데이비드 A 바이스",
+    "titleAliases": [
+      "구글 스토리"
+    ],
+    "creatorAliases": [
+      "데이비드 A 바이스, 마크 맬시드",
+      "우병현 (역)",
+      "마크 맬시드"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791186560938"
+  }
+}

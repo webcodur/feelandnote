@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791187295921.json",
+  "manifestSha256": "b45ae249d3cedbbfea97e61a0a419572c53a4b305a9c6eae952d0116838a3898",
+  "planSha256": "4cd42cfd22fc62c28adb26d55c4b74be247eef3259e1df187a0c97a4f7a1dc8e",
+  "workIdentity": "book/9791187295921",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791187295921"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "c09bd3f9-edc9-5107-a4b8-05d8634c8aae",
+    "scopeKey": "book/9791187295921",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "c09bd3f9-edc9-5107-a4b8-05d8634c8aae",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791187295921",
+      "release_date": "2025-07-18",
+      "metadata": {
+        "isbn": "9791187295921",
+        "publisher": "서커스(서커스출판상회)",
+        "publishDate": "2025-07-18",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791187295921",
+          "workTitle": "카를 마르크스",
+          "workCreator": "이사야 벌린",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "카를 마르크스",
+          "creator": "이사야 벌린",
+          "description": "그 어떤 사상가보다 인류에게 압도적인 영향을 끼친 카를 마르크스와 20세기 최고의 자유주의자 이사야 벌린. 이 매혹적인 조합이 탄생시킨 대사상가 카를 마르크스의 간결하면서도 깊이 있는 최고의 평전. 통찰과 비판과 열정과 균형 감각이 결합된 현대의 고전 최신 개정판.",
+          "isbn": "9791187295921",
+          "publisher": "서커스(서커스출판상회)",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6977343?timestamp=20250722145012",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "c09bd3f9-edc9-5107-a4b8-05d8634c8aae"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "c09bd3f9-edc9-5107-a4b8-05d8634c8aae",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791187295921",
+        "release_date": "2025-07-18",
+        "metadata": {
+          "isbn": "9791187295921",
+          "publisher": "서커스(서커스출판상회)",
+          "publishDate": "2025-07-18",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791187295921",
+            "workTitle": "카를 마르크스",
+            "workCreator": "이사야 벌린",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "카를 마르크스",
+          "creator": "이사야 벌린",
+          "description": "그 어떤 사상가보다 인류에게 압도적인 영향을 끼친 카를 마르크스와 20세기 최고의 자유주의자 이사야 벌린. 이 매혹적인 조합이 탄생시킨 대사상가 카를 마르크스의 간결하면서도 깊이 있는 최고의 평전. 통찰과 비판과 열정과 균형 감각이 결합된 현대의 고전 최신 개정판.",
+          "isbn": "9791187295921",
+          "publisher": "서커스(서커스출판상회)",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6977343?timestamp=20250722145012",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "c09bd3f9-edc9-5107-a4b8-05d8634c8aae"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791187295921",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791187295921"
+      ],
+      "normalizedTitles": [
+        "카를마르크스"
+      ],
+      "normalizedCreators": [
+        "안규남역",
+        "이사야벌린"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:11:01.220Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "c09bd3f9-edc9-5107-a4b8-05d8634c8aae",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791187295921",
+      "release_date": "2025-07-18",
+      "metadata": {
+        "isbn": "9791187295921",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+        "publisher": "서커스(서커스출판상회)",
+        "figureBook": {
+          "workTitle": "카를 마르크스",
+          "workCreator": "이사야 벌린",
+          "workIdentity": "book/9791187295921",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-07-18",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:10:58.567829+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "c09bd3f9-edc9-5107-a4b8-05d8634c8aae",
+        "locale": "ko",
+        "title": "카를 마르크스",
+        "creator": "이사야 벌린",
+        "description": "그 어떤 사상가보다 인류에게 압도적인 영향을 끼친 카를 마르크스와 20세기 최고의 자유주의자 이사야 벌린. 이 매혹적인 조합이 탄생시킨 대사상가 카를 마르크스의 간결하면서도 깊이 있는 최고의 평전. 통찰과 비판과 열정과 균형 감각이 결합된 현대의 고전 최신 개정판.",
+        "isbn": "9791187295921",
+        "publisher": "서커스(서커스출판상회)",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6977343?timestamp=20250722145012",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6977343&q=%EC%B9%B4%EB%A5%BC+%EB%A7%88%EB%A5%B4%ED%81%AC%EC%8A%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:10:58.567829+00:00",
+        "updated_at": "2026-09-04T18:10:58.567829+00:00"
+      }
+    ]
+  }
+}

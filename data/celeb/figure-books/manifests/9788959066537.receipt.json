@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788959066537.json",
+  "manifestSha256": "cdce258e306a126766153c98c8800c4660b06f842e2469e9d7ecd09ad3cbec4e",
+  "planSha256": "84b536901bf27de8cce64e2b9ed92ad6f488e6546b02f6ef17f3c4a473ed91fe",
+  "workIdentity": "book/9788959066537",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788959066537"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "10234c6a-ee7b-59d6-bdde-ab7d57f165a5",
+    "scopeKey": "book/9788959066537",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "10234c6a-ee7b-59d6-bdde-ab7d57f165a5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788959066537",
+      "release_date": "2022-11-25",
+      "metadata": {
+        "isbn": "9788959066537",
+        "publisher": "인물과사상사",
+        "publishDate": "2022-11-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788959066537",
+          "workTitle": "식탁 위의 외교",
+          "workCreator": "안문석",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "식탁 위의 외교",
+          "creator": "안문석",
+          "description": "음식이 실제 외교 현장에서 구체적으로 어떤 역할을 했는지 세계사의 27가지 풍경을 통해 살핀다. 윈스턴 처칠, 이오시프 스탈린, 로널드 레이건, 시진핑, 버락 오바마 등 각국의 정상들이 실제 주요 협상에서 식탁을 어떻게 활용했는지 그 현장을 생생하게 전해준다. 그것을 통해 외교가 어떻게 이뤄지는지, 음식과 식탁이 어떤 대목에서 어떤 맥락으로 외교의 윤활유가 되는지를 현장감 있게 설명해 준다. 또한 상대를 완전히 이해하지 못한 상태에서 상황에 맞지 않은 음식을 내놓는 것이 얼마나 부정적인 역할을 하는지도 역동적으로 묘사한다. 책에 나오는 장면들을 따라가다 보면 외교 현장을 더욱 실감나고 흥미 있게 감상할 수 있을 것이다. 음식이라는 소재를 통해 세계 외교와 현대 세계사를 알차게 접할 수 있는 기회를 제공한다.",
+          "isbn": "9788959066537",
+          "publisher": "인물과사상사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6219149?timestamp=20240622152417",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90"
+          },
+          "verified": true,
+          "content_id": "10234c6a-ee7b-59d6-bdde-ab7d57f165a5"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "10234c6a-ee7b-59d6-bdde-ab7d57f165a5",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788959066537",
+        "release_date": "2022-11-25",
+        "metadata": {
+          "isbn": "9788959066537",
+          "publisher": "인물과사상사",
+          "publishDate": "2022-11-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788959066537",
+            "workTitle": "식탁 위의 외교",
+            "workCreator": "안문석",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "식탁 위의 외교",
+          "creator": "안문석",
+          "description": "음식이 실제 외교 현장에서 구체적으로 어떤 역할을 했는지 세계사의 27가지 풍경을 통해 살핀다. 윈스턴 처칠, 이오시프 스탈린, 로널드 레이건, 시진핑, 버락 오바마 등 각국의 정상들이 실제 주요 협상에서 식탁을 어떻게 활용했는지 그 현장을 생생하게 전해준다. 그것을 통해 외교가 어떻게 이뤄지는지, 음식과 식탁이 어떤 대목에서 어떤 맥락으로 외교의 윤활유가 되는지를 현장감 있게 설명해 준다. 또한 상대를 완전히 이해하지 못한 상태에서 상황에 맞지 않은 음식을 내놓는 것이 얼마나 부정적인 역할을 하는지도 역동적으로 묘사한다. 책에 나오는 장면들을 따라가다 보면 외교 현장을 더욱 실감나고 흥미 있게 감상할 수 있을 것이다. 음식이라는 소재를 통해 세계 외교와 현대 세계사를 알차게 접할 수 있는 기회를 제공한다.",
+          "isbn": "9788959066537",
+          "publisher": "인물과사상사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6219149?timestamp=20240622152417",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90"
+          },
+          "verified": true,
+          "content_id": "10234c6a-ee7b-59d6-bdde-ab7d57f165a5"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788959066537",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788959066537"
+      ],
+      "normalizedTitles": [
+        "식탁위의외교"
+      ],
+      "normalizedCreators": [
+        "안문석"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:09:11.680Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "10234c6a-ee7b-59d6-bdde-ab7d57f165a5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788959066537",
+      "release_date": "2022-11-25",
+      "metadata": {
+        "isbn": "9788959066537",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+        "publisher": "인물과사상사",
+        "figureBook": {
+          "workTitle": "식탁 위의 외교",
+          "workCreator": "안문석",
+          "workIdentity": "book/9788959066537",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-11-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:09:06.285784+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "10234c6a-ee7b-59d6-bdde-ab7d57f165a5",
+        "locale": "ko",
+        "title": "식탁 위의 외교",
+        "creator": "안문석",
+        "description": "음식이 실제 외교 현장에서 구체적으로 어떤 역할을 했는지 세계사의 27가지 풍경을 통해 살핀다. 윈스턴 처칠, 이오시프 스탈린, 로널드 레이건, 시진핑, 버락 오바마 등 각국의 정상들이 실제 주요 협상에서 식탁을 어떻게 활용했는지 그 현장을 생생하게 전해준다. 그것을 통해 외교가 어떻게 이뤄지는지, 음식과 식탁이 어떤 대목에서 어떤 맥락으로 외교의 윤활유가 되는지를 현장감 있게 설명해 준다. 또한 상대를 완전히 이해하지 못한 상태에서 상황에 맞지 않은 음식을 내놓는 것이 얼마나 부정적인 역할을 하는지도 역동적으로 묘사한다. 책에 나오는 장면들을 따라가다 보면 외교 현장을 더욱 실감나고 흥미 있게 감상할 수 있을 것이다. 음식이라는 소재를 통해 세계 외교와 현대 세계사를 알차게 접할 수 있는 기회를 제공한다.",
+        "isbn": "9788959066537",
+        "publisher": "인물과사상사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6219149?timestamp=20240622152417",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6219149&q=%EC%8B%9D%ED%83%81+%EC%9C%84%EC%9D%98+%EC%99%B8%EA%B5%90"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:09:06.285784+00:00",
+        "updated_at": "2026-09-06T04:09:06.285784+00:00"
+      }
+    ]
+  }
+}

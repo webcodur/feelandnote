@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788994040905.json",
+  "manifestSha256": "3c7e4eaf801e5c7475d88b61b3d4fa75f8645c0e436e770c0f81191bfe90a7e8",
+  "planSha256": "7dd4a2880682af3d6177a288bd226e7c645918670c86f5060aa9107e16c4cffd",
+  "workIdentity": "book/9788994040905",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788994040905"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "0854120e-2b52-59f6-b5f7-e2260f9bde32",
+    "scopeKey": "book/9788994040905",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "0854120e-2b52-59f6-b5f7-e2260f9bde32",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994040905",
+      "release_date": "2016-10-06",
+      "metadata": {
+        "isbn": "9788994040905",
+        "publisher": "그책",
+        "publishDate": "2016-10-06",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788994040905",
+          "workTitle": "히치콕",
+          "workCreator": "패트릭 맥길리건",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "히치콕",
+          "creator": "패트릭 맥길리건",
+          "description": "《사이코》, 《현기증》등 60여 편 이상의 영화를 연출하며, 혁신적인 영화적 장치와 스토리텔링의 새로운 기준을 제시한 영화감독 ‘서스펜스의 거장’ 앨프레드 히치콕의 전기이다. 영화사학자이면서 전기작가인 패트릭 맥길리건은 방대하고 치밀한 조사를 통해 히치콕의 삶과 작품세계를 조망하여, 영화감독으로만 알았던 ‘히치콕’을 다각도로 보여 보여줌으로써 인간 히치콕을 서술한다.\n\n60여 편의 작품을 만드는 과정과 일화를 통해 히치콕의 삶과 작품세계를 다각도로 서술한 이 책은, 히치콕을 혁신적인 예술가이자 헌신적인 남편, 아버지, 그리고 영리한 비즈니스맨, 프로페셔널한 프로젝트 매니저로 세밀하게 묘사했다. 청과상집 아들에서부터 ‘스릴러 영화’장르를 확립하고 1인자로 올라서기까지, 그리고 1980년 4월 신장염으로 타계하기까지의 삶까지 우리가 알고 싶은 히치콕의 모든 시간이 이 안에 들어 있다.",
+          "isbn": "9788994040905",
+          "publisher": "그책",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1409852?timestamp=20221011172452",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95"
+          },
+          "verified": true,
+          "content_id": "0854120e-2b52-59f6-b5f7-e2260f9bde32"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "0854120e-2b52-59f6-b5f7-e2260f9bde32",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788994040905",
+        "release_date": "2016-10-06",
+        "metadata": {
+          "isbn": "9788994040905",
+          "publisher": "그책",
+          "publishDate": "2016-10-06",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788994040905",
+            "workTitle": "히치콕",
+            "workCreator": "패트릭 맥길리건",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "히치콕",
+          "creator": "패트릭 맥길리건",
+          "description": "《사이코》, 《현기증》등 60여 편 이상의 영화를 연출하며, 혁신적인 영화적 장치와 스토리텔링의 새로운 기준을 제시한 영화감독 ‘서스펜스의 거장’ 앨프레드 히치콕의 전기이다. 영화사학자이면서 전기작가인 패트릭 맥길리건은 방대하고 치밀한 조사를 통해 히치콕의 삶과 작품세계를 조망하여, 영화감독으로만 알았던 ‘히치콕’을 다각도로 보여 보여줌으로써 인간 히치콕을 서술한다.\n\n60여 편의 작품을 만드는 과정과 일화를 통해 히치콕의 삶과 작품세계를 다각도로 서술한 이 책은, 히치콕을 혁신적인 예술가이자 헌신적인 남편, 아버지, 그리고 영리한 비즈니스맨, 프로페셔널한 프로젝트 매니저로 세밀하게 묘사했다. 청과상집 아들에서부터 ‘스릴러 영화’장르를 확립하고 1인자로 올라서기까지, 그리고 1980년 4월 신장염으로 타계하기까지의 삶까지 우리가 알고 싶은 히치콕의 모든 시간이 이 안에 들어 있다.",
+          "isbn": "9788994040905",
+          "publisher": "그책",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1409852?timestamp=20221011172452",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95"
+          },
+          "verified": true,
+          "content_id": "0854120e-2b52-59f6-b5f7-e2260f9bde32"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788994040905",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788994040905"
+      ],
+      "normalizedTitles": [
+        "히치콕"
+      ],
+      "normalizedCreators": [
+        "윤철희역",
+        "패트릭맥길리건"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:15:33.223Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "0854120e-2b52-59f6-b5f7-e2260f9bde32",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994040905",
+      "release_date": "2016-10-06",
+      "metadata": {
+        "isbn": "9788994040905",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+        "publisher": "그책",
+        "figureBook": {
+          "workTitle": "히치콕",
+          "workCreator": "패트릭 맥길리건",
+          "workIdentity": "book/9788994040905",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2016-10-06",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:15:20.085683+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "0854120e-2b52-59f6-b5f7-e2260f9bde32",
+        "locale": "ko",
+        "title": "히치콕",
+        "creator": "패트릭 맥길리건",
+        "description": "《사이코》, 《현기증》등 60여 편 이상의 영화를 연출하며, 혁신적인 영화적 장치와 스토리텔링의 새로운 기준을 제시한 영화감독 ‘서스펜스의 거장’ 앨프레드 히치콕의 전기이다. 영화사학자이면서 전기작가인 패트릭 맥길리건은 방대하고 치밀한 조사를 통해 히치콕의 삶과 작품세계를 조망하여, 영화감독으로만 알았던 ‘히치콕’을 다각도로 보여 보여줌으로써 인간 히치콕을 서술한다.\n\n60여 편의 작품을 만드는 과정과 일화를 통해 히치콕의 삶과 작품세계를 다각도로 서술한 이 책은, 히치콕을 혁신적인 예술가이자 헌신적인 남편, 아버지, 그리고 영리한 비즈니스맨, 프로페셔널한 프로젝트 매니저로 세밀하게 묘사했다. 청과상집 아들에서부터 ‘스릴러 영화’장르를 확립하고 1인자로 올라서기까지, 그리고 1980년 4월 신장염으로 타계하기까지의 삶까지 우리가 알고 싶은 히치콕의 모든 시간이 이 안에 들어 있다.",
+        "isbn": "9788994040905",
+        "publisher": "그책",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1409852?timestamp=20221011172452",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1409852&q=%ED%9E%88%EC%B9%98%EC%BD%95"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:15:20.085683+00:00",
+        "updated_at": "2026-09-06T04:15:20.085683+00:00"
+      }
+    ]
+  }
+}

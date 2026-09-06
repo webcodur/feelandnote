@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788959406937",
+    "title": "단재 신채호 평전",
+    "creator": "김삼웅",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788959406937"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791128899249.json",
+  "manifestSha256": "2f02447c42626a0c3ca85ea7fda2e952cd3cf0fc54fdacd27f4dd98797b77f1c",
+  "planSha256": "ea859c327eaabbe067321c65acdd42d68f4fb1f0c4e4c83800764ad4e0407a85",
+  "workIdentity": "book/9791128899249",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791128899249"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "794c6128-b0d7-5f6b-858c-e6b60554c0cb",
+    "scopeKey": "book/9791128899249",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "794c6128-b0d7-5f6b-858c-e6b60554c0cb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791128899249",
+      "release_date": "2024-09-06",
+      "metadata": {
+        "isbn": "9791128899249",
+        "publisher": "커뮤니케이션북스",
+        "publishDate": "2024-09-06",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791128899249",
+          "workTitle": "시몬 드 보부아르",
+          "workCreator": "강초롱",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "시몬 드 보부아르",
+          "creator": "강초롱",
+          "description": "윤리적 실존주의의 주춧돌을 세운 시몬 드 보부아르의 철학을 해설한다. 사르트르의 그늘에 가려져 있던 보부아르 사상의 독자성을 재조명하고, ≪제2의 성≫의 대대적 성공 탓에 오히려 간과되어 온 보부아르의 평생 화두인 ‘실존주의 윤리’를 고찰한다. 대중에게 잘 알려지지 않은 보부아르 철학의 진면모를 만날 수 있다.",
+          "isbn": "9791128899249",
+          "publisher": "커뮤니케이션북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6720581?timestamp=20240912080927",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4"
+          },
+          "verified": true,
+          "content_id": "794c6128-b0d7-5f6b-858c-e6b60554c0cb"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "794c6128-b0d7-5f6b-858c-e6b60554c0cb",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791128899249",
+        "release_date": "2024-09-06",
+        "metadata": {
+          "isbn": "9791128899249",
+          "publisher": "커뮤니케이션북스",
+          "publishDate": "2024-09-06",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791128899249",
+            "workTitle": "시몬 드 보부아르",
+            "workCreator": "강초롱",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "시몬 드 보부아르",
+          "creator": "강초롱",
+          "description": "윤리적 실존주의의 주춧돌을 세운 시몬 드 보부아르의 철학을 해설한다. 사르트르의 그늘에 가려져 있던 보부아르 사상의 독자성을 재조명하고, ≪제2의 성≫의 대대적 성공 탓에 오히려 간과되어 온 보부아르의 평생 화두인 ‘실존주의 윤리’를 고찰한다. 대중에게 잘 알려지지 않은 보부아르 철학의 진면모를 만날 수 있다.",
+          "isbn": "9791128899249",
+          "publisher": "커뮤니케이션북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6720581?timestamp=20240912080927",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4"
+          },
+          "verified": true,
+          "content_id": "794c6128-b0d7-5f6b-858c-e6b60554c0cb"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791128899249",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791128899249"
+      ],
+      "normalizedTitles": [
+        "시몬드보부아르"
+      ],
+      "normalizedCreators": [
+        "강초롱"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:00:56.231Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "794c6128-b0d7-5f6b-858c-e6b60554c0cb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791128899249",
+      "release_date": "2024-09-06",
+      "metadata": {
+        "isbn": "9791128899249",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+        "publisher": "커뮤니케이션북스",
+        "figureBook": {
+          "workTitle": "시몬 드 보부아르",
+          "workCreator": "강초롱",
+          "workIdentity": "book/9791128899249",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-09-06",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:00:51.86904+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "794c6128-b0d7-5f6b-858c-e6b60554c0cb",
+        "locale": "ko",
+        "title": "시몬 드 보부아르",
+        "creator": "강초롱",
+        "description": "윤리적 실존주의의 주춧돌을 세운 시몬 드 보부아르의 철학을 해설한다. 사르트르의 그늘에 가려져 있던 보부아르 사상의 독자성을 재조명하고, ≪제2의 성≫의 대대적 성공 탓에 오히려 간과되어 온 보부아르의 평생 화두인 ‘실존주의 윤리’를 고찰한다. 대중에게 잘 알려지지 않은 보부아르 철학의 진면모를 만날 수 있다.",
+        "isbn": "9791128899249",
+        "publisher": "커뮤니케이션북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6720581?timestamp=20240912080927",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6720581&q=%EC%8B%9C%EB%AA%AC+%EB%93%9C+%EB%B3%B4%EB%B6%80%EC%95%84%EB%A5%B4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:00:51.86904+00:00",
+        "updated_at": "2026-09-04T18:00:51.86904+00:00"
+      }
+    ]
+  }
+}

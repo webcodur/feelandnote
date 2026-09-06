@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788989675334",
+    "title": "대륙의 지도자 등소평",
+    "creator": "등용",
+    "titleAliases": [],
+    "creatorAliases": [
+      "정인갑 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788989675334"
+  }
+}

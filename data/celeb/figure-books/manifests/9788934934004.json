@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788934934004",
+    "title": "차이위안페이 평전",
+    "creator": "후궈수",
+    "titleAliases": [],
+    "creatorAliases": [
+      "강성현 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788934934004"
+  }
+}

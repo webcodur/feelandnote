@@ -1,0 +1,158 @@
+[
+  {
+    "keep": "c7375491-6660-43ad-a95e-14e274ed79e2",
+    "drop": "ed393fdb-66e2-40d0-8dc7-aee58947e842",
+    "identity": "wikidata:q20124",
+    "reason": "wikidata Q20124 (On the Origin of Species)"
+  },
+  {
+    "keep": "f21e085d-218c-4944-9ec4-0e0bf1ad1589",
+    "drop": "e9a61494-1cbf-4667-9b82-42b943af0b5f",
+    "identity": "wikidata:q18813",
+    "reason": "wikidata Q18813 (New Testament)"
+  },
+  {
+    "keep": "65765812-a7d7-4d8e-b4bd-6b4d418e19f8",
+    "drop": "ce06351f-afa1-45c6-89a0-048de3e4aedb",
+    "identity": "wikidata:q50948",
+    "reason": "wikidata Q50948 (Eugene Onegin)"
+  },
+  {
+    "keep": "2c4fb84d-3f46-4ac3-8a61-71adccac8eb9",
+    "drop": "5769a9b7-f9ca-48b2-b1d4-31e69d963c0c",
+    "identity": "wikidata:q661655",
+    "reason": "wikidata Q661655 (Metaphysics)"
+  },
+  {
+    "keep": "6402068d-1ce0-4aee-9b7f-ef01cb222b32",
+    "drop": "ad01d37e-4fbd-41a2-8990-d6858374e82b",
+    "identity": "wikidata:q670350",
+    "reason": "wikidata Q670350 (The Imitation of Christ)"
+  },
+  {
+    "keep": "d54dc827-4114-4322-875c-6e2fd9b08373",
+    "drop": "c3fbd4e4-08b0-4153-a240-123d0a9e91b3",
+    "identity": "wikidata:q294001",
+    "reason": "wikidata Q294001 (Oedipus at Colonus)"
+  },
+  {
+    "keep": "6a068da7-5ae3-4f34-bec2-d3d2254d58de",
+    "drop": "48d6d2ca-a5f3-4654-b02e-e3d108d7abf6",
+    "identity": "wikidata:q653871",
+    "reason": "wikidata Q653871 (Summa Theologica)"
+  },
+  {
+    "keep": "074bf8bc-8ebc-43b4-88df-89d79a1cea61",
+    "drop": "63f077fb-04d0-46d6-a2d0-f6a537dc8b35",
+    "identity": "wikidata:q682339",
+    "reason": "wikidata Q682339 (The Feynman Lectures on Physics)"
+  },
+  {
+    "keep": "ba81cb0f-6000-4049-ab72-b144b8446469",
+    "drop": "05e93a94-968d-4597-93d6-aac79ce7aff6",
+    "identity": "wikidata:q1156747",
+    "reason": "wikidata Q1156747 (Enneads)"
+  },
+  {
+    "keep": "f06fb26e-2052-5c50-a991-d07f7e5e4331",
+    "drop": "4d320354-f1f5-584a-b6ce-1776f13670a6",
+    "identity": "wikidata:q833775",
+    "reason": "wikidata Q833775 (The Hollow)"
+  },
+  {
+    "keep": "8a864b52-8c84-41fe-b760-32bbfc6603aa",
+    "drop": "b6b1dd18-5b89-49e9-9671-b2efafb17b4e",
+    "identity": "wikidata:q106199",
+    "reason": "wikidata Q106199 (Commentarii de Bello Gallico)"
+  },
+  {
+    "keep": "246226ee-2b79-55f1-959f-2b9138241f95",
+    "drop": "be6a90a1-dcf9-5b8a-ba4a-e9283ba666e9",
+    "identity": "wikidata:q18209271",
+    "reason": "wikidata Q18209271 (Mistress)"
+  },
+  {
+    "keep": "5b8d63ea-c913-449b-b225-3f7889795487",
+    "drop": "f0b2adb6-4ca3-5047-a3a5-efc7e3ce86c9",
+    "identity": "wikidata:q3030194",
+    "reason": "wikidata Q3030194 (Discourse on Metaphysics)"
+  },
+  {
+    "keep": "e905eaf9-3bda-4dc4-99e7-a318de89b130",
+    "drop": "193fd981-8a08-4b97-97c1-f9889ccf92b7",
+    "identity": "wikidata:q970102",
+    "reason": "wikidata Q970102 (Tractatus Theologico-Politicus)"
+  },
+  {
+    "keep": "01f7e834-86e5-4af1-a202-c9e9b4d0ddc4",
+    "drop": "570bcb47-fdc4-4a18-85fe-a79ae773d1c1",
+    "identity": "wikidata:q27536725",
+    "reason": "wikidata Q27536725 (Hillbilly Elegy)"
+  },
+  {
+    "keep": "b9af29b7-c492-486d-960e-6ed6ccfe952b",
+    "drop": "d8c6d3a5-a2bf-4191-9697-c9a7292f64c5",
+    "identity": "wikidata:q1207595",
+    "reason": "wikidata Q1207595 (Confessions)"
+  },
+  {
+    "keep": "42f27a9d-b102-435d-84e7-d353d81d7f18",
+    "drop": "3cc9d36b-0a2c-4fa2-858f-f4c49e03872d",
+    "identity": "wikidata:q192649",
+    "reason": "wikidata Q192649 (The Red and the Black)"
+  },
+  {
+    "keep": "ceb6af1a-1558-453b-9237-7d5e3324c482",
+    "drop": "a4a17ce9-7cba-413c-a2e3-c37bd59e655f",
+    "identity": "wikidata:q183157",
+    "reason": "wikidata Q183157 (The Brothers Karamazov)"
+  },
+  {
+    "keep": "7303db43-f4d3-4203-9fbc-5ca303cdbe04",
+    "drop": "283782b1-6697-4d58-b8d4-ced0f7d75934",
+    "identity": "wikidata:q4980785",
+    "reason": "wikidata Q4980785 (Kŭmo sinhwa)"
+  },
+  {
+    "keep": "47e35b21-1ac7-4830-9335-be4abbe8979b",
+    "drop": "3b27c9fb-8e1c-4622-b252-5ccff7d90f98",
+    "identity": "wikidata:q569330",
+    "reason": "wikidata Q569330 (The Freedom of a Christian)"
+  },
+  {
+    "keep": "b4f79067-c5cc-4bd9-a7b8-d1506f17b798",
+    "drop": "b816516d-167b-4d7b-95da-d830b0abff5d",
+    "identity": "wikidata:q10282627",
+    "reason": "wikidata Q10282627 (First Step 2 Forever: My Story)"
+  },
+  {
+    "keep": "4e1ed275-2e42-4f92-90f2-1bfeffbecef4",
+    "drop": "bc828979-7e90-4ae9-89fb-b67dc31427a3",
+    "identity": "wikidata:q1502926",
+    "reason": "wikidata Q1502926 (Narcissus and Goldmund)"
+  },
+  {
+    "keep": "9c0fcde3-a7f5-4811-bcb8-4532701bdbc7",
+    "drop": "ca18921d-e3fe-4295-acd1-c749521eff85",
+    "identity": "wikidata:q1215306",
+    "reason": "wikidata Q1215306 (The Order of Things)"
+  },
+  {
+    "keep": "78cedc45-0551-59b8-9623-40495ec45463",
+    "drop": "ee96eae4-35f3-47d5-ae02-0bd81514607a",
+    "identity": "wikidata:q2071504",
+    "reason": "wikidata Q2071504 (Nemesis)"
+  },
+  {
+    "keep": "ce96cb23-e92e-4522-aabf-272bc93e2b24",
+    "drop": "a3b7a741-8501-5ee3-bf11-dc834aefe5b0",
+    "identity": "wikidata:q672319",
+    "reason": "wikidata Q672319 (The Suppliants)"
+  },
+  {
+    "keep": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+    "drop": "04a6d3fe-a5ef-4187-85fd-02d2af649a0d",
+    "identity": "wikidata:q14911972",
+    "reason": "wikidata Q14911972 (Hong Gildong jeon)"
+  }
+]

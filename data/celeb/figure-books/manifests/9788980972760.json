@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788980972760",
+    "title": "황제 유비",
+    "creator": "리아오",
+    "titleAliases": [],
+    "creatorAliases": [
+      "홍순도 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788980972760"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788972917168",
+    "title": "오스만 제국",
+    "creator": "오가사와라 히로유키",
+    "titleAliases": [],
+    "creatorAliases": [
+      "노경아 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788972917168"
+  }
+}

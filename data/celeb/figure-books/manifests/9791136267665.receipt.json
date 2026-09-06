@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791136267665.json",
+  "manifestSha256": "1fc71c9d4676808e70728db688e63bccc871649475ab686b50795addfc624ed4",
+  "planSha256": "0ffb3dbc75171dcefff429f18b7bf16cf94d6c9b6534e2b7d9b6bfe258039b26",
+  "workIdentity": "book/9791136267665",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791136267665"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "44f1b7f9-412c-5c47-800b-bbde76b22e2b",
+    "scopeKey": "book/9791136267665",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "44f1b7f9-412c-5c47-800b-bbde76b22e2b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791136267665",
+      "release_date": "2021-05-27",
+      "metadata": {
+        "isbn": "9791136267665",
+        "publisher": "대원씨아이",
+        "publishDate": "2021-05-27",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791136267665",
+          "workTitle": "도라에몽 이야기: 후지코 F 후지오 선생님의 뒷모습",
+          "workCreator": "무기와라 신타로",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "도라에몽 이야기: 후지코 F 후지오 선생님의 뒷모습",
+          "creator": "무기와라 신타로",
+          "description": "어렸을 때부터 동경해왔던 선생님은 정말 대단한 사람이었습니다 -무기와라 신타로-  도라에몽을 만들어낸 만화가 후지코 F 후지오와 도라에몽을 좋아해 만화가를 꿈꾼 청년의 실화? 후지코F 후지오의 마지막 제자, 무기와라 신타로가 풀어내는 후지오 선생님의 에피소드를 이 한 권에 담았다!",
+          "isbn": "9791136267665",
+          "publisher": "대원씨아이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5680148?timestamp=20250425200816",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5"
+          },
+          "verified": true,
+          "content_id": "44f1b7f9-412c-5c47-800b-bbde76b22e2b"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "44f1b7f9-412c-5c47-800b-bbde76b22e2b",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791136267665",
+        "release_date": "2021-05-27",
+        "metadata": {
+          "isbn": "9791136267665",
+          "publisher": "대원씨아이",
+          "publishDate": "2021-05-27",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791136267665",
+            "workTitle": "도라에몽 이야기: 후지코 F 후지오 선생님의 뒷모습",
+            "workCreator": "무기와라 신타로",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "도라에몽 이야기: 후지코 F 후지오 선생님의 뒷모습",
+          "creator": "무기와라 신타로",
+          "description": "어렸을 때부터 동경해왔던 선생님은 정말 대단한 사람이었습니다 -무기와라 신타로-  도라에몽을 만들어낸 만화가 후지코 F 후지오와 도라에몽을 좋아해 만화가를 꿈꾼 청년의 실화? 후지코F 후지오의 마지막 제자, 무기와라 신타로가 풀어내는 후지오 선생님의 에피소드를 이 한 권에 담았다!",
+          "isbn": "9791136267665",
+          "publisher": "대원씨아이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5680148?timestamp=20250425200816",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5"
+          },
+          "verified": true,
+          "content_id": "44f1b7f9-412c-5c47-800b-bbde76b22e2b"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791136267665",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791136267665"
+      ],
+      "normalizedTitles": [
+        "도라에몽이야기",
+        "도라에몽이야기후지코f후지오선생님의뒷모습"
+      ],
+      "normalizedCreators": [
+        "무기와라신타로",
+        "이은주역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:18:14.851Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "44f1b7f9-412c-5c47-800b-bbde76b22e2b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791136267665",
+      "release_date": "2021-05-27",
+      "metadata": {
+        "isbn": "9791136267665",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+        "publisher": "대원씨아이",
+        "figureBook": {
+          "workTitle": "도라에몽 이야기: 후지코 F 후지오 선생님의 뒷모습",
+          "workCreator": "무기와라 신타로",
+          "workIdentity": "book/9791136267665",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2021-05-27",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:18:10.076589+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "44f1b7f9-412c-5c47-800b-bbde76b22e2b",
+        "locale": "ko",
+        "title": "도라에몽 이야기: 후지코 F 후지오 선생님의 뒷모습",
+        "creator": "무기와라 신타로",
+        "description": "어렸을 때부터 동경해왔던 선생님은 정말 대단한 사람이었습니다 -무기와라 신타로-  도라에몽을 만들어낸 만화가 후지코 F 후지오와 도라에몽을 좋아해 만화가를 꿈꾼 청년의 실화? 후지코F 후지오의 마지막 제자, 무기와라 신타로가 풀어내는 후지오 선생님의 에피소드를 이 한 권에 담았다!",
+        "isbn": "9791136267665",
+        "publisher": "대원씨아이",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5680148?timestamp=20250425200816",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5680148&q=%EB%8F%84%EB%9D%BC%EC%97%90%EB%AA%BD+%EC%9D%B4%EC%95%BC%EA%B8%B0%3A+%ED%9B%84%EC%A7%80%EC%BD%94+F+%ED%9B%84%EC%A7%80%EC%98%A4+%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%98+%EB%92%B7%EB%AA%A8%EC%8A%B5"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:18:10.076589+00:00",
+        "updated_at": "2026-09-06T04:18:10.076589+00:00"
+      }
+    ]
+  }
+}

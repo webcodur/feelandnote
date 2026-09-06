@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791198817334.json",
+  "manifestSha256": "87abcdea0cda61c595fe596300516d305dd0c575159fd286f1ebe26dc89fdebe",
+  "planSha256": "e494b6beeb1fa8799561e3637cb2b0d9a9ba79c948694d5ff3ff7a70901d3bf7",
+  "workIdentity": "book/9791198817334",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791198817334"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "47b40248-87fa-5a1f-b93f-d52aa26955be",
+    "scopeKey": "book/9791198817334",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "47b40248-87fa-5a1f-b93f-d52aa26955be",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791198817334",
+      "release_date": "2025-11-25",
+      "metadata": {
+        "isbn": "9791198817334",
+        "publisher": "행북",
+        "publishDate": "2025-11-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791198817334",
+          "workTitle": "시몬 볼리바르",
+          "workCreator": "기예르모 안토니오 셔웰",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "시몬 볼리바르",
+          "creator": "기예르모 안토니오 셔웰",
+          "description": "『시몬 볼리바르: 남미의 해방자, 다섯 국가의 아버지, 비운의 혁명가』는 스페인의 지배로부터 남미를 해방시킨 시몬 볼리바르의 삶을 통해 숭고한 대의가 현실과 충돌할 때 나타나는 정치의 본질을 그렸다. 자유와 통합을 향한 투쟁, 그리고 분열 속에서 좌절한 한 지도자의 고뇌를 생생히 복원하며 이를 통해 분열의 시대에 사는 우리가 나아가야 할 길에 대한 깊은 물음을 던진다.",
+          "isbn": "9791198817334",
+          "publisher": "행북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7079001?timestamp=20251119153521",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4"
+          },
+          "verified": true,
+          "content_id": "47b40248-87fa-5a1f-b93f-d52aa26955be"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "47b40248-87fa-5a1f-b93f-d52aa26955be",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791198817334",
+        "release_date": "2025-11-25",
+        "metadata": {
+          "isbn": "9791198817334",
+          "publisher": "행북",
+          "publishDate": "2025-11-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791198817334",
+            "workTitle": "시몬 볼리바르",
+            "workCreator": "기예르모 안토니오 셔웰",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "시몬 볼리바르",
+          "creator": "기예르모 안토니오 셔웰",
+          "description": "『시몬 볼리바르: 남미의 해방자, 다섯 국가의 아버지, 비운의 혁명가』는 스페인의 지배로부터 남미를 해방시킨 시몬 볼리바르의 삶을 통해 숭고한 대의가 현실과 충돌할 때 나타나는 정치의 본질을 그렸다. 자유와 통합을 향한 투쟁, 그리고 분열 속에서 좌절한 한 지도자의 고뇌를 생생히 복원하며 이를 통해 분열의 시대에 사는 우리가 나아가야 할 길에 대한 깊은 물음을 던진다.",
+          "isbn": "9791198817334",
+          "publisher": "행북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7079001?timestamp=20251119153521",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4"
+          },
+          "verified": true,
+          "content_id": "47b40248-87fa-5a1f-b93f-d52aa26955be"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791198817334",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791198817334"
+      ],
+      "normalizedTitles": [
+        "시몬볼리바르"
+      ],
+      "normalizedCreators": [
+        "기예르모안토니오셔웰",
+        "이만휘역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:19:14.123Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "47b40248-87fa-5a1f-b93f-d52aa26955be",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791198817334",
+      "release_date": "2025-11-25",
+      "metadata": {
+        "isbn": "9791198817334",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+        "publisher": "행북",
+        "figureBook": {
+          "workTitle": "시몬 볼리바르",
+          "workCreator": "기예르모 안토니오 셔웰",
+          "workIdentity": "book/9791198817334",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-11-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:19:08.177311+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "47b40248-87fa-5a1f-b93f-d52aa26955be",
+        "locale": "ko",
+        "title": "시몬 볼리바르",
+        "creator": "기예르모 안토니오 셔웰",
+        "description": "『시몬 볼리바르: 남미의 해방자, 다섯 국가의 아버지, 비운의 혁명가』는 스페인의 지배로부터 남미를 해방시킨 시몬 볼리바르의 삶을 통해 숭고한 대의가 현실과 충돌할 때 나타나는 정치의 본질을 그렸다. 자유와 통합을 향한 투쟁, 그리고 분열 속에서 좌절한 한 지도자의 고뇌를 생생히 복원하며 이를 통해 분열의 시대에 사는 우리가 나아가야 할 길에 대한 깊은 물음을 던진다.",
+        "isbn": "9791198817334",
+        "publisher": "행북",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7079001?timestamp=20251119153521",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7079001&q=%EC%8B%9C%EB%AA%AC+%EB%B3%BC%EB%A6%AC%EB%B0%94%EB%A5%B4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:19:08.177311+00:00",
+        "updated_at": "2026-09-04T18:19:08.177311+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788935610662.json",
+  "manifestSha256": "97dc934c8f4fe6b3264b07b5533f2321b33524ce42af3d4e1419691af12bb7a6",
+  "planSha256": "6eaa6ae4263ada37ba2995b68967027f9baa8d239c443f1c8182ee2e2372738f",
+  "workIdentity": "book/9788935610662",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788935610662"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "28f9ffa3-c8b3-5eac-a665-7c99d39380a7",
+    "scopeKey": "book/9788935610662",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "28f9ffa3-c8b3-5eac-a665-7c99d39380a7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788935610662",
+      "release_date": "2024-04-09",
+      "metadata": {
+        "isbn": "9788935610662",
+        "publisher": "한길사",
+        "publishDate": "2024-04-09",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788935610662",
+          "workTitle": "나의 친구 마키아벨리",
+          "workCreator": "시오노 나나미",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "나의 친구 마키아벨리",
+          "creator": "시오노 나나미",
+          "description": "목적을 위해서는 단호한 수단을 강구하라는 마키아벨리즘은 흔히 악마의 속삭임과 같은 뜻으로 이해되어왔다. 마키아벨리즘을 주창한 마키아벨리라면 ‘음흉하고 비열하다’ ‘가차없이 가혹하다’고 색안경을 끼고 바라보는 것도 이상한 일이 아니다. 그런 마키아벨리가 어째서 ‘나의 친구’일까.\n『군주론』과 『정략론』, 『로마사 논고』가 마키아벨리의 현실적인 정치철학을 보여준다면, 『나의 친구 마키아벨리』는 마키아벨리의 역사적·희극적·비극적일 수밖에 없었던 삶을 드러낸다. ‘인간성을 파괴하는 책’ ‘근대의 기원을 연 위대한 사상’을 써낸 작가치고는 너무나도 인간적이고 속물적인 모습까지도 생생하게 보여준다.\n시오노 나나미는 마키아벨리가 주변인과 주고받은 수백 통의 편지를 통해 우리 눈앞에 마키아벨리를 고스란히 되살려낸다. 위대한 사상가라기보다 그저 고향을 사랑하는 피렌체인이었던 마키아벨리와 함께 르네상스 종언의 시대를 지켜보자.",
+          "isbn": "9788935610662",
+          "publisher": "한길사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/525440?timestamp=20250320113607",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC"
+          },
+          "verified": true,
+          "content_id": "28f9ffa3-c8b3-5eac-a665-7c99d39380a7"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "28f9ffa3-c8b3-5eac-a665-7c99d39380a7",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788935610662",
+        "release_date": "2024-04-09",
+        "metadata": {
+          "isbn": "9788935610662",
+          "publisher": "한길사",
+          "publishDate": "2024-04-09",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788935610662",
+            "workTitle": "나의 친구 마키아벨리",
+            "workCreator": "시오노 나나미",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "나의 친구 마키아벨리",
+          "creator": "시오노 나나미",
+          "description": "목적을 위해서는 단호한 수단을 강구하라는 마키아벨리즘은 흔히 악마의 속삭임과 같은 뜻으로 이해되어왔다. 마키아벨리즘을 주창한 마키아벨리라면 ‘음흉하고 비열하다’ ‘가차없이 가혹하다’고 색안경을 끼고 바라보는 것도 이상한 일이 아니다. 그런 마키아벨리가 어째서 ‘나의 친구’일까.\n『군주론』과 『정략론』, 『로마사 논고』가 마키아벨리의 현실적인 정치철학을 보여준다면, 『나의 친구 마키아벨리』는 마키아벨리의 역사적·희극적·비극적일 수밖에 없었던 삶을 드러낸다. ‘인간성을 파괴하는 책’ ‘근대의 기원을 연 위대한 사상’을 써낸 작가치고는 너무나도 인간적이고 속물적인 모습까지도 생생하게 보여준다.\n시오노 나나미는 마키아벨리가 주변인과 주고받은 수백 통의 편지를 통해 우리 눈앞에 마키아벨리를 고스란히 되살려낸다. 위대한 사상가라기보다 그저 고향을 사랑하는 피렌체인이었던 마키아벨리와 함께 르네상스 종언의 시대를 지켜보자.",
+          "isbn": "9788935610662",
+          "publisher": "한길사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/525440?timestamp=20250320113607",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC"
+          },
+          "verified": true,
+          "content_id": "28f9ffa3-c8b3-5eac-a665-7c99d39380a7"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788935610662",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788935610662"
+      ],
+      "normalizedTitles": [
+        "나의친구마키아벨리"
+      ],
+      "normalizedCreators": [
+        "시오노나나미",
+        "오정환역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:40:42.414Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "28f9ffa3-c8b3-5eac-a665-7c99d39380a7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788935610662",
+      "release_date": "2024-04-09",
+      "metadata": {
+        "isbn": "9788935610662",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+        "publisher": "한길사",
+        "figureBook": {
+          "workTitle": "나의 친구 마키아벨리",
+          "workCreator": "시오노 나나미",
+          "workIdentity": "book/9788935610662",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-04-09",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:40:33.985447+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "28f9ffa3-c8b3-5eac-a665-7c99d39380a7",
+        "locale": "ko",
+        "title": "나의 친구 마키아벨리",
+        "creator": "시오노 나나미",
+        "description": "목적을 위해서는 단호한 수단을 강구하라는 마키아벨리즘은 흔히 악마의 속삭임과 같은 뜻으로 이해되어왔다. 마키아벨리즘을 주창한 마키아벨리라면 ‘음흉하고 비열하다’ ‘가차없이 가혹하다’고 색안경을 끼고 바라보는 것도 이상한 일이 아니다. 그런 마키아벨리가 어째서 ‘나의 친구’일까.\n『군주론』과 『정략론』, 『로마사 논고』가 마키아벨리의 현실적인 정치철학을 보여준다면, 『나의 친구 마키아벨리』는 마키아벨리의 역사적·희극적·비극적일 수밖에 없었던 삶을 드러낸다. ‘인간성을 파괴하는 책’ ‘근대의 기원을 연 위대한 사상’을 써낸 작가치고는 너무나도 인간적이고 속물적인 모습까지도 생생하게 보여준다.\n시오노 나나미는 마키아벨리가 주변인과 주고받은 수백 통의 편지를 통해 우리 눈앞에 마키아벨리를 고스란히 되살려낸다. 위대한 사상가라기보다 그저 고향을 사랑하는 피렌체인이었던 마키아벨리와 함께 르네상스 종언의 시대를 지켜보자.",
+        "isbn": "9788935610662",
+        "publisher": "한길사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/525440?timestamp=20250320113607",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=525440&q=%EB%82%98%EC%9D%98+%EC%B9%9C%EA%B5%AC+%EB%A7%88%ED%82%A4%EC%95%84%EB%B2%A8%EB%A6%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:40:33.985447+00:00",
+        "updated_at": "2026-09-04T17:40:33.985447+00:00"
+      }
+    ]
+  }
+}

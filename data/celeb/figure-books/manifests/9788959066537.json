@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788959066537",
+    "title": "식탁 위의 외교",
+    "creator": "안문석",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788959066537"
+  }
+}

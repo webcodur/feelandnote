@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791194423010",
+    "title": "슈뢰딩거와 양자 혁명",
+    "creator": "존 그리빈",
+    "titleAliases": [],
+    "creatorAliases": [
+      "배지은 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791194423010"
+  }
+}

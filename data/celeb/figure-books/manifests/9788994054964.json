@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788994054964",
+    "title": "앨리스 B 토클라스 자서전",
+    "creator": "거트루드 스타인",
+    "titleAliases": [],
+    "creatorAliases": [
+      "권경희 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788994054964"
+  }
+}

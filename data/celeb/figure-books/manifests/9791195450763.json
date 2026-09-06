@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791195450763",
+    "title": "세계 곳곳의 너무 멋진 여자들",
+    "creator": "케이트 샤츠",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이진규 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791195450763"
+  }
+}

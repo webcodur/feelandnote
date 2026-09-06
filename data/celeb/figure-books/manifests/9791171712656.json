@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791171712656",
+    "title": "부의 설계자들",
+    "creator": "지미 소니",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박세연 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791171712656"
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791138388733.json",
+  "manifestSha256": "fc93d2c36924c9822362a8898f0d5798646cab514107f0362ec9b2f8737eb5d6",
+  "planSha256": "4bda6ddf45b70068f73fc49960c4fb12634fb1a59a365f956aeb68cc6c69862b",
+  "workIdentity": "book/9791138388733",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791138388733"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "17a67ae9-0019-5056-80f0-7270891e3b91",
+    "scopeKey": "book/9791138388733",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "17a67ae9-0019-5056-80f0-7270891e3b91",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791138388733",
+      "release_date": "2025-03-28",
+      "metadata": {
+        "isbn": "9791138388733",
+        "publisher": "잔상",
+        "publishDate": "2025-03-28",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791138388733",
+          "workTitle": "호메로스의 딸",
+          "workCreator": "로버트 그레이브스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "호메로스의 딸",
+          "creator": "로버트 그레이브스",
+          "description": "그리스 신화의 장대한 대서사시인 『일리아스』와 『오디세이아』의 저자는 호메로스로 알려져 있다. 눈먼 음유시인인 호메로스가 한 사람이 아니라 여러 명의 남성이었다는 사실은 학계의 정설이다. 그 이유는 『일리아스』와 『오디세이아』가 쓰여진 시기에 ‘150년’이라는 시간의 간극이 존재하기 때문이다. 그들을 ‘호메로스의 아들들’이라고 부른다. 그런데 신기하게도 『오디세이아』에는 그 당시 여성의 직업과 일들을 구체적으로 이야기하고, 신화 속 여성의 이름들이 다수 등장하며, 남자라면 당연히 알법한 일들을 틀리게 기입된 사실이 발견됐다. 『에레혼』을 쓴 작가 새뮤얼 버틀러도 이러한 지점에 의문을 품어 다음과 같은 주장을 한다. “『오디세이아』의 배경은 시칠리아 서부이고, 진짜는 저자는 여성이다.”\n그리스 로마 신화를 편찬한 로버트 그레이브스 교수 역시 같은 고민을 하였고, 결국 새뮤얼 버틀러의 주장에 설득되고 만다. “『오디세이아』를 쓴 것은 이탈리아 시칠리아섬의 한 나라 공주인 나우시카 공주였다는 것을!”\n역사 비평가이자 시인, 소설가이자 옥스퍼드대학교 명예교수인 로버트 그레이브스에 의해 새로 태어난 『오디세이아』의 탄생 비화를 만나 보자.",
+          "isbn": "9791138388733",
+          "publisher": "잔상",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6870483?timestamp=20260807155458",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8"
+          },
+          "verified": true,
+          "content_id": "17a67ae9-0019-5056-80f0-7270891e3b91"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "17a67ae9-0019-5056-80f0-7270891e3b91",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791138388733",
+        "release_date": "2025-03-28",
+        "metadata": {
+          "isbn": "9791138388733",
+          "publisher": "잔상",
+          "publishDate": "2025-03-28",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791138388733",
+            "workTitle": "호메로스의 딸",
+            "workCreator": "로버트 그레이브스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "호메로스의 딸",
+          "creator": "로버트 그레이브스",
+          "description": "그리스 신화의 장대한 대서사시인 『일리아스』와 『오디세이아』의 저자는 호메로스로 알려져 있다. 눈먼 음유시인인 호메로스가 한 사람이 아니라 여러 명의 남성이었다는 사실은 학계의 정설이다. 그 이유는 『일리아스』와 『오디세이아』가 쓰여진 시기에 ‘150년’이라는 시간의 간극이 존재하기 때문이다. 그들을 ‘호메로스의 아들들’이라고 부른다. 그런데 신기하게도 『오디세이아』에는 그 당시 여성의 직업과 일들을 구체적으로 이야기하고, 신화 속 여성의 이름들이 다수 등장하며, 남자라면 당연히 알법한 일들을 틀리게 기입된 사실이 발견됐다. 『에레혼』을 쓴 작가 새뮤얼 버틀러도 이러한 지점에 의문을 품어 다음과 같은 주장을 한다. “『오디세이아』의 배경은 시칠리아 서부이고, 진짜는 저자는 여성이다.”\n그리스 로마 신화를 편찬한 로버트 그레이브스 교수 역시 같은 고민을 하였고, 결국 새뮤얼 버틀러의 주장에 설득되고 만다. “『오디세이아』를 쓴 것은 이탈리아 시칠리아섬의 한 나라 공주인 나우시카 공주였다는 것을!”\n역사 비평가이자 시인, 소설가이자 옥스퍼드대학교 명예교수인 로버트 그레이브스에 의해 새로 태어난 『오디세이아』의 탄생 비화를 만나 보자.",
+          "isbn": "9791138388733",
+          "publisher": "잔상",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6870483?timestamp=20260807155458",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8"
+          },
+          "verified": true,
+          "content_id": "17a67ae9-0019-5056-80f0-7270891e3b91"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791138388733",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791138388733"
+      ],
+      "normalizedTitles": [
+        "호메로스의딸"
+      ],
+      "normalizedCreators": [
+        "로버트그레이브스",
+        "한지원역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:02:47.022Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "17a67ae9-0019-5056-80f0-7270891e3b91",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791138388733",
+      "release_date": "2025-03-28",
+      "metadata": {
+        "isbn": "9791138388733",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+        "publisher": "잔상",
+        "figureBook": {
+          "workTitle": "호메로스의 딸",
+          "workCreator": "로버트 그레이브스",
+          "workIdentity": "book/9791138388733",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-03-28",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:02:42.100737+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "17a67ae9-0019-5056-80f0-7270891e3b91",
+        "locale": "ko",
+        "title": "호메로스의 딸",
+        "creator": "로버트 그레이브스",
+        "description": "그리스 신화의 장대한 대서사시인 『일리아스』와 『오디세이아』의 저자는 호메로스로 알려져 있다. 눈먼 음유시인인 호메로스가 한 사람이 아니라 여러 명의 남성이었다는 사실은 학계의 정설이다. 그 이유는 『일리아스』와 『오디세이아』가 쓰여진 시기에 ‘150년’이라는 시간의 간극이 존재하기 때문이다. 그들을 ‘호메로스의 아들들’이라고 부른다. 그런데 신기하게도 『오디세이아』에는 그 당시 여성의 직업과 일들을 구체적으로 이야기하고, 신화 속 여성의 이름들이 다수 등장하며, 남자라면 당연히 알법한 일들을 틀리게 기입된 사실이 발견됐다. 『에레혼』을 쓴 작가 새뮤얼 버틀러도 이러한 지점에 의문을 품어 다음과 같은 주장을 한다. “『오디세이아』의 배경은 시칠리아 서부이고, 진짜는 저자는 여성이다.”\n그리스 로마 신화를 편찬한 로버트 그레이브스 교수 역시 같은 고민을 하였고, 결국 새뮤얼 버틀러의 주장에 설득되고 만다. “『오디세이아』를 쓴 것은 이탈리아 시칠리아섬의 한 나라 공주인 나우시카 공주였다는 것을!”\n역사 비평가이자 시인, 소설가이자 옥스퍼드대학교 명예교수인 로버트 그레이브스에 의해 새로 태어난 『오디세이아』의 탄생 비화를 만나 보자.",
+        "isbn": "9791138388733",
+        "publisher": "잔상",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6870483?timestamp=20260807155458",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6870483&q=%ED%98%B8%EB%A9%94%EB%A1%9C%EC%8A%A4%EC%9D%98+%EB%94%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:02:42.100737+00:00",
+        "updated_at": "2026-09-04T18:02:42.100737+00:00"
+      }
+    ]
+  }
+}

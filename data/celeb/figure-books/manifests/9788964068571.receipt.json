@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788964068571.json",
+  "manifestSha256": "cea52e167a5dd51f0629f7f05fc4a1d6104f4e430c9029e7ef3226055b031b1b",
+  "planSha256": "fb29182f390fdc2ab12b5c12bac3d2058c81c79f83a898f7bc29585fb8bdb718",
+  "workIdentity": "book/9788964068571",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788964068571"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "fd28a197-393b-5cb8-b3d4-e17b2f3e0eef",
+    "scopeKey": "book/9788964068571",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "fd28a197-393b-5cb8-b3d4-e17b2f3e0eef",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788964068571",
+      "release_date": "2011-12-21",
+      "metadata": {
+        "isbn": "9788964068571",
+        "publisher": "지식을만드는지식",
+        "publishDate": "2011-12-21",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+        "salesStatus": "주문판매",
+        "figureBook": {
+          "workIdentity": "book/9788964068571",
+          "workTitle": "무라사키시키부 일기",
+          "workCreator": "무라사키시키부",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "무라사키시키부 일기",
+          "creator": "무라사키시키부",
+          "description": "『무라사키시키부 일기』는 세계 최초의 장편소설 ＜겐지 이야기＞의 작가이자 헤이안 시대의 대표적인 재녀로 손꼽히는 무라사키시키부의 일기를 국내 최초로 소개한 책이다. ＜겐지 이야기＞의 배경이 된 궁중 문화와 귀족들의 생활 모습을 맛볼 수 있는 것은 물론, 글에 드러난 솔직한 서술을 통해 무라사키시키부라는 독특한 여인을 만날 수 있다. 당대의 라이벌이었던 ＜마쿠라노소시＞의 작가 세이쇼나곤, 와카의 명수 이즈미시키부에 대한 비평도 있다. 정순분 교수의 상세한 주석과 친절한 해제, 전문적인 해설이 독자를 헤이안 시대로 안내한다.",
+          "isbn": "9788964068571",
+          "publisher": "지식을만드는지식",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/894035?timestamp=20241123114011",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "fd28a197-393b-5cb8-b3d4-e17b2f3e0eef"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "fd28a197-393b-5cb8-b3d4-e17b2f3e0eef",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788964068571",
+        "release_date": "2011-12-21",
+        "metadata": {
+          "isbn": "9788964068571",
+          "publisher": "지식을만드는지식",
+          "publishDate": "2011-12-21",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+          "salesStatus": "주문판매",
+          "figureBook": {
+            "workIdentity": "book/9788964068571",
+            "workTitle": "무라사키시키부 일기",
+            "workCreator": "무라사키시키부",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "무라사키시키부 일기",
+          "creator": "무라사키시키부",
+          "description": "『무라사키시키부 일기』는 세계 최초의 장편소설 ＜겐지 이야기＞의 작가이자 헤이안 시대의 대표적인 재녀로 손꼽히는 무라사키시키부의 일기를 국내 최초로 소개한 책이다. ＜겐지 이야기＞의 배경이 된 궁중 문화와 귀족들의 생활 모습을 맛볼 수 있는 것은 물론, 글에 드러난 솔직한 서술을 통해 무라사키시키부라는 독특한 여인을 만날 수 있다. 당대의 라이벌이었던 ＜마쿠라노소시＞의 작가 세이쇼나곤, 와카의 명수 이즈미시키부에 대한 비평도 있다. 정순분 교수의 상세한 주석과 친절한 해제, 전문적인 해설이 독자를 헤이안 시대로 안내한다.",
+          "isbn": "9788964068571",
+          "publisher": "지식을만드는지식",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/894035?timestamp=20241123114011",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "fd28a197-393b-5cb8-b3d4-e17b2f3e0eef"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788964068571",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788964068571"
+      ],
+      "normalizedTitles": [
+        "무라사키시키부일기"
+      ],
+      "normalizedCreators": [
+        "무라사키시키부",
+        "정순분역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:10:35.458Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "fd28a197-393b-5cb8-b3d4-e17b2f3e0eef",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788964068571",
+      "release_date": "2011-12-21",
+      "metadata": {
+        "isbn": "9788964068571",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+        "publisher": "지식을만드는지식",
+        "figureBook": {
+          "workTitle": "무라사키시키부 일기",
+          "workCreator": "무라사키시키부",
+          "workIdentity": "book/9788964068571",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2011-12-21",
+        "salesStatus": "주문판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:10:30.368806+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "fd28a197-393b-5cb8-b3d4-e17b2f3e0eef",
+        "locale": "ko",
+        "title": "무라사키시키부 일기",
+        "creator": "무라사키시키부",
+        "description": "『무라사키시키부 일기』는 세계 최초의 장편소설 ＜겐지 이야기＞의 작가이자 헤이안 시대의 대표적인 재녀로 손꼽히는 무라사키시키부의 일기를 국내 최초로 소개한 책이다. ＜겐지 이야기＞의 배경이 된 궁중 문화와 귀족들의 생활 모습을 맛볼 수 있는 것은 물론, 글에 드러난 솔직한 서술을 통해 무라사키시키부라는 독특한 여인을 만날 수 있다. 당대의 라이벌이었던 ＜마쿠라노소시＞의 작가 세이쇼나곤, 와카의 명수 이즈미시키부에 대한 비평도 있다. 정순분 교수의 상세한 주석과 친절한 해제, 전문적인 해설이 독자를 헤이안 시대로 안내한다.",
+        "isbn": "9788964068571",
+        "publisher": "지식을만드는지식",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/894035?timestamp=20241123114011",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=894035&q=%EB%AC%B4%EB%9D%BC%EC%82%AC%ED%82%A4%EC%8B%9C%ED%82%A4%EB%B6%80+%EC%9D%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:10:30.368806+00:00",
+        "updated_at": "2026-09-06T04:10:30.368806+00:00"
+      }
+    ]
+  }
+}

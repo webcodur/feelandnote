@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791165730383.json",
+  "manifestSha256": "3f214f1aa28f0ce23e234682e0e35df50f119d1188dc0d1367195994373d02e6",
+  "planSha256": "eefcc5044c37ff4c54def92c1d3970145b46802e7d324eafe726eea36066cdde",
+  "workIdentity": "book/9791165730383",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791165730383"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "87ebdbdd-c2e7-5db1-80c0-c5ced6fc613e",
+    "scopeKey": "book/9791165730383",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "87ebdbdd-c2e7-5db1-80c0-c5ced6fc613e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791165730383",
+      "release_date": "2020-04-20",
+      "metadata": {
+        "isbn": "9791165730383",
+        "publisher": "천개의바람",
+        "publishDate": "2020-04-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791165730383",
+          "workTitle": "아이작 뉴턴",
+          "workCreator": "박주미",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "아이작 뉴턴",
+          "creator": "박주미",
+          "description": "‘사과나무에 열린 사과는 왜 땅으로 떨어지는 걸까?’\n\n어쩌면 너무나 당연하고 자연스러워 보이는 이 현상에 대해 의문을 품고 깊이 탐구하기 시작해서, 아주 중요한 과학 이론을 밝혀낸 학자가 있어요. 바로 영국의 과학자 ‘아이작 뉴턴’이에요. 어릴 때부터 홀로 생각에 잠길 때가 많고, 이것저것 손으로 만들기를 좋아하던 뉴턴은 대학 시절 영국에 흑사병이 크게 번지는 바람에 고향에 내려와 조용히 지내던 시간 동안 많은 사색과 탐구에 빠지게 되었어요. 뉴턴은 바로 이 시기에, 떨어지는 사과를 보고 모든 물체가 서로를 끌어당기는 힘이 있다는 ‘만유인력’의 법칙을 발견한 것으로 유명하지요. 이러한 발견이 없었다면, 끊임없이 태양 주위를 돌며 스스로 도는 지구 위에 사는 우리가 어떻게 저 먼 우주 공간으로 떨어지거나 튕겨 나가지 않고 멀쩡히 서 있을 수 있는지 알 수 없었을 거예요. 지구가 물체를 끌어당기는 힘인 ‘중력’ 또한 만유인력과 관련이 있기 때문이지요.\n\n공부보다 야구가 더 좋은 훈동이는 야구를 계속 하기 위한 엄마와의 약속으로 방과 후 수업인 ‘뉴턴의 실험실’을 신청하게 돼요. 뉴턴의 실험실 수업에서 과학자 아이작 뉴턴과 똑 닮은 김이삭 선생님을 만나면서 과학에는 관심도 없던 훈동이의 머리 속에 하나 둘 궁금증이 생겨나기 시작하지요.\n\n‘야구공은 왜 항상 땅으로 떨어질까?’\n\n‘힘껏 달리다가 멈출 때는 왜 한 번에 딱 멈춰 설 수 없을까?’\n\n‘야구공이 방망이에 맞으면 왜 날아갈까?’\n\n오로지 야구밖에 모르던 훈동이는 ‘뉴턴의 실험실’ 수업에서 만난 뉴턴의 이야기와 다양한 실험들을 통해, 뉴턴이 밝혀낸 여러 가지 운동의 법칙들이 우리 생활과 떼려야 뗄 수 없다는 사실을 알게 돼요. 뿐만 아니라 자신이 가장 좋아하는 운동인 야구와도 아주 밀접한 관련이 있다는 사실도 깨닫게 되지요.\n\n홈런왕을 꿈꾸는 야구 소년 훈동이의 이야기를 따라, 뉴턴이 밝혀낸 운동의 법칙들과 다양한 분야의 업적들이 인류의 삶을 어떻게 변화시켜 왔으며 지금까지도 우리 생활 속에서 어떻게 작용하고 있는지 알아보아요.",
+          "isbn": "9791165730383",
+          "publisher": "천개의바람",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5351444?timestamp=20230922164754",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4"
+          },
+          "verified": true,
+          "content_id": "87ebdbdd-c2e7-5db1-80c0-c5ced6fc613e"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "87ebdbdd-c2e7-5db1-80c0-c5ced6fc613e",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791165730383",
+        "release_date": "2020-04-20",
+        "metadata": {
+          "isbn": "9791165730383",
+          "publisher": "천개의바람",
+          "publishDate": "2020-04-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791165730383",
+            "workTitle": "아이작 뉴턴",
+            "workCreator": "박주미",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "아이작 뉴턴",
+          "creator": "박주미",
+          "description": "‘사과나무에 열린 사과는 왜 땅으로 떨어지는 걸까?’\n\n어쩌면 너무나 당연하고 자연스러워 보이는 이 현상에 대해 의문을 품고 깊이 탐구하기 시작해서, 아주 중요한 과학 이론을 밝혀낸 학자가 있어요. 바로 영국의 과학자 ‘아이작 뉴턴’이에요. 어릴 때부터 홀로 생각에 잠길 때가 많고, 이것저것 손으로 만들기를 좋아하던 뉴턴은 대학 시절 영국에 흑사병이 크게 번지는 바람에 고향에 내려와 조용히 지내던 시간 동안 많은 사색과 탐구에 빠지게 되었어요. 뉴턴은 바로 이 시기에, 떨어지는 사과를 보고 모든 물체가 서로를 끌어당기는 힘이 있다는 ‘만유인력’의 법칙을 발견한 것으로 유명하지요. 이러한 발견이 없었다면, 끊임없이 태양 주위를 돌며 스스로 도는 지구 위에 사는 우리가 어떻게 저 먼 우주 공간으로 떨어지거나 튕겨 나가지 않고 멀쩡히 서 있을 수 있는지 알 수 없었을 거예요. 지구가 물체를 끌어당기는 힘인 ‘중력’ 또한 만유인력과 관련이 있기 때문이지요.\n\n공부보다 야구가 더 좋은 훈동이는 야구를 계속 하기 위한 엄마와의 약속으로 방과 후 수업인 ‘뉴턴의 실험실’을 신청하게 돼요. 뉴턴의 실험실 수업에서 과학자 아이작 뉴턴과 똑 닮은 김이삭 선생님을 만나면서 과학에는 관심도 없던 훈동이의 머리 속에 하나 둘 궁금증이 생겨나기 시작하지요.\n\n‘야구공은 왜 항상 땅으로 떨어질까?’\n\n‘힘껏 달리다가 멈출 때는 왜 한 번에 딱 멈춰 설 수 없을까?’\n\n‘야구공이 방망이에 맞으면 왜 날아갈까?’\n\n오로지 야구밖에 모르던 훈동이는 ‘뉴턴의 실험실’ 수업에서 만난 뉴턴의 이야기와 다양한 실험들을 통해, 뉴턴이 밝혀낸 여러 가지 운동의 법칙들이 우리 생활과 떼려야 뗄 수 없다는 사실을 알게 돼요. 뿐만 아니라 자신이 가장 좋아하는 운동인 야구와도 아주 밀접한 관련이 있다는 사실도 깨닫게 되지요.\n\n홈런왕을 꿈꾸는 야구 소년 훈동이의 이야기를 따라, 뉴턴이 밝혀낸 운동의 법칙들과 다양한 분야의 업적들이 인류의 삶을 어떻게 변화시켜 왔으며 지금까지도 우리 생활 속에서 어떻게 작용하고 있는지 알아보아요.",
+          "isbn": "9791165730383",
+          "publisher": "천개의바람",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5351444?timestamp=20230922164754",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4"
+          },
+          "verified": true,
+          "content_id": "87ebdbdd-c2e7-5db1-80c0-c5ced6fc613e"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791165730383",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791165730383"
+      ],
+      "normalizedTitles": [
+        "아이작뉴턴"
+      ],
+      "normalizedCreators": [
+        "박주미"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:32:53.520Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "87ebdbdd-c2e7-5db1-80c0-c5ced6fc613e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791165730383",
+      "release_date": "2020-04-20",
+      "metadata": {
+        "isbn": "9791165730383",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+        "publisher": "천개의바람",
+        "figureBook": {
+          "workTitle": "아이작 뉴턴",
+          "workCreator": "박주미",
+          "workIdentity": "book/9791165730383",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-04-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:32:42.78156+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "87ebdbdd-c2e7-5db1-80c0-c5ced6fc613e",
+        "locale": "ko",
+        "title": "아이작 뉴턴",
+        "creator": "박주미",
+        "description": "‘사과나무에 열린 사과는 왜 땅으로 떨어지는 걸까?’\n\n어쩌면 너무나 당연하고 자연스러워 보이는 이 현상에 대해 의문을 품고 깊이 탐구하기 시작해서, 아주 중요한 과학 이론을 밝혀낸 학자가 있어요. 바로 영국의 과학자 ‘아이작 뉴턴’이에요. 어릴 때부터 홀로 생각에 잠길 때가 많고, 이것저것 손으로 만들기를 좋아하던 뉴턴은 대학 시절 영국에 흑사병이 크게 번지는 바람에 고향에 내려와 조용히 지내던 시간 동안 많은 사색과 탐구에 빠지게 되었어요. 뉴턴은 바로 이 시기에, 떨어지는 사과를 보고 모든 물체가 서로를 끌어당기는 힘이 있다는 ‘만유인력’의 법칙을 발견한 것으로 유명하지요. 이러한 발견이 없었다면, 끊임없이 태양 주위를 돌며 스스로 도는 지구 위에 사는 우리가 어떻게 저 먼 우주 공간으로 떨어지거나 튕겨 나가지 않고 멀쩡히 서 있을 수 있는지 알 수 없었을 거예요. 지구가 물체를 끌어당기는 힘인 ‘중력’ 또한 만유인력과 관련이 있기 때문이지요.\n\n공부보다 야구가 더 좋은 훈동이는 야구를 계속 하기 위한 엄마와의 약속으로 방과 후 수업인 ‘뉴턴의 실험실’을 신청하게 돼요. 뉴턴의 실험실 수업에서 과학자 아이작 뉴턴과 똑 닮은 김이삭 선생님을 만나면서 과학에는 관심도 없던 훈동이의 머리 속에 하나 둘 궁금증이 생겨나기 시작하지요.\n\n‘야구공은 왜 항상 땅으로 떨어질까?’\n\n‘힘껏 달리다가 멈출 때는 왜 한 번에 딱 멈춰 설 수 없을까?’\n\n‘야구공이 방망이에 맞으면 왜 날아갈까?’\n\n오로지 야구밖에 모르던 훈동이는 ‘뉴턴의 실험실’ 수업에서 만난 뉴턴의 이야기와 다양한 실험들을 통해, 뉴턴이 밝혀낸 여러 가지 운동의 법칙들이 우리 생활과 떼려야 뗄 수 없다는 사실을 알게 돼요. 뿐만 아니라 자신이 가장 좋아하는 운동인 야구와도 아주 밀접한 관련이 있다는 사실도 깨닫게 되지요.\n\n홈런왕을 꿈꾸는 야구 소년 훈동이의 이야기를 따라, 뉴턴이 밝혀낸 운동의 법칙들과 다양한 분야의 업적들이 인류의 삶을 어떻게 변화시켜 왔으며 지금까지도 우리 생활 속에서 어떻게 작용하고 있는지 알아보아요.",
+        "isbn": "9791165730383",
+        "publisher": "천개의바람",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5351444?timestamp=20230922164754",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5351444&q=%EC%95%84%EC%9D%B4%EC%9E%91+%EB%89%B4%ED%84%B4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:32:42.78156+00:00",
+        "updated_at": "2026-09-06T02:32:42.78156+00:00"
+      }
+    ]
+  }
+}

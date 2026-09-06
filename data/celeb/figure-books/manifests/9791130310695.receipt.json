@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791130310695.json",
+  "manifestSha256": "588e95f5a733d63df806abbd45a84cf8bd31543355f5e77d527f365526838d0e",
+  "planSha256": "a5ea9dbb72acf5b03220760eca9a0178b5026cfacae541ffacbb67bd88c4d28a",
+  "workIdentity": "book/9791130310695",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791130310695"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "4c9a9029-3221-55bf-86cc-f2ff9197edaf",
+    "scopeKey": "book/9791130310695",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "4c9a9029-3221-55bf-86cc-f2ff9197edaf",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130310695",
+      "release_date": "2020-08-30",
+      "metadata": {
+        "isbn": "9791130310695",
+        "publisher": "박영사",
+        "publishDate": "2020-08-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791130310695",
+          "workTitle": "조지 워싱턴",
+          "workCreator": "강성학",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "조지 워싱턴",
+          "creator": "강성학",
+          "description": "강성학의 『조지 워싱턴』은 〈워싱턴의 리더십이란 어떤 것인가?〉, 〈버지니아 시민군의 젊은 군 지휘관(commander)이 되다〉, 〈프랑스-인디언 전쟁(the French­Indian War)에 참전하다〉 등 창업의 거룩한 카리스마적 리더십의 기초적이고 전반적인 내용이 수록되어 있다.",
+          "isbn": "9791130310695",
+          "publisher": "박영사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5444571?timestamp=20230523142203",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4"
+          },
+          "verified": true,
+          "content_id": "4c9a9029-3221-55bf-86cc-f2ff9197edaf"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "4c9a9029-3221-55bf-86cc-f2ff9197edaf",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791130310695",
+        "release_date": "2020-08-30",
+        "metadata": {
+          "isbn": "9791130310695",
+          "publisher": "박영사",
+          "publishDate": "2020-08-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791130310695",
+            "workTitle": "조지 워싱턴",
+            "workCreator": "강성학",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "조지 워싱턴",
+          "creator": "강성학",
+          "description": "강성학의 『조지 워싱턴』은 〈워싱턴의 리더십이란 어떤 것인가?〉, 〈버지니아 시민군의 젊은 군 지휘관(commander)이 되다〉, 〈프랑스-인디언 전쟁(the French­Indian War)에 참전하다〉 등 창업의 거룩한 카리스마적 리더십의 기초적이고 전반적인 내용이 수록되어 있다.",
+          "isbn": "9791130310695",
+          "publisher": "박영사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5444571?timestamp=20230523142203",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4"
+          },
+          "verified": true,
+          "content_id": "4c9a9029-3221-55bf-86cc-f2ff9197edaf"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791130310695",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791130310695"
+      ],
+      "normalizedTitles": [
+        "조지워싱턴"
+      ],
+      "normalizedCreators": [
+        "강성학"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:01:08.643Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "4c9a9029-3221-55bf-86cc-f2ff9197edaf",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130310695",
+      "release_date": "2020-08-30",
+      "metadata": {
+        "isbn": "9791130310695",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+        "publisher": "박영사",
+        "figureBook": {
+          "workTitle": "조지 워싱턴",
+          "workCreator": "강성학",
+          "workIdentity": "book/9791130310695",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-08-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:01:06.399836+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "4c9a9029-3221-55bf-86cc-f2ff9197edaf",
+        "locale": "ko",
+        "title": "조지 워싱턴",
+        "creator": "강성학",
+        "description": "강성학의 『조지 워싱턴』은 〈워싱턴의 리더십이란 어떤 것인가?〉, 〈버지니아 시민군의 젊은 군 지휘관(commander)이 되다〉, 〈프랑스-인디언 전쟁(the French­Indian War)에 참전하다〉 등 창업의 거룩한 카리스마적 리더십의 기초적이고 전반적인 내용이 수록되어 있다.",
+        "isbn": "9791130310695",
+        "publisher": "박영사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5444571?timestamp=20230523142203",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5444571&q=%EC%A1%B0%EC%A7%80+%EC%9B%8C%EC%8B%B1%ED%84%B4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:01:06.399836+00:00",
+        "updated_at": "2026-09-04T18:01:06.399836+00:00"
+      }
+    ]
+  }
+}

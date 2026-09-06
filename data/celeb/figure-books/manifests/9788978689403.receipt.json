@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788978689403.json",
+  "manifestSha256": "91dfa69d31af70cd22bf44f06ac31421c0bd1be7586bb7f2cdf8a120f27a5e85",
+  "planSha256": "d68866ccd69510a3516c17addafe1ce0c9118e5f4088033424f0c286c6800a11",
+  "workIdentity": "book/9788978689403",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788978689403"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "0c66bf15-7cfd-563b-8204-4354adcd2b88",
+    "scopeKey": "book/9788978689403",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "0c66bf15-7cfd-563b-8204-4354adcd2b88",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788978689403",
+      "release_date": "2006-04-20",
+      "metadata": {
+        "isbn": "9788978689403",
+        "publisher": "울산대학교출판부",
+        "publishDate": "2006-04-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788978689403",
+          "workTitle": "왕유의 시세계(당시의 거장)",
+          "workCreator": "박삼수",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "왕유의 시세계",
+          "creator": "박삼수",
+          "description": null,
+          "isbn": "9788978689403",
+          "publisher": "울산대학교출판부",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1098890?timestamp=20220505214917",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "0c66bf15-7cfd-563b-8204-4354adcd2b88"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "0c66bf15-7cfd-563b-8204-4354adcd2b88",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788978689403",
+        "release_date": "2006-04-20",
+        "metadata": {
+          "isbn": "9788978689403",
+          "publisher": "울산대학교출판부",
+          "publishDate": "2006-04-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788978689403",
+            "workTitle": "왕유의 시세계(당시의 거장)",
+            "workCreator": "박삼수",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "왕유의 시세계",
+          "creator": "박삼수",
+          "description": null,
+          "isbn": "9788978689403",
+          "publisher": "울산대학교출판부",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1098890?timestamp=20220505214917",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "0c66bf15-7cfd-563b-8204-4354adcd2b88"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788978689403",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788978689403"
+      ],
+      "normalizedTitles": [
+        "왕유의시세계",
+        "왕유의시세계당시의거장"
+      ],
+      "normalizedCreators": [
+        "박삼수"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:54:12.897Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "0c66bf15-7cfd-563b-8204-4354adcd2b88",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788978689403",
+      "release_date": "2006-04-20",
+      "metadata": {
+        "isbn": "9788978689403",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+        "publisher": "울산대학교출판부",
+        "figureBook": {
+          "workTitle": "왕유의 시세계(당시의 거장)",
+          "workCreator": "박삼수",
+          "workIdentity": "book/9788978689403",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2006-04-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:54:10.081734+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "0c66bf15-7cfd-563b-8204-4354adcd2b88",
+        "locale": "ko",
+        "title": "왕유의 시세계",
+        "creator": "박삼수",
+        "description": null,
+        "isbn": "9788978689403",
+        "publisher": "울산대학교출판부",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1098890?timestamp=20220505214917",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1098890&q=%EC%99%95%EC%9C%A0%EC%9D%98+%EC%8B%9C%EC%84%B8%EA%B3%84%28%EB%8B%B9%EC%8B%9C%EC%9D%98+%EA%B1%B0%EC%9E%A5%29",
+          "description": "confirmed_unavailable"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:54:10.081734+00:00",
+        "updated_at": "2026-09-04T17:54:10.081734+00:00"
+      }
+    ]
+  }
+}

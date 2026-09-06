@@ -1,0 +1,22 @@
+{
+  "work": {
+    "identity": "book/9791193796078",
+    "title": "존 F. 케네디의 영원한 불꽃",
+    "creator": "손귀분",
+    "titleAliases": [],
+    "creatorAliases": [
+      "손귀분, 김혜정, 이남철, 배용구",
+      "김혜정",
+      "이남철",
+      "배용구"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791193796078"
+  }
+}

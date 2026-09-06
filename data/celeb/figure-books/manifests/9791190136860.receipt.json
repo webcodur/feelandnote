@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791190136860.json",
+  "manifestSha256": "1ad981010279a38b11ddebcccfda09b73091d13b67cde76afd5aba9f53120beb",
+  "planSha256": "0082547e3c45b072987f3e4d0d00db89f9a3ac24977b0b210ead54adfca65484",
+  "workIdentity": "book/9791190136860",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791190136860"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "572004b8-7a61-55d7-a0ad-5fd262a0f792",
+    "scopeKey": "book/9791190136860",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "572004b8-7a61-55d7-a0ad-5fd262a0f792",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791190136860",
+      "release_date": "2022-10-12",
+      "metadata": {
+        "isbn": "9791190136860",
+        "publisher": "원더박스",
+        "publishDate": "2022-10-12",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791190136860",
+          "workTitle": "에라스무스 평전",
+          "workCreator": "슈테판 츠바이크",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "에라스무스 평전",
+          "creator": "슈테판 츠바이크",
+          "description": "이 책은 『발자크 평전』, 『위로하는 정신』(몽테뉴), 『다른 의견을 가질 권리』(카스텔리오) 등 여러 평전을 남긴 슈테판 츠바이크의 대표작으로, 에라스무스를 다룬 여러 책 가운데 가장 유명한 책이다. 츠바이크가 나치를 피해 망명하기 직전에 출간한 이 책은, 종교전쟁의 혼돈 속에서 모든 극단을 거부하며 평화와 자유를 지키려 했던 인문주의자 에라스무스의 삶을 빌려 광란의 시대를 고발하고 자신의 신념을 밝힌 작품이다. 츠바이크는 이성과 계몽의 힘으로 인류의 화합을 이루려는 에라스무스의 숭고한 정신과, 어느 편에도 들지 않고 어떤 위험도 피하려는 태도로 행동에 나서지 못하는 그의 소심함을 동시에 보여 준다. 츠바이크가 생생하고 역동적인 필체로 그려 낸 에라스무스의 모습은 대립과 반목, 갈등과 혐오의 시대에 어떻게 살아가야 할지 고민하게 할 것이다.",
+          "isbn": "9791190136860",
+          "publisher": "원더박스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6179918?timestamp=20240606150239",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "572004b8-7a61-55d7-a0ad-5fd262a0f792"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "572004b8-7a61-55d7-a0ad-5fd262a0f792",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791190136860",
+        "release_date": "2022-10-12",
+        "metadata": {
+          "isbn": "9791190136860",
+          "publisher": "원더박스",
+          "publishDate": "2022-10-12",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791190136860",
+            "workTitle": "에라스무스 평전",
+            "workCreator": "슈테판 츠바이크",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "에라스무스 평전",
+          "creator": "슈테판 츠바이크",
+          "description": "이 책은 『발자크 평전』, 『위로하는 정신』(몽테뉴), 『다른 의견을 가질 권리』(카스텔리오) 등 여러 평전을 남긴 슈테판 츠바이크의 대표작으로, 에라스무스를 다룬 여러 책 가운데 가장 유명한 책이다. 츠바이크가 나치를 피해 망명하기 직전에 출간한 이 책은, 종교전쟁의 혼돈 속에서 모든 극단을 거부하며 평화와 자유를 지키려 했던 인문주의자 에라스무스의 삶을 빌려 광란의 시대를 고발하고 자신의 신념을 밝힌 작품이다. 츠바이크는 이성과 계몽의 힘으로 인류의 화합을 이루려는 에라스무스의 숭고한 정신과, 어느 편에도 들지 않고 어떤 위험도 피하려는 태도로 행동에 나서지 못하는 그의 소심함을 동시에 보여 준다. 츠바이크가 생생하고 역동적인 필체로 그려 낸 에라스무스의 모습은 대립과 반목, 갈등과 혐오의 시대에 어떻게 살아가야 할지 고민하게 할 것이다.",
+          "isbn": "9791190136860",
+          "publisher": "원더박스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6179918?timestamp=20240606150239",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "572004b8-7a61-55d7-a0ad-5fd262a0f792"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791190136860",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791190136860"
+      ],
+      "normalizedTitles": [
+        "에라스무스평전"
+      ],
+      "normalizedCreators": [
+        "슈테판츠바이크",
+        "정민영역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:13:29.222Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "572004b8-7a61-55d7-a0ad-5fd262a0f792",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791190136860",
+      "release_date": "2022-10-12",
+      "metadata": {
+        "isbn": "9791190136860",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+        "publisher": "원더박스",
+        "figureBook": {
+          "workTitle": "에라스무스 평전",
+          "workCreator": "슈테판 츠바이크",
+          "workIdentity": "book/9791190136860",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-10-12",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:13:25.369684+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "572004b8-7a61-55d7-a0ad-5fd262a0f792",
+        "locale": "ko",
+        "title": "에라스무스 평전",
+        "creator": "슈테판 츠바이크",
+        "description": "이 책은 『발자크 평전』, 『위로하는 정신』(몽테뉴), 『다른 의견을 가질 권리』(카스텔리오) 등 여러 평전을 남긴 슈테판 츠바이크의 대표작으로, 에라스무스를 다룬 여러 책 가운데 가장 유명한 책이다. 츠바이크가 나치를 피해 망명하기 직전에 출간한 이 책은, 종교전쟁의 혼돈 속에서 모든 극단을 거부하며 평화와 자유를 지키려 했던 인문주의자 에라스무스의 삶을 빌려 광란의 시대를 고발하고 자신의 신념을 밝힌 작품이다. 츠바이크는 이성과 계몽의 힘으로 인류의 화합을 이루려는 에라스무스의 숭고한 정신과, 어느 편에도 들지 않고 어떤 위험도 피하려는 태도로 행동에 나서지 못하는 그의 소심함을 동시에 보여 준다. 츠바이크가 생생하고 역동적인 필체로 그려 낸 에라스무스의 모습은 대립과 반목, 갈등과 혐오의 시대에 어떻게 살아가야 할지 고민하게 할 것이다.",
+        "isbn": "9791190136860",
+        "publisher": "원더박스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6179918?timestamp=20240606150239",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6179918&q=%EC%97%90%EB%9D%BC%EC%8A%A4%EB%AC%B4%EC%8A%A4+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:13:25.369684+00:00",
+        "updated_at": "2026-09-04T18:13:25.369684+00:00"
+      }
+    ]
+  }
+}

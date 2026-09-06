@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791143007803",
+    "title": "안토니와 클레오파트라",
+    "creator": "윌리엄 셰익스피어",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김종환 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791143007803"
+  }
+}

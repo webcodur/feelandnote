@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791128807169",
+    "title": "로버트 노직, 무정부 국가. 유토피아",
+    "creator": "장동익",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791128807169"
+  }
+}

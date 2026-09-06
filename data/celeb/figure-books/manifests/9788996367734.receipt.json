@@ -1,0 +1,176 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788996367734.json",
+  "manifestSha256": "eeb171eebbbde42b1af2bf8dd8525f6a6bb1ed58603a1a092c13e5c2dfc3d87c",
+  "planSha256": "21f595fbe1a7b62de6ac679ec576bf4ccdd08a914c4038f70b3e7716f13de0f6",
+  "workIdentity": "book/9788996367734",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788996367734"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "conflict",
+    "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+    "scopeKey": "book/9788996367734",
+    "conflicts": [
+      "selected legacy content 13fc7c7e-731e-4de0-a186-3fb8d86616dc has no stored work identity; set reuseContentId after review",
+      "ko.isbn belongs to a different edition",
+      "ko.thumbnail_url belongs to a different edition",
+      "ko.sources.thumbnail differs from the selected edition"
+    ],
+    "candidateContentIds": [
+      "13fc7c7e-731e-4de0-a186-3fb8d86616dc"
+    ],
+    "candidateReasons": {
+      "13fc7c7e-731e-4de0-a186-3fb8d86616dc": [
+        "ko.title+creator"
+      ]
+    },
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": {
+        "id": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788937425950",
+        "release_date": null,
+        "metadata": {},
+        "member_count": 0,
+        "celeb_count": 19,
+        "record_count": 19,
+        "created_at": "2026-02-22T11:57:12.775567+00:00"
+      },
+      "locales": [
+        {
+          "content_id": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "locale": "en",
+          "title": "Records of the Grand Historian",
+          "creator": "Sima Qian",
+          "description": null,
+          "isbn": "9780231081689",
+          "publisher": "Columbia University Press",
+          "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1396228413i/9032.jpg",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "openlibrary",
+            "thumbnail": "goodreads"
+          },
+          "verified": true,
+          "created_at": "2026-03-06T08:52:37.351536+00:00",
+          "updated_at": "2026-03-19T16:31:23.894971+00:00"
+        },
+        {
+          "content_id": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "locale": "ko",
+          "title": "사기",
+          "creator": "사마천",
+          "description": null,
+          "isbn": "9788937425950",
+          "publisher": null,
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/539439?timestamp=20260429110927",
+          "affiliate_url": [
+            {
+              "url": "https://link.coupang.com/a/f1DgK7Bt3k",
+              "platform": "coupang"
+            }
+          ],
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book"
+          },
+          "verified": true,
+          "created_at": "2026-03-06T08:52:37.351536+00:00",
+          "updated_at": "2026-08-07T15:22:40.249473+00:00"
+        }
+      ]
+    },
+    "contentInsert": null,
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "update",
+        "locale": "ko",
+        "before": {
+          "content_id": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "locale": "ko",
+          "title": "사기",
+          "creator": "사마천",
+          "description": null,
+          "isbn": "9788937425950",
+          "publisher": null,
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/539439?timestamp=20260429110927",
+          "affiliate_url": [
+            {
+              "url": "https://link.coupang.com/a/f1DgK7Bt3k",
+              "platform": "coupang"
+            }
+          ],
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book"
+          },
+          "verified": true,
+          "created_at": "2026-03-06T08:52:37.351536+00:00",
+          "updated_at": "2026-08-07T15:22:40.249473+00:00"
+        },
+        "after": {
+          "content_id": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+          "locale": "ko",
+          "title": "사기",
+          "creator": "사마천",
+          "description": "<사기>는 중국 역사를 기록한 '24사(史)'의 기원인 작품으로, 중국의 역사와 문화에 큰 영향을 끼친 역사서이자 문학작품이다.『사마천의 인물 열전 사기』는 <사기>에서 각 시대를 치열하게 살았던 45명의 역사적 인물을 엄선해 정리한 책이다. 중국의 전설ㆍ신화 시대부터 첫 통일 왕조인 진나라까지 중국의 고대 인물들을 만날 수 있다. 그들이 고통과 고난을 헤쳐나가는 과정을 통해 그들의 꿈과 고민이 무엇이었는지, 역사적 흐름을 읽는 것이 얼마나 중요한 것인지를 알려준다. 원문의 맛을 살린 사실적 서술과 편저자의 평론이 담겨 있어 중국의 과거와 현재를 함께 엿볼 수 있다.",
+          "isbn": "9788937425950",
+          "publisher": "팩컴북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/539439?timestamp=20260429110927",
+          "affiliate_url": [
+            {
+              "url": "https://link.coupang.com/a/f1DgK7Bt3k",
+              "platform": "coupang"
+            }
+          ],
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1470833&q=%EC%82%AC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1470833&q=%EC%82%AC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1470833&q=%EC%82%AC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1470833&q=%EC%82%AC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1470833&q=%EC%82%AC%EA%B8%B0"
+          },
+          "verified": true
+        }
+      }
+    ],
+    "expectedAfterMaterial": null,
+    "duplicateMatchers": {
+      "workIdentity": "book/9788996367734",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788996367734"
+      ],
+      "normalizedTitles": [
+        "사기"
+      ],
+      "normalizedCreators": [
+        "김하나역",
+        "사마천"
+      ]
+    }
+  },
+  "status": "conflict",
+  "databaseWrites": 0
+}

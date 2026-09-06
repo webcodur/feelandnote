@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791127419011.json",
+  "manifestSha256": "ed9bf074ae6abff1259d7346d42cad3858337a4db4fcf95d92525058aaa9a19a",
+  "planSha256": "3b6a75ef0c6d02992f0b3867275dce5f30f6b85a78a3073e73e66490f5c2c17e",
+  "workIdentity": "book/9791127419011",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791127419011"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "309405ce-91e1-5db3-a272-07fd5cb78927",
+    "scopeKey": "book/9791127419011",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "309405ce-91e1-5db3-a272-07fd5cb78927",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791127419011",
+      "release_date": "2018-10-15",
+      "metadata": {
+        "isbn": "9791127419011",
+        "publisher": "에이케이커뮤니케이션즈",
+        "publishDate": "2018-10-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791127419011",
+          "workTitle": "나쓰메 소세키 평전",
+          "workCreator": "도가와 신스케",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "나쓰메 소세키 평전",
+          "creator": "도가와 신스케",
+          "description": "결국 인간이란 이해할 수 없는 존재다. 하지만 그럼에도 인간이란 이해할 수 있는 존재다. 나쓰메 소세키의 작품들은 우리에게 그런 말들을 건네고 있는지도 모른다. 깊은 고독과 명암을 내면에 간직한 채 소설이라는 허구를 통해 인간을 탐색해간다.    “나 역시 나약한 사내에 불과하지만, 약하면 약한 대로 삶이 다하는 순간까지 해볼 걸세.”",
+          "isbn": "9791127419011",
+          "publisher": "에이케이커뮤니케이션즈",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3774717?timestamp=20250806110332",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "309405ce-91e1-5db3-a272-07fd5cb78927"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "309405ce-91e1-5db3-a272-07fd5cb78927",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791127419011",
+        "release_date": "2018-10-15",
+        "metadata": {
+          "isbn": "9791127419011",
+          "publisher": "에이케이커뮤니케이션즈",
+          "publishDate": "2018-10-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791127419011",
+            "workTitle": "나쓰메 소세키 평전",
+            "workCreator": "도가와 신스케",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "나쓰메 소세키 평전",
+          "creator": "도가와 신스케",
+          "description": "결국 인간이란 이해할 수 없는 존재다. 하지만 그럼에도 인간이란 이해할 수 있는 존재다. 나쓰메 소세키의 작품들은 우리에게 그런 말들을 건네고 있는지도 모른다. 깊은 고독과 명암을 내면에 간직한 채 소설이라는 허구를 통해 인간을 탐색해간다.    “나 역시 나약한 사내에 불과하지만, 약하면 약한 대로 삶이 다하는 순간까지 해볼 걸세.”",
+          "isbn": "9791127419011",
+          "publisher": "에이케이커뮤니케이션즈",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3774717?timestamp=20250806110332",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "309405ce-91e1-5db3-a272-07fd5cb78927"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791127419011",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791127419011"
+      ],
+      "normalizedTitles": [
+        "나쓰메소세키평전"
+      ],
+      "normalizedCreators": [
+        "김수희역",
+        "도가와신스케"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:16:08.668Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "309405ce-91e1-5db3-a272-07fd5cb78927",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791127419011",
+      "release_date": "2018-10-15",
+      "metadata": {
+        "isbn": "9791127419011",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+        "publisher": "에이케이커뮤니케이션즈",
+        "figureBook": {
+          "workTitle": "나쓰메 소세키 평전",
+          "workCreator": "도가와 신스케",
+          "workIdentity": "book/9791127419011",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2018-10-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:16:04.294158+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "309405ce-91e1-5db3-a272-07fd5cb78927",
+        "locale": "ko",
+        "title": "나쓰메 소세키 평전",
+        "creator": "도가와 신스케",
+        "description": "결국 인간이란 이해할 수 없는 존재다. 하지만 그럼에도 인간이란 이해할 수 있는 존재다. 나쓰메 소세키의 작품들은 우리에게 그런 말들을 건네고 있는지도 모른다. 깊은 고독과 명암을 내면에 간직한 채 소설이라는 허구를 통해 인간을 탐색해간다.    “나 역시 나약한 사내에 불과하지만, 약하면 약한 대로 삶이 다하는 순간까지 해볼 걸세.”",
+        "isbn": "9791127419011",
+        "publisher": "에이케이커뮤니케이션즈",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3774717?timestamp=20250806110332",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=3774717&q=%EB%82%98%EC%93%B0%EB%A9%94+%EC%86%8C%EC%84%B8%ED%82%A4+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:16:04.294158+00:00",
+        "updated_at": "2026-09-06T04:16:04.294158+00:00"
+      }
+    ]
+  }
+}

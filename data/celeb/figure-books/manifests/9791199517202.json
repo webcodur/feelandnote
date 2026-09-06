@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791199517202",
+    "title": "티베트의 대변자, 달라이 라마",
+    "creator": "달라이 라마",
+    "titleAliases": [],
+    "creatorAliases": [
+      "안희준 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791199517202"
+  }
+}

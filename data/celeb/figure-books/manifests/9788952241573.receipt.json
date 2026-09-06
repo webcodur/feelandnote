@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788952241573.json",
+  "manifestSha256": "bb4900de984161b3879b4ea3a95eb319db28e38311f42f0195b36eb41ebec07c",
+  "planSha256": "04de5b04761bb01322ebe84925a60e41d8a4d76267d7a794f81e76918c433ee1",
+  "workIdentity": "book/9788952241573",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788952241573"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "163c78d4-85d9-538f-9435-f638a61e8aff",
+    "scopeKey": "book/9788952241573",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "163c78d4-85d9-538f-9435-f638a61e8aff",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952241573",
+      "release_date": "2019-12-18",
+      "metadata": {
+        "isbn": "9788952241573",
+        "publisher": "살림",
+        "publishDate": "2019-12-18",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788952241573",
+          "workTitle": "에드먼드 버크(양장본 HardCover)",
+          "workCreator": "제시 노먼",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "에드먼드 버크",
+          "creator": "제시 노먼",
+          "description": "보수주의를 자처하는 사람이든\n보수주의를 비판하는 사람이든\n모두가 정독해야 할 필독서!\n\n우리가 알고 있는 보수주의는 진짜 보수주의일까?\n이제 보수주의의 창시자 에드먼드 버크에게서\n진정한 보수주의를 배워야 한다!\n\n“버크의 영혼은 폭정에 저항했다. 그 폭정이 군림하는 군주의 형태로 나타나든, 부패한 왕실과 의회 체제로 나타나든, 존재하지도 않는 자유의 선동적인 구호를 입에서 쏟아내는 잔혹한 폭도와 사악한 패거리의 형태로 나타나든 상관없이 저항했다.” -윈스턴 처칠\n\n대한민국은 길을 잃고 헤매고 있다. 사람들은 사분오열되어 혼란스러워한다. 정도(正道)가 무엇인지도 모른 채 서로 증오하고 분열하고 자기의 신념만이 진리라고 생각하며 극단으로 치우친다. 각자 스스로 생산한 뉴스를 진위 여부에 상관없이 무조건 진짜라고 믿는다. 자신만의 게토(ghetto)에 빠져서 통념이나 상식에서 벗어나 극단주의로 치닫는다. 대한민국은 길을 잃고 헤매고 있다.\n보수주의란 무엇인가? 흔히 사람들은 보수주의를 진보주의의 반대 개념이라고 생각한다. 그동안 보수 세력과 진보 세력으로 이분화된 정치만 보고 들었기 때문이다. 하지만 버크가 보여주는 진짜 보수주의는 진보주의의 반대가 아니다. 버크의 보수주의는 하나의 이데올로기가 아니라 좌로나 우로나 치우치지 않고 정도를 가고자 하는 중용(中庸)의 자세다.\n우리는 이제 보수주의의 창시자 에드먼드 버크에게서 진정한 보수주의를 배워야 한다. 혼란 속에서 길을 찾고 있는 대한민국은 에드먼드 버크를 읽어야 한다. 보수적인 정치 세력을 옹호하기 위해서, 또는 진보적인 정치 세력을 배격하기 위해서가 아니다. 극단주의에 빠져 있는 공동체의 구원과 생존을 위해 버크를 읽어야 한다. 버크가 말하는 보수주의의 진짜 적(敵)은 진보주의가 아니라 모든 종류의 극단주의와 권력 남용과 폭정이다. 버크는 보수주의자와 진보주의자 모두에게 큰 가르침을 준다. 「월스트리트 저널」에 남긴 누군가의 서평처럼, 마음이 열린 독자는 누구든 이 책 『보수주의의 창시자 에드먼드 버크』를 읽고 나면 진정한 보수주의자가 될 것이다.",
+          "isbn": "9788952241573",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5162790?timestamp=20221011171027",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "163c78d4-85d9-538f-9435-f638a61e8aff"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "163c78d4-85d9-538f-9435-f638a61e8aff",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788952241573",
+        "release_date": "2019-12-18",
+        "metadata": {
+          "isbn": "9788952241573",
+          "publisher": "살림",
+          "publishDate": "2019-12-18",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788952241573",
+            "workTitle": "에드먼드 버크(양장본 HardCover)",
+            "workCreator": "제시 노먼",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "에드먼드 버크",
+          "creator": "제시 노먼",
+          "description": "보수주의를 자처하는 사람이든\n보수주의를 비판하는 사람이든\n모두가 정독해야 할 필독서!\n\n우리가 알고 있는 보수주의는 진짜 보수주의일까?\n이제 보수주의의 창시자 에드먼드 버크에게서\n진정한 보수주의를 배워야 한다!\n\n“버크의 영혼은 폭정에 저항했다. 그 폭정이 군림하는 군주의 형태로 나타나든, 부패한 왕실과 의회 체제로 나타나든, 존재하지도 않는 자유의 선동적인 구호를 입에서 쏟아내는 잔혹한 폭도와 사악한 패거리의 형태로 나타나든 상관없이 저항했다.” -윈스턴 처칠\n\n대한민국은 길을 잃고 헤매고 있다. 사람들은 사분오열되어 혼란스러워한다. 정도(正道)가 무엇인지도 모른 채 서로 증오하고 분열하고 자기의 신념만이 진리라고 생각하며 극단으로 치우친다. 각자 스스로 생산한 뉴스를 진위 여부에 상관없이 무조건 진짜라고 믿는다. 자신만의 게토(ghetto)에 빠져서 통념이나 상식에서 벗어나 극단주의로 치닫는다. 대한민국은 길을 잃고 헤매고 있다.\n보수주의란 무엇인가? 흔히 사람들은 보수주의를 진보주의의 반대 개념이라고 생각한다. 그동안 보수 세력과 진보 세력으로 이분화된 정치만 보고 들었기 때문이다. 하지만 버크가 보여주는 진짜 보수주의는 진보주의의 반대가 아니다. 버크의 보수주의는 하나의 이데올로기가 아니라 좌로나 우로나 치우치지 않고 정도를 가고자 하는 중용(中庸)의 자세다.\n우리는 이제 보수주의의 창시자 에드먼드 버크에게서 진정한 보수주의를 배워야 한다. 혼란 속에서 길을 찾고 있는 대한민국은 에드먼드 버크를 읽어야 한다. 보수적인 정치 세력을 옹호하기 위해서, 또는 진보적인 정치 세력을 배격하기 위해서가 아니다. 극단주의에 빠져 있는 공동체의 구원과 생존을 위해 버크를 읽어야 한다. 버크가 말하는 보수주의의 진짜 적(敵)은 진보주의가 아니라 모든 종류의 극단주의와 권력 남용과 폭정이다. 버크는 보수주의자와 진보주의자 모두에게 큰 가르침을 준다. 「월스트리트 저널」에 남긴 누군가의 서평처럼, 마음이 열린 독자는 누구든 이 책 『보수주의의 창시자 에드먼드 버크』를 읽고 나면 진정한 보수주의자가 될 것이다.",
+          "isbn": "9788952241573",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5162790?timestamp=20221011171027",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "163c78d4-85d9-538f-9435-f638a61e8aff"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788952241573",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788952241573"
+      ],
+      "normalizedTitles": [
+        "에드먼드버크",
+        "에드먼드버크양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "제시노먼",
+        "홍지수역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:46:55.694Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "163c78d4-85d9-538f-9435-f638a61e8aff",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952241573",
+      "release_date": "2019-12-18",
+      "metadata": {
+        "isbn": "9788952241573",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "살림",
+        "figureBook": {
+          "workTitle": "에드먼드 버크(양장본 HardCover)",
+          "workCreator": "제시 노먼",
+          "workIdentity": "book/9788952241573",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-12-18",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:46:47.572225+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "163c78d4-85d9-538f-9435-f638a61e8aff",
+        "locale": "ko",
+        "title": "에드먼드 버크",
+        "creator": "제시 노먼",
+        "description": "보수주의를 자처하는 사람이든\n보수주의를 비판하는 사람이든\n모두가 정독해야 할 필독서!\n\n우리가 알고 있는 보수주의는 진짜 보수주의일까?\n이제 보수주의의 창시자 에드먼드 버크에게서\n진정한 보수주의를 배워야 한다!\n\n“버크의 영혼은 폭정에 저항했다. 그 폭정이 군림하는 군주의 형태로 나타나든, 부패한 왕실과 의회 체제로 나타나든, 존재하지도 않는 자유의 선동적인 구호를 입에서 쏟아내는 잔혹한 폭도와 사악한 패거리의 형태로 나타나든 상관없이 저항했다.” -윈스턴 처칠\n\n대한민국은 길을 잃고 헤매고 있다. 사람들은 사분오열되어 혼란스러워한다. 정도(正道)가 무엇인지도 모른 채 서로 증오하고 분열하고 자기의 신념만이 진리라고 생각하며 극단으로 치우친다. 각자 스스로 생산한 뉴스를 진위 여부에 상관없이 무조건 진짜라고 믿는다. 자신만의 게토(ghetto)에 빠져서 통념이나 상식에서 벗어나 극단주의로 치닫는다. 대한민국은 길을 잃고 헤매고 있다.\n보수주의란 무엇인가? 흔히 사람들은 보수주의를 진보주의의 반대 개념이라고 생각한다. 그동안 보수 세력과 진보 세력으로 이분화된 정치만 보고 들었기 때문이다. 하지만 버크가 보여주는 진짜 보수주의는 진보주의의 반대가 아니다. 버크의 보수주의는 하나의 이데올로기가 아니라 좌로나 우로나 치우치지 않고 정도를 가고자 하는 중용(中庸)의 자세다.\n우리는 이제 보수주의의 창시자 에드먼드 버크에게서 진정한 보수주의를 배워야 한다. 혼란 속에서 길을 찾고 있는 대한민국은 에드먼드 버크를 읽어야 한다. 보수적인 정치 세력을 옹호하기 위해서, 또는 진보적인 정치 세력을 배격하기 위해서가 아니다. 극단주의에 빠져 있는 공동체의 구원과 생존을 위해 버크를 읽어야 한다. 버크가 말하는 보수주의의 진짜 적(敵)은 진보주의가 아니라 모든 종류의 극단주의와 권력 남용과 폭정이다. 버크는 보수주의자와 진보주의자 모두에게 큰 가르침을 준다. 「월스트리트 저널」에 남긴 누군가의 서평처럼, 마음이 열린 독자는 누구든 이 책 『보수주의의 창시자 에드먼드 버크』를 읽고 나면 진정한 보수주의자가 될 것이다.",
+        "isbn": "9788952241573",
+        "publisher": "살림",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5162790?timestamp=20221011171027",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5162790&q=%EC%97%90%EB%93%9C%EB%A8%BC%EB%93%9C+%EB%B2%84%ED%81%AC%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:46:47.572225+00:00",
+        "updated_at": "2026-09-04T17:46:47.572225+00:00"
+      }
+    ]
+  }
+}

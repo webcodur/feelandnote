@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791189318499.json",
+  "manifestSha256": "f8d75b9f4d6862d19f89d8ebd8b05bff0b512baa1687795c283ade68ed28fd42",
+  "planSha256": "a819ecc763f4f3f5254e266e2eb009e6dc83a86ae86260941135235bb13ff5ce",
+  "workIdentity": "book/9791189318499",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791189318499"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ff520155-a799-5bf6-a94d-6c03b1d6cb21",
+    "scopeKey": "book/9791189318499",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ff520155-a799-5bf6-a94d-6c03b1d6cb21",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189318499",
+      "release_date": "2023-11-10",
+      "metadata": {
+        "isbn": "9791189318499",
+        "publisher": "이콘",
+        "publishDate": "2023-11-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791189318499",
+          "workTitle": "스테이 더 코스",
+          "workCreator": "존 보글",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "스테이 더 코스",
+          "creator": "존 보글",
+          "description": "『스테이 더 코스』는 전설적인 투자자이자 뱅가드 그룹의 창시자, 존 보글이 직접 전하는 자서전이자 인덱스펀드의 연대기이다. 여전히 수백만 명의 투자자들에게 훌륭한 귀감이 되어주고 있는 보글은 웰링턴 자산운용사에 입사해 대표의 자리까지 올랐고, 이후 뱅가드 그룹을 설립해 인덱스펀드 산업을 더욱 키워나갔다. 고작 110만 달러에 불과했던 보글의 펀드는 뱅가드와의 혁명을 통해, 5조 달러 규모로 늘어났으며 이는 펀드 산업 및 투자 업계에 엄청난 변화를 만들어냈다.\n2019년 1월 16일, 89세의 나이로 월가의 성인 존 보글은 우리를 떠났다. 한 개인으로서, 또 한 명의 투자자로서 보글이 남긴 유산은 단순히 인덱스펀드라는 상품이 아니다. 그가 남긴 진정한 유산은 바로 흔들리지 말아야 한다는 깊은 가르침이다. 『스테이 더 코스』를 통해 투자의 길 위에서 불안에 노출되어 있는 많은 투자자들이 자기만의 길을 흔들리지 않고 나아갈 수 있기를 바란다.",
+          "isbn": "9791189318499",
+          "publisher": "이콘",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6487251?timestamp=20250326155835",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "ff520155-a799-5bf6-a94d-6c03b1d6cb21"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ff520155-a799-5bf6-a94d-6c03b1d6cb21",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791189318499",
+        "release_date": "2023-11-10",
+        "metadata": {
+          "isbn": "9791189318499",
+          "publisher": "이콘",
+          "publishDate": "2023-11-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791189318499",
+            "workTitle": "스테이 더 코스",
+            "workCreator": "존 보글",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "스테이 더 코스",
+          "creator": "존 보글",
+          "description": "『스테이 더 코스』는 전설적인 투자자이자 뱅가드 그룹의 창시자, 존 보글이 직접 전하는 자서전이자 인덱스펀드의 연대기이다. 여전히 수백만 명의 투자자들에게 훌륭한 귀감이 되어주고 있는 보글은 웰링턴 자산운용사에 입사해 대표의 자리까지 올랐고, 이후 뱅가드 그룹을 설립해 인덱스펀드 산업을 더욱 키워나갔다. 고작 110만 달러에 불과했던 보글의 펀드는 뱅가드와의 혁명을 통해, 5조 달러 규모로 늘어났으며 이는 펀드 산업 및 투자 업계에 엄청난 변화를 만들어냈다.\n2019년 1월 16일, 89세의 나이로 월가의 성인 존 보글은 우리를 떠났다. 한 개인으로서, 또 한 명의 투자자로서 보글이 남긴 유산은 단순히 인덱스펀드라는 상품이 아니다. 그가 남긴 진정한 유산은 바로 흔들리지 말아야 한다는 깊은 가르침이다. 『스테이 더 코스』를 통해 투자의 길 위에서 불안에 노출되어 있는 많은 투자자들이 자기만의 길을 흔들리지 않고 나아갈 수 있기를 바란다.",
+          "isbn": "9791189318499",
+          "publisher": "이콘",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6487251?timestamp=20250326155835",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "ff520155-a799-5bf6-a94d-6c03b1d6cb21"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791189318499",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791189318499"
+      ],
+      "normalizedTitles": [
+        "스테이더코스"
+      ],
+      "normalizedCreators": [
+        "조성숙역",
+        "존보글"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:27:14.658Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ff520155-a799-5bf6-a94d-6c03b1d6cb21",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189318499",
+      "release_date": "2023-11-10",
+      "metadata": {
+        "isbn": "9791189318499",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+        "publisher": "이콘",
+        "figureBook": {
+          "workTitle": "스테이 더 코스",
+          "workCreator": "존 보글",
+          "workIdentity": "book/9791189318499",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-11-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:26:55.577818+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ff520155-a799-5bf6-a94d-6c03b1d6cb21",
+        "locale": "ko",
+        "title": "스테이 더 코스",
+        "creator": "존 보글",
+        "description": "『스테이 더 코스』는 전설적인 투자자이자 뱅가드 그룹의 창시자, 존 보글이 직접 전하는 자서전이자 인덱스펀드의 연대기이다. 여전히 수백만 명의 투자자들에게 훌륭한 귀감이 되어주고 있는 보글은 웰링턴 자산운용사에 입사해 대표의 자리까지 올랐고, 이후 뱅가드 그룹을 설립해 인덱스펀드 산업을 더욱 키워나갔다. 고작 110만 달러에 불과했던 보글의 펀드는 뱅가드와의 혁명을 통해, 5조 달러 규모로 늘어났으며 이는 펀드 산업 및 투자 업계에 엄청난 변화를 만들어냈다.\n2019년 1월 16일, 89세의 나이로 월가의 성인 존 보글은 우리를 떠났다. 한 개인으로서, 또 한 명의 투자자로서 보글이 남긴 유산은 단순히 인덱스펀드라는 상품이 아니다. 그가 남긴 진정한 유산은 바로 흔들리지 말아야 한다는 깊은 가르침이다. 『스테이 더 코스』를 통해 투자의 길 위에서 불안에 노출되어 있는 많은 투자자들이 자기만의 길을 흔들리지 않고 나아갈 수 있기를 바란다.",
+        "isbn": "9791189318499",
+        "publisher": "이콘",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6487251?timestamp=20250326155835",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6487251&q=%EC%8A%A4%ED%85%8C%EC%9D%B4+%EB%8D%94+%EC%BD%94%EC%8A%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:26:55.577818+00:00",
+        "updated_at": "2026-09-06T04:26:55.577818+00:00"
+      }
+    ]
+  }
+}

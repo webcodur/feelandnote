@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791192376370",
+    "title": "도쿠가와 이에야스는 어떻게 난세의 승자가 되었는가",
+    "creator": "아베 류타로",
+    "titleAliases": [],
+    "creatorAliases": [
+      "고선윤 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791192376370"
+  }
+}

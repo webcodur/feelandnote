@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788967351281.json",
+  "manifestSha256": "98adc05277d6b13902937a4d60d7c565e6de3693b3072e5bdc753f87a58e685c",
+  "planSha256": "52885caf01d2b0b0eb679f5ebc1941ee1892debcbdf6a48c6105903478104ac8",
+  "workIdentity": "book/9788967351281",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788967351281"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "7afb10c9-bf28-5c56-af66-90bc3b9efc8f",
+    "scopeKey": "book/9788967351281",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "7afb10c9-bf28-5c56-af66-90bc3b9efc8f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788967351281",
+      "release_date": "2014-09-22",
+      "metadata": {
+        "isbn": "9788967351281",
+        "publisher": "글항아리",
+        "publishDate": "2014-09-22",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788967351281",
+          "workTitle": "수부타이(칭기즈칸의 위대한 장군)(양장본 HardCover)",
+          "workCreator": "리처드 A 가브리엘",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "수부타이(칭기즈칸의 위대한 장군)",
+          "creator": "리처드 A 가브리엘",
+          "description": "『칭기즈칸의 위대한 장군, 수부타이』는 세계를 제패한 몽골군의 수장 수부타이 장군에 대해 소개한 책이다. 몽골의 역사는 곧 칭기즈칸 제국으로 기억되고 있는데, 칭기즈칸의 장군으로서 세계를 제패하는데 일조한 이가 바로 최고 전략가이자 책략가인 수부타이라고 한다. 이 책은 이러한 수부타이의 일대기뿐만 아니라 오늘날에도 강조되고 있는 속도, 기동력, 기습, 포위공격, 후방전투, 종심전투, 섬멸전 등 수부타이의 전술, 지략, 근대 전쟁기술과의 관련성을 상세히 설명하고 있다.\n\n대장장이의 둘째 아들로 태어나 말 타는 법과 활 쏘는 법도 익히지 않았던 수부타이는 칸의 천막을 지키는 초라한 사병에서 출발해 가장 훌륭하고 믿음직스러운 장수가 되어 60년 동안 몽골 군인으로서의 삶을 살았다. 칭기즈칸 사후 고려와 금나라, 페르시아, 러시아 정벌을 계획하고 거의 모든 전쟁을 승리로 이끌었으며, 헝가리를 정복하면서 몽골과 유럽의 문턱사이에 있는 주요 군대들을 전멸시켰다. 일각에서는 대칸이 사망하지 않았다면 수부타이는 유럽을 제패했을 것이라고 평가할 정도로 그의 업적을 높이 사고 있다.",
+          "isbn": "9788967351281",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/936381?timestamp=20221011184457",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "7afb10c9-bf28-5c56-af66-90bc3b9efc8f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "7afb10c9-bf28-5c56-af66-90bc3b9efc8f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788967351281",
+        "release_date": "2014-09-22",
+        "metadata": {
+          "isbn": "9788967351281",
+          "publisher": "글항아리",
+          "publishDate": "2014-09-22",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788967351281",
+            "workTitle": "수부타이(칭기즈칸의 위대한 장군)(양장본 HardCover)",
+            "workCreator": "리처드 A 가브리엘",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "수부타이(칭기즈칸의 위대한 장군)",
+          "creator": "리처드 A 가브리엘",
+          "description": "『칭기즈칸의 위대한 장군, 수부타이』는 세계를 제패한 몽골군의 수장 수부타이 장군에 대해 소개한 책이다. 몽골의 역사는 곧 칭기즈칸 제국으로 기억되고 있는데, 칭기즈칸의 장군으로서 세계를 제패하는데 일조한 이가 바로 최고 전략가이자 책략가인 수부타이라고 한다. 이 책은 이러한 수부타이의 일대기뿐만 아니라 오늘날에도 강조되고 있는 속도, 기동력, 기습, 포위공격, 후방전투, 종심전투, 섬멸전 등 수부타이의 전술, 지략, 근대 전쟁기술과의 관련성을 상세히 설명하고 있다.\n\n대장장이의 둘째 아들로 태어나 말 타는 법과 활 쏘는 법도 익히지 않았던 수부타이는 칸의 천막을 지키는 초라한 사병에서 출발해 가장 훌륭하고 믿음직스러운 장수가 되어 60년 동안 몽골 군인으로서의 삶을 살았다. 칭기즈칸 사후 고려와 금나라, 페르시아, 러시아 정벌을 계획하고 거의 모든 전쟁을 승리로 이끌었으며, 헝가리를 정복하면서 몽골과 유럽의 문턱사이에 있는 주요 군대들을 전멸시켰다. 일각에서는 대칸이 사망하지 않았다면 수부타이는 유럽을 제패했을 것이라고 평가할 정도로 그의 업적을 높이 사고 있다.",
+          "isbn": "9788967351281",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/936381?timestamp=20221011184457",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "7afb10c9-bf28-5c56-af66-90bc3b9efc8f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788967351281",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788967351281"
+      ],
+      "normalizedTitles": [
+        "수부타이칭기즈칸의위대한장군",
+        "수부타이칭기즈칸의위대한장군양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "리처드a가브리엘",
+        "박리라역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:11:47.677Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "7afb10c9-bf28-5c56-af66-90bc3b9efc8f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788967351281",
+      "release_date": "2014-09-22",
+      "metadata": {
+        "isbn": "9788967351281",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "글항아리",
+        "figureBook": {
+          "workTitle": "수부타이(칭기즈칸의 위대한 장군)(양장본 HardCover)",
+          "workCreator": "리처드 A 가브리엘",
+          "workIdentity": "book/9788967351281",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2014-09-22",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:11:34.676582+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "7afb10c9-bf28-5c56-af66-90bc3b9efc8f",
+        "locale": "ko",
+        "title": "수부타이(칭기즈칸의 위대한 장군)",
+        "creator": "리처드 A 가브리엘",
+        "description": "『칭기즈칸의 위대한 장군, 수부타이』는 세계를 제패한 몽골군의 수장 수부타이 장군에 대해 소개한 책이다. 몽골의 역사는 곧 칭기즈칸 제국으로 기억되고 있는데, 칭기즈칸의 장군으로서 세계를 제패하는데 일조한 이가 바로 최고 전략가이자 책략가인 수부타이라고 한다. 이 책은 이러한 수부타이의 일대기뿐만 아니라 오늘날에도 강조되고 있는 속도, 기동력, 기습, 포위공격, 후방전투, 종심전투, 섬멸전 등 수부타이의 전술, 지략, 근대 전쟁기술과의 관련성을 상세히 설명하고 있다.\n\n대장장이의 둘째 아들로 태어나 말 타는 법과 활 쏘는 법도 익히지 않았던 수부타이는 칸의 천막을 지키는 초라한 사병에서 출발해 가장 훌륭하고 믿음직스러운 장수가 되어 60년 동안 몽골 군인으로서의 삶을 살았다. 칭기즈칸 사후 고려와 금나라, 페르시아, 러시아 정벌을 계획하고 거의 모든 전쟁을 승리로 이끌었으며, 헝가리를 정복하면서 몽골과 유럽의 문턱사이에 있는 주요 군대들을 전멸시켰다. 일각에서는 대칸이 사망하지 않았다면 수부타이는 유럽을 제패했을 것이라고 평가할 정도로 그의 업적을 높이 사고 있다.",
+        "isbn": "9788967351281",
+        "publisher": "글항아리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/936381?timestamp=20221011184457",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=936381&q=%EC%88%98%EB%B6%80%ED%83%80%EC%9D%B4%28%EC%B9%AD%EA%B8%B0%EC%A6%88%EC%B9%B8%EC%9D%98+%EC%9C%84%EB%8C%80%ED%95%9C+%EC%9E%A5%EA%B5%B0%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:11:34.676582+00:00",
+        "updated_at": "2026-09-06T04:11:34.676582+00:00"
+      }
+    ]
+  }
+}

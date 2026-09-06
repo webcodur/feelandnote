@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791138851893",
+    "title": "AI와 40인의 괴짜들",
+    "creator": "김용태",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791138851893"
+  }
+}

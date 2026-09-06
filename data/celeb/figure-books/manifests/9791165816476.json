@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791165816476",
+    "title": "고려의 시작 태조 왕건",
+    "creator": "김일옥",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791165816476"
+  }
+}

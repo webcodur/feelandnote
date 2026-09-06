@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791189001261.json",
+  "manifestSha256": "63a0b16e6da7172d529c4e683b54d66681e77ba5c8f84aa34f21bcc066373564",
+  "planSha256": "d56eb40b50ebd16fb3343d3abc4b91739b0caa7e5c869f918bf18c82417a4d4a",
+  "workIdentity": "book/9791189001261",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791189001261"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "8d39a571-d309-5cd3-b390-85b411f4afe0",
+    "scopeKey": "book/9791189001261",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "8d39a571-d309-5cd3-b390-85b411f4afe0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189001261",
+      "release_date": "2019-04-05",
+      "metadata": {
+        "isbn": "9791189001261",
+        "publisher": "단꿈아이",
+        "publishDate": "2019-04-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791189001261",
+          "workTitle": "설민석의 세계사 대모험 1",
+          "workCreator": "설민석",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "설민석의 세계사 대모험 1",
+          "creator": "설민석, 잼스토리",
+          "description": "방대하고 복잡해 어렵게만 느껴지는 세계사를 생생하게 경험할 수 있는 『설민석의 세계사 대모험』. 램프의 요정 지니가 열어 준 시간의 문으로 세계사 모험을 떠나는 설쌤과 램프 원정대와 함께 세계사 속 여러 인물을 만나고 긴장감 넘치는 사건을 경험하면서 지식과 지혜를 키워갈 수 있습니다. 프랑스를 시작으로 세계 곳곳을 여행하며 여러 가지 사건을 만나보는 동안 머리에는 세계사 지식을, 가슴에는 교훈과 올바른 의식을 담게 될 것입니다.\n\n제1권 《프랑스 혁명 속으로!》는 18세기 프랑스로 여행을 떠납니다. 저주에 걸려 죽을 운명에 처한 데이지 공주를 구하기 위해 설쌤과 알라딘, 원숭이 대성, 램프의 요정 지니가 힘을 합칩니다. 대마법사의 수수께끼 같은 신탁을 들은 램프 원정대는 ‘시간의 문’을 열고 혁명이 한창인 프랑스로 떠나게 됩니다. 프랑스혁명을 거치는 마리 앙투아네트와 루이 16세, 로베스피에르를 만나면서 정부와 국민의 관계에 대해 생각해 볼 수 있습니다. 소통이 사라진 리더의 결말은 어떻게 될까요?\n\n만화를 읽다가 궁금한 점이 생긴다면 깜짝 등장하는 ‘설쌤의 역사 체크’를 놓치지 마세요. 다양한 세계사 지식도 얻고, 만화도 더 재미있어질 거예요. ‘설쌤의 역사 토크’에서는 세계사를 더 깊이 있게, ‘지니의 시간 여행’으로 전 세계를 실시간으로 느껴볼 수 있습니다. 과거와 현재를 모두 다루어 세계사에 대한 이해도를 높였어요. 또 ‘술술 풀리는 세계사 퀴즈’로 내용을 복습하고 세계사 실력을 스스로 확인하고, 단어와 그림의 짝을 맞추는 메모리 카드로 가족, 친구들과 신나게 게임을 즐겨 볼 수 있습니다.",
+          "isbn": "9791189001261",
+          "publisher": "단꿈아이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4890197?timestamp=20221215205926",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1"
+          },
+          "verified": true,
+          "content_id": "8d39a571-d309-5cd3-b390-85b411f4afe0"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "8d39a571-d309-5cd3-b390-85b411f4afe0",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791189001261",
+        "release_date": "2019-04-05",
+        "metadata": {
+          "isbn": "9791189001261",
+          "publisher": "단꿈아이",
+          "publishDate": "2019-04-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791189001261",
+            "workTitle": "설민석의 세계사 대모험 1",
+            "workCreator": "설민석",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "설민석의 세계사 대모험 1",
+          "creator": "설민석, 잼스토리",
+          "description": "방대하고 복잡해 어렵게만 느껴지는 세계사를 생생하게 경험할 수 있는 『설민석의 세계사 대모험』. 램프의 요정 지니가 열어 준 시간의 문으로 세계사 모험을 떠나는 설쌤과 램프 원정대와 함께 세계사 속 여러 인물을 만나고 긴장감 넘치는 사건을 경험하면서 지식과 지혜를 키워갈 수 있습니다. 프랑스를 시작으로 세계 곳곳을 여행하며 여러 가지 사건을 만나보는 동안 머리에는 세계사 지식을, 가슴에는 교훈과 올바른 의식을 담게 될 것입니다.\n\n제1권 《프랑스 혁명 속으로!》는 18세기 프랑스로 여행을 떠납니다. 저주에 걸려 죽을 운명에 처한 데이지 공주를 구하기 위해 설쌤과 알라딘, 원숭이 대성, 램프의 요정 지니가 힘을 합칩니다. 대마법사의 수수께끼 같은 신탁을 들은 램프 원정대는 ‘시간의 문’을 열고 혁명이 한창인 프랑스로 떠나게 됩니다. 프랑스혁명을 거치는 마리 앙투아네트와 루이 16세, 로베스피에르를 만나면서 정부와 국민의 관계에 대해 생각해 볼 수 있습니다. 소통이 사라진 리더의 결말은 어떻게 될까요?\n\n만화를 읽다가 궁금한 점이 생긴다면 깜짝 등장하는 ‘설쌤의 역사 체크’를 놓치지 마세요. 다양한 세계사 지식도 얻고, 만화도 더 재미있어질 거예요. ‘설쌤의 역사 토크’에서는 세계사를 더 깊이 있게, ‘지니의 시간 여행’으로 전 세계를 실시간으로 느껴볼 수 있습니다. 과거와 현재를 모두 다루어 세계사에 대한 이해도를 높였어요. 또 ‘술술 풀리는 세계사 퀴즈’로 내용을 복습하고 세계사 실력을 스스로 확인하고, 단어와 그림의 짝을 맞추는 메모리 카드로 가족, 친구들과 신나게 게임을 즐겨 볼 수 있습니다.",
+          "isbn": "9791189001261",
+          "publisher": "단꿈아이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4890197?timestamp=20221215205926",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1"
+          },
+          "verified": true,
+          "content_id": "8d39a571-d309-5cd3-b390-85b411f4afe0"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791189001261",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791189001261"
+      ],
+      "normalizedTitles": [
+        "설민석의세계사대모험1"
+      ],
+      "normalizedCreators": [
+        "설민석",
+        "설민석잼스토리",
+        "잼스토리"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:11:54.710Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "8d39a571-d309-5cd3-b390-85b411f4afe0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189001261",
+      "release_date": "2019-04-05",
+      "metadata": {
+        "isbn": "9791189001261",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+        "publisher": "단꿈아이",
+        "figureBook": {
+          "workTitle": "설민석의 세계사 대모험 1",
+          "workCreator": "설민석",
+          "workIdentity": "book/9791189001261",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-04-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:11:31.291729+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "8d39a571-d309-5cd3-b390-85b411f4afe0",
+        "locale": "ko",
+        "title": "설민석의 세계사 대모험 1",
+        "creator": "설민석, 잼스토리",
+        "description": "방대하고 복잡해 어렵게만 느껴지는 세계사를 생생하게 경험할 수 있는 『설민석의 세계사 대모험』. 램프의 요정 지니가 열어 준 시간의 문으로 세계사 모험을 떠나는 설쌤과 램프 원정대와 함께 세계사 속 여러 인물을 만나고 긴장감 넘치는 사건을 경험하면서 지식과 지혜를 키워갈 수 있습니다. 프랑스를 시작으로 세계 곳곳을 여행하며 여러 가지 사건을 만나보는 동안 머리에는 세계사 지식을, 가슴에는 교훈과 올바른 의식을 담게 될 것입니다.\n\n제1권 《프랑스 혁명 속으로!》는 18세기 프랑스로 여행을 떠납니다. 저주에 걸려 죽을 운명에 처한 데이지 공주를 구하기 위해 설쌤과 알라딘, 원숭이 대성, 램프의 요정 지니가 힘을 합칩니다. 대마법사의 수수께끼 같은 신탁을 들은 램프 원정대는 ‘시간의 문’을 열고 혁명이 한창인 프랑스로 떠나게 됩니다. 프랑스혁명을 거치는 마리 앙투아네트와 루이 16세, 로베스피에르를 만나면서 정부와 국민의 관계에 대해 생각해 볼 수 있습니다. 소통이 사라진 리더의 결말은 어떻게 될까요?\n\n만화를 읽다가 궁금한 점이 생긴다면 깜짝 등장하는 ‘설쌤의 역사 체크’를 놓치지 마세요. 다양한 세계사 지식도 얻고, 만화도 더 재미있어질 거예요. ‘설쌤의 역사 토크’에서는 세계사를 더 깊이 있게, ‘지니의 시간 여행’으로 전 세계를 실시간으로 느껴볼 수 있습니다. 과거와 현재를 모두 다루어 세계사에 대한 이해도를 높였어요. 또 ‘술술 풀리는 세계사 퀴즈’로 내용을 복습하고 세계사 실력을 스스로 확인하고, 단어와 그림의 짝을 맞추는 메모리 카드로 가족, 친구들과 신나게 게임을 즐겨 볼 수 있습니다.",
+        "isbn": "9791189001261",
+        "publisher": "단꿈아이",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4890197?timestamp=20221215205926",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4890197&q=%EC%84%A4%EB%AF%BC%EC%84%9D%EC%9D%98+%EC%84%B8%EA%B3%84%EC%82%AC+%EB%8C%80%EB%AA%A8%ED%97%98+1"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:11:31.291729+00:00",
+        "updated_at": "2026-09-04T18:11:31.291729+00:00"
+      }
+    ]
+  }
+}

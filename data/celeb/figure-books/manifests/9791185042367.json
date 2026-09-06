@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791185042367",
+    "title": "마이클 조던(Michael Jordan)",
+    "creator": "롤랜드 레이즌비",
+    "titleAliases": [
+      "마이클 조던"
+    ],
+    "creatorAliases": [
+      "서종기 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791185042367"
+  }
+}

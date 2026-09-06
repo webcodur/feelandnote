@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791190136860",
+    "title": "에라스무스 평전",
+    "creator": "슈테판 츠바이크",
+    "titleAliases": [],
+    "creatorAliases": [
+      "정민영 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791190136860"
+  }
+}

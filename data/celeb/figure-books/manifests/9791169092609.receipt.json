@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791169092609.json",
+  "manifestSha256": "563ce6381747c99559c0cfe392c32f27b4a97b00f9cffdaaf517d25b229544ab",
+  "planSha256": "6f69a9e78180b92ba960bdfd790abaebddb2e31cbe04d0641fb257f2d5a63223",
+  "workIdentity": "book/9791169092609",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791169092609"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "b98eef2f-e635-59a0-ad3b-8b696ff77077",
+    "scopeKey": "book/9791169092609",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "b98eef2f-e635-59a0-ad3b-8b696ff77077",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791169092609",
+      "release_date": "2024-07-19",
+      "metadata": {
+        "isbn": "9791169092609",
+        "publisher": "글항아리",
+        "publishDate": "2024-07-19",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791169092609",
+          "workTitle": "애덤 스미스 평전",
+          "workCreator": "이언 심프슨 로스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "애덤 스미스 평전",
+          "creator": "이언 심프슨 로스",
+          "description": "『애덤 스미스 평전』은 1895년 존 레이가 출간한 평전 이후 100년 만에 쓰인 애덤 스미스에 대한 본격적인 평전이다. 이언 로스는 스미스의 가족, 스승, 친구와 동료들을 세밀하게 그리고 있어 그의 생애와 시대에 대한 설명에서는 향후 수십 년 동안 이 평전을 뛰어넘을 기록은 나올 수 없다고 평가받고 있다.\n이 책은 저자가 다음의 두 가지를 동시에 추구한다는 점에서 주목할 만하다. 첫째, 스미스의 생애를 연도별로 따라가면서 그에 대해 기존에 알려진 관찰들을 실제 사건과 연결시키고 있다(예컨대 스미스가 옥스퍼드에 갈 때 저자 로스는 대학에 대한 『국부론』의 비판을 인용하고, 스미스가 툴루즈의 정치에 대해 이야기할 때 로스는 이를 『도덕감정론』과 연결시킨다). 저자는 사건과 주장의 인과관계에 매우 조심하면서도 자신의 논평을 제시함으로써 평전 작가의 자신감을 보여준다. 이는 그가 자기주장을 뒷받침할 만한 서신과 사건들을 거의 다 수집했기 때문에 가능한 일이다. 둘째, 개정판(한국어판은 개정판을 번역했다)에서는 특히 자신이 구성한 스미스의 내러티브에 개념적 분석과 해석적 주장을 포함시켰다. 본문 단락 중 괄호나 주석이 없는 것은 찾아보기 힘들다. 이 책이 지적이고 학술적인 평전으로 평가받는 이유다. 게다가 저자는 스미스의 생애에 대한 백과사전적 서술을 지향하면서 생애에 관한 새로운 사실과 학설을 포함시켜 훨씬 더 촘촘하고 정밀한 서사를 구축했다.\n삶은 중요한 요소다. 한 학자의 담론과 사상은 그의 삶과 인간관계 속에서 살펴볼 때 맥락화가 더 잘 되기 때문이다. 로스가 스미스를 단순히 학자가 아닌 ‘인물’로 만들기 위해 뉘앙스들을 살리고 서신 자료로 긴밀했던 인간관계를 복원시키는 이유다.",
+          "isbn": "9791169092609",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6682556?timestamp=20240801161330",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "b98eef2f-e635-59a0-ad3b-8b696ff77077"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "b98eef2f-e635-59a0-ad3b-8b696ff77077",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791169092609",
+        "release_date": "2024-07-19",
+        "metadata": {
+          "isbn": "9791169092609",
+          "publisher": "글항아리",
+          "publishDate": "2024-07-19",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791169092609",
+            "workTitle": "애덤 스미스 평전",
+            "workCreator": "이언 심프슨 로스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "애덤 스미스 평전",
+          "creator": "이언 심프슨 로스",
+          "description": "『애덤 스미스 평전』은 1895년 존 레이가 출간한 평전 이후 100년 만에 쓰인 애덤 스미스에 대한 본격적인 평전이다. 이언 로스는 스미스의 가족, 스승, 친구와 동료들을 세밀하게 그리고 있어 그의 생애와 시대에 대한 설명에서는 향후 수십 년 동안 이 평전을 뛰어넘을 기록은 나올 수 없다고 평가받고 있다.\n이 책은 저자가 다음의 두 가지를 동시에 추구한다는 점에서 주목할 만하다. 첫째, 스미스의 생애를 연도별로 따라가면서 그에 대해 기존에 알려진 관찰들을 실제 사건과 연결시키고 있다(예컨대 스미스가 옥스퍼드에 갈 때 저자 로스는 대학에 대한 『국부론』의 비판을 인용하고, 스미스가 툴루즈의 정치에 대해 이야기할 때 로스는 이를 『도덕감정론』과 연결시킨다). 저자는 사건과 주장의 인과관계에 매우 조심하면서도 자신의 논평을 제시함으로써 평전 작가의 자신감을 보여준다. 이는 그가 자기주장을 뒷받침할 만한 서신과 사건들을 거의 다 수집했기 때문에 가능한 일이다. 둘째, 개정판(한국어판은 개정판을 번역했다)에서는 특히 자신이 구성한 스미스의 내러티브에 개념적 분석과 해석적 주장을 포함시켰다. 본문 단락 중 괄호나 주석이 없는 것은 찾아보기 힘들다. 이 책이 지적이고 학술적인 평전으로 평가받는 이유다. 게다가 저자는 스미스의 생애에 대한 백과사전적 서술을 지향하면서 생애에 관한 새로운 사실과 학설을 포함시켜 훨씬 더 촘촘하고 정밀한 서사를 구축했다.\n삶은 중요한 요소다. 한 학자의 담론과 사상은 그의 삶과 인간관계 속에서 살펴볼 때 맥락화가 더 잘 되기 때문이다. 로스가 스미스를 단순히 학자가 아닌 ‘인물’로 만들기 위해 뉘앙스들을 살리고 서신 자료로 긴밀했던 인간관계를 복원시키는 이유다.",
+          "isbn": "9791169092609",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6682556?timestamp=20240801161330",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "b98eef2f-e635-59a0-ad3b-8b696ff77077"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791169092609",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791169092609"
+      ],
+      "normalizedTitles": [
+        "애덤스미스평전"
+      ],
+      "normalizedCreators": [
+        "이언심프슨로스",
+        "조재희역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:08:12.269Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "b98eef2f-e635-59a0-ad3b-8b696ff77077",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791169092609",
+      "release_date": "2024-07-19",
+      "metadata": {
+        "isbn": "9791169092609",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+        "publisher": "글항아리",
+        "figureBook": {
+          "workTitle": "애덤 스미스 평전",
+          "workCreator": "이언 심프슨 로스",
+          "workIdentity": "book/9791169092609",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-07-19",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:08:05.273588+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "b98eef2f-e635-59a0-ad3b-8b696ff77077",
+        "locale": "ko",
+        "title": "애덤 스미스 평전",
+        "creator": "이언 심프슨 로스",
+        "description": "『애덤 스미스 평전』은 1895년 존 레이가 출간한 평전 이후 100년 만에 쓰인 애덤 스미스에 대한 본격적인 평전이다. 이언 로스는 스미스의 가족, 스승, 친구와 동료들을 세밀하게 그리고 있어 그의 생애와 시대에 대한 설명에서는 향후 수십 년 동안 이 평전을 뛰어넘을 기록은 나올 수 없다고 평가받고 있다.\n이 책은 저자가 다음의 두 가지를 동시에 추구한다는 점에서 주목할 만하다. 첫째, 스미스의 생애를 연도별로 따라가면서 그에 대해 기존에 알려진 관찰들을 실제 사건과 연결시키고 있다(예컨대 스미스가 옥스퍼드에 갈 때 저자 로스는 대학에 대한 『국부론』의 비판을 인용하고, 스미스가 툴루즈의 정치에 대해 이야기할 때 로스는 이를 『도덕감정론』과 연결시킨다). 저자는 사건과 주장의 인과관계에 매우 조심하면서도 자신의 논평을 제시함으로써 평전 작가의 자신감을 보여준다. 이는 그가 자기주장을 뒷받침할 만한 서신과 사건들을 거의 다 수집했기 때문에 가능한 일이다. 둘째, 개정판(한국어판은 개정판을 번역했다)에서는 특히 자신이 구성한 스미스의 내러티브에 개념적 분석과 해석적 주장을 포함시켰다. 본문 단락 중 괄호나 주석이 없는 것은 찾아보기 힘들다. 이 책이 지적이고 학술적인 평전으로 평가받는 이유다. 게다가 저자는 스미스의 생애에 대한 백과사전적 서술을 지향하면서 생애에 관한 새로운 사실과 학설을 포함시켜 훨씬 더 촘촘하고 정밀한 서사를 구축했다.\n삶은 중요한 요소다. 한 학자의 담론과 사상은 그의 삶과 인간관계 속에서 살펴볼 때 맥락화가 더 잘 되기 때문이다. 로스가 스미스를 단순히 학자가 아닌 ‘인물’로 만들기 위해 뉘앙스들을 살리고 서신 자료로 긴밀했던 인간관계를 복원시키는 이유다.",
+        "isbn": "9791169092609",
+        "publisher": "글항아리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6682556?timestamp=20240801161330",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6682556&q=%EC%95%A0%EB%8D%A4+%EC%8A%A4%EB%AF%B8%EC%8A%A4+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:08:05.273588+00:00",
+        "updated_at": "2026-09-04T18:08:05.273588+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791193166550",
+    "title": "세상이라는 나의 고향",
+    "creator": "아마티아 센",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김승진 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791193166550"
+  }
+}

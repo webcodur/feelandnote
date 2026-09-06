@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788993905427.json",
+  "manifestSha256": "d7174105c561fbaf4d7dcc2d172a65dce20b9287285f5e31da0e0293939c84b1",
+  "planSha256": "c98f51027bbe6fdae84192e4b6d140fa99cb05481606eb735fa499bbe8a62ea8",
+  "workIdentity": "book/9788993905427",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788993905427"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "37ebe09c-8f94-54c6-9cdc-9cd69a1a0ddb",
+    "scopeKey": "book/9788993905427",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "37ebe09c-8f94-54c6-9cdc-9cd69a1a0ddb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788993905427",
+      "release_date": "2010-11-22",
+      "metadata": {
+        "isbn": "9788993905427",
+        "publisher": "글항아리",
+        "publishDate": "2010-11-22",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788993905427",
+          "workTitle": "엥겔스 평전(양장본 HardCover)",
+          "workCreator": "트리스트럼 헌트",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "엥겔스 평전",
+          "creator": "트리스트럼 헌트",
+          "description": "19세기 중상류층 남성복 정장인 프록코트를 입은 공산주의자 엥겔스 평전. 엥겔스는 영국 맨체스터에서 면직업에 종사하면서 빅토리아 시대의 전형적인 신사로 유복한 삶을 살며, 고급 취미인 여우사냥과 고가의 포도주를 즐겨 했던 부르주아였다. 그런 그가 자기가 속한 계급의 이익에 정면으로 반하는 이데올로기를 세우는 데 지대한 역할을 한 이유는 무엇이었을까? 영국의 신예학자, 트리스트럼 헌트가 카를 마르크스의 친구이자 동업자이며 정치적 상속자인 프리드리히 엥겔스의 삶을 풍부한 역사적 사료를 통해 역동적이고 따뜻한 시각으로 그려낸다.",
+          "isbn": "9788993905427",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1402622?timestamp=20221011185555",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "37ebe09c-8f94-54c6-9cdc-9cd69a1a0ddb"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "37ebe09c-8f94-54c6-9cdc-9cd69a1a0ddb",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788993905427",
+        "release_date": "2010-11-22",
+        "metadata": {
+          "isbn": "9788993905427",
+          "publisher": "글항아리",
+          "publishDate": "2010-11-22",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788993905427",
+            "workTitle": "엥겔스 평전(양장본 HardCover)",
+            "workCreator": "트리스트럼 헌트",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "엥겔스 평전",
+          "creator": "트리스트럼 헌트",
+          "description": "19세기 중상류층 남성복 정장인 프록코트를 입은 공산주의자 엥겔스 평전. 엥겔스는 영국 맨체스터에서 면직업에 종사하면서 빅토리아 시대의 전형적인 신사로 유복한 삶을 살며, 고급 취미인 여우사냥과 고가의 포도주를 즐겨 했던 부르주아였다. 그런 그가 자기가 속한 계급의 이익에 정면으로 반하는 이데올로기를 세우는 데 지대한 역할을 한 이유는 무엇이었을까? 영국의 신예학자, 트리스트럼 헌트가 카를 마르크스의 친구이자 동업자이며 정치적 상속자인 프리드리히 엥겔스의 삶을 풍부한 역사적 사료를 통해 역동적이고 따뜻한 시각으로 그려낸다.",
+          "isbn": "9788993905427",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1402622?timestamp=20221011185555",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "37ebe09c-8f94-54c6-9cdc-9cd69a1a0ddb"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788993905427",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788993905427"
+      ],
+      "normalizedTitles": [
+        "엥겔스평전",
+        "엥겔스평전양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "이광일역",
+        "트리스트럼헌트"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:57:33.492Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "37ebe09c-8f94-54c6-9cdc-9cd69a1a0ddb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788993905427",
+      "release_date": "2010-11-22",
+      "metadata": {
+        "isbn": "9788993905427",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "글항아리",
+        "figureBook": {
+          "workTitle": "엥겔스 평전(양장본 HardCover)",
+          "workCreator": "트리스트럼 헌트",
+          "workIdentity": "book/9788993905427",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2010-11-22",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:57:23.293678+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "37ebe09c-8f94-54c6-9cdc-9cd69a1a0ddb",
+        "locale": "ko",
+        "title": "엥겔스 평전",
+        "creator": "트리스트럼 헌트",
+        "description": "19세기 중상류층 남성복 정장인 프록코트를 입은 공산주의자 엥겔스 평전. 엥겔스는 영국 맨체스터에서 면직업에 종사하면서 빅토리아 시대의 전형적인 신사로 유복한 삶을 살며, 고급 취미인 여우사냥과 고가의 포도주를 즐겨 했던 부르주아였다. 그런 그가 자기가 속한 계급의 이익에 정면으로 반하는 이데올로기를 세우는 데 지대한 역할을 한 이유는 무엇이었을까? 영국의 신예학자, 트리스트럼 헌트가 카를 마르크스의 친구이자 동업자이며 정치적 상속자인 프리드리히 엥겔스의 삶을 풍부한 역사적 사료를 통해 역동적이고 따뜻한 시각으로 그려낸다.",
+        "isbn": "9788993905427",
+        "publisher": "글항아리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1402622?timestamp=20221011185555",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1402622&q=%EC%97%A5%EA%B2%94%EC%8A%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:57:23.293678+00:00",
+        "updated_at": "2026-09-04T17:57:23.293678+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788974431334.json",
+  "manifestSha256": "2ccf9bdc796d7211c195b566f4ba4531c112a743da9edee013e5367a84453a67",
+  "planSha256": "e003c75294266c0bd6d63fda81b03e2f4c3f6721b4354c0aac3e298058cbbc6a",
+  "workIdentity": "book/9788974431334",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788974431334"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "1d9742b6-2d2c-5c3b-a904-9790d4aa26d6",
+    "scopeKey": "book/9788974431334",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "1d9742b6-2d2c-5c3b-a904-9790d4aa26d6",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788974431334",
+      "release_date": "2020-10-25",
+      "metadata": {
+        "isbn": "9788974431334",
+        "publisher": "두레",
+        "publishDate": "2020-10-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788974431334",
+          "workTitle": "이승만 평전(양장본 HardCover)",
+          "workCreator": "김삼웅",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "이승만 평전",
+          "creator": "김삼웅",
+          "description": "심산 김창숙은 이승만을 ‘독부(獨夫)’라 불렀다. 독부란 ‘민심을 잃어서 남의 도움을 받을 곳이 없게 된 외로운 남자’를 뜻하는 말이다. 단재 신채호는 이승만을 이완용과 송병준보다 더 큰 역적이라 했다. 이완용은 있는 나라를 팔아먹었지만 이승만은 아직 나라를 찾기도 전에 팔아먹었기 때문이다.\n한때 진보적이고 개혁적인 정치가·선각자로서 촉망받던 인물이었던 이승만. 독립협회에 소속되어 개화운동에 참여하고, 만민공동회 연사와 ≪제국신문≫ 주필을 지내고, 하와이 한인학원을 운영하고 ≪태평양잡지≫를 창간하고, 제네바 국제연맹회의에 참석해 한국의 독립을 호소하는 등 업적을 쌓았다. 이런 명망을 바탕으로 지도자로 부상하고, 대한민국 임시정부의 수반이 되고, 끝내 해방된 조국 대한민국의 초대 대통령까지 되었다.\n그러나 이승만의 수많은 과오, 아니 반민족·비민주적 행적은 이런 업적을 덮고도 남는다. 미국 망명 시절의 행적은 독립운동보다 친일에 가까운 언행이 적지 않았다. 독립운동단체를 분열시키고, 이봉창과 윤봉길 의사의 의거를 테러 행위라고 비난하고, 대한민국 임시정부와 대한민국에서 두 차례나 쫓겨나는 불명예를 얻었다. 발췌 개헌과 사사오입 개헌 등을 통해 헌법과 민주주의를 짓밟았고, 영구집권을 획책하면서 3·15 부정선거를 자행하고, 이에 저항하는 시민과 학생들을 폭력으로 진압하면서 독재자의 모습을 가감 없이 드러냈다. 친일경찰을 등용하여 독립지사들을 탄압하고 경찰국가체제를 만들었고, 총독부 판사 출신들로 사법부를 장악하게 하고 숱한 독립지사와 민주인사들을 처형했다. 친일파를 청산하기는커녕 반민특위를 해체하고 친일파를 중용하여 민족정기와 사회정의를 짓밟았다. 아무런 준비도 없이 말로만 북진통일을 되뇌다가, 막상 인민군이 남침하자 혼자 도망치고 한강 다리를 폭파해 서울시민을 인민군 치하에 남겨두었다. 원조물자는 특권층에게만 안겨주어 국가 경제와 국민 생계는 파탄지경에 이르렀다. 심지어 외신도 “한국에서 민주주의를 기대하기란 쓰레기통에서 장미꽃이 피기를 기대하는 것과 같다”라고 조롱했을 만큼 민주주의를 짓밟았고 국격을 실추시켰다. 이승만이 독립운동가로 추앙받지 못하고 독재자, 권력을 좇는 두 얼굴의 기회주의자라는 비판을 받는 이유이다.\n이승만에 대한 평가는 찬양과 비난이 극단으로 갈린다. 정직한 연구가들은 이승만의 공과(功過)를 ‘공 3, 과 7’ 정도로 평가한다. 이 책은 이승만의 전력을 있는 그대로 밝혀서 공(功)은 공대로 과(過)는 과대로 보여준다. 한때 개혁정치가였고 촉망받던 선각자였으나, ‘위대한 독립운동가’로 알려진 이승만의 망명 생활이 얼마나 위선적이었는지, 해방 당시 그의 행적이 얼마나 사대적이고 반민족적이었는지, 집권기간의 전제정치가 얼마나 폭력적이고 비민주적이었는지, ‘영웅’의 가면을 벗긴 이승만의 민낯을 있는 그대로 보여준다. 이를 통해 그가 왜 ‘건국의 아버지’이기는커녕 ‘타매(唾罵)’의 대상인지 낱낱이 드러날 것이다. 이 책은 『독부 이승만 평전: 권력의 화신, 두 얼굴의 기회주의자』(책보세, 2012)의 개정판이다.",
+          "isbn": "9788974431334",
+          "publisher": "두레",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5509697?timestamp=20221011171308",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "1d9742b6-2d2c-5c3b-a904-9790d4aa26d6"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "1d9742b6-2d2c-5c3b-a904-9790d4aa26d6",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788974431334",
+        "release_date": "2020-10-25",
+        "metadata": {
+          "isbn": "9788974431334",
+          "publisher": "두레",
+          "publishDate": "2020-10-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788974431334",
+            "workTitle": "이승만 평전(양장본 HardCover)",
+            "workCreator": "김삼웅",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "이승만 평전",
+          "creator": "김삼웅",
+          "description": "심산 김창숙은 이승만을 ‘독부(獨夫)’라 불렀다. 독부란 ‘민심을 잃어서 남의 도움을 받을 곳이 없게 된 외로운 남자’를 뜻하는 말이다. 단재 신채호는 이승만을 이완용과 송병준보다 더 큰 역적이라 했다. 이완용은 있는 나라를 팔아먹었지만 이승만은 아직 나라를 찾기도 전에 팔아먹었기 때문이다.\n한때 진보적이고 개혁적인 정치가·선각자로서 촉망받던 인물이었던 이승만. 독립협회에 소속되어 개화운동에 참여하고, 만민공동회 연사와 ≪제국신문≫ 주필을 지내고, 하와이 한인학원을 운영하고 ≪태평양잡지≫를 창간하고, 제네바 국제연맹회의에 참석해 한국의 독립을 호소하는 등 업적을 쌓았다. 이런 명망을 바탕으로 지도자로 부상하고, 대한민국 임시정부의 수반이 되고, 끝내 해방된 조국 대한민국의 초대 대통령까지 되었다.\n그러나 이승만의 수많은 과오, 아니 반민족·비민주적 행적은 이런 업적을 덮고도 남는다. 미국 망명 시절의 행적은 독립운동보다 친일에 가까운 언행이 적지 않았다. 독립운동단체를 분열시키고, 이봉창과 윤봉길 의사의 의거를 테러 행위라고 비난하고, 대한민국 임시정부와 대한민국에서 두 차례나 쫓겨나는 불명예를 얻었다. 발췌 개헌과 사사오입 개헌 등을 통해 헌법과 민주주의를 짓밟았고, 영구집권을 획책하면서 3·15 부정선거를 자행하고, 이에 저항하는 시민과 학생들을 폭력으로 진압하면서 독재자의 모습을 가감 없이 드러냈다. 친일경찰을 등용하여 독립지사들을 탄압하고 경찰국가체제를 만들었고, 총독부 판사 출신들로 사법부를 장악하게 하고 숱한 독립지사와 민주인사들을 처형했다. 친일파를 청산하기는커녕 반민특위를 해체하고 친일파를 중용하여 민족정기와 사회정의를 짓밟았다. 아무런 준비도 없이 말로만 북진통일을 되뇌다가, 막상 인민군이 남침하자 혼자 도망치고 한강 다리를 폭파해 서울시민을 인민군 치하에 남겨두었다. 원조물자는 특권층에게만 안겨주어 국가 경제와 국민 생계는 파탄지경에 이르렀다. 심지어 외신도 “한국에서 민주주의를 기대하기란 쓰레기통에서 장미꽃이 피기를 기대하는 것과 같다”라고 조롱했을 만큼 민주주의를 짓밟았고 국격을 실추시켰다. 이승만이 독립운동가로 추앙받지 못하고 독재자, 권력을 좇는 두 얼굴의 기회주의자라는 비판을 받는 이유이다.\n이승만에 대한 평가는 찬양과 비난이 극단으로 갈린다. 정직한 연구가들은 이승만의 공과(功過)를 ‘공 3, 과 7’ 정도로 평가한다. 이 책은 이승만의 전력을 있는 그대로 밝혀서 공(功)은 공대로 과(過)는 과대로 보여준다. 한때 개혁정치가였고 촉망받던 선각자였으나, ‘위대한 독립운동가’로 알려진 이승만의 망명 생활이 얼마나 위선적이었는지, 해방 당시 그의 행적이 얼마나 사대적이고 반민족적이었는지, 집권기간의 전제정치가 얼마나 폭력적이고 비민주적이었는지, ‘영웅’의 가면을 벗긴 이승만의 민낯을 있는 그대로 보여준다. 이를 통해 그가 왜 ‘건국의 아버지’이기는커녕 ‘타매(唾罵)’의 대상인지 낱낱이 드러날 것이다. 이 책은 『독부 이승만 평전: 권력의 화신, 두 얼굴의 기회주의자』(책보세, 2012)의 개정판이다.",
+          "isbn": "9788974431334",
+          "publisher": "두레",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5509697?timestamp=20221011171308",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "1d9742b6-2d2c-5c3b-a904-9790d4aa26d6"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788974431334",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788974431334"
+      ],
+      "normalizedTitles": [
+        "이승만평전",
+        "이승만평전양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "김삼웅"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:12:55.038Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "1d9742b6-2d2c-5c3b-a904-9790d4aa26d6",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788974431334",
+      "release_date": "2020-10-25",
+      "metadata": {
+        "isbn": "9788974431334",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "두레",
+        "figureBook": {
+          "workTitle": "이승만 평전(양장본 HardCover)",
+          "workCreator": "김삼웅",
+          "workIdentity": "book/9788974431334",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-10-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:12:30.087429+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "1d9742b6-2d2c-5c3b-a904-9790d4aa26d6",
+        "locale": "ko",
+        "title": "이승만 평전",
+        "creator": "김삼웅",
+        "description": "심산 김창숙은 이승만을 ‘독부(獨夫)’라 불렀다. 독부란 ‘민심을 잃어서 남의 도움을 받을 곳이 없게 된 외로운 남자’를 뜻하는 말이다. 단재 신채호는 이승만을 이완용과 송병준보다 더 큰 역적이라 했다. 이완용은 있는 나라를 팔아먹었지만 이승만은 아직 나라를 찾기도 전에 팔아먹었기 때문이다.\n한때 진보적이고 개혁적인 정치가·선각자로서 촉망받던 인물이었던 이승만. 독립협회에 소속되어 개화운동에 참여하고, 만민공동회 연사와 ≪제국신문≫ 주필을 지내고, 하와이 한인학원을 운영하고 ≪태평양잡지≫를 창간하고, 제네바 국제연맹회의에 참석해 한국의 독립을 호소하는 등 업적을 쌓았다. 이런 명망을 바탕으로 지도자로 부상하고, 대한민국 임시정부의 수반이 되고, 끝내 해방된 조국 대한민국의 초대 대통령까지 되었다.\n그러나 이승만의 수많은 과오, 아니 반민족·비민주적 행적은 이런 업적을 덮고도 남는다. 미국 망명 시절의 행적은 독립운동보다 친일에 가까운 언행이 적지 않았다. 독립운동단체를 분열시키고, 이봉창과 윤봉길 의사의 의거를 테러 행위라고 비난하고, 대한민국 임시정부와 대한민국에서 두 차례나 쫓겨나는 불명예를 얻었다. 발췌 개헌과 사사오입 개헌 등을 통해 헌법과 민주주의를 짓밟았고, 영구집권을 획책하면서 3·15 부정선거를 자행하고, 이에 저항하는 시민과 학생들을 폭력으로 진압하면서 독재자의 모습을 가감 없이 드러냈다. 친일경찰을 등용하여 독립지사들을 탄압하고 경찰국가체제를 만들었고, 총독부 판사 출신들로 사법부를 장악하게 하고 숱한 독립지사와 민주인사들을 처형했다. 친일파를 청산하기는커녕 반민특위를 해체하고 친일파를 중용하여 민족정기와 사회정의를 짓밟았다. 아무런 준비도 없이 말로만 북진통일을 되뇌다가, 막상 인민군이 남침하자 혼자 도망치고 한강 다리를 폭파해 서울시민을 인민군 치하에 남겨두었다. 원조물자는 특권층에게만 안겨주어 국가 경제와 국민 생계는 파탄지경에 이르렀다. 심지어 외신도 “한국에서 민주주의를 기대하기란 쓰레기통에서 장미꽃이 피기를 기대하는 것과 같다”라고 조롱했을 만큼 민주주의를 짓밟았고 국격을 실추시켰다. 이승만이 독립운동가로 추앙받지 못하고 독재자, 권력을 좇는 두 얼굴의 기회주의자라는 비판을 받는 이유이다.\n이승만에 대한 평가는 찬양과 비난이 극단으로 갈린다. 정직한 연구가들은 이승만의 공과(功過)를 ‘공 3, 과 7’ 정도로 평가한다. 이 책은 이승만의 전력을 있는 그대로 밝혀서 공(功)은 공대로 과(過)는 과대로 보여준다. 한때 개혁정치가였고 촉망받던 선각자였으나, ‘위대한 독립운동가’로 알려진 이승만의 망명 생활이 얼마나 위선적이었는지, 해방 당시 그의 행적이 얼마나 사대적이고 반민족적이었는지, 집권기간의 전제정치가 얼마나 폭력적이고 비민주적이었는지, ‘영웅’의 가면을 벗긴 이승만의 민낯을 있는 그대로 보여준다. 이를 통해 그가 왜 ‘건국의 아버지’이기는커녕 ‘타매(唾罵)’의 대상인지 낱낱이 드러날 것이다. 이 책은 『독부 이승만 평전: 권력의 화신, 두 얼굴의 기회주의자』(책보세, 2012)의 개정판이다.",
+        "isbn": "9788974431334",
+        "publisher": "두레",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5509697?timestamp=20221011171308",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5509697&q=%EC%9D%B4%EC%8A%B9%EB%A7%8C+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:12:30.087429+00:00",
+        "updated_at": "2026-09-06T04:12:30.087429+00:00"
+      }
+    ]
+  }
+}

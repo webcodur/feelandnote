@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788982641688",
+    "title": "디지털 문명과 AI혁명: 앨런 튜링에서 제프리 힌턴까지",
+    "creator": "박영규",
+    "titleAliases": [
+      "디지털 문명과 AI혁명"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788982641688"
+  }
+}

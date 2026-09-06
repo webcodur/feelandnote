@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791189352738.json",
+  "manifestSha256": "9df43506d411fe515fd4d0a0f632d474682d34e164faa2c3b780b719d40eddca",
+  "planSha256": "1b6a734defc9c2361d09d921dd78fb471f9833ab4ec51b86c7cdb506a665e4d1",
+  "workIdentity": "book/9791189352738",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791189352738"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "aca6116c-75e2-5226-b81e-0293919dd404",
+    "scopeKey": "book/9791189352738",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "aca6116c-75e2-5226-b81e-0293919dd404",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189352738",
+      "release_date": "2023-11-05",
+      "metadata": {
+        "isbn": "9791189352738",
+        "publisher": "위너스북",
+        "publishDate": "2023-11-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791189352738",
+          "workTitle": "반도체 오디세이",
+          "workCreator": "이승우",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "반도체 오디세이",
+          "creator": "이승우",
+          "description": "공학과 경영학, 셀사이드와 바이사이드, 두 번의 리서치센터장이라는 다양한 경험을 통해 반도체 산업에 대한 입체적인 분석을 제시하기로 정평이 난 이승우 애널리스트의 첫 번째 단독 저서이다. 반도체라는 조그마한 칩이 탄생하기까지 인류가 어떤 궤적을 그려왔는지, 기술의 발달 그 한가운데에서 어떤 인물들이 새로운 역사를 써왔는지를 재미있는 서사시를 들려주듯 전해준다.\n\n호기심과 지적 탐구로 컴퓨터를 발명시켜온 인물들의 이야기를 따라 읽다 보면 자연스레 반도체의 제조공정에 관한 이야기도 만나게 된다. 주원료인 실리콘이 어떤 과정을 통해 전기가 통하는 집적 회로로 완성되어가는지, 반도체가 완전무결한 기능을 갖춘 완성품이 되기 위해서는 어떠한 감리가 필요하며 이 각각의 설계와 제조공정을 담당하는 기업들은 무엇이 있는지를 간결하고 명확한 설명으로 만나볼 수 있다.\n\n인류 문명의 꽃이자 21세기의 전략자원인 반도체를 둘러싼 현재의 세계정세도 알아본다. 미국의 반도체 산업 전략과 일본·중국과의 관계 변화, 그 속에서 한국이 반도체 강국으로 성장해온 과정을 명쾌한 문체로 전달한다. 한국 반도체 산업의 국제적 입지와 현재를 냉정하게 짚어본 후 나아갈 방향을 제시하는 반도체 전문 애널리스트의 날카로운 분석과 평가 또한 알 수 있다.\n\n현재의 화두인 AI 기술에도 반도체는 빠질 수 없다. 4차 산업혁명 시대라는 새로운 무대에서 활약할 주인공은 누구일까? 반도체의 개발과 산업구조에 대한 다방면의 이야기가 담긴 이 책은 전문가와 기업인들에게는 산업을 보는 총체적인 시각을 더욱 확장시켜주고, 투자자들에게는 반도체 섹터 투자의 안목을 길러줄 것이다.",
+          "isbn": "9791189352738",
+          "publisher": "위너스북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6473729?timestamp=20251223151356",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4"
+          },
+          "verified": true,
+          "content_id": "aca6116c-75e2-5226-b81e-0293919dd404"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "aca6116c-75e2-5226-b81e-0293919dd404",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791189352738",
+        "release_date": "2023-11-05",
+        "metadata": {
+          "isbn": "9791189352738",
+          "publisher": "위너스북",
+          "publishDate": "2023-11-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791189352738",
+            "workTitle": "반도체 오디세이",
+            "workCreator": "이승우",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "반도체 오디세이",
+          "creator": "이승우",
+          "description": "공학과 경영학, 셀사이드와 바이사이드, 두 번의 리서치센터장이라는 다양한 경험을 통해 반도체 산업에 대한 입체적인 분석을 제시하기로 정평이 난 이승우 애널리스트의 첫 번째 단독 저서이다. 반도체라는 조그마한 칩이 탄생하기까지 인류가 어떤 궤적을 그려왔는지, 기술의 발달 그 한가운데에서 어떤 인물들이 새로운 역사를 써왔는지를 재미있는 서사시를 들려주듯 전해준다.\n\n호기심과 지적 탐구로 컴퓨터를 발명시켜온 인물들의 이야기를 따라 읽다 보면 자연스레 반도체의 제조공정에 관한 이야기도 만나게 된다. 주원료인 실리콘이 어떤 과정을 통해 전기가 통하는 집적 회로로 완성되어가는지, 반도체가 완전무결한 기능을 갖춘 완성품이 되기 위해서는 어떠한 감리가 필요하며 이 각각의 설계와 제조공정을 담당하는 기업들은 무엇이 있는지를 간결하고 명확한 설명으로 만나볼 수 있다.\n\n인류 문명의 꽃이자 21세기의 전략자원인 반도체를 둘러싼 현재의 세계정세도 알아본다. 미국의 반도체 산업 전략과 일본·중국과의 관계 변화, 그 속에서 한국이 반도체 강국으로 성장해온 과정을 명쾌한 문체로 전달한다. 한국 반도체 산업의 국제적 입지와 현재를 냉정하게 짚어본 후 나아갈 방향을 제시하는 반도체 전문 애널리스트의 날카로운 분석과 평가 또한 알 수 있다.\n\n현재의 화두인 AI 기술에도 반도체는 빠질 수 없다. 4차 산업혁명 시대라는 새로운 무대에서 활약할 주인공은 누구일까? 반도체의 개발과 산업구조에 대한 다방면의 이야기가 담긴 이 책은 전문가와 기업인들에게는 산업을 보는 총체적인 시각을 더욱 확장시켜주고, 투자자들에게는 반도체 섹터 투자의 안목을 길러줄 것이다.",
+          "isbn": "9791189352738",
+          "publisher": "위너스북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6473729?timestamp=20251223151356",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4"
+          },
+          "verified": true,
+          "content_id": "aca6116c-75e2-5226-b81e-0293919dd404"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791189352738",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791189352738"
+      ],
+      "normalizedTitles": [
+        "반도체오디세이"
+      ],
+      "normalizedCreators": [
+        "이승우"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:28:16.338Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "aca6116c-75e2-5226-b81e-0293919dd404",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189352738",
+      "release_date": "2023-11-05",
+      "metadata": {
+        "isbn": "9791189352738",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+        "publisher": "위너스북",
+        "figureBook": {
+          "workTitle": "반도체 오디세이",
+          "workCreator": "이승우",
+          "workIdentity": "book/9791189352738",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-11-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:27:59.086147+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "aca6116c-75e2-5226-b81e-0293919dd404",
+        "locale": "ko",
+        "title": "반도체 오디세이",
+        "creator": "이승우",
+        "description": "공학과 경영학, 셀사이드와 바이사이드, 두 번의 리서치센터장이라는 다양한 경험을 통해 반도체 산업에 대한 입체적인 분석을 제시하기로 정평이 난 이승우 애널리스트의 첫 번째 단독 저서이다. 반도체라는 조그마한 칩이 탄생하기까지 인류가 어떤 궤적을 그려왔는지, 기술의 발달 그 한가운데에서 어떤 인물들이 새로운 역사를 써왔는지를 재미있는 서사시를 들려주듯 전해준다.\n\n호기심과 지적 탐구로 컴퓨터를 발명시켜온 인물들의 이야기를 따라 읽다 보면 자연스레 반도체의 제조공정에 관한 이야기도 만나게 된다. 주원료인 실리콘이 어떤 과정을 통해 전기가 통하는 집적 회로로 완성되어가는지, 반도체가 완전무결한 기능을 갖춘 완성품이 되기 위해서는 어떠한 감리가 필요하며 이 각각의 설계와 제조공정을 담당하는 기업들은 무엇이 있는지를 간결하고 명확한 설명으로 만나볼 수 있다.\n\n인류 문명의 꽃이자 21세기의 전략자원인 반도체를 둘러싼 현재의 세계정세도 알아본다. 미국의 반도체 산업 전략과 일본·중국과의 관계 변화, 그 속에서 한국이 반도체 강국으로 성장해온 과정을 명쾌한 문체로 전달한다. 한국 반도체 산업의 국제적 입지와 현재를 냉정하게 짚어본 후 나아갈 방향을 제시하는 반도체 전문 애널리스트의 날카로운 분석과 평가 또한 알 수 있다.\n\n현재의 화두인 AI 기술에도 반도체는 빠질 수 없다. 4차 산업혁명 시대라는 새로운 무대에서 활약할 주인공은 누구일까? 반도체의 개발과 산업구조에 대한 다방면의 이야기가 담긴 이 책은 전문가와 기업인들에게는 산업을 보는 총체적인 시각을 더욱 확장시켜주고, 투자자들에게는 반도체 섹터 투자의 안목을 길러줄 것이다.",
+        "isbn": "9791189352738",
+        "publisher": "위너스북",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6473729?timestamp=20251223151356",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6473729&q=%EB%B0%98%EB%8F%84%EC%B2%B4+%EC%98%A4%EB%94%94%EC%84%B8%EC%9D%B4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:27:59.086147+00:00",
+        "updated_at": "2026-09-06T04:27:59.086147+00:00"
+      }
+    ]
+  }
+}

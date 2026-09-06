@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788961951852",
+    "title": "도리스 레싱, 21세기 여성 작가의 도전",
+    "creator": "민경숙",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788961951852"
+  }
+}

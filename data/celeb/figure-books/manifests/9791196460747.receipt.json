@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791196460747.json",
+  "manifestSha256": "fcc6646946b5aa05edac34b289061ed684df8dfd83755889bdcbd83827721f74",
+  "planSha256": "bcd7940213df1ae121b2a74a8e66dad296f0337af6d9b7cbd16855dae135bfdc",
+  "workIdentity": "book/9791196460747",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791196460747"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "22c47314-3f91-508d-a368-91d9827b8c0f",
+    "scopeKey": "book/9791196460747",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "22c47314-3f91-508d-a368-91d9827b8c0f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791196460747",
+      "release_date": "2020-05-30",
+      "metadata": {
+        "isbn": "9791196460747",
+        "publisher": "만복당",
+        "publishDate": "2020-05-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791196460747",
+          "workTitle": "드뷔시의 파리",
+          "workCreator": "캐서린 카우츠키",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "드뷔시의 파리",
+          "creator": "캐서린 카우츠키",
+          "description": "드뷔시의 섬세한 피아노 음악은 꿈결 같은 분위기와 신비롭게 울려 퍼지는 특유의 음색으로 많은 이를 사로잡았다. 벨 에포크 시대의 정점에 이른 파리에서 탄생한 그의 음악은 광대와 인어, 괴상한 춤, 그리고 에드거 앨런 포의 어두운 이야기와 같이 파리지앵들이 누렸던 기쁨과 쾌락을 담아냈다. 〈드뷔시의 파리: 벨 에포크 시대의 초상〉은 파리의 매력적인 모습만이 아니라 인종차별, 식민지배, 민족주의의 기저에 깔린 적대심 등을 함께 다룬다. 드뷔시는 이 모든 것을 그의 피아노 음악에 담아 그 시대의 열정과 비행, 그리고 집착을 그려낸다.",
+          "isbn": "9791196460747",
+          "publisher": "만복당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5379346?timestamp=20221011181130",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC"
+          },
+          "verified": true,
+          "content_id": "22c47314-3f91-508d-a368-91d9827b8c0f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "22c47314-3f91-508d-a368-91d9827b8c0f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791196460747",
+        "release_date": "2020-05-30",
+        "metadata": {
+          "isbn": "9791196460747",
+          "publisher": "만복당",
+          "publishDate": "2020-05-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791196460747",
+            "workTitle": "드뷔시의 파리",
+            "workCreator": "캐서린 카우츠키",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "드뷔시의 파리",
+          "creator": "캐서린 카우츠키",
+          "description": "드뷔시의 섬세한 피아노 음악은 꿈결 같은 분위기와 신비롭게 울려 퍼지는 특유의 음색으로 많은 이를 사로잡았다. 벨 에포크 시대의 정점에 이른 파리에서 탄생한 그의 음악은 광대와 인어, 괴상한 춤, 그리고 에드거 앨런 포의 어두운 이야기와 같이 파리지앵들이 누렸던 기쁨과 쾌락을 담아냈다. 〈드뷔시의 파리: 벨 에포크 시대의 초상〉은 파리의 매력적인 모습만이 아니라 인종차별, 식민지배, 민족주의의 기저에 깔린 적대심 등을 함께 다룬다. 드뷔시는 이 모든 것을 그의 피아노 음악에 담아 그 시대의 열정과 비행, 그리고 집착을 그려낸다.",
+          "isbn": "9791196460747",
+          "publisher": "만복당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5379346?timestamp=20221011181130",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC"
+          },
+          "verified": true,
+          "content_id": "22c47314-3f91-508d-a368-91d9827b8c0f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791196460747",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791196460747"
+      ],
+      "normalizedTitles": [
+        "드뷔시의파리"
+      ],
+      "normalizedCreators": [
+        "배인혜역",
+        "캐서린카우츠키"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:32:32.842Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "22c47314-3f91-508d-a368-91d9827b8c0f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791196460747",
+      "release_date": "2020-05-30",
+      "metadata": {
+        "isbn": "9791196460747",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+        "publisher": "만복당",
+        "figureBook": {
+          "workTitle": "드뷔시의 파리",
+          "workCreator": "캐서린 카우츠키",
+          "workIdentity": "book/9791196460747",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-05-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:32:26.485839+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "22c47314-3f91-508d-a368-91d9827b8c0f",
+        "locale": "ko",
+        "title": "드뷔시의 파리",
+        "creator": "캐서린 카우츠키",
+        "description": "드뷔시의 섬세한 피아노 음악은 꿈결 같은 분위기와 신비롭게 울려 퍼지는 특유의 음색으로 많은 이를 사로잡았다. 벨 에포크 시대의 정점에 이른 파리에서 탄생한 그의 음악은 광대와 인어, 괴상한 춤, 그리고 에드거 앨런 포의 어두운 이야기와 같이 파리지앵들이 누렸던 기쁨과 쾌락을 담아냈다. 〈드뷔시의 파리: 벨 에포크 시대의 초상〉은 파리의 매력적인 모습만이 아니라 인종차별, 식민지배, 민족주의의 기저에 깔린 적대심 등을 함께 다룬다. 드뷔시는 이 모든 것을 그의 피아노 음악에 담아 그 시대의 열정과 비행, 그리고 집착을 그려낸다.",
+        "isbn": "9791196460747",
+        "publisher": "만복당",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5379346?timestamp=20221011181130",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5379346&q=%EB%93%9C%EB%B7%94%EC%8B%9C%EC%9D%98+%ED%8C%8C%EB%A6%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:32:26.485839+00:00",
+        "updated_at": "2026-09-06T04:32:26.485839+00:00"
+      }
+    ]
+  }
+}

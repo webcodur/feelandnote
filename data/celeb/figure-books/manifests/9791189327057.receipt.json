@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791189327057.json",
+  "manifestSha256": "6755f958ece27186cbcd8bf5273cfe328bbdbd383b4636a2ec6065bccf1b351b",
+  "planSha256": "c07a406ddd612a7e3f052fed1e5fdf750b394a0b4204055fbf2ce665add9a07c",
+  "workIdentity": "book/9791189327057",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791189327057"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "bc00b0d6-6b3c-59b0-b03c-69a2d6f468d7",
+    "scopeKey": "book/9791189327057",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "bc00b0d6-6b3c-59b0-b03c-69a2d6f468d7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189327057",
+      "release_date": "2020-02-20",
+      "metadata": {
+        "isbn": "9791189327057",
+        "publisher": "곰출판",
+        "publishDate": "2020-02-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791189327057",
+          "workTitle": "저글러, 땜장이, 놀이꾼, 디지털 세상을 설계하다",
+          "workCreator": "지미 소니",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "저글러, 땜장이, 놀이꾼, 디지털 세상을 설계하다",
+          "creator": "지미 소니, 로브 굿맨",
+          "description": "클로드 섀넌은 “20세기에서 가장 중요하고 가장 유명한 석사학위 논문”으로 디지털시대의 기초를 마련한 천재 수학자이자 과학자이다. 하지만 그 인지도는 티브 잡스나 빌 게이츠에 미치지 못한다. 그가 오늘날 지구를 결속하는 정보 아키텍처의 입안자 중 한 명임에도. 세계 정상급 공학자들은 하나같이 “오늘날 고속데이터통신을 가능케 한 선진 기호 처리 기술은, 클로드 섀넌이 발표한 정보이론 논문의 연장이라고 봐야 한다”고 말한다. 이 책은 그 숨은 천재 클로드 셰넌을 재조명한다.\n\n저자들은 그를 단지 디지털 시대의 먼 조상이 아니라, 정보화시대의 토대를 쌓았을뿐더러 단기적 실용성을 넘어 시대적 관심사를 추구하는 데 필요한 학문이라면 무엇이든 연마한 만능 창조인으로 끌어올린다. 클로드 섀넌이 기념비적 석사학위 논문을 발표한 바로 그해에, 영국의 수학자 앨런 튜링은 기계지능(machine intelligence)으로 나아가는 데 필요한 결정적 단계를 발표하여 유명해졌다. 그의 결론은 한마디로 “이론적으로 모든 해결 가능한 수학 문제는 기계로 해결할 수 있다”는 것이었다. 튜링은 기존의 상상력을 완전히 뛰어넘어 “연산 도중 명령문을 스스로 재프로그래밍할 수 있는 컴퓨터”로 나아가는 방법을 제시했다. 하지만 튜링이 제안한 기계는 아직 이론적 구상에 불과했다. 반면에 섀넌은 “모든 합리적 논술이 기계에 의해 평가될 수 있음”을 증명해냈다.",
+          "isbn": "9791189327057",
+          "publisher": "곰출판",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5250300?timestamp=20260409120058",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "bc00b0d6-6b3c-59b0-b03c-69a2d6f468d7"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "bc00b0d6-6b3c-59b0-b03c-69a2d6f468d7",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791189327057",
+        "release_date": "2020-02-20",
+        "metadata": {
+          "isbn": "9791189327057",
+          "publisher": "곰출판",
+          "publishDate": "2020-02-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791189327057",
+            "workTitle": "저글러, 땜장이, 놀이꾼, 디지털 세상을 설계하다",
+            "workCreator": "지미 소니",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "저글러, 땜장이, 놀이꾼, 디지털 세상을 설계하다",
+          "creator": "지미 소니, 로브 굿맨",
+          "description": "클로드 섀넌은 “20세기에서 가장 중요하고 가장 유명한 석사학위 논문”으로 디지털시대의 기초를 마련한 천재 수학자이자 과학자이다. 하지만 그 인지도는 티브 잡스나 빌 게이츠에 미치지 못한다. 그가 오늘날 지구를 결속하는 정보 아키텍처의 입안자 중 한 명임에도. 세계 정상급 공학자들은 하나같이 “오늘날 고속데이터통신을 가능케 한 선진 기호 처리 기술은, 클로드 섀넌이 발표한 정보이론 논문의 연장이라고 봐야 한다”고 말한다. 이 책은 그 숨은 천재 클로드 셰넌을 재조명한다.\n\n저자들은 그를 단지 디지털 시대의 먼 조상이 아니라, 정보화시대의 토대를 쌓았을뿐더러 단기적 실용성을 넘어 시대적 관심사를 추구하는 데 필요한 학문이라면 무엇이든 연마한 만능 창조인으로 끌어올린다. 클로드 섀넌이 기념비적 석사학위 논문을 발표한 바로 그해에, 영국의 수학자 앨런 튜링은 기계지능(machine intelligence)으로 나아가는 데 필요한 결정적 단계를 발표하여 유명해졌다. 그의 결론은 한마디로 “이론적으로 모든 해결 가능한 수학 문제는 기계로 해결할 수 있다”는 것이었다. 튜링은 기존의 상상력을 완전히 뛰어넘어 “연산 도중 명령문을 스스로 재프로그래밍할 수 있는 컴퓨터”로 나아가는 방법을 제시했다. 하지만 튜링이 제안한 기계는 아직 이론적 구상에 불과했다. 반면에 섀넌은 “모든 합리적 논술이 기계에 의해 평가될 수 있음”을 증명해냈다.",
+          "isbn": "9791189327057",
+          "publisher": "곰출판",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5250300?timestamp=20260409120058",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "bc00b0d6-6b3c-59b0-b03c-69a2d6f468d7"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791189327057",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791189327057"
+      ],
+      "normalizedTitles": [
+        "저글러땜장이놀이꾼디지털세상을설계하다"
+      ],
+      "normalizedCreators": [
+        "로브굿맨",
+        "양병찬역",
+        "지미소니",
+        "지미소니로브굿맨"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:12:46.093Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "bc00b0d6-6b3c-59b0-b03c-69a2d6f468d7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189327057",
+      "release_date": "2020-02-20",
+      "metadata": {
+        "isbn": "9791189327057",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+        "publisher": "곰출판",
+        "figureBook": {
+          "workTitle": "저글러, 땜장이, 놀이꾼, 디지털 세상을 설계하다",
+          "workCreator": "지미 소니",
+          "workIdentity": "book/9791189327057",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-02-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:12:35.891289+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "bc00b0d6-6b3c-59b0-b03c-69a2d6f468d7",
+        "locale": "ko",
+        "title": "저글러, 땜장이, 놀이꾼, 디지털 세상을 설계하다",
+        "creator": "지미 소니, 로브 굿맨",
+        "description": "클로드 섀넌은 “20세기에서 가장 중요하고 가장 유명한 석사학위 논문”으로 디지털시대의 기초를 마련한 천재 수학자이자 과학자이다. 하지만 그 인지도는 티브 잡스나 빌 게이츠에 미치지 못한다. 그가 오늘날 지구를 결속하는 정보 아키텍처의 입안자 중 한 명임에도. 세계 정상급 공학자들은 하나같이 “오늘날 고속데이터통신을 가능케 한 선진 기호 처리 기술은, 클로드 섀넌이 발표한 정보이론 논문의 연장이라고 봐야 한다”고 말한다. 이 책은 그 숨은 천재 클로드 셰넌을 재조명한다.\n\n저자들은 그를 단지 디지털 시대의 먼 조상이 아니라, 정보화시대의 토대를 쌓았을뿐더러 단기적 실용성을 넘어 시대적 관심사를 추구하는 데 필요한 학문이라면 무엇이든 연마한 만능 창조인으로 끌어올린다. 클로드 섀넌이 기념비적 석사학위 논문을 발표한 바로 그해에, 영국의 수학자 앨런 튜링은 기계지능(machine intelligence)으로 나아가는 데 필요한 결정적 단계를 발표하여 유명해졌다. 그의 결론은 한마디로 “이론적으로 모든 해결 가능한 수학 문제는 기계로 해결할 수 있다”는 것이었다. 튜링은 기존의 상상력을 완전히 뛰어넘어 “연산 도중 명령문을 스스로 재프로그래밍할 수 있는 컴퓨터”로 나아가는 방법을 제시했다. 하지만 튜링이 제안한 기계는 아직 이론적 구상에 불과했다. 반면에 섀넌은 “모든 합리적 논술이 기계에 의해 평가될 수 있음”을 증명해냈다.",
+        "isbn": "9791189327057",
+        "publisher": "곰출판",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5250300?timestamp=20260409120058",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5250300&q=%EC%A0%80%EA%B8%80%EB%9F%AC%2C+%EB%95%9C%EC%9E%A5%EC%9D%B4%2C+%EB%86%80%EC%9D%B4%EA%BE%BC%2C+%EB%94%94%EC%A7%80%ED%84%B8+%EC%84%B8%EC%83%81%EC%9D%84+%EC%84%A4%EA%B3%84%ED%95%98%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:12:35.891289+00:00",
+        "updated_at": "2026-09-04T18:12:35.891289+00:00"
+      }
+    ]
+  }
+}

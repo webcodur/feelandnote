@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788946061675.json",
+  "manifestSha256": "0a72a80c0b0826027ce9c41d742d50c2fb7bd7a8661a9dd4b0111164450f6ae9",
+  "planSha256": "996992962003fac424dff0b451bcd2d40e6818444b020a43b5c49e9f00996aaf",
+  "workIdentity": "book/9788946061675",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788946061675"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "68cc96e4-8be1-5e33-a80e-251627e0915f",
+    "scopeKey": "book/9788946061675",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "68cc96e4-8be1-5e33-a80e-251627e0915f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788946061675",
+      "release_date": "2016-04-30",
+      "metadata": {
+        "isbn": "9788946061675",
+        "publisher": "한울아카데미",
+        "publishDate": "2016-04-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788946061675",
+          "workTitle": "효문제의 ‘한화’ 정책과 낙양 호인사회(한울아카데미 1891)",
+          "workCreator": "최진열",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "효문제의 ‘한화’ 정책과 낙양 호인사회",
+          "creator": "최진열",
+          "description": "동화론의 편견을 깨고 문화 공존의 시각에서\n북위 후기의 사회와 문화를 재해석하다\n\n진 시황제의 첫 번째 중국 통일(B.C. 221년)부터 청 멸망(1912년)까지 이민족 왕조가 중국의 일부(화북) 혹은 중국 본토 전체를 지배한 기간은 모두 1,101년(각각 715년과 386년)이다.\n최근 2000년 동안 이민족이 중국의 일부 혹은 전부를 지배했던 기간이 51.6%라면 이민족이 중국에 끼친 정치적·문화적 영향은 부인할 수 없다.\n중국 학계는 ‘미개한’ 이민족이 중국의 일부 혹은 전체를 지배하더라도 우수한 중국문화에 동화되었다고 주장했다. 특히 자기 종족의 문화적 정체성을 유지하려고 했던 ‘금’이나 ‘청’과는 달리, 북위를 세운 이민족 지배층은 다른 이민족들과는 달리 ‘자발적인’ 동화의 길을 택했다고 한다. 이른바 효문제의 ‘한화 정책’이다.\n필자는 이 책에서 북위 효문제의 ‘한화 정책’이 선언에만 그친 공수표였으며 실증적인 검증을 통해 제대로 실시되지 않았음을 밝혔다. 수도 낙양에 살았던 이민족들은 ‘국제도시’ 낙양에서 자신들의 언어와 의식주 등 풍습을 유지했을 뿐만 아니라 중국과 중앙아시아, 인도의 사상과 종교, 문화를 받아들였다. 최소한 북위 후기 수도 낙양은 중국문화와 유목민의 초원문화, 중앙아시아의 문화 등이 공존한 문화 공존의 장소(샐러드 볼)였다. 이 책은 동화론의 편견을 깨고 북위 후기의 사회와 문화를 재해석했다는 점에서 연구사적 의의가 크다.",
+          "isbn": "9788946061675",
+          "publisher": "한울아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/602173?timestamp=20220818194208",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29"
+          },
+          "verified": true,
+          "content_id": "68cc96e4-8be1-5e33-a80e-251627e0915f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "68cc96e4-8be1-5e33-a80e-251627e0915f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788946061675",
+        "release_date": "2016-04-30",
+        "metadata": {
+          "isbn": "9788946061675",
+          "publisher": "한울아카데미",
+          "publishDate": "2016-04-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788946061675",
+            "workTitle": "효문제의 ‘한화’ 정책과 낙양 호인사회(한울아카데미 1891)",
+            "workCreator": "최진열",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "효문제의 ‘한화’ 정책과 낙양 호인사회",
+          "creator": "최진열",
+          "description": "동화론의 편견을 깨고 문화 공존의 시각에서\n북위 후기의 사회와 문화를 재해석하다\n\n진 시황제의 첫 번째 중국 통일(B.C. 221년)부터 청 멸망(1912년)까지 이민족 왕조가 중국의 일부(화북) 혹은 중국 본토 전체를 지배한 기간은 모두 1,101년(각각 715년과 386년)이다.\n최근 2000년 동안 이민족이 중국의 일부 혹은 전부를 지배했던 기간이 51.6%라면 이민족이 중국에 끼친 정치적·문화적 영향은 부인할 수 없다.\n중국 학계는 ‘미개한’ 이민족이 중국의 일부 혹은 전체를 지배하더라도 우수한 중국문화에 동화되었다고 주장했다. 특히 자기 종족의 문화적 정체성을 유지하려고 했던 ‘금’이나 ‘청’과는 달리, 북위를 세운 이민족 지배층은 다른 이민족들과는 달리 ‘자발적인’ 동화의 길을 택했다고 한다. 이른바 효문제의 ‘한화 정책’이다.\n필자는 이 책에서 북위 효문제의 ‘한화 정책’이 선언에만 그친 공수표였으며 실증적인 검증을 통해 제대로 실시되지 않았음을 밝혔다. 수도 낙양에 살았던 이민족들은 ‘국제도시’ 낙양에서 자신들의 언어와 의식주 등 풍습을 유지했을 뿐만 아니라 중국과 중앙아시아, 인도의 사상과 종교, 문화를 받아들였다. 최소한 북위 후기 수도 낙양은 중국문화와 유목민의 초원문화, 중앙아시아의 문화 등이 공존한 문화 공존의 장소(샐러드 볼)였다. 이 책은 동화론의 편견을 깨고 북위 후기의 사회와 문화를 재해석했다는 점에서 연구사적 의의가 크다.",
+          "isbn": "9788946061675",
+          "publisher": "한울아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/602173?timestamp=20220818194208",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29"
+          },
+          "verified": true,
+          "content_id": "68cc96e4-8be1-5e33-a80e-251627e0915f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788946061675",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788946061675"
+      ],
+      "normalizedTitles": [
+        "효문제의한화정책과낙양호인사회",
+        "효문제의한화정책과낙양호인사회한울아카데미1891"
+      ],
+      "normalizedCreators": [
+        "최진열"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:43:18.284Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "68cc96e4-8be1-5e33-a80e-251627e0915f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788946061675",
+      "release_date": "2016-04-30",
+      "metadata": {
+        "isbn": "9788946061675",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+        "publisher": "한울아카데미",
+        "figureBook": {
+          "workTitle": "효문제의 ‘한화’ 정책과 낙양 호인사회(한울아카데미 1891)",
+          "workCreator": "최진열",
+          "workIdentity": "book/9788946061675",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2016-04-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:43:04.292281+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "68cc96e4-8be1-5e33-a80e-251627e0915f",
+        "locale": "ko",
+        "title": "효문제의 ‘한화’ 정책과 낙양 호인사회",
+        "creator": "최진열",
+        "description": "동화론의 편견을 깨고 문화 공존의 시각에서\n북위 후기의 사회와 문화를 재해석하다\n\n진 시황제의 첫 번째 중국 통일(B.C. 221년)부터 청 멸망(1912년)까지 이민족 왕조가 중국의 일부(화북) 혹은 중국 본토 전체를 지배한 기간은 모두 1,101년(각각 715년과 386년)이다.\n최근 2000년 동안 이민족이 중국의 일부 혹은 전부를 지배했던 기간이 51.6%라면 이민족이 중국에 끼친 정치적·문화적 영향은 부인할 수 없다.\n중국 학계는 ‘미개한’ 이민족이 중국의 일부 혹은 전체를 지배하더라도 우수한 중국문화에 동화되었다고 주장했다. 특히 자기 종족의 문화적 정체성을 유지하려고 했던 ‘금’이나 ‘청’과는 달리, 북위를 세운 이민족 지배층은 다른 이민족들과는 달리 ‘자발적인’ 동화의 길을 택했다고 한다. 이른바 효문제의 ‘한화 정책’이다.\n필자는 이 책에서 북위 효문제의 ‘한화 정책’이 선언에만 그친 공수표였으며 실증적인 검증을 통해 제대로 실시되지 않았음을 밝혔다. 수도 낙양에 살았던 이민족들은 ‘국제도시’ 낙양에서 자신들의 언어와 의식주 등 풍습을 유지했을 뿐만 아니라 중국과 중앙아시아, 인도의 사상과 종교, 문화를 받아들였다. 최소한 북위 후기 수도 낙양은 중국문화와 유목민의 초원문화, 중앙아시아의 문화 등이 공존한 문화 공존의 장소(샐러드 볼)였다. 이 책은 동화론의 편견을 깨고 북위 후기의 사회와 문화를 재해석했다는 점에서 연구사적 의의가 크다.",
+        "isbn": "9788946061675",
+        "publisher": "한울아카데미",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/602173?timestamp=20220818194208",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=602173&q=%ED%9A%A8%EB%AC%B8%EC%A0%9C%EC%9D%98+%E2%80%98%ED%95%9C%ED%99%94%E2%80%99+%EC%A0%95%EC%B1%85%EA%B3%BC+%EB%82%99%EC%96%91+%ED%98%B8%EC%9D%B8%EC%82%AC%ED%9A%8C%28%ED%95%9C%EC%9A%B8%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8+1891%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:43:04.292281+00:00",
+        "updated_at": "2026-09-04T17:43:04.292281+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791189952945",
+    "title": "나폴레옹",
+    "creator": "에밀 루트비히",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이형석 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791189952945"
+  }
+}

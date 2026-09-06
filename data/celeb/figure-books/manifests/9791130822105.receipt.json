@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791130822105.json",
+  "manifestSha256": "52710a988e419d79fc9658ed23069ffb58ad8d13efd3209e6b93a2a713f97ce1",
+  "planSha256": "d626b01b58488d373e22bd800822ef9f5565203e6a4a4107ef02e567b3a7983d",
+  "workIdentity": "book/9791130822105",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791130822105"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "910796b1-5f27-59e4-b031-51d2ad2acc0e",
+    "scopeKey": "book/9791130822105",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "910796b1-5f27-59e4-b031-51d2ad2acc0e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130822105",
+      "release_date": "2025-02-04",
+      "metadata": {
+        "isbn": "9791130822105",
+        "publisher": "푸른사상",
+        "publishDate": "2025-02-04",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791130822105",
+          "workTitle": "마리아 테레지아",
+          "workCreator": "김장수",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "마리아 테레지아",
+          "creator": "김장수",
+          "description": "김장수 가톨릭관동대학교 역사교육과 명예교수(한국서양문화사학회 명예회장)의 『오스트리아 최초의 여왕 마리아 테레지아』가 푸른사상사 〈서양근대사 총서6〉으로 출간되었다. 오스트리아의 계몽절대주의 체제의 근간을 도입한 군주로서 오늘날까지 국모로 추앙받는 마리아 테레지아의 생애와 3차에 걸친 왕위계승전쟁을 겪으며 행정, 재정, 외교 분야의 개혁을 추진한 정치적 업적을 살펴보았다.",
+          "isbn": "9791130822105",
+          "publisher": "푸른사상",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6837317?timestamp=20250521222010",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84"
+          },
+          "verified": true,
+          "content_id": "910796b1-5f27-59e4-b031-51d2ad2acc0e"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "910796b1-5f27-59e4-b031-51d2ad2acc0e",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791130822105",
+        "release_date": "2025-02-04",
+        "metadata": {
+          "isbn": "9791130822105",
+          "publisher": "푸른사상",
+          "publishDate": "2025-02-04",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791130822105",
+            "workTitle": "마리아 테레지아",
+            "workCreator": "김장수",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "마리아 테레지아",
+          "creator": "김장수",
+          "description": "김장수 가톨릭관동대학교 역사교육과 명예교수(한국서양문화사학회 명예회장)의 『오스트리아 최초의 여왕 마리아 테레지아』가 푸른사상사 〈서양근대사 총서6〉으로 출간되었다. 오스트리아의 계몽절대주의 체제의 근간을 도입한 군주로서 오늘날까지 국모로 추앙받는 마리아 테레지아의 생애와 3차에 걸친 왕위계승전쟁을 겪으며 행정, 재정, 외교 분야의 개혁을 추진한 정치적 업적을 살펴보았다.",
+          "isbn": "9791130822105",
+          "publisher": "푸른사상",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6837317?timestamp=20250521222010",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84"
+          },
+          "verified": true,
+          "content_id": "910796b1-5f27-59e4-b031-51d2ad2acc0e"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791130822105",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791130822105"
+      ],
+      "normalizedTitles": [
+        "마리아테레지아"
+      ],
+      "normalizedCreators": [
+        "김장수"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:17:49.821Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "910796b1-5f27-59e4-b031-51d2ad2acc0e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130822105",
+      "release_date": "2025-02-04",
+      "metadata": {
+        "isbn": "9791130822105",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+        "publisher": "푸른사상",
+        "figureBook": {
+          "workTitle": "마리아 테레지아",
+          "workCreator": "김장수",
+          "workIdentity": "book/9791130822105",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-02-04",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:17:33.085107+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "910796b1-5f27-59e4-b031-51d2ad2acc0e",
+        "locale": "ko",
+        "title": "마리아 테레지아",
+        "creator": "김장수",
+        "description": "김장수 가톨릭관동대학교 역사교육과 명예교수(한국서양문화사학회 명예회장)의 『오스트리아 최초의 여왕 마리아 테레지아』가 푸른사상사 〈서양근대사 총서6〉으로 출간되었다. 오스트리아의 계몽절대주의 체제의 근간을 도입한 군주로서 오늘날까지 국모로 추앙받는 마리아 테레지아의 생애와 3차에 걸친 왕위계승전쟁을 겪으며 행정, 재정, 외교 분야의 개혁을 추진한 정치적 업적을 살펴보았다.",
+        "isbn": "9791130822105",
+        "publisher": "푸른사상",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6837317?timestamp=20250521222010",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6837317&q=%EB%A7%88%EB%A6%AC%EC%95%84+%ED%85%8C%EB%A0%88%EC%A7%80%EC%95%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:17:33.085107+00:00",
+        "updated_at": "2026-09-06T04:17:33.085107+00:00"
+      }
+    ]
+  }
+}

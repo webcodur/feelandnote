@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788993178982",
+    "title": "지리의 힘 2",
+    "creator": "팀 마샬",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김미선 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788993178982"
+  }
+}

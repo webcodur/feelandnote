@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788965234845",
+    "title": "바다의 역사",
+    "creator": "남정욱",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788965234845"
+  }
+}

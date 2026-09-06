@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788950988357.json",
+  "manifestSha256": "057d13bde6fa5c4a970761df72ac2efbdc3f35e4d43fe56cba2e5fedc800bdfd",
+  "planSha256": "a4b4a5c1cb1dcffce13b16446f24ac50a8129e4eaf1016feceae9cf02325cfba",
+  "workIdentity": "book/9788950988357",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788950988357"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e8553ef0-5911-5667-acd3-e21017df7a78",
+    "scopeKey": "book/9788950988357",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e8553ef0-5911-5667-acd3-e21017df7a78",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788950988357",
+      "release_date": "2020-05-27",
+      "metadata": {
+        "isbn": "9788950988357",
+        "publisher": "21세기북스",
+        "publishDate": "2020-05-27",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788950988357",
+          "workTitle": "베조노믹스",
+          "workCreator": "브라이언 두메인",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "베조노믹스",
+          "creator": "브라이언 두메인",
+          "description": "세계 최대의 온라인마켓을 운영하는 전자상거래 업체, 최첨단 물류센터와 드론을 갖춘 운송업체, 2,700만 명의 회원을 보유한 플랫폼 기업, 세계 최대의 클라우드 컴퓨팅 시스템을 가진 IT 기업, 그리고 우주 여행을 위한 로켓을 개발하는 우주 기업. 이 모든 수식어의 주인공은 아마존이다. 아마존이 영향력을 확대하고 있는 영역은 이뿐만이 아니다. 아마존은 미디어, 가전, 소매업, 금융과 헬스케어까지, 전방위로 영역을 확대하며 거침없는 행보를 보이고 있다. 1995년 온라인으로 책을 판매하는 스타트업에서 시작한 아마존이 20년 만에 전 세계 모든 분야로 사업 영역을 확대해나가는 세계 최고의 기업이 된 비결은 무엇일까?\n\n베조스가 처음 아마존을 설립했을 때부터 그가 지향하는 최고의 가치는 바로 “고객에 집중하라”는 것이었다. 전자상거래 사이트, 클라우드 컴퓨팅 시스템, 최첨단 물류 시스템, 동영상 스트리밍 서비스와 자동 결제 시스템으로 운영되는 오프라인 매장 아마존 고(Amazon Go)까지, 아마존이 시작한 모든 사업의 목적은 고객의 삶을 더 편하게 만들기 위한 것이다. 이를 위해 아마존은 가장 선두에서 최첨단 기술을 개발해내며, 기존의 기업과는 전혀 다른 방법으로 전 세계 모든 분야를 거침없이 집어삼키고 있다. 저자는 이와 같은 아마존의 경영 방식에 관심을 가지고 2년에 걸쳐 베조스의 경영 원칙과 아마존의 운영 원리를 조사했다. 그는 100여 명이 넘는 아마존의 전현직 임원들을 인터뷰하고, 전 세계 물류 기업의 동경과 질시를 동시에 받고 있는 아마존의 물류센터를 직접 찾아다녔다. 그리고 베조스 자신이 혁신의 매뉴얼이 되어 구축해낸, 역사상 가장 정교한 인공지능 기반 사업 모델의 핵심을 발견하고 그것을 ‘베조노믹스’라고 이름 붙였다.\n\n이 책은 21세기 비즈니스의 규칙을 송두리째 뒤바꾸고 있는 베조스와 아마존에 관한 최고의 교과서이자 아마존 성공의 역사이다. 하지만 저자는 아마존과 베조스의 성공의 근원을 추적하는 데에서 그치지 않는다. 아마존이 전방위적으로 모든 시장을 점령해나가고 있는 사이에 아마존이 할 수 없는 부분에서 자신만의 브랜드를 공고하게 다져나가는 기업들도 있다. 이 책은 이들 기업의 사례를 통해 4차 산업혁명의 시대에 아마존과 같은 거대 기업과의 경쟁에서 살아남기 위한 해법을 제시한다. 저자의 주장대로 베조스가 구축한 새로운 경영의 패러다임은 세계 경제와 모든 사회를 혼란에 빠뜨릴 것이다. 그리고 베조스가 구축한 새로운 패러다임인 베조노믹스가 이 세상을 어떻게 변화시키고 있는지 직시할 때 비로소 그 변화에 현명하게 대응할 수 있을 것이다. 따라서 이 책은 베조스에 대한 교과서를 뛰어넘어 베조스가 변화시킬 미래 사회에 대한 이정표를 제시해줄 것이다.",
+          "isbn": "9788950988357",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5378559?timestamp=20221005043248",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "e8553ef0-5911-5667-acd3-e21017df7a78"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e8553ef0-5911-5667-acd3-e21017df7a78",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788950988357",
+        "release_date": "2020-05-27",
+        "metadata": {
+          "isbn": "9788950988357",
+          "publisher": "21세기북스",
+          "publishDate": "2020-05-27",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788950988357",
+            "workTitle": "베조노믹스",
+            "workCreator": "브라이언 두메인",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "베조노믹스",
+          "creator": "브라이언 두메인",
+          "description": "세계 최대의 온라인마켓을 운영하는 전자상거래 업체, 최첨단 물류센터와 드론을 갖춘 운송업체, 2,700만 명의 회원을 보유한 플랫폼 기업, 세계 최대의 클라우드 컴퓨팅 시스템을 가진 IT 기업, 그리고 우주 여행을 위한 로켓을 개발하는 우주 기업. 이 모든 수식어의 주인공은 아마존이다. 아마존이 영향력을 확대하고 있는 영역은 이뿐만이 아니다. 아마존은 미디어, 가전, 소매업, 금융과 헬스케어까지, 전방위로 영역을 확대하며 거침없는 행보를 보이고 있다. 1995년 온라인으로 책을 판매하는 스타트업에서 시작한 아마존이 20년 만에 전 세계 모든 분야로 사업 영역을 확대해나가는 세계 최고의 기업이 된 비결은 무엇일까?\n\n베조스가 처음 아마존을 설립했을 때부터 그가 지향하는 최고의 가치는 바로 “고객에 집중하라”는 것이었다. 전자상거래 사이트, 클라우드 컴퓨팅 시스템, 최첨단 물류 시스템, 동영상 스트리밍 서비스와 자동 결제 시스템으로 운영되는 오프라인 매장 아마존 고(Amazon Go)까지, 아마존이 시작한 모든 사업의 목적은 고객의 삶을 더 편하게 만들기 위한 것이다. 이를 위해 아마존은 가장 선두에서 최첨단 기술을 개발해내며, 기존의 기업과는 전혀 다른 방법으로 전 세계 모든 분야를 거침없이 집어삼키고 있다. 저자는 이와 같은 아마존의 경영 방식에 관심을 가지고 2년에 걸쳐 베조스의 경영 원칙과 아마존의 운영 원리를 조사했다. 그는 100여 명이 넘는 아마존의 전현직 임원들을 인터뷰하고, 전 세계 물류 기업의 동경과 질시를 동시에 받고 있는 아마존의 물류센터를 직접 찾아다녔다. 그리고 베조스 자신이 혁신의 매뉴얼이 되어 구축해낸, 역사상 가장 정교한 인공지능 기반 사업 모델의 핵심을 발견하고 그것을 ‘베조노믹스’라고 이름 붙였다.\n\n이 책은 21세기 비즈니스의 규칙을 송두리째 뒤바꾸고 있는 베조스와 아마존에 관한 최고의 교과서이자 아마존 성공의 역사이다. 하지만 저자는 아마존과 베조스의 성공의 근원을 추적하는 데에서 그치지 않는다. 아마존이 전방위적으로 모든 시장을 점령해나가고 있는 사이에 아마존이 할 수 없는 부분에서 자신만의 브랜드를 공고하게 다져나가는 기업들도 있다. 이 책은 이들 기업의 사례를 통해 4차 산업혁명의 시대에 아마존과 같은 거대 기업과의 경쟁에서 살아남기 위한 해법을 제시한다. 저자의 주장대로 베조스가 구축한 새로운 경영의 패러다임은 세계 경제와 모든 사회를 혼란에 빠뜨릴 것이다. 그리고 베조스가 구축한 새로운 패러다임인 베조노믹스가 이 세상을 어떻게 변화시키고 있는지 직시할 때 비로소 그 변화에 현명하게 대응할 수 있을 것이다. 따라서 이 책은 베조스에 대한 교과서를 뛰어넘어 베조스가 변화시킬 미래 사회에 대한 이정표를 제시해줄 것이다.",
+          "isbn": "9788950988357",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5378559?timestamp=20221005043248",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "e8553ef0-5911-5667-acd3-e21017df7a78"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788950988357",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788950988357"
+      ],
+      "normalizedTitles": [
+        "베조노믹스"
+      ],
+      "normalizedCreators": [
+        "브라이언두메인",
+        "안세민역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:45:22.988Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e8553ef0-5911-5667-acd3-e21017df7a78",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788950988357",
+      "release_date": "2020-05-27",
+      "metadata": {
+        "isbn": "9788950988357",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+        "publisher": "21세기북스",
+        "figureBook": {
+          "workTitle": "베조노믹스",
+          "workCreator": "브라이언 두메인",
+          "workIdentity": "book/9788950988357",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-05-27",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:45:12.49319+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e8553ef0-5911-5667-acd3-e21017df7a78",
+        "locale": "ko",
+        "title": "베조노믹스",
+        "creator": "브라이언 두메인",
+        "description": "세계 최대의 온라인마켓을 운영하는 전자상거래 업체, 최첨단 물류센터와 드론을 갖춘 운송업체, 2,700만 명의 회원을 보유한 플랫폼 기업, 세계 최대의 클라우드 컴퓨팅 시스템을 가진 IT 기업, 그리고 우주 여행을 위한 로켓을 개발하는 우주 기업. 이 모든 수식어의 주인공은 아마존이다. 아마존이 영향력을 확대하고 있는 영역은 이뿐만이 아니다. 아마존은 미디어, 가전, 소매업, 금융과 헬스케어까지, 전방위로 영역을 확대하며 거침없는 행보를 보이고 있다. 1995년 온라인으로 책을 판매하는 스타트업에서 시작한 아마존이 20년 만에 전 세계 모든 분야로 사업 영역을 확대해나가는 세계 최고의 기업이 된 비결은 무엇일까?\n\n베조스가 처음 아마존을 설립했을 때부터 그가 지향하는 최고의 가치는 바로 “고객에 집중하라”는 것이었다. 전자상거래 사이트, 클라우드 컴퓨팅 시스템, 최첨단 물류 시스템, 동영상 스트리밍 서비스와 자동 결제 시스템으로 운영되는 오프라인 매장 아마존 고(Amazon Go)까지, 아마존이 시작한 모든 사업의 목적은 고객의 삶을 더 편하게 만들기 위한 것이다. 이를 위해 아마존은 가장 선두에서 최첨단 기술을 개발해내며, 기존의 기업과는 전혀 다른 방법으로 전 세계 모든 분야를 거침없이 집어삼키고 있다. 저자는 이와 같은 아마존의 경영 방식에 관심을 가지고 2년에 걸쳐 베조스의 경영 원칙과 아마존의 운영 원리를 조사했다. 그는 100여 명이 넘는 아마존의 전현직 임원들을 인터뷰하고, 전 세계 물류 기업의 동경과 질시를 동시에 받고 있는 아마존의 물류센터를 직접 찾아다녔다. 그리고 베조스 자신이 혁신의 매뉴얼이 되어 구축해낸, 역사상 가장 정교한 인공지능 기반 사업 모델의 핵심을 발견하고 그것을 ‘베조노믹스’라고 이름 붙였다.\n\n이 책은 21세기 비즈니스의 규칙을 송두리째 뒤바꾸고 있는 베조스와 아마존에 관한 최고의 교과서이자 아마존 성공의 역사이다. 하지만 저자는 아마존과 베조스의 성공의 근원을 추적하는 데에서 그치지 않는다. 아마존이 전방위적으로 모든 시장을 점령해나가고 있는 사이에 아마존이 할 수 없는 부분에서 자신만의 브랜드를 공고하게 다져나가는 기업들도 있다. 이 책은 이들 기업의 사례를 통해 4차 산업혁명의 시대에 아마존과 같은 거대 기업과의 경쟁에서 살아남기 위한 해법을 제시한다. 저자의 주장대로 베조스가 구축한 새로운 경영의 패러다임은 세계 경제와 모든 사회를 혼란에 빠뜨릴 것이다. 그리고 베조스가 구축한 새로운 패러다임인 베조노믹스가 이 세상을 어떻게 변화시키고 있는지 직시할 때 비로소 그 변화에 현명하게 대응할 수 있을 것이다. 따라서 이 책은 베조스에 대한 교과서를 뛰어넘어 베조스가 변화시킬 미래 사회에 대한 이정표를 제시해줄 것이다.",
+        "isbn": "9788950988357",
+        "publisher": "21세기북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5378559?timestamp=20221005043248",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5378559&q=%EB%B2%A0%EC%A1%B0%EB%85%B8%EB%AF%B9%EC%8A%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:45:12.49319+00:00",
+        "updated_at": "2026-09-04T17:45:12.49319+00:00"
+      }
+    ]
+  }
+}

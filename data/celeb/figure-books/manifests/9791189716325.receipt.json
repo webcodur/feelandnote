@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791189716325.json",
+  "manifestSha256": "56e83381552ceef7a408ede7e84f02c8362107a8aed62544b0d8b5ea540c11c8",
+  "planSha256": "10d87e961dceb6124c49318090f9aa9e258ef6808906a77767e2ff150f5cfb1f",
+  "workIdentity": "book/9791189716325",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791189716325"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "8bbc850d-c4a0-548f-bd61-9c5f22960d2c",
+    "scopeKey": "book/9791189716325",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "8bbc850d-c4a0-548f-bd61-9c5f22960d2c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189716325",
+      "release_date": "2023-05-18",
+      "metadata": {
+        "isbn": "9791189716325",
+        "publisher": "포노(PHONO)",
+        "publishDate": "2023-05-18",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791189716325",
+          "workTitle": "구스타프 말러",
+          "workCreator": "브루노 발터",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "구스타프 말러",
+          "creator": "브루노 발터",
+          "description": "오늘, 나는 말합니다.\n그때 존재 깊숙한 곳에서 느꼈던 그대로\n그의 영향은 나의 전 생애에 내린 축복이었다고.\n_ 브루노 발터, [들어가는 글(1958년판)] 중에서\n\n이 책은 일반적인 전기는 아닙니다. 전기를 읽고 싶다면 다른 책들을 찾아보는 편이 낫습니다.\n그러나 말러의 내면으로 깊이 들어가서 그의 음악과 삶이 추구했던 의미를 직접 느끼고 싶다면\n발터의 온화한 육성으로 기록된 이 책이 ‘거의’ 최고의 기록이 아닐까 싶습니다.\n_ [옮긴이의 말] 중에서",
+          "isbn": "9791189716325",
+          "publisher": "포노(PHONO)",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6356561?timestamp=20240327162016",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC"
+          },
+          "verified": true,
+          "content_id": "8bbc850d-c4a0-548f-bd61-9c5f22960d2c"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "8bbc850d-c4a0-548f-bd61-9c5f22960d2c",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791189716325",
+        "release_date": "2023-05-18",
+        "metadata": {
+          "isbn": "9791189716325",
+          "publisher": "포노(PHONO)",
+          "publishDate": "2023-05-18",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791189716325",
+            "workTitle": "구스타프 말러",
+            "workCreator": "브루노 발터",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "구스타프 말러",
+          "creator": "브루노 발터",
+          "description": "오늘, 나는 말합니다.\n그때 존재 깊숙한 곳에서 느꼈던 그대로\n그의 영향은 나의 전 생애에 내린 축복이었다고.\n_ 브루노 발터, [들어가는 글(1958년판)] 중에서\n\n이 책은 일반적인 전기는 아닙니다. 전기를 읽고 싶다면 다른 책들을 찾아보는 편이 낫습니다.\n그러나 말러의 내면으로 깊이 들어가서 그의 음악과 삶이 추구했던 의미를 직접 느끼고 싶다면\n발터의 온화한 육성으로 기록된 이 책이 ‘거의’ 최고의 기록이 아닐까 싶습니다.\n_ [옮긴이의 말] 중에서",
+          "isbn": "9791189716325",
+          "publisher": "포노(PHONO)",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6356561?timestamp=20240327162016",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC"
+          },
+          "verified": true,
+          "content_id": "8bbc850d-c4a0-548f-bd61-9c5f22960d2c"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791189716325",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791189716325"
+      ],
+      "normalizedTitles": [
+        "구스타프말러"
+      ],
+      "normalizedCreators": [
+        "김병화역",
+        "브루노발터"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:13:17.339Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "8bbc850d-c4a0-548f-bd61-9c5f22960d2c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189716325",
+      "release_date": "2023-05-18",
+      "metadata": {
+        "isbn": "9791189716325",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+        "publisher": "포노(PHONO)",
+        "figureBook": {
+          "workTitle": "구스타프 말러",
+          "workCreator": "브루노 발터",
+          "workIdentity": "book/9791189716325",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-05-18",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:13:10.876108+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "8bbc850d-c4a0-548f-bd61-9c5f22960d2c",
+        "locale": "ko",
+        "title": "구스타프 말러",
+        "creator": "브루노 발터",
+        "description": "오늘, 나는 말합니다.\n그때 존재 깊숙한 곳에서 느꼈던 그대로\n그의 영향은 나의 전 생애에 내린 축복이었다고.\n_ 브루노 발터, [들어가는 글(1958년판)] 중에서\n\n이 책은 일반적인 전기는 아닙니다. 전기를 읽고 싶다면 다른 책들을 찾아보는 편이 낫습니다.\n그러나 말러의 내면으로 깊이 들어가서 그의 음악과 삶이 추구했던 의미를 직접 느끼고 싶다면\n발터의 온화한 육성으로 기록된 이 책이 ‘거의’ 최고의 기록이 아닐까 싶습니다.\n_ [옮긴이의 말] 중에서",
+        "isbn": "9791189716325",
+        "publisher": "포노(PHONO)",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6356561?timestamp=20240327162016",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6356561&q=%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%EB%A7%90%EB%9F%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:13:10.876108+00:00",
+        "updated_at": "2026-09-04T18:13:10.876108+00:00"
+      }
+    ]
+  }
+}

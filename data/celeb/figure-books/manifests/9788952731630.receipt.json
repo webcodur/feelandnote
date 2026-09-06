@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788952731630.json",
+  "manifestSha256": "eb47265650788fbfbd3a865bfc7dbd98c25484ed2ea993a71d33f0f29e41c5ee",
+  "planSha256": "767c10aa0ac5804009361696091bedad4e2e208568a20a675625d050a1a295e2",
+  "workIdentity": "book/9788952731630",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788952731630"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "22af1718-3dfe-5aca-a8de-8f5bd5813610",
+    "scopeKey": "book/9788952731630",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "22af1718-3dfe-5aca-a8de-8f5bd5813610",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952731630",
+      "release_date": "2003-05-15",
+      "metadata": {
+        "isbn": "9788952731630",
+        "publisher": "시공사",
+        "publishDate": "2003-05-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788952731630",
+          "workTitle": "비단버선은 흙 먼지속에 뒹굴고 - 안녹산과 양귀비",
+          "workCreator": "후지요시 마스미",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "비단버선은 흙 먼지속에 뒹굴고",
+          "creator": "후지요시 마스미",
+          "description": null,
+          "isbn": "9788952731630",
+          "publisher": "시공사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/642543?timestamp=20220219163755",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "22af1718-3dfe-5aca-a8de-8f5bd5813610"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "22af1718-3dfe-5aca-a8de-8f5bd5813610",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788952731630",
+        "release_date": "2003-05-15",
+        "metadata": {
+          "isbn": "9788952731630",
+          "publisher": "시공사",
+          "publishDate": "2003-05-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788952731630",
+            "workTitle": "비단버선은 흙 먼지속에 뒹굴고 - 안녹산과 양귀비",
+            "workCreator": "후지요시 마스미",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "비단버선은 흙 먼지속에 뒹굴고",
+          "creator": "후지요시 마스미",
+          "description": null,
+          "isbn": "9788952731630",
+          "publisher": "시공사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/642543?timestamp=20220219163755",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "22af1718-3dfe-5aca-a8de-8f5bd5813610"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788952731630",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788952731630"
+      ],
+      "normalizedTitles": [
+        "비단버선은흙먼지속에뒹굴고",
+        "비단버선은흙먼지속에뒹굴고안녹산과양귀비"
+      ],
+      "normalizedCreators": [
+        "정병준역",
+        "후지요시마스미"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:47:08.753Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "22af1718-3dfe-5aca-a8de-8f5bd5813610",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952731630",
+      "release_date": "2003-05-15",
+      "metadata": {
+        "isbn": "9788952731630",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+        "publisher": "시공사",
+        "figureBook": {
+          "workTitle": "비단버선은 흙 먼지속에 뒹굴고 - 안녹산과 양귀비",
+          "workCreator": "후지요시 마스미",
+          "workIdentity": "book/9788952731630",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2003-05-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:47:04.268998+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "22af1718-3dfe-5aca-a8de-8f5bd5813610",
+        "locale": "ko",
+        "title": "비단버선은 흙 먼지속에 뒹굴고",
+        "creator": "후지요시 마스미",
+        "description": null,
+        "isbn": "9788952731630",
+        "publisher": "시공사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/642543?timestamp=20220219163755",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=642543&q=%EB%B9%84%EB%8B%A8%EB%B2%84%EC%84%A0%EC%9D%80+%ED%9D%99+%EB%A8%BC%EC%A7%80%EC%86%8D%EC%97%90+%EB%92%B9%EA%B5%B4%EA%B3%A0+-+%EC%95%88%EB%85%B9%EC%82%B0%EA%B3%BC+%EC%96%91%EA%B7%80%EB%B9%84",
+          "description": "confirmed_unavailable"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:47:04.268998+00:00",
+        "updated_at": "2026-09-04T17:47:04.268998+00:00"
+      }
+    ]
+  }
+}

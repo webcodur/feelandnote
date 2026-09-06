@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788932009360.json",
+  "manifestSha256": "2ba1f35be078a713e4b6f14227186ee3d15f66bcff6730bf33068b5e7600b215",
+  "planSha256": "b518cbecbef7257e1e80f3b45a47cc7ecd9fc3a3e976eaebb634fb4f07d33e77",
+  "workIdentity": "book/9788932009360",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788932009360"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "5f749b3d-039d-5c77-8fff-2f85b1c454a8",
+    "scopeKey": "book/9788932009360",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "5f749b3d-039d-5c77-8fff-2f85b1c454a8",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932009360",
+      "release_date": "1997-07-28",
+      "metadata": {
+        "isbn": "9788932009360",
+        "publisher": "문학과지성사",
+        "publishDate": "1997-07-28",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788932009360",
+          "workTitle": "가르시아 마르케스(작가론총서 17)",
+          "workCreator": "송병선 편역",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "가르시아 마르케스",
+          "creator": "송병선 편역",
+          "description": null,
+          "isbn": "9788932009360",
+          "publisher": "문학과지성사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/496035?timestamp=20190123132820",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "5f749b3d-039d-5c77-8fff-2f85b1c454a8"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "5f749b3d-039d-5c77-8fff-2f85b1c454a8",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788932009360",
+        "release_date": "1997-07-28",
+        "metadata": {
+          "isbn": "9788932009360",
+          "publisher": "문학과지성사",
+          "publishDate": "1997-07-28",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788932009360",
+            "workTitle": "가르시아 마르케스(작가론총서 17)",
+            "workCreator": "송병선 편역",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "가르시아 마르케스",
+          "creator": "송병선 편역",
+          "description": null,
+          "isbn": "9788932009360",
+          "publisher": "문학과지성사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/496035?timestamp=20190123132820",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "5f749b3d-039d-5c77-8fff-2f85b1c454a8"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788932009360",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788932009360"
+      ],
+      "normalizedTitles": [
+        "가르시아마르케스",
+        "가르시아마르케스작가론총서17"
+      ],
+      "normalizedCreators": [
+        "송병선편역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:38:35.016Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "5f749b3d-039d-5c77-8fff-2f85b1c454a8",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932009360",
+      "release_date": "1997-07-28",
+      "metadata": {
+        "isbn": "9788932009360",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+        "publisher": "문학과지성사",
+        "figureBook": {
+          "workTitle": "가르시아 마르케스(작가론총서 17)",
+          "workCreator": "송병선 편역",
+          "workIdentity": "book/9788932009360",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "1997-07-28",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:38:31.194061+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "5f749b3d-039d-5c77-8fff-2f85b1c454a8",
+        "locale": "ko",
+        "title": "가르시아 마르케스",
+        "creator": "송병선 편역",
+        "description": null,
+        "isbn": "9788932009360",
+        "publisher": "문학과지성사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/496035?timestamp=20190123132820",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=496035&q=%EA%B0%80%EB%A5%B4%EC%8B%9C%EC%95%84+%EB%A7%88%EB%A5%B4%EC%BC%80%EC%8A%A4%28%EC%9E%91%EA%B0%80%EB%A1%A0%EC%B4%9D%EC%84%9C+17%29",
+          "description": "confirmed_unavailable"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:38:31.194061+00:00",
+        "updated_at": "2026-09-04T17:38:31.194061+00:00"
+      }
+    ]
+  }
+}

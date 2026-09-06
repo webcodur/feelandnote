@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791194522355",
+    "title": "현대차 피지컬 AI 혁명",
+    "creator": "우수연",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791194522355"
+  }
+}

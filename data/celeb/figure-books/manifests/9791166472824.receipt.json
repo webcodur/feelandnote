@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791166472824.json",
+  "manifestSha256": "a9a2de4cd1c8facc8e16c959072baa123a42349f1a122a7717acbf90ec4938dc",
+  "planSha256": "225dbc95c018883f02f34ec6d30c9f24d714f63a3d8acc869f58788b242bae99",
+  "workIdentity": "book/9791166472824",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791166472824"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "98099f97-c794-5ab2-92b8-c03ab4942ad5",
+    "scopeKey": "book/9791166472824",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "98099f97-c794-5ab2-92b8-c03ab4942ad5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791166472824",
+      "release_date": "2023-01-15",
+      "metadata": {
+        "isbn": "9791166472824",
+        "publisher": "한올",
+        "publishDate": "2023-01-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791166472824",
+          "workTitle": "리처드 닉슨: 악당이 된 대통령",
+          "workCreator": "김형곤",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "리처드 닉슨: 악당이 된 대통령",
+          "creator": "김형곤",
+          "description": "1972년 6월 17일 배관공 팀은 워터게이트에 침입해 도청장치를 설치했습니다. 그러나 일을 마치고 나오면서 몇몇 도청장치가 제대로 작동하지 않는다는 사실을 알았습니다. 하는 수 없이 그들은 다시 워터게이트 건물에 불법침입해 도청장치를 설치했습니다. 그들은 건물을 빠져나오다가 이른 새벽 건물 순찰을 돌던 경비원에게 붙잡혔습니다. 닉슨 대통령의 몰락의 서막이 시작되었습니다.",
+          "isbn": "9791166472824",
+          "publisher": "한올",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6224716?timestamp=20230905201555",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9"
+          },
+          "verified": true,
+          "content_id": "98099f97-c794-5ab2-92b8-c03ab4942ad5"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "98099f97-c794-5ab2-92b8-c03ab4942ad5",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791166472824",
+        "release_date": "2023-01-15",
+        "metadata": {
+          "isbn": "9791166472824",
+          "publisher": "한올",
+          "publishDate": "2023-01-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791166472824",
+            "workTitle": "리처드 닉슨: 악당이 된 대통령",
+            "workCreator": "김형곤",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "리처드 닉슨: 악당이 된 대통령",
+          "creator": "김형곤",
+          "description": "1972년 6월 17일 배관공 팀은 워터게이트에 침입해 도청장치를 설치했습니다. 그러나 일을 마치고 나오면서 몇몇 도청장치가 제대로 작동하지 않는다는 사실을 알았습니다. 하는 수 없이 그들은 다시 워터게이트 건물에 불법침입해 도청장치를 설치했습니다. 그들은 건물을 빠져나오다가 이른 새벽 건물 순찰을 돌던 경비원에게 붙잡혔습니다. 닉슨 대통령의 몰락의 서막이 시작되었습니다.",
+          "isbn": "9791166472824",
+          "publisher": "한올",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6224716?timestamp=20230905201555",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9"
+          },
+          "verified": true,
+          "content_id": "98099f97-c794-5ab2-92b8-c03ab4942ad5"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791166472824",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791166472824"
+      ],
+      "normalizedTitles": [
+        "리처드닉슨",
+        "리처드닉슨악당이된대통령"
+      ],
+      "normalizedCreators": [
+        "김형곤"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:33:06.726Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "98099f97-c794-5ab2-92b8-c03ab4942ad5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791166472824",
+      "release_date": "2023-01-15",
+      "metadata": {
+        "isbn": "9791166472824",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+        "publisher": "한올",
+        "figureBook": {
+          "workTitle": "리처드 닉슨: 악당이 된 대통령",
+          "workCreator": "김형곤",
+          "workIdentity": "book/9791166472824",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-01-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:33:02.469316+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "98099f97-c794-5ab2-92b8-c03ab4942ad5",
+        "locale": "ko",
+        "title": "리처드 닉슨: 악당이 된 대통령",
+        "creator": "김형곤",
+        "description": "1972년 6월 17일 배관공 팀은 워터게이트에 침입해 도청장치를 설치했습니다. 그러나 일을 마치고 나오면서 몇몇 도청장치가 제대로 작동하지 않는다는 사실을 알았습니다. 하는 수 없이 그들은 다시 워터게이트 건물에 불법침입해 도청장치를 설치했습니다. 그들은 건물을 빠져나오다가 이른 새벽 건물 순찰을 돌던 경비원에게 붙잡혔습니다. 닉슨 대통령의 몰락의 서막이 시작되었습니다.",
+        "isbn": "9791166472824",
+        "publisher": "한올",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6224716?timestamp=20230905201555",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6224716&q=%EB%A6%AC%EC%B2%98%EB%93%9C+%EB%8B%89%EC%8A%A8%3A+%EC%95%85%EB%8B%B9%EC%9D%B4+%EB%90%9C+%EB%8C%80%ED%86%B5%EB%A0%B9"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:33:02.469316+00:00",
+        "updated_at": "2026-09-06T02:33:02.469316+00:00"
+      }
+    ]
+  }
+}

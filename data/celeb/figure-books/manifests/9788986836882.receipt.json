@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788986836882.json",
+  "manifestSha256": "e919270ecd2e2ca47d21a16fa7d228e4a37f97d4994c644aa3daee2aaf32e36c",
+  "planSha256": "20a36465faf3e724bfa662a47acdb0e926d8be7ffa77cbc6960ef7433aeaa3d3",
+  "workIdentity": "book/9788986836882",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788986836882"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "db72fc88-45ca-5b3c-bc8a-963571df4ea5",
+    "scopeKey": "book/9788986836882",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "db72fc88-45ca-5b3c-bc8a-963571df4ea5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788986836882",
+      "release_date": "2023-04-03",
+      "metadata": {
+        "isbn": "9788986836882",
+        "publisher": "청미래",
+        "publishDate": "2023-04-03",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788986836882",
+          "workTitle": "음악으로 자유로워지다",
+          "workCreator": "류이치 사카모토",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "음악으로 자유로워지다",
+          "creator": "류이치 사카모토",
+          "description": "서구권에서 먼저 명성을 얻으며 우리에게도 이름이 익숙한 세계적인 음악가 류이치 사카모토의 첫 자서전이 약 10년 만에 독자들을 다시 찾아왔다. 「Merry Christmas Mr. Lawrence」, 「Rain」 등 국내에도 널리 알려진 영화음악의 작곡가이자 전자음악의 개척자이며, 영화배우, 모델, 사회운동가 등으로도 활동한 그는 이 책에서 자신의 반생(半生)을 돌아보며 자신의 성장 과정과 자신을 둘러싼 음악 세계를 직접 이야기한다. 그 안에서 유치원 시절 숙제로 「토끼의 노래」를 작곡했던 어린아이는 세계적인 밴드 YMO의 멤버이자 솔로 음악가, 유명 영화음악가로 성장하고, 같은 학교 학생들을 이끌어 학생운동을 주도했던 10대 소년은 반전(反戰)과 환경 문제에 목소리를 높이는 사회운동가로 탈바꿈한다. 2007년부터 2009년까지 2년간 잡지 「엔진(ENGINE)」에서 진행한 인터뷰를 정리하여 묶은 이 책은 아시아의 거장으로 명성을 얻은 류이치 사카모토가 당시 가지고 있었던 음악가로서의 고민과 동시대인으로서의 사유를 진솔하게 보여주며 독자들을 그의 세계로 초대할 것이다.",
+          "isbn": "9788986836882",
+          "publisher": "청미래",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6323594?timestamp=20260121151339",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "db72fc88-45ca-5b3c-bc8a-963571df4ea5"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "db72fc88-45ca-5b3c-bc8a-963571df4ea5",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788986836882",
+        "release_date": "2023-04-03",
+        "metadata": {
+          "isbn": "9788986836882",
+          "publisher": "청미래",
+          "publishDate": "2023-04-03",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788986836882",
+            "workTitle": "음악으로 자유로워지다",
+            "workCreator": "류이치 사카모토",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "음악으로 자유로워지다",
+          "creator": "류이치 사카모토",
+          "description": "서구권에서 먼저 명성을 얻으며 우리에게도 이름이 익숙한 세계적인 음악가 류이치 사카모토의 첫 자서전이 약 10년 만에 독자들을 다시 찾아왔다. 「Merry Christmas Mr. Lawrence」, 「Rain」 등 국내에도 널리 알려진 영화음악의 작곡가이자 전자음악의 개척자이며, 영화배우, 모델, 사회운동가 등으로도 활동한 그는 이 책에서 자신의 반생(半生)을 돌아보며 자신의 성장 과정과 자신을 둘러싼 음악 세계를 직접 이야기한다. 그 안에서 유치원 시절 숙제로 「토끼의 노래」를 작곡했던 어린아이는 세계적인 밴드 YMO의 멤버이자 솔로 음악가, 유명 영화음악가로 성장하고, 같은 학교 학생들을 이끌어 학생운동을 주도했던 10대 소년은 반전(反戰)과 환경 문제에 목소리를 높이는 사회운동가로 탈바꿈한다. 2007년부터 2009년까지 2년간 잡지 「엔진(ENGINE)」에서 진행한 인터뷰를 정리하여 묶은 이 책은 아시아의 거장으로 명성을 얻은 류이치 사카모토가 당시 가지고 있었던 음악가로서의 고민과 동시대인으로서의 사유를 진솔하게 보여주며 독자들을 그의 세계로 초대할 것이다.",
+          "isbn": "9788986836882",
+          "publisher": "청미래",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6323594?timestamp=20260121151339",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "db72fc88-45ca-5b3c-bc8a-963571df4ea5"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788986836882",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788986836882"
+      ],
+      "normalizedTitles": [
+        "음악으로자유로워지다"
+      ],
+      "normalizedCreators": [
+        "류이치사카모토",
+        "양윤옥역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:13:46.362Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "db72fc88-45ca-5b3c-bc8a-963571df4ea5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788986836882",
+      "release_date": "2023-04-03",
+      "metadata": {
+        "isbn": "9788986836882",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+        "publisher": "청미래",
+        "figureBook": {
+          "workTitle": "음악으로 자유로워지다",
+          "workCreator": "류이치 사카모토",
+          "workIdentity": "book/9788986836882",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-04-03",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:13:40.088296+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "db72fc88-45ca-5b3c-bc8a-963571df4ea5",
+        "locale": "ko",
+        "title": "음악으로 자유로워지다",
+        "creator": "류이치 사카모토",
+        "description": "서구권에서 먼저 명성을 얻으며 우리에게도 이름이 익숙한 세계적인 음악가 류이치 사카모토의 첫 자서전이 약 10년 만에 독자들을 다시 찾아왔다. 「Merry Christmas Mr. Lawrence」, 「Rain」 등 국내에도 널리 알려진 영화음악의 작곡가이자 전자음악의 개척자이며, 영화배우, 모델, 사회운동가 등으로도 활동한 그는 이 책에서 자신의 반생(半生)을 돌아보며 자신의 성장 과정과 자신을 둘러싼 음악 세계를 직접 이야기한다. 그 안에서 유치원 시절 숙제로 「토끼의 노래」를 작곡했던 어린아이는 세계적인 밴드 YMO의 멤버이자 솔로 음악가, 유명 영화음악가로 성장하고, 같은 학교 학생들을 이끌어 학생운동을 주도했던 10대 소년은 반전(反戰)과 환경 문제에 목소리를 높이는 사회운동가로 탈바꿈한다. 2007년부터 2009년까지 2년간 잡지 「엔진(ENGINE)」에서 진행한 인터뷰를 정리하여 묶은 이 책은 아시아의 거장으로 명성을 얻은 류이치 사카모토가 당시 가지고 있었던 음악가로서의 고민과 동시대인으로서의 사유를 진솔하게 보여주며 독자들을 그의 세계로 초대할 것이다.",
+        "isbn": "9788986836882",
+        "publisher": "청미래",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6323594?timestamp=20260121151339",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6323594&q=%EC%9D%8C%EC%95%85%EC%9C%BC%EB%A1%9C+%EC%9E%90%EC%9C%A0%EB%A1%9C%EC%9B%8C%EC%A7%80%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:13:40.088296+00:00",
+        "updated_at": "2026-09-06T04:13:40.088296+00:00"
+      }
+    ]
+  }
+}

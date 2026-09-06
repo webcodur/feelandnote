@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791192966625.json",
+  "manifestSha256": "57032ac6192f40350ba1ac7c947ea012b7fc5bacefb6db789a7d5685e2f3aed4",
+  "planSha256": "0d9dc856aa9f169d6317b937c0e3704a93ae7208d0a49595ae47f1d93f6ae0cc",
+  "workIdentity": "book/9791192966625",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791192966625"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e9df95a9-3b76-5a23-bc43-a065a196413f",
+    "scopeKey": "book/9791192966625",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e9df95a9-3b76-5a23-bc43-a065a196413f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192966625",
+      "release_date": "2024-03-19",
+      "metadata": {
+        "isbn": "9791192966625",
+        "publisher": "클라우드나인",
+        "publishDate": "2024-03-19",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791192966625",
+          "workTitle": "유대인의 세계관",
+          "workCreator": "홍익희",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "유대인의 세계관",
+          "creator": "홍익희",
+          "description": "인류 창조부터 선민의식, 선과 악, 율법 준수, 유일신 사상, 부의 축적, 더 나은 세상,\n자녀교육, 각자 받은 달란트대로 유니크하게, 가능성에 최선 다하기, 구원과 내세까지!\n\n이 책은 유대인의 세계관을 종교관, 경제관, 자녀교육관, 개척관, 국가관으로 나누어 자세히 들여다보고 있다. 세계관은 세상을 바라보는 관점이고 삶의 태도와 방식을 결정한다. 유대인은 부의 축적을 하느님의 축복이라 믿고 어려운 환경에서도 하느님을 도와 세상을 개선하고자 하는 ‘티쿤 올람’ 정신으로 삶을 개척했다. 유대인의 세계관을 통해 그들이 어떻게 위대한 성취를 이루었는지 알 수 있다.\n\n국내 최고 유대인 전문가 홍익희 전 세종대학교 교수가 조선일보에 연재한 ‘홍익희의 신 유대인 이야기’를 단행본으로 출간한 것이다. 인류사에서 확연히 구별되는 유대인의 독특한 세계관이 무엇인지를 밝히고 있다. 세계에서 가장 많은 박해를 받은 민족인 유대인은 오랜 세월 나라를 잃고 쫓겨 다녔다. 그럼에도 많은 노벨상 수상자를 배출하고 현대 금융자본주의의 정점에 있으며 실리콘밸리를 이끄는 주도 세력이 되었다. 도대체 무엇이 작고 힘없는 유대인을 강한 민족으로 만든 것인지에 대한 실마리를 찾아낼 수 있을 것이다.",
+          "isbn": "9791192966625",
+          "publisher": "클라우드나인",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6590777?timestamp=20240824161408",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80"
+          },
+          "verified": true,
+          "content_id": "e9df95a9-3b76-5a23-bc43-a065a196413f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e9df95a9-3b76-5a23-bc43-a065a196413f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791192966625",
+        "release_date": "2024-03-19",
+        "metadata": {
+          "isbn": "9791192966625",
+          "publisher": "클라우드나인",
+          "publishDate": "2024-03-19",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791192966625",
+            "workTitle": "유대인의 세계관",
+            "workCreator": "홍익희",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "유대인의 세계관",
+          "creator": "홍익희",
+          "description": "인류 창조부터 선민의식, 선과 악, 율법 준수, 유일신 사상, 부의 축적, 더 나은 세상,\n자녀교육, 각자 받은 달란트대로 유니크하게, 가능성에 최선 다하기, 구원과 내세까지!\n\n이 책은 유대인의 세계관을 종교관, 경제관, 자녀교육관, 개척관, 국가관으로 나누어 자세히 들여다보고 있다. 세계관은 세상을 바라보는 관점이고 삶의 태도와 방식을 결정한다. 유대인은 부의 축적을 하느님의 축복이라 믿고 어려운 환경에서도 하느님을 도와 세상을 개선하고자 하는 ‘티쿤 올람’ 정신으로 삶을 개척했다. 유대인의 세계관을 통해 그들이 어떻게 위대한 성취를 이루었는지 알 수 있다.\n\n국내 최고 유대인 전문가 홍익희 전 세종대학교 교수가 조선일보에 연재한 ‘홍익희의 신 유대인 이야기’를 단행본으로 출간한 것이다. 인류사에서 확연히 구별되는 유대인의 독특한 세계관이 무엇인지를 밝히고 있다. 세계에서 가장 많은 박해를 받은 민족인 유대인은 오랜 세월 나라를 잃고 쫓겨 다녔다. 그럼에도 많은 노벨상 수상자를 배출하고 현대 금융자본주의의 정점에 있으며 실리콘밸리를 이끄는 주도 세력이 되었다. 도대체 무엇이 작고 힘없는 유대인을 강한 민족으로 만든 것인지에 대한 실마리를 찾아낼 수 있을 것이다.",
+          "isbn": "9791192966625",
+          "publisher": "클라우드나인",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6590777?timestamp=20240824161408",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80"
+          },
+          "verified": true,
+          "content_id": "e9df95a9-3b76-5a23-bc43-a065a196413f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791192966625",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791192966625"
+      ],
+      "normalizedTitles": [
+        "유대인의세계관"
+      ],
+      "normalizedCreators": [
+        "홍익희"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:30:49.682Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e9df95a9-3b76-5a23-bc43-a065a196413f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192966625",
+      "release_date": "2024-03-19",
+      "metadata": {
+        "isbn": "9791192966625",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+        "publisher": "클라우드나인",
+        "figureBook": {
+          "workTitle": "유대인의 세계관",
+          "workCreator": "홍익희",
+          "workIdentity": "book/9791192966625",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-03-19",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:30:42.500104+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e9df95a9-3b76-5a23-bc43-a065a196413f",
+        "locale": "ko",
+        "title": "유대인의 세계관",
+        "creator": "홍익희",
+        "description": "인류 창조부터 선민의식, 선과 악, 율법 준수, 유일신 사상, 부의 축적, 더 나은 세상,\n자녀교육, 각자 받은 달란트대로 유니크하게, 가능성에 최선 다하기, 구원과 내세까지!\n\n이 책은 유대인의 세계관을 종교관, 경제관, 자녀교육관, 개척관, 국가관으로 나누어 자세히 들여다보고 있다. 세계관은 세상을 바라보는 관점이고 삶의 태도와 방식을 결정한다. 유대인은 부의 축적을 하느님의 축복이라 믿고 어려운 환경에서도 하느님을 도와 세상을 개선하고자 하는 ‘티쿤 올람’ 정신으로 삶을 개척했다. 유대인의 세계관을 통해 그들이 어떻게 위대한 성취를 이루었는지 알 수 있다.\n\n국내 최고 유대인 전문가 홍익희 전 세종대학교 교수가 조선일보에 연재한 ‘홍익희의 신 유대인 이야기’를 단행본으로 출간한 것이다. 인류사에서 확연히 구별되는 유대인의 독특한 세계관이 무엇인지를 밝히고 있다. 세계에서 가장 많은 박해를 받은 민족인 유대인은 오랜 세월 나라를 잃고 쫓겨 다녔다. 그럼에도 많은 노벨상 수상자를 배출하고 현대 금융자본주의의 정점에 있으며 실리콘밸리를 이끄는 주도 세력이 되었다. 도대체 무엇이 작고 힘없는 유대인을 강한 민족으로 만든 것인지에 대한 실마리를 찾아낼 수 있을 것이다.",
+        "isbn": "9791192966625",
+        "publisher": "클라우드나인",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6590777?timestamp=20240824161408",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6590777&q=%EC%9C%A0%EB%8C%80%EC%9D%B8%EC%9D%98+%EC%84%B8%EA%B3%84%EA%B4%80"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:30:42.500104+00:00",
+        "updated_at": "2026-09-06T04:30:42.500104+00:00"
+      }
+    ]
+  }
+}

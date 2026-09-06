@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788993905427",
+    "title": "엥겔스 평전(양장본 HardCover)",
+    "creator": "트리스트럼 헌트",
+    "titleAliases": [
+      "엥겔스 평전"
+    ],
+    "creatorAliases": [
+      "이광일 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788993905427"
+  }
+}

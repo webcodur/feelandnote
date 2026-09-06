@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788930087568",
+    "title": "호암자전",
+    "creator": "이병철",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788930087568"
+  }
+}

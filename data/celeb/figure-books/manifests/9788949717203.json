@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788949717203",
+    "title": "괴벨스 프로파간다!",
+    "creator": "파울 요제프 괴벨스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "추영현 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788949717203"
+  }
+}

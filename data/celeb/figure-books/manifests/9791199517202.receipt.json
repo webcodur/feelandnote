@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791199517202.json",
+  "manifestSha256": "415473bd83c49aff1fab94dbfce7cff126e2a016f626ddb70df54cdd2bc9a306",
+  "planSha256": "0190c4b26116c1b066d0973b1d8fa4916a9d2ade9cc02ffe15f48197db2533b8",
+  "workIdentity": "book/9791199517202",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791199517202"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "19ae2ca7-276b-5ba2-98fd-2d9006a41bdc",
+    "scopeKey": "book/9791199517202",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "19ae2ca7-276b-5ba2-98fd-2d9006a41bdc",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791199517202",
+      "release_date": "2025-11-23",
+      "metadata": {
+        "isbn": "9791199517202",
+        "publisher": "하루헌",
+        "publishDate": "2025-11-23",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791199517202",
+          "workTitle": "티베트의 대변자, 달라이 라마",
+          "workCreator": "달라이 라마",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "티베트의 대변자, 달라이 라마",
+          "creator": "달라이 라마",
+          "description": "지금껏 공개된 적이 없는 기록으로, 티베트와 그 민족을 지키기 위해 중국과 맞서 온 달라이 라마의 75년 여정을 담고 있다. 전쟁과 분열이 계속되는 오늘, 비폭력과 대화를 믿으며 평생을 살아온 한 지도자의 목소리는 한 시대의 기록을 넘어 인류의 양심이 우리에게 던지는 질문이 된다. 억압 속에서도 인간의 존엄을 잃지 않은 그의 내면을 통해, 폭력의 시대에 평화로 응답하는 것이 무엇인지, 티베트의 목소리가 어디에서 비롯되는지를 묻게 된다.",
+          "isbn": "9791199517202",
+          "publisher": "하루헌",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7073482?timestamp=20260310125255",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88"
+          },
+          "verified": true,
+          "content_id": "19ae2ca7-276b-5ba2-98fd-2d9006a41bdc"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "19ae2ca7-276b-5ba2-98fd-2d9006a41bdc",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791199517202",
+        "release_date": "2025-11-23",
+        "metadata": {
+          "isbn": "9791199517202",
+          "publisher": "하루헌",
+          "publishDate": "2025-11-23",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791199517202",
+            "workTitle": "티베트의 대변자, 달라이 라마",
+            "workCreator": "달라이 라마",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "티베트의 대변자, 달라이 라마",
+          "creator": "달라이 라마",
+          "description": "지금껏 공개된 적이 없는 기록으로, 티베트와 그 민족을 지키기 위해 중국과 맞서 온 달라이 라마의 75년 여정을 담고 있다. 전쟁과 분열이 계속되는 오늘, 비폭력과 대화를 믿으며 평생을 살아온 한 지도자의 목소리는 한 시대의 기록을 넘어 인류의 양심이 우리에게 던지는 질문이 된다. 억압 속에서도 인간의 존엄을 잃지 않은 그의 내면을 통해, 폭력의 시대에 평화로 응답하는 것이 무엇인지, 티베트의 목소리가 어디에서 비롯되는지를 묻게 된다.",
+          "isbn": "9791199517202",
+          "publisher": "하루헌",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7073482?timestamp=20260310125255",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88"
+          },
+          "verified": true,
+          "content_id": "19ae2ca7-276b-5ba2-98fd-2d9006a41bdc"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791199517202",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791199517202"
+      ],
+      "normalizedTitles": [
+        "티베트의대변자달라이라마"
+      ],
+      "normalizedCreators": [
+        "달라이라마",
+        "안희준역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:19:46.331Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "19ae2ca7-276b-5ba2-98fd-2d9006a41bdc",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791199517202",
+      "release_date": "2025-11-23",
+      "metadata": {
+        "isbn": "9791199517202",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+        "publisher": "하루헌",
+        "figureBook": {
+          "workTitle": "티베트의 대변자, 달라이 라마",
+          "workCreator": "달라이 라마",
+          "workIdentity": "book/9791199517202",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-11-23",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:19:40.67911+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "19ae2ca7-276b-5ba2-98fd-2d9006a41bdc",
+        "locale": "ko",
+        "title": "티베트의 대변자, 달라이 라마",
+        "creator": "달라이 라마",
+        "description": "지금껏 공개된 적이 없는 기록으로, 티베트와 그 민족을 지키기 위해 중국과 맞서 온 달라이 라마의 75년 여정을 담고 있다. 전쟁과 분열이 계속되는 오늘, 비폭력과 대화를 믿으며 평생을 살아온 한 지도자의 목소리는 한 시대의 기록을 넘어 인류의 양심이 우리에게 던지는 질문이 된다. 억압 속에서도 인간의 존엄을 잃지 않은 그의 내면을 통해, 폭력의 시대에 평화로 응답하는 것이 무엇인지, 티베트의 목소리가 어디에서 비롯되는지를 묻게 된다.",
+        "isbn": "9791199517202",
+        "publisher": "하루헌",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7073482?timestamp=20260310125255",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7073482&q=%ED%8B%B0%EB%B2%A0%ED%8A%B8%EC%9D%98+%EB%8C%80%EB%B3%80%EC%9E%90%2C+%EB%8B%AC%EB%9D%BC%EC%9D%B4+%EB%9D%BC%EB%A7%88"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:19:40.67911+00:00",
+        "updated_at": "2026-09-04T18:19:40.67911+00:00"
+      }
+    ]
+  }
+}

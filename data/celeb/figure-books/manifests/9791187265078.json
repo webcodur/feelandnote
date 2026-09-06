@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791187265078",
+    "title": "왕촨푸, 혁신의 지혜",
+    "creator": "리따치엔",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이호철 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791187265078"
+  }
+}

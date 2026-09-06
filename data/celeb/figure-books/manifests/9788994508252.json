@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788994508252",
+    "title": "제임스 와트",
+    "creator": "앤드류 카네기",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이은종 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788994508252"
+  }
+}

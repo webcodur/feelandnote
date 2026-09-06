@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788946061675",
+    "title": "효문제의 ‘한화’ 정책과 낙양 호인사회(한울아카데미 1891)",
+    "creator": "최진열",
+    "titleAliases": [
+      "효문제의 ‘한화’ 정책과 낙양 호인사회"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788946061675"
+  }
+}

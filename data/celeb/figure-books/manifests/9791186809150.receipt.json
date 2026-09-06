@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791186809150.json",
+  "manifestSha256": "1947b3452c0534255b07dd2abb82d3fcdf114c249795e52a796394764ca459df",
+  "planSha256": "e7126fa961e53601c80e88a18c797e6c9bac3060652b0ab598969bc7d00b71f2",
+  "workIdentity": "book/9791186809150",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791186809150"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "597cacc7-ef4a-550e-9e92-df8398e8b5c9",
+    "scopeKey": "book/9791186809150",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "597cacc7-ef4a-550e-9e92-df8398e8b5c9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791186809150",
+      "release_date": "2016-04-08",
+      "metadata": {
+        "isbn": "9791186809150",
+        "publisher": "아름다운날",
+        "publishDate": "2016-04-08",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791186809150",
+          "workTitle": "나는 이렇게 루소가 되었다",
+          "workCreator": "장 자크 루소",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "나는 이렇게 루소가 되었다",
+          "creator": "장 자크 루소",
+          "description": "루소는 체계적인 제도권 교육을 거의 받은 적 없이 독학으로 사상을 발전시켜 사회 철학적인 문제들에 독자적인 이론을 펼치며 일반적인 사회 규범을 뛰어넘고 오직 자신의 감정과 욕구에 충실한 듯 보이는 독특한 인물이다. 루소의 『나는 이렇게 루소가 되었다』는 그의 특별함이 어디에서 비롯되었고 어떤 과정을 거쳐 변화하고 성장하였는지를 보여주는 연대기인 동시에 한 인간을 둘러싼 배경과 환경의 상호작용이 어떤 삶과 사상을 낳게 하는가에 관한 보고서이다.",
+          "isbn": "9791186809150",
+          "publisher": "아름다운날",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1634012?timestamp=20221011091735",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "597cacc7-ef4a-550e-9e92-df8398e8b5c9"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "597cacc7-ef4a-550e-9e92-df8398e8b5c9",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791186809150",
+        "release_date": "2016-04-08",
+        "metadata": {
+          "isbn": "9791186809150",
+          "publisher": "아름다운날",
+          "publishDate": "2016-04-08",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791186809150",
+            "workTitle": "나는 이렇게 루소가 되었다",
+            "workCreator": "장 자크 루소",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "나는 이렇게 루소가 되었다",
+          "creator": "장 자크 루소",
+          "description": "루소는 체계적인 제도권 교육을 거의 받은 적 없이 독학으로 사상을 발전시켜 사회 철학적인 문제들에 독자적인 이론을 펼치며 일반적인 사회 규범을 뛰어넘고 오직 자신의 감정과 욕구에 충실한 듯 보이는 독특한 인물이다. 루소의 『나는 이렇게 루소가 되었다』는 그의 특별함이 어디에서 비롯되었고 어떤 과정을 거쳐 변화하고 성장하였는지를 보여주는 연대기인 동시에 한 인간을 둘러싼 배경과 환경의 상호작용이 어떤 삶과 사상을 낳게 하는가에 관한 보고서이다.",
+          "isbn": "9791186809150",
+          "publisher": "아름다운날",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1634012?timestamp=20221011091735",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "597cacc7-ef4a-550e-9e92-df8398e8b5c9"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791186809150",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791186809150"
+      ],
+      "normalizedTitles": [
+        "나는이렇게루소가되었다"
+      ],
+      "normalizedCreators": [
+        "김대웅편역역",
+        "장자크루소"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:10:50.824Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "597cacc7-ef4a-550e-9e92-df8398e8b5c9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791186809150",
+      "release_date": "2016-04-08",
+      "metadata": {
+        "isbn": "9791186809150",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+        "publisher": "아름다운날",
+        "figureBook": {
+          "workTitle": "나는 이렇게 루소가 되었다",
+          "workCreator": "장 자크 루소",
+          "workIdentity": "book/9791186809150",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2016-04-08",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:10:46.976721+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "597cacc7-ef4a-550e-9e92-df8398e8b5c9",
+        "locale": "ko",
+        "title": "나는 이렇게 루소가 되었다",
+        "creator": "장 자크 루소",
+        "description": "루소는 체계적인 제도권 교육을 거의 받은 적 없이 독학으로 사상을 발전시켜 사회 철학적인 문제들에 독자적인 이론을 펼치며 일반적인 사회 규범을 뛰어넘고 오직 자신의 감정과 욕구에 충실한 듯 보이는 독특한 인물이다. 루소의 『나는 이렇게 루소가 되었다』는 그의 특별함이 어디에서 비롯되었고 어떤 과정을 거쳐 변화하고 성장하였는지를 보여주는 연대기인 동시에 한 인간을 둘러싼 배경과 환경의 상호작용이 어떤 삶과 사상을 낳게 하는가에 관한 보고서이다.",
+        "isbn": "9791186809150",
+        "publisher": "아름다운날",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1634012?timestamp=20221011091735",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1634012&q=%EB%82%98%EB%8A%94+%EC%9D%B4%EB%A0%87%EA%B2%8C+%EB%A3%A8%EC%86%8C%EA%B0%80+%EB%90%98%EC%97%88%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:10:46.976721+00:00",
+        "updated_at": "2026-09-04T18:10:46.976721+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788952206008",
+    "title": "퇴계 이황(e시대의 절대사상 022)(양장본 HardCover)",
+    "creator": "최영진",
+    "titleAliases": [
+      "퇴계 이황(e시대의 절대사상 022)"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788952206008"
+  }
+}

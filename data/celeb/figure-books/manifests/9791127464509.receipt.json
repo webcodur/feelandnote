@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791127464509.json",
+  "manifestSha256": "1a6bd001e84448ca787af26f67b1d95bbaa35a2bb4facd17fb928a0ec34f191d",
+  "planSha256": "69b6d677d47b18fb5308e0c8f779836d6eb999947eb0122edac982527f5f6f4a",
+  "workIdentity": "book/9791127464509",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791127464509"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "5ac6c65c-2b95-5df7-91db-57ee3c68b9f4",
+    "scopeKey": "book/9791127464509",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "5ac6c65c-2b95-5df7-91db-57ee3c68b9f4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791127464509",
+      "release_date": "2023-08-10",
+      "metadata": {
+        "isbn": "9791127464509",
+        "publisher": "에이케이커뮤니케이션즈",
+        "publishDate": "2023-08-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791127464509",
+          "workTitle": "태양왕 루이 14세",
+          "workCreator": "사사키 마코토",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "태양왕 루이 14세",
+          "creator": "사사키 마코토",
+          "description": "발레와 예술을 사랑하고, 베르사유 궁전을 지은 ‘태양왕’ 루이 14세. 그는 근대 국가로의 길을 연, 너무 이른 개혁가이기도 했다. 이 책은 루이 14세에 대한 최신 역사 연구의 성과를 담은 결정판으로, 신화적 요소를 최대한 배제한 그의 모습을 들여다본다. 72년여에 걸친 루이 14세의 치세를 어떻게 평가할 수 있을까. 루이 14세와 프랑스 귀족들의 관계에도 주목하면서, 상호 영향이 프랑스 국가 운영에 어떻게 반영되었는지 알아본다. 루이 14세의 의도와 성과에 유의하며 당시의 정치 및 사회와 같은 역사적 상황 속에서 그를 온전히 이해할 수 있을 것이다.",
+          "isbn": "9791127464509",
+          "publisher": "에이케이커뮤니케이션즈",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6413173?timestamp=20250318151948",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8"
+          },
+          "verified": true,
+          "content_id": "5ac6c65c-2b95-5df7-91db-57ee3c68b9f4"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "5ac6c65c-2b95-5df7-91db-57ee3c68b9f4",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791127464509",
+        "release_date": "2023-08-10",
+        "metadata": {
+          "isbn": "9791127464509",
+          "publisher": "에이케이커뮤니케이션즈",
+          "publishDate": "2023-08-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791127464509",
+            "workTitle": "태양왕 루이 14세",
+            "workCreator": "사사키 마코토",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "태양왕 루이 14세",
+          "creator": "사사키 마코토",
+          "description": "발레와 예술을 사랑하고, 베르사유 궁전을 지은 ‘태양왕’ 루이 14세. 그는 근대 국가로의 길을 연, 너무 이른 개혁가이기도 했다. 이 책은 루이 14세에 대한 최신 역사 연구의 성과를 담은 결정판으로, 신화적 요소를 최대한 배제한 그의 모습을 들여다본다. 72년여에 걸친 루이 14세의 치세를 어떻게 평가할 수 있을까. 루이 14세와 프랑스 귀족들의 관계에도 주목하면서, 상호 영향이 프랑스 국가 운영에 어떻게 반영되었는지 알아본다. 루이 14세의 의도와 성과에 유의하며 당시의 정치 및 사회와 같은 역사적 상황 속에서 그를 온전히 이해할 수 있을 것이다.",
+          "isbn": "9791127464509",
+          "publisher": "에이케이커뮤니케이션즈",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6413173?timestamp=20250318151948",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8"
+          },
+          "verified": true,
+          "content_id": "5ac6c65c-2b95-5df7-91db-57ee3c68b9f4"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791127464509",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791127464509"
+      ],
+      "normalizedTitles": [
+        "태양왕루이14세"
+      ],
+      "normalizedCreators": [
+        "김효진역",
+        "사사키마코토"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:00:27.917Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "5ac6c65c-2b95-5df7-91db-57ee3c68b9f4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791127464509",
+      "release_date": "2023-08-10",
+      "metadata": {
+        "isbn": "9791127464509",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+        "publisher": "에이케이커뮤니케이션즈",
+        "figureBook": {
+          "workTitle": "태양왕 루이 14세",
+          "workCreator": "사사키 마코토",
+          "workIdentity": "book/9791127464509",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-08-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:00:23.78705+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "5ac6c65c-2b95-5df7-91db-57ee3c68b9f4",
+        "locale": "ko",
+        "title": "태양왕 루이 14세",
+        "creator": "사사키 마코토",
+        "description": "발레와 예술을 사랑하고, 베르사유 궁전을 지은 ‘태양왕’ 루이 14세. 그는 근대 국가로의 길을 연, 너무 이른 개혁가이기도 했다. 이 책은 루이 14세에 대한 최신 역사 연구의 성과를 담은 결정판으로, 신화적 요소를 최대한 배제한 그의 모습을 들여다본다. 72년여에 걸친 루이 14세의 치세를 어떻게 평가할 수 있을까. 루이 14세와 프랑스 귀족들의 관계에도 주목하면서, 상호 영향이 프랑스 국가 운영에 어떻게 반영되었는지 알아본다. 루이 14세의 의도와 성과에 유의하며 당시의 정치 및 사회와 같은 역사적 상황 속에서 그를 온전히 이해할 수 있을 것이다.",
+        "isbn": "9791127464509",
+        "publisher": "에이케이커뮤니케이션즈",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6413173?timestamp=20250318151948",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6413173&q=%ED%83%9C%EC%96%91%EC%99%95+%EB%A3%A8%EC%9D%B4+14%EC%84%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:00:23.78705+00:00",
+        "updated_at": "2026-09-04T18:00:23.78705+00:00"
+      }
+    ]
+  }
+}

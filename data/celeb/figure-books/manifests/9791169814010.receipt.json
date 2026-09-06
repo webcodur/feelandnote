@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791169814010.json",
+  "manifestSha256": "f8ab9fc52b78542c1576b093692edf07d64dcc2f6df347f7e0d238c5941e43af",
+  "planSha256": "074177ccfde5adb105ab0bcaa08d7119788dd2ca5c1700ea393423972f495c15",
+  "workIdentity": "book/9791169814010",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791169814010"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "a4ca0bad-7817-5a88-a107-65de8ff5603b",
+    "scopeKey": "book/9791169814010",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "a4ca0bad-7817-5a88-a107-65de8ff5603b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791169814010",
+      "release_date": "2025-12-05",
+      "metadata": {
+        "isbn": "9791169814010",
+        "publisher": "사계절",
+        "publishDate": "2025-12-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791169814010",
+          "workTitle": "티무르 승전기",
+          "workCreator": "샤라프 앗딘 알리 야즈디",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "티무르 승전기",
+          "creator": "샤라프 앗딘 알리 야즈디",
+          "description": "몽골제국은 13~14세기에 ‘팍스 몽골리카’를 구가했지만, 14세기 중반이 되자 급속히 붕괴했다. 1368년 그들이 고향으로 돌아간 뒤 몽골초원에서는 100년 넘게 내전이 지속됐다. 그사이 제국이 사라진 자리에서 여러 세력이 등장하여 흥망성쇠를 거듭했다. 그중 ‘몽골제국의 계승’을 표방한 나라들이 있었으니, 가장 대표적인 나라가 바로 티무르제국(1370~1507)이다.\n티무르는 1369년 트란스옥시아나의 여러 유목 집단을 통합하고 서차가타이울루스의 패권을 장악했다. 이후 1405년 명나라 원정길에서 사망할 때까지 세계를 누비며 수많은 나라와 민족과 지역을 정복했다. 이 책 『티무르 승전기』는 ‘천궁의 합의 군주’이자 ‘세계정복자’인 티무르가 일으킨 정복 전쟁 및 영토 확장 과정을 시간순으로 서술하며 동서의 세계가 다시 한번 연결되는 장면을 드러낸다.\n이 책 『티무르 승전기』는 15세기의 페르시아 학자 야즈디가 티무르의 일대기를 기록한 사서 『승전기』(Ẓafar-nāma)를 비이슬람권 최초로 완역한 이주연의 박사학위 논문 「티무르朝 史書, 야즈디 撰 『勝戰記』(Ẓafar-nāma)의 譯註」를, 다시 역사 교양서 형태로 축약·편집한 것이다. 단지 번역에 그치지 않고 장마다 당시 중앙유라시아 지역의 패권을 그린 지도를 넣고, 티무르의 가계도와 연대표, 주요 등장인물 소개 및 충실한 해제를 추가하여 교양서로서의 완성도를 더욱 높였다.",
+          "isbn": "9791169814010",
+          "publisher": "사계절",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7087349?timestamp=20251217152910",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "a4ca0bad-7817-5a88-a107-65de8ff5603b"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "a4ca0bad-7817-5a88-a107-65de8ff5603b",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791169814010",
+        "release_date": "2025-12-05",
+        "metadata": {
+          "isbn": "9791169814010",
+          "publisher": "사계절",
+          "publishDate": "2025-12-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791169814010",
+            "workTitle": "티무르 승전기",
+            "workCreator": "샤라프 앗딘 알리 야즈디",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "티무르 승전기",
+          "creator": "샤라프 앗딘 알리 야즈디",
+          "description": "몽골제국은 13~14세기에 ‘팍스 몽골리카’를 구가했지만, 14세기 중반이 되자 급속히 붕괴했다. 1368년 그들이 고향으로 돌아간 뒤 몽골초원에서는 100년 넘게 내전이 지속됐다. 그사이 제국이 사라진 자리에서 여러 세력이 등장하여 흥망성쇠를 거듭했다. 그중 ‘몽골제국의 계승’을 표방한 나라들이 있었으니, 가장 대표적인 나라가 바로 티무르제국(1370~1507)이다.\n티무르는 1369년 트란스옥시아나의 여러 유목 집단을 통합하고 서차가타이울루스의 패권을 장악했다. 이후 1405년 명나라 원정길에서 사망할 때까지 세계를 누비며 수많은 나라와 민족과 지역을 정복했다. 이 책 『티무르 승전기』는 ‘천궁의 합의 군주’이자 ‘세계정복자’인 티무르가 일으킨 정복 전쟁 및 영토 확장 과정을 시간순으로 서술하며 동서의 세계가 다시 한번 연결되는 장면을 드러낸다.\n이 책 『티무르 승전기』는 15세기의 페르시아 학자 야즈디가 티무르의 일대기를 기록한 사서 『승전기』(Ẓafar-nāma)를 비이슬람권 최초로 완역한 이주연의 박사학위 논문 「티무르朝 史書, 야즈디 撰 『勝戰記』(Ẓafar-nāma)의 譯註」를, 다시 역사 교양서 형태로 축약·편집한 것이다. 단지 번역에 그치지 않고 장마다 당시 중앙유라시아 지역의 패권을 그린 지도를 넣고, 티무르의 가계도와 연대표, 주요 등장인물 소개 및 충실한 해제를 추가하여 교양서로서의 완성도를 더욱 높였다.",
+          "isbn": "9791169814010",
+          "publisher": "사계절",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7087349?timestamp=20251217152910",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "a4ca0bad-7817-5a88-a107-65de8ff5603b"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791169814010",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791169814010"
+      ],
+      "normalizedTitles": [
+        "티무르승전기"
+      ],
+      "normalizedCreators": [
+        "샤라프앗딘알리야즈디",
+        "이주연역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:08:39.000Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "a4ca0bad-7817-5a88-a107-65de8ff5603b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791169814010",
+      "release_date": "2025-12-05",
+      "metadata": {
+        "isbn": "9791169814010",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+        "publisher": "사계절",
+        "figureBook": {
+          "workTitle": "티무르 승전기",
+          "workCreator": "샤라프 앗딘 알리 야즈디",
+          "workIdentity": "book/9791169814010",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-12-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:08:34.502088+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "a4ca0bad-7817-5a88-a107-65de8ff5603b",
+        "locale": "ko",
+        "title": "티무르 승전기",
+        "creator": "샤라프 앗딘 알리 야즈디",
+        "description": "몽골제국은 13~14세기에 ‘팍스 몽골리카’를 구가했지만, 14세기 중반이 되자 급속히 붕괴했다. 1368년 그들이 고향으로 돌아간 뒤 몽골초원에서는 100년 넘게 내전이 지속됐다. 그사이 제국이 사라진 자리에서 여러 세력이 등장하여 흥망성쇠를 거듭했다. 그중 ‘몽골제국의 계승’을 표방한 나라들이 있었으니, 가장 대표적인 나라가 바로 티무르제국(1370~1507)이다.\n티무르는 1369년 트란스옥시아나의 여러 유목 집단을 통합하고 서차가타이울루스의 패권을 장악했다. 이후 1405년 명나라 원정길에서 사망할 때까지 세계를 누비며 수많은 나라와 민족과 지역을 정복했다. 이 책 『티무르 승전기』는 ‘천궁의 합의 군주’이자 ‘세계정복자’인 티무르가 일으킨 정복 전쟁 및 영토 확장 과정을 시간순으로 서술하며 동서의 세계가 다시 한번 연결되는 장면을 드러낸다.\n이 책 『티무르 승전기』는 15세기의 페르시아 학자 야즈디가 티무르의 일대기를 기록한 사서 『승전기』(Ẓafar-nāma)를 비이슬람권 최초로 완역한 이주연의 박사학위 논문 「티무르朝 史書, 야즈디 撰 『勝戰記』(Ẓafar-nāma)의 譯註」를, 다시 역사 교양서 형태로 축약·편집한 것이다. 단지 번역에 그치지 않고 장마다 당시 중앙유라시아 지역의 패권을 그린 지도를 넣고, 티무르의 가계도와 연대표, 주요 등장인물 소개 및 충실한 해제를 추가하여 교양서로서의 완성도를 더욱 높였다.",
+        "isbn": "9791169814010",
+        "publisher": "사계절",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7087349?timestamp=20251217152910",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7087349&q=%ED%8B%B0%EB%AC%B4%EB%A5%B4+%EC%8A%B9%EC%A0%84%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:08:34.502088+00:00",
+        "updated_at": "2026-09-04T18:08:34.502088+00:00"
+      }
+    ]
+  }
+}

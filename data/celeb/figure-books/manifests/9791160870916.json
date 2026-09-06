@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791160870916",
+    "title": "공자 평전",
+    "creator": "쾅야밍",
+    "titleAliases": [],
+    "creatorAliases": [
+      "장세후 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791160870916"
+  }
+}

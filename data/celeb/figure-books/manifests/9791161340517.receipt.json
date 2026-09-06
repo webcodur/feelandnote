@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791161340517.json",
+  "manifestSha256": "b9c08a2231c830a3e41dd31df039fab742f0aa0c0dec6a0533228e2cb5faa2b3",
+  "planSha256": "34386e3e6b1e8825ce8462ad17caae10478faa9b0d607e8310ff3fa7f66c5d7b",
+  "workIdentity": "book/9791161340517",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791161340517"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "c382adbd-0f84-5f43-b01b-dfe126efb3be",
+    "scopeKey": "book/9791161340517",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "c382adbd-0f84-5f43-b01b-dfe126efb3be",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791161340517",
+      "release_date": "2019-07-01",
+      "metadata": {
+        "isbn": "9791161340517",
+        "publisher": "터닝포인트",
+        "publishDate": "2019-07-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791161340517",
+          "workTitle": "AI 마인드",
+          "workCreator": "마틴 포드",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "AI 마인드",
+          "creator": "마틴 포드",
+          "description": "개발자들이 말하는 진실 : 인공지능은 세상을 어떻게 바꾸고 있고 어떻게 바꿀 것인가\n\n지금까지 인공지능에 관련된 주제로 출간된 대부분의 책들은 인공지능 개발자나 현장 전문가 아닌 유명한 인사들 혹은 경제학자, 미래학자, 언론인들의 미래 예측을 담고 있습니다. 하지만 이 책은 인공지능을 연구하는 세계에서 가장 저명한 개발자 및 기업가들과의 대화를 통해 인공지능 분야와 관련된 진실을 조명하고 있습니다.\n\n인터뷰 대상 중 대부분이 인공지능의 발전에 실제로 큰 기여를 했으며 일부는 인공지능, 로봇 공학 및 머신러닝 분야를 선도하는 회사를 설립하기도 했습니다.\n알파고를 개발한 데미스 허사비스부터 현대 인공지능의 아버지라 불리는 제프리 힌튼까지 총 23인의 인공지능 전문가들에게 “인공지능이 계속 발전하면서 우리가 직면하게 될 가장 시급한 문제를 해결할 수 있는 방안”들을 알아보기 위해 인터뷰 형식으로 꾸며져 있습니다.",
+          "isbn": "9791161340517",
+          "publisher": "터닝포인트",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4971204?timestamp=20240323132042",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C"
+          },
+          "verified": true,
+          "content_id": "c382adbd-0f84-5f43-b01b-dfe126efb3be"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "c382adbd-0f84-5f43-b01b-dfe126efb3be",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791161340517",
+        "release_date": "2019-07-01",
+        "metadata": {
+          "isbn": "9791161340517",
+          "publisher": "터닝포인트",
+          "publishDate": "2019-07-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791161340517",
+            "workTitle": "AI 마인드",
+            "workCreator": "마틴 포드",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "AI 마인드",
+          "creator": "마틴 포드",
+          "description": "개발자들이 말하는 진실 : 인공지능은 세상을 어떻게 바꾸고 있고 어떻게 바꿀 것인가\n\n지금까지 인공지능에 관련된 주제로 출간된 대부분의 책들은 인공지능 개발자나 현장 전문가 아닌 유명한 인사들 혹은 경제학자, 미래학자, 언론인들의 미래 예측을 담고 있습니다. 하지만 이 책은 인공지능을 연구하는 세계에서 가장 저명한 개발자 및 기업가들과의 대화를 통해 인공지능 분야와 관련된 진실을 조명하고 있습니다.\n\n인터뷰 대상 중 대부분이 인공지능의 발전에 실제로 큰 기여를 했으며 일부는 인공지능, 로봇 공학 및 머신러닝 분야를 선도하는 회사를 설립하기도 했습니다.\n알파고를 개발한 데미스 허사비스부터 현대 인공지능의 아버지라 불리는 제프리 힌튼까지 총 23인의 인공지능 전문가들에게 “인공지능이 계속 발전하면서 우리가 직면하게 될 가장 시급한 문제를 해결할 수 있는 방안”들을 알아보기 위해 인터뷰 형식으로 꾸며져 있습니다.",
+          "isbn": "9791161340517",
+          "publisher": "터닝포인트",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4971204?timestamp=20240323132042",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C"
+          },
+          "verified": true,
+          "content_id": "c382adbd-0f84-5f43-b01b-dfe126efb3be"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791161340517",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791161340517"
+      ],
+      "normalizedTitles": [
+        "ai마인드"
+      ],
+      "normalizedCreators": [
+        "김대영역",
+        "마틴포드"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:06:50.903Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "c382adbd-0f84-5f43-b01b-dfe126efb3be",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791161340517",
+      "release_date": "2019-07-01",
+      "metadata": {
+        "isbn": "9791161340517",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+        "publisher": "터닝포인트",
+        "figureBook": {
+          "workTitle": "AI 마인드",
+          "workCreator": "마틴 포드",
+          "workIdentity": "book/9791161340517",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-07-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:06:44.705351+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "c382adbd-0f84-5f43-b01b-dfe126efb3be",
+        "locale": "ko",
+        "title": "AI 마인드",
+        "creator": "마틴 포드",
+        "description": "개발자들이 말하는 진실 : 인공지능은 세상을 어떻게 바꾸고 있고 어떻게 바꿀 것인가\n\n지금까지 인공지능에 관련된 주제로 출간된 대부분의 책들은 인공지능 개발자나 현장 전문가 아닌 유명한 인사들 혹은 경제학자, 미래학자, 언론인들의 미래 예측을 담고 있습니다. 하지만 이 책은 인공지능을 연구하는 세계에서 가장 저명한 개발자 및 기업가들과의 대화를 통해 인공지능 분야와 관련된 진실을 조명하고 있습니다.\n\n인터뷰 대상 중 대부분이 인공지능의 발전에 실제로 큰 기여를 했으며 일부는 인공지능, 로봇 공학 및 머신러닝 분야를 선도하는 회사를 설립하기도 했습니다.\n알파고를 개발한 데미스 허사비스부터 현대 인공지능의 아버지라 불리는 제프리 힌튼까지 총 23인의 인공지능 전문가들에게 “인공지능이 계속 발전하면서 우리가 직면하게 될 가장 시급한 문제를 해결할 수 있는 방안”들을 알아보기 위해 인터뷰 형식으로 꾸며져 있습니다.",
+        "isbn": "9791161340517",
+        "publisher": "터닝포인트",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4971204?timestamp=20240323132042",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4971204&q=AI+%EB%A7%88%EC%9D%B8%EB%93%9C"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:06:44.705351+00:00",
+        "updated_at": "2026-09-04T18:06:44.705351+00:00"
+      }
+    ]
+  }
+}

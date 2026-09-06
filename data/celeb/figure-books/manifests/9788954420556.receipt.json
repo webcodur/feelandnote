@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954420556.json",
+  "manifestSha256": "fe83aef235db41f48291e7690badc116ec27cea6623b21cfaa141c60d44fa6e7",
+  "planSha256": "fd8f75b03f81ffbdf769dfdb067f63727d40cc22014daab9f38eb06559e510a0",
+  "workIdentity": "book/9788954420556",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954420556"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "2229facb-d6cb-5e7c-b5dc-90b1362ccad9",
+    "scopeKey": "book/9788954420556",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "2229facb-d6cb-5e7c-b5dc-90b1362ccad9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954420556",
+      "release_date": "2010-09-01",
+      "metadata": {
+        "isbn": "9788954420556",
+        "publisher": "자음과모음",
+        "publishDate": "2010-09-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954420556",
+          "workTitle": "멘델레예프가 들려주는 주기율표 이야기",
+          "workCreator": "이미하",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "멘델레예프가 들려주는 주기율표 이야기",
+          "creator": "이미하",
+          "description": "과학자가 독자들에게 자신의 과학 이야기를 설명하는 형식으로 구성한 「과학자가 들려주는 과학 이야기」 시리즈 제55권 『멘델레예프가 들려주는 주기율표 이야기』. 지적 호기심을 자극하는 흥미로운 실험과 이를 설명하는 이론들을 초등학생 및 중학생들이 이해할 수 있도록 쉬우면서도 논리적으로 설명한 책이다. 이로부터 과학에 대한 깊은 이해와 이를 발견해낸 과학자들의 창의적인 사고과정을 체득할 수 있다.",
+          "isbn": "9788954420556",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/688496?timestamp=20251016110420",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "2229facb-d6cb-5e7c-b5dc-90b1362ccad9"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "2229facb-d6cb-5e7c-b5dc-90b1362ccad9",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954420556",
+        "release_date": "2010-09-01",
+        "metadata": {
+          "isbn": "9788954420556",
+          "publisher": "자음과모음",
+          "publishDate": "2010-09-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954420556",
+            "workTitle": "멘델레예프가 들려주는 주기율표 이야기",
+            "workCreator": "이미하",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "멘델레예프가 들려주는 주기율표 이야기",
+          "creator": "이미하",
+          "description": "과학자가 독자들에게 자신의 과학 이야기를 설명하는 형식으로 구성한 「과학자가 들려주는 과학 이야기」 시리즈 제55권 『멘델레예프가 들려주는 주기율표 이야기』. 지적 호기심을 자극하는 흥미로운 실험과 이를 설명하는 이론들을 초등학생 및 중학생들이 이해할 수 있도록 쉬우면서도 논리적으로 설명한 책이다. 이로부터 과학에 대한 깊은 이해와 이를 발견해낸 과학자들의 창의적인 사고과정을 체득할 수 있다.",
+          "isbn": "9788954420556",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/688496?timestamp=20251016110420",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "2229facb-d6cb-5e7c-b5dc-90b1362ccad9"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954420556",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954420556"
+      ],
+      "normalizedTitles": [
+        "멘델레예프가들려주는주기율표이야기"
+      ],
+      "normalizedCreators": [
+        "이미하"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:47:53.705Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "2229facb-d6cb-5e7c-b5dc-90b1362ccad9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954420556",
+      "release_date": "2010-09-01",
+      "metadata": {
+        "isbn": "9788954420556",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "자음과모음",
+        "figureBook": {
+          "workTitle": "멘델레예프가 들려주는 주기율표 이야기",
+          "workCreator": "이미하",
+          "workIdentity": "book/9788954420556",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2010-09-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:47:50.486484+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "2229facb-d6cb-5e7c-b5dc-90b1362ccad9",
+        "locale": "ko",
+        "title": "멘델레예프가 들려주는 주기율표 이야기",
+        "creator": "이미하",
+        "description": "과학자가 독자들에게 자신의 과학 이야기를 설명하는 형식으로 구성한 「과학자가 들려주는 과학 이야기」 시리즈 제55권 『멘델레예프가 들려주는 주기율표 이야기』. 지적 호기심을 자극하는 흥미로운 실험과 이를 설명하는 이론들을 초등학생 및 중학생들이 이해할 수 있도록 쉬우면서도 논리적으로 설명한 책이다. 이로부터 과학에 대한 깊은 이해와 이를 발견해낸 과학자들의 창의적인 사고과정을 체득할 수 있다.",
+        "isbn": "9788954420556",
+        "publisher": "자음과모음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/688496?timestamp=20251016110420",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=688496&q=%EB%A9%98%EB%8D%B8%EB%A0%88%EC%98%88%ED%94%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:47:50.486484+00:00",
+        "updated_at": "2026-09-04T17:47:50.486484+00:00"
+      }
+    ]
+  }
+}

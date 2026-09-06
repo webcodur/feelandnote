@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788990062598",
+    "title": "비잔티움 제국 최후의 날",
+    "creator": "로저 크롤리",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이재황 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788990062598"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788986836882",
+    "title": "음악으로 자유로워지다",
+    "creator": "류이치 사카모토",
+    "titleAliases": [],
+    "creatorAliases": [
+      "양윤옥 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788986836882"
+  }
+}

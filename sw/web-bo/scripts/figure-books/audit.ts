@@ -32,6 +32,11 @@ type PurchaseRow = {
   platform: string
 }
 
+type EditionRow = {
+  content_id: string
+  locale: string
+}
+
 type PageResult<T> = {
   data: T[] | null
   error: { message: string } | null
@@ -98,6 +103,19 @@ async function loadPurchaseOptions(client: SupabaseClient): Promise<PurchaseRow[
   })
 }
 
+// 노출 규칙: 활성 제휴 상품이 있으면 그 판본만, 없으면 요청 locale의 판본을 구매 버튼 없이 보여 준다. 판본이 하나라도 있는 작품이 공개 대상이다.
+async function loadEditions(client: SupabaseClient): Promise<EditionRow[]> {
+  return allRows('figure_book_editions', async (from, to) => {
+    const { data, error } = await client
+      .from('figure_book_editions')
+      .select('content_id,locale')
+      .order('content_id')
+      .order('id')
+      .range(from, to)
+    return { data: data as EditionRow[] | null, error }
+  })
+}
+
 function countBy<T>(rows: T[], key: (row: T) => string): Record<string, number> {
   const counts = new Map<string, number>()
   for (const row of rows) {
@@ -112,19 +130,22 @@ function hasText(value: string | null): boolean {
 }
 
 async function main(): Promise<void> {
-  const [celebs, relations, purchaseOptions] = await Promise.all([
+  const [celebs, relations, purchaseOptions, editions] = await Promise.all([
     loadCelebs(db),
     loadRelations(db),
     loadPurchaseOptions(db),
+    loadEditions(db),
   ])
 
   const celebById = new Map(celebs.map((celeb) => [celeb.id, celeb]))
   const linkedCelebIds = new Set(relations.map((relation) => relation.celeb_id))
-  const publicKoContentIds = new Set(
+  const coupangKoContentIds = new Set(
     purchaseOptions
       .filter((row) => row.locale === 'ko' && row.platform === 'coupang')
       .map((row) => row.content_id),
   )
+  const publicKoContentIds = new Set(editions.filter((row) => row.locale === 'ko').map((row) => row.content_id))
+  const publicEnContentIds = new Set(editions.filter((row) => row.locale === 'en').map((row) => row.content_id))
   const publicKoCelebIds = new Set(
     relations
       .filter((relation) => publicKoContentIds.has(relation.content_id))
@@ -154,7 +175,7 @@ async function main(): Promise<void> {
 
   const invalidRelatedDescriptions = relations
     .filter((relation) => (
-      relation.relation_type === 'related'
+      relation.relation_type !== 'appearance'
       && (hasText(relation.description) || hasText(relation.description_en))
     ))
     .map((relation) => ({
@@ -172,8 +193,11 @@ async function main(): Promise<void> {
       relationRows: relations.length,
       purchaseOptions: purchaseOptions.length,
       publicKoWorks: publicKoContentIds.size,
+      publicEnWorks: publicEnContentIds.size,
+      coupangKoWorks: coupangKoContentIds.size,
       invalidRelatedDescriptions: invalidRelatedDescriptions.length,
-      relationsToMissingOrInactiveCelebs: relations.filter((relation) => !celebById.has(relation.celeb_id)).length,
+      // 비공개 인물에 남은 관계. 인물을 다시 올리면 그대로 살아나므로 고칠 대상이 아니라 통계다.
+      relationsOfInactiveCelebs: relations.filter((relation) => !celebById.has(relation.celeb_id)).length,
     },
     relationTypes: countBy(relations, (relation) => relation.relation_type),
     coverageByTier,

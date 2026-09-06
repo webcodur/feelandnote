@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791199202641.json",
+  "manifestSha256": "c51a671ebc2508afc19373f50c0149284c871d9bfccb0d4be636b2bba541073f",
+  "planSha256": "72820899597f75276e1513983e6fd998c37df2ab908d1508174f9449dbad3a7e",
+  "workIdentity": "book/9791199202641",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791199202641"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "75e49cf8-64d9-54d6-a33a-3210cab1fbb7",
+    "scopeKey": "book/9791199202641",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "75e49cf8-64d9-54d6-a33a-3210cab1fbb7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791199202641",
+      "release_date": "2025-10-01",
+      "metadata": {
+        "isbn": "9791199202641",
+        "publisher": "소요서가",
+        "publishDate": "2025-10-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791199202641",
+          "workTitle": "궁정인 갈릴레오",
+          "workCreator": "마리오 비아졸리",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "궁정인 갈릴레오",
+          "creator": "마리오 비아졸리",
+          "description": "과학사의 고전으로 꼽히는 마리오 비아졸리의 《궁정인 갈릴레오》(1993)가 32년 만에 국내에 처음 번역 출간되었다. 이 책은 갈릴레오가 절대주의 궁정문화 속에서 어떻게 코페르니쿠스주의와 수학적 자연철학을 정당화했는지, 풍부한 1차 사료를 통해 분석한다. 이 책은 종교의 박해에 맞서 진리를 수호한 불굴의 영웅을 그리지 않는다. 절대주의 궁정 사회의 복잡한 후원 네트워크를 전략적으로 활용한 ‘궁정인’ 갈릴레오에 관해 말한다. 과학적 진리는 투명한 진공상태에서 순수한 이성의 활동으로 이루어지지 않는다. 그것은 사회적, 정치적 맥락 속에서 구성된다. 갈릴레오의 진짜 이야기는 바로 여기에 있다. 과학적 발견 못지않게 중요한 것은, 그가 어떻게 자신의 사회적 정체성을 재구성했는가이다. 갈릴레오는 직접 개량한 망원경으로 목성의 위성을 발견한 후, 이를 메디치 가문에 헌정하고 그 대가로 ‘대공의 철학자 겸 수학자’라는 전례 없는 작위를 받았다. 아리스토텔레스 철학이 지배하던 시기, 수학자는 우주의 원리에 대해 논할 자격조차 없었다. 그러나 갈릴레오는 메디치 궁정이라는 제도적 기반과 군주의 권위를 통해 새로운 과학의 가능성을 열었다. 비아졸리는 이 과정을 치밀하게 재구성하며, 근대 과학의 탄생이 단순히 새로운 관측 도구나 이론의 등장이 아니라, 지식 생산자의 사회적 위치와 정당화 방식이 근본적으로 변화한 사건이었음을 보여준다.",
+          "isbn": "9791199202641",
+          "publisher": "소요서가",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7049432?timestamp=20260421121843",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4"
+          },
+          "verified": true,
+          "content_id": "75e49cf8-64d9-54d6-a33a-3210cab1fbb7"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "75e49cf8-64d9-54d6-a33a-3210cab1fbb7",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791199202641",
+        "release_date": "2025-10-01",
+        "metadata": {
+          "isbn": "9791199202641",
+          "publisher": "소요서가",
+          "publishDate": "2025-10-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791199202641",
+            "workTitle": "궁정인 갈릴레오",
+            "workCreator": "마리오 비아졸리",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "궁정인 갈릴레오",
+          "creator": "마리오 비아졸리",
+          "description": "과학사의 고전으로 꼽히는 마리오 비아졸리의 《궁정인 갈릴레오》(1993)가 32년 만에 국내에 처음 번역 출간되었다. 이 책은 갈릴레오가 절대주의 궁정문화 속에서 어떻게 코페르니쿠스주의와 수학적 자연철학을 정당화했는지, 풍부한 1차 사료를 통해 분석한다. 이 책은 종교의 박해에 맞서 진리를 수호한 불굴의 영웅을 그리지 않는다. 절대주의 궁정 사회의 복잡한 후원 네트워크를 전략적으로 활용한 ‘궁정인’ 갈릴레오에 관해 말한다. 과학적 진리는 투명한 진공상태에서 순수한 이성의 활동으로 이루어지지 않는다. 그것은 사회적, 정치적 맥락 속에서 구성된다. 갈릴레오의 진짜 이야기는 바로 여기에 있다. 과학적 발견 못지않게 중요한 것은, 그가 어떻게 자신의 사회적 정체성을 재구성했는가이다. 갈릴레오는 직접 개량한 망원경으로 목성의 위성을 발견한 후, 이를 메디치 가문에 헌정하고 그 대가로 ‘대공의 철학자 겸 수학자’라는 전례 없는 작위를 받았다. 아리스토텔레스 철학이 지배하던 시기, 수학자는 우주의 원리에 대해 논할 자격조차 없었다. 그러나 갈릴레오는 메디치 궁정이라는 제도적 기반과 군주의 권위를 통해 새로운 과학의 가능성을 열었다. 비아졸리는 이 과정을 치밀하게 재구성하며, 근대 과학의 탄생이 단순히 새로운 관측 도구나 이론의 등장이 아니라, 지식 생산자의 사회적 위치와 정당화 방식이 근본적으로 변화한 사건이었음을 보여준다.",
+          "isbn": "9791199202641",
+          "publisher": "소요서가",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7049432?timestamp=20260421121843",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4"
+          },
+          "verified": true,
+          "content_id": "75e49cf8-64d9-54d6-a33a-3210cab1fbb7"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791199202641",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791199202641"
+      ],
+      "normalizedTitles": [
+        "궁정인갈릴레오"
+      ],
+      "normalizedCreators": [
+        "마리오비아졸리",
+        "박초월역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:19:25.725Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "75e49cf8-64d9-54d6-a33a-3210cab1fbb7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791199202641",
+      "release_date": "2025-10-01",
+      "metadata": {
+        "isbn": "9791199202641",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+        "publisher": "소요서가",
+        "figureBook": {
+          "workTitle": "궁정인 갈릴레오",
+          "workCreator": "마리오 비아졸리",
+          "workIdentity": "book/9791199202641",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-10-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:19:21.676724+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "75e49cf8-64d9-54d6-a33a-3210cab1fbb7",
+        "locale": "ko",
+        "title": "궁정인 갈릴레오",
+        "creator": "마리오 비아졸리",
+        "description": "과학사의 고전으로 꼽히는 마리오 비아졸리의 《궁정인 갈릴레오》(1993)가 32년 만에 국내에 처음 번역 출간되었다. 이 책은 갈릴레오가 절대주의 궁정문화 속에서 어떻게 코페르니쿠스주의와 수학적 자연철학을 정당화했는지, 풍부한 1차 사료를 통해 분석한다. 이 책은 종교의 박해에 맞서 진리를 수호한 불굴의 영웅을 그리지 않는다. 절대주의 궁정 사회의 복잡한 후원 네트워크를 전략적으로 활용한 ‘궁정인’ 갈릴레오에 관해 말한다. 과학적 진리는 투명한 진공상태에서 순수한 이성의 활동으로 이루어지지 않는다. 그것은 사회적, 정치적 맥락 속에서 구성된다. 갈릴레오의 진짜 이야기는 바로 여기에 있다. 과학적 발견 못지않게 중요한 것은, 그가 어떻게 자신의 사회적 정체성을 재구성했는가이다. 갈릴레오는 직접 개량한 망원경으로 목성의 위성을 발견한 후, 이를 메디치 가문에 헌정하고 그 대가로 ‘대공의 철학자 겸 수학자’라는 전례 없는 작위를 받았다. 아리스토텔레스 철학이 지배하던 시기, 수학자는 우주의 원리에 대해 논할 자격조차 없었다. 그러나 갈릴레오는 메디치 궁정이라는 제도적 기반과 군주의 권위를 통해 새로운 과학의 가능성을 열었다. 비아졸리는 이 과정을 치밀하게 재구성하며, 근대 과학의 탄생이 단순히 새로운 관측 도구나 이론의 등장이 아니라, 지식 생산자의 사회적 위치와 정당화 방식이 근본적으로 변화한 사건이었음을 보여준다.",
+        "isbn": "9791199202641",
+        "publisher": "소요서가",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7049432?timestamp=20260421121843",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7049432&q=%EA%B6%81%EC%A0%95%EC%9D%B8+%EA%B0%88%EB%A6%B4%EB%A0%88%EC%98%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:19:21.676724+00:00",
+        "updated_at": "2026-09-04T18:19:21.676724+00:00"
+      }
+    ]
+  }
+}

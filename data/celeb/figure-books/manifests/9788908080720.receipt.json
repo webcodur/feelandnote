@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788908080720.json",
+  "manifestSha256": "b0edaf5d8932a8bbdc889a648633ccea7d25aed2f5b1dfb470eeba21b47cd739",
+  "planSha256": "49d2be85c2f7300564a5dd50c4f52fcd803f00e6659b42af66d9fc41d43215e6",
+  "workIdentity": "book/9788908080720",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788908080720"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "4a424159-bf63-55a2-949b-9d65f37939b5",
+    "scopeKey": "book/9788908080720",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "4a424159-bf63-55a2-949b-9d65f37939b5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788908080720",
+      "release_date": "2005-02-25",
+      "metadata": {
+        "isbn": "9788908080720",
+        "publisher": "범우사",
+        "publishDate": "2005-02-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788908080720",
+          "workTitle": "채문희 (범우희곡선 22)",
+          "workCreator": "곽말약",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "채문희",
+          "creator": "곽말약",
+          "description": "중국의 걸출한 극작가이자 사학가이며, 시인이자 혁명가였던 곽말약의 희곡 &lt;채문희&gt;를 다룬 책. 채문희는 동한말의 재녀로, 그녀의 일생은 중국희곡계에서 끊임없이 재창작되어 왔다. 곽말약의 &lt;채문희&gt;는 웅장한 기세와 낭만적인 필체로 일대 재녀인 채문희의 형상을 성공적으로 표현하였다. 이 책에는 제1막부터 제5막까지 &lt;채문희&gt;의 본문을 수록하고 작품에 대한 해설 및 작가 연보를 덧붙였다.",
+          "isbn": "9788908080720",
+          "publisher": "범우사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/363214?timestamp=20240803112708",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29"
+          },
+          "verified": true,
+          "content_id": "4a424159-bf63-55a2-949b-9d65f37939b5"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "4a424159-bf63-55a2-949b-9d65f37939b5",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788908080720",
+        "release_date": "2005-02-25",
+        "metadata": {
+          "isbn": "9788908080720",
+          "publisher": "범우사",
+          "publishDate": "2005-02-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788908080720",
+            "workTitle": "채문희 (범우희곡선 22)",
+            "workCreator": "곽말약",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "채문희",
+          "creator": "곽말약",
+          "description": "중국의 걸출한 극작가이자 사학가이며, 시인이자 혁명가였던 곽말약의 희곡 &lt;채문희&gt;를 다룬 책. 채문희는 동한말의 재녀로, 그녀의 일생은 중국희곡계에서 끊임없이 재창작되어 왔다. 곽말약의 &lt;채문희&gt;는 웅장한 기세와 낭만적인 필체로 일대 재녀인 채문희의 형상을 성공적으로 표현하였다. 이 책에는 제1막부터 제5막까지 &lt;채문희&gt;의 본문을 수록하고 작품에 대한 해설 및 작가 연보를 덧붙였다.",
+          "isbn": "9788908080720",
+          "publisher": "범우사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/363214?timestamp=20240803112708",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29"
+          },
+          "verified": true,
+          "content_id": "4a424159-bf63-55a2-949b-9d65f37939b5"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788908080720",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788908080720"
+      ],
+      "normalizedTitles": [
+        "채문희",
+        "채문희범우희곡선22"
+      ],
+      "normalizedCreators": [
+        "강영매외역",
+        "곽말약"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:03:49.839Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "4a424159-bf63-55a2-949b-9d65f37939b5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788908080720",
+      "release_date": "2005-02-25",
+      "metadata": {
+        "isbn": "9788908080720",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+        "publisher": "범우사",
+        "figureBook": {
+          "workTitle": "채문희 (범우희곡선 22)",
+          "workCreator": "곽말약",
+          "workIdentity": "book/9788908080720",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2005-02-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:03:44.378661+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "4a424159-bf63-55a2-949b-9d65f37939b5",
+        "locale": "ko",
+        "title": "채문희",
+        "creator": "곽말약",
+        "description": "중국의 걸출한 극작가이자 사학가이며, 시인이자 혁명가였던 곽말약의 희곡 &lt;채문희&gt;를 다룬 책. 채문희는 동한말의 재녀로, 그녀의 일생은 중국희곡계에서 끊임없이 재창작되어 왔다. 곽말약의 &lt;채문희&gt;는 웅장한 기세와 낭만적인 필체로 일대 재녀인 채문희의 형상을 성공적으로 표현하였다. 이 책에는 제1막부터 제5막까지 &lt;채문희&gt;의 본문을 수록하고 작품에 대한 해설 및 작가 연보를 덧붙였다.",
+        "isbn": "9788908080720",
+        "publisher": "범우사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/363214?timestamp=20240803112708",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=363214&q=%EC%B1%84%EB%AC%B8%ED%9D%AC+%28%EB%B2%94%EC%9A%B0%ED%9D%AC%EA%B3%A1%EC%84%A0+22%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:03:44.378661+00:00",
+        "updated_at": "2026-09-06T04:03:44.378661+00:00"
+      }
+    ]
+  }
+}

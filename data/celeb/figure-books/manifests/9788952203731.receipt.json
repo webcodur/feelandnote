@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788952203731.json",
+  "manifestSha256": "01f72d8169be6ace1e62828ee3be53d6c185e152ab1577f44a0b6727b3645ee6",
+  "planSha256": "9627aac01a8ee07e3d9faa4e8dbadd9159b17b574be20a5fea8417dab97d0f5e",
+  "workIdentity": "book/9788952203731",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788952203731"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "a70ddf0a-5fe9-5476-86a3-e8deb476b5bb",
+    "scopeKey": "book/9788952203731",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "a70ddf0a-5fe9-5476-86a3-e8deb476b5bb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952203731",
+      "release_date": "2005-05-10",
+      "metadata": {
+        "isbn": "9788952203731",
+        "publisher": "살림",
+        "publishDate": "2005-05-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788952203731",
+          "workTitle": "안토니오 그람시",
+          "workCreator": "김현우",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "안토니오 그람시",
+          "creator": "김현우",
+          "description": "&lt;옥중수고&gt;와 혁명의 순교자 안토니오 그람시를 살펴보는 책. 저자는 현재에도 유의미한 이론적 상상력과 실천적 자극의 원천으로서 그의 면모를 공유하고자 했다. 그람시의 개인적인 배경과 경험을 따라가 봄으로써 그의 이론이 갖고 있는 독특한 체계와 주장을 지식사회학적으로 열어 보이고, 그의 청년기 시절의 저술과 정치투쟁에 비중을 두어 균형을 도모하고 있다.",
+          "isbn": "9788952203731",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/634078?timestamp=20240517112614",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C"
+          },
+          "verified": true,
+          "content_id": "a70ddf0a-5fe9-5476-86a3-e8deb476b5bb"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "a70ddf0a-5fe9-5476-86a3-e8deb476b5bb",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788952203731",
+        "release_date": "2005-05-10",
+        "metadata": {
+          "isbn": "9788952203731",
+          "publisher": "살림",
+          "publishDate": "2005-05-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788952203731",
+            "workTitle": "안토니오 그람시",
+            "workCreator": "김현우",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "안토니오 그람시",
+          "creator": "김현우",
+          "description": "&lt;옥중수고&gt;와 혁명의 순교자 안토니오 그람시를 살펴보는 책. 저자는 현재에도 유의미한 이론적 상상력과 실천적 자극의 원천으로서 그의 면모를 공유하고자 했다. 그람시의 개인적인 배경과 경험을 따라가 봄으로써 그의 이론이 갖고 있는 독특한 체계와 주장을 지식사회학적으로 열어 보이고, 그의 청년기 시절의 저술과 정치투쟁에 비중을 두어 균형을 도모하고 있다.",
+          "isbn": "9788952203731",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/634078?timestamp=20240517112614",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C"
+          },
+          "verified": true,
+          "content_id": "a70ddf0a-5fe9-5476-86a3-e8deb476b5bb"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788952203731",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788952203731"
+      ],
+      "normalizedTitles": [
+        "안토니오그람시"
+      ],
+      "normalizedCreators": [
+        "김현우"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:45:37.686Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "a70ddf0a-5fe9-5476-86a3-e8deb476b5bb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952203731",
+      "release_date": "2005-05-10",
+      "metadata": {
+        "isbn": "9788952203731",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+        "publisher": "살림",
+        "figureBook": {
+          "workTitle": "안토니오 그람시",
+          "workCreator": "김현우",
+          "workIdentity": "book/9788952203731",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2005-05-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:45:33.275309+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "a70ddf0a-5fe9-5476-86a3-e8deb476b5bb",
+        "locale": "ko",
+        "title": "안토니오 그람시",
+        "creator": "김현우",
+        "description": "&lt;옥중수고&gt;와 혁명의 순교자 안토니오 그람시를 살펴보는 책. 저자는 현재에도 유의미한 이론적 상상력과 실천적 자극의 원천으로서 그의 면모를 공유하고자 했다. 그람시의 개인적인 배경과 경험을 따라가 봄으로써 그의 이론이 갖고 있는 독특한 체계와 주장을 지식사회학적으로 열어 보이고, 그의 청년기 시절의 저술과 정치투쟁에 비중을 두어 균형을 도모하고 있다.",
+        "isbn": "9788952203731",
+        "publisher": "살림",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/634078?timestamp=20240517112614",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=634078&q=%EC%95%88%ED%86%A0%EB%8B%88%EC%98%A4+%EA%B7%B8%EB%9E%8C%EC%8B%9C"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:45:33.275309+00:00",
+        "updated_at": "2026-09-04T17:45:33.275309+00:00"
+      }
+    ]
+  }
+}

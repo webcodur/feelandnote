@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791169780117.json",
+  "manifestSha256": "8967d56e6967c2fbead00299f9c69ca49dc34f07eda26f96f6d13f46c078dd52",
+  "planSha256": "ae211e5b7993f36473bf77aa92fc54d2e9398f6d9f1170d59dd9da26eb452b1f",
+  "workIdentity": "book/9791169780117",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791169780117"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "4efa7471-3efc-55e1-b29d-93e49e271c9a",
+    "scopeKey": "book/9791169780117",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "4efa7471-3efc-55e1-b29d-93e49e271c9a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791169780117",
+      "release_date": "2023-07-28",
+      "metadata": {
+        "isbn": "9791169780117",
+        "publisher": "브레인스토어",
+        "publishDate": "2023-07-28",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791169780117",
+          "workTitle": "리오넬 메시",
+          "workCreator": "선수 에디터스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "리오넬 메시",
+          "creator": "선수 에디터스, 한준",
+          "description": "“당신의 선수는 누구입니까?” 브레인스토어의 선수 시리즈는 각 권마다 현 시대와 세대를 대표하는 선수 한 명을 깊이 있게 탐구하고, 스타일리시하게 표현하여, ‘보는 책’을 넘어 ‘소장하고 싶은 책’을 만드는 것을 추구하는 새로운 형식의 단행본이다. 2021년 8월 탄생한 이 시리즈는 최대한 다양한 종목의 선수들을 자세히 소개하는 것을 목표로 삼고 있으며, 실제로 확장성을 늘려가고 있다. 하지만, 지금까지 출간된 책들 중 가장 많은 비율을 차지하는 것은 단연 축구였다. 세계 최고의 인기 스포츠임을 고려하지 않을 수 없었다. 2023년 7월 출간되는 신작도 다시 한 번 축구 이야기로 돌아간다.\n\n선수 시리즈 12번째 타이틀로 다루는 인물은 바로 메시이다. 시리즈의 탄생 때부터 지금까지 가장 많은 독자들이 기대하고 기다렸던 이름이 바로 리오넬 메시였을 것이다. 브레인스토어의 소셜 미디어나 이메일로 ‘도대체 메시는 언제 다루는 것인지’ 묻는 독자들의 의문과 의견이 적지 않았다. 하지만 어느 시점에서 메시의 과거와 현재, 미래를 적절히 구분 지어 정리할 것인지 편집부 선수 에디터스의 고민이 컸다. 그러나 이제는 적절한 시점이 되었다는 판단이 섰다. 메시는 바르셀로나를 떠났고, 아르헨티나의 월드컵 우승을 이끌었으며, 파리와의 동행을 종료하는 것으로 자신의 유럽 커리어를 일단락했다. 언젠가 다시 잠시 유럽 리그로 컴백할지 그 누구도 알 수 없으나, 이제 그는 유럽을 떠나 아메리카, 미국 MLS로 향하게 됐다. 마지막의 마지막을 준비하는 시기에 이른 것이다.\n\n메시는 현존 최고의 선수이자 축구사에 특별히 기록될 이름이다. 메시는 17세 때 FC바르셀로나 소속으로 스페인 프리메라리가에 데뷔했고, 이후 약 18년간 바르셀로나 한 클럽에서만 활약하며 수많은 업적을 남겼다. 바르셀로나 클럽 역사상 가장 많은 득점을 기록한 선수이며, 리그 최다 득점, 최다 어시스트, 최다 경기 출장, 최다 우승, 최다 승리 등 일일이 열거하기도 어려울 만큼 무수히 많은 기록을 세웠다. 또한 자신이 과거 세운 기록들을 끊임없이 경신하며 레코드 브레이커의 지위를 얻었다. 물론 그의 활약이 바르셀로나 한 팀 내에서만 한정되는 것은 아니다. 스페인 라리가 득점왕 8회, 코파델레이 득점왕 5회, UEFA 챔피언스리그 득점왕 6회, 발롱도르 7회 수상 기록을 지녔으며 월드컵 우승까지 차지한 역사상 최고의 축구선수다.\n\n사실 메시는 설명이 필요 없는 선수다. 하지만 설명이 필요 없는 선수를 수식하고 소개하는 일이 어쩌면 훨씬 더 어려운 일일지 모른다. 다른 어떤 선수가 아니라, 리오넬 메시의 이야기를 책으로 만드는 것은 신중에 신중을 기할 필요가 있었다. 편집부는 메시를 주인공으로 한 권의 책을 집필해줄 저자로 한준 기자를 선택했다. 메시에 대한 글을 쓸 수 있는 사람은 국내 축구 저널리스트, 마니아 중에서도 적지 않겠지만, 리오넬 메시와 직접 두 번이나 대면하여 인터뷰를 진행했을 정도의 특별한 경험이 있는 사람이라면 조금 더 진정성 있고, 정확하게 메시에 대한 글을 풀어낼 수 있을 것이라고 생각했다. 한준 저자는 메시의 선수 커리어를 축약하는 책을 세상에 내놓는 것보다는 훨씬 더 의미 있는 집필 작업으로 메시의 천재성에 헌사를 남기고 싶었다. 그리고 그 메시지가 오늘날을 살아가는 보통의 사람들에게도 크고 작은 울림과 깨달음을 전해줄 수 있기를 바랐다. 그러한 마음이 한 권의 책으로 묶여 『리오넬 메시 - 선수 12』가 만들어졌다.",
+          "isbn": "9791169780117",
+          "publisher": "브레인스토어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6389968?timestamp=20260716121458",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C"
+          },
+          "verified": true,
+          "content_id": "4efa7471-3efc-55e1-b29d-93e49e271c9a"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "4efa7471-3efc-55e1-b29d-93e49e271c9a",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791169780117",
+        "release_date": "2023-07-28",
+        "metadata": {
+          "isbn": "9791169780117",
+          "publisher": "브레인스토어",
+          "publishDate": "2023-07-28",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791169780117",
+            "workTitle": "리오넬 메시",
+            "workCreator": "선수 에디터스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "리오넬 메시",
+          "creator": "선수 에디터스, 한준",
+          "description": "“당신의 선수는 누구입니까?” 브레인스토어의 선수 시리즈는 각 권마다 현 시대와 세대를 대표하는 선수 한 명을 깊이 있게 탐구하고, 스타일리시하게 표현하여, ‘보는 책’을 넘어 ‘소장하고 싶은 책’을 만드는 것을 추구하는 새로운 형식의 단행본이다. 2021년 8월 탄생한 이 시리즈는 최대한 다양한 종목의 선수들을 자세히 소개하는 것을 목표로 삼고 있으며, 실제로 확장성을 늘려가고 있다. 하지만, 지금까지 출간된 책들 중 가장 많은 비율을 차지하는 것은 단연 축구였다. 세계 최고의 인기 스포츠임을 고려하지 않을 수 없었다. 2023년 7월 출간되는 신작도 다시 한 번 축구 이야기로 돌아간다.\n\n선수 시리즈 12번째 타이틀로 다루는 인물은 바로 메시이다. 시리즈의 탄생 때부터 지금까지 가장 많은 독자들이 기대하고 기다렸던 이름이 바로 리오넬 메시였을 것이다. 브레인스토어의 소셜 미디어나 이메일로 ‘도대체 메시는 언제 다루는 것인지’ 묻는 독자들의 의문과 의견이 적지 않았다. 하지만 어느 시점에서 메시의 과거와 현재, 미래를 적절히 구분 지어 정리할 것인지 편집부 선수 에디터스의 고민이 컸다. 그러나 이제는 적절한 시점이 되었다는 판단이 섰다. 메시는 바르셀로나를 떠났고, 아르헨티나의 월드컵 우승을 이끌었으며, 파리와의 동행을 종료하는 것으로 자신의 유럽 커리어를 일단락했다. 언젠가 다시 잠시 유럽 리그로 컴백할지 그 누구도 알 수 없으나, 이제 그는 유럽을 떠나 아메리카, 미국 MLS로 향하게 됐다. 마지막의 마지막을 준비하는 시기에 이른 것이다.\n\n메시는 현존 최고의 선수이자 축구사에 특별히 기록될 이름이다. 메시는 17세 때 FC바르셀로나 소속으로 스페인 프리메라리가에 데뷔했고, 이후 약 18년간 바르셀로나 한 클럽에서만 활약하며 수많은 업적을 남겼다. 바르셀로나 클럽 역사상 가장 많은 득점을 기록한 선수이며, 리그 최다 득점, 최다 어시스트, 최다 경기 출장, 최다 우승, 최다 승리 등 일일이 열거하기도 어려울 만큼 무수히 많은 기록을 세웠다. 또한 자신이 과거 세운 기록들을 끊임없이 경신하며 레코드 브레이커의 지위를 얻었다. 물론 그의 활약이 바르셀로나 한 팀 내에서만 한정되는 것은 아니다. 스페인 라리가 득점왕 8회, 코파델레이 득점왕 5회, UEFA 챔피언스리그 득점왕 6회, 발롱도르 7회 수상 기록을 지녔으며 월드컵 우승까지 차지한 역사상 최고의 축구선수다.\n\n사실 메시는 설명이 필요 없는 선수다. 하지만 설명이 필요 없는 선수를 수식하고 소개하는 일이 어쩌면 훨씬 더 어려운 일일지 모른다. 다른 어떤 선수가 아니라, 리오넬 메시의 이야기를 책으로 만드는 것은 신중에 신중을 기할 필요가 있었다. 편집부는 메시를 주인공으로 한 권의 책을 집필해줄 저자로 한준 기자를 선택했다. 메시에 대한 글을 쓸 수 있는 사람은 국내 축구 저널리스트, 마니아 중에서도 적지 않겠지만, 리오넬 메시와 직접 두 번이나 대면하여 인터뷰를 진행했을 정도의 특별한 경험이 있는 사람이라면 조금 더 진정성 있고, 정확하게 메시에 대한 글을 풀어낼 수 있을 것이라고 생각했다. 한준 저자는 메시의 선수 커리어를 축약하는 책을 세상에 내놓는 것보다는 훨씬 더 의미 있는 집필 작업으로 메시의 천재성에 헌사를 남기고 싶었다. 그리고 그 메시지가 오늘날을 살아가는 보통의 사람들에게도 크고 작은 울림과 깨달음을 전해줄 수 있기를 바랐다. 그러한 마음이 한 권의 책으로 묶여 『리오넬 메시 - 선수 12』가 만들어졌다.",
+          "isbn": "9791169780117",
+          "publisher": "브레인스토어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6389968?timestamp=20260716121458",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C"
+          },
+          "verified": true,
+          "content_id": "4efa7471-3efc-55e1-b29d-93e49e271c9a"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791169780117",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791169780117"
+      ],
+      "normalizedTitles": [
+        "리오넬메시"
+      ],
+      "normalizedCreators": [
+        "선수에디터스",
+        "선수에디터스한준",
+        "한준"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:22:48.178Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "4efa7471-3efc-55e1-b29d-93e49e271c9a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791169780117",
+      "release_date": "2023-07-28",
+      "metadata": {
+        "isbn": "9791169780117",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+        "publisher": "브레인스토어",
+        "figureBook": {
+          "workTitle": "리오넬 메시",
+          "workCreator": "선수 에디터스",
+          "workIdentity": "book/9791169780117",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-07-28",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:22:32.492253+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "4efa7471-3efc-55e1-b29d-93e49e271c9a",
+        "locale": "ko",
+        "title": "리오넬 메시",
+        "creator": "선수 에디터스, 한준",
+        "description": "“당신의 선수는 누구입니까?” 브레인스토어의 선수 시리즈는 각 권마다 현 시대와 세대를 대표하는 선수 한 명을 깊이 있게 탐구하고, 스타일리시하게 표현하여, ‘보는 책’을 넘어 ‘소장하고 싶은 책’을 만드는 것을 추구하는 새로운 형식의 단행본이다. 2021년 8월 탄생한 이 시리즈는 최대한 다양한 종목의 선수들을 자세히 소개하는 것을 목표로 삼고 있으며, 실제로 확장성을 늘려가고 있다. 하지만, 지금까지 출간된 책들 중 가장 많은 비율을 차지하는 것은 단연 축구였다. 세계 최고의 인기 스포츠임을 고려하지 않을 수 없었다. 2023년 7월 출간되는 신작도 다시 한 번 축구 이야기로 돌아간다.\n\n선수 시리즈 12번째 타이틀로 다루는 인물은 바로 메시이다. 시리즈의 탄생 때부터 지금까지 가장 많은 독자들이 기대하고 기다렸던 이름이 바로 리오넬 메시였을 것이다. 브레인스토어의 소셜 미디어나 이메일로 ‘도대체 메시는 언제 다루는 것인지’ 묻는 독자들의 의문과 의견이 적지 않았다. 하지만 어느 시점에서 메시의 과거와 현재, 미래를 적절히 구분 지어 정리할 것인지 편집부 선수 에디터스의 고민이 컸다. 그러나 이제는 적절한 시점이 되었다는 판단이 섰다. 메시는 바르셀로나를 떠났고, 아르헨티나의 월드컵 우승을 이끌었으며, 파리와의 동행을 종료하는 것으로 자신의 유럽 커리어를 일단락했다. 언젠가 다시 잠시 유럽 리그로 컴백할지 그 누구도 알 수 없으나, 이제 그는 유럽을 떠나 아메리카, 미국 MLS로 향하게 됐다. 마지막의 마지막을 준비하는 시기에 이른 것이다.\n\n메시는 현존 최고의 선수이자 축구사에 특별히 기록될 이름이다. 메시는 17세 때 FC바르셀로나 소속으로 스페인 프리메라리가에 데뷔했고, 이후 약 18년간 바르셀로나 한 클럽에서만 활약하며 수많은 업적을 남겼다. 바르셀로나 클럽 역사상 가장 많은 득점을 기록한 선수이며, 리그 최다 득점, 최다 어시스트, 최다 경기 출장, 최다 우승, 최다 승리 등 일일이 열거하기도 어려울 만큼 무수히 많은 기록을 세웠다. 또한 자신이 과거 세운 기록들을 끊임없이 경신하며 레코드 브레이커의 지위를 얻었다. 물론 그의 활약이 바르셀로나 한 팀 내에서만 한정되는 것은 아니다. 스페인 라리가 득점왕 8회, 코파델레이 득점왕 5회, UEFA 챔피언스리그 득점왕 6회, 발롱도르 7회 수상 기록을 지녔으며 월드컵 우승까지 차지한 역사상 최고의 축구선수다.\n\n사실 메시는 설명이 필요 없는 선수다. 하지만 설명이 필요 없는 선수를 수식하고 소개하는 일이 어쩌면 훨씬 더 어려운 일일지 모른다. 다른 어떤 선수가 아니라, 리오넬 메시의 이야기를 책으로 만드는 것은 신중에 신중을 기할 필요가 있었다. 편집부는 메시를 주인공으로 한 권의 책을 집필해줄 저자로 한준 기자를 선택했다. 메시에 대한 글을 쓸 수 있는 사람은 국내 축구 저널리스트, 마니아 중에서도 적지 않겠지만, 리오넬 메시와 직접 두 번이나 대면하여 인터뷰를 진행했을 정도의 특별한 경험이 있는 사람이라면 조금 더 진정성 있고, 정확하게 메시에 대한 글을 풀어낼 수 있을 것이라고 생각했다. 한준 저자는 메시의 선수 커리어를 축약하는 책을 세상에 내놓는 것보다는 훨씬 더 의미 있는 집필 작업으로 메시의 천재성에 헌사를 남기고 싶었다. 그리고 그 메시지가 오늘날을 살아가는 보통의 사람들에게도 크고 작은 울림과 깨달음을 전해줄 수 있기를 바랐다. 그러한 마음이 한 권의 책으로 묶여 『리오넬 메시 - 선수 12』가 만들어졌다.",
+        "isbn": "9791169780117",
+        "publisher": "브레인스토어",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6389968?timestamp=20260716121458",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6389968&q=%EB%A6%AC%EC%98%A4%EB%84%AC+%EB%A9%94%EC%8B%9C"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:22:32.492253+00:00",
+        "updated_at": "2026-09-06T04:22:32.492253+00:00"
+      }
+    ]
+  }
+}

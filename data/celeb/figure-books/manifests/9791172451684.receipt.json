@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791172451684.json",
+  "manifestSha256": "6e6fa9bd3f103c7f0ce863a94a3e5c6d4ceb14e3d7d6d9e5296ef526ee633e7c",
+  "planSha256": "52abc87da0e4ff4c5895afd11e1ab5e3523f23cb8e7c9dada3bdda08e0cb40cc",
+  "workIdentity": "book/9791172451684",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791172451684"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "de3d8911-1591-5913-8215-f8ac4f6641e1",
+    "scopeKey": "book/9791172451684",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "de3d8911-1591-5913-8215-f8ac4f6641e1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791172451684",
+      "release_date": "2024-05-31",
+      "metadata": {
+        "isbn": "9791172451684",
+        "publisher": "대원씨아이",
+        "publishDate": "2024-05-31",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791172451684",
+          "workTitle": "출발점 1979-1996",
+          "workCreator": "미야자키 하야오",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "출발점 1979-1996",
+          "creator": "미야자키 하야오",
+          "description": "수많은 명작으로 전 세계의 찬사를 받는 스튜디오 지브리. 스튜디오 지브리는 여전히 애니메이션계에서 확고부동한 위치에 있다. 스튜디오 지브리를 지금의 자리에 올려놓은 인물은 바로 스튜디오 지브리의 수장 미야자키 하야오 감독이다. 1985년 스튜디오 지브리를 설립한 하야오 감독은 『바람계곡의 나우시카』, 『천공의 성 라퓨타』, 『이웃집 토토로』, 『모노노케 히메』, 『센과 치히로의 행방불명』, 『하울의 움직이는 성』, 『벼랑 위의 포뇨』 등 왕성하게 작품을 발표했다.\n이 책에는 감독의 작품 철학과 애니메이션 기획서, 연출, 에세이, 강연, 대담의 원고 90여 편이 수록되어 있다. 작품 활동 중에 벌어졌던 사회현상에 대한 감상, 자신의 견해 등 생생한 현장감이 느껴지는 자료다. 이런 일련의 사건과 감독의 생각이 지브리의 작품을 만들어냈음은 분명하다.\n또한 미야자키 하야오 감독에게 영감을 준 영화, 문학, 만화 이야기와 함께 애니메이션계를 이끌어온 다카하타 이사오, 오시이 마모루 감독이나 소설가 시바 료타로 등 시대를 풍미한 멘토와의 대담 속에서 미야자키 하야오의 참모습이 드러난다.",
+          "isbn": "9791172451684",
+          "publisher": "대원씨아이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6649702?timestamp=20251121151820",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996"
+          },
+          "verified": true,
+          "content_id": "de3d8911-1591-5913-8215-f8ac4f6641e1"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "de3d8911-1591-5913-8215-f8ac4f6641e1",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791172451684",
+        "release_date": "2024-05-31",
+        "metadata": {
+          "isbn": "9791172451684",
+          "publisher": "대원씨아이",
+          "publishDate": "2024-05-31",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791172451684",
+            "workTitle": "출발점 1979-1996",
+            "workCreator": "미야자키 하야오",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "출발점 1979-1996",
+          "creator": "미야자키 하야오",
+          "description": "수많은 명작으로 전 세계의 찬사를 받는 스튜디오 지브리. 스튜디오 지브리는 여전히 애니메이션계에서 확고부동한 위치에 있다. 스튜디오 지브리를 지금의 자리에 올려놓은 인물은 바로 스튜디오 지브리의 수장 미야자키 하야오 감독이다. 1985년 스튜디오 지브리를 설립한 하야오 감독은 『바람계곡의 나우시카』, 『천공의 성 라퓨타』, 『이웃집 토토로』, 『모노노케 히메』, 『센과 치히로의 행방불명』, 『하울의 움직이는 성』, 『벼랑 위의 포뇨』 등 왕성하게 작품을 발표했다.\n이 책에는 감독의 작품 철학과 애니메이션 기획서, 연출, 에세이, 강연, 대담의 원고 90여 편이 수록되어 있다. 작품 활동 중에 벌어졌던 사회현상에 대한 감상, 자신의 견해 등 생생한 현장감이 느껴지는 자료다. 이런 일련의 사건과 감독의 생각이 지브리의 작품을 만들어냈음은 분명하다.\n또한 미야자키 하야오 감독에게 영감을 준 영화, 문학, 만화 이야기와 함께 애니메이션계를 이끌어온 다카하타 이사오, 오시이 마모루 감독이나 소설가 시바 료타로 등 시대를 풍미한 멘토와의 대담 속에서 미야자키 하야오의 참모습이 드러난다.",
+          "isbn": "9791172451684",
+          "publisher": "대원씨아이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6649702?timestamp=20251121151820",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996"
+          },
+          "verified": true,
+          "content_id": "de3d8911-1591-5913-8215-f8ac4f6641e1"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791172451684",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791172451684"
+      ],
+      "normalizedTitles": [
+        "출발점19791996"
+      ],
+      "normalizedCreators": [
+        "미야자키하야오",
+        "황의웅역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:23:43.170Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "de3d8911-1591-5913-8215-f8ac4f6641e1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791172451684",
+      "release_date": "2024-05-31",
+      "metadata": {
+        "isbn": "9791172451684",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+        "publisher": "대원씨아이",
+        "figureBook": {
+          "workTitle": "출발점 1979-1996",
+          "workCreator": "미야자키 하야오",
+          "workIdentity": "book/9791172451684",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-05-31",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:23:34.574106+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "de3d8911-1591-5913-8215-f8ac4f6641e1",
+        "locale": "ko",
+        "title": "출발점 1979-1996",
+        "creator": "미야자키 하야오",
+        "description": "수많은 명작으로 전 세계의 찬사를 받는 스튜디오 지브리. 스튜디오 지브리는 여전히 애니메이션계에서 확고부동한 위치에 있다. 스튜디오 지브리를 지금의 자리에 올려놓은 인물은 바로 스튜디오 지브리의 수장 미야자키 하야오 감독이다. 1985년 스튜디오 지브리를 설립한 하야오 감독은 『바람계곡의 나우시카』, 『천공의 성 라퓨타』, 『이웃집 토토로』, 『모노노케 히메』, 『센과 치히로의 행방불명』, 『하울의 움직이는 성』, 『벼랑 위의 포뇨』 등 왕성하게 작품을 발표했다.\n이 책에는 감독의 작품 철학과 애니메이션 기획서, 연출, 에세이, 강연, 대담의 원고 90여 편이 수록되어 있다. 작품 활동 중에 벌어졌던 사회현상에 대한 감상, 자신의 견해 등 생생한 현장감이 느껴지는 자료다. 이런 일련의 사건과 감독의 생각이 지브리의 작품을 만들어냈음은 분명하다.\n또한 미야자키 하야오 감독에게 영감을 준 영화, 문학, 만화 이야기와 함께 애니메이션계를 이끌어온 다카하타 이사오, 오시이 마모루 감독이나 소설가 시바 료타로 등 시대를 풍미한 멘토와의 대담 속에서 미야자키 하야오의 참모습이 드러난다.",
+        "isbn": "9791172451684",
+        "publisher": "대원씨아이",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6649702?timestamp=20251121151820",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6649702&q=%EC%B6%9C%EB%B0%9C%EC%A0%90+1979-1996"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:23:34.574106+00:00",
+        "updated_at": "2026-09-06T04:23:34.574106+00:00"
+      }
+    ]
+  }
+}

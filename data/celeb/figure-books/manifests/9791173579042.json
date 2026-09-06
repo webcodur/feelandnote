@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791173579042",
+    "title": "토머스 제퍼슨",
+    "creator": "존 미첨",
+    "titleAliases": [],
+    "creatorAliases": [
+      "원희래 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791173579042"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791130612904",
+    "title": "에어비앤비 스토리",
+    "creator": "레이 갤러거",
+    "titleAliases": [],
+    "creatorAliases": [
+      "유정식 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791130612904"
+  }
+}

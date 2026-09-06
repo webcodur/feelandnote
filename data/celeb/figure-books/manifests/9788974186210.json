@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788974186210",
+    "title": "스피노자와 그의 친구들",
+    "creator": "막심 로베르",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박영옥 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788974186210"
+  }
+}

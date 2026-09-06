@@ -1,0 +1,20 @@
+{
+  "work": {
+    "identity": "book/9791189001261",
+    "title": "설민석의 세계사 대모험 1",
+    "creator": "설민석",
+    "titleAliases": [],
+    "creatorAliases": [
+      "설민석, 잼스토리",
+      "잼스토리"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791189001261"
+  }
+}

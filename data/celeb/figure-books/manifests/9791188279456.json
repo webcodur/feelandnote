@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791188279456",
+    "title": "나는 어떻게 시장을 이겼나",
+    "creator": "에드워드 O 소프",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김인정 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791188279456"
+  }
+}

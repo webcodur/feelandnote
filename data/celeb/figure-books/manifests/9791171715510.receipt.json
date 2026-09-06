@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791171715510.json",
+  "manifestSha256": "733cce07dd1392c30f48de7bc5d90c9c3eb50b011e17b93cbfb4f125a35c33a1",
+  "planSha256": "c53de0fa14c278469e24cb5e528851481cf8882132dc640083d166f7c463886e",
+  "workIdentity": "book/9791171715510",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791171715510"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "b76dd369-cfe9-5024-851a-7b761a8f8579",
+    "scopeKey": "book/9791171715510",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "b76dd369-cfe9-5024-851a-7b761a8f8579",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791171715510",
+      "release_date": "2025-12-09",
+      "metadata": {
+        "isbn": "9791171715510",
+        "publisher": "위즈덤하우스",
+        "publishDate": "2025-12-09",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791171715510",
+          "workTitle": "라흐마니노프, 피아노의 빛을 따라",
+          "workCreator": "피오나 매덕스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "라흐마니노프, 피아노의 빛을 따라",
+          "creator": "피오나 매덕스",
+          "description": "클래식 음악을 즐겨 듣는 사람이 아니더라도 ‘라피협’이라는 단어는 들어본 적 있을 것이다. 라흐마니노프의 피아노 협주곡은 줄임말로 소통이 될 만큼 유명하고, 많은 사람이 좋아한다. 하지만 그에 비해서 라흐마니노프라는 작곡가에 대해서는 널리 알려져 있지 않다. 왜냐하면 실제로 라흐마니노프만을 조명한 책이 많지 않기 때문이다.\n《라흐마니노프, 피아노의 빛을 따라》는 ‘클래식 음악 부문 최고의 작가’라고 불리는 피오나 매덕스가 세계 각지에 흩어져 있는 방대한 라흐마니노프 관련 자료를 수집하고, 라흐마니노프 후손과의 연락을 통해 사실을 검증하는 등 면밀한 조사를 통해 쓴 책이다. 특히 베일에 가려졌다고 할 만큼 세상에 거의 알려지지 않은, 라흐마니노프가 러시아를 떠난 이후의 시간이 세심한 필치로 생생하게 펼쳐진다.\n라흐마니노프는 평생 비판과 오해에 시달렸고, 그가 죽은 후에도 그의 음악에 달린 꼬리표는 완전히 사라지지 않은 모양새다. 저자는 그것을 바로잡겠다는 사명감으로 이 책을 썼다고 밝힌다. 그리고 우리는 이 책을 통해 그동안 몰랐던 ‘인간 라흐마니노프’를 만나, 그와 그의 음악마저 새롭게 바라볼 수 있는 기회를 얻는다.",
+          "isbn": "9791171715510",
+          "publisher": "위즈덤하우스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7099429?timestamp=20260901130559",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC"
+          },
+          "verified": true,
+          "content_id": "b76dd369-cfe9-5024-851a-7b761a8f8579"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "b76dd369-cfe9-5024-851a-7b761a8f8579",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791171715510",
+        "release_date": "2025-12-09",
+        "metadata": {
+          "isbn": "9791171715510",
+          "publisher": "위즈덤하우스",
+          "publishDate": "2025-12-09",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791171715510",
+            "workTitle": "라흐마니노프, 피아노의 빛을 따라",
+            "workCreator": "피오나 매덕스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "라흐마니노프, 피아노의 빛을 따라",
+          "creator": "피오나 매덕스",
+          "description": "클래식 음악을 즐겨 듣는 사람이 아니더라도 ‘라피협’이라는 단어는 들어본 적 있을 것이다. 라흐마니노프의 피아노 협주곡은 줄임말로 소통이 될 만큼 유명하고, 많은 사람이 좋아한다. 하지만 그에 비해서 라흐마니노프라는 작곡가에 대해서는 널리 알려져 있지 않다. 왜냐하면 실제로 라흐마니노프만을 조명한 책이 많지 않기 때문이다.\n《라흐마니노프, 피아노의 빛을 따라》는 ‘클래식 음악 부문 최고의 작가’라고 불리는 피오나 매덕스가 세계 각지에 흩어져 있는 방대한 라흐마니노프 관련 자료를 수집하고, 라흐마니노프 후손과의 연락을 통해 사실을 검증하는 등 면밀한 조사를 통해 쓴 책이다. 특히 베일에 가려졌다고 할 만큼 세상에 거의 알려지지 않은, 라흐마니노프가 러시아를 떠난 이후의 시간이 세심한 필치로 생생하게 펼쳐진다.\n라흐마니노프는 평생 비판과 오해에 시달렸고, 그가 죽은 후에도 그의 음악에 달린 꼬리표는 완전히 사라지지 않은 모양새다. 저자는 그것을 바로잡겠다는 사명감으로 이 책을 썼다고 밝힌다. 그리고 우리는 이 책을 통해 그동안 몰랐던 ‘인간 라흐마니노프’를 만나, 그와 그의 음악마저 새롭게 바라볼 수 있는 기회를 얻는다.",
+          "isbn": "9791171715510",
+          "publisher": "위즈덤하우스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7099429?timestamp=20260901130559",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC"
+          },
+          "verified": true,
+          "content_id": "b76dd369-cfe9-5024-851a-7b761a8f8579"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791171715510",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791171715510"
+      ],
+      "normalizedTitles": [
+        "라흐마니노프피아노의빛을따라"
+      ],
+      "normalizedCreators": [
+        "장호연역",
+        "피오나매덕스"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:23:28.849Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "b76dd369-cfe9-5024-851a-7b761a8f8579",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791171715510",
+      "release_date": "2025-12-09",
+      "metadata": {
+        "isbn": "9791171715510",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+        "publisher": "위즈덤하우스",
+        "figureBook": {
+          "workTitle": "라흐마니노프, 피아노의 빛을 따라",
+          "workCreator": "피오나 매덕스",
+          "workIdentity": "book/9791171715510",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-12-09",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:23:10.994172+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "b76dd369-cfe9-5024-851a-7b761a8f8579",
+        "locale": "ko",
+        "title": "라흐마니노프, 피아노의 빛을 따라",
+        "creator": "피오나 매덕스",
+        "description": "클래식 음악을 즐겨 듣는 사람이 아니더라도 ‘라피협’이라는 단어는 들어본 적 있을 것이다. 라흐마니노프의 피아노 협주곡은 줄임말로 소통이 될 만큼 유명하고, 많은 사람이 좋아한다. 하지만 그에 비해서 라흐마니노프라는 작곡가에 대해서는 널리 알려져 있지 않다. 왜냐하면 실제로 라흐마니노프만을 조명한 책이 많지 않기 때문이다.\n《라흐마니노프, 피아노의 빛을 따라》는 ‘클래식 음악 부문 최고의 작가’라고 불리는 피오나 매덕스가 세계 각지에 흩어져 있는 방대한 라흐마니노프 관련 자료를 수집하고, 라흐마니노프 후손과의 연락을 통해 사실을 검증하는 등 면밀한 조사를 통해 쓴 책이다. 특히 베일에 가려졌다고 할 만큼 세상에 거의 알려지지 않은, 라흐마니노프가 러시아를 떠난 이후의 시간이 세심한 필치로 생생하게 펼쳐진다.\n라흐마니노프는 평생 비판과 오해에 시달렸고, 그가 죽은 후에도 그의 음악에 달린 꼬리표는 완전히 사라지지 않은 모양새다. 저자는 그것을 바로잡겠다는 사명감으로 이 책을 썼다고 밝힌다. 그리고 우리는 이 책을 통해 그동안 몰랐던 ‘인간 라흐마니노프’를 만나, 그와 그의 음악마저 새롭게 바라볼 수 있는 기회를 얻는다.",
+        "isbn": "9791171715510",
+        "publisher": "위즈덤하우스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7099429?timestamp=20260901130559",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7099429&q=%EB%9D%BC%ED%9D%90%EB%A7%88%EB%8B%88%EB%85%B8%ED%94%84%2C+%ED%94%BC%EC%95%84%EB%85%B8%EC%9D%98+%EB%B9%9B%EC%9D%84+%EB%94%B0%EB%9D%BC"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:23:10.994172+00:00",
+        "updated_at": "2026-09-06T04:23:10.994172+00:00"
+      }
+    ]
+  }
+}

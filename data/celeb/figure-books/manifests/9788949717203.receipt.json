@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788949717203.json",
+  "manifestSha256": "7daf4d559d9e97b690b7a744b6a1fd0b816c38c905310b9f5efa99da1d12fe31",
+  "planSha256": "de1b71c72fd3569470208484875baf68151ce17d41c765d41d5815636cb3d0d1",
+  "workIdentity": "book/9788949717203",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788949717203"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ca4b9d08-f376-59da-9364-2bff8ac840e9",
+    "scopeKey": "book/9788949717203",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ca4b9d08-f376-59da-9364-2bff8ac840e9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788949717203",
+      "release_date": "2019-03-01",
+      "metadata": {
+        "isbn": "9788949717203",
+        "publisher": "동서문화사",
+        "publishDate": "2019-03-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788949717203",
+          "workTitle": "괴벨스 프로파간다!",
+          "workCreator": "파울 요제프 괴벨스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "괴벨스 프로파간다!",
+          "creator": "파울 요제프 괴벨스",
+          "description": "나치 프로파간다 탄생 괴벨스!\n\n파울 요제프 괴벨스(Paul Joseph Goebbels)는 히틀러 나치 정권 선전을 담당해 크게 활약한 인물이다. 그는 독일 나치스 정권의 국가대중계몽선전장관 자리에 앉아 새 선전수단 구사, 교묘한 선동정치로 1930년대 당세 확장에 크게 기여했으며 나치 선전 및 미화를 책임졌다. 독일 국민들이 나치 정권을 호의적으로 받아들이게 된 까닭은 괴벨스의 선전선동 때문인 것으로 여겨진다. 괴벨스는 다리가 굽었기 때문에 제1차 세계대전 때 병역을 면제받았는데, 이는 그에게 강렬한 보상심리를 유발함으로써 그의 인생을 불운하게 몰아가는 불씨가 되었다. 괴벨스는 하이델베르크대학에서 독일문헌학으로 박사학위를 취득한 뒤 문학·연극·언론계에서 활동했는데, 히틀러가 베를린지구당 위원장에 임명하면서 나치당에 입당했다. 이윽고 그는 국가선전기구를 장악하고 나치 프로파간다의 거의 모든 것을 만들어 낸다. 히틀러 시대와 나치 프로파간다를 이해하기 위해서는 괴벨스를 빼놓을 수 없다.",
+          "isbn": "9788949717203",
+          "publisher": "동서문화사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4903604?timestamp=20230519200548",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21"
+          },
+          "verified": true,
+          "content_id": "ca4b9d08-f376-59da-9364-2bff8ac840e9"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ca4b9d08-f376-59da-9364-2bff8ac840e9",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788949717203",
+        "release_date": "2019-03-01",
+        "metadata": {
+          "isbn": "9788949717203",
+          "publisher": "동서문화사",
+          "publishDate": "2019-03-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788949717203",
+            "workTitle": "괴벨스 프로파간다!",
+            "workCreator": "파울 요제프 괴벨스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "괴벨스 프로파간다!",
+          "creator": "파울 요제프 괴벨스",
+          "description": "나치 프로파간다 탄생 괴벨스!\n\n파울 요제프 괴벨스(Paul Joseph Goebbels)는 히틀러 나치 정권 선전을 담당해 크게 활약한 인물이다. 그는 독일 나치스 정권의 국가대중계몽선전장관 자리에 앉아 새 선전수단 구사, 교묘한 선동정치로 1930년대 당세 확장에 크게 기여했으며 나치 선전 및 미화를 책임졌다. 독일 국민들이 나치 정권을 호의적으로 받아들이게 된 까닭은 괴벨스의 선전선동 때문인 것으로 여겨진다. 괴벨스는 다리가 굽었기 때문에 제1차 세계대전 때 병역을 면제받았는데, 이는 그에게 강렬한 보상심리를 유발함으로써 그의 인생을 불운하게 몰아가는 불씨가 되었다. 괴벨스는 하이델베르크대학에서 독일문헌학으로 박사학위를 취득한 뒤 문학·연극·언론계에서 활동했는데, 히틀러가 베를린지구당 위원장에 임명하면서 나치당에 입당했다. 이윽고 그는 국가선전기구를 장악하고 나치 프로파간다의 거의 모든 것을 만들어 낸다. 히틀러 시대와 나치 프로파간다를 이해하기 위해서는 괴벨스를 빼놓을 수 없다.",
+          "isbn": "9788949717203",
+          "publisher": "동서문화사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4903604?timestamp=20230519200548",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21"
+          },
+          "verified": true,
+          "content_id": "ca4b9d08-f376-59da-9364-2bff8ac840e9"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788949717203",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788949717203"
+      ],
+      "normalizedTitles": [
+        "괴벨스프로파간다"
+      ],
+      "normalizedCreators": [
+        "추영현역",
+        "파울요제프괴벨스"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:44:43.614Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ca4b9d08-f376-59da-9364-2bff8ac840e9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788949717203",
+      "release_date": "2019-03-01",
+      "metadata": {
+        "isbn": "9788949717203",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+        "publisher": "동서문화사",
+        "figureBook": {
+          "workTitle": "괴벨스 프로파간다!",
+          "workCreator": "파울 요제프 괴벨스",
+          "workIdentity": "book/9788949717203",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-03-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:44:38.68482+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ca4b9d08-f376-59da-9364-2bff8ac840e9",
+        "locale": "ko",
+        "title": "괴벨스 프로파간다!",
+        "creator": "파울 요제프 괴벨스",
+        "description": "나치 프로파간다 탄생 괴벨스!\n\n파울 요제프 괴벨스(Paul Joseph Goebbels)는 히틀러 나치 정권 선전을 담당해 크게 활약한 인물이다. 그는 독일 나치스 정권의 국가대중계몽선전장관 자리에 앉아 새 선전수단 구사, 교묘한 선동정치로 1930년대 당세 확장에 크게 기여했으며 나치 선전 및 미화를 책임졌다. 독일 국민들이 나치 정권을 호의적으로 받아들이게 된 까닭은 괴벨스의 선전선동 때문인 것으로 여겨진다. 괴벨스는 다리가 굽었기 때문에 제1차 세계대전 때 병역을 면제받았는데, 이는 그에게 강렬한 보상심리를 유발함으로써 그의 인생을 불운하게 몰아가는 불씨가 되었다. 괴벨스는 하이델베르크대학에서 독일문헌학으로 박사학위를 취득한 뒤 문학·연극·언론계에서 활동했는데, 히틀러가 베를린지구당 위원장에 임명하면서 나치당에 입당했다. 이윽고 그는 국가선전기구를 장악하고 나치 프로파간다의 거의 모든 것을 만들어 낸다. 히틀러 시대와 나치 프로파간다를 이해하기 위해서는 괴벨스를 빼놓을 수 없다.",
+        "isbn": "9788949717203",
+        "publisher": "동서문화사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4903604?timestamp=20230519200548",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4903604&q=%EA%B4%B4%EB%B2%A8%EC%8A%A4+%ED%94%84%EB%A1%9C%ED%8C%8C%EA%B0%84%EB%8B%A4%21"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:44:38.68482+00:00",
+        "updated_at": "2026-09-04T17:44:38.68482+00:00"
+      }
+    ]
+  }
+}

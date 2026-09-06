@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791194423010.json",
+  "manifestSha256": "a95d26a5749b9da8449c1e78adfd5310b2654116eb3f12f54eb631bacddf953c",
+  "planSha256": "6b730063989b9106c20327e7091bd625c64ce24c8e509780d3e1d7aea7efbdc2",
+  "workIdentity": "book/9791194423010",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791194423010"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ba908a3d-9df8-5ba5-b9c1-014ca5d51873",
+    "scopeKey": "book/9791194423010",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ba908a3d-9df8-5ba5-b9c1-014ca5d51873",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791194423010",
+      "release_date": "2025-12-10",
+      "metadata": {
+        "isbn": "9791194423010",
+        "publisher": "세로북스",
+        "publishDate": "2025-12-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791194423010",
+          "workTitle": "슈뢰딩거와 양자 혁명",
+          "workCreator": "존 그리빈",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "슈뢰딩거와 양자 혁명",
+          "creator": "존 그리빈",
+          "description": "‘슈뢰딩거의 고양이’와 ‘슈뢰딩거 방정식’으로 유명한 오스트리아 물리학자 에르빈 슈뢰딩거의 전기이다. 21세기에 들어 양자역학은 물리학자들의 연구실을 뛰어넘어 공학자와 벤처기업가의 앞마당을 차지했고, 물리학과 학생들의 전공 교과목에서 현대인의 필수 교양으로 자리 잡았다. 슈뢰딩거의 고양이가 로맨스 소설의 제목에 등장하고, 양자 컴퓨터 회사들이 주식시장의 테마주로 떠오른 지금, 양자 혁명의 주역인 슈뢰딩거의 삶을 따라가며 양자역학을 이해해 보자. 노벨상을 수상한 천재 물리학자, 힌두의 베단타 철학에 심취한 철학자, 많은 여성들과 쉴새 없이 사랑을 나눈 호색한이 중첩된 슈뢰딩거의 삶은 양자역학만큼이나 기이하고 매혹적이다.\n\n“그의 개인사는 우리 같은 평범한 사람들의 눈에는 기이하게 보였다. 그러나 그런 것은 중요하지 않다. 그는 매력이 넘치는 사람이었고, 개성 강하고, 유쾌하며, 괴팍한 동시에 친절하고 너그러운 사람이었다. 또한 가장 완벽하고 효율적인 두뇌의 소유자였다.”\n-막스 보른, 『나의 삶』 (1978)",
+          "isbn": "9791194423010",
+          "publisher": "세로북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7091595?timestamp=20251209154750",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85"
+          },
+          "verified": true,
+          "content_id": "ba908a3d-9df8-5ba5-b9c1-014ca5d51873"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ba908a3d-9df8-5ba5-b9c1-014ca5d51873",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791194423010",
+        "release_date": "2025-12-10",
+        "metadata": {
+          "isbn": "9791194423010",
+          "publisher": "세로북스",
+          "publishDate": "2025-12-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791194423010",
+            "workTitle": "슈뢰딩거와 양자 혁명",
+            "workCreator": "존 그리빈",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "슈뢰딩거와 양자 혁명",
+          "creator": "존 그리빈",
+          "description": "‘슈뢰딩거의 고양이’와 ‘슈뢰딩거 방정식’으로 유명한 오스트리아 물리학자 에르빈 슈뢰딩거의 전기이다. 21세기에 들어 양자역학은 물리학자들의 연구실을 뛰어넘어 공학자와 벤처기업가의 앞마당을 차지했고, 물리학과 학생들의 전공 교과목에서 현대인의 필수 교양으로 자리 잡았다. 슈뢰딩거의 고양이가 로맨스 소설의 제목에 등장하고, 양자 컴퓨터 회사들이 주식시장의 테마주로 떠오른 지금, 양자 혁명의 주역인 슈뢰딩거의 삶을 따라가며 양자역학을 이해해 보자. 노벨상을 수상한 천재 물리학자, 힌두의 베단타 철학에 심취한 철학자, 많은 여성들과 쉴새 없이 사랑을 나눈 호색한이 중첩된 슈뢰딩거의 삶은 양자역학만큼이나 기이하고 매혹적이다.\n\n“그의 개인사는 우리 같은 평범한 사람들의 눈에는 기이하게 보였다. 그러나 그런 것은 중요하지 않다. 그는 매력이 넘치는 사람이었고, 개성 강하고, 유쾌하며, 괴팍한 동시에 친절하고 너그러운 사람이었다. 또한 가장 완벽하고 효율적인 두뇌의 소유자였다.”\n-막스 보른, 『나의 삶』 (1978)",
+          "isbn": "9791194423010",
+          "publisher": "세로북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7091595?timestamp=20251209154750",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85"
+          },
+          "verified": true,
+          "content_id": "ba908a3d-9df8-5ba5-b9c1-014ca5d51873"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791194423010",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791194423010"
+      ],
+      "normalizedTitles": [
+        "슈뢰딩거와양자혁명"
+      ],
+      "normalizedCreators": [
+        "배지은역",
+        "존그리빈"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:16:58.947Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ba908a3d-9df8-5ba5-b9c1-014ca5d51873",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791194423010",
+      "release_date": "2025-12-10",
+      "metadata": {
+        "isbn": "9791194423010",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+        "publisher": "세로북스",
+        "figureBook": {
+          "workTitle": "슈뢰딩거와 양자 혁명",
+          "workCreator": "존 그리빈",
+          "workIdentity": "book/9791194423010",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-12-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:16:49.589238+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ba908a3d-9df8-5ba5-b9c1-014ca5d51873",
+        "locale": "ko",
+        "title": "슈뢰딩거와 양자 혁명",
+        "creator": "존 그리빈",
+        "description": "‘슈뢰딩거의 고양이’와 ‘슈뢰딩거 방정식’으로 유명한 오스트리아 물리학자 에르빈 슈뢰딩거의 전기이다. 21세기에 들어 양자역학은 물리학자들의 연구실을 뛰어넘어 공학자와 벤처기업가의 앞마당을 차지했고, 물리학과 학생들의 전공 교과목에서 현대인의 필수 교양으로 자리 잡았다. 슈뢰딩거의 고양이가 로맨스 소설의 제목에 등장하고, 양자 컴퓨터 회사들이 주식시장의 테마주로 떠오른 지금, 양자 혁명의 주역인 슈뢰딩거의 삶을 따라가며 양자역학을 이해해 보자. 노벨상을 수상한 천재 물리학자, 힌두의 베단타 철학에 심취한 철학자, 많은 여성들과 쉴새 없이 사랑을 나눈 호색한이 중첩된 슈뢰딩거의 삶은 양자역학만큼이나 기이하고 매혹적이다.\n\n“그의 개인사는 우리 같은 평범한 사람들의 눈에는 기이하게 보였다. 그러나 그런 것은 중요하지 않다. 그는 매력이 넘치는 사람이었고, 개성 강하고, 유쾌하며, 괴팍한 동시에 친절하고 너그러운 사람이었다. 또한 가장 완벽하고 효율적인 두뇌의 소유자였다.”\n-막스 보른, 『나의 삶』 (1978)",
+        "isbn": "9791194423010",
+        "publisher": "세로북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7091595?timestamp=20251209154750",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7091595&q=%EC%8A%88%EB%A2%B0%EB%94%A9%EA%B1%B0%EC%99%80+%EC%96%91%EC%9E%90+%ED%98%81%EB%AA%85"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:16:49.589238+00:00",
+        "updated_at": "2026-09-04T18:16:49.589238+00:00"
+      }
+    ]
+  }
+}

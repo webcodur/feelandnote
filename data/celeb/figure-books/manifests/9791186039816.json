@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791186039816",
+    "title": "황금의 샘 1",
+    "creator": "대니얼 예긴",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김태유 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791186039816"
+  }
+}

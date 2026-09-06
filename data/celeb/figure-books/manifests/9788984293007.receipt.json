@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788984293007.json",
+  "manifestSha256": "be48522a3528d86fa63f3c4d6ac27ad0d61420d6a8a9250a8c3b063d56ef293e",
+  "planSha256": "fdc20eec08b716750d544162445af3a2ac4689a4c9b07a22c764d575c7a30a3e",
+  "workIdentity": "book/9788984293007",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788984293007"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "60df0873-8f75-551c-9ec1-ca0c019f8e78",
+    "scopeKey": "book/9788984293007",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "60df0873-8f75-551c-9ec1-ca0c019f8e78",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788984293007",
+      "release_date": "2024-11-01",
+      "metadata": {
+        "isbn": "9788984293007",
+        "publisher": "지식발전소",
+        "publishDate": "2024-11-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+        "salesStatus": "주문판매",
+        "figureBook": {
+          "workIdentity": "book/9788984293007",
+          "workTitle": "로크는 왜 왕 앞에서 개인의 권리를 외쳤을까",
+          "workCreator": "에릭 맥",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "로크는 왜 왕 앞에서 개인의 권리를 외쳤을까",
+          "creator": "에릭 맥",
+          "description": "어느 때보다 개인의 선택과 다양성이 보장받는 현대 사회에서, 우리는 여전히 다음과 같은 질문을 던진다. “자유라는 가치가 시대를 초월해 중요한 이유는 무엇인가? 그리고 우리는 과연 진정으로 자유롭다고 할 수 있는가?” 이 질문에 대해 수백 년 전 영국의 철학자 존 로크는 자유에 대한 해답을 제시했다. 지식발전소에서 출간한 책 『로크는 왜 왕 앞에서 개인의 권리를 외쳤을까』에는 로크가 말하는 자유의 본질과 가치에 대한 깊은 통찰을 소개한다.\n\n『로크는 왜 왕 앞에서 개인의 권리를 외쳤을까』는 다른 철학서적과 비교해 쉽게 쓰였다. 로크의 정치, 경제사상을 전달하기 위한 이론서라는 접근보다 교양서라는 느낌을 주고자 제목부터 친근하게 짓고, 로크의 추상적이고 복잡한 철학을 일반 대중들이 이해하기 수월한 수준으로 풀어 해설하였다. 챕터별 소제목과 스토리텔링 식 문단 구성, 절절한 예시는 정갈하게 담겨 자칫 어렵게 느껴질 수 있는 로크 사상 이해에 도움을 준다. 따라서 철학에 처음 입문하는 사람과 로크에 대해 더욱 자세히 알고 싶은 사람 모두 읽을 수 있다.\n\n또한 타인과의 관계 맺음에 대한 조언도 제시한다. 로크는 고전적 자유주의의 틀 안에서, 개인의 자유뿐만 아니라 타인의 자유를 존중하며 조화롭게 살아가야 한다고 말한다. 자유민주주의의 모태가 된 로크의 철학을 통해 독자는 타인과 함께 살아가는 방식을 성찰함과 동시에 자신의 삶을 주체적으로 바라보는 시간을 가질 수 있을 것이다.\n\n로크 철학을 세세하게 들여다볼 수 있어 한 권으로 로크 철학을 완벽히 파악하여 대비할 수 있다는 점에서 특히 수험생과 취업준비생에게 권장할 수 있다. 로크는 최근까지 대학 수시, 언론고사, 구술면접 등에 자주 출제되고 있으며, 로크의 관점에서 개인과 국가의 역할을 묻거나 시사이슈를 분석하는 문제는 매해 대표적인 출제포인트로 꼽힌다.\n\n저자인 에릭 맥은 존 로크, 하이에크, 로버트 노직 등 자유 정치 철학자에 대한 최고 전문가 중 한 명으로 꼽힌다. 그는 스탠퍼드 철학 백과사전, 옥스퍼드 정치 철학 연구 등 여러 권위 있는 학술지에 자연권과 존 로크 사상에 대한 다수의 논문 발표 및 〈John Locke〉, 〈Libertarianism〉 같은 저서를 발표 하는 등 그는 자유주의 및 정치적 자유에 대한 비판적인 논의를 통해 정치 철학 발전에 크게 이바지하고 있다. 이 책에는 존 로크의 자유주의 계보를 잇고 더 나아가 철학적 지혜를 담고자 한 저자의 노력이 엿보인다.\n\n『로크는 왜 왕 앞에서 개인의 권리를 외쳤을까』는 재단법인 자유기업원의 단행본 출판 브랜드인 지식발전소에서 펴냈으며 정가는 12,000원이다. 책은 총 8장으로 구성되어 있으며 1장과 2장은 자연 상태와 자연법, 자연적 자유와 권리까지 자연 상태에 인간에게 주어진 천부 권한을 소개한다. 4장~6장은 개인의 자유에 근거한 개인 소유권에 관한 주장과 자연 상태에서 이 소유권을 지키기 위한 해결책으로서의 자연법과 제정법의 필요성을 다룬다 . 7장은 종교에 대한 관용, 8장은 권력에 대한 자유와 로크의 재산권 신조를 명료하고 논리적으로 풀어 전개해 나가고 있다.",
+          "isbn": "9788984293007",
+          "publisher": "지식발전소",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6764678?timestamp=20241127154248",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C"
+          },
+          "verified": true,
+          "content_id": "60df0873-8f75-551c-9ec1-ca0c019f8e78"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "60df0873-8f75-551c-9ec1-ca0c019f8e78",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788984293007",
+        "release_date": "2024-11-01",
+        "metadata": {
+          "isbn": "9788984293007",
+          "publisher": "지식발전소",
+          "publishDate": "2024-11-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+          "salesStatus": "주문판매",
+          "figureBook": {
+            "workIdentity": "book/9788984293007",
+            "workTitle": "로크는 왜 왕 앞에서 개인의 권리를 외쳤을까",
+            "workCreator": "에릭 맥",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "로크는 왜 왕 앞에서 개인의 권리를 외쳤을까",
+          "creator": "에릭 맥",
+          "description": "어느 때보다 개인의 선택과 다양성이 보장받는 현대 사회에서, 우리는 여전히 다음과 같은 질문을 던진다. “자유라는 가치가 시대를 초월해 중요한 이유는 무엇인가? 그리고 우리는 과연 진정으로 자유롭다고 할 수 있는가?” 이 질문에 대해 수백 년 전 영국의 철학자 존 로크는 자유에 대한 해답을 제시했다. 지식발전소에서 출간한 책 『로크는 왜 왕 앞에서 개인의 권리를 외쳤을까』에는 로크가 말하는 자유의 본질과 가치에 대한 깊은 통찰을 소개한다.\n\n『로크는 왜 왕 앞에서 개인의 권리를 외쳤을까』는 다른 철학서적과 비교해 쉽게 쓰였다. 로크의 정치, 경제사상을 전달하기 위한 이론서라는 접근보다 교양서라는 느낌을 주고자 제목부터 친근하게 짓고, 로크의 추상적이고 복잡한 철학을 일반 대중들이 이해하기 수월한 수준으로 풀어 해설하였다. 챕터별 소제목과 스토리텔링 식 문단 구성, 절절한 예시는 정갈하게 담겨 자칫 어렵게 느껴질 수 있는 로크 사상 이해에 도움을 준다. 따라서 철학에 처음 입문하는 사람과 로크에 대해 더욱 자세히 알고 싶은 사람 모두 읽을 수 있다.\n\n또한 타인과의 관계 맺음에 대한 조언도 제시한다. 로크는 고전적 자유주의의 틀 안에서, 개인의 자유뿐만 아니라 타인의 자유를 존중하며 조화롭게 살아가야 한다고 말한다. 자유민주주의의 모태가 된 로크의 철학을 통해 독자는 타인과 함께 살아가는 방식을 성찰함과 동시에 자신의 삶을 주체적으로 바라보는 시간을 가질 수 있을 것이다.\n\n로크 철학을 세세하게 들여다볼 수 있어 한 권으로 로크 철학을 완벽히 파악하여 대비할 수 있다는 점에서 특히 수험생과 취업준비생에게 권장할 수 있다. 로크는 최근까지 대학 수시, 언론고사, 구술면접 등에 자주 출제되고 있으며, 로크의 관점에서 개인과 국가의 역할을 묻거나 시사이슈를 분석하는 문제는 매해 대표적인 출제포인트로 꼽힌다.\n\n저자인 에릭 맥은 존 로크, 하이에크, 로버트 노직 등 자유 정치 철학자에 대한 최고 전문가 중 한 명으로 꼽힌다. 그는 스탠퍼드 철학 백과사전, 옥스퍼드 정치 철학 연구 등 여러 권위 있는 학술지에 자연권과 존 로크 사상에 대한 다수의 논문 발표 및 〈John Locke〉, 〈Libertarianism〉 같은 저서를 발표 하는 등 그는 자유주의 및 정치적 자유에 대한 비판적인 논의를 통해 정치 철학 발전에 크게 이바지하고 있다. 이 책에는 존 로크의 자유주의 계보를 잇고 더 나아가 철학적 지혜를 담고자 한 저자의 노력이 엿보인다.\n\n『로크는 왜 왕 앞에서 개인의 권리를 외쳤을까』는 재단법인 자유기업원의 단행본 출판 브랜드인 지식발전소에서 펴냈으며 정가는 12,000원이다. 책은 총 8장으로 구성되어 있으며 1장과 2장은 자연 상태와 자연법, 자연적 자유와 권리까지 자연 상태에 인간에게 주어진 천부 권한을 소개한다. 4장~6장은 개인의 자유에 근거한 개인 소유권에 관한 주장과 자연 상태에서 이 소유권을 지키기 위한 해결책으로서의 자연법과 제정법의 필요성을 다룬다 . 7장은 종교에 대한 관용, 8장은 권력에 대한 자유와 로크의 재산권 신조를 명료하고 논리적으로 풀어 전개해 나가고 있다.",
+          "isbn": "9788984293007",
+          "publisher": "지식발전소",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6764678?timestamp=20241127154248",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C"
+          },
+          "verified": true,
+          "content_id": "60df0873-8f75-551c-9ec1-ca0c019f8e78"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788984293007",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788984293007"
+      ],
+      "normalizedTitles": [
+        "로크는왜왕앞에서개인의권리를외쳤을까"
+      ],
+      "normalizedCreators": [
+        "권혁철역",
+        "에릭맥"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:55:51.397Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "60df0873-8f75-551c-9ec1-ca0c019f8e78",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788984293007",
+      "release_date": "2024-11-01",
+      "metadata": {
+        "isbn": "9788984293007",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+        "publisher": "지식발전소",
+        "figureBook": {
+          "workTitle": "로크는 왜 왕 앞에서 개인의 권리를 외쳤을까",
+          "workCreator": "에릭 맥",
+          "workIdentity": "book/9788984293007",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-11-01",
+        "salesStatus": "주문판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:55:40.867071+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "60df0873-8f75-551c-9ec1-ca0c019f8e78",
+        "locale": "ko",
+        "title": "로크는 왜 왕 앞에서 개인의 권리를 외쳤을까",
+        "creator": "에릭 맥",
+        "description": "어느 때보다 개인의 선택과 다양성이 보장받는 현대 사회에서, 우리는 여전히 다음과 같은 질문을 던진다. “자유라는 가치가 시대를 초월해 중요한 이유는 무엇인가? 그리고 우리는 과연 진정으로 자유롭다고 할 수 있는가?” 이 질문에 대해 수백 년 전 영국의 철학자 존 로크는 자유에 대한 해답을 제시했다. 지식발전소에서 출간한 책 『로크는 왜 왕 앞에서 개인의 권리를 외쳤을까』에는 로크가 말하는 자유의 본질과 가치에 대한 깊은 통찰을 소개한다.\n\n『로크는 왜 왕 앞에서 개인의 권리를 외쳤을까』는 다른 철학서적과 비교해 쉽게 쓰였다. 로크의 정치, 경제사상을 전달하기 위한 이론서라는 접근보다 교양서라는 느낌을 주고자 제목부터 친근하게 짓고, 로크의 추상적이고 복잡한 철학을 일반 대중들이 이해하기 수월한 수준으로 풀어 해설하였다. 챕터별 소제목과 스토리텔링 식 문단 구성, 절절한 예시는 정갈하게 담겨 자칫 어렵게 느껴질 수 있는 로크 사상 이해에 도움을 준다. 따라서 철학에 처음 입문하는 사람과 로크에 대해 더욱 자세히 알고 싶은 사람 모두 읽을 수 있다.\n\n또한 타인과의 관계 맺음에 대한 조언도 제시한다. 로크는 고전적 자유주의의 틀 안에서, 개인의 자유뿐만 아니라 타인의 자유를 존중하며 조화롭게 살아가야 한다고 말한다. 자유민주주의의 모태가 된 로크의 철학을 통해 독자는 타인과 함께 살아가는 방식을 성찰함과 동시에 자신의 삶을 주체적으로 바라보는 시간을 가질 수 있을 것이다.\n\n로크 철학을 세세하게 들여다볼 수 있어 한 권으로 로크 철학을 완벽히 파악하여 대비할 수 있다는 점에서 특히 수험생과 취업준비생에게 권장할 수 있다. 로크는 최근까지 대학 수시, 언론고사, 구술면접 등에 자주 출제되고 있으며, 로크의 관점에서 개인과 국가의 역할을 묻거나 시사이슈를 분석하는 문제는 매해 대표적인 출제포인트로 꼽힌다.\n\n저자인 에릭 맥은 존 로크, 하이에크, 로버트 노직 등 자유 정치 철학자에 대한 최고 전문가 중 한 명으로 꼽힌다. 그는 스탠퍼드 철학 백과사전, 옥스퍼드 정치 철학 연구 등 여러 권위 있는 학술지에 자연권과 존 로크 사상에 대한 다수의 논문 발표 및 〈John Locke〉, 〈Libertarianism〉 같은 저서를 발표 하는 등 그는 자유주의 및 정치적 자유에 대한 비판적인 논의를 통해 정치 철학 발전에 크게 이바지하고 있다. 이 책에는 존 로크의 자유주의 계보를 잇고 더 나아가 철학적 지혜를 담고자 한 저자의 노력이 엿보인다.\n\n『로크는 왜 왕 앞에서 개인의 권리를 외쳤을까』는 재단법인 자유기업원의 단행본 출판 브랜드인 지식발전소에서 펴냈으며 정가는 12,000원이다. 책은 총 8장으로 구성되어 있으며 1장과 2장은 자연 상태와 자연법, 자연적 자유와 권리까지 자연 상태에 인간에게 주어진 천부 권한을 소개한다. 4장~6장은 개인의 자유에 근거한 개인 소유권에 관한 주장과 자연 상태에서 이 소유권을 지키기 위한 해결책으로서의 자연법과 제정법의 필요성을 다룬다 . 7장은 종교에 대한 관용, 8장은 권력에 대한 자유와 로크의 재산권 신조를 명료하고 논리적으로 풀어 전개해 나가고 있다.",
+        "isbn": "9788984293007",
+        "publisher": "지식발전소",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6764678?timestamp=20241127154248",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6764678&q=%EB%A1%9C%ED%81%AC%EB%8A%94+%EC%99%9C+%EC%99%95+%EC%95%9E%EC%97%90%EC%84%9C+%EA%B0%9C%EC%9D%B8%EC%9D%98+%EA%B6%8C%EB%A6%AC%EB%A5%BC+%EC%99%B8%EC%B3%A4%EC%9D%84%EA%B9%8C"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:55:40.867071+00:00",
+        "updated_at": "2026-09-04T17:55:40.867071+00:00"
+      }
+    ]
+  }
+}

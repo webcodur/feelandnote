@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788972735137.json",
+  "manifestSha256": "9c8f8716931b7b3a07d2b6582fb4b3a9d3c6f89c1cd2dbf8b9d068f3ff158f59",
+  "planSha256": "b47361ba1e07ebc5904e5e2ecbf1ec2454b6de335eff4bbe283b66e43ca85035",
+  "workIdentity": "book/9788972735137",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788972735137"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "c473934c-92ea-511a-8ecd-afed3086fd44",
+    "scopeKey": "book/9788972735137",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "c473934c-92ea-511a-8ecd-afed3086fd44",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788972735137",
+      "release_date": "2025-08-08",
+      "metadata": {
+        "isbn": "9788972735137",
+        "publisher": "서강대학교출판부",
+        "publishDate": "2025-08-08",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788972735137",
+          "workTitle": "라이프니츠의 형이상학",
+          "workCreator": "박제철",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "라이프니츠의 형이상학",
+          "creator": "박제철",
+          "description": "[라이프니츠의 형이상학]은 라이프니츠 형이상학에 대한 연구로서로 전체 9장의 구성을 통해 라이프니츠의 주요 형이상학적 견해들을 검토한다. 1장은 라이프니츠의 생애와 저작, 그리고 라이프니츠 철학에 대한 연구 동향을 살피는데 할애되었고, 2장에서는 라이프니츠의 철학 체계 전체를 스케치로서 간략하게 제시한다. 3장부터 9장까지는 본격적인 형이상학적 주제들을 다루고 있으며, 개념, 관념, 진리론, 개체의 구조, 시간에 대한 라이프니츠의 견해, 개체의 시간적 지속, 라이프니츠 철학의 결정론적 성격, 물질과 물질적 실체 등을 면밀하게 살펴본다. 이 모든 주제들은 독립적이지만, 통일적으로 이해될 수 있다는 것이 저자의 목적이며 서로 관련 없어 보이는 주제들을 통한 통일적 설명을 통해 독자들은 라이프니츠 형이상학에 대한 체계적 이해를 얻을 수 있을 것이다",
+          "isbn": "9788972735137",
+          "publisher": "서강대학교출판부",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6996431?timestamp=20260326132028",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99"
+          },
+          "verified": true,
+          "content_id": "c473934c-92ea-511a-8ecd-afed3086fd44"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "c473934c-92ea-511a-8ecd-afed3086fd44",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788972735137",
+        "release_date": "2025-08-08",
+        "metadata": {
+          "isbn": "9788972735137",
+          "publisher": "서강대학교출판부",
+          "publishDate": "2025-08-08",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788972735137",
+            "workTitle": "라이프니츠의 형이상학",
+            "workCreator": "박제철",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "라이프니츠의 형이상학",
+          "creator": "박제철",
+          "description": "[라이프니츠의 형이상학]은 라이프니츠 형이상학에 대한 연구로서로 전체 9장의 구성을 통해 라이프니츠의 주요 형이상학적 견해들을 검토한다. 1장은 라이프니츠의 생애와 저작, 그리고 라이프니츠 철학에 대한 연구 동향을 살피는데 할애되었고, 2장에서는 라이프니츠의 철학 체계 전체를 스케치로서 간략하게 제시한다. 3장부터 9장까지는 본격적인 형이상학적 주제들을 다루고 있으며, 개념, 관념, 진리론, 개체의 구조, 시간에 대한 라이프니츠의 견해, 개체의 시간적 지속, 라이프니츠 철학의 결정론적 성격, 물질과 물질적 실체 등을 면밀하게 살펴본다. 이 모든 주제들은 독립적이지만, 통일적으로 이해될 수 있다는 것이 저자의 목적이며 서로 관련 없어 보이는 주제들을 통한 통일적 설명을 통해 독자들은 라이프니츠 형이상학에 대한 체계적 이해를 얻을 수 있을 것이다",
+          "isbn": "9788972735137",
+          "publisher": "서강대학교출판부",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6996431?timestamp=20260326132028",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99"
+          },
+          "verified": true,
+          "content_id": "c473934c-92ea-511a-8ecd-afed3086fd44"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788972735137",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788972735137"
+      ],
+      "normalizedTitles": [
+        "라이프니츠의형이상학"
+      ],
+      "normalizedCreators": [
+        "박제철"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:53:51.495Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "c473934c-92ea-511a-8ecd-afed3086fd44",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788972735137",
+      "release_date": "2025-08-08",
+      "metadata": {
+        "isbn": "9788972735137",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+        "publisher": "서강대학교출판부",
+        "figureBook": {
+          "workTitle": "라이프니츠의 형이상학",
+          "workCreator": "박제철",
+          "workIdentity": "book/9788972735137",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-08-08",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:53:46.066524+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "c473934c-92ea-511a-8ecd-afed3086fd44",
+        "locale": "ko",
+        "title": "라이프니츠의 형이상학",
+        "creator": "박제철",
+        "description": "[라이프니츠의 형이상학]은 라이프니츠 형이상학에 대한 연구로서로 전체 9장의 구성을 통해 라이프니츠의 주요 형이상학적 견해들을 검토한다. 1장은 라이프니츠의 생애와 저작, 그리고 라이프니츠 철학에 대한 연구 동향을 살피는데 할애되었고, 2장에서는 라이프니츠의 철학 체계 전체를 스케치로서 간략하게 제시한다. 3장부터 9장까지는 본격적인 형이상학적 주제들을 다루고 있으며, 개념, 관념, 진리론, 개체의 구조, 시간에 대한 라이프니츠의 견해, 개체의 시간적 지속, 라이프니츠 철학의 결정론적 성격, 물질과 물질적 실체 등을 면밀하게 살펴본다. 이 모든 주제들은 독립적이지만, 통일적으로 이해될 수 있다는 것이 저자의 목적이며 서로 관련 없어 보이는 주제들을 통한 통일적 설명을 통해 독자들은 라이프니츠 형이상학에 대한 체계적 이해를 얻을 수 있을 것이다",
+        "isbn": "9788972735137",
+        "publisher": "서강대학교출판부",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6996431?timestamp=20260326132028",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6996431&q=%EB%9D%BC%EC%9D%B4%ED%94%84%EB%8B%88%EC%B8%A0%EC%9D%98+%ED%98%95%EC%9D%B4%EC%83%81%ED%95%99"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:53:46.066524+00:00",
+        "updated_at": "2026-09-04T17:53:46.066524+00:00"
+      }
+    ]
+  }
+}

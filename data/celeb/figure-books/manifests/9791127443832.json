@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791127443832",
+    "title": "한 무제",
+    "creator": "요시카와 고지로",
+    "titleAliases": [],
+    "creatorAliases": [
+      "장원철 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791127443832"
+  }
+}

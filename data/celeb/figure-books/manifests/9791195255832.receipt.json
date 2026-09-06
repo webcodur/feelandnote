@@ -1,0 +1,219 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791195255832.json",
+  "manifestSha256": "482ee097ad94b0fccc28dc2f66bc8670d14a77b89261237b24b75744317a1d39",
+  "planSha256": "83bb03554380556c5cb30cca083f6f69e9970e80b254b445316e9c9a4636e509",
+  "workIdentity": "book/9791195255832",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791195255832"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "06973cdf-eea1-5663-a7e5-26f846c0bea7",
+    "scopeKey": "book/9791195255832",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "06973cdf-eea1-5663-a7e5-26f846c0bea7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791195255832",
+      "release_date": "2014-08-05",
+      "metadata": {
+        "isbn": "9791195255832",
+        "publisher": "라의눈",
+        "publishDate": "2014-08-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791195255832",
+          "workTitle": "세상을 뒤흔든 10대들: 소녀 편",
+          "workCreator": "미셀 로엠 매칸",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "세상을 뒤흔든 10대들: 소녀 편",
+          "creator": "미셀 로엠 매칸, 아멜리 웰든",
+          "description": "역사를 통틀어 가장 매혹적이고 통쾌한 소녀들의 성공 스토리『세상을 뒤흔든 10대들: 소녀편』. 세상의 편견에 도전했고, 멋지게 성공했으며, 그 결과 10대에 자신의 이름을 세상에 알린 역사적 소녀들의 이야기를 담은 책이다. 세상을 흔든다는 것이 꼭 유명해지고 사회적으로 성공한다는 것을 의미하지는 않는다. 자신을 변화시키고, 자신의 주변 환경에 관심을 갖고, 누군가에게 영감을 주고, 누군가의 태도를 바꾸고, 세상을 바람직한 방향으로 이끌었던 소녀드르이 이야기를 들어본다.",
+          "isbn": "9791195255832",
+          "publisher": "라의눈",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1653834?timestamp=20221011183201",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8"
+          },
+          "verified": true,
+          "content_id": "06973cdf-eea1-5663-a7e5-26f846c0bea7"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "06973cdf-eea1-5663-a7e5-26f846c0bea7",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791195255832",
+        "release_date": "2014-08-05",
+        "metadata": {
+          "isbn": "9791195255832",
+          "publisher": "라의눈",
+          "publishDate": "2014-08-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791195255832",
+            "workTitle": "세상을 뒤흔든 10대들: 소녀 편",
+            "workCreator": "미셀 로엠 매칸",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "세상을 뒤흔든 10대들: 소녀 편",
+          "creator": "미셀 로엠 매칸, 아멜리 웰든",
+          "description": "역사를 통틀어 가장 매혹적이고 통쾌한 소녀들의 성공 스토리『세상을 뒤흔든 10대들: 소녀편』. 세상의 편견에 도전했고, 멋지게 성공했으며, 그 결과 10대에 자신의 이름을 세상에 알린 역사적 소녀들의 이야기를 담은 책이다. 세상을 흔든다는 것이 꼭 유명해지고 사회적으로 성공한다는 것을 의미하지는 않는다. 자신을 변화시키고, 자신의 주변 환경에 관심을 갖고, 누군가에게 영감을 주고, 누군가의 태도를 바꾸고, 세상을 바람직한 방향으로 이끌었던 소녀드르이 이야기를 들어본다.",
+          "isbn": "9791195255832",
+          "publisher": "라의눈",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1653834?timestamp=20221011183201",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8"
+          },
+          "verified": true,
+          "content_id": "06973cdf-eea1-5663-a7e5-26f846c0bea7"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791195255832",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791195255832"
+      ],
+      "normalizedTitles": [
+        "세상을뒤흔든10대들",
+        "세상을뒤흔든10대들소녀편"
+      ],
+      "normalizedCreators": [
+        "미셀로엠매칸",
+        "미셀로엠매칸아멜리웰든",
+        "아멜리웰든",
+        "장은재역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:18:03.005Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "06973cdf-eea1-5663-a7e5-26f846c0bea7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791195255832",
+      "release_date": "2014-08-05",
+      "metadata": {
+        "isbn": "9791195255832",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+        "publisher": "라의눈",
+        "figureBook": {
+          "workTitle": "세상을 뒤흔든 10대들: 소녀 편",
+          "workCreator": "미셀 로엠 매칸",
+          "workIdentity": "book/9791195255832",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2014-08-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:17:50.513392+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "06973cdf-eea1-5663-a7e5-26f846c0bea7",
+        "locale": "ko",
+        "title": "세상을 뒤흔든 10대들: 소녀 편",
+        "creator": "미셀 로엠 매칸, 아멜리 웰든",
+        "description": "역사를 통틀어 가장 매혹적이고 통쾌한 소녀들의 성공 스토리『세상을 뒤흔든 10대들: 소녀편』. 세상의 편견에 도전했고, 멋지게 성공했으며, 그 결과 10대에 자신의 이름을 세상에 알린 역사적 소녀들의 이야기를 담은 책이다. 세상을 흔든다는 것이 꼭 유명해지고 사회적으로 성공한다는 것을 의미하지는 않는다. 자신을 변화시키고, 자신의 주변 환경에 관심을 갖고, 누군가에게 영감을 주고, 누군가의 태도를 바꾸고, 세상을 바람직한 방향으로 이끌었던 소녀드르이 이야기를 들어본다.",
+        "isbn": "9791195255832",
+        "publisher": "라의눈",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1653834?timestamp=20221011183201",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1653834&q=%EC%84%B8%EC%83%81%EC%9D%84+%EB%92%A4%ED%9D%94%EB%93%A0+10%EB%8C%80%EB%93%A4%3A+%EC%86%8C%EB%85%80+%ED%8E%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:17:50.513392+00:00",
+        "updated_at": "2026-09-04T18:17:50.513392+00:00"
+      }
+    ]
+  }
+}

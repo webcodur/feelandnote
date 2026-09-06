@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791161110103",
+    "title": "브론테 자매 평전(양장본 Hardcover)",
+    "creator": "데버러 러츠",
+    "titleAliases": [
+      "브론테 자매 평전"
+    ],
+    "creatorAliases": [
+      "박여영 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791161110103"
+  }
+}

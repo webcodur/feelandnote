@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791124796009",
+    "title": "소련의 서기장들",
+    "creator": "최경식",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791124796009"
+  }
+}

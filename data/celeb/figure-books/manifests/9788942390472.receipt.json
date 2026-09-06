@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788942390472.json",
+  "manifestSha256": "4180b3b22ac7fe6f6fab858a73929eb4dcab531d1ecf31f9082e76d46e850970",
+  "planSha256": "932dc0a7f2e4af0a9208e2bd4e4a6e583c3c44ffaca233998ffa850c1e2b5ab5",
+  "workIdentity": "book/9788942390472",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788942390472"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "52630fb2-f5da-53b2-8b59-8fb011c26c44",
+    "scopeKey": "book/9788942390472",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "52630fb2-f5da-53b2-8b59-8fb011c26c44",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788942390472",
+      "release_date": "2018-08-01",
+      "metadata": {
+        "isbn": "9788942390472",
+        "publisher": "지식산업사",
+        "publishDate": "2018-08-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788942390472",
+          "workTitle": "장거정 시대를 구하다",
+          "workCreator": "오금성",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "장거정 시대를 구하다",
+          "creator": "오금성",
+          "description": "장거정은 수차례 한국 독자들에게 이미 소개된 바 있지만, 우리의 시각으로 그의 개혁의 진면목과 위상을 심도 깊게 다룬 저작은 아직 없었다. 저자는 장거정의 핵심 개혁이 지속될 수 있었던 요인으로 특히 시대와 조응하는 개혁안을 제시했다는 점을 높이 사고 있다. ‘농상병중(農商幷重)’이라는 혁신적인 사고를 가지고 일조편법을 시행함으로써 중국의 조세제도가 비로소 ‘근대적 형태’로 진입할 수 있었던 것이다.",
+          "isbn": "9788942390472",
+          "publisher": "지식산업사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/578581?timestamp=20241016114852",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "52630fb2-f5da-53b2-8b59-8fb011c26c44"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "52630fb2-f5da-53b2-8b59-8fb011c26c44",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788942390472",
+        "release_date": "2018-08-01",
+        "metadata": {
+          "isbn": "9788942390472",
+          "publisher": "지식산업사",
+          "publishDate": "2018-08-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788942390472",
+            "workTitle": "장거정 시대를 구하다",
+            "workCreator": "오금성",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "장거정 시대를 구하다",
+          "creator": "오금성",
+          "description": "장거정은 수차례 한국 독자들에게 이미 소개된 바 있지만, 우리의 시각으로 그의 개혁의 진면목과 위상을 심도 깊게 다룬 저작은 아직 없었다. 저자는 장거정의 핵심 개혁이 지속될 수 있었던 요인으로 특히 시대와 조응하는 개혁안을 제시했다는 점을 높이 사고 있다. ‘농상병중(農商幷重)’이라는 혁신적인 사고를 가지고 일조편법을 시행함으로써 중국의 조세제도가 비로소 ‘근대적 형태’로 진입할 수 있었던 것이다.",
+          "isbn": "9788942390472",
+          "publisher": "지식산업사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/578581?timestamp=20241016114852",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "52630fb2-f5da-53b2-8b59-8fb011c26c44"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788942390472",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788942390472"
+      ],
+      "normalizedTitles": [
+        "장거정시대를구하다"
+      ],
+      "normalizedCreators": [
+        "오금성"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:42:46.246Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "52630fb2-f5da-53b2-8b59-8fb011c26c44",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788942390472",
+      "release_date": "2018-08-01",
+      "metadata": {
+        "isbn": "9788942390472",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+        "publisher": "지식산업사",
+        "figureBook": {
+          "workTitle": "장거정 시대를 구하다",
+          "workCreator": "오금성",
+          "workIdentity": "book/9788942390472",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2018-08-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:42:43.485341+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "52630fb2-f5da-53b2-8b59-8fb011c26c44",
+        "locale": "ko",
+        "title": "장거정 시대를 구하다",
+        "creator": "오금성",
+        "description": "장거정은 수차례 한국 독자들에게 이미 소개된 바 있지만, 우리의 시각으로 그의 개혁의 진면목과 위상을 심도 깊게 다룬 저작은 아직 없었다. 저자는 장거정의 핵심 개혁이 지속될 수 있었던 요인으로 특히 시대와 조응하는 개혁안을 제시했다는 점을 높이 사고 있다. ‘농상병중(農商幷重)’이라는 혁신적인 사고를 가지고 일조편법을 시행함으로써 중국의 조세제도가 비로소 ‘근대적 형태’로 진입할 수 있었던 것이다.",
+        "isbn": "9788942390472",
+        "publisher": "지식산업사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/578581?timestamp=20241016114852",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=578581&q=%EC%9E%A5%EA%B1%B0%EC%A0%95+%EC%8B%9C%EB%8C%80%EB%A5%BC+%EA%B5%AC%ED%95%98%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:42:43.485341+00:00",
+        "updated_at": "2026-09-04T17:42:43.485341+00:00"
+      }
+    ]
+  }
+}

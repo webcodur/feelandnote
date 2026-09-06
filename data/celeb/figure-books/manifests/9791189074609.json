@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791189074609",
+    "title": "반역자와 배신자들",
+    "creator": "이준호",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791189074609"
+  }
+}

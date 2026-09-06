@@ -1,0 +1,139 @@
+{
+  "note": "신화의 세계 공개 전승(그리스 신화·일리아스)이 쓰는 쿠팡 링크 전수 대조. coup 세션의 .prod-atf 판정 기준과 verify-edition.mjs 사용.",
+  "verifiedAt": "2026-09-04T22:37:37.061Z",
+  "summary": {
+    "대상": 8,
+    "일치": 8,
+    "불일치": 0,
+    "배지없음": 0
+  },
+  "items": [
+    {
+      "content_id": "ff0392c6-49b3-4cd4-ba03-7c1c0ec83014",
+      "productId": "20324905",
+      "title": "오레스테이아 3부작",
+      "wantIsbn": "9788932404592",
+      "gotIsbn": "9788932404592",
+      "isbnVerdict": "match",
+      "detailPublisher": "을유문화사",
+      "detailCreator": "아이스퀼로스 저/김기영 역",
+      "publisherInName": false,
+      "delivery": [
+        "오늘도착",
+        "도착 보장"
+      ],
+      "hasRealBadge": true
+    },
+    {
+      "content_id": "13410b89-7c1f-4461-a1e2-b3f2975148e6",
+      "productId": "43260021",
+      "title": "변신 이야기",
+      "wantIsbn": "9788991290808",
+      "gotIsbn": "9788991290808",
+      "isbnVerdict": "match",
+      "detailPublisher": "숲",
+      "detailCreator": "오비디우스",
+      "publisherInName": false,
+      "delivery": [
+        "오늘도착",
+        "도착 보장"
+      ],
+      "hasRealBadge": true
+    },
+    {
+      "content_id": "659578fc-407e-42a4-b378-33229c9b8ae2",
+      "productId": "34334188",
+      "title": "아이네이스",
+      "wantIsbn": "9788952237309",
+      "gotIsbn": "9788952237309",
+      "isbnVerdict": "match",
+      "detailPublisher": "살림",
+      "detailCreator": "베르길리우스",
+      "publisherInName": false,
+      "delivery": [
+        "도착 보장"
+      ],
+      "hasRealBadge": true
+    },
+    {
+      "content_id": "f44760c9-113f-4a04-89da-6eaca5f8af13",
+      "productId": "8715620548",
+      "title": "일리아스",
+      "wantIsbn": "9791139721966",
+      "gotIsbn": "9791139721966",
+      "isbnVerdict": "match",
+      "detailPublisher": "현대지성",
+      "detailCreator": "호메로스",
+      "publisherInName": false,
+      "delivery": [
+        "오늘도착",
+        "도착 보장"
+      ],
+      "hasRealBadge": true
+    },
+    {
+      "content_id": "0818cbb2-d0f5-43d0-b57d-cb3c6d0522bd",
+      "productId": "8715613735",
+      "title": "오디세이아",
+      "wantIsbn": "9791139721973",
+      "gotIsbn": "9791139721973",
+      "isbnVerdict": "match",
+      "detailPublisher": "현대지성",
+      "detailCreator": "호메로스",
+      "publisherInName": false,
+      "delivery": [
+        "오늘도착",
+        "도착 보장"
+      ],
+      "hasRealBadge": true
+    },
+    {
+      "content_id": "5c38c188-32a1-4551-9ce7-97c025b2e364",
+      "productId": "20407725",
+      "title": "신들의 계보",
+      "wantIsbn": "9788991290297",
+      "gotIsbn": "9788991290297",
+      "isbnVerdict": "match",
+      "detailPublisher": "숲",
+      "detailCreator": "헤시오도스",
+      "publisherInName": false,
+      "delivery": [
+        "오늘도착",
+        "도착 보장"
+      ],
+      "hasRealBadge": true
+    },
+    {
+      "content_id": "d0ae4f4f-2e9b-41e7-9670-72eaf2f85528",
+      "productId": "8935913220",
+      "title": "그리스 신화 1: 신의 시대",
+      "wantIsbn": "9791189333652",
+      "gotIsbn": "9791189333652",
+      "isbnVerdict": "match",
+      "detailPublisher": "알렙",
+      "detailCreator": "로버트 그레이브스",
+      "publisherInName": false,
+      "delivery": [
+        "새벽도착",
+        "도착 보장"
+      ],
+      "hasRealBadge": true
+    },
+    {
+      "content_id": "d0ae4f4f-2e9b-41e7-9670-72eaf2f85528",
+      "productId": "7684302640",
+      "title": "그리스 신화 2: 영웅의 시대",
+      "wantIsbn": "9791189333669",
+      "gotIsbn": "9791189333669",
+      "isbnVerdict": "match",
+      "detailPublisher": "알렙",
+      "detailCreator": "로버트 그레이브스",
+      "publisherInName": false,
+      "delivery": [
+        "오늘도착",
+        "도착 보장"
+      ],
+      "hasRealBadge": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788996648246",
+    "title": "리훙장 평전",
+    "creator": "량치차오",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박희성 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788996648246"
+  }
+}

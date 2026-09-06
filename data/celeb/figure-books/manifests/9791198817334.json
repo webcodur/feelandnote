@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791198817334",
+    "title": "시몬 볼리바르",
+    "creator": "기예르모 안토니오 셔웰",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이만휘 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791198817334"
+  }
+}

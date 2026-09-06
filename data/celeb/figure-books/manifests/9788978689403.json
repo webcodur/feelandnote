@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788978689403",
+    "title": "왕유의 시세계(당시의 거장)",
+    "creator": "박삼수",
+    "titleAliases": [
+      "왕유의 시세계"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788978689403"
+  }
+}

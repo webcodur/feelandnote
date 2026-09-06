@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788965749837",
+    "title": "주제 사라마구, 작은 기억들",
+    "creator": "주제 사라마구",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박정훈 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788965749837"
+  }
+}

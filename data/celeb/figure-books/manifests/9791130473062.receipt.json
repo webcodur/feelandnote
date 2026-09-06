@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791130473062.json",
+  "manifestSha256": "a4fd661c08ccd1425fbfe01c38397b8d102839b9505ddbe0f594bccf9a3cb109",
+  "planSha256": "fcfabf8da1917af5dd7a36af62a82c9eaa10abeabdc455c5246ccaae8bd9620a",
+  "workIdentity": "book/9791130473062",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791130473062"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "90bdd839-952d-56ff-8f1f-179e62186063",
+    "scopeKey": "book/9791130473062",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "90bdd839-952d-56ff-8f1f-179e62186063",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130473062",
+      "release_date": "2016-01-20",
+      "metadata": {
+        "isbn": "9791130473062",
+        "publisher": "지식을만드는지식",
+        "publishDate": "2016-01-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791130473062",
+          "workTitle": "샤를마뉴의 행적",
+          "workCreator": "노트케르",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "샤를마뉴의 행적",
+          "creator": "노트케르",
+          "description": "『샤를마뉴의 행적』은 중세 전기 서유럽을 대표하는 프랑크 왕국의 위대한 통치자 샤를마뉴 황제의 행적을 기록한 책이다. 전설 같은 일들과 믿기 어려운 사건들이지만 중세의 모습을 이토록 상세하게 보여 주는 자료는 없다. 1300년 전 중세의 역사를 알 수 있을 뿐만 아니라 보통 역사서에서 찾을 수 없는 생동감과 재미를 느낄 수 있다.",
+          "isbn": "9791130473062",
+          "publisher": "지식을만드는지식",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1536935?timestamp=20240817113702",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81"
+          },
+          "verified": true,
+          "content_id": "90bdd839-952d-56ff-8f1f-179e62186063"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "90bdd839-952d-56ff-8f1f-179e62186063",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791130473062",
+        "release_date": "2016-01-20",
+        "metadata": {
+          "isbn": "9791130473062",
+          "publisher": "지식을만드는지식",
+          "publishDate": "2016-01-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791130473062",
+            "workTitle": "샤를마뉴의 행적",
+            "workCreator": "노트케르",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "샤를마뉴의 행적",
+          "creator": "노트케르",
+          "description": "『샤를마뉴의 행적』은 중세 전기 서유럽을 대표하는 프랑크 왕국의 위대한 통치자 샤를마뉴 황제의 행적을 기록한 책이다. 전설 같은 일들과 믿기 어려운 사건들이지만 중세의 모습을 이토록 상세하게 보여 주는 자료는 없다. 1300년 전 중세의 역사를 알 수 있을 뿐만 아니라 보통 역사서에서 찾을 수 없는 생동감과 재미를 느낄 수 있다.",
+          "isbn": "9791130473062",
+          "publisher": "지식을만드는지식",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1536935?timestamp=20240817113702",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81"
+          },
+          "verified": true,
+          "content_id": "90bdd839-952d-56ff-8f1f-179e62186063"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791130473062",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791130473062"
+      ],
+      "normalizedTitles": [
+        "샤를마뉴의행적"
+      ],
+      "normalizedCreators": [
+        "노트케르",
+        "이경구역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:01:20.192Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "90bdd839-952d-56ff-8f1f-179e62186063",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130473062",
+      "release_date": "2016-01-20",
+      "metadata": {
+        "isbn": "9791130473062",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+        "publisher": "지식을만드는지식",
+        "figureBook": {
+          "workTitle": "샤를마뉴의 행적",
+          "workCreator": "노트케르",
+          "workIdentity": "book/9791130473062",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2016-01-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:01:16.07238+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "90bdd839-952d-56ff-8f1f-179e62186063",
+        "locale": "ko",
+        "title": "샤를마뉴의 행적",
+        "creator": "노트케르",
+        "description": "『샤를마뉴의 행적』은 중세 전기 서유럽을 대표하는 프랑크 왕국의 위대한 통치자 샤를마뉴 황제의 행적을 기록한 책이다. 전설 같은 일들과 믿기 어려운 사건들이지만 중세의 모습을 이토록 상세하게 보여 주는 자료는 없다. 1300년 전 중세의 역사를 알 수 있을 뿐만 아니라 보통 역사서에서 찾을 수 없는 생동감과 재미를 느낄 수 있다.",
+        "isbn": "9791130473062",
+        "publisher": "지식을만드는지식",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1536935?timestamp=20240817113702",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1536935&q=%EC%83%A4%EB%A5%BC%EB%A7%88%EB%89%B4%EC%9D%98+%ED%96%89%EC%A0%81"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:01:16.07238+00:00",
+        "updated_at": "2026-09-04T18:01:16.07238+00:00"
+      }
+    ]
+  }
+}

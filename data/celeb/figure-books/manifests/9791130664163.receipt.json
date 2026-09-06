@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791130664163.json",
+  "manifestSha256": "47c34eaa3c904d4433b590efec3ba89e96d71b992a30e9fb45e91faa1857e67b",
+  "planSha256": "64c43fb1af821ecf11057b7879d99eb12b7ee2b8e065609b4f2ca4830dd31b45",
+  "workIdentity": "book/9791130664163",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791130664163"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "cfa19bb7-9174-56c0-a444-f2d7cf39902c",
+    "scopeKey": "book/9791130664163",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "cfa19bb7-9174-56c0-a444-f2d7cf39902c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130664163",
+      "release_date": "2025-05-30",
+      "metadata": {
+        "isbn": "9791130664163",
+        "publisher": "다산북스",
+        "publishDate": "2025-05-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791130664163",
+          "workTitle": "성공은 하루 만에 잊어라",
+          "workCreator": "야나이 다다시",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "성공은 하루 만에 잊어라",
+          "creator": "야나이 다다시",
+          "description": "“내가 사장으로 돌아온 이유는 간단하다.\n회사를 맡은 경영진이 현재의 수준에 만족하고 있었기 때문이다.\n기업은 끊임없이 변화해야 한다.\n도전을 멈춘 기업의 미래는 오직 죽음뿐이다.\n그래서 나는 다시 초심으로 돌아가기로 했다.\n과거의 성공 방식은 더 이상 통하지 않는다.\n그러니 우리는 다시 배워야 하고, 다시 실패해야 하며, 다시 도전해야 한다.\n내일의 성공은 어제의 영광이 아닌 오늘의 도전에 달려 있다.\n그러니 성공은 하루 만에 잊어라.”\n\n전 세계적 불황과 최악의 일본 경제 침체기 속에서 ‘유니클로’는 어떻게 연 매출 30조 기업으로 ‘나 홀로 승승장구’할 수 있었을까? 유니클로의 창업자이자 패스트 리테일링을 이끌어 온 야나이 다다시는 “성공은 하루 만에 잊어라”라는 말로 그 답을 대신한다. ‘불황의 승부사’라는 별명답게 그는 최악의 상황에서도 최고의 목표를 설정하고, 업계를 뒤흔들 만한 성공에도 그 자리에 안주하지 않으며 과감한 도전을 이어갔다. 그 결과 유니클로는 전 세계 2,000개 이상의 매장을 운영, 자라 및 H&M과 함께 세계 최대 의류 기업 중 하나로 자리 잡았다.\n\n지금껏 유니클로의 성공을 다룬 책들이 시장에 쏟아져 나왔지만, 이 책들은 바깥에서 바라본 유니클로의 현상을 정리해 놓은 것에 불과하다. 외부인은 절대 알 수 없는 유니클로의 생생한 성공과 실패, 그리고 그 속에 숨겨진 경영자의 깊은 고뇌와 굳은 결단을 담은 책은 CEO인 야나이 다다시가 직접 집필한 『성공은 하루 만에 잊어라』가 유일하다. 이 책에서 야나이 다다시는 모두가 내일을 기대하지 않는 사회적 분위기 속에서 경영인이 어떤 희망을 품고 어떤 비전을 제시해야 하는지를 보여준다. 불황에 정면으로 맞서 세계 최고의 기업이 된 유니클로의 이야기는 위기를 타개하고 최고의 브랜드가 되길 꿈꾸는 모든 기업과 비즈니스맨에게 값진 본보기가 될 것이다.",
+          "isbn": "9791130664163",
+          "publisher": "다산북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6926422?timestamp=20260122151955",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC"
+          },
+          "verified": true,
+          "content_id": "cfa19bb7-9174-56c0-a444-f2d7cf39902c"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "cfa19bb7-9174-56c0-a444-f2d7cf39902c",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791130664163",
+        "release_date": "2025-05-30",
+        "metadata": {
+          "isbn": "9791130664163",
+          "publisher": "다산북스",
+          "publishDate": "2025-05-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791130664163",
+            "workTitle": "성공은 하루 만에 잊어라",
+            "workCreator": "야나이 다다시",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "성공은 하루 만에 잊어라",
+          "creator": "야나이 다다시",
+          "description": "“내가 사장으로 돌아온 이유는 간단하다.\n회사를 맡은 경영진이 현재의 수준에 만족하고 있었기 때문이다.\n기업은 끊임없이 변화해야 한다.\n도전을 멈춘 기업의 미래는 오직 죽음뿐이다.\n그래서 나는 다시 초심으로 돌아가기로 했다.\n과거의 성공 방식은 더 이상 통하지 않는다.\n그러니 우리는 다시 배워야 하고, 다시 실패해야 하며, 다시 도전해야 한다.\n내일의 성공은 어제의 영광이 아닌 오늘의 도전에 달려 있다.\n그러니 성공은 하루 만에 잊어라.”\n\n전 세계적 불황과 최악의 일본 경제 침체기 속에서 ‘유니클로’는 어떻게 연 매출 30조 기업으로 ‘나 홀로 승승장구’할 수 있었을까? 유니클로의 창업자이자 패스트 리테일링을 이끌어 온 야나이 다다시는 “성공은 하루 만에 잊어라”라는 말로 그 답을 대신한다. ‘불황의 승부사’라는 별명답게 그는 최악의 상황에서도 최고의 목표를 설정하고, 업계를 뒤흔들 만한 성공에도 그 자리에 안주하지 않으며 과감한 도전을 이어갔다. 그 결과 유니클로는 전 세계 2,000개 이상의 매장을 운영, 자라 및 H&M과 함께 세계 최대 의류 기업 중 하나로 자리 잡았다.\n\n지금껏 유니클로의 성공을 다룬 책들이 시장에 쏟아져 나왔지만, 이 책들은 바깥에서 바라본 유니클로의 현상을 정리해 놓은 것에 불과하다. 외부인은 절대 알 수 없는 유니클로의 생생한 성공과 실패, 그리고 그 속에 숨겨진 경영자의 깊은 고뇌와 굳은 결단을 담은 책은 CEO인 야나이 다다시가 직접 집필한 『성공은 하루 만에 잊어라』가 유일하다. 이 책에서 야나이 다다시는 모두가 내일을 기대하지 않는 사회적 분위기 속에서 경영인이 어떤 희망을 품고 어떤 비전을 제시해야 하는지를 보여준다. 불황에 정면으로 맞서 세계 최고의 기업이 된 유니클로의 이야기는 위기를 타개하고 최고의 브랜드가 되길 꿈꾸는 모든 기업과 비즈니스맨에게 값진 본보기가 될 것이다.",
+          "isbn": "9791130664163",
+          "publisher": "다산북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6926422?timestamp=20260122151955",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC"
+          },
+          "verified": true,
+          "content_id": "cfa19bb7-9174-56c0-a444-f2d7cf39902c"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791130664163",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791130664163"
+      ],
+      "normalizedTitles": [
+        "성공은하루만에잊어라"
+      ],
+      "normalizedCreators": [
+        "박선영역",
+        "야나이다다시"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:17:13.040Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "cfa19bb7-9174-56c0-a444-f2d7cf39902c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130664163",
+      "release_date": "2025-05-30",
+      "metadata": {
+        "isbn": "9791130664163",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+        "publisher": "다산북스",
+        "figureBook": {
+          "workTitle": "성공은 하루 만에 잊어라",
+          "workCreator": "야나이 다다시",
+          "workIdentity": "book/9791130664163",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-05-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:16:57.997115+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "cfa19bb7-9174-56c0-a444-f2d7cf39902c",
+        "locale": "ko",
+        "title": "성공은 하루 만에 잊어라",
+        "creator": "야나이 다다시",
+        "description": "“내가 사장으로 돌아온 이유는 간단하다.\n회사를 맡은 경영진이 현재의 수준에 만족하고 있었기 때문이다.\n기업은 끊임없이 변화해야 한다.\n도전을 멈춘 기업의 미래는 오직 죽음뿐이다.\n그래서 나는 다시 초심으로 돌아가기로 했다.\n과거의 성공 방식은 더 이상 통하지 않는다.\n그러니 우리는 다시 배워야 하고, 다시 실패해야 하며, 다시 도전해야 한다.\n내일의 성공은 어제의 영광이 아닌 오늘의 도전에 달려 있다.\n그러니 성공은 하루 만에 잊어라.”\n\n전 세계적 불황과 최악의 일본 경제 침체기 속에서 ‘유니클로’는 어떻게 연 매출 30조 기업으로 ‘나 홀로 승승장구’할 수 있었을까? 유니클로의 창업자이자 패스트 리테일링을 이끌어 온 야나이 다다시는 “성공은 하루 만에 잊어라”라는 말로 그 답을 대신한다. ‘불황의 승부사’라는 별명답게 그는 최악의 상황에서도 최고의 목표를 설정하고, 업계를 뒤흔들 만한 성공에도 그 자리에 안주하지 않으며 과감한 도전을 이어갔다. 그 결과 유니클로는 전 세계 2,000개 이상의 매장을 운영, 자라 및 H&M과 함께 세계 최대 의류 기업 중 하나로 자리 잡았다.\n\n지금껏 유니클로의 성공을 다룬 책들이 시장에 쏟아져 나왔지만, 이 책들은 바깥에서 바라본 유니클로의 현상을 정리해 놓은 것에 불과하다. 외부인은 절대 알 수 없는 유니클로의 생생한 성공과 실패, 그리고 그 속에 숨겨진 경영자의 깊은 고뇌와 굳은 결단을 담은 책은 CEO인 야나이 다다시가 직접 집필한 『성공은 하루 만에 잊어라』가 유일하다. 이 책에서 야나이 다다시는 모두가 내일을 기대하지 않는 사회적 분위기 속에서 경영인이 어떤 희망을 품고 어떤 비전을 제시해야 하는지를 보여준다. 불황에 정면으로 맞서 세계 최고의 기업이 된 유니클로의 이야기는 위기를 타개하고 최고의 브랜드가 되길 꿈꾸는 모든 기업과 비즈니스맨에게 값진 본보기가 될 것이다.",
+        "isbn": "9791130664163",
+        "publisher": "다산북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6926422?timestamp=20260122151955",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6926422&q=%EC%84%B1%EA%B3%B5%EC%9D%80+%ED%95%98%EB%A3%A8+%EB%A7%8C%EC%97%90+%EC%9E%8A%EC%96%B4%EB%9D%BC"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:16:57.997115+00:00",
+        "updated_at": "2026-09-06T04:16:57.997115+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791199202641",
+    "title": "궁정인 갈릴레오",
+    "creator": "마리오 비아졸리",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박초월 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791199202641"
+  }
+}

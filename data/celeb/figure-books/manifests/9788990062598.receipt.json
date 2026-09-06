@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788990062598.json",
+  "manifestSha256": "3ef604a9809e370f7a671cc2c98832666716d472bb18d8c83f8134e32eb8cb2b",
+  "planSha256": "5ad57eef15a20c0671006b9a88c545ebf1553d8a33772f8258949c62113e99f7",
+  "workIdentity": "book/9788990062598",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788990062598"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "36a1892c-9b13-5c36-8aa1-87868a5b6559",
+    "scopeKey": "book/9788990062598",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "36a1892c-9b13-5c36-8aa1-87868a5b6559",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788990062598",
+      "release_date": "2015-08-05",
+      "metadata": {
+        "isbn": "9788990062598",
+        "publisher": "산처럼",
+        "publishDate": "2015-08-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788990062598",
+          "workTitle": "비잔티움 제국 최후의 날",
+          "workCreator": "로저 크롤리",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "비잔티움 제국 최후의 날",
+          "creator": "로저 크롤리",
+          "description": "『비잔티움 제국 최후의 날』은 2009년 미국의 외교전문지 《포린폴리시》가 선정한 ‘세계 100대 글로벌 사상가’ 중에 한 명인 영국의 역사가 로저 크롤리가 자신의 대표 도서로 추천한 책이다. 1453년 콘스탄티노플의 함락을 주제로 한 역사책들 중에서 당시의 상황을 가장 세밀하게 그려내며, 과학적으로 접근하여 균형 있는 시각을 제공하고 있다.\n\n600개에 가까운 주석은 모두 이런 ‘현장의 육성’을 그대로 전한 흔적이다. 단순히 사실만 나열한 것이 아니라 난공불락이던 테오도시우스 삼중 성벽이 무너진 원인을 과학기술의 발전에서 찾고, 당시 사회에서 불길한 징조로 여겨졌던 여러 가지 이상한 기상 현상들의 원인을 지구 반대편에서 일어난 대규모 화산 폭발에서 찾는 등 분석도 곁들여 읽는 재미를 더해 준다. 콘스탄티노플 함락의 전모가 가장 알차게 정리된 책이다.",
+          "isbn": "9788990062598",
+          "publisher": "산처럼",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1317167?timestamp=20250705111446",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0"
+          },
+          "verified": true,
+          "content_id": "36a1892c-9b13-5c36-8aa1-87868a5b6559"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "36a1892c-9b13-5c36-8aa1-87868a5b6559",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788990062598",
+        "release_date": "2015-08-05",
+        "metadata": {
+          "isbn": "9788990062598",
+          "publisher": "산처럼",
+          "publishDate": "2015-08-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788990062598",
+            "workTitle": "비잔티움 제국 최후의 날",
+            "workCreator": "로저 크롤리",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "비잔티움 제국 최후의 날",
+          "creator": "로저 크롤리",
+          "description": "『비잔티움 제국 최후의 날』은 2009년 미국의 외교전문지 《포린폴리시》가 선정한 ‘세계 100대 글로벌 사상가’ 중에 한 명인 영국의 역사가 로저 크롤리가 자신의 대표 도서로 추천한 책이다. 1453년 콘스탄티노플의 함락을 주제로 한 역사책들 중에서 당시의 상황을 가장 세밀하게 그려내며, 과학적으로 접근하여 균형 있는 시각을 제공하고 있다.\n\n600개에 가까운 주석은 모두 이런 ‘현장의 육성’을 그대로 전한 흔적이다. 단순히 사실만 나열한 것이 아니라 난공불락이던 테오도시우스 삼중 성벽이 무너진 원인을 과학기술의 발전에서 찾고, 당시 사회에서 불길한 징조로 여겨졌던 여러 가지 이상한 기상 현상들의 원인을 지구 반대편에서 일어난 대규모 화산 폭발에서 찾는 등 분석도 곁들여 읽는 재미를 더해 준다. 콘스탄티노플 함락의 전모가 가장 알차게 정리된 책이다.",
+          "isbn": "9788990062598",
+          "publisher": "산처럼",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1317167?timestamp=20250705111446",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0"
+          },
+          "verified": true,
+          "content_id": "36a1892c-9b13-5c36-8aa1-87868a5b6559"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788990062598",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788990062598"
+      ],
+      "normalizedTitles": [
+        "비잔티움제국최후의날"
+      ],
+      "normalizedCreators": [
+        "로저크롤리",
+        "이재황역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:13:58.487Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "36a1892c-9b13-5c36-8aa1-87868a5b6559",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788990062598",
+      "release_date": "2015-08-05",
+      "metadata": {
+        "isbn": "9788990062598",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+        "publisher": "산처럼",
+        "figureBook": {
+          "workTitle": "비잔티움 제국 최후의 날",
+          "workCreator": "로저 크롤리",
+          "workIdentity": "book/9788990062598",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2015-08-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:13:52.886882+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "36a1892c-9b13-5c36-8aa1-87868a5b6559",
+        "locale": "ko",
+        "title": "비잔티움 제국 최후의 날",
+        "creator": "로저 크롤리",
+        "description": "『비잔티움 제국 최후의 날』은 2009년 미국의 외교전문지 《포린폴리시》가 선정한 ‘세계 100대 글로벌 사상가’ 중에 한 명인 영국의 역사가 로저 크롤리가 자신의 대표 도서로 추천한 책이다. 1453년 콘스탄티노플의 함락을 주제로 한 역사책들 중에서 당시의 상황을 가장 세밀하게 그려내며, 과학적으로 접근하여 균형 있는 시각을 제공하고 있다.\n\n600개에 가까운 주석은 모두 이런 ‘현장의 육성’을 그대로 전한 흔적이다. 단순히 사실만 나열한 것이 아니라 난공불락이던 테오도시우스 삼중 성벽이 무너진 원인을 과학기술의 발전에서 찾고, 당시 사회에서 불길한 징조로 여겨졌던 여러 가지 이상한 기상 현상들의 원인을 지구 반대편에서 일어난 대규모 화산 폭발에서 찾는 등 분석도 곁들여 읽는 재미를 더해 준다. 콘스탄티노플 함락의 전모가 가장 알차게 정리된 책이다.",
+        "isbn": "9788990062598",
+        "publisher": "산처럼",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1317167?timestamp=20250705111446",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1317167&q=%EB%B9%84%EC%9E%94%ED%8B%B0%EC%9B%80+%EC%A0%9C%EA%B5%AD+%EC%B5%9C%ED%9B%84%EC%9D%98+%EB%82%A0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:13:52.886882+00:00",
+        "updated_at": "2026-09-06T04:13:52.886882+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788930041058.json",
+  "manifestSha256": "4888a5275bb4a98782295223e72dbd480179fb5f501c840e5144f9180edc064a",
+  "planSha256": "fdb2c4815ff4aba613a2a41721022b59fdc8cf5913f3a279a4d316d6e71a0a66",
+  "workIdentity": "book/9788930041058",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788930041058"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "188f05cf-7f2f-53fa-ba9a-aa76d62a45c0",
+    "scopeKey": "book/9788930041058",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "188f05cf-7f2f-53fa-ba9a-aa76d62a45c0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930041058",
+      "release_date": "2022-10-05",
+      "metadata": {
+        "isbn": "9788930041058",
+        "publisher": "나남",
+        "publishDate": "2022-10-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788930041058",
+          "workTitle": "콜럼버스 항해일지",
+          "workCreator": "크리스토퍼 콜럼버스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "콜럼버스 항해일지",
+          "creator": "크리스토퍼 콜럼버스",
+          "description": "《콜럼버스 항해일지》는 콜럼버스가 1492년 8월부터 1493년 3월까지 스페인에서 출발하여 카리브해 섬 지역 일대를 항해하며 신대륙을 발견한 역사적 항해를 기록한 책이다. 콜럼버스의 항해일지는 신대륙 발견이라는 사건의 중요성과 이후의 영향력 때문에 많은 언어로 번역되어 읽히고 연구되었다. 콜럼버스의 항해는 대항해시대의 포문을 열었고, 지중해 중심의 서양사가 대서양 중심으로 바뀐 결정적 계기가 되었다. 또한 콜럼버스는 신대륙의 자연, 사람, 언어, 산물 등을 자세히 기록했는데, 특히 콜럼버스가 기록한 원주민 언어는 현재까지도 스페인에서 사용될 만큼 지대한 영향을 끼쳤다. 보통 콜럼버스는 용감한 탐험가로만 알려졌으나, 이 책에서는 세 척의 배를 진두지휘하는 선장이자 값비싼 원재료를 찾는 사업가, 원주민을 납치하여 소통에 활용한 예비 식민지 통치자로서 콜럼버스의 다양한 면모가 드러난다. 콜럼버스를 집중 연구하고 있는 역자 정승희는 원문을 이해하는 데 필요한 여러 판본들의 다양한 주석을 검토하고 풍부한 해설을 제공했다.",
+          "isbn": "9788930041058",
+          "publisher": "나남",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6167821?timestamp=20230523152733",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80"
+          },
+          "verified": true,
+          "content_id": "188f05cf-7f2f-53fa-ba9a-aa76d62a45c0"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "188f05cf-7f2f-53fa-ba9a-aa76d62a45c0",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788930041058",
+        "release_date": "2022-10-05",
+        "metadata": {
+          "isbn": "9788930041058",
+          "publisher": "나남",
+          "publishDate": "2022-10-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788930041058",
+            "workTitle": "콜럼버스 항해일지",
+            "workCreator": "크리스토퍼 콜럼버스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "콜럼버스 항해일지",
+          "creator": "크리스토퍼 콜럼버스",
+          "description": "《콜럼버스 항해일지》는 콜럼버스가 1492년 8월부터 1493년 3월까지 스페인에서 출발하여 카리브해 섬 지역 일대를 항해하며 신대륙을 발견한 역사적 항해를 기록한 책이다. 콜럼버스의 항해일지는 신대륙 발견이라는 사건의 중요성과 이후의 영향력 때문에 많은 언어로 번역되어 읽히고 연구되었다. 콜럼버스의 항해는 대항해시대의 포문을 열었고, 지중해 중심의 서양사가 대서양 중심으로 바뀐 결정적 계기가 되었다. 또한 콜럼버스는 신대륙의 자연, 사람, 언어, 산물 등을 자세히 기록했는데, 특히 콜럼버스가 기록한 원주민 언어는 현재까지도 스페인에서 사용될 만큼 지대한 영향을 끼쳤다. 보통 콜럼버스는 용감한 탐험가로만 알려졌으나, 이 책에서는 세 척의 배를 진두지휘하는 선장이자 값비싼 원재료를 찾는 사업가, 원주민을 납치하여 소통에 활용한 예비 식민지 통치자로서 콜럼버스의 다양한 면모가 드러난다. 콜럼버스를 집중 연구하고 있는 역자 정승희는 원문을 이해하는 데 필요한 여러 판본들의 다양한 주석을 검토하고 풍부한 해설을 제공했다.",
+          "isbn": "9788930041058",
+          "publisher": "나남",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6167821?timestamp=20230523152733",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80"
+          },
+          "verified": true,
+          "content_id": "188f05cf-7f2f-53fa-ba9a-aa76d62a45c0"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788930041058",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788930041058"
+      ],
+      "normalizedTitles": [
+        "콜럼버스항해일지"
+      ],
+      "normalizedCreators": [
+        "정승희역",
+        "크리스토퍼콜럼버스"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:37:26.789Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "188f05cf-7f2f-53fa-ba9a-aa76d62a45c0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930041058",
+      "release_date": "2022-10-05",
+      "metadata": {
+        "isbn": "9788930041058",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+        "publisher": "나남",
+        "figureBook": {
+          "workTitle": "콜럼버스 항해일지",
+          "workCreator": "크리스토퍼 콜럼버스",
+          "workIdentity": "book/9788930041058",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-10-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:37:00.367005+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "188f05cf-7f2f-53fa-ba9a-aa76d62a45c0",
+        "locale": "ko",
+        "title": "콜럼버스 항해일지",
+        "creator": "크리스토퍼 콜럼버스",
+        "description": "《콜럼버스 항해일지》는 콜럼버스가 1492년 8월부터 1493년 3월까지 스페인에서 출발하여 카리브해 섬 지역 일대를 항해하며 신대륙을 발견한 역사적 항해를 기록한 책이다. 콜럼버스의 항해일지는 신대륙 발견이라는 사건의 중요성과 이후의 영향력 때문에 많은 언어로 번역되어 읽히고 연구되었다. 콜럼버스의 항해는 대항해시대의 포문을 열었고, 지중해 중심의 서양사가 대서양 중심으로 바뀐 결정적 계기가 되었다. 또한 콜럼버스는 신대륙의 자연, 사람, 언어, 산물 등을 자세히 기록했는데, 특히 콜럼버스가 기록한 원주민 언어는 현재까지도 스페인에서 사용될 만큼 지대한 영향을 끼쳤다. 보통 콜럼버스는 용감한 탐험가로만 알려졌으나, 이 책에서는 세 척의 배를 진두지휘하는 선장이자 값비싼 원재료를 찾는 사업가, 원주민을 납치하여 소통에 활용한 예비 식민지 통치자로서 콜럼버스의 다양한 면모가 드러난다. 콜럼버스를 집중 연구하고 있는 역자 정승희는 원문을 이해하는 데 필요한 여러 판본들의 다양한 주석을 검토하고 풍부한 해설을 제공했다.",
+        "isbn": "9788930041058",
+        "publisher": "나남",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6167821?timestamp=20230523152733",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6167821&q=%EC%BD%9C%EB%9F%BC%EB%B2%84%EC%8A%A4+%ED%95%AD%ED%95%B4%EC%9D%BC%EC%A7%80"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:37:00.367005+00:00",
+        "updated_at": "2026-09-04T17:37:00.367005+00:00"
+      }
+    ]
+  }
+}

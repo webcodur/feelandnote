@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791196222741",
+    "title": "귀스타브 플로베르(양장본 HardCover)",
+    "creator": "알베르 티보데",
+    "titleAliases": [
+      "귀스타브 플로베르"
+    ],
+    "creatorAliases": [
+      "박명숙 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791196222741"
+  }
+}

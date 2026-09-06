@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791169091282.json",
+  "manifestSha256": "284c0eec573ec47026dea8c6a9dcf9ea6e20c66d3f7380aaabec03da6a41e99b",
+  "planSha256": "8c7ff84b0fdee3727a6a59ec95419d0b99f5d9b11105bb9d510b92ff31789e7b",
+  "workIdentity": "book/9791169091282",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791169091282"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "94dc1975-e593-52c3-8e11-d9c95a8819d5",
+    "scopeKey": "book/9791169091282",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "94dc1975-e593-52c3-8e11-d9c95a8819d5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791169091282",
+      "release_date": "2023-07-07",
+      "metadata": {
+        "isbn": "9791169091282",
+        "publisher": "글항아리",
+        "publishDate": "2023-07-07",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791169091282",
+          "workTitle": "여왕이 사랑한 사람들",
+          "workCreator": "리턴 스트레이치",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "여왕이 사랑한 사람들",
+          "creator": "리턴 스트레이치",
+          "description": "여왕의 어머니 켄트 공작부인, 가정교사 레첸, 남편인 앨버트 공, 정치적 숙적 혹은 동반자였던 멜버른과 파머스턴, 디즈레일리. 여왕과 여왕이 사랑하고 증오했던 사람들이 만들어내는 정치 드라마가 전기문학의 대가 리턴 스트레이치의 필치로 부활한다.\n\n꾸며진 위인을 거부하는 사실주의적 전기의 창시자인 스트레이치가 재창조한 빅토리아 여왕은 고집불통에 때로는 멍청하고, 지나치게 감정적인 데다 우스꽝스럽기까지 하다. 그러나 이 모든 점을 관통하는 진실성은 빅토리아 여왕이 왜 그렇게 영국 국민에게 사랑받았는지 증명한다. 이것은 여왕의 사랑에 대한 이야기인 동시에 여왕을 사랑하게끔 만드는 이야기다.",
+          "isbn": "9791169091282",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6381057?timestamp=20231205145110",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "94dc1975-e593-52c3-8e11-d9c95a8819d5"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "94dc1975-e593-52c3-8e11-d9c95a8819d5",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791169091282",
+        "release_date": "2023-07-07",
+        "metadata": {
+          "isbn": "9791169091282",
+          "publisher": "글항아리",
+          "publishDate": "2023-07-07",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791169091282",
+            "workTitle": "여왕이 사랑한 사람들",
+            "workCreator": "리턴 스트레이치",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "여왕이 사랑한 사람들",
+          "creator": "리턴 스트레이치",
+          "description": "여왕의 어머니 켄트 공작부인, 가정교사 레첸, 남편인 앨버트 공, 정치적 숙적 혹은 동반자였던 멜버른과 파머스턴, 디즈레일리. 여왕과 여왕이 사랑하고 증오했던 사람들이 만들어내는 정치 드라마가 전기문학의 대가 리턴 스트레이치의 필치로 부활한다.\n\n꾸며진 위인을 거부하는 사실주의적 전기의 창시자인 스트레이치가 재창조한 빅토리아 여왕은 고집불통에 때로는 멍청하고, 지나치게 감정적인 데다 우스꽝스럽기까지 하다. 그러나 이 모든 점을 관통하는 진실성은 빅토리아 여왕이 왜 그렇게 영국 국민에게 사랑받았는지 증명한다. 이것은 여왕의 사랑에 대한 이야기인 동시에 여왕을 사랑하게끔 만드는 이야기다.",
+          "isbn": "9791169091282",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6381057?timestamp=20231205145110",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "94dc1975-e593-52c3-8e11-d9c95a8819d5"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791169091282",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791169091282"
+      ],
+      "normalizedTitles": [
+        "여왕이사랑한사람들"
+      ],
+      "normalizedCreators": [
+        "김윤경역",
+        "리턴스트레이치"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:22:24.387Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "94dc1975-e593-52c3-8e11-d9c95a8819d5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791169091282",
+      "release_date": "2023-07-07",
+      "metadata": {
+        "isbn": "9791169091282",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+        "publisher": "글항아리",
+        "figureBook": {
+          "workTitle": "여왕이 사랑한 사람들",
+          "workCreator": "리턴 스트레이치",
+          "workIdentity": "book/9791169091282",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-07-07",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:22:18.997265+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "94dc1975-e593-52c3-8e11-d9c95a8819d5",
+        "locale": "ko",
+        "title": "여왕이 사랑한 사람들",
+        "creator": "리턴 스트레이치",
+        "description": "여왕의 어머니 켄트 공작부인, 가정교사 레첸, 남편인 앨버트 공, 정치적 숙적 혹은 동반자였던 멜버른과 파머스턴, 디즈레일리. 여왕과 여왕이 사랑하고 증오했던 사람들이 만들어내는 정치 드라마가 전기문학의 대가 리턴 스트레이치의 필치로 부활한다.\n\n꾸며진 위인을 거부하는 사실주의적 전기의 창시자인 스트레이치가 재창조한 빅토리아 여왕은 고집불통에 때로는 멍청하고, 지나치게 감정적인 데다 우스꽝스럽기까지 하다. 그러나 이 모든 점을 관통하는 진실성은 빅토리아 여왕이 왜 그렇게 영국 국민에게 사랑받았는지 증명한다. 이것은 여왕의 사랑에 대한 이야기인 동시에 여왕을 사랑하게끔 만드는 이야기다.",
+        "isbn": "9791169091282",
+        "publisher": "글항아리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6381057?timestamp=20231205145110",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6381057&q=%EC%97%AC%EC%99%95%EC%9D%B4+%EC%82%AC%EB%9E%91%ED%95%9C+%EC%82%AC%EB%9E%8C%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:22:18.997265+00:00",
+        "updated_at": "2026-09-06T04:22:18.997265+00:00"
+      }
+    ]
+  }
+}

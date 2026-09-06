@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788949188140",
+    "title": "헨리 포드(새싹 인물전 14)(양장본 HardCover)",
+    "creator": "피터 켄트",
+    "titleAliases": [
+      "헨리 포드(새싹 인물전 14)"
+    ],
+    "creatorAliases": [
+      "이원경 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788949188140"
+  }
+}

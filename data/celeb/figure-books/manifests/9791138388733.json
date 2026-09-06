@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791138388733",
+    "title": "호메로스의 딸",
+    "creator": "로버트 그레이브스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "한지원 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791138388733"
+  }
+}

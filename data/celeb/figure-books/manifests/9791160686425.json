@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791160686425",
+    "title": "고종 평전(고종시대 인물연구 총서)(양장본 HardCover)",
+    "creator": "이민원",
+    "titleAliases": [
+      "고종 평전(고종시대 인물연구 총서)"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791160686425"
+  }
+}

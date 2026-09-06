@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788914021755",
+    "title": "김유신",
+    "creator": "박화목",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788914021755"
+  }
+}

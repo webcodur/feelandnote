@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788946064546",
+    "title": "손문의 혁명",
+    "creator": "이승휘",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788946064546"
+  }
+}

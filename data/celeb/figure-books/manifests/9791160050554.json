@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791160050554",
+    "title": "부와 혁신의 설계자들",
+    "creator": "김환표",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791160050554"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788954607186",
+    "title": "라파엘로 정신의 힘(예술가의 삶과 진실 2)",
+    "creator": "프레드 베랑스",
+    "titleAliases": [
+      "라파엘로 정신의 힘"
+    ],
+    "creatorAliases": [
+      "정진국 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788954607186"
+  }
+}

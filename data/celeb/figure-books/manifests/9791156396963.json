@@ -1,0 +1,22 @@
+{
+  "work": {
+    "identity": "book/9791156396963",
+    "title": "Who? 한국사: 광개토 대왕",
+    "creator": "권용찬",
+    "titleAliases": [
+      "Who? 한국사"
+    ],
+    "creatorAliases": [
+      "권용찬, 김현수",
+      "김현수"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791156396963"
+  }
+}

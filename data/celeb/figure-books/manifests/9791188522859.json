@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791188522859",
+    "title": "제왕의 스승 장량",
+    "creator": "위리",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김영문 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791188522859"
+  }
+}

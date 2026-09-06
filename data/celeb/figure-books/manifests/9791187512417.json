@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791187512417",
+    "title": "피터 틸",
+    "creator": "토마스 라폴트",
+    "titleAliases": [],
+    "creatorAliases": [
+      "강민경 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791187512417"
+  }
+}

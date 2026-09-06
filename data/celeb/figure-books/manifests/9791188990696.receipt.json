@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791188990696.json",
+  "manifestSha256": "87c911c461aa3c57de30d368113f52e9b973fd23d87bec96caaf10e31180a497",
+  "planSha256": "48cf92cde886b6c65de1ff746898b1b415c2a62cff4eb14e43df7f0d28c05c3c",
+  "workIdentity": "book/9791188990696",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791188990696"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "55a29d24-f51c-51c7-98c4-86686399cd45",
+    "scopeKey": "book/9791188990696",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "55a29d24-f51c-51c7-98c4-86686399cd45",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791188990696",
+      "release_date": "2020-04-29",
+      "metadata": {
+        "isbn": "9791188990696",
+        "publisher": "책과함께",
+        "publishDate": "2020-04-29",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791188990696",
+          "workTitle": "몽골제국의 후예들",
+          "workCreator": "이주엽",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "몽골제국의 후예들",
+          "creator": "이주엽",
+          "description": "칭기스 칸이 세력을 확장하기 시작한 후 몽골제국은 13세기 중반에 이르러 동으로는 태평양에서 서로는 지중해, 남으로는 인도양에서 북으로는 바렌츠해에 이르는 광활한 지역을 지배하는 세계 제국으로 발돋움했다. 그런데 이처럼 유라시아 대륙을 제패했던 몽골제국은 이후 어떻게 되었는가? 그리고 어떤 유산을 남겼는가?\n\n《몽골제국의 후예들》은 티무르제국, 북원 등의 몽골제국의 계승국가들부터 러시아, 오스만제국 등 몽골제국에 막대한 영향을 받은 유라시아의 제국들까지 살피며 몽골제국이 중앙유라시아에 남긴 유산들을 총망라한다. 그리하여 오늘날의 몽골과 러시아, 중국뿐 아니라 인도, 서아시아와 중동의 지역 강국들인 터키와 이란, 중앙아시아의 맹주인 카자흐스탄과 우즈베키스탄 등 수많은 유라시아 국가들이 몽골제국의 계승국가이거나 몽골제국의 유산 위에서 변화, 발전한 나라이며, 이런 의미에서 근대 유라시아는 몽골제국의 산물이자 유산이라고 말한다.\n\n또한 국내에서 접하기 어려운 지식 정보를 40여 개 상자글로 아낌없이 담았다. 달라이 라마의 탄생, 맘룩 술탄국과 몽골제국과의 연관성, 몽골제국 후예들의 투르크인 정체성, 근대의 ‘이란’ 정체성의 부활 등 몽골제국의 후예들이 남긴 여러 흥미로운 유산들은 몽골제국과 그 이후의 유라시아사에 관심을 가진 이들에게 매우 귀한 이야기가 될 것이다.",
+          "isbn": "9791188990696",
+          "publisher": "책과함께",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5357757?timestamp=20240326145254",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "55a29d24-f51c-51c7-98c4-86686399cd45"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "55a29d24-f51c-51c7-98c4-86686399cd45",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791188990696",
+        "release_date": "2020-04-29",
+        "metadata": {
+          "isbn": "9791188990696",
+          "publisher": "책과함께",
+          "publishDate": "2020-04-29",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791188990696",
+            "workTitle": "몽골제국의 후예들",
+            "workCreator": "이주엽",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "몽골제국의 후예들",
+          "creator": "이주엽",
+          "description": "칭기스 칸이 세력을 확장하기 시작한 후 몽골제국은 13세기 중반에 이르러 동으로는 태평양에서 서로는 지중해, 남으로는 인도양에서 북으로는 바렌츠해에 이르는 광활한 지역을 지배하는 세계 제국으로 발돋움했다. 그런데 이처럼 유라시아 대륙을 제패했던 몽골제국은 이후 어떻게 되었는가? 그리고 어떤 유산을 남겼는가?\n\n《몽골제국의 후예들》은 티무르제국, 북원 등의 몽골제국의 계승국가들부터 러시아, 오스만제국 등 몽골제국에 막대한 영향을 받은 유라시아의 제국들까지 살피며 몽골제국이 중앙유라시아에 남긴 유산들을 총망라한다. 그리하여 오늘날의 몽골과 러시아, 중국뿐 아니라 인도, 서아시아와 중동의 지역 강국들인 터키와 이란, 중앙아시아의 맹주인 카자흐스탄과 우즈베키스탄 등 수많은 유라시아 국가들이 몽골제국의 계승국가이거나 몽골제국의 유산 위에서 변화, 발전한 나라이며, 이런 의미에서 근대 유라시아는 몽골제국의 산물이자 유산이라고 말한다.\n\n또한 국내에서 접하기 어려운 지식 정보를 40여 개 상자글로 아낌없이 담았다. 달라이 라마의 탄생, 맘룩 술탄국과 몽골제국과의 연관성, 몽골제국 후예들의 투르크인 정체성, 근대의 ‘이란’ 정체성의 부활 등 몽골제국의 후예들이 남긴 여러 흥미로운 유산들은 몽골제국과 그 이후의 유라시아사에 관심을 가진 이들에게 매우 귀한 이야기가 될 것이다.",
+          "isbn": "9791188990696",
+          "publisher": "책과함께",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5357757?timestamp=20240326145254",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "55a29d24-f51c-51c7-98c4-86686399cd45"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791188990696",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791188990696"
+      ],
+      "normalizedTitles": [
+        "몽골제국의후예들"
+      ],
+      "normalizedCreators": [
+        "이주엽"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:33:20.515Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "55a29d24-f51c-51c7-98c4-86686399cd45",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791188990696",
+      "release_date": "2020-04-29",
+      "metadata": {
+        "isbn": "9791188990696",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+        "publisher": "책과함께",
+        "figureBook": {
+          "workTitle": "몽골제국의 후예들",
+          "workCreator": "이주엽",
+          "workIdentity": "book/9791188990696",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-04-29",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:33:13.711664+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "55a29d24-f51c-51c7-98c4-86686399cd45",
+        "locale": "ko",
+        "title": "몽골제국의 후예들",
+        "creator": "이주엽",
+        "description": "칭기스 칸이 세력을 확장하기 시작한 후 몽골제국은 13세기 중반에 이르러 동으로는 태평양에서 서로는 지중해, 남으로는 인도양에서 북으로는 바렌츠해에 이르는 광활한 지역을 지배하는 세계 제국으로 발돋움했다. 그런데 이처럼 유라시아 대륙을 제패했던 몽골제국은 이후 어떻게 되었는가? 그리고 어떤 유산을 남겼는가?\n\n《몽골제국의 후예들》은 티무르제국, 북원 등의 몽골제국의 계승국가들부터 러시아, 오스만제국 등 몽골제국에 막대한 영향을 받은 유라시아의 제국들까지 살피며 몽골제국이 중앙유라시아에 남긴 유산들을 총망라한다. 그리하여 오늘날의 몽골과 러시아, 중국뿐 아니라 인도, 서아시아와 중동의 지역 강국들인 터키와 이란, 중앙아시아의 맹주인 카자흐스탄과 우즈베키스탄 등 수많은 유라시아 국가들이 몽골제국의 계승국가이거나 몽골제국의 유산 위에서 변화, 발전한 나라이며, 이런 의미에서 근대 유라시아는 몽골제국의 산물이자 유산이라고 말한다.\n\n또한 국내에서 접하기 어려운 지식 정보를 40여 개 상자글로 아낌없이 담았다. 달라이 라마의 탄생, 맘룩 술탄국과 몽골제국과의 연관성, 몽골제국 후예들의 투르크인 정체성, 근대의 ‘이란’ 정체성의 부활 등 몽골제국의 후예들이 남긴 여러 흥미로운 유산들은 몽골제국과 그 이후의 유라시아사에 관심을 가진 이들에게 매우 귀한 이야기가 될 것이다.",
+        "isbn": "9791188990696",
+        "publisher": "책과함께",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5357757?timestamp=20240326145254",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5357757&q=%EB%AA%BD%EA%B3%A8%EC%A0%9C%EA%B5%AD%EC%9D%98+%ED%9B%84%EC%98%88%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:33:13.711664+00:00",
+        "updated_at": "2026-09-06T02:33:13.711664+00:00"
+      }
+    ]
+  }
+}

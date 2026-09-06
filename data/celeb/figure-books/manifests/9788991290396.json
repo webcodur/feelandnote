@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788991290396",
+    "title": "아리스토파네스 희극 전집 2",
+    "creator": "아리스토파네스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "천병희 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788991290396"
+  }
+}

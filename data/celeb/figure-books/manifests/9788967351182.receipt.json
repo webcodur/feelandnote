@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788967351182.json",
+  "manifestSha256": "193952cb2f98d0098792d73ffe7ad417247095aa1df6b2c2ff9f889b44f59842",
+  "planSha256": "480aa2acbb04b84207d19e24aa09afd9049fb1a85e9a7226ad109b1622553a9d",
+  "workIdentity": "book/9788967351182",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788967351182"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "8abc753f-6363-544f-bbef-8977fab52b53",
+    "scopeKey": "book/9788967351182",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "8abc753f-6363-544f-bbef-8977fab52b53",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788967351182",
+      "release_date": "2014-07-07",
+      "metadata": {
+        "isbn": "9788967351182",
+        "publisher": "글항아리",
+        "publishDate": "2014-07-07",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788967351182",
+          "workTitle": "세기말 빈(현대의 고전 5)(양장본 HardCover)",
+          "workCreator": "칼 쇼르스케",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "세기말 빈(현대의 고전 5)",
+          "creator": "칼 쇼르스케",
+          "description": "『세기말 빈』은 빈의 문학, 미술, 음악 분야에서의 가장 결정적인 변혁기를 링슈트라세 건설이라는 공간적 사건의 틀에 담아 진술한다. 이 책을 한마디로 요약한다면 단편적인 조각들에 대한 연구를 통해 빈이라는 도시, 말 그대로 20세기에 꽃피운 수많은 사조가 싹튼 온상이었던 사회를 이해하려는 시도라 할 수 있다.",
+          "isbn": "9788967351182",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/934981?timestamp=20221011180347",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "8abc753f-6363-544f-bbef-8977fab52b53"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "8abc753f-6363-544f-bbef-8977fab52b53",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788967351182",
+        "release_date": "2014-07-07",
+        "metadata": {
+          "isbn": "9788967351182",
+          "publisher": "글항아리",
+          "publishDate": "2014-07-07",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788967351182",
+            "workTitle": "세기말 빈(현대의 고전 5)(양장본 HardCover)",
+            "workCreator": "칼 쇼르스케",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "세기말 빈(현대의 고전 5)",
+          "creator": "칼 쇼르스케",
+          "description": "『세기말 빈』은 빈의 문학, 미술, 음악 분야에서의 가장 결정적인 변혁기를 링슈트라세 건설이라는 공간적 사건의 틀에 담아 진술한다. 이 책을 한마디로 요약한다면 단편적인 조각들에 대한 연구를 통해 빈이라는 도시, 말 그대로 20세기에 꽃피운 수많은 사조가 싹튼 온상이었던 사회를 이해하려는 시도라 할 수 있다.",
+          "isbn": "9788967351182",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/934981?timestamp=20221011180347",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "8abc753f-6363-544f-bbef-8977fab52b53"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788967351182",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788967351182"
+      ],
+      "normalizedTitles": [
+        "세기말빈현대의고전5",
+        "세기말빈현대의고전5양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "김병화역",
+        "칼쇼르스케"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:11:28.411Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "8abc753f-6363-544f-bbef-8977fab52b53",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788967351182",
+      "release_date": "2014-07-07",
+      "metadata": {
+        "isbn": "9788967351182",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "글항아리",
+        "figureBook": {
+          "workTitle": "세기말 빈(현대의 고전 5)(양장본 HardCover)",
+          "workCreator": "칼 쇼르스케",
+          "workIdentity": "book/9788967351182",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2014-07-07",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:11:23.788082+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "8abc753f-6363-544f-bbef-8977fab52b53",
+        "locale": "ko",
+        "title": "세기말 빈(현대의 고전 5)",
+        "creator": "칼 쇼르스케",
+        "description": "『세기말 빈』은 빈의 문학, 미술, 음악 분야에서의 가장 결정적인 변혁기를 링슈트라세 건설이라는 공간적 사건의 틀에 담아 진술한다. 이 책을 한마디로 요약한다면 단편적인 조각들에 대한 연구를 통해 빈이라는 도시, 말 그대로 20세기에 꽃피운 수많은 사조가 싹튼 온상이었던 사회를 이해하려는 시도라 할 수 있다.",
+        "isbn": "9788967351182",
+        "publisher": "글항아리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/934981?timestamp=20221011180347",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=934981&q=%EC%84%B8%EA%B8%B0%EB%A7%90+%EB%B9%88%28%ED%98%84%EB%8C%80%EC%9D%98+%EA%B3%A0%EC%A0%84+5%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:11:23.788082+00:00",
+        "updated_at": "2026-09-06T04:11:23.788082+00:00"
+      }
+    ]
+  }
+}

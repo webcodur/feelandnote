@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788947549752",
+    "title": "황금빛을 그린 화가, 구스타프 클림트",
+    "creator": "제인 로고이스카",
+    "titleAliases": [],
+    "creatorAliases": [
+      "제인 로고이스카, 패트릭 베이드",
+      "오승희 (역)",
+      "패트릭 베이드"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788947549752"
+  }
+}

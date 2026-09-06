@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791189171421",
+    "title": "흥선대원군",
+    "creator": "채희문",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791189171421"
+  }
+}

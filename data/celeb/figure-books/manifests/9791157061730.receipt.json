@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791157061730.json",
+  "manifestSha256": "a55cc0b767af732ee40f11030cbaa90b8c6ebe6fc760c66809d7c9ae697f0908",
+  "planSha256": "4571d2b75b9e60950b832cc76ac9b9482b29a5374373831a53e0247c91eb8555",
+  "workIdentity": "book/9791157061730",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791157061730"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ffa5a2d4-407f-5fa2-b4a6-199ef596069d",
+    "scopeKey": "book/9791157061730",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ffa5a2d4-407f-5fa2-b4a6-199ef596069d",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791157061730",
+      "release_date": "2019-10-21",
+      "metadata": {
+        "isbn": "9791157061730",
+        "publisher": "메디치미디어",
+        "publishDate": "2019-10-21",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791157061730",
+          "workTitle": "중국의 젊은 부자들",
+          "workCreator": "김만기",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "중국의 젊은 부자들",
+          "creator": "김만기, 박보현",
+          "description": "모형헬기를 만들다가 드론 개발로 방향을 돌려 전 세계 드론 시장을 지배하고 있는 DJI의 왕타오, 전 세계 10대들의 놀이터로 틱톡 광풍을 일으킨 바이트댄스의 장이밍, 중국 안면인식 기술의 선두주자 쾅스커지의 인치, 창업 3년 만에 나스닥에 상장해 더 유명해진 핀둬둬의 황정 등 현재 중국에서 성공한 젊은 부자들에게는 흥미진진한 스토리가 많다. 《중국의 젊은 부자들》에는 80년대생과 90년대생 부자들 13명의 성공 노하우가 담겨 있다. 그런데 이들 중에는 부모님의 도움을 받은 사람이 단 한 명도 없다. 김만기 교수는 이 책을 통해서 왜 중국에는 유독 젊은 부자들이 많은지, 그들은 우리와 무엇이 다르기에 성공할 수 있었는지를 보여주는 한편, 중국의 젊은이들이 할 수 있으면 우리도 할 수 있다는 자신감을 심어준다.",
+          "isbn": "9791157061730",
+          "publisher": "메디치미디어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5105538?timestamp=20260225130919",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "ffa5a2d4-407f-5fa2-b4a6-199ef596069d"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ffa5a2d4-407f-5fa2-b4a6-199ef596069d",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791157061730",
+        "release_date": "2019-10-21",
+        "metadata": {
+          "isbn": "9791157061730",
+          "publisher": "메디치미디어",
+          "publishDate": "2019-10-21",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791157061730",
+            "workTitle": "중국의 젊은 부자들",
+            "workCreator": "김만기",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "중국의 젊은 부자들",
+          "creator": "김만기, 박보현",
+          "description": "모형헬기를 만들다가 드론 개발로 방향을 돌려 전 세계 드론 시장을 지배하고 있는 DJI의 왕타오, 전 세계 10대들의 놀이터로 틱톡 광풍을 일으킨 바이트댄스의 장이밍, 중국 안면인식 기술의 선두주자 쾅스커지의 인치, 창업 3년 만에 나스닥에 상장해 더 유명해진 핀둬둬의 황정 등 현재 중국에서 성공한 젊은 부자들에게는 흥미진진한 스토리가 많다. 《중국의 젊은 부자들》에는 80년대생과 90년대생 부자들 13명의 성공 노하우가 담겨 있다. 그런데 이들 중에는 부모님의 도움을 받은 사람이 단 한 명도 없다. 김만기 교수는 이 책을 통해서 왜 중국에는 유독 젊은 부자들이 많은지, 그들은 우리와 무엇이 다르기에 성공할 수 있었는지를 보여주는 한편, 중국의 젊은이들이 할 수 있으면 우리도 할 수 있다는 자신감을 심어준다.",
+          "isbn": "9791157061730",
+          "publisher": "메디치미디어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5105538?timestamp=20260225130919",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "ffa5a2d4-407f-5fa2-b4a6-199ef596069d"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791157061730",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791157061730"
+      ],
+      "normalizedTitles": [
+        "중국의젊은부자들"
+      ],
+      "normalizedCreators": [
+        "김만기",
+        "김만기박보현",
+        "박보현"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:18:44.248Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ffa5a2d4-407f-5fa2-b4a6-199ef596069d",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791157061730",
+      "release_date": "2019-10-21",
+      "metadata": {
+        "isbn": "9791157061730",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+        "publisher": "메디치미디어",
+        "figureBook": {
+          "workTitle": "중국의 젊은 부자들",
+          "workCreator": "김만기",
+          "workIdentity": "book/9791157061730",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-10-21",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:18:37.799836+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ffa5a2d4-407f-5fa2-b4a6-199ef596069d",
+        "locale": "ko",
+        "title": "중국의 젊은 부자들",
+        "creator": "김만기, 박보현",
+        "description": "모형헬기를 만들다가 드론 개발로 방향을 돌려 전 세계 드론 시장을 지배하고 있는 DJI의 왕타오, 전 세계 10대들의 놀이터로 틱톡 광풍을 일으킨 바이트댄스의 장이밍, 중국 안면인식 기술의 선두주자 쾅스커지의 인치, 창업 3년 만에 나스닥에 상장해 더 유명해진 핀둬둬의 황정 등 현재 중국에서 성공한 젊은 부자들에게는 흥미진진한 스토리가 많다. 《중국의 젊은 부자들》에는 80년대생과 90년대생 부자들 13명의 성공 노하우가 담겨 있다. 그런데 이들 중에는 부모님의 도움을 받은 사람이 단 한 명도 없다. 김만기 교수는 이 책을 통해서 왜 중국에는 유독 젊은 부자들이 많은지, 그들은 우리와 무엇이 다르기에 성공할 수 있었는지를 보여주는 한편, 중국의 젊은이들이 할 수 있으면 우리도 할 수 있다는 자신감을 심어준다.",
+        "isbn": "9791157061730",
+        "publisher": "메디치미디어",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5105538?timestamp=20260225130919",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5105538&q=%EC%A4%91%EA%B5%AD%EC%9D%98+%EC%A0%8A%EC%9D%80+%EB%B6%80%EC%9E%90%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:18:37.799836+00:00",
+        "updated_at": "2026-09-06T04:18:37.799836+00:00"
+      }
+    ]
+  }
+}

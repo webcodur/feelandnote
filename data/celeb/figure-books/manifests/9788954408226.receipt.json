@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954408226.json",
+  "manifestSha256": "9b2f3ed42d9d894608f93503a1660d705a9f480aac84767c491be64d53560909",
+  "planSha256": "eda6ace02f7f823ce776bec08e5dc0a921371353304634a8b7890c3103c51284",
+  "workIdentity": "book/9788954408226",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954408226"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "6f62560d-ab5b-5af3-b40f-3b31c6808a45",
+    "scopeKey": "book/9788954408226",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "6f62560d-ab5b-5af3-b40f-3b31c6808a45",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954408226",
+      "release_date": "2008-09-11",
+      "metadata": {
+        "isbn": "9788954408226",
+        "publisher": "자음과모음",
+        "publishDate": "2008-09-11",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954408226",
+          "workTitle": "강유위가 들려주는 대동 이야기",
+          "workCreator": "이연도",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "강유위가 들려주는 대동 이야기",
+          "creator": "이연도",
+          "description": "동화처럼 쉽게 읽을 수 있는 철학 인문서『철학자가 들려주는 철학 이야기』시리즈 제81권 ≪강유위가 들려주는 대동 이야기≫. 이 시리즈는 주인공이 시공간을 넘나드는 모험을 통해 철학자를 만나고 그들의 사상을 이해하도록 구성했습니다.\n\n81권에서는 대동사회(大同社會)를 꿈꾸는 강유위의 철학사상에 대해 짚어봅니다. 강유위는 제자인 양계초와 함께 근현대 중국을 대표하는 철학자입니다. 강유위는 중국 '대동'사상을 서양의 유토피아 사상과 결합해 새롭게 정리합니다. 이 책은 강유위가 지은 '대동서'의 내용을 알기 쉽게 풀어쓴 책입니다. [제81권]",
+          "isbn": "9788954408226",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/687070?timestamp=20230307162358",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "6f62560d-ab5b-5af3-b40f-3b31c6808a45"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "6f62560d-ab5b-5af3-b40f-3b31c6808a45",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954408226",
+        "release_date": "2008-09-11",
+        "metadata": {
+          "isbn": "9788954408226",
+          "publisher": "자음과모음",
+          "publishDate": "2008-09-11",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954408226",
+            "workTitle": "강유위가 들려주는 대동 이야기",
+            "workCreator": "이연도",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "강유위가 들려주는 대동 이야기",
+          "creator": "이연도",
+          "description": "동화처럼 쉽게 읽을 수 있는 철학 인문서『철학자가 들려주는 철학 이야기』시리즈 제81권 ≪강유위가 들려주는 대동 이야기≫. 이 시리즈는 주인공이 시공간을 넘나드는 모험을 통해 철학자를 만나고 그들의 사상을 이해하도록 구성했습니다.\n\n81권에서는 대동사회(大同社會)를 꿈꾸는 강유위의 철학사상에 대해 짚어봅니다. 강유위는 제자인 양계초와 함께 근현대 중국을 대표하는 철학자입니다. 강유위는 중국 '대동'사상을 서양의 유토피아 사상과 결합해 새롭게 정리합니다. 이 책은 강유위가 지은 '대동서'의 내용을 알기 쉽게 풀어쓴 책입니다. [제81권]",
+          "isbn": "9788954408226",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/687070?timestamp=20230307162358",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "6f62560d-ab5b-5af3-b40f-3b31c6808a45"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954408226",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954408226"
+      ],
+      "normalizedTitles": [
+        "강유위가들려주는대동이야기"
+      ],
+      "normalizedCreators": [
+        "이연도"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:47:26.212Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "6f62560d-ab5b-5af3-b40f-3b31c6808a45",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954408226",
+      "release_date": "2008-09-11",
+      "metadata": {
+        "isbn": "9788954408226",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "자음과모음",
+        "figureBook": {
+          "workTitle": "강유위가 들려주는 대동 이야기",
+          "workCreator": "이연도",
+          "workIdentity": "book/9788954408226",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2008-09-11",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:47:21.683344+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "6f62560d-ab5b-5af3-b40f-3b31c6808a45",
+        "locale": "ko",
+        "title": "강유위가 들려주는 대동 이야기",
+        "creator": "이연도",
+        "description": "동화처럼 쉽게 읽을 수 있는 철학 인문서『철학자가 들려주는 철학 이야기』시리즈 제81권 ≪강유위가 들려주는 대동 이야기≫. 이 시리즈는 주인공이 시공간을 넘나드는 모험을 통해 철학자를 만나고 그들의 사상을 이해하도록 구성했습니다.\n\n81권에서는 대동사회(大同社會)를 꿈꾸는 강유위의 철학사상에 대해 짚어봅니다. 강유위는 제자인 양계초와 함께 근현대 중국을 대표하는 철학자입니다. 강유위는 중국 '대동'사상을 서양의 유토피아 사상과 결합해 새롭게 정리합니다. 이 책은 강유위가 지은 '대동서'의 내용을 알기 쉽게 풀어쓴 책입니다. [제81권]",
+        "isbn": "9788954408226",
+        "publisher": "자음과모음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/687070?timestamp=20230307162358",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=687070&q=%EA%B0%95%EC%9C%A0%EC%9C%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EB%8C%80%EB%8F%99+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:47:21.683344+00:00",
+        "updated_at": "2026-09-04T17:47:21.683344+00:00"
+      }
+    ]
+  }
+}

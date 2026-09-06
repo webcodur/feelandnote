@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791191183245.json",
+  "manifestSha256": "159f93809fceeec5e3c2f8676538962bb62530d92b4aea4d7ae6c69cee485c90",
+  "planSha256": "ed255b03b69fd59d8e9c1736a5fe1e8988d842e0c33c3f2137b9342735182dc6",
+  "workIdentity": "book/9791191183245",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791191183245"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "898098af-cf9c-5001-9ef2-175dacf20abb",
+    "scopeKey": "book/9791191183245",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "898098af-cf9c-5001-9ef2-175dacf20abb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791191183245",
+      "release_date": "2023-08-10",
+      "metadata": {
+        "isbn": "9791191183245",
+        "publisher": "혜다",
+        "publishDate": "2023-08-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791191183245",
+          "workTitle": "모차르트 평전",
+          "workCreator": "이채훈",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "모차르트 평전",
+          "creator": "이채훈",
+          "description": "인간미와 생명력이 넘치는 이 책은, 영화처럼 눈앞에 18세기 유럽의 전경과 모차르트의 삶을 생생하게 펼쳐준다.\n_피아니스트 김수연\n\n앞으로 모차르트의 생애에 대해 확인해야 할 일이 있으면 모든 해외 저자의 책에 앞서 이 책을 집을 것이다.\n_동아일보 문화전문기자 유윤종\n\n정확한 문장, 적절한 표현들, 모국어로 이런 책을 읽을 수 있다니 기쁘다.\n_작곡가 이건용\n\n모두가 천재라 손꼽는 위대한 음악가 모차르트. 그러나 그의 음악은 화려한 오페라하우스의 무대 위에만, 어느 소장가의 묵직한 LP 음반 위에만 있는 게 아니다. 이 거장의 음악은 핸드폰 벨소리, TV 광고 음악, 영화 속 삽입곡, 백화점이나 지하철 또는 버스의 안내 멘트 등에 조용히 흐르며 평범한 이들과 함께 하루하루를 살아간다. 그의 음악이 그토록 친근하며 인간적인 이유가 바로 여기 있다.\n〈터키 행진곡〉,〈아이네 클라이네 나흐트무지크〉,〈마술피리〉에 나오는 ‘밤의 여왕 아리아’ 등 그의 작품 가운데 몇몇 멜로디는 클래식 문외한이라도 함께 흥얼거릴 수 있을 만큼 낯익고 정답다.\n모차르트는 마치 천재의 전형이 무엇인가를 보여주려는 듯 인류에게 위대한 음악적 유산을 남기고 35년이라는 짧은 생애를 마쳤다. 하지만 230년이 지난 지금까지도 그의 음악은 우리 곁에서 함께 숨 쉬며 그에 대한 기억을 소환하고 있다. 그를 기억하는 일에, 그를 기리는 일에, 그를 아낌없이 사랑하는 일에 《모차르트 평전》이 조금이나마 도움이 되었으면 하는 바람이다.\n《모차르트 평전》은 한국인 저자가 집필한 책으로는 거의 최초의 모차르트 전기다. 1763년 가족 연주 여행으로 시작한 그랜드 투어에서 1791년 미완의 작품〈레퀴엠〉을 남기고 갑작스럽게 맞이한 죽음에 이르기까지, 다사다난하고 우여곡절 많았던 그의 생애를 장장 800쪽이 넘는 분량에 담았다. 인생과 일, 사랑, 우정, 죽음 등 모차르트의 인생사를 담담히 들려주는 저자의 목소리를 따라가다 보면 이 천재 음악가와 어깨를 맞대고 나란히 걷고 있는 듯한 착각에 빠질지도 모른다.\n\n저자는 MBC 다큐멘터리〈이제는 말할 수 있다〉를 제작해 대한민국 사회에 센세이션을 일으킨 바 있는 이채훈 전 MBC 피디다. 그는 다큐멘터리 피디답게 예리한 시각과 철저한 자료 조사를 바탕으로 때로는 현미경으로 파고들 듯, 때로는 망원경으로 조망하듯 다층적으로 모차르트를 관찰하고 분석한다. 그러면서도 인물과 사건 이면에 있는 진실 또한 놓치지 않는 치밀함을 보여준다. 이를 위해 그는 모차르트가 가족, 친구 들과 주고받은 편지 등 국내외 수많은 자료들을 샅샅이 살피는 수고로움 또한 마다하지 않았다. 또한 모차르트의 작품 세계를 전문가 못지않은 해박한 식견으로 설명하고, 그 음악들이 만들어지기까지의 뒷이야기도 조근조근 들려준다.\n\n이 여름, 자신의 생애 전부를 음악과 자유, 사랑에 바쳤던 한 위대한 음악가와 긴 산책에 나서보길, 그리고 그 길의 끝에서 우 리 인류가 그에게 무엇을 빚지고 있는지 또한 발견할 수 있게 되기를, 진실한 마음으로 바란다.",
+          "isbn": "9791191183245",
+          "publisher": "혜다",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6401873?timestamp=20231130195858",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "898098af-cf9c-5001-9ef2-175dacf20abb"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "898098af-cf9c-5001-9ef2-175dacf20abb",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791191183245",
+        "release_date": "2023-08-10",
+        "metadata": {
+          "isbn": "9791191183245",
+          "publisher": "혜다",
+          "publishDate": "2023-08-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791191183245",
+            "workTitle": "모차르트 평전",
+            "workCreator": "이채훈",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "모차르트 평전",
+          "creator": "이채훈",
+          "description": "인간미와 생명력이 넘치는 이 책은, 영화처럼 눈앞에 18세기 유럽의 전경과 모차르트의 삶을 생생하게 펼쳐준다.\n_피아니스트 김수연\n\n앞으로 모차르트의 생애에 대해 확인해야 할 일이 있으면 모든 해외 저자의 책에 앞서 이 책을 집을 것이다.\n_동아일보 문화전문기자 유윤종\n\n정확한 문장, 적절한 표현들, 모국어로 이런 책을 읽을 수 있다니 기쁘다.\n_작곡가 이건용\n\n모두가 천재라 손꼽는 위대한 음악가 모차르트. 그러나 그의 음악은 화려한 오페라하우스의 무대 위에만, 어느 소장가의 묵직한 LP 음반 위에만 있는 게 아니다. 이 거장의 음악은 핸드폰 벨소리, TV 광고 음악, 영화 속 삽입곡, 백화점이나 지하철 또는 버스의 안내 멘트 등에 조용히 흐르며 평범한 이들과 함께 하루하루를 살아간다. 그의 음악이 그토록 친근하며 인간적인 이유가 바로 여기 있다.\n〈터키 행진곡〉,〈아이네 클라이네 나흐트무지크〉,〈마술피리〉에 나오는 ‘밤의 여왕 아리아’ 등 그의 작품 가운데 몇몇 멜로디는 클래식 문외한이라도 함께 흥얼거릴 수 있을 만큼 낯익고 정답다.\n모차르트는 마치 천재의 전형이 무엇인가를 보여주려는 듯 인류에게 위대한 음악적 유산을 남기고 35년이라는 짧은 생애를 마쳤다. 하지만 230년이 지난 지금까지도 그의 음악은 우리 곁에서 함께 숨 쉬며 그에 대한 기억을 소환하고 있다. 그를 기억하는 일에, 그를 기리는 일에, 그를 아낌없이 사랑하는 일에 《모차르트 평전》이 조금이나마 도움이 되었으면 하는 바람이다.\n《모차르트 평전》은 한국인 저자가 집필한 책으로는 거의 최초의 모차르트 전기다. 1763년 가족 연주 여행으로 시작한 그랜드 투어에서 1791년 미완의 작품〈레퀴엠〉을 남기고 갑작스럽게 맞이한 죽음에 이르기까지, 다사다난하고 우여곡절 많았던 그의 생애를 장장 800쪽이 넘는 분량에 담았다. 인생과 일, 사랑, 우정, 죽음 등 모차르트의 인생사를 담담히 들려주는 저자의 목소리를 따라가다 보면 이 천재 음악가와 어깨를 맞대고 나란히 걷고 있는 듯한 착각에 빠질지도 모른다.\n\n저자는 MBC 다큐멘터리〈이제는 말할 수 있다〉를 제작해 대한민국 사회에 센세이션을 일으킨 바 있는 이채훈 전 MBC 피디다. 그는 다큐멘터리 피디답게 예리한 시각과 철저한 자료 조사를 바탕으로 때로는 현미경으로 파고들 듯, 때로는 망원경으로 조망하듯 다층적으로 모차르트를 관찰하고 분석한다. 그러면서도 인물과 사건 이면에 있는 진실 또한 놓치지 않는 치밀함을 보여준다. 이를 위해 그는 모차르트가 가족, 친구 들과 주고받은 편지 등 국내외 수많은 자료들을 샅샅이 살피는 수고로움 또한 마다하지 않았다. 또한 모차르트의 작품 세계를 전문가 못지않은 해박한 식견으로 설명하고, 그 음악들이 만들어지기까지의 뒷이야기도 조근조근 들려준다.\n\n이 여름, 자신의 생애 전부를 음악과 자유, 사랑에 바쳤던 한 위대한 음악가와 긴 산책에 나서보길, 그리고 그 길의 끝에서 우 리 인류가 그에게 무엇을 빚지고 있는지 또한 발견할 수 있게 되기를, 진실한 마음으로 바란다.",
+          "isbn": "9791191183245",
+          "publisher": "혜다",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6401873?timestamp=20231130195858",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "898098af-cf9c-5001-9ef2-175dacf20abb"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791191183245",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791191183245"
+      ],
+      "normalizedTitles": [
+        "모차르트평전"
+      ],
+      "normalizedCreators": [
+        "이채훈"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:29:07.552Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "898098af-cf9c-5001-9ef2-175dacf20abb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791191183245",
+      "release_date": "2023-08-10",
+      "metadata": {
+        "isbn": "9791191183245",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+        "publisher": "혜다",
+        "figureBook": {
+          "workTitle": "모차르트 평전",
+          "workCreator": "이채훈",
+          "workIdentity": "book/9791191183245",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-08-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:28:54.296023+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "898098af-cf9c-5001-9ef2-175dacf20abb",
+        "locale": "ko",
+        "title": "모차르트 평전",
+        "creator": "이채훈",
+        "description": "인간미와 생명력이 넘치는 이 책은, 영화처럼 눈앞에 18세기 유럽의 전경과 모차르트의 삶을 생생하게 펼쳐준다.\n_피아니스트 김수연\n\n앞으로 모차르트의 생애에 대해 확인해야 할 일이 있으면 모든 해외 저자의 책에 앞서 이 책을 집을 것이다.\n_동아일보 문화전문기자 유윤종\n\n정확한 문장, 적절한 표현들, 모국어로 이런 책을 읽을 수 있다니 기쁘다.\n_작곡가 이건용\n\n모두가 천재라 손꼽는 위대한 음악가 모차르트. 그러나 그의 음악은 화려한 오페라하우스의 무대 위에만, 어느 소장가의 묵직한 LP 음반 위에만 있는 게 아니다. 이 거장의 음악은 핸드폰 벨소리, TV 광고 음악, 영화 속 삽입곡, 백화점이나 지하철 또는 버스의 안내 멘트 등에 조용히 흐르며 평범한 이들과 함께 하루하루를 살아간다. 그의 음악이 그토록 친근하며 인간적인 이유가 바로 여기 있다.\n〈터키 행진곡〉,〈아이네 클라이네 나흐트무지크〉,〈마술피리〉에 나오는 ‘밤의 여왕 아리아’ 등 그의 작품 가운데 몇몇 멜로디는 클래식 문외한이라도 함께 흥얼거릴 수 있을 만큼 낯익고 정답다.\n모차르트는 마치 천재의 전형이 무엇인가를 보여주려는 듯 인류에게 위대한 음악적 유산을 남기고 35년이라는 짧은 생애를 마쳤다. 하지만 230년이 지난 지금까지도 그의 음악은 우리 곁에서 함께 숨 쉬며 그에 대한 기억을 소환하고 있다. 그를 기억하는 일에, 그를 기리는 일에, 그를 아낌없이 사랑하는 일에 《모차르트 평전》이 조금이나마 도움이 되었으면 하는 바람이다.\n《모차르트 평전》은 한국인 저자가 집필한 책으로는 거의 최초의 모차르트 전기다. 1763년 가족 연주 여행으로 시작한 그랜드 투어에서 1791년 미완의 작품〈레퀴엠〉을 남기고 갑작스럽게 맞이한 죽음에 이르기까지, 다사다난하고 우여곡절 많았던 그의 생애를 장장 800쪽이 넘는 분량에 담았다. 인생과 일, 사랑, 우정, 죽음 등 모차르트의 인생사를 담담히 들려주는 저자의 목소리를 따라가다 보면 이 천재 음악가와 어깨를 맞대고 나란히 걷고 있는 듯한 착각에 빠질지도 모른다.\n\n저자는 MBC 다큐멘터리〈이제는 말할 수 있다〉를 제작해 대한민국 사회에 센세이션을 일으킨 바 있는 이채훈 전 MBC 피디다. 그는 다큐멘터리 피디답게 예리한 시각과 철저한 자료 조사를 바탕으로 때로는 현미경으로 파고들 듯, 때로는 망원경으로 조망하듯 다층적으로 모차르트를 관찰하고 분석한다. 그러면서도 인물과 사건 이면에 있는 진실 또한 놓치지 않는 치밀함을 보여준다. 이를 위해 그는 모차르트가 가족, 친구 들과 주고받은 편지 등 국내외 수많은 자료들을 샅샅이 살피는 수고로움 또한 마다하지 않았다. 또한 모차르트의 작품 세계를 전문가 못지않은 해박한 식견으로 설명하고, 그 음악들이 만들어지기까지의 뒷이야기도 조근조근 들려준다.\n\n이 여름, 자신의 생애 전부를 음악과 자유, 사랑에 바쳤던 한 위대한 음악가와 긴 산책에 나서보길, 그리고 그 길의 끝에서 우 리 인류가 그에게 무엇을 빚지고 있는지 또한 발견할 수 있게 되기를, 진실한 마음으로 바란다.",
+        "isbn": "9791191183245",
+        "publisher": "혜다",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6401873?timestamp=20231130195858",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6401873&q=%EB%AA%A8%EC%B0%A8%EB%A5%B4%ED%8A%B8+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:28:54.296023+00:00",
+        "updated_at": "2026-09-06T04:28:54.296023+00:00"
+      }
+    ]
+  }
+}

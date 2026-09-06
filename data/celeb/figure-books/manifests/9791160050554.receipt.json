@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791160050554.json",
+  "manifestSha256": "0b7dda83881b0493dd1c1c905b64143be1f6927599b21f66a7cfa162954b47a5",
+  "planSha256": "78815ec34e2d34c429c38e5e2c99a310c6d609ceece882b675190a9da40ca71c",
+  "workIdentity": "book/9791160050554",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791160050554"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "3708bc76-7a69-5c2e-aec5-90a9e08dedd4",
+    "scopeKey": "book/9791160050554",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "3708bc76-7a69-5c2e-aec5-90a9e08dedd4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160050554",
+      "release_date": "2018-08-29",
+      "metadata": {
+        "isbn": "9791160050554",
+        "publisher": "북카라반",
+        "publishDate": "2018-08-29",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791160050554",
+          "workTitle": "부와 혁신의 설계자들",
+          "workCreator": "김환표",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "부와 혁신의 설계자들",
+          "creator": "김환표",
+          "description": "기업을 이해하는 가장 중요한 키워드는 무엇일까? 그건 아무래도 한 기업의 창업자나 그 기업을 대표하는 최고경영자의 삶과 철학과 비전을 톺아보는 것이다. 기업의 철학과 비전, 경영 전략을 만들어 실행하는 것은 결국 사람이니 말이다. 이는 전통적인 기업뿐만 아니라 IT 열풍을 타고 우후죽순 탄생하는 기업에도 적용되는 이치다. 즉, 그 기업을 상징하는 설계자들을 살펴보아야만 그 기업이 일군 부와 혁신을 온전히 이해할 수 있다. 최고경영자들은 자신만의 철학과 비전을 갖고 부와 혁신을 일구었지만, 그렇다고 해서 이 책이 그들의 특별한 성공 비결을 탐구하고 있는 것은 아니다. 공부에 왕도가 없듯이 부와 혁신을 일구는 방법에도 왕도는 없다. 부와 혁신을 창조한 사람이 셀 수 없듯이 부와 혁신을 일구는 방법도 다양할 수밖에 없다. 기업마다 주력 업종이 따로 있고 타깃 소비자도 다르기 때문이다.\n\n그렇지만 부와 혁신을 일군 설계자들의 철학과 비전을 톺아보면 크게 2가지의 비슷한 공통점을 발견할 수 있다. 바로 ‘관찰하기’와 ‘질문하기’다. 처한 환경은 사뭇 달랐지만 그들은 관찰과 질문에서 시작한 아이디어를 갖고 도전과 창조에 나섰다. 물론 관찰과 질문을 잘한다고 해서 반드시 성공할 수 있는 것은 아니며 그들 역시 모두 순탄하게 성공한 것 또한 아니다. 그럼에도 관찰과 질문이 부와 혁신을 일구는 원동력으로 사용되었다는 것은 변치 않을 것이다. 이 책은 ‘도전을 하는 설계자들’, ‘질문을 하는 설계자들’, ‘감동을 주는 설계자들’ 등 3개 장으로 구성되어 있다. 3개 장으로 나누긴 했지만 편의상 그렇게 구분했을 뿐 이런 구분이 큰 의미를 갖는 것은 아니다. 도전과 질문과 감동 역시 매우 밀접한 관련을 맺고 있는 단어들이라 할 수 있으니 말이다. 관찰과 질문을 통해 도전했기에 창조할 수 있었으며 세상에 필요한 것을 제공했기에 소비자들의 호응을 이끌어내며 부와 혁신의 신대륙에 도착할 수 있었다는 게 이를 잘 시사해준다.",
+          "isbn": "9791160050554",
+          "publisher": "북카라반",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3754331?timestamp=20220613040512",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "3708bc76-7a69-5c2e-aec5-90a9e08dedd4"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "3708bc76-7a69-5c2e-aec5-90a9e08dedd4",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791160050554",
+        "release_date": "2018-08-29",
+        "metadata": {
+          "isbn": "9791160050554",
+          "publisher": "북카라반",
+          "publishDate": "2018-08-29",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791160050554",
+            "workTitle": "부와 혁신의 설계자들",
+            "workCreator": "김환표",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "부와 혁신의 설계자들",
+          "creator": "김환표",
+          "description": "기업을 이해하는 가장 중요한 키워드는 무엇일까? 그건 아무래도 한 기업의 창업자나 그 기업을 대표하는 최고경영자의 삶과 철학과 비전을 톺아보는 것이다. 기업의 철학과 비전, 경영 전략을 만들어 실행하는 것은 결국 사람이니 말이다. 이는 전통적인 기업뿐만 아니라 IT 열풍을 타고 우후죽순 탄생하는 기업에도 적용되는 이치다. 즉, 그 기업을 상징하는 설계자들을 살펴보아야만 그 기업이 일군 부와 혁신을 온전히 이해할 수 있다. 최고경영자들은 자신만의 철학과 비전을 갖고 부와 혁신을 일구었지만, 그렇다고 해서 이 책이 그들의 특별한 성공 비결을 탐구하고 있는 것은 아니다. 공부에 왕도가 없듯이 부와 혁신을 일구는 방법에도 왕도는 없다. 부와 혁신을 창조한 사람이 셀 수 없듯이 부와 혁신을 일구는 방법도 다양할 수밖에 없다. 기업마다 주력 업종이 따로 있고 타깃 소비자도 다르기 때문이다.\n\n그렇지만 부와 혁신을 일군 설계자들의 철학과 비전을 톺아보면 크게 2가지의 비슷한 공통점을 발견할 수 있다. 바로 ‘관찰하기’와 ‘질문하기’다. 처한 환경은 사뭇 달랐지만 그들은 관찰과 질문에서 시작한 아이디어를 갖고 도전과 창조에 나섰다. 물론 관찰과 질문을 잘한다고 해서 반드시 성공할 수 있는 것은 아니며 그들 역시 모두 순탄하게 성공한 것 또한 아니다. 그럼에도 관찰과 질문이 부와 혁신을 일구는 원동력으로 사용되었다는 것은 변치 않을 것이다. 이 책은 ‘도전을 하는 설계자들’, ‘질문을 하는 설계자들’, ‘감동을 주는 설계자들’ 등 3개 장으로 구성되어 있다. 3개 장으로 나누긴 했지만 편의상 그렇게 구분했을 뿐 이런 구분이 큰 의미를 갖는 것은 아니다. 도전과 질문과 감동 역시 매우 밀접한 관련을 맺고 있는 단어들이라 할 수 있으니 말이다. 관찰과 질문을 통해 도전했기에 창조할 수 있었으며 세상에 필요한 것을 제공했기에 소비자들의 호응을 이끌어내며 부와 혁신의 신대륙에 도착할 수 있었다는 게 이를 잘 시사해준다.",
+          "isbn": "9791160050554",
+          "publisher": "북카라반",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3754331?timestamp=20220613040512",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "3708bc76-7a69-5c2e-aec5-90a9e08dedd4"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791160050554",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791160050554"
+      ],
+      "normalizedTitles": [
+        "부와혁신의설계자들"
+      ],
+      "normalizedCreators": [
+        "김환표"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:20:34.062Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "3708bc76-7a69-5c2e-aec5-90a9e08dedd4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160050554",
+      "release_date": "2018-08-29",
+      "metadata": {
+        "isbn": "9791160050554",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+        "publisher": "북카라반",
+        "figureBook": {
+          "workTitle": "부와 혁신의 설계자들",
+          "workCreator": "김환표",
+          "workIdentity": "book/9791160050554",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2018-08-29",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:20:22.768129+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "3708bc76-7a69-5c2e-aec5-90a9e08dedd4",
+        "locale": "ko",
+        "title": "부와 혁신의 설계자들",
+        "creator": "김환표",
+        "description": "기업을 이해하는 가장 중요한 키워드는 무엇일까? 그건 아무래도 한 기업의 창업자나 그 기업을 대표하는 최고경영자의 삶과 철학과 비전을 톺아보는 것이다. 기업의 철학과 비전, 경영 전략을 만들어 실행하는 것은 결국 사람이니 말이다. 이는 전통적인 기업뿐만 아니라 IT 열풍을 타고 우후죽순 탄생하는 기업에도 적용되는 이치다. 즉, 그 기업을 상징하는 설계자들을 살펴보아야만 그 기업이 일군 부와 혁신을 온전히 이해할 수 있다. 최고경영자들은 자신만의 철학과 비전을 갖고 부와 혁신을 일구었지만, 그렇다고 해서 이 책이 그들의 특별한 성공 비결을 탐구하고 있는 것은 아니다. 공부에 왕도가 없듯이 부와 혁신을 일구는 방법에도 왕도는 없다. 부와 혁신을 창조한 사람이 셀 수 없듯이 부와 혁신을 일구는 방법도 다양할 수밖에 없다. 기업마다 주력 업종이 따로 있고 타깃 소비자도 다르기 때문이다.\n\n그렇지만 부와 혁신을 일군 설계자들의 철학과 비전을 톺아보면 크게 2가지의 비슷한 공통점을 발견할 수 있다. 바로 ‘관찰하기’와 ‘질문하기’다. 처한 환경은 사뭇 달랐지만 그들은 관찰과 질문에서 시작한 아이디어를 갖고 도전과 창조에 나섰다. 물론 관찰과 질문을 잘한다고 해서 반드시 성공할 수 있는 것은 아니며 그들 역시 모두 순탄하게 성공한 것 또한 아니다. 그럼에도 관찰과 질문이 부와 혁신을 일구는 원동력으로 사용되었다는 것은 변치 않을 것이다. 이 책은 ‘도전을 하는 설계자들’, ‘질문을 하는 설계자들’, ‘감동을 주는 설계자들’ 등 3개 장으로 구성되어 있다. 3개 장으로 나누긴 했지만 편의상 그렇게 구분했을 뿐 이런 구분이 큰 의미를 갖는 것은 아니다. 도전과 질문과 감동 역시 매우 밀접한 관련을 맺고 있는 단어들이라 할 수 있으니 말이다. 관찰과 질문을 통해 도전했기에 창조할 수 있었으며 세상에 필요한 것을 제공했기에 소비자들의 호응을 이끌어내며 부와 혁신의 신대륙에 도착할 수 있었다는 게 이를 잘 시사해준다.",
+        "isbn": "9791160050554",
+        "publisher": "북카라반",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3754331?timestamp=20220613040512",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=3754331&q=%EB%B6%80%EC%99%80+%ED%98%81%EC%8B%A0%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:20:22.768129+00:00",
+        "updated_at": "2026-09-06T04:20:22.768129+00:00"
+      }
+    ]
+  }
+}

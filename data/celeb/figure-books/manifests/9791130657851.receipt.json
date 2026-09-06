@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791130657851.json",
+  "manifestSha256": "0df9e5bcb13c9ae96c7244c569a83e89ec16742297319c856c2edf39ba62da35",
+  "planSha256": "d9f2d5330d5252ae8301e634fa585d11cebb1f69cdbc78fa748b82aecfd79645",
+  "workIdentity": "book/9791130657851",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791130657851"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "449b5501-f38a-5f2c-b77b-4a2d9b88d7fd",
+    "scopeKey": "book/9791130657851",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "449b5501-f38a-5f2c-b77b-4a2d9b88d7fd",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130657851",
+      "release_date": "2024-10-21",
+      "metadata": {
+        "isbn": "9791130657851",
+        "publisher": "다산북스",
+        "publishDate": "2024-10-21",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791130657851",
+          "workTitle": "재능의 법칙",
+          "workCreator": "폴리나 마리노바 폼플리아노",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "재능의 법칙",
+          "creator": "폴리나 마리노바 폼플리아노",
+          "description": "저자는 《포춘》에서 5년 동안 1300개 이상의 기사를 쓴 저명한 기자였지만 돌연 퇴사하고, 후발주자로 시작해 1등을 추월한 세계 각지의 도전자들을 한 명 한 명 직접 만나 인터뷰하기 시작했다. 그 후 자신이 운영하는 프로필 뉴스레터 사이트인 〈The Profile〉에 다양한 분야에서 최고가 된 특별하면서도 평범한 사람들의 커리어와 마인드, 그리고 생활 방식을 차곡차곡 모아나갔다.\n\n미각을 상실했지만 미슐랭 3스타를 받은 셰프, 아프리카 난민 출신이지만 UFC 헤비급 챔피언이 된 선수, 100킬로그램에 육박했지만 끝내 네이비실 군인이 된 남자. 이들의 이야기는 자칫 성공과 무관해 보인다. 그런데 어떻게 기적을 만들 수 있었을까? 노력을 습관으로 만들어 한 분야에서 최고가 된 이 후천적 천재들은 하나같이 입을 모아 “잠재성은 한순간의 영감이 아니라 오랜 연구와 성실함의 결과”라고 말한다.\n\n1300여 명의 인터뷰이를 취재하고, 4년이 넘는 집필 기간을 투입한 이 책은 재능은 타고난 천재성이 아니라 오히려 타고난 결핍에 더 가까이 있다고 말한다. 이 책에 등장하는 인물들은 모두 각자의 결핍을 영리하게 이용했고 자신만의 속도와 방향에 집중했다. 아직 인생의 전성기를 만나지 못한 독자라면 수많은 도전자가 정상에 도달하기까지 겪은 시행착오가 담긴 이 책을 통해 삶에서 꽃이 만개하는 시기와 방법은 사람마다 모두 다르다는 것을 깨닫게 될 것이다.",
+          "isbn": "9791130657851",
+          "publisher": "다산북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6748177?timestamp=20241023165254",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99"
+          },
+          "verified": true,
+          "content_id": "449b5501-f38a-5f2c-b77b-4a2d9b88d7fd"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "449b5501-f38a-5f2c-b77b-4a2d9b88d7fd",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791130657851",
+        "release_date": "2024-10-21",
+        "metadata": {
+          "isbn": "9791130657851",
+          "publisher": "다산북스",
+          "publishDate": "2024-10-21",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791130657851",
+            "workTitle": "재능의 법칙",
+            "workCreator": "폴리나 마리노바 폼플리아노",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "재능의 법칙",
+          "creator": "폴리나 마리노바 폼플리아노",
+          "description": "저자는 《포춘》에서 5년 동안 1300개 이상의 기사를 쓴 저명한 기자였지만 돌연 퇴사하고, 후발주자로 시작해 1등을 추월한 세계 각지의 도전자들을 한 명 한 명 직접 만나 인터뷰하기 시작했다. 그 후 자신이 운영하는 프로필 뉴스레터 사이트인 〈The Profile〉에 다양한 분야에서 최고가 된 특별하면서도 평범한 사람들의 커리어와 마인드, 그리고 생활 방식을 차곡차곡 모아나갔다.\n\n미각을 상실했지만 미슐랭 3스타를 받은 셰프, 아프리카 난민 출신이지만 UFC 헤비급 챔피언이 된 선수, 100킬로그램에 육박했지만 끝내 네이비실 군인이 된 남자. 이들의 이야기는 자칫 성공과 무관해 보인다. 그런데 어떻게 기적을 만들 수 있었을까? 노력을 습관으로 만들어 한 분야에서 최고가 된 이 후천적 천재들은 하나같이 입을 모아 “잠재성은 한순간의 영감이 아니라 오랜 연구와 성실함의 결과”라고 말한다.\n\n1300여 명의 인터뷰이를 취재하고, 4년이 넘는 집필 기간을 투입한 이 책은 재능은 타고난 천재성이 아니라 오히려 타고난 결핍에 더 가까이 있다고 말한다. 이 책에 등장하는 인물들은 모두 각자의 결핍을 영리하게 이용했고 자신만의 속도와 방향에 집중했다. 아직 인생의 전성기를 만나지 못한 독자라면 수많은 도전자가 정상에 도달하기까지 겪은 시행착오가 담긴 이 책을 통해 삶에서 꽃이 만개하는 시기와 방법은 사람마다 모두 다르다는 것을 깨닫게 될 것이다.",
+          "isbn": "9791130657851",
+          "publisher": "다산북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6748177?timestamp=20241023165254",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99"
+          },
+          "verified": true,
+          "content_id": "449b5501-f38a-5f2c-b77b-4a2d9b88d7fd"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791130657851",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791130657851"
+      ],
+      "normalizedTitles": [
+        "재능의법칙"
+      ],
+      "normalizedCreators": [
+        "박지혜역",
+        "폴리나마리노바폼플리아노"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:32:15.292Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "449b5501-f38a-5f2c-b77b-4a2d9b88d7fd",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791130657851",
+      "release_date": "2024-10-21",
+      "metadata": {
+        "isbn": "9791130657851",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+        "publisher": "다산북스",
+        "figureBook": {
+          "workTitle": "재능의 법칙",
+          "workCreator": "폴리나 마리노바 폼플리아노",
+          "workIdentity": "book/9791130657851",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-10-21",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:32:00.671008+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "449b5501-f38a-5f2c-b77b-4a2d9b88d7fd",
+        "locale": "ko",
+        "title": "재능의 법칙",
+        "creator": "폴리나 마리노바 폼플리아노",
+        "description": "저자는 《포춘》에서 5년 동안 1300개 이상의 기사를 쓴 저명한 기자였지만 돌연 퇴사하고, 후발주자로 시작해 1등을 추월한 세계 각지의 도전자들을 한 명 한 명 직접 만나 인터뷰하기 시작했다. 그 후 자신이 운영하는 프로필 뉴스레터 사이트인 〈The Profile〉에 다양한 분야에서 최고가 된 특별하면서도 평범한 사람들의 커리어와 마인드, 그리고 생활 방식을 차곡차곡 모아나갔다.\n\n미각을 상실했지만 미슐랭 3스타를 받은 셰프, 아프리카 난민 출신이지만 UFC 헤비급 챔피언이 된 선수, 100킬로그램에 육박했지만 끝내 네이비실 군인이 된 남자. 이들의 이야기는 자칫 성공과 무관해 보인다. 그런데 어떻게 기적을 만들 수 있었을까? 노력을 습관으로 만들어 한 분야에서 최고가 된 이 후천적 천재들은 하나같이 입을 모아 “잠재성은 한순간의 영감이 아니라 오랜 연구와 성실함의 결과”라고 말한다.\n\n1300여 명의 인터뷰이를 취재하고, 4년이 넘는 집필 기간을 투입한 이 책은 재능은 타고난 천재성이 아니라 오히려 타고난 결핍에 더 가까이 있다고 말한다. 이 책에 등장하는 인물들은 모두 각자의 결핍을 영리하게 이용했고 자신만의 속도와 방향에 집중했다. 아직 인생의 전성기를 만나지 못한 독자라면 수많은 도전자가 정상에 도달하기까지 겪은 시행착오가 담긴 이 책을 통해 삶에서 꽃이 만개하는 시기와 방법은 사람마다 모두 다르다는 것을 깨닫게 될 것이다.",
+        "isbn": "9791130657851",
+        "publisher": "다산북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6748177?timestamp=20241023165254",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6748177&q=%EC%9E%AC%EB%8A%A5%EC%9D%98+%EB%B2%95%EC%B9%99"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:32:00.671008+00:00",
+        "updated_at": "2026-09-06T02:32:00.671008+00:00"
+      }
+    ]
+  }
+}

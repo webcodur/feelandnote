@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791157062959",
+    "title": "무함마드 빈 살만",
+    "creator": "벤 허버드",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박인식 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791157062959"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788932919515.json",
+  "manifestSha256": "8cbbd73e2a82687f7f3dc84838ca673594413e0f4818710e3d840ce1fc17572b",
+  "planSha256": "16aa78a6bcf4ecb7ac875a2472710ec1328e800a9eaedad1e3560c4345ea2159",
+  "workIdentity": "book/9788932919515",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788932919515"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "71711850-74f5-5947-9c7a-f8264f0a527c",
+    "scopeKey": "book/9788932919515",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "71711850-74f5-5947-9c7a-f8264f0a527c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932919515",
+      "release_date": "2019-03-15",
+      "metadata": {
+        "isbn": "9788932919515",
+        "publisher": "열린책들",
+        "publishDate": "2019-03-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788932919515",
+          "workTitle": "매핑 도스토옙스키",
+          "workCreator": "석영중",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "매핑 도스토옙스키",
+          "creator": "석영중",
+          "description": "노문학자 석영중 교수의 저서 『매핑 도스토옙스키: 대문호의 공간을 다시 여행하다』가 열린책들에서 출간되었다. 고려대학교 노어노문학과에서 오랜 세월 학생들에게 도스토옙스키의 문학을 가르쳐 온 저자는 러시아가 낳은 세계적인 대문호 도스토옙스키가 세계 곳곳에 남긴 흔적들을 두 발로 직접 탐방했던 경험을 토대로, 그의 삶과 문학 세계를 독자들에게 더욱 친근하게 소개하고자 이 책을 집필했다. 모스크바와 상트페테르부르크, 시베리아, 유럽 곳곳의 도시들에 이르기까지, 대문호가 실제로 머물렀던 지역과 장소들을 직접 보고 거닐면서 그의 정신적인 궤적을 따라가는 이 책은, 전문 연구자의 생생한 <도스토옙스키 기행>의 기록이자 그의 문학 세계로 흥미롭게 독자들을 초대하는 충실한 안내서라고 할 수 있다.\n\n석영중 교수는 2015년부터 2018년까지 세계 곳곳에 남아 있는 도스토옙스키의 흔적을 찾아서 러시아는 물론 카자흐스탄과 체코, 프랑스, 독일, 영국, 스위스, 이탈리아 등지를 아홉 차례 오가는 대장정에 올랐다. <계산해 보지 않았지만 아마 지구를 몇 바퀴 돌았을 것>이라는 저자의 술회만큼, 이처럼 한 연구자가 그의 흔적이 남아 있는 장소들을 전부 직접 찾아가 본 일은 전 세계적으로도 그 유례를 찾아보기 힘든 일이다.\n\n이후 저자는 이 여정의 기록을 토대로 2018년 1월 첫 주부터 12월 마지막 주까지 1년의 시간에 걸쳐 잡지 『중앙SUNDAY』에 총 48회의 칼럼을 연재했다. 이를 모아 6개의 부와 48개의 장으로 구성한 이 책은 각 장마다 하나의 도시와 관련된 하나의 주제의 이야기를 다룬다. 그리하여 마치 각각의 조각들이 하나의 장엄한 형상을 이루는 모자이크화처럼, 도스토옙스키의 생애와 문학과 관련된 거의 모든 주제를 전체적으로 다루고 있다. 어린 시절부터 임종의 순간까지 대문호의 삶에 깊은 영향을 미친 중요한 사건이나 인물들에 대한 이야기는 물론, 『죄와 벌』, 『카라마조프 씨네 형제들』, 『악령』, 『백치』, 『미성년』 등 5대 대표 장편소설을 비롯한 그의 주요 작품들을 그 작품과 관련 깊은 장소와 연관하여 쉽고 재미있게 해설해 주고 있다. 자칫 어렵고 심오할 수 있는 내용까지도 이해가 쉽게 설명해 주고 있어서, 평소 도스토옙스키를 사랑해 온 독자들뿐 아니라 아직 그의 작품을 읽어 보지 못했거나 처음 그의 문학 세계에 접근하려는 독자들에게도, 쉽고 재미있게 다가갈 수 있도록 이 책이 좋은 입문서가 되어 줄 것이다.\n\n또한 여행지에서 저자가 직접 찍은 사진들과 이미지 자료들, 도스토옙스키의 주요 이동 경로를 나타낸 지도 등을 함께 수록하여, 이 책을 통해 떠나는 <도스토옙스키 여행>에 독자들이 더욱 생생하게 빠져들 수 있도록 했다. 이중에는 전문가들도 쉽게 찾아가서 보기 힘든 희귀한 사진들도 다수 포함되어 있다. 러시아 곳곳과 카자흐스탄에 흩어져 있는 총 일곱 개의 도스토옙스키 기념관은 물론, 도스토옙스키가 이곳저곳을 떠돌며 머물렀던 셋집과 현판들, 그가 걷고 지나쳤 던 유럽의 거리와 상점들, 삶의 나락에서 좌절하고 다시 태어났던 감옥과 수도원들, 그의 작품 속에서 영원의 공간으로 재창조된 도시의 골목길들, 그리고 그와 그가 사랑했던 이들이 잠든 무덤 등…… 그의 삶과 작품에 각인된 공간들을 저자와 함께 더듬는 여정은, 단순히 지식으로서가 아니라 <그의 공간을 다시 여행하며> 그가 보고 듣고 숨 쉬던 삶의 순간들 속으로 흠뻑 젖어 들어가는 과정이 될 것이다.",
+          "isbn": "9788932919515",
+          "publisher": "열린책들",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4892765?timestamp=20240104175110",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4"
+          },
+          "verified": true,
+          "content_id": "71711850-74f5-5947-9c7a-f8264f0a527c"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "71711850-74f5-5947-9c7a-f8264f0a527c",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788932919515",
+        "release_date": "2019-03-15",
+        "metadata": {
+          "isbn": "9788932919515",
+          "publisher": "열린책들",
+          "publishDate": "2019-03-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788932919515",
+            "workTitle": "매핑 도스토옙스키",
+            "workCreator": "석영중",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "매핑 도스토옙스키",
+          "creator": "석영중",
+          "description": "노문학자 석영중 교수의 저서 『매핑 도스토옙스키: 대문호의 공간을 다시 여행하다』가 열린책들에서 출간되었다. 고려대학교 노어노문학과에서 오랜 세월 학생들에게 도스토옙스키의 문학을 가르쳐 온 저자는 러시아가 낳은 세계적인 대문호 도스토옙스키가 세계 곳곳에 남긴 흔적들을 두 발로 직접 탐방했던 경험을 토대로, 그의 삶과 문학 세계를 독자들에게 더욱 친근하게 소개하고자 이 책을 집필했다. 모스크바와 상트페테르부르크, 시베리아, 유럽 곳곳의 도시들에 이르기까지, 대문호가 실제로 머물렀던 지역과 장소들을 직접 보고 거닐면서 그의 정신적인 궤적을 따라가는 이 책은, 전문 연구자의 생생한 <도스토옙스키 기행>의 기록이자 그의 문학 세계로 흥미롭게 독자들을 초대하는 충실한 안내서라고 할 수 있다.\n\n석영중 교수는 2015년부터 2018년까지 세계 곳곳에 남아 있는 도스토옙스키의 흔적을 찾아서 러시아는 물론 카자흐스탄과 체코, 프랑스, 독일, 영국, 스위스, 이탈리아 등지를 아홉 차례 오가는 대장정에 올랐다. <계산해 보지 않았지만 아마 지구를 몇 바퀴 돌았을 것>이라는 저자의 술회만큼, 이처럼 한 연구자가 그의 흔적이 남아 있는 장소들을 전부 직접 찾아가 본 일은 전 세계적으로도 그 유례를 찾아보기 힘든 일이다.\n\n이후 저자는 이 여정의 기록을 토대로 2018년 1월 첫 주부터 12월 마지막 주까지 1년의 시간에 걸쳐 잡지 『중앙SUNDAY』에 총 48회의 칼럼을 연재했다. 이를 모아 6개의 부와 48개의 장으로 구성한 이 책은 각 장마다 하나의 도시와 관련된 하나의 주제의 이야기를 다룬다. 그리하여 마치 각각의 조각들이 하나의 장엄한 형상을 이루는 모자이크화처럼, 도스토옙스키의 생애와 문학과 관련된 거의 모든 주제를 전체적으로 다루고 있다. 어린 시절부터 임종의 순간까지 대문호의 삶에 깊은 영향을 미친 중요한 사건이나 인물들에 대한 이야기는 물론, 『죄와 벌』, 『카라마조프 씨네 형제들』, 『악령』, 『백치』, 『미성년』 등 5대 대표 장편소설을 비롯한 그의 주요 작품들을 그 작품과 관련 깊은 장소와 연관하여 쉽고 재미있게 해설해 주고 있다. 자칫 어렵고 심오할 수 있는 내용까지도 이해가 쉽게 설명해 주고 있어서, 평소 도스토옙스키를 사랑해 온 독자들뿐 아니라 아직 그의 작품을 읽어 보지 못했거나 처음 그의 문학 세계에 접근하려는 독자들에게도, 쉽고 재미있게 다가갈 수 있도록 이 책이 좋은 입문서가 되어 줄 것이다.\n\n또한 여행지에서 저자가 직접 찍은 사진들과 이미지 자료들, 도스토옙스키의 주요 이동 경로를 나타낸 지도 등을 함께 수록하여, 이 책을 통해 떠나는 <도스토옙스키 여행>에 독자들이 더욱 생생하게 빠져들 수 있도록 했다. 이중에는 전문가들도 쉽게 찾아가서 보기 힘든 희귀한 사진들도 다수 포함되어 있다. 러시아 곳곳과 카자흐스탄에 흩어져 있는 총 일곱 개의 도스토옙스키 기념관은 물론, 도스토옙스키가 이곳저곳을 떠돌며 머물렀던 셋집과 현판들, 그가 걷고 지나쳤 던 유럽의 거리와 상점들, 삶의 나락에서 좌절하고 다시 태어났던 감옥과 수도원들, 그의 작품 속에서 영원의 공간으로 재창조된 도시의 골목길들, 그리고 그와 그가 사랑했던 이들이 잠든 무덤 등…… 그의 삶과 작품에 각인된 공간들을 저자와 함께 더듬는 여정은, 단순히 지식으로서가 아니라 <그의 공간을 다시 여행하며> 그가 보고 듣고 숨 쉬던 삶의 순간들 속으로 흠뻑 젖어 들어가는 과정이 될 것이다.",
+          "isbn": "9788932919515",
+          "publisher": "열린책들",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4892765?timestamp=20240104175110",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4"
+          },
+          "verified": true,
+          "content_id": "71711850-74f5-5947-9c7a-f8264f0a527c"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788932919515",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788932919515"
+      ],
+      "normalizedTitles": [
+        "매핑도스토옙스키"
+      ],
+      "normalizedCreators": [
+        "석영중"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:39:37.462Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "71711850-74f5-5947-9c7a-f8264f0a527c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932919515",
+      "release_date": "2019-03-15",
+      "metadata": {
+        "isbn": "9788932919515",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+        "publisher": "열린책들",
+        "figureBook": {
+          "workTitle": "매핑 도스토옙스키",
+          "workCreator": "석영중",
+          "workIdentity": "book/9788932919515",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-03-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:39:16.981174+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "71711850-74f5-5947-9c7a-f8264f0a527c",
+        "locale": "ko",
+        "title": "매핑 도스토옙스키",
+        "creator": "석영중",
+        "description": "노문학자 석영중 교수의 저서 『매핑 도스토옙스키: 대문호의 공간을 다시 여행하다』가 열린책들에서 출간되었다. 고려대학교 노어노문학과에서 오랜 세월 학생들에게 도스토옙스키의 문학을 가르쳐 온 저자는 러시아가 낳은 세계적인 대문호 도스토옙스키가 세계 곳곳에 남긴 흔적들을 두 발로 직접 탐방했던 경험을 토대로, 그의 삶과 문학 세계를 독자들에게 더욱 친근하게 소개하고자 이 책을 집필했다. 모스크바와 상트페테르부르크, 시베리아, 유럽 곳곳의 도시들에 이르기까지, 대문호가 실제로 머물렀던 지역과 장소들을 직접 보고 거닐면서 그의 정신적인 궤적을 따라가는 이 책은, 전문 연구자의 생생한 <도스토옙스키 기행>의 기록이자 그의 문학 세계로 흥미롭게 독자들을 초대하는 충실한 안내서라고 할 수 있다.\n\n석영중 교수는 2015년부터 2018년까지 세계 곳곳에 남아 있는 도스토옙스키의 흔적을 찾아서 러시아는 물론 카자흐스탄과 체코, 프랑스, 독일, 영국, 스위스, 이탈리아 등지를 아홉 차례 오가는 대장정에 올랐다. <계산해 보지 않았지만 아마 지구를 몇 바퀴 돌았을 것>이라는 저자의 술회만큼, 이처럼 한 연구자가 그의 흔적이 남아 있는 장소들을 전부 직접 찾아가 본 일은 전 세계적으로도 그 유례를 찾아보기 힘든 일이다.\n\n이후 저자는 이 여정의 기록을 토대로 2018년 1월 첫 주부터 12월 마지막 주까지 1년의 시간에 걸쳐 잡지 『중앙SUNDAY』에 총 48회의 칼럼을 연재했다. 이를 모아 6개의 부와 48개의 장으로 구성한 이 책은 각 장마다 하나의 도시와 관련된 하나의 주제의 이야기를 다룬다. 그리하여 마치 각각의 조각들이 하나의 장엄한 형상을 이루는 모자이크화처럼, 도스토옙스키의 생애와 문학과 관련된 거의 모든 주제를 전체적으로 다루고 있다. 어린 시절부터 임종의 순간까지 대문호의 삶에 깊은 영향을 미친 중요한 사건이나 인물들에 대한 이야기는 물론, 『죄와 벌』, 『카라마조프 씨네 형제들』, 『악령』, 『백치』, 『미성년』 등 5대 대표 장편소설을 비롯한 그의 주요 작품들을 그 작품과 관련 깊은 장소와 연관하여 쉽고 재미있게 해설해 주고 있다. 자칫 어렵고 심오할 수 있는 내용까지도 이해가 쉽게 설명해 주고 있어서, 평소 도스토옙스키를 사랑해 온 독자들뿐 아니라 아직 그의 작품을 읽어 보지 못했거나 처음 그의 문학 세계에 접근하려는 독자들에게도, 쉽고 재미있게 다가갈 수 있도록 이 책이 좋은 입문서가 되어 줄 것이다.\n\n또한 여행지에서 저자가 직접 찍은 사진들과 이미지 자료들, 도스토옙스키의 주요 이동 경로를 나타낸 지도 등을 함께 수록하여, 이 책을 통해 떠나는 <도스토옙스키 여행>에 독자들이 더욱 생생하게 빠져들 수 있도록 했다. 이중에는 전문가들도 쉽게 찾아가서 보기 힘든 희귀한 사진들도 다수 포함되어 있다. 러시아 곳곳과 카자흐스탄에 흩어져 있는 총 일곱 개의 도스토옙스키 기념관은 물론, 도스토옙스키가 이곳저곳을 떠돌며 머물렀던 셋집과 현판들, 그가 걷고 지나쳤 던 유럽의 거리와 상점들, 삶의 나락에서 좌절하고 다시 태어났던 감옥과 수도원들, 그의 작품 속에서 영원의 공간으로 재창조된 도시의 골목길들, 그리고 그와 그가 사랑했던 이들이 잠든 무덤 등…… 그의 삶과 작품에 각인된 공간들을 저자와 함께 더듬는 여정은, 단순히 지식으로서가 아니라 <그의 공간을 다시 여행하며> 그가 보고 듣고 숨 쉬던 삶의 순간들 속으로 흠뻑 젖어 들어가는 과정이 될 것이다.",
+        "isbn": "9788932919515",
+        "publisher": "열린책들",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4892765?timestamp=20240104175110",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4892765&q=%EB%A7%A4%ED%95%91+%EB%8F%84%EC%8A%A4%ED%86%A0%EC%98%99%EC%8A%A4%ED%82%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:39:16.981174+00:00",
+        "updated_at": "2026-09-04T17:39:16.981174+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791173574917.json",
+  "manifestSha256": "4ec1f51f039f0da02f37f1b723ccfa845812b0faf7b7891aa1b2d62a040bbc5f",
+  "planSha256": "dda6dff8f786948ffbd6c9070ed6f49aeff478be946ce34db9f55d4501000f1c",
+  "workIdentity": "book/9791173574917",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791173574917"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "bf280b34-df58-5f3e-a31a-48e5a7937d8c",
+    "scopeKey": "book/9791173574917",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "bf280b34-df58-5f3e-a31a-48e5a7937d8c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791173574917",
+      "release_date": "2025-09-17",
+      "metadata": {
+        "isbn": "9791173574917",
+        "publisher": "21세기북스",
+        "publishDate": "2025-09-17",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791173574917",
+          "workTitle": "잘못된 전략",
+          "workCreator": "비어트리스 호이저",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "잘못된 전략",
+          "creator": "비어트리스 호이저",
+          "description": "전략은 언제나 합리적 선택의 결과로만 설명될 수 있을까? 그렇게 똑똑하다는 사람들이 모여 국가 전략을 세우는데 왜 형편없는 결과가 찾아오곤 하는 걸까? 《잘못된 전략》은 국제정치학과 전쟁사를 넘나들며 ‘합리성’이라는 개념에 의문을 던지고, 편향, 오해, 잘못된 가정에서 비롯된 수많은 오판의 사례를 소개한다. 독일연방군 참모대학에서 장교들을 가르치고 있기도 한 저자 비어트리스 호이저는 클라우제비츠에서 카너먼, 현대 국제정세까지 이어지는 폭넓은 지식을 아우르며 현실 외교의 장을 세세하게 보여준다.\n이 책은 단순한 학문적 통찰을 넘어, 오늘날 독자들이 국제 분쟁과 협상, 억지와 전쟁의 복잡한 현실을 이해하는 데 필요한 사고의 무기를 제공한다. 합리성이라는 이름의 안도감 뒤에 숨어 있는 편향과 오류를 직시할 때, 우리는 비로소 좀 더 성공적인 외교 전략을 향한 첫걸음을 내디딜 수 있다.",
+          "isbn": "9791173574917",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7028109?timestamp=20250919142816",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5"
+          },
+          "verified": true,
+          "content_id": "bf280b34-df58-5f3e-a31a-48e5a7937d8c"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "bf280b34-df58-5f3e-a31a-48e5a7937d8c",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791173574917",
+        "release_date": "2025-09-17",
+        "metadata": {
+          "isbn": "9791173574917",
+          "publisher": "21세기북스",
+          "publishDate": "2025-09-17",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791173574917",
+            "workTitle": "잘못된 전략",
+            "workCreator": "비어트리스 호이저",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "잘못된 전략",
+          "creator": "비어트리스 호이저",
+          "description": "전략은 언제나 합리적 선택의 결과로만 설명될 수 있을까? 그렇게 똑똑하다는 사람들이 모여 국가 전략을 세우는데 왜 형편없는 결과가 찾아오곤 하는 걸까? 《잘못된 전략》은 국제정치학과 전쟁사를 넘나들며 ‘합리성’이라는 개념에 의문을 던지고, 편향, 오해, 잘못된 가정에서 비롯된 수많은 오판의 사례를 소개한다. 독일연방군 참모대학에서 장교들을 가르치고 있기도 한 저자 비어트리스 호이저는 클라우제비츠에서 카너먼, 현대 국제정세까지 이어지는 폭넓은 지식을 아우르며 현실 외교의 장을 세세하게 보여준다.\n이 책은 단순한 학문적 통찰을 넘어, 오늘날 독자들이 국제 분쟁과 협상, 억지와 전쟁의 복잡한 현실을 이해하는 데 필요한 사고의 무기를 제공한다. 합리성이라는 이름의 안도감 뒤에 숨어 있는 편향과 오류를 직시할 때, 우리는 비로소 좀 더 성공적인 외교 전략을 향한 첫걸음을 내디딜 수 있다.",
+          "isbn": "9791173574917",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7028109?timestamp=20250919142816",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5"
+          },
+          "verified": true,
+          "content_id": "bf280b34-df58-5f3e-a31a-48e5a7937d8c"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791173574917",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791173574917"
+      ],
+      "normalizedTitles": [
+        "잘못된전략"
+      ],
+      "normalizedCreators": [
+        "비어트리스호이저",
+        "이혜진역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:08:56.293Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "bf280b34-df58-5f3e-a31a-48e5a7937d8c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791173574917",
+      "release_date": "2025-09-17",
+      "metadata": {
+        "isbn": "9791173574917",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+        "publisher": "21세기북스",
+        "figureBook": {
+          "workTitle": "잘못된 전략",
+          "workCreator": "비어트리스 호이저",
+          "workIdentity": "book/9791173574917",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-09-17",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:08:51.918768+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "bf280b34-df58-5f3e-a31a-48e5a7937d8c",
+        "locale": "ko",
+        "title": "잘못된 전략",
+        "creator": "비어트리스 호이저",
+        "description": "전략은 언제나 합리적 선택의 결과로만 설명될 수 있을까? 그렇게 똑똑하다는 사람들이 모여 국가 전략을 세우는데 왜 형편없는 결과가 찾아오곤 하는 걸까? 《잘못된 전략》은 국제정치학과 전쟁사를 넘나들며 ‘합리성’이라는 개념에 의문을 던지고, 편향, 오해, 잘못된 가정에서 비롯된 수많은 오판의 사례를 소개한다. 독일연방군 참모대학에서 장교들을 가르치고 있기도 한 저자 비어트리스 호이저는 클라우제비츠에서 카너먼, 현대 국제정세까지 이어지는 폭넓은 지식을 아우르며 현실 외교의 장을 세세하게 보여준다.\n이 책은 단순한 학문적 통찰을 넘어, 오늘날 독자들이 국제 분쟁과 협상, 억지와 전쟁의 복잡한 현실을 이해하는 데 필요한 사고의 무기를 제공한다. 합리성이라는 이름의 안도감 뒤에 숨어 있는 편향과 오류를 직시할 때, 우리는 비로소 좀 더 성공적인 외교 전략을 향한 첫걸음을 내디딜 수 있다.",
+        "isbn": "9791173574917",
+        "publisher": "21세기북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7028109?timestamp=20250919142816",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7028109&q=%EC%9E%98%EB%AA%BB%EB%90%9C+%EC%A0%84%EB%9E%B5"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:08:51.918768+00:00",
+        "updated_at": "2026-09-04T18:08:51.918768+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788964068571",
+    "title": "무라사키시키부 일기",
+    "creator": "무라사키시키부",
+    "titleAliases": [],
+    "creatorAliases": [
+      "정순분 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788964068571"
+  }
+}

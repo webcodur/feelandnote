@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791128828362",
+    "title": "오펜하이머 청문회",
+    "creator": "하이나어 키파르트",
+    "titleAliases": [],
+    "creatorAliases": [
+      "양도원 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791128828362"
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791160871456.json",
+  "manifestSha256": "25878a5d89c773862add1cd0318a895c07028f0e3f46f329afe46cc398b5ad8b",
+  "planSha256": "e9a4c4e047380287e1b75174cb2375bd2be659aa42637e805e052448b04d1e0b",
+  "workIdentity": "book/9791160871456",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791160871456"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "97b046f5-d3b0-50ca-b10a-27e08cbae1b7",
+    "scopeKey": "book/9791160871456",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "97b046f5-d3b0-50ca-b10a-27e08cbae1b7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160871456",
+      "release_date": "2025-09-30",
+      "metadata": {
+        "isbn": "9791160871456",
+        "publisher": "연암서가",
+        "publishDate": "2025-09-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791160871456",
+          "workTitle": "맹자 평전",
+          "workCreator": "양쩌보",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "맹자 평전",
+          "creator": "양쩌보",
+          "description": "우리에게는 막연히 성선론(성선설)으로만 알려진 『맹자』는 우여곡절을 많이 겪은 책이라 할 수 있다. 분서 당시 제자로 분류되어 화마를 피했지만 아이러니하게 살아남은 이후에는 역대 제왕들의 애증하는 경서가 되었다.\n우리는 성선설로만 알고 있지만 제왕들은 『맹자』를 좀 다른 시각으로 보았다. 제선왕은 역성혁명을 염두에 두고 “신하가 군주를 죽이는 것이 가한가?”를 물었다. 맹자는 인과 의를 해친 잔적지인(殘賊之人)인 일부(一夫)는 죽여도 된다고 했고, 이후 맹자의 의도와는 달리 역성혁명을 꿈꾸는 자들은 그 이론적 근거 내지 정당성을 모두 여기서 찾았다. 그러나 일단 명태조 주원장같이 역성혁명에 성공한 임금이 보기에는 “백성이 가장 귀중하고, 사직이 그 다음이고, 군주는 가벼운 것이다.” 같은 말이 거슬렸다. 주원장이 송대에야 경서의 반열에 오른 『맹자』를 다시 경서에서 제외하려 한 이유다.\n이 책은 경서의 주해에만 치중했던 기존의 시각에서 벗어나 맹자의 생애와 왕패·경권·의리지변 등 내용분석은 물론 『맹자』가 제자로 진시황의 분서를 피한 것부터 시작하여 마지막으로 경서에 편입되기까지의 과정을 샅샅이 밝히고 있다.",
+          "isbn": "9791160871456",
+          "publisher": "연암서가",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7019700?timestamp=20251016143741",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "97b046f5-d3b0-50ca-b10a-27e08cbae1b7"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "97b046f5-d3b0-50ca-b10a-27e08cbae1b7",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791160871456",
+        "release_date": "2025-09-30",
+        "metadata": {
+          "isbn": "9791160871456",
+          "publisher": "연암서가",
+          "publishDate": "2025-09-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791160871456",
+            "workTitle": "맹자 평전",
+            "workCreator": "양쩌보",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "맹자 평전",
+          "creator": "양쩌보",
+          "description": "우리에게는 막연히 성선론(성선설)으로만 알려진 『맹자』는 우여곡절을 많이 겪은 책이라 할 수 있다. 분서 당시 제자로 분류되어 화마를 피했지만 아이러니하게 살아남은 이후에는 역대 제왕들의 애증하는 경서가 되었다.\n우리는 성선설로만 알고 있지만 제왕들은 『맹자』를 좀 다른 시각으로 보았다. 제선왕은 역성혁명을 염두에 두고 “신하가 군주를 죽이는 것이 가한가?”를 물었다. 맹자는 인과 의를 해친 잔적지인(殘賊之人)인 일부(一夫)는 죽여도 된다고 했고, 이후 맹자의 의도와는 달리 역성혁명을 꿈꾸는 자들은 그 이론적 근거 내지 정당성을 모두 여기서 찾았다. 그러나 일단 명태조 주원장같이 역성혁명에 성공한 임금이 보기에는 “백성이 가장 귀중하고, 사직이 그 다음이고, 군주는 가벼운 것이다.” 같은 말이 거슬렸다. 주원장이 송대에야 경서의 반열에 오른 『맹자』를 다시 경서에서 제외하려 한 이유다.\n이 책은 경서의 주해에만 치중했던 기존의 시각에서 벗어나 맹자의 생애와 왕패·경권·의리지변 등 내용분석은 물론 『맹자』가 제자로 진시황의 분서를 피한 것부터 시작하여 마지막으로 경서에 편입되기까지의 과정을 샅샅이 밝히고 있다.",
+          "isbn": "9791160871456",
+          "publisher": "연암서가",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7019700?timestamp=20251016143741",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "97b046f5-d3b0-50ca-b10a-27e08cbae1b7"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791160871456",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791160871456"
+      ],
+      "normalizedTitles": [
+        "맹자평전"
+      ],
+      "normalizedCreators": [
+        "양쩌보",
+        "장세후역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:06:29.858Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "97b046f5-d3b0-50ca-b10a-27e08cbae1b7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160871456",
+      "release_date": "2025-09-30",
+      "metadata": {
+        "isbn": "9791160871456",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+        "publisher": "연암서가",
+        "figureBook": {
+          "workTitle": "맹자 평전",
+          "workCreator": "양쩌보",
+          "workIdentity": "book/9791160871456",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-09-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:06:21.900825+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "97b046f5-d3b0-50ca-b10a-27e08cbae1b7",
+        "locale": "ko",
+        "title": "맹자 평전",
+        "creator": "양쩌보",
+        "description": "우리에게는 막연히 성선론(성선설)으로만 알려진 『맹자』는 우여곡절을 많이 겪은 책이라 할 수 있다. 분서 당시 제자로 분류되어 화마를 피했지만 아이러니하게 살아남은 이후에는 역대 제왕들의 애증하는 경서가 되었다.\n우리는 성선설로만 알고 있지만 제왕들은 『맹자』를 좀 다른 시각으로 보았다. 제선왕은 역성혁명을 염두에 두고 “신하가 군주를 죽이는 것이 가한가?”를 물었다. 맹자는 인과 의를 해친 잔적지인(殘賊之人)인 일부(一夫)는 죽여도 된다고 했고, 이후 맹자의 의도와는 달리 역성혁명을 꿈꾸는 자들은 그 이론적 근거 내지 정당성을 모두 여기서 찾았다. 그러나 일단 명태조 주원장같이 역성혁명에 성공한 임금이 보기에는 “백성이 가장 귀중하고, 사직이 그 다음이고, 군주는 가벼운 것이다.” 같은 말이 거슬렸다. 주원장이 송대에야 경서의 반열에 오른 『맹자』를 다시 경서에서 제외하려 한 이유다.\n이 책은 경서의 주해에만 치중했던 기존의 시각에서 벗어나 맹자의 생애와 왕패·경권·의리지변 등 내용분석은 물론 『맹자』가 제자로 진시황의 분서를 피한 것부터 시작하여 마지막으로 경서에 편입되기까지의 과정을 샅샅이 밝히고 있다.",
+        "isbn": "9791160871456",
+        "publisher": "연암서가",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7019700?timestamp=20251016143741",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7019700&q=%EB%A7%B9%EC%9E%90+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:06:21.900825+00:00",
+        "updated_at": "2026-09-04T18:06:21.900825+00:00"
+      }
+    ]
+  }
+}

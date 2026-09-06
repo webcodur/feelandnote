@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791192376097.json",
+  "manifestSha256": "745230c906bda65fd7b44349f3852280091e352cb7cec88c7d6373ce86ea85fc",
+  "planSha256": "c1e460c30860e39387d84682688f9fe8851205197171e0ee440a46c4f018356f",
+  "workIdentity": "book/9791192376097",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791192376097"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "fc3b6885-7fe5-5618-a498-3b470dd2231d",
+    "scopeKey": "book/9791192376097",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "fc3b6885-7fe5-5618-a498-3b470dd2231d",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192376097",
+      "release_date": "2022-08-26",
+      "metadata": {
+        "isbn": "9791192376097",
+        "publisher": "페이퍼로드",
+        "publishDate": "2022-08-26",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791192376097",
+          "workTitle": "도조 히데키와 제2차 세계대전",
+          "workCreator": "호사카 마사야스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "도조 히데키와 제2차 세계대전",
+          "creator": "호사카 마사야스",
+          "description": "이 책의 저자 호사카 마사야스는 다치바나 다카시, 사노 신이치 등과 함께 일본을 대표하는 논픽션 저널리스트로 손꼽힌다. 일본 근대사, 특히 쇼와사의 실증적 연구에 주력해 다양한 자료 조사와 관계자 인터뷰를 통해 150여 권의 저작물을 출간한 독보적인 작가다. 제2차 세계대전 당시 일본군 수뇌부의 실상을 파헤친 저서 『쇼와 육군』은 한국에서도 큰 반향을 불러일으켰다. 「도조 히데키와 제2차 세계대전」(원제: 도조 히데키와 천황의 시대)은 그가 33세에 편집자 생활을 접고, 6년에 걸쳐 도조 히데키 시대의 자료와 관련자 수백 명을 취재해 도조 히데키의 실체를 드러낸 역작이다.",
+          "isbn": "9791192376097",
+          "publisher": "페이퍼로드",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6138330?timestamp=20230223172127",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "fc3b6885-7fe5-5618-a498-3b470dd2231d"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "fc3b6885-7fe5-5618-a498-3b470dd2231d",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791192376097",
+        "release_date": "2022-08-26",
+        "metadata": {
+          "isbn": "9791192376097",
+          "publisher": "페이퍼로드",
+          "publishDate": "2022-08-26",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791192376097",
+            "workTitle": "도조 히데키와 제2차 세계대전",
+            "workCreator": "호사카 마사야스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "도조 히데키와 제2차 세계대전",
+          "creator": "호사카 마사야스",
+          "description": "이 책의 저자 호사카 마사야스는 다치바나 다카시, 사노 신이치 등과 함께 일본을 대표하는 논픽션 저널리스트로 손꼽힌다. 일본 근대사, 특히 쇼와사의 실증적 연구에 주력해 다양한 자료 조사와 관계자 인터뷰를 통해 150여 권의 저작물을 출간한 독보적인 작가다. 제2차 세계대전 당시 일본군 수뇌부의 실상을 파헤친 저서 『쇼와 육군』은 한국에서도 큰 반향을 불러일으켰다. 「도조 히데키와 제2차 세계대전」(원제: 도조 히데키와 천황의 시대)은 그가 33세에 편집자 생활을 접고, 6년에 걸쳐 도조 히데키 시대의 자료와 관련자 수백 명을 취재해 도조 히데키의 실체를 드러낸 역작이다.",
+          "isbn": "9791192376097",
+          "publisher": "페이퍼로드",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6138330?timestamp=20230223172127",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "fc3b6885-7fe5-5618-a498-3b470dd2231d"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791192376097",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791192376097"
+      ],
+      "normalizedTitles": [
+        "도조히데키와제2차세계대전"
+      ],
+      "normalizedCreators": [
+        "정선태역",
+        "호사카마사야스"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:30:11.372Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "fc3b6885-7fe5-5618-a498-3b470dd2231d",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192376097",
+      "release_date": "2022-08-26",
+      "metadata": {
+        "isbn": "9791192376097",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+        "publisher": "페이퍼로드",
+        "figureBook": {
+          "workTitle": "도조 히데키와 제2차 세계대전",
+          "workCreator": "호사카 마사야스",
+          "workIdentity": "book/9791192376097",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-08-26",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:30:05.775196+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "fc3b6885-7fe5-5618-a498-3b470dd2231d",
+        "locale": "ko",
+        "title": "도조 히데키와 제2차 세계대전",
+        "creator": "호사카 마사야스",
+        "description": "이 책의 저자 호사카 마사야스는 다치바나 다카시, 사노 신이치 등과 함께 일본을 대표하는 논픽션 저널리스트로 손꼽힌다. 일본 근대사, 특히 쇼와사의 실증적 연구에 주력해 다양한 자료 조사와 관계자 인터뷰를 통해 150여 권의 저작물을 출간한 독보적인 작가다. 제2차 세계대전 당시 일본군 수뇌부의 실상을 파헤친 저서 『쇼와 육군』은 한국에서도 큰 반향을 불러일으켰다. 「도조 히데키와 제2차 세계대전」(원제: 도조 히데키와 천황의 시대)은 그가 33세에 편집자 생활을 접고, 6년에 걸쳐 도조 히데키 시대의 자료와 관련자 수백 명을 취재해 도조 히데키의 실체를 드러낸 역작이다.",
+        "isbn": "9791192376097",
+        "publisher": "페이퍼로드",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6138330?timestamp=20230223172127",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6138330&q=%EB%8F%84%EC%A1%B0+%ED%9E%88%EB%8D%B0%ED%82%A4%EC%99%80+%EC%A0%9C2%EC%B0%A8+%EC%84%B8%EA%B3%84%EB%8C%80%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:30:05.775196+00:00",
+        "updated_at": "2026-09-06T04:30:05.775196+00:00"
+      }
+    ]
+  }
+}

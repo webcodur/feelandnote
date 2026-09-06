@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791198230430.json",
+  "manifestSha256": "c0a4e5d7a4307f4b2ae0c6a9abb0e518ed802f7229a389c00d37d46d96d9c4b2",
+  "planSha256": "6146f4295937ad1479fa442b3cdab355fa9ff27308de9e00fb4c274aa83be14b",
+  "workIdentity": "book/9791198230430",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791198230430"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d3632f8d-a26a-54ac-b90d-ed688b832b37",
+    "scopeKey": "book/9791198230430",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d3632f8d-a26a-54ac-b90d-ed688b832b37",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791198230430",
+      "release_date": "2023-11-15",
+      "metadata": {
+        "isbn": "9791198230430",
+        "publisher": "휴먼메이커",
+        "publishDate": "2023-11-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791198230430",
+          "workTitle": "오다 노부나가",
+          "workCreator": "구태훈",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "오다 노부나가",
+          "creator": "구태훈",
+          "description": "필자는 2018년 봄에 『오다 노부나가』를 출간했습니다. 오다 노부나가의 역사적 역할을 부각하기 위해 ‘중세적 권위를 차갑게 베다’라는 부제를 달았습니다. 그동안 이 책은 일본 전국시대를 좀 더 깊이 탐구하고 싶은 독자들의 지적 호기심을 조금이나마 만족시켜주었던 것 같습니다. 그러나 이 책은 일본 전국시대에 대한 지식이 어느 정도 축적된 독자들은 쉽게 읽을 수있지만, 그렇지 않은 독자들이 읽기에 좀 생소하거나 어려운 부분이 적지 않다는 평가가 있었습니다. 그래서 이번에 독자 여러분이 읽기에 조금이라도 부담이 되는 표현을 손질하고, 사건연월일이나 배경 설명을 보완하여 개정판을 내게 되었습니다.",
+          "isbn": "9791198230430",
+          "publisher": "휴먼메이커",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6490697?timestamp=20231124190150",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80"
+          },
+          "verified": true,
+          "content_id": "d3632f8d-a26a-54ac-b90d-ed688b832b37"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d3632f8d-a26a-54ac-b90d-ed688b832b37",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791198230430",
+        "release_date": "2023-11-15",
+        "metadata": {
+          "isbn": "9791198230430",
+          "publisher": "휴먼메이커",
+          "publishDate": "2023-11-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791198230430",
+            "workTitle": "오다 노부나가",
+            "workCreator": "구태훈",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "오다 노부나가",
+          "creator": "구태훈",
+          "description": "필자는 2018년 봄에 『오다 노부나가』를 출간했습니다. 오다 노부나가의 역사적 역할을 부각하기 위해 ‘중세적 권위를 차갑게 베다’라는 부제를 달았습니다. 그동안 이 책은 일본 전국시대를 좀 더 깊이 탐구하고 싶은 독자들의 지적 호기심을 조금이나마 만족시켜주었던 것 같습니다. 그러나 이 책은 일본 전국시대에 대한 지식이 어느 정도 축적된 독자들은 쉽게 읽을 수있지만, 그렇지 않은 독자들이 읽기에 좀 생소하거나 어려운 부분이 적지 않다는 평가가 있었습니다. 그래서 이번에 독자 여러분이 읽기에 조금이라도 부담이 되는 표현을 손질하고, 사건연월일이나 배경 설명을 보완하여 개정판을 내게 되었습니다.",
+          "isbn": "9791198230430",
+          "publisher": "휴먼메이커",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6490697?timestamp=20231124190150",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80"
+          },
+          "verified": true,
+          "content_id": "d3632f8d-a26a-54ac-b90d-ed688b832b37"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791198230430",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791198230430"
+      ],
+      "normalizedTitles": [
+        "오다노부나가"
+      ],
+      "normalizedCreators": [
+        "구태훈"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:19:00.131Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d3632f8d-a26a-54ac-b90d-ed688b832b37",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791198230430",
+      "release_date": "2023-11-15",
+      "metadata": {
+        "isbn": "9791198230430",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+        "publisher": "휴먼메이커",
+        "figureBook": {
+          "workTitle": "오다 노부나가",
+          "workCreator": "구태훈",
+          "workIdentity": "book/9791198230430",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-11-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:18:56.077108+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d3632f8d-a26a-54ac-b90d-ed688b832b37",
+        "locale": "ko",
+        "title": "오다 노부나가",
+        "creator": "구태훈",
+        "description": "필자는 2018년 봄에 『오다 노부나가』를 출간했습니다. 오다 노부나가의 역사적 역할을 부각하기 위해 ‘중세적 권위를 차갑게 베다’라는 부제를 달았습니다. 그동안 이 책은 일본 전국시대를 좀 더 깊이 탐구하고 싶은 독자들의 지적 호기심을 조금이나마 만족시켜주었던 것 같습니다. 그러나 이 책은 일본 전국시대에 대한 지식이 어느 정도 축적된 독자들은 쉽게 읽을 수있지만, 그렇지 않은 독자들이 읽기에 좀 생소하거나 어려운 부분이 적지 않다는 평가가 있었습니다. 그래서 이번에 독자 여러분이 읽기에 조금이라도 부담이 되는 표현을 손질하고, 사건연월일이나 배경 설명을 보완하여 개정판을 내게 되었습니다.",
+        "isbn": "9791198230430",
+        "publisher": "휴먼메이커",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6490697?timestamp=20231124190150",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6490697&q=%EC%98%A4%EB%8B%A4+%EB%85%B8%EB%B6%80%EB%82%98%EA%B0%80"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:18:56.077108+00:00",
+        "updated_at": "2026-09-04T18:18:56.077108+00:00"
+      }
+    ]
+  }
+}

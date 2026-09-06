@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788983710901.json",
+  "manifestSha256": "d422888880a2dd873ae8f10564e3ae397ab4488f438389f121776174f64471b4",
+  "planSha256": "94160df790121b5930b8259189c2306d5032b0ac0cc79b0c2a940b94288ffc3c",
+  "workIdentity": "book/9788983710901",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788983710901"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "9bd0e8d0-86ae-513e-9839-4051c9c6b057",
+    "scopeKey": "book/9788983710901",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "9bd0e8d0-86ae-513e-9839-4051c9c6b057",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788983710901",
+      "release_date": "2001-12-10",
+      "metadata": {
+        "isbn": "9788983710901",
+        "publisher": "사이언스북스",
+        "publishDate": "2001-12-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788983710901",
+          "workTitle": "에필로그",
+          "workCreator": "칼 세이건",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "에필로그",
+          "creator": "칼 세이건",
+          "description": "천문학자 칼 세이건이 과학에 대한 끊임없는 호기심과 인류애를 담아 저술한 에세이들을 모아 엮은 그의 마지막 저서. 각 장에서 세이건은 우리의 일상생활과 관련된 가벼운 이야기로 시작해서 우주와 환경, 그리고 우리의 미래에 관한 중요한 문제를 제기하고, 그에 대한 친절한 해결책을 제시한다",
+          "isbn": "9788983710901",
+          "publisher": "사이언스북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1165493?timestamp=20240713113301",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8"
+          },
+          "verified": true,
+          "content_id": "9bd0e8d0-86ae-513e-9839-4051c9c6b057"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "9bd0e8d0-86ae-513e-9839-4051c9c6b057",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788983710901",
+        "release_date": "2001-12-10",
+        "metadata": {
+          "isbn": "9788983710901",
+          "publisher": "사이언스북스",
+          "publishDate": "2001-12-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788983710901",
+            "workTitle": "에필로그",
+            "workCreator": "칼 세이건",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "에필로그",
+          "creator": "칼 세이건",
+          "description": "천문학자 칼 세이건이 과학에 대한 끊임없는 호기심과 인류애를 담아 저술한 에세이들을 모아 엮은 그의 마지막 저서. 각 장에서 세이건은 우리의 일상생활과 관련된 가벼운 이야기로 시작해서 우주와 환경, 그리고 우리의 미래에 관한 중요한 문제를 제기하고, 그에 대한 친절한 해결책을 제시한다",
+          "isbn": "9788983710901",
+          "publisher": "사이언스북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1165493?timestamp=20240713113301",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8"
+          },
+          "verified": true,
+          "content_id": "9bd0e8d0-86ae-513e-9839-4051c9c6b057"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788983710901",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788983710901"
+      ],
+      "normalizedTitles": [
+        "에필로그"
+      ],
+      "normalizedCreators": [
+        "김한영역",
+        "칼세이건"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:13:28.662Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "9bd0e8d0-86ae-513e-9839-4051c9c6b057",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788983710901",
+      "release_date": "2001-12-10",
+      "metadata": {
+        "isbn": "9788983710901",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+        "publisher": "사이언스북스",
+        "figureBook": {
+          "workTitle": "에필로그",
+          "workCreator": "칼 세이건",
+          "workIdentity": "book/9788983710901",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2001-12-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:13:23.881894+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "9bd0e8d0-86ae-513e-9839-4051c9c6b057",
+        "locale": "ko",
+        "title": "에필로그",
+        "creator": "칼 세이건",
+        "description": "천문학자 칼 세이건이 과학에 대한 끊임없는 호기심과 인류애를 담아 저술한 에세이들을 모아 엮은 그의 마지막 저서. 각 장에서 세이건은 우리의 일상생활과 관련된 가벼운 이야기로 시작해서 우주와 환경, 그리고 우리의 미래에 관한 중요한 문제를 제기하고, 그에 대한 친절한 해결책을 제시한다",
+        "isbn": "9788983710901",
+        "publisher": "사이언스북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1165493?timestamp=20240713113301",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1165493&q=%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:13:23.881894+00:00",
+        "updated_at": "2026-09-06T04:13:23.881894+00:00"
+      }
+    ]
+  }
+}

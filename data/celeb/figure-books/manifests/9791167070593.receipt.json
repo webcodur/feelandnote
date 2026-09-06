@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791167070593.json",
+  "manifestSha256": "3e64c0a646d3e88860300cfe24d6c61d0a96e8ce92e12d335ce1462aade10bb2",
+  "planSha256": "c8ae02cafea76e3a8576f9b91a11df9480afb0a43535e7593486df44a4494edd",
+  "workIdentity": "book/9791167070593",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791167070593"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "f05e69f8-c6b5-5c76-8dc5-f17071ccedc0",
+    "scopeKey": "book/9791167070593",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "f05e69f8-c6b5-5c76-8dc5-f17071ccedc0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791167070593",
+      "release_date": "2022-06-13",
+      "metadata": {
+        "isbn": "9791167070593",
+        "publisher": "사회평론아카데미",
+        "publishDate": "2022-06-13",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791167070593",
+          "workTitle": "원효의 발견",
+          "workCreator": "남동신",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "원효의 발견",
+          "creator": "남동신",
+          "description": "7세기 신라가 낳은 동아시아 불교의 거봉인 원효의 삶과 생각을 새롭게 탐색한 책. 원효는 일찍이 출가하여 승려가 되었지만, 요석공주와의 인연을 계기로 환속한 이래 거사로서 생의 후반부를 살았다. 그는 불교적 진리를 찾아서 방대한 대승불전을 두루 탐색하고 대략 70여 부 150여 권의 저술을 남긴 최고의 저술가이면서 동시에 사회적 약자들을 불교식으로 구제하는 데 헌신한 실천가였다. 그의 저술과 사상은 중국과 일본, 심지어 인도에까지 전해져서 동아시아 교학 불교가 확립되는 데 크게 기여했다.\n이 책은 원효 사상의 3대 핵심 개념인 ‘일심(一心)’, ‘무애(無碍)’, ‘화쟁(和諍)을 중심으로 불교사상가 원효를 새롭게 고찰하였다. 저자는 특히 일국사적 관점에서 벗어나 동아시아를 시야에 넣고, 역사적 관점을 중시하였으며, 거사로서의 원효의 삶에 주목하였는데, 이러한 연구를 통해 그의 불교가 ‘승속불이(僧俗不二)의 거사불교(居士佛敎)’를 지향하였다는 결론에 도달한다. 그런 점에서 이 책의 제목인 ‘원효의 발견’은 원효가 발견한 불교적 진리이자, 이 책의 저자가 발견한 원효를 뜻한다.",
+          "isbn": "9791167070593",
+          "publisher": "사회평론아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6092295?timestamp=20230201144425",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC"
+          },
+          "verified": true,
+          "content_id": "f05e69f8-c6b5-5c76-8dc5-f17071ccedc0"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "f05e69f8-c6b5-5c76-8dc5-f17071ccedc0",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791167070593",
+        "release_date": "2022-06-13",
+        "metadata": {
+          "isbn": "9791167070593",
+          "publisher": "사회평론아카데미",
+          "publishDate": "2022-06-13",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791167070593",
+            "workTitle": "원효의 발견",
+            "workCreator": "남동신",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "원효의 발견",
+          "creator": "남동신",
+          "description": "7세기 신라가 낳은 동아시아 불교의 거봉인 원효의 삶과 생각을 새롭게 탐색한 책. 원효는 일찍이 출가하여 승려가 되었지만, 요석공주와의 인연을 계기로 환속한 이래 거사로서 생의 후반부를 살았다. 그는 불교적 진리를 찾아서 방대한 대승불전을 두루 탐색하고 대략 70여 부 150여 권의 저술을 남긴 최고의 저술가이면서 동시에 사회적 약자들을 불교식으로 구제하는 데 헌신한 실천가였다. 그의 저술과 사상은 중국과 일본, 심지어 인도에까지 전해져서 동아시아 교학 불교가 확립되는 데 크게 기여했다.\n이 책은 원효 사상의 3대 핵심 개념인 ‘일심(一心)’, ‘무애(無碍)’, ‘화쟁(和諍)을 중심으로 불교사상가 원효를 새롭게 고찰하였다. 저자는 특히 일국사적 관점에서 벗어나 동아시아를 시야에 넣고, 역사적 관점을 중시하였으며, 거사로서의 원효의 삶에 주목하였는데, 이러한 연구를 통해 그의 불교가 ‘승속불이(僧俗不二)의 거사불교(居士佛敎)’를 지향하였다는 결론에 도달한다. 그런 점에서 이 책의 제목인 ‘원효의 발견’은 원효가 발견한 불교적 진리이자, 이 책의 저자가 발견한 원효를 뜻한다.",
+          "isbn": "9791167070593",
+          "publisher": "사회평론아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6092295?timestamp=20230201144425",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC"
+          },
+          "verified": true,
+          "content_id": "f05e69f8-c6b5-5c76-8dc5-f17071ccedc0"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791167070593",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791167070593"
+      ],
+      "normalizedTitles": [
+        "원효의발견"
+      ],
+      "normalizedCreators": [
+        "남동신"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:22:01.089Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "f05e69f8-c6b5-5c76-8dc5-f17071ccedc0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791167070593",
+      "release_date": "2022-06-13",
+      "metadata": {
+        "isbn": "9791167070593",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+        "publisher": "사회평론아카데미",
+        "figureBook": {
+          "workTitle": "원효의 발견",
+          "workCreator": "남동신",
+          "workIdentity": "book/9791167070593",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-06-13",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:21:54.894709+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "f05e69f8-c6b5-5c76-8dc5-f17071ccedc0",
+        "locale": "ko",
+        "title": "원효의 발견",
+        "creator": "남동신",
+        "description": "7세기 신라가 낳은 동아시아 불교의 거봉인 원효의 삶과 생각을 새롭게 탐색한 책. 원효는 일찍이 출가하여 승려가 되었지만, 요석공주와의 인연을 계기로 환속한 이래 거사로서 생의 후반부를 살았다. 그는 불교적 진리를 찾아서 방대한 대승불전을 두루 탐색하고 대략 70여 부 150여 권의 저술을 남긴 최고의 저술가이면서 동시에 사회적 약자들을 불교식으로 구제하는 데 헌신한 실천가였다. 그의 저술과 사상은 중국과 일본, 심지어 인도에까지 전해져서 동아시아 교학 불교가 확립되는 데 크게 기여했다.\n이 책은 원효 사상의 3대 핵심 개념인 ‘일심(一心)’, ‘무애(無碍)’, ‘화쟁(和諍)을 중심으로 불교사상가 원효를 새롭게 고찰하였다. 저자는 특히 일국사적 관점에서 벗어나 동아시아를 시야에 넣고, 역사적 관점을 중시하였으며, 거사로서의 원효의 삶에 주목하였는데, 이러한 연구를 통해 그의 불교가 ‘승속불이(僧俗不二)의 거사불교(居士佛敎)’를 지향하였다는 결론에 도달한다. 그런 점에서 이 책의 제목인 ‘원효의 발견’은 원효가 발견한 불교적 진리이자, 이 책의 저자가 발견한 원효를 뜻한다.",
+        "isbn": "9791167070593",
+        "publisher": "사회평론아카데미",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6092295?timestamp=20230201144425",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6092295&q=%EC%9B%90%ED%9A%A8%EC%9D%98+%EB%B0%9C%EA%B2%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:21:54.894709+00:00",
+        "updated_at": "2026-09-06T04:21:54.894709+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788960909137.json",
+  "manifestSha256": "692e954088ecf73077e968017414bd5eb464b6b4352511735de1d9900f8b4a23",
+  "planSha256": "92185091049d83235c0c5374008a33e73794210a7174673ef8358064dadad249",
+  "workIdentity": "book/9788960909137",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788960909137"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "56cf52ee-a5dc-5284-a5f5-dc3aa3a8ced5",
+    "scopeKey": "book/9788960909137",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "56cf52ee-a5dc-5284-a5f5-dc3aa3a8ced5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788960909137",
+      "release_date": "2024-12-15",
+      "metadata": {
+        "isbn": "9788960909137",
+        "publisher": "마음산책",
+        "publishDate": "2024-12-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788960909137",
+          "workTitle": "토니 모리슨의 말",
+          "workCreator": "토니 모리슨",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "토니 모리슨의 말",
+          "creator": "토니 모리슨",
+          "description": "흑인 여성으로서는 처음으로 노벨문학상을 수상한 작가 토니 모리슨의 인터뷰집 『토니 모리슨의 말』이 출간되었다. 이 책은 토니 모리슨이 랜덤하우스 출판사에서 편집자로 일하던 시절의 생애 첫 인터뷰부터 타계 1년 전 남긴 마지막 인터뷰까지 총 여덟 편의 대화를 담았다. 토니 모리슨이 세상을 떠난 지 5년이 흐른 지금, 『토니 모리슨의 말』은 그의 육성을 들을 수 있는 국내 유일한 인터뷰집이다. 책에 실린 여덟 편의 인터뷰는 1973년부터 2012년까지 40년에 가까운 세월을 고루 아우르고 있어, 작가가 쌓아온 사유의 궤적을 따라가기에 충분하다. 역사적 과오가 되풀이되는 오늘을 살아가는 우리에게, 약탈과 폭력의 역사를 정면으로 마주한 토니 모리슨의 말은 여전히 생생하다.",
+          "isbn": "9788960909137",
+          "publisher": "마음산책",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6791512?timestamp=20250121152510",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90"
+          },
+          "verified": true,
+          "content_id": "56cf52ee-a5dc-5284-a5f5-dc3aa3a8ced5"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "56cf52ee-a5dc-5284-a5f5-dc3aa3a8ced5",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788960909137",
+        "release_date": "2024-12-15",
+        "metadata": {
+          "isbn": "9788960909137",
+          "publisher": "마음산책",
+          "publishDate": "2024-12-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788960909137",
+            "workTitle": "토니 모리슨의 말",
+            "workCreator": "토니 모리슨",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "토니 모리슨의 말",
+          "creator": "토니 모리슨",
+          "description": "흑인 여성으로서는 처음으로 노벨문학상을 수상한 작가 토니 모리슨의 인터뷰집 『토니 모리슨의 말』이 출간되었다. 이 책은 토니 모리슨이 랜덤하우스 출판사에서 편집자로 일하던 시절의 생애 첫 인터뷰부터 타계 1년 전 남긴 마지막 인터뷰까지 총 여덟 편의 대화를 담았다. 토니 모리슨이 세상을 떠난 지 5년이 흐른 지금, 『토니 모리슨의 말』은 그의 육성을 들을 수 있는 국내 유일한 인터뷰집이다. 책에 실린 여덟 편의 인터뷰는 1973년부터 2012년까지 40년에 가까운 세월을 고루 아우르고 있어, 작가가 쌓아온 사유의 궤적을 따라가기에 충분하다. 역사적 과오가 되풀이되는 오늘을 살아가는 우리에게, 약탈과 폭력의 역사를 정면으로 마주한 토니 모리슨의 말은 여전히 생생하다.",
+          "isbn": "9788960909137",
+          "publisher": "마음산책",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6791512?timestamp=20250121152510",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90"
+          },
+          "verified": true,
+          "content_id": "56cf52ee-a5dc-5284-a5f5-dc3aa3a8ced5"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788960909137",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788960909137"
+      ],
+      "normalizedTitles": [
+        "토니모리슨의말"
+      ],
+      "normalizedCreators": [
+        "이다희역",
+        "토니모리슨"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:50:53.252Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "56cf52ee-a5dc-5284-a5f5-dc3aa3a8ced5",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788960909137",
+      "release_date": "2024-12-15",
+      "metadata": {
+        "isbn": "9788960909137",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+        "publisher": "마음산책",
+        "figureBook": {
+          "workTitle": "토니 모리슨의 말",
+          "workCreator": "토니 모리슨",
+          "workIdentity": "book/9788960909137",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-12-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:50:48.891013+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "56cf52ee-a5dc-5284-a5f5-dc3aa3a8ced5",
+        "locale": "ko",
+        "title": "토니 모리슨의 말",
+        "creator": "토니 모리슨",
+        "description": "흑인 여성으로서는 처음으로 노벨문학상을 수상한 작가 토니 모리슨의 인터뷰집 『토니 모리슨의 말』이 출간되었다. 이 책은 토니 모리슨이 랜덤하우스 출판사에서 편집자로 일하던 시절의 생애 첫 인터뷰부터 타계 1년 전 남긴 마지막 인터뷰까지 총 여덟 편의 대화를 담았다. 토니 모리슨이 세상을 떠난 지 5년이 흐른 지금, 『토니 모리슨의 말』은 그의 육성을 들을 수 있는 국내 유일한 인터뷰집이다. 책에 실린 여덟 편의 인터뷰는 1973년부터 2012년까지 40년에 가까운 세월을 고루 아우르고 있어, 작가가 쌓아온 사유의 궤적을 따라가기에 충분하다. 역사적 과오가 되풀이되는 오늘을 살아가는 우리에게, 약탈과 폭력의 역사를 정면으로 마주한 토니 모리슨의 말은 여전히 생생하다.",
+        "isbn": "9788960909137",
+        "publisher": "마음산책",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6791512?timestamp=20250121152510",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6791512&q=%ED%86%A0%EB%8B%88+%EB%AA%A8%EB%A6%AC%EC%8A%A8%EC%9D%98+%EB%A7%90"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:50:48.891013+00:00",
+        "updated_at": "2026-09-04T17:50:48.891013+00:00"
+      }
+    ]
+  }
+}

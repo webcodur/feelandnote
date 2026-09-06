@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954452250.json",
+  "manifestSha256": "cc950acc3487bae9383dbaf3e4fbf9e066ffda93a441ca1d6213f8b42edf6d78",
+  "planSha256": "502ea1cf7a989cb2b6aa23be8c2c85b01f86947ba060f04b0f65e1df68e0269c",
+  "workIdentity": "book/9788954452250",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954452250"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "939407d5-943b-5387-a1bd-fff352135b92",
+    "scopeKey": "book/9788954452250",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "939407d5-943b-5387-a1bd-fff352135b92",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954452250",
+      "release_date": "2025-06-09",
+      "metadata": {
+        "isbn": "9788954452250",
+        "publisher": "자음과모음",
+        "publishDate": "2025-06-09",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954452250",
+          "workTitle": "유클리드가 들려주는 공간도형 이야기",
+          "workCreator": "이지현",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "유클리드가 들려주는 공간도형 이야기",
+          "creator": "이지현",
+          "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다. 특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《유클리드가 들려주는 공간도형 이야기》는 수학자 유클리드가 선생님이 되어 《기하학 원론》에서 비유클리드 기하학에 이르기까지 총 아홉 차례의 수업을 통해 학생들과 함께 공간도형을 학습한다. 공간도형이라는 단원은 어쩌면 학생들이 어렵게 느낄 수도 있는 내용이지만 실제적인 예를 통해 해당 내용은 물론, 기하학의 역사적 흐름도 꿰뚫을 수 있게 하였다.",
+          "isbn": "9788954452250",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6924928?timestamp=20260421121841",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "939407d5-943b-5387-a1bd-fff352135b92"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "939407d5-943b-5387-a1bd-fff352135b92",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954452250",
+        "release_date": "2025-06-09",
+        "metadata": {
+          "isbn": "9788954452250",
+          "publisher": "자음과모음",
+          "publishDate": "2025-06-09",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954452250",
+            "workTitle": "유클리드가 들려주는 공간도형 이야기",
+            "workCreator": "이지현",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "유클리드가 들려주는 공간도형 이야기",
+          "creator": "이지현",
+          "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다. 특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《유클리드가 들려주는 공간도형 이야기》는 수학자 유클리드가 선생님이 되어 《기하학 원론》에서 비유클리드 기하학에 이르기까지 총 아홉 차례의 수업을 통해 학생들과 함께 공간도형을 학습한다. 공간도형이라는 단원은 어쩌면 학생들이 어렵게 느낄 수도 있는 내용이지만 실제적인 예를 통해 해당 내용은 물론, 기하학의 역사적 흐름도 꿰뚫을 수 있게 하였다.",
+          "isbn": "9788954452250",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6924928?timestamp=20260421121841",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "939407d5-943b-5387-a1bd-fff352135b92"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954452250",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954452250"
+      ],
+      "normalizedTitles": [
+        "유클리드가들려주는공간도형이야기"
+      ],
+      "normalizedCreators": [
+        "이지현"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:48:06.728Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "939407d5-943b-5387-a1bd-fff352135b92",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954452250",
+      "release_date": "2025-06-09",
+      "metadata": {
+        "isbn": "9788954452250",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "자음과모음",
+        "figureBook": {
+          "workTitle": "유클리드가 들려주는 공간도형 이야기",
+          "workCreator": "이지현",
+          "workIdentity": "book/9788954452250",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-06-09",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:48:02.977125+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "939407d5-943b-5387-a1bd-fff352135b92",
+        "locale": "ko",
+        "title": "유클리드가 들려주는 공간도형 이야기",
+        "creator": "이지현",
+        "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다. 특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《유클리드가 들려주는 공간도형 이야기》는 수학자 유클리드가 선생님이 되어 《기하학 원론》에서 비유클리드 기하학에 이르기까지 총 아홉 차례의 수업을 통해 학생들과 함께 공간도형을 학습한다. 공간도형이라는 단원은 어쩌면 학생들이 어렵게 느낄 수도 있는 내용이지만 실제적인 예를 통해 해당 내용은 물론, 기하학의 역사적 흐름도 꿰뚫을 수 있게 하였다.",
+        "isbn": "9788954452250",
+        "publisher": "자음과모음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6924928?timestamp=20260421121841",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6924928&q=%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EA%B3%B5%EA%B0%84%EB%8F%84%ED%98%95+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:48:02.977125+00:00",
+        "updated_at": "2026-09-04T17:48:02.977125+00:00"
+      }
+    ]
+  }
+}

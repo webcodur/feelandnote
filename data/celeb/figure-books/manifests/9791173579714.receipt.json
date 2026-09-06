@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791173579714.json",
+  "manifestSha256": "7ffc86f61161fb8210e9fb0d820a524deef7ce3840f89276f4351a647ebc661c",
+  "planSha256": "f358b69266a562ad68b5136bfa3473d9e2d9d6b4b7e7eef02af15c6bea53d8b3",
+  "workIdentity": "book/9791173579714",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791173579714"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "a8fced88-7ec6-5434-b6ac-f66c79002681",
+    "scopeKey": "book/9791173579714",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "a8fced88-7ec6-5434-b6ac-f66c79002681",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791173579714",
+      "release_date": "2026-06-05",
+      "metadata": {
+        "isbn": "9791173579714",
+        "publisher": "21세기북스",
+        "publishDate": "2026-06-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791173579714",
+          "workTitle": "비스마르크",
+          "workCreator": "조너선 스타인버그",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "비스마르크",
+          "creator": "조너선 스타인버그",
+          "description": "영미권 최고의 독일 근대사 권위자 조너선 스타인버그의 《비스마르크》 평전이 리더를 위한 정치·사상 교양 시리즈 ‘그레이트 하모니’의 열두 번째 책으로 출간되었다. 세계적인 석학 헨리 키신저가 “영어로 된 최고의 비스마르크 연구서”라 극찬하고, 데이비드 블랙번이 “최고의 단권본 전기”라고 상찬한 이 책은, 박제된 영웅의 신화를 벗겨내고 권력의 정점에 섰던 한 인간의 복잡하고도 모순적인 삶을 생생하게 복원해 낸다. 거대한 역사의 물줄기를 바꾼 천재 정치가의 행보를 통해, 오늘날의 독자들은 리더십의 본질과 권력의 어두운 이면을 꿰뚫어 보는 통찰을 얻게 될 것이다.\n특히 이 책은 비스마르크 개인의 일대기를 넘어, 덴마크, 오스트리아, 프랑스와 치른 세 차례의 전쟁부터 마침내 제국 수립에 이르는 19세기 독일 통일사의 웅장한 궤적을 관통하는 압도적인 스케일을 자랑한다. 저자는 이를 객관적으로 복원하기 위해 방대한 공문서는 물론 당대의 정적과 친구, 가족, 측근들이 남긴 일기와 수천 통의 편지 등 어마어마한 분량의 사료를 집대성했다. 영웅을 맹목적으로 미화하는 기존 전기의 한계를 넘어 당대인들의 생생한 육성을 빌려 인물을 입체적으로 재구성한 것이 특징이다. 그 결과 탁월한 외교적 혜안을 지녔던 정치가의 빛나는 성취는 물론, 권력을 향한 냉혹한 탐욕, 끝없는 의심과 분노 등 '제왕적 자아'가 가진 어두운 민낯까지 투명하게 드러내며 비스마르크의 명암을 가장 진실에 가깝게 조명한다.",
+          "isbn": "9791173579714",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7232278?timestamp=20260610121841",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC"
+          },
+          "verified": true,
+          "content_id": "a8fced88-7ec6-5434-b6ac-f66c79002681"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "a8fced88-7ec6-5434-b6ac-f66c79002681",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791173579714",
+        "release_date": "2026-06-05",
+        "metadata": {
+          "isbn": "9791173579714",
+          "publisher": "21세기북스",
+          "publishDate": "2026-06-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791173579714",
+            "workTitle": "비스마르크",
+            "workCreator": "조너선 스타인버그",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "비스마르크",
+          "creator": "조너선 스타인버그",
+          "description": "영미권 최고의 독일 근대사 권위자 조너선 스타인버그의 《비스마르크》 평전이 리더를 위한 정치·사상 교양 시리즈 ‘그레이트 하모니’의 열두 번째 책으로 출간되었다. 세계적인 석학 헨리 키신저가 “영어로 된 최고의 비스마르크 연구서”라 극찬하고, 데이비드 블랙번이 “최고의 단권본 전기”라고 상찬한 이 책은, 박제된 영웅의 신화를 벗겨내고 권력의 정점에 섰던 한 인간의 복잡하고도 모순적인 삶을 생생하게 복원해 낸다. 거대한 역사의 물줄기를 바꾼 천재 정치가의 행보를 통해, 오늘날의 독자들은 리더십의 본질과 권력의 어두운 이면을 꿰뚫어 보는 통찰을 얻게 될 것이다.\n특히 이 책은 비스마르크 개인의 일대기를 넘어, 덴마크, 오스트리아, 프랑스와 치른 세 차례의 전쟁부터 마침내 제국 수립에 이르는 19세기 독일 통일사의 웅장한 궤적을 관통하는 압도적인 스케일을 자랑한다. 저자는 이를 객관적으로 복원하기 위해 방대한 공문서는 물론 당대의 정적과 친구, 가족, 측근들이 남긴 일기와 수천 통의 편지 등 어마어마한 분량의 사료를 집대성했다. 영웅을 맹목적으로 미화하는 기존 전기의 한계를 넘어 당대인들의 생생한 육성을 빌려 인물을 입체적으로 재구성한 것이 특징이다. 그 결과 탁월한 외교적 혜안을 지녔던 정치가의 빛나는 성취는 물론, 권력을 향한 냉혹한 탐욕, 끝없는 의심과 분노 등 '제왕적 자아'가 가진 어두운 민낯까지 투명하게 드러내며 비스마르크의 명암을 가장 진실에 가깝게 조명한다.",
+          "isbn": "9791173579714",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7232278?timestamp=20260610121841",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC"
+          },
+          "verified": true,
+          "content_id": "a8fced88-7ec6-5434-b6ac-f66c79002681"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791173579714",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791173579714"
+      ],
+      "normalizedTitles": [
+        "비스마르크"
+      ],
+      "normalizedCreators": [
+        "은호익역",
+        "조너선스타인버그"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:10:05.126Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "a8fced88-7ec6-5434-b6ac-f66c79002681",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791173579714",
+      "release_date": "2026-06-05",
+      "metadata": {
+        "isbn": "9791173579714",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+        "publisher": "21세기북스",
+        "figureBook": {
+          "workTitle": "비스마르크",
+          "workCreator": "조너선 스타인버그",
+          "workIdentity": "book/9791173579714",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-06-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:09:59.882995+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "a8fced88-7ec6-5434-b6ac-f66c79002681",
+        "locale": "ko",
+        "title": "비스마르크",
+        "creator": "조너선 스타인버그",
+        "description": "영미권 최고의 독일 근대사 권위자 조너선 스타인버그의 《비스마르크》 평전이 리더를 위한 정치·사상 교양 시리즈 ‘그레이트 하모니’의 열두 번째 책으로 출간되었다. 세계적인 석학 헨리 키신저가 “영어로 된 최고의 비스마르크 연구서”라 극찬하고, 데이비드 블랙번이 “최고의 단권본 전기”라고 상찬한 이 책은, 박제된 영웅의 신화를 벗겨내고 권력의 정점에 섰던 한 인간의 복잡하고도 모순적인 삶을 생생하게 복원해 낸다. 거대한 역사의 물줄기를 바꾼 천재 정치가의 행보를 통해, 오늘날의 독자들은 리더십의 본질과 권력의 어두운 이면을 꿰뚫어 보는 통찰을 얻게 될 것이다.\n특히 이 책은 비스마르크 개인의 일대기를 넘어, 덴마크, 오스트리아, 프랑스와 치른 세 차례의 전쟁부터 마침내 제국 수립에 이르는 19세기 독일 통일사의 웅장한 궤적을 관통하는 압도적인 스케일을 자랑한다. 저자는 이를 객관적으로 복원하기 위해 방대한 공문서는 물론 당대의 정적과 친구, 가족, 측근들이 남긴 일기와 수천 통의 편지 등 어마어마한 분량의 사료를 집대성했다. 영웅을 맹목적으로 미화하는 기존 전기의 한계를 넘어 당대인들의 생생한 육성을 빌려 인물을 입체적으로 재구성한 것이 특징이다. 그 결과 탁월한 외교적 혜안을 지녔던 정치가의 빛나는 성취는 물론, 권력을 향한 냉혹한 탐욕, 끝없는 의심과 분노 등 '제왕적 자아'가 가진 어두운 민낯까지 투명하게 드러내며 비스마르크의 명암을 가장 진실에 가깝게 조명한다.",
+        "isbn": "9791173579714",
+        "publisher": "21세기북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7232278?timestamp=20260610121841",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7232278&q=%EB%B9%84%EC%8A%A4%EB%A7%88%EB%A5%B4%ED%81%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:09:59.882995+00:00",
+        "updated_at": "2026-09-04T18:09:59.882995+00:00"
+      }
+    ]
+  }
+}

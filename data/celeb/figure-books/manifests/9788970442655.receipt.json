@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788970442655.json",
+  "manifestSha256": "48db71489e4288e9ef2b118c18909ba6d565fbada8f412b12b37f91a51ce96c6",
+  "planSha256": "6e9fc0d25e1d7769c1f9b02515907466ae6ae8072f86b6cf9b2bac6734d939cd",
+  "workIdentity": "book/9788970442655",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788970442655"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "4e90af25-506f-58a7-a059-66d1c6c4d73f",
+    "scopeKey": "book/9788970442655",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "4e90af25-506f-58a7-a059-66d1c6c4d73f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788970442655",
+      "release_date": "2008-10-10",
+      "metadata": {
+        "isbn": "9788970442655",
+        "publisher": "전파과학사",
+        "publishDate": "2008-10-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788970442655",
+          "workTitle": "멘델",
+          "workCreator": "비체슬라프 오렐",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "멘델",
+          "creator": "비체슬라프 오렐",
+          "description": "「한국유전학회총서」제1편『현대 유전학의 창시자 멘델』. 이 책은 유전학의 창시자인 멘델의 삶과 업적에 관해 이야기한다. 가난한 시골 출신의 수도사제로서 고학으로 생물학을 익힌 자연과학도 멘델의 인생을 정리하였다. 이 과정에서 그의 유전실험, 생물학 연구, 양봉 연구 등을 소개한다.",
+          "isbn": "9788970442655",
+          "publisher": "전파과학사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/960317?timestamp=20240824113742",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8"
+          },
+          "verified": true,
+          "content_id": "4e90af25-506f-58a7-a059-66d1c6c4d73f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "4e90af25-506f-58a7-a059-66d1c6c4d73f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788970442655",
+        "release_date": "2008-10-10",
+        "metadata": {
+          "isbn": "9788970442655",
+          "publisher": "전파과학사",
+          "publishDate": "2008-10-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788970442655",
+            "workTitle": "멘델",
+            "workCreator": "비체슬라프 오렐",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "멘델",
+          "creator": "비체슬라프 오렐",
+          "description": "「한국유전학회총서」제1편『현대 유전학의 창시자 멘델』. 이 책은 유전학의 창시자인 멘델의 삶과 업적에 관해 이야기한다. 가난한 시골 출신의 수도사제로서 고학으로 생물학을 익힌 자연과학도 멘델의 인생을 정리하였다. 이 과정에서 그의 유전실험, 생물학 연구, 양봉 연구 등을 소개한다.",
+          "isbn": "9788970442655",
+          "publisher": "전파과학사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/960317?timestamp=20240824113742",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8"
+          },
+          "verified": true,
+          "content_id": "4e90af25-506f-58a7-a059-66d1c6c4d73f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788970442655",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788970442655"
+      ],
+      "normalizedTitles": [
+        "멘델"
+      ],
+      "normalizedCreators": [
+        "비체슬라프오렐",
+        "한국유전학회역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:53:00.787Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "4e90af25-506f-58a7-a059-66d1c6c4d73f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788970442655",
+      "release_date": "2008-10-10",
+      "metadata": {
+        "isbn": "9788970442655",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+        "publisher": "전파과학사",
+        "figureBook": {
+          "workTitle": "멘델",
+          "workCreator": "비체슬라프 오렐",
+          "workIdentity": "book/9788970442655",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2008-10-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:52:55.271995+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "4e90af25-506f-58a7-a059-66d1c6c4d73f",
+        "locale": "ko",
+        "title": "멘델",
+        "creator": "비체슬라프 오렐",
+        "description": "「한국유전학회총서」제1편『현대 유전학의 창시자 멘델』. 이 책은 유전학의 창시자인 멘델의 삶과 업적에 관해 이야기한다. 가난한 시골 출신의 수도사제로서 고학으로 생물학을 익힌 자연과학도 멘델의 인생을 정리하였다. 이 과정에서 그의 유전실험, 생물학 연구, 양봉 연구 등을 소개한다.",
+        "isbn": "9788970442655",
+        "publisher": "전파과학사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/960317?timestamp=20240824113742",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=960317&q=%EB%A9%98%EB%8D%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:52:55.271995+00:00",
+        "updated_at": "2026-09-04T17:52:55.271995+00:00"
+      }
+    ]
+  }
+}

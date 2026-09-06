@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791160803884",
+    "title": "김소월을 읽다",
+    "creator": "전국국어교사모임",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791160803884"
+  }
+}

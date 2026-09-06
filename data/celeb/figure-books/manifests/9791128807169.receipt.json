@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791128807169.json",
+  "manifestSha256": "ac8b197cdc8aed63ae0d484c705e2e935524ae51c4642c0d62ca004b5e0bd9e6",
+  "planSha256": "9ee3f5f4e551d4a54ad35a8ba6e4dce4014023f037f9c3e7a86bb2b2ec9bb7bf",
+  "workIdentity": "book/9791128807169",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791128807169"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "2abd933a-68fa-5a58-8262-3447f4a27dc4",
+    "scopeKey": "book/9791128807169",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "2abd933a-68fa-5a58-8262-3447f4a27dc4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791128807169",
+      "release_date": "2017-10-25",
+      "metadata": {
+        "isbn": "9791128807169",
+        "publisher": "커뮤니케이션북스",
+        "publishDate": "2017-10-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791128807169",
+          "workTitle": "로버트 노직, 무정부 국가. 유토피아",
+          "workCreator": "장동익",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "로버트 노직, 무정부 국가. 유토피아",
+          "creator": "장동익",
+          "description": "『로버트 노직, 무정부. 국가. 유토피아』는 자유주의 정치철학자 로버트 노직의 주저, 『무정부, 국가 그리고 유토피아』를 10가지 키워드로 해설한다. 노직이 주창한 자유지상주의는 얼핏 무정부주의와 유사해 보인다. 그러나 자유지상주의는 홉스의 무정부 상태를 비판하면서 국가의 성립이 필수라고 주장한다. 『무정부, 국가 그리고 유토피아』는 자유지상주의를 대표하는 ‘최소국가론’을 논증하는 책이다. 자연 상태에서 보호협회가 결성되어 지배적 보호협회로 이행되고, 권력을 독점하는 극소국가가 출현하며, 곧 모든 구성원에게서 권력을 독점하는 최소 국가로 발전해 가는 과정을 설명한다.",
+          "isbn": "9791128807169",
+          "publisher": "커뮤니케이션북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1534872?timestamp=20250418114115",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84"
+          },
+          "verified": true,
+          "content_id": "2abd933a-68fa-5a58-8262-3447f4a27dc4"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "2abd933a-68fa-5a58-8262-3447f4a27dc4",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791128807169",
+        "release_date": "2017-10-25",
+        "metadata": {
+          "isbn": "9791128807169",
+          "publisher": "커뮤니케이션북스",
+          "publishDate": "2017-10-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791128807169",
+            "workTitle": "로버트 노직, 무정부 국가. 유토피아",
+            "workCreator": "장동익",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "로버트 노직, 무정부 국가. 유토피아",
+          "creator": "장동익",
+          "description": "『로버트 노직, 무정부. 국가. 유토피아』는 자유주의 정치철학자 로버트 노직의 주저, 『무정부, 국가 그리고 유토피아』를 10가지 키워드로 해설한다. 노직이 주창한 자유지상주의는 얼핏 무정부주의와 유사해 보인다. 그러나 자유지상주의는 홉스의 무정부 상태를 비판하면서 국가의 성립이 필수라고 주장한다. 『무정부, 국가 그리고 유토피아』는 자유지상주의를 대표하는 ‘최소국가론’을 논증하는 책이다. 자연 상태에서 보호협회가 결성되어 지배적 보호협회로 이행되고, 권력을 독점하는 극소국가가 출현하며, 곧 모든 구성원에게서 권력을 독점하는 최소 국가로 발전해 가는 과정을 설명한다.",
+          "isbn": "9791128807169",
+          "publisher": "커뮤니케이션북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1534872?timestamp=20250418114115",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84"
+          },
+          "verified": true,
+          "content_id": "2abd933a-68fa-5a58-8262-3447f4a27dc4"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791128807169",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791128807169"
+      ],
+      "normalizedTitles": [
+        "로버트노직무정부국가유토피아"
+      ],
+      "normalizedCreators": [
+        "장동익"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:16:32.264Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "2abd933a-68fa-5a58-8262-3447f4a27dc4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791128807169",
+      "release_date": "2017-10-25",
+      "metadata": {
+        "isbn": "9791128807169",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+        "publisher": "커뮤니케이션북스",
+        "figureBook": {
+          "workTitle": "로버트 노직, 무정부 국가. 유토피아",
+          "workCreator": "장동익",
+          "workIdentity": "book/9791128807169",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2017-10-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:16:26.50666+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "2abd933a-68fa-5a58-8262-3447f4a27dc4",
+        "locale": "ko",
+        "title": "로버트 노직, 무정부 국가. 유토피아",
+        "creator": "장동익",
+        "description": "『로버트 노직, 무정부. 국가. 유토피아』는 자유주의 정치철학자 로버트 노직의 주저, 『무정부, 국가 그리고 유토피아』를 10가지 키워드로 해설한다. 노직이 주창한 자유지상주의는 얼핏 무정부주의와 유사해 보인다. 그러나 자유지상주의는 홉스의 무정부 상태를 비판하면서 국가의 성립이 필수라고 주장한다. 『무정부, 국가 그리고 유토피아』는 자유지상주의를 대표하는 ‘최소국가론’을 논증하는 책이다. 자연 상태에서 보호협회가 결성되어 지배적 보호협회로 이행되고, 권력을 독점하는 극소국가가 출현하며, 곧 모든 구성원에게서 권력을 독점하는 최소 국가로 발전해 가는 과정을 설명한다.",
+        "isbn": "9791128807169",
+        "publisher": "커뮤니케이션북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1534872?timestamp=20250418114115",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1534872&q=%EB%A1%9C%EB%B2%84%ED%8A%B8+%EB%85%B8%EC%A7%81%2C+%EB%AC%B4%EC%A0%95%EB%B6%80+%EA%B5%AD%EA%B0%80.+%EC%9C%A0%ED%86%A0%ED%94%BC%EC%95%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:16:26.50666+00:00",
+        "updated_at": "2026-09-06T04:16:26.50666+00:00"
+      }
+    ]
+  }
+}

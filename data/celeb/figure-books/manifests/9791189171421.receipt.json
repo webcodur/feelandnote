@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791189171421.json",
+  "manifestSha256": "3df4793e8b2851fc15111109452ebf24e0b0d46c1213fb089d072a5bbd00f514",
+  "planSha256": "106d8cf7352157cf04c286c6bdb79a05bb54eba36218eba0ea0ece1af9ba8145",
+  "workIdentity": "book/9791189171421",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791189171421"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "674c9910-a97e-5f92-b3d3-6f0b45d07bb0",
+    "scopeKey": "book/9791189171421",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "674c9910-a97e-5f92-b3d3-6f0b45d07bb0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189171421",
+      "release_date": "2022-08-31",
+      "metadata": {
+        "isbn": "9791189171421",
+        "publisher": "서연비람",
+        "publishDate": "2022-08-31",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791189171421",
+          "workTitle": "흥선대원군",
+          "workCreator": "채희문",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "흥선대원군",
+          "creator": "채희문",
+          "description": "흥선 대원군 이하응은 한때 외척이 득세한 어지러운 세상에서 거렁뱅이 짓으로 목숨을 보존하기도 했지만 끝내 정권을 장악하여 망해가는 조선 후기 왕조를 당당히 재건한 개혁정치인이었다. 그는 나라를 부흥시키고 백성을 구제하려는 이념으로 호방하게 일세를 주름잡던 풍운아였으며 한 시대를 호령한 권력자였다. 오랫동안 권세를 누려오던 외척들을 몰아낸 후에 그는 신분의 귀천이나 파벌을 가리지 않고 인재를 등용하는 혁신적인 인사행정을 펴나갔고, 국가기구를 과감히 재정비하여 왕권을 강화해나갔다. 문란한 삼정을 바로잡고 획기적인 개혁을 단행했으며 침략해오는 열강에 당당히 맞서기도 했으나 그가 치세하는 동안에 수많은 천주교도를 박해했다.",
+          "isbn": "9791189171421",
+          "publisher": "서연비람",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6166433?timestamp=20221209171206",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0"
+          },
+          "verified": true,
+          "content_id": "674c9910-a97e-5f92-b3d3-6f0b45d07bb0"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "674c9910-a97e-5f92-b3d3-6f0b45d07bb0",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791189171421",
+        "release_date": "2022-08-31",
+        "metadata": {
+          "isbn": "9791189171421",
+          "publisher": "서연비람",
+          "publishDate": "2022-08-31",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791189171421",
+            "workTitle": "흥선대원군",
+            "workCreator": "채희문",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "흥선대원군",
+          "creator": "채희문",
+          "description": "흥선 대원군 이하응은 한때 외척이 득세한 어지러운 세상에서 거렁뱅이 짓으로 목숨을 보존하기도 했지만 끝내 정권을 장악하여 망해가는 조선 후기 왕조를 당당히 재건한 개혁정치인이었다. 그는 나라를 부흥시키고 백성을 구제하려는 이념으로 호방하게 일세를 주름잡던 풍운아였으며 한 시대를 호령한 권력자였다. 오랫동안 권세를 누려오던 외척들을 몰아낸 후에 그는 신분의 귀천이나 파벌을 가리지 않고 인재를 등용하는 혁신적인 인사행정을 펴나갔고, 국가기구를 과감히 재정비하여 왕권을 강화해나갔다. 문란한 삼정을 바로잡고 획기적인 개혁을 단행했으며 침략해오는 열강에 당당히 맞서기도 했으나 그가 치세하는 동안에 수많은 천주교도를 박해했다.",
+          "isbn": "9791189171421",
+          "publisher": "서연비람",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6166433?timestamp=20221209171206",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0"
+          },
+          "verified": true,
+          "content_id": "674c9910-a97e-5f92-b3d3-6f0b45d07bb0"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791189171421",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791189171421"
+      ],
+      "normalizedTitles": [
+        "흥선대원군"
+      ],
+      "normalizedCreators": [
+        "채희문"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:26:36.849Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "674c9910-a97e-5f92-b3d3-6f0b45d07bb0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189171421",
+      "release_date": "2022-08-31",
+      "metadata": {
+        "isbn": "9791189171421",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+        "publisher": "서연비람",
+        "figureBook": {
+          "workTitle": "흥선대원군",
+          "workCreator": "채희문",
+          "workIdentity": "book/9791189171421",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-08-31",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:26:21.686993+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "674c9910-a97e-5f92-b3d3-6f0b45d07bb0",
+        "locale": "ko",
+        "title": "흥선대원군",
+        "creator": "채희문",
+        "description": "흥선 대원군 이하응은 한때 외척이 득세한 어지러운 세상에서 거렁뱅이 짓으로 목숨을 보존하기도 했지만 끝내 정권을 장악하여 망해가는 조선 후기 왕조를 당당히 재건한 개혁정치인이었다. 그는 나라를 부흥시키고 백성을 구제하려는 이념으로 호방하게 일세를 주름잡던 풍운아였으며 한 시대를 호령한 권력자였다. 오랫동안 권세를 누려오던 외척들을 몰아낸 후에 그는 신분의 귀천이나 파벌을 가리지 않고 인재를 등용하는 혁신적인 인사행정을 펴나갔고, 국가기구를 과감히 재정비하여 왕권을 강화해나갔다. 문란한 삼정을 바로잡고 획기적인 개혁을 단행했으며 침략해오는 열강에 당당히 맞서기도 했으나 그가 치세하는 동안에 수많은 천주교도를 박해했다.",
+        "isbn": "9791189171421",
+        "publisher": "서연비람",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6166433?timestamp=20221209171206",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6166433&q=%ED%9D%A5%EC%84%A0%EB%8C%80%EC%9B%90%EA%B5%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:26:21.686993+00:00",
+        "updated_at": "2026-09-06T04:26:21.686993+00:00"
+      }
+    ]
+  }
+}

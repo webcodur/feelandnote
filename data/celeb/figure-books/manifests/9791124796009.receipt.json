@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791124796009.json",
+  "manifestSha256": "80b3ac7da0be3bc22bc9e0aa1c9648b8bdd4c2ae850e7ec2762116a4f6603de6",
+  "planSha256": "5b200fe4452e8b32c677800454891a72b71797871804cda325f94245decb9774",
+  "workIdentity": "book/9791124796009",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791124796009"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "9ce726f3-592c-51e4-a763-8499a7faad28",
+    "scopeKey": "book/9791124796009",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "9ce726f3-592c-51e4-a763-8499a7faad28",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791124796009",
+      "release_date": "2026-08-07",
+      "metadata": {
+        "isbn": "9791124796009",
+        "publisher": "갈라북스",
+        "publishDate": "2026-08-07",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791124796009",
+          "workTitle": "소련의 서기장들",
+          "workCreator": "최경식",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "소련의 서기장들",
+          "creator": "최경식",
+          "description": "〈소련의 서기장들〉은 블라디미르 레닌부터 미하일 고르바초프까지 소비에트 연방(소련)부터 러시아의 최고 권력자에 대한 역사적 기록을 담고 있다. 전 세계를 양분했던 초강대국을 이끌었던 그들의 이야기를 통해 정치, 경제, 사회, 전쟁 등 소련과 러시아를 중심으로 한 세계사의 주요 사건들을 흥미롭게 되짚어 볼 수 있다.",
+          "isbn": "9791124796009",
+          "publisher": "갈라북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7262951?timestamp=20260719144941",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "9ce726f3-592c-51e4-a763-8499a7faad28"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "9ce726f3-592c-51e4-a763-8499a7faad28",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791124796009",
+        "release_date": "2026-08-07",
+        "metadata": {
+          "isbn": "9791124796009",
+          "publisher": "갈라북스",
+          "publishDate": "2026-08-07",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791124796009",
+            "workTitle": "소련의 서기장들",
+            "workCreator": "최경식",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "소련의 서기장들",
+          "creator": "최경식",
+          "description": "〈소련의 서기장들〉은 블라디미르 레닌부터 미하일 고르바초프까지 소비에트 연방(소련)부터 러시아의 최고 권력자에 대한 역사적 기록을 담고 있다. 전 세계를 양분했던 초강대국을 이끌었던 그들의 이야기를 통해 정치, 경제, 사회, 전쟁 등 소련과 러시아를 중심으로 한 세계사의 주요 사건들을 흥미롭게 되짚어 볼 수 있다.",
+          "isbn": "9791124796009",
+          "publisher": "갈라북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7262951?timestamp=20260719144941",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "9ce726f3-592c-51e4-a763-8499a7faad28"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791124796009",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791124796009"
+      ],
+      "normalizedTitles": [
+        "소련의서기장들"
+      ],
+      "normalizedCreators": [
+        "최경식"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:00:05.425Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "9ce726f3-592c-51e4-a763-8499a7faad28",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791124796009",
+      "release_date": "2026-08-07",
+      "metadata": {
+        "isbn": "9791124796009",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+        "publisher": "갈라북스",
+        "figureBook": {
+          "workTitle": "소련의 서기장들",
+          "workCreator": "최경식",
+          "workIdentity": "book/9791124796009",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-08-07",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:59:59.582052+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "9ce726f3-592c-51e4-a763-8499a7faad28",
+        "locale": "ko",
+        "title": "소련의 서기장들",
+        "creator": "최경식",
+        "description": "〈소련의 서기장들〉은 블라디미르 레닌부터 미하일 고르바초프까지 소비에트 연방(소련)부터 러시아의 최고 권력자에 대한 역사적 기록을 담고 있다. 전 세계를 양분했던 초강대국을 이끌었던 그들의 이야기를 통해 정치, 경제, 사회, 전쟁 등 소련과 러시아를 중심으로 한 세계사의 주요 사건들을 흥미롭게 되짚어 볼 수 있다.",
+        "isbn": "9791124796009",
+        "publisher": "갈라북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7262951?timestamp=20260719144941",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7262951&q=%EC%86%8C%EB%A0%A8%EC%9D%98+%EC%84%9C%EA%B8%B0%EC%9E%A5%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:59:59.582052+00:00",
+        "updated_at": "2026-09-04T17:59:59.582052+00:00"
+      }
+    ]
+  }
+}

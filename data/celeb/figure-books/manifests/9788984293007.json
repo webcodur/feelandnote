@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788984293007",
+    "title": "로크는 왜 왕 앞에서 개인의 권리를 외쳤을까",
+    "creator": "에릭 맥",
+    "titleAliases": [],
+    "creatorAliases": [
+      "권혁철 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788984293007"
+  }
+}

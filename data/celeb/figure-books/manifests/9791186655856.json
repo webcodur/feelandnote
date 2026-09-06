@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791186655856",
+    "title": "미스 반 더 로에 건축과 생애",
+    "creator": "프란츠 슐츠",
+    "titleAliases": [],
+    "creatorAliases": [
+      "프란츠 슐츠, 에드워드 빈트호르스트",
+      "천장환 (역)",
+      "에드워드 빈트호르스트"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791186655856"
+  }
+}

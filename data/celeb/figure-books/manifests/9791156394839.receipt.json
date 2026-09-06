@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791156394839.json",
+  "manifestSha256": "1f2e54a2500f90bb7a07605f790a0df2765c2851b79c6ac7724e0669ba5b4832",
+  "planSha256": "baa41f95f3483cccdc974447a7f35caad7d7725a6d8bfa3abdb7f4ac85632dea",
+  "workIdentity": "book/9791156394839",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791156394839"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "44bff427-1655-5aaf-b989-e3eedde1758d",
+    "scopeKey": "book/9791156394839",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "44bff427-1655-5aaf-b989-e3eedde1758d",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791156394839",
+      "release_date": "2017-12-01",
+      "metadata": {
+        "isbn": "9791156394839",
+        "publisher": "다산어린이",
+        "publishDate": "2017-12-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791156394839",
+          "workTitle": "Who? 세계 인물: 앤드루 카네기",
+          "workCreator": "오영석",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "Who? 세계 인물: 앤드루 카네기",
+          "creator": "오영석",
+          "description": "철강왕에서 위대한 기부가로 기억되다\n\n앤드루 카네기의 아버지는 옷감을 짜서 파는 직조공이었습니다. 그런데 산업 혁명으로 공장에서 대량으로 옷감을 생산할 수 있게 되자, 일자리를 잃은 아버지는 미국 이민을 결심했습니다. 하자민 미국에서도 끼니를 걱정해야 할 만큼 집안 형편은 어려웠어요. 결국 카네기는 어린 나이에 직조 공장 직원, 전보 배달원, 전신 기사 등의 일을 하며 성장기를 보냈습니다.\n\n남북 전쟁 당시 총과 대포에 무너져 내리는 건물들을 보며 카네기는 전쟁이 끝난 뒤 철강 산업의 시대가 올 것이라고 예감했습니다. 자신의 판단을 믿고 철강 사업에 뛰어든 카네기는 좀 더 단단하고 안전한 철을 공급하기 위해 강철을 생산했습니다. 강철은 가격이 너무 비싸서 그때까지만 해도 잘 사용하지 않던 재료였기에 카네기의 결정을 사람들은 비웃었지만, 카네기는 흔들리지 않고 자신의 일을 계속해 나갔습니다. 카네기의 결정이 옳은 판단이었다는 것은 얼마 지나지 증명되었습니다. 전쟁이 끝나자 사람들은 너도나도 건물을 짓기 위해 튼튼한 강철을 사용한 것입니다. 미래를 내다보는 안목을 가졌던 카네기는 사업 성공으로 큰 부자가 되었습니다.\n\n사업에서 은퇴한 후 카네기는 자선 사업을 벌여 자신의 부를 사회에 되돌려 주는 일에 집중했어요. 지금도 앤드루 카네기는 세계 최고의 기업가이자 기부가로 역사 속에 이름을 남기고 있습니다.\n\n통합지식+ 코너에서는 앤드루 카네기의 성공 열쇠와 카네기의 나라 스코틀랜드, 산업 혁명과 세상을 바꾼 철강 산업, 카네기의 기부 활동 등 다양한 배경 지식을 만날 수 있습니다. 인물의 이야기를 따라가며 자연스럽게 역사, 문화, 사회 등 여러 영역의 통합 학습이 가능합니다.\n\n자기 이해와 직업 세계 이해, 진로 설계 등 진로 탐색 단계별 활동을 담은 어린이 진로 탐색 코너는 기업을 경영하는 ‘사업가(CEO, 최고경영자)’의 직업 세계를 더 깊이 이해하고 독자 스스로 자신의 진로를 탐색해 볼 수 있도록 해 줍니다.",
+          "isbn": "9791156394839",
+          "publisher": "다산어린이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1563172?timestamp=20260421110911",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "44bff427-1655-5aaf-b989-e3eedde1758d"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "44bff427-1655-5aaf-b989-e3eedde1758d",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791156394839",
+        "release_date": "2017-12-01",
+        "metadata": {
+          "isbn": "9791156394839",
+          "publisher": "다산어린이",
+          "publishDate": "2017-12-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791156394839",
+            "workTitle": "Who? 세계 인물: 앤드루 카네기",
+            "workCreator": "오영석",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "Who? 세계 인물: 앤드루 카네기",
+          "creator": "오영석",
+          "description": "철강왕에서 위대한 기부가로 기억되다\n\n앤드루 카네기의 아버지는 옷감을 짜서 파는 직조공이었습니다. 그런데 산업 혁명으로 공장에서 대량으로 옷감을 생산할 수 있게 되자, 일자리를 잃은 아버지는 미국 이민을 결심했습니다. 하자민 미국에서도 끼니를 걱정해야 할 만큼 집안 형편은 어려웠어요. 결국 카네기는 어린 나이에 직조 공장 직원, 전보 배달원, 전신 기사 등의 일을 하며 성장기를 보냈습니다.\n\n남북 전쟁 당시 총과 대포에 무너져 내리는 건물들을 보며 카네기는 전쟁이 끝난 뒤 철강 산업의 시대가 올 것이라고 예감했습니다. 자신의 판단을 믿고 철강 사업에 뛰어든 카네기는 좀 더 단단하고 안전한 철을 공급하기 위해 강철을 생산했습니다. 강철은 가격이 너무 비싸서 그때까지만 해도 잘 사용하지 않던 재료였기에 카네기의 결정을 사람들은 비웃었지만, 카네기는 흔들리지 않고 자신의 일을 계속해 나갔습니다. 카네기의 결정이 옳은 판단이었다는 것은 얼마 지나지 증명되었습니다. 전쟁이 끝나자 사람들은 너도나도 건물을 짓기 위해 튼튼한 강철을 사용한 것입니다. 미래를 내다보는 안목을 가졌던 카네기는 사업 성공으로 큰 부자가 되었습니다.\n\n사업에서 은퇴한 후 카네기는 자선 사업을 벌여 자신의 부를 사회에 되돌려 주는 일에 집중했어요. 지금도 앤드루 카네기는 세계 최고의 기업가이자 기부가로 역사 속에 이름을 남기고 있습니다.\n\n통합지식+ 코너에서는 앤드루 카네기의 성공 열쇠와 카네기의 나라 스코틀랜드, 산업 혁명과 세상을 바꾼 철강 산업, 카네기의 기부 활동 등 다양한 배경 지식을 만날 수 있습니다. 인물의 이야기를 따라가며 자연스럽게 역사, 문화, 사회 등 여러 영역의 통합 학습이 가능합니다.\n\n자기 이해와 직업 세계 이해, 진로 설계 등 진로 탐색 단계별 활동을 담은 어린이 진로 탐색 코너는 기업을 경영하는 ‘사업가(CEO, 최고경영자)’의 직업 세계를 더 깊이 이해하고 독자 스스로 자신의 진로를 탐색해 볼 수 있도록 해 줍니다.",
+          "isbn": "9791156394839",
+          "publisher": "다산어린이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1563172?timestamp=20260421110911",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "44bff427-1655-5aaf-b989-e3eedde1758d"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791156394839",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791156394839"
+      ],
+      "normalizedTitles": [
+        "who세계인물",
+        "who세계인물앤드루카네기"
+      ],
+      "normalizedCreators": [
+        "오영석"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:04:11.508Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "44bff427-1655-5aaf-b989-e3eedde1758d",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791156394839",
+      "release_date": "2017-12-01",
+      "metadata": {
+        "isbn": "9791156394839",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+        "publisher": "다산어린이",
+        "figureBook": {
+          "workTitle": "Who? 세계 인물: 앤드루 카네기",
+          "workCreator": "오영석",
+          "workIdentity": "book/9791156394839",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2017-12-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:03:52.330897+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "44bff427-1655-5aaf-b989-e3eedde1758d",
+        "locale": "ko",
+        "title": "Who? 세계 인물: 앤드루 카네기",
+        "creator": "오영석",
+        "description": "철강왕에서 위대한 기부가로 기억되다\n\n앤드루 카네기의 아버지는 옷감을 짜서 파는 직조공이었습니다. 그런데 산업 혁명으로 공장에서 대량으로 옷감을 생산할 수 있게 되자, 일자리를 잃은 아버지는 미국 이민을 결심했습니다. 하자민 미국에서도 끼니를 걱정해야 할 만큼 집안 형편은 어려웠어요. 결국 카네기는 어린 나이에 직조 공장 직원, 전보 배달원, 전신 기사 등의 일을 하며 성장기를 보냈습니다.\n\n남북 전쟁 당시 총과 대포에 무너져 내리는 건물들을 보며 카네기는 전쟁이 끝난 뒤 철강 산업의 시대가 올 것이라고 예감했습니다. 자신의 판단을 믿고 철강 사업에 뛰어든 카네기는 좀 더 단단하고 안전한 철을 공급하기 위해 강철을 생산했습니다. 강철은 가격이 너무 비싸서 그때까지만 해도 잘 사용하지 않던 재료였기에 카네기의 결정을 사람들은 비웃었지만, 카네기는 흔들리지 않고 자신의 일을 계속해 나갔습니다. 카네기의 결정이 옳은 판단이었다는 것은 얼마 지나지 증명되었습니다. 전쟁이 끝나자 사람들은 너도나도 건물을 짓기 위해 튼튼한 강철을 사용한 것입니다. 미래를 내다보는 안목을 가졌던 카네기는 사업 성공으로 큰 부자가 되었습니다.\n\n사업에서 은퇴한 후 카네기는 자선 사업을 벌여 자신의 부를 사회에 되돌려 주는 일에 집중했어요. 지금도 앤드루 카네기는 세계 최고의 기업가이자 기부가로 역사 속에 이름을 남기고 있습니다.\n\n통합지식+ 코너에서는 앤드루 카네기의 성공 열쇠와 카네기의 나라 스코틀랜드, 산업 혁명과 세상을 바꾼 철강 산업, 카네기의 기부 활동 등 다양한 배경 지식을 만날 수 있습니다. 인물의 이야기를 따라가며 자연스럽게 역사, 문화, 사회 등 여러 영역의 통합 학습이 가능합니다.\n\n자기 이해와 직업 세계 이해, 진로 설계 등 진로 탐색 단계별 활동을 담은 어린이 진로 탐색 코너는 기업을 경영하는 ‘사업가(CEO, 최고경영자)’의 직업 세계를 더 깊이 이해하고 독자 스스로 자신의 진로를 탐색해 볼 수 있도록 해 줍니다.",
+        "isbn": "9791156394839",
+        "publisher": "다산어린이",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1563172?timestamp=20260421110911",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1563172&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EC%95%A4%EB%93%9C%EB%A3%A8+%EC%B9%B4%EB%84%A4%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:03:52.330897+00:00",
+        "updated_at": "2026-09-04T18:03:52.330897+00:00"
+      }
+    ]
+  }
+}

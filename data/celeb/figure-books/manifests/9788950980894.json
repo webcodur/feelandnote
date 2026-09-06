@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788950980894",
+    "title": "아리스토텔레스",
+    "creator": "조대호",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788950980894"
+  }
+}

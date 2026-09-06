@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788974745004.json",
+  "manifestSha256": "e97a30e55ed637128f67fcec3bafd39b57dcb866f0e5950d82a2e1953b03b3dc",
+  "planSha256": "190b72c661ec59b45a880cb09d4b91bc0111bfed7b74c68df1d71b8ad8b235de",
+  "workIdentity": "book/9788974745004",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788974745004"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "8fef602d-cc6a-5008-9533-17f8ada2960e",
+    "scopeKey": "book/9788974745004",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "8fef602d-cc6a-5008-9533-17f8ada2960e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788974745004",
+      "release_date": "2016-01-11",
+      "metadata": {
+        "isbn": "9788974745004",
+        "publisher": "풀빛",
+        "publishDate": "2016-01-11",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788974745004",
+          "workTitle": "궁금해요, 장영실",
+          "workCreator": "안선모",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "궁금해요, 장영실",
+          "creator": "안선모",
+          "description": "「저학년 첫 역사 위인」 제1권 『궁금해요, 장영실』. 엄격한 신분 사회였던 조선 시대에 노비로 태어나 임금의 총애를 받을 정도로 뛰어난 과학자였던 장영실의 이야기를 담아낸 책이다. 자신의 처지를 탓하지 않으며 끊임없이 노력하고 최선을 다한 덕분에 장영실은 세종 대왕을 도와 백성들의 생활을 편리하게 하는 훌륭한 발명품들을 만들어 낼 수 있었다. 이 책을 읽으며 어린이들은 이러한 장영실의 이야기를 통해 어떤 상황에서도 최선을 다해 노력하는 것이 얼마나 중요한지 배울 수 있을 것이다. 책의 마지막에는 장영실이 만든 발명품들의 사진과 자세한 설명도 소개되어 있다.",
+          "isbn": "9788974745004",
+          "publisher": "풀빛",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1047249?timestamp=20251023110456",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4"
+          },
+          "verified": true,
+          "content_id": "8fef602d-cc6a-5008-9533-17f8ada2960e"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "8fef602d-cc6a-5008-9533-17f8ada2960e",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788974745004",
+        "release_date": "2016-01-11",
+        "metadata": {
+          "isbn": "9788974745004",
+          "publisher": "풀빛",
+          "publishDate": "2016-01-11",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788974745004",
+            "workTitle": "궁금해요, 장영실",
+            "workCreator": "안선모",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "궁금해요, 장영실",
+          "creator": "안선모",
+          "description": "「저학년 첫 역사 위인」 제1권 『궁금해요, 장영실』. 엄격한 신분 사회였던 조선 시대에 노비로 태어나 임금의 총애를 받을 정도로 뛰어난 과학자였던 장영실의 이야기를 담아낸 책이다. 자신의 처지를 탓하지 않으며 끊임없이 노력하고 최선을 다한 덕분에 장영실은 세종 대왕을 도와 백성들의 생활을 편리하게 하는 훌륭한 발명품들을 만들어 낼 수 있었다. 이 책을 읽으며 어린이들은 이러한 장영실의 이야기를 통해 어떤 상황에서도 최선을 다해 노력하는 것이 얼마나 중요한지 배울 수 있을 것이다. 책의 마지막에는 장영실이 만든 발명품들의 사진과 자세한 설명도 소개되어 있다.",
+          "isbn": "9788974745004",
+          "publisher": "풀빛",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1047249?timestamp=20251023110456",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4"
+          },
+          "verified": true,
+          "content_id": "8fef602d-cc6a-5008-9533-17f8ada2960e"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788974745004",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788974745004"
+      ],
+      "normalizedTitles": [
+        "궁금해요장영실"
+      ],
+      "normalizedCreators": [
+        "안선모"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:13:05.529Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "8fef602d-cc6a-5008-9533-17f8ada2960e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788974745004",
+      "release_date": "2016-01-11",
+      "metadata": {
+        "isbn": "9788974745004",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+        "publisher": "풀빛",
+        "figureBook": {
+          "workTitle": "궁금해요, 장영실",
+          "workCreator": "안선모",
+          "workIdentity": "book/9788974745004",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2016-01-11",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:13:00.681474+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "8fef602d-cc6a-5008-9533-17f8ada2960e",
+        "locale": "ko",
+        "title": "궁금해요, 장영실",
+        "creator": "안선모",
+        "description": "「저학년 첫 역사 위인」 제1권 『궁금해요, 장영실』. 엄격한 신분 사회였던 조선 시대에 노비로 태어나 임금의 총애를 받을 정도로 뛰어난 과학자였던 장영실의 이야기를 담아낸 책이다. 자신의 처지를 탓하지 않으며 끊임없이 노력하고 최선을 다한 덕분에 장영실은 세종 대왕을 도와 백성들의 생활을 편리하게 하는 훌륭한 발명품들을 만들어 낼 수 있었다. 이 책을 읽으며 어린이들은 이러한 장영실의 이야기를 통해 어떤 상황에서도 최선을 다해 노력하는 것이 얼마나 중요한지 배울 수 있을 것이다. 책의 마지막에는 장영실이 만든 발명품들의 사진과 자세한 설명도 소개되어 있다.",
+        "isbn": "9788974745004",
+        "publisher": "풀빛",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1047249?timestamp=20251023110456",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1047249&q=%EA%B6%81%EA%B8%88%ED%95%B4%EC%9A%94%2C+%EC%9E%A5%EC%98%81%EC%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:13:00.681474+00:00",
+        "updated_at": "2026-09-06T04:13:00.681474+00:00"
+      }
+    ]
+  }
+}

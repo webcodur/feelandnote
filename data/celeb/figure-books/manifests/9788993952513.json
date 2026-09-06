@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788993952513",
+    "title": "데카르트의 사라진 유골",
+    "creator": "러셀 쇼토",
+    "titleAliases": [],
+    "creatorAliases": [
+      "강경이 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788993952513"
+  }
+}

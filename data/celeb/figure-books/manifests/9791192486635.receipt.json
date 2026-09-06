@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791192486635.json",
+  "manifestSha256": "b3ae0552566545cbf204786dc8b072a204ce94f95e501860877609cfa46baf79",
+  "planSha256": "16e75faaf6bd647c2dc9ef06c89f536a1af73dfed8236bd15fbc8a2dff4d8d23",
+  "workIdentity": "book/9791192486635",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791192486635"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+    "scopeKey": "book/9791192486635",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192486635",
+      "release_date": "2023-02-14",
+      "metadata": {
+        "isbn": "9791192486635",
+        "publisher": "행복에너지",
+        "publishDate": "2023-02-14",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791192486635",
+          "workTitle": "사마천의 사기 속의 진시황",
+          "workCreator": "사마천",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "사마천의 사기 속의 진시황",
+          "creator": "사마천",
+          "description": "고대 동아시아에서 가장 위대한 역사서 중 하나로 꼽히는 사마천의 〈사기((史記)〉의 해설서이며 2021년에 출간된 동명의 책의 개정증보판이다. 특히 강남주 저자는 〈사기〉의 방대한 내용 중에서 주나라의 탄생과 멸망, 주나라 멸망 후 전국칠웅의 대두와 대립, 진나라의 발전, 진시황의 등장과 통일 제국의 등장, 진시황의 죽음과 제국의 멸망까지 ‘진시황’이라는 인물을 중심으로 다루고 있으며 읽기 편한 이야기 형식으로 요약 및 해석하여 책을 엮어내었다.\n또한 이 책의 특징 중 하나는 〈사기〉에 담긴 진시황의 객관적 행적을 통해 중국 대륙에 거대한 통일왕조를 세우고 그것을 유지할 수 있는 기반을 닦은 그의 업적을 사실적으로 기술하면서도 〈사기〉의 ‘진시황본기’에 담긴 진시황의 성격과 행적에 대한 평가를 기반으로 삼아 그의 貪(탐, 탐욕), 瞋(진, 분노), 癡(치, 어리석음)을 주목하고 비판하여 오늘날 사람들에게도 반면교사의 거울이 되게끔 하고 있다는 점이다.\n\n2000여 년 전의 역사임에도 불구하고 진시황의 업적과 과오, 진나라의 강성과 멸망의 이야기는 인간이라는 존재가 탐, 진, 치의 세 가지 함정에 빠지기가 얼마나 쉬운지, 마음의 세 가지 함정에 빠져 극복하지 못한다면 개인의 인생은 물론 주변 사회에도 얼마나 큰 악영향을 끼칠 수 있는지, 세 가지 함정에 빠지지 않으려면 무엇을 염두에 두고 자신의 몸과 마음을 갈고 닦아야 하는지에 대해서 깊은 교훈을 주고 있는 책이다.",
+          "isbn": "9791192486635",
+          "publisher": "행복에너지",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6316260?timestamp=20230905154515",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9"
+          },
+          "verified": true,
+          "content_id": "ecab3868-1114-51e6-a28e-d22f0c15b948"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791192486635",
+        "release_date": "2023-02-14",
+        "metadata": {
+          "isbn": "9791192486635",
+          "publisher": "행복에너지",
+          "publishDate": "2023-02-14",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791192486635",
+            "workTitle": "사마천의 사기 속의 진시황",
+            "workCreator": "사마천",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "사마천의 사기 속의 진시황",
+          "creator": "사마천",
+          "description": "고대 동아시아에서 가장 위대한 역사서 중 하나로 꼽히는 사마천의 〈사기((史記)〉의 해설서이며 2021년에 출간된 동명의 책의 개정증보판이다. 특히 강남주 저자는 〈사기〉의 방대한 내용 중에서 주나라의 탄생과 멸망, 주나라 멸망 후 전국칠웅의 대두와 대립, 진나라의 발전, 진시황의 등장과 통일 제국의 등장, 진시황의 죽음과 제국의 멸망까지 ‘진시황’이라는 인물을 중심으로 다루고 있으며 읽기 편한 이야기 형식으로 요약 및 해석하여 책을 엮어내었다.\n또한 이 책의 특징 중 하나는 〈사기〉에 담긴 진시황의 객관적 행적을 통해 중국 대륙에 거대한 통일왕조를 세우고 그것을 유지할 수 있는 기반을 닦은 그의 업적을 사실적으로 기술하면서도 〈사기〉의 ‘진시황본기’에 담긴 진시황의 성격과 행적에 대한 평가를 기반으로 삼아 그의 貪(탐, 탐욕), 瞋(진, 분노), 癡(치, 어리석음)을 주목하고 비판하여 오늘날 사람들에게도 반면교사의 거울이 되게끔 하고 있다는 점이다.\n\n2000여 년 전의 역사임에도 불구하고 진시황의 업적과 과오, 진나라의 강성과 멸망의 이야기는 인간이라는 존재가 탐, 진, 치의 세 가지 함정에 빠지기가 얼마나 쉬운지, 마음의 세 가지 함정에 빠져 극복하지 못한다면 개인의 인생은 물론 주변 사회에도 얼마나 큰 악영향을 끼칠 수 있는지, 세 가지 함정에 빠지지 않으려면 무엇을 염두에 두고 자신의 몸과 마음을 갈고 닦아야 하는지에 대해서 깊은 교훈을 주고 있는 책이다.",
+          "isbn": "9791192486635",
+          "publisher": "행복에너지",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6316260?timestamp=20230905154515",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9"
+          },
+          "verified": true,
+          "content_id": "ecab3868-1114-51e6-a28e-d22f0c15b948"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791192486635",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791192486635"
+      ],
+      "normalizedTitles": [
+        "사마천의사기속의진시황"
+      ],
+      "normalizedCreators": [
+        "사마천"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:14:55.585Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192486635",
+      "release_date": "2023-02-14",
+      "metadata": {
+        "isbn": "9791192486635",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+        "publisher": "행복에너지",
+        "figureBook": {
+          "workTitle": "사마천의 사기 속의 진시황",
+          "workCreator": "사마천",
+          "workIdentity": "book/9791192486635",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-02-14",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:14:49.07919+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ecab3868-1114-51e6-a28e-d22f0c15b948",
+        "locale": "ko",
+        "title": "사마천의 사기 속의 진시황",
+        "creator": "사마천",
+        "description": "고대 동아시아에서 가장 위대한 역사서 중 하나로 꼽히는 사마천의 〈사기((史記)〉의 해설서이며 2021년에 출간된 동명의 책의 개정증보판이다. 특히 강남주 저자는 〈사기〉의 방대한 내용 중에서 주나라의 탄생과 멸망, 주나라 멸망 후 전국칠웅의 대두와 대립, 진나라의 발전, 진시황의 등장과 통일 제국의 등장, 진시황의 죽음과 제국의 멸망까지 ‘진시황’이라는 인물을 중심으로 다루고 있으며 읽기 편한 이야기 형식으로 요약 및 해석하여 책을 엮어내었다.\n또한 이 책의 특징 중 하나는 〈사기〉에 담긴 진시황의 객관적 행적을 통해 중국 대륙에 거대한 통일왕조를 세우고 그것을 유지할 수 있는 기반을 닦은 그의 업적을 사실적으로 기술하면서도 〈사기〉의 ‘진시황본기’에 담긴 진시황의 성격과 행적에 대한 평가를 기반으로 삼아 그의 貪(탐, 탐욕), 瞋(진, 분노), 癡(치, 어리석음)을 주목하고 비판하여 오늘날 사람들에게도 반면교사의 거울이 되게끔 하고 있다는 점이다.\n\n2000여 년 전의 역사임에도 불구하고 진시황의 업적과 과오, 진나라의 강성과 멸망의 이야기는 인간이라는 존재가 탐, 진, 치의 세 가지 함정에 빠지기가 얼마나 쉬운지, 마음의 세 가지 함정에 빠져 극복하지 못한다면 개인의 인생은 물론 주변 사회에도 얼마나 큰 악영향을 끼칠 수 있는지, 세 가지 함정에 빠지지 않으려면 무엇을 염두에 두고 자신의 몸과 마음을 갈고 닦아야 하는지에 대해서 깊은 교훈을 주고 있는 책이다.",
+        "isbn": "9791192486635",
+        "publisher": "행복에너지",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6316260?timestamp=20230905154515",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6316260&q=%EC%82%AC%EB%A7%88%EC%B2%9C%EC%9D%98+%EC%82%AC%EA%B8%B0+%EC%86%8D%EC%9D%98+%EC%A7%84%EC%8B%9C%ED%99%A9"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:14:49.07919+00:00",
+        "updated_at": "2026-09-04T18:14:49.07919+00:00"
+      }
+    ]
+  }
+}

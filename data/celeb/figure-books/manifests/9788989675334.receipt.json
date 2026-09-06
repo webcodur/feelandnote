@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788989675334.json",
+  "manifestSha256": "6fa84211021737c1f60e8f4411024fd135675254f133782625feb530c8074a97",
+  "planSha256": "4cc1e86edf98338644ab3c284aa49f57d111d5a01f760dc80b0746fc06896c6f",
+  "workIdentity": "book/9788989675334",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788989675334"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "3ed2720b-49dd-5aaf-b46c-be4da836035f",
+    "scopeKey": "book/9788989675334",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "3ed2720b-49dd-5aaf-b46c-be4da836035f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788989675334",
+      "release_date": "2004-08-22",
+      "metadata": {
+        "isbn": "9788989675334",
+        "publisher": "북스토리",
+        "publishDate": "2004-08-22",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788989675334",
+          "workTitle": "대륙의 지도자 등소평",
+          "workCreator": "등용",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "대륙의 지도자 등소평",
+          "creator": "등용",
+          "description": "등소평의 셋째 딸 등용이 말하는 등소평 평전. 지은이는 딸의 신분으로서 자신의 아버지 등소평의 일생을 서술하고 있다. 이 책은 등소평이 어린 시절 프랑스로 유학을 떠나 고학을 하는 과정에서부터 중국의 위대한 혁명가로 변모해 간 전후사정을 상세히 묘사하고 있다. 즉 등소평이 일개 현위원회의 서기에서 중국공산당의 최고 통치자로 성장해 간 일련의 전 과정을 이 책 속에서 서술해 놓고 있다.나아가 등소평과 중국공산당의 주요 지도자들인 모택동과 주은래 및 중국현대사상의 주요 인물들과의 관계도 자세히 설명하고 있다. 또한 지은이는 등소평의 가정, 혼인, 성격과 취미 등에 대해서도 충분히 묘사하고 있어, 오늘날 중국의 새로운 변화를 주도해 온 최고 실력자 등소평에 관한 모든 것을 밝히고 있다.",
+          "isbn": "9788989675334",
+          "publisher": "북스토리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1301935?timestamp=20240129161135",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89"
+          },
+          "verified": true,
+          "content_id": "3ed2720b-49dd-5aaf-b46c-be4da836035f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "3ed2720b-49dd-5aaf-b46c-be4da836035f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788989675334",
+        "release_date": "2004-08-22",
+        "metadata": {
+          "isbn": "9788989675334",
+          "publisher": "북스토리",
+          "publishDate": "2004-08-22",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788989675334",
+            "workTitle": "대륙의 지도자 등소평",
+            "workCreator": "등용",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "대륙의 지도자 등소평",
+          "creator": "등용",
+          "description": "등소평의 셋째 딸 등용이 말하는 등소평 평전. 지은이는 딸의 신분으로서 자신의 아버지 등소평의 일생을 서술하고 있다. 이 책은 등소평이 어린 시절 프랑스로 유학을 떠나 고학을 하는 과정에서부터 중국의 위대한 혁명가로 변모해 간 전후사정을 상세히 묘사하고 있다. 즉 등소평이 일개 현위원회의 서기에서 중국공산당의 최고 통치자로 성장해 간 일련의 전 과정을 이 책 속에서 서술해 놓고 있다.나아가 등소평과 중국공산당의 주요 지도자들인 모택동과 주은래 및 중국현대사상의 주요 인물들과의 관계도 자세히 설명하고 있다. 또한 지은이는 등소평의 가정, 혼인, 성격과 취미 등에 대해서도 충분히 묘사하고 있어, 오늘날 중국의 새로운 변화를 주도해 온 최고 실력자 등소평에 관한 모든 것을 밝히고 있다.",
+          "isbn": "9788989675334",
+          "publisher": "북스토리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1301935?timestamp=20240129161135",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89"
+          },
+          "verified": true,
+          "content_id": "3ed2720b-49dd-5aaf-b46c-be4da836035f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788989675334",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788989675334"
+      ],
+      "normalizedTitles": [
+        "대륙의지도자등소평"
+      ],
+      "normalizedCreators": [
+        "등용",
+        "정인갑역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:56:16.993Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "3ed2720b-49dd-5aaf-b46c-be4da836035f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788989675334",
+      "release_date": "2004-08-22",
+      "metadata": {
+        "isbn": "9788989675334",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+        "publisher": "북스토리",
+        "figureBook": {
+          "workTitle": "대륙의 지도자 등소평",
+          "workCreator": "등용",
+          "workIdentity": "book/9788989675334",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2004-08-22",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:56:11.986504+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "3ed2720b-49dd-5aaf-b46c-be4da836035f",
+        "locale": "ko",
+        "title": "대륙의 지도자 등소평",
+        "creator": "등용",
+        "description": "등소평의 셋째 딸 등용이 말하는 등소평 평전. 지은이는 딸의 신분으로서 자신의 아버지 등소평의 일생을 서술하고 있다. 이 책은 등소평이 어린 시절 프랑스로 유학을 떠나 고학을 하는 과정에서부터 중국의 위대한 혁명가로 변모해 간 전후사정을 상세히 묘사하고 있다. 즉 등소평이 일개 현위원회의 서기에서 중국공산당의 최고 통치자로 성장해 간 일련의 전 과정을 이 책 속에서 서술해 놓고 있다.나아가 등소평과 중국공산당의 주요 지도자들인 모택동과 주은래 및 중국현대사상의 주요 인물들과의 관계도 자세히 설명하고 있다. 또한 지은이는 등소평의 가정, 혼인, 성격과 취미 등에 대해서도 충분히 묘사하고 있어, 오늘날 중국의 새로운 변화를 주도해 온 최고 실력자 등소평에 관한 모든 것을 밝히고 있다.",
+        "isbn": "9788989675334",
+        "publisher": "북스토리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1301935?timestamp=20240129161135",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1301935&q=%EB%8C%80%EB%A5%99%EC%9D%98+%EC%A7%80%EB%8F%84%EC%9E%90+%EB%93%B1%EC%86%8C%ED%8F%89"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:56:11.986504+00:00",
+        "updated_at": "2026-09-04T17:56:11.986504+00:00"
+      }
+    ]
+  }
+}

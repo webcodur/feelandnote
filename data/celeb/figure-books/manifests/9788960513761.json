@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788960513761",
+    "title": "케인스 하이에크",
+    "creator": "니컬러스 웝숏",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김홍식 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788960513761"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791192376097",
+    "title": "도조 히데키와 제2차 세계대전",
+    "creator": "호사카 마사야스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "정선태 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791192376097"
+  }
+}

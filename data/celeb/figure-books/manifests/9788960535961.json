@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788960535961",
+    "title": "에드바르 뭉크",
+    "creator": "울리히 비쇼프",
+    "titleAliases": [],
+    "creatorAliases": [
+      "반이정 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788960535961"
+  }
+}

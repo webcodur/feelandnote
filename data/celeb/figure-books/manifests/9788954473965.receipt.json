@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954473965.json",
+  "manifestSha256": "8a506c12dded7a904dfc0b56397191ac9fbe3263ccfc856045747d0095dea820",
+  "planSha256": "2ce63f357b4ec5c954c51cced99f242b14db17418b3fb5001b532abac3954a43",
+  "workIdentity": "book/9788954473965",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954473965"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "67095c10-b928-50ed-8550-145aa0ef58a3",
+    "scopeKey": "book/9788954473965",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "67095c10-b928-50ed-8550-145aa0ef58a3",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954473965",
+      "release_date": "2026-04-10",
+      "metadata": {
+        "isbn": "9788954473965",
+        "publisher": "자음과모음",
+        "publishDate": "2026-04-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954473965",
+          "workTitle": "파스칼이 들려주는 조합 이야기",
+          "workCreator": "남주현",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "파스칼이 들려주는 조합 이야기",
+          "creator": "남주현",
+          "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다. 특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《파스칼이 들려주는 조합 이야기》에서는 조합이 무엇인지를 파스칼이 등장하여 직접 설명한다. 조합combination의 사전적 의미는 이렇다. 여러 개 가운데에서 몇 개를 순서에 관계없이 한 쌍으로 뽑아내어 모음을 말하거나 또는 그 짝을 일컫는다.\n왜 이러한 조합을 학습해야 할까. 조합이 쓰이는 상황과 순열이 쓰이는 상황은 자칫 혼동하기가 쉽다. 결국 조합과 순열의 학습은 언제나 맞닥뜨리는 크고 작은 여러 문제에 대한 문제 해결 능력을 향상케 하는 데 목적을 둔다. 이 책에서는 조합을 중심으로 사물과 현상에 대한 수학적 너른 안목과 더불어 논리적이며 창의적인 수학적 사고 능력을 키워 줄 것이다.",
+          "isbn": "9788954473965",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7197975?timestamp=20260411121842",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "67095c10-b928-50ed-8550-145aa0ef58a3"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "67095c10-b928-50ed-8550-145aa0ef58a3",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954473965",
+        "release_date": "2026-04-10",
+        "metadata": {
+          "isbn": "9788954473965",
+          "publisher": "자음과모음",
+          "publishDate": "2026-04-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954473965",
+            "workTitle": "파스칼이 들려주는 조합 이야기",
+            "workCreator": "남주현",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "파스칼이 들려주는 조합 이야기",
+          "creator": "남주현",
+          "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다. 특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《파스칼이 들려주는 조합 이야기》에서는 조합이 무엇인지를 파스칼이 등장하여 직접 설명한다. 조합combination의 사전적 의미는 이렇다. 여러 개 가운데에서 몇 개를 순서에 관계없이 한 쌍으로 뽑아내어 모음을 말하거나 또는 그 짝을 일컫는다.\n왜 이러한 조합을 학습해야 할까. 조합이 쓰이는 상황과 순열이 쓰이는 상황은 자칫 혼동하기가 쉽다. 결국 조합과 순열의 학습은 언제나 맞닥뜨리는 크고 작은 여러 문제에 대한 문제 해결 능력을 향상케 하는 데 목적을 둔다. 이 책에서는 조합을 중심으로 사물과 현상에 대한 수학적 너른 안목과 더불어 논리적이며 창의적인 수학적 사고 능력을 키워 줄 것이다.",
+          "isbn": "9788954473965",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7197975?timestamp=20260411121842",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "67095c10-b928-50ed-8550-145aa0ef58a3"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954473965",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954473965"
+      ],
+      "normalizedTitles": [
+        "파스칼이들려주는조합이야기"
+      ],
+      "normalizedCreators": [
+        "남주현"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:48:54.377Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "67095c10-b928-50ed-8550-145aa0ef58a3",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954473965",
+      "release_date": "2026-04-10",
+      "metadata": {
+        "isbn": "9788954473965",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "자음과모음",
+        "figureBook": {
+          "workTitle": "파스칼이 들려주는 조합 이야기",
+          "workCreator": "남주현",
+          "workIdentity": "book/9788954473965",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-04-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:48:49.380172+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "67095c10-b928-50ed-8550-145aa0ef58a3",
+        "locale": "ko",
+        "title": "파스칼이 들려주는 조합 이야기",
+        "creator": "남주현",
+        "description": "〈NEW 수학자가 들려주는 수학 이야기〉 시리즈는 어려운 수학적 내용을 친구처럼 편한 수학자를 통해 쉽게 배워 볼 수 있도록 한 책이다. 특히 2022년 개정 교육과정을 바탕으로 구성되어 2028년 대입제도개편을 대비한 맞춤형 수학 총서다.\n\n《파스칼이 들려주는 조합 이야기》에서는 조합이 무엇인지를 파스칼이 등장하여 직접 설명한다. 조합combination의 사전적 의미는 이렇다. 여러 개 가운데에서 몇 개를 순서에 관계없이 한 쌍으로 뽑아내어 모음을 말하거나 또는 그 짝을 일컫는다.\n왜 이러한 조합을 학습해야 할까. 조합이 쓰이는 상황과 순열이 쓰이는 상황은 자칫 혼동하기가 쉽다. 결국 조합과 순열의 학습은 언제나 맞닥뜨리는 크고 작은 여러 문제에 대한 문제 해결 능력을 향상케 하는 데 목적을 둔다. 이 책에서는 조합을 중심으로 사물과 현상에 대한 수학적 너른 안목과 더불어 논리적이며 창의적인 수학적 사고 능력을 키워 줄 것이다.",
+        "isbn": "9788954473965",
+        "publisher": "자음과모음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7197975?timestamp=20260411121842",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7197975&q=%ED%8C%8C%EC%8A%A4%EC%B9%BC%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%A1%B0%ED%95%A9+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:48:49.380172+00:00",
+        "updated_at": "2026-09-04T17:48:49.380172+00:00"
+      }
+    ]
+  }
+}

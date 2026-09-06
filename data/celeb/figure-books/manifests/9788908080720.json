@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788908080720",
+    "title": "채문희 (범우희곡선 22)",
+    "creator": "곽말약",
+    "titleAliases": [
+      "채문희"
+    ],
+    "creatorAliases": [
+      "강영매 외 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788908080720"
+  }
+}

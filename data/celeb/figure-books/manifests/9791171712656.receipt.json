@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791171712656.json",
+  "manifestSha256": "353d2986c740ca6936b266c1ed36594b33f171a724e19ccbd676a2f24af08ab2",
+  "planSha256": "98d4796b3a49bb337459dffca21688ee04bfb4fde82991891dabcad68be394b0",
+  "workIdentity": "book/9791171712656",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791171712656"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+    "scopeKey": "book/9791171712656",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791171712656",
+      "release_date": "2024-08-21",
+      "metadata": {
+        "isbn": "9791171712656",
+        "publisher": "위즈덤하우스",
+        "publishDate": "2024-08-21",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791171712656",
+          "workTitle": "부의 설계자들",
+          "workCreator": "지미 소니",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "부의 설계자들",
+          "creator": "지미 소니",
+          "description": "일론 머스크, 피터 틸, 리드 호프먼, 맥스 레브친 등 실리콘밸리의 부흥을 이끈 일명 ‘페이팔 마피아’들은 현재 테크 산업계에서 가장 영향력 있는 조직으로 일컬어진다. 테슬라, 메타, 유튜브, 스페이스X, 팔란티어, 링크드인 등 이 시대를 이끈 수많은 기업을 창시하고 투자하고 경영한 이들의 시작점에는 모두 페이팔이 있었다. 이 책은 수백 건의 인터뷰와 수십만 장에 달하는 방대한 내부 문건을 토대로 페이팔이 어떻게 태동했고 성공했는지 그 전략을 낱낱이 파헤친다.\n\n온라인 결제 시스템의 개념이 제대로 확립되지도 않았던 1990년대 말에서 2000년대 초, ‘전 세계 모든 돈의 중심이 되겠다’는 모토 아래 갈등과 불화를 딛고 끊임없는 도전과 혁신으로 4년 만에 1.6조의 기업 가치를 이룩한 이들이 그린 ‘현금 없는 세상’은 이제 현실이 됐다. 현대 핀테크 산업의 토대를 닦은 괴짜들의 이야기에 귀 기울여보자.",
+          "isbn": "9791171712656",
+          "publisher": "위즈덤하우스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6708712?timestamp=20260611122546",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "e56592fd-fa35-573f-9ae6-5fa72b583cb1"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791171712656",
+        "release_date": "2024-08-21",
+        "metadata": {
+          "isbn": "9791171712656",
+          "publisher": "위즈덤하우스",
+          "publishDate": "2024-08-21",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791171712656",
+            "workTitle": "부의 설계자들",
+            "workCreator": "지미 소니",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "부의 설계자들",
+          "creator": "지미 소니",
+          "description": "일론 머스크, 피터 틸, 리드 호프먼, 맥스 레브친 등 실리콘밸리의 부흥을 이끈 일명 ‘페이팔 마피아’들은 현재 테크 산업계에서 가장 영향력 있는 조직으로 일컬어진다. 테슬라, 메타, 유튜브, 스페이스X, 팔란티어, 링크드인 등 이 시대를 이끈 수많은 기업을 창시하고 투자하고 경영한 이들의 시작점에는 모두 페이팔이 있었다. 이 책은 수백 건의 인터뷰와 수십만 장에 달하는 방대한 내부 문건을 토대로 페이팔이 어떻게 태동했고 성공했는지 그 전략을 낱낱이 파헤친다.\n\n온라인 결제 시스템의 개념이 제대로 확립되지도 않았던 1990년대 말에서 2000년대 초, ‘전 세계 모든 돈의 중심이 되겠다’는 모토 아래 갈등과 불화를 딛고 끊임없는 도전과 혁신으로 4년 만에 1.6조의 기업 가치를 이룩한 이들이 그린 ‘현금 없는 세상’은 이제 현실이 됐다. 현대 핀테크 산업의 토대를 닦은 괴짜들의 이야기에 귀 기울여보자.",
+          "isbn": "9791171712656",
+          "publisher": "위즈덤하우스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6708712?timestamp=20260611122546",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "e56592fd-fa35-573f-9ae6-5fa72b583cb1"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791171712656",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791171712656"
+      ],
+      "normalizedTitles": [
+        "부의설계자들"
+      ],
+      "normalizedCreators": [
+        "박세연역",
+        "지미소니"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:23:02.563Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791171712656",
+      "release_date": "2024-08-21",
+      "metadata": {
+        "isbn": "9791171712656",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+        "publisher": "위즈덤하우스",
+        "figureBook": {
+          "workTitle": "부의 설계자들",
+          "workCreator": "지미 소니",
+          "workIdentity": "book/9791171712656",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-08-21",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:22:56.283331+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+        "locale": "ko",
+        "title": "부의 설계자들",
+        "creator": "지미 소니",
+        "description": "일론 머스크, 피터 틸, 리드 호프먼, 맥스 레브친 등 실리콘밸리의 부흥을 이끈 일명 ‘페이팔 마피아’들은 현재 테크 산업계에서 가장 영향력 있는 조직으로 일컬어진다. 테슬라, 메타, 유튜브, 스페이스X, 팔란티어, 링크드인 등 이 시대를 이끈 수많은 기업을 창시하고 투자하고 경영한 이들의 시작점에는 모두 페이팔이 있었다. 이 책은 수백 건의 인터뷰와 수십만 장에 달하는 방대한 내부 문건을 토대로 페이팔이 어떻게 태동했고 성공했는지 그 전략을 낱낱이 파헤친다.\n\n온라인 결제 시스템의 개념이 제대로 확립되지도 않았던 1990년대 말에서 2000년대 초, ‘전 세계 모든 돈의 중심이 되겠다’는 모토 아래 갈등과 불화를 딛고 끊임없는 도전과 혁신으로 4년 만에 1.6조의 기업 가치를 이룩한 이들이 그린 ‘현금 없는 세상’은 이제 현실이 됐다. 현대 핀테크 산업의 토대를 닦은 괴짜들의 이야기에 귀 기울여보자.",
+        "isbn": "9791171712656",
+        "publisher": "위즈덤하우스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6708712?timestamp=20260611122546",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6708712&q=%EB%B6%80%EC%9D%98+%EC%84%A4%EA%B3%84%EC%9E%90%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:22:56.283331+00:00",
+        "updated_at": "2026-09-06T04:22:56.283331+00:00"
+      }
+    ]
+  }
+}

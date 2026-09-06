@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791157062959.json",
+  "manifestSha256": "bd4b5134969d21d8f8c5c27cdfe921c86b9817e7d099ffc8133e47180fc64838",
+  "planSha256": "3206538355a09eaa678859505eaea3b3968d15fab6c3740c68b43d4b016c8df6",
+  "workIdentity": "book/9791157062959",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791157062959"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "1bafd90c-d861-515f-adc8-3218ff8758c8",
+    "scopeKey": "book/9791157062959",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "1bafd90c-d861-515f-adc8-3218ff8758c8",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791157062959",
+      "release_date": "2023-06-26",
+      "metadata": {
+        "isbn": "9791157062959",
+        "publisher": "메디치미디어",
+        "publishDate": "2023-06-26",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791157062959",
+          "workTitle": "무함마드 빈 살만",
+          "workCreator": "벤 허버드",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "무함마드 빈 살만",
+          "creator": "벤 허버드",
+          "description": "2023년 6월 25일. 현대건설과 사우디의 아람코가 역대 최대 규모인 50억 달러(6.5조 원)에 달하는 대규모 수주 계약을 체결했다. 한국 기업이 해외에서 50억 달러 이상 프로젝트를 수주한 건 2014년 이후 9년 만이다. 중동 시장에서의 가시적인 성과가 나타나면서 ‘제2의 중동 붐’에 대한 기대가 높아지고 있다. 그렇다면 우리 경제의 새로운 먹거리인 중동 시장, 그곳에서 ‘제2의 중동 붐’은 가능한 것일까?\n\n사우디는 1970년대 중반 한국의 건설 붐을 일으켰던 시장이다. 중동 사업을 통해 한국 건설업체들이 기술 수준을 높이고 세계 시장에서 입지를 다질 수 있었다. 이제는 한국 기업이 건설 산업뿐만 아니라 중동의 많은 분야에 진출하고 있다. 따라서 사우디를 비롯한 중동 시장은 우리가 놓칠 수 없는, 놓쳐서는 안 되는 시장이다.\n\n사우디, 나아가 중동 경제를 이끄는 무함마드 빈 살만(MBS)을 이해하면 ‘제2의 중동 붐은 가능한가’에 대한 답을 찾을 수 있다. 중동의 패권국 사우디는 명실공히 전제 왕정 국가로, 모든 법령이 국왕의 이름으로 발표된다. 무엇보다 지금 사우디의 권력은 사실상 차기 국왕인 MBS의 손아귀에 들어가 있다. 한국이 사우디를 비롯한 중동 시장을 공략하는 데 있어 MBS의 의사 결정 방식과 심리적 배경을 이해하는 것이 중요한 이유다.\n\n우리는 지금 사우디에 대해 모르는 것이 너무 많다. 오해하고 있는 것도 적지 않다. 사우디가 어떤 나라이고 어떤 방식으로 움직이는지 알기 위해서는 사우디의 최고 의사 결정권자인 MBS를 알아야 한다. 《무함마드 빈 살만: 중동의 새로운 지배자》는 그런 궁금증을 해소하는 데 적절한 지침서가 될 것이다.",
+          "isbn": "9791157062959",
+          "publisher": "메디치미디어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6375914?timestamp=20230905155252",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C"
+          },
+          "verified": true,
+          "content_id": "1bafd90c-d861-515f-adc8-3218ff8758c8"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "1bafd90c-d861-515f-adc8-3218ff8758c8",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791157062959",
+        "release_date": "2023-06-26",
+        "metadata": {
+          "isbn": "9791157062959",
+          "publisher": "메디치미디어",
+          "publishDate": "2023-06-26",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791157062959",
+            "workTitle": "무함마드 빈 살만",
+            "workCreator": "벤 허버드",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "무함마드 빈 살만",
+          "creator": "벤 허버드",
+          "description": "2023년 6월 25일. 현대건설과 사우디의 아람코가 역대 최대 규모인 50억 달러(6.5조 원)에 달하는 대규모 수주 계약을 체결했다. 한국 기업이 해외에서 50억 달러 이상 프로젝트를 수주한 건 2014년 이후 9년 만이다. 중동 시장에서의 가시적인 성과가 나타나면서 ‘제2의 중동 붐’에 대한 기대가 높아지고 있다. 그렇다면 우리 경제의 새로운 먹거리인 중동 시장, 그곳에서 ‘제2의 중동 붐’은 가능한 것일까?\n\n사우디는 1970년대 중반 한국의 건설 붐을 일으켰던 시장이다. 중동 사업을 통해 한국 건설업체들이 기술 수준을 높이고 세계 시장에서 입지를 다질 수 있었다. 이제는 한국 기업이 건설 산업뿐만 아니라 중동의 많은 분야에 진출하고 있다. 따라서 사우디를 비롯한 중동 시장은 우리가 놓칠 수 없는, 놓쳐서는 안 되는 시장이다.\n\n사우디, 나아가 중동 경제를 이끄는 무함마드 빈 살만(MBS)을 이해하면 ‘제2의 중동 붐은 가능한가’에 대한 답을 찾을 수 있다. 중동의 패권국 사우디는 명실공히 전제 왕정 국가로, 모든 법령이 국왕의 이름으로 발표된다. 무엇보다 지금 사우디의 권력은 사실상 차기 국왕인 MBS의 손아귀에 들어가 있다. 한국이 사우디를 비롯한 중동 시장을 공략하는 데 있어 MBS의 의사 결정 방식과 심리적 배경을 이해하는 것이 중요한 이유다.\n\n우리는 지금 사우디에 대해 모르는 것이 너무 많다. 오해하고 있는 것도 적지 않다. 사우디가 어떤 나라이고 어떤 방식으로 움직이는지 알기 위해서는 사우디의 최고 의사 결정권자인 MBS를 알아야 한다. 《무함마드 빈 살만: 중동의 새로운 지배자》는 그런 궁금증을 해소하는 데 적절한 지침서가 될 것이다.",
+          "isbn": "9791157062959",
+          "publisher": "메디치미디어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6375914?timestamp=20230905155252",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C"
+          },
+          "verified": true,
+          "content_id": "1bafd90c-d861-515f-adc8-3218ff8758c8"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791157062959",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791157062959"
+      ],
+      "normalizedTitles": [
+        "무함마드빈살만"
+      ],
+      "normalizedCreators": [
+        "박인식역",
+        "벤허버드"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:19:03.876Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "1bafd90c-d861-515f-adc8-3218ff8758c8",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791157062959",
+      "release_date": "2023-06-26",
+      "metadata": {
+        "isbn": "9791157062959",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+        "publisher": "메디치미디어",
+        "figureBook": {
+          "workTitle": "무함마드 빈 살만",
+          "workCreator": "벤 허버드",
+          "workIdentity": "book/9791157062959",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-06-26",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:18:55.182186+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "1bafd90c-d861-515f-adc8-3218ff8758c8",
+        "locale": "ko",
+        "title": "무함마드 빈 살만",
+        "creator": "벤 허버드",
+        "description": "2023년 6월 25일. 현대건설과 사우디의 아람코가 역대 최대 규모인 50억 달러(6.5조 원)에 달하는 대규모 수주 계약을 체결했다. 한국 기업이 해외에서 50억 달러 이상 프로젝트를 수주한 건 2014년 이후 9년 만이다. 중동 시장에서의 가시적인 성과가 나타나면서 ‘제2의 중동 붐’에 대한 기대가 높아지고 있다. 그렇다면 우리 경제의 새로운 먹거리인 중동 시장, 그곳에서 ‘제2의 중동 붐’은 가능한 것일까?\n\n사우디는 1970년대 중반 한국의 건설 붐을 일으켰던 시장이다. 중동 사업을 통해 한국 건설업체들이 기술 수준을 높이고 세계 시장에서 입지를 다질 수 있었다. 이제는 한국 기업이 건설 산업뿐만 아니라 중동의 많은 분야에 진출하고 있다. 따라서 사우디를 비롯한 중동 시장은 우리가 놓칠 수 없는, 놓쳐서는 안 되는 시장이다.\n\n사우디, 나아가 중동 경제를 이끄는 무함마드 빈 살만(MBS)을 이해하면 ‘제2의 중동 붐은 가능한가’에 대한 답을 찾을 수 있다. 중동의 패권국 사우디는 명실공히 전제 왕정 국가로, 모든 법령이 국왕의 이름으로 발표된다. 무엇보다 지금 사우디의 권력은 사실상 차기 국왕인 MBS의 손아귀에 들어가 있다. 한국이 사우디를 비롯한 중동 시장을 공략하는 데 있어 MBS의 의사 결정 방식과 심리적 배경을 이해하는 것이 중요한 이유다.\n\n우리는 지금 사우디에 대해 모르는 것이 너무 많다. 오해하고 있는 것도 적지 않다. 사우디가 어떤 나라이고 어떤 방식으로 움직이는지 알기 위해서는 사우디의 최고 의사 결정권자인 MBS를 알아야 한다. 《무함마드 빈 살만: 중동의 새로운 지배자》는 그런 궁금증을 해소하는 데 적절한 지침서가 될 것이다.",
+        "isbn": "9791157062959",
+        "publisher": "메디치미디어",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6375914?timestamp=20230905155252",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6375914&q=%EB%AC%B4%ED%95%A8%EB%A7%88%EB%93%9C+%EB%B9%88+%EC%82%B4%EB%A7%8C"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:18:55.182186+00:00",
+        "updated_at": "2026-09-06T04:18:55.182186+00:00"
+      }
+    ]
+  }
+}

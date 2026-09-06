@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788947549769",
+    "title": "욕망을 그린 화가, 에곤 실레",
+    "creator": "에스터 셀스던",
+    "titleAliases": [],
+    "creatorAliases": [
+      "에스터 셀스던, 지넷 츠빙겐베르거",
+      "이상미 (역)",
+      "지넷 츠빙겐베르거"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788947549769"
+  }
+}

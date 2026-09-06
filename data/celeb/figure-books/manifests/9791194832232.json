@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791194832232",
+    "title": "왓슨과 크릭",
+    "creator": "데이비드 E. 뉴턴",
+    "titleAliases": [],
+    "creatorAliases": [
+      "한국유전학회 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791194832232"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791189327057",
+    "title": "저글러, 땜장이, 놀이꾼, 디지털 세상을 설계하다",
+    "creator": "지미 소니",
+    "titleAliases": [],
+    "creatorAliases": [
+      "지미 소니, 로브 굿맨",
+      "양병찬 (역)",
+      "로브 굿맨"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791189327057"
+  }
+}

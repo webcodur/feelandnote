@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788959406937.json",
+  "manifestSha256": "6d8e884255bbbf3a112dc80b09f97072ba8cc7cf347b0748e740c0d423570dc7",
+  "planSha256": "eb705ac16eec118395131022372766ef3aa27baf7e48f05b2e4ead04b801878b",
+  "workIdentity": "book/9788959406937",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788959406937"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "3d32f8d0-3825-5a10-bde4-1116cf55a0a8",
+    "scopeKey": "book/9788959406937",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "3d32f8d0-3825-5a10-bde4-1116cf55a0a8",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788959406937",
+      "release_date": "2019-03-25",
+      "metadata": {
+        "isbn": "9788959406937",
+        "publisher": "시대의창",
+        "publishDate": "2019-03-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788959406937",
+          "workTitle": "단재 신채호 평전",
+          "workCreator": "김삼웅",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "단재 신채호 평전",
+          "creator": "김삼웅",
+          "description": "이 책은 단재 선생의 생애를 연구하고 선생의 발자취를 끊임없이 찾아 새로운 자료를 발굴했던 저자의 역작이기도 하다. 이 책에는 실제 저자가 몇 차례 뤼순 감옥을 방문해 입수하게 된 선생의 감옥 입소 때 찍은 사진을 게재했으며, 잡지 《천고》의 2권을 연변에서 입수해 국내 언론에 소개했던 일화도 소개하고 있다. 단재 선생의 삶은 그야말로 자신이 ‘아와 비아의 투쟁’이라 일컬었던 역사의 정의만큼이나 치열하게, 또는 고뇌하며, 고결하게, 한 점 흐트러짐 없는 혁명가의 삶을 살았다. 또 그 삶의 무게만큼이나 선생이 남긴 업적 또한 오늘날의 참 지식인의 전형을 보여주고 있다.",
+          "isbn": "9788959406937",
+          "publisher": "시대의창",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4913656?timestamp=20230426210143",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "3d32f8d0-3825-5a10-bde4-1116cf55a0a8"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "3d32f8d0-3825-5a10-bde4-1116cf55a0a8",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788959406937",
+        "release_date": "2019-03-25",
+        "metadata": {
+          "isbn": "9788959406937",
+          "publisher": "시대의창",
+          "publishDate": "2019-03-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788959406937",
+            "workTitle": "단재 신채호 평전",
+            "workCreator": "김삼웅",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "단재 신채호 평전",
+          "creator": "김삼웅",
+          "description": "이 책은 단재 선생의 생애를 연구하고 선생의 발자취를 끊임없이 찾아 새로운 자료를 발굴했던 저자의 역작이기도 하다. 이 책에는 실제 저자가 몇 차례 뤼순 감옥을 방문해 입수하게 된 선생의 감옥 입소 때 찍은 사진을 게재했으며, 잡지 《천고》의 2권을 연변에서 입수해 국내 언론에 소개했던 일화도 소개하고 있다. 단재 선생의 삶은 그야말로 자신이 ‘아와 비아의 투쟁’이라 일컬었던 역사의 정의만큼이나 치열하게, 또는 고뇌하며, 고결하게, 한 점 흐트러짐 없는 혁명가의 삶을 살았다. 또 그 삶의 무게만큼이나 선생이 남긴 업적 또한 오늘날의 참 지식인의 전형을 보여주고 있다.",
+          "isbn": "9788959406937",
+          "publisher": "시대의창",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4913656?timestamp=20230426210143",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "3d32f8d0-3825-5a10-bde4-1116cf55a0a8"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788959406937",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788959406937"
+      ],
+      "normalizedTitles": [
+        "단재신채호평전"
+      ],
+      "normalizedCreators": [
+        "김삼웅"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:50:34.142Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "3d32f8d0-3825-5a10-bde4-1116cf55a0a8",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788959406937",
+      "release_date": "2019-03-25",
+      "metadata": {
+        "isbn": "9788959406937",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+        "publisher": "시대의창",
+        "figureBook": {
+          "workTitle": "단재 신채호 평전",
+          "workCreator": "김삼웅",
+          "workIdentity": "book/9788959406937",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-03-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:50:29.701119+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "3d32f8d0-3825-5a10-bde4-1116cf55a0a8",
+        "locale": "ko",
+        "title": "단재 신채호 평전",
+        "creator": "김삼웅",
+        "description": "이 책은 단재 선생의 생애를 연구하고 선생의 발자취를 끊임없이 찾아 새로운 자료를 발굴했던 저자의 역작이기도 하다. 이 책에는 실제 저자가 몇 차례 뤼순 감옥을 방문해 입수하게 된 선생의 감옥 입소 때 찍은 사진을 게재했으며, 잡지 《천고》의 2권을 연변에서 입수해 국내 언론에 소개했던 일화도 소개하고 있다. 단재 선생의 삶은 그야말로 자신이 ‘아와 비아의 투쟁’이라 일컬었던 역사의 정의만큼이나 치열하게, 또는 고뇌하며, 고결하게, 한 점 흐트러짐 없는 혁명가의 삶을 살았다. 또 그 삶의 무게만큼이나 선생이 남긴 업적 또한 오늘날의 참 지식인의 전형을 보여주고 있다.",
+        "isbn": "9788959406937",
+        "publisher": "시대의창",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4913656?timestamp=20230426210143",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4913656&q=%EB%8B%A8%EC%9E%AC+%EC%8B%A0%EC%B1%84%ED%98%B8+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:50:29.701119+00:00",
+        "updated_at": "2026-09-04T17:50:29.701119+00:00"
+      }
+    ]
+  }
+}

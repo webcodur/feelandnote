@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788932009360",
+    "title": "가르시아 마르케스(작가론총서 17)",
+    "creator": "송병선 편역",
+    "titleAliases": [
+      "가르시아 마르케스"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788932009360"
+  }
+}

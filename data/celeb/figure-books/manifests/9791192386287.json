@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791192386287",
+    "title": "장춘진인 서유기",
+    "creator": "왕역평",
+    "titleAliases": [],
+    "creatorAliases": [
+      "왕역평, 두효군",
+      "이화영 (역)",
+      "두효군"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791192386287"
+  }
+}

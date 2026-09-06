@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788930606400",
+    "title": "플라톤의 철학",
+    "creator": "크리스토퍼 J 로위",
+    "titleAliases": [],
+    "creatorAliases": [
+      "유원기 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788930606400"
+  }
+}

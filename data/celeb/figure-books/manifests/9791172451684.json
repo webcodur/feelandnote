@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791172451684",
+    "title": "출발점 1979-1996",
+    "creator": "미야자키 하야오",
+    "titleAliases": [],
+    "creatorAliases": [
+      "황의웅 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791172451684"
+  }
+}

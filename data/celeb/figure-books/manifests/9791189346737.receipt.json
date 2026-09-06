@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791189346737.json",
+  "manifestSha256": "279a2c63749de6a36edf79c9f448f1abe4da008b19f8e6a560927260c4e4e048",
+  "planSha256": "064b834811e6d22df0e7fbe6a33f58bf314cf3e3edf987d800db667f88b7cfc8",
+  "workIdentity": "book/9791189346737",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791189346737"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "23f18265-f2ac-5174-ab44-d016de1b2eb6",
+    "scopeKey": "book/9791189346737",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "23f18265-f2ac-5174-ab44-d016de1b2eb6",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189346737",
+      "release_date": "2024-12-20",
+      "metadata": {
+        "isbn": "9791189346737",
+        "publisher": "풍월당",
+        "publishDate": "2024-12-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791189346737",
+          "workTitle": "바그너 평전",
+          "workCreator": "오해수",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "바그너 평전",
+          "creator": "오해수",
+          "description": "바그너의 삶은 그의 음악만큼이나 드라마틱하고 모순적이었다. 그는 낭만주의자이면서 기회주의자였고, 사회주의를 지지하면서 자본의 영향력을 탐했으며, 많은 여성들과 염문을 뿌리면서도 이상적인 사랑을 노래했다. 그는 〈음악에서의 반유대주의〉와 같은 저작으로 논란을 일으켰고, 사후에는 히틀러의 우상이 되었다. 이 복잡하고 모순된 삶은 부풀려지고 왜곡된 인상들을 탄생시켰다. 때문에 바그너는 지금까지도 많은 분석과 연구가 이어지는 인물이다. 이번 『바그너 평전』은 전작 『인간 바그너』을 보완한 것으로서 보다 객관적인 바그너의 모습을 그려내려 노력한 노작이다. 사실상 바그너에 대한 국내 최초의 총론이라 할 수 있는 이 책을 통해 그의 복잡한 인간성과 끝없는 욕망 그리고 천재적인 음악성을 동시에 조망해볼 수 있을 것이다.",
+          "isbn": "9791189346737",
+          "publisher": "풍월당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6816278?timestamp=20250703143016",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "23f18265-f2ac-5174-ab44-d016de1b2eb6"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "23f18265-f2ac-5174-ab44-d016de1b2eb6",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791189346737",
+        "release_date": "2024-12-20",
+        "metadata": {
+          "isbn": "9791189346737",
+          "publisher": "풍월당",
+          "publishDate": "2024-12-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791189346737",
+            "workTitle": "바그너 평전",
+            "workCreator": "오해수",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "바그너 평전",
+          "creator": "오해수",
+          "description": "바그너의 삶은 그의 음악만큼이나 드라마틱하고 모순적이었다. 그는 낭만주의자이면서 기회주의자였고, 사회주의를 지지하면서 자본의 영향력을 탐했으며, 많은 여성들과 염문을 뿌리면서도 이상적인 사랑을 노래했다. 그는 〈음악에서의 반유대주의〉와 같은 저작으로 논란을 일으켰고, 사후에는 히틀러의 우상이 되었다. 이 복잡하고 모순된 삶은 부풀려지고 왜곡된 인상들을 탄생시켰다. 때문에 바그너는 지금까지도 많은 분석과 연구가 이어지는 인물이다. 이번 『바그너 평전』은 전작 『인간 바그너』을 보완한 것으로서 보다 객관적인 바그너의 모습을 그려내려 노력한 노작이다. 사실상 바그너에 대한 국내 최초의 총론이라 할 수 있는 이 책을 통해 그의 복잡한 인간성과 끝없는 욕망 그리고 천재적인 음악성을 동시에 조망해볼 수 있을 것이다.",
+          "isbn": "9791189346737",
+          "publisher": "풍월당",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6816278?timestamp=20250703143016",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "23f18265-f2ac-5174-ab44-d016de1b2eb6"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791189346737",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791189346737"
+      ],
+      "normalizedTitles": [
+        "바그너평전"
+      ],
+      "normalizedCreators": [
+        "오해수"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:13:01.412Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "23f18265-f2ac-5174-ab44-d016de1b2eb6",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189346737",
+      "release_date": "2024-12-20",
+      "metadata": {
+        "isbn": "9791189346737",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+        "publisher": "풍월당",
+        "figureBook": {
+          "workTitle": "바그너 평전",
+          "workCreator": "오해수",
+          "workIdentity": "book/9791189346737",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-12-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:12:57.498272+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "23f18265-f2ac-5174-ab44-d016de1b2eb6",
+        "locale": "ko",
+        "title": "바그너 평전",
+        "creator": "오해수",
+        "description": "바그너의 삶은 그의 음악만큼이나 드라마틱하고 모순적이었다. 그는 낭만주의자이면서 기회주의자였고, 사회주의를 지지하면서 자본의 영향력을 탐했으며, 많은 여성들과 염문을 뿌리면서도 이상적인 사랑을 노래했다. 그는 〈음악에서의 반유대주의〉와 같은 저작으로 논란을 일으켰고, 사후에는 히틀러의 우상이 되었다. 이 복잡하고 모순된 삶은 부풀려지고 왜곡된 인상들을 탄생시켰다. 때문에 바그너는 지금까지도 많은 분석과 연구가 이어지는 인물이다. 이번 『바그너 평전』은 전작 『인간 바그너』을 보완한 것으로서 보다 객관적인 바그너의 모습을 그려내려 노력한 노작이다. 사실상 바그너에 대한 국내 최초의 총론이라 할 수 있는 이 책을 통해 그의 복잡한 인간성과 끝없는 욕망 그리고 천재적인 음악성을 동시에 조망해볼 수 있을 것이다.",
+        "isbn": "9791189346737",
+        "publisher": "풍월당",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6816278?timestamp=20250703143016",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6816278&q=%EB%B0%94%EA%B7%B8%EB%84%88+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:12:57.498272+00:00",
+        "updated_at": "2026-09-04T18:12:57.498272+00:00"
+      }
+    ]
+  }
+}

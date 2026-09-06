@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788950967079.json",
+  "manifestSha256": "ca3a6df97df81380883e52dd82c1081958b523f6d98f2a15fa93b49490c53f9c",
+  "planSha256": "8e4a6e98572265b286350f57ed5ce922c1d4c9f8ecfaca015438d74b127d071b",
+  "workIdentity": "book/9788950967079",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788950967079"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "83369fc6-c31f-5a6d-9658-48645d8495bf",
+    "scopeKey": "book/9788950967079",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "83369fc6-c31f-5a6d-9658-48645d8495bf",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788950967079",
+      "release_date": "2014-10-27",
+      "metadata": {
+        "isbn": "9788950967079",
+        "publisher": "21세기북스",
+        "publishDate": "2014-10-27",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788950967079",
+          "workTitle": "알리바바, 세계를 훔치다",
+          "workCreator": "류스잉",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "알리바바, 세계를 훔치다",
+          "creator": "류스잉, 펑정",
+          "description": "이 책은 평범한 컴맹 영어 교사였던 알라바바의 창업자 마윈이 거대 글로벌 기업으로 성장시키기까지의 과정을 생생하게 담고 있다. 마윈은 왼손에 알리바바를, 오른손에 타오바오닷컴을 쥐고 인터넷 창업가 시대의 문을 열었다. 그가 설립한 알리바바는 전 세계 기업 간 전자상거래의 최고 브랜드가 되었으며, 국제무역 분야에서 가장 규모가 크고 활발한 온라인 거래 시장, 상업 커뮤니티가 되었다. 이 책에는 실패를 성공의 발판으로 삼는 강인함, 목표를 실현시키는 추진력, 자신을 믿고 더 넓은 세계로 나아가려는 야심과 무모함 등 마윈의 성공 신화가 조목조목 흥미롭게 담겨 있다.",
+          "isbn": "9788950967079",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/625949?timestamp=20220630113920",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "83369fc6-c31f-5a6d-9658-48645d8495bf"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "83369fc6-c31f-5a6d-9658-48645d8495bf",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788950967079",
+        "release_date": "2014-10-27",
+        "metadata": {
+          "isbn": "9788950967079",
+          "publisher": "21세기북스",
+          "publishDate": "2014-10-27",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788950967079",
+            "workTitle": "알리바바, 세계를 훔치다",
+            "workCreator": "류스잉",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "알리바바, 세계를 훔치다",
+          "creator": "류스잉, 펑정",
+          "description": "이 책은 평범한 컴맹 영어 교사였던 알라바바의 창업자 마윈이 거대 글로벌 기업으로 성장시키기까지의 과정을 생생하게 담고 있다. 마윈은 왼손에 알리바바를, 오른손에 타오바오닷컴을 쥐고 인터넷 창업가 시대의 문을 열었다. 그가 설립한 알리바바는 전 세계 기업 간 전자상거래의 최고 브랜드가 되었으며, 국제무역 분야에서 가장 규모가 크고 활발한 온라인 거래 시장, 상업 커뮤니티가 되었다. 이 책에는 실패를 성공의 발판으로 삼는 강인함, 목표를 실현시키는 추진력, 자신을 믿고 더 넓은 세계로 나아가려는 야심과 무모함 등 마윈의 성공 신화가 조목조목 흥미롭게 담겨 있다.",
+          "isbn": "9788950967079",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/625949?timestamp=20220630113920",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "83369fc6-c31f-5a6d-9658-48645d8495bf"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788950967079",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788950967079"
+      ],
+      "normalizedTitles": [
+        "알리바바세계를훔치다"
+      ],
+      "normalizedCreators": [
+        "류스잉",
+        "류스잉펑정",
+        "차혜정역",
+        "펑정"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:07:17.277Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "83369fc6-c31f-5a6d-9658-48645d8495bf",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788950967079",
+      "release_date": "2014-10-27",
+      "metadata": {
+        "isbn": "9788950967079",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+        "publisher": "21세기북스",
+        "figureBook": {
+          "workTitle": "알리바바, 세계를 훔치다",
+          "workCreator": "류스잉",
+          "workIdentity": "book/9788950967079",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2014-10-27",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:07:12.279904+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "83369fc6-c31f-5a6d-9658-48645d8495bf",
+        "locale": "ko",
+        "title": "알리바바, 세계를 훔치다",
+        "creator": "류스잉, 펑정",
+        "description": "이 책은 평범한 컴맹 영어 교사였던 알라바바의 창업자 마윈이 거대 글로벌 기업으로 성장시키기까지의 과정을 생생하게 담고 있다. 마윈은 왼손에 알리바바를, 오른손에 타오바오닷컴을 쥐고 인터넷 창업가 시대의 문을 열었다. 그가 설립한 알리바바는 전 세계 기업 간 전자상거래의 최고 브랜드가 되었으며, 국제무역 분야에서 가장 규모가 크고 활발한 온라인 거래 시장, 상업 커뮤니티가 되었다. 이 책에는 실패를 성공의 발판으로 삼는 강인함, 목표를 실현시키는 추진력, 자신을 믿고 더 넓은 세계로 나아가려는 야심과 무모함 등 마윈의 성공 신화가 조목조목 흥미롭게 담겨 있다.",
+        "isbn": "9788950967079",
+        "publisher": "21세기북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/625949?timestamp=20220630113920",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=625949&q=%EC%95%8C%EB%A6%AC%EB%B0%94%EB%B0%94%2C+%EC%84%B8%EA%B3%84%EB%A5%BC+%ED%9B%94%EC%B9%98%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:07:12.279904+00:00",
+        "updated_at": "2026-09-06T04:07:12.279904+00:00"
+      }
+    ]
+  }
+}

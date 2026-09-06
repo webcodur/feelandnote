@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791193638774",
+    "title": "딥시크 딥쇼크",
+    "creator": "이벌찬",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791193638774"
+  }
+}

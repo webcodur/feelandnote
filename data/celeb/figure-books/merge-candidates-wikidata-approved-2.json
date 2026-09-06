@@ -1,0 +1,26 @@
+[
+  {
+    "keep": "33c3f489-2782-4f40-99bb-a92d1c0d6c28",
+    "drop": "8fc60cc7-a9e2-477a-af27-f138be4cb713",
+    "identity": "wikidata:q249242",
+    "reason": "여자의 일생 영어원서 POD → 여자의 일생"
+  },
+  {
+    "keep": "16a85cff-b0e7-4e34-abb7-ac0aefa6a44b",
+    "drop": "a847b546-1e83-4b1e-866a-8b3713d0e1b0",
+    "identity": "wikidata:q18386449",
+    "reason": "Superintelligence 영문 → 슈퍼인텔리전스"
+  },
+  {
+    "keep": "5ff547c4-33d6-4730-b676-ea5b56d6044e",
+    "drop": "0cb8efc6-5970-52fd-99cc-b50fb0340ea9",
+    "identity": "wikidata:q606830",
+    "reason": "안토니와 클레오파트라 → 안토니우스와 클레오파트라"
+  },
+  {
+    "keep": "1bee0e90-71ae-4787-a0fd-7967264ca1c5",
+    "drop": "9733318a-a19c-4986-a599-5f88f0b0e164",
+    "identity": "wikidata:q9073935",
+    "reason": "산시로 중복판"
+  }
+]

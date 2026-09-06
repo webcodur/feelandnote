@@ -1,0 +1,20 @@
+{
+  "work": {
+    "identity": "book/9791169780117",
+    "title": "리오넬 메시",
+    "creator": "선수 에디터스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "선수 에디터스, 한준",
+      "한준"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791169780117"
+  }
+}

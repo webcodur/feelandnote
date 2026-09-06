@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788941905172",
+    "title": "토마스 아퀴나스",
+    "creator": "요셉 피퍼",
+    "titleAliases": [],
+    "creatorAliases": [
+      "신창석 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788941905172"
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788993178982.json",
+  "manifestSha256": "670b2e27cedbd986ae1d17a208849a47bf2901b067bd7654dae33a29ff75971c",
+  "planSha256": "f3494878728b5f4540e049b1d057c19dc3f71e28f26e0b373059ea5022b402ad",
+  "workIdentity": "book/9788993178982",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788993178982"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "47abd8ad-88d0-54c4-b441-6cdec75c5de9",
+    "scopeKey": "book/9788993178982",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "47abd8ad-88d0-54c4-b441-6cdec75c5de9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788993178982",
+      "release_date": "2022-04-10",
+      "metadata": {
+        "isbn": "9788993178982",
+        "publisher": "사이",
+        "publishDate": "2022-04-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788993178982",
+          "workTitle": "지리의 힘 2",
+          "workCreator": "팀 마샬",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "지리의 힘 2",
+          "creator": "팀 마샬",
+          "description": "“신이시여, 어찌하여 우크라이나에 산맥을 펼쳐두지 않으셨나이까?”\n전 세계 30개국에서 출간되며 세계적인 베스트셀러가 된 〈지리의 힘〉을 펴낸 저자는 그 책의 첫 페이지를 이렇게 우크라이나 이야기로 시작했었다. 전 세계에서 150만 부 이상 판매되며 지리에 대한 대중적인 관심을 폭발시킨 전작에서 저자는 〈지리라는 렌즈〉를 통해 세계의 흐름과 정치, 경제, 국제정세, 빈부격차 등을 살펴보며 화제를 불러일으켰다.\n\n현시대를 〈지리 전쟁의 시대〉라고 명명한 저자는 7년 만에 후속편을 출간하면서 그동안 세상은 정신없이 돌아가면서 엄청난 속도로 변화하고 있지만 정작 지리는 여전히 그 자리에 있다고 말한다. 아직도 미국이 두 개의 대양에 동시에 만만치 않은 해군력을 파견할 수 있는 유일한 나라이고, 히말라야 산맥은 여전히 인도와 중국을 가르고 있고, 러시아 또한 서쪽으로 가는 평지에서 큰 힘을 못 쓰고 있다. 그런데 지정학적 분쟁은 아직도 끝나질 않고 오히려 새로운 갈등마저 끊임없이 고개를 들고 있다. 이제는 지정학적 공룡들뿐만 아니라 새롭게 등장한 열강들은 물론 작은 나라들조차 힘의 밀고 당기기를 반복하면서 자신들만의 지정학적 역할을 꾀하고 있다.\n\n따라서 이번 책에서는 제2차 세계대전 이후 미국과 소련을 중심으로 한 양극 체제가 무너지면서 다극화 체제로 전환된 세계에서 광범위한 파급력을 몰고 올 오스트레일리아, 이란, 사우디아라비아, 영국, 그리스, 터키, 사헬, 에티오피아, 스페인, 우주까지, 즉 지구 아래 저 밑에서부터 시작해 우리 머리 위 저 높은 곳 우주까지 10개 지역을 다루고 있다.",
+          "isbn": "9788993178982",
+          "publisher": "사이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6042685?timestamp=20260327124657",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2"
+          },
+          "verified": true,
+          "content_id": "47abd8ad-88d0-54c4-b441-6cdec75c5de9"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "47abd8ad-88d0-54c4-b441-6cdec75c5de9",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788993178982",
+        "release_date": "2022-04-10",
+        "metadata": {
+          "isbn": "9788993178982",
+          "publisher": "사이",
+          "publishDate": "2022-04-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788993178982",
+            "workTitle": "지리의 힘 2",
+            "workCreator": "팀 마샬",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "지리의 힘 2",
+          "creator": "팀 마샬",
+          "description": "“신이시여, 어찌하여 우크라이나에 산맥을 펼쳐두지 않으셨나이까?”\n전 세계 30개국에서 출간되며 세계적인 베스트셀러가 된 〈지리의 힘〉을 펴낸 저자는 그 책의 첫 페이지를 이렇게 우크라이나 이야기로 시작했었다. 전 세계에서 150만 부 이상 판매되며 지리에 대한 대중적인 관심을 폭발시킨 전작에서 저자는 〈지리라는 렌즈〉를 통해 세계의 흐름과 정치, 경제, 국제정세, 빈부격차 등을 살펴보며 화제를 불러일으켰다.\n\n현시대를 〈지리 전쟁의 시대〉라고 명명한 저자는 7년 만에 후속편을 출간하면서 그동안 세상은 정신없이 돌아가면서 엄청난 속도로 변화하고 있지만 정작 지리는 여전히 그 자리에 있다고 말한다. 아직도 미국이 두 개의 대양에 동시에 만만치 않은 해군력을 파견할 수 있는 유일한 나라이고, 히말라야 산맥은 여전히 인도와 중국을 가르고 있고, 러시아 또한 서쪽으로 가는 평지에서 큰 힘을 못 쓰고 있다. 그런데 지정학적 분쟁은 아직도 끝나질 않고 오히려 새로운 갈등마저 끊임없이 고개를 들고 있다. 이제는 지정학적 공룡들뿐만 아니라 새롭게 등장한 열강들은 물론 작은 나라들조차 힘의 밀고 당기기를 반복하면서 자신들만의 지정학적 역할을 꾀하고 있다.\n\n따라서 이번 책에서는 제2차 세계대전 이후 미국과 소련을 중심으로 한 양극 체제가 무너지면서 다극화 체제로 전환된 세계에서 광범위한 파급력을 몰고 올 오스트레일리아, 이란, 사우디아라비아, 영국, 그리스, 터키, 사헬, 에티오피아, 스페인, 우주까지, 즉 지구 아래 저 밑에서부터 시작해 우리 머리 위 저 높은 곳 우주까지 10개 지역을 다루고 있다.",
+          "isbn": "9788993178982",
+          "publisher": "사이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6042685?timestamp=20260327124657",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2"
+          },
+          "verified": true,
+          "content_id": "47abd8ad-88d0-54c4-b441-6cdec75c5de9"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788993178982",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788993178982"
+      ],
+      "normalizedTitles": [
+        "지리의힘2"
+      ],
+      "normalizedCreators": [
+        "김미선역",
+        "팀마샬"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:57:15.097Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "47abd8ad-88d0-54c4-b441-6cdec75c5de9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788993178982",
+      "release_date": "2022-04-10",
+      "metadata": {
+        "isbn": "9788993178982",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+        "publisher": "사이",
+        "figureBook": {
+          "workTitle": "지리의 힘 2",
+          "workCreator": "팀 마샬",
+          "workIdentity": "book/9788993178982",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-04-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:57:10.186393+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "47abd8ad-88d0-54c4-b441-6cdec75c5de9",
+        "locale": "ko",
+        "title": "지리의 힘 2",
+        "creator": "팀 마샬",
+        "description": "“신이시여, 어찌하여 우크라이나에 산맥을 펼쳐두지 않으셨나이까?”\n전 세계 30개국에서 출간되며 세계적인 베스트셀러가 된 〈지리의 힘〉을 펴낸 저자는 그 책의 첫 페이지를 이렇게 우크라이나 이야기로 시작했었다. 전 세계에서 150만 부 이상 판매되며 지리에 대한 대중적인 관심을 폭발시킨 전작에서 저자는 〈지리라는 렌즈〉를 통해 세계의 흐름과 정치, 경제, 국제정세, 빈부격차 등을 살펴보며 화제를 불러일으켰다.\n\n현시대를 〈지리 전쟁의 시대〉라고 명명한 저자는 7년 만에 후속편을 출간하면서 그동안 세상은 정신없이 돌아가면서 엄청난 속도로 변화하고 있지만 정작 지리는 여전히 그 자리에 있다고 말한다. 아직도 미국이 두 개의 대양에 동시에 만만치 않은 해군력을 파견할 수 있는 유일한 나라이고, 히말라야 산맥은 여전히 인도와 중국을 가르고 있고, 러시아 또한 서쪽으로 가는 평지에서 큰 힘을 못 쓰고 있다. 그런데 지정학적 분쟁은 아직도 끝나질 않고 오히려 새로운 갈등마저 끊임없이 고개를 들고 있다. 이제는 지정학적 공룡들뿐만 아니라 새롭게 등장한 열강들은 물론 작은 나라들조차 힘의 밀고 당기기를 반복하면서 자신들만의 지정학적 역할을 꾀하고 있다.\n\n따라서 이번 책에서는 제2차 세계대전 이후 미국과 소련을 중심으로 한 양극 체제가 무너지면서 다극화 체제로 전환된 세계에서 광범위한 파급력을 몰고 올 오스트레일리아, 이란, 사우디아라비아, 영국, 그리스, 터키, 사헬, 에티오피아, 스페인, 우주까지, 즉 지구 아래 저 밑에서부터 시작해 우리 머리 위 저 높은 곳 우주까지 10개 지역을 다루고 있다.",
+        "isbn": "9788993178982",
+        "publisher": "사이",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6042685?timestamp=20260327124657",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6042685&q=%EC%A7%80%EB%A6%AC%EC%9D%98+%ED%9E%98+2"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:57:10.186393+00:00",
+        "updated_at": "2026-09-04T17:57:10.186393+00:00"
+      }
+    ]
+  }
+}

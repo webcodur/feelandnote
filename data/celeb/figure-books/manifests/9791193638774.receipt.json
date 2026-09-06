@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791193638774.json",
+  "manifestSha256": "fafe6d88f5e299ec8830511c02736685b37aee69f57858c7143d32f46cf537d3",
+  "planSha256": "51b8a5b4e02e594e40b6e159213fe4971baf793b47efa87c52bfa2be28820e3f",
+  "workIdentity": "book/9791193638774",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791193638774"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "287c367d-42a3-504a-93a5-2ed18104dbe2",
+    "scopeKey": "book/9791193638774",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "287c367d-42a3-504a-93a5-2ed18104dbe2",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791193638774",
+      "release_date": "2025-03-10",
+      "metadata": {
+        "isbn": "9791193638774",
+        "publisher": "미래의창",
+        "publishDate": "2025-03-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791193638774",
+          "workTitle": "딥시크 딥쇼크",
+          "workCreator": "이벌찬",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "딥시크 딥쇼크",
+          "creator": "이벌찬",
+          "description": "지금 중국에서 무슨 일이 벌어지고 있는가?\n베이징 특파원이 현지에서 ‘딥’하게 전하는 딥시크 스토리\n어디서도 들어보지 못한 비하인드 정보와 인물들에 대한 입체적인 탐사보도\nAI 헤게모니와 21세기 패권전쟁을 뒤흔든 중국발 AI의 공습, 그 내막은 무엇인가?\n\n- ‘중국의 올트먼’ 량원펑이 세계에 던진 ‘예견된 충격’\n\n- 실리콘밸리를 패닉에 빠트린 중국의 첨단 기술 육성 전략\n\n- ‘국민의 역적’ 펀드 창업자가 하루아침에 ‘국민의 영웅’으로\n\n- “1%의 천재로 99%의 기업이 못 하는 일을 한다.” - 딥시크 채용 철학\n\n- 홍콩 항셍지수 15.41% 상승. 알리바바 주가 상승률 69% (2025년 연초부터 2월 20일까지)",
+          "isbn": "9791193638774",
+          "publisher": "미래의창",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6839043?timestamp=20250312155114",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC"
+          },
+          "verified": true,
+          "content_id": "287c367d-42a3-504a-93a5-2ed18104dbe2"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "287c367d-42a3-504a-93a5-2ed18104dbe2",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791193638774",
+        "release_date": "2025-03-10",
+        "metadata": {
+          "isbn": "9791193638774",
+          "publisher": "미래의창",
+          "publishDate": "2025-03-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791193638774",
+            "workTitle": "딥시크 딥쇼크",
+            "workCreator": "이벌찬",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "딥시크 딥쇼크",
+          "creator": "이벌찬",
+          "description": "지금 중국에서 무슨 일이 벌어지고 있는가?\n베이징 특파원이 현지에서 ‘딥’하게 전하는 딥시크 스토리\n어디서도 들어보지 못한 비하인드 정보와 인물들에 대한 입체적인 탐사보도\nAI 헤게모니와 21세기 패권전쟁을 뒤흔든 중국발 AI의 공습, 그 내막은 무엇인가?\n\n- ‘중국의 올트먼’ 량원펑이 세계에 던진 ‘예견된 충격’\n\n- 실리콘밸리를 패닉에 빠트린 중국의 첨단 기술 육성 전략\n\n- ‘국민의 역적’ 펀드 창업자가 하루아침에 ‘국민의 영웅’으로\n\n- “1%의 천재로 99%의 기업이 못 하는 일을 한다.” - 딥시크 채용 철학\n\n- 홍콩 항셍지수 15.41% 상승. 알리바바 주가 상승률 69% (2025년 연초부터 2월 20일까지)",
+          "isbn": "9791193638774",
+          "publisher": "미래의창",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6839043?timestamp=20250312155114",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC"
+          },
+          "verified": true,
+          "content_id": "287c367d-42a3-504a-93a5-2ed18104dbe2"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791193638774",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791193638774"
+      ],
+      "normalizedTitles": [
+        "딥시크딥쇼크"
+      ],
+      "normalizedCreators": [
+        "이벌찬"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:31:24.433Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "287c367d-42a3-504a-93a5-2ed18104dbe2",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791193638774",
+      "release_date": "2025-03-10",
+      "metadata": {
+        "isbn": "9791193638774",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+        "publisher": "미래의창",
+        "figureBook": {
+          "workTitle": "딥시크 딥쇼크",
+          "workCreator": "이벌찬",
+          "workIdentity": "book/9791193638774",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-03-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:31:19.182458+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "287c367d-42a3-504a-93a5-2ed18104dbe2",
+        "locale": "ko",
+        "title": "딥시크 딥쇼크",
+        "creator": "이벌찬",
+        "description": "지금 중국에서 무슨 일이 벌어지고 있는가?\n베이징 특파원이 현지에서 ‘딥’하게 전하는 딥시크 스토리\n어디서도 들어보지 못한 비하인드 정보와 인물들에 대한 입체적인 탐사보도\nAI 헤게모니와 21세기 패권전쟁을 뒤흔든 중국발 AI의 공습, 그 내막은 무엇인가?\n\n- ‘중국의 올트먼’ 량원펑이 세계에 던진 ‘예견된 충격’\n\n- 실리콘밸리를 패닉에 빠트린 중국의 첨단 기술 육성 전략\n\n- ‘국민의 역적’ 펀드 창업자가 하루아침에 ‘국민의 영웅’으로\n\n- “1%의 천재로 99%의 기업이 못 하는 일을 한다.” - 딥시크 채용 철학\n\n- 홍콩 항셍지수 15.41% 상승. 알리바바 주가 상승률 69% (2025년 연초부터 2월 20일까지)",
+        "isbn": "9791193638774",
+        "publisher": "미래의창",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6839043?timestamp=20250312155114",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6839043&q=%EB%94%A5%EC%8B%9C%ED%81%AC+%EB%94%A5%EC%87%BC%ED%81%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:31:19.182458+00:00",
+        "updated_at": "2026-09-06T04:31:19.182458+00:00"
+      }
+    ]
+  }
+}

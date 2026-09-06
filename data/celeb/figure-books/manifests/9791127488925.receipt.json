@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791127488925.json",
+  "manifestSha256": "93507c44898ff67f2b7f05ee6085d5cdc507881dcc0b7d4ad0f231fd322c7ef6",
+  "planSha256": "d517348ea1e943cc3e14b658a4ba49a635fdc4b42728f90c5fd08cafd1864b6b",
+  "workIdentity": "book/9791127488925",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791127488925"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "30d9c482-a41b-5ef6-bff2-269ec59114ba",
+    "scopeKey": "book/9791127488925",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "30d9c482-a41b-5ef6-bff2-269ec59114ba",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791127488925",
+      "release_date": "2025-05-10",
+      "metadata": {
+        "isbn": "9791127488925",
+        "publisher": "AK커뮤니케이션즈",
+        "publishDate": "2025-05-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791127488925",
+          "workTitle": "이토 히로부미 평전",
+          "workCreator": "다키이 가즈히로",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "이토 히로부미 평전",
+          "creator": "다키이 가즈히로",
+          "description": "‘제국주의 확장의 상징적 인물’, ‘일본 근대화의 설계자’라는 상반된 평가를 받고 있는 이토 히로부미. 이토의 사상과 정치적 행적은 단순히 이분법적으로 평가할 수 없는 복잡성과 모순을 가지고 있다. 이 책은 이토 히로부미의 생애를 따라가며, 그의 사상과 행적이 당대의 정치적 · 사회적 맥락에서 어떤 의미를 가졌는지를 탐구하고 있다.",
+          "isbn": "9791127488925",
+          "publisher": "AK커뮤니케이션즈",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6909446?timestamp=20251125151858",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "30d9c482-a41b-5ef6-bff2-269ec59114ba"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "30d9c482-a41b-5ef6-bff2-269ec59114ba",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791127488925",
+        "release_date": "2025-05-10",
+        "metadata": {
+          "isbn": "9791127488925",
+          "publisher": "AK커뮤니케이션즈",
+          "publishDate": "2025-05-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791127488925",
+            "workTitle": "이토 히로부미 평전",
+            "workCreator": "다키이 가즈히로",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "이토 히로부미 평전",
+          "creator": "다키이 가즈히로",
+          "description": "‘제국주의 확장의 상징적 인물’, ‘일본 근대화의 설계자’라는 상반된 평가를 받고 있는 이토 히로부미. 이토의 사상과 정치적 행적은 단순히 이분법적으로 평가할 수 없는 복잡성과 모순을 가지고 있다. 이 책은 이토 히로부미의 생애를 따라가며, 그의 사상과 행적이 당대의 정치적 · 사회적 맥락에서 어떤 의미를 가졌는지를 탐구하고 있다.",
+          "isbn": "9791127488925",
+          "publisher": "AK커뮤니케이션즈",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6909446?timestamp=20251125151858",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "30d9c482-a41b-5ef6-bff2-269ec59114ba"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791127488925",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791127488925"
+      ],
+      "normalizedTitles": [
+        "이토히로부미평전"
+      ],
+      "normalizedCreators": [
+        "다키이가즈히로",
+        "장원철역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:16:18.473Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "30d9c482-a41b-5ef6-bff2-269ec59114ba",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791127488925",
+      "release_date": "2025-05-10",
+      "metadata": {
+        "isbn": "9791127488925",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+        "publisher": "AK커뮤니케이션즈",
+        "figureBook": {
+          "workTitle": "이토 히로부미 평전",
+          "workCreator": "다키이 가즈히로",
+          "workIdentity": "book/9791127488925",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-05-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:16:14.577555+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "30d9c482-a41b-5ef6-bff2-269ec59114ba",
+        "locale": "ko",
+        "title": "이토 히로부미 평전",
+        "creator": "다키이 가즈히로",
+        "description": "‘제국주의 확장의 상징적 인물’, ‘일본 근대화의 설계자’라는 상반된 평가를 받고 있는 이토 히로부미. 이토의 사상과 정치적 행적은 단순히 이분법적으로 평가할 수 없는 복잡성과 모순을 가지고 있다. 이 책은 이토 히로부미의 생애를 따라가며, 그의 사상과 행적이 당대의 정치적 · 사회적 맥락에서 어떤 의미를 가졌는지를 탐구하고 있다.",
+        "isbn": "9791127488925",
+        "publisher": "AK커뮤니케이션즈",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6909446?timestamp=20251125151858",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6909446&q=%EC%9D%B4%ED%86%A0+%ED%9E%88%EB%A1%9C%EB%B6%80%EB%AF%B8+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:16:14.577555+00:00",
+        "updated_at": "2026-09-06T04:16:14.577555+00:00"
+      }
+    ]
+  }
+}

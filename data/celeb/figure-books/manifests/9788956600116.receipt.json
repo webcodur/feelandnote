@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788956600116.json",
+  "manifestSha256": "5acc8e9d75a89a26809ffeb2189eaa29011a22a343020b27cda9d6a0d7fba71c",
+  "planSha256": "80a6864be62bbb3a02dd9437dc0b1bee568a45e314755e9a6a1519a14b51e023",
+  "workIdentity": "book/9788956600116",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788956600116"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "8ceaf2f0-1272-537c-8c75-6732e72100ac",
+    "scopeKey": "book/9788956600116",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "8ceaf2f0-1272-537c-8c75-6732e72100ac",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788956600116",
+      "release_date": "2014-09-01",
+      "metadata": {
+        "isbn": "9788956600116",
+        "publisher": "은행나무",
+        "publishDate": "2014-09-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788956600116",
+          "workTitle": "소설 손자병법 3",
+          "workCreator": "정비석",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "소설 손자병법 3",
+          "creator": "정비석",
+          "description": "&lt;자유부인&gt;의 작가 정비석이 1981년에 발표했던 소설을 다듬어 펴낸 『소설 손자병법』제3권. 천하의 명장 손무와 그의 손자 손빈, 제세의 호걸 오자서와 경국지색 서시, 와신상담으로 복수의 칼을 가는 5패 16국의 제왕들. 희대의 영웅과 미녀들이 엮어가는 흥망성쇠와 이합집산의 드라마를 흥미진진하게 그려내고 있다. 개정판",
+          "isbn": "9788956600116",
+          "publisher": "은행나무",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/737127?timestamp=20221108010239",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3"
+          },
+          "verified": true,
+          "content_id": "8ceaf2f0-1272-537c-8c75-6732e72100ac"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "8ceaf2f0-1272-537c-8c75-6732e72100ac",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788956600116",
+        "release_date": "2014-09-01",
+        "metadata": {
+          "isbn": "9788956600116",
+          "publisher": "은행나무",
+          "publishDate": "2014-09-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788956600116",
+            "workTitle": "소설 손자병법 3",
+            "workCreator": "정비석",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "소설 손자병법 3",
+          "creator": "정비석",
+          "description": "&lt;자유부인&gt;의 작가 정비석이 1981년에 발표했던 소설을 다듬어 펴낸 『소설 손자병법』제3권. 천하의 명장 손무와 그의 손자 손빈, 제세의 호걸 오자서와 경국지색 서시, 와신상담으로 복수의 칼을 가는 5패 16국의 제왕들. 희대의 영웅과 미녀들이 엮어가는 흥망성쇠와 이합집산의 드라마를 흥미진진하게 그려내고 있다. 개정판",
+          "isbn": "9788956600116",
+          "publisher": "은행나무",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/737127?timestamp=20221108010239",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3"
+          },
+          "verified": true,
+          "content_id": "8ceaf2f0-1272-537c-8c75-6732e72100ac"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788956600116",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788956600116"
+      ],
+      "normalizedTitles": [
+        "소설손자병법3"
+      ],
+      "normalizedCreators": [
+        "정비석"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:09:00.238Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "8ceaf2f0-1272-537c-8c75-6732e72100ac",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788956600116",
+      "release_date": "2014-09-01",
+      "metadata": {
+        "isbn": "9788956600116",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+        "publisher": "은행나무",
+        "figureBook": {
+          "workTitle": "소설 손자병법 3",
+          "workCreator": "정비석",
+          "workIdentity": "book/9788956600116",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2014-09-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:08:55.678991+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "8ceaf2f0-1272-537c-8c75-6732e72100ac",
+        "locale": "ko",
+        "title": "소설 손자병법 3",
+        "creator": "정비석",
+        "description": "&lt;자유부인&gt;의 작가 정비석이 1981년에 발표했던 소설을 다듬어 펴낸 『소설 손자병법』제3권. 천하의 명장 손무와 그의 손자 손빈, 제세의 호걸 오자서와 경국지색 서시, 와신상담으로 복수의 칼을 가는 5패 16국의 제왕들. 희대의 영웅과 미녀들이 엮어가는 흥망성쇠와 이합집산의 드라마를 흥미진진하게 그려내고 있다. 개정판",
+        "isbn": "9788956600116",
+        "publisher": "은행나무",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/737127?timestamp=20221108010239",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=737127&q=%EC%86%8C%EC%84%A4+%EC%86%90%EC%9E%90%EB%B3%91%EB%B2%95+3"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:08:55.678991+00:00",
+        "updated_at": "2026-09-06T04:08:55.678991+00:00"
+      }
+    ]
+  }
+}

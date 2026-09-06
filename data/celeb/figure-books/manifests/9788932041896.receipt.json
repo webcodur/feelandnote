@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788932041896.json",
+  "manifestSha256": "16ab5f897eedb1997bd72fe1773db552b711b4766cce4d4ca5fa52d5693e6faa",
+  "planSha256": "46fd769195c28b423a71b9ebf1071a3a9531dd091c24f5f5e3182753d356f03b",
+  "workIdentity": "book/9788932041896",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788932041896"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "3b43a54b-00c0-57b0-a76e-404176ac3024",
+    "scopeKey": "book/9788932041896",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "3b43a54b-00c0-57b0-a76e-404176ac3024",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932041896",
+      "release_date": "2023-07-31",
+      "metadata": {
+        "isbn": "9788932041896",
+        "publisher": "문학과지성사",
+        "publishDate": "2023-07-31",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788932041896",
+          "workTitle": "이청준 평전",
+          "workCreator": "이윤옥",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "이청준 평전",
+          "creator": "이윤옥",
+          "description": "『당신들의 천국』이 완성한 지성의 정치학으로부터 『서편제』가 풀어낸 토속적 정한의 세계에 이르기까지 우리 시대의 한과 아픔을 사랑과 화해로 승화시키는 데 한평생 고뇌한 소설가 이청준(1939~2008). 그가 우리 곁을 떠난 지 어느덧 15년이 흘렀습니다.\n\n1958년 고1 때 《학원》지에 발표한 단편 「닭쌈」과 1965년 제7회 사상계(思想界) 신인문학상을 수상한 단편 「퇴원」, 1966년 여름에 시작해 1967년에 완성한 첫 장편 『조율사』로부터 그가 자신의 이른 죽음을 예측하지 못한 채 결국 미완의 장편으로 남게 된 『당신들의 천국』이 완성한 지성의 정치학으로부터 『서편제』가 풀어낸 토속적 정한의 세계에 이르기까지 우리 시대의 한과 아픔을 사랑과 화해로 승화시키는 데 한평생 고뇌한 소설가 이청준(1939~2008). 그가 우리 곁을 떠난 지 어느덧 15년이 흘렀습니다.\n\n1958년 광주일고 1학년 재학시절, 《학원》지에 발표한 단편 「닭쌈」과 1965년 제7회 사상계(思想界) 신인문학상을 수상한 단편 「퇴원」, 1966년 여름에 시작해 1967년에 완성한 첫 장편 『조율사』로부터 그가 자신의 이른 죽음을 예측하지 못한 채 결국 미완의 장편으로 남게 된 『신화의 시대』(2008)까지 생전의 이청준이 쓰고 발표한 소설은 장편 17편, 중단편 155편에 유일한 희곡(「제3의 신」, 1982)까지 더해 200자 원고지 5만 매로 170편이 훌쩍 넘습니다. “소설은 개성적 삶과 사회적 삶과의 온당하고 창조적인 관계의 드러냄이어야 한다”(「전짓불 앞의 방백」, 1988)는 작가의 신념을 그대로 실천한 ‘이청준 문학의 총체’는 그가 가고 꼬박 10년 세월을 더 보태 34권의 〈이청준 전집〉(문학과지성사, 2010-2017)으로 묶였습니다.\n_\n문학과지성사판 〈이청준 전집〉에 크게 주목하는 여러 이유 가운데 하나가 바로, 권마다 새로 쓰인 작품 해설과 함께 실린 ‘텍스트의 변호와 상호 관계’라는 이름의 서지 비평입니다. 이 서지 비평을 온전히 혼자 감당한 이가 바로 이 책 『이청준 평전』(문학과지성사, 2023)을 쓴 평론가 이윤옥입니다. 오랫동안 이청준 문학에 밀착하여 정밀하고도 성실한 비평적 노력을 기울여온 이윤옥은 15년 가까운 시간을 이청준이 남긴 초고와 최초 발표지면, 수십 년에 걸쳐 출판사를 달리하며 간행된 단행본 전부를 톺아보고 분석하는 데 쏟았습니다. 그의 헌신적인 수고로움에 힘입어 작가 이청준의 독자들은 판본별 인물과 소재, 배경, 제목, 문체의 크고 작은 변화는 물론이고, 육필 초고 상태에서 작가가 고민하고 궁구했던 부분, 판본을 옮겨가며 개별 작품이 새롭게 전개되어가는 과정을 마치 지도를 읽고 행간에 숨은 암호를 판독하듯 흥미진진하게 감상할 수 있게 되었습니다. 이청준 문학을 연구하는 이들에게 귀한 자료로서 역할할 뿐 아니라, 한국의 문학전집 편집 간행사에 한 전범으로 기록될 이 주해 작업의 장본인이 작가의 평전을 쓰고 있다는 소식을 독자분께 처음으로 전한 게 2017년 7월 , 〈이청준 전집〉이 막 10년에 걸친 간행사(史)를 마무리한 즈음이었습니다. 그로부터 6년이 흘러 미백(未白) 이청준 선생의 15주기를 맞은 오늘 『이청준 평전』 출간 소식을 독자 여러분께 전해드립니다.\n\n말과 말의 질서를 통해 삶을 사랑하기를 문학의 궁극적 행위이자 가치로 놓았던 이청준의 작품 세계는 권력과 인간의 갈등, 집단과 개인의 불화, 언어와 사회의 길항 등 거시적이고 사회적인 문제로부터, 고난을 견디는 장소로서의 한국인의 집단 무의식과 그 밑바닥의 가장 복잡한 심사들의 뒤엉킴이라는 개인적이고 미시적인 구조에까지 멀리 그리고 깊게 닿아 인간의 한 생을 파노라마로 엮고 있습니다.\n인간의 진실과 운명을 향한 도저한 사유와 쉼 없는 열정. 그 외 달리 적확한 표현을 찾기 힘든 173편 이청준의 소설들이 쌓아 올린 크고 높은 산을 우리는 과연 어디까지 오르고 헤매어봤을까요. 『이청준 평전』은 20년 가까이 이청준의 육필 초고와 메모, 일기와 편지, 그리고 최초 발표본과 단행본을 모두 읽고 분석해온 평론가 이윤옥이 소설가 이청준의 삶과 문학을 글로써 복원한 오롯한 기록이자 아주 특별한 ‘이청준 전작 읽기’라 하겠습니다.",
+          "isbn": "9788932041896",
+          "publisher": "문학과지성사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6406312?timestamp=20240125151412",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "3b43a54b-00c0-57b0-a76e-404176ac3024"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "3b43a54b-00c0-57b0-a76e-404176ac3024",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788932041896",
+        "release_date": "2023-07-31",
+        "metadata": {
+          "isbn": "9788932041896",
+          "publisher": "문학과지성사",
+          "publishDate": "2023-07-31",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788932041896",
+            "workTitle": "이청준 평전",
+            "workCreator": "이윤옥",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "이청준 평전",
+          "creator": "이윤옥",
+          "description": "『당신들의 천국』이 완성한 지성의 정치학으로부터 『서편제』가 풀어낸 토속적 정한의 세계에 이르기까지 우리 시대의 한과 아픔을 사랑과 화해로 승화시키는 데 한평생 고뇌한 소설가 이청준(1939~2008). 그가 우리 곁을 떠난 지 어느덧 15년이 흘렀습니다.\n\n1958년 고1 때 《학원》지에 발표한 단편 「닭쌈」과 1965년 제7회 사상계(思想界) 신인문학상을 수상한 단편 「퇴원」, 1966년 여름에 시작해 1967년에 완성한 첫 장편 『조율사』로부터 그가 자신의 이른 죽음을 예측하지 못한 채 결국 미완의 장편으로 남게 된 『당신들의 천국』이 완성한 지성의 정치학으로부터 『서편제』가 풀어낸 토속적 정한의 세계에 이르기까지 우리 시대의 한과 아픔을 사랑과 화해로 승화시키는 데 한평생 고뇌한 소설가 이청준(1939~2008). 그가 우리 곁을 떠난 지 어느덧 15년이 흘렀습니다.\n\n1958년 광주일고 1학년 재학시절, 《학원》지에 발표한 단편 「닭쌈」과 1965년 제7회 사상계(思想界) 신인문학상을 수상한 단편 「퇴원」, 1966년 여름에 시작해 1967년에 완성한 첫 장편 『조율사』로부터 그가 자신의 이른 죽음을 예측하지 못한 채 결국 미완의 장편으로 남게 된 『신화의 시대』(2008)까지 생전의 이청준이 쓰고 발표한 소설은 장편 17편, 중단편 155편에 유일한 희곡(「제3의 신」, 1982)까지 더해 200자 원고지 5만 매로 170편이 훌쩍 넘습니다. “소설은 개성적 삶과 사회적 삶과의 온당하고 창조적인 관계의 드러냄이어야 한다”(「전짓불 앞의 방백」, 1988)는 작가의 신념을 그대로 실천한 ‘이청준 문학의 총체’는 그가 가고 꼬박 10년 세월을 더 보태 34권의 〈이청준 전집〉(문학과지성사, 2010-2017)으로 묶였습니다.\n_\n문학과지성사판 〈이청준 전집〉에 크게 주목하는 여러 이유 가운데 하나가 바로, 권마다 새로 쓰인 작품 해설과 함께 실린 ‘텍스트의 변호와 상호 관계’라는 이름의 서지 비평입니다. 이 서지 비평을 온전히 혼자 감당한 이가 바로 이 책 『이청준 평전』(문학과지성사, 2023)을 쓴 평론가 이윤옥입니다. 오랫동안 이청준 문학에 밀착하여 정밀하고도 성실한 비평적 노력을 기울여온 이윤옥은 15년 가까운 시간을 이청준이 남긴 초고와 최초 발표지면, 수십 년에 걸쳐 출판사를 달리하며 간행된 단행본 전부를 톺아보고 분석하는 데 쏟았습니다. 그의 헌신적인 수고로움에 힘입어 작가 이청준의 독자들은 판본별 인물과 소재, 배경, 제목, 문체의 크고 작은 변화는 물론이고, 육필 초고 상태에서 작가가 고민하고 궁구했던 부분, 판본을 옮겨가며 개별 작품이 새롭게 전개되어가는 과정을 마치 지도를 읽고 행간에 숨은 암호를 판독하듯 흥미진진하게 감상할 수 있게 되었습니다. 이청준 문학을 연구하는 이들에게 귀한 자료로서 역할할 뿐 아니라, 한국의 문학전집 편집 간행사에 한 전범으로 기록될 이 주해 작업의 장본인이 작가의 평전을 쓰고 있다는 소식을 독자분께 처음으로 전한 게 2017년 7월 , 〈이청준 전집〉이 막 10년에 걸친 간행사(史)를 마무리한 즈음이었습니다. 그로부터 6년이 흘러 미백(未白) 이청준 선생의 15주기를 맞은 오늘 『이청준 평전』 출간 소식을 독자 여러분께 전해드립니다.\n\n말과 말의 질서를 통해 삶을 사랑하기를 문학의 궁극적 행위이자 가치로 놓았던 이청준의 작품 세계는 권력과 인간의 갈등, 집단과 개인의 불화, 언어와 사회의 길항 등 거시적이고 사회적인 문제로부터, 고난을 견디는 장소로서의 한국인의 집단 무의식과 그 밑바닥의 가장 복잡한 심사들의 뒤엉킴이라는 개인적이고 미시적인 구조에까지 멀리 그리고 깊게 닿아 인간의 한 생을 파노라마로 엮고 있습니다.\n인간의 진실과 운명을 향한 도저한 사유와 쉼 없는 열정. 그 외 달리 적확한 표현을 찾기 힘든 173편 이청준의 소설들이 쌓아 올린 크고 높은 산을 우리는 과연 어디까지 오르고 헤매어봤을까요. 『이청준 평전』은 20년 가까이 이청준의 육필 초고와 메모, 일기와 편지, 그리고 최초 발표본과 단행본을 모두 읽고 분석해온 평론가 이윤옥이 소설가 이청준의 삶과 문학을 글로써 복원한 오롯한 기록이자 아주 특별한 ‘이청준 전작 읽기’라 하겠습니다.",
+          "isbn": "9788932041896",
+          "publisher": "문학과지성사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6406312?timestamp=20240125151412",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "3b43a54b-00c0-57b0-a76e-404176ac3024"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788932041896",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788932041896"
+      ],
+      "normalizedTitles": [
+        "이청준평전"
+      ],
+      "normalizedCreators": [
+        "이윤옥"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:05:38.033Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "3b43a54b-00c0-57b0-a76e-404176ac3024",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788932041896",
+      "release_date": "2023-07-31",
+      "metadata": {
+        "isbn": "9788932041896",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+        "publisher": "문학과지성사",
+        "figureBook": {
+          "workTitle": "이청준 평전",
+          "workCreator": "이윤옥",
+          "workIdentity": "book/9788932041896",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-07-31",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:05:06.09053+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "3b43a54b-00c0-57b0-a76e-404176ac3024",
+        "locale": "ko",
+        "title": "이청준 평전",
+        "creator": "이윤옥",
+        "description": "『당신들의 천국』이 완성한 지성의 정치학으로부터 『서편제』가 풀어낸 토속적 정한의 세계에 이르기까지 우리 시대의 한과 아픔을 사랑과 화해로 승화시키는 데 한평생 고뇌한 소설가 이청준(1939~2008). 그가 우리 곁을 떠난 지 어느덧 15년이 흘렀습니다.\n\n1958년 고1 때 《학원》지에 발표한 단편 「닭쌈」과 1965년 제7회 사상계(思想界) 신인문학상을 수상한 단편 「퇴원」, 1966년 여름에 시작해 1967년에 완성한 첫 장편 『조율사』로부터 그가 자신의 이른 죽음을 예측하지 못한 채 결국 미완의 장편으로 남게 된 『당신들의 천국』이 완성한 지성의 정치학으로부터 『서편제』가 풀어낸 토속적 정한의 세계에 이르기까지 우리 시대의 한과 아픔을 사랑과 화해로 승화시키는 데 한평생 고뇌한 소설가 이청준(1939~2008). 그가 우리 곁을 떠난 지 어느덧 15년이 흘렀습니다.\n\n1958년 광주일고 1학년 재학시절, 《학원》지에 발표한 단편 「닭쌈」과 1965년 제7회 사상계(思想界) 신인문학상을 수상한 단편 「퇴원」, 1966년 여름에 시작해 1967년에 완성한 첫 장편 『조율사』로부터 그가 자신의 이른 죽음을 예측하지 못한 채 결국 미완의 장편으로 남게 된 『신화의 시대』(2008)까지 생전의 이청준이 쓰고 발표한 소설은 장편 17편, 중단편 155편에 유일한 희곡(「제3의 신」, 1982)까지 더해 200자 원고지 5만 매로 170편이 훌쩍 넘습니다. “소설은 개성적 삶과 사회적 삶과의 온당하고 창조적인 관계의 드러냄이어야 한다”(「전짓불 앞의 방백」, 1988)는 작가의 신념을 그대로 실천한 ‘이청준 문학의 총체’는 그가 가고 꼬박 10년 세월을 더 보태 34권의 〈이청준 전집〉(문학과지성사, 2010-2017)으로 묶였습니다.\n_\n문학과지성사판 〈이청준 전집〉에 크게 주목하는 여러 이유 가운데 하나가 바로, 권마다 새로 쓰인 작품 해설과 함께 실린 ‘텍스트의 변호와 상호 관계’라는 이름의 서지 비평입니다. 이 서지 비평을 온전히 혼자 감당한 이가 바로 이 책 『이청준 평전』(문학과지성사, 2023)을 쓴 평론가 이윤옥입니다. 오랫동안 이청준 문학에 밀착하여 정밀하고도 성실한 비평적 노력을 기울여온 이윤옥은 15년 가까운 시간을 이청준이 남긴 초고와 최초 발표지면, 수십 년에 걸쳐 출판사를 달리하며 간행된 단행본 전부를 톺아보고 분석하는 데 쏟았습니다. 그의 헌신적인 수고로움에 힘입어 작가 이청준의 독자들은 판본별 인물과 소재, 배경, 제목, 문체의 크고 작은 변화는 물론이고, 육필 초고 상태에서 작가가 고민하고 궁구했던 부분, 판본을 옮겨가며 개별 작품이 새롭게 전개되어가는 과정을 마치 지도를 읽고 행간에 숨은 암호를 판독하듯 흥미진진하게 감상할 수 있게 되었습니다. 이청준 문학을 연구하는 이들에게 귀한 자료로서 역할할 뿐 아니라, 한국의 문학전집 편집 간행사에 한 전범으로 기록될 이 주해 작업의 장본인이 작가의 평전을 쓰고 있다는 소식을 독자분께 처음으로 전한 게 2017년 7월 , 〈이청준 전집〉이 막 10년에 걸친 간행사(史)를 마무리한 즈음이었습니다. 그로부터 6년이 흘러 미백(未白) 이청준 선생의 15주기를 맞은 오늘 『이청준 평전』 출간 소식을 독자 여러분께 전해드립니다.\n\n말과 말의 질서를 통해 삶을 사랑하기를 문학의 궁극적 행위이자 가치로 놓았던 이청준의 작품 세계는 권력과 인간의 갈등, 집단과 개인의 불화, 언어와 사회의 길항 등 거시적이고 사회적인 문제로부터, 고난을 견디는 장소로서의 한국인의 집단 무의식과 그 밑바닥의 가장 복잡한 심사들의 뒤엉킴이라는 개인적이고 미시적인 구조에까지 멀리 그리고 깊게 닿아 인간의 한 생을 파노라마로 엮고 있습니다.\n인간의 진실과 운명을 향한 도저한 사유와 쉼 없는 열정. 그 외 달리 적확한 표현을 찾기 힘든 173편 이청준의 소설들이 쌓아 올린 크고 높은 산을 우리는 과연 어디까지 오르고 헤매어봤을까요. 『이청준 평전』은 20년 가까이 이청준의 육필 초고와 메모, 일기와 편지, 그리고 최초 발표본과 단행본을 모두 읽고 분석해온 평론가 이윤옥이 소설가 이청준의 삶과 문학을 글로써 복원한 오롯한 기록이자 아주 특별한 ‘이청준 전작 읽기’라 하겠습니다.",
+        "isbn": "9788932041896",
+        "publisher": "문학과지성사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6406312?timestamp=20240125151412",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6406312&q=%EC%9D%B4%EC%B2%AD%EC%A4%80+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:05:06.09053+00:00",
+        "updated_at": "2026-09-06T04:05:06.09053+00:00"
+      }
+    ]
+  }
+}

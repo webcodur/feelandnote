@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791156394921",
+    "title": "Who? 세계 인물: 드와이트 아이젠하워",
+    "creator": "김모락",
+    "titleAliases": [
+      "Who? 세계 인물"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791156394921"
+  }
+}

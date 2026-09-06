@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788994040905",
+    "title": "히치콕",
+    "creator": "패트릭 맥길리건",
+    "titleAliases": [],
+    "creatorAliases": [
+      "윤철희 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788994040905"
+  }
+}

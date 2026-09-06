@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788937417900",
+    "title": "저우언라이 평전",
+    "creator": "정종욱",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788937417900"
+  }
+}

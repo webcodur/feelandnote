@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791190156585.json",
+  "manifestSha256": "d227a533ce67eb33d7092425383b9ebd73e8580c9ad0f597b291c207135d4b49",
+  "planSha256": "43199d3967443ea3740c9d97c064e3433dfbe218b7469588d2b7a6180cf5e490",
+  "workIdentity": "book/9791190156585",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791190156585"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d216dc3f-0ed7-5081-aa98-63364f8d636b",
+    "scopeKey": "book/9791190156585",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d216dc3f-0ed7-5081-aa98-63364f8d636b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791190156585",
+      "release_date": "2025-11-15",
+      "metadata": {
+        "isbn": "9791190156585",
+        "publisher": "현인",
+        "publishDate": "2025-11-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791190156585",
+          "workTitle": "미나모토노 요리토모",
+          "workCreator": "하야시 이사무",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "미나모토노 요리토모",
+          "creator": "하야시 이사무",
+          "description": null,
+          "isbn": "9791190156585",
+          "publisher": "현인",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7073529?timestamp=20260612122141",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "d216dc3f-0ed7-5081-aa98-63364f8d636b"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d216dc3f-0ed7-5081-aa98-63364f8d636b",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791190156585",
+        "release_date": "2025-11-15",
+        "metadata": {
+          "isbn": "9791190156585",
+          "publisher": "현인",
+          "publishDate": "2025-11-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791190156585",
+            "workTitle": "미나모토노 요리토모",
+            "workCreator": "하야시 이사무",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "미나모토노 요리토모",
+          "creator": "하야시 이사무",
+          "description": null,
+          "isbn": "9791190156585",
+          "publisher": "현인",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7073529?timestamp=20260612122141",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "d216dc3f-0ed7-5081-aa98-63364f8d636b"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791190156585",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791190156585"
+      ],
+      "normalizedTitles": [
+        "미나모토노요리토모"
+      ],
+      "normalizedCreators": [
+        "박현석역",
+        "하야시이사무"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:33:50.211Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d216dc3f-0ed7-5081-aa98-63364f8d636b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791190156585",
+      "release_date": "2025-11-15",
+      "metadata": {
+        "isbn": "9791190156585",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+        "publisher": "현인",
+        "figureBook": {
+          "workTitle": "미나모토노 요리토모",
+          "workCreator": "하야시 이사무",
+          "workIdentity": "book/9791190156585",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-11-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:33:46.175605+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d216dc3f-0ed7-5081-aa98-63364f8d636b",
+        "locale": "ko",
+        "title": "미나모토노 요리토모",
+        "creator": "하야시 이사무",
+        "description": null,
+        "isbn": "9791190156585",
+        "publisher": "현인",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7073529?timestamp=20260612122141",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7073529&q=%EB%AF%B8%EB%82%98%EB%AA%A8%ED%86%A0%EB%85%B8+%EC%9A%94%EB%A6%AC%ED%86%A0%EB%AA%A8",
+          "description": "confirmed_unavailable"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:33:46.175605+00:00",
+        "updated_at": "2026-09-06T02:33:46.175605+00:00"
+      }
+    ]
+  }
+}

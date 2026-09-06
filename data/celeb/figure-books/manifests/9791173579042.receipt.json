@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791173579042.json",
+  "manifestSha256": "a3b4dcb630bf8d179a0597bd8b0dbb429fb9d92256900579cf3efb56021aabb0",
+  "planSha256": "cd699c92de7860cc4df4bde5292f3acc47dbe33c6a5f6dbb5eb25f63d2753281",
+  "workIdentity": "book/9791173579042",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791173579042"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "b1febf73-1acd-5598-8fef-5de203e9233e",
+    "scopeKey": "book/9791173579042",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "b1febf73-1acd-5598-8fef-5de203e9233e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791173579042",
+      "release_date": "2026-04-20",
+      "metadata": {
+        "isbn": "9791173579042",
+        "publisher": "21세기북스",
+        "publishDate": "2026-04-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791173579042",
+          "workTitle": "토머스 제퍼슨",
+          "workCreator": "존 미첨",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "토머스 제퍼슨",
+          "creator": "존 미첨",
+          "description": "토머스 제퍼슨. 그의 이름은 자유와 민주주의의 상징으로 기억된다. 하지만 그가 걸어온 길은 결코 순탄하지만은 않았다. 혁명가에서 개혁가로, 좌절한 의원에서 국무장관을 거쳐 마침내 대통령에 오르기까지, 제퍼슨의 삶은 야망과 이상, 좌절과 타협의 연속이었다.\n이 책은 제퍼슨의 출생부터 마지막 순간까지를 9부 43장에 걸쳐 담담하게 추적한다. 화려한 수사나 과장된 해석 없이, 한 인간이 역사의 격랑 속에서 어떻게 권력을 쟁취하고 행사했는지를 있는 그대로 보여준다. 이 책에서 저자는 이상주의자 제퍼슨이 거대한 신생 국가의 정치가로서 현실과 부딪히며 어떤 선택을 했는지, 그의 철학이 어떻게 미국의 정치·경제·외교 노선을 장기적으로 규정했는지 촘촘하게 추적한다.\n버지니아의 명문가 출신 청년이 독립혁명의 중심에 서기까지, 프랑스 주재 공사로서 유럽 무대를 경험하고 해밀턴과의 치열한 대결 속에서 야당 지도자로 성장하는 모습과 농업 공화국이라는 비전과 노예제를 둘러싼 모순, 제한적 정부를 주장하면서도 대통령으로서 루이지애나 매입을 결행해야 했던 딜레마까지- 한 지도자의 사상과 현실 사이의 깊은 균열이 어떻게 역사로 남았는지를 차분히 드러낸다.\n이 평전은 흔한 위인전이 아니다. 대신 정치적 계산과 개인적 야망, 이상주의와 현실적 타협 사이를 오간 한 정치인의 진솔한 초상을 그린다. 독자들은 제퍼슨이라는 복잡한 인물을 통해 권력이란 무엇인지, 리더십이란 어떻게 발휘되는지, 그리고 미국의 민주주의가 어떤 과정을 거쳐 만들어졌는지를 생생하게 볼 수 있다. 또한 어쩌면 그의 치부라 여겨질 수도 있는 개인적인 내용도 포함되어 있다. 이것은 정치가로서의 제퍼슨을 우상화하려는 것이 아니라, 한 인간이자 남자로서의 모습까지 진솔하게 나타내기 위함이다. 이로써 제퍼슨이 저 멀리 하늘에 존재한 사람이 아닌, 평범한 한 사람이었음도 느낄 수 있다.\n이 책은 오늘날 분열과 위험의 시대를 살아가는 우리에게, 국가 전략, 오판, 그리고 통찰을 어떻게 이해해야 하는지에 대한 실마리를 던진다.",
+          "isbn": "9791173579042",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7202535?timestamp=20260421122012",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8"
+          },
+          "verified": true,
+          "content_id": "b1febf73-1acd-5598-8fef-5de203e9233e"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "b1febf73-1acd-5598-8fef-5de203e9233e",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791173579042",
+        "release_date": "2026-04-20",
+        "metadata": {
+          "isbn": "9791173579042",
+          "publisher": "21세기북스",
+          "publishDate": "2026-04-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791173579042",
+            "workTitle": "토머스 제퍼슨",
+            "workCreator": "존 미첨",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "토머스 제퍼슨",
+          "creator": "존 미첨",
+          "description": "토머스 제퍼슨. 그의 이름은 자유와 민주주의의 상징으로 기억된다. 하지만 그가 걸어온 길은 결코 순탄하지만은 않았다. 혁명가에서 개혁가로, 좌절한 의원에서 국무장관을 거쳐 마침내 대통령에 오르기까지, 제퍼슨의 삶은 야망과 이상, 좌절과 타협의 연속이었다.\n이 책은 제퍼슨의 출생부터 마지막 순간까지를 9부 43장에 걸쳐 담담하게 추적한다. 화려한 수사나 과장된 해석 없이, 한 인간이 역사의 격랑 속에서 어떻게 권력을 쟁취하고 행사했는지를 있는 그대로 보여준다. 이 책에서 저자는 이상주의자 제퍼슨이 거대한 신생 국가의 정치가로서 현실과 부딪히며 어떤 선택을 했는지, 그의 철학이 어떻게 미국의 정치·경제·외교 노선을 장기적으로 규정했는지 촘촘하게 추적한다.\n버지니아의 명문가 출신 청년이 독립혁명의 중심에 서기까지, 프랑스 주재 공사로서 유럽 무대를 경험하고 해밀턴과의 치열한 대결 속에서 야당 지도자로 성장하는 모습과 농업 공화국이라는 비전과 노예제를 둘러싼 모순, 제한적 정부를 주장하면서도 대통령으로서 루이지애나 매입을 결행해야 했던 딜레마까지- 한 지도자의 사상과 현실 사이의 깊은 균열이 어떻게 역사로 남았는지를 차분히 드러낸다.\n이 평전은 흔한 위인전이 아니다. 대신 정치적 계산과 개인적 야망, 이상주의와 현실적 타협 사이를 오간 한 정치인의 진솔한 초상을 그린다. 독자들은 제퍼슨이라는 복잡한 인물을 통해 권력이란 무엇인지, 리더십이란 어떻게 발휘되는지, 그리고 미국의 민주주의가 어떤 과정을 거쳐 만들어졌는지를 생생하게 볼 수 있다. 또한 어쩌면 그의 치부라 여겨질 수도 있는 개인적인 내용도 포함되어 있다. 이것은 정치가로서의 제퍼슨을 우상화하려는 것이 아니라, 한 인간이자 남자로서의 모습까지 진솔하게 나타내기 위함이다. 이로써 제퍼슨이 저 멀리 하늘에 존재한 사람이 아닌, 평범한 한 사람이었음도 느낄 수 있다.\n이 책은 오늘날 분열과 위험의 시대를 살아가는 우리에게, 국가 전략, 오판, 그리고 통찰을 어떻게 이해해야 하는지에 대한 실마리를 던진다.",
+          "isbn": "9791173579042",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7202535?timestamp=20260421122012",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8"
+          },
+          "verified": true,
+          "content_id": "b1febf73-1acd-5598-8fef-5de203e9233e"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791173579042",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791173579042"
+      ],
+      "normalizedTitles": [
+        "토머스제퍼슨"
+      ],
+      "normalizedCreators": [
+        "원희래역",
+        "존미첨"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:09:47.434Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "b1febf73-1acd-5598-8fef-5de203e9233e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791173579042",
+      "release_date": "2026-04-20",
+      "metadata": {
+        "isbn": "9791173579042",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+        "publisher": "21세기북스",
+        "figureBook": {
+          "workTitle": "토머스 제퍼슨",
+          "workCreator": "존 미첨",
+          "workIdentity": "book/9791173579042",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-04-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:09:38.389116+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "b1febf73-1acd-5598-8fef-5de203e9233e",
+        "locale": "ko",
+        "title": "토머스 제퍼슨",
+        "creator": "존 미첨",
+        "description": "토머스 제퍼슨. 그의 이름은 자유와 민주주의의 상징으로 기억된다. 하지만 그가 걸어온 길은 결코 순탄하지만은 않았다. 혁명가에서 개혁가로, 좌절한 의원에서 국무장관을 거쳐 마침내 대통령에 오르기까지, 제퍼슨의 삶은 야망과 이상, 좌절과 타협의 연속이었다.\n이 책은 제퍼슨의 출생부터 마지막 순간까지를 9부 43장에 걸쳐 담담하게 추적한다. 화려한 수사나 과장된 해석 없이, 한 인간이 역사의 격랑 속에서 어떻게 권력을 쟁취하고 행사했는지를 있는 그대로 보여준다. 이 책에서 저자는 이상주의자 제퍼슨이 거대한 신생 국가의 정치가로서 현실과 부딪히며 어떤 선택을 했는지, 그의 철학이 어떻게 미국의 정치·경제·외교 노선을 장기적으로 규정했는지 촘촘하게 추적한다.\n버지니아의 명문가 출신 청년이 독립혁명의 중심에 서기까지, 프랑스 주재 공사로서 유럽 무대를 경험하고 해밀턴과의 치열한 대결 속에서 야당 지도자로 성장하는 모습과 농업 공화국이라는 비전과 노예제를 둘러싼 모순, 제한적 정부를 주장하면서도 대통령으로서 루이지애나 매입을 결행해야 했던 딜레마까지- 한 지도자의 사상과 현실 사이의 깊은 균열이 어떻게 역사로 남았는지를 차분히 드러낸다.\n이 평전은 흔한 위인전이 아니다. 대신 정치적 계산과 개인적 야망, 이상주의와 현실적 타협 사이를 오간 한 정치인의 진솔한 초상을 그린다. 독자들은 제퍼슨이라는 복잡한 인물을 통해 권력이란 무엇인지, 리더십이란 어떻게 발휘되는지, 그리고 미국의 민주주의가 어떤 과정을 거쳐 만들어졌는지를 생생하게 볼 수 있다. 또한 어쩌면 그의 치부라 여겨질 수도 있는 개인적인 내용도 포함되어 있다. 이것은 정치가로서의 제퍼슨을 우상화하려는 것이 아니라, 한 인간이자 남자로서의 모습까지 진솔하게 나타내기 위함이다. 이로써 제퍼슨이 저 멀리 하늘에 존재한 사람이 아닌, 평범한 한 사람이었음도 느낄 수 있다.\n이 책은 오늘날 분열과 위험의 시대를 살아가는 우리에게, 국가 전략, 오판, 그리고 통찰을 어떻게 이해해야 하는지에 대한 실마리를 던진다.",
+        "isbn": "9791173579042",
+        "publisher": "21세기북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7202535?timestamp=20260421122012",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7202535&q=%ED%86%A0%EB%A8%B8%EC%8A%A4+%EC%A0%9C%ED%8D%BC%EC%8A%A8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:09:38.389116+00:00",
+        "updated_at": "2026-09-04T18:09:38.389116+00:00"
+      }
+    ]
+  }
+}

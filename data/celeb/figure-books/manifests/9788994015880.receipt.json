@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788994015880.json",
+  "manifestSha256": "1d04d20bbec92f83c44437de3c423e84cf6c6dbf20247c2d6cfb2d5bb82d072b",
+  "planSha256": "77ba1d0ec493a784ad2a1faef266fbf9a0f08471f4e97a305b27251f34378408",
+  "workIdentity": "book/9788994015880",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788994015880"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "27fdb2d2-fd9e-5dd0-b539-2fc95f36ce1a",
+    "scopeKey": "book/9788994015880",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "27fdb2d2-fd9e-5dd0-b539-2fc95f36ce1a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994015880",
+      "release_date": "2016-02-25",
+      "metadata": {
+        "isbn": "9788994015880",
+        "publisher": "뮤진트리",
+        "publishDate": "2016-02-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788994015880",
+          "workTitle": "엘튼 존(Elton John)",
+          "workCreator": "데이비드 버클리",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "엘튼 존",
+          "creator": "데이비드 버클리",
+          "description": "『엘튼 존(Elton John)』은 뮤진트리의 뮤지션 시리즈 여섯 번째 책으로, 음악 전문 작가 데이비드 버클리가 쓴 엘튼 존 전기이다. 진정한 의미의 글로벌 슈퍼스타이자 가장 존경받는 뮤지션 가운데 한 명인 엘튼 존은 지금까지 전 세계에서 2억 장이 넘는 앨범 판매고를 올렸다. 그러나 그는 음악 못지않게 좌충우돌하는 성격과 거침없는 발언으로도 많은 사랑을 받고 있다. 데이비드 버클리는 그와 함께 작업한 많은 동료들과 업계 관계자들을 취재하고 기존의 자료를 철저히 참고하여 그의 극적 삶과 다재다능한 재능을 흥미진진한 이야기로 엮어냈다.",
+          "isbn": "9788994015880",
+          "publisher": "뮤진트리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1409049?timestamp=20221004003022",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29"
+          },
+          "verified": true,
+          "content_id": "27fdb2d2-fd9e-5dd0-b539-2fc95f36ce1a"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "27fdb2d2-fd9e-5dd0-b539-2fc95f36ce1a",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788994015880",
+        "release_date": "2016-02-25",
+        "metadata": {
+          "isbn": "9788994015880",
+          "publisher": "뮤진트리",
+          "publishDate": "2016-02-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788994015880",
+            "workTitle": "엘튼 존(Elton John)",
+            "workCreator": "데이비드 버클리",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "엘튼 존",
+          "creator": "데이비드 버클리",
+          "description": "『엘튼 존(Elton John)』은 뮤진트리의 뮤지션 시리즈 여섯 번째 책으로, 음악 전문 작가 데이비드 버클리가 쓴 엘튼 존 전기이다. 진정한 의미의 글로벌 슈퍼스타이자 가장 존경받는 뮤지션 가운데 한 명인 엘튼 존은 지금까지 전 세계에서 2억 장이 넘는 앨범 판매고를 올렸다. 그러나 그는 음악 못지않게 좌충우돌하는 성격과 거침없는 발언으로도 많은 사랑을 받고 있다. 데이비드 버클리는 그와 함께 작업한 많은 동료들과 업계 관계자들을 취재하고 기존의 자료를 철저히 참고하여 그의 극적 삶과 다재다능한 재능을 흥미진진한 이야기로 엮어냈다.",
+          "isbn": "9788994015880",
+          "publisher": "뮤진트리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1409049?timestamp=20221004003022",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29"
+          },
+          "verified": true,
+          "content_id": "27fdb2d2-fd9e-5dd0-b539-2fc95f36ce1a"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788994015880",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788994015880"
+      ],
+      "normalizedTitles": [
+        "엘튼존",
+        "엘튼존eltonjohn"
+      ],
+      "normalizedCreators": [
+        "데이비드버클리",
+        "장호연역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:15:05.501Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "27fdb2d2-fd9e-5dd0-b539-2fc95f36ce1a",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994015880",
+      "release_date": "2016-02-25",
+      "metadata": {
+        "isbn": "9788994015880",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+        "publisher": "뮤진트리",
+        "figureBook": {
+          "workTitle": "엘튼 존(Elton John)",
+          "workCreator": "데이비드 버클리",
+          "workIdentity": "book/9788994015880",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2016-02-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:14:58.68198+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "27fdb2d2-fd9e-5dd0-b539-2fc95f36ce1a",
+        "locale": "ko",
+        "title": "엘튼 존",
+        "creator": "데이비드 버클리",
+        "description": "『엘튼 존(Elton John)』은 뮤진트리의 뮤지션 시리즈 여섯 번째 책으로, 음악 전문 작가 데이비드 버클리가 쓴 엘튼 존 전기이다. 진정한 의미의 글로벌 슈퍼스타이자 가장 존경받는 뮤지션 가운데 한 명인 엘튼 존은 지금까지 전 세계에서 2억 장이 넘는 앨범 판매고를 올렸다. 그러나 그는 음악 못지않게 좌충우돌하는 성격과 거침없는 발언으로도 많은 사랑을 받고 있다. 데이비드 버클리는 그와 함께 작업한 많은 동료들과 업계 관계자들을 취재하고 기존의 자료를 철저히 참고하여 그의 극적 삶과 다재다능한 재능을 흥미진진한 이야기로 엮어냈다.",
+        "isbn": "9788994015880",
+        "publisher": "뮤진트리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1409049?timestamp=20221004003022",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1409049&q=%EC%97%98%ED%8A%BC+%EC%A1%B4%28Elton+John%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:14:58.68198+00:00",
+        "updated_at": "2026-09-06T04:14:58.68198+00:00"
+      }
+    ]
+  }
+}

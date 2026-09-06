@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788950967376.json",
+  "manifestSha256": "09149c2a41c75a07b3832aae3afd0f907c9b69e51e7e8f9d444b6825cd5b1eb5",
+  "planSha256": "b8d2c3a026abdf29423c25d3cca74981ff45681f3ebc6fc955f413d1f6c8b190",
+  "workIdentity": "book/9788950967376",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788950967376"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "47fed692-b949-56ef-9bd5-ee368c0ee92f",
+    "scopeKey": "book/9788950967376",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "47fed692-b949-56ef-9bd5-ee368c0ee92f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788950967376",
+      "release_date": "2016-10-24",
+      "metadata": {
+        "isbn": "9788950967376",
+        "publisher": "21세기북스",
+        "publishDate": "2016-10-24",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788950967376",
+          "workTitle": "다시 쓰는 술탄과 황제",
+          "workCreator": "김형오",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "다시 쓰는 술탄과 황제",
+          "creator": "김형오",
+          "description": "2012년 출간되자마자 언론과 평단의 극찬을 받고, 삼성경제연구소 추천 도서로 선정된 베스트셀러 『술탄과 황제』의 전면 개정판이다. 콘스탄티노플 최후의 날을 둘러싼 오스만 제국 술탄과 비잔티움 제국 황제의 전쟁 이야기를 초판보다 더 깊이 있고 객관적인 시선으로 치밀하게 증보하여 독자들 앞에 새롭게 선보인다. 1453년 5월 29일, 세계사의 흐름을 한순간에 바꾼 콘스탄티노플 공방전이 철저한 고증을 통한 사실 탐구와 인문학적 상상력으로 생생하게 펼쳐진다. 이 책은 동서 문명의 교차로인 이스탄불에서 종군기자의 심경으로 써내려간 50여 일간의 격전에 대한 기록인 동시에 전쟁의 주역이었던 술탄과 황제, 두 제국의 리더십에 대한 치열한 탐구이다.\n\n▶ 이 책은 2012년에 출간된 <술탄과 황제>(21세기북스)의 전면 개정판입니다.",
+          "isbn": "9788950967376",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/625953?timestamp=20221108005745",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C"
+          },
+          "verified": true,
+          "content_id": "47fed692-b949-56ef-9bd5-ee368c0ee92f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "47fed692-b949-56ef-9bd5-ee368c0ee92f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788950967376",
+        "release_date": "2016-10-24",
+        "metadata": {
+          "isbn": "9788950967376",
+          "publisher": "21세기북스",
+          "publishDate": "2016-10-24",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788950967376",
+            "workTitle": "다시 쓰는 술탄과 황제",
+            "workCreator": "김형오",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "다시 쓰는 술탄과 황제",
+          "creator": "김형오",
+          "description": "2012년 출간되자마자 언론과 평단의 극찬을 받고, 삼성경제연구소 추천 도서로 선정된 베스트셀러 『술탄과 황제』의 전면 개정판이다. 콘스탄티노플 최후의 날을 둘러싼 오스만 제국 술탄과 비잔티움 제국 황제의 전쟁 이야기를 초판보다 더 깊이 있고 객관적인 시선으로 치밀하게 증보하여 독자들 앞에 새롭게 선보인다. 1453년 5월 29일, 세계사의 흐름을 한순간에 바꾼 콘스탄티노플 공방전이 철저한 고증을 통한 사실 탐구와 인문학적 상상력으로 생생하게 펼쳐진다. 이 책은 동서 문명의 교차로인 이스탄불에서 종군기자의 심경으로 써내려간 50여 일간의 격전에 대한 기록인 동시에 전쟁의 주역이었던 술탄과 황제, 두 제국의 리더십에 대한 치열한 탐구이다.\n\n▶ 이 책은 2012년에 출간된 <술탄과 황제>(21세기북스)의 전면 개정판입니다.",
+          "isbn": "9788950967376",
+          "publisher": "21세기북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/625953?timestamp=20221108005745",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C"
+          },
+          "verified": true,
+          "content_id": "47fed692-b949-56ef-9bd5-ee368c0ee92f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788950967376",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788950967376"
+      ],
+      "normalizedTitles": [
+        "다시쓰는술탄과황제"
+      ],
+      "normalizedCreators": [
+        "김형오"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:44:57.714Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "47fed692-b949-56ef-9bd5-ee368c0ee92f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788950967376",
+      "release_date": "2016-10-24",
+      "metadata": {
+        "isbn": "9788950967376",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+        "publisher": "21세기북스",
+        "figureBook": {
+          "workTitle": "다시 쓰는 술탄과 황제",
+          "workCreator": "김형오",
+          "workIdentity": "book/9788950967376",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2016-10-24",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:44:53.166107+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "47fed692-b949-56ef-9bd5-ee368c0ee92f",
+        "locale": "ko",
+        "title": "다시 쓰는 술탄과 황제",
+        "creator": "김형오",
+        "description": "2012년 출간되자마자 언론과 평단의 극찬을 받고, 삼성경제연구소 추천 도서로 선정된 베스트셀러 『술탄과 황제』의 전면 개정판이다. 콘스탄티노플 최후의 날을 둘러싼 오스만 제국 술탄과 비잔티움 제국 황제의 전쟁 이야기를 초판보다 더 깊이 있고 객관적인 시선으로 치밀하게 증보하여 독자들 앞에 새롭게 선보인다. 1453년 5월 29일, 세계사의 흐름을 한순간에 바꾼 콘스탄티노플 공방전이 철저한 고증을 통한 사실 탐구와 인문학적 상상력으로 생생하게 펼쳐진다. 이 책은 동서 문명의 교차로인 이스탄불에서 종군기자의 심경으로 써내려간 50여 일간의 격전에 대한 기록인 동시에 전쟁의 주역이었던 술탄과 황제, 두 제국의 리더십에 대한 치열한 탐구이다.\n\n▶ 이 책은 2012년에 출간된 <술탄과 황제>(21세기북스)의 전면 개정판입니다.",
+        "isbn": "9788950967376",
+        "publisher": "21세기북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/625953?timestamp=20221108005745",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=625953&q=%EB%8B%A4%EC%8B%9C+%EC%93%B0%EB%8A%94+%EC%88%A0%ED%83%84%EA%B3%BC+%ED%99%A9%EC%A0%9C"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:44:53.166107+00:00",
+        "updated_at": "2026-09-04T17:44:53.166107+00:00"
+      }
+    ]
+  }
+}

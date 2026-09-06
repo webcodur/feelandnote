@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791167072429.json",
+  "manifestSha256": "bf1ef233ab214d44dfa096edd62d5379d703fbd118e1a10f25f0aae5e6fe8f5e",
+  "planSha256": "c27f142a771c1973dfbca550ac93d76b76dfb324a09cdefcca2e2e83bf66e77e",
+  "workIdentity": "book/9791167072429",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791167072429"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "b65fb4fe-79f0-50e5-b1e9-fd7866fb2cb2",
+    "scopeKey": "book/9791167072429",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "b65fb4fe-79f0-50e5-b1e9-fd7866fb2cb2",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791167072429",
+      "release_date": "2026-08-27",
+      "metadata": {
+        "isbn": "9791167072429",
+        "publisher": "사회평론아카데미",
+        "publishDate": "2026-08-27",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791167072429",
+          "workTitle": "처음 만나는 국제정치학",
+          "workCreator": "박건영",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "처음 만나는 국제정치학",
+          "creator": "박건영",
+          "description": "“여길 봐!(Look here!)”\n국제정치학은 복잡하고 복합적인 국제정치의 현상 중에 문제의 핵심이 무엇인지를 가리켜준다. 우리는 과연 한반도의 국제정치 특히 현재 진행 중인 외교정책과 국제정치의 내부 논쟁에 대해 개인적 가치관에 따른 주의·주장이 아닌, 객관적 사실과 확고한 논리에 기초한 판단을 내릴 수 있는가? 판단할 수 있으려면 우리는 국제정치에서 무엇이 누구에게 중요한지를 알아야 한다. 『처음 만나는 국제정치학』에서 다루는 국제정치이론은 국제정치에서 어떤 부분이 중요하고 관찰할 가치가 있는 것인지를 가리켜준다. 국제정치를 빚고 짓는 핵심 주체들이 상정한 의제와 그것을 둘러싼 갈등과 협상 과정에 빛을 비추며 거길 보라고 지시하는 것이다. 물론 ‘무엇’이 중요한지는 ‘누구’에게 중요한지의 문제와 유리될 수 없다. 우리는 판단하기 위해 국제정치에서 무엇이 중요한지 뿐만 아니라 국제정치 현상이나 국가 주체의 행위의 원인을 알아야 한다. 이 책의 주요 목적이 이와 관련이 있다.\n『처음 만나는 국제정치학』은 국제정치학의 다양한 관점과 이론을 단순하고 간결한 방식으로 비교·대조하고, ‘현장감’ 있는 이해를 돕기 위해 우리에게 익숙한 사례를 풍부하게 제시한다.",
+          "isbn": "9791167072429",
+          "publisher": "사회평론아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7292463?timestamp=20260901130708",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99"
+          },
+          "verified": true,
+          "content_id": "b65fb4fe-79f0-50e5-b1e9-fd7866fb2cb2"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "b65fb4fe-79f0-50e5-b1e9-fd7866fb2cb2",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791167072429",
+        "release_date": "2026-08-27",
+        "metadata": {
+          "isbn": "9791167072429",
+          "publisher": "사회평론아카데미",
+          "publishDate": "2026-08-27",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791167072429",
+            "workTitle": "처음 만나는 국제정치학",
+            "workCreator": "박건영",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "처음 만나는 국제정치학",
+          "creator": "박건영",
+          "description": "“여길 봐!(Look here!)”\n국제정치학은 복잡하고 복합적인 국제정치의 현상 중에 문제의 핵심이 무엇인지를 가리켜준다. 우리는 과연 한반도의 국제정치 특히 현재 진행 중인 외교정책과 국제정치의 내부 논쟁에 대해 개인적 가치관에 따른 주의·주장이 아닌, 객관적 사실과 확고한 논리에 기초한 판단을 내릴 수 있는가? 판단할 수 있으려면 우리는 국제정치에서 무엇이 누구에게 중요한지를 알아야 한다. 『처음 만나는 국제정치학』에서 다루는 국제정치이론은 국제정치에서 어떤 부분이 중요하고 관찰할 가치가 있는 것인지를 가리켜준다. 국제정치를 빚고 짓는 핵심 주체들이 상정한 의제와 그것을 둘러싼 갈등과 협상 과정에 빛을 비추며 거길 보라고 지시하는 것이다. 물론 ‘무엇’이 중요한지는 ‘누구’에게 중요한지의 문제와 유리될 수 없다. 우리는 판단하기 위해 국제정치에서 무엇이 중요한지 뿐만 아니라 국제정치 현상이나 국가 주체의 행위의 원인을 알아야 한다. 이 책의 주요 목적이 이와 관련이 있다.\n『처음 만나는 국제정치학』은 국제정치학의 다양한 관점과 이론을 단순하고 간결한 방식으로 비교·대조하고, ‘현장감’ 있는 이해를 돕기 위해 우리에게 익숙한 사례를 풍부하게 제시한다.",
+          "isbn": "9791167072429",
+          "publisher": "사회평론아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7292463?timestamp=20260901130708",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99"
+          },
+          "verified": true,
+          "content_id": "b65fb4fe-79f0-50e5-b1e9-fd7866fb2cb2"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791167072429",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791167072429"
+      ],
+      "normalizedTitles": [
+        "처음만나는국제정치학"
+      ],
+      "normalizedCreators": [
+        "박건영"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:07:54.657Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "b65fb4fe-79f0-50e5-b1e9-fd7866fb2cb2",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791167072429",
+      "release_date": "2026-08-27",
+      "metadata": {
+        "isbn": "9791167072429",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+        "publisher": "사회평론아카데미",
+        "figureBook": {
+          "workTitle": "처음 만나는 국제정치학",
+          "workCreator": "박건영",
+          "workIdentity": "book/9791167072429",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-08-27",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:07:46.516664+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "b65fb4fe-79f0-50e5-b1e9-fd7866fb2cb2",
+        "locale": "ko",
+        "title": "처음 만나는 국제정치학",
+        "creator": "박건영",
+        "description": "“여길 봐!(Look here!)”\n국제정치학은 복잡하고 복합적인 국제정치의 현상 중에 문제의 핵심이 무엇인지를 가리켜준다. 우리는 과연 한반도의 국제정치 특히 현재 진행 중인 외교정책과 국제정치의 내부 논쟁에 대해 개인적 가치관에 따른 주의·주장이 아닌, 객관적 사실과 확고한 논리에 기초한 판단을 내릴 수 있는가? 판단할 수 있으려면 우리는 국제정치에서 무엇이 누구에게 중요한지를 알아야 한다. 『처음 만나는 국제정치학』에서 다루는 국제정치이론은 국제정치에서 어떤 부분이 중요하고 관찰할 가치가 있는 것인지를 가리켜준다. 국제정치를 빚고 짓는 핵심 주체들이 상정한 의제와 그것을 둘러싼 갈등과 협상 과정에 빛을 비추며 거길 보라고 지시하는 것이다. 물론 ‘무엇’이 중요한지는 ‘누구’에게 중요한지의 문제와 유리될 수 없다. 우리는 판단하기 위해 국제정치에서 무엇이 중요한지 뿐만 아니라 국제정치 현상이나 국가 주체의 행위의 원인을 알아야 한다. 이 책의 주요 목적이 이와 관련이 있다.\n『처음 만나는 국제정치학』은 국제정치학의 다양한 관점과 이론을 단순하고 간결한 방식으로 비교·대조하고, ‘현장감’ 있는 이해를 돕기 위해 우리에게 익숙한 사례를 풍부하게 제시한다.",
+        "isbn": "9791167072429",
+        "publisher": "사회평론아카데미",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7292463?timestamp=20260901130708",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7292463&q=%EC%B2%98%EC%9D%8C+%EB%A7%8C%EB%82%98%EB%8A%94+%EA%B5%AD%EC%A0%9C%EC%A0%95%EC%B9%98%ED%95%99"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:07:46.516664+00:00",
+        "updated_at": "2026-09-04T18:07:46.516664+00:00"
+      }
+    ]
+  }
+}

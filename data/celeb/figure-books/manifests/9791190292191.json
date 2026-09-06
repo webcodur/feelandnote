@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791190292191",
+    "title": "푸코: 그의 사유, 그의 인격",
+    "creator": "폴 벤느",
+    "titleAliases": [
+      "푸코"
+    ],
+    "creatorAliases": [
+      "이상길 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791190292191"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791169814010",
+    "title": "티무르 승전기",
+    "creator": "샤라프 앗딘 알리 야즈디",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이주연 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791169814010"
+  }
+}

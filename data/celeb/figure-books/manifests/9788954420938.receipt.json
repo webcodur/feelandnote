@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954420938.json",
+  "manifestSha256": "e66b94351d08bfad70747ba619b590553bdc66ed436b9d8fba8cb55b580d8f92",
+  "planSha256": "40e267b186a470f18696a8867302a11fb5c98601f1bafa67e74393e0da95d538",
+  "workIdentity": "book/9788954420938",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954420938"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "cd38f6ef-2c46-537c-b6ad-1df00336a923",
+    "scopeKey": "book/9788954420938",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "cd38f6ef-2c46-537c-b6ad-1df00336a923",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954420938",
+      "release_date": "2010-09-01",
+      "metadata": {
+        "isbn": "9788954420938",
+        "publisher": "자음과모음",
+        "publishDate": "2010-09-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954420938",
+          "workTitle": "하비가 들려주는 혈액 순환 이야기",
+          "workCreator": "손선영",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "하비가 들려주는 혈액 순환 이야기",
+          "creator": "손선영",
+          "description": "이 책은 영국 생리학자이자 의학자인 하비가 들려주는 혈액순환에 관한 이야기로 구성되었다. 하비학설의 탄생배경과 심장의 역할, 동맥과 정맥의 차이, 해부학의 기원에서부터 모세혈관의 역할, 개방혈관계 동물과 폐쇄혈관계 동물, 체순환과 폐순환의 원리 등에 관하여 흥미롭게 설명하고 있다.\n\n이 시리즈는 과학자가 질문을 던지고 각자의 의견을 대답하는 형식으로 이루어져 어려운 이론을 어린이의 수업에 맞춰 쉽고 재미있게 설명하여 충분히 이해, 습득할 수 있도록 구성하였다.",
+          "isbn": "9788954420938",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/688463?timestamp=20260404110723",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "cd38f6ef-2c46-537c-b6ad-1df00336a923"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "cd38f6ef-2c46-537c-b6ad-1df00336a923",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954420938",
+        "release_date": "2010-09-01",
+        "metadata": {
+          "isbn": "9788954420938",
+          "publisher": "자음과모음",
+          "publishDate": "2010-09-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954420938",
+            "workTitle": "하비가 들려주는 혈액 순환 이야기",
+            "workCreator": "손선영",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "하비가 들려주는 혈액 순환 이야기",
+          "creator": "손선영",
+          "description": "이 책은 영국 생리학자이자 의학자인 하비가 들려주는 혈액순환에 관한 이야기로 구성되었다. 하비학설의 탄생배경과 심장의 역할, 동맥과 정맥의 차이, 해부학의 기원에서부터 모세혈관의 역할, 개방혈관계 동물과 폐쇄혈관계 동물, 체순환과 폐순환의 원리 등에 관하여 흥미롭게 설명하고 있다.\n\n이 시리즈는 과학자가 질문을 던지고 각자의 의견을 대답하는 형식으로 이루어져 어려운 이론을 어린이의 수업에 맞춰 쉽고 재미있게 설명하여 충분히 이해, 습득할 수 있도록 구성하였다.",
+          "isbn": "9788954420938",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/688463?timestamp=20260404110723",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "cd38f6ef-2c46-537c-b6ad-1df00336a923"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954420938",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954420938"
+      ],
+      "normalizedTitles": [
+        "하비가들려주는혈액순환이야기"
+      ],
+      "normalizedCreators": [
+        "손선영"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:08:33.137Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "cd38f6ef-2c46-537c-b6ad-1df00336a923",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954420938",
+      "release_date": "2010-09-01",
+      "metadata": {
+        "isbn": "9788954420938",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "자음과모음",
+        "figureBook": {
+          "workTitle": "하비가 들려주는 혈액 순환 이야기",
+          "workCreator": "손선영",
+          "workIdentity": "book/9788954420938",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2010-09-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:08:27.485252+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "cd38f6ef-2c46-537c-b6ad-1df00336a923",
+        "locale": "ko",
+        "title": "하비가 들려주는 혈액 순환 이야기",
+        "creator": "손선영",
+        "description": "이 책은 영국 생리학자이자 의학자인 하비가 들려주는 혈액순환에 관한 이야기로 구성되었다. 하비학설의 탄생배경과 심장의 역할, 동맥과 정맥의 차이, 해부학의 기원에서부터 모세혈관의 역할, 개방혈관계 동물과 폐쇄혈관계 동물, 체순환과 폐순환의 원리 등에 관하여 흥미롭게 설명하고 있다.\n\n이 시리즈는 과학자가 질문을 던지고 각자의 의견을 대답하는 형식으로 이루어져 어려운 이론을 어린이의 수업에 맞춰 쉽고 재미있게 설명하여 충분히 이해, 습득할 수 있도록 구성하였다.",
+        "isbn": "9788954420938",
+        "publisher": "자음과모음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/688463?timestamp=20260404110723",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=688463&q=%ED%95%98%EB%B9%84%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%ED%98%88%EC%95%A1+%EC%88%9C%ED%99%98+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:08:27.485252+00:00",
+        "updated_at": "2026-09-06T04:08:27.485252+00:00"
+      }
+    ]
+  }
+}

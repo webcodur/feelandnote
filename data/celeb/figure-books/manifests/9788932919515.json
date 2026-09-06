@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788932919515",
+    "title": "매핑 도스토옙스키",
+    "creator": "석영중",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788932919515"
+  }
+}

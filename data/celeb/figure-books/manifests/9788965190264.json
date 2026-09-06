@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788965190264",
+    "title": "정치가 마거릿 대처",
+    "creator": "꼬나",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788965190264"
+  }
+}

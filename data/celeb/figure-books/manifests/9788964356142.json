@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788964356142",
+    "title": "인생은 뜨겁게",
+    "creator": "버트런드 러셀",
+    "titleAliases": [],
+    "creatorAliases": [
+      "송은경 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788964356142"
+  }
+}

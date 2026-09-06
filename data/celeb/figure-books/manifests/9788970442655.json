@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788970442655",
+    "title": "멘델",
+    "creator": "비체슬라프 오렐",
+    "titleAliases": [],
+    "creatorAliases": [
+      "한국유전학회 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788970442655"
+  }
+}

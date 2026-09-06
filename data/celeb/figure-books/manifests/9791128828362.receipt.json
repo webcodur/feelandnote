@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791128828362.json",
+  "manifestSha256": "80703a55e6466ef8e376fd547cd5f2f3ebdef114e867e75b1fa982737256b68b",
+  "planSha256": "5b748774be5d2fc068a595fbe70b1ec5fb7a66343d61c1957863937edb16b6a8",
+  "workIdentity": "book/9791128828362",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791128828362"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d9f16f19-c6cc-5ebb-8315-4d19adee9ac9",
+    "scopeKey": "book/9791128828362",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d9f16f19-c6cc-5ebb-8315-4d19adee9ac9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791128828362",
+      "release_date": "2024-04-29",
+      "metadata": {
+        "isbn": "9791128828362",
+        "publisher": "지만지드라마",
+        "publishDate": "2024-04-29",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+        "salesStatus": "주문판매",
+        "figureBook": {
+          "workIdentity": "book/9791128828362",
+          "workTitle": "오펜하이머 청문회",
+          "workCreator": "하이나어 키파르트",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "오펜하이머 청문회",
+          "creator": "하이나어 키파르트",
+          "description": "독일 정신과 의사이자 희곡 작가, 연출가인 하이나어 키파르트는 독일 과거 청산을 위해 수많은 기록극을 썼다. 《오펜하이머 청문회》는 그의 대표작으로 3000매에 달하는 신문 기록을 바탕으로 창작한 기록극이다. 베를린과 뮌헨에서 초연 이후 독일 내외에서 리바이벌되었다. 단순히 역사적 사실을 나열하는 것이 아닌 사건의 핵심과 의미를 현재에서 되짚어 보려는 작가의 개입이 눈에 띈다. 청문회 당시 역사적 배경의 이해를 돕는 자료와 기록극의 발전과 가능성을 다룬 상세한 해설을 덧붙였다.",
+          "isbn": "9791128828362",
+          "publisher": "지만지드라마",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6618382?timestamp=20240817155433",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C"
+          },
+          "verified": true,
+          "content_id": "d9f16f19-c6cc-5ebb-8315-4d19adee9ac9"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d9f16f19-c6cc-5ebb-8315-4d19adee9ac9",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791128828362",
+        "release_date": "2024-04-29",
+        "metadata": {
+          "isbn": "9791128828362",
+          "publisher": "지만지드라마",
+          "publishDate": "2024-04-29",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+          "salesStatus": "주문판매",
+          "figureBook": {
+            "workIdentity": "book/9791128828362",
+            "workTitle": "오펜하이머 청문회",
+            "workCreator": "하이나어 키파르트",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "오펜하이머 청문회",
+          "creator": "하이나어 키파르트",
+          "description": "독일 정신과 의사이자 희곡 작가, 연출가인 하이나어 키파르트는 독일 과거 청산을 위해 수많은 기록극을 썼다. 《오펜하이머 청문회》는 그의 대표작으로 3000매에 달하는 신문 기록을 바탕으로 창작한 기록극이다. 베를린과 뮌헨에서 초연 이후 독일 내외에서 리바이벌되었다. 단순히 역사적 사실을 나열하는 것이 아닌 사건의 핵심과 의미를 현재에서 되짚어 보려는 작가의 개입이 눈에 띈다. 청문회 당시 역사적 배경의 이해를 돕는 자료와 기록극의 발전과 가능성을 다룬 상세한 해설을 덧붙였다.",
+          "isbn": "9791128828362",
+          "publisher": "지만지드라마",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6618382?timestamp=20240817155433",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C"
+          },
+          "verified": true,
+          "content_id": "d9f16f19-c6cc-5ebb-8315-4d19adee9ac9"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791128828362",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791128828362"
+      ],
+      "normalizedTitles": [
+        "오펜하이머청문회"
+      ],
+      "normalizedCreators": [
+        "양도원역",
+        "하이나어키파르트"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:00:43.845Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d9f16f19-c6cc-5ebb-8315-4d19adee9ac9",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791128828362",
+      "release_date": "2024-04-29",
+      "metadata": {
+        "isbn": "9791128828362",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+        "publisher": "지만지드라마",
+        "figureBook": {
+          "workTitle": "오펜하이머 청문회",
+          "workCreator": "하이나어 키파르트",
+          "workIdentity": "book/9791128828362",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-04-29",
+        "salesStatus": "주문판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:00:39.301498+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d9f16f19-c6cc-5ebb-8315-4d19adee9ac9",
+        "locale": "ko",
+        "title": "오펜하이머 청문회",
+        "creator": "하이나어 키파르트",
+        "description": "독일 정신과 의사이자 희곡 작가, 연출가인 하이나어 키파르트는 독일 과거 청산을 위해 수많은 기록극을 썼다. 《오펜하이머 청문회》는 그의 대표작으로 3000매에 달하는 신문 기록을 바탕으로 창작한 기록극이다. 베를린과 뮌헨에서 초연 이후 독일 내외에서 리바이벌되었다. 단순히 역사적 사실을 나열하는 것이 아닌 사건의 핵심과 의미를 현재에서 되짚어 보려는 작가의 개입이 눈에 띈다. 청문회 당시 역사적 배경의 이해를 돕는 자료와 기록극의 발전과 가능성을 다룬 상세한 해설을 덧붙였다.",
+        "isbn": "9791128828362",
+        "publisher": "지만지드라마",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6618382?timestamp=20240817155433",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6618382&q=%EC%98%A4%ED%8E%9C%ED%95%98%EC%9D%B4%EB%A8%B8+%EC%B2%AD%EB%AC%B8%ED%9A%8C"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:00:39.301498+00:00",
+        "updated_at": "2026-09-04T18:00:39.301498+00:00"
+      }
+    ]
+  }
+}

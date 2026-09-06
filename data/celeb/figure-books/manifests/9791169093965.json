@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791169093965",
+    "title": "그리스 사상과 아랍 문명",
+    "creator": "디미트리 구타스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "정영목 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791169093965"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791191904185",
+    "title": "웹 3.0 사용설명서",
+    "creator": "백훈종",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791191904185"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788925579108",
+    "title": "스노볼 1",
+    "creator": "앨리스 슈뢰더",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이경식 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788925579108"
+  }
+}

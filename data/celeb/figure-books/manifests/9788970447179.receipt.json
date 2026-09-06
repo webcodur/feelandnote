@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788970447179.json",
+  "manifestSha256": "7acf1d40031a1441a06eea6ef6cd2b672e31e0ef62e0e36074959d8c7efddb4b",
+  "planSha256": "8b11342c2c03476263b250d93ec223d95750673b0d298219a00f8de3f7d0b8a8",
+  "workIdentity": "book/9788970447179",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788970447179"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "1bc4b851-6586-5657-9eb1-6718337cfff7",
+    "scopeKey": "book/9788970447179",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "1bc4b851-6586-5657-9eb1-6718337cfff7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788970447179",
+      "release_date": "2022-03-08",
+      "metadata": {
+        "isbn": "9788970447179",
+        "publisher": "전파과학사",
+        "publishDate": "2022-03-08",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788970447179",
+          "workTitle": "러더퍼드와 원자의 본질",
+          "workCreator": "에드워드 안드레이드",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "러더퍼드와 원자의 본질",
+          "creator": "에드워드 안드레이드",
+          "description": "러더퍼드는 과학사에서 손꼽는 최고 인물 중 한 명이다. 우리가 오늘날 알고 있는 원자의 개념이 바로 러더퍼드에게서 나온 것이다. 그가 뛰어난 과학적 예언자였다는 것은 수소와 헬륨의 동위 원소와 중성자의 존재를 예언했다는 것만으로도 알 수 있다. 현대 원자 물리학의 개척자인 어니스트 러더퍼드와 그가 지녔던 과학에 관한 천부적인 소질을 통해 원자의 본질을 자세히 들여다보자.",
+          "isbn": "9788970447179",
+          "publisher": "전파과학사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6036087?timestamp=20240824155851",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88"
+          },
+          "verified": true,
+          "content_id": "1bc4b851-6586-5657-9eb1-6718337cfff7"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "1bc4b851-6586-5657-9eb1-6718337cfff7",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788970447179",
+        "release_date": "2022-03-08",
+        "metadata": {
+          "isbn": "9788970447179",
+          "publisher": "전파과학사",
+          "publishDate": "2022-03-08",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788970447179",
+            "workTitle": "러더퍼드와 원자의 본질",
+            "workCreator": "에드워드 안드레이드",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "러더퍼드와 원자의 본질",
+          "creator": "에드워드 안드레이드",
+          "description": "러더퍼드는 과학사에서 손꼽는 최고 인물 중 한 명이다. 우리가 오늘날 알고 있는 원자의 개념이 바로 러더퍼드에게서 나온 것이다. 그가 뛰어난 과학적 예언자였다는 것은 수소와 헬륨의 동위 원소와 중성자의 존재를 예언했다는 것만으로도 알 수 있다. 현대 원자 물리학의 개척자인 어니스트 러더퍼드와 그가 지녔던 과학에 관한 천부적인 소질을 통해 원자의 본질을 자세히 들여다보자.",
+          "isbn": "9788970447179",
+          "publisher": "전파과학사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6036087?timestamp=20240824155851",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88"
+          },
+          "verified": true,
+          "content_id": "1bc4b851-6586-5657-9eb1-6718337cfff7"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788970447179",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788970447179"
+      ],
+      "normalizedTitles": [
+        "러더퍼드와원자의본질"
+      ],
+      "normalizedCreators": [
+        "안운선역",
+        "에드워드안드레이드"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:53:30.220Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "1bc4b851-6586-5657-9eb1-6718337cfff7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788970447179",
+      "release_date": "2022-03-08",
+      "metadata": {
+        "isbn": "9788970447179",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+        "publisher": "전파과학사",
+        "figureBook": {
+          "workTitle": "러더퍼드와 원자의 본질",
+          "workCreator": "에드워드 안드레이드",
+          "workIdentity": "book/9788970447179",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-03-08",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:53:24.394826+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "1bc4b851-6586-5657-9eb1-6718337cfff7",
+        "locale": "ko",
+        "title": "러더퍼드와 원자의 본질",
+        "creator": "에드워드 안드레이드",
+        "description": "러더퍼드는 과학사에서 손꼽는 최고 인물 중 한 명이다. 우리가 오늘날 알고 있는 원자의 개념이 바로 러더퍼드에게서 나온 것이다. 그가 뛰어난 과학적 예언자였다는 것은 수소와 헬륨의 동위 원소와 중성자의 존재를 예언했다는 것만으로도 알 수 있다. 현대 원자 물리학의 개척자인 어니스트 러더퍼드와 그가 지녔던 과학에 관한 천부적인 소질을 통해 원자의 본질을 자세히 들여다보자.",
+        "isbn": "9788970447179",
+        "publisher": "전파과학사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6036087?timestamp=20240824155851",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6036087&q=%EB%9F%AC%EB%8D%94%ED%8D%BC%EB%93%9C%EC%99%80+%EC%9B%90%EC%9E%90%EC%9D%98+%EB%B3%B8%EC%A7%88"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:53:24.394826+00:00",
+        "updated_at": "2026-09-04T17:53:24.394826+00:00"
+      }
+    ]
+  }
+}

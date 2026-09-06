@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788946068582",
+    "title": "감국대신 위안스카이",
+    "creator": "이양자",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788946068582"
+  }
+}

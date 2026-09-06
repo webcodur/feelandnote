@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791187512417.json",
+  "manifestSha256": "ff3a73ee45f39456f58ece3ae01da0567f3c69e75a99d0cb2d48dad685b2f30f",
+  "planSha256": "9a3f7e43c02354197430f1fd99a1b628e5045846f3985709f0c7a5b9f46d2bd6",
+  "workIdentity": "book/9791187512417",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791187512417"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "576f8aad-01c7-5e59-bacc-ef52e9c2d85c",
+    "scopeKey": "book/9791187512417",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "576f8aad-01c7-5e59-bacc-ef52e9c2d85c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791187512417",
+      "release_date": "2019-03-28",
+      "metadata": {
+        "isbn": "9791187512417",
+        "publisher": "앵글북스",
+        "publishDate": "2019-03-28",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791187512417",
+          "workTitle": "피터 틸",
+          "workCreator": "토마스 라폴트",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "피터 틸",
+          "creator": "토마스 라폴트",
+          "description": "피터 틸은 핀테크 시대를 성공적으로 개척한 세계 최초 전자결제업체 페이팔의 공동창업자이며, 스페이스엑스의 창업자 일론 머스크, 유튜브의 공동 창업자 채드 헐리와 스티브 챈, 링크드인을 만든 리드 호프먼 등 실리콘밸리를 움직이는 이들을 이끄는‘페이팔 마피아’의 '대부(代父)'로 알려져 있다. 또한 에어비앤비, 스포티파이 등 유명 벤처 기업에 초기 투자해 억만장자가 된 손꼽히는 벤처캐피탈 투자자이자, 페이스북의 가치를 꿰뚫어 본 첫 외부투자자로 3,400배라는 투자이익률을 거둔 ‘투자의 귀재’이기도 하다. 이 외에도 그는 테러와 범죄를 예측하는 빅데이터 분석업체 팰런티어 테크놀로지를 설립해 실리콘밸리의 비상장 기업 중 3위 안에 드는 기업가치 200억 달러로 추정되는 기업으로 키워냈다.\n\n뿐만 아니다. 틸은 지난 미국 대선 당시 힐러리 클린턴의 우세가 확신되는 상황에서 실리콘밸리에서는 유일하게 도널드 트럼프에게 베팅해 승리를 거둔 실패를 모르는 전략가이기도 하다.\n\n이 책은 ‘페이팔 마피아’ 탄생의 밑바탕이 된 틸의 스탠포드 재학시절부터 페이팔 창업, 페이스북 저커버그와의 만남과 팰런티어의 설립 배경 그리고 미국의 그림자 대통령이 되기까지, 국내에서는 최초로 그의 일대기를 통해 ?제로 투 원?에서 미처 밝히지 못했던 피터 틸만의 ‘시대를 이기는 안목’과 ‘숨은 투자 전략’의 비밀을 밝힌다.\n\n역사상 가장 혁명적인 기업가, 피터 틸의 모든 것을 파헤친 이 책은 불확실한 시대의 생존법을 고민하는 독자들에게 새로운 부의 기회를 발견할 투자의 눈과 뛰어난 기업가와 투자가의 본질을 알려줄 것이다.",
+          "isbn": "9791187512417",
+          "publisher": "앵글북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4898559?timestamp=20260728113815",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8"
+          },
+          "verified": true,
+          "content_id": "576f8aad-01c7-5e59-bacc-ef52e9c2d85c"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "576f8aad-01c7-5e59-bacc-ef52e9c2d85c",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791187512417",
+        "release_date": "2019-03-28",
+        "metadata": {
+          "isbn": "9791187512417",
+          "publisher": "앵글북스",
+          "publishDate": "2019-03-28",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791187512417",
+            "workTitle": "피터 틸",
+            "workCreator": "토마스 라폴트",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "피터 틸",
+          "creator": "토마스 라폴트",
+          "description": "피터 틸은 핀테크 시대를 성공적으로 개척한 세계 최초 전자결제업체 페이팔의 공동창업자이며, 스페이스엑스의 창업자 일론 머스크, 유튜브의 공동 창업자 채드 헐리와 스티브 챈, 링크드인을 만든 리드 호프먼 등 실리콘밸리를 움직이는 이들을 이끄는‘페이팔 마피아’의 '대부(代父)'로 알려져 있다. 또한 에어비앤비, 스포티파이 등 유명 벤처 기업에 초기 투자해 억만장자가 된 손꼽히는 벤처캐피탈 투자자이자, 페이스북의 가치를 꿰뚫어 본 첫 외부투자자로 3,400배라는 투자이익률을 거둔 ‘투자의 귀재’이기도 하다. 이 외에도 그는 테러와 범죄를 예측하는 빅데이터 분석업체 팰런티어 테크놀로지를 설립해 실리콘밸리의 비상장 기업 중 3위 안에 드는 기업가치 200억 달러로 추정되는 기업으로 키워냈다.\n\n뿐만 아니다. 틸은 지난 미국 대선 당시 힐러리 클린턴의 우세가 확신되는 상황에서 실리콘밸리에서는 유일하게 도널드 트럼프에게 베팅해 승리를 거둔 실패를 모르는 전략가이기도 하다.\n\n이 책은 ‘페이팔 마피아’ 탄생의 밑바탕이 된 틸의 스탠포드 재학시절부터 페이팔 창업, 페이스북 저커버그와의 만남과 팰런티어의 설립 배경 그리고 미국의 그림자 대통령이 되기까지, 국내에서는 최초로 그의 일대기를 통해 ?제로 투 원?에서 미처 밝히지 못했던 피터 틸만의 ‘시대를 이기는 안목’과 ‘숨은 투자 전략’의 비밀을 밝힌다.\n\n역사상 가장 혁명적인 기업가, 피터 틸의 모든 것을 파헤친 이 책은 불확실한 시대의 생존법을 고민하는 독자들에게 새로운 부의 기회를 발견할 투자의 눈과 뛰어난 기업가와 투자가의 본질을 알려줄 것이다.",
+          "isbn": "9791187512417",
+          "publisher": "앵글북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4898559?timestamp=20260728113815",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8"
+          },
+          "verified": true,
+          "content_id": "576f8aad-01c7-5e59-bacc-ef52e9c2d85c"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791187512417",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791187512417"
+      ],
+      "normalizedTitles": [
+        "피터틸"
+      ],
+      "normalizedCreators": [
+        "강민경역",
+        "토마스라폴트"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:25:49.848Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "576f8aad-01c7-5e59-bacc-ef52e9c2d85c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791187512417",
+      "release_date": "2019-03-28",
+      "metadata": {
+        "isbn": "9791187512417",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+        "publisher": "앵글북스",
+        "figureBook": {
+          "workTitle": "피터 틸",
+          "workCreator": "토마스 라폴트",
+          "workIdentity": "book/9791187512417",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-03-28",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:25:40.18859+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "576f8aad-01c7-5e59-bacc-ef52e9c2d85c",
+        "locale": "ko",
+        "title": "피터 틸",
+        "creator": "토마스 라폴트",
+        "description": "피터 틸은 핀테크 시대를 성공적으로 개척한 세계 최초 전자결제업체 페이팔의 공동창업자이며, 스페이스엑스의 창업자 일론 머스크, 유튜브의 공동 창업자 채드 헐리와 스티브 챈, 링크드인을 만든 리드 호프먼 등 실리콘밸리를 움직이는 이들을 이끄는‘페이팔 마피아’의 '대부(代父)'로 알려져 있다. 또한 에어비앤비, 스포티파이 등 유명 벤처 기업에 초기 투자해 억만장자가 된 손꼽히는 벤처캐피탈 투자자이자, 페이스북의 가치를 꿰뚫어 본 첫 외부투자자로 3,400배라는 투자이익률을 거둔 ‘투자의 귀재’이기도 하다. 이 외에도 그는 테러와 범죄를 예측하는 빅데이터 분석업체 팰런티어 테크놀로지를 설립해 실리콘밸리의 비상장 기업 중 3위 안에 드는 기업가치 200억 달러로 추정되는 기업으로 키워냈다.\n\n뿐만 아니다. 틸은 지난 미국 대선 당시 힐러리 클린턴의 우세가 확신되는 상황에서 실리콘밸리에서는 유일하게 도널드 트럼프에게 베팅해 승리를 거둔 실패를 모르는 전략가이기도 하다.\n\n이 책은 ‘페이팔 마피아’ 탄생의 밑바탕이 된 틸의 스탠포드 재학시절부터 페이팔 창업, 페이스북 저커버그와의 만남과 팰런티어의 설립 배경 그리고 미국의 그림자 대통령이 되기까지, 국내에서는 최초로 그의 일대기를 통해 ?제로 투 원?에서 미처 밝히지 못했던 피터 틸만의 ‘시대를 이기는 안목’과 ‘숨은 투자 전략’의 비밀을 밝힌다.\n\n역사상 가장 혁명적인 기업가, 피터 틸의 모든 것을 파헤친 이 책은 불확실한 시대의 생존법을 고민하는 독자들에게 새로운 부의 기회를 발견할 투자의 눈과 뛰어난 기업가와 투자가의 본질을 알려줄 것이다.",
+        "isbn": "9791187512417",
+        "publisher": "앵글북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4898559?timestamp=20260728113815",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4898559&q=%ED%94%BC%ED%84%B0+%ED%8B%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:25:40.18859+00:00",
+        "updated_at": "2026-09-06T04:25:40.18859+00:00"
+      }
+    ]
+  }
+}

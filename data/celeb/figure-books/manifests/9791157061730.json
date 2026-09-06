@@ -1,0 +1,20 @@
+{
+  "work": {
+    "identity": "book/9791157061730",
+    "title": "중국의 젊은 부자들",
+    "creator": "김만기",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김만기, 박보현",
+      "박보현"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791157061730"
+  }
+}

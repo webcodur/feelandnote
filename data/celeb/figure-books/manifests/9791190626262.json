@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791190626262",
+    "title": "마리 앙투아네트: 베르사유와 프랑스혁명",
+    "creator": "슈테판 츠바이크",
+    "titleAliases": [
+      "마리 앙투아네트"
+    ],
+    "creatorAliases": [
+      "육혜원 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791190626262"
+  }
+}

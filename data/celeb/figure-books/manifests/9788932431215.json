@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788932431215",
+    "title": "프랭크 로이드 라이트(현대 예술의 거장 16)(양장본 HardCover)",
+    "creator": "에이다 루이즈 헉스터블",
+    "titleAliases": [
+      "프랭크 로이드 라이트(현대 예술의 거장 16)"
+    ],
+    "creatorAliases": [
+      "이종인 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788932431215"
+  }
+}

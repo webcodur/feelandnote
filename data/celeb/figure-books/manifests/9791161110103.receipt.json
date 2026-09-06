@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791161110103.json",
+  "manifestSha256": "54a671a55fc014dba5a2e3e2e859932170d542a386df4ca7dc5d97c5dbec5ee4",
+  "planSha256": "0a1b6dfdbba91c7cc51014ba2ab3c86f7bef8b1c8fd7c27850feb1570df1606a",
+  "workIdentity": "book/9791161110103",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791161110103"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "cd052d33-8a88-552a-a526-4c8f85030d41",
+    "scopeKey": "book/9791161110103",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "cd052d33-8a88-552a-a526-4c8f85030d41",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791161110103",
+      "release_date": "2018-01-10",
+      "metadata": {
+        "isbn": "9791161110103",
+        "publisher": "뮤진트리",
+        "publishDate": "2018-01-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791161110103",
+          "workTitle": "브론테 자매 평전(양장본 Hardcover)",
+          "workCreator": "데버러 러츠",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "브론테 자매 평전",
+          "creator": "데버러 러츠",
+          "description": "《제인 에어》 《폭풍의 언덕》 《애그니스 그레이》를 쓴 샬럿ㆍ에밀리ㆍ앤.\n세 자매가 한꺼번에 작가로 문학사에서 이름을 드높인 가문이 또 있을까? 빅토리아 시대 문학 연구가인 저자는 브론테 자매들이 생전에 함께했던 사물들을 통해 복합적이고 매혹적인 그들의 삶을 이야기한다.\n형제자매가 어린 시절에 만든 미니어처 책으로부터 황야로 고독한 산책을 떠나며 손에 들었던 자두나무 지팡이, 그리고 휴대용 책상까지, 각각의 개인적 사물들은 브론테 자매의 세계와 그들이 사랑했던 소설, 그리고 빅토리아 시대로 들어가는 창문과도 같다.\n자매들 중 특히 동물을 사랑했던 에밀리가 키운 개 키퍼의 황동 목걸이에 대한 묘사는 브론테 가족이 키운 개들이 그들의 글쓰기에 미친 영향과 빅토리아 시대 사람들이 애완동물과 맺었던 관계를 흥미롭게 알려준다. 또한 샬럿이 착용했던, 앤과 에밀리의 머리칼로 만든 팔찌는 그녀가 동생들의 죽음으로 인해 겪은 깊은 상실을 생생하게 증언한다.\n저자는 히스가 무성한 황야의 세찬 바람 속을 고독하게 산책하며 작품의 영감을 키워낸 브론테 가의 세 여성의 물질적 세계를 들여다봄으로써 사물의 세계에 시대를 초월하는 문화적 가치가 깃들어 있음을 탁월하게 증명하고 있다.",
+          "isbn": "9791161110103",
+          "publisher": "뮤진트리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1601384?timestamp=20221011185120",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29"
+          },
+          "verified": true,
+          "content_id": "cd052d33-8a88-552a-a526-4c8f85030d41"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "cd052d33-8a88-552a-a526-4c8f85030d41",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791161110103",
+        "release_date": "2018-01-10",
+        "metadata": {
+          "isbn": "9791161110103",
+          "publisher": "뮤진트리",
+          "publishDate": "2018-01-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791161110103",
+            "workTitle": "브론테 자매 평전(양장본 Hardcover)",
+            "workCreator": "데버러 러츠",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "브론테 자매 평전",
+          "creator": "데버러 러츠",
+          "description": "《제인 에어》 《폭풍의 언덕》 《애그니스 그레이》를 쓴 샬럿ㆍ에밀리ㆍ앤.\n세 자매가 한꺼번에 작가로 문학사에서 이름을 드높인 가문이 또 있을까? 빅토리아 시대 문학 연구가인 저자는 브론테 자매들이 생전에 함께했던 사물들을 통해 복합적이고 매혹적인 그들의 삶을 이야기한다.\n형제자매가 어린 시절에 만든 미니어처 책으로부터 황야로 고독한 산책을 떠나며 손에 들었던 자두나무 지팡이, 그리고 휴대용 책상까지, 각각의 개인적 사물들은 브론테 자매의 세계와 그들이 사랑했던 소설, 그리고 빅토리아 시대로 들어가는 창문과도 같다.\n자매들 중 특히 동물을 사랑했던 에밀리가 키운 개 키퍼의 황동 목걸이에 대한 묘사는 브론테 가족이 키운 개들이 그들의 글쓰기에 미친 영향과 빅토리아 시대 사람들이 애완동물과 맺었던 관계를 흥미롭게 알려준다. 또한 샬럿이 착용했던, 앤과 에밀리의 머리칼로 만든 팔찌는 그녀가 동생들의 죽음으로 인해 겪은 깊은 상실을 생생하게 증언한다.\n저자는 히스가 무성한 황야의 세찬 바람 속을 고독하게 산책하며 작품의 영감을 키워낸 브론테 가의 세 여성의 물질적 세계를 들여다봄으로써 사물의 세계에 시대를 초월하는 문화적 가치가 깃들어 있음을 탁월하게 증명하고 있다.",
+          "isbn": "9791161110103",
+          "publisher": "뮤진트리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1601384?timestamp=20221011185120",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29"
+          },
+          "verified": true,
+          "content_id": "cd052d33-8a88-552a-a526-4c8f85030d41"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791161110103",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791161110103"
+      ],
+      "normalizedTitles": [
+        "브론테자매평전",
+        "브론테자매평전양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "데버러러츠",
+        "박여영역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:21:41.468Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "cd052d33-8a88-552a-a526-4c8f85030d41",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791161110103",
+      "release_date": "2018-01-10",
+      "metadata": {
+        "isbn": "9791161110103",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+        "publisher": "뮤진트리",
+        "figureBook": {
+          "workTitle": "브론테 자매 평전(양장본 Hardcover)",
+          "workCreator": "데버러 러츠",
+          "workIdentity": "book/9791161110103",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2018-01-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:21:32.668719+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "cd052d33-8a88-552a-a526-4c8f85030d41",
+        "locale": "ko",
+        "title": "브론테 자매 평전",
+        "creator": "데버러 러츠",
+        "description": "《제인 에어》 《폭풍의 언덕》 《애그니스 그레이》를 쓴 샬럿ㆍ에밀리ㆍ앤.\n세 자매가 한꺼번에 작가로 문학사에서 이름을 드높인 가문이 또 있을까? 빅토리아 시대 문학 연구가인 저자는 브론테 자매들이 생전에 함께했던 사물들을 통해 복합적이고 매혹적인 그들의 삶을 이야기한다.\n형제자매가 어린 시절에 만든 미니어처 책으로부터 황야로 고독한 산책을 떠나며 손에 들었던 자두나무 지팡이, 그리고 휴대용 책상까지, 각각의 개인적 사물들은 브론테 자매의 세계와 그들이 사랑했던 소설, 그리고 빅토리아 시대로 들어가는 창문과도 같다.\n자매들 중 특히 동물을 사랑했던 에밀리가 키운 개 키퍼의 황동 목걸이에 대한 묘사는 브론테 가족이 키운 개들이 그들의 글쓰기에 미친 영향과 빅토리아 시대 사람들이 애완동물과 맺었던 관계를 흥미롭게 알려준다. 또한 샬럿이 착용했던, 앤과 에밀리의 머리칼로 만든 팔찌는 그녀가 동생들의 죽음으로 인해 겪은 깊은 상실을 생생하게 증언한다.\n저자는 히스가 무성한 황야의 세찬 바람 속을 고독하게 산책하며 작품의 영감을 키워낸 브론테 가의 세 여성의 물질적 세계를 들여다봄으로써 사물의 세계에 시대를 초월하는 문화적 가치가 깃들어 있음을 탁월하게 증명하고 있다.",
+        "isbn": "9791161110103",
+        "publisher": "뮤진트리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1601384?timestamp=20221011185120",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1601384&q=%EB%B8%8C%EB%A1%A0%ED%85%8C+%EC%9E%90%EB%A7%A4+%ED%8F%89%EC%A0%84%28%EC%96%91%EC%9E%A5%EB%B3%B8+Hardcover%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:21:32.668719+00:00",
+        "updated_at": "2026-09-06T04:21:32.668719+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791191432312.json",
+  "manifestSha256": "e61c984e09a7a40a2ace9d499087a9d713d503467fdf417569ded0473c35e460",
+  "planSha256": "6c1a117ce6672a50d8b2975fbcc58fcea7c9fcd71e9d037994effed855fcae7a",
+  "workIdentity": "book/9791191432312",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791191432312"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "610e5bda-e47f-5ba7-bbcb-afbed0aa4a76",
+    "scopeKey": "book/9791191432312",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "610e5bda-e47f-5ba7-bbcb-afbed0aa4a76",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791191432312",
+      "release_date": "2021-12-07",
+      "metadata": {
+        "isbn": "9791191432312",
+        "publisher": "책과함께",
+        "publishDate": "2021-12-07",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791191432312",
+          "workTitle": "미켈란젤로, 생의 마지막 도전",
+          "workCreator": "윌리엄 E. 월리스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "미켈란젤로, 생의 마지막 도전",
+          "creator": "윌리엄 E. 월리스",
+          "description": "예술가에게 나이 든다는 것은 어떤 의미일까? 미켈란젤로는 89세까지 살았던 르네상스의 대표적인 예술가다. 그의 생애 전반기가 너무나도 널리 조명을 받았지만, 그 생애 만년도 실은 청장년 시절 못지않게 까다롭고 모험적이었으며 위대한 성취를 이룬 시기였다.\n이 책은 생애 마지막 20년을 중점적으로 다룬 전기다. 만년에 미켈란젤로가 거듭되는 좌절과 개인적 상실, 점점 먹어가는 나이, 곧 닥쳐올 것 같은 죽음에 대한 예감 등을 앞에 두고서 어떻게 살아갔으며 어떻게 일했는지를 검토한다. 그는 주위에 어른거리는 죽음의 그림자에 맞서 그저 초연히 물러서지 않았다. 오히려 더 적극적으로 작품 제작에 매달렸다. 뒤집어 말하면 그처럼 많은 일을 했기 때문에 나이를 이겨낼 수 있었다.\n늘 바빴던 그의 만년에서 가장 중요한 활동은 단연 성 베드로 대성당 공사였다. 이 대공사는 1505년에 브라만테가 착공하여 1546년 미켈란젤로가 이어받고 17세기 중반에 베르니니가 공식적으로 완공할 때까지 무려 150년이라는 세월이 걸렸다. 수많은 건축가가 건축을 이어갔지만 대성당은 미켈란젤로의 가장 위대한 업적으로 널리 인정받고 있다. 그 까닭은 무엇인지를 이 책에서 소상히 확인할 수 있다.",
+          "isbn": "9791191432312",
+          "publisher": "책과함께",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5901319?timestamp=20240116164445",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "610e5bda-e47f-5ba7-bbcb-afbed0aa4a76"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "610e5bda-e47f-5ba7-bbcb-afbed0aa4a76",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791191432312",
+        "release_date": "2021-12-07",
+        "metadata": {
+          "isbn": "9791191432312",
+          "publisher": "책과함께",
+          "publishDate": "2021-12-07",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791191432312",
+            "workTitle": "미켈란젤로, 생의 마지막 도전",
+            "workCreator": "윌리엄 E. 월리스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "미켈란젤로, 생의 마지막 도전",
+          "creator": "윌리엄 E. 월리스",
+          "description": "예술가에게 나이 든다는 것은 어떤 의미일까? 미켈란젤로는 89세까지 살았던 르네상스의 대표적인 예술가다. 그의 생애 전반기가 너무나도 널리 조명을 받았지만, 그 생애 만년도 실은 청장년 시절 못지않게 까다롭고 모험적이었으며 위대한 성취를 이룬 시기였다.\n이 책은 생애 마지막 20년을 중점적으로 다룬 전기다. 만년에 미켈란젤로가 거듭되는 좌절과 개인적 상실, 점점 먹어가는 나이, 곧 닥쳐올 것 같은 죽음에 대한 예감 등을 앞에 두고서 어떻게 살아갔으며 어떻게 일했는지를 검토한다. 그는 주위에 어른거리는 죽음의 그림자에 맞서 그저 초연히 물러서지 않았다. 오히려 더 적극적으로 작품 제작에 매달렸다. 뒤집어 말하면 그처럼 많은 일을 했기 때문에 나이를 이겨낼 수 있었다.\n늘 바빴던 그의 만년에서 가장 중요한 활동은 단연 성 베드로 대성당 공사였다. 이 대공사는 1505년에 브라만테가 착공하여 1546년 미켈란젤로가 이어받고 17세기 중반에 베르니니가 공식적으로 완공할 때까지 무려 150년이라는 세월이 걸렸다. 수많은 건축가가 건축을 이어갔지만 대성당은 미켈란젤로의 가장 위대한 업적으로 널리 인정받고 있다. 그 까닭은 무엇인지를 이 책에서 소상히 확인할 수 있다.",
+          "isbn": "9791191432312",
+          "publisher": "책과함께",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5901319?timestamp=20240116164445",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "610e5bda-e47f-5ba7-bbcb-afbed0aa4a76"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791191432312",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791191432312"
+      ],
+      "normalizedTitles": [
+        "미켈란젤로생의마지막도전"
+      ],
+      "normalizedCreators": [
+        "윌리엄e월리스",
+        "이종인역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:14:16.916Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "610e5bda-e47f-5ba7-bbcb-afbed0aa4a76",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791191432312",
+      "release_date": "2021-12-07",
+      "metadata": {
+        "isbn": "9791191432312",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+        "publisher": "책과함께",
+        "figureBook": {
+          "workTitle": "미켈란젤로, 생의 마지막 도전",
+          "workCreator": "윌리엄 E. 월리스",
+          "workIdentity": "book/9791191432312",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2021-12-07",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:14:11.471138+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "610e5bda-e47f-5ba7-bbcb-afbed0aa4a76",
+        "locale": "ko",
+        "title": "미켈란젤로, 생의 마지막 도전",
+        "creator": "윌리엄 E. 월리스",
+        "description": "예술가에게 나이 든다는 것은 어떤 의미일까? 미켈란젤로는 89세까지 살았던 르네상스의 대표적인 예술가다. 그의 생애 전반기가 너무나도 널리 조명을 받았지만, 그 생애 만년도 실은 청장년 시절 못지않게 까다롭고 모험적이었으며 위대한 성취를 이룬 시기였다.\n이 책은 생애 마지막 20년을 중점적으로 다룬 전기다. 만년에 미켈란젤로가 거듭되는 좌절과 개인적 상실, 점점 먹어가는 나이, 곧 닥쳐올 것 같은 죽음에 대한 예감 등을 앞에 두고서 어떻게 살아갔으며 어떻게 일했는지를 검토한다. 그는 주위에 어른거리는 죽음의 그림자에 맞서 그저 초연히 물러서지 않았다. 오히려 더 적극적으로 작품 제작에 매달렸다. 뒤집어 말하면 그처럼 많은 일을 했기 때문에 나이를 이겨낼 수 있었다.\n늘 바빴던 그의 만년에서 가장 중요한 활동은 단연 성 베드로 대성당 공사였다. 이 대공사는 1505년에 브라만테가 착공하여 1546년 미켈란젤로가 이어받고 17세기 중반에 베르니니가 공식적으로 완공할 때까지 무려 150년이라는 세월이 걸렸다. 수많은 건축가가 건축을 이어갔지만 대성당은 미켈란젤로의 가장 위대한 업적으로 널리 인정받고 있다. 그 까닭은 무엇인지를 이 책에서 소상히 확인할 수 있다.",
+        "isbn": "9791191432312",
+        "publisher": "책과함께",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5901319?timestamp=20240116164445",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5901319&q=%EB%AF%B8%EC%BC%88%EB%9E%80%EC%A0%A4%EB%A1%9C%2C+%EC%83%9D%EC%9D%98+%EB%A7%88%EC%A7%80%EB%A7%89+%EB%8F%84%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:14:11.471138+00:00",
+        "updated_at": "2026-09-04T18:14:11.471138+00:00"
+      }
+    ]
+  }
+}

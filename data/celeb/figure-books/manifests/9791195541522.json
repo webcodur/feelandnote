@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791195541522",
+    "title": "프리다 칼로, 내 영혼의 일기",
+    "creator": "프리다 칼로",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791195541522"
+  }
+}

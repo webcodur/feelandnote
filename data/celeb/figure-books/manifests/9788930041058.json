@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788930041058",
+    "title": "콜럼버스 항해일지",
+    "creator": "크리스토퍼 콜럼버스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "정승희 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788930041058"
+  }
+}

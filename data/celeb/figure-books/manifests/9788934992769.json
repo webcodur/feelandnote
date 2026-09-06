@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788934992769",
+    "title": "엔리코 페르미, 모든 것을 알았던 마지막 사람",
+    "creator": "데이비드 N. 슈워츠",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김희봉 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788934992769"
+  }
+}

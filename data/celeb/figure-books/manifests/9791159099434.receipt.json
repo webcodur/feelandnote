@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791159099434.json",
+  "manifestSha256": "b0b08c0dc2cad5dd175884d6fe40c7cf38b017f1cac76382c5246e0ac6e40d7c",
+  "planSha256": "660817636c088d6fce8cc4ebaac608cf135fffacef4f056fe5682b2942f121dc",
+  "workIdentity": "book/9791159099434",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791159099434"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "cdbe884e-bc6a-5016-9b62-fe8668fcb2bc",
+    "scopeKey": "book/9791159099434",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "cdbe884e-bc6a-5016-9b62-fe8668fcb2bc",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791159099434",
+      "release_date": "2022-05-02",
+      "metadata": {
+        "isbn": "9791159099434",
+        "publisher": "교보문고",
+        "publishDate": "2022-05-02",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791159099434",
+          "workTitle": "세상의 모든 전략은 삼국지에서 탄생했다",
+          "workCreator": "임용한",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "세상의 모든 전략은 삼국지에서 탄생했다",
+          "creator": "임용한",
+          "description": "〈토크멘터리 전쟁史〉 〈차이나는 클라스〉를 통해 대중의 지지를 받는 역사학자 임용한. 그가 이번에는 ‘삼국지’를 선택했다. 서기 3세기 중국에서 실제로 벌어졌던 사건을 기록한 정사 《삼국지》와 2천 년 가까이 사람들 사이에 전해지면서 대중이 느끼고, 보고 싶어 했던 로망을 담은 소설 《삼국지연의》의 비교를 통해 삼국지가 주는 교훈과 인생의 지혜, 세상에 대한 통찰을 정리한 것이다.\n\n이 책 《세상의 모든 전략은 삼국지에서 탄생했다》는 현대적 관점에서 역사와 소설을 다루고 각각의 내용이 우리에게 전하는 메시지와 교훈을 찾는다. 수많은 영웅이 활약한 치열한 전투 가운데 조조·유비·손권이 나라를 건설하고 키워낸 이야기는 인재를 기용하고, 추진력을 발휘하며, 확실한 승부수를 띄우는 방법을 알려준다. 또한 삼국지에서 활약한 모사와 장수들이 겪은 의리와 배신, 인간사의 갈등을 해결하는 과정은 우리가 현대의 삶에서 마주하게 되는 수많은 선택의 장면과 다르지 않다. 이야기마다 등장하는 다양한 병법과 처세, 승부를 좌우하는 전쟁 전략은 물론 국가 전략까지, 인간사의 크고 작은 전략을 총망라한 삼국지를 읽으면 전략적 사고와 리더십을 배우고, 추진력과 승부수를 던져야 할 타이밍이 보인다.\n\n그런 의미에서 삼국지의 전쟁 경영은 우리의 자기 경영과 맞닿아 있다. 이 책은 그 가운데 우리 삶의 무기가 되어줄 만한 전략을 선정해 정리했다. 삼국지 속 영웅들이 치르는 전쟁에 숨어 있는 나아갈 때와 물러설 때를 아는 처세술, 위기를 기회로 만드는 성공 전략으로 끝까지 살아남아 대업을 이루자. 우리는 지금 삼국지의 시대를 살고 있다.",
+          "isbn": "9791159099434",
+          "publisher": "교보문고",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6061612?timestamp=20250318150818",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "cdbe884e-bc6a-5016-9b62-fe8668fcb2bc"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "cdbe884e-bc6a-5016-9b62-fe8668fcb2bc",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791159099434",
+        "release_date": "2022-05-02",
+        "metadata": {
+          "isbn": "9791159099434",
+          "publisher": "교보문고",
+          "publishDate": "2022-05-02",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791159099434",
+            "workTitle": "세상의 모든 전략은 삼국지에서 탄생했다",
+            "workCreator": "임용한",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "세상의 모든 전략은 삼국지에서 탄생했다",
+          "creator": "임용한",
+          "description": "〈토크멘터리 전쟁史〉 〈차이나는 클라스〉를 통해 대중의 지지를 받는 역사학자 임용한. 그가 이번에는 ‘삼국지’를 선택했다. 서기 3세기 중국에서 실제로 벌어졌던 사건을 기록한 정사 《삼국지》와 2천 년 가까이 사람들 사이에 전해지면서 대중이 느끼고, 보고 싶어 했던 로망을 담은 소설 《삼국지연의》의 비교를 통해 삼국지가 주는 교훈과 인생의 지혜, 세상에 대한 통찰을 정리한 것이다.\n\n이 책 《세상의 모든 전략은 삼국지에서 탄생했다》는 현대적 관점에서 역사와 소설을 다루고 각각의 내용이 우리에게 전하는 메시지와 교훈을 찾는다. 수많은 영웅이 활약한 치열한 전투 가운데 조조·유비·손권이 나라를 건설하고 키워낸 이야기는 인재를 기용하고, 추진력을 발휘하며, 확실한 승부수를 띄우는 방법을 알려준다. 또한 삼국지에서 활약한 모사와 장수들이 겪은 의리와 배신, 인간사의 갈등을 해결하는 과정은 우리가 현대의 삶에서 마주하게 되는 수많은 선택의 장면과 다르지 않다. 이야기마다 등장하는 다양한 병법과 처세, 승부를 좌우하는 전쟁 전략은 물론 국가 전략까지, 인간사의 크고 작은 전략을 총망라한 삼국지를 읽으면 전략적 사고와 리더십을 배우고, 추진력과 승부수를 던져야 할 타이밍이 보인다.\n\n그런 의미에서 삼국지의 전쟁 경영은 우리의 자기 경영과 맞닿아 있다. 이 책은 그 가운데 우리 삶의 무기가 되어줄 만한 전략을 선정해 정리했다. 삼국지 속 영웅들이 치르는 전쟁에 숨어 있는 나아갈 때와 물러설 때를 아는 처세술, 위기를 기회로 만드는 성공 전략으로 끝까지 살아남아 대업을 이루자. 우리는 지금 삼국지의 시대를 살고 있다.",
+          "isbn": "9791159099434",
+          "publisher": "교보문고",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6061612?timestamp=20250318150818",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "cdbe884e-bc6a-5016-9b62-fe8668fcb2bc"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791159099434",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791159099434"
+      ],
+      "normalizedTitles": [
+        "세상의모든전략은삼국지에서탄생했다"
+      ],
+      "normalizedCreators": [
+        "임용한"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:20:14.236Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "cdbe884e-bc6a-5016-9b62-fe8668fcb2bc",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791159099434",
+      "release_date": "2022-05-02",
+      "metadata": {
+        "isbn": "9791159099434",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+        "publisher": "교보문고",
+        "figureBook": {
+          "workTitle": "세상의 모든 전략은 삼국지에서 탄생했다",
+          "workCreator": "임용한",
+          "workIdentity": "book/9791159099434",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-05-02",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:19:57.574192+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "cdbe884e-bc6a-5016-9b62-fe8668fcb2bc",
+        "locale": "ko",
+        "title": "세상의 모든 전략은 삼국지에서 탄생했다",
+        "creator": "임용한",
+        "description": "〈토크멘터리 전쟁史〉 〈차이나는 클라스〉를 통해 대중의 지지를 받는 역사학자 임용한. 그가 이번에는 ‘삼국지’를 선택했다. 서기 3세기 중국에서 실제로 벌어졌던 사건을 기록한 정사 《삼국지》와 2천 년 가까이 사람들 사이에 전해지면서 대중이 느끼고, 보고 싶어 했던 로망을 담은 소설 《삼국지연의》의 비교를 통해 삼국지가 주는 교훈과 인생의 지혜, 세상에 대한 통찰을 정리한 것이다.\n\n이 책 《세상의 모든 전략은 삼국지에서 탄생했다》는 현대적 관점에서 역사와 소설을 다루고 각각의 내용이 우리에게 전하는 메시지와 교훈을 찾는다. 수많은 영웅이 활약한 치열한 전투 가운데 조조·유비·손권이 나라를 건설하고 키워낸 이야기는 인재를 기용하고, 추진력을 발휘하며, 확실한 승부수를 띄우는 방법을 알려준다. 또한 삼국지에서 활약한 모사와 장수들이 겪은 의리와 배신, 인간사의 갈등을 해결하는 과정은 우리가 현대의 삶에서 마주하게 되는 수많은 선택의 장면과 다르지 않다. 이야기마다 등장하는 다양한 병법과 처세, 승부를 좌우하는 전쟁 전략은 물론 국가 전략까지, 인간사의 크고 작은 전략을 총망라한 삼국지를 읽으면 전략적 사고와 리더십을 배우고, 추진력과 승부수를 던져야 할 타이밍이 보인다.\n\n그런 의미에서 삼국지의 전쟁 경영은 우리의 자기 경영과 맞닿아 있다. 이 책은 그 가운데 우리 삶의 무기가 되어줄 만한 전략을 선정해 정리했다. 삼국지 속 영웅들이 치르는 전쟁에 숨어 있는 나아갈 때와 물러설 때를 아는 처세술, 위기를 기회로 만드는 성공 전략으로 끝까지 살아남아 대업을 이루자. 우리는 지금 삼국지의 시대를 살고 있다.",
+        "isbn": "9791159099434",
+        "publisher": "교보문고",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6061612?timestamp=20250318150818",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6061612&q=%EC%84%B8%EC%83%81%EC%9D%98+%EB%AA%A8%EB%93%A0+%EC%A0%84%EB%9E%B5%EC%9D%80+%EC%82%BC%EA%B5%AD%EC%A7%80%EC%97%90%EC%84%9C+%ED%83%84%EC%83%9D%ED%96%88%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:19:57.574192+00:00",
+        "updated_at": "2026-09-06T04:19:57.574192+00:00"
+      }
+    ]
+  }
+}

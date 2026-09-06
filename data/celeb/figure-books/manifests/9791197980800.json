@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791197980800",
+    "title": "페데리코 펠리니",
+    "creator": "툴리오 케치치",
+    "titleAliases": [],
+    "creatorAliases": [
+      "한창호 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791197980800"
+  }
+}

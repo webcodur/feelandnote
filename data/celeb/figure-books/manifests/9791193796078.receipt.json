@@ -1,0 +1,219 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791193796078.json",
+  "manifestSha256": "64b47d952a6f46afe23882e0fcf8d33a161c79bbe342dc04dcb6c774fba10932",
+  "planSha256": "b3490acd0f496d3a2ad2a7da64b91b425dd1a912f3566cb8b90b503a4c4ab51e",
+  "workIdentity": "book/9791193796078",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791193796078"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "2a13aad4-da86-5d22-b122-7f76048890ef",
+    "scopeKey": "book/9791193796078",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "2a13aad4-da86-5d22-b122-7f76048890ef",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791193796078",
+      "release_date": "2025-02-25",
+      "metadata": {
+        "isbn": "9791193796078",
+        "publisher": "넥센미디어",
+        "publishDate": "2025-02-25",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791193796078",
+          "workTitle": "존 F. 케네디의 영원한 불꽃",
+          "workCreator": "손귀분",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "존 F. 케네디의 영원한 불꽃",
+          "creator": "손귀분, 김혜정, 이남철, 배용구",
+          "description": "지붕을 수리할 시기는 해가 빛날 때다. 청소년 필독서의 『존 F. 케네디의 영원한 불꽃』.",
+          "isbn": "9791193796078",
+          "publisher": "넥센미디어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6770625?timestamp=20260211122555",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83"
+          },
+          "verified": true,
+          "content_id": "2a13aad4-da86-5d22-b122-7f76048890ef"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "2a13aad4-da86-5d22-b122-7f76048890ef",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791193796078",
+        "release_date": "2025-02-25",
+        "metadata": {
+          "isbn": "9791193796078",
+          "publisher": "넥센미디어",
+          "publishDate": "2025-02-25",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791193796078",
+            "workTitle": "존 F. 케네디의 영원한 불꽃",
+            "workCreator": "손귀분",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "존 F. 케네디의 영원한 불꽃",
+          "creator": "손귀분, 김혜정, 이남철, 배용구",
+          "description": "지붕을 수리할 시기는 해가 빛날 때다. 청소년 필독서의 『존 F. 케네디의 영원한 불꽃』.",
+          "isbn": "9791193796078",
+          "publisher": "넥센미디어",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6770625?timestamp=20260211122555",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83"
+          },
+          "verified": true,
+          "content_id": "2a13aad4-da86-5d22-b122-7f76048890ef"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791193796078",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791193796078"
+      ],
+      "normalizedTitles": [
+        "존f케네디의영원한불꽃"
+      ],
+      "normalizedCreators": [
+        "김혜정",
+        "배용구",
+        "손귀분",
+        "손귀분김혜정이남철배용구",
+        "이남철"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:15:50.700Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "2a13aad4-da86-5d22-b122-7f76048890ef",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791193796078",
+      "release_date": "2025-02-25",
+      "metadata": {
+        "isbn": "9791193796078",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+        "publisher": "넥센미디어",
+        "figureBook": {
+          "workTitle": "존 F. 케네디의 영원한 불꽃",
+          "workCreator": "손귀분",
+          "workIdentity": "book/9791193796078",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2025-02-25",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:15:46.91026+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "2a13aad4-da86-5d22-b122-7f76048890ef",
+        "locale": "ko",
+        "title": "존 F. 케네디의 영원한 불꽃",
+        "creator": "손귀분, 김혜정, 이남철, 배용구",
+        "description": "지붕을 수리할 시기는 해가 빛날 때다. 청소년 필독서의 『존 F. 케네디의 영원한 불꽃』.",
+        "isbn": "9791193796078",
+        "publisher": "넥센미디어",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6770625?timestamp=20260211122555",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6770625&q=%EC%A1%B4+F.+%EC%BC%80%EB%84%A4%EB%94%94%EC%9D%98+%EC%98%81%EC%9B%90%ED%95%9C+%EB%B6%88%EA%BD%83"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:15:46.91026+00:00",
+        "updated_at": "2026-09-04T18:15:46.91026+00:00"
+      }
+    ]
+  }
+}

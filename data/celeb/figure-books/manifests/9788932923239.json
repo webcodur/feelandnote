@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788932923239",
+    "title": "안도 다다오, 건축을 살다",
+    "creator": "미야케 리이치",
+    "titleAliases": [],
+    "creatorAliases": [
+      "위정훈 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788932923239"
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788949188287.json",
+  "manifestSha256": "555a783724b2b356dcaf282e13ea6549cc4b18465a8a8df24ea7a583920a4747",
+  "planSha256": "2f017eca6e381bf43ac99471a5aca8bdeb9cad72e829691b221278edb59aedb5",
+  "workIdentity": "book/9788949188287",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788949188287"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ba88ec4b-f7bc-573d-8b12-4938a23e8c53",
+    "scopeKey": "book/9788949188287",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ba88ec4b-f7bc-573d-8b12-4938a23e8c53",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788949188287",
+      "release_date": "2010-06-24",
+      "metadata": {
+        "isbn": "9788949188287",
+        "publisher": "비룡소",
+        "publishDate": "2010-06-24",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788949188287",
+          "workTitle": "카이사르(새싹 인물전 28)(양장본 HardCover)",
+          "workCreator": "에마 피시엘",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "카이사르(새싹 인물전 28)",
+          "creator": "에마 피시엘",
+          "description": "초등학교 저학년 아이들을 위한 위인 동화「새싹 인물전」시리즈 제28권 『카이사르』. 이 책은 로마 제국의 위대한 지도자였던 카이사르의 생애와 로마 시대 전쟁의 역사를 담고 있다. 기원전 1세기 로마를 세상에서 가장 크고 강한 나라로 만들었던 카이사르는 수많은 전투에서 승리를 거두었다. 큰 승리를 거두고 '왔노라, 보았노라, 이겼노라'라는 유명한 말을 남긴 그의 용맹스러운 모습과 영리함을 재미있는 이야기와 그림으로 소개한다.",
+          "isbn": "9788949188287",
+          "publisher": "비룡소",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/616098?timestamp=20211208151005",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "ba88ec4b-f7bc-573d-8b12-4938a23e8c53"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ba88ec4b-f7bc-573d-8b12-4938a23e8c53",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788949188287",
+        "release_date": "2010-06-24",
+        "metadata": {
+          "isbn": "9788949188287",
+          "publisher": "비룡소",
+          "publishDate": "2010-06-24",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788949188287",
+            "workTitle": "카이사르(새싹 인물전 28)(양장본 HardCover)",
+            "workCreator": "에마 피시엘",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "카이사르(새싹 인물전 28)",
+          "creator": "에마 피시엘",
+          "description": "초등학교 저학년 아이들을 위한 위인 동화「새싹 인물전」시리즈 제28권 『카이사르』. 이 책은 로마 제국의 위대한 지도자였던 카이사르의 생애와 로마 시대 전쟁의 역사를 담고 있다. 기원전 1세기 로마를 세상에서 가장 크고 강한 나라로 만들었던 카이사르는 수많은 전투에서 승리를 거두었다. 큰 승리를 거두고 '왔노라, 보았노라, 이겼노라'라는 유명한 말을 남긴 그의 용맹스러운 모습과 영리함을 재미있는 이야기와 그림으로 소개한다.",
+          "isbn": "9788949188287",
+          "publisher": "비룡소",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/616098?timestamp=20211208151005",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "ba88ec4b-f7bc-573d-8b12-4938a23e8c53"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788949188287",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788949188287"
+      ],
+      "normalizedTitles": [
+        "카이사르새싹인물전28",
+        "카이사르새싹인물전28양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "에마피시엘",
+        "이민아역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:44:25.610Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ba88ec4b-f7bc-573d-8b12-4938a23e8c53",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788949188287",
+      "release_date": "2010-06-24",
+      "metadata": {
+        "isbn": "9788949188287",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "비룡소",
+        "figureBook": {
+          "workTitle": "카이사르(새싹 인물전 28)(양장본 HardCover)",
+          "workCreator": "에마 피시엘",
+          "workIdentity": "book/9788949188287",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2010-06-24",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:44:15.713116+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ba88ec4b-f7bc-573d-8b12-4938a23e8c53",
+        "locale": "ko",
+        "title": "카이사르(새싹 인물전 28)",
+        "creator": "에마 피시엘",
+        "description": "초등학교 저학년 아이들을 위한 위인 동화「새싹 인물전」시리즈 제28권 『카이사르』. 이 책은 로마 제국의 위대한 지도자였던 카이사르의 생애와 로마 시대 전쟁의 역사를 담고 있다. 기원전 1세기 로마를 세상에서 가장 크고 강한 나라로 만들었던 카이사르는 수많은 전투에서 승리를 거두었다. 큰 승리를 거두고 '왔노라, 보았노라, 이겼노라'라는 유명한 말을 남긴 그의 용맹스러운 모습과 영리함을 재미있는 이야기와 그림으로 소개한다.",
+        "isbn": "9788949188287",
+        "publisher": "비룡소",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/616098?timestamp=20211208151005",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=616098&q=%EC%B9%B4%EC%9D%B4%EC%82%AC%EB%A5%B4%28%EC%83%88%EC%8B%B9+%EC%9D%B8%EB%AC%BC%EC%A0%84+28%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:44:15.713116+00:00",
+        "updated_at": "2026-09-04T17:44:15.713116+00:00"
+      }
+    ]
+  }
+}

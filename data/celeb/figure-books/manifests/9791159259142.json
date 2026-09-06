@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791159259142",
+    "title": "노자",
+    "creator": "채지충",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이신지 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791159259142"
+  }
+}

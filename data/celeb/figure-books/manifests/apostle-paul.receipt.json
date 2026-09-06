@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\apostle-paul.json",
+  "manifestSha256": "be4d67bb97eeaa8516366674340f3a46b49610880c9a5e03c1a27211f828376c",
+  "planSha256": "9569a564323560b72db88ebc4bb0d64200c08a12eef294a40fd4967530686dd5",
+  "workIdentity": "john-pollock-apostle-paul",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788936515201"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "conflict",
+    "contentId": "e799683a-557b-5971-bbd7-e3e3312349f0",
+    "scopeKey": "john-pollock-apostle-paul",
+    "conflicts": [
+      "selected content e799683a-557b-5971-bbd7-e3e3312349f0 has a different stored work identity"
+    ],
+    "candidateContentIds": [
+      "e799683a-557b-5971-bbd7-e3e3312349f0"
+    ],
+    "candidateReasons": {
+      "e799683a-557b-5971-bbd7-e3e3312349f0": [
+        "contents.external_id",
+        "ko.isbn",
+        "ko.title+creator"
+      ]
+    },
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": {
+        "id": "e799683a-557b-5971-bbd7-e3e3312349f0",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788936515201",
+        "release_date": "2022-03-10",
+        "metadata": {
+          "isbn": "9788936515201",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+          "publisher": "홍성사",
+          "figureBook": {
+            "workTitle": "사도 바울",
+            "workCreator": "존 폴락",
+            "workIdentity": "book/9788936515201",
+            "koTranslationStatus": "published"
+          },
+          "publishDate": "2022-03-10",
+          "salesStatus": "정상판매"
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0,
+        "created_at": "2026-09-04T17:41:07.369156+00:00"
+      },
+      "locales": [
+        {
+          "content_id": "e799683a-557b-5971-bbd7-e3e3312349f0",
+          "locale": "ko",
+          "title": "사도 바울",
+          "creator": "존 폴락",
+          "description": "“내게 사는 것이 그리스도라!”\n\n사도 바울 생애로의 서사적 여행\n존 폴락의 탁월한 묘사가 돋보이는 명저!\n\n“나는 《사도 바울》 안에서 더없이 값진 보물을 발견했다. 아니, 이 책을 읽은 경험은 내가 그리스도인으로 성장하는 데 가장 중요한 요소 중 하나였다.”\n-찰스 콜슨(《이것이 교회다》, 《그리스도인 이제 어떻게 살 것인가?》 저자)\n\n마치 먹이를 포획하듯 예수를 따르는 이들을 찾아다니던 사울은 강렬한 빛의 광채 앞에 쓰러졌다. 멀어 버린 그의 두 눈, 그러나 그의 정신은 빛이 가득 채웠다. 새로운 주인의 첫 명령에 순종하여 걸어가면서 그는 첫 번째 놀라운 발견을 했다. 예수님이 그의 곁에 머물러 계셨던 것이다. 십자가에 못박혔다가 부활한 몸의 형체로는 아니지만, 보이지 않되 분명히 거기 있는 존재로서 곁에 계셨다.\n\n사도 바울의 이야기가 한 편의 영화처럼 생생히 펼쳐진다. 탁월한 이야기꾼 존 폴락은 입체적이고 현장감 있는 서술과 방대한 역사적 사실 위에 근거 있는 이야기적 상상력을 더했다. 그는 케임브리지대학 출신 목회자로서, 복음전도사 빌리 그레이엄의 공인된 전기를 저술하였고, 키치너, 윌버포스, 샤프스베리 등의 전기를 저술한 영향력 있는 전기 작가이다. 이 책에서 존 폴락은 사도행전과 바울서신을 바탕으로 바울의 삶을 면밀하게 묘사하며, 그리스도인의 삶의 본을 비추고 있다. 2009년 초판 이후 11쇄가 발행되며 꾸준한 사랑을 받은 《사도 바울》은 이번 개정판에서 사도 바울의 전도 여행을 더 쉽고 명확하게 확인할 수 있는 지도로 교체되었고, 다소 긴 분량을 여유롭게 읽을 수 있도록 가독성을 높여 디자인되었다.",
+          "isbn": "9788936515201",
+          "publisher": "홍성사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6040754?timestamp=20221116195232",
+          "affiliate_url": null,
+          "sources": {
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "primary": "kakao_book",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8"
+          },
+          "verified": true,
+          "created_at": "2026-09-04T17:41:07.369156+00:00",
+          "updated_at": "2026-09-04T17:41:07.369156+00:00"
+        }
+      ]
+    },
+    "contentInsert": null,
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "unchanged",
+        "locale": "ko",
+        "before": {
+          "content_id": "e799683a-557b-5971-bbd7-e3e3312349f0",
+          "locale": "ko",
+          "title": "사도 바울",
+          "creator": "존 폴락",
+          "description": "“내게 사는 것이 그리스도라!”\n\n사도 바울 생애로의 서사적 여행\n존 폴락의 탁월한 묘사가 돋보이는 명저!\n\n“나는 《사도 바울》 안에서 더없이 값진 보물을 발견했다. 아니, 이 책을 읽은 경험은 내가 그리스도인으로 성장하는 데 가장 중요한 요소 중 하나였다.”\n-찰스 콜슨(《이것이 교회다》, 《그리스도인 이제 어떻게 살 것인가?》 저자)\n\n마치 먹이를 포획하듯 예수를 따르는 이들을 찾아다니던 사울은 강렬한 빛의 광채 앞에 쓰러졌다. 멀어 버린 그의 두 눈, 그러나 그의 정신은 빛이 가득 채웠다. 새로운 주인의 첫 명령에 순종하여 걸어가면서 그는 첫 번째 놀라운 발견을 했다. 예수님이 그의 곁에 머물러 계셨던 것이다. 십자가에 못박혔다가 부활한 몸의 형체로는 아니지만, 보이지 않되 분명히 거기 있는 존재로서 곁에 계셨다.\n\n사도 바울의 이야기가 한 편의 영화처럼 생생히 펼쳐진다. 탁월한 이야기꾼 존 폴락은 입체적이고 현장감 있는 서술과 방대한 역사적 사실 위에 근거 있는 이야기적 상상력을 더했다. 그는 케임브리지대학 출신 목회자로서, 복음전도사 빌리 그레이엄의 공인된 전기를 저술하였고, 키치너, 윌버포스, 샤프스베리 등의 전기를 저술한 영향력 있는 전기 작가이다. 이 책에서 존 폴락은 사도행전과 바울서신을 바탕으로 바울의 삶을 면밀하게 묘사하며, 그리스도인의 삶의 본을 비추고 있다. 2009년 초판 이후 11쇄가 발행되며 꾸준한 사랑을 받은 《사도 바울》은 이번 개정판에서 사도 바울의 전도 여행을 더 쉽고 명확하게 확인할 수 있는 지도로 교체되었고, 다소 긴 분량을 여유롭게 읽을 수 있도록 가독성을 높여 디자인되었다.",
+          "isbn": "9788936515201",
+          "publisher": "홍성사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6040754?timestamp=20221116195232",
+          "affiliate_url": null,
+          "sources": {
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "primary": "kakao_book",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8"
+          },
+          "verified": true,
+          "created_at": "2026-09-04T17:41:07.369156+00:00",
+          "updated_at": "2026-09-04T17:41:07.369156+00:00"
+        },
+        "after": {
+          "content_id": "e799683a-557b-5971-bbd7-e3e3312349f0",
+          "locale": "ko",
+          "title": "사도 바울",
+          "creator": "존 폴락",
+          "description": "“내게 사는 것이 그리스도라!”\n\n사도 바울 생애로의 서사적 여행\n존 폴락의 탁월한 묘사가 돋보이는 명저!\n\n“나는 《사도 바울》 안에서 더없이 값진 보물을 발견했다. 아니, 이 책을 읽은 경험은 내가 그리스도인으로 성장하는 데 가장 중요한 요소 중 하나였다.”\n-찰스 콜슨(《이것이 교회다》, 《그리스도인 이제 어떻게 살 것인가?》 저자)\n\n마치 먹이를 포획하듯 예수를 따르는 이들을 찾아다니던 사울은 강렬한 빛의 광채 앞에 쓰러졌다. 멀어 버린 그의 두 눈, 그러나 그의 정신은 빛이 가득 채웠다. 새로운 주인의 첫 명령에 순종하여 걸어가면서 그는 첫 번째 놀라운 발견을 했다. 예수님이 그의 곁에 머물러 계셨던 것이다. 십자가에 못박혔다가 부활한 몸의 형체로는 아니지만, 보이지 않되 분명히 거기 있는 존재로서 곁에 계셨다.\n\n사도 바울의 이야기가 한 편의 영화처럼 생생히 펼쳐진다. 탁월한 이야기꾼 존 폴락은 입체적이고 현장감 있는 서술과 방대한 역사적 사실 위에 근거 있는 이야기적 상상력을 더했다. 그는 케임브리지대학 출신 목회자로서, 복음전도사 빌리 그레이엄의 공인된 전기를 저술하였고, 키치너, 윌버포스, 샤프스베리 등의 전기를 저술한 영향력 있는 전기 작가이다. 이 책에서 존 폴락은 사도행전과 바울서신을 바탕으로 바울의 삶을 면밀하게 묘사하며, 그리스도인의 삶의 본을 비추고 있다. 2009년 초판 이후 11쇄가 발행되며 꾸준한 사랑을 받은 《사도 바울》은 이번 개정판에서 사도 바울의 전도 여행을 더 쉽고 명확하게 확인할 수 있는 지도로 교체되었고, 다소 긴 분량을 여유롭게 읽을 수 있도록 가독성을 높여 디자인되었다.",
+          "isbn": "9788936515201",
+          "publisher": "홍성사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6040754?timestamp=20221116195232",
+          "affiliate_url": null,
+          "sources": {
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "primary": "kakao_book",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6040754&q=%EC%82%AC%EB%8F%84+%EB%B0%94%EC%9A%B8"
+          },
+          "verified": true
+        }
+      }
+    ],
+    "expectedAfterMaterial": null,
+    "duplicateMatchers": {
+      "workIdentity": "john-pollock-apostle-paul",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788936515201"
+      ],
+      "normalizedTitles": [
+        "사도바울"
+      ],
+      "normalizedCreators": [
+        "존폴락"
+      ]
+    }
+  },
+  "status": "conflict",
+  "databaseWrites": 0
+}

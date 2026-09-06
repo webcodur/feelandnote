@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791159059889",
+    "title": "중국 현대 학술의 건립",
+    "creator": "천핑위안",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김홍매 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791159059889"
+  }
+}

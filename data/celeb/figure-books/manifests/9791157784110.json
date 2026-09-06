@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791157784110",
+    "title": "플로렌스 나이팅게일 평전",
+    "creator": "김창희",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791157784110"
+  }
+}

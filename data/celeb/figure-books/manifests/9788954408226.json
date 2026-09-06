@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788954408226",
+    "title": "강유위가 들려주는 대동 이야기",
+    "creator": "이연도",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788954408226"
+  }
+}

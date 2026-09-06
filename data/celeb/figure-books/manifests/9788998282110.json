@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788998282110",
+    "title": "찰스 다윈: 그래픽 평전",
+    "creator": "유진 번",
+    "titleAliases": [
+      "찰스 다윈"
+    ],
+    "creatorAliases": [
+      "김소정 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788998282110"
+  }
+}

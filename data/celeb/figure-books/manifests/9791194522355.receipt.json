@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791194522355.json",
+  "manifestSha256": "8b10a9dd3a9d020d246e2e64ed1cce884fd421fcd899bc209637877b9f49ec47",
+  "planSha256": "2ac0b36f97fa0094d14dc3dd46d5a89c618045ca7a97257f93444b3ab92bef4f",
+  "workIdentity": "book/9791194522355",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791194522355"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "acd9207f-b0f5-5b97-aedf-847ff036d503",
+    "scopeKey": "book/9791194522355",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "acd9207f-b0f5-5b97-aedf-847ff036d503",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791194522355",
+      "release_date": "2026-04-08",
+      "metadata": {
+        "isbn": "9791194522355",
+        "publisher": "시크릿하우스",
+        "publishDate": "2026-04-08",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791194522355",
+          "workTitle": "현대차 피지컬 AI 혁명",
+          "workCreator": "우수연",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "현대차 피지컬 AI 혁명",
+          "creator": "우수연",
+          "description": "2026년 CES, 전 세계 기술 기업들이 경쟁하던 무대에서 가장 큰 화제를 모은 것은 단연 현대차그룹의 로보틱스 계열사 보스턴다이내믹스가 만든 휴머노이드 로봇 ‘아틀라스(Atlas)’였다. 가장 뜨거운 신기술로 주목받은 것이다. 인간처럼 움직이며, 사람이라면 불가능한 동작과 작업을 아무렇지 않게 수행할 수 있는 아틀라스는 단순한 기술 시연을 넘어, 산업의 미래를 상징하는 장면으로 기록됐다. 그리고 그 중심에는 현대차그룹이 있었다.\n책 《현대차 피지컬 AI 혁명》은 바로 이 장면에서 출발한다. 그리고 중요한 질문을 던진다. 피지컬 AI 시대에 현대차는 무엇이 될 것인가? 어떤 전략으로 AI 시대에 생존을 넘어 주도권을 확보하려 하는가? 이 책은 현대차의 전환을 단순한 기술 트렌드가 아니라, 산업 질서의 재구성으로 읽어낸다. 그리고 여러 층위의 독자들에게 분명한 판단의 기준을 제시한다. 투자자에게는 현대차 밸류에이션의 근거를, 미래의 파도를 준비하는 현대인들에게는 변화하는 산업 지형도를 보여준다. 현대차는 어디로 가고 있는가? 그리고 그들의 변화는 앞으로 어떤 기회와 가능성으로 이어질 것인가? 책 《현대차 피지컬 AI 혁명》은 그 질문에 대한 가장 구체적인 사례이자, 지금 반드시 읽어야 할 미래 보고서다.\n특히 이 책은 그동안 제대로 조명되지 않았던 정의선 회장의 리더십을 본격적으로 분석한 첫 대중서라는 점에서 의미가 크다. 정주영, 정몽구로 이어지는 선대의 리더십과는 다른 ‘정의선 리더십’이 어떻게 현대차의 방향을 바꾸고 있는지 입체적으로 보여준다. 정의선 시대의 키워드는 선대와는 분명 다르다. 저자는 정의선 리더십을 ‘연결과 소통을 중심으로 한 수평적 리더십’으로 규정한다. 동시에 ‘인류를 위한 진보(Progress for Humanity)’라는 현대차의 미래 비전이 기술과 사업 전략 속에서 어떻게 구현되고 있는지도 함께 풀어낸다. 기술은 과시가 아니라 삶을 개선하기 위한 수단이라는 정의선 회장의 철학은, 현대차가 왜 자동차를 넘어 피지컬 AI 기업으로 확장하려 하는지를 이해하는 핵심 열쇠다.\n이어서 저자는 현대차가 내연기관 제조사에서 AI(데이터센터, SDV), 로봇(아틀라스와 산업용 로보틱스), 에너지(수소), 제조(스마트팩토리)라는 네 개의 축을 통해 완전히 다른 산업 구조와 미래를 만들어가는 혁신의 과정을 추적한다. 그리고 자율주행, 소프트웨어 중심 차량(SDV), 도심항공모빌리티(UAM) 등 미래 모빌리티 영역에서도 이동의 개념 자체를 재정의하며 확장해 나가고 있는 모습도 함께 다룬다. 이는 단순히 이동 수단을 고도화하는 것이 아니라, 인간의 이동과 삶을 하나의 연결된 시스템으로 설계하려는 현대차의 시도다. 결국 현대차그룹은 자동차를 만드는 회사를 넘어, 피지컬 AI와 미래 모빌리티를 아우르는 산업 인프라 기업으로 이동하고 있다. 책 《현대차 피지컬 AI 혁명》은 현대차의 변화 구조와 방향을 가장 입체적으로 해부하며, 그들이 앞으로 어떤 산업으로 확장하고, 어떤 방식으로 진화해 나갈 것인지에 대한 미래 설계도를 독자에게 제시한다.",
+          "isbn": "9791194522355",
+          "publisher": "시크릿하우스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7182526?timestamp=20260604152021",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85"
+          },
+          "verified": true,
+          "content_id": "acd9207f-b0f5-5b97-aedf-847ff036d503"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "acd9207f-b0f5-5b97-aedf-847ff036d503",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791194522355",
+        "release_date": "2026-04-08",
+        "metadata": {
+          "isbn": "9791194522355",
+          "publisher": "시크릿하우스",
+          "publishDate": "2026-04-08",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791194522355",
+            "workTitle": "현대차 피지컬 AI 혁명",
+            "workCreator": "우수연",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "현대차 피지컬 AI 혁명",
+          "creator": "우수연",
+          "description": "2026년 CES, 전 세계 기술 기업들이 경쟁하던 무대에서 가장 큰 화제를 모은 것은 단연 현대차그룹의 로보틱스 계열사 보스턴다이내믹스가 만든 휴머노이드 로봇 ‘아틀라스(Atlas)’였다. 가장 뜨거운 신기술로 주목받은 것이다. 인간처럼 움직이며, 사람이라면 불가능한 동작과 작업을 아무렇지 않게 수행할 수 있는 아틀라스는 단순한 기술 시연을 넘어, 산업의 미래를 상징하는 장면으로 기록됐다. 그리고 그 중심에는 현대차그룹이 있었다.\n책 《현대차 피지컬 AI 혁명》은 바로 이 장면에서 출발한다. 그리고 중요한 질문을 던진다. 피지컬 AI 시대에 현대차는 무엇이 될 것인가? 어떤 전략으로 AI 시대에 생존을 넘어 주도권을 확보하려 하는가? 이 책은 현대차의 전환을 단순한 기술 트렌드가 아니라, 산업 질서의 재구성으로 읽어낸다. 그리고 여러 층위의 독자들에게 분명한 판단의 기준을 제시한다. 투자자에게는 현대차 밸류에이션의 근거를, 미래의 파도를 준비하는 현대인들에게는 변화하는 산업 지형도를 보여준다. 현대차는 어디로 가고 있는가? 그리고 그들의 변화는 앞으로 어떤 기회와 가능성으로 이어질 것인가? 책 《현대차 피지컬 AI 혁명》은 그 질문에 대한 가장 구체적인 사례이자, 지금 반드시 읽어야 할 미래 보고서다.\n특히 이 책은 그동안 제대로 조명되지 않았던 정의선 회장의 리더십을 본격적으로 분석한 첫 대중서라는 점에서 의미가 크다. 정주영, 정몽구로 이어지는 선대의 리더십과는 다른 ‘정의선 리더십’이 어떻게 현대차의 방향을 바꾸고 있는지 입체적으로 보여준다. 정의선 시대의 키워드는 선대와는 분명 다르다. 저자는 정의선 리더십을 ‘연결과 소통을 중심으로 한 수평적 리더십’으로 규정한다. 동시에 ‘인류를 위한 진보(Progress for Humanity)’라는 현대차의 미래 비전이 기술과 사업 전략 속에서 어떻게 구현되고 있는지도 함께 풀어낸다. 기술은 과시가 아니라 삶을 개선하기 위한 수단이라는 정의선 회장의 철학은, 현대차가 왜 자동차를 넘어 피지컬 AI 기업으로 확장하려 하는지를 이해하는 핵심 열쇠다.\n이어서 저자는 현대차가 내연기관 제조사에서 AI(데이터센터, SDV), 로봇(아틀라스와 산업용 로보틱스), 에너지(수소), 제조(스마트팩토리)라는 네 개의 축을 통해 완전히 다른 산업 구조와 미래를 만들어가는 혁신의 과정을 추적한다. 그리고 자율주행, 소프트웨어 중심 차량(SDV), 도심항공모빌리티(UAM) 등 미래 모빌리티 영역에서도 이동의 개념 자체를 재정의하며 확장해 나가고 있는 모습도 함께 다룬다. 이는 단순히 이동 수단을 고도화하는 것이 아니라, 인간의 이동과 삶을 하나의 연결된 시스템으로 설계하려는 현대차의 시도다. 결국 현대차그룹은 자동차를 만드는 회사를 넘어, 피지컬 AI와 미래 모빌리티를 아우르는 산업 인프라 기업으로 이동하고 있다. 책 《현대차 피지컬 AI 혁명》은 현대차의 변화 구조와 방향을 가장 입체적으로 해부하며, 그들이 앞으로 어떤 산업으로 확장하고, 어떤 방식으로 진화해 나갈 것인지에 대한 미래 설계도를 독자에게 제시한다.",
+          "isbn": "9791194522355",
+          "publisher": "시크릿하우스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7182526?timestamp=20260604152021",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85"
+          },
+          "verified": true,
+          "content_id": "acd9207f-b0f5-5b97-aedf-847ff036d503"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791194522355",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791194522355"
+      ],
+      "normalizedTitles": [
+        "현대차피지컬ai혁명"
+      ],
+      "normalizedCreators": [
+        "우수연"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:31:43.766Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "acd9207f-b0f5-5b97-aedf-847ff036d503",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791194522355",
+      "release_date": "2026-04-08",
+      "metadata": {
+        "isbn": "9791194522355",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+        "publisher": "시크릿하우스",
+        "figureBook": {
+          "workTitle": "현대차 피지컬 AI 혁명",
+          "workCreator": "우수연",
+          "workIdentity": "book/9791194522355",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-04-08",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:31:31.27667+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "acd9207f-b0f5-5b97-aedf-847ff036d503",
+        "locale": "ko",
+        "title": "현대차 피지컬 AI 혁명",
+        "creator": "우수연",
+        "description": "2026년 CES, 전 세계 기술 기업들이 경쟁하던 무대에서 가장 큰 화제를 모은 것은 단연 현대차그룹의 로보틱스 계열사 보스턴다이내믹스가 만든 휴머노이드 로봇 ‘아틀라스(Atlas)’였다. 가장 뜨거운 신기술로 주목받은 것이다. 인간처럼 움직이며, 사람이라면 불가능한 동작과 작업을 아무렇지 않게 수행할 수 있는 아틀라스는 단순한 기술 시연을 넘어, 산업의 미래를 상징하는 장면으로 기록됐다. 그리고 그 중심에는 현대차그룹이 있었다.\n책 《현대차 피지컬 AI 혁명》은 바로 이 장면에서 출발한다. 그리고 중요한 질문을 던진다. 피지컬 AI 시대에 현대차는 무엇이 될 것인가? 어떤 전략으로 AI 시대에 생존을 넘어 주도권을 확보하려 하는가? 이 책은 현대차의 전환을 단순한 기술 트렌드가 아니라, 산업 질서의 재구성으로 읽어낸다. 그리고 여러 층위의 독자들에게 분명한 판단의 기준을 제시한다. 투자자에게는 현대차 밸류에이션의 근거를, 미래의 파도를 준비하는 현대인들에게는 변화하는 산업 지형도를 보여준다. 현대차는 어디로 가고 있는가? 그리고 그들의 변화는 앞으로 어떤 기회와 가능성으로 이어질 것인가? 책 《현대차 피지컬 AI 혁명》은 그 질문에 대한 가장 구체적인 사례이자, 지금 반드시 읽어야 할 미래 보고서다.\n특히 이 책은 그동안 제대로 조명되지 않았던 정의선 회장의 리더십을 본격적으로 분석한 첫 대중서라는 점에서 의미가 크다. 정주영, 정몽구로 이어지는 선대의 리더십과는 다른 ‘정의선 리더십’이 어떻게 현대차의 방향을 바꾸고 있는지 입체적으로 보여준다. 정의선 시대의 키워드는 선대와는 분명 다르다. 저자는 정의선 리더십을 ‘연결과 소통을 중심으로 한 수평적 리더십’으로 규정한다. 동시에 ‘인류를 위한 진보(Progress for Humanity)’라는 현대차의 미래 비전이 기술과 사업 전략 속에서 어떻게 구현되고 있는지도 함께 풀어낸다. 기술은 과시가 아니라 삶을 개선하기 위한 수단이라는 정의선 회장의 철학은, 현대차가 왜 자동차를 넘어 피지컬 AI 기업으로 확장하려 하는지를 이해하는 핵심 열쇠다.\n이어서 저자는 현대차가 내연기관 제조사에서 AI(데이터센터, SDV), 로봇(아틀라스와 산업용 로보틱스), 에너지(수소), 제조(스마트팩토리)라는 네 개의 축을 통해 완전히 다른 산업 구조와 미래를 만들어가는 혁신의 과정을 추적한다. 그리고 자율주행, 소프트웨어 중심 차량(SDV), 도심항공모빌리티(UAM) 등 미래 모빌리티 영역에서도 이동의 개념 자체를 재정의하며 확장해 나가고 있는 모습도 함께 다룬다. 이는 단순히 이동 수단을 고도화하는 것이 아니라, 인간의 이동과 삶을 하나의 연결된 시스템으로 설계하려는 현대차의 시도다. 결국 현대차그룹은 자동차를 만드는 회사를 넘어, 피지컬 AI와 미래 모빌리티를 아우르는 산업 인프라 기업으로 이동하고 있다. 책 《현대차 피지컬 AI 혁명》은 현대차의 변화 구조와 방향을 가장 입체적으로 해부하며, 그들이 앞으로 어떤 산업으로 확장하고, 어떤 방식으로 진화해 나갈 것인지에 대한 미래 설계도를 독자에게 제시한다.",
+        "isbn": "9791194522355",
+        "publisher": "시크릿하우스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7182526?timestamp=20260604152021",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7182526&q=%ED%98%84%EB%8C%80%EC%B0%A8+%ED%94%BC%EC%A7%80%EC%BB%AC+AI+%ED%98%81%EB%AA%85"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:31:31.27667+00:00",
+        "updated_at": "2026-09-06T04:31:31.27667+00:00"
+      }
+    ]
+  }
+}

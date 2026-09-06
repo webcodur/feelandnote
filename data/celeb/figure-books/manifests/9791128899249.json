@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791128899249",
+    "title": "시몬 드 보부아르",
+    "creator": "강초롱",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791128899249"
+  }
+}

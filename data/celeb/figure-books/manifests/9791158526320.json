@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791158526320",
+    "title": "스페이스X 우주혁명이 온다",
+    "creator": "권군오",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791158526320"
+  }
+}

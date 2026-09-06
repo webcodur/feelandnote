@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791192913919.json",
+  "manifestSha256": "5a036b874ef066655f74739e74ebe8065168a78c3fd6b0846d6ac1289f673080",
+  "planSha256": "f8343193beeb11c70340b034485fc8b0d4b1389106cac735c355ced73499a7d1",
+  "workIdentity": "book/9791192913919",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791192913919"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "4f7fd30e-64c8-5f4d-b4be-a9a6ed0949a4",
+    "scopeKey": "book/9791192913919",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "4f7fd30e-64c8-5f4d-b4be-a9a6ed0949a4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192913919",
+      "release_date": "2024-07-15",
+      "metadata": {
+        "isbn": "9791192913919",
+        "publisher": "책과함께",
+        "publishDate": "2024-07-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791192913919",
+          "workTitle": "정몽주 다시 읽기",
+          "workCreator": "강문식",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "정몽주 다시 읽기",
+          "creator": "강문식",
+          "description": "정몽주가 이방원에 의해 살해당한 순간, 역사의 뒤안길로 사라진 것은 고려뿐만이 아니었다. 그의 죽음이 너무나 상징적이었기에 정몽주는 ‘충신’으로서 신화가 되었고, 반면 그 후광은 그의 치열한 삶을 가려버렸다. 한미한 집안에서 태어나 고려 말 혼란기에 스스로의 힘으로 우뚝 섰던 그의 역동적인 생애와 입체적 면모가 왜곡되고, 묻힌 것이다. 그 탓에 우리는 정몽주의 존재와 그 죽음의 의미만 기억할 뿐, 그가 어떤 인물인지 명확히 알지 못한다.\n《정몽주 다시 읽기》는 정몽주의 탄생과 성장과정부터 최후의 순간까지를 재조명하며 그의 참모습을 드러낸다. 우선 정몽주에 대한 후대인들의 상반된 시각과 논쟁점을 소개해 그의 생애에 관한 우리의 선입견을 벗긴 뒤에, 기록을 따라 정몽주가 탁월한 성리학자, 군사 행정가, 외교관으로서 고려의 핵심 인물로 떠오르는 과정을 보여준다. 그리고 ‘개혁’에는 앞장섰지만 ‘혁명’에는 반대했던 그를, 나라와 민생을 최우선으로 여기며 그 길을 치열하게 고민했던 현실 정치인으로서 재해석한다. 정몽주의 인간적 면모가 엿보이는 그의 시를 다수 수록한 점은 읽는 재미를 더한다.",
+          "isbn": "9791192913919",
+          "publisher": "책과함께",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6681388?timestamp=20250211152028",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "4f7fd30e-64c8-5f4d-b4be-a9a6ed0949a4"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "4f7fd30e-64c8-5f4d-b4be-a9a6ed0949a4",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791192913919",
+        "release_date": "2024-07-15",
+        "metadata": {
+          "isbn": "9791192913919",
+          "publisher": "책과함께",
+          "publishDate": "2024-07-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791192913919",
+            "workTitle": "정몽주 다시 읽기",
+            "workCreator": "강문식",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "정몽주 다시 읽기",
+          "creator": "강문식",
+          "description": "정몽주가 이방원에 의해 살해당한 순간, 역사의 뒤안길로 사라진 것은 고려뿐만이 아니었다. 그의 죽음이 너무나 상징적이었기에 정몽주는 ‘충신’으로서 신화가 되었고, 반면 그 후광은 그의 치열한 삶을 가려버렸다. 한미한 집안에서 태어나 고려 말 혼란기에 스스로의 힘으로 우뚝 섰던 그의 역동적인 생애와 입체적 면모가 왜곡되고, 묻힌 것이다. 그 탓에 우리는 정몽주의 존재와 그 죽음의 의미만 기억할 뿐, 그가 어떤 인물인지 명확히 알지 못한다.\n《정몽주 다시 읽기》는 정몽주의 탄생과 성장과정부터 최후의 순간까지를 재조명하며 그의 참모습을 드러낸다. 우선 정몽주에 대한 후대인들의 상반된 시각과 논쟁점을 소개해 그의 생애에 관한 우리의 선입견을 벗긴 뒤에, 기록을 따라 정몽주가 탁월한 성리학자, 군사 행정가, 외교관으로서 고려의 핵심 인물로 떠오르는 과정을 보여준다. 그리고 ‘개혁’에는 앞장섰지만 ‘혁명’에는 반대했던 그를, 나라와 민생을 최우선으로 여기며 그 길을 치열하게 고민했던 현실 정치인으로서 재해석한다. 정몽주의 인간적 면모가 엿보이는 그의 시를 다수 수록한 점은 읽는 재미를 더한다.",
+          "isbn": "9791192913919",
+          "publisher": "책과함께",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6681388?timestamp=20250211152028",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "4f7fd30e-64c8-5f4d-b4be-a9a6ed0949a4"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791192913919",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791192913919"
+      ],
+      "normalizedTitles": [
+        "정몽주다시읽기"
+      ],
+      "normalizedCreators": [
+        "강문식"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:30:35.538Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "4f7fd30e-64c8-5f4d-b4be-a9a6ed0949a4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192913919",
+      "release_date": "2024-07-15",
+      "metadata": {
+        "isbn": "9791192913919",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+        "publisher": "책과함께",
+        "figureBook": {
+          "workTitle": "정몽주 다시 읽기",
+          "workCreator": "강문식",
+          "workIdentity": "book/9791192913919",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-07-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:30:30.309674+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "4f7fd30e-64c8-5f4d-b4be-a9a6ed0949a4",
+        "locale": "ko",
+        "title": "정몽주 다시 읽기",
+        "creator": "강문식",
+        "description": "정몽주가 이방원에 의해 살해당한 순간, 역사의 뒤안길로 사라진 것은 고려뿐만이 아니었다. 그의 죽음이 너무나 상징적이었기에 정몽주는 ‘충신’으로서 신화가 되었고, 반면 그 후광은 그의 치열한 삶을 가려버렸다. 한미한 집안에서 태어나 고려 말 혼란기에 스스로의 힘으로 우뚝 섰던 그의 역동적인 생애와 입체적 면모가 왜곡되고, 묻힌 것이다. 그 탓에 우리는 정몽주의 존재와 그 죽음의 의미만 기억할 뿐, 그가 어떤 인물인지 명확히 알지 못한다.\n《정몽주 다시 읽기》는 정몽주의 탄생과 성장과정부터 최후의 순간까지를 재조명하며 그의 참모습을 드러낸다. 우선 정몽주에 대한 후대인들의 상반된 시각과 논쟁점을 소개해 그의 생애에 관한 우리의 선입견을 벗긴 뒤에, 기록을 따라 정몽주가 탁월한 성리학자, 군사 행정가, 외교관으로서 고려의 핵심 인물로 떠오르는 과정을 보여준다. 그리고 ‘개혁’에는 앞장섰지만 ‘혁명’에는 반대했던 그를, 나라와 민생을 최우선으로 여기며 그 길을 치열하게 고민했던 현실 정치인으로서 재해석한다. 정몽주의 인간적 면모가 엿보이는 그의 시를 다수 수록한 점은 읽는 재미를 더한다.",
+        "isbn": "9791192913919",
+        "publisher": "책과함께",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6681388?timestamp=20250211152028",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6681388&q=%EC%A0%95%EB%AA%BD%EC%A3%BC+%EB%8B%A4%EC%8B%9C+%EC%9D%BD%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:30:30.309674+00:00",
+        "updated_at": "2026-09-06T04:30:30.309674+00:00"
+      }
+    ]
+  }
+}

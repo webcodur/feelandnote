@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788952710161",
+    "title": "조토에서 세잔까지: 서양회화사",
+    "creator": "마이클 리비",
+    "titleAliases": [
+      "조토에서 세잔까지"
+    ],
+    "creatorAliases": [
+      "양정무 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788952710161"
+  }
+}

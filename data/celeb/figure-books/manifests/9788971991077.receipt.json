@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788971991077.json",
+  "manifestSha256": "980f0c0ade20a9d85e96cbde66537fa503851d99f42c0f91bbd73496d39b4e9e",
+  "planSha256": "ddfc45c2c423e7781dd6e68bf389fb3ea118141ff8910e2aa2fbad2e2b7b167e",
+  "workIdentity": "book/9788971991077",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788971991077"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "4023cb24-e409-5c53-9f24-5e7a73db3b52",
+    "scopeKey": "book/9788971991077",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "4023cb24-e409-5c53-9f24-5e7a73db3b52",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788971991077",
+      "release_date": "1998-09-10",
+      "metadata": {
+        "isbn": "9788971991077",
+        "publisher": "돌베개",
+        "publishDate": "1998-09-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788971991077",
+          "workTitle": "나의 아버지 박지원",
+          "workCreator": "박종채",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "나의 아버지 박지원",
+          "creator": "박종채",
+          "description": "중세기 우리나라 최고의 대문호인 연암 박지원의 둘째아들이 아버지의 가르침과 언행을 기록한 &lt;&lt;과정록&gt;&gt; 을 현대에 맞게 번역한 책. 위대한 문학가로서의 면모뿐 아니라 인간적 면모와 목민관 시절의 흥미로운 일 화까지 자세하게 담겨 있다.",
+          "isbn": "9788971991077",
+          "publisher": "돌베개",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/994586?timestamp=20251119111100",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90"
+          },
+          "verified": true,
+          "content_id": "4023cb24-e409-5c53-9f24-5e7a73db3b52"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "4023cb24-e409-5c53-9f24-5e7a73db3b52",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788971991077",
+        "release_date": "1998-09-10",
+        "metadata": {
+          "isbn": "9788971991077",
+          "publisher": "돌베개",
+          "publishDate": "1998-09-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788971991077",
+            "workTitle": "나의 아버지 박지원",
+            "workCreator": "박종채",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "나의 아버지 박지원",
+          "creator": "박종채",
+          "description": "중세기 우리나라 최고의 대문호인 연암 박지원의 둘째아들이 아버지의 가르침과 언행을 기록한 &lt;&lt;과정록&gt;&gt; 을 현대에 맞게 번역한 책. 위대한 문학가로서의 면모뿐 아니라 인간적 면모와 목민관 시절의 흥미로운 일 화까지 자세하게 담겨 있다.",
+          "isbn": "9788971991077",
+          "publisher": "돌베개",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/994586?timestamp=20251119111100",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90"
+          },
+          "verified": true,
+          "content_id": "4023cb24-e409-5c53-9f24-5e7a73db3b52"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788971991077",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788971991077"
+      ],
+      "normalizedTitles": [
+        "나의아버지박지원"
+      ],
+      "normalizedCreators": [
+        "박종채",
+        "박희병역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:11:58.874Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "4023cb24-e409-5c53-9f24-5e7a73db3b52",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788971991077",
+      "release_date": "1998-09-10",
+      "metadata": {
+        "isbn": "9788971991077",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+        "publisher": "돌베개",
+        "figureBook": {
+          "workTitle": "나의 아버지 박지원",
+          "workCreator": "박종채",
+          "workIdentity": "book/9788971991077",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "1998-09-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:11:54.885038+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "4023cb24-e409-5c53-9f24-5e7a73db3b52",
+        "locale": "ko",
+        "title": "나의 아버지 박지원",
+        "creator": "박종채",
+        "description": "중세기 우리나라 최고의 대문호인 연암 박지원의 둘째아들이 아버지의 가르침과 언행을 기록한 &lt;&lt;과정록&gt;&gt; 을 현대에 맞게 번역한 책. 위대한 문학가로서의 면모뿐 아니라 인간적 면모와 목민관 시절의 흥미로운 일 화까지 자세하게 담겨 있다.",
+        "isbn": "9788971991077",
+        "publisher": "돌베개",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/994586?timestamp=20251119111100",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=994586&q=%EB%82%98%EC%9D%98+%EC%95%84%EB%B2%84%EC%A7%80+%EB%B0%95%EC%A7%80%EC%9B%90"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:11:54.885038+00:00",
+        "updated_at": "2026-09-06T04:11:54.885038+00:00"
+      }
+    ]
+  }
+}

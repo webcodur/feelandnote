@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788925579108.json",
+  "manifestSha256": "8193063353ac2ebe835ec3eebff9f156460862d592d6157a82fd064e838d5d23",
+  "planSha256": "c41f131fc75ac3c5e7c9d5b73e707f5b682ff1dbbd9d054498671f7694da5d7e",
+  "workIdentity": "book/9788925579108",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788925579108"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "7f2ad4fe-5dc3-5460-9216-7d97e04c85c7",
+    "scopeKey": "book/9788925579108",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "7f2ad4fe-5dc3-5460-9216-7d97e04c85c7",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788925579108",
+      "release_date": "2021-12-22",
+      "metadata": {
+        "isbn": "9788925579108",
+        "publisher": "알에이치코리아",
+        "publishDate": "2021-12-22",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788925579108",
+          "workTitle": "스노볼 1",
+          "workCreator": "앨리스 슈뢰더",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "스노볼 1",
+          "creator": "앨리스 슈뢰더",
+          "description": "*** 워런 버핏 무제한 독점 인터뷰 ***\n*** 아마존ㆍ〈뉴욕 타임스〉 베스트셀러 1위 ***\n*** 〈타임〉 〈피플〉 〈워싱턴 포스트〉 〈비즈니스 위크〉 등 올해의 책 ***\n역사상 가장 위대한 투자가 ‘워런 버핏’의 가장 세밀한 초상화\n\n“내 이야기를 써줄 수 있겠습니까?”\n모건스탠리의 이사로 근무 중이던 앨리스 슈뢰더에게 어느 날 믿기 힘든 제안이 도착한다. 이 제안을 한 사람은 바로, ‘오마하의 현인’으로 불리는 위대한 투자가 워런 버핏. 세계 금융의 중심 월스트리트에서 50년 이상 정상의 자리를 지켜왔으나 직접 쓴 책이 단 한 권도 없어 전설로만 회자되던 그가, 마침내 베일을 벗고 자신의 이야기를 세상에 내놓기로 결심한 것이다.\n이후 앨리스 슈뢰더는 5년간 버핏에 대한 조사와 분석을 거듭하며 오로지 그의 이야기를 쓰는 일에만 전적으로 몰두한다. 워런 버핏은 이 작업을 위해 그녀에게 자신과의 무제한 인터뷰 기회는 물론 자신에 대한 방대한 자료, 주변인들의 적극적인 지원까지 약속한다. 그 결과, 버핏의 일대기가 빠짐없이 기록된 독보적인 전기 《스노볼》이 탄생한다.\n이 책은 2009년 출간되자마자 주요 매체들이 선정한 ‘올해의 책’ 타이틀을 거머쥐는 것은 물론 전 세계에서 동시다발적으로 베스트셀러에 오르는 기염을 토했다. 이는 워런 버핏이란 위대한 투자가를 향한 뜨거운 관심 때문이기도 하지만, 버핏의 투자 성과는 물론 평범치 않은 사생활과 어리석은 실수까지 최대한 객관적이고 세밀하게 전달하고자 애쓴 앨리스 슈뢰더의 끈질긴 노력 덕분이기도 했다.\n많은 독자의 요청에 힘입어 복간되는 이번 개정판에서는 이전 판의 오류들을 바로잡고, 제목의 의미를 충실히 담아낸 표지를 새롭게 입혔다. 주로 버핏의 출생에서부터 40대까지의 이야기가 연대기 순으로 담겨 있는 1권에서는 유년 시절부터 유별났던 버핏의 ‘경제 관념’과 ‘부의 흐름에 대한 명료한 인식’이 어떻게 생겨났는지 엿볼 수 있다. 또한 그의 범상치 않은 가족 이야기와 평생의 연인 수지, 두 번째 동반자 애스트리드와의 비밀스러운 삼각관계 이야기 역시 만나볼 수 있다. 희귀 자료라 할 수 있는 버핏과 그 주변 인물들의 예전 사진들은 이 놀라운 인물의 전기에 더욱더 구체성을 부여한다.\n책이 출간되고 10여 년이 지난 지금까지도 전 세계 1위 투자가로서 명성을 떨치고 있는 워런 버핏. 반세기를 훌쩍 넘는 시간 동안 혼탁한 주식시장에서 여전히 ‘이기는 투자’를 하고 있는 그의 통찰력이 과연 어디에서 비롯되었는지 궁금한 사람들에게, 이 책은 가장 확실한 답을 들려줄 것이다.",
+          "isbn": "9788925579108",
+          "publisher": "알에이치코리아",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6057628?timestamp=20250429155024",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1"
+          },
+          "verified": true,
+          "content_id": "7f2ad4fe-5dc3-5460-9216-7d97e04c85c7"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "7f2ad4fe-5dc3-5460-9216-7d97e04c85c7",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788925579108",
+        "release_date": "2021-12-22",
+        "metadata": {
+          "isbn": "9788925579108",
+          "publisher": "알에이치코리아",
+          "publishDate": "2021-12-22",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788925579108",
+            "workTitle": "스노볼 1",
+            "workCreator": "앨리스 슈뢰더",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "스노볼 1",
+          "creator": "앨리스 슈뢰더",
+          "description": "*** 워런 버핏 무제한 독점 인터뷰 ***\n*** 아마존ㆍ〈뉴욕 타임스〉 베스트셀러 1위 ***\n*** 〈타임〉 〈피플〉 〈워싱턴 포스트〉 〈비즈니스 위크〉 등 올해의 책 ***\n역사상 가장 위대한 투자가 ‘워런 버핏’의 가장 세밀한 초상화\n\n“내 이야기를 써줄 수 있겠습니까?”\n모건스탠리의 이사로 근무 중이던 앨리스 슈뢰더에게 어느 날 믿기 힘든 제안이 도착한다. 이 제안을 한 사람은 바로, ‘오마하의 현인’으로 불리는 위대한 투자가 워런 버핏. 세계 금융의 중심 월스트리트에서 50년 이상 정상의 자리를 지켜왔으나 직접 쓴 책이 단 한 권도 없어 전설로만 회자되던 그가, 마침내 베일을 벗고 자신의 이야기를 세상에 내놓기로 결심한 것이다.\n이후 앨리스 슈뢰더는 5년간 버핏에 대한 조사와 분석을 거듭하며 오로지 그의 이야기를 쓰는 일에만 전적으로 몰두한다. 워런 버핏은 이 작업을 위해 그녀에게 자신과의 무제한 인터뷰 기회는 물론 자신에 대한 방대한 자료, 주변인들의 적극적인 지원까지 약속한다. 그 결과, 버핏의 일대기가 빠짐없이 기록된 독보적인 전기 《스노볼》이 탄생한다.\n이 책은 2009년 출간되자마자 주요 매체들이 선정한 ‘올해의 책’ 타이틀을 거머쥐는 것은 물론 전 세계에서 동시다발적으로 베스트셀러에 오르는 기염을 토했다. 이는 워런 버핏이란 위대한 투자가를 향한 뜨거운 관심 때문이기도 하지만, 버핏의 투자 성과는 물론 평범치 않은 사생활과 어리석은 실수까지 최대한 객관적이고 세밀하게 전달하고자 애쓴 앨리스 슈뢰더의 끈질긴 노력 덕분이기도 했다.\n많은 독자의 요청에 힘입어 복간되는 이번 개정판에서는 이전 판의 오류들을 바로잡고, 제목의 의미를 충실히 담아낸 표지를 새롭게 입혔다. 주로 버핏의 출생에서부터 40대까지의 이야기가 연대기 순으로 담겨 있는 1권에서는 유년 시절부터 유별났던 버핏의 ‘경제 관념’과 ‘부의 흐름에 대한 명료한 인식’이 어떻게 생겨났는지 엿볼 수 있다. 또한 그의 범상치 않은 가족 이야기와 평생의 연인 수지, 두 번째 동반자 애스트리드와의 비밀스러운 삼각관계 이야기 역시 만나볼 수 있다. 희귀 자료라 할 수 있는 버핏과 그 주변 인물들의 예전 사진들은 이 놀라운 인물의 전기에 더욱더 구체성을 부여한다.\n책이 출간되고 10여 년이 지난 지금까지도 전 세계 1위 투자가로서 명성을 떨치고 있는 워런 버핏. 반세기를 훌쩍 넘는 시간 동안 혼탁한 주식시장에서 여전히 ‘이기는 투자’를 하고 있는 그의 통찰력이 과연 어디에서 비롯되었는지 궁금한 사람들에게, 이 책은 가장 확실한 답을 들려줄 것이다.",
+          "isbn": "9788925579108",
+          "publisher": "알에이치코리아",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6057628?timestamp=20250429155024",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6057628&q=%EC%8A%A4%EB%85%B8%EB%B3%BC+1"
+          },
+          "verified": true,
+          "content_id": "7f2ad4fe-5dc3-5460-9216-7d97e04c85c7"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788925579108",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788925579108"
+      ],
+      "normalizedTitles": [
+        "스노볼1"
+      ],
+      "normalizedCreators": [
+        "앨리스슈뢰더",
+        "이경식역"
+      ]
+    }
+  },
+  "status": "rolled-back",
+  "failedAt": "2026-09-06T04:04:32.043Z",
+  "databaseWrites": 0,
+  "originalError": "Oracle BOOK transaction failed (3): ERROR:  canceling statement due to statement timeout",
+  "executorFailure": {
+    "kind": "confirmed-nonzero-exit",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": true,
+    "commitUncertain": false,
+    "exitCode": 3
+  },
+  "recoveryReadback": {
+    "content": null,
+    "locales": []
+  },
+  "recoveryReadError": null
+}

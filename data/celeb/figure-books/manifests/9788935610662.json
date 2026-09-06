@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788935610662",
+    "title": "나의 친구 마키아벨리",
+    "creator": "시오노 나나미",
+    "titleAliases": [],
+    "creatorAliases": [
+      "오정환 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788935610662"
+  }
+}

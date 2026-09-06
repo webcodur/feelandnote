@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791198701084.json",
+  "manifestSha256": "d04dfeb10b4404423d60d66791bd46ca3620b659ef8255f472e2aa96f13a915f",
+  "planSha256": "2a1622655f192202602693f4962cd9c0f4a434e2e010be40936c6b881e7a6eff",
+  "workIdentity": "book/9791198701084",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791198701084"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "2a1fac96-0105-59fa-a17b-b8a9c9ebaa12",
+    "scopeKey": "book/9791198701084",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "2a1fac96-0105-59fa-a17b-b8a9c9ebaa12",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791198701084",
+      "release_date": "2024-09-23",
+      "metadata": {
+        "isbn": "9791198701084",
+        "publisher": "여의도책방",
+        "publishDate": "2024-09-23",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791198701084",
+          "workTitle": "젠슨 황 레볼루션",
+          "workCreator": "우중셴",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "젠슨 황 레볼루션",
+          "creator": "우중셴",
+          "description": "애플, MS와 글로벌 시총 1위를 경쟁하는 AI 반도체 기업\nNVIDIA 창업자 젠슨 황의 진짜 이야기 국내 최초 공개\n‘엔비디아’, 최근 몇 년 사이 전 세계 경제 판도를 뒤흔든 이 글로벌 유니콘 기업보다 더 힘이 센 고유명사가 있다. 서른 살에 엔비디아를 창업하여 현재까지 최장수 CEO를 맡고 있는 젠슨 황이 바로 그 주인공이다.\n최근 「가디언」은 이 대만계 미국인이 2028년에는 일론 머스크에 이어 조만장자가 될 거라는 전망을 발표했다. 『젠슨 황 레볼루션』은 엔비디아가 아닌 젠슨 황을 소개하는 국내 첫 책이다.\n신제품이 출시될 때마다 록스타처럼 가죽 재킷을 입고 프레젠테이션하는 그를 제2의 스티브 잡스라고 부르는 사람들도 있지만, 그는 ‘사람’을 중요하게 생각하는 소통왕 경영자다. 전 직원에게 메일을 열어두면서도 보고서는 거부하는 기업인, 워라밸은 고사하고 스스로를 일 중독자라 말하는 황 CEO의 비전을 엔비디아는 믿고 의지하며 누구도 상상하지 못한 미래를 만들어 왔다.『젠슨 황 레볼루션』은 전 세계가 주목하는 이 매력적인 인물의 유년 시절과 성년, 경영자로서의 성공 비결을 데이터를 근거로 담아냈다.\n\n“젠슨 황은 기술계의 테일러 스위프트다!” -마크 저커버그, 메타 CEO\n대만의 피터 드러커가 쓴, 지금까지 본 적 없는 미래 조만장자 이야기\n\n지금 전 세계가 가장 주목하는 기업, 엔비디아. 애플, MS를 제치고 2024년 6월 시가총액 1위 기업에 이름을 올린 엔비디아는 고점을 찍고 내리막만 남았다는 시장의 우려와 조롱을 딛고 새로운 역사를 그리며 나아가는 중이다.\n자신이 청소년기에 설거지 아르바이트를 하던 식당 한구석에서 서른 살에 엔비디아를 창업한 젠슨 황은 아홉 살에 미국으로 이민한 대만계 미국인이다. 창업 이후 부침이 심한 실리콘밸리에서 30년 동안 수장 자리를 지켜낸 놀라운 리더십의 아이콘이기도 하다. 그가 1993년에 창업한 엔비디아는 세 번의 파산 위기를 넘기고 2023년 전 세계 시총 7위로 올라서더니 2024년 6월 18일 ‘첫 시총 1위’를 기록했다.\n이 책은 젠슨 황의 성공 스토리와 그의 기업관리 방식을 분석한 책이다. 부모에게 물려받은 적극적이고 유쾌한 태도, 개인적인 성격과 삶의 원칙, 엔비디아를 성공으로 이끈 리더십 등 그동안 알려지지 않았던 젠슨 황의 다양한 면모를 다각적으로 분석했다.\n이 책의 저자 우중셴은 100권 넘는 경영서를 쓴 대만의 베스트셀러 작가로, ‘대만의 피터 드러커’라는 별명을 가졌다. 저자는 슈퍼스타이기 이전에 ‘대만의 빛(자랑)’인 젠슨 황을 민족애에 갇혀 편향적으로 그려내지 않기 위해 다양한 경영 수치를 활용하고, 인터뷰를 원문 그대로 인용하는 등 팩트에 기반한 자료를 바탕으로 최대한 객관적으로 그려냈다. 이를 위해 길고 추상적인 서술식 설명이 아니라 직원의 평가, 기업경영 기법 등을 세부 항목으로 나누고 구체적인 수치를 제시한다.\n이 책을 우리말로 소개한 역자 김외현은 수년간 젠슨 황에 가져온 지적 호기심을 원동력으로 삼아 독자들을 젠슨 황의 시대로 안내하기 위해 힘썼다. 특히 원문에는 없는 ‘타이베이 컴퓨터 박람회 2024년 기조연설’을 편역하여 엔비디아를 이끄는 젠슨 황의 과거-현재-미래를 관통하는 궤적을 소개하기도 했다.\n\n“젠슨 황의 꿈은 곧 엔비디아의 미래다!”\nGPU에서 인공지능까지, AI 록스타가 그린 기술의 미래!\n\nIT 업계에는 10년마다 한 명씩 천재적인 기업가가 탄생한다는 말이 있다. 2000년대 애플의 스티브 잡스, 2010년대 테슬라의 일론 머스크가 등장했다면, 다음 10년은 젠슨 황의 시대가 될 것으로 보인다. 세계 경제가 불황에 시달리는 와중에 엄청난 성장세를 보인 엔비디아. 그 뒤에는 원대한 안목으로 시대의 변화를 예견하고 시장을 선점한 젠슨 황이 있다.\n1년 내내 가죽 재킷에 블랙 팬츠를 트레이드마크처럼 입고 다니는 범상치 않은 이미지 메이킹의 젠슨 황. 그는 대중에게 소탈한 모습을 보여주지만, 혼자 무대에 올라 강연하고 브리핑할 때는 스티브 잡스를 연상케 하는 쇼맨십과 카리스마도 있다.\n대만계 미국인인 그가 유년 시절 차별과 편견을 딛고 주목할 만한 개인을 뛰어넘어 엔비디아, 전 세계 IT 판도를 좌우하는 엄청난 기업의 성장을 이끌어 낸 비결은 무엇일까? 젠슨 황은 어떻게 누구보다 빨리 AI 칩 시장을 선점했을까? 그 해답은 인텔, MS보다 앞선 조직관리 시스템과 전략적인 인력자원 관리, 전략과 공식으로는 가늠할 수 없는 인간미에 있다.\n“나는 부모님 야망의 산물”이라고 젠슨 황은 말한다. 아메리칸 드림을 위해 아는 영어 단어도 몇 개뿐인 아홉 살 아이를 기회의 땅으로 먼저 보낸 부모님의 꿈. 젠슨 황은 그 꿈을 욕망으로 품고 야망으로 키웠다. 엔비디아라는 사명의 모티브는 라틴어 ‘Invidia’로, ‘부러움, 선망(Envy)’이라는 뜻을 지녔다. 젠슨 황의 왼쪽 팔에 영원히 새겨진 단어이기도 하다.\n엔비디아 주식을 사도 될지, 반짝 시총 1위를 찍은 이 AI 대장주가 이대로 내리막을 걷는 것은 아닌지 궁금한가? 엔비디아 재무재표보다 야망을 실현하는 ‘인간 젠슨 황’에서 답을 찾을 수 있을 것이다.",
+          "isbn": "9791198701084",
+          "publisher": "여의도책방",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6709531?timestamp=20250216134125",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98"
+          },
+          "verified": true,
+          "content_id": "2a1fac96-0105-59fa-a17b-b8a9c9ebaa12"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "2a1fac96-0105-59fa-a17b-b8a9c9ebaa12",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791198701084",
+        "release_date": "2024-09-23",
+        "metadata": {
+          "isbn": "9791198701084",
+          "publisher": "여의도책방",
+          "publishDate": "2024-09-23",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791198701084",
+            "workTitle": "젠슨 황 레볼루션",
+            "workCreator": "우중셴",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "젠슨 황 레볼루션",
+          "creator": "우중셴",
+          "description": "애플, MS와 글로벌 시총 1위를 경쟁하는 AI 반도체 기업\nNVIDIA 창업자 젠슨 황의 진짜 이야기 국내 최초 공개\n‘엔비디아’, 최근 몇 년 사이 전 세계 경제 판도를 뒤흔든 이 글로벌 유니콘 기업보다 더 힘이 센 고유명사가 있다. 서른 살에 엔비디아를 창업하여 현재까지 최장수 CEO를 맡고 있는 젠슨 황이 바로 그 주인공이다.\n최근 「가디언」은 이 대만계 미국인이 2028년에는 일론 머스크에 이어 조만장자가 될 거라는 전망을 발표했다. 『젠슨 황 레볼루션』은 엔비디아가 아닌 젠슨 황을 소개하는 국내 첫 책이다.\n신제품이 출시될 때마다 록스타처럼 가죽 재킷을 입고 프레젠테이션하는 그를 제2의 스티브 잡스라고 부르는 사람들도 있지만, 그는 ‘사람’을 중요하게 생각하는 소통왕 경영자다. 전 직원에게 메일을 열어두면서도 보고서는 거부하는 기업인, 워라밸은 고사하고 스스로를 일 중독자라 말하는 황 CEO의 비전을 엔비디아는 믿고 의지하며 누구도 상상하지 못한 미래를 만들어 왔다.『젠슨 황 레볼루션』은 전 세계가 주목하는 이 매력적인 인물의 유년 시절과 성년, 경영자로서의 성공 비결을 데이터를 근거로 담아냈다.\n\n“젠슨 황은 기술계의 테일러 스위프트다!” -마크 저커버그, 메타 CEO\n대만의 피터 드러커가 쓴, 지금까지 본 적 없는 미래 조만장자 이야기\n\n지금 전 세계가 가장 주목하는 기업, 엔비디아. 애플, MS를 제치고 2024년 6월 시가총액 1위 기업에 이름을 올린 엔비디아는 고점을 찍고 내리막만 남았다는 시장의 우려와 조롱을 딛고 새로운 역사를 그리며 나아가는 중이다.\n자신이 청소년기에 설거지 아르바이트를 하던 식당 한구석에서 서른 살에 엔비디아를 창업한 젠슨 황은 아홉 살에 미국으로 이민한 대만계 미국인이다. 창업 이후 부침이 심한 실리콘밸리에서 30년 동안 수장 자리를 지켜낸 놀라운 리더십의 아이콘이기도 하다. 그가 1993년에 창업한 엔비디아는 세 번의 파산 위기를 넘기고 2023년 전 세계 시총 7위로 올라서더니 2024년 6월 18일 ‘첫 시총 1위’를 기록했다.\n이 책은 젠슨 황의 성공 스토리와 그의 기업관리 방식을 분석한 책이다. 부모에게 물려받은 적극적이고 유쾌한 태도, 개인적인 성격과 삶의 원칙, 엔비디아를 성공으로 이끈 리더십 등 그동안 알려지지 않았던 젠슨 황의 다양한 면모를 다각적으로 분석했다.\n이 책의 저자 우중셴은 100권 넘는 경영서를 쓴 대만의 베스트셀러 작가로, ‘대만의 피터 드러커’라는 별명을 가졌다. 저자는 슈퍼스타이기 이전에 ‘대만의 빛(자랑)’인 젠슨 황을 민족애에 갇혀 편향적으로 그려내지 않기 위해 다양한 경영 수치를 활용하고, 인터뷰를 원문 그대로 인용하는 등 팩트에 기반한 자료를 바탕으로 최대한 객관적으로 그려냈다. 이를 위해 길고 추상적인 서술식 설명이 아니라 직원의 평가, 기업경영 기법 등을 세부 항목으로 나누고 구체적인 수치를 제시한다.\n이 책을 우리말로 소개한 역자 김외현은 수년간 젠슨 황에 가져온 지적 호기심을 원동력으로 삼아 독자들을 젠슨 황의 시대로 안내하기 위해 힘썼다. 특히 원문에는 없는 ‘타이베이 컴퓨터 박람회 2024년 기조연설’을 편역하여 엔비디아를 이끄는 젠슨 황의 과거-현재-미래를 관통하는 궤적을 소개하기도 했다.\n\n“젠슨 황의 꿈은 곧 엔비디아의 미래다!”\nGPU에서 인공지능까지, AI 록스타가 그린 기술의 미래!\n\nIT 업계에는 10년마다 한 명씩 천재적인 기업가가 탄생한다는 말이 있다. 2000년대 애플의 스티브 잡스, 2010년대 테슬라의 일론 머스크가 등장했다면, 다음 10년은 젠슨 황의 시대가 될 것으로 보인다. 세계 경제가 불황에 시달리는 와중에 엄청난 성장세를 보인 엔비디아. 그 뒤에는 원대한 안목으로 시대의 변화를 예견하고 시장을 선점한 젠슨 황이 있다.\n1년 내내 가죽 재킷에 블랙 팬츠를 트레이드마크처럼 입고 다니는 범상치 않은 이미지 메이킹의 젠슨 황. 그는 대중에게 소탈한 모습을 보여주지만, 혼자 무대에 올라 강연하고 브리핑할 때는 스티브 잡스를 연상케 하는 쇼맨십과 카리스마도 있다.\n대만계 미국인인 그가 유년 시절 차별과 편견을 딛고 주목할 만한 개인을 뛰어넘어 엔비디아, 전 세계 IT 판도를 좌우하는 엄청난 기업의 성장을 이끌어 낸 비결은 무엇일까? 젠슨 황은 어떻게 누구보다 빨리 AI 칩 시장을 선점했을까? 그 해답은 인텔, MS보다 앞선 조직관리 시스템과 전략적인 인력자원 관리, 전략과 공식으로는 가늠할 수 없는 인간미에 있다.\n“나는 부모님 야망의 산물”이라고 젠슨 황은 말한다. 아메리칸 드림을 위해 아는 영어 단어도 몇 개뿐인 아홉 살 아이를 기회의 땅으로 먼저 보낸 부모님의 꿈. 젠슨 황은 그 꿈을 욕망으로 품고 야망으로 키웠다. 엔비디아라는 사명의 모티브는 라틴어 ‘Invidia’로, ‘부러움, 선망(Envy)’이라는 뜻을 지녔다. 젠슨 황의 왼쪽 팔에 영원히 새겨진 단어이기도 하다.\n엔비디아 주식을 사도 될지, 반짝 시총 1위를 찍은 이 AI 대장주가 이대로 내리막을 걷는 것은 아닌지 궁금한가? 엔비디아 재무재표보다 야망을 실현하는 ‘인간 젠슨 황’에서 답을 찾을 수 있을 것이다.",
+          "isbn": "9791198701084",
+          "publisher": "여의도책방",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6709531?timestamp=20250216134125",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98"
+          },
+          "verified": true,
+          "content_id": "2a1fac96-0105-59fa-a17b-b8a9c9ebaa12"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791198701084",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791198701084"
+      ],
+      "normalizedTitles": [
+        "젠슨황레볼루션"
+      ],
+      "normalizedCreators": [
+        "김외현역",
+        "우중셴"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:33:37.185Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "2a1fac96-0105-59fa-a17b-b8a9c9ebaa12",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791198701084",
+      "release_date": "2024-09-23",
+      "metadata": {
+        "isbn": "9791198701084",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+        "publisher": "여의도책방",
+        "figureBook": {
+          "workTitle": "젠슨 황 레볼루션",
+          "workCreator": "우중셴",
+          "workIdentity": "book/9791198701084",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-09-23",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:33:20.600837+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "2a1fac96-0105-59fa-a17b-b8a9c9ebaa12",
+        "locale": "ko",
+        "title": "젠슨 황 레볼루션",
+        "creator": "우중셴",
+        "description": "애플, MS와 글로벌 시총 1위를 경쟁하는 AI 반도체 기업\nNVIDIA 창업자 젠슨 황의 진짜 이야기 국내 최초 공개\n‘엔비디아’, 최근 몇 년 사이 전 세계 경제 판도를 뒤흔든 이 글로벌 유니콘 기업보다 더 힘이 센 고유명사가 있다. 서른 살에 엔비디아를 창업하여 현재까지 최장수 CEO를 맡고 있는 젠슨 황이 바로 그 주인공이다.\n최근 「가디언」은 이 대만계 미국인이 2028년에는 일론 머스크에 이어 조만장자가 될 거라는 전망을 발표했다. 『젠슨 황 레볼루션』은 엔비디아가 아닌 젠슨 황을 소개하는 국내 첫 책이다.\n신제품이 출시될 때마다 록스타처럼 가죽 재킷을 입고 프레젠테이션하는 그를 제2의 스티브 잡스라고 부르는 사람들도 있지만, 그는 ‘사람’을 중요하게 생각하는 소통왕 경영자다. 전 직원에게 메일을 열어두면서도 보고서는 거부하는 기업인, 워라밸은 고사하고 스스로를 일 중독자라 말하는 황 CEO의 비전을 엔비디아는 믿고 의지하며 누구도 상상하지 못한 미래를 만들어 왔다.『젠슨 황 레볼루션』은 전 세계가 주목하는 이 매력적인 인물의 유년 시절과 성년, 경영자로서의 성공 비결을 데이터를 근거로 담아냈다.\n\n“젠슨 황은 기술계의 테일러 스위프트다!” -마크 저커버그, 메타 CEO\n대만의 피터 드러커가 쓴, 지금까지 본 적 없는 미래 조만장자 이야기\n\n지금 전 세계가 가장 주목하는 기업, 엔비디아. 애플, MS를 제치고 2024년 6월 시가총액 1위 기업에 이름을 올린 엔비디아는 고점을 찍고 내리막만 남았다는 시장의 우려와 조롱을 딛고 새로운 역사를 그리며 나아가는 중이다.\n자신이 청소년기에 설거지 아르바이트를 하던 식당 한구석에서 서른 살에 엔비디아를 창업한 젠슨 황은 아홉 살에 미국으로 이민한 대만계 미국인이다. 창업 이후 부침이 심한 실리콘밸리에서 30년 동안 수장 자리를 지켜낸 놀라운 리더십의 아이콘이기도 하다. 그가 1993년에 창업한 엔비디아는 세 번의 파산 위기를 넘기고 2023년 전 세계 시총 7위로 올라서더니 2024년 6월 18일 ‘첫 시총 1위’를 기록했다.\n이 책은 젠슨 황의 성공 스토리와 그의 기업관리 방식을 분석한 책이다. 부모에게 물려받은 적극적이고 유쾌한 태도, 개인적인 성격과 삶의 원칙, 엔비디아를 성공으로 이끈 리더십 등 그동안 알려지지 않았던 젠슨 황의 다양한 면모를 다각적으로 분석했다.\n이 책의 저자 우중셴은 100권 넘는 경영서를 쓴 대만의 베스트셀러 작가로, ‘대만의 피터 드러커’라는 별명을 가졌다. 저자는 슈퍼스타이기 이전에 ‘대만의 빛(자랑)’인 젠슨 황을 민족애에 갇혀 편향적으로 그려내지 않기 위해 다양한 경영 수치를 활용하고, 인터뷰를 원문 그대로 인용하는 등 팩트에 기반한 자료를 바탕으로 최대한 객관적으로 그려냈다. 이를 위해 길고 추상적인 서술식 설명이 아니라 직원의 평가, 기업경영 기법 등을 세부 항목으로 나누고 구체적인 수치를 제시한다.\n이 책을 우리말로 소개한 역자 김외현은 수년간 젠슨 황에 가져온 지적 호기심을 원동력으로 삼아 독자들을 젠슨 황의 시대로 안내하기 위해 힘썼다. 특히 원문에는 없는 ‘타이베이 컴퓨터 박람회 2024년 기조연설’을 편역하여 엔비디아를 이끄는 젠슨 황의 과거-현재-미래를 관통하는 궤적을 소개하기도 했다.\n\n“젠슨 황의 꿈은 곧 엔비디아의 미래다!”\nGPU에서 인공지능까지, AI 록스타가 그린 기술의 미래!\n\nIT 업계에는 10년마다 한 명씩 천재적인 기업가가 탄생한다는 말이 있다. 2000년대 애플의 스티브 잡스, 2010년대 테슬라의 일론 머스크가 등장했다면, 다음 10년은 젠슨 황의 시대가 될 것으로 보인다. 세계 경제가 불황에 시달리는 와중에 엄청난 성장세를 보인 엔비디아. 그 뒤에는 원대한 안목으로 시대의 변화를 예견하고 시장을 선점한 젠슨 황이 있다.\n1년 내내 가죽 재킷에 블랙 팬츠를 트레이드마크처럼 입고 다니는 범상치 않은 이미지 메이킹의 젠슨 황. 그는 대중에게 소탈한 모습을 보여주지만, 혼자 무대에 올라 강연하고 브리핑할 때는 스티브 잡스를 연상케 하는 쇼맨십과 카리스마도 있다.\n대만계 미국인인 그가 유년 시절 차별과 편견을 딛고 주목할 만한 개인을 뛰어넘어 엔비디아, 전 세계 IT 판도를 좌우하는 엄청난 기업의 성장을 이끌어 낸 비결은 무엇일까? 젠슨 황은 어떻게 누구보다 빨리 AI 칩 시장을 선점했을까? 그 해답은 인텔, MS보다 앞선 조직관리 시스템과 전략적인 인력자원 관리, 전략과 공식으로는 가늠할 수 없는 인간미에 있다.\n“나는 부모님 야망의 산물”이라고 젠슨 황은 말한다. 아메리칸 드림을 위해 아는 영어 단어도 몇 개뿐인 아홉 살 아이를 기회의 땅으로 먼저 보낸 부모님의 꿈. 젠슨 황은 그 꿈을 욕망으로 품고 야망으로 키웠다. 엔비디아라는 사명의 모티브는 라틴어 ‘Invidia’로, ‘부러움, 선망(Envy)’이라는 뜻을 지녔다. 젠슨 황의 왼쪽 팔에 영원히 새겨진 단어이기도 하다.\n엔비디아 주식을 사도 될지, 반짝 시총 1위를 찍은 이 AI 대장주가 이대로 내리막을 걷는 것은 아닌지 궁금한가? 엔비디아 재무재표보다 야망을 실현하는 ‘인간 젠슨 황’에서 답을 찾을 수 있을 것이다.",
+        "isbn": "9791198701084",
+        "publisher": "여의도책방",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6709531?timestamp=20250216134125",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6709531&q=%EC%A0%A0%EC%8A%A8+%ED%99%A9+%EB%A0%88%EB%B3%BC%EB%A3%A8%EC%85%98"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:33:20.600837+00:00",
+        "updated_at": "2026-09-06T04:33:20.600837+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791130473062",
+    "title": "샤를마뉴의 행적",
+    "creator": "노트케르",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이경구 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791130473062"
+  }
+}

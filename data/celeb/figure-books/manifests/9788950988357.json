@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788950988357",
+    "title": "베조노믹스",
+    "creator": "브라이언 두메인",
+    "titleAliases": [],
+    "creatorAliases": [
+      "안세민 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788950988357"
+  }
+}

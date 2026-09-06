@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788932823560",
+    "title": "칼뱅",
+    "creator": "브루스 고든",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이재근 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788932823560"
+  }
+}

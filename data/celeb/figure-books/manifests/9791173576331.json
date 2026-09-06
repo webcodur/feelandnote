@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791173576331",
+    "title": "아우구스투스",
+    "creator": "에이드리언 골즈워디",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박재영 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791173576331"
+  }
+}

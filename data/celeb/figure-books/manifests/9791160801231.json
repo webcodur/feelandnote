@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791160801231",
+    "title": "정사 삼국지: 오서",
+    "creator": "진수",
+    "titleAliases": [
+      "정사 삼국지"
+    ],
+    "creatorAliases": [
+      "김원중 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791160801231"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9791190853736",
+    "title": "마일스 데이비스, 자서전",
+    "creator": "마일스 데이비스",
+    "titleAliases": [],
+    "creatorAliases": [
+      "마일스 데이비스, 퀸시 트루프",
+      "성기완 (역)",
+      "퀸시 트루프"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791190853736"
+  }
+}

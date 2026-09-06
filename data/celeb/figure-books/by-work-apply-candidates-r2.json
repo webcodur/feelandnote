@@ -1,0 +1,5536 @@
+{
+  "candidates": [
+    {
+      "person": {
+        "id": "3c4783cc-aa09-4ec8-b1cd-72a53ee7e1b3",
+        "slug": "medea"
+      },
+      "book": {
+        "contentId": "d0ae4f4f-2e9b-41e7-9670-72eaf2f85528",
+        "title": "그리스 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "d5e49754-ea1c-4486-b291-15cdf8d12f9e",
+        "slug": "prince-shotoku"
+      },
+      "book": {
+        "contentId": "72bb924a-0320-4005-bbbf-00d4cecf452d",
+        "title": "일본서기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0a8ea2eb-f1a9-4c62-8a12-88d73ee3c236",
+        "slug": "anchises"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "bac58a72-cade-4b1d-921c-6109616a008c",
+        "slug": "asclepius"
+      },
+      "book": {
+        "contentId": "f584f015-601d-52ad-b76b-006b231eb54d",
+        "title": "The Homeric hymns",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc4f0e90-9789-43b6-9bf6-d000fed75cbf",
+        "slug": "guan-zhong"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc2d4de1-ee3d-4b6d-960b-350affc02d6a",
+        "slug": "laozi"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "75e19a62-ed4a-475e-aac3-241bc76b694d",
+        "slug": "han-feizi"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ed6a1d9a-aaca-4feb-a47c-ddf8f4725652",
+        "slug": "wu-qi"
+      },
+      "book": {
+        "contentId": "13fc7c7e-731e-4de0-a186-3fb8d86616dc",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5397f779-2dcb-4712-aca0-c7cb1dde4923",
+        "slug": "homer"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "d8af07ab-1350-4e10-a739-c1d19d615332",
+        "slug": "euripides"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "53ef5fe2-5338-4975-b833-60d852f6bf78",
+        "slug": "publius-ovidius-naso"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a3f2c584-2384-4e04-a267-5f57a6a19322",
+        "slug": "herodotus"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "17ad4b30-eb04-496c-80f8-36757e7f3c70",
+        "slug": "plato"
+      },
+      "book": {
+        "contentId": "24d56c9e-ad64-5c95-b1e3-4bd7f029f92c",
+        "title": "해밀턴의 그리스로마신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8980bc4f-0e44-42f2-88a6-5993ba3792df",
+        "slug": "marduk"
+      },
+      "book": {
+        "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+        "title": "Myths from Mesopotamia",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "de9a1d19-f972-4506-a388-aa94aee8b000",
+        "slug": "ea"
+      },
+      "book": {
+        "contentId": "8255a850-9a39-5af5-850c-146148d92f91",
+        "title": "Myths from Mesopotamia",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c8ac8c9d-c229-4570-ad5f-0b68a59153c0",
+        "slug": "elon-musk"
+      },
+      "book": {
+        "contentId": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+        "title": "부의 설계자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fbdf6dda-c4cd-416d-8a9b-a2a5fc7d30e1",
+        "slug": "peter-thiel"
+      },
+      "book": {
+        "contentId": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+        "title": "부의 설계자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "66b5640e-e37a-40cd-aece-56bf6e6cf638",
+        "slug": "reid-hoffman"
+      },
+      "book": {
+        "contentId": "e56592fd-fa35-573f-9ae6-5fa72b583cb1",
+        "title": "부의 설계자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1db274a2-a28a-4544-addb-d563ce02a07d",
+        "slug": "liu-bei"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1f74cfa4-569c-477e-bfe3-938c8ea5d631",
+        "slug": "zhang-fei"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6fcd1574-efe3-4674-ace7-06763841d34d",
+        "slug": "zhuge-liang"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3890896d-ab3d-46cc-bc4e-34584f4f133d",
+        "slug": "lu-bu"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1d9ee31b-cc2c-4049-82a6-a6c0fd2e2729",
+        "slug": "dong-zhuo"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0a911880-e39a-48e9-a00e-c42a08b49fcc",
+        "slug": "yuan-shao"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1714c001-cdfe-4157-8444-5c08f319b9b8",
+        "slug": "sun-ce"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "737675a0-b45b-46a7-a33a-07d846179fbd",
+        "slug": "zhou-yu"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6d99c7a8-2436-4d3f-b170-ae7f1b83f302",
+        "slug": "sima-yi"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "37cedfe0-1806-49b4-8a4c-ae1fa0869001",
+        "slug": "jiang-wei"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0578d11e-54c6-4cd3-ba38-b9aec345865b",
+        "slug": "ma-chao"
+      },
+      "book": {
+        "contentId": "adbd2550-8b07-4178-b231-ed67825ac86f",
+        "title": "삼국지연의 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e94f8fc2-9010-4f39-9d32-2dad78a83cd2",
+        "slug": "genghis-khan"
+      },
+      "book": {
+        "contentId": "7afb10c9-bf28-5c56-af66-90bc3b9efc8f",
+        "title": "수부타이(칭기즈칸의 위대한 장군)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "29cc0551-0a36-47e7-b828-490c7624d4ee",
+        "slug": "marcus-junius-brutus"
+      },
+      "book": {
+        "contentId": "4ee36aab-cc98-426f-9302-39242a50b651",
+        "title": "리비우스 로마사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c1a2b3d4-e5f6-7890-abcd-ef1234567890",
+        "slug": "augustus"
+      },
+      "book": {
+        "contentId": "4ee36aab-cc98-426f-9302-39242a50b651",
+        "title": "리비우스 로마사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3ffcfbae-8a46-4620-9ace-9648bcc80844",
+        "slug": "demis-hassabis"
+      },
+      "book": {
+        "contentId": "c382adbd-0f84-5f43-b01b-dfe126efb3be",
+        "title": "AI 마인드",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b0db9a29-e4f0-4517-871b-621e7843a27f",
+        "slug": "ray-kurzweil"
+      },
+      "book": {
+        "contentId": "c382adbd-0f84-5f43-b01b-dfe126efb3be",
+        "title": "AI 마인드",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1ab7e089-040f-4aa1-b0a1-81dc1dd510d7",
+        "slug": "bill-gates"
+      },
+      "book": {
+        "contentId": "23a1cc06-d64b-4f4d-9283-0357701aa2d1",
+        "title": "일론 머스크",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1d9ee31b-cc2c-4049-82a6-a6c0fd2e2729",
+        "slug": "dong-zhuo"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3890896d-ab3d-46cc-bc4e-34584f4f133d",
+        "slug": "lu-bu"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1db274a2-a28a-4544-addb-d563ce02a07d",
+        "slug": "liu-bei"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a423a244-3ce2-4063-aa92-a25ace9017ed",
+        "slug": "guan-yu"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1f74cfa4-569c-477e-bfe3-938c8ea5d631",
+        "slug": "zhang-fei"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "12c4c3fb-68cd-4e93-88ab-b186fb3ae345",
+        "slug": "zhao-yun"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6fcd1574-efe3-4674-ace7-06763841d34d",
+        "slug": "zhuge-liang"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "40b76ea6-c1e1-4427-a8e3-266289b1aa8b",
+        "slug": "pang-tong"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b7b83276-109e-4af1-a49a-f4090e0899c4",
+        "slug": "huang-zhong"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ec2092f1-df3e-491f-a592-62ec7344f715",
+        "slug": "wei-yan"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "37cedfe0-1806-49b4-8a4c-ae1fa0869001",
+        "slug": "jiang-wei"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "737675a0-b45b-46a7-a33a-07d846179fbd",
+        "slug": "zhou-yu"
+      },
+      "book": {
+        "contentId": "cf2b0e63-e6d5-5d56-b93a-cf9e55ab4133",
+        "title": "삼국지 인물 108인전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b956904f-6ab3-49f0-b254-0137a17a4685",
+        "slug": "steve-wozniak"
+      },
+      "book": {
+        "contentId": "d86f8555-9305-46c5-a19a-d57785b5d845",
+        "title": "스티브 잡스",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1ab7e089-040f-4aa1-b0a1-81dc1dd510d7",
+        "slug": "bill-gates"
+      },
+      "book": {
+        "contentId": "d86f8555-9305-46c5-a19a-d57785b5d845",
+        "title": "스티브 잡스",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c17a30f5-b6ef-45a3-9cb5-4b999e032eab",
+        "slug": "merlin"
+      },
+      "book": {
+        "contentId": "ec4d0a84-2848-4afc-b13e-3c01b78fdb9d",
+        "title": "아서왕과 원탁의 기사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "837bd18e-c591-4f37-8d03-e232ba0b79cc",
+        "slug": "sir-gareth"
+      },
+      "book": {
+        "contentId": "ec4d0a84-2848-4afc-b13e-3c01b78fdb9d",
+        "title": "아서왕과 원탁의 기사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c0fb93c0-261a-4e86-9b49-16397fe6ea06",
+        "slug": "xun-yu"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b1e9baca-458c-41f2-a2b5-d71e12148a28",
+        "slug": "jia-xu"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "00896805-8521-4907-a55c-8e26f5b41609",
+        "slug": "guo-jia"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6d99c7a8-2436-4d3f-b170-ae7f1b83f302",
+        "slug": "sima-yi"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6fcd1574-efe3-4674-ace7-06763841d34d",
+        "slug": "zhuge-liang"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a423a244-3ce2-4063-aa92-a25ace9017ed",
+        "slug": "guan-yu"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f6c220b8-6cdf-4c08-bc29-5cb174d1150d",
+        "slug": "fa-zheng"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "737675a0-b45b-46a7-a33a-07d846179fbd",
+        "slug": "zhou-yu"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "13743759-bfb7-4dc7-a672-9892b19ed285",
+        "slug": "lu-su"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c42e3822-dfdc-4950-884e-6ca0d472541c",
+        "slug": "lu-meng"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b5e13e35-c490-4957-8a29-7c2e895bcc50",
+        "slug": "zhang-zhao"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0fb787c4-4a9a-4870-ba84-ba52f59fafd4",
+        "slug": "chen-gong"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fcee19da-34be-41fd-bc5c-ed1a0f4be0c1",
+        "slug": "ju-shou"
+      },
+      "book": {
+        "contentId": "3433d3c6-a115-54c1-bb98-03e4daf90e27",
+        "title": "삼국지의 책사들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "35cef738-ef13-4f7f-b7a0-ba39a9fc767b",
+        "slug": "erich-von-manstein"
+      },
+      "book": {
+        "contentId": "2e7cc94b-905a-5679-817c-d6b24996fa50",
+        "title": "히틀러의 장군들(개정판)(KODEF 안보 총서 25)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "620a2ec9-c823-42cb-a7f0-12ea362d2fde",
+        "slug": "heinz-guderian"
+      },
+      "book": {
+        "contentId": "2e7cc94b-905a-5679-817c-d6b24996fa50",
+        "title": "히틀러의 장군들(개정판)(KODEF 안보 총서 25)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "2c3bbf31-3419-4edc-aca3-77570c7a1a07",
+        "slug": "erwin-rommel"
+      },
+      "book": {
+        "contentId": "2e7cc94b-905a-5679-817c-d6b24996fa50",
+        "title": "히틀러의 장군들(개정판)(KODEF 안보 총서 25)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "d784da44-38a2-4284-9b50-3e46d2435741",
+        "slug": "donald-trump"
+      },
+      "book": {
+        "contentId": "17618b6c-d3c6-5322-9dff-c1983cbb7c7d",
+        "title": "화염과 분노",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8196faf7-d290-42a7-84fe-80c770fd4ba3",
+        "slug": "jared-kushner"
+      },
+      "book": {
+        "contentId": "17618b6c-d3c6-5322-9dff-c1983cbb7c7d",
+        "title": "화염과 분노",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "d1578fd3-ca6d-48d2-bc13-e25215e97441",
+        "slug": "ivanka-trump"
+      },
+      "book": {
+        "contentId": "17618b6c-d3c6-5322-9dff-c1983cbb7c7d",
+        "title": "화염과 분노",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9bd7aa63-0735-41c1-9db7-5a59a89518ec",
+        "slug": "qin-shi-huang"
+      },
+      "book": {
+        "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+        "title": "중국사 인물 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a5f63293-fc72-4337-8304-cefdfa2a82e3",
+        "slug": "confucius"
+      },
+      "book": {
+        "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+        "title": "중국사 인물 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e4b6ca38-8a83-4f6f-8c3b-483bf11f836c",
+        "slug": "wu-zetian"
+      },
+      "book": {
+        "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+        "title": "중국사 인물 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ec42637a-90b8-42c2-8b15-0e40a5729fdd",
+        "slug": "yang-guifei"
+      },
+      "book": {
+        "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+        "title": "중국사 인물 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e94f8fc2-9010-4f39-9d32-2dad78a83cd2",
+        "slug": "genghis-khan"
+      },
+      "book": {
+        "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+        "title": "중국사 인물 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f04a6199-d710-40a3-9eaf-f0c23d40c6b7",
+        "slug": "kangxi-emperor"
+      },
+      "book": {
+        "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+        "title": "중국사 인물 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c613758f-1d5b-4999-ba8a-913d942bddde",
+        "slug": "empress-dowager-cixi"
+      },
+      "book": {
+        "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+        "title": "중국사 인물 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0453948f-4643-4bf1-b494-cfa62dbdc87b",
+        "slug": "mao-zedong"
+      },
+      "book": {
+        "contentId": "502b3c5e-d84b-5a68-bb5f-b655b49da530",
+        "title": "중국사 인물 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc4f0e90-9789-43b6-9bf6-d000fed75cbf",
+        "slug": "guan-zhong"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e3433c5f-55df-4538-81cc-bac4eded9d56",
+        "slug": "yan-ying"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc2d4de1-ee3d-4b6d-960b-350affc02d6a",
+        "slug": "laozi"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "75e19a62-ed4a-475e-aac3-241bc76b694d",
+        "slug": "han-feizi"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a4fd97d2-199d-44e8-8d4c-3c5e0eb28bd2",
+        "slug": "wu-zixu"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+        "slug": "shang-yang"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "668425fd-c202-46b2-8074-dcbc490c1275",
+        "slug": "zhang-yi"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "244d6243-e93e-4328-9c8b-0274bedfc283",
+        "slug": "bai-qi"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6a37e510-be7a-433d-acd0-f5a31d0b3dbd",
+        "slug": "lord-mengchang"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "71956da3-739d-4ce9-ad1e-fb864eb3945c",
+        "slug": "lu-buwei"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a594c44-7e61-4d27-8296-28d5349d0ec1",
+        "slug": "jing-ke"
+      },
+      "book": {
+        "contentId": "2052b3a4-49f8-5b21-a8d0-695b929be258",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c8ac8c9d-c229-4570-ad5f-0b68a59153c0",
+        "slug": "elon-musk"
+      },
+      "book": {
+        "contentId": "50a1efe3-4af7-5a4e-9726-78cad7625168",
+        "title": "리프트오프",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "72cbaef1-03b1-47ef-99aa-01985753855c",
+        "slug": "kim-yeon-koung"
+      },
+      "book": {
+        "contentId": "63ccdd55-279a-5c91-b28a-4be189f306ee",
+        "title": "여자가 사랑한 여자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e6d0d6f6-36e8-4f95-89cf-9e68835ecb90",
+        "slug": "cl"
+      },
+      "book": {
+        "contentId": "63ccdd55-279a-5c91-b28a-4be189f306ee",
+        "title": "여자가 사랑한 여자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1b2b7064-88da-427b-a800-40fb21f8657e",
+        "slug": "kang-ji-young"
+      },
+      "book": {
+        "contentId": "63ccdd55-279a-5c91-b28a-4be189f306ee",
+        "title": "여자가 사랑한 여자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "16ba6d6d-c61f-410b-b2fd-ce3ea6087fc3",
+        "slug": "michael-jordan"
+      },
+      "book": {
+        "contentId": "5888c516-e12d-5cab-be95-c4449693db16",
+        "title": "필 잭슨의 일레븐 링즈",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ef004db6-65c9-4fe4-8de9-878d0d4f69e2",
+        "slug": "kobe-bryant"
+      },
+      "book": {
+        "contentId": "5888c516-e12d-5cab-be95-c4449693db16",
+        "title": "필 잭슨의 일레븐 링즈",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "eb9e18a8-88e8-454e-9454-a5abda6f411a",
+        "slug": "shaquille-o'neal"
+      },
+      "book": {
+        "contentId": "5888c516-e12d-5cab-be95-c4449693db16",
+        "title": "필 잭슨의 일레븐 링즈",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "17b0192a-0499-47a3-8ddb-f66c3aa906fd",
+        "slug": "geoffrey-hinton"
+      },
+      "book": {
+        "contentId": "75aa0e24-7852-558d-9e51-19a9c55b49ef",
+        "title": "AI 인물 열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "86199f3c-839a-477a-be0e-0e341c03e000",
+        "slug": "liu-zhang"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1db274a2-a28a-4544-addb-d563ce02a07d",
+        "slug": "liu-bei"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a818b021-8e23-4b94-8580-d78cd6c4a19b",
+        "slug": "liu-shan"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6fcd1574-efe3-4674-ace7-06763841d34d",
+        "slug": "zhuge-liang"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a423a244-3ce2-4063-aa92-a25ace9017ed",
+        "slug": "guan-yu"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1f74cfa4-569c-477e-bfe3-938c8ea5d631",
+        "slug": "zhang-fei"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0578d11e-54c6-4cd3-ba38-b9aec345865b",
+        "slug": "ma-chao"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b7b83276-109e-4af1-a49a-f4090e0899c4",
+        "slug": "huang-zhong"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "40b76ea6-c1e1-4427-a8e3-266289b1aa8b",
+        "slug": "pang-tong"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f6c220b8-6cdf-4c08-bc29-5cb174d1150d",
+        "slug": "fa-zheng"
+      },
+      "book": {
+        "contentId": "688ac9e1-4a42-5251-a3a9-7d61b499bd08",
+        "title": "정사 삼국지: 촉서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b5324ce8-9b9c-42bf-b5f1-c6afa13c73ad",
+        "slug": "mark-zuckerberg"
+      },
+      "book": {
+        "contentId": "7a833fca-8ab6-4440-8882-bf8764a9ae12",
+        "title": "소셜 네트워크",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "db968b7a-d2b6-4ec2-9fb1-f34aa01e58e8",
+        "slug": "sean-parker"
+      },
+      "book": {
+        "contentId": "7a833fca-8ab6-4440-8882-bf8764a9ae12",
+        "title": "소셜 네트워크",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "74f1a09d-91cb-469c-976c-a515e1be8aa9",
+        "slug": "sun-jian"
+      },
+      "book": {
+        "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+        "title": "정사 삼국지: 오서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1714c001-cdfe-4157-8444-5c08f319b9b8",
+        "slug": "sun-ce"
+      },
+      "book": {
+        "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+        "title": "정사 삼국지: 오서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8d3f7fc5-4aaf-42cd-9db4-cb7189205f84",
+        "slug": "sun-quan"
+      },
+      "book": {
+        "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+        "title": "정사 삼국지: 오서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "737675a0-b45b-46a7-a33a-07d846179fbd",
+        "slug": "zhou-yu"
+      },
+      "book": {
+        "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+        "title": "정사 삼국지: 오서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "13743759-bfb7-4dc7-a672-9892b19ed285",
+        "slug": "lu-su"
+      },
+      "book": {
+        "contentId": "87b50066-8510-5529-87ff-7efaf3b32f85",
+        "title": "정사 삼국지: 오서",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cb73f4b5-9d85-4cac-85ba-eadebf381a7e",
+        "slug": "alan-turing"
+      },
+      "book": {
+        "contentId": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06",
+        "title": "AI와 40인의 괴짜들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "173d1130-9190-47da-935e-7abb1c0991b3",
+        "slug": "john-mccarthy"
+      },
+      "book": {
+        "contentId": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06",
+        "title": "AI와 40인의 괴짜들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "66dc78ff-2493-40d6-9e54-91e85a59cf76",
+        "slug": "eric-schmidt"
+      },
+      "book": {
+        "contentId": "a1816eae-5db7-57af-b079-b4d5ea39c357",
+        "title": "구글 스토리",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a90bfea-f10e-4703-9559-02d35ee901d1",
+        "slug": "paul-graham"
+      },
+      "book": {
+        "contentId": "9014c972-f90e-5555-9aa9-301933a09ab1",
+        "title": "미래를 사는 사람 샘 올트먼",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c8ac8c9d-c229-4570-ad5f-0b68a59153c0",
+        "slug": "elon-musk"
+      },
+      "book": {
+        "contentId": "9014c972-f90e-5555-9aa9-301933a09ab1",
+        "title": "미래를 사는 사람 샘 올트먼",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "668425fd-c202-46b2-8074-dcbc490c1275",
+        "slug": "zhang-yi"
+      },
+      "book": {
+        "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+        "title": "전국책",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a594c44-7e61-4d27-8296-28d5349d0ec1",
+        "slug": "jing-ke"
+      },
+      "book": {
+        "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+        "title": "전국책",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6a37e510-be7a-433d-acd0-f5a31d0b3dbd",
+        "slug": "lord-mengchang"
+      },
+      "book": {
+        "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+        "title": "전국책",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e7151208-9ed2-4728-add6-c10596282dee",
+        "slug": "sun-bin"
+      },
+      "book": {
+        "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+        "title": "전국책",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+        "slug": "shang-yang"
+      },
+      "book": {
+        "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+        "title": "전국책",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "07f3646d-58f8-4803-be83-81b7648a08a5",
+        "slug": "mencius"
+      },
+      "book": {
+        "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+        "title": "전국책",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "71956da3-739d-4ce9-ad1e-fb864eb3945c",
+        "slug": "lu-buwei"
+      },
+      "book": {
+        "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+        "title": "전국책",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a41e3ced-313e-4e67-9cdd-90cc7c3c50c8",
+        "slug": "mozi"
+      },
+      "book": {
+        "contentId": "bc60beee-bf16-43bb-8970-2de19f4b1153",
+        "title": "전국책",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5f7c474c-b27d-4a84-84cc-e3e56e5bac6d",
+        "slug": "cao-cao"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1db274a2-a28a-4544-addb-d563ce02a07d",
+        "slug": "liu-bei"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8d3f7fc5-4aaf-42cd-9db4-cb7189205f84",
+        "slug": "sun-quan"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6fcd1574-efe3-4674-ace7-06763841d34d",
+        "slug": "zhuge-liang"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a423a244-3ce2-4063-aa92-a25ace9017ed",
+        "slug": "guan-yu"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1f74cfa4-569c-477e-bfe3-938c8ea5d631",
+        "slug": "zhang-fei"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3890896d-ab3d-46cc-bc4e-34584f4f133d",
+        "slug": "lu-bu"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1d9ee31b-cc2c-4049-82a6-a6c0fd2e2729",
+        "slug": "dong-zhuo"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0a911880-e39a-48e9-a00e-c42a08b49fcc",
+        "slug": "yuan-shao"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b15939f2-b38e-4ec7-90e5-db088000a09f",
+        "slug": "yuan-shu"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6e01e0c1-8094-4918-b80b-49a5086683ab",
+        "slug": "liu-biao"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "dc0e0c7c-95f9-49ef-9742-566b0796c31b",
+        "slug": "gongsun-zan"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "74f1a09d-91cb-469c-976c-a515e1be8aa9",
+        "slug": "sun-jian"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "737675a0-b45b-46a7-a33a-07d846179fbd",
+        "slug": "zhou-yu"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "13743759-bfb7-4dc7-a672-9892b19ed285",
+        "slug": "lu-su"
+      },
+      "book": {
+        "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "title": "정사 삼국지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6c08473f-a1cc-405f-9051-6e74a01a96f6",
+        "slug": "kimbal-musk"
+      },
+      "book": {
+        "contentId": "bebdefca-6023-46bc-84dc-08c61af7849f",
+        "title": "일론 머스크, 미래의 설계자",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a594c44-7e61-4d27-8296-28d5349d0ec1",
+        "slug": "jing-ke"
+      },
+      "book": {
+        "contentId": "aec8a9f0-6459-5de5-bca2-5019baaed74a",
+        "title": "진시황 강의",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7e9a791b-d4d2-4f98-b5cb-67c6acd207f9",
+        "slug": "murasaki-shikibu"
+      },
+      "book": {
+        "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+        "title": "일본사를 움직인 100인",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "111aa1bf-ca72-4da2-b8dc-f1a3946a0b0a",
+        "slug": "minamoto-no-yoritomo"
+      },
+      "book": {
+        "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+        "title": "일본사를 움직인 100인",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8d9ac6ec-2095-427b-a2c6-6b8fdbbb910a",
+        "slug": "takeda-shingen"
+      },
+      "book": {
+        "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+        "title": "일본사를 움직인 100인",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5f8fd431-e150-43c9-85bf-08f360da48cb",
+        "slug": "oda-nobunaga"
+      },
+      "book": {
+        "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+        "title": "일본사를 움직인 100인",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "296e45de-0586-44ab-b48e-f3fe052a6b1d",
+        "slug": "toyotomi-hideyoshi"
+      },
+      "book": {
+        "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+        "title": "일본사를 움직인 100인",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "be551f9e-805d-4940-a70a-a3f70fa63074",
+        "slug": "tokugawa-ieyasu"
+      },
+      "book": {
+        "contentId": "bc3df217-6598-5aff-be29-2968ef935c22",
+        "title": "일본사를 움직인 100인",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3764b5ef-a9e5-4dd5-abc0-b0bc533e3eb7",
+        "slug": "jack-ma"
+      },
+      "book": {
+        "contentId": "9a6ada80-755e-5f02-bed2-d418bd91e3ae",
+        "title": "성룡: 철들기도 전에 늙었노라",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8242d2fd-0143-42ec-a50e-10f2198e65b0",
+        "slug": "will-smith"
+      },
+      "book": {
+        "contentId": "9a6ada80-755e-5f02-bed2-d418bd91e3ae",
+        "title": "성룡: 철들기도 전에 늙었노라",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "aebcfa58-748f-45cb-bbd8-db1a770990e2",
+        "slug": "steve-jobs"
+      },
+      "book": {
+        "contentId": "c6b904d2-6013-50e6-96a1-1764a6c6346c",
+        "title": "스포티파이 플레이",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ca5fdbff-2691-402d-84e6-b1cbfcc93ab4",
+        "slug": "jay-z"
+      },
+      "book": {
+        "contentId": "c6b904d2-6013-50e6-96a1-1764a6c6346c",
+        "title": "스포티파이 플레이",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "aae190e7-80d6-4c84-b12a-2db3f07fe253",
+        "slug": "taylor-swift"
+      },
+      "book": {
+        "contentId": "c6b904d2-6013-50e6-96a1-1764a6c6346c",
+        "title": "스포티파이 플레이",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7256ec18-7d06-4317-ad51-1a2bd7206942",
+        "slug": "jimmy-iovine"
+      },
+      "book": {
+        "contentId": "c6b904d2-6013-50e6-96a1-1764a6c6346c",
+        "title": "스포티파이 플레이",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "aebcfa58-748f-45cb-bbd8-db1a770990e2",
+        "slug": "steve-jobs"
+      },
+      "book": {
+        "contentId": "c46be5b3-e0b1-5264-af32-a385c57c5e26",
+        "title": "에어비앤비 스토리",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "efb94ac1-bc3e-49a2-ac82-ccf332128305",
+        "slug": "georgy-zhukov"
+      },
+      "book": {
+        "contentId": "d382ff0e-eed7-5d81-8ee1-5f4fd4e934ac",
+        "title": "독소 전쟁사 1941 ~ 1945",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "01a5d748-4c5f-4b81-9e5c-ed11b5e84045",
+        "slug": "friedrich-paulus"
+      },
+      "book": {
+        "contentId": "d382ff0e-eed7-5d81-8ee1-5f4fd4e934ac",
+        "title": "독소 전쟁사 1941 ~ 1945",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "35cef738-ef13-4f7f-b7a0-ba39a9fc767b",
+        "slug": "erich-von-manstein"
+      },
+      "book": {
+        "contentId": "d382ff0e-eed7-5d81-8ee1-5f4fd4e934ac",
+        "title": "독소 전쟁사 1941 ~ 1945",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "4815eeb7-895a-4e1a-87f4-2f96f4ed7e18",
+        "slug": "adolf-hitler"
+      },
+      "book": {
+        "contentId": "d382ff0e-eed7-5d81-8ee1-5f4fd4e934ac",
+        "title": "독소 전쟁사 1941 ~ 1945",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0e7d6179-882d-4e30-a0e9-fd6dc62c438d",
+        "slug": "hannibal-barca"
+      },
+      "book": {
+        "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+        "title": "라이벌의 역사(반양장)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e0965abb-0d3a-4133-9e36-07372e12d699",
+        "slug": "scipio-africanus"
+      },
+      "book": {
+        "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+        "title": "라이벌의 역사(반양장)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8c4c228e-c21a-4601-a557-dc1fd9763b41",
+        "slug": "richard-i"
+      },
+      "book": {
+        "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+        "title": "라이벌의 역사(반양장)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1edab93b-6066-4fc1-a407-ed1f8550ecb4",
+        "slug": "elizabeth-i"
+      },
+      "book": {
+        "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+        "title": "라이벌의 역사(반양장)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0ba1daf9-47d5-4778-9175-0267737927cb",
+        "slug": "napoleon-bonaparte"
+      },
+      "book": {
+        "contentId": "d041c82f-7006-504f-98c4-6c7bd05102b1",
+        "title": "라이벌의 역사(반양장)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1714c001-cdfe-4157-8444-5c08f319b9b8",
+        "slug": "sun-ce"
+      },
+      "book": {
+        "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+        "title": "정사 삼국지(오서)(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8d3f7fc5-4aaf-42cd-9db4-cb7189205f84",
+        "slug": "sun-quan"
+      },
+      "book": {
+        "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+        "title": "정사 삼국지(오서)(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c24303d6-7697-475c-83fd-cba05d93e2fb",
+        "slug": "taishi-ci"
+      },
+      "book": {
+        "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+        "title": "정사 삼국지(오서)(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b5e13e35-c490-4957-8a29-7c2e895bcc50",
+        "slug": "zhang-zhao"
+      },
+      "book": {
+        "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+        "title": "정사 삼국지(오서)(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "737675a0-b45b-46a7-a33a-07d846179fbd",
+        "slug": "zhou-yu"
+      },
+      "book": {
+        "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+        "title": "정사 삼국지(오서)(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "13743759-bfb7-4dc7-a672-9892b19ed285",
+        "slug": "lu-su"
+      },
+      "book": {
+        "contentId": "c6cc3246-a71c-529a-8c5a-ae85057794f7",
+        "title": "정사 삼국지(오서)(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1db274a2-a28a-4544-addb-d563ce02a07d",
+        "slug": "liu-bei"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3890896d-ab3d-46cc-bc4e-34584f4f133d",
+        "slug": "lu-bu"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6d99c7a8-2436-4d3f-b170-ae7f1b83f302",
+        "slug": "sima-yi"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0a911880-e39a-48e9-a00e-c42a08b49fcc",
+        "slug": "yuan-shao"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "40b76ea6-c1e1-4427-a8e3-266289b1aa8b",
+        "slug": "pang-tong"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0578d11e-54c6-4cd3-ba38-b9aec345865b",
+        "slug": "ma-chao"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b7b83276-109e-4af1-a49a-f4090e0899c4",
+        "slug": "huang-zhong"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1714c001-cdfe-4157-8444-5c08f319b9b8",
+        "slug": "sun-ce"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "13743759-bfb7-4dc7-a672-9892b19ed285",
+        "slug": "lu-su"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c24303d6-7697-475c-83fd-cba05d93e2fb",
+        "slug": "taishi-ci"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8f58e800-af94-4883-a2af-1281a07a44c9",
+        "slug": "zhang-liao"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c0fb93c0-261a-4e86-9b49-16397fe6ea06",
+        "slug": "xun-yu"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b1e9baca-458c-41f2-a2b5-d71e12148a28",
+        "slug": "jia-xu"
+      },
+      "book": {
+        "contentId": "f217f5dc-5731-56a4-a76f-67fd83fc769e",
+        "title": "AI가 본 삼국지 배신자들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "17b0192a-0499-47a3-8ddb-f66c3aa906fd",
+        "slug": "geoffrey-hinton"
+      },
+      "book": {
+        "contentId": "f82aa835-9a9d-594e-a5df-6f6b3cfaa2e5",
+        "title": "AI 혁명을 이끈 천재들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "00df3bed-b2fc-4950-b6dc-0681a4929c9f",
+        "slug": "jensen-huang"
+      },
+      "book": {
+        "contentId": "f82aa835-9a9d-594e-a5df-6f6b3cfaa2e5",
+        "title": "AI 혁명을 이끈 천재들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "57eed215-9927-4266-ae0c-9e57c0204847",
+        "slug": "ilya-sutskever"
+      },
+      "book": {
+        "contentId": "f82aa835-9a9d-594e-a5df-6f6b3cfaa2e5",
+        "title": "AI 혁명을 이끈 천재들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3ffcfbae-8a46-4620-9ace-9648bcc80844",
+        "slug": "demis-hassabis"
+      },
+      "book": {
+        "contentId": "f82aa835-9a9d-594e-a5df-6f6b3cfaa2e5",
+        "title": "AI 혁명을 이끈 천재들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "77433fc2-9080-4533-8ca5-0106a9a7dfb4",
+        "slug": "larry-page"
+      },
+      "book": {
+        "contentId": "fc7f912d-c584-472d-a43e-03073f712ff6",
+        "title": "슈퍼펌프드",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1d9ee31b-cc2c-4049-82a6-a6c0fd2e2729",
+        "slug": "dong-zhuo"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3890896d-ab3d-46cc-bc4e-34584f4f133d",
+        "slug": "lu-bu"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0a911880-e39a-48e9-a00e-c42a08b49fcc",
+        "slug": "yuan-shao"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5f7c474c-b27d-4a84-84cc-e3e56e5bac6d",
+        "slug": "cao-cao"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "47ad0a6a-95ce-4ab3-9c49-150a2e6c1e9a",
+        "slug": "cao-pi"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3e351310-d7fa-4fd8-b354-883117d3323f",
+        "slug": "xiahou-dun"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9620ff5e-d8e6-4711-a43e-49d1174b4921",
+        "slug": "xiahou-yuan"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b6c2a337-c95b-4eab-b75c-190eb576a4fc",
+        "slug": "cao-ren"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8f58e800-af94-4883-a2af-1281a07a44c9",
+        "slug": "zhang-liao"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1db274a2-a28a-4544-addb-d563ce02a07d",
+        "slug": "liu-bei"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a423a244-3ce2-4063-aa92-a25ace9017ed",
+        "slug": "guan-yu"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1f74cfa4-569c-477e-bfe3-938c8ea5d631",
+        "slug": "zhang-fei"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "12c4c3fb-68cd-4e93-88ab-b186fb3ae345",
+        "slug": "zhao-yun"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0578d11e-54c6-4cd3-ba38-b9aec345865b",
+        "slug": "ma-chao"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8d3f7fc5-4aaf-42cd-9db4-cb7189205f84",
+        "slug": "sun-quan"
+      },
+      "book": {
+        "contentId": "fffb6811-c3e4-5fc3-b9b7-b015ab294617",
+        "title": "삼국지 장군 34선",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cb73f4b5-9d85-4cac-85ba-eadebf381a7e",
+        "slug": "alan-turing"
+      },
+      "book": {
+        "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+        "title": "AI의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8f7e9a9d-81ec-4839-8fde-45a752765541",
+        "slug": "ada-lovelace"
+      },
+      "book": {
+        "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+        "title": "AI의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "173d1130-9190-47da-935e-7abb1c0991b3",
+        "slug": "john-mccarthy"
+      },
+      "book": {
+        "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+        "title": "AI의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "17b0192a-0499-47a3-8ddb-f66c3aa906fd",
+        "slug": "geoffrey-hinton"
+      },
+      "book": {
+        "contentId": "e2b67d52-b6ae-5485-9f00-2a9598ba1d90",
+        "title": "AI의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "98ea3834-05aa-412c-8924-14bb438e5522",
+        "slug": "muhammad"
+      },
+      "book": {
+        "contentId": "1acee299-d1fb-531f-8c82-44cb694c72ca",
+        "title": "필립 샤프 교회사전집 4: 그레고리우스 1세부터 그레고리우스 7세까지",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "57f56912-0e4c-4ac1-8141-5ea1130d11c5",
+        "slug": "solon"
+      },
+      "book": {
+        "contentId": "10c44f7c-9797-5575-ac46-fab328b3a9ba",
+        "title": "그리스인 이야기 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cbe5e497-80a1-4624-a9c2-fba3b7b6a329",
+        "slug": "peisistratus"
+      },
+      "book": {
+        "contentId": "10c44f7c-9797-5575-ac46-fab328b3a9ba",
+        "title": "그리스인 이야기 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a07bede-805e-4a57-a434-776bf7274b33",
+        "slug": "pericles"
+      },
+      "book": {
+        "contentId": "10c44f7c-9797-5575-ac46-fab328b3a9ba",
+        "title": "그리스인 이야기 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "2b98ba7b-6948-45ee-8832-60f49d4ccc27",
+        "slug": "thucydides"
+      },
+      "book": {
+        "contentId": "199c33d0-2999-5b66-8a2b-dd7aa1c34357",
+        "title": "역사를 보는 이슬람의 눈",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "296e45de-0586-44ab-b48e-f3fe052a6b1d",
+        "slug": "toyotomi-hideyoshi"
+      },
+      "book": {
+        "contentId": "1b449914-2f5b-5b36-a77f-f84f9a836a08",
+        "title": "오다 노부나가와 도요토미 히데요시는 어떤 인물인가",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9911d6db-2381-4237-870e-bb9228aedbac",
+        "slug": "howard-schultz"
+      },
+      "book": {
+        "contentId": "0a1769f1-9343-5dc8-9199-64b4ef4ed926",
+        "title": "거장들과의 저녁만찬",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "aebcfa58-748f-45cb-bbd8-db1a770990e2",
+        "slug": "steve-jobs"
+      },
+      "book": {
+        "contentId": "0a1769f1-9343-5dc8-9199-64b4ef4ed926",
+        "title": "거장들과의 저녁만찬",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "30713277-a9dd-4e8e-a40e-acfa347e180b",
+        "slug": "richard-branson"
+      },
+      "book": {
+        "contentId": "0a1769f1-9343-5dc8-9199-64b4ef4ed926",
+        "title": "거장들과의 저녁만찬",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "2dbcef05-05ac-43d4-be21-5935d23842f8",
+        "slug": "michael-dell"
+      },
+      "book": {
+        "contentId": "0a1769f1-9343-5dc8-9199-64b4ef4ed926",
+        "title": "거장들과의 저녁만찬",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "274ee9eb-b5e9-4171-8b09-73954faebc8f",
+        "slug": "angela-merkel"
+      },
+      "book": {
+        "contentId": "14792b44-57d1-5739-8725-2c5e5b596bfd",
+        "title": "여성리더 영어연설문",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3d4cecbb-195c-4aca-ab94-38adefabb265",
+        "slug": "george-soros"
+      },
+      "book": {
+        "contentId": "0bdfe5fa-05c7-58e9-b84c-283b202bdb18",
+        "title": "헤지펀드 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a3c83e3e-dc4d-44fa-8a60-a37eb17287aa",
+        "slug": "zeus"
+      },
+      "book": {
+        "contentId": "14764441-b2d1-55b0-a7da-a9bbd0833a6c",
+        "title": "기묘한 세계사의 미스터리",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8a1b568e-2c35-4899-b02d-c10570bf72d6",
+        "slug": "artemis"
+      },
+      "book": {
+        "contentId": "14764441-b2d1-55b0-a7da-a9bbd0833a6c",
+        "title": "기묘한 세계사의 미스터리",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9bd7aa63-0735-41c1-9db7-5a59a89518ec",
+        "slug": "qin-shi-huang"
+      },
+      "book": {
+        "contentId": "14764441-b2d1-55b0-a7da-a9bbd0833a6c",
+        "title": "기묘한 세계사의 미스터리",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e8c50145-ccf6-4440-8ee8-1580626f29be",
+        "slug": "chad-hurley"
+      },
+      "book": {
+        "contentId": "2ab0a463-2a19-4670-963f-7ae4f5d001f0",
+        "title": "유튜브 이야기 (유튜브 창업자 스티브 첸의 무한 도전)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f80580cd-e94b-4636-826a-12a1306a0516",
+        "slug": "kai-fu-lee"
+      },
+      "book": {
+        "contentId": "2ab0a463-2a19-4670-963f-7ae4f5d001f0",
+        "title": "유튜브 이야기 (유튜브 창업자 스티브 첸의 무한 도전)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c1a2b3d4-e5f6-7890-abcd-ef1234567890",
+        "slug": "augustus"
+      },
+      "book": {
+        "contentId": "358e37a1-4f00-557d-a856-55e667757f4e",
+        "title": "그들은 로마를 만들었고, 로마는 역사가 되었다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a01481b9-3f53-4f8d-8bf4-3f3f7abb99d8",
+        "slug": "aeschylus"
+      },
+      "book": {
+        "contentId": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+        "title": "아리스토파네스 희극 전집 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f19f6ee2-42fa-4f1a-b4fc-16568672b619",
+        "slug": "dionysus"
+      },
+      "book": {
+        "contentId": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+        "title": "아리스토파네스 희극 전집 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "67e70607-ebc2-4702-8e49-ebbc8a8dec87",
+        "slug": "heracles"
+      },
+      "book": {
+        "contentId": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+        "title": "아리스토파네스 희극 전집 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "874a2818-b593-4097-b27a-71ff33ed70b0",
+        "slug": "hermes"
+      },
+      "book": {
+        "contentId": "1e6d1b9d-64e7-560b-8981-14fa03f9844f",
+        "title": "아리스토파네스 희극 전집 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6d555bf0-0859-4975-826e-62f49f90c45b",
+        "slug": "mehmed-ii"
+      },
+      "book": {
+        "contentId": "36a1892c-9b13-5c36-8aa1-87868a5b6559",
+        "title": "비잔티움 제국 최후의 날",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1253573a-395d-42b9-8b4e-dcb2610b709e",
+        "slug": "marcus-aurelius"
+      },
+      "book": {
+        "contentId": "35c97e9a-97f9-54f8-a834-90a5bfa5f8d1",
+        "title": "하드리아누스 황제의 회상록 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "52cec583-e239-455d-bacb-948c6ea04fe9",
+        "slug": "t.s.-eliot"
+      },
+      "book": {
+        "contentId": "29443abb-2c1d-560d-98d5-effe6771305f",
+        "title": "어느 작가의 일기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "99372d9f-4340-4fed-84d3-2d3f1baf174f",
+        "slug": "claudius"
+      },
+      "book": {
+        "contentId": "1de51489-f9aa-518a-b0b8-055a1bb36409",
+        "title": "풍속으로 본 12인의 로마황제 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "90a07304-4186-4e01-b6b2-3e44c16d3911",
+        "slug": "nero"
+      },
+      "book": {
+        "contentId": "1de51489-f9aa-518a-b0b8-055a1bb36409",
+        "title": "풍속으로 본 12인의 로마황제 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1dcffe2e-3baf-4798-b21f-8ed3b403d843",
+        "slug": "cyrus-the-great"
+      },
+      "book": {
+        "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+        "title": "역사를 바꾼 위대한 장군들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "597d8634-4b7e-40d5-82d5-ca8a5a2aa65a",
+        "slug": "julius-caesar"
+      },
+      "book": {
+        "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+        "title": "역사를 바꾼 위대한 장군들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e94f8fc2-9010-4f39-9d32-2dad78a83cd2",
+        "slug": "genghis-khan"
+      },
+      "book": {
+        "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+        "title": "역사를 바꾼 위대한 장군들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8f42e8c6-d3ce-4ecc-8e5e-62001198a229",
+        "slug": "saladin"
+      },
+      "book": {
+        "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+        "title": "역사를 바꾼 위대한 장군들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "2804c477-6e94-467a-b066-6ae436e7c48a",
+        "slug": "george-washington"
+      },
+      "book": {
+        "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+        "title": "역사를 바꾼 위대한 장군들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "96d47a5d-23ab-4118-94ef-202dc805e3b4",
+        "slug": "oliver-cromwell"
+      },
+      "book": {
+        "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+        "title": "역사를 바꾼 위대한 장군들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "296e45de-0586-44ab-b48e-f3fe052a6b1d",
+        "slug": "toyotomi-hideyoshi"
+      },
+      "book": {
+        "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+        "title": "역사를 바꾼 위대한 장군들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "efb94ac1-bc3e-49a2-ac82-ccf332128305",
+        "slug": "georgy-zhukov"
+      },
+      "book": {
+        "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+        "title": "역사를 바꾼 위대한 장군들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "35cef738-ef13-4f7f-b7a0-ba39a9fc767b",
+        "slug": "erich-von-manstein"
+      },
+      "book": {
+        "contentId": "35174b6d-412f-5f81-a1b0-de036ea5c4bb",
+        "title": "역사를 바꾼 위대한 장군들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "849533ee-6a8f-41d4-88b2-60fbb949339a",
+        "slug": "margaret-thatcher"
+      },
+      "book": {
+        "contentId": "33e3996f-c0d0-534e-8b6a-4f39ff5adf62",
+        "title": "퀸 메릴 : 메릴 스트립의 연기와 삶, 그 전설 같은 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "d784da44-38a2-4284-9b50-3e46d2435741",
+        "slug": "donald-trump"
+      },
+      "book": {
+        "contentId": "33e3996f-c0d0-534e-8b6a-4f39ff5adf62",
+        "title": "퀸 메릴 : 메릴 스트립의 연기와 삶, 그 전설 같은 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0ba1daf9-47d5-4778-9175-0267737927cb",
+        "slug": "napoleon-bonaparte"
+      },
+      "book": {
+        "contentId": "2f43630b-4265-5acc-82cd-a3ba103bdccb",
+        "title": "역사 속 세기의 로맨스 3: 나폴레옹과 조세핀",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "30934929-04a2-4ede-879b-4d08a44bf8db",
+        "slug": "yue-yi"
+      },
+      "book": {
+        "contentId": "2569c6d4-cb05-5923-80a9-bd7678682262",
+        "title": "신주 사마천 사기 29: 평원군우경열전·위공자열전·춘신군열전·범저채택...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "db79bff2-108e-4986-9bb4-ed0f8a0f1d59",
+        "slug": "lian-po"
+      },
+      "book": {
+        "contentId": "2569c6d4-cb05-5923-80a9-bd7678682262",
+        "title": "신주 사마천 사기 29: 평원군우경열전·위공자열전·춘신군열전·범저채택...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "753f6491-8031-47df-a152-ca43698f7173",
+        "slug": "lin-xiangru"
+      },
+      "book": {
+        "contentId": "2569c6d4-cb05-5923-80a9-bd7678682262",
+        "title": "신주 사마천 사기 29: 평원군우경열전·위공자열전·춘신군열전·범저채택...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7957dc6e-42bf-4938-ac42-7c5a4ecac14e",
+        "slug": "li-mu"
+      },
+      "book": {
+        "contentId": "2569c6d4-cb05-5923-80a9-bd7678682262",
+        "title": "신주 사마천 사기 29: 평원군우경열전·위공자열전·춘신군열전·범저채택...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "620a2ec9-c823-42cb-a7f0-12ea362d2fde",
+        "slug": "heinz-guderian"
+      },
+      "book": {
+        "contentId": "23c5772b-2dd1-5098-b882-e53a454d055f",
+        "title": "독일 국방군: 제2차 세계대전 독일군의 신화와 진실",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "2c3bbf31-3419-4edc-aca3-77570c7a1a07",
+        "slug": "erwin-rommel"
+      },
+      "book": {
+        "contentId": "23c5772b-2dd1-5098-b882-e53a454d055f",
+        "title": "독일 국방군: 제2차 세계대전 독일군의 신화와 진실",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "35cef738-ef13-4f7f-b7a0-ba39a9fc767b",
+        "slug": "erich-von-manstein"
+      },
+      "book": {
+        "contentId": "23c5772b-2dd1-5098-b882-e53a454d055f",
+        "title": "독일 국방군: 제2차 세계대전 독일군의 신화와 진실",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "4a7e7298-7900-4916-b045-836efc894afa",
+        "slug": "peter-the-great"
+      },
+      "book": {
+        "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+        "title": "주경철의 유럽인 이야기 3",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1b2fd1a5-eaca-439a-9465-eaf6ae2d2906",
+        "slug": "marie-antoinette"
+      },
+      "book": {
+        "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+        "title": "주경철의 유럽인 이야기 3",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "2bbb5d80-b0f5-4af0-8218-8c2ed13fb2be",
+        "slug": "louis-xvi"
+      },
+      "book": {
+        "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+        "title": "주경철의 유럽인 이야기 3",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "41325e0a-2db0-4ad0-9923-383b1ed37616",
+        "slug": "simon-bolivar"
+      },
+      "book": {
+        "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+        "title": "주경철의 유럽인 이야기 3",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1f9a8e40-3e54-4548-93dc-d7c3f6b54497",
+        "slug": "james-watt"
+      },
+      "book": {
+        "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+        "title": "주경철의 유럽인 이야기 3",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0ba1daf9-47d5-4778-9175-0267737927cb",
+        "slug": "napoleon-bonaparte"
+      },
+      "book": {
+        "contentId": "1ca98678-c495-59a1-8987-8525dee2d56f",
+        "title": "주경철의 유럽인 이야기 3",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "34daa6a0-f79c-4b2b-86aa-ffb1e8e69ccb",
+        "slug": "pythagoras"
+      },
+      "book": {
+        "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+        "title": "빠르게 보는 수학의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "17ad4b30-eb04-496c-80f8-36757e7f3c70",
+        "slug": "plato"
+      },
+      "book": {
+        "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+        "title": "빠르게 보는 수학의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc36df01-f3e3-4cf3-9720-7d0acc8a1127",
+        "slug": "euclid"
+      },
+      "book": {
+        "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+        "title": "빠르게 보는 수학의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "16320a5c-b172-4859-9818-9f6bebcacfaf",
+        "slug": "eratosthenes"
+      },
+      "book": {
+        "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+        "title": "빠르게 보는 수학의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "63fbb09c-de95-4cbf-b594-b322b8c1f45c",
+        "slug": "archimedes"
+      },
+      "book": {
+        "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+        "title": "빠르게 보는 수학의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f512ef4c-4ec2-4743-b77e-ba7d44c0ce09",
+        "slug": "al-khwarizmi"
+      },
+      "book": {
+        "contentId": "20749c9f-6bc0-5828-a29a-d18dc415a2a2",
+        "title": "빠르게 보는 수학의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1253573a-395d-42b9-8b4e-dcb2610b709e",
+        "slug": "marcus-aurelius"
+      },
+      "book": {
+        "contentId": "4e2e1497-f329-410b-aee9-f577e654ae5b",
+        "title": "하드리아누스 황제의 회상록 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "aebcfa58-748f-45cb-bbd8-db1a770990e2",
+        "slug": "steve-jobs"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1ab7e089-040f-4aa1-b0a1-81dc1dd510d7",
+        "slug": "bill-gates"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "77433fc2-9080-4533-8ca5-0106a9a7dfb4",
+        "slug": "larry-page"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9156f7d7-2f8d-47fd-8ae1-839b2f1ca296",
+        "slug": "sergey-brin"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c8ac8c9d-c229-4570-ad5f-0b68a59153c0",
+        "slug": "elon-musk"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b5324ce8-9b9c-42bf-b5f1-c6afa13c73ad",
+        "slug": "mark-zuckerberg"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "594b1248-371d-4968-90b6-e73f8a46d0c8",
+        "slug": "jack-dorsey"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fbdf6dda-c4cd-416d-8a9b-a2a5fc7d30e1",
+        "slug": "peter-thiel"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ba939ff2-d137-4ee0-96b1-e4b525359b46",
+        "slug": "tim-cook"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "66dc78ff-2493-40d6-9e54-91e85a59cf76",
+        "slug": "eric-schmidt"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "938d0ad5-57c2-4b5a-9d72-ff768889cfd5",
+        "slug": "satya-nadella"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f7a15d2f-f137-4e0c-8794-a2cbea9f6f79",
+        "slug": "larry-ellison"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9f17f86e-9853-4fc6-96e4-a0ed26eca4f3",
+        "slug": "sam-altman"
+      },
+      "book": {
+        "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc4f0e90-9789-43b6-9bf6-d000fed75cbf",
+        "slug": "guan-zhong"
+      },
+      "book": {
+        "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+        "title": "사기열전 상,중,하 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e3433c5f-55df-4538-81cc-bac4eded9d56",
+        "slug": "yan-ying"
+      },
+      "book": {
+        "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+        "title": "사기열전 상,중,하 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a4fd97d2-199d-44e8-8d4c-3c5e0eb28bd2",
+        "slug": "wu-zixu"
+      },
+      "book": {
+        "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+        "title": "사기열전 상,중,하 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+        "slug": "shang-yang"
+      },
+      "book": {
+        "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+        "title": "사기열전 상,중,하 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a594c44-7e61-4d27-8296-28d5349d0ec1",
+        "slug": "jing-ke"
+      },
+      "book": {
+        "contentId": "3eed1b02-5a98-5722-b27a-e5e029f60cc6",
+        "title": "사기열전 상,중,하 세트",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "65f9e925-7f8c-4e18-b056-a45d96c6e7b6",
+        "slug": "leonardo-da-vinci"
+      },
+      "book": {
+        "contentId": "3b625a0c-7506-5a0b-9bed-31e814b6b7e3",
+        "title": "액자 밖 화가이야기(그림만보고알수없는)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cfb3ac2c-d7e7-4e73-870f-e3de628b4866",
+        "slug": "michelangelo"
+      },
+      "book": {
+        "contentId": "3b625a0c-7506-5a0b-9bed-31e814b6b7e3",
+        "title": "액자 밖 화가이야기(그림만보고알수없는)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1ab7e089-040f-4aa1-b0a1-81dc1dd510d7",
+        "slug": "bill-gates"
+      },
+      "book": {
+        "contentId": "392357a3-cbee-5df0-85a8-84fc3404ebf6",
+        "title": "CEO 래리 엘리슨과 오라클 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ed6a1d9a-aaca-4feb-a47c-ddf8f4725652",
+        "slug": "wu-qi"
+      },
+      "book": {
+        "contentId": "4c885396-aa0c-502b-9997-d6896519815e",
+        "title": "만화로 읽는 사마천의 사기 3: 전국 칠웅",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e7151208-9ed2-4728-add6-c10596282dee",
+        "slug": "sun-bin"
+      },
+      "book": {
+        "contentId": "4c885396-aa0c-502b-9997-d6896519815e",
+        "title": "만화로 읽는 사마천의 사기 3: 전국 칠웅",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+        "slug": "shang-yang"
+      },
+      "book": {
+        "contentId": "4c885396-aa0c-502b-9997-d6896519815e",
+        "title": "만화로 읽는 사마천의 사기 3: 전국 칠웅",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c2965485-7385-4ca2-8e74-193737a18e6a",
+        "slug": "shigeru-miyamoto"
+      },
+      "book": {
+        "contentId": "4db94d5a-9ab2-5453-afad-2e4dca9c8668",
+        "title": "게임왕국 일본을 건설한 거인들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "aea0e5ec-8354-4f1f-9f93-f69a3a651e0f",
+        "slug": "napoleon-iii"
+      },
+      "book": {
+        "contentId": "4752b901-49ee-506d-8fe3-abf8dc1c3209",
+        "title": "별들의 흑역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "00df3bed-b2fc-4950-b6dc-0681a4929c9f",
+        "slug": "jensen-huang"
+      },
+      "book": {
+        "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+        "title": "AI 인물 열전 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b5324ce8-9b9c-42bf-b5f1-c6afa13c73ad",
+        "slug": "mark-zuckerberg"
+      },
+      "book": {
+        "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+        "title": "AI 인물 열전 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "938d0ad5-57c2-4b5a-9d72-ff768889cfd5",
+        "slug": "satya-nadella"
+      },
+      "book": {
+        "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+        "title": "AI 인물 열전 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1b713ee6-6a37-4357-8264-e5ce7f70ad71",
+        "slug": "sundar-pichai"
+      },
+      "book": {
+        "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+        "title": "AI 인물 열전 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a0ce993e-ff45-4c2a-b40c-686b2f1d32fa",
+        "slug": "masayoshi-son"
+      },
+      "book": {
+        "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+        "title": "AI 인물 열전 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "66b5640e-e37a-40cd-aece-56bf6e6cf638",
+        "slug": "reid-hoffman"
+      },
+      "book": {
+        "contentId": "41879188-cb30-527e-95e8-fadd577a52a2",
+        "title": "AI 인물 열전 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "4a7e7298-7900-4916-b045-836efc894afa",
+        "slug": "peter-the-great"
+      },
+      "book": {
+        "contentId": "55a29d24-f51c-51c7-98c4-86686399cd45",
+        "title": "몽골제국의 후예들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "71956da3-739d-4ce9-ad1e-fb864eb3945c",
+        "slug": "lu-buwei"
+      },
+      "book": {
+        "contentId": "69fe0620-26ec-517b-b3cb-cbb2ab8d2974",
+        "title": "김태권의 한나라 이야기. 1: 진시황과 이사(고독한 권력)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9bd7aa63-0735-41c1-9db7-5a59a89518ec",
+        "slug": "qin-shi-huang"
+      },
+      "book": {
+        "contentId": "69fe0620-26ec-517b-b3cb-cbb2ab8d2974",
+        "title": "김태권의 한나라 이야기. 1: 진시황과 이사(고독한 권력)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a2d32ac5-ff5b-4737-a137-76af22260cca",
+        "slug": "gwanggaeto-the-great"
+      },
+      "book": {
+        "contentId": "649d463d-8c3e-5484-bb08-6ce2e089c5d3",
+        "title": "로마제국의 정복자 아틸라는 한민족",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc4f0e90-9789-43b6-9bf6-d000fed75cbf",
+        "slug": "guan-zhong"
+      },
+      "book": {
+        "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+        "title": "신주 사마천 사기 26: 백이열전·관안열전·노자한비열전·사마양저열전...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc2d4de1-ee3d-4b6d-960b-350affc02d6a",
+        "slug": "laozi"
+      },
+      "book": {
+        "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+        "title": "신주 사마천 사기 26: 백이열전·관안열전·노자한비열전·사마양저열전...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "028c3a34-a9e4-4b4e-a8b8-8d296a9c0df7",
+        "slug": "zhuangzi"
+      },
+      "book": {
+        "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+        "title": "신주 사마천 사기 26: 백이열전·관안열전·노자한비열전·사마양저열전...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e7151208-9ed2-4728-add6-c10596282dee",
+        "slug": "sun-bin"
+      },
+      "book": {
+        "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+        "title": "신주 사마천 사기 26: 백이열전·관안열전·노자한비열전·사마양저열전...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ed6a1d9a-aaca-4feb-a47c-ddf8f4725652",
+        "slug": "wu-qi"
+      },
+      "book": {
+        "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+        "title": "신주 사마천 사기 26: 백이열전·관안열전·노자한비열전·사마양저열전...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a4fd97d2-199d-44e8-8d4c-3c5e0eb28bd2",
+        "slug": "wu-zixu"
+      },
+      "book": {
+        "contentId": "66c6c2ea-eab0-5009-9c4e-4f33f6d1aa45",
+        "title": "신주 사마천 사기 26: 백이열전·관안열전·노자한비열전·사마양저열전...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "29fde7be-02fd-4bfb-91f2-941179747566",
+        "slug": "zhu-yuanzhang"
+      },
+      "book": {
+        "contentId": "61ebbbd2-6b41-51a7-96c0-5329decaeb62",
+        "title": "who? 인물 중국사: 정화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a07bede-805e-4a57-a434-776bf7274b33",
+        "slug": "pericles"
+      },
+      "book": {
+        "contentId": "62177356-1efa-581e-af57-e394853de28b",
+        "title": "투퀴디데스 역사를 다시 쓰다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "545ebb2d-4d88-468d-8d64-811147221853",
+        "slug": "alcibiades"
+      },
+      "book": {
+        "contentId": "62177356-1efa-581e-af57-e394853de28b",
+        "title": "투퀴디데스 역사를 다시 쓰다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3764b5ef-a9e5-4dd5-abc0-b0bc533e3eb7",
+        "slug": "jack-ma"
+      },
+      "book": {
+        "contentId": "5de18f9d-c7af-52f8-b47e-b7ef19be0955",
+        "title": "마화텅과 텐센트 제국(텐센트(인터넷 게임, 모바일 서비스))(꿈을 이룬 중국...",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a07bede-805e-4a57-a434-776bf7274b33",
+        "slug": "pericles"
+      },
+      "book": {
+        "contentId": "5e22cb75-aad1-5c79-8b10-926a608a8f40",
+        "title": "플루타르크 영웅전. 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c2ae0091-14e4-41a3-a801-b5eb01d8176f",
+        "slug": "marcus-licinius-crassus"
+      },
+      "book": {
+        "contentId": "5e22cb75-aad1-5c79-8b10-926a608a8f40",
+        "title": "플루타르크 영웅전. 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "545ebb2d-4d88-468d-8d64-811147221853",
+        "slug": "alcibiades"
+      },
+      "book": {
+        "contentId": "5e22cb75-aad1-5c79-8b10-926a608a8f40",
+        "title": "플루타르크 영웅전. 2",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7987f8a6-ede3-4c6d-a4cd-eb69886e6345",
+        "slug": "coco-chanel"
+      },
+      "book": {
+        "contentId": "5a9d35e3-93d6-5dca-b044-38919fc9a11b",
+        "title": "스트라빈스키(현대 예술의 거장 17)(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e47f1743-56bb-4962-aa91-1ebe26acc1d0",
+        "slug": "orpheus"
+      },
+      "book": {
+        "contentId": "5a9d35e3-93d6-5dca-b044-38919fc9a11b",
+        "title": "스트라빈스키(현대 예술의 거장 17)(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1edab93b-6066-4fc1-a407-ed1f8550ecb4",
+        "slug": "elizabeth-i"
+      },
+      "book": {
+        "contentId": "6d7ee10c-3073-51d5-aa1c-80fad9e7db5d",
+        "title": "너무 재밌어서 잠 못 드는 해적의 세계사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc4f0e90-9789-43b6-9bf6-d000fed75cbf",
+        "slug": "guan-zhong"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc2d4de1-ee3d-4b6d-960b-350affc02d6a",
+        "slug": "laozi"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "75e19a62-ed4a-475e-aac3-241bc76b694d",
+        "slug": "han-feizi"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a4fd97d2-199d-44e8-8d4c-3c5e0eb28bd2",
+        "slug": "wu-zixu"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a5f63293-fc72-4337-8304-cefdfa2a82e3",
+        "slug": "confucius"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+        "slug": "shang-yang"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "668425fd-c202-46b2-8074-dcbc490c1275",
+        "slug": "zhang-yi"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6a37e510-be7a-433d-acd0-f5a31d0b3dbd",
+        "slug": "lord-mengchang"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1cd781f1-867a-4b60-8f8f-8f622597922e",
+        "slug": "qu-yuan"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "71956da3-739d-4ce9-ad1e-fb864eb3945c",
+        "slug": "lu-buwei"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7a594c44-7e61-4d27-8296-28d5349d0ec1",
+        "slug": "jing-ke"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ac3c3229-9bf0-4a5f-b449-8a169e123af5",
+        "slug": "li-si"
+      },
+      "book": {
+        "contentId": "697c12f9-9a7c-58ea-b9bf-e371a76fcd8d",
+        "title": "사기열전 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "65f9e925-7f8c-4e18-b056-a45d96c6e7b6",
+        "slug": "leonardo-da-vinci"
+      },
+      "book": {
+        "contentId": "783a2e3e-ecc7-5df4-95ac-c33e3713dfd1",
+        "title": "세계사의 거장들: 선생님이 들려주는 세계사, 15~16세기(유럽편)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "d005f639-0d28-4f76-b716-22f892431093",
+        "slug": "thomas-more"
+      },
+      "book": {
+        "contentId": "783a2e3e-ecc7-5df4-95ac-c33e3713dfd1",
+        "title": "세계사의 거장들: 선생님이 들려주는 세계사, 15~16세기(유럽편)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0ba1daf9-47d5-4778-9175-0267737927cb",
+        "slug": "napoleon-bonaparte"
+      },
+      "book": {
+        "contentId": "753f05b2-7985-55dd-ac4b-3d51599352f1",
+        "title": "명작, 역사를 만나다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "53c416ba-59e9-4c29-8011-003df939f6b3",
+        "slug": "caspar-david-friedrich"
+      },
+      "book": {
+        "contentId": "753f05b2-7985-55dd-ac4b-3d51599352f1",
+        "title": "명작, 역사를 만나다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a0000001-000c-4000-8000-00000000000c",
+        "slug": "eugene-delacroix"
+      },
+      "book": {
+        "contentId": "753f05b2-7985-55dd-ac4b-3d51599352f1",
+        "title": "명작, 역사를 만나다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0cd0577a-e189-49f6-a763-f38201bf571b",
+        "slug": "vincent-van-gogh"
+      },
+      "book": {
+        "contentId": "753f05b2-7985-55dd-ac4b-3d51599352f1",
+        "title": "명작, 역사를 만나다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "07f3646d-58f8-4803-be83-81b7648a08a5",
+        "slug": "mencius"
+      },
+      "book": {
+        "contentId": "78efabc5-ad92-5109-9931-dd4b7719842b",
+        "title": "간서치 형제의 책 읽는 집",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc4f0e90-9789-43b6-9bf6-d000fed75cbf",
+        "slug": "guan-zhong"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e3433c5f-55df-4538-81cc-bac4eded9d56",
+        "slug": "yan-ying"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc2d4de1-ee3d-4b6d-960b-350affc02d6a",
+        "slug": "laozi"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a4fd97d2-199d-44e8-8d4c-3c5e0eb28bd2",
+        "slug": "wu-zixu"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ed6a1d9a-aaca-4feb-a47c-ddf8f4725652",
+        "slug": "wu-qi"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+        "slug": "shang-yang"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "668425fd-c202-46b2-8074-dcbc490c1275",
+        "slug": "zhang-yi"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6a37e510-be7a-433d-acd0-f5a31d0b3dbd",
+        "slug": "lord-mengchang"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1cd781f1-867a-4b60-8f8f-8f622597922e",
+        "slug": "qu-yuan"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "71956da3-739d-4ce9-ad1e-fb864eb3945c",
+        "slug": "lu-buwei"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ac3c3229-9bf0-4a5f-b449-8a169e123af5",
+        "slug": "li-si"
+      },
+      "book": {
+        "contentId": "89a4a8e8-abd4-500b-b836-ca211186b58b",
+        "title": "사기열전(상)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8ed75fdb-0d53-4e25-966e-ef0a37660bfa",
+        "slug": "dong-zhongshu"
+      },
+      "book": {
+        "contentId": "87804a39-538e-5c72-8d38-b0e420491baf",
+        "title": "사기열전 4",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "41de1904-1cb4-4ff1-9ae9-9dc38eb27cdb",
+        "slug": "sima-qian"
+      },
+      "book": {
+        "contentId": "87804a39-538e-5c72-8d38-b0e420491baf",
+        "title": "사기열전 4",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cb5d3354-68d2-4e70-9824-6a778a363b50",
+        "slug": "ray-dalio"
+      },
+      "book": {
+        "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+        "title": "글로벌 투자 리더들의 선택",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3d4cecbb-195c-4aca-ab94-38adefabb265",
+        "slug": "george-soros"
+      },
+      "book": {
+        "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+        "title": "글로벌 투자 리더들의 선택",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cada2aa9-0957-4d50-8af3-e536301346db",
+        "slug": "carl-icahn"
+      },
+      "book": {
+        "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+        "title": "글로벌 투자 리더들의 선택",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "049a521c-7803-4c70-8ff5-ea231bab0170",
+        "slug": "bill-ackman"
+      },
+      "book": {
+        "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+        "title": "글로벌 투자 리더들의 선택",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e2670f6a-a652-495f-a72b-1b9c45d43a4a",
+        "slug": "michael-burry"
+      },
+      "book": {
+        "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+        "title": "글로벌 투자 리더들의 선택",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5586474d-0ee3-4b0d-86dc-55d328830e10",
+        "slug": "ken-griffin"
+      },
+      "book": {
+        "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+        "title": "글로벌 투자 리더들의 선택",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fc3dc61e-633d-4b83-ac93-b047173aa0d2",
+        "slug": "warren-buffett"
+      },
+      "book": {
+        "contentId": "89d4cc4d-3809-5efa-a975-ad4406c9e46a",
+        "title": "글로벌 투자 리더들의 선택",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "da72c7b5-ff8f-4b93-8425-40e169fdb614",
+        "slug": "chung-eui-sun"
+      },
+      "book": {
+        "contentId": "83f58dff-5c9f-5553-b9b6-3f9e06f65b11",
+        "title": "도덕경 리더십",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "4815eeb7-895a-4e1a-87f4-2f96f4ed7e18",
+        "slug": "adolf-hitler"
+      },
+      "book": {
+        "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+        "title": "전격전의 전설",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "2c3bbf31-3419-4edc-aca3-77570c7a1a07",
+        "slug": "erwin-rommel"
+      },
+      "book": {
+        "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+        "title": "전격전의 전설",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "620a2ec9-c823-42cb-a7f0-12ea362d2fde",
+        "slug": "heinz-guderian"
+      },
+      "book": {
+        "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+        "title": "전격전의 전설",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "35cef738-ef13-4f7f-b7a0-ba39a9fc767b",
+        "slug": "erich-von-manstein"
+      },
+      "book": {
+        "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+        "title": "전격전의 전설",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5e409e79-ce12-4c33-8663-fb5e55502b3c",
+        "slug": "charles-de-gaulle"
+      },
+      "book": {
+        "contentId": "7b7c0107-ecf3-5a5d-b0e8-3afb991a48d4",
+        "title": "전격전의 전설",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "35039b6f-199e-412c-9aca-dd198002101f",
+        "slug": "gustav-mahler"
+      },
+      "book": {
+        "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+        "title": "거장 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e15a19e5-6b4f-4b0d-b2ba-eb79a8b5768d",
+        "slug": "arturo-toscanini"
+      },
+      "book": {
+        "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+        "title": "거장 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ffd310fe-4e31-42e6-aaf0-30ea174ccf5e",
+        "slug": "herbert-von-karajan"
+      },
+      "book": {
+        "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+        "title": "거장 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9a745910-1961-472b-b69e-23aa6f81182d",
+        "slug": "leonard-bernstein"
+      },
+      "book": {
+        "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+        "title": "거장 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "44bcb6fc-8997-4ca9-ae4d-af03dcff0d3d",
+        "slug": "simon-rattle"
+      },
+      "book": {
+        "contentId": "8e7ee01f-93cd-4bef-bb76-3a5e41e992ec",
+        "title": "거장 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fd05e449-0a58-4e5b-b8b3-11ba7eaafa8d",
+        "slug": "park-chan-ho"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a44a2446-b2df-47e8-9f53-4636f39d8f4a",
+        "slug": "lee-seung-yeop"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "343535a8-17e0-40f7-b2b5-74d73338ecde",
+        "slug": "cha-bum-kun"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "634fe9be-923f-4790-8ae9-6269e3899f21",
+        "slug": "kim-yuna"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fb6d772b-85a8-44c2-8519-5a6388b17181",
+        "slug": "michael-phelps"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a0db4941-ab11-402e-a3cf-80a3a718ac28",
+        "slug": "pele"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cc2636fb-c6da-4b21-a745-f602b87e54c1",
+        "slug": "muhammad-ali"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "16ba6d6d-c61f-410b-b2fd-ce3ea6087fc3",
+        "slug": "michael-jordan"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9365d7da-7b5b-48dc-95d9-7c941b39ecad",
+        "slug": "usain-bolt"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "d39d78cc-68e6-4117-999e-2bf53bc25fc4",
+        "slug": "park-tae-hwan"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cf221722-414a-4670-ba77-857e1b629643",
+        "slug": "park-ji-sung"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "fcf8e269-81f5-4673-bf5b-9ed9c5eb4db0",
+        "slug": "se-ri-pak"
+      },
+      "book": {
+        "contentId": "7330518d-d1dd-5731-84dd-3dbe446a2f7a",
+        "title": "재미있는 스포츠 스타 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c2ae0091-14e4-41a3-a801-b5eb01d8176f",
+        "slug": "marcus-licinius-crassus"
+      },
+      "book": {
+        "contentId": "97cc5616-f74b-5eb3-94a0-3c62c22de1be",
+        "title": "스파르타쿠스의 죽음(막스갈로의 로마 인물 소설 1)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "07f56193-ce64-4d4f-a84c-a470acddf7e6",
+        "slug": "king-helu"
+      },
+      "book": {
+        "contentId": "a270f41f-6737-5059-b73c-6d9faddd7098",
+        "title": "오자서 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "4d7cb880-2b37-450e-8b86-16644210f597",
+        "slug": "king-fuchai"
+      },
+      "book": {
+        "contentId": "a270f41f-6737-5059-b73c-6d9faddd7098",
+        "title": "오자서 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "94f81730-41e5-4170-9455-757e90d71aa0",
+        "slug": "xi-shi"
+      },
+      "book": {
+        "contentId": "a270f41f-6737-5059-b73c-6d9faddd7098",
+        "title": "오자서 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "eee98002-3376-4f84-9cd6-f8624ae56c38",
+        "slug": "fan-li"
+      },
+      "book": {
+        "contentId": "a270f41f-6737-5059-b73c-6d9faddd7098",
+        "title": "오자서 열전",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7ee78251-5657-4333-9778-857076d297e8",
+        "slug": "winston-churchill"
+      },
+      "book": {
+        "contentId": "a51f56a5-cc8c-5a13-896f-d5d7f73bc730",
+        "title": "CEO 히틀러와 처칠 리더십의 비밀",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "525fd227-5f41-456c-a33a-2367fc02bb42",
+        "slug": "justinian-i"
+      },
+      "book": {
+        "contentId": "a8eadd57-067a-59bf-9db6-fb2f51bff190",
+        "title": "로마제국 쇠망사 4",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "81de0499-f5aa-4e3d-bb1c-4564c10a0b5a",
+        "slug": "king-zhou"
+      },
+      "book": {
+        "contentId": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+        "title": "사기본기 (개정판)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9bd7aa63-0735-41c1-9db7-5a59a89518ec",
+        "slug": "qin-shi-huang"
+      },
+      "book": {
+        "contentId": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+        "title": "사기본기 (개정판)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "58cd2012-c679-48bc-8600-f71247aa31cb",
+        "slug": "xiang-yu"
+      },
+      "book": {
+        "contentId": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+        "title": "사기본기 (개정판)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "53fa2ac6-dad6-4307-87a6-d291c1ccbc4c",
+        "slug": "empress-lu-zhi"
+      },
+      "book": {
+        "contentId": "c2c62284-e8d3-443a-afb0-6a9c4b27c267",
+        "title": "사기본기 (개정판)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b5a003ec-6a27-4245-ab98-18f44faa0bd1",
+        "slug": "henry-ford"
+      },
+      "book": {
+        "contentId": "b63ea512-874b-58e2-8690-7fee1268fe84",
+        "title": "토머스 에디슨(새싹 인물전 8)(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8177ee29-345d-4f49-b715-192c70c41fc2",
+        "slug": "claude-shannon"
+      },
+      "book": {
+        "contentId": "b7e2ce54-6a85-502d-85c2-f34707f3bd4d",
+        "title": "세상을 발칵 뒤집어 놓은 IT의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "aebcfa58-748f-45cb-bbd8-db1a770990e2",
+        "slug": "steve-jobs"
+      },
+      "book": {
+        "contentId": "b7e2ce54-6a85-502d-85c2-f34707f3bd4d",
+        "title": "세상을 발칵 뒤집어 놓은 IT의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "f9aecdfb-ef11-4a88-bfb2-562a19bf392d",
+        "slug": "kim-beom-su"
+      },
+      "book": {
+        "contentId": "acc16876-5d14-5e3e-afe2-0ad7d9b4c8ab",
+        "title": "한국의 IT 천재들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "74d369d9-dc62-4169-b2ad-e44d9aa7dc58",
+        "slug": "kim-jung-ju"
+      },
+      "book": {
+        "contentId": "acc16876-5d14-5e3e-afe2-0ad7d9b4c8ab",
+        "title": "한국의 IT 천재들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "796c7939-e74b-4bf0-90c3-5f0be51e24cf",
+        "slug": "kim-taek-jin"
+      },
+      "book": {
+        "contentId": "acc16876-5d14-5e3e-afe2-0ad7d9b4c8ab",
+        "title": "한국의 IT 천재들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5f7c474c-b27d-4a84-84cc-e3e56e5bac6d",
+        "slug": "cao-cao"
+      },
+      "book": {
+        "contentId": "b617b69a-9e3e-5493-8e2e-0ec3ecda698d",
+        "title": "사기열전(하)(개정판)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "31d5560d-e6b2-4d94-86d7-3395932ee11e",
+        "slug": "susan-sontag"
+      },
+      "book": {
+        "contentId": "ba873b0b-f65f-5dc5-ada0-404651b77a37",
+        "title": "작가란 무엇인가. 3",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "cd5ff60b-1dd2-499e-9f89-51144cc21fb0",
+        "slug": "kazuo-ishiguro"
+      },
+      "book": {
+        "contentId": "ba873b0b-f65f-5dc5-ada0-404651b77a37",
+        "title": "작가란 무엇인가. 3",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c1a2b3d4-e5f6-7890-abcd-ef1234567890",
+        "slug": "augustus"
+      },
+      "book": {
+        "contentId": "c6b795a6-47f0-45e3-8c93-fad021445ba9",
+        "title": "나는 황제 클라우디우스다 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3a6d4622-92da-45aa-816e-f0a8dfea76fd",
+        "slug": "tiberius"
+      },
+      "book": {
+        "contentId": "c6b795a6-47f0-45e3-8c93-fad021445ba9",
+        "title": "나는 황제 클라우디우스다 1",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "7736f0c0-7cf0-4dba-9444-e40cd50ada2e",
+        "slug": "suleiman-the-magnificent"
+      },
+      "book": {
+        "contentId": "d5b4d3ef-a84b-5bd4-a5f2-2ee8327331d1",
+        "title": "오스만 제국",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "b6146e5f-ca2a-49d5-b0d6-6504e15314a5",
+        "slug": "gustav-klimt"
+      },
+      "book": {
+        "contentId": "d288ceb1-68b3-5f2a-9595-2401d2da5627",
+        "title": "욕망을 그린 화가, 에곤 실레",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e2531f3e-ed59-42aa-a9fb-fcbc60d7eb70",
+        "slug": "park-wan-suh"
+      },
+      "book": {
+        "contentId": "d831eb6d-e3ae-5ef1-b0fc-069f6de06620",
+        "title": "박경리 이야기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "9bd7aa63-0735-41c1-9db7-5a59a89518ec",
+        "slug": "qin-shi-huang"
+      },
+      "book": {
+        "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "58cd2012-c679-48bc-8600-f71247aa31cb",
+        "slug": "xiang-yu"
+      },
+      "book": {
+        "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "53fa2ac6-dad6-4307-87a6-d291c1ccbc4c",
+        "slug": "empress-lu-zhi"
+      },
+      "book": {
+        "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a5f63293-fc72-4337-8304-cefdfa2a82e3",
+        "slug": "confucius"
+      },
+      "book": {
+        "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8ac6cc0e-ae8d-4b88-9f9d-7c946a2201ca",
+        "slug": "xiao-he"
+      },
+      "book": {
+        "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "028057ac-07a9-41ad-88d4-f915d5f30f66",
+        "slug": "zhang-liang"
+      },
+      "book": {
+        "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a4fd97d2-199d-44e8-8d4c-3c5e0eb28bd2",
+        "slug": "wu-zixu"
+      },
+      "book": {
+        "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "426cd36a-2194-4a5f-8f62-8492b01c27e3",
+        "slug": "shang-yang"
+      },
+      "book": {
+        "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "668425fd-c202-46b2-8074-dcbc490c1275",
+        "slug": "zhang-yi"
+      },
+      "book": {
+        "contentId": "cdb91aa0-63e0-5bcc-8745-c290850e1438",
+        "title": "사기",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c4a6ea6b-edaf-4769-92a4-3099446ffbb3",
+        "slug": "john-lennon"
+      },
+      "book": {
+        "contentId": "c4922a09-b4ea-50ee-bd40-0e5c73f0f410",
+        "title": "폴 매카트니: 비틀즈 이후 홀로 써내려간 신화",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "deb5a570-a009-410d-9436-77180a85a058",
+        "slug": "alexander-the-great"
+      },
+      "book": {
+        "contentId": "d6ce347c-b938-5eff-9be9-2ad2bb5f4175",
+        "title": "역사 드라마로 읽는 성경 신약편 1부",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "98e10432-60cd-43fa-ad17-f6129e10c553",
+        "slug": "pompey-the-great"
+      },
+      "book": {
+        "contentId": "d6ce347c-b938-5eff-9be9-2ad2bb5f4175",
+        "title": "역사 드라마로 읽는 성경 신약편 1부",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c2ae0091-14e4-41a3-a801-b5eb01d8176f",
+        "slug": "marcus-licinius-crassus"
+      },
+      "book": {
+        "contentId": "d6ce347c-b938-5eff-9be9-2ad2bb5f4175",
+        "title": "역사 드라마로 읽는 성경 신약편 1부",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "29cc0551-0a36-47e7-b828-490c7624d4ee",
+        "slug": "marcus-junius-brutus"
+      },
+      "book": {
+        "contentId": "d6ce347c-b938-5eff-9be9-2ad2bb5f4175",
+        "title": "역사 드라마로 읽는 성경 신약편 1부",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "4d7cb880-2b37-450e-8b86-16644210f597",
+        "slug": "king-fuchai"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c5419dc6-b1ba-4047-af0b-540ccb1c6c8e",
+        "slug": "king-goujian"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "77f69dcf-1dea-4f3f-a7ad-045eeb24029c",
+        "slug": "pang-juan"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "db79bff2-108e-4986-9bb4-ed0f8a0f1d59",
+        "slug": "lian-po"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "753f6491-8031-47df-a152-ca43698f7173",
+        "slug": "lin-xiangru"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "58cd2012-c679-48bc-8600-f71247aa31cb",
+        "slug": "xiang-yu"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6fcd1574-efe3-4674-ace7-06763841d34d",
+        "slug": "zhuge-liang"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6d99c7a8-2436-4d3f-b170-ae7f1b83f302",
+        "slug": "sima-yi"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3bb8791b-708c-475a-8da3-c4811100363b",
+        "slug": "sima-guang"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "336571d6-be4e-4837-94ae-966128787ae5",
+        "slug": "wang-anshi"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "60037e9e-a2e7-4b98-b9f5-a6c3c36066dd",
+        "slug": "zeng-guofan"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5d125d6c-b085-4612-bc2d-d0e5f03103ac",
+        "slug": "hong-xiuquan"
+      },
+      "book": {
+        "contentId": "d0e24c4a-1a59-5186-b6ef-eea2b9a3dee7",
+        "title": "역사를 바꾼 위대한 라이벌",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5f7c474c-b27d-4a84-84cc-e3e56e5bac6d",
+        "slug": "cao-cao"
+      },
+      "book": {
+        "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+        "title": "리더십 삼국지에 길을 묻다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1db274a2-a28a-4544-addb-d563ce02a07d",
+        "slug": "liu-bei"
+      },
+      "book": {
+        "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+        "title": "리더십 삼국지에 길을 묻다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8d3f7fc5-4aaf-42cd-9db4-cb7189205f84",
+        "slug": "sun-quan"
+      },
+      "book": {
+        "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+        "title": "리더십 삼국지에 길을 묻다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "0a911880-e39a-48e9-a00e-c42a08b49fcc",
+        "slug": "yuan-shao"
+      },
+      "book": {
+        "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+        "title": "리더십 삼국지에 길을 묻다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1d9ee31b-cc2c-4049-82a6-a6c0fd2e2729",
+        "slug": "dong-zhuo"
+      },
+      "book": {
+        "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+        "title": "리더십 삼국지에 길을 묻다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "1f74cfa4-569c-477e-bfe3-938c8ea5d631",
+        "slug": "zhang-fei"
+      },
+      "book": {
+        "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+        "title": "리더십 삼국지에 길을 묻다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "12c4c3fb-68cd-4e93-88ab-b186fb3ae345",
+        "slug": "zhao-yun"
+      },
+      "book": {
+        "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+        "title": "리더십 삼국지에 길을 묻다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c0fb93c0-261a-4e86-9b49-16397fe6ea06",
+        "slug": "xun-yu"
+      },
+      "book": {
+        "contentId": "c8828035-3466-5b12-80f1-f584ebdccc10",
+        "title": "리더십 삼국지에 길을 묻다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3a6d4622-92da-45aa-816e-f0a8dfea76fd",
+        "slug": "tiberius"
+      },
+      "book": {
+        "contentId": "f1d5d4ea-fcec-53e2-8aa6-6b69e54aaf4e",
+        "title": "로마인 이야기 6: 팍스 로마나",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "53ef5fe2-5338-4975-b833-60d852f6bf78",
+        "slug": "publius-ovidius-naso"
+      },
+      "book": {
+        "contentId": "f1d5d4ea-fcec-53e2-8aa6-6b69e54aaf4e",
+        "title": "로마인 이야기 6: 팍스 로마나",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "3a6d4622-92da-45aa-816e-f0a8dfea76fd",
+        "slug": "tiberius"
+      },
+      "book": {
+        "contentId": "f5477f4d-1b0f-5711-9218-6d066b3ac6d9",
+        "title": "로마인 이야기 7: 악명높은 황제들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "99372d9f-4340-4fed-84d3-2d3f1baf174f",
+        "slug": "claudius"
+      },
+      "book": {
+        "contentId": "f5477f4d-1b0f-5711-9218-6d066b3ac6d9",
+        "title": "로마인 이야기 7: 악명높은 황제들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "90a07304-4186-4e01-b6b2-3e44c16d3911",
+        "slug": "nero"
+      },
+      "book": {
+        "contentId": "f5477f4d-1b0f-5711-9218-6d066b3ac6d9",
+        "title": "로마인 이야기 7: 악명높은 황제들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a5f63293-fc72-4337-8304-cefdfa2a82e3",
+        "slug": "confucius"
+      },
+      "book": {
+        "contentId": "e47b8ad0-0a88-58e7-8edd-115412fae8b7",
+        "title": "공자세가 중니제자열전(원전총서)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "ef449315-9c02-40d0-8a19-5a2005e2718f",
+        "slug": "yan-hui"
+      },
+      "book": {
+        "contentId": "e47b8ad0-0a88-58e7-8edd-115412fae8b7",
+        "title": "공자세가 중니제자열전(원전총서)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "daed2366-f165-43fe-adda-a554958afe3b",
+        "slug": "gojong"
+      },
+      "book": {
+        "contentId": "e5d70d44-b09b-5263-86f9-8aafb1a1b9e2",
+        "title": "명성황후 제국을 일으키다",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "53fa2ac6-dad6-4307-87a6-d291c1ccbc4c",
+        "slug": "empress-lu-zhi"
+      },
+      "book": {
+        "contentId": "dd4b2b54-19a7-5821-8b68-48c36efb1050",
+        "title": "역사를 움직인 중국 여성들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "e4b6ca38-8a83-4f6f-8c3b-483bf11f836c",
+        "slug": "wu-zetian"
+      },
+      "book": {
+        "contentId": "dd4b2b54-19a7-5821-8b68-48c36efb1050",
+        "title": "역사를 움직인 중국 여성들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "c613758f-1d5b-4999-ba8a-913d942bddde",
+        "slug": "empress-dowager-cixi"
+      },
+      "book": {
+        "contentId": "dd4b2b54-19a7-5821-8b68-48c36efb1050",
+        "title": "역사를 움직인 중국 여성들",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "4258c664-7faa-480e-bc90-d61278a3b313",
+        "slug": "attila"
+      },
+      "book": {
+        "contentId": "f5d3dae2-4ebb-579f-9082-44b85077fbe3",
+        "title": "로마제국 쇠망사 3",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "77aec04a-7f3a-4671-b1c1-dbdb62547bfa",
+        "slug": "jeong-do-jeon"
+      },
+      "book": {
+        "contentId": "fdd72e9c-f4c0-5b08-838e-b0d5af810ecd",
+        "title": "조선왕조실록 1: 태조",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "55db7444-083a-4ec3-8595-25dd0940f014",
+        "slug": "jeong-mong-ju"
+      },
+      "book": {
+        "contentId": "fdd72e9c-f4c0-5b08-838e-b0d5af810ecd",
+        "title": "조선왕조실록 1: 태조",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "5cb8d398-aa37-4bc1-b0b7-4c2c076c226f",
+        "slug": "anne-bonny"
+      },
+      "book": {
+        "contentId": "e3010977-2e8c-5fa8-98c6-e31caca03260",
+        "title": "해적의 역사",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8b98b191-9f66-484f-8c00-6c8cbd7be2f3",
+        "slug": "emperor-showa"
+      },
+      "book": {
+        "contentId": "ffd71ba0-a3e4-5ace-a2ff-b88866db1221",
+        "title": "세 천황 이야기: 메이지 다이쇼 쇼와의 정치사(양장본 HardCover)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "6611cf33-4898-4291-807d-59be6ef3f3d7",
+        "slug": "andrew-carnegie"
+      },
+      "book": {
+        "contentId": "f744841f-7299-5fe9-8d14-4510d77863b7",
+        "title": "이야기 경영학",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "a5f63293-fc72-4337-8304-cefdfa2a82e3",
+        "slug": "confucius"
+      },
+      "book": {
+        "contentId": "f75e0940-a28b-5dd6-907b-859a31d32d1a",
+        "title": "왕충(한대 유학을 비판한 철학자)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "07f3646d-58f8-4803-be83-81b7648a08a5",
+        "slug": "mencius"
+      },
+      "book": {
+        "contentId": "f75e0940-a28b-5dd6-907b-859a31d32d1a",
+        "title": "왕충(한대 유학을 비판한 철학자)",
+        "isbn": null,
+        "verified": null
+      }
+    },
+    {
+      "person": {
+        "id": "8ed75fdb-0d53-4e25-966e-ef0a37660bfa",
+        "slug": "dong-zhongshu"
+      },
+      "book": {
+        "contentId": "f75e0940-a28b-5dd6-907b-859a31d32d1a",
+        "title": "왕충(한대 유학을 비판한 철학자)",
+        "isbn": null,
+        "verified": null
+      }
+    }
+  ]
+}

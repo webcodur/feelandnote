@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788930085038.json",
+  "manifestSha256": "f718137763ba4ace249d2ceac77651cc55acf34458c59cf8af1dc56e15be171f",
+  "planSha256": "9e67c043bbeb6d5a3b1364d0f6bb61252f0dfcbce6f97b0ad69fca8872658758",
+  "workIdentity": "book/9788930085038",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788930085038"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e8a38af3-7be7-5247-af83-0159a5380250",
+    "scopeKey": "book/9788930085038",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e8a38af3-7be7-5247-af83-0159a5380250",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930085038",
+      "release_date": "2010-11-29",
+      "metadata": {
+        "isbn": "9788930085038",
+        "publisher": "나남",
+        "publishDate": "2010-11-29",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788930085038",
+          "workTitle": "한 알의 밀알이 죽지 않으면",
+          "workCreator": "앙드레 지드",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "한 알의 밀알이 죽지 않으면",
+          "creator": "앙드레 지드",
+          "description": "1947년 노벨문학상을 받은 20세기 프랑스 태생의 소설가 앙드레 지드의 『한 알의 밀알이 죽지 않으면』. 82세로 생을 마감한 지드가 57세에 출간한 자서전이다. 사촌누이와 약혼한 26세까지 젊은 날의 이야기를 담고 있다. 삶의 가장 근원적 갈등을 구성하는 사촌누이에 대한 신비주의적 사랑의 탄생에 대해서 주로 이야기한다. 아울러 북아프리카 여행에서 발견한 육체와 생명의 환희를 엿보면서, 동성애에 대한 이야기를 펼쳐나가고 있다.",
+          "isbn": "9788930085038",
+          "publisher": "나남",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/469806?timestamp=20251105110751",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4"
+          },
+          "verified": true,
+          "content_id": "e8a38af3-7be7-5247-af83-0159a5380250"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e8a38af3-7be7-5247-af83-0159a5380250",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788930085038",
+        "release_date": "2010-11-29",
+        "metadata": {
+          "isbn": "9788930085038",
+          "publisher": "나남",
+          "publishDate": "2010-11-29",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788930085038",
+            "workTitle": "한 알의 밀알이 죽지 않으면",
+            "workCreator": "앙드레 지드",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "한 알의 밀알이 죽지 않으면",
+          "creator": "앙드레 지드",
+          "description": "1947년 노벨문학상을 받은 20세기 프랑스 태생의 소설가 앙드레 지드의 『한 알의 밀알이 죽지 않으면』. 82세로 생을 마감한 지드가 57세에 출간한 자서전이다. 사촌누이와 약혼한 26세까지 젊은 날의 이야기를 담고 있다. 삶의 가장 근원적 갈등을 구성하는 사촌누이에 대한 신비주의적 사랑의 탄생에 대해서 주로 이야기한다. 아울러 북아프리카 여행에서 발견한 육체와 생명의 환희를 엿보면서, 동성애에 대한 이야기를 펼쳐나가고 있다.",
+          "isbn": "9788930085038",
+          "publisher": "나남",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/469806?timestamp=20251105110751",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4"
+          },
+          "verified": true,
+          "content_id": "e8a38af3-7be7-5247-af83-0159a5380250"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788930085038",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788930085038"
+      ],
+      "normalizedTitles": [
+        "한알의밀알이죽지않으면"
+      ],
+      "normalizedCreators": [
+        "권은미역",
+        "앙드레지드"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:38:02.106Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e8a38af3-7be7-5247-af83-0159a5380250",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930085038",
+      "release_date": "2010-11-29",
+      "metadata": {
+        "isbn": "9788930085038",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+        "publisher": "나남",
+        "figureBook": {
+          "workTitle": "한 알의 밀알이 죽지 않으면",
+          "workCreator": "앙드레 지드",
+          "workIdentity": "book/9788930085038",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2010-11-29",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:37:55.266038+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e8a38af3-7be7-5247-af83-0159a5380250",
+        "locale": "ko",
+        "title": "한 알의 밀알이 죽지 않으면",
+        "creator": "앙드레 지드",
+        "description": "1947년 노벨문학상을 받은 20세기 프랑스 태생의 소설가 앙드레 지드의 『한 알의 밀알이 죽지 않으면』. 82세로 생을 마감한 지드가 57세에 출간한 자서전이다. 사촌누이와 약혼한 26세까지 젊은 날의 이야기를 담고 있다. 삶의 가장 근원적 갈등을 구성하는 사촌누이에 대한 신비주의적 사랑의 탄생에 대해서 주로 이야기한다. 아울러 북아프리카 여행에서 발견한 육체와 생명의 환희를 엿보면서, 동성애에 대한 이야기를 펼쳐나가고 있다.",
+        "isbn": "9788930085038",
+        "publisher": "나남",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/469806?timestamp=20251105110751",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=469806&q=%ED%95%9C+%EC%95%8C%EC%9D%98+%EB%B0%80%EC%95%8C%EC%9D%B4+%EC%A3%BD%EC%A7%80+%EC%95%8A%EC%9C%BC%EB%A9%B4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:37:55.266038+00:00",
+        "updated_at": "2026-09-04T17:37:55.266038+00:00"
+      }
+    ]
+  }
+}

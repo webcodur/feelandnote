@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788937461767",
+    "title": "괴테와의 대화 1",
+    "creator": "요한 페터 에커만",
+    "titleAliases": [],
+    "creatorAliases": [
+      "장희창 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788937461767"
+  }
+}

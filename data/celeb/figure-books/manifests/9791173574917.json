@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791173574917",
+    "title": "잘못된 전략",
+    "creator": "비어트리스 호이저",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이혜진 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791173574917"
+  }
+}

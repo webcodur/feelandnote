@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791156394921.json",
+  "manifestSha256": "b128d227baa719337bb7470cea69c7f8f05ea4e3f9b022a86bbe36611c66ff55",
+  "planSha256": "57ddbef5e9b31b96f60126e53afe402f24c485d99f68981d4750c6ed9deb5e9b",
+  "workIdentity": "book/9791156394921",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791156394921"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "79a1cc53-bb47-5acb-b937-9660487ac198",
+    "scopeKey": "book/9791156394921",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "79a1cc53-bb47-5acb-b937-9660487ac198",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791156394921",
+      "release_date": "2017-12-01",
+      "metadata": {
+        "isbn": "9791156394921",
+        "publisher": "다산어린이",
+        "publishDate": "2017-12-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791156394921",
+          "workTitle": "Who? 세계 인물: 드와이트 아이젠하워",
+          "workCreator": "김모락",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "Who? 세계 인물: 드와이트 아이젠하워",
+          "creator": "김모락",
+          "description": "아이젠하워의 부모님은 가난한 형편에서도 정성을 다해 자식들을 돌보고 가르쳤습니다. 지혜롭고 생활력이 강했던 아이젠하워의 어머니는 정직과 성실, 그리고 자립성을 강조했어요. 그래서 아이젠하워는 가난 때문에 대학을 포기하는 것이 아니라 학비가 무료인 사관학교로 진학해 스스로 진로를 개척해 나갔습니다.\n\n이후 군인이 된 아이젠하워는 성실하게 군 생활을 하지만 16년 동안이나 승진하지 못하고 소령에 머물렀습니다. 하지만 그는 맡은바 임무를 성실히 해나가다 보면 언젠가는 반드시 기회가 올 것이라는 믿음과 확신을 가지고 실망하지 않았습니다. 그의 생각대로 묵묵히 최선을 다하고, 성과를 만들어 내는 그의 모습이 최고 지휘관들 눈에 띄기 시작했어요. 폭스 코너를 시작으로 존 퍼싱, 맥아더, 마셜 등에게 인정을 받게 되었죠. 아이젠하워는 47세에 드디어 중령으로 진급을 하게 되었습니다. 중령으로 진급한 이후 아이젠하워는 1941년에 제3군 참모장, 1942년에 육군참모본부장으로 승진하며 준장(별 하나)이 된지 3년 만에 5성 장군이 되는 엄청난 승진을 했어요. 그리고 제2차 세계 대전에 참전할 기회를 잡고 노르망디 상륙작전의 대성공을 거두게 됩니다. 그렇게 드와이트 아이젠하워는 제2차 세계 대전을 이끈 영웅이 되었습니다.\n\n전쟁이 끝난 후에는 콜롬비아 대학 총장, 북대서양 조약 기구 최고사령관을 거쳐 1952년, 미국의 제34대 대통령에 당선되었지요. 그는 대통령을 지낸 8년 동안 동서 냉전 체제를 안정시키고, 미국 경제의 호황을 이끌었어요. 또 한국 전쟁을 휴전으로 매듭짓는 등 성공적으로 대통령직을 수행하였습니다.\n\n지금도 드와이트 아이젠하워는 부드러우면서도 강인한 리더십으로 국민들의 절대적인 믿음과 사랑을 받은 지도자로 기억되고 있습니다.\n\n통합지식+ 코너에서는 드와이트 아이젠하워의 성공 열쇠와 제 2차 세계 대전의 이모저모, 사관 학교와 군대에 관한 다양한 배경 지식을 만날 수 있습니다. 인물의 이야기를 따라가며 자연스럽게 역사, 문화, 사회 등 여러 영역의 통합 학습이 가능합니다.\n\n자기 이해와 직업 세계 이해, 진로 설계 등 진로 탐색 단계별 활동을 담은 어린이 진로 탐색 코너는 드와이트 아이젠하워의 삶을 통해 ‘군인’의 역할에 대해 더 깊이 이해하고 독자 스스로 자신의 진로를 탐색해 볼 수 있도록 해 줍니다.",
+          "isbn": "9791156394921",
+          "publisher": "다산어린이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1562709?timestamp=20251122110743",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C"
+          },
+          "verified": true,
+          "content_id": "79a1cc53-bb47-5acb-b937-9660487ac198"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "79a1cc53-bb47-5acb-b937-9660487ac198",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791156394921",
+        "release_date": "2017-12-01",
+        "metadata": {
+          "isbn": "9791156394921",
+          "publisher": "다산어린이",
+          "publishDate": "2017-12-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791156394921",
+            "workTitle": "Who? 세계 인물: 드와이트 아이젠하워",
+            "workCreator": "김모락",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "Who? 세계 인물: 드와이트 아이젠하워",
+          "creator": "김모락",
+          "description": "아이젠하워의 부모님은 가난한 형편에서도 정성을 다해 자식들을 돌보고 가르쳤습니다. 지혜롭고 생활력이 강했던 아이젠하워의 어머니는 정직과 성실, 그리고 자립성을 강조했어요. 그래서 아이젠하워는 가난 때문에 대학을 포기하는 것이 아니라 학비가 무료인 사관학교로 진학해 스스로 진로를 개척해 나갔습니다.\n\n이후 군인이 된 아이젠하워는 성실하게 군 생활을 하지만 16년 동안이나 승진하지 못하고 소령에 머물렀습니다. 하지만 그는 맡은바 임무를 성실히 해나가다 보면 언젠가는 반드시 기회가 올 것이라는 믿음과 확신을 가지고 실망하지 않았습니다. 그의 생각대로 묵묵히 최선을 다하고, 성과를 만들어 내는 그의 모습이 최고 지휘관들 눈에 띄기 시작했어요. 폭스 코너를 시작으로 존 퍼싱, 맥아더, 마셜 등에게 인정을 받게 되었죠. 아이젠하워는 47세에 드디어 중령으로 진급을 하게 되었습니다. 중령으로 진급한 이후 아이젠하워는 1941년에 제3군 참모장, 1942년에 육군참모본부장으로 승진하며 준장(별 하나)이 된지 3년 만에 5성 장군이 되는 엄청난 승진을 했어요. 그리고 제2차 세계 대전에 참전할 기회를 잡고 노르망디 상륙작전의 대성공을 거두게 됩니다. 그렇게 드와이트 아이젠하워는 제2차 세계 대전을 이끈 영웅이 되었습니다.\n\n전쟁이 끝난 후에는 콜롬비아 대학 총장, 북대서양 조약 기구 최고사령관을 거쳐 1952년, 미국의 제34대 대통령에 당선되었지요. 그는 대통령을 지낸 8년 동안 동서 냉전 체제를 안정시키고, 미국 경제의 호황을 이끌었어요. 또 한국 전쟁을 휴전으로 매듭짓는 등 성공적으로 대통령직을 수행하였습니다.\n\n지금도 드와이트 아이젠하워는 부드러우면서도 강인한 리더십으로 국민들의 절대적인 믿음과 사랑을 받은 지도자로 기억되고 있습니다.\n\n통합지식+ 코너에서는 드와이트 아이젠하워의 성공 열쇠와 제 2차 세계 대전의 이모저모, 사관 학교와 군대에 관한 다양한 배경 지식을 만날 수 있습니다. 인물의 이야기를 따라가며 자연스럽게 역사, 문화, 사회 등 여러 영역의 통합 학습이 가능합니다.\n\n자기 이해와 직업 세계 이해, 진로 설계 등 진로 탐색 단계별 활동을 담은 어린이 진로 탐색 코너는 드와이트 아이젠하워의 삶을 통해 ‘군인’의 역할에 대해 더 깊이 이해하고 독자 스스로 자신의 진로를 탐색해 볼 수 있도록 해 줍니다.",
+          "isbn": "9791156394921",
+          "publisher": "다산어린이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1562709?timestamp=20251122110743",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C"
+          },
+          "verified": true,
+          "content_id": "79a1cc53-bb47-5acb-b937-9660487ac198"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791156394921",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791156394921"
+      ],
+      "normalizedTitles": [
+        "who세계인물",
+        "who세계인물드와이트아이젠하워"
+      ],
+      "normalizedCreators": [
+        "김모락"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:04:45.405Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "79a1cc53-bb47-5acb-b937-9660487ac198",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791156394921",
+      "release_date": "2017-12-01",
+      "metadata": {
+        "isbn": "9791156394921",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+        "publisher": "다산어린이",
+        "figureBook": {
+          "workTitle": "Who? 세계 인물: 드와이트 아이젠하워",
+          "workCreator": "김모락",
+          "workIdentity": "book/9791156394921",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2017-12-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:04:27.685316+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "79a1cc53-bb47-5acb-b937-9660487ac198",
+        "locale": "ko",
+        "title": "Who? 세계 인물: 드와이트 아이젠하워",
+        "creator": "김모락",
+        "description": "아이젠하워의 부모님은 가난한 형편에서도 정성을 다해 자식들을 돌보고 가르쳤습니다. 지혜롭고 생활력이 강했던 아이젠하워의 어머니는 정직과 성실, 그리고 자립성을 강조했어요. 그래서 아이젠하워는 가난 때문에 대학을 포기하는 것이 아니라 학비가 무료인 사관학교로 진학해 스스로 진로를 개척해 나갔습니다.\n\n이후 군인이 된 아이젠하워는 성실하게 군 생활을 하지만 16년 동안이나 승진하지 못하고 소령에 머물렀습니다. 하지만 그는 맡은바 임무를 성실히 해나가다 보면 언젠가는 반드시 기회가 올 것이라는 믿음과 확신을 가지고 실망하지 않았습니다. 그의 생각대로 묵묵히 최선을 다하고, 성과를 만들어 내는 그의 모습이 최고 지휘관들 눈에 띄기 시작했어요. 폭스 코너를 시작으로 존 퍼싱, 맥아더, 마셜 등에게 인정을 받게 되었죠. 아이젠하워는 47세에 드디어 중령으로 진급을 하게 되었습니다. 중령으로 진급한 이후 아이젠하워는 1941년에 제3군 참모장, 1942년에 육군참모본부장으로 승진하며 준장(별 하나)이 된지 3년 만에 5성 장군이 되는 엄청난 승진을 했어요. 그리고 제2차 세계 대전에 참전할 기회를 잡고 노르망디 상륙작전의 대성공을 거두게 됩니다. 그렇게 드와이트 아이젠하워는 제2차 세계 대전을 이끈 영웅이 되었습니다.\n\n전쟁이 끝난 후에는 콜롬비아 대학 총장, 북대서양 조약 기구 최고사령관을 거쳐 1952년, 미국의 제34대 대통령에 당선되었지요. 그는 대통령을 지낸 8년 동안 동서 냉전 체제를 안정시키고, 미국 경제의 호황을 이끌었어요. 또 한국 전쟁을 휴전으로 매듭짓는 등 성공적으로 대통령직을 수행하였습니다.\n\n지금도 드와이트 아이젠하워는 부드러우면서도 강인한 리더십으로 국민들의 절대적인 믿음과 사랑을 받은 지도자로 기억되고 있습니다.\n\n통합지식+ 코너에서는 드와이트 아이젠하워의 성공 열쇠와 제 2차 세계 대전의 이모저모, 사관 학교와 군대에 관한 다양한 배경 지식을 만날 수 있습니다. 인물의 이야기를 따라가며 자연스럽게 역사, 문화, 사회 등 여러 영역의 통합 학습이 가능합니다.\n\n자기 이해와 직업 세계 이해, 진로 설계 등 진로 탐색 단계별 활동을 담은 어린이 진로 탐색 코너는 드와이트 아이젠하워의 삶을 통해 ‘군인’의 역할에 대해 더 깊이 이해하고 독자 스스로 자신의 진로를 탐색해 볼 수 있도록 해 줍니다.",
+        "isbn": "9791156394921",
+        "publisher": "다산어린이",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1562709?timestamp=20251122110743",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1562709&q=Who%3F+%EC%84%B8%EA%B3%84+%EC%9D%B8%EB%AC%BC%3A+%EB%93%9C%EC%99%80%EC%9D%B4%ED%8A%B8+%EC%95%84%EC%9D%B4%EC%A0%A0%ED%95%98%EC%9B%8C"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:04:27.685316+00:00",
+        "updated_at": "2026-09-04T18:04:27.685316+00:00"
+      }
+    ]
+  }
+}

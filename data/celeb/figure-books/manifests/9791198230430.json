@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791198230430",
+    "title": "오다 노부나가",
+    "creator": "구태훈",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791198230430"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788935661596",
+    "title": "한비자",
+    "creator": "김예호",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788935661596"
+  }
+}

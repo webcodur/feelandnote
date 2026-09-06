@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791160803884.json",
+  "manifestSha256": "c64c085fe5d8dd985b0deb35338cf5663d10c61dbb80d3a51b222eb569f13eac",
+  "planSha256": "d6dd4a5953597d9091a80ba150d179227cf4051afdefad6ea605195dc254ad5a",
+  "workIdentity": "book/9791160803884",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791160803884"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "307f8d75-72a6-5294-8667-ccfaec20dcdf",
+    "scopeKey": "book/9791160803884",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "307f8d75-72a6-5294-8667-ccfaec20dcdf",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160803884",
+      "release_date": "2020-04-27",
+      "metadata": {
+        "isbn": "9791160803884",
+        "publisher": "휴머니스트",
+        "publishDate": "2020-04-27",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791160803884",
+          "workTitle": "김소월을 읽다",
+          "workCreator": "전국국어교사모임",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "김소월을 읽다",
+          "creator": "전국국어교사모임",
+          "description": "“나 보기가 역겨워 가실 때에는”으로 시작해서 “죽어도 아니 눈물 흘리우리다”로 끝나는, 한국 사람이라면 누구나 알고 있는 시 〈진달래꽃〉을 지은 시인 김소월. 사랑, 이별, 기다림, 그리움, 한(恨) 같은 우리 민족의 보편적 정서를 아름다운 시어와 전통적 율격에 담아낸 시인 김소월.\n\n그가 보여준 민요적인 율격과 토속적인 언어 감각은 한국 근현대시의 새로운 방향을 제시했다는 평가를 받고 있다. 김소월은 ‘우리 민족의 한(恨)과 정서를 민요적 율격으로 노래한 대표적 시인’이라는 호칭과 함께 대한민국을 대표하는 최고의 시인으로 평가받기에도 손색이 없다.\n\n이 책은 김소월의 시를 좀 더 쉽게 만날 수 있도록 안내하는 책이다. 시를 온전히 이해하는 데 필요한 김소월의 삶과 그의 작품 세계에 영향을 주었던 인물들을 살펴본 후, 그의 대표시 20편을 가려뽑아 시에 대한 설명과 감상글을 덧붙였다. 작품에 딸린 설명과 감상글을 읽고 나서 다시 한번 시를 읽어보면 김소월의 시가 지닌 가치와 매력을 새롭게 발견할 수 있을 것이다.",
+          "isbn": "9791160803884",
+          "publisher": "휴머니스트",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5357727?timestamp=20221011183011",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "307f8d75-72a6-5294-8667-ccfaec20dcdf"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "307f8d75-72a6-5294-8667-ccfaec20dcdf",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791160803884",
+        "release_date": "2020-04-27",
+        "metadata": {
+          "isbn": "9791160803884",
+          "publisher": "휴머니스트",
+          "publishDate": "2020-04-27",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791160803884",
+            "workTitle": "김소월을 읽다",
+            "workCreator": "전국국어교사모임",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "김소월을 읽다",
+          "creator": "전국국어교사모임",
+          "description": "“나 보기가 역겨워 가실 때에는”으로 시작해서 “죽어도 아니 눈물 흘리우리다”로 끝나는, 한국 사람이라면 누구나 알고 있는 시 〈진달래꽃〉을 지은 시인 김소월. 사랑, 이별, 기다림, 그리움, 한(恨) 같은 우리 민족의 보편적 정서를 아름다운 시어와 전통적 율격에 담아낸 시인 김소월.\n\n그가 보여준 민요적인 율격과 토속적인 언어 감각은 한국 근현대시의 새로운 방향을 제시했다는 평가를 받고 있다. 김소월은 ‘우리 민족의 한(恨)과 정서를 민요적 율격으로 노래한 대표적 시인’이라는 호칭과 함께 대한민국을 대표하는 최고의 시인으로 평가받기에도 손색이 없다.\n\n이 책은 김소월의 시를 좀 더 쉽게 만날 수 있도록 안내하는 책이다. 시를 온전히 이해하는 데 필요한 김소월의 삶과 그의 작품 세계에 영향을 주었던 인물들을 살펴본 후, 그의 대표시 20편을 가려뽑아 시에 대한 설명과 감상글을 덧붙였다. 작품에 딸린 설명과 감상글을 읽고 나서 다시 한번 시를 읽어보면 김소월의 시가 지닌 가치와 매력을 새롭게 발견할 수 있을 것이다.",
+          "isbn": "9791160803884",
+          "publisher": "휴머니스트",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5357727?timestamp=20221011183011",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "307f8d75-72a6-5294-8667-ccfaec20dcdf"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791160803884",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791160803884"
+      ],
+      "normalizedTitles": [
+        "김소월을읽다"
+      ],
+      "normalizedCreators": [
+        "전국국어교사모임"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:21:25.073Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "307f8d75-72a6-5294-8667-ccfaec20dcdf",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791160803884",
+      "release_date": "2020-04-27",
+      "metadata": {
+        "isbn": "9791160803884",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+        "publisher": "휴머니스트",
+        "figureBook": {
+          "workTitle": "김소월을 읽다",
+          "workCreator": "전국국어교사모임",
+          "workIdentity": "book/9791160803884",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-04-27",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:21:17.812692+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "307f8d75-72a6-5294-8667-ccfaec20dcdf",
+        "locale": "ko",
+        "title": "김소월을 읽다",
+        "creator": "전국국어교사모임",
+        "description": "“나 보기가 역겨워 가실 때에는”으로 시작해서 “죽어도 아니 눈물 흘리우리다”로 끝나는, 한국 사람이라면 누구나 알고 있는 시 〈진달래꽃〉을 지은 시인 김소월. 사랑, 이별, 기다림, 그리움, 한(恨) 같은 우리 민족의 보편적 정서를 아름다운 시어와 전통적 율격에 담아낸 시인 김소월.\n\n그가 보여준 민요적인 율격과 토속적인 언어 감각은 한국 근현대시의 새로운 방향을 제시했다는 평가를 받고 있다. 김소월은 ‘우리 민족의 한(恨)과 정서를 민요적 율격으로 노래한 대표적 시인’이라는 호칭과 함께 대한민국을 대표하는 최고의 시인으로 평가받기에도 손색이 없다.\n\n이 책은 김소월의 시를 좀 더 쉽게 만날 수 있도록 안내하는 책이다. 시를 온전히 이해하는 데 필요한 김소월의 삶과 그의 작품 세계에 영향을 주었던 인물들을 살펴본 후, 그의 대표시 20편을 가려뽑아 시에 대한 설명과 감상글을 덧붙였다. 작품에 딸린 설명과 감상글을 읽고 나서 다시 한번 시를 읽어보면 김소월의 시가 지닌 가치와 매력을 새롭게 발견할 수 있을 것이다.",
+        "isbn": "9791160803884",
+        "publisher": "휴머니스트",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5357727?timestamp=20221011183011",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5357727&q=%EA%B9%80%EC%86%8C%EC%9B%94%EC%9D%84+%EC%9D%BD%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:21:17.812692+00:00",
+        "updated_at": "2026-09-06T04:21:17.812692+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791192966625",
+    "title": "유대인의 세계관",
+    "creator": "홍익희",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791192966625"
+  }
+}

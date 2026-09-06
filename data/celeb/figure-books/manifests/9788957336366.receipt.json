@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788957336366.json",
+  "manifestSha256": "b7c1a8e65dbdce61ead04ef8d4b2b078110b077eb14d1949e8d8c1dc8e4ecb7c",
+  "planSha256": "89253c91abc0ffd8841faeebf870bfa327266834fdaa9dee110c6f817d5017cc",
+  "workIdentity": "book/9788957336366",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788957336366"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "92973a29-d1cc-55b8-a554-1543e0f47611",
+    "scopeKey": "book/9788957336366",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "92973a29-d1cc-55b8-a554-1543e0f47611",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788957336366",
+      "release_date": "2019-07-23",
+      "metadata": {
+        "isbn": "9788957336366",
+        "publisher": "아카넷",
+        "publishDate": "2019-07-23",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+        "salesStatus": "주문판매",
+        "figureBook": {
+          "workIdentity": "book/9788957336366",
+          "workTitle": "임마누엘 칸트",
+          "workCreator": "F 카울바흐",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "임마누엘 칸트",
+          "creator": "F 카울바흐",
+          "description": "칸트사상이 그 단초에서부터 어떻게 싹이 트고, 어떤 배경에서 성장해나갔으며, 어떤 결실을 맺었고, 남겨놓은 문제들이 무엇인지를 체계적으로 서술한 칸트철학 안내서이다. 무엇보다도 이 책의 저자인 카울바흐는 칸트철학의 대명사가 된 초월철학의 ‘초월적’의 의미 맥락을 잘 밝혀주고 있다.\n\n칸트철학에 대한 이러한 심층적 탐구를 담고 있는 까닭에 이 책은, 칸트철학으로의 안내를 위한 해설서로 출판되었지만, 초판 출간 당시부터 전문가들에게도 연구서로 읽히고 있으며, 출간된 지 이미 50년이 됐는데도 이 책의 가치는 전혀 감소하지 않았다. 그것은 저자가 이미 10여 권의 칸트 연구서를 낸 공력이 있고, 관련 분야를 깊게 탐구한 이력이 있기 때문일 것이다.\n\n특히 칸트의 초기 사상 발전에 대한 저자의 상세한 고찰은 칸트의 “고유한” 철학이 발전해 나온 배아들을 알 수 있도록 해줄 뿐만 아니라 서양철학의 전통과의 연관 관계를 드러냄으로써 수많은 사상적 분절을 거쳐 칸트의 마지막 〈유작〉의 단서들에 이르기까지의 칸트철학의 통일성을 알 수 있게끔 하고, 수많은 칸트 연구의 개별적 성과들을 하나의 전체 그림 안에 통합하는 데 도움을 준다.\n\n저자는 1판 머리말에서 책의 저술의도와 관련하여 “새로운 칸트 해설서는 한편으로는 광범위한 독자층, 특히 대학생들을 위해서는 칸트의 전체 사고 과정을 이해할 수 있는 입문서 역할을 해야 하고, 다른 한편으로는 전문가들도 관심을 가질 수 있는 칸트 해석에 관한 특성 있는 체계적 구상을 제시해야만 한다는 것”임을 염두에 두고 서술했다고 밝히고 있다.\n\n이 책은 예전에 옮긴이가 번역한 『칸트. 비판철학의 형성과정과 체계』(서광사, 1992)를 재검토하면서 번역과 우리말 표현을 수정해서 새로 펴낸 것이다. 특히 최근에 출간된 『한국 칸트사전』(2019)과 함께 읽으면 매우 유용하다. 『사전』은 개념어나 인명 등 표제어 중심으로 필요한 내용을 쉽게 찾아볼 수 있는 반면에, 카울바흐의 이 책은 표제어들 사이의 내용상의 그리고 발생상의 유기적 관계를 잘 짚어주고 있기 때문이다.",
+          "isbn": "9788957336366",
+          "publisher": "아카넷",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5004367?timestamp=20260612113858",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "92973a29-d1cc-55b8-a554-1543e0f47611"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "92973a29-d1cc-55b8-a554-1543e0f47611",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788957336366",
+        "release_date": "2019-07-23",
+        "metadata": {
+          "isbn": "9788957336366",
+          "publisher": "아카넷",
+          "publishDate": "2019-07-23",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+          "salesStatus": "주문판매",
+          "figureBook": {
+            "workIdentity": "book/9788957336366",
+            "workTitle": "임마누엘 칸트",
+            "workCreator": "F 카울바흐",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "임마누엘 칸트",
+          "creator": "F 카울바흐",
+          "description": "칸트사상이 그 단초에서부터 어떻게 싹이 트고, 어떤 배경에서 성장해나갔으며, 어떤 결실을 맺었고, 남겨놓은 문제들이 무엇인지를 체계적으로 서술한 칸트철학 안내서이다. 무엇보다도 이 책의 저자인 카울바흐는 칸트철학의 대명사가 된 초월철학의 ‘초월적’의 의미 맥락을 잘 밝혀주고 있다.\n\n칸트철학에 대한 이러한 심층적 탐구를 담고 있는 까닭에 이 책은, 칸트철학으로의 안내를 위한 해설서로 출판되었지만, 초판 출간 당시부터 전문가들에게도 연구서로 읽히고 있으며, 출간된 지 이미 50년이 됐는데도 이 책의 가치는 전혀 감소하지 않았다. 그것은 저자가 이미 10여 권의 칸트 연구서를 낸 공력이 있고, 관련 분야를 깊게 탐구한 이력이 있기 때문일 것이다.\n\n특히 칸트의 초기 사상 발전에 대한 저자의 상세한 고찰은 칸트의 “고유한” 철학이 발전해 나온 배아들을 알 수 있도록 해줄 뿐만 아니라 서양철학의 전통과의 연관 관계를 드러냄으로써 수많은 사상적 분절을 거쳐 칸트의 마지막 〈유작〉의 단서들에 이르기까지의 칸트철학의 통일성을 알 수 있게끔 하고, 수많은 칸트 연구의 개별적 성과들을 하나의 전체 그림 안에 통합하는 데 도움을 준다.\n\n저자는 1판 머리말에서 책의 저술의도와 관련하여 “새로운 칸트 해설서는 한편으로는 광범위한 독자층, 특히 대학생들을 위해서는 칸트의 전체 사고 과정을 이해할 수 있는 입문서 역할을 해야 하고, 다른 한편으로는 전문가들도 관심을 가질 수 있는 칸트 해석에 관한 특성 있는 체계적 구상을 제시해야만 한다는 것”임을 염두에 두고 서술했다고 밝히고 있다.\n\n이 책은 예전에 옮긴이가 번역한 『칸트. 비판철학의 형성과정과 체계』(서광사, 1992)를 재검토하면서 번역과 우리말 표현을 수정해서 새로 펴낸 것이다. 특히 최근에 출간된 『한국 칸트사전』(2019)과 함께 읽으면 매우 유용하다. 『사전』은 개념어나 인명 등 표제어 중심으로 필요한 내용을 쉽게 찾아볼 수 있는 반면에, 카울바흐의 이 책은 표제어들 사이의 내용상의 그리고 발생상의 유기적 관계를 잘 짚어주고 있기 때문이다.",
+          "isbn": "9788957336366",
+          "publisher": "아카넷",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5004367?timestamp=20260612113858",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "92973a29-d1cc-55b8-a554-1543e0f47611"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788957336366",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788957336366"
+      ],
+      "normalizedTitles": [
+        "임마누엘칸트"
+      ],
+      "normalizedCreators": [
+        "f카울바흐",
+        "백종현역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:49:51.826Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "92973a29-d1cc-55b8-a554-1543e0f47611",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788957336366",
+      "release_date": "2019-07-23",
+      "metadata": {
+        "isbn": "9788957336366",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+        "publisher": "아카넷",
+        "figureBook": {
+          "workTitle": "임마누엘 칸트",
+          "workCreator": "F 카울바흐",
+          "workIdentity": "book/9788957336366",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-07-23",
+        "salesStatus": "주문판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:49:41.972812+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "92973a29-d1cc-55b8-a554-1543e0f47611",
+        "locale": "ko",
+        "title": "임마누엘 칸트",
+        "creator": "F 카울바흐",
+        "description": "칸트사상이 그 단초에서부터 어떻게 싹이 트고, 어떤 배경에서 성장해나갔으며, 어떤 결실을 맺었고, 남겨놓은 문제들이 무엇인지를 체계적으로 서술한 칸트철학 안내서이다. 무엇보다도 이 책의 저자인 카울바흐는 칸트철학의 대명사가 된 초월철학의 ‘초월적’의 의미 맥락을 잘 밝혀주고 있다.\n\n칸트철학에 대한 이러한 심층적 탐구를 담고 있는 까닭에 이 책은, 칸트철학으로의 안내를 위한 해설서로 출판되었지만, 초판 출간 당시부터 전문가들에게도 연구서로 읽히고 있으며, 출간된 지 이미 50년이 됐는데도 이 책의 가치는 전혀 감소하지 않았다. 그것은 저자가 이미 10여 권의 칸트 연구서를 낸 공력이 있고, 관련 분야를 깊게 탐구한 이력이 있기 때문일 것이다.\n\n특히 칸트의 초기 사상 발전에 대한 저자의 상세한 고찰은 칸트의 “고유한” 철학이 발전해 나온 배아들을 알 수 있도록 해줄 뿐만 아니라 서양철학의 전통과의 연관 관계를 드러냄으로써 수많은 사상적 분절을 거쳐 칸트의 마지막 〈유작〉의 단서들에 이르기까지의 칸트철학의 통일성을 알 수 있게끔 하고, 수많은 칸트 연구의 개별적 성과들을 하나의 전체 그림 안에 통합하는 데 도움을 준다.\n\n저자는 1판 머리말에서 책의 저술의도와 관련하여 “새로운 칸트 해설서는 한편으로는 광범위한 독자층, 특히 대학생들을 위해서는 칸트의 전체 사고 과정을 이해할 수 있는 입문서 역할을 해야 하고, 다른 한편으로는 전문가들도 관심을 가질 수 있는 칸트 해석에 관한 특성 있는 체계적 구상을 제시해야만 한다는 것”임을 염두에 두고 서술했다고 밝히고 있다.\n\n이 책은 예전에 옮긴이가 번역한 『칸트. 비판철학의 형성과정과 체계』(서광사, 1992)를 재검토하면서 번역과 우리말 표현을 수정해서 새로 펴낸 것이다. 특히 최근에 출간된 『한국 칸트사전』(2019)과 함께 읽으면 매우 유용하다. 『사전』은 개념어나 인명 등 표제어 중심으로 필요한 내용을 쉽게 찾아볼 수 있는 반면에, 카울바흐의 이 책은 표제어들 사이의 내용상의 그리고 발생상의 유기적 관계를 잘 짚어주고 있기 때문이다.",
+        "isbn": "9788957336366",
+        "publisher": "아카넷",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5004367?timestamp=20260612113858",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5004367&q=%EC%9E%84%EB%A7%88%EB%88%84%EC%97%98+%EC%B9%B8%ED%8A%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:49:41.972812+00:00",
+        "updated_at": "2026-09-04T17:49:41.972812+00:00"
+      }
+    ]
+  }
+}

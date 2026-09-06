@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791192101088",
+    "title": "매헌 윤봉길 의사 평전",
+    "creator": "김학준",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791192101088"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791130664163",
+    "title": "성공은 하루 만에 잊어라",
+    "creator": "야나이 다다시",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박선영 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791130664163"
+  }
+}

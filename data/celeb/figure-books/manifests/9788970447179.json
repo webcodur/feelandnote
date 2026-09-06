@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788970447179",
+    "title": "러더퍼드와 원자의 본질",
+    "creator": "에드워드 안드레이드",
+    "titleAliases": [],
+    "creatorAliases": [
+      "안운선 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788970447179"
+  }
+}

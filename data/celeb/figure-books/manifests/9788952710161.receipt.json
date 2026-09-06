@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788952710161.json",
+  "manifestSha256": "0c9533b43db4f5322f2b694e3e81a821279035fb76d5e9c268fc4c7606189e85",
+  "planSha256": "1ed3c9e8e4de404bc26935d0db366dbf5b30578cfee4d1fe07c9031fc3aef90d",
+  "workIdentity": "book/9788952710161",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788952710161"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e1d9b085-255c-54fd-b509-4e2e7fad7767",
+    "scopeKey": "book/9788952710161",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e1d9b085-255c-54fd-b509-4e2e7fad7767",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952710161",
+      "release_date": "2000-10-20",
+      "metadata": {
+        "isbn": "9788952710161",
+        "publisher": "시공아트",
+        "publishDate": "2000-10-20",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788952710161",
+          "workTitle": "조토에서 세잔까지: 서양회화사",
+          "workCreator": "마이클 리비",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "조토에서 세잔까지: 서양회화사",
+          "creator": "마이클 리비",
+          "description": "간추린 서양회화의 역사. 르네상스 초기 이탈리아 화가 조토 디 본도네(1267년경 - 1337)부터 시작해 미켈란젤로, 카라바조를 거쳐 고갱과 반 고흐, 세잔까지 서양 회화의 변천 과정을 작품 위주로 들려준다. 널리 알려진 유명한 화가 이외도 그동안 알려지지 않은 화가들까지 망라해 그들의 작품 세계를 소개했다. 올칼라.",
+          "isbn": "9788952710161",
+          "publisher": "시공아트",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/640577?timestamp=20250314113836",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC"
+          },
+          "verified": true,
+          "content_id": "e1d9b085-255c-54fd-b509-4e2e7fad7767"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e1d9b085-255c-54fd-b509-4e2e7fad7767",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788952710161",
+        "release_date": "2000-10-20",
+        "metadata": {
+          "isbn": "9788952710161",
+          "publisher": "시공아트",
+          "publishDate": "2000-10-20",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788952710161",
+            "workTitle": "조토에서 세잔까지: 서양회화사",
+            "workCreator": "마이클 리비",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "조토에서 세잔까지: 서양회화사",
+          "creator": "마이클 리비",
+          "description": "간추린 서양회화의 역사. 르네상스 초기 이탈리아 화가 조토 디 본도네(1267년경 - 1337)부터 시작해 미켈란젤로, 카라바조를 거쳐 고갱과 반 고흐, 세잔까지 서양 회화의 변천 과정을 작품 위주로 들려준다. 널리 알려진 유명한 화가 이외도 그동안 알려지지 않은 화가들까지 망라해 그들의 작품 세계를 소개했다. 올칼라.",
+          "isbn": "9788952710161",
+          "publisher": "시공아트",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/640577?timestamp=20250314113836",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC"
+          },
+          "verified": true,
+          "content_id": "e1d9b085-255c-54fd-b509-4e2e7fad7767"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788952710161",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788952710161"
+      ],
+      "normalizedTitles": [
+        "조토에서세잔까지",
+        "조토에서세잔까지서양회화사"
+      ],
+      "normalizedCreators": [
+        "마이클리비",
+        "양정무역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:08:08.255Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e1d9b085-255c-54fd-b509-4e2e7fad7767",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952710161",
+      "release_date": "2000-10-20",
+      "metadata": {
+        "isbn": "9788952710161",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+        "publisher": "시공아트",
+        "figureBook": {
+          "workTitle": "조토에서 세잔까지: 서양회화사",
+          "workCreator": "마이클 리비",
+          "workIdentity": "book/9788952710161",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2000-10-20",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:08:03.316926+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e1d9b085-255c-54fd-b509-4e2e7fad7767",
+        "locale": "ko",
+        "title": "조토에서 세잔까지: 서양회화사",
+        "creator": "마이클 리비",
+        "description": "간추린 서양회화의 역사. 르네상스 초기 이탈리아 화가 조토 디 본도네(1267년경 - 1337)부터 시작해 미켈란젤로, 카라바조를 거쳐 고갱과 반 고흐, 세잔까지 서양 회화의 변천 과정을 작품 위주로 들려준다. 널리 알려진 유명한 화가 이외도 그동안 알려지지 않은 화가들까지 망라해 그들의 작품 세계를 소개했다. 올칼라.",
+        "isbn": "9788952710161",
+        "publisher": "시공아트",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/640577?timestamp=20250314113836",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=640577&q=%EC%A1%B0%ED%86%A0%EC%97%90%EC%84%9C+%EC%84%B8%EC%9E%94%EA%B9%8C%EC%A7%80%3A+%EC%84%9C%EC%96%91%ED%9A%8C%ED%99%94%EC%82%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:08:03.316926+00:00",
+        "updated_at": "2026-09-06T04:08:03.316926+00:00"
+      }
+    ]
+  }
+}

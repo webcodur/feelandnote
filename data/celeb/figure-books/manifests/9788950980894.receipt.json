@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788950980894.json",
+  "manifestSha256": "07dddbb47095c704e8e06e6a2c0b77d5f062f88e7688d01be755fd34370b8c0f",
+  "planSha256": "c25249cf208ea31155f4a44b4cc91fcc136626248605066e585a17e452506224",
+  "workIdentity": "book/9788950980894",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788950980894"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "b2fa7e6f-f575-5839-af59-12dadcd04bd2",
+    "scopeKey": "book/9788950980894",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "b2fa7e6f-f575-5839-af59-12dadcd04bd2",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788950980894",
+      "release_date": "2019-05-17",
+      "metadata": {
+        "isbn": "9788950980894",
+        "publisher": "아르테(arte)",
+        "publishDate": "2019-05-17",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788950980894",
+          "workTitle": "아리스토텔레스",
+          "workCreator": "조대호",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "아리스토텔레스",
+          "creator": "조대호",
+          "description": "모두가 알지만 누구도 제대로 안다고 말하기 어려운, 가깝고도 먼 철학자 아리스토텔레스. 그가 남긴 지적 유산은 그 방대함만으로 이미 우리를 압도한다. 그는 자연 세계 전체, 생명과 인간을 연구 대상으로 삼고 천문학, 기상학, 물리학, 화학, 생물학, 심리학, 윤리학, 정치학 등을 학문으로 정립했으며 이 모든 학문을 위한 수단으로서 논리학의 기초를 놓았다. 겨우 예순두 해를 산 사람이 어떻게 그토록 방대한 업적을 남길 수 있었을까?\n행복한 삶이란 무엇인가 하는 질문을 던질 때, 좋은 이야기는 어떻게 만들어지는지 궁리할 때, 민주주의와 현대 정치사상을 논할 때도, 우리는 자꾸만 이 케케묵은 고대 철학자를 소환하게 된다. 여전히 그가 우리에게 알려줄 것이 남았을까? 21세기에 아리스토텔레스를 읽는다는 것은 어떤 의미인가? 그가 열어 보여준 거대한 지식의 바다에서 길을 잃지 않도록 도와줄 지도는 없을까? 이 질문들에 답하기 위해, 아리스토텔레스 인생과 철학의 무대인 그리스로 떠났다. 아테네에서 스타게이라, 레스보스섬, 칼키스 등으로 이어지는 여정 속에서 저자 조대호 교수는 고대 그리스의 역사와 문화에 관한 풍성한 배경지식과 상상력을 동원해 2400년 전 한 철학자의 삶과 사상을 퍼즐 맞추듯 재구성해낸다.",
+          "isbn": "9788950980894",
+          "publisher": "아르테(arte)",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4949923?timestamp=20230520145713",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "b2fa7e6f-f575-5839-af59-12dadcd04bd2"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "b2fa7e6f-f575-5839-af59-12dadcd04bd2",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788950980894",
+        "release_date": "2019-05-17",
+        "metadata": {
+          "isbn": "9788950980894",
+          "publisher": "아르테(arte)",
+          "publishDate": "2019-05-17",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788950980894",
+            "workTitle": "아리스토텔레스",
+            "workCreator": "조대호",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "아리스토텔레스",
+          "creator": "조대호",
+          "description": "모두가 알지만 누구도 제대로 안다고 말하기 어려운, 가깝고도 먼 철학자 아리스토텔레스. 그가 남긴 지적 유산은 그 방대함만으로 이미 우리를 압도한다. 그는 자연 세계 전체, 생명과 인간을 연구 대상으로 삼고 천문학, 기상학, 물리학, 화학, 생물학, 심리학, 윤리학, 정치학 등을 학문으로 정립했으며 이 모든 학문을 위한 수단으로서 논리학의 기초를 놓았다. 겨우 예순두 해를 산 사람이 어떻게 그토록 방대한 업적을 남길 수 있었을까?\n행복한 삶이란 무엇인가 하는 질문을 던질 때, 좋은 이야기는 어떻게 만들어지는지 궁리할 때, 민주주의와 현대 정치사상을 논할 때도, 우리는 자꾸만 이 케케묵은 고대 철학자를 소환하게 된다. 여전히 그가 우리에게 알려줄 것이 남았을까? 21세기에 아리스토텔레스를 읽는다는 것은 어떤 의미인가? 그가 열어 보여준 거대한 지식의 바다에서 길을 잃지 않도록 도와줄 지도는 없을까? 이 질문들에 답하기 위해, 아리스토텔레스 인생과 철학의 무대인 그리스로 떠났다. 아테네에서 스타게이라, 레스보스섬, 칼키스 등으로 이어지는 여정 속에서 저자 조대호 교수는 고대 그리스의 역사와 문화에 관한 풍성한 배경지식과 상상력을 동원해 2400년 전 한 철학자의 삶과 사상을 퍼즐 맞추듯 재구성해낸다.",
+          "isbn": "9788950980894",
+          "publisher": "아르테(arte)",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4949923?timestamp=20230520145713",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4"
+          },
+          "verified": true,
+          "content_id": "b2fa7e6f-f575-5839-af59-12dadcd04bd2"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788950980894",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788950980894"
+      ],
+      "normalizedTitles": [
+        "아리스토텔레스"
+      ],
+      "normalizedCreators": [
+        "조대호"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:30:59.435Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "b2fa7e6f-f575-5839-af59-12dadcd04bd2",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788950980894",
+      "release_date": "2019-05-17",
+      "metadata": {
+        "isbn": "9788950980894",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+        "publisher": "아르테(arte)",
+        "figureBook": {
+          "workTitle": "아리스토텔레스",
+          "workCreator": "조대호",
+          "workIdentity": "book/9788950980894",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-05-17",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:30:52.871047+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "b2fa7e6f-f575-5839-af59-12dadcd04bd2",
+        "locale": "ko",
+        "title": "아리스토텔레스",
+        "creator": "조대호",
+        "description": "모두가 알지만 누구도 제대로 안다고 말하기 어려운, 가깝고도 먼 철학자 아리스토텔레스. 그가 남긴 지적 유산은 그 방대함만으로 이미 우리를 압도한다. 그는 자연 세계 전체, 생명과 인간을 연구 대상으로 삼고 천문학, 기상학, 물리학, 화학, 생물학, 심리학, 윤리학, 정치학 등을 학문으로 정립했으며 이 모든 학문을 위한 수단으로서 논리학의 기초를 놓았다. 겨우 예순두 해를 산 사람이 어떻게 그토록 방대한 업적을 남길 수 있었을까?\n행복한 삶이란 무엇인가 하는 질문을 던질 때, 좋은 이야기는 어떻게 만들어지는지 궁리할 때, 민주주의와 현대 정치사상을 논할 때도, 우리는 자꾸만 이 케케묵은 고대 철학자를 소환하게 된다. 여전히 그가 우리에게 알려줄 것이 남았을까? 21세기에 아리스토텔레스를 읽는다는 것은 어떤 의미인가? 그가 열어 보여준 거대한 지식의 바다에서 길을 잃지 않도록 도와줄 지도는 없을까? 이 질문들에 답하기 위해, 아리스토텔레스 인생과 철학의 무대인 그리스로 떠났다. 아테네에서 스타게이라, 레스보스섬, 칼키스 등으로 이어지는 여정 속에서 저자 조대호 교수는 고대 그리스의 역사와 문화에 관한 풍성한 배경지식과 상상력을 동원해 2400년 전 한 철학자의 삶과 사상을 퍼즐 맞추듯 재구성해낸다.",
+        "isbn": "9788950980894",
+        "publisher": "아르테(arte)",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4949923?timestamp=20230520145713",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4949923&q=%EC%95%84%EB%A6%AC%EC%8A%A4%ED%86%A0%ED%85%94%EB%A0%88%EC%8A%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:30:52.871047+00:00",
+        "updated_at": "2026-09-06T02:30:52.871047+00:00"
+      }
+    ]
+  }
+}

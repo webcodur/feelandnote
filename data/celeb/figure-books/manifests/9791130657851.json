@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791130657851",
+    "title": "재능의 법칙",
+    "creator": "폴리나 마리노바 폼플리아노",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박지혜 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791130657851"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788937417900.json",
+  "manifestSha256": "126663d2c4e708f38471869b279090c4276786cf418fe7e4eacf2f86767bdf58",
+  "planSha256": "8970ebe87b34df598a210b86eedeefde15c95b0ede4c833098ce6940de36bc9b",
+  "workIdentity": "book/9788937417900",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788937417900"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "6d6fd838-75a8-5a67-a18b-95d044a2f01f",
+    "scopeKey": "book/9788937417900",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "6d6fd838-75a8-5a67-a18b-95d044a2f01f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788937417900",
+      "release_date": "2020-10-23",
+      "metadata": {
+        "isbn": "9788937417900",
+        "publisher": "민음사",
+        "publishDate": "2020-10-23",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788937417900",
+          "workTitle": "저우언라이 평전",
+          "workCreator": "정종욱",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "저우언라이 평전",
+          "creator": "정종욱",
+          "description": "『저우언라이 평전』은 중국인이 가장 존경하는 인물로 중국의 강인한 혁명가, 탁월한 정치가로 활약한 저우언라이의 이야기를 담은 책이다.",
+          "isbn": "9788937417900",
+          "publisher": "민음사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5503746?timestamp=20250531153045",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "6d6fd838-75a8-5a67-a18b-95d044a2f01f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "6d6fd838-75a8-5a67-a18b-95d044a2f01f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788937417900",
+        "release_date": "2020-10-23",
+        "metadata": {
+          "isbn": "9788937417900",
+          "publisher": "민음사",
+          "publishDate": "2020-10-23",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788937417900",
+            "workTitle": "저우언라이 평전",
+            "workCreator": "정종욱",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "저우언라이 평전",
+          "creator": "정종욱",
+          "description": "『저우언라이 평전』은 중국인이 가장 존경하는 인물로 중국의 강인한 혁명가, 탁월한 정치가로 활약한 저우언라이의 이야기를 담은 책이다.",
+          "isbn": "9788937417900",
+          "publisher": "민음사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5503746?timestamp=20250531153045",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "6d6fd838-75a8-5a67-a18b-95d044a2f01f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788937417900",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788937417900"
+      ],
+      "normalizedTitles": [
+        "저우언라이평전"
+      ],
+      "normalizedCreators": [
+        "정종욱"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:41:27.961Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "6d6fd838-75a8-5a67-a18b-95d044a2f01f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788937417900",
+      "release_date": "2020-10-23",
+      "metadata": {
+        "isbn": "9788937417900",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+        "publisher": "민음사",
+        "figureBook": {
+          "workTitle": "저우언라이 평전",
+          "workCreator": "정종욱",
+          "workIdentity": "book/9788937417900",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-10-23",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:41:24.267907+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "6d6fd838-75a8-5a67-a18b-95d044a2f01f",
+        "locale": "ko",
+        "title": "저우언라이 평전",
+        "creator": "정종욱",
+        "description": "『저우언라이 평전』은 중국인이 가장 존경하는 인물로 중국의 강인한 혁명가, 탁월한 정치가로 활약한 저우언라이의 이야기를 담은 책이다.",
+        "isbn": "9788937417900",
+        "publisher": "민음사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5503746?timestamp=20250531153045",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5503746&q=%EC%A0%80%EC%9A%B0%EC%96%B8%EB%9D%BC%EC%9D%B4+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:41:24.267907+00:00",
+        "updated_at": "2026-09-04T17:41:24.267907+00:00"
+      }
+    ]
+  }
+}

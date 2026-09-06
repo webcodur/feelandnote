@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788947549752.json",
+  "manifestSha256": "d39b6472c40e7e1fa3f77d44b75705521a47ca6a2e7c25d3796af3912e8396f8",
+  "planSha256": "f87c1c80b3fa81552321dca2b215348c8aab9e8b9245dd1b1ba6555ba5710d9b",
+  "workIdentity": "book/9788947549752",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788947549752"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "a4afe2cc-4bf5-57bc-8673-e7536386d3a1",
+    "scopeKey": "book/9788947549752",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "a4afe2cc-4bf5-57bc-8673-e7536386d3a1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788947549752",
+      "release_date": "2024-10-15",
+      "metadata": {
+        "isbn": "9788947549752",
+        "publisher": "한경arte",
+        "publishDate": "2024-10-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788947549752",
+          "workTitle": "황금빛을 그린 화가, 구스타프 클림트",
+          "workCreator": "제인 로고이스카",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "황금빛을 그린 화가, 구스타프 클림트",
+          "creator": "제인 로고이스카, 패트릭 베이드",
+          "description": "세계가 사랑하는 황금빛의 화가,\n구스카프 클림트의 삶과 예술을 한 권의 책으로 만나다!\n★〈비엔나 1900, 꿈꾸는 예술가들〉, 레오폴트 미술관 특별전 기념 도서 출간★\n\n2024년 11월부터 국립중앙박물관에서 〈비엔나 1900, 꿈꾸는 예술가들〉 특별 전시가 열린다. 레오폴트 미술관의 소장품을 전시하는 이번 전시회를 기념하여 ‘구스타프 클림트’와 ‘에곤 실레’의 생애와 작품을 다룬 책, 《황금빛을 그린 화가, 구스타프 클림트》와 《욕망을 그린 화가, 에곤 실레》가 한경arte에서 출간된다. 스승과 제자 사이이자, 표현주의를 대표하는 두 천재의 작품들을 살펴보며 그들의 생애와 작품 세계를 한눈에 파악할 수 있을 것이다.\n\n구스타프 클림트(1862~1918)는 19세기 말 가장 영향력 있는 예술가 중 한 명으로, 빈 분리파 운동의 창시자다. 그는 이 운동을 통해 변화를 반대하고 전통 예술을 비판했다. 클림트는 느리지만 멈출 수 없는 오스트리아-헝가리 제국의 쇠퇴와 그 배경이 된 다양한 문화에서 예술적 영감을 얻었다. 그는 에로티시즘과 관능미가 뛰어난 예술가로, 코코슈카, 실레와 함께 표현주의의 위대한 거장 중 한 명으로 손꼽힌다. 이 책은 클림트의 다양한 작품, 연도별 대표작과 함께 이 위대한 예술가의 삶과 예술가로서의 여정을 담아냈다.",
+          "isbn": "9788947549752",
+          "publisher": "한경arte",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6743665?timestamp=20251122150658",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "a4afe2cc-4bf5-57bc-8673-e7536386d3a1"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "a4afe2cc-4bf5-57bc-8673-e7536386d3a1",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788947549752",
+        "release_date": "2024-10-15",
+        "metadata": {
+          "isbn": "9788947549752",
+          "publisher": "한경arte",
+          "publishDate": "2024-10-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788947549752",
+            "workTitle": "황금빛을 그린 화가, 구스타프 클림트",
+            "workCreator": "제인 로고이스카",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "황금빛을 그린 화가, 구스타프 클림트",
+          "creator": "제인 로고이스카, 패트릭 베이드",
+          "description": "세계가 사랑하는 황금빛의 화가,\n구스카프 클림트의 삶과 예술을 한 권의 책으로 만나다!\n★〈비엔나 1900, 꿈꾸는 예술가들〉, 레오폴트 미술관 특별전 기념 도서 출간★\n\n2024년 11월부터 국립중앙박물관에서 〈비엔나 1900, 꿈꾸는 예술가들〉 특별 전시가 열린다. 레오폴트 미술관의 소장품을 전시하는 이번 전시회를 기념하여 ‘구스타프 클림트’와 ‘에곤 실레’의 생애와 작품을 다룬 책, 《황금빛을 그린 화가, 구스타프 클림트》와 《욕망을 그린 화가, 에곤 실레》가 한경arte에서 출간된다. 스승과 제자 사이이자, 표현주의를 대표하는 두 천재의 작품들을 살펴보며 그들의 생애와 작품 세계를 한눈에 파악할 수 있을 것이다.\n\n구스타프 클림트(1862~1918)는 19세기 말 가장 영향력 있는 예술가 중 한 명으로, 빈 분리파 운동의 창시자다. 그는 이 운동을 통해 변화를 반대하고 전통 예술을 비판했다. 클림트는 느리지만 멈출 수 없는 오스트리아-헝가리 제국의 쇠퇴와 그 배경이 된 다양한 문화에서 예술적 영감을 얻었다. 그는 에로티시즘과 관능미가 뛰어난 예술가로, 코코슈카, 실레와 함께 표현주의의 위대한 거장 중 한 명으로 손꼽힌다. 이 책은 클림트의 다양한 작품, 연도별 대표작과 함께 이 위대한 예술가의 삶과 예술가로서의 여정을 담아냈다.",
+          "isbn": "9788947549752",
+          "publisher": "한경arte",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6743665?timestamp=20251122150658",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "a4afe2cc-4bf5-57bc-8673-e7536386d3a1"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788947549752",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788947549752"
+      ],
+      "normalizedTitles": [
+        "황금빛을그린화가구스타프클림트"
+      ],
+      "normalizedCreators": [
+        "오승희역",
+        "제인로고이스카",
+        "제인로고이스카패트릭베이드",
+        "패트릭베이드"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:43:50.046Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "a4afe2cc-4bf5-57bc-8673-e7536386d3a1",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788947549752",
+      "release_date": "2024-10-15",
+      "metadata": {
+        "isbn": "9788947549752",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+        "publisher": "한경arte",
+        "figureBook": {
+          "workTitle": "황금빛을 그린 화가, 구스타프 클림트",
+          "workCreator": "제인 로고이스카",
+          "workIdentity": "book/9788947549752",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-10-15",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:43:43.283123+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "a4afe2cc-4bf5-57bc-8673-e7536386d3a1",
+        "locale": "ko",
+        "title": "황금빛을 그린 화가, 구스타프 클림트",
+        "creator": "제인 로고이스카, 패트릭 베이드",
+        "description": "세계가 사랑하는 황금빛의 화가,\n구스카프 클림트의 삶과 예술을 한 권의 책으로 만나다!\n★〈비엔나 1900, 꿈꾸는 예술가들〉, 레오폴트 미술관 특별전 기념 도서 출간★\n\n2024년 11월부터 국립중앙박물관에서 〈비엔나 1900, 꿈꾸는 예술가들〉 특별 전시가 열린다. 레오폴트 미술관의 소장품을 전시하는 이번 전시회를 기념하여 ‘구스타프 클림트’와 ‘에곤 실레’의 생애와 작품을 다룬 책, 《황금빛을 그린 화가, 구스타프 클림트》와 《욕망을 그린 화가, 에곤 실레》가 한경arte에서 출간된다. 스승과 제자 사이이자, 표현주의를 대표하는 두 천재의 작품들을 살펴보며 그들의 생애와 작품 세계를 한눈에 파악할 수 있을 것이다.\n\n구스타프 클림트(1862~1918)는 19세기 말 가장 영향력 있는 예술가 중 한 명으로, 빈 분리파 운동의 창시자다. 그는 이 운동을 통해 변화를 반대하고 전통 예술을 비판했다. 클림트는 느리지만 멈출 수 없는 오스트리아-헝가리 제국의 쇠퇴와 그 배경이 된 다양한 문화에서 예술적 영감을 얻었다. 그는 에로티시즘과 관능미가 뛰어난 예술가로, 코코슈카, 실레와 함께 표현주의의 위대한 거장 중 한 명으로 손꼽힌다. 이 책은 클림트의 다양한 작품, 연도별 대표작과 함께 이 위대한 예술가의 삶과 예술가로서의 여정을 담아냈다.",
+        "isbn": "9788947549752",
+        "publisher": "한경arte",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6743665?timestamp=20251122150658",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6743665&q=%ED%99%A9%EA%B8%88%EB%B9%9B%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EA%B5%AC%EC%8A%A4%ED%83%80%ED%94%84+%ED%81%B4%EB%A6%BC%ED%8A%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:43:43.283123+00:00",
+        "updated_at": "2026-09-04T17:43:43.283123+00:00"
+      }
+    ]
+  }
+}

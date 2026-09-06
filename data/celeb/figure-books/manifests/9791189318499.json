@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791189318499",
+    "title": "스테이 더 코스",
+    "creator": "존 보글",
+    "titleAliases": [],
+    "creatorAliases": [
+      "조성숙 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791189318499"
+  }
+}

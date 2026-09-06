@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788956600116",
+    "title": "소설 손자병법 3",
+    "creator": "정비석",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788956600116"
+  }
+}

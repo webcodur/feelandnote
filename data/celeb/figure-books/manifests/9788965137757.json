@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788965137757",
+    "title": "너무 재밌어서 잠 못 드는 해적의 세계사",
+    "creator": "다케다 이사미",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이정아 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788965137757"
+  }
+}

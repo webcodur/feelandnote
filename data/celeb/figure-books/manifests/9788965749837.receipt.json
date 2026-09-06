@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788965749837.json",
+  "manifestSha256": "01df9d205a5a023c8203f2342d119a236e8fa98dd3a126fad08395bc397a98fe",
+  "planSha256": "d93ce87e7153b6f775695efe4766c3f3316b40b5353fb070644f04f1b59e7001",
+  "workIdentity": "book/9788965749837",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788965749837"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "f70123e6-1d48-5cf1-ba62-d767776924d8",
+    "scopeKey": "book/9788965749837",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "f70123e6-1d48-5cf1-ba62-d767776924d8",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788965749837",
+      "release_date": "2020-02-26",
+      "metadata": {
+        "isbn": "9788965749837",
+        "publisher": "해냄출판사",
+        "publishDate": "2020-02-26",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788965749837",
+          "workTitle": "주제 사라마구, 작은 기억들",
+          "workCreator": "주제 사라마구",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "주제 사라마구, 작은 기억들",
+          "creator": "주제 사라마구",
+          "description": "노벨문학상과 『눈먼 자들의 도시』의 세계적인 거장 주제 사라마구의 처음이자 마지막 이야기 『주제 사라마구, 작은 기억들』이 해냄에서 출간되었다. 저자의 어린 시절 추억을 통해 서정적인 초상화를 보여주는 『주제 사라마구, 작은 기억들』은 자그마한 마을을 무대로 이야기가 펼쳐진다. 아지냐가라는 작은 마을에서 태어난 사라마구는 18개월 때 리스본으로 이사를 하고, 두 마을을 왔다 갔다 하면서 어린 시절을 보냈다. 네 살 때 비극적인 죽음을 맞이한 형을 회상하면서 이른바 ‘가상기억’에 대한 개념을 탐구하고, 할아버지와 할머니가 한겨울 새끼 돼지들이 추울까 봐 침대로 데려왔던 일을 떠올리며 그들에 대한 애정을 새삼 느낀다. 사라마구는 일간지에 실린 기사를 해독하며 문학과 처음 접하게 되었다. 또한 프랑스어 가이드책에서 재미있는 대화를 고민하기도 하는데, 그는 실제로 몰리에르의 연극을 읽고 있다는 걸 깨닫지 못하고 있었다. 이외에도 아지냐가와 리스본의 아름다운 풍경, 가족, 친지, 이웃과의 이야기, 자신의 성(姓)인 ‘사라마구’의 유래, 질투와 같은 감정, 성적 정체성을 형성해가는 이야기 등이 담겨 있다. 주제 사라마구의 오래전 기억을 끄집어낸 『주제 사라마구, 작은 기억들』은 어린 시절부터 단어와 이야기에 매료되어 세계 최고의 작가 중 한 명으로 등장한 예술가가 어떻게 탄생하게 되었는지를 보여준다. 그리고 이번에 출간되는 한국어판에서는 지금까지 공개되지 않았던 사라마구의 어린 시절 사진 17장을 담았으며, 저자가 직접 사진에 대해 해설하고 있다.",
+          "isbn": "9788965749837",
+          "publisher": "해냄출판사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5252862?timestamp=20250923124721",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "f70123e6-1d48-5cf1-ba62-d767776924d8"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "f70123e6-1d48-5cf1-ba62-d767776924d8",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788965749837",
+        "release_date": "2020-02-26",
+        "metadata": {
+          "isbn": "9788965749837",
+          "publisher": "해냄출판사",
+          "publishDate": "2020-02-26",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788965749837",
+            "workTitle": "주제 사라마구, 작은 기억들",
+            "workCreator": "주제 사라마구",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "주제 사라마구, 작은 기억들",
+          "creator": "주제 사라마구",
+          "description": "노벨문학상과 『눈먼 자들의 도시』의 세계적인 거장 주제 사라마구의 처음이자 마지막 이야기 『주제 사라마구, 작은 기억들』이 해냄에서 출간되었다. 저자의 어린 시절 추억을 통해 서정적인 초상화를 보여주는 『주제 사라마구, 작은 기억들』은 자그마한 마을을 무대로 이야기가 펼쳐진다. 아지냐가라는 작은 마을에서 태어난 사라마구는 18개월 때 리스본으로 이사를 하고, 두 마을을 왔다 갔다 하면서 어린 시절을 보냈다. 네 살 때 비극적인 죽음을 맞이한 형을 회상하면서 이른바 ‘가상기억’에 대한 개념을 탐구하고, 할아버지와 할머니가 한겨울 새끼 돼지들이 추울까 봐 침대로 데려왔던 일을 떠올리며 그들에 대한 애정을 새삼 느낀다. 사라마구는 일간지에 실린 기사를 해독하며 문학과 처음 접하게 되었다. 또한 프랑스어 가이드책에서 재미있는 대화를 고민하기도 하는데, 그는 실제로 몰리에르의 연극을 읽고 있다는 걸 깨닫지 못하고 있었다. 이외에도 아지냐가와 리스본의 아름다운 풍경, 가족, 친지, 이웃과의 이야기, 자신의 성(姓)인 ‘사라마구’의 유래, 질투와 같은 감정, 성적 정체성을 형성해가는 이야기 등이 담겨 있다. 주제 사라마구의 오래전 기억을 끄집어낸 『주제 사라마구, 작은 기억들』은 어린 시절부터 단어와 이야기에 매료되어 세계 최고의 작가 중 한 명으로 등장한 예술가가 어떻게 탄생하게 되었는지를 보여준다. 그리고 이번에 출간되는 한국어판에서는 지금까지 공개되지 않았던 사라마구의 어린 시절 사진 17장을 담았으며, 저자가 직접 사진에 대해 해설하고 있다.",
+          "isbn": "9788965749837",
+          "publisher": "해냄출판사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5252862?timestamp=20250923124721",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "f70123e6-1d48-5cf1-ba62-d767776924d8"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788965749837",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788965749837"
+      ],
+      "normalizedTitles": [
+        "주제사라마구작은기억들"
+      ],
+      "normalizedCreators": [
+        "박정훈역",
+        "주제사라마구"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:11:18.429Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "f70123e6-1d48-5cf1-ba62-d767776924d8",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788965749837",
+      "release_date": "2020-02-26",
+      "metadata": {
+        "isbn": "9788965749837",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+        "publisher": "해냄출판사",
+        "figureBook": {
+          "workTitle": "주제 사라마구, 작은 기억들",
+          "workCreator": "주제 사라마구",
+          "workIdentity": "book/9788965749837",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-02-26",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:11:09.578572+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "f70123e6-1d48-5cf1-ba62-d767776924d8",
+        "locale": "ko",
+        "title": "주제 사라마구, 작은 기억들",
+        "creator": "주제 사라마구",
+        "description": "노벨문학상과 『눈먼 자들의 도시』의 세계적인 거장 주제 사라마구의 처음이자 마지막 이야기 『주제 사라마구, 작은 기억들』이 해냄에서 출간되었다. 저자의 어린 시절 추억을 통해 서정적인 초상화를 보여주는 『주제 사라마구, 작은 기억들』은 자그마한 마을을 무대로 이야기가 펼쳐진다. 아지냐가라는 작은 마을에서 태어난 사라마구는 18개월 때 리스본으로 이사를 하고, 두 마을을 왔다 갔다 하면서 어린 시절을 보냈다. 네 살 때 비극적인 죽음을 맞이한 형을 회상하면서 이른바 ‘가상기억’에 대한 개념을 탐구하고, 할아버지와 할머니가 한겨울 새끼 돼지들이 추울까 봐 침대로 데려왔던 일을 떠올리며 그들에 대한 애정을 새삼 느낀다. 사라마구는 일간지에 실린 기사를 해독하며 문학과 처음 접하게 되었다. 또한 프랑스어 가이드책에서 재미있는 대화를 고민하기도 하는데, 그는 실제로 몰리에르의 연극을 읽고 있다는 걸 깨닫지 못하고 있었다. 이외에도 아지냐가와 리스본의 아름다운 풍경, 가족, 친지, 이웃과의 이야기, 자신의 성(姓)인 ‘사라마구’의 유래, 질투와 같은 감정, 성적 정체성을 형성해가는 이야기 등이 담겨 있다. 주제 사라마구의 오래전 기억을 끄집어낸 『주제 사라마구, 작은 기억들』은 어린 시절부터 단어와 이야기에 매료되어 세계 최고의 작가 중 한 명으로 등장한 예술가가 어떻게 탄생하게 되었는지를 보여준다. 그리고 이번에 출간되는 한국어판에서는 지금까지 공개되지 않았던 사라마구의 어린 시절 사진 17장을 담았으며, 저자가 직접 사진에 대해 해설하고 있다.",
+        "isbn": "9788965749837",
+        "publisher": "해냄출판사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5252862?timestamp=20250923124721",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5252862&q=%EC%A3%BC%EC%A0%9C+%EC%82%AC%EB%9D%BC%EB%A7%88%EA%B5%AC%2C+%EC%9E%91%EC%9D%80+%EA%B8%B0%EC%96%B5%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:11:09.578572+00:00",
+        "updated_at": "2026-09-06T04:11:09.578572+00:00"
+      }
+    ]
+  }
+}

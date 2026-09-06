@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954420105.json",
+  "manifestSha256": "35d878a2918af8b4b1264cbbea91fc8f05698f13783bd20ef2de6af3f6e79e15",
+  "planSha256": "641bf625b38f438c168996c2dd2b5c55a2202464008dcb8e266e03f3b2006d53",
+  "workIdentity": "book/9788954420105",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954420105"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e3006c14-11ef-597b-95ae-edca9c6b3a26",
+    "scopeKey": "book/9788954420105",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e3006c14-11ef-597b-95ae-edca9c6b3a26",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954420105",
+      "release_date": "2010-09-01",
+      "metadata": {
+        "isbn": "9788954420105",
+        "publisher": "자음과모음",
+        "publishDate": "2010-09-01",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954420105",
+          "workTitle": "돌턴이 들려주는 원자 이야기",
+          "workCreator": "최미화",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "돌턴이 들려주는 원자 이야기",
+          "creator": "최미화",
+          "description": "과학자가 독자들에게 자신의 과학 이야기를 설명하는 형식으로 구성한 「과학자가 들려주는 과학 이야기」 시리즈 제10권 『돌턴이 들려주는 원자 이야기』. 지적 호기심을 자극하는 흥미로운 실험과 이를 설명하는 이론들을 초등학생 및 중학생들이 이해할 수 있도록 쉬우면서도 논리적으로 설명한 책이다. 이로부터 과학에 대한 깊은 이해와 이를 발견해낸 과학자들의 창의적인 사고과정을 체득할 수 있다.",
+          "isbn": "9788954420105",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/688452?timestamp=20260121110907",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "e3006c14-11ef-597b-95ae-edca9c6b3a26"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e3006c14-11ef-597b-95ae-edca9c6b3a26",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954420105",
+        "release_date": "2010-09-01",
+        "metadata": {
+          "isbn": "9788954420105",
+          "publisher": "자음과모음",
+          "publishDate": "2010-09-01",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954420105",
+            "workTitle": "돌턴이 들려주는 원자 이야기",
+            "workCreator": "최미화",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "돌턴이 들려주는 원자 이야기",
+          "creator": "최미화",
+          "description": "과학자가 독자들에게 자신의 과학 이야기를 설명하는 형식으로 구성한 「과학자가 들려주는 과학 이야기」 시리즈 제10권 『돌턴이 들려주는 원자 이야기』. 지적 호기심을 자극하는 흥미로운 실험과 이를 설명하는 이론들을 초등학생 및 중학생들이 이해할 수 있도록 쉬우면서도 논리적으로 설명한 책이다. 이로부터 과학에 대한 깊은 이해와 이를 발견해낸 과학자들의 창의적인 사고과정을 체득할 수 있다.",
+          "isbn": "9788954420105",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/688452?timestamp=20260121110907",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "e3006c14-11ef-597b-95ae-edca9c6b3a26"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954420105",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954420105"
+      ],
+      "normalizedTitles": [
+        "돌턴이들려주는원자이야기"
+      ],
+      "normalizedCreators": [
+        "최미화"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:08:19.152Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e3006c14-11ef-597b-95ae-edca9c6b3a26",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954420105",
+      "release_date": "2010-09-01",
+      "metadata": {
+        "isbn": "9788954420105",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "자음과모음",
+        "figureBook": {
+          "workTitle": "돌턴이 들려주는 원자 이야기",
+          "workCreator": "최미화",
+          "workIdentity": "book/9788954420105",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2010-09-01",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:08:13.988928+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e3006c14-11ef-597b-95ae-edca9c6b3a26",
+        "locale": "ko",
+        "title": "돌턴이 들려주는 원자 이야기",
+        "creator": "최미화",
+        "description": "과학자가 독자들에게 자신의 과학 이야기를 설명하는 형식으로 구성한 「과학자가 들려주는 과학 이야기」 시리즈 제10권 『돌턴이 들려주는 원자 이야기』. 지적 호기심을 자극하는 흥미로운 실험과 이를 설명하는 이론들을 초등학생 및 중학생들이 이해할 수 있도록 쉬우면서도 논리적으로 설명한 책이다. 이로부터 과학에 대한 깊은 이해와 이를 발견해낸 과학자들의 창의적인 사고과정을 체득할 수 있다.",
+        "isbn": "9788954420105",
+        "publisher": "자음과모음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/688452?timestamp=20260121110907",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=688452&q=%EB%8F%8C%ED%84%B4%EC%9D%B4+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%9B%90%EC%9E%90+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:08:13.988928+00:00",
+        "updated_at": "2026-09-06T04:08:13.988928+00:00"
+      }
+    ]
+  }
+}

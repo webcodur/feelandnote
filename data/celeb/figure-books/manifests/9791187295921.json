@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791187295921",
+    "title": "카를 마르크스",
+    "creator": "이사야 벌린",
+    "titleAliases": [],
+    "creatorAliases": [
+      "안규남 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791187295921"
+  }
+}

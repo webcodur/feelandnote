@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788979401448.json",
+  "manifestSha256": "5b6d85744e6e4679aea2dd3da212041a3102b5d29e2ca6bf19fcfbf305fb2eaf",
+  "planSha256": "be818e8c845c08094ded98a53ff8d896f829fe433518fb502c3ad4652ac6fef0",
+  "workIdentity": "book/9788979401448",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788979401448"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "0a03e98e-998b-55c8-839e-09fd56b5c627",
+    "scopeKey": "book/9788979401448",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "0a03e98e-998b-55c8-839e-09fd56b5c627",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788979401448",
+      "release_date": "2020-08-24",
+      "metadata": {
+        "isbn": "9788979401448",
+        "publisher": "신서원",
+        "publishDate": "2020-08-24",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788979401448",
+          "workTitle": "상앙: 이목지신을 지킨 아이언 맨",
+          "workCreator": "윤대식",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "상앙: 이목지신을 지킨 아이언 맨",
+          "creator": "윤대식",
+          "description": "2500년 전 훗날 최초의 제국을 출현시킬 획기적인 프로그램을 시작한\n자기 확신에 찬 지식인 !!!\n\n법(法)으로 무장한 아이언 맨(鐵人), 상앙(商?) !!!\n\n고대 법가(法家)로 알려진 동아시아의 법치주의자들은 법을 시의적절하고 명실상부한 ‘마땅한 원칙’으로 규정했다. 그것은 악법조차 있을 수 없다는 독단에 가까운 명료하고 냉철한 전망이었다. 그리고 그들은 법에 의한 지배를 현실에서 성취했고 부국강병이라는 결과를 내놓았다.\n\n바로 전국시대에서 제국으로 진행되는 이 역사과정에서 가장 성공적인 법가로 알려진 인물이 상앙이다.\n\n역사적으로 변법(變法)으로 알려진 국가와 인간의식의 전면적인 개혁 프로그램이 진행되었고 그 초석 위에 진 제국이 탄생했다. 즉 중국(China)의 출현을 가져온 근원은 상앙에 의해 시작된 법치였다.\n\n본서는 상앙의 진단과 처방이라는 틀로 현대 대중이 과거 가혹한 엄형주의와 패정으로 오해하는 동아시아 법치주의의 본질이 무엇인지를 있는 그대로 소개하는 것이다.\n\n“법치는 진정으로 백성을 사랑하는 것이다.”\n“법치가 이루어지지 않는 것은 윗사람이 지키지 않아서이다.”\n본서는 법의 존재 이유와 법치의 존립 근거가 흔들리는 오늘날 우리에게 많은 울림을 준다.",
+          "isbn": "9788979401448",
+          "publisher": "신서원",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5451316?timestamp=20250715134418",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8"
+          },
+          "verified": true,
+          "content_id": "0a03e98e-998b-55c8-839e-09fd56b5c627"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "0a03e98e-998b-55c8-839e-09fd56b5c627",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788979401448",
+        "release_date": "2020-08-24",
+        "metadata": {
+          "isbn": "9788979401448",
+          "publisher": "신서원",
+          "publishDate": "2020-08-24",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788979401448",
+            "workTitle": "상앙: 이목지신을 지킨 아이언 맨",
+            "workCreator": "윤대식",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "상앙: 이목지신을 지킨 아이언 맨",
+          "creator": "윤대식",
+          "description": "2500년 전 훗날 최초의 제국을 출현시킬 획기적인 프로그램을 시작한\n자기 확신에 찬 지식인 !!!\n\n법(法)으로 무장한 아이언 맨(鐵人), 상앙(商?) !!!\n\n고대 법가(法家)로 알려진 동아시아의 법치주의자들은 법을 시의적절하고 명실상부한 ‘마땅한 원칙’으로 규정했다. 그것은 악법조차 있을 수 없다는 독단에 가까운 명료하고 냉철한 전망이었다. 그리고 그들은 법에 의한 지배를 현실에서 성취했고 부국강병이라는 결과를 내놓았다.\n\n바로 전국시대에서 제국으로 진행되는 이 역사과정에서 가장 성공적인 법가로 알려진 인물이 상앙이다.\n\n역사적으로 변법(變法)으로 알려진 국가와 인간의식의 전면적인 개혁 프로그램이 진행되었고 그 초석 위에 진 제국이 탄생했다. 즉 중국(China)의 출현을 가져온 근원은 상앙에 의해 시작된 법치였다.\n\n본서는 상앙의 진단과 처방이라는 틀로 현대 대중이 과거 가혹한 엄형주의와 패정으로 오해하는 동아시아 법치주의의 본질이 무엇인지를 있는 그대로 소개하는 것이다.\n\n“법치는 진정으로 백성을 사랑하는 것이다.”\n“법치가 이루어지지 않는 것은 윗사람이 지키지 않아서이다.”\n본서는 법의 존재 이유와 법치의 존립 근거가 흔들리는 오늘날 우리에게 많은 울림을 준다.",
+          "isbn": "9788979401448",
+          "publisher": "신서원",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5451316?timestamp=20250715134418",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8"
+          },
+          "verified": true,
+          "content_id": "0a03e98e-998b-55c8-839e-09fd56b5c627"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788979401448",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788979401448"
+      ],
+      "normalizedTitles": [
+        "상앙",
+        "상앙이목지신을지킨아이언맨"
+      ],
+      "normalizedCreators": [
+        "윤대식"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:54:35.705Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "0a03e98e-998b-55c8-839e-09fd56b5c627",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788979401448",
+      "release_date": "2020-08-24",
+      "metadata": {
+        "isbn": "9788979401448",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+        "publisher": "신서원",
+        "figureBook": {
+          "workTitle": "상앙: 이목지신을 지킨 아이언 맨",
+          "workCreator": "윤대식",
+          "workIdentity": "book/9788979401448",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-08-24",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:54:23.369794+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "0a03e98e-998b-55c8-839e-09fd56b5c627",
+        "locale": "ko",
+        "title": "상앙: 이목지신을 지킨 아이언 맨",
+        "creator": "윤대식",
+        "description": "2500년 전 훗날 최초의 제국을 출현시킬 획기적인 프로그램을 시작한\n자기 확신에 찬 지식인 !!!\n\n법(法)으로 무장한 아이언 맨(鐵人), 상앙(商?) !!!\n\n고대 법가(法家)로 알려진 동아시아의 법치주의자들은 법을 시의적절하고 명실상부한 ‘마땅한 원칙’으로 규정했다. 그것은 악법조차 있을 수 없다는 독단에 가까운 명료하고 냉철한 전망이었다. 그리고 그들은 법에 의한 지배를 현실에서 성취했고 부국강병이라는 결과를 내놓았다.\n\n바로 전국시대에서 제국으로 진행되는 이 역사과정에서 가장 성공적인 법가로 알려진 인물이 상앙이다.\n\n역사적으로 변법(變法)으로 알려진 국가와 인간의식의 전면적인 개혁 프로그램이 진행되었고 그 초석 위에 진 제국이 탄생했다. 즉 중국(China)의 출현을 가져온 근원은 상앙에 의해 시작된 법치였다.\n\n본서는 상앙의 진단과 처방이라는 틀로 현대 대중이 과거 가혹한 엄형주의와 패정으로 오해하는 동아시아 법치주의의 본질이 무엇인지를 있는 그대로 소개하는 것이다.\n\n“법치는 진정으로 백성을 사랑하는 것이다.”\n“법치가 이루어지지 않는 것은 윗사람이 지키지 않아서이다.”\n본서는 법의 존재 이유와 법치의 존립 근거가 흔들리는 오늘날 우리에게 많은 울림을 준다.",
+        "isbn": "9788979401448",
+        "publisher": "신서원",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5451316?timestamp=20250715134418",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5451316&q=%EC%83%81%EC%95%99%3A+%EC%9D%B4%EB%AA%A9%EC%A7%80%EC%8B%A0%EC%9D%84+%EC%A7%80%ED%82%A8+%EC%95%84%EC%9D%B4%EC%96%B8+%EB%A7%A8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:54:23.369794+00:00",
+        "updated_at": "2026-09-04T17:54:23.369794+00:00"
+      }
+    ]
+  }
+}

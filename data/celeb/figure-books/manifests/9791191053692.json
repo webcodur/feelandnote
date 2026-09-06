@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791191053692",
+    "title": "AI 인물 열전 1",
+    "creator": "김경달",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791191053692"
+  }
+}

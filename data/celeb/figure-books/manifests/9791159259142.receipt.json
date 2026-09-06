@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791159259142.json",
+  "manifestSha256": "393d899ab42b1596991386fcab60c6a12c12960cd3c88029179f86c5a5c9ed00",
+  "planSha256": "9d378b75727b1da179bd596a542b70e4db1fbd2bc87c62ebbf3e02072568d1a3",
+  "workIdentity": "book/9791159259142",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791159259142"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d53abc60-cf2c-5bde-b573-e20470822d4b",
+    "scopeKey": "book/9791159259142",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d53abc60-cf2c-5bde-b573-e20470822d4b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791159259142",
+      "release_date": "2024-12-31",
+      "metadata": {
+        "isbn": "9791159259142",
+        "publisher": "들녘",
+        "publishDate": "2024-12-31",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791159259142",
+          "workTitle": "노자",
+          "workCreator": "채지충",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "노자",
+          "creator": "채지충",
+          "description": "45개국 수억 세계인의 사랑을 받아온 만화 시리즈!\n만화를 통해 쉽고 재밌게 동양 철학을 접근해서, 그 철학적 깊이도 배운다!\n\n중화권에서 4000만 부 이상 판매되었고, 전 세계 45개국에 번역돼 수억 명의 독자들에게 사랑받은 “채지충의 만화로 보는 동양철학” 시리즈가 우리에게 도착했다!\n채지충 만화의 세계적인 성공은 바로 무엇일까? 바로 난해하거나 심오하다고 평가되는 동양 사상을 만화를 통해 쉽고 재밌게 표현하여 독자들에게 접근성을 높였기 때문이다.\n\n채지충의 단순미가 넘치면서도 가독성 있는 그림체는 동양 철학의 메시지를 아름답게 표현한다. 독자들은 쉽고 재밌게 철학을 배우면서도, 동시에 동양 철학이 지닌 심원한 깊이를 느낄 수 있다. 재미와 배움 두 가지를 취할 수 있는 것이다.\n\n채지충은 동양 사상을 손쉽게 접근할 수 있도록 만화로 재창작한 것에 대한 세계적인 공로를 인정받아 네덜란드에서는 ‘프린스 클라우스’ 상을 수상했고, ‘황금 만화상’ 평생공로상을 수상하기도 했다.",
+          "isbn": "9791159259142",
+          "publisher": "들녘",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6806637?timestamp=20260310125024",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90"
+          },
+          "verified": true,
+          "content_id": "d53abc60-cf2c-5bde-b573-e20470822d4b"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d53abc60-cf2c-5bde-b573-e20470822d4b",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791159259142",
+        "release_date": "2024-12-31",
+        "metadata": {
+          "isbn": "9791159259142",
+          "publisher": "들녘",
+          "publishDate": "2024-12-31",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791159259142",
+            "workTitle": "노자",
+            "workCreator": "채지충",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "노자",
+          "creator": "채지충",
+          "description": "45개국 수억 세계인의 사랑을 받아온 만화 시리즈!\n만화를 통해 쉽고 재밌게 동양 철학을 접근해서, 그 철학적 깊이도 배운다!\n\n중화권에서 4000만 부 이상 판매되었고, 전 세계 45개국에 번역돼 수억 명의 독자들에게 사랑받은 “채지충의 만화로 보는 동양철학” 시리즈가 우리에게 도착했다!\n채지충 만화의 세계적인 성공은 바로 무엇일까? 바로 난해하거나 심오하다고 평가되는 동양 사상을 만화를 통해 쉽고 재밌게 표현하여 독자들에게 접근성을 높였기 때문이다.\n\n채지충의 단순미가 넘치면서도 가독성 있는 그림체는 동양 철학의 메시지를 아름답게 표현한다. 독자들은 쉽고 재밌게 철학을 배우면서도, 동시에 동양 철학이 지닌 심원한 깊이를 느낄 수 있다. 재미와 배움 두 가지를 취할 수 있는 것이다.\n\n채지충은 동양 사상을 손쉽게 접근할 수 있도록 만화로 재창작한 것에 대한 세계적인 공로를 인정받아 네덜란드에서는 ‘프린스 클라우스’ 상을 수상했고, ‘황금 만화상’ 평생공로상을 수상하기도 했다.",
+          "isbn": "9791159259142",
+          "publisher": "들녘",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6806637?timestamp=20260310125024",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90"
+          },
+          "verified": true,
+          "content_id": "d53abc60-cf2c-5bde-b573-e20470822d4b"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791159259142",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791159259142"
+      ],
+      "normalizedTitles": [
+        "노자"
+      ],
+      "normalizedCreators": [
+        "이신지역",
+        "채지충"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:32:34.392Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d53abc60-cf2c-5bde-b573-e20470822d4b",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791159259142",
+      "release_date": "2024-12-31",
+      "metadata": {
+        "isbn": "9791159259142",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+        "publisher": "들녘",
+        "figureBook": {
+          "workTitle": "노자",
+          "workCreator": "채지충",
+          "workIdentity": "book/9791159259142",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-12-31",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:32:28.785054+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d53abc60-cf2c-5bde-b573-e20470822d4b",
+        "locale": "ko",
+        "title": "노자",
+        "creator": "채지충",
+        "description": "45개국 수억 세계인의 사랑을 받아온 만화 시리즈!\n만화를 통해 쉽고 재밌게 동양 철학을 접근해서, 그 철학적 깊이도 배운다!\n\n중화권에서 4000만 부 이상 판매되었고, 전 세계 45개국에 번역돼 수억 명의 독자들에게 사랑받은 “채지충의 만화로 보는 동양철학” 시리즈가 우리에게 도착했다!\n채지충 만화의 세계적인 성공은 바로 무엇일까? 바로 난해하거나 심오하다고 평가되는 동양 사상을 만화를 통해 쉽고 재밌게 표현하여 독자들에게 접근성을 높였기 때문이다.\n\n채지충의 단순미가 넘치면서도 가독성 있는 그림체는 동양 철학의 메시지를 아름답게 표현한다. 독자들은 쉽고 재밌게 철학을 배우면서도, 동시에 동양 철학이 지닌 심원한 깊이를 느낄 수 있다. 재미와 배움 두 가지를 취할 수 있는 것이다.\n\n채지충은 동양 사상을 손쉽게 접근할 수 있도록 만화로 재창작한 것에 대한 세계적인 공로를 인정받아 네덜란드에서는 ‘프린스 클라우스’ 상을 수상했고, ‘황금 만화상’ 평생공로상을 수상하기도 했다.",
+        "isbn": "9791159259142",
+        "publisher": "들녘",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6806637?timestamp=20260310125024",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6806637&q=%EB%85%B8%EC%9E%90"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:32:28.785054+00:00",
+        "updated_at": "2026-09-06T02:32:28.785054+00:00"
+      }
+    ]
+  }
+}

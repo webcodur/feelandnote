@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788950967376",
+    "title": "다시 쓰는 술탄과 황제",
+    "creator": "김형오",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788950967376"
+  }
+}

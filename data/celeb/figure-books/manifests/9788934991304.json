@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788934991304",
+    "title": "페리클레스",
+    "creator": "도널드 케이건",
+    "titleAliases": [],
+    "creatorAliases": [
+      "류현 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788934991304"
+  }
+}

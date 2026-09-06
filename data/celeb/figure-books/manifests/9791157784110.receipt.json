@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791157784110.json",
+  "manifestSha256": "761a837906252af00bae24dd7062812cdde849fa3777fff22a7242107fac11cb",
+  "planSha256": "43c5544b897f1b49772828a6ca97b6027eceeed8ce92e6391912b571f561619d",
+  "workIdentity": "book/9791157784110",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791157784110"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "47dd86cd-7256-5b9d-8dfa-d83c8865ce29",
+    "scopeKey": "book/9791157784110",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "47dd86cd-7256-5b9d-8dfa-d83c8865ce29",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791157784110",
+      "release_date": "2019-12-09",
+      "metadata": {
+        "isbn": "9791157784110",
+        "publisher": "맑은샘",
+        "publishDate": "2019-12-09",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791157784110",
+          "workTitle": "플로렌스 나이팅게일 평전",
+          "workCreator": "김창희",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "플로렌스 나이팅게일 평전",
+          "creator": "김창희",
+          "description": "백의의 천사, 간호학의 창시자 나이팅게일. 그녀를 자세히 아는 사람은 많지 않을 것이다. 금수저로 태어난 귀족 여성으로 우아하고 편안하게 살 수 있었지만 모든 것을 내려놓고 크림 전쟁에 참전하여 많은 부상병을 구하고, 나아가 전쟁터에 만연한 질병과 사망 원인을 통계적으로 밝힌 보건학자였고, 통계 분석가였다. “전쟁터에서 부상으로 죽는 사람보다 비위생적인 환경과 감염으로 죽는 사람이 대부분이다.”라는 사실을 처음으로 밝혀냈다.\n2020년, 플로렌스 나이팅게일 탄생 200주년을 맞이하여 그녀의 삶의 궤적(軌的)이 현대를 살아가고 미래를 만들어가는 우리에게 큰 힘이 되고 격려가 되리라 확신한다.",
+          "isbn": "9791157784110",
+          "publisher": "맑은샘",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5160709?timestamp=20221011191324",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "47dd86cd-7256-5b9d-8dfa-d83c8865ce29"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "47dd86cd-7256-5b9d-8dfa-d83c8865ce29",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791157784110",
+        "release_date": "2019-12-09",
+        "metadata": {
+          "isbn": "9791157784110",
+          "publisher": "맑은샘",
+          "publishDate": "2019-12-09",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791157784110",
+            "workTitle": "플로렌스 나이팅게일 평전",
+            "workCreator": "김창희",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "플로렌스 나이팅게일 평전",
+          "creator": "김창희",
+          "description": "백의의 천사, 간호학의 창시자 나이팅게일. 그녀를 자세히 아는 사람은 많지 않을 것이다. 금수저로 태어난 귀족 여성으로 우아하고 편안하게 살 수 있었지만 모든 것을 내려놓고 크림 전쟁에 참전하여 많은 부상병을 구하고, 나아가 전쟁터에 만연한 질병과 사망 원인을 통계적으로 밝힌 보건학자였고, 통계 분석가였다. “전쟁터에서 부상으로 죽는 사람보다 비위생적인 환경과 감염으로 죽는 사람이 대부분이다.”라는 사실을 처음으로 밝혀냈다.\n2020년, 플로렌스 나이팅게일 탄생 200주년을 맞이하여 그녀의 삶의 궤적(軌的)이 현대를 살아가고 미래를 만들어가는 우리에게 큰 힘이 되고 격려가 되리라 확신한다.",
+          "isbn": "9791157784110",
+          "publisher": "맑은샘",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5160709?timestamp=20221011191324",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "47dd86cd-7256-5b9d-8dfa-d83c8865ce29"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791157784110",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791157784110"
+      ],
+      "normalizedTitles": [
+        "플로렌스나이팅게일평전"
+      ],
+      "normalizedCreators": [
+        "김창희"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:05:38.608Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "47dd86cd-7256-5b9d-8dfa-d83c8865ce29",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791157784110",
+      "release_date": "2019-12-09",
+      "metadata": {
+        "isbn": "9791157784110",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+        "publisher": "맑은샘",
+        "figureBook": {
+          "workTitle": "플로렌스 나이팅게일 평전",
+          "workCreator": "김창희",
+          "workIdentity": "book/9791157784110",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-12-09",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:05:31.382545+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "47dd86cd-7256-5b9d-8dfa-d83c8865ce29",
+        "locale": "ko",
+        "title": "플로렌스 나이팅게일 평전",
+        "creator": "김창희",
+        "description": "백의의 천사, 간호학의 창시자 나이팅게일. 그녀를 자세히 아는 사람은 많지 않을 것이다. 금수저로 태어난 귀족 여성으로 우아하고 편안하게 살 수 있었지만 모든 것을 내려놓고 크림 전쟁에 참전하여 많은 부상병을 구하고, 나아가 전쟁터에 만연한 질병과 사망 원인을 통계적으로 밝힌 보건학자였고, 통계 분석가였다. “전쟁터에서 부상으로 죽는 사람보다 비위생적인 환경과 감염으로 죽는 사람이 대부분이다.”라는 사실을 처음으로 밝혀냈다.\n2020년, 플로렌스 나이팅게일 탄생 200주년을 맞이하여 그녀의 삶의 궤적(軌的)이 현대를 살아가고 미래를 만들어가는 우리에게 큰 힘이 되고 격려가 되리라 확신한다.",
+        "isbn": "9791157784110",
+        "publisher": "맑은샘",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5160709?timestamp=20221011191324",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5160709&q=%ED%94%8C%EB%A1%9C%EB%A0%8C%EC%8A%A4+%EB%82%98%EC%9D%B4%ED%8C%85%EA%B2%8C%EC%9D%BC+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:05:31.382545+00:00",
+        "updated_at": "2026-09-04T18:05:31.382545+00:00"
+      }
+    ]
+  }
+}

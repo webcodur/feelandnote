@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788994606873.json",
+  "manifestSha256": "7a4e7e9cf1b7fc3fab1f02d3e379a81e1c8d2c0c48cd4838033f555a0e57d076",
+  "planSha256": "ff69947f23226aa807549ee5290c4da326001cec149609185abddb478c4bb630",
+  "workIdentity": "book/9788994606873",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788994606873"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e5a7e84d-f20d-53bd-ae0f-503532700a0f",
+    "scopeKey": "book/9788994606873",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e5a7e84d-f20d-53bd-ae0f-503532700a0f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994606873",
+      "release_date": "2024-03-21",
+      "metadata": {
+        "isbn": "9788994606873",
+        "publisher": "너머북스",
+        "publishDate": "2024-03-21",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788994606873",
+          "workTitle": "스탈린의 서재",
+          "workCreator": "제프리 로버츠",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "스탈린의 서재",
+          "creator": "제프리 로버츠",
+          "description": "『스탈린의 전쟁』으로 한국에도 낯익은 현존 최고의 소련사가 제프리 로버츠(아일랜드 코크대 명예교수)는 신작에서 스탈린이 읽은 책을 통해 그의 일생과 시대를 비추는 시도를 했다. 『스탈린의 서재』(원제 Stalin’s Library)는 책을 사랑한 독재자의 서재로 들어가 그의 사상과 신념, 혁명과 전쟁, 국정과 외교에 미친 영향, 인격과 감정의 내면까지 파고든 새로운 스타일의 전기다.\n스탈린은 하루에 300~500쪽을 읽을 수 있는 열렬한 독서광이었다. 생전 2만5천 권의 책을 모았으며, 그중 많은 책에 길고 짧은 문구나 혹은 ‘횡설수설’, ‘동의함’, ‘옳아’처럼 여러 ‘포멧키(pometki, 표시들)를 여백에 달아 자신의 생각, 감정, 신념을 드러냈다. 스탈린 사후에 그의 장서는 뿔뿔이 흩어졌으나, 그가 개인적으로 메모를 달아놓은 400여 점의 텍스트들과 장서 목록은 살아남았다. 러시아 기록 보관소에 대한 광범위한 연구와 스탈린이 책에 남긴 내밀한 기록을 좇은 저자는 냉혹한 독재자의 얼굴 뒤에 감춰진‘감수성이 예민한 지식인’의 면모를 발견하는 데 성공했다.\n평생 마르크스와 레닌의 저서를 삶의 이정표로 삼은 스탈린은 트로츠키, 카우츠키 같은 정적의 글도 마다하지 않을 정도로 공부에 ‘진심’이었다. 현실 정치와 국정 운영을 위해서도 책을 읽었던 스탈린은 혁명, 대숙청, 전쟁 등 중요한 정치적 국면이 찾아올 때마다 책이 주는 교훈에 의지했다. 제프리 로버츠는 미시적 접근법과 거시적 접근법을 교차시킴으로써 독자들이 스탈린의 일대기뿐만 아니라 소련사의 핵심 시기 또한 전반적으로 파악할 수 있게 했다. 또한 스탈린은 역사서와 소설, 희곡, 영화 대본 등 각종 문학 작품도 가리지 않고 읽었다. 스탈린의 눈에 비친 학문과 예술의 세계를 발견할 수 있다는 점도 흥미진진하다.\n저자가 스탈린과 그의 시대에 관한 연구의 정점에서 쓴 이 책은 2022년 출간 후 영국의 「히스토리 투데이(History Today)」, 호주의 「더 오스트레일리안(The Australian)」, 인도의 「오픈(Open)」 등이 올해의 책으로 선정했다. 스탈린 시대를 연구한 역사학자 김남섭(서울과기대 교수)의 탁월한 번역으로 완성된 『스탈린의 서재』는 지식인 스탈린의 삶과 그의 시대에 접근할 수 있는 최적의 길을 제시해줄 것이다.",
+          "isbn": "9788994606873",
+          "publisher": "너머북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6593142?timestamp=20240403171017",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC"
+          },
+          "verified": true,
+          "content_id": "e5a7e84d-f20d-53bd-ae0f-503532700a0f"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e5a7e84d-f20d-53bd-ae0f-503532700a0f",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788994606873",
+        "release_date": "2024-03-21",
+        "metadata": {
+          "isbn": "9788994606873",
+          "publisher": "너머북스",
+          "publishDate": "2024-03-21",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788994606873",
+            "workTitle": "스탈린의 서재",
+            "workCreator": "제프리 로버츠",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "스탈린의 서재",
+          "creator": "제프리 로버츠",
+          "description": "『스탈린의 전쟁』으로 한국에도 낯익은 현존 최고의 소련사가 제프리 로버츠(아일랜드 코크대 명예교수)는 신작에서 스탈린이 읽은 책을 통해 그의 일생과 시대를 비추는 시도를 했다. 『스탈린의 서재』(원제 Stalin’s Library)는 책을 사랑한 독재자의 서재로 들어가 그의 사상과 신념, 혁명과 전쟁, 국정과 외교에 미친 영향, 인격과 감정의 내면까지 파고든 새로운 스타일의 전기다.\n스탈린은 하루에 300~500쪽을 읽을 수 있는 열렬한 독서광이었다. 생전 2만5천 권의 책을 모았으며, 그중 많은 책에 길고 짧은 문구나 혹은 ‘횡설수설’, ‘동의함’, ‘옳아’처럼 여러 ‘포멧키(pometki, 표시들)를 여백에 달아 자신의 생각, 감정, 신념을 드러냈다. 스탈린 사후에 그의 장서는 뿔뿔이 흩어졌으나, 그가 개인적으로 메모를 달아놓은 400여 점의 텍스트들과 장서 목록은 살아남았다. 러시아 기록 보관소에 대한 광범위한 연구와 스탈린이 책에 남긴 내밀한 기록을 좇은 저자는 냉혹한 독재자의 얼굴 뒤에 감춰진‘감수성이 예민한 지식인’의 면모를 발견하는 데 성공했다.\n평생 마르크스와 레닌의 저서를 삶의 이정표로 삼은 스탈린은 트로츠키, 카우츠키 같은 정적의 글도 마다하지 않을 정도로 공부에 ‘진심’이었다. 현실 정치와 국정 운영을 위해서도 책을 읽었던 스탈린은 혁명, 대숙청, 전쟁 등 중요한 정치적 국면이 찾아올 때마다 책이 주는 교훈에 의지했다. 제프리 로버츠는 미시적 접근법과 거시적 접근법을 교차시킴으로써 독자들이 스탈린의 일대기뿐만 아니라 소련사의 핵심 시기 또한 전반적으로 파악할 수 있게 했다. 또한 스탈린은 역사서와 소설, 희곡, 영화 대본 등 각종 문학 작품도 가리지 않고 읽었다. 스탈린의 눈에 비친 학문과 예술의 세계를 발견할 수 있다는 점도 흥미진진하다.\n저자가 스탈린과 그의 시대에 관한 연구의 정점에서 쓴 이 책은 2022년 출간 후 영국의 「히스토리 투데이(History Today)」, 호주의 「더 오스트레일리안(The Australian)」, 인도의 「오픈(Open)」 등이 올해의 책으로 선정했다. 스탈린 시대를 연구한 역사학자 김남섭(서울과기대 교수)의 탁월한 번역으로 완성된 『스탈린의 서재』는 지식인 스탈린의 삶과 그의 시대에 접근할 수 있는 최적의 길을 제시해줄 것이다.",
+          "isbn": "9788994606873",
+          "publisher": "너머북스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6593142?timestamp=20240403171017",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC"
+          },
+          "verified": true,
+          "content_id": "e5a7e84d-f20d-53bd-ae0f-503532700a0f"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788994606873",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788994606873"
+      ],
+      "normalizedTitles": [
+        "스탈린의서재"
+      ],
+      "normalizedCreators": [
+        "김남섭역",
+        "제프리로버츠"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:59:03.363Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e5a7e84d-f20d-53bd-ae0f-503532700a0f",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788994606873",
+      "release_date": "2024-03-21",
+      "metadata": {
+        "isbn": "9788994606873",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+        "publisher": "너머북스",
+        "figureBook": {
+          "workTitle": "스탈린의 서재",
+          "workCreator": "제프리 로버츠",
+          "workIdentity": "book/9788994606873",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-03-21",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:58:38.579288+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e5a7e84d-f20d-53bd-ae0f-503532700a0f",
+        "locale": "ko",
+        "title": "스탈린의 서재",
+        "creator": "제프리 로버츠",
+        "description": "『스탈린의 전쟁』으로 한국에도 낯익은 현존 최고의 소련사가 제프리 로버츠(아일랜드 코크대 명예교수)는 신작에서 스탈린이 읽은 책을 통해 그의 일생과 시대를 비추는 시도를 했다. 『스탈린의 서재』(원제 Stalin’s Library)는 책을 사랑한 독재자의 서재로 들어가 그의 사상과 신념, 혁명과 전쟁, 국정과 외교에 미친 영향, 인격과 감정의 내면까지 파고든 새로운 스타일의 전기다.\n스탈린은 하루에 300~500쪽을 읽을 수 있는 열렬한 독서광이었다. 생전 2만5천 권의 책을 모았으며, 그중 많은 책에 길고 짧은 문구나 혹은 ‘횡설수설’, ‘동의함’, ‘옳아’처럼 여러 ‘포멧키(pometki, 표시들)를 여백에 달아 자신의 생각, 감정, 신념을 드러냈다. 스탈린 사후에 그의 장서는 뿔뿔이 흩어졌으나, 그가 개인적으로 메모를 달아놓은 400여 점의 텍스트들과 장서 목록은 살아남았다. 러시아 기록 보관소에 대한 광범위한 연구와 스탈린이 책에 남긴 내밀한 기록을 좇은 저자는 냉혹한 독재자의 얼굴 뒤에 감춰진‘감수성이 예민한 지식인’의 면모를 발견하는 데 성공했다.\n평생 마르크스와 레닌의 저서를 삶의 이정표로 삼은 스탈린은 트로츠키, 카우츠키 같은 정적의 글도 마다하지 않을 정도로 공부에 ‘진심’이었다. 현실 정치와 국정 운영을 위해서도 책을 읽었던 스탈린은 혁명, 대숙청, 전쟁 등 중요한 정치적 국면이 찾아올 때마다 책이 주는 교훈에 의지했다. 제프리 로버츠는 미시적 접근법과 거시적 접근법을 교차시킴으로써 독자들이 스탈린의 일대기뿐만 아니라 소련사의 핵심 시기 또한 전반적으로 파악할 수 있게 했다. 또한 스탈린은 역사서와 소설, 희곡, 영화 대본 등 각종 문학 작품도 가리지 않고 읽었다. 스탈린의 눈에 비친 학문과 예술의 세계를 발견할 수 있다는 점도 흥미진진하다.\n저자가 스탈린과 그의 시대에 관한 연구의 정점에서 쓴 이 책은 2022년 출간 후 영국의 「히스토리 투데이(History Today)」, 호주의 「더 오스트레일리안(The Australian)」, 인도의 「오픈(Open)」 등이 올해의 책으로 선정했다. 스탈린 시대를 연구한 역사학자 김남섭(서울과기대 교수)의 탁월한 번역으로 완성된 『스탈린의 서재』는 지식인 스탈린의 삶과 그의 시대에 접근할 수 있는 최적의 길을 제시해줄 것이다.",
+        "isbn": "9788994606873",
+        "publisher": "너머북스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6593142?timestamp=20240403171017",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6593142&q=%EC%8A%A4%ED%83%88%EB%A6%B0%EC%9D%98+%EC%84%9C%EC%9E%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:58:38.579288+00:00",
+        "updated_at": "2026-09-04T17:58:38.579288+00:00"
+      }
+    ]
+  }
+}

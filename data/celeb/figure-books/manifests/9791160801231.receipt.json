@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791160801231.json",
+  "manifestSha256": "4ecccbadc27ab3f2ef1290e9411a2f346acf895a09bdd0fe6f7f408f8d7c3c52",
+  "planSha256": "4ad2e6208c4db4b29cd7d9b6d438cf979da55f6e5df4c2893df75e0df48ddf2d",
+  "workIdentity": "book/9791160801231",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791160801231"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "conflict",
+    "contentId": "baa7f994-40d1-44c4-b855-260ea978d021",
+    "scopeKey": "book/9791160801231",
+    "conflicts": [
+      "selected legacy content baa7f994-40d1-44c4-b855-260ea978d021 has no stored work identity; set reuseContentId after review",
+      "ko.title belongs to a different edition",
+      "ko.isbn belongs to a different edition",
+      "ko.thumbnail_url belongs to a different edition",
+      "ko.sources.thumbnail differs from the selected edition"
+    ],
+    "candidateContentIds": [
+      "baa7f994-40d1-44c4-b855-260ea978d021"
+    ],
+    "candidateReasons": {
+      "baa7f994-40d1-44c4-b855-260ea978d021": [
+        "ko.title+creator"
+      ]
+    },
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": {
+        "id": "baa7f994-40d1-44c4-b855-260ea978d021",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791169094665",
+        "release_date": null,
+        "metadata": {},
+        "member_count": 0,
+        "celeb_count": 2,
+        "record_count": 2,
+        "created_at": "2026-02-26T02:36:30.703948+00:00"
+      },
+      "locales": [
+        {
+          "content_id": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "locale": "en",
+          "title": "Records of the Three Kingdoms",
+          "creator": "Anonymous",
+          "description": null,
+          "isbn": "9781624665233",
+          "publisher": null,
+          "thumbnail_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1486907317i/30402934.jpg",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "openlibrary",
+            "thumbnail": "goodreads"
+          },
+          "verified": true,
+          "created_at": "2026-03-06T08:52:37.351536+00:00",
+          "updated_at": "2026-03-06T08:52:37.351536+00:00"
+        },
+        {
+          "content_id": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "locale": "ko",
+          "title": "정사 삼국지",
+          "creator": "진수",
+          "description": null,
+          "isbn": "9791169094665",
+          "publisher": null,
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7111566?timestamp=20260514122455",
+          "affiliate_url": [
+            {
+              "url": "https://link.coupang.com/a/f1YS79IH6q",
+              "platform": "coupang"
+            }
+          ],
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book"
+          },
+          "verified": true,
+          "created_at": "2026-03-06T08:52:37.351536+00:00",
+          "updated_at": "2026-08-07T19:54:35.318+00:00"
+        }
+      ]
+    },
+    "contentInsert": null,
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "update",
+        "locale": "ko",
+        "before": {
+          "content_id": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "locale": "ko",
+          "title": "정사 삼국지",
+          "creator": "진수",
+          "description": null,
+          "isbn": "9791169094665",
+          "publisher": null,
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7111566?timestamp=20260514122455",
+          "affiliate_url": [
+            {
+              "url": "https://link.coupang.com/a/f1YS79IH6q",
+              "platform": "coupang"
+            }
+          ],
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book"
+          },
+          "verified": true,
+          "created_at": "2026-03-06T08:52:37.351536+00:00",
+          "updated_at": "2026-08-07T19:54:35.318+00:00"
+        },
+        "after": {
+          "content_id": "baa7f994-40d1-44c4-b855-260ea978d021",
+          "locale": "ko",
+          "title": "정사 삼국지",
+          "creator": "진수",
+          "description": "조조, 유비, 손권, 제갈량 …\n난세를 살았던 수많은 영웅의 진면목을 보다!\n\n우리가 흔히 《삼국지三國志》라고 부르는 것은 나관중羅貫中의 소설 《삼국지연의三國志演義》이다. 원래 《삼국지》는 진수陳壽가 편찬한 것으로, 중국의 위ㆍ촉ㆍ오 삼국의 정사正史이다. 《삼국지연의》는 《정사 삼국지》를 바탕으로 한 소설일 뿐이므로 이 둘을 혼동해서는 안 된다.\n《정사 삼국지》는 단순한 역사의 기록이 아니라 ‘난세亂世’라고 불린 후한 말의 혼란스러운 사회상을 시작으로 삼국정립, 후한에서 위魏로의 정권 이양, 촉蜀의 멸망, 위魏에서 진晉으로의 정권 이양, 오吳의 멸망까지를 아우르는 한 시대의 총화總和이며, 그런 까닭에 사마천司馬遷의 《사기史記》나 반고班固의 《한서漢書》와 함께 중국 고대사에서 가장 주목받는 역사서로 꼽히고 있다.\n\n소설을 뛰어넘는 진짜 역사의 감동!\n동양고전 번역의 대가, 김원중 교수가 국내 최초로 옮긴\n진수陳壽의 정사正史 삼국지!\n\n진수는 기전체 형식에 따라 삼국의 역사를 서술하려 했으나 위, 촉, 오 삼국의 군주가 저마다 황제라고 일컫는 상황에 직면하자 세 나라 중에서 어느 나라에 정통성을 부여할지 고민하다가 결국 위나라를 정통으로 삼는다. 그 까닭은 진수가 벼슬을 한 나라가 진晉나라였는데, 진나라의 전신이 위나라였기 때문이라고 추정된다.\n‘정사 삼국지’의 매력 중에 한 가지는 남북조시대 송宋나라의 배송지가 ‘정사 삼국지’의 내용과 서술이 너무 간략한 것이 안타까워 주석을 달았는데, 이것이 지금까지 후대에 내려오는 ‘정사 삼국지’의 가장 대중적인 판본이라고 할 수 있다. 역자는 방대한 분량의 배송지의 주 가운데 독자들이 꼭 같이 읽을 만한 내용들을 선별해 함께 번역하여 주석으로 엮었다.\n이 책은 사마천의 《사기》를 개인으로는 세계 최초로 완역해, 국내 동양고전 번역의 일인자로 평가받는 단국대학교 한문교육과의 김원중 교수가 펴냈던 《정사 삼국지》를 다시 처음부터 꼼꼼히 살펴, 번역과 주석을 다듬어 다시 펴낸 개정판이다.",
+          "isbn": "9791169094665",
+          "publisher": "휴머니스트",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7111566?timestamp=20260514122455",
+          "affiliate_url": [
+            {
+              "url": "https://link.coupang.com/a/f1YS79IH6q",
+              "platform": "coupang"
+            }
+          ],
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1600226&q=%EC%A0%95%EC%82%AC+%EC%82%BC%EA%B5%AD%EC%A7%80%3A+%EC%98%A4%EC%84%9C",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1600226&q=%EC%A0%95%EC%82%AC+%EC%82%BC%EA%B5%AD%EC%A7%80%3A+%EC%98%A4%EC%84%9C",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1600226&q=%EC%A0%95%EC%82%AC+%EC%82%BC%EA%B5%AD%EC%A7%80%3A+%EC%98%A4%EC%84%9C",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1600226&q=%EC%A0%95%EC%82%AC+%EC%82%BC%EA%B5%AD%EC%A7%80%3A+%EC%98%A4%EC%84%9C",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1600226&q=%EC%A0%95%EC%82%AC+%EC%82%BC%EA%B5%AD%EC%A7%80%3A+%EC%98%A4%EC%84%9C"
+          },
+          "verified": true
+        }
+      }
+    ],
+    "expectedAfterMaterial": null,
+    "duplicateMatchers": {
+      "workIdentity": "book/9791160801231",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791160801231"
+      ],
+      "normalizedTitles": [
+        "정사삼국지",
+        "정사삼국지오서"
+      ],
+      "normalizedCreators": [
+        "김원중역",
+        "진수"
+      ]
+    }
+  },
+  "status": "conflict",
+  "databaseWrites": 0
+}

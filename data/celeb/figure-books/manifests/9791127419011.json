@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791127419011",
+    "title": "나쓰메 소세키 평전",
+    "creator": "도가와 신스케",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김수희 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791127419011"
+  }
+}

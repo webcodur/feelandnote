@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791189352738",
+    "title": "반도체 오디세이",
+    "creator": "이승우",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791189352738"
+  }
+}

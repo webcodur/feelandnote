@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791194880875",
+    "title": "팀 버너스리, 이것은 모두를 위한 것입니다",
+    "creator": "팀 버너스리",
+    "titleAliases": [],
+    "creatorAliases": [
+      "윤신영 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791194880875"
+  }
+}

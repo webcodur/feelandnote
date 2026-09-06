@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788947549769.json",
+  "manifestSha256": "3eb72b851da68c4fd40bd73113fcd3c00bc3c21e78d98bd2e8c9081730e82be8",
+  "planSha256": "812dfe8eb337a99f802d3c8d13ef10cc63d05ce480ace8d95ef2c2860035e0e3",
+  "workIdentity": "book/9788947549769",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788947549769"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d288ceb1-68b3-5f2a-9595-2401d2da5627",
+    "scopeKey": "book/9788947549769",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d288ceb1-68b3-5f2a-9595-2401d2da5627",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788947549769",
+      "release_date": "2024-10-22",
+      "metadata": {
+        "isbn": "9788947549769",
+        "publisher": "한경arte",
+        "publishDate": "2024-10-22",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788947549769",
+          "workTitle": "욕망을 그린 화가, 에곤 실레",
+          "workCreator": "에스터 셀스던",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "욕망을 그린 화가, 에곤 실레",
+          "creator": "에스터 셀스던, 지넷 츠빙겐베르거",
+          "description": "2024년 11월부터 국립중앙박물관에서 〈비엔나 1900, 꿈꾸는 예술가들〉 특별 전시가 열린다. 레오폴트 미술관의 소장품을 전시하는 이번 전시회를 기념하여 ‘구스타프 클림트’와 ‘에곤 실레’의 생애와 작품을 다룬 책, 《황금빛을 그린 화가, 구스타프 클림트》와 《욕망을 그린 화가, 에곤 실레》가 한경arte에서 출간된다. 스승과 제자 사이이자, 표현주의를 대표하는 두 천재의 작품들을 살펴보며 그들의 생애와 작품 세계를 한눈에 파악할 수 있을 것이다.\n\n에곤 실레(1890-1918)는 표현주의의 거장 중 한명으로, 구스타프 클림트와 교류하며, 아주 어린 나이에도 빈 분리파의 다른 선배 예술가들처럼 오스트리아 제도권 미술의 전통을 거부했다. 다양한 자화상과 누드화들은 그의 전체 작품을 통틀어 꾸준히 등장하는데, 예술에 대한 에로틱하고 관능적이며 고통스러운 그만의 비전을 일관되게 보여준다. 스물여덟 살의 젊은 나이에 스페인 독감으로 사망한 실레는 짧은 생애동안에도 뛰어난 작품들을 다수 남겼다. 이 책은 실레의 다양한 작품, 연도별 대표작과 함께 이 위대한 예술가의 삶과 예술가로서의 여정을 담아냈다.",
+          "isbn": "9788947549769",
+          "publisher": "한경arte",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6746998?timestamp=20250828142424",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88"
+          },
+          "verified": true,
+          "content_id": "d288ceb1-68b3-5f2a-9595-2401d2da5627"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d288ceb1-68b3-5f2a-9595-2401d2da5627",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788947549769",
+        "release_date": "2024-10-22",
+        "metadata": {
+          "isbn": "9788947549769",
+          "publisher": "한경arte",
+          "publishDate": "2024-10-22",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788947549769",
+            "workTitle": "욕망을 그린 화가, 에곤 실레",
+            "workCreator": "에스터 셀스던",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "욕망을 그린 화가, 에곤 실레",
+          "creator": "에스터 셀스던, 지넷 츠빙겐베르거",
+          "description": "2024년 11월부터 국립중앙박물관에서 〈비엔나 1900, 꿈꾸는 예술가들〉 특별 전시가 열린다. 레오폴트 미술관의 소장품을 전시하는 이번 전시회를 기념하여 ‘구스타프 클림트’와 ‘에곤 실레’의 생애와 작품을 다룬 책, 《황금빛을 그린 화가, 구스타프 클림트》와 《욕망을 그린 화가, 에곤 실레》가 한경arte에서 출간된다. 스승과 제자 사이이자, 표현주의를 대표하는 두 천재의 작품들을 살펴보며 그들의 생애와 작품 세계를 한눈에 파악할 수 있을 것이다.\n\n에곤 실레(1890-1918)는 표현주의의 거장 중 한명으로, 구스타프 클림트와 교류하며, 아주 어린 나이에도 빈 분리파의 다른 선배 예술가들처럼 오스트리아 제도권 미술의 전통을 거부했다. 다양한 자화상과 누드화들은 그의 전체 작품을 통틀어 꾸준히 등장하는데, 예술에 대한 에로틱하고 관능적이며 고통스러운 그만의 비전을 일관되게 보여준다. 스물여덟 살의 젊은 나이에 스페인 독감으로 사망한 실레는 짧은 생애동안에도 뛰어난 작품들을 다수 남겼다. 이 책은 실레의 다양한 작품, 연도별 대표작과 함께 이 위대한 예술가의 삶과 예술가로서의 여정을 담아냈다.",
+          "isbn": "9788947549769",
+          "publisher": "한경arte",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6746998?timestamp=20250828142424",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88"
+          },
+          "verified": true,
+          "content_id": "d288ceb1-68b3-5f2a-9595-2401d2da5627"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788947549769",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788947549769"
+      ],
+      "normalizedTitles": [
+        "욕망을그린화가에곤실레"
+      ],
+      "normalizedCreators": [
+        "에스터셀스던",
+        "에스터셀스던지넷츠빙겐베르거",
+        "이상미역",
+        "지넷츠빙겐베르거"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:07:03.233Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d288ceb1-68b3-5f2a-9595-2401d2da5627",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788947549769",
+      "release_date": "2024-10-22",
+      "metadata": {
+        "isbn": "9788947549769",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+        "publisher": "한경arte",
+        "figureBook": {
+          "workTitle": "욕망을 그린 화가, 에곤 실레",
+          "workCreator": "에스터 셀스던",
+          "workIdentity": "book/9788947549769",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-10-22",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:06:56.882+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d288ceb1-68b3-5f2a-9595-2401d2da5627",
+        "locale": "ko",
+        "title": "욕망을 그린 화가, 에곤 실레",
+        "creator": "에스터 셀스던, 지넷 츠빙겐베르거",
+        "description": "2024년 11월부터 국립중앙박물관에서 〈비엔나 1900, 꿈꾸는 예술가들〉 특별 전시가 열린다. 레오폴트 미술관의 소장품을 전시하는 이번 전시회를 기념하여 ‘구스타프 클림트’와 ‘에곤 실레’의 생애와 작품을 다룬 책, 《황금빛을 그린 화가, 구스타프 클림트》와 《욕망을 그린 화가, 에곤 실레》가 한경arte에서 출간된다. 스승과 제자 사이이자, 표현주의를 대표하는 두 천재의 작품들을 살펴보며 그들의 생애와 작품 세계를 한눈에 파악할 수 있을 것이다.\n\n에곤 실레(1890-1918)는 표현주의의 거장 중 한명으로, 구스타프 클림트와 교류하며, 아주 어린 나이에도 빈 분리파의 다른 선배 예술가들처럼 오스트리아 제도권 미술의 전통을 거부했다. 다양한 자화상과 누드화들은 그의 전체 작품을 통틀어 꾸준히 등장하는데, 예술에 대한 에로틱하고 관능적이며 고통스러운 그만의 비전을 일관되게 보여준다. 스물여덟 살의 젊은 나이에 스페인 독감으로 사망한 실레는 짧은 생애동안에도 뛰어난 작품들을 다수 남겼다. 이 책은 실레의 다양한 작품, 연도별 대표작과 함께 이 위대한 예술가의 삶과 예술가로서의 여정을 담아냈다.",
+        "isbn": "9788947549769",
+        "publisher": "한경arte",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6746998?timestamp=20250828142424",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6746998&q=%EC%9A%95%EB%A7%9D%EC%9D%84+%EA%B7%B8%EB%A6%B0+%ED%99%94%EA%B0%80%2C+%EC%97%90%EA%B3%A4+%EC%8B%A4%EB%A0%88"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:06:56.882+00:00",
+        "updated_at": "2026-09-06T04:06:56.882+00:00"
+      }
+    ]
+  }
+}

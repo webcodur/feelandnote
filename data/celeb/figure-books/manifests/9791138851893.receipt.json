@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791138851893.json",
+  "manifestSha256": "019923c5c8086f708b01e02da459b6f95c4af2894350ea73b9e61d6849450402",
+  "planSha256": "874024c010bb6024a21c4178dc7f80fdcdc36f254478c018f8d18593d75d2433",
+  "workIdentity": "book/9791138851893",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791138851893"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06",
+    "scopeKey": "book/9791138851893",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791138851893",
+      "release_date": "2026-01-05",
+      "metadata": {
+        "isbn": "9791138851893",
+        "publisher": "좋은땅",
+        "publishDate": "2026-01-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791138851893",
+          "workTitle": "AI와 40인의 괴짜들",
+          "workCreator": "김용태",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "AI와 40인의 괴짜들",
+          "creator": "김용태",
+          "description": "“그래서, AI가 뭔데?” 매일 쓰지만 여전히 오리무중인 그 정체, 인공지능. 1950년 “기계가 생각할 수 있을까”라는 질문에서 시작된 70년 드라마를 따라가면 AI의 비밀이 풀린다.\n세상이 빠른 속도로 AI로 변하고 있는 상황에서 『AI와 40인의 괴짜들』은 AI의 실체를 ‘70년의 역사’를 통해 고찰해 봄으로써 독자에게 AI의 본질을 꿰뚫을 수 있는 눈을 선사한다. 책은 인물 중심의 드라마 형식으로 튜링의 질문부터 GPT 시대까지 차근차근 짚으며 AI에 대한 심도 깊은 이해를 이끌어 낸다. 그 과정에서 AI 역사의 뼈대가 되는 핵심 개념들, 특히 신경망과 딥러닝, 트랜스포머 같은 생소한 기술을 비유와 이야기 형태로 쉽게 설명하고 있다.\n원리와 구조, 본질을 깨달으면 AI가 더 친근한 파트너처럼 느껴질 수 있다. AI는 두뇌의 확장이자, 우리의 상상을 현실로 바꾸는 유쾌한 도구다. 책을 읽다 보면 흐릿하기만 했던 AI의 형체가 또렷이 빛나 보이는 경험을 하게 될 것이다.\n기술이 아닌 사람 이야기로 AI를 설명하기에 쉽고 재미있게 읽히는 이 책은 AI의 본질을 이해하고 AI 리터러시를 높이는 최고의 안내서다.",
+          "isbn": "9791138851893",
+          "publisher": "좋은땅",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7116168?timestamp=20260113152543",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791138851893",
+        "release_date": "2026-01-05",
+        "metadata": {
+          "isbn": "9791138851893",
+          "publisher": "좋은땅",
+          "publishDate": "2026-01-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791138851893",
+            "workTitle": "AI와 40인의 괴짜들",
+            "workCreator": "김용태",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "AI와 40인의 괴짜들",
+          "creator": "김용태",
+          "description": "“그래서, AI가 뭔데?” 매일 쓰지만 여전히 오리무중인 그 정체, 인공지능. 1950년 “기계가 생각할 수 있을까”라는 질문에서 시작된 70년 드라마를 따라가면 AI의 비밀이 풀린다.\n세상이 빠른 속도로 AI로 변하고 있는 상황에서 『AI와 40인의 괴짜들』은 AI의 실체를 ‘70년의 역사’를 통해 고찰해 봄으로써 독자에게 AI의 본질을 꿰뚫을 수 있는 눈을 선사한다. 책은 인물 중심의 드라마 형식으로 튜링의 질문부터 GPT 시대까지 차근차근 짚으며 AI에 대한 심도 깊은 이해를 이끌어 낸다. 그 과정에서 AI 역사의 뼈대가 되는 핵심 개념들, 특히 신경망과 딥러닝, 트랜스포머 같은 생소한 기술을 비유와 이야기 형태로 쉽게 설명하고 있다.\n원리와 구조, 본질을 깨달으면 AI가 더 친근한 파트너처럼 느껴질 수 있다. AI는 두뇌의 확장이자, 우리의 상상을 현실로 바꾸는 유쾌한 도구다. 책을 읽다 보면 흐릿하기만 했던 AI의 형체가 또렷이 빛나 보이는 경험을 하게 될 것이다.\n기술이 아닌 사람 이야기로 AI를 설명하기에 쉽고 재미있게 읽히는 이 책은 AI의 본질을 이해하고 AI 리터러시를 높이는 최고의 안내서다.",
+          "isbn": "9791138851893",
+          "publisher": "좋은땅",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7116168?timestamp=20260113152543",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4"
+          },
+          "verified": true,
+          "content_id": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791138851893",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791138851893"
+      ],
+      "normalizedTitles": [
+        "ai와40인의괴짜들"
+      ],
+      "normalizedCreators": [
+        "김용태"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:03:03.384Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791138851893",
+      "release_date": "2026-01-05",
+      "metadata": {
+        "isbn": "9791138851893",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+        "publisher": "좋은땅",
+        "figureBook": {
+          "workTitle": "AI와 40인의 괴짜들",
+          "workCreator": "김용태",
+          "workIdentity": "book/9791138851893",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-01-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:02:56.572335+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "a3b271e3-595f-5d2b-9b9b-3da02aabfb06",
+        "locale": "ko",
+        "title": "AI와 40인의 괴짜들",
+        "creator": "김용태",
+        "description": "“그래서, AI가 뭔데?” 매일 쓰지만 여전히 오리무중인 그 정체, 인공지능. 1950년 “기계가 생각할 수 있을까”라는 질문에서 시작된 70년 드라마를 따라가면 AI의 비밀이 풀린다.\n세상이 빠른 속도로 AI로 변하고 있는 상황에서 『AI와 40인의 괴짜들』은 AI의 실체를 ‘70년의 역사’를 통해 고찰해 봄으로써 독자에게 AI의 본질을 꿰뚫을 수 있는 눈을 선사한다. 책은 인물 중심의 드라마 형식으로 튜링의 질문부터 GPT 시대까지 차근차근 짚으며 AI에 대한 심도 깊은 이해를 이끌어 낸다. 그 과정에서 AI 역사의 뼈대가 되는 핵심 개념들, 특히 신경망과 딥러닝, 트랜스포머 같은 생소한 기술을 비유와 이야기 형태로 쉽게 설명하고 있다.\n원리와 구조, 본질을 깨달으면 AI가 더 친근한 파트너처럼 느껴질 수 있다. AI는 두뇌의 확장이자, 우리의 상상을 현실로 바꾸는 유쾌한 도구다. 책을 읽다 보면 흐릿하기만 했던 AI의 형체가 또렷이 빛나 보이는 경험을 하게 될 것이다.\n기술이 아닌 사람 이야기로 AI를 설명하기에 쉽고 재미있게 읽히는 이 책은 AI의 본질을 이해하고 AI 리터러시를 높이는 최고의 안내서다.",
+        "isbn": "9791138851893",
+        "publisher": "좋은땅",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7116168?timestamp=20260113152543",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7116168&q=AI%EC%99%80+40%EC%9D%B8%EC%9D%98+%EA%B4%B4%EC%A7%9C%EB%93%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:02:56.572335+00:00",
+        "updated_at": "2026-09-04T18:02:56.572335+00:00"
+      }
+    ]
+  }
+}

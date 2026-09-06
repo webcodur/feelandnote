@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788987180496",
+    "title": "나에게는 꿈이 있습니다",
+    "creator": "클레이본 카슨 엮음",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이순희 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788987180496"
+  }
+}

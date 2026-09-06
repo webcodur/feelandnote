@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791196222741.json",
+  "manifestSha256": "fd11015c24ef9401bc7c5bcfd1dbbbf15633367ba0055a4f3bfaeaf97e8ab4b7",
+  "planSha256": "458028cb8d222f000e64b5443f171e9b7c2c4df30f129db19c16ca0221d79b16",
+  "workIdentity": "book/9791196222741",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791196222741"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "a44c6f1c-c7c8-5a03-b834-11393de63a67",
+    "scopeKey": "book/9791196222741",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "a44c6f1c-c7c8-5a03-b834-11393de63a67",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791196222741",
+      "release_date": "2018-11-10",
+      "metadata": {
+        "isbn": "9791196222741",
+        "publisher": "플로베르",
+        "publishDate": "2018-11-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791196222741",
+          "workTitle": "귀스타브 플로베르(양장본 HardCover)",
+          "workCreator": "알베르 티보데",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "귀스타브 플로베르",
+          "creator": "알베르 티보데",
+          "description": "국내에 처음 선보이는 귀스타브 플로베르 정통 평전 . 플로베르는 『보바리 부인』으로 19세기 문학에 큰 반향을 일으키고 『감정 교육』으로 자전적 소설의 흐름을 창조해낸 작가임에도 불구하고 지금까지 그의 문학적 여정을 정통으로 다룬 평전이 국내에 출간된 적이 없다. 양차대전 사이에 가장 큰 인정을 받았던 프랑스의 문학 비평가 알베르 티보데가 쓴 이 『귀스타브 플로베르』는 그의 일대기와 작품들을 차근차근 짚어나가고 있다. 플로베르는 열 살 때부터 문학 습작을 시작했을 뿐만 아니라, 모든 사회적 활동과 관계를 문학으로 귀결 지었기에 그의 일대기는 자연스럽게 창작 연대기가 된다. 이 책에는 잘 알려지지 않은 그의 초년 시절 작품부터, 널리 알려진 『보바리 부인』 『살람보』 『감정 교육』 등이 탄생하기까지의 과정이 티보데의 친근하고 유머러스한 문체로 소개되고 있다. 또한 조르주 상드, 기 드 모파상, 에밀 졸라, 공쿠르 형제 등 우리에게도 익숙한 당대 문인들과 플로베르가 나누었던 교류의 내용도 담겨 있어 19세기 문단 분위기와 그 흐름을 엿보게 해준다.",
+          "isbn": "9791196222741",
+          "publisher": "플로베르",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3938107?timestamp=20220915002055",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "a44c6f1c-c7c8-5a03-b834-11393de63a67"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "a44c6f1c-c7c8-5a03-b834-11393de63a67",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791196222741",
+        "release_date": "2018-11-10",
+        "metadata": {
+          "isbn": "9791196222741",
+          "publisher": "플로베르",
+          "publishDate": "2018-11-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791196222741",
+            "workTitle": "귀스타브 플로베르(양장본 HardCover)",
+            "workCreator": "알베르 티보데",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "귀스타브 플로베르",
+          "creator": "알베르 티보데",
+          "description": "국내에 처음 선보이는 귀스타브 플로베르 정통 평전 . 플로베르는 『보바리 부인』으로 19세기 문학에 큰 반향을 일으키고 『감정 교육』으로 자전적 소설의 흐름을 창조해낸 작가임에도 불구하고 지금까지 그의 문학적 여정을 정통으로 다룬 평전이 국내에 출간된 적이 없다. 양차대전 사이에 가장 큰 인정을 받았던 프랑스의 문학 비평가 알베르 티보데가 쓴 이 『귀스타브 플로베르』는 그의 일대기와 작품들을 차근차근 짚어나가고 있다. 플로베르는 열 살 때부터 문학 습작을 시작했을 뿐만 아니라, 모든 사회적 활동과 관계를 문학으로 귀결 지었기에 그의 일대기는 자연스럽게 창작 연대기가 된다. 이 책에는 잘 알려지지 않은 그의 초년 시절 작품부터, 널리 알려진 『보바리 부인』 『살람보』 『감정 교육』 등이 탄생하기까지의 과정이 티보데의 친근하고 유머러스한 문체로 소개되고 있다. 또한 조르주 상드, 기 드 모파상, 에밀 졸라, 공쿠르 형제 등 우리에게도 익숙한 당대 문인들과 플로베르가 나누었던 교류의 내용도 담겨 있어 19세기 문단 분위기와 그 흐름을 엿보게 해준다.",
+          "isbn": "9791196222741",
+          "publisher": "플로베르",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3938107?timestamp=20220915002055",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+          },
+          "verified": true,
+          "content_id": "a44c6f1c-c7c8-5a03-b834-11393de63a67"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791196222741",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791196222741"
+      ],
+      "normalizedTitles": [
+        "귀스타브플로베르",
+        "귀스타브플로베르양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "박명숙역",
+        "알베르티보데"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:32:20.234Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "a44c6f1c-c7c8-5a03-b834-11393de63a67",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791196222741",
+      "release_date": "2018-11-10",
+      "metadata": {
+        "isbn": "9791196222741",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "플로베르",
+        "figureBook": {
+          "workTitle": "귀스타브 플로베르(양장본 HardCover)",
+          "workCreator": "알베르 티보데",
+          "workIdentity": "book/9791196222741",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2018-11-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:32:13.793999+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "a44c6f1c-c7c8-5a03-b834-11393de63a67",
+        "locale": "ko",
+        "title": "귀스타브 플로베르",
+        "creator": "알베르 티보데",
+        "description": "국내에 처음 선보이는 귀스타브 플로베르 정통 평전 . 플로베르는 『보바리 부인』으로 19세기 문학에 큰 반향을 일으키고 『감정 교육』으로 자전적 소설의 흐름을 창조해낸 작가임에도 불구하고 지금까지 그의 문학적 여정을 정통으로 다룬 평전이 국내에 출간된 적이 없다. 양차대전 사이에 가장 큰 인정을 받았던 프랑스의 문학 비평가 알베르 티보데가 쓴 이 『귀스타브 플로베르』는 그의 일대기와 작품들을 차근차근 짚어나가고 있다. 플로베르는 열 살 때부터 문학 습작을 시작했을 뿐만 아니라, 모든 사회적 활동과 관계를 문학으로 귀결 지었기에 그의 일대기는 자연스럽게 창작 연대기가 된다. 이 책에는 잘 알려지지 않은 그의 초년 시절 작품부터, 널리 알려진 『보바리 부인』 『살람보』 『감정 교육』 등이 탄생하기까지의 과정이 티보데의 친근하고 유머러스한 문체로 소개되고 있다. 또한 조르주 상드, 기 드 모파상, 에밀 졸라, 공쿠르 형제 등 우리에게도 익숙한 당대 문인들과 플로베르가 나누었던 교류의 내용도 담겨 있어 19세기 문단 분위기와 그 흐름을 엿보게 해준다.",
+        "isbn": "9791196222741",
+        "publisher": "플로베르",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/3938107?timestamp=20220915002055",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=3938107&q=%EA%B7%80%EC%8A%A4%ED%83%80%EB%B8%8C+%ED%94%8C%EB%A1%9C%EB%B2%A0%EB%A5%B4%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:32:13.793999+00:00",
+        "updated_at": "2026-09-06T04:32:13.793999+00:00"
+      }
+    ]
+  }
+}

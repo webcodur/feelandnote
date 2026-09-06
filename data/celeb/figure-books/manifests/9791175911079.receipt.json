@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791175911079.json",
+  "manifestSha256": "0bbc2d7297d523033c7671a61ea289116ba257071c2c461ecdd656aeda88e272",
+  "planSha256": "7f034c97bc222525b95f2a18f9118d9efadd069ad0171bee0e4d9982f5aa6f2a",
+  "workIdentity": "book/9791175911079",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791175911079"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "e3aac635-7def-538b-8444-d323e467a161",
+    "scopeKey": "book/9791175911079",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "e3aac635-7def-538b-8444-d323e467a161",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791175911079",
+      "release_date": "2026-08-26",
+      "metadata": {
+        "isbn": "9791175911079",
+        "publisher": "위즈덤하우스",
+        "publishDate": "2026-08-26",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791175911079",
+          "workTitle": "노무현 평전",
+          "workCreator": "윤태영",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "노무현 평전",
+          "creator": "윤태영",
+          "description": "노동자와 민주화를 위해 싸운 정치인, 탈권위와 원칙을 추구한 대통령, 그리고 모두 함께 가는 ‘사람 사는 세상’을 꿈꾼 이, 노무현의 공식 평전이 출간되었다. 그동안 사람사는세상 노무현재단에서는 사후 자서전인 《운명이다》를 비롯해 못다 쓴 회고록 《성공과 좌절》 등을 서거 직후에 출간한 바 있지만 평전은 처음이다. 노무현의 탄생 80주년을 기념해 출간되는 이 책은 1988년 노무현과 처음으로 인연을 맺은 뒤 참여정부에서 대변인과 제1부속실장, 연설기획비서관으로, 또 봉하에서 마지막까지 집필팀으로 일했던 윤태영 저자가 저술을 맡았다. 노무현사료관에 보관된 대통령의 구술과 연설문, 참여정부 당시 참모들이 남긴 수십 권의 메모와 녹취, 비망록 등 160여 개의 비공개 기록에 더하여 저자가 청와대 참모로 일하던 때 기록해 둔 600여 권의 포켓수첩, 1,000개의 파일까지 방대한 사료를 바탕으로 노무현의 삶을 그려냈다.\n이 책은 총 9장으로 구성되었다. 1장에서 5장은 한 소년이 인권변호사로 성장하고 ‘청문회 스타’를 거쳐 대통령에 당선되기까지의 삶을 연대기 순으로 따라간다. 6장은 북핵 문제와 대연정, 한미FTA 등 대통령 재임 중에 마주한 주요 현안과 선택을 의제와 사건 중심으로 살펴본다. 7장은 봉하마을의 한 시민으로 돌아온 뒤 서거에 이르기까지의 마지막 시간을 그린다. 8장과 9장은 연대기에서 벗어나 노무현의 리더십과 캐릭터, 말과 글을 통해 인간적 면모를 조명한다. 에필로그에서는 저자가 가까이에서 지켜본 노무현과의 일화와 소회를 전하며, 말미에는 그의 생애를 한눈에 살펴볼 수 있도록 연보를 실었다.\n평전 속에서 만나는 노무현은 그간 소개된 책이나 영화 속의 노무현과 다르다. 지근거리에서 그를 지켜본 인물이 한 명의 해설자가 되어 공적 기억과 사적 기억을 입체적인 현실로 만들어간다. 독자들은 때론 주변인들의 목소리로, 때론 노무현의 목소리로 복원된 현실 안에 걸어 들어가 한국 현대사의 중심에 그와 함께 서게 된다. 그리고 마침내 시대 속에서 노무현이 무엇을 구현하려 했는지 그 진면목을 마주하게 된다. “노무현을 다시 읽는 일은, 결국 우리가 어떤 세상을 만들 것인지 다시 묻는 일이다”라는 발간사의 문장처럼, 책장을 덮고 나면 그가 던진 질문이 여전히 지금 이 시대, 우리 자신에게도 유효함을 깨닫게 된다.",
+          "isbn": "9791175911079",
+          "publisher": "위즈덤하우스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7280110?timestamp=20260903150127",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "e3aac635-7def-538b-8444-d323e467a161"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "e3aac635-7def-538b-8444-d323e467a161",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791175911079",
+        "release_date": "2026-08-26",
+        "metadata": {
+          "isbn": "9791175911079",
+          "publisher": "위즈덤하우스",
+          "publishDate": "2026-08-26",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791175911079",
+            "workTitle": "노무현 평전",
+            "workCreator": "윤태영",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "노무현 평전",
+          "creator": "윤태영",
+          "description": "노동자와 민주화를 위해 싸운 정치인, 탈권위와 원칙을 추구한 대통령, 그리고 모두 함께 가는 ‘사람 사는 세상’을 꿈꾼 이, 노무현의 공식 평전이 출간되었다. 그동안 사람사는세상 노무현재단에서는 사후 자서전인 《운명이다》를 비롯해 못다 쓴 회고록 《성공과 좌절》 등을 서거 직후에 출간한 바 있지만 평전은 처음이다. 노무현의 탄생 80주년을 기념해 출간되는 이 책은 1988년 노무현과 처음으로 인연을 맺은 뒤 참여정부에서 대변인과 제1부속실장, 연설기획비서관으로, 또 봉하에서 마지막까지 집필팀으로 일했던 윤태영 저자가 저술을 맡았다. 노무현사료관에 보관된 대통령의 구술과 연설문, 참여정부 당시 참모들이 남긴 수십 권의 메모와 녹취, 비망록 등 160여 개의 비공개 기록에 더하여 저자가 청와대 참모로 일하던 때 기록해 둔 600여 권의 포켓수첩, 1,000개의 파일까지 방대한 사료를 바탕으로 노무현의 삶을 그려냈다.\n이 책은 총 9장으로 구성되었다. 1장에서 5장은 한 소년이 인권변호사로 성장하고 ‘청문회 스타’를 거쳐 대통령에 당선되기까지의 삶을 연대기 순으로 따라간다. 6장은 북핵 문제와 대연정, 한미FTA 등 대통령 재임 중에 마주한 주요 현안과 선택을 의제와 사건 중심으로 살펴본다. 7장은 봉하마을의 한 시민으로 돌아온 뒤 서거에 이르기까지의 마지막 시간을 그린다. 8장과 9장은 연대기에서 벗어나 노무현의 리더십과 캐릭터, 말과 글을 통해 인간적 면모를 조명한다. 에필로그에서는 저자가 가까이에서 지켜본 노무현과의 일화와 소회를 전하며, 말미에는 그의 생애를 한눈에 살펴볼 수 있도록 연보를 실었다.\n평전 속에서 만나는 노무현은 그간 소개된 책이나 영화 속의 노무현과 다르다. 지근거리에서 그를 지켜본 인물이 한 명의 해설자가 되어 공적 기억과 사적 기억을 입체적인 현실로 만들어간다. 독자들은 때론 주변인들의 목소리로, 때론 노무현의 목소리로 복원된 현실 안에 걸어 들어가 한국 현대사의 중심에 그와 함께 서게 된다. 그리고 마침내 시대 속에서 노무현이 무엇을 구현하려 했는지 그 진면목을 마주하게 된다. “노무현을 다시 읽는 일은, 결국 우리가 어떤 세상을 만들 것인지 다시 묻는 일이다”라는 발간사의 문장처럼, 책장을 덮고 나면 그가 던진 질문이 여전히 지금 이 시대, 우리 자신에게도 유효함을 깨닫게 된다.",
+          "isbn": "9791175911079",
+          "publisher": "위즈덤하우스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7280110?timestamp=20260903150127",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84"
+          },
+          "verified": true,
+          "content_id": "e3aac635-7def-538b-8444-d323e467a161"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791175911079",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791175911079"
+      ],
+      "normalizedTitles": [
+        "노무현평전"
+      ],
+      "normalizedCreators": [
+        "윤태영"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:24:01.441Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "e3aac635-7def-538b-8444-d323e467a161",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791175911079",
+      "release_date": "2026-08-26",
+      "metadata": {
+        "isbn": "9791175911079",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+        "publisher": "위즈덤하우스",
+        "figureBook": {
+          "workTitle": "노무현 평전",
+          "workCreator": "윤태영",
+          "workIdentity": "book/9791175911079",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-08-26",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:23:50.299885+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "e3aac635-7def-538b-8444-d323e467a161",
+        "locale": "ko",
+        "title": "노무현 평전",
+        "creator": "윤태영",
+        "description": "노동자와 민주화를 위해 싸운 정치인, 탈권위와 원칙을 추구한 대통령, 그리고 모두 함께 가는 ‘사람 사는 세상’을 꿈꾼 이, 노무현의 공식 평전이 출간되었다. 그동안 사람사는세상 노무현재단에서는 사후 자서전인 《운명이다》를 비롯해 못다 쓴 회고록 《성공과 좌절》 등을 서거 직후에 출간한 바 있지만 평전은 처음이다. 노무현의 탄생 80주년을 기념해 출간되는 이 책은 1988년 노무현과 처음으로 인연을 맺은 뒤 참여정부에서 대변인과 제1부속실장, 연설기획비서관으로, 또 봉하에서 마지막까지 집필팀으로 일했던 윤태영 저자가 저술을 맡았다. 노무현사료관에 보관된 대통령의 구술과 연설문, 참여정부 당시 참모들이 남긴 수십 권의 메모와 녹취, 비망록 등 160여 개의 비공개 기록에 더하여 저자가 청와대 참모로 일하던 때 기록해 둔 600여 권의 포켓수첩, 1,000개의 파일까지 방대한 사료를 바탕으로 노무현의 삶을 그려냈다.\n이 책은 총 9장으로 구성되었다. 1장에서 5장은 한 소년이 인권변호사로 성장하고 ‘청문회 스타’를 거쳐 대통령에 당선되기까지의 삶을 연대기 순으로 따라간다. 6장은 북핵 문제와 대연정, 한미FTA 등 대통령 재임 중에 마주한 주요 현안과 선택을 의제와 사건 중심으로 살펴본다. 7장은 봉하마을의 한 시민으로 돌아온 뒤 서거에 이르기까지의 마지막 시간을 그린다. 8장과 9장은 연대기에서 벗어나 노무현의 리더십과 캐릭터, 말과 글을 통해 인간적 면모를 조명한다. 에필로그에서는 저자가 가까이에서 지켜본 노무현과의 일화와 소회를 전하며, 말미에는 그의 생애를 한눈에 살펴볼 수 있도록 연보를 실었다.\n평전 속에서 만나는 노무현은 그간 소개된 책이나 영화 속의 노무현과 다르다. 지근거리에서 그를 지켜본 인물이 한 명의 해설자가 되어 공적 기억과 사적 기억을 입체적인 현실로 만들어간다. 독자들은 때론 주변인들의 목소리로, 때론 노무현의 목소리로 복원된 현실 안에 걸어 들어가 한국 현대사의 중심에 그와 함께 서게 된다. 그리고 마침내 시대 속에서 노무현이 무엇을 구현하려 했는지 그 진면목을 마주하게 된다. “노무현을 다시 읽는 일은, 결국 우리가 어떤 세상을 만들 것인지 다시 묻는 일이다”라는 발간사의 문장처럼, 책장을 덮고 나면 그가 던진 질문이 여전히 지금 이 시대, 우리 자신에게도 유효함을 깨닫게 된다.",
+        "isbn": "9791175911079",
+        "publisher": "위즈덤하우스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7280110?timestamp=20260903150127",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7280110&q=%EB%85%B8%EB%AC%B4%ED%98%84+%ED%8F%89%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:23:50.299885+00:00",
+        "updated_at": "2026-09-06T04:23:50.299885+00:00"
+      }
+    ]
+  }
+}

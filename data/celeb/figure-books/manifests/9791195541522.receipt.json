@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791195541522.json",
+  "manifestSha256": "1faa7f24ebb4aaa57b0528ca9cc6c74c03286e836506a4c34464f1f20e89eb2b",
+  "planSha256": "27c930fb55191d26e9e8582a306a7c7903a0303f6deff65dd67f3adfbc0c9c7b",
+  "workIdentity": "book/9791195541522",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791195541522"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "2ac4e431-2318-5842-8a86-8222b42b3668",
+    "scopeKey": "book/9791195541522",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "2ac4e431-2318-5842-8a86-8222b42b3668",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791195541522",
+      "release_date": "2018-04-05",
+      "metadata": {
+        "isbn": "9791195541522",
+        "publisher": "비엠케이",
+        "publishDate": "2018-04-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791195541522",
+          "workTitle": "프리다 칼로, 내 영혼의 일기",
+          "workCreator": "프리다 칼로",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "프리다 칼로, 내 영혼의 일기",
+          "creator": "프리다 칼로",
+          "description": "2016년 5월 28일부터 8월 28일까지 예술의 전당 한가람 미술관에서 전시하는《프리다 칼로&디에고 리베라》를 기념하여 일기장 전문을 책으로 만든 『프리다 칼로, 내 영혼의 일기』. 이 책은 정신적 및 육체적 고통을 예술로 승화시킨 예술가 프리다 칼로의 예술혼과 무의식을 만나게 해준다. 오직 자신만을 위해 적은 프리다 칼로의 일기장을 통해 화가 프리다 칼로를 이해하는 것은 물론이고 진솔한 모습을 있는 그대로 만날 수 있다. 그녀의 일기장 속에는 인생 전반부에 걸쳐서 겪은 정신적 및 육체적 고통과 함께 정체성의 근간을 이루는 아즈텍 문명의 상징들, 그리고 연인 디에고 리베라에 대한 사랑이 담겨 있다.\n\n그녀는 47년동안 살면서, 서른 두 번의 수술과 세 번의 유산, 그리고 연인 디에고의 지속적인 외도에 영혼을 찢기는 상처를 입은 사람이다. 그러한 그녀의 아픈 인생이 자화상에 고스란히 반영되었으며 멕시코의 고대 아즈텍 문명의 계승자로서의 정체성 또한 중요한 요소를 이루고 있다. 이러한 프리다 칼로의 삶을 잘 전하기 위해 라틴 미술 전문 기획가이자 갤러리 반디트라소의 대표 안진옥이 그녀의 일기장 전문을 옮겼으며 상징물에 대한 친절한 설명도 더해 독자가 그녀의 예술혼과 깊이 있는 대화를 나눌 수 있도록 배려했다. 일기장 속에 담겨 있는 그녀의 물음과 창작의 고통들을 펼쳐보자.",
+          "isbn": "9791195541522",
+          "publisher": "비엠케이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1658662?timestamp=20240810113410",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "2ac4e431-2318-5842-8a86-8222b42b3668"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "2ac4e431-2318-5842-8a86-8222b42b3668",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791195541522",
+        "release_date": "2018-04-05",
+        "metadata": {
+          "isbn": "9791195541522",
+          "publisher": "비엠케이",
+          "publishDate": "2018-04-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791195541522",
+            "workTitle": "프리다 칼로, 내 영혼의 일기",
+            "workCreator": "프리다 칼로",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "프리다 칼로, 내 영혼의 일기",
+          "creator": "프리다 칼로",
+          "description": "2016년 5월 28일부터 8월 28일까지 예술의 전당 한가람 미술관에서 전시하는《프리다 칼로&디에고 리베라》를 기념하여 일기장 전문을 책으로 만든 『프리다 칼로, 내 영혼의 일기』. 이 책은 정신적 및 육체적 고통을 예술로 승화시킨 예술가 프리다 칼로의 예술혼과 무의식을 만나게 해준다. 오직 자신만을 위해 적은 프리다 칼로의 일기장을 통해 화가 프리다 칼로를 이해하는 것은 물론이고 진솔한 모습을 있는 그대로 만날 수 있다. 그녀의 일기장 속에는 인생 전반부에 걸쳐서 겪은 정신적 및 육체적 고통과 함께 정체성의 근간을 이루는 아즈텍 문명의 상징들, 그리고 연인 디에고 리베라에 대한 사랑이 담겨 있다.\n\n그녀는 47년동안 살면서, 서른 두 번의 수술과 세 번의 유산, 그리고 연인 디에고의 지속적인 외도에 영혼을 찢기는 상처를 입은 사람이다. 그러한 그녀의 아픈 인생이 자화상에 고스란히 반영되었으며 멕시코의 고대 아즈텍 문명의 계승자로서의 정체성 또한 중요한 요소를 이루고 있다. 이러한 프리다 칼로의 삶을 잘 전하기 위해 라틴 미술 전문 기획가이자 갤러리 반디트라소의 대표 안진옥이 그녀의 일기장 전문을 옮겼으며 상징물에 대한 친절한 설명도 더해 독자가 그녀의 예술혼과 깊이 있는 대화를 나눌 수 있도록 배려했다. 일기장 속에 담겨 있는 그녀의 물음과 창작의 고통들을 펼쳐보자.",
+          "isbn": "9791195541522",
+          "publisher": "비엠케이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1658662?timestamp=20240810113410",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "2ac4e431-2318-5842-8a86-8222b42b3668"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791195541522",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791195541522"
+      ],
+      "normalizedTitles": [
+        "프리다칼로내영혼의일기"
+      ],
+      "normalizedCreators": [
+        "프리다칼로"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:31:58.993Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "2ac4e431-2318-5842-8a86-8222b42b3668",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791195541522",
+      "release_date": "2018-04-05",
+      "metadata": {
+        "isbn": "9791195541522",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+        "publisher": "비엠케이",
+        "figureBook": {
+          "workTitle": "프리다 칼로, 내 영혼의 일기",
+          "workCreator": "프리다 칼로",
+          "workIdentity": "book/9791195541522",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2018-04-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:31:51.782435+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "2ac4e431-2318-5842-8a86-8222b42b3668",
+        "locale": "ko",
+        "title": "프리다 칼로, 내 영혼의 일기",
+        "creator": "프리다 칼로",
+        "description": "2016년 5월 28일부터 8월 28일까지 예술의 전당 한가람 미술관에서 전시하는《프리다 칼로&디에고 리베라》를 기념하여 일기장 전문을 책으로 만든 『프리다 칼로, 내 영혼의 일기』. 이 책은 정신적 및 육체적 고통을 예술로 승화시킨 예술가 프리다 칼로의 예술혼과 무의식을 만나게 해준다. 오직 자신만을 위해 적은 프리다 칼로의 일기장을 통해 화가 프리다 칼로를 이해하는 것은 물론이고 진솔한 모습을 있는 그대로 만날 수 있다. 그녀의 일기장 속에는 인생 전반부에 걸쳐서 겪은 정신적 및 육체적 고통과 함께 정체성의 근간을 이루는 아즈텍 문명의 상징들, 그리고 연인 디에고 리베라에 대한 사랑이 담겨 있다.\n\n그녀는 47년동안 살면서, 서른 두 번의 수술과 세 번의 유산, 그리고 연인 디에고의 지속적인 외도에 영혼을 찢기는 상처를 입은 사람이다. 그러한 그녀의 아픈 인생이 자화상에 고스란히 반영되었으며 멕시코의 고대 아즈텍 문명의 계승자로서의 정체성 또한 중요한 요소를 이루고 있다. 이러한 프리다 칼로의 삶을 잘 전하기 위해 라틴 미술 전문 기획가이자 갤러리 반디트라소의 대표 안진옥이 그녀의 일기장 전문을 옮겼으며 상징물에 대한 친절한 설명도 더해 독자가 그녀의 예술혼과 깊이 있는 대화를 나눌 수 있도록 배려했다. 일기장 속에 담겨 있는 그녀의 물음과 창작의 고통들을 펼쳐보자.",
+        "isbn": "9791195541522",
+        "publisher": "비엠케이",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/1658662?timestamp=20240810113410",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=1658662&q=%ED%94%84%EB%A6%AC%EB%8B%A4+%EC%B9%BC%EB%A1%9C%2C+%EB%82%B4+%EC%98%81%ED%98%BC%EC%9D%98+%EC%9D%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:31:51.782435+00:00",
+        "updated_at": "2026-09-06T04:31:51.782435+00:00"
+      }
+    ]
+  }
+}

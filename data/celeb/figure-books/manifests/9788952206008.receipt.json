@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788952206008.json",
+  "manifestSha256": "e86825f730f07a2f4f07311fa55e438f00cbe0c88c65d838e3d9d6a16a15731c",
+  "planSha256": "0b06aa4f8b330df91ddbf5e96a3dfa5864abff2417177f076b093df82288fe34",
+  "workIdentity": "book/9788952206008",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788952206008"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "c65215ac-2ca8-5686-8eca-cd149fe8e581",
+    "scopeKey": "book/9788952206008",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "c65215ac-2ca8-5686-8eca-cd149fe8e581",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952206008",
+      "release_date": "2007-01-30",
+      "metadata": {
+        "isbn": "9788952206008",
+        "publisher": "살림",
+        "publishDate": "2007-01-30",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788952206008",
+          "workTitle": "퇴계 이황(e시대의 절대사상 022)(양장본 HardCover)",
+          "workCreator": "최영진",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "퇴계 이황(e시대의 절대사상 022)",
+          "creator": "최영진",
+          "description": null,
+          "isbn": "9788952206008",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/634020?timestamp=20220922040534",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "c65215ac-2ca8-5686-8eca-cd149fe8e581"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "c65215ac-2ca8-5686-8eca-cd149fe8e581",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788952206008",
+        "release_date": "2007-01-30",
+        "metadata": {
+          "isbn": "9788952206008",
+          "publisher": "살림",
+          "publishDate": "2007-01-30",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788952206008",
+            "workTitle": "퇴계 이황(e시대의 절대사상 022)(양장본 HardCover)",
+            "workCreator": "최영진",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "퇴계 이황(e시대의 절대사상 022)",
+          "creator": "최영진",
+          "description": null,
+          "isbn": "9788952206008",
+          "publisher": "살림",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/634020?timestamp=20220922040534",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+            "description": "confirmed_unavailable"
+          },
+          "verified": true,
+          "content_id": "c65215ac-2ca8-5686-8eca-cd149fe8e581"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788952206008",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788952206008"
+      ],
+      "normalizedTitles": [
+        "퇴계이황e시대의절대사상022",
+        "퇴계이황e시대의절대사상022양장본hardcover"
+      ],
+      "normalizedCreators": [
+        "최영진"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:07:55.566Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "c65215ac-2ca8-5686-8eca-cd149fe8e581",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788952206008",
+      "release_date": "2007-01-30",
+      "metadata": {
+        "isbn": "9788952206008",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+        "publisher": "살림",
+        "figureBook": {
+          "workTitle": "퇴계 이황(e시대의 절대사상 022)(양장본 HardCover)",
+          "workCreator": "최영진",
+          "workIdentity": "book/9788952206008",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2007-01-30",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:07:50.288818+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "c65215ac-2ca8-5686-8eca-cd149fe8e581",
+        "locale": "ko",
+        "title": "퇴계 이황(e시대의 절대사상 022)",
+        "creator": "최영진",
+        "description": null,
+        "isbn": "9788952206008",
+        "publisher": "살림",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/634020?timestamp=20220922040534",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=634020&q=%ED%87%B4%EA%B3%84+%EC%9D%B4%ED%99%A9%28e%EC%8B%9C%EB%8C%80%EC%9D%98+%EC%A0%88%EB%8C%80%EC%82%AC%EC%83%81+022%29%28%EC%96%91%EC%9E%A5%EB%B3%B8+HardCover%29",
+          "description": "confirmed_unavailable"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:07:50.288818+00:00",
+        "updated_at": "2026-09-06T04:07:50.288818+00:00"
+      }
+    ]
+  }
+}

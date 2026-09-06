@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788946068582.json",
+  "manifestSha256": "e70c930e697541baf98e18862830e5053d4da0cbe5c99a909b0516cdb4b0325a",
+  "planSha256": "3afea67e7d01300dafc345b86b3dc95d7afb936c1944a3874a4399236d004cd8",
+  "workIdentity": "book/9788946068582",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788946068582"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "93aaf2bb-5767-5a5d-a8db-23461bae0432",
+    "scopeKey": "book/9788946068582",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "93aaf2bb-5767-5a5d-a8db-23461bae0432",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788946068582",
+      "release_date": "2020-02-05",
+      "metadata": {
+        "isbn": "9788946068582",
+        "publisher": "한울아카데미",
+        "publishDate": "2020-02-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788946068582",
+          "workTitle": "감국대신 위안스카이",
+          "workCreator": "이양자",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "감국대신 위안스카이",
+          "creator": "이양자",
+          "description": "19세기 중반에 근대 국민국가와 제국주의가 새로운 세계질서로 부상하자, 청은 전통적인 유교적 천하관에 기초해 의례적으로 따랐던 ‘사대(事大)’, ‘종번(宗藩)’ 관계를 실질적 속국화 정책의 근거로 사용해 조선을 복속시키려 했다. 청은 조선을 속국화하기 위해 실질적 감국대신 위안스카이를 내세워 정치·경제·외교 분야에서 전례 없는 온갖 간섭을 자행했다. 조선은 위안스카이와 같은 기회주의적 인물에게 10여 년간 내정간섭을 받으며 국가적으로 크나큰 모욕과 수모를 당해야 했고, 그 결과 대한제국은 우리 국토에서 청일전쟁이 일어나는 비극을 겪은 뒤 일본의 손아귀로 넘어가고 말았다.\n\n21세기 들어 미국과 중국을 중심으로 한 세계 패권경쟁이 한층 더 거세지며, 한반도에 대한 두 국가의 영향력 경합이 치열하게 전개되고 있다. 마치 19세기 역사의 재현인 양, 주변 강국에 둘러싸인 한반도는 종속과 자멸이냐, 번영과 통일국가로의 도약이냐 하는 중대 기로에 서 있다. 임오군란에서 청일전쟁까지 10여 년 동안 이루어진 청의 군사·정치·경제 침탈과 그 현지 집행자 위안스카이는, 21세기 지정학적 분쟁의 중심에 선 우리에게 이사위감(以史爲鑑)의 사례로 냉철한 통찰을 요구한다.",
+          "isbn": "9788946068582",
+          "publisher": "한울아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5237611?timestamp=20220930210707",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4"
+          },
+          "verified": true,
+          "content_id": "93aaf2bb-5767-5a5d-a8db-23461bae0432"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "93aaf2bb-5767-5a5d-a8db-23461bae0432",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788946068582",
+        "release_date": "2020-02-05",
+        "metadata": {
+          "isbn": "9788946068582",
+          "publisher": "한울아카데미",
+          "publishDate": "2020-02-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788946068582",
+            "workTitle": "감국대신 위안스카이",
+            "workCreator": "이양자",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "감국대신 위안스카이",
+          "creator": "이양자",
+          "description": "19세기 중반에 근대 국민국가와 제국주의가 새로운 세계질서로 부상하자, 청은 전통적인 유교적 천하관에 기초해 의례적으로 따랐던 ‘사대(事大)’, ‘종번(宗藩)’ 관계를 실질적 속국화 정책의 근거로 사용해 조선을 복속시키려 했다. 청은 조선을 속국화하기 위해 실질적 감국대신 위안스카이를 내세워 정치·경제·외교 분야에서 전례 없는 온갖 간섭을 자행했다. 조선은 위안스카이와 같은 기회주의적 인물에게 10여 년간 내정간섭을 받으며 국가적으로 크나큰 모욕과 수모를 당해야 했고, 그 결과 대한제국은 우리 국토에서 청일전쟁이 일어나는 비극을 겪은 뒤 일본의 손아귀로 넘어가고 말았다.\n\n21세기 들어 미국과 중국을 중심으로 한 세계 패권경쟁이 한층 더 거세지며, 한반도에 대한 두 국가의 영향력 경합이 치열하게 전개되고 있다. 마치 19세기 역사의 재현인 양, 주변 강국에 둘러싸인 한반도는 종속과 자멸이냐, 번영과 통일국가로의 도약이냐 하는 중대 기로에 서 있다. 임오군란에서 청일전쟁까지 10여 년 동안 이루어진 청의 군사·정치·경제 침탈과 그 현지 집행자 위안스카이는, 21세기 지정학적 분쟁의 중심에 선 우리에게 이사위감(以史爲鑑)의 사례로 냉철한 통찰을 요구한다.",
+          "isbn": "9788946068582",
+          "publisher": "한울아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5237611?timestamp=20220930210707",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4"
+          },
+          "verified": true,
+          "content_id": "93aaf2bb-5767-5a5d-a8db-23461bae0432"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788946068582",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788946068582"
+      ],
+      "normalizedTitles": [
+        "감국대신위안스카이"
+      ],
+      "normalizedCreators": [
+        "이양자"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:06:51.177Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "93aaf2bb-5767-5a5d-a8db-23461bae0432",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788946068582",
+      "release_date": "2020-02-05",
+      "metadata": {
+        "isbn": "9788946068582",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+        "publisher": "한울아카데미",
+        "figureBook": {
+          "workTitle": "감국대신 위안스카이",
+          "workCreator": "이양자",
+          "workIdentity": "book/9788946068582",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2020-02-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:06:45.167793+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "93aaf2bb-5767-5a5d-a8db-23461bae0432",
+        "locale": "ko",
+        "title": "감국대신 위안스카이",
+        "creator": "이양자",
+        "description": "19세기 중반에 근대 국민국가와 제국주의가 새로운 세계질서로 부상하자, 청은 전통적인 유교적 천하관에 기초해 의례적으로 따랐던 ‘사대(事大)’, ‘종번(宗藩)’ 관계를 실질적 속국화 정책의 근거로 사용해 조선을 복속시키려 했다. 청은 조선을 속국화하기 위해 실질적 감국대신 위안스카이를 내세워 정치·경제·외교 분야에서 전례 없는 온갖 간섭을 자행했다. 조선은 위안스카이와 같은 기회주의적 인물에게 10여 년간 내정간섭을 받으며 국가적으로 크나큰 모욕과 수모를 당해야 했고, 그 결과 대한제국은 우리 국토에서 청일전쟁이 일어나는 비극을 겪은 뒤 일본의 손아귀로 넘어가고 말았다.\n\n21세기 들어 미국과 중국을 중심으로 한 세계 패권경쟁이 한층 더 거세지며, 한반도에 대한 두 국가의 영향력 경합이 치열하게 전개되고 있다. 마치 19세기 역사의 재현인 양, 주변 강국에 둘러싸인 한반도는 종속과 자멸이냐, 번영과 통일국가로의 도약이냐 하는 중대 기로에 서 있다. 임오군란에서 청일전쟁까지 10여 년 동안 이루어진 청의 군사·정치·경제 침탈과 그 현지 집행자 위안스카이는, 21세기 지정학적 분쟁의 중심에 선 우리에게 이사위감(以史爲鑑)의 사례로 냉철한 통찰을 요구한다.",
+        "isbn": "9788946068582",
+        "publisher": "한울아카데미",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5237611?timestamp=20220930210707",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5237611&q=%EA%B0%90%EA%B5%AD%EB%8C%80%EC%8B%A0+%EC%9C%84%EC%95%88%EC%8A%A4%EC%B9%B4%EC%9D%B4"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:06:45.167793+00:00",
+        "updated_at": "2026-09-06T04:06:45.167793+00:00"
+      }
+    ]
+  }
+}

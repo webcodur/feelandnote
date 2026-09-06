@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791165816476.json",
+  "manifestSha256": "74b1feb1f0fb6e0a3de841b37a714190b59708ba643faf7d399663fce9a6e25c",
+  "planSha256": "ef0e472c7582876dba0b4aa8493c20f3b5f8c7e1cb76a837319fea1359949406",
+  "workIdentity": "book/9791165816476",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791165816476"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "fbd8f2a9-9775-5259-a67d-f6fdca7cfd65",
+    "scopeKey": "book/9791165816476",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "fbd8f2a9-9775-5259-a67d-f6fdca7cfd65",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791165816476",
+      "release_date": "2026-05-06",
+      "metadata": {
+        "isbn": "9791165816476",
+        "publisher": "스푼북",
+        "publishDate": "2026-05-06",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791165816476",
+          "workTitle": "고려의 시작 태조 왕건",
+          "workCreator": "김일옥",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "고려의 시작 태조 왕건",
+          "creator": "김일옥",
+          "description": "신라와 후백제, 후고구려가 서로 경쟁하며 대립하던 시기. 후고구려의 장군 왕건은 폭정을 일삼던 궁예를 몰아내고 왕위에 올랐어요. 이후 나라 이름을 고려로 바꾼 왕건은 용맹함과 따뜻한 포용력으로 후삼국을 통일하고 새 나라 고려의 기틀을 세워 나갑니다.",
+          "isbn": "9791165816476",
+          "publisher": "스푼북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7215259?timestamp=20260509123947",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4"
+          },
+          "verified": true,
+          "content_id": "fbd8f2a9-9775-5259-a67d-f6fdca7cfd65"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "fbd8f2a9-9775-5259-a67d-f6fdca7cfd65",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791165816476",
+        "release_date": "2026-05-06",
+        "metadata": {
+          "isbn": "9791165816476",
+          "publisher": "스푼북",
+          "publishDate": "2026-05-06",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791165816476",
+            "workTitle": "고려의 시작 태조 왕건",
+            "workCreator": "김일옥",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "고려의 시작 태조 왕건",
+          "creator": "김일옥",
+          "description": "신라와 후백제, 후고구려가 서로 경쟁하며 대립하던 시기. 후고구려의 장군 왕건은 폭정을 일삼던 궁예를 몰아내고 왕위에 올랐어요. 이후 나라 이름을 고려로 바꾼 왕건은 용맹함과 따뜻한 포용력으로 후삼국을 통일하고 새 나라 고려의 기틀을 세워 나갑니다.",
+          "isbn": "9791165816476",
+          "publisher": "스푼북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7215259?timestamp=20260509123947",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4"
+          },
+          "verified": true,
+          "content_id": "fbd8f2a9-9775-5259-a67d-f6fdca7cfd65"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791165816476",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791165816476"
+      ],
+      "normalizedTitles": [
+        "고려의시작태조왕건"
+      ],
+      "normalizedCreators": [
+        "김일옥"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:07:31.115Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "fbd8f2a9-9775-5259-a67d-f6fdca7cfd65",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791165816476",
+      "release_date": "2026-05-06",
+      "metadata": {
+        "isbn": "9791165816476",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+        "publisher": "스푼북",
+        "figureBook": {
+          "workTitle": "고려의 시작 태조 왕건",
+          "workCreator": "김일옥",
+          "workIdentity": "book/9791165816476",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-05-06",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:07:27.472133+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "fbd8f2a9-9775-5259-a67d-f6fdca7cfd65",
+        "locale": "ko",
+        "title": "고려의 시작 태조 왕건",
+        "creator": "김일옥",
+        "description": "신라와 후백제, 후고구려가 서로 경쟁하며 대립하던 시기. 후고구려의 장군 왕건은 폭정을 일삼던 궁예를 몰아내고 왕위에 올랐어요. 이후 나라 이름을 고려로 바꾼 왕건은 용맹함과 따뜻한 포용력으로 후삼국을 통일하고 새 나라 고려의 기틀을 세워 나갑니다.",
+        "isbn": "9791165816476",
+        "publisher": "스푼북",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7215259?timestamp=20260509123947",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7215259&q=%EA%B3%A0%EB%A0%A4%EC%9D%98+%EC%8B%9C%EC%9E%91+%ED%83%9C%EC%A1%B0+%EC%99%95%EA%B1%B4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:07:27.472133+00:00",
+        "updated_at": "2026-09-04T18:07:27.472133+00:00"
+      }
+    ]
+  }
+}

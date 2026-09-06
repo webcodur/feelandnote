@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791130632377",
+    "title": "who? 인물 중국사: 증국번ㆍ호설암",
+    "creator": "김승민",
+    "titleAliases": [
+      "who? 인물 중국사"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791130632377"
+  }
+}

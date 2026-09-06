@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791198687616",
+    "title": "러시아는 어떻게 제국이 되었나: 표트르 대제의 개혁 1",
+    "creator": "강평기",
+    "titleAliases": [
+      "러시아는 어떻게 제국이 되었나"
+    ],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791198687616"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9788955477184",
+    "title": "꿈꾸는 프로그래머 에이다 러브레이스",
+    "creator": "문미영",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788955477184"
+  }
+}

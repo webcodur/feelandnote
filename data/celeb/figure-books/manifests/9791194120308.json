@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791194120308",
+    "title": "박정희는 역사이다",
+    "creator": "이재훈",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791194120308"
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791186560938.json",
+  "manifestSha256": "5cf20cd4566cab543196321c6021db83044918bcea12c3466a4a595c2e754c95",
+  "planSha256": "3f6a2028a81fbb8176980a4dd5ecd9aa7c3cf23bc1b9d47963dfcdb022b196bf",
+  "workIdentity": "book/9791186560938",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791186560938"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "a1816eae-5db7-57af-b079-b4d5ea39c357",
+    "scopeKey": "book/9791186560938",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "a1816eae-5db7-57af-b079-b4d5ea39c357",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791186560938",
+      "release_date": "2019-01-31",
+      "metadata": {
+        "isbn": "9791186560938",
+        "publisher": "인플루엔셜",
+        "publishDate": "2019-01-31",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791186560938",
+          "workTitle": "구글 스토리(The Google Story)",
+          "workCreator": "데이비드 A 바이스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "구글 스토리",
+          "creator": "데이비드 A 바이스, 마크 맬시드",
+          "description": "구글 창립 20주년 기념 완역판 『구글 스토리(The Google Story)』. 퓰리처상 수상 작가 데이비드 A. 바이스가 관습과 상식을 뛰어넘으며 인류의 미래를 새로 쓴 기업으로 우뚝 선 세계적 기업 구글의 살아 있는 역사를 한 권에 담아냈다. 구글의 공동 창업자 래리 페이지와 세르게이 브린, 전 CEO 에릭 슈미트를 포함한 구글의 핵심 인사 150여 명과의 인터뷰와 각종 비밀문서와 법정 자료 등 수천 페이지에 달하는 관련 자료를 수집·분석하는 등 치밀한 자료 조사를 바탕으로 재구성한 구글의 풀스토리를 만나볼 수 있다.\n\n래리 페이지와 세르게이 브린의 첫 만남과 창업 과정은 물론, CEO 에릭 슈미트를 영입한 에피소드, 280억 투자 제안을 거절한 사연, 구글이 처한 각종 법적 논란과 마이크로소프트와의 숨 막히는 경쟁까지 어디에도 볼 수 없던 구글 성장사의 주요 장면과 구글이 닷컴기업에서 시작해 생산 단계 돌입한 웨이모(Waymo)의 자율주행차나 알파고 쇼크를 안긴 딥마인드(Deepmind)의 인공지능 등, 디지털세계를 넘어 인공지능퍼스트 기업으로 진화하는 전 과정을 놓치지 않고 기록했다.",
+          "isbn": "9791186560938",
+          "publisher": "인플루엔셜",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4871330?timestamp=20230111145107",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29"
+          },
+          "verified": true,
+          "content_id": "a1816eae-5db7-57af-b079-b4d5ea39c357"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "a1816eae-5db7-57af-b079-b4d5ea39c357",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791186560938",
+        "release_date": "2019-01-31",
+        "metadata": {
+          "isbn": "9791186560938",
+          "publisher": "인플루엔셜",
+          "publishDate": "2019-01-31",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791186560938",
+            "workTitle": "구글 스토리(The Google Story)",
+            "workCreator": "데이비드 A 바이스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "구글 스토리",
+          "creator": "데이비드 A 바이스, 마크 맬시드",
+          "description": "구글 창립 20주년 기념 완역판 『구글 스토리(The Google Story)』. 퓰리처상 수상 작가 데이비드 A. 바이스가 관습과 상식을 뛰어넘으며 인류의 미래를 새로 쓴 기업으로 우뚝 선 세계적 기업 구글의 살아 있는 역사를 한 권에 담아냈다. 구글의 공동 창업자 래리 페이지와 세르게이 브린, 전 CEO 에릭 슈미트를 포함한 구글의 핵심 인사 150여 명과의 인터뷰와 각종 비밀문서와 법정 자료 등 수천 페이지에 달하는 관련 자료를 수집·분석하는 등 치밀한 자료 조사를 바탕으로 재구성한 구글의 풀스토리를 만나볼 수 있다.\n\n래리 페이지와 세르게이 브린의 첫 만남과 창업 과정은 물론, CEO 에릭 슈미트를 영입한 에피소드, 280억 투자 제안을 거절한 사연, 구글이 처한 각종 법적 논란과 마이크로소프트와의 숨 막히는 경쟁까지 어디에도 볼 수 없던 구글 성장사의 주요 장면과 구글이 닷컴기업에서 시작해 생산 단계 돌입한 웨이모(Waymo)의 자율주행차나 알파고 쇼크를 안긴 딥마인드(Deepmind)의 인공지능 등, 디지털세계를 넘어 인공지능퍼스트 기업으로 진화하는 전 과정을 놓치지 않고 기록했다.",
+          "isbn": "9791186560938",
+          "publisher": "인플루엔셜",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4871330?timestamp=20230111145107",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29"
+          },
+          "verified": true,
+          "content_id": "a1816eae-5db7-57af-b079-b4d5ea39c357"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791186560938",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791186560938"
+      ],
+      "normalizedTitles": [
+        "구글스토리",
+        "구글스토리thegooglestory"
+      ],
+      "normalizedCreators": [
+        "데이비드a바이스",
+        "데이비드a바이스마크맬시드",
+        "마크맬시드",
+        "우병현역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:10:17.722Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "a1816eae-5db7-57af-b079-b4d5ea39c357",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791186560938",
+      "release_date": "2019-01-31",
+      "metadata": {
+        "isbn": "9791186560938",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+        "publisher": "인플루엔셜",
+        "figureBook": {
+          "workTitle": "구글 스토리(The Google Story)",
+          "workCreator": "데이비드 A 바이스",
+          "workIdentity": "book/9791186560938",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-01-31",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:10:13.301252+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "a1816eae-5db7-57af-b079-b4d5ea39c357",
+        "locale": "ko",
+        "title": "구글 스토리",
+        "creator": "데이비드 A 바이스, 마크 맬시드",
+        "description": "구글 창립 20주년 기념 완역판 『구글 스토리(The Google Story)』. 퓰리처상 수상 작가 데이비드 A. 바이스가 관습과 상식을 뛰어넘으며 인류의 미래를 새로 쓴 기업으로 우뚝 선 세계적 기업 구글의 살아 있는 역사를 한 권에 담아냈다. 구글의 공동 창업자 래리 페이지와 세르게이 브린, 전 CEO 에릭 슈미트를 포함한 구글의 핵심 인사 150여 명과의 인터뷰와 각종 비밀문서와 법정 자료 등 수천 페이지에 달하는 관련 자료를 수집·분석하는 등 치밀한 자료 조사를 바탕으로 재구성한 구글의 풀스토리를 만나볼 수 있다.\n\n래리 페이지와 세르게이 브린의 첫 만남과 창업 과정은 물론, CEO 에릭 슈미트를 영입한 에피소드, 280억 투자 제안을 거절한 사연, 구글이 처한 각종 법적 논란과 마이크로소프트와의 숨 막히는 경쟁까지 어디에도 볼 수 없던 구글 성장사의 주요 장면과 구글이 닷컴기업에서 시작해 생산 단계 돌입한 웨이모(Waymo)의 자율주행차나 알파고 쇼크를 안긴 딥마인드(Deepmind)의 인공지능 등, 디지털세계를 넘어 인공지능퍼스트 기업으로 진화하는 전 과정을 놓치지 않고 기록했다.",
+        "isbn": "9791186560938",
+        "publisher": "인플루엔셜",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4871330?timestamp=20230111145107",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4871330&q=%EA%B5%AC%EA%B8%80+%EC%8A%A4%ED%86%A0%EB%A6%AC%28The+Google+Story%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:10:13.301252+00:00",
+        "updated_at": "2026-09-04T18:10:13.301252+00:00"
+      }
+    ]
+  }
+}

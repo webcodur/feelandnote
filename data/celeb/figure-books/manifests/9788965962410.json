@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788965962410",
+    "title": "묵자가 필요한 시간",
+    "creator": "천웨이런",
+    "titleAliases": [],
+    "creatorAliases": [
+      "윤무학 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788965962410"
+  }
+}

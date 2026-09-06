@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791193690178.json",
+  "manifestSha256": "e8f9f28bc60e214b3b141cae006f1cdc1a7be808ea3a6e78e815cf43fe1a446e",
+  "planSha256": "a552e3b2349b18c450b1ba731e21b7ce05bdcc00d3b19548d2974209a9289beb",
+  "workIdentity": "book/9791193690178",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791193690178"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "32f61bd0-5fee-576a-a032-22355dfd9350",
+    "scopeKey": "book/9791193690178",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "32f61bd0-5fee-576a-a032-22355dfd9350",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791193690178",
+      "release_date": "2026-03-18",
+      "metadata": {
+        "isbn": "9791193690178",
+        "publisher": "히포크라테스",
+        "publishDate": "2026-03-18",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791193690178",
+          "workTitle": "뉘른베르크, 나치와 정신과 의사",
+          "workCreator": "잭 엘하이",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "뉘른베르크, 나치와 정신과 의사",
+          "creator": "잭 엘하이",
+          "description": "러셀 크로우, 라미 말렉 주연 영화 〈뉘른베르크〉의 원작 논픽션인 『뉘른베르크, 나치와 정신과 의사』는 악의 중심에 다가가려 했던 한 남자의 이야기다. 뉘른베르크 국제군사재판 준비가 한창이던 1945년 8월 미국의 정신과 의사이자 군의관 더글러스 맥글래션 켈리는 전범들이 재판을 치를 수 있도록 그들의 정신 상태를 유지하기 위해 파견된다. 군사적 임무와 별도로 켈리는 인류 역사상 최악의 범죄를 저지른 22명의 전범들에게서 공통된 정신적 결함을 찾고자 한다. 하지만 그들의 행위를 설명할 수 있는 어떤 일관된 악마적 면모도 찾아내지 못하고 충격적인 결론에 이른다. 오히려 켈리는 루프트바페 창설자이자 나치 독일의 이인자 헤르만 괴링의 압도적인 카리스마와 지적이면서도 사람을 사로잡는 매력에 빠져든다. 그리고 뉘른베르크 재판 이후 유명한 정신과 의사로 살아가던 켈리는 자신의 삶 속에 남아 있던 괴링의 흔적을 고스란히 재현하고 만다. 켈리가 발견한 것은 무엇이었을까? 악의 실체는 어떤 모습을 하고 있었을까?\n『뉘른베르크, 나치와 정신과 의사』 저자 잭 엘하이는 한나 아렌트가 훗날 '악의 평범성'을 제기하기에 앞서 '나치 정신'의 본질을 파헤치려 했던 더글러스 켈리의 뉘른베르크 재판 경험과 그 이후의 삶을 압도적인 사실감으로 재구성했다. 나치 독일 전범들의 모습을 한 편의 소설처럼 입체적으로 되살린 저자의 글쓰기는 읽는 이들을 온전히 뉘른베르크 재판의 현장 속으로 단숨에 끌어들인다. 책은 헤르만 괴링, 총통 대리 루돌프 헤스, 반유대 신문 《돌격수》 발행인 율리우스 슈트라이허, 동부 제국 장관 알프레트 로젠베르크 등 전범들의 면면을 집중적으로 그려 내어 독자들을 악의 실체 가까이로 이끈다. 이제 우리는 끔찍한 인종 학살의 범죄자이자 이기적 야심에 가득 차 세계를 전쟁의 소용돌이로 몰아넣은 나치 정신을 자세히 들여다보고 그 중심에 무엇이 있었는지 직접 확인하게 될 것이다.",
+          "isbn": "9791193690178",
+          "publisher": "히포크라테스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7171471?timestamp=20260313130239",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC"
+          },
+          "verified": true,
+          "content_id": "32f61bd0-5fee-576a-a032-22355dfd9350"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "32f61bd0-5fee-576a-a032-22355dfd9350",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791193690178",
+        "release_date": "2026-03-18",
+        "metadata": {
+          "isbn": "9791193690178",
+          "publisher": "히포크라테스",
+          "publishDate": "2026-03-18",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791193690178",
+            "workTitle": "뉘른베르크, 나치와 정신과 의사",
+            "workCreator": "잭 엘하이",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "뉘른베르크, 나치와 정신과 의사",
+          "creator": "잭 엘하이",
+          "description": "러셀 크로우, 라미 말렉 주연 영화 〈뉘른베르크〉의 원작 논픽션인 『뉘른베르크, 나치와 정신과 의사』는 악의 중심에 다가가려 했던 한 남자의 이야기다. 뉘른베르크 국제군사재판 준비가 한창이던 1945년 8월 미국의 정신과 의사이자 군의관 더글러스 맥글래션 켈리는 전범들이 재판을 치를 수 있도록 그들의 정신 상태를 유지하기 위해 파견된다. 군사적 임무와 별도로 켈리는 인류 역사상 최악의 범죄를 저지른 22명의 전범들에게서 공통된 정신적 결함을 찾고자 한다. 하지만 그들의 행위를 설명할 수 있는 어떤 일관된 악마적 면모도 찾아내지 못하고 충격적인 결론에 이른다. 오히려 켈리는 루프트바페 창설자이자 나치 독일의 이인자 헤르만 괴링의 압도적인 카리스마와 지적이면서도 사람을 사로잡는 매력에 빠져든다. 그리고 뉘른베르크 재판 이후 유명한 정신과 의사로 살아가던 켈리는 자신의 삶 속에 남아 있던 괴링의 흔적을 고스란히 재현하고 만다. 켈리가 발견한 것은 무엇이었을까? 악의 실체는 어떤 모습을 하고 있었을까?\n『뉘른베르크, 나치와 정신과 의사』 저자 잭 엘하이는 한나 아렌트가 훗날 '악의 평범성'을 제기하기에 앞서 '나치 정신'의 본질을 파헤치려 했던 더글러스 켈리의 뉘른베르크 재판 경험과 그 이후의 삶을 압도적인 사실감으로 재구성했다. 나치 독일 전범들의 모습을 한 편의 소설처럼 입체적으로 되살린 저자의 글쓰기는 읽는 이들을 온전히 뉘른베르크 재판의 현장 속으로 단숨에 끌어들인다. 책은 헤르만 괴링, 총통 대리 루돌프 헤스, 반유대 신문 《돌격수》 발행인 율리우스 슈트라이허, 동부 제국 장관 알프레트 로젠베르크 등 전범들의 면면을 집중적으로 그려 내어 독자들을 악의 실체 가까이로 이끈다. 이제 우리는 끔찍한 인종 학살의 범죄자이자 이기적 야심에 가득 차 세계를 전쟁의 소용돌이로 몰아넣은 나치 정신을 자세히 들여다보고 그 중심에 무엇이 있었는지 직접 확인하게 될 것이다.",
+          "isbn": "9791193690178",
+          "publisher": "히포크라테스",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7171471?timestamp=20260313130239",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC"
+          },
+          "verified": true,
+          "content_id": "32f61bd0-5fee-576a-a032-22355dfd9350"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791193690178",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791193690178"
+      ],
+      "normalizedTitles": [
+        "뉘른베르크나치와정신과의사"
+      ],
+      "normalizedCreators": [
+        "잭엘하이",
+        "채재용역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:15:37.712Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "32f61bd0-5fee-576a-a032-22355dfd9350",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791193690178",
+      "release_date": "2026-03-18",
+      "metadata": {
+        "isbn": "9791193690178",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+        "publisher": "히포크라테스",
+        "figureBook": {
+          "workTitle": "뉘른베르크, 나치와 정신과 의사",
+          "workCreator": "잭 엘하이",
+          "workIdentity": "book/9791193690178",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-03-18",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:15:29.074077+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "32f61bd0-5fee-576a-a032-22355dfd9350",
+        "locale": "ko",
+        "title": "뉘른베르크, 나치와 정신과 의사",
+        "creator": "잭 엘하이",
+        "description": "러셀 크로우, 라미 말렉 주연 영화 〈뉘른베르크〉의 원작 논픽션인 『뉘른베르크, 나치와 정신과 의사』는 악의 중심에 다가가려 했던 한 남자의 이야기다. 뉘른베르크 국제군사재판 준비가 한창이던 1945년 8월 미국의 정신과 의사이자 군의관 더글러스 맥글래션 켈리는 전범들이 재판을 치를 수 있도록 그들의 정신 상태를 유지하기 위해 파견된다. 군사적 임무와 별도로 켈리는 인류 역사상 최악의 범죄를 저지른 22명의 전범들에게서 공통된 정신적 결함을 찾고자 한다. 하지만 그들의 행위를 설명할 수 있는 어떤 일관된 악마적 면모도 찾아내지 못하고 충격적인 결론에 이른다. 오히려 켈리는 루프트바페 창설자이자 나치 독일의 이인자 헤르만 괴링의 압도적인 카리스마와 지적이면서도 사람을 사로잡는 매력에 빠져든다. 그리고 뉘른베르크 재판 이후 유명한 정신과 의사로 살아가던 켈리는 자신의 삶 속에 남아 있던 괴링의 흔적을 고스란히 재현하고 만다. 켈리가 발견한 것은 무엇이었을까? 악의 실체는 어떤 모습을 하고 있었을까?\n『뉘른베르크, 나치와 정신과 의사』 저자 잭 엘하이는 한나 아렌트가 훗날 '악의 평범성'을 제기하기에 앞서 '나치 정신'의 본질을 파헤치려 했던 더글러스 켈리의 뉘른베르크 재판 경험과 그 이후의 삶을 압도적인 사실감으로 재구성했다. 나치 독일 전범들의 모습을 한 편의 소설처럼 입체적으로 되살린 저자의 글쓰기는 읽는 이들을 온전히 뉘른베르크 재판의 현장 속으로 단숨에 끌어들인다. 책은 헤르만 괴링, 총통 대리 루돌프 헤스, 반유대 신문 《돌격수》 발행인 율리우스 슈트라이허, 동부 제국 장관 알프레트 로젠베르크 등 전범들의 면면을 집중적으로 그려 내어 독자들을 악의 실체 가까이로 이끈다. 이제 우리는 끔찍한 인종 학살의 범죄자이자 이기적 야심에 가득 차 세계를 전쟁의 소용돌이로 몰아넣은 나치 정신을 자세히 들여다보고 그 중심에 무엇이 있었는지 직접 확인하게 될 것이다.",
+        "isbn": "9791193690178",
+        "publisher": "히포크라테스",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7171471?timestamp=20260313130239",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7171471&q=%EB%89%98%EB%A5%B8%EB%B2%A0%EB%A5%B4%ED%81%AC%2C+%EB%82%98%EC%B9%98%EC%99%80+%EC%A0%95%EC%8B%A0%EA%B3%BC+%EC%9D%98%EC%82%AC"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:15:29.074077+00:00",
+        "updated_at": "2026-09-04T18:15:29.074077+00:00"
+      }
+    ]
+  }
+}

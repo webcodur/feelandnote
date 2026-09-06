@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791127488925",
+    "title": "이토 히로부미 평전",
+    "creator": "다키이 가즈히로",
+    "titleAliases": [],
+    "creatorAliases": [
+      "장원철 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791127488925"
+  }
+}

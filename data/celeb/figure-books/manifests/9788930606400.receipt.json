@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788930606400.json",
+  "manifestSha256": "2c62f612d78c3b911ba296667c733e2d0567dd0a446207b62a089f02caa17443",
+  "planSha256": "9a83c7a51f908a399d48eb9303b1233e613fad051c4225b4d75738ce2bcf9f4f",
+  "workIdentity": "book/9788930606400",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788930606400"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "51553bd6-6b60-5efc-9622-b0d0a86189fb",
+    "scopeKey": "book/9788930606400",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "51553bd6-6b60-5efc-9622-b0d0a86189fb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930606400",
+      "release_date": "2019-07-03",
+      "metadata": {
+        "isbn": "9788930606400",
+        "publisher": "서광사",
+        "publishDate": "2019-07-03",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788930606400",
+          "workTitle": "플라톤의 철학",
+          "workCreator": "크리스토퍼 J 로위",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "플라톤의 철학",
+          "creator": "크리스토퍼 J 로위",
+          "description": "이 책은 영국의 고전학자 크리스토퍼 제임스 로위(C.J. Rowe)가 집필한 『PLATO』 개정판을 번역한 것이다. 새로운 도시에서 길을 잃지 않으려면 지도가 필요한 것처럼 이 책은 플라톤의 저술에 나타난 견해를 전체적으로 살피며, 플라톤의 철학에 대한 기존 연구의 핵심 내용을 단순히 답습하지 않고, 꼼꼼히 검토하여 그 안에 담겨 있는 문제점을 지적하고 해결할 수 있는 방안을 제시하려 노력하고 있기에 저자가 스스로 자랑하는 것처럼 플라톤을 이해하기 위한 훌륭한 안내서가 되어 주리라 기대할 만하다.",
+          "isbn": "9788930606400",
+          "publisher": "서광사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4990029?timestamp=20221107222524",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99"
+          },
+          "verified": true,
+          "content_id": "51553bd6-6b60-5efc-9622-b0d0a86189fb"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "51553bd6-6b60-5efc-9622-b0d0a86189fb",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788930606400",
+        "release_date": "2019-07-03",
+        "metadata": {
+          "isbn": "9788930606400",
+          "publisher": "서광사",
+          "publishDate": "2019-07-03",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788930606400",
+            "workTitle": "플라톤의 철학",
+            "workCreator": "크리스토퍼 J 로위",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "플라톤의 철학",
+          "creator": "크리스토퍼 J 로위",
+          "description": "이 책은 영국의 고전학자 크리스토퍼 제임스 로위(C.J. Rowe)가 집필한 『PLATO』 개정판을 번역한 것이다. 새로운 도시에서 길을 잃지 않으려면 지도가 필요한 것처럼 이 책은 플라톤의 저술에 나타난 견해를 전체적으로 살피며, 플라톤의 철학에 대한 기존 연구의 핵심 내용을 단순히 답습하지 않고, 꼼꼼히 검토하여 그 안에 담겨 있는 문제점을 지적하고 해결할 수 있는 방안을 제시하려 노력하고 있기에 저자가 스스로 자랑하는 것처럼 플라톤을 이해하기 위한 훌륭한 안내서가 되어 주리라 기대할 만하다.",
+          "isbn": "9788930606400",
+          "publisher": "서광사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4990029?timestamp=20221107222524",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99"
+          },
+          "verified": true,
+          "content_id": "51553bd6-6b60-5efc-9622-b0d0a86189fb"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788930606400",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788930606400"
+      ],
+      "normalizedTitles": [
+        "플라톤의철학"
+      ],
+      "normalizedCreators": [
+        "유원기역",
+        "크리스토퍼j로위"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:38:17.083Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "51553bd6-6b60-5efc-9622-b0d0a86189fb",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788930606400",
+      "release_date": "2019-07-03",
+      "metadata": {
+        "isbn": "9788930606400",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+        "publisher": "서광사",
+        "figureBook": {
+          "workTitle": "플라톤의 철학",
+          "workCreator": "크리스토퍼 J 로위",
+          "workIdentity": "book/9788930606400",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2019-07-03",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:38:12.894055+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "51553bd6-6b60-5efc-9622-b0d0a86189fb",
+        "locale": "ko",
+        "title": "플라톤의 철학",
+        "creator": "크리스토퍼 J 로위",
+        "description": "이 책은 영국의 고전학자 크리스토퍼 제임스 로위(C.J. Rowe)가 집필한 『PLATO』 개정판을 번역한 것이다. 새로운 도시에서 길을 잃지 않으려면 지도가 필요한 것처럼 이 책은 플라톤의 저술에 나타난 견해를 전체적으로 살피며, 플라톤의 철학에 대한 기존 연구의 핵심 내용을 단순히 답습하지 않고, 꼼꼼히 검토하여 그 안에 담겨 있는 문제점을 지적하고 해결할 수 있는 방안을 제시하려 노력하고 있기에 저자가 스스로 자랑하는 것처럼 플라톤을 이해하기 위한 훌륭한 안내서가 되어 주리라 기대할 만하다.",
+        "isbn": "9788930606400",
+        "publisher": "서광사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4990029?timestamp=20221107222524",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4990029&q=%ED%94%8C%EB%9D%BC%ED%86%A4%EC%9D%98+%EC%B2%A0%ED%95%99"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:38:12.894055+00:00",
+        "updated_at": "2026-09-04T17:38:12.894055+00:00"
+      }
+    ]
+  }
+}

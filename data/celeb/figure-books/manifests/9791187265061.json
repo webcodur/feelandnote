@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791187265061",
+    "title": "런정페이, 경쟁의 지혜",
+    "creator": "장위",
+    "titleAliases": [],
+    "creatorAliases": [
+      "이호철 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791187265061"
+  }
+}

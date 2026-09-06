@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788952241573",
+    "title": "에드먼드 버크(양장본 HardCover)",
+    "creator": "제시 노먼",
+    "titleAliases": [
+      "에드먼드 버크"
+    ],
+    "creatorAliases": [
+      "홍지수 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788952241573"
+  }
+}

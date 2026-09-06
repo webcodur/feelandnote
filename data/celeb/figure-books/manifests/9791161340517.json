@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791161340517",
+    "title": "AI 마인드",
+    "creator": "마틴 포드",
+    "titleAliases": [],
+    "creatorAliases": [
+      "김대영 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791161340517"
+  }
+}

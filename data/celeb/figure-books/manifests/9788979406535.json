@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788979406535",
+    "title": "한나 아렌트 철학 전기",
+    "creator": "엘리자베스 영-브륄",
+    "titleAliases": [],
+    "creatorAliases": [
+      "홍원표 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788979406535"
+  }
+}

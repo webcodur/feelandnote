@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788959066919.json",
+  "manifestSha256": "c36928b90fa6c87b54d470453d6fe168d2798f1434d49dfb78ca835d0df0d7a3",
+  "planSha256": "c123e29aa20b21cc49d0975b47a609e0fc44c7026934542c4eb411feb1ebc2ad",
+  "workIdentity": "book/9788959066919",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788959066919"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "57b22e6c-1973-5218-9290-72d6bd478a09",
+    "scopeKey": "book/9788959066919",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "57b22e6c-1973-5218-9290-72d6bd478a09",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788959066919",
+      "release_date": "2023-05-12",
+      "metadata": {
+        "isbn": "9788959066919",
+        "publisher": "인물과사상사",
+        "publishDate": "2023-05-12",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788959066919",
+          "workTitle": "알베르트 아인슈타인",
+          "workCreator": "이종호",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "알베르트 아인슈타인",
+          "creator": "이종호",
+          "description": "알베르트 아인슈타인은 세기가 낳은 천재 과학자다. 그가 100년에 한 명 정도 나오는 천재로 꼽히는 이유는 인간의 현대 문명사에서 큰 역할을 했기 때문이다. 또한 인류 역사상 가장 폭넓게 현대 과학 문명의 한 장을 이끌었다는 데 있다. 아인슈타인의 업적을 단적으로 보여주는 이야기가 있다. 만약 아인슈타인이 2020년, 즉 140세까지 살았다면 노벨상을 여섯 개나 받았을 것으로 추정한다는 점이다. 노벨상은 사망한 사람에게는 수여하지 않는다. 아인슈타인은 살아생전 노벨상을 단 한 개밖에 받지 못했지만, 그의 이론은 사후에도 인류에게 지대한 영향을 미쳤다. 이 책은 아인슈타인의 파란만장한 생애와 주옥같은 이론, 자신의 꿈을 이루기 위한 아름다운 도전을 이야기한다.",
+          "isbn": "9788959066919",
+          "publisher": "인물과사상사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6345768?timestamp=20240731160329",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8"
+          },
+          "verified": true,
+          "content_id": "57b22e6c-1973-5218-9290-72d6bd478a09"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "57b22e6c-1973-5218-9290-72d6bd478a09",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788959066919",
+        "release_date": "2023-05-12",
+        "metadata": {
+          "isbn": "9788959066919",
+          "publisher": "인물과사상사",
+          "publishDate": "2023-05-12",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788959066919",
+            "workTitle": "알베르트 아인슈타인",
+            "workCreator": "이종호",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "알베르트 아인슈타인",
+          "creator": "이종호",
+          "description": "알베르트 아인슈타인은 세기가 낳은 천재 과학자다. 그가 100년에 한 명 정도 나오는 천재로 꼽히는 이유는 인간의 현대 문명사에서 큰 역할을 했기 때문이다. 또한 인류 역사상 가장 폭넓게 현대 과학 문명의 한 장을 이끌었다는 데 있다. 아인슈타인의 업적을 단적으로 보여주는 이야기가 있다. 만약 아인슈타인이 2020년, 즉 140세까지 살았다면 노벨상을 여섯 개나 받았을 것으로 추정한다는 점이다. 노벨상은 사망한 사람에게는 수여하지 않는다. 아인슈타인은 살아생전 노벨상을 단 한 개밖에 받지 못했지만, 그의 이론은 사후에도 인류에게 지대한 영향을 미쳤다. 이 책은 아인슈타인의 파란만장한 생애와 주옥같은 이론, 자신의 꿈을 이루기 위한 아름다운 도전을 이야기한다.",
+          "isbn": "9788959066919",
+          "publisher": "인물과사상사",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6345768?timestamp=20240731160329",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8"
+          },
+          "verified": true,
+          "content_id": "57b22e6c-1973-5218-9290-72d6bd478a09"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788959066919",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788959066919"
+      ],
+      "normalizedTitles": [
+        "알베르트아인슈타인"
+      ],
+      "normalizedCreators": [
+        "이종호"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:31:12.991Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "57b22e6c-1973-5218-9290-72d6bd478a09",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788959066919",
+      "release_date": "2023-05-12",
+      "metadata": {
+        "isbn": "9788959066919",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+        "publisher": "인물과사상사",
+        "figureBook": {
+          "workTitle": "알베르트 아인슈타인",
+          "workCreator": "이종호",
+          "workIdentity": "book/9788959066919",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-05-12",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:31:07.082662+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "57b22e6c-1973-5218-9290-72d6bd478a09",
+        "locale": "ko",
+        "title": "알베르트 아인슈타인",
+        "creator": "이종호",
+        "description": "알베르트 아인슈타인은 세기가 낳은 천재 과학자다. 그가 100년에 한 명 정도 나오는 천재로 꼽히는 이유는 인간의 현대 문명사에서 큰 역할을 했기 때문이다. 또한 인류 역사상 가장 폭넓게 현대 과학 문명의 한 장을 이끌었다는 데 있다. 아인슈타인의 업적을 단적으로 보여주는 이야기가 있다. 만약 아인슈타인이 2020년, 즉 140세까지 살았다면 노벨상을 여섯 개나 받았을 것으로 추정한다는 점이다. 노벨상은 사망한 사람에게는 수여하지 않는다. 아인슈타인은 살아생전 노벨상을 단 한 개밖에 받지 못했지만, 그의 이론은 사후에도 인류에게 지대한 영향을 미쳤다. 이 책은 아인슈타인의 파란만장한 생애와 주옥같은 이론, 자신의 꿈을 이루기 위한 아름다운 도전을 이야기한다.",
+        "isbn": "9788959066919",
+        "publisher": "인물과사상사",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6345768?timestamp=20240731160329",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6345768&q=%EC%95%8C%EB%B2%A0%EB%A5%B4%ED%8A%B8+%EC%95%84%EC%9D%B8%EC%8A%88%ED%83%80%EC%9D%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:31:07.082662+00:00",
+        "updated_at": "2026-09-06T02:31:07.082662+00:00"
+      }
+    ]
+  }
+}

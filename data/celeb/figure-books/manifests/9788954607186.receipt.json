@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954607186.json",
+  "manifestSha256": "a94335c88c395ea056da9bf39ffabbf0aa7756bc7044043444b8e26e187dca0a",
+  "planSha256": "2b540bfa9fa773973c2a38e3303d1624b997f91324914e839ae7a83553894306",
+  "workIdentity": "book/9788954607186",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954607186"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "dc19894e-86a5-5132-807e-8a079707cd65",
+    "scopeKey": "book/9788954607186",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "dc19894e-86a5-5132-807e-8a079707cd65",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954607186",
+      "release_date": "2008-12-03",
+      "metadata": {
+        "isbn": "9788954607186",
+        "publisher": "글항아리",
+        "publishDate": "2008-12-03",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954607186",
+          "workTitle": "라파엘로 정신의 힘(예술가의 삶과 진실 2)",
+          "workCreator": "프레드 베랑스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "라파엘로 정신의 힘",
+          "creator": "프레드 베랑스",
+          "description": "『라파엘로, 정신의 힘』. 프레드 베랑스의「라파엘로, 정신의 힘」, 앙드레 드 헤베시「레오나르도 다 빈치의 방랑」, 조반니 파피니의「미켈란젤로 부오나로티」는 유럽과 영미권을 합쳐 20세기 전기문학의 가장 독창적인 고전으로 손꼽힌다. 역사적 사실에 근거하면서도 미술사와 미학적 감성에 충실한 책들로 시대를 뛰어넘어 참신하게 다가온다.\n\n이 책들의 역자 정진국은 유럽의 책마을과 헌책방들을 구석구석 다니며 해당 분야에서 가장 뛰어나면서도 대중성을 확보하고 있는 이들을 발굴해 냈다. 그는 역사와 미학에 충실하면서도 글 자체가 매력적이며 잘 읽히는 것들로 선별해 냈다. 이들은 모두 이탈리어, 영어, 불어 등 다양한 언어로 번역되어 많은 이들에게 읽히고 있는 것들이다.\n\n14년이라는 긴 세월동안 집필된《라파엘로, 정신의 힘》은 세 권의 전기 가운데 가장 깊이 있는 인문학적 교양을 선사한다. 역사상 가장 복잡한 시기로 꼽혀지기 때문에 간혹 읽기 어려울 수 있으나 아름다운 문체를 통해 감동의 선물을 충분히 느낄 수 있다. 그의 일생을 추적하며 역사와 그의 심오한 미학을 쉽게 풀어낸다. 르네상스의 배경에 대한 해설도 풍부하며 고대 사상과 예술에 대한 이해도 얻을 수 있다.\n\n〈font color=\"ffb6c1\"〉 ☞ 〈/font〉 이런 점이 좋습니다!\n이번 르네상스 거장들의 전기에서 우리는 저자들의 면모를 엿볼 수 있다. 헤베시와 베랑스, 파피니 등 세기말에 태어나 거의 세기 중반까지 활동한 이들은 전기 작가로 당대에 명성을 떨린 인물들이었다. 이들의 방대한 역사 속 탐험은 우리로 하여금 고전 인물과의 만남을 더욱 생생하게 느낄 수 있게 안내한다.",
+          "isbn": "9788954607186",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/690129?timestamp=20221011175954",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29"
+          },
+          "verified": true,
+          "content_id": "dc19894e-86a5-5132-807e-8a079707cd65"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "dc19894e-86a5-5132-807e-8a079707cd65",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954607186",
+        "release_date": "2008-12-03",
+        "metadata": {
+          "isbn": "9788954607186",
+          "publisher": "글항아리",
+          "publishDate": "2008-12-03",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954607186",
+            "workTitle": "라파엘로 정신의 힘(예술가의 삶과 진실 2)",
+            "workCreator": "프레드 베랑스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "라파엘로 정신의 힘",
+          "creator": "프레드 베랑스",
+          "description": "『라파엘로, 정신의 힘』. 프레드 베랑스의「라파엘로, 정신의 힘」, 앙드레 드 헤베시「레오나르도 다 빈치의 방랑」, 조반니 파피니의「미켈란젤로 부오나로티」는 유럽과 영미권을 합쳐 20세기 전기문학의 가장 독창적인 고전으로 손꼽힌다. 역사적 사실에 근거하면서도 미술사와 미학적 감성에 충실한 책들로 시대를 뛰어넘어 참신하게 다가온다.\n\n이 책들의 역자 정진국은 유럽의 책마을과 헌책방들을 구석구석 다니며 해당 분야에서 가장 뛰어나면서도 대중성을 확보하고 있는 이들을 발굴해 냈다. 그는 역사와 미학에 충실하면서도 글 자체가 매력적이며 잘 읽히는 것들로 선별해 냈다. 이들은 모두 이탈리어, 영어, 불어 등 다양한 언어로 번역되어 많은 이들에게 읽히고 있는 것들이다.\n\n14년이라는 긴 세월동안 집필된《라파엘로, 정신의 힘》은 세 권의 전기 가운데 가장 깊이 있는 인문학적 교양을 선사한다. 역사상 가장 복잡한 시기로 꼽혀지기 때문에 간혹 읽기 어려울 수 있으나 아름다운 문체를 통해 감동의 선물을 충분히 느낄 수 있다. 그의 일생을 추적하며 역사와 그의 심오한 미학을 쉽게 풀어낸다. 르네상스의 배경에 대한 해설도 풍부하며 고대 사상과 예술에 대한 이해도 얻을 수 있다.\n\n〈font color=\"ffb6c1\"〉 ☞ 〈/font〉 이런 점이 좋습니다!\n이번 르네상스 거장들의 전기에서 우리는 저자들의 면모를 엿볼 수 있다. 헤베시와 베랑스, 파피니 등 세기말에 태어나 거의 세기 중반까지 활동한 이들은 전기 작가로 당대에 명성을 떨린 인물들이었다. 이들의 방대한 역사 속 탐험은 우리로 하여금 고전 인물과의 만남을 더욱 생생하게 느낄 수 있게 안내한다.",
+          "isbn": "9788954607186",
+          "publisher": "글항아리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/690129?timestamp=20221011175954",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29"
+          },
+          "verified": true,
+          "content_id": "dc19894e-86a5-5132-807e-8a079707cd65"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954607186",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954607186"
+      ],
+      "normalizedTitles": [
+        "라파엘로정신의힘",
+        "라파엘로정신의힘예술가의삶과진실2"
+      ],
+      "normalizedCreators": [
+        "정진국역",
+        "프레드베랑스"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:49:27.493Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "dc19894e-86a5-5132-807e-8a079707cd65",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954607186",
+      "release_date": "2008-12-03",
+      "metadata": {
+        "isbn": "9788954607186",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+        "publisher": "글항아리",
+        "figureBook": {
+          "workTitle": "라파엘로 정신의 힘(예술가의 삶과 진실 2)",
+          "workCreator": "프레드 베랑스",
+          "workIdentity": "book/9788954607186",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2008-12-03",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:49:19.591868+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "dc19894e-86a5-5132-807e-8a079707cd65",
+        "locale": "ko",
+        "title": "라파엘로 정신의 힘",
+        "creator": "프레드 베랑스",
+        "description": "『라파엘로, 정신의 힘』. 프레드 베랑스의「라파엘로, 정신의 힘」, 앙드레 드 헤베시「레오나르도 다 빈치의 방랑」, 조반니 파피니의「미켈란젤로 부오나로티」는 유럽과 영미권을 합쳐 20세기 전기문학의 가장 독창적인 고전으로 손꼽힌다. 역사적 사실에 근거하면서도 미술사와 미학적 감성에 충실한 책들로 시대를 뛰어넘어 참신하게 다가온다.\n\n이 책들의 역자 정진국은 유럽의 책마을과 헌책방들을 구석구석 다니며 해당 분야에서 가장 뛰어나면서도 대중성을 확보하고 있는 이들을 발굴해 냈다. 그는 역사와 미학에 충실하면서도 글 자체가 매력적이며 잘 읽히는 것들로 선별해 냈다. 이들은 모두 이탈리어, 영어, 불어 등 다양한 언어로 번역되어 많은 이들에게 읽히고 있는 것들이다.\n\n14년이라는 긴 세월동안 집필된《라파엘로, 정신의 힘》은 세 권의 전기 가운데 가장 깊이 있는 인문학적 교양을 선사한다. 역사상 가장 복잡한 시기로 꼽혀지기 때문에 간혹 읽기 어려울 수 있으나 아름다운 문체를 통해 감동의 선물을 충분히 느낄 수 있다. 그의 일생을 추적하며 역사와 그의 심오한 미학을 쉽게 풀어낸다. 르네상스의 배경에 대한 해설도 풍부하며 고대 사상과 예술에 대한 이해도 얻을 수 있다.\n\n〈font color=\"ffb6c1\"〉 ☞ 〈/font〉 이런 점이 좋습니다!\n이번 르네상스 거장들의 전기에서 우리는 저자들의 면모를 엿볼 수 있다. 헤베시와 베랑스, 파피니 등 세기말에 태어나 거의 세기 중반까지 활동한 이들은 전기 작가로 당대에 명성을 떨린 인물들이었다. 이들의 방대한 역사 속 탐험은 우리로 하여금 고전 인물과의 만남을 더욱 생생하게 느낄 수 있게 안내한다.",
+        "isbn": "9788954607186",
+        "publisher": "글항아리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/690129?timestamp=20221011175954",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=690129&q=%EB%9D%BC%ED%8C%8C%EC%97%98%EB%A1%9C+%EC%A0%95%EC%8B%A0%EC%9D%98+%ED%9E%98%28%EC%98%88%EC%88%A0%EA%B0%80%EC%9D%98+%EC%82%B6%EA%B3%BC+%EC%A7%84%EC%8B%A4+2%29"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:49:19.591868+00:00",
+        "updated_at": "2026-09-04T17:49:19.591868+00:00"
+      }
+    ]
+  }
+}

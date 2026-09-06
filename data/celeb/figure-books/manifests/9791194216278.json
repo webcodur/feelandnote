@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791194216278",
+    "title": "모두를 위한 루터",
+    "creator": "한스 슈바르츠",
+    "titleAliases": [],
+    "creatorAliases": [
+      "최주훈 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791194216278"
+  }
+}

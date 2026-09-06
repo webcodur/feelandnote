@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791165191511.json",
+  "manifestSha256": "e98bded88aab048b27c39d3d3a95110efbb939dade81b04f9bb2b976793ca670",
+  "planSha256": "7957a562a2449071f8e67cf4a46e9424fb668f688469ec0c3453189aa17f85ce",
+  "workIdentity": "book/9791165191511",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791165191511"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "465abf97-a8ca-52b9-be69-22655733f047",
+    "scopeKey": "book/9791165191511",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "465abf97-a8ca-52b9-be69-22655733f047",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791165191511",
+      "release_date": "2021-10-05",
+      "metadata": {
+        "isbn": "9791165191511",
+        "publisher": "박영스토리",
+        "publishDate": "2021-10-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791165191511",
+          "workTitle": "제갈량, 그와 다시 마주하다",
+          "workCreator": "류종민",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "제갈량, 그와 다시 마주하다",
+          "creator": "류종민",
+          "description": "중국의 24사4(二十四史)로도 인정받고 있는 『삼국지』의 가장 큰 특징은 기전체(紀傳體) 형식을 취하고 있다는 점입니다. 즉, 『삼국지』는 시간 순이 아니라 당시를 살았던 여러 인물들의 주요 행적을 열전(列傳) 형식으로 기록하고 있습니다. 『삼국지』의 또 다른 중요한 특징은 역사적 사건을 매우 실용적이고 현실적인 시각으로 해석하고 있다는 점입니다. 진수는 『삼국지』를 집필하면서 각 인물에 대한 자신의 평을 열전의 마지막 부분에 남겼는데, 특이한 것은 당시 중국사회를 지배하고 있던 패러다임이 유교(儒敎)적 가치관이었음에도 불구하고, 진수는 이에 기반하여 인물평을 남기지 않았다는 것입니다. 예를 들어, 군주를 여러 번 배신한 인물이 있다면, 진수는 그를 의리가 없었다는 이유로 무조건 깎아내리지 않습니다. 여러 번의 배신 끝에 스스로 몰락한 인물(예를 들면 여포)에 대해서는 “언행을 자주 바꾸고 눈앞의 이익만 �i다가 몰락을 자초했다”고 평하는 반면, 군주를 여러 번 바꾸었어도 비교적 평안한 삶을 산 인물(예를 들면 가후)이 있다면 “변화에 따르는 융통성이 있었다”고 평합니다. 또한, 중죄를 지어 죽임을 당한 사람이 있다면, 진수는 그 사람이 인의(人義)를 저버리거나 덕이 없어서 죽음을 자초했다고 평하지 않습니다. 그 사람의 성격이 성급했거나, 주변인과 화목하지 못했거나, 시기를 잘못 만나 운이 좋지 않았었다는 식으로 매우 현실적이고 구체적인 시각에서 사건의 원인을 해석합니다.\n남북조시대 유송(劉宋)의 황제였던 유의륭(劉義隆, 407~453년)도 인생을 살아가는데 필요한 현실적인 교훈을 얻기 위해 『삼국지』를 탐독했었다고 전해집니다. 그런데 그는 『삼국지』를 읽다가 교훈으로 삼을 내용이 매우 풍부함에도 불구하고, 그 문체와 사실의 나열이 너무나 간단한 것에 답답함을 느꼈다고 합니다. 이에 그는 배송지(裴松之, 372~451년)라는 문관에게 『삼국지』의 내용을 더 자세하게 보충하라고 지시하게 됩니다. 배송지는 이러한 황제의 명을 받들어 150여 개가 넘는 사서를 참고하여 『삼국지』에 주석(註釋)을 달아 내용을 보충했는데, 이를 보통 『배송지 주석본 삼국지』라고 부릅니다.",
+          "isbn": "9791165191511",
+          "publisher": "박영스토리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5855778?timestamp=20221011185628",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "465abf97-a8ca-52b9-be69-22655733f047"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "465abf97-a8ca-52b9-be69-22655733f047",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791165191511",
+        "release_date": "2021-10-05",
+        "metadata": {
+          "isbn": "9791165191511",
+          "publisher": "박영스토리",
+          "publishDate": "2021-10-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791165191511",
+            "workTitle": "제갈량, 그와 다시 마주하다",
+            "workCreator": "류종민",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "제갈량, 그와 다시 마주하다",
+          "creator": "류종민",
+          "description": "중국의 24사4(二十四史)로도 인정받고 있는 『삼국지』의 가장 큰 특징은 기전체(紀傳體) 형식을 취하고 있다는 점입니다. 즉, 『삼국지』는 시간 순이 아니라 당시를 살았던 여러 인물들의 주요 행적을 열전(列傳) 형식으로 기록하고 있습니다. 『삼국지』의 또 다른 중요한 특징은 역사적 사건을 매우 실용적이고 현실적인 시각으로 해석하고 있다는 점입니다. 진수는 『삼국지』를 집필하면서 각 인물에 대한 자신의 평을 열전의 마지막 부분에 남겼는데, 특이한 것은 당시 중국사회를 지배하고 있던 패러다임이 유교(儒敎)적 가치관이었음에도 불구하고, 진수는 이에 기반하여 인물평을 남기지 않았다는 것입니다. 예를 들어, 군주를 여러 번 배신한 인물이 있다면, 진수는 그를 의리가 없었다는 이유로 무조건 깎아내리지 않습니다. 여러 번의 배신 끝에 스스로 몰락한 인물(예를 들면 여포)에 대해서는 “언행을 자주 바꾸고 눈앞의 이익만 �i다가 몰락을 자초했다”고 평하는 반면, 군주를 여러 번 바꾸었어도 비교적 평안한 삶을 산 인물(예를 들면 가후)이 있다면 “변화에 따르는 융통성이 있었다”고 평합니다. 또한, 중죄를 지어 죽임을 당한 사람이 있다면, 진수는 그 사람이 인의(人義)를 저버리거나 덕이 없어서 죽음을 자초했다고 평하지 않습니다. 그 사람의 성격이 성급했거나, 주변인과 화목하지 못했거나, 시기를 잘못 만나 운이 좋지 않았었다는 식으로 매우 현실적이고 구체적인 시각에서 사건의 원인을 해석합니다.\n남북조시대 유송(劉宋)의 황제였던 유의륭(劉義隆, 407~453년)도 인생을 살아가는데 필요한 현실적인 교훈을 얻기 위해 『삼국지』를 탐독했었다고 전해집니다. 그런데 그는 『삼국지』를 읽다가 교훈으로 삼을 내용이 매우 풍부함에도 불구하고, 그 문체와 사실의 나열이 너무나 간단한 것에 답답함을 느꼈다고 합니다. 이에 그는 배송지(裴松之, 372~451년)라는 문관에게 『삼국지』의 내용을 더 자세하게 보충하라고 지시하게 됩니다. 배송지는 이러한 황제의 명을 받들어 150여 개가 넘는 사서를 참고하여 『삼국지』에 주석(註釋)을 달아 내용을 보충했는데, 이를 보통 『배송지 주석본 삼국지』라고 부릅니다.",
+          "isbn": "9791165191511",
+          "publisher": "박영스토리",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5855778?timestamp=20221011185628",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4"
+          },
+          "verified": true,
+          "content_id": "465abf97-a8ca-52b9-be69-22655733f047"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791165191511",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791165191511"
+      ],
+      "normalizedTitles": [
+        "제갈량그와다시마주하다"
+      ],
+      "normalizedCreators": [
+        "류종민"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T18:07:17.208Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "465abf97-a8ca-52b9-be69-22655733f047",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791165191511",
+      "release_date": "2021-10-05",
+      "metadata": {
+        "isbn": "9791165191511",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+        "publisher": "박영스토리",
+        "figureBook": {
+          "workTitle": "제갈량, 그와 다시 마주하다",
+          "workCreator": "류종민",
+          "workIdentity": "book/9791165191511",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2021-10-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T18:07:01.375538+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "465abf97-a8ca-52b9-be69-22655733f047",
+        "locale": "ko",
+        "title": "제갈량, 그와 다시 마주하다",
+        "creator": "류종민",
+        "description": "중국의 24사4(二十四史)로도 인정받고 있는 『삼국지』의 가장 큰 특징은 기전체(紀傳體) 형식을 취하고 있다는 점입니다. 즉, 『삼국지』는 시간 순이 아니라 당시를 살았던 여러 인물들의 주요 행적을 열전(列傳) 형식으로 기록하고 있습니다. 『삼국지』의 또 다른 중요한 특징은 역사적 사건을 매우 실용적이고 현실적인 시각으로 해석하고 있다는 점입니다. 진수는 『삼국지』를 집필하면서 각 인물에 대한 자신의 평을 열전의 마지막 부분에 남겼는데, 특이한 것은 당시 중국사회를 지배하고 있던 패러다임이 유교(儒敎)적 가치관이었음에도 불구하고, 진수는 이에 기반하여 인물평을 남기지 않았다는 것입니다. 예를 들어, 군주를 여러 번 배신한 인물이 있다면, 진수는 그를 의리가 없었다는 이유로 무조건 깎아내리지 않습니다. 여러 번의 배신 끝에 스스로 몰락한 인물(예를 들면 여포)에 대해서는 “언행을 자주 바꾸고 눈앞의 이익만 �i다가 몰락을 자초했다”고 평하는 반면, 군주를 여러 번 바꾸었어도 비교적 평안한 삶을 산 인물(예를 들면 가후)이 있다면 “변화에 따르는 융통성이 있었다”고 평합니다. 또한, 중죄를 지어 죽임을 당한 사람이 있다면, 진수는 그 사람이 인의(人義)를 저버리거나 덕이 없어서 죽음을 자초했다고 평하지 않습니다. 그 사람의 성격이 성급했거나, 주변인과 화목하지 못했거나, 시기를 잘못 만나 운이 좋지 않았었다는 식으로 매우 현실적이고 구체적인 시각에서 사건의 원인을 해석합니다.\n남북조시대 유송(劉宋)의 황제였던 유의륭(劉義隆, 407~453년)도 인생을 살아가는데 필요한 현실적인 교훈을 얻기 위해 『삼국지』를 탐독했었다고 전해집니다. 그런데 그는 『삼국지』를 읽다가 교훈으로 삼을 내용이 매우 풍부함에도 불구하고, 그 문체와 사실의 나열이 너무나 간단한 것에 답답함을 느꼈다고 합니다. 이에 그는 배송지(裴松之, 372~451년)라는 문관에게 『삼국지』의 내용을 더 자세하게 보충하라고 지시하게 됩니다. 배송지는 이러한 황제의 명을 받들어 150여 개가 넘는 사서를 참고하여 『삼국지』에 주석(註釋)을 달아 내용을 보충했는데, 이를 보통 『배송지 주석본 삼국지』라고 부릅니다.",
+        "isbn": "9791165191511",
+        "publisher": "박영스토리",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5855778?timestamp=20221011185628",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5855778&q=%EC%A0%9C%EA%B0%88%EB%9F%89%2C+%EA%B7%B8%EC%99%80+%EB%8B%A4%EC%8B%9C+%EB%A7%88%EC%A3%BC%ED%95%98%EB%8B%A4"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T18:07:01.375538+00:00",
+        "updated_at": "2026-09-04T18:07:01.375538+00:00"
+      }
+    ]
+  }
+}

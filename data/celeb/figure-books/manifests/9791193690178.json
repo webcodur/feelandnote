@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9791193690178",
+    "title": "뉘른베르크, 나치와 정신과 의사",
+    "creator": "잭 엘하이",
+    "titleAliases": [],
+    "creatorAliases": [
+      "채재용 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791193690178"
+  }
+}

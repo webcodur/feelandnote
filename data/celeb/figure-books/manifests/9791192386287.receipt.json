@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791192386287.json",
+  "manifestSha256": "e255863d4f6700c502e1b4325e6161efe9369a0a7f806fb31e83382b7eb6b546",
+  "planSha256": "68631649309bf7a3ebd6bf17b20b02aa30a747642e1347cd422961cffe42089e",
+  "workIdentity": "book/9791192386287",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791192386287"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "0026a3fa-680e-52d0-b09c-a58a5cacf3f0",
+    "scopeKey": "book/9791192386287",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "0026a3fa-680e-52d0-b09c-a58a5cacf3f0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192386287",
+      "release_date": "2024-08-12",
+      "metadata": {
+        "isbn": "9791192386287",
+        "publisher": "더봄",
+        "publishDate": "2024-08-12",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791192386287",
+          "workTitle": "장춘진인 서유기",
+          "workCreator": "왕역평",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "장춘진인 서유기",
+          "creator": "왕역평, 두효군",
+          "description": "중국 역사에서 저명한 도사들은 매우 많지만, 공적과 헌신의 면에서 볼 때 구처기 조사는 분명히 세 손가락 안에 꼽히는 인물이라고 할 수 있다. 그는 천하의 창생을 구하기 위해 74세의 고령에도 불구하고 3만 5천 리 길을 가서 칭기즈칸을 만났고, 무고한 생명을 죽여서는 안 된다고 설득하였다. 이러한 기백과 지혜는 아무도 따를 수 없는 것이다.\n\n물론 칭기즈칸을 연구하는 사람이나 구처기를 연구하는 사람 모두 많은 의문을 가지고 있기는 하다.\n일개 고령의 도사가 세상의 절반을 점령한 인물에게 어떻게 신임을 받을 수 있었을까?\n산동에서 아프가니스탄까지 직선거리는 겨우 몇 천 킬로미터인데, 왜 구처기는 먼 길을 돌고 돌아 갔을까?\n전진교가 칭기즈칸을 추살하라는 명령을 내렸다는 전설은 사실인가?\n《현풍경회록》에는 칭기즈칸과 구처기가 나눈 대화 중 어느 부분이 사라진 것일까?\n구처기를 따라 서행했던 제자는 21명인데, 왜 역사에는 18명만 기록되어 있는가?\n원나라 조정이 도읍으로 정한 연경(현재 북경)과 구처기는 어떤 관계가 있는가?\n왜 두 사람은 같은 해, 같은 달, 같은 날에 죽었는가?\n칭기즈칸의 묘지는 도대체 어디에 있는가?\n\n이제부터 봉화가 피어오르고 수많은 영웅들이 각축을 벌이던\n끝없이 펼쳐진 대초원, 황량한 고비사막, 대륙의 옛 전쟁터에서\n역사책의 기록과는 다른 칭기즈칸과 구처기 조사를 만나 보자.",
+          "isbn": "9791192386287",
+          "publisher": "더봄",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6706281?timestamp=20240821194151",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "0026a3fa-680e-52d0-b09c-a58a5cacf3f0"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "0026a3fa-680e-52d0-b09c-a58a5cacf3f0",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791192386287",
+        "release_date": "2024-08-12",
+        "metadata": {
+          "isbn": "9791192386287",
+          "publisher": "더봄",
+          "publishDate": "2024-08-12",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791192386287",
+            "workTitle": "장춘진인 서유기",
+            "workCreator": "왕역평",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "장춘진인 서유기",
+          "creator": "왕역평, 두효군",
+          "description": "중국 역사에서 저명한 도사들은 매우 많지만, 공적과 헌신의 면에서 볼 때 구처기 조사는 분명히 세 손가락 안에 꼽히는 인물이라고 할 수 있다. 그는 천하의 창생을 구하기 위해 74세의 고령에도 불구하고 3만 5천 리 길을 가서 칭기즈칸을 만났고, 무고한 생명을 죽여서는 안 된다고 설득하였다. 이러한 기백과 지혜는 아무도 따를 수 없는 것이다.\n\n물론 칭기즈칸을 연구하는 사람이나 구처기를 연구하는 사람 모두 많은 의문을 가지고 있기는 하다.\n일개 고령의 도사가 세상의 절반을 점령한 인물에게 어떻게 신임을 받을 수 있었을까?\n산동에서 아프가니스탄까지 직선거리는 겨우 몇 천 킬로미터인데, 왜 구처기는 먼 길을 돌고 돌아 갔을까?\n전진교가 칭기즈칸을 추살하라는 명령을 내렸다는 전설은 사실인가?\n《현풍경회록》에는 칭기즈칸과 구처기가 나눈 대화 중 어느 부분이 사라진 것일까?\n구처기를 따라 서행했던 제자는 21명인데, 왜 역사에는 18명만 기록되어 있는가?\n원나라 조정이 도읍으로 정한 연경(현재 북경)과 구처기는 어떤 관계가 있는가?\n왜 두 사람은 같은 해, 같은 달, 같은 날에 죽었는가?\n칭기즈칸의 묘지는 도대체 어디에 있는가?\n\n이제부터 봉화가 피어오르고 수많은 영웅들이 각축을 벌이던\n끝없이 펼쳐진 대초원, 황량한 고비사막, 대륙의 옛 전쟁터에서\n역사책의 기록과는 다른 칭기즈칸과 구처기 조사를 만나 보자.",
+          "isbn": "9791192386287",
+          "publisher": "더봄",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6706281?timestamp=20240821194151",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "0026a3fa-680e-52d0-b09c-a58a5cacf3f0"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791192386287",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791192386287"
+      ],
+      "normalizedTitles": [
+        "장춘진인서유기"
+      ],
+      "normalizedCreators": [
+        "두효군",
+        "왕역평",
+        "왕역평두효군",
+        "이화영역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:30:23.190Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "0026a3fa-680e-52d0-b09c-a58a5cacf3f0",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192386287",
+      "release_date": "2024-08-12",
+      "metadata": {
+        "isbn": "9791192386287",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+        "publisher": "더봄",
+        "figureBook": {
+          "workTitle": "장춘진인 서유기",
+          "workCreator": "왕역평",
+          "workIdentity": "book/9791192386287",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-08-12",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:30:17.115208+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "0026a3fa-680e-52d0-b09c-a58a5cacf3f0",
+        "locale": "ko",
+        "title": "장춘진인 서유기",
+        "creator": "왕역평, 두효군",
+        "description": "중국 역사에서 저명한 도사들은 매우 많지만, 공적과 헌신의 면에서 볼 때 구처기 조사는 분명히 세 손가락 안에 꼽히는 인물이라고 할 수 있다. 그는 천하의 창생을 구하기 위해 74세의 고령에도 불구하고 3만 5천 리 길을 가서 칭기즈칸을 만났고, 무고한 생명을 죽여서는 안 된다고 설득하였다. 이러한 기백과 지혜는 아무도 따를 수 없는 것이다.\n\n물론 칭기즈칸을 연구하는 사람이나 구처기를 연구하는 사람 모두 많은 의문을 가지고 있기는 하다.\n일개 고령의 도사가 세상의 절반을 점령한 인물에게 어떻게 신임을 받을 수 있었을까?\n산동에서 아프가니스탄까지 직선거리는 겨우 몇 천 킬로미터인데, 왜 구처기는 먼 길을 돌고 돌아 갔을까?\n전진교가 칭기즈칸을 추살하라는 명령을 내렸다는 전설은 사실인가?\n《현풍경회록》에는 칭기즈칸과 구처기가 나눈 대화 중 어느 부분이 사라진 것일까?\n구처기를 따라 서행했던 제자는 21명인데, 왜 역사에는 18명만 기록되어 있는가?\n원나라 조정이 도읍으로 정한 연경(현재 북경)과 구처기는 어떤 관계가 있는가?\n왜 두 사람은 같은 해, 같은 달, 같은 날에 죽었는가?\n칭기즈칸의 묘지는 도대체 어디에 있는가?\n\n이제부터 봉화가 피어오르고 수많은 영웅들이 각축을 벌이던\n끝없이 펼쳐진 대초원, 황량한 고비사막, 대륙의 옛 전쟁터에서\n역사책의 기록과는 다른 칭기즈칸과 구처기 조사를 만나 보자.",
+        "isbn": "9791192386287",
+        "publisher": "더봄",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6706281?timestamp=20240821194151",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6706281&q=%EC%9E%A5%EC%B6%98%EC%A7%84%EC%9D%B8+%EC%84%9C%EC%9C%A0%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:30:17.115208+00:00",
+        "updated_at": "2026-09-06T04:30:17.115208+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "work": {
+    "identity": "book/9791157848171",
+    "title": "샘 올트먼, 더 비전 2030",
+    "creator": "이재훈",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791157848171"
+  }
+}

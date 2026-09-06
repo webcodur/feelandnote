@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788960773004",
+    "title": "네트워크 속의 유령",
+    "creator": "케빈 미트닉",
+    "titleAliases": [],
+    "creatorAliases": [
+      "케빈 미트닉, 윌리엄 사이먼",
+      "차백만 (역)",
+      "윌리엄 사이먼"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788960773004"
+  }
+}

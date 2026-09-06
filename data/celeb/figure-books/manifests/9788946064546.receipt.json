@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788946064546.json",
+  "manifestSha256": "d1876ead6254b59998e10d7b1515a9270fe53fcfb70afe317a45d4c9ef952867",
+  "planSha256": "85345ed5a8c963e52d787b2a339df7360c81aa31f9030c601882ca0fbf7dbd4b",
+  "workIdentity": "book/9788946064546",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788946064546"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ed90d7d3-1398-5671-8d6b-a8a9710cee7c",
+    "scopeKey": "book/9788946064546",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ed90d7d3-1398-5671-8d6b-a8a9710cee7c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788946064546",
+      "release_date": "2018-03-06",
+      "metadata": {
+        "isbn": "9788946064546",
+        "publisher": "한울아카데미",
+        "publishDate": "2018-03-06",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788946064546",
+          "workTitle": "손문의 혁명",
+          "workCreator": "이승휘",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "손문의 혁명",
+          "creator": "이승휘",
+          "description": "‘원칙’과 ‘왜곡’ 사이를 오가며 전개된 손문의 혁명\n\n손문의 혁명은 중화혁명당 창당으로 시작된다. 1, 2차 혁명의 실패 원인을 혁명당과 혁명 과정의 부재라고 확신한 손문은 중화혁명당을 창당하고, ‘적극 무력’에 의한 통일이 핵심인 「혁명방략」을 혁명의 원칙으로 삼았다. 그러나 혁명 완수를 위해 반드시 걸어가야 할 길이라고 한 「혁명방략」은 ‘현실’과 ‘원칙’ 사이에서 굴절되고 왜곡되었다. 저자는 그러한 굴절과 왜곡으로부터 호법(護法), 오사사건에 대한 대응, 북벌, 혁명정부의 건립, 반직삼각동맹, 국공합작이라는 손문의 혁명이 이어졌다고 말한다.\n기존 연구의 문제점을 10여 년의 세월을 녹여 방대한 사료로 풀어낸 이 책은, 손문 혁명의 전 과정을 신화나 폄훼가 아닌 본연의 모습으로 되살려냈다.",
+          "isbn": "9788946064546",
+          "publisher": "한울아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4944766?timestamp=20221011091305",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85"
+          },
+          "verified": true,
+          "content_id": "ed90d7d3-1398-5671-8d6b-a8a9710cee7c"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ed90d7d3-1398-5671-8d6b-a8a9710cee7c",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788946064546",
+        "release_date": "2018-03-06",
+        "metadata": {
+          "isbn": "9788946064546",
+          "publisher": "한울아카데미",
+          "publishDate": "2018-03-06",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788946064546",
+            "workTitle": "손문의 혁명",
+            "workCreator": "이승휘",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "손문의 혁명",
+          "creator": "이승휘",
+          "description": "‘원칙’과 ‘왜곡’ 사이를 오가며 전개된 손문의 혁명\n\n손문의 혁명은 중화혁명당 창당으로 시작된다. 1, 2차 혁명의 실패 원인을 혁명당과 혁명 과정의 부재라고 확신한 손문은 중화혁명당을 창당하고, ‘적극 무력’에 의한 통일이 핵심인 「혁명방략」을 혁명의 원칙으로 삼았다. 그러나 혁명 완수를 위해 반드시 걸어가야 할 길이라고 한 「혁명방략」은 ‘현실’과 ‘원칙’ 사이에서 굴절되고 왜곡되었다. 저자는 그러한 굴절과 왜곡으로부터 호법(護法), 오사사건에 대한 대응, 북벌, 혁명정부의 건립, 반직삼각동맹, 국공합작이라는 손문의 혁명이 이어졌다고 말한다.\n기존 연구의 문제점을 10여 년의 세월을 녹여 방대한 사료로 풀어낸 이 책은, 손문 혁명의 전 과정을 신화나 폄훼가 아닌 본연의 모습으로 되살려냈다.",
+          "isbn": "9788946064546",
+          "publisher": "한울아카데미",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4944766?timestamp=20221011091305",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85"
+          },
+          "verified": true,
+          "content_id": "ed90d7d3-1398-5671-8d6b-a8a9710cee7c"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788946064546",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788946064546"
+      ],
+      "normalizedTitles": [
+        "손문의혁명"
+      ],
+      "normalizedCreators": [
+        "이승휘"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:43:34.205Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ed90d7d3-1398-5671-8d6b-a8a9710cee7c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788946064546",
+      "release_date": "2018-03-06",
+      "metadata": {
+        "isbn": "9788946064546",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+        "publisher": "한울아카데미",
+        "figureBook": {
+          "workTitle": "손문의 혁명",
+          "workCreator": "이승휘",
+          "workIdentity": "book/9788946064546",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2018-03-06",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:43:30.381441+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ed90d7d3-1398-5671-8d6b-a8a9710cee7c",
+        "locale": "ko",
+        "title": "손문의 혁명",
+        "creator": "이승휘",
+        "description": "‘원칙’과 ‘왜곡’ 사이를 오가며 전개된 손문의 혁명\n\n손문의 혁명은 중화혁명당 창당으로 시작된다. 1, 2차 혁명의 실패 원인을 혁명당과 혁명 과정의 부재라고 확신한 손문은 중화혁명당을 창당하고, ‘적극 무력’에 의한 통일이 핵심인 「혁명방략」을 혁명의 원칙으로 삼았다. 그러나 혁명 완수를 위해 반드시 걸어가야 할 길이라고 한 「혁명방략」은 ‘현실’과 ‘원칙’ 사이에서 굴절되고 왜곡되었다. 저자는 그러한 굴절과 왜곡으로부터 호법(護法), 오사사건에 대한 대응, 북벌, 혁명정부의 건립, 반직삼각동맹, 국공합작이라는 손문의 혁명이 이어졌다고 말한다.\n기존 연구의 문제점을 10여 년의 세월을 녹여 방대한 사료로 풀어낸 이 책은, 손문 혁명의 전 과정을 신화나 폄훼가 아닌 본연의 모습으로 되살려냈다.",
+        "isbn": "9788946064546",
+        "publisher": "한울아카데미",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/4944766?timestamp=20221011091305",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=4944766&q=%EC%86%90%EB%AC%B8%EC%9D%98+%ED%98%81%EB%AA%85"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:43:30.381441+00:00",
+        "updated_at": "2026-09-04T17:43:30.381441+00:00"
+      }
+    ]
+  }
+}

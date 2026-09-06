@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791124038451.json",
+  "manifestSha256": "c4d560d88158b6bc17ab6c9d5d6a526a146e6ec5ccb6b1056718e0d2f12f1ce1",
+  "planSha256": "10bb3fe2da21d6d12bea80e2b2c0939fb3ab2e64ff0de5e0cf70e0590c3b635a",
+  "workIdentity": "book/9791124038451",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791124038451"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "ceea82cc-5f00-5ee8-b882-dcadea3d04e4",
+    "scopeKey": "book/9791124038451",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "ceea82cc-5f00-5ee8-b882-dcadea3d04e4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791124038451",
+      "release_date": "2026-05-11",
+      "metadata": {
+        "isbn": "9791124038451",
+        "publisher": "북플레저",
+        "publishDate": "2026-05-11",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791124038451",
+          "workTitle": "미스터 나카모토: 비트코인의 창시자",
+          "workCreator": "벤저민 월리스",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "미스터 나카모토: 비트코인의 창시자",
+          "creator": "벤저민 월리스",
+          "description": "2008년 10월, 전 세계 금융의 판도를 영원히 뒤바꿔놓은 암호화폐 '비트코인'이 세상에 등장했다. 그리고 그 혁명의 중심에는 추정 재산 150조 원을 보유하고도 국적, 성별, 나이 등 모든 것이 완벽하게 베일에 싸인 창시자 '사토시 나카모토'가 있다.\n《미스터 나카모토》는 21세기 가장 큰 미스터리이자 논쟁적인 사건을 풀기 위해, 무려 15년 동안 그를 집요하게 추적한 숨 막히는 기록이다. 저자 벤저민 월리스는 사토시 나카모토가 남긴 이메일과 소스 코드 등 미세한 흔적들을 긁어모아 마침내 거대한 퍼즐을 완성해 냈다. 방대한 취재를 바탕으로 천재적인 개발자의 발자취를 쫓는 동시에, 비트코인이 현대 세계에 끼친 문화적이고 금융적인 파장을 깊이 있게 탐구한다. 전 세계 11개국에 판권이 판매되며 출간 전부터 뜨거운 화제를 모은 이 책은, 독자들을 단숨에 비트코인의 심장부로 안내할 압도적인 논픽션이다.",
+          "isbn": "9791124038451",
+          "publisher": "북플레저",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7218234?timestamp=20260514122647",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90"
+          },
+          "verified": true,
+          "content_id": "ceea82cc-5f00-5ee8-b882-dcadea3d04e4"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "ceea82cc-5f00-5ee8-b882-dcadea3d04e4",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791124038451",
+        "release_date": "2026-05-11",
+        "metadata": {
+          "isbn": "9791124038451",
+          "publisher": "북플레저",
+          "publishDate": "2026-05-11",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791124038451",
+            "workTitle": "미스터 나카모토: 비트코인의 창시자",
+            "workCreator": "벤저민 월리스",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "미스터 나카모토: 비트코인의 창시자",
+          "creator": "벤저민 월리스",
+          "description": "2008년 10월, 전 세계 금융의 판도를 영원히 뒤바꿔놓은 암호화폐 '비트코인'이 세상에 등장했다. 그리고 그 혁명의 중심에는 추정 재산 150조 원을 보유하고도 국적, 성별, 나이 등 모든 것이 완벽하게 베일에 싸인 창시자 '사토시 나카모토'가 있다.\n《미스터 나카모토》는 21세기 가장 큰 미스터리이자 논쟁적인 사건을 풀기 위해, 무려 15년 동안 그를 집요하게 추적한 숨 막히는 기록이다. 저자 벤저민 월리스는 사토시 나카모토가 남긴 이메일과 소스 코드 등 미세한 흔적들을 긁어모아 마침내 거대한 퍼즐을 완성해 냈다. 방대한 취재를 바탕으로 천재적인 개발자의 발자취를 쫓는 동시에, 비트코인이 현대 세계에 끼친 문화적이고 금융적인 파장을 깊이 있게 탐구한다. 전 세계 11개국에 판권이 판매되며 출간 전부터 뜨거운 화제를 모은 이 책은, 독자들을 단숨에 비트코인의 심장부로 안내할 압도적인 논픽션이다.",
+          "isbn": "9791124038451",
+          "publisher": "북플레저",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7218234?timestamp=20260514122647",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90"
+          },
+          "verified": true,
+          "content_id": "ceea82cc-5f00-5ee8-b882-dcadea3d04e4"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791124038451",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791124038451"
+      ],
+      "normalizedTitles": [
+        "미스터나카모토",
+        "미스터나카모토비트코인의창시자"
+      ],
+      "normalizedCreators": [
+        "벤저민월리스",
+        "이재득역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:59:47.349Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "ceea82cc-5f00-5ee8-b882-dcadea3d04e4",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791124038451",
+      "release_date": "2026-05-11",
+      "metadata": {
+        "isbn": "9791124038451",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+        "publisher": "북플레저",
+        "figureBook": {
+          "workTitle": "미스터 나카모토: 비트코인의 창시자",
+          "workCreator": "벤저민 월리스",
+          "workIdentity": "book/9791124038451",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2026-05-11",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:59:36.375404+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "ceea82cc-5f00-5ee8-b882-dcadea3d04e4",
+        "locale": "ko",
+        "title": "미스터 나카모토: 비트코인의 창시자",
+        "creator": "벤저민 월리스",
+        "description": "2008년 10월, 전 세계 금융의 판도를 영원히 뒤바꿔놓은 암호화폐 '비트코인'이 세상에 등장했다. 그리고 그 혁명의 중심에는 추정 재산 150조 원을 보유하고도 국적, 성별, 나이 등 모든 것이 완벽하게 베일에 싸인 창시자 '사토시 나카모토'가 있다.\n《미스터 나카모토》는 21세기 가장 큰 미스터리이자 논쟁적인 사건을 풀기 위해, 무려 15년 동안 그를 집요하게 추적한 숨 막히는 기록이다. 저자 벤저민 월리스는 사토시 나카모토가 남긴 이메일과 소스 코드 등 미세한 흔적들을 긁어모아 마침내 거대한 퍼즐을 완성해 냈다. 방대한 취재를 바탕으로 천재적인 개발자의 발자취를 쫓는 동시에, 비트코인이 현대 세계에 끼친 문화적이고 금융적인 파장을 깊이 있게 탐구한다. 전 세계 11개국에 판권이 판매되며 출간 전부터 뜨거운 화제를 모은 이 책은, 독자들을 단숨에 비트코인의 심장부로 안내할 압도적인 논픽션이다.",
+        "isbn": "9791124038451",
+        "publisher": "북플레저",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7218234?timestamp=20260514122647",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7218234&q=%EB%AF%B8%EC%8A%A4%ED%84%B0+%EB%82%98%EC%B9%B4%EB%AA%A8%ED%86%A0%3A+%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8%EC%9D%98+%EC%B0%BD%EC%8B%9C%EC%9E%90"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:59:36.375404+00:00",
+        "updated_at": "2026-09-04T17:59:36.375404+00:00"
+      }
+    ]
+  }
+}

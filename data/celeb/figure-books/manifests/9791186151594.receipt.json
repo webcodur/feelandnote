@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791186151594.json",
+  "manifestSha256": "a02e3ca99608999be563aedc4067317ba53d7b363b81ae163fa6b706fa7779b9",
+  "planSha256": "2b8ee4c0a5f5fb1285ac7f97ff3511510dcf3498cdf0c909dd0d22372a9faf3b",
+  "workIdentity": "book/9791186151594",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791186151594"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+    "scopeKey": "book/9791186151594",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791186151594",
+      "release_date": "2023-05-10",
+      "metadata": {
+        "isbn": "9791186151594",
+        "publisher": "리텍콘텐츠",
+        "publishDate": "2023-05-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791186151594",
+          "workTitle": "실리콘밸리 천재들의 생각 아포리즘",
+          "workCreator": "김태현",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "실리콘밸리 천재들의 생각 아포리즘",
+          "creator": "김태현",
+          "description": "0에서 1을 만드는 생각의 탄생\n\n이 책은 저자가 그동안 수많은 실리콘밸리 천재들에 관한 책을 읽으며 끊임없이 요약해서 메모해둔 문장들을 모아 집필한 아포리즘(aphorism) 시리즈의 한 작품입니다. 저자는 각자 흩어져 있으면 그저 짧은 문장일 뿐이지만 분류하여 모아놓으면 한 권의 책이 되는 아포리즘의 마법을 이용하여 그동안 굉장한 영감을 주었던 실리콘밸리 천재들의 생각과 엄청난 통찰을 주었던 천재적인 발상법에 대해서 써 내려갔습니다.\n\n사실 유명한 실리콘밸리 천재들에 관한 책은 전 세계적으로 수천 종은 될 것입니다. 하지만 이것은 번역과 각색을 통해 작가에 의해 정제되었기에 진짜 오리지널 창작자의 생각이 아닐 수 있습니다. 저자가 이 책을 집필한 이유도 실리콘밸리 천재들의 생각을 작자들에 의해 한번 걸러진 형태가 아닌 원문 그대로 읽어보고 실제적인 그들의 생각을 독자들이 깊게 이해하고 사유하기를 바랐기 때문입니다.\n\n이러한 과정을 통해 비즈니스를 하는 회사원이라면 비즈니스에 대한 통찰을, 일반인이라면 이 책을 통해 AI가 핵심이 될 미래에 대해 사유하고 대비할 수 있습니다. 그 이유는 실리콘밸리 천재들의 창조적인 생각에서부터 미래 인류의 문화와 생활 방식의 강력한 변화가 시작되기 때문입니다. 지금 이 책을 통해 애플의 스티브 잡스부터 챗 GPT를 만든 Open AI의 샘 알트만까지 실리콘밸리 천재들의 사고방식을 배워보시길 바랍니다.\n\n각 단락은 실리콘밸리 천재들이 회사를 만들게 된 탄생의 모티브와 다양한 창조적 아이디어들을 제공하고 있습니다. 당신이 찾고자 하는 사소한 문제의 해결법은 물론 사고방식을 변화시키고 삶을 뒤바꿀 어떤 비법이 이 책에 분명히 담겨 있을 거라고 저자는 자신합니다.",
+          "isbn": "9791186151594",
+          "publisher": "리텍콘텐츠",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6333362?timestamp=20260207150331",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98"
+          },
+          "verified": true,
+          "content_id": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791186151594",
+        "release_date": "2023-05-10",
+        "metadata": {
+          "isbn": "9791186151594",
+          "publisher": "리텍콘텐츠",
+          "publishDate": "2023-05-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791186151594",
+            "workTitle": "실리콘밸리 천재들의 생각 아포리즘",
+            "workCreator": "김태현",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "실리콘밸리 천재들의 생각 아포리즘",
+          "creator": "김태현",
+          "description": "0에서 1을 만드는 생각의 탄생\n\n이 책은 저자가 그동안 수많은 실리콘밸리 천재들에 관한 책을 읽으며 끊임없이 요약해서 메모해둔 문장들을 모아 집필한 아포리즘(aphorism) 시리즈의 한 작품입니다. 저자는 각자 흩어져 있으면 그저 짧은 문장일 뿐이지만 분류하여 모아놓으면 한 권의 책이 되는 아포리즘의 마법을 이용하여 그동안 굉장한 영감을 주었던 실리콘밸리 천재들의 생각과 엄청난 통찰을 주었던 천재적인 발상법에 대해서 써 내려갔습니다.\n\n사실 유명한 실리콘밸리 천재들에 관한 책은 전 세계적으로 수천 종은 될 것입니다. 하지만 이것은 번역과 각색을 통해 작가에 의해 정제되었기에 진짜 오리지널 창작자의 생각이 아닐 수 있습니다. 저자가 이 책을 집필한 이유도 실리콘밸리 천재들의 생각을 작자들에 의해 한번 걸러진 형태가 아닌 원문 그대로 읽어보고 실제적인 그들의 생각을 독자들이 깊게 이해하고 사유하기를 바랐기 때문입니다.\n\n이러한 과정을 통해 비즈니스를 하는 회사원이라면 비즈니스에 대한 통찰을, 일반인이라면 이 책을 통해 AI가 핵심이 될 미래에 대해 사유하고 대비할 수 있습니다. 그 이유는 실리콘밸리 천재들의 창조적인 생각에서부터 미래 인류의 문화와 생활 방식의 강력한 변화가 시작되기 때문입니다. 지금 이 책을 통해 애플의 스티브 잡스부터 챗 GPT를 만든 Open AI의 샘 알트만까지 실리콘밸리 천재들의 사고방식을 배워보시길 바랍니다.\n\n각 단락은 실리콘밸리 천재들이 회사를 만들게 된 탄생의 모티브와 다양한 창조적 아이디어들을 제공하고 있습니다. 당신이 찾고자 하는 사소한 문제의 해결법은 물론 사고방식을 변화시키고 삶을 뒤바꿀 어떤 비법이 이 책에 분명히 담겨 있을 거라고 저자는 자신합니다.",
+          "isbn": "9791186151594",
+          "publisher": "리텍콘텐츠",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6333362?timestamp=20260207150331",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98"
+          },
+          "verified": true,
+          "content_id": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791186151594",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791186151594"
+      ],
+      "normalizedTitles": [
+        "실리콘밸리천재들의생각아포리즘"
+      ],
+      "normalizedCreators": [
+        "김태현"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:24:51.951Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791186151594",
+      "release_date": "2023-05-10",
+      "metadata": {
+        "isbn": "9791186151594",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+        "publisher": "리텍콘텐츠",
+        "figureBook": {
+          "workTitle": "실리콘밸리 천재들의 생각 아포리즘",
+          "workCreator": "김태현",
+          "workIdentity": "book/9791186151594",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2023-05-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:24:42.694206+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "4f17ebc9-3b46-5c04-858d-06ecb6b93d30",
+        "locale": "ko",
+        "title": "실리콘밸리 천재들의 생각 아포리즘",
+        "creator": "김태현",
+        "description": "0에서 1을 만드는 생각의 탄생\n\n이 책은 저자가 그동안 수많은 실리콘밸리 천재들에 관한 책을 읽으며 끊임없이 요약해서 메모해둔 문장들을 모아 집필한 아포리즘(aphorism) 시리즈의 한 작품입니다. 저자는 각자 흩어져 있으면 그저 짧은 문장일 뿐이지만 분류하여 모아놓으면 한 권의 책이 되는 아포리즘의 마법을 이용하여 그동안 굉장한 영감을 주었던 실리콘밸리 천재들의 생각과 엄청난 통찰을 주었던 천재적인 발상법에 대해서 써 내려갔습니다.\n\n사실 유명한 실리콘밸리 천재들에 관한 책은 전 세계적으로 수천 종은 될 것입니다. 하지만 이것은 번역과 각색을 통해 작가에 의해 정제되었기에 진짜 오리지널 창작자의 생각이 아닐 수 있습니다. 저자가 이 책을 집필한 이유도 실리콘밸리 천재들의 생각을 작자들에 의해 한번 걸러진 형태가 아닌 원문 그대로 읽어보고 실제적인 그들의 생각을 독자들이 깊게 이해하고 사유하기를 바랐기 때문입니다.\n\n이러한 과정을 통해 비즈니스를 하는 회사원이라면 비즈니스에 대한 통찰을, 일반인이라면 이 책을 통해 AI가 핵심이 될 미래에 대해 사유하고 대비할 수 있습니다. 그 이유는 실리콘밸리 천재들의 창조적인 생각에서부터 미래 인류의 문화와 생활 방식의 강력한 변화가 시작되기 때문입니다. 지금 이 책을 통해 애플의 스티브 잡스부터 챗 GPT를 만든 Open AI의 샘 알트만까지 실리콘밸리 천재들의 사고방식을 배워보시길 바랍니다.\n\n각 단락은 실리콘밸리 천재들이 회사를 만들게 된 탄생의 모티브와 다양한 창조적 아이디어들을 제공하고 있습니다. 당신이 찾고자 하는 사소한 문제의 해결법은 물론 사고방식을 변화시키고 삶을 뒤바꿀 어떤 비법이 이 책에 분명히 담겨 있을 거라고 저자는 자신합니다.",
+        "isbn": "9791186151594",
+        "publisher": "리텍콘텐츠",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6333362?timestamp=20260207150331",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6333362&q=%EC%8B%A4%EB%A6%AC%EC%BD%98%EB%B0%B8%EB%A6%AC+%EC%B2%9C%EC%9E%AC%EB%93%A4%EC%9D%98+%EC%83%9D%EA%B0%81+%EC%95%84%ED%8F%AC%EB%A6%AC%EC%A6%98"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:24:42.694206+00:00",
+        "updated_at": "2026-09-06T04:24:42.694206+00:00"
+      }
+    ]
+  }
+}

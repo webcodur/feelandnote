@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9788954408400.json",
+  "manifestSha256": "29e314cc981f45a942cf7bc6c2b65415fe62cf025dda948ba0536a4c2955e9ad",
+  "planSha256": "2e41a4acbdc73cfde81ec187acbb7b1cb9b9d71833b798c0ae12616e212a01ac",
+  "workIdentity": "book/9788954408400",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788954408400"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "472c9d1e-8ee3-5a41-b8c4-58d8fea57c00",
+    "scopeKey": "book/9788954408400",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "472c9d1e-8ee3-5a41-b8c4-58d8fea57c00",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954408400",
+      "release_date": "2008-12-26",
+      "metadata": {
+        "isbn": "9788954408400",
+        "publisher": "자음과모음",
+        "publishDate": "2008-12-26",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9788954408400",
+          "workTitle": "칼 포퍼가 들려주는 열린사회 이야기",
+          "workCreator": "이한구",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "칼 포퍼가 들려주는 열린사회 이야기",
+          "creator": "이한구",
+          "description": "동화처럼 쉽게 읽을 수 있는 철학 인문서『철학자가 들려주는 철학 이야기』시리즈 제99권 ≪칼 포퍼가 들려주는 열린사회 이야기≫. 이 시리즈는 자칫 어렵게만 생각될 수 있는 철학을 동화로 재구성해 쉽게 이해하고 접할 수 있도록 도와줍니다. 한 철학자의 핵심 사상을 간략하면서도 심도 있게 정리하여, 우리의 현실적 삶에서 제기될 수 있는 근본적인 철학적 문제들과 연결시키고 그 해답을 찾아갑니다.",
+          "isbn": "9788954408400",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/687425?timestamp=20250218113251",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "472c9d1e-8ee3-5a41-b8c4-58d8fea57c00"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "472c9d1e-8ee3-5a41-b8c4-58d8fea57c00",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788954408400",
+        "release_date": "2008-12-26",
+        "metadata": {
+          "isbn": "9788954408400",
+          "publisher": "자음과모음",
+          "publishDate": "2008-12-26",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9788954408400",
+            "workTitle": "칼 포퍼가 들려주는 열린사회 이야기",
+            "workCreator": "이한구",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "칼 포퍼가 들려주는 열린사회 이야기",
+          "creator": "이한구",
+          "description": "동화처럼 쉽게 읽을 수 있는 철학 인문서『철학자가 들려주는 철학 이야기』시리즈 제99권 ≪칼 포퍼가 들려주는 열린사회 이야기≫. 이 시리즈는 자칫 어렵게만 생각될 수 있는 철학을 동화로 재구성해 쉽게 이해하고 접할 수 있도록 도와줍니다. 한 철학자의 핵심 사상을 간략하면서도 심도 있게 정리하여, 우리의 현실적 삶에서 제기될 수 있는 근본적인 철학적 문제들과 연결시키고 그 해답을 찾아갑니다.",
+          "isbn": "9788954408400",
+          "publisher": "자음과모음",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/687425?timestamp=20250218113251",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "472c9d1e-8ee3-5a41-b8c4-58d8fea57c00"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9788954408400",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788954408400"
+      ],
+      "normalizedTitles": [
+        "칼포퍼가들려주는열린사회이야기"
+      ],
+      "normalizedCreators": [
+        "이한구"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T17:47:39.388Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "472c9d1e-8ee3-5a41-b8c4-58d8fea57c00",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788954408400",
+      "release_date": "2008-12-26",
+      "metadata": {
+        "isbn": "9788954408400",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "자음과모음",
+        "figureBook": {
+          "workTitle": "칼 포퍼가 들려주는 열린사회 이야기",
+          "workCreator": "이한구",
+          "workIdentity": "book/9788954408400",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2008-12-26",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T17:47:36.778008+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "472c9d1e-8ee3-5a41-b8c4-58d8fea57c00",
+        "locale": "ko",
+        "title": "칼 포퍼가 들려주는 열린사회 이야기",
+        "creator": "이한구",
+        "description": "동화처럼 쉽게 읽을 수 있는 철학 인문서『철학자가 들려주는 철학 이야기』시리즈 제99권 ≪칼 포퍼가 들려주는 열린사회 이야기≫. 이 시리즈는 자칫 어렵게만 생각될 수 있는 철학을 동화로 재구성해 쉽게 이해하고 접할 수 있도록 도와줍니다. 한 철학자의 핵심 사상을 간략하면서도 심도 있게 정리하여, 우리의 현실적 삶에서 제기될 수 있는 근본적인 철학적 문제들과 연결시키고 그 해답을 찾아갑니다.",
+        "isbn": "9788954408400",
+        "publisher": "자음과모음",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/687425?timestamp=20250218113251",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=687425&q=%EC%B9%BC+%ED%8F%AC%ED%8D%BC%EA%B0%80+%EB%93%A4%EB%A0%A4%EC%A3%BC%EB%8A%94+%EC%97%B4%EB%A6%B0%EC%82%AC%ED%9A%8C+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T17:47:36.778008+00:00",
+        "updated_at": "2026-09-04T17:47:36.778008+00:00"
+      }
+    ]
+  }
+}

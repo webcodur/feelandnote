@@ -1,0 +1,23 @@
+{
+  "work": {
+    "identity": "book/9791195255832",
+    "title": "세상을 뒤흔든 10대들: 소녀 편",
+    "creator": "미셀 로엠 매칸",
+    "titleAliases": [
+      "세상을 뒤흔든 10대들"
+    ],
+    "creatorAliases": [
+      "미셀 로엠 매칸, 아멜리 웰든",
+      "장은재 (역)",
+      "아멜리 웰든"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9791195255832"
+  }
+}

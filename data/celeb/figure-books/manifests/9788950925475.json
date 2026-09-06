@@ -1,0 +1,21 @@
+{
+  "work": {
+    "identity": "book/9788950925475",
+    "title": "마르코 폴로: 서양에 동양을 알린 베네치아의 상인(후워즈 어린이 롤모델...",
+    "creator": "조앤 홀럽",
+    "titleAliases": [
+      "마르코 폴로"
+    ],
+    "creatorAliases": [
+      "김재홍 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788950925475"
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791192275093.json",
+  "manifestSha256": "2d690278cfa995224ca0865539fb4742864291077a2b844094732a061dd9f098",
+  "planSha256": "2c5690488409d3d14309c55903580ea00073181c744200b0e7d88b43595e8179",
+  "workIdentity": "book/9791192275093",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791192275093"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "d831eb6d-e3ae-5ef1-b0fc-069f6de06620",
+    "scopeKey": "book/9791192275093",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "d831eb6d-e3ae-5ef1-b0fc-069f6de06620",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192275093",
+      "release_date": "2022-09-05",
+      "metadata": {
+        "isbn": "9791192275093",
+        "publisher": "나남출판",
+        "publishDate": "2022-09-05",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791192275093",
+          "workTitle": "박경리 이야기",
+          "workCreator": "김형국",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "박경리 이야기",
+          "creator": "김형국",
+          "description": "《토지》의 열렬 독자이자 작가 박경리와 30여 년간 가까이서 관계를 맺었던 김형국 서울대 명예교수가 박경리의 일대를 엮었다.《토지》 작가 박경리는 개인의 참담한 삶을 개인의 불행과 불만으로 끝내지 않고 시대의 한과 서러움으로 승화시켰다는 데 위대함이 있다. 저자는 이 위대한 작가의 문학을 탄생시킨 바탕이자 한국의 격동적 사회사와도 맞닿아 있는 박경리의 삶을 재구성했다. 작가가 자신의 작품에 직접 담은 삶의 흔적뿐 아니라 직접 작가에게 들은 이야기, 가족이나 지인들의 회고와 평, 그동안 공개되지 않았던 자료를 총동원하여 박경리의 한 많고 서러운 삶을 복원해냈다.",
+          "isbn": "9791192275093",
+          "publisher": "나남출판",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6158545?timestamp=20260401123807",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "d831eb6d-e3ae-5ef1-b0fc-069f6de06620"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "d831eb6d-e3ae-5ef1-b0fc-069f6de06620",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791192275093",
+        "release_date": "2022-09-05",
+        "metadata": {
+          "isbn": "9791192275093",
+          "publisher": "나남출판",
+          "publishDate": "2022-09-05",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791192275093",
+            "workTitle": "박경리 이야기",
+            "workCreator": "김형국",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "박경리 이야기",
+          "creator": "김형국",
+          "description": "《토지》의 열렬 독자이자 작가 박경리와 30여 년간 가까이서 관계를 맺었던 김형국 서울대 명예교수가 박경리의 일대를 엮었다.《토지》 작가 박경리는 개인의 참담한 삶을 개인의 불행과 불만으로 끝내지 않고 시대의 한과 서러움으로 승화시켰다는 데 위대함이 있다. 저자는 이 위대한 작가의 문학을 탄생시킨 바탕이자 한국의 격동적 사회사와도 맞닿아 있는 박경리의 삶을 재구성했다. 작가가 자신의 작품에 직접 담은 삶의 흔적뿐 아니라 직접 작가에게 들은 이야기, 가족이나 지인들의 회고와 평, 그동안 공개되지 않았던 자료를 총동원하여 박경리의 한 많고 서러운 삶을 복원해냈다.",
+          "isbn": "9791192275093",
+          "publisher": "나남출판",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6158545?timestamp=20260401123807",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+          },
+          "verified": true,
+          "content_id": "d831eb6d-e3ae-5ef1-b0fc-069f6de06620"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791192275093",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791192275093"
+      ],
+      "normalizedTitles": [
+        "박경리이야기"
+      ],
+      "normalizedCreators": [
+        "김형국"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T04:29:59.851Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "d831eb6d-e3ae-5ef1-b0fc-069f6de06620",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791192275093",
+      "release_date": "2022-09-05",
+      "metadata": {
+        "isbn": "9791192275093",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+        "publisher": "나남출판",
+        "figureBook": {
+          "workTitle": "박경리 이야기",
+          "workCreator": "김형국",
+          "workIdentity": "book/9791192275093",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2022-09-05",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T04:29:54.27104+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "d831eb6d-e3ae-5ef1-b0fc-069f6de06620",
+        "locale": "ko",
+        "title": "박경리 이야기",
+        "creator": "김형국",
+        "description": "《토지》의 열렬 독자이자 작가 박경리와 30여 년간 가까이서 관계를 맺었던 김형국 서울대 명예교수가 박경리의 일대를 엮었다.《토지》 작가 박경리는 개인의 참담한 삶을 개인의 불행과 불만으로 끝내지 않고 시대의 한과 서러움으로 승화시켰다는 데 위대함이 있다. 저자는 이 위대한 작가의 문학을 탄생시킨 바탕이자 한국의 격동적 사회사와도 맞닿아 있는 박경리의 삶을 재구성했다. 작가가 자신의 작품에 직접 담은 삶의 흔적뿐 아니라 직접 작가에게 들은 이야기, 가족이나 지인들의 회고와 평, 그동안 공개되지 않았던 자료를 총동원하여 박경리의 한 많고 서러운 삶을 복원해냈다.",
+        "isbn": "9791192275093",
+        "publisher": "나남출판",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6158545?timestamp=20260401123807",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6158545&q=%EB%B0%95%EA%B2%BD%EB%A6%AC+%EC%9D%B4%EC%95%BC%EA%B8%B0"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T04:29:54.27104+00:00",
+        "updated_at": "2026-09-06T04:29:54.27104+00:00"
+      }
+    ]
+  }
+}

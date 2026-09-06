@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\figure-books\\manifests\\9791189952945.json",
+  "manifestSha256": "8b727a797c1d63e26f02dfe25c3ac2c1c32de7a1dfb956e97cb8eabc340f37ac",
+  "planSha256": "dc78e2bab79f4f811de443a1c5d9d364f96224c9016f6bf0298938fb052e623d",
+  "workIdentity": "book/9791189952945",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791189952945"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "daf4aa75-dfc1-5fa2-995f-7bd8f4c7c3ef",
+    "scopeKey": "book/9791189952945",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "daf4aa75-dfc1-5fa2-995f-7bd8f4c7c3ef",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189952945",
+      "release_date": "2024-01-10",
+      "metadata": {
+        "isbn": "9791189952945",
+        "publisher": "비타민북",
+        "publishDate": "2024-01-10",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+        "salesStatus": "정상판매",
+        "figureBook": {
+          "workIdentity": "book/9791189952945",
+          "workTitle": "나폴레옹",
+          "workCreator": "에밀 루트비히",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "나폴레옹",
+          "creator": "에밀 루트비히",
+          "description": "《나폴레옹》은 전 유럽을 정복하고 자신의 영향력 아래 두었던 역사상 가장 유명한 황제 나폴레옹 보나파르트 전기의 결정판이다.\n코르시카 섬에서 태어나 혁명의 시대에 종지부를 찍고 뛰어난 군인이자 정치가로서 천재적인 전략과 지혜, 리더십으로 대제국을 건설하는 과정과 스스로 황제에 올라선 최고의 순간에서 몰락까지의 대서사를 통해 나폴레옹의 인간성, 철학, 사랑 등을 엿볼 수 있다.\n또한 ‘전쟁의 신’으로 불린 천재적인 전략가인 나폴레옹은 넬슨 제독이 이끄는 영국 함대에 대패한 트라팔가 해전, 아우스터리츠 전투, 오스트리아를 상대로 대승을 거둔 바그람 전투, 러시아 원정 중 하루 동안 가장 치열하고 거대했던 보로디노 전투, 라이프치히 전투, 유배지 엘바 섬에서 돌아온 후 벌인 사실상 나폴레옹의 마지막 전투인 워털루 전쟁 등 수많은 전쟁과 정복의 과정을 이 책에서 생생하게 그린다.\n1821년 나폴레옹이 세상을 떠난 후 200여 년이 지난 지금까지도 나폴레옹에 대한 관심은 계속 되는데 혼란과 격변의 시기를 불 같은 정열과 강철 같은 의지로 삶을 개척한 영웅의 인생에서 오늘을 사는 우리의 삶을 되돌아볼 수 있을 것이다.",
+          "isbn": "9791189952945",
+          "publisher": "비타민북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6516568?timestamp=20250729143351",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9"
+          },
+          "verified": true,
+          "content_id": "daf4aa75-dfc1-5fa2-995f-7bd8f4c7c3ef"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "daf4aa75-dfc1-5fa2-995f-7bd8f4c7c3ef",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791189952945",
+        "release_date": "2024-01-10",
+        "metadata": {
+          "isbn": "9791189952945",
+          "publisher": "비타민북",
+          "publishDate": "2024-01-10",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+          "salesStatus": "정상판매",
+          "figureBook": {
+            "workIdentity": "book/9791189952945",
+            "workTitle": "나폴레옹",
+            "workCreator": "에밀 루트비히",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "나폴레옹",
+          "creator": "에밀 루트비히",
+          "description": "《나폴레옹》은 전 유럽을 정복하고 자신의 영향력 아래 두었던 역사상 가장 유명한 황제 나폴레옹 보나파르트 전기의 결정판이다.\n코르시카 섬에서 태어나 혁명의 시대에 종지부를 찍고 뛰어난 군인이자 정치가로서 천재적인 전략과 지혜, 리더십으로 대제국을 건설하는 과정과 스스로 황제에 올라선 최고의 순간에서 몰락까지의 대서사를 통해 나폴레옹의 인간성, 철학, 사랑 등을 엿볼 수 있다.\n또한 ‘전쟁의 신’으로 불린 천재적인 전략가인 나폴레옹은 넬슨 제독이 이끄는 영국 함대에 대패한 트라팔가 해전, 아우스터리츠 전투, 오스트리아를 상대로 대승을 거둔 바그람 전투, 러시아 원정 중 하루 동안 가장 치열하고 거대했던 보로디노 전투, 라이프치히 전투, 유배지 엘바 섬에서 돌아온 후 벌인 사실상 나폴레옹의 마지막 전투인 워털루 전쟁 등 수많은 전쟁과 정복의 과정을 이 책에서 생생하게 그린다.\n1821년 나폴레옹이 세상을 떠난 후 200여 년이 지난 지금까지도 나폴레옹에 대한 관심은 계속 되는데 혼란과 격변의 시기를 불 같은 정열과 강철 같은 의지로 삶을 개척한 영웅의 인생에서 오늘을 사는 우리의 삶을 되돌아볼 수 있을 것이다.",
+          "isbn": "9791189952945",
+          "publisher": "비타민북",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6516568?timestamp=20250729143351",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9"
+          },
+          "verified": true,
+          "content_id": "daf4aa75-dfc1-5fa2-995f-7bd8f4c7c3ef"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "book/9791189952945",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791189952945"
+      ],
+      "normalizedTitles": [
+        "나폴레옹"
+      ],
+      "normalizedCreators": [
+        "에밀루트비히",
+        "이형석역"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-06T02:33:34.497Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "daf4aa75-dfc1-5fa2-995f-7bd8f4c7c3ef",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791189952945",
+      "release_date": "2024-01-10",
+      "metadata": {
+        "isbn": "9791189952945",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+        "publisher": "비타민북",
+        "figureBook": {
+          "workTitle": "나폴레옹",
+          "workCreator": "에밀 루트비히",
+          "workIdentity": "book/9791189952945",
+          "koTranslationStatus": "published"
+        },
+        "publishDate": "2024-01-10",
+        "salesStatus": "정상판매"
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-06T02:33:26.890948+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "daf4aa75-dfc1-5fa2-995f-7bd8f4c7c3ef",
+        "locale": "ko",
+        "title": "나폴레옹",
+        "creator": "에밀 루트비히",
+        "description": "《나폴레옹》은 전 유럽을 정복하고 자신의 영향력 아래 두었던 역사상 가장 유명한 황제 나폴레옹 보나파르트 전기의 결정판이다.\n코르시카 섬에서 태어나 혁명의 시대에 종지부를 찍고 뛰어난 군인이자 정치가로서 천재적인 전략과 지혜, 리더십으로 대제국을 건설하는 과정과 스스로 황제에 올라선 최고의 순간에서 몰락까지의 대서사를 통해 나폴레옹의 인간성, 철학, 사랑 등을 엿볼 수 있다.\n또한 ‘전쟁의 신’으로 불린 천재적인 전략가인 나폴레옹은 넬슨 제독이 이끄는 영국 함대에 대패한 트라팔가 해전, 아우스터리츠 전투, 오스트리아를 상대로 대승을 거둔 바그람 전투, 러시아 원정 중 하루 동안 가장 치열하고 거대했던 보로디노 전투, 라이프치히 전투, 유배지 엘바 섬에서 돌아온 후 벌인 사실상 나폴레옹의 마지막 전투인 워털루 전쟁 등 수많은 전쟁과 정복의 과정을 이 책에서 생생하게 그린다.\n1821년 나폴레옹이 세상을 떠난 후 200여 년이 지난 지금까지도 나폴레옹에 대한 관심은 계속 되는데 혼란과 격변의 시기를 불 같은 정열과 강철 같은 의지로 삶을 개척한 영웅의 인생에서 오늘을 사는 우리의 삶을 되돌아볼 수 있을 것이다.",
+        "isbn": "9791189952945",
+        "publisher": "비타민북",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/6516568?timestamp=20250729143351",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=6516568&q=%EB%82%98%ED%8F%B4%EB%A0%88%EC%98%B9"
+        },
+        "verified": true,
+        "created_at": "2026-09-06T02:33:26.890948+00:00",
+        "updated_at": "2026-09-06T02:33:26.890948+00:00"
+      }
+    ]
+  }
+}

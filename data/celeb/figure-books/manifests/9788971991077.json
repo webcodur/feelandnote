@@ -1,0 +1,19 @@
+{
+  "work": {
+    "identity": "book/9788971991077",
+    "title": "나의 아버지 박지원",
+    "creator": "박종채",
+    "titleAliases": [],
+    "creatorAliases": [
+      "박희병 (역)"
+    ]
+  },
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "ko": {
+    "translationStatus": "published",
+    "isbn": "9788971991077"
+  }
+}
