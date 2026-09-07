@@ -31,11 +31,11 @@
 
 .scope[data-world-material="hanji-wood"] {
   --world-outer-texture:
-    repeating-linear-gradient(87deg, transparent 0 53px, rgba(218, 207, 178, 0.016) 54px 55px),
-    repeating-linear-gradient(3deg, transparent 0 71px, rgba(218, 207, 178, 0.012) 72px 73px),
+    repeating-linear-gradient(87deg, transparent 0 53px, rgba(212, 208, 196, 0.016) 54px 55px),
+    repeating-linear-gradient(3deg, transparent 0 71px, rgba(212, 208, 196, 0.012) 72px 73px),
     var(--pattern-noise);
   --world-panel-texture:
-    repeating-linear-gradient(91deg, transparent 0 43px, rgba(197, 162, 99, 0.018) 44px 45px),
+    repeating-linear-gradient(91deg, transparent 0 43px, rgba(176, 161, 120, 0.018) 44px 45px),
     repeating-linear-gradient(2deg, transparent 0 67px, rgba(255, 255, 255, 0.01) 68px 69px);
   --world-panel-texture-size: auto;
   --world-panel-texture-position: center;
@@ -61,12 +61,12 @@
 
 .scope[data-world-material="plaster-iron"] {
   --world-outer-texture:
-    repeating-linear-gradient(97deg, transparent 0 89px, rgba(202, 182, 154, 0.014) 90px 91px),
+    repeating-linear-gradient(97deg, transparent 0 89px, rgba(198, 196, 190, 0.014) 90px 91px),
     repeating-linear-gradient(4deg, transparent 0 117px, rgba(0, 0, 0, 0.045) 118px 119px),
     var(--pattern-noise);
   --world-panel-texture:
     repeating-linear-gradient(88deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 53px),
-    repeating-linear-gradient(1deg, transparent 0 83px, rgba(174, 138, 90, 0.012) 84px 85px);
+    repeating-linear-gradient(1deg, transparent 0 83px, rgba(157, 120, 108, 0.012) 84px 85px);
   --world-panel-texture-size: auto;
   --world-panel-texture-position: center;
   --world-panel-texture-repeat: repeat;
