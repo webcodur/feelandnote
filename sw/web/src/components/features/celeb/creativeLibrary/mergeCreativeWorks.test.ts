@@ -7,7 +7,7 @@ import type { LiveWorkItem } from "./types";
 function book(overrides: Partial<FigureBookContent> = {}): FigureBookContent {
   return {
     id: "content-iliad", title: "일리아스", creator: "호메로스", thumbnailUrl: null,
-    type: "BOOK", category: "book", relationType: "related", appearanceDescription: null,
+    type: "BOOK", category: "book", relationType: "related",
     editions: [], ...overrides,
   };
 }

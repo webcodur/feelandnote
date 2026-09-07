@@ -23,11 +23,11 @@
 | │ └ 판본 | Edition | `figure_book_editions` | 언어·역자·출판사·ISBN이 다른 실제 책 한 종 |
 | │ 　 └ 상품 | Product | `figure_book_products` | 판본의 판매 링크. 쿠팡(ko) · 아마존(en). 활성 상품 Active product는 판본·플랫폼당 하나 |
 | └ 관계 | Relation | `figure_book_characters` | 인물 ↔ 작품을 잇는 줄 |
-| 　 ├ 등장 | Appearance | `relation_type = appearance` | 인물이 본문에 실제로 나온다. 등장 설명 Appearance note(`description`)를 단다 |
+| 　 ├ 등장 | Appearance | `relation_type = appearance` | 인물이 본문에 나온다고 본 관계. 화면에서는 연관과 함께 「연관 작품」으로 보여 주며 설명은 달지 않는다 |
 | 　 ├ 연관 | Related | `relation_type = related` | 인물의 분야·사건·시대를 이해하게 하는 책. 설명 없음 |
 | 　 └ 창작 | Creation | `relation_type = authored` | 인물이 쓴 작품. 설명 없음. 위키데이터 P50·P170·P800이 근거다 |
 
-- **화면 구획 이름은 관계명 + 작품**으로만 만든다: 등장 작품 Appearing Works · 연관 작품 Related Works · 창작 작품 Created Works. 인물 화면 아래 구매 구획은 연관 작품의 상품에 추천 도서(읽은 책·직군·인기)를 이어 붙이므로 「연관 작품과 추천 도서 Related works and recommended books」라 부른다.
+- **화면 구획 이름은 관계명 + 작품**으로만 만든다: 연관 작품 Related Works · 창작 작품 Created Works. 인물 화면은 등장을 단정하지 않기로 해(26.09.07) `appearance`·`related`를 「연관 작품」 한 구획에 함께 보여 주고, 관계 유형 라벨(등장 작품·연관 작품)은 백오피스와 목록 표기에만 쓴다. 인물 화면 아래 구매 구획은 연관 작품의 상품에 추천 도서(읽은 책·직군·인기)를 이어 붙이므로 「연관 작품과 추천 도서 Related works and recommended books」라 부른다.
 - 없앤 말: 등장 도서·연관 도서 → 등장 작품·연관 작품, 책장 → 인물 도서, 원전 → 등장 작품, 저작(인물 본인 것) → 창작, 관련 상품·관련 도서 → 연관 작품, 서지 → 책 정보.
 - 감상·서재·감상록은 이용 기록 영역의 말이라 여기서 쓰지 않는다.
 
@@ -90,13 +90,12 @@
 
 ## 등장 설명
 
-`figure_book_characters.description`과 `description_en`은 `appearance` 관계에서 그 작품 안에 확인되는 인물의 역할·관여 사건·결말만 쓴다. `related`·`authored` 관계에서는 두 필드가 모두 `NULL`이어야 하며 DB와 백오피스가 입력을 막는다.
+**등장 설명은 쓰지 않는다(26.09.07 폐기).** `figure_book_characters.description`·`description_en`은 세 관계 모두에서 `NULL`로 둔다. 기존 3,822건은 비웠고 원문은 `data/celeb/figure-books/_backup-character-descriptions.json`에 남겼다.
 
-- 작품 세계 전체의 설정이나 다른 작품의 일화를 섞지 않는다.
-- 작품 소개인 `content_locales.description`으로 대신하지 않는다.
-- 한국어판과 본문을 확인한 작업은 `description`만 작성한다.
-- `description_en`은 같은 작품의 실제 영문판과 영어 본문 범위, Amazon 구매 경로를 확인한 별도 영어 작업에서만 작성한다. 한국어 설명을 번역해 자리를 채우지 않는다.
-- 사용자 화면은 요청 언어의 설명만 보여 주며 반대 언어로 대체하지 않는다.
+폐기한 이유는 둘이다. **첫째, 등장을 확인할 방법이 없다.** 판본 본문을 열어야 확정되는데 대량으로는 불가능하다. 판매 페이지 목차까지가 한계라 「제9장에서 다뤄진다」는 문장은 확인이 아니라 추정이었다. **둘째, 확인이 됐더라도 그 글이 독자에게 주는 것이 없었다.** 「난나는 제12토판에서 길가메시가 찾아가는 달의 신이다」는 인물 카드에 이미 있는 정보를 사전체로 되풀이할 뿐 이 책을 왜 펼쳐야 하는지 말하지 않는다. 시사점을 쓰려면 책을 읽어야 하고, 못 읽는 상태에서 쥐어짜면 근거 없는 감상이 붙는다.
+
+그래서 화면도 등장과 연관을 **「연관 작품」 하나로 합쳤다.** 등장이라 단정하지 않으면 확인하지 못한 것을 확인한 척할 자리가 사라진다. `relation_type` 구분은 DB에 그대로 두어 나중에 판본 확인 경로가 생기면 되살릴 수 있게 한다.
+
 
 ## 등록
 
@@ -136,6 +135,4 @@ pnpm --dir sw/web-bo figure-books:batch -- --file <명세.json>
 - 같은 작품이 판본마다 중복 생성되지 않았는가
 - 판본 ISBN과 활성 상품이 정확히 연결됐는가
 - 관계 유형과 순서가 맞는가
-- `appearance` 설명이 해당 작품의 본문 범위를 넘지 않는가
-- `related`·`authored` 관계의 두 설명 필드가 `NULL`인가
-- 실제 영문판·Amazon 연결 없이 `description_en`이 생기지 않았는가
+- 세 관계 모두 `description`·`description_en`이 `NULL`인가

@@ -130,13 +130,3 @@ export function mapFigureBookEditions(
     }))
     .sort((left, right) => left.sortOrder - right.sortOrder || left.id - right.id)
 }
-
-export function getFigureBookCharacterDescription(
-  assignment: FigureBookCharacterDescriptions,
-  locale: string,
-): string | null {
-  const exact = locale === 'en'
-    ? assignment.description_en
-    : assignment.description
-  return exact?.trim() || null
-}

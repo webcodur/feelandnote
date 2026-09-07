@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
  * [celeb 상세] sourceWorks — 원전 대표 서지·소개
  * - 목차 위치: sourceWorks
- * - 데이터: source/nickname props, editions 판본 선택
+ * - 데이터: source props, editions 판본 선택
  * - 함께 보기: FigureBookWorksSection.tsx, FigureBookActions.tsx, FigureBookIntroduction.tsx
  * ───────────────────────────────────────────── */
 "use client";
@@ -16,7 +16,6 @@ import FigureBookIntroduction from "./FigureBookIntroduction";
 
 interface FigureBookFeatureProps {
   source: FigureBookContent;
-  nickname: string;
 }
 
 /* ── 1. 날짜 표기 ── */
@@ -40,7 +39,6 @@ function formatDate(value: string | null, locale: string): string | null {
 
 export default function FigureBookFeature({
   source,
-  nickname,
 }: FigureBookFeatureProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
@@ -167,17 +165,6 @@ export default function FigureBookFeature({
               ))}
             </dl>
           )}
-
-          {source.relationType === "appearance" && source.appearanceDescription ? (
-            <div className="col-span-2 mt-5 border-s-2 border-accent bg-accent/[0.06] px-4 py-3 lg:col-span-1">
-              <p className="text-sm font-black tracking-[0.16em] text-accent">
-                {t("sourceWorkCharacterAppearance", { name: nickname })}
-              </p>
-              <p className="mt-2 whitespace-pre-line text-base leading-7 text-text-primary">
-                {source.appearanceDescription}
-              </p>
-            </div>
-          ) : null}
 
           <FigureBookActions
             source={source}

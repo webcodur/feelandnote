@@ -134,7 +134,7 @@ test('언마운트 뒤 끝난 요청은 상태 콜백을 실행하지 않는다'
 function relatedBook(overrides: Partial<FigureBookContent> = {}): FigureBookContent {
   return {
     id: 'related-book', title: '작품 제목', creator: null, thumbnailUrl: null,
-    type: 'BOOK', category: 'book', relationType: 'related', appearanceDescription: null,
+    type: 'BOOK', category: 'book', relationType: 'related',
     editions: [], ...overrides,
   }
 }

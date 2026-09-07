@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
-  getFigureBookCharacterDescription,
   getFigureBookPurchasePlatform,
   mapFigureBookPurchaseOptions,
   type FigureBookPurchaseOptionRow,
@@ -58,10 +57,4 @@ test('인물별 등장 설명은 요청 언어 값만 사용한다', () => {
     description_en: 'English appearance description',
   }
 
-  assert.equal(getFigureBookCharacterDescription(assignment, 'ko'), '한국어 등장 설명')
-  assert.equal(getFigureBookCharacterDescription(assignment, 'en'), 'English appearance description')
-  assert.equal(getFigureBookCharacterDescription({
-    description: '한국어 등장 설명',
-    description_en: null,
-  }, 'en'), null)
 })

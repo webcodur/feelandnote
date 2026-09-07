@@ -211,10 +211,7 @@ export default function CelebRecordSections({
           <section id="source-works" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("sourceWorks")}
             <SectionSurface>
-              <FigureBookWorksSection
-                sources={figureBooks}
-                nickname={profile.nickname}
-              />
+              <FigureBookWorksSection sources={figureBooks} />
             </SectionSurface>
           </section>
         ) : null}

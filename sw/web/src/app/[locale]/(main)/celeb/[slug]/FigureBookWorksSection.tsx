@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────
- * [celeb 상세] sourceWorks — 등장 작품 고름틀
+ * [celeb 상세] sourceWorks — 연관 작품 고름틀
  * - 목차 위치: sourceWorks
- * - 데이터: sources/nickname props
+ * - 데이터: sources props
  * - 함께 보기: FigureBookFeature.tsx, detail/CelebRecordSections.tsx
  * ───────────────────────────────────────────── */
 "use client";
@@ -15,15 +15,16 @@ import FigureBookFeature from "./FigureBookFeature";
 
 interface FigureBookWorksSectionProps {
   sources: FigureBookContent[];
-  nickname: string;
 }
 
 export default function FigureBookWorksSection({
   sources,
-  nickname,
 }: FigureBookWorksSectionProps) {
   const t = useTranslations("celebPage");
-  const appearanceSources = sources.filter((source) => source.relationType === "appearance");
+  /* 등장과 연관을 한 섹션에 묶는다. 등장 여부는 판본 본문을 열어야 확정되는데 그럴 수 없어,
+     확인하지 못한 것을 등장이라 단정하지 않고 「연관 작품」 하나로 보여 준다.
+     창작(authored)은 저작 목록이 따로 있으므로 여기서 뺀다. */
+  const appearanceSources = sources.filter((source) => source.relationType !== "authored");
   const [selectedId, setSelectedId] = useState(appearanceSources[0]?.id ?? "");
   const selected = appearanceSources.find((source) => source.id === selectedId) ?? appearanceSources[0];
   if (!selected) return null;
@@ -107,7 +108,6 @@ export default function FigureBookWorksSection({
         <FigureBookFeature
           key={selected.id}
           source={selected}
-          nickname={nickname}
         />
       </div>
     </div>
