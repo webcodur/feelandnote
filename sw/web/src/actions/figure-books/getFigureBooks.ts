@@ -12,7 +12,6 @@ import {
 } from '@/lib/utils/content-locale'
 import type { ContentType } from '@/types/database'
 import {
-  getFigureBookCharacterDescription,
   getFigureBookPurchasePlatform,
   mapFigureBookEditions,
   mapFigureBookPurchaseOptions,
@@ -38,7 +37,6 @@ export interface FigureBookContent {
   type: ContentType
   category: CategoryId
   relationType: FigureBookRelationType
-  appearanceDescription: string | null
   editions: FigureBookEdition[]
   /** 저장된 원어 표제·저자를 창작 판정과 위키데이터 중복 대조에 사용한다. */
   titleKo?: string | null
@@ -171,9 +169,6 @@ async function fetchSourcesByCeleb(
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
-      appearanceDescription: assignment.relation_type === 'appearance'
-        ? getFigureBookCharacterDescription(assignment, locale)
-        : null,
       editions,
       titleKo: flat.title_ko,
       titleEn: flat.title_en,

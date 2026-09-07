@@ -6,7 +6,7 @@ import { partitionFigureBooks } from './authoredBooks'
 function book(overrides: Partial<FigureBookContent> = {}): FigureBookContent {
   return {
     id: 'book', title: '작품', creator: null, thumbnailUrl: null,
-    type: 'BOOK', category: 'book', relationType: 'related', appearanceDescription: null,
+    type: 'BOOK', category: 'book', relationType: 'related',
     editions: [], ...overrides,
   }
 }
