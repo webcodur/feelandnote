@@ -6,6 +6,7 @@
 */
 
 import { createStaticClient } from "@/lib/db/static";
+import { isDeveloperMode } from "@/lib/developer-mode";
 import { getCelebWorld, resolveCelebWorld } from "@/lib/celeb/world";
 import {
   WORLD_MATERIAL_BY_WORLD,
@@ -32,6 +33,9 @@ interface Person {
 const PAGE = 1000;
 
 async function fetchAllCelebs(): Promise<CelebRow[]> {
+  // 운영 빌드에서는 이 화면이 열리지 않는다. 프리렌더가 인물 전원을 헛으로 읽지 않게 먼저 막는다.
+  if (!isDeveloperMode()) return [];
+
   const db = createStaticClient();
   const rows: CelebRow[] = [];
 
