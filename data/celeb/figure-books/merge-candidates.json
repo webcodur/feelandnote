@@ -1,10 +1,28 @@
 {
-  "generatedAt": "2026-09-06T20:56:25.860Z",
+  "generatedAt": "2026-09-07T03:40:08.575Z",
   "merges": [
+    {
+      "keep": "0a626118-0bef-5326-8ffa-1fa83f7d41c5",
+      "drop": "7883f4b5-99b2-46de-8f9f-a7c690cff64c",
+      "identity": "hermann-broch/der-tod-des-vergil",
+      "reason": "same-original-work"
+    },
     {
       "keep": "35c97e9a-97f9-54f8-a834-90a5bfa5f8d1",
       "drop": "4e2e1497-f329-410b-aee9-f577e654ae5b",
       "identity": "marguerite-yourcenar/memoires-d-hadrien",
+      "reason": "same-original-work"
+    },
+    {
+      "keep": "5376c528-6947-5373-865f-40a2a50c47c8",
+      "drop": "9f16f2cd-8c32-5664-a2b6-8cfc251ade18",
+      "identity": "karen-armstrong/muhammad",
+      "reason": "same-original-work"
+    },
+    {
+      "keep": "7e8df1bf-8f8a-5b1a-aae9-fbd6804e104b",
+      "drop": "a4afe2cc-4bf5-57bc-8673-e7536386d3a1",
+      "identity": "jane-rogoyska-patrick-bade/gustav-klimt",
       "reason": "same-original-work"
     }
   ]
