@@ -25,15 +25,21 @@ export default function MythAtlas({ data }: Props) {
   const [regionId, setRegionId] = useState<string | null>(openingTradition?.regionId ?? data.regions[0]?.id ?? null);
   const [traditionId, setTraditionId] = useState<string | null>(openingTraditionId);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
+  const [comingSoonId, setComingSoonId] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const regionScrollRef = useRef<HTMLDivElement>(null);
   const traditionScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!comingSoonId) return;
+    const timer = setTimeout(() => setComingSoonId(null), 2000);
+    return () => clearTimeout(timer);
+  }, [comingSoonId]);
 
   const publishedTraditionIds = useMemo(
     () => new Set(data.traditions.filter((tradition) => tradition.isPublished).map((tradition) => tradition.id)),
     [data.traditions],
   );
-  const hasUnpublishedTraditions = publishedTraditionIds.size < data.traditions.length;
   const isRegionPublished = (region: MythRegion) => region.traditionIds.some((id) => publishedTraditionIds.has(id));
   /* 지역은 준비 여부와 무관하게 전부 고를 수 있다. 준비 중인 지역은 신화 칩이 잠긴 채 안내만 보인다 */
   const activeRegion = data.regions.find((region) => region.id === regionId)
@@ -145,8 +151,7 @@ export default function MythAtlas({ data }: Props) {
                     aria-pressed={selected}
                     aria-label={published ? tradition.name : `${tradition.name} · ${t("comingSoon")}`}
                     title={published ? undefined : t("comingSoon")}
-                    disabled={!published}
-                    onClick={() => chooseTradition(tradition.id)}
+                    onClick={() => (published ? chooseTradition(tradition.id) : setComingSoonId(tradition.id))}
                     className={`flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-start text-sm font-semibold ${selected ? "border-accent bg-accent/10 text-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : published ? "border-white/[0.06] bg-black/15 text-text-secondary hover:border-accent/60 hover:bg-white/[0.035] hover:text-text-primary" : "cursor-not-allowed border-white/[0.04] bg-black/[0.08] text-text-tertiary opacity-45"}`}
                   >
                     <span>{tradition.name}</span>
@@ -156,10 +161,10 @@ export default function MythAtlas({ data }: Props) {
             </div>
           </nav>
 
-          {hasUnpublishedTraditions && (
+          {comingSoonId && (
             <div role="status" className={layout.notice}>
               <Clock3 size={14} className="mt-0.5 shrink-0 text-accent/70" aria-hidden />
-              <p>{t("releaseNotice")}</p>
+              <p>{t("comingSoon")}</p>
             </div>
           )}
         </div>
@@ -191,7 +196,7 @@ export default function MythAtlas({ data }: Props) {
           <div className={layout.container}>
             <div role="status" className={layout.notice}>
               <Clock3 size={14} className="mt-0.5 shrink-0 text-accent/70" aria-hidden />
-              <p>{t("releaseNotice")}</p>
+              <p>{t("comingSoon")}</p>
             </div>
           </div>
         </div>

@@ -47,7 +47,7 @@ export default function MythAtlasSkeleton() {
             </div>
             <div className={cn(layout.notice, "relative")}>
               <div className="mt-0.5 size-3.5 shrink-0" />
-              <p className="invisible">{t("releaseNotice")}</p>
+              <p className="invisible">{t("comingSoon")}</p>
               <div className="absolute inset-0 flex items-center justify-center px-6"><Ghost className="h-2.5 w-full max-w-md" /></div>
             </div>
           </div>
