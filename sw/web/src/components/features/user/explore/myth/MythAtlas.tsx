@@ -161,7 +161,7 @@ export default function MythAtlas({ data }: Props) {
             </div>
           </nav>
 
-          {comingSoonId && (
+          {comingSoonId && hasContent && (
             <div role="status" className={layout.notice}>
               <Clock3 size={14} className="mt-0.5 shrink-0 text-accent/70" aria-hidden />
               <p>{t("comingSoon")}</p>
