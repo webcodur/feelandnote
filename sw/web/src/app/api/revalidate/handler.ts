@@ -10,7 +10,7 @@ import {
 import type { purgeCloudflareByTags } from '@/lib/cloudflarePurge'
 
 type RevalidationDependencies = {
-  expireTag: (tag: string) => void
+  expireTag: (tag: string, profile: 'max' | { expire: 0 }) => void
   purgeByTags: typeof purgeCloudflareByTags
 }
 
@@ -97,7 +97,14 @@ export function createRevalidationHandler(
       )
     }
 
-    for (const tag of validatedTags) dependencies.expireTag(tag)
+    for (const tag of validatedTags) {
+      // DB의 개별 변경에 함께 오는 목록 태그는 기존 목록을 제공하며 갱신한다.
+      // 수정한 상세와 명시적인 대량 반영은 다음 조회부터 새 값을 보장한다.
+      const profile = endpoint === 'targeted' && !tag.includes(':')
+        ? 'max' as const
+        : { expire: 0 as const }
+      dependencies.expireTag(tag, profile)
+    }
 
     // Next 캐시만 비고 Cloudflare 사본이 남으면 무효화는 완료된 것이 아니다.
     const cloudflare = await dependencies.purgeByTags(validatedTags)

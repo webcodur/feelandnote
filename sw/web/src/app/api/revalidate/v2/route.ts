@@ -5,7 +5,7 @@ import { purgeCloudflareByTags } from '@/lib/cloudflarePurge'
 import { createRevalidationHandler } from '../handler'
 
 const handleBulkRevalidation = createRevalidationHandler({
-  expireTag: (tag) => revalidateTag(tag, { expire: 0 }),
+  expireTag: (tag, profile) => revalidateTag(tag, profile),
   purgeByTags: purgeCloudflareByTags,
 }, 'bulk')
 
