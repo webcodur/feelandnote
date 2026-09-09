@@ -3738,5 +3738,1198 @@
     "dialogTitle": "색인 생성 요청됨",
     "message": "URL이 우선순위 크롤링 대기열에 추가되었습니다.",
     "note": "Submission accepted after live URL precheck; indexing is not confirmed."
+  },
+  "additionalIndexingRequests": [
+    {
+      "url": "https://feelandnote.com/en/celeb/bill-gates",
+      "confirmedAt": "2026-09-09T01:42:27.075Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/chey-tae-won",
+      "confirmedAt": "2026-09-09T01:46:34.381Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/warren-buffett",
+      "confirmedAt": "2026-09-09T01:50:32.308Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted observed",
+      "note": "UI confirmation dialog and URL-specific requested state verified; no repeat request sent."
+    },
+    {
+      "url": "https://feelandnote.com/celeb/charlie-munger",
+      "confirmedAt": "2026-09-09T01:53:45.359Z",
+      "source": "Search Console UI",
+      "before": "URL is unknown to Google",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/sam-altman",
+      "confirmedAt": "2026-09-09T01:56:13.502Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/naval-ravikant",
+      "confirmedAt": "2026-09-09T01:58:29.131Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/peter-thiel",
+      "confirmedAt": "2026-09-09T02:00:05.524Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/yuval-noah-harari",
+      "confirmedAt": "2026-09-09T02:01:40.891Z",
+      "source": "Search Console UI",
+      "before": "Crawled - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/barack-obama",
+      "confirmedAt": "2026-09-09T02:03:15.215Z",
+      "source": "Search Console UI",
+      "before": "URL is unknown to Google",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    }
+  ],
+  "additionalCandidateInspection": {
+    "checkedAt": "2026-09-09T01:43:27.987211+00:00",
+    "siteUrl": "sc-domain:feelandnote.com",
+    "languageCode": "en-US",
+    "excludedPriorPASS": 83,
+    "results": [
+      {
+        "url": "https://feelandnote.com/celeb/charlie-munger",
+        "checkedAt": "2026-09-09T01:43:27.989211+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=0e_O1yj5hgJKr1-cgRiAKA&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "URL is unknown to Google",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/charlie-munger",
+          "canonical": "https://feelandnote.com/celeb/charlie-munger",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 6530,
+          "h1": [
+            "찰리 멍거"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "URL is unknown to Google",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/warren-buffett",
+        "checkedAt": "2026-09-09T01:43:27.989211+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=ld5Q_FVQqQyBH3r3hOy8-w&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/warren-buffett",
+          "canonical": "https://feelandnote.com/celeb/warren-buffett",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 5275,
+          "h1": [
+            "워렌 버핏"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/sam-altman",
+        "checkedAt": "2026-09-09T01:44:10.373508+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=Ym4N52iloJMi1M3z3GH2ow&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/sam-altman",
+          "canonical": "https://feelandnote.com/celeb/sam-altman",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 4487,
+          "h1": [
+            "샘 알트만"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/naval-ravikant",
+        "checkedAt": "2026-09-09T01:44:10.374508+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=JC_lq_669K0S7DGuEtiDMw&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "referringUrls": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/naval-ravikant",
+          "canonical": "https://feelandnote.com/celeb/naval-ravikant",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 4454,
+          "h1": [
+            "나발 라비칸트"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/peter-thiel",
+        "checkedAt": "2026-09-09T01:44:10.374508+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=hoAmulmUcQFt88RxgCIPmw&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/peter-thiel",
+          "canonical": "https://feelandnote.com/celeb/peter-thiel",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 5363,
+          "h1": [
+            "피터 틸"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/chey-tae-won",
+        "checkedAt": "2026-09-09T01:44:32.897186+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=Gckam0JPG0iZdF8pf_Gj_A&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/chey-tae-won",
+          "canonical": "https://feelandnote.com/celeb/chey-tae-won",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 4316,
+          "h1": [
+            "최태원"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/yuval-noah-harari",
+        "checkedAt": "2026-09-09T01:44:33.372938+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=eMHgims-XmyTrcK9WMAVqA&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Crawled - currently not indexed",
+              "robotsTxtState": "ALLOWED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "lastCrawlTime": "2026-04-25T09:27:56Z",
+              "pageFetchState": "SUCCESSFUL",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "MOBILE"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/yuval-noah-harari",
+          "canonical": "https://feelandnote.com/celeb/yuval-noah-harari",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 5574,
+          "h1": [
+            "유발 하라리"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Crawled - currently not indexed",
+          "lastCrawlTime": "2026-04-25T09:27:56Z",
+          "pageFetchState": "SUCCESSFUL",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/barack-obama",
+        "checkedAt": "2026-09-09T01:44:33.039123+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=B-HHgufBj_wOPCwN-ci7YQ&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/barack-obama",
+          "canonical": "https://feelandnote.com/celeb/barack-obama",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 6167,
+          "h1": [
+            "버락 오바마"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/tim-ferriss",
+        "checkedAt": "2026-09-09T01:44:46.893518+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=3Xzx4mUOU6-RoTuhWxPynQ&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/tim-ferriss",
+          "canonical": "https://feelandnote.com/celeb/tim-ferriss",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 4853,
+          "h1": [
+            "티모시 페리스"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/nassim-nicholas-taleb",
+        "checkedAt": "2026-09-09T01:44:47.955175+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=2PAsfQODNw0fh-jfKvYlbg&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/nassim-nicholas-taleb",
+          "canonical": "https://feelandnote.com/celeb/nassim-nicholas-taleb",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 4483,
+          "h1": [
+            "나심 니콜라스 탈레브"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/demis-hassabis",
+        "checkedAt": "2026-09-09T01:44:48.079469+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=ahoYlywWl0GAzvgHMcKOuw&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "referringUrls": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/demis-hassabis",
+          "canonical": "https://feelandnote.com/celeb/demis-hassabis",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 4454,
+          "h1": [
+            "데미스 허사비스"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/bill-gates",
+        "checkedAt": "2026-09-09T01:45:14.046487+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=HKONZEqmRexiBDbHMbPQtw&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Crawled - currently not indexed",
+              "robotsTxtState": "ALLOWED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "lastCrawlTime": "2026-09-09T01:43:46Z",
+              "pageFetchState": "SUCCESSFUL",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "referringUrls": [
+                "https://feelandnote.com/celeb/bill-gates"
+              ],
+              "crawledAs": "MOBILE"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/en/celeb/bill-gates",
+          "canonical": "https://feelandnote.com/en/celeb/bill-gates",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 29747,
+          "h1": [
+            "Bill Gates"
+          ],
+          "hasContent": true,
+          "headings": [
+            "Navigation"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Crawled - currently not indexed",
+          "lastCrawlTime": "2026-09-09T01:43:46Z",
+          "pageFetchState": "SUCCESSFUL",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/warren-buffett",
+        "checkedAt": "2026-09-09T01:45:21.902430+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=exroH3PIhUnoP1btu10TrQ&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "referringUrls": [
+                "https://feelandnote.com/en/explore/directory"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/en/celeb/warren-buffett",
+          "canonical": "https://feelandnote.com/en/celeb/warren-buffett",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 11771,
+          "h1": [
+            "Warren Buffett"
+          ],
+          "hasContent": true,
+          "headings": [
+            "Navigation"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/sundar-pichai",
+        "checkedAt": "2026-09-09T01:45:07.164136+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=Nh--29UoVK89CJcWjLWreQ&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "referringUrls": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/sundar-pichai",
+          "canonical": "https://feelandnote.com/celeb/sundar-pichai",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 5814,
+          "h1": [
+            "순다르 피차이"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/celeb/andrew-ng",
+        "checkedAt": "2026-09-09T01:45:10.536577+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=dwEC7-03iofYoDbOeL7l2g&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/celeb/andrew-ng",
+          "canonical": "https://feelandnote.com/celeb/andrew-ng",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 5044,
+          "h1": [
+            "앤드류 응"
+          ],
+          "hasContent": true,
+          "headings": [
+            "네비게이션"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/charlie-munger",
+        "checkedAt": "2026-09-09T01:45:33.268458+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=VJM-cnTPQgI8dxfNRHLYMg&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "referringUrls": [
+                "https://feelandnote.com/en/explore/directory"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/en/celeb/charlie-munger",
+          "canonical": "https://feelandnote.com/en/celeb/charlie-munger",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 11292,
+          "h1": [
+            "Charlie Munger"
+          ],
+          "hasContent": true,
+          "headings": [
+            "Navigation"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/sam-altman",
+        "checkedAt": "2026-09-09T01:45:34.263407+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=xr846I657pLkMG-yznpurg&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "referringUrls": [
+                "https://feelandnote.com/en/explore/directory"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/en/celeb/sam-altman",
+          "canonical": "https://feelandnote.com/en/celeb/sam-altman",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 7071,
+          "h1": [
+            "Sam Altman"
+          ],
+          "hasContent": true,
+          "headings": [
+            "Navigation"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/mark-zuckerberg",
+        "checkedAt": "2026-09-09T01:45:33.873348+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=E6JUB6NoXV_jy_TFbVgigQ&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/en/celeb/mark-zuckerberg",
+          "canonical": "https://feelandnote.com/en/celeb/mark-zuckerberg",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 11528,
+          "h1": [
+            "Mark Zuckerberg"
+          ],
+          "hasContent": true,
+          "headings": [
+            "Navigation"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/naval-ravikant",
+        "checkedAt": "2026-09-09T01:45:48.126579+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=G4ShKzblNC2l5WY3h-vy1w&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "referringUrls": [
+                "https://feelandnote.com/en/explore/directory"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/en/celeb/naval-ravikant",
+          "canonical": "https://feelandnote.com/en/celeb/naval-ravikant",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 7138,
+          "h1": [
+            "Naval Ravikant"
+          ],
+          "hasContent": true,
+          "headings": [
+            "Navigation"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/peter-thiel",
+        "checkedAt": "2026-09-09T01:45:48.447719+00:00",
+        "httpStatus": 200,
+        "apiResponse": {
+          "inspectionResult": {
+            "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=vzLLgEKWlbSmH5m3-x9H2A&utm_medium=link&utm_source=api",
+            "indexStatusResult": {
+              "verdict": "NEUTRAL",
+              "coverageState": "Discovered - currently not indexed",
+              "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+              "indexingState": "INDEXING_STATE_UNSPECIFIED",
+              "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+              "sitemap": [
+                "https://feelandnote.com/sitemap.xml"
+              ],
+              "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+            },
+            "mobileUsabilityResult": {
+              "verdict": "VERDICT_UNSPECIFIED"
+            }
+          }
+        },
+        "live": {
+          "httpStatus": 200,
+          "finalUrl": "https://feelandnote.com/en/celeb/peter-thiel",
+          "canonical": "https://feelandnote.com/en/celeb/peter-thiel",
+          "selfCanonical": true,
+          "robots": [
+            "index, follow"
+          ],
+          "xRobotsTag": null,
+          "indexAllowed": true,
+          "mainTextChars": 7074,
+          "h1": [
+            "Peter Thiel"
+          ],
+          "hasContent": true,
+          "headings": [
+            "Navigation"
+          ]
+        },
+        "summary": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Discovered - currently not indexed",
+          "lastCrawlTime": null,
+          "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+          "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "googleCanonical": null
+        },
+        "eligibleForRequest": true
+      }
+    ],
+    "selectedUrls": [
+      "https://feelandnote.com/celeb/warren-buffett",
+      "https://feelandnote.com/celeb/charlie-munger",
+      "https://feelandnote.com/celeb/sam-altman",
+      "https://feelandnote.com/celeb/naval-ravikant",
+      "https://feelandnote.com/celeb/peter-thiel",
+      "https://feelandnote.com/celeb/yuval-noah-harari",
+      "https://feelandnote.com/celeb/barack-obama",
+      "https://feelandnote.com/celeb/tim-ferriss",
+      "https://feelandnote.com/celeb/nassim-nicholas-taleb",
+      "https://feelandnote.com/celeb/demis-hassabis",
+      "https://feelandnote.com/celeb/sundar-pichai",
+      "https://feelandnote.com/celeb/andrew-ng",
+      "https://feelandnote.com/en/celeb/warren-buffett",
+      "https://feelandnote.com/en/celeb/charlie-munger",
+      "https://feelandnote.com/en/celeb/mark-zuckerberg"
+    ],
+    "selectionNote": "Read-only candidate inspection; no indexing requests performed by this worker. Excludes prior 82 PASS URLs and Korean Bill Gates. English Bill Gates and Chey Tae Won were inspected but omitted from selectedUrls because parent already submitted or was submitting them.",
+    "completedAt": "2026-09-09T01:46:42.493131+00:00",
+    "summary": {
+      "inspected": 20,
+      "coverageStates": {
+        "URL is unknown to Google": 1,
+        "Discovered - currently not indexed": 17,
+        "Crawled - currently not indexed": 2
+      },
+      "allLiveChecksPassed": true,
+      "selected": 15
+    }
   }
 }
