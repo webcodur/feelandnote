@@ -1336,5 +1336,2407 @@
       ],
       "crawledAs": "MOBILE"
     }
-  ]
+  ],
+  "recheck": {
+    "checkedAt": "2026-09-09T01:31:13.425Z",
+    "languageCode": "en-US",
+    "note": "Rechecked because live Google search contradicted the earlier audit; preserve original responses without treating the discrepancy as a deployment effect.",
+    "results": [
+      {
+        "url": "https://feelandnote.com/celeb/ernest-hemingway",
+        "checkedAt": "2026-09-09T01:27:53.512Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=3rXe1Qsr18FkYzZoW8Xlxg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-07T16:20:15Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/ernest-hemingway",
+            "userCanonical": "https://feelandnote.com/celeb/ernest-hemingway",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/oprah-winfrey",
+        "checkedAt": "2026-09-09T01:27:53.072Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=XIQYfxe5qvxh7Np_eXYOhw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-07T07:04:15Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/oprah-winfrey",
+            "userCanonical": "https://feelandnote.com/celeb/oprah-winfrey",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/",
+        "checkedAt": "2026-09-09T01:27:53.306Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=U13Vl295QPE2stqadTTBjQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-04T16:48:13Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/",
+            "userCanonical": "https://feelandnote.com/",
+            "referringUrls": [
+              "https://feelandnote.com/en/library/academy",
+              "https://feelandnote.com/agora/board/notice/c3f03c88-107b-4a03-adff-23d5152ff5b4",
+              "https://feelandnote.com/en/explore/celebs",
+              "https://m.dcinside.com/board/reading/787944"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/ray-dalio",
+        "checkedAt": "2026-09-09T01:28:03.684Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=unkwqIMHptRBJcHX9z-oBQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-29T09:17:27Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/ray-dalio",
+            "userCanonical": "https://feelandnote.com/en/celeb/ray-dalio",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/ray-dalio"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/jensen-huang",
+        "checkedAt": "2026-09-09T01:28:00.491Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=efSNVt09ztUnWw2GwL4mFQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-27T03:18:03Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/jensen-huang",
+            "userCanonical": "https://feelandnote.com/celeb/jensen-huang",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/jeff-bezos",
+        "checkedAt": "2026-09-09T01:28:00.731Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=hFOqSvkjGXqN5LsDEAEv2g&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-27T01:44:45Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/jeff-bezos",
+            "userCanonical": "https://feelandnote.com/en/celeb/jeff-bezos",
+            "referringUrls": [
+              "https://feelandnote.com/en/explore/directory"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/ray-dalio",
+        "checkedAt": "2026-09-09T01:28:07.762Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=eqcqKFGhGHNKsZxqsVI7fg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-24T19:51:09Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/ray-dalio",
+            "userCanonical": "https://feelandnote.com/celeb/ray-dalio",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/en/celeb/ray-dalio",
+              "https://feelandnote.com/explore/timeline"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/larry-fink",
+        "checkedAt": "2026-09-09T01:28:08.196Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=0qm2s_8UKkJkHUzuqcsjGg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-22T06:17:36Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/larry-fink",
+            "userCanonical": "https://feelandnote.com/celeb/larry-fink",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/library",
+        "checkedAt": "2026-09-09T01:28:10.891Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=xSbKcG62KeBWKiC0zpipgg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-07T04:52:44Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/library",
+            "userCanonical": "https://feelandnote.com/library",
+            "referringUrls": [
+              "https://feelandnote.com/scriptures",
+              "https://feelandnote.com/content/659578fc-407e-42a4-b378-33229c9b8ae2?category=book"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/sofia-vergara",
+        "checkedAt": "2026-09-09T01:28:15.076Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=QLfQO51PuNP-ZjqLn5k8rA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-19T14:22:35Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/sofia-vergara",
+            "userCanonical": "https://feelandnote.com/en/celeb/sofia-vergara",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/sofia-vergara",
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/immanuel-kant",
+        "checkedAt": "2026-09-09T01:28:15.221Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=k8yulcMYJ8uKkcZFvNddfQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-19T10:35:01Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/immanuel-kant",
+            "userCanonical": "https://feelandnote.com/celeb/immanuel-kant",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/brad-pitt",
+        "checkedAt": "2026-09-09T01:28:18.336Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=anpy2VJYjWGrzlZkwJBEkw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-18T19:19:12Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/brad-pitt",
+            "userCanonical": "https://feelandnote.com/celeb/brad-pitt",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/sebastian-stan",
+        "checkedAt": "2026-09-09T01:28:22.334Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=hj4PaJ5VCDJpkcSNibnoJg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-18T03:25:21Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/sebastian-stan",
+            "userCanonical": "https://feelandnote.com/celeb/sebastian-stan",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/charlotte-bronte",
+        "checkedAt": "2026-09-09T01:28:22.466Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=a9I7iXqtviFA4ik7zGKLgg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-18T00:08:51Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/charlotte-bronte",
+            "userCanonical": "https://feelandnote.com/celeb/charlotte-bronte",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/enheduanna",
+        "checkedAt": "2026-09-09T01:28:25.327Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=kHZZ-iREbp1aDxHXuGe9rg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-17T23:48:43Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/enheduanna",
+            "userCanonical": "https://feelandnote.com/celeb/enheduanna",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/anne-hathaway",
+        "checkedAt": "2026-09-09T01:28:29.549Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=av2auGDJydblycn0p8tlKw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-16T23:06:36Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/anne-hathaway",
+            "userCanonical": "https://feelandnote.com/celeb/anne-hathaway",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/ho-chi-minh",
+        "checkedAt": "2026-09-09T01:28:29.728Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=VGNSypCOdF1qJVBrbFvucw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-16T00:39:13Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/ho-chi-minh",
+            "userCanonical": "https://feelandnote.com/en/celeb/ho-chi-minh",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/jeff-bezos",
+        "checkedAt": "2026-09-09T01:28:32.382Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=JHlwjHf8hnMXhgbag-gq4w&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-15T15:25:19Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/jeff-bezos",
+            "userCanonical": "https://feelandnote.com/celeb/jeff-bezos",
+            "referringUrls": [
+              "https://feelandnote.com/en/celeb/jeff-bezos"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/explore",
+        "checkedAt": "2026-09-09T01:28:36.590Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=BebUH3hbevVWYaroeYVUPQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-10T02:15:00Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/explore",
+            "userCanonical": "https://feelandnote.com/explore",
+            "referringUrls": [
+              "https://feelandnote.com/rest/suikoden"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/about",
+        "checkedAt": "2026-09-09T01:28:36.997Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=p4hWg42iBe0alksIhh-cWQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-10T02:14:56Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/about",
+            "userCanonical": "https://feelandnote.com/about",
+            "referringUrls": [
+              "https://feelandnote.com/en/celeb/caravaggio",
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/explore/feed",
+        "checkedAt": "2026-09-09T01:28:39.643Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=qB4HZqMWQGevr3RXY9VSDw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-04T14:58:06Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/explore/feed",
+            "userCanonical": "https://feelandnote.com/explore/feed",
+            "referringUrls": [
+              "https://feelandnote.com/content/0925e1cc-92c1-4b74-b691-f125bde6ccde?category=book",
+              "https://feelandnote.com/en/celeb/nicolaus-copernicus"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/sofia-vergara",
+        "checkedAt": "2026-09-09T01:28:43.856Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=T0-yj7WjaiPdWpf9yQTWxw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-02T11:37:24Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/sofia-vergara",
+            "userCanonical": "https://feelandnote.com/celeb/sofia-vergara",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/plato",
+        "checkedAt": "2026-09-09T01:28:44.212Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=Yw8HsUb1ZIQxOVQ86X6zfw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-02T10:11:17Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/plato",
+            "userCanonical": "https://feelandnote.com/celeb/plato",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/paul-cezanne",
+        "checkedAt": "2026-09-09T01:28:46.874Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=dnLMATtjL3FZM4_EAKjEFA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-02T07:26:55Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/paul-cezanne",
+            "userCanonical": "https://feelandnote.com/celeb/paul-cezanne",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/en/celeb/paul-cezanne",
+              "https://feelandnote.com/explore/directory"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/paul-thomas-anderson",
+        "checkedAt": "2026-09-09T01:28:51.096Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=TvSgzQ-tmPGBOM_XEIZK7A&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-02T06:30:03Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/paul-thomas-anderson",
+            "userCanonical": "https://feelandnote.com/celeb/paul-thomas-anderson",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/paul-cezanne",
+        "checkedAt": "2026-09-09T01:28:54.492Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=Iif1zfEW01XQjBjmrP6RKQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-02T04:08:04Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/paul-cezanne",
+            "userCanonical": "https://feelandnote.com/en/celeb/paul-cezanne",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/abraham-lincoln",
+        "checkedAt": "2026-09-09T01:28:54.116Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=BVB9w9haV2qHX9fQ4hSUrw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-01T21:38:36Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/abraham-lincoln",
+            "userCanonical": "https://feelandnote.com/celeb/abraham-lincoln",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/elon-musk",
+        "checkedAt": "2026-09-09T01:28:58.288Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=rHLttDTFUNGxkxvC5qSzqQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-08T14:03:45Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/elon-musk",
+            "userCanonical": "https://feelandnote.com/celeb/elon-musk",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/explore/directory"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/grace-kelly",
+        "checkedAt": "2026-09-09T01:29:01.342Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=sI8Xt0kFUBJWNk5jzq1eFw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-01T10:51:41Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/grace-kelly",
+            "userCanonical": "https://feelandnote.com/en/celeb/grace-kelly",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/sebastian-stan",
+        "checkedAt": "2026-09-09T01:29:01.521Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=JRxa0CB-0y7OVmRMxAfkFQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-31T22:44:30Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/sebastian-stan",
+            "userCanonical": "https://feelandnote.com/en/celeb/sebastian-stan",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/sebastian-stan",
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/sara-blakely",
+        "checkedAt": "2026-09-09T01:29:05.556Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=2RT_7RtRfoRpli3M5UueQA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-31T05:48:44Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/sara-blakely",
+            "userCanonical": "https://feelandnote.com/en/celeb/sara-blakely",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/jordan-peterson",
+        "checkedAt": "2026-09-09T01:29:08.553Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=7vlulZFSoUeewI4elEW-Yw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-29T20:05:30Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/jordan-peterson",
+            "userCanonical": "https://feelandnote.com/celeb/jordan-peterson",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/yi-sun-sin",
+        "checkedAt": "2026-09-09T01:29:08.757Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=oIenGsA-wObfrPsD3VVheA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-28T03:57:27Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/yi-sun-sin",
+            "userCanonical": "https://feelandnote.com/celeb/yi-sun-sin",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/julius-caesar",
+        "checkedAt": "2026-09-09T01:29:12.880Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=jf5i_yTPcMAhZ9BfHriNNg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-27T11:04:48Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/julius-caesar",
+            "userCanonical": "https://feelandnote.com/celeb/julius-caesar",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/explore/directory",
+        "checkedAt": "2026-09-09T01:29:15.844Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=BWc_A8BbBIIOnSYRAXLNsg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-24T05:35:45Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/explore/directory",
+            "userCanonical": "https://feelandnote.com/explore/directory",
+            "referringUrls": [
+              "https://feelandnote.com/celeb/kim-jeong-hui"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/cao-cao",
+        "checkedAt": "2026-09-09T01:29:15.738Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=Lwnx6i4IylzlUy69bmxyUg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-23T16:08:18Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/cao-cao",
+            "userCanonical": "https://feelandnote.com/celeb/cao-cao",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/charles-darwin",
+        "checkedAt": "2026-09-09T01:29:20.157Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=60N-7zs8QHhO6ATEp6amYA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-23T06:15:39Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/charles-darwin",
+            "userCanonical": "https://feelandnote.com/celeb/charles-darwin",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/bong-joon-ho",
+        "checkedAt": "2026-09-09T01:29:22.743Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=A3K5TZlfQdAJ9VxGQd7MPA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-23T06:03:44Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/bong-joon-ho",
+            "userCanonical": "https://feelandnote.com/celeb/bong-joon-ho",
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/nikola-tesla",
+        "checkedAt": "2026-09-09T01:29:23.064Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=FMhNJA3V8mDm1y1yip89mw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-23T05:36:49Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/nikola-tesla",
+            "userCanonical": "https://feelandnote.com/celeb/nikola-tesla",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/library/era",
+        "checkedAt": "2026-09-09T01:29:27.802Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=pvauNdnguMaG7XSrINKguQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-22T18:06:06Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/library/era",
+            "userCanonical": "https://feelandnote.com/library/popular",
+            "referringUrls": [
+              "https://feelandnote.com/library/popular",
+              "https://feelandnote.com/celeb/j.-robert-oppenheimer",
+              "https://feelandnote.com/celeb/pocahontas"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/explore/today",
+        "checkedAt": "2026-09-09T01:29:29.937Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=k0FSmkLu5HYWI-Oodg29Rg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-22T07:47:25Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/explore/today",
+            "userCanonical": "https://feelandnote.com/explore/today",
+            "referringUrls": [
+              "https://feelandnote.com/en/celeb/nicolaus-copernicus",
+              "https://feelandnote.com/explore/top-by-type"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/zhuge-liang",
+        "checkedAt": "2026-09-09T01:29:30.038Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=pm_7-7HDZlXUww2BmjXakg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-22T04:45:31Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/zhuge-liang",
+            "userCanonical": "https://feelandnote.com/celeb/zhuge-liang",
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/deng-xiaoping",
+        "checkedAt": "2026-09-09T01:29:34.812Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=pp2odSMfkAa_1-w05QC38w&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-20T04:01:29Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/deng-xiaoping",
+            "userCanonical": "https://feelandnote.com/en/celeb/deng-xiaoping",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/colin-farrell",
+        "checkedAt": "2026-09-09T01:29:36.988Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=pbYQRPKtAX2XE-R6XQrrww&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-20T02:02:51Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/colin-farrell",
+            "userCanonical": "https://feelandnote.com/celeb/colin-farrell",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/steve-jobs",
+        "checkedAt": "2026-09-09T01:29:37.097Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=pGTeitCbpRZoa_ALARWx5g&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-18T07:59:27Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/steve-jobs",
+            "userCanonical": "https://feelandnote.com/celeb/steve-jobs",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/richard-feynman",
+        "checkedAt": "2026-09-09T01:29:41.864Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=x8t2SbmHNFh0ZAlt0EVPsA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-17T17:15:30Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/richard-feynman",
+            "userCanonical": "https://feelandnote.com/celeb/richard-feynman",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/j.k.-rowling",
+        "checkedAt": "2026-09-09T01:29:44.251Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=VKxZpm9VHhpT92KW_xdgJw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-17T16:40:44Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/j.k.-rowling",
+            "userCanonical": "https://feelandnote.com/celeb/j.k.-rowling",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/lorenzo-de-medici",
+        "checkedAt": "2026-09-09T01:29:44.105Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=7Aa-_lSndhR3yogKz-PhLA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-17T12:36:27Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/lorenzo-de-medici",
+            "userCanonical": "https://feelandnote.com/en/celeb/lorenzo-de-medici",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/lorenzo-de-medici",
+              "https://feelandnote.com/en/explore/directory"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/j.-robert-oppenheimer",
+        "checkedAt": "2026-09-09T01:29:49.098Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=sN_pmSy-cb7bNt88Ae5Kfw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-17T07:07:31Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/j.-robert-oppenheimer",
+            "userCanonical": "https://feelandnote.com/celeb/j.-robert-oppenheimer",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/marcus-agrippa",
+        "checkedAt": "2026-09-09T01:29:51.368Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=uuuWHjiQX2Sub_U995mP1Q&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-04T06:40:32Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/marcus-agrippa",
+            "userCanonical": "https://feelandnote.com/celeb/marcus-agrippa",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/grace-kelly",
+        "checkedAt": "2026-09-09T01:29:51.465Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=G8OqB7dTJoxE9YnLd5JF3Q&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-04T03:26:43Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/grace-kelly",
+            "userCanonical": "https://feelandnote.com/celeb/grace-kelly",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/lorenzo-de-medici",
+        "checkedAt": "2026-09-09T01:29:56.103Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=xBUgr2sMpfwPbBU62aT0xw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-03T15:36:58Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/lorenzo-de-medici",
+            "userCanonical": "https://feelandnote.com/celeb/lorenzo-de-medici",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/en/celeb/lorenzo-de-medici"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/library/academy",
+        "checkedAt": "2026-09-09T01:29:58.445Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=xT4LIt786sRB4NGYK_208A&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-03T10:09:44Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/library/academy",
+            "userCanonical": "https://feelandnote.com/en",
+            "referringUrls": [
+              "https://feelandnote.com/en/celeb/plato"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/nero",
+        "checkedAt": "2026-09-09T01:29:58.733Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=b0fNA6_cKKD-n70Lg1Ge8w&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-03T02:56:34Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/nero",
+            "userCanonical": "https://feelandnote.com/celeb/nero",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/nurhaci",
+        "checkedAt": "2026-09-09T01:30:03.349Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=aOLvOJhL4UteHDdWfy-GfA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-03T02:44:52Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/nurhaci",
+            "userCanonical": "https://feelandnote.com/celeb/nurhaci",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/mark-wahlberg",
+        "checkedAt": "2026-09-09T01:30:05.900Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=NcWKC232UI2hns0sNLk86A&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-02T13:29:54Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/mark-wahlberg",
+            "userCanonical": "https://feelandnote.com/celeb/mark-wahlberg",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/ana-de-armas",
+        "checkedAt": "2026-09-09T01:30:05.747Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=JJTsZ1pDevpc5gocOBWCig&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-02T12:22:57Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/ana-de-armas",
+            "userCanonical": "https://feelandnote.com/celeb/ana-de-armas",
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/esai-morales",
+        "checkedAt": "2026-09-09T01:30:10.652Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=_WywD2nC8_8oXVs-EcSWZQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-07-01T02:40:54Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/esai-morales",
+            "userCanonical": "https://feelandnote.com/celeb/esai-morales",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/moon-jae-in",
+        "checkedAt": "2026-09-09T01:30:13.001Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=0FA-ZspM0fBBYrC9_TdXKw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-06-27T16:20:00Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/moon-jae-in",
+            "userCanonical": "https://feelandnote.com/celeb/moon-jae-in",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/james-franco",
+        "checkedAt": "2026-09-09T01:30:13.137Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=HRuB4wpzZjUu-X4M9DLFyw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-06-23T20:01:05Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/james-franco",
+            "userCanonical": "https://feelandnote.com/celeb/james-franco",
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/mother-teresa",
+        "checkedAt": "2026-09-09T01:30:18.143Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=KLR2e3S3w-fhtxnGRp7AgQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-06-22T05:35:17Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/mother-teresa",
+            "userCanonical": "https://feelandnote.com/celeb/mother-teresa",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/olivia-newton-john",
+        "checkedAt": "2026-09-09T01:30:20.238Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=wkHNuR3zpApcM1G72_vMcw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-06-21T15:58:12Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/olivia-newton-john",
+            "userCanonical": "https://feelandnote.com/celeb/olivia-newton-john",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/arthur-conan-doyle",
+        "checkedAt": "2026-09-09T01:30:20.587Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=VVUIwH5cHrwwptFeFCIsTw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-06-10T17:32:51Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/arthur-conan-doyle",
+            "userCanonical": "https://feelandnote.com/celeb/arthur-conan-doyle",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/david-goggins",
+        "checkedAt": "2026-09-09T01:30:25.397Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=PSrIuquq7sEcv5czzwyA-g&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-06-10T16:46:53Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/david-goggins",
+            "userCanonical": "https://feelandnote.com/celeb/david-goggins",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/james-watt",
+        "checkedAt": "2026-09-09T01:30:27.832Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=JAlQ1ZGKeJMVJdywrswGGg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-06-07T04:25:34Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/james-watt",
+            "userCanonical": "https://feelandnote.com/celeb/james-watt",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/herodotus",
+        "checkedAt": "2026-09-09T01:30:28.238Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=Leim0MOc4KqqTWirHCgOUg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-06-01T11:31:39Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/herodotus",
+            "userCanonical": "https://feelandnote.com/celeb/herodotus",
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/ulysses-s.-grant",
+        "checkedAt": "2026-09-09T01:30:32.598Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=NlX9q5o1QXGVp052vo57pg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-29T19:30:45Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/ulysses-s.-grant",
+            "userCanonical": "https://feelandnote.com/celeb/ulysses-s.-grant",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/jet-li",
+        "checkedAt": "2026-09-09T01:30:35.075Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=RrbNsCoXm9DG_nXf-lThIQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-06T01:41:41Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/jet-li",
+            "userCanonical": "https://feelandnote.com/celeb/jet-li",
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/joe-rogan",
+        "checkedAt": "2026-09-09T01:30:35.712Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=wikurarcDQid_QeWZBfEEw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-24T18:02:23Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/joe-rogan",
+            "userCanonical": "https://feelandnote.com/celeb/joe-rogan",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/jean-de-meun",
+        "checkedAt": "2026-09-09T01:30:40.088Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=tRvU8xvS5oJiXHi4yInyXQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-20T17:35:25Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/jean-de-meun",
+            "userCanonical": "https://feelandnote.com/celeb/jean-de-meun",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/explore/directory"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/bruce-lee",
+        "checkedAt": "2026-09-09T01:30:42.527Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=ADqSsVLSfs_QQOxN47WyUg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-19T06:31:29Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/bruce-lee",
+            "userCanonical": "https://feelandnote.com/celeb/bruce-lee",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/jim-collins",
+        "checkedAt": "2026-09-09T01:30:42.950Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=P9YnPkg-LfPACmjNsejeAg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-18T04:54:59Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/jim-collins",
+            "userCanonical": "https://feelandnote.com/celeb/jim-collins",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/queen-seondeok",
+        "checkedAt": "2026-09-09T01:30:47.511Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=qLfdayqp7_yShNV1rVAGhg&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-18T03:38:42Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/queen-seondeok",
+            "userCanonical": "https://feelandnote.com/celeb/queen-seondeok",
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/albert-einstein",
+        "checkedAt": "2026-09-09T01:30:50.131Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=MCrSzW8yHT6eEJnJiy2nDw&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-17T15:41:12Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/albert-einstein",
+            "userCanonical": "https://feelandnote.com/celeb/albert-einstein",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/explore/directory"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/winston-churchill",
+        "checkedAt": "2026-09-09T01:30:50.425Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=dCv1gAgI9rdJmZcGLxx7eQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-17T15:41:12Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/winston-churchill",
+            "userCanonical": "https://feelandnote.com/celeb/winston-churchill",
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/nelson-mandela",
+        "checkedAt": "2026-09-09T01:30:55.131Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=7icFzJi9dZrwjeOsSrrKRA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-12T16:47:23Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/nelson-mandela",
+            "userCanonical": "https://feelandnote.com/celeb/nelson-mandela",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/mark-zuckerberg",
+        "checkedAt": "2026-09-09T01:30:57.650Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=Xhqa6qhDJfYwmZa9U-benQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-12T15:33:37Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/mark-zuckerberg",
+            "userCanonical": "https://feelandnote.com/celeb/mark-zuckerberg",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/explore/feed",
+        "checkedAt": "2026-09-09T01:30:58.035Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=xZJkhgeF43Sv2d0l_IevxQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-08T21:59:30Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/explore/feed",
+            "userCanonical": "https://feelandnote.com/explore/feed",
+            "referringUrls": [
+              "https://feelandnote.com/explore/feed",
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/christine-de-pizan",
+        "checkedAt": "2026-09-09T01:31:02.600Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=T9QMVRzgR9YVNz4pjpVIvA&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-07T15:55:41Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/christine-de-pizan",
+            "userCanonical": "https://feelandnote.com/celeb/christine-de-pizan",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/explore/directory"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/content/9788937462849?category=book",
+        "checkedAt": "2026-09-09T01:31:05.775Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=1NxrpuYe69jnOkXGwDddyQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-06T14:38:54Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/content/9788937462849?category=book",
+            "userCanonical": "https://feelandnote.com/content/9788937462849",
+            "referringUrls": [
+              "https://feelandnote.com/scriptures/era"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/francis-crick",
+        "checkedAt": "2026-09-09T01:31:05.281Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=eXYqYh014cOx4M00uP5DsQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-06T01:27:22Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/francis-crick",
+            "userCanonical": "https://feelandnote.com/celeb/francis-crick",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/anne-hathaway",
+        "checkedAt": "2026-09-09T01:31:09.903Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=Crw1H_VOBGTwNpzin0GRFQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-05-06T01:20:55Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/anne-hathaway",
+            "userCanonical": "https://feelandnote.com/celeb/anne-hathaway",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/anne-hathaway",
+              "https://feelandnote.com/en/explore/directory"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/en",
+        "checkedAt": "2026-09-09T01:31:12.740Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=AXEUXoinOCp4z3Xv-e3Xew&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-07T11:01:26Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en",
+            "userCanonical": "https://feelandnote.com/en",
+            "referringUrls": [
+              "https://feelandnote.com/",
+              "https://feelandnote.com/en/library/academy",
+              "https://feelandnote.com/agora/board/notice/c3f03c88-107b-4a03-adff-23d5152ff5b4",
+              "https://feelandnote.com/en/celeb/dmitri-mendeleev",
+              "https://feelandnote.com/agora/social-feed"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      },
+      {
+        "url": "https://feelandnote.com/celeb/bill-gates",
+        "checkedAt": "2026-09-09T01:31:13.425Z",
+        "httpStatus": 200,
+        "inspectionResult": {
+          "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=cigBfAH9pBV3Zm3t1oaWkQ&utm_medium=link&utm_source=api",
+          "indexStatusResult": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Crawled - currently not indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "lastCrawlTime": "2026-04-25T12:48:40Z",
+            "pageFetchState": "SUCCESSFUL",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          },
+          "mobileUsabilityResult": {
+            "verdict": "VERDICT_UNSPECIFIED"
+          }
+        }
+      }
+    ],
+    "summary": {
+      "Submitted and indexed": 83,
+      "Crawled - currently not indexed": 1
+    }
+  },
+  "localeComparison": [
+    {
+      "checkedAt": "2026-09-09T01:25:30.929Z",
+      "inspectionUrl": "https://feelandnote.com/",
+      "languageCode": "ko-KR",
+      "status": 200,
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=QeBa4_e2JQtLOKR2dotHzg&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "제출되고 색인이 생성되었습니다.",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-09-04T16:48:13Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://feelandnote.com/",
+          "userCanonical": "https://feelandnote.com/",
+          "referringUrls": [
+            "https://feelandnote.com/en/library/academy",
+            "https://feelandnote.com/agora/board/notice/c3f03c88-107b-4a03-adff-23d5152ff5b4",
+            "https://feelandnote.com/en/explore/celebs",
+            "https://m.dcinside.com/board/reading/787944"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        }
+      }
+    },
+    {
+      "checkedAt": "2026-09-09T01:25:38.125Z",
+      "inspectionUrl": "https://feelandnote.com/",
+      "languageCode": "en-US",
+      "status": 200,
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=a0qZGLR0AUPvwzpNRAppyg&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "Submitted and indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-09-04T16:48:13Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://feelandnote.com/",
+          "userCanonical": "https://feelandnote.com/",
+          "referringUrls": [
+            "https://feelandnote.com/en/library/academy",
+            "https://feelandnote.com/agora/board/notice/c3f03c88-107b-4a03-adff-23d5152ff5b4",
+            "https://feelandnote.com/en/explore/celebs",
+            "https://m.dcinside.com/board/reading/787944"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        }
+      }
+    },
+    {
+      "checkedAt": "2026-09-09T01:25:45.385Z",
+      "inspectionUrl": "https://feelandnote.com/celeb/elon-musk",
+      "languageCode": "ko-KR",
+      "status": 200,
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=J0ddLg8WMd61oS7r-_1Aiw&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "제출되고 색인이 생성되었습니다.",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-09-08T14:03:45Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://feelandnote.com/celeb/elon-musk",
+          "userCanonical": "https://feelandnote.com/celeb/elon-musk",
+          "sitemap": [
+            "https://feelandnote.com/sitemap.xml"
+          ],
+          "referringUrls": [
+            "https://feelandnote.com/explore/directory"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        }
+      }
+    },
+    {
+      "checkedAt": "2026-09-09T01:25:52.644Z",
+      "inspectionUrl": "https://feelandnote.com/celeb/elon-musk",
+      "languageCode": "en-US",
+      "status": 200,
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=mXxlsdIzanqU6YBkkytgmA&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "PASS",
+          "coverageState": "Submitted and indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_ALLOWED",
+          "lastCrawlTime": "2026-09-08T14:03:45Z",
+          "pageFetchState": "SUCCESSFUL",
+          "googleCanonical": "https://feelandnote.com/celeb/elon-musk",
+          "userCanonical": "https://feelandnote.com/celeb/elon-musk",
+          "sitemap": [
+            "https://feelandnote.com/sitemap.xml"
+          ],
+          "referringUrls": [
+            "https://feelandnote.com/explore/directory"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        }
+      }
+    },
+    {
+      "checkedAt": "2026-09-09T01:25:59.917Z",
+      "inspectionUrl": "https://feelandnote.com/celeb/bill-gates",
+      "languageCode": "ko-KR",
+      "status": 200,
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=RFxFXw7vhOMGwCCCNl2qzA&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "NEUTRAL",
+          "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "lastCrawlTime": "2026-04-25T12:48:40Z",
+          "pageFetchState": "SUCCESSFUL",
+          "sitemap": [
+            "https://feelandnote.com/sitemap.xml"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        }
+      }
+    },
+    {
+      "checkedAt": "2026-09-09T01:26:07.164Z",
+      "inspectionUrl": "https://feelandnote.com/celeb/bill-gates",
+      "languageCode": "en-US",
+      "status": 200,
+      "inspectionResult": {
+        "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:feelandnote.com&id=1Wcx6f-X2-rGLlOoXSZqYA&utm_medium=link&utm_source=api",
+        "indexStatusResult": {
+          "verdict": "NEUTRAL",
+          "coverageState": "Crawled - currently not indexed",
+          "robotsTxtState": "ALLOWED",
+          "indexingState": "INDEXING_STATE_UNSPECIFIED",
+          "lastCrawlTime": "2026-04-25T12:48:40Z",
+          "pageFetchState": "SUCCESSFUL",
+          "sitemap": [
+            "https://feelandnote.com/sitemap.xml"
+          ],
+          "crawledAs": "MOBILE"
+        },
+        "mobileUsabilityResult": {
+          "verdict": "VERDICT_UNSPECIFIED"
+        }
+      }
+    }
+  ],
+  "interpretationCorrection": {
+    "recordedAt": "2026-09-09T01:33:49.954Z",
+    "originalCohortRecheck": {
+      "total": 82,
+      "indexed": 82
+    },
+    "note": "The earlier mass exclusion interpretation is contradicted by the official API recheck and actual Google search. The discrepancy is unresolved; crawl timestamps do not establish an effect of the 2026-09-09 deployment."
+  },
+  "googleSearchObservations": {
+    "observedDate": "2026-09-09",
+    "language": "ko",
+    "pws": "0",
+    "queries": [
+      {
+        "query": "필앤노트",
+        "observation": "Homepage was the first web result."
+      },
+      {
+        "query": "site:feelandnote.com",
+        "observation": "Ten results were visible on the first results page, including the homepage, hubs and Plato; another results page was available."
+      }
+    ]
+  },
+  "indexingRequest": {
+    "url": "https://feelandnote.com/celeb/bill-gates",
+    "confirmedAt": "2026-09-09T01:33:49.955Z",
+    "source": "Search Console URL-prefix property UI",
+    "status": "request accepted",
+    "dialogTitle": "색인 생성 요청됨",
+    "message": "URL이 우선순위 크롤링 대기열에 추가되었습니다.",
+    "note": "Submission accepted after live URL precheck; indexing is not confirmed."
+  }
 }
