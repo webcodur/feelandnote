@@ -6,9 +6,9 @@
 >
 > **남은 문제는 저조한 검색 노출과 미수집·미색인 인물 페이지다. 원인은 미확정이다.** 지연된 09-04 페이지 보고서는 색인 82·미색인 6,731개(발견됨 6,653·크롤링됨 67 등)였다. 전체 검색 노출은 3월 674 → 4월 195 → 5월 17로 감소했고, 08-08~09-06은 49회·4클릭이다. 서버 OOM·502의 Googlebot 실패는 확인하지 못했으며 서버 장애·외부 신뢰도·콘텐츠 평가 중 하나를 원인으로 확정하지 않는다. 사이트맵 API의 `indexed: 0`과 지연된 페이지 보고서를 현재 전체 색인 수로 해석하지 않는다.
 
-빌 게이츠는 API·Search Console UI 모두 미색인이고 마지막 크롤은 04-25 12:48:40 UTC다. 09-09 실제 URL 사전 검사를 거쳐 색인 생성 요청이 접수됐으며, UI의 「우선순위 크롤링 대기열에 추가」를 확인했다. 이어 빌 게이츠 영문·최태원·워런 버핏·찰리 멍거·샘 올트먼·나발 라비칸트·피터 틸·유발 하라리·버락 오바마까지 총 10 URL의 요청 접수 상태를 확인했다. URL별 검사와 접수 결과는 위 조사 데이터에 보존했다. 접수는 재크롤·색인 완료가 아니다. [Google 재크롤 요청 안내](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl)
+일일 직접 신청과 현재 도달점은 [Google 일일 색인 신청](../../continuous/google-indexing.md)이 쥔다. URL별 검사·접수·할당량 제한 결과는 위 조사 데이터에 보존한다. 접수는 재크롤·색인 완료가 아니다. [Google 재크롤 요청 안내](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl)
 
-인물 상세에서 확인한 직접 SEO 검토 대상은 서가의 발견 경로다. 빌 게이츠·머스크 초기 HTML에는 작품 4개가 실리고 이후 목록은 링크 없는 페이지 버튼으로 불러온다. 별도 조회로 만드는 JSON-LD는 50개 작품을 선언해 초기 본문 목록과도 다르다. 이는 후속 작품·감상문의 발견과 구조화 데이터 일치 여부를 점검할 근거이며, 현재 미색인의 원인으로 입증된 것은 아니다. [Google 크롤 가능한 링크](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) · [구조화 데이터 정책](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
+인물 상세의 감상 목록은 초기 본문과 같은 데이터·순서로 JSON-LD를 만든다. 후속 기록은 「감상 기록 전체 보기」에서 `/celeb/<slug>/records/<page>`로 연결한다. 각 쪽은 감상·출처와 이전·다음 링크를 HTML에 싣고, 한국어·영어마다 자기 canonical과 hreflang을 제공한다. 페이지 크기는 `recordsPageData.ts`의 `RECORDS_PAGE_SIZE`가 쥔다. 이전의 본문 4개·JSON-LD 50개 불일치와 링크 없는 후속 목록은 확인된 결함이지만, 미색인의 원인으로 입증된 것은 아니다. [Google 크롤 가능한 링크](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) · [구조화 데이터 정책](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
 
 서버 조회·캐시 수정 `8dd8f2b6`는 09-09 10:05 KST 운영에 반영하고 Cloudflare HTML 캐시를 비웠다. 공개 URL 7곳의 새 배포 ID·HTTP 200·canonical·index/follow 검증은 서버 배포 검증이며 SEO 해결 판정이 아니다. 운영 결과는 [Oracle 사용자 웹 운영](../platform/external-services.md#oracle-사용자-웹-운영)이 쥔다.
 

@@ -6,7 +6,7 @@
         홈에서 내리고 푸터가 맡는다(26.09.01).
 */
 
-import { getCelebs } from "@/actions/home";
+import { getMostRecordedCelebLinks } from "@/actions/home/getCelebs";
 import FigureLinkGrid from "@/components/features/celeb/FigureLinkGrid";
 
 /** 홈에서 지목할 인물 수. 늘리면 링크 하나하나의 무게가 옅어지고 화면에는 벽이 선다.
@@ -19,13 +19,9 @@ const MIN_CONTENT_COUNT = 5;
 
 export default async function HomeFigureLinks() {
   // 조회만 try로 감싼다 — 성공 경로의 JSX 구성은 밖에서 한다(react-hooks/error-boundaries)
-  let celebs: Awaited<ReturnType<typeof getCelebs>>["celebs"] = [];
+  let celebs: Awaited<ReturnType<typeof getMostRecordedCelebLinks>> = [];
   try {
-    ({ celebs } = await getCelebs({
-      sortBy: "content_count",
-      minContentCount: MIN_CONTENT_COUNT,
-      limit: HOME_FIGURE_LINK_COUNT,
-    }));
+    celebs = await getMostRecordedCelebLinks(HOME_FIGURE_LINK_COUNT, MIN_CONTENT_COUNT);
   } catch (error) {
     // 홈의 부가 구획이다. 재시도 안내를 세우지 않고 조용히 접는다
     console.error("[home] 인물 명부 조회 실패:", error);

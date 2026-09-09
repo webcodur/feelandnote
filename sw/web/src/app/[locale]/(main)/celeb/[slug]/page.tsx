@@ -11,7 +11,7 @@ import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getCelebSidePresence } from "@/actions/celebs/getCelebSidePresence";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
 import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
-import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
+import { getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
 import { getAffiliateBooksForCeleb } from "@/actions/home/getAffiliateBooks";
@@ -106,7 +106,6 @@ export default async function CelebPage({ params }: PageProps) {
     : Promise.resolve(null);
   const [
     sidePresence,
-    contentList,
     dialogueData,
     timelineEvents,
     initialContents,
@@ -119,7 +118,6 @@ export default async function CelebPage({ params }: PageProps) {
       celebId: userId,
       reality: profile.celeb_reality,
     }),
-    profile.celeb_tier === "full" ? getCelebJsonLdContents(userId) : Promise.resolve([]),
     getCelebDialogueFull(userId),
     getCelebTimelineEvents(userId, locale),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
@@ -197,7 +195,7 @@ export default async function CelebPage({ params }: PageProps) {
     slug,
     locale,
     pageTitle,
-    contents: contentList,
+    contents: initialContents.items,
     figureBooks,
     externalLinks,
   });

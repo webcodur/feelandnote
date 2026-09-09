@@ -318,6 +318,20 @@
     "readingPlay": "Read aloud",
     "readingPause": "Pause",
     "readingResume": "Resume",
-    "readingStop": "Stop reading"
+    "readingStop": "Stop reading",
+    "records": {
+      "viewAll": "Read all records",
+      "title": "{name}’s records",
+      "pageTitle": "{name}’s records · Page {page}",
+      "description": "Read {name}’s records and their sources. Page {page}.",
+      "back": "Back to figure",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page} of {total}",
+      "source": "Source",
+      "emptyReview": "No review has been added.",
+      "spoiler": "This review contains spoilers.",
+      "originalLanguage": "Original Korean text."
+    }
   }
 }
