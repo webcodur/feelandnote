@@ -112,6 +112,7 @@
     scrollbar-gutter: stable;
     scroll-behavior: smooth;
     overflow-anchor: none;
+    interpolate-size: allow-keywords;
   }
 
   body {

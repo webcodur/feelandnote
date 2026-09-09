@@ -17,6 +17,7 @@ import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import CelebInfluenceSection from "./CelebInfluenceSection";
 import type { ServiceItem } from "./celebServiceItems";
 import SpectrumSection from "./SpectrumSection";
+import AnimatedHeight from "@/components/ui/AnimatedHeight";
 
 type AnalysisTab = "spectrum" | "influence";
 
@@ -63,28 +64,30 @@ export default function FigureAnalysisTabs({
         ariaLabel={t("analysis")}
       />
 
-      <div
-        id={`archive-panel-${activeKey}`}
-        role="tabpanel"
-        aria-labelledby={`archive-tab-${activeKey}`}
-      >
-        {activeKey === "spectrum" && spectrumData?.targetSpectrum && (
-          <SpectrumSection
-            spectrum={spectrumData.targetSpectrum}
-            spectrumJsonb={spectrumData.targetSpectrumJsonb}
-            matchesByCategory={spectrumData.matchesByCategory}
-            highlights={spectrumData.highlights}
-            population={spectrumData.population}
-          />
-        )}
+      <AnimatedHeight duration={350} className="w-full">
+        <div
+          id={`archive-panel-${activeKey}`}
+          role="tabpanel"
+          aria-labelledby={`archive-tab-${activeKey}`}
+        >
+          {activeKey === "spectrum" && spectrumData?.targetSpectrum && (
+            <SpectrumSection
+              spectrum={spectrumData.targetSpectrum}
+              spectrumJsonb={spectrumData.targetSpectrumJsonb}
+              matchesByCategory={spectrumData.matchesByCategory}
+              highlights={spectrumData.highlights}
+              population={spectrumData.population}
+            />
+          )}
 
-        {activeKey === "influence" && influenceData && (
-          <CelebInfluenceSection
-            data={influenceData}
-            explorerData={influenceExplorerData}
-          />
-        )}
-      </div>
+          {activeKey === "influence" && influenceData && (
+            <CelebInfluenceSection
+              data={influenceData}
+              explorerData={influenceExplorerData}
+            />
+          )}
+        </div>
+      </AnimatedHeight>
     </div>
   );
 }

@@ -36,7 +36,7 @@ export class DiagramBuilder {
 
   center(name: string, avatarUrl: string | null, x: number, y: number, rays: CenterRay[]) {
     const rayHtml = rays.map((ray) => `<i class="relation-ray is-${ray}" aria-hidden="true"></i>`).join("");
-    const html = `<button class="relation-person relation-center" type="button">${rayHtml}<span class="relation-face">${face(avatarUrl)}</span>`
+    const html = `<button class="relation-person relation-center" type="button" data-relation-person="__CENTER__">${rayHtml}<span class="relation-face">${face(avatarUrl)}</span>`
       + `<strong title="${escapeHtml(name)}">${escapeHtml(name)}</strong></button>`;
     this.data.nodes.push({
       id: "center", type: "html", data: { kind: "center", nodeType: "html" },

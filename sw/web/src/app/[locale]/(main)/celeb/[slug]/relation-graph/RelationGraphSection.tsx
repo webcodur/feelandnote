@@ -19,7 +19,13 @@ import useViewportAnchor from "./useViewportAnchor";
 
 const RelationDiagram = dynamic(() => import("./RelationDiagram"), { ssr: false });
 
-export default function RelationGraphSection({ centerName, centerAvatarUrl, relations, isFiction = false }: RelationGraphProps) {
+export default function RelationGraphSection({
+  centerName,
+  centerAvatarUrl,
+  relations,
+  isFiction = false,
+  centerProfile,
+}: RelationGraphProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
@@ -39,6 +45,11 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const captureViewportAnchor = useViewportAnchor();
   const { celeb: previewCeleb, loadingId, openCelebPreview, closeCelebPreview } = useCelebPreview("relations");
   const { speak, stateFor } = useRelationDialogue(locale);
+
+  const isCenterSelected = selectedId === "__CENTER__";
+  const selectCenter = useCallback(() => {
+    setSelectedId("__CENTER__");
+  }, []);
 
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 901px)");
@@ -153,7 +164,74 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     setPreviewRelation(null);
   };
 
-  const inspectorProps = selected ? {
+  const centerPerson: PersonNode | null = centerProfile ? {
+    id: centerProfile.id,
+    slug: centerProfile.slug,
+    listed: Boolean(centerProfile.slug),
+    name: centerName,
+    avatarUrl: centerAvatarUrl,
+    types: [],
+    groups: [],
+    note: centerProfile.headline || (
+      locale === "en"
+        ? `Center of this relation network, connected to ${model.people.length} figures.`
+        : `관계망의 중심 인물로, 총 ${model.people.length}명의 인물과 연결되어 있습니다.`
+    ),
+    profession: centerProfile.profession ?? null,
+    nationality: centerProfile.nationality ?? null,
+    birthDate: centerProfile.birth_date ?? null,
+    deathDate: centerProfile.death_date ?? null,
+    qid: centerProfile.wikidata_qid ?? null,
+  } : null;
+  const centerSpeaker = centerPerson ? stateFor(centerPerson) : null;
+
+  const inspectorProps = isCenterSelected ? {
+    isCenter: true,
+    person: centerPerson ?? {
+      id: "__CENTER__",
+      slug: null,
+      listed: false,
+      name: centerName,
+      avatarUrl: centerAvatarUrl,
+      types: [],
+      groups: [],
+      note: locale === "en"
+        ? `Center of this relation network, connected to ${model.people.length} figures.`
+        : `관계망의 중심 인물로, 총 ${model.people.length}명의 인물과 연결되어 있습니다.`,
+      profession: null,
+      nationality: null,
+      birthDate: null,
+      deathDate: null,
+      qid: null,
+    },
+    relationLabel: locale === "en"
+      ? `Network Center (${model.people.length} figures)`
+      : `관계망 중심 (총 ${model.people.length}명 연결)`,
+    position: 0,
+    total: model.people.length,
+    profession: centerProfile?.profession ? tp(centerProfile.profession) : null,
+    country: centerProfile?.nationality ? getCountryNameByLocale(centerProfile.nationality, locale) : null,
+    loading: false,
+    openLabel: t("relViewPersonCard"),
+    wikidataLabel: t("relViewWikidata"),
+    onOpen: () => {
+      document.getElementById("introduction")?.scrollIntoView({ behavior: "smooth" });
+    },
+    speakLabel: t(centerSpeaker?.hasVoice ? "playGreetingVoice" : "dialogue_greeting"),
+    speakingLoading: centerSpeaker?.loading,
+    hasVoice: centerSpeaker?.hasVoice,
+    voicePulse: centerSpeaker?.pulse,
+    onSpeak: centerSpeaker?.canSpeak && centerPerson ? () => void speak(centerPerson) : undefined,
+    headline: centerProfile?.headline ?? null,
+    quotes: centerProfile?.quotes ?? null,
+    titleBadge: centerProfile?.title ?? null,
+    centerBreakdown: {
+      social: model.socialPeople.length,
+      family: model.familyPeople.length,
+      other: model.other.length,
+    },
+    locale,
+  } : selected ? {
     person: selected, relationLabel: relationLabel(selected),
     position: activePeople.indexOf(selected) + 1, total: activePeople.length,
     profession: selected.profession ? tp(selected.profession) : null,
@@ -164,6 +242,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     speakLabel: t(speaker?.hasVoice ? "playGreetingVoice" : "dialogue_greeting"),
     speakingLoading: speaker?.loading, hasVoice: speaker?.hasVoice, voicePulse: speaker?.pulse,
     onSpeak: speaker?.canSpeak ? () => void speak(selected) : undefined,
+    locale,
   } : null;
 
   if (!model.people.length) return null;
@@ -182,12 +261,14 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     <div className={styles.diagramOnly}>
       {desktopDiagramReady ? <RelationDiagram mode={effectiveMode} focuses={effectiveFocuses} model={model} centerName={centerName} centerAvatarUrl={centerAvatarUrl}
         labels={labels} zoomInLabel={t("timelineZoomIn")} zoomOutLabel={t("timelineZoomOut")}
-        selectedId={selected?.id ?? null} onSelect={selectDesktop} /> : null}
+        selectedId={isCenterSelected ? "__CENTER__" : (selected?.id ?? null)}
+        onSelect={selectDesktop}
+        onSelectCenter={selectCenter} /> : null}
       <MobileRelationList label={t("relAllTitle", { name: centerName })} focusOptions={focusOptions}
         selectedFocus={selectedFocus} activePeople={activePeople} relationLabel={relationLabel}
         onOpenPerson={(person) => void openPerson(person)} openLabel={t("relViewPersonCard")} />
-      {belowCue > 0 && selected && <BelowInspectorCue key={belowCue} signal={belowCue}
-        label={selected.name} onExpire={dismissBelowCue} onReveal={revealDesktopInspector} />}
+      {belowCue > 0 && (isCenterSelected || selected) && <BelowInspectorCue key={belowCue} signal={belowCue}
+        label={isCenterSelected ? centerName : (selected?.name ?? "")} onExpire={dismissBelowCue} onReveal={revealDesktopInspector} />}
       {desktopDiagramReady && inspectorProps && <RelationInspector {...inspectorProps} />}
     </div>
 

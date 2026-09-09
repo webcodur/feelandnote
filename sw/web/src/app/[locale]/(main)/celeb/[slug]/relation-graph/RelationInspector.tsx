@@ -4,6 +4,7 @@ import { ExternalLink, LoaderCircle, UserRound } from "lucide-react";
 import Image from "next/image";
 
 import VoiceBadge from "@/components/ui/VoiceBadge";
+import AnimatedHeight from "@/components/ui/AnimatedHeight";
 
 import styles from "./RelationGraphSection.module.css";
 import type { PersonNode } from "./types";
@@ -24,6 +25,16 @@ interface Props {
   voicePulse?: number;
   onOpen: () => void;
   onSpeak?: () => void;
+  isCenter?: boolean;
+  headline?: string | null;
+  quotes?: string | null;
+  titleBadge?: string | null;
+  centerBreakdown?: {
+    social: number;
+    family: number;
+    other: number;
+  } | null;
+  locale?: string;
 }
 
 const year = (date: string | null) => date ? date.slice(0, 4).replace("-", "") : null;
@@ -38,8 +49,8 @@ function ProfileFallback() {
 }
 
 function InspectorActions(props: Props) {
-  const { person } = props;
-  if ((!person.listed || !person.slug) && !person.qid) return null;
+  const { person, isCenter } = props;
+  if (!isCenter && (!person.listed || !person.slug) && !person.qid) return null;
   return <div className={styles.inspectorActions}>
     {person.listed && person.slug && <button type="button" disabled={props.loading} onClick={props.onOpen}
       aria-label={props.openLabel} title={props.openLabel}>
@@ -53,7 +64,7 @@ function InspectorActions(props: Props) {
 }
 
 function InspectorCard(props: Props) {
-  const { person } = props;
+  const { person, isCenter, locale } = props;
   const years = year(person.birthDate)
     ? `${year(person.birthDate)}–${person.deathDate ? year(person.deathDate) : ""}`
     : null;
@@ -75,9 +86,20 @@ function InspectorCard(props: Props) {
 
     <div className={styles.inspectorContent}>
       <div className={styles.inspectorIdentity}>
-        <small>{String(props.position).padStart(2, "0")} / {String(props.total).padStart(2, "0")}</small>
+        {isCenter ? (
+          <div className="flex items-center gap-2">
+            <span className={styles.centerBadge}>
+              {locale === "en" ? "Center Figure" : "중심 인물"}
+            </span>
+            {props.titleBadge && (
+              <span className={styles.centerTitleBadge}>{props.titleBadge}</span>
+            )}
+          </div>
+        ) : (
+          <small>{String(props.position).padStart(2, "0")} / {String(props.total).padStart(2, "0")}</small>
+        )}
         <strong>{person.name}</strong>
-        <span>{props.relationLabel}</span>
+        <span className={isCenter ? "font-semibold text-accent" : undefined}>{props.relationLabel}</span>
       </div>
 
       {(props.profession || props.country || years) && <div className={styles.inspectorMeta}>
@@ -86,7 +108,46 @@ function InspectorCard(props: Props) {
         {years && <span>{years}</span>}
       </div>}
 
-      {person.note && <p className={styles.inspectorNote}>{person.note}</p>}
+      {isCenter ? (
+        <div className={styles.centerInspectorArea}>
+          <div className={styles.centerHeadlineCard}>
+            <span className={styles.centerQuoteMark} aria-hidden="true">“</span>
+            <div className={styles.centerHeadlineMeta}>
+              <span className={styles.centerHeadlineLabel}>
+                {locale === "en" ? "Profile Essence" : "한 줄 정의"}
+              </span>
+              {props.centerBreakdown && (
+                <div className={styles.centerStatsPills}>
+                  <span className={styles.centerPill}>
+                    {locale === "en" ? "Social" : "사회"} <strong>{props.centerBreakdown.social}</strong>
+                  </span>
+                  <span className={styles.centerPill}>
+                    {locale === "en" ? "Family" : "가족"} <strong>{props.centerBreakdown.family}</strong>
+                  </span>
+                  {props.centerBreakdown.other > 0 && (
+                    <span className={styles.centerPill}>
+                      {locale === "en" ? "Other" : "기타"} <strong>{props.centerBreakdown.other}</strong>
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+            <p className={styles.centerHeadlineText}>
+              {props.headline || person.note}
+            </p>
+            {props.quotes && (
+              <p className={styles.centerFamousQuote}>
+                <span className={styles.centerFamousQuoteLabel}>
+                  {locale === "en" ? "Quote" : "어록"}
+                </span>
+                “{props.quotes}”
+              </p>
+            )}
+          </div>
+        </div>
+      ) : (
+        person.note && <p className={styles.inspectorNote}>{person.note}</p>
+      )}
     </div>
 
     <InspectorActions {...props} />
@@ -94,5 +155,11 @@ function InspectorCard(props: Props) {
 }
 
 export default function RelationInspector(props: Props) {
-  return <aside className={styles.desktopInspector}><InspectorCard {...props} /></aside>;
+  return (
+    <aside className={styles.desktopInspector}>
+      <AnimatedHeight duration={260}>
+        <InspectorCard {...props} />
+      </AnimatedHeight>
+    </aside>
+  );
 }

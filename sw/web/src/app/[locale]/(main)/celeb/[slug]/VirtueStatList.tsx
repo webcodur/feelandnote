@@ -51,18 +51,35 @@ function VirtueSummaryGroup({
               type="button"
               aria-pressed={pressed}
               onClick={() => onSelect(item.key)}
-              className="flex min-w-0 w-full items-center justify-between gap-2 bg-[color:var(--material-panel,var(--color-bg-card))] px-2 py-1.5 opacity-70 hover:opacity-100"
+              className={cn(
+                "flex min-w-0 w-full items-center justify-between gap-2 px-2 py-1.5",
+                pressed
+                  ? "bg-white/[0.08] opacity-100 ring-1 ring-inset ring-white/20"
+                  : "bg-[color:var(--material-panel,var(--color-bg-card))] opacity-70 hover:opacity-100 hover:bg-white/[0.03]",
+              )}
             >
-              <span className="min-w-0 truncate text-sm text-text-secondary">
+              <span
+                className={cn(
+                  "min-w-0 truncate text-sm",
+                  pressed ? "font-medium text-text-primary" : "text-text-secondary",
+                )}
+              >
                 {item.label}
               </span>
-              <span className="relative flex h-6 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[2px] border border-white/10 bg-black/20">
+              <span
+                className={cn(
+                  "relative flex h-6 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[2px] border",
+                  pressed
+                    ? "border-white/80 bg-white/70 shadow-sm"
+                    : "border-white/10 bg-black/20",
+                )}
+              >
                 <span
                   aria-hidden
                   className={cn(
                     "absolute inset-y-0 start-0 border-e",
                     pressed
-                      ? "border-white/40 bg-white"
+                      ? "border-black/20 bg-white"
                       : item.value >= 80
                         ? "border-accent/30 bg-accent/20"
                         : item.value >= 60
@@ -75,7 +92,7 @@ function VirtueSummaryGroup({
                   className={cn(
                     "relative z-10 font-serif text-sm tabular-nums",
                     pressed
-                      ? "text-black"
+                      ? "font-bold text-black"
                       : item.value >= 80
                         ? "text-accent"
                         : item.value >= 60

@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
-import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
+import type { CelebBySlugProfile, CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import type { ServiceItem } from "./celebServiceItems";
@@ -27,6 +27,7 @@ interface Props {
   factions: FeaturedTag[];
   currentCelebId: string;
   isFiction: boolean;
+  centerProfile?: CelebBySlugProfile;
 }
 
 const TAB_KEYS: readonly PeopleAndEraTab[] = ["relations", "faction"];
@@ -39,6 +40,7 @@ export default function PeopleAndEraTabs({
   factions,
   currentCelebId,
   isFiction,
+  centerProfile,
 }: Props) {
   const t = useTranslations("celebPage");
   const childItems = item.children ?? [];
@@ -85,6 +87,7 @@ export default function PeopleAndEraTabs({
             centerAvatarUrl={centerAvatarUrl}
             relations={relations}
             isFiction={isFiction}
+            centerProfile={centerProfile}
           />
         )}
 

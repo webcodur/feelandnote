@@ -33,20 +33,11 @@ export default function FigureBookWorksSection({
     <div className="effect-engraved relative isolate overflow-hidden border-4 border-stone-light bg-stone-heavy bg-texture-marble p-2 shadow-2xl md:p-3">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/[0.08] via-transparent to-black/30" />
       <div className="relative overflow-hidden border border-accent-dim/40 bg-bg-card">
-
-        <div className="engraved-plate relative border-b border-accent-dim/30 px-4 py-4 text-center md:px-6 md:py-5">
-          <div className="mx-auto max-w-3xl">
-            <p className="text-sm leading-6 text-text-secondary">
-              {t("sourceWorksIntro")}
-            </p>
-            <span className="mx-auto mt-3 flex items-center justify-center gap-2" aria-hidden>
-              <span className="h-px w-12 bg-accent-dim" />
-              <span className="size-1.5 rotate-45 border border-accent" />
-              <span className="h-px w-12 bg-accent-dim" />
-            </span>
-          </div>
+        <div className="border-b border-accent-dim/30 bg-bg-secondary/40 px-4 py-2.5 text-center sm:py-3">
+          <p className="text-sm text-text-secondary">
+            {t("sourceWorksIntro")}
+          </p>
         </div>
-
         {appearanceSources.length > 1 ? (
           <div className="relative border-b border-accent-dim/30 bg-bg-secondary/70 bg-texture-noise px-2 py-2.5 sm:px-3 sm:py-3 md:px-4">
             <div className="flex snap-x snap-proximity gap-2 overflow-x-auto overscroll-x-contain scroll-px-2 pb-1 [scrollbar-width:thin] sm:scroll-px-3">

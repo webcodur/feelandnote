@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { coalescePublicRead } from '@/lib/coalescePublicRead'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_REALITIES, type CelebTier, type CelebReality } from '@feelandnote/shared/constants/celeb-tiers'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
@@ -52,7 +53,7 @@ async function fetchInfluenceRanking(): Promise<InfluenceRanking> {
 // 만료는 키마다 어긋나게 잡는다 — 탐색 허브가 함께 쓰는 큰 캐시들이 한 시각에 같이 식으면
 // 조회가 몰려 3초 제한에 걸린다
 export const getInfluenceRanking = unstable_cache(
-  fetchInfluenceRanking,
+  coalescePublicRead(fetchInfluenceRanking),
   ['influence-ranking'],
   { revalidate: spreadRevalidate(LIST_REVALIDATE, ['influence-ranking']), tags: [CACHE_TAGS.CELEBS] }
 )
@@ -151,8 +152,6 @@ interface PublicCelebData {
   quoteEnMap: Record<string, string>
   voiceMap: Record<string, { voice_v: number; voice_speed: number }>
   contentResearchConfirmedEmptyMap: Record<string, string | null>
-  rankingMap: Record<string, number>
-  influenceTotal: number
 }
 
 async function fetchCelebsPublic(
@@ -208,11 +207,11 @@ async function fetchCelebsPublic(
   const celebIds = rows.map(row => row.id)
 
   if (celebIds.length === 0) {
-    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchConfirmedEmptyMap: {}, rankingMap: {}, influenceTotal: 0 }
+    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchConfirmedEmptyMap: {} }
   }
 
-  // 병렬 조회: 태그, 대사, 음성, 0건 확정 시각 + 영향력 랭킹(공유 캐시)
-  const [tagJoinRows, dialogueResult, voiceResult, researchMarkerResult, influenceRanking] = await Promise.all([
+  // 병렬 조회: 태그, 대사, 음성, 0건 확정 시각
+  const [tagJoinRows, dialogueResult, voiceResult, researchMarkerResult] = await Promise.all([
     // 세력도감 소속 — UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다
     (async (): Promise<TagAssignmentJoinRow[]> => {
       const { data: memberRows, error: memberError } = await db
@@ -253,7 +252,6 @@ async function fetchCelebsPublic(
     db.from('celebs')
       .select('id, content_research_confirmed_empty_at')
       .in('id', celebIds),
-    getInfluenceRanking(),
   ])
   throwOnQueryError('인물 대사', dialogueResult.error)
   throwOnQueryError('인물 음성', voiceResult.error)
@@ -295,36 +293,35 @@ async function fetchCelebsPublic(
     contentResearchConfirmedEmptyMap[row.id] = row.content_research_confirmed_empty_at
   })
 
-  // 영향력 랭킹 — 공유 캐시에서 가져온다
-  const { rankingMap, influenceTotal } = influenceRanking
-
   return {
     rows, total, totalPages, tagMap, tagSortOrderMap,
     greetingMap, greetingEnMap, quoteMap, quoteEnMap,
     voiceMap, contentResearchConfirmedEmptyMap,
-    rankingMap, influenceTotal,
   }
 }
 
+// 콜백 내부의 공개 조회만 합친다. Next 캐시는 요청마다 태그·재검증을 처리한다.
+const fetchCelebsPublicOnce = coalescePublicRead(fetchCelebsPublic)
+
 // unstable_cache 래퍼: 인자를 직렬화 가능한 primitive로 전달
 const getCelebsCached = unstable_cache(
-  fetchCelebsPublic,
+  fetchCelebsPublicOnce,
   // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
-  ['celebs-public-v3-confirmed-empty-map'],
+  ['celebs-public-v4-separate-ranking'],
   // celebs·celeb_influence(정렬/랭킹) + faction_atlas_members·celeb_tags + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
-    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v3-confirmed-empty-map']),
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v4-separate-ranking']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
   }
 )
 
 // 인기(trending)만 따로 감싼다 — 30일 창 순위를 7일 캐시에 묶으면 한 주 내내 같은 순위가 나온다
 const getCelebsTrendingCached = unstable_cache(
-  fetchCelebsPublic,
-  ['celebs-public-trending-v1'],
+  fetchCelebsPublicOnce,
+  ['celebs-public-trending-v2-separate-ranking'],
   {
-    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v1']),
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v2-separate-ranking']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
   }
 )
@@ -363,6 +360,10 @@ export async function getCelebs(
     return { celebs: [], total: pub.total, page, totalPages: pub.totalPages, error: null }
   }
 
+  // 중첩 unstable_cache는 내부 캐시를 건너뛴다. 랭킹은 목록 밖에서 읽고,
+  // 전 인물 랭킹 맵을 필터·페이지별 목록 캐시에 반복 저장하지 않는다.
+  const { rankingMap, influenceTotal } = await getInfluenceRanking()
+
   // 2. 유저별 팔로우 상태 (동적 — 캐싱 불가)
   const celebIds = pub.rows.map(row => row.id)
   let myFollowings = new Set<string>()
@@ -387,9 +388,9 @@ export async function getCelebs(
 
   // 3. CelebProfile 조합
   const celebs: CelebProfile[] = pub.rows.map((row) => {
-    const ranking = pub.rankingMap[row.id]
-    const percentile = ranking && pub.influenceTotal > 0
-      ? (ranking / pub.influenceTotal) * 100
+    const ranking = rankingMap[row.id]
+    const percentile = ranking && influenceTotal > 0
+      ? (ranking / influenceTotal) * 100
       : 100
     const voice = pub.voiceMap[row.id]
 
@@ -422,7 +423,7 @@ export async function getCelebs(
       influence: row.total_score > 0 ? {
         total_score: row.total_score,
         level: ranking
-          ? getCelebLevelByRanking(ranking, pub.influenceTotal)
+          ? getCelebLevelByRanking(ranking, influenceTotal)
           : getCelebLevelByRanking(1, 1),
         ranking,
         percentile,

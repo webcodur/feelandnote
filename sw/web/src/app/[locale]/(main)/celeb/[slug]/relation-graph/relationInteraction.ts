@@ -14,14 +14,17 @@ export function bindRelationClicks(container: HTMLElement, callbacks: RelationCl
   let committedAt: number | null = null;
   const findTarget = (target: EventTarget | null) => {
     const element = target as ClickElement | null;
-    const personId = element?.closest<HTMLElement>("[data-relation-person]")
-      ?.dataset.relationPerson;
+    const personEl = element?.closest<HTMLElement>("[data-relation-person]");
+    const personId = personEl?.dataset.relationPerson;
+    if (personId === "__CENTER__" || element?.closest<HTMLElement>(".relation-center")) {
+      return { center: true };
+    }
     if (personId) return { center: false, personId };
-    return element?.closest<HTMLElement>(".relation-center") ? { center: true } : null;
+    return null;
   };
   const commit = (target: { center: boolean; personId?: string }) => {
-    if (target.personId) callbacks.onPerson(target.personId);
-    else if (target.center) callbacks.onCenter();
+    if (target.center) callbacks.onCenter();
+    else if (target.personId) callbacks.onPerson(target.personId);
   };
   const handlePointerDown = (event: PointerEvent) => {
     const target = findTarget(event.target);
