@@ -16,6 +16,7 @@
 
 import { useEffect, useState } from "react";
 
+import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import {
   getCelebConnections,
   type CelebConnectionsData,
@@ -35,6 +36,7 @@ interface Props {
   centerAvatarUrl: string | null;
   currentCelebId: string;
   isFiction: boolean;
+  centerProfile?: CelebBySlugProfile;
 }
 
 export default function CelebConnectionsDeferred({
@@ -45,6 +47,7 @@ export default function CelebConnectionsDeferred({
   centerAvatarUrl,
   currentCelebId,
   isFiction,
+  centerProfile,
 }: Props) {
   const [status, setStatus] = useState<LoadStatus>("loading");
   const [data, setData] = useState<CelebConnectionsData | null>(null);
@@ -91,6 +94,7 @@ export default function CelebConnectionsDeferred({
       factions={data.factions}
       currentCelebId={currentCelebId}
       isFiction={isFiction}
+      centerProfile={centerProfile}
     />
   );
 }

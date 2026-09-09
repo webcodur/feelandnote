@@ -1,4 +1,4 @@
-import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
+import type { CelebBySlugProfile, CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
 export type RelationMode = "family" | "social" | "other";
 export type KinRank = "parents" | "siblings" | "spouses" | "children";
@@ -10,6 +10,7 @@ export interface RelationGraphProps {
   centerAvatarUrl: string | null;
   relations: CelebRelationItem[];
   isFiction?: boolean;
+  centerProfile?: CelebBySlugProfile;
 }
 
 export interface PersonNode {

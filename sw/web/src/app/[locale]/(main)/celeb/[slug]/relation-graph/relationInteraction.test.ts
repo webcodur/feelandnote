@@ -75,3 +75,26 @@ test("only the latest early click is focused after initialization", () => {
 
   assert.deepEqual(focused, ["grace", "linus"]);
 });
+
+test("clicking center node triggers onCenter callback", () => {
+  const container = new FakeContainer();
+  let centerClicked = false;
+  const selected: string[] = [];
+  bindRelationClicks(container as unknown as HTMLElement, {
+    onCenter: () => { centerClicked = true; },
+    onPerson: (personId) => selected.push(personId),
+  });
+
+  const centerTarget = {
+    closest: (selector: string) => {
+      if (selector === "[data-relation-person]") {
+        return { dataset: { relationPerson: "__CENTER__" } } as unknown as HTMLElement;
+      }
+      return null;
+    },
+  };
+
+  container.dispatch("click", { target: centerTarget, timeStamp: 1 } as unknown as MouseEvent);
+  assert.equal(centerClicked, true);
+  assert.deepEqual(selected, []);
+});

@@ -24,6 +24,7 @@ interface Props {
   centerName: string; centerAvatarUrl: string | null; labels: DiagramLabels;
   zoomInLabel: string; zoomOutLabel: string; selectedId: string | null;
   onSelect: (person: PersonNode) => void;
+  onSelectCenter?: () => void;
 }
 const DESKTOP_ZOOM = { min: 0.7, max: 1.6, initial: 1.3 };
 const MOBILE_ZOOM = { min: 0.55, max: 1.35, initial: 0.75 };
@@ -48,7 +49,7 @@ async function applySelection(
 }
 function RelationDiagram(props: Props) {
   const {
-    mode, focuses, model, centerName, centerAvatarUrl, labels, zoomInLabel, zoomOutLabel, selectedId, onSelect,
+    mode, focuses, model, centerName, centerAvatarUrl, labels, zoomInLabel, zoomOutLabel, selectedId, onSelect, onSelectCenter,
   } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const boundaryFeedbackRef = useRef<GraphBoundaryFeedbackHandle>(null);
@@ -87,8 +88,16 @@ function RelationDiagram(props: Props) {
       void focusGraphPerson(graph, container, request.personId);
     });
     const removeRelationClicks = bindRelationClicks(container, {
-      onCenter: () => moveQueue.request({ type: "center" }),
+      onCenter: () => {
+        moveQueue.request({ type: "center" });
+        onSelectCenter?.();
+      },
       onPerson: (personId) => {
+        if (personId === "__CENTER__") {
+          moveQueue.request({ type: "center" });
+          onSelectCenter?.();
+          return;
+        }
         const person = model.people.find((item) => item.id === personId);
         if (person) { moveQueue.request({ type: "person", personId }); onSelect(person); }
       },
@@ -153,7 +162,7 @@ function RelationDiagram(props: Props) {
       removeRelationClicks();
       graph?.destroy();
     };
-  }, [mode, focuses, model, centerName, centerAvatarUrl, labels, onSelect, mobile, defaultZoom, minZoom, maxZoom, compactFocus, fullView]);
+  }, [mode, focuses, model, centerName, centerAvatarUrl, labels, onSelect, onSelectCenter, mobile, defaultZoom, minZoom, maxZoom, compactFocus, fullView]);
   useEffect(() => {
     const graph = graphRef.current;
     const data = dataRef.current;

@@ -11,6 +11,13 @@ import type { Locale } from "@/types/locale";
 
 const R2_PUBLIC_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_URL!;
 
+/** 인물 안내 낭독. 대사 음성 보유 여부와 독립적으로 제공한다. */
+export function getReadingVoiceUrl(celebId: string, locale: Locale, voiceV = 0): string {
+  if (!R2_PUBLIC_URL) return "";
+  const base = `${R2_PUBLIC_URL}/celebs/${celebId}/voice/${locale}/reading.mp3`;
+  return voiceV > 0 ? `${base}?v=${voiceV}` : base;
+}
+
 /** DialogueType → 파일 접두사 매핑 */
 const TYPE_PREFIX: Record<string, string> = {
   greeting: "g",

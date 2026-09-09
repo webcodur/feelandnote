@@ -155,13 +155,14 @@
 .graphCanvas :global(.relation-profile-fallback circle) { fill: currentcolor; opacity: .76; }
 .graphCanvas :global(.relation-profile-fallback path) { fill: currentcolor; opacity: .5; }
 .graphCanvas :global(.relation-person:hover .relation-profile-fallback) { color: var(--material-accent); }
-.graphCanvas :global(.relation-center) { grid-template-rows: 116px 30px; padding: 7px 0; cursor: grab; }
+.graphCanvas :global(.relation-center) { grid-template-rows: 116px 30px; padding: 7px 0; cursor: pointer; }
 .graphCanvas :global(.relation-ray) { position: absolute; z-index: 0; background: color-mix(in srgb, var(--material-edge) 92%, transparent); pointer-events: none; }
 .graphCanvas :global(.relation-ray.is-up) { top: 0; bottom: 50%; left: 50%; width: 1px; }
 .graphCanvas :global(.relation-ray.is-down) { top: 50%; bottom: 0; left: 50%; width: 1px; }
 .graphCanvas :global(.relation-ray.is-left) { top: 50%; right: 50%; left: 0; height: 1px; }
 .graphCanvas :global(.relation-ray.is-right) { top: 50%; right: 0; left: 50%; height: 1px; }
 .graphCanvas :global(.relation-center .relation-face) { z-index: 1; width: 96px; height: 96px; border: 2px solid var(--material-accent); box-shadow: 0 9px 24px var(--material-deep); }
+.graphCanvas :global(.relation-center.is-selected .relation-face) { border-color: #fff; box-shadow: 0 0 0 3px color-mix(in srgb, var(--material-accent) 60%, transparent), 0 10px 28px var(--material-deep); }
 .graphCanvas :global(.relation-center strong) { z-index: 2; width: 138px; padding-block: 4px; background: transparent; font-size: 15px; line-height: 20px; }
 .graphCanvas :global(.relation-lane) { display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; gap: 6px; color: var(--material-muted); font-size: 14px; font-weight: 750; letter-spacing: .01em; white-space: nowrap; }
 .graphCanvas :global(.relation-lane)::before, .graphCanvas :global(.relation-lane)::after { height: 1px; flex: 1; background: color-mix(in srgb, var(--material-edge) 72%, transparent); content: ""; }

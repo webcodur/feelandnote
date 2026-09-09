@@ -32,44 +32,49 @@ export default function CuratorCard({ curator }: { curator: Curator }) {
 
   return (
     <div
-      className="group/card overflow-hidden rounded-2xl border border-white/[0.08] bg-[#141414] transition-colors hover:border-white/[0.2]"
+      className="group/card grid grid-cols-[auto_1fr] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#141414] transition-colors hover:border-white/[0.2]"
       style={{
         background: `radial-gradient(130% 120% at 0% 0%, ${brand.primary}22 0%, ${brand.primary}0A 40%, #141414 85%)`,
       }}
     >
-      {/* ── 기관 머리 — 전용관으로 가는 링크 ── */}
+      {/* ── 좌측: 세로폭에 꽉 채운 1:1 로고 영역 (전용관 링크) ── */}
       <Link
         href={`/library/curated/${curator.slug}`}
-        className="group/head flex items-center justify-between gap-3 p-4 sm:p-5"
+        className="group/logo relative flex h-full aspect-square shrink-0 items-center justify-center overflow-hidden bg-[#141414] hover:opacity-95"
       >
-        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-          {curator.logoUrl ? (
-            <div className="relative size-10 shrink-0 overflow-hidden rounded-xl border border-white/20 bg-white/95 p-1 shadow-sm sm:size-12">
-              <BlurDissolve className="absolute inset-0">
-                <Image
-                  src={curator.logoUrl}
-                  alt={curator.name}
-                  fill
-                  className="object-contain p-0.5"
-                  sizes="48px"
-                />
-              </BlurDissolve>
-            </div>
-          ) : (
-            <div
-              className="flex size-10 shrink-0 items-center justify-center rounded-xl border font-serif text-[13px] font-bold sm:size-12"
-              style={{
-                backgroundColor: `${brand.primary}66`,
-                borderColor: `${brand.accent}55`,
-                color: brand.accent,
-              }}
-            >
-              {brand.monogram.slice(0, 3)}
-            </div>
-          )}
+        {curator.logoUrl ? (
+          <BlurDissolve className="absolute inset-0">
+            <Image
+              src={curator.logoUrl}
+              alt={curator.name}
+              fill
+              className="object-contain"
+              sizes="160px"
+            />
+          </BlurDissolve>
+        ) : (
+          <div
+            className="flex size-full items-center justify-center font-serif text-xl font-bold sm:text-2xl"
+            style={{
+              backgroundColor: `${brand.primary}66`,
+              borderColor: `${brand.accent}55`,
+              color: brand.accent,
+            }}
+          >
+            {brand.monogram.slice(0, 3)}
+          </div>
+        )}
+      </Link>
 
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-text-tertiary">
+      {/* ── 우측: 정보 및 선정 목록 ── */}
+      <div className="flex flex-1 min-w-0 flex-col justify-between overflow-hidden border-l border-white/[0.08]">
+        {/* ── 기관 머리 — 전용관으로 가는 링크 ── */}
+        <Link
+          href={`/library/curated/${curator.slug}`}
+          className="group/head flex items-center justify-between gap-2 p-3 sm:gap-3 sm:p-4"
+        >
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[10.5px] text-text-tertiary sm:text-[11px]">
               <span className="font-semibold" style={{ color: brand.accent }}>
                 {t(`kind.${curator.kind}`)}
               </span>
@@ -88,7 +93,7 @@ export default function CuratorCard({ curator }: { curator: Curator }) {
             </div>
 
             {/* 이름 색은 즉각 바뀐다 — 조작 요소의 지연 없는 반응 */}
-            <div className="mt-0.5 truncate text-[16px] font-bold text-text-primary group-hover/head:text-accent sm:text-[18px]">
+            <div className="mt-0.5 truncate text-[15px] font-bold text-text-primary group-hover/head:text-accent sm:text-[18px]">
               {curator.name}
             </div>
 
@@ -97,37 +102,37 @@ export default function CuratorCard({ curator }: { curator: Curator }) {
               {itemCount > 0 && <span> · {t("itemCount", { count: itemCount })}</span>}
             </div>
           </div>
-        </div>
 
-        <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] text-text-secondary group-hover/head:border-accent/40 group-hover/head:text-accent">
-          <ArrowRight size={16} />
-        </div>
-      </Link>
+          <div className="flex size-7 shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] text-text-secondary group-hover/head:border-accent/40 group-hover/head:text-accent sm:size-8">
+            <ArrowRight size={15} />
+          </div>
+        </Link>
 
-      {/* ── 선정 목록 — 하나하나가 링크다 ── */}
-      {shownLists.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 border-t border-white/[0.06] bg-black/30 px-4 py-3 sm:px-5">
-          {shownLists.map((list) => (
-            <Link
-              key={list.slug}
-              href={`/library/curated/${curator.slug}/${list.slug}`}
-              className="max-w-full truncate rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1.5 text-[12px] text-text-secondary hover:border-accent/40 hover:text-accent"
-            >
-              {list.title}
-              <span className="ml-1 font-mono text-[11px] text-text-tertiary">{list.itemCount}</span>
-            </Link>
-          ))}
+        {/* ── 선정 목록 — 하나하나가 링크다 (가로 스크롤) ── */}
+        {shownLists.length > 0 && (
+          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide border-t border-white/[0.06] bg-black/30 px-3 py-2 touch-pan-x overscroll-x-contain sm:px-4 sm:py-2.5">
+            {shownLists.map((list) => (
+              <Link
+                key={list.slug}
+                href={`/library/curated/${curator.slug}/${list.slug}`}
+                className="shrink-0 whitespace-nowrap rounded-lg border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11.5px] text-text-secondary hover:border-accent/40 hover:text-accent sm:text-[12px]"
+              >
+                {list.title}
+                <span className="ml-1 font-mono text-[10.5px] text-text-tertiary sm:text-[11px]">{list.itemCount}</span>
+              </Link>
+            ))}
 
-          {restCount > 0 && (
-            <Link
-              href={`/library/curated/${curator.slug}`}
-              className="rounded-lg border border-dashed border-white/[0.12] px-2.5 py-1.5 text-[12px] text-text-tertiary hover:border-accent/40 hover:text-accent"
-            >
-              +{restCount}
-            </Link>
-          )}
-        </div>
-      )}
+            {restCount > 0 && (
+              <Link
+                href={`/library/curated/${curator.slug}`}
+                className="shrink-0 whitespace-nowrap rounded-lg border border-dashed border-white/[0.12] px-2.5 py-1 text-[11.5px] text-text-tertiary hover:border-accent/40 hover:text-accent sm:text-[12px]"
+              >
+                +{restCount}
+              </Link>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

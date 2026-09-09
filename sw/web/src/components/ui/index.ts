@@ -19,4 +19,5 @@ export { default as ContentImage } from "./ContentImage";
 export { default as VoiceBadge } from "./VoiceBadge";
 export { default as ScoreBar, getScoreTier, type ScoreTier } from "./ScoreBar";
 export { default as DetailToggle } from "./DetailToggle";
+export { default as AnimatedHeight } from "./AnimatedHeight";
 export { useSnapCarousel, CarouselTabs, CarouselDots, Carousel } from "./SnapCarousel";
