@@ -40,18 +40,12 @@ test('cached celeb profile queries throw before missing and empty values are nor
     profileSource,
     /throwOnQueryError\('getCelebBySlug\/profile',[\s\S]*?if \(!celeb\) return null/,
   )
-  assert.match(profileSource, /celeb-by-slug-v7-query-guards/)
+  assert.match(profileSource, /cachedDetail\([\s\S]*?CACHE_TAGS\.CELEBS/)
   assert.doesNotMatch(profileSource, /if \(explanationResult\.error\)[\s\S]*?console\.error/)
 })
 
-test('cached dialogue, JSON-LD, spectrum, and influence ranking queries reject failures', () => {
-  assert.match(dialogueSource, /throwOnQueryError\('getCelebJsonLdContents'/)
-  assert.match(
-    dialogueSource,
-    /withQueryFallback\([\s\S]*?'getCelebJsonLdContents'[\s\S]*?getCelebJsonLdContentsCached/,
-  )
+test('cached dialogue, spectrum, and influence ranking queries reject failures', () => {
   assert.match(dialogueSource, /throwOnQueryError\('getCelebDialogueFull'/)
-  assert.match(dialogueSource, /celeb-jsonld-contents-v2-query-guards/)
   assert.match(dialogueSource, /celeb-dialogue-full-v2-query-guards/)
   assert.match(spectrumSource, /throwOnQueryError\('getSimilarByCelebId\/target'/)
   assert.match(spectrumSource, /spectrum-by-id-v2-query-guards/)
@@ -82,6 +76,6 @@ test('affiliate recommendations reject source failures before any empty result i
       `missing getAffiliateBooks/${label} query guard`,
     )
   }
-  assert.match(affiliateSource, /affiliate-pool-v2-query-guards/)
-  assert.match(affiliateSource, /affiliate-books-celeb-v2-query-guards/)
+  assert.match(affiliateSource, /unstable_cache\(fetchAffiliatePool/)
+  assert.match(affiliateSource, /cachedDetail\([\s\S]*?CACHE_TAGS\.CELEBS/)
 })

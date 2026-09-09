@@ -199,6 +199,7 @@ export default function CelebRecordSections({
             <SectionSurface>
               <LibraryTabs
                 userId={userId}
+                slug={slug}
                 nickname={profile.nickname}
                 avatarUrl={profile.avatar_url ?? null}
                 emptyMessage={t("libraryEmpty")}

@@ -86,6 +86,37 @@ interface GetCelebsResult {
   error: string | null
 }
 
+type CelebLinkRow = Pick<CelebRow, 'id' | 'slug' | 'nickname' | 'nickname_en' | 'avatar_url' | 'title' | 'title_en' | 'content_count'>
+
+// 얼굴·이름·직함만 쓰는 홈 명부는 전체 프로필의 대사·음성·태그·영향력 순위를 읽지 않는다.
+async function fetchMostRecordedCelebLinks(limit: number, minContentCount: number) {
+  const db = createStaticClient()
+  const { data, error } = await db.rpc('get_celebs_sorted', {
+    p_sort_by: 'content_count', p_limit: limit, p_offset: 0,
+    p_min_content_count: minContentCount, p_include_inactive: false,
+    p_celeb_realities: [...LISTING_DEFAULT_REALITIES],
+  }).select('id, slug, nickname, nickname_en, avatar_url, title, title_en, content_count')
+  throwOnQueryError('기록이 쌓인 인물 명부', error)
+  const rows = (data ?? []) as CelebLinkRow[]
+  return rows.map(row => ({
+    ...row,
+    nickname: row.nickname ?? '',
+  }))
+}
+
+const getMostRecordedCelebLinksCached = unstable_cache(
+  coalescePublicRead(fetchMostRecordedCelebLinks),
+  ['most-recorded-celeb-links'],
+  {
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['most-recorded-celeb-links']),
+    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+  },
+)
+
+export async function getMostRecordedCelebLinks(limit: number, minContentCount: number) {
+  return getMostRecordedCelebLinksCached(limit, minContentCount)
+}
+
 // RPC 함수 반환 타입
 interface CelebRow {
   id: string

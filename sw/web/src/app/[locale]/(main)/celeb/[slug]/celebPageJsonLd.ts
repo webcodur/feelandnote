@@ -4,13 +4,13 @@
  * - 데이터: profile/contents/figureBooks/externalLinks props
  * - 함께 보기: celebPageMetadata.ts, page.tsx
  * ───────────────────────────────────────────── */
-import type { JsonLdContentRow } from "@/actions/celebs/getCelebJsonLdData";
+import type { UserContentPublic } from "@/actions/contents/getUserContents";
+import { filterAndSortContents, mapPublicToUserContent } from "@/components/features/user/contentLibrary/contentLibraryTypes";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { getAlternates, getCreativeWorkCreatorJsonLd, getSeoImageUrl } from "@/lib/seo";
-import { flattenLocales } from "@/lib/utils/content-locale";
 import type { CelebExternalLink } from "@/types/celebExternalLinks";
 
 interface BuildCelebPageJsonLdInput {
@@ -18,7 +18,7 @@ interface BuildCelebPageJsonLdInput {
   slug: string;
   locale: string;
   pageTitle: string;
-  contents: readonly JsonLdContentRow[];
+  contents: readonly UserContentPublic[];
   figureBooks: readonly FigureBookContent[];
   externalLinks: readonly CelebExternalLink[];
 }
@@ -97,16 +97,18 @@ export function buildCelebPageJsonLd({
     image,
   };
 
-  const contentItems = contents.map((rawContent, index) => {
-    const flat = flattenLocales(rawContent.content_locales, locale);
+  const visibleContents = filterAndSortContents(
+    mapPublicToUserContent([...contents], profile.id), "recent", locale === "ko",
+  );
+  const contentItems = visibleContents.map(({ content: rawContent }, index) => {
     return {
       "@type": "ListItem",
       position: index + 1,
       item: {
         "@type": schemaType(rawContent.type),
-        name: flat.title,
+        name: rawContent.title,
         url: getAlternates(`/content/${rawContent.id}`, seoLocale).canonical,
-        ...getCreativeWorkCreatorJsonLd(rawContent.type, flat.creator),
+        ...getCreativeWorkCreatorJsonLd(rawContent.type, rawContent.creator),
       },
     };
   });

@@ -3811,6 +3811,166 @@
       "before": "URL is unknown to Google",
       "status": "request accepted",
       "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/tim-ferriss",
+      "confirmedAt": "2026-09-09T05:45:34.254Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/nassim-nicholas-taleb",
+      "confirmedAt": "2026-09-09T05:47:10.927Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/demis-hassabis",
+      "confirmedAt": "2026-09-09T05:48:32.108Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/warren-buffett",
+      "confirmedAt": "2026-09-09T05:49:57.418Z",
+      "source": "Search Console UI",
+      "before": "URL is unknown to Google",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/sundar-pichai",
+      "confirmedAt": "2026-09-09T05:51:23.340Z",
+      "source": "Search Console UI",
+      "before": "URL is unknown to Google",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/andrew-ng",
+      "confirmedAt": "2026-09-09T05:53:06.157Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/charlie-munger",
+      "confirmedAt": "2026-09-09T05:54:29.724Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/sam-altman",
+      "confirmedAt": "2026-09-09T05:55:47.452Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/mark-zuckerberg",
+      "confirmedAt": "2026-09-09T05:57:08.386Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/naval-ravikant",
+      "confirmedAt": "2026-09-09T05:58:46.368Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/peter-thiel",
+      "confirmedAt": "2026-09-09T06:00:13.685Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/barack-obama",
+      "confirmedAt": "2026-09-09T06:01:32.970Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/jensen-huang",
+      "confirmedAt": "2026-09-09T06:03:06.382Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/yuval-noah-harari",
+      "confirmedAt": "2026-09-09T06:04:20.397Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/demis-hassabis",
+      "confirmedAt": "2026-09-09T06:06:21.708Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/tim-ferriss",
+      "confirmedAt": "2026-09-09T06:07:53.372Z",
+      "source": "Search Console UI",
+      "before": "Discovered - currently not indexed",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/satya-nadella",
+      "before": "Discovered - currently not indexed",
+      "confirmedAt": "2026-09-09T06:09:24.551Z",
+      "source": "Search Console UI",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/satya-nadella",
+      "before": "URL is unknown to Google",
+      "confirmedAt": "2026-09-09T06:11:17.490Z",
+      "source": "Search Console UI",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/jordan-peterson",
+      "before": "URL is unknown to Google",
+      "confirmedAt": "2026-09-09T06:14:01.797Z",
+      "source": "Search Console UI",
+      "status": "request accepted",
+      "livePrecheck": "passed"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/oprah-winfrey",
+      "before": "Crawled - currently not indexed",
+      "confirmedAt": "2026-09-09T06:15:24.595Z",
+      "source": "Search Console UI",
+      "status": "request accepted",
+      "livePrecheck": "passed"
     }
   ],
   "additionalCandidateInspection": {
@@ -4931,5 +5091,16 @@
       "allLiveChecksPassed": true,
       "selected": 15
     }
+  },
+  "indexingRequestLimit": {
+    "observedAt": "2026-09-09T06:17:05.113Z",
+    "source": "Search Console UI",
+    "url": "https://feelandnote.com/en/celeb/steve-jobs",
+    "before": "Discovered - currently not indexed",
+    "status": "quota exceeded",
+    "title": "할당량 초과",
+    "message": "일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요.",
+    "confirmedUniqueUrls": 30,
+    "lastAcceptedUrl": "https://feelandnote.com/en/celeb/oprah-winfrey"
   }
 }

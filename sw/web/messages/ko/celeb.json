@@ -318,6 +318,20 @@
     "readingPlay": "낭독 재생",
     "readingPause": "일시정지",
     "readingResume": "이어서 듣기",
-    "readingStop": "낭독 정지"
+    "readingStop": "낭독 정지",
+    "records": {
+      "viewAll": "감상 기록 전체 보기",
+      "title": "{name}의 감상 기록",
+      "pageTitle": "{name}의 감상 기록 · {page}쪽",
+      "description": "{name}의 작품별 감상 기록과 출처를 읽어보세요. {page}쪽.",
+      "back": "인물 페이지로",
+      "previous": "이전",
+      "next": "다음",
+      "page": "{page} / {total}쪽",
+      "source": "출처",
+      "emptyReview": "등록된 감상문이 없습니다.",
+      "spoiler": "스포일러가 포함된 감상문입니다.",
+      "originalLanguage": "한국어 원문입니다."
+    }
   }
 }

@@ -7,6 +7,7 @@
 "use client";
 
 import { useState } from "react";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
@@ -22,6 +23,7 @@ type LibraryTab = "consume" | "create";
 
 interface LibraryTabsProps {
   userId: string;
+  slug: string;
   nickname: string;
   /** 감상배경 칸 머리에 띄울 인물 얼굴 */
   avatarUrl?: string | null;
@@ -34,6 +36,7 @@ interface LibraryTabsProps {
 
 export default function LibraryTabs({
   userId,
+  slug,
   nickname,
   avatarUrl,
   emptyMessage,
@@ -63,6 +66,12 @@ export default function LibraryTabs({
         columnsClassName={tabs.length === 1 ? "grid-cols-1" : "grid-cols-2"}
         ariaLabel={t("library")}
       />
+
+      {hasConsumption && (initialContents?.total ?? 0) > 0 && <div className="flex justify-end px-4 pt-4">
+        <Link href={`/celeb/${slug}/records/1`} prefetch={false} className="text-sm text-accent underline underline-offset-4 hover:text-accent-hover">
+          {t("records.viewAll")}
+        </Link>
+      </div>}
 
       {/* 감상 탭은 초기 HTML에 포함하고 비활성 탭에서만 숨긴다. */}
       {hasConsumption && <div className={cn(activeTab !== "consume" && "hidden")}>
