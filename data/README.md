@@ -8,6 +8,7 @@
 | [`curated-lists/`](curated-lists/README.md) | 기관·시상·분야별 선정 목록과 수집·매칭 보고서 | [`docs/project/service/curated-lists.md`](../docs/project/service/curated-lists.md) |
 | `coupang/` | 제휴 상품 연결 대상과 선별 결과 | [`docs/project/operations/monetization.md`](../docs/project/operations/monetization.md) |
 | `naver-blog/` | 네이버 블로그 글 번호·인물 slug·링크 처리 상태 대응표 | [`docs/continuous/naver-blog.md`](../docs/continuous/naver-blog.md) |
+| `seo-index-inspection-*.json` | Search Console 입력 URL과 URL별 색인 검사 결과 | [`docs/project/operations/seo.md`](../docs/project/operations/seo.md) |
 
 ## 배치 원칙
 

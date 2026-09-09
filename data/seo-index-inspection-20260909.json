@@ -1,0 +1,1340 @@
+{
+  "checkedAt": "2026-09-08T18:06:38.267Z",
+  "priorReport": {
+    "source": "GSC URL-prefix property page indexing report",
+    "reportUpdated": "2026-09-04",
+    "urls": [
+      "https://feelandnote.com/celeb/ernest-hemingway",
+      "https://feelandnote.com/celeb/oprah-winfrey",
+      "https://feelandnote.com/",
+      "https://feelandnote.com/en/celeb/ray-dalio",
+      "https://feelandnote.com/celeb/jensen-huang",
+      "https://feelandnote.com/en/celeb/jeff-bezos",
+      "https://feelandnote.com/celeb/ray-dalio",
+      "https://feelandnote.com/celeb/larry-fink",
+      "https://feelandnote.com/library",
+      "https://feelandnote.com/en/celeb/sofia-vergara",
+      "https://feelandnote.com/celeb/immanuel-kant",
+      "https://feelandnote.com/celeb/brad-pitt",
+      "https://feelandnote.com/celeb/sebastian-stan",
+      "https://feelandnote.com/celeb/charlotte-bronte",
+      "https://feelandnote.com/celeb/enheduanna",
+      "https://feelandnote.com/celeb/anne-hathaway",
+      "https://feelandnote.com/en/celeb/ho-chi-minh",
+      "https://feelandnote.com/celeb/jeff-bezos",
+      "https://feelandnote.com/explore",
+      "https://feelandnote.com/about",
+      "https://feelandnote.com/explore/feed",
+      "https://feelandnote.com/celeb/sofia-vergara",
+      "https://feelandnote.com/celeb/plato",
+      "https://feelandnote.com/celeb/paul-cezanne",
+      "https://feelandnote.com/celeb/paul-thomas-anderson",
+      "https://feelandnote.com/en/celeb/paul-cezanne",
+      "https://feelandnote.com/celeb/abraham-lincoln",
+      "https://feelandnote.com/celeb/elon-musk",
+      "https://feelandnote.com/en/celeb/grace-kelly",
+      "https://feelandnote.com/en/celeb/sebastian-stan",
+      "https://feelandnote.com/en/celeb/sara-blakely",
+      "https://feelandnote.com/celeb/jordan-peterson",
+      "https://feelandnote.com/celeb/yi-sun-sin",
+      "https://feelandnote.com/celeb/julius-caesar",
+      "https://feelandnote.com/explore/directory",
+      "https://feelandnote.com/celeb/cao-cao",
+      "https://feelandnote.com/celeb/charles-darwin",
+      "https://feelandnote.com/celeb/bong-joon-ho",
+      "https://feelandnote.com/celeb/nikola-tesla",
+      "https://feelandnote.com/library/era",
+      "https://feelandnote.com/explore/today",
+      "https://feelandnote.com/celeb/zhuge-liang",
+      "https://feelandnote.com/en/celeb/deng-xiaoping",
+      "https://feelandnote.com/celeb/colin-farrell",
+      "https://feelandnote.com/celeb/steve-jobs",
+      "https://feelandnote.com/celeb/richard-feynman",
+      "https://feelandnote.com/celeb/j.k.-rowling",
+      "https://feelandnote.com/en/celeb/lorenzo-de-medici",
+      "https://feelandnote.com/celeb/j.-robert-oppenheimer",
+      "https://feelandnote.com/celeb/marcus-agrippa",
+      "https://feelandnote.com/celeb/grace-kelly",
+      "https://feelandnote.com/celeb/lorenzo-de-medici",
+      "https://feelandnote.com/en/library/academy",
+      "https://feelandnote.com/celeb/nero",
+      "https://feelandnote.com/celeb/nurhaci",
+      "https://feelandnote.com/celeb/mark-wahlberg",
+      "https://feelandnote.com/celeb/ana-de-armas",
+      "https://feelandnote.com/celeb/esai-morales",
+      "https://feelandnote.com/celeb/moon-jae-in",
+      "https://feelandnote.com/celeb/james-franco",
+      "https://feelandnote.com/celeb/mother-teresa",
+      "https://feelandnote.com/celeb/olivia-newton-john",
+      "https://feelandnote.com/celeb/arthur-conan-doyle",
+      "https://feelandnote.com/celeb/david-goggins",
+      "https://feelandnote.com/celeb/james-watt",
+      "https://feelandnote.com/celeb/herodotus",
+      "https://feelandnote.com/celeb/ulysses-s.-grant",
+      "https://feelandnote.com/celeb/jet-li",
+      "https://feelandnote.com/en/celeb/joe-rogan",
+      "https://feelandnote.com/celeb/jean-de-meun",
+      "https://feelandnote.com/celeb/bruce-lee",
+      "https://feelandnote.com/celeb/jim-collins",
+      "https://feelandnote.com/celeb/queen-seondeok",
+      "https://feelandnote.com/celeb/albert-einstein",
+      "https://feelandnote.com/celeb/winston-churchill",
+      "https://feelandnote.com/celeb/nelson-mandela",
+      "https://feelandnote.com/celeb/mark-zuckerberg",
+      "https://feelandnote.com/en/explore/feed",
+      "https://feelandnote.com/celeb/christine-de-pizan",
+      "https://feelandnote.com/content/9788937462849?category=book",
+      "https://feelandnote.com/celeb/francis-crick",
+      "https://feelandnote.com/en/celeb/anne-hathaway"
+    ]
+  },
+  "siteUrl": "sc-domain:feelandnote.com",
+  "results": [
+    {
+      "url": "https://feelandnote.com/celeb/ernest-hemingway",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-07T16:20:15Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/ernest-hemingway",
+      "userCanonical": "https://feelandnote.com/celeb/ernest-hemingway",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/oprah-winfrey",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-07T07:04:15Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/oprah-winfrey",
+      "userCanonical": "https://feelandnote.com/celeb/oprah-winfrey",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/ray-dalio",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-29T09:17:27Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/ray-dalio",
+      "userCanonical": "https://feelandnote.com/en/celeb/ray-dalio",
+      "referringUrls": [
+        "https://feelandnote.com/celeb/ray-dalio"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-04T16:48:13Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/",
+      "userCanonical": "https://feelandnote.com/",
+      "referringUrls": [
+        "https://feelandnote.com/en/library/academy",
+        "https://feelandnote.com/agora/board/notice/c3f03c88-107b-4a03-adff-23d5152ff5b4",
+        "https://feelandnote.com/en/explore/celebs",
+        "https://m.dcinside.com/board/reading/787944"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/jensen-huang",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-27T03:18:03Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/jensen-huang",
+      "userCanonical": "https://feelandnote.com/celeb/jensen-huang",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/jeff-bezos",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-27T01:44:45Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/jeff-bezos",
+      "userCanonical": "https://feelandnote.com/en/celeb/jeff-bezos",
+      "referringUrls": [
+        "https://feelandnote.com/en/explore/directory"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/ray-dalio",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-24T19:51:09Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/ray-dalio",
+      "userCanonical": "https://feelandnote.com/celeb/ray-dalio",
+      "referringUrls": [
+        "https://feelandnote.com/en/celeb/ray-dalio",
+        "https://feelandnote.com/explore/timeline"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/larry-fink",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-22T06:17:36Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/larry-fink",
+      "userCanonical": "https://feelandnote.com/celeb/larry-fink",
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/immanuel-kant",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-19T10:35:01Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/immanuel-kant",
+      "userCanonical": "https://feelandnote.com/celeb/immanuel-kant",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/sofia-vergara",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-19T14:22:35Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/sofia-vergara",
+      "userCanonical": "https://feelandnote.com/en/celeb/sofia-vergara",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/celeb/sofia-vergara",
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/library",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-07T04:52:44Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/library",
+      "userCanonical": "https://feelandnote.com/library",
+      "referringUrls": [
+        "https://feelandnote.com/scriptures",
+        "https://feelandnote.com/content/659578fc-407e-42a4-b378-33229c9b8ae2?category=book"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/brad-pitt",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-18T19:19:12Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/brad-pitt",
+      "userCanonical": "https://feelandnote.com/celeb/brad-pitt",
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/sebastian-stan",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-18T03:25:21Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/sebastian-stan",
+      "userCanonical": "https://feelandnote.com/celeb/sebastian-stan",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/enheduanna",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-17T23:48:43Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/enheduanna",
+      "userCanonical": "https://feelandnote.com/celeb/enheduanna",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/charlotte-bronte",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-18T00:08:51Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/charlotte-bronte",
+      "userCanonical": "https://feelandnote.com/celeb/charlotte-bronte",
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/anne-hathaway",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-16T23:06:36Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/anne-hathaway",
+      "userCanonical": "https://feelandnote.com/celeb/anne-hathaway",
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/ho-chi-minh",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-16T00:39:13Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/ho-chi-minh",
+      "userCanonical": "https://feelandnote.com/en/celeb/ho-chi-minh",
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/jeff-bezos",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-15T15:25:19Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/jeff-bezos",
+      "userCanonical": "https://feelandnote.com/celeb/jeff-bezos",
+      "referringUrls": [
+        "https://feelandnote.com/en/celeb/jeff-bezos"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/explore",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-10T02:15:00Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/explore",
+      "userCanonical": "https://feelandnote.com/explore",
+      "referringUrls": [
+        "https://feelandnote.com/rest/suikoden"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/about",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-10T02:14:56Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/about",
+      "userCanonical": "https://feelandnote.com/about",
+      "referringUrls": [
+        "https://feelandnote.com/en/celeb/caravaggio",
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/explore/feed",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-04T14:58:06Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/explore/feed",
+      "userCanonical": "https://feelandnote.com/explore/feed",
+      "referringUrls": [
+        "https://feelandnote.com/content/0925e1cc-92c1-4b74-b691-f125bde6ccde?category=book",
+        "https://feelandnote.com/en/celeb/nicolaus-copernicus"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/sofia-vergara",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-02T11:37:24Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/sofia-vergara",
+      "userCanonical": "https://feelandnote.com/celeb/sofia-vergara",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/plato",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-02T10:11:17Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/plato",
+      "userCanonical": "https://feelandnote.com/celeb/plato",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/paul-cezanne",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-02T07:26:55Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/paul-cezanne",
+      "userCanonical": "https://feelandnote.com/celeb/paul-cezanne",
+      "referringUrls": [
+        "https://feelandnote.com/en/celeb/paul-cezanne",
+        "https://feelandnote.com/explore/directory"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/paul-thomas-anderson",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-02T06:30:03Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/paul-thomas-anderson",
+      "userCanonical": "https://feelandnote.com/celeb/paul-thomas-anderson",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/abraham-lincoln",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-01T21:38:36Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/abraham-lincoln",
+      "userCanonical": "https://feelandnote.com/celeb/abraham-lincoln",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/paul-cezanne",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-02T04:08:04Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/paul-cezanne",
+      "userCanonical": "https://feelandnote.com/en/celeb/paul-cezanne",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/elon-musk",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-08T14:03:45Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/elon-musk",
+      "userCanonical": "https://feelandnote.com/celeb/elon-musk",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/explore/directory"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/grace-kelly",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-08-01T10:51:41Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/grace-kelly",
+      "userCanonical": "https://feelandnote.com/en/celeb/grace-kelly",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/sara-blakely",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-31T05:48:44Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/sara-blakely",
+      "userCanonical": "https://feelandnote.com/en/celeb/sara-blakely",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/sebastian-stan",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-31T22:44:30Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/sebastian-stan",
+      "userCanonical": "https://feelandnote.com/en/celeb/sebastian-stan",
+      "referringUrls": [
+        "https://feelandnote.com/celeb/sebastian-stan",
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/jordan-peterson",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-29T20:05:30Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/jordan-peterson",
+      "userCanonical": "https://feelandnote.com/celeb/jordan-peterson",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/julius-caesar",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-27T11:04:48Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/julius-caesar",
+      "userCanonical": "https://feelandnote.com/celeb/julius-caesar",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/yi-sun-sin",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-28T03:57:27Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/yi-sun-sin",
+      "userCanonical": "https://feelandnote.com/celeb/yi-sun-sin",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/explore/directory",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-24T05:35:45Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/explore/directory",
+      "userCanonical": "https://feelandnote.com/explore/directory",
+      "referringUrls": [
+        "https://feelandnote.com/celeb/kim-jeong-hui"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/cao-cao",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-23T16:08:18Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/cao-cao",
+      "userCanonical": "https://feelandnote.com/celeb/cao-cao",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/bong-joon-ho",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-23T06:03:44Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/bong-joon-ho",
+      "userCanonical": "https://feelandnote.com/celeb/bong-joon-ho",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/charles-darwin",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-23T06:15:39Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/charles-darwin",
+      "userCanonical": "https://feelandnote.com/celeb/charles-darwin",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/nikola-tesla",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-23T05:36:49Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/nikola-tesla",
+      "userCanonical": "https://feelandnote.com/celeb/nikola-tesla",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/library/era",
+      "verdict": "NEUTRAL",
+      "coverageState": "리디렉션이 포함된 페이지",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-07T04:40:48Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/library/popular",
+      "userCanonical": "https://feelandnote.com/library/popular",
+      "referringUrls": [
+        "https://feelandnote.com/library/popular",
+        "https://feelandnote.com/celeb/j.-robert-oppenheimer",
+        "https://feelandnote.com/celeb/pocahontas"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/explore/today",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-22T07:47:25Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/explore/today",
+      "userCanonical": "https://feelandnote.com/explore/today",
+      "referringUrls": [
+        "https://feelandnote.com/en/celeb/nicolaus-copernicus",
+        "https://feelandnote.com/explore/top-by-type"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/zhuge-liang",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-22T04:45:31Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/zhuge-liang",
+      "userCanonical": "https://feelandnote.com/celeb/zhuge-liang",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/colin-farrell",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-20T02:02:51Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/colin-farrell",
+      "userCanonical": "https://feelandnote.com/celeb/colin-farrell",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/deng-xiaoping",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-20T04:01:29Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/deng-xiaoping",
+      "userCanonical": "https://feelandnote.com/en/celeb/deng-xiaoping",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/steve-jobs",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-18T07:59:27Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/steve-jobs",
+      "userCanonical": "https://feelandnote.com/celeb/steve-jobs",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/richard-feynman",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-17T17:15:30Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/richard-feynman",
+      "userCanonical": "https://feelandnote.com/celeb/richard-feynman",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/j.k.-rowling",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-17T16:40:44Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/j.k.-rowling",
+      "userCanonical": "https://feelandnote.com/celeb/j.k.-rowling",
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/lorenzo-de-medici",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-17T12:36:27Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/lorenzo-de-medici",
+      "userCanonical": "https://feelandnote.com/en/celeb/lorenzo-de-medici",
+      "referringUrls": [
+        "https://feelandnote.com/celeb/lorenzo-de-medici",
+        "https://feelandnote.com/en/explore/directory"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/j.-robert-oppenheimer",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-17T07:07:31Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/j.-robert-oppenheimer",
+      "userCanonical": "https://feelandnote.com/celeb/j.-robert-oppenheimer",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/marcus-agrippa",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-04T06:40:32Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/marcus-agrippa",
+      "userCanonical": "https://feelandnote.com/celeb/marcus-agrippa",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/grace-kelly",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-04T03:26:43Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/grace-kelly",
+      "userCanonical": "https://feelandnote.com/celeb/grace-kelly",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/lorenzo-de-medici",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-03T15:36:58Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/lorenzo-de-medici",
+      "userCanonical": "https://feelandnote.com/celeb/lorenzo-de-medici",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/en/celeb/lorenzo-de-medici"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/library/academy",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-03T10:09:44Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/library/academy",
+      "userCanonical": "https://feelandnote.com/en",
+      "referringUrls": [
+        "https://feelandnote.com/en/celeb/plato"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/nero",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-03T02:56:34Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/nero",
+      "userCanonical": "https://feelandnote.com/celeb/nero",
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/nurhaci",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-03T02:44:52Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/nurhaci",
+      "userCanonical": "https://feelandnote.com/celeb/nurhaci",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/mark-wahlberg",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-02T13:29:54Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/mark-wahlberg",
+      "userCanonical": "https://feelandnote.com/celeb/mark-wahlberg",
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/ana-de-armas",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-02T12:22:57Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/ana-de-armas",
+      "userCanonical": "https://feelandnote.com/celeb/ana-de-armas",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/james-franco",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-06-23T20:01:05Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/james-franco",
+      "userCanonical": "https://feelandnote.com/celeb/james-franco",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/esai-morales",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-07-01T02:40:54Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/esai-morales",
+      "userCanonical": "https://feelandnote.com/celeb/esai-morales",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/moon-jae-in",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-06-27T16:20:00Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/moon-jae-in",
+      "userCanonical": "https://feelandnote.com/celeb/moon-jae-in",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/mother-teresa",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-06-22T05:35:17Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/mother-teresa",
+      "userCanonical": "https://feelandnote.com/celeb/mother-teresa",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/david-goggins",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-06-10T16:46:53Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/david-goggins",
+      "userCanonical": "https://feelandnote.com/celeb/david-goggins",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/olivia-newton-john",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-06-21T15:58:12Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/olivia-newton-john",
+      "userCanonical": "https://feelandnote.com/celeb/olivia-newton-john",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/arthur-conan-doyle",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-06-10T17:32:51Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/arthur-conan-doyle",
+      "userCanonical": "https://feelandnote.com/celeb/arthur-conan-doyle",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/james-watt",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-06-07T04:25:34Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/james-watt",
+      "userCanonical": "https://feelandnote.com/celeb/james-watt",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/jet-li",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-09-06T01:41:41Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/jet-li",
+      "userCanonical": "https://feelandnote.com/celeb/jet-li",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/herodotus",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-06-01T11:31:39Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/herodotus",
+      "userCanonical": "https://feelandnote.com/celeb/herodotus",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/ulysses-s.-grant",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-29T19:30:45Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/ulysses-s.-grant",
+      "userCanonical": "https://feelandnote.com/celeb/ulysses-s.-grant",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/joe-rogan",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-24T18:02:23Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/joe-rogan",
+      "userCanonical": "https://feelandnote.com/celeb/joe-rogan",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/jean-de-meun",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-20T17:35:25Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/jean-de-meun",
+      "userCanonical": "https://feelandnote.com/celeb/jean-de-meun",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/explore/directory"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/bruce-lee",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-19T06:31:29Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/bruce-lee",
+      "userCanonical": "https://feelandnote.com/celeb/bruce-lee",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/jim-collins",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-18T04:54:59Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/jim-collins",
+      "userCanonical": "https://feelandnote.com/celeb/jim-collins",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/queen-seondeok",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-18T03:38:42Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/queen-seondeok",
+      "userCanonical": "https://feelandnote.com/celeb/queen-seondeok",
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/winston-churchill",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-17T15:41:12Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/winston-churchill",
+      "userCanonical": "https://feelandnote.com/celeb/winston-churchill",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/nelson-mandela",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-12T16:47:23Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/nelson-mandela",
+      "userCanonical": "https://feelandnote.com/celeb/nelson-mandela",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/albert-einstein",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-17T15:41:12Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/albert-einstein",
+      "userCanonical": "https://feelandnote.com/celeb/albert-einstein",
+      "referringUrls": [
+        "https://feelandnote.com/explore/directory"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/mark-zuckerberg",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-12T15:33:37Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/mark-zuckerberg",
+      "userCanonical": "https://feelandnote.com/celeb/mark-zuckerberg",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/explore/feed",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-08T21:59:30Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/explore/feed",
+      "userCanonical": "https://feelandnote.com/explore/feed",
+      "referringUrls": [
+        "https://feelandnote.com/explore/feed",
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/christine-de-pizan",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-07T15:55:41Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/christine-de-pizan",
+      "userCanonical": "https://feelandnote.com/celeb/christine-de-pizan",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://feelandnote.com/explore/directory"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/content/9788937462849?category=book",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-06T14:38:54Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/content/9788937462849?category=book",
+      "userCanonical": "https://feelandnote.com/content/9788937462849",
+      "referringUrls": [
+        "https://feelandnote.com/scriptures/era"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/celeb/francis-crick",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-06T01:27:22Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/celeb/francis-crick",
+      "userCanonical": "https://feelandnote.com/celeb/francis-crick",
+      "sitemap": [
+        "https://feelandnote.com/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    {
+      "url": "https://feelandnote.com/en/celeb/anne-hathaway",
+      "verdict": "NEUTRAL",
+      "coverageState": "크롤링됨 - 현재 색인이 생성되지 않음",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-05-06T01:20:55Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://feelandnote.com/en/celeb/anne-hathaway",
+      "userCanonical": "https://feelandnote.com/celeb/anne-hathaway",
+      "referringUrls": [
+        "https://feelandnote.com/celeb/anne-hathaway",
+        "https://feelandnote.com/en/explore/directory"
+      ],
+      "crawledAs": "MOBILE"
+    }
+  ]
+}
