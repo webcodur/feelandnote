@@ -27,7 +27,6 @@ import FigureReadingTabs from "../FigureReadingTabs";
 import JourneySection from "../JourneySection";
 import LibraryTabs from "../LibraryTabs";
 import CelebAnalysisDeferred from "./CelebAnalysisDeferred";
-import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import CelebConnectionsDeferred from "./CelebConnectionsDeferred";
 import type { CelebServiceModel } from "./useCelebServiceModel";
 import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
@@ -43,9 +42,7 @@ function SectionSurface({
   className?: string;
 }) {
   return (
-    <div className={`${styles.sectionSurface} ${className}`}>
-      <AnimatedHeight duration={320}>{children}</AnimatedHeight>
-    </div>
+    <div className={`${styles.sectionSurface} ${className}`}>{children}</div>
   );
 }
 
