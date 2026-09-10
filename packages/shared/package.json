@@ -59,7 +59,8 @@
     "./bo/faction-export": "./src/bo/faction-export.ts",
     "./bo/discourse-export": "./src/bo/discourse-export.ts",
     "./bo/voice-age": "./src/bo/voice-age.ts",
-    "./bo/voice-normalize": "./src/bo/voice-normalize.ts"
+    "./bo/voice-normalize": "./src/bo/voice-normalize.ts",
+    "./lib/book-metadata": "./src/lib/book-metadata.ts"
   },
   "peerDependencies": {
     "next": ">=15",

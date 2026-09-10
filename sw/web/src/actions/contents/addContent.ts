@@ -6,7 +6,10 @@ import type { ContentType, ContentStatus } from '@/types/database'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
 import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
+import { normalizeBookIsbn } from '@/lib/utils/book-description'
 import { getVideoEnLocale } from '@feelandnote/content-search/tmdb'
+import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
+import { fetchBookIntroductionForStorage as fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 
 interface AddContentParams {
   id: string                    // 외부 API ID (ISBN, TMDB ID 등)
@@ -64,7 +67,9 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
         type: params.type,
         subtype: params.subtype || null,
         release_date: params.releaseDate || null,
-        metadata: params.metadata || null,
+        metadata: params.metadata
+          ? (params.type === 'BOOK' ? withoutBookDescription(params.metadata) : params.metadata)
+          : null,
         external_id: params.id,
         external_source: params.externalSource || null,
       })
@@ -78,15 +83,25 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
 
     // content_locales에 로케일 데이터 저장
     const locale = sourceToLocale(params.externalSource)
+    const bookIsbn = params.type === 'BOOK'
+      ? normalizeBookIsbn(typeof params.metadata?.isbn === 'string' ? params.metadata.isbn : params.id)
+      : null
+    const introduction = params.type === 'BOOK'
+      ? await fetchBookIntroduction({ isbn: bookIsbn, locale: locale === 'en' ? 'en' : 'ko' }).catch(() => null)
+      : null
+    const bookDescription = params.type === 'BOOK'
+      ? introduction?.source ?? (params.description?.trim() || null)
+      : params.description || null
     await db.from('content_locales').insert({
       content_id: contentId,
       locale,
       title: params.title,
       creator: params.creator || null,
       thumbnail_url: params.thumbnailUrl || null,
-      description: params.description || null,
+      description: bookDescription,
+      ...(bookIsbn && { isbn: bookIsbn }),
       publisher: params.publisher || null,
-      sources: sourceToJsonb(params.externalSource),
+      sources: { ...sourceToJsonb(params.externalSource), ...(introduction?.source && { description: introduction.sourceUrl }) },
       verified: true,
     })
 

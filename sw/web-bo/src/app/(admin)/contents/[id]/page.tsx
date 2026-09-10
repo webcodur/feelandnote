@@ -17,6 +17,7 @@ import Image from 'next/image'
 import { ArrowLeft, Library, Users, FileText } from 'lucide-react'
 import ContentActions from './ContentActions'
 import ContentCoverEditor from './ContentCoverEditor'
+import ContentIntroductionEditor from './ContentIntroductionEditor'
 import { CONTENT_TYPE_CONFIG, type ContentType } from '@/constants/contentTypes'
 import { STATUS_CONFIG, type ContentStatus } from '@/constants/statuses'
 
@@ -136,7 +137,7 @@ export default async function ContentDetailPage({ params }: PageProps) {
 
         {/* i18n: editions 섹션에서 통합 표시 (content_locales) */}
 
-        {displayDescription && (
+        {content.type !== 'BOOK' && displayDescription && (
           <div className="mt-4 pt-4 border-t border-border">
             <span className="text-xs text-text-secondary">설명</span>
             <p className="text-sm text-text-primary mt-1">{displayDescription}</p>
@@ -166,6 +167,10 @@ export default async function ContentDetailPage({ params }: PageProps) {
           </div>
         )}
       </div>
+
+      {content.type === 'BOOK' && (
+        <ContentIntroductionEditor contentId={content.id} editions={content.editions} />
+      )}
 
       {content.type === 'BOOK' && (
         <ContentCoverEditor

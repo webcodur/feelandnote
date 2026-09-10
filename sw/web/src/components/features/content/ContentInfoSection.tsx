@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
+import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
 import {
   Book,
   Film,
@@ -41,6 +42,9 @@ import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 import type { ContentType } from "@/types/database";
 import type { ContentMetadata } from "@/types/content";
 import { cn } from "@/lib/utils";
+import { useBookIntroduction } from "@/hooks/useBookIntroduction";
+import PendingBlock from "@/components/ui/pending/PendingBlock";
+import RetryBlock from "@/components/ui/pending/RetryBlock";
 
 // #region 상수
 const TYPE_ICONS: Record<ContentType, typeof Book> = {
@@ -92,15 +96,22 @@ export default function ContentInfoSection({
   onRecordChange,
 }: ContentInfoSectionProps) {
   const t = useTranslations("contentDetail");
+  const tPurchase = useTranslations("content.coupangPurchaseInfo");
   const tCore = useTranslations("shared.content");
   const tError = useTranslations("actionErrors");
   const locale = useLocale();
+  const bookIntroduction = useBookIntroduction(
+    content.type === 'BOOK' ? content.bookIntroduction : null,
+    locale,
+    content.type === 'BOOK' ? content.description : null,
+  );
+  const description = content.type === 'BOOK' ? bookIntroduction.description : content.description;
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const [isStoryExpanded, setIsStoryExpanded] = useState(false);
   const { ref: descriptionRef, isOverflowing: isDescLong } = useCollapsedTextOverflow(
-    content.description,
+    description,
     isDescExpanded,
   );
   const { ref: storylineRef, isOverflowing: isStoryLong } = useCollapsedTextOverflow(
@@ -297,18 +308,20 @@ export default function ContentInfoSection({
                 const platform = AFFILIATE_PLATFORMS[link.platform as AffiliatePlatformKey];
                 if (!platform) return null;
                 return (
-                  <a
-                    key={link.platform}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer nofollow sponsored"
-                    className="flex items-center justify-center gap-1.5 w-full py-2.5 px-3 text-white text-xs font-semibold rounded-xl transition-all shadow-md hover:opacity-90 active:scale-[0.99]"
-                    style={{ backgroundColor: platform.color }}
-                  >
-                    <ShoppingCart size={13} />
-                    <span>{t("buyAt", { platform: platform.label })}</span>
-                    <ExternalLink size={12} />
-                  </a>
+                  <div key={link.platform} className="group/coupang-buy relative rounded-xl text-white" style={{ backgroundColor: link.platform === "coupang" ? platform.color : undefined }}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow sponsored"
+                      className={`flex min-w-0 w-full items-center justify-center gap-1.5 py-2.5 text-white font-semibold rounded-xl shadow-md active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${link.platform === "coupang" ? "border border-white/20 px-10 text-base group-hover/coupang-buy:border-red-200 group-hover/coupang-buy:bg-white/20" : "px-2 text-sm hover:brightness-110"}`}
+                      style={{ backgroundColor: link.platform === "coupang" ? undefined : platform.color }}
+                    >
+                      {link.platform !== "coupang" && <ShoppingCart size={13} />}
+                      <span>{link.platform === "coupang" ? tPurchase("buy") : t("buyAt", { platform: platform.label })}</span>
+                      {link.platform !== "coupang" && <ExternalLink size={12} />}
+                    </a>
+                    {link.platform === "coupang" && <CoupangPurchaseInfo className="absolute end-1 top-1/2 -translate-y-1/2" />}
+                  </div>
                 );
               })}
               {affiliateLinks.some((l) => l.platform === "coupang") && (
@@ -431,7 +444,9 @@ export default function ContentInfoSection({
           </div>
 
           {/* 3. 클린 소개 (줄거리 / 시놉시스) — 사각 테두리 감옥 제거, 자연스러운 에세이 스타일 */}
-          {content.description && (
+          {bookIntroduction.loading && <PendingBlock variant="panel" minHeight="min-h-28" />}
+          {bookIntroduction.failed && <RetryBlock onRetry={bookIntroduction.retry} />}
+          {description && (
             <div className="relative py-0.5">
               <div
                 ref={descriptionRef}
@@ -440,7 +455,7 @@ export default function ContentInfoSection({
                   !isDescExpanded ? "max-h-[5.75rem] overflow-hidden md:max-h-[8.625rem]" : ""
                 )}
               >
-                <FormattedText text={content.description} />
+                <FormattedText text={description} />
               </div>
 
               {isDescLong && (
@@ -533,18 +548,20 @@ export default function ContentInfoSection({
               const platform = AFFILIATE_PLATFORMS[link.platform as AffiliatePlatformKey];
               if (!platform) return null;
               return (
-                <a
-                  key={link.platform}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow sponsored"
-                  className="flex items-center justify-center gap-2 w-full py-3 px-4 text-white text-sm font-semibold rounded-xl transition-all shadow-md hover:opacity-90 active:scale-[0.99]"
-                  style={{ backgroundColor: platform.color }}
-                >
-                  <ShoppingCart size={15} />
-                  {t("buyAt", { platform: platform.label })}
-                  <ExternalLink size={14} />
-                </a>
+                <div key={link.platform} className="group/coupang-buy relative rounded-xl text-white" style={{ backgroundColor: link.platform === "coupang" ? platform.color : undefined }}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow sponsored"
+                    className={`flex min-w-0 w-full items-center justify-center gap-2 py-3 text-white font-semibold rounded-xl shadow-md active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${link.platform === "coupang" ? "border border-white/20 px-10 text-base group-hover/coupang-buy:border-red-200 group-hover/coupang-buy:bg-white/20" : "px-4 text-sm hover:brightness-110"}`}
+                    style={{ backgroundColor: link.platform === "coupang" ? undefined : platform.color }}
+                  >
+                    {link.platform !== "coupang" && <ShoppingCart size={15} />}
+                    <span>{link.platform === "coupang" ? tPurchase("buy") : t("buyAt", { platform: platform.label })}</span>
+                    {link.platform !== "coupang" && <ExternalLink size={14} />}
+                  </a>
+                  {link.platform === "coupang" && <CoupangPurchaseInfo className="absolute end-1 top-1/2 -translate-y-1/2" />}
+                </div>
               );
             })}
           </div>

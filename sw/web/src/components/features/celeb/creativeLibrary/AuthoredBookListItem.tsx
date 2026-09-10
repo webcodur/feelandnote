@@ -6,12 +6,21 @@ import { BookOpenText, ExternalLink } from "lucide-react";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import ContentImage from "@/components/ui/ContentImage";
 import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
+import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
+import { useBookIntroduction } from "@/hooks/useBookIntroduction";
+import RetryBlock from "@/components/ui/pending/RetryBlock";
 
 export default function AuthoredBookListItem({ book }: { book: FigureBookContent }) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
   const [editionId, setEditionId] = useState(book.editions[0]?.id);
   const edition = book.editions.find((item) => item.id === editionId) ?? book.editions[0];
+  const { ref: cardRef, description, failed, retry } = useBookIntroduction(
+    edition ? edition.bookIntroduction : book.bookIntroduction,
+    locale,
+    edition ? edition.description : book.description,
+    true,
+  );
   const title = edition?.title || book.title;
   const thumbnail = edition ? edition.thumbnailUrl : book.thumbnailUrl;
   const creator = edition?.creator || book.creator;
@@ -19,6 +28,7 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
 
   return (
     <article
+      ref={cardRef}
       data-creative-source="authored"
       data-content-id={book.id}
       className="w-full max-w-[300px] overflow-hidden rounded-xl border border-border/30 bg-surface/30 md:max-w-none"
@@ -44,9 +54,10 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
           <span className="line-clamp-2 text-sm font-medium leading-snug text-text-primary group-hover:text-accent">{title}</span>
           {creator && <span className="mt-0.5 block truncate text-sm text-text-secondary">{creator}</span>}
           {edition?.publisher && <span className="mt-1.5 block text-xs text-text-secondary">{edition.publisher}</span>}
-          {edition?.description && <span className="mt-1.5 line-clamp-2 text-sm text-text-secondary">{edition.description}</span>}
+          {description && <span className="mt-1.5 line-clamp-2 text-sm text-text-secondary">{description}</span>}
         </span>
       </a>
+      {failed && <RetryBlock onRetry={retry} className="px-3 py-3" />}
       {book.editions.length > 1 && (
         <div className="px-3 pb-2">
           <select
@@ -65,15 +76,18 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
       )}
       {edition?.purchaseUrl && (
         <div className="px-3 pb-3">
-          <a
-            href={edition.purchaseUrl}
-            target="_blank"
-            rel="noopener noreferrer nofollow sponsored"
-            className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-accent/30 px-3 py-2 text-xs font-medium text-accent hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            {t(edition.platform === "amazon" ? "sourceWorkBuyAmazon" : "sourceWorkBuyCoupang")}
-            <ExternalLink size={12} aria-hidden />
-          </a>
+          <div className="group/coupang-buy relative inline-flex">
+            <a
+              href={edition.purchaseUrl}
+              target="_blank"
+              rel="noopener noreferrer nofollow sponsored"
+              className={`inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg border border-accent/30 py-2 font-medium text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${edition.platform === "coupang" ? "px-10 text-base group-hover/coupang-buy:border-accent group-hover/coupang-buy:bg-accent/20" : "px-3 text-xs hover:border-accent hover:bg-accent/10"}`}
+            >
+              {t(edition.platform === "amazon" ? "sourceWorkBuyAmazon" : "sourceWorkBuyCoupang")}
+              {edition.platform !== "coupang" && <ExternalLink size={12} aria-hidden />}
+            </a>
+            {edition.platform === "coupang" && <CoupangPurchaseInfo className="absolute end-1 top-1/2 -translate-y-1/2 text-accent" />}
+          </div>
           {edition.platform === "coupang" && (
             <p className="mt-2 text-xs leading-relaxed text-text-tertiary">{AFFILIATE_PLATFORMS.coupang.notice}</p>
           )}

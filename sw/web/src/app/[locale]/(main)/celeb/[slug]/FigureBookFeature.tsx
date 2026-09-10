@@ -13,6 +13,9 @@ import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import ContentImage from "@/components/ui/ContentImage";
 import FigureBookActions from "./FigureBookActions";
 import FigureBookIntroduction from "./FigureBookIntroduction";
+import { useBookIntroduction } from "@/hooks/useBookIntroduction";
+import PendingBlock from "@/components/ui/pending/PendingBlock";
+import RetryBlock from "@/components/ui/pending/RetryBlock";
 
 interface FigureBookFeatureProps {
   source: FigureBookContent;
@@ -45,6 +48,7 @@ export default function FigureBookFeature({
   const [selectedEditionId, setSelectedEditionId] = useState(source.editions[0]?.id ?? 0);
   const edition = source.editions.find((item) => item.id === selectedEditionId)
     ?? source.editions[0];
+  const introduction = useBookIntroduction(edition?.bookIntroduction, locale, edition?.description);
   if (!edition) return null;
 
   const releaseDate = formatDate(edition.releaseDate, locale);
@@ -129,7 +133,7 @@ export default function FigureBookFeature({
 
         <div className="contents lg:relative lg:block lg:min-w-0">
           <header className="col-start-2 min-w-0 self-center md:self-start">
-            <h3 className="text-3d-gold max-w-3xl break-keep text-xl font-black leading-tight sm:text-2xl md:text-3xl">
+            <h3 className="text-3d-gold max-w-3xl break-keep text-lg font-black leading-tight sm:text-2xl md:text-3xl">
               {edition.title}
             </h3>
             {edition.creator && (
@@ -140,12 +144,14 @@ export default function FigureBookFeature({
           </header>
 
           <div className="col-span-2 min-w-0 md:col-span-1 md:col-start-2">
-            <FigureBookIntroduction
+            {introduction.loading && <PendingBlock variant="panel" minHeight="min-h-28" />}
+            {introduction.failed && <RetryBlock onRetry={introduction.retry} />}
+            {!introduction.loading && !introduction.failed && <FigureBookIntroduction
               key={edition.id}
-              description={edition.description || t("sourceWorkIntroductionEmpty")}
+              description={introduction.description || t("sourceWorkIntroductionEmpty")}
               label={t("sourceWorkIntroduction")}
               sourceTitle={edition.title}
-            />
+            />}
           </div>
 
           {meta.length > 0 && (

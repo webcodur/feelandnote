@@ -11,6 +11,7 @@ import {
   type ContentLocaleRow,
 } from '@/lib/utils/content-locale'
 import type { ContentType } from '@/types/database'
+import { selectBookIntroduction, type BookIntroductionReference } from '@/lib/utils/book-description'
 import {
   getFigureBookPurchasePlatform,
   mapFigureBookEditions,
@@ -38,6 +39,8 @@ export interface FigureBookContent {
   category: CategoryId
   relationType: FigureBookRelationType
   editions: FigureBookEdition[]
+  description?: string | null
+  bookIntroduction?: BookIntroductionReference | null
   /** 저장된 원어 표제·저자를 창작 판정과 위키데이터 중복 대조에 사용한다. */
   titleKo?: string | null
   titleEn?: string | null
@@ -101,7 +104,7 @@ async function fetchSourcesByCeleb(
         contentIds,
         (ids) => db
           .from('contents')
-          .select(`id,type,figureBook:metadata->figureBook,content_locales(${CL_SELECT_LIST})`)
+          .select(`id,type,figureBook:metadata->figureBook,content_locales(${CL_SELECT_LIST},description,isbn,sources)`)
           .in('id', ids)
           .overrideTypes<ContentRow[], { merge: false }>(),
       ),
@@ -109,7 +112,7 @@ async function fetchSourcesByCeleb(
         contentIds,
         (ids) => db
           .from('figure_book_purchase_options')
-          .select('edition_id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
+          .select('edition_id,content_id,locale,title,creator,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order,platform,affiliate_url')
           .in('content_id', ids)
           .eq('locale', locale)
           .eq('platform', platform)
@@ -120,7 +123,7 @@ async function fetchSourcesByCeleb(
         contentIds,
         (ids) => db
           .from('figure_book_editions')
-          .select('id,content_id,locale,title,creator,description,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order')
+          .select('id,content_id,locale,title,creator,description,sources,isbn,publisher,thumbnail_url,release_date,edition_kind,text_scope,sort_order')
           .in('content_id', ids)
           .eq('locale', locale)
           .overrideTypes<FigureBookEditionRow[], { merge: false }>(),
@@ -169,7 +172,14 @@ async function fetchSourcesByCeleb(
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
-      editions,
+      ...selectBookIntroduction(locale, null, exactLocale),
+      editions: editions.map((edition) => ({
+        ...edition,
+        ...selectBookIntroduction(locale,
+          editionRowsByContent.get(content.id)?.find((row) => row.id === edition.id)
+            ?? { locale, isbn: edition.isbn, description: edition.description },
+          exactLocale),
+      })),
       titleKo: flat.title_ko,
       titleEn: flat.title_en,
       workTitle: content.figureBook?.workTitle ?? null,
@@ -238,7 +248,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v2-creator-metadata', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v5-intro-compat', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

@@ -10,6 +10,9 @@ import {
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { requireAdmin } from '@/lib/admin-auth'
 import { validateExternalImageUrl } from '@/lib/external-image'
+import { resolveBookIntroductionEdit } from '@/lib/book-introduction-edit'
+import { fetchBookIntroductionForStorage as fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
+import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 
 export interface AffiliateLink {
   platform: string
@@ -224,12 +227,45 @@ export async function updateContent(
     creator_en?: string | null
     isbn_en?: string | null
     description?: string
+    description_en?: string
     publisher?: string
     release_date?: string
   }
 ): Promise<void> {
   await requireAdmin()
   const db = await createClient()
+
+  let koIntroduction: Record<string, unknown> = {}
+  let enIntroduction: Record<string, unknown> = {}
+  if (data.description !== undefined || data.description_en !== undefined || data.isbn_en !== undefined) {
+    const { data: content, error } = await db.from('contents')
+      .select('type,external_id,content_locales(locale,isbn,description,sources)').eq('id', contentId).single()
+    if (error) throw error
+    if (content.type === 'BOOK') {
+      const ko = content.content_locales.find((row) => row.locale === 'ko')
+      const en = content.content_locales.find((row) => row.locale === 'en')
+      if (data.description !== undefined) koIntroduction = await resolveBookIntroductionEdit({
+        description: data.description, isbn: ko?.isbn ?? content.external_id, locale: 'ko', current: ko,
+      })
+      const enIsbn = data.isbn_en !== undefined ? data.isbn_en : en?.isbn ?? null
+      if (data.description_en !== undefined) enIntroduction = await resolveBookIntroductionEdit({
+        description: data.description_en, isbn: enIsbn, locale: 'en', current: en,
+      })
+      else if (data.isbn_en !== undefined && data.isbn_en !== en?.isbn) {
+        if (en?.description && !isBookIntroductionSource(en.description)) {
+          throw new Error('기존 영어 소개를 보존했습니다. ISBN과 함께 새 판본에 맞는 소개도 지정하세요')
+        }
+        const introduction = await fetchBookIntroduction({ isbn: enIsbn, locale: 'en' }).catch(() => null)
+        const sources = en?.sources && typeof en.sources === 'object' && !Array.isArray(en.sources) ? { ...en.sources } : {}
+        delete sources.description
+        delete sources.translation
+        enIntroduction = { description: introduction?.source ?? null, sources: { ...sources, ...(introduction?.source && { description: introduction.sourceUrl }) } }
+      }
+    } else {
+      if (data.description !== undefined) koIntroduction = { description: data.description || null }
+      if (data.description_en !== undefined) enIntroduction = { description: data.description_en || null }
+    }
+  }
 
   // contents 테이블에는 release_date만 전송 (로케일 데이터는 content_locales에만)
   if (data.release_date !== undefined) {
@@ -241,26 +277,27 @@ export async function updateContent(
   }
 
   // content_locales 업데이트 (ko)
-  if (data.title || data.creator || data.description || data.publisher) {
+  if (data.title || data.creator || data.description !== undefined || data.publisher) {
     const { error } = await db.from('content_locales').upsert({
       content_id: contentId,
       locale: 'ko',
       ...(data.title && { title: data.title }),
       ...(data.creator && { creator: data.creator }),
-      ...(data.description && { description: data.description }),
+      ...koIntroduction,
       ...(data.publisher && { publisher: data.publisher }),
     }, { onConflict: 'content_id,locale' })
     if (error) throw error
   }
 
   // content_locales 업데이트 (en)
-  if (data.title_en || data.creator_en || data.isbn_en) {
+  if (data.title_en || data.creator_en || data.isbn_en !== undefined || data.description_en !== undefined) {
     const { error } = await db.from('content_locales').upsert({
       content_id: contentId,
       locale: 'en',
       ...(data.title_en && { title: data.title_en }),
       ...(data.creator_en && { creator: data.creator_en }),
-      ...(data.isbn_en && { isbn: data.isbn_en }),
+      ...(data.isbn_en !== undefined && { isbn: data.isbn_en }),
+      ...enIntroduction,
     }, { onConflict: 'content_id,locale' })
     if (error) throw error
   }
@@ -274,6 +311,8 @@ export async function updateContent(
     data.creator,
     data.creator_en,
     data.isbn_en,
+    data.description,
+    data.description_en,
   ].some((value) => value !== undefined)
   await revalidateWebContent(contentId, { includeCelebLibraries })
 }

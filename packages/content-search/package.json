@@ -4,6 +4,8 @@
   "private": true,
   "exports": {
     "./kakao-books": "./src/kakao-books.ts",
+    "./book-introduction": "./src/book-introduction.ts",
+    "./book-introduction-contract": "./src/book-introduction-contract.ts",
     "./itunes-music": "./src/itunes-music.ts",
     "./google-books": "./src/google-books.ts",
     "./openlibrary": "./src/openlibrary.ts",
