@@ -113,6 +113,10 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       data-scroll-behavior="smooth"
+      // ?instant=1 스크립트가 하이드레이션 전에 이 태그의 data-scroll-behavior·style을
+      // 직접 고쳐놓는다. 이게 없으면 React가 하이드레이션 때 그 값을 SSR값(smooth)으로
+      // 되돌려버려, 700ms 타임아웃이 끝나기도 전에 즉시 스크롤 자체가 무효화된다.
+      suppressHydrationWarning
     >
       <head>
         {/* ?instant=1로 들어온 첫 스크롤(해시 이동)만 즉시로 강제한다 — 사이트 전역
