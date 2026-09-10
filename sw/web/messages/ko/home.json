@@ -47,6 +47,7 @@
       "filterGender": "성별",
       "filterTier": "수록",
       "filterSort": "정렬",
+      "filterBirthYear": "생년",
       "all": "전체",
       "genderMale": "남성",
       "genderFemale": "여성",
@@ -78,6 +79,16 @@
         "name_asc": "이름",
         "birth_date_desc": "최근 출생",
         "birth_date_asc": "오래된 출생"
+      },
+      "birthYear": {
+        "title": "생년",
+        "all": "전체 기간",
+        "range": "{min} ~ {max}",
+        "bc": "기원전 {year}",
+        "minLabel": "이후",
+        "maxLabel": "이전",
+        "bcHint": "기원전은 음수로 입력 (예: -384)",
+        "reset": "초기화"
       },
       "characterInfo": "인물 정보",
       "viewingRecords": "감상 기록",

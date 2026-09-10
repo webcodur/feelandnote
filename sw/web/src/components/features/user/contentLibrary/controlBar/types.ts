@@ -25,6 +25,8 @@ export interface ArchiveControlBarProps {
   onSearchChange: (query: string) => void;
   onSearch: () => void;
   onClearSearch: () => void;
+  /** 지금 목록에 적용된 검색어가 있는지 */
+  hasAppliedSearch: boolean;
   showMonthControls?: boolean;
   allowRatingSort?: boolean;
   /** 셀럽 서가는 감상에 리뷰가 항상 붙어 리뷰 필터를 숨긴다 */

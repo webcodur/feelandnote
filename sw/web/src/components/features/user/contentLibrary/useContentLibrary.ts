@@ -139,7 +139,10 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     setCurrentPage(1);
   }, []);
   const executeSearch = useCallback(() => {
-    setAppliedSearchQuery(searchQuery);
+    // 공백만 남은 검색대로 검색하면 초기화다. 검색어 칸도 같이 비워 공백 검색이 남지 않게 한다.
+    const nextQuery = searchQuery.trim().length === 0 ? "" : searchQuery;
+    setSearchQuery(nextQuery);
+    setAppliedSearchQuery(nextQuery);
     setCurrentPage(1);
   }, [searchQuery]);
   const clearSearch = useCallback(() => {

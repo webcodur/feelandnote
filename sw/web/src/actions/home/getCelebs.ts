@@ -72,6 +72,8 @@ interface GetCelebsParams {
   includeInactive?: boolean // 비활성화된 셀럽 포함 여부
   tiers?: readonly CelebTier[] // 파이프라인 등급 좁히기(full·light). 미지정 시 제한 없음
   realities?: readonly CelebReality[] // 실존 축 필터. 미지정 시 LISTING_DEFAULT_REALITIES(REAL·BOTH) — FICTION 제외
+  birthYearMin?: number // 생년 범위 필터(연도, BC는 음수). 미지정 시 제한 없음
+  birthYearMax?: number
   /** 쪽수 UI가 없는 미리보기는 전체 건수를 세지 않는다. */
   includeTotal?: boolean
   /** 팔로우 표시가 없는 카드 묶음은 로그인·팔로우 상태를 읽지 않는다. */
@@ -189,7 +191,8 @@ async function fetchCelebsPublic(
   page: number, limit: number, profession: string | null, nationality: string | null,
   contentType: string | null, gender: string | null, sortBy: string,
   search: string | null, tagId: string | null, minContentCount: number,
-  includeInactive: boolean, tiers: string[], realities: string[], includeTotal: boolean
+  includeInactive: boolean, tiers: string[], realities: string[], includeTotal: boolean,
+  birthYearMin: number | null, birthYearMax: number | null
 ): Promise<PublicCelebData> {
   const db = createStaticClient()
   const offset = (page - 1) * limit
@@ -214,6 +217,7 @@ async function fetchCelebsPublic(
         p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
         p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
         p_celeb_realities: realities,
+        p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
       })
       throwOnQueryError('인물 목록 개수', countError)
       total = countData ?? 0
@@ -228,6 +232,7 @@ async function fetchCelebsPublic(
       p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
       p_include_inactive: includeInactive, p_celeb_tiers: tiers,
       p_celeb_realities: realities,
+      p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
     })
     throwOnQueryError('인물 목록', error)
     rows = (data || []) as CelebRow[]
@@ -374,6 +379,8 @@ export async function getCelebs(
     includeInactive = false,
     tiers,
     realities,
+    birthYearMin,
+    birthYearMax,
     includeTotal = true,
     includeViewerState = true,
   } = params
@@ -384,7 +391,8 @@ export async function getCelebs(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
     search ?? null, tagId ?? null, minContentCount,
-    includeInactive, [...(tiers ?? [])], [...(realities ?? LISTING_DEFAULT_REALITIES)], includeTotal
+    includeInactive, [...(tiers ?? [])], [...(realities ?? LISTING_DEFAULT_REALITIES)], includeTotal,
+    birthYearMin ?? null, birthYearMax ?? null
   )
 
   if (pub.rows.length === 0) {

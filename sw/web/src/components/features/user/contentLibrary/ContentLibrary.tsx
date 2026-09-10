@@ -182,6 +182,7 @@ export default function ContentLibrary({
         onSearchChange={lib.setSearchQuery}
         onSearch={lib.executeSearch}
         onClearSearch={lib.clearSearch}
+        hasAppliedSearch={lib.appliedSearchQuery.trim().length >= 2}
         showMonthControls={showMonthSections}
         allowRatingSort={ownerKind === "member"}
         hideReviewFilter={hideReviewFilter}

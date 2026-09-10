@@ -128,6 +128,8 @@ export default function CelebCarousel({
           tier={filters.tierValue}
           sortBy={filters.sortBy}
           search=""
+          birthYearMin={filters.birthYearMin}
+          birthYearMax={filters.birthYearMax}
           professionCounts={professionCounts}
           nationalityCounts={nationalityCounts}
           contentTypeCounts={contentTypeCounts}
@@ -140,6 +142,7 @@ export default function CelebCarousel({
           onGenderChange={withInteraction(filters.handleGenderChange)}
           onTierChange={withInteraction(filters.handleTierValueChange)}
           onSortChange={withInteraction(filters.handleSortChange)}
+          onBirthYearChange={(min, max) => { onFilterInteraction?.(); filters.handleBirthYearChange(min, max); }}
           onSearchInput={() => {}}
           onSearchSubmit={() => {}}
           onSearchClear={() => {}}
@@ -156,6 +159,8 @@ export default function CelebCarousel({
         tier={filters.tierValue}
         sortBy={filters.sortBy}
         search={filters.search}
+        birthYearMin={filters.birthYearMin}
+        birthYearMax={filters.birthYearMax}
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}
@@ -171,6 +176,7 @@ export default function CelebCarousel({
         onGenderChange={withInteraction(filters.handleGenderChange)}
         onTierChange={withInteraction(filters.handleTierValueChange)}
         onSortChange={withInteraction(filters.handleSortChange)}
+        onBirthYearChange={(min, max) => { onFilterInteraction?.(); filters.handleBirthYearChange(min, max); }}
         onSearchInput={(v) => { onFilterInteraction?.(); filters.handleSearchInput(v); }}
         onSearchSubmit={() => { onFilterInteraction?.(); filters.handleSearchSubmit(); }}
         onSearchClear={() => { onFilterInteraction?.(); filters.handleSearchClear(); }}

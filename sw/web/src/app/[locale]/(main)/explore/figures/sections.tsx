@@ -85,6 +85,8 @@ export interface FiguresFilterParams {
   tagId?: string;
   tiers?: readonly CelebTier[];
   realities?: readonly CelebReality[];
+  birthYearMin?: number;
+  birthYearMax?: number;
 }
 
 /* 필터 결과(그리드 뷰) — 필터 줄과 목록이 같은 상호작용 상태(검색어·정렬·페이지)를 공유하는
@@ -112,6 +114,8 @@ export async function FiguresFilterResult({ params }: { params: FiguresFilterPar
         tagId: params.tagId,
         tiers: params.tiers,
         realities: params.realities,
+        birthYearMin: params.birthYearMin,
+        birthYearMax: params.birthYearMax,
       }),
       getProfessionCounts(),
       getNationalityCounts(),

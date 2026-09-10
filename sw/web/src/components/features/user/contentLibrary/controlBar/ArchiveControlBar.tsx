@@ -31,6 +31,7 @@ export default function ArchiveControlBar({
         onSearchChange={props.onSearchChange}
         onSearch={props.onSearch}
         onClearSearch={props.onClearSearch}
+        hasAppliedSearch={props.hasAppliedSearch}
         viewMode={props.viewMode}
         onViewModeChange={props.onViewModeChange}
         responsiveDesktopViewMode={props.responsiveDesktopViewMode}

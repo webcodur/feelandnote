@@ -36,7 +36,7 @@ function parseParam(params: Record<string, string | string[] | undefined>, key: 
 }
 
 // 그리드 뷰인지 판단: 필터 파라미터가 있으면 그리드
-const FILTER_KEYS = ["profession", "nationality", "contentType", "gender", "search", "sortBy", "page", "pageSize", "tagId", "tier", "reality"];
+const FILTER_KEYS = ["profession", "nationality", "contentType", "gender", "search", "sortBy", "page", "pageSize", "tagId", "tier", "reality", "byMin", "byMax"];
 function isGridView(params: Record<string, string | string[] | undefined>): boolean {
   return FILTER_KEYS.some((key) => {
     const v = params[key];
@@ -52,6 +52,11 @@ function parseFilterParams(params: Record<string, string | string[] | undefined>
   const page = isNaN(pageRaw) || pageRaw < 1 ? 1 : pageRaw;
   const pageSizeRaw = parseInt(parseParam(params, "pageSize") || "24", 10);
   const pageSize = [12, 24, 48, 96].includes(pageSizeRaw) ? pageSizeRaw : 24;
+  const parseYear = (v?: string) => {
+    if (!v) return undefined;
+    const year = parseInt(v, 10);
+    return isNaN(year) ? undefined : year;
+  };
 
   return {
     page,
@@ -67,6 +72,8 @@ function parseFilterParams(params: Record<string, string | string[] | undefined>
     gender: notAll(parseParam(params, "gender")),
     search: parseParam(params, "search") || undefined,
     tagId: notAll(parseParam(params, "tagId")),
+    birthYearMin: parseYear(parseParam(params, "byMin")),
+    birthYearMax: parseYear(parseParam(params, "byMax")),
   };
 }
 

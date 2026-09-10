@@ -8,6 +8,7 @@
 import { useMemo } from "react";
 import { Search, X, SlidersHorizontal, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus, FileText } from "lucide-react";
 import { FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
+import { CelebBirthYearFilterMobile } from "./CelebBirthYearFilter";
 import ControlPanel from "@/components/shared/ControlPanel";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, CATEGORIES } from "@/constants/categories";
@@ -33,6 +34,8 @@ interface CelebFiltersMobileProps {
   tier: string;
   sortBy: CelebSortBy;
   search: string;
+  birthYearMin?: number;
+  birthYearMax?: number;
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
@@ -54,6 +57,7 @@ interface CelebFiltersMobileProps {
   onGenderChange: (value: string) => void;
   onTierChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
+  onBirthYearChange: (min: number | undefined, max: number | undefined) => void;
   onSearchInput: (value: string) => void;
   onSearchSubmit: () => void;
   onSearchClear: () => void;
@@ -69,6 +73,8 @@ export default function CelebFiltersMobile({
   tier,
   sortBy,
   search,
+  birthYearMin,
+  birthYearMax,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
@@ -84,6 +90,7 @@ export default function CelebFiltersMobile({
   onGenderChange,
   onTierChange,
   onSortChange,
+  onBirthYearChange,
   onSearchInput,
   onSearchSubmit,
   onSearchClear,
@@ -200,6 +207,17 @@ export default function CelebFiltersMobile({
             <FilterChip label={t("filterGender")} value={getGenderLabel(gender)} isActive={gender !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("gender")} className="w-full" icon={<Users size={12} />} />
             <FilterChip label={t("filterTier")} value={t(`tier.${tier}`)} isActive={tier !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("tier")} className="w-full" icon={<FileText size={12} />} />
             <FilterChip label={t("filterSort")} value={t(`sort.${sortBy}`)} isActive={sortBy !== "content_count"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full" icon={<ArrowUpDown size={12} />} />
+            <div className="col-span-2">
+              <CelebBirthYearFilterMobile
+                min={birthYearMin}
+                max={birthYearMax}
+                isLoading={isLoading}
+                onChange={onBirthYearChange}
+                isOpen={activeFilter === "birthYear"}
+                onOpen={() => onFilterOpen("birthYear")}
+                onClose={onFilterClose}
+              />
+            </div>
           </div>
         </ControlPanel>
       </div>

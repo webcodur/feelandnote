@@ -16,7 +16,7 @@ export const SORT_VALUES: CelebSortBy[] = [
   "content_count", "name_asc", "birth_date_desc", "birth_date_asc",
 ];
 
-export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort" | "tier";
+export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort" | "tier" | "birthYear";
 
 const DEFAULT_PAGE_SIZE = 24;
 export const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
@@ -94,6 +94,16 @@ export function useCelebFilters({
     if (!syncToUrl) return undefined;
     return parseCelebRealities(searchParams.get("reality"));
   });
+  // 생년 범위 필터(연도, BC는 음수). 미지정이면 제한하지 않는다.
+  const getInitialYear = (key: string): number | undefined => {
+    if (!syncToUrl) return undefined;
+    const raw = searchParams.get(key);
+    if (!raw) return undefined;
+    const year = parseInt(raw, 10);
+    return isNaN(year) ? undefined : year;
+  };
+  const [birthYearMin, setBirthYearMin] = useState<number | undefined>(() => getInitialYear("byMin"));
+  const [birthYearMax, setBirthYearMax] = useState<number | undefined>(() => getInitialYear("byMax"));
   const [isInitialized, setIsInitialized] = useState(false);
 
   // URL 파라미터 업데이트 (서버 재렌더링 없이 URL만 변경)
@@ -136,7 +146,8 @@ export function useCelebFilters({
     searchTerm: string,
     inactive?: boolean,
     limitOverride?: number,
-    tiersOverride?: CelebTier[]
+    tiersOverride?: CelebTier[],
+    birthYearOverride?: { min?: number; max?: number }
   ) => {
     setIsLoading(true);
     const isInactive = inactive ?? includeInactive;
@@ -153,12 +164,14 @@ export function useCelebFilters({
       includeInactive: isInactive,
       tiers: tiersOverride ?? tiers,
       realities,
+      birthYearMin: birthYearOverride ? birthYearOverride.min : birthYearMin,
+      birthYearMax: birthYearOverride ? birthYearOverride.max : birthYearMax,
     });
     setCelebs(result.celebs);
     setTotalPages(result.totalPages);
     setTotal(result.total);
     setIsLoading(false);
-  }, [includeInactive, pageSize, tiers, realities]);
+  }, [includeInactive, pageSize, tiers, realities, birthYearMin, birthYearMax]);
 
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);
@@ -203,6 +216,19 @@ export function useCelebFilters({
     loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, value);
     const isDefault = !value || (value.length === CELEB_TIERS.length && CELEB_TIERS.every(t => value.includes(t)));
     updateUrlParams({ tier: isDefault ? null : value.join(","), page: null });
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
+
+  // 생년 범위 변경. 전체 범위(양쪽 다 undefined)면 좁히는 의미가 없으므로 URL에서 지운다.
+  const handleBirthYearChange = useCallback((min: number | undefined, max: number | undefined) => {
+    setBirthYearMin(min);
+    setBirthYearMax(max);
+    setCurrentPage(1);
+    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, undefined, { min, max });
+    updateUrlParams({
+      byMin: min === undefined ? null : String(min),
+      byMax: max === undefined ? null : String(max),
+      page: null,
+    });
   }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
   // 필터 UI는 등급을 한 값("all"·"full"·"light")으로 다룬다. 내부 배열과의 변환은 여기서만 한다.
@@ -269,6 +295,9 @@ export function useCelebFilters({
     tierValue,
     handleTierValueChange,
     realities,
+    birthYearMin,
+    birthYearMax,
+    handleBirthYearChange,
     contentUnit,
     activeFilter,
     setActiveFilter,
