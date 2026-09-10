@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { buildGraphData, mobileGraphStageHeight } from "./graphLayout";
+import { buildGraphData, graphStageHeight, mobileGraphStageHeight } from "./graphLayout";
 import type { DiagramLabels, DiagramNode, PersonNode, RelationModel } from "./types";
 
 const person = (index: number): PersonNode => ({
@@ -79,7 +79,7 @@ test("우측의 짧은 행도 중심에서 같은 거리로 시작한다", () =>
 
 test("mobile stage height follows the visible relationship density", () => {
   assert.equal(mobileGraphStageHeight("social", model, ["up"], 0.75), 360);
-  assert.equal(mobileGraphStageHeight("social", model, ["up", "right", "down"], 0.75), 446);
+  assert.equal(mobileGraphStageHeight("social", model, ["up", "right", "down"], 0.75), 476);
 });
 
 test("only toggled relation groups are drawn", () => {
@@ -100,4 +100,64 @@ test("only toggled relation groups are drawn", () => {
   assert.match(centerHtml, /M-4 108/);
   assert.match(centerHtml, /relation-ray is-right/);
   assert.doesNotMatch(centerHtml, /relation-ray is-(up|left|down)/);
+});
+
+test("shared family people render distinct placement nodes with valid edge targets", () => {
+  const shared = { ...person(100), types: ["sibling", "spouse"], groups: ["family"] as PersonNode["groups"] };
+  const overlapModel: RelationModel = {
+    people: [shared],
+    family: { parents: [], siblings: [shared], spouses: [shared], children: [] },
+    social: { up: [], left: [], right: [], down: [] },
+    other: [],
+    familyPeople: [shared],
+    socialPeople: [],
+  };
+  const overlap = buildGraphData(
+    "family", overlapModel, ["siblings", "spouses"], "Center", null, labels,
+    { deep: "#000", edge: "#555", accent: "#fff" },
+  );
+  const personNodeIds = overlap.nodes
+    .filter(({ id }) => id.startsWith("person:"))
+    .map(({ id }) => id);
+  const ids = new Set(overlap.nodes.map(({ id }) => id));
+
+  assert.equal(new Set(personNodeIds).size, personNodeIds.length);
+  assert.equal(personNodeIds.length, 2);
+  assert.ok(personNodeIds.some((id) => id === `person:${shared.id}`));
+  assert.ok(personNodeIds.some((id) => id !== `person:${shared.id}`));
+  assert.equal(overlap.edges.every(({ source, target }) => ids.has(source) && ids.has(target)), true);
+});
+
+test("full family layout keeps axis and side people in separate rows", () => {
+  const makePeople = (count: number, offset: number) => Array.from(
+    { length: count }, (_, index) => ({
+      ...person(offset + index), types: ["family"], groups: ["family"] as PersonNode["groups"],
+    }),
+  );
+  const parents = makePeople(2, 200);
+  const siblings = makePeople(5, 210);
+  const spouses = makePeople(16, 220);
+  const children = makePeople(21, 240);
+  const familyModel: RelationModel = {
+    people: [...parents, ...siblings, ...spouses, ...children],
+    family: { parents, siblings, spouses, children },
+    social: { up: [], left: [], right: [], down: [] },
+    other: [], familyPeople: [...parents, ...siblings, ...spouses, ...children], socialPeople: [],
+  };
+  const family = buildGraphData(
+    "family", familyModel, ["parents", "siblings", "spouses", "children"], "Center", null, labels,
+    { deep: "#000", edge: "#555", accent: "#fff" },
+  );
+  const boxes = family.nodes.filter(({ id }) => id.startsWith("person:")).map(({ style }) => {
+    const [width, height] = style.size as [number, number];
+    const x = Number(style.x);
+    const y = Number(style.y);
+    return { left: x - width / 2, right: x + width / 2, top: y - height / 2, bottom: y + height / 2 };
+  });
+  const overlapArea = (a: typeof boxes[number], b: typeof boxes[number]) => (
+    Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
+    * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top))
+  );
+  assert.equal(boxes.some((a, index) => boxes.slice(index + 1).some((b) => overlapArea(a, b) > 0)), false);
+  assert.equal(graphStageHeight("family", familyModel, ["parents", "siblings", "spouses", "children"]), 1264);
 });
