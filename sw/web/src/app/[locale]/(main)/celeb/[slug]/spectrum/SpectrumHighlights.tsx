@@ -12,7 +12,6 @@ import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebI
 import { type StatKey, type TendencyKey } from "@/lib/spectrum/constants";
 import { localizeSpectrumText } from "@/lib/spectrum/localizeText";
 import type { SpectrumJsonb } from "@/lib/spectrum/types";
-import { SectionHeader } from "./SpectrumPanels";
 import {
   SpectrumEvidenceChip,
   TENDENCY_EVIDENCE_LABELS,
@@ -64,30 +63,31 @@ export function SpectrumHighlights({
 
   return (
     <>
-      {/* 종합 해설 (rationale) */}
+      {/* 종합 해설 — 제목 없이 문단만. 영역은 가운데, 문단 안 글줄은 좌측정렬 */}
       {rationale && (
-        <div className="space-y-3">
-          <SectionHeader title={t("rationale")} />
-          <p className="text-sm text-text-secondary leading-relaxed break-keep text-center px-4">
+        <div className="mx-auto max-w-2xl px-4">
+          <p className="text-sm text-text-secondary leading-relaxed break-keep text-left">
             {rationale}
           </p>
         </div>
       )}
 
-      {/* 인물 지문 — 전체 인물 중 이 사람이 유별난 지점 */}
+      {/* 인물 지문 — 전체 인물 중 이 사람이 유별난 지점. "인물 n명 중"은 줄을 따로 쓰고, 칩은 그 아래 한 줄로 놓는다 */}
       {highlights.length > 0 && population > 0 ? (
-        <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 px-4">
+        <div className="flex flex-col items-center gap-1.5 px-4">
           <span className="text-xs text-text-secondary">
             {t("spectrumHighlightAmong", { count: population })}
           </span>
-          {highlights.map((highlight) => (
-            <SpectrumEvidenceChip
-              key={highlight.axis}
-              axis={highlight.axis}
-              value={highlight.value}
-              label={formatHighlight(highlight)}
-            />
-          ))}
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5">
+            {highlights.map((highlight) => (
+              <SpectrumEvidenceChip
+                key={highlight.axis}
+                axis={highlight.axis}
+                value={highlight.value}
+                label={formatHighlight(highlight)}
+              />
+            ))}
+          </div>
         </div>
       ) : null}
     </>

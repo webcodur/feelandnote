@@ -67,7 +67,7 @@
     "sourceWorksIntro": "Books where this figure appears or is closely related.",
     "sourceWorkCount": "{count} works",
     "sourceWorkOpen": "View work details",
-    "sourceWorkBuyCoupang": "View on Coupang",
+    "sourceWorkBuyCoupang": "Buy on Coupang",
     "sourceWorkBuyAmazon": "View on Amazon",
     "sourceWorkSelect": "View work: {title}",
     "sourceEditionSelect": "Choose an edition",
@@ -331,7 +331,14 @@
       "source": "Source",
       "emptyReview": "No review has been added.",
       "spoiler": "This review contains spoilers.",
-      "originalLanguage": "Original Korean text."
-    }
+      "originalLanguage": "Original Korean text.",
+      "introduction": "About the work",
+      "myReview": "My review"
+    },
+    "readingControls": "Reading audio controls",
+    "readingBack": "Back 10 seconds",
+    "readingForward": "Forward 10 seconds",
+    "readingPosition": "Playback position",
+    "readingSpeed": "Playback speed"
   }
 }

@@ -42,6 +42,8 @@ interface ContentItemRendererProps {
   desktopPresentation?: boolean;
   initialContentBrief?: ContentBrief | null;
   initialContentRecord?: UserContentWithContent;
+  /** 펼침 보기에서 지금 보는 작품이 바뀔 때마다 알린다("전체 보기" 자리 맞춤용) */
+  onActiveContentChange?: (contentId: string | null, index: number) => void;
 }
 // #endregion
 
@@ -60,6 +62,7 @@ function ContentItemRenderer({
   initialContentBrief,
   initialContentRecord,
   targetUserId,
+  onActiveContentChange,
 }: ContentItemRendererProps) {
   // 별점 편집 모달 상태
   const [ratingEditTarget, setRatingEditTarget] = useState<{
@@ -96,6 +99,7 @@ function ContentItemRenderer({
         initialContentBrief={initialContentBrief}
         initialContentRecord={initialContentRecord}
         celebId={targetUserId}
+        onActiveContentChange={onActiveContentChange}
       />
     );
   }

@@ -24,64 +24,59 @@ const DIALOGUE_TYPES = [
 type DialogueType = (typeof DIALOGUE_TYPES)[number];
 
 interface DialogueTheme {
-  chip: string;
   chipActive: string;
   row: string;
   rowPlaying: string;
 }
 
+// 켜진 칩은 색을 꽉 채우고 어두운 글자를 얹는다. 꺼진 칩은 아래 INACTIVE_CHIP 하나로 통일해
+// "칠해진 것 = 켜짐"이 색상과 무관하게 한눈에 갈린다.
+const INACTIVE_CHIP =
+  "border-white/10 bg-white/[0.03] text-text-secondary/70 hover:border-white/25 hover:bg-white/[0.07] hover:text-text-secondary";
+
 const DIALOGUE_THEMES: Record<DialogueType, DialogueTheme> = {
   quote: {
-    chip: "border-amber-400/30 bg-amber-400/[0.04] text-amber-300 hover:border-amber-300/60 hover:bg-amber-400/10",
-    chipActive: "border-amber-300/70 bg-amber-400/15 font-semibold text-amber-200",
+    chipActive: "border-amber-300 bg-amber-400 font-semibold text-neutral-900",
     row: "border-s-amber-400/70 bg-amber-400/[0.04] hover:bg-amber-400/10",
     rowPlaying: "border-s-amber-300 bg-amber-400/15 ring-1 ring-inset ring-amber-300/30",
   },
   monologue: {
-    chip: "border-violet-400/30 bg-violet-400/[0.04] text-violet-300 hover:border-violet-300/60 hover:bg-violet-400/10",
-    chipActive: "border-violet-300/70 bg-violet-400/15 font-semibold text-violet-200",
+    chipActive: "border-violet-300 bg-violet-400 font-semibold text-neutral-900",
     row: "border-s-violet-400/70 bg-violet-400/[0.04] hover:bg-violet-400/10",
     rowPlaying: "border-s-violet-300 bg-violet-400/15 ring-1 ring-inset ring-violet-300/30",
   },
   greeting: {
-    chip: "border-sky-400/30 bg-sky-400/[0.04] text-sky-300 hover:border-sky-300/60 hover:bg-sky-400/10",
-    chipActive: "border-sky-300/70 bg-sky-400/15 font-semibold text-sky-200",
+    chipActive: "border-sky-300 bg-sky-400 font-semibold text-neutral-900",
     row: "border-s-sky-400/70 bg-sky-400/[0.04] hover:bg-sky-400/10",
     rowPlaying: "border-s-sky-300 bg-sky-400/15 ring-1 ring-inset ring-sky-300/30",
   },
   roll_call: {
-    chip: "border-teal-400/30 bg-teal-400/[0.04] text-teal-300 hover:border-teal-300/60 hover:bg-teal-400/10",
-    chipActive: "border-teal-300/70 bg-teal-400/15 font-semibold text-teal-200",
+    chipActive: "border-teal-300 bg-teal-400 font-semibold text-neutral-900",
     row: "border-s-teal-400/70 bg-teal-400/[0.04] hover:bg-teal-400/10",
     rowPlaying: "border-s-teal-300 bg-teal-400/15 ring-1 ring-inset ring-teal-300/30",
   },
   deploy: {
-    chip: "border-indigo-400/30 bg-indigo-400/[0.04] text-indigo-300 hover:border-indigo-300/60 hover:bg-indigo-400/10",
-    chipActive: "border-indigo-300/70 bg-indigo-400/15 font-semibold text-indigo-200",
+    chipActive: "border-indigo-300 bg-indigo-400 font-semibold text-neutral-900",
     row: "border-s-indigo-400/70 bg-indigo-400/[0.04] hover:bg-indigo-400/10",
     rowPlaying: "border-s-indigo-300 bg-indigo-400/15 ring-1 ring-inset ring-indigo-300/30",
   },
   battle_win: {
-    chip: "border-emerald-400/30 bg-emerald-400/[0.04] text-emerald-300 hover:border-emerald-300/60 hover:bg-emerald-400/10",
-    chipActive: "border-emerald-300/70 bg-emerald-400/15 font-semibold text-emerald-200",
+    chipActive: "border-emerald-300 bg-emerald-400 font-semibold text-neutral-900",
     row: "border-s-emerald-400/70 bg-emerald-400/[0.04] hover:bg-emerald-400/10",
     rowPlaying: "border-s-emerald-300 bg-emerald-400/15 ring-1 ring-inset ring-emerald-300/30",
   },
   battle_draw: {
-    chip: "border-lime-400/30 bg-lime-400/[0.04] text-lime-300 hover:border-lime-300/60 hover:bg-lime-400/10",
-    chipActive: "border-lime-300/70 bg-lime-400/15 font-semibold text-lime-200",
+    chipActive: "border-lime-300 bg-lime-400 font-semibold text-neutral-900",
     row: "border-s-lime-400/70 bg-lime-400/[0.04] hover:bg-lime-400/10",
     rowPlaying: "border-s-lime-300 bg-lime-400/15 ring-1 ring-inset ring-lime-300/30",
   },
   battle_lose: {
-    chip: "border-rose-400/30 bg-rose-400/[0.04] text-rose-300 hover:border-rose-300/60 hover:bg-rose-400/10",
-    chipActive: "border-rose-300/70 bg-rose-400/15 font-semibold text-rose-200",
+    chipActive: "border-rose-300 bg-rose-400 font-semibold text-neutral-900",
     row: "border-s-rose-400/70 bg-rose-400/[0.04] hover:bg-rose-400/10",
     rowPlaying: "border-s-rose-300 bg-rose-400/15 ring-1 ring-inset ring-rose-300/30",
   },
   clash_attack: {
-    chip: "border-orange-400/30 bg-orange-400/[0.04] text-orange-300 hover:border-orange-300/60 hover:bg-orange-400/10",
-    chipActive: "border-orange-300/70 bg-orange-400/15 font-semibold text-orange-200",
+    chipActive: "border-orange-300 bg-orange-400 font-semibold text-neutral-900",
     row: "border-s-orange-400/70 bg-orange-400/[0.04] hover:bg-orange-400/10",
     rowPlaying: "border-s-orange-300 bg-orange-400/15 ring-1 ring-inset ring-orange-300/30",
   },
@@ -106,8 +101,12 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
   // 로드 대기 중인 행. 로딩이 끝나기 전에는 소리를 내지 않는다.
   const [loadingKey, setLoadingKey] = useState<string | null>(null);
   const [autoPlaying, setAutoPlaying] = useState(false);
-  // 빈 집합은 "전체"를 뜻한다 — 골라둔 상황이 하나도 없을 때 모두 보여준다
-  const [selectedTypes, setSelectedTypes] = useState<Set<DialogueType>>(() => new Set());
+  // 체크박스처럼 여러 개를 겹쳐 켜지 않는다 — 상황 하나를 고르면 그 모드로 통째로 바뀐다.
+  // 처음엔 대사가 있는 첫 상황을 고른다.
+  const [selectedType, setSelectedType] = useState<DialogueType | null>(() => DIALOGUE_TYPES.find((type) => {
+    const arr = lines[type];
+    return Array.isArray(arr) && arr.length > 0 && arr.some((l) => l.trim() !== "");
+  }) ?? null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const autoQueueRef = useRef<LineItem[]>([]);
   const stoppedRef = useRef(false);
@@ -224,18 +223,11 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
     }, []);
   }, [lines]);
 
-  const allLines = useMemo(
-    () => DIALOGUE_TYPES.flatMap((type) => linesForType(type)),
-    [linesForType],
+  // 고른 상황 하나만 보여준다 — "전체" 모드는 없다
+  const displayLines = useMemo(
+    () => selectedType ? linesForType(selectedType) : [],
+    [selectedType, linesForType],
   );
-
-  // 골라둔 상황이 없으면 전체, 있으면 고른 상황들만 합쳐 보여준다
-  const displayLines = useMemo(() => {
-    if (selectedTypes.size === 0) return allLines;
-    return DIALOGUE_TYPES.filter((type) => selectedTypes.has(type)).flatMap(
-      (type) => linesForType(type),
-    );
-  }, [selectedTypes, allLines, linesForType]);
 
   const playNext = useCallback(function playNextLine() {
     if (stoppedRef.current || autoQueueRef.current.length === 0) {
@@ -275,17 +267,12 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
     return Array.isArray(arr) && arr.length > 0 && arr.some((l) => l.trim() !== "");
   }), [lines]);
 
-  const toggleType = useCallback((type: DialogueType) => {
+  const selectType = useCallback((type: DialogueType) => {
     stoppedRef.current = true;
     autoQueueRef.current = [];
     setAutoPlaying(false);
     stopAudio();
-    setSelectedTypes((prev) => {
-      const next = new Set(prev);
-      if (next.has(type)) next.delete(type);
-      else next.add(type);
-      return next;
-    });
+    setSelectedType(type);
   }, [stopAudio]);
 
   // 전체 재생 중 현재 재생 중인 행의 표시 인덱스
@@ -307,7 +294,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
         </p>
       </div>
 
-      {/* ── 4. 상황 칩 — 하나씩 켜고 끈다. 아무것도 안 켜면 전체가 켜진 것과 같다 */}
+      {/* ── 4. 상황 칩 — 체크박스가 아니라 모드 전환이다. 하나를 고르면 그걸로 통째로 바뀐다 */}
       <div
         className="flex flex-wrap justify-center gap-2 pb-1"
         role="group"
@@ -315,22 +302,22 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
       >
         {visibleTypes.map((type) => {
           const count = lines[type].filter((raw) => stripEmotionTag(raw).trim()).length;
-          const active = selectedTypes.has(type);
+          const active = selectedType === type;
           const theme = DIALOGUE_THEMES[type];
           return (
             <button
               key={type}
               type="button"
               aria-pressed={active}
-              onClick={() => toggleType(type)}
+              onClick={() => selectType(type)}
               className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${
                 active
                   ? theme.chipActive
-                  : theme.chip
+                  : INACTIVE_CHIP
               }`}
             >
               {t(`dialogue_${type}`)}
-              <span className="font-mono text-[11px] opacity-65">{count}</span>
+              <span className={`font-mono text-[11px] ${active ? "opacity-70" : "opacity-50"}`}>{count}</span>
             </button>
           );
         })}

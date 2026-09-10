@@ -64,10 +64,10 @@
     "library": "기록",
     "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
     "sourceWorks": "연관 작품",
-    "sourceWorksIntro": "인물이 등장하거나 연관성이 높은 책들입니다.",
+    "sourceWorksIntro": "인물이 직간접적으로 등장하는 책들입니다.",
     "sourceWorkCount": "작품 {count}편",
     "sourceWorkOpen": "작품 상세보기",
-    "sourceWorkBuyCoupang": "쿠팡에서 보기",
+    "sourceWorkBuyCoupang": "쿠팡 구매",
     "sourceWorkBuyAmazon": "Amazon에서 보기",
     "sourceWorkSelect": "작품 보기: {title}",
     "sourceEditionSelect": "판본 선택",
@@ -331,7 +331,14 @@
       "source": "출처",
       "emptyReview": "등록된 감상문이 없습니다.",
       "spoiler": "스포일러가 포함된 감상문입니다.",
-      "originalLanguage": "한국어 원문입니다."
-    }
+      "originalLanguage": "한국어 원문입니다.",
+      "introduction": "작품 소개",
+      "myReview": "감상평"
+    },
+    "readingControls": "읽어보기 음성 재생",
+    "readingBack": "10초 뒤로",
+    "readingForward": "10초 앞으로",
+    "readingPosition": "재생 위치",
+    "readingSpeed": "재생 속도"
   }
 }

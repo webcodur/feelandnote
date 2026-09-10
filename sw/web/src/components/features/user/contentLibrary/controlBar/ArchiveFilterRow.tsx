@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { ArrowUpDown, LibraryBig, MessageSquareText } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -28,6 +28,8 @@ interface ArchiveFilterRowProps {
   /** 셀럽 서가는 감상에 리뷰가 항상 붙어 리뷰 필터를 숨긴다 */
   hideReviewFilter?: boolean;
   compact: boolean;
+  /** 필터 칩 줄 끝에 덧붙는 조작(전체 보기 등) */
+  trailing?: ReactNode;
 }
 
 type FilterType = "category" | "sort" | "review";
@@ -43,6 +45,7 @@ export default function ArchiveFilterRow({
   allowRatingSort = true,
   hideReviewFilter = false,
   compact,
+  trailing,
 }: ArchiveFilterRowProps) {
   const t = useTranslations("archiveSearch");
   const tCategory = useTranslations("content.category");
@@ -124,7 +127,8 @@ export default function ArchiveFilterRow({
         </div>
 
         <div className={cn(
-          "grid w-full min-w-0 items-center gap-2 md:hidden",
+          // trailing이 있으면 그 자리를 내주도록 w-full 대신 flex-1로 남는 폭만 채운다
+          "grid flex-1 min-w-0 items-center gap-2 md:hidden",
           hideReviewFilter ? "grid-cols-2" : "grid-cols-3",
         )}>
           <FilterChip
@@ -154,6 +158,8 @@ export default function ArchiveFilterRow({
             className="min-w-0"
           />
         </div>
+
+        {trailing}
       </div>
 
       <FilterModal title={t("filter.category")} isOpen={activeFilter === "category"} current={activeTab} options={categoryOptions} onClose={() => setActiveFilter(null)} onChange={(value) => onTabChange(value as CategoryId)} />

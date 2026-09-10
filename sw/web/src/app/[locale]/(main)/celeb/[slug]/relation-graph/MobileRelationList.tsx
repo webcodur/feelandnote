@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { useMemo } from "react";
-import { UserRound } from "lucide-react";
+import { useMemo, useRef } from "react";
 
 import SwipeControls from "@/components/ui/SwipeControls";
+import { useSnapActiveHeight } from "@/components/ui/useSnapActiveHeight";
 import styles from "./MobileRelationList.module.css";
 import type { FocusOption } from "./RelationToolbar";
 import type { PersonNode, RelationFocus } from "./types";
@@ -28,7 +28,7 @@ function ProfileFallback() {
 }
 
 /** 좁은 화면에서 한 쪽에 세우는 인물 수. 세로로 다 훑지 않고 옆으로 넘겨 본다 */
-const PEOPLE_PER_PAGE = 3;
+const PEOPLE_PER_PAGE = 2;
 
 /**
  * 관계 갈래에 매기는 색 번호. 가족은 부모·형제·배우자·자녀, 사회는 네 방향으로
@@ -72,22 +72,33 @@ export default function MobileRelationList(props: Props) {
     [sections],
   );
 
+  const pages = useMemo(() => chunk(entries, PEOPLE_PER_PAGE), [entries]);
+
+  // 가로로 넘기는 줄은 모든 쪽이 한 줄에 나란히 있어, 줄 자체의 높이는 —
+  // align-items를 뭘 주든 — 가장 긴 쪽에 묶인다. 지금 보이는 쪽 높이만 쓰려면
+  // 직접 재서 입혀야 한다. 그래서 카드 길이가 쪽마다 달라도 출렁이며 맞는다.
+  const listRef = useRef<HTMLUListElement>(null);
+  const activeHeight = useSnapActiveHeight(listRef, pages);
+
   if (entries.length === 0) return null;
 
   return <div className={styles.root} aria-label={props.label}>
-      {/* 세 명씩 한 쪽으로 묶어 옆으로 넘긴다 */}
-      <ul className={styles.list}>
-        {chunk(entries, PEOPLE_PER_PAGE).map((page, pageIndex) => <li key={pageIndex} className={styles.page}>
+      {/* 두 명씩 한 쪽으로 묶어 옆으로 넘긴다 */}
+      <ul ref={listRef} className={styles.list} style={activeHeight ? { height: activeHeight } : undefined}>
+        {pages.map((page, pageIndex) => <li key={pageIndex} className={styles.page}>
         {page.map(({ person, tone }) => {
           const relation = props.relationLabel(person);
-          const portrait = <span className={styles.portrait}>
-            {person.avatarUrl
-              ? <Image src={person.avatarUrl} alt="" width={112} height={112} unoptimized />
-              : <ProfileFallback />}
+          // 1열은 사진과 그 아래 관계 유형("영감을 준" 등)을 함께 쥔다
+          const portrait = <span className={styles.portraitCol}>
+            <span className={styles.portrait}>
+              {person.avatarUrl
+                ? <Image src={person.avatarUrl} alt="" width={200} height={200} unoptimized />
+                : <ProfileFallback />}
+            </span>
+            <span className={styles.relationTag}>{relation}</span>
           </span>;
           const copy = <span className={styles.copy}>
             <strong>{person.name}</strong>
-            <span>{relation}</span>
             {person.note ? <small>{person.note}</small> : null}
           </span>;
           // 등록 인물만 진입 버튼을 단다. 데스크톱 인스펙터와 같은 미리보기로 잇는다.
@@ -103,12 +114,11 @@ export default function MobileRelationList(props: Props) {
               aria-label={`${props.openLabel}: ${person.name}`}>
               {portrait}
               {copy}
-              <UserRound size={20} aria-hidden className={styles.goIcon} />
             </button>
           </div>;
         })}
         </li>)}
       </ul>
-      <SwipeControls count={Math.ceil(entries.length / PEOPLE_PER_PAGE)} className="pb-3" />
+      <SwipeControls count={pages.length} className="pb-3" />
   </div>;
 }

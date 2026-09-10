@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useCallback, useId, useLayoutEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -41,6 +41,8 @@ interface ExpandDetailViewProps {
   initialContentBrief?: ContentBrief | null;
   initialContentRecord?: UserContentWithContent;
   celebId?: string;
+  /** 지금 펼쳐 보는 작품이 바뀔 때마다 알린다. "전체 보기"가 같은 자리에서 이어지게 쓴다 */
+  onActiveContentChange?: (contentId: string | null, index: number) => void;
 }
 
 export default function ExpandDetailView({
@@ -52,6 +54,7 @@ export default function ExpandDetailView({
   initialContentBrief,
   initialContentRecord,
   celebId,
+  onActiveContentChange,
 }: ExpandDetailViewProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
@@ -96,6 +99,9 @@ export default function ExpandDetailView({
     desktopPresentation,
     isDesktop,
   });
+  useEffect(() => {
+    onActiveContentChange?.(selectedContentId, selectedIndex);
+  }, [selectedContentId, selectedIndex, onActiveContentChange]);
   const contentIds = useMemo(() => items.map((item) => item.content_id), [items]);
   const {
     contentId: loadedBriefContentId,

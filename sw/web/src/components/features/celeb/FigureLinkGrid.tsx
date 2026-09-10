@@ -127,8 +127,10 @@ export default async function FigureLinkGrid({
       <ul
         className={`gap-3 ${
           mobilePages
-            ? // 좁은 화면은 쪽 단위로 옆으로 넘기고, 넓어지면 쪽 묶음이 풀려 격자가 된다
-              "flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] md:grid md:overflow-visible"
+            ? // 좁은 화면은 쪽 단위로 옆으로 넘기고, 넓어지면 쪽 묶음이 풀려 격자가 된다.
+              // items-start: 옆 쪽이 더 길어도 이 쪽 카드를 늘이지 않는다.
+              // scroll-smooth: 손을 떼도 즉시 튀지 않고 가까운 쪽으로 부드럽게 붙는다.
+              "flex items-start snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] md:grid md:overflow-visible"
             : "grid"
         } ${colsFor(linkable.length)} ${
           mobileScrollable && !mobilePages

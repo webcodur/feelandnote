@@ -5,7 +5,7 @@ import { load } from "cheerio";
 import type { UserContentPublic, GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { getAlternates } from "@/lib/seo";
-import { buildCelebPageJsonLd } from "../celebPageJsonLd";
+import { buildCelebPageJsonLd } from "@/app/[locale]/(main)/celeb/[slug]/celebPageJsonLd";
 import RecordsPageBody, { type RecordsLabels } from "./RecordsPageBody";
 import { loadRecordsPage, parseRecordsPage, RECORDS_PAGE_SIZE, recordsPath } from "./recordsPageData";
 
@@ -23,7 +23,8 @@ const item = (id: number): UserContentPublic => ({
 const response = (page: number, total = 45): GetUserContentsResponse => ({
   items: [item(page === 1 ? 1 : 21)], page, total, totalPages: Math.ceil(total / RECORDS_PAGE_SIZE), hasMore: page * RECORDS_PAGE_SIZE < total,
 });
-const labels: RecordsLabels = { title: "Records", back: "Back", previous: "Previous", next: "Next", page: "2 / 3", source: "Source", emptyReview: "Empty", spoiler: "Spoiler", originalLanguage: "Original" };
+const labels: RecordsLabels = { title: "Records", back: "Back", previous: "Previous", next: "Next", page: "2 / 3", source: "Source", emptyReview: "Empty", spoiler: "Spoiler", originalLanguage: "Original", introduction: "About the work", myReview: "My review" };
+const noBrief = async () => null;
 
 test("later record pages expose full reviews, sources, and navigable pagination in server HTML", async () => {
   const calls: number[] = [];
@@ -36,11 +37,16 @@ test("later record pages expose full reviews, sources, and navigable pagination 
       calls.push(params.page);
       return response(params.page);
     },
+    getBrief: async (contentId) => ({
+      contentId, category: "book", description: `Synopsis for ${contentId}`, releaseDate: null, metadata: null,
+    }),
   });
   assert.ok(data);
   assert.deepEqual(calls, [1, 2]);
-  const $ = load(renderToStaticMarkup(<RecordsPageBody slug="example" locale="en" contents={data.contents} labels={labels} />));
+  assert.deepEqual(data.descriptions, { "work-21": "Synopsis for work-21" });
+  const $ = load(renderToStaticMarkup(<RecordsPageBody slug="example" locale="en" contents={data.contents} descriptions={data.descriptions} labels={labels} />));
   assert.match($("article").text(), /Full review 21/);
+  assert.match($("article").text(), /Synopsis for work-21/);
   assert.equal($("article a").last().attr("href"), "https://example.com/interview/21");
   assert.equal($("a[rel=prev]").attr("href"), "/en/celeb/example/records/1");
   assert.equal($("a[rel=next]").attr("href"), "/en/celeb/example/records/3");
@@ -53,6 +59,7 @@ test("invalid and unavailable pages resolve to not-found without arbitrary offse
   const dependencies = {
     getProfile: async () => ({ success: true, data: profile }),
     getContents: async ({ page }: { page: number }) => { calls.push(page); return response(page); },
+    getBrief: noBrief,
   };
   assert.equal(await loadRecordsPage("example", "ko", "01", dependencies), null);
   assert.deepEqual(calls, []);
@@ -67,7 +74,7 @@ test("invalid and unavailable pages resolve to not-found without arbitrary offse
 test("last page has no next link and spoiler content stays concealed", () => {
   const contents = response(3);
   contents.items[0].public_record!.is_spoiler = true;
-  const $ = load(renderToStaticMarkup(<RecordsPageBody slug="example" locale="ko" contents={contents} labels={labels} />));
+  const $ = load(renderToStaticMarkup(<RecordsPageBody slug="example" locale="ko" contents={contents} descriptions={{}} labels={labels} />));
   assert.equal($("a[rel=next]").length, 0);
   assert.equal($("a[rel=prev]").attr("href"), "/celeb/example/records/2");
   assert.match($("article").text(), /Spoiler/);
@@ -80,7 +87,7 @@ test("detail JSON-LD lists exactly the four visible seed works in display order"
     const json = buildCelebPageJsonLd({ profile, slug: "example", locale, pageTitle: "Example", contents, figureBooks: [], externalLinks: [] });
     const graph = JSON.parse(JSON.stringify(json))["@graph"] as { "@type": string; itemListElement?: { item: { name: string; url: string } }[] }[];
     const entries = graph.find(node => node["@type"] === "ItemList")!.itemListElement!;
-    const $ = load(renderToStaticMarkup(<RecordsPageBody slug="example" locale={locale} contents={{ ...response(1), items: contents }} labels={labels} />));
+    const $ = load(renderToStaticMarkup(<RecordsPageBody slug="example" locale={locale} contents={{ ...response(1), items: contents }} descriptions={{}} labels={labels} />));
     assert.deepEqual(entries.map(entry => entry.item.name), $("article h2").map((_, node) => $(node).text()).get());
     assert.equal(entries.length, 4);
     assert.deepEqual(entries.map(entry => new URL(entry.item.url).pathname), $("article h2 a").map((_, node) => $(node).attr("href")).get());

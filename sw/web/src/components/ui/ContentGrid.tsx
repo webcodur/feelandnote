@@ -54,8 +54,10 @@ export default function ContentGrid({
       <div
         className={`flex gap-3 md:grid md:justify-center ${
           mobileCarousel
-            ? // 한 장씩 옆으로 넘긴다. md부터는 스냅과 가로 스크롤이 풀려 격자로 돌아간다
-              "snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&>*]:w-full [&>*]:shrink-0 [&>*]:snap-start md:overflow-visible md:[&>*]:w-auto"
+            ? // 한 장씩 옆으로 넘긴다. md부터는 스냅과 가로 스크롤이 풀려 격자로 돌아간다.
+              // items-start: 옆 장이 더 길어도 이 장 카드를 늘이지 않는다.
+              // scroll-smooth: 손을 떼도 즉시 튀지 않고 가까운 장으로 부드럽게 붙는다.
+              "items-start snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] [&>*]:w-full [&>*]:shrink-0 [&>*]:snap-start md:overflow-visible md:[&>*]:w-auto"
             : "flex-col items-center"
         } ${className}`}
         style={gridStyle}

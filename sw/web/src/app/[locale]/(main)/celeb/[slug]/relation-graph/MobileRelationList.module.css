@@ -2,7 +2,11 @@
 
 @media (max-width: 900px) {
   .root {
-    display: block;
+    /* SwipeControls는 DOM상 .list 바로 다음(previousElementSibling으로 줄을 찾는다) —
+       순서는 그대로 두고 column-reverse로 화면에서만 위로 올린다. 그래야 쪽마다
+       카드 높이가 달라져도 이동 버튼 위치가 흔들리지 않는다 */
+    display: flex;
+    flex-direction: column-reverse;
     max-height: clamp(300px, 52dvh, 480px);
     margin-top: 2px;
     overflow-y: auto;
@@ -30,12 +34,17 @@
   /* 인물은 두 명씩 한 쪽에 서고 쪽 단위로 옆으로 넘어간다 — 세로로 다 훑지 않게 한다 */
   .list {
     display: flex;
+    /* 기본값 stretch를 두면 옆 페이지 중 가장 긴 것에 맞춰 모든 페이지 높이가 늘어난다 —
+       각 페이지가 자기 내용만큼만 높이를 쓰게 막는다 */
+    align-items: flex-start;
     margin: 0;
     padding: 12px 0 0;
     list-style: none;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
+    /* 손을 떼면 즉시 튀지 않고 가까운 쪽으로 부드럽게 안착한다 */
+    scroll-behavior: smooth;
     touch-action: pan-x pan-y;
     scrollbar-width: none;
   }
@@ -46,36 +55,38 @@
     width: 100%;
     flex-direction: column;
     flex-shrink: 0;
+    gap: 12px;
+    padding: 2px 14px 14px;
     scroll-snap-align: start;
   }
-  .page > * + * { border-top: 1px solid color-mix(in srgb, var(--material-edge) 28%, transparent); }
   .page + .page { border-left: 1px solid color-mix(in srgb, var(--material-edge) 28%, transparent); }
 
+  /* 카드 하나하나가 갈래 색 윤곽을 두르고, gap으로 서로 떨어져 붙지 않는다 */
   .person, .personAction {
-    width: 100%;
-    min-height: 84px;
-    padding: 12px 12px 12px 16px;
-    border-inline-start: 3px solid var(--relation-tone, color-mix(in srgb, var(--material-edge) 38%, transparent));
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--relation-tone, var(--material-edge)) 42%, transparent);
+    background: color-mix(in srgb, var(--material-panel) 55%, transparent);
     color: var(--material-text);
-    background: transparent;
   }
-  /* 버튼 없는 행만 li 격자로 놓는다. 버튼 행은 li를 상자로 두고 버튼이 격자를 쥔다. */
+  /* 2열 구조는 그대로 두고, 사진 열(1열)만 넓혀 채운다 — 카드 전체를 사진으로 덮지 않는다 */
   .person {
     display: grid;
-    grid-template-columns: 58px minmax(0, 1fr);
-    align-items: center;
-    gap: 13px;
+    grid-template-columns: clamp(76px, 24vw, 104px) minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 12px;
   }
   .personAction { display: block; }
 
-  /* 등록 인물 행의 진입 버튼. li와 같은 격자 위에 아이콘 칸만 얹는다. */
+  /* 등록 인물 카드의 진입 버튼. 카드 전체가 버튼이라 별도 아이콘 없이 어디를 눌러도 들어간다 */
   .personGo {
     display: grid;
     width: 100%;
-    padding: 0;
-    grid-template-columns: 58px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 13px;
+    grid-template-columns: clamp(76px, 24vw, 104px) minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 12px;
     border: 0;
     background: transparent;
     color: inherit;
@@ -83,24 +94,30 @@
     text-align: start;
     cursor: pointer;
   }
-  .goIcon {
-    flex-shrink: 0;
-    color: var(--material-accent);
-    opacity: .7;
-  }
-  .personGo:hover .goIcon { opacity: 1; }
 
+  /* 1열: 사진 + 그 아래 관계 유형("영감을 준" 등) */
+  .portraitCol { display: flex; width: 100%; min-width: 0; flex-direction: column; gap: 6px; }
+
+  /* 사진 열의 가로폭을 채우고, 원래 아바타 비율(정사각)대로 세로를 늘린다 — 억지로 자르지 않는다 */
   .portrait {
-    display: grid;
-    width: 58px;
-    height: 58px;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
-    place-items: center;
-    border: 1px solid color-mix(in srgb, var(--material-edge) 72%, var(--material-accent));
-    border-radius: 50%;
+    border-radius: 8px;
     background: var(--material-deep);
   }
   .portrait img { width: 100%; height: 100%; object-fit: cover; }
+
+  .relationTag {
+    /* 관계 이름도 갈래 색으로 물들여, 사진과 함께 무슨 사이인지 바로 읽히게 한다 */
+    color: var(--relation-tone, var(--material-accent));
+    font-size: 12px;
+    font-weight: 730;
+    line-height: 1.3;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
 
   .fallback {
     display: grid;
@@ -110,24 +127,16 @@
     color: color-mix(in srgb, var(--material-muted) 76%, var(--material-accent));
     background: radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--material-accent) 18%, transparent), transparent 54%), var(--material-raised);
   }
-  .fallback svg { width: 88%; height: 88%; }
+  .fallback svg { width: 62%; height: 62%; }
   .fallback circle { fill: currentcolor; opacity: .8; }
   .fallback path { fill: currentcolor; opacity: .46; }
 
-  .copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+  .copy { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
   .copy strong {
     font-size: 18px;
     font-weight: 800;
     line-height: 1.25;
     letter-spacing: -.015em;
-    overflow-wrap: anywhere;
-  }
-  .copy > span {
-    /* 관계 이름도 갈래 색으로 물들여, 왼쪽 선과 함께 무슨 사이인지 바로 읽히게 한다 */
-    color: var(--relation-tone, var(--material-accent));
-    font-size: 14px;
-    font-weight: 730;
-    line-height: 1.3;
     overflow-wrap: anywhere;
   }
   .copy small {
