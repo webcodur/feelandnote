@@ -53,33 +53,6 @@
 }
 
 .diagramOnly { display: block; }
-.belowCue {
-  position: fixed; right: 0; bottom: 0; left: 0; z-index: 250; height: clamp(76px, 12vh, 118px);
-  overflow: hidden; pointer-events: none; animation: below-cue-life 8000ms ease-out both;
-}
-.belowCue::before {
-  position: absolute; inset: auto 15% 0; height: 100%; content: "";
-  background: radial-gradient(ellipse at 50% 108%, color-mix(in srgb, var(--material-accent) 38%, transparent) 0%, color-mix(in srgb, var(--material-accent) 13%, transparent) 35%, transparent 70%);
-}
-.belowCue i {
-  position: absolute; bottom: 12px; width: min(24vw, 280px); height: 42px;
-  border-bottom: 2px solid var(--material-accent); filter: drop-shadow(0 0 8px color-mix(in srgb, var(--material-accent) 62%, transparent));
-}
-.belowCue i:first-child { left: 18px; border-left: 1px solid var(--material-accent); background: linear-gradient(90deg, color-mix(in srgb, var(--material-accent) 42%, transparent), transparent 84%); transform: skewX(22deg); transform-origin: bottom left; }
-.belowCue i:nth-child(2) { right: 18px; border-right: 1px solid var(--material-accent); background: linear-gradient(-90deg, color-mix(in srgb, var(--material-accent) 42%, transparent), transparent 84%); transform: skewX(-22deg); transform-origin: bottom right; }
-.belowCue button {
-  position: absolute; bottom: 12px; left: 50%; display: grid; width: 56px; height: 48px; padding: 0;
-  place-items: center; border: 1px solid color-mix(in srgb, var(--material-accent) 72%, var(--material-edge));
-  border-radius: 2px; color: var(--material-accent); background: color-mix(in srgb, var(--material-panel) 92%, transparent);
-  box-shadow: 0 7px 24px color-mix(in srgb, var(--material-deep) 72%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--material-raised) 42%, transparent);
-  pointer-events: auto; cursor: pointer; transform: translateX(-50%);
-}
-.belowCue button:hover { color: var(--material-deep); border-color: var(--material-accent); background: var(--material-accent); }
-.belowCue button:active { color: var(--material-text); background: var(--material-raised); }
-.belowCue button:focus-visible { outline: 2px solid var(--material-accent); outline-offset: 3px; }
-.belowCue svg { width: 25px; height: 25px; stroke-width: 1.8; animation: below-cue-arrow 920ms ease-in-out infinite; }
-@keyframes below-cue-life { 0% { opacity: 0; } 6%, 78% { opacity: 1; } 100% { opacity: 0; } }
-@keyframes below-cue-arrow { 0%, 100% { translate: 0 -3px; } 55% { translate: 0 4px; } }
 .desktopInspector { min-height: 246px; margin-top: 10px; border-block: 1px solid color-mix(in srgb, var(--material-edge) 60%, transparent); background: color-mix(in srgb, var(--material-panel) 72%, transparent); }
 .inspectorCard { position: relative; display: grid; grid-template-columns: 208px minmax(0, 1fr) 46px; gap: 22px; min-height: 244px; padding: 18px 20px; align-items: stretch; }
 .inspectorPortrait { display: grid; min-width: 0; align-items: stretch; }
@@ -236,12 +209,4 @@
   .relationFilters button { min-width: 0; min-height: 40px; padding: 6px 4px; flex: 1 1 0; font-size: 14px; line-height: 1.15; white-space: normal; }
   .diagramOnly { display: block; }
   .desktopInspector { display: none; }
-  .belowCue { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .belowCue { animation-timing-function: linear; }
-  .belowCue svg { animation: none; }
-  .belowCue i:first-child { transform: none; }
-  .belowCue i:nth-child(2) { transform: none; }
 }
