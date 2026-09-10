@@ -32,7 +32,6 @@ function parseDbYear(birthDate) {
 
   // BC: "-340", "-0384" 등
   if (s.startsWith("-")) {
-    const num = parseInt(s.replace(/-/g, "").split("-")[0] || s.slice(1), 10);
     // "-340" → 340, "-0384-01-01" → 384
     const parts = s.slice(1).split("-");
     return -Math.abs(parseInt(parts[0], 10));
@@ -107,7 +106,7 @@ async function findVerifiedQid(name, dbBirthYear) {
 
   for (const candidate of sorted) {
     await sleep(100); // Wikidata API 부하 방지
-    const { isHuman, birthYear, p31Ids } = await verifyCandidate(candidate.id);
+    const { isHuman, birthYear } = await verifyCandidate(candidate.id);
 
     if (!isHuman) continue; // 인간 아니면 스킵
 

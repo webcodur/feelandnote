@@ -37,13 +37,11 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
   const [currentNote, setCurrentNote] = useState(0);
   const [judgments, setJudgments] = useState<RhythmJudgment[]>([]);
   const [lastHit, setLastHit] = useState<{ lane: Lane; type: RhythmJudgment; key: number } | null>(null);
-  const [playerScore, setPlayerScore] = useState(0);
   const [aiScore, setAiScore] = useState(0);
   const [winner, setWinner] = useState<"player" | "ai" | "draw">("draw");
   const [countdown, setCountdown] = useState(3);
 
   const startTimeRef = useRef(0);
-  const rafRef = useRef(0);
   const noteTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const currentNoteRef = useRef(0);
   const judgeKeyRef = useRef(0);
@@ -52,7 +50,6 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
 
   // 노트 DOM refs (rAF에서 직접 조작)
   const noteElsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const notePositionsRef = useRef<number[]>([]);
   // 타겟·버튼 DOM refs (조건부 스타일 직접 조작)
   const targetOuterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const targetMidRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -75,25 +72,34 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
 
   // ─── rAF 루프 ───
   const judgeYRef = useRef(judgeY);
-  judgeYRef.current = judgeY;
+  useEffect(() => {
+    judgeYRef.current = judgeY;
+  }, [judgeY]);
 
-  const tick = useRhythmLoop(notes, {
-    startTimeRef, currentNoteRef, judgeYRef, rafRef,
-    noteElsRef, notePositionsRef,
+  const { tick, cancel: cancelRhythmLoop } = useRhythmLoop(notes, {
+    startTimeRef, currentNoteRef, judgeYRef,
+    noteElsRef,
     targetOuterRefs, targetMidRefs, targetCenterRefs,
     btnRefs, btnLabelRefs,
   });
 
+  const playerScore = calcRhythmScore(judgments);
+
   // ─── Intro → countdown ───
   const dismissIntro = useCallback(() => {
     if (phase !== "intro") return;
+    setCountdown(3);
     setPhase("countdown");
   }, [phase]);
+
+  const finishPlayerTurn = useCallback(() => {
+    cancelRhythmLoop();
+    setPhase("aiTurn");
+  }, [cancelRhythmLoop]);
 
   // ─── 카운트다운 → playing ───
   useEffect(() => {
     if (phase !== "countdown") return;
-    setCountdown(3);
     const interval = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {
@@ -110,10 +116,10 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
 
   useEffect(() => {
     if (phase === "playing") {
-      rafRef.current = requestAnimationFrame(tick);
-      return () => cancelAnimationFrame(rafRef.current);
+      tick();
+      return cancelRhythmLoop;
     }
-  }, [phase, tick]);
+  }, [phase, tick, cancelRhythmLoop]);
 
   // ─── 노트 자동 miss ───
   useEffect(() => {
@@ -127,21 +133,13 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
       setJudgments(prev => [...prev, "miss"]);
       setLastHit({ lane: curNote.lane, type: "miss", key: judgeKeyRef.current });
       setCurrentNote(prev => prev + 1);
+      if (currentNote + 1 >= notes.length) finishPlayerTurn();
     }, Math.max(0, remaining));
 
     return () => clearTimeout(noteTimerRef.current);
-  }, [phase, currentNote, notes]);
+  }, [phase, currentNote, notes, finishPlayerTurn]);
 
   // ─── 노트 소진 → AI ───
-  useEffect(() => {
-    if (phase === "playing" && currentNote >= notes.length) {
-      cancelAnimationFrame(rafRef.current);
-      const score = calcRhythmScore(judgments);
-      setPlayerScore(score);
-      setPhase("aiTurn");
-    }
-  }, [phase, currentNote, notes.length, judgments]);
-
   // ─── AI 턴 ───
   useEffect(() => {
     if (phase !== "aiTurn") return;
@@ -158,7 +156,9 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
 
   // ─── 결과 → onComplete ───
   const onCompleteRef = useRef(onComplete);
-  onCompleteRef.current = onComplete;
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
   useEffect(() => {
     if (phase !== "result") return;
     const t = setTimeout(() => onCompleteRef.current(winner), 2000);
@@ -178,7 +178,8 @@ export default function RhythmArena({ playerCard, aiCard, onComplete }: RhythmAr
     setJudgments(prev => [...prev, j]);
     setLastHit({ lane: note.lane, type: j, key: judgeKeyRef.current });
     setCurrentNote(prev => prev + 1);
-  }, [phase, notes]);
+    if (currentNoteRef.current + 1 >= notes.length) finishPlayerTurn();
+  }, [phase, notes, finishPlayerTurn]);
 
   // 키보드
   useEffect(() => {

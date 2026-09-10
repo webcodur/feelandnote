@@ -6,8 +6,8 @@
 
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { Plus, ExternalLink, Pencil, Trash2, Check, X, ShoppingCart } from "lucide-react";
+import { useState, useSyncExternalStore, useCallback } from "react";
+import { Plus, ExternalLink, Pencil, Trash2, Check, ShoppingCart } from "lucide-react";
 
 interface CoupangItem {
   id: string;
@@ -40,8 +40,12 @@ function formatPrice(n: number) {
 }
 
 export default function CoupangPartners() {
-  const [items, setItems] = useState<CoupangItem[]>([]);
-  const [mounted, setMounted] = useState(false);
+  const [items, setItems] = useState<CoupangItem[]>(loadItems);
+  const mounted = useSyncExternalStore(
+    () => () => undefined,
+    () => true,
+    () => false,
+  );
 
   // Form state
   const [showForm, setShowForm] = useState(false);
@@ -49,11 +53,6 @@ export default function CoupangPartners() {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [price, setPrice] = useState("");
-
-  useEffect(() => {
-    setItems(loadItems());
-    setMounted(true);
-  }, []);
 
   const persist = useCallback((next: CoupangItem[]) => {
     setItems(next);

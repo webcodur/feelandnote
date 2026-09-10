@@ -23,7 +23,8 @@ export default function FactionTagSheetMobile({
   locale,
 }: FactionTagSheetMobileProps) {
   const t = useTranslations("landing");
-  const [isOpen, setIsOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const isOpen = openIndex === activeIndex;
   const activeTag = tags[activeIndex];
   // 현재 선택된 태그가 그룹 자식이면 그 그룹을 펼친 채로 시작한다.
   const [expandedGroup, setExpandedGroup] = useState<string | null>(activeTag?.parentSlug ?? null);
@@ -39,11 +40,6 @@ export default function FactionTagSheetMobile({
       document.body.style.overflow = "";
     };
   }, [isOpen]);
-
-  // When selection changes, close the sheet
-  useEffect(() => {
-    setIsOpen(false);
-  }, [activeIndex]);
 
   const activeTagName = locale === "en"
     ? activeTag?.name_en?.trim() || t("unnamedFaction")
@@ -69,7 +65,7 @@ export default function FactionTagSheetMobile({
     <div className="relative mb-4 w-full border-b border-white/5 pb-4">
       {/* Trigger Button */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={() => setOpenIndex(activeIndex)}
         className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10 active:bg-white/10 transition-colors"
       >
         <div className="flex items-center">
@@ -82,7 +78,7 @@ export default function FactionTagSheetMobile({
       {isOpen && (
         <div
           className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm transition-opacity duration-300"
-          onClick={() => setIsOpen(false)}
+          onClick={() => setOpenIndex(null)}
         />
       )}
 
@@ -94,7 +90,7 @@ export default function FactionTagSheetMobile({
         )}
       >
         {/* Handle Bar */}
-        <div className="w-full flex justify-center pt-3 pb-1" onClick={() => setIsOpen(false)}>
+        <div className="w-full flex justify-center pt-3 pb-1" onClick={() => setOpenIndex(null)}>
           <div className="w-12 h-1.5 rounded-full bg-white/20" />
         </div>
 
@@ -104,7 +100,7 @@ export default function FactionTagSheetMobile({
             {t("selectTheme") || "Select Theme"}
           </h3>
           <button
-            onClick={() => setIsOpen(false)}
+            onClick={() => setOpenIndex(null)}
             className="p-2 -mr-2 hover:text-white transition-colors"
           >
             <X size={20} />
@@ -132,7 +128,10 @@ export default function FactionTagSheetMobile({
                 idx={item.idx}
                 isActive={activeIndex === item.idx}
                 isChild={item.isChild}
-                onChange={onChange}
+                onChange={(idx) => {
+                  setOpenIndex(null);
+                  onChange(idx);
+                }}
                 locale={locale}
               />
             )

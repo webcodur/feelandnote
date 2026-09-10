@@ -27,6 +27,7 @@ interface ModalProps {
   size?: "sm" | "md" | "lg" | "xl" | "full";
   showCloseButton?: boolean;
   closeOnOverlayClick?: boolean;
+  animateHeight?: boolean;
   /** 커스텀 z-index (게임 전체화면 등 상위 모달 위에 표시할 때) */
   zIndex?: number;
 }
@@ -51,6 +52,7 @@ export default function Modal({
   size = "md",
   showCloseButton = true,
   closeOnOverlayClick = true,
+  animateHeight = true,
   zIndex,
 }: ModalProps) {
   const t = useTranslations("shared.accessibility");
@@ -117,7 +119,7 @@ export default function Modal({
           )}
 
           {/* 본문 */}
-          <AnimatedHeight independent>{children}</AnimatedHeight>
+          {animateHeight ? <AnimatedHeight independent>{children}</AnimatedHeight> : children}
         </div>
       </ClassicalBox>
     </div>

@@ -2,7 +2,7 @@
  * [celeb 상세] hero — 히어로 조립(배너·사진·신원·액션·인용)
  * - 목차 위치: 머리말(본문 앞, 목차 밖)
  * - 데이터: CelebHeroSectionProps 전체(Profile/slug/shareTitle/greeting/locale/world)
- * - 함께 보기: HeroIdentity.tsx, HeroPhoto.tsx, useHeroVoice.ts
+ * - 함께 보기: HeroIdentity.tsx, HeroPhoto.tsx, useCelebVoice.ts
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -12,7 +12,7 @@ import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-
 
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import CelebWorldBannerView from "@/components/features/celeb/CelebWorldBannerView";
-import { FormattedText } from "@/components/ui";
+import CelebQuote from "@/components/shared/CelebQuote";
 import ShareButtons from "@/components/ui/ShareButtons";
 import { getWorldStyle } from "@/lib/celeb/worldStyle";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
@@ -25,7 +25,7 @@ import type { ServiceItem } from "../../celebServiceItems";
 import { navigateToCelebSection } from "../useCelebSectionNavigation";
 import HeroIdentity from "./HeroIdentity";
 import HeroPhoto from "./HeroPhoto";
-import { useHeroVoice } from "./useHeroVoice";
+import { useCelebVoice } from "@/hooks/useCelebVoice";
 
 interface CelebHeroSectionProps {
   profile: CelebBySlugProfile;
@@ -64,7 +64,7 @@ export default function CelebHeroSection({
     isQuoteActive,
     handleGreetingPlay,
     handleQuotePlay,
-  } = useHeroVoice({ profile, greeting, nickname: profile.nickname, locale });
+  } = useCelebVoice({ profile, greeting, nickname: profile.nickname, locale });
   const worldStyle = getWorldStyle(worldId);
   // 소개는 언제나 첫 구획이다. 다음 화살표는 실제로 남아 있는 그다음 구획을 가리켜야 한다.
   // ← 맛보기 뒤 3초 안 재누름은 맨 뒤로 간다.
@@ -140,32 +140,16 @@ export default function CelebHeroSection({
             {/* ── 4. 내러티브(bio·인용) ── */}
             <div className={styles.identityNarrative}>
               {profile.bio ? <p className={styles.bio}>{profile.bio}</p> : null}
-              {profile.quotes ? (
-                <div className={styles.quote}>
-                  {hasVoice ? (
-                    <button
-                      type="button"
-                      onClick={handleQuotePlay}
-                      className={`${styles.quoteButton} ${
-                        isQuoteActive ? styles.quoteButtonPlaying : ""
-                      }`}
-                      aria-label={isVoiceActive ? t("stopAudio") : t("playQuoteVoice")}
-                      aria-pressed={isQuoteActive}
-                      title={isVoiceActive ? t("stopAudio") : t("playQuoteVoice")}
-                    >
-                      &ldquo;
-                      <FormattedText text={profile.quotes} />
-                      &rdquo;
-                    </button>
-                  ) : (
-                    <p>
-                      &ldquo;
-                      <FormattedText text={profile.quotes} />
-                      &rdquo;
-                    </p>
-                  )}
-                </div>
-              ) : null}
+              <CelebQuote
+                text={profile.quotes}
+                hasVoice={hasVoice}
+                isVoiceActive={isVoiceActive}
+                isQuoteActive={isQuoteActive}
+                onPlay={handleQuotePlay}
+                playLabel={t("playQuoteVoice")}
+                stopLabel={t("stopAudio")}
+                className={locale === "ko" ? styles.koreanQuote : undefined}
+              />
             </div>
           </div>
         </div>

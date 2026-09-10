@@ -1,10 +1,11 @@
 "use client";
 
-import { ExternalLink, LoaderCircle, UserRound } from "lucide-react";
+import { ExternalLink, LoaderCircle } from "lucide-react";
 import Image from "next/image";
 
 import VoiceBadge from "@/components/ui/VoiceBadge";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
+import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 
 import styles from "./RelationGraphSection.module.css";
 import type { PersonNode } from "./types";
@@ -52,10 +53,13 @@ function InspectorActions(props: Props) {
   const { person, isCenter } = props;
   if (!isCenter && (!person.listed || !person.slug) && !person.qid) return null;
   return <div className={styles.inspectorActions}>
-    {person.listed && person.slug && <button type="button" disabled={props.loading} onClick={props.onOpen}
-      aria-label={props.openLabel} title={props.openLabel}>
-      {props.loading ? <LoaderCircle size={20} className="animate-spin" /> : <UserRound size={21} />}
-    </button>}
+    {person.listed && person.slug && <CelebDetailCardButton
+      label={props.openLabel}
+      loading={props.loading}
+      onClick={props.onOpen}
+      size="rail"
+      iconSize={21}
+    />}
     {person.qid && <a href={`https://www.wikidata.org/wiki/${person.qid}`} target="_blank" rel="noreferrer"
       aria-label={props.wikidataLabel} title={props.wikidataLabel}>
       <ExternalLink size={19} />

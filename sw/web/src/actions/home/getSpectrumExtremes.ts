@@ -90,10 +90,14 @@ async function fetchSpectrumExtremes(runnersUpLimit: number): Promise<SpectrumEx
   }
 
   const rows = data as RpcEntry[]
-  return rows.map(({ group: _group, ...rest }) => ({
-    ...rest,
-    label: AXIS_LABELS[rest.axis] ?? { ko: rest.axis, en: rest.axis },
-  }))
+  return rows.map((row) => {
+    const { group, ...rest } = row
+    void group
+    return {
+      ...rest,
+      label: AXIS_LABELS[rest.axis] ?? { ko: rest.axis, en: rest.axis },
+    }
+  })
 }
 
 const getCachedSpectrumExtremes = unstable_cache(

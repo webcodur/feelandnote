@@ -4,14 +4,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import ContentImage from "@/components/ui/ContentImage";
 import { Link } from "@/i18n/navigation";
-import { Info, BookOpen, ExternalLink, Loader2, MessageSquare, User, Calendar, Award, Building2, Film, Users } from "lucide-react";
+import { Info, BookOpen, Loader2, MessageSquare, User, Calendar, Award, Building2, Film, Users } from "lucide-react";
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
-import { Avatar, FormattedText } from "@/components/ui";
-import StarRatingInput from "@/components/ui/StarRatingInput";
+import { FormattedText } from "@/components/ui";
 
 import MediaEmbed from "@/components/features/content/MediaEmbed";
 import ReviewCard from "@/components/features/content/ReviewCard";
-import type { ReviewFeedItem } from "@/actions/contents/getReviewFeed";
 
 import type { ContentMetadata } from "@/types/content";
 import type { ContentType } from "@/types/database";

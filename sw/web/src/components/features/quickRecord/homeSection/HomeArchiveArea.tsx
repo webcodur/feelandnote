@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import { Bookmark, Sparkles, Star, BookOpen, ChevronRight } from "lucide-react";
+import { Sparkles, Star, BookOpen, ChevronRight } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
 import type { HomeItemClickHandler, HorizontalScrollEvents } from "./HomeEditorArea";
@@ -24,9 +24,6 @@ export function HomeArchiveArea({
     allReviewedItems,
     onItemClick,
     onDelete,
-    scrollRef,
-    events,
-    isDragging
 }: HomeArchiveAreaProps) {
     const t = useTranslations("quickRecord.home");
     const hasUnreviewed = unreviewedList.length > 0;

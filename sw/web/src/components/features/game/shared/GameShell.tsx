@@ -59,6 +59,11 @@ export default function GameShell<StartArgs extends unknown[]>({ gameName, gateI
     enterFullScreenRef.current?.();
   }, []);
 
+  const handlePhaseChange = useCallback((nextPhase: string) => {
+    setPhase(nextPhase);
+    if (nextPhase !== "idle") setLoading(false);
+  }, []);
+
   // 게이트 화면 Enter 키 입장
   useEffect(() => {
     if (gateEntered) return;
@@ -72,7 +77,6 @@ export default function GameShell<StartArgs extends unknown[]>({ gameName, gateI
   // phase 변화 시 외부 콜백 (게이트 진입 후에만)
   useEffect(() => {
     if (gateEntered) onPhaseChangeExternal?.(phase);
-    if (phase !== "idle") setLoading(false);
   }, [phase, gateEntered, onPhaseChangeExternal]);
 
   const handleExitFullScreen = useCallback(() => {
@@ -84,12 +88,11 @@ export default function GameShell<StartArgs extends unknown[]>({ gameName, gateI
   }, [onExitFullScreenExternal]);
 
   const breadcrumbs = useMemo((): BreadcrumbItem[] => {
-    const items: BreadcrumbItem[] = [{ label: gameName, onClick: handleHome }];
     const phaseLabel = phaseLabels[phase];
-    if (phaseLabel && phase !== "idle") {
-      items.push({ label: phaseLabel });
-    }
-    return items;
+    return [
+      { label: gameName, onClick: handleHome },
+      ...(phaseLabel && phase !== "idle" ? [{ label: phaseLabel }] : []),
+    ];
   }, [phase, handleHome, gameName, phaseLabels]);
 
   return (
@@ -133,7 +136,7 @@ export default function GameShell<StartArgs extends unknown[]>({ gameName, gateI
               <Game
                 onEnterFullScreen={enterFullScreen}
                 onHomeRef={homeRef}
-                onPhaseChange={setPhase}
+                onPhaseChange={handlePhaseChange}
                 onStartRef={startRef}
               />
               {phase !== "idle" && phase !== "result" && (

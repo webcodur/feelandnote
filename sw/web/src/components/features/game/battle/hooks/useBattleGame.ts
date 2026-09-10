@@ -186,7 +186,7 @@ export function useBattleGame() {
     const available = batchCards.filter((c) => !pickedIds.has(c.id));
     if (available.length === 0) return;
 
-    const pick = aiDraftPick(available, prev.draft.aiPicks, prev.draft.playerPicks);
+    const pick = aiDraftPick(available, prev.draft.aiPicks);
     const newAiPicks = [...prev.draft.aiPicks, pick];
     const nextRound = prev.draft.round + 1;
 
@@ -241,9 +241,9 @@ export function useBattleGame() {
 
       const picker = getPickerForRound(round, prev.difficulty);
       if (picker === "player") {
-        playerPicks.push(aiDraftPick(available, playerPicks, aiPicks));
+        playerPicks.push(aiDraftPick(available, playerPicks));
       } else {
-        aiPicks.push(aiDraftPick(available, aiPicks, playerPicks));
+        aiPicks.push(aiDraftPick(available, aiPicks));
       }
       round++;
     }
@@ -490,52 +490,7 @@ export function useBattleGame() {
     }));
   }, []);
 
-  // ─── clashing → resolving (유저 클릭) ───
   const phaseEnteredAt = useRef(0);
-
-  /** 반환값: "blocked" | RoundRecord (resolving 진입 시) | null */
-  const advanceBattle = useCallback((): "blocked" | import("@/lib/game/types").RoundRecord | null => {
-    const cur = stateRef.current;
-    const elapsed = Date.now() - phaseEnteredAt.current;
-    if (elapsed < MIN_PHASE_MS) return "blocked";
-
-    if (cur.battleSubPhase !== "clashing" || !cur.pendingRound) return null;
-
-    const { playerAction: pa, aiAction: aa } = cur.pendingRound;
-    const counterResult = getCounterResult(pa.command, aa.command);
-
-    // ─── draw 시 일기토 여부 판정 ───
-    // 적성 차이가 작을수록 일기토 확률 ↑ (차이 0 → 80%, 차이 30+ → 10%)
-    if (counterResult === "draw") {
-      const pCaptainInHand = !!cur.playerCaptainId && cur.playerHand.some(c => c.id === cur.playerCaptainId);
-      const aCaptainInHand = !!cur.aiCaptainId && cur.aiHand.some(c => c.id === cur.aiCaptainId);
-      const pApt = calcAptitudeWithCaptain(pa.card, pa.command, cur.playerCaptainId, pCaptainInHand);
-      const aApt = calcAptitudeWithCaptain(aa.card, aa.command, cur.aiCaptainId, aCaptainInHand);
-      const gap = Math.abs(pApt - aApt);
-      // 차이 0→80%, 10→60%, 20→40%, 30+→10%
-      const duelChance = Math.max(0.1, 0.8 - gap * 0.023);
-
-      if (Math.random() < duelChance) {
-        setState((s) => ({ ...s, battleSubPhase: "dueling" }));
-        return null;
-      }
-      // 일기토 불발 → 적성 비교로 통상 결산
-    }
-
-    return resolvePendingRound(cur);
-  }, []);
-
-  /** 일기토 결과 → 라운드 결산 (draw 배수를 일기토 승자에 따라 결정) */
-  const completeDuel = useCallback((winner: "player" | "ai" | "draw") => {
-    const cur = stateRef.current;
-    if (cur.battleSubPhase !== "dueling" || !cur.pendingRound) return;
-
-    // 일기토 결과에 따라 applyCounter의 draw 분기를 오버라이드
-    duelWinnerRef.current = winner;
-    resolvePendingRound(cur);
-    duelWinnerRef.current = null;
-  }, []);
-
   const duelWinnerRef = useRef<"player" | "ai" | "draw" | null>(null);
 
   /** 공통 라운드 결산 로직 */
@@ -585,6 +540,50 @@ export function useBattleGame() {
 
     return result.record;
   }, []);
+
+  // ─── clashing → resolving (유저 클릭) ───
+  /** 반환값: "blocked" | RoundRecord (resolving 진입 시) | null */
+  const advanceBattle = useCallback((): "blocked" | import("@/lib/game/types").RoundRecord | null => {
+    const cur = stateRef.current;
+    const elapsed = Date.now() - phaseEnteredAt.current;
+    if (elapsed < MIN_PHASE_MS) return "blocked";
+
+    if (cur.battleSubPhase !== "clashing" || !cur.pendingRound) return null;
+
+    const { playerAction: pa, aiAction: aa } = cur.pendingRound;
+    const counterResult = getCounterResult(pa.command, aa.command);
+
+    // ─── draw 시 일기토 여부 판정 ───
+    // 적성 차이가 작을수록 일기토 확률 ↑ (차이 0 → 80%, 차이 30+ → 10%)
+    if (counterResult === "draw") {
+      const pCaptainInHand = !!cur.playerCaptainId && cur.playerHand.some(c => c.id === cur.playerCaptainId);
+      const aCaptainInHand = !!cur.aiCaptainId && cur.aiHand.some(c => c.id === cur.aiCaptainId);
+      const pApt = calcAptitudeWithCaptain(pa.card, pa.command, cur.playerCaptainId, pCaptainInHand);
+      const aApt = calcAptitudeWithCaptain(aa.card, aa.command, cur.aiCaptainId, aCaptainInHand);
+      const gap = Math.abs(pApt - aApt);
+      // 차이 0→80%, 10→60%, 20→40%, 30+→10%
+      const duelChance = Math.max(0.1, 0.8 - gap * 0.023);
+
+      if (Math.random() < duelChance) {
+        setState((s) => ({ ...s, battleSubPhase: "dueling" }));
+        return null;
+      }
+      // 일기토 불발 → 적성 비교로 통상 결산
+    }
+
+    return resolvePendingRound(cur);
+  }, [resolvePendingRound]);
+
+  /** 일기토 결과 → 라운드 결산 (draw 배수를 일기토 승자에 따라 결정) */
+  const completeDuel = useCallback((winner: "player" | "ai" | "draw") => {
+    const cur = stateRef.current;
+    if (cur.battleSubPhase !== "dueling" || !cur.pendingRound) return;
+
+    // 일기토 결과에 따라 applyCounter의 draw 분기를 오버라이드
+    duelWinnerRef.current = winner;
+    resolvePendingRound(cur);
+    duelWinnerRef.current = null;
+  }, [resolvePendingRound]);
 
   // ─── 결과 확인 후 다음 라운드 (유저 수동 호출) ───
   const advanceRound = useCallback(() => {

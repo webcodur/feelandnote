@@ -10,6 +10,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
+import Image from "next/image";
 
 interface ImageBackgroundProps {
   src: string;
@@ -25,18 +26,24 @@ function ImageLayer({ src, alt, className }: { src: string; alt: string; classNa
   return (
     <div className={className} style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.4s ease-in" }}>
       {/* 블러 배경 */}
-      <img
+      <Image
         src={src}
         alt=""
+        fill
+        sizes="100vw"
+        unoptimized
         className="absolute inset-0 w-full h-full object-cover blur-xl brightness-50"
         style={{ willChange: "transform" }}
         draggable={false}
         aria-hidden
       />
       {/* 메인 이미지: 마스크로 가장자리 직접 페이드 */}
-      <img
+      <Image
         src={src}
         alt={alt}
+        fill
+        sizes="100vw"
+        unoptimized
         className="absolute inset-0 w-[88%] h-[88%] m-auto object-contain"
         style={{
           maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent), linear-gradient(to bottom, transparent, black 8%, black 92%, transparent)",

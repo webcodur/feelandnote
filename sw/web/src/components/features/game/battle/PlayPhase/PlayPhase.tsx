@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { useState, useMemo, useCallback, useEffect, useEffectEvent, useRef } from "react";
 import { ScrollTextIcon } from "lucide-react";
 import { useLocale } from "next-intl";
 import type { BattleCard as BattleCardType, Command, NationState, RoundRecord, Mandate, BattleSubPhase, RoundAction, Difficulty } from "@/lib/game/types";
@@ -64,7 +64,7 @@ export default function PlayPhase({
   playerHand, aiHand, playerNation, aiNation,
   playerDiscard, aiDiscard,
   currentRound, battleSubPhase, roundRecords, pendingRound,
-  mandate, nextMandate,
+  mandate,
   playerCaptainId, aiCaptainId,
   difficulty = "normal",
   onSubmit, onSubmitRest, onAdvanceBattle, onAdvance, onAdvanceRest, onCompleteDuel, playSfx, showDialogue, onCardInfo,
@@ -86,6 +86,15 @@ export default function PlayPhase({
 
   // 에스컬레이션 안내: R5부터 매 라운드 시작 시 표시
   const prevRoundRef = useRef(currentRound);
+  const showEscalationAnnouncement = useEffectEvent((round: number, percentage: number) => {
+    setEscalationAnnounce({
+      key: `esc-${round}`,
+      label: `ROUND ${round}`,
+      title: text.play.escalateTitle,
+      subtitle: `${text.play.escalateSubtitlePrefix}${percentage}%`,
+      tone: "red",
+    });
+  });
   useEffect(() => {
     const prev = prevRoundRef.current;
     prevRoundRef.current = currentRound;
@@ -94,13 +103,7 @@ export default function PlayPhase({
     const esc = getEscalation(currentRound, "offense");
     if (esc > 1) {
       const pct = Math.round((esc - 1) * 100);
-      setEscalationAnnounce({
-        key: `esc-${currentRound}`,
-        label: `ROUND ${currentRound}`,
-        title: text.play.escalateTitle,
-        subtitle: `${text.play.escalateSubtitlePrefix}${pct}%`,
-        tone: "red",
-      });
+      showEscalationAnnouncement(currentRound, pct);
     }
   }, [currentRound, battleSubPhase, text.play.escalateSubtitlePrefix, text.play.escalateTitle]);
 
@@ -110,12 +113,15 @@ export default function PlayPhase({
   const isResting = battleSubPhase === "resting";
   const isClash = isClashing || isResolving;
   const playerExhausted = isSelecting && playerHand.length === 0 && playerDiscard.length > 0;
+  const resetSelection = useEffectEvent(() => {
+    setSelectedCardId(null);
+    setSelectedCommand(null);
+    setSelectedRecoverId(null);
+  });
 
   useEffect(() => {
     if (battleSubPhase === "selecting") {
-      setSelectedCardId(null);
-      setSelectedCommand(null);
-      setSelectedRecoverId(null);
+      resetSelection();
     }
   }, [currentRound, battleSubPhase]);
 

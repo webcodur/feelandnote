@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useImperativeHandle, forwardRef, useEffect } from "react";
-import { Search, X, FileText, ExternalLink } from "lucide-react";
+import { Search, X, FileText } from "lucide-react";
 import SearchHelper from "./SearchHelper";
 import LinkPreviewModal from "./LinkPreviewModal";
 import type { BlogSearchResult } from "@feelandnote/content-search/naver-blog";
@@ -84,7 +84,7 @@ const ExternalResourceSearch = forwardRef<ExternalResourceSearchHandle, External
                             <div className="flex items-center gap-2 mb-4">
                                 <FileText size={16} className="text-accent" />
                                 <h3 className="text-sm font-bold text-text-primary">
-                                    {t("searchResults")} <span className="text-accent">"{blogSearchResult.query}"</span>
+                                    {t("searchResults")} <span className="text-accent">&quot;{blogSearchResult.query}&quot;</span>
                                 </h3>
                             </div>
 

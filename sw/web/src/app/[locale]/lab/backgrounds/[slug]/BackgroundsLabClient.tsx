@@ -89,6 +89,33 @@ function fileToId(filename: string): string {
   return "img-" + filename.replace(/\.\w+$/, "").replace(/[_\s]/g, "-").toLowerCase();
 }
 
+interface NavSectionProps {
+  title: string;
+  items: BgItem[];
+  currentSlug: string;
+  onNavigate: (id: string) => void;
+}
+
+function NavSection({ title, items, currentSlug, onNavigate }: NavSectionProps) {
+  return (
+    <div>
+      <p className="text-[10px] uppercase tracking-widest mb-2">{title}</p>
+      <ul className="space-y-1">
+        {items.map((bg) => (
+          <li
+            key={bg.id}
+            onClick={() => onNavigate(bg.id)}
+            className="flex items-center gap-2 text-xs text-text-secondary cursor-pointer hover:text-text-primary transition-colors"
+          >
+            <span className={cn("w-1.5 h-1.5 rounded-full shrink-0", currentSlug === bg.id ? "bg-accent" : "bg-white/20")} />
+            <span className={cn(currentSlug === bg.id && "text-accent font-medium")}>{bg.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 interface Props {
   slug: string;
   imageFiles: string[];
@@ -117,24 +144,6 @@ export default function BackgroundsLabClient({ slug, imageFiles }: Props) {
 
   const activeBg = allBgs.find((bg) => bg.id === currentSlug) || allBgs[0];
 
-  const NavSection = ({ title, items }: { title: string; items: BgItem[] }) => (
-    <div>
-      <p className="text-[10px] uppercase tracking-widest mb-2">{title}</p>
-      <ul className="space-y-1">
-        {items.map((bg) => (
-          <li
-            key={bg.id}
-            onClick={() => router.push(`/lab/backgrounds/${bg.id}`)}
-            className="flex items-center gap-2 text-xs text-text-secondary cursor-pointer hover:text-text-primary transition-colors"
-          >
-            <span className={cn("w-1.5 h-1.5 rounded-full shrink-0", currentSlug === bg.id ? "bg-accent" : "bg-white/20")} />
-            <span className={cn(currentSlug === bg.id && "text-accent font-medium")}>{bg.label}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-
   return (
     <section className="flex gap-6 p-6 md:p-10 border border-white/5 bg-white/[0.02] rounded-[2rem]">
       {/* Col 1: Inventory Navigation */}
@@ -157,9 +166,9 @@ export default function BackgroundsLabClient({ slug, imageFiles }: Props) {
 
         {isSidebarOpen && (
           <div className="space-y-3">
-            <NavSection title="Cinematic Backgrounds" items={CINEMATIC_BACKGROUNDS} />
-            {imageBgs.length > 0 && <NavSection title="Image Backgrounds" items={imageBgs} />}
-            <NavSection title="Banner Effects" items={BANNER_BACKGROUNDS} />
+            <NavSection title="Cinematic Backgrounds" items={CINEMATIC_BACKGROUNDS} currentSlug={currentSlug} onNavigate={(id) => router.push(`/lab/backgrounds/${id}`)} />
+            {imageBgs.length > 0 && <NavSection title="Image Backgrounds" items={imageBgs} currentSlug={currentSlug} onNavigate={(id) => router.push(`/lab/backgrounds/${id}`)} />}
+            <NavSection title="Banner Effects" items={BANNER_BACKGROUNDS} currentSlug={currentSlug} onNavigate={(id) => router.push(`/lab/backgrounds/${id}`)} />
           </div>
         )}
       </div>

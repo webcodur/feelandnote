@@ -6,7 +6,7 @@
 
 "use client";
 
-import { ReactNode, createContext, useContext, useRef, useEffect, useState, useCallback, useMemo } from "react";
+import { ReactNode, createContext, useContext, useId, useRef, useEffect, useState, useCallback, useMemo } from "react";
 
 // #region Context
 interface TabIndicator {
@@ -44,7 +44,7 @@ const inactiveClass = "text-text-secondary hover:text-text-primary";
 // #region Tab 컴포넌트
 export function Tab({ label, active, onClick, className = "" }: TabProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const id = useRef(Math.random().toString(36).slice(2)).current;
+  const id = useId();
   const context = useContext(TabsContext);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export function Tabs({ children, className = "" }: TabsProps) {
   const [indicator, setIndicator] = useState<TabIndicator | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [updateTrigger, setUpdateTrigger] = useState(0);
-  const isInitialRender = useRef(true);
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
   // indicator 업데이트 로직을 메모이제이션하여 재사용 가능하게 분리
   const updateIndicator = useCallback(() => {
@@ -116,8 +116,9 @@ export function Tabs({ children, className = "" }: TabsProps) {
   useEffect(() => {
     updateIndicator();
     // 첫 렌더 후 트랜지션 활성화
-    if (isInitialRender.current) {
-      requestAnimationFrame(() => { isInitialRender.current = false; });
+    let frameId: number | undefined;
+    if (isInitialRender) {
+      frameId = requestAnimationFrame(() => setIsInitialRender(false));
     }
     // 폰트 두께 변화나 scale 트랜지션 완료 후의 너비를 정확히 잡기 위해 두 번 측정
     const timeoutId = setTimeout(updateIndicator, 150);
@@ -125,8 +126,9 @@ export function Tabs({ children, className = "" }: TabsProps) {
     return () => {
       clearTimeout(timeoutId);
       clearTimeout(timeoutId2);
+      if (frameId !== undefined) cancelAnimationFrame(frameId);
     };
-  }, [updateIndicator, updateTrigger]);
+  }, [isInitialRender, updateIndicator, updateTrigger]);
 
   // 2. 윈도우 리사이즈 및 레이아웃 변경 대응
   useEffect(() => {
@@ -172,7 +174,7 @@ export function Tabs({ children, className = "" }: TabsProps) {
         {children}
         {indicator && (
           <span
-            className={`absolute bottom-0 h-0.5 bg-accent ease-out z-10 ${isInitialRender.current ? '' : 'transition-all duration-200'}`}
+            className={`absolute bottom-0 h-0.5 bg-accent ease-out z-10 ${isInitialRender ? '' : 'transition-all duration-200'}`}
             style={{
               left: indicator.left,
               width: indicator.width,

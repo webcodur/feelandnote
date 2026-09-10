@@ -7,19 +7,20 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
-import { Link } from "@/i18n/navigation";
+import { ScrollText } from "lucide-react";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
+import { ARCHIVE_ICON_CONTROL_CLASS } from "@/components/features/user/contentLibrary/controlBar/ArchiveViewControls";
 import CreativeLibrary from "@/components/features/celeb/creativeLibrary/CreativeLibrary";
 import { cn } from "@/lib/utils";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
-import { RECORDS_PAGE_SIZE } from "@/app/[locale]/(reader)/celeb/[slug]/records/recordsPageData";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
+import ViewAllRecordsConfirmModal from "./ViewAllRecordsConfirmModal";
 
 type LibraryTab = "consume" | "create";
 
@@ -48,6 +49,7 @@ export default function LibraryTabs({
   authoredBooks = [],
 }: LibraryTabsProps) {
   const t = useTranslations("celebPage");
+  const router = useRouter();
   const hasConsumption = initialContents === undefined || initialContents.items.length > 0;
   const hasCreation = authoredBooks.length > 0 || Boolean(wikidataQid);
   const [tab, setTab] = useState<LibraryTab>(hasConsumption ? "consume" : "create");
@@ -59,11 +61,11 @@ export default function LibraryTabs({
   const onActiveContentChange = useCallback((contentId: string | null, index: number) => {
     setActiveContent(contentId ? { contentId, index } : null);
   }, []);
-  // 이 Link는 next-intl이 로케일 접두어를 알아서 붙이므로 여기선 접두어 없는 경로만 만든다
-  const recordsPage = activeContent ? Math.floor(activeContent.index / RECORDS_PAGE_SIZE) + 1 : 1;
+  const [isRecordsConfirmOpen, setIsRecordsConfirmOpen] = useState(false);
+  // next-intl router가 화면 언어 접두어를 붙이므로 여기선 접두어 없는 경로만 만든다
   const recordsHref = activeContent
-    ? `/celeb/${slug}/records/${recordsPage}?focus=${encodeURIComponent(activeContent.contentId)}`
-    : `/celeb/${slug}/records/${recordsPage}`;
+    ? `/celeb/${slug}/records?focus=${encodeURIComponent(activeContent.contentId)}`
+    : `/celeb/${slug}/records`;
 
   const tabs: ArchiveTabItem<LibraryTab>[] = [
     ...(hasConsumption ? [{ key: "consume" as const, label: t("tabConsume") }] : []),
@@ -103,15 +105,17 @@ export default function LibraryTabs({
           // 글줄 링크였던 "감상 기록 전체 보기"를 필터 칩 줄 옆 아이콘으로 옮긴다.
           // 펼쳐보기에서 보던 작품이 있으면 그 작품이 있는 쪽에서 이어 연다.
           filterTrailing={(initialContents?.total ?? 0) > 0 ? (
-            <Link
-              href={recordsHref}
-              prefetch={false}
+            <button
+              type="button"
+              onClick={() => setIsRecordsConfirmOpen(true)}
               aria-label={t("records.viewAll")}
               title={t("records.viewAll")}
-              className="flex size-8 shrink-0 items-center justify-center rounded-full border border-accent/30 text-accent hover:border-accent hover:bg-accent/10"
+              aria-haspopup="dialog"
+              aria-expanded={isRecordsConfirmOpen}
+              className={ARCHIVE_ICON_CONTROL_CLASS}
             >
-              <ArrowUpRight size={16} aria-hidden />
-            </Link>
+              <ScrollText size={16} aria-hidden />
+            </button>
           ) : undefined}
         />
       </div>}
@@ -125,6 +129,15 @@ export default function LibraryTabs({
           hideControlWrapper
         />
       )}
+      <ViewAllRecordsConfirmModal
+        isOpen={isRecordsConfirmOpen}
+        nickname={nickname}
+        onClose={() => setIsRecordsConfirmOpen(false)}
+        onConfirm={() => {
+          setIsRecordsConfirmOpen(false);
+          router.push(recordsHref);
+        }}
+      />
     </div>
   );
 }

@@ -27,7 +27,7 @@ async function readCarouselLayout(page) {
     const rails = [...carousel.querySelectorAll("[data-timeline-rail]")];
     const cards = [...carousel.querySelectorAll("article")];
     const body = carousel.querySelector("[data-timeline-body-scroll]");
-    const title = carousel.querySelector("[data-timeline-title-scroll]");
+    const title = carousel.querySelector("[data-timeline-current] > h3");
     const range = carousel.querySelector("[data-timeline-mobile-range]");
     const rangeScroll = carousel.querySelector("[data-timeline-range-scroll]");
     const rangeButtons = range?.querySelectorAll("[data-timeline-range-event]") ?? [];
@@ -45,16 +45,12 @@ async function readCarouselLayout(page) {
       bodyOverflowY: body ? getComputedStyle(body).overflowY : null,
       bodyOverflowAnchor: body ? getComputedStyle(body).overflowAnchor : null,
       bodyOverflow: body ? body.scrollHeight - body.clientHeight : 0,
-      titleOverflowX: title ? getComputedStyle(title).overflowX : null,
-      titleWhiteSpace: title?.firstElementChild
-        ? getComputedStyle(title.firstElementChild).whiteSpace
-        : null,
-      titleScrollbarWidth: title ? getComputedStyle(title).scrollbarWidth : null,
+      titleInsideBody: body && title ? body.contains(title) : null,
+      rangeInsideBody: body && range ? body.contains(range) : null,
+      bodyChildCount: body?.children.length ?? 0,
       rangeVisible: range ? range.getBoundingClientRect().height > 0 : false,
       rangeButtonCount: rangeButtons.length,
       unknownRangeStopCount: unknownRangeStops.length,
-      rangeCountLabel:
-        range?.querySelector("[data-timeline-range-count]")?.textContent?.trim() ?? null,
       rangeScrollbarWidth: rangeScroll
         ? getComputedStyle(rangeScroll).scrollbarWidth
         : null,
@@ -119,13 +115,6 @@ async function bodyOverflowAtCurrent(page) {
   );
 }
 
-async function titleOverflowAtCurrent(page) {
-  return page.$eval(
-    "[data-timeline-current] [data-timeline-title-scroll]",
-    (title) => title.scrollWidth - title.clientWidth,
-  );
-}
-
 async function findLongestEvent(page, total) {
   let at = await currentTimelineIndex(page);
   while (at > 0) {
@@ -137,26 +126,6 @@ async function findLongestEvent(page, total) {
   let best = { index: 0, overflow: 0 };
   for (let index = 0; index < total; index += 1) {
     const overflow = await bodyOverflowAtCurrent(page);
-    if (overflow > best.overflow) best = { index, overflow };
-    if (index < total - 1) {
-      await page.click("[data-timeline-next]");
-      await new Promise((resolve) => setTimeout(resolve, 80));
-    }
-  }
-  return best;
-}
-
-async function findWidestTitle(page, total) {
-  let at = await currentTimelineIndex(page);
-  while (at > 0) {
-    await page.click('[data-timeline-rail="previous"]');
-    at -= 1;
-    await new Promise((resolve) => setTimeout(resolve, 80));
-  }
-
-  let best = { index: 0, overflow: 0 };
-  for (let index = 0; index < total; index += 1) {
-    const overflow = await titleOverflowAtCurrent(page);
     if (overflow > best.overflow) best = { index, overflow };
     if (index < total - 1) {
       await page.click("[data-timeline-next]");
@@ -384,20 +353,6 @@ try {
   }
   const bodyWheel = await wheelInsideTimelineBody(page);
   const bodyTouch = await swipeInsideTimelineBody(page);
-  const widestTitle = await findWidestTitle(page, layout.total);
-  const currentAfterTitleScan = await currentTimelineIndex(page);
-  for (let step = currentAfterTitleScan; step > widestTitle.index; step -= 1) {
-    await page.click('[data-timeline-rail="previous"]');
-    await new Promise((resolve) => setTimeout(resolve, 80));
-  }
-  const titleSwipe = await swipeHorizontalScroll(
-    page,
-    "[data-timeline-current] [data-timeline-title-scroll]",
-  );
-  const titleMouseDrag = await dragHorizontalScrollWithMouse(
-    page,
-    "[data-timeline-current] [data-timeline-title-scroll]",
-  );
 
   console.log(
     JSON.stringify(
@@ -407,9 +362,6 @@ try {
         swipeNavigation,
         bodyWheel,
         bodyTouch,
-        widestTitle,
-        titleSwipe,
-        titleMouseDrag,
         rangeSwipe,
         rangeRailPersisted,
         missingRangeStop,
@@ -424,7 +376,7 @@ try {
   }
   if (
     layout.navigationHeights.length !== 2 ||
-    layout.navigationHeights.some((height) => height < 48 || height > 64)
+    layout.navigationHeights.some((height) => height < 40 || height > 52)
   ) {
     throw new Error("이전·다음 화살표가 제목 행의 양쪽 열을 채우지 않습니다.");
   }
@@ -442,14 +394,15 @@ try {
       `타임라인 본문에서 스크롤 앵커링을 끄지 않았습니다: ${layout.bodyOverflowAnchor}`,
     );
   }
-  if (layout.titleOverflowX !== "auto" || layout.titleWhiteSpace !== "nowrap") {
-    throw new Error("사건 제목이 잘림 없이 내부 가로 스크롤되도록 구성되지 않았습니다.");
-  }
   if (
-    layout.titleScrollbarWidth !== "none" ||
-    layout.rangeScrollbarWidth !== "none"
+    layout.titleInsideBody !== false ||
+    layout.rangeInsideBody !== false ||
+    layout.bodyChildCount !== 1
   ) {
-    throw new Error("제목 또는 활동 반경에 가로 스크롤바가 남아 있습니다.");
+    throw new Error("제목과 활동 반경은 본문 스크롤 박스 밖의 고정 영역이어야 합니다.");
+  }
+  if (layout.rangeScrollbarWidth !== "none") {
+    throw new Error("활동 반경에 가로 스크롤바가 남아 있습니다.");
   }
   if (!layout.rangeVisible || layout.rangeButtonCount === 0) {
     throw new Error("모바일 사건 카드에 활동 반경 경로가 표시되지 않습니다.");
@@ -457,19 +410,8 @@ try {
   if (layout.unknownRangeStopCount === 0) {
     throw new Error("장소를 알 수 없는 중간 사건이 ? 정거장으로 표시되지 않습니다.");
   }
-  if (!layout.rangeCountLabel?.includes(String(layout.total))) {
-    throw new Error(
-      `활동 반경 건수가 전체 사건 수를 반영하지 않습니다: ${layout.rangeCountLabel}`,
-    );
-  }
   if (layout.visibleGlobeCount !== 0) {
     throw new Error("모바일 연대기에 인라인 지구본이 남아 있습니다.");
-  }
-  if (widestTitle.overflow <= 0 || titleSwipe < 40) {
-    throw new Error("긴 사건 제목을 터치로 가로 스크롤할 수 없습니다.");
-  }
-  if (titleMouseDrag < 40) {
-    throw new Error("PC 반응형 화면에서 제목을 마우스로 잡아 밀 수 없습니다.");
   }
   if (rangeSwipe < 40) {
     throw new Error("활동 반경을 손으로 부드럽게 가로 이동할 수 없습니다.");

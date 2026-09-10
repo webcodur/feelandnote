@@ -21,8 +21,8 @@ import CulturalJourneyReveal from "./tracker/CulturalJourneyReveal";
 import MultipleChoice from "./tracker/MultipleChoice";
 import TrackerResult from "./tracker/TrackerResult";
 
-import { useDialogue, useDialogueSubtitle, type DialogueSubtitleData, type DialogueCharacterMeta } from "./shared/hooks/useDialogue";
-import type { DialogueType, SpeechTone } from "@/lib/game/voice/types";
+import { useDialogue, useDialogueSubtitle } from "./shared/hooks/useDialogue";
+import type { SpeechTone } from "@/lib/game/voice/types";
 
 
 type GameStage = "idle" | "loading" | "stage1" | "stage2" | "stage3" | "stage4" | "stage5" | "result";
@@ -57,7 +57,7 @@ interface TrackerGameProps {
   onStartRef?: MutableRefObject<((excludeIds?: string[]) => void) | null>;
 }
 
-export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChange, onStartRef }: TrackerGameProps = {}) {
+export default function TrackerGame({ onHomeRef, onPhaseChange, onStartRef }: TrackerGameProps = {}) {
   const tGame = useTranslations("rest.arena.labyrinth.game");
   const [stage, setStage] = useState<GameStage>("idle");
   const [round, setRound] = useState<TrackerRound | null>(null);
@@ -134,12 +134,6 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
 
   // stage 진행 시 viewStage 동기화 (pendingClue 중에는 보류)
   useEffect(() => {
-    if (!pendingClue && (stage === "stage1" || stage === "stage2" || stage === "stage3" || stage === "stage4" || stage === "stage5")) {
-      setViewStage(stage);
-    }
-  }, [stage, pendingClue]);
-
-  useEffect(() => {
     if (stage === "result") {
       onPhaseChange?.(correct ? "result-win" : "result-lose");
     } else {
@@ -155,6 +149,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
       setPendingClue(false);
       setSolved(false);
       setCorrect(false);
+      setViewStage("stage1");
       const data = await getTrackerRound(excludeIds);
       if (!data) { console.error("[TrackerGame] 라운드 데이터 없음"); setStage("idle"); return; }
       setRound(data);
@@ -164,7 +159,7 @@ export default function TrackerGame({ onEnterFullScreen, onHomeRef, onPhaseChang
       console.error("[TrackerGame] startRound 실패:", err);
       setStage("idle");
     }
-  }, []);
+  }, [setSubtitle]);
 
   const goToResult = useCallback(() => setStage("result"), []);
 

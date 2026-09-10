@@ -8,11 +8,11 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { Info } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import BlurDissolve from "@/components/ui/BlurDissolve";
+import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 
 const TAP_THRESHOLD = 10; // px — 이 이내면 탭으로 판정
 
@@ -42,6 +42,7 @@ export default function DawnBoardCard({
   className,
 }: DawnBoardCardProps) {
   const locale = useLocale();
+  const tCeleb = useTranslations("shared.celeb");
   const pointerStart = useRef<{ x: number; y: number } | null>(null);
 
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -81,15 +82,15 @@ export default function DawnBoardCard({
         className
       )}
     >
-      {/* 우상단 인포 아이콘 */}
+      {/* 우상단 인물 카드 버튼 */}
       {onInfoClick && (
-        <button
+        <CelebDetailCardButton
+          label={`${tCeleb("viewCard")} — ${name}`}
           onClick={(e) => { e.stopPropagation(); onInfoClick(); }}
-          className="absolute top-1 right-1 z-10 w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-full bg-black/60 border border-white/20 text-white/60 hover:text-white hover:bg-black/80 transition-colors"
-        >
-          <Info size={12} className="md:hidden" />
-          <Info size={14} className="hidden md:block" />
-        </button>
+          size="compact"
+          iconSize={14}
+          className="absolute right-1 top-1 z-10"
+        />
       )}
 
       {/* 이미지 — 모바일: 정사각형 / 데스크탑: 3:4 */}

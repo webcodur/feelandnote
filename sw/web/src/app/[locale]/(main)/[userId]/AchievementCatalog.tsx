@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Trophy, FileText, Check, Plus } from "lucide-react";
-import { TITLE_GRADE_CONFIG, TITLE_CATEGORY_CONFIG, TITLE_ICONS, type TitleGrade, type TitleCategory } from "@/constants/titles";
+import { TITLE_CATEGORY_CONFIG, TITLE_ICONS, type TitleCategory } from "@/constants/titles";
 import type { AchievementData, TitleWithStatus } from "@/actions/achievements";
 import { DecorativeLabel, InnerBox } from "@/components/ui";
 import { TIER_STYLES } from "./achievementTierStyles";
@@ -193,7 +193,6 @@ export default function CatalogSection({ achievements, showcaseCodes, isOwner, i
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                   {categoryTitles.map(title => {
-                    const gradeConfig = TITLE_GRADE_CONFIG[title.grade as TitleGrade];
                     const isInShowcase = showcaseCodes.includes(title.code);
                     const canAdd = isOwner && title.unlocked && canAddMore && !isInShowcase && !isUpdating;
                     const tierStyle = TIER_STYLES[title.grade as keyof typeof TIER_STYLES] || TIER_STYLES.common;

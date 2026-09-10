@@ -117,11 +117,12 @@ function FactionMusicPill({ music }: { music: FactionMusic }) {
   }, []);
 
   useEffect(() => {
+    const audio = audioRef.current;
     stoppers.add(stop);
     // 화면에서 빠질 때(테마 전환·페이지 이동) 소리를 남기지 않는다
     return () => {
       stoppers.delete(stop);
-      audioRef.current?.pause();
+      audio?.pause();
       bgmDisconnectRef.current?.();
     };
   }, [stop]);

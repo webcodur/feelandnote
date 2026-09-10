@@ -55,11 +55,6 @@ export interface FigureBookEditionRow {
   sort_order: number
 }
 
-interface FigureBookCharacterDescriptions {
-  description: string | null
-  description_en: string | null
-}
-
 export function getFigureBookPurchasePlatform(
   locale: string,
 ): FigureBookProductPlatform | null {

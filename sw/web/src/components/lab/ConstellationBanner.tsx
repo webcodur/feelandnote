@@ -11,6 +11,41 @@ interface ConstellationBannerProps {
   subtitle?: string;
 }
 
+class ConstellationParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+
+  constructor(
+    private readonly getWidth: () => number,
+    private readonly getHeight: () => number,
+    private readonly ctx: CanvasRenderingContext2D,
+  ) {
+    this.x = Math.random() * getWidth();
+    this.y = Math.random() * getHeight();
+    this.vx = (Math.random() - 0.5) * 0.5;
+    this.vy = (Math.random() - 0.5) * 0.5;
+    this.size = Math.random() * 2 + 1;
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.x < 0 || this.x > this.getWidth()) this.vx *= -1;
+    if (this.y < 0 || this.y > this.getHeight()) this.vy *= -1;
+  }
+
+  draw() {
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    this.ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    this.ctx.fill();
+  }
+}
+
 export default function ConstellationBanner({
   children,
   height = 700,
@@ -28,46 +63,13 @@ export default function ConstellationBanner({
 
     let canvasWidth = 0;
     let canvasHeight = 0;
-    let particles: Particle[] = [];
+    let particles: ConstellationParticle[] = [];
     let animationFrameId: number;
 
     // Configuration
     const PARTICLE_COUNT = compact ? 60 : 100;
     const CONNECTION_RADIUS = compact ? 120 : 150;
     const MOUSE_RADIUS = compact ? 150 : 200;
-
-    class Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-
-      constructor() {
-        this.x = Math.random() * canvasWidth;
-        this.y = Math.random() * canvasHeight;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.size = Math.random() * 2 + 1;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        // Bounce off walls
-        if (this.x < 0 || this.x > canvasWidth) this.vx *= -1;
-        if (this.y < 0 || this.y > canvasHeight) this.vy *= -1;
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-        ctx.fill();
-      }
-    }
 
     const init = () => {
       canvasWidth = canvas.parentElement?.clientWidth || window.innerWidth;
@@ -76,7 +78,7 @@ export default function ConstellationBanner({
       canvas.height = canvasHeight;
       particles = [];
       for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particles.push(new Particle());
+        particles.push(new ConstellationParticle(() => canvasWidth, () => canvasHeight, ctx));
       }
     };
 

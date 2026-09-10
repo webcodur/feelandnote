@@ -7,7 +7,7 @@
 
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
+import { STATIC_REVALIDATE, throwOnQueryError } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { getLocale } from "next-intl/server";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";

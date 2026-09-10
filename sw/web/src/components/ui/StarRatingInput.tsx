@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, MouseEvent, TouchEvent } from "react";
+import { useState, useRef, MouseEvent, TouchEvent } from "react";
 import { Star } from "lucide-react";
 
 interface StarRatingInputProps {

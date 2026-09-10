@@ -8,8 +8,11 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Search, X, ArrowLeft } from "lucide-react";
+import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
+import type { CelebProfile } from "@/types/home";
+import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import SearchModeDropdown from "@/components/shared/search/SearchModeDropdown";
-import SearchResultsDropdown from "@/components/shared/search/SearchResultsDropdown";
+import SearchResultsDropdown, { type SearchResult } from "@/components/shared/search/SearchResultsDropdown";
 import Button from "@/components/ui/Button";
 import { useHeaderSearch } from "./useHeaderSearch";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -19,6 +22,9 @@ export default function HeaderSearch() {
   const t = useTranslations("shared.search.mode");
   const tp = useTranslations("content.placeholder");
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+  const [selectedCeleb, setSelectedCeleb] = useState<CelebProfile | null>(null);
+  const [isCelebInfoOpen, setIsCelebInfoOpen] = useState(false);
+  const [celebInfoLoadingId, setCelebInfoLoadingId] = useState<string | null>(null);
   const mobileInputRef = useRef<HTMLInputElement>(null);
   const {
     containerRef, mobileContainerRef, inputRef,
@@ -26,7 +32,7 @@ export default function HeaderSearch() {
     mode, contentCategory, query, setQuery,
     results, recentSearches, isLoading, selectedIndex, setSelectedIndex,
     addingIds, addedIds,
-    handleSearch, handleResultClick, handleAddContent, handleOpenInNewTab,
+    handleSearch, handleResultClick, handleCelebLinkClick, handleAddContent, handleOpenInNewTab,
     handleInputKeyDown, handleModeChange, handleCategoryChange, clearRecentSearches,
   } = useHeaderSearch();
 
@@ -53,6 +59,27 @@ export default function HeaderSearch() {
     setIsMobileExpanded(false);
     setIsOpen(false);
     setQuery("");
+  };
+
+  const handleCelebInfoClick = async (result: SearchResult) => {
+    if (celebInfoLoadingId) return;
+    if (selectedCeleb?.id === result.id) {
+      setIsCelebInfoOpen(true);
+      return;
+    }
+
+    setCelebInfoLoadingId(result.id);
+    try {
+      const celeb = await getCelebForModal(result.id);
+      if (celeb) {
+        setSelectedCeleb(celeb);
+        setIsCelebInfoOpen(true);
+      }
+    } catch (error) {
+      console.error("인물 정보 불러오기 실패:", error);
+    } finally {
+      setCelebInfoLoadingId(null);
+    }
   };
 
   // region: 모바일 검색 아이콘 버튼
@@ -150,6 +177,12 @@ export default function HeaderSearch() {
               handleResultClick(result);
               closeMobileSearch();
             }}
+            onCelebLinkClick={() => {
+              handleCelebLinkClick();
+              closeMobileSearch();
+            }}
+            onCelebInfoClick={handleCelebInfoClick}
+            celebInfoLoadingId={celebInfoLoadingId}
             onRecentSearchClick={(search) => {
               setQuery(search);
               mobileInputRef.current?.focus();
@@ -255,6 +288,9 @@ export default function HeaderSearch() {
           addingIds={addingIds}
           addedIds={addedIds}
           onResultClick={handleResultClick}
+          onCelebLinkClick={handleCelebLinkClick}
+          onCelebInfoClick={handleCelebInfoClick}
+          celebInfoLoadingId={celebInfoLoadingId}
           onRecentSearchClick={(search) => {
             setQuery(search);
             inputRef.current?.focus();
@@ -266,6 +302,15 @@ export default function HeaderSearch() {
         />
       )}
       </div>
+
+      {selectedCeleb && (
+        <CelebDetailModal
+          celeb={selectedCeleb}
+          isOpen={isCelebInfoOpen}
+          onClose={() => setIsCelebInfoOpen(false)}
+          zIndex={Z_INDEX.modal + 1}
+        />
+      )}
     </>
   );
 }

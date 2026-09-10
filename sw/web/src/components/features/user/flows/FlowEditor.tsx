@@ -100,7 +100,7 @@ export default function FlowEditor({ onClose, onSuccess }: FlowEditorProps) {
       } else {
         setError(typeof result.error === 'object' && result.error && 'message' in result.error ? (result.error as { message: string }).message : t("createFailed"));
       }
-    } catch (err) {
+    } catch {
       setError(t("createFailed"));
     } finally {
       setIsSubmitting(false);

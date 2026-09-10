@@ -85,6 +85,7 @@ export default async function CelebPage({ params }: PageProps) {
   const initialContentsPromise = profile.celeb_tier === 'full'
     ? getPublicUserContents({
         userId,
+        type: "BOOK",
         page: 1,
         limit: LIBRARY_FIRST_PAGE_SIZE,
         sortBy: 'recent',

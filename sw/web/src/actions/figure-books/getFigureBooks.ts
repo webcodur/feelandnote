@@ -34,6 +34,7 @@ export interface FigureBookContent {
   id: string
   title: string
   creator: string | null
+  /** 기존 카드·추천용 이미지. 판본·상품이 있으면 그 이미지를 우선하며, 작품 목록에는 사용하지 않는다. */
   thumbnailUrl: string | null
   type: ContentType
   category: CategoryId
@@ -166,8 +167,8 @@ async function fetchSourcesByCeleb(
     const leadEdition = editions[0]
     return [{
       id: content.id,
-      title: flat.title || leadEdition?.title || '',
-      creator: flat.creator || leadEdition?.creator || null,
+      title: flat.title || content.figureBook?.workTitle || leadEdition?.title || '',
+      creator: flat.creator || content.figureBook?.workCreator || leadEdition?.creator || null,
       thumbnailUrl: leadEdition?.thumbnailUrl || flat.thumbnail_url,
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
@@ -248,7 +249,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v5-intro-compat', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v7-work-list', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

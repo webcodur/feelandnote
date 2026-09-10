@@ -105,7 +105,6 @@ export const createShoreFunctions = (
 
   const getBandX = (t: number, offset: number, bandSeed: number): number => {
     const perspScale = 0.3 + t * 0.7;
-    const pixelOffset = -offset * 40 * perspScale;
 
     // 밴드마다 고유 노이즈로 곡선 변형 (해안선과 완전히 동일하지 않음)
     const near = t;

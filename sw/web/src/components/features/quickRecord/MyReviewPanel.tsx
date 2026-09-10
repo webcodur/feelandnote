@@ -5,8 +5,6 @@ import StarRatingInput from "@/components/ui/StarRatingInput";
 import ReviewPresetModal from "./ReviewPresetModal";
 import {
     type ReviewPreset,
-    getAllCommonPresets,
-    getPresetsByCategory,
     getPresetByKeyword,
     getSentimentColorClasses
 } from "@/constants/review-presets";
@@ -52,7 +50,6 @@ export default function MyReviewPanel({
   isSubmitting,
   justSaved = false,
   contentTitle,
-  contentCreator,
   isRecommendation,
   hideHeader = false,
   contentType,
@@ -103,24 +100,6 @@ export default function MyReviewPanel({
     });
   };
 
-  // 프리셋 텍스트 삽입 헬퍼
-  const insertPresetText = (text: string) => {
-    if (!textareaRef.current) return;
-    const textarea = textareaRef.current;
-    const start = textarea.selectionStart;
-    const before = textarea.value.substring(0, start);
-    const after = textarea.value.substring(start);
-
-    const newText = before + text + after;
-    setReview(newText);
-
-    requestAnimationFrame(() => {
-      textarea.focus();
-      const newPos = start + text.length;
-      textarea.setSelectionRange(newPos, newPos);
-    });
-  };
-
   // 프리셋 선택 핸들러 (모달용)
   const handleSelectPreset = (preset: ReviewPreset) => {
       if (!presets.includes(preset.keyword)) {
@@ -132,11 +111,6 @@ export default function MyReviewPanel({
       setPresets(presets.filter(p => p !== preset.keyword));
       // 텍스트 제거는 복잡하므로 하지 않음 (유저가 직접 수정)
   };
-
-  // 퀵 프리셋 (상단 노출용) - 공통 3개 + 카테고리 3개
-  const commonPresets = getAllCommonPresets().slice(0, 3);
-  const categoryPresets = getPresetsByCategory(contentType).slice(0, 3);
-  const quickPresets = [...commonPresets, ...categoryPresets];
 
   return (
     <div className="flex-1 flex flex-col h-full">

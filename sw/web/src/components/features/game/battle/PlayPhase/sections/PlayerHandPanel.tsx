@@ -29,7 +29,7 @@ export default function PlayerHandPanel({
   playerHand, playerOthers, playerOthersDiscard,
   playerCaptain, playerCaptainInDiscard, playerCaptainId,
   selectedCardId, selectedCommand, selectedRecoverId,
-  isSelecting, locale, text, formatHandCount,
+  isSelecting, text, formatHandCount,
   onCardClick, onRecoverSelect, onShowCaptainInfo, onCardInfo,
 }: Props) {
   const playerDiscard = [...playerOthersDiscard, ...(playerCaptainInDiscard ? [playerCaptainInDiscard] : [])];

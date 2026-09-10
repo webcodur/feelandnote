@@ -50,11 +50,3 @@ test('다른 locale이나 플랫폼의 판본은 대체 노출하지 않는다',
 
   assert.deepEqual(editions, [])
 })
-
-test('인물별 등장 설명은 요청 언어 값만 사용한다', () => {
-  const assignment = {
-    description: '한국어 등장 설명',
-    description_en: 'English appearance description',
-  }
-
-})

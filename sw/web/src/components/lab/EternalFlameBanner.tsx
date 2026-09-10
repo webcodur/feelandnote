@@ -7,6 +7,88 @@ interface Props {
   children?: ReactNode;
 }
 
+class EternalFireParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  maxLife: number;
+  size: number;
+  baseX: number;
+
+  constructor(
+    private readonly getWidth: () => number,
+    private readonly getHeight: () => number,
+    private readonly ctx: CanvasRenderingContext2D,
+    reset = false,
+  ) {
+    const width = getWidth();
+    const height = getHeight();
+    this.baseX = width / 2;
+    this.x = this.baseX + (Math.random() - 0.5) * 60;
+    this.y = reset ? height * 0.8 + Math.random() * 50 : Math.random() * height;
+    this.vx = (Math.random() - 0.5) * 1;
+    this.vy = -(Math.random() * 2 + 1);
+    this.life = Math.random() * 0.5 + 0.5;
+    this.maxLife = this.life;
+    this.size = Math.random() * 15 + 10;
+  }
+
+  update(mouseX: number, mouseY: number) {
+    const dx = this.x - mouseX;
+    const dy = this.y - mouseY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < 200) {
+      const force = (1 - dist / 200) * 0.5;
+      this.vx += (dx / dist) * force;
+      this.vx += (Math.random() - 0.5) * 0.5;
+    }
+
+    this.vx += (this.baseX - this.x) * 0.002;
+    this.vy -= 0.05;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life -= 0.015;
+    this.size *= 0.98;
+
+    if (this.life <= 0 || this.size < 0.5) this.reset();
+  }
+
+  reset() {
+    const width = this.getWidth();
+    const height = this.getHeight();
+    this.x = width / 2 + (Math.random() - 0.5) * 60;
+    this.y = height * 0.8 + Math.random() * 20;
+    this.vx = (Math.random() - 0.5) * 1;
+    this.vy = -(Math.random() * 2 + 1);
+    this.life = Math.random() * 0.4 + 0.6;
+    this.size = Math.random() * 20 + 20;
+  }
+
+  draw() {
+    const progress = 1 - (this.life / this.maxLife);
+    let r, g, b, a;
+
+    if (progress < 0.2) {
+      r = 255; g = 255; b = 200; a = 0.8;
+    } else if (progress < 0.5) {
+      r = 255; g = 200; b = 50; a = 0.6;
+    } else if (progress < 0.8) {
+      r = 200; g = 100; b = 0; a = 0.4;
+    } else {
+      r = 100; g = 20; b = 0; a = 0.0;
+    }
+
+    a *= this.life;
+    this.ctx.beginPath();
+    this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    this.ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
+    this.ctx.fill();
+  }
+}
+
 export default function EternalFlameBanner({ children }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -23,98 +105,7 @@ export default function EternalFlameBanner({ children }: Props) {
     // Configuration
     const PARTICLE_COUNT = 400;
     
-    class FireParticle {
-       x: number;
-       y: number;
-       vx: number;
-       vy: number;
-       life: number;
-       maxLife: number;
-       size: number;
-       baseX: number; // Origin X to return to center tendency
-
-       constructor(reset: boolean = false) {
-          this.baseX = width / 2;
-          this.x = this.baseX + (Math.random() - 0.5) * 60; // Initial spread
-          this.y = reset ? height * 0.8 + Math.random() * 50 : Math.random() * height;
-          this.vx = (Math.random() - 0.5) * 1;
-          this.vy = -(Math.random() * 2 + 1); // Upward speed
-          this.life = Math.random() * 0.5 + 0.5; // 0.5 to 1.0
-          this.maxLife = this.life;
-          this.size = Math.random() * 15 + 10;
-       }
-
-       update(mouseX: number, mouseY: number) {
-          // Wind effect from mouse
-          const dx = this.x - mouseX;
-          const dy = this.y - mouseY;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          
-          if (dist < 200) {
-             const force = (1 - dist / 200) * 0.5;
-             this.vx += (dx / dist) * force;
-             // Add turbulence
-             this.vx += (Math.random() - 0.5) * 0.5;
-          }
-
-          // Natural rise and convergence
-          this.vx += (this.baseX - this.x) * 0.002; // Pull to center lightly
-          this.vy -= 0.05; // Acceleration up
-          
-          this.x += this.vx;
-          this.y += this.vy;
-          this.life -= 0.015;
-          this.size *= 0.98;
-
-          // Reset if dead
-          if (this.life <= 0 || this.size < 0.5) {
-             this.reset();
-          }
-       }
-
-       reset() {
-          this.x = width / 2 + (Math.random() - 0.5) * 60;
-          this.y = height * 0.8 + Math.random() * 20;
-          this.vx = (Math.random() - 0.5) * 1;
-          this.vy = -(Math.random() * 2 + 1);
-          this.life = Math.random() * 0.4 + 0.6;
-          this.size = Math.random() * 20 + 20;
-       }
-
-       draw() {
-          if (!ctx) return;
-          
-          const progress = 1 - (this.life / this.maxLife); // 0 (start) to 1 (end)
-          
-          // Color Ramp
-          // Start: White/Yellow
-          // Mid: Orange/Gold
-          // End: Red/Dark
-          let r, g, b, a;
-          
-          if (progress < 0.2) {
-             r = 255; g = 255; b = 200; a = 0.8; // White hot
-          } else if (progress < 0.5) {
-             r = 255; g = 200; b = 50; a = 0.6; // Yellow gold
-          } else if (progress < 0.8) {
-             r = 200; g = 100; b = 0; a = 0.4; // Orange
-          } else {
-             r = 100; g = 20; b = 0; a = 0.0; // Smoke/fade
-          }
-          
-          // Overwrite with alpha based on life
-          a = a * this.life;
-
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
-          // Add glow effect by drawing larger low-alpha circle?
-          // Expensive. Let's stick to simple composite.
-          ctx.fill();
-       }
-    }
-
-    let particles: FireParticle[] = [];
+    let particles: EternalFireParticle[] = [];
     const mouse = { x: -1000, y: -1000 };
 
     const init = () => {
@@ -125,7 +116,7 @@ export default function EternalFlameBanner({ children }: Props) {
 
       particles = [];
       for (let i = 0; i < PARTICLE_COUNT; i++) {
-         const p = new FireParticle(true);
+         const p = new EternalFireParticle(() => width, () => height, ctx, true);
          // Pre-warm simulations
          for(let j=0; j<100; j++) p.update(-1000, -1000); 
          particles.push(p);

@@ -22,6 +22,7 @@ interface ExpandIndexGroupProps {
   onToggle: (groupKey: string) => void;
   onSelect: (index: number) => void;
   onSelectedItemReady: (index: number) => void;
+  hideHeader?: boolean;
 }
 
 interface ExpandIndexItemProps {
@@ -123,6 +124,7 @@ function ExpandIndexGroup({
   onToggle,
   onSelect,
   onSelectedItemReady,
+  hideHeader = false,
 }: ExpandIndexGroupProps) {
   const panelId = `${headingId}-items`;
 
@@ -131,6 +133,17 @@ function ExpandIndexGroup({
       onSelectedItemReady(scrollTargetIndex);
     }
   }, [isExpanded, onSelectedItemReady, scrollTargetIndex]);
+
+  if (hideHeader) {
+    return (
+      <ExpandIndexItems
+        items={items}
+        label={label}
+        setItemRef={setItemRef}
+        onSelect={onSelect}
+      />
+    );
+  }
 
   const handlePanelTransitionEnd = (event: TransitionEvent<HTMLDivElement>) => {
     if (event.currentTarget !== event.target) return;

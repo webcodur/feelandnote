@@ -64,7 +64,7 @@ export default function JourneyActivityRange({
     <section
       data-timeline-mobile-range
       aria-label={label}
-      className="border-b border-accent-dim/20 px-4 py-2 md:hidden"
+      className="shrink-0 border-b border-accent-dim/20 px-4 py-2 md:hidden"
     >
       <div
         ref={railRef}

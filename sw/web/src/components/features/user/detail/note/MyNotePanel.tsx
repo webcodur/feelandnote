@@ -2,7 +2,7 @@ import { useState, useEffect, useTransition, useRef } from "react";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getNoteByContentId, updateNoteMemo } from "@/actions/notes";
-import type { Note, Snapshot } from "@/actions/notes/types";
+import type { Note } from "@/actions/notes/types";
 
 interface MyNotePanelProps {
   contentId: string;
@@ -17,8 +17,7 @@ export default function MyNotePanel({
   const [note, setNote] = useState<Note | null>(null);
   const [memo, setMemo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, startSaveTransition] = useTransition();
-  const [snapshot, setSnapshot] = useState<Snapshot>({});
+  const [, startSaveTransition] = useTransition();
 
   const isMemoDirty = note !== null && memo !== (note.memo || "");
 
@@ -26,20 +25,21 @@ export default function MyNotePanel({
     onDirtyChange?.(isMemoDirty);
   }, [isMemoDirty, onDirtyChange]);
 
-  useEffect(() => { loadNote(); }, [contentId]);
+  useEffect(() => {
+    async function loadNote() {
+      setIsLoading(true);
+      try {
+        const result = await getNoteByContentId(contentId);
+        if (result.success && result.data) {
+          setNote(result.data);
+          setMemo(result.data.memo || "");
+        }
+      } catch (err) { console.error("노트 로드 실패:", err); }
+      finally { setIsLoading(false); }
+    }
 
-  async function loadNote() {
-    setIsLoading(true);
-    try {
-      const result = await getNoteByContentId(contentId);
-      if (result.success && result.data) {
-        setNote(result.data);
-        setMemo(result.data.memo || "");
-        setSnapshot(result.data.snapshot || {});
-      }
-    } catch (err) { console.error("노트 로드 실패:", err); }
-    finally { setIsLoading(false); }
-  }
+    void loadNote();
+  }, [contentId]);
 
   useEffect(() => {
     if (!note || memo === note.memo) return;

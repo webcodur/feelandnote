@@ -218,7 +218,7 @@ export default function CelebRecordSections({
         {serviceItemsByKey.has("sourceWorks") ? (
           <section id="source-works" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("sourceWorks")}
-            <SectionSurface>
+            <SectionSurface className={styles.sourceWorksSurface}>
               <FigureBookWorksSection sources={figureBooks} />
             </SectionSurface>
           </section>

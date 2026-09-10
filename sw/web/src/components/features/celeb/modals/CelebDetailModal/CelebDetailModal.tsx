@@ -4,7 +4,7 @@
 */
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@/i18n/navigation";
 import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User } from "lucide-react";
@@ -15,18 +15,22 @@ import { trackEvent } from "@/lib/analytics/track";
 import { getAuraByScore, type Aura } from "@/constants/materials";
 import CelebTagsModal from "../CelebTagsModal";
 import { FormattedText } from "@/components/ui";
+import ImageViewerModal from "@/components/ui/ImageViewerModal";
+import CelebProfileMedia from "@/components/shared/CelebProfileMedia";
+import CelebQuote from "@/components/shared/CelebQuote";
 import { getCelebModalContent } from "@/actions/home/getCelebReviews";
 import type { CelebReview } from "@/types/home";
-import { Avatar, BlurDissolve } from "@/components/ui";
 import { useTranslations, useLocale } from "next-intl";
+import { useCelebVoice } from "@/hooks/useCelebVoice";
+import type { Locale } from "@/types/locale";
 import { AURA_GRADIENTS, type CelebDetailModalProps } from "./types";
 import { CelebReviewCard } from "./sections/CelebReviewCard";
 
-export default function CelebDetailModal({ celeb, isOpen, onClose, context, hideBirthDate = false, hideQuotes = false, onNavigate, hasPrev = false, hasNext = false, zIndex }: CelebDetailModalProps) {
+export default function CelebDetailModal({ celeb, isOpen, onClose, context, hideBirthDate = false, hideQuotes = false, zIndex }: CelebDetailModalProps) {
   const t = useTranslations("home.ui");
   const tCeleb = useTranslations("celebPage");
   const tProf = useTranslations("profession");
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const isEn = locale === "en";
 
   // locale별 텍스트 선택 (영문 fallback → 한국어)
@@ -34,12 +38,29 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   const displayBio = (isEn && celeb.bio_en) || celeb.bio;
   const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
   const displayNickname = (isEn && celeb.nickname_en) || celeb.nickname;
+  const displayGreeting = isEn ? (celeb.greeting_en ?? celeb.greeting) : celeb.greeting;
+
+  const {
+    hasVoice,
+    canGreet,
+    hasGreetingAudio,
+    isVoiceActive,
+    isQuoteActive,
+    handleGreetingPlay,
+    handleQuotePlay,
+  } = useCelebVoice({
+    profile: celeb,
+    greeting: displayGreeting,
+    nickname: displayNickname,
+    locale,
+  });
 
   const [isTagsModalOpen, setIsTagsModalOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState<CelebReview[]>([]);
   const [personGuide, setPersonGuide] = useState<string | null>(null);
+  const [zoomOpen, setZoomOpen] = useState(false);
 
   const fetchedForRef = useRef<string | null>(null);
 
@@ -51,6 +72,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
     setPersonGuide(null);
     setIsFollowing(celeb.is_following);
     setIsTagsModalOpen(false);
+    setZoomOpen(false);
   }
 
   // 모달 열릴 때 body 스크롤 잠금
@@ -101,6 +123,16 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) onClose();
   };
+
+  const zoomImageUrl = celeb.avatar_url;
+  const handleZoom = useCallback(() => {
+    if (zoomImageUrl) setZoomOpen(true);
+  }, [zoomImageUrl]);
+  const greetLabel = isVoiceActive
+    ? tCeleb("stopAudio")
+    : hasGreetingAudio
+      ? tCeleb("playGreetingVoice")
+      : tCeleb("dialogue_greeting");
 
   if (!isOpen || typeof document === "undefined") return null;
 
@@ -223,13 +255,13 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
       style={{ borderColor: context.color ?? "var(--color-accent)" }}
     >
       <p
-        className="text-[11px] font-bold tracking-wide"
+        className="text-xs font-bold tracking-wide md:text-sm"
         style={{ color: context.color ?? "var(--color-accent)" }}
       >
         {context.label}
       </p>
       {context.description && (
-        <p className="mt-1 text-xs leading-relaxed text-text-secondary">
+        <p className="mt-1 text-sm leading-relaxed text-text-secondary md:text-[15px]">
           {context.description}
         </p>
       )}
@@ -243,14 +275,21 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
 
       {/* 인물 요약: Avatar + 이름 + 메타 + 태그 */}
       <div className="flex flex-col items-center px-6 pt-8 pb-4 shrink-0">
-        <BlurDissolve>
-          <Avatar
-            url={celeb.avatar_url}
-            name={displayNickname}
-            size="2xl"
-            className="ring-2 ring-accent/30 rounded-full shadow-2xl mb-4"
-          />
-        </BlurDissolve>
+        <CelebProfileMedia
+          photoUrl={null}
+          avatarUrl={celeb.avatar_url}
+          nickname={displayNickname}
+          onZoom={handleZoom}
+          zoomLabel={tCeleb("enlargePhoto")}
+          hasVoice={hasGreetingAudio}
+          isVoicePlaying={isVoiceActive}
+          onGreet={canGreet ? handleGreetingPlay : undefined}
+          greetLabel={greetLabel}
+          avatarSize="h-[100px] w-[100px]"
+          initialSize="text-3xl"
+          containerClassName="mb-4"
+          avatarAlignment="center"
+        />
 
         {displayTitle && (
           <p className="text-[10px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
@@ -265,11 +304,18 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
       </div>
 
       {/* 인용구 */}
-      {!hideQuotes && displayQuotes && (
-        <blockquote className="text-xs md:text-sm font-serif bg-white/[0.03] rounded-sm py-4 mx-6 mb-2 leading-relaxed text-center px-4">
-          <FormattedText text={displayQuotes} />
-        </blockquote>
-      )}
+      {!hideQuotes ? (
+        <CelebQuote
+          text={displayQuotes}
+          hasVoice={hasVoice}
+          isVoiceActive={isVoiceActive}
+          isQuoteActive={isQuoteActive}
+          onPlay={handleQuotePlay}
+          playLabel={tCeleb("playQuoteVoice")}
+          stopLabel={tCeleb("stopAudio")}
+          variant="modal"
+        />
+      ) : null}
 
       {/* 바이오 */}
       {displayBio && (
@@ -373,6 +419,15 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
         title={t("keywords", { name: displayNickname })}
         zIndex={zIndex ? zIndex + 1 : undefined}
       />
+
+      {zoomImageUrl ? (
+        <ImageViewerModal
+          src={zoomImageUrl}
+          alt={displayNickname}
+          isOpen={zoomOpen}
+          onClose={() => setZoomOpen(false)}
+        />
+      ) : null}
     </div>
   );
 

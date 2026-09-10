@@ -3,9 +3,11 @@ import type { ReactNode } from "react";
 import type { CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 
-import type { ReviewFilter, SortOption, ViewMode } from "../contentLibraryTypes";
+import type { ContentOwnerKind, ReviewFilter, SortOption, ViewMode } from "../contentLibraryTypes";
 
 export interface ArchiveControlBarProps {
+  ownerKind?: ContentOwnerKind;
+  categoryItems?: readonly { type: string }[];
   activeTab: CategoryId;
   onTabChange: (tab: CategoryId) => void;
   typeCounts: ContentTypeCounts | null;
@@ -18,6 +20,10 @@ export interface ArchiveControlBarProps {
   /** 서버가 viewport를 아직 모를 때 CSS가 넓은 화면용 전환 버튼을 고른다. */
   responsiveDesktopViewMode?: ViewMode;
   isResponsiveViewUnresolved?: boolean;
+  /** Expanded view index visibility. */
+  isExpandIndexOpen?: boolean;
+  /** Toggles the expanded view index. */
+  onExpandIndexToggle?: () => void;
   isAllCollapsed: boolean;
   onExpandAll: () => void;
   onCollapseAll: () => void;

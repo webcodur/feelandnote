@@ -1,9 +1,3 @@
-/* ─────────────────────────────────────────────
- * [celeb 상세] hero — 음성·인사 인터랙션 훅
- * - 목차 위치: 머리말(본문 앞, 목차 밖)
- * - 데이터: profile/greeting/nickname/locale + useCelebGreeting 액션
- * - 함께 보기: HeroSectionContent.tsx, HeroPhoto.tsx
- * ───────────────────────────────────────────── */
 "use client";
 
 import { useCallback, useState } from "react";
@@ -11,24 +5,20 @@ import {
   useDialogueSubtitle,
   type DialogueLabel,
 } from "@/components/features/game/shared/hooks/useDialogue";
-import { useCelebGreeting } from "@/hooks/useCelebGreeting";
+import { useCelebGreeting, type GreetingCeleb } from "@/hooks/useCelebGreeting";
 import { trackEvent } from "@/lib/analytics/track";
-import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 
-interface UseHeroVoiceArgs {
-  profile: CelebBySlugProfile;
+export interface UseCelebVoiceArgs {
+  profile: GreetingCeleb;
   greeting?: string[] | null;
   nickname: string;
   locale: Locale;
 }
 
-/* ── 1. 음성 상태 ── */
-export function useHeroVoice({ profile, greeting, nickname, locale }: UseHeroVoiceArgs) {
-  const {
-    handleSubtitle: setSubtitle,
-    voiceMuted,
-  } = useDialogueSubtitle();
+/** 상세 페이지·셀럽 모달이 공유하는 인사말/한마디 재생 상태와 동작. */
+export function useCelebVoice({ profile, greeting, nickname, locale }: UseCelebVoiceArgs) {
+  const { handleSubtitle: setSubtitle, voiceMuted } = useDialogueSubtitle();
   const { fireGreeting, fireQuote } = useCelebGreeting({
     onSubtitle: setSubtitle,
     locale,
@@ -55,7 +45,6 @@ export function useHeroVoice({ profile, greeting, nickname, locale }: UseHeroVoi
     setSubtitle(null);
   }, [setSubtitle]);
 
-  /* ── 2. 인사 재생 ── */
   const handleGreetingPlay = useCallback(() => {
     if (isVoiceActive) {
       stopVoice();
@@ -83,7 +72,6 @@ export function useHeroVoice({ profile, greeting, nickname, locale }: UseHeroVoi
     voiceMuted,
   ]);
 
-  /* ── 3. 인용 재생 ── */
   const handleQuotePlay = useCallback(() => {
     if (isVoiceActive) {
       stopVoice();

@@ -23,15 +23,11 @@ interface HomeSuggestionsProps {
 
 export function HomeSuggestions({
     suggestions,
-    categoryLabel,
     isSwitchingCategory,
     localUnreviewedList,
     allReviewedItems,
     onItemClick,
     onDelete,
-    scrollRef,
-    events,
-    isDragging
 }: HomeSuggestionsProps) {
     const t = useTranslations("quickRecord.home");
     return (

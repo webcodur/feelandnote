@@ -23,7 +23,6 @@ interface FeedbackListProps {
 
 export default function FeedbackList({
   feedbacks,
-  total,
   currentPage,
   totalPages,
   isLoggedIn,

@@ -1,6 +1,6 @@
 /*
   펼침 보기의 선택 상태와 배치를 조율한다.
-  목차 레일은 데스크톱에서 독립 열로 본문을 밀고, 모바일에서 본문 위에 덧띄운다.
+  목록은 상단 유틸리티에서 여는 공용 모달로 본문과 분리한다.
   캐러셀·스와이프 없이 목록이나 이전·다음 버튼으로 본문을 즉시 교체한다.
 */
 "use client";
@@ -10,12 +10,10 @@ import { useLocale, useTranslations } from "next-intl";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
-import { cn } from "@/lib/utils";
-
-import { useDesktopLayout } from "../useDesktopLayout";
+import type { CategoryId } from "@/constants/categories";
+import type { ContentTypeCounts } from "@/types/content";
 import { buildExpandPresentation } from "./buildExpandPresentation";
 import ExpandCard from "./ExpandCard";
-import ExpandIndexRail from "./ExpandIndexRail";
 import MobileIndexModal from "./MobileIndexModal";
 import { getExpandIndexNavigationOrder } from "./groupExpandIndexItems";
 import {
@@ -38,10 +36,16 @@ interface ExpandDetailViewProps {
   ownerNickname?: string;
   ownerAvatarUrl?: string | null;
   isActive?: boolean;
-  desktopPresentation?: boolean;
   initialContentBrief?: ContentBrief | null;
   initialContentRecord?: UserContentWithContent;
   celebId?: string;
+  /** Shared list-index preference from the archive control bar. */
+  expandIndexPreference?: boolean | null;
+  onExpandIndexPreferenceChange?: (preference: boolean) => void;
+  activeCategory?: CategoryId;
+  categoryCounts?: ContentTypeCounts | null;
+  onCategoryChange?: (category: CategoryId) => void;
+  isContentRefreshing?: boolean;
   /** 지금 펼쳐 보는 작품이 바뀔 때마다 알린다. "전체 보기"가 같은 자리에서 이어지게 쓴다 */
   onActiveContentChange?: (contentId: string | null, index: number) => void;
 }
@@ -51,16 +55,20 @@ export default function ExpandDetailView({
   ownerNickname,
   ownerAvatarUrl,
   isActive = true,
-  desktopPresentation = false,
   initialContentBrief,
   initialContentRecord,
   celebId,
+  expandIndexPreference,
+  onExpandIndexPreferenceChange,
+  activeCategory,
+  categoryCounts,
+  onCategoryChange,
+  isContentRefreshing,
   onActiveContentChange,
 }: ExpandDetailViewProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
   const indexId = useId();
-  const isDesktop = useDesktopLayout();
   const presentation = useMemo(() => buildExpandPresentation(items, locale), [items, locale]);
   const navigationOrder = useMemo(
     () => getExpandIndexNavigationOrder(presentation.groups),
@@ -68,10 +76,7 @@ export default function ExpandDetailView({
   );
   const indexLabels = useMemo(() => {
     return {
-      list: t("expandIndexLabel"),
-      title: t("expandIndexTitle"),
-      expand: t("expandIndexExpand"),
-      collapse: t("expandIndexCollapse"),
+      list: t("expandIndexTitle"),
     };
   }, [t]);
   const total = items.length;
@@ -79,26 +84,22 @@ export default function ExpandDetailView({
   // 빠른 연속 선택에서는 중간 본문 렌더를 버리고 마지막 선택만 완성할 수 있다.
   const {
     collapsedGroupTypes,
-    indexNavRef,
-    indexPreference,
     isIndexOpen,
     isLatestSelection,
-    keepIndexItemVisible,
     keepSelectedItemVisible,
     selectedContentId,
     selectedIndex,
     selectDirectly,
     selectNext,
     selectPrevious,
-    setIndexItemRef,
     toggleGroup,
     toggleIndex,
   } = useExpandIndexSelection({
     items,
     groups: presentation.groups,
     navigationOrder,
-    desktopPresentation,
-    isDesktop,
+    controlledIndexPreference: expandIndexPreference,
+    onIndexPreferenceChange: onExpandIndexPreferenceChange,
   });
   useEffect(() => {
     onActiveContentChange?.(selectedContentId, selectedIndex);
@@ -177,15 +178,7 @@ export default function ExpandDetailView({
     <section
       ref={rootRef}
       data-expand-item-count={total}
-      className={cn(
-        "relative grid w-full min-w-0 grid-cols-[minmax(0,1fr)] overflow-hidden rounded-xl border border-white/20 bg-bg-card",
-        "md:transition-[grid-template-columns] md:duration-300 md:ease-out",
-        indexPreference === null
-          ? "md:grid-cols-[48px_184px_minmax(0,1fr)_48px]"
-          : isIndexOpen
-            ? "md:grid-cols-[48px_184px_minmax(0,1fr)_48px]"
-            : "md:grid-cols-[48px_48px_minmax(0,1fr)_48px]",
-      )}
+      className="relative grid w-full min-w-0 grid-cols-[minmax(0,1fr)] overflow-hidden rounded-xl border border-white/20 bg-bg-card md:grid-cols-[48px_minmax(0,1fr)_48px]"
     >
       <ExpandArrowButton
         direction="previous"
@@ -193,20 +186,6 @@ export default function ExpandDetailView({
         disabled={isNavigationDisabled}
         placement="desktop"
         onClick={goPrevious}
-      />
-      <ExpandIndexRail
-        groups={presentation.groups}
-        isOpen={isIndexOpen}
-        indexId={indexId}
-        navRef={indexNavRef}
-        setItemRef={setIndexItemRef}
-        labels={indexLabels}
-        collapsedGroupTypes={collapsedGroupTypes}
-        scrollTargetIndex={keepSelectedItemVisible ? selectedIndex : null}
-        onToggle={toggleIndex}
-        onToggleGroup={toggleGroup}
-        onSelect={selectDirectly}
-        onSelectedItemReady={keepIndexItemVisible}
       />
       <ExpandTitleHeader
         title={presentation.titles[selectedIndex]}
@@ -216,15 +195,12 @@ export default function ExpandDetailView({
         disabled={isNavigationDisabled}
         onPrevious={goPrevious}
         onNext={goNext}
-        indexOpen={isIndexOpen}
-        indexToggleLabel={isIndexOpen ? indexLabels.collapse : indexLabels.expand}
-        onToggleIndex={toggleIndex}
       />
 
       <div
         data-testid="expand-detail-body"
         aria-busy={isBriefLoading || isRecordLoading}
-        className="col-start-1 row-start-2 min-w-0 md:col-start-3"
+        className="col-start-1 row-start-2 min-w-0 md:col-start-2"
       >
         <div ref={cardRef} className="[&>article]:rounded-none [&>article]:border-0">
           <ExpandCard
@@ -260,16 +236,19 @@ export default function ExpandDetailView({
         onClick={goNext}
       />
 
-      {isDesktop === false && isIndexOpen && (
+      {isIndexOpen && (
         <MobileIndexModal
           groups={presentation.groups}
           indexId={indexId}
-          labels={{ list: indexLabels.list, title: indexLabels.title, close: indexLabels.collapse }}
+          labels={indexLabels}
           collapsedGroupTypes={collapsedGroupTypes}
           scrollTargetIndex={keepSelectedItemVisible ? selectedIndex : null}
+          activeCategory={activeCategory}
+          categoryCounts={categoryCounts}
+          onCategoryChange={onCategoryChange}
+          isContentRefreshing={isContentRefreshing}
           onToggleGroup={toggleGroup}
           onSelect={selectDirectly}
-          onSelectedItemReady={keepIndexItemVisible}
           onClose={toggleIndex}
         />
       )}

@@ -9,7 +9,7 @@
 import { unstable_cache } from 'next/cache'
 import { getLocale } from 'next-intl/server'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { cachedDetail, STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedDetail, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import type {
@@ -150,13 +150,15 @@ async function fetchCoversByList(
   const out = new Map<string, string[]>()
   if (listIds.length === 0) return out
 
-  const { data } = await db
+  const { data, error } = await db
     .from('curated_list_items')
     .select(`list_id, sort_order, contents(content_locales(${CL_SELECT_LIST}))`)
     .in('list_id', listIds)
     .eq('hidden', false)
     .lte('sort_order', COVER_SCAN_DEPTH)
     .order('sort_order', { ascending: true })
+
+  throwOnQueryError('기관 선정 표지 조회', error)
 
   for (const row of (data ?? []) as unknown as {
     list_id: string
@@ -178,7 +180,7 @@ async function fetchCoversByList(
 async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
   const db = createStaticClient()
 
-  const [{ data: curators }, { data: lists }] = await Promise.all([
+  const [{ data: curators, error: curatorsError }, { data: lists, error: listsError }] = await Promise.all([
     db
       .from('curators')
       .select(CURATOR_COLS)
@@ -192,6 +194,9 @@ async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
       .order('sort_order', { ascending: true })
       .order('id', { ascending: true }),
   ])
+
+  throwOnQueryError('기관 선정 허브 기관 조회', curatorsError)
+  throwOnQueryError('기관 선정 허브 목록 조회', listsError)
 
   const curatorRows = (curators ?? []) as CuratorRow[]
   const listRows = (lists ?? []) as (ListRow & { curated_list_items: { count: number }[] | null })[]
@@ -255,17 +260,21 @@ export async function getCuratedHub(): Promise<CuratedHub> {
 async function fetchCurator(slug: string, locale: string): Promise<CuratorDetail | null> {
   const db = createStaticClient()
 
-  const { data: curator } = await db.from('curators').select(CURATOR_COLS).eq('slug', slug).maybeSingle()
+  const { data: curator, error: curatorError } = await db.from('curators').select(CURATOR_COLS).eq('slug', slug).maybeSingle()
+  // 일시 장애를 「없는 기관」으로 캐시하면 API가 복구되어도 404가 계속된다.
+  throwOnQueryError('선정 기관 조회', curatorError)
   if (!curator) return null
   const c = curator as CuratorRow
 
-  const { data: lists } = await db
+  const { data: lists, error: listsError } = await db
     .from('curated_lists')
     .select(`${LIST_COLS}, curated_list_items(count)`)
     .eq('curator_id', c.id)
     .order('published_year', { ascending: false, nullsFirst: false })
     .order('sort_order', { ascending: true })
     .order('id', { ascending: true })
+
+  throwOnQueryError('선정 기관 목록 조회', listsError)
 
   const listRows = (lists ?? []) as (ListRow & { curated_list_items: { count: number }[] | null })[]
   const coversByList = await fetchCoversByList(
@@ -315,15 +324,17 @@ interface ItemRow {
 async function fetchCuratedList(listSlug: string, locale: string, showAll: boolean): Promise<CuratedListDetail | null> {
   const db = createStaticClient()
 
-  const { data: list } = await db.from('curated_lists').select(LIST_COLS).eq('slug', listSlug).maybeSingle()
+  const { data: list, error: listError } = await db.from('curated_lists').select(LIST_COLS).eq('slug', listSlug).maybeSingle()
+  throwOnQueryError('기관 선정 목록 조회', listError)
   if (!list) return null
   const l = list as ListRow
 
-  const { data: curator } = await db.from('curators').select(CURATOR_COLS).eq('id', l.curator_id).maybeSingle()
+  const { data: curator, error: curatorError } = await db.from('curators').select(CURATOR_COLS).eq('id', l.curator_id).maybeSingle()
+  throwOnQueryError('기관 선정 목록의 기관 조회', curatorError)
   if (!curator) return null
   const c = curator as CuratorRow
 
-  const [{ data: items, count: totalItems }, { data: siblings }] = await Promise.all([
+  const [{ data: items, count: totalItems, error: itemsError }, { data: siblings, error: siblingsError }] = await Promise.all([
     db
       .from('curated_list_items')
       .select(
@@ -343,8 +354,11 @@ async function fetchCuratedList(listSlug: string, locale: string, showAll: boole
           .select('slug, title, title_en, edition, published_year')
           .eq('series_key', l.series_key)
           .order('published_year', { ascending: false, nullsFirst: false })
-      : Promise.resolve({ data: null }),
+      : Promise.resolve({ data: null, error: null }),
   ])
+
+  throwOnQueryError('기관 선정 작품 조회', itemsError)
+  throwOnQueryError('기관 선정 연도 목록 조회', siblingsError)
 
   const itemRows = (items ?? []) as unknown as ItemRow[]
   const mapped: CuratedListItem[] = itemRows.map((it) => {
@@ -432,7 +446,7 @@ interface EntryRow {
 async function fetchCuratedEntriesForContent(contentId: string, locale: string): Promise<ContentCuratedEntry[]> {
   const db = createStaticClient()
 
-  const { data } = await db
+  const { data, error } = await db
     .from('curated_list_items')
     .select(
       `rank, year,
@@ -441,6 +455,8 @@ async function fetchCuratedEntriesForContent(contentId: string, locale: string):
     )
     .eq('content_id', contentId)
     .eq('hidden', false)
+
+  throwOnQueryError('작품 선정 이력 조회', error)
 
   const rows = (data ?? []) as unknown as EntryRow[]
 

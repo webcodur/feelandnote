@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { SpectrumPersonSummary } from "@/actions/spectrum/getSpectrumPeople";
 import type { SpectrumVector } from "@/lib/spectrum/utils";
 import BlurDissolve from "@/components/ui/BlurDissolve";
@@ -32,7 +33,7 @@ export default function SpectrumInfoPanel({ person, spectrum, loading }: Props) 
             {person.avatar_url ? (
               // 인물 선택이 바뀔 때마다 등장 효과가 다시 재생되도록 key로 구분한다
               <BlurDissolve key={person.id} className="h-full w-full">
-                <img src={person.avatar_url} alt={person.nickname} className="h-full w-full object-cover" />
+                <Image src={person.avatar_url} alt={person.nickname} width={56} height={56} unoptimized className="h-full w-full object-cover" />
               </BlurDissolve>
             ) : (
               <div className="flex h-full w-full items-center justify-center text-xl font-serif text-text-secondary">

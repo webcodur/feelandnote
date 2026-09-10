@@ -13,7 +13,6 @@ import { ContentCard } from "@/components/ui/cards";
 import { toggleFollow } from "@/actions/user";
 import type { ContentType } from "@/types/database";
 import type { ContentSearchResult, UserSearchResult, TagSearchResult, RecordsSearchResult } from "@/actions/search";
-import type { ContentStatus } from "@/types/database";
 import { useTranslations } from "next-intl";
 
 type ContentResult = ContentSearchResult | RecordsSearchResult;
@@ -31,9 +30,7 @@ interface ContentResultsProps {
 export function ContentResults({
   results,
   mode,
-  currentUserId,
   savedIds = new Set(),
-  userCounts = {},
   onBeforeNavigate,
   onAddContent,
 }: ContentResultsProps) {
@@ -51,9 +48,6 @@ export function ContentResults({
         // 콘텐츠 상세 페이지로 이동 (통합 라우트)
         const contentId = "contentId" in item ? item.contentId : item.id;
         const href = `/content/${contentId}?category=${item.category}`;
-
-        // userCount: records 모드에서는 item에서, content 모드에서는 userCounts에서
-        const userCount = "userCount" in item ? item.userCount : userCounts[item.id];
 
         // records 모드 i18n 필드 (RecordsSearchResult에만 존재)
         const i18n = "title_ko" in item ? item : undefined;

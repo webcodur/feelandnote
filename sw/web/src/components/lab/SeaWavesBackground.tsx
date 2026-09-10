@@ -8,6 +8,175 @@
 
 import React, { useEffect, useRef } from "react";
 
+interface SeaWavesContext {
+  width: number;
+  height: number;
+  ctx: CanvasRenderingContext2D;
+}
+
+class SeaBubble {
+  x: number;
+  y: number;
+  size: number;
+  speed: number;
+  opacity: number;
+  wobble: number;
+  wobbleSpeed: number;
+
+  constructor(private readonly context: SeaWavesContext) {
+    this.x = Math.random() * context.width;
+    this.y = context.height + Math.random() * 100;
+    this.size = Math.random() * 3 + 1;
+    this.speed = Math.random() * 1 + 0.5;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.wobble = Math.random() * Math.PI * 2;
+    this.wobbleSpeed = Math.random() * 0.05 + 0.02;
+  }
+
+  reset() {
+    this.x = Math.random() * this.context.width;
+    this.y = this.context.height + Math.random() * 100;
+    this.size = Math.random() * 3 + 1;
+    this.speed = Math.random() * 1 + 0.5;
+    this.opacity = Math.random() * 0.5 + 0.1;
+  }
+
+  update() {
+    this.y -= this.speed;
+    this.wobble += this.wobbleSpeed;
+    this.x += Math.sin(this.wobble) * 0.5;
+    if (this.y < -this.size) this.reset();
+  }
+
+  draw() {
+    const { ctx } = this.context;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(this.x - this.size * 0.3, this.y - this.size * 0.3, this.size * 0.2, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity + 0.2})`;
+    ctx.fill();
+  }
+}
+
+class SeaParticle {
+  x: number;
+  y: number;
+  size: number;
+  velX: number;
+  velY: number;
+  opacity: number;
+
+  constructor(private readonly context: SeaWavesContext) {
+    this.x = Math.random() * context.width;
+    this.y = Math.random() * context.height;
+    this.size = Math.random() * 1.5 + 0.1;
+    this.velX = (Math.random() - 0.5) * 0.2;
+    this.velY = (Math.random() - 0.5) * 0.2;
+    this.opacity = Math.random() * 0.3 + 0.05;
+  }
+
+  update() {
+    this.x += this.velX;
+    this.y += this.velY;
+    if (this.x < 0) this.x = this.context.width;
+    if (this.x > this.context.width) this.x = 0;
+    if (this.y < 0) this.y = this.context.height;
+    if (this.y > this.context.height) this.y = 0;
+  }
+
+  draw() {
+    const { ctx } = this.context;
+    ctx.fillStyle = `rgba(200, 220, 255, ${this.opacity})`;
+    ctx.fillRect(this.x, this.y, this.size, this.size);
+  }
+}
+
+class SeaLightRay {
+  x: number;
+  width: number;
+  angle: number;
+  intensity: number;
+  speed: number;
+  phase: number;
+
+  constructor(private readonly context: SeaWavesContext) {
+    this.x = Math.random() * context.width;
+    this.width = Math.random() * 100 + 50;
+    this.angle = Math.PI / 3 + (Math.random() - 0.5) * 0.2;
+    this.intensity = Math.random() * 0.05 + 0.02;
+    this.speed = Math.random() * 0.005 + 0.002;
+    this.phase = Math.random() * Math.PI * 2;
+  }
+
+  update() {
+    this.phase += this.speed;
+  }
+
+  draw() {
+    const { ctx, height } = this.context;
+    const flicker = Math.sin(this.phase) * 0.01;
+    const currentIntensity = Math.max(0, this.intensity + flicker);
+    const gradient = ctx.createLinearGradient(
+      this.x, 0,
+      this.x - Math.tan(Math.PI / 2 - this.angle) * height, height,
+    );
+    gradient.addColorStop(0, `rgba(200, 230, 255, ${currentIntensity})`);
+    gradient.addColorStop(0.5, `rgba(100, 150, 200, ${currentIntensity * 0.5})`);
+    gradient.addColorStop(1, `rgba(0, 0, 0, 0)`);
+    ctx.save();
+    ctx.translate(this.x, 0);
+    ctx.rotate(this.angle - Math.PI / 2);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(-this.width / 2, 0, this.width, height * 1.5);
+    ctx.restore();
+  }
+}
+
+class SeaTerrain {
+  points: { x: number; y: number }[] = [];
+  scrollOffset = 0;
+
+  constructor(private readonly context: SeaWavesContext) {
+    this.generate();
+  }
+
+  generate() {
+    const { width, height } = this.context;
+    this.points = [];
+    let x = 0;
+    let y = height * 0.85;
+    this.points.push({ x: 0, y: height });
+    this.points.push({ x: 0, y });
+    while (x < width) {
+      x += Math.random() * 50 + 20;
+      y += (Math.random() - 0.5) * 30;
+      y = Math.max(height * 0.75, Math.min(height * 0.95, y));
+      this.points.push({ x, y });
+    }
+    this.points.push({ x: width, y: height });
+  }
+
+  draw() {
+    const { ctx, width, height } = this.context;
+    ctx.beginPath();
+    ctx.moveTo(0, height);
+    this.points.forEach((p, index) => {
+      if (index === 0) return;
+      ctx.lineTo(p.x, p.y);
+    });
+    ctx.lineTo(width, height);
+    ctx.closePath();
+    const grad = ctx.createLinearGradient(0, height * 0.7, 0, height);
+    grad.addColorStop(0, "#020617");
+    grad.addColorStop(1, "#000000");
+    ctx.fillStyle = grad;
+    ctx.fill();
+  }
+}
+
 export default function SeaWavesBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -21,6 +190,7 @@ export default function SeaWavesBackground() {
     let animationFrameId: number;
     let width = 0;
     let height = 0;
+    const simulation: SeaWavesContext = { width: 0, height: 0, ctx };
 
     // --- Configuration ---
     const CONFIG = {
@@ -34,201 +204,24 @@ export default function SeaWavesBackground() {
 
     // --- Classes ---
 
-    class Bubble {
-      x: number;
-      y: number;
-      size: number;
-      speed: number;
-      opacity: number;
-      wobble: number;
-      wobbleSpeed: number;
-
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = height + Math.random() * 100;
-        this.size = Math.random() * 3 + 1; // 1 ~ 4px
-        this.speed = Math.random() * 1 + 0.5;
-        this.opacity = Math.random() * 0.5 + 0.1;
-        this.wobble = Math.random() * Math.PI * 2;
-        this.wobbleSpeed = Math.random() * 0.05 + 0.02;
-      }
-
-      reset() {
-        this.x = Math.random() * width;
-        this.y = height + Math.random() * 100;
-        this.size = Math.random() * 3 + 1;
-        this.speed = Math.random() * 1 + 0.5;
-        this.opacity = Math.random() * 0.5 + 0.1;
-      }
-
-      update() {
-        this.y -= this.speed;
-        this.wobble += this.wobbleSpeed;
-        this.x += Math.sin(this.wobble) * 0.5;
-
-        if (this.y < -this.size) {
-          this.reset();
-        }
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-        ctx.fill();
-        
-        // Highlight (reflection on bubble)
-        ctx.beginPath();
-        ctx.arc(this.x - this.size * 0.3, this.y - this.size * 0.3, this.size * 0.2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity + 0.2})`;
-        ctx.fill();
-      }
-    }
-
-    class Particle {
-      x: number;
-      y: number;
-      size: number;
-      velX: number;
-      velY: number;
-      opacity: number;
-
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 1.5 + 0.1; // Very small dust
-        this.velX = (Math.random() - 0.5) * 0.2;
-        this.velY = (Math.random() - 0.5) * 0.2;
-        this.opacity = Math.random() * 0.3 + 0.05;
-      }
-
-      update() {
-        this.x += this.velX;
-        this.y += this.velY;
-
-        if (this.x < 0) this.x = width;
-        if (this.x > width) this.x = 0;
-        if (this.y < 0) this.y = height;
-        if (this.y > height) this.y = 0;
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.fillStyle = `rgba(200, 220, 255, ${this.opacity})`;
-        ctx.fillRect(this.x, this.y, this.size, this.size);
-      }
-    }
-
-    class LightRay {
-      x: number;
-      width: number;
-      angle: number;
-      intensity: number;
-      speed: number;
-      phase: number;
-
-      constructor() {
-        this.x = Math.random() * width;
-        this.width = Math.random() * 100 + 50;
-        this.angle = Math.PI / 3 + (Math.random() - 0.5) * 0.2; // roughly 60 degrees
-        this.intensity = Math.random() * 0.05 + 0.02;
-        this.speed = Math.random() * 0.005 + 0.002;
-        this.phase = Math.random() * Math.PI * 2;
-      }
-
-      update() {
-        this.phase += this.speed;
-      }
-
-      draw() {
-        if (!ctx) return;
-        
-        const flicker = Math.sin(this.phase) * 0.01;
-        const currentIntensity = Math.max(0, this.intensity + flicker);
-
-        const gradient = ctx.createLinearGradient(
-          this.x, 0, 
-          this.x - Math.tan(Math.PI/2 - this.angle) * height, height
-        );
-        
-        gradient.addColorStop(0, `rgba(200, 230, 255, ${currentIntensity})`);
-        gradient.addColorStop(0.5, `rgba(100, 150, 200, ${currentIntensity * 0.5})`);
-        gradient.addColorStop(1, `rgba(0, 0, 0, 0)`);
-
-        ctx.save();
-        ctx.translate(this.x, 0);
-        ctx.rotate(this.angle - Math.PI/2);
-        ctx.fillStyle = gradient;
-        ctx.fillRect(-this.width/2, 0, this.width, height * 1.5); // Extend length
-        ctx.restore();
-      }
-    }
-
-    class Terrain {
-      points: { x: number; y: number }[] = [];
-      scrollOffset: number = 0;
-      
-      constructor() {
-        this.generate();
-      }
-
-      generate() {
-        this.points = [];
-        let x = 0;
-        let y = height * 0.85; // Start at 85% height
-        this.points.push({ x: 0, y: height }); // Bottom Left
-        this.points.push({ x: 0, y: y });      // Start point
-
-        while (x < width) {
-          x += Math.random() * 50 + 20;
-          y += (Math.random() - 0.5) * 30;
-          // Clamp y
-          y = Math.max(height * 0.75, Math.min(height * 0.95, y));
-          this.points.push({ x, y });
-        }
-
-        this.points.push({ x: width, y: height }); // Bottom Right
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.moveTo(0, height);
-        
-        this.points.forEach((p, index) => {
-           // Simple smoothing could be added here
-           if (index === 0) return;
-           ctx.lineTo(p.x, p.y);
-        });
-        
-        ctx.lineTo(width, height);
-        ctx.closePath();
-        
-        const grad = ctx.createLinearGradient(0, height * 0.7, 0, height);
-        grad.addColorStop(0, "#020617");
-        grad.addColorStop(1, "#000000");
-        ctx.fillStyle = grad;
-        ctx.fill();
-      }
-    }
-
     // --- State Initialization ---
-    let bubbles: Bubble[] = [];
-    let particles: Particle[] = [];
-    let rays: LightRay[] = [];
-    let terrain: Terrain;
+    let bubbles: SeaBubble[] = [];
+    let particles: SeaParticle[] = [];
+    let rays: SeaLightRay[] = [];
+    let terrain: SeaTerrain;
 
     const init = () => {
       width = canvas.offsetWidth;
       height = canvas.offsetHeight;
       canvas.width = width;
       canvas.height = height;
+      simulation.width = width;
+      simulation.height = height;
 
-      bubbles = Array.from({ length: CONFIG.bubbleCount }, () => new Bubble());
-      particles = Array.from({ length: CONFIG.particleCount }, () => new Particle());
-      rays = Array.from({ length: CONFIG.rayCount }, () => new LightRay());
-      terrain = new Terrain();
+      bubbles = Array.from({ length: CONFIG.bubbleCount }, () => new SeaBubble(simulation));
+      particles = Array.from({ length: CONFIG.particleCount }, () => new SeaParticle(simulation));
+      rays = Array.from({ length: CONFIG.rayCount }, () => new SeaLightRay(simulation));
+      terrain = new SeaTerrain(simulation);
     };
 
     const drawBackground = () => {

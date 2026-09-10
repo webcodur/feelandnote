@@ -77,7 +77,6 @@ export default function CelebFiltersDesktop({
   contentTypeCounts,
   genderCounts,
   isLoading,
-  activeLabels,
   onProfessionChange,
   onNationalityChange,
   onContentTypeChange,

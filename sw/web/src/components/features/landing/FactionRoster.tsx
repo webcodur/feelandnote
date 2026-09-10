@@ -71,7 +71,7 @@ export default function FactionRoster({
                   "relative mt-4 flex min-h-10 w-full items-center gap-2.5 border-b px-2 text-left first:mt-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                   isSelected
                     ? "border-accent/55 bg-accent/[0.045] text-white"
-                    : "border-white/10 bg-transparent text-white/55 hover:border-white/30 hover:bg-white/[0.025] hover:text-white",
+                    : "border-white/10 bg-transparent text-white/80 hover:border-white/30 hover:bg-white/[0.025] hover:text-white",
                 )}
               >
                 <span
@@ -149,7 +149,7 @@ export default function FactionRoster({
                   title={entry.title}
                   className={cn(
                     "min-w-0 flex-[0_1_auto] truncate text-[15px] font-black leading-5",
-                    isSelected ? "text-white" : "text-white/72 group-hover:text-white",
+                    isSelected ? "text-white" : "text-white/90 group-hover:text-white",
                   )}
                 >
                   {entry.title}
@@ -159,7 +159,7 @@ export default function FactionRoster({
                     title={entry.meta}
                     className={cn(
                       "min-w-0 flex-1 truncate text-[11px] font-bold leading-4",
-                      isSelected ? "text-accent/90" : "text-amber-500/65",
+                      isSelected ? "text-accent" : "text-amber-300/90",
                     )}
                   >
                     {entry.meta}

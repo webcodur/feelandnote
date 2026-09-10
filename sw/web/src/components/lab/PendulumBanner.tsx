@@ -6,6 +6,46 @@ interface Props {
   children?: ReactNode;
 }
 
+const PENDULUM_BALL_RADIUS = 30;
+const PENDULUM_BALL_COUNT = 5;
+const PENDULUM_ROPE_LENGTH = 300;
+const PENDULUM_ORIGIN_Y = 150;
+const PENDULUM_GRAVITY = 0.08;
+const PENDULUM_DAMPING = 0.9992;
+
+class PendulumBall {
+  index: number;
+  angle: number;
+  vAngular: number;
+  x = 0;
+  y = 0;
+  mass = 10;
+
+  constructor(index: number, width: number) {
+    this.index = index;
+    this.angle = 0;
+    this.vAngular = 0;
+    this.updatePos(width);
+  }
+
+  updatePos(width: number) {
+    const spacing = PENDULUM_BALL_RADIUS * 2;
+    const totalWidth = (PENDULUM_BALL_COUNT - 1) * spacing;
+    const startX = width / 2 - totalWidth / 2;
+    const pivotX = startX + this.index * spacing;
+    this.x = pivotX + Math.sin(this.angle) * PENDULUM_ROPE_LENGTH;
+    this.y = PENDULUM_ORIGIN_Y + Math.cos(this.angle) * PENDULUM_ROPE_LENGTH;
+  }
+
+  update(width: number) {
+    const force = -PENDULUM_GRAVITY * Math.sin(this.angle);
+    this.vAngular += force / PENDULUM_ROPE_LENGTH;
+    this.vAngular *= PENDULUM_DAMPING;
+    this.angle += this.vAngular;
+    this.updatePos(width);
+  }
+}
+
 export default function PendulumBanner({ children }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -20,60 +60,8 @@ export default function PendulumBanner({ children }: Props) {
     let animationFrameId: number;
     
     // Config
-    const BALL_RADIUS = 30;
-    const BALL_COUNT = 5;
-    const ROPE_LENGTH = 300;
-    const ORIGIN_Y = 150;
-    const GRAVITY = 0.08; // 느린 진자 움직임
-    const DAMPING = 0.9992; // 에너지 손실 최소화 (오래 지속)
-    
-    // Physics Bodies
-    // We model them as simple pendulums constrained to X-axis movement mostly
-    // But collision is the key.
-    // For simplicity and stability, we simulate angular velocity.
-    
-    class Ball {
-       index: number;
-       angle: number; // 0 is down, -PI/2 left
-       vAngular: number;
-       x: number = 0;
-       y: number = 0;
-       mass: number = 10;
-       
-       constructor(index: number) {
-          this.index = index;
-          this.angle = 0;
-          this.vAngular = 0;
-          this.updatePos();
-       }
-
-       updatePos() {
-          // Calculate pivot X based on index to keep them touching
-          // Pivot spacing should be equal to diameter
-          const spacing = BALL_RADIUS * 2;
-          const totalWidth = (BALL_COUNT - 1) * spacing;
-          const startX = width / 2 - totalWidth / 2;
-          
-          const pivotX = startX + this.index * spacing;
-          const pivotY = ORIGIN_Y;
-          
-          this.x = pivotX + Math.sin(this.angle) * ROPE_LENGTH;
-          this.y = pivotY + Math.cos(this.angle) * ROPE_LENGTH;
-       }
-
-       update() {
-          // Gravity force
-          const force = -GRAVITY * Math.sin(this.angle);
-          this.vAngular += force / ROPE_LENGTH;
-          this.vAngular *= DAMPING; // air resistance
-          
-          this.angle += this.vAngular;
-          this.updatePos();
-       }
-    }
-
-    let balls: Ball[] = [];
-    let draggedBall: Ball | null = null;
+    let balls: PendulumBall[] = [];
+    let draggedBall: PendulumBall | null = null;
 
     const init = () => {
       width = canvas.parentElement?.clientWidth || window.innerWidth;
@@ -82,8 +70,8 @@ export default function PendulumBanner({ children }: Props) {
       canvas.height = height;
 
       balls = [];
-      for (let i = 0; i < BALL_COUNT; i++) {
-         balls.push(new Ball(i));
+      for (let i = 0; i < PENDULUM_BALL_COUNT; i++) {
+         balls.push(new PendulumBall(i, width));
       }
       
       // Start with first ball pulled back
@@ -101,7 +89,7 @@ export default function PendulumBanner({ children }: Props) {
           const dy = b2.y - b1.y;
           const dist = Math.sqrt(dx*dx + dy*dy);
           
-          if (dist < BALL_RADIUS * 2 - 0.5) { // Tolerance
+          if (dist < PENDULUM_BALL_RADIUS * 2 - 0.5) { // Tolerance
              // Collision detected
              
              // Exchange velocities (Elastic collision of equal masses)
@@ -111,7 +99,7 @@ export default function PendulumBanner({ children }: Props) {
              b2.vAngular = tempV;
              
              // Separate them to prevent sticking
-             const overlap = (BALL_RADIUS * 2) - dist;
+             const overlap = (PENDULUM_BALL_RADIUS * 2) - dist;
              // Push apart based on angle
              // Approximation: Just nudge angles slightly?
              // Better: Reset positions to touching.
@@ -122,7 +110,7 @@ export default function PendulumBanner({ children }: Props) {
              // Sound or flash effect could trigger here
              
              // Crude reposition to avoid overlap getting worse
-             const angleDiff = overlap / ROPE_LENGTH;
+             const angleDiff = overlap / PENDULUM_ROPE_LENGTH;
              b1.angle -= angleDiff/2;
              b2.angle += angleDiff/2;
           }
@@ -138,7 +126,7 @@ export default function PendulumBanner({ children }: Props) {
        for (const b of balls) {
           const dx = b.x - mx;
           const dy = b.y - my;
-          if (dx*dx + dy*dy < BALL_RADIUS*BALL_RADIUS) {
+          if (dx*dx + dy*dy < PENDULUM_BALL_RADIUS * PENDULUM_BALL_RADIUS) {
              // Only allow dragging first and last ball
              if (b.index === 0 || b.index === balls.length - 1) {
                 draggedBall = b;
@@ -160,13 +148,13 @@ export default function PendulumBanner({ children }: Props) {
           const my = e.clientY - rect.top;
           
           // Calculate angle from pivot
-          const spacing = BALL_RADIUS * 2;
-          const totalWidth = (BALL_COUNT - 1) * spacing;
+          const spacing = PENDULUM_BALL_RADIUS * 2;
+          const totalWidth = (PENDULUM_BALL_COUNT - 1) * spacing;
           const startX = width / 2 - totalWidth / 2;
           const pivotX = startX + draggedBall.index * spacing;
           
           const dx = mx - pivotX;
-          const dy = my - ORIGIN_Y;
+          const dy = my - PENDULUM_ORIGIN_Y;
           
           let newAngle = Math.atan2(dx, dy);
           
@@ -181,7 +169,7 @@ export default function PendulumBanner({ children }: Props) {
 
           draggedBall.angle = newAngle;
           draggedBall.vAngular = 0;
-          draggedBall.updatePos();
+          draggedBall.updatePos(width);
        }
     };
 
@@ -197,18 +185,16 @@ export default function PendulumBanner({ children }: Props) {
       // Sub-steps for better collision
       for(let i=0; i<4; i++) {
          if (!draggedBall) {
-            balls.forEach(b => b.update());
+            balls.forEach(b => b.update(width));
             resolveCollisions();
          }
       }
 
       // Draw Support Structure
-      const barY = ORIGIN_Y;
-      const barLeft = balls[0].x - BALL_RADIUS; // Approx pivot
-      const barRight = balls[BALL_COUNT-1].x + BALL_RADIUS;
+      const barY = PENDULUM_ORIGIN_Y;
       // Actual pivots
-      const spacing = BALL_RADIUS * 2;
-      const totalWidth = (BALL_COUNT - 1) * spacing;
+      const spacing = PENDULUM_BALL_RADIUS * 2;
+      const totalWidth = (PENDULUM_BALL_COUNT - 1) * spacing;
       const startX = width / 2 - totalWidth / 2;
       
       ctx.strokeStyle = "#444";
@@ -231,9 +217,9 @@ export default function PendulumBanner({ children }: Props) {
          
          // Ball
          ctx.beginPath();
-         ctx.arc(b.x, b.y, BALL_RADIUS, 0, Math.PI*2);
+         ctx.arc(b.x, b.y, PENDULUM_BALL_RADIUS, 0, Math.PI*2);
          // Gold Gradient
-         const grad = ctx.createRadialGradient(b.x - 10, b.y - 10, 5, b.x, b.y, BALL_RADIUS);
+         const grad = ctx.createRadialGradient(b.x - 10, b.y - 10, 5, b.x, b.y, PENDULUM_BALL_RADIUS);
          grad.addColorStop(0, "#fff"); // Highlight
          grad.addColorStop(0.3, "#d4af37"); // Gold
          grad.addColorStop(1, "#332200"); // Dark Gold

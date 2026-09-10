@@ -5,12 +5,14 @@
 */ // ------------------------------
 "use client";
 
-import CelebImage from "@/components/ui/CelebImage";
+import { useState } from "react";
 import ContentImage from "@/components/ui/ContentImage";
-import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, ExternalLink, Loader2, User } from "lucide-react";
+import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, ExternalLink, Loader2, User, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
+import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 import PersonNameplate from "@/components/features/user/explore/PersonNameplate";
+import { Link } from "@/i18n/navigation";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useTranslations } from "next-intl";
 
@@ -22,9 +24,13 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   game: Gamepad2,
 };
 
+const CELEB_SEARCH_ACTION_CLASS =
+  "inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-md border border-white/15 bg-black/60 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 md:h-11 md:w-11";
+
 export interface SearchResult {
   id: string;
   type: "content" | "user" | "tag" | "celeb";
+  slug?: string;
   title: string;
   subtitle?: string;
   category?: string;
@@ -50,6 +56,9 @@ interface SearchResultsDropdownProps {
   onRecentSearchClick: (search: string) => void;
   onClearRecentSearches: () => void;
   onViewAllResults: () => void;
+  onCelebLinkClick?: (result: SearchResult) => void;
+  onCelebInfoClick?: (result: SearchResult) => void;
+  celebInfoLoadingId?: string | null;
   /** @deprecated status 파라미터는 무시됨 */
   onAddContent?: (result: SearchResult) => void;
   onOpenInNewTab?: (result: SearchResult) => void;
@@ -69,6 +78,9 @@ export default function SearchResultsDropdown({
   onRecentSearchClick,
   onClearRecentSearches,
   onViewAllResults,
+  onCelebLinkClick,
+  onCelebInfoClick,
+  celebInfoLoadingId,
   onAddContent,
   onOpenInNewTab,
   isMobile = false,
@@ -94,14 +106,16 @@ export default function SearchResultsDropdown({
       {!isLoading && results.length > 0 && (
         <>
           {/* View all results - 첫 번째 항목 */}
-          <Button
-            unstyled
-            onClick={onViewAllResults}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm text-accent font-medium hover:bg-accent/10 border-b border-white/5 transition-colors"
-          >
-            <Search size={16} />
-            {t("viewAllResults")}
-          </Button>
+          {searchMode !== "celeb" && (
+            <Button
+              unstyled
+              onClick={onViewAllResults}
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 text-sm text-accent font-medium hover:bg-accent/10 border-b border-white/5 transition-colors"
+            >
+              <Search size={16} />
+              {t("viewAllResults")}
+            </Button>
+          )}
 
           {results.map((result, index) => {
             // 사용자 결과: FriendCardNameplate 사용
@@ -127,27 +141,14 @@ export default function SearchResultsDropdown({
             // 셀럽 결과
             if (result.type === "celeb") {
               return (
-                <Button
-                  unstyled
+                <CelebSearchResult
                   key={result.id}
-                  onClick={() => onResultClick(result)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 text-left
-                    ${selectedIndex === index ? "bg-accent/10" : "hover:bg-white/5"}`}
-                >
-                  <div className="relative w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
-                    {result.thumbnail ? (
-                      <CelebImage src={result.thumbnail} alt={result.title} shape="circle" sizes="40px" />
-                    ) : (
-                      <User size={16} className="text-text-secondary" />
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-text-primary truncate">{result.title}</div>
-                    {result.subtitle && (
-                      <div className="text-xs text-text-secondary truncate">{result.subtitle}</div>
-                    )}
-                  </div>
-                </Button>
+                  result={result}
+                  isSelected={selectedIndex === index}
+                  onLinkClick={onCelebLinkClick}
+                  onInfoClick={onCelebInfoClick}
+                  isInfoLoading={celebInfoLoadingId === result.id}
+                />
               );
             }
 
@@ -228,6 +229,17 @@ export default function SearchResultsDropdown({
               </div>
             );
           })}
+
+          {searchMode === "celeb" && (
+            <Button
+              unstyled
+              onClick={onViewAllResults}
+              className="flex w-full items-center justify-center gap-2 border-t border-white/10 px-4 py-3 text-sm font-medium text-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+            >
+              {t("showMore")}
+              <ArrowRight size={16} aria-hidden="true" />
+            </Button>
+          )}
         </>
       )}
 
@@ -278,6 +290,105 @@ export default function SearchResultsDropdown({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+interface CelebSearchResultProps {
+  result: SearchResult;
+  isSelected: boolean;
+  onLinkClick?: (result: SearchResult) => void;
+  onInfoClick?: (result: SearchResult) => void;
+  isInfoLoading: boolean;
+}
+
+function CelebSearchResult({
+  result,
+  isSelected,
+  onLinkClick,
+  onInfoClick,
+  isInfoLoading,
+}: CelebSearchResultProps) {
+  const t = useTranslations("shared.search");
+  const tc = useTranslations("shared.celeb");
+  const href = `/celeb/${result.slug || result.id}`;
+  const [imageFailed, setImageFailed] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleInfoClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!isInfoLoading) onInfoClick?.(result);
+  };
+
+  return (
+    <div
+      className={`mx-2 my-1 flex h-14 items-stretch gap-2 rounded-lg border px-1.5 md:h-16 ${
+        isSelected
+          ? "border-accent/40 bg-accent/10"
+          : "border-white/10 bg-white/[0.025] hover:border-white/20 hover:bg-white/[0.05]"
+      }`}
+    >
+      <Link
+        href={href}
+        prefetch={false}
+        onClick={() => onLinkClick?.(result)}
+        className="flex min-w-0 flex-1 items-center gap-3 rounded-md px-1.5 text-left hover:bg-white/5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+      >
+        <div className="relative flex h-full w-14 shrink-0 items-center justify-center overflow-hidden rounded-md border border-white/10 bg-white/5 md:w-16">
+          {result.thumbnail && !imageFailed ? (
+            <>
+              {!imageLoaded && (
+                <div
+                  className="absolute inset-0 animate-pulse bg-white/[0.08]"
+                  aria-hidden="true"
+                />
+              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={result.thumbnail}
+                alt={result.title}
+                loading="lazy"
+                onLoad={() => setImageLoaded(true)}
+                onError={() => {
+                  setImageFailed(true);
+                  setImageLoaded(false);
+                }}
+                className={`block h-full w-full object-contain transition-opacity duration-150 ${
+                  imageLoaded ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            </>
+          ) : (
+            <User size={20} className="text-text-secondary" />
+          )}
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="truncate text-sm font-medium text-text-primary">{result.title}</div>
+          {result.subtitle && (
+            <div className="truncate text-xs text-text-secondary">{result.subtitle}</div>
+          )}
+        </div>
+      </Link>
+      <CelebDetailCardButton
+        label={`${result.title} — ${tc("viewCard")}`}
+        onClick={handleInfoClick}
+        loading={isInfoLoading}
+        size="compact"
+        iconSize={20}
+        className={CELEB_SEARCH_ACTION_CLASS}
+      />
+      <Link
+        href={href}
+        prefetch={false}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${result.title} — ${t("openInNewTab")}`}
+        title={t("openInNewTab")}
+        className={CELEB_SEARCH_ACTION_CLASS}
+      >
+        <ExternalLink size={20} aria-hidden="true" />
+      </Link>
     </div>
   );
 }

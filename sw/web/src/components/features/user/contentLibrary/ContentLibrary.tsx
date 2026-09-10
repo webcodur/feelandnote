@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useContentLibrary } from "./useContentLibrary";
 import { useMonthScrollObserver } from "./useMonthScrollObserver";
@@ -14,6 +14,7 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import ContentLibraryControls from "./ContentLibraryControls";
 import ContentLibraryBody from "./ContentLibraryBody";
 import { cn } from "@/lib/utils";
+import ArchiveIndexToggle from "./controlBar/ArchiveIndexToggle";
 
 const READ_ONLY_DELETE = () => undefined;
 
@@ -43,6 +44,10 @@ export default function ContentLibrary({
     defaultViewMode, desktopViewMode, defaultPageSize,
     initialContents, initialContentBrief,
   });
+  const [isExpandIndexOpen, setIsExpandIndexOpen] = useState(false);
+  const toggleExpandIndex = useCallback(() => {
+    setIsExpandIndexOpen((current) => !current);
+  }, []);
   const isViewer = lib.isViewer;
   /** 셀럽 감상은 서비스 등록일이 감상 시점이 아니므로 월별로 나누지 않는다. */
   const showMonthSections = ownerKind !== "celeb";
@@ -63,14 +68,12 @@ export default function ContentLibrary({
     items: UserContentWithContent[],
     viewMode = lib.viewMode,
     effectsEnabled = true,
-    desktopPresentation = false,
   ) => (
     <ContentItemRenderer
       items={items}
       compact={compact}
       viewMode={viewMode}
       effectsEnabled={effectsEnabled}
-      desktopPresentation={desktopPresentation}
       initialContentBrief={lib.initialContentBrief}
       initialContentRecord={lib.initialContentRecord}
       onDelete={isViewer ? READ_ONLY_DELETE : lib.handleDelete}
@@ -80,6 +83,12 @@ export default function ContentLibrary({
       ownerNickname={ownerNickname}
       ownerAvatarUrl={ownerAvatarUrl}
       savedContentIds={lib.savedContentIds}
+      expandIndexPreference={isExpandIndexOpen}
+      onExpandIndexPreferenceChange={setIsExpandIndexOpen}
+      activeCategory={ownerKind === "celeb" ? lib.activeTab : undefined}
+      categoryCounts={ownerKind === "celeb" ? lib.typeCounts : undefined}
+      onCategoryChange={ownerKind === "celeb" ? lib.setActiveTab : undefined}
+      isContentRefreshing={ownerKind === "celeb" ? lib.isRefreshing : undefined}
       // 인물 서가의 목록형은 좁은 화면에서 한 장씩 옆으로 넘긴다 — 세로로 다 훑지 않게 한다
       mobileCarousel={ownerKind === "celeb"}
       onActiveContentChange={onActiveContentChange}
@@ -91,6 +100,15 @@ export default function ContentLibrary({
   const isSearching = lib.appliedSearchQuery.trim().length >= 2;
   /* 펼침 보기는 선택 목록 전체를 한 번에 받는다 — 달별 묶음과 쪽 번호는 그 안에서 뜻이 없다 */
   const isExpandView = lib.presentationViewMode === "expand";
+  const expandIndexLabel = tArchive("expandIndexTitle");
+  const renderExpandIndexToggle = (visibilityClass = "") => (
+    <ArchiveIndexToggle
+      isOpen={isExpandIndexOpen}
+      onToggle={toggleExpandIndex}
+      label={expandIndexLabel}
+      className={cn("mb-2 w-full", visibilityClass)}
+    />
+  );
   const renderContentsForMode = (
     viewMode: typeof lib.viewMode,
     effectsEnabled = true,
@@ -109,7 +127,7 @@ export default function ContentLibrary({
               inert={viewMode !== "list" ? true : undefined}
               className={cn(viewMode !== "list" && "hidden")}
             >
-              {renderItems(listItems, "list", effectsEnabled, desktopPresentation)}
+              {renderItems(listItems, "list", effectsEnabled)}
             </div>
           )}
           {expandItems.length > 0 && (
@@ -120,7 +138,7 @@ export default function ContentLibrary({
               inert={viewMode !== "expand" ? true : undefined}
               className={cn(viewMode !== "expand" && "hidden")}
             >
-              {renderItems(expandItems, "expand", effectsEnabled, desktopPresentation)}
+              {renderItems(expandItems, "expand", effectsEnabled)}
             </div>
           )}
         </>
@@ -131,7 +149,6 @@ export default function ContentLibrary({
         lib.filteredAndSortedContents,
         viewMode,
         effectsEnabled,
-        desktopPresentation,
       );
     }
     if (showMonthSections && lib.sortOption === "recent") {
@@ -146,12 +163,12 @@ export default function ContentLibrary({
             isCollapsed={lib.collapsedMonths.has(monthKey)}
             onToggle={() => lib.toggleMonth(monthKey)}
           >
-            {renderItems(items, viewMode, effectsEnabled, desktopPresentation)}
+            {renderItems(items, viewMode, effectsEnabled)}
           </MonthSection>
         );
       });
     }
-    return renderItems(lib.filteredAndSortedContents, viewMode, effectsEnabled, desktopPresentation);
+    return renderItems(lib.filteredAndSortedContents, viewMode, effectsEnabled);
   };
   // 에러/로딩 상태
   if (lib.error && !hasContents) return <ErrorState message={lib.error} onRetry={lib.loadContents} compact={compact} />;
@@ -163,34 +180,6 @@ export default function ContentLibrary({
     <div>
       {showMonthSections && <MonthTransitionIndicator currentMonthKey={currentVisibleMonth} />}
 
-      <ContentLibraryControls
-        activeTab={lib.activeTab}
-        onTabChange={lib.setActiveTab}
-        typeCounts={lib.typeCounts}
-        sortOption={lib.sortOption}
-        onSortOptionChange={lib.setSortOption}
-        reviewFilter={lib.reviewFilter}
-        onReviewFilterChange={lib.setReviewFilter}
-        viewMode={lib.viewMode}
-        onViewModeChange={lib.setViewMode}
-        responsiveDesktopViewMode={lib.responsiveDesktopViewMode}
-        isResponsiveViewUnresolved={lib.isResolvingResponsiveView}
-        isAllCollapsed={lib.isAllCollapsed}
-        onExpandAll={lib.expandAll}
-        onCollapseAll={lib.collapseAll}
-        searchQuery={lib.searchQuery}
-        onSearchChange={lib.setSearchQuery}
-        onSearch={lib.executeSearch}
-        onClearSearch={lib.clearSearch}
-        hasAppliedSearch={lib.appliedSearchQuery.trim().length >= 2}
-        showMonthControls={showMonthSections}
-        allowRatingSort={ownerKind === "member"}
-        hideReviewFilter={hideReviewFilter}
-        compact={hideControlWrapper}
-        hideWrapper={hideControlWrapper}
-        trailing={filterTrailing}
-      />
-
       {lib.typeCountsError && (
         <div role="alert" className="flex justify-center px-3">
           <ErrorState
@@ -200,6 +189,49 @@ export default function ContentLibrary({
           />
         </div>
       )}
+
+      <div className={ownerKind === "celeb" ? "mx-auto w-fit max-w-full" : undefined}>
+        <ContentLibraryControls
+          ownerKind={ownerKind}
+          categoryItems={lib.contents.map((item) => ({ type: item.content.type }))}
+          activeTab={lib.activeTab}
+          onTabChange={lib.setActiveTab}
+          typeCounts={lib.typeCounts}
+          sortOption={lib.sortOption}
+          onSortOptionChange={lib.setSortOption}
+          reviewFilter={lib.reviewFilter}
+          onReviewFilterChange={lib.setReviewFilter}
+          viewMode={lib.viewMode}
+          onViewModeChange={lib.setViewMode}
+          responsiveDesktopViewMode={lib.responsiveDesktopViewMode}
+          isResponsiveViewUnresolved={lib.isResolvingResponsiveView}
+          isExpandIndexOpen={isExpandIndexOpen}
+          onExpandIndexToggle={toggleExpandIndex}
+          isAllCollapsed={lib.isAllCollapsed}
+          onExpandAll={lib.expandAll}
+          onCollapseAll={lib.collapseAll}
+          searchQuery={lib.searchQuery}
+          onSearchChange={lib.setSearchQuery}
+          onSearch={lib.executeSearch}
+          onClearSearch={lib.clearSearch}
+          hasAppliedSearch={lib.appliedSearchQuery.trim().length >= 2}
+          showMonthControls={showMonthSections}
+          allowRatingSort={ownerKind === "member"}
+          hideReviewFilter={hideReviewFilter}
+          compact={hideControlWrapper}
+          hideWrapper={hideControlWrapper}
+          trailing={filterTrailing}
+        />
+
+        {ownerKind === "celeb" && lib.isResolvingResponsiveView && lib.responsiveDesktopViewMode ? (
+          <>
+            {lib.viewMode === "expand" && renderExpandIndexToggle("md:hidden")}
+            {lib.responsiveDesktopViewMode === "expand" && renderExpandIndexToggle("hidden md:block")}
+          </>
+        ) : ownerKind === "celeb" && lib.viewMode === "expand" ? (
+          renderExpandIndexToggle()
+        ) : null}
+      </div>
 
       <ContentLibraryBody
         animateHeight={ownerKind === "celeb"}

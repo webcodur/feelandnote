@@ -3,7 +3,7 @@
   lg:hidden fixed overlays
 */
 import Image from "next/image";
-import type { RoundAction, RoundRecord, Command } from "@/lib/game/types";
+import type { RoundAction, RoundRecord } from "@/lib/game/types";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getBattleCommandLabel } from "../../i18n";
 import { CMD_ICON, CMD_STYLE } from "../types";

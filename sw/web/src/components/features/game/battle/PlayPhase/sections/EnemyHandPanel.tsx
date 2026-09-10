@@ -25,7 +25,7 @@ export default function EnemyHandPanel({
   aiHand, aiOthers, aiOthersDiscard,
   aiCaptain, aiCaptainInDiscard,
   aiSelectedCardId, isClash, hardMode,
-  locale, text, formatHandCount,
+  text, formatHandCount,
   onShowCaptainInfo, onCardInfo,
 }: Props) {
   const aiDiscard = [...aiOthersDiscard, ...(aiCaptainInDiscard ? [aiCaptainInDiscard] : [])];

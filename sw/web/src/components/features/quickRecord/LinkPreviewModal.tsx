@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, ExternalLink, Loader2, Globe, BookOpen, LayoutTemplate } from "lucide-react";
+import { X, ExternalLink, Loader2, Globe, BookOpen } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
 import { fetchUrlContent } from "@/actions/search/fetchUrlContent";
 import { useTranslations } from "next-intl";
@@ -27,24 +27,27 @@ export default function LinkPreviewModal({
   const [iframeError, setIframeError] = useState(false);
 
   // Reset state
+  const loadPreview = useEffectEvent(async () => {
+    setMode("READER");
+    setReaderContent(null);
+    setIframeError(false);
+    setIsLoading(true);
+
+    try {
+      const data = await fetchUrlContent(url);
+      setReaderContent(data);
+    } catch (err) {
+      console.error(err);
+      setReaderContent({ error: "Failed to load content" });
+    } finally {
+      setIsLoading(false);
+    }
+  });
+
   useEffect(() => {
     if (isOpen) {
-      setMode('READER'); // Default to Reader Mode
-      setReaderContent(null);
-      setIframeError(false);
-      setIsLoading(true);
       document.body.style.overflow = "hidden";
-      
-      // Fetch for Reader Mode immediately
-      fetchUrlContent(url).then(data => {
-          setReaderContent(data);
-          setIsLoading(false);
-      }).catch(err => {
-          console.error(err);
-          setReaderContent({ error: "Failed to load content" });
-          setIsLoading(false);
-      });
-
+      loadPreview();
     } else {
       document.body.style.overflow = "";
     }

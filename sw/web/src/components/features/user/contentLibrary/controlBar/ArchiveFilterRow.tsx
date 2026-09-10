@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { ArrowUpDown, LibraryBig, MessageSquareText } from "lucide-react";
+import { LibraryBig, MessageSquareText } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import FilterChip from "@/components/shared/filters/FilterChip";
@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
 import type { ContentTypeCounts } from "@/types/content";
 
 import type { ReviewFilter, SortOption } from "../contentLibraryTypes";
-import { REVIEW_FILTER_OPTIONS, SORT_OPTIONS, TAB_OPTIONS } from "./constants";
+import ArchiveSortControl from "./ArchiveSortControl";
+import { REVIEW_FILTER_OPTIONS, TAB_OPTIONS } from "./constants";
 
 interface ArchiveFilterRowProps {
   activeTab: CategoryId;
@@ -32,7 +33,7 @@ interface ArchiveFilterRowProps {
   trailing?: ReactNode;
 }
 
-type FilterType = "category" | "sort" | "review";
+type FilterType = "category" | "review";
 
 export default function ArchiveFilterRow({
   activeTab,
@@ -67,22 +68,12 @@ export default function ArchiveFilterRow({
         : undefined,
     };
   });
-  const availableSortOptions = allowRatingSort
-    ? SORT_OPTIONS
-    : SORT_OPTIONS.filter(({ value }) => value !== "rating_desc" && value !== "rating_asc");
-  const sortOptions: FilterOption[] = availableSortOptions.map(({ value, key }) => ({
-    value,
-    label: t(`sort.${key}`),
-  }));
   const reviewOptions: FilterOption[] = REVIEW_FILTER_OPTIONS.map(({ value, key }) => ({
     value,
     label: t(`review.${key}`),
   }));
   const categoryLabel = tCategory(
     TAB_OPTIONS.find((tab) => tab.value === activeTab)?.value ?? "all",
-  );
-  const sortLabel = t(
-    `sort.${availableSortOptions.find((option) => option.value === sortOption)?.key ?? "recent"}`,
   );
   const reviewLabel = t(
     `review.${REVIEW_FILTER_OPTIONS.find((option) => option.value === reviewFilter)?.key ?? "all"}`,
@@ -115,14 +106,11 @@ export default function ArchiveFilterRow({
               onSelect={(value) => onReviewFilterChange(value as ReviewFilter)}
             />
           )}
-          <FilterChipDropdown
-            label={t("filter.sort")}
-            value={sortLabel}
-            icon={<ArrowUpDown size={18} strokeWidth={1.7} aria-hidden />}
-            isActive={sortOption !== "recent"}
-            options={sortOptions}
-            currentValue={sortOption}
-            onSelect={(value) => onSortOptionChange(value as SortOption)}
+          <ArchiveSortControl
+            sortOption={sortOption}
+            onSortOptionChange={onSortOptionChange}
+            allowRatingSort={allowRatingSort}
+            placement="desktop"
           />
         </div>
 
@@ -149,12 +137,11 @@ export default function ArchiveFilterRow({
               className="min-w-0"
             />
           )}
-          <FilterChip
-            label={t("filter.sort")}
-            value={sortLabel}
-            icon={<ArrowUpDown size={16} strokeWidth={1.7} aria-hidden />}
-            isActive={sortOption !== "recent"}
-            onClick={() => setActiveFilter("sort")}
+          <ArchiveSortControl
+            sortOption={sortOption}
+            onSortOptionChange={onSortOptionChange}
+            allowRatingSort={allowRatingSort}
+            placement="mobile"
             className="min-w-0"
           />
         </div>
@@ -166,7 +153,6 @@ export default function ArchiveFilterRow({
       {!hideReviewFilter && (
         <FilterModal title={t("filter.review")} isOpen={activeFilter === "review"} current={reviewFilter} options={reviewOptions} onClose={() => setActiveFilter(null)} onChange={(value) => onReviewFilterChange(value as ReviewFilter)} />
       )}
-      <FilterModal title={t("filter.sort")} isOpen={activeFilter === "sort"} current={sortOption} options={sortOptions} onClose={() => setActiveFilter(null)} onChange={(value) => onSortOptionChange(value as SortOption)} />
     </>
   );
 }

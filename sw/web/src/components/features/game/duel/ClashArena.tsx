@@ -7,6 +7,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Swords, ScrollText, Landmark } from "lucide-react";
 import type { BattleCard, Command } from "@/lib/game/types";
@@ -36,7 +37,7 @@ function Avatar({ card, side }: { card: BattleCard; side: "left" | "right" }) {
       >
         {card.avatarUrl ? (
           <BlurDissolve className="w-full h-full">
-            <img src={card.avatarUrl} alt={card.nickname} className="w-full h-full object-cover" />
+            <Image src={card.avatarUrl} alt={card.nickname} width={64} height={64} unoptimized className="w-full h-full object-cover" />
           </BlurDissolve>
         ) : (
           <div className="w-full h-full bg-[#2a2720] flex items-center justify-center text-white/30 text-lg font-bold">

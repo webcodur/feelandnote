@@ -510,8 +510,6 @@ function drawEagle(c: CanvasRenderingContext2D, s: SceneContext, t: number) {
   const tilt = dx * 0.3;
 
   const span = W * 0.028;
-  const wingDip = Math.sin(t * 0.6) * span * 0.04;
-
   c.save();
   c.translate(cx, cy);
   c.rotate(tilt);

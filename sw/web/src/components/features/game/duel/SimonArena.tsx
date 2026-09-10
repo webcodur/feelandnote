@@ -93,7 +93,9 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
 
   const showTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const onCompleteRef = useRef(onComplete);
-  onCompleteRef.current = onComplete;
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   // ─── 타이머 정리 헬퍼 ───
   const clearShowTimers = useCallback(() => {
@@ -107,6 +109,7 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
   // ─── Intro (탭-투-스타트) ───
   const dismissIntro = useCallback(() => {
     if (phase !== "intro") return;
+    setCountdown(3);
     setPhase("countdown");
   }, [phase]);
 
@@ -142,7 +145,6 @@ export default function SimonArena({ playerCard, aiCard, onComplete }: Props) {
   // ─── 카운트다운 → 1라운드 시작 ───
   useEffect(() => {
     if (phase !== "countdown") return;
-    setCountdown(3);
     const interval = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {

@@ -11,6 +11,63 @@ interface LyreBannerProps {
   subtitle?: string;
 }
 
+class LyreGuitarString {
+  x: number;
+  baseX: number;
+  velocity: number;
+  amplitude: number;
+  frequency: number;
+
+  constructor(
+    x: number,
+    index: number,
+    private readonly getHeight: () => number,
+    private readonly ctx: CanvasRenderingContext2D,
+  ) {
+    this.baseX = x;
+    this.x = x;
+    this.velocity = 0;
+    this.amplitude = 0;
+    this.frequency = 0.1 + index * 0.02;
+  }
+
+  update(mouseX: number, mouseY: number, prevMouseX: number) {
+    const canvasHeight = this.getHeight();
+    const withinY = mouseY > canvasHeight * 0.1 && mouseY < canvasHeight * 0.9;
+
+    if (withinY) {
+      if ((prevMouseX < this.baseX && mouseX > this.baseX) ||
+          (prevMouseX > this.baseX && mouseX < this.baseX)) {
+        const force = Math.abs(mouseX - prevMouseX);
+        this.velocity = Math.min(20, Math.max(-20, (mouseX - prevMouseX) * 0.5));
+        this.amplitude = Math.min(50, force * 2);
+      }
+    }
+
+    const force = -0.1 * (this.x - this.baseX);
+    this.velocity += force;
+    this.velocity *= 0.95;
+    this.x += this.velocity;
+  }
+
+  draw() {
+    const canvasHeight = this.getHeight();
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.x, 0);
+    this.ctx.bezierCurveTo(
+      this.x + this.velocity * 5, canvasHeight * 0.33,
+      this.x - this.velocity * 5, canvasHeight * 0.66,
+      this.x, canvasHeight,
+    );
+
+    const activity = Math.abs(this.velocity);
+    const alpha = 0.2 + Math.min(0.8, activity * 0.1);
+    this.ctx.strokeStyle = `rgba(212, 175, 55, ${alpha})`;
+    this.ctx.lineWidth = 1 + activity * 0.2;
+    this.ctx.stroke();
+  }
+}
+
 export default function LyreBanner({
   children,
   height = 700,
@@ -29,67 +86,12 @@ export default function LyreBanner({
     let canvasWidth = 0;
     let canvasHeight = 0;
     let animationFrameId: number;
-    let tick = 0;
 
     // String Physics
     const STRINGS = compact ? 5 : 7;
     const SPACING = compact ? 60 : 80;
 
-    class GuitarString {
-       x: number;
-       baseX: number;
-       velocity: number;
-       amplitude: number;
-       frequency: number;
-
-       constructor(x: number, index: number) {
-          this.baseX = x;
-          this.x = x;
-          this.velocity = 0;
-          this.amplitude = 0;
-          this.frequency = 0.1 + index * 0.02;
-       }
-
-       update(mouseX: number, mouseY: number, prevMouseX: number) {
-          const withinY = mouseY > canvasHeight * 0.1 && mouseY < canvasHeight * 0.9;
-
-          if (withinY) {
-             if ((prevMouseX < this.baseX && mouseX > this.baseX) ||
-                 (prevMouseX > this.baseX && mouseX < this.baseX)) {
-                   const force = Math.abs(mouseX - prevMouseX);
-                   this.velocity = Math.min(20, Math.max(-20, (mouseX - prevMouseX) * 0.5));
-                   this.amplitude = Math.min(50, force * 2);
-             }
-          }
-
-          const force = -0.1 * (this.x - this.baseX);
-          this.velocity += force;
-          this.velocity *= 0.95;
-          this.x += this.velocity;
-       }
-
-       draw() {
-          if (!ctx) return;
-
-          ctx.beginPath();
-          ctx.moveTo(this.x, 0);
-
-          ctx.bezierCurveTo(
-             this.x + this.velocity * 5, canvasHeight * 0.33,
-             this.x - this.velocity * 5, canvasHeight * 0.66,
-             this.x, canvasHeight
-          );
-
-          const activity = Math.abs(this.velocity);
-          const alpha = 0.2 + Math.min(0.8, activity * 0.1);
-
-          ctx.strokeStyle = `rgba(212, 175, 55, ${alpha})`;
-          ctx.lineWidth = 1 + activity * 0.2;
-          ctx.stroke();
-       }
-    }
-
-    let strings: GuitarString[] = [];
+    let strings: LyreGuitarString[] = [];
     const init = () => {
       canvasWidth = canvas.parentElement?.clientWidth || window.innerWidth;
       canvasHeight = canvas.parentElement?.clientHeight || height;
@@ -101,7 +103,7 @@ export default function LyreBanner({
       const startX = (canvasWidth - totalWidth) / 2;
 
       for (let i = 0; i < STRINGS; i++) {
-         strings.push(new GuitarString(startX + i * SPACING, i));
+         strings.push(new LyreGuitarString(startX + i * SPACING, i, () => canvasHeight, ctx));
       }
     };
 
@@ -127,7 +129,6 @@ export default function LyreBanner({
     };
 
     const animate = () => {
-      tick++;
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       // Vertical Gradient Background

@@ -1,6 +1,7 @@
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
+import { CELEB_EXPAND_INDEX_LIMIT } from "@/constants/contentLibrary";
 import type { ContentType } from "@/types/database";
 
 import {
@@ -10,8 +11,6 @@ import {
   type SortOption,
   type ViewMode,
 } from "./contentLibraryTypes";
-
-const EXPAND_LIMIT = 200;
 
 type RequestSortOption = Extract<
   SortOption,
@@ -91,7 +90,7 @@ export function createContentRequest(input: ContentRequestInput): ContentRequest
   return {
     type: CATEGORY_ID_TO_TYPE[input.activeTab],
     page: isExpand || input.compact ? 1 : input.currentPage,
-    limit: isExpand ? EXPAND_LIMIT : input.maxItems || input.pageSize,
+    limit: isExpand ? CELEB_EXPAND_INDEX_LIMIT : input.maxItems || input.pageSize,
     search: trimmedSearch.length >= 2 ? trimmedSearch : undefined,
     hasReview: input.reviewFilter === "all"
       ? undefined
@@ -101,7 +100,8 @@ export function createContentRequest(input: ContentRequestInput): ContentRequest
 }
 
 export function isInitialSeedQuery(options: ContentLibraryDataOptions): boolean {
-  return options.activeTab === "all"
+  const initialCategory = options.ownerKind === "celeb" ? "book" : "all";
+  return options.activeTab === initialCategory
     && options.currentPage === 1
     && options.pageSize === options.defaultPageSize
     && options.appliedSearchQuery.trim().length < 2

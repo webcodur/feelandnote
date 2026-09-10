@@ -18,6 +18,8 @@ interface Props {
   current: number;
   onChange: (next: number) => void;
   onPlaceSelect: (id: string) => void;
+  onExpand: () => void;
+  expandLabel: string;
 }
 
 const SWIPE_MIN = 40;
@@ -27,6 +29,8 @@ export default function JourneyEventCarousel({
   current,
   onChange,
   onPlaceSelect,
+  onExpand,
+  expandLabel,
 }: Props) {
   const t = useTranslations("celebPage");
   const yearCopy = timelineYearCopy(t);
@@ -105,7 +109,7 @@ export default function JourneyEventCarousel({
       data-timeline-carousel
       data-timeline-index={current}
       data-timeline-total={total}
-      className="h-[360px] min-w-0 overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary/35 md:h-[396px]"
+      className="h-[384px] min-w-0 overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary/35 md:h-[420px]"
     >
       <div
         ref={trackRef}
@@ -140,6 +144,8 @@ export default function JourneyEventCarousel({
           onPlaceSelect={() => {
             if (!swipeRef.current.moved) onPlaceSelect(event.id);
           }}
+          onExpand={onExpand}
+          expandLabel={expandLabel}
         />
       </div>
     </div>

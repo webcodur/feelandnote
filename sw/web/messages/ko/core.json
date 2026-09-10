@@ -478,7 +478,8 @@
       "sectionContent": "콘텐츠",
       "sectionOther": "기타",
       "follower": "팔로워",
-      "posts": "게시물 {count}개"
+      "posts": "게시물 {count}개",
+      "showMore": "더보기"
     },
     "content": {
       "addToRecord": "기록하기",
@@ -514,7 +515,8 @@
       "reality": {
         "myth": "가상",
         "both": "사실 | 가상"
-      }
+      },
+      "viewCard": "인물 카드 보기"
     },
     "celebViews": {
       "title": "이 프로필을 본 사람",

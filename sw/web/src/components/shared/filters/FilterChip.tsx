@@ -12,6 +12,7 @@ import { FILTER_CHIP_STYLES } from "@/constants/filterStyles";
 interface FilterChipProps {
   label: string;
   value: string;
+  valueContent?: ReactNode;
   isActive: boolean;
   isLoading?: boolean;
   onClick: () => void;
@@ -27,6 +28,7 @@ export default function FilterChip({
   onClick,
   className = "",
   icon,
+  valueContent,
 }: FilterChipProps) {
   return (
     <Button
@@ -57,9 +59,15 @@ export default function FilterChip({
 
         {/* 값 섹션 */}
         <div className="flex min-w-0 flex-1 items-center justify-center bg-white/[0.02] px-2.5">
-          <span className={`text-[11px] font-sans font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
-            {value}
-          </span>
+          {valueContent ? (
+            <span className={`flex shrink-0 items-center justify-center ${isActive ? 'text-accent' : 'text-text-primary'}`}>
+              {valueContent}
+            </span>
+          ) : (
+            <span className={`text-[11px] font-sans font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
+              {value}
+            </span>
+          )}
         </div>
       </div>
     </Button>

@@ -16,6 +16,8 @@ interface VoiceBadgeProps {
   playing?: boolean;
   /** 음파 펄스 트리거 — 값이 바뀔 때마다 링 애니메이션 발동 */
   pulse?: number;
+  /** 외부 액션 버튼 안에서 배경·테두리 없이 스피커 아이콘만 표시한다. */
+  bare?: boolean;
   className?: string;
 }
 
@@ -36,30 +38,38 @@ export default function VoiceBadge({
   active = true,
   playing = false,
   pulse = 0,
+  bare = false,
   className = "",
 }: VoiceBadgeProps) {
   const cfg = sizeConfig[size];
-  const stateClass = playing
-    ? "bg-black/70 border-emerald-500/50 animate-[voiceGlow_2s_ease-in-out_infinite]"
-    : active
-      ? "bg-black/60 border-emerald-500/25"
-      : "bg-black/60 border-white/15";
+  const stateClass = bare
+    ? ""
+    : playing
+      ? "bg-black/70 border-emerald-500/50 animate-[voiceGlow_2s_ease-in-out_infinite]"
+      : active
+        ? "bg-black/60 border-emerald-500/25"
+        : "bg-black/60 border-white/15";
   const iconClass = playing
     ? "text-emerald-400"
     : active
       ? "text-emerald-400/60"
       : "text-white/60";
+  const containerClass = bare
+    ? "relative flex items-center justify-center"
+    : `relative flex items-center justify-center ${cfg.badge} rounded-full border shadow-sm`;
+  const iconSize = bare ? "h-4 w-4" : cfg.icon;
+  const pulseSize = bare ? "h-4 w-4" : cfg.ring;
 
   return (
-    <div className={`relative flex items-center justify-center ${cfg.badge} rounded-full border shadow-sm ${stateClass} ${className}`}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className={`${cfg.icon} ${iconClass}`}>
+    <div className={`${containerClass} ${stateClass} ${className}`}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className={`${iconSize} ${iconClass}`}>
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
         <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
       </svg>
       {active && pulse > 0 && (
         <span
           key={pulse}
-          className={`absolute ${cfg.ring} rounded-full border-2 border-emerald-400 animate-[voiceRing_800ms_ease-out_forwards] pointer-events-none`}
+          className={`absolute ${pulseSize} rounded-full border-2 border-emerald-400 animate-[voiceRing_800ms_ease-out_forwards] pointer-events-none`}
         />
       )}
     </div>

@@ -8,11 +8,12 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Info, ExternalLink, Eye } from "lucide-react";
+import { ExternalLink, Eye } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import LightCelebModal from "@/components/features/celeb/modals/LightCelebModal";
 import CelebViewsModal from "@/components/features/celeb/modals/CelebViewsModal";
+import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
@@ -295,12 +296,12 @@ export default function CelebCard({
                       <ExternalLink size={16} />
                     </Link>
                   )}
-                  <button
+                  <CelebDetailCardButton
+                    label={`${t("viewCard")} — ${displayNickname}`}
                     onClick={handleInfoClick}
-                    className="flex-1 flex items-center justify-center py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white transition-colors"
-                  >
-                    <Info size={16} />
-                  </button>
+                    size="stretch"
+                    iconSize={16}
+                  />
                 </div>
               </div>
             )}

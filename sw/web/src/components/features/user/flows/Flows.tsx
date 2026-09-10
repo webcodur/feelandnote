@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Plus, Layers } from "lucide-react";
 import { getFlows } from "@/actions/flows";
@@ -27,11 +27,7 @@ export default function Flows({ userId, isOwner }: FlowsProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [showEditor, setShowEditor] = useState(false);
 
-  useEffect(() => {
-    loadFlows();
-  }, [userId]);
-
-  const loadFlows = async () => {
+  const loadFlows = useCallback(async () => {
     setIsLoading(true);
     try {
       const data = await getFlows(userId);
@@ -41,7 +37,11 @@ export default function Flows({ userId, isOwner }: FlowsProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    loadFlows();
+  }, [loadFlows]);
 
   const handleFlowClick = (flowId: string) => {
     router.push(`/${userId}/reading/collections/${flowId}`);

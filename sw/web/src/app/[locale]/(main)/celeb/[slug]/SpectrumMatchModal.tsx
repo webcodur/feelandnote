@@ -8,7 +8,7 @@
 
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
-import { ArrowRight, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import {
@@ -36,6 +36,7 @@ import type {
   SpectrumMatchCategory,
 } from "@/lib/spectrum/utils";
 import { cn } from "@/lib/utils";
+import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 import SpectrumComparisonGraphic, {
   MatchInsightNote,
   useMatchInsight,
@@ -304,16 +305,14 @@ export default function SpectrumMatchModal({
                     className="ring-0 md:h-14 md:w-14"
                   />
                 </div>
-                <button
-                  type="button"
+                <CelebDetailCardButton
+                  label={t("spectrumMatchModalViewPerson")}
+                  loading={loading}
                   onClick={onViewPerson}
-                  disabled={loading}
-                  aria-label={t("spectrumMatchModalViewPerson")}
-                  title={t("spectrumMatchModalViewPerson")}
-                  className="absolute -bottom-1.5 -end-2 flex h-8 w-8 items-center justify-center rounded-full border border-accent bg-accent text-bg-main shadow-[0_2px_10px_rgba(0,0,0,0.55)] hover:bg-accent-hover disabled:cursor-wait disabled:opacity-50"
-                >
-                  <ArrowRight size={17} strokeWidth={2.6} aria-hidden />
-                </button>
+                  size="compact"
+                  iconSize={17}
+                  className="absolute -bottom-1.5 -end-2 shadow-[0_2px_10px_rgba(0,0,0,0.55)]"
+                />
               </div>
               <p className="mt-1.5 text-balance break-keep text-sm font-bold text-text-primary md:text-base">
                 {match.nickname}

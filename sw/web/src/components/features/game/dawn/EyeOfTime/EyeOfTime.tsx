@@ -59,7 +59,6 @@ export default function EyeOfTime({
   const [position, setPosition] = useState(0.5);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isHolding, setIsHolding] = useState(false);
 
   const posRef = useRef(0.5);
   const velRef = useRef(0);
@@ -70,7 +69,7 @@ export default function EyeOfTime({
   const rafRef = useRef(0);
   const centerFramesRef = useRef(0);
   const totalFramesRef = useRef(0);
-  const paramsRef = useRef(getDifficultyParams(fullRange));
+  const [params, setParams] = useState(() => getDifficultyParams(fullRange));
   const holdingRef = useRef(false); // 누르고 있는지
   const holdStartRef = useRef(0); // 누르기 시작한 시각(ms)
 
@@ -129,7 +128,7 @@ export default function EyeOfTime({
     }
     // 범위 폭 기반 난이도 산출 후 균형 게임 즉시 시작
     const params = getDifficultyParams(rangeWidth);
-    paramsRef.current = params;
+    setParams(params);
     posRef.current = 0.5;
     velRef.current = 0;
     windRef.current = 0;
@@ -150,12 +149,10 @@ export default function EyeOfTime({
     if (result || holdingRef.current) return;
     holdingRef.current = true;
     holdStartRef.current = performance.now();
-    setIsHolding(true);
   }, [result]);
 
   const endHold = useCallback(() => {
     holdingRef.current = false;
-    setIsHolding(false);
   }, []);
 
   // ── 글로벌 입력 (키보드 + 포인터) ──
@@ -190,7 +187,7 @@ export default function EyeOfTime({
   // ── 메인 게임 루프 ──
   useEffect(() => {
     if (!isPlaying || result) return;
-    const p = paramsRef.current;
+    const p = params;
 
     const animate = (time: number) => {
       if (!lastTimeRef.current) {
@@ -262,7 +259,6 @@ export default function EyeOfTime({
         }
         setIsPlaying(false);
         holdingRef.current = false;
-        setIsHolding(false);
         return;
       }
 
@@ -271,7 +267,7 @@ export default function EyeOfTime({
 
     rafRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [isPlaying, result]);
+  }, [isPlaying, result, params]);
 
   // ── 결과 콜백 ──
   const handleResultTap = useCallback(() => {
@@ -344,7 +340,7 @@ export default function EyeOfTime({
             timeLeft={timeLeft}
             isPlaying={isPlaying}
             rangeWidth={rangeWidth}
-            params={paramsRef.current}
+            params={params}
             celebName={celebName}
             correctYear={correctYear}
             handleResultTap={handleResultTap}

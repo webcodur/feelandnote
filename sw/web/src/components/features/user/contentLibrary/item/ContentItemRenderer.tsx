@@ -14,6 +14,8 @@ import { updateUserContentRating } from "@/actions/contents/updateRating";
 import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ViewMode } from "../contentLibraryTypes";
+import type { CategoryId } from "@/constants/categories";
+import type { ContentTypeCounts } from "@/types/content";
 import { getLocalizedContent } from "@/lib/utils/editions";
 import { useLocale } from "next-intl";
 import ExpandDetailView from "../expand/ExpandDetailView";
@@ -39,9 +41,15 @@ interface ContentItemRendererProps {
   /** 좁은 화면에서 목록형 카드를 한 장씩 옆으로 넘기게 한다 */
   mobileCarousel?: boolean;
   effectsEnabled?: boolean;
-  desktopPresentation?: boolean;
   initialContentBrief?: ContentBrief | null;
   initialContentRecord?: UserContentWithContent;
+  /** Shared list-index preference for the expanded presentation. */
+  expandIndexPreference?: boolean | null;
+  onExpandIndexPreferenceChange?: (preference: boolean) => void;
+  activeCategory?: CategoryId;
+  categoryCounts?: ContentTypeCounts | null;
+  onCategoryChange?: (category: CategoryId) => void;
+  isContentRefreshing?: boolean;
   /** 펼침 보기에서 지금 보는 작품이 바뀔 때마다 알린다("전체 보기" 자리 맞춤용) */
   onActiveContentChange?: (contentId: string | null, index: number) => void;
 }
@@ -58,10 +66,15 @@ function ContentItemRenderer({
   savedContentIds,
   mobileCarousel = false,
   effectsEnabled = true,
-  desktopPresentation = false,
   initialContentBrief,
   initialContentRecord,
   targetUserId,
+  expandIndexPreference,
+  onExpandIndexPreferenceChange,
+  activeCategory,
+  categoryCounts,
+  onCategoryChange,
+  isContentRefreshing,
   onActiveContentChange,
 }: ContentItemRendererProps) {
   // 별점 편집 모달 상태
@@ -95,10 +108,15 @@ function ContentItemRenderer({
         ownerNickname={ownerNickname}
         ownerAvatarUrl={ownerAvatarUrl}
         isActive={effectsEnabled}
-        desktopPresentation={desktopPresentation}
         initialContentBrief={initialContentBrief}
         initialContentRecord={initialContentRecord}
         celebId={targetUserId}
+        expandIndexPreference={expandIndexPreference}
+        onExpandIndexPreferenceChange={onExpandIndexPreferenceChange}
+        activeCategory={activeCategory}
+        categoryCounts={categoryCounts}
+        onCategoryChange={onCategoryChange}
+        isContentRefreshing={isContentRefreshing}
         onActiveContentChange={onActiveContentChange}
       />
     );

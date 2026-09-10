@@ -209,12 +209,8 @@ export default function InfiniteCorridorBackground({
         // Project corners
         const tl0 = project(-WALL_HALF_W, WALL_TOP, z0, vpX, vpY, fovEff);
         const tr0 = project(WALL_HALF_W, WALL_TOP, z0, vpX, vpY, fovEff);
-        const bl0 = project(-WALL_HALF_W, WALL_BOT, z0, vpX, vpY, fovEff);
-        const br0 = project(WALL_HALF_W, WALL_BOT, z0, vpX, vpY, fovEff);
         const tl1 = project(-WALL_HALF_W, WALL_TOP, z1, vpX, vpY, fovEff);
         const tr1 = project(WALL_HALF_W, WALL_TOP, z1, vpX, vpY, fovEff);
-        const bl1 = project(-WALL_HALF_W, WALL_BOT, z1, vpX, vpY, fovEff);
-        const br1 = project(WALL_HALF_W, WALL_BOT, z1, vpX, vpY, fovEff);
 
         // 0. Wings — 벽 너머 확장 영역 (회랑 요소 뒤에 깔림)
         drawWings(ctx, z0, z1, alpha);

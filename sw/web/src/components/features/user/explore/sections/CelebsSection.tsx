@@ -46,7 +46,6 @@ export default function CelebsSection({
         hideHeader={false}
         syncToUrl
         includeInactive={includeInactive}
-        onIncludeInactiveChange={setIncludeInactive}
       />
 
       {/* 비활성화 셀럽 포함 토글 버튼 (숨김) */}

@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 export default function PlacementSlot({
   onClick,
   disabled,
-  position,
   isActive,
   isCorrectReveal,
   isEliminated,

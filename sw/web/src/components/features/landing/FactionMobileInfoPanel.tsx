@@ -1,6 +1,8 @@
 "use client";
 
-import { LoaderCircle, UserRound, Users } from "lucide-react";
+import { UserRound, Users } from "lucide-react";
+
+import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 
 interface FactionMobileInfoPanelProps {
   kind: "team" | "celeb";
@@ -63,26 +65,20 @@ export default function FactionMobileInfoPanel({
         ) : null}
 
         {meta ? (
-          <p className="mt-4 font-mono text-[11px] font-bold tracking-wide text-white/45">
+          <p className="mt-4 font-mono text-[11px] font-bold tracking-wide text-white/75">
             {meta}
           </p>
         ) : null}
 
         {onOpenDetail && detailLabel ? (
-          <button
-            type="button"
+          <CelebDetailCardButton
+            label={detailLabel}
+            loading={detailLoading}
             onClick={onOpenDetail}
-            disabled={detailLoading}
-            aria-busy={detailLoading}
-            className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/[0.035] px-4 text-sm font-black text-white/85 hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/15 disabled:cursor-wait disabled:opacity-60"
-          >
-            {detailLoading ? (
-              <LoaderCircle size={16} className="animate-spin" aria-hidden />
-            ) : (
-              <UserRound size={16} aria-hidden />
-            )}
-            {detailLabel}
-          </button>
+            size="panel"
+            showLabel
+            className="mt-5"
+          />
         ) : null}
 
         {detailError ? (
