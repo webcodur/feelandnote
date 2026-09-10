@@ -15,6 +15,8 @@ interface Props {
 }
 
 export const revalidate = false;
+// focus deep-link는 요청마다 읽어야 하므로 기록 페이지는 명시적으로 동적 렌더링한다.
+export const dynamic = "force-dynamic";
 export function generateStaticParams() { return []; }
 
 const getPage = cache(async (slug: string, locale: string, page: string) => {
