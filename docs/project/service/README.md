@@ -103,7 +103,8 @@
 접기·펼치기 UI는 회원 기록에만 제공한다. `contents.metadata`는 책·영상 기준 열에 여덟이 비어 있고 같은 값이
 출처마다 다른 이름(`publishDate`/`pubdate`/`publishedDate`)으로 들어 있어, 이 함수가 이름을 하나로
 모은 뒤 화면에 넘긴다. 음악은 iTunes 출처가 다수라 전용 칸에 부른 사람·갈래·맛보기·듣기 링크를 모은다.
-소개 본문은 요청 locale의 `content_locales` 값만 우선하며, 값이 없을 때도 같은 언어를 돌려주는 외부 출처만 쓴다.
+BOOK 소개는 저장된 번역문을 그대로 표시하거나, 소개값에 지정된 외부 출처에서 선택 ISBN의 본문을 조회·캐시한다. 출처 선정과 기존 소개 전환은 [콘텐츠 등록 규칙](../celeb/celeb-02-02-content-registration.md#locale)이 쥔다.
+그 외 콘텐츠의 소개 본문은 요청 locale의 `content_locales` 값만 우선하며, 값이 없을 때도 같은 언어를 돌려주는 외부 출처만 쓴다.
 다른 언어의 소개를 대체 노출하지 않고 소개 없음 상태로 남긴다.
 
 **인물 서가의 클라이언트 재조회는 `getPublicCelebContents`를 쓴다.** `getPublicViewerContents`는

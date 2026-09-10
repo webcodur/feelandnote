@@ -1,40 +1,26 @@
 'use server'
 
-import { getContentBrief } from '@/actions/contents/getContentBrief'
-import {
-  getFigureBooksForCeleb,
-  type FigureBookContent,
-} from './getFigureBooks'
+import { getBookIntroduction } from '@/actions/contents/fetchBookMetadata'
+import { getFigureBooksForCeleb, type FigureBookContent } from './getFigureBooks'
 
 export async function getFigureBookPresentationsForCeleb(
   celebId: string,
   locale: string = 'ko',
 ): Promise<FigureBookContent[]> {
   const sources = await getFigureBooksForCeleb(celebId, locale, true)
-  const missingDescriptions = sources.filter((source) => (
-    source.editions.some((edition) => !edition.description)
-  ))
-  if (missingDescriptions.length === 0) return sources
-
-  const briefs = await Promise.all(
-    missingDescriptions.map(async (source) => [
-      source.id,
-      await getContentBrief(source.id, locale),
-    ] as const),
-  )
-  const briefById = new Map(briefs)
-
-  return sources.map((source) => {
-    const brief = briefById.get(source.id)
-    if (!brief) return source
-
-    return {
+  // 첫 작품의 첫 판본만 서버에서 준비한다. 나머지는 선택할 때 같은 ISBN 캐시를 읽는다.
+  const first = sources.find((source) => source.relationType === 'appearance' && source.editions.length)
+  const edition = first?.editions[0]
+  if (!first || !edition?.bookIntroduction) return sources
+  try {
+    const { isbn, source, sourceUrl, legacyFallback } = edition.bookIntroduction
+    const description = await getBookIntroduction(isbn, locale, source, sourceUrl, legacyFallback)
+    return sources.map((source) => source.id !== first.id ? source : {
       ...source,
-      editions: source.editions.map((edition) => (
-        edition.description
-          ? edition
-          : { ...edition, description: brief.description ?? null }
-      )),
-    }
-  })
+      editions: source.editions.map((item) => item.id !== edition.id ? item : { ...item, description }),
+    })
+  } catch (error) {
+    console.error('[getFigureBookPresentationsForCeleb]', edition.isbn, error)
+    return sources
+  }
 }

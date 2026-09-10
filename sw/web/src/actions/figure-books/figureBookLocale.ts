@@ -1,3 +1,5 @@
+import type { BookIntroductionReference } from '@/lib/utils/book-description'
+
 export type FigureBookProductPlatform = 'coupang' | 'amazon'
 
 export interface FigureBookPurchaseOptionRow {
@@ -23,6 +25,7 @@ export interface FigureBookEdition {
   title: string
   creator: string | null
   description: string | null
+  bookIntroduction?: BookIntroductionReference | null
   isbn: string | null
   publisher: string | null
   thumbnailUrl: string | null
@@ -42,6 +45,7 @@ export interface FigureBookEditionRow {
   title: string
   creator: string | null
   description: string | null
+  sources?: unknown
   isbn: string | null
   publisher: string | null
   thumbnail_url: string | null

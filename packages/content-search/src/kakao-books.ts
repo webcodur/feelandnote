@@ -6,6 +6,7 @@
 
 const KAKAO_REST_API_KEY = process.env.KAKAO_REST_API_KEY
 const KAKAO_BOOK_API_URL = 'https://dapi.kakao.com/v3/search/book'
+const REQUEST_TIMEOUT_MS = 5000
 
 interface KakaoBook {
   title: string
@@ -52,11 +53,29 @@ export interface KakaoBookSearchResult {
 
 export interface KakaoBookIsbnLookup {
   book: KakaoBookSearchResult
-  /** 다음 책 상세에서 복원한 전체 소개. 검색 API 요약만 있으면 null이다. */
+  /** 다음 책 상세의 소개. 출판사 원문 전체임을 보장하지 않으며, 상세를 못 받으면 null이다. */
   fullDescription: string | null
 }
 
 const ISBN13_PATTERN = /^97[89]\d{10}$/
+
+/** 동일 출판본의 ISBN-10/13을 비교한다. 잘못된 체크섬은 검색 대상으로 쓰지 않는다. */
+export function toIsbn13(raw: string): string | null {
+  const compact = raw.replace(/[\s-]/g, '').toUpperCase()
+  if (/^\d{9}[\dX]$/.test(compact)) {
+    const checksum = [...compact].reduce(
+      (sum, digit, index) => sum + (digit === 'X' ? 10 : Number(digit)) * (10 - index),
+      0,
+    )
+    if (checksum % 11 !== 0) return null
+    const prefix = `978${compact.slice(0, 9)}`
+    const sum = [...prefix].reduce((value, digit, index) => value + Number(digit) * (index % 2 ? 3 : 1), 0)
+    return `${prefix}${(10 - sum % 10) % 10}`
+  }
+  if (!ISBN13_PATTERN.test(compact)) return null
+  const checksum = [...compact].reduce((sum, digit, index) => sum + Number(digit) * (index % 2 ? 3 : 1), 0)
+  return checksum % 10 === 0 ? compact : null
+}
 
 // "8954655971 9788954655972" → 13자리 우선
 function pickIsbn(raw: string): string {
@@ -151,7 +170,7 @@ function toResult(book: KakaoBook): KakaoBookSearchResult {
       publishDate: formatPubDate(book.datetime),
       isbn,
       genre: '',
-      description: book.contents,
+      description: decodeHtmlEntities(book.contents.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim(),
       link: book.url,
       salesStatus: book.status,
     },
@@ -189,6 +208,7 @@ export function parseDaumBookDescription(html: string): string | null {
 
   const text = decodeHtmlEntities(
     match[1]
+      .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ')
       .replace(/<a[^>]+class=["'][^"']*\bmore_comm2\b[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, ' ')
       .replace(/<br\s*\/?>/gi, '\n')
       .replace(/<[^>]+>/g, ' '),
@@ -202,11 +222,14 @@ export function parseDaumBookDescription(html: string): string | null {
   return text || null
 }
 
-function getDaumMobileDetailUrl(bookUrl: string): string | null {
+export function getDaumMobileDetailUrl(bookUrl: string): string | null {
   try {
     const source = new URL(bookUrl)
+    if (source.protocol !== 'https:' || source.username || source.password || source.port
+      || !['search.daum.net', 'm.search.daum.net'].includes(source.hostname)
+      || source.pathname !== '/search') return null
     const bookId = source.searchParams.get('bookId')
-    if (!bookId) return null
+    if (!bookId || !/^\d+$/.test(bookId)) return null
 
     const detail = new URL('https://m.search.daum.net/search')
     detail.searchParams.set('w', 'bookpage')
@@ -219,19 +242,26 @@ function getDaumMobileDetailUrl(bookUrl: string): string | null {
   }
 }
 
-async function fetchFullBookDescription(bookUrl: string): Promise<string | null> {
+/** 지정한 다음 책 상세만 조회한다. 장애는 정상적인 소개 누락과 구별한다. */
+export async function fetchDaumBookDescription(bookUrl: string): Promise<string | null> {
   const detailUrl = getDaumMobileDetailUrl(bookUrl)
-  if (!detailUrl) return null
+  if (!detailUrl) throw new Error('Invalid Daum book URL')
 
+  const response = await fetch(detailUrl, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148',
+    },
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    redirect: 'error',
+  })
+  if (response.status === 404) return null
+  if (!response.ok) throw new Error(`Daum book HTTP error: ${response.status}`)
+  return parseDaumBookDescription(await response.text())
+}
+
+async function fetchFullBookDescription(bookUrl: string): Promise<string | null> {
   try {
-    const response = await fetch(detailUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148',
-      },
-      signal: AbortSignal.timeout(5000),
-    })
-    if (!response.ok) return null
-    return parseDaumBookDescription(await response.text())
+    return await fetchDaumBookDescription(bookUrl)
   } catch {
     return null
   }
@@ -244,6 +274,8 @@ async function fetchBooks(params: URLSearchParams): Promise<{
 }> {
   const response = await fetch(`${KAKAO_BOOK_API_URL}?${params}`, {
     headers: { Authorization: `KakaoAK ${KAKAO_REST_API_KEY!}` },
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    redirect: 'error',
   })
 
   if (!response.ok) {
@@ -306,21 +338,25 @@ export async function searchBooks(
   )
 }
 
-/** ISBN으로 단건 조회하고, 검색 요약과 구분되는 전체 소개를 함께 돌려준다. */
-export async function getBookByIsbnWithFullDescription(
+/** 카카오 검색 API에서 같은 ISBN의 책만 조회한다. 다음 상세에는 접속하지 않는다. */
+export async function getKakaoBookByIsbn(
   isbn: string,
-): Promise<KakaoBookIsbnLookup | null> {
-  const compact = isbn.replace(/[\s-]/g, '')
+): Promise<KakaoBookSearchResult | null> {
+  const compact = toIsbn13(isbn)
   if (!compact) return null
 
   const result = await searchBooks(compact, 1)
-  const book = (
-    result.items.find(
-      book => book.externalId === compact || book.metadata.isbn === compact
-    ) ??
-    result.items[0] ??
-    null
+  const book = result.items.find(
+    book => toIsbn13(book.metadata.isbn) === compact || toIsbn13(book.externalId) === compact,
   )
+  return book ?? null
+}
+
+/** ISBN으로 같은 출판본을 조회하고, 다음 상세에서 받은 소개도 함께 돌려준다. */
+export async function getBookByIsbnWithFullDescription(
+  isbn: string,
+): Promise<KakaoBookIsbnLookup | null> {
+  const book = await getKakaoBookByIsbn(isbn)
   if (!book) return null
 
   const fullDescription = await fetchFullBookDescription(book.metadata.link)

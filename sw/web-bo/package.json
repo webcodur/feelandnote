@@ -59,8 +59,6 @@
     "figure-books:batch:test": "tsx --test scripts/figure-books/source-batch-contract.test.ts",
     "figure-books:book": "node --env-file=.env --import tsx scripts/figure-books/source-book-batch.ts",
     "figure-books:book:test": "tsx --test scripts/figure-books/source-book-batch-contract.test.ts",
-    "figure-books:descriptions": "node --env-file=.env --import tsx scripts/figure-books/source-book-description-backfill.ts",
-    "figure-books:descriptions:test": "tsx --test scripts/figure-books/source-book-description-contract.test.ts",
     "faction:seed:inactive": "node --env-file=.env --import tsx scripts/faction/seed-inactive.ts",
     "faction:sync": "node --env-file=.env --import tsx scripts/faction/sync.ts",
     "faction:sync:atlas": "node --env-file=.env --import tsx scripts/faction/sync-atlas.ts",
@@ -81,7 +79,6 @@
     "book-recommend:resources": "tsx scripts/book-recommend/resources.ts",
     "contents:music-ko": "tsx scripts/contents/music-intro-ko.ts",
     "contents:game-ko": "tsx scripts/contents/game-intro-ko.ts",
-    "contents:book-en": "tsx scripts/contents/book-intro-en.ts",
     "contents:revalidate": "tsx scripts/contents/revalidate-filled.ts",
     "curated:coverage": "tsx scripts/curated/celeb-coverage.ts",
     "curated:repoint": "tsx scripts/curated/repoint-split-items.ts",
@@ -94,7 +91,8 @@
     "naver:audit-titles": "node scripts/naver-blog/audit-titles.mjs",
     "naver:audit-links": "node scripts/naver-blog/audit-links.mjs",
     "naver:audit-drafts": "node scripts/naver-blog/audit-drafts.mjs",
-    "naver:verify-blurbs": "node scripts/naver-blog/verify-blurbs.mjs"
+    "naver:verify-blurbs": "node scripts/naver-blog/verify-blurbs.mjs",
+    "contents:book-sources": "node --env-file=.env --import tsx scripts/contents/book-description-sources.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",

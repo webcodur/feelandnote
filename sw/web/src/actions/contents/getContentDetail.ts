@@ -5,7 +5,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
 import { getContentById } from './getContentById'
-import { fetchContentMetadata } from './fetchContentMetadata'
+import { fetchContentMetadata, type ContentMetadata } from './fetchContentMetadata'
 import { getPublicReviewFeed, getReviewFeed, type ReviewFeedItem } from './getReviewFeed'
 import { getProfile } from '@/actions/user'
 import {
@@ -31,7 +31,9 @@ import {
   pickIntroForLocale,
   stripLocalizedMeta,
 } from '@/lib/utils/content-locale-text'
-import { fetchBookIntroEn } from './fetchBookIntroEn'
+import { getBookIntroduction } from './fetchBookMetadata'
+import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference } from '@/lib/utils/book-description'
+import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 
 // #region 타입 정의
 export interface ContentDetailData {
@@ -42,6 +44,7 @@ export interface ContentDetailData {
     creator?: string
     thumbnail?: string
     description?: string
+    bookIntroduction?: BookIntroductionReference | null
     releaseDate?: string
     type: ContentType
     category: CategoryId
@@ -102,7 +105,7 @@ function overrideBookLink(metadata: Record<string, unknown> | null, bookLocale: 
 async function fetchDefaultFigureBookEdition(
   contentId: string,
   locale: string,
-): Promise<FigureBookEdition | null> {
+): Promise<(FigureBookEdition & { sources?: unknown }) | null> {
   const platform = getFigureBookPurchasePlatform(locale)
   if (!platform) return null
 
@@ -120,10 +123,15 @@ async function fetchDefaultFigureBookEdition(
 
   if (error) throw new Error(`원전 기본 판본 조회 실패: ${error.message}`)
   if (!data) return null
-  return mapFigureBookPurchaseOptions(
+  const edition = mapFigureBookPurchaseOptions(
     [data as unknown as FigureBookPurchaseOptionRow],
     locale,
   )[0] ?? null
+  if (!edition) return null
+  const { data: stored, error: sourcesError } = await db.from('figure_book_editions')
+    .select('sources').eq('id', edition.id).maybeSingle()
+  if (sourcesError) throw new Error(`판본 소개 출처 조회 실패: ${sourcesError.message}`)
+  return { ...edition, sources: stored?.sources }
 }
 
 // #region 콘텐츠 자체 정보 (인증 비의존, 캐시)
@@ -133,7 +141,7 @@ async function fetchContentDataPublic(
   locale: string,
 ): Promise<ContentDetailData['content'] | null> {
   const db = createStaticClient()
-  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), figure_book_contents(content_id)`
+  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT},sources), figure_book_contents(content_id)`
 
   function buildDbContent(raw: Record<string, unknown>) {
     const locales = raw.content_locales as ContentLocaleRow[] | null
@@ -144,13 +152,17 @@ async function fetchContentDataPublic(
       external_id: raw.external_id as string | null,
       external_source: raw.external_source as string | undefined,
       type: raw.type as string,
-      metadata: raw.metadata as Record<string, unknown> | null,
+      metadata: raw.type === 'BOOK'
+        ? withoutBookDescription((raw.metadata as Record<string, unknown> | null) ?? {})
+        : raw.metadata as Record<string, unknown> | null,
       title: flat.title,
       creator: flat.creator,
       thumbnail_url: flat.thumbnail_url,
       description: getLocaleDescription(locales, locale),
+      exactLocale: locales?.find((item) => item.locale === locale),
       publisher: getLocalePublisher(locales, locale),
       isbn_en: flat.isbn_en,
+      isbn: locales?.find((item) => item.locale === locale)?.isbn,
       release_date: raw.release_date as string | null,
       affiliate_url: flat.affiliate_url,
       is_figure_book: Array.isArray(sourceMarker)
@@ -181,8 +193,7 @@ async function fetchContentDataPublic(
     }
   }
 
-  /* 실제로 응답을 돌려준 출처로 판정한다. DB 표기가 google_books여도 조회가 카카오로 넘어가면
-     돌아오는 소개문은 한국어다 — 표기만 믿으면 영문 화면에 한국어 소개가 실린다. */
+  // 도서 외 매체는 실제로 응답한 출처로 소개의 표시 언어를 판정한다.
   const isMetaDescUsable = (source?: string) =>
     locale === 'ko' || source === 'google_books' || source === 'igdb' || source === 'tmdb'
 
@@ -192,21 +203,24 @@ async function fetchContentDataPublic(
     const storedMetadata = dbContent.metadata && Object.keys(dbContent.metadata).length > 0
       ? dbContent.metadata
       : null
-    const [metadataResult, sourceEdition] = await Promise.all([
+    const sourceEdition = dbContent.type === 'BOOK' && dbContent.is_figure_book
+      ? await fetchDefaultFigureBookEdition(dbContent.id, locale)
+      : null
+    const bookDisplay = dbContent.type === 'BOOK'
+      ? selectBookIntroduction(locale, sourceEdition ? { ...sourceEdition, locale } : null, {
+        ...dbContent.exactLocale, locale, isbn: resolveBookIsbn(locale, null, dbContent.isbn, externalId),
+      })
+      : null
+    const metadataResult: ContentMetadata | null = dbContent.type === 'BOOK'
+      ? { id: externalId, metadata: { isbn: resolveBookIsbn(locale, sourceEdition?.isbn, dbContent.isbn, externalId) } }
+      : await (
       dbContent.type === 'MUSIC' && storedMetadata
         ? Promise.resolve(null)
-        : fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source, locale === 'en' ? 'en' : 'ko'),
-      dbContent.type === 'BOOK' && dbContent.is_figure_book
-        ? fetchDefaultFigureBookEdition(dbContent.id, locale)
-        : Promise.resolve(null),
-    ])
+        : fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source, locale === 'en' ? 'en' : 'ko')
+      )
     /* 소개문 필드 이름이 출처마다 다르다 — TMDB는 overview, IGDB는 summary·storyline이다. */
     const fetchedMeta = metadataResult?.metadata ?? {}
-    /* 도서의 영문 소개는 카카오가 주지 않는다. 원서 ISBN으로 OpenLibrary에서 따로 받는다. */
-    const bookIntroEn = locale === 'en' && dbContent.type === 'BOOK'
-      ? await fetchBookIntroEn(sourceEdition?.isbn ?? dbContent.isbn_en)
-      : null
-    const dbMetaDesc = isMetaDescUsable(metadataResult?.source ?? dbContent.external_source)
+    const dbMetaDesc = (dbContent.type === 'BOOK' || isMetaDescUsable(metadataResult?.source ?? dbContent.external_source))
       ? ([fetchedMeta.description, fetchedMeta.overview, fetchedMeta.storyline, fetchedMeta.summary]
           .find((value): value is string => typeof value === 'string' && value.trim() !== ''))
       : undefined
@@ -229,7 +243,9 @@ async function fetchContentDataPublic(
           ...(sourceEdition.publisher && { publisher: sourceEdition.publisher }),
           ...(sourceEdition.isbn && { isbn: sourceEdition.isbn }),
         }
-      : localizedMetadata
+      : dbContent.type === 'BOOK'
+        ? { ...localizedMetadata, isbn: resolveBookIsbn(locale, null, dbContent.isbn, externalId) }
+        : localizedMetadata
 
     return {
       id: dbContent.id,
@@ -237,7 +253,8 @@ async function fetchContentDataPublic(
       title: sourceEdition?.title || dbContent.title,
       creator: sourceEdition?.creator || dbContent.creator || undefined,
       thumbnail: sourceEdition?.thumbnailUrl || dbContent.thumbnail_url || undefined,
-      description: pickIntroForLocale(locale, [sourceEdition?.description, dbContent.description, dbMetaDesc, bookIntroEn]) ?? undefined,
+      description: (bookDisplay ? bookDisplay.description : pickIntroForLocale(locale, [dbContent.description, dbMetaDesc])) ?? undefined,
+      ...(bookDisplay ? { bookIntroduction: bookDisplay.bookIntroduction } : {}),
       releaseDate: sourceEdition?.releaseDate || dbContent.release_date || undefined,
       type: dbContent.type as ContentType,
       category: categoryId,
@@ -265,27 +282,45 @@ async function fetchContentDataPublic(
     title: apiContent.title,
     creator: apiContent.creator || undefined,
     thumbnail: apiContent.thumbnail || undefined,
-    description: apiContent.description || undefined,
+    description: (TYPE_MAP[category] === 'BOOK' ? pickIntroForLocale(locale, [apiContent.description]) : apiContent.description) || undefined,
     releaseDate: apiContent.releaseDate || undefined,
     type: TYPE_MAP[category],
     category,
-    metadata: apiContent.metadata || null,
+    metadata: TYPE_MAP[category] === 'BOOK'
+      ? dropForeignDisplayText(locale, withoutBookDescription(apiContent.metadata ?? {}))
+      : apiContent.metadata || null,
   }
 }
 
-// 콘텐츠 자체 정보(제목·저자·소개문)는 BO에서 편집할 때만 바뀐다. 사용자 활동으로 변하지 않으므로
-// 셀럽 프로필과 같은 수명을 준다. 사이트맵에 콘텐츠 상세 13,330면을 등재(2026-07-15)한 뒤로는
-// 크롤러 스윕마다 이 조회가 콜드 미스를 내던 구간이라 1시간 수명이 그대로 egress가 됐다.
-// 감상문 피드(getReviewFeed)는 사용자 활동으로 변하므로 1시간을 유지한다.
+// 서지와 외부 소개는 정적 캐시 수명을 공유한다. 감상문 피드는 사용자 활동용 캐시를 쓴다.
 /* 작품 한 건짜리 조회 — 항목 태그를 달아 그 한 건만 비울 수 있게 한다.
    여기서 받는 contentId는 UUID일 수도 external_id일 수도 있어 그대로 식별자로 쓴다. */
 const fetchContentDataPublicCached = (contentId: string, category: CategoryId | null, locale: string) =>
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-locale-intro-v5-source-product-only', contentId, category ?? '', locale],
+    ['content-data-public-selected-book-intro-v9-compat', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
+
+// 외부 소개는 DB 서지 캐시 밖에서 읽는다. 일시 장애가 나도 서지와 구매 링크는 유지한다.
+async function withBookIntroduction(
+  content: ContentDetailData['content'] | null,
+  locale: string,
+): Promise<ContentDetailData['content'] | null> {
+  if (!content || content.type !== 'BOOK' || !content.bookIntroduction) return content
+  const { isbn, source, sourceUrl, legacyFallback } = content.bookIntroduction
+  try {
+    const description = await getBookIntroduction(isbn, locale, source, sourceUrl, legacyFallback)
+    return {
+      ...content,
+      description: description ?? undefined,
+    }
+  } catch (error) {
+    console.error('[withBookIntroduction]', isbn, error)
+    return content
+  }
+}
 // #endregion
 
 // #region 본인 기록 (인증 의존, 캐시 외부)
@@ -323,7 +358,7 @@ async function getPublicContentDetailInner(
   contentId: string,
   locale: string,
 ): Promise<ContentDetailData | null> {
-  const content = await fetchContentDataPublicCached(contentId, null, locale)
+  const content = await withBookIntroduction(await fetchContentDataPublicCached(contentId, null, locale), locale)
   if (!content) return null
 
   const [initialReviews, fictionCharacters, curatedEntries] = await Promise.all([
@@ -369,7 +404,7 @@ async function getContentDetailInner(
 
   // 콘텐츠 정보(캐시)와 본인 기록(동적) 병렬
   const [content, userRecord] = await Promise.all([
-    fetchContentDataPublicCached(contentId, category ?? null, locale),
+    fetchContentDataPublicCached(contentId, category ?? null, locale).then((content) => withBookIntroduction(content, locale)),
     profile ? fetchUserRecord(profile.id, contentId) : Promise.resolve(null),
   ])
 

@@ -16,6 +16,7 @@ import {
   toSeoDescription,
 } from "@/lib/seo";
 import ExternalContentDetailFallback from "./ExternalContentDetailFallback";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 
 const getPublicContentDetailCached = cache(getPublicContentDetail);
 
@@ -115,7 +116,9 @@ export default async function Page({ params }: PageProps) {
   if (!data) {
     return (
       <Suspense fallback={<div className="mx-auto min-h-80 max-w-3xl animate-pulse rounded-xl bg-white/[0.02]" />}>
-        <ExternalContentDetailFallback contentId={contentId} />
+        <AsyncIntlProvider>
+          <ExternalContentDetailFallback contentId={contentId} />
+        </AsyncIntlProvider>
       </Suspense>
     );
   }
@@ -150,7 +153,9 @@ export default async function Page({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ContentDetailPage initialData={data} />
+      <AsyncIntlProvider>
+        <ContentDetailPage initialData={data} />
+      </AsyncIntlProvider>
     </>
   );
 }
