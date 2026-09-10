@@ -7,7 +7,6 @@ import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModa
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { useCelebPreview } from "../useCelebPreview";
-import BelowInspectorCue from "./BelowInspectorCue";
 import MobileRelationList from "./MobileRelationList";
 import styles from "./RelationGraphSection.module.css";
 import RelationInspector from "./RelationInspector";
@@ -38,7 +37,6 @@ export default function RelationGraphSection({
     family: null, social: null, other: null,
   });
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [belowCue, setBelowCue] = useState(0);
   const [desktopDiagramReady, setDesktopDiagramReady] = useState(false);
   const [previewRelation, setPreviewRelation] = useState<PersonNode | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
@@ -116,32 +114,11 @@ export default function RelationGraphSection({
     .join(" · "), [effectiveMode, t]);
 
   const selectDesktop = useCallback((person: PersonNode) => setSelectedId(person.id), []);
-  useEffect(() => {
-    if (!selectedId || window.matchMedia("(max-width: 900px)").matches) return;
-    const frame = window.requestAnimationFrame(() => {
-      const inspector = shellRef.current?.querySelector<HTMLElement>(`.${styles.desktopInspector}`);
-      if (!inspector) return setBelowCue(0);
-      const rect = inspector.getBoundingClientRect();
-      const mostlyBelow = rect.top > window.innerHeight - Math.min(120, rect.height / 2);
-      setBelowCue(mostlyBelow ? (cue) => cue + 1 : 0);
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [selectedId]);
-  const dismissBelowCue = useCallback(() => setBelowCue(0), []);
-  const revealDesktopInspector = useCallback(() => {
-    const inspector = shellRef.current?.querySelector<HTMLElement>(`.${styles.desktopInspector}`);
-    setBelowCue(0);
-    inspector?.scrollIntoView({
-      block: "end",
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-    });
-  }, []);
 
   const changeMode = useCallback((next: RelationMode) => {
     captureViewportAnchor(shellRef.current?.querySelector<HTMLElement>(`.${styles.relationFilters}`) ?? null);
     setMode(next);
     setSelectedId(null);
-    setBelowCue(0);
   }, [captureViewportAnchor]);
 
   const changeFocus = useCallback((next: RelationFocus) => {
@@ -150,7 +127,6 @@ export default function RelationGraphSection({
       ...current, [effectiveMode]: selectedFocus === next ? null : next,
     }));
     setSelectedId(null);
-    setBelowCue(0);
   }, [captureViewportAnchor, effectiveMode, selectedFocus]);
 
   const openPerson = async (person: PersonNode) => {
@@ -267,8 +243,6 @@ export default function RelationGraphSection({
       <MobileRelationList label={t("relAllTitle", { name: centerName })} focusOptions={focusOptions}
         selectedFocus={selectedFocus} activePeople={activePeople} relationLabel={relationLabel}
         onOpenPerson={(person) => void openPerson(person)} openLabel={t("relViewPersonCard")} />
-      {belowCue > 0 && (isCenterSelected || selected) && <BelowInspectorCue key={belowCue} signal={belowCue}
-        label={isCenterSelected ? centerName : (selected?.name ?? "")} onExpire={dismissBelowCue} onReveal={revealDesktopInspector} />}
       {desktopDiagramReady && inspectorProps && <RelationInspector {...inspectorProps} />}
     </div>
 
