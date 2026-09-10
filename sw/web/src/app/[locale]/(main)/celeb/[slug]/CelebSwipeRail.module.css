@@ -16,7 +16,7 @@
   box-sizing: border-box;
   /* 좌측 레일과 같은 폭. 막대 너비가 달라지면 중심 계산도 함께 바뀐다 */
   width: var(--celeb-atlas-width, 160px);
-  height: clamp(220px, 44dvh, 380px);
+  height: clamp(280px, 58dvh, 480px);
   padding: 10px 0;
   border: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 62%, transparent);
   border-radius: 2px;

@@ -115,6 +115,20 @@ export default async function LocaleLayout({
       data-scroll-behavior="smooth"
     >
       <head>
+        {/* ?instant=1로 들어온 첫 스크롤(해시 이동)만 즉시로 강제한다 — 사이트 전역
+            스무스 스크롤(html의 scroll-behavior CSS와 data-scroll-behavior 속성 둘 다)은
+            건드리지 않고 이 한 번만 잠깐 꺼서 다시 켠다. head 맨 앞에 둬 본문이 채워지기
+            전에, 브라우저·Next.js 어느 쪽이 스크롤을 옮기든 먼저 걸리게 한다.
+            suppressHydrationWarning: adsbygoogle이 뜨면 자기 관리 스크립트(pagead/managed/js/...)를
+            React가 하이드레이션하기 전에 head 맨 앞에 직접 꽂아 넣는다 — 이 자리가 밀리면서
+            React가 이 태그와 속성을 비교해 불일치로 본다. 실제 동작(즉시 스크롤)은 하이드레이션과
+            무관하게 이미 파싱 시점에 끝나 있어 경고만 끄면 된다. */}
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var p=new URLSearchParams(location.search);if(p.get('instant')!=='1')return;var h=document.documentElement;h.style.scrollBehavior='auto';var prevData=h.getAttribute('data-scroll-behavior');h.setAttribute('data-scroll-behavior','auto');setTimeout(function(){h.style.scrollBehavior='';if(prevData===null)h.removeAttribute('data-scroll-behavior');else h.setAttribute('data-scroll-behavior',prevData);p.delete('instant');var qs=p.toString();history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash);},700);}catch(e){}})();`,
+          }}
+        />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3751045783335791"

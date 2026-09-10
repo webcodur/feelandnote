@@ -24,6 +24,7 @@ export default function ArchiveControlBar({
         allowRatingSort={props.allowRatingSort}
         hideReviewFilter={props.hideReviewFilter}
         compact={compact}
+        trailing={props.trailing}
       />
       <ArchiveActionRow
         searchQuery={props.searchQuery}

@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GlobeMarker } from "@/components/shared/WorldGlobe";
 import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
+import ArchiveTabsHeader from "./ArchiveTabsHeader";
 import JourneyEventCarousel from "./JourneyEventCarousel";
 import JourneyEventExpandedList from "./JourneyEventExpandedList";
 import JourneyMapPanel from "./JourneyMapPanel";
@@ -96,23 +97,23 @@ export default function JourneySection({ events }: Props) {
   const sideBySide = effectiveShowCard && effectiveShowMap;
   const mapOnly = !effectiveShowCard && effectiveShowMap;
   const panelView: JourneyViewMode = sideBySide ? "both" : mapOnly ? "atlas" : "timeline";
-  // 칩줄은 탭줄과 달리 자체 경계가 없어 헤더에 붙으면 달라붙어 보인다. 위를 뗀다.
   return (
-    <div className="space-y-4 pt-4 md:pt-6">
-      {/* 보기 전환과 카드·지도 겹선택을 한 줄에 둔다. 2지선다에 대형 탭은 과체중이다 */}
-      <div className="flex flex-wrap items-center justify-center gap-2">
-        <CategoryTabFilter
-          size="sm"
-          options={[
-            { value: "expand", label: t("timelineViewExpand") },
-            { value: "timeline", label: t("timelineViewList") },
+    <div className="space-y-4">
+      {/* 보기 전환은 매체·기록 등 다른 구획과 같은 탭줄로 그린다 — 여기만 칩으로 갈리지 않게 */}
+      <div className="space-y-2">
+        <ArchiveTabsHeader
+          tabs={[
+            { key: "expand", label: t("timelineViewExpand") },
+            { key: "timeline", label: t("timelineViewList") },
           ]}
-          value={tab}
-          onChange={(v) => setTab(v)}
+          activeKey={tab}
+          onChange={setTab}
+          columnsClassName="grid-cols-2"
+          ariaLabel={t("timeline")}
         />
         {hasMap ? (
           // 펼치기에서도 자리를 지킨다. 못 누를 때는 옅어지고 손을 막는다.
-          <div className="hidden md:block" inert={tab !== "timeline" ? true : undefined}>
+          <div className="hidden justify-center md:flex" inert={tab !== "timeline" ? true : undefined}>
             <div className={tab !== "timeline" ? "opacity-40 saturate-50" : undefined}>
             {/* 카드·지도 겹선택은 library와 같은 공용 칩으로 그린다.
                 둘 다 켜진 전체 상태는 value를 옵션 밖에 두어 faintAllActive의

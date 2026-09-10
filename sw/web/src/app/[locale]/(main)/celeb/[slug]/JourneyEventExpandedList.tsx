@@ -6,10 +6,12 @@
  * ───────────────────────────────────────────── */
 "use client";
 
+import { useRef, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import { MapPin } from "lucide-react";
 
 import SwipeControls from "@/components/ui/SwipeControls";
+import { useSnapActiveHeight } from "@/components/ui/useSnapActiveHeight";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import { timelineYearCopy } from "./journeyTimeline";
 import TimelineIndexTick from "./TimelineIndexTick";
@@ -42,16 +44,26 @@ export default function JourneyEventExpandedList({
 }: Props) {
   const t = useTranslations("celebPage");
   const yearCopy = timelineYearCopy(t);
+  const deckRef = useRef<HTMLDivElement>(null);
+  // 가로 스냅 줄의 컨테이너 높이는 align-items와 무관하게 가장 긴 카드에 묶인다.
+  // 지금 보이는 카드만큼만 높이를 쓰도록 실측해 입힌다(넓은 화면은 md:h-auto로 되돌린다).
+  const activeHeight = useSnapActiveHeight(deckRef, events);
 
   return (
     <div
       tabIndex={0}
       aria-label={t("timelineViewExpand")}
-      className="md:custom-scrollbar px-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:max-h-[580px] md:overflow-y-auto md:[overflow-anchor:none]"
+      // 좌우 넘김 표시(SwipeControls)는 DOM상 카드 줄 바로 다음이어야 스스로 그 줄을 찾는다.
+      // 순서는 그대로 두고 좁은 화면에서만 column-reverse로 화면 위쪽에 오게 한다.
+      className="flex flex-col-reverse md:custom-scrollbar px-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:block md:max-h-[580px] md:overflow-y-auto md:[overflow-anchor:none]"
     >
       {/* 연대기 카드와 같은 언어: 머리(번호·연도·지명) + 제목 + 본문. 수직선 레일은 걷는다.
           좁은 화면에서는 한 장씩 옆으로 넘긴다 — 세로로 전부 훑지 않아도 된다 */}
-      <div className="flex snap-x snap-mandatory items-start gap-3 overflow-x-auto overscroll-x-contain py-1 [scrollbar-width:none] md:block md:space-y-3 md:overflow-visible">
+      <div
+        ref={deckRef}
+        style={activeHeight ? ({ "--active-h": `${activeHeight}px` } as CSSProperties) : undefined}
+        className="flex h-[var(--active-h,auto)] snap-x snap-mandatory items-start gap-3 overflow-x-auto overscroll-x-contain scroll-smooth py-1 [scrollbar-width:none] md:block md:h-auto md:space-y-3 md:overflow-visible"
+      >
         {events.map((event, index) => {
           const yearLabel = formatEventYear(event, yearCopy);
           const sourceLabel = event.sequenceLabel?.trim() ?? "";

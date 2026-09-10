@@ -34,6 +34,8 @@ export default function ContentLibrary({
   hideReviewFilter = false,
   initialContents,
   initialContentBrief,
+  filterTrailing,
+  onActiveContentChange,
 }: ContentLibraryProps) {
   const locale = useLocale();
   const lib = useContentLibrary({
@@ -80,6 +82,7 @@ export default function ContentLibrary({
       savedContentIds={lib.savedContentIds}
       // 인물 서가의 목록형은 좁은 화면에서 한 장씩 옆으로 넘긴다 — 세로로 다 훑지 않게 한다
       mobileCarousel={ownerKind === "celeb"}
+      onActiveContentChange={onActiveContentChange}
     />
   );
 
@@ -184,6 +187,7 @@ export default function ContentLibrary({
         hideReviewFilter={hideReviewFilter}
         compact={hideControlWrapper}
         hideWrapper={hideControlWrapper}
+        trailing={filterTrailing}
       />
 
       {lib.typeCountsError && (

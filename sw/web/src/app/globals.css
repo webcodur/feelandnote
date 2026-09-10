@@ -125,6 +125,12 @@
     @apply min-h-screen text-sm;
   }
 
+  /* (reader) 그룹(몰입 읽기 페이지)은 루트 레이아웃이 붙이는 사이트 Footer를 뺀다.
+     Footer는 body 안에서 이 표식의 형제로 뒤에 그려진다. */
+  [data-reader-page] ~ footer {
+    display: none !important;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif font-bold;
   }
