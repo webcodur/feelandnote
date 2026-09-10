@@ -49,9 +49,9 @@ test('SQL preserves unrelated columns and refuses concurrent edits in one transa
   assert.throws(() => buildIntroductionApplySql('different-book', [change]), /One book/)
 })
 
-test('routine refresh cannot delete legacy text or add new duplicate introductions', () => {
+test('routine refresh drops legacy and incoming introduction copies', () => {
   assert.deepEqual(refreshBookMetadata({ description: 'Stored translation', isbn: 'old' }, { description: 'API text', summary: 'duplicate', isbn: 'new' }),
-    { isbn: 'new', description: 'Stored translation' })
+    { isbn: 'new' })
   assert.deepEqual(refreshBookMetadata(null, { description: 'API text', isbn: 'new' }), { isbn: 'new' })
 })
 

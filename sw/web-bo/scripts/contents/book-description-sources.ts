@@ -11,7 +11,9 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { parseArgs } from 'node:util'
 import { createClient } from '@supabase/supabase-js'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
-import { BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED, isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
+import { getDaumMobileDetailUrl, toIsbn13 } from '@feelandnote/content-search/kakao-books'
+import { getOpenLibraryBookUrl } from '@feelandnote/content-search/openlibrary'
+import { BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED, isBookIntroductionSource, type BookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 import {
   buildIntroductionApplySql, hasPreparedIntroduction, planIntroductionChange, planIntroductionMetadataCleanup,
   type IntroductionChange, type IntroductionRow, type IntroductionSelection,
@@ -37,16 +39,21 @@ async function main() {
     limit: { type: 'string', default: '20' }, after: { type: 'string' },
     'content-id': { type: 'string', multiple: true }, locale: { type: 'string' },
     'include-stored': { type: 'boolean' }, apply: { type: 'boolean' },
+    'source-only': { type: 'boolean' },
     'backup-dir': { type: 'string' }, help: { type: 'boolean' },
   }, strict: true })
   if (values.help) {
-    console.log('book-description-sources [--limit 20] [--after content-id] [--content-id ID] [--locale ko|en] [--include-stored] [--apply --backup-dir PATH]\nDefault: read-only, NULL introductions only. --include-stored also checks existing external copies; prepared/unknown text is preserved. Deploy source-aware readers before --apply.')
+    console.log('book-description-sources [--limit 20] [--after content-id] [--content-id ID] [--locale ko|en] [--include-stored] [--source-only] [--apply --backup-dir PATH]\nDefault: read-only, NULL introductions only. --include-stored also checks existing external copies; prepared/unknown text is preserved. --source-only converts existing trusted URLs (Kakao/Daum for ko, OpenLibrary for en) without external requests. English --apply requires --source-only, unless one explicit --content-id is supplied. Deploy source-aware readers before --apply.')
     return
   }
   const limit = Number(values.limit)
   if (values.apply && !BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED) throw new Error('Deploy source-aware readers before enabling BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED; DB unchanged')
   if (!Number.isSafeInteger(limit) || limit < 1) throw new Error('--limit must be a positive integer')
   if (values.locale && !['ko', 'en'].includes(values.locale)) throw new Error('--locale must be ko or en')
+  if (values['source-only'] && !values.locale) throw new Error('--source-only requires --locale ko or en')
+  if (values.apply && values.locale === 'en' && !values['source-only'] && values['content-id']?.length !== 1) {
+    throw new Error('English bulk apply is disabled; use --source-only or one explicit --content-id')
+  }
   if (values.apply && !values['backup-dir']) throw new Error('--apply requires --backup-dir for the original values')
   const apiUrl = process.env.NEXT_PUBLIC_DB_API_URL
   const secret = process.env.DB_SECRET_KEY
@@ -104,6 +111,48 @@ async function main() {
           locale.locale === row.locale && locale.isbn === row.isbn && locale.description?.trim()
           && !isBookIntroductionSource(locale.description) && hasPreparedIntroduction(locale))) {
           count('uses-prepared-locale'); continue
+        }
+        if (values['source-only']) {
+          if (row.sources !== null && (typeof row.sources !== 'object' || Array.isArray(row.sources))) {
+            count('legacy-sources'); continue
+          }
+          const rawSource = row.sources?.description
+          let source: BookIntroductionSource | null = null
+          let sourceUrl: string | null = null
+          if (typeof rawSource === 'string' && row.locale === 'en') {
+            sourceUrl = getOpenLibraryBookUrl(rawSource)
+            source = sourceUrl ? 'OPEN' : null
+          } else if (typeof rawSource === 'string' && row.locale === 'ko') {
+            const daumUrl = getDaumMobileDetailUrl(rawSource)
+            if (daumUrl) {
+              source = 'DAUM'
+              sourceUrl = daumUrl
+            } else {
+              try {
+                const kakaoUrl = new URL(rawSource)
+                const sourceIsbn = kakaoUrl.origin === 'https://dapi.kakao.com'
+                  && kakaoUrl.pathname === '/v3/search/book'
+                  && kakaoUrl.searchParams.get('target') === 'isbn'
+                  ? toIsbn13(kakaoUrl.searchParams.get('query') ?? '') : null
+                const rowIsbn = row.isbn ? toIsbn13(row.isbn) : null
+                if (sourceIsbn && (!rowIsbn || sourceIsbn === rowIsbn)) {
+                  source = 'KAKAO'
+                  sourceUrl = `https://dapi.kakao.com/v3/search/book?target=isbn&query=${sourceIsbn}`
+                }
+              } catch { /* malformed legacy URL */ }
+            }
+          }
+          if (!source || !sourceUrl) { count('no-trusted-source'); continue }
+          const currentDescription = row.description?.trim() ?? ''
+          changes.push({
+            table,
+            before: row,
+            description: source,
+            sources: { ...row.sources, description: sourceUrl },
+            verifiedDescription: currentDescription,
+          })
+          count(currentDescription ? 'external-copy' : 'missing-introduction')
+          continue
         }
         // Never substitute the representative Korean ISBN for an English locale.
         const isbn = row.isbn?.trim() || (row.locale === 'ko' && book.external_source === 'kakao_book' ? book.external_id : null)

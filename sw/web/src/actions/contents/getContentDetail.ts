@@ -299,7 +299,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-selected-book-intro-v9-compat', contentId, category ?? '', locale],
+    ['content-data-public-selected-book-intro-v10-source', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
 
@@ -309,9 +309,9 @@ async function withBookIntroduction(
   locale: string,
 ): Promise<ContentDetailData['content'] | null> {
   if (!content || content.type !== 'BOOK' || !content.bookIntroduction) return content
-  const { isbn, source, sourceUrl, legacyFallback } = content.bookIntroduction
+  const { isbn, source, sourceUrl } = content.bookIntroduction
   try {
-    const description = await getBookIntroduction(isbn, locale, source, sourceUrl, legacyFallback)
+    const description = await getBookIntroduction(isbn, locale, source, sourceUrl)
     return {
       ...content,
       description: description ?? undefined,

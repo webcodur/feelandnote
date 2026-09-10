@@ -8,7 +8,6 @@ export interface BookIntroductionReference {
   isbn: string | null
   source: BookIntroductionSource
   sourceUrl: string | null
-  legacyFallback?: boolean
 }
 
 interface StoredBookIntroduction {
@@ -36,13 +35,7 @@ export function bookIntroductionDisplay(
 ): BookIntroductionDisplay {
   const empty = { description: null, bookIntroduction: null }
   if (!row || row.locale !== locale) return empty
-  if (!row.description) {
-    const isbn = normalizeBookIsbn(row.isbn)
-    // 데이터 전환 완료 전 소개가 사라지지 않게 유지한다. 전환 완료 후 이 호환 조회를 제거한다.
-    return isbn ? { description: null, bookIntroduction: {
-      isbn, source: locale === 'en' ? 'OPEN' : 'KAKAO', sourceUrl: null, legacyFallback: true,
-    } } : empty
-  }
+  if (!row.description) return empty
   if (isBookIntroductionSource(row.description)) {
     const source = row.description
     if ((locale === 'en') !== (source === 'OPEN')) return empty

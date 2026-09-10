@@ -19,7 +19,7 @@ test('stored intro aliases are excluded without mutating bibliography metadata',
   assert.equal(stored.description, 'old publisher text')
 })
 
-test('source markers never display as text; migration compatibility keeps NULL introductions readable without writing a source', () => {
+test('source markers never display as text, and NULL introductions stay empty', () => {
   for (const source of ['KAKAO', 'DAUM', 'OPEN']) {
     const locale = source === 'OPEN' ? 'en' : 'ko'
     assert.deepEqual(bookIntroductionDisplay(locale, {
@@ -31,7 +31,7 @@ test('source markers never display as text; migration compatibility keeps NULL i
     })
   }
   assert.deepEqual(bookIntroductionDisplay('ko', { locale: 'ko', isbn: '9780140449136', description: null }), {
-    description: null, bookIntroduction: { isbn: '9780140449136', source: 'KAKAO', sourceUrl: null, legacyFallback: true },
+    description: null, bookIntroduction: null,
   })
 })
 

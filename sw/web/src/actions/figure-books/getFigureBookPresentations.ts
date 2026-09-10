@@ -13,8 +13,8 @@ export async function getFigureBookPresentationsForCeleb(
   const edition = first?.editions[0]
   if (!first || !edition?.bookIntroduction) return sources
   try {
-    const { isbn, source, sourceUrl, legacyFallback } = edition.bookIntroduction
-    const description = await getBookIntroduction(isbn, locale, source, sourceUrl, legacyFallback)
+    const { isbn, source, sourceUrl } = edition.bookIntroduction
+    const description = await getBookIntroduction(isbn, locale, source, sourceUrl)
     return sources.map((source) => source.id !== first.id ? source : {
       ...source,
       editions: source.editions.map((item) => item.id !== edition.id ? item : { ...item, description }),
