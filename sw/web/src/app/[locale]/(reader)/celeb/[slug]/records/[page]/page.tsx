@@ -14,10 +14,9 @@ interface Props {
   searchParams: Promise<{ focus?: string }>;
 }
 
-export const revalidate = false;
-// focus deep-link는 요청마다 읽어야 하므로 기록 페이지는 명시적으로 동적 렌더링한다.
+// focus deep-link와 기록 데이터는 요청마다 읽어야 하므로 정적 경로를 만들지 않는다.
 export const dynamic = "force-dynamic";
-export function generateStaticParams() { return []; }
+export const revalidate = 0;
 
 const getPage = cache(async (slug: string, locale: string, page: string) => {
   const data = await loadRecordsPage(slug, locale, page, {
