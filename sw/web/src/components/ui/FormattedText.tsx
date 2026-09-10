@@ -3,6 +3,8 @@ import React from "react";
 interface FormattedTextProps {
   text: string | null | undefined;
   className?: string;
+  highlightClassName?: string;
+  highlightStyle?: React.CSSProperties;
 }
 
 /**
@@ -52,22 +54,40 @@ export function splitReadableParagraphs(text: string | null | undefined): string
  * 텍스트 내의 특수 문장부호를 파싱하여 스타일을 적용하는 컴포넌트
  * 대형 부호 (『 』, 《 》) → 《 》로 통일 출력
  * 소형 부호 (「 」, 〈 〉, < >, ' ') → ‘ ’로 통일 출력
- * 쌍따옴표 (" ") → “ ”로 통일 출력
+ * 쌍따옴표 (" ", “ ”) → “ ”로 통일 출력
+ * 여닫는 작은따옴표 (‘ ’)도 인용문으로 인식해 같은 강조를 적용
  * 인용부호와 본문을 한 텍스트 노드로 출력해 검색 로봇의 엔티티 오독을 막는다.
  */
-export default function FormattedText({ text, className = "" }: FormattedTextProps) {
+export default function FormattedText({
+  text,
+  className = "",
+  highlightClassName,
+  highlightStyle,
+}: FormattedTextProps) {
   if (!text) return null;
 
-  const parts = text.split(/(".*?"|(?<!\w)'[^'\n]*'(?!\w)|『.*?』|《.*?》|「.*?」|〈.*?〉|<.*?>)/g);
+  const parts = text.split(/(".*?"|“.*?”|(?<!\w)'[^'\n]*'(?!\w)|‘.*?’|『.*?』|《.*?》|「.*?」|〈.*?〉|<.*?>)/g);
+  const doubleQuoteClass = highlightClassName
+    ? `font-semibold ${highlightClassName}`
+    : "font-medium text-accent-hover";
+  const bookTitleClass = highlightClassName
+    ? `font-bold ${highlightClassName}`
+    : "text-white font-bold";
+  const inlineQuoteClass = highlightClassName
+    ? `font-medium ${highlightClassName}`
+    : "font-serif text-accent";
 
   return (
     <span className={className}>
       {parts.map((part, i) => {
         // 쌍따옴표
-        if (part.startsWith('"') && part.endsWith('"')) {
+        if (
+          (part.startsWith('"') && part.endsWith('"')) ||
+          (part.startsWith("“") && part.endsWith("”"))
+        ) {
           const inner = part.slice(1, -1);
           return (
-            <span key={i} className="text-accent/80">
+            <span key={i} className={doubleQuoteClass} style={highlightStyle}>
               {`“${inner}”`}
             </span>
           );
@@ -80,7 +100,7 @@ export default function FormattedText({ text, className = "" }: FormattedTextPro
         ) {
           const inner = part.slice(1, -1);
           return (
-            <span key={i} className="text-white font-bold">
+            <span key={i} className={bookTitleClass} style={highlightStyle}>
               {`《${inner}》`}
             </span>
           );
@@ -91,11 +111,12 @@ export default function FormattedText({ text, className = "" }: FormattedTextPro
           (part.startsWith('「') && part.endsWith('」')) ||
           (part.startsWith('〈') && part.endsWith('〉')) ||
           (part.startsWith('<') && part.endsWith('>')) ||
-          (part.startsWith("'") && part.endsWith("'"))
+          (part.startsWith("'") && part.endsWith("'")) ||
+          (part.startsWith("‘") && part.endsWith("’"))
         ) {
           const inner = part.slice(1, -1);
           return (
-            <span key={i} className="font-serif text-accent">
+            <span key={i} className={inlineQuoteClass} style={highlightStyle}>
               {`‘${inner}’`}
             </span>
           );

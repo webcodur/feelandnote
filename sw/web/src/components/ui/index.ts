@@ -11,6 +11,8 @@ export { default as DecorativeLabel } from "./DecorativeLabel";
 export { default as InnerBox } from "./InnerBox";
 export { default as TitleBadge, type TitleInfo } from "./TitleBadge";
 export { default as FormattedText, splitReadableParagraphs } from "./FormattedText";
+export { default as ContentReadingText } from "./ContentReadingText";
+export { default as ContentTextModal, ExpandTextButton } from "./ContentTextModal";
 export { default as Popover } from "./Popover";
 export { default as CelebImage } from "./CelebImage";
 export { default as CelebAvatarImage } from "./CelebAvatarImage";

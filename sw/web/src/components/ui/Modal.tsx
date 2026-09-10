@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, type CSSProperties, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -20,6 +20,9 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   title?: string;
+  titleClassName?: string;
+  titleStyle?: CSSProperties;
+  stickyHeader?: boolean;
   icon?: LucideIcon;
   size?: "sm" | "md" | "lg" | "xl" | "full";
   showCloseButton?: boolean;
@@ -41,6 +44,9 @@ export default function Modal({
   onClose,
   children,
   title,
+  titleClassName,
+  titleStyle,
+  stickyHeader = false,
   icon: Icon,
   size = "md",
   showCloseButton = true,
@@ -92,7 +98,7 @@ export default function Modal({
             type="button"
             onClick={onClose}
             aria-label={t("close")}
-            className="absolute right-2 top-2 z-[70] w-8 h-8 rounded-full flex items-center justify-center hover:text-text-primary hover:bg-white/10 bg-bg-card/50 backdrop-blur-sm sm:right-4 sm:top-4"
+            className="absolute right-2 top-2 z-[70] flex h-8 w-8 items-center justify-center rounded-full border border-accent-dim/40 bg-bg-card/70 text-accent backdrop-blur-sm hover:bg-accent/10 hover:text-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 sm:right-4 sm:top-4"
           >
             <X size={20} />
           </button>
@@ -102,16 +108,16 @@ export default function Modal({
         <div className="overflow-y-auto max-h-[inherit] rounded-lg">
           {/* 헤더 - title이 있을 때만 렌더링 */}
           {title && (
-            <div className="relative flex items-center justify-center px-3 py-3 border-b border-border">
+            <div className={`relative flex items-center justify-center border-b border-border px-3 py-3 ${stickyHeader ? "sticky top-0 z-30 bg-bg-card/95 backdrop-blur-sm" : ""}`}>
               <div className="flex items-center gap-1.5">
                 {Icon && <Icon size={16} className="text-accent" />}
-                <h2 className="text-base sm:text-lg text-text-primary">{title}</h2>
+                <h2 className={`text-base sm:text-lg ${titleClassName ?? "text-text-primary"}`} style={titleStyle}>{title}</h2>
               </div>
             </div>
           )}
 
           {/* 본문 */}
-          <AnimatedHeight>{children}</AnimatedHeight>
+          <AnimatedHeight independent>{children}</AnimatedHeight>
         </div>
       </ClassicalBox>
     </div>

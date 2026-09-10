@@ -5,6 +5,7 @@ import { ArrowUpRight, BookOpen, BookOpenText, ShoppingBag } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { MythWork } from "@/actions/home/mythAtlasTypes";
+import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
 
 interface Props { works: MythWork[]; selectedPersonId: string }
 
@@ -62,7 +63,7 @@ export default function MythWorkShelf({ works, selectedPersonId }: Props) {
                 </div>
                 <p className="mt-1 truncate text-sm text-text-secondary">{work.creator ?? " "}</p>
                 {purchaseUrl ? (
-                  <p className="mt-auto pt-2 text-sm font-bold text-[#ff776a]">{t("buyOnCoupang")}</p>
+                  <p className="mt-auto flex min-h-10 items-end justify-center pt-2 text-base font-bold text-[#ff776a]">{t("buyOnCoupang")}</p>
                 ) : (
                   <p className="mt-auto pt-2 text-sm font-semibold text-accent">{t("castCount", { count: work.personIds.length })}</p>
                 )}
@@ -73,15 +74,18 @@ export default function MythWorkShelf({ works, selectedPersonId }: Props) {
           return (
             <div key={work.id} className="flex w-36 shrink-0 snap-start flex-col md:w-44">
               {purchaseUrl ? (
-                <a
-                  href={purchaseUrl}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow sponsored"
-                  className={`group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-bg-card hover:border-[#E44232]/70 ${selected ? "border-[#E44232]/60" : "border-[#E44232]/35"}`}
-                  title={`${work.title} · ${t("buyOnCoupang")}`}
-                >
-                  {cardBody}
-                </a>
+                <div className="group/coupang-buy relative flex flex-1 flex-col">
+                  <a
+                    href={purchaseUrl}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow sponsored"
+                    className={`group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-bg-card group-hover/coupang-buy:border-red-300/80 group-hover/coupang-buy:bg-red-400/20 ${selected ? "border-[#E44232]/60" : "border-[#E44232]/35"}`}
+                    title={`${work.title} · ${t("buyOnCoupang")}`}
+                  >
+                    {cardBody}
+                  </a>
+                  <CoupangPurchaseInfo className="absolute bottom-2 end-2 text-red-300" />
+                </div>
               ) : (
                 <Link href={workHref} className={`group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-bg-card hover:border-accent/70 ${selected ? "border-accent/60" : "border-stone-heavy"}`}>
                   {cardBody}

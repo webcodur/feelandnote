@@ -12,6 +12,7 @@ import type {
 } from "@/actions/figure-books/getFigureBooks";
 import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import { cn } from "@/lib/utils";
+import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
 
 interface FigureBookActionsProps {
   source: FigureBookContent;
@@ -51,27 +52,30 @@ export default function FigureBookActions({
 
       {edition.purchaseUrl && (
       <div className="w-full">
-        <a
-          href={edition.purchaseUrl}
-          target="_blank"
-          rel="noopener noreferrer nofollow sponsored"
-          className={cn(
-            "effect-engraved group inline-flex min-h-11 w-full items-center justify-center gap-2 whitespace-nowrap border px-3 py-2.5 text-sm font-black focus-visible:outline-none focus-visible:ring-2",
-            isCoupang
-              ? "border-red-400/35 bg-red-400/[0.08] text-red-100 hover:border-red-300/60 hover:bg-red-400/[0.16] hover:text-red-50 active:bg-red-400/[0.22] focus-visible:ring-red-300/70"
-              : "border-stone-light bg-bg-secondary text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/15 focus-visible:ring-accent",
-          )}
-        >
-          <ShoppingBag size={17} aria-hidden />
-          {t(purchaseLabel)}
-          {!compact && (
-            <ArrowUpRight
-              size={16}
-              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              aria-hidden
-            />
-          )}
-        </a>
+        <div className="group/coupang-buy relative">
+          <a
+            href={edition.purchaseUrl}
+            target="_blank"
+            rel="noopener noreferrer nofollow sponsored"
+            className={cn(
+              "effect-engraved group inline-flex min-h-11 w-full items-center justify-center gap-2 whitespace-nowrap border py-2.5 font-black focus-visible:outline-none focus-visible:ring-2",
+              isCoupang
+                ? "px-10 text-base border-red-400/35 bg-red-400/[0.08] text-red-100 group-hover/coupang-buy:border-red-300/80 group-hover/coupang-buy:bg-red-400/25 hover:text-red-50 active:bg-red-400/[0.22] focus-visible:ring-red-300/70"
+                : "px-3 text-sm border-stone-light bg-bg-secondary text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent active:bg-accent/15 focus-visible:ring-accent",
+            )}
+          >
+            {!isCoupang && <ShoppingBag size={17} aria-hidden />}
+            {t(purchaseLabel)}
+            {!isCoupang && !compact && (
+              <ArrowUpRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden
+              />
+            )}
+          </a>
+          {isCoupang && <CoupangPurchaseInfo className="absolute end-1 top-1/2 -translate-y-1/2 text-red-100" />}
+        </div>
         {isCoupang && (
           <p className="mt-2 text-sm leading-relaxed text-text-tertiary">
             {AFFILIATE_PLATFORMS.coupang.notice}

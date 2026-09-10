@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, BookOpenText, ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
+import { ArrowUpRight, BookOpenText, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { MythTradition, MythWork } from "@/actions/home/mythAtlasTypes";
 import { BlurDissolve, FormattedText, splitReadableParagraphs } from "@/components/ui";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
+import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
 
 interface Props {
   tradition: MythTradition | null;
@@ -139,7 +140,7 @@ function EntryWorkCard({ work, locale, label, buyLabel }: { work: MythWork; loca
         <p className={layout.entryCreator}>{work.creator}</p>
       </div>
       <span className={`grid size-8 shrink-0 place-items-center rounded-full bg-black/85 ${purchaseUrl ? "text-[#ff776a]" : "text-text-tertiary"}`} aria-hidden>
-        {purchaseUrl ? <ShoppingBag size={15} /> : <ArrowUpRight size={15} />}
+        <ArrowUpRight size={15} />
       </span>
     </>
   );
@@ -147,15 +148,25 @@ function EntryWorkCard({ work, locale, label, buyLabel }: { work: MythWork; loca
   const shared = "group mt-4 flex shrink-0 items-center gap-3 rounded-2xl border bg-bg-card p-2.5";
   if (purchaseUrl) {
     return (
-      <a
-        href={purchaseUrl}
-        target="_blank"
-        rel="noopener noreferrer nofollow sponsored"
-        title={`${work.title} · ${buyLabel}`}
-        className={`${shared} border-[#E44232]/35 hover:border-[#E44232]/70`}
-      >
-        {body}
-      </a>
+      <div className="mt-4 shrink-0 overflow-hidden rounded-2xl border border-[#E44232]/35 bg-bg-card">
+        <Link href={`/content/${work.id}?category=${work.category}`} className="group flex items-center gap-3 p-2.5 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent">
+          {body}
+        </Link>
+        <div className="border-t border-[#E44232]/20 px-2.5 py-1.5">
+          <div className="group/coupang-buy relative">
+            <a
+              href={purchaseUrl}
+              target="_blank"
+              rel="noopener noreferrer nofollow sponsored"
+              title={`${work.title} · ${buyLabel}`}
+              className="flex min-h-9 w-full items-center justify-center rounded-lg border border-red-400/25 bg-red-400/[0.08] px-10 text-base font-bold text-red-300 group-hover/coupang-buy:border-red-300/80 group-hover/coupang-buy:bg-red-400/25 hover:text-red-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
+            >
+              {buyLabel}
+            </a>
+            <CoupangPurchaseInfo className="absolute end-1 top-1/2 -translate-y-1/2 text-red-300" />
+          </div>
+        </div>
+      </div>
     );
   }
   return (

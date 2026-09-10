@@ -5,6 +5,7 @@ import { BookOpenText, ExternalLink } from 'lucide-react'
 import CenteredSectionHeading from '@/components/ui/CenteredSectionHeading'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 import { cn } from '@/lib/utils'
+import CoupangPurchaseInfo from '@/components/shared/CoupangPurchaseInfo'
 
 interface AffiliateBookListProps {
   books: AffiliateBook[]
@@ -32,7 +33,7 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
   return (
     <section className={cn(
       "w-full border-t border-white/5",
-      hideHeading ? "mt-0 pb-2 pt-4 md:pt-6" : compact ? "mt-3 pb-2 pt-2 md:mt-4" : "mt-12 pb-6 pt-6 md:mt-20 md:pb-10 md:pt-10",
+      hideHeading ? "mt-0 pb-0 pt-4 md:pt-6" : compact ? "mt-3 pb-0 pt-2 md:mt-4" : "mt-12 pb-2 pt-6 md:mt-20 md:pt-10",
     )}>
       {!hideHeading && (
         <CenteredSectionHeading
@@ -45,7 +46,7 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
 
       {/* 좁은 화면: 한 줄로 옆으로 넘김 · 넓은 화면: 가운데 정렬해 줄바꿈 */}
       <div className={cn(
-        "flex overflow-x-auto px-4 pb-2 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+        "flex overflow-x-auto px-4 pb-1 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         compact
           ? "gap-3 md:px-4"
           : "gap-3 md:flex-wrap md:justify-center md:gap-5 md:overflow-visible md:px-0 md:pb-0",
@@ -54,24 +55,27 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
           <div
             key={book.contentId}
             className={cn(
-              "shrink-0 snap-start flex flex-col gap-2",
-              compact ? "w-[190px] md:w-[200px]" : "w-[128px] md:w-[180px] md:gap-3",
+              "shrink-0 snap-start flex flex-col gap-1",
+              compact ? "w-[190px] md:w-[200px]" : "md:w-[180px]",
+              !compact && (platform === 'coupang' ? "w-[144px]" : "w-[128px]"),
             )}
           >
-            <div className="flex flex-col overflow-hidden rounded-lg border border-[#E44232]/40 bg-[#E44232]/10 group-hover/coupang:border-[#E44232]/70 group-hover/coupang:bg-[#E44232]/15">
+            <div className="group/coupang relative flex flex-col overflow-hidden rounded-lg border border-[#E44232]/40 bg-[#E44232]/10 hover:border-red-300/80 hover:bg-red-400/25">
               <a
                 href={book.url}
                 target="_blank"
                 rel="noopener noreferrer nofollow sponsored"
                 className={cn(
-                  "group/coupang flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E44232]/70 focus-visible:ring-inset",
-                  compact ? "h-14 flex-row" : "flex-col",
+                  "flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E44232]/70 focus-visible:ring-inset",
+                  compact ? "flex-row" : "flex-col",
+                  compact && (platform === 'coupang' ? "h-22" : "h-16"),
                 )}
                 title={`${book.title} · ${buyLabel}`}
               >
                 <div className={cn(
                   "relative overflow-hidden bg-white/[0.04]",
-                  compact ? "h-14 w-10 shrink-0" : "w-full aspect-[2/3]",
+                  compact ? "w-10 shrink-0" : "w-full aspect-[2/3]",
+                  compact && (platform === 'coupang' ? "h-22" : "h-16"),
                 )}>
                   <ContentImage
                     src={book.thumbnail}
@@ -90,37 +94,42 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
                   />
                 </div>
                 <div className={cn(
-                  "flex flex-col gap-0.5",
+                  "flex flex-col",
                   compact
-                    ? "min-w-0 flex-1 items-start justify-center px-2 py-1 text-start"
-                    : "items-center px-2.5 py-2 text-center",
+                    ? "min-w-0 flex-1 items-start px-2 text-start"
+                    : "items-center px-2.5 text-center",
+                  compact && (platform === 'coupang' ? "justify-end" : "justify-center"),
                 )}>
+                  <div className="flex w-full flex-col gap-1 pt-2">
                   <p className={cn(
-                    "min-w-0 truncate font-semibold text-white/90 group-hover/coupang:text-[#ff776a]",
-                    compact ? "w-full text-xs" : "text-[13px] md:text-sm",
+                    "min-w-0 w-full font-semibold text-text-primary group-hover/coupang:text-red-200",
+                    compact ? "truncate text-sm sm:text-sm leading-5" : "line-clamp-2 text-[15px] sm:text-[15px] leading-5",
                   )}>
                     {book.title}
                   </p>
                   {book.creator && <p className={cn(
-                    "truncate text-white/50 group-hover/coupang:text-[#ff776a]/85",
-                    compact ? "text-[10px]" : "text-[11px] md:text-xs",
+                    "w-full truncate text-[13px] sm:text-[13px] leading-4 text-text-secondary group-hover/coupang:text-red-200",
                   )}>{book.creator}</p>}
+                  </div>
                   <span className={cn(
-                    "mt-1 flex items-center gap-1 font-semibold text-red-300 group-hover/coupang:text-red-200",
-                    compact ? "text-[10px]" : "text-[11px] md:text-xs",
+                    "flex items-center gap-1 font-medium text-red-300 group-hover/coupang:text-red-200",
+                    platform === 'coupang' && "h-8 w-full shrink-0 justify-center whitespace-nowrap text-[13px] sm:text-[13px] leading-none",
+                    !compact && "justify-center",
+                    platform !== 'coupang' && (compact ? "text-[10px]" : "text-[11px] md:text-xs"),
                   )}>
                     {buyLabel}
-                    <ExternalLink size={11} aria-hidden />
+                    {platform !== 'coupang' && <ExternalLink size={11} aria-hidden />}
                   </span>
                 </div>
               </a>
+              {platform === 'coupang' && <CoupangPurchaseInfo compact className="absolute bottom-0 end-1 h-8 text-red-300" />}
             </div>
 
             {!compact && <Link
               href={`/content/${book.contentId}?category=book`}
               className={cn(
                 "mt-auto flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/[0.06] font-medium text-white/70 hover:border-[#d4af37]/40 hover:bg-[#d4af37]/10 hover:text-[#d4af37] active:bg-[#d4af37]/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]",
-                compact ? "px-1.5 py-1.5 text-[10px]" : "px-2.5 py-2 text-xs md:text-[13px]",
+                compact ? "px-1.5 py-1.5 text-[10px]" : "px-2 py-1.5 text-xs md:text-[13px]",
               )}
               title={`${book.title} · ${detailLabel}`}
             >
@@ -133,7 +142,7 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
 
       {AFFILIATE_PLATFORMS[platform].notice && <p className={cn(
         "text-center px-4",
-        compact ? "mt-1 text-[10px]" : "mt-3 text-[10px] md:text-xs",
+        compact ? "mt-1 text-[10px]" : "mt-2 text-[10px] md:text-xs",
       )}>{AFFILIATE_PLATFORMS[platform].notice}</p>}
     </section>
   )

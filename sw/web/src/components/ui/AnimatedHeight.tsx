@@ -7,6 +7,8 @@
 "use client";
 
 import {
+  createContext,
+  useContext,
   useRef,
   useState,
   useEffect,
@@ -18,12 +20,30 @@ interface AnimatedHeightProps {
   children: ReactNode;
   className?: string;
   duration?: number;
+  independent?: boolean;
 }
+
+const HeightAnimationContext = createContext(false);
 
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-export default function AnimatedHeight({
+export default function AnimatedHeight(props: AnimatedHeightProps) {
+  const hasAnimatedParent = useContext(HeightAnimationContext);
+
+  // Let the outer boundary handle nested content changes once. Portals can opt out.
+  if (hasAnimatedParent && !props.independent) {
+    return <div className={props.className}><div className="w-full flow-root">{props.children}</div></div>;
+  }
+
+  return (
+    <HeightAnimationContext.Provider value={true}>
+      <MeasuredHeight {...props} />
+    </HeightAnimationContext.Provider>
+  );
+}
+
+function MeasuredHeight({
   children,
   className = "",
   duration = 320,
@@ -72,21 +92,29 @@ export default function AnimatedHeight({
     return () => observer.disconnect();
   }, []);
 
+  // A cancelled transition or reduced-motion preference may omit transitionend.
+  useEffect(() => {
+    if (!isTransitioning) return;
+    const timeout = window.setTimeout(() => setIsTransitioning(false), duration + 80);
+    return () => window.clearTimeout(timeout);
+  }, [height, isTransitioning, duration]);
+
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
+    if (e.target === e.currentTarget && e.propertyName === "height") {
       setIsTransitioning(false);
     }
   };
 
   return (
     <div
-      className={className}
+      className={`motion-reduce:transition-none! ${className}`}
+      data-animated-height
       style={{
         height: height !== undefined ? `${height}px` : undefined,
         transition: isReady
           ? `height ${duration}ms cubic-bezier(0.25, 1, 0.5, 1)`
           : "none",
-        overflow: isTransitioning ? "hidden" : "visible",
+        overflow: isTransitioning ? "clip" : "visible",
         willChange: isTransitioning ? "height" : "auto",
       }}
       onTransitionEnd={handleTransitionEnd}
