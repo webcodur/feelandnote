@@ -20,18 +20,25 @@ const face = (avatarUrl: string | null) => avatarUrl
 export class DiagramBuilder {
   readonly data: DiagramData = { nodes: [], edges: [], combos: [] };
   private edgeSequence = 0;
+  private readonly personNodeIds = new Set<string>();
 
   constructor(private readonly theme: DiagramTheme) {}
 
-  person(person: PersonNode, x: number, y: number, anchor: "top" | "bottom") {
+  person(person: PersonNode, x: number, y: number, anchor: "top" | "bottom", placementKey = person.id) {
+    const baseId = `person:${person.id}`;
+    const nodeId = this.personNodeIds.has(baseId) ? `${baseId}:${placementKey}` : baseId;
+    if (this.personNodeIds.has(nodeId)) return nodeId;
+    this.personNodeIds.add(nodeId);
+
     const html = `<button class="relation-person is-anchored-${anchor}" type="button" data-relation-person="${escapeHtml(person.id)}">`
       + `<span class="relation-face">${face(person.avatarUrl)}</span>`
       + `<strong title="${escapeHtml(person.name)}">${escapeHtml(person.name)}</strong></button>`;
     this.data.nodes.push({
-      id: `person:${person.id}`, type: "html",
+      id: nodeId, type: "html",
       data: { kind: "person", nodeType: "html", personId: person.id, personIds: [person.id] },
       style: { x, y, size: [78, 96], dx: -39, dy: -48, innerHTML: html, zIndex: 10 },
     });
+    return nodeId;
   }
 
   center(name: string, avatarUrl: string | null, x: number, y: number, rays: CenterRay[]) {
@@ -88,8 +95,10 @@ export class DiagramBuilder {
         const junction = Math.abs(entry.x - anchorX) < 1
           ? hub : this.junction(`${id}:junction:${entry.person.id}`, entry.x, busY, remaining);
         if (junction !== previous) this.edge(previous, junction, remaining);
-        this.person(entry.person, entry.x, nodeY, busY > nodeY ? "bottom" : "top");
-        this.edge(junction, `person:${entry.person.id}`, [entry.person.id]);
+        const personNodeId = this.person(
+          entry.person, entry.x, nodeY, busY > nodeY ? "bottom" : "top", `${id}:${entry.person.id}`,
+        );
+        this.edge(junction, personNodeId, [entry.person.id]);
         previous = junction;
       });
     }

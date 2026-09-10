@@ -8,6 +8,10 @@ const SIDE_ROW_GAP = 96;
 const AXIS_COLUMN_GAP = 104;
 const AXIS_ROW_GAP = 96;
 const AXIS_LANE_OFFSET = 120;
+const AXIS_EDGE_INSET = 84;
+const AXIS_BASE_DISTANCE = 192;
+const PERSON_HEIGHT = 96;
+const AXIS_CLEARANCE = 20;
 const COMPACT_COLUMN_GAP = 96;
 const COMPACT_ROW_GAP = 100;
 interface LayoutViewport { compact: boolean; width: number; }
@@ -63,9 +67,16 @@ export function graphStageHeight(mode: RelationMode, model: RelationModel, focus
   const axisGroups = [groups.up.length, groups.down.length];
   const longestWing = Math.max(0, ...sideGroups.map(sideRowCount));
   const deepestAxis = Math.max(0, ...axisGroups.map((count) => Math.ceil(count / 7)));
-  const sideBase = deepestAxis ? 264 : 192;
+  const sideBase = 192;
   const sideHeight = longestWing ? sideBase + longestWing * SIDE_ROW_GAP : 0;
-  const axisHeight = deepestAxis ? 360 + deepestAxis * AXIS_ROW_GAP * 2 : 0;
+  const sideBandHalf = longestWing ? ((longestWing - 1) * SIDE_ROW_GAP) / 2 : 0;
+  const axisNearestDistance = Math.max(
+    AXIS_BASE_DISTANCE,
+    sideBandHalf + PERSON_HEIGHT + AXIS_CLEARANCE,
+  );
+  const axisHeight = deepestAxis
+    ? 2 * (AXIS_EDGE_INSET + axisNearestDistance + (deepestAxis - 1) * AXIS_ROW_GAP)
+    : 0;
   return Math.max(360, sideHeight, axisHeight);
 }
 const clampMobileHeight = (height: number) => Math.min(540, Math.max(360, Math.ceil(height)));
