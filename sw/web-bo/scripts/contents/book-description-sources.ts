@@ -20,6 +20,8 @@ import {
 const PAGE_SIZE = 100
 const REQUEST_INTERVAL_MS = 1000
 const MAX_CONSECUTIVE_FAILURES = 3
+const READBACK_ATTEMPTS = 5
+const READBACK_DELAY_MS = 500
 const ROW_SELECT = 'content_id,locale,title,creator,publisher,isbn,description,sources'
 interface Book {
   id: string
@@ -150,17 +152,33 @@ async function main() {
         { input: sql, encoding: 'utf8', timeout: 45000, maxBuffer: 1024 * 1024 })
         if (appliedResult.error || appliedResult.status !== 0) throw new Error(appliedResult.error?.message ?? appliedResult.stderr)
         // Confirm persisted descriptions and source URLs before advancing the cursor.
+        // The API may briefly serve a stale replica immediately after the SSH transaction;
+        // retrying preserves the concurrency guard without treating that lag as a failed write.
         for (const change of changes) {
-          let read = db.from(change.table).select('description,sources').eq('content_id', book.id)
-          read = change.table === 'content_locales' ? read.eq('locale', change.before.locale) : read.eq('id', change.before.id!)
-          const { data: current, error: readError } = await read.single()
-          if (readError || current.description !== change.description || current.sources?.description !== change.sources.description) {
-            throw new Error(`Readback failed for ${book.id}; backup: ${backupDir}`)
+          let confirmed = false
+          for (let attempt = 0; attempt < READBACK_ATTEMPTS; attempt += 1) {
+            let read = db.from(change.table).select('description,sources').eq('content_id', book.id)
+            read = change.table === 'content_locales' ? read.eq('locale', change.before.locale) : read.eq('id', change.before.id!)
+            const { data: current, error: readError } = await read.single()
+            if (!readError && current.description === change.description && current.sources?.description === change.sources.description) {
+              confirmed = true
+              break
+            }
+            if (attempt + 1 < READBACK_ATTEMPTS) await delay(READBACK_DELAY_MS * (attempt + 1))
           }
+          if (!confirmed) throw new Error(`Readback failed for ${book.id}; backup: ${backupDir}`)
         }
         if (metadataChange) {
-          const { data: current, error: readError } = await db.from('contents').select('metadata').eq('id', book.id).single()
-          if (readError || metadataChange.removed.some((key) => key in (current.metadata ?? {}))) throw new Error(`Metadata readback failed for ${book.id}`)
+          let confirmed = false
+          for (let attempt = 0; attempt < READBACK_ATTEMPTS; attempt += 1) {
+            const { data: current, error: readError } = await db.from('contents').select('metadata').eq('id', book.id).single()
+            if (!readError && !metadataChange.removed.some((key) => key in (current.metadata ?? {}))) {
+              confirmed = true
+              break
+            }
+            if (attempt + 1 < READBACK_ATTEMPTS) await delay(READBACK_DELAY_MS * (attempt + 1))
+          }
+          if (!confirmed) throw new Error(`Metadata readback failed for ${book.id}; backup: ${backupDir}`)
         }
         applied += changes.length
       }
