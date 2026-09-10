@@ -197,7 +197,7 @@ function getCachedContentBrief(contentId: string, safeLocale: string): Promise<C
   return cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-brief-selected-book-intro-v8-compat', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
+    ['content-brief-selected-book-intro-v9-source', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
     () => fetchBrief(contentId, safeLocale),
   )
 }
@@ -236,7 +236,7 @@ export async function getContentBriefStrict(
 // 외부 장애로 비워진 소개를 서지 캐시에 저장하지 않는다.
 async function withBookIntroduction(brief: ContentBrief | null, locale: string): Promise<ContentBrief | null> {
   if (!brief?.bookIntroduction) return brief
-  const { isbn, source, sourceUrl, legacyFallback } = brief.bookIntroduction
-  const description = await getBookIntroduction(isbn, locale, source, sourceUrl, legacyFallback)
+  const { isbn, source, sourceUrl } = brief.bookIntroduction
+  const description = await getBookIntroduction(isbn, locale, source, sourceUrl)
   return { ...brief, description }
 }

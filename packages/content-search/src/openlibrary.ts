@@ -7,6 +7,7 @@ import { toIsbn13 } from '@feelandnote/content-search/kakao-books'
 
 const OPENLIBRARY_BASE_URL = 'https://openlibrary.org'
 const REQUEST_TIMEOUT_MS = 5000
+const OPENLIBRARY_USER_AGENT = 'FeelandNote book metadata (contact@feelandnote.com)'
 const REQUEST_INTERVAL_MS = 1000 // https://openlibrary.org/developers/api — unidentified requests: 1/s
 let nextRequestAt = 0
 
@@ -88,7 +89,7 @@ async function fetchJson<T>(sourceUrl: string): Promise<{ data: T; sourceUrl: st
   for (let redirects = 0; redirects <= 3; redirects += 1) {
     await waitForRequestSlot()
     const response: Response = await fetch(`${currentUrl}.json`, {
-      headers: { Accept: 'application/json' },
+      headers: { Accept: 'application/json', 'User-Agent': OPENLIBRARY_USER_AGENT },
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       redirect: 'manual',
     })
