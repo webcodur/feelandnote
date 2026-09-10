@@ -216,40 +216,51 @@ web_dev_http=200
 
 웹 개발 서버는 사용자 프로세스이므로 재시작하지 않았다.
 
-## 반영 직전 상태
+## 반영 결과
 
-로컬에 반영할 파일은 위 코드와 테스트 파일이다. 저장소에 다른 작업의
-변경이 많이 쌓여 있으므로 아래 파일만 커밋해야 한다.
+인수인계 문서를 작성한 뒤 책 소개 코드와 문서를 커밋했다.
 
-- packages/content-search/src/openlibrary.ts
-- packages/shared/src/lib/book-metadata.ts
-- sw/web-bo/scripts/contents/book-description-sources.ts
-- sw/web-bo/scripts/contents/book-description-sources-contract.test.ts
-- sw/web/src/lib/utils/book-description.ts
-- sw/web/src/hooks/useBookIntroduction.ts
-- sw/web/src/actions/contents/fetchBookMetadata.ts
-- sw/web/src/actions/contents/getContentDetail.ts
-- sw/web/src/actions/contents/getContentBrief.ts
-- sw/web/src/actions/figure-books/getFigureBookPresentations.ts
-- sw/web/src/lib/utils/book-description.test.ts
+- 커밋: 34e75c1a0733f7aef6d73c733d128557e3705954
+- push: origin/main 반영 완료
+- Oracle release: 34e75c1a-web-20260910t081403z
+- 슬롯: green
+- 현재 트래픽: 기본 포트 3000
+- 서비스와 Caddy: active
+- canary: 검증 후 inactive로 정리
 
-현재 Oracle 운영은 커밋 3bed68af이며 서비스와 Caddy가 active다. 기본
-트래픽은 포트 3000이다. 배포 계획 모드에서 서버 변경 없이 현재 운영
-커밋과 HEAD가 같음을 확인했다.
+격리 빌드가 성공했고 Oracle Linux용 sharp·libvips를 확인했다. canary에서
+페이지 200, 정적 자산 48개, 실제·fallback SEO 이미지 800×800,
+explore 두 차례 응답을 확인했다. 공개 bill-gates 페이지와 SEO 이미지도
+200으로 확인했고 새 deployment id가 공개 HTML에 포함됐다.
 
-## 다음 실행
+Cloudflare는 배포 출력의 범위대로 cached-html만 퍼지했다. celeb·content
+접두사와 explore directory·timeline 파일 요청이 모두 HTTP 200, 각 1회
+시도였고 전체 존 퍼지는 하지 않았다.
 
-인수인계 이후에는 위 파일만 경로를 지정해 커밋한다. 커밋된 ref를
-Oracle 배포 스크립트의 기본 plan으로 먼저 확인하고, 승인된 운영 반영을
-다음 명령으로 실행한다.
+NULL 소개 행의 공개 작품 페이지는 200으로 응답했으며 HTML에 KAKAO·DAUM·OPEN
+표식과 legacyFallback이 없었다. 표식이 있는 공개 작품 페이지는 새
+deployment id와 DAUM 표식이 확인됐고 표식이 본문으로 출력되지는 않는다.
 
-~~~powershell
-git commit -m "refactor(book): remove stored introduction fallback" -- packages/content-search/src/openlibrary.ts packages/shared/src/lib/book-metadata.ts sw/web-bo/scripts/contents/book-description-sources.ts sw/web-bo/scripts/contents/book-description-sources-contract.test.ts sw/web/src/lib/utils/book-description.ts sw/web/src/hooks/useBookIntroduction.ts sw/web/src/actions/contents/fetchBookMetadata.ts sw/web/src/actions/contents/getContentDetail.ts sw/web/src/actions/contents/getContentBrief.ts sw/web/src/actions/figure-books/getFigureBookPresentations.ts sw/web/src/lib/utils/book-description.test.ts
+## 반영 후 재확인
 
-pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB
+운영 반영 뒤 DB를 읽기 전용으로 다시 조회했다.
+
+~~~json
+{
+  "books": 12252,
+  "metadataRows": 0,
+  "metadataNonempty": 0,
+  "markers": {
+    "koDAUM": 7560,
+    "koKAKAO": 1893,
+    "enOPEN": 3618
+  },
+  "legacySources": 16,
+  "trustedNonMarker": 0
+}
 ~~~
 
-배포 출력의 cloudflarePurgeRequired 범위가 none이 아니면 그 출력의
-범위를 그대로 사용해 Cloudflare 퍼지를 실행하고, 배포 스크립트가 요구하는
-canary·공개 페이지·SEO·정적 자산 검증 결과를 확인한다. 배포 실패 시
-스크립트가 안내하는 반대 슬롯과 traffic bridge 상태를 먼저 확인한다.
+관련 테스트 36개, 메타데이터 계약 테스트, 타입 검사, check:agents,
+웹 빌드와 standalone 검증은 모두 통과했다. 이후 운영 계획 모드에서
+현재 commit이 34e75c1a이고 service·Caddy가 active이며 purge 계획이
+none임을 다시 확인했다.
