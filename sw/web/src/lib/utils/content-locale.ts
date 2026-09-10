@@ -25,6 +25,7 @@ export interface ContentLocaleRow {
   isbn?: string | null
   publisher?: string | null
   affiliate_url?: unknown
+  sources?: unknown
 }
 
 /**
@@ -59,7 +60,7 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, l
 export function sourceToLocale(source: string | null | undefined): string {
   switch (source) {
     case 'kakao_book': case 'aladin': case 'tmdb': return 'ko'
-    case 'google_books': case 'igdb': case 'itunes': return 'en'
+    case 'google_books': case 'openlibrary': case 'igdb': case 'itunes': return 'en'
     default: return 'ko'
   }
 }

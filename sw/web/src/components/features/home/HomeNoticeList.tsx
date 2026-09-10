@@ -10,7 +10,7 @@
 
 import { useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { Eye, MessageSquare } from 'lucide-react'
+import { ChevronRight, Eye, MessageSquare } from 'lucide-react'
 import type { NoticeWithAuthor } from '@/types/database'
 import { incrementNoticeView } from '@/actions/board/notices'
 import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
@@ -48,59 +48,67 @@ export default function HomeNoticeList({ notices }: Props) {
 
   return (
     <>
-      <div className="mx-auto max-w-3xl space-y-3 px-4">
+      <div className="mx-auto max-w-3xl space-y-2.5 px-3 sm:px-4">
         {notices.map((notice) => (
           <button
             key={notice.id}
             type="button"
             onClick={() => open(notice)}
             /* 테두리·배경·제목색은 즉각 축이다(ui-hover). 모서리 장식만 연출 축으로 둔다 */
-            className={`group relative block w-full text-left p-4 rounded-lg bg-bg-card/60 backdrop-blur-sm border border-accent-dim/20 hover:border-accent/40 hover:bg-bg-card/80 ${
-              notice.is_pinned ? 'border-l-2 border-l-accent' : ''
-            }`}
+            className="group relative block w-full text-left px-4 py-3 sm:px-5 sm:py-3.5 rounded-lg bg-bg-card/60 backdrop-blur-sm border border-accent-dim/20 hover:border-accent/45 hover:bg-bg-card/90 transition-none"
           >
-            <span aria-hidden className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/0 group-hover:border-accent/30 transition-colors rounded-tl" />
-            <span aria-hidden className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/0 group-hover:border-accent/30 transition-colors rounded-tr" />
-            <span aria-hidden className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/0 group-hover:border-accent/30 transition-colors rounded-bl" />
-            <span aria-hidden className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/0 group-hover:border-accent/30 transition-colors rounded-br" />
+            {/* 호버 시 코너 장식 */}
+            <span aria-hidden className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/0 group-hover:border-accent/40 transition-colors rounded-tl pointer-events-none" />
+            <span aria-hidden className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-accent/0 group-hover:border-accent/40 transition-colors rounded-tr pointer-events-none" />
+            <span aria-hidden className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-accent/0 group-hover:border-accent/40 transition-colors rounded-bl pointer-events-none" />
+            <span aria-hidden className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-accent/0 group-hover:border-accent/40 transition-colors rounded-br pointer-events-none" />
 
-            <span className="flex items-start gap-3">
-              {notice.is_pinned && (
-                <span className="flex-shrink-0 mt-0.5">
-                  <LaurelIcon size={18} color="#d4af37" strokeWidth={1.5} />
-                </span>
-              )}
-              <span className="flex-1 min-w-0">
-                <span className="block text-center text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent">
+            <div className="flex items-center justify-between gap-3 sm:gap-4">
+              {/* 좌측: 뱃지 + 제목 */}
+              <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                {notice.is_pinned && (
+                  <span className="flex-shrink-0 text-accent" title={t('notice.pinnedBadge') || 'PINNED'}>
+                    <LaurelIcon size={16} color="#d4af37" strokeWidth={1.5} />
+                  </span>
+                )}
+                {isNew(notice.created_at) && (
+                  <span className="flex-shrink-0 px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/15 text-accent border border-accent/30">
+                    N
+                  </span>
+                )}
+                <span className="font-serif font-medium text-sm sm:text-base text-text-primary truncate group-hover:text-accent transition-colors">
                   {notice.title}
-                  {isNew(notice.created_at) && (
-                    <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/20 text-accent align-middle">
-                      N
-                    </span>
-                  )}
                 </span>
-                {/* 작성자 프로필이 없는 공지가 있다 — 이름이 없으면 줄 자체를 두지 않는다 */}
-                {notice.author.nickname && (
-                  <span className="block text-center text-xs font-serif text-text-secondary mt-1.5 truncate">
+              </div>
+
+              {/* 우측: 작성자(선택) + 상대 시각 + 조회수/댓글 + 화살표 */}
+              <div className="flex items-center gap-2 sm:gap-3 text-xs text-text-secondary flex-shrink-0">
+                {notice.author?.nickname && (
+                  <span className="hidden md:inline font-serif text-text-secondary/70">
                     {notice.author.nickname}
                   </span>
                 )}
-                {/* 메타는 좌우 2열 — 왼쪽은 상대 시각, 오른쪽은 조회수(댓글), 각 셀 안에서 가운데 둔다 */}
-                <span className="mt-2 grid grid-cols-2 text-xs text-text-secondary">
-                  <span className="text-center">{formatBoardRelativeTime(notice.created_at, locale)}</span>
-                  <span className="flex items-center justify-center gap-1">
-                    <Eye size={12} className="text-accent-dim" />
-                    {viewCountOf(notice)}
-                    {(notice.comment_count ?? 0) > 0 && (
-                      <span className="ml-2 flex items-center gap-1">
-                        <MessageSquare size={12} className="text-accent-dim" />
-                        {notice.comment_count}
-                      </span>
-                    )}
-                  </span>
+                {notice.author?.nickname && <span className="hidden md:inline text-accent-dim/30">·</span>}
+                <span className="whitespace-nowrap font-sans text-text-secondary/80">
+                  {formatBoardRelativeTime(notice.created_at, locale)}
                 </span>
-              </span>
-            </span>
+                <span className="text-accent-dim/30">·</span>
+                <span className="flex items-center gap-1 font-sans text-text-secondary/80">
+                  <Eye size={12} className="text-accent-dim" />
+                  {viewCountOf(notice)}
+                </span>
+                {(notice.comment_count ?? 0) > 0 && (
+                  <span className="flex items-center gap-1 font-sans text-accent">
+                    <MessageSquare size={12} />
+                    {notice.comment_count}
+                  </span>
+                )}
+                <ChevronRight
+                  size={14}
+                  className="text-accent-dim/40 group-hover:text-accent group-hover:translate-x-0.5 transition-transform flex-shrink-0 ml-0.5"
+                />
+              </div>
+            </div>
           </button>
         ))}
       </div>

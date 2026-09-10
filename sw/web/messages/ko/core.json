@@ -784,7 +784,7 @@
   },
   "popularBooks": {
     "title": "추천 도서",
-    "buyOnCoupang": "쿠팡에서 보기",
+    "buyOnCoupang": "쿠팡 구매",
     "viewBookDetails": "책 상세 보기",
     "headingRead": "이 인물이 읽은 책",
     "headingProfession": "같은 분야 인물들이 읽은 책",

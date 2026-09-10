@@ -11,6 +11,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import ContentImage from "@/components/ui/ContentImage";
+import ContentReadingText from "@/components/ui/ContentReadingText";
 import FormattedText from "@/components/ui/FormattedText";
 import type { RecordsLabels } from "./RecordsPageBody";
 
@@ -26,6 +27,9 @@ interface Props {
 
 const LINK_CLASS = "text-accent underline underline-offset-4 hover:text-accent-hover";
 const NAV_BUTTON_CLASS = "flex size-9 shrink-0 items-center justify-center rounded-full border border-white/15 text-text-primary hover:border-accent hover:text-accent disabled:cursor-default disabled:opacity-30 disabled:hover:border-white/15 disabled:hover:text-text-primary";
+const READING_LABEL_CLASS = "text-xs font-black uppercase tracking-[0.16em] text-3d-gold-bright";
+const READING_LABEL_STYLE = { filter: "none" } satisfies CSSProperties;
+const REVIEW_SECTION_CLASS = "relative mt-10 border-t border-accent/25 pt-9 sm:mt-14 sm:pt-10";
 
 /**
  * 한 쪽에 최대 20건이 실려 한 번에 다 펼치면 너무 길다. 검색엔진은 이 서버 렌더
@@ -119,27 +123,33 @@ export default function RecordsDeck({ locale, items, descriptions, initialFocusC
                     감상평과 같은 FormattedText로 그려 따옴표·개행 처리를 똑같이 매끈하게 맞춘다.
                     라벨은 본문 글자가 아니라 팻말 취급 — 가운데·금색·강조로 확실히 갈라 보인다. */}
                 {description && (
-                  <div className="mb-8">
-                    <p className="text-center text-xs font-black uppercase tracking-[0.16em] text-3d-gold-bright">{labels.introduction}</p>
-                    <div className="mt-3 text-base leading-relaxed text-text-secondary lg:text-lg">
-                      <FormattedText text={description} />
-                    </div>
+                  <div>
+                    <p className={`${READING_LABEL_CLASS} text-center`} style={READING_LABEL_STYLE}>{labels.introduction}</p>
+                    <ContentReadingText text={description} tone="secondary" size="reader" className="mt-3" />
                   </div>
                 )}
-                <div>
-                  <p className="text-center text-xs font-black uppercase tracking-[0.16em] text-3d-gold-bright">{labels.myReview}</p>
-                  <div className="mt-3 text-base leading-relaxed text-text-primary lg:text-lg">
-                    {text && !review?.is_spoiler && <>
-                      {locale === "en" && !review?.content_preview_en && <p className="mb-3 text-sm text-text-secondary">{labels.originalLanguage}</p>}
-                      <FormattedText text={text} />
-                    </>}
-                    {text && review?.is_spoiler && <p className="text-text-secondary">{labels.spoiler}</p>}
-                    {!text && <p className="text-text-secondary">{labels.emptyReview}</p>}
+                <div className={description ? REVIEW_SECTION_CLASS : "relative"}>
+                  {description && (
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -top-1 left-1/2 size-2 -translate-x-1/2 rotate-45 bg-accent/75"
+                    />
+                  )}
+                  <div>
+                    <p className={`${READING_LABEL_CLASS} text-center`} style={READING_LABEL_STYLE}>{labels.myReview}</p>
+                    <ContentReadingText tone="primary" size="reader" className="mt-4">
+                      {text && !review?.is_spoiler && <>
+                        {locale === "en" && !review?.content_preview_en && <p className="mb-3 text-sm text-text-secondary">{labels.originalLanguage}</p>}
+                        <FormattedText text={text} />
+                      </>}
+                      {text && review?.is_spoiler && <p className="text-text-secondary">{labels.spoiler}</p>}
+                      {!text && <p className="text-text-secondary">{labels.emptyReview}</p>}
+                    </ContentReadingText>
+                    {item.source_url && <p className="mt-6 break-words border-t border-white/10 pt-4 text-sm">
+                      <a href={item.source_url} target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>{labels.source}: {item.source_url}</a>
+                    </p>}
                   </div>
                 </div>
-                {item.source_url && <p className="mt-5 break-words text-sm">
-                  <a href={item.source_url} target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>{labels.source}: {item.source_url}</a>
-                </p>}
               </div>
             </div>
           </article>

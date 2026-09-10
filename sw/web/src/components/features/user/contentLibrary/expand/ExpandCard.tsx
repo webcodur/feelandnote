@@ -14,6 +14,7 @@ import { useLocale, useTranslations } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
 import FormattedText from "@/components/ui/FormattedText";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
+import ContentTextModal, { ExpandTextButton } from "@/components/ui/ContentTextModal";
 import Button from "@/components/ui/Button";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -62,11 +63,14 @@ function ExpandCard({
   const t = useTranslations("content");
   const tExpand = useTranslations("archiveSearch");
   const [isCoverOpen, setIsCoverOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   const { title } = getLocalizedContent(item.content, locale);
   const review = locale === "en" && item.review_en ? item.review_en : item.review;
   const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
   const isSpoiler = item.is_spoiler ?? false;
+  const canExpandReview = !hasRecordError && !isRecordLoading && !!review && !isSpoiler;
+  const reviewHeading = ownerNickname ? tExpand("expandReviewOf", { name: ownerNickname }) : tExpand("expandReview");
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const href = `/content/${item.content_id}?category=${category}`;
   const coverUrl = item.content.thumbnail_url;
@@ -140,25 +144,31 @@ function ExpandCard({
         {/* 가운뎃칸 — 이 인물이 왜 이 작품을 골랐는지.
           이 서비스의 알맹이라 얼굴과 제목으로 무게를 준다. 위 칸들과 바탕색·왼쪽 선으로 갈라 놓는다. */}
         <section className="border-t-2 border-accent/25 bg-accent/[0.04] px-3 py-5 sm:px-4 md:px-5 md:py-6">
-          <div className="mb-4 flex items-center gap-3">
-            {ownerAvatarUrl && (
-              <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full border border-accent/30 bg-bg-secondary">
-                {isActive ? (
-                  <ContentImage src={ownerAvatarUrl} alt={ownerNickname ?? ""} sizes="40px" className="object-cover" />
-                ) : null}
-              </span>
-            )}
-            <div className="min-w-0">
-              <h4 className={EXPAND_SECTION_HEADING_CLASS}>
-                {ownerNickname ? tExpand("expandReviewOf", { name: ownerNickname }) : tExpand("expandReview")}
-              </h4>
-              {item.rating != null && item.rating > 0 && (
-                <span className="mt-0.5 flex items-center gap-1.5 text-sm font-medium text-text-secondary">
-                  <Star size={13} className="fill-yellow-500 text-yellow-500" />
-                  {item.rating.toFixed(1)}
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div className="flex min-w-0 items-center gap-3">
+              {ownerAvatarUrl && (
+                <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full border border-accent/30 bg-bg-secondary">
+                  {isActive ? (
+                    <ContentImage src={ownerAvatarUrl} alt={ownerNickname ?? ""} sizes="40px" className="object-cover" />
+                  ) : null}
                 </span>
               )}
+              <div className="min-w-0">
+                <h4 className={EXPAND_SECTION_HEADING_CLASS}>{reviewHeading}</h4>
+                {item.rating != null && item.rating > 0 && (
+                  <span className="mt-0.5 flex items-center gap-1.5 text-sm font-medium text-text-secondary">
+                    <Star size={13} className="fill-yellow-500 text-yellow-500" />
+                    {item.rating.toFixed(1)}
+                  </span>
+                )}
+              </div>
             </div>
+            {canExpandReview && (
+              <ExpandTextButton
+                label={tExpand("expandReviewExpand")}
+                onClick={() => setIsReviewModalOpen(true)}
+              />
+            )}
           </div>
 
           {hasRecordError ? (
@@ -232,6 +242,22 @@ function ExpandCard({
           alt={title}
           isOpen
           onClose={() => setIsCoverOpen(false)}
+        />
+      ) : null}
+
+      {isReviewModalOpen && canExpandReview ? (
+        <ContentTextModal
+          isOpen
+          onClose={() => setIsReviewModalOpen(false)}
+          title={reviewHeading}
+          text={review}
+          notice={
+            reviewIsOriginalLanguage ? (
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-amber-200">
+                {t("reviewModal.originalLanguage")}
+              </p>
+            ) : undefined
+          }
         />
       ) : null}
     </>

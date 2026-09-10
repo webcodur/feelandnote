@@ -554,6 +554,7 @@
     "expandCover": "Enlarge cover",
     "expandReviewOf": "Why {name} picked this",
     "expandReview": "Why they picked this",
+    "expandReviewExpand": "Expand review",
     "expandAll": "Expand all",
     "collapseAll": "Collapse all",
     "empty": "No recorded content yet.",

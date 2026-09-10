@@ -16,6 +16,7 @@ import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import GuestbookDeferred from "@/components/features/profile/GuestbookDeferred";
 import { Deferred, PendingBlock } from "@/components/ui/pending";
+import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import type { Locale } from "@/types/locale";
 
 import { CelebAtlasNavigation } from "../CelebAtlasRails";
@@ -42,7 +43,9 @@ function SectionSurface({
   className?: string;
 }) {
   return (
-    <div className={`${styles.sectionSurface} ${className}`}>{children}</div>
+    <div className={`${styles.sectionSurface} ${className}`}>
+      <AnimatedHeight>{children}</AnimatedHeight>
+    </div>
   );
 }
 
