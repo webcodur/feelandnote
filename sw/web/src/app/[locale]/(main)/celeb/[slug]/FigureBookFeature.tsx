@@ -12,15 +12,15 @@ import { useLocale, useTranslations } from "next-intl";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import ContentImage from "@/components/ui/ContentImage";
 import FigureBookActions from "./FigureBookActions";
+import FigureBookEditionPicker from "./FigureBookEditionPicker";
 import FigureBookIntroduction from "./FigureBookIntroduction";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
-import PendingBlock from "@/components/ui/pending/PendingBlock";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
+import AnimatedHeight from "@/components/ui/AnimatedHeight";
 
 interface FigureBookFeatureProps {
   source: FigureBookContent;
 }
-
 /* ── 1. 날짜 표기 ── */
 function formatDate(value: string | null, locale: string): string | null {
   if (!value) return null;
@@ -45,7 +45,11 @@ export default function FigureBookFeature({
 }: FigureBookFeatureProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
-  const [selectedEditionId, setSelectedEditionId] = useState(source.editions[0]?.id ?? 0);
+  const [editionSelection, setEditionSelection] = useState(() => ({
+    sourceId: source.id,
+    editionId: source.editions[0]?.id ?? 0,
+  }));
+  const selectedEditionId = editionSelection.sourceId === source.id ? editionSelection.editionId : source.editions[0]?.id ?? 0;
   const edition = source.editions.find((item) => item.id === selectedEditionId)
     ?? source.editions[0];
   const introduction = useBookIntroduction(edition?.bookIntroduction, locale, edition?.description);
@@ -59,49 +63,14 @@ export default function FigureBookFeature({
   ].filter((item): item is { label: string; value: string } => Boolean(item.value));
 
   return (
-    <>
-      {/* ── 2. 판본 고름 ── */}
-      {source.editions.length > 1 ? (
-        <div className="relative border-b border-accent-dim/30 bg-bg-secondary/70 bg-texture-noise px-3 py-3 sm:px-4 md:px-6">
-          <p className="mb-2 text-xs font-black tracking-[0.14em] text-text-tertiary">
-            {t("sourceEditionSelect")}
-          </p>
-          <div className="flex snap-x snap-proximity gap-2 overflow-x-auto overscroll-x-contain pb-1 [scrollbar-width:thin]">
-            {source.editions.map((option) => {
-              const active = option.id === edition.id;
-              return (
-                <button
-                  key={option.id}
-                  type="button"
-                  aria-pressed={active}
-                  aria-label={t("sourceEditionSelectAria", { title: option.title })}
-                  onClick={(event) => {
-                    setSelectedEditionId(option.id);
-                    event.currentTarget.scrollIntoView({ block: "nearest", inline: "center" });
-                  }}
-                  className={`min-w-[210px] snap-center border px-3 py-2.5 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                    active
-                      ? "border-accent bg-accent/10 shadow-glow"
-                      : "effect-engraved border-stone-light bg-stone-heavy hover:border-accent hover:bg-accent/[0.06]"
-                  }`}
-                >
-                  <span className={`line-clamp-2 text-sm font-black leading-5 ${
-                    active ? "text-3d-gold" : "text-text-primary"
-                  }`}>
-                    {option.title}
-                  </span>
-                  <span className="mt-1 block truncate text-xs text-text-tertiary">
-                    {[option.publisher, option.isbn].filter(Boolean).join(" · ")}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
-
+    <div className="flex flex-col gap-4">
+      <FigureBookEditionPicker
+        source={source}
+        selectedEditionId={edition.id}
+        onSelect={(editionId) => setEditionSelection({ sourceId: source.id, editionId })}
+      />
       {/* ── 3. 표지·소개·서지 ── */}
-      <div className="relative grid grid-cols-[80px_minmax(0,1fr)] gap-x-3 bg-texture-marble px-3 py-4 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 sm:px-4 sm:py-5 md:px-6 lg:grid-cols-[168px_minmax(0,1fr)] lg:gap-x-7 lg:py-7">
+      <div className="relative grid grid-cols-[80px_minmax(0,1fr)] gap-x-3 rounded-lg border border-accent-dim/30 bg-stone-heavy bg-texture-marble px-3 py-4 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 sm:px-4 sm:py-5 md:px-6 lg:grid-cols-[168px_minmax(0,1fr)] lg:gap-x-7 lg:py-7">
         <span className="pointer-events-none absolute inset-y-0 start-0 w-1/3 bg-gradient-to-e from-transparent to-accent/[0.04]" aria-hidden />
         <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-e from-transparent via-accent-dim to-transparent" aria-hidden />
 
@@ -132,44 +101,50 @@ export default function FigureBookFeature({
         </div>
 
         <div className="contents lg:relative lg:block lg:min-w-0">
-          <header className="col-start-2 min-w-0 self-center md:self-start">
-            <h3 className="text-3d-gold max-w-3xl break-keep text-lg font-black leading-tight sm:text-2xl md:text-3xl">
-              {edition.title}
+          <header className="col-start-2 flex min-w-0 flex-col items-center justify-center self-center text-center md:self-start lg:flex-row lg:items-baseline lg:justify-center lg:gap-4 lg:text-center">
+            <h3 className="text-3d-gold max-w-3xl break-keep text-lg font-black leading-tight sm:text-2xl md:text-3xl lg:min-w-0 lg:truncate lg:whitespace-nowrap">
+              {source.title}
             </h3>
-            {edition.creator && (
-              <p className="mt-2 text-sm font-semibold leading-6 text-text-secondary sm:text-base">
-                {edition.creator}
+            {(source.creator || edition.creator) && (
+              <p className="mt-2 text-sm font-semibold leading-6 text-text-secondary sm:text-base lg:mt-0 lg:shrink-0 lg:whitespace-nowrap">
+                {source.creator || edition.creator}
               </p>
             )}
           </header>
 
           <div className="col-span-2 min-w-0 md:col-span-1 md:col-start-2">
-            {introduction.loading && <PendingBlock variant="panel" minHeight="min-h-28" />}
-            {introduction.failed && <RetryBlock onRetry={introduction.retry} />}
-            {!introduction.loading && !introduction.failed && <FigureBookIntroduction
-              key={edition.id}
-              description={introduction.description || t("sourceWorkIntroductionEmpty")}
-              label={t("sourceWorkIntroduction")}
-              sourceTitle={edition.title}
-            />}
+            <AnimatedHeight independent duration={320} className="w-full">
+              {introduction.failed ? (
+                <RetryBlock onRetry={introduction.retry} />
+              ) : (
+                <FigureBookIntroduction
+                  key={edition.id}
+                  description={introduction.description || t("sourceWorkIntroductionEmpty")}
+                  label={t("sourceWorkIntroduction")}
+                  loading={introduction.loading}
+                  sourceTitle={source.title}
+                />
+              )}
+            </AnimatedHeight>
           </div>
-
           {meta.length > 0 && (
-            <dl className="effect-engraved col-span-2 mt-5 border-s border-t border-stone-light bg-stone-heavy/70 lg:col-span-1">
-              {meta.map(({ label, value }) => (
-                <div
-                  key={label}
-                  className="grid min-h-11 grid-cols-[76px_minmax(0,1fr)] border-b border-e border-stone-light bg-bg-secondary/50 sm:grid-cols-[108px_minmax(0,1fr)]"
-                >
-                  <dt className="effect-engraved flex items-center justify-center border-e border-stone-light px-3 py-2.5 text-center text-sm font-bold text-text-tertiary">
-                    {label}
-                  </dt>
-                  <dd className="effect-bevel min-w-0 break-words px-4 py-2.5 text-sm font-semibold leading-relaxed text-text-primary">
-                    {value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <AnimatedHeight independent duration={320} className="col-span-2 mt-5 lg:col-span-1">
+              <dl className="effect-engraved border-s border-t border-stone-light bg-stone-heavy/70">
+                {meta.map(({ label, value }) => (
+                  <div
+                    key={label}
+                    className="grid min-h-11 grid-cols-[76px_minmax(0,1fr)] border-b border-e border-stone-light bg-bg-secondary/50 sm:grid-cols-[108px_minmax(0,1fr)]"
+                  >
+                    <dt className="effect-engraved flex items-center justify-center border-e border-stone-light px-3 py-2.5 text-center text-sm font-bold text-text-tertiary">
+                      {label}
+                    </dt>
+                    <dd className="effect-bevel min-w-0 break-words px-4 py-2.5 text-sm font-semibold leading-relaxed text-text-primary">
+                      {value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </AnimatedHeight>
           )}
 
           <FigureBookActions
@@ -179,6 +154,6 @@ export default function FigureBookFeature({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

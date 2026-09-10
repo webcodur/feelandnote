@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
 import { Link } from "@/i18n/navigation";
 import { Check, UserPlus } from "lucide-react";
@@ -9,7 +10,7 @@ import BlurDissolve from "@/components/ui/BlurDissolve";
 import { NeoCelebCardProps } from "./types";
 import { getVariantStyles } from "./variantConfig";
 import { toggleFollow } from "@/actions/user";
-import { getAuraByPercentile, getAuraByScore } from "@/constants/materials";
+import { getAuraByScore } from "@/constants/materials";
 import CelebInfluenceModal from "../CelebInfluenceModal";
 import { getCelebProfileUrl } from "@/lib/url";
 
@@ -131,12 +132,6 @@ export default function NeoCelebCard({
     btn,
     text,
     textColor,
-    subText,
-    subTextColor,
-    dot,
-    dotColor,
-    label,
-    labelColor,
     engravedEffect,
     lpClass,
     imageFrame
@@ -145,10 +140,6 @@ export default function NeoCelebCard({
   // Normalize styles
   const finalShadow = shadow || shadowHover || "";
   const finalText = text || textColor || "";
-  const finalSubText = subText || subTextColor || "";
-  const finalDot = dot || dotColor || "";
-  const finalLabel = label || labelColor || "";
-
   // 이름 길이 및 카드 사이즈에 따른 텍스트 크기
   const getNameSize = (name: string, cardSize: string) => {
     if (cardSize === "small") {
@@ -207,10 +198,13 @@ export default function NeoCelebCard({
           <div className={`relative ${config.image} flex-shrink-0 shadow-2xl ${styles.imageFrame} ${imageFrame}`}>
               <div className={`absolute ${config.imageBorder} overflow-hidden bg-black shadow-inner`}>
                 {celeb.avatar_url ? (
-                  <BlurDissolve className="w-full h-full">
-                    <img
+                  <BlurDissolve className="relative w-full h-full">
+                    <Image
                       src={celeb.avatar_url}
                       alt={celeb.nickname}
+                      fill
+                      sizes="120px"
+                      unoptimized
                       className={`w-full h-full object-cover ${styles.celebImage}`}
                     />
                   </BlurDissolve>

@@ -209,7 +209,6 @@ async function fetchEnBookTrending(subject, key, kakaoKey) {
       }
 
       const titleKo = koMeta?.title || null;
-      const creatorKo = koMeta?.authors?.join(', ') || null;
       const finalThumb = enCoverUrl || koCoverUrl;
 
       items.push({

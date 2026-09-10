@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useEffect, useMemo, useState, useRef, useCallback } from "react";
+import { useEffect, useEffectEvent, useMemo, useState, useRef, useCallback } from "react";
 import { Shuffle, Zap, X } from "lucide-react";
 import { useLocale } from "next-intl";
 import type { DraftState } from "@/lib/game/types";
@@ -52,11 +52,17 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
 
   // 최신 props를 ref로 유지 (타이머 콜백에서 stale closure 방지)
   const onAiPickRef = useRef(onAiPick);
-  onAiPickRef.current = onAiPick;
   const onConfirmDraftRef = useRef(onConfirmDraft);
-  onConfirmDraftRef.current = onConfirmDraft;
   const playSfxRef = useRef(playSfx);
-  playSfxRef.current = playSfx;
+  useEffect(() => {
+    onAiPickRef.current = onAiPick;
+    onConfirmDraftRef.current = onConfirmDraft;
+    playSfxRef.current = playSfx;
+  }, [onAiPick, onConfirmDraft, playSfx]);
+
+  const showAiThinking = useEffectEvent(() => {
+    setVisualStep("ai-thinking");
+  });
 
   const prevBatchRef = useRef(0);
 
@@ -112,7 +118,7 @@ export default function DraftPhase({ draft, onPlayerPick, onAiPick, onReshuffle,
     const isLastInBatch = round % 2 === 0; // 짝수 라운드 = 배치의 두 번째(마지막) 픽
 
     // T+0: "AI 선택 중" 표시
-    setVisualStep("ai-thinking");
+    showAiThinking();
 
     // T+1s: AI 선택 실행
     chainRef.current.push(setTimeout(() => {

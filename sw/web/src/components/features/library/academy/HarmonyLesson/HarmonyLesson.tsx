@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, CheckCircle2, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -324,7 +325,16 @@ export default function HarmonyLesson({
                     </div>
                   ) : (
                     <div className="overflow-hidden rounded-xl border border-white/[0.06]">
-                      <img src={currentStep.imageUrl} alt={currentStep.imageAlt ?? ""} className="w-full" />
+                      <Image
+                        src={currentStep.imageUrl}
+                        alt={currentStep.imageAlt ?? ""}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        unoptimized
+                        className="w-full h-auto"
+                        style={{ width: "100%", height: "auto" }}
+                      />
                       {currentStep.imageAlt && (
                         <p className="px-3 py-2 text-[11px] text-white/50 bg-white/[0.02]">{currentStep.imageAlt}</p>
                       )}

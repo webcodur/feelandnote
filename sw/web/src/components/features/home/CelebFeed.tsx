@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useEffectEvent, useState, useCallback, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { Inbox, User } from "lucide-react";
@@ -239,6 +239,7 @@ export default function CelebFeed({
     setHasMore(result.hasMore);
     setIsLoading(false);
   }, [contentType]);
+  const loadInitialEvent = useEffectEvent(loadInitial);
 
   // 추가 데이터 로드
   const loadMore = useCallback(async () => {
@@ -258,8 +259,8 @@ export default function CelebFeed({
       isFirstRender.current = false;
       if (initialReviews !== undefined) return;
     }
-    loadInitial();
-  }, [loadInitial, initialReviews]);
+    loadInitialEvent();
+  }, [contentType, initialReviews]);
 
   if (isLoading) {
     return (

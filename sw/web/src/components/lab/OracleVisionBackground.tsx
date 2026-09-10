@@ -12,6 +12,82 @@ import { cn } from "@/lib/utils";
 const BG_TOP = "#191724";
 const BG_BOTTOM = "#2a2640";
 
+class OracleSmokeParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  life: number;
+  maxLife: number;
+  alpha: number;
+  rotation: number;
+
+  constructor(
+    private readonly getWidth: () => number,
+    private readonly getHeight: () => number,
+    private readonly getTime: () => number,
+    private readonly ctx: CanvasRenderingContext2D,
+    reset = false,
+  ) {
+    const width = getWidth();
+    const height = getHeight();
+    this.x = width / 2 + (Math.random() - 0.5) * 300;
+    this.y = height + Math.random() * 100;
+    if (reset) {
+      this.y = Math.random() * height;
+      this.x = Math.random() * width;
+    }
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = -Math.random() * 0.5 - 0.2;
+    this.size = Math.random() * 100 + 100;
+    this.maxLife = Math.random() * 400 + 300;
+    this.life = reset ? Math.random() * this.maxLife : this.maxLife;
+    this.alpha = 0;
+    this.rotation = Math.random() * Math.PI * 2;
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.rotation += 0.001;
+    this.life--;
+    this.vx += Math.sin(this.getTime() * 0.001 + this.y * 0.002) * 0.01;
+
+    if (this.life <= 0 || this.y < -200) this.reset();
+
+    const progress = 1 - (this.life / this.maxLife);
+    const maxAlpha = 0.15;
+    if (progress < 0.3) this.alpha = (progress / 0.3) * maxAlpha;
+    else if (progress > 0.7) this.alpha = ((1 - progress) / 0.3) * maxAlpha;
+    else this.alpha = maxAlpha;
+  }
+
+  reset() {
+    const width = this.getWidth();
+    const height = this.getHeight();
+    this.x = width / 2 + (Math.random() - 0.5) * 400;
+    this.y = height + 100;
+    this.life = this.maxLife;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = -Math.random() * 0.5 - 0.2;
+  }
+
+  draw() {
+    this.ctx.save();
+    this.ctx.translate(this.x, this.y);
+    this.ctx.rotate(this.rotation);
+    const grad = this.ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+    grad.addColorStop(0, `rgba(180, 160, 255, ${this.alpha})`);
+    grad.addColorStop(1, "rgba(180, 160, 255, 0)");
+    this.ctx.fillStyle = grad;
+    this.ctx.beginPath();
+    this.ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+    this.ctx.fill();
+    this.ctx.restore();
+  }
+}
+
 interface OracleVisionBackgroundProps {
   className?: string;
 }
@@ -31,83 +107,7 @@ export default function OracleVisionBackground({ className }: OracleVisionBackgr
     let time = 0;
 
     // --- Smoke Particle System ---
-    class SmokeParticle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      life: number;
-      maxLife: number;
-      alpha: number;
-      rotation: number;
-
-      constructor(reset: boolean = false) {
-        this.x = width / 2 + (Math.random() - 0.5) * 300; // Wider spread
-        this.y = height + Math.random() * 100;
-        if (reset) {
-            this.y = Math.random() * height;
-            this.x = Math.random() * width;
-        }
-        
-        this.vx = (Math.random() - 0.5) * 0.3; // Slower horizontal
-        this.vy = -Math.random() * 0.5 - 0.2; // Very slow rise
-        this.size = Math.random() * 100 + 100; // Huge soft puffs
-        this.maxLife = Math.random() * 400 + 300;
-        this.life = reset ? Math.random() * this.maxLife : this.maxLife;
-        this.alpha = 0;
-        this.rotation = Math.random() * Math.PI * 2;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.rotation += 0.001;
-        this.life--;
-        
-        // Swirl
-        this.vx += Math.sin(time * 0.001 + this.y * 0.002) * 0.01;
-        
-        if (this.life <= 0 || this.y < -200) {
-            this.reset();
-        }
-        
-        // Alpha curve
-        const progress = 1 - (this.life / this.maxLife);
-        const maxAlpha = 0.15; // Very subtle
-        if (progress < 0.3) this.alpha = (progress / 0.3) * maxAlpha; 
-        else if (progress > 0.7) this.alpha = ((1 - progress) / 0.3) * maxAlpha;
-        else this.alpha = maxAlpha;
-      }
-      
-      reset() {
-         this.x = width / 2 + (Math.random() - 0.5) * 400;
-         this.y = height + 100;
-         this.life = this.maxLife;
-         this.vx = (Math.random() - 0.5) * 0.3;
-         this.vy = -Math.random() * 0.5 - 0.2;
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation);
-        
-        // Soft purple/blue mist
-        const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
-        grad.addColorStop(0, `rgba(180, 160, 255, ${this.alpha})`); 
-        grad.addColorStop(1, "rgba(180, 160, 255, 0)");
-        
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-    }
-
-    let smokes: SmokeParticle[] = [];
+    let smokes: OracleSmokeParticle[] = [];
 
     const init = () => {
       width = canvas.offsetWidth;
@@ -115,7 +115,7 @@ export default function OracleVisionBackground({ className }: OracleVisionBackgr
       canvas.width = width;
       canvas.height = height;
       
-      smokes = Array.from({ length: 60 }, () => new SmokeParticle(true));
+      smokes = Array.from({ length: 60 }, () => new OracleSmokeParticle(() => width, () => height, () => time, ctx, true));
     };
 
     const draw = () => {

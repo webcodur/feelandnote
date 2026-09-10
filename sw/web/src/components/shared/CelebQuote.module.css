@@ -1,0 +1,82 @@
+.quote {
+  display: flex;
+  max-width: 72ch;
+  margin-top: 16px;
+  align-items: flex-start;
+  gap: 8px;
+  color: color-mix(in srgb, var(--color-accent) 74%, var(--color-text-primary));
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.75;
+  word-break: keep-all;
+}
+
+.quoteButton {
+  width: calc(100% + 20px);
+  margin-inline: -10px;
+  padding: 6px 10px;
+  border: 0;
+  border-inline-start: 2px solid color-mix(in srgb, var(--color-accent) 42%, transparent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-accent) 3%, transparent);
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.quoteButton:hover {
+  border-inline-start-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  color: var(--color-accent-hover);
+}
+
+.quoteButton:active {
+  color: var(--color-accent-dim);
+}
+
+.quoteButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.quoteButtonPlaying,
+.quoteButtonPlaying:hover {
+  border-inline-start-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 13%, transparent);
+  color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 24%, transparent);
+}
+
+@media (max-width: 767px) {
+  .quote {
+    text-align: start;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+}
+
+.modal {
+  max-width: none;
+  margin: 0 24px 8px;
+  align-items: stretch;
+  justify-content: center;
+  padding: 16px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-text-primary) 3%, transparent);
+  font-size: 14px;
+  text-align: center;
+}
+
+.modal > p,
+.modal > .quoteButton {
+  width: 100%;
+}
+
+.modal .quoteButton {
+  margin-inline: 0;
+  border-inline-start: 0;
+  padding: 0;
+  text-align: center;
+}

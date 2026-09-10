@@ -128,7 +128,7 @@ export default function SearchContent() {
       )}
 
       {queryParam && !isLoading && (
-        <div className="mb-6"><h1 className="text-xl font-bold">"{queryParam}" {t("resultCount", { count: totalCount })}</h1></div>
+         <div className="mb-6"><h1 className="text-xl font-bold">&quot;{queryParam}&quot; {t("resultCount", { count: totalCount })}</h1></div>
       )}
 
       {isLoading && (

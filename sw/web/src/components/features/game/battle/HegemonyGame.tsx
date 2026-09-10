@@ -46,12 +46,14 @@ export default function HegemonyGame({ bgImages, initialFullScreen, onExitFullSc
   }, [stopAll, setBgm]);
 
   const breadcrumbs = useMemo((): BreadcrumbItem[] => {
-    const items: BreadcrumbItem[] = [{ label: tArena("label"), onClick: handleHome }];
     const phaseKey = PHASE_LABEL_KEYS[phase];
-    if (phaseKey && phase !== "idle") {
-      items.push({ label: t(`phase.${phaseKey}`) });
-    }
-    return items;
+    const phaseItem = phaseKey && phase !== "idle"
+      ? { label: t(`phase.${phaseKey}`) }
+      : null;
+    return [
+      { label: tArena("label"), onClick: handleHome },
+      ...(phaseItem ? [phaseItem] : []),
+    ];
   }, [phase, handleHome, tArena, t]);
 
   return (

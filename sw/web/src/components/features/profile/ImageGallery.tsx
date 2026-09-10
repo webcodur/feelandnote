@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ImageOff } from "lucide-react";
 import { searchCelebImages } from "@/actions/celebs";
 import type { ImageSearchResult } from "@feelandnote/content-search/naver-image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
@@ -24,8 +24,8 @@ function GalleryImage({
   onError: () => void;
 }) {
   return (
-    <BlurDissolve className="size-full">
-      <img src={src} alt={alt} className="size-full object-cover" loading="lazy" onError={onError} />
+    <BlurDissolve className="relative size-full">
+      <Image src={src} alt={alt} fill sizes="33vw" unoptimized className="size-full object-cover" loading="lazy" onError={onError} />
     </BlurDissolve>
   );
 }

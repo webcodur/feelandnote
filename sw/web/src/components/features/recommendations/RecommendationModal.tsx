@@ -5,10 +5,11 @@
 */ // ------------------------------
 "use client";
 
-import { useState, useEffect } from "react";
+import Image from "next/image";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
-import { Gift, Search, Users, Heart, Check, Send } from "lucide-react";
+import { Search, Users, Heart, Check, Send } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import { getRecommendableFriends } from "@/actions/recommendations";
@@ -41,7 +42,6 @@ export default function RecommendationModal({
   const t = useTranslations("recommendation");
   const tError = useTranslations("actionErrors");
   const [friends, setFriends] = useState<RecommendableUser[]>([]);
-  const [filteredFriends, setFilteredFriends] = useState<RecommendableUser[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
@@ -60,7 +60,6 @@ export default function RecommendationModal({
       const result = await getRecommendableFriends();
       if (result.success) {
         setFriends(result.data);
-        setFilteredFriends(result.data);
       } else {
         setError(tError(result.error));
       }
@@ -68,20 +67,14 @@ export default function RecommendationModal({
     };
 
     loadFriends();
-  }, [isOpen]);
+  }, [isOpen, tError]);
 
   // 검색 필터
-  useEffect(() => {
-    if (!searchQuery.trim()) {
-      setFilteredFriends(friends);
-      return;
-    }
-
-    const query = searchQuery.toLowerCase();
-    setFilteredFriends(
-      friends.filter((f) => f.nickname.toLowerCase().includes(query))
-    );
-  }, [searchQuery, friends]);
+  const filteredFriends = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return friends;
+    return friends.filter((friend) => friend.nickname.toLowerCase().includes(query));
+  }, [friends, searchQuery]);
 
   // 모달 닫을 때 초기화
   const handleClose = () => {
@@ -226,9 +219,12 @@ export default function RecommendationModal({
                           {/* 아바타 */}
                           <div className="relative shrink-0">
                             {friend.avatar_url ? (
-                              <img
+                              <Image
                                 src={friend.avatar_url}
                                 alt={friend.nickname}
+                                width={36}
+                                height={36}
+                                unoptimized
                                 className={`w-9 h-9 rounded-full object-cover border transition-colors ${
                                   isSelected ? "border-accent" : "border-border/30"
                                 }`}

@@ -54,6 +54,14 @@ export const BASE_MESSAGE_PATHS = [
   "userBio",
   "todayFigure",
   "explore.ui",
+  // 헤더에서 어느 화면에서나 열 수 있는 CelebDetailModal의 공통 문구
+  "home.ui",
+  "celebPage.personGuide",
+  "celebPage.stopAudio",
+  "celebPage.playGreetingVoice",
+  "celebPage.dialogue_greeting",
+  "celebPage.enlargePhoto",
+  "celebPage.playQuoteVoice",
   "celebPage.showDetail",
   "celebPage.hideDetail",
 ] as const;

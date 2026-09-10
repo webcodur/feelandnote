@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useEffectEvent, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { usePathname } from "@/i18n/navigation";
 import { getCelebs } from "@/actions/home";
@@ -47,7 +47,6 @@ export function useCelebFilters({
   genderCounts,
   syncToUrl = false,
   includeInactive = false,
-  onIncludeInactiveChange,
 }: UseCelebFiltersParams) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -104,7 +103,7 @@ export function useCelebFilters({
   };
   const [birthYearMin, setBirthYearMin] = useState<number | undefined>(() => getInitialYear("byMin"));
   const [birthYearMax, setBirthYearMax] = useState<number | undefined>(() => getInitialYear("byMax"));
-  const [isInitialized, setIsInitialized] = useState(false);
+  const previousIncludeInactiveRef = useRef(includeInactive);
 
   // URL 파라미터 업데이트 (서버 재렌더링 없이 URL만 변경)
   const updateUrlParams = useCallback((updates: Record<string, string | null>) => {
@@ -120,21 +119,6 @@ export function useCelebFilters({
     const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
     window.history.replaceState(null, "", newUrl);
   }, [syncToUrl, searchParams, pathname]);
-
-  // 서버에서 URL 파라미터 기반으로 이미 패칭된 데이터를 사용하므로 재패칭 불필요
-  useEffect(() => {
-    if (!syncToUrl || isInitialized) return;
-    setIsInitialized(true);
-  }, [syncToUrl, isInitialized]);
-
-  const contentUnit = contentType === "all" ? null : getContentUnit(contentType);
-
-  // includeInactive 변경 시 데이터 리로드
-  useEffect(() => {
-    if (!isInitialized) return;
-    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, includeInactive);
-    setCurrentPage(1);
-  }, [includeInactive]);
 
   const loadCelebs = useCallback(async (
     prof: string,
@@ -172,6 +156,21 @@ export function useCelebFilters({
     setTotal(result.total);
     setIsLoading(false);
   }, [includeInactive, pageSize, tiers, realities, birthYearMin, birthYearMax]);
+
+  // 서버에서 URL 파라미터 기반으로 이미 패칭된 데이터를 사용하므로 초기 렌더에서는 재패칭하지 않는다.
+  // 다른 필터 변경으로 callback이 새로 만들어져도 includeInactive가 실제로 바뀐 경우에만 호출한다.
+  const reloadForIncludeInactiveChange = useEffectEvent(() => {
+    void loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, includeInactive);
+    setCurrentPage(1);
+  });
+
+  useEffect(() => {
+    if (previousIncludeInactiveRef.current === includeInactive) return;
+    previousIncludeInactiveRef.current = includeInactive;
+    reloadForIncludeInactiveChange();
+  }, [includeInactive]);
+
+  const contentUnit = contentType === "all" ? null : getContentUnit(contentType);
 
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);

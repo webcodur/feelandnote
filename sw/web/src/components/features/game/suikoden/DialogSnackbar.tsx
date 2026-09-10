@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import { useLocale } from 'next-intl'
 import type { DialogEntry, GameSettings } from '@/lib/game/suikoden/types'
 import { useCelebAvatarSrc } from '@/hooks/useCelebAvatarSrc'
@@ -21,14 +21,14 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
 
   // auto 모드: 3초 후 자동 소멸
   useEffect(() => {
-    if (!current || settings.dialogMode !== 'auto') return
+    if (!current?.id || settings.dialogMode !== 'auto') return
     const timer = setTimeout(onDismiss, 3000)
     return () => clearTimeout(timer)
   }, [current?.id, settings.dialogMode, onDismiss])
 
   // manual 모드: Space/Enter로 닫기
   useEffect(() => {
-    if (!current || settings.dialogMode !== 'manual') return
+    if (!current?.id || settings.dialogMode !== 'manual') return
     const handler = (e: KeyboardEvent) => {
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault()

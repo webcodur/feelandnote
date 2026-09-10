@@ -15,7 +15,6 @@ import HeaderNotifications from "./HeaderNotifications";
 import HeaderProfileMenu from "./HeaderProfileMenu";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
-import Button from "@/components/ui/Button";
 import { LinkPending } from "@/components/ui/pending";
 import { Z_INDEX } from "@/constants/zIndex";
 import { HEADER_NAV_ITEMS } from "@/constants/navigation";

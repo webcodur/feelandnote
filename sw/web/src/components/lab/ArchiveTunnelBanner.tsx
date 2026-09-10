@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 
 interface ArchiveTunnelBannerProps {
   height?: number;
@@ -15,6 +15,16 @@ export default function ArchiveTunnelBanner({
 }: ArchiveTunnelBannerProps) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const particles = useMemo(() => {
+    const count = compact ? 20 : 50;
+    return Array.from({ length: count }, (_, i) => ({
+      size: 1 + ((i * 13 + (compact ? 2 : 5)) % 20) / 10,
+      left: 10 + ((i * 37 + (compact ? 11 : 23)) % 101) * 0.8,
+      top: 10 + ((i * 53 + (compact ? 17 : 31)) % 101) * 0.8,
+      duration: 3 + ((i * 29 + (compact ? 7 : 19)) % 101) * 0.02,
+      delay: ((i * 61 + (compact ? 3 : 13)) % 101) * 0.03,
+    }));
+  }, [compact]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -41,6 +51,7 @@ export default function ArchiveTunnelBanner({
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
+      onTouchMove={handleTouchMove}
       className={`relative w-full bg-[#000] overflow-hidden flex items-center justify-center perspective-[1000px] ${compact ? "h-[250px] sm:h-[300px] md:h-[350px]" : ""}`}
       style={compact ? undefined : { height }}
     >
@@ -52,21 +63,18 @@ export default function ArchiveTunnelBanner({
         className="absolute inset-0 pointer-events-none overflow-hidden"
         style={{ transform: 'translateZ(0)', transformStyle: 'flat' }}
       >
-        {Array.from({ length: compact ? 20 : 50 }).map((_, i) => {
-          const size = 1 + Math.random() * 2;
-          const left = 10 + Math.random() * 80;
-          const top = 10 + Math.random() * 80;
+        {particles.map((particle, i) => {
           return (
             <div
               key={`particle-${i}`}
               className="absolute rounded-full bg-[#d4af37]/20"
               style={{
-                width: size,
-                height: size,
-                left: `${left}%`,
-                top: `${top}%`,
-                animation: `pulse ${3 + Math.random() * 2}s ease-in-out infinite`,
-                animationDelay: `${Math.random() * 3}s`,
+                width: particle.size,
+                height: particle.size,
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                animation: `pulse ${particle.duration}s ease-in-out infinite`,
+                animationDelay: `${particle.delay}s`,
               }}
             />
           );
@@ -96,8 +104,9 @@ export default function ArchiveTunnelBanner({
                key={layerIndex}
                className={`absolute top-1/2 left-1/2 rounded-full border border-white/5 animate-[spin_60s_linear_infinite] ${compact ? "w-[280px] sm:w-[400px] md:w-[500px] h-[280px] sm:h-[400px] md:h-[500px]" : "w-[400px] sm:w-[600px] md:w-[800px] h-[400px] sm:h-[600px] md:h-[800px]"}`}
                style={{
-                 transform: `translate(-50%, -50%) translateZ(${zDepth}px) scale(${1 + layerIndex * (compact ? 0.15 : 0.2)})`,
-                 animationDirection: layerIndex % 2 === 0 ? 'normal' : 'reverse'
+                  transform: `translate(-50%, -50%) translateZ(${zDepth}px) scale(${1 + layerIndex * (compact ? 0.15 : 0.2)})`,
+                  animationDirection: layerIndex % 2 === 0 ? 'normal' : 'reverse',
+                  opacity,
                }}
              >
                 {/* Items on the ring */}

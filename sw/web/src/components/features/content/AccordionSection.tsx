@@ -23,7 +23,6 @@ interface AccordionSectionProps {
 
 export default function AccordionSection({
   title,
-  icon,
   badge,
   defaultOpen = true,
   children,

@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useState, useEffect, useCallback, useRef, useMemo, type MutableRefObject } from "react";
+import { useState, useEffect, useEffectEvent, useCallback, useRef, useMemo, type MutableRefObject } from "react";
 import { Swords } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import GameGate from "@/components/features/game/shared/GameGate";
@@ -46,7 +46,9 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
 
   // 대사 시스템 — sfxMuted 상태를 ref로 동기화
   const sfxMutedRef = useRef(sfxMuted);
-  sfxMutedRef.current = sfxMuted;
+  useEffect(() => {
+    sfxMutedRef.current = sfxMuted;
+  }, [sfxMuted]);
 
   // 글로벌 대사 시스템 사용 (위치 드래그, 음성 뮤트 등 전역 기능 공유)
   const { handleSubtitle } = useGlobalDialogue();
@@ -145,10 +147,13 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
 
   // 오디오 활성화 게이트
   const [audioReady, setAudioReady] = useState(initialAudioReady);
+  const resetAudioGate = useEffectEvent(() => {
+    if (!initialAudioReady) setAudioReady(false);
+  });
 
   // 전체화면 탈출 시 게이트로 복귀
   useEffect(() => {
-    if (!initialAudioReady) setAudioReady(false);
+    resetAudioGate();
   }, [initialAudioReady]);
 
   const handleEnterGame = useCallback(() => {
@@ -174,21 +179,15 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
   const [announce, setAnnounce] = useState<AnnounceData | null>(null);
   const prevPhaseRef = useRef(state.phase);
 
-  useEffect(() => {
-    const prevPhase = prevPhaseRef.current;
-    prevPhaseRef.current = state.phase;
-
-    if (state.phase === "draft" && prevPhase !== "draft") {
+  const announcePhase = useEffectEvent((phase: string) => {
+    if (phase === "draft") {
       setAnnounce({
         key: "draft",
         label: localeText.phase.phaseLabel,
         title: localeText.phase.draftTitle,
         subtitle: localeText.phase.draftSubtitle,
       });
-      return;
-    }
-
-    if (state.phase === "captain" && prevPhase !== "captain") {
+    } else if (phase === "captain") {
       playSfx("sfx-draft-complete.mp3");
       setAnnounce({
         key: "captain",
@@ -196,10 +195,7 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
         title: localeText.phase.captainTitle,
         subtitle: localeText.phase.captainSubtitle,
       });
-      return;
-    }
-
-    if (state.phase === "battle" && prevPhase !== "battle") {
+    } else if (phase === "battle") {
       playSfx("sfx-confirm.mp3");
       setAnnounce({
         key: "battle",
@@ -207,13 +203,15 @@ export default function BattleGame({ onEnterFullScreen, onExitFullScreen, onHome
         title: localeText.phase.battleTitle,
         subtitle: localeText.phase.battleSubtitle,
       });
-      return;
     }
+  });
 
-    if (state.phase === "result" && prevPhase !== "result") {
-      return;
-    }
-  }, [state.phase, playSfx, localeText.phase]);
+  useEffect(() => {
+    const prevPhase = prevPhaseRef.current;
+    prevPhaseRef.current = state.phase;
+
+    if (prevPhase !== state.phase) announcePhase(state.phase);
+  }, [state.phase]);
 
   // 페이즈별 콘텐츠
   let content: React.ReactNode = null;

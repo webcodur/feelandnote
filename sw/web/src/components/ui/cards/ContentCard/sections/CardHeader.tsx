@@ -21,7 +21,6 @@ export default function CardHeader({ props, state }: CardHeaderProps) {
     deletable,
     onDelete,
     recommendable,
-    addable,
     onAdd,
   } = props;
 

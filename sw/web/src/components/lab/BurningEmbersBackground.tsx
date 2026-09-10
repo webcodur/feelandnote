@@ -82,7 +82,7 @@ export default function BurningEmbersBackground({ fullScreen }: { fullScreen?: b
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Update and Draw Particles
-      particles.forEach((p, index) => {
+      particles.forEach((p) => {
         p.y -= p.speedY;
         p.x += p.speedX + Math.sin(p.y * 0.01) * 0.5; // Organic drift
         

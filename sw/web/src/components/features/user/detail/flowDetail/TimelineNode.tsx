@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { GripVertical, Layers, Trash2 } from "lucide-react";
 import ContentImage from "@/components/ui/ContentImage";
@@ -25,7 +25,8 @@ export default function TimelineNode({
 }: TimelineNodeProps) {
   const t = useTranslations("flowDetail");
   const [isEditingDesc, setIsEditingDesc] = useState(false);
-  const [descValue, setDescValue] = useState(node.description || "");
+  const [descDraft, setDescDraft] = useState<{ nodeId: string; value: string } | null>(null);
+  const descValue = descDraft?.nodeId === node.id ? descDraft.value : node.description || "";
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const {
@@ -39,16 +40,13 @@ export default function TimelineNode({
     zIndex: isDragging ? 50 : undefined
   };
 
-  useEffect(() => {
-    setDescValue(node.description || "");
-  }, [node.description]);
-
   const handleSaveDesc = () => {
     const trimmed = descValue.trim();
     if (trimmed !== (node.description || "")) {
       onUpdateDescription(node.id, trimmed);
     }
     setIsEditingDesc(false);
+    setDescDraft(null);
   };
 
   return (
@@ -117,11 +115,11 @@ export default function TimelineNode({
               <textarea
                 ref={textareaRef}
                 value={descValue}
-                onChange={e => setDescValue(e.target.value)}
+                onChange={e => setDescDraft({ nodeId: node.id, value: e.target.value })}
                 onBlur={handleSaveDesc}
                 onKeyDown={e => {
                   if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSaveDesc(); }
-                  if (e.key === "Escape") { setDescValue(node.description || ""); setIsEditingDesc(false); }
+                  if (e.key === "Escape") { setDescDraft(null); setIsEditingDesc(false); }
                 }}
                 placeholder={t("reasonPlaceholder")}
                 className="w-full mt-1.5 px-2 py-1 bg-white/[0.04] border border-white/10 rounded text-[11px] text-white/60 placeholder:text-white/20 focus:border-accent/40 focus:outline-none resize-none leading-relaxed"

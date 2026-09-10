@@ -27,16 +27,6 @@ const sizeStyles = {
   "4xl": { container: "w-[160px] h-[160px]", pixels: 160, text: "text-5xl", badge: "w-7 h-7" },
 };
 
-const sizeMap = {
-  sm: { px: "32px" },
-  md: { px: "40px" },
-  lg: { px: "56px" },
-  xl: { px: "64px" },
-  "2xl": { px: "100px" },
-  "3xl": { px: "100px" },
-  "4xl": { px: "160px" },
-};
-
 const defaultGradient = "linear-gradient(135deg, #8b5cf6, #ec4899)";
 
 export default function Avatar({ url, name, size = "md", gradient, verified, className = "", priority = false }: AvatarProps) {

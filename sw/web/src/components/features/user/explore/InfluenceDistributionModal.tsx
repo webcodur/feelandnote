@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useEffectEvent, useMemo } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { BarChart3, List, ChevronLeft, ChevronRight } from "lucide-react";
 import { Modal, ModalBody } from "@/components/ui";
@@ -141,7 +141,7 @@ function RankingTable({ ranking, onCelebClick, t }: { ranking: RankedCeleb[]; on
   return (
     <div className="h-full overflow-y-auto scrollbar-thin">
       <div className="flex flex-col">
-          {ranking.map((celeb, index) => {
+          {ranking.map((celeb) => {
             const mat = getMaterialFromAura(celeb.aura);
             const isDarkBadge = celeb.aura <= 5;
             const badgeTextColor = isDarkBadge ? "#000000" : "#ffffff";
@@ -242,12 +242,14 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
   // 상세 보기 상태 (클릭된 오라)
   const [selectedAura, setSelectedAura] = useState<Aura | null>(null);
 
+  const loadDistribution = useEffectEvent(async () => {
+    setLoading(true);
+    await getInfluenceDistribution().then(setDistribution).finally(() => setLoading(false));
+  });
+
   useEffect(() => {
     if (isOpen && !distribution) {
-      setLoading(true);
-      getInfluenceDistribution()
-        .then(setDistribution)
-        .finally(() => setLoading(false));
+      loadDistribution();
     }
   }, [isOpen, distribution]);
 

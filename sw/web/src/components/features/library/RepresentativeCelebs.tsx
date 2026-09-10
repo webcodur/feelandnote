@@ -6,7 +6,6 @@
 
 "use client";
 
-import { useState, useCallback } from "react";
 import CelebCard from "@/components/shared/CelebCard";
 import { DecorativeLabel } from "@/components/ui";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";

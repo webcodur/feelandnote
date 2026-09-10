@@ -11,6 +11,14 @@
   그 지정이 정답이므로 건드리지 않는다.
 */
 
+.detailTypographyKorean {
+  word-break: break-all;
+}
+
+.detailTypographyKorean :global(.break-keep) {
+  word-break: break-all;
+}
+
 @media (min-width: 640px) {
   .detailTypography
     :is(

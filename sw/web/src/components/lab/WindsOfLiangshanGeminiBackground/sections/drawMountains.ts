@@ -1,6 +1,6 @@
 import type { DrawContext } from "../types";
 
-export function drawMountains({ ctx, width, height, time }: DrawContext) {
+export function drawMountains({ ctx, width, height }: DrawContext) {
   const moonX = width * 0.7;
 
   const drawLayer = (

@@ -21,6 +21,7 @@ export interface FilterOption {
 interface FilterChipDropdownProps {
   label: string;
   value: string;
+  valueContent?: ReactNode;
   isActive: boolean;
   isLoading?: boolean;
   options: FilterOption[];
@@ -38,6 +39,7 @@ export default function FilterChipDropdown({
   currentValue,
   onSelect,
   icon,
+  valueContent,
 }: FilterChipDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
@@ -158,9 +160,15 @@ export default function FilterChipDropdown({
 
           {/* 값 섹션 */}
           <div className={`${icon ? 'flex-1' : 'flex-[0.65]'} flex items-center justify-center px-3 ${isOpen ? 'bg-accent/10' : 'bg-white/[0.02]'}`}>
-            <span className={`text-sm font-sans font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'} ${isOpen ? 'underline underline-offset-2 decoration-accent/50' : ''}`}>
-              {value}
-            </span>
+            {valueContent ? (
+              <span className={`flex shrink-0 items-center justify-center ${isActive ? 'text-accent' : 'text-text-primary'}`}>
+                {valueContent}
+              </span>
+            ) : (
+              <span className={`text-sm font-sans font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'} ${isOpen ? 'underline underline-offset-2 decoration-accent/50' : ''}`}>
+                {value}
+              </span>
+            )}
           </div>
         </div>
       </Button>

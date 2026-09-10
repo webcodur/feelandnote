@@ -194,7 +194,7 @@ export function useSearch() {
   }, [isLoadingMore, hasMore, page, modeParam, queryParam, categoryParam, category]);
 
   // Link 이동 전 콜백 (현재 미사용)
-  const handleBeforeNavigate = (_item: ContentResult) => {
+  const handleBeforeNavigate = () => {
     // 외부 API로 직접 조회하므로 별도 저장 불필요
   };
 

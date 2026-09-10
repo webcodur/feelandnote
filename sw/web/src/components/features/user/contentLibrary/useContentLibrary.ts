@@ -47,7 +47,9 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     return mapPublicToUserContent([initialContents.items[0]], targetUserId)[0];
   }, [initialContents, ownerKind, targetUserId]);
 
-  const [activeTab, setActiveTabState] = useState<CategoryId>("all");
+  const [activeTab, setActiveTabState] = useState<CategoryId>(
+    ownerKind === "celeb" ? "book" : "all",
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSizeState] = useState(defaultPageSize ?? 10);
   const [sortOption, setSortOptionState] = useState<SortOption>("recent");

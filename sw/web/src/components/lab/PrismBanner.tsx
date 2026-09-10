@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import { Eye } from "lucide-react";
 
 interface PrismBannerProps {
@@ -9,6 +9,11 @@ interface PrismBannerProps {
   compact?: boolean;
   title?: string;
   subtitle?: string;
+}
+
+function particleValue(index: number, channel: number) {
+  const value = Math.sin((index + 1) * 12.9898 + channel * 78.233) * 43758.5453;
+  return value - Math.floor(value);
 }
 
 export default function PrismBanner({
@@ -75,19 +80,16 @@ export default function PrismBanner({
   const particleCount = compact ? 10 : 30;
 
   // 파티클 위치를 클라이언트에서만 생성 (hydration 에러 방지)
-  const [particles, setParticles] = useState<Array<{ top: number; left: number; opacity: number; delay: number; duration: number }>>([]);
-
-  useEffect(() => {
-    setParticles(
-      Array.from({ length: particleCount }, () => ({
-        top: Math.random() * 100,
-        left: Math.random() * 100,
-        opacity: Math.random() * 0.5 + 0.2,
-        delay: Math.random() * 5,
-        duration: 3 + Math.random() * 5,
-      }))
-    );
-  }, [particleCount]);
+  const particles = useMemo(
+    () => Array.from({ length: particleCount }, (_, index) => ({
+      top: particleValue(index, 1) * 100,
+      left: particleValue(index, 2) * 100,
+      opacity: particleValue(index, 3) * 0.5 + 0.2,
+      delay: particleValue(index, 4) * 5,
+      duration: 3 + particleValue(index, 5) * 5,
+    })),
+    [particleCount],
+  );
 
   return (
     <div

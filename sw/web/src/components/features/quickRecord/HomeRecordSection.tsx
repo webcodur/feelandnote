@@ -3,7 +3,7 @@
 import { useState, useTransition, useEffect, useRef } from "react";
 import { searchContents } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
-import { getUserContents, type UserContentPublic } from "@/actions/contents/getUserContents";
+import type { UserContentPublic } from "@/actions/contents/getUserContents";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import { updateReview } from "@/actions/contents/updateReview";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -14,7 +14,6 @@ import type { ContentType } from "@/types/database";
 import { useQuickRecord } from "@/contexts/QuickRecordContext";
 import type { UserProfile } from "@/actions/user/getProfile";
 import { removeContent } from "@/actions/contents/removeContent";
-import type { BlogSearchResult } from "@feelandnote/content-search/naver-blog";
 import type { LibraryContent } from "@/actions/library";
 import { useTranslations } from "next-intl";
 
@@ -22,8 +21,6 @@ import { useTranslations } from "next-intl";
 import { HomeRecordHeader } from "./homeSection/HomeRecordHeader";
 import { HomeSearchArea } from "./homeSection/HomeSearchArea";
 import { HomeEditorArea, type PickedContentItem } from "./homeSection/HomeEditorArea";
-import { HomeSuggestions } from "./homeSection/HomeSuggestions";
-import { HomeArchiveArea } from "./homeSection/HomeArchiveArea";
 
 // 카테고리 매핑 헬퍼
 const categoryToContentType = (category: string): ContentType => {
@@ -41,11 +38,6 @@ interface HomeRecordSectionProps {
   embedded?: boolean;
 }
 
-interface BlogSearchResultData {
-  query: string;
-  items: BlogSearchResult[];
-}
-
 export default function HomeRecordSection({
   userId,
   unreviewedList,
@@ -59,7 +51,7 @@ export default function HomeRecordSection({
   const debouncedQuery = useDebounce(query, 300);
   
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [isSearching, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [isSwitchingCategory, startCategoryTransition] = useTransition();
   
   const { targetContent, openQuickRecord, closeQuickRecord } = useQuickRecord();
@@ -158,7 +150,7 @@ export default function HomeRecordSection({
             setSuggestions([]);
         }
     });
-  }, [selectedCategory]);
+  }, [selectedCategory, openQuickRecord]);
 
   // 검색 효과
   useEffect(() => {
@@ -244,7 +236,7 @@ export default function HomeRecordSection({
             }
         }
     }
-  }, [userId]);
+  }, [userId, t]);
 
   const handleEditorComplete = (saved?: { rating: number; review: string; presets: string[] }) => {
     setQuery("");

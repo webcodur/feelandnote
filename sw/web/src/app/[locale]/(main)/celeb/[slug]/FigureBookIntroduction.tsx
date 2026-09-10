@@ -11,17 +11,20 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import FormattedText from "@/components/ui/FormattedText";
+import PendingMark from "@/components/ui/pending/PendingMark";
 import { Z_INDEX } from "@/constants/zIndex";
 
 interface FigureBookIntroductionProps {
   description: string;
   label: string;
+  loading?: boolean;
   sourceTitle: string;
 }
 
 export default function FigureBookIntroduction({
   description,
   label,
+  loading = false,
   sourceTitle,
 }: FigureBookIntroductionProps) {
   const t = useTranslations("celebPage");
@@ -54,26 +57,38 @@ export default function FigureBookIntroduction({
   }, []);
 
   return (
-    <div className="engraved-plate mt-5 border-s-2 border-accent px-4 py-3">
-      <p className="text-sm font-black tracking-[0.16em] text-accent">{label}</p>
-      <p
-        ref={previewRef}
-        className="mt-2 max-h-28 overflow-hidden whitespace-pre-line text-base leading-7 text-text-secondary"
-      >
-        <FormattedText text={description} />
-      </p>
-      {isOverflowing ? (
-        <button
-          ref={triggerRef}
-          type="button"
-          aria-haspopup="dialog"
-          aria-expanded={isOpen}
-          onClick={() => setIsOpen(true)}
-          className="mt-2 min-h-10 border-b border-accent-dim pb-1 text-sm font-black text-accent hover:border-accent-hover hover:text-accent-hover active:text-accent-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        >
-          {t("sourceWorkIntroductionOpen")}
-        </button>
-      ) : null}
+    <div
+      className="engraved-plate relative mt-5 min-h-28 border-s-2 border-accent px-4 py-3"
+      role={loading ? "status" : undefined}
+      aria-busy={loading || undefined}
+    >
+      {loading ? (
+        <div className="absolute inset-0 flex items-center justify-center" aria-hidden>
+          <PendingMark size="sm" />
+        </div>
+      ) : (
+        <>
+          <p className="text-sm font-black tracking-[0.16em] text-accent">{label}</p>
+          <p
+            ref={previewRef}
+            className="mt-2 max-h-28 overflow-hidden whitespace-pre-line text-base leading-7 text-text-secondary"
+          >
+            <FormattedText text={description} />
+          </p>
+          {isOverflowing ? (
+            <button
+              ref={triggerRef}
+              type="button"
+              aria-haspopup="dialog"
+              aria-expanded={isOpen}
+              onClick={() => setIsOpen(true)}
+              className="mt-2 min-h-10 border-b border-accent-dim pb-1 text-sm font-black text-accent hover:border-accent-hover hover:text-accent-hover active:text-accent-dim focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              {t("sourceWorkIntroductionOpen")}
+            </button>
+          ) : null}
+        </>
+      )}
 
       {isOpen ? (
         <IntroductionModal

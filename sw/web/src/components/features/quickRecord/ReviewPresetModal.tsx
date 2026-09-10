@@ -1,13 +1,9 @@
-import { useState } from "react";
-import { X, Check } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { useTranslations } from "next-intl";
 import type { CategoryId } from "@/constants/categories";
 import { 
   type ReviewPreset, 
   getAllCommonPresets, 
-  getPresetsByCategory,
-  getSentimentColorClasses
 } from "@/constants/review-presets";
 
 interface ReviewPresetModalProps {
@@ -22,7 +18,6 @@ interface ReviewPresetModalProps {
 export default function ReviewPresetModal({
   isOpen,
   onClose,
-  category,
   selectedPresets,
   onSelectPreset,
   onDeselectPreset,

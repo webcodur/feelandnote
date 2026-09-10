@@ -5,8 +5,6 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
-import type { ContentJoinRow } from './types'
 
 // #region 허브 콘텐츠 샘플 - 셀럽별/직업별 대표 콘텐츠 (미리보기용)
 export interface HubContentSample {
@@ -15,71 +13,6 @@ export interface HubContentSample {
   thumbnail_url: string | null
   type: string
   creator: string | null
-}
-
-async function fetchContentSamplesForCelebs(
-  celebIdsKey: string,
-  perCeleb: number,
-  locale: string,
-): Promise<Record<string, HubContentSample[]>> {
-  const celebIds = celebIdsKey ? celebIdsKey.split(',') : []
-  if (!celebIds.length) return {}
-
-  const db = createStaticClient()
-
-  // contents는 to-one 조인이라 객체로 반환 — 파서가 배열로 추론하므로 overrideTypes로 교정
-  const { data, error } = await db
-    .from('celeb_contents')
-    .select(`celeb_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`)
-    .in('celeb_id', celebIds)
-    .eq('visibility', 'public')
-    .eq('status', 'FINISHED')
-    .overrideTypes<Array<{ celeb_id: string; contents: ContentJoinRow }>, { merge: false }>()
-
-  throwOnQueryError('콘텐츠 표본 조회', error)
-  if (!data?.length) return {}
-
-  const result: Record<string, HubContentSample[]> = {}
-  const seen: Record<string, Set<string>> = {}
-
-  for (const row of data) {
-    const celebId = row.celeb_id
-    const content = row.contents
-    const flat = flattenLocales(content.content_locales, locale)
-    if (!flat.thumbnail_url) continue
-
-    if (!seen[celebId]) seen[celebId] = new Set()
-    if (seen[celebId].has(content.id)) continue
-    seen[celebId].add(content.id)
-
-    if (!result[celebId]) result[celebId] = []
-    if (result[celebId].length >= perCeleb) continue
-
-    result[celebId].push({
-      id: content.id,
-      title: flat.title,
-      thumbnail_url: flat.thumbnail_url,
-      type: content.type,
-      creator: flat.creator,
-    })
-  }
-
-  return result
-}
-
-const getContentSamplesForCelebsCached = unstable_cache(
-  fetchContentSamplesForCelebs,
-  ['content-samples-for-celebs'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
-)
-
-// 미사용 — unstable_cache 래퍼 구조 보존을 위해 export만 해제
-async function getContentSamplesForCelebs(celebIds: string[], perCeleb = 2): Promise<Record<string, HubContentSample[]>> {
-  if (!celebIds.length) return {}
-  const locale = await getLocale()
-  // 정렬한 join을 키로 — 같은 조합이면 캐시 히트
-  const key = [...celebIds].sort().join(',')
-  return getContentSamplesForCelebsCached(key, perCeleb, locale)
 }
 
 // get_profession_content_samples RPC 결과 행

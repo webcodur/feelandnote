@@ -112,7 +112,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
       if (side === "player") setPlayerBubble("");
       else setAiBubble("");
     }, 2500);
-  }, [playerCard, aiCard]);
+  }, [playerCard, aiCard, locale]);
 
   useEffect(() => {
     if (phase !== "select") return;
@@ -184,7 +184,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
       // t=1400: 충돌 결과
       setTimeout(doResolve, 1400),
     );
-  }, [phase, playerMomentum, aiMomentum, playerHp, aiHp, round, playerStat, aiStat, playerLastAction, clearTimers]);
+  }, [phase, playerMomentum, aiMomentum, playerHp, aiHp, round, playerStat, aiStat, playerLastAction, playerCard, aiCard, command, locale, clearTimers]);
 
   // resolve → 다음 합 or 종료
   useEffect(() => {
@@ -241,7 +241,7 @@ export default function DuelArena({ playerCard, aiCard, command, vsAi = true, on
     if (phase !== "select") return;
     const actions: DuelAction[] = ["charge", "strike", "brace"];
     handleAction(actions[Math.floor(Math.random() * actions.length)]);
-  }, [phase, playerMomentum, handleAction]);
+  }, [phase, handleAction]);
 
   const statMod = calcStatMod(playerStat, aiStat);
   const strikeDmg = Math.max(0, playerMomentum + statMod);

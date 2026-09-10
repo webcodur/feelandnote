@@ -12,11 +12,11 @@ import { useTranslations } from "next-intl";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GlobeMarker } from "@/components/shared/WorldGlobe";
 import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
-import ArchiveTabsHeader from "./ArchiveTabsHeader";
 import JourneyEventCarousel from "./JourneyEventCarousel";
-import JourneyEventExpandedList from "./JourneyEventExpandedList";
 import JourneyMapPanel from "./JourneyMapPanel";
+import JourneyTimelineModal from "./JourneyTimelineModal";
 import type { JourneyViewMode } from "./journeyTimeline";
+import styles from "./CelebPageContent.module.css";
 
 interface Props {
   events: CelebTimelineEvent[];
@@ -29,7 +29,8 @@ function mappedIdOf(event: CelebTimelineEvent | undefined): string | null {
 export default function JourneySection({ events }: Props) {
   const t = useTranslations("celebPage");
   /* ── 1. 상태·표식 준비 ── */
-  const [tab, setTab] = useState<"timeline" | "expand">("expand");
+  const [timelineModalOpen, setTimelineModalOpen] = useState(false);
+  const closeTimelineModal = useCallback(() => setTimelineModalOpen(false), []);
   const [showCard, setShowCard] = useState(true);
   const [showMap, setShowMap] = useState(true);
   const [activeId, setActiveId] = useState<string | null>(() => mappedIdOf(events[0]));
@@ -98,23 +99,11 @@ export default function JourneySection({ events }: Props) {
   const mapOnly = !effectiveShowCard && effectiveShowMap;
   const panelView: JourneyViewMode = sideBySide ? "both" : mapOnly ? "atlas" : "timeline";
   return (
-    <div className="space-y-4">
-      {/* 보기 전환은 매체·기록 등 다른 구획과 같은 탭줄로 그린다 — 여기만 칩으로 갈리지 않게 */}
-      <div className="space-y-2">
-        <ArchiveTabsHeader
-          tabs={[
-            { key: "expand", label: t("timelineViewExpand") },
-            { key: "timeline", label: t("timelineViewList") },
-          ]}
-          activeKey={tab}
-          onChange={setTab}
-          columnsClassName="grid-cols-2"
-          ariaLabel={t("timeline")}
-        />
+    <div className={`${styles.recordContentGap} space-y-2 md:space-y-4`}>
+      {/* 카드·지도 선택 옆에 전체 타임라인 버튼을 붙인다. */}
+      <div className="hidden items-center justify-center md:flex">
         {hasMap ? (
-          // 펼치기에서도 자리를 지킨다. 못 누를 때는 옅어지고 손을 막는다.
-          <div className="hidden justify-center md:flex" inert={tab !== "timeline" ? true : undefined}>
-            <div className={tab !== "timeline" ? "opacity-40 saturate-50" : undefined}>
+          <div>
             {/* 카드·지도 겹선택은 library와 같은 공용 칩으로 그린다.
                 둘 다 켜진 전체 상태는 value를 옵션 밖에 두어 faintAllActive의
                 은은한 전체 활성으로 보인다. 하나만 켜진 상태에서 어느 쪽을
@@ -138,52 +127,53 @@ export default function JourneySection({ events }: Props) {
                 }
               }}
             />
-            </div>
           </div>
         ) : null}
       </div>
-      {/* ── 3. 보기 전환·연표/지도 ── */}
-      {tab === "expand" ? (
-        <JourneyEventExpandedList
-          events={events}
-          onPlaceSelect={hasMap ? handleGlobeSelect : undefined}
-        />
-      ) : (
-        /* 지구본은 한 자리에 두고 배치만 바꾼다 — 옮겨 심으면 돌려놓은 각도가 풀린다 */
-        <div
-          className={
-            sideBySide
-              ? "flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_440px] md:gap-6 md:items-start"
-              : ""
-          }
-        >
-          <div className={mapOnly ? "min-w-0 md:hidden" : "min-w-0"}>
-            <JourneyEventCarousel
-              events={events}
+      {/* ── 3. 연표/지도 ── */}
+      {/* 지구본은 한 자리에 두고 배치만 바꾼다 — 옮겨 심으면 돌려놓은 각도가 풀린다 */}
+      <div
+        className={
+          sideBySide
+            ? "flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_440px] md:gap-6 md:items-start"
+            : ""
+        }
+      >
+        <div className={mapOnly ? "min-w-0 md:hidden" : "min-w-0"}>
+          <JourneyEventCarousel
+            events={events}
+            current={at}
+            onChange={go}
+            onPlaceSelect={handlePick}
+            onExpand={() => setTimelineModalOpen(true)}
+            expandLabel={t("timelineViewExpand")}
+          />
+        </div>
+        {hasMap && (
+          <div className="hidden min-w-0 md:block">
+            <JourneyMapPanel
+              markers={markers}
+              activeId={activeId}
+              focusId={focusId}
+              focusKey={focusKey}
+              unknownKey={unknownKey}
+              view={panelView}
+              event={event}
               current={at}
-              onChange={go}
-              onPlaceSelect={handlePick}
+              total={total}
+              onSelect={handleGlobeSelect}
+              onNavigate={go}
             />
           </div>
-          {hasMap && (
-            <div className="hidden min-w-0 md:block">
-              <JourneyMapPanel
-                markers={markers}
-                activeId={activeId}
-                focusId={focusId}
-                focusKey={focusKey}
-                unknownKey={unknownKey}
-                view={panelView}
-                event={event}
-                current={at}
-                total={total}
-                onSelect={handleGlobeSelect}
-                onNavigate={go}
-              />
-            </div>
-          )}
-        </div>
-      )}
+        )}
+      </div>
+      <JourneyTimelineModal
+        open={timelineModalOpen}
+        events={events}
+        title={t("timeline")}
+        closeLabel={t("timelineClose")}
+        onClose={closeTimelineModal}
+      />
     </div>
   );
 }

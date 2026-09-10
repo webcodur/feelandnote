@@ -9,7 +9,7 @@
   color: var(--color-text-secondary);
   font-size: 16px;
   line-height: 1.7;
-  word-break: keep-all;
+  word-break: inherit;
 }
 
 .notice {
@@ -17,7 +17,7 @@
   color: color-mix(in srgb, var(--color-text-secondary) 70%, transparent);
   font-size: 16px;
   line-height: 1.6;
-  word-break: keep-all;
+  word-break: inherit;
 }
 
 @media (min-width: 640px) {

@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useEffectEvent, useCallback } from "react";
 import type { ContentType } from "@/types/database";
 
 const STORAGE_KEY = "recent_contents";
@@ -25,13 +25,17 @@ export function useRecentContents(currentContentId?: string) {
   const [items, setItems] = useState<RecentContentItem[]>([]);
 
   // 마운트 시 localStorage에서 로드
-  useEffect(() => {
+  const restoreItems = useEffectEvent(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setItems(JSON.parse(raw));
     } catch {
       // 파싱 실패 시 무시
     }
+  });
+
+  useEffect(() => {
+    restoreItems();
   }, []);
 
   /** 콘텐츠 저장 (현재 페이지) */

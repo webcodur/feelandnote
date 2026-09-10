@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useEffectEvent, useState, useCallback, useMemo } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Inbox, User } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
@@ -206,15 +206,16 @@ export default function FriendActivitySection({
     setIsLoading(false);
     setIsLoadingMore(false);
   }, []);
+  const loadActivitiesEvent = useEffectEvent(loadActivities);
 
   useEffect(() => {
-    loadActivities(contentType);
-  }, [userId, contentType, loadActivities]);
+    loadActivitiesEvent(contentType);
+  }, [userId, contentType]);
 
   const handleTypeChange = useCallback((type: ContentTypeFilterValue) => {
     setContentType(type);
     setCursor(null);
-  }, []);
+  }, [setContentType]);
 
   const loadMore = useCallback(async () => {
     if (isLoadingMore || !hasMore || !cursor) return;

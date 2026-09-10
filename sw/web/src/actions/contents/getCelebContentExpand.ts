@@ -8,6 +8,7 @@ import {
 } from '@feelandnote/shared/constants/cache-tags'
 import { cachedDetail, spreadRevalidate, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
+import { CELEB_EXPAND_INDEX_LIMIT } from '@/constants/contentLibrary'
 import { CL_SELECT_LIST_WITH_AFFILIATE } from '@/lib/utils/content-locale'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
 import type { ContentType } from '@/types/database'
@@ -75,7 +76,7 @@ export async function getPublicCelebContentIndex(
   input: CelebIndexParams,
 ): Promise<GetUserContentsResponse> {
   const locale = await getLocale()
-  const params = { ...input, page: input.page ?? 1, limit: input.limit ?? 200 }
+  const params = { ...input, page: input.page ?? 1, limit: input.limit ?? CELEB_EXPAND_INDEX_LIMIT }
   const key = [params.userId, params.type, params.page, params.limit, params.search, params.hasReview]
     .map((value) => String(value ?? ''))
   return cachedDetail(

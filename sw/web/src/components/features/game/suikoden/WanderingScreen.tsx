@@ -44,7 +44,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
       t.regionId === wandering.currentRegionId && !occupiedIds.has(t.id)
       && (!activeSet || activeSet.has(t.id))
     )
-  }, [state.factions, wandering?.currentRegionId, wandering, state.activeTerritoryIds])
+  }, [state.factions, wandering, state.activeTerritoryIds])
 
   const event = wandering?.currentEvent ?? null
 
@@ -73,7 +73,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
       onDialog(generateDialog('join_rejected', char, dialogues?.[char.id]))
       onDialog(generateDialog('farewell', char, dialogues?.[char.id]))
     }
-  }, [event, wandering?.turnsWandered, wandering, onDialog])
+  }, [event, wandering?.turnsWandered, wandering, dialogues, onDialog])
 
   if (!wandering) return null
 

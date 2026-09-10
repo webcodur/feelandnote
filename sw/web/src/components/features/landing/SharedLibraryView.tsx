@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import ContentImage from "@/components/ui/ContentImage";
 import { Link } from "@/i18n/navigation";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
@@ -42,12 +42,15 @@ export default function SharedLibraryView({ tagId, embedded = false, heading }: 
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState<string>("ALL");
 
-  useEffect(() => {
+  const loadSharedLibrary = useEffectEvent(async () => {
     setIsLoading(true);
-    getTagSharedLibrary(tagId).then((data) => {
-      setItems(data);
-      setIsLoading(false);
-    });
+    const data = await getTagSharedLibrary(tagId);
+    setItems(data);
+    setIsLoading(false);
+  });
+
+  useEffect(() => {
+    loadSharedLibrary();
   }, [tagId]);
 
   const filtered =

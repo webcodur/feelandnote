@@ -2,7 +2,7 @@
 
 import type {
   GameState, GameCharacter, Faction, Territory, BuildingCard, BattleState, BattleParticipant,
-  Resources, TerritoryId, BattleLogEntry, CharacterPlacement, AIPersonality,
+  TerritoryId, CharacterPlacement, AIPersonality,
   Era, RegionId, WanderingEvent, DispositionState, DispositionTarget, DispositionResult, DispositionAction,
   WorldPreview, ScenarioDef,
 } from './types'
@@ -209,9 +209,6 @@ export function previewScenario(
     })
     .filter((pc): pc is NonNullable<typeof pc> => pc !== null)
 
-  // 플레이어 후보 ID (방랑자에서 제외)
-  const candidateIds = new Set(playerCandidates.map(pc => pc.profileId))
-
   // 방랑자 구성
   const wanderers: GameCharacter[] = []
   for (const wId of scenario.wandererIds) {
@@ -373,7 +370,7 @@ export function initGame(
   const player = allCharacters.find(c => c.id === playerLeaderId)!
 
   // 시대 기반 분류
-  const { eraChars, crossEraChars } = classifyByEra(allCharacters, era)
+  const { eraChars } = classifyByEra(allCharacters, era)
 
   // 영토별로 시대 캐릭터 분류 (AI 세력용)
   const charsByTerritory = new Map<TerritoryId, GameCharacter[]>()
@@ -674,7 +671,6 @@ export function generateWanderingEvent(state: GameState): GameState {
 
   // ── 체류 중 일반 이벤트 ──
   const roll = Math.random()
-  const currentRegion = REGIONS.find(r => r.id === w.currentRegionId)
 
   let event: WanderingEvent
 

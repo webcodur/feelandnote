@@ -30,7 +30,6 @@ interface CelebCarouselProps {
   onFilterInteraction?: () => void;
   customContent?: React.ReactNode;
   includeInactive?: boolean;
-  onIncludeInactiveChange?: (value: boolean) => void;
 }
 
 export default function CelebCarousel({
@@ -46,7 +45,6 @@ export default function CelebCarousel({
   onFilterInteraction,
   customContent,
   includeInactive = false,
-  onIncludeInactiveChange,
 }: CelebCarouselProps) {
   const filters = useCelebFilters({
     initialCelebs,
@@ -58,7 +56,6 @@ export default function CelebCarousel({
     genderCounts,
     syncToUrl,
     includeInactive,
-    onIncludeInactiveChange,
   });
 
   const [isControlsExpanded, setIsControlsExpanded] = useState(true);

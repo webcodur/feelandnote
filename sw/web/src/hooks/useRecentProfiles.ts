@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useEffectEvent, useCallback } from "react";
 
 const OLD_STORAGE_KEY = "recent_profiles";
 const STORAGE_KEY = "recent_profiles_v2";
@@ -55,12 +55,16 @@ function writeStorage(items: RecentProfileItem[]) {
 export function useRecentProfiles(currentUserId?: string) {
   const [items, setItems] = useState<RecentProfileItem[]>([]);
 
+  const restoreItems = useEffectEvent(() => {
+    setItems(readStorage());
+  });
+
   useEffect(() => {
     // 이전 키 정리
     try { localStorage.removeItem(OLD_STORAGE_KEY); } catch { /* ignore */ }
 
     // 초기 로드
-    setItems(readStorage());
+    restoreItems();
 
     // 싱글턴 리스너 등록
     listeners.add(setItems);

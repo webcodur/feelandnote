@@ -44,7 +44,7 @@ const initialContents: GetUserContentsResponse = {
 };
 
 const baseOptions: ContentLibraryDataOptions = {
-  activeTab: "all",
+  activeTab: "book",
   appliedSearchQuery: "",
   compact: false,
   currentPage: 1,
@@ -111,7 +111,7 @@ test("expand requests one full page and celeb requests force recent sorting", ()
   assert.deepEqual(request, {
     type: undefined,
     page: 1,
-    limit: 200,
+    limit: 500,
     search: undefined,
     hasReview: true,
     sortBy: "recent",
@@ -120,6 +120,7 @@ test("expand requests one full page and celeb requests force recent sorting", ()
 
 test("only the untouched list query can reuse the initial seed", () => {
   assert.equal(isInitialSeedQuery(baseOptions), true);
+  assert.equal(isInitialSeedQuery({ ...baseOptions, activeTab: "all" }), false);
   assert.equal(isInitialSeedQuery({ ...baseOptions, viewMode: "expand" }), false);
   assert.equal(isInitialSeedQuery({ ...baseOptions, currentPage: 2 }), false);
   assert.equal(isInitialSeedQuery({ ...baseOptions, appliedSearchQuery: "ab" }), false);

@@ -7,6 +7,34 @@ interface Props {
   children?: ReactNode;
 }
 
+const ORRERY_PLANET_COUNT = 4;
+
+class OrreryPlanet {
+  index: number;
+  distance: number;
+  size: number;
+  speed: number;
+  angle: number;
+  color: string;
+
+  constructor(index: number) {
+    this.index = index;
+    this.distance = 100 + index * 60;
+    this.size = 8 + Math.random() * 8;
+    this.speed = 0.005 + (ORRERY_PLANET_COUNT - index) * 0.002;
+    this.angle = Math.random() * Math.PI * 2;
+
+    if (index === 0) this.color = "#a0a0a0";
+    else if (index === 1) this.color = "#d4af37";
+    else if (index === 2) this.color = "#cd7f32";
+    else this.color = "#e0e0e0";
+  }
+
+  update() {
+    this.angle += this.speed;
+  }
+}
+
 export default function OrreryBanner({ children }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -21,38 +49,8 @@ export default function OrreryBanner({ children }: Props) {
     let animationFrameId: number;
     
     // Config
-    const PLANET_COUNT = 4;
-    
-    class Planet {
-       index: number;
-       distance: number;
-       size: number;
-       speed: number;
-       angle: number;
-       color: string;
-       
-       constructor(index: number) {
-          this.index = index;
-          this.distance = 100 + index * 60;
-          this.size = 8 + Math.random() * 8;
-          this.speed = 0.005 + (PLANET_COUNT - index) * 0.002;
-          this.angle = Math.random() * Math.PI * 2;
-          
-          if (index === 0) this.color = "#a0a0a0"; // Mercury (Stone)
-          else if (index === 1) this.color = "#d4af37"; // Venus (Gold)
-          else if (index === 2) this.color = "#cd7f32"; // Earth/Mars (Bronze)
-          else this.color = "#e0e0e0"; // Jupiter (Marble)
-       }
-
-       update() {
-          this.angle += this.speed;
-       }
-    }
-
-    let planets: Planet[] = [];
+    let planets: OrreryPlanet[] = [];
     const mouse = { x: 0.5, y: 0.5 }; // normalized 0-1
-    const targetTilt = { x: 0, y: 0.4 }; // Pitch, Yaw? Just Pitch scale
-
     const init = () => {
       width = canvas.parentElement?.clientWidth || window.innerWidth;
       height = 700;
@@ -60,8 +58,8 @@ export default function OrreryBanner({ children }: Props) {
       canvas.height = height;
 
       planets = [];
-      for (let i = 0; i < PLANET_COUNT; i++) {
-         planets.push(new Planet(i));
+      for (let i = 0; i < ORRERY_PLANET_COUNT; i++) {
+         planets.push(new OrreryPlanet(i));
       }
     };
 

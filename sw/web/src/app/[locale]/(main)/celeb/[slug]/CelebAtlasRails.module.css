@@ -200,7 +200,7 @@
   line-height: 1.25;
   text-align: center;
   white-space: normal;
-  word-break: keep-all;
+  word-break: inherit;
   cursor: pointer;
 }
 

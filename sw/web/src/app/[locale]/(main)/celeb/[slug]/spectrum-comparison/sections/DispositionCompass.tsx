@@ -18,7 +18,6 @@ export default function DispositionCompass({
   data,
   subjectName,
   candidateName,
-  title,
   opposite,
   twoColumn = false,
 }: CompassChartProps) {

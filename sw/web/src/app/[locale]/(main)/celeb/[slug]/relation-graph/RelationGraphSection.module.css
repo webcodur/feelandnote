@@ -196,10 +196,9 @@
   letter-spacing: .04em;
 }
 .inspectorActions { display: flex; flex-direction: column; gap: 8px; align-self: start; }
-.inspectorActions button, .inspectorActions a { display: inline-flex; width: 46px; height: 46px; padding: 0; align-items: center; justify-content: center; border: 1px solid color-mix(in srgb, var(--material-edge) 64%, transparent); color: var(--material-muted); background: transparent; cursor: pointer; }
-.inspectorActions button:hover, .inspectorActions a:hover { color: var(--material-accent); border-color: var(--material-accent); background: var(--material-raised); }
-.inspectorActions button:active, .inspectorActions a:active { color: var(--material-deep); background: var(--material-accent); }
-.inspectorActions button:disabled { opacity: .5; cursor: wait; }
+.inspectorActions a { display: inline-flex; width: 46px; height: 46px; padding: 0; align-items: center; justify-content: center; border: 1px solid color-mix(in srgb, var(--material-edge) 64%, transparent); color: var(--material-muted); background: transparent; cursor: pointer; }
+.inspectorActions a:hover { color: var(--material-accent); border-color: var(--material-accent); background: var(--material-raised); }
+.inspectorActions a:active { color: var(--material-deep); background: var(--material-accent); }
 .sourceNote { margin-top: 11px; color: var(--material-muted); font-size: 11px; line-height: 1.55; }
 
 @media (max-width: 900px) {

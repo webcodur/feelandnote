@@ -12,6 +12,7 @@ import { MapPin } from "lucide-react";
 
 import SwipeControls from "@/components/ui/SwipeControls";
 import { useSnapActiveHeight } from "@/components/ui/useSnapActiveHeight";
+import { cn } from "@/lib/utils";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import { timelineYearCopy } from "./journeyTimeline";
 import TimelineIndexTick from "./TimelineIndexTick";
@@ -19,6 +20,8 @@ import TimelineIndexTick from "./TimelineIndexTick";
 interface Props {
   events: CelebTimelineEvent[];
   onPlaceSelect?: (id: string) => void;
+  /** 타임라인 모달에서는 사건 목록을 모달 스크롤 영역에 그대로 펼친다. */
+  fullPage?: boolean;
 }
 
 function formatEventYear(
@@ -41,6 +44,7 @@ function formatEventYear(
 export default function JourneyEventExpandedList({
   events,
   onPlaceSelect,
+  fullPage = false,
 }: Props) {
   const t = useTranslations("celebPage");
   const yearCopy = timelineYearCopy(t);
@@ -52,10 +56,13 @@ export default function JourneyEventExpandedList({
   return (
     <div
       tabIndex={0}
-      aria-label={t("timelineViewExpand")}
+      aria-label={t("timeline")}
       // 좌우 넘김 표시(SwipeControls)는 DOM상 카드 줄 바로 다음이어야 스스로 그 줄을 찾는다.
       // 순서는 그대로 두고 좁은 화면에서만 column-reverse로 화면 위쪽에 오게 한다.
-      className="flex flex-col-reverse md:custom-scrollbar px-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:block md:max-h-[580px] md:overflow-y-auto md:[overflow-anchor:none]"
+      className={cn(
+        "flex flex-col-reverse md:custom-scrollbar focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent md:block",
+        !fullPage && "md:max-h-[580px] md:overflow-y-auto md:[overflow-anchor:none]",
+      )}
     >
       {/* 연대기 카드와 같은 언어: 머리(번호·연도·지명) + 제목 + 본문. 수직선 레일은 걷는다.
           좁은 화면에서는 한 장씩 옆으로 넘긴다 — 세로로 전부 훑지 않아도 된다 */}
@@ -77,11 +84,12 @@ export default function JourneyEventExpandedList({
               className="group w-full shrink-0 snap-start overflow-hidden rounded-xl border border-white/[0.08] bg-bg-secondary/35 md:w-auto md:shrink"
             >
               {/* 머리: 번호 + 연도·지명 — 연대기 카드 머리줄과 같은 자리 */}
-              <div className="flex items-center gap-3 border-b border-accent-dim/20 px-4 py-2.5">
+              <div className="relative flex items-center justify-center gap-3 border-b border-accent-dim/20 px-12 py-2.5 md:px-14">
                 <span
                   aria-label={t("timelineCurrent", { current: index + 1 })}
-                  className="flex size-7 shrink-0 items-center justify-center rounded-full border border-accent/70 bg-accent/10 font-mono text-xs font-black leading-none tabular-nums text-accent"
+                  className="absolute start-3 top-1/2 inline-flex -translate-y-1/2 items-center font-mono text-sm font-black leading-none tabular-nums text-accent md:start-4"
                 >
+                  <span aria-hidden>#</span>
                   <TimelineIndexTick value={index + 1} />
                 </span>
                 {headMeta ? (
@@ -151,7 +159,7 @@ export default function JourneyEventExpandedList({
       </div>
 
       {/* 넘길 수 있다는 표시 — 넓은 화면에서는 목록이 세로로 서므로 사라진다 */}
-      <SwipeControls count={events.length} />
+      <SwipeControls count={events.length} size="large" className="mt-0" />
     </div>
   );
 }

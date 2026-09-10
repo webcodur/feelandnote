@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import {
@@ -54,11 +55,7 @@ export default function WorkDetailModal({
   locale,
 }: WorkDetailModalProps) {
   const t = useTranslations("celebPage");
-  const [imageOpen, setImageOpen] = useState(false);
-
-  useEffect(() => {
-    setImageOpen(false);
-  }, [item]);
+  const [imageOpenId, setImageOpenId] = useState<string | null>(null);
 
   if (!item) return null;
 
@@ -87,14 +84,17 @@ export default function WorkDetailModal({
           {item.thumbnail && (
             <button
               type="button"
-              onClick={() => setImageOpen(true)}
+              onClick={() => setImageOpenId(item.id)}
               className="relative w-full bg-black/30 flex items-center justify-center cursor-zoom-in group overflow-hidden"
               style={{ maxHeight: "320px" }}
             >
-              <BlurDissolve className="w-full h-full">
-                <img
+              <BlurDissolve className="relative w-full h-full">
+                <Image
                   src={item.thumbnail}
                   alt={item.title}
+                  fill
+                  sizes="100vw"
+                  unoptimized
                   className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
                   style={{ maxHeight: "320px" }}
                   onError={(e) => {
@@ -216,8 +216,8 @@ export default function WorkDetailModal({
         <ImageViewerModal
           src={item.thumbnail}
           alt={item.title}
-          isOpen={imageOpen}
-          onClose={() => setImageOpen(false)}
+          isOpen={imageOpenId === item.id}
+          onClose={() => setImageOpenId(null)}
         />
       )}
     </>

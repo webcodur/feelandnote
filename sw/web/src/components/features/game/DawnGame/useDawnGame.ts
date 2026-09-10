@@ -4,7 +4,7 @@
 */
 "use client";
 
-import { useState, useEffect, useCallback, useRef, useMemo, type MutableRefObject } from "react";
+import { useState, useEffect, useEffectEvent, useCallback, useRef, useMemo, type MutableRefObject } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { getCelebs } from "@/actions/home/getCelebs";
 import { getDawnDialogues, type DawnDialogueData } from "@/actions/game/getDawnDialogues";
@@ -205,7 +205,7 @@ export function useDawnGame({ onPhaseChange, onHomeRef, onStartRef }: UseDawnGam
       if (saved) setHighScore(parseInt(saved, 10));
     };
     loadCelebs();
-  }, []);
+  }, [locale]);
   // endregion
 
   // 래퍼 연동: gameState + streak 기반 phase 알림
@@ -520,12 +520,14 @@ export function useDawnGame({ onPhaseChange, onHomeRef, onStartRef }: UseDawnGam
     setTimeout(() => setNewlyPlacedIndex(null), 500);
   }, [pendingBoard, pendingPlaceIndex, remainingCelebs, compensateScrollForExpansion, currentCard, showDialogue, getTone]);
 
+  const proceedToNextRoundEvent = useEffectEvent(proceedToNextRound);
+
   useEffect(() => {
     if (isRevealing && wrongPosition === null && pendingBoard) {
       // 플레이스홀더가 대사 충돌을 방지하므로 즉시 전환
-      proceedToNextRound();
+      proceedToNextRoundEvent();
     }
-  }, [isRevealing, wrongPosition, pendingBoard, proceedToNextRound]);
+  }, [isRevealing, wrongPosition, pendingBoard]);
   // endregion
 
   // region: 스크롤 버튼

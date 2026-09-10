@@ -44,6 +44,14 @@ const TAB_LABEL_KEYS: Record<TabId, string> = {
   content: "tabContent",
   gender: "tabGender",
 };
+
+const CONTENT_TYPES = ["BOOK", "VIDEO", "GAME", "MUSIC"] as const;
+const CONTENT_COLORS: Record<(typeof CONTENT_TYPES)[number], string> = {
+  BOOK: "#10b981",
+  VIDEO: "#3b82f6",
+  GAME: "#8b5cf6",
+  MUSIC: "#f59e0b",
+};
 // #endregion
 
 // #region Components
@@ -198,18 +206,10 @@ function ContentTypeStats({
   tc: (key: string) => string;
 }) {
   const total = contentTypeCounts.all || 0;
-  const types = ["BOOK", "VIDEO", "GAME", "MUSIC"];
-
-  const CONTENT_COLORS: Record<string, string> = {
-    BOOK: "#10b981",
-    VIDEO: "#3b82f6",
-    GAME: "#8b5cf6",
-    MUSIC: "#f59e0b",
-  };
 
   // 카운트 내림차순 정렬
   const sortedTypes = useMemo(() => {
-    return types
+    return CONTENT_TYPES
       .map(type => ({
         value: type,
         label: tc(type.toLowerCase()),
@@ -217,7 +217,7 @@ function ContentTypeStats({
         color: CONTENT_COLORS[type] || "#666",
       }))
       .sort((a, b) => b.count - a.count);
-  }, [contentTypeCounts]);
+  }, [contentTypeCounts, tc]);
 
   // CSS conic-gradient 생성
   const gradientSegments = useMemo(() => {

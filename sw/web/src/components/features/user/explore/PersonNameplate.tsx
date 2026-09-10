@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { User, BookOpen, Star } from "lucide-react";
+import { User, BookOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCelebAvatarSrc } from "@/hooks/useCelebAvatarSrc";
 

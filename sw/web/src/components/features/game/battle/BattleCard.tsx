@@ -52,7 +52,7 @@ interface Props {
 
 export default function BattleCard({
   card, onClick, disabled, onInfo, selected, faceDown,
-  pickedBy, mode = "draft", activeCommand, compact,
+  pickedBy, activeCommand, compact,
   targetable, targeted, masked, isCaptain, onCaptainInfo,
   footerSlot,
 }: Props) {

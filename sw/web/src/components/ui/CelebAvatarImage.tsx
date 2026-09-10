@@ -37,7 +37,6 @@ export default function CelebAvatarImage({
 
   const common = {
     src: shownSrc ?? src,
-    alt,
     className,
     unoptimized: true,
     loading: "lazy" as const,
@@ -46,8 +45,8 @@ export default function CelebAvatarImage({
   };
 
   return boxPx ? (
-    <Image {...common} width={boxPx} height={boxPx} />
+    <Image {...common} alt={alt} width={boxPx} height={boxPx} />
   ) : (
-    <Image {...common} fill sizes={displaySizes} />
+    <Image {...common} alt={alt} fill sizes={displaySizes} />
   );
 }

@@ -1,5 +1,5 @@
 import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
-import { type ActionResult, type ActionFailure, failure } from '@/lib/errors'
+import { type ActionFailure, failure } from '@/lib/errors'
 
 type AdminRole = 'admin' | 'super_admin'
 

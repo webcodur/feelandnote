@@ -1,7 +1,7 @@
 'use client'
 
 import { useLocale } from 'next-intl'
-import type { BattleState, BattleUnit } from '@/lib/game/suikoden/types'
+import type { BattleState } from '@/lib/game/suikoden/types'
 import CharacterPortrait from './CharacterPortrait'
 import { getSuikodenText } from './i18n'
 
@@ -19,7 +19,7 @@ export default function TurnOrderBar({ state, playerFactionId }: Props) {
   return (
     <div className="flex items-center gap-1 p-2 bg-stone-800 border border-stone-700 rounded overflow-x-auto">
       <span className="text-[9px] text-text-secondary shrink-0 mr-1">{text.battle.turn(state.turnNumber)}</span>
-      {state.turnOrder.map((unitId, i) => {
+      {state.turnOrder.map((unitId) => {
         const unit = allUnits.find(u => u.id === unitId)
         if (!unit || unit.isDefeated) return null
         const isAlly = unit.factionId === playerFactionId ||

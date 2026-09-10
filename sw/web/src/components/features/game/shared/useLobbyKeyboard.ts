@@ -21,7 +21,9 @@ export function useLobbyKeyboard(onEscape?: () => void) {
   const ref = useRef<HTMLDivElement>(null);
   const [idx, setIdx] = useState(0);
   const escRef = useRef(onEscape);
-  escRef.current = onEscape;
+  useEffect(() => {
+    escRef.current = onEscape;
+  }, [onEscape]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {

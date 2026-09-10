@@ -16,7 +16,7 @@ for (const file of files) {
 
     // Create a sandbox to run the JS code
     const sandbox = { exports: {} };
-    const requireMock = (id) => { return {}; }; // Mock imports
+    const requireMock = () => ({}); // Mock imports
     
     try {
         const fn = new Function('exports', 'require', jsCode);

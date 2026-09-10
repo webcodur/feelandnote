@@ -5,7 +5,6 @@
 */
 "use client";
 
-import Image from "next/image";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { cn } from "@/lib/utils";
 import BlurDissolve from "@/components/ui/BlurDissolve";

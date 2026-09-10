@@ -135,7 +135,6 @@ export default function GameAudioPlayer({ controls }: GameAudioPlayerProps) {
         <span className="text-[10px] tabular-nums shrink-0 w-8 text-right">
           {formatTime(displayTime)}
         </span>
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
         <div
           ref={trackRef}
           className="flex-1 relative h-5 flex items-center cursor-pointer group"

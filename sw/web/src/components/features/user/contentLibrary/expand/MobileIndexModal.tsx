@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { LibraryBig } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { getCategoryByDbType } from "@/constants/categories";
+import Modal from "@/components/ui/Modal";
+import {
+  CATEGORIES,
+  CATEGORY_ID_TO_TYPE,
+  getCategoryByDbType,
+  type CategoryId,
+} from "@/constants/categories";
 import { cn } from "@/lib/utils";
+import type { ContentTypeCounts } from "@/types/content";
 
 import styles from "./ExpandDetailView.module.css";
 import type { ExpandIndexTypeGroup } from "./groupExpandIndexItems";
@@ -16,36 +23,85 @@ interface MobileIndexModalProps {
   indexId: string;
   labels: {
     list: string;
-    title: string;
-    close: string;
   };
+  activeCategory?: CategoryId;
+  categoryCounts?: ContentTypeCounts | null;
+  onCategoryChange?: (category: CategoryId) => void;
+  isContentRefreshing?: boolean;
   collapsedGroupTypes: ReadonlySet<string>;
   scrollTargetIndex: number | null;
   onToggleGroup: (dbType: string) => void;
   onSelect: (index: number) => void;
-  onSelectedItemReady: (index: number) => void;
   onClose: () => void;
 }
 
+const ALL_GROUPS = "all";
+
 /*
- * 모바일 목록 모달. 제목줄 우측 단추로 열어 왼쪽 서랍으로 띄운다.
- * 바깥 pointerdown 감시(레일)와 겹치지 않게 모달 안 누름은 전파를 끊고,
+ * 기록 목록 모달. 데스크톱과 모바일에서 같은 중앙 모달로 띄운다.
+ * 바깥 pointerdown 감시와 겹치지 않게 모달 안 누름은 전파를 끊고,
  * 뒷배경·닫기 단추·Escape·항목 선택으로 닫는다. 항목 ref는 등록하지 않아
- * 데스크톱 레일의 스크롤 ref를 건드리지 않는다.
+ * 모달 내부 목록의 스크롤 ref만 사용한다.
  */
 export default function MobileIndexModal({
   groups,
   indexId,
   labels,
+  activeCategory,
+  categoryCounts,
+  onCategoryChange,
+  isContentRefreshing = false,
   collapsedGroupTypes,
   scrollTargetIndex,
   onToggleGroup,
   onSelect,
-  onSelectedItemReady,
   onClose,
 }: MobileIndexModalProps) {
   const t = useTranslations("content");
+  const tArchive = useTranslations("archiveSearch");
+  const tSearch = useTranslations("searchPage");
   const navRef = useRef<HTMLElement | null>(null);
+  const [selectedGroupType, setSelectedGroupType] = useState(
+    () => CATEGORY_ID_TO_TYPE[activeCategory ?? "all"] ?? ALL_GROUPS,
+  );
+
+  const categoryOptions = useMemo(() => {
+    if (onCategoryChange) {
+      return CATEGORIES
+        .filter((category) => {
+          const count = categoryCounts?.[category.dbType];
+          const groupCount = groups.find((group) => group.dbType === category.dbType)?.items.length ?? 0;
+          return (count ?? 0) > 0 || groupCount > 0;
+        })
+        .map((category) => {
+          const groupCount = groups.find((group) => group.dbType === category.dbType)?.items.length ?? 0;
+          return {
+            dbType: category.dbType,
+            category,
+            count: Math.max(categoryCounts?.[category.dbType] ?? 0, groupCount),
+          };
+        })
+        .sort((first, second) => second.count - first.count);
+    }
+
+    return groups.map((group) => ({
+      dbType: group.dbType,
+      category: getCategoryByDbType(group.dbType),
+      count: group.items.length,
+    }));
+  }, [categoryCounts, groups, onCategoryChange]);
+  const hasSelectedGroup = selectedGroupType === ALL_GROUPS
+    || categoryOptions.some((option) => option.dbType === selectedGroupType);
+  const effectiveGroupType = hasSelectedGroup ? selectedGroupType : ALL_GROUPS;
+  const visibleGroups = effectiveGroupType === ALL_GROUPS
+    ? groups
+    : groups.filter((group) => group.dbType === effectiveGroupType);
+
+  const handleCategorySelect = (dbType: string) => {
+    setSelectedGroupType(dbType);
+    const category = getCategoryByDbType(dbType);
+    if (category) onCategoryChange?.(category.id);
+  };
 
   useEffect(() => {
     if (scrollTargetIndex === null) return;
@@ -54,71 +110,117 @@ export default function MobileIndexModal({
       ?.scrollIntoView({ block: "nearest" });
   }, [scrollTargetIndex]);
 
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [onClose]);
-
   return (
-    <div
-      className="fixed inset-0 z-50 md:hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-label={labels.list}
-      onPointerDown={(event) => event.stopPropagation()}
+    <Modal
+      isOpen
+      onClose={onClose}
+      title={labels.list}
+      size="lg"
+      closeOnOverlayClick
+      animateHeight={false}
     >
-      <div aria-hidden className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="absolute bottom-3 start-0 top-3 flex w-72 max-w-[85vw] animate-fade-in flex-col overflow-hidden rounded-e-xl bg-bg-secondary shadow-xl">
-        <div className="flex h-[64px] min-h-[64px] shrink-0 items-center justify-between border-b border-white/[0.08] pe-2 ps-4">
-          <span className="min-w-0 flex-1 truncate text-start text-sm font-semibold tracking-wide text-text-primary">
-            {labels.title}
-          </span>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label={labels.close}
-            className="flex h-11 w-11 shrink-0 items-center justify-center text-text-secondary hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70"
-          >
-            <X className="h-5 w-5 shrink-0" strokeWidth={1.8} aria-hidden />
-          </button>
-        </div>
-        <nav
-          ref={navRef}
-          aria-label={labels.list}
-          data-open
+      <div className="border-b border-border px-3 py-2">
+        <div
+          role="radiogroup"
+          aria-label={tArchive("filter.category")}
           className={cn(
-            "custom-scrollbar min-h-0 flex-1 overflow-y-auto overflow-x-hidden [overflow-anchor:none]",
-            styles.indexRail,
-            styles.indexScrollbar,
+            "grid grid-cols-2 gap-1",
+            onCategoryChange ? "sm:grid-cols-4" : "sm:grid-cols-5",
           )}
         >
-          {groups.map((group) => {
-            const category = getCategoryByDbType(group.dbType);
-            const hasScrollTarget = group.items.some(
-              (item) => item.originalIndex === scrollTargetIndex,
-            );
+          {!onCategoryChange && (
+            <button
+              type="button"
+              role="radio"
+              aria-checked={effectiveGroupType === ALL_GROUPS}
+              onClick={() => setSelectedGroupType(ALL_GROUPS)}
+              className={cn(
+                "flex min-w-0 items-center justify-center gap-1 rounded-md border px-2 py-1.5 text-xs font-medium",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
+                effectiveGroupType === ALL_GROUPS
+                  ? "border-accent/60 bg-accent/15 text-accent"
+                  : "border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:bg-white/10 hover:text-text-primary",
+              )}
+            >
+              <LibraryBig size={14} strokeWidth={1.7} aria-hidden />
+              <span>{t("category.all")}</span>
+              <span className="font-mono text-[10px] tabular-nums text-text-tertiary">
+                {groups.reduce((total, group) => total + group.items.length, 0)}
+              </span>
+            </button>
+          )}
+
+          {categoryOptions.map(({ dbType, category, count }) => {
+            const Icon = category?.lucideIcon;
+            const isSelected = effectiveGroupType === dbType;
             return (
-              <ExpandIndexGroup
-                key={group.dbType}
-                groupKey={group.dbType}
-                headingId={`${indexId}-modal-${group.dbType}`}
-                label={category ? t(`category.${category.id}`) : group.dbType}
-                Icon={category?.lucideIcon}
-                isExpanded={!collapsedGroupTypes.has(group.dbType)}
-                scrollTargetIndex={hasScrollTarget ? scrollTargetIndex : null}
-                items={group.items}
-                setItemRef={() => undefined}
-                onToggle={onToggleGroup}
-                onSelect={onSelect}
-                onSelectedItemReady={onSelectedItemReady}
-              />
+              <button
+                key={dbType}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                onClick={() => handleCategorySelect(dbType)}
+                className={cn(
+                  "flex min-w-0 items-center justify-center gap-1 rounded-md border px-2 py-1.5 text-xs font-medium",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
+                  isSelected
+                    ? "border-accent/60 bg-accent/15 text-accent"
+                    : "border-white/10 bg-white/5 text-text-secondary hover:border-white/20 hover:bg-white/10 hover:text-text-primary",
+                )}
+              >
+                {Icon && <Icon size={14} strokeWidth={1.7} aria-hidden />}
+                <span className="truncate">
+                  {category ? t(`category.${category.id}`) : dbType}
+                </span>
+                <span className="font-mono text-[10px] tabular-nums text-text-tertiary">
+                  {count}
+                </span>
+              </button>
             );
           })}
-        </nav>
+        </div>
       </div>
-    </div>
+
+      <nav
+        ref={navRef}
+        aria-label={labels.list}
+        aria-busy={isContentRefreshing || undefined}
+        data-open="true"
+        className={cn(
+          "custom-scrollbar max-h-[calc(100dvh-13rem)] overflow-y-auto overflow-x-hidden [overflow-anchor:none]",
+          styles.indexRail,
+          styles.indexScrollbar,
+        )}
+      >
+        {visibleGroups.map((group) => {
+          const category = getCategoryByDbType(group.dbType);
+          const hasScrollTarget = group.items.some(
+            (item) => item.originalIndex === scrollTargetIndex,
+          );
+          return (
+            <ExpandIndexGroup
+              key={group.dbType}
+              groupKey={group.dbType}
+              headingId={`${indexId}-modal-${group.dbType}`}
+              label={category ? t(`category.${category.id}`) : group.dbType}
+              Icon={category?.lucideIcon}
+              isExpanded={!collapsedGroupTypes.has(group.dbType)}
+              scrollTargetIndex={hasScrollTarget ? scrollTargetIndex : null}
+              items={group.items}
+              setItemRef={() => undefined}
+              onToggle={onToggleGroup}
+              onSelect={onSelect}
+              onSelectedItemReady={() => undefined}
+              hideHeader={Boolean(onCategoryChange)}
+            />
+          );
+        })}
+        {visibleGroups.length === 0 && (
+          <div className="px-4 py-8 text-center text-sm text-text-tertiary">
+            {isContentRefreshing ? tSearch("loading") : "—"}
+          </div>
+        )}
+      </nav>
+    </Modal>
   );
 }

@@ -69,7 +69,11 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
           }}
         />
         <PageContainer wide>
-          <main className={`${styles.detailTypography} mx-auto max-w-[1400px] animate-fade-in`}>
+          <main
+            className={`${styles.detailTypography} ${
+              locale === "ko" ? styles.detailTypographyKorean : ""
+            } mx-auto max-w-[1400px] animate-fade-in`}
+          >
             {children}
           </main>
         </PageContainer>

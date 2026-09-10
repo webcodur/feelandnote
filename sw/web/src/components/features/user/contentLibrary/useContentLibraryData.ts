@@ -159,7 +159,7 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     }
   }, [activeTab, appliedSearchQuery, compact, currentPage, isViewer, maxItems, ownerKind, pageSize, reviewFilter, sortOption, t, targetUserId, viewMode]);
 
-  // 펼침의 최대 200행을 목록 카드로 잠깐 재해석하면 DOM·인증·카운트 요청이 폭발한다.
+  // 펼침의 최대 500행을 목록 카드로 잠깐 재해석하면 DOM·인증·카운트 요청이 폭발한다.
   // 반대 방향(list → expand)은 현재 페이지의 첫 항목을 큰 카드로 즉시 보여주는 안전한 seed다.
   const resolvedPresentation = resolveDatasetPresentation(contentsMode, viewMode, isLoading);
   const canPresentCachedRequestedView = ownerKind === "celeb"

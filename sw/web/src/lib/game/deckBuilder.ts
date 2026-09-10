@@ -64,7 +64,6 @@ function totalAptitude(card: BattleCard): number {
 export function aiDraftPick(
   availableCards: BattleCard[],
   aiPicks: BattleCard[],
-  playerPicks: BattleCard[],
 ): BattleCard {
   if (availableCards.length === 1) return availableCards[0];
 

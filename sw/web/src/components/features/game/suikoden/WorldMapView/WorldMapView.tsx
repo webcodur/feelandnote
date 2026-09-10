@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import * as d3 from 'd3'
 import * as topojson from 'topojson-client'
 import type { Faction, TerritoryId, RegionId } from '@/lib/game/suikoden/types'
-import { TERRITORIES, REGIONS } from '@/lib/game/suikoden/constants'
+import { TERRITORIES } from '@/lib/game/suikoden/constants'
 import { getSuikodenText, stripSuikodenFactionSuffix } from '../i18n'
 import type { Props, TopoData, RenderContext } from './types'
 import {
@@ -273,7 +273,7 @@ export default function WorldMapView({
       }
     }
     return closest
-  }, [])
+  }, [state.activeTerritoryIds])
 
   const getHitRegion = useCallback((clientX: number, clientY: number): RegionId | null => {
     const canvas = canvasRef.current

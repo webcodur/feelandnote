@@ -7,8 +7,8 @@ import { GRADE_COLORS } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from '../../CharacterPortrait'
 
 export default function BuildingSlot({
-  tS, buildingName, buildingDefId, index, isConstructing, isResting, turnsLeft, buildTurnsTotal,
-  character, catColor, isDragOver, isSelected,
+  tS, buildingName, index, isConstructing, isResting, turnsLeft, buildTurnsTotal,
+  character, isDragOver, isSelected,
   onDragOver, onDragLeave, onDrop,
   onDragStartChar, onClickChar, onClickAssign, onClickAssignHint,
   onUnassign, onDemolish, onClickInfo, readOnly,

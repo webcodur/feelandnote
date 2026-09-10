@@ -43,7 +43,6 @@ export default function ParchmentScrollBanner({
     let width = 0;
     let height = 0;
     let animationFrameId: number;
-    let frame = 0;
     let progress = 0;
 
     const isVertical = variant === "vertical";
@@ -315,8 +314,6 @@ export default function ParchmentScrollBanner({
     };
 
     const animate = () => {
-      frame++;
-
       // 배경
       if (compact) {
         ctx.clearRect(0, 0, width, height);

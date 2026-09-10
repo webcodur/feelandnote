@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, lazy, Suspense, type CSSProperties } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, Users, UserRound, Images, LoaderCircle, Loader2, Play, Pause, Star } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, Users, Images, LoaderCircle, Loader2, Play, Pause, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
@@ -18,6 +18,7 @@ import FactionQuoteOverlay from "@/components/features/faction/quote/FactionQuot
 import { useFactionQuoteStage } from "@/components/features/faction/quote/useFactionQuoteStage";
 import FactionMobileInfoPanel from "./FactionMobileInfoPanel";
 import FactionRoster, { type FactionRosterEntry } from "./FactionRoster";
+import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
 
@@ -533,7 +534,7 @@ export default function FactionShowcase({
               {groupLabel}
             </h3>
             {groupSubtitle && (
-              <p className="mt-1.5 break-keep text-sm font-semibold tracking-wide text-white/70">
+              <p className="mt-1.5 break-keep text-sm font-semibold tracking-wide text-white/90">
                 {groupSubtitle}
               </p>
             )}
@@ -552,14 +553,14 @@ export default function FactionShowcase({
                     onClick={() => selectItem(itemIdx)}
                     className="group/row flex w-full cursor-pointer items-baseline gap-3 border-b border-white/[0.07] py-2.5 text-left"
                   >
-                    <span className="w-7 shrink-0 font-serif text-xs font-bold tabular-nums text-white/40 group-hover/row:text-accent">
+                    <span className="w-7 shrink-0 font-serif text-xs font-bold tabular-nums text-white/70 group-hover/row:text-accent">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="shrink-0 text-[15px] font-bold text-white/90 group-hover/row:text-accent">
                       {localizedCelebName(celeb)}
                     </span>
                     {role && (
-                      <span title={role} className="min-w-0 truncate text-xs font-medium text-white/45">{role}</span>
+                      <span title={role} className="min-w-0 truncate text-xs font-medium text-white/80">{role}</span>
                     )}
                   </button>
                 );
@@ -569,7 +570,7 @@ export default function FactionShowcase({
             {/* 발치 — 큰 인원 수치 */}
             <p className="mt-3 self-end font-serif text-4xl font-black tabular-nums text-white/85 md:text-5xl">
               {groupMembers.length}
-              <span className="ms-1.5 align-baseline text-sm font-bold text-white/50">
+              <span className="ms-1.5 align-baseline text-sm font-bold text-white/80">
                 {t("figureUnit")}
               </span>
             </p>
@@ -780,7 +781,7 @@ export default function FactionShowcase({
             </p>
           )}
           {teamImageMembers.length > 0 && (
-            <p className="mt-2 text-xs font-semibold text-white/65">
+            <p className="mt-2 text-xs font-semibold text-white/85">
               {t("figureCount", { count: teamImageMembers.length })}
             </p>
           )}
@@ -801,22 +802,14 @@ export default function FactionShowcase({
             <h3 className="font-serif text-2xl font-black leading-tight text-white md:text-3xl">
               {currentCelebName}
             </h3>
-            {/* 인물 상세 열기 — 이름 옆 프로필 아이콘 하나로 */}
-            <button
-              type="button"
+            {/* 인물 상세 열기 — 이름 옆 인물 카드 아이콘 하나로 */}
+            <CelebDetailCardButton
+              label={t("viewDetail")}
+              loading={isModalLoading}
               onClick={openModal}
-              disabled={isModalLoading}
-              aria-busy={isModalLoading}
-              aria-label={t("viewDetail")}
-              title={t("viewDetail")}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/55 text-white/90 hover:border-accent hover:bg-accent hover:text-black disabled:cursor-wait disabled:opacity-60"
-            >
-              {isModalLoading ? (
-                <LoaderCircle size={16} className="animate-spin" aria-hidden />
-              ) : (
-                <UserRound size={16} aria-hidden />
-              )}
-            </button>
+              size="compact"
+              iconSize={16}
+            />
           </div>
           {celebTitle && (
             <p className="mt-1 break-keep text-[13px] font-semibold tracking-wide text-white/75">

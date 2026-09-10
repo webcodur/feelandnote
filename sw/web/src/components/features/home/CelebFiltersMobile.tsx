@@ -81,7 +81,6 @@ export default function CelebFiltersMobile({
   genderCounts,
   isLoading,
   activeFilter,
-  activeLabels,
   onFilterOpen,
   onFilterClose,
   onProfessionChange,

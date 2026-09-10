@@ -83,7 +83,8 @@ export default function TimelineSection({ celebs, countries }: Props) {
   const toggleEra = useCallback((eraKey: string) => {
     setCollapsedEras(prev => {
       const next = new Set(prev);
-      next.has(eraKey) ? next.delete(eraKey) : next.add(eraKey);
+      if (next.has(eraKey)) next.delete(eraKey);
+      else next.add(eraKey);
       return next;
     });
   }, []);
@@ -113,7 +114,8 @@ export default function TimelineSection({ celebs, countries }: Props) {
   const toggleContemporaries = useCallback((id: string) => {
     setShowContemporaries(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
   }, []);
@@ -121,7 +123,8 @@ export default function TimelineSection({ celebs, countries }: Props) {
   const toggleBio = useCallback((id: string) => {
     setExpandedBio(prev => {
       const n = new Set(prev);
-      n.has(id) ? n.delete(id) : n.add(id);
+      if (n.has(id)) n.delete(id);
+      else n.add(id);
       return n;
     });
   }, []);

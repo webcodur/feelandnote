@@ -1,7 +1,6 @@
+import type { Json } from '@/types/database.generated'
 
-export interface Snapshot {
-  // 스냅샷 데이터는 현재 사용하지 않거나 최소화됨
-}
+export type Snapshot = Json
 
 export interface NoteSection {
   id: string
@@ -19,7 +18,7 @@ export interface Note {
   user_id: string
   content_id: string
   memo: string | null
-  snapshot: Snapshot
+  snapshot: Snapshot | null
   created_at: string
   updated_at: string
   sections?: NoteSection[]

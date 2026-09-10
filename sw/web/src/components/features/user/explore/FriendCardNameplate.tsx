@@ -8,6 +8,7 @@
 */
 "use client";
 
+import Image from "next/image";
 import {
   MATERIALS,
   NORMAL_LEVEL_TO_MATERIAL,
@@ -108,9 +109,12 @@ export default function FriendCardNameplate({ friend, onClick, level, materialKe
             style={{ borderColor: mat.colors.border }}
           >
             {friend.avatar_url ? (
-              <img
+              <Image
                 src={friend.avatar_url}
                 alt={friend.nickname}
+                width={56}
+                height={56}
+                unoptimized
                 className="w-full h-full object-cover"
               />
             ) : (

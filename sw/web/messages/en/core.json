@@ -477,7 +477,8 @@
       "sectionContent": "Content",
       "sectionOther": "Other",
       "follower": "Followers",
-      "posts": "{count} posts"
+      "posts": "{count} posts",
+      "showMore": "Show more"
     },
     "content": {
       "addToRecord": "Add to records",
@@ -513,7 +514,8 @@
       "reality": {
         "myth": "Fiction",
         "both": "Fact | Fiction"
-      }
+      },
+      "viewCard": "View figure card"
     },
     "celebViews": {
       "title": "Who viewed this profile",

@@ -8,13 +8,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
 import ContentImage from "@/components/ui/ContentImage";
-import { ArrowLeft, Save, RotateCcw, Trophy, GripVertical } from "lucide-react";
+import { ArrowLeft, Save, RotateCcw } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { getFlow } from "@/actions/flows/getFlow";
 import { updateFlow } from "@/actions/flows/updateFlow";
 import type { FlowWithStages, FlowNodeWithContent, ContentType } from "@/types/database";
 import { CATEGORIES } from "@/constants/categories";
-import { Z_INDEX } from "@/constants/zIndex";
 import { useTranslations } from "next-intl";
 
 interface TierEditViewProps {
@@ -83,7 +82,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
     } finally {
       setIsLoading(false);
     }
-  }, [flowId]);
+  }, [flowId, t]);
 
   useEffect(() => {
     loadPlaylist();

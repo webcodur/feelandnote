@@ -14,7 +14,7 @@ interface SearchHelperProps {
   onSearchResult: (query: string, items: BlogSearchResult[]) => void;
 }
 
-export default function SearchHelper({ title, creator, type, onSearchResult }: SearchHelperProps) {
+export default function SearchHelper({ title, type, onSearchResult }: SearchHelperProps) {
   const t = useTranslations("quickRecord.search");
   const locale = useLocale();
   const presets = getSearchPresets(type, locale);

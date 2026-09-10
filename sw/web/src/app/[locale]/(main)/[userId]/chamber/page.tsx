@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/db/server";
-import { getProfile, getDetailedStats } from "@/actions/user";
+import { getDetailedStats } from "@/actions/user";
 import { notFound } from "next/navigation";
 import ProfileSettingsSection from "../ProfileSettingsSection";
 import ProfileStatsSection from "../ProfileStatsSection";
@@ -26,8 +26,7 @@ export default async function ChamberPage({ params }: PageProps) {
     notFound();
   }
 
-  const [myProfile, stats, blocked] = await Promise.all([
-    getProfile(),
+  const [stats, blocked] = await Promise.all([
     getDetailedStats(userId),
     getBlockedUsers(),
   ]);

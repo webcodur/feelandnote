@@ -2,7 +2,7 @@
  * [celeb 상세] hero — 줌·사진 영역
  * - 목차 위치: 머리말(본문 앞, 목차 밖)
  * - 데이터: profile/nickname/locale + 음성 상태(onGreet/isVoiceActive)
- * - 함께 보기: HeroSectionContent.tsx, useHeroVoice.ts, HeroIdentity.tsx
+ * - 함께 보기: HeroSectionContent.tsx, useCelebVoice.ts, HeroIdentity.tsx
  * ───────────────────────────────────────────── */
 "use client";
 
@@ -15,7 +15,7 @@ import type { WorldFrame } from "@/lib/celeb/worldStyle";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 
-import CelebHeroPhoto from "../../CelebHeroPhoto";
+import CelebProfileMedia from "@/components/shared/CelebProfileMedia";
 import styles from "../../CelebPageContent.module.css";
 
 interface MaybeWorldFrameProps {
@@ -75,7 +75,7 @@ export default function HeroPhoto({
       {/* ── 3. 데스크톱 사진 · 모바일 아바타 ── */}
       <div className={styles.desktopHeroPhoto}>
         <MaybeWorldFrame frame={frame} framed={Boolean(profile.photo_url)}>
-          <CelebHeroPhoto
+          <CelebProfileMedia
             photoUrl={profile.photo_url}
             avatarUrl={profile.avatar_url}
             nickname={nickname}
@@ -92,7 +92,7 @@ export default function HeroPhoto({
       </div>
 
       <div className={styles.mobileHeroAvatar}>
-        <CelebHeroPhoto
+        <CelebProfileMedia
           photoUrl={null}
           avatarUrl={profile.avatar_url}
           nickname={nickname}

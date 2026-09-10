@@ -7,7 +7,8 @@
 */
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useEffectEvent } from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Volume2, VolumeOff, GripVertical, RotateCcw } from "lucide-react";
@@ -123,10 +124,9 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     }, duration);
   };
 
-  useEffect(() => {
+  const handleSubtitleChange = useEffectEvent(() => {
     if (!subtitle) {
       // prop가 null이 되는 순간 외부 Audio와 그에 종속된 표시 상태를 원자적으로 닫는다.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       stopAudio();
       setVisible(false);
       setCurrent(null);
@@ -179,22 +179,28 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
       startTimer(duration);
     }
 
+  });
+
+  useEffect(() => {
+    handleSubtitleChange();
     return () => {
       if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; }
       clearFadeTimer();
     };
-  }, [subtitle]);
+  }, [subtitle, clearFadeTimer]);
+
+  const handleVoiceMuted = useEffectEvent(() => {
+    if (!audioRef.current) return;
+    // 뮤트 전환은 재생 중인 외부 Audio를 즉시 멈춰야 하므로 효과 안에서 플레이어 상태도 닫는다.
+    stopAudio();
+    if (current) {
+      const duration = calcDuration(current.text);
+      startTimer(duration);
+    }
+  });
 
   useEffect(() => {
-    if (voiceMuted && audioRef.current) {
-      // 뮤트 전환은 재생 중인 외부 Audio를 즉시 멈춰야 하므로 효과 안에서 플레이어 상태도 닫는다.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      stopAudio();
-      if (current) {
-        const duration = calcDuration(current.text);
-        startTimer(duration);
-      }
-    }
+    if (voiceMuted) handleVoiceMuted();
   }, [voiceMuted]);
 
   useEffect(() => {
@@ -320,10 +326,13 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                 <div className="relative shrink-0">
                   <div className="w-9 h-9 md:w-16 md:h-16 rounded-full overflow-hidden bg-stone-700 border border-stone-600 shadow-inner">
                     {current.avatarUrl ? (
-                      <BlurDissolve className="w-full h-full">
-                        <img
+                      <BlurDissolve className="relative w-full h-full">
+                        <Image
                           src={current.avatarUrl}
                           alt={current.nickname ?? ""}
+                          fill
+                          sizes="64px"
+                          unoptimized
                           className="w-full h-full object-cover pointer-events-none"
                           draggable={false}
                         />

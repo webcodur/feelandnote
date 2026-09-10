@@ -114,12 +114,6 @@ export default function SealedEdictBanner({ children, compact = false }: Props) 
         ctx.beginPath();
         ctx.arc(0, 5 * scale, sealSize, 0, Math.PI * 2);
         
-        // Make seal look imperfect
-        for(let i=0; i<8; i++) {
-           const ang = (i / 8) * Math.PI * 2;
-           const rDist = sealSize + (Math.random() * 2 * scale);
-           // Just simple circle for performance, maybe add inner shadow
-        }
         ctx.fill();
         
         // Seal Inner Detail (Stamp)

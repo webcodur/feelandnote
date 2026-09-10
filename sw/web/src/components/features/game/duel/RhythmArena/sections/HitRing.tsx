@@ -6,7 +6,7 @@
 import { motion } from "framer-motion";
 import type { RhythmJudgment, Lane } from "@/lib/game/rhythmEngine";
 
-export default function HitRing({ lane, type, judgeY }: { lane: Lane; type: RhythmJudgment; judgeY: number }) {
+export default function HitRing({ type, judgeY }: { lane: Lane; type: RhythmJudgment; judgeY: number }) {
   if (type === "miss") return null;
   const color = type === "perfect" ? "#d4af37" : "#c0c0c0";
   return (

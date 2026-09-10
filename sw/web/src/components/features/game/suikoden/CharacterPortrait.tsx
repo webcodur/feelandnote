@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import type { GameCharacter } from '@/lib/game/suikoden/types'
 import { getPortraitUrl, getCharacterFallback } from '@/lib/game/suikoden/assetManager'
 import { GRADE_COLORS } from '@/lib/game/suikoden/constants'
@@ -24,11 +25,12 @@ export default function CharacterPortrait({ character, size = 48, showGrade = fa
       style={{ width: size, height: size }}
     >
       {imgSrc && !imgError ? (
-        <img
+        <Image
           src={imgSrc}
           alt={character.nickname}
           width={size}
           height={size}
+          unoptimized
           className="w-full h-full object-cover"
           style={{ imageRendering: 'pixelated' }}
           onError={() => setFailedSrc(imgSrc)}

@@ -1,6 +1,6 @@
 // 천도 — 외교 시스템
 
-import type { GameState, Faction } from './types'
+import type { GameState } from './types'
 import { getTotalPower } from './utils'
 import { resolveCampaignOutcome } from './campaign'
 

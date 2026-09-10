@@ -3,20 +3,16 @@
 import {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
 } from "react";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 
-import { DESKTOP_LAYOUT_QUERY } from "../useDesktopLayout";
-import { getContainedListScrollDelta } from "./containedListScroll";
 import {
   getExpandIndexNeighbor,
   type ExpandIndexTypeGroup,
 } from "./groupExpandIndexItems";
-import { syncExpandIndexCurrent } from "./syncExpandIndexCurrent";
 
 interface ExpandSelection {
   contentId: string | null;
@@ -27,72 +23,49 @@ interface UseExpandIndexSelectionParams {
   items: UserContentWithContent[];
   groups: ExpandIndexTypeGroup[];
   navigationOrder: number[];
-  desktopPresentation: boolean;
-  isDesktop: boolean | null;
+  controlledIndexPreference?: boolean | null;
+  onIndexPreferenceChange?: (preference: boolean) => void;
 }
 
 export function useExpandIndexSelection({
   items,
   groups,
   navigationOrder,
-  desktopPresentation,
-  isDesktop,
+  controlledIndexPreference,
+  onIndexPreferenceChange,
 }: UseExpandIndexSelectionParams) {
   const [selection, setSelection] = useState<ExpandSelection>(() => ({
     contentId: items[0]?.content_id ?? null,
     keepIndexItemVisible: false,
   }));
-  const [indexPreference, setIndexPreference] = useState<boolean | null>(null);
+  const [localIndexPreference, setLocalIndexPreference] = useState<boolean | null>(null);
   const [collapsedGroupTypes, setCollapsedGroupTypes] = useState<ReadonlySet<string>>(
     () => new Set(),
   );
-  const indexNavRef = useRef<HTMLElement | null>(null);
-  const indexItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const latestSelectedContentIdRef = useRef(items[0]?.content_id ?? null);
-  const previousSelectedIndexRef = useRef<number | null>(null);
-  const previousIndexGroupsRef = useRef<ExpandIndexTypeGroup[] | null>(null);
 
   const selectedItemIndex = selection.contentId
     ? items.findIndex((item) => item.content_id === selection.contentId)
     : -1;
   const selectedIndex = selectedItemIndex >= 0 ? selectedItemIndex : 0;
   const selectedContentId = items[selectedIndex]?.content_id ?? null;
-  const isIndexOpen = indexPreference ?? (desktopPresentation || isDesktop === true);
+  const isControlled = controlledIndexPreference !== undefined;
+  const indexPreference = isControlled ? controlledIndexPreference : localIndexPreference;
+  const isIndexOpen = indexPreference ?? false;
+
+  const setResolvedIndexPreference = useCallback(
+    (preference: boolean) => {
+      if (!isControlled) setLocalIndexPreference(preference);
+      onIndexPreferenceChange?.(preference);
+    },
+    [isControlled, onIndexPreferenceChange],
+  );
 
   useEffect(() => {
     latestSelectedContentIdRef.current = selectedContentId;
   }, [selectedContentId]);
   const isLatestSelection = useCallback(
     (contentId: string) => latestSelectedContentIdRef.current === contentId,
-    [],
-  );
-
-  useLayoutEffect(() => {
-    const structureChanged = previousIndexGroupsRef.current !== groups;
-    syncExpandIndexCurrent({
-      elements: indexItemRefs.current,
-      previousSelectedIndex: previousSelectedIndexRef.current,
-      selectedIndex,
-      structureChanged,
-    });
-    previousIndexGroupsRef.current = groups;
-    previousSelectedIndexRef.current = selectedIndex;
-  }, [groups, selectedIndex]);
-
-  const keepIndexItemVisible = useCallback((itemIndex: number) => {
-    const nav = indexNavRef.current;
-    const item = indexItemRefs.current[itemIndex];
-    if (!nav || !item || item.closest("[inert]")) return;
-    const delta = getContainedListScrollDelta(
-      nav.getBoundingClientRect(),
-      item.getBoundingClientRect(),
-    );
-    if (delta !== 0) nav.scrollTop += delta;
-  }, []);
-  const setIndexItemRef = useCallback(
-    (itemIndex: number, element: HTMLButtonElement | null) => {
-      indexItemRefs.current[itemIndex] = element;
-    },
     [],
   );
 
@@ -123,9 +96,9 @@ export function useExpandIndexSelection({
         }
       }
 
-      if (!window.matchMedia(DESKTOP_LAYOUT_QUERY).matches) setIndexPreference(false);
+      setResolvedIndexPreference(false);
     },
-    [groups, items],
+    [groups, items, setResolvedIndexPreference],
   );
   const selectDirectly = useCallback((next: number) => selectIndex(next, false), [selectIndex]);
   const selectPrevious = useCallback(
@@ -137,10 +110,8 @@ export function useExpandIndexSelection({
     [nextIndex, selectIndex],
   );
   const toggleIndex = useCallback(() => {
-    setIndexPreference((current) => !(
-      current ?? (desktopPresentation || isDesktop === true)
-    ));
-  }, [desktopPresentation, isDesktop]);
+    setResolvedIndexPreference(!isIndexOpen);
+  }, [isIndexOpen, setResolvedIndexPreference]);
   const toggleGroup = useCallback((dbType: string) => {
     setCollapsedGroupTypes((current) => {
       const next = new Set(current);
@@ -152,18 +123,14 @@ export function useExpandIndexSelection({
 
   return {
     collapsedGroupTypes,
-    indexNavRef,
-    indexPreference,
     isIndexOpen,
     isLatestSelection,
-    keepIndexItemVisible,
     keepSelectedItemVisible: selection.keepIndexItemVisible,
     selectedContentId,
     selectedIndex,
     selectDirectly,
     selectNext,
     selectPrevious,
-    setIndexItemRef,
     toggleGroup,
     toggleIndex,
   };

@@ -3,6 +3,7 @@
   lg:hidden block
 */
 import type { BattleCard as BattleCardType, Command, Mandate } from "@/lib/game/types";
+import Image from "next/image";
 import { COMMANDS, MANDATE_BONUS } from "@/lib/game/types";
 import { calcAptitude, aptitudeToStars } from "@/lib/game/gameEngine";
 import { getBattlePlaqueLabel, getBattleSealLabel } from "../../i18n";
@@ -305,10 +306,13 @@ export default function MobileCardChips({
 
               {selectedCard ? (
                 <div className="absolute inset-1 rounded-[1px] overflow-hidden bg-black">
-                  <BlurDissolve className="w-full h-full">
-                    <img
+                  <BlurDissolve className="relative w-full h-full">
+                    <Image
                       src={selectedCard.avatarUrl || `/images/cards/${selectedCard.id}.png`}
                       alt={selectedCard.nickname}
+                      fill
+                      sizes="150px"
+                      unoptimized
                       className="w-full h-full object-cover object-top opacity-90 transition-opacity duration-300"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;

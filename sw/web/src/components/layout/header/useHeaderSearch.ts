@@ -8,7 +8,7 @@ import { addContent } from "@/actions/contents/addContent";
 import { SearchMode, ContentCategory, SEARCH_MODES, CONTENT_CATEGORIES } from "@/components/shared/search/SearchModeDropdown";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
 import { getCategoryById } from "@/constants/categories";
-import type { ContentType, ContentStatus } from "@/types/database";
+import type { ContentType } from "@/types/database";
 import { createClient } from "@/lib/db/client";
 import { useQuickRecord } from "@/contexts/QuickRecordContext";
 import { CELEB_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
@@ -55,7 +55,7 @@ export function useHeaderSearch() {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [addingIds, setAddingIds] = useState<Set<string>>(new Set());
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   const restoredRef = useRef(false);
@@ -180,7 +180,7 @@ export function useHeaderSearch() {
           const data = await searchCelebs({ query, limit: 5 });
           data.items.forEach((item) => {
             searchResults.push({
-              id: item.slug || item.id, type: "celeb", title: item.nickname,
+              id: item.id, slug: item.slug || undefined, type: "celeb", title: item.nickname,
               subtitle: item.title || undefined,
               thumbnail: item.avatar_url || undefined,
               extra: item.profession || undefined,
@@ -215,7 +215,7 @@ export function useHeaderSearch() {
       clearTimeout(timer);
       abortController.abort();
     };
-  }, [query, mode, contentCategory]);
+  }, [query, mode, contentCategory, t]);
   // #endregion
 
   // #region Keyboard Shortcuts
@@ -282,12 +282,17 @@ export function useHeaderSearch() {
       const category = result.category || "book";
       router.push(`/content/${result.id}?category=${category}`);
     } else if (result.type === "celeb") {
-      router.push(`/celeb/${result.id}`);
+      router.push(`/celeb/${result.slug || result.id}`);
     } else if (result.type === "user") {
       router.push(`/${result.id}`);
     } else if (result.type === "tag") {
       router.push(`/search?mode=tag&q=${encodeURIComponent(result.title.replace("#", ""))}`);
     }
+    setIsOpen(false);
+  };
+
+  const handleCelebLinkClick = () => {
+    saveRecentSearch(query.trim());
     setIsOpen(false);
   };
 
@@ -407,7 +412,7 @@ export function useHeaderSearch() {
     results, recentSearches, isLoading, selectedIndex, setSelectedIndex,
     addingIds, addedIds,
     // Handlers
-    handleSearch, handleResultClick, handleAddContent, handleOpenInNewTab,
+    handleSearch, handleResultClick, handleCelebLinkClick, handleAddContent, handleOpenInNewTab,
     handleInputKeyDown, handleModeChange, handleCategoryChange, clearRecentSearches,
   };
 }

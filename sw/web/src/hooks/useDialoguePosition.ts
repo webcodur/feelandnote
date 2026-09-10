@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useEffectEvent } from "react";
 
 export interface DialogueCoords {
   /** 화면 상단 기준 퍼센트 (0~100) */
@@ -22,7 +22,7 @@ export function useDialoguePosition() {
   const [coords, setCoords] = useState<DialogueCoords>(DEFAULT_DIALOGUE_COORDS);
 
   // 마운트 후 localStorage에서 복원
-  useEffect(() => {
+  const restoreCoords = useEffectEvent(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
@@ -31,6 +31,10 @@ export function useDialoguePosition() {
         setCoords(parsed);
       }
     } catch {}
+  });
+
+  useEffect(() => {
+    restoreCoords();
   }, []);
 
   const saveCoords = useCallback((c: DialogueCoords) => {

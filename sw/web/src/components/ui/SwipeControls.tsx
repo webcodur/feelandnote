@@ -63,10 +63,12 @@ function canDrag(deck: HTMLElement): boolean {
 export default function SwipeControls({
   count,
   className,
+  size = "default",
 }: {
   /** 쪽 수. 1 이하면 그리지 않는다 */
   count: number;
   className?: string;
+  size?: "default" | "large";
 }) {
   const t = useTranslations("shared.ui.swipe");
   const anchorRef = useRef<HTMLDivElement>(null);
@@ -203,22 +205,34 @@ export default function SwipeControls({
     <div
       ref={anchorRef}
       // 넓은 화면에서는 줄이 격자로 풀리므로 이 조작대도 함께 사라진다
-      className={cn("mt-2 flex items-center justify-center gap-1 md:hidden", className)}
+      className={cn(
+        "mt-2 flex items-center justify-center md:hidden",
+        size === "large" ? "gap-2" : "gap-1",
+        className,
+      )}
     >
       <button
         type="button"
         onClick={() => goTo(active - 1)}
         disabled={active === 0}
         aria-label={t("previous")}
-        className="flex size-8 shrink-0 items-center justify-center rounded-full text-accent-dim hover:bg-accent/10 hover:text-accent disabled:opacity-30 disabled:hover:bg-transparent"
+        className={cn(
+          "flex shrink-0 items-center justify-center rounded-full text-accent-dim hover:bg-accent/10 hover:text-accent disabled:opacity-30 disabled:hover:bg-transparent",
+          size === "large" ? "size-9" : "size-8",
+        )}
       >
-        <ChevronLeft size={18} aria-hidden />
+        <ChevronLeft size={size === "large" ? 22 : 18} aria-hidden />
       </button>
 
       {count > MAX_DOTS ? (
         // 쪽이 많으면 점 줄이 화면을 넘는다. 숫자 한 칸으로 대신하고 폭을 미리 잡아
         // 9→10처럼 자릿수가 늘어도 좌우 단추가 밀리지 않게 한다
-        <span className="min-w-14 text-center font-mono text-xs tabular-nums text-text-secondary">
+        <span
+          className={cn(
+            "text-center font-mono tabular-nums text-text-secondary",
+            size === "large" ? "min-w-16 text-sm" : "min-w-14 text-xs",
+          )}
+        >
           <span className="font-bold text-accent">{active + 1}</span>
           {" / "}
           {count}
@@ -226,7 +240,12 @@ export default function SwipeControls({
       ) : (
         /* 점은 저마다 같은 폭의 자리를 차지한다. 활성만 늘리면 그 뒤 점들이 좌우로
            밀려 넘길 때마다 줄 전체가 떨린다 — 자리는 고정하고 안쪽 막대만 늘인다 */
-        <div className="flex items-center gap-1 px-1">
+        <div
+          className={cn(
+            "flex items-center px-1",
+            size === "large" ? "gap-1.5" : "gap-1",
+          )}
+        >
           {Array.from({ length: count }, (_, index) => (
             <button
               key={index}
@@ -234,13 +253,18 @@ export default function SwipeControls({
               onClick={() => goTo(index)}
               aria-label={t("dot", { index: index + 1, count })}
               aria-current={index === active}
-              className="group flex h-6 w-4 shrink-0 items-center justify-center"
+              className={cn(
+                "group flex shrink-0 items-center justify-center",
+                size === "large" ? "h-8 w-5" : "h-6 w-4",
+              )}
             >
               <span
                 className={cn(
                   // 크기는 건드리지 않는다. 활성만 폭을 늘리면 넘길 때마다 점이
                   // 제자리에서 줄었다 커졌다 해 눈에 거슬린다 — 색으로만 가른다
-                  "size-1.5 rounded-full transition-colors duration-200 ease-out",
+                  size === "large"
+                    ? "size-2 rounded-full transition-colors duration-200 ease-out"
+                    : "size-1.5 rounded-full transition-colors duration-200 ease-out",
                   index === active
                     ? "bg-accent ring-2 ring-accent/25"
                     : "bg-text-secondary/55 group-hover:bg-text-secondary",
@@ -256,9 +280,12 @@ export default function SwipeControls({
         onClick={() => goTo(active + 1)}
         disabled={active === count - 1}
         aria-label={t("next")}
-        className="flex size-8 shrink-0 items-center justify-center rounded-full text-accent-dim hover:bg-accent/10 hover:text-accent disabled:opacity-30 disabled:hover:bg-transparent"
+        className={cn(
+          "flex shrink-0 items-center justify-center rounded-full text-accent-dim hover:bg-accent/10 hover:text-accent disabled:opacity-30 disabled:hover:bg-transparent",
+          size === "large" ? "size-9" : "size-8",
+        )}
       >
-        <ChevronRight size={18} aria-hidden />
+        <ChevronRight size={size === "large" ? 22 : 18} aria-hidden />
       </button>
     </div>
   );

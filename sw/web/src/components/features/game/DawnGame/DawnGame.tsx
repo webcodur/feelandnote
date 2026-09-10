@@ -26,7 +26,7 @@ interface DawnGameProps {
   onStartRef?: MutableRefObject<((difficulty: "easy" | "hard") => void) | null>;
 }
 
-export default function DawnGame({ onEnterFullScreen, onHomeRef, onPhaseChange, onStartRef }: DawnGameProps = {}) {
+export default function DawnGame({ onHomeRef, onPhaseChange, onStartRef }: DawnGameProps = {}) {
   const g = useDawnGame({ onPhaseChange, onHomeRef, onStartRef });
 
   // region: 렌더링

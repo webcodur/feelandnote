@@ -3,7 +3,7 @@
 */
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useEffectEvent, useRef } from "react";
 import { motion } from "framer-motion";
 import { MAX_MOMENTUM, DUEL_TIME_LIMIT_PVP } from "@/lib/game/duelEngine";
 
@@ -71,11 +71,17 @@ export function DuelTimer({ active, onTimeout }: { active: boolean; onTimeout: (
   const limit = DUEL_TIME_LIMIT_PVP;
   const [timeLeft, setTimeLeft] = useState(limit);
   const cbRef = useRef(onTimeout);
-  cbRef.current = onTimeout;
+  useEffect(() => {
+    cbRef.current = onTimeout;
+  }, [onTimeout]);
+
+  const resetTimeLeft = useEffectEvent(() => {
+    setTimeLeft(limit);
+  });
 
   useEffect(() => {
-    if (!active) { setTimeLeft(limit); return; }
-    setTimeLeft(limit);
+    if (!active) { resetTimeLeft(); return; }
+    resetTimeLeft();
     const interval = setInterval(() => {
       setTimeLeft(prev => {
         if (prev <= 1) { clearInterval(interval); cbRef.current(); return 0; }

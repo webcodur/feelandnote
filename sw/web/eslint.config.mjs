@@ -13,6 +13,19 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    // These standalone Node utilities intentionally use CommonJS imports.
+    files: [
+      "check_missing_images.js",
+      "convert-webp.js",
+      "copy-images.js",
+      "scripts/ui-xray-loader.cjs",
+      "ts_to_json.js",
+    ],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

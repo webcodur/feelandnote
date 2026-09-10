@@ -2,15 +2,21 @@
 
 import ArchiveActionRow from "./ArchiveActionRow";
 import ArchiveFilterRow from "./ArchiveFilterRow";
+import CelebArchiveControlBar from "./CelebArchiveControlBar";
 import type { ArchiveControlBarProps } from "./types";
 
 export type { ArchiveControlBarProps } from "./types";
 
-export default function ArchiveControlBar({
-  showMonthControls = true,
-  compact = false,
-  ...props
-}: ArchiveControlBarProps) {
+export default function ArchiveControlBar(props: ArchiveControlBarProps) {
+  if (props.ownerKind === "celeb") {
+    return <CelebArchiveControlBar {...props} />;
+  }
+
+  const {
+    showMonthControls = true,
+    compact = false,
+  } = props;
+
   return (
     <div className="w-full">
       <ArchiveFilterRow
@@ -36,6 +42,8 @@ export default function ArchiveControlBar({
         onViewModeChange={props.onViewModeChange}
         responsiveDesktopViewMode={props.responsiveDesktopViewMode}
         isResponsiveViewUnresolved={props.isResponsiveViewUnresolved}
+        isExpandIndexOpen={props.isExpandIndexOpen}
+        onExpandIndexToggle={props.onExpandIndexToggle}
         sortOption={props.sortOption}
         isAllCollapsed={props.isAllCollapsed}
         onExpandAll={props.onExpandAll}

@@ -430,7 +430,7 @@ export default function OlympusOrbitBackground({ fullScreen }: { fullScreen?: bo
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [clouds, mountain, stars, temple]);
 
   return (
     <div className={fullScreen

@@ -37,7 +37,6 @@ const REPRESENTATIVE_IMAGES: Record<string, string> = {
 };
 
 export default function MuseumPreview() {
-  const t = useTranslations("library.hub");
   const tc = useTranslations("library.museum.category");
   const ts = useTranslations("library.museum.sub");
   const categories = useMemo(() => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PenTool, FileText, Eye } from "lucide-react";
+import { PenTool, Eye } from "lucide-react";
 import MyReviewPanel from "../MyReviewPanel";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import { updateReview } from "@/actions/contents/updateReview";
@@ -83,7 +83,7 @@ export function HomeEditorArea({
     const [isSubmitting, setIsSubmitting] = useState(false);
     // 저장 직후 잠깐 켜지는 표시. 버튼이 체크로 바뀌어 "됐다"를 알린다
     const [justSaved, setJustSaved] = useState(false);
-    const [isNoteDirty, setIsNoteDirty] = useState(false);
+    const [, setIsNoteDirty] = useState(false);
     const [activeTab, setActiveTab] = useState<'EDIT' | 'PREVIEW'>('EDIT');
     const [activeMainTab, setActiveMainTab] = useState<'REVIEW' | 'NOTE'>('REVIEW');
 
@@ -103,7 +103,7 @@ export function HomeEditorArea({
             setIsNoteDirty(false);
             setActiveTab('EDIT');
         }
-    }, [targetContent?.id]);
+    }, [targetContent]);
 
     if (!targetContent) return <div ref={editorRef} />;
 
@@ -168,8 +168,6 @@ export function HomeEditorArea({
     };
 
     const realContentId = targetContent.contentId || targetContent.id;
-    const isDirty = (review !== (targetContent.initialReview || "")) || (rating !== (targetContent.initialRating || 0)) || !arePresetsEqual(presets, targetContent.initialPresets || []);
-
     return (
         <div ref={editorRef} className="w-full mt-6 scroll-mt-28 flex flex-col gap-8">
             {/* 1. Featured Work Info */}
