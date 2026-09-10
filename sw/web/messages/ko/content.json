@@ -51,6 +51,12 @@
       "releasedLabel": "출간·공개",
       "genresLabel": "장르",
       "badgeShort": "소개"
+    },
+    "coupangPurchaseInfo": {
+      "trigger": "쿠팡 구매 안내",
+      "title": "쿠팡 구매 안내",
+      "buy": "쿠팡 구매",
+      "decision": "적립 혜택과 배송비까지 반영한 실구매가가 타 서점과 같거나 낮은 쿠팡 상품으로 제휴 링크를 통일합니다."
     }
   },
   "contentDetail": {

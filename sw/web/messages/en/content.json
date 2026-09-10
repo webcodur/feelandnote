@@ -51,6 +51,12 @@
       "releasedLabel": "Released",
       "genresLabel": "Genres",
       "badgeShort": "Intro"
+    },
+    "coupangPurchaseInfo": {
+      "trigger": "About Coupang purchases",
+      "title": "Coupang purchases",
+      "buy": "Buy on Coupang",
+      "decision": "We use Coupang affiliate links for books whose effective purchase price, including rewards and shipping fees, is equal to or lower than at other bookstores."
     }
   },
   "contentDetail": {
