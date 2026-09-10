@@ -47,6 +47,7 @@
       "filterGender": "Gender",
       "filterTier": "Depth",
       "filterSort": "Sort",
+      "filterBirthYear": "Birth Year",
       "all": "All",
       "genderMale": "Male",
       "genderFemale": "Female",
@@ -78,6 +79,16 @@
         "name_asc": "Name",
         "birth_date_desc": "Recent Birth",
         "birth_date_asc": "Oldest Birth"
+      },
+      "birthYear": {
+        "title": "Birth Year",
+        "all": "All time",
+        "range": "{min} ~ {max}",
+        "bc": "{year} BCE",
+        "minLabel": "From",
+        "maxLabel": "To",
+        "bcHint": "Use a negative number for BCE (e.g. -384)",
+        "reset": "Reset"
       },
       "characterInfo": "Character Info",
       "viewingRecords": "Viewing Records",

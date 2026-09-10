@@ -8,6 +8,7 @@
 import { useMemo } from "react";
 import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus, FileText } from "lucide-react";
 import { FilterCombobox, type FilterOption } from "@/components/shared/filters";
+import { CelebBirthYearFilterDesktop } from "./CelebBirthYearFilter";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CELEB_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
@@ -27,6 +28,8 @@ interface CelebFiltersDesktopProps {
   tier: string;
   sortBy: CelebSortBy;
   search: string;
+  birthYearMin?: number;
+  birthYearMax?: number;
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
@@ -45,6 +48,7 @@ interface CelebFiltersDesktopProps {
   onGenderChange: (value: string) => void;
   onTierChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
+  onBirthYearChange: (min: number | undefined, max: number | undefined) => void;
   onSearchInput: (value: string) => void;
   onSearchSubmit: () => void;
   onSearchClear: () => void;
@@ -66,6 +70,8 @@ export default function CelebFiltersDesktop({
   tier,
   sortBy,
   search,
+  birthYearMin,
+  birthYearMax,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
@@ -78,6 +84,7 @@ export default function CelebFiltersDesktop({
   onGenderChange,
   onTierChange,
   onSortChange,
+  onBirthYearChange,
   onSearchInput,
   onSearchSubmit,
   onSearchClear,
@@ -231,6 +238,12 @@ export default function CelebFiltersDesktop({
         currentValue={tier}
         onSelect={onTierChange}
         icon={<FileText size={14} />}
+      />
+      <CelebBirthYearFilterDesktop
+        min={birthYearMin}
+        max={birthYearMax}
+        isLoading={isLoading}
+        onChange={onBirthYearChange}
       />
       <FilterCombobox
         label={t("filterSort")}

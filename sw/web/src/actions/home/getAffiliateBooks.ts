@@ -1,5 +1,6 @@
 'use server'
 
+import { cache } from 'react'
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
@@ -325,10 +326,9 @@ async function fetchOriginWorks(celebId: string): Promise<Set<string>> {
 
 async function fetchAffiliateBooksForCeleb(
   celebId: string,
-  platform: AffiliatePlatformKey,
   limit: number,
+  pool: PoolEntry[],
 ): Promise<{ books: AffiliateBook[]; source: AffiliateBookSource }> {
-  const pool = await fetchAffiliatePoolCached(platform)
   if (pool.length === 0) return { books: [], source: 'popular' }
 
   // 0순위 — 그 인물이 등장하는 원전(신화·전설 인물)
@@ -356,19 +356,26 @@ async function fetchAffiliateBooksForCeleb(
   return { books: pool.slice(0, limit).map((v) => v.book), source: 'popular' }
 }
 
-export async function getAffiliateBooksForCeleb(
+/* unstable_cache 콜백 안에서 부른 unstable_cache는 안쪽 캐시를 읽지 않고 매번 다시 만든다
+   (26.09.10 실측 — 풀을 인물 캐시 안에서 읽자 인물마다 풀 전량 재조회로 2.5~3초, 인물 상세 콜드 10초대).
+   풀은 반드시 바깥에서 읽어 콜백에 넘긴다. 아래 태그 조회도 같다. */
+async function getAffiliateBooksForCelebInner(
   celebId: string,
   platform: AffiliatePlatformKey = 'coupang',
   limit = 6,
 ): Promise<{ books: AffiliateBook[]; source: AffiliateBookSource }> {
+  const pool = await fetchAffiliatePoolCached(platform)
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
     ['affiliate-books-celeb-v3-source-editions', celebId, platform, String(limit)],
-    () => fetchAffiliateBooksForCeleb(celebId, platform, limit),
+    () => fetchAffiliateBooksForCeleb(celebId, limit, pool),
     { revalidate: LIST_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
   )
 }
+
+// 인물 상세는 서가 우선순위와 하단 상품 구획이 같은 요청에서 두 번 부른다 — 요청 안에서 한 번만 돈다.
+export const getAffiliateBooksForCeleb = cache(getAffiliateBooksForCelebInner)
 
 /** 여러 인물의 기록을 모아 작품별로 몇 명이 겹치는지 센다. 겹치는 인물이 많을수록 그 진영을 대표한다. */
 async function tallyByCelebs(
@@ -426,8 +433,8 @@ function nameHits(name: string | null, title: string, creator?: string): boolean
 async function fetchBooksForTag(
   tagId: string,
   tagName: string,
-  platform: AffiliatePlatformKey,
   limit: number,
+  pool: PoolEntry[],
 ): Promise<FactionBooks> {
   const db = createStaticClient()
   const empty: FactionBooks = { topic: [], people: [], peopleSource: 'read' }
@@ -444,7 +451,6 @@ async function fetchBooksForTag(
   }
 
   const celebIds = Array.from(new Set(members.map((m) => m.celeb_id as string)))
-  const pool = await fetchAffiliatePoolCached(platform)
   if (pool.length === 0) return empty
 
   const pick = (weight: Map<string, number>) =>
@@ -487,10 +493,22 @@ async function fetchBooksForTag(
   return { topic, people: read, peopleSource: 'read' }
 }
 
-const fetchBooksForTagCached = unstable_cache(fetchBooksForTag, ['affiliate-books-tag'], {
-  revalidate: STATIC_REVALIDATE,
-  tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FIGURE_BOOKS],
-})
+function fetchBooksForTagCached(
+  tagId: string,
+  tagName: string,
+  platform: AffiliatePlatformKey,
+  limit: number,
+  pool: PoolEntry[],
+): Promise<FactionBooks> {
+  return unstable_cache(
+    () => fetchBooksForTag(tagId, tagName, limit, pool),
+    ['affiliate-books-tag', tagId, tagName, platform, String(limit)],
+    {
+      revalidate: STATIC_REVALIDATE,
+      tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FIGURE_BOOKS],
+    },
+  )()
+}
 
 export async function getAffiliateBooksForTag(
   tagId: string,
@@ -499,5 +517,6 @@ export async function getAffiliateBooksForTag(
   limit = 6,
 ): Promise<FactionBooks> {
   if (!tagId) return { topic: [], people: [], peopleSource: 'read' }
-  return fetchBooksForTagCached(tagId, tagName, platform, limit)
+  const pool = await fetchAffiliatePoolCached(platform)
+  return fetchBooksForTagCached(tagId, tagName, platform, limit, pool)
 }

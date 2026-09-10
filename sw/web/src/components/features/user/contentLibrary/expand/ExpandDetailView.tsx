@@ -26,6 +26,7 @@ import {
 import { useContentBrief } from "./useContentBrief";
 import { useCelebContentRecord } from "./useCelebContentRecord";
 import { useExpandIndexSelection } from "./useExpandIndexSelection";
+import { useHeldHeight } from "./useHeldHeight";
 
 /** 화면 맨 위 고정 머리글(64px)에 제목이 가리지 않을 최소 높이 */
 const HEADER_OFFSET = 80;
@@ -132,6 +133,9 @@ export default function ExpandDetailView({
   );
   const selectedItem = record?.content_id === selectedContentId ? record : selectedPlaceholder;
   const isNavigationDisabled = total <= 1;
+  /* 작품을 바꾸면 소개·기록이 오기 전까지 뼈대만 그려져 상자가 뼈대 크기로 줄었다 다시 늘어난다.
+     그 사이엔 직전 카드의 높이를 그대로 붙들고, 두 응답이 다 온 뒤에 한 번만 새 높이로 옮긴다. */
+  const cardRef = useHeldHeight(isBriefLoading || isRecordLoading);
 
   /* 작품을 넘기면 새 제목부터 읽어야 한다. 긴 감상배경을 내려 보던 중이라면 제목이 화면 위로
      밀려나 있어, 넘긴 뒤에도 이전 작품의 본문 자리를 그대로 보게 된다.
@@ -220,22 +224,24 @@ export default function ExpandDetailView({
       <div
         data-testid="expand-detail-body"
         aria-busy={isBriefLoading || isRecordLoading}
-        className="col-start-1 row-start-2 min-w-0 md:col-start-3 [&>article]:rounded-none [&>article]:border-0"
+        className="col-start-1 row-start-2 min-w-0 md:col-start-3"
       >
-        <ExpandCard
-          key={selectedItem.id}
-          item={selectedItem}
-          brief={brief}
-          isBriefLoading={isBriefLoading}
-          isRecordLoading={isRecordLoading}
-          hasBriefError={hasBriefError}
-          hasRecordError={hasRecordError}
-          onRetryBrief={retryBrief}
-          onRetryRecord={retryRecord}
-          isActive={isActive}
-          ownerNickname={ownerNickname}
-          ownerAvatarUrl={ownerAvatarUrl}
-        />
+        <div ref={cardRef} className="[&>article]:rounded-none [&>article]:border-0">
+          <ExpandCard
+            key={selectedItem.id}
+            item={selectedItem}
+            brief={brief}
+            isBriefLoading={isBriefLoading}
+            isRecordLoading={isRecordLoading}
+            hasBriefError={hasBriefError}
+            hasRecordError={hasRecordError}
+            onRetryBrief={retryBrief}
+            onRetryRecord={retryRecord}
+            isActive={isActive}
+            ownerNickname={ownerNickname}
+            ownerAvatarUrl={ownerAvatarUrl}
+          />
+        </div>
         <ExpandBottomNavigation
           label={t("expandBottomNavigation")}
           previousLabel={t("expandPrevBook")}

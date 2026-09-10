@@ -25,6 +25,8 @@ interface ArchiveActionRowProps {
   onSearchChange: (query: string) => void;
   onSearch: () => void;
   onClearSearch: () => void;
+  /** 지금 목록에 적용된 검색어가 있는지. 검색대를 비운 뒤 검색 버튼을 초기화 단추로 살릴지 정한다 */
+  hasAppliedSearch: boolean;
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
   responsiveDesktopViewMode?: ViewMode;
@@ -42,6 +44,7 @@ export default function ArchiveActionRow({
   onSearchChange,
   onSearch,
   onClearSearch,
+  hasAppliedSearch,
   viewMode,
   onViewModeChange,
   responsiveDesktopViewMode,
@@ -58,7 +61,10 @@ export default function ArchiveActionRow({
   const NextViewIcon = VIEW_ICON[nextViewMode];
   const desktopNextViewMode: ViewMode = responsiveDesktopViewMode === "expand" ? "list" : "expand";
   const DesktopNextViewIcon = VIEW_ICON[desktopNextViewMode];
-  const canSearch = searchQuery.trim().length >= 2;
+  // 글자를 지워 비운 검색대에서 누르는 검색·Enter는 초기화다. 비활성으로 막으면 지운 뒤에도
+  // 이전 검색 결과가 남는다. 처음부터 비어 있어 되돌릴 검색이 없으면 그대로 잠근다.
+  const trimmedQuery = searchQuery.trim();
+  const canSearch = trimmedQuery.length >= 2 || (trimmedQuery.length === 0 && hasAppliedSearch);
 
   return (
     <div className={cn(
@@ -85,7 +91,7 @@ export default function ArchiveActionRow({
             type="button"
             onClick={onClearSearch}
             aria-label={t("clearSearch")}
-            className="absolute end-2 top-1/2 z-20 -translate-y-1/2 rounded-full p-1 text-text-secondary hover:bg-white/10 hover:text-text-primary"
+            className="absolute end-2 top-1/2 z-20 flex size-6 -translate-y-1/2 items-center justify-center rounded-full text-text-secondary hover:bg-white/10 hover:text-text-primary"
           >
             <X size={12} />
           </button>
