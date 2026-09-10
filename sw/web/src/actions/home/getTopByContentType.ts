@@ -25,21 +25,24 @@ export interface TopByTypeEntry {
 export async function getTopByContentType(): Promise<TopByTypeEntry[]> {
   const types = ['BOOK', 'VIDEO', 'GAME', 'MUSIC']
 
-  const results = await Promise.all(
-    types.map(type =>
-      getCelebs({
-        contentType: type,
-        sortBy: 'content_count',
-        limit: 3,
-        includeTotal: false,
-        includeViewerState: false,
-      })
-    )
-  )
+  // get_celebs_sorted는 타입별 집계를 위해 celeb_contents를 훑는다. 네 쿼리를 동시에
+  // 시작하면 같은 DB 자원을 두고 경쟁해 anon statement_timeout(15초)에 걸릴 수 있다.
+  // 이 함수는 사람 브라우저에서는 탭을 열 때만 실행되고, 두 번째 호출부터는 각 목록
+  // 캐시가 응답하므로 콜드 조회만 순서대로 처리해 DB 경합을 피한다.
+  const results: Array<{ type: string; result: Awaited<ReturnType<typeof getCelebs>> }> = []
+  for (const type of types) {
+    const result = await getCelebs({
+      contentType: type,
+      sortBy: 'content_count',
+      limit: 3,
+      includeTotal: false,
+      includeViewerState: false,
+    })
+    results.push({ type, result })
+  }
 
   const entries: TopByTypeEntry[] = []
-  results.forEach((result, i) => {
-    const type = types[i]
+  results.forEach(({ type, result }) => {
     if (result.celebs.length > 0) {
       // content_count는 RPC SELECT에서 타입별로 정확하게 계산됨
       const sorted = [...result.celebs].sort((a, b) => (b.content_count ?? 0) - (a.content_count ?? 0))
