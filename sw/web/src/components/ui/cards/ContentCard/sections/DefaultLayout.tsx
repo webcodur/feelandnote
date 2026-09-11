@@ -125,6 +125,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
         )}
 
         {props.overlayTopLeft && <div className="absolute left-1.5 top-1.5 z-10">{props.overlayTopLeft}</div>}
+        <NoEditionBadge variant="cover" badge={displayTitleBadge} />
         {props.overlayTopRight && <div className="absolute right-1.5 top-1.5 z-10">{props.overlayTopRight}</div>}
 
         {renderBottomLeft()}
@@ -135,8 +136,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
 
       {showInfo && (
         <div className="bg-black/20 border-t border-white/[0.04] text-center">
-          <div className="p-2 md:p-2.5 pb-1.5 flex flex-col items-center justify-center min-h-[36px] md:min-h-[42px]">
-            <NoEditionBadge variant="kicker" badge={displayTitleBadge} />
+          <div className="p-2 md:p-2.5 pb-1.5 flex items-center justify-center min-h-[36px] md:min-h-[42px]">
             <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight text-center ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
               {editionUnavailable ? title : displayTitle}
             </h3>
