@@ -547,6 +547,7 @@ verification: {
 - **`Google-Extended`는 기본 안내만 허용**(2026-09-11): 홈·`/about`·`/explore/directory`·`/privacy`·`/terms`와 `/en` 변형만 `Allow`, 나머지는 `Disallow: /`. 이 토큰은 Gemini 모델 학습과 **Gemini 앱·Vertex AI 그라운딩**을 함께 제어하므로 전면 차단하면 Gemini 답변에서 서비스 소개조차 빠진다. 경로 규칙을 따르고 자체 크롤을 하지 않아 추가 부하는 없다. [Google-Extended](https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers)
 - 일반 `Googlebot`은 Google 검색·AI Overviews/AI Mode를 함께 제어하고, `Google-Extended`는 Google 검색 포함·순위에 영향을 주지 않는다.
 - **분리 원칙(2026-09-11 결정)**: 개별 데이터(인물·작품 상세) 보호는 학습 차단 한 축으로만 한다. 검색·답변 봇에게 상세를 감추지 않는다 — Google AI Mode는 Googlebot 색인을 그대로 쓰므로 3자 답변 봇만 막아도 보호 효과가 없고 인용만 잃는다. `data-nosnippet`·Bing `nocache`로 상세 블록을 빼는 안은 검색 스니펫까지 잃어 채택하지 않았다.
+- **Cloudflare 층**(학습 봇 1차 차단, 호스팅 ASN 챌린지의 Perplexity 예외, AI 봇 정책 Search·Agent·Training 허용, 관리 규칙이 미검증 IP의 AI 봇 UA를 막으므로 로컬 curl 시험이 진짜 봇 처리와 다르다는 점)은 [external-services.md](../platform/external-services.md)의 「Cloudflare 앞단 캐시」 절이 쥔다. 진짜 봇의 허용·차단은 대시보드 AI Crawl Control › Security로 본다.
 
 ## 미들웨어 SEO 경로 제외
 
