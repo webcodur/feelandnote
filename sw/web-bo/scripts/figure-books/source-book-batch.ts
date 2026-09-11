@@ -33,7 +33,7 @@ import {
   writeSourceBookReceiptAtomically,
 } from './source-book-batch-contract'
 
-const EXPECTED_DB_SSH_HOST = 'ubuntu@152.67.216.40'
+const EXPECTED_DB_SSH_HOST = 'ubuntu@152.67.198.197'
 const EXPECTED_DB_CONTAINER = 'supabase-db'
 const EXPECTED_DB_API_HOSTNAME = 'db.feelandnote.com'
 const PAGE_SIZE = 1000
