@@ -66,10 +66,6 @@
 - Oracle public vantage point에서 홈 REST를 10분마다 확인하고
   `MemoryUtilization[5m].mean() > 90` 알람을 기존 이메일 topic에 연결한다.
 
-- Envoy↔PostgREST 유휴 연결 종료 경합: 하루 3건꼴로 `upstream connect error … connection termination`이 난다
-  (`cluster.rest.upstream_cx_destroy_remote_with_active_rq`). PostgREST(Warp)가 유휴 keep-alive를 먼저 닫는 것이므로
-  `rest` 클러스터에 `common_http_protocol_options.idle_timeout`을 Warp 기본 30초보다 짧게(20초) 둔다.
-
 - 느린 RPC 재작성: `get_celebs_sorted`·`get_persona_extremes`·`get_content_celeb_user_counts`(평균 1.4~3초, 최대 14초).
   「공개 조회 문장 제한·인덱스」의 기존 목록(`get_chosen_scriptures`·`get_celeb_feed_type_counts`)과 함께 처리한다.
 
