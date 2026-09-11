@@ -15,6 +15,7 @@
 - left/right 대신 start/end
 - **조작용 요소(버튼·카드·칩)의 hover는 즉각 반응** — transition/delay 금지, 위로 뜸·확대 등 이동 지양. 상세는 아래 "상호작용" 참조
 - 반복 UI는 상수 배열 + map 렌더링
+- 색 클래스는 `sw/web/src/app/globals.css`의 `@theme` 토큰 이름만 쓴다(`bg-bg-card`·`bg-bg-main`·`bg-bg-stone-light`·`text-text-tertiary`·`border-border`·`text-status-paused`·`accent`). 다른 디자인 체계의 이름(`bg-surface`·`bg-primary`·`bg-background`·`text-muted`)은 CSS가 만들어지지 않아 바탕이 투명해지거나 부모 글자색을 물려받는다. 새 색이 필요하면 `@theme`에 먼저 정의한다
 
 ## 구획별 독립 레인 · Suspense + i18n (필수)
 - **색인 대상 화면**(홈·탐색·서가·인물·작품 등)에 `loading.tsx`·맨 `<Suspense fallback>`을 두지 않는다. 봇이 스켈레톤을 본문으로 읽어 색인 사고가 세 번 났다(`docs/operations/seo.md`). 대신 `@/components/ui/pending/Lane`을 쓴다 — 봇·미확인 UA는 완성 HTML, 사람 브라우저만 Suspense 스트리밍(`lib/render-mode.ts`, 모르면 봇). ISR 화면(인물·작품 상세)은 `headers()`가 정적을 깨므로 Lane도 쓰지 않는다.
@@ -103,6 +104,12 @@ background(-10) < base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
 - 활성: `bg-accent/10 text-accent`
 - 비활성: `opacity-50 cursor-not-allowed`
 - 반응형: 모바일 우선, `md:`(768px) 데스크톱
+
+### 포커스 표시
+브라우저 기본 포커스 테두리를 끄고 키보드 포커스에만 강조색 표시를 준다. 상세는 `ui-focus` 스킬.
+
+### 가로 목록
+손으로 밀어 넘기는 줄은 스크롤바를 숨기고, 터치는 브라우저 기본 스크롤에 맡기고, 칸 맞춤은 터치에만 건다. 상세는 `ui-rail` 스킬.
 
 ## 명칭 규칙 — 일상어로 짓는다 (26.08.01 방침 전환)
 

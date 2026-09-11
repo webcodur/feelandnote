@@ -7,3 +7,4 @@
 | [`myth-atlas-handoff.md`](myth-atlas-handoff.md) | 신화의 세계 화면·데이터 구조 인수인계. 도감 명단 독립·오디세이아 재공개 |
 | [`founding-myth.md`](founding-myth.md) | 건국신화 인물 후보 원장과 등록 전 선행 조건 |
 | [`web.md`](web.md) | 사용자 웹 구현·실화면 검수·Oracle 운영 후속 작업 |
+| [`faction-video-stop.md`](faction-video-stop.md) | 세력도감 영상 제작 중단, 웹은 단체샷 없는 V1. 남은 웹 화면(모음·허브 표지), 웹 원천 분리 순서, 영상층 동결·철거 판단 |
