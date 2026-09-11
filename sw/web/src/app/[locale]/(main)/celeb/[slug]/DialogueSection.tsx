@@ -152,7 +152,9 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
       audioCacheRef.current.set(key, audio);
     }
     audio.volume = 0.7;
-    if (voiceSpeed !== 1.0) audio.playbackRate = voiceSpeed;
+    // load()는 playbackRate를 defaultPlaybackRate로 되돌리므로 둘 다 맞춘다
+    audio.defaultPlaybackRate = voiceSpeed;
+    audio.playbackRate = voiceSpeed;
     let settled = false;
     // canplaythrough도 error도 없이 멈추면 무한 대기에 빠지므로 20초 뒤 정리
     const stallTimer = window.setTimeout(() => fail(), 20000);
