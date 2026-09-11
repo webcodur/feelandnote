@@ -5,6 +5,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import { useLocale } from "next-intl";
 import ContentCard from "@/components/ui/cards/ContentCard";
 
 interface UnifiedViewProps {
@@ -13,6 +14,8 @@ interface UnifiedViewProps {
 }
 
 export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedViewProps) {
+  // 판본 미확인 배지는 요청 언어 기준이라 한국어 화면은 no-ko, 영어 화면은 no-en만 나온다
+  const badge = useLocale() === "en" ? "no-en" : "no-ko";
   return (
     <section className="space-y-8">
       <div className="space-y-2">
@@ -72,7 +75,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 title="전쟁과 평화"
                 creator="레프 톨스토이"
                 contentType="BOOK"
-                titleBadge="no-ko"
+                titleBadge={badge}
                 celebCount={12}
                 userCount={3}
               />
@@ -83,7 +86,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 title="인간 조건에 관한 열두 편의 에세이와 반지성주의"
                 creator="리처드 호프스태터"
                 contentType="BOOK"
-                titleBadge="no-ko"
+                titleBadge={badge}
                 celebCount={7}
                 userCount={1}
               />
@@ -94,7 +97,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 title="구운몽 (원서 표지)"
                 creator="김만중"
                 contentType="BOOK"
-                titleBadge="no-ko"
+                titleBadge={badge}
                 thumbnail="https://covers.openlibrary.org/b/id/12913496-L.jpg"
                 celebCount={5}
                 userCount={2}
@@ -116,7 +119,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
                 title="전쟁과 평화"
                 creator="레프 톨스토이"
                 contentType="BOOK"
-                titleBadge="no-ko"
+                titleBadge={badge}
                 review="전쟁의 소음 속에서도 사람은 사랑을 생각한다. 이 책은 그 사실을 천 쪽에 걸쳐 증명한다."
                 sourceUrl="https://example.com/source"
                 ownerNickname="아가톤"
@@ -125,8 +128,8 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
               />
             </div>
             <div className="flex-1 text-xs min-w-[12rem]">
-              <code className="text-purple-400 block">{`titleBadge="no-ko" | "no-en"`}</code>
-              <p className="text-text-secondary mt-1">표지 카드: 표지 한가운데 「국문본 없음」 가로 띠(cover), 표지 유무와 무관. 세 번째는 배지 없는 대조군.</p>
+              <code className="text-purple-400 block">{`titleBadge={badge} | "no-en"`}</code>
+              <p className="text-text-secondary mt-1">표지 카드: 표지 한가운데 「미번역 / Untranslated」 가로 띠(cover), 표지 유무와 무관. 네 번째는 배지 없는 대조군.</p>
             </div>
           </div>
         </div>
