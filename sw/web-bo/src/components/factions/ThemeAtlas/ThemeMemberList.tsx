@@ -21,6 +21,10 @@ import {
   updateTagCelebOrder,
   setTagCelebImage,
   setTagCelebHidden,
+  type TagGroup,
+  getTagGroups,
+  createTagGroup,
+  setTagCelebGroup,
 } from '@/actions/admin/tags'
 import { uploadTagCelebImage, deleteTagCelebImage } from '@/actions/admin/storage'
 import { resizeSingleImage, createPreviewUrl } from '@/lib/image'
@@ -48,6 +52,13 @@ export function ThemeMemberList({
   const [imgBusy, setImgBusy] = useState(false)
   const [cropCelebId, setCropCelebId] = useState<string | null>(null)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
+  /** 도감 그룹(celeb_tag_groups) — 수동 행마다 고르고, 새 그룹은 위 칸에서 더한다 */
+  const [groups, setGroups] = useState<TagGroup[]>([])
+  const [newGroupName, setNewGroupName] = useState('')
+
+  useEffect(() => {
+    getTagGroups(tagId).then(setGroups)
+  }, [tagId])
 
   // 뷰가 제작 유래를 앞, 수동을 뒤에 두므로 두 갈래로 갈라도 순서가 보존된다
   const production = celebs.filter(c => c.source === 'production')
@@ -195,6 +206,29 @@ export function ThemeMemberList({
   }
   // #endregion
 
+  // #region 그룹
+  const handleGroupChange = async (celebId: string, groupId: string | null) => {
+    const prev = celebs
+    const label = groups.find(g => g.id === groupId)?.name ?? null
+    onCelebsChange(celebs.map(c => (c.celeb_id === celebId ? { ...c, group_id: groupId, group_label: label } : c)))
+    const result = await setTagCelebGroup(tagId, celebId, groupId)
+    if (!result.success) {
+      onCelebsChange(prev)
+      alert(result.error ?? '그룹 지정 실패')
+    }
+  }
+
+  const handleAddGroup = async () => {
+    const result = await createTagGroup(tagId, newGroupName, null)
+    if (!result.group) {
+      alert(result.error ?? '그룹 추가 실패')
+      return
+    }
+    setGroups(prev => [...prev, result.group!])
+    setNewGroupName('')
+  }
+  // #endregion
+
   const renderRow = (item: CelebTagAssignment, manualIndex: number | null) => (
     <div
       key={item.celeb_id}
@@ -215,6 +249,21 @@ export function ThemeMemberList({
         )}
         <Avatar url={item.celeb?.avatar_url} name={item.celeb?.nickname} />
         <p className="flex-1 truncate text-base font-medium text-text-primary">{item.celeb?.nickname}</p>
+        {item.source === 'manual' ? (
+          <select
+            value={item.group_id ?? ''}
+            onChange={(e) => handleGroupChange(item.celeb_id, e.target.value || null)}
+            title="도감 그룹입니다. 비우면 맨 끝 「그 외」로 갑니다"
+            className="max-w-40 shrink-0 rounded-lg border border-border bg-bg-main px-2 py-1.5 text-xs text-text-primary hover:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/50"
+          >
+            <option value="">그룹 없음(그 외)</option>
+            {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+          </select>
+        ) : item.group_label ? (
+          <span className="max-w-40 shrink-0 truncate text-xs text-text-tertiary" title="영상 제작 세력입니다. 그룹은 편 편집기가 정합니다">
+            {item.group_label}
+          </span>
+        ) : null}
         <span
           title={item.source === 'production'
             ? '영상 제작 인물에서 온 행 — 소개·사진·숨김 손질은 편 편집기의 인물 행에서 합니다'
@@ -328,6 +377,25 @@ export function ThemeMemberList({
         <span className="text-sm text-text-tertiary">
           ({hideProduction ? manual.length : celebs.length})
         </span>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          value={newGroupName}
+          onChange={(e) => setNewGroupName(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter' && newGroupName.trim()) handleAddGroup() }}
+          placeholder="새 그룹 이름"
+          className="flex-1 rounded-lg border border-border bg-bg-main px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-1 focus:ring-accent/50"
+        />
+        <button
+          onClick={handleAddGroup}
+          disabled={!newGroupName.trim()}
+          className="shrink-0 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-sm font-medium text-accent hover:bg-accent/20 disabled:cursor-default disabled:opacity-40"
+        >
+          그룹 추가
+        </button>
+        <span className="shrink-0 text-xs text-text-tertiary">그룹 {groups.length}개</span>
       </div>
 
       {hideProduction && production.length > 0 && (
