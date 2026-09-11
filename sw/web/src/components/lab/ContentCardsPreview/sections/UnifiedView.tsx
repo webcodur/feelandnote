@@ -62,6 +62,63 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
           </div>
         </div>
 
+        {/* 판본 미확인 — 표지 카드는 제목 위 kicker, 목록 행은 제목 앞 chip */}
+        <div className="p-4 bg-white/[0.02] rounded-xl border border-white/5">
+          <h4 className="text-sm font-medium text-text-primary mb-3">판본 미확인 (titleBadge)</h4>
+          <div className="flex gap-4 flex-wrap">
+            <div className="w-44">
+              <ContentCard
+                contentId="demo-no-ko-short"
+                title="전쟁과 평화"
+                creator="레프 톨스토이"
+                contentType="BOOK"
+                titleBadge="no-ko"
+                celebCount={12}
+                userCount={3}
+              />
+            </div>
+            <div className="w-44">
+              <ContentCard
+                contentId="demo-no-ko-long"
+                title="인간 조건에 관한 열두 편의 에세이와 반지성주의"
+                creator="리처드 호프스태터"
+                contentType="BOOK"
+                titleBadge="no-ko"
+                celebCount={7}
+                userCount={1}
+              />
+            </div>
+            <div className="w-44">
+              <ContentCard
+                contentId="demo-no-ko-plain"
+                title="구운몽"
+                creator="김만중"
+                contentType="BOOK"
+                celebCount={5}
+                userCount={2}
+              />
+            </div>
+            <div className="w-72">
+              <ContentCard
+                contentId="demo-no-ko-review"
+                title="전쟁과 평화"
+                creator="레프 톨스토이"
+                contentType="BOOK"
+                titleBadge="no-ko"
+                review="전쟁의 소음 속에서도 사람은 사랑을 생각한다. 이 책은 그 사실을 천 쪽에 걸쳐 증명한다."
+                sourceUrl="https://example.com/source"
+                ownerNickname="아가톤"
+                celebCount={12}
+                userCount={3}
+              />
+            </div>
+            <div className="flex-1 text-xs min-w-[12rem]">
+              <code className="text-purple-400 block">{`titleBadge="no-ko" | "no-en"`}</code>
+              <p className="text-text-secondary mt-1">표지 카드: 제목 위 「국문본 없음」 한 줄(kicker). 세 번째는 배지 없는 대조군.</p>
+            </div>
+          </div>
+        </div>
+
         {/* 인덱스 + 통계 + 평균별점 (작품 스타일) */}
         <div className="p-4 bg-white/[0.02] rounded-xl border border-white/5">
           <h4 className="text-sm font-medium text-text-primary mb-3">통계 + 평균별점 (작품 스타일)</h4>
