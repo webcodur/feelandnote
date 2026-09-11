@@ -9,7 +9,7 @@ import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
 import { normalizeBookIsbn } from '@/lib/utils/book-description'
 import { getVideoEnLocale } from '@feelandnote/content-search/tmdb'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
-import { fetchBookIntroductionForStorage as fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
+import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 
 interface AddContentParams {
   id: string                    // 외부 API ID (ISBN, TMDB ID 등)

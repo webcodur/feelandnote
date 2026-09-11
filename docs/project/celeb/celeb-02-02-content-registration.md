@@ -72,7 +72,7 @@ IGDB 결과의 정확한 게임과 커버를 사용한다. 기본 영문 메타�
 
 ## locale
 
-BOOK 소개는 기존 `description`에 외부 출처 표시 또는 필요한 번역문을 둔다. 예약값은 [`book-introduction-contract.ts`](../../../packages/content-search/src/book-introduction-contract.ts)가 쥔다. `NULL`은 조사 필요이며 별도 확인 완료 값을 만들지 않는다. 한국어는 같은 ISBN의 카카오·다음 소개 중 긴 유효 본문을 최초 선정하고, 영어는 OpenLibrary의 영문 소개를 확인한다. 실제 소개를 받은 뒤 출처 표시와 조회 주소(`sources.description`)를 저장하며, 화면은 선정된 출처만 조회·캐시한다. 반대 언어에만 소개가 있으면 번역문을 해당 언어에 보관하고 그대로 표시한다. 일시적 조회 실패로 출처 표시나 번역문을 지우지 않는다. 기존 소개는 외부 복사본·번역·수기 작성 여부를 확인해 전환하며, 출처가 불명확한 문장을 일괄 삭제하지 않는다. `contents.metadata`에는 소개 복사본을 새로 만들지 않는다. 전환 실행점은 `sw/web-bo/scripts/contents/book-description-sources.ts`이며 기본 실행은 DB를 바꾸지 않는다.
+BOOK 소개는 기존 `description`에 외부 출처 표시 또는 필요한 번역문을 둔다. 예약값은 [`book-introduction-contract.ts`](../../../packages/content-search/src/book-introduction-contract.ts)가 쥔다. `NULL`은 조사 필요이며 별도 확인 완료 값을 만들지 않는다. 한국어는 같은 ISBN의 카카오·다음 소개 중 긴 유효 본문을 최초 선정하고, 영어는 OpenLibrary의 영문 소개를 확인한다. 실제 소개를 받은 뒤 출처 표시와 조회 주소(`sources.description`)를 저장하며, 화면은 선정된 출처만 조회·캐시한다. `figure_book_editions`의 판본 행도 같은 표시와 주소를 함께 갱신한다. 사용자 웹 등록·백오피스 외부검색 등록·인물 도서 배치는 등록 시점에 이 조회를 실행해 표시와 주소를 바로 저장하고, 소개를 받지 못하면 `NULL`로 둔다. 반대 언어에만 소개가 있으면 번역문을 해당 언어에 보관하고 그대로 표시한다. 일시적 조회 실패로 출처 표시나 번역문을 지우지 않는다. 기존 소개는 외부 복사본·번역·수기 작성 여부를 확인해 전환하며, 출처가 불명확한 문장을 일괄 삭제하지 않는다. `contents.metadata`에는 소개 복사본을 새로 만들지 않는다. 전환 실행점은 `sw/web-bo/scripts/contents/book-description-sources.ts`이며 기본 실행은 DB를 바꾸지 않는다. 대량 전환은 한 프로세스에서 ISBN마다 순차 호출하고 간격은 스크립트 상수가 쥔다. 전환 전 원본 백업은 `D:eelandnote-backupsook-descriptions`에 있으며 지우지 않는다.
 
 콘텐츠 전체 수집을 발주받았으면 확인 가능한 한국어·영문 메타를 같은 작업에서 확보한다. 사용자가 한국어 데이터만 작성·교정하라고 범위를 제한했다면 en 행이나 `review_en`을 임의로 만들지 않는다.
 

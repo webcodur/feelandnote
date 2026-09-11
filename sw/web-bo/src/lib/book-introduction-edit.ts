@@ -1,5 +1,5 @@
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
-import { BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED, isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
+import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 
 /** A catalog editor may keep a verified source or save a translated introduction. */
 export async function resolveBookIntroductionEdit(input: {
@@ -17,7 +17,6 @@ export async function resolveBookIntroductionEdit(input: {
   if (sameIsbn && input.current?.description === description) return { description, sources: currentSources }
 
   if (isBookIntroductionSource(description)) {
-    if (!BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED) throw new Error('운영 웹 전환 전이라 출처 표시 저장은 보류 중입니다. 기존 소개와 번역문은 보존됩니다')
     const result = await fetchBookIntroduction({ isbn: input.isbn, locale: input.locale, source: description })
     if (!result?.description || !result.sourceUrl || result.source !== description) throw new Error('이 판본에서 선택한 출처의 소개를 확인하지 못했습니다')
     sources.description = result.sourceUrl
