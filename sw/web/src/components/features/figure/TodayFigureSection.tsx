@@ -12,6 +12,7 @@ import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import { Calendar, BookOpen, Newspaper, Cake } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ContentType } from "@/types/database";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 import { getLocalizedContent } from "@/lib/utils/editions";
 
 interface Figure {
@@ -44,6 +45,7 @@ interface Content {
     isbn_en?: string | null;
     thumbnail_en?: string | null;
     has_en_edition?: boolean | null;
+    title_badge?: TitleBadge | null;
 }
 
 interface TodayFigureSource {
@@ -196,6 +198,7 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                                 recommendable={true}
                                 userContentId={content.user_content_id}
                                 className="shadow-lg"
+                                titleBadge={content.title_badge}
                                 titleKo={content.title_ko}
                                 titleEn={content.title_en}
                                 creatorEn={content.creator_en}

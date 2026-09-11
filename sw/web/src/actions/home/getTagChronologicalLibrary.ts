@@ -47,22 +47,25 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
   const db = createStaticClient();
 
   // 1. 태그에 속한 셀럽 ID 조회 — 단일 원천은 제작 테이블, 뷰가 웹 전용 배정과 합쳐 준다
-  const { data: assignments } = await db
+  const { data: assignments, error: assignmentsError } = await db
     .from("faction_atlas_members")
     .select("celeb_id")
     .eq("tag_id", tagId)
     .eq("hidden", false);
 
+  // 조회 실패를 「인물 없음」으로 캐시하지 않는다
+  throwOnQueryError('getTagChronologicalLibrary 편성 조회', assignmentsError);
   if (!assignments?.length) return { celebs: [], contentsMap: {} };
 
   const celebIds = assignments.map((a) => a.celeb_id);
 
   // 2. 프로필 조회 (birthYear 계산용)
-  const { data: celebRows } = await db
+  const { data: celebRows, error: celebRowsError } = await db
     .from("celebs")
     .select("id, nickname, nickname_en, avatar_url, profession, birth_date")
     .in("id", celebIds);
 
+  throwOnQueryError('getTagChronologicalLibrary 인물 조회', celebRowsError);
   if (!celebRows?.length) return { celebs: [], contentsMap: {} };
 
   // birthYear 계산 후 정렬

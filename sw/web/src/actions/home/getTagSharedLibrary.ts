@@ -34,21 +34,25 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   const db = createStaticClient();
 
   // 1. 태그에 속한 셀럽 ID 조회 — 단일 원천은 제작 테이블, 뷰가 웹 전용 배정과 합쳐 준다
-  const { data: assignments } = await db
+  const { data: assignments, error: assignmentsError } = await db
     .from("faction_atlas_members")
     .select("celeb_id")
     .eq("tag_id", tagId)
     .eq("hidden", false);
 
+  // 조회 실패와 "배정된 인물이 없다"를 가른다 — 실패를 빈 목록으로 캐시하면 7일간 구역이 사라진다
+  throwOnQueryError('getTagSharedLibrary 편성 조회', assignmentsError);
   if (!assignments?.length) return [];
 
   const celebIds = assignments.map((a) => a.celeb_id);
 
   // 2. 셀럽 프로필 조회 (닉네임, 아바타)
-  const { data: celebRows } = await db
+  const { data: celebRows, error: celebsError } = await db
     .from("celebs")
     .select("id, nickname, nickname_en, avatar_url")
     .in("id", celebIds);
+
+  throwOnQueryError('getTagSharedLibrary 인물 조회', celebsError);
 
   const profileMap = new Map<string, SharedContentCeleb>();
   (celebRows ?? []).forEach((p) =>

@@ -9,6 +9,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import FigureBookFeature from "./FigureBookFeature";
 import styles from "./CelebPageContent.module.css";
 
@@ -78,6 +79,7 @@ export default function FigureBookWorksSection({
                   >
                     <span className={`flex min-w-0 items-center justify-center ${source.creator ? "" : "row-span-2"}`}>
                       <span className="block truncate text-[15px] font-black leading-[1.25] tracking-[-0.01em] text-3d-gold">
+                        <NoEditionBadge badge={source.titleBadge} />
                         {source.title}
                       </span>
                     </span>

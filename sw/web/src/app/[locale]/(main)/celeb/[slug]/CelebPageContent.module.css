@@ -9,6 +9,8 @@
   gap: 0;
   /* 고정 헤더 바로 아래에 착지 — 스티키 제목이 붙는 자리와 같다 */
   scroll-margin-top: var(--layer-header-h);
+  /* 구획 이동 때 focus()를 받는다. 브라우저 기본 포커스 링(흰 테)은 본문 구획과 같이 지운다 */
+  outline: none;
 }
 
 /* 머리말 제목의 기둥폭. 프레임과 같은 값으로 묶는다. */
@@ -357,7 +359,8 @@
     max-width: 100%;
     margin-inline: auto;
     gap: 12px;
-    text-align: start;
+    /* 칭호는 이름 폭 안에서 가운데 선다 */
+    text-align: center;
   }
 
   .identityAvatar {

@@ -10,6 +10,7 @@ export { default as FilterTabs } from "./FilterTabs";
 export { default as DecorativeLabel } from "./DecorativeLabel";
 export { default as InnerBox } from "./InnerBox";
 export { default as TitleBadge, type TitleInfo } from "./TitleBadge";
+export { default as NoEditionBadge } from "./NoEditionBadge";
 export { default as FormattedText, splitReadableParagraphs } from "./FormattedText";
 export { default as ContentReadingText } from "./ContentReadingText";
 export { default as ContentTextModal, ExpandTextButton } from "./ContentTextModal";

@@ -15,8 +15,12 @@ const contentLibraryDataSource = readFileSync(
   fileURLToPath(new URL("./useContentLibraryData.ts", import.meta.url)),
   "utf8",
 );
-const contentLibraryDataCacheSource = readFileSync(
-  fileURLToPath(new URL("./contentLibraryDataCache.ts", import.meta.url)),
+const useContentLibrarySource = readFileSync(
+  fileURLToPath(new URL("./useContentLibrary.ts", import.meta.url)),
+  "utf8",
+);
+const celebControlBarSource = readFileSync(
+  fileURLToPath(new URL("./controlBar/CelebArchiveControlBar.tsx", import.meta.url)),
   "utf8",
 );
 
@@ -48,8 +52,6 @@ test("view switches restore completed datasets and saved IDs without another req
   assert.match(contentLibraryDataSource, /datasetCacheRef\.current\?\.get\(cacheKey\)/);
   assert.match(contentLibraryDataSource, /datasetCacheRef\.current\?\.set\(cacheKey, snapshot\)/);
   assert.match(contentLibraryDataSource, /savedContentIdsCacheRef\.current\.get\(cacheKey\)/);
-  assert.match(contentLibraryDataSource, /canPresentCachedRequestedView/);
-  assert.match(contentLibraryDataCacheSource, /const viewMode: ViewMode = "list"/);
 });
 
 test("ContentLibrary renders completed data through its dataset presenter while refreshing", () => {
@@ -63,7 +65,7 @@ test("ContentLibrary renders completed data through its dataset presenter while 
   );
   assert.match(
     contentLibraryBodySource,
-    /data-library-presenter=\{(?:default|desktop)PresenterViewMode\}/,
+    /renderContentsForMode\(presentationViewMode\)/,
   );
   assert.doesNotMatch(
     contentLibrarySource,
@@ -95,20 +97,8 @@ test("content type count failures never render as zero and can retry without a r
   assert.match(contentLibrarySource, /onRetry=\{lib\.loadTypeCounts\}/);
 });
 
-test("responsive viewport resolution keeps the same keyed presenter wrappers", () => {
-  const presenterBranch = contentLibraryBodySource.slice(
-    contentLibraryBodySource.indexOf("{hasFilteredContents"),
-    contentLibraryBodySource.indexOf("{!compact"),
-  );
-
-  assert.match(
-    presenterBranch,
-    /responsiveDesktopViewMode !== undefined \? \(\s*<>/,
-  );
-  assert.equal(presenterBranch.match(/key="responsive-default"/g)?.length, 1);
-  assert.equal(presenterBranch.match(/key="responsive-desktop"/g)?.length, 1);
-  assert.doesNotMatch(
-    presenterBranch,
-    /hasResponsiveDefaultView \? \(\s*<>/,
-  );
+test("celeb libraries stay in the expanded view and never offer a view switch", () => {
+  assert.match(useContentLibrarySource, /ownerKind === "celeb"\s*\?\s*"expand"/);
+  assert.doesNotMatch(celebControlBarSource, /ArchiveViewControls/);
+  assert.doesNotMatch(contentLibrarySource, /mobileCarousel|responsiveDesktopViewMode/);
 });

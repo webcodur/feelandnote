@@ -383,6 +383,7 @@ async function fetchCuratedList(listSlug: string, locale: string, showAll: boole
       creatorEn: flat?.creator_en ?? null,
       thumbnailEn: flat?.thumbnail_en ?? null,
       hasEnEdition: flat?.has_en_edition ?? false,
+      titleBadge: flat?.title_badge ?? null,
     }
   })
 

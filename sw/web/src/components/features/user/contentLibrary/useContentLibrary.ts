@@ -5,7 +5,6 @@ import { useCallback, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 
 import { addContent } from "@/actions/contents/addContent";
-import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { CategoryId } from "@/constants/categories";
 
 import {
@@ -20,11 +19,8 @@ import {
 } from "./contentLibraryTypes";
 import { useContentLibraryData } from "./useContentLibraryData";
 import { useContentLibraryDelete } from "./useContentLibraryDelete";
-import { useDesktopLayout } from "./useDesktopLayout";
 
 export type { ContentLibraryMode, ReviewFilter, SortOption, ViewMode } from "./contentLibraryTypes";
-
-const EMPTY_CONTENTS: UserContentWithContent[] = [];
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const locale = useLocale();
@@ -36,7 +32,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     targetUserId,
     initialSearchQuery = "",
     defaultViewMode,
-    desktopViewMode,
     defaultPageSize,
     initialContents,
     initialContentBrief,
@@ -58,14 +53,11 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const [appliedSearchQuery, setAppliedSearchQuery] = useState(initialSearchQuery);
   const [collapsedMonths, setCollapsedMonths] = useState<Set<string>>(new Set());
 
-  const isDesktop = useDesktopLayout();
   const [pickedViewMode, setPickedViewMode] = useState<ViewMode | null>(null);
-  const viewMode =
-    pickedViewMode ?? (isDesktop === true && desktopViewMode ? desktopViewMode : defaultViewMode ?? "list");
-  const hasResponsiveDefaultView =
-    pickedViewMode === null
-    && desktopViewMode !== undefined
-    && desktopViewMode !== (defaultViewMode ?? "list");
+  // 인물 서가는 펼침으로 고정한다. 목록형은 감상 기록 전체 보기 페이지가 맡는다.
+  const viewMode: ViewMode = ownerKind === "celeb"
+    ? "expand"
+    : pickedViewMode ?? defaultViewMode ?? "list";
 
   const data = useContentLibraryData({
     activeTab,
@@ -76,7 +68,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     initialContents,
     initialSearchQuery,
     isViewer,
-    isResponsiveViewPending: hasResponsiveDefaultView && isDesktop === null,
     maxItems,
     ownerKind,
     pageSize,
@@ -93,26 +84,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
       ownerKind === "celeb" && locale === "ko",
     ),
     [data.contents, locale, ownerKind, sortOption],
-  );
-  const cachedListContents = data.getCachedContents("list")
-    ?? (viewMode === "list" ? data.contents : EMPTY_CONTENTS);
-  const cachedExpandContents = data.getCachedContents("expand")
-    ?? (viewMode === "expand" ? data.contents : EMPTY_CONTENTS);
-  const listContents = useMemo(
-    () => filterAndSortContents(
-      cachedListContents,
-      sortOption,
-      ownerKind === "celeb" && locale === "ko",
-    ),
-    [cachedListContents, locale, ownerKind, sortOption],
-  );
-  const expandContents = useMemo(
-    () => filterAndSortContents(
-      cachedExpandContents,
-      sortOption,
-      ownerKind === "celeb" && locale === "ko",
-    ),
-    [cachedExpandContents, locale, ownerKind, sortOption],
   );
   const groupedByMonthData = useMemo(
     () => groupByMonth(filteredAndSortedContents),
@@ -203,11 +174,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     setReviewFilter,
     viewMode,
     setViewMode: setPickedViewMode,
-    isDesktop,
-    hasResponsiveDefaultView,
-    isResolvingResponsiveView: hasResponsiveDefaultView && isDesktop === null,
-    responsiveDefaultViewMode: defaultViewMode ?? "list",
-    responsiveDesktopViewMode: desktopViewMode,
     initialContentBrief,
     initialContentRecord,
     searchQuery,
@@ -218,7 +184,6 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     applySearchQuery,
     collapsedMonths,
     filteredAndSortedContents,
-    contentsByView: { list: listContents, expand: expandContents },
     groupedByMonth: groupedByMonthData,
     monthKeys,
     isAllCollapsed,

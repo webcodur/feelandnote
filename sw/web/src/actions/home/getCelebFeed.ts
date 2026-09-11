@@ -143,6 +143,7 @@ async function fetchCelebFeed(
         isbn_en: flat.isbn_en,
         thumbnail_en: flat.thumbnail_en,
         has_en_edition: flat.has_en_edition,
+        title_badge: flat.title_badge,
       },
       celeb: {
         id: celeb.id,

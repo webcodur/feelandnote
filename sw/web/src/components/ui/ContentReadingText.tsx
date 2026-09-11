@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, ReactNode, Ref } from "react";
 
 import FormattedText from "./FormattedText";
 
@@ -7,6 +7,8 @@ type ContentReadingSize = "compact" | "reader" | "modal";
 
 interface ContentReadingTextProps {
   text?: string | null;
+  /** 넘침 측정처럼 바깥에서 본문 상자를 직접 재야 할 때 쓴다 */
+  ref?: Ref<HTMLDivElement>;
   children?: ReactNode;
   tone?: ContentReadingTone;
   size?: ContentReadingSize;
@@ -37,6 +39,7 @@ export default function ContentReadingText({
   style,
   highlightClassName,
   highlightStyle,
+  ref,
 }: ContentReadingTextProps) {
   const content = children ?? (
     text ? (
@@ -52,6 +55,7 @@ export default function ContentReadingText({
 
   return (
     <div
+      ref={ref}
       className={`block whitespace-pre-wrap break-words font-sans ${SIZE_CLASSES[size]} ${TONE_CLASSES[tone]} ${className}`}
       style={style}
     >

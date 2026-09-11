@@ -75,6 +75,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
         contentId={review.content.id}
         contentType={review.content.type}
         title={getLocalizedContent(review.content, locale).title}
+        titleBadge={review.content.title_badge}
         creator={getLocalizedContent(review.content, locale).creator}
         thumbnail={review.content.thumbnail_url}
         review={(locale === 'en' && review.review_en) ? review.review_en : review.review}

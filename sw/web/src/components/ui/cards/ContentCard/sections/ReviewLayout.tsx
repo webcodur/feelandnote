@@ -3,6 +3,7 @@
 import { Star } from "lucide-react";
 import ContentImage from "@/components/ui/ContentImage";
 import FormattedText from "@/components/ui/FormattedText";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
 
 import {
@@ -42,11 +43,13 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
     showImage,
     displayThumbnail,
     displayTitle,
+    displayTitleBadge,
     displayCreator,
     displayReview,
     setImageError,
     handleImageLoad,
     handleClick,
+    editionUnavailable,
     editionNoCover,
     activeEdition,
     effectiveCelebCount,
@@ -105,7 +108,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
         >
         {/* 썸네일 영역 */}
         <div className={`relative w-28 sm:w-40 flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>
-          {showImage ? (
+          {showImage && !editionUnavailable ? (
             /* 표지 자리는 세로로 길어 잘라 채우면 좌우가 날아간다 — 제목이 읽히도록 전부 담는다 */
             <ContentImage
               src={displayThumbnail}
@@ -121,9 +124,11 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
               ContentIcon={ContentIcon}
               iconSize={24}
               label={
-                editionNoCover
-                  ? (activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn"))
-                  : undefined
+                editionUnavailable
+                  ? (activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc"))
+                  : editionNoCover
+                    ? (activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn"))
+                    : undefined
               }
             />
           )}
@@ -145,6 +150,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
               className="text-xs sm:text-sm font-bold text-text-primary line-clamp-4 leading-tight group-hover:text-accent text-center"
               title={displayTitle}
             >
+              <NoEditionBadge badge={displayTitleBadge} />
               {displayTitle}
             </h3>
             {displayCreator && (

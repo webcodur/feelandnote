@@ -6,12 +6,6 @@ import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import { ErrorState } from "./ContentLibraryStates";
 import type { ViewMode } from "./contentLibraryTypes";
 
-type RenderContentsForMode = (
-  viewMode: ViewMode,
-  effectsEnabled?: boolean,
-  desktopPresentation?: boolean,
-) => ReactNode;
-
 interface ContentLibraryBodyProps {
   animateHeight: boolean;
   compact: boolean;
@@ -19,8 +13,6 @@ interface ContentLibraryBodyProps {
   error: string | null;
   hasContents: boolean;
   hasFilteredContents: boolean;
-  hasResponsiveDefaultView: boolean;
-  isDesktop: boolean | null;
   isExpandView: boolean;
   isRefreshing: boolean;
   loadContents: () => void;
@@ -29,9 +21,7 @@ interface ContentLibraryBodyProps {
   onPageSizeChange: (pageSize: number) => void;
   pageSize: number;
   presentationViewMode: ViewMode;
-  renderContentsForMode: RenderContentsForMode;
-  responsiveDefaultViewMode: ViewMode;
-  responsiveDesktopViewMode?: ViewMode;
+  renderContentsForMode: (viewMode: ViewMode) => ReactNode;
   showPagination: boolean;
   totalPages: number;
 }
@@ -43,8 +33,6 @@ export default function ContentLibraryBody({
   error,
   hasContents,
   hasFilteredContents,
-  hasResponsiveDefaultView,
-  isDesktop,
   isExpandView,
   isRefreshing,
   loadContents,
@@ -54,51 +42,13 @@ export default function ContentLibraryBody({
   pageSize,
   presentationViewMode,
   renderContentsForMode,
-  responsiveDefaultViewMode,
-  responsiveDesktopViewMode,
   showPagination,
   totalPages,
 }: ContentLibraryBodyProps) {
-  const defaultPresenterViewMode = hasResponsiveDefaultView
-    ? responsiveDefaultViewMode
-    : presentationViewMode;
-  const desktopPresenterViewMode = hasResponsiveDefaultView
-    ? responsiveDesktopViewMode ?? responsiveDefaultViewMode
-    : presentationViewMode;
   const contents = (
     <div aria-busy={isRefreshing} className="py-8 [overflow-anchor:none]">
       {hasFilteredContents ? (
-        responsiveDesktopViewMode !== undefined ? (
-          <>
-            {isDesktop !== true && (
-              <div
-                key="responsive-default"
-                data-library-presenter={defaultPresenterViewMode}
-                className="md:hidden"
-              >
-                {renderContentsForMode(
-                  defaultPresenterViewMode,
-                  isDesktop === false,
-                )}
-              </div>
-            )}
-            {isDesktop !== false && (
-              <div
-                key="responsive-desktop"
-                data-library-presenter={desktopPresenterViewMode}
-                className="hidden md:block"
-              >
-                {renderContentsForMode(
-                  desktopPresenterViewMode,
-                  isDesktop === true,
-                  true,
-                )}
-              </div>
-            )}
-          </>
-        ) : (
-          renderContentsForMode(presentationViewMode)
-        )
+        renderContentsForMode(presentationViewMode)
       ) : (
         <div className="py-12 text-center text-text-secondary">
           {noResultsMessage}
@@ -106,7 +56,7 @@ export default function ContentLibraryBody({
       )}
 
       {!compact && showPagination && !isExpandView && (
-        <div className={hasResponsiveDefaultView ? "md:hidden" : undefined}>
+        <div>
           <hr className="border-white/10 mt-8 mb-8" />
           <div className="flex justify-center">
             <Pagination

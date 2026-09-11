@@ -24,7 +24,7 @@
     "test:memory-selection": "tsx --test src/components/features/game/memory/selection.test.ts",
     "test:globe": "tsx --test src/components/shared/WorldGlobe/globeSpin.test.ts",
     "test:content-expand": "tsx --test src/components/features/user/contentLibrary/expand/*.test.ts",
-    "test:content-locale": "tsx --test src/lib/utils/content-locale-text.test.ts",
+    "test:content-locale": "tsx --test src/lib/utils/content-locale.test.ts src/lib/utils/content-locale-text.test.ts",
     "test:creator-names": "tsx --test src/lib/utils/creator-names.test.ts",
     "test:relation-map": "tsx --test src/lib/celeb/relationRows.test.ts src/lib/celeb/relationShapes.test.ts src/lib/celeb/relationNeighborhood.test.ts"
   },

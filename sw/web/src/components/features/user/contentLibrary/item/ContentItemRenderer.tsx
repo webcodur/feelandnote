@@ -8,7 +8,6 @@
 import { memo, useState } from "react";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
-import SwipeControls from "@/components/ui/SwipeControls";
 import { getCategoryByDbType } from "@/constants/categories";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
@@ -38,9 +37,6 @@ interface ContentItemRendererProps {
   ownerAvatarUrl?: string | null;
   // 뷰어 모드: 보유 콘텐츠 ID 집합 (null = 비로그인)
   savedContentIds?: Set<string> | null;
-  /** 좁은 화면에서 목록형 카드를 한 장씩 옆으로 넘기게 한다 */
-  mobileCarousel?: boolean;
-  effectsEnabled?: boolean;
   initialContentBrief?: ContentBrief | null;
   initialContentRecord?: UserContentWithContent;
   /** Shared list-index preference for the expanded presentation. */
@@ -64,8 +60,6 @@ function ContentItemRenderer({
   ownerNickname,
   ownerAvatarUrl,
   savedContentIds,
-  mobileCarousel = false,
-  effectsEnabled = true,
   initialContentBrief,
   initialContentRecord,
   targetUserId,
@@ -107,7 +101,6 @@ function ContentItemRenderer({
         items={items}
         ownerNickname={ownerNickname}
         ownerAvatarUrl={ownerAvatarUrl}
-        isActive={effectsEnabled}
         initialContentBrief={initialContentBrief}
         initialContentRecord={initialContentRecord}
         celebId={targetUserId}
@@ -129,7 +122,7 @@ function ContentItemRenderer({
 
   return (
     <div className="space-y-4">
-      <ContentGrid variant="list" mobileCarousel={mobileCarousel}>
+      <ContentGrid variant="list">
         {items.map((item, index) => {
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
           const rawReview = (locale === 'en' && item.review_en) ? item.review_en : item.review;
@@ -170,6 +163,7 @@ function ContentItemRenderer({
                 e?.stopPropagation();
                 deleteHandler(item.id);
               } : undefined}
+              titleBadge={item.content.title_badge}
               titleKo={item.content.title_ko}
               titleEn={item.content.title_en}
               creatorEn={item.content.creator_en}
@@ -180,14 +174,11 @@ function ContentItemRenderer({
                   url={affiliateUrls[index]}
                 />
               ) : undefined}
-              effectsEnabled={effectsEnabled}
             />
             </div>
           );
         })}
       </ContentGrid>
-
-      {mobileCarousel && <SwipeControls count={items.length} />}
 
       {hasAffiliateItem && (
         <p

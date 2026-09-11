@@ -6,6 +6,7 @@
 */
 import type { ContentType, ContentStatus } from "@/types/database";
 import type { ContentMetadata } from "@/types/content";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 
 export interface ContentCardProps {
   /** CSS로 숨긴 반응형 임시 presenter는 인증·통계·표지 보완 요청을 시작하지 않는다. */
@@ -16,6 +17,8 @@ export interface ContentCardProps {
   // 기본 정보
   thumbnail?: string | null;
   title: string;
+  /** 요청 locale의 확인된 언어판 제목이 아닐 때 제목 앞에 붙는 표시 */
+  titleBadge?: TitleBadge | null;
   creator?: string | null;
   contentType?: ContentType;
 

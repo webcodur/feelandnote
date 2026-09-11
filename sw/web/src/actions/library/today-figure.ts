@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
-import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
+import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { CategoryId } from '@/constants/categories'
 import { getLocale } from 'next-intl/server'
@@ -56,7 +56,7 @@ async function pickBirthdayCeleb(
 ): Promise<string | null> {
   const monthDay = today.slice(5) // "MM-DD"
 
-  const { data: celebs } = await db
+  const { data: celebs, error: celebsError } = await db
     .from('celebs')
     .select('id')
     .eq('publication_status', 'active')
@@ -64,15 +64,18 @@ async function pickBirthdayCeleb(
     .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .like('birth_date', `%-${monthDay}`)
 
+  throwOnQueryError('getTodayFigure 생일 인물 조회', celebsError)
   if (!celebs?.length) return null
 
   const ids = celebs.map((c) => c.id)
-  const { data: contentRows } = await db
+  const { data: contentRows, error: contentRowsError } = await db
     .from('celeb_contents')
     .select('celeb_id')
     .in('celeb_id', ids)
     .eq('status', 'FINISHED')
     .eq('visibility', 'public')
+
+  throwOnQueryError('getTodayFigure 생일 인물 기록 조회', contentRowsError)
 
   const counts = new Map<string, number>()
   for (const row of contentRows ?? []) {
@@ -91,11 +94,14 @@ async function pickBirthdayCeleb(
 async function fetchTodayFigure(today: string, locale: string): Promise<TodayFigureResult> {
   const db = createStaticClient()
 
-  const { data: dailyFigure } = await db
+  const { data: dailyFigure, error: dailyFigureError } = await db
     .from('daily_figures')
     .select('celeb_id, source, news_count')
     .eq('date', today)
     .single()
+
+  // 「오늘 편성 없음」만 통과시킨다 — 조회 실패를 편성 없음으로 캐시하면 편성이 7일 동안 무시된다
+  throwOnQueryError('getTodayFigure 편성 조회', dailyFigureError, { ignoreCodes: [NO_ROWS_CODE] })
 
   if (dailyFigure) {
     const result = await fetchFigureContents(db, dailyFigure.celeb_id, locale)
@@ -176,7 +182,11 @@ async function fetchFigureContents(
 ): Promise<TodayFigureResult> {
   const defaultSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
-  const [{ data: profile }, { data: celebContents }, { data: dialogue }] = await Promise.all([
+  const [
+    { data: profile, error: profileError },
+    { data: celebContents, error: celebContentsError },
+    { data: dialogue, error: dialogueError },
+  ] = await Promise.all([
     db
       .from('celebs')
       .select('id, slug, nickname, nickname_en, avatar_url, profession, title, bio, bio_en, speech_tone, voice_v')
@@ -196,6 +206,11 @@ async function fetchFigureContents(
       .single()
       .overrideTypes<DialogueBrief, { merge: false }>(),
   ])
+
+  // 「인물 없음」「대사 없음」만 통과시키고 그 밖의 실패는 던져 캐시에 남기지 않는다
+  throwOnQueryError('getTodayFigure 인물 조회', profileError, { ignoreCodes: [NO_ROWS_CODE] })
+  throwOnQueryError('getTodayFigure 인물 기록 조회', celebContentsError)
+  throwOnQueryError('getTodayFigure 인물 대사 조회', dialogueError, { ignoreCodes: [NO_ROWS_CODE] })
 
   if (!profile) {
     return { figure: null, contents: [], source: defaultSource }
@@ -231,6 +246,7 @@ async function fetchFigureContents(
       isbn_en: flat.isbn_en,
       thumbnail_en: flat.thumbnail_en,
       has_en_edition: flat.has_en_edition,
+      title_badge: flat.title_badge,
     }
   }).filter(c => c.id)
 

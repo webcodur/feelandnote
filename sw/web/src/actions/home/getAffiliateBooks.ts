@@ -477,7 +477,9 @@ async function fetchBooksForTag(
 
   // ── 둘째 묶음: 그 인물들에 얽힌 책 ──
   // 인물이 쓴 책이나 그를 다룬 책이 먼저, 없으면 그들이 실제로 읽은 책.
-  const { data: celebs } = await db.from('celebs').select('nickname').in('id', celebIds.slice(0, 60))
+  const { data: celebs, error: celebsError } = await db.from('celebs').select('nickname').in('id', celebIds.slice(0, 60))
+  // 조회 실패를 "얽힌 책 없음"으로 캐시하지 않는다
+  throwOnQueryError('getAffiliateBooks/tag-celebs', celebsError)
   const names = (celebs ?? []).map((p) => p.nickname as string | null)
   const about = pool
     .filter((p) => names.some((n) => nameHits(n, p.book.title, p.book.creator)))

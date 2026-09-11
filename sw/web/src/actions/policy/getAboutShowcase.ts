@@ -10,7 +10,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 
 /**
@@ -186,7 +186,7 @@ async function fetchFaces(
   db: ReturnType<typeof createStaticClient>,
   isEn: boolean
 ): Promise<AboutFace[]> {
-  const { data } = await db
+  const { data, error } = await db
     .from('celebs')
     .select(
       'slug, nickname, nickname_en, avatar_url, death_date, birth_date, title, title_en, bio, bio_en, profession'
@@ -194,6 +194,9 @@ async function fetchFaces(
     .in('slug', FACE_SLUGS as unknown as string[])
     .eq('publication_status', 'active')
     .not('avatar_url', 'is', null)
+
+  // 조회 실패를 빈 자리로 캐시하면 구획이 7일 동안 통째로 비어 보인다. 던져서 캐시에 남기지 않는다
+  throwOnQueryError('서비스 소개 얼굴 조회', error)
 
   const bySlug = new Map((data ?? []).map((row) => [row.slug, row]))
   const faces: AboutFace[] = []
@@ -223,7 +226,7 @@ async function fetchJourney(
   locale: string,
   isEn: boolean
 ): Promise<AboutJourney | null> {
-  const { data: people } = await db
+  const { data: people, error: peopleError } = await db
     .from('celebs')
     .select(
       'id, slug, nickname, nickname_en, avatar_url, title, title_en, bio, bio_en, profession, birth_date, death_date'
@@ -231,6 +234,8 @@ async function fetchJourney(
     .in('slug', JOURNEY_SLUGS as unknown as string[])
     .eq('publication_status', 'active')
     .not('avatar_url', 'is', null)
+
+  throwOnQueryError('서비스 소개 장면 인물 조회', peopleError)
 
   for (const slug of JOURNEY_SLUGS) {
     const person = (people ?? []).find((p) => p.slug === slug)
@@ -241,12 +246,14 @@ async function fetchJourney(
 
     // celeb_contents와 content_locales는 contents를 거쳐 이어지므로 한 번에 조인하지 않고 나눠 읽는다
     const reviewField = isEn ? 'review_en' : 'review'
-    const { data: rows } = await db
+    const { data: rows, error: rowsError } = await db
       .from('celeb_contents')
       .select(`content_id, ${reviewField}`)
       .eq('celeb_id', person.id)
       .in('content_id', pinned as unknown as string[])
       .not(reviewField, 'is', null)
+
+    throwOnQueryError('서비스 소개 장면 기록 조회', rowsError)
 
     const reviewByContent = new Map<string, string>()
     for (const row of rows ?? []) {
@@ -258,13 +265,15 @@ async function fetchJourney(
     }
     if (reviewByContent.size === 0) continue
 
-    const { data: locales } = await db
+    const { data: locales, error: localesError } = await db
       .from('content_locales')
       .select('content_id, title, thumbnail_url, creator, description')
       .in('content_id', [...reviewByContent.keys()])
       .eq('locale', locale === 'en' ? 'en' : 'ko')
       .not('thumbnail_url', 'is', null)
       .limit(60)
+
+    throwOnQueryError('서비스 소개 장면 작품 조회', localesError)
 
     // 못박아 둔 순서대로 세운다. 기록 앞 대목을 그대로 쓰므로 말씨는 자료가 쥔다
     const byContent = new Map((locales ?? []).map((loc) => [loc.content_id, loc]))
@@ -313,19 +322,21 @@ async function fetchEvidence(
   locale: string,
   isEn: boolean
 ): Promise<AboutEvidence | null> {
-  const { data: people } = await db
+  const { data: people, error: peopleError } = await db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url')
     .in('slug', EVIDENCE_SLUGS as unknown as string[])
     .eq('publication_status', 'active')
     .not('avatar_url', 'is', null)
 
+  throwOnQueryError('서비스 소개 근거 인물 조회', peopleError)
+
   for (const slug of EVIDENCE_SLUGS) {
     const matched = (people ?? []).find((p) => p.slug === slug)
     if (!matched?.avatar_url) continue
 
     const reviewField = isEn ? 'review_en' : 'review'
-    const { data: rows } = await db
+    const { data: rows, error: rowsError } = await db
       .from('celeb_contents')
       .select(`content_id, source_url, ${reviewField}`)
       .eq('celeb_id', matched.id)
@@ -333,18 +344,21 @@ async function fetchEvidence(
       .not(reviewField, 'is', null)
       .limit(20)
 
+    throwOnQueryError('서비스 소개 근거 기록 조회', rowsError)
+
     for (const row of rows ?? []) {
       const r = row as unknown as Record<string, string | null>
       const url = r.source_url ?? ''
       const review = r[reviewField] ?? ''
       if (!url.startsWith('http') || review.trim().length < 40 || !r.content_id) continue
 
-      const { data: loc } = await db
+      const { data: loc, error: locError } = await db
         .from('content_locales')
         .select('title, thumbnail_url')
         .eq('content_id', r.content_id)
         .eq('locale', locale === 'en' ? 'en' : 'ko')
         .maybeSingle()
+      throwOnQueryError('서비스 소개 근거 작품 조회', locError)
       if (!loc?.title) continue
 
       let host = ''
@@ -396,6 +410,12 @@ async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
       .select('id', { count: 'exact', head: true })
       .eq('is_fiction', false),
   ])
+
+  // 세력 묶음과 수치도 실패를 빈 값·0으로 캐시하지 않는다
+  throwOnQueryError('서비스 소개 세력 조회', tagsRes.error)
+  throwOnQueryError('서비스 소개 인물 수 집계', celebCountRes.error)
+  throwOnQueryError('서비스 소개 기록 수 집계', recordCountRes.error)
+  throwOnQueryError('서비스 소개 세력 수 집계', factionCountRes.error)
 
   // 못박아 둔 순서대로 한 묶음에 한 장씩 세운다
   const teamShots: AboutTeamShot[] = []

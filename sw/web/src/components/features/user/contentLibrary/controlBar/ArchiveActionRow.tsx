@@ -23,8 +23,6 @@ interface ArchiveActionRowProps {
   hasAppliedSearch: boolean;
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
-  responsiveDesktopViewMode?: ViewMode;
-  isResponsiveViewUnresolved?: boolean;
   isExpandIndexOpen?: boolean;
   onExpandIndexToggle?: () => void;
   sortOption: SortOption;
@@ -43,8 +41,6 @@ export default function ArchiveActionRow({
   hasAppliedSearch,
   viewMode,
   onViewModeChange,
-  responsiveDesktopViewMode,
-  isResponsiveViewUnresolved = false,
   isExpandIndexOpen = false,
   onExpandIndexToggle,
   sortOption,
@@ -55,11 +51,7 @@ export default function ArchiveActionRow({
   compact,
 }: ArchiveActionRowProps) {
   const t = useTranslations("archiveSearch");
-  const showIndexToggle = Boolean(onExpandIndexToggle) && (
-    isResponsiveViewUnresolved && responsiveDesktopViewMode
-      ? viewMode === "expand" || responsiveDesktopViewMode === "expand"
-      : viewMode === "expand"
-  );
+  const showIndexToggle = Boolean(onExpandIndexToggle) && viewMode === "expand";
 
   return (
     <div className={cn(
@@ -79,30 +71,11 @@ export default function ArchiveActionRow({
       <ArchiveViewControls
         viewMode={viewMode}
         onViewModeChange={onViewModeChange}
-        responsiveDesktopViewMode={responsiveDesktopViewMode}
-        isResponsiveViewUnresolved={isResponsiveViewUnresolved}
       />
 
-      {showIndexToggle && isResponsiveViewUnresolved && responsiveDesktopViewMode ? (
-        <>
-          {viewMode === "expand" && (
-            <ArchiveIndexToggle
-              isOpen={isExpandIndexOpen}
-              onToggle={onExpandIndexToggle!}
-              className="md:hidden"
-            />
-          )}
-          {responsiveDesktopViewMode === "expand" && (
-            <ArchiveIndexToggle
-              isOpen={isExpandIndexOpen}
-              onToggle={onExpandIndexToggle!}
-              className="hidden md:flex"
-            />
-          )}
-        </>
-      ) : showIndexToggle ? (
+      {showIndexToggle && (
         <ArchiveIndexToggle isOpen={isExpandIndexOpen} onToggle={onExpandIndexToggle!} />
-      ) : null}
+      )}
 
       {showMonthControls && (
         <button

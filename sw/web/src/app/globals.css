@@ -150,6 +150,11 @@
 }
 
 /* Custom Scrollbar — 전역 * 셀렉터로 기본 적용, 아래는 accent 컬러용 */
+/* 잘린 본문의 끝을 흐려 아래에 글이 더 있음을 알린다. sm:·lg: 변형과 함께 써서 접는 폭에서만 켠다 */
+@utility clip-fade-end {
+  mask-image: linear-gradient(to bottom, black calc(100% - 2.5rem), transparent);
+}
+
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--color-accent-dim) transparent;

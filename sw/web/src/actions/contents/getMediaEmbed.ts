@@ -2,12 +2,14 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import type { ContentType } from '@/types/database'
 import { createStaticClient } from '@/lib/db/static'
 import { getVideoTrailer } from '@feelandnote/content-search/tmdb'
 import { getGameTrailer } from '@feelandnote/content-search/igdb'
 import { getTrackById } from '@feelandnote/content-search/itunes-music'
+
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export type MediaEmbedResult = {
   embedType: 'appleMusicPreview' | 'youtube' | null
@@ -59,12 +61,19 @@ async function fetchMediaEmbed(
 ): Promise<MediaEmbedResult> {
   const none: MediaEmbedResult = { embedType: null, embedId: null }
 
+  // id 컬럼은 UUID다. 외부 작품은 외부 식별자가 그대로 들어오므로 두드리지 않는다 —
+  // 형식 오류를 아래에서 장애로 던지지 않기 위해서다(getContentBrief와 같은 규칙).
+  if (!UUID_PATTERN.test(contentId)) return none
+
   const db = createStaticClient()
-  const { data } = await db
+  const { data, error } = await db
     .from('contents')
     .select('external_id, external_source, metadata')
     .eq('id', contentId)
     .single()
+
+  // 「작품 없음」만 통과시키고 그 밖의 실패는 던져 캐시에 남기지 않는다
+  throwOnQueryError('매체 재생원 조회', error, { ignoreCodes: [NO_ROWS_CODE] })
 
   const externalId = data?.external_id
   if (!externalId) return none

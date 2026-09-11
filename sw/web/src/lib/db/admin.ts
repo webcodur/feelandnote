@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { rawFetch } from '@/lib/rawFetch'
+import { restFetch, withoutRestRetry } from '@/lib/db/restFetch'
 
 /**
  * Service Role 키 기반 서버 전용 클라이언트 (RLS bypass).
@@ -7,9 +7,9 @@ import { rawFetch } from '@/lib/rawFetch'
  * 절대 클라이언트 컴포넌트에서 import하지 않는다.
  */
 export function createAdminClient() {
-  return createClient(
+  return withoutRestRetry(createClient(
     process.env.NEXT_PUBLIC_DB_API_URL!,
     process.env.DB_SECRET_KEY!,
-    { auth: { autoRefreshToken: false, persistSession: false }, global: { fetch: rawFetch } },
-  )
+    { auth: { autoRefreshToken: false, persistSession: false }, global: { fetch: restFetch } },
+  ))
 }

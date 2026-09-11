@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { rawFetch } from '@/lib/rawFetch'
+import { restFetch, withoutRestRetry } from '@/lib/db/restFetch'
 
 /**
  * Cookie 없는 PostgREST 클라이언트 (unstable_cache 내부 사용)
@@ -10,15 +10,15 @@ import { rawFetch } from '@/lib/rawFetch'
  * (RSC 요청 객체 + React cache + 그 요청의 모든 fetch 응답)를 붙들어, 조회마다 만드는
  * 이 클라이언트 수만큼 요청 전체가 heap 에 남았다(26.08.28 운영 스냅샷: Timeout 1,817개,
  * 요청 객체 135개, 응답 2,515개 잔류 → 시간당 RSS +280MB, 6시간마다 OOM).
- * fetch 는 Next 패치를 우회한 원본을 쓴다. 이유는 `lib/rawFetch.ts` 머리말.
+ * fetch 는 Next 패치를 우회한 원본에 응답 대기 상한을 건 것을 쓴다(`lib/db/restFetch.ts`).
  */
 export function createStaticClient() {
-  return createClient(
+  return withoutRestRetry(createClient(
     process.env.NEXT_PUBLIC_DB_API_URL!,
     process.env.NEXT_PUBLIC_DB_PUBLISHABLE_KEY!,
     {
       auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
-      global: { fetch: rawFetch },
+      global: { fetch: restFetch },
     },
-  )
+  ))
 }

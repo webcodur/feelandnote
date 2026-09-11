@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 
 export interface FactionTagName {
@@ -14,11 +14,13 @@ export interface FactionTagName {
 const getCached = unstable_cache(
   async (slug: string): Promise<FactionTagName | null> => {
     const db = createStaticClient()
-    const { data } = await db
+    const { data, error } = await db
       .from('celeb_tags')
       .select('name, name_en')
       .eq('slug', slug)
       .maybeSingle()
+    // 조회 실패를 「없는 태그」로 캐시하지 않는다
+    throwOnQueryError('세력 태그 이름 조회', error)
     return data ?? null
   },
   ['faction-tag-name'],

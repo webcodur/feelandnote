@@ -13,7 +13,6 @@ import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import ContentLibraryControls from "./ContentLibraryControls";
 import ContentLibraryBody from "./ContentLibraryBody";
-import { cn } from "@/lib/utils";
 import ArchiveIndexToggle from "./controlBar/ArchiveIndexToggle";
 
 const READ_ONLY_DELETE = () => undefined;
@@ -29,7 +28,6 @@ export default function ContentLibrary({
   ownerNickname,
   ownerAvatarUrl,
   defaultViewMode,
-  desktopViewMode,
   defaultPageSize,
   hideControlWrapper = false,
   hideReviewFilter = false,
@@ -41,7 +39,7 @@ export default function ContentLibrary({
   const locale = useLocale();
   const lib = useContentLibrary({
     maxItems, compact, mode, ownerKind, targetUserId,
-    defaultViewMode, desktopViewMode, defaultPageSize,
+    defaultViewMode, defaultPageSize,
     initialContents, initialContentBrief,
   });
   const [isExpandIndexOpen, setIsExpandIndexOpen] = useState(false);
@@ -64,16 +62,11 @@ export default function ContentLibrary({
 
   const currentVisibleMonth = useMonthScrollObserver(showMonthSections ? lib.monthKeys : [], lib.collapsedMonths);
 
-  const renderItems = (
-    items: UserContentWithContent[],
-    viewMode = lib.viewMode,
-    effectsEnabled = true,
-  ) => (
+  const renderItems = (items: UserContentWithContent[], viewMode = lib.viewMode) => (
     <ContentItemRenderer
       items={items}
       compact={compact}
       viewMode={viewMode}
-      effectsEnabled={effectsEnabled}
       initialContentBrief={lib.initialContentBrief}
       initialContentRecord={lib.initialContentRecord}
       onDelete={isViewer ? READ_ONLY_DELETE : lib.handleDelete}
@@ -89,8 +82,6 @@ export default function ContentLibrary({
       categoryCounts={ownerKind === "celeb" ? lib.typeCounts : undefined}
       onCategoryChange={ownerKind === "celeb" ? lib.setActiveTab : undefined}
       isContentRefreshing={ownerKind === "celeb" ? lib.isRefreshing : undefined}
-      // 인물 서가의 목록형은 좁은 화면에서 한 장씩 옆으로 넘긴다 — 세로로 다 훑지 않게 한다
-      mobileCarousel={ownerKind === "celeb"}
       onActiveContentChange={onActiveContentChange}
     />
   );
@@ -100,56 +91,9 @@ export default function ContentLibrary({
   const isSearching = lib.appliedSearchQuery.trim().length >= 2;
   /* 펼침 보기는 선택 목록 전체를 한 번에 받는다 — 달별 묶음과 쪽 번호는 그 안에서 뜻이 없다 */
   const isExpandView = lib.presentationViewMode === "expand";
-  const expandIndexLabel = tArchive("expandIndexTitle");
-  const renderExpandIndexToggle = (visibilityClass = "") => (
-    <ArchiveIndexToggle
-      isOpen={isExpandIndexOpen}
-      onToggle={toggleExpandIndex}
-      label={expandIndexLabel}
-      className={cn("mb-2 w-full", visibilityClass)}
-    />
-  );
-  const renderContentsForMode = (
-    viewMode: typeof lib.viewMode,
-    effectsEnabled = true,
-    desktopPresentation = false,
-  ) => {
-    if (ownerKind === "celeb" && !desktopPresentation) {
-      const listItems = lib.contentsByView.list;
-      const expandItems = lib.contentsByView.expand;
-      return (
-        <>
-          {listItems.length > 0 && (
-            <div
-              key="preserved-list"
-              data-library-mode-cache="list"
-              aria-hidden={viewMode !== "list"}
-              inert={viewMode !== "list" ? true : undefined}
-              className={cn(viewMode !== "list" && "hidden")}
-            >
-              {renderItems(listItems, "list", effectsEnabled)}
-            </div>
-          )}
-          {expandItems.length > 0 && (
-            <div
-              key="preserved-expand"
-              data-library-mode-cache="expand"
-              aria-hidden={viewMode !== "expand"}
-              inert={viewMode !== "expand" ? true : undefined}
-              className={cn(viewMode !== "expand" && "hidden")}
-            >
-              {renderItems(expandItems, "expand", effectsEnabled)}
-            </div>
-          )}
-        </>
-      );
-    }
+  const renderContentsForMode = (viewMode: typeof lib.viewMode) => {
     if (viewMode === "expand") {
-      return renderItems(
-        lib.filteredAndSortedContents,
-        viewMode,
-        effectsEnabled,
-      );
+      return renderItems(lib.filteredAndSortedContents, viewMode);
     }
     if (showMonthSections && lib.sortOption === "recent") {
       return lib.monthKeys.map((monthKey) => {
@@ -163,12 +107,12 @@ export default function ContentLibrary({
             isCollapsed={lib.collapsedMonths.has(monthKey)}
             onToggle={() => lib.toggleMonth(monthKey)}
           >
-            {renderItems(items, viewMode, effectsEnabled)}
+            {renderItems(items, viewMode)}
           </MonthSection>
         );
       });
     }
-    return renderItems(lib.filteredAndSortedContents, viewMode, effectsEnabled);
+    return renderItems(lib.filteredAndSortedContents, viewMode);
   };
   // 에러/로딩 상태
   if (lib.error && !hasContents) return <ErrorState message={lib.error} onRetry={lib.loadContents} compact={compact} />;
@@ -203,8 +147,6 @@ export default function ContentLibrary({
           onReviewFilterChange={lib.setReviewFilter}
           viewMode={lib.viewMode}
           onViewModeChange={lib.setViewMode}
-          responsiveDesktopViewMode={lib.responsiveDesktopViewMode}
-          isResponsiveViewUnresolved={lib.isResolvingResponsiveView}
           isExpandIndexOpen={isExpandIndexOpen}
           onExpandIndexToggle={toggleExpandIndex}
           isAllCollapsed={lib.isAllCollapsed}
@@ -223,14 +165,15 @@ export default function ContentLibrary({
           trailing={filterTrailing}
         />
 
-        {ownerKind === "celeb" && lib.isResolvingResponsiveView && lib.responsiveDesktopViewMode ? (
-          <>
-            {lib.viewMode === "expand" && renderExpandIndexToggle("md:hidden")}
-            {lib.responsiveDesktopViewMode === "expand" && renderExpandIndexToggle("hidden md:block")}
-          </>
-        ) : ownerKind === "celeb" && lib.viewMode === "expand" ? (
-          renderExpandIndexToggle()
-        ) : null}
+        {/* 인물 서가는 늘 펼침이라 감상 목록 단추를 조작대 아래 한 줄로 둔다 */}
+        {ownerKind === "celeb" && (
+          <ArchiveIndexToggle
+            isOpen={isExpandIndexOpen}
+            onToggle={toggleExpandIndex}
+            label={tArchive("expandIndexTitle")}
+            className="mb-2 w-full"
+          />
+        )}
       </div>
 
       <ContentLibraryBody
@@ -240,8 +183,6 @@ export default function ContentLibrary({
         error={lib.error}
         hasContents={hasContents}
         hasFilteredContents={hasFilteredContents}
-        hasResponsiveDefaultView={lib.hasResponsiveDefaultView}
-        isDesktop={lib.isDesktop}
         isExpandView={isExpandView}
         isRefreshing={lib.isRefreshing}
         loadContents={lib.loadContents}
@@ -251,8 +192,6 @@ export default function ContentLibrary({
         pageSize={lib.pageSize}
         presentationViewMode={lib.presentationViewMode}
         renderContentsForMode={renderContentsForMode}
-        responsiveDefaultViewMode={lib.responsiveDefaultViewMode}
-        responsiveDesktopViewMode={lib.responsiveDesktopViewMode}
         showPagination={showPagination}
         totalPages={lib.totalPages}
       />

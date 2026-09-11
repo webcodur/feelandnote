@@ -90,6 +90,7 @@ function ItemCard({
       contentId={item.contentId}
       contentType={(item.contentType ?? undefined) as ContentType | undefined}
       title={item.title}
+      titleBadge={item.titleBadge}
       creator={item.creator}
       thumbnail={item.thumbnailUrl}
       href={`/content/${item.contentId}?category=${getCategoryByDbType(item.contentType ?? "BOOK")?.id || "book"}`}
