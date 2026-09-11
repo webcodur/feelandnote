@@ -163,7 +163,7 @@ export default async function FigureLinkGrid({
                 className={`group flex h-full ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/10 bg-white/[0.05] hover:border-accent/30 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
               >
                 {/* 얼굴이 카드 왼쪽 끝에서 위아래를 채운다 — 여백 없이 붙여 인물이 먼저 읽히게 한다 */}
-                <span className="relative w-12 shrink-0 overflow-hidden bg-main">
+                <span className="relative w-12 shrink-0 overflow-hidden bg-bg-main">
                   {figure.avatar_url ? (
                     <CelebAvatarImage
                       src={figure.avatar_url}

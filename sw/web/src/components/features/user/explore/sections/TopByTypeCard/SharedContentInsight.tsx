@@ -24,7 +24,7 @@ export default function SharedContentInsight({
   if (items.length === 0) return null;
 
   return (
-    <div className="mb-6 rounded-xl border border-border-primary/60 bg-bg-card/50 px-4 py-4 space-y-3">
+    <div className="mb-6 rounded-xl border border-border/60 bg-bg-card/50 px-4 py-4 space-y-3">
       {/* 헤더 */}
       <div className="flex items-center gap-2 text-sm font-semibold text-text-primary">
         <Sparkles size={15} style={{ color }} />
@@ -41,7 +41,7 @@ export default function SharedContentInsight({
           return (
             <div
               key={item.content_id}
-              className="flex items-center gap-3 rounded-lg bg-bg-primary/40 px-3 py-2"
+              className="flex items-center gap-3 rounded-lg bg-bg-main/40 px-3 py-2"
             >
               {/* 썸네일 */}
               <div className="w-9 h-12 rounded overflow-hidden bg-bg-card shrink-0 relative">

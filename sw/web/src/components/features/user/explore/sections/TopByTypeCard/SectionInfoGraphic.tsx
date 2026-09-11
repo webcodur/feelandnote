@@ -24,7 +24,7 @@ export default function SectionInfoGraphic({
   const avg = Math.round(total / celebs.length);
 
   return (
-    <div className="mb-5 rounded-xl border border-border-primary/60 bg-bg-card/50 px-4 py-3 space-y-3">
+    <div className="mb-5 rounded-xl border border-border/60 bg-bg-card/50 px-4 py-3 space-y-3">
       {/* 통계 요약 */}
       <div className="flex items-center gap-5 text-xs text-text-secondary">
         <span className="flex items-center gap-1.5">
@@ -60,7 +60,7 @@ export default function SectionInfoGraphic({
               <span className="w-16 sm:w-20 truncate text-text-secondary shrink-0">
                 {celeb.nickname}
               </span>
-              <div className="flex-1 h-3.5 bg-bg-primary/60 rounded-full overflow-hidden">
+              <div className="flex-1 h-3.5 bg-bg-main/60 rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{

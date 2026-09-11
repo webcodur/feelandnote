@@ -34,10 +34,10 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
       className="group relative w-full aspect-[1.8/1] perspective-1000 outline-none"
     >
       {/* 카드 컨테이너 - 3D 효과 및 호버 인터랙션 */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-xl border border-white/10 overflow-hidden transition-all duration-500 ease-out group-hover:scale-[1.02] group-hover:rotate-x-2 shadow-lg group-hover:shadow-xl group-hover:shadow-primary/20">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-xl border border-white/10 overflow-hidden transition-all duration-500 ease-out group-hover:scale-[1.02] group-hover:rotate-x-2 shadow-lg group-hover:shadow-xl group-hover:shadow-accent/20">
         
         {/* 배경 장식 요소 */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/30 transition-colors" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-accent/30 transition-colors" />
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2 group-hover:bg-accent/20 transition-colors" />
         
         {/* 글래스 텍스처 오버레이 */}
@@ -89,7 +89,7 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
 
           {/* 하단: 정보 */}
           <div className="space-y-1 text-left">
-            <h3 className="text-lg font-bold text-white tracking-tight group-hover:text-primary transition-colors">
+            <h3 className="text-lg font-bold text-white tracking-tight group-hover:text-accent">
               {person.nickname}
             </h3>
             
@@ -108,7 +108,7 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
         </div>
         
         {/* 하단 데코레이션 라인 */}
-        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50" />
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-50" />
       </div>
     </button>
   );

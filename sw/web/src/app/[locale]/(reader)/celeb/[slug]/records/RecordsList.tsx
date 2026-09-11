@@ -62,7 +62,7 @@ export default function RecordsList({
             data-record-content={item.content_id}
             data-record-index={index}
             aria-labelledby={titleId}
-            className="scroll-mt-20 overflow-hidden rounded-xl border border-white/10 bg-card"
+            className="scroll-mt-20 overflow-hidden rounded-xl border border-white/10 bg-bg-card"
           >
             <header className="flex items-center gap-3 border-b border-white/10 bg-bg-secondary/55 px-4 py-4 sm:px-6">
               <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-accent/30 font-mono text-xs tabular-nums text-accent">

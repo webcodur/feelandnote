@@ -43,13 +43,13 @@ export default function WanderStatus({ state, encounterNumber }: Props) {
           </div>
           <div className="text-end">
             <span className="block text-sm text-text-secondary">{t("bestReturn")}</span>
-            <strong className={best.score >= WANDER_RETURN_THRESHOLD ? "font-cinzel text-lg text-watching" : "font-cinzel text-lg text-accent"}>
+            <strong className={best.score >= WANDER_RETURN_THRESHOLD ? "font-cinzel text-lg text-status-watching" : "font-cinzel text-lg text-accent"}>
               {best.score} / {WANDER_RETURN_THRESHOLD}
             </strong>
           </div>
         </div>
         <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10" role="progressbar" aria-label={t("returnReadiness")} aria-valuenow={readiness} aria-valuemin={0} aria-valuemax={100}>
-          <div className={best.score >= WANDER_RETURN_THRESHOLD ? "h-full bg-watching" : "h-full bg-accent"} style={{ width: `${readiness}%` }} />
+          <div className={best.score >= WANDER_RETURN_THRESHOLD ? "h-full bg-status-watching" : "h-full bg-accent"} style={{ width: `${readiness}%` }} />
         </div>
         <div className="mt-2 flex items-center justify-between gap-2">
           <span className="text-sm text-text-secondary">{t(`plans.${best.plan}.label`)}</span>

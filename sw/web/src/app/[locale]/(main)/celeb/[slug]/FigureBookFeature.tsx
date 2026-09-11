@@ -72,8 +72,8 @@ export default function FigureBookFeature({
       />
       {/* ── 3. 표지·소개·서지 ── */}
       <div className="relative grid grid-cols-[80px_minmax(0,1fr)] gap-x-3 rounded-lg border border-accent-dim/30 bg-stone-heavy bg-texture-marble px-3 py-4 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-x-6 sm:px-4 sm:py-5 md:px-6 lg:grid-cols-[168px_minmax(0,1fr)] lg:gap-x-7 lg:py-7">
-        <span className="pointer-events-none absolute inset-y-0 start-0 w-1/3 bg-gradient-to-e from-transparent to-accent/[0.04]" aria-hidden />
-        <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-e from-transparent via-accent-dim to-transparent" aria-hidden />
+        <span className="pointer-events-none absolute inset-y-0 start-0 w-1/3 bg-gradient-to-r from-transparent to-accent/[0.04]" aria-hidden />
+        <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent-dim to-transparent" aria-hidden />
 
         <div className="relative w-full self-start md:row-span-2 lg:row-span-1">
           <span className="effect-engraved absolute -inset-2 border border-accent-dim/40 bg-stone-heavy" aria-hidden />

@@ -41,9 +41,9 @@ export default function WanderReturn({ state, onReturn }: Props) {
               <p className="mt-2 text-sm leading-6 text-text-secondary">{t(`plans.${power}.description`)}</p>
               <div className="mt-5 flex items-end justify-between border-t border-white/10 pt-4">
                 <span className="text-sm text-text-secondary">{t("decisionPower")}</span>
-                <strong className={ready ? "font-cinzel text-2xl text-watching" : "font-cinzel text-2xl text-paused"}>{score}</strong>
+                <strong className={ready ? "font-cinzel text-2xl text-status-watching" : "font-cinzel text-2xl text-status-paused"}>{score}</strong>
               </div>
-              <span className={ready ? "mt-2 block text-sm font-bold text-watching" : "mt-2 block text-sm font-bold text-paused"}>{ready ? t("ready") : t("notReady")}</span>
+              <span className={ready ? "mt-2 block text-sm font-bold text-status-watching" : "mt-2 block text-sm font-bold text-status-paused"}>{ready ? t("ready") : t("notReady")}</span>
             </button>
           );
         })}

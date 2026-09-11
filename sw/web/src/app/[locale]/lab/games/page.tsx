@@ -54,7 +54,7 @@ export default async function LabGamesPage() {
           <li key={game.key}>
             <Link
               href={`/lab/games/${game.key}`}
-              className="group block rounded-xl border border-border/60 bg-bg-surface/40 p-4 hover:border-accent"
+              className="group block rounded-xl border border-border/60 bg-bg-card/40 p-4 hover:border-accent"
             >
               <div className="flex items-baseline justify-between gap-3">
                 <span className="font-serif text-lg text-text-primary group-hover:text-accent">

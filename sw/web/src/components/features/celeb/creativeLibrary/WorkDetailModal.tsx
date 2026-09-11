@@ -112,7 +112,7 @@ export default function WorkDetailModal({
             {/* 배지 */}
             <div className="flex items-center gap-1.5 flex-wrap">
               {item.typeLabel && (
-                <span className="px-2 py-0.5 rounded bg-surface-hover text-text-secondary text-xs font-medium">
+                <span className="px-2 py-0.5 rounded bg-bg-stone-light text-text-secondary text-xs font-medium">
                   {item.typeLabel}
                 </span>
               )}
@@ -169,7 +169,7 @@ export default function WorkDetailModal({
                 href={`https://${locale === "ko" && item.titleKo ? "ko" : "en"}.wikipedia.org/wiki/${encodeURIComponent((locale === "ko" && item.titleKo ? item.titleKo : item.titleEn).replace(/ /g, "_"))}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-hover text-text-primary text-sm font-medium hover:bg-surface-hover/80 transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-bg-stone-light text-text-primary text-sm font-medium hover:bg-bg-stone-light/80"
               >
                 <ExternalLink size={14} />
                 Wikipedia
@@ -179,7 +179,7 @@ export default function WorkDetailModal({
                 href={`https://www.wikidata.org/wiki/${item.wikidataQid}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-hover text-text-secondary text-sm font-medium hover:bg-surface-hover/80 transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-bg-stone-light text-text-secondary text-sm font-medium hover:bg-bg-stone-light/80"
               >
                 <ExternalLink size={14} />
                 Wikidata

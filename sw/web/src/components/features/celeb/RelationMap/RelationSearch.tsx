@@ -35,7 +35,7 @@ export default function RelationSearch({
 }: RelationSearchProps) {
   return (
     <div className="relative mb-6">
-      <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-main px-3 py-2.5 focus-within:border-accent/50">
+      <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-bg-main px-3 py-2.5 focus-within:border-accent/50">
         <Search aria-hidden size={16} className="shrink-0 text-text-secondary" />
         <input
           type="search"
@@ -59,7 +59,7 @@ export default function RelationSearch({
       </div>
 
       {hits.length > 0 && (
-        <ul className="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-white/10 bg-main p-1 shadow-xl">
+        <ul className="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-white/10 bg-bg-main p-1 shadow-xl">
           {hits.map((hit) => (
             <li key={hit.id}>
               <button
@@ -67,7 +67,7 @@ export default function RelationSearch({
                 onClick={() => onSelect(hit.id)}
                 className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-start hover:bg-accent/10"
               >
-                <span className="relative block size-8 shrink-0 overflow-hidden rounded-full bg-card">
+                <span className="relative block size-8 shrink-0 overflow-hidden rounded-full bg-bg-card">
                   {hit.avatar_url ? (
                     <CelebAvatarImage
                       src={hit.avatar_url}

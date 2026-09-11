@@ -176,7 +176,7 @@ export default function HeaderNotifications() {
 
       {showDropdown && (
         <div className="absolute end-0 top-11 w-[calc(100vw-24px)] sm:w-80 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200" style={{ zIndex: Z_INDEX.dropdown }}>
-          <div className="px-4 py-3 border-b border-border flex items-center justify-between bg-bg-primary/50 backdrop-blur-sm">
+          <div className="px-4 py-3 border-b border-border flex items-center justify-between bg-bg-main/50 backdrop-blur-sm">
             <span className="font-serif font-bold text-sm">{t("title")}</span>
             {unreadCount > 0 && <span className="text-xs text-accent font-medium">{t("newCount", { count: unreadCount })}</span>}
           </div>
@@ -214,7 +214,7 @@ export default function HeaderNotifications() {
           </div>
           
           {notifications.length > 0 && (
-            <div className="px-4 py-2.5 flex justify-between items-center border-t border-border bg-bg-primary/30">
+            <div className="px-4 py-2.5 flex justify-between items-center border-t border-border bg-bg-main/30">
               <Button unstyled onClick={handleReadAll} className="text-xs text-text-secondary hover:text-text-primary transition-colors">{t("markAllRead")}</Button>
               <Link href="/notifications" onClick={() => setShowDropdown(false)} className="text-xs text-accent hover:underline decoration-accent/50 underline-offset-2 font-medium">
                 {t("viewAll")}

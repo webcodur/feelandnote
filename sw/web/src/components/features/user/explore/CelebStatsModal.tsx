@@ -242,7 +242,7 @@ function ContentTypeStats({
         />
         {/* 중앙 구멍 (도넛 형태) */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-24 h-24 rounded-full bg-surface flex flex-col items-center justify-center border border-border/30">
+          <div className="w-24 h-24 rounded-full bg-bg-card flex flex-col items-center justify-center border border-border/30">
             <span className="text-2xl font-black text-text-primary">{total}</span>
             <span className="text-[10px] font-medium">{t("totalContent")}</span>
           </div>
@@ -308,7 +308,7 @@ function GenderStats({
         />
         {/* 중앙 구멍 (도넛 형태) */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-24 h-24 rounded-full bg-surface flex flex-col items-center justify-center border border-border/30">
+          <div className="w-24 h-24 rounded-full bg-bg-card flex flex-col items-center justify-center border border-border/30">
             <span className="text-2xl font-black text-text-primary">{total}</span>
             <span className="text-[10px] font-medium">{t("totalPeople")}</span>
           </div>

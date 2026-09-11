@@ -285,7 +285,7 @@ export default function NotificationsPage() {
                 {/* 아이콘 */}
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
                   !notif.is_read 
-                    ? "bg-accent text-bg-primary shadow-glow" 
+                    ? "bg-accent text-bg-main shadow-glow" 
                     : "bg-bg-secondary text-text-secondary"
                 }`}>
                   {getIcon(notif.type)}

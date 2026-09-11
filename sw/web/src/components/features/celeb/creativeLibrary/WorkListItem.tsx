@@ -31,14 +31,14 @@ export default function WorkListItem({ item, resolved: r, roleLabel, typeLabel, 
         }
       }}
     >
-      <div className="flex gap-3 p-3 rounded-xl border border-border/30 bg-surface/30 hover:bg-surface-hover/50 hover:border-accent/40">
+      <div className="flex gap-3 p-3 rounded-xl border border-border/30 bg-bg-card/30 hover:bg-bg-stone-light/50 hover:border-accent/40">
         {/* 썸네일 */}
         {r.thumbnail ? (
-          <div className="relative shrink-0 w-16 h-22 rounded-lg overflow-hidden bg-surface-hover">
+          <div className="relative shrink-0 w-16 h-22 rounded-lg overflow-hidden bg-bg-stone-light">
             <ContentImage src={r.thumbnail} alt={r.title} sizes="64px" />
           </div>
         ) : (
-          <div className="shrink-0 w-16 h-22 rounded-lg bg-surface-hover/50 flex items-center justify-center">
+          <div className="shrink-0 w-16 h-22 rounded-lg bg-bg-stone-light/50 flex items-center justify-center">
             <span className="text-lg">
               {WORK_TYPE_EMOJI[item.work_type || ""] || "📄"}
             </span>
@@ -50,7 +50,7 @@ export default function WorkListItem({ item, resolved: r, roleLabel, typeLabel, 
           {/* 배지 행 */}
           <div className="flex items-center gap-1.5 mb-1.5 text-xs">
             {typeLabel && (
-              <span className="px-1.5 py-0.5 rounded bg-surface-hover text-text-secondary font-medium">
+              <span className="px-1.5 py-0.5 rounded bg-bg-stone-light text-text-secondary font-medium">
                 {typeLabel}
               </span>
             )}

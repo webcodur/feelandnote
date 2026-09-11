@@ -78,7 +78,7 @@ export default function ContentLibraryBody({
       {error && hasContents && (
         <div
           role="alert"
-          className="absolute end-2 top-2 z-30 rounded-md border border-red-400/30 bg-card px-3 shadow-lg"
+          className="absolute end-2 top-2 z-30 rounded-md border border-red-400/30 bg-bg-card px-3 shadow-lg"
         >
           <ErrorState message={error} onRetry={loadContents} compact />
         </div>

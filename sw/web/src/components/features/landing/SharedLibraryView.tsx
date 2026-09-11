@@ -176,7 +176,7 @@ function SharedContentRow({
               return (
                 <div
                   key={celeb.id}
-                  className="relative w-5 h-5 rounded-full overflow-hidden border border-bg-primary bg-bg-secondary"
+                  className="relative w-5 h-5 rounded-full overflow-hidden border border-bg-main bg-bg-secondary"
                 >
                   {celeb.avatar_url ? (
                     <CelebImage
@@ -194,7 +194,7 @@ function SharedContentRow({
               );
             })}
             {item.celebs.length > 3 && (
-              <div className="w-5 h-5 rounded-full bg-white/10 border border-bg-primary flex items-center justify-center text-[8px] text-text-secondary">
+              <div className="w-5 h-5 rounded-full bg-white/10 border border-bg-main flex items-center justify-center text-[8px] text-text-secondary">
                 +{item.celebs.length - 3}
               </div>
             )}

@@ -103,7 +103,7 @@ export default function RelationExplorer({ initial, starters, isEn }: RelationEx
   const centerTitle = (isEn && current.center.titleEn) || current.center.title;
 
   return (
-    <div className="rounded-2xl border border-white/5 bg-card p-5 md:p-7">
+    <div className="rounded-2xl border border-white/5 bg-bg-card p-5 md:p-7">
       <RelationSearch
         query={query}
         hits={hits}
@@ -140,7 +140,7 @@ export default function RelationExplorer({ initial, starters, isEn }: RelationEx
         )}
 
         <div className="mb-8 flex flex-col items-center gap-3 text-center">
-          <span className="relative block size-24 overflow-hidden rounded-full border-2 border-accent/70 bg-main md:size-32">
+          <span className="relative block size-24 overflow-hidden rounded-full border-2 border-accent/70 bg-bg-main md:size-32">
             {current.center.avatarUrl ? (
               <CelebAvatarImage
                 src={current.center.avatarUrl}

@@ -35,7 +35,7 @@ export default function SimilarSection({ similarUsers, algorithm }: Props) {
   const handleSelectUser = (userId: string) => router.push(`/${userId}`);
 
   return (
-    <div className="bg-surface rounded-2xl p-4 md:p-8 min-h-[400px] border border-accent-dim/10 shadow-inner shadow-black/20">
+    <div className="bg-bg-card rounded-2xl p-4 md:p-8 min-h-[400px] border border-accent-dim/10 shadow-inner shadow-black/20">
       <div className="flex justify-between items-center mb-4">
         <Button
           unstyled
@@ -45,7 +45,7 @@ export default function SimilarSection({ similarUsers, algorithm }: Props) {
           <Info size={14} /> {t("algorithm")}
         </Button>
         {algorithm === "content_overlap" && similarUsers.length > 0 && (
-          <span className="text-[10px] bg-background px-2 py-0.5 rounded-full">
+          <span className="text-[10px] bg-bg-main px-2 py-0.5 rounded-full">
             {t("contentOverlapBased")}
           </span>
         )}
