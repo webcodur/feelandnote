@@ -30,8 +30,6 @@ export interface UseContentLibraryOptions {
   targetUserId?: string;
   initialSearchQuery?: string;
   defaultViewMode?: ViewMode;
-  /** 넓은 화면(768px 이상)에서의 기본 보기. 없으면 좁은 화면과 같은 기본값을 쓴다 */
-  desktopViewMode?: ViewMode;
   defaultPageSize?: number;
   // viewer 모드 서버 렌더 초기 데이터. 있으면 첫 화면을 클라이언트 페치 없이 그린다.
   initialContents?: GetUserContentsResponse;

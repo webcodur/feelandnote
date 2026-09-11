@@ -23,12 +23,7 @@ import {
   type ContentLibraryDataOptions,
   type LibrarySeed,
 } from "./contentLibraryDataState";
-import {
-  createContentDatasetKey,
-  createContentDatasetKeyForOptions,
-  createSeedDatasetCache,
-  type ContentDatasetSnapshot,
-} from "./contentLibraryDataCache";
+import { createContentDatasetKey, type ContentDatasetSnapshot } from "./contentLibraryDataCache";
 
 export { resolveDatasetPresentation };
 
@@ -42,7 +37,6 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     appliedSearchQuery,
     compact,
     currentPage,
-    isResponsiveViewPending,
     isViewer,
     maxItems,
     ownerKind,
@@ -55,10 +49,9 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
   const seedRef = useRef<LibrarySeed | null | undefined>(undefined);
   if (seedRef.current === undefined) seedRef.current = createLibrarySeed(options);
   const seed = seedRef.current;
+  // 조회 조건별로 받은 자료를 붙들어, 같은 조건으로 돌아올 때 다시 요청하지 않는다.
   const datasetCacheRef = useRef<Map<string, ContentDatasetSnapshot> | null>(null);
-  if (datasetCacheRef.current === null) {
-    datasetCacheRef.current = createSeedDatasetCache(options, seed);
-  }
+  if (datasetCacheRef.current === null) datasetCacheRef.current = new Map();
 
   const [contents, setContents] = useState<UserContentWithContent[]>(seed?.contents ?? []);
   const [contentsMode, setContentsMode] = useState<ContentDatasetMode | null>(
@@ -161,17 +154,7 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
 
   // 펼침의 최대 500행을 목록 카드로 잠깐 재해석하면 DOM·인증·카운트 요청이 폭발한다.
   // 반대 방향(list → expand)은 현재 페이지의 첫 항목을 큰 카드로 즉시 보여주는 안전한 seed다.
-  const resolvedPresentation = resolveDatasetPresentation(contentsMode, viewMode, isLoading);
-  const canPresentCachedRequestedView = ownerKind === "celeb"
-    && datasetCacheRef.current?.has(createContentDatasetKeyForOptions(options, viewMode));
-  const presentation = resolvedPresentation.isStaleExpandDatasetForList
-    && canPresentCachedRequestedView
-    ? {
-        ...resolvedPresentation,
-        isStaleExpandDatasetForList: false,
-        presentationViewMode: viewMode,
-      }
-    : resolvedPresentation;
+  const presentation = resolveDatasetPresentation(contentsMode, viewMode, isLoading);
   const { isStaleExpandDatasetForList } = presentation;
 
   const hasInitialSeedQuery = isInitialSeedQuery(options);
@@ -218,12 +201,7 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
   }, [loadTypeCounts]);
 
   useEffect(() => {
-    if (
-      !isViewer
-      || contents.length === 0
-      || isResponsiveViewPending
-      || isStaleExpandDatasetForList
-    ) {
+    if (!isViewer || contents.length === 0 || isStaleExpandDatasetForList) {
       setSavedContentIds(null);
       return;
     }
@@ -239,40 +217,12 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
       if (active) setSavedContentIds(ids);
     });
     return () => { active = false; };
-  }, [contents, contentsMode, isResponsiveViewPending, isStaleExpandDatasetForList, isViewer]);
+  }, [contents, contentsMode, isStaleExpandDatasetForList, isViewer]);
 
   const reloadContents = useCallback(() => {
     datasetCacheRef.current?.clear();
     return loadContents(false);
   }, [loadContents]);
-
-  const getCachedSnapshot = useCallback((requestedViewMode: "list" | "expand") => {
-    const request = createContentRequest({
-      activeTab,
-      appliedSearchQuery,
-      compact,
-      currentPage,
-      maxItems,
-      ownerKind,
-      pageSize,
-      reviewFilter,
-      sortOption,
-      viewMode: requestedViewMode,
-    });
-    const key = createContentDatasetKey({
-      isViewer,
-      ownerKind,
-      request,
-      targetUserId,
-      viewMode: requestedViewMode,
-    });
-    return datasetCacheRef.current?.get(key);
-  }, [activeTab, appliedSearchQuery, compact, currentPage, isViewer, maxItems, ownerKind, pageSize, reviewFilter, sortOption, targetUserId]);
-
-  const getCachedContents = useCallback(
-    (requestedViewMode: "list" | "expand") => getCachedSnapshot(requestedViewMode)?.contents,
-    [getCachedSnapshot],
-  );
 
   return {
     contents: presentation.shouldKeepContents ? contents : [],
@@ -287,7 +237,6 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     typeCountsError,
     savedContentIds,
     setSavedContentIds,
-    getCachedContents,
     loadContents: reloadContents,
     loadTypeCounts,
   };

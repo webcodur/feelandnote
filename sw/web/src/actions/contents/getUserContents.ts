@@ -4,13 +4,14 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
-import { cachedList, cachedDetail } from '@/lib/cache'
+import { cachedList, cachedDetail, throwOnQueryError } from '@/lib/cache'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import {
   CL_SELECT_LIST,
   CL_SELECT_LIST_WITH_AFFILIATE,
   flattenLocales,
+  type TitleBadge,
   type ContentLocaleRow,
 } from '@/lib/utils/content-locale'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
@@ -51,6 +52,7 @@ export interface UserContentPublic {
     isbn_en: string | null
     thumbnail_en: string | null
     has_en_edition: boolean | null
+    title_badge?: TitleBadge | null
     affiliate_url?: unknown
   }
   // 공개된 기록 요약
@@ -117,10 +119,12 @@ async function queryUserContents(
   const safeSearch = search ? sanitizeSearchTerm(search) : ''
   if (safeSearch.length >= 2) {
     const searchTerm = `%${safeSearch}%`
-    const { data: matchIds } = await db
+    const { data: matchIds, error: matchError } = await db
       .from('content_locales')
       .select('content_id')
       .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
+    // 조회 실패를 "검색 결과 없음"으로 캐시하지 않는다
+    throwOnQueryError('콘텐츠 검색 조회', matchError)
     if (!matchIds?.length) return { items: [], total: 0, page, totalPages: 0, hasMore: false }
     searchContentIds = [...new Set(matchIds.map(m => m.content_id))]
   }
@@ -270,6 +274,7 @@ async function queryUserContents(
         isbn_en: flat.isbn_en,
         thumbnail_en: flat.thumbnail_en,
         has_en_edition: flat.has_en_edition,
+        title_badge: flat.title_badge,
         affiliate_url: flat.affiliate_url,
       },
       public_record: (rating !== null || raw.review || ((raw.review_presets as string[] | null)?.length)) ? {

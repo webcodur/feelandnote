@@ -11,6 +11,7 @@ import { BookOpenText } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import FigureBookActions from "./FigureBookActions";
 import FigureBookEditionPicker from "./FigureBookEditionPicker";
 import FigureBookIntroduction from "./FigureBookIntroduction";
@@ -100,9 +101,11 @@ export default function FigureBookFeature({
           />
         </div>
 
-        <div className="contents lg:relative lg:block lg:min-w-0">
+        {/* 넓은 화면은 오른쪽 열을 세로로 쌓고, 표지 열이 더 길어 남는 높이를 소개 칸이 전부 받는다 */}
+        <div className="contents lg:relative lg:flex lg:min-w-0 lg:flex-col">
           <header className="col-start-2 flex min-w-0 flex-col items-center justify-center self-center text-center md:self-start lg:flex-row lg:items-baseline lg:justify-center lg:gap-4 lg:text-center">
             <h3 className="text-3d-gold max-w-3xl break-keep text-lg font-black leading-tight sm:text-2xl md:text-3xl lg:min-w-0 lg:truncate lg:whitespace-nowrap">
+              <NoEditionBadge badge={source.titleBadge} className="align-middle" />
               {source.title}
             </h3>
             {(source.creator || edition.creator) && (
@@ -112,8 +115,16 @@ export default function FigureBookFeature({
             )}
           </header>
 
-          <div className="col-span-2 min-w-0 md:col-span-1 md:col-start-2">
-            <AnimatedHeight independent duration={320} className="w-full">
+          {/* AnimatedHeight는 안쪽 높이를 재서 바깥 상자에 인라인 height로 박는다. 그 상자를 flex로 늘리면 그 값이
+              행 높이에 되먹어 창을 줄여도 안 줄어든다. 그래서 lg에서는 바깥 상자를 contents로 지우고 안쪽 상자를
+              이 칸의 flex에 직접 넣는다. 바닥(네 줄)은 본문의 lg:min-h-28이 잡고, 본문은 contain-size라 행을 밀지 않는다 */}
+          <div className="col-span-2 min-w-0 md:col-span-1 md:col-start-2 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
+            <AnimatedHeight
+              independent
+              duration={320}
+              className="w-full lg:contents"
+              innerClassName="lg:flex lg:min-h-0 lg:flex-1 lg:flex-col"
+            >
               {introduction.failed ? (
                 <RetryBlock onRetry={introduction.retry} />
               ) : (
@@ -123,6 +134,7 @@ export default function FigureBookFeature({
                   label={t("sourceWorkIntroduction")}
                   loading={introduction.loading}
                   sourceTitle={source.title}
+                  sourceTitleBadge={source.titleBadge}
                 />
               )}
             </AnimatedHeight>

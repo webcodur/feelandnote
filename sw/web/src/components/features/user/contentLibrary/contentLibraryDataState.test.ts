@@ -52,7 +52,6 @@ const baseOptions: ContentLibraryDataOptions = {
   initialContents,
   initialSearchQuery: "",
   isViewer: true,
-  isResponsiveViewPending: false,
   ownerKind: "celeb",
   pageSize: 4,
   reviewFilter: "all",

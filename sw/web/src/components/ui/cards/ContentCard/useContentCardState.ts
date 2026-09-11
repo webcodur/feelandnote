@@ -18,6 +18,7 @@ export function useContentCardState(props: ContentCardProps) {
   const {
     thumbnail,
     title,
+    titleBadge,
     creator,
     contentType = "BOOK",
     href,
@@ -124,7 +125,11 @@ export function useContentCardState(props: ContentCardProps) {
     ? getBookEditions({ type: "BOOK", title_ko: titleKo, title_en: titleEn, creator, creator_en: creatorEn, thumbnail_url: thumbnail, thumbnail_en: resolvedThumbnailEn, has_en_edition: hasEnEdition })
     : undefined;
   const showEditionToggle = !!editions && (!!editions.ko || !!editions.en || !!editions.confirmedNoEn);
-  const [activeEdition, setActiveEdition] = useState<Locale>(locale === "en" ? "en" : "ko");
+  const requestedEdition: Locale = locale === "en" ? "en" : "ko";
+  const [activeEdition, setActiveEdition] = useState<Locale>(requestedEdition);
+
+  // 배지는 요청 locale의 제목에 대한 판정이다. 카드 안에서 반대 판으로 넘기면 붙이지 않는다.
+  const displayTitleBadge = activeEdition === requestedEdition ? titleBadge ?? null : null;
 
   const displayTitle = showEditionToggle && editions![activeEdition]
     ? editions![activeEdition]!.title
@@ -251,6 +256,7 @@ export function useContentCardState(props: ContentCardProps) {
     activeEdition,
     setActiveEdition,
     displayTitle,
+    displayTitleBadge,
     displayCreator,
     displayThumbnail,
     displayReview,

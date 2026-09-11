@@ -26,7 +26,6 @@ export interface ContentLibraryDataOptions {
   initialContents?: GetUserContentsResponse;
   initialSearchQuery: string;
   isViewer: boolean;
-  isResponsiveViewPending: boolean;
   maxItems?: number;
   ownerKind: ContentOwnerKind;
   pageSize: number;

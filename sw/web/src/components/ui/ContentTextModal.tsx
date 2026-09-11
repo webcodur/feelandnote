@@ -12,6 +12,8 @@ const MODAL_GOLD_STYLE: CSSProperties = {
 const MODAL_BODY_STYLE: CSSProperties = {
   fontSize: "clamp(15px, 1.25vw, 16px)",
 };
+/* 긴 소개도 화면을 다 채우지 않는다. 위아래 여백이 남아야 바깥을 눌러 닫을 수 있다 */
+const MODAL_MAX_HEIGHT_CLASS = "max-h-[78dvh]";
 const MODAL_SOURCE_CLASS =
   `mt-5 block break-all text-sm font-medium leading-relaxed ${MODAL_GOLD_CLASS} underline decoration-accent/60 underline-offset-4 hover:brightness-125 hover:decoration-accent-hover`;
 
@@ -63,6 +65,8 @@ export default function ContentTextModal({
       titleStyle={MODAL_GOLD_STYLE}
       stickyHeader
       size="xl"
+      maxHeightClassName={MODAL_MAX_HEIGHT_CLASS}
+      fadeClippedEnd
     >
       <ModalBody className="p-4 sm:p-6">
         {notice}

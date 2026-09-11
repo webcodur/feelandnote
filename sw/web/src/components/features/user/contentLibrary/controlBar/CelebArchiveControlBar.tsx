@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 
 import ArchiveSearchControls from "./ArchiveSearchControls";
 import ArchiveSortControl from "./ArchiveSortControl";
-import ArchiveViewControls from "./ArchiveViewControls";
 import type { ArchiveControlBarProps } from "./types";
 
+/** 인물 서가 조작대. 보기는 펼침으로 고정이라 목록·펼침 전환 단추가 없다 */
 export default function CelebArchiveControlBar({
   compact = false,
   categoryItems = [],
@@ -50,12 +50,6 @@ export default function CelebArchiveControlBar({
           sortOption={props.sortOption}
           onSortOptionChange={props.onSortOptionChange}
           allowRatingSort={props.allowRatingSort}
-        />
-        <ArchiveViewControls
-          viewMode={props.viewMode}
-          onViewModeChange={props.onViewModeChange}
-          responsiveDesktopViewMode={props.responsiveDesktopViewMode}
-          isResponsiveViewUnresolved={props.isResponsiveViewUnresolved}
         />
         {props.trailing}
       </div>

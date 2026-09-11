@@ -2,6 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 
 import {
   SelectOverlay,
@@ -40,6 +41,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     showImage,
     displayThumbnail,
     displayTitle,
+    displayTitleBadge,
     displayCreator,
     setImageError,
     handleImageLoad,
@@ -135,6 +137,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
         <div className="bg-black/20 border-t border-white/[0.04] text-center">
           <div className="p-2 md:p-2.5 pb-1.5 flex items-center justify-center min-h-[36px] md:min-h-[42px]">
             <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight text-center ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
+              <NoEditionBadge badge={displayTitleBadge} />
               {editionUnavailable ? title : displayTitle}
             </h3>
           </div>

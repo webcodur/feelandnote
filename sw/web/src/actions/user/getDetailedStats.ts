@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { throwOnQueryError } from '@/lib/cache'
 import { createClient } from '@/lib/db/server'
 import { createStaticClient } from '@/lib/db/static'
 import { CATEGORIES } from '@/constants/categories'
@@ -53,11 +54,13 @@ async function fetchUserContentsStats(
   db: AnyDatabaseClient,
   uid: string,
 ): Promise<UserContentStatRow[]> {
-  const { data } = await db
+  const { data, error } = await db
     .from('member_contents')
     .select('status, rating, created_at, contents(type)')
     .eq('member_id', uid)
 
+  // 조회 실패를 "기록 없음" 통계로 캐시하지 않는다
+  throwOnQueryError('getDetailedStats 감상 기록 조회', error)
   return (data ?? []) as UserContentStatRow[]
 }
 

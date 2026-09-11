@@ -50,10 +50,16 @@
 }
 
 @media (max-width: 767px) {
+  /* 모바일 상세는 이름·한 줄 정의가 가운데 서므로 인용도 제자리에서 가운데 맞춘다 */
   .quote {
-    text-align: start;
+    justify-content: center;
+    text-align: center;
     margin-top: 16px;
     line-height: 1.6;
+  }
+
+  .quoteButton {
+    text-align: center;
   }
 }
 

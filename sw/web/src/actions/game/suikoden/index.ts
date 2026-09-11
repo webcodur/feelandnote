@@ -92,10 +92,12 @@ async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
   const locale = await getLocale()
   const quoteMap = new Map<string, string>()
   if (filteredIds.length > 0) {
-    const { data: dRows } = await db
+    const { data: dRows, error: dialogueError } = await db
       .from('celeb_dialogues')
       .select('celeb_id, quote:lines->quote, quote_en:lines_en->quote')
       .in('celeb_id', filteredIds)
+    // 조회 실패를 "대사 없음"으로 넘기지 않는다 — 공개 함수의 폴백이 이번 요청만 빈 값으로 받는다
+    throwOnQueryError('[loadSuikodenCharacters] 대사 조회', dialogueError)
     for (const d of (dRows ?? []) as Array<{ celeb_id: string; quote: string | null; quote_en: string | null }>) {
       const quote = (locale === 'en' && d.quote_en) ? d.quote_en : d.quote
       quoteMap.set(d.celeb_id, quote ?? '')

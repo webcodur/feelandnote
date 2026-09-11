@@ -24,8 +24,8 @@ import type { CategoryId } from '@/constants/categories'
 import type { ContentType, ContentStatus } from '@/types/database'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
-import { cachedDetail } from '@/lib/cache'
+import { CL_SELECT, flattenLocales, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
+import { cachedDetail, throwOnQueryError } from '@/lib/cache'
 import {
   dropForeignDisplayText,
   pickIntroForLocale,
@@ -41,6 +41,8 @@ export interface ContentDetailData {
     id: string
     externalId: string
     title: string
+    /** 요청 locale의 확인된 언어판 제목이 아닐 때 제목 앞에 붙는 표시 */
+    titleBadge?: TitleBadge | null
     creator?: string
     thumbnail?: string
     description?: string
@@ -82,6 +84,8 @@ const TYPE_MAP: Record<CategoryId, ContentType> = {
   music: 'MUSIC',
   all: 'BOOK',
 }
+
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 function getLocaleDescription(locales: ContentLocaleRow[] | null | undefined, locale: string): string | undefined {
   const row = locales?.find(l => l.locale === locale)
@@ -141,7 +145,7 @@ async function fetchContentDataPublic(
   locale: string,
 ): Promise<ContentDetailData['content'] | null> {
   const db = createStaticClient()
-  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT},sources), figure_book_contents(content_id)`
+  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT}), figure_book_contents(content_id)`
 
   function buildDbContent(raw: Record<string, unknown>) {
     const locales = raw.content_locales as ContentLocaleRow[] | null
@@ -156,6 +160,7 @@ async function fetchContentDataPublic(
         ? withoutBookDescription((raw.metadata as Record<string, unknown> | null) ?? {})
         : raw.metadata as Record<string, unknown> | null,
       title: flat.title,
+      title_badge: flat.title_badge,
       creator: flat.creator,
       thumbnail_url: flat.thumbnail_url,
       description: getLocaleDescription(locales, locale),
@@ -174,20 +179,28 @@ async function fetchContentDataPublic(
   // UUID 또는 external_id로 contents 조회
   let dbContent: ReturnType<typeof buildDbContent> | null = null
 
-  const { data: byId } = await db
-    .from('contents')
-    .select(contentSelect)
-    .eq('id', contentId)
-    .maybeSingle()
+  // id 컬럼은 UUID다. 모양이 다른 값(외부 식별자)을 넣으면 PostgREST가 형식 오류를 돌려주므로
+  // 처음부터 두드리지 않는다(getContentBrief와 같은 규칙). 그래야 아래에서 진짜 장애만 던질 수 있다.
+  const { data: byId, error: byIdError } = UUID_PATTERN.test(contentId)
+    ? await db
+        .from('contents')
+        .select(contentSelect)
+        .eq('id', contentId)
+        .maybeSingle()
+    : { data: null, error: null }
+
+  // 조회 실패를 「없는 작품」으로 캐시하면 API가 복구되어도 404가 계속된다. 던져서 캐시에 남기지 않는다.
+  throwOnQueryError('작품 상세 조회', byIdError)
 
   if (byId) {
     dbContent = buildDbContent(byId as Record<string, unknown>)
   } else {
-    const { data: byExternalId } = await db
+    const { data: byExternalId, error: byExternalIdError } = await db
       .from('contents')
       .select(contentSelect)
       .eq('external_id', contentId)
       .maybeSingle()
+    throwOnQueryError('작품 상세 조회(외부 식별자)', byExternalIdError)
     if (byExternalId) {
       dbContent = buildDbContent(byExternalId as Record<string, unknown>)
     }
@@ -251,6 +264,8 @@ async function fetchContentDataPublic(
       id: dbContent.id,
       externalId,
       title: sourceEdition?.title || dbContent.title,
+      // 확인된 판본 제목으로 덮어 쓴 자리에는 미확인 표시를 붙이지 않는다.
+      titleBadge: sourceEdition?.title ? null : dbContent.title_badge,
       creator: sourceEdition?.creator || dbContent.creator || undefined,
       thumbnail: sourceEdition?.thumbnailUrl || dbContent.thumbnail_url || undefined,
       description: (bookDisplay ? bookDisplay.description : pickIntroForLocale(locale, [dbContent.description, dbMetaDesc])) ?? undefined,

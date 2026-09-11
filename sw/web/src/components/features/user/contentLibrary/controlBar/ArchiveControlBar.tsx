@@ -40,8 +40,6 @@ export default function ArchiveControlBar(props: ArchiveControlBarProps) {
         hasAppliedSearch={props.hasAppliedSearch}
         viewMode={props.viewMode}
         onViewModeChange={props.onViewModeChange}
-        responsiveDesktopViewMode={props.responsiveDesktopViewMode}
-        isResponsiveViewUnresolved={props.isResponsiveViewUnresolved}
         isExpandIndexOpen={props.isExpandIndexOpen}
         onExpandIndexToggle={props.onExpandIndexToggle}
         sortOption={props.sortOption}

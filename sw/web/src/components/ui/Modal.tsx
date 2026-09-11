@@ -12,6 +12,7 @@ import { X, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import AnimatedHeight from "./AnimatedHeight";
 import { Z_INDEX } from "@/constants/zIndex";
+import { useClippedText } from "@/hooks/useClippedText";
 
 import ClassicalBox from "@/components/ui/ClassicalBox";
 
@@ -28,6 +29,10 @@ interface ModalProps {
   showCloseButton?: boolean;
   closeOnOverlayClick?: boolean;
   animateHeight?: boolean;
+  /** 세로 상한. 기본은 화면을 거의 채운다. 읽기용 모달처럼 바깥 여백을 남겨 오버레이 클릭으로 닫기 쉽게 하려면 낮춘다 */
+  maxHeightClassName?: string;
+  /** 스크롤 영역 아래에 글이 더 남았을 때 끝을 흐린다. 읽기용 모달에서 켠다 */
+  fadeClippedEnd?: boolean;
   /** 커스텀 z-index (게임 전체화면 등 상위 모달 위에 표시할 때) */
   zIndex?: number;
 }
@@ -53,9 +58,12 @@ export default function Modal({
   showCloseButton = true,
   closeOnOverlayClick = true,
   animateHeight = true,
+  maxHeightClassName = "max-h-[calc(100dvh-4rem)]",
+  fadeClippedEnd = false,
   zIndex,
 }: ModalProps) {
   const t = useTranslations("shared.accessibility");
+  const { ref: scrollRef, isClipped } = useClippedText<HTMLDivElement>(undefined, isOpen && fadeClippedEnd);
 
   // ESC 키로 닫기
   useEffect(() => {
@@ -88,7 +96,7 @@ export default function Modal({
     >
       <ClassicalBox
         hover={false}
-        className={`w-full ${SIZE_CLASSES[size]} max-h-[calc(100dvh-4rem)] rounded-lg animate-modal-content`}
+        className={`w-full ${SIZE_CLASSES[size]} ${maxHeightClassName} rounded-lg animate-modal-content`}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -107,7 +115,10 @@ export default function Modal({
         )}
 
         {/* 스크롤 영역 */}
-        <div className="overflow-y-auto max-h-[inherit] rounded-lg">
+        <div
+          ref={scrollRef}
+          className={`overflow-y-auto max-h-[inherit] rounded-lg ${fadeClippedEnd && isClipped ? "clip-fade-end" : ""}`}
+        >
           {/* 헤더 - title이 있을 때만 렌더링 */}
           {title && (
             <div className={`relative flex items-center justify-center border-b border-border px-3 py-3 ${stickyHeader ? "sticky top-0 z-30 bg-bg-card/95 backdrop-blur-sm" : ""}`}>

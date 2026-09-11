@@ -66,20 +66,23 @@ async function fetchCelebModalPublic(
     // 세력도감 소속 — 단일 원천은 제작 테이블이고 DB 뷰 faction_atlas_members가 웹 전용 배정과
     // 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다.
     (async (): Promise<CelebTagInfo[]> => {
-      const { data: memberRows } = await db
+      const { data: memberRows, error: memberError } = await db
         .from('faction_atlas_members')
         .select('tag_id, short_desc, short_desc_en, long_desc, long_desc_en')
         .eq('celeb_id', celebId)
         .eq('hidden', false)
         .overrideTypes<{ tag_id: string; short_desc: string | null; short_desc_en: string | null; long_desc: string | null; long_desc_en: string | null }[], { merge: false }>()
+      // 조회 실패를 "소속 없음"으로 캐시하지 않는다
+      throwOnQueryError('getCelebForModal 세력도감 소속', memberError)
       if (!memberRows?.length) return []
 
       const tagIds = [...new Set(memberRows.map((r) => r.tag_id))]
-      const { data: tagRows } = await db
+      const { data: tagRows, error: tagError } = await db
         .from('celeb_tags')
         .select('id, name, name_en, color')
         .in('id', tagIds)
         .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
+      throwOnQueryError('getCelebForModal 세력도감 태그', tagError)
       const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
 
       return memberRows.flatMap((r) => {
@@ -99,6 +102,12 @@ async function fetchCelebModalPublic(
     })(),
     db.from('celeb_dialogues').select(DIALOGUE_BRIEF_SELECT).eq('celeb_id', celebId).maybeSingle(),
   ])
+
+  // 보조 조회도 실패를 0·null로 캐시하지 않는다
+  throwOnQueryError('getCelebForModal 서고 수', contentResult.error)
+  throwOnQueryError('getCelebForModal 팔로워 수', followerResult.error)
+  throwOnQueryError('getCelebForModal 영향력', influenceResult.error)
+  throwOnQueryError('getCelebForModal 대사', dialogueResult.error)
 
   return {
     profile,

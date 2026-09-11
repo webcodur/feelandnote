@@ -103,7 +103,7 @@ async function fetchBrief(contentId: string, locale: string): Promise<ContentBri
 
   const { data, error } = await db
     .from('contents')
-    .select(`id, type, external_id, external_source, release_date, metadata, content_locales(${CL_SELECT},sources)`)
+    .select(`id, type, external_id, external_source, release_date, metadata, content_locales(${CL_SELECT})`)
     .eq('id', contentId)
     .maybeSingle()
 

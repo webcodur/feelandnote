@@ -1,5 +1,6 @@
 // 메인페이지(홈) 관련 타입 정의
 
+import type { TitleBadge } from '@/lib/utils/content-locale'
 import type { ContentType } from './database'
 import type { CelebLevel } from '@/constants/materials'
 import type { CelebTier, CelebReality } from '@feelandnote/shared/constants/celeb-tiers'
@@ -92,6 +93,7 @@ export interface CelebReview {
     isbn_en: string | null
     thumbnail_en: string | null
     has_en_edition: boolean | null
+    title_badge?: TitleBadge | null
   }
   celeb: {
     id: string

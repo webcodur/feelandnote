@@ -1,5 +1,6 @@
 'use server'
 
+import { NO_ROWS_CODE, throwOnQueryError } from '@/lib/cache'
 import { createAdminClient } from '@/lib/db/admin'
 import { FREE_POST_COLS } from '@/lib/board/freeBoard'
 import { attachMemberAuthor } from '@/lib/board/memberProfiles'
@@ -18,7 +19,10 @@ export async function getFreePost(id: string, locale: Locale): Promise<FreePost 
     .eq('locale', locale)
     .single()
 
-  if (error || !data) return null
+  // 그 밖의 오류는 던진다 — 장애를 「없는 글」로 위장해 404를 내지 않는다.
+  throwOnQueryError('[자유게시판 상세]', error, { ignoreCodes: [NO_ROWS_CODE] })
+  // 여기 오는 오류는 "글이 없다" 하나뿐이다.
+  if (!data) return null
   const post = await attachMemberAuthor(db, data)
   return post as unknown as FreePost
 }

@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/db/server'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
 import { sanitizeSearchTerm } from '@/lib/utils/search-sanitize'
 
 type SortByOption = 'recent' | 'rating_desc' | 'rating_asc'
@@ -53,6 +53,7 @@ export interface UserContentWithContent {
     isbn_en: string | null
     thumbnail_en: string | null
     has_en_edition: boolean | null
+    title_badge?: TitleBadge | null
     affiliate_url?: unknown
   }
 }
@@ -186,6 +187,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
         isbn_en: flat.isbn_en,
         thumbnail_en: flat.thumbnail_en,
         has_en_edition: flat.has_en_edition,
+        title_badge: flat.title_badge,
       },
     }
   }) as unknown as UserContentWithContent[]

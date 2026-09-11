@@ -73,10 +73,12 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
   const cardIds = cardRows.map(r => r.id);
   const quoteMap = new Map<string, string>();
   if (cardIds.length > 0) {
-    const { data: dRows } = await db
+    const { data: dRows, error: dialogueError } = await db
       .from("celeb_dialogues")
       .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
       .in("celeb_id", cardIds);
+    // 조회 실패를 "대사 없음"으로 캐시하지 않는다
+    throwOnQueryError('[getCelebCards] 대사 조회', dialogueError);
     for (const d of (dRows ?? []) as unknown as DialogueBriefWithId[]) {
       const quote = (isEn && d.quote_en) ? d.quote_en : d.quote;
       quoteMap.set(d.celeb_id, quote ?? "");

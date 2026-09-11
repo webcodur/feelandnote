@@ -1,5 +1,5 @@
 import { createStaticClient } from '@/lib/db/static'
-import type { ContentLocaleRow } from '@/lib/utils/content-locale'
+import type { ContentLocaleRow, TitleBadge } from '@/lib/utils/content-locale'
 
 export interface LibraryContent {
   id: string
@@ -22,6 +22,7 @@ export interface LibraryContent {
   isbn_en?: string | null
   thumbnail_en?: string | null
   has_en_edition?: boolean | null
+  title_badge?: TitleBadge | null
 }
 
 export interface LibraryResult {
@@ -149,6 +150,8 @@ export interface CuratedListItem {
   creatorEn: string | null
   thumbnailEn: string | null
   hasEnEdition: boolean
+  /** 요청 locale의 확인된 언어판 제목이 아닐 때 제목 앞에 붙는 표시 */
+  titleBadge: TitleBadge | null
 }
 
 export interface CuratedListSibling {

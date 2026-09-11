@@ -2,6 +2,8 @@
   파일명: /components/ui/AnimatedHeight.tsx
   기능: 높이 애니메이션 컴포넌트
   책임: ResizeObserver로 자식 요소의 높이 변화를 감지하여 부드럽게 전환한다.
+        높이는 레이아웃 크기(offsetHeight·borderBoxSize)로 잰다. getBoundingClientRect는 조상의 transform 배율이 섞여,
+        모달처럼 커지며 나타나는 상자 안에서는 첫 측정이 실제보다 작게 박혀 아래가 잘린다.
 */ // ------------------------------
 
 "use client";
@@ -21,6 +23,8 @@ interface AnimatedHeightProps {
   className?: string;
   duration?: number;
   independent?: boolean;
+  /** 안쪽 상자에 얹는 클래스. 바깥 상자를 lg:contents로 지우고 안쪽을 부모 flex에 직접 넣어 높이를 채울 때 쓴다 */
+  innerClassName?: string;
 }
 
 const HeightAnimationContext = createContext(false);
@@ -33,7 +37,11 @@ export default function AnimatedHeight(props: AnimatedHeightProps) {
 
   // Let the outer boundary handle nested content changes once. Portals can opt out.
   if (hasAnimatedParent && !props.independent) {
-    return <div className={props.className}><div className="w-full flow-root">{props.children}</div></div>;
+    return (
+      <div className={props.className}>
+        <div className={`w-full flow-root ${props.innerClassName ?? ""}`}>{props.children}</div>
+      </div>
+    );
   }
 
   return (
@@ -47,6 +55,7 @@ function MeasuredHeight({
   children,
   className = "",
   duration = 320,
+  innerClassName = "",
 }: AnimatedHeightProps) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | undefined>(undefined);
@@ -58,8 +67,7 @@ function MeasuredHeight({
     const el = innerRef.current;
     if (!el) return;
 
-    const initialHeight = Math.ceil(el.getBoundingClientRect().height);
-    setHeight(initialHeight);
+    setHeight(el.offsetHeight);
   }, []);
 
   // 2. 자식 높이 변화 감지: 직전 높이를 유지한 상태에서 새 높이로 transition
@@ -72,7 +80,7 @@ function MeasuredHeight({
       const entry = entries[0];
       if (!entry) return;
 
-      const targetHeight = Math.ceil(el.getBoundingClientRect().height);
+      const targetHeight = Math.ceil(entry.borderBoxSize?.[0]?.blockSize ?? el.offsetHeight);
 
       if (previousHeight === undefined) {
         previousHeight = targetHeight;
@@ -119,7 +127,7 @@ function MeasuredHeight({
       }}
       onTransitionEnd={handleTransitionEnd}
     >
-      <div ref={innerRef} className="w-full flow-root">
+      <div ref={innerRef} className={`w-full flow-root ${innerClassName}`}>
         {children}
       </div>
     </div>

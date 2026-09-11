@@ -2,7 +2,7 @@
   파일명: /components/features/user/contentLibrary/expand/ExpandCard.tsx
   기능: 펼침 보기의 카드 한 장.
   책임: 세 칸을 위에서 아래로 쌓는다 — 표지와 작품 소개, 인물의 감상배경, 작품의 나머지 정보.
-        감상배경만 상자 높이를 두고, 넘치는 긴 글은 그 안에서 굴린다.
+        소개는 표지 열이 정한 높이만큼만 보이고, 감상배경은 상자 높이를 두고 넘치는 긴 글을 그 안에서 굴린다.
         제목과 작품 선택 목록은 카드 밖의 ExpandDetailView가 맡는다.
 */ // ------------------------------
 "use client";
@@ -119,8 +119,10 @@ function ExpandCard({
           )}
           </div>
 
-          {/* 소개가 길어져도 버튼은 표지 바로 밑에 둔다. 소개가 두 행을 먹어 행이 늘어나지 않게 한다 */}
-          <div className="min-w-0 flex-1 md:row-span-2">
+          {/* 소개 칸은 제 높이를 내지 않고(contain-size) 표지 열이 정한 높이만큼 늘어난다.
+              소개가 아무리 길어도 행이 늘어나지 않아 버튼은 표지 바로 밑에 붙고, 소개는 그 높이 안에서만
+              보이고 나머지는 접힌다(ContentIntro). 모바일은 표지 아래로 쌓이므로 제 높이를 낸다 */}
+          <div className="min-w-0 sm:contain-size md:row-span-2">
             {hasBriefError ? (
               <div role="alert" className="rounded-lg border border-red-400/25 bg-red-400/[0.06] p-4 text-sm text-text-secondary">
                 <p>{tExpand("loadFailed")}</p>

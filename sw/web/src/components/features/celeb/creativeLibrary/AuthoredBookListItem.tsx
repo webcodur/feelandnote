@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { BookOpenText, ExternalLink } from "lucide-react";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
@@ -51,7 +52,10 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
             <span className="rounded bg-surface-hover px-1.5 py-0.5 text-text-secondary">{t("worksTypeBook")}</span>
             <span className="rounded bg-accent/10 px-1.5 py-0.5 text-accent">{t("roleAuthor")}</span>
           </span>
-          <span className="line-clamp-2 text-sm font-medium leading-snug text-text-primary group-hover:text-accent">{title}</span>
+          <span className="line-clamp-2 text-sm font-medium leading-snug text-text-primary group-hover:text-accent">
+            <NoEditionBadge badge={edition?.title ? null : book.titleBadge} />
+            {title}
+          </span>
           {creator && <span className="mt-0.5 block truncate text-sm text-text-secondary">{creator}</span>}
           {edition?.publisher && <span className="mt-1.5 block text-xs text-text-secondary">{edition.publisher}</span>}
           {description && <span className="mt-1.5 line-clamp-2 text-sm text-text-secondary">{description}</span>}

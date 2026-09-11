@@ -9,6 +9,7 @@ import {
   CL_SELECT_LIST,
   flattenLocales,
   type ContentLocaleRow,
+  type TitleBadge,
 } from '@/lib/utils/content-locale'
 import type { ContentType } from '@/types/database'
 import { selectBookIntroduction, type BookIntroductionReference } from '@/lib/utils/book-description'
@@ -39,6 +40,8 @@ export interface FigureBookContent {
   type: ContentType
   category: CategoryId
   relationType: FigureBookRelationType
+  /** 요청 locale의 확인된 언어판 제목이 아닐 때 제목 앞에 붙는 표시 */
+  titleBadge?: TitleBadge | null
   editions: FigureBookEdition[]
   description?: string | null
   bookIntroduction?: BookIntroductionReference | null
@@ -105,7 +108,7 @@ async function fetchSourcesByCeleb(
         contentIds,
         (ids) => db
           .from('contents')
-          .select(`id,type,figureBook:metadata->figureBook,content_locales(${CL_SELECT_LIST},description,isbn,sources)`)
+          .select(`id,type,figureBook:metadata->figureBook,content_locales(${CL_SELECT_LIST},description,isbn)`)
           .in('id', ids)
           .overrideTypes<ContentRow[], { merge: false }>(),
       ),
@@ -173,6 +176,10 @@ async function fetchSourcesByCeleb(
       type: content.type,
       category: TYPE_TO_CATEGORY[content.type],
       relationType: assignment.relation_type,
+      // 확인된 판본 제목으로 세운 자리에는 미확인 표시를 붙이지 않는다.
+      titleBadge: !flat.title && !content.figureBook?.workTitle && leadEdition?.title
+        ? null
+        : flat.title_badge,
       ...selectBookIntroduction(locale, null, exactLocale),
       editions: editions.map((edition) => ({
         ...edition,

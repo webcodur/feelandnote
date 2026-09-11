@@ -15,11 +15,9 @@ export interface ArchiveControlBarProps {
   onSortOptionChange: (option: SortOption) => void;
   reviewFilter: ReviewFilter;
   onReviewFilterChange: (filter: ReviewFilter) => void;
+  /** 목록·펼침 전환. 인물 서가는 펼침으로 고정이라 전환 단추를 두지 않는다 */
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
-  /** 서버가 viewport를 아직 모를 때 CSS가 넓은 화면용 전환 버튼을 고른다. */
-  responsiveDesktopViewMode?: ViewMode;
-  isResponsiveViewUnresolved?: boolean;
   /** Expanded view index visibility. */
   isExpandIndexOpen?: boolean;
   /** Toggles the expanded view index. */

@@ -9,7 +9,6 @@ import FilterChipDropdown, {
   type FilterOption,
 } from "@/components/shared/filters/FilterChipDropdown";
 import FilterModal from "@/components/shared/filters/FilterModal";
-import { cn } from "@/lib/utils";
 
 import type { ViewMode } from "../contentLibraryTypes";
 
@@ -25,15 +24,12 @@ export const ARCHIVE_ICON_CONTROL_CLASS =
 interface ArchiveViewControlsProps {
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
-  responsiveDesktopViewMode?: ViewMode;
-  isResponsiveViewUnresolved?: boolean;
 }
 
+/** 회원 서가의 목록·펼침 전환. 인물 서가는 펼침으로 고정이라 이 부품을 쓰지 않는다 */
 export default function ArchiveViewControls({
   viewMode,
   onViewModeChange,
-  responsiveDesktopViewMode,
-  isResponsiveViewUnresolved = false,
 }: ArchiveViewControlsProps) {
   const t = useTranslations("archiveSearch");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -49,32 +45,26 @@ export default function ArchiveViewControls({
       icon: <Maximize2 size={16} aria-hidden />,
     },
   ];
+  const SelectedViewIcon = VIEW_ICON[viewMode];
 
-  const renderDesktopControl = (selectedMode: ViewMode, className: string) => {
-    const SelectedViewIcon = VIEW_ICON[selectedMode];
-    return (
-      <div className={cn("items-center", className)}>
+  return (
+    <>
+      <div className="hidden items-center md:flex">
         <FilterChipDropdown
           label={t("expandIndexLabel")}
-          value={t(VIEW_LABEL_KEY[selectedMode])}
+          value={t(VIEW_LABEL_KEY[viewMode])}
           valueContent={<SelectedViewIcon size={16} aria-hidden />}
           icon={<Eye size={18} strokeWidth={1.7} aria-hidden />}
           isActive
           options={viewOptions}
-          currentValue={selectedMode}
+          currentValue={viewMode}
           onSelect={(value) => onViewModeChange(value as ViewMode)}
         />
       </div>
-    );
-  };
-
-  const renderMobileControl = (selectedMode: ViewMode, className: string) => {
-    const SelectedViewIcon = VIEW_ICON[selectedMode];
-    return (
-      <div className={cn("min-w-0", className)}>
+      <div className="min-w-0 md:hidden">
         <FilterChip
           label={t("expandIndexLabel")}
-          value={t(VIEW_LABEL_KEY[selectedMode])}
+          value={t(VIEW_LABEL_KEY[viewMode])}
           valueContent={<SelectedViewIcon size={16} aria-hidden />}
           icon={<Eye size={16} strokeWidth={1.7} aria-hidden />}
           isActive
@@ -82,24 +72,6 @@ export default function ArchiveViewControls({
           className="min-w-0"
         />
       </div>
-    );
-  };
-
-  const hasUnresolvedResponsiveView = isResponsiveViewUnresolved && responsiveDesktopViewMode;
-
-  return (
-    <>
-      {hasUnresolvedResponsiveView ? (
-        <>
-          {renderMobileControl(viewMode, "md:hidden")}
-          {renderDesktopControl(responsiveDesktopViewMode, "hidden md:flex")}
-        </>
-      ) : (
-        <>
-          {renderDesktopControl(viewMode, "hidden md:flex")}
-          {renderMobileControl(viewMode, "md:hidden")}
-        </>
-      )}
 
       <FilterModal
         title={t("expandIndexLabel")}

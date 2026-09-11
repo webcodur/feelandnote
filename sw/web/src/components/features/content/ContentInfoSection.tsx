@@ -5,7 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
 import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
@@ -32,6 +32,7 @@ import { AFFILIATE_PLATFORMS, type AffiliatePlatformKey } from "@/constants/affi
 import Button from "@/components/ui/Button";
 import { FormattedText } from "@/components/ui";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
 import MediaEmbed from "./MediaEmbed";
 import { addContent } from "@/actions/contents/addContent";
@@ -43,6 +44,7 @@ import type { ContentType } from "@/types/database";
 import type { ContentMetadata } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
+import { useClippedText } from "@/hooks/useClippedText";
 import PendingBlock from "@/components/ui/pending/PendingBlock";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
 
@@ -61,31 +63,6 @@ interface ContentInfoSectionProps {
   isLoggedIn: boolean;
   isAuthResolved: boolean;
   onRecordChange: (record: ContentDetailData["userRecord"]) => void;
-}
-
-function useCollapsedTextOverflow(text: string | null | undefined, expanded: boolean) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
-
-  useEffect(() => {
-    if (expanded) return;
-    const element = ref.current;
-    if (!element) return;
-
-    const measure = () => {
-      setIsOverflowing(element.scrollHeight > element.clientHeight + 1);
-    };
-    const frame = window.requestAnimationFrame(measure);
-    const observer = new ResizeObserver(measure);
-    observer.observe(element);
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-      observer.disconnect();
-    };
-  }, [expanded, text]);
-
-  return { ref, isOverflowing };
 }
 
 export default function ContentInfoSection({
@@ -110,13 +87,11 @@ export default function ContentInfoSection({
   const [error, setError] = useState<string | null>(null);
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const [isStoryExpanded, setIsStoryExpanded] = useState(false);
-  const { ref: descriptionRef, isOverflowing: isDescLong } = useCollapsedTextOverflow(
-    description,
-    isDescExpanded,
-  );
-  const { ref: storylineRef, isOverflowing: isStoryLong } = useCollapsedTextOverflow(
+  // 펼친 동안은 접을 단추가 필요하니 다시 재지 않는다
+  const { ref: descriptionRef, isClipped: isDescLong } = useClippedText(description, !isDescExpanded);
+  const { ref: storylineRef, isClipped: isStoryLong } = useClippedText(
     content.metadata?.storyline as string | undefined,
-    isStoryExpanded,
+    !isStoryExpanded,
   );
 
   const Icon = TYPE_ICONS[content.type];
@@ -353,6 +328,7 @@ export default function ContentInfoSection({
             </div>
 
             <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-text-primary leading-tight tracking-tight mt-0.5">
+              <NoEditionBadge badge={content.titleBadge} className="me-1.5 align-middle" />
               {content.title}
             </h1>
 

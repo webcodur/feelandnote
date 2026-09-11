@@ -44,9 +44,10 @@ export default function CelebProfileMedia({
   const canShowGreeting = Boolean(onGreet);
   const ringClass =
     "ring-1 ring-accent/20 hover:ring-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
-  const badgeY = "bottom-2";
-  const badgeEnd = "end-2";
-  const badgeStart = "start-2";
+  // 원형 아바타는 사각 사진보다 모서리 여백이 넓어 보인다. 배지를 조금 더 구석으로 민다.
+  const badgeY = photoUrl ? "bottom-2" : "bottom-1";
+  const badgeEnd = photoUrl ? "end-2" : "end-1";
+  const badgeStart = photoUrl ? "start-2" : "start-1";
   const badgePlace = `absolute ${badgeY} ${badgeEnd} z-[4]`;
   const actionBaseClass =
     "inline-flex h-8 items-center justify-center rounded-md border border-white/15 bg-black/60 text-text-secondary shadow-none hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 active:bg-accent/20 active:scale-95";

@@ -21,11 +21,6 @@ interface ContentGridProps {
   gap?: number;
   className?: string;
   compact?: boolean;
-  /**
-   * 좁은 화면에서 세로로 쌓는 대신 한 장씩 옆으로 넘기게 한다(variant="list" 전용).
-   * 넓은 화면에서는 그대로 격자다.
-   */
-  mobileCarousel?: boolean;
 }
 
 export default function ContentGrid({
@@ -35,7 +30,6 @@ export default function ContentGrid({
   gap,
   className = "",
   compact = false,
-  mobileCarousel = false,
 }: ContentGridProps) {
   const config = VARIANT_CONFIG[variant];
   const actualMinWidth = minWidth ?? (compact ? 100 : config.minWidth);
@@ -52,14 +46,7 @@ export default function ContentGrid({
   if (isMobileStack) {
     return (
       <div
-        className={`flex gap-3 md:grid md:justify-center ${
-          mobileCarousel
-            ? // 한 장씩 옆으로 넘긴다. md부터는 스냅과 가로 스크롤이 풀려 격자로 돌아간다.
-              // items-start: 옆 장이 더 길어도 이 장 카드를 늘이지 않는다.
-              // scroll-smooth: 손을 떼도 즉시 튀지 않고 가까운 장으로 부드럽게 붙는다.
-              "items-start snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] [&>*]:w-full [&>*]:shrink-0 [&>*]:snap-start md:overflow-visible md:[&>*]:w-auto"
-            : "flex-col items-center"
-        } ${className}`}
+        className={`flex flex-col items-center gap-3 md:grid md:justify-center ${className}`}
         style={gridStyle}
       >
         {children}
