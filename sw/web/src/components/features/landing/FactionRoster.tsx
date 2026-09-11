@@ -1,6 +1,7 @@
 "use client";
 
 import type { RefObject } from "react";
+import Image from "next/image";
 import { Users, Volume2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -9,12 +10,16 @@ const PRETENDARD_STYLE = { fontFamily: "var(--font-pretendard)" } as const;
 export interface FactionRosterEntry {
   key: string;
   itemIndex: number;
-  kind: "group" | "team" | "celeb";
+  /** group = 묶음·세력(얼굴 카드), celeb = 인물 줄 */
+  kind: "group" | "celeb";
   title: string;
   meta?: string | null;
-  color?: string | null;
   hasVoice?: boolean;
+  /** 묶음 줄에 겹쳐 띄울 구성원 얼굴 — 없으면 아이콘으로 */
+  faces?: { id: string; url: string | null; name: string }[];
 }
+
+const ROSTER_FACE_LIMIT = 3;
 
 interface FactionRosterProps {
   entries: FactionRosterEntry[];
@@ -68,43 +73,33 @@ export default function FactionRoster({
                 aria-pressed={isSelected}
                 style={PRETENDARD_STYLE}
                 className={cn(
-                  "relative mt-4 flex min-h-10 w-full items-center gap-2.5 border-b px-2 text-left first:mt-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                  isSelected
-                    ? "border-accent/55 bg-accent/[0.045] text-white"
-                    : "border-white/10 bg-transparent text-white/80 hover:border-white/30 hover:bg-white/[0.025] hover:text-white",
-                )}
-              >
-                <span
-                  aria-hidden
-                  className="h-5 w-0.5 shrink-0 rounded-full"
-                  style={{ backgroundColor: entry.color ?? accentColor }}
-                />
-                <span className="truncate text-[11px] font-black tracking-[0.04em]">
-                  {entry.title}
-                </span>
-              </button>
-            );
-          }
-
-          if (entry.kind === "team") {
-            return (
-              <button
-                key={entry.key}
-                ref={(element) => registerItemRef(entry.itemIndex, element)}
-                type="button"
-                onClick={() => onSelect(entry.itemIndex)}
-                aria-pressed={isSelected}
-                style={PRETENDARD_STYLE}
-                className={cn(
                   "group relative my-2 flex min-h-[66px] w-full items-center overflow-hidden rounded-xl border px-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                   isSelected
                     ? "border-accent/65 bg-accent/[0.12]"
                     : "border-accent/25 bg-[linear-gradient(110deg,rgba(212,175,55,0.075),rgba(255,255,255,0.015))] hover:border-accent/55 hover:bg-accent/[0.08]",
                 )}
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/20 bg-black/25 text-accent/80">
-                  <Users size={17} aria-hidden />
-                </span>
+                {entry.faces?.length ? (
+                  <span aria-hidden className="flex shrink-0 -space-x-2.5">
+                    {entry.faces.slice(0, ROSTER_FACE_LIMIT).map((face, index) => (
+                      <span
+                        key={face.id}
+                        className="relative block size-9 overflow-hidden rounded-full bg-[#1c1c1b] ring-2 ring-[#161512]"
+                        style={{ zIndex: ROSTER_FACE_LIMIT - index }}
+                      >
+                        {face.url ? (
+                          <Image src={face.url} alt="" fill unoptimized sizes="36px" className="object-cover" />
+                        ) : (
+                          <span className="grid h-full place-items-center text-[11px] font-black text-white/50">{face.name[0]}</span>
+                        )}
+                      </span>
+                    ))}
+                  </span>
+                ) : (
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/20 bg-black/25 text-accent/80">
+                    <Users size={17} aria-hidden />
+                  </span>
+                )}
 
                 <span className="flex min-w-0 flex-1 items-center px-3 py-3">
                   <span

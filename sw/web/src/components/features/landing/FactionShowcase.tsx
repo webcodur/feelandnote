@@ -3,31 +3,31 @@
 import { useEffect, useState, useRef, lazy, Suspense, type CSSProperties } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, Users, Images, LoaderCircle, Loader2, Play, Pause, Star } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, LoaderCircle, Play, Pause } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
-import { setFactionCoverImage } from "@/actions/admin/factions/updateFactionTeamImages";
 import type { CelebProfile } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
 import BlurDissolve from "@/components/ui/BlurDissolve";
-import { toTeamImages, type FactionTeamImage } from "@feelandnote/shared/lib/faction-team-image";
+import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import FactionQuoteOverlay from "@/components/features/faction/quote/FactionQuoteOverlay";
 import { useFactionQuoteStage } from "@/components/features/faction/quote/useFactionQuoteStage";
 import FactionMobileInfoPanel from "./FactionMobileInfoPanel";
 import FactionRoster, { type FactionRosterEntry } from "./FactionRoster";
+import FactionMemberLineup, { type FactionLineupMember } from "./FactionMemberLineup";
 import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
 
 /*
   세력도감 쇼케이스.
-  단체샷과 개인샷을 한 도화지에서 함께 다룬다.
-  - 좌측: 선택된 항목의 사진(단체샷 또는 개인샷) + 제목 + 설명
-  - 우측: 단체 + 인물들을 한 리스트로. 맨 위가 단체(기본 선택), 아래가 인물.
-  리스트에서 항목을 고르면 좌측 사진과 설명이 그 항목으로 바뀐다.
+  묶음과 인물을 같은 위계로 늘어놓는다. 단체샷은 띄우지 않는다(V1).
+  - 좌측: 고른 항목의 화면 — 인물이면 개인 화보, 묶음·세력이면 구성원 얼굴을 모은 출연진 판
+  - 우측: 묶음 + 그 묶음 인물들을 한 리스트로. 맨 위 항목이 기본 선택.
+  리스트에서 항목을 고르면 좌측 화면과 설명이 그 항목으로 바뀐다.
 */
 interface FactionShowcaseProps {
   activeTag: FeaturedTag;
@@ -35,11 +35,10 @@ interface FactionShowcaseProps {
   initialCelebId?: string;
   variant?: "standalone" | "embedded";
   atlasLinkLabel?: string;
-  canEditNames?: boolean;
-  onTagTeamImagesChange?: (tagId: string, teamImages: FactionTeamImage[]) => void;
 }
 
 type ShowcaseItem =
+  /* 묶음 — 이름·구성원은 단체 사진 자료(team_images)에서 읽고, 사진 자체는 쓰지 않는다 */
   | { type: "team"; imageIdx: number }
   | { type: "celeb"; celeb: FeaturedCeleb; celebIdx: number; nested: boolean }
   /*
@@ -49,6 +48,8 @@ type ShowcaseItem =
   */
   | {
       type: "group";
+      /** 묶음도 세력도 없는 평면 명단의 맨 앞 — 테마 전체 출연진 */
+      overview?: true;
       label: string;
       labelEn: string | null;
       subtitle: string | null;
@@ -64,12 +65,14 @@ export default function FactionShowcase({
   initialCelebId,
   variant = "standalone",
   atlasLinkLabel,
-  canEditNames = false,
-  onTagTeamImagesChange,
 }: FactionShowcaseProps) {
   const t = useTranslations("landing");
   const localizedCelebName = (celeb: FeaturedCeleb) =>
     locale === "en" ? celeb.nickname_en?.trim() || t("unknownFigure") : celeb.nickname;
+  // 직함 — 팩션 직함(배정 한 줄 소개, 제작 lines[0]에서 옴)이 있으면 우선, 없으면 프로필 수식어
+  const roleOf = (celeb: FeaturedCeleb) =>
+    ((locale === "en" ? celeb.short_desc_en : celeb.short_desc) ??
+      (locale === "en" ? celeb.title_en : celeb.title))?.trim() || null;
 
   const celebs = activeTag.celebs;
   /*
@@ -77,22 +80,22 @@ export default function FactionShowcase({
     그걸 새 형태로 읽으면 사진이 통째로 사라진다. 두 형태를 다 받는 자리를 여기 둔다.
   */
   const teamImages = toTeamImages(activeTag.team_images);
-  const hasTeam = teamImages.length > 0;
   const teamName = locale === "en" ? activeTag.name_en?.trim() || t("unnamedFaction") : activeTag.name;
   const teamDesc = locale === "en" ? activeTag.description_en : activeTag.description;
 
   /*
-    목록은 「단체 사진 한 장 + 그 사진에 나오는 사람들」을 한 덩어리로 세운다.
+    목록은 「묶음 하나 + 그 묶음 사람들」을 한 덩어리로 세운다.
 
-    사진은 테마 전체가 아니라 그 안의 한 무리를 찍은 것이다(앤트로픽 12명 중 "안전을 설계한
-    사람들" 3명). 그래서 사진을 위에 따로 얹고 명단을 그 아래 통으로 늘어놓으면, 사진과 사람이
-    서로 남남으로 보인다. 사진 아래에 그 사진의 사람만 매달아 소속이 눈에 보이게 한다.
+    묶음은 테마 전체가 아니라 그 안의 한 무리다(앤트로픽 12명 중 "아모데이 남매" 2명). 묶음의
+    이름과 구성원은 단체 사진 자료(team_images)에만 있어 그것을 읽되, 사진은 띄우지 않고 구성원
+    얼굴을 모은 출연진 판으로 대신한다. 묶음 아래에 그 묶음 사람만 매달아 소속이 눈에 보이게 한다.
+    같은 사람들을 다시 찍은 사진처럼 새 사람이 한 명도 없는 묶음은 세우지 않는다.
 
-    어느 사진에도 안 걸린 사람은 맨 아래 모으되, 세력(그룹) 이름이 있으면 세력 머리글 항목으로
-    묶어 보여준다. 머리글도 고를 수 있는 항목이라 자리 번호를 갖는다. 사진이 한 장도 없는 테마도
+    어느 묶음에도 안 걸린 사람은 맨 아래 모으되, 세력(그룹) 이름이 있으면 세력 머리글 항목으로
+    묶어 보여준다. 머리글도 고를 수 있는 항목이라 자리 번호를 갖는다. 묶음이 하나도 없는 테마도
     같은 방식으로 세력별로 묶는다 — 세력이 하나뿐이거나 세력 정보가 아예 없으면 예전 모습(평면
-    명단) 그대로다. 단체샷이 있는 세력은 사진 항목이 그 역할을 하므로 머리글을 이중으로 세우지
-    않는다(머리글은 사진에 안 매달린 잔여 인물 묶음에만 선다).
+    명단) 그대로다. 묶음이 있는 세력은 묶음 항목이 그 역할을 하므로 머리글을 이중으로 세우지
+    않는다(머리글은 묶음에 안 매달린 잔여 인물에만 선다).
   */
   const items: ShowcaseItem[] = [];
   const placed = new Set<string>();
@@ -101,24 +104,35 @@ export default function FactionShowcase({
     items.push({ type: "celeb", celeb, celebIdx, nested });
   };
 
-  teamImages.forEach((img, imageIdx) => {
-    items.push({ type: "team", imageIdx });
+  /*
+    세력이 둘 이상인 테마는 세력으로 묶고 단체 사진 묶음은 쓰지 않는다. 세력(뷰의 group_label — 영상
+    세력 또는 웹 그룹 표 celeb_tag_groups)은 도감과 신화 탐색이 함께 읽는 그룹 원천이라, 사진 묶음을
+    앞세우면 두 화면의 묶음이 갈린다. 사진 묶음은 한 회사처럼 세력이 하나뿐인 테마를 잘게 나눌 때만 쓴다.
+  */
+  const groupCount = new Set(celebs.map((celeb) => celeb.group_label).filter(Boolean)).size;
+  (groupCount >= 2 ? [] : teamImages).forEach((img, imageIdx) => {
+    const fresh: number[] = [];
     for (const id of img.celebIds ?? []) {
-      if (placed.has(id)) continue;
       const celebIdx = celebs.findIndex(c => c.id === id);
-      if (celebIdx < 0) continue;
-      placed.add(id);
+      if (celebIdx < 0 || placed.has(id) || fresh.includes(celebIdx)) continue;
+      fresh.push(celebIdx);
+    }
+    if (fresh.length === 0) return;
+    items.push({ type: "team", imageIdx });
+    for (const celebIdx of fresh) {
+      placed.add(celebs[celebIdx].id);
       pushCeleb(celebs[celebIdx], celebIdx, true);
     }
   });
+  const hasTeam = items.length > 0;
 
-  // 어느 사진에도 안 걸린 나머지 인물들
+  // 어느 묶음에도 안 걸린 나머지 인물들
   const rest = celebs
     .map((celeb, celebIdx) => ({ celeb, celebIdx }))
     .filter(({ celeb }) => !placed.has(celeb.id));
 
-  // 세력 머리글을 쓸지 — 사진이 있으면 세력 하나만 있어도 묶고,
-  // 사진이 없으면 세력이 둘 이상일 때만 묶는다(하나뿐이면 머리글이 소음이다)
+  // 세력 머리글을 쓸지 — 묶음이 있으면 세력 하나만 있어도 묶고,
+  // 묶음이 없으면 세력이 둘 이상일 때만 묶는다(하나뿐이면 머리글이 소음이다)
   const restGroupKeys = new Set(rest.map(({ celeb }) => celeb.group_label).filter(Boolean));
   const useGroupHeaders = restGroupKeys.size >= (hasTeam ? 1 : 2);
 
@@ -169,31 +183,46 @@ export default function FactionShowcase({
       });
       bucket.members.forEach(({ celeb, celebIdx }) => {
         memberItemIdxs.push(items.length);
-        pushCeleb(celeb, celebIdx, false);
+        pushCeleb(celeb, celebIdx, true);
       });
     }
     // 세력 정보가 없는 인물(수동 배정)은 맨 뒤에 머리글 없이
     unlabeled.forEach(({ celeb, celebIdx }) => pushCeleb(celeb, celebIdx, false));
   }
 
-  /** 단체샷 자리 번호 — 상단 단체샷 점 표시가 해당 항목을 선택할 때 쓴다. */
-  const teamItemIdxs = items.flatMap((it, i) => (it.type === "team" ? [i] : []));
-  /** 목록 번호 — 단체샷 N 아래 인물은 N-1, N-2처럼 부모 번호를 이어받는다. */
+  /*
+    묶음도 세력 머리글도 없는 평면 명단이면 맨 앞에 테마 전체 출연진 판을 세운다 —
+    단체샷이 없어도 첫 화면에서 이 사람들이 한 무리라는 것이 보이게 한다.
+  */
+  const isFlatRoster = items.length > 0 && !items.some((item) => item.type !== "celeb");
+  if (isFlatRoster) {
+    items.forEach((item) => {
+      if (item.type === "celeb") item.nested = true;
+    });
+    items.unshift({
+      type: "group",
+      overview: true,
+      label: activeTag.name,
+      labelEn: activeTag.name_en,
+      subtitle: null,
+      subtitleEn: null,
+      color: null,
+      logoUrl: null,
+      memberItemIdxs: items.map((_, index) => index + 1),
+    });
+  }
+
+  /** 목록 번호 — 묶음 N 아래 인물은 N-1, N-2처럼 부모 번호를 이어받는다. */
   const listOrdinalLabels = new Map<number, string>();
   let activeTeamOrdinal: number | null = null;
   let teamOrdinal = 0;
   let memberOrdinal = 0;
   let standaloneOrdinal = 0;
   items.forEach((item, itemIdx) => {
-    if (item.type === "team") {
+    if (item.type === "team" || item.type === "group") {
       activeTeamOrdinal = ++teamOrdinal;
       memberOrdinal = 0;
       listOrdinalLabels.set(itemIdx, String(activeTeamOrdinal));
-      return;
-    }
-    if (item.type === "group") {
-      activeTeamOrdinal = null;
-      memberOrdinal = 0;
       return;
     }
     if (item.nested && activeTeamOrdinal !== null) {
@@ -202,8 +231,7 @@ export default function FactionShowcase({
     }
     listOrdinalLabels.set(itemIdx, String(++standaloneOrdinal));
   });
-  /** 전체 슬라이드 — 그룹 소개는 빼되 단체샷과 인물을 화면 순서 그대로 순회한다. */
-  const slideItemIdxs = items.flatMap((it, i) => (it.type === "team" || it.type === "celeb" ? [i] : []));
+  /* 넘김은 목록 전체를 화면 순서 그대로 순회한다 — 세력 머리글도 묶음처럼 출연진 판을 띄운다 */
 
   const [selectedIdx, setSelectedIdx] = useState(() => {
     if (!initialCelebId) return 0;
@@ -250,29 +278,6 @@ export default function FactionShowcase({
   /** 소개가 실제로 잘렸는지. 다 보이는 글에까지 「더 보기」를 달면 눌러도 아무 일이 없다 */
   const [isIntroClipped, setIsIntroClipped] = useState(false);
   const introRef = useRef<HTMLParagraphElement | null>(null);
-  const [isSettingCover, setIsSettingCover] = useState(false);
-
-  const handleSetCover = async (imageUrl: string) => {
-    if (isSettingCover || !canEditNames) return;
-    setIsSettingCover(true);
-    try {
-      const result = await setFactionCoverImage({
-        tagId: activeTag.id,
-        imageUrl,
-      });
-      if (result.success) {
-        onTagTeamImagesChange?.(activeTag.id, result.data.team_images);
-        setSelectedIdx(0);
-      } else {
-        alert(result.message || t("coverSetFail"));
-      }
-    } catch (e) {
-      console.error("[FactionShowcase] Failed to set cover image:", e);
-      alert(t("coverSetError"));
-    } finally {
-      setIsSettingCover(false);
-    }
-  };
 
   useEffect(() => {
     const listElement = listRef.current;
@@ -320,25 +325,10 @@ export default function FactionShowcase({
     setIsInfoExpanded(false);
   };
 
-  const currentSlideIdx = slideItemIdxs.indexOf(selectedIdx);
   const selectAdjacentSlide = (direction: -1 | 1, portraitEdge: "first" | "last" = "first") => {
-    if (slideItemIdxs.length === 0) return;
+    if (items.length === 0) return;
 
-    let nextSlideIdx: number;
-    if (currentSlideIdx >= 0) {
-      nextSlideIdx = (currentSlideIdx + direction + slideItemIdxs.length) % slideItemIdxs.length;
-    } else if (direction === 1) {
-      const nextAfterGroup = slideItemIdxs.findIndex((itemIdx) => itemIdx > selectedIdx);
-      nextSlideIdx = nextAfterGroup >= 0 ? nextAfterGroup : 0;
-    } else {
-      nextSlideIdx = slideItemIdxs.length - 1;
-      for (let i = 0; i < slideItemIdxs.length; i += 1) {
-        if (slideItemIdxs[i] >= selectedIdx) break;
-        nextSlideIdx = i;
-      }
-    }
-
-    const targetItemIdx = slideItemIdxs[nextSlideIdx];
+    const targetItemIdx = (selectedIdx + direction + items.length) % items.length;
     selectItem(targetItemIdx);
 
     if (portraitEdge === "last") {
@@ -378,14 +368,12 @@ export default function FactionShowcase({
     void loadModalCeleb(current.celebIdx);
   };
 
-  // ── 좌측 사진 ──
-  // 고른 항목이 사진이면 그 사진을, 사람이면 그 사람의 화보를 크게 건다
-  const teamSlide = current.type === "team" ? current.imageIdx : 0;
-  const teamImage = hasTeam ? teamImages[teamSlide] ?? teamImages[0] : null;
-  const teamSrc = teamImage?.url ?? null;
+  // ── 좌측 화면 ──
+  // 고른 항목이 묶음이면 구성원 출연진 판을, 사람이면 그 사람의 화보를 크게 건다
+  const teamImage = current.type === "team" ? teamImages[current.imageIdx] ?? null : null;
   const teamImageLabel =
     (locale === "en" ? teamImage?.labelEn : teamImage?.label)?.trim() || null;
-  // 사진에 나오는 인물을 자리 번호로 바꾼다 — 이름을 눌러 그 사람으로 넘어가기 위해서다
+  // 묶음 구성원을 자리 번호로 바꾼다 — 얼굴을 눌러 그 사람으로 넘어가기 위해서다
   const teamImageMembers = (teamImage?.celebIds ?? [])
     .map(id => items.findIndex(it => it.type === "celeb" && it.celeb.id === id))
     .filter(i => i >= 0)
@@ -395,7 +383,7 @@ export default function FactionShowcase({
       ?? current.celeb.faction_image_url
       ?? current.celeb.avatar_url
     : null;
-  const photoSrc = current.type === "team" ? teamSrc : celebSrc;
+  const photoSrc = celebSrc;
   /** 팩션 화보가 하나도 없어 프로필 얼굴 사진으로 대신하는 인물인지 */
   const usesAvatarFallback = current.type === "celeb" && !portraitImages.length && !!celebSrc;
 
@@ -419,6 +407,15 @@ export default function FactionShowcase({
   // 세력 고유 색·로고(제작 브랜드 자산) — 없으면 테마 색으로
   const groupColor = current.type === "group" ? current.color ?? activeTag.color : activeTag.color;
   const groupLogo = current.type === "group" ? current.logoUrl : null;
+  const lineupMembers = current.type === "group" ? groupMembers : teamImageMembers;
+  const toLineupMember = ({ celeb, itemIdx }: { celeb: FeaturedCeleb; itemIdx: number }): FactionLineupMember => ({
+    id: celeb.id,
+    name: localizedCelebName(celeb),
+    role: roleOf(celeb),
+    avatarUrl: celeb.avatar_url,
+    influence: celeb.influence,
+    itemIndex: itemIdx,
+  });
   const currentCelebName = current.type === "celeb" ? localizedCelebName(current.celeb) : null;
   const fallbackInitial =
     current.type === "team" ? teamName[0] : current.type === "group" ? (groupLabel ?? teamName)[0] : currentCelebName?.[0];
@@ -451,14 +448,7 @@ export default function FactionShowcase({
     current.type === "celeb"
       ? (locale === "en" ? current.celeb.long_desc_en : current.celeb.long_desc)
       : null;
-  // 직함 — 팩션 직함(배정 한 줄 소개, 제작 lines[0]에서 옴)이 있으면 우선, 없으면 프로필 수식어
-  const celebTitle =
-    current.type === "celeb"
-      ? ((locale === "en"
-          ? current.celeb.short_desc_en
-          : current.celeb.short_desc) ??
-          (locale === "en" ? current.celeb.title_en : current.celeb.title))?.trim() || null
-      : null;
+  const celebTitle = current.type === "celeb" ? roleOf(current.celeb) : null;
 
   const mobileInfo = variant !== "embedded" ? null : current.type === "team" ? (
     <FactionMobileInfoPanel
@@ -498,84 +488,18 @@ export default function FactionShowcase({
         isFactionQuoteVisible && "ring-accent/40"
       )}
     >
-      {current.type === "group" ? (
-        /* 세력 배경 — 인물 사진 없이 인포그래픽으로: 세력 색 광원 + 머리글자 워터마크 + 큰 인원 수치 */
-        <div
-          aria-hidden
-          className="absolute inset-0 animate-fade-in"
-          style={{
-            background: `radial-gradient(circle at 28% 20%, ${groupColor}4d, transparent 58%), radial-gradient(circle at 80% 88%, ${groupColor}26, #0a0a0a 72%)`,
-          }}
-        >
-          <span
-            aria-hidden
-            className="absolute -right-4 -top-12 select-none font-serif text-[15rem] font-black leading-none text-white/[0.06]"
-          >
-            {(groupLabel ?? teamName)[0]}
-          </span>
-
-          {/* 세력 로고 — 1:1 크롭본을 우상단에 큼직하게 */}
-          {groupLogo && (
-            <div className="absolute right-6 top-6 z-10 aspect-square w-24 overflow-hidden rounded-2xl ring-1 ring-white/15 md:right-8 md:top-8 md:w-32">
-              <Image src={groupLogo} alt="" fill unoptimized sizes="128px" className="object-cover" />
-            </div>
-          )}
-
-          <div className="absolute inset-0 flex flex-col p-6 md:p-8">
-            {/* 머리 — 테마·세력명·부제 */}
-            <span
-              className="inline-flex items-center gap-1.5 font-serif text-[11px] font-bold tracking-[0.15em] md:text-xs"
-              style={{ color: groupColor }}
-            >
-              <Users size={13} aria-hidden />
-              {teamName}
-            </span>
-            <h3 className="mt-2 font-serif text-3xl font-black leading-tight text-white md:text-4xl">
-              {groupLabel}
-            </h3>
-            {groupSubtitle && (
-              <p className="mt-1.5 break-keep text-sm font-semibold tracking-wide text-white/90">
-                {groupSubtitle}
-              </p>
-            )}
-            <span className="mt-4 block h-px w-16" style={{ backgroundColor: groupColor }} />
-
-            {/* 몸통 — 구성원 명단표. 줄을 누르면 그 인물로 넘어간다 */}
-            <div className="scrollbar-hidden mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
-              {groupMembers.map(({ celeb, itemIdx }, i) => {
-                const role =
-                  ((locale === "en" ? celeb.short_desc_en : celeb.short_desc) ??
-                    (locale === "en" ? celeb.title_en : celeb.title))?.trim() || null;
-                return (
-                  <button
-                    key={celeb.id}
-                    type="button"
-                    onClick={() => selectItem(itemIdx)}
-                    className="group/row flex w-full cursor-pointer items-baseline gap-3 border-b border-white/[0.07] py-2.5 text-left"
-                  >
-                    <span className="w-7 shrink-0 font-serif text-xs font-bold tabular-nums text-white/70 group-hover/row:text-accent">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="shrink-0 text-[15px] font-bold text-white/90 group-hover/row:text-accent">
-                      {localizedCelebName(celeb)}
-                    </span>
-                    {role && (
-                      <span title={role} className="min-w-0 truncate text-xs font-medium text-white/80">{role}</span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* 발치 — 큰 인원 수치 */}
-            <p className="mt-3 self-end font-serif text-4xl font-black tabular-nums text-white/85 md:text-5xl">
-              {groupMembers.length}
-              <span className="ms-1.5 align-baseline text-sm font-bold text-white/80">
-                {t("figureUnit")}
-              </span>
-            </p>
-          </div>
-        </div>
+      {current.type === "group" || current.type === "team" ? (
+        /* 묶음·세력 — 단체샷 대신 구성원 얼굴을 모은 출연진 판. 얼굴을 누르면 그 인물로 넘어간다 */
+        <FactionMemberLineup
+          eyebrow={current.type === "group" && current.overview ? t("factionRoster") : teamName}
+          title={(current.type === "group" ? groupLabel : teamImageLabel) ?? teamName}
+          subtitle={groupSubtitle}
+          color={groupColor}
+          logoUrl={groupLogo}
+          members={lineupMembers.map(toLineupMember)}
+          countLabel={t("figureCount", { count: lineupMembers.length })}
+          onSelect={selectItem}
+        />
       ) : current.type === "celeb" && portraitImages.length ? (
         <>
           {/* 다음 화보까지 미리 겹쳐 두고 opacity만 바꾼다. 교체 순간의 흰 프레임·점프를 없앤다. */}
@@ -695,100 +619,7 @@ export default function FactionShowcase({
         </div>
       )}
 
-      {/* 단체샷 대표 이미지 배지 및 설정 버튼 (관리자 전용) */}
-      {current.type === "team" && teamImage && canEditNames && (
-        teamSlide === 0 ? (
-          <div
-            className="absolute right-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-amber-400/50 bg-black/80 px-2.5 py-1 text-[11px] font-bold text-amber-300 shadow-[0_2px_12px_rgba(0,0,0,0.8)] backdrop-blur-md"
-            title={t("coverBadgeTitle")}
-          >
-            <Star size={12} className="fill-amber-300 text-amber-300" />
-            <span>{t("coverBadge")}</span>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              void handleSetCover(teamImage.url);
-            }}
-            disabled={isSettingCover}
-            className="absolute right-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-black/80 px-2.5 py-1 text-[11px] font-bold text-white/90 shadow-[0_2px_12px_rgba(0,0,0,0.8)] backdrop-blur-md transition-all hover:border-amber-400 hover:bg-amber-400/20 hover:text-amber-300 active:scale-95 disabled:cursor-wait disabled:opacity-60"
-            title={t("coverSetTitle")}
-          >
-            {isSettingCover ? (
-              <Loader2 size={12} className="animate-spin text-amber-300" />
-            ) : (
-              <Star size={12} className="text-white/70" />
-            )}
-            <span>{t("coverSet")}</span>
-          </button>
-        )
-      )}
-
-      {/* 단체샷 캐러셀 컨트롤 (여러 장일 때) */}
-      {current.type === "team" && teamImages.length > 1 && (
-        <>
-          {/* 장수 카운터 */}
-          <div
-            className={cn(
-              "absolute right-3 z-10 hidden items-center gap-1 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 text-[11px] font-semibold tabular-nums text-white/90 backdrop-blur-md md:flex",
-              canEditNames ? "top-11" : "top-3",
-            )}
-          >
-            <Images size={12} />
-            {teamSlide + 1} / {teamImages.length}
-          </div>
-          {/* 사진끼리 건너뛴다 — 목록에서도 그 사진이 함께 선택된다 */}
-          <div className="absolute left-3 top-3 z-20 hidden gap-1.5 md:flex">
-            {teamImages.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={t("photoNumber", { number: i + 1 })}
-                onClick={() => selectItem(teamItemIdxs[i])}
-                className={cn(
-                  "h-2 rounded-full",
-                  i === teamSlide ? "bg-accent w-4" : "bg-white/50 w-2 hover:bg-white/70"
-                )}
-              />
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* 단체샷의 제목·설명·인원도 사진 안에서 끝낸다. */}
-      {current.type === "team" && (
-        <div
-          className={cn(
-            "absolute inset-x-0 bottom-0 z-10 cursor-text select-text bg-gradient-to-t from-black via-black/90 to-transparent px-5 pb-5 pt-24 selection:bg-accent/45 selection:text-white md:px-6 md:pb-6 md:pt-32",
-            variant === "embedded" && "hidden md:block",
-          )}
-        >
-          <span
-            className="inline-flex items-center gap-1.5 font-serif text-[11px] font-bold tracking-[0.12em] md:text-xs"
-            style={{ color: activeTag.color }}
-          >
-            <Users size={13} aria-hidden />
-            {teamImageLabel ? teamName : t("groupShot")}
-          </span>
-          <h3 className="mt-1.5 font-serif text-2xl font-black leading-tight text-white md:text-3xl">
-            {teamImageLabel ?? teamName}
-          </h3>
-          {teamDesc && !teamImageLabel && (
-            <p className="mt-2 line-clamp-3 text-sm leading-6 text-white/80 break-keep md:text-[15px]">
-              {teamDesc}
-            </p>
-          )}
-          {teamImageMembers.length > 0 && (
-            <p className="mt-2 text-xs font-semibold text-white/85">
-              {t("figureCount", { count: teamImageMembers.length })}
-            </p>
-          )}
-        </div>
-      )}
-
-      {/* 세력 선택 시 정보·명단은 캔버스 인포그래픽이 전부 담는다 — 하단 오버레이 없음 */}
+      {/* 묶음·세력 선택 시 정보·명단은 출연진 판이 전부 담는다 — 하단 오버레이 없음 */}
 
       {/* 인물 선택의 정보와 행동은 화보 한 장 안에서 끝낸다. */}
       {current.type === "celeb" && !isFactionQuoteVisible && (
@@ -860,6 +691,8 @@ export default function FactionShowcase({
     </div>
   );
 
+  const faceOf = (celeb: FeaturedCeleb) => ({ id: celeb.id, url: celeb.avatar_url, name: localizedCelebName(celeb) });
+  // 묶음과 세력 머리글은 같은 위계라 목록에서도 같은 얼굴 카드로 선다
   const rosterEntries: FactionRosterEntry[] = items.map((item, idx) => {
     if (item.type === "group") {
       const title =
@@ -871,7 +704,10 @@ export default function FactionShowcase({
         itemIndex: idx,
         kind: "group",
         title,
-        color: item.color,
+        faces: item.memberItemIdxs.flatMap((memberIdx) => {
+          const member = items[memberIdx];
+          return member?.type === "celeb" ? [faceOf(member.celeb)] : [];
+        }),
       };
     }
 
@@ -882,14 +718,16 @@ export default function FactionShowcase({
       return {
         key: `team-${item.imageIdx}`,
         itemIndex: idx,
-        kind: "team",
+        kind: "group",
         title: imageLabel ?? teamName,
+        faces: (teamImage?.celebIds ?? []).flatMap((id) => {
+          const celeb = celebs.find((c) => c.id === id);
+          return celeb ? [faceOf(celeb)] : [];
+        }),
       };
     }
 
-    const meta = locale === "en"
-      ? item.celeb.short_desc_en ?? item.celeb.title_en
-      : item.celeb.short_desc ?? item.celeb.title;
+    const meta = roleOf(item.celeb);
     const hasVoice = Boolean(item.celeb.faction_quote_media?.audioUrl)
       && item.celeb.faction_quote_media?.locale === locale;
 
@@ -944,7 +782,7 @@ export default function FactionShowcase({
                 type="button"
                 aria-label={t("previousFigureOrGroup")}
                 title={t("previousFigureOrGroup")}
-                disabled={slideItemIdxs.length <= 1}
+                disabled={items.length <= 1}
                 onClick={() => selectAdjacentSlide(-1)}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-white/75 hover:bg-white/10 hover:text-accent active:bg-white/15 disabled:pointer-events-none disabled:text-white/20"
               >
@@ -954,7 +792,7 @@ export default function FactionShowcase({
                 type="button"
                 aria-label={t("previousPhoto")}
                 title={t("previousPhoto")}
-                disabled={portraitImages.length <= 1 && slideItemIdxs.length <= 1}
+                disabled={portraitImages.length <= 1 && items.length <= 1}
                 onClick={() => selectAdjacentPortrait(-1)}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-white/75 hover:bg-white/10 hover:text-accent active:bg-white/15 disabled:pointer-events-none disabled:text-white/20"
               >
@@ -978,7 +816,7 @@ export default function FactionShowcase({
                 type="button"
                 aria-label={t("nextPhoto")}
                 title={t("nextPhoto")}
-                disabled={portraitImages.length <= 1 && slideItemIdxs.length <= 1}
+                disabled={portraitImages.length <= 1 && items.length <= 1}
                 onClick={() => selectAdjacentPortrait(1)}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-white/75 hover:bg-white/10 hover:text-accent active:bg-white/15 disabled:pointer-events-none disabled:text-white/20"
               >
@@ -988,7 +826,7 @@ export default function FactionShowcase({
                 type="button"
                 aria-label={t("nextFigureOrGroup")}
                 title={t("nextFigureOrGroup")}
-                disabled={slideItemIdxs.length <= 1}
+                disabled={items.length <= 1}
                 onClick={() => selectAdjacentSlide(1)}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-white/75 hover:bg-white/10 hover:text-accent active:bg-white/15 disabled:pointer-events-none disabled:text-white/20"
               >
