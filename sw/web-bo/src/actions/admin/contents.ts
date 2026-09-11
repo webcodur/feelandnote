@@ -11,7 +11,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { requireAdmin } from '@/lib/admin-auth'
 import { validateExternalImageUrl } from '@/lib/external-image'
 import { resolveBookIntroductionEdit } from '@/lib/book-introduction-edit'
-import { fetchBookIntroductionForStorage as fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
+import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 
 export interface AffiliateLink {

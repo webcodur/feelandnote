@@ -13,7 +13,7 @@ import { createClient } from '@supabase/supabase-js'
 import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { getDaumMobileDetailUrl, toIsbn13 } from '@feelandnote/content-search/kakao-books'
 import { getOpenLibraryBookUrl } from '@feelandnote/content-search/openlibrary'
-import { BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED, isBookIntroductionSource, type BookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
+import { isBookIntroductionSource, type BookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 import {
   buildIntroductionApplySql, hasPreparedIntroduction, planIntroductionChange, planIntroductionMetadataCleanup,
   type IntroductionChange, type IntroductionRow, type IntroductionSelection,
@@ -43,11 +43,10 @@ async function main() {
     'backup-dir': { type: 'string' }, help: { type: 'boolean' },
   }, strict: true })
   if (values.help) {
-    console.log('book-description-sources [--limit 20] [--after content-id] [--content-id ID] [--locale ko|en] [--include-stored] [--source-only] [--apply --backup-dir PATH]\nDefault: read-only, NULL introductions only. --include-stored also checks existing external copies; prepared/unknown text is preserved. --source-only converts existing trusted URLs (Kakao/Daum for ko, OpenLibrary for en) without external requests. English --apply requires --source-only, unless one explicit --content-id is supplied. Deploy source-aware readers before --apply.')
+    console.log('book-description-sources [--limit 20] [--after content-id] [--content-id ID] [--locale ko|en] [--include-stored] [--source-only] [--apply --backup-dir PATH]\nDefault: read-only, NULL introductions only. --include-stored also checks existing external copies; prepared/unknown text is preserved. --source-only converts existing trusted URLs (Kakao/Daum for ko, OpenLibrary for en) without external requests. English --apply requires --source-only, unless one explicit --content-id is supplied.')
     return
   }
   const limit = Number(values.limit)
-  if (values.apply && !BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED) throw new Error('Deploy source-aware readers before enabling BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED; DB unchanged')
   if (!Number.isSafeInteger(limit) || limit < 1) throw new Error('--limit must be a positive integer')
   if (values.locale && !['ko', 'en'].includes(values.locale)) throw new Error('--locale must be ko or en')
   if (values['source-only'] && !values.locale) throw new Error('--source-only requires --locale ko or en')

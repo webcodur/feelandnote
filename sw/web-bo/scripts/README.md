@@ -27,6 +27,7 @@ scripts/
   faction/        세력도감 출간·대사·이미지
   fiction/        신화·전설·허구 인물
   figure-books/   전체 인물의 등장·연관 도서 후보·검수·반영
+  contents/       BOOK 소개 출처 전환·검증
   curated/        기관 선정 목록
   coupang/        제휴 링크
   book-recommend/ 서재 탐방 자원
@@ -129,6 +130,7 @@ scripts/
 | 명령 | 하는 일 |
 |---|---|
 | `book-recommend:resources` | 서재 탐방 DB 연결·표지 캐시 운영 |
+| `contents:book-sources` | BOOK 소개를 본문 대신 카카오·다음·OpenLibrary 출처 표시와 조회 주소로 전환. 기본은 읽기 전용, `--apply --backup-dir`로 반영 |
 | `figure-books:audit` | 전체 인물의 등장·연관 도서와 공개 쿠팡 판본 커버리지 감사 |
 | `figure-books:direct-candidates` | 기존 BOOK의 제목·저자에서 인물 이름이 직접 보이는 후보 추출 |
 | `figure-books:context-candidates` | 실존 인물 프로필의 세부 분야·작품·사건과 기존 선정 도서가 만나는 연관 후보 추출. 결과는 최종 관계가 아니라 모델 검수 입력 |

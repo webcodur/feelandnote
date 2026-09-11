@@ -5,7 +5,7 @@ import {
   toIsbn13,
 } from '@feelandnote/content-search/kakao-books'
 import { getOpenLibraryBookIntroduction, getOpenLibraryBookUrl } from '@feelandnote/content-search/openlibrary'
-import { BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED, isBookIntroductionSource, type BookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
+import { isBookIntroductionSource, type BookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
 
 export interface BookIntroduction {
   source: BookIntroductionSource | null
@@ -14,11 +14,6 @@ export interface BookIntroduction {
 }
 
 const EMPTY: BookIntroduction = { source: null, sourceUrl: null, description: null }
-
-/** 기존 운영 웹과 DB를 함께 쓰는 동안 신규 예약값 저장은 보류한다. */
-export async function fetchBookIntroductionForStorage(input: Parameters<typeof fetchBookIntroduction>[0]): Promise<BookIntroduction> {
-  return BOOK_INTRODUCTION_SOURCE_WRITES_ENABLED ? fetchBookIntroduction(input) : { ...EMPTY }
-}
 
 function forLocale(description: string | null | undefined, locale: 'ko' | 'en', confirmedEnglish = false): string | null {
   const text = description?.trim()
