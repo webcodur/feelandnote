@@ -3,12 +3,23 @@ export const MYTH_LAYOUT = {
   atlas: "scroll-mt-20 overflow-hidden rounded-[28px] border border-white/[0.08] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.045),transparent_30%),var(--color-bg-secondary)] [overflow-anchor:none]",
   container: "mx-auto max-w-[1040px]",
   navigationOuter: "px-4 pb-2 pt-4 md:px-6 md:pb-2 md:pt-6",
-  navigation: "mx-auto grid max-w-[1040px] gap-1 overflow-hidden rounded-[20px] border border-white/[0.08] bg-black/[0.16] p-2",
-  nav: "min-w-0 rounded-xl px-2 py-3 md:px-3",
-  navList: "scrollbar-hide -mx-1 mt-2.5 flex justify-start gap-1.5 overflow-x-auto px-1 pb-1 md:flex-wrap md:justify-center md:overflow-visible",
+  navigation: "mx-auto grid max-w-[1040px] overflow-hidden rounded-[20px] border border-white/[0.08] bg-black/[0.16] p-2",
+  nav: "min-w-0 rounded-xl px-2 py-1.5 md:px-3",
+  /* 지역·신화 칩 줄은 PC 전용이다. 모바일은 버튼 두 개로 접고 누르면 아래에서 창이 올라온다 */
+  chipNav: "hidden min-w-0 rounded-xl px-2 py-1.5 md:block md:px-3",
+  mobilePicker: "grid grid-cols-2 gap-2 px-2 py-1.5 md:hidden",
+  /* 모바일 버튼은 둘 다 네모다 — 나란히 선 두 버튼의 모양이 갈리면 어색하다. PC 칩 줄만 알약·네모로 가른다 */
+  mobilePickerButton: "flex min-w-0 items-center justify-between gap-1.5 rounded-lg border border-accent/50 bg-accent/10 px-3.5 py-2 text-sm font-semibold text-accent hover:border-accent",
+  /* 지역·신화·인물 세 줄은 모두 한 줄짜리 가로 목록이다 — 접지 않고 손·마우스로 민다(ui-rail).
+     칩이 적어 폭이 남으면 가운데 두되, 넘칠 때 앞머리가 잘리지 않게 safe 정렬을 쓴다 */
+  navList: "scrollbar-hide -mx-1 flex gap-1.5 overflow-x-auto overscroll-x-contain px-1 pb-1 select-none pointer-coarse:snap-x md:justify-center-safe",
+  /* 지역은 알약, 신화는 네모 — 두 줄의 칩이 같은 모양이면 어느 줄을 고르는지 헷갈린다 */
+  regionChipShape: "rounded-full",
+  traditionChipShape: "rounded-lg",
+  /* 그룹은 칩이 아니라 밑줄 탭 — 지역(알약)·신화(네모)보다 한 단계 아래라는 것이 모양으로 보인다 */
+  groupTab: "flex shrink-0 snap-start items-center border-b-2 px-2.5 py-1.5 text-sm font-semibold",
+  memberList: "scrollbar-hide -mx-1 flex gap-2.5 overflow-x-auto overscroll-x-contain px-1 pb-1 select-none pointer-coarse:snap-x md:gap-3",
   notice: "mx-2 mb-1 flex items-start justify-center gap-2 rounded-xl border border-accent/[0.12] bg-accent/[0.035] px-3 py-2.5 text-center text-xs leading-5 text-text-tertiary md:mx-3",
-  railOuter: "px-4 py-2 md:px-6",
-  rail: "min-w-0 overflow-hidden rounded-[20px] border border-white/[0.08] bg-black/[0.12] px-4 py-4 md:px-5 md:py-5",
   railCardSize: "w-[96px] md:w-[108px]",
   overviewOuter: "min-w-0 px-4 pb-4 pt-2 md:px-6 md:pb-6",
   overview: "overflow-hidden rounded-[24px] border border-white/[0.08] bg-black",

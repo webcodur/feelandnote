@@ -36,7 +36,7 @@ export default function MythSigilHeader({ person, tradition, onClose, isQuoteVis
   return (
     <div
       onClick={onSurfaceClick}
-      className={`relative min-h-[320px] overflow-hidden border-b border-white/[0.06] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.14),transparent_60%),var(--color-bg-secondary)] px-6 pb-10 pt-16 text-center md:min-h-[380px] md:pb-12 md:pt-20 ${onSurfaceClick ? "cursor-pointer" : ""}`}
+      className={`relative min-h-[320px] overflow-hidden border-b border-white/[0.06] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.14),transparent_60%),var(--color-bg-secondary)] px-6 pt-16 text-center md:min-h-[380px] md:pt-20 ${quoteButton ? "pb-20" : "pb-10 md:pb-12"} ${onSurfaceClick ? "cursor-pointer" : ""}`}
     >
       <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-[13rem] font-black leading-none text-white/[0.045] md:text-[17rem]">{initial}</span>
       <DetailBackButton onClose={onClose} />
@@ -48,7 +48,7 @@ export default function MythSigilHeader({ person, tradition, onClose, isQuoteVis
               type="button"
               onClick={() => setZoomOpen(true)}
               aria-label={t("enlargeAvatar")}
-              className="group block size-full overflow-hidden rounded-full border border-accent/30 shadow-[0_0_70px_rgba(217,181,78,.14)] hover:border-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="group relative block size-full overflow-hidden rounded-full border border-accent/30 shadow-[0_0_70px_rgba(217,181,78,.14)] hover:border-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <Image src={person.avatarUrl} alt="" fill unoptimized sizes="128px" className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ filter: "none" }} />
             </button>

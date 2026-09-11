@@ -1,5 +1,16 @@
 import type { FactionQuoteMedia } from "@feelandnote/shared/lib/faction-quote-media";
 
+/** 그룹 없는 인물을 모은 「그 외」 묶음의 id */
+export const MYTH_OTHER_GROUP_ID = "__other__";
+
+export interface MythGroup {
+  /** 묶음 이름(한국어 원문)을 id로 쓴다. 「그 외」 묶음은 MYTH_OTHER_GROUP_ID */
+  id: string;
+  /** 화면에 보일 이름. 「그 외」 묶음과 영문 이름이 빈 묶음은 null — 화면이 번역 문구를 붙인다 */
+  name: string | null;
+  personIds: string[];
+}
+
 export interface MythTradition {
   id: string;
   slug: string;
@@ -9,6 +20,8 @@ export interface MythTradition {
   regionId: string;
   images: Array<{ url: string; label: string | null }>;
   personIds: string[];
+  /** 인물 묶음. 묶음이 둘 미만이면 빈 배열 — 화면이 그룹 줄을 숨긴다 */
+  groups: MythGroup[];
 }
 
 export interface MythRegion {

@@ -114,26 +114,27 @@ export default function MythPersonDetail({ person, tradition, works, onClose }: 
   const quote = here?.quote ?? null;
   const quoteMedia = here?.quoteMedia ?? null;
 
-  /* 화면에 거는 대표 사진. 아바타는 작은 얼굴 썸네일이라 대형 화보 자리에 늘려 쓰지 않는다 */
-  const basePortraits: MythPortrait[] = person.images.length > 0
+  /* 화면에 거는 사진. 첫 장은 늘 대표 사진이다 — 사람이 직접 고르고 갈아 끼우는 사진이라
+     출간 때 찍어 둔 대사용 화보보다 새것이다. 대사용 화보(발화 시각마다 바뀐다)는 둘째 장부터 잇는다.
+     재생을 눌러도 첫 장은 그대로라 사진이 갈아 끼워지며 깜빡이거나 구도가 바뀌지 않는다.
+     아바타는 작은 얼굴 썸네일이라 대형 화보 자리에 늘려 쓰지 않는다 */
+  const quotePortraits: MythPortrait[] = quoteMedia?.images ?? [];
+  const leadPortraits: MythPortrait[] = person.images.length > 0
     ? person.images
     : person.portraitUrl ? [{ url: person.portraitUrl }]
       : person.imageUrl ? [{ url: person.imageUrl }]
         : [];
-  /* 대사용 화보 — 발화 시각마다 사진이 바뀐다. 대사를 재생하는 동안에만 이 사진으로 갈아 끼운다 */
-  const quotePortraits: MythPortrait[] = quoteMedia?.images ?? [];
+  const portraits: MythPortrait[] = leadPortraits.length && quotePortraits.length
+    ? [{ ...leadPortraits[0], at: quotePortraits[0].at }, ...quotePortraits.slice(1)]
+    : leadPortraits.length ? leadPortraits : quotePortraits;
 
   /* 대사는 세력도감과 같은 무대에서 재생한다 — 음성이 있으면 발화에 맞춰, 없으면 눌러서 넘긴다 */
   const stage = useFactionQuoteStage({
     quote,
     media: quoteMedia,
     locale,
-    portraits: quotePortraits.length ? quotePortraits.map((portrait) => ({ at: portrait.at ?? 0 })) : basePortraits.map(() => ({ at: 0 })),
+    portraits: portraits.map((portrait) => ({ at: portrait.at ?? 0 })),
   });
-
-  const portraits = stage.isVisible && quotePortraits.length
-    ? quotePortraits
-    : basePortraits.length ? basePortraits : quotePortraits;
 
   const quoteLayer: ReactNode = quote && stage.isVisible ? (
     <FactionQuoteOverlay
@@ -158,7 +159,8 @@ export default function MythPersonDetail({ person, tradition, works, onClose }: 
 
             {/* 대사가 뜨는 동안에는 이름표를 비운다 — 사진 한 장에 글 두 덩어리가 겹치지 않게 한다 */}
             {!stage.isVisible && (
-              <header className="absolute inset-x-0 bottom-0 z-20 p-6 md:p-8">
+              /* 대사 단추가 오른쪽 아래에 떠 있으므로 긴 이름이 그 밑으로 들어가지 않게 자리를 비운다 */
+              <header className={`absolute inset-x-0 bottom-0 z-20 p-6 md:p-8 ${quote ? "pe-32 md:pe-36" : ""}`}>
                 {person.title && <p className="text-sm font-bold text-accent md:text-base">{person.title}</p>}
                 <h3 id="myth-person-detail-title" className="mt-1 font-serif text-4xl font-bold leading-none text-white drop-shadow-[0_2px_12px_rgba(0,0,0,.65)] md:text-5xl">{person.name}</h3>
               </header>

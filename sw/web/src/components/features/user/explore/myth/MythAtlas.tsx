@@ -3,7 +3,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Clock3 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythAtlasTypes";
+import { mythGroupName } from "./mythGroupName";
+import MythMobilePicker from "./MythMobilePicker";
 import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
 import MythTraditionOverview from "./MythTraditionOverview";
@@ -20,15 +23,18 @@ function focusedTradition(data: MythAtlasData, personId: string | null) {
 
 export default function MythAtlas({ data }: Props) {
   const t = useTranslations("explore.hub.myth");
+  const groupLabels = { other: t("otherGroup"), unnamed: t("unnamedGroup") };
   const openingTraditionId = focusedTradition(data, data.openingPersonId);
   const openingTradition = data.traditions.find((tradition) => tradition.id === openingTraditionId);
   const [regionId, setRegionId] = useState<string | null>(openingTradition?.regionId ?? data.regions[0]?.id ?? null);
   const [traditionId, setTraditionId] = useState<string | null>(openingTraditionId);
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
   const [comingSoonId, setComingSoonId] = useState<string | null>(null);
+  const [groupId, setGroupId] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const regionScrollRef = useRef<HTMLDivElement>(null);
-  const traditionScrollRef = useRef<HTMLDivElement>(null);
+  const { ref: regionListRef, cursorClassName: regionCursor, dragProps: regionDragProps } = useMouseDragScroll();
+  const { ref: traditionListRef, cursorClassName: traditionCursor, dragProps: traditionDragProps } = useMouseDragScroll();
+  const { ref: groupListRef, cursorClassName: groupCursor, dragProps: groupDragProps } = useMouseDragScroll();
 
   useEffect(() => {
     if (!comingSoonId) return;
@@ -60,6 +66,15 @@ export default function MythAtlas({ data }: Props) {
       .map((id) => byId.get(id))
       .filter((person): person is MythPerson => Boolean(person));
   }, [activeTradition, data.people]);
+  /* 묶음이 있는 전승은 고른 묶음의 인물만 인물 줄에 세운다. 작품·인원 수는 전승 전체 기준 그대로다 */
+  const activeGroup = activeTradition?.groups.find((group) => group.id === groupId) ?? activeTradition?.groups[0] ?? null;
+  const railPeople = useMemo(() => {
+    if (!activeGroup) return activePeople;
+    const byId = new Map(activePeople.map((person) => [person.id, person]));
+    return activeGroup.personIds
+      .map((id) => byId.get(id))
+      .filter((person): person is MythPerson => Boolean(person));
+  }, [activeGroup, activePeople]);
   const activeIds = useMemo(() => new Set(activePeople.map((person) => person.id)), [activePeople]);
   const activeWorks = useMemo(
     () => data.works.filter((work) => work.personIds.some((id) => activeIds.has(id))),
@@ -78,16 +93,16 @@ export default function MythAtlas({ data }: Props) {
     return ranked.find((work) => work.coupangUrl) ?? ranked[0] ?? null;
   }, [activeWorks, activeIds]);
 
+  /* 고른 칩을 줄 가운데로 옮긴다 — 지역·신화 줄은 한 줄짜리라 고른 칩이 화면 밖에 있을 수 있다 */
   useEffect(() => {
-    if (window.matchMedia("(min-width: 768px)").matches) return;
-    [regionScrollRef.current, traditionScrollRef.current].forEach((scroller) => {
+    [regionListRef.current, traditionListRef.current, groupListRef.current].forEach((scroller) => {
       const selected = scroller?.querySelector<HTMLElement>('[aria-pressed="true"]');
       if (!scroller || !selected) return;
       const scrollerRect = scroller.getBoundingClientRect();
       const selectedRect = selected.getBoundingClientRect();
       scroller.scrollLeft += selectedRect.left - scrollerRect.left - (scrollerRect.width - selectedRect.width) / 2;
     });
-  }, [activeRegion?.id, activeTradition?.id]);
+  }, [activeRegion?.id, activeTradition?.id, activeGroup?.id, regionListRef, traditionListRef, groupListRef]);
 
   useEffect(() => {
     if (!selectedPersonId || !window.matchMedia("(max-width: 1023px)").matches) return;
@@ -102,12 +117,19 @@ export default function MythAtlas({ data }: Props) {
     );
     setRegionId(nextRegionId);
     setTraditionId(nextTradition?.id ?? null);
+    setGroupId(null);
     setSelectedPersonId(null);
   };
 
   const chooseTradition = (nextId: string) => {
     if (!data.traditions.some((tradition) => tradition.id === nextId && tradition.isPublished)) return;
     setTraditionId(nextId);
+    setGroupId(null);
+    setSelectedPersonId(null);
+  };
+
+  const chooseGroup = (nextId: string) => {
+    setGroupId(nextId);
     setSelectedPersonId(null);
   };
 
@@ -120,8 +142,22 @@ export default function MythAtlas({ data }: Props) {
     <section id="myth-atlas" aria-label={t("title")} className={layout.atlas}>
       <div className={layout.navigationOuter}>
         <div className={layout.navigation}>
-          <nav className={layout.nav} aria-label={t("regionNav")}>
-            <div ref={regionScrollRef} className={layout.navList}>
+          <MythMobilePicker
+            regions={data.regions}
+            activeRegion={activeRegion}
+            traditions={regionTraditions}
+            activeTradition={activeTradition}
+            comingSoonId={comingSoonId}
+            onChooseRegion={chooseRegion}
+            onChooseTradition={chooseTradition}
+            onComingSoon={setComingSoonId}
+            groups={hasContent && activeTradition ? activeTradition.groups : []}
+            activeGroup={activeGroup}
+            onChooseGroup={chooseGroup}
+          />
+
+          <nav className={layout.chipNav} aria-label={t("regionNav")}>
+            <div ref={regionListRef} {...regionDragProps} className={`${layout.navList} ${regionCursor}`}>
               {data.regions.map((region) => {
                 const selected = region.id === activeRegion.id;
                 return (
@@ -130,7 +166,7 @@ export default function MythAtlas({ data }: Props) {
                     type="button"
                     aria-pressed={selected}
                     onClick={() => chooseRegion(region.id)}
-                    className={`flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-sm font-semibold ${selected ? "border-accent bg-accent/10 text-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : "border-white/[0.08] bg-black/10 text-text-secondary hover:border-accent/60 hover:bg-accent/[0.05] hover:text-accent"}`}
+                    className={`flex shrink-0 snap-start items-center justify-center border px-3.5 py-1.5 text-sm font-semibold ${layout.regionChipShape} ${selected ? "border-accent bg-accent/10 text-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : "border-white/[0.18] bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:bg-accent/[0.05] hover:text-accent"}`}
                   >
                     {region.name}
                   </button>
@@ -139,32 +175,64 @@ export default function MythAtlas({ data }: Props) {
             </div>
           </nav>
 
-          <nav className={layout.nav} aria-label={t("traditionNav")}>
-            <div ref={traditionScrollRef} className={layout.navList}>
+          <nav className={layout.chipNav} aria-label={t("traditionNav")}>
+            <div ref={traditionListRef} {...traditionDragProps} className={`${layout.navList} ${traditionCursor}`}>
               {regionTraditions.map((tradition) => {
                 const selected = tradition.id === activeTradition?.id;
                 const published = tradition.isPublished;
+                const showingComingSoon = comingSoonId === tradition.id;
                 return (
                   <button
                     key={tradition.id}
                     type="button"
                     aria-pressed={selected}
                     aria-label={published ? tradition.name : `${tradition.name} · ${t("comingSoon")}`}
-                    title={published ? undefined : t("comingSoon")}
                     onClick={() => (published ? chooseTradition(tradition.id) : setComingSoonId(tradition.id))}
-                    className={`flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-start text-sm font-semibold ${selected ? "border-accent bg-accent/10 text-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : published ? "border-white/[0.06] bg-black/15 text-text-secondary hover:border-accent/60 hover:bg-white/[0.035] hover:text-text-primary" : "cursor-not-allowed border-white/[0.04] bg-black/[0.08] text-text-tertiary opacity-45"}`}
+                    className={`flex shrink-0 snap-start items-center justify-center border px-3.5 py-1.5 text-center text-sm font-semibold ${layout.traditionChipShape} ${selected ? "border-accent bg-accent/10 text-accent shadow-[inset_0_0_0_1px_rgba(217,181,78,.1)]" : published ? "border-white/[0.18] bg-white/[0.04] text-text-secondary hover:border-accent/60 hover:bg-white/[0.07] hover:text-text-primary" : showingComingSoon ? "cursor-not-allowed border-dashed border-white/25 bg-white/[0.05] text-text-secondary" : "cursor-not-allowed border-dashed border-white/[0.1] bg-transparent text-white/35"}`}
                   >
-                    <span>{tradition.name}</span>
+                    {published ? <span>{tradition.name}</span> : (
+                      /* 누르면 이름 자리에 잠깐 「준비 중」을 띄웠다 돌아온다. 두 글을 한 칸에 겹쳐 두어
+                         글이 바뀌어도 칩 폭이 그대로다 — 폭이 바뀌면 옆 칩들이 밀린다 */
+                      <span className="grid">
+                        <span className={`[grid-area:1/1] ${showingComingSoon ? "invisible" : ""}`}>{tradition.name}</span>
+                        <span aria-hidden className={`[grid-area:1/1] flex items-center justify-center gap-1 whitespace-nowrap ${showingComingSoon ? "" : "invisible"}`}>
+                          <Clock3 size={13} aria-hidden />{t("comingSoon")}
+                        </span>
+                      </span>
+                    )}
                   </button>
                 );
               })}
             </div>
           </nav>
 
-          {comingSoonId && hasContent && (
-            <div role="status" className={layout.notice}>
-              <Clock3 size={14} className="mt-0.5 shrink-0 text-accent/70" aria-hidden />
-              <p>{t("comingSoon")}</p>
+          {/* 그룹 — 인물이 많은 전승을 묶음별로 나눠 보인다. 묶음이 없는 전승은 줄을 숨긴다 */}
+          {hasContent && activeTradition && activeTradition.groups.length > 0 && (
+            <nav className={layout.chipNav} aria-label={t("groupNav")}>
+              <div ref={groupListRef} {...groupDragProps} className={`${layout.navList} ${groupCursor}`}>
+                {activeTradition.groups.map((group) => {
+                  const selected = group.id === activeGroup?.id;
+                  return (
+                    <button
+                      key={group.id}
+                      type="button"
+                      aria-pressed={selected}
+                      onClick={() => chooseGroup(group.id)}
+                      className={`${layout.groupTab} ${selected ? "border-accent text-accent" : "border-transparent text-text-secondary hover:text-text-primary"}`}
+                    >
+                      {mythGroupName(group, groupLabels)}
+                      <span className="ms-1.5 text-xs font-medium text-text-tertiary">{group.personIds.length}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </nav>
+          )}
+
+          {/* 마지막 줄 — 인물. 지역·신화·그룹 줄과 같은 상자에 같은 결로 쌓는다 */}
+          {hasContent && (
+            <div className={layout.nav}>
+              <MythPersonPicker people={railPeople} selectedId={selectedPersonId} onSelect={choosePerson} />
             </div>
           )}
         </div>
@@ -172,12 +240,6 @@ export default function MythAtlas({ data }: Props) {
 
       {hasContent && activeTradition ? (
         <>
-          <div className={layout.railOuter}>
-            <div className={layout.container}>
-              <MythPersonPicker people={activePeople} selectedId={selectedPersonId} onSelect={choosePerson} />
-            </div>
-          </div>
-
           <div className={layout.overviewOuter}>
             <div className={layout.container}>
               {!selectedPerson && (
