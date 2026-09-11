@@ -3,6 +3,8 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 
 interface ArrowButtonProps {
   direction: "previous" | "next";
@@ -43,6 +45,7 @@ export function ExpandArrowButton({
 
 interface HeaderProps {
   title: string;
+  titleBadge?: TitleBadge | null;
   creator: string | null;
   previousLabel: string;
   nextLabel: string;
@@ -53,6 +56,7 @@ interface HeaderProps {
 
 export function ExpandTitleHeader({
   title,
+  titleBadge,
   creator,
   previousLabel,
   nextLabel,
@@ -77,6 +81,7 @@ export function ExpandTitleHeader({
             title={title}
             aria-live="polite"
           >
+            <NoEditionBadge badge={titleBadge} />
             {title}
           </h3>
           {creator && (

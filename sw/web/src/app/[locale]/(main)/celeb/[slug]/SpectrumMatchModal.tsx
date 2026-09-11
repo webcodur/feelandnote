@@ -20,6 +20,7 @@ import {
   type SpectrumReasonMap,
 } from "@/actions/spectrum/getSpectrumReason";
 import { Avatar, Carousel, ContentImage } from "@/components/ui";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { Z_INDEX } from "@/constants/zIndex";
 import { withParticle } from "@/lib/korean-particle";
 import {
@@ -450,6 +451,7 @@ export default function SpectrumMatchModal({
                       </span>
                       <div className="min-w-0 flex-1">
                         <p className="text-base font-bold text-text-primary">
+                          <NoEditionBadge badge={item.content.title_badge} />
                           {item.content.title}
                         </p>
                         {item.content.creator ? (

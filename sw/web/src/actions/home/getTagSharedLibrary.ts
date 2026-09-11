@@ -9,7 +9,7 @@ import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
-import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
 
 interface SharedContentCeleb {
   id: string;
@@ -22,6 +22,8 @@ export interface SharedContent {
   contentId: string;
   title: string;
   title_en: string | null;
+  titleBadge: TitleBadge | null;
+  titleBadgeEn: TitleBadge | null;
   creator: string | null;
   creator_en: string | null;
   thumbnailUrl: string | null;
@@ -82,6 +84,8 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
     {
       title: string;
       title_en: string | null;
+      titleBadge: TitleBadge | null;
+      titleBadgeEn: TitleBadge | null;
       creator: string | null;
       creator_en: string | null;
       thumbnailUrl: string | null;
@@ -97,6 +101,9 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
     };
     const ko = c.content_locales?.find(l => l.locale === 'ko');
     const en = c.content_locales?.find(l => l.locale === 'en');
+    // 배지 판정만 중앙 함수에 맡긴다 — title·title_en 등 기존 표시값은 그대로 둔다
+    const flatKo = flattenLocales(c.content_locales, 'ko')
+    const flatEn = flattenLocales(c.content_locales, 'en')
 
     const existing = contentMap.get(c.id);
     if (existing) {
@@ -105,6 +112,8 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
       contentMap.set(c.id, {
         title: ko?.title || en?.title || "",
         title_en: en?.title ?? null,
+        titleBadge: flatKo.title_badge,
+        titleBadgeEn: flatEn.title_badge,
         creator: ko?.creator || en?.creator || null,
         creator_en: en?.creator ?? null,
         thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,
@@ -130,6 +139,8 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
       contentId,
       title: info.title,
       title_en: info.title_en,
+      titleBadge: info.titleBadge,
+      titleBadgeEn: info.titleBadgeEn,
       creator: info.creator,
       creator_en: info.creator_en,
       thumbnailUrl: info.thumbnailUrl,

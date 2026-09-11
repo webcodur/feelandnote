@@ -1,5 +1,5 @@
 import { CategoryId } from '@/constants/categories'
-import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type TitleBadge } from '@/lib/utils/content-locale'
 import { throwOnQueryError } from '@/lib/cache'
 import type { CelebContentJoinRow, LibraryContent, StaticDatabaseClient } from './types'
 
@@ -7,7 +7,7 @@ import type { CelebContentJoinRow, LibraryContent, StaticDatabaseClient } from '
 export function aggregateContents(
   data: Array<{
     content_id: string
-    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null } | null
+    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null; title_badge?: TitleBadge | null } | null
   }>,
   options: {
     category?: CategoryId
@@ -44,6 +44,7 @@ export function aggregateContents(
         isbn_en: content.isbn_en ?? null,
         thumbnail_en: content.thumbnail_en ?? null,
         has_en_edition: content.has_en_edition ?? null,
+        title_badge: content.title_badge ?? null,
       })
     }
   }
@@ -85,7 +86,7 @@ export async function fetchAllCelebContents(
   const allData: Array<{
     celeb_id: string
     content_id: string
-    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null }
+    contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null; title_badge?: TitleBadge | null }
   }> = []
 
   if (!celebIds.length) return allData
@@ -136,6 +137,7 @@ export async function fetchAllCelebContents(
             isbn_en: flat.isbn_en,
             thumbnail_en: flat.thumbnail_en,
             has_en_edition: flat.has_en_edition,
+            title_badge: flat.title_badge,
           },
         }
       })

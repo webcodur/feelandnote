@@ -5,7 +5,7 @@ import { createClient } from '@/lib/db/server'
 import { getTitleInfo } from '@/constants/titles'
 import type { ActivityActionType, ActivityTargetType, ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
 import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 
 export interface FeedActivity {
@@ -27,6 +27,7 @@ export interface FeedActivity {
   content_isbn_en: string | null
   content_thumbnail_en: string | null
   content_has_en_edition: boolean | null
+  content_title_badge: TitleBadge | null
   review: string | null
   rating: number | null
   source_url: string | null
@@ -142,7 +143,7 @@ export async function getFeedActivities(
   // content_id 목록 추출해서 별도 조회
   const contentIds = [...new Set(sliced.map(item => item.content_id).filter(Boolean))] as string[]
 
-  let contentsMap: Record<string, { title: string; thumbnail_url: string | null; type: ContentType; title_ko: string | null; title_en: string | null; creator_en: string | null; isbn_en: string | null; thumbnail_en: string | null; has_en_edition: boolean | null }> = {}
+  let contentsMap: Record<string, { title: string; thumbnail_url: string | null; type: ContentType; title_ko: string | null; title_en: string | null; creator_en: string | null; isbn_en: string | null; thumbnail_en: string | null; has_en_edition: boolean | null; title_badge: TitleBadge | null }> = {}
   let userContentsMap: Record<string, { review: string | null; rating: number | null; source_url: string | null }> = {}
 
   if (contentIds.length > 0) {
@@ -171,7 +172,7 @@ export async function getFeedActivities(
       contentsMap = Object.fromEntries(
         contents.map((c: FeedContentRow) => {
           const flat = flattenLocales(c.content_locales, locale)
-          return [c.id, { title: flat.title, thumbnail_url: flat.thumbnail_url, type: c.type as ContentType, title_ko: flat.title_ko, title_en: flat.title_en, creator_en: flat.creator_en, isbn_en: flat.isbn_en, thumbnail_en: flat.thumbnail_en, has_en_edition: flat.has_en_edition }]
+          return [c.id, { title: flat.title, thumbnail_url: flat.thumbnail_url, type: c.type as ContentType, title_ko: flat.title_ko, title_en: flat.title_en, creator_en: flat.creator_en, isbn_en: flat.isbn_en, thumbnail_en: flat.thumbnail_en, has_en_edition: flat.has_en_edition, title_badge: flat.title_badge }]
         })
       )
     }
@@ -214,6 +215,7 @@ export async function getFeedActivities(
       content_isbn_en: contentInfo?.isbn_en || null,
       content_thumbnail_en: contentInfo?.thumbnail_en || null,
       content_has_en_edition: contentInfo?.has_en_edition ?? null,
+      content_title_badge: contentInfo?.title_badge ?? null,
       review: userContentInfo?.review || null,
       rating: userContentInfo?.rating || null,
       source_url: userContentInfo?.source_url || null,

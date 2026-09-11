@@ -7,6 +7,8 @@
 
 import { useState } from "react";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 import { Link } from "@/i18n/navigation";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -43,6 +45,7 @@ const SIZE_CONFIG = {
 export interface GameContentItemProps {
   contentId: string;
   title: string;
+  titleBadge?: TitleBadge | null;
   creator?: string | null;
   thumbnailUrl?: string | null;
   type: string;
@@ -57,6 +60,7 @@ export interface GameContentItemProps {
 export default function GameContentItem({
   contentId,
   title,
+  titleBadge,
   creator,
   thumbnailUrl,
   type,
@@ -91,7 +95,10 @@ export default function GameContentItem({
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <p className={`${cfg.title} font-bold text-white truncate`}>{title}</p>
+        <p className={`${cfg.title} font-bold text-white truncate`}>
+          <NoEditionBadge badge={titleBadge} />
+          {title}
+        </p>
         {creator && (
           <p className={`${cfg.creator} text-text-secondary truncate`}>
             {creator}
@@ -117,6 +124,7 @@ export default function GameContentItem({
             isOpen={showReview}
             onClose={() => setShowReview(false)}
             title={title}
+            titleBadge={titleBadge}
             creator={creator}
             review={review}
             sourceUrl={sourceUrl}

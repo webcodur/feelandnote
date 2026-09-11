@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/db/server'
 import { getLocale } from 'next-intl/server'
-import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
 
 export interface RecordsSearchResult {
   id: string
@@ -20,6 +20,7 @@ export interface RecordsSearchResult {
   isbn_en?: string | null
   thumbnail_en?: string | null
   has_en_edition?: boolean | null
+  title_badge?: TitleBadge | null
 }
 
 interface SearchRecordsParams {
@@ -136,6 +137,7 @@ export async function searchRecords({
         isbn_en: flat.isbn_en,
         thumbnail_en: flat.thumbnail_en,
         has_en_edition: flat.has_en_edition,
+        title_badge: flat.title_badge,
       }
     })
 

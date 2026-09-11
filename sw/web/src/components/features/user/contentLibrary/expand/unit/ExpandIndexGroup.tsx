@@ -6,6 +6,7 @@ import type { LucideIcon } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 
 import styles from "../ExpandDetailView.module.css";
 import type { ExpandIndexEntry } from "../groupExpandIndexItems";
@@ -85,6 +86,7 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
           styles.indexItemTitle,
         )}
       >
+        <NoEditionBadge badge={item.titleBadge} />
         {item.title}
       </span>
     </button>

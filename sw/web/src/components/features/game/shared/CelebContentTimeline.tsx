@@ -9,6 +9,7 @@ import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { cn } from "@/lib/utils";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 import GameContentItem from "./GameContentItem";
 
 export interface TimelineCeleb {
@@ -24,6 +25,9 @@ export interface TimelineContent {
   contentId: string;
   title: string;
   title_en?: string | null;
+  titleBadge?: TitleBadge | null;
+  /** title_en 표시용 배지 — locale이 en일 때 이 값을 쓴다 */
+  titleBadgeEn?: TitleBadge | null;
   creator: string | null;
   creator_en?: string | null;
   thumbnailUrl: string | null;
@@ -129,11 +133,13 @@ export default function CelebContentTimeline({
                 {contents.map((c) => {
                   const displayTitle = isEn ? (c.title_en ?? c.title) : c.title;
                   const displayCreator = isEn ? (c.creator_en ?? c.creator) : c.creator;
+                  const displayTitleBadge = isEn ? (c.titleBadgeEn ?? c.titleBadge) : c.titleBadge;
                   return (
                     <GameContentItem
                       key={c.contentId}
                       contentId={c.contentId}
                       title={displayTitle}
+                      titleBadge={displayTitleBadge}
                       creator={displayCreator}
                       thumbnailUrl={c.thumbnailUrl}
                       type={c.type}

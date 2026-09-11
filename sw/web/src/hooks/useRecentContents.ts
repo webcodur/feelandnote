@@ -7,6 +7,7 @@
 
 import { useState, useEffect, useEffectEvent, useCallback } from "react";
 import type { ContentType } from "@/types/database";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 
 const STORAGE_KEY = "recent_contents";
 const MAX_ITEMS = 20;
@@ -15,6 +16,7 @@ export interface RecentContentItem {
   id: string;
   type: ContentType;
   title: string;
+  titleBadge?: TitleBadge | null;
   creator: string | null;
   thumbnail: string | null;
   visitedAt: number;

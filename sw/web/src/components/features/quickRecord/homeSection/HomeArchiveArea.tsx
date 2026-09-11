@@ -40,6 +40,7 @@ export function HomeArchiveArea({
                             contentId={item.content.id}
                             contentType={item.content.type}
                             title={item.content.title}
+                            titleBadge={item.content.title_badge}
                             creator={item.content.creator}
                             thumbnail={item.content.thumbnail_url}
                             onClick={() => onItemClick(item, true)}
@@ -73,6 +74,7 @@ export function HomeArchiveArea({
                             contentId={item.content.id}
                             contentType={item.content.type}
                             title={item.content.title}
+                            titleBadge={item.content.title_badge}
                             creator={item.content.creator}
                             thumbnail={item.content.thumbnail_url}
                             onClick={() => onItemClick(item, true)}

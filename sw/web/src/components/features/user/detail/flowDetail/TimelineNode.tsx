@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { GripVertical, Layers, Trash2 } from "lucide-react";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
@@ -94,6 +95,7 @@ export default function TimelineNode({
         {/* 정보 */}
         <div className="flex-1 min-w-0 flex flex-col justify-center">
           <h4 className="text-xs md:text-sm font-bold text-white/85 line-clamp-1 leading-tight">
+            <NoEditionBadge badge={node.content.title_badge} />
             {node.content.title}
           </h4>
           {node.content.creator && (

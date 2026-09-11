@@ -3,15 +3,10 @@
 // egress-allow: flows는 공개 or 본인 RLS — 본인 비공개 플로우가 섞여 anon 전환 불가
 import { createClient } from '@/lib/db/server'
 import type { FlowWithStages, FlowStage, FlowStageWithNodes, FlowNode, FlowNodeWithContent, ContentType } from '@/types/database'
+import { flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 // select 문자열에 대응하는 조인 행 타입
-interface NodeLocaleRow {
-  locale: string
-  title: string | null
-  creator: string | null
-  thumbnail_url: string | null
-  description: string | null
-}
+type NodeLocaleRow = ContentLocaleRow
 
 interface NodeContentRow {
   id: string
@@ -66,7 +61,7 @@ export async function getFlow(flowId: string): Promise<FlowWithStages> {
     .from('flow_nodes')
     .select(`
       *,
-      content:contents(id, type, external_id, subtype, release_date, metadata, created_at, content_locales(locale, title, creator, thumbnail_url, description))
+      content:contents(id, type, external_id, subtype, release_date, metadata, created_at, content_locales(locale, title, creator, thumbnail_url, description, sources))
     `)
     .eq('flow_id', flowId)
     .order('sort_order', { ascending: true })
@@ -80,18 +75,18 @@ export async function getFlow(flowId: string): Promise<FlowWithStages> {
   const nodeRows: FlowNodeQueryRow[] = nodes || []
   const typedNodes = nodeRows.map((node) => {
     if (!node.content) return node
-    const locales = node.content.content_locales || []
-    const ko = locales.find((l) => l.locale === 'ko')
-    const en = locales.find((l) => l.locale === 'en')
+    // 플로우는 locale 인자를 받지 않는다 — 기존 ko 우선 표기를 그대로 유지한다.
+    const flat = flattenLocales(node.content.content_locales, 'ko')
     return {
       ...node,
       content: {
         ...node.content,
-        title: ko?.title || en?.title || '',
-        creator: ko?.creator || en?.creator || null,
-        thumbnail_url: ko?.thumbnail_url || en?.thumbnail_url || null,
-        description: ko?.description || en?.description || null,
+        title: flat.title,
+        creator: flat.creator,
+        thumbnail_url: flat.thumbnail_url,
+        description: flat.description,
         publisher: null,
+        title_badge: flat.title_badge,
       },
     }
   }) as FlowNodeWithContent[]

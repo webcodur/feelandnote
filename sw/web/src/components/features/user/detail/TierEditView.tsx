@@ -8,6 +8,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { ArrowLeft, Save, RotateCcw } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { getFlow } from "@/actions/flows/getFlow";
@@ -283,7 +284,10 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                           <div className="w-full h-full flex items-center justify-center text-xs text-white/20 p-2 text-center break-words">{item.content.title}</div>
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2">
-                           <p className="text-[10px] text-white line-clamp-2 leading-tight">{item.content.title}</p>
+                           <p className="text-[10px] text-white line-clamp-2 leading-tight">
+                             <NoEditionBadge badge={item.content.title_badge} />
+                             {item.content.title}
+                           </p>
                         </div>
                       </div>
                     );

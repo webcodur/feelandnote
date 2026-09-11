@@ -15,6 +15,7 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useFlowDetail } from "./flowDetail/useFlowDetail";
@@ -43,7 +44,10 @@ function DragOverlayContent({ content }: { content: Content }) {
         )}
       </div>
       <div className="min-w-0 max-w-[120px]">
-        <p className="text-xs text-white truncate">{content.title}</p>
+        <p className="text-xs text-white truncate">
+          <NoEditionBadge badge={content.title_badge} />
+          {content.title}
+        </p>
         <p className="text-[10px] text-text-secondary truncate">{content.creator}</p>
       </div>
     </div>

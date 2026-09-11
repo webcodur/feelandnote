@@ -14,10 +14,12 @@ import { getLocale } from "next-intl/server";
 import { getCountryNameAsync } from "@/lib/countries";
 import type { Tables } from "@/types/database.generated";
 import type { DialogueLines } from "@/lib/game/voice/types";
+import { flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
 
 export interface TrackerContent {
   id: string;
   title: string;
+  titleBadge: TitleBadge | null;
   creator: string | null;
   thumbnailUrl: string | null;
   type: string;
@@ -61,7 +63,7 @@ type TrackerUcRow = Pick<Tables<"celeb_contents">, "content_id" | "review" | "re
 interface TrackerContentRow {
   id: string;
   type: string | null;
-  content_locales: { locale: string; title: string | null; creator: string | null; thumbnail_url: string | null }[] | null;
+  content_locales: ContentLocaleRow[] | null;
 }
 
 // celeb_dialogues lines 조회 행
@@ -437,7 +439,7 @@ async function buildRound(
   if (contentIds.length > 0) {
     const { data: cData } = await db
       .from("contents")
-      .select("id, type, content_locales(locale, title, creator, thumbnail_url)")
+      .select("id, type, content_locales(locale, title, creator, thumbnail_url, sources)")
       .in("id", contentIds);
 
     const reviewMap = new Map(
@@ -450,19 +452,16 @@ async function buildRound(
     const contentRows: TrackerContentRow[] = cData ?? [];
     contents = contentRows
       .map((c) => {
-        const locales = c.content_locales;
-        const ko = locales?.find(l => l.locale === 'ko');
-        const en = locales?.find(l => l.locale === 'en');
-        const prim = preferKo ? ko : en;
-        const fall = preferKo ? en : ko;
-        const title = prim?.title || fall?.title || "";
-        const creator = prim?.creator || fall?.creator || null;
-        const thumbnailUrl = prim?.thumbnail_url || fall?.thumbnail_url || null;
+        const flat = flattenLocales(c.content_locales, preferKo ? 'ko' : 'en');
+        const title = flat.title;
+        const creator = flat.creator;
+        const thumbnailUrl = flat.thumbnail_url;
         const reviews = reviewMap.get(c.id);
         const raw = (preferKo ? (reviews?.review || reviews?.review_en) : (reviews?.review_en || reviews?.review)) ?? "";
         return {
           id: c.id,
           title,
+          titleBadge: flat.title_badge,
           creator,
           thumbnailUrl,
           type: c.type ?? "BOOK",

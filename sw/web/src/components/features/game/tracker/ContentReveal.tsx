@@ -6,6 +6,7 @@
 "use client";
 
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { useTranslations } from "next-intl";
 import type { TrackerContent } from "@/actions/game/getTrackerRound";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
@@ -52,6 +53,7 @@ export default function ContentReveal({ content }: ContentRevealProps) {
             </span>
           </div>
           <h4 className="text-base sm:text-lg font-bold text-white leading-snug">
+            <NoEditionBadge badge={content.titleBadge} />
             {content.title}
           </h4>
           {content.creator && (
