@@ -129,7 +129,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
             </div>
             <div className="flex-1 text-xs min-w-[12rem]">
               <code className="text-purple-400 block">{`titleBadge={badge} | "no-en"`}</code>
-              <p className="text-text-secondary mt-1">표지 카드: 표지 한가운데 「미번역 / Untranslated」 가로 띠(cover), 표지 유무와 무관. 네 번째는 배지 없는 대조군.</p>
+              <p className="text-text-secondary mt-1">표지 카드: 표지 한가운데 「번역본 없음 / Untranslated」 가로 띠(cover), 표지 유무와 무관. 네 번째는 배지 없는 대조군.</p>
             </div>
           </div>
         </div>
