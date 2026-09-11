@@ -163,7 +163,7 @@ JSON-LD는 서버 렌더 HTML에 싣는다. 클라이언트에서 주입하면 �
 - 작품 구조화 데이터의 제작자를 전부 `author`로 쓰던 오류를 유형별 `author`·`director`·`byArtist`·`creator`로 나눴다.
 - `/explore` 제목·설명에 인물 중심 용어와 브랜드 문맥을 반영했다.
 - 영상관처럼 제목 자체에 브랜드가 있던 페이지는 전역 접미사와 중복되지 않게 개별 제목에서 브랜드를 제거했다.
-- 답변 엔진 검색용 UA 9종은 공개 범위를 허용하고, 모델 학습·대량 수집 UA 16종은 계속 전면 차단하도록 `robots.ts`를 분리했다.
+- 답변 엔진 검색용 UA 9종은 공개 범위를 허용하고, 모델 학습·대량 수집 UA는 계속 전면 차단하도록 `robots.ts`를 분리했다. 현행 명단은 아래 Robots 절이 쥔다.
 - sitemap URL 목록은 그대로 두되 인물은 `updated_at ?? created_at`, 작품은 공개 감상문 최신 `updated_at`을 정확한 `lastmod`로 기록하게 했다.
 - 새 라우트가 아니므로 `navigation.tsx`는 변경하지 않았다. 기존 canonical·hreflang는 유지한다.
 
@@ -542,8 +542,11 @@ verification: {
   - 기타: `/notifications`, `/search`, `/lab` (`/en` 접두 변형 포함)
   - 쿼리: `/*?*search=`, `/*?*sortBy=`, `/*?*sort=`, `/*?*page=` — **무한 조합을 만드는 파라미터만** 차단한다. `/*?` 전면 차단은 `?category=`가 붙은 콘텐츠 상세 내부 링크까지 크롤 불가로 만들어 색인 붕괴를 일으켰다(2026-07-15 해제)
 - **검색·답변·사용자 요청 크롤러 9종**: `OAI-SearchBot`, `ChatGPT-User`, `Claude-SearchBot`, `Claude-User`, `PerplexityBot`, `Perplexity-User`, `Amzn-SearchBot`, `Amzn-User`, `YouBot`. 일반 검색엔진과 같은 공개 범위만 허용하고 `crawlDelay: 1`을 선언한다.
-- **모델 학습·대량 수집 크롤러 16종**(`GPTBot`·`ClaudeBot`·`CCBot`·`Bytespider`·`Google-Extended`·`Amazonbot` 등): `Disallow: /` 전 경로 차단. 답변 엔진을 열었다고 학습 수집까지 연 것이 아니다.
-- 일반 `Googlebot`은 Google 검색·AI Overviews/AI Mode를 함께 제어하고, `Google-Extended` 차단은 Google 검색 노출에 영향을 주지 않는다.
+- **모델 학습·대량 수집 크롤러 UA 20종**(`GPTBot`·`ClaudeBot`·`CCBot`·`Bytespider`·`Amazonbot`·`meta-externalagent`와 SEO 수집기 등, 명단은 `sw/web/src/lib/blocked-crawlers.ts`): `Disallow: /` 전 경로 차단. 같은 명단을 Cloudflare WAF(1차 차단)와 미들웨어(2차 403)가 쓴다. 답변 엔진을 열었다고 학습 수집까지 연 것이 아니다.
+- **robots 전용 토큰** `Applebot-Extended`: UA 없이 robots.txt로만 작동하며 Apple 모델 학습만 제어한다. Siri·Spotlight 검색은 `Applebot`이 담당하므로 전면 차단해도 검색 노출은 유지된다.
+- **`Google-Extended`는 기본 안내만 허용**(2026-09-11): 홈·`/about`·`/explore/directory`·`/privacy`·`/terms`와 `/en` 변형만 `Allow`, 나머지는 `Disallow: /`. 이 토큰은 Gemini 모델 학습과 **Gemini 앱·Vertex AI 그라운딩**을 함께 제어하므로 전면 차단하면 Gemini 답변에서 서비스 소개조차 빠진다. 경로 규칙을 따르고 자체 크롤을 하지 않아 추가 부하는 없다. [Google-Extended](https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers)
+- 일반 `Googlebot`은 Google 검색·AI Overviews/AI Mode를 함께 제어하고, `Google-Extended`는 Google 검색 포함·순위에 영향을 주지 않는다.
+- **분리 원칙(2026-09-11 결정)**: 개별 데이터(인물·작품 상세) 보호는 학습 차단 한 축으로만 한다. 검색·답변 봇에게 상세를 감추지 않는다 — Google AI Mode는 Googlebot 색인을 그대로 쓰므로 3자 답변 봇만 막아도 보호 효과가 없고 인용만 잃는다. `data-nosnippet`·Bing `nocache`로 상세 블록을 빼는 안은 검색 스니펫까지 잃어 채택하지 않았다.
 
 ## 미들웨어 SEO 경로 제외
 
