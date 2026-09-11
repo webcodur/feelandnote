@@ -114,7 +114,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
             </div>
             <div className="flex-1 text-xs min-w-[12rem]">
               <code className="text-purple-400 block">{`titleBadge="no-ko" | "no-en"`}</code>
-              <p className="text-text-secondary mt-1">표지 카드: 제목 위 「국문본 없음」 한 줄(kicker). 세 번째는 배지 없는 대조군.</p>
+              <p className="text-text-secondary mt-1">표지 카드: 표지 왼쪽 위 「국문본 없음」 띠(cover). 감상평형은 제목 위 한 줄(kicker). 세 번째는 배지 없는 대조군.</p>
             </div>
           </div>
         </div>
