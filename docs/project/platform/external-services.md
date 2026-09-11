@@ -1,6 +1,6 @@
 # 외부 서비스
 
-> **최종 실측 체크: 26.09.10** — Oracle DB VM의 Auth·PostgREST, 앱의 DB 경로·환경변수, 웹 캐시 webhook, 암호화 백업과 격리 복원을 확인했다. 9월 10일 REST 장애와 복구 내용은 아래에 기록한다.
+> **최종 실측 체크: 26.09.11** — Oracle DB VM의 Auth·PostgREST·Envoy 지표, 앱의 DB 경로·환경변수, 웹 캐시 webhook, 암호화 백업과 격리 복원을 확인했다. 9월 10일 REST 장애에서 확정한 규칙은 아래 「PostgREST 장애 대응 규칙」이 쥔다.
 
 ## Oracle DB 운영
 
@@ -14,19 +14,14 @@ Oracle 이전은 Supabase Cloud를 떠나 Oracle VM에서 PostgreSQL·Auth·Post
 - Google·Kakao OAuth의 프로바이더 callback은 `https://db.feelandnote.com/auth/v1/callback`이다. 자체 Auth 설정과 SMTP 값은 서버의 `/opt/feelandnote/supabase/.env`에만 둔다.
 - `/usr/local/sbin/feelandnote-db-backup`을 `feelandnote-db-backup.timer`가 매일 실행한다. 논리 덤프를 `age`로 암호화해 R2 `feelandnote-backups/postgres/daily/`에 올리고 업로드 뒤 SHA256을 다시 읽어 대조한다. 설치 원본과 격리 복원 검증기는 `scripts/oracle-db/`가 쥔다. 복구용 age 비밀키는 로컬 `C:\Users\webco\.feelandnote\oracle-db-backup-age.key`에만 있으며 서버에는 공개 recipient만 둔다.
 
-### 2026-09-10 REST 장애와 복구
+### PostgREST 장애 대응 규칙 (2026-09-10 장애에서 확정)
 
-2026년 9월 10일, Feel&Note의 여러 화면이 한꺼번에 이상해졌다. 기관 선정 화면은 실제 기관과 목록이 DB에 있는데도 연세대학교 페이지가 404로 열리지 않았고, 성균관대학교 목록에서 작품소개를 열면 스켈레톤만 남았다. 셀럽 상세에서는 감상 기록의 책소개와 감상배경이 비어 있거나 로딩이 끝나지 않았으며, 버락 오바마 상세는 Internal Server Error를 반환했다. 원인을 따라가 보니 PostgreSQL 데이터 자체가 사라진 것이 아니라, Oracle DB VM의 PostgREST가 연결을 받아 처리하지 못하고 있었다. PostgREST 컨테이너는 실행 중이었지만 health check가 계속 실패했고, 내부 3000번 REST 포트에 보낸 요청도 응답하지 않았다. 당시 연결 대기열은 2,049개 중 2,048개가 사용 중이었고 CLOSE-WAIT 연결이 738개까지 쌓여 있었다. PostgreSQL에 직접 접속하면 기관·인물 데이터와 PostgREST의 기존 세션은 정상 확인됐고 OOM 강제 종료 기록도 없었다. 따라서 이번 장애는 DB 데이터 손실이나 PostgreSQL 프로세스 종료로 판정하지 않으며, PostgREST 프로세스가 연결·스키마 조회를 처리하지 못한 API 계층 장애로 기록한다.
-
-장애가 발생한 동안 PostgREST는 연결 풀을 얻지 못했다는 `PGRST003`과 문장 시간 초과 `57014`를 남겼다. PostgREST만 재시작한 뒤 스키마 캐시를 다시 읽었고 REST health check가 healthy로 돌아왔으며, DB API의 기관·인물 조회는 200을 반환했다. 이후 운영·로컬의 연세대학교 페이지, 버락 오바마 상세, 오바마의 《배움의 발견》 책소개·감상배경, 성균관대학교의 《구운몽》 작품소개를 다시 확인해 정상 노출을 확인했다. PostgreSQL과 웹 서버는 재시작하지 않았다. 당일 코드 로직 개편이 장애를 촉발했는지는 이 기록만으로 입증되지 않았으므로 원인으로 단정하지 않는다. 연결 대기열 고갈과 프로세스 무응답은 확인된 현상이고, 최초의 트래픽·쿼리 변화가 그것을 만들었는지는 별도 계측 없이는 확정할 수 없다.
-
-이번 장애에서는 인프라 장애가 화면 오류로 번지는 경로도 드러났다. 셀럽 상세와 작품소개는 공통 REST API가 실패하면 필요한 데이터를 받지 못했고, 소개 모달은 요청에 명시적인 종료 시간 제한이 없어 실패 응답이 늦어지는 동안 스켈레톤을 계속 보여 주었다. 기관 선정 조회는 더 위험했다. `curators`, `curated_lists` 등의 조회에서 `error`를 읽지 않고 `data`가 비어 있으면 기관이 없다고 판단했기 때문에, API 장애가 정상적인 404로 위장했다. 이 결과가 7일 캐시에 들어가면 API를 복구한 뒤에도 같은 기관이 한동안 404로 남을 수 있었다.
-
-해결책은 세 층으로 나눈다. 운영 장애가 재발하면 먼저 `supabase-rest`의 health 상태, 컨테이너 내부 3000번 포트, PostgREST 로그의 `PGRST003`·`PGRST002`·`57014`, PostgreSQL의 직접 조회를 차례로 확인한다. PostgreSQL이 정상이고 REST 프로세스만 무응답이면 `supabase-rest`만 재시작하고, 재시작 뒤 스키마 캐시 로드·health check·대표 REST 조회·대표 웹 페이지를 확인한다. PostgreSQL과 `feelandnote-web.service`를 먼저 재시작하지 않는다.
-
-애플리케이션에서는 REST 조회의 `error`를 행 없음과 분리하고, 오류는 캐시 함수 안에서 던져 실패 결과가 캐시에 저장되지 않게 한다. 이 원칙을 기관 선정의 허브·기관·목록·작품 선정 이력 조회에 반영했으며, [curated.ts](../../../sw/web/src/actions/library/curated.ts)와 [curated.cache.test.ts](../../../sw/web/src/actions/library/curated.cache.test.ts)에 오류 미캐시 회귀 검사를 두었다. 현재 로컬 테스트는 통과했지만 이 코드는 아직 운영 배포 전이다. 배포 때는 기관 선정 캐시(`curated`)를 무효화하고 연세대학교·성균관대학교·오바마 대표 경로를 다시 확인한다.
-
-작품소개 모달과 셀럽 감상 화면에는 REST 호출이 일정 시간 안에 끝나지 않을 때 사용자에게 재시도나 소개 없음 상태를 보여 주는 종료 처리가 추가로 필요하다. 이번 복구로 정상 응답일 때의 화면은 돌아왔지만, API가 다시 멎었을 때 스켈레톤이 무한히 남지 않게 하는 클라이언트 타임아웃·재시도 UI는 별도 작업으로 남아 있다. 인프라 쪽에서는 PostgREST 연결 수, CLOSE-WAIT, 스키마 캐시 재조회 시간, 컨테이너 health 실패 지속 시간을 운영 지표로 남겨 다음에는 프로세스가 완전히 무응답하기 전에 감지해야 한다.
+- **원인 구조**: DB VM은 `VM.Standard.E2.1.Micro`(1 OCPU·1 GB, Always Free)에 PostgreSQL·PostgREST·Envoy·Auth·cloudflared를 다 올린 것이다. PostgREST 풀은 기본 10이고 anon `statement_timeout`은 15초라, 인물 상세 한 페이지가 동시에 던지는 10여 개 조회에 평균 1.4~3초짜리 RPC(`get_celebs_sorted`·`get_content_celeb_user_counts`·`get_persona_extremes`)가 섞이면 저녁 트래픽만으로 풀이 막힌다. 9월 10일에는 21~22시(KST) 두 시간에 풀 대기 초과(`PGRST003`, HTTP 504)가 1,018건 쌓인 끝에 22:57 PostgREST 프로세스가 굳어 4시간 무응답했다. 데이터·PostgreSQL 손상은 없었고 `docker restart supabase-rest`로 복구했다.
+- **진단 순서**: ① `docker inspect supabase-rest --format '{{.State.Health.Status}}'`, ② PostgREST 관리 서버 지표 `sudo nsenter -t <rest PID> -n curl 'http://[::1]:3001/metrics'`의 `pgrst_db_pool_waiting`·`pgrst_db_pool_available`·`pgrst_db_pool_timeouts_total`, ③ `docker logs --tail 200 supabase-rest`의 `PGRST003`·`PGRST002`·`57014`(로그는 5xx만 남는다), ④ Envoy 통계 `sudo nsenter -t <envoy PID> -n curl -s 127.0.0.1:9901/stats | grep cluster.rest`, ⑤ `pg_stat_activity`의 `authenticator` 세션 상태. PostgreSQL이 정상이고 REST만 무응답이면 `supabase-rest`만 재시작하고 스키마 캐시 로드·health·대표 조회·대표 페이지를 확인한다. PostgreSQL과 `feelandnote-web.service`는 재시작하지 않는다.
+- **이 VM에서 하지 말 것**: Envoy 컨테이너 로그는 회전 없이 1 GB를 넘어 `docker logs supabase-envoy`가 파일 전체를 훑는다. 26.09.11 12:32 이 조회 하나로 풀 대기 초과 270건과 웹 오류 700건이 났다. 읽을 때는 반드시 `--tail`을 쓴다. 행마다 SSH·`docker exec`를 여는 배치도 같은 VM을 눌러 낮 시간 풀 고갈을 만든다(26.09.10 낮 시간당 SSH 로그인 1,300~1,900회). 전량 처리 배치는 SQL을 묶어 한 세션으로 보낸다.
+- **Envoy 헬스체크**: `rest` 클러스터의 헬스체크는 TCP 확인으로 둔다(`volumes/api/envoy/cds.yaml`, 26.09.11 교체). 이전의 `GET /`는 PostgREST OpenAPI 생성이라 5초마다 카탈로그 쿼리 3개를 실행해 전체 요청의 16%·DB 실행 시간 1위였고 부하 때 같이 시간 초과됐다. 되돌리지 않는다. PostgREST 관리 서버를 `0.0.0.0`에 열면 `/ready`로 바꾼다.
+- **앱 규칙**: 서버 REST 클라이언트(`lib/db/static.ts`·`admin.ts`)는 `lib/db/restFetch.ts`로 응답 대기 30초 상한을 걸고 postgrest-js 자동 재시도(503·네트워크 오류에 1·2·4초 백오프)를 끈다. 포화된 풀에 재시도는 부하를 4배로 만들 뿐이다. 조회는 `error`를 행 없음과 분리해 캐시 함수 안에서 `throwOnQueryError`로 던지고, 공개 함수는 `withQueryFallback`으로 이번 요청만 대체한다(`lib/cache.ts`). 실패를 「자료 없음」으로 캐시하면 API가 복구되어도 404·빈 화면이 7일 남는다. 회귀 검사는 `actions/library/curated.cache.test.ts`·`lib/db/restFetch.test.ts`다.
+- **남은 것**: DB VM 이전·컨테이너 로그 회전·RPC 재작성·SSH 배치 세션 재사용·클라이언트 재시도 UI는 `docs/todo/web.md`「실화면·운영」이 쥔다.
 
 ### Cloudflare 앞단 캐시 (2026-08-16 가동)
 
@@ -39,7 +34,7 @@ Oracle 이전은 Supabase Cloud를 떠나 Oracle VM에서 PostgreSQL·Auth·Post
 - 코드 배포 뒤에는 `pnpm purge:web:cloudflare -- --scope <범위> --execute`로 필요한 범위(`none|celeb|content|seo|cached-html`)를 비운다. 인자 없이 `--scope`만 주면 보낼 URL을 먼저 보여준다. 자격증명은 환경변수를 먼저 보고 없으면 `sw/web/.env`에서 읽는다. GitHub에서 돌릴 때는 `cloudflare-purge.yml`을 같은 범위로 수동 실행한다 — 계획·검증·payload가 같다. `emergency-zone`은 `PURGE-ENTIRE-FEELANDNOTE-ZONE` 확인문을 정확히 입력한 워크플로에서만 전체 존을 비운다. 로컬 CLI는 전체 존 퍼지를 거부한다.
 - 학습·대량수집 봇 차단은 Cloudflare 방화벽이 1차(UA 20종, `sw/web/src/lib/blocked-crawlers.ts`와 동일), 미들웨어 403이 2차다. IP·ASN 규칙은 방문자 주소를 직접 보는 Cloudflare에서 건다.
 - 호스팅 ASN 챌린지 규칙(인물·작품 상세, 미검증 봇 대상)에는 Perplexity 예외가 있다(2026-09-11). Perplexity는 2025-08 Cloudflare 검증 봇에서 제명돼 `cf.client.bot`이 거짓이고 공개 IP 대역이 전부 Amazon AS14618이라 예외 없이는 상세에서 챌린지에 막힌다. 예외는 UA(`PerplexityBot`·`Perplexity-User`)와 Perplexity가 공개한 IP 대역(`perplexity.com/perplexitybot.json`·`perplexity-user.json`)을 함께 요구한다. 대역이 바뀌면 규칙의 IP 목록을 갱신한다. 초당 요청 제한은 그대로 받는다.
-- Cloudflare AI 봇 정책(Security › Settings › Configure AI bot policies)은 Search 허용·Agent 허용·Training 전 페이지 차단으로 명시한다. 2026-09-15부터의 기본값은 「광고 페이지에서 Training·Agent 차단」인데 AdSense 스크립트가 전 페이지에 실려 사용자 요청 봇(ChatGPT-User·Claude-User 등)까지 막히기 때문이다. 이 설정은 API 토큰 권한 밖이라 대시보드에서만 바꾼다.
+- Cloudflare AI 봇 정책(Security › Settings › Configure AI bot policies)은 Search 허용·Agent 허용·Training 전 페이지 차단이다(2026-09-11 설정). 2026-09-15부터의 기본값은 「광고 페이지에서 Training·Agent 차단」인데 AdSense 스크립트가 전 페이지에 실려 사용자 요청 봇(ChatGPT-User·Claude-User 등)까지 막히기 때문이다. 같은 화면의 「겸용(mixed-purpose) 크롤러」 선택은 **계속 허용**이다 — Cloudflare가 검색·학습 겸용으로 분류하는 봇에 Googlebot·Applebot·Bingbot이 들어가므로 차단을 고르면 검색 색인이 끊긴다. 겸용 봇 중 원치 않는 것(Amazonbot·meta-externalagent·Bytespider·PetalBot)은 WAF UA 규칙이, Google·Apple의 학습 사용은 robots의 Google-Extended·Applebot-Extended가 각각 막는다. 이 설정은 API 토큰 권한 밖이라 대시보드에서만 바꾼다.
 - 확인 명령: `curl -sI https://feelandnote.com/celeb/<slug> | grep cf-cache-status` (HIT/MISS/DYNAMIC).
 - **이관 직후 DNS 전파 편차(2026-08-17):** 이관 다음날 일부 국내 ISP 리졸버가 구 경로를 캐싱해 접속 실패(PWA 오프라인 화면) 신고 있었음. Cloudflare DNS(1.1.1.1) 직접 조회로 신규 엣지 정상 확인 — 신·구 경로 둘 다 응답 정상이라 서버 장애가 아니라 리졸버별 전파 편차로 판정. 봇 차단 UA(`blocked-crawlers.ts`)는 구체 문자열 매칭이라 오탐 원인 아님.
 - **같은 날 재발 확인:** 몇 시간 뒤 같은 사용자가 재차 접속 실패 보고. 재진단 결과 해당 ISP 리졸버가 **조회할 때마다** 구 IP(`216.150.x.x`)와 신규 Cloudflare 엣지 IP(`172.67.x.x`/`104.21.x.x`) 사이를 오락가락(5회 중 2~3회꼴로 뒤바뀜). 두 경로 각각은 10연속 200 OK로 개별 안정 — 신·구 원본 서버와 Cloudflare 장애는 배제, 원인은 ISP 리졸버 클러스터의 캐시 미정렬이며 우리 쪽에서 고칠 수 있는 지점이 아니다. **즉시 우회책**: 기기·공유기 DNS를 `1.1.1.1` 또는 `8.8.8.8`로 수동 지정하면 오락가락 없이 항상 정상 접속됨(모바일 데이터 전환도 우회됨). 언제 완전히 정착될지는 해당 ISP 쪽 일정이라 예측 불가 — 재발 신고가 오면 이 항목부터 참조하고 신규 원인부터 찾지 않는다.
