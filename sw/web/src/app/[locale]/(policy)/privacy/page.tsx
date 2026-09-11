@@ -1,7 +1,7 @@
 /*
   파일명: /app/(policy)/privacy/page.tsx
   기능: 개인정보처리방침 페이지
-  책임: Feel&Note 개인정보 수집 및 이용 내역을 표시한다.
+  책임: feelandnote 개인정보 수집 및 이용 내역을 표시한다.
 */
 
 import { getTranslations } from "next-intl/server";

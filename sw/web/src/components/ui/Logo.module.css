@@ -84,20 +84,24 @@
   letter-spacing: 0.055em;
 }
 
-.ampersand {
-  margin: 0 0.18em;
+/* 'and' — 한 단어 안에서 색·굵기만 낮춰 feel·note를 세운다. 공백을 넣지 않는다 */
+.joiner {
+  margin: 0 0.04em;
   color: var(--logo-gold);
-  font-size: 0.95em;
-  font-weight: 800;
-  letter-spacing: 0;
+  font-size: 0.82em;
+  font-weight: 500;
+  letter-spacing: 0.06em;
 }
 
 .compact .word {
   letter-spacing: 0;
 }
 
-.compact .ampersand {
-  margin-inline: 0.1em;
+.compact .joiner {
+  margin: 0 0.1em;
+  font-size: 0.95em;
+  font-weight: 800;
+  letter-spacing: 0;
 }
 
 .subtitleRule {
@@ -130,7 +134,7 @@
   color: #fffaf2;
 }
 
-.link:hover .ampersand {
+.link:hover .joiner {
   color: var(--logo-gold-bright);
 }
 

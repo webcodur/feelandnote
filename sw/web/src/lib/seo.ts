@@ -2,10 +2,11 @@ import { getLocale } from 'next-intl/server';
 import { YOUTUBE_CHANNELS } from '@/constants/youtube';
 
 export const SITE_URL = 'https://feelandnote.com';
-export const SITE_NAME = 'Feel&Note';
+/** 워드마크는 한 단어 `feelandnote`다. 검색어 토큰과 일치해야 하므로 `Feel&Note`·`Feel & Note`로 되돌리지 않는다. */
+export const SITE_NAME = 'feelandnote';
 export const SITE_ALTERNATE_NAMES = [
   '필앤노트',
-  'feelandnote',
+  'Feel&Note',
   'Feel and Note',
   'feelandnote.com',
 ] as const;

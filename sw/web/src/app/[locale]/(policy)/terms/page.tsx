@@ -1,7 +1,7 @@
 /*
   파일명: /app/(policy)/terms/page.tsx
   기능: 이용약관 페이지
-  책임: Feel&Note 서비스 이용약관을 표시한다.
+  책임: feelandnote 서비스 이용약관을 표시한다.
 */
 
 import { getTranslations } from "next-intl/server";

@@ -47,13 +47,13 @@
     "freeBoardComingSoonDesc": "The free board feature will be available soon",
     "feedback": {
       "title": "Feedback",
-      "description": "Share your feedback and suggestions about the Feel&Note service.",
+      "description": "Share your feedback and suggestions about the feelandnote service.",
       "write": "Write Feedback",
       "edit": "Edit Feedback"
     },
     "notice": {
       "title": "Announcements",
-      "description": "Official announcements from the Feel&Note service.",
+      "description": "Official announcements from the feelandnote service.",
       "write": "Write Announcement",
       "edit": "Edit Announcement"
     },

@@ -28,12 +28,12 @@ export function renderHighlighted(text: string, figureLinks: Record<string, stri
           </Link>
         );
       }
-      if (name === "Feel&Note") {
+      if (name === "feelandnote" || name === "Feel&Note") {
         return (
           <span key={i} className="font-cormorant font-semibold tracking-wide inline-flex items-baseline ml-0.5 mr-1.5 text-[17px] md:text-xl whitespace-nowrap">
-            <span className="logo-text-cream">FEEL</span>
-            <span className="logo-text-sepia mx-1">&amp;</span>
-            <span className="logo-text-cream">NOTE</span>
+            <span className="logo-text-cream">feel</span>
+            <span className="logo-text-sepia">and</span>
+            <span className="logo-text-cream">note</span>
           </span>
         );
       }
