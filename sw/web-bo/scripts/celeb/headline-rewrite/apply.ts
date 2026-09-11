@@ -220,7 +220,7 @@ type SelfHostedSqlOptions = {
 export function createSelfHostedSqlExecutor(
   options: SelfHostedSqlOptions = {},
 ): ManagementSqlExecutor {
-  const host = options.host ?? process.env.FEELANDNOTE_DB_SSH_HOST ?? 'ubuntu@152.67.216.40'
+  const host = options.host ?? process.env.FEELANDNOTE_DB_SSH_HOST ?? 'ubuntu@152.67.198.197'
   const sshKey = options.sshKey
     ?? process.env.FEELANDNOTE_DB_SSH_KEY
     ?? path.join(process.env.USERPROFILE ?? '', '.ssh', 'feelandnote_oracle')

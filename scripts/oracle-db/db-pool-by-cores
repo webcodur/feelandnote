@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# 부팅 때 코어 수에 맞춰 PostgREST 풀을 맞춘다. 1코어 15, 2코어 이상 25. compose 값이 다르면 고치고 rest만 재생성한다.
+set -euo pipefail
+cd /opt/feelandnote/supabase
+want=$([ "$(nproc)" -ge 2 ] && echo 25 || echo 15)
+cur=$(grep -oE 'PGRST_DB_POOL: [0-9]+' docker-compose.yml | grep -oE '[0-9]+$')
+[[ "$cur" == "$want" ]] && exit 0
+sed -i "s/PGRST_DB_POOL: $cur/PGRST_DB_POOL: $want/" docker-compose.yml
+docker compose up -d --no-deps rest >/dev/null 2>&1
+logger -t feelandnote-db-pool "PGRST_DB_POOL $cur -> $want (nproc=$(nproc))"
