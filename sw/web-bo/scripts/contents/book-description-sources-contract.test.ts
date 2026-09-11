@@ -77,3 +77,16 @@ test('SQL text cannot terminate its DO block through stored book text', () => {
   const change = planIntroductionChange('content_locales', { ...row, title: '$book_introductions$' }, fetched).change!
   assert.match(buildIntroductionApplySql('book', [change]), /DO \$book_introductions_x\$/)
 })
+test('reselect moves an existing marker only to a verified selection and keeps it otherwise', () => {
+  const selected: IntroductionRow = { ...row, description: 'KAKAO',
+    sources: { primary: 'kakao_book', description: 'https://dapi.kakao.com/v3/search/book?target=isbn&query=9788908062290' } }
+  const moved = planIntroductionChange('content_locales', selected, fetched, { reselect: true })
+  assert.equal(moved.reason, 'reselected')
+  assert.equal(moved.change?.description, 'DAUM')
+  assert.equal(moved.change?.sources.description, fetched.sourceUrl)
+  assert.equal(moved.change?.sources.primary, 'kakao_book')
+  assert.equal(planIntroductionChange('content_locales', selected, fetched).reason, 'already-selected')
+  assert.equal(planIntroductionChange('content_locales', { ...selected, description: 'DAUM', sources: { description: fetched.sourceUrl } }, fetched, { reselect: true }).reason, 'reselect-unchanged')
+  assert.equal(planIntroductionChange('content_locales', selected, { source: null, sourceUrl: null, description: null }, { reselect: true }).reason, 'reselect-no-introduction')
+  assert.equal(planIntroductionChange('content_locales', { ...selected, locale: 'en', description: 'OPEN' }, fetched, { reselect: true }).reason, 'source-language-mismatch')
+})

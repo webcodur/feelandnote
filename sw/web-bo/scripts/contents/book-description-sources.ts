@@ -39,17 +39,19 @@ async function main() {
     limit: { type: 'string', default: '20' }, after: { type: 'string' },
     'content-id': { type: 'string', multiple: true }, locale: { type: 'string' },
     'include-stored': { type: 'boolean' }, apply: { type: 'boolean' },
-    'source-only': { type: 'boolean' },
+    'source-only': { type: 'boolean' }, reselect: { type: 'boolean' },
     'backup-dir': { type: 'string' }, help: { type: 'boolean' },
   }, strict: true })
   if (values.help) {
-    console.log('book-description-sources [--limit 20] [--after content-id] [--content-id ID] [--locale ko|en] [--include-stored] [--source-only] [--apply --backup-dir PATH]\nDefault: read-only, NULL introductions only. --include-stored also checks existing external copies; prepared/unknown text is preserved. --source-only converts existing trusted URLs (Kakao/Daum for ko, OpenLibrary for en) without external requests. English --apply requires --source-only, unless one explicit --content-id is supplied.')
+    console.log('book-description-sources [--limit 20] [--after content-id] [--content-id ID] [--locale ko|en] [--include-stored] [--source-only] [--apply --backup-dir PATH]\nDefault: read-only, NULL introductions only. --include-stored also checks existing external copies; prepared/unknown text is preserved. --source-only converts existing trusted URLs (Kakao/Daum for ko, OpenLibrary for en) without external requests. English --apply requires --source-only, unless one explicit --content-id is supplied. --reselect re-fetches rows that already carry a marker (explicit --content-id only, e.g. after an ISBN change) and keeps the old marker when no introduction is found.')
     return
   }
   const limit = Number(values.limit)
   if (!Number.isSafeInteger(limit) || limit < 1) throw new Error('--limit must be a positive integer')
   if (values.locale && !['ko', 'en'].includes(values.locale)) throw new Error('--locale must be ko or en')
   if (values['source-only'] && !values.locale) throw new Error('--source-only requires --locale ko or en')
+  if (values.reselect && !values['content-id']?.length) throw new Error('--reselect requires --content-id')
+  if (values.reselect && values['source-only']) throw new Error('--reselect cannot be combined with --source-only')
   if (values.apply && values.locale === 'en' && !values['source-only'] && values['content-id']?.length !== 1) {
     throw new Error('English bulk apply is disabled; use --source-only or one explicit --content-id')
   }
@@ -103,9 +105,10 @@ async function main() {
       ]
       for (const { table, row } of rows) {
         if (!['ko', 'en'].includes(row.locale) || (values.locale && row.locale !== values.locale)) continue
-        if (isBookIntroductionSource(row.description)) { count('already-selected'); continue }
-        if (row.description?.trim() && !values['include-stored']) { count('stored-text'); continue }
-        if (row.description?.trim() && hasPreparedIntroduction(row)) { count('prepared-text'); continue }
+        const marker = isBookIntroductionSource(row.description)
+        if (marker && !values.reselect) { count('already-selected'); continue }
+        if (!marker && row.description?.trim() && !values['include-stored']) { count('stored-text'); continue }
+        if (!marker && row.description?.trim() && hasPreparedIntroduction(row)) { count('prepared-text'); continue }
         if (table === 'figure_book_editions' && !row.description?.trim() && book.content_locales.some((locale) =>
           locale.locale === row.locale && locale.isbn === row.isbn && locale.description?.trim()
           && !isBookIntroductionSource(locale.description) && hasPreparedIntroduction(locale))) {
@@ -179,7 +182,7 @@ async function main() {
             continue
           }
         }
-        const decision = planIntroductionChange(table, row, result)
+        const decision = planIntroductionChange(table, row, result, { reselect: values.reselect })
         count(decision.reason)
         if (decision.change) changes.push(decision.change)
       }
