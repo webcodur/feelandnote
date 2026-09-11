@@ -40,7 +40,7 @@ Google Books와 네이버 도서는 신규 BOOK 메타·표지에 사용하지 �
 
 ISBN만 있거나 검색 스니펫·출판사 소개·도서관 소장 정보만 있는 판본은 통과하지 못한다. 제목·저자·ISBN을 모두 대조하고, 동명 해설서·학습서·필사본·일부 권·다른 번역판을 원작으로 오인하지 않는다. ISBN이 없거나 어느 경로에서도 실제 판본을 확인하지 못하면 신규 BOOK을 만들지 않는다. 현재 유통되는 리프린트가 같은 본문으로 확인되면 그 판본을 대표 키로 사용할 수 있다.
 
-한국어판을 확인하지 못했으면 ISBN·출판사·표지를 지어내지 않는다. 대신 **표시용 제목 행(display-title row)** 을 둔다. 이 행은 `title`만 채우고 `isbn`·`publisher`·`thumbnail_url`·`description`은 비우며, `sources.primary='none'`과 `sources.title`에 `'translated'`(번역)·`'romanized'`(음차)·`'original'`(통용 영어 제목이 없거나 영어가 원어라 원제 유지) 중 하나를 적어 실제 판본 행과 구분한다. 화면은 이 행의 제목 앞에 `[no-ko]` 배지를 붙인다. 실제 판본이 확인되면 이 행을 공식 값으로 덮는다. 저자명은 지어내지 않고 원저자 표기를 유지한다.
+한국어판을 확인하지 못했으면 ISBN·출판사·표지를 지어내지 않는다. 대신 **표시용 제목 행(display-title row)** 을 둔다. 이 행은 `title`만 채우고 `isbn`·`publisher`·`thumbnail_url`·`description`은 비우며, `sources.primary='none'`과 `sources.title`에 `'translated'`(번역)·`'romanized'`(음차)·`'original'`(통용 영어 제목이 없거나 영어가 원어라 원제 유지) 중 하나를 적어 실제 판본 행과 구분한다. 표시용 제목 행 판정은 `sources.primary='none'`이면서 `sources.title`이 이 세 값 중 하나일 때만이다. 옛 등록 경로가 `sources.title`에 제목 출처 URL을 넣은 행이 있으므로 키 존재만으로 판정하지 않으며, URL 값은 덮어쓰지 않는다. 화면은 이 행의 제목 앞에 `[no-ko]` 배지를 붙인다. 실제 판본이 확인되면 이 행을 공식 값으로 덮는다. 저자명은 지어내지 않고 원저자 표기를 유지한다.
 
 ### 영문판과 표지
 
