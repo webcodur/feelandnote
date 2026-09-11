@@ -60,15 +60,16 @@ export async function GET() {
         <div
           style={{
             display: "flex",
-            alignItems: "center",
+            alignItems: "baseline",
             fontSize: 96,
             fontWeight: 600,
             letterSpacing: "0.05em",
           }}
         >
-          <span style={{ color: "#f8f4ed" }}>FEEL</span>
-          <span style={{ color: "#d4a828", margin: "0 24px" }}>&</span>
-          <span style={{ color: "#f8f4ed" }}>NOTE</span>
+          {/* 워드마크 feelandnote — and만 금색·작게, 공백 없이 한 단어 */}
+          <span style={{ color: "#f8f4ed" }}>feel</span>
+          <span style={{ color: "#d4a828", fontSize: 76, fontWeight: 500, margin: "0 6px" }}>and</span>
+          <span style={{ color: "#f8f4ed" }}>note</span>
         </div>
 
         {/* 서브타이틀 */}

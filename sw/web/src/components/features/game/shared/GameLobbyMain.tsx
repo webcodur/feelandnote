@@ -112,7 +112,7 @@ export default function GameLobbyMain({
         <p className={`text-[9px] text-white/[0.08] text-right font-cinzel tracking-[0.3em] uppercase transition-all duration-500 ${
           step >= 4 ? "opacity-100" : "opacity-0"
         }`}>
-          Feel & Note
+          feelandnote
         </p>
       </div>
     </div>

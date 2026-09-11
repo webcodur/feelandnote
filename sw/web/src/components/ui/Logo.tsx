@@ -1,6 +1,6 @@
 /*
   파일명: /components/ui/Logo.tsx
-  기능: Feel&Note 브랜드 워드마크
+  기능: feelandnote 브랜드 워드마크
   책임: 단일 서체 환경에서도 고유한 로고와 반응형 축약 마크를 표시한다.
 */
 
@@ -49,7 +49,7 @@ export default function Logo({
 
   const logoContent = (
     <div className={rootClassName}>
-      <span className="sr-only">Feel &amp; Note</span>
+      <span className="sr-only">feelandnote</span>
       <span className={styles.fullMark}>
         <LogoWordmark className={styles.wordmark} />
       </span>
@@ -76,7 +76,7 @@ export default function Logo({
     <Link
       href="/"
       onClick={onClick}
-      aria-label="Feel & Note" /* i18n-audit-ignore — 서비스 브랜드명 */
+      aria-label="feelandnote" /* i18n-audit-ignore — 서비스 브랜드명 */
       className={styles.link}
     >
       {logoContent}

@@ -47,13 +47,13 @@
     "freeBoardComingSoonDesc": "곧 자유게시판 기능이 추가될 예정이에요",
     "feedback": {
       "title": "피드백",
-      "description": "Feel&Note 서비스에 대한 피드백과 건의사항을 남겨주세요.",
+      "description": "feelandnote 서비스에 대한 피드백과 건의사항을 남겨주세요.",
       "write": "피드백 작성",
       "edit": "피드백 수정"
     },
     "notice": {
       "title": "공지사항",
-      "description": "Feel&Note 서비스 공지사항입니다.",
+      "description": "feelandnote 서비스 공지사항입니다.",
       "write": "공지사항 작성",
       "edit": "공지사항 수정"
     },

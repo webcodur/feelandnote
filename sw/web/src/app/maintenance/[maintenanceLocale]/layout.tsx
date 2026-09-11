@@ -3,8 +3,8 @@ import '../../globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://feelandnote.com'),
-  title: '서비스 운영 안내 | Feel&Note',
-  description: 'Feel&Note 서비스 운영 작업 안내입니다.',
+  title: '서비스 운영 안내 | feelandnote',
+  description: 'feelandnote 서비스 운영 작업 안내입니다.',
   robots: { index: false, follow: false },
 }
 

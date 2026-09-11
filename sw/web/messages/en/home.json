@@ -2,13 +2,13 @@
   "home": {
     "youtube": {
       "eyebrow": "FEEL&NOTE ORIGINAL",
-      "title": "Feel&Note Video Archive",
+      "title": "feelandnote Video Archive",
       "headline": "From private libraries to the forces that shaped history",
       "description": "Enter the libraries of remarkable minds, then see the factions formed around the questions they faced.",
       "visitArchive": "Guide",
       "libraryTour": "Library Tour",
       "faction": "Faction Atlas",
-      "imageAlt": "A monumental library and a strategy chamber joined by a luminous passage in the Feel and Note video archive",
+      "imageAlt": "A monumental library and a strategy chamber joined by a luminous passage in the feelandnote video archive",
       "playChannel": "Watch on YouTube",
       "openSeries": "View series details"
     },
@@ -194,7 +194,7 @@
       "youtube": "Video Hall",
       "youtubeSub": "Library tours and faction chronicles — meet the figures on screen",
       "viewAll": "View all",
-      "aboutLink": "What is Feel&Note?",
+      "aboutLink": "What is feelandnote?",
       "notice": "Announcements",
       "noticeSub": "Service news and updates"
     }

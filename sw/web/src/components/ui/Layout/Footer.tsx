@@ -61,7 +61,7 @@ export default async function Footer() {
               textShadow: "0 1px 0 rgba(255,255,255,0.02)",
             }}
           >
-            FEEL & NOTE
+            feelandnote
           </span>
         </div>
 

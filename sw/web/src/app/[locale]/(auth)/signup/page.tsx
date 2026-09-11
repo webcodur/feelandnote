@@ -20,7 +20,7 @@ export default async function Page() {
       <div className="w-full max-w-md space-y-8 p-8">
         {/* 로고 */}
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white">Feel&Note</h1>
+          <h1 className="text-3xl font-bold text-white">feelandnote</h1>
           <p className="mt-2 text-text-secondary">
             {t('signup.tagline')}
           </p>

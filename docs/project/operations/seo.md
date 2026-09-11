@@ -6,6 +6,8 @@
 >
 > **남은 문제는 저조한 검색 노출과 미수집·미색인 인물 페이지다. 원인은 미확정이다.** 지연된 09-04 페이지 보고서는 색인 82·미색인 6,731개(발견됨 6,653·크롤링됨 67 등)였다. 전체 검색 노출은 3월 674 → 4월 195 → 5월 17로 감소했고, 08-08~09-06은 49회·4클릭이다. 서버 OOM·502의 Googlebot 실패는 확인하지 못했으며 서버 장애·외부 신뢰도·콘텐츠 평가 중 하나를 원인으로 확정하지 않는다. 사이트맵 API의 `indexed: 0`과 지연된 페이지 보고서를 현재 전체 색인 수로 해석하지 않는다.
 
+> **26.09.11 시점 대조.** 일별 노출은 3월 20~53회에서 4월 24일 이후 0~1회로 꺼졌고 회복되지 않았다. 3/1~4/20에 노출된 페이지는 110여 개(인물 한·영 다수, 5~15위)였고 6/10~9/10은 30개다. 같은 시기 커밋은 04-22 「Supabase Fair Use Policy 유예 대응」, 05-09 「Pro 결제로 차단 해제, 차단 중 진입 요청이 받은 빈 결과가 캐시에 보관」, 06-29 「매월 무료 한도 초과로 프로젝트 정지」다. 3월에 색인된 인물 페이지가 4월 말~5월에 본문 없는 200으로 재수집됐다는 것이 시점상 가장 유력한 설명이며, 그 뒤 08-13 500·08-31~09-07 OOM이 이어졌다. 당시 Googlebot 응답 로그가 없어 확정 증거는 아니다.
+
 일일 직접 신청과 현재 도달점은 [Google 일일 색인 신청](../../continuous/google-indexing.md)이 쥔다. URL별 검사·접수·할당량 제한 결과는 위 조사 데이터에 보존한다. 접수는 재크롤·색인 완료가 아니다. [Google 재크롤 요청 안내](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl)
 
 인물 상세의 감상 목록은 초기 본문과 같은 데이터·순서로 JSON-LD를 만든다. 후속 기록은 「감상 기록 전체 보기」에서 `/celeb/<slug>/records/<page>`로 연결한다. 각 쪽은 감상·출처와 이전·다음 링크를 HTML에 싣고, 한국어·영어마다 자기 canonical과 hreflang을 제공한다. 페이지 크기는 `recordsPageData.ts`의 `RECORDS_PAGE_SIZE`가 쥔다. 이전의 본문 4개·JSON-LD 50개 불일치와 링크 없는 후속 목록은 확인된 결함이지만, 미색인의 원인으로 입증된 것은 아니다. [Google 크롤 가능한 링크](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) · [구조화 데이터 정책](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
@@ -15,6 +17,8 @@
 ## 브랜드·사이트명 단일원천
 
 브랜드 표기 규약은 문서 문자열이 아니라 코드가 쥔다.
+
+**워드마크는 한 단어 `feelandnote`다(26.09.11).** Google은 `Feel&Note`를 feel·note 두 토큰으로 자른다. 홈·인물·소개 페이지 가시 본문에 `feelandnote`가 0회였고, 같은 날 「feelandnote」 검색 1페이지에는 그 철자를 쓰는 YouTube 채널·네이버 블로그만 나오고 사이트는 없었다. 그래서 사이트명·워드마크·본문 표기를 YouTube 채널과 같은 `feelandnote`로 통일했다. `Feel&Note`·`Feel & Note`는 `alternateName`으로만 남기고 새 문구에 쓰지 않는다. 로고는 `feel`·`and`·`note` 세 span을 공백 없이 붙여 DOM 텍스트가 한 단어가 되게 한다. 홈이 이미 색인돼 있으므로 「feelandnote」 검색 반영 여부를 1~2주 뒤 확인한다.
 
 | 무엇 | 단일원천 |
 |------|----------|

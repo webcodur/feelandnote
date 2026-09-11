@@ -19,7 +19,7 @@ const copy = {
   en: {
     eyebrow: 'SERVICE NOTICE',
     title: 'We are improving our servers.',
-    description: 'We are tuning our servers for a more stable Feel&Note.',
+    description: 'We are tuning our servers for a more stable feelandnote.',
     timeLabel: 'Expected service resumption',
     timezone: 'Korea Standard Time',
     previewLabel: 'Local preview · This is not visible on the public site',

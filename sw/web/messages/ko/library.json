@@ -414,7 +414,7 @@
       "criteriaVideo": "TMDB 이번 주 영화 및 시리즈 주간 트렌딩 순위 기준",
       "criteriaGame": "Steam 실시간 최다 판매 및 인기 게임 차트 기준",
       "criteriaMusic": "Apple Music 한국 실시간 최다 재생 Top 차트 기준",
-      "criteriaBasisAll": "Feel&Note 등록 인물들의 누적 추천 및 감상 기록 수 기준",
+      "criteriaBasisAll": "feelandnote 등록 인물들의 누적 추천 및 감상 기록 수 기준",
       "criteriaBasisEra": "해당 시대(고대·중세·근대·현대) 인물들의 누적 감상 수 기준",
       "criteriaBasisProfession": "해당 직군 인물들의 누적 감상 수 기준",
       "tabBestseller": "주간 베스트",

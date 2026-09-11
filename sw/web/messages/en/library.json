@@ -414,7 +414,7 @@
       "criteriaVideo": "Based on TMDB weekly trending movies and series rankings",
       "criteriaGame": "Based on Steam global top sellers and popular games chart",
       "criteriaMusic": "Based on Apple Music global most played top charts",
-      "criteriaBasisAll": "Aggregated by total recommendations and records across Feel&Note figures",
+      "criteriaBasisAll": "Aggregated by total recommendations and records across feelandnote figures",
       "criteriaBasisEra": "Aggregated by records of figures from the selected era",
       "criteriaBasisProfession": "Aggregated by records of figures from the selected profession",
       "tabBestseller": "Weekly Best",
