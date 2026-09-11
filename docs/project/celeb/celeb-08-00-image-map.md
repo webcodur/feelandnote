@@ -19,7 +19,7 @@
 | 대표 사진 | `celebs.portrait_url`, `portrait_caption(_en)` | R2 `celebs/{id}/photo.webp`; 인물 상세 입장부 | [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md), `CELEB_HERO_PHOTO_SPEC` |
 | 각성 이미지 | `celebs.awakened_image_url` | R2 `celebs/{id}/awakened.webp`; 화면 소비 방식은 미확정 | [`../../todo/celeb/awakened-mode.md`](../../todo/celeb/awakened-mode.md) |
 | 세력도감 개인화보 | 제작 `faction_people.web_image_url` 또는 웹 전용 `celeb_tag_assignments.faction_image_url` | 화면은 `faction_atlas_members` 뷰에서 읽고 원본 비율로 표시 | `faction-celeb-sync`, `faction-image` 스킬 |
-| 세력도감 단체화보 | `celeb_tags.team_images` | 태그별 단체 이미지 배열 | `faction-celeb-sync` 스킬 |
+| 세력도감 단체화보 | `celeb_tags.team_images` | 태그별 묶음(이름·구성원)과 단체 사진. 세력 화면은 사진을 띄우지 않고, 세력이 하나뿐인 테마를 잘게 나누는 묶음 정의로만 쓴다. 세력이 둘 이상이면 세력(뷰의 `group_label`)으로 묶는다 | `faction-celeb-sync` 스킬 |
 | 관계 외부 인물 | `celeb_relations_external.image_url` | 명단 밖 인물 식별 이미지 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |
 | 세계 배너 | 저장소 정적 파일 | `sw/web/public/images/worlds/`의 PC·모바일 파생본 | [`celeb-08-04-world-banners.md`](celeb-08-04-world-banners.md) |
 
@@ -40,5 +40,6 @@
 - 투명 아바타는 원본 확대만 보지 않고 서비스 배경과 실제 표시 크기로 합성해 확인한다.
 - 대표 사진의 비율·저장 크기는 `CELEB_HERO_PHOTO_SPEC`만 바꾼다.
 - 세력도감 개인화보의 운영 읽기 창구는 `faction_atlas_members`다. 제작 행과 웹 전용 배정을 화면에서 따로 합치지 않는다.
+- 세력도감 세력 화면은 단체화보를 띄우지 않는다(26.09.11 V1). 묶음·세력은 구성원 아바타를 한 무대에 겹쳐 세운 출연진 판(`FactionMemberLineup`)으로 보인다. 아바타가 배경을 지운 누끼라는 전제에 선다 — 불투명 아바타를 들이면 판에서 사각형이 튄다. 무리가 크면 영향력 점수(`celeb_influence.total_score`)로 가른 핵심만 무대에 세우고 나머지는 발치에 작은 얼굴로 둔다. 핵심·마이너를 적는 별도 칸은 두지 않는다. 인원 기준은 `FactionMemberLineup.tsx`의 상수가 쥔다.
 
 대표 사진과 각성 이미지 시안을 함께 비교할 때는 인물별 폴더에 나란히 둔다. 슬롯별 폴더로 갈라 같은 사람의 기본형과 각성형 비교를 어렵게 만들지 않는다.
