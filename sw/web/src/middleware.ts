@@ -43,8 +43,8 @@ const LEGACY_CELEB_SLUG_REDIRECTS: Record<string, string> = {
 export async function middleware(request: NextRequest) {
   const { pathname: rawPathname } = request.nextUrl
 
-  // robots.txt로 금지한 학습·대량 수집 크롤러는 여기서 끊는다. 통과시키면 상세 페이지를
-  // 한 장씩 ISR 생성(쓰기 8KB당 과금)하고 SEO 이미지까지 만들게 된다.
+  // robots.txt로 금지한 학습·대량 수집 크롤러는 Cloudflare WAF(1차) 뒤에서 한 번 더 끊는다.
+  // 통과시키면 3 GB VM이 상세 페이지를 한 장씩 ISR 생성하고 SEO 이미지까지 만들게 된다.
   if (isBlockedCrawler(request.headers.get('user-agent'))) {
     return new NextResponse(null, { status: 403 })
   }
