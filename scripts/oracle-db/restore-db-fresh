@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+# 논리 덤프(roles.sql·schema.sql·data.sql·restore-manual.sql[·baseline.json])를 빈 DB에 처음부터 복원한다.
+# 데이터 디렉터리를 비우고 다시 초기화하므로 리허설과 전환 본 복원에 같은 절차를 쓴다. 절차는 scripts/oracle-db/verify-db-backup-restore와 같다.
+set -euo pipefail
+restore_dir=${1:?복원 디렉터리}
+deploy=/opt/feelandnote/supabase
+cd "$deploy"
+for f in roles.sql schema.sql data.sql restore-manual.sql; do
+  [[ -s "$restore_dir/$f" ]] || { echo "없음: $restore_dir/$f" >&2; exit 1; }
+done
+log() { echo "[$(date -u +%H:%M:%S)] $*"; }
+
+log "스택 정지·데이터 초기화"
+docker compose down --remove-orphans >/dev/null 2>&1 || true
+docker rm -f supabase-storage >/dev/null 2>&1 || true
+rm -rf volumes/db/data && mkdir -p volumes/db/data
+docker volume rm supabase_db-config >/dev/null 2>&1 || true
+
+log "db 기동"
+docker compose up -d db >/dev/null
+for _ in $(seq 1 120); do
+  docker exec supabase-db pg_isready -U postgres -h localhost >/dev/null 2>&1 && break
+  sleep 2
+done
+docker exec supabase-db pg_isready -U postgres -h localhost >/dev/null
+
+log "auth 마이그레이션·storage 스키마 준비"
+docker compose up -d --no-deps auth storage >/dev/null
+ok=f
+for _ in $(seq 1 90); do
+  ok=$(docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres -c "select to_regclass('auth.users') is not null and to_regclass('storage.buckets') is not null and exists(select 1 from information_schema.columns where table_schema='storage' and table_name='buckets' and column_name='versioning_status')" 2>/dev/null || echo f)
+  [[ "$ok" == t ]] && break
+  sleep 2
+done
+[[ "$ok" == t ]] || { echo "auth/storage 스키마 준비 실패" >&2; docker compose logs --tail 30 auth storage; exit 1; }
+docker rm -f supabase-storage >/dev/null
+docker compose stop auth >/dev/null
+
+log "복원 실행"
+docker exec supabase-db rm -rf /restore
+docker cp "$restore_dir" supabase-db:/restore
+docker exec supabase-db psql --single-transaction --variable ON_ERROR_STOP=1 \
+  --file /restore/roles.sql --file /restore/schema.sql \
+  --command 'SET session_replication_role = replica' --file /restore/data.sql \
+  --username supabase_admin --dbname postgres >/dev/null
+docker exec supabase-db psql --variable ON_ERROR_STOP=1 --file /restore/restore-manual.sql \
+  --username supabase_admin --dbname postgres >/dev/null
+docker exec supabase-db rm -rf /restore
+
+log "검증"
+rows=$(mktemp); critical=$(mktemp)
+docker exec -i supabase-db psql -X -qAt -F '|' -U supabase_admin -d postgres > "$rows" <<'SQL'
+SELECT format('SELECT %L, count(*)::bigint FROM %I.%I;', schemaname || '.' || tablename, schemaname, tablename)
+FROM pg_tables
+WHERE schemaname IN ('public', 'auth', 'private') AND NOT (schemaname = 'auth' AND tablename = 'schema_migrations')
+ORDER BY schemaname, tablename
+\gexec
+SQL
+docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres -c "select json_build_object(
+    'public_tables', (select count(*) from pg_tables where schemaname='public'),
+    'public_policies', (select count(*) from pg_policies where schemaname='public'),
+    'public_functions', (select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public'),
+    'public_triggers', (select count(*) from information_schema.triggers where trigger_schema='public'),
+    'auth_users', (select count(*) from auth.users),
+    'auth_identities', (select count(*) from auth.identities),
+    'manual_trigger', exists(select 1 from pg_trigger where tgname='on_auth_user_created' and not tgisinternal),
+    'vault_secret_decryptable', exists(select 1 from vault.decrypted_secrets where name='web_revalidate_secret' and decrypted_secret is not null),
+    'invalid_indexes', (select count(*) from pg_index where not indisvalid),
+    'unvalidated_constraints', (select count(*) from pg_constraint where not convalidated)
+  )::text" > "$critical"
+python3 - "$restore_dir/baseline.json" "$rows" "$critical" <<'PY'
+import json, pathlib, sys
+baseline_path, rows_path, critical_path = sys.argv[1:4]
+restored = {}
+for line in pathlib.Path(rows_path).read_text(encoding="utf-8").splitlines():
+    table, count = line.split("|", 1); restored[table] = int(count)
+critical = json.loads(pathlib.Path(critical_path).read_text(encoding="utf-8"))
+result = {"tables_counted": len(restored), "critical": critical}
+passed = (critical["manual_trigger"] and critical["vault_secret_decryptable"]
+          and critical["invalid_indexes"] == 0 and critical["unvalidated_constraints"] == 0)
+if pathlib.Path(baseline_path).exists():
+    baseline = json.loads(pathlib.Path(baseline_path).read_text(encoding="utf-8"))
+    row_mismatch = {n: {"expected": e, "actual": restored.get(n)} for n, e in baseline["table_rows"].items() if restored.get(n) != e}
+    unexpected = sorted(set(restored) - set(baseline["table_rows"]))
+    crit_mismatch = {k: {"expected": baseline[k], "actual": critical[k]} for k in ["public_tables","public_policies","public_functions","public_triggers","auth_users","auth_identities"] if baseline[k] != critical[k]}
+    result.update({"baseline_created_at": baseline["created_at"], "row_mismatches": row_mismatch, "unexpected_tables": unexpected, "critical_mismatches": crit_mismatch})
+    passed = passed and not row_mismatch and not unexpected and not crit_mismatch
+result["passed"] = passed
+print(json.dumps(result, ensure_ascii=False))
+sys.exit(0 if passed else 1)
+PY
+rm -f "$rows" "$critical"
+
+log "전체 기동"
+docker compose up -d --no-deps db auth rest api-gw >/dev/null
+log "메모리 설정"
+/usr/local/sbin/feelandnote-db-tune
+log "완료"

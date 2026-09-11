@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# DB VM(feelandnote-db-a1)을 A1.Flex 2 OCPU·12 GB로 올리는 시도. 자리가 없으면 즉시 실패하고 아무 변화가 없다.
+# 성공하면 DB VM이 재부팅되고(1~2분) 타이머는 스스로 꺼진다. 기본은 02~07시(KST)에만 시도한다. --now 를 주면 시간대와 무관하게 1회 시도한다.
+set -uo pipefail
+DB_INSTANCE=ocid1.instance.oc1.ap-chuncheon-1.an4w4ljrpecwznacx3craowh3lotssggp5mus4ns5jh6duxvtrtvnnnvxamq
+TAG=feelandnote-db-resize
+hour=$(TZ=Asia/Seoul date +%H)
+if [[ "${1:-}" != --now ]] && (( 10#$hour < 2 || 10#$hour >= 7 )); then exit 0; fi
+export OCI_CLI_AUTH=instance_principal
+out=$(timeout 120 /usr/local/bin/oci compute instance update --instance-id "$DB_INSTANCE" --shape-config '{"ocpus": 2, "memoryInGBs": 12}' --force 2>&1); rc=$?
+if (( rc == 0 )); then
+  logger -t "$TAG" "SUCCESS: 2 OCPU·12 GB 요청 수락. DB VM 재부팅 중. 타이머를 끈다."
+  systemctl disable --now feelandnote-db-resize.timer >/dev/null 2>&1 || true
+  head -c 1500 <<<"$out" | logger -t "$TAG"
+  echo "SUCCESS"; exit 0
+fi
+if grep -qi "out of host capacity" <<<"$out"; then logger -t "$TAG" "no capacity"; echo "no capacity"
+else logger -t "$TAG" "ERROR rc=$rc: $(head -c 600 <<<"$out")"; echo "ERROR rc=$rc"; head -c 600 <<<"$out"; fi
+exit 0

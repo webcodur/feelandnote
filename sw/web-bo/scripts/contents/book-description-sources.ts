@@ -198,7 +198,7 @@ async function main() {
         writeFileSync(resolve(backupDir, `${name}.sha256`), createHash('sha256').update(backup).digest('hex') + '\n', { flag: 'wx' })
         const sql = buildIntroductionApplySql(book.id, changes, metadataChange)
         const appliedResult = spawnSync('ssh', ['-i', resolve(homedir(), '.ssh/feelandnote_oracle'),
-          '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', 'ubuntu@152.67.216.40',
+          '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', 'ubuntu@152.67.198.197',
           'sudo docker exec -i supabase-db psql -U postgres -d postgres -X -q -A -t -v ON_ERROR_STOP=1'],
         { input: sql, encoding: 'utf8', timeout: 45000, maxBuffer: 1024 * 1024 })
         if (appliedResult.error || appliedResult.status !== 0) throw new Error(appliedResult.error?.message ?? appliedResult.stderr)

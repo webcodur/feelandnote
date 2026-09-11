@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# PostgreSQL 메모리 설정을 VM 메모리에 맞춰 ALTER SYSTEM으로 넣고 db만 재시작한다(10~20초 중단).
+# 설정은 PGDATA의 postgresql.auto.conf에 남으므로 데이터 디렉터리를 새로 만든 복원 뒤에 다시 실행해야 한다.
+set -euo pipefail
+cd /opt/feelandnote/supabase
+mem_mb=$(free -m | awk 'NR==2{print $2}')
+sb=$(( mem_mb / 4 )); (( sb > 4096 )) && sb=4096
+ec=$(( mem_mb * 65 / 100 ))
+if (( mem_mb >= 8000 )); then wm=32; mw=512; else wm=16; mw=256; fi
+q() { docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres -c "$1" >/dev/null; }
+q "alter system set shared_buffers='${sb}MB'"
+q "alter system set effective_cache_size='${ec}MB'"
+q "alter system set work_mem='${wm}MB'"
+q "alter system set maintenance_work_mem='${mw}MB'"
+docker compose restart db >/dev/null 2>&1
+for _ in $(seq 1 60); do docker exec supabase-db pg_isready -U postgres -h localhost >/dev/null 2>&1 && break; sleep 2; done
+docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres -c "select name||'='||setting||coalesce(unit,'') from pg_settings where name in ('shared_buffers','effective_cache_size','work_mem','maintenance_work_mem')" | tr '\n' ' '; echo
