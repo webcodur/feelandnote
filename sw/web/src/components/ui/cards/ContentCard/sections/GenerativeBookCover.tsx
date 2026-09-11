@@ -9,7 +9,8 @@ import type { LucideIcon } from "lucide-react";
 interface GenerativeBookCoverProps {
   /** 시드용 제목 (UI에 표시하지 않음) */
   title: string;
-  ContentIcon: LucideIcon;
+  /** 없으면 아이콘 상자를 그리지 않는다(판본 미확인 띠가 같은 자리를 쓸 때) */
+  ContentIcon?: LucideIcon;
   /** 아이콘 크기 (기본 24) */
   iconSize?: number;
   /** 안내 문구 (예: "국문 표지 없음") */
@@ -175,17 +176,19 @@ export default function GenerativeBookCover({
         }}
       />
 
-      {/* 아이콘 + 안내 문구 — 반투명 오버레이로 가독성 확보 */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-1.5 bg-black/50 backdrop-blur-md rounded-xl px-5 py-3 border border-white/10 shadow-lg">
-          <ContentIcon size={iconSize} className="text-white/80" />
-          {label && (
-            <p className="text-[10px] font-medium text-white/90 text-center leading-snug">
-              {label}
-            </p>
-          )}
+      {/* 아이콘 + 안내 문구 — 반투명 오버레이로 가독성 확보. 둘 다 없으면 상자도 그리지 않는다 */}
+      {(ContentIcon || label) && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-1.5 bg-black/50 backdrop-blur-md rounded-xl px-5 py-3 border border-white/10 shadow-lg">
+            {ContentIcon && <ContentIcon size={iconSize} className="text-white/80" />}
+            {label && (
+              <p className="text-[10px] font-medium text-white/90 text-center leading-snug">
+                {label}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

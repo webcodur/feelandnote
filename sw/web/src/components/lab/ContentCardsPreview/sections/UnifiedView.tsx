@@ -90,6 +90,18 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
             </div>
             <div className="w-44">
               <ContentCard
+                contentId="demo-no-ko-cover"
+                title="구운몽 (원서 표지)"
+                creator="김만중"
+                contentType="BOOK"
+                titleBadge="no-ko"
+                thumbnail="https://covers.openlibrary.org/b/id/12913496-L.jpg"
+                celebCount={5}
+                userCount={2}
+              />
+            </div>
+            <div className="w-44">
+              <ContentCard
                 contentId="demo-no-ko-plain"
                 title="구운몽"
                 creator="김만중"
@@ -114,7 +126,7 @@ export default function UnifiedView({ selectedCards, toggleSelect }: UnifiedView
             </div>
             <div className="flex-1 text-xs min-w-[12rem]">
               <code className="text-purple-400 block">{`titleBadge="no-ko" | "no-en"`}</code>
-              <p className="text-text-secondary mt-1">표지 카드: 표지 왼쪽 위 「국문본 없음」 띠(cover). 감상평형은 제목 위 한 줄(kicker). 세 번째는 배지 없는 대조군.</p>
+              <p className="text-text-secondary mt-1">표지 카드: 표지 한가운데 「국문본 없음」 가로 띠(cover), 표지 유무와 무관. 세 번째는 배지 없는 대조군.</p>
             </div>
           </div>
         </div>

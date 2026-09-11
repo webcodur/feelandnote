@@ -108,7 +108,8 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
         ) : (
           <GenerativeBookCover
             title={displayTitle}
-            ContentIcon={ContentIcon}
+            // 판본 미확인 띠가 한가운데를 가로지르므로 같은 자리의 아이콘 상자를 뺀다
+            ContentIcon={displayTitleBadge ? undefined : ContentIcon}
             iconSize={28}
             label={
               editionUnavailable
