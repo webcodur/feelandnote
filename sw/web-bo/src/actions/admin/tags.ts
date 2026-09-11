@@ -62,6 +62,10 @@ export interface CelebTagAssignment {
   person_id: string | null
   /** source='manual'일 때 배정 행(celeb_tag_assignments)의 id */
   assignment_id: string | null
+  /** 웹 그룹(celeb_tag_groups) id — 웹 전용 배정 행에만 있다. 제작 유래 행의 그룹은 영상 세력이 쥔다 */
+  group_id?: string | null
+  /** 도감에 보이는 그룹 이름(뷰의 group_label) */
+  group_label?: string | null
   celeb?: {
     id: string
     nickname: string
@@ -88,6 +92,7 @@ interface AtlasMemberRow {
   source: 'production' | 'manual'
   person_id: string | null
   assignment_id: string | null
+  group_label?: string | null
 }
 
 interface CreateTagInput {
@@ -446,7 +451,7 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
 
   const { data, error } = await db
     .from('faction_atlas_members')
-    .select('tag_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, hidden, source, person_id, assignment_id')
+    .select('tag_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, hidden, source, person_id, assignment_id, group_label')
     .eq('tag_id', tagId)
     .order('sort_order', { ascending: true })
     .overrideTypes<AtlasMemberRow[], { merge: false }>()
@@ -459,6 +464,16 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
   const rows = data ?? []
   const celebIds = [...new Set(rows.map(r => r.celeb_id))]
   const profileMap = new Map<string, NonNullable<CelebTagAssignment['celeb']>>()
+
+  // 웹 그룹 id는 뷰에 없다 — 배정 행에서 읽어 명단 행에 붙인다
+  const { data: groupRows, error: groupError } = await db
+    .from('celeb_tag_assignments')
+    .select('id, group_id')
+    .eq('tag_id', tagId)
+  if (groupError) console.error('태그 그룹 배정 조회 에러:', groupError)
+  const groupByAssignment = new Map(
+    (groupRows ?? []).map(r => [r.id as string, (r.group_id as string | null) ?? null]),
+  )
 
   if (celebIds.length > 0) {
     const { data: celebs, error: celebsError } = await db
@@ -492,6 +507,8 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
     source: item.source,
     person_id: item.person_id ?? null,
     assignment_id: item.assignment_id ?? null,
+    group_id: item.assignment_id ? groupByAssignment.get(item.assignment_id) ?? null : null,
+    group_label: item.group_label ?? null,
     celeb: profileMap.get(item.celeb_id),
   }))
 }
@@ -916,6 +933,92 @@ export async function setTagCelebImage(
 
   revalidateThemeScreens()
   // faction_image_url — 셀럽 카드 이미지에도 반영된다
+  await revalidateAtlasCeleb(db, celebId)
+  return { success: true }
+}
+// #endregion
+
+// #region 웹 그룹 — 테마 안 인물 묶음(celeb_tag_groups)
+export interface TagGroup {
+  id: string
+  name: string
+  name_en: string | null
+  sort_order: number
+}
+
+export async function getTagGroups(tagId: string): Promise<TagGroup[]> {
+  const db = await createClient()
+  const { data, error } = await db
+    .from('celeb_tag_groups')
+    .select('id, name, name_en, sort_order')
+    .eq('tag_id', tagId)
+    .order('sort_order', { ascending: true })
+  if (error) {
+    console.error('테마 그룹 조회 에러:', error)
+    return []
+  }
+  return (data ?? []) as TagGroup[]
+}
+
+/** 그룹을 맨 뒤 순서로 하나 더한다 */
+export async function createTagGroup(
+  tagId: string,
+  name: string,
+  nameEn: string | null,
+): Promise<{ group?: TagGroup; error?: string }> {
+  const trimmed = name.trim()
+  if (!trimmed) return { error: '그룹 이름이 비었다.' }
+  const db = await createClient()
+  const { data: last } = await db
+    .from('celeb_tag_groups')
+    .select('sort_order')
+    .eq('tag_id', tagId)
+    .order('sort_order', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+  const { data, error } = await db
+    .from('celeb_tag_groups')
+    .insert({ tag_id: tagId, name: trimmed, name_en: nameEn?.trim() || null, sort_order: ((last?.sort_order as number | undefined) ?? 0) + 1 })
+    .select('id, name, name_en, sort_order')
+    .single()
+  if (error) {
+    console.error('테마 그룹 추가 에러:', error)
+    return { error: error.code === '23505' ? '같은 이름의 그룹이 이미 있다.' : error.message }
+  }
+  revalidateThemeScreens()
+  return { group: data as TagGroup }
+}
+
+/**
+ * 인물의 그룹을 바꾼다. 웹 전용 배정 행만 된다 — 제작 유래 행의 그룹은 영상 세력이 쥐므로
+ * 그 테마를 웹으로 옮긴 뒤(scripts/faction/move-tag-roster-to-web.mjs) 고친다.
+ * null이면 그룹을 빼고 맨 끝 「그 외」로 보낸다.
+ */
+export async function setTagCelebGroup(
+  tagId: string,
+  celebId: string,
+  groupId: string | null,
+): Promise<{ success: boolean; error?: string }> {
+  const db = await createClient()
+
+  const { row, error: findError } = await findAtlasRow(db, tagId, celebId)
+  if (findError) return { success: false, error: findError }
+  if (!row) return { success: false, error: '해당 태그 할당을 찾을 수 없다.' }
+  if (row.source === 'production') {
+    return { success: false, error: '영상 제작에서 온 인물은 그룹을 여기서 바꿀 수 없다. 테마를 웹으로 옮긴 뒤 고친다.' }
+  }
+
+  const { error } = await db
+    .from('celeb_tag_assignments')
+    .update({ group_id: groupId })
+    .eq('id', row.assignment_id)
+
+  if (error) {
+    console.error('그룹 지정 에러:', error)
+    return { success: false, error: error.message }
+  }
+
+  revalidateThemeScreens()
   await revalidateAtlasCeleb(db, celebId)
   return { success: true }
 }
