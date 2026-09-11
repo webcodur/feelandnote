@@ -31,13 +31,17 @@ export async function FigureSection() {
   }
 
   if (!result.figure) return null;
+  // data-nosnippet: 매일 바뀌는 인물 소개가 홈의 검색 스니펫을 차지하지 않게 한다.
+  // site: 결과에서 홈 설명이 그날 인물의 소개문으로 나왔다(26.09.11 실측). 색인·순위에는 영향이 없다.
   return (
-    <TodayFigureSection
-      figure={result.figure}
-      contents={result.contents}
-      source={result.source}
-      embedded
-    />
+    <div data-nosnippet>
+      <TodayFigureSection
+        figure={result.figure}
+        contents={result.contents}
+        source={result.source}
+        embedded
+      />
+    </div>
   );
 }
 

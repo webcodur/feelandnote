@@ -5,7 +5,9 @@
 */ // ------------------------------
 
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 import { setRequestLocale, getMessages, getTranslations } from "next-intl/server";
 import { BASE_MESSAGE_PATHS, pickMessages } from "@/i18n/message-scope";
 import Footer from "@/components/ui/Layout/Footer";
@@ -28,6 +30,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
   const t = await getTranslations({ locale, namespace: "site" });
   const ogLocale = locale === "ko" ? "ko_KR" : "en_US";
 
@@ -102,6 +105,9 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  // 미들웨어 matcher가 .txt·.xml 같은 확장자 경로를 건너뛰므로 /llms.txt 가 locale="llms.txt"로
+  // 여기까지 온다. 검증이 없으면 홈 HTML을 200으로 돌려주는 소프트 404가 된다(26.09.11 실측).
+  if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   // 번역 사전 전체(187KB)를 모든 화면에 실으면 ISR로 굳는 상세 한 장마다 HTML·RSC
   // 양쪽에 그대로 복사된다. 여기서는 공통 뼈대만 내리고 화면별 몫은 MessageScope가 덧댄다.
