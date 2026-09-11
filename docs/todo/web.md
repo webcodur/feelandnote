@@ -66,9 +66,6 @@
 - Oracle public vantage point에서 홈 REST를 10분마다 확인하고
   `MemoryUtilization[5m].mean() > 90` 알람을 기존 이메일 topic에 연결한다.
 
-- 옛 웹 VM `feelandnote-web-canary`(168.107.58.90, E2.1.Micro)는 26.09.11 정지 상태다. 삭제할지 정한다.
-  옛 DB VM `feelandnote-db`는 같은 날 부트 볼륨까지 삭제했다.
-
 - Envoy↔PostgREST 유휴 연결 종료 경합: 하루 3건꼴로 `upstream connect error … connection termination`이 난다
   (`cluster.rest.upstream_cx_destroy_remote_with_active_rq`). PostgREST(Warp)가 유휴 keep-alive를 먼저 닫는 것이므로
   `rest` 클러스터에 `common_http_protocol_options.idle_timeout`을 Warp 기본 30초보다 짧게(20초) 둔다.
