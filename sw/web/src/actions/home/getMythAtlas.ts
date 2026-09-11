@@ -13,7 +13,7 @@ import {
 } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
 import { toFactionQuoteMedia } from "@feelandnote/shared/lib/faction-quote-media";
-import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "./mythAtlasTypes";
+import { MYTH_OTHER_GROUP_ID, type MythAtlasData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythAtlasTypes";
 
 interface TagRow {
   id: string; parent_id: string | null; slug: string | null; name: string; name_en: string | null;
@@ -24,6 +24,7 @@ interface TagRow {
 interface MemberRow {
   tag_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null; sort_order: number | null;
   quote: string | null; quote_en: string | null; faction_quote_media: unknown;
+  group_label: string | null; group_label_en: string | null; group_position: number | null;
 }
 interface PersonRow {
   id: string; slug: string | null; nickname: string; nickname_en: string | null;
@@ -106,6 +107,40 @@ function regionForTradition(slug: string, name: string, isEn: boolean) {
   return { id: "other", name: isEn ? "Other traditions" : "기타 전승" };
 }
 
+/* 전승 안의 인물을 영상 대본이 준 세력(group_label)으로 나눈다. 순서는 세력 인물들의 최소
+   group_position, 세력 안은 전승 차례 그대로다. 세력이 없는 인물(웹 전용 배정 등)은 맨 끝 「그 외」로
+   모은다. 세력이 둘 미만이면 빈 배열 — 화면이 그룹 줄을 숨긴다(세력도감 쇼케이스와 같은 규칙).
+   쇼케이스는 단체 사진 묶음(celeb_tags.team_images)을 세력보다 먼저 쓰지만 여기서는 쓰지 않는다.
+   신화 전승의 묶음은 세력과 이름·구성원이 같거나(일리아스·그리스 신화) 장면 제목 단위로 1~3명씩
+   잘게 쪼개져(오디세이아 15개) 탭으로 고를 수 없다(26.09.11 대조) */
+function groupsForTradition(rows: MemberRow[], personIds: string[], isEn: boolean): MythGroup[] {
+  const rowByPerson = new Map<string, MemberRow>();
+  for (const row of rows) {
+    const current = rowByPerson.get(row.celeb_id);
+    if (!current || (!current.group_label && row.group_label)) rowByPerson.set(row.celeb_id, row);
+  }
+  const labeled = new Map<string, { name: string | null; position: number; personIds: string[] }>();
+  const others: string[] = [];
+  for (const id of personIds) {
+    const row = rowByPerson.get(id);
+    const label = row?.group_label?.trim();
+    if (!row || !label) {
+      others.push(id);
+      continue;
+    }
+    /* 영문 이름이 비면 한국어를 내보내지 않고 null — 화면이 대체 문구를 붙인다 */
+    const group = labeled.get(label) ?? { name: isEn ? row.group_label_en?.trim() || null : label, position: Number.MAX_SAFE_INTEGER, personIds: [] };
+    group.position = Math.min(group.position, row.group_position ?? Number.MAX_SAFE_INTEGER);
+    group.personIds.push(id);
+    labeled.set(label, group);
+  }
+  if (labeled.size < 2) return [];
+  const ordered: MythGroup[] = [...labeled.entries()]
+    .sort((a, b) => a[1].position - b[1].position)
+    .map(([label, group]) => ({ id: label, name: group.name, personIds: group.personIds }));
+  return others.length > 0 ? [...ordered, { id: MYTH_OTHER_GROUP_ID, name: null, personIds: others }] : ordered;
+}
+
 async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   const db = createStaticClient();
   const isEn = locale === "en";
@@ -133,7 +168,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
 
   const { data: memberData, error: memberError } = await db
     .from("faction_atlas_members")
-    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,quote,quote_en,faction_quote_media")
+    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,quote,quote_en,faction_quote_media,group_label,group_label_en,group_position")
     .in("tag_id", tagIds).eq("hidden", false).order("sort_order");
   if (memberError) throw new Error(`신화 인물 조회 실패: ${memberError.message}`);
   const members = (memberData ?? []) as MemberRow[];
@@ -232,7 +267,8 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     return [{ id: tag.id, slug: tag.slug, name: isEn ? tag.name_en || tag.name : tag.name,
       description: isEn ? tag.description_en || tag.description : tag.description,
       isPublished: tag.atlas_published === true,
-      regionId: region.id, images, personIds: ids }];
+      regionId: region.id, images, personIds: ids,
+      groups: groupsForTradition(members.filter((member) => member.tag_id === tag.id), ids, isEn) }];
   });
   const regions = MYTH_REGIONS.map((region): MythRegion => ({
     id: region.id,
@@ -245,7 +281,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   return { regions, traditions, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v14-korea-split"], {
+const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v15-groups"], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });
