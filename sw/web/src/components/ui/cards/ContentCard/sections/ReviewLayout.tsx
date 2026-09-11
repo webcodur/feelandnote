@@ -121,7 +121,8 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
           ) : (
             <GenerativeBookCover
               title={displayTitle}
-              ContentIcon={ContentIcon}
+              // 판본 미확인 띠가 한가운데를 가로지르므로 같은 자리의 아이콘 상자를 뺀다
+              ContentIcon={displayTitleBadge ? undefined : ContentIcon}
               iconSize={24}
               label={
                 editionUnavailable
@@ -132,6 +133,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
               }
             />
           )}
+          <NoEditionBadge variant="cover" badge={displayTitleBadge} />
           {renderBottomLeft()}
           {renderSelectOverlay()}
           {renderBottomRight()}
@@ -146,7 +148,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
           )}
 
           <div className="mb-2 text-center">
-            <NoEditionBadge variant="kicker" badge={displayTitleBadge} />
             <h3
               className="text-xs sm:text-sm font-bold text-text-primary line-clamp-4 leading-tight group-hover:text-accent text-center"
               title={displayTitle}
