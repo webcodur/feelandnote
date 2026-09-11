@@ -6,6 +6,7 @@ import type { GetUserContentsResponse } from "@/actions/contents/getUserContents
 import ContentImage from "@/components/ui/ContentImage";
 import ContentReadingText from "@/components/ui/ContentReadingText";
 import FormattedText from "@/components/ui/FormattedText";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 
 import type { RecordsLabels } from "./RecordsPageBody";
 
@@ -70,6 +71,7 @@ export default function RecordsList({
               <div className="min-w-0 flex-1 text-center">
                 <h2 id={titleId} className="text-lg font-semibold text-text-primary sm:text-xl lg:text-2xl">
                   <a href={`${prefix}/content/${item.content_id}`} className="hover:text-accent">
+                    <NoEditionBadge badge={item.content.title_badge} />
                     {item.content.title}
                   </a>
                 </h2>

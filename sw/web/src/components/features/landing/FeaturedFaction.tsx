@@ -341,6 +341,11 @@ function TimelineSection({
             ? (reviewContent?.content.title_en ?? reviewContent?.content.title ?? "")
             : (reviewContent?.content.title ?? "")
         }
+        titleBadge={
+          locale === 'en'
+            ? (reviewContent?.content.titleBadgeEn ?? reviewContent?.content.titleBadge)
+            : reviewContent?.content.titleBadge
+        }
         creator={
           locale === 'en'
             ? (reviewContent?.content.creator_en ?? reviewContent?.content.creator)

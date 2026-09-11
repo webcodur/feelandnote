@@ -59,6 +59,7 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
         contentId={activity.content_id!}
         contentType={activity.content_type!}
         title={activity.content_title || ""}
+        titleBadge={activity.content_title_badge}
         creator={null}
         thumbnail={activity.content_thumbnail}
         review={activity.review!}

@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 import { Link } from "@/i18n/navigation";
 import { Info, BookOpen, Loader2, MessageSquare, User, Calendar, Award, Building2, Film, Users } from "lucide-react";
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
@@ -23,6 +25,7 @@ interface InfoPanelProps {
     id: string; // member_contents.id가 아님. 실제 content.id를 받아야 함 (또는 둘 다)
     contentId: string; // items logic에서 contentId 분리 필요
     title: string;
+    titleBadge?: TitleBadge | null;
     type: ContentType;
     thumbnailUrl?: string | null;
     creator?: string | null;
@@ -150,6 +153,7 @@ export default function InfoPanel({
                     <div className="flex flex-col items-center text-center min-w-0">
                         <div className="w-full space-y-6 flex flex-col items-center">
                             <h3 className="text-2xl font-serif font-bold text-text-primary leading-snug break-keep line-clamp-4 tracking-tight">
+                                <NoEditionBadge badge={content.titleBadge} />
                                 {content.title}
                             </h3>
                             

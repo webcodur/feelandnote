@@ -7,6 +7,7 @@
 
 import { useEffect, useEffectEvent, useState } from "react";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { Link } from "@/i18n/navigation";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
@@ -133,6 +134,7 @@ function SharedContentRow({
   const Icon = TYPE_ICONS[item.type] ?? Book;
   const contentDetailUrl = `/content/${item.contentId}?category=${getCategoryByDbType(item.type)?.id || "book"}`;
   const displayTitle = isEn ? (item.title_en ?? item.title) : item.title;
+  const displayTitleBadge = isEn ? (item.titleBadgeEn ?? item.titleBadge) : item.titleBadge;
   const displayCreator = isEn ? (item.creator_en ?? item.creator) : item.creator;
 
   return (
@@ -157,7 +159,10 @@ function SharedContentRow({
 
       {/* 정보 */}
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-bold text-white truncate">{displayTitle}</p>
+        <p className="text-sm font-bold text-white truncate">
+          <NoEditionBadge badge={displayTitleBadge} />
+          {displayTitle}
+        </p>
         {displayCreator && (
           <p className="text-xs text-text-secondary truncate">
             {displayCreator.replace(/\^/g, ", ")}

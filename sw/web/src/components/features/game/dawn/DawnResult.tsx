@@ -140,6 +140,7 @@ export default function DawnResult({
       isOpen={!!reviewContent}
       onClose={() => setReviewContent(null)}
       title={reviewContent?.content.title ?? ""}
+      titleBadge={reviewContent?.content.titleBadge}
       creator={reviewContent?.content.creator}
       review={reviewContent?.content.review}
       sourceUrl={reviewContent?.content.sourceUrl}

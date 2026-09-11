@@ -46,6 +46,7 @@ export function HomeSuggestions({
                                 contentId={item.id}
                                 contentType={item.type as ContentType}
                                 title={item.title}
+                                titleBadge={item.title_badge}
                                 creator={item.creator}
                                 thumbnail={item.thumbnail_url}
                                 {...(() => {
@@ -68,6 +69,7 @@ export function HomeSuggestions({
                                                     id: item.id,
                                                     type: item.type as ContentType,
                                                     title: item.title,
+                                                    titleBadge: item.title_badge,
                                                     creator: item.creator,
                                                     thumbnailUrl: item.thumbnail_url,
                                                     thumbnail: item.thumbnail_url
@@ -85,6 +87,7 @@ export function HomeSuggestions({
                                             id: item.id,
                                             type: item.type as ContentType,
                                             title: item.title,
+                                            titleBadge: item.title_badge,
                                             creator: item.creator,
                                             thumbnailUrl: item.thumbnail_url,
                                             thumbnail: item.thumbnail_url

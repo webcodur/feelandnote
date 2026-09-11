@@ -92,6 +92,7 @@ export default function FeaturedWorkModal({ type, onClose, title, icon: Icon, ta
                                 id: targetContent.id,
                                 contentId: targetContent.contentId || targetContent.id,
                                 title: targetContent.title,
+                                titleBadge: targetContent.titleBadge,
                                 type: targetContent.type,
                                 thumbnailUrl: targetContent.thumbnailUrl,
                                 creator: targetContent.creator

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { flattenLocales } from '@/lib/utils/content-locale'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
@@ -38,11 +39,16 @@ async function fetchChosenLibrary(
     const creatorEn = (row.creator_en as string) ?? null
     const thumbKo = (row.thumbnail_url as string) ?? null
     const thumbEn = (row.thumbnail_en as string) ?? null
+    const flat = flattenLocales([
+      { locale: 'ko', title: titleKo, creator: creatorKo, thumbnail_url: thumbKo, sources: row.sources_ko },
+      { locale: 'en', title: titleEn, creator: creatorEn, thumbnail_url: thumbEn, sources: row.sources_en },
+    ], locale)
     return {
       id: row.content_id as string,
-      title: (locale === 'en' ? titleEn || titleKo : titleKo || titleEn) || '',
-      creator: (locale === 'en' ? creatorEn || creatorKo : creatorKo || creatorEn) ?? null,
-      thumbnail_url: (locale === 'en' ? thumbEn || thumbKo : thumbKo || thumbEn) ?? null,
+      title: flat.title,
+      creator: flat.creator,
+      thumbnail_url: flat.thumbnail_url,
+      title_badge: flat.title_badge,
       type: row.content_type as string,
       celeb_count: Number(row.celeb_count),
       user_count: Number(row.user_count),

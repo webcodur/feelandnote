@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { Link } from "@/i18n/navigation";
 import { BookOpen, MessageSquare, Award, Search, ExternalLink, Loader2, List } from "lucide-react";
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
@@ -122,6 +123,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                                 targetContent.title.length > 10 ? 'text-2xl md:text-3xl' :
                                 'text-3xl md:text-4xl'
                             } font-serif font-bold text-text-primary leading-tight break-keep mt-2`}>
+                                <NoEditionBadge badge={targetContent.titleBadge} />
                                 {targetContent.title}
                             </h2>
 

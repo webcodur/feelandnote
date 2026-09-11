@@ -7,6 +7,7 @@
 
 import { Link } from "@/i18n/navigation";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { Book, Film, Gamepad2, Music, ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState, useEffect, useCallback } from "react";
@@ -120,6 +121,7 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
                 <span aria-hidden className="pointer-events-none absolute inset-[2px] rounded-[10px] border border-white/[0.06]" />
               </div>
               <p className="text-[10px] md:text-xs text-text-secondary line-clamp-2 leading-tight mt-1.5 group-hover:text-accent">
+                <NoEditionBadge badge={item.titleBadge} />
                 {item.title}
               </p>
             </Link>

@@ -4053,6 +4053,8 @@ export type Database = {
           creator: string
           creator_en: string
           isbn_en: string
+          sources_en: Json | null
+          sources_ko: Json | null
           thumbnail_en: string
           thumbnail_url: string
           title: string
@@ -4113,6 +4115,8 @@ export type Database = {
           era_label: string
           era_period: string
           isbn_en: string
+          sources_en: Json | null
+          sources_ko: Json | null
           thumbnail_en: string
           thumbnail_url: string
           title: string

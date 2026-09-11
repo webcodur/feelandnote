@@ -10,7 +10,7 @@ import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { getLocale } from "next-intl/server";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
-import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import type {
   TimelineCeleb,
   TimelineContent,
@@ -102,6 +102,9 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
     const c = row.contents;
     const ko = c.content_locales?.find(l => l.locale === 'ko');
     const en = c.content_locales?.find(l => l.locale === 'en');
+    // 배지 판정만 중앙 함수에 맡긴다 — title·title_en 등 기존 표시값은 그대로 둔다
+    const flatKo = flattenLocales(c.content_locales, 'ko')
+    const flatEn = flattenLocales(c.content_locales, 'en')
 
     if (!contentsMap[row.celeb_id]) {
       contentsMap[row.celeb_id] = [];
@@ -114,6 +117,8 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
       contentId: c.id,
       title: ko?.title || en?.title || "",
       title_en: en?.title ?? null,
+      titleBadge: flatKo.title_badge,
+      titleBadgeEn: flatEn.title_badge,
       creator: ko?.creator || en?.creator || null,
       creator_en: en?.creator ?? null,
       thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,

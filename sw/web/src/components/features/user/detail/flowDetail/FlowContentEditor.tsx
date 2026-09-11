@@ -9,6 +9,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { X, Search, Loader2 } from "lucide-react";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
@@ -65,7 +66,10 @@ function DraggableContentItem({ item }: { item: UserContentWithContent }) {
 
       {/* 정보 */}
       <div className="flex-1 min-w-0 pointer-events-none">
-        <p className="text-xs text-white truncate">{item.content.title}</p>
+        <p className="text-xs text-white truncate">
+          <NoEditionBadge badge={item.content.title_badge} />
+          {item.content.title}
+        </p>
         <p className="text-[10px] text-text-secondary/50 truncate">{item.content.creator}</p>
       </div>
     </div>

@@ -13,6 +13,7 @@ function source(rows: { id: string; title: string; type: string }[]) {
   return {
     itemIds: rows.map((row) => row.id),
     titles: rows.map((row) => row.title),
+    titleBadges: rows.map(() => null),
     contentTypes: rows.map((row) => row.type),
   };
 }

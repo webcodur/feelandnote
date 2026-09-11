@@ -45,6 +45,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
       id: content.id,
       type: content.type,
       title: content.title,
+      titleBadge: content.titleBadge,
       creator: content.creator ?? null,
       thumbnail: content.thumbnail ?? null,
     });

@@ -58,6 +58,7 @@ export function ContentResults({
             contentId={contentId}
             thumbnail={thumbnail}
             title={item.title}
+            titleBadge={"title_badge" in item ? item.title_badge : null}
             creator={item.creator}
             contentType={contentType}
             href={href}

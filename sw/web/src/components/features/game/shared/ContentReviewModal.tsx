@@ -9,6 +9,8 @@ import { Link } from "@/i18n/navigation";
 import { ExternalLink } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import FormattedText from "@/components/ui/FormattedText";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 import {
   getPresetByKeyword,
   getSentimentColorClasses,
@@ -19,6 +21,7 @@ export interface ContentReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
+  titleBadge?: TitleBadge | null;
   creator?: string | null;
   review?: string | null;
   reviewPresets?: string[] | null;
@@ -33,6 +36,7 @@ export default function ContentReviewModal({
   isOpen,
   onClose,
   title,
+  titleBadge,
   creator,
   review,
   reviewPresets,
@@ -49,6 +53,7 @@ export default function ContentReviewModal({
       <ModalBody>
         <div className="mb-4 pb-3 border-b border-border/30">
           <h3 className="text-base font-semibold text-text-primary line-clamp-2">
+            <NoEditionBadge badge={titleBadge} />
             {title}
           </h3>
           {creator && (

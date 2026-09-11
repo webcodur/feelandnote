@@ -8,6 +8,7 @@
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import { Book, Film, Gamepad2, Music, MessageSquare } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { TrackerContent, TrackerOption } from "@/actions/game/getTrackerRound";
@@ -179,7 +180,10 @@ export default function TrackerResult({
                         </div>
                       )}
                     </div>
-                    <span className="flex-1 min-w-0 text-[15px] font-bold text-white/90 truncate group-hover:text-white transition-colors">{c.title}</span>
+                    <span className="flex-1 min-w-0 text-[15px] font-bold text-white/90 truncate group-hover:text-white transition-colors">
+                      <NoEditionBadge badge={c.titleBadge} />
+                      {c.title}
+                    </span>
                   </div>
                   
                   <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto pl-11 sm:pl-0 sm:shrink-0">
@@ -235,6 +239,7 @@ export default function TrackerResult({
         isOpen={!!reviewContent}
         onClose={() => setReviewContent(null)}
         title={reviewContent?.title ?? ""}
+        titleBadge={reviewContent?.titleBadge}
         creator={reviewContent?.creator}
         review={reviewContent?.rawReview}
         sourceUrl={reviewContent?.sourceUrl}

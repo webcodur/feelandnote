@@ -189,6 +189,7 @@ export default function ExpandDetailView({
       />
       <ExpandTitleHeader
         title={presentation.titles[selectedIndex]}
+        titleBadge={presentation.titleBadges[selectedIndex]}
         creator={presentation.creators[selectedIndex]}
         previousLabel={t("expandPrev")}
         nextLabel={t("expandNext")}

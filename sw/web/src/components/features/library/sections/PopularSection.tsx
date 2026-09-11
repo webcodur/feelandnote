@@ -290,6 +290,7 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
                   contentId={content.id}
                   contentType={content.type as ContentType}
                   title={content.title}
+                  titleBadge={content.title_badge}
                   creator={content.creator}
                   thumbnail={content.thumbnail_url}
                   celebCount={content.celeb_count}

@@ -10,11 +10,12 @@ import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { STATIC_REVALIDATE, throwOnQueryError } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { getLocale } from "next-intl/server";
-import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
+import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
 
 export interface DawnContent {
   contentId: string;
   title: string;
+  titleBadge: TitleBadge | null;
   creator: string | null;
   thumbnailUrl: string | null;
   type: string;
@@ -73,6 +74,7 @@ async function fetchDawnCelebContents(
     result[row.celeb_id].push({
       contentId: rawContent.id,
       title: flat.title,
+      titleBadge: flat.title_badge,
       creator: flat.creator,
       thumbnailUrl: flat.thumbnail_url,
       type: rawContent.type ?? "BOOK",

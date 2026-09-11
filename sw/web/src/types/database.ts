@@ -3,6 +3,7 @@
 // ===== Enums (공유 패키지에서 import 후 re-export) =====
 import type { ContentType, ContentStatus } from '@feelandnote/shared/types'
 import type { Locale } from './locale'
+import type { TitleBadge } from '@/lib/utils/content-locale'
 export type { ContentType, ContentStatus }
 export type RecordType = 'NOTE' | 'QUOTE'
 export type VisibilityType = 'public' | 'followers' | 'private'
@@ -28,6 +29,7 @@ export interface Content {
   thumbnail_url: string | null
   description: string | null
   publisher: string | null
+  title_badge?: TitleBadge | null
 }
 
 // ===== Flow 시스템 (3단 위계: Flow > Stage > Node) =====

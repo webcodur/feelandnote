@@ -2,12 +2,14 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import type { ContentType } from "@/types/database";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 
 export interface QuickRecordTarget {
   id: string; // member_contents.id
   contentId?: string; // original content.id (for fetching details)
   type: ContentType;
   title: string;
+  titleBadge?: TitleBadge | null;
   thumbnailUrl?: string | null;
   creator?: string | null;
   initialRating?: number;
