@@ -184,7 +184,7 @@ export default function CreativeLibrary({
             className={`px-3 py-1.5 rounded-lg border text-xs font-medium hover:border-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
               isActive
                 ? "bg-accent/10 border-accent/20 text-accent"
-                : "bg-surface/50 border-border/40  hover:bg-surface-hover hover:text-text-primary"
+                : "bg-bg-card/50 border-border/40  hover:bg-bg-stone-light hover:text-text-primary"
             }`}
           >
             {t(tab.i18nKey)}

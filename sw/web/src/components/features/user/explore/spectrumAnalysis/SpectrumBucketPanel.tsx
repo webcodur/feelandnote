@@ -68,7 +68,7 @@ export default function SpectrumBucketPanel({ items, label, labelColor, negLabel
             <button
               type="button"
               onClick={() => onSelect(p)}
-              className="flex w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left hover:bg-bg-card-hover"
+              className="flex w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left hover:bg-bg-stone-light"
             >
               <div
                 className="size-9 shrink-0 overflow-hidden rounded-full border-2 bg-bg-card"

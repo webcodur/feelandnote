@@ -23,7 +23,7 @@ export default function AlgorithmInfoModal({ isOpen, onClose }: AlgorithmInfoMod
     <Modal isOpen={isOpen} onClose={onClose} title={t("algorithmTitle")} size="md">
       <ModalBody className="space-y-4">
         <div className="space-y-3">
-          <div className="flex items-start gap-3 p-3 bg-background rounded-lg">
+          <div className="flex items-start gap-3 p-3 bg-bg-main rounded-lg">
             <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
               <Star size={16} className="text-yellow-500" />
             </div>
@@ -33,7 +33,7 @@ export default function AlgorithmInfoModal({ isOpen, onClose }: AlgorithmInfoMod
             </div>
           </div>
 
-          <div className="bg-background rounded-lg p-4">
+          <div className="bg-bg-main rounded-lg p-4">
             <h4 className="text-xs font-medium text-text-secondary mb-3">{t("howItWorks")}</h4>
             <div className="space-y-2 text-xs">
               <div className="flex items-center gap-2">
@@ -51,7 +51,7 @@ export default function AlgorithmInfoModal({ isOpen, onClose }: AlgorithmInfoMod
             </div>
           </div>
 
-          <div className="text-xs bg-background/50 rounded-lg p-3">
+          <div className="text-xs bg-bg-main/50 rounded-lg p-3">
             <p className="flex items-start gap-2">
               <Info size={12} className="flex-shrink-0 mt-0.5" />
               <span>{t("moreRecordsBetter")}</span>

@@ -73,7 +73,7 @@ export default function RecentProfilesSection() {
                 </div>
               </Link>
               {hoveredId === item.id && (
-                <div className="absolute left-[calc(100%+8px)] top-1/2 -translate-y-1/2 bg-bg-elevated border border-border rounded-md px-2.5 py-1 whitespace-nowrap z-50 shadow-lg pointer-events-none">
+                <div className="absolute left-[calc(100%+8px)] top-1/2 -translate-y-1/2 bg-bg-card border border-border rounded-md px-2.5 py-1 whitespace-nowrap z-50 shadow-lg pointer-events-none">
                   <p className="text-xs text-text-primary font-medium">
                     {isEn && item.nickname_en ? item.nickname_en : item.nickname_ko || item.nickname}
                   </p>

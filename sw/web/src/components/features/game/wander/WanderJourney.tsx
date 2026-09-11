@@ -77,7 +77,7 @@ export default function WanderJourney({ state, pendingState, onChoose, onContinu
                 <span className="mt-3 flex flex-wrap gap-2">
                   <span className="rounded-full border border-white/10 px-2 py-1 text-sm text-text-secondary">{t(`affinity.${affinity}`)}</span>
                   {favored && <span className="rounded-full border border-accent/40 bg-accent/10 px-2 py-1 text-sm font-bold text-accent">{t("eventAdvantage")}</span>}
-                  <span className="rounded-full border border-paused/30 px-2 py-1 text-sm text-paused">
+                  <span className="rounded-full border border-status-paused/30 px-2 py-1 text-sm text-status-paused">
                     {t("tradeoff", { power: t(`powers.${tradeoff.power}.label`), amount: tradeoff.amount })}
                   </span>
                 </span>

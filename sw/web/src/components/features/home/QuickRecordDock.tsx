@@ -29,7 +29,7 @@ export default function QuickRecordDock({
       {/* 폭이 실제로 벌어지고 좁아지는 전환이라 애니메이션을 건다(공간 개폐 — AGENTS.md UI 규칙).
           속성을 max-width로 한정해 안쪽 색 강조까지 느려지지 않게 한다 */}
       <div
-        className={`mx-auto w-full overflow-hidden rounded-xl border border-white/10 bg-card transition-[max-width] duration-300 ease-out ${
+        className={`mx-auto w-full overflow-hidden rounded-xl border border-white/10 bg-bg-card transition-[max-width] duration-300 ease-out ${
           open ? "max-w-2xl" : "max-w-md"
         }`}
       >
@@ -42,7 +42,7 @@ export default function QuickRecordDock({
           {/* 아이콘과 제목은 가운데 선다. 화살표 자리(pe-11)만 비워
               제목이 한쪽으로 밀리지 않게 한다 */}
           <span className="mx-auto flex min-w-0 items-center justify-center gap-2.5">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-main text-text-secondary">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-bg-main text-text-secondary">
               <PenLine size={16} />
             </span>
             <span className="whitespace-nowrap font-semibold text-text-primary">{title}</span>

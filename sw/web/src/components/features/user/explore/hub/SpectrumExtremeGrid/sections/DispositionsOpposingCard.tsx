@@ -73,7 +73,7 @@ export default function DispositionsOpposingCard({ entry, locale, color, onCardC
                   <span className="text-[9px] sm:text-[10px] font-bold uppercase opacity-60">pts</span>
                 </div>
              </div>
-             <h3 className="text-lg sm:text-xxl md:text-2xl font-black text-text-primary mb-1.5 truncate transition-colors drop-shadow-md">
+             <h3 className="text-lg sm:text-xl md:text-2xl font-black text-text-primary mb-1.5 truncate transition-colors drop-shadow-md">
                {highName}
              </h3>
              {entry.reason && (
@@ -130,7 +130,7 @@ export default function DispositionsOpposingCard({ entry, locale, color, onCardC
                 </div>
                 <span className="px-2.5 py-1 rounded bg-black/40 border border-white/10 text-[11px] sm:text-xs font-bold tracking-widest uppercase truncate shadow-sm" style={{ color }}>{sides[1] ?? 'Opposite'}</span>
              </div>
-             <h3 className="text-lg sm:text-xxl md:text-2xl font-black text-text-primary mb-1.5 truncate transition-colors drop-shadow-md">
+             <h3 className="text-lg sm:text-xl md:text-2xl font-black text-text-primary mb-1.5 truncate transition-colors drop-shadow-md">
                {lowName}
              </h3>
              {entry.opposing.reason && (

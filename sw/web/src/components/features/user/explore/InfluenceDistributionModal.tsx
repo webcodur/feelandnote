@@ -96,7 +96,7 @@ function AuraListItem({
           {celebs.slice(0, 4).map((celeb) => (
             <div
               key={celeb.id}
-              className="relative w-7 h-7 rounded-full overflow-hidden border-2 border-surface bg-bg-card shadow-sm"
+              className="relative w-7 h-7 rounded-full overflow-hidden border-2 border-bg-card bg-bg-card shadow-sm"
               style={{ borderColor: mat.colors.border }}
               title={celeb.nickname}
             >
@@ -115,7 +115,7 @@ function AuraListItem({
             </div>
           ))}
           {celebs.length > 4 && (
-            <div className="w-7 h-7 rounded-full bg-bg-secondary flex items-center justify-center text-[9px] font-bold text-text-secondary border-2 border-surface z-10">
+            <div className="w-7 h-7 rounded-full bg-bg-secondary flex items-center justify-center text-[9px] font-bold text-text-secondary border-2 border-bg-card z-10">
               +{celebs.length - 4}
             </div>
           )}
@@ -128,7 +128,7 @@ function AuraListItem({
          <div className="text-[10px]">{percentage}%</div>
       </div>
 
-      <ChevronRight className="text-text-placeholder group-hover:text-accent transition-colors shrink-0" size={16} />
+      <ChevronRight className="text-text-tertiary group-hover:text-accent transition-colors shrink-0" size={16} />
     </button>
   );
 }
@@ -332,7 +332,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
                     <div className="h-full overflow-y-auto scrollbar-thin pr-1">
                         {/* 리스트 뷰 (분포) */}
                         {viewMode === "chart" && !selectedAura && (
-                            <div className="flex flex-col bg-surface rounded-xl border border-border/40 overflow-hidden">
+                            <div className="flex flex-col bg-bg-card rounded-xl border border-border/40 overflow-hidden">
                                 {/* 높은 등급(9)부터 렌더링 */}
                                 {AURA_ORDER_DESC.map((aura) => {
                                     const topCelebsForAura = distribution.topCelebs.find((t) => t.aura === aura);

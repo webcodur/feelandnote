@@ -25,8 +25,8 @@ export default function WanderSetup({ pools, selectedEra, onEraChange, onStart }
       <h2 className="mt-2 font-serif text-4xl font-black text-text-primary sm:text-5xl">{t("label")}</h2>
       <p className="mt-3 max-w-2xl text-base leading-7 text-text-secondary">{t("premise")}</p>
 
-      <div className="mt-6 flex max-w-2xl items-start gap-3 rounded-xl border border-paused/30 bg-bg-main/75 p-4 text-start">
-        <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-paused" aria-hidden />
+      <div className="mt-6 flex max-w-2xl items-start gap-3 rounded-xl border border-status-paused/30 bg-bg-main/75 p-4 text-start">
+        <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-status-paused" aria-hidden />
         <div>
           <strong className="font-serif text-text-primary">{t("objectiveTitle")}</strong>
           <p className="mt-1 text-sm leading-6 text-text-secondary">{t("objectiveBody")}</p>
@@ -70,7 +70,7 @@ export default function WanderSetup({ pools, selectedEra, onEraChange, onStart }
         <Play className="h-4 w-4 fill-current" aria-hidden />
         {t("start")}
       </button>
-      {!canStart && <p className="mt-3 text-sm text-paused">{t("notEnoughFigures")}</p>}
+      {!canStart && <p className="mt-3 text-sm text-status-paused">{t("notEnoughFigures")}</p>}
     </div>
   );
 }

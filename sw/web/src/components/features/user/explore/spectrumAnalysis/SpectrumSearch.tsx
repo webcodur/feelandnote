@@ -101,7 +101,7 @@ export default function SpectrumSearch({ onSelect }: SpectrumSearchProps) {
               <button
                 type="button"
                 onClick={() => handleSelect(p)}
-                className="flex w-full items-center gap-3 px-3 py-2 text-left transition-colors hover:bg-bg-card-hover"
+                className="flex w-full items-center gap-3 px-3 py-2 text-left hover:bg-bg-stone-light"
               >
                 <div className="size-9 shrink-0 overflow-hidden rounded-full border border-border/60 bg-bg-card">
                   <FadeAvatar src={p.avatar_url} name={p.nickname} />

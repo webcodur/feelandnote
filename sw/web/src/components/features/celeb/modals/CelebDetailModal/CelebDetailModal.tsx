@@ -240,7 +240,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
               e.stopPropagation();
               setIsTagsModalOpen(true);
             }}
-            className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[10px] font-bold border border-border hover:bg-bg-tertiary hover:text-text-primary transition-colors"
+            className="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-bg-secondary text-[10px] font-bold border border-border hover:bg-bg-stone-light hover:text-text-primary"
           >
             +{remainingTagCount}
           </button>

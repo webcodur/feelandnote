@@ -18,6 +18,8 @@
   /* Text Colors */
   --color-text-primary: #e0e0e0; /* Off-white Marble */
   --color-text-secondary: #a0a0a0; /* Aged Stone Gray */
+  /* 보조 설명·개수·빈 상태 문구. 기본 바탕 대비 약 4.7:1 — 읽히되 secondary보다 확실히 한 단계 흐리다 */
+  --color-text-tertiary: #808080;
   --color-text-gold: #d4af37;
 
   /* Border Colors */

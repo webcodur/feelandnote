@@ -66,9 +66,9 @@ export default function RelationGroups({ groups, isEn, nameOf, onSelect }: Relat
                   <button
                     type="button"
                     onClick={() => onSelect(item.celeb.id)}
-                    className="group flex h-full w-full gap-3 rounded-xl border border-white/5 bg-main p-3 pe-10 text-start hover:border-accent/40 hover:bg-accent/5"
+                    className="group flex h-full w-full gap-3 rounded-xl border border-white/5 bg-bg-main p-3 pe-10 text-start hover:border-accent/40 hover:bg-accent/5"
                   >
-                    <span className="relative block size-12 shrink-0 overflow-hidden rounded-full border border-white/10 bg-card group-hover:border-accent/50 md:size-16">
+                    <span className="relative block size-12 shrink-0 overflow-hidden rounded-full border border-white/10 bg-bg-card group-hover:border-accent/50 md:size-16">
                       {item.celeb.avatarUrl ? (
                         <CelebAvatarImage
                           src={item.celeb.avatarUrl}

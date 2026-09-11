@@ -90,7 +90,7 @@ export default function MemoryLobby({
       </button>
 
       {canStart ? null : (
-        <p className="mt-3 text-sm text-paused">
+        <p className="mt-3 text-sm text-status-paused">
           {t("notEnoughFigures")}
         </p>
       )}

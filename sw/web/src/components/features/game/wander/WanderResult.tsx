@@ -24,7 +24,7 @@ export default function WanderResult({ state, result, onReplay, onExit }: Props)
     : t("result.victoryBody");
   return (
     <div className="mx-auto flex min-h-full w-full max-w-3xl flex-1 flex-col items-center justify-center py-8 text-center">
-      <div className={result.victory ? "flex h-20 w-20 items-center justify-center rounded-full border border-accent/40 bg-accent/10 text-accent shadow-glow" : "flex h-20 w-20 items-center justify-center rounded-full border border-paused/40 bg-paused/10 text-paused"}>
+      <div className={result.victory ? "flex h-20 w-20 items-center justify-center rounded-full border border-accent/40 bg-accent/10 text-accent shadow-glow" : "flex h-20 w-20 items-center justify-center rounded-full border border-status-paused/40 bg-status-paused/10 text-status-paused"}>
         <ResultIcon className="h-9 w-9" aria-hidden />
       </div>
       <p className="mt-5 font-cinzel text-sm font-bold tracking-[0.2em] text-accent">{t(`plans.${result.plan}.label`)}</p>
