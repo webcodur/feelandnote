@@ -6,7 +6,7 @@
 -->
 <resources>
     <!-- 웹 manifest 의 short_name 과 같게 둔다. 런처에 표시되는 이름이라 짧아야 한다. -->
-    <string name="app_name">Feel&amp;Note</string>
+    <string name="app_name">feelandnote</string>
 
     <!-- 웹 manifest 의 start_url 과 같은 계측 표시를 붙여 앱 실행과 웹 방문을 구분한다. -->
     <string name="default_url">https://feelandnote.com/?utm_source=android_app&amp;utm_medium=twa</string>
