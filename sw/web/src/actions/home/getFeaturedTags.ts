@@ -5,6 +5,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { LIST_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
+import { getInfluenceRanking } from './getCelebs'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
 import { toFactionQuoteMedia, type FactionQuoteMedia } from '@feelandnote/shared/lib/faction-quote-media'
 import { toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
@@ -46,6 +47,8 @@ export interface FeaturedCeleb {
   group_color: string | null
   /** 세력 로고 R2 주소 — 출간 사진 공정이 올린다. 없으면 null */
   group_logo_url: string | null
+  /** 영향력 총점(0~100) — 출연진 판에서 앞에 세울 핵심 인물을 가른다. 점수가 없으면 null */
+  influence: number | null
 }
 
 export interface FeaturedTag {
@@ -230,11 +233,15 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
     게임용 celeb_dialogues는 읽지 않는다. 도감 버튼의 대사는 뷰의 faction quote만 사용한다.
   */
-  const celebRows = await selectInChunks<FeaturedProfileRow>(celebIdArray, (chunk) =>
-    db.from('celebs').select(`
-      id, nickname, nickname_en, avatar_url, title, title_en, profession, speech_tone
-    `).in('id', chunk).overrideTypes<FeaturedProfileRow[], { merge: false }>()
-  )
+  const [celebRows, { scoreMap: influenceMap }] = await Promise.all([
+    selectInChunks<FeaturedProfileRow>(celebIdArray, (chunk) =>
+      db.from('celebs').select(`
+        id, nickname, nickname_en, avatar_url, title, title_en, profession, speech_tone
+      `).in('id', chunk).overrideTypes<FeaturedProfileRow[], { merge: false }>()
+    ),
+    // 출연진 판이 핵심 인물을 가르는 점수 — 인물 목록과 같은 영향력 캐시를 쓴다
+    getInfluenceRanking(),
+  ])
 
   // 맵 구성
   const profileMap = new Map<string, FeaturedProfileRow>()
@@ -278,6 +285,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
           group_position: a.group_position ?? null,
           group_color: a.group_color ?? null,
           group_logo_url: a.group_logo_url ?? null,
+          influence: influenceMap[c.id] ?? null,
         }
       })
       .filter((c): c is FeaturedCeleb => c !== null)
@@ -313,7 +321,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
 const getCachedFeaturedTags = unstable_cache(
   fetchFeaturedTagsPublic,
-  ['featured-tags-light-v4'],
+  ['featured-tags-light-v5'],
   // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
   // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
   {

@@ -236,10 +236,7 @@
     "groupShot": "Group",
     "personShot": "Figure",
     "figureCount": "{count} figures",
-    "figureUnit": "FIGURES",
     "playLine": "Play line",
-    "photoCount": "{count} pics",
-    "photoNumber": "Photo {number}",
     "showQuote": "See their words",
     "playQuote": "Play faction dialogue",
     "pauseQuote": "Stop faction dialogue",
@@ -259,13 +256,7 @@
     "tapToCloseQuote": "Tap to close",
     "expandIntro": "Read full intro",
     "collapseIntro": "Show less",
-    "hasVoice": "Has voice",
-    "coverSetFail": "Failed to set cover image.",
-    "coverSetError": "An error occurred while setting cover image.",
-    "coverBadgeTitle": "Cover image of this theme",
-    "coverBadge": "Cover Image",
-    "coverSetTitle": "Set this photo as the cover image of the theme",
-    "coverSet": "Set as Cover"
+    "hasVoice": "Has voice"
   },
   "quickRecord": {
     "section": {
