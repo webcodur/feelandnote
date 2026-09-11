@@ -31,7 +31,9 @@ cd "C:/Users/webco/.gemini/antigravity-cli/log" && grep -aoiE "email=[^ ,}\"]+" 
 ```
 
 - 로그 경로: `~/.gemini/antigravity-cli/log/cli-<YYYYMMDD>_<HHMMSS>.log` (실행마다 새 파일).
-- 쿼터 소진 계정이면 1)이 `Error: Individual quota reached ... Resets in NNNh`로 떨어진다. 이때도 로그엔 계정이 남으니 2)는 그대로 동작한다.
+- 쿼터 소진 계정이면 1)이 `Error: Individual quota reached ... Resets in NNNh`로 떨어진다.
+- **배치 호출에서는 쿼터 소진이 오류로 안 떨어질 수 있다(26.09.11 실측).** agy가 내부에서 429 재시도(attempt 3~7)를 반복하며 `--print-timeout`까지 매달려 헬퍼에는 "시간 초과"로만 온다. 그 상태로 계속 돌리면 헛돌기만 한다.
+- **배치의 중단 규약**: 타임아웃이 나면 ① 최신 로그에서 `Individual quota reached`를 grep해 쿼터면 **즉시 멈추고 사용자에게 계정 교체를 요청**한다(자동 재시도·대기 루프 금지). ② 쿼터가 아니면 `Reply with exactly: OK` 같은 인사 프로브를 60초 한도로 한 번 보내 OK가 안 오면 무응답으로 보고 **즉시 멈춘다**. ③ 프로브가 살아 있으면 그 묶음만 실패로 기록하고 계속 간다. 재개는 사용자가 계정을 바꾼 뒤 같은 명령으로 한다(계획 파일이 진행분을 쥐고 있어 이어 돈다). 구현 예: `sw/web-bo/scripts/contents/book-display-title-plan.mjs`의 `agyQuotaExhausted()`·`agyAlive()`, 중단 시 exit 3.
 - `~/.antigravity_cockpit/credentials.json`에도 계정 목록(email·projectId)이 있지만 **IDE 쪽 옛 기록이라 CLI 실제 로그인과 다르다**(실측 2026-07-20: 파일엔 webcodur 외 3개, 실제 CLI 계정은 그중에 없던 계정 → 이후 whdmstnv로 교체됨). 이 파일만 보고 단정하지 마라.
 
 ## 핵심 호출법 (텍스트)
