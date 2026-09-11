@@ -20,6 +20,8 @@
 
 **워드마크는 한 단어 `feelandnote`다(26.09.11).** Google은 `Feel&Note`를 feel·note 두 토큰으로 자른다. 홈·인물·소개 페이지 가시 본문에 `feelandnote`가 0회였고, 같은 날 「feelandnote」 검색 1페이지에는 그 철자를 쓰는 YouTube 채널·네이버 블로그만 나오고 사이트는 없었다. 그래서 사이트명·워드마크·본문 표기를 YouTube 채널과 같은 `feelandnote`로 통일했다. `Feel&Note`·`Feel & Note`는 `alternateName`으로만 남기고 새 문구에 쓰지 않는다. 로고는 `feel`·`and`·`note` 세 span을 공백 없이 붙여 DOM 텍스트가 한 단어가 되게 한다. 홈이 이미 색인돼 있으므로 「feelandnote」 검색 반영 여부를 1~2주 뒤 확인한다.
 
+같은 날 함께 반영한 조치 두 가지다. ① 미들웨어 matcher가 `.txt`·`.xml` 같은 확장자 경로를 건너뛰어 `/llms.txt`가 `locale="llms.txt"`로 레이아웃까지 와 홈 HTML을 200으로 돌려주던 소프트 404를 `[locale]/layout.tsx`의 locale 검증(`hasLocale` → `notFound`)으로 막았다. 루트 레이아웃이 던진 404는 Next 기본 404 셸로 나가며 상태 코드·noindex만 필요하므로 별도 루트 not-found를 두지 않는다. ② 홈의 오늘의 인물 구획을 `data-nosnippet`으로 감쌌다. `site:` 결과에서 홈 설명이 그날 인물의 소개문(프레디 머큐리)으로 나왔기 때문이며, 색인·순위와 무관한 미리보기 통제다.
+
 | 무엇 | 단일원천 |
 |------|----------|
 | 정본 URL·기본 사이트명·검색 별칭·Organization/WebSite JSON-LD 생성 | `sw/web/src/lib/seo.ts` |
