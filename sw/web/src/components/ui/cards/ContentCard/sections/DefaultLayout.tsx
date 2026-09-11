@@ -135,9 +135,9 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
 
       {showInfo && (
         <div className="bg-black/20 border-t border-white/[0.04] text-center">
-          <div className="p-2 md:p-2.5 pb-1.5 flex items-center justify-center min-h-[36px] md:min-h-[42px]">
+          <div className="p-2 md:p-2.5 pb-1.5 flex flex-col items-center justify-center min-h-[36px] md:min-h-[42px]">
+            <NoEditionBadge variant="kicker" badge={displayTitleBadge} />
             <h3 className={`text-xs md:text-sm font-semibold text-text-primary line-clamp-2 leading-tight text-center ${!isBadgeHovered ? "group-hover:text-accent" : ""}`}>
-              <NoEditionBadge badge={displayTitleBadge} />
               {editionUnavailable ? title : displayTitle}
             </h3>
           </div>

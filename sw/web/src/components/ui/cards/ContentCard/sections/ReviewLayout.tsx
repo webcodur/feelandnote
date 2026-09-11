@@ -146,11 +146,11 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
           )}
 
           <div className="mb-2 text-center">
+            <NoEditionBadge variant="kicker" badge={displayTitleBadge} />
             <h3
               className="text-xs sm:text-sm font-bold text-text-primary line-clamp-4 leading-tight group-hover:text-accent text-center"
               title={displayTitle}
             >
-              <NoEditionBadge badge={displayTitleBadge} />
               {displayTitle}
             </h3>
             {displayCreator && (
