@@ -91,8 +91,11 @@ export function planIntroductionChange(
   table: IntroductionChange['table'],
   row: IntroductionRow,
   selection: IntroductionSelection,
+  options: { reselect?: boolean } = {},
 ): { change: IntroductionChange | null; reason: string } {
-  if (isBookIntroductionSource(row.description)) return { change: null, reason: 'already-selected' }
+  if (isBookIntroductionSource(row.description)) {
+    return options.reselect ? planReselection(table, row, selection) : { change: null, reason: 'already-selected' }
+  }
   if (row.sources !== null && (typeof row.sources !== 'object' || Array.isArray(row.sources))) {
     return { change: null, reason: 'legacy-sources' }
   }
@@ -107,6 +110,30 @@ export function planIntroductionChange(
   }
   return {
     reason: current ? 'external-copy' : 'missing-introduction',
+    change: {
+      table,
+      before: row,
+      description: selection.source,
+      sources: { ...row.sources, description: selection.sourceUrl },
+      verifiedDescription: selection.description,
+    },
+  }
+}
+
+/** An existing marker moves only to a verified selection for the row's current ISBN; a failed lookup keeps the old marker. */
+function planReselection(
+  table: IntroductionChange['table'],
+  row: IntroductionRow,
+  selection: IntroductionSelection,
+): { change: IntroductionChange | null; reason: string } {
+  if (row.sources !== null && (typeof row.sources !== 'object' || Array.isArray(row.sources))) {
+    return { change: null, reason: 'legacy-sources' }
+  }
+  if (!selection.source || !selection.sourceUrl || !selection.description?.trim()) return { change: null, reason: 'reselect-no-introduction' }
+  if ((row.locale === 'en') !== (selection.source === 'OPEN')) return { change: null, reason: 'source-language-mismatch' }
+  if (selection.source === row.description && selection.sourceUrl === row.sources?.description) return { change: null, reason: 'reselect-unchanged' }
+  return {
+    reason: 'reselected',
     change: {
       table,
       before: row,
