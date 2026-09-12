@@ -416,6 +416,24 @@ const getCelebBySlugCached = (slug: string) =>
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
   )
 
+/**
+ * 주소에서 받은 인물 식별자를 DB 값과 맞춘다.
+ *
+ * 경로의 동적 구간은 퍼센트 인코딩된 채로 도착한다. 인물 slug는 거의 전부 ASCII라
+ * 인코딩될 것이 없어 여태 드러나지 않았는데, 비ASCII slug 하나가 사이트맵에는 실리고
+ * 페이지는 404가 되는 상태로 남아 있었다(26.09.12 실측 — `uğur-şahin`).
+ * 결합 문자 차이로 어긋나지 않게 NFC로도 맞춘다.
+ */
+function normalizeCelebSlug(raw: string): string {
+  let value = raw
+  try {
+    value = decodeURIComponent(raw)
+  } catch {
+    // 잘못 인코딩된 주소는 손대지 않는다 — 없는 인물로 처리되게 둔다
+  }
+  return value.normalize('NFC')
+}
+
 // React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup
 export const getCelebBySlug = cache(getCelebBySlugInner);
 
@@ -441,7 +459,7 @@ async function getCelebBySlugInner(
   slug: string,
   locale: string = 'ko'
 ): Promise<ActionResult<CelebBySlugProfile>> {
-  const pub = await getCelebBySlugCached(slug)
+  const pub = await getCelebBySlugCached(normalizeCelebSlug(slug))
 
   if (!pub) {
     return failure('NOT_FOUND', '셀럽을 찾을 수 없다.')
