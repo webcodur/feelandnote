@@ -59,6 +59,7 @@ const MYTH_REGIONS = [
   { id: "india", ko: "인도", en: "India", prefixes: ["myth-hindu"] },
   { id: "persia", ko: "페르시아", en: "Persia", prefixes: ["myth-persia", "myth-shahnameh"] },
   { id: "mesopotamia", ko: "메소포타미아", en: "Mesopotamia", prefixes: ["myth-mesopotamia"] },
+  { id: "west-asia", ko: "서아시아", en: "West Asia", prefixes: ["myth-west-asia", "myth-levant", "myth-arabia", "myth-caucasus"] },
   { id: "egypt", ko: "이집트", en: "Egypt", prefixes: ["myth-egypt"] },
   { id: "africa", ko: "아프리카", en: "Africa", prefixes: ["myth-africa", "myth-mali", "myth-yoruba", "myth-ethiopia"] },
   { id: "greek-roman", ko: "그리스·로마", en: "Greece & Rome", prefixes: ["myth-greek", "myth-roman", "myth-argonaut", "myth-atreus", "myth-heracles", "myth-iliad", "myth-odyssey", "myth-aeneid"] },
