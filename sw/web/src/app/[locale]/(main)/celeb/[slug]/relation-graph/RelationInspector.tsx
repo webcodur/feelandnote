@@ -3,7 +3,11 @@
 import { ExternalLink, LoaderCircle } from "lucide-react";
 import Image from "next/image";
 
+import { Link } from "@/i18n/navigation";
+
 import VoiceBadge from "@/components/ui/VoiceBadge";
+import WikiMark from "@/components/ui/icons/WikiMark";
+import { getCelebProfileUrl } from "@/lib/url";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 
@@ -19,6 +23,8 @@ interface Props {
   country: string | null;
   loading?: boolean;
   openLabel: string;
+  /** 인물 페이지로 바로 가는 링크의 이름 */
+  goLabel: string;
   wikidataLabel: string;
   speakLabel: string;
   speakingLoading?: boolean;
@@ -57,12 +63,15 @@ function InspectorActions(props: Props) {
       label={props.openLabel}
       loading={props.loading}
       onClick={props.onOpen}
-      size="rail"
       iconSize={21}
     />}
+    {person.listed && person.slug && <Link href={getCelebProfileUrl(person)}
+      aria-label={props.goLabel} title={props.goLabel}>
+      <ExternalLink size={19} />
+    </Link>}
     {person.qid && <a href={`https://www.wikidata.org/wiki/${person.qid}`} target="_blank" rel="noreferrer"
       aria-label={props.wikidataLabel} title={props.wikidataLabel}>
-      <ExternalLink size={19} />
+      <WikiMark size={19} />
     </a>}
   </div>;
 }
