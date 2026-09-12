@@ -7,7 +7,7 @@
 "use client";
 
 import type { ButtonHTMLAttributes } from "react";
-import { ContactRound, LoaderCircle } from "lucide-react";
+import { LoaderCircle, User } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -18,6 +18,7 @@ interface CelebDetailCardButtonProps
   label: string;
   loading?: boolean;
   iconSize?: number;
+  /** 미리 잡아 둔 크기. 생략하면 크기를 붙이지 않아 className이 온전히 쥔다 */
   size?: CelebDetailCardButtonSize;
   showLabel?: boolean;
 }
@@ -36,7 +37,7 @@ export default function CelebDetailCardButton({
   label,
   loading = false,
   iconSize = 16,
-  size = "compact",
+  size,
   showLabel = false,
   className,
   disabled,
@@ -50,12 +51,12 @@ export default function CelebDetailCardButton({
       title={label}
       aria-busy={loading || undefined}
       disabled={disabled || loading}
-      className={cn(BASE_CLASSES, SIZE_CLASSES[size], className)}
+      className={cn(BASE_CLASSES, size && SIZE_CLASSES[size], className)}
     >
       {loading ? (
         <LoaderCircle size={iconSize} className="animate-spin" aria-hidden="true" />
       ) : (
-        <ContactRound size={iconSize} strokeWidth={2} aria-hidden="true" />
+        <User size={iconSize} strokeWidth={2} aria-hidden="true" />
       )}
       {showLabel && <span>{label}</span>}
     </button>

@@ -189,6 +189,7 @@ export default function RelationGraphSection({
     country: centerProfile?.nationality ? getCountryNameByLocale(centerProfile.nationality, locale) : null,
     loading: false,
     openLabel: t("relViewPersonCard"),
+    goLabel: t("relGoPersonPage"),
     wikidataLabel: t("relViewWikidata"),
     onOpen: () => {
       document.getElementById("introduction")?.scrollIntoView({ behavior: "smooth" });
@@ -213,7 +214,7 @@ export default function RelationGraphSection({
     profession: selected.profession ? tp(selected.profession) : null,
     country: selected.nationality ? getCountryNameByLocale(selected.nationality, locale) : null,
     loading: loadingId === selected.id, openLabel: t("relViewPersonCard"),
-    wikidataLabel: t("relViewWikidata"),
+    goLabel: t("relGoPersonPage"), wikidataLabel: t("relViewWikidata"),
     onOpen: () => void openPerson(selected),
     speakLabel: t(speaker?.hasVoice ? "playGreetingVoice" : "dialogue_greeting"),
     speakingLoading: speaker?.loading, hasVoice: speaker?.hasVoice, voicePulse: speaker?.pulse,
@@ -242,11 +243,16 @@ export default function RelationGraphSection({
         onSelectCenter={selectCenter} /> : null}
       <MobileRelationList label={t("relAllTitle", { name: centerName })} focusOptions={focusOptions}
         selectedFocus={selectedFocus} activePeople={activePeople} relationLabel={relationLabel}
-        onOpenPerson={(person) => void openPerson(person)} openLabel={t("relViewPersonCard")} />
+        onOpenPerson={(person) => void openPerson(person)} openLabel={t("relViewPersonCard")}
+        onSpeak={(person) => void speak(person)} speakerFor={stateFor}
+        speakLabels={{ voice: t("playGreetingVoice"), text: t("dialogue_greeting") }}
+        goLabel={t("relGoPersonPage")} wikidataLabel={t("relViewWikidata")} />
       {desktopDiagramReady && inspectorProps && <RelationInspector {...inspectorProps} />}
     </div>
 
-    <p className={styles.sourceNote}>{t(isFiction ? "fictionRelationGraphNote" : "relationGraphNote")}</p>
+    {/* 실존 인물의 관계는 플랫폼에서 직접 편집하므로 출처를 한 곳으로 못 박지 않는다.
+        원전이 곧 근거인 픽션에서만 기준을 밝힌다 */}
+    {isFiction ? <p className={styles.sourceNote}>{t("fictionRelationGraphNote")}</p> : null}
     {previewCeleb && previewRelation && <CelebDetailModal celeb={previewCeleb} isOpen
       context={{ label: relationLabel(previewRelation), description: previewRelation.note }} onClose={closePreview} />}
   </div>;
