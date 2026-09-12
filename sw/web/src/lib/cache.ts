@@ -73,6 +73,37 @@ export function spreadRevalidate(revalidate: number, keyParts: readonly string[]
    태그를 손으로 적지 말고 이 도우미를 거쳐라. 적는 자리가 70곳이면 오타와 누락이 난다.
    ──────────────────────────────────────────────────────────────── */
 
+/* ────────────────────────────────────────────────────────────────
+   캐시 miss 한 번을 사용자 에러로 만들지 않기 위한 재시도
+
+   인물 상세 한 장은 캐시가 비면 DB 조회 스무 건 남짓을 한꺼번에 돌린다. 3 GB VM에서는
+   그중 하나가 미끄러지는 일이 실제로 있고, 지금 구조에서는 그 하나가 페이지 전체를
+   500으로 만든다(26.09.12 운영 실측 — 표본 150장 중 2장이 첫 요청 500, 재요청 200).
+   실패는 캐시에 남지 않으므로 곧바로 한 번 더 부르면 거의 언제나 성공한다.
+   그래서 조회 자체를 여기서 다시 시도한다 — 화면·액션마다 따로 감싸지 않는다.
+   ──────────────────────────────────────────────────────────────── */
+
+/** 캐시가 빈 조회를 시도하는 총 횟수(첫 시도 포함). */
+const QUERY_ATTEMPTS = 2
+
+/** 재시도 전 대기(ms). 순간 몰림이 풀릴 정도만 둔다. */
+const RETRY_DELAY_MS = 250
+
+async function runWithRetry<R>(label: string, fn: () => Promise<R>): Promise<R> {
+  let lastError: unknown
+  for (let attempt = 1; attempt <= QUERY_ATTEMPTS; attempt++) {
+    try {
+      return await fn()
+    } catch (error) {
+      lastError = error
+      if (attempt >= QUERY_ATTEMPTS) break
+      console.error(`${label} 조회 실패 — ${attempt}/${QUERY_ATTEMPTS}회, 다시 시도한다:`, error)
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS))
+    }
+  }
+  throw lastError
+}
+
 interface CacheOptions {
   /** 만료 시간(초). 기본값은 상세 7일 · 목록 1시간 */
   revalidate?: number
@@ -98,7 +129,8 @@ export function cachedDetail<R>(
   fn: () => Promise<R>,
   options: CacheOptions = {},
 ): Promise<R> {
-  return unstable_cache(fn, [DETAIL_CACHE_KEY_VERSION, ...keyParts], {
+  const label = keyParts.join('/')
+  return unstable_cache(() => runWithRetry(label, fn), [DETAIL_CACHE_KEY_VERSION, ...keyParts], {
     revalidate: spreadRevalidate(options.revalidate ?? STATIC_REVALIDATE, keyParts),
     // bare domain은 목록 전용이다. 상세에 붙이면 신규 한 건을 목록에 반영할 때
     // 기존 상세 수만 건까지 전부 낡은 것으로 처리된다.
@@ -120,7 +152,8 @@ export function cachedList<R>(
   fn: () => Promise<R>,
   options: CacheOptions = {},
 ): Promise<R> {
-  return unstable_cache(fn, [...keyParts], {
+  const label = keyParts.join('/')
+  return unstable_cache(() => runWithRetry(label, fn), [...keyParts], {
     revalidate: spreadRevalidate(options.revalidate ?? LIST_REVALIDATE, keyParts),
     tags: [domain, ...(options.extraTags ?? [])],
   })()
