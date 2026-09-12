@@ -21,7 +21,8 @@ interface Props {
   /** 인물 묶음. 비어 있으면 그룹 버튼을 두지 않는다 */
   groups: MythGroup[];
   activeGroup: MythGroup | null;
-  onChooseGroup: (id: string) => void;
+  /** null이면 「전체」 */
+  onChooseGroup: (id: string | null) => void;
 }
 
 /* 모바일 지역·신화·그룹 고르기 — 이름이 긴 칩을 옆으로 넘기며 찾기 어려워 버튼으로 접고,
@@ -43,6 +44,7 @@ export default function MythMobilePicker({
   const [sheet, setSheet] = useState<"region" | "tradition" | "group" | null>(null);
   const close = () => setSheet(null);
   const groupName = (group: MythGroup | null) => mythGroupName(group, { other: t("otherGroup"), unnamed: t("unnamedGroup") });
+  const groupLabel = activeGroup ? groupName(activeGroup) : t("allGroups");
 
   return (
     <>
@@ -71,13 +73,13 @@ export default function MythMobilePicker({
           <button
             type="button"
             aria-haspopup="dialog"
-            aria-label={`${t("groupNav")}: ${groupName(activeGroup)}`}
+            aria-label={`${t("groupNav")}: ${groupLabel}`}
             onClick={() => setSheet("group")}
             className={`${layout.mobilePickerButton} col-span-2`}
           >
             <span className="min-w-0 truncate">
-              {groupName(activeGroup)}
-              <span className="ms-1.5 text-xs font-medium text-text-tertiary">{activeGroup?.personIds.length}</span>
+              {groupLabel}
+              {activeGroup && <span className="ms-1.5 text-xs font-medium text-text-tertiary">{activeGroup.personIds.length}</span>}
             </span>
             <ChevronDown size={15} className="shrink-0" aria-hidden />
           </button>
@@ -142,6 +144,19 @@ export default function MythMobilePicker({
 
       <BottomSheet isOpen={sheet === "group"} onClose={close} title={t("groupNav")}>
         <ul className="space-y-1 p-4">
+          <li>
+            <button
+              type="button"
+              aria-pressed={!activeGroup}
+              onClick={() => {
+                onChooseGroup(null);
+                close();
+              }}
+              className={`${FILTER_BOTTOMSHEET_STYLES.base} text-sm font-medium ${!activeGroup ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive}`}
+            >
+              {t("allGroups")}
+            </button>
+          </li>
           {groups.map((group) => {
             const selected = group.id === activeGroup?.id;
             return (

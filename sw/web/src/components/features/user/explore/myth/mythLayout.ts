@@ -24,6 +24,12 @@ export const MYTH_LAYOUT = {
   overviewOuter: "min-w-0 px-4 pb-4 pt-2 md:px-6 md:pb-6",
   overview: "overflow-hidden rounded-[24px] border border-white/[0.08] bg-black",
   artwork: "relative aspect-[3/2] w-full overflow-hidden",
+  /* 그룹 개요 — 넓은 화면은 전승 개요와 같은 3:2 판에 왼쪽 핵심 인물·오른쪽 패널, 좁은 화면은 위아래로 쌓는다 */
+  groupFrame: "relative bg-black lg:aspect-[3/2]",
+  groupStage: "relative flex w-full flex-col justify-center bg-[radial-gradient(circle_at_30%_0%,rgba(217,181,78,.12),transparent_60%)] px-5 pb-6 pt-6 md:px-7 lg:absolute lg:inset-y-0 lg:start-0 lg:w-[57%] lg:py-8",
+  /* 핵심 인물 칸 — 세 칸 폭을 고정해 두 명뿐인 그룹도 칸 크기가 같고 가운데 모인다 */
+  groupCoreList: "mt-3 flex justify-center gap-3",
+  groupCoreItem: "w-[calc((100%-1.5rem)/3)] min-w-0",
   overviewPanel: "relative z-10 bg-black px-5 pb-6 pt-5 md:px-7 md:pb-7 md:pt-6 lg:absolute lg:inset-y-0 lg:end-0 lg:flex lg:w-[43%] lg:items-center lg:bg-transparent lg:px-6 lg:py-8 xl:px-8",
   overviewBody: "flex w-full min-w-0 flex-col lg:h-[430px] lg:rounded-[20px] lg:border lg:border-white/[0.09] lg:bg-black/[0.88] lg:p-6 lg:shadow-[0_18px_44px_rgba(0,0,0,.28)]",
   overviewHeader: "flex flex-wrap items-center justify-between gap-x-3 gap-y-2",

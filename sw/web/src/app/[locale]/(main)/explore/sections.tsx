@@ -15,6 +15,7 @@ import { getFactionHubPreviews } from "@/actions/home/getFactionHubPreviews";
 import { getRelationShapes } from "@/actions/home/getRelationShapes";
 import { getRelationNeighborhood } from "@/actions/home/getRelationNeighborhood";
 import { getMythAtlas } from "@/actions/home/getMythAtlas";
+import { isDeveloperMode } from "@/lib/developer-mode";
 import { shouldStreamForRequest } from "@/lib/render-mode";
 import { RetryBlock } from "@/components/ui/pending";
 import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
@@ -91,6 +92,11 @@ export async function MythSection() {
   const data = await load("신화 탐색", () => getMythAtlas(locale));
   if (!data) return <ReservedState skeleton={<MythAtlasSkeleton />}><RetryBlock /></ReservedState>;
   if (data.people.length === 0) return <ReservedState skeleton={<MythAtlasSkeleton />}><EmptyLine /></ReservedState>;
+  /* 개발자 모드(로컬 개발 서버)는 준비 중인 신화도 연다 — 공개 전에 명단·그룹을 화면에서 미리 본다.
+     자료는 공개 여부와 무관하게 이미 다 받아 두므로 공개 표시만 푼다 */
+  if (isDeveloperMode()) {
+    return <MythAtlas data={{ ...data, traditions: data.traditions.map((tradition) => ({ ...tradition, isPublished: true })) }} />;
+  }
   return <MythAtlas data={data} />;
 }
 

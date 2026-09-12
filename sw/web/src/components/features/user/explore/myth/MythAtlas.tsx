@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useMouseDragScroll } from "@/hooks/useMouseDragScroll";
 import type { MythAtlasData, MythPerson, MythRegion, MythWork } from "@/actions/home/mythAtlasTypes";
 import { mythGroupName } from "./mythGroupName";
+import MythGroupOverview from "./MythGroupOverview";
 import MythMobilePicker from "./MythMobilePicker";
 import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
@@ -66,8 +67,9 @@ export default function MythAtlas({ data }: Props) {
       .map((id) => byId.get(id))
       .filter((person): person is MythPerson => Boolean(person));
   }, [activeTradition, data.people]);
-  /* 묶음이 있는 전승은 고른 묶음의 인물만 인물 줄에 세운다. 작품·인원 수는 전승 전체 기준 그대로다 */
-  const activeGroup = activeTradition?.groups.find((group) => group.id === groupId) ?? activeTradition?.groups[0] ?? null;
+  /* 그룹을 고르면 그 그룹의 인물만 인물 줄에 세운다. 고르지 않으면 「전체」 — 인물 줄은 전원,
+     본문은 전승 개요다. 작품·인원 수는 늘 전승 전체 기준이다 */
+  const activeGroup = activeTradition?.groups.find((group) => group.id === groupId) ?? null;
   const railPeople = useMemo(() => {
     if (!activeGroup) return activePeople;
     const byId = new Map(activePeople.map((person) => [person.id, person]));
@@ -128,7 +130,7 @@ export default function MythAtlas({ data }: Props) {
     setSelectedPersonId(null);
   };
 
-  const chooseGroup = (nextId: string) => {
+  const chooseGroup = (nextId: string | null) => {
     setGroupId(nextId);
     setSelectedPersonId(null);
   };
@@ -210,6 +212,15 @@ export default function MythAtlas({ data }: Props) {
           {hasContent && activeTradition && activeTradition.groups.length > 0 && (
             <nav className={layout.chipNav} aria-label={t("groupNav")}>
               <div ref={groupListRef} {...groupDragProps} className={`${layout.navList} ${groupCursor}`}>
+                <button
+                  type="button"
+                  aria-pressed={!activeGroup}
+                  onClick={() => chooseGroup(null)}
+                  className={`${layout.groupTab} ${!activeGroup ? "border-accent text-accent" : "border-transparent text-text-secondary hover:text-text-primary"}`}
+                >
+                  {t("allGroups")}
+                  <span className="ms-1.5 text-xs font-medium text-text-tertiary">{activePeople.length}</span>
+                </button>
                 {activeTradition.groups.map((group) => {
                   const selected = group.id === activeGroup?.id;
                   return (
@@ -242,12 +253,17 @@ export default function MythAtlas({ data }: Props) {
         <>
           <div className={layout.overviewOuter}>
             <div className={layout.container}>
-              {!selectedPerson && (
+              {/* 인물을 고르기 전 본문 — 「전체」면 전승 개요, 그룹을 고르면 그 그룹 개요다.
+                  인물 상세에서 뒤로 가면 보던 그룹 개요로 돌아온다 */}
+              {!selectedPerson && !activeGroup && (
                 <MythTraditionOverview key={activeTradition.id} tradition={activeTradition} memberCount={activePeople.length} workCount={activeWorks.length} entryWork={entryWork} />
+              )}
+              {!selectedPerson && activeGroup && (
+                <MythGroupOverview key={`${activeTradition.id}-${activeGroup.id}`} tradition={activeTradition} group={activeGroup} people={railPeople} onSelectPerson={choosePerson} />
               )}
               {selectedPerson && (
                 <div ref={contentRef} className="min-w-0 overflow-hidden rounded-[24px] border border-white/[0.08] scroll-mt-20">
-                  <MythPersonDetail key={`${activeTradition.id}-${selectedPerson.id}`} person={selectedPerson} tradition={activeTradition} works={selectedWorks} onClose={() => setSelectedPersonId(null)} />
+                  <MythPersonDetail key={`${activeTradition.id}-${selectedPerson.id}`} person={selectedPerson} tradition={activeTradition} works={selectedWorks} onClose={() => setSelectedPersonId(null)} backLabel={activeGroup ? t("backToGroup") : t("backToOverview")} />
                 </div>
               )}
             </div>

@@ -7,10 +7,10 @@ import { useTranslations } from "next-intl";
 import type { MythPerson, MythTradition } from "@/actions/home/mythAtlasTypes";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 
-export function DetailBackButton({ onClose }: { onClose: () => void }) {
-  const t = useTranslations("explore.hub.myth");
+/** label — 돌아갈 곳의 이름. 그룹을 골라 들어왔으면 그룹 개요, 아니면 신화 개요다 */
+export function DetailBackButton({ onClose, label }: { onClose: () => void; label: string }) {
   return (
-    <button type="button" onClick={onClose} aria-label={t("backToOverview")} title={t("backToOverview")} className="absolute start-4 top-4 z-30 inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white shadow-lg backdrop-blur-sm hover:border-accent hover:bg-black/85 hover:text-accent md:start-5 md:top-5">
+    <button type="button" onClick={onClose} aria-label={label} title={label} className="absolute start-4 top-4 z-30 inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white shadow-lg backdrop-blur-sm hover:border-accent hover:bg-black/85 hover:text-accent md:start-5 md:top-5">
       <ArrowLeft size={18} aria-hidden />
     </button>
   );
@@ -22,6 +22,7 @@ interface SigilHeaderProps {
   person: MythPerson;
   tradition: MythTradition;
   onClose: () => void;
+  backLabel: string;
   /** 대사가 떠 있는 동안에는 문양·이름을 감춘다 — 한 자리에 글 두 덩어리를 겹치지 않는다 */
   isQuoteVisible?: boolean;
   onSurfaceClick?: (event: MouseEvent<HTMLElement>) => void;
@@ -29,7 +30,7 @@ interface SigilHeaderProps {
   quoteLayer?: ReactNode;
 }
 
-export default function MythSigilHeader({ person, tradition, onClose, isQuoteVisible = false, onSurfaceClick, quoteButton, quoteLayer }: SigilHeaderProps) {
+export default function MythSigilHeader({ person, tradition, onClose, backLabel, isQuoteVisible = false, onSurfaceClick, quoteButton, quoteLayer }: SigilHeaderProps) {
   const t = useTranslations("explore.hub.myth");
   const [zoomOpen, setZoomOpen] = useState(false);
   const initial = person.name.slice(0, 1);
@@ -39,7 +40,7 @@ export default function MythSigilHeader({ person, tradition, onClose, isQuoteVis
       className={`relative min-h-[320px] overflow-hidden border-b border-white/[0.06] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.14),transparent_60%),var(--color-bg-secondary)] px-6 pt-16 text-center md:min-h-[380px] md:pt-20 ${quoteButton ? "pb-20" : "pb-10 md:pb-12"} ${onSurfaceClick ? "cursor-pointer" : ""}`}
     >
       <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-[13rem] font-black leading-none text-white/[0.045] md:text-[17rem]">{initial}</span>
-      <DetailBackButton onClose={onClose} />
+      <DetailBackButton onClose={onClose} label={backLabel} />
       {quoteButton}
       <div className={`relative ${isQuoteVisible ? "invisible" : ""}`}>
         {person.avatarUrl ? (

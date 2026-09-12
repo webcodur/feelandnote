@@ -11,12 +11,15 @@ import { useFactionQuoteStage } from "@/components/features/faction/quote/useFac
 import MythPortraitMedia, { type MythPortrait } from "./MythPortraitMedia";
 import MythSigilHeader, { DetailBackButton } from "./MythSigilHeader";
 import MythWorkShelf from "./MythWorkShelf";
+import { mythLeadImage } from "./mythLeadImage";
 
 interface Props {
   person: MythPerson;
   tradition: MythTradition;
   works: MythWork[];
   onClose: () => void;
+  /** 뒤로 가기 단추 이름 — 돌아갈 곳(그룹 개요·신화 개요)을 부른다 */
+  backLabel: string;
 }
 
 function DetailLeadIcon({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
@@ -106,7 +109,7 @@ function DetailBody({ person, tradition }: { person: MythPerson; tradition: Myth
   );
 }
 
-export default function MythPersonDetail({ person, tradition, works, onClose }: Props) {
+export default function MythPersonDetail({ person, tradition, works, onClose, backLabel }: Props) {
   const t = useTranslations("explore.hub.myth");
   const locale = useLocale() === "en" ? "en" : "ko";
   /* 그 편에서 이 인물이 한 말. 영상 대본이 준 대사라 전승마다 다르다 */
@@ -114,16 +117,14 @@ export default function MythPersonDetail({ person, tradition, works, onClose }: 
   const quote = here?.quote ?? null;
   const quoteMedia = here?.quoteMedia ?? null;
 
-  /* 화면에 거는 사진. 첫 장은 늘 대표 사진이다 — 사람이 직접 고르고 갈아 끼우는 사진이라
-     출간 때 찍어 둔 대사용 화보보다 새것이다. 대사용 화보(발화 시각마다 바뀐다)는 둘째 장부터 잇는다.
+  /* 화면에 거는 사진. 첫 장은 늘 이 전승의 대표 사진이다(mythLeadImage — 전승 전용 개인샷, 없으면
+     인물 대표 사진). 사람이 직접 고르고 갈아 끼우는 사진이라 출간 때 찍어 둔 대사용 화보보다 새것이다.
+     대사용 화보(발화 시각마다 바뀐다)는 둘째 장부터 잇는다.
      재생을 눌러도 첫 장은 그대로라 사진이 갈아 끼워지며 깜빡이거나 구도가 바뀌지 않는다.
      아바타는 작은 얼굴 썸네일이라 대형 화보 자리에 늘려 쓰지 않는다 */
   const quotePortraits: MythPortrait[] = quoteMedia?.images ?? [];
-  const leadPortraits: MythPortrait[] = person.images.length > 0
-    ? person.images
-    : person.portraitUrl ? [{ url: person.portraitUrl }]
-      : person.imageUrl ? [{ url: person.imageUrl }]
-        : [];
+  const lead = mythLeadImage(person, tradition.id);
+  const leadPortraits: MythPortrait[] = lead ? [{ url: lead }] : [];
   const portraits: MythPortrait[] = leadPortraits.length && quotePortraits.length
     ? [{ ...leadPortraits[0], at: quotePortraits[0].at }, ...quotePortraits.slice(1)]
     : leadPortraits.length ? leadPortraits : quotePortraits;
@@ -154,7 +155,7 @@ export default function MythPersonDetail({ person, tradition, works, onClose }: 
             <MythPortraitMedia key={person.id} person={person} images={portraits} index={stage.portraitIndex} onMove={stage.movePortrait} />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-black/20" />
 
-            <DetailBackButton onClose={onClose} />
+            <DetailBackButton onClose={onClose} label={backLabel} />
             {quote && <QuoteButton isPlaying={stage.isVisible} hasAudio={stage.hasPlayableAudio} onClick={stage.toggle} />}
 
             {/* 대사가 뜨는 동안에는 이름표를 비운다 — 사진 한 장에 글 두 덩어리가 겹치지 않게 한다 */}
@@ -177,6 +178,7 @@ export default function MythPersonDetail({ person, tradition, works, onClose }: 
             person={person}
             tradition={tradition}
             onClose={onClose}
+            backLabel={backLabel}
             isQuoteVisible={stage.isVisible}
             onSurfaceClick={stage.handleSurfaceClick}
             quoteButton={quote ? <QuoteButton isPlaying={stage.isVisible} hasAudio={stage.hasPlayableAudio} onClick={stage.toggle} /> : null}

@@ -277,7 +277,13 @@
         "tapToCloseQuote": "눌러서 닫기",
         "groupNav": "그룹 선택",
         "otherGroup": "그 외",
-        "unnamedGroup": "이름 없는 그룹"
+        "unnamedGroup": "이름 없는 그룹",
+        "allGroups": "전체",
+        "groupOverview": "그룹 개요",
+        "groupMemberCount": "{count}명",
+        "groupDescriptionFallback": "이 그룹의 설명을 준비하고 있습니다.",
+        "backToGroup": "그룹 개요로",
+        "groupCore": "핵심 인물 {count}인"
       },
       "relationMap": {
         "title": "관계망",

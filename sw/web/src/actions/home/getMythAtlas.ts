@@ -23,13 +23,16 @@ interface TagRow {
 }
 interface MemberRow {
   tag_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null; sort_order: number | null;
-  quote: string | null; quote_en: string | null; faction_quote_media: unknown;
+  quote: string | null; quote_en: string | null; faction_quote_media: unknown; faction_image_url: string | null;
   group_label: string | null; group_label_en: string | null; group_position: number | null;
 }
 interface PersonRow {
   id: string; slug: string | null; nickname: string; nickname_en: string | null;
   title: string | null; title_en: string | null; headline: string | null; headline_en: string | null;
   bio: string | null; bio_en: string | null; avatar_url: string | null; portrait_url: string | null;
+}
+interface GroupRow {
+  tag_id: string; name: string; description: string | null; description_en: string | null;
 }
 interface ExplanationRow {
   profile_id: string; plain_text: string; plain_text_en: string | null;
@@ -113,7 +116,12 @@ function regionForTradition(slug: string, name: string, isEn: boolean) {
    쇼케이스는 단체 사진 묶음(celeb_tags.team_images)을 세력보다 먼저 쓰지만 여기서는 쓰지 않는다.
    신화 전승의 묶음은 세력과 이름·구성원이 같거나(일리아스·그리스 신화) 장면 제목 단위로 1~3명씩
    잘게 쪼개져(오디세이아 15개) 탭으로 고를 수 없다(26.09.11 대조) */
-function groupsForTradition(rows: MemberRow[], personIds: string[], isEn: boolean): MythGroup[] {
+function groupsForTradition(
+  rows: MemberRow[],
+  personIds: string[],
+  isEn: boolean,
+  describe: (label: string) => string | null,
+): MythGroup[] {
   const rowByPerson = new Map<string, MemberRow>();
   for (const row of rows) {
     const current = rowByPerson.get(row.celeb_id);
@@ -137,8 +145,8 @@ function groupsForTradition(rows: MemberRow[], personIds: string[], isEn: boolea
   if (labeled.size < 2) return [];
   const ordered: MythGroup[] = [...labeled.entries()]
     .sort((a, b) => a[1].position - b[1].position)
-    .map(([label, group]) => ({ id: label, name: group.name, personIds: group.personIds }));
-  return others.length > 0 ? [...ordered, { id: MYTH_OTHER_GROUP_ID, name: null, personIds: others }] : ordered;
+    .map(([label, group]) => ({ id: label, name: group.name, description: describe(label), personIds: group.personIds }));
+  return others.length > 0 ? [...ordered, { id: MYTH_OTHER_GROUP_ID, name: null, description: null, personIds: others }] : ordered;
 }
 
 async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
@@ -168,12 +176,22 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
 
   const { data: memberData, error: memberError } = await db
     .from("faction_atlas_members")
-    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,quote,quote_en,faction_quote_media,group_label,group_label_en,group_position")
+    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,quote,quote_en,faction_quote_media,faction_image_url,group_label,group_label_en,group_position")
     .in("tag_id", tagIds).eq("hidden", false).order("sort_order");
   if (memberError) throw new Error(`신화 인물 조회 실패: ${memberError.message}`);
   const members = (memberData ?? []) as MemberRow[];
   const personIds = unique(members.map((member) => member.celeb_id));
   if (personIds.length === 0) return { regions: [], traditions: [], people: [], works: [], openingPersonId: null };
+
+  /* 그룹 설명 — 그룹 개요의 본문이다. 뷰에는 없어 그룹 표를 직접 읽는다.
+     영문 설명이 비면 한국어를 내보내지 않고 null — 화면이 대체 문구를 붙인다 */
+  const { data: groupData, error: groupError } = await db
+    .from("celeb_tag_groups").select("tag_id,name,description,description_en").in("tag_id", tagIds);
+  if (groupError) throw new Error(`신화 그룹 설명 조회 실패: ${groupError.message}`);
+  const groupDescriptions = new Map(((groupData ?? []) as GroupRow[]).map((row) => [
+    `${row.tag_id}/${row.name}`,
+    (isEn ? row.description_en : row.description)?.trim() || null,
+  ]));
 
   const [profiles, allAssignments, explanationRows] = await Promise.all([
     selectInChunks<PersonRow>(personIds, (ids) => db.from("celebs")
@@ -237,6 +255,8 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
       summary: (isEn ? placement.short_desc_en || placement.short_desc : placement.short_desc)?.trim() || null,
       quote: (isEn ? placement.quote_en || placement.quote : placement.quote)?.trim() || null,
       quoteMedia: toFactionQuoteMedia(placement.faction_quote_media),
+      /* 편마다 모습이 다른 인물의 전승 전용 사진 — 고르는 규칙은 화면의 mythLeadImage가 쥔다 */
+      imageUrl: placement.faction_image_url ?? null,
     }));
     return [{ id: profile.id, slug: profile.slug,
       name: isEn ? profile.nickname_en || profile.nickname : profile.nickname,
@@ -268,7 +288,8 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
       description: isEn ? tag.description_en || tag.description : tag.description,
       isPublished: tag.atlas_published === true,
       regionId: region.id, images, personIds: ids,
-      groups: groupsForTradition(members.filter((member) => member.tag_id === tag.id), ids, isEn) }];
+      groups: groupsForTradition(members.filter((member) => member.tag_id === tag.id), ids, isEn,
+        (label) => groupDescriptions.get(`${tag.id}/${label}`) ?? null) }];
   });
   const regions = MYTH_REGIONS.map((region): MythRegion => ({
     id: region.id,
@@ -281,7 +302,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   return { regions, traditions, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v15-groups"], {
+const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v17-theme-images"], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });
