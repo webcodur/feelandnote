@@ -1,6 +1,6 @@
 /*
   파일명: /components/ui/NoEditionBadge.tsx
-  기능: 확인된 언어판이 없는 제목의 표시
+  기능: 확인된 언어판이 없는 제목의 표시. 절판(out-of-print)도 같은 자리에 같은 모양으로 붙인다
   책임: 두 가지 모양을 쥔다. chip은 목록 행(한 줄이 넓은 곳)용으로 제목 앞에 붙는 작은 칩이고, cover는 표지 카드용으로 표지 한가운데를 가로지르는 「국문본 없음」 띠다 —
         표지가 있든 없든 같은 자리에 경고선처럼 놓여 한눈에 잡히게 한다(26.09.11 사용자 결정). 배지가
         붙는 책은 국문판이 없어 보이는 표지가 외국판이므로 표지 위가 뜻에도 맞고, 하단 제목 상자는 폭
@@ -29,7 +29,7 @@ function EditionChip({ badge, className }: { badge: TitleBadge; className?: stri
     <span
       className={`me-1 inline-block align-baseline rounded border border-accent/50 px-1 text-[11px] font-normal leading-snug text-accent/90 ${className || ""}`}
     >
-      {t(badge === "no-ko" ? "noKo" : "noEn")}
+      {t(badge === "no-ko" ? "noKo" : badge === "out-of-print" ? "outOfPrint" : "noEn")}
     </span>
   );
 }
@@ -41,7 +41,7 @@ function EditionCoverBand({ badge, className }: { badge: TitleBadge; className?:
     <span
       className={`pointer-events-none absolute inset-x-0 top-1/2 z-10 -translate-y-1/2 border-y border-accent/60 bg-black/75 px-1 py-1 text-center text-[11px] font-medium leading-tight tracking-wide text-accent ${className || ""}`}
     >
-      {t(badge === "no-ko" ? "noKo" : "noEn")}
+      {t(badge === "no-ko" ? "noKo" : badge === "out-of-print" ? "outOfPrint" : "noEn")}
     </span>
   );
 }

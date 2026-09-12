@@ -29,13 +29,15 @@ export interface ContentLocaleRow {
   sources?: unknown
 }
 
-/** 요청 locale의 제목이 확인된 판본 제목이 아닐 때 붙는 배지 */
-export type TitleBadge = 'no-ko' | 'no-en'
+/** 요청 locale의 제목이 확인된 판본 제목이 아닐 때 붙는 배지. out-of-print는 절판·유통 판본 없음(sources.availability). */
+export type TitleBadge = 'no-ko' | 'no-en' | 'out-of-print'
 
 /** sources JSONB에서 표시용 제목 표기만 좁혀 읽는다. */
 interface LocaleSources {
   primary?: unknown
   title?: unknown
+  /** 'out_of_print' — 절판이거나 유통 판본이 확인되지 않은 원어 작품(celeb-02-02 「절판」) */
+  availability?: unknown
 }
 
 /** 표시용 제목 행이면 true — sources.title이 'translated'·'romanized' 같은 표기를 갖는다. */
@@ -58,6 +60,8 @@ function resolveTitleBadge(
   row: ContentLocaleRow | undefined,
   requested: 'ko' | 'en',
 ): TitleBadge | null {
+  // 절판 표식은 판본 확인 여부보다 먼저 본다 — 원어 작품이라 「번역본 없음」이 아니라 「절판」이 맞다.
+  if (row?.title && (row.sources as LocaleSources | null | undefined)?.availability === 'out_of_print') return 'out-of-print'
   // 제목 유무 판정은 아래 폴백과 같은 기준을 쓴다 — 값이 있으면 폴백하지 않는다.
   const isConfirmed = !!row?.title && !isDisplayTitleRow(row.sources)
   return isConfirmed ? null : (requested === 'en' ? 'no-en' : 'no-ko')
