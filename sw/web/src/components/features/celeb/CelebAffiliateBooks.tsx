@@ -20,9 +20,10 @@ interface CelebAffiliateBooksProps {
   userId: string
   actualOnly?: boolean
   embedded?: boolean
-  initialData?: AffiliateBooksResult | null
   hideHeading?: boolean
   relatedBooks?: FigureBookContent[]
+  /** 상단 「창작」 탭이 이미 다루는 작품. 아래 상품 구획에서 뺀다. */
+  excludeContentIds?: readonly string[]
 }
 
 type LoadStatus = 'idle' | 'ready' | 'failed'
@@ -49,9 +50,9 @@ export default function CelebAffiliateBooks({
   userId,
   actualOnly = false,
   embedded = false,
-  initialData,
   hideHeading = false,
   relatedBooks,
+  excludeContentIds,
 }: CelebAffiliateBooksProps) {
   const locale = useLocale()
   const t = useTranslations('popularBooks')
@@ -62,13 +63,11 @@ export default function CelebAffiliateBooks({
   const [loadGate] = useState(() => createAffiliateBooksLoadGate(
     (celebId) => getAffiliateBooksForCeleb(celebId, 'coupang', 6),
   ))
-  const [loadState, setLoadState] = useState<LoadState>(() => initialData === undefined
-    ? { key: '', status: 'idle', data: null }
-    : { key: `${userId}:0`, status: 'ready', data: initialData })
+  const [loadState, setLoadState] = useState<LoadState>({ key: '', status: 'idle', data: null })
   const requestKey = `${userId}:${attempt}`
 
   useEffect(() => loadGate.observe({
-    enabled: locale === 'ko' && isNear && initialData === undefined,
+    enabled: locale === 'ko' && isNear,
     key: requestKey,
     userId,
     onReady: (data) => setLoadState({ key: requestKey, status: 'ready', data }),
@@ -76,7 +75,7 @@ export default function CelebAffiliateBooks({
       console.error('Load celeb affiliate books error:', error)
       setLoadState({ key: requestKey, status: 'failed', data: null })
     },
-  }), [initialData, isNear, loadGate, locale, requestKey, userId])
+  }), [isNear, loadGate, locale, requestKey, userId])
 
   if (!platform) return null
 
@@ -86,10 +85,10 @@ export default function CelebAffiliateBooks({
   }
 
   const isCurrentRequest = loadState.key === requestKey
-  const data = initialData !== undefined ? initialData : isCurrentRequest ? loadState.data : null
+  const data = isCurrentRequest ? loadState.data : null
   const products = mapRelatedFigureBooksToAffiliateBooks(relatedBooks ?? [], locale)
   const hasRelatedProducts = products.length > 0
-  const productIds = new Set(products.map((book) => book.contentId))
+  const productIds = new Set([...products.map((book) => book.contentId), ...(excludeContentIds ?? [])])
   if (locale === 'ko' && data && (!actualOnly || data.source === 'read')) {
     for (const book of data.books) {
       if (productIds.has(book.contentId)) continue
@@ -111,7 +110,7 @@ export default function CelebAffiliateBooks({
           platform={platform}
         />
       ) : null}
-      {initialData === undefined && isCurrentRequest && loadState.status === 'failed' ? (
+      {isCurrentRequest && loadState.status === 'failed' ? (
         <RetryBlock onRetry={handleRetry} />
       ) : null}
     </div>
