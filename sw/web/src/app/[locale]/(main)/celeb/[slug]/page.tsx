@@ -58,6 +58,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return buildCelebPageMetadata(locale, slug);
 }
 
+/**
+ * 병렬 조회에 이름표를 단다.
+ *
+ * 아래 조회들은 서로 기다릴 이유가 없어 함께 띄운다(하나씩 await로 바꾸면 그만큼 느려진다).
+ * 다만 Promise.all은 가장 먼저 깨진 것만 올려 보내고 어느 조회였는지는 남기지 않는다.
+ * 그러면 화면이 서지 못했을 때 원인을 가릴 수 없다. 여기서 이름을 남기고 그대로 던진다.
+ */
+function named<T>(slug: string, name: string, promise: Promise<T>): Promise<T> {
+  return promise.catch((error: unknown) => {
+    console.error(`[celeb/${slug}] ${name} 조회 실패 — 이 하나로 인물 화면 전체가 서지 못한다:`, error);
+    throw error;
+  });
+}
+
 export default async function CelebPage({ params }: PageProps) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
@@ -118,14 +132,14 @@ export default async function CelebPage({ params }: PageProps) {
       celebId: userId,
       reality: profile.celeb_reality,
     }),
-    getCelebDialogueFull(userId),
-    getCelebTimelineEvents(userId, locale),
+    named(slug, "대사", getCelebDialogueFull(userId)),
+    named(slug, "연표", getCelebTimelineEvents(userId, locale)),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
-    initialContentsPromise,
-    getFigureBookPresentationsForCeleb(userId, locale),
-    initialContentBriefPromise,
-    getCelebExternalLinks(profile.wikidata_qid, locale),
+    named(slug, "서가", initialContentsPromise),
+    named(slug, "등장 작품", getFigureBookPresentationsForCeleb(userId, locale)),
+    named(slug, "작품 소개", initialContentBriefPromise),
+    named(slug, "외부 링크", getCelebExternalLinks(profile.wikidata_qid, locale)),
   ]);
 
   // 창작(authored)은 「창작」 탭에, 연관(related)만 아래 상품 구획으로 보낸다.
