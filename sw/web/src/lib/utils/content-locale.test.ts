@@ -98,3 +98,12 @@ test('sources가 없거나 title 표기가 없으면 배지를 붙이지 않는�
   assert.equal(flattenLocales([{ ...koRow, sources: null }], 'ko').title_badge, null)
   assert.equal(flattenLocales([{ ...koRow, sources: { primary: 'kakao_book', title: '' } }], 'ko').title_badge, null)
 })
+
+test('절판 표식(availability=out_of_print)은 판본 확인보다 먼저 out-of-print 배지를 낸다', () => {
+  const outOfPrintKo = { ...displayTitleRow('ko', '이 성숙한 밤의 포옹', 'original'), sources: { primary: 'none', title: 'original', availability: 'out_of_print' } }
+  assert.equal(flattenLocales([outOfPrintKo, displayTitleRow('en', 'I seongsukhan bamui poong', 'romanized')], 'ko').title_badge, 'out-of-print')
+  // 영어 화면은 영문판이 없다는 판정이 그대로다
+  assert.equal(flattenLocales([outOfPrintKo, displayTitleRow('en', 'I seongsukhan bamui poong', 'romanized')], 'en').title_badge, 'no-en')
+  // 실재 판본이라도 절판이면 같은 배지
+  assert.equal(flattenLocales([{ ...koRow, sources: { primary: 'kakao_book', availability: 'out_of_print' } }], 'ko').title_badge, 'out-of-print')
+})
