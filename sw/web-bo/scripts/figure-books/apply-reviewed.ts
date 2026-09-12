@@ -342,7 +342,9 @@ async function main(): Promise<void> {
       { domain: CACHE_TAGS.CELEBS, id: row.slug },
     ])),
   ]
-  await revalidateWebItems(cacheTargets)
+  // 여러 인물이 함께 쓰는 제휴 상품 풀은 도메인 태그 하나로만 비워진다(항목 태그로는 안 닿는다).
+  // 이걸 빼면 새 상품이 풀 만료(1주)까지 추천·서가 정렬에 안 나타난다.
+  await revalidateWebItems(cacheTargets, [CACHE_TAGS.FIGURE_BOOKS])
   console.log(`REVALIDATED ${new Set(cacheTargets.map((target) => `${target.domain}:${target.id}`)).size} item tags`)
 }
 

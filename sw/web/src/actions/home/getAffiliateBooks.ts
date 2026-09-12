@@ -5,7 +5,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { createStaticClient } from '@/lib/db/static'
-import { cachedDetail, LIST_REVALIDATE, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
+import { cachedDetail, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import type { AffiliatePlatformKey } from '@/constants/affiliatePlatforms'
 import { FACTION_BOOK_TOPICS } from '@/constants/factionBookTopics'
 import { findAffiliateLink } from './affiliateLinks'
@@ -239,8 +239,14 @@ function rotateDaily<T>(items: T[], limit: number): T[] {
 
 const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v3-source-editions'], {
   // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
-  // 인물 상세을 연쇄 무효화하므로, 한 시간 만료로만 새 후보를 흡수한다.
-  revalidate: LIST_REVALIDATE,
+  // 인물 상세을 연쇄 무효화하므로 달지 않는다.
+  //
+  // 수명은 이웃과 같은 1주다. 한 시간으로 두었더니 인물 상세 초기 렌더가 이 조회를 쓰는
+  // 한국어 full 인물 2,400여 장의 수명이 통째로 한 시간으로 끌려 내려갔다 — Next는 한 장을
+  // 만들며 쓴 캐시 중 가장 짧은 것을 그 페이지의 수명으로 삼는다(26.09.12 실측).
+  // 새 상품은 시간 만료를 기다리지 않는다. 제휴 반영 스크립트(web-bo의 figure-books/
+  // apply-reviewed.ts)가 이 FIGURE_BOOKS 태그를 함께 비운다.
+  revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.FIGURE_BOOKS],
 })
 
@@ -370,7 +376,9 @@ async function getAffiliateBooksForCelebInner(
     celebId,
     ['affiliate-books-celeb-v3-source-editions', celebId, platform, String(limit)],
     () => fetchAffiliateBooksForCeleb(celebId, limit, pool),
-    { revalidate: LIST_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
+    // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
+    // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.
+    { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS] },
   )
 }
 
