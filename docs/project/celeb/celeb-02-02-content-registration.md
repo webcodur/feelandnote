@@ -40,7 +40,11 @@ Google Books와 네이버 도서는 신규 BOOK 메타·표지에 사용하지 �
 
 ISBN만 있거나 검색 스니펫·출판사 소개·도서관 소장 정보만 있는 판본은 통과하지 못한다. 제목·저자·ISBN을 모두 대조하고, 동명 해설서·학습서·필사본·일부 권·다른 번역판을 원작으로 오인하지 않는다. ISBN이 없거나 어느 경로에서도 실제 판본을 확인하지 못하면 신규 BOOK을 만들지 않는다. 현재 유통되는 리프린트가 같은 본문으로 확인되면 그 판본을 대표 키로 사용할 수 있다.
 
-한국어판을 확인하지 못했으면 ISBN·출판사·표지를 지어내지 않는다. 대신 **표시용 제목 행(display-title row)** 을 둔다. 이 행은 `title`만 채우고 `isbn`·`publisher`·`thumbnail_url`·`description`은 비우며, `sources.primary='none'`과 `sources.title`에 `'translated'`(번역)·`'romanized'`(음차)·`'original'`(통용 영어 제목이 없거나 영어가 원어라 원제 유지) 중 하나를 적어 실제 판본 행과 구분한다. 표시용 제목 행 판정은 `sources.primary='none'`이면서 `sources.title`이 이 세 값 중 하나일 때만이다. 옛 등록 경로가 `sources.title`에 제목 출처 URL을 넣은 행이 있으므로 키 존재만으로 판정하지 않으며, URL 값은 덮어쓰지 않는다. 화면은 이 행의 제목 앞에 `[no-ko]` 배지를 붙인다. 실제 판본이 확인되면 이 행을 공식 값으로 덮는다. 저자명은 지어내지 않고 원저자 표기를 유지한다.
+한국어판을 확인하지 못했으면 ISBN·출판사·표지를 지어내지 않는다. 대신 **표시용 제목 행(display-title row)** 을 둔다. 이 행은 `title`만 채우고 `isbn`·`publisher`·`thumbnail_url`·`description`은 비우며, `sources.primary='none'`과 `sources.title`에 `'translated'`(번역)·`'romanized'`(음차)·`'original'`(통용 영어 제목이 없거나 영어가 원어라 원제 유지) 중 하나를 적어 실제 판본 행과 구분한다. 표시용 제목 행 판정은 `sources.primary='none'`이면서 `sources.title`이 이 세 값 중 하나일 때만이다. 옛 등록 경로가 `sources.title`에 제목 출처 URL을 넣은 행이 있으므로 키 존재만으로 판정하지 않으며, URL 값은 덮어쓰지 않는다. 화면은 이 행의 제목 앞에 `[no-ko]` 배지를 붙인다. 실제 판본이 확인되면 이 행을 공식 값으로 덮는다. 표시용 행의 `creator`는 **그 언어의 표기**로 적는다 — ko 행은 외래어 표기법에 따른 한국어 이름(국내 출판 관행 표기가 있으면 그것), en 행은 로마자 이름이다. 다른 사람으로 바꾸거나 없는 저자를 지어내지 않는다. 배치 반영은 `sw/web-bo/scripts/contents/display-names-apply.mjs`가 한다(26.09.13 사용자 결정: 「번역본이 없을 때 제목·저자명을 번역해 넣고 번역본 없음을 표기한다」).
+
+### 절판 — 판본이 없는 원어 작품 (26.09.13)
+
+기관 선정 목록에 오른 옛 한국 작품처럼 **원어가 한국어인데 지금 유통되는 판본이 없는 책**은 「번역본 없음」이 아니다. 이런 책은 작품을 만들어 목록에 잇되(`external_source`·`external_id` 비움), ko 행은 원제·저자를 든 표시용 행(`sources.primary='none'`, `sources.title='original'`)으로 두고 **`sources.availability='out_of_print'`** 를 적는다. 화면은 이 표식을 판본 확인보다 먼저 보고 「절판된 책 / Out of print」 띠를 붙인다(`content-locale.ts`의 `resolveTitleBadge`). 실재 판본을 카카오에서 확인했는데 판매 상태가 `절판`·`품절`이면 그 판본 행에도 같은 표식을 둔다. 새 컬럼을 만들지 않고 `sources` JSONB 한 키로 끝낸다. 선집·전집만 남은 작품은 선집을 판본으로 삼지 않고 이 절차를 따른다. 실행점은 `sw/web-bo/scripts/curated/research-apply.mjs`다.
 
 ### 영문판과 표지
 
