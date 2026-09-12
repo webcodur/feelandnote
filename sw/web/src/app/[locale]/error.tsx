@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getGlobalErrorCopy, type GlobalErrorLocale } from '@/lib/i18n/globalError'
 
 export default function LocaleError({
@@ -14,9 +14,22 @@ export default function LocaleError({
     typeof window !== 'undefined' && window.location.pathname.startsWith('/en') ? 'en' : 'ko'
   )
 
+  // 첫 실패는 대개 캐시가 빈 화면을 만들다 조회 하나가 미끄러진 것이고, 곧바로 다시
+  // 그리면 성공한다(26.09.12 운영 실측 — 첫 요청 500, 재요청 200). 사람이 「다시 시도」를
+  // 누르기 전에 한 번은 화면이 스스로 살아나게 한다. 두 번째부터는 실제 고장이므로
+  // 버튼을 남겨 사람이 판단하게 둔다.
+  const autoRetried = useRef(false)
+
   useEffect(() => {
     console.error('[GlobalError]', error)
   }, [error])
+
+  useEffect(() => {
+    if (autoRetried.current) return
+    autoRetried.current = true
+    const timer = setTimeout(reset, 400)
+    return () => clearTimeout(timer)
+  }, [reset])
 
   const copy = getGlobalErrorCopy(locale)
 
