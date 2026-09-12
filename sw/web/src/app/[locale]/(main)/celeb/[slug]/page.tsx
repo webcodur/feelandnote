@@ -14,7 +14,6 @@ import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
 import { getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getContentBrief } from "@/actions/contents/getContentBrief";
-import { getAffiliateBooksForCeleb } from "@/actions/home/getAffiliateBooks";
 import { getFigureBookPresentationsForCeleb } from "@/actions/figure-books/getFigureBookPresentations";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
@@ -101,10 +100,11 @@ export default async function CelebPage({ params }: PageProps) {
     const firstContentId = contents.items[0]?.content_id;
     return firstContentId ? getContentBrief(firstContentId, locale) : null;
   });
-  // 페이지末 관련 상품. full+한국어만 서버에서 미리 싣고 나머지는 근접 시 불러온다.
-  const initialAffiliateBooksPromise = profile.celeb_tier === 'full' && locale === 'ko'
-    ? getAffiliateBooksForCeleb(userId, 'coupang', 6)
-    : Promise.resolve(null);
+  // 페이지末 관련 상품은 서버에서 미리 싣지 않는다. 그 조회만 수명이 한 시간이라
+  // (풀에 태그를 못 달아 시간 만료로만 새 후보를 흡수한다) 초기 렌더가 그것을 쓰면
+  // Next가 인물 상세 한 장의 수명을 통째로 한 시간으로 끌어내렸다. 본문·연표·서가까지
+  // 한 시간마다 다시 만들어지던 원인이다. 화면 맨 아래 구획이라 스크롤해야 보이므로
+  // 브라우저가 근접했을 때 직접 불러온다.
   const [
     sidePresence,
     dialogueData,
@@ -113,7 +113,6 @@ export default async function CelebPage({ params }: PageProps) {
     allFigureBooks,
     initialContentBrief,
     externalLinks,
-    initialAffiliateBooks,
   ] = await Promise.all([
     getCelebSidePresence({
       celebId: userId,
@@ -127,19 +126,16 @@ export default async function CelebPage({ params }: PageProps) {
     getFigureBookPresentationsForCeleb(userId, locale),
     initialContentBriefPromise,
     getCelebExternalLinks(profile.wikidata_qid, locale),
-    initialAffiliateBooksPromise,
   ]);
 
   // 창작(authored)은 「창작」 탭에, 연관(related)만 아래 상품 구획으로 보낸다.
   const { appearanceBooks, authoredBooks, relatedBooks } = partitionFigureBooks(allFigureBooks);
   const figureBooks = appearanceBooks.filter((book) => book.editions.length > 0);
-  const authoredIds = new Set(authoredBooks.map((book) => book.id));
-  const affiliateBooks = initialAffiliateBooks ? {
-    ...initialAffiliateBooks,
-    books: initialAffiliateBooks.books.filter((book) => !authoredIds.has(book.contentId)),
-  } : null;
+  const authoredIds = authoredBooks.map((book) => book.id);
+  // 추천 상품 조회는 후보가 없으면 「많이 읽힌 책」까지 내려가 채우므로 full+한국어는
+  // 사실상 항상 결과가 있다. 목차는 그 전제로 자리를 잡고, 실제로 비면 구획이 스스로 숨는다.
   const hasAffiliateBooks = mapRelatedFigureBooksToAffiliateBooks(relatedBooks, locale).length > 0
-    || (affiliateBooks?.books.length ?? 0) > 0;
+    || (profile.celeb_tier === 'full' && locale === 'ko');
 
   const pageTitle = buildCelebTitle(
     createCelebMetaInput(profile, figureBooks),
@@ -247,8 +243,8 @@ export default async function CelebPage({ params }: PageProps) {
           hasAffiliateBooks ? (
             <CelebAffiliateBooks
               userId={userId}
-              initialData={affiliateBooks}
               relatedBooks={relatedBooks}
+              excludeContentIds={authoredIds}
               hideHeading
             />
           ) : undefined
