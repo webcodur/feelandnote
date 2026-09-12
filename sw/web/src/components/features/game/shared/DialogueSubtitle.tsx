@@ -2,6 +2,7 @@
   파일명: components/features/game/shared/DialogueSubtitle.tsx
   기능: 대사 자막 스낵바
   책임: 대사 표시 시 텍스트를 3초간 표시한다. 새 대사가 오면 즉시 교체하고 타이머를 리셋한다.
+        음원이 있으면 받아진 뒤에 소리와 진행바를 함께 시작하고, 인물별 재생 배속을 페이드 판정까지 반영한다.
         상단 핸들바를 드래그하면 자유 위치 이동 + localStorage 기억.
         Esc 키로 즉시 닫는다(떠 있는 동안만 가로채므로 게임 전체화면 나가기와 겹치지 않는다).
 */
@@ -20,6 +21,12 @@ import { DEFAULT_DIALOGUE_COORDS, type DialogueCoords } from "@/hooks/useDialogu
 const BASE_DURATION = 3000;
 const PER_CHAR_MS = 80;
 const MAX_DURATION = 6000;
+const FADE_DURATION = 1000;
+// 음원이 이만큼 기다려도 안 오면 소리를 포기하고 글자만 띄운다
+const AUDIO_LOAD_TIMEOUT = 8000;
+
+/** 음원 단계 — loading 동안은 소리도 진행바도 내지 않고, dropped면 음원을 포기해 글자 시간으로 닫는다 */
+type AudioPhase = "idle" | "loading" | "playing" | "dropped";
 
 /** 텍스트 길이에 따라 표시 시간을 동적 산출한다 */
 function calcDuration(text: string): number {
@@ -46,9 +53,10 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevTextRef = useRef<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [audioPhase, setAudioPhase] = useState<AudioPhase>("idle");
   const [audioProgress, setAudioProgress] = useState(0);
   const rafRef = useRef<number | null>(null);
+  const loadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const playbackTimeRef = useRef<((currentTime: number) => void) | null>(null);
   const playbackEndRef = useRef<(() => void) | null>(null);
 
@@ -57,8 +65,6 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
   const dragStartRef = useRef<{ px: number; py: number; top: number; left: number } | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const FADE_DURATION = 1000;
-
   const stopProgressLoop = useCallback(() => {
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current);
@@ -66,22 +72,32 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     }
   }, []);
 
+  const clearLoadTimer = useCallback(() => {
+    if (loadTimerRef.current) { clearTimeout(loadTimerRef.current); loadTimerRef.current = null; }
+  }, []);
+
   const startProgressLoop = useCallback(() => {
     stopProgressLoop();
     let fadingStarted = false;
     const tick = () => {
       const a = audioRef.current;
-      if (a && a.duration && !a.paused) {
-        setAudioProgress(a.currentTime / a.duration);
-        // HTMLAudioElement.currentTime은 원본 음원 좌표다. 팩션 화보 at은 렌더와 같이
-        // 재생 배속을 반영한 화면 초이므로 wall-clock 좌표로 환산해 넘긴다.
-        playbackTimeRef.current?.(a.currentTime / Math.max(a.playbackRate, 0.01));
-        if (!fadingStarted && a.duration - a.currentTime <= 1) {
+      // 멈춘 음원은 더 볼 것이 없다. 길이가 아직 안 온 동안에도 루프는 유지한다 —
+      // 여기서 끊으면 duration이 늦게 오는 스트림은 진행바가 0에 굳는다.
+      if (!a || a.paused) return;
+      const rate = Math.max(a.playbackRate, 0.01);
+      if (Number.isFinite(a.duration) && a.duration > 0) {
+        setAudioProgress(Math.min(a.currentTime / a.duration, 1));
+        // 남은 시간은 배속으로 나눠 실제 초로 환산한다. 원본 초로 재면 배속이 걸린 인물에서
+        // 페이드가 소리보다 먼저 시작해 끝말이 잘려 들린다.
+        if (!fadingStarted && (a.duration - a.currentTime) / rate <= FADE_DURATION / 1000) {
           fadingStarted = true;
           setFading(true);
         }
-        rafRef.current = requestAnimationFrame(tick);
       }
+      // HTMLAudioElement.currentTime은 원본 음원 좌표다. 팩션 화보 at은 렌더와 같이
+      // 재생 배속을 반영한 화면 초이므로 wall-clock 좌표로 환산해 넘긴다.
+      playbackTimeRef.current?.(a.currentTime / rate);
+      rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
   }, [stopProgressLoop]);
@@ -95,15 +111,18 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
 
   const stopAudio = useCallback(() => {
     stopProgressLoop();
+    clearLoadTimer();
     if (audioRef.current) {
+      // 받아지기를 기다리던 핸들러까지 떼어야 뒤늦게 도착한 음원이 혼자 울리지 않는다
+      audioRef.current.oncanplaythrough = null;
       audioRef.current.pause();
       audioRef.current = null;
     }
-    setAudioPlaying(false);
+    setAudioPhase("idle");
     setAudioProgress(0);
     setFading(false);
     finishExternalPlayback();
-  }, [stopProgressLoop, finishExternalPlayback]);
+  }, [stopProgressLoop, clearLoadTimer, finishExternalPlayback]);
 
   const clearFadeTimer = useCallback(() => {
     if (fadeTimerRef.current) { clearTimeout(fadeTimerRef.current); fadeTimerRef.current = null; }
@@ -143,37 +162,65 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     clearFadeTimer();
 
     if (subtitle.audioUrl && !voiceMuted) {
-      const audio = new Audio(subtitle.audioUrl);
+      // 인물별 재생 배속. 게임 대사에서는 한국어에만 걸린다(docs/continuous/celeb-tts-dialogue.md).
+      const rate = locale === "ko" && subtitle.voiceSpeed ? subtitle.voiceSpeed : 1;
+      const audio = new Audio();
       audio.volume = 0.7;
-      if (locale === "ko" && subtitle.voiceSpeed && subtitle.voiceSpeed !== 1.0) {
-        audio.playbackRate = subtitle.voiceSpeed;
-      }
+      audio.preload = "auto";
+      // load()는 playbackRate를 defaultPlaybackRate로 되돌리므로 둘 다 맞춘다
+      audio.defaultPlaybackRate = rate;
+      audio.playbackRate = rate;
+      audio.src = subtitle.audioUrl;
+      audioRef.current = audio;
+      playbackTimeRef.current = subtitle.onAudioTimeUpdate ?? null;
+      playbackEndRef.current = subtitle.onAudioEnd ?? null;
+
+      // 음원을 못 받으면 소리를 포기하고 글자만 남긴다 — 창이 열린 채 남지 않게 글자 시간을 건다
+      const dropAudio = () => {
+        if (audioRef.current !== audio) return;
+        stopProgressLoop();
+        clearLoadTimer();
+        audio.oncanplaythrough = null;
+        audio.pause();
+        audioRef.current = null;
+        setAudioPhase("dropped");
+        setAudioProgress(0);
+        finishExternalPlayback();
+        startTimer(calcDuration(subtitle.text));
+      };
+
+      const begin = () => {
+        if (audioRef.current !== audio) return;
+        clearLoadTimer();
+        audio.oncanplaythrough = null;
+        // 받아지는 사이 배속이 초기화됐을 수 있어 소리를 내기 직전에 다시 맞춘다
+        audio.playbackRate = rate;
+        void audio.play().then(() => {
+          if (audioRef.current !== audio) { audio.pause(); return; }
+          setAudioPhase("playing");
+          subtitle.onAudioStart?.();
+          playbackTimeRef.current?.(audio.currentTime / Math.max(audio.playbackRate, 0.01));
+          startProgressLoop();
+        }).catch(dropAudio);
+      };
+
       audio.addEventListener("ended", () => {
         stopProgressLoop();
+        clearLoadTimer();
         setAudioProgress(1);
-        setAudioPlaying(false);
+        setAudioPhase("idle");
         audioRef.current = null;
         setVisible(false);
         finishExternalPlayback();
       }, { once: true });
-      audio.addEventListener("error", () => {
-        stopProgressLoop();
-        setAudioPlaying(false);
-        audioRef.current = null;
-        finishExternalPlayback();
-      }, { once: true });
-      audioRef.current = audio;
-      playbackTimeRef.current = subtitle.onAudioTimeUpdate ?? null;
-      playbackEndRef.current = subtitle.onAudioEnd ?? null;
-      audio.play().then(() => {
-        if (audioRef.current !== audio) return;
-        setAudioPlaying(true);
-        subtitle.onAudioStart?.();
-        playbackTimeRef.current?.(audio.currentTime / Math.max(audio.playbackRate, 0.01));
-        startProgressLoop();
-      }).catch(() => {
-        if (audioRef.current === audio) stopAudio();
-      });
+      audio.addEventListener("error", dropAudio, { once: true });
+
+      // 끊김 없이 통으로 낼 만큼 받아진 뒤에 소리와 진행바를 함께 시작한다.
+      // 받아지기 전에 재생을 걸면 진행바만 흐르고 소리는 뒤늦게 얹혀 대사의 절반이 잘린다.
+      setAudioPhase("loading");
+      audio.oncanplaythrough = begin;
+      loadTimerRef.current = setTimeout(dropAudio, AUDIO_LOAD_TIMEOUT);
+      audio.load();
     } else {
       const duration = calcDuration(subtitle.text);
       startTimer(duration);
@@ -278,7 +325,8 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
   }, [visible, current, handleClose]);
 
   const duration = current ? calcDuration(current.text) : BASE_DURATION;
-  const hasAudio = !!(current?.audioUrl) && !voiceMuted;
+  // 음원을 포기한 뒤에는 글자 시간 타이머가 창을 닫는다 — 진행바도 그쪽을 따라간다
+  const hasAudio = !!(current?.audioUrl) && !voiceMuted && audioPhase !== "dropped";
 
   const closeLabel = t("closeEsc");
 
@@ -343,7 +391,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                       </div>
                     )}
                   </div>
-                  {hasAudio && audioPlaying && (
+                  {hasAudio && audioPhase === "playing" && (
                     <div className="absolute -bottom-1 -right-1">
                       <VoiceBadge size="sm" pulse={current.key} />
                     </div>
@@ -419,10 +467,11 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
             </div>
 
             {/* 우측 모서리 세로 타이머 */}
-            <div className="absolute top-0 right-0 w-1 md:w-1.5 h-full bg-stone-700/50">
+            <div className={`absolute top-0 right-0 w-1 md:w-1.5 h-full ${audioPhase === "loading" ? "bg-emerald-400/25 motion-safe:animate-pulse" : "bg-stone-700/50"}`}>
               {hasAudio ? (
+                // 음원 진행률을 그대로 그린다. rAF가 매 프레임 갱신하므로 transition을 걸면 표시가 소리보다 뒤처진다.
                 <div
-                  className="w-full bg-emerald-400/70 rounded-full origin-top transition-[height] duration-100 ease-linear"
+                  className="w-full bg-emerald-400/70 rounded-full origin-top"
                   style={{ height: `${audioProgress * 100}%` }}
                 />
               ) : (
