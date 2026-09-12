@@ -68,34 +68,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 /* ─────────────────────────────────────────────
- * 조회 실패를 어느 등급에서 받을 것인가
+ * 조회 실패를 어디서 받는가
  *
  * 아래 조회들은 서로 기다릴 이유가 없어 함께 띄운다(하나씩 await로 바꾸면 그만큼 느려진다).
- * 다만 Promise.all은 가장 먼저 깨진 것만 올려 보내므로, 예전에는 목차에 줄 하나 넣을지
- * 정하는 조회가 미끄러져도 인물 화면 전체가 500이 됐다. 등급을 나눠 그것부터 끊는다.
+ * 다만 Promise.all은 가장 먼저 깨진 것만 올려 보내고 어느 조회였는지 남기지 않는다.
  *
- * 없어도 화면이 온전한 자료(`optional`)는 대체값으로 넘겨 페이지를 세운다.
- * 본문급 자료(`required`)는 이름만 남기고 그대로 던진다 — 빈 채로 굳는 편이 더 나쁘다.
- * 이 장은 ISR이라 한 번 만들어지면 만료까지 재사용되고, 그 사이 그 구획은 화면에서
- * 통째로 사라진다(에러 화면도 안내도 없다). 실패한 렌더만 캐시에서 되돌리는 길은 없다 —
- * 정적 렌더 안에서는 `revalidateTag`를 부를 수 없고, `after()`로 미뤄도 Next가
- * "Dynamic server usage"로 막는다(26.09.12 프로덕션 빌드로 실측). 그래서 본문급은
- * 던져서 이 장이 아예 캐시에 남지 않게 두고, `lib/cache.ts`의 재시도가 앞을 막는다.
+ * 없어도 화면이 온전한 자료는 **액션이 자기 안에서** 받는다 — 목차 가용도는
+ * `withQueryFallback`으로, 외부 링크는 위키데이터 링크 한 줄로 되돌아온다. 그쪽이 이미
+ * 보증하므로 여기서 다시 감싸지 않는다(`lib/cache.ts`의 「캐시 안에서 던지고 공개 함수에서
+ * 받는다」가 그 규칙이다).
+ *
+ * 남은 본문급 자료는 여기서 이름만 남기고 그대로 던진다. 빈 채로 굳는 편이 더 나쁘기
+ * 때문이다 — 이 장은 ISR이라 한 번 만들어지면 만료까지 재사용되고, 그 사이 그 구획은
+ * 에러 화면도 안내도 없이 화면에서 사라진다. 실패한 렌더만 캐시에서 되돌리는 길은 없다:
+ * 정적 렌더 안에서는 `revalidateTag`를 부를 수 없고 `after()`로 미뤄도 Next가
+ * "Dynamic server usage"로 막는다(26.09.12 프로덕션 빌드로 실측하고 폐기했다).
+ * 그래서 던져서 이 장을 캐시에 남기지 않고, `lib/cache.ts`의 재시도가 앞을 막는다.
  * ───────────────────────────────────────────── */
-
-/** 없어도 화면이 온전한 자료 — 실패를 그 구획 안에 가둔다. */
-async function optional<T>(slug: string, name: string, run: () => Promise<T>, fallback: T): Promise<T> {
-  // try/catch가 아니라 allSettled를 쓴다 — JSX를 try 안에서 만들면 React가 나중에 그려 잡히지 않는다.
-  const [settled] = await Promise.allSettled([run()]);
-  if (settled.status === "fulfilled") return settled.value;
-  console.error(`[celeb/${slug}] ${name} 조회 실패 — 그 구획만 비우고 화면은 내보낸다:`, settled.reason);
-  return fallback;
-}
-
-/** 본문급 자료 — 어느 조회였는지 남기고 그대로 던진다. */
-function required<T>(slug: string, name: string, promise: Promise<T>): Promise<T> {
+function named<T>(slug: string, name: string, promise: Promise<T>): Promise<T> {
   return promise.catch((error: unknown) => {
-    console.error(`[celeb/${slug}] ${name} 조회 실패 — 본문이라 이 장을 만들지 않고 다음 방문에 다시 시도한다:`, error);
+    console.error(`[celeb/${slug}] ${name} 조회 실패 — 이 하나로 인물 화면 전체가 서지 못한다:`, error);
     throw error;
   });
 }
@@ -150,23 +142,19 @@ export default async function CelebPage({ params }: PageProps) {
     initialContentBrief,
     externalLinks,
   ] = await Promise.all([
-    // 목차에 「영향력」·「성향」 줄을 넣을지 정하는 불리언 둘뿐이다. 구획 본문은 브라우저가
-    // 따로 불러오므로, 이것 때문에 인물 화면을 잃을 이유가 없다.
-    optional(slug, "목차 가용도", () => getCelebSidePresence({
+    // 목차 가용도·외부 링크·작품 소개는 액션이 자기 안에서 실패를 받는다 — 이름표가 필요 없다.
+    getCelebSidePresence({
       celebId: userId,
       reality: profile.celeb_reality,
-    }), { influence: false, spectrum: false }),
-    // 아래 넷은 본문이다. 비면 페이지가 껍데기가 되므로 만들지 않는 편이 낫다.
-    required(slug, "대사", getCelebDialogueFull(userId)),
-    required(slug, "연표", getCelebTimelineEvents(userId, locale)),
+    }),
+    named(slug, "대사", getCelebDialogueFull(userId)),
+    named(slug, "연표", getCelebTimelineEvents(userId, locale)),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
-    required(slug, "서가", initialContentsPromise),
-    required(slug, "등장 작품", getFigureBookPresentationsForCeleb(userId, locale)),
-    // 첫 작품 소개는 이미 자기 안에서 실패를 받아 null로 넘긴다(getContentBrief).
+    named(slug, "서가", initialContentsPromise),
+    named(slug, "등장 작품", getFigureBookPresentationsForCeleb(userId, locale)),
     initialContentBriefPromise,
-    // 위키데이터에 딸린 바깥 링크다. 없으면 그 줄만 빠진다.
-    optional(slug, "외부 링크", () => getCelebExternalLinks(profile.wikidata_qid, locale), []),
+    getCelebExternalLinks(profile.wikidata_qid, locale),
   ]);
 
   // 창작(authored)은 「창작」 탭에, 연관(related)만 아래 상품 구획으로 보낸다.
