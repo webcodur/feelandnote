@@ -277,7 +277,13 @@
         "tapToCloseQuote": "Tap to close",
         "groupNav": "Choose a group",
         "otherGroup": "Others",
-        "unnamedGroup": "Unnamed group"
+        "unnamedGroup": "Unnamed group",
+        "allGroups": "All",
+        "groupOverview": "GROUP OVERVIEW",
+        "groupMemberCount": "{count, plural, one {# figure} other {# figures}}",
+        "groupDescriptionFallback": "A description of this group is on its way.",
+        "backToGroup": "Back to group overview",
+        "groupCore": "{count, plural, one {Key figure} other {# key figures}}"
       },
       "relationMap": {
         "title": "Relation Map",

@@ -8,6 +8,8 @@ export interface MythGroup {
   id: string;
   /** 화면에 보일 이름. 「그 외」 묶음과 영문 이름이 빈 묶음은 null — 화면이 번역 문구를 붙인다 */
   name: string | null;
+  /** 그룹 개요 본문 — 이 무리가 누구이고 작품에서 어떤 구실을 하는지. 없으면 null */
+  description: string | null;
   personIds: string[];
 }
 
@@ -45,6 +47,8 @@ export interface MythPerson {
     summary: string | null;
     quote: string | null;
     quoteMedia: FactionQuoteMedia | null;
+    /** 이 전승 전용 개인샷(백오피스 「신화 편집」). 없으면 null — 화면이 인물 대표 사진을 쓴다 */
+    imageUrl: string | null;
   }>;
   avatarUrl: string | null;
   imageUrl: string | null;
