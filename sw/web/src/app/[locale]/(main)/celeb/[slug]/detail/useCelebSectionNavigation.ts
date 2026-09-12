@@ -27,11 +27,14 @@ export function navigateToCelebSection(target: ServiceTarget) {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    /* 좁은 화면에서는 구획 하나가 화면 몇 배 길이라, 부드럽게 굴리면 남의 구획이
+       한참 스쳐 지나간 뒤에야 도착한다. 손가락으로 넘길 때처럼 바로 세운다 */
+    const narrow = window.matchMedia("(max-width: 767px)").matches;
     // 이동 중에도 구획 머리는 붙어 있는 채로 둔다. 잠시 흐름으로 되돌리면
     // 머리가 사라졌다가 튀어 돌아온다 — 구획끼리 빈틈 없이 이어지므로 겹치지도 않는다.
     /* "auto"는 html의 scroll-behavior: smooth를 따라가므로 움직임 최소화가 먹지 않는다 */
     section.scrollIntoView({
-      behavior: reduceMotion ? "instant" : "smooth",
+      behavior: reduceMotion || narrow ? "instant" : "smooth",
       block: "start",
     });
     section.focus({ preventScroll: true });

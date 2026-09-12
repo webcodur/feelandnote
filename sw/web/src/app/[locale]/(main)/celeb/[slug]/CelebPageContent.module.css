@@ -214,6 +214,15 @@
 .recordsGrid {
   width: min(calc(100% - 32px), 1024px);
   margin: 0 auto;
+  /* 좁은 화면에서는 하단 목차 띠가 본문 위에 떠 있다 — 마지막 줄이 가리지 않게 비운다.
+     띠가 물러나는 1340px부터는 되돌린다 */
+  padding-bottom: 60px;
+}
+
+@media (min-width: 1340px) {
+  .recordsGrid {
+    padding-bottom: 0;
+  }
 }
 
 /* 머리말과 첫 구획 사이 간격. 머리말 마지막 칸의 아래 여백으로 둬야

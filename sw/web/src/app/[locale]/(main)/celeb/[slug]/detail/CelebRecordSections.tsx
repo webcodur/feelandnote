@@ -19,7 +19,7 @@ import { Deferred, PendingBlock } from "@/components/ui/pending";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
 import type { Locale } from "@/types/locale";
 
-import { CelebAtlasNavigation } from "../CelebAtlasRails";
+import { CelebAtlasBottomBar, CelebAtlasNavigation } from "../CelebAtlasRails";
 import styles from "../CelebPageContent.module.css";
 import CelebSectionHeading from "../CelebSectionHeading";
 import FigureBookWorksSection from "../FigureBookWorksSection";
@@ -160,6 +160,12 @@ export default function CelebRecordSections({
   return (
     <div className={styles.recordsGrid}>
       <CelebAtlasNavigation
+        items={serviceItems}
+        activeSectionId={activeSectionId}
+        onNavigate={navigate}
+      />
+      {/* 옆 레일이 서지 않는 좁은 화면에서 같은 목차를 하단 띠로 쥔다 */}
+      <CelebAtlasBottomBar
         items={serviceItems}
         activeSectionId={activeSectionId}
         onNavigate={navigate}

@@ -6,10 +6,10 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
-import { Compass } from "lucide-react";
+import { ChevronLeft, ChevronRight, Compass, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -192,4 +192,147 @@ export function CelebAtlasNavigation({
       {portalTarget ? createPortal(railNode, portalTarget) : railNode}
     </aside>
   );
+}
+
+
+/* ── 좁은 화면의 목차 ──
+   옆 레일은 1340px부터만 선다. 그 아래에서는 이 띠가 같은 목차를 대신 쥔다:
+   좌우로 이웃 구획을 즉시 오가고, 가운데를 누르면 전체 목차가 시트로 올라온다.
+   구획 머리의 화살표와 기능이 겹치지만, 그 화살표는 구획 머리가 화면에 있을 때만
+   닿는다 — 본문 한가운데서 다음으로 넘어갈 길이 이 띠 말고는 없다. */
+export function CelebAtlasBottomBar({
+  items,
+  activeSectionId,
+  onNavigate,
+}: NavigationProps) {
+  const t = useTranslations("celebPage");
+  const portalTarget = useSyncExternalStore(
+    () => () => {},
+    () => document.body,
+    () => null,
+  );
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  const activeIndex = Math.max(
+    0,
+    items.findIndex((item) => item.target.sectionId === activeSectionId),
+  );
+  const current = items[activeIndex];
+  const previous = items[activeIndex - 1];
+  const next = items[activeIndex + 1];
+
+  // 시트를 연 채로 뒤 구획이 바뀌어도 목록은 그대로 있어야 한다 — 이동할 때만 닫는다
+  const go = useCallback(
+    (target: ServiceTarget) => {
+      setSheetOpen(false);
+      onNavigate(target);
+    },
+    [onNavigate],
+  );
+
+  useEffect(() => {
+    if (!sheetOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSheetOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [sheetOpen]);
+
+  if (!current) return null;
+
+  const barNode = (
+    <>
+      <div className={styles.atlasBar}>
+        <div className={styles.atlasBarInner}>
+          <button
+            type="button"
+            onClick={() => previous && go(previous.target)}
+            aria-disabled={!previous || undefined}
+            aria-label={
+              previous
+                ? t("previousSection", { name: previous.label })
+                : t("noPreviousSection")
+            }
+            className={styles.atlasBarStep}
+          >
+            <ChevronLeft size={20} strokeWidth={1.8} aria-hidden />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSheetOpen((open) => !open)}
+            aria-expanded={sheetOpen}
+            aria-label={t(sheetOpen ? "atlasBarClose" : "atlasBarOpen")}
+            className={styles.atlasBarCurrent}
+          >
+            <span className={styles.atlasBarChapter}>{current.chapter}</span>
+            <span className={styles.atlasBarLabel}>{current.label}</span>
+            <Compass size={15} strokeWidth={1.8} aria-hidden />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => next && go(next.target)}
+            aria-disabled={!next || undefined}
+            aria-label={
+              next ? t("nextSection", { name: next.label }) : t("noNextSection")
+            }
+            className={styles.atlasBarStep}
+          >
+            <ChevronRight size={20} strokeWidth={1.8} aria-hidden />
+          </button>
+        </div>
+      </div>
+
+      {sheetOpen ? (
+        <div className={styles.atlasSheetLayer}>
+          <button
+            type="button"
+            aria-label={t("atlasBarClose")}
+            onClick={() => setSheetOpen(false)}
+            className={styles.atlasSheetScrim}
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={t("atlasBarSheetTitle")}
+            className={styles.atlasSheet}
+          >
+            <div className={styles.atlasSheetHead}>
+              <span>{t("atlasBarSheetTitle")}</span>
+              <button
+                type="button"
+                onClick={() => setSheetOpen(false)}
+                aria-label={t("atlasBarClose")}
+                className={styles.atlasSheetClose}
+              >
+                <X size={17} strokeWidth={1.8} aria-hidden />
+              </button>
+            </div>
+            <div className={styles.atlasSheetGrid}>
+              {items.map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => go(item.target)}
+                  aria-current={
+                    item.target.sectionId === activeSectionId
+                      ? "location"
+                      : undefined
+                  }
+                  className={styles.atlasSheetItem}
+                >
+                  <span className={styles.atlasBarChapter}>{item.chapter}</span>
+                  <span className={styles.atlasSheetItemLabel}>{item.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+
+  return portalTarget ? createPortal(barNode, portalTarget) : null;
 }
