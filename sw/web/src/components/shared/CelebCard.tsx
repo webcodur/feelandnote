@@ -209,12 +209,12 @@ export default function CelebCard({
             role="button"
             tabIndex={0}
             onClick={handleCardClick}
-            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCardClick(e as unknown as React.MouseEvent); } }}
+            onKeyDown={(e) => { if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); handleCardClick(e as unknown as React.MouseEvent); } }}
             className={`group @container relative aspect-square w-full ${roundedClass} overflow-hidden cursor-pointer
-              border border-white/5 hover:border-white/20 transition-[border-color,box-shadow,transform] duration-200
+              border border-white/5 hover:border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent
               ${isActive ? "border-accent/40 ring-1 ring-accent/30" : ""}
               ${isLoading ? "animate-pulse border-accent/30 pointer-events-none opacity-70" : ""}
-              ring-1 ring-inset ring-white/5 shadow-inner hover:shadow-[0_0_15px_rgba(var(--color-accent-rgb),0.3)] hover:duration-500
+              ring-1 ring-inset ring-white/5 shadow-inner hover:shadow-[0_0_15px_rgba(var(--color-accent-rgb),0.3)]
             `}
             style={vignetteBg}
           >
@@ -291,7 +291,8 @@ export default function CelebCard({
                     <Link
                       href={`/celeb/${celebProfile.slug}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="flex-1 flex items-center justify-center py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white transition-colors"
+                      aria-label={displayNickname}
+                      className="flex-1 flex items-center justify-center py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                       <ExternalLink size={16} />
                     </Link>
@@ -309,7 +310,19 @@ export default function CelebCard({
 
           {/* 이름 + 수식어 */}
           <div className="mt-1.5 w-full text-center px-0.5">
-            <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight">{displayNickname}</p>
+            {/* 상세 주소는 카드 활성화 전에도 본문 링크로 제공한다. */}
+            {celebProfile?.slug && (
+              <Link
+                href={`/celeb/${celebProfile.slug}`}
+                prefetch={false}
+                className="block rounded-sm text-xs md:text-sm font-semibold text-text-primary truncate leading-tight hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                {displayNickname}
+              </Link>
+            )}
+            {!celebProfile?.slug && (
+              <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight">{displayNickname}</p>
+            )}
             {displayTitle ? (
               <p className="text-[10px] md:text-xs text-amber-400/80 truncate leading-tight mt-0.5">{displayTitle}</p>
             ) : null}
