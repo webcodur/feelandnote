@@ -41,8 +41,8 @@ export function LangModeSwitch() {
   )
 }
 
-export function LangModeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<LangMode>('ko')
+export function LangModeProvider({ children, initialMode = 'ko' }: { children: ReactNode; initialMode?: LangMode }) {
+  const [mode, setMode] = useState<LangMode>(initialMode)
 
   return (
     <LangModeContext.Provider value={mode}>

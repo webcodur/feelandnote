@@ -5,11 +5,15 @@ import Link from 'next/link'
 import { ArrowLeft, Star, ExternalLink } from 'lucide-react'
 import CopyButton from './CopyButton'
 import { LangModeSwitch } from '@/contexts/LangModeContext'
+import { CELEB_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
+import { CELEB_REALITY_DISPLAY } from '@/constants/celebReality'
 
 interface CelebDetailHeaderProps {
   slug: string
   nickname: string
+  nicknameEn?: string | null
   title?: string | null
+  titleEn?: string | null
   headline?: string | null
   headlineEn?: string | null
   celebId: string
@@ -29,7 +33,9 @@ interface CelebDetailHeaderProps {
 export default function CelebDetailHeader({
   slug,
   nickname,
+  nicknameEn,
   title,
+  titleEn,
   headline,
   headlineEn,
   celebId,
@@ -64,13 +70,11 @@ export default function CelebDetailHeader({
         {/* Title row & Nav tabs */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <h1 className="text-2xl font-bold text-text-primary">{nickname || '이름 없음'}</h1>
-              {title && (
-                <span className="rounded-md border border-accent/30 bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">
-                  {title}
-                </span>
-              )}
+              <Field label="nickname_en">
+                <span lang="en" className="text-sm text-text-secondary">{nicknameEn || '미입력'}</span>
+              </Field>
             </div>
 
             {/* Quick nav tabs */}
@@ -120,17 +124,12 @@ export default function CelebDetailHeader({
           </div>
         </div>
 
-        {/* Headline block */}
-        {(headline || headlineEn) && (
-          <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm bg-bg-secondary/40 border border-border/60 rounded-lg px-3 py-1.5 w-fit">
-            <span className="font-medium text-text-primary">{headline || '한 줄 정의 없음'}</span>
-            {headlineEn && (
-              <span className="text-xs text-text-tertiary border-l border-border pl-2">
-                {headlineEn}
-              </span>
-            )}
-          </div>
-        )}
+        <dl aria-label="수식어와 한 줄 정의" className="grid grid-cols-1 gap-x-6 gap-y-2 rounded-lg border border-border/60 bg-bg-secondary/40 px-3 py-2 sm:grid-cols-2">
+          <TextField label="title" description="수식어" value={title} />
+          <TextField label="title_en" value={titleEn} english />
+          <TextField label="headline" description="한 줄 정의" value={headline} />
+          <TextField label="headline_en" value={headlineEn} english />
+        </dl>
 
         {/* Status toggles */}
         <div className="flex flex-wrap items-center gap-4">
@@ -173,11 +172,7 @@ export default function CelebDetailHeader({
             <ChoiceGroup
               value={reality}
               onChange={onReality}
-              options={[
-                { value: 'REAL', label: '사실' },
-                { value: 'BOTH', label: '사실+가상', className: 'bg-amber-500/15 text-amber-400' },
-                { value: 'FICTION', label: '가상', className: 'bg-purple-500/15 text-purple-400' },
-              ]}
+              options={CELEB_REALITIES.map((value) => ({ value, ...CELEB_REALITY_DISPLAY[value] }))}
             />
           </Field>
         </div>
@@ -207,6 +202,20 @@ export default function CelebDetailHeader({
         </div>
       </div>
     </header>
+  )
+}
+
+function TextField({ label, description, value, english = false }: { label: string; description?: string; value?: string | null; english?: boolean }) {
+  return (
+    <div className="flex min-w-0 items-baseline gap-3">
+      <dt className="w-24 shrink-0 text-[11px] text-text-secondary">
+        <span className="font-mono">{label}</span>
+        {description && <span className="ml-1.5 text-[10px] text-text-tertiary">{description}</span>}
+      </dt>
+      <dd lang={english ? 'en' : 'ko'} className={`min-w-0 break-words text-sm ${value ? english ? 'text-text-secondary' : 'text-text-primary' : 'text-text-tertiary'}`}>
+        {value || '미입력'}
+      </dd>
+    </div>
   )
 }
 

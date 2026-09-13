@@ -8,6 +8,8 @@ import { calculateInfluenceRank, type GeneratedInfluence } from '@feelandnote/ai
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
+import { CELEB_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
+import { CELEB_REALITY_DISPLAY } from '@/constants/celebReality'
 import { useCountries } from '@/hooks/useCountries'
 import { Loader2, Trash2, Star, ChevronDown, ChevronUp, Lock, LockOpen } from 'lucide-react'
 import Button from '@/components/ui/Button'
@@ -80,20 +82,26 @@ const RANK_COLORS: Record<string, string> = {
 // #endregion
 
 // #region CSS Constants
-const INPUT_CLS = 'px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none'
-const INPUT_EN_CLS = 'px-3 py-1.5 text-xs bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none'
+const INPUT_CLS = 'w-full min-w-0 px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none'
+const INPUT_EN_CLS = 'w-full min-w-0 px-3 py-1.5 text-sm bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none'
 const TEXTAREA_CLS = 'w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none'
 const TEXTAREA_EN_CLS = 'w-full px-3 py-2 text-xs bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none'
 // #endregion
 
 // #region BilingualInput
-function BilingualInput({ mode, ko, en }: { mode: LangMode; ko: React.ReactNode; en: React.ReactNode }) {
-  if (mode === 'ko') return <>{ko}</>
-  if (mode === 'en') return <>{en}</>
+function BilingualInput({ mode, field, ko, en }: { mode: LangMode; field: string; ko: ReactNode; en: ReactNode }) {
+  const renderField = (name: string, content: ReactNode, english: boolean) => (
+    <div className="min-w-0 space-y-1" lang={english ? 'en' : 'ko'}>
+      <label htmlFor={name} className={`block font-mono text-[11px] ${english ? 'text-blue-400/80' : 'text-text-secondary'}`}>{name}</label>
+      {content}
+    </div>
+  )
+  if (mode === 'ko') return renderField(field, ko, false)
+  if (mode === 'en') return renderField(`${field}_en`, en, true)
   return (
-    <div className="grid grid-cols-2 gap-2">
-      {ko}
-      {en}
+    <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2">
+      {renderField(field, ko, false)}
+      {renderField(`${field}_en`, en, true)}
     </div>
   )
 }
@@ -343,12 +351,6 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
     }
   }
 
-  const REALITY_LABELS: Record<'REAL' | 'BOTH' | 'FICTION', string> = {
-    REAL: '사실',
-    BOTH: '사실+가상',
-    FICTION: '가상',
-  }
-
   async function persistReality(next: 'REAL' | 'BOTH' | 'FICTION') {
     const previous = formData.celeb_reality
     handleChange('celeb_reality', next)
@@ -356,12 +358,12 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
     try {
       await updateCeleb({ id: celeb.id, celeb_reality: next })
       initialFormData.current = { ...initialFormData.current, celeb_reality: next }
-      showToast('success', `실존 표시를 ${REALITY_LABELS[next]}로 변경했습니다.`)
+      showToast('success', `${CELEB_REALITY_DISPLAY[next].label} 유형으로 변경했습니다.`)
       router.refresh()
     } catch (error) {
       handleChange('celeb_reality', previous)
       // 연표 형식과 어긋나면 DB 가드가 막는다. 그 사유를 그대로 보여 준다
-      showToast('error', error instanceof Error ? error.message : '실존 표시를 변경하지 못했습니다.')
+      showToast('error', error instanceof Error ? error.message : '인물 유형을 변경하지 못했습니다.')
     }
   }
 
@@ -693,8 +695,8 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
       </div>
       {/* 실존 축 — 등급과 독립이다. 목록 노출과 상세의 [사실]·[가상] 칩을 이 값이 가른다 */}
       <div className="flex items-center gap-2 border-l border-border pl-4">
-        <span className="text-xs text-text-secondary">실존</span>
-        {(['REAL', 'BOTH', 'FICTION'] as const).map((value) => (
+        <span className="text-xs text-text-secondary">인물 유형</span>
+        {CELEB_REALITIES.map((value) => (
           <label key={value} className="flex items-center gap-1 cursor-pointer">
             <input
               type="radio"
@@ -708,7 +710,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
               className="w-3 h-3"
             />
             <span className={`text-xs ${value === 'REAL' ? 'text-text-primary' : value === 'BOTH' ? 'text-amber-400' : 'text-purple-400'}`}>
-              {REALITY_LABELS[value]}
+              {CELEB_REALITY_DISPLAY[value].label}
             </span>
           </label>
         ))}
@@ -721,10 +723,12 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
     {mode === 'edit' && celeb && (
       <CelebDetailHeader
         slug={celeb.slug || ''}
-        nickname={formData.nickname || celeb.nickname || ''}
-        title={formData.title || celeb.title}
-        headline={formData.headline || celeb.headline}
-        headlineEn={formData.headline_en || celeb.headline_en}
+        nickname={formData.nickname}
+        nicknameEn={formData.nickname_en}
+        title={formData.title}
+        titleEn={formData.title_en}
+        headline={formData.headline}
+        headlineEn={formData.headline_en}
         celebId={celeb.id}
         claimedBy={celeb.claimed_by}
         createdAt={celeb.created_at}
@@ -758,11 +762,12 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
         {openSections.basicInfo && (
         <div className="px-4 pb-4">
           <div className="grid grid-cols-[80px_1fr] gap-x-3 gap-y-2 items-center text-sm">
-            <label htmlFor="nickname" className="text-xs font-medium text-text-secondary">닉네임 <span className="text-red-400">*</span></label>
+            <span className="text-xs font-medium text-text-secondary">닉네임 <span className="text-red-400">*</span></span>
             <BilingualInput
               mode={langMode}
+              field="nickname"
               ko={<input type="text" id="nickname" required value={formData.nickname} onChange={(e) => handleChange('nickname', e.target.value)} placeholder="셀럽 닉네임" className={INPUT_CLS} />}
-              en={<input type="text" value={formData.nickname_en} onChange={(e) => handleChange('nickname_en', e.target.value)} placeholder="EN: English name" className={INPUT_EN_CLS} />}
+              en={<input type="text" id="nickname_en" value={formData.nickname_en} onChange={(e) => handleChange('nickname_en', e.target.value)} placeholder="EN: English name" className={INPUT_EN_CLS} />}
             />
 
             <label htmlFor="profession" className="text-xs font-medium text-text-secondary">직군</label>
@@ -771,18 +776,20 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
               {CELEB_PROFESSIONS.map((prof) => <option key={prof.value} value={prof.value}>{prof.label}</option>)}
             </select>
 
-            <label htmlFor="title" className="text-xs font-medium text-text-secondary">수식어</label>
+            <span className="text-xs font-medium text-text-secondary">수식어</span>
             <BilingualInput
               mode={langMode}
+              field="title"
               ko={<input type="text" id="title" value={formData.title} onChange={(e) => handleChange('title', e.target.value)} placeholder="예: 테슬라 창립자, 철의 여인" className={INPUT_CLS} />}
-              en={<input type="text" value={formData.title_en} onChange={(e) => handleChange('title_en', e.target.value)} placeholder="EN: e.g. Iron Lady" className={INPUT_EN_CLS} />}
+              en={<input type="text" id="title_en" value={formData.title_en} onChange={(e) => handleChange('title_en', e.target.value)} placeholder="EN: e.g. Iron Lady" className={INPUT_EN_CLS} />}
             />
 
-            <label htmlFor="headline" className="text-xs font-medium text-text-secondary">한 줄 정의</label>
+            <span className="text-xs font-medium text-text-secondary">한 줄 정의</span>
             <BilingualInput
               mode={langMode}
+              field="headline"
               ko={<input type="text" id="headline" value={formData.headline} onChange={(e) => handleChange('headline', e.target.value)} placeholder="예: 워런 버핏의 60년 지혜이자 평생 파트너" className={INPUT_CLS} />}
-              en={<input type="text" value={formData.headline_en} onChange={(e) => handleChange('headline_en', e.target.value)} placeholder="EN: e.g. Warren Buffett's Lifelong Partner and Mentor" className={INPUT_EN_CLS} />}
+              en={<input type="text" id="headline_en" value={formData.headline_en} onChange={(e) => handleChange('headline_en', e.target.value)} placeholder="EN: e.g. Warren Buffett's Lifelong Partner and Mentor" className={INPUT_EN_CLS} />}
             />
 
             <label htmlFor="nationality" className="text-xs font-medium text-text-secondary">국적</label>
@@ -804,11 +811,12 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
               <input type="text" id="death_date" value={formData.death_date} onChange={(e) => handleChange('death_date', e.target.value)} placeholder="사망일 (생존시 공백)" className="px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none" />
             </div>
 
-            <label htmlFor="bio" className="text-xs font-medium text-text-secondary self-start pt-1">소개</label>
+            <span className="text-xs font-medium text-text-secondary self-start pt-1">소개</span>
             <BilingualInput
               mode={langMode}
+              field="bio"
               ko={<textarea id="bio" rows={2} value={formData.bio} onChange={(e) => handleChange('bio', e.target.value)} placeholder="셀럽 소개글" className={TEXTAREA_CLS} />}
-              en={<textarea rows={2} value={formData.bio_en} onChange={(e) => handleChange('bio_en', e.target.value)} placeholder="EN: English bio" className={TEXTAREA_EN_CLS} />}
+              en={<textarea id="bio_en" rows={2} value={formData.bio_en} onChange={(e) => handleChange('bio_en', e.target.value)} placeholder="EN: English bio" className={TEXTAREA_EN_CLS} />}
             />
 
             {/* 인물에 직접 딸린 이미지 슬롯 */}
@@ -1012,19 +1020,19 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
         {openSections.journey && (
         <div className="px-4 pb-4 space-y-3">
           {langMode === 'both' ? (
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <p className="text-xs text-text-secondary">국문</p>
-                <textarea ref={journeyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 여정 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="min-w-0 space-y-2">
+                <label htmlFor="consumption_philosophy" className="block font-mono text-[11px] text-text-secondary">consumption_philosophy</label>
+                <textarea id="consumption_philosophy" ref={journeyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 여정 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
                 {formData.cultural_journey && (
                   <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
                     {formData.cultural_journey.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
                   </div>
                 )}
               </div>
-              <div className="space-y-2">
-                <p className="text-xs text-blue-400/70">EN</p>
-                <textarea value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English cultural journey (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-xs bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
+              <div className="min-w-0 space-y-2" lang="en">
+                <label htmlFor="consumption_philosophy_en" className="block font-mono text-[11px] text-blue-400/80">consumption_philosophy_en</label>
+                <textarea id="consumption_philosophy_en" value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English cultural journey (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-xs bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
                 {formData.cultural_journey_en && (
                   <div className="p-3 bg-bg-secondary/30 border border-border/60 rounded-lg text-xs text-gray-400 leading-relaxed space-y-2">
                     {formData.cultural_journey_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
@@ -1036,7 +1044,8 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
             <div className="space-y-2">
               {langMode === 'ko' ? (
                 <>
-                  <textarea ref={journeyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 여정 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
+                  <label htmlFor="consumption_philosophy" className="block font-mono text-[11px] text-text-secondary">consumption_philosophy</label>
+                  <textarea id="consumption_philosophy" ref={journeyTextareaRef} value={formData.cultural_journey} onChange={(e) => handleChange('cultural_journey', e.target.value)} placeholder="감상 여정 (3~4문단)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none overflow-hidden" />
                   {formData.cultural_journey && (
                     <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
                       {formData.cultural_journey.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
@@ -1045,7 +1054,8 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
                 </>
               ) : (
                 <>
-                  <textarea value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English cultural journey (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
+                  <label htmlFor="consumption_philosophy_en" className="block font-mono text-[11px] text-blue-400/80">consumption_philosophy_en</label>
+                  <textarea id="consumption_philosophy_en" value={formData.cultural_journey_en} onChange={(e) => handleChange('cultural_journey_en', e.target.value)} placeholder="EN: English cultural journey (3-4 paragraphs)" rows={6} className="w-full px-3 py-2 text-sm bg-bg-secondary border border-border/60 rounded-lg text-text-primary placeholder-blue-400/50 focus:border-blue-400/50 focus:outline-none resize-none" />
                   {formData.cultural_journey_en && (
                     <div className="p-3 bg-bg-secondary/30 border border-border/60 rounded-lg text-xs text-gray-400 leading-relaxed space-y-2">
                       {formData.cultural_journey_en.split('\n\n').map((p, i) => <p key={i}>{p}</p>)}
