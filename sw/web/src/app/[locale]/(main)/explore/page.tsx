@@ -1,21 +1,16 @@
-import { ArrowUpRight, Trophy, Orbit, Landmark, Network, History, Play, Search, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, History, Play, Search, type LucideIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { NAV_ITEMS } from "@/constants/navigation";
+import { EXPLORE_FEATURED_LINKS, NAV_ITEMS } from "@/constants/navigation";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
 import { FiguresFilterResult } from "./figures/sections";
 import { parseFilterParams } from "./figures/filterParams";
+import ExploreCardArtwork from "./ExploreCardArtwork";
 
 export const maxDuration = 30;
 
-const featuredIcons: Record<string, LucideIcon> = {
-  ranking: Trophy,
-  spectrum: Orbit,
-  myth: Landmark,
-  faction: Network,
-};
 const secondaryIcons: Record<string, LucideIcon> = { timeline: History, youtube: Play, directory: Search };
 
 export async function generateMetadata() {
@@ -36,8 +31,7 @@ export default async function ExplorePage({ searchParams }: {
   const nav = await getTranslations("nav.sub");
   const pending = await getTranslations("pending");
   const pages = NAV_ITEMS.find((item) => item.key === "explore")!.subLinks!;
-  const featuredPages = pages.filter((page) => page.key && featuredIcons[page.key]);
-  const secondaryPages = pages.filter((page) => page.key && !featuredIcons[page.key]);
+  const secondaryPages = pages.filter((page) => !EXPLORE_FEATURED_LINKS.some((featured) => featured.key === page.key));
 
   return (
     <div className="space-y-10 md:space-y-14">
@@ -47,26 +41,28 @@ export default async function ExplorePage({ searchParams }: {
       <nav aria-label={t("quickNav")} className="border-t border-white/10 pt-6 md:pt-8">
         <h2 className="mb-4 text-sm font-semibold text-text-secondary md:mb-5">{t("quickNav")}</h2>
         <div className="grid auto-rows-fr grid-cols-2 gap-3 md:gap-4">
-          {featuredPages.map((page) => {
-            const Icon = featuredIcons[page.key!];
-            return (
+          {EXPLORE_FEATURED_LINKS.map((page) => (
               <Link
                 key={page.key}
                 href={page.href}
                 prefetch={false}
-                className="group relative flex min-h-44 flex-col overflow-hidden rounded-xl border border-accent/20 bg-bg-secondary p-4 hover:border-accent/60 hover:bg-accent/10 active:bg-accent/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent md:min-h-48 md:p-6"
+                className="group relative flex flex-col overflow-hidden rounded-xl border border-white/15 bg-[#101112] hover:border-accent/60 hover:bg-[#171714] active:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                <div className="mb-5 flex items-center justify-between md:mb-6">
-                  <Icon size={24} strokeWidth={1.5} className="text-accent md:size-7" aria-hidden />
-                  <ArrowUpRight size={18} className="text-accent/50 group-hover:text-accent" aria-hidden />
+                <div className="relative h-28 overflow-hidden border-b border-white/[0.06] bg-black/25 sm:h-36 md:h-44">
+                  <ExploreCardArtwork variant={page.key!} />
+                  <span className="absolute inset-x-0 bottom-0 h-6 bg-linear-to-t from-[#101112] to-transparent" aria-hidden />
                 </div>
-                <h3 className="text-base font-semibold leading-snug text-text-primary md:text-xl">{nav(page.key!)}</h3>
-                <p className="mt-2 max-w-md break-keep text-xs leading-relaxed text-text-secondary md:text-sm">
-                  {t(`pageDescriptions.${page.key}`)}
-                </p>
+                <div className="flex flex-1 flex-col p-4 md:px-6 md:pb-6 md:pt-5">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-base font-semibold leading-snug text-text-primary group-hover:text-accent md:text-xl">{nav(page.key!)}</h3>
+                    <ArrowUpRight size={18} className="mt-0.5 shrink-0 text-accent/50 group-hover:text-accent" aria-hidden />
+                  </div>
+                  <p className="mt-2 max-w-md break-keep text-xs leading-relaxed text-text-secondary md:text-sm">
+                    {t(`pageDescriptions.${page.key}`)}
+                  </p>
+                </div>
               </Link>
-            );
-          })}
+          ))}
         </div>
         <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3 md:mt-4 md:gap-4">
           {secondaryPages.map((page) => {
