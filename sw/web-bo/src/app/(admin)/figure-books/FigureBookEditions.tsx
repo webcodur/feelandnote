@@ -346,12 +346,13 @@ export default function FigureBookEditions({
               />
             </label>
             <label className={`${labelClass} sm:col-span-2`}>
-              작품 소개
+              소개 출처 또는 번역 소개
               <textarea
                 rows={5}
                 value={editionForm.description}
                 onChange={(event) => setEditionForm((current) => ({ ...current, description: event.target.value }))}
                 className={fieldClass}
+                placeholder="KAKAO · DAUM · OPEN 또는 번역 소개. 비우면 조사 필요"
               />
             </label>
           </div>
