@@ -1,44 +1,50 @@
 import { NextResponse } from 'next/server'
-import { readFile } from 'node:fs/promises'
-import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { guardAdminRoute } from '@/lib/admin-route'
 
-// 인물 데이터 준비도 보고서 정적 HTML 위치. 스크립트는 sw/web-bo 에서 돌아
-// ../../.artifacts(프로젝트 루트) 에 파일을 쓴다. web-bo 의 process.cwd() = sw/webbo.
-const ARTIFACT = path.resolve(process.cwd(), '../../.artifacts/celeb-data-readiness.html')
-const SCRIPT = 'scripts/audit-celeb-activation-readiness.ts'
+// 인물 데이터 준비도는 감사 스크립트의 --json 출력을 그대로 받아 페이지가 직접 그린다.
+// 중간 산출물(HTML 파일)을 두지 않고, 마지막 측정 결과는 이 프로세스 메모리에만 둔다.
+const SCRIPT = 'scripts/celeb/audit-activation.ts'
 const TIMEOUT_MS = 180_000
 
-// GET: 현재 생성된 보고서 HTML을 그대로 내려준다(iframe 용).
+type CachedReport = { measuredAt: string; summary: unknown }
+let lastReport: CachedReport | null = null
+
+// GET: 이 프로세스에서 마지막으로 측정한 요약을 내려준다. 없으면 404.
 export async function GET() {
   const denied = await guardAdminRoute()
   if (denied) return denied
 
-  try {
-    const html = await readFile(ARTIFACT, 'utf8')
-    return new NextResponse(html, {
-      headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' },
-    })
-  } catch {
+  if (!lastReport) {
     return NextResponse.json(
-      { error: '보고서가 아직 생성되지 않았습니다. 먼저 갱신하세요.' },
+      { error: '아직 측정된 보고서가 없습니다. 먼저 측정하세요.' },
       { status: 404 },
     )
   }
+  return NextResponse.json(lastReport)
 }
 
-// POST: 감사 스크립트를 즉시 실행해 HTML을 다시 쓴다. 링크 검사는 생략(실시간 부적합).
+// POST: 감사 스크립트를 즉시 실행해 요약 JSON을 받는다. 링크 검사는 생략(실시간 부적합).
 export async function POST() {
   const denied = await guardAdminRoute()
   if (denied) return denied
 
   const cmd = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
-  const args = ['exec', 'tsx', SCRIPT, '--html', '--skip-link-check', '--status=all']
+  const args = ['exec', 'tsx', SCRIPT, '--json', '--skip-link-check', '--status=all']
 
   try {
     const result = await runScript(cmd, args)
-    return NextResponse.json(result, { status: result.ok ? 200 : 500 })
+    if (!result.ok) {
+      return NextResponse.json(result, { status: 500 })
+    }
+    // 화면은 집계값만 쓴다. 인물별 rows·candidates·fiction rows는 수 MB라 응답에서 뗀다.
+    const summary = result.summary as Record<string, unknown>
+    const fiction = summary.fictionPublicReadiness as Record<string, unknown> | undefined
+    if (fiction) delete fiction.rows
+    delete summary.rows
+    delete summary.candidates
+    lastReport = { measuredAt: result.measuredAt, summary }
+    return NextResponse.json(lastReport)
   } catch (error) {
     return NextResponse.json(
       { ok: false, error: error instanceof Error ? error.message : String(error) },
@@ -50,10 +56,12 @@ export async function POST() {
 function runScript(cmd: string, args: string[]): Promise<{
   ok: boolean
   measuredAt: string
+  summary?: unknown
   log: string[]
   error?: string
 }> {
   return new Promise((resolve) => {
+    const stdout: Buffer[] = []
     const log: string[] = []
     let timedOut = false
     const child = spawn(cmd, args, { cwd: process.cwd(), shell: true })
@@ -63,20 +71,35 @@ function runScript(cmd: string, args: string[]): Promise<{
       try { child.kill('SIGKILL') } catch { /* noop */ }
     }, TIMEOUT_MS)
 
-    const push = (chunk: Buffer) => {
+    child.stdout?.on('data', (chunk: Buffer) => stdout.push(chunk))
+    child.stderr?.on('data', (chunk: Buffer) => {
       log.push(...chunk.toString().split('\n').filter(Boolean))
-    }
-    child.stdout?.on('data', push)
-    child.stderr?.on('data', push)
+    })
 
     child.on('close', (code) => {
       clearTimeout(timer)
-      resolve({
-        ok: !timedOut && code === 0,
-        measuredAt: new Date().toISOString(),
-        log: log.slice(-40),
-        error: timedOut ? '시간 초과' : code === 0 ? undefined : `종료 코드 ${code}`,
-      })
+      const measuredAt = new Date().toISOString()
+      if (timedOut || code !== 0) {
+        resolve({
+          ok: false,
+          measuredAt,
+          log: log.slice(-40),
+          error: timedOut ? '시간 초과' : `종료 코드 ${code}`,
+        })
+        return
+      }
+      try {
+        const text = Buffer.concat(stdout).toString('utf8')
+        const summary = JSON.parse(text.slice(text.indexOf('{')))
+        resolve({ ok: true, measuredAt, summary, log: log.slice(-40) })
+      } catch (error) {
+        resolve({
+          ok: false,
+          measuredAt,
+          log: log.slice(-40),
+          error: `JSON 파싱 실패: ${error instanceof Error ? error.message : String(error)}`,
+        })
+      }
     })
     child.on('error', (err) => {
       clearTimeout(timer)

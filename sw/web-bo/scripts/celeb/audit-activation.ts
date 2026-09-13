@@ -17,7 +17,6 @@
  *   pnpm celeb:audit:activation --apply
  *   pnpm celeb:audit:activation --slugs=slug-a,slug-b
  *   pnpm celeb:audit:activation --status=all --skip-link-check
- *   pnpm celeb:audit:activation --html --skip-link-check
  */
 
 import path from 'node:path'
@@ -30,7 +29,6 @@ import {
   CELEB_DIALOGUE_VARIANTS_PER_SITUATION,
 } from '@feelandnote/shared/constants/celeb-speech'
 import { SPECTRUM_GROUPS } from '@feelandnote/shared/constants/celeb-spectrum-scale'
-import { writeCelebReadinessHtml } from '../lib/celeb-readiness-report'
 import { activationRevalidationRequest } from './audit-activation-revalidation'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
@@ -72,13 +70,8 @@ const args = process.argv.slice(2)
 const APPLY = args.includes('--apply')
 const JSON_OUTPUT = args.includes('--json')
 const SKIP_LINK_CHECK = args.includes('--skip-link-check')
-const HTML_ARG = args.find((arg) => arg === '--html' || arg.startsWith('--html='))
-const HTML_ARG_VALUE = HTML_ARG?.startsWith('--html=') ? HTML_ARG.split('=', 2)[1]?.trim() : ''
-const HTML_OUTPUT = HTML_ARG
-  ? path.resolve(process.cwd(), HTML_ARG_VALUE || '../../.artifacts/celeb-data-readiness.html')
-  : null
 const STATUS = (args.find((arg) => arg.startsWith('--status='))?.split('=', 2)[1]
-  ?? (HTML_OUTPUT ? 'all' : 'inactive')) as
+  ?? 'inactive') as
   | 'inactive'
   | 'active'
   | 'all'
@@ -92,8 +85,6 @@ const SLUGS = new Set(
 if (APPLY && STATUS !== 'inactive') {
   throw new Error('--apply는 --status=inactive 범위에서만 허용됩니다.')
 }
-if (APPLY && HTML_OUTPUT) throw new Error('--apply와 --html은 함께 사용할 수 없습니다.')
-if (JSON_OUTPUT && HTML_OUTPUT) throw new Error('--json과 --html은 함께 사용할 수 없습니다.')
 
 // DB 테이블별 생성 타입을 이 운영 스크립트에 전부 끌어오지 않고 동적 감사한다.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1006,12 +997,6 @@ async function main() {
     },
     fictionPublicReadiness,
     rows: audited,
-  }
-
-  if (HTML_OUTPUT) {
-    await writeCelebReadinessHtml(summary, HTML_OUTPUT)
-    console.log(`HTML 보고서 생성: ${HTML_OUTPUT}`)
-    return
   }
 
   if (JSON_OUTPUT) {
