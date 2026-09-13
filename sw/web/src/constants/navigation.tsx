@@ -118,6 +118,11 @@ export const HEADER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInHeader);
 export const BOTTOM_NAV_ITEMS = NAV_ITEMS.filter((item) => item.showInBottomNav);
 export const HOME_SECTION_KEYS = NAV_ITEMS.filter((item) => item.showInHomePage).map((item) => item.key);
 export const FOOTER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.subLinks?.length && item.key !== "rest");
+/** 탐색 주요 카드와 푸터가 같은 인물 메뉴 네 항목을 공유한다. */
+export const EXPLORE_FEATURED_LINKS: NavSubLink[] =
+  NAV_ITEMS.find((item) => item.key === "explore")?.subLinks?.filter((link) =>
+    ["ranking", "spectrum", "myth", "faction"].includes(link.key ?? ""),
+  ) ?? [];
 // #endregion
 
 // #region 풋터 섹션 구조 정의
@@ -133,13 +138,7 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     key: "explore",
     titleKey: "nav.footer.sectionFigures",
     href: "/explore",
-    links: [
-      { key: "ranking", href: "/explore/ranking", label: "분야별 챔피언" },
-      { key: "faction", href: "/explore/faction", label: "세력도감" },
-      { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
-      // 인물 사전은 색인용 큰 명부다. 홈 본문에서 내려온 뒤로 전 화면에서 걸리는 입구는 여기와 탐색 목차 줄뿐이다
-      { key: "directory", href: "/explore/directory", label: "디렉토리" },
-    ],
+    links: EXPLORE_FEATURED_LINKS,
   },
   {
     key: "library",
