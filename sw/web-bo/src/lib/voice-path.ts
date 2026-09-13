@@ -35,6 +35,7 @@ export const LOCALES = ['ko', 'en'] as const
 /** 대사 유형 → 파일명 (e.g. "g1.mp3", "quote.mp3") */
 export function voiceFileName(type: string, variant?: number): string | null {
   if (type === 'quote') return 'quote.mp3'
+  if (type === 'reading') return 'reading.mp3'
   const prefix = TYPE_PREFIX[type]
   if (!prefix || !variant) return null
   return `${prefix}${variant}.mp3`
