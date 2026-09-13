@@ -9,10 +9,10 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 import { agyCall } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const DRAFTS = process.env.NB_DRAFTS ?? path.join(ROOT, 'data/naver-blog/celeb-drafts.json');
+const DRAFTS = process.env.NB_DRAFTS ?? path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const args = process.argv.slice(2);
 const dry = args.includes('--dry');
 const slugArg = (args[args.indexOf('--slug') + 1] ?? '').split(',').filter(Boolean);

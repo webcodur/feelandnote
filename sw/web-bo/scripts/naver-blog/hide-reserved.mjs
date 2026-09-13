@@ -1,20 +1,16 @@
 /**
- * **예약 상태**의 글을 비공개로 돌려 예약을 푼다.
+ * 예약글의 비공개 전환을 시도하는 구도구.
  *
  *   node scripts/naver-blog/hide-reserved.mjs [--yes]
  *
- * 🔴 네이버는 예약글을 **편집기에서 지울 수 없다.** 편집기 상단에 「발행」만 있고 삭제가 없으며,
- *    `delete-posts.mjs` 는 삭제 전에 `PostView.naver` 로 생사를 확인하는데 예약글은 그 주소에
- *    뜨지 않아 전부 「이미 없음」으로 판정된다(26.09.05 영화 목록 8건이 그렇게 살아남았다).
- *    비공개로 돌리면 예약이 풀리고 검색·목록에서 사라진다 — 노출을 끊는 목적은 이걸로 달성된다.
- *    완전 삭제는 사람이 블로그 앱·관리 화면에서 한다.
+ * 예약 해제·삭제에는 `delete-posts.mjs`를 쓴다. 비공개 전환으로 삭제됐다고 판단하지 않는다.
  */
 import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const POSTS = path.join(ROOT, 'data/naver-blog/posts.json');
+const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const args = process.argv.slice(2);
 const go = args.includes('--yes');
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));

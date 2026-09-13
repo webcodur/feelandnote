@@ -9,9 +9,9 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const POSTS = path.join(ROOT, 'data/naver-blog/posts.json');
+const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const posts = JSON.parse(fs.readFileSync(POSTS, 'utf8'));
 const all = process.argv.includes('--all');
 

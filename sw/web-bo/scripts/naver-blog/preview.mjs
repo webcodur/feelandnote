@@ -1,14 +1,15 @@
 // 발행 대기 원고를 사람이 읽을 수 있는 한 파일로 모은다. 발행 직전 육안 확인용이다.
 // 사용: node scripts/naver-blog/preview.mjs   (sw/web-bo 에서)
-// 출력: data/naver-blog/_preview.md
+// 출력: blog-assets(D:)/naver-blog/_preview.md
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const read = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
+const read = (p) => JSON.parse(fs.readFileSync(path.join(ASSETS, p), 'utf8'));
 
-const drafts = read('data/naver-blog/drafts.json');
-const celebs = read('data/naver-blog/celeb-drafts.json');
+const drafts = read('naver-blog/drafts.json');
+const celebs = read('naver-blog/celeb-drafts.json');
 
 const out = [];
 out.push('# 발행 대기 원고');
@@ -49,6 +50,6 @@ out.push('인물 감상이 3편 미만이라 큐에서 뺐다. 감상을 채운 
 out.push('');
 held.forEach(block);
 
-const dest = path.join(ROOT, 'data/naver-blog/_preview.md');
+const dest = path.join(ASSETS, 'naver-blog/_preview.md');
 fs.writeFileSync(dest, out.join('\n'));
 console.log(`${dest} — 기관 대기 ${ready.length} · 보류 ${held.length} · 인물 대기 ${celebReady.length}`);

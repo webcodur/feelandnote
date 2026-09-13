@@ -3,16 +3,14 @@
  *
  *   node scripts/naver-blog/rename-reserved.mjs --tag "[삭제]" [--yes]
  *
- * 예약글은 스크립트로 지울 수 없다(`hide-reserved.mjs` 머리말 참고). 사람이 네이버 앱이나
- * PC 글 관리에서 지워야 하는데, 94건이 늘어선 목록에서 여덟 건을 골라내기가 번거롭다.
- * 제목 앞에 표를 붙여 두면 눈으로 바로 찾는다. 대상은 `posts.json` 의 `link: to-delete` 다.
+ * 대상은 `posts.json`의 `link: to-delete`다. 예약글 삭제는 `delete-posts.mjs`를 쓴다.
  */
 import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const POSTS = path.join(ROOT, 'data/naver-blog/posts.json');
+const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const args = process.argv.slice(2);
 const go = args.includes('--yes');
 // 🔴 `indexOf` 가 -1 이면 `args[0]` 을 집는다. 26.09.05에 제목 앞에 「--yes」가 붙었다.

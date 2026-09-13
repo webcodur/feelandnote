@@ -1,14 +1,14 @@
-// 네이버 블로그 기존 글 본문 첫 줄에 필앤노트 페이지 링크를 넣고 발행한다. 대상·상태는 data/naver-blog/posts.json 이 쥔다.
+// 네이버 블로그 기존 글 본문 첫 줄에 필앤노트 페이지 링크를 넣고 발행한다. 대상·상태는 blog-assets(D:)/naver-blog/posts.json 이 쥔다.
 // 사용: node scripts/naver-blog/link-existing.mjs [최대건수] [--dry] [--only=logNo]   (sw/web-bo 에서)
-// 규칙과 편집기 제약은 docs/continuous/naver-blog.md 를 따른다.
+// 규칙과 편집기 제약은 docs/continuous/blog-naver-book.md 를 따른다.
 //   --dry : 삽입까지만 하고 발행하지 않는다(스크린샷 저장). 디버그 포트 9222 크롬에 네이버 로그인 상태여야 한다.
 import { getBrowser, getNaverPage } from './lib/browser.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const POSTS = path.join(ROOT, 'data/naver-blog/posts.json');
+const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const SC = path.join(os.tmpdir(), 'naver-blog'); fs.mkdirSync(SC, { recursive: true });
 const args = process.argv.slice(2);
 const dry = args.includes('--dry');

@@ -13,15 +13,16 @@
  *   node scripts/naver-blog/pick-celebs.mjs --ask             # 남은 전량
  *
  * 재실행 안전 — 이미 판정받은 인물은 건너뛴다.
- * 출력: data/naver-blog/_pick-candidates.json / _pick-verdicts.json
+ * 출력: blog-assets(D:)/naver-blog/_pick-candidates.json / _pick-verdicts.json
  */
 import { createClient } from '@supabase/supabase-js';
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 import { agyCall } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const WORK = path.join(ROOT, 'data/naver-blog');
+const WORK = path.join(ASSETS, 'naver-blog');
 const CAND = path.join(WORK, '_pick-candidates.json');
 const VERD = path.join(WORK, '_pick-verdicts.json');
 const BATCH = 60;
@@ -53,7 +54,7 @@ const page = async (t, sel, tune) => {
   return out;
 };
 
-/** 조건에 맞는 책이 몇 권인지 센다. 규칙은 docs/continuous/naver-blog.md 를 따른다. */
+/** 조건에 맞는 책이 몇 권인지 센다. 규칙은 docs/continuous/blog-naver-book.md 를 따른다. */
 export function usableBooks(rows, koByContent, typeById) {
   return rows
     .filter((r) => typeById.get(r.content_id) === 'BOOK')

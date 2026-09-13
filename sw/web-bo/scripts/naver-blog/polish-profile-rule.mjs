@@ -9,9 +9,9 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const DRAFTS = process.env.NB_DRAFTS ?? path.join(ROOT, 'data/naver-blog/celeb-drafts.json');
+const DRAFTS = process.env.NB_DRAFTS ?? path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const dry = process.argv.includes('--dry');
 
 const raw = JSON.parse(fs.readFileSync(DRAFTS, 'utf8'));
