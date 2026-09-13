@@ -20,7 +20,7 @@ interface PaginationProps {
   showPageSizeSelector?: boolean;
 }
 
-const controlClass = "inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-lg border border-transparent px-3 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent";
+const controlClass = "inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-lg border px-3 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent";
 const availableClass = "text-text-secondary hover:border-white/15 hover:bg-white/5 hover:text-text-primary";
 const unavailableClass = "cursor-not-allowed text-text-tertiary";
 
@@ -40,7 +40,8 @@ export function Pagination({
   const control = (page: number, label: string, children: ReactNode, rel?: "prev" | "next", boundary = false) => {
     const active = !rel && page === current;
     const disabled = boundary || isLoading;
-    const style = `${controlClass} ${active ? "bg-accent/10 font-semibold text-accent hover:bg-accent/20" : disabled ? unavailableClass : availableClass}`;
+    const outline = rel ? disabled ? "border-white/5 bg-white/[0.025]" : "border-white/15 bg-white/[0.025]" : "border-transparent";
+    const style = `${controlClass} ${outline} ${active ? "bg-accent/10 font-semibold text-accent hover:bg-accent/20" : disabled ? unavailableClass : availableClass}`;
     const changePage = () => { if (!disabled && page !== current) onPageChange(page); };
     const followPage = (event: MouseEvent<HTMLAnchorElement>) => {
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -49,11 +50,11 @@ export function Pagination({
     };
     if (getPageHref && !boundary) return (
       <Link href={getPageHref(page)} prefetch={false} onClick={followPage} rel={rel}
-        aria-label={label} aria-current={active ? "page" : undefined} aria-disabled={isLoading || undefined}
+        aria-label={label} title={rel ? label : undefined} aria-current={active ? "page" : undefined} aria-disabled={isLoading || undefined}
         className={style}>{children}</Link>
     );
     return (
-      <button type="button" onClick={changePage} disabled={disabled} aria-label={label}
+      <button type="button" onClick={changePage} disabled={disabled} aria-label={label} title={rel ? label : undefined}
         aria-current={active ? "page" : undefined} className={style}>{children}</button>
     );
   };
@@ -63,7 +64,7 @@ export function Pagination({
       {total > 1 && (
         <nav aria-label={t("label")} aria-busy={isLoading}>
           <ul className="flex items-center justify-center gap-1">
-            <li>{control(current - 1, t("previous"), <><ChevronLeft size={16} aria-hidden /><span>{t("previous")}</span></>, "prev", current === 1)}</li>
+            <li>{control(current - 1, t("previous"), <ChevronLeft size={18} aria-hidden />, "prev", current === 1)}</li>
             <li className="min-w-20 px-2 text-center text-sm tabular-nums text-text-primary md:hidden">
               <span role="status" aria-atomic="true"><span aria-hidden="true">{current} / {total}</span><span className="sr-only">{t("summary", { current, total })}</span></span>
             </li>
@@ -73,7 +74,7 @@ export function Pagination({
                 {typeof item === "string" && <span aria-hidden="true" className="flex min-h-11 w-6 items-center justify-center text-text-secondary">...</span>}
               </li>
             ))}
-            <li>{control(current + 1, t("next"), <><span>{t("next")}</span><ChevronRight size={16} aria-hidden /></>, "next", current === total)}</li>
+            <li>{control(current + 1, t("next"), <ChevronRight size={18} aria-hidden />, "next", current === total)}</li>
           </ul>
         </nav>
       )}
