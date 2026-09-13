@@ -357,15 +357,34 @@ function bestVideo(cands: Found[], rawTitle: string, year: number | null, loose 
  * 검색처가 한 건도 돌려주지 않는다. 첫 저자만 남기고 악센트를 풀어 쓴다.
  */
 /** 같은 locale 에서 제목(정규화)과 저자 성이 맞는 기존 작품을 찾는다. 없으면 null. */
-async function findSameWork(db: ReturnType<typeof createClient>, locale: 'ko' | 'en', title: string, creator: string | null): Promise<string | null> {
+async function findSameWork(db: DatabaseClient<any, any, any, any, any>, locale: 'ko' | 'en', title: string, creator: string | null): Promise<string | null> {
   const { data } = await db.from('content_locales').select('content_id,title,creator').eq('locale', locale).ilike('title', title.split(/[:：(]/)[0].trim()).limit(10)
   const want = normTitle(title)
   const surname = (creator ?? '').split(/[,/^]/)[0].trim().split(/\s+/).pop()?.toLowerCase() ?? ''
-  for (const row of data ?? []) {
+  for (const row of (data ?? []) as { content_id: string; title: string; creator: string | null }[]) {
     if (normTitle(row.title) !== want) continue
     if (!surname || !row.creator || row.creator.toLowerCase().includes(surname)) return row.content_id as string
   }
   return null
+}
+
+/**
+ * 기존 작품에 이을 때, 그 언어 행이 표시용 행(sources.primary='none')이면 찾은 실판본으로 덮는다(celeb-02-02 「실제 판본이 확인되면 이 행을 공식 값으로 덮는다」).
+ * 실제 판본 행은 건드리지 않는다.
+ */
+async function replaceDisplayRow(db: DatabaseClient<any, any, any, any, any>, contentId: string, found: Found): Promise<boolean> {
+  const { data } = await db.from('content_locales').select('sources').eq('content_id', contentId).eq('locale', found.locale).maybeSingle()
+  const sources = (data as { sources?: { primary?: string } } | null)?.sources
+  if (!data || sources?.primary !== 'none') return false
+  const { fetchBookIntroduction } = await import('@feelandnote/content-search/book-introduction')
+  const introduction = await fetchBookIntroduction({ isbn: found.isbn, locale: found.locale === 'en' ? 'en' : 'ko' }).catch(() => null)
+  const { error } = await db.from('content_locales').update({
+    title: found.title, creator: found.creator, thumbnail_url: found.thumbnail, publisher: found.publisher, isbn: found.isbn,
+    description: introduction?.source ?? null, verified: true,
+    sources: { primary: found.source, note: 'curated-list import; replaced display-title row', ...(introduction?.source && { description: introduction.sourceUrl }) },
+  }).eq('content_id', contentId).eq('locale', found.locale)
+  if (error) throw new Error(`표시행 교체 실패(${contentId}): ${error.message}`)
+  return true
 }
 
 function queryAuthor(raw: string): string {
@@ -442,6 +461,7 @@ async function main() {
   )
 
   loadEnv(boPath('.env'))
+  const { fetchBookIntroduction } = await import('@feelandnote/content-search/book-introduction')
   const { NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY } = process.env as Record<string, string>
   if (!NEXT_PUBLIC_DB_API_URL || !DB_SECRET_KEY) throw new Error('.env 누락')
   const db: DatabaseClient = createClient(NEXT_PUBLIC_DB_API_URL, DB_SECRET_KEY)
@@ -560,6 +580,7 @@ async function main() {
 
     if (contentId) {
       linkedExisting++
+      if (!isVideo && (await replaceDisplayRow(db, contentId, found))) console.log(`    표시용 ${found.locale} 행을 실판본으로 덮음`)
     } else {
       const { data: ins, error: cErr } = await db
         .from('contents')

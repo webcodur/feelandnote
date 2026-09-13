@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleDatabaseError } from '@/lib/errors'
-import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
+import { resolveBookLocale, sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
 import { normalizeBookIsbn } from '@/lib/utils/book-description'
 import { getVideoEnLocale } from '@feelandnote/content-search/tmdb'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
@@ -82,7 +82,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     contentId = newContent.id
 
     // content_locales에 로케일 데이터 저장
-    const locale = sourceToLocale(params.externalSource)
+    const locale = params.type === 'BOOK' ? resolveBookLocale(params.externalSource, params.title) : sourceToLocale(params.externalSource)
     const bookIsbn = params.type === 'BOOK'
       ? normalizeBookIsbn(typeof params.metadata?.isbn === 'string' ? params.metadata.isbn : params.id)
       : null

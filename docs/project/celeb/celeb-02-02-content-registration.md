@@ -83,6 +83,8 @@ BOOK 소개는 기존 `description`에 외부 출처 표시 또는 필요한 번
 콘텐츠 전체 수집을 발주받았으면 확인 가능한 한국어·영문 메타를 같은 작업에서 확보한다. 사용자가 한국어 데이터만 작성·교정하라고 범위를 제한했다면 en 행이나 `review_en`을 임의로 만들지 않는다.
 
 - `contents`에는 title·creator·thumbnail_url 같은 locale 컬럼이 없다. 모든 언어별 메타는 `content_locales`에 둔다.
+- 카카오·알라딘이 돌려준 BOOK 의 제목에 한글이 없으면 수입 원서다. `ko`가 아니라 `en` 행에 담는다(사용자 웹 `resolveBookLocale`, 백오피스 외부검색 등록, 기관 선정 등록 도구가 같은 규칙을 쓴다). 26.09.10 이 규칙이 없어 ko 행에 들어간 수입 원서 카드가 정비에서 지워지고 작품까지 사라진 사고가 있었다.
+- 작품을 지우거나 합치는 도구는 `contents`를 가리키는 표 전부(`celeb_contents`·`member_contents`·`curated_list_items`·`flow_nodes`·`records`·`notes`·`figure_book_*`)를 참조로 본다. 하나라도 있으면 지우지 않고, 합칠 때는 keep 쪽으로 옮긴다.
 - VIDEO는 TMDB ko/en, GAME과 MUSIC은 검증된 한국어 정식 표기와 기본 영문 메타를 사용한다.
 - 한 언어의 판본을 확인하지 못했다고 반대 언어 값을 복사하지 않는다.
 
