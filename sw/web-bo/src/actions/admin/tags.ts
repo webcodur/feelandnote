@@ -144,6 +144,7 @@ export interface TagsResponse {
 function revalidateThemeScreens() {
   revalidatePath('/factions')
   revalidatePath('/factions/[episode]', 'page')
+  revalidatePath('/myths')
 }
 
 // #region getTags
@@ -944,13 +945,16 @@ export interface TagGroup {
   name: string
   name_en: string | null
   sort_order: number
+  /** 신화 탐색 그룹 개요의 본문 — 이 무리가 누구이고 작품에서 어떤 구실을 하는지 */
+  description: string | null
+  description_en: string | null
 }
 
 export async function getTagGroups(tagId: string): Promise<TagGroup[]> {
   const db = await createClient()
   const { data, error } = await db
     .from('celeb_tag_groups')
-    .select('id, name, name_en, sort_order')
+    .select('id, name, name_en, sort_order, description, description_en')
     .eq('tag_id', tagId)
     .order('sort_order', { ascending: true })
   if (error) {
@@ -979,7 +983,7 @@ export async function createTagGroup(
   const { data, error } = await db
     .from('celeb_tag_groups')
     .insert({ tag_id: tagId, name: trimmed, name_en: nameEn?.trim() || null, sort_order: ((last?.sort_order as number | undefined) ?? 0) + 1 })
-    .select('id, name, name_en, sort_order')
+    .select('id, name, name_en, sort_order, description, description_en')
     .single()
   if (error) {
     console.error('테마 그룹 추가 에러:', error)
@@ -987,6 +991,59 @@ export async function createTagGroup(
   }
   revalidateThemeScreens()
   return { group: data as TagGroup }
+}
+
+/** 그룹 이름·설명(ko·en)을 고친다 — 설명은 신화 탐색 그룹 개요의 본문이 된다 */
+export async function updateTagGroup(
+  groupId: string,
+  patch: Partial<Pick<TagGroup, 'name' | 'name_en' | 'description' | 'description_en'>>,
+): Promise<{ success: boolean; error?: string }> {
+  const name = patch.name?.trim()
+  if (patch.name !== undefined && !name) return { success: false, error: '그룹 이름이 비었다.' }
+  const db = await createClient()
+  const { error } = await db
+    .from('celeb_tag_groups')
+    .update({ ...patch, ...(name ? { name } : {}), updated_at: new Date().toISOString() })
+    .eq('id', groupId)
+  if (error) {
+    console.error('테마 그룹 수정 에러:', error)
+    return { success: false, error: error.code === '23505' ? '같은 이름의 그룹이 이미 있다.' : error.message }
+  }
+  revalidateThemeScreens()
+  return { success: true }
+}
+
+/** 그룹 차례를 통째로 다시 적는다 — 신화 화면의 그룹 탭 순서가 된다 */
+export async function reorderTagGroups(
+  tagId: string,
+  groupIds: string[],
+): Promise<{ success: boolean; error?: string }> {
+  const db = await createClient()
+  const now = new Date().toISOString()
+  const results = await Promise.all(groupIds.map((id, index) => db
+    .from('celeb_tag_groups')
+    .update({ sort_order: index + 1, updated_at: now })
+    .eq('id', id)
+    .eq('tag_id', tagId)))
+  const failed = results.find(r => r.error)?.error
+  if (failed) {
+    console.error('테마 그룹 순서 변경 에러:', failed)
+    return { success: false, error: failed.message }
+  }
+  revalidateThemeScreens()
+  return { success: true }
+}
+
+/** 그룹을 지운다. 구성원은 그룹이 풀려 맨 끝 「그 외」로 간다(배정의 group_id를 DB가 비운다) */
+export async function deleteTagGroup(groupId: string): Promise<{ success: boolean; error?: string }> {
+  const db = await createClient()
+  const { error } = await db.from('celeb_tag_groups').delete().eq('id', groupId)
+  if (error) {
+    console.error('테마 그룹 삭제 에러:', error)
+    return { success: false, error: error.message }
+  }
+  revalidateThemeScreens()
+  return { success: true }
 }
 
 /**

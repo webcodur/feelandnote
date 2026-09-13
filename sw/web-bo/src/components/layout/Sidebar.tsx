@@ -42,9 +42,11 @@ import {
   SearchCheck,
   Film,
   BookMarked,
+  Landmark,
   Images,
   ClipboardCheck,
   Quote,
+  ScrollText,
   type LucideIcon,
   HardDrive,
 } from 'lucide-react'
@@ -89,7 +91,9 @@ const menuGroups: MenuGroup[] = [
     key: 'contents', label: '콘텐츠', icon: Library,
     children: [
       { href: '/contents', label: '콘텐츠 관리', icon: Library },
+      { href: '/curated', label: '기관 선정', icon: Landmark },
       { href: '/figure-books', label: '인물 도서', icon: BookMarked },
+      { href: '/myths', label: '신화', icon: ScrollText },
       { href: '/records', label: '기록', icon: FileText },
       { href: '/notes', label: '노트', icon: StickyNote },
       { href: '/playlists', label: '플레이리스트', icon: ListMusic },

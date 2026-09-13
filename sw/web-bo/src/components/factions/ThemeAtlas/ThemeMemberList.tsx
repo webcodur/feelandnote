@@ -397,6 +397,7 @@ export function ThemeMemberList({
         </button>
         <span className="shrink-0 text-xs text-text-tertiary">그룹 {groups.length}개</span>
       </div>
+      {/* 그룹 설명·순서·이름은 신화 편집(/myths)이 쥔다 — 신화 화면에만 쓰이는 값이라 이 명단에 두 벌 두지 않는다 */}
 
       {hideProduction && production.length > 0 && (
         <p className="rounded-lg border border-border bg-bg-card/60 px-3 py-2 text-xs text-text-tertiary">
