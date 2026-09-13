@@ -71,11 +71,11 @@
       "friendActivity": "친구 동향",
       "contentUnit": "개",
       "sort": {
-        "daily_recommend": "오늘의 추천",
+        "daily_recommend": "랜덤",
         "composite": "종합 점수",
         "follower": "팔로워",
         "influence": "영향력",
-        "content_count": "보유 콘텐츠",
+        "content_count": "작품 많은 순",
         "name_asc": "이름",
         "birth_date_desc": "최근 출생",
         "birth_date_asc": "오래된 출생"

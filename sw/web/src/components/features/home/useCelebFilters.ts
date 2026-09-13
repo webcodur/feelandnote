@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useMemo, useEffect, useEffectEvent, useRef } from "react";
 import { useSearchParams } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { getCelebs } from "@/actions/home";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
@@ -9,19 +10,16 @@ import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 import { CELEB_TIERS, isCelebTier, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
+import { CELEB_SORT_OPTIONS, DEFAULT_EXPLORE_SORT } from "@/constants/celebSort";
 
 // #region 상수
-export const SORT_VALUES: CelebSortBy[] = [
-  "daily_recommend", "composite", "follower", "influence",
-  "content_count", "name_asc", "birth_date_desc", "birth_date_asc",
-];
+export const SORT_VALUES = CELEB_SORT_OPTIONS;
 
 export type FilterType = "profession" | "nationality" | "contentType" | "contentPresence" | "gender" | "sort" | "tier" | "birthYear";
 
 const DEFAULT_PAGE_SIZE = 24;
 export const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
 
-const VALID_SORT_VALUES: CelebSortBy[] = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 // #endregion
 
 interface UseCelebFiltersParams {
@@ -49,6 +47,15 @@ export function useCelebFilters({
   includeInactive = false,
 }: UseCelebFiltersParams) {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const getPageHref = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (page === 1) params.delete("page");
+    else params.set("page", String(page));
+    const query = params.toString();
+    return query ? `${pathname}?${query}` : pathname;
+  };
 
   // URL에서 초기값 읽기
   const getInitialValue = <T extends string>(key: string, defaultValue: T, validValues?: T[]): T => {
@@ -66,7 +73,7 @@ export function useCelebFilters({
   const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
   const [contentPresence, setContentPresence] = useState<CelebContentPresence>(() => parseCelebContentPresence(syncToUrl ? searchParams.get("contentPresence") : undefined, syncToUrl ? DEFAULT_CELEB_CONTENT_PRESENCE : "all"));
   const [gender, setGender] = useState<string>(() => getInitialValue("gender", "all"));
-  const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", "daily_recommend", VALID_SORT_VALUES));
+  const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", syncToUrl ? DEFAULT_EXPLORE_SORT : "daily_recommend", SORT_VALUES));
   const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
   const [appliedSearch, setAppliedSearch] = useState<string>(() => getInitialValue("search", ""));
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
@@ -111,7 +118,7 @@ export function useCelebFilters({
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(updates).forEach(([key, value]) => {
       const isDefault = key === "contentPresence" ? value === DEFAULT_CELEB_CONTENT_PRESENCE : value === "all";
-      if (value === null || isDefault || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === "daily_recommend")) {
+      if (value === null || isDefault || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === DEFAULT_EXPLORE_SORT)) {
         params.delete(key);
       } else {
         params.set(key, value);
@@ -329,6 +336,7 @@ export function useCelebFilters({
     handleGenderChange,
     handleSortChange,
     handlePageChange,
+    getPageHref,
     handlePageSizeChange,
     handleSearchInput,
     handleSearchSubmit,

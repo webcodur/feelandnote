@@ -71,11 +71,11 @@
       "friendActivity": "Friend Activity",
       "contentUnit": "items",
       "sort": {
-        "daily_recommend": "Today's Picks",
+        "daily_recommend": "Random",
         "composite": "Composite Score",
         "follower": "Followers",
         "influence": "Influence",
-        "content_count": "Content Count",
+        "content_count": "Most works",
         "name_asc": "Name",
         "birth_date_desc": "Recent Birth",
         "birth_date_asc": "Oldest Birth"

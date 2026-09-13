@@ -447,7 +447,11 @@
         "go": "Go",
         "next": "Next",
         "last": "Last",
-        "perPage": "/ page"
+        "perPage": "/ page",
+        "page": "Page {page}",
+        "lastPage": "Last page, page {page}",
+        "summary": "Page {current} of {total}",
+        "pageSize": "Items per page"
       },
       "swipe": {
         "previous": "Previous page",
