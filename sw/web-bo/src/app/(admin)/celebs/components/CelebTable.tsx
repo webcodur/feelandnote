@@ -7,40 +7,23 @@ import { type Member } from '@/actions/admin/members'
 import { toggleCelebTier, toggleCelebStatus } from '@/actions/admin/celebs'
 import { useToast } from '@/contexts/ToastContext'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
+import { isCelebReality } from '@feelandnote/shared/constants/celeb-tiers'
+import { CELEB_REALITY_DISPLAY } from '@/constants/celebReality'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
 import PersistedCelebAwakenedImageEditor from '@/components/celeb/awakened/PersistedCelebAwakenedImageEditor'
 import NationalityBadge from '../../members/components/NationalityBadge'
-import SortableTableHeader from '@/components/ui/SortableTableHeader'
+import CelebColumnHeaders from './columnFilters/CelebColumnHeader'
 
 export default function CelebTable({ celebs }: { celebs: Member[] }) {
   return (
-    <table className="w-full min-w-[860px]">
+    <table className="w-full min-w-[1360px]">
       <thead className="bg-bg-secondary border-b border-border">
-        <tr>
-          <SortableTableHeader column="avatar_url" label="아바타" className="w-12" align="center" />
-          <th className="w-14 px-3 py-3 text-center text-xs font-medium text-text-secondary md:px-4 md:text-sm">
-            대표 사진
-          </th>
-          <th className="w-14 px-3 py-3 text-center text-xs font-medium text-text-secondary md:px-4 md:text-sm">
-            각성
-          </th>
-          <SortableTableHeader column="title" label="title" className="min-w-36" />
-          <SortableTableHeader column="nickname" label="nickname" />
-          <SortableTableHeader column="profession" label="profession" />
-          <SortableTableHeader column="nationality" label="nationality" align="center" />
-          <SortableTableHeader column="gender" label="gender" className="w-12" align="center" />
-          <SortableTableHeader column="status" label="status" align="center" />
-          <SortableTableHeader column="influence_total" label="influence_total" align="center" />
-          <SortableTableHeader column="celeb_tier" label="tier" className="w-16" align="center" />
-          <SortableTableHeader column="content_count" label="content_count" align="center" />
-          <SortableTableHeader column="follower_count" label="follower_count" align="center" />
-          <SortableTableHeader column="created_at" label="created_at" align="center" />
-        </tr>
+        <CelebColumnHeaders />
       </thead>
       <tbody className="divide-y divide-border">
         {celebs.length === 0 ? (
-          <tr><td colSpan={14} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
+          <tr><td colSpan={15} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
         ) : (
           celebs.map((celeb) => (
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
@@ -89,12 +72,15 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
                   <CopyButton text={celeb.nickname || ''} />
                 </div>
               </td>
+              <td className="px-3 md:px-4 py-3 text-center">
+                <RealityBadge reality={celeb.celeb_reality} />
+              </td>
               <td className="px-3 md:px-4 py-3">
                 {celeb.profession && (
                   <p className="text-xs text-text-tertiary truncate max-w-[100px]">{getCelebProfessionLabel(celeb.profession)}</p>
                 )}
               </td>
-              <td className="px-3 md:px-4 py-3 text-center">
+              <td className="min-w-24 whitespace-nowrap px-3 md:px-4 py-3 text-center">
                 {celeb.nationality && <NationalityBadge code={celeb.nationality} />}
               </td>
               <td className="px-3 md:px-4 py-3 text-center">
@@ -141,6 +127,19 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
   )
 }
 
+function RealityBadge({ reality }: { reality?: string | null }) {
+  if (!isCelebReality(reality)) {
+    return <span className="text-sm text-text-secondary">미분류</span>
+  }
+
+  const { label, description, className } = CELEB_REALITY_DISPLAY[reality]
+  return (
+    <span className={`inline-flex whitespace-nowrap rounded border px-1.5 py-0.5 text-xs font-medium ${className}`} title={description}>
+      {label}
+    </span>
+  )
+}
+
 function StatusToggleIcon({ celebId, status: initialStatus }: { celebId: string; status: string }) {
   const { showToast } = useToast()
   const [status, setStatus] = useState(initialStatus)
@@ -174,7 +173,7 @@ function StatusToggleIcon({ celebId, status: initialStatus }: { celebId: string;
     <button
       onClick={handleClick}
       disabled={loading || status === 'deleted'}
-      className={`p-1 rounded cursor-pointer transition-colors disabled:cursor-default ${className} ${hoverClass}`}
+      className={`p-1 rounded cursor-pointer disabled:cursor-default ${className} ${hoverClass}`}
       title={title}
     >
       {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Icon className="w-4 h-4" />}
@@ -212,7 +211,7 @@ function TierToggle({ celebId, tier }: { celebId: string; tier: string }) {
     <button
       onClick={handleToggle}
       disabled={loading}
-      className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-medium cursor-pointer transition-colors disabled:opacity-50 ${
+      className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-medium cursor-pointer disabled:opacity-50 ${
         isLight
           ? 'bg-orange-500/10 text-orange-400 hover:bg-orange-500/20'
           : 'bg-blue-500/10 text-blue-400 hover:bg-blue-500/20'
@@ -235,7 +234,7 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="p-0.5 rounded hover:bg-bg-secondary text-text-tertiary hover:text-text-secondary transition-colors shrink-0"
+      className="p-0.5 rounded hover:bg-bg-secondary text-text-tertiary hover:text-text-secondary shrink-0"
       title="이름 복사"
     >
       {copied

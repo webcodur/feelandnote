@@ -18,6 +18,14 @@ import {
 } from '@feelandnote/shared/constants/celeb-publication'
 import { requireAdmin } from '@/lib/admin-auth'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '@/lib/celeb-slug'
+import {
+  getCelebCreatedAtBounds,
+  hasCelebColumnFilters,
+  hasCelebContentRange,
+  hasCelebNumericRanges,
+  matchesCelebNumericRanges,
+  type CelebColumnFilters,
+} from '@/lib/celeb-list-filters'
 
 // #region Types
 export interface Celeb {
@@ -55,7 +63,7 @@ export interface CelebsResponse {
 
 export type CelebImageFilter = 'all' | 'missing-avatar' | 'missing-portrait' | 'missing-awakened'
 
-interface GetCelebsParams {
+interface GetCelebsParams extends CelebColumnFilters {
   page?: number
   limit?: number
   search?: string
@@ -178,7 +186,7 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     is_verified: row.is_verified,
     status: row.status,
     celeb_tier: row.celeb_tier || 'full',
-    celeb_reality: row.celeb_reality || 'REAL',
+    celeb_reality: row.celeb_reality ?? null,
     claimed_by: row.claimed_by,
     created_at: row.created_at || '',
     content_count: resolveCelebContentCount(
@@ -247,9 +255,11 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
     let result = 0
 
     switch (sort) {
-      case 'avatar_url': {
-        const left = a.avatar_url ? 1 : 0
-        const right = b.avatar_url ? 1 : 0
+      case 'avatar_url':
+      case 'portrait_url':
+      case 'awakened_image_url': {
+        const left = a[sort] ? 1 : 0
+        const right = b[sort] ? 1 : 0
         result = ascending ? left - right : right - left
         break
       }
@@ -267,6 +277,9 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
       }
       case 'celeb_tier':
         result = compareText(a.celeb_tier, b.celeb_tier, ascending)
+        break
+      case 'celeb_reality':
+        result = compareText(a.celeb_reality, b.celeb_reality, ascending)
         break
       case 'profession':
         result = compareText(a.profession, b.profession, ascending)
@@ -303,12 +316,13 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
 
 function buildCelebListQuery(
   db: ReturnType<typeof createAdminClient>,
-  params: Pick<GetCelebsParams, 'search' | 'status' | 'profession' | 'tier' | 'reality' | 'imageFilter'>,
+  params: GetCelebsParams,
   select: string,
   options?: { count?: 'exact'; head?: boolean },
   inIds?: string[]
 ) {
-  const { search, status, profession, tier, reality, imageFilter } = params
+  const { search, status, profession, tier, reality, imageFilter, nationality, gender } = params
+  const conditions: string[] = []
 
   let query = db
     .from('celebs')
@@ -325,22 +339,38 @@ function buildCelebListQuery(
   }
 
   if (search) {
-    query = query.or(
-      `nickname.ilike.%${search}%,nickname_en.ilike.%${search}%,title.ilike.%${search}%,title_en.ilike.%${search}%`
-    )
+    conditions.push(`or(nickname.ilike.%${search}%,nickname_en.ilike.%${search}%,title.ilike.%${search}%,title_en.ilike.%${search}%)`)
   }
 
   if (tier && tier !== 'all') {
     query = query.eq('celeb_tier', tier)
   }
 
-  if (imageFilter === 'missing-avatar') {
-    query = query.is('avatar_url', null)
-  } else if (imageFilter === 'missing-portrait') {
-    query = query.is('portrait_url', null)
-  } else if (imageFilter === 'missing-awakened') {
-    query = query.is('awakened_image_url', null)
+  if (reality && reality !== 'all') {
+    query = query.eq('celeb_reality', reality)
   }
+
+  if (nationality && nationality !== 'all') query = query.eq('nationality', nationality)
+  if (gender === 'male' || gender === 'female') query = query.eq('gender', gender === 'male')
+  if (gender === 'unknown') query = query.is('gender', null)
+
+  for (const [key, column, legacyFilter] of [
+    ['avatar', 'avatar_url', 'missing-avatar'],
+    ['portrait', 'portrait_url', 'missing-portrait'],
+    ['awakened', 'awakened_image_url', 'missing-awakened'],
+  ] as const) {
+    if (params[key] === 'missing' || imageFilter === legacyFilter) {
+      conditions.push(`or(${column}.is.null,${column}.eq."")`)
+    }
+    if (params[key] === 'present') query = query.not(column, 'is', null).neq(column, '')
+  }
+
+  // A single AND group keeps search and each image column independent.
+  if (conditions.length > 0) query = query.or(`and(${conditions.join(',')})`)
+
+  const { fromInclusive, toExclusive } = getCelebCreatedAtBounds(params)
+  if (fromInclusive) query = query.gte('created_at', fromInclusive)
+  if (toExclusive) query = query.lt('created_at', toExclusive)
 
   if (inIds) {
     query = query.in('id', inIds)
@@ -364,14 +394,17 @@ const CELEB_SORT_COLUMNS: Record<string, string> = {
   status: 'publication_status',
   gender: 'gender',
   celeb_tier: 'celeb_tier',
+  celeb_reality: 'celeb_reality',
   avatar_url: 'avatar_url',
+  portrait_url: 'portrait_url',
+  awakened_image_url: 'awakened_image_url',
 }
 
 async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, tier, imageFilter, tagId, sort = 'created_at', sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, tagId, sort = 'created_at', sortOrder = 'desc' } = params
   const db = createAdminClient()
   const offset = (page - 1) * limit
-  const filters = { search, status, profession, tier, imageFilter }
+  const filters = params
   const selectFields = `
     id, slug, nickname, avatar_url, portrait_url, awakened_image_url, profession, title, nationality, gender,
     birth_date, death_date, bio, cultural_journey:consumption_philosophy,
@@ -423,7 +456,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   const sortColumn = CELEB_SORT_COLUMNS[sort]
 
-  if (sortColumn) {
+  if (sortColumn && !hasCelebNumericRanges(filters)) {
     const ascending = sortOrder === 'asc'
     // 값이 빈 행은 JS 정렬(compareText)에서 빈 문자열로 취급돼 오름차순의 맨 앞에 왔다.
     // DB도 같은 자리에 두도록 nullsFirst를 오름차순 여부에 맞춘다.
@@ -465,16 +498,20 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     rows.push(...((batch || []) as unknown as CelebListRow[]))
   }
 
-  // 감상 기록 수로 줄을 세울 때만 후보 전원의 기록을 센다.
-  if (sort === 'content_count') {
+  // 콘텐츠 수를 정렬하거나 거를 때만 후보 전원의 실제 기록을 센다.
+  if (sort === 'content_count' || hasCelebContentRange(filters)) {
     const contentCounts = await getCelebContentCounts(db, rows.map((row) => row.id))
-    const celebs = rows.map((row) => mapCelebListRow(row, contentCounts.get(row.id) || 0))
+    const celebs = rows
+      .map((row) => mapCelebListRow(row, contentCounts.get(row.id) || 0))
+      .filter((celeb) => matchesCelebNumericRanges(celeb, filters))
     sortCelebs(celebs, sort, sortOrder)
-    return { celebs: celebs.slice(offset, offset + limit), total: count }
+    return { celebs: celebs.slice(offset, offset + limit), total: celebs.length }
   }
 
-  // 영향력·팔로워 정렬은 기록 수와 무관하므로, 줄을 먼저 세우고 화면에 실릴 몫만 센다.
-  const ordered = rows.map((row) => mapCelebListRow(row, 0))
+  // 영향력·팔로워 조건은 콘텐츠 수와 무관하므로 필터·정렬 뒤 한 화면 몫만 센다.
+  const ordered = rows
+    .map((row) => mapCelebListRow(row, 0))
+    .filter((celeb) => matchesCelebNumericRanges(celeb, filters))
   sortCelebs(ordered, sort, sortOrder)
   const pageSlice = ordered.slice(offset, offset + limit)
   const rowById = new Map(rows.map((row) => [row.id, row]))
@@ -482,7 +519,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   return {
     celebs: pageSlice.map((celeb) => mapCelebListRow(rowById.get(celeb.id)!, contentCounts.get(celeb.id) || 0)),
-    total: count,
+    total: ordered.length,
   }
 }
 
@@ -491,9 +528,11 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
   const { page = 1, limit = 20, search, status, profession, tier, reality, imageFilter, tagId, sort = 'created_at', sortOrder = 'desc' } = params
-  const rpcUnsupportedSorts = ['avatar_url', 'title', 'gender', 'celeb_tier']
+  const rpcUnsupportedSorts = ['avatar_url', 'portrait_url', 'awakened_image_url', 'title', 'gender', 'celeb_tier', 'celeb_reality']
   const needsExactFiltering =
     rpcUnsupportedSorts.includes(sort) ||
+    hasCelebColumnFilters(params) ||
+    (sort === 'nickname' && sortOrder === 'desc') ||
     sort === 'content_count' ||
     status === 'inactive' ||
     (tier && tier !== 'all') ||
@@ -503,7 +542,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     (tagId && tagId !== 'all')
 
   if (needsExactFiltering) {
-    return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, reality, imageFilter, tagId, sort, sortOrder })
+    return getCelebsByDirectQuery(params)
   }
 
   const db = createAdminClient()
@@ -540,12 +579,14 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   })
   if (countError) throw new Error(`Failed to count celebs: ${countError.message}`)
   const total = countData ?? 0
+  const pageSize = Math.min(limit, Math.max(0, total - offset))
+  if (pageSize === 0) return { celebs: [], total }
 
   // 숫자형 정렬(content_count, follower, influence)은 RPC가 항상 DESC → asc 시 오프셋 반전 필요
   const numericSorts = ['content_count', 'follower', 'influence']
   const needsReverse = sortOrder === 'asc' && numericSorts.includes(rpcSortBy)
   const actualOffset = needsReverse
-    ? Math.max(0, total - page * limit)
+    ? total - offset - pageSize
     : offset
 
   // 정렬된 셀럽 목록 조회
@@ -555,7 +596,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_content_type: null,
     p_sort_by: rpcSortBy,
     p_search: search || '',
-    p_limit: limit,
+    p_limit: pageSize,
     p_offset: actualOffset,
     p_tag_id: tagId && tagId !== 'all' ? tagId : null,
     p_min_content_count: 0,
@@ -617,7 +658,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       // 예전에는 celeb.status·celeb.claimed_by로 읽어 전원 active·미청구로 보였다
       status: celeb.publication_status,
       celeb_tier: celeb.celeb_tier || 'full',
-      celeb_reality: celeb.celeb_reality || 'REAL',
+      celeb_reality: celeb.celeb_reality ?? null,
       claimed_by: celeb.claimed_by_member_id,
       created_at: celeb.created_at || '',
       content_count: resolveCelebContentCount(
@@ -648,7 +689,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   return {
     celebs,
-    total: (status && status !== 'all') || (tier && tier !== 'all') ? celebs.length : total,
+    total,
   }
 }
 // #endregion
