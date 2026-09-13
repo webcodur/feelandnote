@@ -1,14 +1,15 @@
 /*
   파일명: /components/features/home/CelebFiltersDesktop.tsx
   기능: 셀럽 컨트롤 (PC) - 1행 정렬/필터 영역
-  책임: 직군, 국적, 콘텐츠, 성별, 수록, 정렬 필터 UI 제공
+  책임: 직군, 국적, 콘텐츠, 성별, 작품 유무, 생년, 정렬 선택 모달 제공
 */
 "use client";
 
 import { useMemo } from "react";
 import { CELEB_CONTENT_PRESENCE, DEFAULT_CELEB_CONTENT_PRESENCE, type CelebContentPresence } from "@/constants/celebContentPresence";
 import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus } from "lucide-react";
-import { FilterCombobox, type FilterOption } from "@/components/shared/filters";
+import type { FilterOption } from "@/components/shared/filters";
+import FilterSelect from "@/components/shared/filters/FilterSelect";
 import { CelebBirthYearFilterDesktop } from "./CelebBirthYearFilter";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
@@ -185,9 +186,8 @@ export default function CelebFiltersDesktop({
         </div>
       )}
 
-      <FilterCombobox
+      <FilterSelect
         label={t("filterProfession")}
-        dropdownLabel={t("filterProfession")}
         value={getProfLabel(profession)}
         isActive={profession !== "all"}
         isLoading={isLoading}
@@ -196,9 +196,8 @@ export default function CelebFiltersDesktop({
         onSelect={onProfessionChange}
         icon={<Briefcase size={14} />}
       />
-      <FilterCombobox
+      <FilterSelect
         label={t("filterNationality")}
-        dropdownLabel={t("filterNationality")}
         value={getNatLabel(nationality)}
         isActive={nationality !== "all"}
         isLoading={isLoading}
@@ -209,9 +208,8 @@ export default function CelebFiltersDesktop({
         searchable
         searchPlaceholder={tExplore("searchFilter")}
       />
-      <FilterCombobox
+      <FilterSelect
         label={t("filterContent")}
-        dropdownLabel={t("filterContent")}
         value={getCtLabel(contentType)}
         isActive={contentType !== "all"}
         isLoading={isLoading}
@@ -220,9 +218,8 @@ export default function CelebFiltersDesktop({
         onSelect={onContentTypeChange}
         icon={<Layers size={14} />}
       />
-      <FilterCombobox
+      <FilterSelect
         label={t("filterGender")}
-        dropdownLabel={t("filterGender")}
         value={getGenderLabel(gender)}
         isActive={gender !== "all"}
         isLoading={isLoading}
@@ -232,9 +229,8 @@ export default function CelebFiltersDesktop({
         icon={<Users size={14} />}
       />
       {onContentPresenceChange && (
-        <FilterCombobox
+        <FilterSelect
           label={t("filterContentPresence")}
-          dropdownLabel={t("filterContentPresence")}
           value={t(`contentPresence.${contentPresence}`)}
           isActive={contentPresence !== "all"}
           isLoading={isLoading}
@@ -250,9 +246,8 @@ export default function CelebFiltersDesktop({
         isLoading={isLoading}
         onChange={onBirthYearChange}
       />
-      <FilterCombobox
+      <FilterSelect
         label={t("filterSort")}
-        dropdownLabel={t("filterSort")}
         value={t(`sort.${sortBy}`)}
         isActive={sortBy !== "content_count"}
         isLoading={isLoading}

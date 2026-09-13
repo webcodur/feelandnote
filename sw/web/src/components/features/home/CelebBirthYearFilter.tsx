@@ -2,17 +2,15 @@
   파일명: /components/features/home/CelebBirthYearFilter.tsx
   기능: 셀럽 목록의 생년 범위 필터 (range slider)
   책임: 연도 ↔ 트랙 위치 변환은 lib/celeb/birthYearScale에 위임하고,
-        이 파일은 드래그·키보드 조작과 데스크톱 드롭다운/모바일 모달 두 트리거만 담당한다
+        이 파일은 드래그·키보드 조작과 데스크톱/모바일 모달 트리거를 담당한다
 */
 "use client";
 
 import { useCallback, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type KeyboardEvent as ReactKeyboardEvent } from "react";
-import { createPortal } from "react-dom";
 import { Calendar, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import Modal, { ModalFooter } from "@/components/ui/Modal";
-import { Z_INDEX } from "@/constants/zIndex";
 import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX, yearToPercent, percentToYear } from "@/lib/celeb/birthYearScale";
 
 interface BirthYearRange {
@@ -124,11 +122,9 @@ function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilterProps) 
         <span>{t("all")}</span>
         {isFullRange && <Check size={16} aria-hidden="true" />}
       </button>
-      {!isFullRange && (
-        <p className="mb-4 text-sm font-bold text-text-primary">
-          {t("range", { min: formatYear(draft.min, t), max: formatYear(draft.max, t) })}
-        </p>
-      )}
+      <p aria-hidden={isFullRange} className="mb-4 min-h-5 text-sm font-bold text-text-primary">
+        {isFullRange ? "\u00a0" : t("range", { min: formatYear(draft.min, t), max: formatYear(draft.max, t) })}
+      </p>
 
       {/* 트랙 */}
       <div ref={trackRef} className="relative h-1.5 rounded-full bg-white/10 mx-2">
@@ -184,14 +180,11 @@ function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilterProps) 
   );
 }
 
-// ── 데스크톱: 트리거 칩 + 포털 드롭다운 (FilterChipDropdown과 동일 톤) ──
+// ── 데스크톱: 트리거 칩 + 모달 ──
 export function CelebBirthYearFilterDesktop({ min, max, isLoading = false, onChange }: CelebBirthYearFilterProps) {
   const t = useTranslations("home.ui");
   const tYear = useTranslations("home.ui.birthYear");
   const [isOpen, setIsOpen] = useState(false);
-  const [pos, setPos] = useState({ top: 0, left: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isActive = min !== undefined || max !== undefined;
   const valueLabel = useMemo(() => {
@@ -202,27 +195,20 @@ export function CelebBirthYearFilterDesktop({ min, max, isLoading = false, onCha
     });
   }, [isActive, min, max, tYear]);
 
-  const handleToggle = () => {
-    if (!isOpen && containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      setPos({ top: rect.bottom + 4, left: rect.left });
-    }
-    setIsOpen((prev) => !prev);
-  };
-
   return (
-    <div ref={containerRef} className="relative">
+    <>
       <Button
         type="button"
         unstyled
-        onClick={handleToggle}
+        onClick={() => setIsOpen(true)}
         disabled={isLoading}
         aria-label={`${t("filterBirthYear")}: ${valueLabel}`}
         aria-expanded={isOpen}
+        aria-haspopup="dialog"
         title={`${t("filterBirthYear")}: ${valueLabel}`}
         className={`
           flex items-center justify-center rounded-md border transition-none
-          bg-white/5 whitespace-nowrap overflow-hidden
+          bg-white/5 whitespace-nowrap overflow-hidden hover:bg-white/10 outline-none focus-visible:ring-2 focus-visible:ring-accent
           ${isActive ? 'border-accent shadow-[0_0_10px_rgba(var(--color-accent-rgb,_212,_175,_55),0.2)]' : 'border-accent/20 hover:border-accent/40'}
         `}
       >
@@ -238,26 +224,15 @@ export function CelebBirthYearFilterDesktop({ min, max, isLoading = false, onCha
         </div>
       </Button>
 
-      {isOpen && typeof document !== "undefined" && createPortal(
-        <>
-          {/* 바깥 클릭 감지용 전면 오버레이 — 다른 드롭다운과 동일한 z축에 둔다 */}
-          <div className="fixed inset-0" style={{ zIndex: Z_INDEX.dropdown - 1 }} onClick={() => setIsOpen(false)} />
-          <div
-            ref={dropdownRef}
-            role="dialog"
-            aria-label={t("filterBirthYear")}
-            className="fixed bg-black/95 backdrop-blur-xl border border-accent/30 rounded-md shadow-2xl"
-            style={{ top: pos.top, left: pos.left, zIndex: Z_INDEX.dropdown }}
-          >
-            <div className="border-b border-white/10 px-4 py-3 text-center text-sm font-semibold text-text-primary">
-              {t("filterBirthYear")}
-            </div>
-            <BirthYearSliderCore min={min} max={max} onChange={onChange} />
-          </div>
-        </>,
-        document.body
-      )}
-    </div>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title={t("filterBirthYear")} size="sm" closeOnOverlayClick>
+        <BirthYearSliderCore min={min} max={max} onChange={onChange} />
+        <ModalFooter>
+          <Button type="button" unstyled onClick={() => setIsOpen(false)} className="w-full h-10 bg-accent/10 hover:bg-accent/20 border border-accent/30 rounded-lg text-sm text-accent">
+            {t("go")}
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 }
 
