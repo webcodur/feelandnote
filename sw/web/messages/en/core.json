@@ -516,7 +516,8 @@
         "myth": "Fiction",
         "both": "Fact | Fiction"
       },
-      "viewCard": "View figure card"
+      "viewCard": "View figure card",
+      "playDialogue": "Show dialogue"
     },
     "celebViews": {
       "title": "Who viewed this profile",

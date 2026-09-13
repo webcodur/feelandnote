@@ -25,12 +25,6 @@ const DESCRIPTION_MAX = 175;
 const QUOTE_MAX = { ko: 90, en: 170 } as const;
 const totalCount = (counts: ContentCounts) => counts.BOOK + counts.VIDEO + counts.MUSIC + counts.GAME;
 
-function subjectParticle(name: string): string {
-  const last = name.charCodeAt(name.length - 1);
-  if (last < 0xac00 || last > 0xd7a3) return "이";
-  return (last - 0xac00) % 28 === 0 ? "가" : "이";
-}
-
 function cleanSourceTitle(title: string): string {
   return title
     .trim()
@@ -123,16 +117,18 @@ export function buildCelebTitleKo(input: CelebMetaInput): string {
     if (headline) return `${headline}, ${input.nickname}`;
     return titleLabelKo(input);
   }
-  // 앞은 한 줄 정의가 잡아 클릭을 부르고, 뒤의 기록은 잘려도 색인에 남아
-  // 「인물 + 책」류 검색에 걸린다. headline이 없을 때만 수식어로 물러선다.
-  const records = countPartsKo(input.counts);
-  const lead = headline ?? identityKo(input);
-  if (records.length > 0) {
-    const subject = headline ? `${headline}, ${input.nickname}` : identityKo(input);
-    return `${subject}${subjectParticle(input.nickname)} ${records.join(", ")}`;
+  // 이름과 이 페이지에서 볼 수 있는 기록을 먼저 알린다. 건수와 인물 설명은 description이 맡는다.
+  const types = [
+    input.counts.BOOK > 0 && "책",
+    input.counts.VIDEO > 0 && "영상",
+    input.counts.MUSIC > 0 && "음악",
+    input.counts.GAME > 0 && "게임",
+  ].filter(Boolean);
+  if (types.length > 0) {
+    return `${input.nickname}의 ${types.join("·")} 감상 기록`;
   }
   if (headline) return `${headline}, ${input.nickname}`;
-  return `${lead}: 인물 정보와 기록`;
+  return `${identityKo(input)}: 인물 정보와 기록`;
 }
 
 function descriptionHeadKo(input: CelebMetaInput): string {
@@ -201,11 +197,14 @@ export function buildCelebTitleEn(input: CelebMetaInput): string {
     if (headlineEn) return `${headlineEn} — ${input.nickname}`;
     return titleLabel(input);
   }
-  // 한국어와 같은 구성 — 앞의 한 줄 정의가 클릭을 부르고, 뒤의 기록은 색인에 남는다
-  const records = countPartsEn(input.counts);
-  if (records.length > 0) {
-    const subject = headlineEn ? `${headlineEn} — ${input.nickname}` : identityEn(input);
-    return `${subject}: ${records.join(", ")}`;
+  const types = [
+    input.counts.BOOK > 0 && "Books",
+    input.counts.VIDEO > 0 && "Videos",
+    input.counts.MUSIC > 0 && "Music",
+    input.counts.GAME > 0 && "Games",
+  ].filter(Boolean);
+  if (types.length > 0) {
+    return `${input.nickname}: ${types.join(", ")} & Cultural Records`;
   }
   if (headlineEn) return `${headlineEn} — ${input.nickname}`;
   return `${identityEn(input)}: Biography & Records`;

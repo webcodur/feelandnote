@@ -1,20 +1,15 @@
 /*
   파일명: /components/shared/CelebCard.tsx
   기능: 셀럽 카드 공통 컴포넌트
-  책임: 셀럽 정보를 다양한 형태로 표시하고
-        카드 클릭 → 오버레이(greeting + 버튼) → 인포 버튼으로 상세 모달을 띄운다.
-*/ // ------------------------------
-
+  책임: 인물 사진과 이름은 상세페이지로 연결하고, 대사와 조회수는 별도 버튼으로 제공한다.
+*/
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { ExternalLink, Eye } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Eye } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
-import LightCelebModal from "@/components/features/celeb/modals/LightCelebModal";
+import { getCelebProfileUrl } from "@/lib/url";
 import CelebViewsModal from "@/components/features/celeb/modals/CelebViewsModal";
-import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
-import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { CelebImage, VoiceBadge } from "@/components/ui";
 import type { CelebProfile } from "@/types/home";
 import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
@@ -22,7 +17,6 @@ import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
 
-// #region Types
 type Variant = "card" | "circle" | "medallion";
 type CardShape = "circle" | "square";
 
@@ -32,20 +26,16 @@ interface CelebCardProps {
   avatar_url?: string | null;
   title?: string | null;
   count?: number;
-  /** 최근 30일 조회수 — 값이 있을 때만 왼쪽 아래에 눈 아이콘과 함께 표시된다 */
+  /** 최근 30일 조회수 — 값이 있을 때만 조회수 버튼을 표시한다. */
   recentViews?: number | null;
   className?: string;
   celebProfile?: CelebProfile;
   variant?: Variant;
   /** card variant 전용: 이미지 형태 (circle | square) */
   shape?: CardShape;
-  // 부모에서 모달 관리 시 위임 (네비게이션 지원용)
-  onOpenModal?: (celeb: CelebProfile, index: number) => void;
-  index?: number;
-  /** 대사 자막 콜백 — 카드 클릭 시 greeting 대사를 DialogueSubtitle로 표시 */
+  /** 별도 대사 버튼에서 인사·한마디 자막을 표시한다. */
   onSubtitle?: (sub: DialogueSubtitleData) => void;
 }
-// #endregion
 
 // #region Variant Styles
 /* 뱃지 크기: 화면 폭이 아니라 "카드 자신의 폭"에 비례해 연속으로 변한다(@container + cqw).
@@ -72,194 +62,76 @@ export default function CelebCard({
   celebProfile,
   variant = "card",
   shape = "circle",
-  onOpenModal,
-  index = 0,
   onSubtitle,
 }: CelebCardProps) {
   const t = useTranslations("shared.celeb");
   const locale = useLocale();
-  const isLight = celebProfile?.celeb_tier === 'light';
-  /* 실존 축 표시 — 실존 인물(REAL)은 기본이라 붙이지 않고, 전승 쪽만 알려 준다 */
   const reality = celebProfile?.celeb_reality;
-  const realityLabel = reality === 'FICTION' ? t('reality.myth') : reality === 'BOTH' ? t('reality.both') : null;
-  const displayNickname = (locale === "en" && celebProfile?.nickname_en) ? celebProfile.nickname_en : nickname;
-  const displayTitle = (locale === "en" && celebProfile?.title_en) ? celebProfile.title_en : title;
-  const [selectedCeleb, setSelectedCeleb] = useState<CelebProfile | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const realityLabel = reality === "FICTION" ? t("reality.myth") : reality === "BOTH" ? t("reality.both") : null;
+  const displayNickname = locale === "en" && celebProfile?.nickname_en ? celebProfile.nickname_en : nickname;
+  const displayTitle = locale === "en" && celebProfile?.title_en ? celebProfile.title_en : title;
+  // UUID 주소도 기존 프로필 라우트가 정식 slug 주소로 연결한다.
+  const profileHref = getCelebProfileUrl({ id, slug: celebProfile?.slug });
   const [isViewsOpen, setIsViewsOpen] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const [voicePulse, setVoicePulse] = useState(0);
   const hasVoice = celebProfile?.has_voice ?? false;
-  /* 카드에 적을 조회수. recentViews가 넘어온 목록(인기 프로필)에서만 표시하고, 값은 누적을 쓴다.
-     누적이 아직 없는 인물은 최근 30일 값으로 대신한다. */
   const badgeViews = recentViews == null ? null : (celebProfile?.view_count ?? recentViews);
   const { fireGreeting } = useCelebGreeting({ onSubtitle, locale: locale as Locale });
-
-  // 외부 클릭 시 오버레이 닫기
-  useEffect(() => {
-    if (!isActive) return;
-    const handler = (e: MouseEvent) => {
-      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
-        setIsActive(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [isActive]);
-
-
-  /** greeting + quote 슬롯에서 균등 확률로 발사 (단일원천: useCelebGreeting) */
+  const dialogueLabel = `${displayNickname} · ${t("playDialogue")}`;
   const fireDialogue = useCallback(() => {
     if (!celebProfile) return;
     fireGreeting({ ...celebProfile, nickname: displayNickname });
     if (hasVoice) setVoicePulse(prev => prev + 1);
   }, [celebProfile, displayNickname, hasVoice, fireGreeting]);
 
-  const [voicePulse, setVoicePulse] = useState(0);
-  const [ripple, setRipple] = useState<{ x: number; y: number; key: number } | null>(null);
-  const rippleCounter = useRef(0);
+  const isCard = variant === "card";
+  const isCircle = variant === "circle";
+  const roundedClass = isCard && shape === "square" ? "rounded-md" : "rounded-full";
+  const config = isCard
+    ? { container: "aspect-square w-full", sizes: "(max-width: 640px) 120px, (max-width: 1024px) 180px, 200px", fallbackSize: 32 }
+    : isCircle
+      ? { container: "w-24 h-24", sizes: "96px", fallbackSize: 32 }
+      : { container: "w-14 h-14 sm:w-16 sm:h-16", sizes: "64px", fallbackSize: 20 };
 
-  // 카드 클릭 → 첫 클릭: 오버레이 열기 + 대사 / 재클릭: ripple + 대사 재발사
-  const handleCardClick = useCallback((e: React.MouseEvent) => {
-    if (isLoading) return;
-    if (!isActive) {
-      setIsActive(true);
-      fireDialogue();
-    } else {
-      // 클릭 좌표 → 카드 내 상대 좌표
-      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      setRipple({ x, y, key: ++rippleCounter.current });
-      fireDialogue();
-    }
-  }, [isLoading, isActive, fireDialogue]);
-
-  /* 조회수 표시 → 안내 모달. 카드 클릭(오버레이 열기 + 대사)으로 번지지 않게 전파를 끊는다 —
-     끊지 않으면 오버레이가 함께 열려 방금 누른 표시가 사라진다. */
-  const handleViewsClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsViewsOpen(true);
-  }, []);
-
-  // 인포 버튼 → 모달 열기
-  const handleInfoClick = useCallback(async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsActive(false);
-
-    if (celebProfile) {
-      if (onOpenModal) { onOpenModal(celebProfile, index); return; }
-      setSelectedCeleb(celebProfile);
-      setIsModalOpen(true);
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const data = await getCelebForModal(id);
-      if (data) {
-        if (onOpenModal) { onOpenModal(data, index); return; }
-        setSelectedCeleb(data);
-        setIsModalOpen(true);
-      }
-    } catch (error) {
-      console.error("Failed to fetch celeb details:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [celebProfile, onOpenModal, index, id]);
-
-  // #region Shared Styles
-  const vignetteBg = {
-    background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)"
-  };
-  // 인물에는 선명화 필터를 걸지 않는다. 원본 입자까지 증폭돼 얼굴이 지글거려 보인다.
-  // 그림자만 얹는다.
-  const subjectShadow =
-    "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]";
-
-  const GlowEffect = ({ isCelebGroup = false }: { isCelebGroup?: boolean }) => {
-    const hoverClasses = isCelebGroup
-      ? "group-hover/celeb:opacity-100 group-hover/celeb:scale-125 group-hover/celeb:bg-accent/40"
-      : "group-hover:opacity-100 group-hover:scale-125 group-hover:bg-accent/40";
-
-    return (
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 transition-[opacity,transform,background-color] duration-700 pointer-events-none mix-blend-screen z-0 ${hoverClasses}`} />
-    );
-  };
-
-  const NoiseTexture = () => (
-    <div
-      className="absolute inset-0 opacity-[0.06] pointer-events-none z-0 mix-blend-overlay"
-      style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
-    />
-  );
-  // #endregion
-
-  // #region Card Variant
-  if (variant === "card") {
-    const isCircleShape = shape === "circle";
-    const roundedClass = isCircleShape ? "rounded-full" : "rounded-md";
-
-    return (
-      <>
-        <div ref={cardRef} className={`relative flex flex-col items-center ${className}`}>
+  return (
+    <>
+      <div className={`relative flex flex-col items-center ${isCard ? "@container" : ""} ${className}`}>
+        <Link
+          href={profileHref}
+          prefetch={false}
+          aria-label={displayNickname}
+          className={`group flex flex-col items-center outline-none ${isCard ? "w-full" : isCircle ? "gap-2" : ""}`}
+        >
           <div
-            role="button"
-            tabIndex={0}
-            onClick={handleCardClick}
-            onKeyDown={(e) => { if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); handleCardClick(e as unknown as React.MouseEvent); } }}
-            className={`group @container relative aspect-square w-full ${roundedClass} overflow-hidden cursor-pointer
-              border border-white/5 hover:border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent
-              ${isActive ? "border-accent/40 ring-1 ring-accent/30" : ""}
-              ${isLoading ? "animate-pulse border-accent/30 pointer-events-none opacity-70" : ""}
-              ring-1 ring-inset ring-white/5 shadow-inner hover:shadow-[0_0_15px_rgba(var(--color-accent-rgb),0.3)]
+            className={`relative shrink-0 ${config.container} ${roundedClass}
+              border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner
+              group-hover:border-accent/60 group-focus-visible:border-accent group-focus-visible:ring-2 group-focus-visible:ring-accent
             `}
-            style={vignetteBg}
+            style={{ background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
           >
-            <NoiseTexture />
-            <GlowEffect />
-            <CelebImage
-              src={avatar_url}
-              alt={nickname}
-              shape={isCircleShape ? "circle" : "square"}
-              sizes="(max-width: 640px) 120px, (max-width: 1024px) 180px, 200px"
-              maxPx={300}
-              fallbackSize={32}
-              className={`z-10 relative ${subjectShadow} transition-transform duration-500 group-hover:scale-105`}
-            />
+            <div className={`absolute inset-0 overflow-hidden ${roundedClass}`}>
+              <div
+                className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+              />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 transition-[opacity,transform,background-color] duration-700 pointer-events-none mix-blend-screen group-hover:opacity-100 group-hover:scale-125 group-hover:bg-accent/40" />
+              <CelebImage
+                src={avatar_url}
+                alt={displayNickname}
+                shape={isCard && shape === "square" ? "square" : "circle"}
+                sizes={config.sizes}
+                maxPx={isCard ? 300 : undefined}
+                fallbackSize={config.fallbackSize}
+                className="z-10 relative [filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))] transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
 
-            {/* 음성 지원 뱃지 */}
-            {hasVoice && (
-              <div className="absolute top-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)] z-40">
-                <VoiceBadge pulse={voicePulse} />
-              </div>
+            {count !== undefined && count !== 0 && (
+              <span className={`${badgeStyles[variant]} z-20 flex items-center justify-center font-bold leading-none`} title={t("contentCount", { count })}>
+                {count}
+              </span>
             )}
-
-            {/* 열린 0만 숨긴다. Light도 실측 양수와 조사 완료 -1은 그대로 표시한다. */}
-            {!isActive && count !== undefined && count !== 0 && (
-              <div className={`${badgeStyles.card} z-20 flex items-center justify-center`} title={t("contentCount", { count })}>
-                <span className="font-bold leading-none">{count}</span>
-              </div>
-            )}
-
-            {/* 조회수 — trending 목록에서만 값이 온다(recentViews가 그 표식).
-                카드에는 값이 큰 누적을 적고, 최근 30일 값은 모달에서 보여준다. */}
-            {!isActive && badgeViews !== null && badgeViews > 0 && (
-              <button
-                type="button"
-                onClick={handleViewsClick}
-                aria-label={t("viewsBadge", { count: badgeViews })}
-                className="absolute bottom-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)] z-20 flex items-center gap-[clamp(2px,1cqw,4px)] h-[clamp(17px,13cqw,24px)] px-[clamp(4px,2cqw,8px)] rounded-full bg-black/70 border border-white/15 text-white/75 text-[clamp(9px,6.5cqw,12px)] group-hover:bg-black/75 group-hover:border-white/35 group-hover:text-white hover:bg-white hover:border-white hover:text-black hover:shadow-[0_0_10px_rgba(255,255,255,0.35)]"
-                title={t("viewsBadge", { count: badgeViews })}
-              >
-                <Eye className="shrink-0 opacity-70 w-[clamp(8px,6cqw,14px)] h-[clamp(8px,6cqw,14px)]" />
-                <span className="font-bold leading-none tabular-nums">{badgeViews}</span>
-              </button>
-            )}
-
-            {!isActive && realityLabel && (
+            {isCard && realityLabel && (
               <span
                 className="absolute bottom-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] z-20 flex h-[clamp(17px,13cqw,24px)] items-center rounded-full border border-white/15 bg-black/70 px-[clamp(4px,2cqw,8px)] text-[clamp(9px,6.5cqw,12px)] font-bold leading-none text-white/75 group-hover:border-white/35 group-hover:text-white"
                 title={realityLabel}
@@ -267,185 +139,61 @@ export default function CelebCard({
                 {realityLabel}
               </span>
             )}
-
-            {isLoading && (
-              <div className={`absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm ${roundedClass} z-10`}>
-                <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              </div>
-            )}
-
-            {/* 오버레이: 인포 + 팔로우 버튼 (하단 가로 배치) */}
-            {isActive && (
-              <div className={`absolute inset-0 z-30 flex items-end bg-black/50 backdrop-blur-sm ${roundedClass} p-2 animate-fade-in`}>
-                {/* 클릭 지점 ripple */}
-                {ripple && (
-                  <span
-                    key={ripple.key}
-                    className="absolute rounded-full bg-accent/40 pointer-events-none animate-[ripple_400ms_ease-out_forwards]"
-                    style={{ left: `${ripple.x}%`, top: `${ripple.y}%`, translate: '-50% -50%' }}
-                    onAnimationEnd={() => setRipple(null)}
-                  />
-                )}
-                <div className="flex gap-1.5 w-full">
-                  {celebProfile?.slug && (
-                    <Link
-                      href={`/celeb/${celebProfile.slug}`}
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label={displayNickname}
-                      className="flex-1 flex items-center justify-center py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-md text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                    >
-                      <ExternalLink size={16} />
-                    </Link>
-                  )}
-                  <CelebDetailCardButton
-                    label={`${t("viewCard")} — ${displayNickname}`}
-                    onClick={handleInfoClick}
-                    size="stretch"
-                    iconSize={16}
-                  />
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* 이름 + 수식어 */}
-          <div className="mt-1.5 w-full text-center px-0.5">
-            {/* 상세 주소는 카드 활성화 전에도 본문 링크로 제공한다. */}
-            {celebProfile?.slug && (
-              <Link
-                href={`/celeb/${celebProfile.slug}`}
-                prefetch={false}
-                className="block rounded-sm text-xs md:text-sm font-semibold text-text-primary truncate leading-tight hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                {displayNickname}
-              </Link>
-            )}
-            {!celebProfile?.slug && (
-              <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight">{displayNickname}</p>
-            )}
-            {displayTitle ? (
-              <p className="text-[10px] md:text-xs text-amber-400/80 truncate leading-tight mt-0.5">{displayTitle}</p>
-            ) : null}
-          </div>
-        </div>
-
-        {!onOpenModal && selectedCeleb && (
-          isLight ? (
-            <LightCelebModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-          ) : (
-            <CelebDetailModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-          )
-        )}
-
-        {isViewsOpen && recentViews !== undefined && recentViews !== null && (
-          <CelebViewsModal
-            isOpen={isViewsOpen}
-            onClose={() => setIsViewsOpen(false)}
-            nickname={displayNickname}
-            recentViews={recentViews}
-            totalViews={celebProfile?.view_count ?? null}
-            windowStart={celebProfile?.views_window_start ?? null}
-            windowEnd={celebProfile?.views_window_end ?? null}
-          />
-        )}
-      </>
-    );
-  }
-  // #endregion
-
-  // #region Circle & Medallion Variants
-  const isCircle = variant === "circle";
-  const config = variant === "circle"
-    ? { container: "w-24 h-24 rounded-full", sizes: "96px", fallbackSize: 32 }
-    : { container: "w-14 h-14 sm:w-16 sm:h-16 rounded-full", sizes: "64px", fallbackSize: 20 };
-
-  // circle/medallion 클릭 → 모달 열기 + greeting/quote 발사
-  const handleCircleClick = async () => {
-    if (isLoading) return;
-    fireDialogue();
-
-    if (celebProfile) {
-      if (onOpenModal) { onOpenModal(celebProfile, index); return; }
-      setSelectedCeleb(celebProfile);
-      setIsModalOpen(true);
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const data = await getCelebForModal(id);
-      if (data) {
-        if (onOpenModal) { onOpenModal(data, index); return; }
-        setSelectedCeleb(data);
-        setIsModalOpen(true);
-      }
-    } catch (error) {
-      console.error("Failed to fetch celeb details:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <>
-      <button
-        onClick={handleCircleClick}
-        disabled={isLoading}
-        className={`group/celeb flex flex-col items-center ${isCircle ? "gap-2" : ""} ${className}`}
-      >
-        <div className={`
-          relative shrink-0 ${config.container} p-0.5
-          border border-white/10 shadow-lg transition-[transform,box-shadow] duration-300
-          group-hover/celeb:border-accent/60
-          ${variant === "medallion" ? "group-hover/celeb:scale-105 shadow-xl" : ""}
-          ${isLoading ? "animate-pulse border-accent/50" : ""}
-        `}
-          style={{ background: "#0a0a0c" }}
-        >
-          <div
-            className="absolute inset-0.5 rounded-full overflow-hidden shadow-inner ring-1 ring-white/5 ring-inset"
-            style={vignetteBg}
-          >
-            <NoiseTexture />
-            <GlowEffect isCelebGroup />
-            <CelebImage
-              src={avatar_url}
-              alt={nickname}
-              shape="circle"
-              sizes={config.sizes}
-              fallbackSize={config.fallbackSize}
-              className={`z-10 relative ${subjectShadow} transition-transform duration-500 group-hover/celeb:scale-110`}
-            />
-          </div>
-
-          {count !== undefined && count !== 0 && (
-            <div className={`${badgeStyles[variant]} z-20 flex items-center justify-center font-bold`} title={t("contentCount", { count })}>
-              {count}
+          {isCard ? (
+            <div className="mt-1.5 w-full text-center px-0.5">
+              <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight group-hover:text-accent">{displayNickname}</p>
+              {displayTitle && (
+                <p className="text-[10px] md:text-xs text-amber-400/80 truncate leading-tight mt-0.5">{displayTitle}</p>
+              )}
             </div>
+          ) : isCircle ? (
+            <span className="text-sm font-medium text-text-secondary group-hover:text-accent text-center leading-tight line-clamp-2">
+              {displayNickname}
+            </span>
+          ) : null}
+        </Link>
+
+        {/* 사진 위에 놓되 링크 밖의 독립 버튼으로 제공한다. */}
+        <div className={`absolute top-0 pointer-events-none ${config.container}`}>
+          {onSubtitle && celebProfile && (
+            <button
+              type="button"
+              onClick={fireDialogue}
+              aria-label={dialogueLabel}
+              title={dialogueLabel}
+              className={`absolute z-30 pointer-events-auto rounded-full border border-white/20 bg-black/70 hover:bg-black hover:border-accent outline-none focus-visible:ring-2 focus-visible:ring-accent ${isCard ? "top-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)]" : "top-0 left-0"}`}
+            >
+              <VoiceBadge size={isCard ? "md" : "sm"} active={hasVoice} pulse={voicePulse} className="border-0 bg-transparent" />
+            </button>
           )}
-
-          {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm rounded-full">
-              <div className={`${isCircle ? "w-6 h-6" : "w-4 h-4"} border-2 border-white/30 border-t-white rounded-full animate-spin`} />
-            </div>
+          {isCard && badgeViews !== null && badgeViews > 0 && (
+            <button
+              type="button"
+              onClick={() => setIsViewsOpen(true)}
+              aria-label={`${displayNickname} · ${t("viewsBadge", { count: badgeViews })}`}
+              title={t("viewsBadge", { count: badgeViews })}
+              className="absolute bottom-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)] z-20 pointer-events-auto flex items-center gap-[clamp(2px,1cqw,4px)] h-[clamp(17px,13cqw,24px)] px-[clamp(4px,2cqw,8px)] rounded-full bg-black/70 border border-white/15 text-white/75 text-[clamp(9px,6.5cqw,12px)] hover:bg-white hover:border-white hover:text-black outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <Eye className="shrink-0 opacity-70 w-[clamp(8px,6cqw,14px)] h-[clamp(8px,6cqw,14px)]" />
+              <span className="font-bold leading-none tabular-nums">{badgeViews}</span>
+            </button>
           )}
         </div>
+      </div>
 
-        {isCircle && (
-          <span className="text-sm font-medium text-text-secondary group-hover/celeb:text-white text-center leading-tight line-clamp-2">
-            {displayNickname}
-          </span>
-        )}
-      </button>
-
-      {!onOpenModal && selectedCeleb && (
-        isLight ? (
-          <LightCelebModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-        ) : (
-          <CelebDetailModal celeb={selectedCeleb} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-        )
+      {isViewsOpen && recentViews != null && (
+        <CelebViewsModal
+          isOpen={isViewsOpen}
+          onClose={() => setIsViewsOpen(false)}
+          nickname={displayNickname}
+          recentViews={recentViews}
+          totalViews={celebProfile?.view_count ?? null}
+          windowStart={celebProfile?.views_window_start ?? null}
+          windowEnd={celebProfile?.views_window_end ?? null}
+        />
       )}
     </>
   );
-  // #endregion
 }

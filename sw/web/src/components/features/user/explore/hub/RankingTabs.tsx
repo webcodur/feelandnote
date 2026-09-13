@@ -8,7 +8,8 @@
 
 "use client";
 
-import { useCallback, useRef, useState, type ReactNode } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -45,10 +46,20 @@ function tabBody<T>(
   return render(items);
 }
 
-export default function RankingTabs({ trending, topByType, dailyPicks }: RankingTabsProps) {
+export default function RankingTabs(props: RankingTabsProps) {
+  return <Suspense fallback={<RankingTabsContent {...props} tab="trending" />}>
+    <RankingTabsWithLocation {...props} />
+  </Suspense>;
+}
+
+function RankingTabsWithLocation(props: RankingTabsProps) {
+  const searchParams = useSearchParams();
+  return <RankingTabsContent {...props} tab={searchParams.get("ranking") ?? "trending"} />;
+}
+
+function RankingTabsContent({ trending, topByType, dailyPicks, tab }: RankingTabsProps & { tab: string }) {
   const t = useTranslations("explore.hub");
   const tPending = useTranslations("pending");
-  const [tab, setTab] = useState(0);
   const [loadedTopByType, setLoadedTopByType] = useState(topByType);
   const [loadedDailyPicks, setLoadedDailyPicks] = useState(dailyPicks);
   const topByTypeRequest = useRef<Promise<void> | null>(null);
@@ -109,6 +120,10 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
     if (key === "allCelebs" && loadedDailyPicks === undefined) void loadDailyPicks();
   }, [loadDailyPicks, loadTopByType, loadedDailyPicks, loadedTopByType]);
 
+  useEffect(() => {
+    ensureTabData(tab);
+  }, [tab, ensureTabData]);
+
   const tabs = [
     {
       key: "trending",
@@ -128,13 +143,13 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
     return <p className="text-sm text-text-secondary text-center py-8">{tPending("empty")}</p>;
   }
 
-  const current = tabs[Math.min(tab, tabs.length - 1)];
+  const current = tabs.find((entry) => entry.key === tab) ?? tabs[0];
 
   return (
     <div className="space-y-6" aria-busy={initialPending || undefined}>
       {/* 탭 — 색 강조는 지연 없이 즉시(즉각 반응 원칙), 배경만 부드럽게 */}
       <div className="flex flex-wrap justify-center gap-2">
-        {tabs.map((tb, i) => {
+        {tabs.map((tb) => {
           const active = tb.key === current.key;
           return (
             <button
@@ -145,11 +160,14 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
               onMouseEnter={() => { if (!initialPending) ensureTabData(tb.key); }}
               onFocus={() => ensureTabData(tb.key)}
               onClick={() => {
-                setTab(i);
+                const url = new URL(window.location.href);
+                if (tb.key === "trending") url.searchParams.delete("ranking");
+                else url.searchParams.set("ranking", tb.key);
+                window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
                 ensureTabData(tb.key);
               }}
               className={
-                "px-5 py-2.5 rounded-full text-sm font-semibold border " +
+                "px-5 py-2.5 rounded-full text-sm font-semibold border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " +
                 (active
                   ? "bg-accent/15 text-accent border-accent/40"
                   : "bg-bg-card/40 text-text-secondary border-border/40 hover:text-text-primary hover:bg-bg-card hover:border-border")

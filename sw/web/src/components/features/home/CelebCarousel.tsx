@@ -6,8 +6,6 @@ import { Link } from "@/i18n/navigation";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
-import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
-import LightCelebModal from "@/components/features/celeb/modals/LightCelebModal";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
@@ -237,25 +235,13 @@ function GridSkeleton() {
 // #endregion
 
 function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: boolean }) {
-  const [modalCeleb, setModalCeleb] = useState<CelebProfile | null>(null);
-  const [modalIndex, setModalIndex] = useState(-1);
   const { handleSubtitle } = useDialogueSubtitle();
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
-
-  const handleOpenModal = (celeb: CelebProfile, index: number) => {
-    setModalCeleb(celeb);
-    setModalIndex(index);
-  };
-
-  const handleNavigate = (direction: "prev" | "next") => {
-    const idx = direction === "prev" ? modalIndex - 1 : modalIndex + 1;
-    if (idx >= 0 && idx < celebs.length) { setModalIndex(idx); setModalCeleb(celebs[idx]); }
-  };
 
   return (
     <>
       <div className={`grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-2 md:gap-6 ${loadingClass}`}>
-        {celebs.map((celeb, idx) => (
+        {celebs.map((celeb) => (
           <CelebCard
             key={celeb.id}
             id={celeb.id}
@@ -265,30 +251,10 @@ function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: b
             count={celeb.content_count}
             celebProfile={celeb}
             shape="square"
-            onOpenModal={handleOpenModal}
             onSubtitle={handleSubtitle}
-            index={idx}
           />
         ))}
       </div>
-      {modalCeleb && (
-        modalCeleb.celeb_tier === 'light' ? (
-          <LightCelebModal
-            celeb={modalCeleb}
-            isOpen={!!modalCeleb}
-            onClose={() => { setModalCeleb(null); setModalIndex(-1); }}
-          />
-        ) : (
-          <CelebDetailModal
-            celeb={modalCeleb}
-            isOpen={!!modalCeleb}
-            onClose={() => { setModalCeleb(null); setModalIndex(-1); }}
-            onNavigate={handleNavigate}
-            hasPrev={modalIndex > 0}
-            hasNext={modalIndex < celebs.length - 1}
-          />
-        )
-      )}
     </>
   );
 }

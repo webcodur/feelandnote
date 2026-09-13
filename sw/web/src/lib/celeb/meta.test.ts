@@ -21,15 +21,15 @@ test("full title describes only real viewing records", () => {
 
   assert.equal(
     buildCelebTitleKo(input),
-    "마이크로소프트 창업자 빌 게이츠가 감상한 책 10권, 영상 3편",
+    "빌 게이츠의 책·영상 감상 기록",
   );
   assert.equal(
     buildCelebTitleEn({ ...input, nickname: "Bill Gates", title: "Microsoft co-founder" }),
-    "Bill Gates, Microsoft co-founder: 10 books read, 3 videos watched",
+    "Bill Gates: Books, Videos & Cultural Records",
   );
 });
 
-test("full title leads with the headline while preserving viewing records", () => {
+test("full title leads with the name instead of a long headline; counts remain in the description", () => {
   const input: CelebMetaInput = {
     nickname: "젠슨 황",
     title: "엔비디아 CEO",
@@ -41,12 +41,14 @@ test("full title leads with the headline while preserving viewing records", () =
 
   assert.equal(
     buildCelebTitleKo(input),
-    "AI 가속 컴퓨팅 시대를 연 엔비디아의 수장, 젠슨 황이 감상한 책 5권, 게임 1개",
+    "젠슨 황의 책·게임 감상 기록",
   );
   assert.equal(
     buildCelebTitleEn({ ...input, nickname: "Jensen Huang" }),
-    "The Nvidia chief who ushered in accelerated AI computing — Jensen Huang: 5 books read, 1 game played",
+    "Jensen Huang: Books, Games & Cultural Records",
   );
+  assert.match(buildCelebDescriptionKo(input), /책 5권, 게임 1개/);
+  assert.match(buildCelebDescriptionEn(input), /5 books read, 1 game played/);
 });
 
 test("full profile without records does not claim recommendations", () => {

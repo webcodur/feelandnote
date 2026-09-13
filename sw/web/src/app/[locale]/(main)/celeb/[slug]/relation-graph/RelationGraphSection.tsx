@@ -3,10 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
-import { useCelebPreview } from "../useCelebPreview";
 import MobileRelationList from "./MobileRelationList";
 import styles from "./RelationGraphSection.module.css";
 import RelationInspector from "./RelationInspector";
@@ -38,10 +36,8 @@ export default function RelationGraphSection({
   });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [desktopDiagramReady, setDesktopDiagramReady] = useState(false);
-  const [previewRelation, setPreviewRelation] = useState<PersonNode | null>(null);
   const shellRef = useRef<HTMLDivElement>(null);
   const captureViewportAnchor = useViewportAnchor();
-  const { celeb: previewCeleb, loadingId, openCelebPreview, closeCelebPreview } = useCelebPreview("relations");
   const { speak, stateFor } = useRelationDialogue(locale);
 
   const isCenterSelected = selectedId === "__CENTER__";
@@ -129,17 +125,6 @@ export default function RelationGraphSection({
     setSelectedId(null);
   }, [captureViewportAnchor, effectiveMode, selectedFocus]);
 
-  const openPerson = async (person: PersonNode) => {
-    setPreviewRelation(person);
-    const result = await openCelebPreview(person.id);
-    if (!result) setPreviewRelation(null);
-  };
-
-  const closePreview = () => {
-    closeCelebPreview();
-    setPreviewRelation(null);
-  };
-
   const centerPerson: PersonNode | null = centerProfile ? {
     id: centerProfile.id,
     slug: centerProfile.slug,
@@ -187,13 +172,8 @@ export default function RelationGraphSection({
     total: model.people.length,
     profession: centerProfile?.profession ? tp(centerProfile.profession) : null,
     country: centerProfile?.nationality ? getCountryNameByLocale(centerProfile.nationality, locale) : null,
-    loading: false,
-    openLabel: t("relViewPersonCard"),
     goLabel: t("relGoPersonPage"),
     wikidataLabel: t("relViewWikidata"),
-    onOpen: () => {
-      document.getElementById("introduction")?.scrollIntoView({ behavior: "smooth" });
-    },
     speakLabel: t(centerSpeaker?.hasVoice ? "playGreetingVoice" : "dialogue_greeting"),
     speakingLoading: centerSpeaker?.loading,
     hasVoice: centerSpeaker?.hasVoice,
@@ -213,9 +193,7 @@ export default function RelationGraphSection({
     position: activePeople.indexOf(selected) + 1, total: activePeople.length,
     profession: selected.profession ? tp(selected.profession) : null,
     country: selected.nationality ? getCountryNameByLocale(selected.nationality, locale) : null,
-    loading: loadingId === selected.id, openLabel: t("relViewPersonCard"),
     goLabel: t("relGoPersonPage"), wikidataLabel: t("relViewWikidata"),
-    onOpen: () => void openPerson(selected),
     speakLabel: t(speaker?.hasVoice ? "playGreetingVoice" : "dialogue_greeting"),
     speakingLoading: speaker?.loading, hasVoice: speaker?.hasVoice, voicePulse: speaker?.pulse,
     onSpeak: speaker?.canSpeak ? () => void speak(selected) : undefined,
@@ -243,7 +221,6 @@ export default function RelationGraphSection({
         onSelectCenter={selectCenter} /> : null}
       <MobileRelationList label={t("relAllTitle", { name: centerName })} focusOptions={focusOptions}
         selectedFocus={selectedFocus} activePeople={activePeople} relationLabel={relationLabel}
-        onOpenPerson={(person) => void openPerson(person)} openLabel={t("relViewPersonCard")}
         onSpeak={(person) => void speak(person)} speakerFor={stateFor}
         speakLabels={{ voice: t("playGreetingVoice"), text: t("dialogue_greeting") }}
         goLabel={t("relGoPersonPage")} wikidataLabel={t("relViewWikidata")} />
@@ -253,7 +230,6 @@ export default function RelationGraphSection({
     {/* 실존 인물의 관계는 플랫폼에서 직접 편집하므로 출처를 한 곳으로 못 박지 않는다.
         원전이 곧 근거인 픽션에서만 기준을 밝힌다 */}
     {isFiction ? <p className={styles.sourceNote}>{t("fictionRelationGraphNote")}</p> : null}
-    {previewCeleb && previewRelation && <CelebDetailModal celeb={previewCeleb} isOpen
-      context={{ label: relationLabel(previewRelation), description: previewRelation.note }} onClose={closePreview} />}
+
   </div>;
 }

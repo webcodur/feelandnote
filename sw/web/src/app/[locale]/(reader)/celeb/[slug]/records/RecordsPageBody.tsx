@@ -2,10 +2,14 @@ import type { GetUserContentsResponse } from "@/actions/contents/getUserContents
 
 import BackToLibraryLink from "./BackToLibraryLink";
 import RecordsList from "./RecordsList";
+import { RECORDS_PAGE_SIZE, recordsPath } from "./recordsPageData";
 
 export interface RecordsLabels {
   title: string;
   back: string;
+  previous: string;
+  next: string;
+  page: string;
   source: string;
   emptyReview: string;
   spoiler: string;
@@ -34,6 +38,22 @@ export default function RecordsPageBody({
   labels,
 }: RecordsPageBodyProps) {
   const prefix = locale === "en" ? "/en" : "";
+  const pageLinkClass = "rounded-lg border border-white/15 px-4 py-2 text-sm text-text-primary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
+  const pagination = contents.totalPages > 1 && (
+    <nav aria-label={labels.page} className="flex items-center justify-between gap-3 py-5">
+      {contents.page > 1 ? (
+        <a href={`${prefix}${recordsPath(slug, contents.page - 1)}`} rel="prev" className={pageLinkClass}>
+          {labels.previous}
+        </a>
+      ) : <span />}
+      <span className="text-sm tabular-nums text-text-secondary">{labels.page}</span>
+      {contents.page < contents.totalPages ? (
+        <a href={`${prefix}${recordsPath(slug, contents.page + 1)}`} rel="next" className={pageLinkClass}>
+          {labels.next}
+        </a>
+      ) : <span />}
+    </nav>
+  );
 
   return (
     <>
@@ -51,13 +71,16 @@ export default function RecordsPageBody({
       </div>
 
       <section className="mx-auto max-w-3xl px-4 pb-10 pt-6 sm:pb-16 lg:max-w-4xl">
+        {pagination}
         <RecordsList
           locale={locale}
           items={contents.items}
           descriptions={descriptions}
           initialFocusContentId={initialFocusContentId}
+          startIndex={(contents.page - 1) * RECORDS_PAGE_SIZE}
           labels={labels}
         />
+        {pagination}
       </section>
     </>
   );
