@@ -1,3 +1,5 @@
+import { isBookIntroductionSource } from '@feelandnote/content-search/book-introduction-contract'
+import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { createHash, randomUUID } from 'node:crypto'
 import {
   existsSync,
@@ -376,7 +378,9 @@ function localeSources(edition: ExternalBookEdition): Record<string, unknown> {
     isbn: edition.sourceUrl,
     publisher: edition.sourceUrl,
     thumbnail: edition.sourceUrl,
-    description: edition.descriptionSourceUrl ?? 'confirmed_unavailable',
+    ...(isBookIntroductionSource(edition.description) && edition.descriptionSourceUrl
+      ? { description: edition.descriptionSourceUrl }
+      : {}),
   }
 }
 
@@ -409,7 +413,7 @@ export function buildResolvedSourceBookRegistration(
       locale: 'ko',
       title: koEdition.title,
       creator: koEdition.creator,
-      description: koEdition.description,
+      description: isBookIntroductionSource(koEdition.description) ? koEdition.description : null,
       isbn: koEdition.isbn,
       publisher: koEdition.publisher,
       thumbnail_url: koEdition.thumbnailUrl,
@@ -430,9 +434,8 @@ export function buildResolvedSourceBookRegistration(
       thumbnail_url: enEdition.thumbnailUrl,
       affiliate_url: null,
       sources: {
-        ...localeSources(enEdition),
+        ...Object.fromEntries(Object.entries(localeSources(enEdition)).filter(([key]) => key !== 'description')),
         creator: 'verified_korean_transliteration',
-        description: 'confirmed_unavailable',
         translation: 'verified_unavailable',
         translationEvidence: manifest.ko.evidenceUrls,
       },
@@ -446,7 +449,7 @@ export function buildResolvedSourceBookRegistration(
       locale: 'en',
       title: enEdition.title,
       creator: enEdition.creator,
-      description: enEdition.description,
+      description: isBookIntroductionSource(enEdition.description) ? enEdition.description : null,
       isbn: enEdition.isbn,
       publisher: enEdition.publisher,
       thumbnail_url: enEdition.thumbnailUrl,
@@ -469,7 +472,7 @@ export function buildResolvedSourceBookRegistration(
     representativeExternalId: representative.isbn,
     releaseDate: representative.releaseDate,
     metadata: {
-      ...representative.sourceMetadata,
+      ...withoutBookDescription(representative.sourceMetadata),
       isbn: representative.isbn,
       publisher: representative.publisher,
       figureBook: {
@@ -590,10 +593,7 @@ function mergeLocale(
     else if (before !== after) conflicts.push(`${existing.locale}.${field} belongs to a different edition`)
   }
 
-  if (!comparableText(row.description)) row.description = desired.description
-  else if (desired.description && comparableText(row.description) !== comparableText(desired.description)) {
-    conflicts.push(`${existing.locale}.description differs from the selected edition`)
-  }
+  if (row.description === null) row.description = desired.description
 
   const storedAffiliate = row.affiliate_url
   const storedAffiliateIsLinkArray = Array.isArray(storedAffiliate)
@@ -628,8 +628,13 @@ function mergeLocale(
     && !Array.isArray(storedSources)
   if (storedSourcesAreObject) {
     row.sources = mergeObject(
-      storedSources as Record<string, unknown>,
-      desired.sources,
+      existing.description === null
+        ? Object.fromEntries(Object.entries(storedSources).filter(([key]) => key !== 'description'))
+        : storedSources as Record<string, unknown>,
+      existing.description !== null
+        && (existing.description !== desired.description || Boolean((storedSources as Record<string, unknown>).description))
+        ? Object.fromEntries(Object.entries(desired.sources).filter(([key]) => key !== 'description'))
+        : desired.sources,
       conflicts,
       `${existing.locale}.sources`,
       explicitReuse,
@@ -659,7 +664,7 @@ function explicitReuseMetadata(
   if (!desiredSource || typeof desiredSource !== 'object' || Array.isArray(desiredSource)) {
     throw new Error('resolved metadata has no figureBook identity')
   }
-  const metadata = { ...(existing ?? {}) }
+  const metadata = { ...existing }
   const currentSource = metadata.figureBook
   if (currentSource !== undefined && currentSource !== null
       && (typeof currentSource !== 'object' || Array.isArray(currentSource))) {
@@ -673,6 +678,7 @@ function explicitReuseMetadata(
   const mergedSource = { ...((currentSource as Record<string, unknown> | null) ?? {}) }
   const conflicts: string[] = []
   let changed = currentSource === undefined || currentSource === null
+    || stableJson(metadata) !== stableJson(existing ?? {})
   for (const [key, value] of Object.entries(desiredSource as Record<string, unknown>)) {
     const current = mergedSource[key]
     if (current === undefined || current === null || current === '') {
@@ -915,7 +921,7 @@ export function buildFigureBookPlan(
     external_source: resolved.representativeExternalSource,
     external_id: resolved.representativeExternalId,
     release_date: resolved.releaseDate,
-    metadata: resolved.metadata,
+    metadata: withoutBookDescription(resolved.metadata),
     member_count: 0,
     celeb_count: 0,
     record_count: 0,
@@ -1286,7 +1292,8 @@ CROSS JOIN LATERAL jsonb_to_recordset(batch.payload -> 'localeWrites') AS row(
 ON CONFLICT (content_id, locale) DO UPDATE SET
   title = excluded.title,
   creator = excluded.creator,
-  description = excluded.description,
+  description = CASE WHEN content_locales.isbn IS NOT DISTINCT FROM excluded.isbn
+    THEN coalesce(content_locales.description, excluded.description) ELSE excluded.description END,
   isbn = excluded.isbn,
   publisher = excluded.publisher,
   thumbnail_url = excluded.thumbnail_url,
@@ -1344,7 +1351,7 @@ JOIN public.contents AS content ON content.id = row.content_id
 ON CONFLICT (content_id, locale, isbn) WHERE isbn IS NOT NULL DO UPDATE SET
   title = excluded.title,
   creator = excluded.creator,
-  description = excluded.description,
+  description = coalesce(figure_book_editions.description, excluded.description),
   publisher = excluded.publisher,
   thumbnail_url = excluded.thumbnail_url,
   release_date = excluded.release_date,
@@ -1352,7 +1359,8 @@ ON CONFLICT (content_id, locale, isbn) WHERE isbn IS NOT NULL DO UPDATE SET
   text_scope = excluded.text_scope,
   sort_order = excluded.sort_order,
   verified = excluded.verified,
-  sources = excluded.sources;
+  sources = CASE WHEN figure_book_editions.description IS NOT NULL
+    THEN figure_book_editions.sources ELSE excluded.sources END;
 
 DO $readback$
 DECLARE

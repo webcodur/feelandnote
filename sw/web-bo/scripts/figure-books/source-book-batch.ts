@@ -7,6 +7,7 @@
  * pnpm figure-books:book -- --file ../../data/celeb/fiction/<work>-book.json --apply
  */
 
+import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { createHash } from 'node:crypto'
 import { spawn } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
@@ -230,17 +231,6 @@ async function loadBookCatalog(db: DatabaseClient): Promise<BookCatalogSnapshot>
   return { contents, locales }
 }
 
-function cleanDescription(value: unknown): string | null {
-  const text = typeof value === 'string'
-    ? value
-    : value && typeof value === 'object' && !Array.isArray(value)
-      ? (value as Record<string, unknown>).value
-      : null
-  if (typeof text !== 'string') return null
-  const cleaned = text.replace(/\r\n?/gu, '\n').replace(/\n{3,}/gu, '\n\n').trim()
-  return cleaned || null
-}
-
 async function fetchJson<T>(url: string, field: string): Promise<T> {
   const response = await fetch(url, {
     headers: { Accept: 'application/json', 'User-Agent': 'Feelandnote fiction source registrar' },
@@ -256,10 +246,15 @@ async function resolveKakaoEdition(isbn: string): Promise<ExternalBookEdition> {
   if (book.metadata.isbn.replace(/[^0-9]/gu, '') !== isbn) {
     throw new Error(`Kakao returned a different ISBN for ${isbn}: ${book.metadata.isbn}`)
   }
+  // 카카오는 수입 원서도 낸다. 한국 ISBN(978-89·979-11)이 아니면 한국어판이 아니므로 ko locale로 쓰지 않는다.
+  if (!/^(97889|9791)/u.test(isbn)) {
+    throw new Error(`ISBN ${isbn} is not a Korean edition (978-89·979-11), refusing ko locale`)
+  }
   if (!book.title.trim() || !book.creator.trim() || !book.metadata.publisher.trim()
       || !book.coverImageUrl?.trim()) {
     throw new Error(`Kakao edition ${isbn} is missing title, creator, publisher, or cover`)
   }
+  const introduction = await fetchBookIntroduction({ isbn, locale: 'ko' })
   return {
     source: 'kakao_book',
     isbn,
@@ -267,9 +262,9 @@ async function resolveKakaoEdition(isbn: string): Promise<ExternalBookEdition> {
     creator: book.creator.trim(),
     thumbnailUrl: book.coverImageUrl.trim(),
     publisher: book.metadata.publisher.trim(),
-    description: book.metadata.description.trim() || null,
+    description: introduction?.source ?? null,
     sourceUrl: book.metadata.link,
-    descriptionSourceUrl: book.metadata.description.trim() ? book.metadata.link : null,
+    descriptionSourceUrl: introduction?.sourceUrl ?? null,
     releaseDate: /^\d{4}-\d{2}-\d{2}$/u.test(book.metadata.publishDate)
       ? book.metadata.publishDate
       : null,
@@ -292,6 +287,7 @@ type OpenLibraryEditionResponse = {
   isbn_13?: string[]
   covers?: number[]
   works?: Array<{ key?: string }>
+  languages?: Array<{ key?: string }>
   description?: unknown
 }
 
@@ -342,20 +338,21 @@ async function resolveOpenLibraryEdition(isbn: string): Promise<ExternalBookEdit
   if (!edition.key || !title || authors.length === 0 || !publisher) {
     throw new Error(`OpenLibrary edition ${isbn} is missing edition key, title, author, or publisher`)
   }
+  // 언어가 비어 있으면 ISBN 국가군으로 본다. 978-0·978-1·979-8만 영어권이다(일본 978-4, 프랑스 978-2, 독일 978-3 판본이 영문판으로 들어온 적이 있다).
+  const editionLanguages = edition.languages?.map((language) => language?.key).filter((key): key is string => Boolean(key)) ?? []
+  const isEnglish = editionLanguages.length > 0
+    ? editionLanguages.includes('/languages/eng')
+    : /^(9780|9781|9798)/u.test(isbn)
+  if (!isEnglish) {
+    throw new Error(`OpenLibrary edition ${isbn} is not an English edition, refusing en locale`)
+  }
   const coverId = edition.covers?.find((value) => Number.isInteger(value) && value > 0)
   const thumbnailUrl = coverId
     ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`
     : `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
   await assertOpenLibraryCover(thumbnailUrl, isbn)
-  const editionDescription = cleanDescription(edition.description)
-  const workDescription = cleanDescription(work?.description)
-  const description = editionDescription ?? workDescription
   const sourceUrl = `${OPENLIBRARY_BASE_URL}${edition.key}`
-  const descriptionSourceUrl = editionDescription
-    ? sourceUrl
-    : workDescription && workKey
-      ? `${OPENLIBRARY_BASE_URL}${workKey}`
-      : null
+  const introduction = await fetchBookIntroduction({ isbn, locale: 'en' })
   return {
     source: 'openlibrary',
     isbn,
@@ -363,9 +360,9 @@ async function resolveOpenLibraryEdition(isbn: string): Promise<ExternalBookEdit
     creator: authors.join(', '),
     thumbnailUrl,
     publisher,
-    description,
+    description: introduction?.source ?? null,
     sourceUrl,
-    descriptionSourceUrl,
+    descriptionSourceUrl: introduction?.sourceUrl ?? null,
     releaseDate: /^\d{4}-\d{2}-\d{2}$/u.test(edition.publish_date ?? '')
       ? edition.publish_date!
       : null,

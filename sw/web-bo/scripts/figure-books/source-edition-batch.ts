@@ -5,10 +5,11 @@
  * pnpm exec node --env-file=sw/web-bo/.env --import tsx sw/web-bo/scripts/figure-books/source-edition-batch.ts --file <판본.json>
  */
 
+import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
 import { readFileSync } from 'node:fs'
 import { isAbsolute, resolve } from 'node:path'
 import { createClient } from '@supabase/supabase-js'
-import { getBookByIsbnWithFullDescription } from '@feelandnote/content-search/kakao-books'
+import { getBookByIsbn } from '@feelandnote/content-search/kakao-books'
 
 const DB_URL = process.env.NEXT_PUBLIC_DB_API_URL
 const SERVICE_KEY = process.env.DB_SECRET_KEY
@@ -59,7 +60,7 @@ type ResolvedEdition = EditionInput & {
   publisher: string | null
   thumbnailUrl: string | null
   releaseDate: string | null
-  sources: unknown
+  sources: Record<string, unknown>
 }
 
 type StoredEdition = {
@@ -68,6 +69,8 @@ type StoredEdition = {
   locale: string
   isbn: string | null
   title: string
+  description: string | null
+  sources: Record<string, unknown> | null
 }
 
 function usage() {
@@ -254,22 +257,21 @@ async function resolveOpenLibrary(input: EditionInput): Promise<ResolvedEdition>
 
 async function resolveEdition(input: EditionInput): Promise<ResolvedEdition> {
   if (input.locale === 'en') return resolveOpenLibrary(input)
-  const lookup = await getBookByIsbnWithFullDescription(input.isbn)
+  const lookup = await getBookByIsbn(input.isbn)
   if (!lookup) throw new Error(`${input.isbn}: 카카오 판본을 찾을 수 없습니다.`)
-  if (lookup.book.metadata.isbn.replace(/[\s-]/g, '') !== input.isbn) {
+  if (lookup.metadata.isbn.replace(/[\s-]/g, '') !== input.isbn) {
     throw new Error(`${input.isbn}: 카카오 응답 ISBN이 다릅니다.`)
   }
   return {
     ...input,
-    title: input.editionTitle ?? lookup.book.title,
-    creator: lookup.book.creator || null,
-    description: lookup.fullDescription ?? lookup.book.metadata.description ?? null,
-    publisher: lookup.book.metadata.publisher || null,
-    thumbnailUrl: lookup.book.coverImageUrl,
-    releaseDate: exactDate(lookup.book.metadata.publishDate),
+    title: input.editionTitle ?? lookup.title,
+    creator: lookup.creator || null,
+    description: null,
+    publisher: lookup.metadata.publisher || null,
+    thumbnailUrl: lookup.coverImageUrl,
+    releaseDate: exactDate(lookup.metadata.publishDate),
     sources: {
-      primary: lookup.book.metadata.link,
-      ...(lookup.fullDescription ? { description: lookup.book.metadata.link } : {}),
+      primary: lookup.metadata.link,
     },
   }
 }
@@ -302,7 +304,7 @@ async function verifySourceWorks(inputs: EditionInput[]) {
 async function findStoredEdition(input: EditionInput): Promise<StoredEdition | null> {
   const { data, error } = await db
     .from('figure_book_editions')
-    .select('id,content_id,locale,isbn,title')
+    .select('id,content_id,locale,isbn,title,description,sources')
     .eq('content_id', input.contentId)
     .eq('locale', input.locale)
     .eq('isbn', input.isbn)
@@ -330,14 +332,14 @@ async function insertEdition(input: ResolvedEdition): Promise<StoredEdition> {
       verified: true,
       sources: input.sources,
     })
-    .select('id,content_id,locale,isbn,title')
+    .select('id,content_id,locale,isbn,title,description,sources')
     .single()
   if (error) throw new Error(`${input.isbn}: 판본 등록 실패: ${error.message}`)
   return data as StoredEdition
 }
 
-async function updateEdition(id: number, input: ResolvedEdition): Promise<StoredEdition> {
-  const { data, error } = await db
+async function updateEdition(stored: StoredEdition, input: ResolvedEdition): Promise<StoredEdition> {
+  let query = db
     .from('figure_book_editions')
     .update({
       title: input.title,
@@ -352,12 +354,12 @@ async function updateEdition(id: number, input: ResolvedEdition): Promise<Stored
       verified: true,
       sources: input.sources,
     })
-    .eq('id', id)
+    .eq('id', stored.id)
     .eq('content_id', input.contentId)
     .eq('locale', input.locale)
     .eq('isbn', input.isbn)
-    .select('id,content_id,locale,isbn,title')
-    .single()
+  query = stored.description === null ? query.is('description', null) : query.eq('description', stored.description)
+  const { data, error } = await query.select('id,content_id,locale,isbn,title,description,sources').single()
   if (error) throw new Error(`${input.isbn}: 판본 갱신 실패: ${error.message}`)
   return data as StoredEdition
 }
@@ -380,8 +382,20 @@ async function main() {
   const document = JSON.parse(readFileSync(options.file, 'utf8'))
   const inputs = parseInputs(document)
   await verifySourceWorks(inputs)
-  const resolved = await concurrentMap(inputs, resolveEdition)
   const existing = await concurrentMap(inputs, findStoredEdition)
+  const resolved = await concurrentMap(inputs, async (input) => {
+    const edition = await resolveEdition(input)
+    const stored = existing[inputs.indexOf(input)]
+    if (stored?.description != null) {
+      edition.description = stored.description
+      edition.sources = { ...edition.sources, ...(stored.sources ?? {}) }
+    } else {
+      const introduction = await fetchBookIntroduction({ isbn: input.isbn, locale: input.locale })
+      edition.description = introduction?.source ?? null
+      if (introduction.source && introduction.sourceUrl) edition.sources.description = introduction.sourceUrl
+    }
+    return edition
+  })
 
   const plan = resolved.map((edition, index) => ({
     action: existing[index] ? 'update' : 'insert',
@@ -400,12 +414,12 @@ async function main() {
     const target = resolved[index]
     const existingEdition = existing[index]
     const edition = existingEdition
-      ? await updateEdition(existingEdition.id, target)
+      ? await updateEdition(existingEdition, target)
       : await insertEdition(target)
     const product = target.product
     if (product) await replaceProduct(edition.id, product)
     const readback = await findStoredEdition(target)
-    if (!readback || readback.id !== edition.id) {
+    if (!readback || readback.id !== edition.id || readback.description !== target.description) {
       throw new Error(`${target.isbn}: 판본 readback이 일치하지 않습니다.`)
     }
     console.log(`✔ ${readback.title} · edition:${readback.id}${product ? ' · product:active' : ''}`)

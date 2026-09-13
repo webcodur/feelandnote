@@ -90,7 +90,7 @@ function edition(
       ? `https://t1.daumcdn.net/lbook/${isbn}.jpg`
       : `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`,
     publisher: isKo ? '민음사' : 'Penguin Classics',
-    description: isKo ? '트로이 전쟁 뒤 오디세우스의 귀향을 다룬 서사시.' : 'Odysseus returns home after Troy.',
+    description: isKo ? 'DAUM' : 'OPEN',
     sourceUrl: isKo ? 'https://search.daum.net/search?bookId=1' : `https://openlibrary.org/isbn/${isbn}`,
     descriptionSourceUrl: isKo ? 'https://search.daum.net/search?bookId=1' : 'https://openlibrary.org/works/OL1W',
     releaseDate: isKo ? '2022-01-01' : null,
@@ -273,6 +273,44 @@ test('번역본 없음 예외의 ko locale은 원제·영문판 ISBN·표지를 
   assert.equal(koLocale.creator, '호메로스')
   assert.equal(koLocale.affiliate_url, null)
   assert.equal(enLocale.affiliate_url, null)
+})
+
+test('외부 책 소개는 본문 대신 확인한 출처 예약값만 locale·판본에 저장한다', () => {
+  const manifest = parseFigureBookManifest(publishedInput())
+  const ko = edition('kakao_book', KO_ISBN, {
+    sourceMetadata: { isbn: KO_ISBN, description: 'publisher copy', contents: 'search excerpt', summary: 'summary', link: 'https://example.com/book' },
+  })
+  const resolved = buildResolvedSourceBookRegistration(manifest, {
+    ko,
+    en: edition('openlibrary', EN_ISBN),
+  })
+  assert.ok(ko.description)
+  assert.deepEqual(resolved.locales.map((locale) => locale.description), ['DAUM', 'OPEN'])
+  assert.equal(resolved.locales[0].sources.description, ko.descriptionSourceUrl)
+  assert.equal(resolved.metadata.description, undefined)
+  assert.equal(resolved.metadata.contents, undefined)
+  assert.equal(resolved.metadata.summary, undefined)
+  assert.equal(resolved.metadata.link, 'https://example.com/book')
+  const plan = buildFigureBookPlan(manifest, resolved, { contents: [], locales: [] })
+  const sql = buildAtomicSourceBookApplySql(plan)
+  const encoded = sql.match(/INSERT INTO source_book_batch VALUES \(convert_from\(decode\('([^']+)'/u)?.[1]
+  assert.ok(encoded)
+  const payload = JSON.parse(Buffer.from(encoded, 'base64').toString('utf8'))
+  assert.ok(payload.localeWrites.every((row: { description: unknown }) => ['DAUM', 'OPEN'].includes(String(row.description))))
+  assert.ok(payload.editionWrites.every((row: { description: unknown }) => ['DAUM', 'OPEN'].includes(String(row.description))))
+})
+
+test('재수집은 기존 번역문과 예약값을 보존하고 NULL 소개만 선정한다', () => {
+  const { manifest, resolved } = resolvedPublished()
+  for (const description of ['보존할 번역 소개문', 'KAKAO', null]) {
+    const existing = storedContent({ metadata: resolved.metadata })
+    const ko = storedLocale('ko', resolved, { description, sources: { ...resolved.locales[0].sources, description: 'https://example.com/previous' } })
+    const checked = buildFigureBookPlan(manifest, resolved, { contents: [existing], locales: [ko, storedLocale('en', resolved)] })
+    assert.equal(checked.action, 'reuse')
+    const after = checked.localeChanges.find((change) => change.locale === 'ko')!.after
+    assert.equal(after.description, description ?? 'DAUM')
+    if (description !== null) assert.equal((after.sources as Record<string, unknown>).description, 'https://example.com/previous')
+  }
 })
 
 test('한국어판은 Kakao, 영문판은 OpenLibrary 이외의 메타 출처를 거부한다', () => {
@@ -639,7 +677,7 @@ test('대상 locale의 legacy non-object sources는 explicit reuse update에서�
       storedLocale('ko', resolved, { content_id: LEGACY_SOURCE_ERROR_CONTENT_ID }),
       storedLocale('en', resolved, {
         content_id: LEGACY_SOURCE_ERROR_CONTENT_ID,
-        description: null,
+        publisher: null,
         sources: legacySources,
       }),
     ],

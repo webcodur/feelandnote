@@ -12,6 +12,8 @@
  * node --env-file=.env scripts/figure-books/bulk-register-books.mjs --apply
  */
 
+const introductionModule = await import('@feelandnote/content-search/book-introduction')
+const { fetchBookIntroduction } = introductionModule.default ?? introductionModule
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -48,6 +50,9 @@ function deterministicContentId(name) {
 }
 
 const bare = (value) => String(value ?? '').replace(/[^0-9Xx]/g, '')
+
+// 카카오는 수입 원서도 낸다. 한국 ISBN(978-89·979-11)이 아니면 한국어판이 아니므로 ko로 등록하지 않는다.
+const isKoreanIsbn = (value) => String(value ?? '').split(' ').some((isbn) => /^(97889|9791)/.test(bare(isbn)))
 
 async function allRows(label, page) {
   const rows = []
@@ -142,12 +147,14 @@ async function main() {
 
   // 3) 카카오 상세를 동시에 받는다.
   const details = new Array(work.length)
+  const introductions = new Array(work.length)
   let cursor = 0
   const fetcher = async () => {
     while (cursor < work.length) {
       const index = cursor
       cursor += 1
       details[index] = await kakaoByIsbn(work[index].isbn)
+      if (details[index]) introductions[index] = await fetchBookIntroduction({ isbn: work[index].isbn, locale: 'ko' })
       if ((index + 1) % 100 === 0) console.log(`  카카오 조회 ${index + 1}/${work.length}`)
     }
   }
@@ -164,6 +171,7 @@ async function main() {
     const target = work[index]
     const document = details[index]
     if (!document) { skipped.push({ isbn: target.isbn, reason: 'kakao_not_found' }); continue }
+    if (!isKoreanIsbn(document.isbn)) { skipped.push({ isbn: target.isbn, reason: 'non_korean_isbn' }); continue }
     const title = String(document.title ?? '').trim()
     const creator = creatorOf(document)
     if (!title || !creator) { skipped.push({ isbn: target.isbn, reason: 'title_or_creator_missing' }); continue }
@@ -177,7 +185,7 @@ async function main() {
       primary: 'kakao_book',
       title: sourceUrl, creator: sourceUrl, isbn: sourceUrl,
       publisher: sourceUrl, thumbnail: sourceUrl,
-      description: document.contents ? sourceUrl : 'confirmed_unavailable',
+      ...(introductions[index]?.source ? { description: introductions[index].sourceUrl } : {}),
     }
 
     contents.push({
@@ -203,7 +211,8 @@ async function main() {
     })
     const locale = {
       content_id: contentId, locale: 'ko', title, creator,
-      description: document.contents || null, isbn: target.isbn,
+      description: introductions[index]?.source ?? null,
+      isbn: target.isbn,
       publisher: document.publisher || null, thumbnail_url: document.thumbnail || null,
       verified: true, sources,
     }
