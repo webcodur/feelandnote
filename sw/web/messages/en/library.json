@@ -41,7 +41,7 @@
       "curated": "Lists chosen by universities, the press, and award bodies.",
       "exploreCurated": "Browse the lists",
       "popularLabel": "Popular Works",
-      "popular": "Explore this week's trending bestsellers and category steadysellers."
+      "popular": "Explore book trends and lists by medium, collected weekly."
     },
     "meta": {
       "title": "Works - Celebrity Reading Lists & Movie Picks",
@@ -400,35 +400,42 @@
       "overview": "Overview"
     },
     "popular": {
-      "metaTitle": "Popular Works - Weekly Bestsellers & All-Time Classics",
-      "metaDescription": "Explore this week's trending bestsellers alongside timeless classics chosen by notable figures.",
+      "metaTitle": "Popular Works - Weekly Collections & All-Time Classics",
+      "metaDescription": "Explore book trends, lists by medium, and classics chosen by notable figures, with sources and collection dates.",
       "title": "Popular Works",
       "description": "Timeless classics chosen by great minds and thinkers across history.",
-      "descBestseller": "Weekly bestsellers and trending works.",
-      "criteriaCatAll": "Based on OpenLibrary global weekly trending books",
-      "criteriaCatHumanities": "Based on OpenLibrary humanities & philosophy rankings",
-      "criteriaCatBusiness": "Based on OpenLibrary business & economics rankings",
-      "criteriaCatFiction": "Based on OpenLibrary fiction & literature rankings",
-      "criteriaCatSteady": "Based on OpenLibrary timeless classic literature",
-      "criteriaMediaAll": "Based on real-time weekly trends across books, videos, games, and music",
-      "criteriaVideo": "Based on TMDB weekly trending movies and series rankings",
-      "criteriaGame": "Based on Steam global top sellers and popular games chart",
-      "criteriaMusic": "Based on Apple Music global most played top charts",
+      "descBestseller": "Book trends and lists by medium, collected weekly.",
+      "criteriaCatAll": "OpenLibrary weekly trending books",
+      "criteriaCatHumanities": "OpenLibrary subject list for philosophy",
+      "criteriaCatBusiness": "OpenLibrary subject list for business",
+      "criteriaCatFiction": "OpenLibrary subject list for fiction",
+      "criteriaCatSteady": "OpenLibrary subject list for classic literature",
+      "criteriaMediaAll": "Selections from separate book, video, game, and music lists; not a combined ranking.",
+      "criteriaVideo": "TMDB weekly trending movies and series",
+      "criteriaGame": "Steam top-selling games",
+      "criteriaMusic": "Apple Music most-played songs in the US",
       "criteriaBasisAll": "Aggregated by total recommendations and records across feelandnote figures",
       "criteriaBasisEra": "Aggregated by records of figures from the selected era",
       "criteriaBasisProfession": "Aggregated by records of figures from the selected profession",
-      "tabBestseller": "Weekly Best",
+      "tabBestseller": "Weekly Collection",
       "tabClassics": "All-Time Classics",
       "basisAll": "All",
       "basisEra": "By era",
       "basisProfession": "By profession",
       "empty": "No works yet.",
       "chips": {
-        "ALL": "Overall Bestsellers",
+        "ALL": "Trending Books",
         "HUMANITIES": "Humanities",
         "BUSINESS": "Business & Economics",
-        "FICTION": "Fiction & Poetry",
-        "STEADY": "Steady Sellers"
+        "FICTION": "Fiction & Literature",
+        "STEADY": "Classics"
+      },
+      "freshness": {
+        "schedule": "Collected weekly",
+        "updated": "Collected {date}",
+        "unknownDate": "Collection date unavailable",
+        "delayed": "Update delayed",
+        "source": "Sources"
       }
     }
   }

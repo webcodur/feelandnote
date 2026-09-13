@@ -1,12 +1,12 @@
 /*
   파일명: /components/features/library/sections/PopularSection.tsx
   기능: 인기 작품 — 지금 주목받는 주간 베스트셀러 및 불후의 고전
-  책임: 실시간 주간 베스트셀러(KO: 알라딘 / EN: OpenLibrary)와 전 시대/직군별 불후의 고전을 2-Track 탭으로 제공하며, 접속자의 locale에 맞추어 국내/글로벌 차트를 분기 제공한다.
+  책임: 주간 수집 목록과 전 시대/직군별 고전을 제공하고, 출처 및 실제 수집 시점을 표시한다.
 */ // ------------------------------
 
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { ContentCard } from "@/components/ui/cards";
 import { CategoryTabFilter, type CategoryTabOption } from "@/components/ui/CategoryTabFilter";
 import { Pagination } from "@/components/ui/Pagination";
@@ -17,6 +17,7 @@ import type { BestsellerItem } from "@/actions/library/types";
 import { BESTSELLER_CATEGORIES, type BestsellerCategoryKey } from "@/constants/library";
 import type { LibraryResult } from "@/actions/library";
 import type { ContentType } from "@/types/database";
+import BestsellerFreshness, { type BestsellerFreshnessProps } from "../BestsellerFreshness";
 
 const ITEMS_PER_PAGE = 12;
 const ERAS = ["ancient", "medieval", "modern", "contemporary"] as const;
@@ -26,8 +27,7 @@ type ClassicsBasis = "all" | "era" | "profession";
 type MediaCategory = "ALL" | ContentType;
 
 interface Props {
-  initialBestsellers: {
-    updatedAt: string;
+  initialBestsellers: BestsellerFreshnessProps & {
     items: BestsellerItem[];
   };
   initialClassicsData: LibraryResult;
@@ -46,7 +46,9 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
   // Bestseller state
   const [bestsellerMedia, setBestsellerMedia] = useState<MediaCategory>("BOOK");
   const [bestsellerBookCat, setBestsellerBookCat] = useState<BestsellerCategoryKey>("ALL");
-  const [bestsellers, setBestsellers] = useState<BestsellerItem[]>(initialBestsellers.items);
+  const [bestsellerData, setBestsellerData] = useState(initialBestsellers);
+  const bestsellerRequest = useRef(0);
+  const bestsellers = bestsellerData.items;
 
   // Classics state
   const [basis, setBasis] = useState<ClassicsBasis>("all");
@@ -58,29 +60,25 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
 
   const [isPending, startTransition] = useTransition();
 
+  const loadBestsellers = (key: string) => {
+    const request = ++bestsellerRequest.current;
+    startTransition(async () => {
+      const res = await getBestsellers(key, locale);
+      if (request === bestsellerRequest.current) setBestsellerData(res);
+    });
+  };
+
   // Bestseller media switcher
   const handleBestsellerMediaChange = (nextMedia: MediaCategory) => {
     setBestsellerMedia(nextMedia);
-    startTransition(async () => {
-      let key: string = "ALL";
-      if (nextMedia === "ALL") key = "MEDIA_ALL";
-      else if (nextMedia === "BOOK") key = bestsellerBookCat;
-      else if (nextMedia === "VIDEO") key = "VIDEO";
-      else if (nextMedia === "GAME") key = "GAME";
-      else if (nextMedia === "MUSIC") key = "MUSIC";
-
-      const res = await getBestsellers(key, locale);
-      setBestsellers(res.items);
-    });
+    const key = nextMedia === "ALL" ? "MEDIA_ALL" : nextMedia === "BOOK" ? bestsellerBookCat : nextMedia;
+    loadBestsellers(key);
   };
 
   // Bestseller book sub-category switcher
   const handleBestsellerBookCatChange = (nextCat: BestsellerCategoryKey) => {
     setBestsellerBookCat(nextCat);
-    startTransition(async () => {
-      const res = await getBestsellers(nextCat, locale);
-      setBestsellers(res.items);
-    });
+    loadBestsellers(nextCat);
   };
 
   // Classics load
@@ -242,6 +240,11 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
 
       {/* 4. 카드 그리드 */}
       <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
+        {mode === "bestseller" && (
+          <div className="mb-5">
+            <BestsellerFreshness {...bestsellerData} />
+          </div>
+        )}
         {mode === "bestseller" ? (
           bestsellers.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 justify-center max-w-6xl mx-auto">

@@ -1,46 +1,33 @@
 /*
   파일명: /actions/library/bestsellers.ts
-  기능: 실시간 베스트셀러 및 전 매체(도서·영상·게임·음악) 트렌딩 조회 (KO & EN 지원)
-  책임: 접속자의 locale(ko/en)에 따라 한국 내수 차트(알라딘/TMDB-KO/Steam-KO/Apple-KR) 또는 글로벌 차트(OpenLibrary/TMDB-EN/Steam-Global/Apple-US)를 0ms 지연으로 분기 제공한다.
+  기능: 주간 수집한 인기 작품 조회 (KO & EN 지원)
+  책임: 게시된 목록을 배포와 독립적으로 갱신하고, 조회 실패 시 기존 정상 목록을 제공한다.
 */ // ------------------------------
 
 'use server'
 
 import bestsellersData from '@/constants/library/bestsellers.json'
-import type { BestsellerItem, LibraryContent } from './types'
+import { unstable_cache } from 'next/cache'
+import { rawFetch } from '@/lib/rawFetch'
+import { BESTSELLER_REVALIDATE_SECONDS, fetchBestsellerFeed, mergeBestsellerFeeds, selectBestsellers, type BestsellerFeed } from '@/lib/library/bestsellerFeed'
+import type { LibraryContent } from './types'
 
-interface BestsellerLocaleDataset {
-  categories: Record<string, BestsellerItem[]>
-}
+// 갱신 실패는 던져서 Next가 직전 정상 캐시를 보존하게 한다.
+const getPublishedFeed = unstable_cache(() => fetchBestsellerFeed(rawFetch), ['library-bestsellers-published-v1'], {
+  revalidate: BESTSELLER_REVALIDATE_SECONDS,
+})
 
-interface BestsellerDataFile {
-  updated_at: string
-  ko?: BestsellerLocaleDataset
-  en?: BestsellerLocaleDataset
-  categories?: Record<string, BestsellerItem[]>
-}
-
-export async function getBestsellers(categoryKey: string = 'ALL', locale: string = 'ko'): Promise<{
-  updatedAt: string
-  items: BestsellerItem[]
-  asLibraryContents: LibraryContent[]
-}> {
-  const data = bestsellersData as BestsellerDataFile
-  const langKey = locale.toLowerCase().startsWith('en') ? 'en' : 'ko'
-  const dataset = data[langKey] || { categories: data.categories || {} }
-  const categories = dataset.categories || {}
-
-  let items: BestsellerItem[] = []
-
-  if (categoryKey === 'MEDIA_ALL') {
-    const b = (categories['ALL'] || []).slice(0, 6)
-    const v = (categories['VIDEO'] || []).slice(0, 6)
-    const g = (categories['GAME'] || []).slice(0, 6)
-    const m = (categories['MUSIC'] || []).slice(0, 6)
-    items = [...b, ...v, ...g, ...m]
-  } else {
-    items = categories[categoryKey] || categories['ALL'] || []
+export async function getBestsellers(categoryKey: string = 'ALL', locale: string = 'ko') {
+  let data: BestsellerFeed
+  try {
+    data = mergeBestsellerFeeds(await getPublishedFeed(), bestsellersData as BestsellerFeed)
+  } catch {
+    // 캐시가 없는 첫 요청의 네트워크 실패에도 빌드에 포함한 정상본으로 읽을 수 있다.
+    console.error('[library] Published bestseller feed unavailable; using bundled snapshot')
+    data = bestsellersData as BestsellerFeed
   }
+  const selection = selectBestsellers(data, categoryKey, locale)
+  const { items } = selection
   
   const asLibraryContents: LibraryContent[] = items.map((item) => ({
     id: item.id,
@@ -59,8 +46,7 @@ export async function getBestsellers(categoryKey: string = 'ALL', locale: string
   }))
 
   return {
-    updatedAt: data.updated_at,
-    items,
+    ...selection,
     asLibraryContents,
   }
 }

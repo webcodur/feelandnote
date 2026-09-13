@@ -12,28 +12,27 @@ import { Link } from "@/i18n/navigation";
 import { RetryBlock } from "@/components/ui/pending";
 import { getBestsellers, getCuratedHub } from "@/actions/library";
 import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
-import type { BestsellerItem, CuratedHub } from "@/actions/library/types";
+import type { CuratedHub } from "@/actions/library/types";
 import PopularPreview from "@/components/features/library/hub/PopularPreview";
 import CuratedHubBrowse from "@/components/features/library/hub/CuratedHubBrowse";
 
 const EMPTY_CLASS = "text-sm text-text-secondary text-center py-8";
 
 export async function PopularSection() {
-  let items: BestsellerItem[];
+  let data: Awaited<ReturnType<typeof getBestsellers>>;
   try {
     const locale = await getLocale();
-    const res = await getBestsellers('ALL', locale);
-    items = res.items.slice(0, 6);
+    data = await getBestsellers('ALL', locale);
   } catch (error) {
     console.error("[library] 인기 작품 조회 실패:", error);
     return <RetryBlock />;
   }
 
-  if (items.length === 0) {
+  if (data.items.length === 0) {
     const t = await getTranslations("pending");
     return <p className={EMPTY_CLASS}>{t("empty")}</p>;
   }
-  return <PopularPreview items={items} />;
+  return <PopularPreview items={data.items.slice(0, 6)} updatedAt={data.updatedAt} sources={data.sources} isStale={data.isStale} />;
 }
 
 export async function CuratedSection() {
