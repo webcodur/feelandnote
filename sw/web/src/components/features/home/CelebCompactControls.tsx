@@ -5,6 +5,7 @@ import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { FilterModal } from "@/components/shared/filters";
 import { CELEB_CONTENT_PRESENCE } from "@/constants/celebContentPresence";
+import { TREND_COUNTRIES } from "@/constants/trendCountries";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
 import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX } from "@/lib/celeb/birthYearScale";
 import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
@@ -65,6 +66,26 @@ export default function CelebCompactControls({ filters, onInteraction }: Props) 
           {conditions.length > 0 && <span className="text-xs tabular-nums text-accent">{conditions.length}</span>}
         </button>
       </div>
+      {filters.sortBy === "country_trending" && (
+        <div className="space-y-2 rounded-md border border-white/10 px-3 py-2.5">
+          <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t("trends.country")}>
+            <span className="mr-1 text-xs text-text-secondary">{t("trends.country")}</span>
+            {TREND_COUNTRIES.map(country => (
+              <button key={country} type="button" disabled={filters.isLoading} aria-pressed={filters.trendCountry === country}
+                onClick={() => { onInteraction?.(); filters.handleTrendCountryChange(country); }}
+                className={`min-h-11 rounded px-3 py-1.5 text-xs outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${filters.trendCountry === country ? "bg-accent/10 text-accent hover:bg-accent/20" : "text-text-secondary hover:bg-white/5 hover:text-text-primary"}`}>
+                {getNationality(country)}
+              </button>
+            ))}
+          </div>
+          <p className="text-xs leading-5 text-text-secondary" role="status">
+            {filters.isLoading ? t("trends.loading")
+              : !filters.trend?.available ? t("trends.unavailable")
+              : filters.trend.matchedCount === 0 ? t("trends.noMatches")
+              : t("trends.description", { country: getNationality(filters.trendCountry) })}
+          </p>
+        </div>
+      )}
       {conditions.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {conditions.map(condition => (

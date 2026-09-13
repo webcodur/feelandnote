@@ -16,6 +16,7 @@ import {
 } from "@/actions/home";
 import type { CelebSortBy } from "@/actions/home";
 import type { CelebContentPresence } from "@/constants/celebContentPresence";
+import type { TrendCountry } from "@/constants/trendCountries";
 import type { CelebTier, CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
 import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
@@ -78,6 +79,7 @@ export interface FiguresFilterParams {
   page: number;
   pageSize: number;
   sortBy: CelebSortBy;
+  trendCountry?: TrendCountry;
   profession?: string;
   nationality?: string;
   contentType?: string;
@@ -108,6 +110,7 @@ export async function FiguresFilterResult({ params }: { params: FiguresFilterPar
         limit: params.pageSize,
         minContentCount: 0,
         sortBy: params.sortBy,
+        trendCountry: params.trendCountry,
         profession: params.profession,
         nationality: params.nationality,
         contentType: params.contentType,
@@ -137,6 +140,8 @@ export async function FiguresFilterResult({ params }: { params: FiguresFilterPar
       initialCelebs={celebsResult.celebs}
       initialTotal={celebsResult.total}
       initialTotalPages={celebsResult.totalPages}
+      initialTrendCountry={params.trendCountry}
+      initialTrend={celebsResult.trend}
       professionCounts={professionCounts}
       nationalityCounts={nationalityCounts}
       contentTypeCounts={contentTypeCounts}

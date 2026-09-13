@@ -14,8 +14,10 @@ import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import type { Tables } from '@/types/database.generated'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 import { parseCelebContentPresence, type CelebContentPresence } from '@/constants/celebContentPresence'
+import { parseTrendCountry } from '@/constants/trendCountries'
+import { getCountryTrendingPeople } from '@/lib/trends/countryTrending'
 
-export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending'
+export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending' | 'country_trending'
 
 /** 인기 순위 기간 창. 7일은 표본이 얇아 순위가 매일 뒤집힌다. */
 const TRENDING_DAYS = 30
@@ -68,6 +70,7 @@ interface GetCelebsParams {
   contentPresence?: CelebContentPresence
   gender?: string  // 'all' | 'male' | 'female' (DB: true=male, false=female)
   sortBy?: CelebSortBy
+  trendCountry?: string
   search?: string  // 이름 검색
   tagId?: string  // 태그 필터
   minContentCount?: number // 최소 컨텐츠 개수
@@ -88,6 +91,7 @@ interface GetCelebsResult {
   page: number
   totalPages: number
   error: string | null
+  trend?: { country: string; available: boolean; matchedCount: number }
 }
 
 type CelebLinkRow = Pick<CelebRow, 'id' | 'slug' | 'nickname' | 'nickname_en' | 'avatar_url' | 'title' | 'title_en' | 'content_count'>
@@ -176,6 +180,7 @@ interface TagAssignmentJoinRow {
 // --- 공개 데이터 캐싱 (1시간) ---
 
 interface PublicCelebData {
+  trendMatchedCount?: number
   rows: CelebRow[]
   total: number
   totalPages: number
@@ -195,15 +200,57 @@ async function fetchCelebsPublic(
   search: string | null, tagId: string | null, minContentCount: number,
   includeInactive: boolean, tiers: string[], realities: string[], includeTotal: boolean,
   birthYearMin: number | null, birthYearMax: number | null,
-  contentPresence: CelebContentPresence
+  contentPresence: CelebContentPresence, trendingIds: string[]
 ): Promise<PublicCelebData> {
   const db = createStaticClient()
   const offset = (page - 1) * limit
 
   let rows: CelebRow[]
   let total: number
+  let trendMatchedCount: number | undefined
 
-  if (sortBy === 'trending') {
+  if (sortBy === 'country_trending') {
+    // Disable the RPC limit: all listing filters must precede promotion and pagination.
+    const query = (count = false) => {
+      let request = db.rpc('get_celebs_sorted', {
+        p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+        p_sort_by: 'content_count', p_search: search ?? '', p_limit: null, p_offset: 0,
+        p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
+        p_include_inactive: includeInactive, p_celeb_tiers: tiers,
+        p_celeb_realities: realities,
+        p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
+      }, { count: count ? 'exact' : undefined })
+      if (contentPresence === 'without') request = request.eq('content_count', 0)
+      return request
+    }
+    const promotedResult = trendingIds.length
+      ? await query().in('id', trendingIds)
+      : { data: [], error: null }
+    throwOnQueryError('Trending people', promotedResult.error)
+    const positions = new Map(trendingIds.map((id, index) => [id, index]))
+    const promoted = ((promotedResult.data ?? []) as CelebRow[])
+      .sort((a, b) => positions.get(a.id)! - positions.get(b.id)!)
+    trendMatchedCount = promoted.length
+    const promotedPage = promoted.slice(offset, offset + limit)
+    const remainingLimit = limit - promotedPage.length
+    const remainingOffset = Math.max(0, offset - promoted.length)
+    let remainingQuery = query(includeTotal)
+      .order('content_count', { ascending: false })
+      .order('nickname', { ascending: true })
+      .order('id', { ascending: true })
+    if (promoted.length) remainingQuery = remainingQuery.not('id', 'in', `(${promoted.map(row => row.id).join(',')})`)
+    // When promoted people fill the page, one remaining row still supplies the count.
+    let remainingResult = await remainingQuery.range(remainingOffset, remainingOffset + Math.max(1, remainingLimit) - 1)
+    if (remainingResult.error?.code === 'PGRST103') {
+      // An outdated page URL can exceed the count. Recover the count without inventing rows.
+      const firstRemaining = await remainingQuery.range(0, 0)
+      throwOnQueryError('Trending remaining count', firstRemaining.error)
+      remainingResult = { ...firstRemaining, success: true, error: null, data: [] }
+    }
+    throwOnQueryError('Trending remaining people', remainingResult.error)
+    rows = [...promotedPage, ...(remainingLimit ? (remainingResult.data ?? []) as CelebRow[] : [])]
+    total = includeTotal ? promoted.length + (remainingResult.count ?? 0) : rows.length
+  } else if (sortBy === 'trending') {
     /* 최근 조회수 순 — 기간 창 순위라 필터·페이지 개념이 없다.
        누적으로 뽑으면 앞에 세우는 인물이 영원히 고정되므로 창을 쓴다.
        목록 단일 진입점(get_celebs_sorted)을 건드리지 않기 위해 별도 함수를 둔다. */
@@ -262,7 +309,7 @@ async function fetchCelebsPublic(
   const celebIds = rows.map(row => row.id)
 
   if (celebIds.length === 0) {
-    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchConfirmedEmptyMap: {} }
+    return { rows: [], total, totalPages, trendMatchedCount, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchConfirmedEmptyMap: {} }
   }
 
   // 병렬 조회: 태그, 대사, 음성, 0건 확정 시각
@@ -349,7 +396,7 @@ async function fetchCelebsPublic(
   })
 
   return {
-    rows, total, totalPages, tagMap, tagSortOrderMap,
+    rows, total, totalPages, trendMatchedCount, tagMap, tagSortOrderMap,
     greetingMap, greetingEnMap, quoteMap, quoteEnMap,
     voiceMap, contentResearchConfirmedEmptyMap,
   }
@@ -393,6 +440,7 @@ export async function getCelebs(
     contentPresence = 'all',
     gender,
     sortBy = 'daily_recommend',
+    trendCountry,
     search,
     tagId,
     minContentCount = 0,
@@ -406,17 +454,21 @@ export async function getCelebs(
   } = params
 
   // 1. 캐싱된 공개 데이터 조회
-  const loadPublic = sortBy === 'trending' ? getCelebsTrendingCached : getCelebsCached
+  const country = parseTrendCountry(trendCountry) ?? 'KR'
+  // Fetch outside the listing cache so its country-specific freshness is respected.
+  const countryTrend = sortBy === 'country_trending' ? await getCountryTrendingPeople(country) : undefined
+  const loadPublic = sortBy === 'trending' || sortBy === 'country_trending' ? getCelebsTrendingCached : getCelebsCached
   const pub = await loadPublic(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
     search ?? null, tagId ?? null, contentPresence === 'with' ? Math.max(1, minContentCount) : minContentCount,
     includeInactive, [...(tiers ?? [])], [...(realities ?? LISTING_DEFAULT_REALITIES)], includeTotal,
-    birthYearMin ?? null, birthYearMax ?? null, parseCelebContentPresence(contentPresence)
+    birthYearMin ?? null, birthYearMax ?? null, parseCelebContentPresence(contentPresence), countryTrend?.ids ?? []
   )
+  const trend = countryTrend ? { country, available: countryTrend.available, matchedCount: pub.trendMatchedCount ?? 0 } : undefined
 
   if (pub.rows.length === 0) {
-    return { celebs: [], total: pub.total, page, totalPages: pub.totalPages, error: null }
+    return { celebs: [], total: pub.total, page, totalPages: pub.totalPages, error: null, trend }
   }
 
   // 중첩 unstable_cache는 내부 캐시를 건너뛴다. 랭킹은 목록 밖에서 읽고,
@@ -503,7 +555,7 @@ export async function getCelebs(
   })
 
   // 태그 필터 시 sort_order 순서로 재정렬
-  if (tagId && Object.keys(pub.tagSortOrderMap).length > 0) {
+  if (tagId && sortBy !== 'country_trending' && Object.keys(pub.tagSortOrderMap).length > 0) {
     celebs.sort((a, b) => {
       const orderA = pub.tagSortOrderMap[a.id] ?? Number.MAX_SAFE_INTEGER
       const orderB = pub.tagSortOrderMap[b.id] ?? Number.MAX_SAFE_INTEGER
@@ -511,5 +563,5 @@ export async function getCelebs(
     })
   }
 
-  return { celebs, total: pub.total, page, totalPages: pub.totalPages, error: null }
+  return { celebs, total: pub.total, page, totalPages: pub.totalPages, error: null, trend }
 }
