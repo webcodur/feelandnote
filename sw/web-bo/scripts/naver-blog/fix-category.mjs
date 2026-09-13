@@ -9,9 +9,10 @@
 import { createClient } from '@supabase/supabase-js';
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const DRAFTS = path.join(ROOT, 'data/naver-blog/celeb-drafts.json');
+const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const dry = process.argv.includes('--dry');
 
 const loadEnv = (p) => {

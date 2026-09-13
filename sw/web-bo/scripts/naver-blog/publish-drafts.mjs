@@ -1,20 +1,23 @@
-// 네이버 블로그 새 글 발행. data/naver-blog/drafts.json 의 status=draft 항목을 양식대로 올린다.
+// 네이버 블로그 새 글 발행. blog-assets(D:)/naver-blog/drafts.json 의 status=draft 항목을 양식대로 올린다.
 // 사용: node scripts/naver-blog/publish-drafts.mjs [최대건수] [--dry] [--target=경로]
 //       [--start=YYYY-MM-DD --dow=2,5 --time=HH:MM]  예약 발행. 시작일부터 지정 요일에 한 편씩 예약한다(분은 10분 단위).
 //       예) --start=2026-09-09 --dow=2,5 --time=09:00  → 화·금 오전 9시로 차례차례 예약
-// 양식·주기는 docs/continuous/naver-blog.md 를 따른다.
+// 양식·주기는 docs/continuous/blog-naver-book.md 를 따른다.
 //   --dry : 제목·본문 입력과 발행 패널 설정까지만 하고 발행하지 않는다(스크린샷 저장).
 // 디버그 포트 9222 크롬에 네이버 로그인 상태여야 한다. 크롬은 --disable-features=CalculateNativeWinOcclusion 로 띄운다.
 import { getBrowser, getNaverPage } from './lib/browser.mjs';
+import { assertPublishOptions } from './lib/publish-options.mjs';
+import { createExistingEditor } from './lib/existing-editor.mjs';
 import fs from 'node:fs';
 import sharp from 'sharp';
 import os from 'node:os';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { ASSETS } from '../blog-assets.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const SC = path.join(os.tmpdir(), 'naver-blog'); fs.mkdirSync(SC, { recursive: true });
-const DRAFTS = process.env.NB_DRAFTS ?? path.join(ROOT, 'data/naver-blog/drafts.json');
-const POSTS = path.join(ROOT, 'data/naver-blog/posts.json');
+const SC = path.join(os.tmpdir(), 'naver-blog');
+const DRAFTS = process.env.NB_DRAFTS ?? path.join(ASSETS, 'naver-blog/drafts.json');
+const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const args = process.argv.slice(2);
 const dry = args.includes('--dry');
 const onlyTarget = args.find((a) => a.startsWith('--target='))?.slice(9);
@@ -40,8 +43,7 @@ function slots(n) {
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const UA = { headers: { 'user-agent': 'Mozilla/5.0' } };
 
-const drafts = JSON.parse(fs.readFileSync(DRAFTS, 'utf8'));
-const posts = fs.existsSync(POSTS) ? JSON.parse(fs.readFileSync(POSTS, 'utf8')) : [];   // 중복 검사에 쓴다
+let drafts, posts; // 실행할 때만 원장을 읽는다. 글쓰기 함수 import는 파일·브라우저를 변경하지 않는다.
 const saveAll = () => { fs.writeFileSync(DRAFTS, JSON.stringify(drafts, null, 1)); fs.writeFileSync(POSTS, JSON.stringify(posts, null, 1)); };
 
 // 본문 단락 전부(제목 제외). 카드가 끼어 텍스트 블록이 갈려도 순서대로 모은다.
@@ -89,7 +91,6 @@ async function typeTitle(page, title) {
 const IMG_RE = /^\[img:([^|\]]+)(?:\|(\d+))?(?:\|([^\]]+))?\]$/;   // [img:주소|폭|이름]
 const isImg = (l) => IMG_RE.test(l.trim());
 const IMGDIR = path.join(os.tmpdir(), 'naver-blog', 'img');
-fs.mkdirSync(IMGDIR, { recursive: true });
 
 // 파일 이름이 그대로 대체 텍스트가 되므로 뜻이 통하는 이름을 붙인다.
 /**
@@ -119,8 +120,8 @@ async function download(url, name) {
 }
 
 // 이미지 하나를 넣고 폭을 맞춘 뒤 가운데로 놓는다.
-async function insertImage(page, cdp, url, width, name) {
-  const file = await download(url, name);
+async function insertImage(page, cdp, url, width, name, prepared = null) {
+  const file = prepared?.file ?? await download(url, name);
   const count = () => page.evaluate(() => document.querySelectorAll('.se-component.se-image').length);
   const before = await count();
   const btn = await page.evaluate(() => { const e = document.querySelector('.se-toolbar-item-image button, .se-toolbar-item-image'); if (!e) return null; const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
@@ -141,9 +142,17 @@ async function insertImage(page, cdp, url, width, name) {
   const size = await page.evaluate(() => { const e = [...document.querySelectorAll('button')].find((x) => x.offsetParent && /크기 변경 열기/.test(x.getAttribute('aria-label') || x.textContent)); if (!e) return null; const r = e.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; });
   if (size) {
     await page.mouse.click(size.x, size.y); await wait(900);
-    const wi = await page.$('[class*=resizing-input] input, input[class*=resizing-input]');
+    const wi = await page.evaluate(() => {
+      const input = [...document.querySelectorAll('[class*=resizing-input] input, input[class*=resizing-input]')].find(e => e.offsetParent && !e.disabled);
+      if (!input) return null;
+      const rect = input.getBoundingClientRect(), x = rect.left + rect.width / 2, y = rect.top + rect.height / 2;
+      if (!rect.width || !rect.height || document.elementFromPoint(x, y) !== input) throw new Error('사진 폭 입력칸이 가려져 있다');
+      return { x, y };
+    });
     if (wi) {
-      await wi.click({ clickCount: 3 }); await wait(200);
+      // ElementHandle.click의 IntersectionObserver 대기 대신 이미 보이는 입력칸을 실제 좌표로 누른다.
+      await page.mouse.click(wi.x, wi.y, { clickCount: 3 }); await wait(200);
+      if (!(await page.evaluate(() => document.activeElement?.matches('[class*=resizing-input] input, input[class*=resizing-input]')))) throw new Error('사진 폭 입력칸에 포커스가 없다');
       await page.keyboard.type(String(width), { delay: 40 }); await page.keyboard.press('Enter'); await wait(1400);
       const got = await page.evaluate(() => { const cs = [...document.querySelectorAll('.se-component.se-image img')]; return Math.round(cs[cs.length - 1].getBoundingClientRect().width); });
       if (Math.abs(got - width) > 30) console.log(`  경고: 폭 ${got} (요청 ${width})`);
@@ -195,54 +204,58 @@ async function insertImage(page, cdp, url, width, name) {
   // 캐럿을 본문 끝으로 되돌린다.
   const back = await page.evaluate(() => { const ps = [...document.querySelectorAll('.se-component.se-text:not(.se-documentTitle) .se-text-paragraph')]; const q = ps[ps.length - 1]; if (!q) return null; q.scrollIntoView({ block: 'center', behavior: 'instant' }); const r = q.getBoundingClientRect(); return { x: r.left + 20, y: r.top + r.height / 2 }; });
   if (back) { await page.mouse.click(back.x, back.y); await wait(400); }
-  fs.unlinkSync(file);
+  if (!prepared?.file) fs.unlinkSync(file);
+  return page.$$eval('.se-component.se-image', cs => cs.at(-1)?.id);
 }
 
 /**
- * 사진에 액자(얇은 테두리)를 두른다. 흰 배경 이미지가 흰 바탕에 묻히지 않게 경계를 준다.
+ * 사진에 액자를 두른다. 흰 배경 이미지가 흰 바탕에 묻히지 않게 경계를 준다.
  *
  * 사진 편집기를 열어 한 장에만 걸고 「모든 사진」을 누르면 그 글의 사진 전부에 퍼진다.
- * 액자는 `data-frame` 0~6 이고 5번이 얇은 검은 테두리다.
+ * 액자는 `data-frame` 0~6 이고 5번은 「낡은 액자」(거친 검은 테두리와 흰 여백)다.
  */
-async function applyPhotoFrame(page, frame = 5) {
+async function applyPhotoFrame(page, frame = 5, { imageIds = null, imageId = null } = {}) {
+  if (imageIds) {
+    if (!imageIds.length || new Set(imageIds).size !== imageIds.length || imageIds.some(id => !/^SE-[\w-]+$/.test(id))) throw new Error('액자 적용 사진 ID가 비었거나 중복·오류다');
+    for (const id of imageIds) if (!(await applyPhotoFrame(page, frame, { imageId: id }))) return false;
+    return true;
+  }
   const n = await page.evaluate(() => document.querySelectorAll('.se-component.se-image').length);
   if (!n) return false;
 
-  /** 화면에 보이는 요소를 좌표로 누른다. 숨은 `click()` 은 시각만 바뀌고 내부 상태가 안 따라온다. */
+  /** 스크롤·패널 애니메이션이 끝나고 실제 클릭 가능한 위치가 안정됐을 때 누른다. */
   const hit = async (sel, label) => {
-    const pos = await page.evaluate((q) => {
+    await page.waitForFunction((q) => [...document.querySelectorAll(q)].some((x) => x.offsetParent), { timeout: 15000 }, sel)
+      .catch(() => { throw new Error(`${label}이 나타나지 않았다`); });
+    await page.evaluate((q) => {
       const b = [...document.querySelectorAll(q)].find((x) => x.offsetParent);
-      if (!b) return null;
       b.scrollIntoView({ block: 'center', behavior: 'instant' });
-      const r = b.getBoundingClientRect();
-      return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
     }, sel);
-    if (!pos) throw new Error(`${label}을 찾지 못했다`);
-    await page.mouse.click(pos.x, pos.y);
+    let previous = null, stable = 0;
+    const deadline = Date.now() + 15000;
+    while (Date.now() < deadline) {
+      const pos = await page.evaluate((q) => {
+        const b = [...document.querySelectorAll(q)].find((x) => x.offsetParent);
+        if (!b || b.disabled || b.matches(':disabled')) return null;
+        const r = b.getBoundingClientRect();
+        if (!r.width || !r.height || getComputedStyle(b).visibility === 'hidden') return null;
+        const x = r.left + r.width / 2, y = r.top + r.height / 2;
+        const top = document.elementFromPoint(x, y);
+        if (!top || (top !== b && !b.contains(top))) return null;
+        return { x, y, width: r.width, height: r.height };
+      }, sel);
+      stable = pos && previous && ['x', 'y', 'width', 'height'].every((k) => Math.abs(pos[k] - previous[k]) < 0.5) ? stable + 1 : 0;
+      if (pos && stable >= 3) { await page.mouse.click(pos.x, pos.y); return; }
+      previous = pos;
+      await wait(100);
+    }
+    throw new Error(`${label}의 클릭 위치가 안정되지 않았거나 다른 요소에 가려져 있다`);
   };
 
-  const p = await page.evaluate(() => {
-    const c = document.querySelector('.se-component.se-image');
-    c.scrollIntoView({ block: 'center', behavior: 'instant' });
-    const r = (c.querySelector('img') ?? c).getBoundingClientRect();
-    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-  });
-  await page.mouse.click(p.x, p.y);
-  await wait(1500);
-
+  await hit(imageId ? `.se-component.se-image[id="${imageId}"] img` : '.se-component.se-image img', imageId ? '선택한 책 표지' : '첫 사진');
+  // 사진 선택 뒤 툴바가 나타나야 편집기를 연다. hit가 표시·위치 안정까지 확인한다.
   await hit('button[class*=se-image-edit-toolbar-button]', '사진 편집');
-  for (let i = 0; i < 30; i++) {
-    if (await page.evaluate(() => !!document.querySelector('button[class*=npe_btn_frame]'))) break;
-    await wait(500);
-  }
-  await wait(2000);
-
   await hit('button[class*=npe_btn_frame]', '액자 도구');
-  for (let i = 0; i < 20; i++) {
-    if (await page.evaluate(() => [...document.querySelectorAll('button[class*=npe_btn_detail_frame]')].some((x) => x.offsetParent))) break;
-    await wait(500);
-  }
-  await wait(1200);
 
   /**
    * 🔴 「모든 사진」은 **액자를 골라 변화가 생겨야** 열린다. 패널은 언제 열든 0번(액자 없음)이
@@ -252,30 +265,27 @@ async function applyPhotoFrame(page, frame = 5) {
    */
   const allOpen = () => page.evaluate(() => {
     const b = [...document.querySelectorAll('button[class*=npe_all_normal_button]')].find((x) => x.offsetParent);
-    return !!b && !/disable/i.test(String(b.className));
+    return !!b && !b.disabled && !b.matches(':disabled') && !/disable/i.test(String(b.className));
   });
-  const pickFrame = async (k) => { await hit(`button[class*=npe_btn_detail_frame][data-frame="${k}"]`, `액자 ${k}번`); await wait(2200); };
+  const pickFrame = async (k) => {
+    const selector = `button[class*=npe_btn_detail_frame][data-frame="${k}"]`;
+    await hit(selector, `액자 ${k}번`);
+    await page.waitForFunction((q) => [...document.querySelectorAll(q)].some((x) => x.offsetParent && x.classList.contains('on')), { timeout: 10000 }, selector)
+      .catch(() => { throw new Error(`액자 ${k}번이 선택되지 않았다`); });
+    await wait(2200);
+  };
 
   await pickFrame(frame);
-  if (!(await allOpen())) { await pickFrame(frame === 3 ? 2 : 3); await pickFrame(frame); }
-  if (!(await allOpen())) throw new Error('「모든 사진」이 잠긴 채다 — 액자가 한 장에만 걸린다');
-
-  await hit('button[class*=npe_all_normal_button]', '「모든 사진」');
-  await wait(3500);
-
-  // 편집기를 닫고 본문으로 돌아온다
-  const done = await page.evaluate(() => {
-    const b = [...document.querySelectorAll('button')].find((x) => x.offsetParent && /^완료$/.test(x.textContent.trim()));
-    if (!b) return false;
-    b.click();
-    return true;
-  });
-  if (!done) throw new Error('사진 편집을 닫지 못했다');
-  for (let i = 0; i < 40; i++) {
-    if (await page.evaluate(() => !document.querySelector('button[class*=npe_btn_frame]'))) break;
-    await wait(500);
+  if (!imageId) {
+    if (!(await allOpen())) { await pickFrame(frame === 3 ? 2 : 3); await pickFrame(frame); }
+    if (!(await allOpen())) throw new Error('「모든 사진」이 잠긴 채다 — 액자가 한 장에만 걸린다');
+    await hit('button[class*=npe_all_normal_button]', '「모든 사진」');
+    await wait(3500);
   }
-  await wait(2000);
+
+  await hit('button.npe_btn_submit', '사진 편집 완료');
+  await page.waitForFunction(() => ![...document.querySelectorAll('button[class*=npe_btn_frame], button.npe_btn_submit')].some((x) => x.offsetParent), { timeout: 20000 })
+    .catch(() => { throw new Error('사진 편집기가 닫히지 않았다'); });
   return true;
 }
 
@@ -302,64 +312,66 @@ async function insertDivider(page) {
  * 간결체 덩어리를 인용구로 감싸 눈으로 갈라 두면 전환이 자연스럽다.
  */
 async function insertQuote(page, text) {
-  const count = () => page.evaluate(() => document.querySelectorAll('.se-component.se-quotation').length);
-  const before = await count();
+  await setAlign(page, 'left');
+  const previousIds = await page.$$eval('.se-component.se-quotation', nodes => nodes.map(node => node.id));
   const pos = await page.evaluate(() => {
-    const e = document.querySelector('.se-toolbar-item-insert-quotation button, .se-toolbar-item-insert-quotation');
-    if (!e) return null;
-    const r = e.getBoundingClientRect();
-    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    const button = document.querySelector('.se-toolbar-item-insert-quotation button, .se-toolbar-item-insert-quotation');
+    if (!button) return null;
+    const rect = button.getBoundingClientRect();
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
   });
-  if (!pos) throw new Error('인용구 단추를 찾지 못했다');
-  await page.mouse.click(pos.x, pos.y); await wait(1000);
+  if (!pos) throw new Error('인용구 버튼을 찾지 못했다');
+  await page.mouse.click(pos.x, pos.y);
+  await page.waitForFunction(ids => [...document.querySelectorAll('.se-component.se-quotation')].filter(node => !ids.includes(node.id)).length === 1, { timeout: 10000 }, previousIds);
+  const quoteId = await page.$$eval('.se-component.se-quotation', (nodes, ids) => nodes.find(node => !ids.includes(node.id))?.id, previousIds);
+  if (!quoteId) throw new Error('새 인용구 ID를 찾지 못했다');
 
-  // 인용구 모양을 고르는 목록이 뜨면 첫 번째(세로줄)를 고른다
-  const picked = await page.evaluate(() => {
-    const li = [...document.querySelectorAll('.se-toolbar-item-insert-quotation li, [class*=quotation] [role=menuitem]')].filter((e) => e.offsetParent);
-    if (!li.length) return false;
-    const r = li[0].getBoundingClientRect();
-    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  // 실제 SmartEditor에서 삽입 직후 나타나는 왼쪽 선 스타일을 고른다.
+  await page.waitForSelector('.se-quotation-quotation_line-toolbar-button', { visible: true, timeout: 10000 });
+  const stylePos = await page.evaluate(() => {
+    const button = document.querySelector('.se-quotation-quotation_line-toolbar-button');
+    button.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const rect = button.getBoundingClientRect();
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
   });
-  if (picked && picked.x) { await page.mouse.click(picked.x, picked.y); await wait(900); }
-
-  for (let i = 0; i < 30 && (await count()) <= before; i++) await wait(300);
-  if ((await count()) <= before) throw new Error('인용구가 들어가지 않았다');
-  await wait(600);
+  await page.mouse.click(stylePos.x, stylePos.y);
+  await page.waitForFunction(id => {
+    const quote = document.getElementById(id);
+    return quote?.classList.contains('se-l-quotation_line') && !!quote.querySelector('.se-section-align-left');
+  }, { timeout: 10000 }, quoteId);
 
   for (let j = 0; j < text.length; j += 60) { await page.keyboard.type(text.slice(j, j + 60), { delay: 12 }); await wait(120); }
   await wait(500);
-  const got = await page.evaluate(() => {
-    const q = [...document.querySelectorAll('.se-component.se-quotation')].pop();
-    return q ? q.textContent.replace(/​/g, '').trim() : '';
+  const got = await page.evaluate(id => [...document.getElementById(id).querySelectorAll('.se-text-paragraph')].map(paragraph => {
+    const clone = paragraph.cloneNode(true);
+    clone.querySelectorAll('.se-placeholder').forEach(node => node.remove());
+    return clone.textContent.replace(/\u200b/g, '').trim();
+  }).filter(Boolean), quoteId);
+  const expected = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+  if (JSON.stringify(got) !== JSON.stringify(expected)) throw new Error('인용구 입력 원문이 맞지 않는다');
+
+  // 본문 추가 버튼은 인용구 뒤에 새 일반 문단을 만들고 입력 위치를 옮긴다.
+  const previousTextIds = await page.$$eval('.se-component.se-text:not(.se-documentTitle)', nodes => nodes.map(node => node.id));
+  const addPos = await page.evaluate(() => {
+    const button = document.querySelector('.se-canvas-bottom-button');
+    if (!button) return null;
+    button.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const rect = button.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0 ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 } : null;
   });
-  if (!got.includes(text.slice(0, 20))) throw new Error(`인용구 입력 실패: ${JSON.stringify(got.slice(0, 30))}`);
-
-  // 인용구 밖으로 빠져나온다. 인용구 안에서는 정렬 툴바가 사라져 다음 줄 처리가 막힌다.
-  await page.keyboard.down('Control'); await page.keyboard.press('End'); await page.keyboard.up('Control');
-  await wait(400);
-  await page.keyboard.press('Enter'); await wait(600);
-
-  // 캐럿이 아직 인용구 안이면 맨 끝 본문 단락을 눌러 빠져나온다
-  for (let i = 0; i < 6; i++) {
-    const inQuote = await page.evaluate(() => {
-      const a = getSelection().anchorNode;
-      const el = a && (a.nodeType === 1 ? a : a.parentElement);
-      return !!el?.closest('.se-component.se-quotation');
+  if (!addPos) throw new Error('인용구 뒤 본문 추가 버튼을 찾지 못했다');
+  await page.mouse.click(addPos.x, addPos.y);
+  await page.waitForFunction((id, ids) => {
+    const quote = document.getElementById(id);
+    return [...document.querySelectorAll('.se-component.se-text:not(.se-documentTitle)')].some(node => {
+      if (ids.includes(node.id) || !(quote.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING)) return false;
+      return [...node.querySelectorAll('.se-text-paragraph')].some(paragraph => {
+        const clone = paragraph.cloneNode(true);
+        clone.querySelectorAll('.se-placeholder').forEach(placeholder => placeholder.remove());
+        return !clone.textContent.replace(/\u200b/g, '').trim();
+      });
     });
-    if (!inQuote) break;
-    const pos = await page.evaluate(() => {
-      const ps = [...document.querySelectorAll('.se-component.se-text:not(.se-documentTitle)')]
-        .filter((c) => !c.closest('.se-quotation'));
-      const last = ps.pop()?.querySelector('.se-text-paragraph');
-      if (!last) return null;
-      last.scrollIntoView({ block: 'center', behavior: 'instant' });
-      const r = last.getBoundingClientRect();
-      return { x: r.left + 20, y: r.top + r.height / 2 };
-    });
-    if (!pos) { await page.keyboard.press('ArrowDown'); await wait(300); continue; }
-    await page.mouse.click(pos.x, pos.y); await wait(400);
-  }
-  await wait(300);
+  }, { timeout: 10000 }, quoteId, previousTextIds);
 }
 
 // 툴바의 정렬 드롭다운 단추는 현재 정렬을 클래스로 드러낸다(se-align-center-toolbar-button).
@@ -556,6 +568,11 @@ async function addTags(page, tags) {
   return page.evaluate(() => [...document.querySelectorAll('[class*=option_tag] [class*=tag]')].map((e) => e.textContent.trim()).filter((t) => t.startsWith('#')).length);
 }
 
+export async function main() {
+fs.mkdirSync(SC, { recursive: true });
+fs.mkdirSync(IMGDIR, { recursive: true });
+drafts = JSON.parse(fs.readFileSync(DRAFTS, 'utf8'));
+posts = fs.existsSync(POSTS) ? JSON.parse(fs.readFileSync(POSTS, 'utf8')) : [];
 const { browser, launched } = await getBrowser({ protocolTimeout: 300000 });
 const page = await getNaverPage(browser);
 page.on('dialog', (d) => { d.accept().catch(() => {}); });
@@ -564,53 +581,85 @@ await cdp.send('DOM.enable'); await cdp.send('Page.enable');
 cdp.on('Page.fileChooserOpened', (e) => { cdp.__chooser = e; });
 await cdp.send('Page.setInterceptFileChooserDialog', { enabled: true });
 /**
- * 이미 올라간 글의 **사진에 액자만 두르고 나온다**(`--frame-only <logNo…>` 또는 `--frame-only --all`).
+ * 이미 올라간 글의 **사진에 액자만 두르고 나온다**(`--frame-only [logNo…]`).
  *
  * 본문은 한 글자도 건드리지 않는다. 글을 열고, 첫 사진을 골라 사진 편집기에서 액자를 「모든 사진」에
  * 퍼뜨리고, 수정 발행하고 나간다. 액자 하나 때문에 며칠 다듬은 본문을 다시 쓰지 마라.
  */
 const frameOnly = args.includes('--frame-only');
 if (frameOnly) {
-  const ids = args.filter((a) => /^\d{9,}$/.test(a));
-  const targets = ids.length
-    ? drafts.filter((d) => ids.includes(String(d.logNo)))
-    : drafts.filter((d) => d.logNo && !d.framed);
-  console.log(`액자 대상 ${targets.length}편`);
+  const ids = args.filter((a) => !a.startsWith('--'));
+  const editor = createExistingEditor(page);
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  // 저장·이동에 필요한 beforeunload만 수락하고, 예상하지 못한 확인창은 거부한다.
+  page.removeAllListeners('dialog');
+  page.on('dialog', (dialog) => {
+    if (dialog.type() === 'beforeunload') dialog.accept().catch(() => {});
+    else { console.log(`예상하지 못한 대화상자: ${dialog.message()}`); dialog.dismiss().catch(() => {}); }
+  });
   let ok = 0, fail = 0;
-  for (const d of targets) {
-    const slug = (d.target || '').replace('/celeb/', '');
-    try {
+  let current = '';
+  try {
+    if (ids.some(id => !/^\d{9,}$/.test(id))) throw new Error('글 번호 형식 오류');
+    if (new Set(ids).size !== ids.length) throw new Error('대상 글 번호 중복');
+    const selected = ids.length ? ids.map(id => {
+      const matches = drafts.filter(d => String(d.logNo) === id);
+      if (matches.length !== 1) throw new Error(`초안에서 글 번호를 하나로 찾지 못했다: ${id}`);
+      return matches[0];
+    }) : drafts.filter(d => d.logNo);
+    const excluded = ['private', 'deleted', 'to-delete', 'replaced', 'skip'];
+    const targets = selected.filter(d => {
+      const post = posts.find(p => String(p.logNo) === String(d.logNo));
+      if ([d.link, d.status, post?.link, post?.status].some(value => excluded.includes(value))) {
+        if (ids.length) throw new Error(`액자 적용에서 제외된 글이다: ${d.logNo}`);
+        return false;
+      }
+      if (d.framed) { console.log(`건너뜀 ${d.logNo} — 이미 액자를 적용했다`); return false; }
+      return true;
+    });
+    if (new Set(targets.map(d => String(d.logNo))).size !== targets.length) throw new Error('초안의 글 번호 중복');
+    console.log(`액자 대상 ${targets.length}편`);
+    for (const d of targets) {
+      current = `${d.logNo} ${d.title}`;
+      const target = { ...d, ...posts.find(p => String(p.logNo) === String(d.logNo)), body: d.body };
       await ensureVisible(page);
-      await page.goto(`https://blog.naver.com/PostUpdateForm.naver?blogId=dmx777&logNo=${d.logNo}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
-      await page.waitForSelector('.se-component.se-image', { timeout: 40000 });
-      await wait(4000);
+      const initial = await editor.openTarget(target);
+      if (!initial.content.images) { console.log(`대상 없음 ${d.logNo} — 사진 0장`); continue; }
+      await assertPublishOptions(page);
+      const originalSizes = await editor.imageSizes(initial.content.images);
+      const expectedSizes = originalSizes.map(([width, height]) => [width + 40, height + 40]);
+      await editor.click('button[class*=publish_fold_btn]');
+      await page.waitForSelector('button[class*=confirm_btn]', { hidden: true, timeout: 10000 });
+      if (!(await applyPhotoFrame(page))) throw new Error('액자를 적용할 사진이 없다');
+      if (!same(await editor.imageSizes(initial.content.images, expectedSizes), expectedSizes)) throw new Error('모든 사진에 액자가 적용되지 않았다 — 저장하지 않는다');
+      if (!same(await editor.content(), initial.content)) throw new Error('액자 적용 후 제목·본문·사진 수·구분선이 바뀌었다 — 저장하지 않는다');
 
-      const before = await page.evaluate(() => document.querySelectorAll('.se-component.se-text:not(.se-documentTitle) .se-text-paragraph').length);
-      await applyPhotoFrame(page);
-      const after = await page.evaluate(() => document.querySelectorAll('.se-component.se-text:not(.se-documentTitle) .se-text-paragraph').length);
-      if (before !== after) throw new Error(`본문 단락이 ${before}→${after} 로 바뀌었다 — 발행하지 않는다`);
+      await editor.click('button[class*=publish_btn]');
+      await page.waitForSelector('#publish-option-search', { timeout: 10000 });
+      if (!same(await editor.settings(), initial.state)) throw new Error('발행 설정이나 예약 시각이 바뀌었다 — 저장하지 않는다');
+      await assertPublishOptions(page);
+      await editor.click('button[class*=confirm_btn]');
+      await page.waitForFunction(id => location.href.includes(`logNo=${id}`) && location.href.includes('isAfterUpdateOnly=true'), { timeout: 30000 }, String(d.logNo));
 
-      await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
-      const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
-      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(7000);
-      const okPos = await page.evaluate(() => {
-        const b = [...document.querySelectorAll('.se-popup button')].find((x) => x.textContent.trim() === '확인');
-        if (!b) return null; const r = b.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-      });
-      if (okPos) { await page.mouse.click(okPos.x, okPos.y); await wait(4000); }
+      const verified = await editor.openTarget(target);
+      await assertPublishOptions(page);
+      if (!same(verified.content, initial.content)) throw new Error('저장 후 제목·본문·사진 수·구분선이 바뀌었다');
+      if (!same(verified.state, initial.state)) throw new Error('저장 후 발행 설정이나 예약 시각이 바뀌었다');
+      if (!same(verified.reservation, initial.reservation)) throw new Error('저장 후 예약 목록이나 예약 시각이 바뀌었다');
+      if (!same(await editor.imageSizes(initial.content.images, expectedSizes), expectedSizes)) throw new Error('저장 후 사진의 액자 크기가 유지되지 않았다');
       d.framed = true;
       saveAll();
       ok++;
-      console.log(`OK ${slug} — 액자`);
-    } catch (e) {
-      fail++;
-      console.log(`실패 ${slug}: ${String(e).split(String.fromCharCode(10))[0].slice(0, 160)}`);
+      console.log(`OK ${current} — 액자 저장·재열기 확인`);
     }
+  } catch (e) {
+    fail++;
+    console.log(`실패 ${current}: ${String(e).split(String.fromCharCode(10))[0].slice(0, 160)}`);
   }
   console.log(`
 액자 완료 — 성공 ${ok} / 실패 ${fail}`);
-  if (launched) await browser.close(); else browser.disconnect();
-  process.exit(0);
+  if (launched) await browser.close(); else await browser.disconnect();
+  process.exit(fail ? 1 : 0);
 }
 
 /**
@@ -676,6 +725,7 @@ if (rewriteIds.length) {
 
       await (await page.$('button[class*=publish_btn]')).click(); await wait(1500);
       const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
+      await assertPublishOptions(page);
       await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(7000);
       const okPos = await page.evaluate(() => {
         const b = [...document.querySelectorAll('.se-popup button')].find((x) => x.textContent.trim() === '확인');
@@ -690,11 +740,12 @@ if (rewriteIds.length) {
     } catch (e) {
       fail++;
       console.log(`실패 ${slug}: ${String(e).split('\n')[0].slice(0, 180)}`);
+      break; // 본문 수정도 첫 오류에서 멈춘다.
     }
   }
   console.log(`\n다시 쓰기 완료 — 성공 ${ok} / 실패 ${fail}`);
   if (launched) await browser.close(); else browser.disconnect();
-  process.exit(0);
+  process.exit(fail ? 1 : 0);
 }
 
 let n = 0;
@@ -741,16 +792,14 @@ for (const d of drafts) {
     if (!(await selectCategory(page, d.category))) throw new Error('카테고리 선택 실패: ' + d.category);
     const tagCount = await addTags(page, d.tags);
     if (scheduling) { const when = slotList[n]; if (!when) throw new Error('예약 슬롯 부족'); schedText = await setSchedule(page, when); }
-    const searchOn = await page.evaluate(() => document.querySelector('#publish-option-search')?.checked);
-    const isPublic = await page.evaluate(() => [...document.querySelectorAll('[class*=option_open_type] input[type=radio]')].findIndex((r) => r.checked) === 0);
-    if (!searchOn || !isPublic) throw new Error(`발행 설정 이상 search=${searchOn} public=${isPublic}`);
-
     if (dry) {
+      await assertPublishOptions(page);
       await page.screenshot({ path: `${SC}/nb-newpost-dry.png` });
       console.log('DRY-OK', d.title, '| 카테고리', d.category, '| 태그', tagCount, '| 단락', got.length, schedText ? '| 예약 ' + schedText : '');
       break;
     }
     const cb = await page.$('button[class*=confirm_btn]'); const box = await cb.boundingBox();
+    await assertPublishOptions(page);
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2); await wait(7000);
     const url = page.url();
     const logNo = url.match(/logNo=(\d+)/)?.[1];
@@ -766,8 +815,15 @@ for (const d of drafts) {
   } catch (e) {
     console.log('실패', d.title, String(e).split(String.fromCharCode(10))[0].slice(0, 160));
     d.status = 'error'; d.error = String(e).slice(0, 200); saveAll();
+    process.exitCode = 1;
     break; // 새 글 발행은 한 건이라도 실패하면 멈추고 사람이 본다
   }
 }
 await cdp.send('Page.setInterceptFileChooserDialog', { enabled: false }).catch(() => {});
 if (launched) await browser.close(); else browser.disconnect();   // 사용자 창은 끄지 않는다
+}
+
+export { bodyParas, typeTitle, typeLine, insertImage, insertDivider, insertQuote, applyPhotoFrame, IMG_RE, strip, isDivider, isImg, isQuote };
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  main().catch(error => { console.error(error); process.exitCode = 1; });
+}

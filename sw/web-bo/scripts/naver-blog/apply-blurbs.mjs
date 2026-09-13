@@ -14,10 +14,10 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const DRAFTS = path.join(ROOT, 'data/naver-blog/celeb-drafts.json');
+const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const args = process.argv.slice(2);
 const dry = args.includes('--dry');
 const useAll = args.includes('--all');

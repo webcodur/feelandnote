@@ -4,9 +4,9 @@
 import { getBrowser, getNaverPage } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const POSTS = path.join(ROOT, 'data/naver-blog/posts.json');
+const POSTS = path.join(ASSETS, 'naver-blog/posts.json');
 const args = process.argv.slice(2);
 const dry = args.includes('--dry');
 const ids = args.filter((a) => /^\d{9,}$/.test(a));

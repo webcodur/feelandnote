@@ -8,9 +8,9 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const DRAFTS = path.join(ROOT, 'data/naver-blog/celeb-drafts.json');
+const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const raw = JSON.parse(fs.readFileSync(DRAFTS, 'utf8'));
 const all = Array.isArray(raw) ? raw : raw.items ?? raw.drafts ?? [];
 const targets = process.argv.includes('--all') ? all : all.filter((x) => x.status === 'draft');

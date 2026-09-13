@@ -10,8 +10,9 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 
-const DRAFTS = path.join(path.resolve(import.meta.dirname, '../../../..'), 'data/naver-blog/celeb-drafts.json');
+const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const dry = process.argv.includes('--dry');
 
 const KIND = '(책|소설|기록|시집|산문집|평전|자서전|에세이|철학서|희곡|서사시|대서사시|문집|보고서|연구서|민족지|우화|동화|전기|사서|경전|시선집)';

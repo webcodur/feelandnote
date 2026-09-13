@@ -8,9 +8,10 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { ASSETS } from '../blog-assets.mjs';
 import { getBrowser, getNaverPage, ensureLoggedIn } from './lib/browser.mjs';
 
-const DRAFTS = path.join(path.resolve(import.meta.dirname, '../../../..'), 'data/naver-blog/celeb-drafts.json');
+const DRAFTS = path.join(ASSETS, 'naver-blog/celeb-drafts.json');
 const args = process.argv.slice(2);
 const one = args.find((a) => /^\d{9,}$/.test(a));
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
