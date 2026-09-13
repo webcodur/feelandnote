@@ -106,6 +106,16 @@ export function sourceToLocale(source: string | null | undefined): string {
   }
 }
 
+/**
+ * BOOK 등록 시 언어 행의 locale. 카카오·알라딘은 수입 원서(영문 제목)도 돌려주는데 그것을 ko 행에 넣으면
+ * 한국어 화면에 영문 제목이 나가고 언어 카드 정비가 그 행을 지운다(26.09.10 실측). 제목에 한글이 없으면 en 으로 담는다.
+ */
+export function resolveBookLocale(source: string | null | undefined, title: string | null | undefined): string {
+  const base = sourceToLocale(source)
+  if (base === 'ko' && title && !/[가-힣]/.test(title)) return 'en'
+  return base
+}
+
 /** external_source → sources JSONB */
 export function sourceToJsonb(source: string | null | undefined): Record<string, string> {
   return { primary: source || 'unknown' }

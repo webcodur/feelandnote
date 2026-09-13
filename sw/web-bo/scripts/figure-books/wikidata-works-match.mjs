@@ -352,6 +352,11 @@ async function repair(db, canonical, enrichCachePath) {
     await must('locale 삭제', db.from('content_locales').delete().eq('content_id', id))
     await must('작품 삭제', db.from('contents').delete().eq('id', id))
   }
+    // contents 를 가리키는 다른 표(인물 감상·회원 기록·기관 선정 목록·컬렉션·기록·노트)가 있으면 지우지 않는다. 26.09.11 목록 참조를 안 본 삭제로 연결 93건이 끊겼다.
+    for (const table of ['celeb_contents', 'member_contents', 'curated_list_items', 'flow_nodes', 'records', 'notes']) {
+      const { count } = await db.from(table).select('content_id', { count: 'exact', head: true }).eq('content_id', id)
+      if (count) { console.log(`  삭제 보류 ${id.slice(0, 8)} — ${table} 참조 ${count}건`); return }
+    }
   const insertEditions = async (contentId, rows, title) => {
     for (const locale of rows) {
       const kind = MULTIPART.test(String(title ?? '')) ? {} : { edition_kind: 'full', text_scope: 'complete' }

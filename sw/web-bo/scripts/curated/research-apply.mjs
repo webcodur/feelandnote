@@ -105,38 +105,47 @@ async function main() {
       if (ins.error) throw new Error(`contents ${label}: ${ins.error.message}`)
       contentId = ins.data.id
     }
-    // 4) 언어 행 — 이미 있는 행은 건드리지 않는다
-    const { data: have } = await db.from('content_locales').select('locale').eq('content_id', contentId)
+    // 4) 언어 행 — 실제 판본 행은 건드리지 않는다. 표시용 행(primary 'none')은 실판본을 찾았을 때 공식 값으로 덮는다(celeb-02-02).
+    const { data: have } = await db.from('content_locales').select('locale,sources').eq('content_id', contentId)
+    const isDisplayRow = (row) => row?.sources?.primary === 'none'
+    const koRow = (have ?? []).find((l) => l.locale === 'ko'), enRow = (have ?? []).find((l) => l.locale === 'en')
     const haveLoc = new Set((have ?? []).map((l) => l.locale))
-    const inserts = []
-    if (!haveLoc.has('ko')) {
+    const inserts = [], updates = []
+    if (!haveLoc.has('ko') || (ko && isDisplayRow(koRow))) {
       if (ko) {
         const intro = await fetchBookIntroduction({ isbn: ko.isbn, locale: 'ko' }).catch(() => null)
         const sources = { primary: 'kakao_book', note: NOTE }
         if (ko.url) sources.title = ko.url
         if (intro?.source) sources.description = intro.sourceUrl
         if (ko.outOfPrint) sources.availability = 'out_of_print'
-        inserts.push({ content_id: contentId, locale: 'ko', title: ko.title, creator: ko.creator, thumbnail_url: ko.thumbnail, publisher: ko.publisher, isbn: ko.isbn, description: intro?.source ?? null, verified: true, sources })
+        const row = { content_id: contentId, locale: 'ko', title: ko.title, creator: ko.creator, thumbnail_url: ko.thumbnail, publisher: ko.publisher, isbn: ko.isbn, description: intro?.source ?? null, verified: true, sources }
+        koRow ? updates.push(row) : inserts.push(row)
       } else if (r.title_ko) {
         const sources = { primary: 'none', title: r.kind_ko }
         if (koOutOfPrint) sources.availability = 'out_of_print'
         inserts.push({ content_id: contentId, locale: 'ko', title: r.title_ko, creator: r.creator_ko ?? null, verified: false, sources })
       }
     }
-    if (!haveLoc.has('en')) {
+    if (!haveLoc.has('en') || (en && isDisplayRow(enRow))) {
       if (en) {
         const intro = await fetchBookIntroduction({ isbn: en.isbn, locale: 'en' }).catch(() => null)
         const sources = { primary: 'openlibrary', note: NOTE }
         if (intro?.source) sources.description = intro.sourceUrl
-        inserts.push({ content_id: contentId, locale: 'en', title: en.title, creator: en.creator, thumbnail_url: en.thumbnail, publisher: en.publisher, isbn: en.isbn, description: intro?.source ?? null, verified: true, sources })
+        const row = { content_id: contentId, locale: 'en', title: en.title, creator: en.creator, thumbnail_url: en.thumbnail, publisher: en.publisher, isbn: en.isbn, description: intro?.source ?? null, verified: true, sources }
+        enRow ? updates.push(row) : inserts.push(row)
       } else if (r.title_en && !hasHangul(r.title_en)) {
         inserts.push({ content_id: contentId, locale: 'en', title: r.title_en, creator: r.creator_en ?? null, verified: false, sources: { primary: 'none', title: r.kind_en } })
       }
     }
     if (inserts.length) { const li = await db.from('content_locales').insert(inserts); if (li.error) throw new Error(`locales ${label}: ${li.error.message}`) }
+    for (const row of updates) {
+      const { content_id, locale, ...values } = row
+      const up = await db.from('content_locales').update(values).eq('content_id', content_id).eq('locale', locale)
+      if (up.error) throw new Error(`locale update ${label}: ${up.error.message}`)
+    }
     const u = await db.from('curated_list_items').update({ content_id: contentId }).eq('id', item.id)
     if (u.error) throw new Error(`link ${label}: ${u.error.message}`)
-    log({ item: item.id, list: item.list_id, content: contentId, kind, ko, en, research: r, inserted: inserts.map((i) => i.locale) })
+    log({ item: item.id, list: item.list_id, content: contentId, kind, ko, en, research: r, inserted: inserts.map((i) => i.locale), replaced: updates.map((u) => u.locale) })
     touched.contents.add(contentId); touched.lists.add(item.list_id)
   }
   console.log(`\n한국어판 ${stat.ko} / 영문판 ${stat.en} / 둘 다 ${stat.both} / 판본 없음(표시행만) ${stat.none} / 기존 작품 재사용 ${stat.reuse} / 절판 표식 ${stat.outOfPrint} / 건너뜀 ${stat.skip}${APPLY ? ' — 반영 완료' : ' — dry-run이다. 반영하려면 --apply를 붙인다.'}`)
