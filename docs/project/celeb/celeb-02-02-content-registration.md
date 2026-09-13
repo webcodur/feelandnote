@@ -46,6 +46,8 @@ ISBN만 있거나 검색 스니펫·출판사 소개·도서관 소장 정보만
 
 기관 선정 목록에 오른 옛 한국 작품처럼 **원어가 한국어인데 지금 유통되는 판본이 없는 책**은 「번역본 없음」이 아니다. 이런 책은 작품을 만들어 목록에 잇되(`external_source`·`external_id` 비움), ko 행은 원제·저자를 든 표시용 행(`sources.primary='none'`, `sources.title='original'`)으로 두고 **`sources.availability='out_of_print'`** 를 적는다. 화면은 이 표식을 판본 확인보다 먼저 보고 「절판된 책 / Out of print」 띠를 붙인다(`content-locale.ts`의 `resolveTitleBadge`). 실재 판본을 카카오에서 확인했는데 판매 상태가 `절판`·`품절`이면 그 판본 행에도 같은 표식을 둔다. 새 컬럼을 만들지 않고 `sources` JSONB 한 키로 끝낸다. 선집·전집만 남은 작품은 선집을 판본으로 삼지 않고 이 절차를 따른다. 실행점은 `sw/web-bo/scripts/curated/research-apply.mjs`다.
 
+실판본의 절판 여부는 카카오 검색 API의 `status`가 `절판`일 때, 또는 카카오가 상태를 비워 둔 책을 알라딘 상품 페이지(`wproduct.aspx?ISBN=`)의 `schema.org` `availability`가 `OutOfStock`이고 본문에 「절판」 문구가 있을 때 인정한다(26.09.13 실측: 카카오 빈 상태 표본 4권 전부 알라딘 절판, 정상판매 2권은 InStock). YES24·교보·다음 책은 스크립트 렌더링이라 한 번의 요청으로 못 읽는다. 실행점은 `sw/web-bo/scripts/contents/book-availability-sync.mjs --aladin`이며, 26.09.13에 한국어 실판본 전량을 한 번 돌렸다. **이후로는 전수 조회를 반복하지 않고** 새 등록분이나 표본(`--limit`)만 가끔 점검한다(사용자 결정).
+
 ### 영문판과 표지
 
 - OpenLibrary에서 영문 제목·원저자·ISBN을 확인한다.
