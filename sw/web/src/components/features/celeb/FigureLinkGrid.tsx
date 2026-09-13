@@ -6,6 +6,7 @@
         얼굴은 CelebAvatarImage가 96px 작은 판을 받아 24장이 실려도 가볍다.
 */
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { getLocale } from "next-intl/server";
 import { User } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -158,7 +159,7 @@ export default async function FigureLinkGrid({
               {/* 지연 구획이 펼쳐지면 이 밀집 목록이 뷰포트에 여러 번 들어오며 Next가
                   같은 상세 RSC를 반복해서 미리 읽는다. 클릭 이동만 남겨 요청 폭주를 막는다. */}
               <Link
-                href={`/celeb/${figure.slug}`}
+                href={getCelebProfileUrl(figure)}
                 prefetch={false}
                 className={`group flex h-full ${CARD_MIN_H} items-stretch overflow-hidden rounded-xl border border-white/10 bg-white/[0.05] hover:border-accent/30 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
               >

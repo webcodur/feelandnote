@@ -6,6 +6,7 @@
 
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { Link } from "@/i18n/navigation";
 import { CelebImage } from "@/components/ui";
 import { getCountryFlag } from "@/lib/utils/countryFlag";
@@ -43,7 +44,7 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
           return (
             <Link
               key={c.id}
-              href={c.slug ? `/celeb/${c.slug}` : `/celeb/${c.id}`}
+              href={getCelebProfileUrl(c)}
               className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-bg-card/80 border border-white/10 hover:border-accent/30 hover:bg-white/5 transition-colors group/cont"
             >
               <span className="text-sm">{getCountryFlag(c.nationality!)}</span>

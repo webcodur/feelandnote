@@ -4,8 +4,7 @@
  * - 데이터: getCelebBySlug 서버액션, resolveCelebWorld
  * - 함께 보기: page.tsx, CelebPageContent.tsx
  * ───────────────────────────────────────────── */
-import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
-import { notFound } from "next/navigation";
+import { getCelebRouteProfile } from "@/lib/profile-route";
 import { setRequestLocale } from "next-intl/server";
 import RecentProfileTracker from "@/components/features/profile/RecentProfileTracker";
 import CelebWorldMaterialScope from "@/components/features/celeb/CelebWorldMaterialScope";
@@ -27,13 +26,7 @@ const NO_WORLD_THEME_SLUGS = new Set(["william-shakespeare"]);
 export default async function CelebLayout({ children, params }: LayoutProps) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const result = await getCelebBySlug(slug, locale);
-
-  if (!result.success || !result.data) {
-    notFound();
-  }
-
-  const profile = result.data;
+  const profile = await getCelebRouteProfile(slug, locale);
   const worldId = resolveCelebWorld({
     nationality: profile.nationality,
     birthDate: profile.birth_date,
@@ -58,6 +51,7 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
         <RecentProfileTracker
           profile={{
             id: profile.id,
+            slug: profile.slug,
             nickname: profile.nickname,
             nickname_en: profile.nickname_en,
             nickname_ko: profile.nickname_ko,

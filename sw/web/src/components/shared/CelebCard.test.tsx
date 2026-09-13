@@ -78,9 +78,9 @@ test("English names and links use the locale while views remain a separate actio
   assert.equal($('button[aria-label*="viewsBadge"]').length, 1);
 });
 
-test("cards without a loaded profile retain the UUID route and offer no unusable dialogue button", () => {
+test("cards without a loaded profile use the figure ID route and offer no unusable dialogue button", () => {
   const $ = renderCard({ profile: false });
-  assert.equal($('a[href="/figure-id"]').find('[role="img"]').length, 1);
+  assert.equal($('a[href="/celeb/figure-id"]').find('[role="img"]').length, 1);
   assert.equal($('button[aria-label*="Show dialogue"]').length, 0);
 });
 

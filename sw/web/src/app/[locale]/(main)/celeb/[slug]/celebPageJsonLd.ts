@@ -11,6 +11,7 @@ import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { getAlternates, getCreativeWorkCreatorJsonLd, getSeoImageUrl } from "@/lib/seo";
+import { getCelebProfileUrl } from "@/lib/url";
 import type { CelebExternalLink } from "@/types/celebExternalLinks";
 
 interface BuildCelebPageJsonLdInput {
@@ -41,7 +42,7 @@ export function buildCelebPageJsonLd({
   externalLinks,
 }: BuildCelebPageJsonLdInput): object {
   const seoLocale = locale === "en" ? "en" : "ko";
-  const canonicalUrl = getAlternates(`/celeb/${slug}`, seoLocale).canonical;
+  const canonicalUrl = getAlternates(getCelebProfileUrl({ slug }), seoLocale).canonical;
   const personId = `${canonicalUrl}#person`;
   // 순수 전승(FICTION)만 실존 사실 필드를 뺀다. BOTH는 실존 핵심이 있으니 그대로 싣는다.
   const isFiction = profile.celeb_reality === "FICTION";

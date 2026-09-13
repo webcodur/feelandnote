@@ -13,6 +13,7 @@ const MAX_ITEMS = 5;
 
 export interface RecentProfileItem {
   id: string;
+  slug?: string | null;
   nickname: string;
   nickname_en?: string | null;
   nickname_ko?: string | null;

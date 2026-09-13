@@ -6,20 +6,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRecentProfiles } from "@/hooks/useRecentProfiles";
+import { useRecentProfiles, type RecentProfileItem } from "@/hooks/useRecentProfiles";
 
 interface RecentProfileTrackerProps {
-  profile: {
-    id: string;
-    nickname: string;
-    nickname_en?: string | null;
-    nickname_ko?: string | null;
-    avatarUrl: string | null;
-    title: string | null;
-    title_en?: string | null;
-    title_ko?: string | null;
-    profileType: "USER" | "CELEB";
-  };
+  profile: Omit<RecentProfileItem, "visitedAt">;
 }
 
 export default function RecentProfileTracker({ profile }: RecentProfileTrackerProps) {

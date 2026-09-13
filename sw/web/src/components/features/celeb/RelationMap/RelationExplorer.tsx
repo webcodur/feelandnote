@@ -1,5 +1,6 @@
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { useCallback, useRef, useState, useTransition } from "react";
 import { ArrowUpRight, Loader2, User } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -161,7 +162,7 @@ export default function RelationExplorer({ initial, starters, isEn }: RelationEx
               <span className="text-lg font-semibold text-text-primary md:text-xl">{centerName}</span>
               {current.center.slug && (
                 <Link
-                  href={`/celeb/${current.center.slug}`}
+                  href={getCelebProfileUrl(current.center)}
                   aria-label={t("openDetail", { name: centerName })}
                   className="text-text-secondary hover:text-accent"
                 >

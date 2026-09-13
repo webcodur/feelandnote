@@ -6,7 +6,9 @@ import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { GripVertical, User } from "lucide-react";
 import { useRecentProfiles } from "@/hooks/useRecentProfiles";
+import { getCelebProfileUrl } from "@/lib/url";
 import { BLUR_DATA_URL } from "@/constants/image";
+import { Z_INDEX } from "@/constants/zIndex";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 
@@ -26,18 +28,19 @@ export default function RecentProfilesSection() {
         type="button"
         onClick={() => setIsExpanded((prev) => !prev)}
         aria-label={isExpanded ? t("collapseRecent") : t("expandRecent")}
-        className="hidden lg:flex items-center justify-center fixed left-0 top-1/2 -translate-y-1/2 z-40 h-14 w-7 bg-bg-card/85 backdrop-blur-sm border border-white/10 border-l-0 rounded-r-lg shadow-lg hover:bg-bg-card"
+        style={{ zIndex: Z_INDEX.sidebar }}
+        className="hidden lg:flex items-center justify-center fixed left-0 top-1/2 -translate-y-1/2 h-14 w-7 bg-bg-card/85 backdrop-blur-sm border border-white/10 border-l-0 rounded-r-lg shadow-lg hover:bg-bg-card"
       >
         <GripVertical size={14} className="text-text-secondary/80" />
       </button>
 
       {isExpanded && (
-        <aside className="hidden lg:flex flex-col items-center gap-2 fixed left-8 top-1/2 -translate-y-1/2 z-30 py-2 ps-1 pe-1.5 bg-bg-card/85 backdrop-blur-sm border border-white/10 rounded-r-xl shadow-lg">
+        <aside style={{ zIndex: Z_INDEX.popover }} className="hidden lg:flex flex-col items-center gap-2 fixed left-8 top-1/2 -translate-y-1/2 py-2 ps-1 pe-1.5 bg-bg-card/85 backdrop-blur-sm border border-white/10 rounded-r-xl shadow-lg">
           <div className="w-5 border-t border-white/10" />
           {recentItems.map((item) => (
             <div key={item.id} className="relative">
               <Link
-                href={`/${item.id}`}
+                href={item.profileType === "CELEB" ? getCelebProfileUrl(item) : `/${item.id}`}
                 className="block"
                 onMouseEnter={() => setHoveredId(item.id)}
                 onMouseLeave={() => setHoveredId(null)}

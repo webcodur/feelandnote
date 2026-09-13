@@ -1,5 +1,6 @@
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
@@ -282,7 +283,7 @@ export function useHeaderSearch() {
       const category = result.category || "book";
       router.push(`/content/${result.id}?category=${category}`);
     } else if (result.type === "celeb") {
-      router.push(`/celeb/${result.slug || result.id}`);
+      router.push(getCelebProfileUrl(result));
     } else if (result.type === "user") {
       router.push(`/${result.id}`);
     } else if (result.type === "tag") {

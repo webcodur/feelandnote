@@ -7,6 +7,7 @@
 */ // ------------------------------
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -108,7 +109,7 @@ export default function CelebNameCandidates({
             return (
               <li key={match.slug}>
                 <Link
-                  href={`/celeb/${match.slug}`}
+                  href={getCelebProfileUrl(match)}
                   onClick={onClose}
                   className="flex items-center gap-2.5 px-3 py-2 hover:bg-accent/[0.12] focus-visible:bg-accent/[0.12] focus-visible:outline-none"
                 >

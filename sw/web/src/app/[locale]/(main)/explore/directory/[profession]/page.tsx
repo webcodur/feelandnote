@@ -6,6 +6,7 @@
         "직군 + 인물" 검색어와 이어질 단서를 만든다. 직군 목록은 CELEB_PROFESSIONS 상수가 쥔다.
 */ // ------------------------------
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getCelebDirectory } from "@/actions/celebs/getCelebDirectory";
@@ -89,7 +90,7 @@ export default async function ProfessionDirectoryPage({ params }: PageProps) {
           const title = locale === "en" ? celeb.title_en ?? celeb.title : celeb.title;
           return (
             <li key={celeb.slug}>
-              <a href={`${localePrefix}/celeb/${celeb.slug}`} className={ITEM_CLASS}>
+              <a href={`${localePrefix}${getCelebProfileUrl(celeb)}`} className={ITEM_CLASS}>
                 <span className="font-medium shrink-0">{displayName}</span>
                 {title && (
                   <span className="truncate text-xs text-text-secondary">{title}</span>

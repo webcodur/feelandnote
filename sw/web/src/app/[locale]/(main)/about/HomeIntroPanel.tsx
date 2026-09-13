@@ -5,6 +5,7 @@
         나머지 소개 본문(지향점·현황·제작 방식·초대)은 /about 한 곳에만 둔다.
 */
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { getLocale, getTranslations } from "next-intl/server";
 import { getProfilesBySlugs } from "@/actions/celebs/getProfilesBySlugs";
 import IntroFrame from "@/components/features/home/IntroFrame";
@@ -26,7 +27,7 @@ async function buildIntroLabels(locale: string) {
   rawChains.flat().forEach((step) => {
     const names = [...step.text.matchAll(/\[\[(.*?)\]\]/g)].map((match) => match[1]);
     [step.reader, step.author].forEach((slug, index) => {
-      if (profileMap[slug] && names[index]) figureLinks[names[index]] = `/celeb/${profileMap[slug].slug}`;
+      if (profileMap[slug] && names[index]) figureLinks[names[index]] = getCelebProfileUrl(profileMap[slug]);
     });
   });
   const isEn = locale === "en";

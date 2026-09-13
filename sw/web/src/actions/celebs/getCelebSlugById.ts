@@ -8,9 +8,8 @@
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/db/static'
-import { cachedDetail, throwOnQueryError, withQueryFallback } from '@/lib/cache'
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+import { cachedDetail, throwOnQueryError } from '@/lib/cache'
+import { isProfileId } from '@/lib/url'
 
 async function fetchCelebSlug(celebId: string): Promise<string | null> {
   const db = createStaticClient()
@@ -33,17 +32,12 @@ async function fetchCelebSlug(celebId: string): Promise<string | null> {
  * 그때마다 인물 테이블을 두드리면 헛조회가 쌓인다.
  */
 export async function getCelebSlugById(celebId: string): Promise<string | null> {
-  if (!UUID.test(celebId)) return null
+  if (!isProfileId(celebId)) return null
 
-  return withQueryFallback(
-    'getCelebSlugById',
-    () =>
-      cachedDetail(
-        CACHE_TAGS.CELEBS,
-        celebId,
-        ['celeb-slug-by-id', celebId],
-        () => fetchCelebSlug(celebId),
-      ),
-    null,
+  return cachedDetail(
+    CACHE_TAGS.CELEBS,
+    celebId,
+    ['celeb-slug-by-id', celebId],
+    () => fetchCelebSlug(celebId),
   )
 }

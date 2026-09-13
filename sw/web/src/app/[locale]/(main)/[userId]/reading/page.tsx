@@ -1,34 +1,29 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/db/server";
-import { getUserProfile } from "@/actions/user";
-import { notFound } from "next/navigation";
+import { getMemberRouteProfile } from "@/lib/profile-route";
 import RecordsContent from "./RecordsContent";
 
 interface PageProps {
-  params: Promise<{ userId: string }>;
+  params: Promise<{ userId: string; locale: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { userId } = await params;
+  const { userId, locale } = await params;
   const t = await getTranslations("pages");
-  const result = await getUserProfile(userId);
-  const nickname = result.success ? result.data?.nickname : t("userFallback");
+  const { nickname } = await getMemberRouteProfile(userId, locale);
   return { title: t("userRecords", { nickname }) };
 }
 
 export default async function RecordsPage({ params }: PageProps) {
-  const { userId } = await params;
+  const { userId, locale } = await params;
   const db = await createClient();
   const { data: { user: currentUser } } = await db.auth.getUser();
 
-  const result = await getUserProfile(userId);
-  if (!result.success || !result.data) {
-    notFound();
-  }
+  const profile = await getMemberRouteProfile(userId, locale);
 
   const isOwner = currentUser?.id === userId;
-  const nickname = result.data.nickname ?? undefined;
+  const nickname = profile.nickname ?? undefined;
 
   return <RecordsContent userId={userId} isOwner={isOwner} nickname={nickname} />;
 }

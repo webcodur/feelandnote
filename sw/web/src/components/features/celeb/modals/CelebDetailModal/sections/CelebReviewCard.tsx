@@ -1,5 +1,6 @@
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import React, { useState } from "react";
 import { User } from "lucide-react";
 import type { CelebProfile } from "@/types/home";
@@ -26,11 +27,9 @@ export function CelebReviewCard({ review, celeb, modalZIndex }: { review: CelebR
 
   const timeAgo = formatDistanceToNow(new Date(review.updated_at), { addSuffix: true, locale: DATE_LOCALES[locale as keyof typeof DATE_LOCALES] ?? ko });
 
-  /* 인물 상세는 `/celeb/<이름>`이 정본 주소다. `/<식별자>`는 회원 전용 자리라
-     인물을 넣으면 404가 난다(26.08.10 확인 — 인물 조회는 slug로만 한다). */
   const handleNavigateToUser = () => {
     setShowUserModal(false);
-    router.push(`/celeb/${celeb.slug ?? celeb.id}`);
+    router.push(getCelebProfileUrl(celeb));
   };
 
   const headerNode = (

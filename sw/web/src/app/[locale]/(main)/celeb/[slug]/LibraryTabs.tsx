@@ -15,6 +15,7 @@ import ContentLibrary from "@/components/features/user/contentLibrary/ContentLib
 import { ARCHIVE_ICON_CONTROL_CLASS } from "@/components/features/user/contentLibrary/controlBar/ArchiveViewControls";
 import CreativeLibrary from "@/components/features/celeb/creativeLibrary/CreativeLibrary";
 import { cn } from "@/lib/utils";
+import { getCelebProfileUrl } from "@/lib/url";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
@@ -63,9 +64,8 @@ export default function LibraryTabs({
   }, []);
   const [isRecordsConfirmOpen, setIsRecordsConfirmOpen] = useState(false);
   // next-intl router가 화면 언어 접두어를 붙이므로 여기선 접두어 없는 경로만 만든다
-  const recordsHref = activeContent
-    ? `/celeb/${slug}/records?focus=${encodeURIComponent(activeContent.contentId)}`
-    : `/celeb/${slug}/records`;
+  const recordsHref = `${getCelebProfileUrl({ id: userId, slug })}/records`
+    + (activeContent ? `?focus=${encodeURIComponent(activeContent.contentId)}` : "");
 
   const tabs: ArchiveTabItem<LibraryTab>[] = [
     ...(hasConsumption ? [{ key: "consume" as const, label: t("tabConsume") }] : []),

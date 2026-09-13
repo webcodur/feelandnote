@@ -134,6 +134,34 @@ test('OpenLibrary의 한글 소개와 명시된 비영어 자료는 영문 소�
   assert.equal((await introductions.fetchBookIntroduction({ isbn: '9780140328721', locale: 'en' })).source, null)
 })
 
+test('OpenLibrary의 eng 표식도 프랑스어 본문과 쪽수·판형을 소개로 통과시키지 않는다', async (t) => {
+  let description = 'Une description du livre.'
+  t.mock.method(globalThis, 'fetch', async () => Response.json({
+    description, languages: [{ key: '/languages/eng' }],
+  }))
+  for (const invalid of ['Une description du livre.', '223 pages ;20 cm']) {
+    description = invalid
+    assert.deepEqual(await introductions.fetchBookIntroduction({ isbn: '9780140328721', locale: 'en' }), {
+      source: null, sourceUrl: null, description: null,
+    })
+    const fixed = await introductions.fetchBookIntroduction({ locale: 'en', source: 'OPEN', sourceUrl: 'https://openlibrary.org/works/OL1W' })
+    assert.equal(fixed.description, null)
+    assert.equal(fixed.source, 'OPEN')
+    assert.equal(fixed.sourceUrl, 'https://openlibrary.org/works/OL1W')
+  }
+  description = 'This is a story of friendship and adventure.'
+  assert.equal((await introductions.fetchBookIntroduction({ isbn: '9780140328721', locale: 'en' })).description, description)
+})
+
+test('영문 판본에서 작품 소개로 이동할 때도 본문 언어를 검사한다', async (t) => {
+  t.mock.method(globalThis, 'fetch', async (url: Parameters<typeof fetch>[0]) => String(url).includes('/isbn/')
+    ? Response.json({ works: [{ key: '/works/OL1W' }], languages: [{ key: '/languages/eng' }] })
+    : Response.json({ description: 'Une description du livre.' }))
+  assert.deepEqual(await introductions.fetchBookIntroduction({ isbn: '9780140328721', locale: 'en' }), {
+    source: null, sourceUrl: null, description: null,
+  })
+})
+
 test('출처와 화면 언어가 다르면 외부에 요청하지 않는다', async (t) => {
   const fetchMock = t.mock.method(globalThis, 'fetch', async () => { throw new Error('unexpected fetch') })
   assert.equal((await introductions.fetchBookIntroduction({ isbn: ISBN, locale: 'en', source: 'DAUM' })).description, null)

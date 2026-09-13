@@ -5,12 +5,13 @@
  * - 함께 보기: celebPageJsonLd.ts, page.tsx
  * ───────────────────────────────────────────── */
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 
 import { getFigureBooksForCeleb, type FigureBookContent } from "@/actions/figure-books/getFigureBooks";
-import { getCelebBySlug, type CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
+import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
+import { getCelebRouteProfile } from "@/lib/profile-route";
 import { buildCelebDescription, buildCelebTitle, type CelebMetaInput } from "@/lib/celeb/meta";
 import { getAlternates, getSeoImageUrl } from "@/lib/seo";
+import { getCelebProfileUrl } from "@/lib/url";
 import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 
 export function createCelebMetaInput(
@@ -40,13 +41,7 @@ export async function buildCelebPageMetadata(
   locale: string,
   slug: string,
 ): Promise<Metadata> {
-  const result = await getCelebBySlug(slug, locale);
-  if (!result.success || !result.data) {
-    const t = await getTranslations("celebPage");
-    return { title: t("notFound") };
-  }
-
-  const profile = result.data;
+  const profile = await getCelebRouteProfile(slug, locale);
   // 원전·등장 작품은 celeb_tier와 무관하게 모든 인물이 가질 수 있다. REAL이 아니면
   // (BOTH·FICTION) 실제 감상 기록이 얇으므로 원전 정보로 메타 설명을 보강한다.
   const sources = (profile.celeb_reality ?? "REAL") !== "REAL"
@@ -56,7 +51,7 @@ export async function buildCelebPageMetadata(
   const title = buildCelebTitle(metaInput, locale);
   const description = buildCelebDescription(metaInput, locale);
   const seoLocale = locale === "en" ? "en" : "ko";
-  const alternates = getAlternates(`/celeb/${slug}`, seoLocale);
+  const alternates = getAlternates(getCelebProfileUrl({ slug }), seoLocale);
   const imageUrl = getSeoImageUrl(
     "celeb",
     slug,

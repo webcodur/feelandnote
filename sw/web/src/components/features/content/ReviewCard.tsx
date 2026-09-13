@@ -11,6 +11,7 @@
 */ // ------------------------------
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { useState } from "react";
 import Image from "next/image";
 import { EyeOff, Star, ExternalLink } from "lucide-react";
@@ -120,7 +121,7 @@ export default function ReviewCard({
               <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                 {celebSlug ? (
                   <Link
-                    href={`/celeb/${celebSlug}`}
+                    href={getCelebProfileUrl(item.user)}
                     className="font-bold text-sm sm:text-base md:text-lg text-text-primary hover:text-accent transition-colors truncate tracking-tight"
                   >
                     {nickname}
