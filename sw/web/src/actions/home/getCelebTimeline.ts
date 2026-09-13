@@ -7,6 +7,7 @@ import { createStaticClient } from '@/lib/db/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { getCountryNamesMap } from '@/lib/countries'
+import { findContemporaries } from '@/components/features/user/explore/sections/TimelineSection/utils'
 
 /**
  * 연표 한 칸이 쓰는 필드만 싣는다. 인사말·인용은 연표 화면이 읽지 않는데도 2,200명분을
@@ -109,3 +110,11 @@ export const getCelebTimeline = unstable_cache(
   // celebs 만 읽는다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 )
+
+/** 동시대 비교를 요청할 때만 다른 국가 인물까지 기존 공개 캐시에서 찾아 전달한다. */
+export async function getTimelineContemporaries(id: string, locale: 'ko' | 'en'): Promise<TimelineCeleb[]> {
+  const { celebs } = await getCelebTimeline(locale === 'en' ? 'en' : 'ko')
+  const celeb = celebs.find(item => item.id === id)
+  if (!celeb) return []
+  return findContemporaries(celebs, celeb, celeb.nationality ?? '')
+}

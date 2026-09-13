@@ -9,6 +9,7 @@ import { getCelebDirectory, type CelebDirectoryRow } from "@/actions/celebs/getC
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons";
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
+import styles from "./directory.module.css";
 
 // 정적(ISR). 명부는 2,400명 전부를 싣는 큰 화면(HTML 수 MB)이라 방문마다 서버가 만들면 그 바이트가 그대로
 // 원본 전송량이 된다. 한 번 만들어 CDN에 두고, 인물 등록·삭제·공개 상태 변경 때 DB 트리거가 'celebs' 태그를 비운다.
@@ -34,9 +35,6 @@ export async function generateMetadata({ params }: PageProps) {
     alternates: await getLocalizedAlternates("/explore/directory"),
   };
 }
-
-/** 목록 항목 한 줄. 항목이 2,400개라 클래스 문자열도 한 번만 적는다 */
-const ITEM_CLASS = "group flex items-center gap-1.5 py-1 text-sm text-text-primary hover:text-accent";
 
 /** 한글 초성 추출 */
 function getChosung(char: string): string {
@@ -116,7 +114,7 @@ export default async function DirectoryPage({ params }: PageProps) {
           <a
             key={key}
             href={`#group-${key}`}
-            className="px-2.5 py-1 text-sm font-medium text-text-secondary hover:text-accent transition-colors rounded-md hover:bg-white/5"
+            className="px-2.5 py-1 text-sm font-medium text-text-secondary hover:text-accent rounded-md hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             {key}
           </a>
@@ -145,7 +143,7 @@ export default async function DirectoryPage({ params }: PageProps) {
               <h2 className="text-2xl font-serif font-bold text-accent/80 mb-4 border-b border-white/5 pb-2">
                 {key}
               </h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-1.5">
+              <ul className={`${styles.list} grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-1.5`}>
                 {items.map((celeb) => {
                   const displayName =
                     locale === "en" && celeb.nickname_en
@@ -154,13 +152,13 @@ export default async function DirectoryPage({ params }: PageProps) {
                   const hasIcon = !!(celeb.profession && PROFESSION_ICONS[celeb.profession]);
                   return (
                     <li key={celeb.slug}>
-                      <a href={`${localePrefix}/celeb/${celeb.slug}`} className={ITEM_CLASS}>
+                      <a href={`${localePrefix}/celeb/${celeb.slug}`}>
                         {hasIcon && (
-                          <svg width={13} height={13} className={`${PROFESSION_COLORS[celeb.profession!] ?? ""} shrink-0`}>
+                          <svg className={PROFESSION_COLORS[celeb.profession!]} aria-hidden="true">
                             <use href={`#prof-${celeb.profession}`} />
                           </svg>
                         )}
-                        <span>{displayName}</span>
+                        {displayName}
                       </a>
                     </li>
                   );

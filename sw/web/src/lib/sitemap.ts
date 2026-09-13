@@ -137,6 +137,7 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/explore/faction', 'daily', 0.7],
   ['/explore/youtube', 'weekly', 0.7],
   ['/explore/spectrum', 'weekly', 0.6],
+  ['/explore/myth', 'weekly', 0.6],
   ['/explore/today', 'daily', 0.7],
   ['/explore/directory', 'weekly', 0.8],
   // 직군별 명부 — 인물 상세로 가는 중간 허브. 직군 목록은 CELEB_PROFESSIONS 상수가 쥔다

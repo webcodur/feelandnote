@@ -14,7 +14,10 @@ import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/use
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import type { Locale } from "@/types/locale";
 import type { TimelineCeleb, CountryGroup } from "@/actions/home";
-import { getYear, getEraInfo, findContemporaries, type EraInfo } from "./utils";
+import { getYear, getEraInfo, type EraInfo } from "./utils";
+import { getTimelineContemporaries } from "@/actions/home/getCelebTimeline";
+import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
+import { Link } from "@/i18n/navigation";
 import CountryPicker from "./sections/CountryPicker";
 import EraBanner from "./sections/EraBanner";
 import CelebTimelineItem from "./sections/CelebTimelineItem";
@@ -22,34 +25,44 @@ import CelebTimelineItem from "./sections/CelebTimelineItem";
 interface Props {
   celebs: TimelineCeleb[];
   countries: CountryGroup[];
+  country: string;
+  defaultCountry: string;
+  page: number;
+  totalPages: number;
+  previousPath: string | null;
+  nextPath: string | null;
+  eras: { era: EraInfo; href: string }[];
 }
 
-export default function TimelineSection({ celebs, countries }: Props) {
+export default function TimelineSection({ celebs, countries, country: selectedCountry, defaultCountry, page, totalPages, previousPath, nextPath, eras }: Props) {
   const locale = useLocale() as Locale;
   const t = useTranslations("explore.ui");
   const { handleSubtitle } = useDialogueSubtitle();
-  const [selectedCountry, setSelectedCountry] = useState<string>(
-    countries[0]?.code ?? ""
-  );
+  const pagination = useTranslations("shared.ui.pagination");
+  const errors = useTranslations("actionErrors");
   const [countrySearch, setCountrySearch] = useState("");
   const [expandedBio, setExpandedBio] = useState<Set<string>>(new Set());
   const [collapsedEras, setCollapsedEras] = useState<Set<string>>(new Set());
   const [showContemporaries, setShowContemporaries] = useState<Set<string>>(new Set());
+  const [loadingContemporaries, setLoadingContemporaries] = useState<Set<string>>(new Set());
+  const [contemporariesError, setContemporariesError] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
   const { fireGreeting } = useCelebGreeting({ onSubtitle: handleSubtitle, locale: locale as Locale });
 
-  const fireDialogue = useCallback((celeb: TimelineCeleb) => {
-    const displayName = (locale === "en" && celeb.nickname_en) ? celeb.nickname_en : celeb.nickname;
-    fireGreeting({ ...celeb, nickname: displayName });
+  const fireDialogue = useCallback(async (celeb: TimelineCeleb) => {
+    try {
+      const profile = await getCelebForModal(celeb.id);
+      if (!profile) return;
+      const displayName = locale === "en" && profile.nickname_en ? profile.nickname_en : profile.nickname;
+      fireGreeting({ ...profile, nickname: displayName });
+    } catch {
+      setContemporariesError(true);
+    }
   }, [locale, fireGreeting]);
 
   // 선택된 국가의 셀럽만 필터 + 연도순 정렬 (DB 텍스트 정렬 오류 보정)
-  const filtered = useMemo(() => {
-    return celebs
-      .filter((c) => c.nationality === selectedCountry)
-      .sort((a, b) => getYear(a.birth_date!) - getYear(b.birth_date!));
-  }, [celebs, selectedCountry]);
+  const filtered = celebs;
 
   // 시대별 그룹핑
   const eraGroups = useMemo(() => {
@@ -68,16 +81,6 @@ export default function TimelineSection({ celebs, countries }: Props) {
     }
     return groups;
   }, [filtered]);
-
-  // 국가 변경 시 접힘 상태 리셋
-  const handleCountryChange = useCallback((code: string) => {
-    setSelectedCountry(code);
-    setCountrySearch("");
-    setCollapsedEras(new Set());
-    setExpandedBio(new Set());
-    setShowContemporaries(new Set());
-    setTimeout(() => headerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
-  }, []);
 
   // 개별 시대 토글
   const toggleEra = useCallback((eraKey: string) => {
@@ -106,19 +109,30 @@ export default function TimelineSection({ celebs, countries }: Props) {
     const cached = contemporariesCache.current.get(cacheKey);
     if (cached) return cached;
 
-    const result = findContemporaries(celebs, celeb, selectedCountry);
-    contemporariesCache.current.set(cacheKey, result);
-    return result;
-  }, [celebs, selectedCountry]);
+    return [];
+  }, [selectedCountry]);
 
-  const toggleContemporaries = useCallback((id: string) => {
+  const toggleContemporaries = useCallback(async (id: string) => {
+    const cacheKey = `${id}_${selectedCountry}`;
+    if (!contemporariesCache.current.has(cacheKey)) {
+      setLoadingContemporaries(prev => new Set(prev).add(id));
+      setContemporariesError(false);
+      try {
+        contemporariesCache.current.set(cacheKey, await getTimelineContemporaries(id, locale));
+      } catch {
+        setContemporariesError(true);
+        return;
+      } finally {
+        setLoadingContemporaries(prev => { const next = new Set(prev); next.delete(id); return next; });
+      }
+    }
     setShowContemporaries(prev => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
       return next;
     });
-  }, []);
+  }, [selectedCountry, locale]);
 
   const toggleBio = useCallback((id: string) => {
     setExpandedBio(prev => {
@@ -139,7 +153,7 @@ export default function TimelineSection({ celebs, countries }: Props) {
         selectedCountry={selectedCountry}
         countrySearch={countrySearch}
         onSearchChange={setCountrySearch}
-        onCountryChange={handleCountryChange}
+        defaultCountry={defaultCountry}
       />
 
       {/* 선택된 국가 헤더 */}
@@ -163,6 +177,16 @@ export default function TimelineSection({ celebs, countries }: Props) {
         </div>
       )}
 
+      {eras.length > 1 && (
+        <nav className="flex flex-wrap justify-center gap-2">
+          {eras.map(({ era, href }) => (
+            <Link key={era.key} href={href} prefetch={false} className="rounded-full border border-white/15 px-3 py-1.5 text-sm hover:border-accent hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+              {locale === "en" ? era.labelEn : era.label}
+            </Link>
+          ))}
+        </nav>
+      )}
+
       {/* 타임라인 */}
       {filtered.length === 0 ? (
         <p className="text-text-secondary text-center py-12">
@@ -175,10 +199,10 @@ export default function TimelineSection({ celebs, countries }: Props) {
             <div className="flex justify-end">
               <button
                 onClick={toggleAll}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 {allCollapsed ? <ChevronsUpDown size={16} /> : <ChevronsDownUp size={16} />}
-                {allCollapsed ? "전체 펼치기" : "전체 접기"}
+                {allCollapsed ? (locale === "en" ? "Expand all" : "전체 펼치기") : (locale === "en" ? "Collapse all" : "전체 접기")}
               </button>
             </div>
           )}
@@ -192,7 +216,7 @@ export default function TimelineSection({ celebs, countries }: Props) {
                 const isCollapsed = collapsedEras.has(group.era.key);
 
                 return (
-                  <div key={`${group.era.key}-${idx}`}>
+                  <div key={`${group.era.key}-${idx}`} id={`era-${group.era.key}`} className="scroll-mt-20">
                     {/* 시대 구분 — 풀폭 배너, 클릭 시 접기/펼치기 */}
                     <EraBanner
                       era={group.era}
@@ -212,6 +236,7 @@ export default function TimelineSection({ celebs, countries }: Props) {
                             locale={locale}
                             isBioExpanded={expandedBio.has(celeb.id)}
                             isContemporariesShown={showContemporaries.has(celeb.id)}
+                            isContemporariesLoading={loadingContemporaries.has(celeb.id)}
                             onToggleBio={toggleBio}
                             onToggleContemporaries={toggleContemporaries}
                             onFireDialogue={fireDialogue}
@@ -226,6 +251,14 @@ export default function TimelineSection({ celebs, countries }: Props) {
             </div>
           </div>
         </>
+      )}
+      {contemporariesError && <p role="alert" className="text-sm text-red-400">{errors("UNKNOWN_ERROR")}</p>}
+      {totalPages > 1 && (
+        <nav aria-label={pagination("label")} className="flex items-center justify-center gap-5 py-6">
+          {previousPath && <Link href={previousPath} prefetch={false} rel="prev" className="rounded-md border border-white/15 px-4 py-2 hover:border-accent hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">{pagination("previous")}</Link>}
+          <span className="text-sm tabular-nums text-text-secondary">{page} / {totalPages}</span>
+          {nextPath && <Link href={nextPath} prefetch={false} rel="next" className="rounded-md border border-white/15 px-4 py-2 hover:border-accent hover:text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">{pagination("next")}</Link>}
+        </nav>
       )}
     </div>
   );
