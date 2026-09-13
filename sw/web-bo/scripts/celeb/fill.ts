@@ -79,7 +79,7 @@ if (!url || !key) throw new Error('NEXT_PUBLIC_DB_API_URL / DB_SECRET_KEY 없음
 const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 
 const PROFILE_FIELDS = [
-  'nickname', 'nickname_en', 'title', 'title_en', 'bio', 'bio_en', 'profession',
+  'nickname', 'nickname_en', 'title', 'title_en', 'headline', 'headline_en', 'bio', 'bio_en', 'profession',
   'nationality', 'birth_date', 'death_date', 'gender', 'speech_tone',
   'cultural_journey', 'cultural_journey_en',
 ] as const
@@ -400,7 +400,13 @@ async function applyPatches(patches: Patch[], doWrite: boolean, replaceSpectrum 
       // ── spectrum 근거문 게이트: 인물 복제와 사적 신상·명의 오귀속을 반영 전에 막는다
       if (spectrumTouched) {
         const others = (await reasonCorpus()).filter((r) => r.slug !== patch.slug)
-        const mine = personaToRows(patch.slug, c.profile.gender ?? null, nextSpectrum)
+        // 직군·사망 여부를 함께 넘긴다. 사적 신상 규칙은 생존한 연예 직군에만 적용되며,
+        // 역사·정치 인물에게는 가족·신앙이 공적 기록 그 자체라 가릴 대상이 아니다.
+        // 이 meta 가 빠지면 profession 이 undefined 가 되어 규칙이 전원에게 걸린다.
+        const mine = personaToRows(patch.slug, c.profile.gender ?? null, nextSpectrum, {
+          profession: c.profile.profession,
+          deceased: Boolean(c.profile.death_date),
+        })
         const issues = findReasonIssues([...others, ...mine], new Set([patch.slug]))
         // 내용 검수는 이번에 새로 쓴 축만 막는다. 손대지 않은 축의 묵은 결함은 경고로 남겨 다음 회차에 넘긴다.
         const content = findContentIssues(mine, { strictFloor: true })
