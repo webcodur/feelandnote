@@ -1,35 +1,20 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getGlobalErrorCopy, type GlobalErrorLocale } from '@/lib/i18n/globalError'
 
 export default function LocaleError({
   error,
-  reset,
 }: {
   error: Error & { digest?: string }
-  reset: () => void
 }) {
   const [locale] = useState<GlobalErrorLocale>(() =>
     typeof window !== 'undefined' && window.location.pathname.startsWith('/en') ? 'en' : 'ko'
   )
 
-  // 첫 실패는 대개 캐시가 빈 화면을 만들다 조회 하나가 미끄러진 것이고, 곧바로 다시
-  // 그리면 성공한다(26.09.12 운영 실측 — 첫 요청 500, 재요청 200). 사람이 「다시 시도」를
-  // 누르기 전에 한 번은 화면이 스스로 살아나게 한다. 두 번째부터는 실제 고장이므로
-  // 버튼을 남겨 사람이 판단하게 둔다.
-  const autoRetried = useRef(false)
-
   useEffect(() => {
     console.error('[GlobalError]', error)
   }, [error])
-
-  useEffect(() => {
-    if (autoRetried.current) return
-    autoRetried.current = true
-    const timer = setTimeout(reset, 400)
-    return () => clearTimeout(timer)
-  }, [reset])
 
   const copy = getGlobalErrorCopy(locale)
 
@@ -48,7 +33,10 @@ export default function LocaleError({
 
       <div className="flex gap-3">
         <button
-          onClick={reset}
+          type="button"
+          // reset()은 실패한 서버 응답·이전 배포의 번들을 다시 사용한다.
+          // 현재 주소를 새로 읽어 서버 렌더와 스크립트를 함께 복구한다.
+          onClick={() => window.location.reload()}
           className="px-6 py-2.5 rounded-lg bg-accent/10 text-accent border border-accent/20 hover:bg-accent/20 font-serif text-sm"
         >
           {copy.retry}

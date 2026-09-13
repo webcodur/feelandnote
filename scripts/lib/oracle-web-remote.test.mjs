@@ -11,6 +11,7 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
+import { createServer } from 'node:http'
 import path from 'node:path'
 import test from 'node:test'
 import {
@@ -34,7 +35,70 @@ import {
   slotsRootInstallArgs,
   STATIC_ASSET_RETENTION_MS,
   TRAFFIC_DRAIN_MS,
+  verifyApplication,
 } from './oracle-web-remote.mjs'
+
+async function serveDeploymentFixture(t, firstPageStatus = 200) {
+  const requests = []
+  const deploymentId = 'a351550f-web-20260827t111605z'
+  const jpeg = Buffer.from([
+    0xff, 0xd8, 0xff, 0xc0, 0x00, 0x11, 0x08, 0x03, 0x20, 0x03, 0x20,
+    0x03, 0x01, 0x11, 0x00, 0x02, 0x11, 0x00, 0x03, 0x11, 0x00, 0xff, 0xd9,
+  ])
+  const server = createServer((request, response) => {
+    const pathname = new URL(request.url, 'http://localhost').pathname
+    requests.push(pathname)
+    if (pathname === '/celeb/bill-gates') {
+      const pageRequests = requests.filter((item) => item === pathname).length
+      response.statusCode = pageRequests === 1 ? firstPageStatus : 200
+      response.setHeader('content-type', 'text/html')
+      response.end(`<!doctype html><html data-dpl-id="${deploymentId}">
+        <meta content="/seo-image/celeb/bill-gates">
+        <script src="/_next/static/app.js?dpl=${deploymentId}"></script></html>`)
+      return
+    }
+    if (pathname === '/_next/static/app.js') {
+      response.end('window.deploymentReady = true;')
+      return
+    }
+    if (pathname.startsWith('/seo-image/celeb/')) {
+      response.setHeader('content-type', 'image/jpeg')
+      response.end(pathname.includes('__missing') ? Buffer.concat([jpeg, Buffer.from('fallback')]) : jpeg)
+      return
+    }
+    response.writeHead(404).end()
+  })
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
+  t.after(() => new Promise((resolve, reject) => {
+    server.close((error) => error ? reject(error) : resolve())
+    server.closeAllConnections()
+  }))
+  return { port: server.address().port, requests, deploymentId }
+}
+
+test('deployment verification rejects the first detail failure even when the next request would succeed', async (t) => {
+  const fixture = await serveDeploymentFixture(t, 500)
+  await assert.rejects(
+    verifyApplication(fixture.port, 'bill-gates', 'test', fixture.deploymentId),
+    /Canary page returned HTTP 500/u,
+  )
+  assert.deepEqual(fixture.requests, ['/celeb/bill-gates'])
+})
+
+test('deployment verification checks the first detail response and its assets without warming it first', async (t) => {
+  const fixture = await serveDeploymentFixture(t)
+  const result = await verifyApplication(fixture.port, 'bill-gates', 'test', fixture.deploymentId)
+  assert.equal(result.pageStatus, 200)
+  assert.equal(result.deploymentId, fixture.deploymentId)
+  assert.equal(result.staticAssets.checked, 1)
+  assert.notEqual(result.actual.hash, result.fallback.hash)
+  assert.deepEqual(fixture.requests, [
+    '/celeb/bill-gates',
+    '/_next/static/app.js',
+    '/seo-image/celeb/bill-gates',
+    '/seo-image/celeb/__missing-deploy-probe__',
+  ])
+})
 
 test('release id accepts deploy names and rejects path traversal', () => {
   assert.equal(assertReleaseId('bdd7d8ed-web-20260825t091917z'), 'bdd7d8ed-web-20260825t091917z')
