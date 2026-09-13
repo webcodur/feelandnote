@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { LibraryBig } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -29,7 +29,7 @@ interface MobileIndexModalProps {
   onCategoryChange?: (category: CategoryId) => void;
   isContentRefreshing?: boolean;
   collapsedGroupTypes: ReadonlySet<string>;
-  scrollTargetIndex: number | null;
+  selectedIndex: number;
   onToggleGroup: (dbType: string) => void;
   onSelect: (index: number) => void;
   onClose: () => void;
@@ -52,7 +52,7 @@ export default function MobileIndexModal({
   onCategoryChange,
   isContentRefreshing = false,
   collapsedGroupTypes,
-  scrollTargetIndex,
+  selectedIndex,
   onToggleGroup,
   onSelect,
   onClose,
@@ -103,12 +103,13 @@ export default function MobileIndexModal({
     if (category) onCategoryChange?.(category.id);
   };
 
-  useEffect(() => {
-    if (scrollTargetIndex === null) return;
-    navRef.current
-      ?.querySelector(`[data-original-index="${scrollTargetIndex}"]`)
-      ?.scrollIntoView({ block: "nearest" });
-  }, [scrollTargetIndex]);
+  useLayoutEffect(() => {
+    const nav = navRef.current;
+    const item = nav?.querySelector<HTMLElement>(`[data-original-index="${selectedIndex}"]`);
+    if (!nav || !item) return;
+    // 목록이 그려지기 전에 현재 작품을 가운데로 맞춘다. 바깥 문서는 움직이지 않는다.
+    nav.scrollTop = item.offsetTop - (nav.clientHeight - item.offsetHeight) / 2;
+  }, [selectedIndex, groups, effectiveGroupType]);
 
   return (
     <Modal
@@ -187,7 +188,7 @@ export default function MobileIndexModal({
         aria-busy={isContentRefreshing || undefined}
         data-open="true"
         className={cn(
-          "custom-scrollbar max-h-[calc(100dvh-13rem)] overflow-y-auto overflow-x-hidden [overflow-anchor:none]",
+          "custom-scrollbar relative max-h-[calc(100dvh-13rem)] overflow-y-auto overflow-x-hidden [overflow-anchor:none]",
           styles.indexRail,
           styles.indexScrollbar,
         )}
@@ -195,7 +196,7 @@ export default function MobileIndexModal({
         {visibleGroups.map((group) => {
           const category = getCategoryByDbType(group.dbType);
           const hasScrollTarget = group.items.some(
-            (item) => item.originalIndex === scrollTargetIndex,
+            (item) => item.originalIndex === selectedIndex,
           );
           return (
             <ExpandIndexGroup
@@ -205,7 +206,8 @@ export default function MobileIndexModal({
               label={category ? t(`category.${category.id}`) : group.dbType}
               Icon={category?.lucideIcon}
               isExpanded={!collapsedGroupTypes.has(group.dbType)}
-              scrollTargetIndex={hasScrollTarget ? scrollTargetIndex : null}
+              selectedIndex={selectedIndex}
+              scrollTargetIndex={hasScrollTarget ? selectedIndex : null}
               items={group.items}
               setItemRef={() => undefined}
               onToggle={onToggleGroup}
