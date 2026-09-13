@@ -190,6 +190,16 @@
         "all": "All",
         "with": "With works",
         "without": "Without works"
+      },
+      "compactFilters": {
+        "open": "Filters",
+        "results": "Show results",
+        "remove": "Remove {label}",
+        "works": {
+          "all": "All works",
+          "with": "With works",
+          "without": "Without works"
+        }
       }
     },
     "hub": {

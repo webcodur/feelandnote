@@ -190,6 +190,16 @@
         "all": "전체",
         "with": "있음",
         "without": "없음"
+      },
+      "compactFilters": {
+        "open": "필터",
+        "results": "결과 보기",
+        "remove": "{label} 해제",
+        "works": {
+          "all": "작품 전체",
+          "with": "작품 있음",
+          "without": "작품 없음"
+        }
       }
     },
     "hub": {

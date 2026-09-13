@@ -34,7 +34,7 @@ export default async function ExplorePage({ searchParams }: {
   const secondaryPages = pages.filter((page) => !EXPLORE_FEATURED_LINKS.some((featured) => featured.key === page.key));
 
   return (
-    <div className="space-y-10 md:space-y-14">
+    <div className="space-y-8 md:space-y-10">
       <Lane fallback={<PendingBlock variant="grid" count={24} label={pending("loading")} />}>
         <FiguresFilterResult params={filters} />
       </Lane>

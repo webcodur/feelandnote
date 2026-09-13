@@ -6,7 +6,6 @@
 
 "use client";
 
-import { useState } from "react";
 import CelebCarousel from "@/components/features/home/CelebCarousel";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
@@ -30,8 +29,6 @@ export default function CelebsSection({
   contentTypeCounts,
   genderCounts,
 }: Props) {
-  const [includeInactive, setIncludeInactive] = useState(false);
-
   return (
     <div className="min-h-[400px]">
       <CelebCarousel
@@ -45,19 +42,7 @@ export default function CelebsSection({
         mode="grid"
         hideHeader={false}
         syncToUrl
-        includeInactive={includeInactive}
       />
-
-      {/* 비활성화 셀럽 포함 토글 버튼 (숨김) */}
-      <div className="flex justify-center mt-16 mb-8">
-        <button
-          type="button"
-          onClick={() => setIncludeInactive(!includeInactive)}
-          className="text-[10px] text-white/10 hover:text-white/30 transition-colors select-none"
-        >
-          activate_all{includeInactive ? " ✓" : ""}
-        </button>
-      </div>
     </div>
   );
 }

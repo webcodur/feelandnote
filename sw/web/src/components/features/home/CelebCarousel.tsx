@@ -9,6 +9,7 @@ import CelebCard from "@/components/shared/CelebCard";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebFiltersDesktop from "./CelebFiltersDesktop";
 import CelebFiltersMobile from "./CelebFiltersMobile";
+import CelebCompactControls from "./CelebCompactControls";
 import { useCelebFilters, PAGE_SIZE_OPTIONS } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
@@ -79,6 +80,10 @@ export default function CelebCarousel({
 
   return (
     <div>
+      {syncToUrl ? (
+        <CelebCompactControls filters={filters} onInteraction={onFilterInteraction} />
+      ) : (
+        <>
       {/* 셀럽 컨트롤 (PC) */}
       <div className="hidden md:flex mb-6 flex-col items-center">
         {/* 1행: 검색 + 액션 버튼 */}
@@ -182,6 +187,8 @@ export default function CelebCarousel({
         isExpanded={isControlsExpanded}
         onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
       />
+        </>
+      )}
 
       {/* 커스텀 컨텐츠 또는 셀럽 그리드 영역 */}
       {customContent ? (
@@ -194,9 +201,10 @@ export default function CelebCarousel({
           {filters.isLoading && filters.celebs.length === 0 && <GridSkeleton />}
           {filters.celebs.length > 0 && (
             <>
-              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} />
+              <CelebGrid celebs={filters.celebs} isLoading={filters.isLoading} quiet={syncToUrl} />
               <div className="mt-8">
                 <Pagination
+                  presentation={syncToUrl ? "quiet" : "default"}
                   currentPage={filters.currentPage}
                   totalPages={filters.totalPages}
                   onPageChange={filters.handlePageChange}
@@ -238,7 +246,7 @@ function GridSkeleton() {
 }
 // #endregion
 
-function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: boolean }) {
+function CelebGrid({ celebs, isLoading, quiet = false }: { celebs: CelebProfile[]; isLoading: boolean; quiet?: boolean }) {
   const { handleSubtitle } = useDialogueSubtitle();
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
 
@@ -255,6 +263,7 @@ function CelebGrid({ celebs, isLoading }: { celebs: CelebProfile[]; isLoading: b
             count={celeb.content_count}
             celebProfile={celeb}
             shape="square"
+            presentation={quiet ? "quiet" : "default"}
             onSubtitle={handleSubtitle}
           />
         ))}

@@ -16,6 +16,7 @@ import type { DialogueSubtitleData } from "@/components/features/game/shared/hoo
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
+import { badgeStyles, quietBadgeStyles } from "./CelebCard.styles";
 
 type Variant = "card" | "circle" | "medallion";
 type CardShape = "circle" | "square";
@@ -31,25 +32,12 @@ interface CelebCardProps {
   className?: string;
   celebProfile?: CelebProfile;
   variant?: Variant;
+  presentation?: "default" | "quiet";
   /** card variant 전용: 이미지 형태 (circle | square) */
   shape?: CardShape;
   /** 별도 대사 버튼에서 인사·한마디 자막을 표시한다. */
   onSubtitle?: (sub: DialogueSubtitleData) => void;
 }
-
-// #region Variant Styles
-/* 뱃지 크기: 화면 폭이 아니라 "카드 자신의 폭"에 비례해 연속으로 변한다(@container + cqw).
-   ① 화면 폭 기준이면 한 줄 장수가 늘어나 카드가 좁아지는 구간에서 뱃지만 커지는 뒤집힘이 생긴다.
-   ② 특정 폭에서 값을 갈아끼우는 방식도 그 지점에서 크기가 툭 튄다.
-   그래서 cqw(카드 폭의 %)로 잇고 clamp로 아래위 한계만 잡는다 — 카드 109~200px 구간에서 매끄럽다. */
-const badgeStyles = {
-  /* 반응 2단: 카드에 손을 올리면 옅게 밝아지고(group-hover), 뱃지를 직접 가리키면 색을 뒤집어
-     카드 애니메이션에 묻히지 않게 한다(hover). 둘 다 transition 없이 즉시 — 즉각 반응 축이다. */
-  card: "absolute top-[clamp(4px,3cqw,8px)] right-[clamp(4px,3cqw,8px)] min-w-[clamp(18px,15cqw,28px)] h-[clamp(18px,15cqw,28px)] px-[clamp(3px,1.5cqw,8px)] bg-black/70 rounded-full border border-accent/50 text-accent text-[clamp(9px,7cqw,12px)] shadow-sm group-hover:bg-black/70 group-hover:border-accent group-hover:text-accent-hover hover:bg-accent hover:border-accent hover:text-black hover:shadow-[0_0_10px_rgba(212,175,55,0.5)]",
-  circle: "absolute -top-1 -right-1 min-w-[28px] h-7 px-1.5 bg-accent text-black rounded-full text-xs",
-  medallion: "absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent text-black rounded-full border border-black/20 shadow-lg text-[10px]",
-};
-// #endregion
 
 export default function CelebCard({
   id,
@@ -61,6 +49,7 @@ export default function CelebCard({
   className = "",
   celebProfile,
   variant = "card",
+  presentation = "default",
   shape = "circle",
   onSubtitle,
 }: CelebCardProps) {
@@ -84,6 +73,7 @@ export default function CelebCard({
     if (hasVoice) setVoicePulse(prev => prev + 1);
   }, [celebProfile, displayNickname, hasVoice, fireGreeting]);
 
+  const isQuiet = presentation === "quiet";
   const isCard = variant === "card";
   const isCircle = variant === "circle";
   const roundedClass = isCard && shape === "square" ? "rounded-md" : "rounded-full";
@@ -104,17 +94,17 @@ export default function CelebCard({
         >
           <div
             className={`relative shrink-0 ${config.container} ${roundedClass}
-              border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner
-              group-hover:border-accent/60 group-focus-visible:border-accent group-focus-visible:ring-2 group-focus-visible:ring-accent
+              ${isQuiet ? "border border-white/10 bg-bg-card group-hover:border-white/30" : "border border-white/5 ring-1 ring-inset ring-white/5 shadow-inner group-hover:border-accent/60"}
+              group-focus-visible:border-accent group-focus-visible:ring-2 group-focus-visible:ring-accent
             `}
-            style={{ background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
+            style={isQuiet ? undefined : { background: "radial-gradient(circle at 50% 0%, #302b27 0%, #171513 40%, #0a0908 100%)" }}
           >
             <div className={`absolute inset-0 overflow-hidden ${roundedClass}`}>
               <div
                 className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
               />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 transition-[opacity,transform,background-color] duration-700 pointer-events-none mix-blend-screen group-hover:opacity-100 group-hover:scale-125 group-hover:bg-accent/40" />
+              {!isQuiet && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 transition-[opacity,transform,background-color] duration-700 pointer-events-none mix-blend-screen group-hover:opacity-100 group-hover:scale-125 group-hover:bg-accent/40" />}
               <CelebImage
                 src={avatar_url}
                 alt={displayNickname}
@@ -122,12 +112,12 @@ export default function CelebCard({
                 sizes={config.sizes}
                 maxPx={isCard ? 300 : undefined}
                 fallbackSize={config.fallbackSize}
-                className="z-10 relative [filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))] transition-transform duration-500 group-hover:scale-105"
+                className={`z-10 relative ${isQuiet ? "drop-shadow-sm" : "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]"} transition-transform duration-500 group-hover:scale-105`}
               />
             </div>
 
             {count !== undefined && count > 0 && (
-              <span className={`${badgeStyles[variant]} z-20 flex items-center justify-center font-bold leading-none`} title={t("contentCount", { count })}>
+              <span className={`${isQuiet ? `${quietBadgeStyles[variant]} border border-white/15 bg-bg-main text-text-secondary` : badgeStyles[variant]} z-20 flex items-center justify-center font-bold leading-none`} title={t("contentCount", { count })}>
                 {count}
               </span>
             )}
@@ -145,7 +135,7 @@ export default function CelebCard({
             <div className="mt-1.5 w-full text-center px-0.5">
               <p className="text-xs md:text-sm font-semibold text-text-primary truncate leading-tight group-hover:text-accent">{displayNickname}</p>
               {displayTitle && (
-                <p className="text-[10px] md:text-xs text-amber-400/80 truncate leading-tight mt-0.5">{displayTitle}</p>
+                <p className={`text-[10px] md:text-xs ${isQuiet ? "text-text-secondary" : "text-amber-400/80"} truncate leading-tight mt-0.5`}>{displayTitle}</p>
               )}
             </div>
           ) : isCircle ? (
@@ -163,7 +153,7 @@ export default function CelebCard({
               onClick={fireDialogue}
               aria-label={dialogueLabel}
               title={dialogueLabel}
-              className={`absolute z-30 pointer-events-auto rounded-full border border-white/20 bg-black/70 hover:bg-black hover:border-accent outline-none focus-visible:ring-2 focus-visible:ring-accent ${isCard ? "top-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)]" : "top-0 left-0"}`}
+              className={`absolute z-30 pointer-events-auto rounded-full border ${isQuiet ? "border-white/15 bg-bg-main text-text-secondary [&_svg]:text-text-secondary [&>div]:shadow-none hover:bg-bg-card hover:border-white/40 hover:[&_svg]:text-text-primary focus-visible:[&_svg]:text-text-primary" : "border-white/20 bg-black/70 hover:bg-black hover:border-accent"} outline-none focus-visible:ring-2 focus-visible:ring-accent ${isCard ? "top-[clamp(4px,3cqw,8px)] left-[clamp(4px,3cqw,8px)]" : "top-0 left-0"}`}
             >
               <VoiceBadge size={isCard ? "md" : "sm"} active={hasVoice} pulse={voicePulse} className="border-0 bg-transparent" />
             </button>
