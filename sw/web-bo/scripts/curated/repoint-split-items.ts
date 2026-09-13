@@ -8,7 +8,7 @@
  * 인물 감상(`celeb_contents`)은 건드리지 않는다. 연결 테이블 한 곳만 바꾸므로 되돌리기 쉽다.
  * 실행 전 원본을 `repoint-backup.json` 에 남긴다.
  *
- * 대상 판정은 `data/curated-lists/_split-rows/repoint.json` 이 쥔다.
+ * 대상 판정은 `.tmp/split-rows/repoint.json` 이 쥔다.
  * 동일 작품 확정 근거는 ISBN 일치 또는 제목+저자 일치이며, 제목만 같고 저자가 다른 건은 제외돼 있다.
  *
  * 사용법 (sw/web-bo 에서):
@@ -19,10 +19,10 @@
 import { createClient } from '@supabase/supabase-js'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import { REPO_ROOT } from '../lib/paths'
+import { REPO_ROOT, scriptsPath } from '../lib/paths'
 
 const ROOT = REPO_ROOT
-const WORK = join(ROOT, 'data/curated-lists/_split-rows')
+const WORK = scriptsPath('curated', '.tmp', 'split-rows')
 const PLAN = join(WORK, 'repoint.json')
 const BACKUP = join(WORK, 'repoint-backup.json')
 

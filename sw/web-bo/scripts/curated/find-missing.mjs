@@ -26,7 +26,7 @@ try { var { agyCall } = await import('../../../../.agents/skills/agy-antigravity
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '../../../..')
-const WORK = join(ROOT, 'data/curated-lists/_korean-titles')
+const WORK = join(__dirname, '.tmp', 'korean-titles')
 const MISSING = join(WORK, 'missing-targets.json')
 const FOUND = join(WORK, 'missing-answers.json')
 const BATCH = 15

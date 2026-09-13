@@ -11,9 +11,9 @@
  *   2) 지금 이어 붙인 우리 책이 정말 같은 작품인지 (오연결 색출)
  *
  * 사용법 (sw/web-bo 에서):
- *   node scripts/curated-korean-titles.mjs --dump            # 대상 추출만
- *   node scripts/curated-korean-titles.mjs --ask --limit 5   # 배치 5개만 물어보기
- *   node scripts/curated-korean-titles.mjs --ask             # 남은 전량
+ *   node scripts/curated/titles.mjs --dump            # 대상 추출만
+ *   node scripts/curated/titles.mjs --ask --limit 5   # 배치 5개만 물어보기
+ *   node scripts/curated/titles.mjs --ask             # 남은 전량
  *
  * 재실행 안전 — 이미 답을 받은 항목은 건너뛴다. rate limit에 막혀도 같은 명령으로 이어붙인다.
  */
@@ -25,7 +25,7 @@ import { codexCall } from '../../../../.agents/skills/codex-gpt/scripts/codex-ca
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '../../../..')
-const WORK = join(ROOT, 'data/curated-lists/_korean-titles')
+const WORK = join(__dirname, '.tmp', 'korean-titles')
 
 function loadEnv(p) {
   if (!existsSync(p)) return

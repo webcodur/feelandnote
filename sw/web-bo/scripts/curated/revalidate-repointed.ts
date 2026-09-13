@@ -10,10 +10,10 @@
  */
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import { REPO_ROOT } from '../lib/paths'
+import { REPO_ROOT, scriptsPath } from '../lib/paths'
 
 const ROOT = REPO_ROOT
-const WORK = join(ROOT, 'data/curated-lists/_split-rows')
+const WORK = scriptsPath('curated', '.tmp', 'split-rows')
 
 function loadEnv(p: string) {
   if (!existsSync(p)) return

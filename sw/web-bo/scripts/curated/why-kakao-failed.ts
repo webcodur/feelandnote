@@ -12,10 +12,10 @@
 import { createClient } from '@supabase/supabase-js'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import { REPO_ROOT } from '../lib/paths'
+import { REPO_ROOT, scriptsPath } from '../lib/paths'
 
 const ROOT = REPO_ROOT
-const WORK = join(ROOT, 'data/curated-lists/_korean-titles')
+const WORK = scriptsPath('curated', '.tmp', 'korean-titles')
 function loadEnv(p: string) {
   if (!existsSync(p)) return
   for (const line of readFileSync(p, 'utf8').split('\n')) {

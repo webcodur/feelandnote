@@ -1,7 +1,7 @@
 /**
  * GPT가 알려준 한국어 출간명으로 목록 항목을 다시 잇는다
  *
- * 앞 단계(`curated-korean-titles.mjs`)가 만든 answers.json 을 읽어 세 가지를 한다.
+ * 앞 단계(`titles.mjs`)가 만든 answers.json 을 읽어 세 가지를 한다.
  *   1) 오연결 해제 — 같은 작품이 아니라고 판정된 연결을 끊는다
  *   2) 이미 가진 한국어 책과 잇기 — 우리 서재에 그 책이 이미 있으면 검색 없이 잇는다
  *   3) 없으면 카카오 책 검색으로 등록한 뒤 잇는다
@@ -10,18 +10,18 @@
  *    붙어 있던 사고가 제목만 보고 이었기 때문이다.
  *
  * 사용법 (sw/web-bo 에서):
- *   npx tsx scripts/curated-apply-korean.ts --dry        # 무엇이 바뀔지 보기만
- *   npx tsx scripts/curated-apply-korean.ts --unlink     # 오연결 해제만
- *   npx tsx scripts/curated-apply-korean.ts              # 전량 반영
+ *   npx tsx scripts/curated/titles-apply.ts --dry        # 무엇이 바뀔지 보기만
+ *   npx tsx scripts/curated/titles-apply.ts --unlink     # 오연결 해제만
+ *   npx tsx scripts/curated/titles-apply.ts              # 전량 반영
  */
 import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import { REPO_ROOT } from '../lib/paths'
+import { REPO_ROOT, scriptsPath } from '../lib/paths'
 import { normTitle, creatorMatches, titleMatches, titleAlternatives } from './lib/match'
 
 const ROOT = REPO_ROOT
-const WORK = join(ROOT, 'data/curated-lists/_korean-titles')
+const WORK = scriptsPath('curated', '.tmp', 'korean-titles')
 
 function loadEnv(p: string) {
   if (!existsSync(p)) return
@@ -124,6 +124,7 @@ interface Target {
 }
 
 async function main() {
+  const { fetchBookIntroduction } = await import('@feelandnote/content-search/book-introduction')
   const args = process.argv.slice(2)
   const dry = args.includes('--dry')
   const unlinkOnly = args.includes('--unlink')
@@ -239,6 +240,11 @@ async function main() {
         notFound++
         continue
       }
+      const { data: existing, error: existingError } = await db.from('content_locales')
+        .select('isbn,description,sources').eq('content_id', m.contentId).eq('locale', 'ko').maybeSingle()
+      if (existingError) throw existingError
+      const keepIntroduction = existing?.isbn === best.isbn && existing?.description != null
+      const introduction = keepIntroduction ? null : await fetchBookIntroduction({ isbn: best.isbn, locale: 'ko' }).catch(() => null)
       // 한국어 자리가 아예 비어 있을 수도, 영문 제목이 들어 있을 수도 있다.
       // 뒤엣것은 덮어써야 하므로 넣기와 고치기를 한 번에 처리한다
       const { error } = await db.from('content_locales').upsert(
@@ -250,6 +256,10 @@ async function main() {
           thumbnail_url: best.thumbnail,
           publisher: best.publisher,
           isbn: best.isbn,
+          ...(!keepIntroduction && {
+            description: introduction?.source ?? null,
+            sources: { primary: 'kakao_book', ...(introduction?.source && { description: introduction.sourceUrl }) },
+          }),
         },
         { onConflict: 'content_id,locale' }
       )
@@ -279,6 +289,7 @@ async function main() {
         notFound++
         continue
       }
+      const introduction = await fetchBookIntroduction({ isbn: best.isbn, locale: 'ko' }).catch(() => null)
       await db.from('content_locales').insert({
         content_id: content.id,
         locale: 'ko',
@@ -287,6 +298,8 @@ async function main() {
         thumbnail_url: best.thumbnail,
         publisher: best.publisher,
         isbn: best.isbn,
+        description: introduction?.source ?? null,
+        sources: { primary: 'kakao_book', ...(introduction?.source && { description: introduction.sourceUrl }) },
       })
       await db.from('curated_list_items').update({ content_id: content.id }).eq('id', m.id)
       registered++
