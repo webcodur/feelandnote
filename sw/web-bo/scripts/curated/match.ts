@@ -11,8 +11,8 @@
  *   npx tsx scripts/match-curated-items.ts --relink        # 이미 연결된 항목도 다시 판정
  */
 import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
-import { readFileSync, writeFileSync } from 'fs'
-import { boPath, repoPath } from '../lib/paths'
+import { mkdirSync, readFileSync, writeFileSync } from 'fs'
+import { boPath, scriptsPath } from '../lib/paths'
 
 
 function loadEnv(p: string) {
@@ -114,7 +114,7 @@ function similar(a: string, b: string): boolean {
 }
 
 /**
- * 같은 사람의 다른 표기를 묶은 대응표(data/curated-lists/_author-aliases.json).
+ * 같은 사람의 다른 표기를 묶은 대응표(lib/author-aliases.json).
  * 음역 차이는 규칙으로 잡히지 않아 사람이 확인한 것만 등록한다.
  */
 let aliasGroups: Set<string>[] = []
@@ -170,7 +170,7 @@ async function main() {
 
   // 1. 후보 사전 — BOOK 콘텐츠의 모든 로케일 제목
   console.log('콘텐츠 사전 적재 중...')
-  loadAliases(repoPath('data', 'curated-lists', '_author-aliases.json'))
+  loadAliases(scriptsPath('curated', 'lib', 'author-aliases.json'))
   // 도서만이 아니라 영상까지 후보로 삼는다. 목록마다 대상 매체가 다르므로 판정할 때 갈라 쓴다
   const works = await selectAll<{ id: string; type: string; record_count: number | null }>(
     db,
@@ -285,7 +285,8 @@ async function main() {
   }
   console.log(`\n연결 확정 ${updates.length} / 판단 보류 ${ambiguous.length} / 우리에게 없는 책 ${missing.length}`)
 
-  const reportPath = repoPath('data', 'curated-lists', '_match-report.json')
+  mkdirSync(scriptsPath('curated', '.tmp'), { recursive: true })
+  const reportPath = scriptsPath('curated', '.tmp', 'match-report.json')
   writeFileSync(
     reportPath,
     JSON.stringify(

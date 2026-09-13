@@ -17,8 +17,8 @@
  *    미완성 상태에 이 작업이 발목 잡히지 않게 하기 위함이다.
  */
 import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
-import { readFileSync, writeFileSync } from 'fs'
-import { boPath, repoPath } from '../lib/paths'
+import { mkdirSync, readFileSync, writeFileSync } from 'fs'
+import { boPath, scriptsPath } from '../lib/paths'
 
 
 function loadEnv(p: string) {
@@ -363,7 +363,7 @@ async function findSameWork(db: DatabaseClient<any, any, any, any, any>, locale:
   const surname = (creator ?? '').split(/[,/^]/)[0].trim().split(/\s+/).pop()?.toLowerCase() ?? ''
   for (const row of (data ?? []) as { content_id: string; title: string; creator: string | null }[]) {
     if (normTitle(row.title) !== want) continue
-    if (!surname || !row.creator || row.creator.toLowerCase().includes(surname)) return row.content_id as string
+    if (!surname || !row.creator || row.creator.toLowerCase().includes(surname)) return row.content_id
   }
   return null
 }
@@ -596,7 +596,10 @@ async function main() {
       if (cErr) throw new Error(`콘텐츠 등록 실패(${label}): ${cErr.message}`)
       contentId = ins.id as string
 
-      const sources = { primary: found.source, note: 'curated-list import' }
+      const introduction = !isVideo
+        ? await fetchBookIntroduction({ isbn: found.isbn, locale: found.locale === 'en' ? 'en' : 'ko' }).catch(() => null)
+        : null
+      const sources = { primary: found.source, note: 'curated-list import', ...(introduction?.source && { description: introduction.sourceUrl }) }
       const rows: Record<string, unknown>[] = [
         {
           content_id: contentId,
@@ -604,7 +607,7 @@ async function main() {
           title: found.title,
           creator: found.creator,
           thumbnail_url: found.thumbnail,
-          description: found.description,
+          description: isVideo ? found.description : introduction?.source ?? null,
           publisher: found.publisher,
           isbn: found.isbn,
           verified: true,
@@ -639,7 +642,8 @@ async function main() {
     `\n완료 — 새로 등록 ${created} / 기존 책에 연결 ${linkedExisting} / 못 찾음 ${notFound}`
   )
 
-  const reportPath = repoPath('data', 'curated-lists', '_register-report.json')
+  mkdirSync(scriptsPath('curated', '.tmp'), { recursive: true })
+  const reportPath = scriptsPath('curated', '.tmp', 'register-report.json')
   writeFileSync(reportPath, JSON.stringify({ created, linkedExisting, notFound, failures }, null, 2), 'utf-8')
   console.log(`못 찾은 항목 명단: ${reportPath}`)
 }

@@ -14,11 +14,11 @@
 import { createClient } from '@supabase/supabase-js'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import { REPO_ROOT } from '../lib/paths'
+import { REPO_ROOT, scriptsPath } from '../lib/paths'
 import { creatorMatches, titleMatches } from './lib/match'
 
 const ROOT = REPO_ROOT
-const WORK = join(ROOT, 'data/curated-lists/_korean-titles')
+const WORK = scriptsPath('curated', '.tmp', 'korean-titles')
 
 function loadEnv(p: string) {
   if (!existsSync(p)) return
@@ -75,6 +75,7 @@ type Answer = {
 }
 
 async function main() {
+  const { fetchBookIntroduction } = await import('@feelandnote/content-search/book-introduction')
   const path = join(WORK, 'missing-answers.json')
   if (!existsSync(path)) throw new Error(`${path} 가 없다. 먼저 find-missing.mjs --ask 를 돌려라`)
   const answers: Record<string, Answer> = JSON.parse(readFileSync(path, 'utf-8'))
@@ -129,6 +130,7 @@ async function main() {
         .single()
       if (e1 || !content) { notFound++; continue }
 
+      const introduction = await fetchBookIntroduction({ isbn: best.isbn, locale: 'ko' }).catch(() => null)
       const { error: e2 } = await db.from('content_locales').insert({
         content_id: content.id,
         locale: 'ko',
@@ -137,6 +139,8 @@ async function main() {
         thumbnail_url: best.thumbnail,
         publisher: best.publisher,
         isbn: best.isbn,
+        description: introduction?.source ?? null,
+        sources: { primary: 'kakao_book', ...(introduction?.source && { description: introduction.sourceUrl }) },
       })
       if (e2) { notFound++; continue }
 
