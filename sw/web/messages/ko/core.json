@@ -448,7 +448,11 @@
         "go": "이동",
         "next": "다음",
         "last": "마지막",
-        "perPage": "/ 페이지"
+        "perPage": "/ 페이지",
+        "page": "{page}페이지",
+        "lastPage": "마지막 페이지, {page}페이지",
+        "summary": "전체 {total}페이지 중 {current}페이지",
+        "pageSize": "페이지당 항목"
       },
       "swipe": {
         "previous": "이전 쪽",

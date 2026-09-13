@@ -72,10 +72,10 @@ export default function CelebDetailFiltersModal({ filters, onClose, onInteractio
 
   return (
     <Modal isOpen onClose={onClose} title={t("compactFilters.open")} titleClassName="text-center" size="lg" animateHeight={false}>
-      <div className="grid grid-cols-5 border-b border-white/10 px-3">
+      <div className="flex flex-wrap gap-2 border-b border-white/10 p-3 sm:grid sm:grid-cols-5">
         {DETAIL_FILTERS.map(({ value, label }) => (
           <button key={value} type="button" aria-pressed={active === value} onClick={() => setActive(value)}
-            className={`min-w-0 whitespace-nowrap border-b-2 px-0 py-3 text-xs font-medium sm:px-1 sm:text-sm outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${active === value ? "border-accent text-accent" : "border-transparent text-text-secondary hover:border-white/30 hover:text-text-primary"}`}>
+            className={`min-h-11 min-w-0 flex-[1_0_5.5rem] rounded-md border px-2 py-2 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${active === value ? "border-accent/30 bg-accent/10 text-accent hover:bg-accent/20" : "border-transparent text-text-secondary hover:border-white/20 hover:bg-white/5 hover:text-text-primary"}`}>
             {t(label)}
           </button>
         ))}

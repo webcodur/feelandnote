@@ -1,9 +1,8 @@
-import type { CelebSortBy } from "@/actions/home";
+import { parseExploreSort } from "@/constants/celebSort";
 import { parseCelebTiers, parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
 import type { FiguresFilterParams } from "./sections";
 import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence } from "@/constants/celebContentPresence";
 
-const VALID_SORT_VALUES = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 
 // URL searchParams에서 필터/정렬 값 파싱
 function parseParam(params: Record<string, string | string[] | undefined>, key: string): string | undefined {
@@ -23,7 +22,7 @@ export function isGridView(params: Record<string, string | string[] | undefined>
 export function parseFilterParams(params: Record<string, string | string[] | undefined>): FiguresFilterParams {
   const notAll = (v?: string) => (v && v !== "all" ? v : undefined);
   const sortByRaw = parseParam(params, "sortBy");
-  const sortBy = (sortByRaw && VALID_SORT_VALUES.includes(sortByRaw) ? sortByRaw : "daily_recommend") as CelebSortBy;
+  const sortBy = parseExploreSort(sortByRaw);
   const pageRaw = parseInt(parseParam(params, "page") || "1", 10);
   const page = isNaN(pageRaw) || pageRaw < 1 ? 1 : pageRaw;
   const pageSizeRaw = parseInt(parseParam(params, "pageSize") || "24", 10);

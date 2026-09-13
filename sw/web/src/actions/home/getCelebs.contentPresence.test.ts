@@ -5,6 +5,7 @@ import test from 'node:test'
 import ts from 'typescript'
 import { parseCelebContentPresence } from '@/constants/celebContentPresence'
 import { parseFilterParams } from '@/app/[locale]/(main)/explore/figures/filterParams'
+import { CELEB_SORT_OPTIONS, DEFAULT_EXPLORE_SORT } from '@/constants/celebSort'
 
 const require = createRequire(import.meta.url)
 const compiled = ts.transpileModule(readFileSync(new URL('./getCelebs.ts', import.meta.url), 'utf8'), {
@@ -92,4 +93,14 @@ test('URL parsing retains valid work filters for SSR and rejects unknown values'
   assert.equal(parseFilterParams({ contentPresence: ['without'] }).contentPresence, 'with')
   assert.equal(parseFilterParams({ contentPresence: 'bad' }).contentPresence, 'with')
   assert.equal(parseCelebContentPresence('bad'), 'all')
+})
+
+test('explore defaults to most works and retains explicit random URLs', () => {
+  assert.equal(DEFAULT_EXPLORE_SORT, 'content_count')
+  assert.equal(parseFilterParams({}).sortBy, DEFAULT_EXPLORE_SORT)
+  assert.equal(parseFilterParams({ sortBy: 'bad' }).sortBy, DEFAULT_EXPLORE_SORT)
+  assert.equal(parseFilterParams({ sortBy: ['daily_recommend'] }).sortBy, DEFAULT_EXPLORE_SORT)
+  assert.equal(parseFilterParams({ sortBy: 'daily_recommend', page: '2' }).sortBy, 'daily_recommend')
+  assert.equal(CELEB_SORT_OPTIONS.at(-1), 'daily_recommend')
+  for (const sortBy of CELEB_SORT_OPTIONS) assert.equal(parseFilterParams({ sortBy }).sortBy, sortBy)
 })

@@ -1,247 +1,92 @@
-/*
-  파일명: /components/ui/Pagination.tsx
-  기능: 페이지네이션 컴포넌트
-  책임: 페이지 번호와 이동 버튼을 표시한다.
-*/ // ------------------------------
-
 "use client";
 
-import { useState, useRef } from "react";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Send } from "lucide-react";
+import { useId, type MouseEvent, type ReactNode } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-// #region 아이콘 컴포넌트
-const TripleChevronLeft = ({ className, size = 16 }: { className?: string; size?: number }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="m19 17-5-5 5-5" />
-    <path d="m14 17-5-5 5-5" />
-    <path d="m9 17-5-5 5-5" />
-  </svg>
-);
-
-const TripleChevronRight = ({ className, size = 16 }: { className?: string; size?: number }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="m5 17 5-5-5-5" />
-    <path d="m10 17 5-5-5-5" />
-    <path d="m15 17 5-5-5-5" />
-  </svg>
-);
-// #endregion
-
-// #region 상수
-const PAGE_GROUP_SIZE = 5;
-
-const STYLES = {
-  // Container
-  container: "flex flex-col gap-2 md:gap-3 p-2 md:p-3 rounded-2xl border border-white/10 bg-gradient-to-b from-black/80 to-black/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] w-fit mx-auto ring-1 ring-white/5",
-
-  // Segmented Control Group
-  group: "flex items-center bg-white/5 rounded-lg p-0.5 border border-white/5 shadow-inner",
-
-  // Segmented Button
-  segmentBtn: "h-7 w-7 md:h-8 md:w-8 flex items-center justify-center text-text-secondary/70 hover:text-accent hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed first:rounded-l-md last:rounded-r-md active:scale-90",
-  divider: "w-px h-3 bg-white/10 shadow-[0.5px_0_0_rgba(255,255,255,0.05)]",
-
-  // Page Numbers
-  numContainer: "flex items-center justify-center gap-1 md:gap-1.5 px-1",
-  numBtn: "h-7 min-w-[1.75rem] md:h-8 md:min-w-[2rem] px-1.5 md:px-2 flex items-center justify-center rounded-lg text-xs md:text-sm font-medium text-text-secondary bg-white/5 border border-white/5 hover:text-text-primary hover:bg-white/10 select-none disabled:text-text-secondary/20 disabled:cursor-not-allowed disabled:hover:bg-white/5",
-  // Active Page: Golden Gradient
-  numBtnActive: "h-7 min-w-[1.75rem] md:h-8 md:min-w-[2rem] px-1.5 md:px-2 flex items-center justify-center rounded-lg text-xs md:text-sm font-bold bg-gradient-to-br from-accent via-[#f59e0b] to-[#b45309] text-black shadow-[0_0_15px_rgba(212,175,55,0.3)] select-none scale-105 ring-1 ring-accent/50",
-
-  // Center: Page Jump Input
-  inputWrapper: "h-7 md:h-8 flex items-center bg-white/5 border border-white/5 focus-within:border-accent/40 rounded-lg overflow-hidden w-[60px] md:w-[72px]",
-  input: "h-full w-full bg-transparent text-center text-xs md:text-sm font-bold text-accent focus:outline-none placeholder:text-text-secondary/30 px-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-  submitBtn: "h-full w-7 md:w-8 flex items-center justify-center text-text-secondary/40 hover:text-accent shrink-0",
-} as const;
-// #endregion
+import { Link } from "@/i18n/navigation";
+import { getPaginationRange } from "./paginationRange";
 
 interface PaginationProps {
   presentation?: "default" | "quiet";
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  /** Locale-relative URL. Ordinary clicks use onPageChange; modified clicks follow the link. */
+  getPageHref?: (page: number) => string;
+  isLoading?: boolean;
   pageSize?: number;
   pageSizeOptions?: number[];
   onPageSizeChange?: (size: number) => void;
   showPageSizeSelector?: boolean;
 }
 
-// 현재 페이지가 속한 그룹의 페이지 번호들 생성 (항상 5개)
-function getPageGroup(currentPage: number): number[] {
-  const groupIndex = Math.floor((currentPage - 1) / PAGE_GROUP_SIZE);
-  const startPage = groupIndex * PAGE_GROUP_SIZE + 1;
-  return Array.from({ length: PAGE_GROUP_SIZE }, (_, i) => startPage + i);
-}
+const controlClass = "inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-lg border border-transparent px-3 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-accent";
+const availableClass = "text-text-secondary hover:border-white/15 hover:bg-white/5 hover:text-text-primary";
+const unavailableClass = "cursor-not-allowed text-text-tertiary";
 
 export function Pagination({
-  presentation = "default",
-  currentPage,
-  totalPages,
-  onPageChange,
-  pageSize,
-  pageSizeOptions,
-  onPageSizeChange,
-  showPageSizeSelector = false,
+  presentation = "default", currentPage, totalPages, onPageChange, getPageHref, isLoading = false,
+  pageSize, pageSizeOptions, onPageSizeChange, showPageSizeSelector = false,
 }: PaginationProps) {
   const t = useTranslations("shared.ui.pagination");
-  const quiet = presentation === "quiet";
-  const styles = quiet ? {
-    ...STYLES,
-    container: "mx-auto flex w-fit flex-col gap-3",
-    group: "flex items-center",
-    segmentBtn: "flex h-8 w-8 items-center justify-center rounded-md text-text-secondary hover:bg-white/5 hover:text-text-primary disabled:opacity-25 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-accent",
-    divider: "w-1",
-    numBtn: "flex h-8 min-w-8 items-center justify-center rounded-md px-2 text-sm font-medium text-text-secondary hover:bg-white/5 hover:text-text-primary disabled:opacity-25 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-accent",
-    numBtnActive: "flex h-8 min-w-8 items-center justify-center rounded-md bg-accent/10 px-2 text-sm font-semibold text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent hover:bg-accent/20",
-  } : STYLES;
-  const [inputValue, setInputValue] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const sizeId = useId();
+  const { current, total, items } = getPaginationRange(currentPage, totalPages);
+  const sizes = [...new Set((pageSizeOptions ?? []).filter(size => Number.isInteger(size) && size > 0))];
+  const showSize = showPageSizeSelector && pageSize != null && onPageSizeChange && sizes.length > 0;
+  const pageLabel = (page: number) => t(page === total ? "lastPage" : "page", { page });
 
-  const pages = getPageGroup(currentPage);
-  const currentGroupStart = pages[0];
-  const currentGroupEnd = pages[pages.length - 1];
+  if (total <= 1 && !showSize) return null;
 
-  // Navigation Logic
-  const canGoFirst = currentPage > 1;
-  const canGoPrevGroup = currentGroupStart > 1;
-  const canGoPrev = currentPage > 1;
-  const canGoNext = currentPage < totalPages;
-  const canGoNextGroup = currentGroupEnd < totalPages;
-  const canGoLast = currentPage < totalPages;
-
-  const navigate = (page: number) => onPageChange(page);
-
-  const handleJump = () => {
-    const page = parseInt(inputValue, 10);
-    if (!isNaN(page) && page >= 1 && page <= totalPages) navigate(page);
-    setInputValue("");
-    inputRef.current?.blur();
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleJump();
-    if (e.key === "Escape") { setInputValue(""); inputRef.current?.blur(); }
+  const control = (page: number, label: string, children: ReactNode, rel?: "prev" | "next", boundary = false) => {
+    const active = !rel && page === current;
+    const disabled = boundary || isLoading;
+    const style = `${controlClass} ${active ? "bg-accent/10 font-semibold text-accent hover:bg-accent/20" : disabled ? unavailableClass : availableClass}`;
+    const changePage = () => { if (!disabled && page !== current) onPageChange(page); };
+    const followPage = (event: MouseEvent<HTMLAnchorElement>) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      changePage();
+    };
+    if (getPageHref && !boundary) return (
+      <Link href={getPageHref(page)} prefetch={false} onClick={followPage} rel={rel}
+        aria-label={label} aria-current={active ? "page" : undefined} aria-disabled={isLoading || undefined}
+        className={style}>{children}</Link>
+    );
+    return (
+      <button type="button" onClick={changePage} disabled={disabled} aria-label={label}
+        aria-current={active ? "page" : undefined} className={style}>{children}</button>
+    );
   };
 
   return (
-    <nav className={styles.container} aria-label={t("label")}>
-      
-      {/* Top Row: Controller Bar */}
-      <div className="flex items-center justify-between w-full gap-2 md:gap-4">
-        {/* Left Controls */}
-        <div className={styles.group}>
-          <button onClick={() => navigate(1)} disabled={!canGoFirst} className={`${styles.segmentBtn} hidden md:flex`} title={t("first")}>
-            <TripleChevronLeft size={16} />
-          </button>
-          <div className="hidden md:block">
-            <div className={styles.divider} />
-          </div>
-          <button onClick={() => navigate(Math.max(1, currentGroupStart - PAGE_GROUP_SIZE))} disabled={!canGoPrevGroup} className={styles.segmentBtn} title="-5">
-            <ChevronsLeft size={16} />
-          </button>
-          <div className={styles.divider} />
-          <button onClick={() => navigate(currentPage - 1)} disabled={!canGoPrev} className={styles.segmentBtn} title={t("previous")}>
-            <ChevronLeft size={16} />
-          </button>
-        </div>
-
-        {/* Center: Page Jump */}
-        <div className={styles.inputWrapper}>
-          <input
-            ref={inputRef}
-            type="number"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className={styles.input}
-            placeholder="—"
-          />
-          <button onClick={handleJump} className={styles.submitBtn} title={t("go")}>
-            <Send size={11} />
-          </button>
-        </div>
-
-        {/* Right Controls */}
-        <div className={styles.group}>
-          <button onClick={() => navigate(currentPage + 1)} disabled={!canGoNext} className={styles.segmentBtn} title={t("next")}>
-            <ChevronRight size={16} />
-          </button>
-          <div className={styles.divider} />
-          <button onClick={() => navigate(Math.min(totalPages, currentGroupEnd + 1))} disabled={!canGoNextGroup} className={styles.segmentBtn} title="+5">
-            <ChevronsRight size={16} />
-          </button>
-          <div className="hidden md:block">
-            <div className={styles.divider} />
-          </div>
-          <button onClick={() => navigate(totalPages)} disabled={!canGoLast} className={`${styles.segmentBtn} hidden md:flex`} title={t("last")}>
-            <TripleChevronRight size={16} />
-          </button>
-        </div>
-      </div>
-
-      {/* Bottom Row: Page Numbers + Total */}
-      <div className="relative flex items-center justify-center w-full pe-10 md:pe-12">
-        <div className={styles.numContainer}>
-          {pages.map((page) => {
-            const isDisabled = page > totalPages;
-            return (
-              <button
-                key={page}
-                onClick={() => navigate(page)}
-                disabled={isDisabled}
-                className={page === currentPage ? styles.numBtnActive : styles.numBtn}
-                aria-current={page === currentPage ? "page" : undefined}
-              >
-                {page}
-              </button>
-            );
-          })}
-        </div>
-        <span className="absolute right-1 text-text-secondary/70 text-[10px] md:text-xs font-medium tabular-nums">1 - {totalPages}</span>
-      </div>
-
-      {/* Page Size Selector */}
-      {showPageSizeSelector && pageSize != null && onPageSizeChange && pageSizeOptions && (
-        <div className="flex items-center justify-center gap-1.5">
-          {pageSizeOptions.map((size) => (
-            <button
-              key={size}
-              onClick={() => onPageSizeChange(size)}
-              className={`h-6 min-w-[2rem] px-1.5 flex items-center justify-center rounded text-[10px] md:text-xs font-medium ${quiet ? "outline-none focus-visible:ring-2 focus-visible:ring-accent" : "transition-all"} ${
-                size === pageSize
-                  ? "bg-accent/20 text-accent border border-accent/40"
-                  : "text-text-secondary/60 bg-white/5 border border-white/5 hover:text-text-primary hover:bg-white/10"
-              }`}
-            >
-              {size}
-            </button>
-          ))}
-          <span className="text-text-secondary/40 text-[10px] ml-1">{t("perPage")}</span>
+    <div className={`mx-auto flex w-fit max-w-full flex-col items-center gap-3 ${presentation === "default" ? "rounded-xl border border-white/10 bg-bg-card p-2" : ""}`}>
+      {total > 1 && (
+        <nav aria-label={t("label")} aria-busy={isLoading}>
+          <ul className="flex items-center justify-center gap-1">
+            <li>{control(current - 1, t("previous"), <><ChevronLeft size={16} aria-hidden /><span>{t("previous")}</span></>, "prev", current === 1)}</li>
+            <li className="min-w-20 px-2 text-center text-sm tabular-nums text-text-primary md:hidden">
+              <span role="status" aria-atomic="true"><span aria-hidden="true">{current} / {total}</span><span className="sr-only">{t("summary", { current, total })}</span></span>
+            </li>
+            {items.map(item => (
+              <li key={item} className="hidden md:block">
+                {typeof item === "number" && control(item, pageLabel(item), item)}
+                {typeof item === "string" && <span aria-hidden="true" className="flex min-h-11 w-6 items-center justify-center text-text-secondary">...</span>}
+              </li>
+            ))}
+            <li>{control(current + 1, t("next"), <><span>{t("next")}</span><ChevronRight size={16} aria-hidden /></>, "next", current === total)}</li>
+          </ul>
+        </nav>
+      )}
+      {showSize && (
+        <div className="flex items-center gap-2 text-sm text-text-secondary">
+          <label htmlFor={sizeId}>{t("pageSize")}</label>
+          <select id={sizeId} value={pageSize} disabled={isLoading} onChange={event => onPageSizeChange?.(Number(event.target.value))}
+            className="min-h-11 min-w-20 rounded-lg border border-white/15 bg-bg-card px-3 text-sm text-text-primary hover:border-white/30 outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-not-allowed">
+            {!sizes.includes(pageSize!) && <option value={pageSize}>{pageSize}</option>}
+            {sizes.map(size => <option key={size} value={size}>{size}</option>)}
+          </select>
         </div>
       )}
-
-    </nav>
+    </div>
   );
 }

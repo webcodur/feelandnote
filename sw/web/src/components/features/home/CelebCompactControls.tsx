@@ -16,7 +16,7 @@ interface Props {
   onInteraction?: () => void;
 }
 
-const controlClass = "flex h-10 min-w-0 items-center justify-center gap-1.5 rounded-md border border-white/15 bg-white/[0.025] px-2 md:px-3 text-sm text-text-primary hover:border-white/35 hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50";
+const controlClass = "flex min-h-11 min-w-0 items-center justify-center gap-1.5 rounded-md border border-white/15 bg-white/[0.025] px-2 py-2 md:px-3 text-sm font-medium text-text-primary hover:border-white/35 hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50";
 
 export default function CelebCompactControls({ filters, onInteraction }: Props) {
   const t = useTranslations("home.ui");
@@ -40,8 +40,8 @@ export default function CelebCompactControls({ filters, onInteraction }: Props) 
 
   return (
     <div className="mb-6 space-y-3">
-      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-2 md:grid-cols-[minmax(14rem,1fr)_auto_auto_auto]">
-        <form className="col-span-3 flex h-10 items-center rounded-md border border-white/15 bg-white/[0.025] focus-within:border-accent/60 md:col-span-1"
+      <div className="grid grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)_auto] gap-2 md:grid-cols-[minmax(14rem,1fr)_auto_auto_auto]">
+        <form className="col-span-3 flex min-h-11 items-center rounded-md border border-white/15 bg-white/[0.025] focus-within:border-accent/60 md:col-span-1"
           onSubmit={event => { event.preventDefault(); onInteraction?.(); filters.handleSearchSubmit(); }}>
           <input value={filters.search} onChange={event => filters.handleSearchInput(event.target.value)} placeholder={t("searchPlaceholder")}
             aria-label={t("searchPlaceholder")} className="h-full min-w-0 flex-1 bg-transparent px-3 text-sm text-text-primary outline-none placeholder:text-text-secondary/60" />
@@ -54,11 +54,11 @@ export default function CelebCompactControls({ filters, onInteraction }: Props) 
         </form>
         <button type="button" onClick={() => setOpen("works")} disabled={filters.isLoading}
           aria-label={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`} aria-haspopup="dialog" className={controlClass}>
-          <span className="truncate">{t(`compactFilters.works.${filters.contentPresence}`)}</span><ChevronDown size={13} className="hidden shrink-0 text-text-secondary md:block" />
+          <span className="min-w-0 break-words leading-5">{t(`compactFilters.works.${filters.contentPresence}`)}</span><ChevronDown size={13} className="hidden shrink-0 text-text-secondary md:block" />
         </button>
         <button type="button" onClick={() => setOpen("sort")} disabled={filters.isLoading}
           aria-label={`${t("filterSort")}: ${t(`sort.${filters.sortBy}`)}`} aria-haspopup="dialog" className={controlClass}>
-          <span className="truncate">{t(`sort.${filters.sortBy}`)}</span><ChevronDown size={13} className="hidden shrink-0 text-text-secondary md:block" />
+          <span className="min-w-0 break-words leading-5">{t(`sort.${filters.sortBy}`)}</span><ChevronDown size={13} className="hidden shrink-0 text-text-secondary md:block" />
         </button>
         <button type="button" onClick={() => setOpen("detail")} aria-haspopup="dialog" className={controlClass}>
           <SlidersHorizontal size={15} /><span>{t("compactFilters.open")}</span>
