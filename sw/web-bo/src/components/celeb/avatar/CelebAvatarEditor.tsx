@@ -269,6 +269,7 @@ export default function CelebAvatarEditor({
         <ImageCropModal
           imageSrc={cropImageSrc}
           aspectRatio={1}
+          description="사진을 끌어 위치를 옮기고 스크롤이나 아래 막대로 확대하세요."
           allowTransparentPadding
           onComplete={handleCropComplete}
           onCancel={() => {

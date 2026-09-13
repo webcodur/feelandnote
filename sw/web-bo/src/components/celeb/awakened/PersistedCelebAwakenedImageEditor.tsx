@@ -90,7 +90,7 @@ export default function PersistedCelebAwakenedImageEditor({
       aspectLabel="1:1"
       emptyLabel="각성 이미지 놓기"
       cropTitle="각성 이미지 위치 조정"
-      cropDescription="정사각형 안에서 핵심 연출이 잘 보이도록 위치와 확대를 조정하세요."
+      cropDescription="정사각형 안에서 핵심 연출이 잘 보이도록 위치를 옮기고 스크롤이나 막대로 확대하세요."
       processingErrorMessage="각성 이미지 처리에 실패했습니다."
       onCroppedFile={persist}
       onRemove={removable && !removing ? remove : undefined}
