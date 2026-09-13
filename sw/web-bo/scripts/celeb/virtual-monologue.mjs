@@ -3,14 +3,16 @@
 import assert from 'node:assert/strict'
 import { spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync } from 'node:fs'
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { appendFile, mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
+import { homedir } from 'node:os'
 import { dirname, relative, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { createClient } from '@supabase/supabase-js'
 import {
   AGY_TEXT_MODEL,
   agyCall,
+  looksQuotaLimited,
 } from '../../../../.agents/skills/agy-antigravity/scripts/agy-call.mjs'
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url))
@@ -24,6 +26,22 @@ const CLAUDE_OPUS_MODEL = 'opus'
 const CLAUDE_OPUS_TRANSPORT = 'claude-cli'
 const CALL_TIMEOUT_MS = 1_500_000
 const MAX_TARGETS_PER_RUN = 100
+const LIGHT_TIMEOUT_MS = 600_000
+const DEVIN_MODEL = 'swe-2-max'
+const DEVIN_TIMEOUT_MS = 3_600_000
+const DEVIN_MAX_ATTEMPTS = 8
+const DEVIN_RATE_LIMIT = /rate limit|Reached overall message/i
+
+// 안내 문구의 단위가 초·분으로 바뀐다. 둘 다 읽고 최소 90초는 쉰다.
+function rateLimitWaitMs(message) {
+  const minutes = message.match(/reset in (\d+)\s*minute/i)
+  const seconds = message.match(/reset in (\d+)\s*second/i)
+  if (minutes) return Math.max(90_000, (Number(minutes[1]) + 1) * 60_000)
+  if (seconds) return Math.max(90_000, (Number(seconds[1]) + 30) * 1_000)
+  return 10 * 60_000
+}
+const LIGHT_REVIEW_BEFORE_YEAR = 1900
+const TARGET_COLUMNS = 'id,slug,nickname,nickname_en,bio,birth_date,death_date,profession,nationality,celeb_tier,publication_status,virtual_monologue,virtual_monologue_locked_at'
 
 const HIGH_RISK_TEXT = /(고대|중세|철학|종교|신학|신화|전설|독재|학살|전쟁|군사|무기|독가스|자살|암살|처형|노예|식민|반란|혁명|테러|홀로코스트|고문|범죄|논란)/
 const SOURCE_TIERS = new Set(['primary', 'official', 'scholarly', 'reference'])
@@ -333,13 +351,16 @@ function nonWhitespaceLength(value) {
 
 function mechanicalIssues(text) {
   const issues = []
-  if (!/(나는|저는|내가|제가|나의|저의|짐은|과인은|소인은)/.test(text)) issues.push('1인칭 화자가 드러나지 않음')
+  if (!/(나는|저는|내가|제가|나의|저의|난 |내 |제 |나를|저를|짐은|과인은|소인은)/.test(text)) issues.push('1인칭 화자가 드러나지 않음')
   if (/^\s*(?:\*+\s*)?[（(]/.test(text)) issues.push('무대 지시로 시작함')
   if (/(^|\n)#{1,6}\s|\*\*|```/.test(text)) issues.push('마크다운 혼입')
   if (/https?:\/\//i.test(text)) issues.push('최종본문 URL 혼입')
   if (/[一-鿿]/.test(text)) issues.push('한자 혼입')
   if (/—/.test(text)) issues.push('em dash 혼입')
   if (/<<<|MATERIALS|VOICE|FINAL|검수 결과|작성하겠습니다/.test(text)) issues.push('작업 문구 혼입')
+  // 자료가 얇은 인물에서 연표를 한 덩어리로 늘어놓는 실패가 나온다.
+  if (text.split(/\n\s*\n/).filter((part) => part.trim()).length < 2) issues.push('문단 없는 한 덩어리')
+  if (/^\s*\d{4}년/.test(text)) issues.push('연도로 시작하는 이력서형')
   return issues
 }
 
@@ -417,8 +438,7 @@ function createDb() {
 }
 
 async function loadTargets(db, slugs, limit) {
-  const columns = 'id,slug,nickname,nickname_en,bio,birth_date,death_date,profession,celeb_tier,publication_status,virtual_monologue,virtual_monologue_locked_at'
-  let query = db.from('celebs').select(columns).order('slug')
+  let query = db.from('celebs').select(TARGET_COLUMNS).order('slug')
   if (slugs.length > 0) query = query.in('slug', slugs)
   else query = query.eq('publication_status', 'active').is('virtual_monologue', null).limit(limit)
   const { data, error } = await query
@@ -737,15 +757,7 @@ async function applyCommand() {
       throw new Error(`현재 독백이 비어 있지 않거나 잠겨 있다: ${slug}`)
     }
 
-    const updated = await db.from('celebs')
-      .update({ virtual_monologue: candidate.final })
-      .eq('id', current.data.id)
-      .is('virtual_monologue', null)
-      .is('virtual_monologue_locked_at', null)
-      .select('virtual_monologue')
-      .maybeSingle()
-    if (updated.error) throw updated.error
-    if (updated.data?.virtual_monologue !== candidate.final) {
+    if (!(await writeMonologue(db, current.data.id, candidate.final))) {
       throw new Error(`DB 재조회 값이 후보와 다르다: ${slug}`)
     }
 
@@ -837,7 +849,9 @@ function selfTestCommand() {
   })), /독립 출처/)
   assert.equal(nonWhitespaceLength('가 나\n다'), 3)
   const shortIssues = mechanicalIssues('*(밤, 독백한다)* 나는 말한다.')
-  assert.deepEqual(shortIssues, ['무대 지시로 시작함'])
+  assert.deepEqual(shortIssues, ['무대 지시로 시작함', '문단 없는 한 덩어리'])
+  assert.deepEqual(mechanicalIssues('1976년에 태어났다.\n\n나는 살았다.'), ['연도로 시작하는 이력서형'])
+  assert.deepEqual(mechanicalIssues('나는 걸었다.\n\n그리고 멈췄다.'), [])
   console.log(JSON.stringify({
     command: 'self-test',
     ok: true,
@@ -845,9 +859,567 @@ function selfTestCommand() {
   }))
 }
 
+// 비어 있고 잠기지 않은 경우에만 쓰고, 재조회 값이 같은지 돌려준다.
+async function writeMonologue(db, id, text) {
+  const updated = await db.from('celebs')
+    .update({ virtual_monologue: text })
+    .eq('id', id)
+    .is('virtual_monologue', null)
+    .is('virtual_monologue_locked_at', null)
+    .select('virtual_monologue')
+    .maybeSingle()
+  if (updated.error) throw updated.error
+  return updated.data?.virtual_monologue === text
+}
+
+// 가벼운 방식: Gemini 초안 1회. 입장이 뒤집히기 쉬운 한국 전근대 인물만 Gemini 검수 1회를 더한다.
+function needsLightReview(row) {
+  const year = parseYear(row.birth_date)
+  return row.nationality === 'KR' && (year === null || year < LIGHT_REVIEW_BEFORE_YEAR)
+}
+
+function looseReviewFinal(raw) {
+  const start = raw.indexOf('{')
+  const end = raw.lastIndexOf('}')
+  if (start < 0 || end <= start) return ''
+  try {
+    const value = JSON.parse(raw.slice(start, end + 1))
+    return ['pass', 'rewrite'].includes(value?.verdict) ? String(value.final ?? '').trim() : ''
+  } catch {
+    return ''
+  }
+}
+
+// 배치 호출의 쿼터 소진은 오류 대신 시간 초과로 올 수 있어 agy 로그로 가른다.
+function agyQuotaExhausted() {
+  try {
+    const dir = resolve(homedir(), '.gemini/antigravity-cli/log')
+    const latest = readdirSync(dir).filter((name) => name.endsWith('.log'))
+      .map((name) => ({ name, time: statSync(resolve(dir, name)).mtimeMs }))
+      .sort((a, b) => b.time - a.time)[0]
+    return !!latest && /Individual quota reached|RESOURCE_EXHAUSTED/.test(readFileSync(resolve(dir, latest.name), 'utf8').slice(-20000))
+  } catch {
+    return false
+  }
+}
+
+async function agyAlive() {
+  try {
+    return /OK/.test(await agyCall('Reply with exactly: OK', { timeoutMs: 60_000 }))
+  } catch {
+    return false
+  }
+}
+
+const REFUSAL_TEXT = /(작성할 수 없|생성할 수 없|쓸 수 없습니다|방침에 따라|죄송하지만|죄송합니다|I can(?:'|no)t)/
+
+// 첫머리 무대 지시·제목 줄·강조 기호·괄호 속 한자·긴 줄표만 걷어 낸다. 내용은 고치지 않는다.
+function sanitizeLight(text) {
+  return text
+    .replace(/\*+/g, '')
+    .replace(/^#{1,6}\s.*$\n*/gm, '')
+    .replace(/^\s*[^\n.?!]{0,80}독백[^\n.?!]{0,80}\n+/, '')
+    .replace(/^\s*[（(][^)）\n]{0,200}[)）]\s*$\n*/gm, '')
+    .replace(/^\s*[（(][^)）\n]{0,200}[)）]\s*/, '')
+    .replace(/^\s*-{3,}\s*$\n*/gm, '')
+    // 음성화 때 그대로 읽히므로 한자·로마자만 든 괄호는 통째로 걷어낸다.
+    .replace(/\s*[（(][^)）\n]*[一-鿿A-Za-z][^)）\n]*[)）]/g, (match) => (/[가-힣]/.test(match) ? match : ''))
+    .replace(/\s*—\s*/g, ', ')
+    .trim()
+}
+
+// 검수는 뒤집힌 사실만 고친다. 문장과 결은 건드리지 않는다.
+function buildLightReviewPrompt(row, draft) {
+  const name = row.nickname_en ? `${row.nickname}(${row.nickname_en})` : row.nickname
+  return `${name}의 1인칭 독백이다. 웹에서 이 인물을 확인하고, 사실이 아니거나 입장이 뒤바뀐 부분만 고쳐라. 확인되지 않는 일화는 지워라. 그 밖의 문장은 그대로 둔다. 다시 쓰지 말고 고친 독백 본문만 출력한다.
+
+${draft}`
+}
+
+async function lightOne(row) {
+  const call = (prompt) => agyCall(prompt, { model: AGY_TEXT_MODEL, timeoutMs: LIGHT_TIMEOUT_MS })
+  let final = (await call(buildWriterPrompt(row))).trim()
+  const reviewed = needsLightReview(row)
+  if (reviewed) {
+    final = (await call(buildLightReviewPrompt(row, final))).trim()
+    if (!final) return { status: 'hold', reason: '검수 응답 없음', reviewed, final }
+  }
+  return lightCheck(final, reviewed)
+}
+
+function lightCheck(text, reviewed) {
+  const final = sanitizeLight(text)
+  if (REFUSAL_TEXT.test(final)) return { status: 'hold', reason: '거절 응답', reviewed, final }
+  const issues = [...mechanicalIssues(final), ...styleFlags(final)]
+  return { status: issues.length ? 'hold' : 'ready', reason: issues.join(', '), reviewed, final }
+}
+
+// 앞선 실행의 --out 결과에서 원문을 다시 읽어 호출 없이 재검사한다.
+async function loadReusedFinals(path) {
+  const map = new Map()
+  for (const line of (await readFile(path, 'utf8')).split('\n')) {
+    if (!line.trim()) continue
+    const row = JSON.parse(line)
+    if (String(row.final ?? '').trim()) map.set(row.slug, { final: row.final, reviewed: !!row.reviewed })
+  }
+  return map
+}
+
+async function loadEmptyTargets(db) {
+  const rows = []
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await db.from('celebs').select(TARGET_COLUMNS)
+      .eq('publication_status', 'active')
+      .is('virtual_monologue', null)
+      .is('virtual_monologue_locked_at', null)
+      .order('slug')
+      .range(from, from + 999)
+    if (error) throw error
+    rows.push(...data)
+    if (data.length < 1000) break
+  }
+  return rows
+}
+
+async function lightCommand() {
+  const slugs = parseSlugs()
+  const limit = Number.parseInt(argValue('--limit') ?? '', 10)
+  const out = argValue('--out')
+  const apply = hasFlag('--apply')
+  const reused = argValue('--reuse') ? await loadReusedFinals(argValue('--reuse')) : null
+  const db = createDb()
+  const all = slugs.length > 0 ? await loadTargets(db, slugs, null) : await loadEmptyTargets(db)
+  const targets = limit > 0 ? all.slice(0, limit) : all
+  const counts = { ready: 0, hold: 0, error: 0, applied: 0 }
+  let stopped = null
+
+  for (const row of targets) {
+    if (row.virtual_monologue !== null || row.virtual_monologue_locked_at !== null) continue
+    if (reused && !reused.has(row.slug)) continue
+    let result
+    try {
+      result = reused
+        ? lightCheck(reused.get(row.slug).final, reused.get(row.slug).reviewed)
+        : await lightOne(row)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      const timedOut = /시간 초과/.test(message)
+      if (/Authentication required|로그인/.test(message)) stopped = 'agy 로그인 필요'
+      else if (looksQuotaLimited(message) || (timedOut && agyQuotaExhausted())) stopped = 'agy 쿼터 소진'
+      else if (timedOut && !(await agyAlive())) stopped = 'agy 무응답'
+      if (stopped) break
+      result = { status: 'error', reason: excerpt(message, 200), final: '' }
+    }
+    counts[result.status] += 1
+    const applied = apply && result.status === 'ready' && await writeMonologue(db, row.id, result.final)
+    if (applied) counts.applied += 1
+    if (out) await appendFile(out, `${JSON.stringify({ slug: row.slug, name: row.nickname, ...result, applied })}\n`, 'utf8')
+    console.log(`${row.slug} ${result.status}${result.reviewed ? ' reviewed' : ''} ${nonWhitespaceLength(result.final)}자${applied ? ' applied' : ''}${result.reason ? ` ${result.reason}` : ''}`)
+  }
+  console.log(JSON.stringify({ command: 'light', targets: targets.length, ...counts, stopped }))
+  if (stopped) process.exitCode = 3
+}
+
+function buildDevinBrief(rows) {
+  const table = rows
+    .map((row) => `| \`output/${row.slug}.txt\` | ${row.nickname} | ${row.nickname_en ?? '-'} | ${row.bio ?? '-'} |`)
+    .join('\n')
+  return `# 가상독백 집필 지시서
+
+인물이 자기 목소리로 자기 삶과 생각을 말하는 한국어 독백을 쓴다. 아래 인물 각각에 대해 하나씩 쓴다.
+
+## 하지 않는 일
+
+- 이 폴더의 \`output/\` 밖에 파일을 만들거나 고치지 않는다.
+- 데이터베이스, 저장소, 설정을 건드리지 않는다.
+- 다른 에이전트나 CLI를 부르지 않는다.
+
+## 대상
+
+| 파일 이름 | 인물 | 원어 표기 | 식별용 소개 |
+|---|---|---|---|
+${table}
+
+소개는 동명이인을 가리기 위한 것이며 사실 근거가 아니다.
+
+## 조사
+
+쓰기 전에 웹에서 인물의 신원, 생애, 저술, 실제로 한 말과 한 일을 확인한다. 동명이인을 구별한다. 확인되지 않은 장면, 속마음, 동기, 후회, 직접 인용은 만들지 않는다. 전설과 사실이 갈리는 대목은 사실로 단정하지 않는다. 화자가 죽은 뒤의 일은 말하지 않는다. 허구 인물이면 원작에 나온 것만 쓴다.
+
+## 분량과 형식
+
+- 공백 제외 550자에서 900자 사이로 쓴다. A4 반 페이지 분량이다.
+- 파일에는 독백 본문만 넣는다. 제목, 설명, 머리말, 꼬리말을 넣지 않는다.
+- 마크다운 기호, 한자, URL, 괄호 속 무대 지시, 긴 줄표를 쓰지 않는다.
+- 1인칭으로 쓴다. 인물에 어울리는 말투를 고른다. 존댓말과 반말 중 하나를 골라 끝까지 지킨다.
+
+## 마치기 전에
+
+파일을 모두 쓴 뒤 각 파일의 공백 제외 글자 수를 보고한다.
+`
+}
+
+async function devinChunk(rows, workRoot, call) {
+  const dir = resolve(workRoot, rows[0].slug)
+  const outDir = resolve(dir, 'output')
+  await mkdir(outDir, { recursive: true })
+  await mkdir(resolve(dir, 'logs'), { recursive: true })
+  const missing = rows.filter((row) => !existsSync(resolve(outDir, `${row.slug}.txt`)))
+  if (missing.length > 0) {
+    const briefPath = resolve(dir, 'BRIEF.md')
+    await writeFile(briefPath, buildDevinBrief(missing), 'utf8')
+    await call(`${briefPath.replaceAll('\\', '/')} 파일을 읽고 그대로 수행한다. 지시서 밖의 파일을 만들거나 고치지 않는다.`, {
+      cwd: dir,
+      model: DEVIN_MODEL,
+      timeoutMs: DEVIN_TIMEOUT_MS,
+      exportPath: resolve(dir, 'logs/conversation.md'),
+      logPath: resolve(dir, 'logs/live.log'),
+    })
+  }
+  const results = []
+  for (const row of rows) {
+    const path = resolve(outDir, `${row.slug}.txt`)
+    if (!existsSync(path)) {
+      results.push({ row, result: { status: 'error', reason: '산출물 없음', reviewed: false, final: '' } })
+      continue
+    }
+    results.push({ row, result: lightCheck(await readFile(path, 'utf8'), false) })
+  }
+  return results
+}
+
+async function devinCommand() {
+  const slugs = parseSlugs()
+  const limit = Number.parseInt(argValue('--limit') ?? '', 10)
+  const batch = Math.max(1, Number.parseInt(argValue('--batch') ?? '5', 10))
+  const sessions = Math.max(1, Number.parseInt(argValue('--sessions') ?? '2', 10))
+  const workRoot = resolve(argValue('--work') ?? resolve(REPO_ROOT, '../_vm-devin'))
+  const out = argValue('--out')
+  const apply = hasFlag('--apply')
+  const { devinCall } = await import(pathToFileURL(resolve(REPO_ROOT, '.agents/skills/devin-swe/scripts/devin-call.mjs')).href)
+
+  const db = createDb()
+  const loaded = slugs.length > 0 ? await loadTargets(db, slugs, null) : await loadEmptyTargets(db)
+  // agy 배치와 같은 인물을 잡지 않도록 뒤에서부터 거슬러 처리할 수 있게 한다.
+  const all = hasFlag('--reverse') ? [...loaded].reverse() : loaded
+  const targets = limit > 0 ? all.slice(0, limit) : all
+  const chunks = []
+  for (let index = 0; index < targets.length; index += batch) chunks.push(targets.slice(index, index + batch))
+  const counts = { ready: 0, hold: 0, error: 0, applied: 0 }
+
+  let next = 0
+  const worker = async () => {
+    while (next < chunks.length) {
+      const chunk = chunks[next++]
+      let results = null
+      for (let attempt = 1; attempt <= DEVIN_MAX_ATTEMPTS && !results; attempt += 1) {
+        try {
+          results = await devinChunk(chunk, workRoot, devinCall)
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error)
+          if (DEVIN_RATE_LIMIT.test(message) && attempt < DEVIN_MAX_ATTEMPTS) {
+            const waitMs = rateLimitWaitMs(message)
+            console.log(`${chunk[0].slug} 대기 ${Math.round(waitMs / 60_000)}분 (메시지 한도)`)
+            await new Promise((wake) => { setTimeout(wake, waitMs) })
+            continue
+          }
+          results = chunk.map((row) => ({ row, result: { status: 'error', reason: excerpt(message, 160), reviewed: false, final: '' } }))
+        }
+      }
+      for (const { row, result } of results) {
+        counts[result.status] += 1
+        const applied = apply && result.status === 'ready' && await writeMonologue(db, row.id, result.final)
+        if (applied) counts.applied += 1
+        if (out) await appendFile(out, `${JSON.stringify({ slug: row.slug, name: row.nickname, ...result, applied })}\n`, 'utf8')
+        console.log(`${row.slug} ${result.status} ${nonWhitespaceLength(result.final)}자${applied ? ' applied' : ''}${result.reason ? ` ${result.reason}` : ''}`)
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(sessions, chunks.length) }, worker))
+  console.log(JSON.stringify({ command: 'devin', targets: targets.length, chunks: chunks.length, ...counts }))
+}
+
+// ── 국소 수정 ────────────────────────────────────────────────────────
+// 오류로 합의한 셋만 고친다. 고치는 자리 밖의 문장은 그대로 둔다.
+
+const REPAIRS = {
+  opening: {
+    label: '평판으로 시작',
+    match: (text) => /^\s*(세상\s*)?(사람들|이들|세인)/.test(text),
+    order: (name) => `아래는 ${name}의 1인칭 독백이다. 첫 문장이 "사람들은 나를…"처럼 남들이 자기를 어떻게 부르는지로 시작한다. 그 도입부만 다른 방식으로 바꿔라. 나머지 문장과 문단은 그대로 둔다. 고친 전문만 출력한다.`,
+  },
+  stage: {
+    label: '무대 지시',
+    match: (text) => /[（(][^)）\n]*(며|다가|듯|웃음|하하|한숨)[^)）\n]*[)）]/.test(text),
+    order: (name) => `아래는 ${name}의 1인칭 독백이다. 괄호로 묶인 무대 지시와 웃음 표시를 지워라. 문장이 어색해지면 그 자리만 다듬는다. 그 밖의 문장은 그대로 둔다. 고친 전문만 출력한다.`,
+  },
+  year: {
+    label: '연도 이력서',
+    match: (text) => /^\s*\d{4}년/.test(text),
+    order: (name) => `아래는 ${name}의 1인칭 독백이다. 첫 문장이 연도로 시작해 이력서처럼 읽힌다. 그 도입부만 다른 방식으로 바꿔라. 나머지는 그대로 둔다. 고친 전문만 출력한다.`,
+  },
+}
+
+function repairKind(text) {
+  for (const [kind, rule] of Object.entries(REPAIRS)) {
+    if (rule.match(text)) return kind
+  }
+  return null
+}
+
+async function repairOne(row, kind) {
+  const rule = REPAIRS[kind]
+  const raw = await agyCall(`${rule.order(row.nickname)}\n\n${row.virtual_monologue}`, {
+    model: AGY_TEXT_MODEL,
+    timeoutMs: LIGHT_TIMEOUT_MS,
+  })
+  const fixed = sanitizeLight(raw.trim())
+  const before = nonWhitespaceLength(row.virtual_monologue)
+  const after = nonWhitespaceLength(fixed)
+  if (!fixed || fixed === row.virtual_monologue) return { status: 'hold', reason: '그대로 돌아옴', final: fixed }
+  if (after < before * 0.7 || after > before * 1.3) return { status: 'hold', reason: `분량이 ${before}→${after}자로 흔들림`, final: fixed }
+  if (rule.match(fixed)) return { status: 'hold', reason: '같은 결함이 남음', final: fixed }
+  const issues = mechanicalIssues(fixed)
+  return issues.length
+    ? { status: 'hold', reason: issues.join(', '), final: fixed }
+    : { status: 'ready', reason: '', final: fixed }
+}
+
+async function repairCommand() {
+  const apply = hasFlag('--apply')
+  const limit = Number.parseInt(argValue('--limit') ?? '', 10)
+  const only = argValue('--kind')
+  const out = argValue('--out')
+  const db = createDb()
+  const rows = await loadFilledRows(db)
+
+  const targets = []
+  for (const row of rows) {
+    const kind = repairKind(row.virtual_monologue)
+    if (kind && (!only || only === kind)) targets.push({ row, kind })
+  }
+  const picked = limit > 0 ? targets.slice(0, limit) : targets
+  const counts = { ready: 0, hold: 0, error: 0, applied: 0 }
+  let stopped = null
+
+  for (const { row, kind } of picked) {
+    let result
+    try {
+      result = await repairOne(row, kind)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      const timedOut = /시간 초과/.test(message)
+      if (/Authentication required|로그인/.test(message)) stopped = 'agy 로그인 필요'
+      else if (looksQuotaLimited(message) || (timedOut && agyQuotaExhausted())) stopped = 'agy 쿼터 소진'
+      else if (timedOut && !(await agyAlive())) stopped = 'agy 무응답'
+      if (stopped) break
+      result = { status: 'error', reason: excerpt(message, 160), final: '' }
+    }
+    counts[result.status] += 1
+    const applied = apply && result.status === 'ready' && await updateMonologue(db, row.id, row.virtual_monologue, result.final)
+    if (applied) counts.applied += 1
+    if (out) await appendFile(out, `${JSON.stringify({ slug: row.slug, kind, before: row.virtual_monologue, ...result, applied })}\n`, 'utf8')
+    console.log(`${row.slug} ${REPAIRS[kind].label} ${result.status}${applied ? ' applied' : ''}${result.reason ? ` ${result.reason}` : ''}`)
+  }
+  console.log(JSON.stringify({ command: 'repair', targets: picked.length, ...counts, stopped }))
+  if (stopped) process.exitCode = 3
+}
+
+// ── 표기 정리(음성화 준비) ────────────────────────────────────────────
+// 1) 한글이 없는 괄호는 기계로 뗀다. 2) 괄호 밖 로마자는 그대로 둔다.
+// 3) 한글 뜻풀이 괄호와 4) 로마자가 섞인 자리, 5) 본문에 섞인 제목 줄은 모델이 고친다.
+
+function stripForeignParen(text) {
+  return text.replace(/\s*[（(][^)）\n]*[)）]/g, (match) => (/[가-힣]/.test(match.slice(1, -1)) ? match : ''))
+}
+
+function stripTitleLine(text) {
+  const [first, ...rest] = text.split('\n')
+  const looksTitle = /(독백|모놀로그)\s*[:：]/.test(first) || /^\s*[《〈].+[》〉]\s*$/.test(first)
+  return looksTitle && rest.length > 0 ? rest.join('\n').trim() : text
+}
+
+function needsModelNotation(text) {
+  return /[（(][^)）\n]*[가-힣][^)）\n]*[)）]/.test(text)
+}
+
+function buildNotationBrief(rows) {
+  const table = rows.map((row) => `| \`output/${row.slug}.txt\` | ${row.nickname} |`).join('\n')
+  return `# 독백 표기 정리 지시서
+
+아래 독백들은 나중에 음성으로 읽힌다. 괄호에 든 뜻풀이를 문장으로 풀어 쓴다. 그 밖의 문장은 손대지 않는다.
+
+## 하지 않는 일
+
+- 내용을 바꾸거나 문장을 다시 쓰지 않는다. 괄호가 있는 자리만 고친다.
+- 이 폴더의 \`output/\` 밖에 파일을 만들거나 고치지 않는다.
+- 데이터베이스나 저장소를 건드리지 않는다.
+
+## 고치는 법
+
+괄호 안팎의 두 낱말 중 무엇을 남길지 고른다. **자리가 아니라 독자가 아는 말이 기준이다.** 널리 쓰이는 쪽을 남긴다.
+
+1. **둘 다 남긴다.** 용어를 알아 두면 좋고 문장이 자연스러울 때.
+   "휘브리스(오만)는 파멸을 부른다" → "휘브리스, 오만은 파멸을 부른다"
+2. **한쪽만 남긴다.** 한쪽이 널리 알려졌고 다른 쪽은 낯설 때. 남기는 쪽은 안팎을 가리지 않는다.
+   "일리온(트로이)의 밤" → "트로이의 밤" (트로이가 알려진 이름이다)
+   "아우슈비츠(오시비엥침)에서" → "아우슈비츠에서" (바깥말이 알려진 이름이다)
+3. **뜻만 남긴다.** 원어나 전문 용어를 알아 봐야 득이 없을 때.
+   "용기로 travel(이동)했는가" → "용기로 이동했는가"
+
+로마자가 남으면 안 된다. 로마자를 살려야 할 때는 한글 소리로 적는다.
+
+본문 첫 줄에 제목이 들어 있으면 그 줄을 지운다.
+
+## 대상
+
+| 파일 이름 | 인물 |
+|---|---|
+${table}
+
+각 인물의 원문은 \`input/<파일이름>\`에 있다. 읽고 고친 전문을 \`output/\`의 같은 이름으로 쓴다. 설명이나 머리말 없이 독백 본문만 넣는다.
+`
+}
+
+async function notationChunk(rows, workRoot, call) {
+  const dir = resolve(workRoot, rows[0].slug)
+  const outDir = resolve(dir, 'output')
+  const inDir = resolve(dir, 'input')
+  await mkdir(outDir, { recursive: true })
+  await mkdir(inDir, { recursive: true })
+  await mkdir(resolve(dir, 'logs'), { recursive: true })
+  const missing = rows.filter((row) => !existsSync(resolve(outDir, `${row.slug}.txt`)))
+  if (missing.length > 0) {
+    for (const row of missing) await writeFile(resolve(inDir, `${row.slug}.txt`), row.text, 'utf8')
+    const briefPath = resolve(dir, 'BRIEF.md')
+    await writeFile(briefPath, buildNotationBrief(missing), 'utf8')
+    await call(`${briefPath.replaceAll('\\', '/')} 파일을 읽고 그대로 수행한다.`, {
+      cwd: dir,
+      model: DEVIN_MODEL,
+      timeoutMs: DEVIN_TIMEOUT_MS,
+      exportPath: resolve(dir, 'logs/conversation.md'),
+      logPath: resolve(dir, 'logs/live.log'),
+    })
+  }
+  const results = []
+  for (const row of rows) {
+    const path = resolve(outDir, `${row.slug}.txt`)
+    if (!existsSync(path)) {
+      results.push({ row, text: null, reason: '산출물 없음' })
+      continue
+    }
+    const fixed = stripTitleLine(stripForeignParen((await readFile(path, 'utf8')).trim()))
+    const issues = mechanicalIssues(fixed)
+    results.push({ row, text: issues.length ? null : fixed, reason: issues.join(', ') })
+  }
+  return results
+}
+
+async function updateMonologue(db, id, before, after) {
+  const updated = await db.from('celebs')
+    .update({ virtual_monologue: after })
+    .eq('id', id)
+    .eq('virtual_monologue', before)
+    .is('virtual_monologue_locked_at', null)
+    .select('virtual_monologue')
+    .maybeSingle()
+  if (updated.error) throw updated.error
+  return updated.data?.virtual_monologue === after
+}
+
+async function loadFilledRows(db) {
+  const rows = []
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await db.from('celebs').select('id,slug,nickname,virtual_monologue')
+      .not('virtual_monologue', 'is', null)
+      .is('virtual_monologue_locked_at', null)
+      .order('slug')
+      .range(from, from + 999)
+    if (error) throw error
+    rows.push(...data)
+    if (data.length < 1000) break
+  }
+  return rows
+}
+
+async function notationCommand() {
+  const apply = hasFlag('--apply')
+  const limit = Number.parseInt(argValue('--limit') ?? '', 10)
+  const batch = Math.max(1, Number.parseInt(argValue('--batch') ?? '8', 10))
+  const sessions = Math.max(1, Number.parseInt(argValue('--sessions') ?? '2', 10))
+  const workRoot = resolve(argValue('--work') ?? resolve(REPO_ROOT, '../_vm-notation'))
+  const db = createDb()
+  const rows = await loadFilledRows(db)
+
+  const mechanical = []
+  const modelRows = []
+  for (const row of rows) {
+    const cleaned = stripTitleLine(stripForeignParen(row.virtual_monologue))
+    if (needsModelNotation(cleaned)) {
+      modelRows.push({ id: row.id, slug: row.slug, nickname: row.nickname, before: row.virtual_monologue, text: cleaned })
+    } else if (cleaned !== row.virtual_monologue) {
+      mechanical.push({ id: row.id, slug: row.slug, before: row.virtual_monologue, after: cleaned })
+    }
+  }
+
+  let mechanicalApplied = 0
+  if (apply) {
+    for (const row of mechanical) {
+      if (await updateMonologue(db, row.id, row.before, row.after)) mechanicalApplied += 1
+    }
+  }
+  console.log(JSON.stringify({
+    command: 'notation', filled: rows.length, mechanical: mechanical.length, mechanicalApplied, model: modelRows.length,
+  }))
+  if (!hasFlag('--model')) return
+
+  const targets = limit > 0 ? modelRows.slice(0, limit) : modelRows
+  const { devinCall } = await import(pathToFileURL(resolve(REPO_ROOT, '.agents/skills/devin-swe/scripts/devin-call.mjs')).href)
+  const chunks = []
+  for (let index = 0; index < targets.length; index += batch) chunks.push(targets.slice(index, index + batch))
+  const counts = { fixed: 0, skipped: 0, applied: 0 }
+
+  let next = 0
+  const worker = async () => {
+    while (next < chunks.length) {
+      const chunk = chunks[next++]
+      let results = null
+      for (let attempt = 1; attempt <= DEVIN_MAX_ATTEMPTS && !results; attempt += 1) {
+        try {
+          results = await notationChunk(chunk, workRoot, devinCall)
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error)
+          if (DEVIN_RATE_LIMIT.test(message) && attempt < DEVIN_MAX_ATTEMPTS) {
+            await new Promise((wake) => { setTimeout(wake, rateLimitWaitMs(message)) })
+            continue
+          }
+          results = chunk.map((row) => ({ row, text: null, reason: excerpt(message, 120) }))
+        }
+      }
+      for (const { row, text, reason } of results) {
+        if (!text || needsModelNotation(text)) {
+          counts.skipped += 1
+          console.log(`${row.slug} skip ${reason || '괄호가 남음'}`)
+          continue
+        }
+        counts.fixed += 1
+        const applied = apply && await updateMonologue(db, row.id, row.before, text)
+        if (applied) counts.applied += 1
+        console.log(`${row.slug} fixed${applied ? ' applied' : ''}`)
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(sessions, chunks.length) }, worker))
+  console.log(JSON.stringify({ command: 'notation-model', targets: targets.length, ...counts }))
+}
+
 function printHelp() {
   console.log(`가상독백 Gemini 2회 → Claude Opus 1회 파이프라인
 
+light --slugs a,b | [--limit N] [--apply] [--out PATH] [--reuse JSONL]  Gemini 1회(한국 전근대만 Gemini 검수 1회 추가)
+devin --slugs a,b | [--limit N] [--batch 5] [--sessions 2] [--apply] [--out PATH] [--work DIR]
+notation [--apply] [--model] [--limit N] [--batch 8] [--sessions 2] [--work DIR]   음성화용 표기 정리
+repair [--apply] [--kind opening|stage|year] [--limit N] [--out PATH]   오류 국소 수정
 generate --slugs a,b | --limit N [--force] [--out-dir PATH]
 status [--out-dir PATH]
 inspect --slugs a,b [--out-dir PATH]
@@ -857,7 +1429,11 @@ self-test`)
 
 async function main() {
   const command = process.argv[2] ?? 'help'
-  if (command === 'generate') await generateCommand()
+  if (command === 'light') await lightCommand()
+  else if (command === 'devin') await devinCommand()
+  else if (command === 'notation') await notationCommand()
+  else if (command === 'repair') await repairCommand()
+  else if (command === 'generate') await generateCommand()
   else if (command === 'status') await statusCommand()
   else if (command === 'inspect') await inspectCommand()
   else if (command === 'apply') await applyCommand()
