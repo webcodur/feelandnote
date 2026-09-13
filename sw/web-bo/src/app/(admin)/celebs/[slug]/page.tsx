@@ -39,7 +39,7 @@ export default async function CelebDetailPage({ params }: PageProps) {
     <div className="space-y-4">
       <CelebSearchBar className="max-w-xl" />
 
-      <LangModeProvider>
+      <LangModeProvider initialMode="both">
         <CelebForm
           mode="edit"
           celeb={celeb}
