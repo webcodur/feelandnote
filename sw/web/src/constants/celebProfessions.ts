@@ -4,3 +4,5 @@ export {
   CELEB_PROFESSION_FILTERS,
   getCelebProfessionLabel,
 } from '@feelandnote/shared/constants/celeb-professions'
+
+export const DEFAULT_EXPLORE_PROFESSION = 'entrepreneur'
