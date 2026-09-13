@@ -78,6 +78,7 @@ const STYLES = {
 // #endregion
 
 interface PaginationProps {
+  presentation?: "default" | "quiet";
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
@@ -95,6 +96,7 @@ function getPageGroup(currentPage: number): number[] {
 }
 
 export function Pagination({
+  presentation = "default",
   currentPage,
   totalPages,
   onPageChange,
@@ -104,6 +106,16 @@ export function Pagination({
   showPageSizeSelector = false,
 }: PaginationProps) {
   const t = useTranslations("shared.ui.pagination");
+  const quiet = presentation === "quiet";
+  const styles = quiet ? {
+    ...STYLES,
+    container: "mx-auto flex w-fit flex-col gap-3",
+    group: "flex items-center",
+    segmentBtn: "flex h-8 w-8 items-center justify-center rounded-md text-text-secondary hover:bg-white/5 hover:text-text-primary disabled:opacity-25 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-accent",
+    divider: "w-1",
+    numBtn: "flex h-8 min-w-8 items-center justify-center rounded-md px-2 text-sm font-medium text-text-secondary hover:bg-white/5 hover:text-text-primary disabled:opacity-25 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-accent",
+    numBtnActive: "flex h-8 min-w-8 items-center justify-center rounded-md bg-accent/10 px-2 text-sm font-semibold text-accent outline-none focus-visible:ring-2 focus-visible:ring-accent hover:bg-accent/20",
+  } : STYLES;
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -134,56 +146,56 @@ export function Pagination({
   };
 
   return (
-    <nav className={STYLES.container} aria-label={t("label")}>
+    <nav className={styles.container} aria-label={t("label")}>
       
       {/* Top Row: Controller Bar */}
       <div className="flex items-center justify-between w-full gap-2 md:gap-4">
         {/* Left Controls */}
-        <div className={STYLES.group}>
-          <button onClick={() => navigate(1)} disabled={!canGoFirst} className={`${STYLES.segmentBtn} hidden md:flex`} title={t("first")}>
+        <div className={styles.group}>
+          <button onClick={() => navigate(1)} disabled={!canGoFirst} className={`${styles.segmentBtn} hidden md:flex`} title={t("first")}>
             <TripleChevronLeft size={16} />
           </button>
           <div className="hidden md:block">
-            <div className={STYLES.divider} />
+            <div className={styles.divider} />
           </div>
-          <button onClick={() => navigate(Math.max(1, currentGroupStart - PAGE_GROUP_SIZE))} disabled={!canGoPrevGroup} className={STYLES.segmentBtn} title="-5">
+          <button onClick={() => navigate(Math.max(1, currentGroupStart - PAGE_GROUP_SIZE))} disabled={!canGoPrevGroup} className={styles.segmentBtn} title="-5">
             <ChevronsLeft size={16} />
           </button>
-          <div className={STYLES.divider} />
-          <button onClick={() => navigate(currentPage - 1)} disabled={!canGoPrev} className={STYLES.segmentBtn} title={t("previous")}>
+          <div className={styles.divider} />
+          <button onClick={() => navigate(currentPage - 1)} disabled={!canGoPrev} className={styles.segmentBtn} title={t("previous")}>
             <ChevronLeft size={16} />
           </button>
         </div>
 
         {/* Center: Page Jump */}
-        <div className={STYLES.inputWrapper}>
+        <div className={styles.inputWrapper}>
           <input
             ref={inputRef}
             type="number"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            className={STYLES.input}
+            className={styles.input}
             placeholder="—"
           />
-          <button onClick={handleJump} className={STYLES.submitBtn} title={t("go")}>
+          <button onClick={handleJump} className={styles.submitBtn} title={t("go")}>
             <Send size={11} />
           </button>
         </div>
 
         {/* Right Controls */}
-        <div className={STYLES.group}>
-          <button onClick={() => navigate(currentPage + 1)} disabled={!canGoNext} className={STYLES.segmentBtn} title={t("next")}>
+        <div className={styles.group}>
+          <button onClick={() => navigate(currentPage + 1)} disabled={!canGoNext} className={styles.segmentBtn} title={t("next")}>
             <ChevronRight size={16} />
           </button>
-          <div className={STYLES.divider} />
-          <button onClick={() => navigate(Math.min(totalPages, currentGroupEnd + 1))} disabled={!canGoNextGroup} className={STYLES.segmentBtn} title="+5">
+          <div className={styles.divider} />
+          <button onClick={() => navigate(Math.min(totalPages, currentGroupEnd + 1))} disabled={!canGoNextGroup} className={styles.segmentBtn} title="+5">
             <ChevronsRight size={16} />
           </button>
           <div className="hidden md:block">
-            <div className={STYLES.divider} />
+            <div className={styles.divider} />
           </div>
-          <button onClick={() => navigate(totalPages)} disabled={!canGoLast} className={`${STYLES.segmentBtn} hidden md:flex`} title={t("last")}>
+          <button onClick={() => navigate(totalPages)} disabled={!canGoLast} className={`${styles.segmentBtn} hidden md:flex`} title={t("last")}>
             <TripleChevronRight size={16} />
           </button>
         </div>
@@ -191,7 +203,7 @@ export function Pagination({
 
       {/* Bottom Row: Page Numbers + Total */}
       <div className="relative flex items-center justify-center w-full pe-10 md:pe-12">
-        <div className={STYLES.numContainer}>
+        <div className={styles.numContainer}>
           {pages.map((page) => {
             const isDisabled = page > totalPages;
             return (
@@ -199,7 +211,7 @@ export function Pagination({
                 key={page}
                 onClick={() => navigate(page)}
                 disabled={isDisabled}
-                className={page === currentPage ? STYLES.numBtnActive : STYLES.numBtn}
+                className={page === currentPage ? styles.numBtnActive : styles.numBtn}
                 aria-current={page === currentPage ? "page" : undefined}
               >
                 {page}
@@ -217,7 +229,7 @@ export function Pagination({
             <button
               key={size}
               onClick={() => onPageSizeChange(size)}
-              className={`h-6 min-w-[2rem] px-1.5 flex items-center justify-center rounded text-[10px] md:text-xs font-medium transition-all ${
+              className={`h-6 min-w-[2rem] px-1.5 flex items-center justify-center rounded text-[10px] md:text-xs font-medium ${quiet ? "outline-none focus-visible:ring-2 focus-visible:ring-accent" : "transition-all"} ${
                 size === pageSize
                   ? "bg-accent/20 text-accent border border-accent/40"
                   : "text-text-secondary/60 bg-white/5 border border-white/5 hover:text-text-primary hover:bg-white/10"

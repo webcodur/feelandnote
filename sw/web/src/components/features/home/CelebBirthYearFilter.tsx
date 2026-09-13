@@ -36,7 +36,7 @@ function formatYear(year: number, t: ReturnType<typeof useTranslations>): string
 }
 
 // ── 핵심 슬라이더 (트랙 + 듀얼 썸 + 숫자 입력) ──────────────────────────
-function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilterProps) {
+export function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilterProps) {
   const t = useTranslations("home.ui.birthYear");
   const trackRef = useRef<HTMLDivElement>(null);
   const [draft, setDraft] = useState<Required<BirthYearRange>>({

@@ -14,7 +14,7 @@ const compiled = ts.transpileModule(readFileSync(new URL("./CelebCard.tsx", impo
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
 }).outputText;
 
-function renderCard(options: { variant?: "card" | "circle" | "medallion"; locale?: "ko" | "en"; profile?: boolean; subtitle?: boolean; count?: number } = {}) {
+function renderCard(options: { variant?: "card" | "circle" | "medallion"; presentation?: "default" | "quiet"; locale?: "ko" | "en"; profile?: boolean; subtitle?: boolean; count?: number } = {}) {
   const locale = options.locale ?? "ko";
   const profile = {
     id: "figure-id", slug: "bill-gates", nickname: "빌 게이츠", nickname_en: "Bill Gates",
@@ -42,7 +42,7 @@ function renderCard(options: { variant?: "card" | "circle" | "medallion"; locale
   const loaded = { exports: {} as { default: ComponentType<{
     id: string; nickname: string; celebProfile?: CelebProfile; recentViews: number;
     variant?: "card" | "circle" | "medallion"; onSubtitle?: () => void;
-    count?: number;
+    count?: number; presentation?: "default" | "quiet";
   }> } };
   new Function("require", "module", "exports", compiled)(
     (id: string) => mocks[id] ?? require(id), loaded, loaded.exports,
@@ -50,7 +50,7 @@ function renderCard(options: { variant?: "card" | "circle" | "medallion"; locale
   const Card = loaded.exports.default;
   return load(renderToStaticMarkup(
     <Card id="figure-id" nickname="빌 게이츠" celebProfile={options.profile === false ? undefined : profile}
-      recentViews={30} variant={options.variant} count={options.count} onSubtitle={options.subtitle === false ? undefined : () => {}} />,
+      recentViews={30} variant={options.variant} presentation={options.presentation} count={options.count} onSubtitle={options.subtitle === false ? undefined : () => {}} />,
   ));
 }
 
@@ -94,5 +94,18 @@ test("only positive work counts appear on every card variant", () => {
   for (const variant of ["card", "circle", "medallion"] as const) {
     for (const count of [-1, 0]) assert.equal(renderCard({ variant, count })('[title="contentCount"]').length, 0);
     assert.equal(renderCard({ variant, count: 3 })('[title="contentCount"]').text(), "3");
+  }
+});
+
+test("quiet cards retain profile navigation, a visible separate dialogue action, and positive work counts", () => {
+  for (const variant of ["card", "circle", "medallion"] as const) {
+    const $ = renderCard({ variant, presentation: "quiet", count: 3 });
+    assert.equal($('a[href="/celeb/bill-gates"]').find('[role="img"]').length, 1);
+    const dialogue = $('button[aria-label="빌 게이츠 · Show dialogue"]');
+    assert.equal(dialogue.length, 1);
+    assert.equal(dialogue.parents("a").length, 0);
+    assert.doesNotMatch(dialogue.attr("class") ?? "", /(?:^|\s)(?:hidden|invisible|opacity-0)(?:\s|$)/);
+    assert.equal($('[title="contentCount"]').text(), "3");
+    assert.equal(renderCard({ variant, presentation: "quiet", count: -1 })('[title="contentCount"]').length, 0);
   }
 });

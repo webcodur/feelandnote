@@ -1,0 +1,88 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { FilterModal } from "@/components/shared/filters";
+import { CELEB_CONTENT_PRESENCE } from "@/constants/celebContentPresence";
+import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
+import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX } from "@/lib/celeb/birthYearScale";
+import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
+import type { CelebSortBy } from "@/actions/home";
+import CelebDetailFiltersModal from "./CelebDetailFiltersModal";
+
+interface Props {
+  filters: ReturnType<typeof useCelebFilters>;
+  onInteraction?: () => void;
+}
+
+const controlClass = "flex h-10 min-w-0 items-center justify-center gap-1.5 rounded-md border border-white/15 bg-white/[0.025] px-2 md:px-3 text-sm text-text-primary hover:border-white/35 hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50";
+
+export default function CelebCompactControls({ filters, onInteraction }: Props) {
+  const t = useTranslations("home.ui");
+  const year = useTranslations("home.ui.birthYear");
+  const getProfession = useProfessionLabel();
+  const getNationality = useNationalityLabel();
+  const getContentType = useContentTypeLabel();
+  const getGender = useGenderLabel();
+  const [open, setOpen] = useState<"detail" | "works" | "sort" | null>(null);
+
+  const conditions: { key: string; label: string; clear: () => void }[] = [];
+  if (filters.profession !== "all") conditions.push({ key: "profession", label: `${t("filterProfession")}: ${getProfession(filters.profession)}`, clear: () => filters.handleProfessionChange("all") });
+  if (filters.nationality !== "all") conditions.push({ key: "nationality", label: `${t("filterNationality")}: ${getNationality(filters.nationality)}`, clear: () => filters.handleNationalityChange("all") });
+  if (filters.contentType !== "all") conditions.push({ key: "contentType", label: `${t("filterContent")}: ${getContentType(filters.contentType)}`, clear: () => filters.handleContentTypeChange("all") });
+  if (filters.gender !== "all") conditions.push({ key: "gender", label: `${t("filterGender")}: ${getGender(filters.gender)}`, clear: () => filters.handleGenderChange("all") });
+  if (filters.tierValue !== "all") conditions.push({ key: "tier", label: `${t("filterTier")}: ${t(`tier.${filters.tierValue}`)}`, clear: () => filters.handleTierValueChange("all") });
+  if (filters.birthYearMin !== undefined || filters.birthYearMax !== undefined) {
+    const formatYear = (value: number) => value < 0 ? year("bc", { year: -value }) : String(value);
+    conditions.push({ key: "birthYear", label: `${t("filterBirthYear")}: ${year("range", { min: formatYear(filters.birthYearMin ?? BIRTH_YEAR_MIN), max: formatYear(filters.birthYearMax ?? BIRTH_YEAR_MAX) })}`, clear: () => filters.handleBirthYearChange(undefined, undefined) });
+  }
+
+  return (
+    <div className="mb-6 space-y-3">
+      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] gap-2 md:grid-cols-[minmax(14rem,1fr)_auto_auto_auto]">
+        <form className="col-span-3 flex h-10 items-center rounded-md border border-white/15 bg-white/[0.025] focus-within:border-accent/60 md:col-span-1"
+          onSubmit={event => { event.preventDefault(); onInteraction?.(); filters.handleSearchSubmit(); }}>
+          <input value={filters.search} onChange={event => filters.handleSearchInput(event.target.value)} placeholder={t("searchPlaceholder")}
+            aria-label={t("searchPlaceholder")} className="h-full min-w-0 flex-1 bg-transparent px-3 text-sm text-text-primary outline-none placeholder:text-text-secondary/60" />
+          {filters.search && (
+            <button type="button" onClick={() => { onInteraction?.(); filters.handleSearchClear(); }} aria-label={t("compactFilters.remove", { label: filters.search })}
+              className="rounded p-1.5 text-text-secondary hover:bg-white/10 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent"><X size={14} /></button>
+          )}
+          <button type="submit" disabled={filters.isLoading} aria-label={t("searchButton")}
+            className="m-1 flex h-8 w-8 shrink-0 items-center justify-center rounded text-text-secondary hover:bg-white/10 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"><Search size={17} /></button>
+        </form>
+        <button type="button" onClick={() => setOpen("works")} disabled={filters.isLoading}
+          aria-label={`${t("filterContentPresence")}: ${t(`contentPresence.${filters.contentPresence}`)}`} aria-haspopup="dialog" className={controlClass}>
+          <span className="truncate">{t(`compactFilters.works.${filters.contentPresence}`)}</span><ChevronDown size={13} className="hidden shrink-0 text-text-secondary md:block" />
+        </button>
+        <button type="button" onClick={() => setOpen("sort")} disabled={filters.isLoading}
+          aria-label={`${t("filterSort")}: ${t(`sort.${filters.sortBy}`)}`} aria-haspopup="dialog" className={controlClass}>
+          <span className="truncate">{t(`sort.${filters.sortBy}`)}</span><ChevronDown size={13} className="hidden shrink-0 text-text-secondary md:block" />
+        </button>
+        <button type="button" onClick={() => setOpen("detail")} aria-haspopup="dialog" className={controlClass}>
+          <SlidersHorizontal size={15} /><span>{t("compactFilters.open")}</span>
+          {conditions.length > 0 && <span className="text-xs tabular-nums text-accent">{conditions.length}</span>}
+        </button>
+      </div>
+      {conditions.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {conditions.map(condition => (
+            <button key={condition.key} type="button" disabled={filters.isLoading} onClick={() => { onInteraction?.(); condition.clear(); }}
+              aria-label={t("compactFilters.remove", { label: condition.label })}
+              className="flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 text-xs text-text-secondary hover:bg-white/10 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50">
+              {condition.label}<X size={12} aria-hidden />
+            </button>
+          ))}
+        </div>
+      )}
+      {open === "detail" && <CelebDetailFiltersModal filters={filters} onClose={() => setOpen(null)} onInteraction={onInteraction} />}
+      {open === "works" && <FilterModal isOpen title={t("filterContentPresence")} current={filters.contentPresence}
+        options={CELEB_CONTENT_PRESENCE.map(value => ({ value, label: t(`contentPresence.${value}`) }))}
+        onChange={value => { onInteraction?.(); filters.handleContentPresenceChange(value); }} onClose={() => setOpen(null)} />}
+      {open === "sort" && <FilterModal isOpen title={t("filterSort")} current={filters.sortBy}
+        options={SORT_VALUES.map(value => ({ value, label: t(`sort.${value}`) }))}
+        onChange={value => { onInteraction?.(); filters.handleSortChange(value as CelebSortBy); }} onClose={() => setOpen(null)} />}
+    </div>
+  );
+}
