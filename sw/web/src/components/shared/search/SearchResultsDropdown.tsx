@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { useState } from "react";
 import ContentImage from "@/components/ui/ContentImage";
 import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, ExternalLink, Loader2, User, ArrowRight } from "lucide-react";
@@ -311,7 +312,7 @@ function CelebSearchResult({
 }: CelebSearchResultProps) {
   const t = useTranslations("shared.search");
   const tc = useTranslations("shared.celeb");
-  const href = `/celeb/${result.slug || result.id}`;
+  const href = getCelebProfileUrl(result);
   const [imageFailed, setImageFailed] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 

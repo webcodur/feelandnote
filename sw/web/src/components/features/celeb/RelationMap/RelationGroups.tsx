@@ -1,5 +1,6 @@
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { ArrowUpRight, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -105,7 +106,7 @@ export default function RelationGroups({ groups, isEn, nameOf, onSelect }: Relat
                   </button>
                   {item.celeb.slug && (
                     <Link
-                      href={`/celeb/${item.celeb.slug}`}
+                      href={getCelebProfileUrl(item.celeb)}
                       aria-label={t("openDetail", { name })}
                       className="absolute end-3 top-3 text-text-secondary/60 hover:text-accent"
                     >

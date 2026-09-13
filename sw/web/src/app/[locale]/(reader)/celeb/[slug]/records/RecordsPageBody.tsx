@@ -1,3 +1,4 @@
+import { getCelebProfileUrl } from "@/lib/url";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 
 import BackToLibraryLink from "./BackToLibraryLink";
@@ -60,7 +61,7 @@ export default function RecordsPageBody({
       <div className="sticky top-0 z-20 border-b border-white/10 bg-[color-mix(in_srgb,var(--color-bg-main)_92%,transparent)] backdrop-blur-md">
         <div className={`relative mx-auto flex ${PAGE_HEADER_HEIGHT_CLASS} max-w-3xl items-center justify-center px-4 lg:max-w-4xl`}>
           <BackToLibraryLink
-            href={`${prefix}/celeb/${encodeURIComponent(slug)}?instant=1#library`}
+            href={`${prefix}${getCelebProfileUrl({ slug })}?instant=1#library`}
             label={labels.back}
             className="absolute left-4 flex size-8 items-center justify-center rounded-full border border-white/15 text-text-primary hover:border-accent hover:text-accent"
           />

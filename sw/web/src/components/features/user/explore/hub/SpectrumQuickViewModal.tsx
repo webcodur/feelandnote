@@ -1,5 +1,6 @@
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
@@ -167,7 +168,7 @@ export default function SpectrumQuickViewModal({ isOpen, onClose, entry, isOppos
 
             {/* 3. 액션 버튼 */}
             <Link
-              href={`/celeb/${celeb.slug ?? celeb.id}`}
+              href={getCelebProfileUrl(celeb)}
               onClick={onClose}
               className="group flex items-center justify-between mt-4 mb-6 p-4 rounded-xl border transition-all duration-300 hover:-translate-y-0.5"
               style={{

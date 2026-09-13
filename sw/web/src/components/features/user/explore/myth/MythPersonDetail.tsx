@@ -1,5 +1,6 @@
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { useId } from "react";
 import { ArrowUpRight, BookOpenText, UserRound, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -83,7 +84,7 @@ function DetailBody({ person, tradition }: { person: MythPerson; tradition: Myth
         )}
       </div>
 
-      <Link href={`/celeb/${person.slug}`} className="mt-8 inline-flex w-fit items-center gap-2 rounded-full border border-accent/50 px-4 py-2.5 text-sm font-bold text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent">
+      <Link href={getCelebProfileUrl(person)} className="mt-8 inline-flex w-fit items-center gap-2 rounded-full border border-accent/50 px-4 py-2.5 text-sm font-bold text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent">
         {t("openFigure")}<ArrowUpRight size={16} />
       </Link>
     </div>

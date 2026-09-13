@@ -6,6 +6,7 @@
 
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { createPortal } from "react-dom";
 import { useLocale, useTranslations } from "next-intl";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -71,7 +72,7 @@ export default function SpectrumReasonModal({ person, axis, reason, loading, onC
         {/* 액션 */}
         <div className="mt-6 flex gap-2">
           <Link
-            href={`/celeb/${person.slug ?? person.id}`}
+            href={getCelebProfileUrl(person)}
             className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-accent py-2.5 text-sm font-bold text-black transition-transform active:scale-[0.98]"
           >
             <ExternalLink size={14} strokeWidth={2.5} />

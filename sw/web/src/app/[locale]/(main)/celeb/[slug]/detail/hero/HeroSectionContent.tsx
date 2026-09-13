@@ -6,6 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import type { CSSProperties, ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-photo";
@@ -129,7 +130,7 @@ export default function CelebHeroSection({
               {externalLinksSlot}
               <ShareButtons
                 title={shareTitle}
-                path={`/celeb/${slug}`}
+                path={getCelebProfileUrl({ slug })}
                 align="center"
                 comfortable
                 iconOnly

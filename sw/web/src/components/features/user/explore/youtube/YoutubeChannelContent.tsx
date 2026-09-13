@@ -4,6 +4,7 @@
   책임: 서재 탐방·세력도감을 소개하고 재생목록과 내부 기록, 기존 인물 영상을 함께 진열한다.
 */
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ExternalLink, Youtube } from "lucide-react";
@@ -217,7 +218,7 @@ export default async function YoutubeChannelContent({
                         {v.name}
                       </span>
                       <Link
-                        href={`/celeb/${v.slug}`}
+                        href={getCelebProfileUrl(v)}
                         className="text-xs text-accent/80 hover:text-accent"
                       >
                         {t("viewShelf")} →
@@ -247,7 +248,7 @@ export default async function YoutubeChannelContent({
                       <LiteYoutubeEmbed videoId={v.videoId} title={v.name} />
                     </div>
                     <Link
-                      href={`/celeb/${v.slug}`}
+                      href={getCelebProfileUrl(v)}
                       className="block truncate px-0.5 text-xs text-text-secondary hover:text-accent"
                     >
                       {v.name}

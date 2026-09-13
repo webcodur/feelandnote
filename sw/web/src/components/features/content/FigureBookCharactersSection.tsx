@@ -1,5 +1,6 @@
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import dynamic from "next/dynamic";
 import { BookOpenText, Images, UserRound } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -64,7 +65,7 @@ export default function FigureBookCharactersSection({
                   className="group flex h-[70px] items-stretch overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] hover:border-accent/60 hover:bg-accent/[0.07]"
                 >
                   <Link
-                    href={`/celeb/${character.slug}`}
+                    href={getCelebProfileUrl(character)}
                     className="flex min-w-0 flex-1 items-stretch focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
                   >
                     <span className="relative w-12 shrink-0 overflow-hidden border-e border-white/10 bg-bg-secondary">

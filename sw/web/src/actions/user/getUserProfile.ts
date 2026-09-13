@@ -4,6 +4,8 @@ import { cache } from 'react'
 import { createClient } from '@/lib/db/server'
 import { type ActionResult, failure } from '@/lib/errors'
 import { getTitleInfo } from '@/constants/titles'
+import { throwOnQueryError } from '@/lib/cache'
+import { isProfileId } from '@/lib/url'
 import type { CelebTier as SharedCelebTier, CelebReality as SharedCelebReality } from '@feelandnote/shared/constants/celeb-tiers'
 
 interface SelectedTitle {
@@ -70,6 +72,7 @@ export interface PublicUserProfile {
 export const getUserProfile = cache(getUserProfileInner)
 
 async function getUserProfileInner(userId: string): Promise<ActionResult<PublicUserProfile>> {
+  if (!isProfileId(userId)) return failure('NOT_FOUND', '사용자를 찾을 수 없다.')
   const db = await createClient()
   const [authResult, profileResult] = await Promise.all([
     db.auth.getUser(),
@@ -77,12 +80,13 @@ async function getUserProfileInner(userId: string): Promise<ActionResult<PublicU
       .from('member_profiles')
       .select('id, nickname, avatar_url, bio, nationality, birth_date, is_verified, created_at, selected_title')
       .eq('id', userId)
-      .single(),
+      .maybeSingle(),
   ])
   const currentUser = authResult.data.user
   const { data: profile, error: profileError } = profileResult
 
-  if (profileError || !profile) {
+  throwOnQueryError('getUserProfile 회원 조회', profileError)
+  if (!profile) {
     return failure('NOT_FOUND', '사용자를 찾을 수 없다.')
   }
 

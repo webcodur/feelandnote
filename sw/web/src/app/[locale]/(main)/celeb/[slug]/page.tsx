@@ -5,9 +5,8 @@
  * - 함께 보기: CelebPageContent.tsx, celebPageMetadata.ts, celebPageJsonLd.ts
  * ───────────────────────────────────────────── */
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
-import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
+import { getCelebRouteProfile } from "@/lib/profile-route";
 import { getCelebSidePresence } from "@/actions/celebs/getCelebSidePresence";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
 import { getCelebExternalLinks } from "@/actions/celebs/getCelebExternalLinks";
@@ -97,11 +96,7 @@ export default async function CelebPage({ params }: PageProps) {
   setRequestLocale(locale);
 
   /* ── 2. 서버 데이터 조회 ── */
-  const result = await getCelebBySlug(slug, locale);
-  if (!result.success || !result.data) {
-    notFound();
-  }
-  const profile = result.data;
+  const profile = await getCelebRouteProfile(slug, locale);
   const userId = profile.id;
   const worldId = resolveCelebWorld({
     nationality: profile.nationality,

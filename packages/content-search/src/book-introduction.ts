@@ -15,7 +15,7 @@ export interface BookIntroduction {
 
 const EMPTY: BookIntroduction = { source: null, sourceUrl: null, description: null }
 
-function forLocale(description: string | null | undefined, locale: 'ko' | 'en', confirmedEnglish = false): string | null {
+export function forLocale(description: string | null | undefined, locale: 'ko' | 'en'): string | null {
   const text = description?.trim()
   if (!text) return null
   const hangul = text.match(/\p{Script=Hangul}/gu)?.length ?? 0
@@ -23,9 +23,10 @@ function forLocale(description: string | null | undefined, locale: 'ko' | 'en', 
   // 서명·인용 한두 단어가 아니라 본문의 주 언어를 확인한다.
   if (locale === 'ko') return hangul > 0 && hangul >= latin ? text : null
   if (hangul > 0 || !latin || /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Cyrillic}\p{Script=Arabic}]/u.test(text)) return null
+  // 판본의 eng 표식이 있어도 소개 본문은 다른 언어나 쪽수·판형일 수 있다.
   // 라틴 문자만으로 프랑스어·스페인어 등을 영어라고 판단하지 않는다.
   const englishWords = new Set(text.toLowerCase().match(/\b(?:the|and|of|to|is|are|was|were|with|for|from|this|that|his|her|its|book|novel|story)\b/g) ?? [])
-  if (!confirmedEnglish && englishWords.size < 2) return null
+  if (englishWords.size < 2) return null
   return text
 }
 
@@ -67,7 +68,7 @@ export async function fetchBookIntroduction(input: {
     const result = await getOpenLibraryBookIntroduction({ isbn: input.isbn, sourceUrl: sourceUrl || null })
     const confirmedEnglish = result?.languages.includes('/languages/eng') ?? false
     const english = !result?.languages.length || confirmedEnglish
-    const description = english ? forLocale(result?.description, 'en', confirmedEnglish) : null
+    const description = english ? forLocale(result?.description, 'en') : null
     if (!description && !source) return { ...EMPTY }
     return { source: 'OPEN', sourceUrl: result?.sourceUrl ?? sourceUrl ?? null, description }
   }

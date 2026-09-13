@@ -2,6 +2,7 @@
 
 "use client";
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
@@ -123,7 +124,7 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
 
                 {/* 인물 프로필 */}
                 <Link
-                    href={`/celeb/${figure.slug || figure.id}`}
+                    href={getCelebProfileUrl(figure)}
                     className="group relative inline-flex w-full min-w-0 max-w-full flex-col items-center gap-4 px-4 py-6 sm:gap-5 sm:px-10 hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent rounded-2xl mb-0"
                 >
                     <div className="relative">
@@ -224,7 +225,7 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                 {filteredContents.length > 0 && (
                     <div className="flex justify-end mt-4">
                          <Link
-                            href={`/celeb/${figure.slug || figure.id}`}
+                            href={getCelebProfileUrl(figure)}
                             className="text-xs text-accent/80 hover:text-accent shrink-0"
                         >
                             {t("viewAll")} →

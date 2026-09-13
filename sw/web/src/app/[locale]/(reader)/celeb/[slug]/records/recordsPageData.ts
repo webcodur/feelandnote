@@ -1,13 +1,17 @@
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
+import { getCelebProfileUrl } from "@/lib/url";
 
 const RECORDS_FETCH_BATCH_SIZE = 100;
 export const RECORDS_PAGE_SIZE = 20;
 
 export function recordsPath(slug: string, page = 1) {
-  const path = `/celeb/${encodeURIComponent(slug)}/records`;
-  return page === 1 ? path : `${path}/${page}`;
+  return getCelebProfileUrl({ id: slug }) + recordsSuffix(page);
+}
+
+export function recordsSuffix(page = 1) {
+  return page === 1 ? '/records' : `/records/${page}`;
 }
 
 export function parseRecordsPage(value?: string) {

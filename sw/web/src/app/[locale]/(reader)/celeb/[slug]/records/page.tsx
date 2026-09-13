@@ -5,11 +5,11 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { getContentBrief } from "@/actions/contents/getContentBrief";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
-import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
+import { getCelebRouteProfile } from "@/lib/profile-route";
 import { getAlternates } from "@/lib/seo";
 
 import RecordsPageBody from "./RecordsPageBody";
-import { loadRecords, parseRecordsPage, recordsPath } from "./recordsPageData";
+import { loadRecords, parseRecordsPage, recordsPath, recordsSuffix } from "./recordsPageData";
 
 interface Props {
   params: Promise<{ locale: string; slug: string; page?: string }>;
@@ -20,8 +20,12 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const getRecords = cache(async (slug: string, locale: string, page: number, focus?: string) => {
+  const suffix = recordsSuffix(page) + (focus ? `?focus=${encodeURIComponent(focus)}` : "");
   const data = await loadRecords(slug, locale, {
-    getProfile: getCelebBySlug,
+    getProfile: async (slug, locale) => ({
+      success: true,
+      data: await getCelebRouteProfile(slug, locale, suffix),
+    }),
     getContents: getPublicUserContents,
     getBrief: getContentBrief,
   }, page, focus);

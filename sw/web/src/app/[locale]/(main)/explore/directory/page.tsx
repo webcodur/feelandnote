@@ -4,6 +4,7 @@
   책임: 모든 셀럽을 초성/알파벳순으로 나열하여 크롤러가 한 번에 전체 URL을 발견하도록 한다.
 */ // ------------------------------
 
+import { getCelebProfileUrl } from "@/lib/url";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getCelebDirectory, type CelebDirectoryRow } from "@/actions/celebs/getCelebDirectory";
 import { getLocalizedAlternates } from "@/lib/seo";
@@ -152,7 +153,7 @@ export default async function DirectoryPage({ params }: PageProps) {
                   const hasIcon = !!(celeb.profession && PROFESSION_ICONS[celeb.profession]);
                   return (
                     <li key={celeb.slug}>
-                      <a href={`${localePrefix}/celeb/${celeb.slug}`}>
+                      <a href={`${localePrefix}${getCelebProfileUrl(celeb)}`}>
                         {hasIcon && (
                           <svg className={PROFESSION_COLORS[celeb.profession!]} aria-hidden="true">
                             <use href={`#prof-${celeb.profession}`} />
