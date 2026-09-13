@@ -1,15 +1,21 @@
-export type InactiveFictionSeedPerson = {
+/** 선등록이 넣을 수 있는 실존 축. 실존 인물(REAL)은 이 경로로 넣지 않는다. */
+export const SEEDABLE_REALITIES = ['FICTION', 'BOTH'] as const
+export type SeedableReality = (typeof SEEDABLE_REALITIES)[number]
+
+export type InactiveSeedPerson = {
   nickname: string
   nickname_en: string
   bio: string
+  /** 생략하면 FICTION이다. 건국 시조처럼 실존과 전승이 함께 다뤄지는 인물은 BOTH를 적는다. */
+  celeb_reality: SeedableReality
   identity:
     | { mode: 'new' }
     | { mode: 'existing'; celeb_id: string }
 }
 
-export type InactiveFictionSeedManifest = {
+export type InactiveSeedManifest = {
   tag_slug: string
-  people: InactiveFictionSeedPerson[]
+  people: InactiveSeedPerson[]
 }
 
 const normalizedIdentity = (value: string) => value.normalize('NFKC').trim().toLocaleLowerCase()
@@ -22,7 +28,15 @@ function requiredText(value: unknown, field: string): string {
   return value.trim()
 }
 
-function parseIdentity(value: unknown, field: string): InactiveFictionSeedPerson['identity'] {
+function parseReality(value: unknown, field: string): SeedableReality {
+  if (value === undefined || value === null) return 'FICTION'
+  if (typeof value !== 'string' || !SEEDABLE_REALITIES.includes(value as SeedableReality)) {
+    throw new Error(`${field}는 ${SEEDABLE_REALITIES.join(' 또는 ')}여야 합니다.`)
+  }
+  return value as SeedableReality
+}
+
+function parseIdentity(value: unknown, field: string): InactiveSeedPerson['identity'] {
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
     throw new Error(`${field}는 객체여야 합니다.`)
   }
@@ -38,7 +52,7 @@ function parseIdentity(value: unknown, field: string): InactiveFictionSeedPerson
   return { mode: 'existing', celeb_id: celebId }
 }
 
-export function parseInactiveFictionSeedManifest(input: unknown): InactiveFictionSeedManifest {
+export function parseInactiveSeedManifest(input: unknown): InactiveSeedManifest {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
     throw new Error('선등록 명세는 JSON 객체여야 합니다.')
   }
@@ -58,6 +72,7 @@ export function parseInactiveFictionSeedManifest(input: unknown): InactiveFictio
       nickname: requiredText(row.nickname, `people[${index}].nickname`),
       nickname_en: requiredText(row.nickname_en, `people[${index}].nickname_en`),
       bio: requiredText(row.bio, `people[${index}].bio`),
+      celeb_reality: parseReality(row.celeb_reality, `people[${index}].celeb_reality`),
       identity: parseIdentity(row.identity, `people[${index}].identity`),
     }
     if (person.bio.length > 100) {
