@@ -798,20 +798,23 @@ export default function FactionShowcase({
               >
                 <ChevronLeft className="h-5 w-5" aria-hidden />
               </button>
-              <button
-                type="button"
-                aria-label={isFactionQuoteVisible ? t("pauseQuote") : hasPlayableQuoteAudio ? t("playQuote") : t("showQuote")}
-                title={isFactionQuoteVisible ? t("pauseQuote") : hasPlayableQuoteAudio ? t("playQuote") : t("showQuote")}
-                disabled={current.type !== "celeb" || !factionQuote}
-                onClick={quoteStage.toggle}
-                className="mx-1 flex h-10 w-12 items-center justify-center rounded-lg border border-accent/35 bg-accent/10 text-accent hover:border-accent/70 hover:bg-accent/20 active:bg-accent/25 disabled:pointer-events-none disabled:border-white/10 disabled:bg-transparent disabled:text-white/20"
-              >
-                {isFactionQuoteVisible ? (
-                  <Pause className="h-5 w-5" fill="currentColor" aria-hidden />
-                ) : (
-                  <Play className="h-5 w-5" fill="currentColor" aria-hidden />
-                )}
-              </button>
+              {/* 이 인물에게 할 말이 있을 때만 단추를 세운다. 꺼진 채로 두면 사진 넘김 단추 사이에
+                  눌리지 않는 회색 단추가 늘 끼어 있다 — 지금은 도감에 어록이 없어 아예 나오지 않는다 */}
+              {current.type === "celeb" && factionQuote && (
+                <button
+                  type="button"
+                  aria-label={isFactionQuoteVisible ? t("pauseQuote") : hasPlayableQuoteAudio ? t("playQuote") : t("showQuote")}
+                  title={isFactionQuoteVisible ? t("pauseQuote") : hasPlayableQuoteAudio ? t("playQuote") : t("showQuote")}
+                  onClick={quoteStage.toggle}
+                  className="mx-1 flex h-10 w-12 items-center justify-center rounded-lg border border-accent/35 bg-accent/10 text-accent hover:border-accent/70 hover:bg-accent/20 active:bg-accent/25"
+                >
+                  {isFactionQuoteVisible ? (
+                    <Pause className="h-5 w-5" fill="currentColor" aria-hidden />
+                  ) : (
+                    <Play className="h-5 w-5" fill="currentColor" aria-hidden />
+                  )}
+                </button>
+              )}
               <button
                 type="button"
                 aria-label={t("nextPhoto")}

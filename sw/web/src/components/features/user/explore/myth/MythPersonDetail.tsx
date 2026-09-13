@@ -180,7 +180,8 @@ export default function MythPersonDetail({ person, tradition, works, onClose, ba
             onClose={onClose}
             backLabel={backLabel}
             isQuoteVisible={stage.isVisible}
-            onSurfaceClick={stage.handleSurfaceClick}
+            /* 할 말이 없으면 손잡이를 주지 않는다 — 넘기면 문장 판에 손가락 커서만 뜨고 눌러도 아무 일이 없다 */
+            onSurfaceClick={quote ? stage.handleSurfaceClick : undefined}
             quoteButton={quote ? <QuoteButton isPlaying={stage.isVisible} hasAudio={stage.hasPlayableAudio} onClick={stage.toggle} /> : null}
             quoteLayer={quoteLayer}
           />
