@@ -148,7 +148,20 @@
         "noContemporaries": "No contemporaries found.",
         "figureEra": "In the era of {name}",
         "countrySearch": "Search countries...",
-        "figureCount": "{count, plural, one {# figure} other {# figures}}"
+        "figureCount": "{count, plural, one {# figure} other {# figures}}",
+        "continentNav": "Choose a continent",
+        "countryNav": "Choose a country",
+        "continent": {
+          "asia": "Asia",
+          "europe": "Europe",
+          "africa": "Africa",
+          "northAmerica": "North America",
+          "southAmerica": "South America",
+          "oceania": "Oceania",
+          "other": "Other"
+        },
+        "noCountries": "No matching countries",
+        "clearSearch": "Clear search"
       },
       "loading": "Loading...",
       "friend": "Friend",
@@ -304,7 +317,16 @@
         "noRelations": "No relationships have been recorded yet"
       },
       "mythology": "Worlds of Myth",
-      "mythologySub": "Choose a region first, then explore its traditions and figures."
+      "mythologySub": "Choose a region first, then explore its traditions and figures.",
+      "pageDescriptions": {
+        "ranking": "Meet the figures with the most recorded books, films, games, and music.",
+        "spectrum": "Discover what sets figures apart through their virtues, abilities, and traits.",
+        "myth": "Explore figures from world mythology and the works they appear in.",
+        "faction": "Discover the stories and connections of figures brought together by a shared theme.",
+        "timeline": "Discover who lived in the same era, in timelines organized by country.",
+        "youtube": "Watch Library Tours and Faction Atlas stories on video.",
+        "directory": "Browse all figures at a glance, organized by name and profession."
+      }
     },
     "youtube": {
       "metaTitle": "Video Archive | Library Tour & Faction Atlas",

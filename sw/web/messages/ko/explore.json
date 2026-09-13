@@ -148,7 +148,20 @@
         "noContemporaries": "동시대 인물이 없습니다.",
         "figureEra": "{name}의 시대",
         "countrySearch": "국가 검색...",
-        "figureCount": "{count}명"
+        "figureCount": "{count}명",
+        "continentNav": "대륙 선택",
+        "countryNav": "국가 선택",
+        "continent": {
+          "asia": "아시아",
+          "europe": "유럽",
+          "africa": "아프리카",
+          "northAmerica": "북아메리카",
+          "southAmerica": "남아메리카",
+          "oceania": "오세아니아",
+          "other": "기타"
+        },
+        "noCountries": "검색한 국가가 없습니다",
+        "clearSearch": "검색어 지우기"
       },
       "loading": "로딩 중...",
       "friend": "친구",
@@ -304,7 +317,16 @@
         "noRelations": "아직 정리된 관계가 없습니다"
       },
       "mythology": "신화의 세계",
-      "mythologySub": "지역을 먼저 고르고, 그 안의 전승과 인물을 차례로 살펴봅니다."
+      "mythologySub": "지역을 먼저 고르고, 그 안의 전승과 인물을 차례로 살펴봅니다.",
+      "pageDescriptions": {
+        "ranking": "책·영화·게임·음악, 분야별로 감상 기록이 많은 인물을 만나보세요.",
+        "spectrum": "덕목·능력·성향으로 인물들의 서로 다른 면모를 살펴보세요.",
+        "myth": "지역과 전승을 따라 신화 속 인물과 등장 작품을 찾아보세요.",
+        "faction": "하나의 주제로 모인 인물들의 이야기와 관계를 살펴보세요.",
+        "timeline": "같은 시대를 살았던 인물들을 국가별 연대기로 살펴보세요.",
+        "youtube": "서재탐방과 세력도감의 이야기를 영상으로 만나보세요.",
+        "directory": "전체 인물을 이름과 직군별로 한눈에 찾아보세요."
+      }
     },
     "youtube": {
       "metaTitle": "영상관 | 서재 탐방·세력도감",

@@ -8,7 +8,7 @@
 
 import { useCallback, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { createPortal } from "react-dom";
-import { Calendar } from "lucide-react";
+import { Calendar, Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import Modal, { ModalFooter } from "@/components/ui/Modal";
@@ -115,20 +115,20 @@ function BirthYearSliderCore({ min, max, onChange }: CelebBirthYearFilterProps) 
 
   return (
     <div className="w-full p-4 min-w-[280px]">
-      <div className="mb-4 flex items-center justify-between">
-        <span className="text-sm font-bold text-text-primary">
-          {isFullRange ? t("all") : t("range", { min: formatYear(draft.min, t), max: formatYear(draft.max, t) })}
-        </span>
-        <Button
-          type="button"
-          unstyled
-          onClick={handleReset}
-          disabled={isFullRange}
-          className="text-xs text-accent/70 hover:text-accent disabled:opacity-30 disabled:cursor-not-allowed"
-        >
-          {t("reset")}
-        </Button>
-      </div>
+      <button
+        type="button"
+        onClick={handleReset}
+        aria-pressed={isFullRange}
+        className={`mb-5 flex w-full items-center justify-between rounded px-3 py-2 text-sm hover:bg-white/10 outline-none focus-visible:ring-2 focus-visible:ring-accent ${isFullRange ? "bg-accent/10 text-accent" : "text-text-primary"}`}
+      >
+        <span>{t("all")}</span>
+        {isFullRange && <Check size={16} aria-hidden="true" />}
+      </button>
+      {!isFullRange && (
+        <p className="mb-4 text-sm font-bold text-text-primary">
+          {t("range", { min: formatYear(draft.min, t), max: formatYear(draft.max, t) })}
+        </p>
+      )}
 
       {/* 트랙 */}
       <div ref={trackRef} className="relative h-1.5 rounded-full bg-white/10 mx-2">
@@ -249,6 +249,9 @@ export function CelebBirthYearFilterDesktop({ min, max, isLoading = false, onCha
             className="fixed bg-black/95 backdrop-blur-xl border border-accent/30 rounded-md shadow-2xl"
             style={{ top: pos.top, left: pos.left, zIndex: Z_INDEX.dropdown }}
           >
+            <div className="border-b border-white/10 px-4 py-3 text-center text-sm font-semibold text-text-primary">
+              {t("filterBirthYear")}
+            </div>
             <BirthYearSliderCore min={min} max={max} onChange={onChange} />
           </div>
         </>,

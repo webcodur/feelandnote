@@ -6,7 +6,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search } from "lucide-react";
+import { Check, Search } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import { FILTER_BOTTOMSHEET_STYLES } from "@/constants/filterStyles";
@@ -40,6 +40,8 @@ export default function FilterModal({
     const q = searchQuery.trim().toLowerCase();
     return options.filter((opt) => opt.label.toLowerCase().includes(q));
   }, [options, searchQuery, searchable]);
+  const allOption = searchable ? options.find((option) => option.value === "all") : undefined;
+  const listOptions = allOption ? filteredOptions.filter((option) => option.value !== "all") : filteredOptions;
 
   const handleSelect = (value: string) => {
     onChange(value);
@@ -52,8 +54,29 @@ export default function FilterModal({
     setSearchQuery("");
   };
 
+  const renderOption = ({ value, label, count, icon }: FilterOption) => {
+    const isActive = current === value;
+    return (
+      <Button
+        key={value}
+        type="button"
+        unstyled
+        onClick={() => handleSelect(value)}
+        disabled={count === 0}
+        aria-pressed={isActive}
+        className={`${FILTER_BOTTOMSHEET_STYLES.base} outline-none focus-visible:ring-2 focus-visible:ring-accent ${isActive ? `${FILTER_BOTTOMSHEET_STYLES.active} hover:bg-accent/20` : FILTER_BOTTOMSHEET_STYLES.inactive} ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
+      >
+        {icon && <span className="flex-shrink-0 w-5 text-center">{icon}</span>}
+        <span className={`flex-1 text-left text-xs sm:text-sm font-medium ${isActive ? "font-bold" : ""}`}>{label}</span>
+        {count !== undefined && <span className={`text-[10px] sm:text-xs ${isActive ? "text-accent/80" : ""}`}>{count}</span>}
+        {isActive && <Check size={14} aria-hidden />}
+      </Button>
+    );
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title={title} size="sm" closeOnOverlayClick>
+    <Modal isOpen={isOpen} onClose={handleClose} title={title} titleClassName="text-center text-text-primary" size="sm" closeOnOverlayClick>
+      {allOption && <div className="px-3 pt-3">{renderOption(allOption)}</div>}
       {/* 검색 input */}
       {searchable && (
         <div className="px-3 pt-3 pb-1">
@@ -71,27 +94,10 @@ export default function FilterModal({
       )}
 
       <div className="p-3 space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
-        {filteredOptions.length === 0 ? (
+        {listOptions.length === 0 ? (
           <div className="py-4 text-sm text-center">-</div>
         ) : (
-          filteredOptions.map(({ value, label, count, icon }) => {
-            const isActive = current === value;
-            const isDisabled = count !== undefined && count === 0;
-            return (
-              <Button
-                key={value}
-                type="button"
-                unstyled
-                onClick={() => !isDisabled && handleSelect(value)}
-                disabled={isDisabled}
-                className={`${FILTER_BOTTOMSHEET_STYLES.base} ${isActive ? FILTER_BOTTOMSHEET_STYLES.active : FILTER_BOTTOMSHEET_STYLES.inactive} ${FILTER_BOTTOMSHEET_STYLES.disabled}`}
-              >
-                {icon && <span className="flex-shrink-0 w-5 text-center">{icon}</span>}
-                <span className={`flex-1 text-left text-xs sm:text-sm font-medium ${isActive ? 'font-bold' : ''}`}>{label}</span>
-                {count !== undefined && <span className={`text-[10px] sm:text-xs ${isActive ? 'text-accent/80' : ''}`}>{count}</span>}
-              </Button>
-            );
-          })
+          listOptions.map(renderOption)
         )}
       </div>
     </Modal>

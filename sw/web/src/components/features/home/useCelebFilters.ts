@@ -8,7 +8,7 @@ import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 import { CELEB_TIERS, isCelebTier, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
-import { parseCelebContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
+import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
 
 // #region 상수
 export const SORT_VALUES: CelebSortBy[] = [
@@ -64,7 +64,7 @@ export function useCelebFilters({
   const [profession, setProfession] = useState<string>(() => getInitialValue("profession", "all"));
   const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
   const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
-  const [contentPresence, setContentPresence] = useState<CelebContentPresence>(() => parseCelebContentPresence(syncToUrl ? searchParams.get("contentPresence") : undefined));
+  const [contentPresence, setContentPresence] = useState<CelebContentPresence>(() => parseCelebContentPresence(syncToUrl ? searchParams.get("contentPresence") : undefined, syncToUrl ? DEFAULT_CELEB_CONTENT_PRESENCE : "all"));
   const [gender, setGender] = useState<string>(() => getInitialValue("gender", "all"));
   const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", "daily_recommend", VALID_SORT_VALUES));
   const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
@@ -110,7 +110,8 @@ export function useCelebFilters({
     if (!syncToUrl) return;
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(updates).forEach(([key, value]) => {
-      if (value === null || value === "all" || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === "daily_recommend")) {
+      const isDefault = key === "contentPresence" ? value === DEFAULT_CELEB_CONTENT_PRESENCE : value === "all";
+      if (value === null || isDefault || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === "daily_recommend")) {
         params.delete(key);
       } else {
         params.set(key, value);

@@ -1,7 +1,7 @@
 import type { CelebSortBy } from "@/actions/home";
 import { parseCelebTiers, parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
 import type { FiguresFilterParams } from "./sections";
-import { parseCelebContentPresence } from "@/constants/celebContentPresence";
+import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence } from "@/constants/celebContentPresence";
 
 const VALID_SORT_VALUES = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 
@@ -45,7 +45,7 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     profession: notAll(parseParam(params, "profession")),
     nationality: notAll(parseParam(params, "nationality")),
     contentType: notAll(parseParam(params, "contentType")),
-    contentPresence: parseCelebContentPresence(parseParam(params, "contentPresence")),
+    contentPresence: parseCelebContentPresence(parseParam(params, "contentPresence"), DEFAULT_CELEB_CONTENT_PRESENCE),
     gender: notAll(parseParam(params, "gender")),
     search: parseParam(params, "search") || undefined,
     tagId: notAll(parseParam(params, "tagId")),
