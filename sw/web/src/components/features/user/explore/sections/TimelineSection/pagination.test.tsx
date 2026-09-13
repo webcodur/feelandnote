@@ -10,6 +10,9 @@ import type { TimelineCeleb, TimelineData } from "@/actions/home/getCelebTimelin
 import { getCelebProfileUrl } from "@/lib/url";
 import { getTimelinePath, paginateTimeline, TIMELINE_PAGE_SIZE } from "./pagination";
 import * as timelineUtils from "./utils";
+import * as continents from "./continents";
+import { fetchCountries, UNKNOWN_COUNTRY_CODE } from "@feelandnote/shared/lib/countries";
+import { MYTH_LAYOUT } from "@/components/features/user/explore/myth/mythLayout";
 
 const require = createRequire(import.meta.url);
 const figures = Array.from({ length: 107 }, (_, index) => ({
@@ -67,6 +70,41 @@ const mocks: Record<string, unknown> = {
   "./ContemporariesPanel": { default: () => null },
 };
 
+const countryPickerMocks = {
+  ...mocks,
+  "@/lib/utils/countryFlag": { getCountryFlag: () => "" },
+  "../pagination": { getTimelinePath },
+  "../continents": continents,
+  "@/components/features/user/explore/myth/mythLayout": { MYTH_LAYOUT },
+  "@/hooks/useMouseDragScroll": { useMouseDragScroll: () => ({ ref: { current: null }, dragProps: {}, cursorClassName: "" }) },
+  "@/components/ui/BottomSheet": { default: () => null },
+};
+
+test("every supported country belongs to one continent and unknown countries remain reachable", async () => {
+  const countries = (await fetchCountries()).map(country => ({ ...country, count: 1 }));
+  const groups = continents.groupTimelineCountries(countries);
+  assert.deepEqual(groups.flatMap(group => group.countries.map(country => country.code)).sort(), countries.map(country => country.code).sort());
+  assert.deepEqual(groups.find(group => group.id === "other")?.countries.map(country => country.code), [UNKNOWN_COUNTRY_CODE]);
+  const cases = {
+    asia: ["KR", "JP", "TW", "TR", "CY", "KZ"], europe: ["FR", "RU", "XK"], africa: ["EG", "ZA"],
+    northAmerica: ["US", "CA", "MX", "JM", "CW"], southAmerica: ["BR", "AR"], oceania: ["AU", "NZ"], other: ["XX", "ZZ"],
+  };
+  for (const [continent, codes] of Object.entries(cases)) {
+    for (const code of codes) assert.equal(continents.getCountryContinent(code), continent, code);
+  }
+});
+
+test("country deep links select their continent and expose only that continent's country choices", () => {
+  const CountryPicker = loadComponent("./sections/CountryPicker.tsx", countryPickerMocks);
+  for (const selectedCountry of ["KR", "US"]) {
+    const $ = load(renderToStaticMarkup(<CountryPicker countries={data.countries} selectedCountry={selectedCountry} defaultCountry="KR" countrySearch="" onSearchChange={() => {}} />));
+    assert.equal($('nav[aria-label="countryNav"] a').length, 1);
+    assert.equal($('nav[aria-label="countryNav"] a').attr("href"), getTimelinePath(selectedCountry, "KR"));
+    assert.equal($('nav[aria-label="continentNav"] a[aria-current="page"]').text(), `continent.${continents.getCountryContinent(selectedCountry)}`);
+    assert.equal($('nav[aria-label="continentNav"] a').length, 2);
+  }
+});
+
 test("a timeline row emits its complete biography once for both responsive layouts", () => {
   const Item = loadComponent("./sections/CelebTimelineItem.tsx", mocks);
   const html = renderToStaticMarkup(<Item celeb={figures[0]} locale="ko" isBioExpanded={false} isContemporariesShown={false}
@@ -79,9 +117,7 @@ test("a timeline row emits its complete biography once for both responsive layou
 });
 
 test("SSR pagination exposes actual previous and next links and country choices expose addresses", () => {
-  const CountryPicker = loadComponent("./sections/CountryPicker.tsx", {
-    ...mocks, "@/lib/utils/countryFlag": { getCountryFlag: () => "" }, "../pagination": { getTimelinePath },
-  });
+  const CountryPicker = loadComponent("./sections/CountryPicker.tsx", countryPickerMocks);
   const picker = load(renderToStaticMarkup(<CountryPicker countries={data.countries} selectedCountry="KR" defaultCountry="KR" countrySearch="" onSearchChange={() => {}} />));
   assert.equal(picker('a[href="/explore/timeline?country=US"]').length, 1);
   const Section = loadComponent("./TimelineSection.tsx", {

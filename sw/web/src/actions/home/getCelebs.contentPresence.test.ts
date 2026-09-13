@@ -85,8 +85,11 @@ test('with works passes the same positive minimum to count and row RPCs', async 
 })
 
 test('URL parsing retains valid work filters for SSR and rejects unknown values', () => {
+  assert.equal(parseFilterParams({}).contentPresence, 'with')
+  assert.equal(parseFilterParams({ contentPresence: 'all' }).contentPresence, 'all')
   assert.equal(parseFilterParams({ contentPresence: 'without', page: '2' }).contentPresence, 'without')
   assert.equal(parseFilterParams({ contentPresence: 'with' }).contentPresence, 'with')
-  assert.equal(parseFilterParams({ contentPresence: ['without'] }).contentPresence, 'all')
+  assert.equal(parseFilterParams({ contentPresence: ['without'] }).contentPresence, 'with')
+  assert.equal(parseFilterParams({ contentPresence: 'bad' }).contentPresence, 'with')
   assert.equal(parseCelebContentPresence('bad'), 'all')
 })

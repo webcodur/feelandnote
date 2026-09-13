@@ -6,12 +6,11 @@
 "use client";
 
 import { useMemo } from "react";
-import { CELEB_CONTENT_PRESENCE, type CelebContentPresence } from "@/constants/celebContentPresence";
-import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus, FileText } from "lucide-react";
+import { CELEB_CONTENT_PRESENCE, DEFAULT_CELEB_CONTENT_PRESENCE, type CelebContentPresence } from "@/constants/celebContentPresence";
+import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus } from "lucide-react";
 import { FilterCombobox, type FilterOption } from "@/components/shared/filters";
 import { CelebBirthYearFilterDesktop } from "./CelebBirthYearFilter";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
-import { CELEB_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import { CONTENT_TYPE_FILTERS } from "@/constants/categories";
 import { CATEGORIES } from "@/constants/categories";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
@@ -69,9 +68,8 @@ export default function CelebFiltersDesktop({
   profession,
   nationality,
   contentType,
-  contentPresence = "all",
+  contentPresence = DEFAULT_CELEB_CONTENT_PRESENCE,
   gender,
-  tier,
   sortBy,
   search,
   birthYearMin,
@@ -86,7 +84,6 @@ export default function CelebFiltersDesktop({
   onContentTypeChange,
   onContentPresenceChange,
   onGenderChange,
-  onTierChange,
   onSortChange,
   onBirthYearChange,
   onSearchInput,
@@ -145,10 +142,6 @@ export default function CelebFiltersDesktop({
       icon: GENDER_ICONS[value] ?? undefined,
     })), [genderCounts, getGenderLabel]);
 
-  // 수록 정보 필터 — 상세(full)는 기록·연표까지 있는 인물, 간략(light)은 소개만 있는 인물이다.
-  const tierOptions: FilterOption[] = useMemo(() =>
-    ["all", ...CELEB_TIERS].map((value) => ({ value, label: t(`tier.${value}`) })), [t]);
-
   const contentPresenceOptions: FilterOption[] = CELEB_CONTENT_PRESENCE.map(value => ({ value, label: t(`contentPresence.${value}`) }));
   const sortOptions: FilterOption[] = SORT_VALUES.map((value) => ({ value, label: t(`sort.${value}`) }));
 
@@ -194,6 +187,7 @@ export default function CelebFiltersDesktop({
 
       <FilterCombobox
         label={t("filterProfession")}
+        dropdownLabel={t("filterProfession")}
         value={getProfLabel(profession)}
         isActive={profession !== "all"}
         isLoading={isLoading}
@@ -204,6 +198,7 @@ export default function CelebFiltersDesktop({
       />
       <FilterCombobox
         label={t("filterNationality")}
+        dropdownLabel={t("filterNationality")}
         value={getNatLabel(nationality)}
         isActive={nationality !== "all"}
         isLoading={isLoading}
@@ -216,6 +211,7 @@ export default function CelebFiltersDesktop({
       />
       <FilterCombobox
         label={t("filterContent")}
+        dropdownLabel={t("filterContent")}
         value={getCtLabel(contentType)}
         isActive={contentType !== "all"}
         isLoading={isLoading}
@@ -226,6 +222,7 @@ export default function CelebFiltersDesktop({
       />
       <FilterCombobox
         label={t("filterGender")}
+        dropdownLabel={t("filterGender")}
         value={getGenderLabel(gender)}
         isActive={gender !== "all"}
         isLoading={isLoading}
@@ -234,35 +231,10 @@ export default function CelebFiltersDesktop({
         onSelect={onGenderChange}
         icon={<Users size={14} />}
       />
-      <FilterCombobox
-        label={t("filterTier")}
-        value={t(`tier.${tier}`)}
-        isActive={tier !== "all"}
-        isLoading={isLoading}
-        options={tierOptions}
-        currentValue={tier}
-        onSelect={onTierChange}
-        icon={<FileText size={14} />}
-      />
-      <CelebBirthYearFilterDesktop
-        min={birthYearMin}
-        max={birthYearMax}
-        isLoading={isLoading}
-        onChange={onBirthYearChange}
-      />
-      <FilterCombobox
-        label={t("filterSort")}
-        value={t(`sort.${sortBy}`)}
-        isActive={sortBy !== "content_count"}
-        isLoading={isLoading}
-        options={sortOptions}
-        currentValue={sortBy}
-        onSelect={(v) => onSortChange(v as CelebSortBy)}
-        icon={<ArrowUpDown size={14} />}
-      />
       {onContentPresenceChange && (
         <FilterCombobox
           label={t("filterContentPresence")}
+          dropdownLabel={t("filterContentPresence")}
           value={t(`contentPresence.${contentPresence}`)}
           isActive={contentPresence !== "all"}
           isLoading={isLoading}
@@ -272,6 +244,24 @@ export default function CelebFiltersDesktop({
           icon={<Layers size={14} />}
         />
       )}
+      <CelebBirthYearFilterDesktop
+        min={birthYearMin}
+        max={birthYearMax}
+        isLoading={isLoading}
+        onChange={onBirthYearChange}
+      />
+      <FilterCombobox
+        label={t("filterSort")}
+        dropdownLabel={t("filterSort")}
+        value={t(`sort.${sortBy}`)}
+        isActive={sortBy !== "content_count"}
+        isLoading={isLoading}
+        options={sortOptions}
+        currentValue={sortBy}
+        onSelect={(v) => onSortChange(v as CelebSortBy)}
+        icon={<ArrowUpDown size={14} />}
+      />
+
     </div>
   );
 }

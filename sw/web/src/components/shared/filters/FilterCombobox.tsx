@@ -5,9 +5,9 @@
 */
 "use client";
 
-import { useState, useRef, useEffect, useCallback, useMemo, type ReactNode } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo, useId, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Search } from "lucide-react";
+import { Check, Search } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import { FILTER_DROPDOWN_STYLES } from "@/constants/filterStyles";
@@ -15,6 +15,7 @@ import type { FilterOption } from "./FilterChipDropdown";
 
 interface FilterComboboxProps {
   label: string;
+  dropdownLabel?: string;
   value: string;
   isActive: boolean;
   isLoading?: boolean;
@@ -28,6 +29,7 @@ interface FilterComboboxProps {
 
 export default function FilterCombobox({
   label,
+  dropdownLabel,
   value,
   isActive,
   isLoading = false,
@@ -39,6 +41,7 @@ export default function FilterCombobox({
   searchPlaceholder = "",
 }: FilterComboboxProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownId = useId();
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -50,6 +53,8 @@ export default function FilterCombobox({
     const q = searchQuery.trim().toLowerCase();
     return options.filter((opt) => opt.label.toLowerCase().includes(q));
   }, [options, searchQuery, searchable]);
+  const allOption = dropdownLabel && searchable ? options.find((option) => option.value === "all") : undefined;
+  const listOptions = allOption ? filteredOptions.filter((option) => option.value !== "all") : filteredOptions;
 
   const updateDropdownPosition = useCallback(() => {
     if (!containerRef.current) return;
@@ -96,6 +101,30 @@ export default function FilterCombobox({
     setSearchQuery("");
   };
 
+  const renderOption = ({ value: optValue, label: optLabel, count, icon: optIcon }: FilterOption) => {
+    const isSelected = currentValue === optValue;
+    const isDisabled = count === 0;
+    return (
+      <button
+        key={optValue}
+        type="button"
+        onClick={() => handleSelect(optValue)}
+        disabled={isDisabled}
+        aria-pressed={isSelected}
+        className={`${FILTER_DROPDOWN_STYLES.item.base} outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${isSelected ? "bg-accent/20 text-accent font-bold hover:bg-accent/25" : "text-text-secondary hover:bg-accent/5 hover:text-text-primary"} ${isDisabled ? FILTER_DROPDOWN_STYLES.item.disabled : ""}`}
+      >
+        <span className="font-sans flex items-center gap-2">
+          {optIcon && <span className="flex-shrink-0 w-4 text-center">{optIcon}</span>}
+          {optLabel}
+        </span>
+        <span className="flex items-center gap-2">
+          {count !== undefined && <span className={`text-xs ${isSelected ? "text-accent/70" : ""}`}>{count}</span>}
+          {isSelected && <Check size={14} aria-hidden />}
+        </span>
+      </button>
+    );
+  };
+
   const handleToggle = () => {
     if (!isOpen && containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
@@ -112,6 +141,9 @@ export default function FilterCombobox({
         unstyled
         onClick={handleToggle}
         disabled={isLoading}
+        aria-label={`${label}: ${value}`}
+        aria-expanded={isOpen}
+        aria-controls={isOpen ? dropdownId : undefined}
         className={`
           flex items-center justify-center rounded-md border transition-none
           bg-white/5 whitespace-nowrap overflow-hidden
@@ -139,12 +171,21 @@ export default function FilterCombobox({
       {isOpen && typeof document !== "undefined" && createPortal(
         <div
           ref={dropdownRef}
+          id={dropdownId}
+          role="group"
+          aria-label={dropdownLabel ?? label}
           className="fixed min-w-[200px] max-h-[360px] flex flex-col bg-black/95 backdrop-blur-xl border border-accent/30 rounded-md shadow-2xl"
           style={{ top: dropdownPos.top, left: dropdownPos.left, zIndex: Z_INDEX.dropdown }}
         >
+          {dropdownLabel && (
+            <div className="shrink-0 border-b border-accent/20 px-4 py-3 text-center text-xs font-semibold text-text-primary">
+              {dropdownLabel}
+            </div>
+          )}
+          {allOption && <div className="shrink-0 border-b border-accent/10">{renderOption(allOption)}</div>}
           {/* 검색 input */}
           {searchable && (
-            <div className="p-2 border-b border-accent/10">
+            <div className="shrink-0 p-2 border-b border-accent/10">
               <div className="relative">
                 <Search size={14} className="absolute start-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
@@ -161,29 +202,10 @@ export default function FilterCombobox({
 
           {/* 옵션 리스트 */}
           <div className="overflow-y-auto flex-1">
-            {filteredOptions.length === 0 ? (
+            {listOptions.length === 0 ? (
               <div className="px-4 py-3 text-sm text-center">-</div>
             ) : (
-              filteredOptions.map(({ value: optValue, label: optLabel, count, icon: optIcon }) => {
-                const isSelected = currentValue === optValue;
-                const isDisabled = count !== undefined && count === 0;
-                return (
-                  <button
-                    key={optValue}
-                    onClick={() => !isDisabled && handleSelect(optValue)}
-                    disabled={isDisabled}
-                    className={`${FILTER_DROPDOWN_STYLES.item.base} ${
-                      isSelected ? "bg-accent/20 text-accent font-bold" : "text-text-secondary hover:bg-accent/5 hover:text-text-primary"
-                    } ${isDisabled ? FILTER_DROPDOWN_STYLES.item.disabled : ""}`}
-                  >
-                    <span className="font-sans flex items-center gap-2">
-                      {optIcon && <span className="flex-shrink-0 w-4 text-center">{optIcon}</span>}
-                      {optLabel}
-                    </span>
-                    {count !== undefined && <span className={`text-xs ${isSelected ? 'text-accent/70' : ''}`}>{count}</span>}
-                  </button>
-                );
-              })
+              listOptions.map(renderOption)
             )}
           </div>
         </div>,

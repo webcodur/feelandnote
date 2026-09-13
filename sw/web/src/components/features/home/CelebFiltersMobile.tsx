@@ -6,8 +6,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { CELEB_CONTENT_PRESENCE, type CelebContentPresence } from "@/constants/celebContentPresence";
-import { Search, X, SlidersHorizontal, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus, FileText } from "lucide-react";
+import { CELEB_CONTENT_PRESENCE, DEFAULT_CELEB_CONTENT_PRESENCE, type CelebContentPresence } from "@/constants/celebContentPresence";
+import { Search, X, SlidersHorizontal, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus } from "lucide-react";
 import { FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
 import { CelebBirthYearFilterMobile } from "./CelebBirthYearFilter";
 import ControlPanel from "@/components/shared/ControlPanel";
@@ -16,7 +16,6 @@ import { CONTENT_TYPE_FILTERS, CATEGORIES } from "@/constants/categories";
 import { PROFESSION_ICONS } from "@/constants/professionIcons";
 import { getCountryFlag } from "@/lib/utils/countryFlag";
 import { SORT_VALUES, type FilterType } from "./useCelebFilters";
-import { CELEB_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 import { useTranslations } from "next-intl";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
@@ -72,9 +71,8 @@ export default function CelebFiltersMobile({
   profession,
   nationality,
   contentType,
-  contentPresence = "all",
+  contentPresence = DEFAULT_CELEB_CONTENT_PRESENCE,
   gender,
-  tier,
   sortBy,
   search,
   birthYearMin,
@@ -92,7 +90,6 @@ export default function CelebFiltersMobile({
   onContentTypeChange,
   onContentPresenceChange,
   onGenderChange,
-  onTierChange,
   onSortChange,
   onBirthYearChange,
   onSearchInput,
@@ -151,10 +148,6 @@ export default function CelebFiltersMobile({
       icon: GENDER_ICONS[value] ?? undefined,
     })), [genderCounts, getGenderLabel]);
 
-  // 수록 정보 필터 — 상세(full)는 기록·연표까지 있는 인물, 간략(light)은 소개만 있는 인물이다.
-  const tierOptions: FilterOption[] = useMemo(() =>
-    ["all", ...CELEB_TIERS].map((value) => ({ value, label: t(`tier.${value}`) })), [t]);
-
   const contentPresenceOptions: FilterOption[] = CELEB_CONTENT_PRESENCE.map(value => ({ value, label: t(`contentPresence.${value}`) }));
   const sortOptions: FilterOption[] = SORT_VALUES.map((value) => ({ value, label: t(`sort.${value}`) }));
 
@@ -210,9 +203,7 @@ export default function CelebFiltersMobile({
             <FilterChip label={t("filterNationality")} value={getNatLabel(nationality)} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} className="w-full" icon={<Globe size={12} />} />
             <FilterChip label={t("filterContent")} value={getCtLabel(contentType)} isActive={contentType !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentType")} className="w-full" icon={<Layers size={12} />} />
             <FilterChip label={t("filterGender")} value={getGenderLabel(gender)} isActive={gender !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("gender")} className="w-full" icon={<Users size={12} />} />
-            <FilterChip label={t("filterTier")} value={t(`tier.${tier}`)} isActive={tier !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("tier")} className={onContentPresenceChange ? "w-full col-span-2" : "w-full"} icon={<FileText size={12} />} />
-            <FilterChip label={t("filterSort")} value={t(`sort.${sortBy}`)} isActive={sortBy !== "content_count"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full" icon={<ArrowUpDown size={12} />} />
-            {onContentPresenceChange && <FilterChip label={t("filterContentPresence")} value={t(`contentPresence.${contentPresence}`)} isActive={contentPresence !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentPresence")} className="w-full" icon={<Layers size={12} />} />}
+            {onContentPresenceChange && <FilterChip label={t("filterContentPresence")} value={t(`contentPresence.${contentPresence}`)} isActive={contentPresence !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentPresence")} className="w-full col-span-2" icon={<Layers size={12} />} />}
             <div className="col-span-2">
               <CelebBirthYearFilterMobile
                 min={birthYearMin}
@@ -224,6 +215,7 @@ export default function CelebFiltersMobile({
                 onClose={onFilterClose}
               />
             </div>
+            <FilterChip label={t("filterSort")} value={t(`sort.${sortBy}`)} isActive={sortBy !== "content_count"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full col-span-2" icon={<ArrowUpDown size={12} />} />
           </div>
         </ControlPanel>
       </div>
@@ -233,7 +225,6 @@ export default function CelebFiltersMobile({
       <FilterModal title={t("filterNationality")} isOpen={activeFilter === "nationality"} current={nationality} options={nationalityOptions} onClose={onFilterClose} onChange={onNationalityChange} searchable searchPlaceholder={tExplore("searchFilter")} />
       <FilterModal title={t("filterContent")} isOpen={activeFilter === "contentType"} current={contentType} options={contentTypeOptions} onClose={onFilterClose} onChange={onContentTypeChange} />
       <FilterModal title={t("filterGender")} isOpen={activeFilter === "gender"} current={gender} options={genderOptions} onClose={onFilterClose} onChange={onGenderChange} />
-      <FilterModal title={t("filterTier")} isOpen={activeFilter === "tier"} current={tier} options={tierOptions} onClose={onFilterClose} onChange={onTierChange} />
       <FilterModal title={t("filterSort")} isOpen={activeFilter === "sort"} current={sortBy} options={sortOptions} onClose={onFilterClose} onChange={(v) => onSortChange(v as CelebSortBy)} />
       {onContentPresenceChange && <FilterModal title={t("filterContentPresence")} isOpen={activeFilter === "contentPresence"} current={contentPresence} options={contentPresenceOptions} onClose={onFilterClose} onChange={onContentPresenceChange} />}
     </>
