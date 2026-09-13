@@ -9,15 +9,15 @@
  *   - TMDB — 줄거리·평점·러닝타임·주연·예고편·스틸컷. 「대부 줄거리」 같은 정보 검색어를 받는다.
  *
  * 원고 전체를 LLM 에게 쓰게 하지 않는다. 네이버에서 176만 토큰을 태운 뒤 얻은 규칙이다
- * (`docs/continuous/naver-blog.md` 「원고 생산」). 여기서도 조립이 먼저다.
+ * (`docs/continuous/blog-naver-book.md` 「원고 생산」). 여기서도 조립이 먼저다.
  */
 import { createClient } from '@supabase/supabase-js'
 import { usableReview } from './lib/quality.mts'
 import fs from 'node:fs'
 import path from 'node:path'
+import { ASSETS } from '../blog-assets.mjs'
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..')
-const OUT_DIR = path.join(ROOT, 'data/tistory-cinema')
+const OUT_DIR = path.join(ASSETS, 'tistory-cinema')
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)
 const TMDB = process.env.TMDB_API_KEY!
 
@@ -53,8 +53,8 @@ const contents = await page<Row>('contents', 'id, type, external_id, metadata, r
 const locales = await page<{ content_id: string; title: string; locale: string; creator: string | null; thumbnail_url: string | null }>(
   'content_locales', 'content_id, title, locale, creator, thumbnail_url')
 const ko = new Map(locales.filter((l) => l.locale === 'ko').map((l) => [l.content_id, l]))
-const cc = await page<{ celeb_id: string; content_id: string; review: string | null; source_url: string | null }>(
-  'celeb_contents', 'celeb_id, content_id, review, source_url')
+const cc = await page<{ id: string; celeb_id: string; content_id: string; review: string | null; source_url: string | null }>(
+  'celeb_contents', 'id, celeb_id, content_id, review, source_url')
 const cnt = new Map<string, number>()
 cc.forEach((r) => cnt.set(r.content_id, (cnt.get(r.content_id) ?? 0) + 1))
 
@@ -113,12 +113,12 @@ const cmap = new Map(celebs.map((c) => [c.id, c]))
 // 「27명」이라 적어 놓고 도착 페이지에는 48명이 있어 숫자가 어긋난다.
 const totalOnSite = cc.filter((r) => r.content_id === work.id).length
 const all = cc.filter((r) => r.content_id === work.id)
-  .map((r) => { const c = cmap.get(r.celeb_id); return c ? { ...c, review: r.review ?? '', source: r.source_url } : null })
+  .map((r) => { const c = cmap.get(r.celeb_id); return c ? { ...c, rid: r.id, review: r.review ?? '', source: r.source_url } : null })
   /**
    * 🔴 60자로는 「누가 누구와 함께 봤다」 같은 목격담이 들어온다(26.09.05 재러드 쿠슈너 82자).
    *    본인이 말한 근거가 담기려면 100자는 있어야 한다. 그 아래는 원고에 쓰지 않는다.
    */
-  .filter((r): r is NonNullable<typeof r> => !!r && usableReview(r.review))
+  .filter((r): r is NonNullable<typeof r> => !!r && usableReview(r.review, r.rid))
 
 // 직군을 고루 섞는다. 한 직군만 나오면 「감독들이 좋아하는 영화」가 되어 각이 좁아진다.
 const byProf = new Map<string, typeof all>()
