@@ -572,19 +572,12 @@ export async function probeStaticAssetUrls(assetUrls, options = {}) {
   return { checked, bytes }
 }
 
-async function waitForHttp(url, attempts = 40) {
-  let lastError
+async function waitForPort(port, attempts = 40) {
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    try {
-      const response = await fetchWithTimeout(url, { timeoutMs: 3_000 })
-      if (response.status >= 200 && response.status < 500) return response
-      lastError = new Error(`HTTP ${response.status}`)
-    } catch (error) {
-      lastError = error
-    }
+    if (await canConnect(port)) return
     await new Promise((resolve) => setTimeout(resolve, 500))
   }
-  throw new Error(`Server did not become ready at ${url}: ${lastError?.message ?? 'unknown error'}`)
+  throw new Error(`Server did not open port 127.0.0.1:${port}`)
 }
 
 async function readSeoImage(url) {
@@ -614,7 +607,8 @@ export async function verifyApplication(
 ) {
   const origin = `http://127.0.0.1:${port}`
   const pageUrl = `${origin}/celeb/${encodeURIComponent(probeSlug)}`
-  await waitForHttp(pageUrl)
+  // Readiness must not render the detail: retrying it would hide a first-visit failure.
+  await waitForPort(port)
 
   const page = await fetchWithTimeout(pageUrl)
   if (!page.ok) throw new Error(`Canary page returned HTTP ${page.status}: ${pageUrl}`)
