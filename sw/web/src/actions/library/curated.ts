@@ -11,7 +11,14 @@ import { getLocale } from 'next-intl/server'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { cachedDetail, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
-import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import {
+  CL_SELECT_LIST,
+  CL_SELECT_LIST_WITH_AFFILIATE,
+  flattenLocales,
+  type ContentLocaleRow,
+} from '@/lib/utils/content-locale'
+import { getCoupangAffiliateUrl } from '@/components/features/user/contentLibrary/contentAffiliate'
+import type { ContentType } from '@/types/database'
 import type {
   CuratedHub,
   CuratedListDetail,
@@ -22,17 +29,12 @@ import type {
   ContentCuratedEntry,
 } from './types'
 
-/** 목록 하나에 담기는 작품 수 상한. 무한 조회를 막는 안전선이다 */
-const MAX_ITEMS_PER_LIST = 500
-
 /**
- * 처음 내려보내는 작품 수.
- *
- * 목록 대부분이 100편 이하라 이 선이면 한 번에 다 보인다.
- * 세인트존스(323)·아쿠타가와(189)처럼 큰 목록만 잘리는데, 전량을 그대로 실으면
- * 화면 하나가 3MB에 이르러(실측 2,959KB·2.3초) 폭 좁은 기기에서 눈에 띄게 굼떠진다.
+ * 목록 하나에 담기는 작품 수 상한. 무한 조회를 막는 안전선이다.
+ * 목록 화면은 작품 한 편만 그리고 나머지는 제목·표지 주소만 실으므로 세인트존스(323)도 자르지 않는다.
+ * (표지 카드 전량을 그리던 때는 화면 하나가 3MB에 이르러 120편에서 잘라 보냈다.)
  */
-const INITIAL_ITEMS = 120
+const MAX_ITEMS_PER_LIST = 500
 
 const pick = (ko: string | null, en: string | null, locale: string) =>
   (locale === 'en' ? en || ko : ko || en) ?? ''
@@ -321,7 +323,7 @@ interface ItemRow {
   contents: { id: string; type: string; content_locales: ContentLocaleRow[] | null } | null
 }
 
-async function fetchCuratedList(listSlug: string, locale: string, showAll: boolean): Promise<CuratedListDetail | null> {
+async function fetchCuratedList(listSlug: string, locale: string): Promise<CuratedListDetail | null> {
   const db = createStaticClient()
 
   const { data: list, error: listError } = await db.from('curated_lists').select(LIST_COLS).eq('slug', listSlug).maybeSingle()
@@ -339,14 +341,14 @@ async function fetchCuratedList(listSlug: string, locale: string, showAll: boole
       .from('curated_list_items')
       .select(
         `id, content_id, raw_title, raw_creator, rank, year, note, note_en, sort_order,
-         contents(id, type, content_locales(${CL_SELECT_LIST}))`,
+         contents(id, type, content_locales(${CL_SELECT_LIST_WITH_AFFILIATE}))`,
         { count: 'exact' }
       )
       .eq('list_id', l.id)
       .eq('hidden', false)
       .order('sort_order', { ascending: true })
       .order('id', { ascending: true })
-      .limit(showAll ? MAX_ITEMS_PER_LIST : INITIAL_ITEMS),
+      .limit(MAX_ITEMS_PER_LIST),
     // 같은 계열의 다른 해 — 연도 전환용
     l.series_key
       ? db
@@ -384,6 +386,10 @@ async function fetchCuratedList(listSlug: string, locale: string, showAll: boole
       thumbnailEn: flat?.thumbnail_en ?? null,
       hasEnEdition: flat?.has_en_edition ?? false,
       titleBadge: flat?.title_badge ?? null,
+      // 한국어판 제휴 링크에서 쿠팡만 꺼낸다. 감상 펼침 카드와 같은 판정이다
+      coupangUrl: content
+        ? getCoupangAffiliateUrl({ type: content.type as ContentType, affiliate_url: flat?.affiliate_url })
+        : null,
     }
   })
 
@@ -394,7 +400,7 @@ async function fetchCuratedList(listSlug: string, locale: string, showAll: boole
   const total = totalItems ?? mapped.length
 
   return {
-    // 편수는 화면에 그린 수가 아니라 목록이 담은 전체 수다(잘라 보내도 「100편」은 그대로여야 한다)
+    // 편수는 목록이 담은 전체 수다. 상한에 걸려 잘려도 「100편」은 그대로여야 한다
     ...toListSummary(l, locale, total, c.slug, [], {
       name: pick(c.name, c.name_en, locale),
       logoUrl: c.logo_url,
@@ -405,7 +411,6 @@ async function fetchCuratedList(listSlug: string, locale: string, showAll: boole
     sourceUrl: l.source_url,
     curator: toCuratorSummary(c, locale, 0),
     items: mapped,
-    remainingCount: Math.max(0, total - mapped.length),
     linkedCount: mapped.filter((i) => i.contentId).length,
     siblings:
       seriesRows?.map((s) => ({
@@ -423,8 +428,8 @@ const getCuratedListCached = unstable_cache(fetchCuratedList, ['curated-list'], 
   tags: [CACHE_TAGS.CURATED, CACHE_TAGS.CONTENTS],
 })
 
-export async function getCuratedList(listSlug: string, showAll = false): Promise<CuratedListDetail | null> {
-  return getCuratedListCached(listSlug, await getLocale(), showAll)
+export async function getCuratedList(listSlug: string): Promise<CuratedListDetail | null> {
+  return getCuratedListCached(listSlug, await getLocale())
 }
 // #endregion
 

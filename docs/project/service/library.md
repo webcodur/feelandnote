@@ -1,7 +1,5 @@
 # 작품 (`(main)/library/*`)
 
-> **최종 실측 체크: 26.08.07** — 화면 목록·허브 구역·액션·상수·컴포넌트 경로를 코드와 전량 재대조. 그 사이 개편분(시대별·갈림길 → 인기 작품 통합, 기관 선정 신설, 내부 명칭 전면 개명)이 문서에 반영돼 있지 않았다
-
 인물의 선택과 매체의 역사를 진열하는 영역이다. 네비게이션 라벨은 **"작품"**(26.08.07 개명, 옛 이름 "서가"), 코드 키와 주소는 `library`다.
 
 ## 리네이밍 잔재
@@ -43,12 +41,12 @@
 
 `library/layout.tsx`가 공통 배너(`LibraryBanner`)와 `PageContainer`를 씌운다.
 
-허브(`/library`)는 `HubNav` + `HubSection` 5개를 쌓는다. 순서·라벨키·더보기 주소는 `hubSectionUtils.tsx`의 `LIBRARY_SECTIONS`가 단일원천이다.
+허브(`/library`)는 `HubNav`와 `HubSection`으로 구성한다. 순서·라벨키·더보기 주소는 `hubSectionUtils.tsx`의 `LIBRARY_SECTIONS`가 단일원천이다.
 
 | # | 섹션 | 미리보기 컴포넌트 | 더보기 |
 |---|---|---|---|
 | 1 | 인기 작품 | `PopularPreview` | `/library/popular` |
-| 2 | 기관 선정 | `CuratedPreview` | `/library/curated` |
+| 2 | 기관 선정 | `CuratedHubBrowse` | `/library/curated` |
 | 3 | 박물관 | `MuseumPreview` | `/library/museum` |
 | 4 | 학당 | `AcademyPreview` | `/library/academy` |
 
@@ -72,7 +70,13 @@
 
 **오늘의 인물은 26.08.07에 뺐다.** 인물은 탐색과 홈이 이미 맡고 있었고, 이 구역만 더보기가 `/explore/today`로 나가 사용자를 이 메뉴 밖으로 내보냈다. `FigurePreview`와 `library.hub.figure`·`figureLabel` 문구도 함께 지웠다(`getTodayFigure` 액션은 탐색 쪽에서 계속 쓰므로 남긴다). 하위 링크(`navigation.tsx`의 `subLinks`)는 popular·curated·museum·academy 4개로 허브와 일치한다.
 
-`library/page.tsx`(허브가 곧 이 파일이다)가 `PopularBooks`(쿠팡 제휴)를 임포트하지만 렌더는 주석 처리돼 있다. 코드 주석은 "쿠팡 제휴: AdSense 승인 전까지 비활성"이라 적는다. 탐색 허브와 홈에도 같은 패턴이 있다.
+허브 마지막에는 `PopularBooks`가 제휴 도서를 표시한다. 영문 화면이거나 연결할 도서가 없으면 컴포넌트가 접힌다.
+
+## 인기 작품 갱신
+
+허브와 `/library/popular`는 주간 수집 목록과 실제 수집일·출처를 함께 보여준다. 한영 도서와 매체별 목록은 각 원천 기준을 따르며, 영문 분야별 도서는 OpenLibrary 주제 목록이다. 전체 매체 보기는 서로 다른 목록을 모은 것이며 통합 순위가 아니다.
+
+`actions/library/bestsellers.ts`는 공개된 JSON을 서버 캐시로 읽어 웹 배포 없이 목록을 갱신한다. 수집 실패한 분류는 이전 목록과 날짜를 유지하고 지연 여부를 표시한다. `BestsellerFreshness`가 한영 표시를 공유하며 필터 변경 시 목록·출처·수집일을 함께 바꾼다. 수집기·게시·실패 처리의 운영 규칙은 [외부 서비스](../platform/external-services.md)의 서가 인기 작품 항목, 허용값과 임계값은 `lib/library/bestsellerPolicy.mjs`·`bestsellerFeed.ts`를 따른다.
 
 ## 박물관 구조
 

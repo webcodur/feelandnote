@@ -152,6 +152,8 @@ export interface CuratedListItem {
   hasEnEdition: boolean
   /** 요청 locale의 확인된 언어판 제목이 아닐 때 제목 앞에 붙는 표시 */
   titleBadge: TitleBadge | null
+  /** 한국어판 쿠팡 파트너스 링크. 없으면 구매 단추를 흐리게 둔다 — 단추 자리는 늘 지킨다 */
+  coupangUrl: string | null
 }
 
 export interface CuratedListSibling {
@@ -167,8 +169,6 @@ export interface CuratedListDetail extends CuratedListSummary {
   sourceUrl: string
   curator: CuratorSummary
   items: CuratedListItem[]
-  /** 아직 내려보내지 않은 작품 수. 0보다 크면 「더 보기」가 뜬다 */
-  remainingCount: number
   /** 우리 콘텐츠와 이어진 항목 수 */
   linkedCount: number
   /** 같은 계열의 다른 해 */

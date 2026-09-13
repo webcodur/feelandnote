@@ -387,6 +387,18 @@
         "business": "경제경영"
       },
       "moreLists": "목록 {count}개 더 보기",
+      "itemIndex": "작품 목록",
+      "viewMode": "보는 방식",
+      "viewGrid": "격자 보기",
+      "viewFocus": "펼쳐보기",
+      "rangeIndex": "구간 목록",
+      "rangeButton": "{range} 구간",
+      "rangePrev": "이전 구간",
+      "rangeNext": "다음 구간",
+      "rangeNav": "구간 이동",
+      "selectionNote": "선정 사유",
+      "openContent": "작품 상세보기",
+      "coupangPending": "쿠팡 상품 준비 중",
       "showRemaining": "나머지 {count}편 더 보기",
       "mediaLabel": {
         "BOOK": "책",
