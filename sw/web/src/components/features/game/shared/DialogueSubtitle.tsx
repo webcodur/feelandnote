@@ -114,6 +114,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     clearLoadTimer();
     if (audioRef.current) {
       // 받아지기를 기다리던 핸들러까지 떼어야 뒤늦게 도착한 음원이 혼자 울리지 않는다
+      audioRef.current.oncanplay = null;
       audioRef.current.oncanplaythrough = null;
       audioRef.current.pause();
       audioRef.current = null;
@@ -180,6 +181,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
         if (audioRef.current !== audio) return;
         stopProgressLoop();
         clearLoadTimer();
+        audio.oncanplay = null;
         audio.oncanplaythrough = null;
         audio.pause();
         audioRef.current = null;
@@ -192,6 +194,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
       const begin = () => {
         if (audioRef.current !== audio) return;
         clearLoadTimer();
+        audio.oncanplay = null;
         audio.oncanplaythrough = null;
         // 받아지는 사이 배속이 초기화됐을 수 있어 소리를 내기 직전에 다시 맞춘다
         audio.playbackRate = rate;
@@ -218,6 +221,8 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
       // 끊김 없이 통으로 낼 만큼 받아진 뒤에 소리와 진행바를 함께 시작한다.
       // 받아지기 전에 재생을 걸면 진행바만 흐르고 소리는 뒤늦게 얹혀 대사의 절반이 잘린다.
       setAudioPhase("loading");
+      // canplaythrough를 못 주는 회선도 있어 재생 가능 시점(canplay)도 받는다 — 먼저 온 쪽에서 시작한다
+      audio.oncanplay = begin;
       audio.oncanplaythrough = begin;
       loadTimerRef.current = setTimeout(dropAudio, AUDIO_LOAD_TIMEOUT);
       audio.load();

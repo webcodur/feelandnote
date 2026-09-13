@@ -387,6 +387,18 @@
         "business": "Business"
       },
       "moreLists": "See {count} more lists",
+      "itemIndex": "Works",
+      "viewMode": "View",
+      "viewGrid": "Grid view",
+      "viewFocus": "Expanded view",
+      "rangeIndex": "Ranges",
+      "rangeButton": "Items {range}",
+      "rangePrev": "Previous range",
+      "rangeNext": "Next range",
+      "rangeNav": "Range navigation",
+      "selectionNote": "Why it was chosen",
+      "openContent": "View work",
+      "coupangPending": "Coupang listing coming soon",
       "showRemaining": "Show {count} more",
       "mediaLabel": {
         "BOOK": "Books",

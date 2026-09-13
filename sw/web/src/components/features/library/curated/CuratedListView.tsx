@@ -1,108 +1,21 @@
 /*
   파일명: /components/features/library/curated/CuratedListView.tsx
-  기능: 선정 목록 상세 — 목록에 담긴 작품 진열
-  책임: 원문 순서·순위를 그대로 보이고, 우리가 가진 작품은 상세로 잇는다.
-        아직 등록되지 않은 작품도 목록에서 빼지 않는다 — 100선은 100편이어야 한다.
+  기능: 선정 목록 상세 — 목록 소개와 작품 진열
+  책임: 목록의 개요·선정 방식·출처를 머리에 세우고, 작품은 폭에 따라 두 가지로 보인다.
+        데스크톱(md 이상)은 감싸는 상자에 공통 작품 카드와 쿠팡 모듈을 쌓은 격자(CuratedListGrid),
+        모바일은 2열 구간 격자와 한 편씩 보는 펼쳐보기를 고르는 조작 줄(CuratedListMobile)이다.
+        원문 순서·순위를 그대로 따르고 아직 등록되지 않은 작품도 빼지 않는다 — 100선은 100편이어야 한다.
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { ArrowLeft, ExternalLink, BookOpen, Film } from "lucide-react";
-import ContentCard from "@/components/ui/cards/ContentCard";
-import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 import NationalityText from "@/components/ui/NationalityText";
-import { getCategoryByDbType } from "@/constants/categories";
-import type { ContentType } from "@/types/database";
 import { getCuratedHub } from "@/actions/library";
-import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
+import type { CuratedListDetail } from "@/actions/library/types";
 import CuratedListBrowseLinks from "./CuratedListBrowseLinks";
-
-/** 순위·발표 연도 표시. 표지 위 양쪽 위 모서리에 얹는다 */
-function CornerBadge({ children, bold }: { children: React.ReactNode; bold?: boolean }) {
-  return (
-    <span
-      className={`rounded bg-black/75 px-1.5 py-0.5 text-[11px] text-white ${bold ? "font-bold" : ""}`}
-    >
-      {children}
-    </span>
-  );
-}
-
-function ItemCard({
-  item,
-  notRegisteredLabel,
-  isVideo,
-}: {
-  item: CuratedListItem;
-  notRegisteredLabel: string;
-  isVideo: boolean;
-}) {
-  const yearBadge = item.year != null ? <CornerBadge>{item.year}</CornerBadge> : undefined;
-
-  // 아직 우리에게 없는 작품 — 상세로 이을 곳이 없어 누르지 못한다.
-  // 대신 등록 카드(DefaultLayout)와 같은 헤더·포스터 비율·푸터로 그려 격자에서 줄이 어긋나지 않게 한다.
-  // "없음" 표기는 포스터 안(GenerativeBookCover label)에만 둔다.
-  // 좌상단 넘버링(순위) 기능 폐기 — overlayTopLeft 미사용
-  if (!item.contentId) {
-    const ContentIcon = isVideo ? Film : BookOpen;
-    return (
-      <div
-        aria-disabled="true"
-        className="relative flex flex-col overflow-hidden rounded-xl border border-white/[0.06] bg-bg-card"
-      >
-        {/* 등록 카드와 같은 높이의 헤더 바 — 토글·액션 없이 자리만 맞춘다 */}
-        <div className="flex items-center justify-between border-b border-white/[0.04] bg-[#141414] px-1.5 py-1">
-          <div className="flex h-6 w-6 items-center justify-center">
-            <ContentIcon size={13} className="text-accent/80" strokeWidth={1.8} />
-          </div>
-          <div className="flex-1" />
-          <div className="h-6 w-6" />
-        </div>
-        <div className="relative aspect-[2/3] w-full overflow-hidden bg-bg-secondary">
-          <GenerativeBookCover
-            title={item.rawTitle}
-            ContentIcon={ContentIcon}
-            iconSize={28}
-            label={notRegisteredLabel}
-          />
-          {yearBadge && <div className="absolute right-1.5 top-1.5 z-10">{yearBadge}</div>}
-        </div>
-        <div className="border-t border-white/[0.04] bg-black/20 text-center">
-          <div className="flex min-h-[36px] items-center justify-center p-2 pb-1.5 md:min-h-[42px] md:p-2.5">
-            <h3 className="line-clamp-2 text-center text-xs font-semibold leading-tight text-text-primary md:text-sm">
-              {item.rawTitle}
-            </h3>
-          </div>
-          <div className="h-px bg-white/10" />
-          <div className="p-1.5 pt-1.5 md:p-2">
-            <p className="line-clamp-1 text-center text-[10px] text-text-secondary md:text-xs">
-              {item.rawCreator ?? " "}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 우리가 가진 작품은 서비스 공통 작품 카드로 그린다.
-  return (
-    <ContentCard
-      contentId={item.contentId}
-      contentType={(item.contentType ?? undefined) as ContentType | undefined}
-      title={item.title}
-      titleBadge={item.titleBadge}
-      creator={item.creator}
-      thumbnail={item.thumbnailUrl}
-      href={`/content/${item.contentId}?category=${getCategoryByDbType(item.contentType ?? "BOOK")?.id || "book"}`}
-      titleKo={item.titleKo}
-      titleEn={item.titleEn}
-      creatorEn={item.creatorEn}
-      thumbnailEn={item.thumbnailEn}
-      hasEnEdition={item.hasEnEdition}
-      overlayTopRight={yearBadge}
-    />
-  );
-}
+import CuratedListGrid from "./CuratedListGrid";
+import CuratedListMobile from "./CuratedListMobile";
 
 export default async function CuratedListView({ list }: { list: CuratedListDetail }) {
   const t = await getTranslations("library.curated");
@@ -213,31 +126,14 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
         </div>
       )}
 
-      {/* 작품 진열판 — 카드 전량을 하나의 윤곽 안에 모아 배경과 구분한다 */}
-      <section className="rounded-2xl border border-white/[0.07] bg-white/[0.015] p-3 md:p-5">
-        <div className="grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
-          {list.items.map((item) => (
-            <ItemCard
-              key={item.id}
-              item={item}
-              notRegisteredLabel={t("notRegistered")}
-              isVideo={list.contentType === "VIDEO"}
-            />
-          ))}
-        </div>
-
-        {/* 큰 목록은 처음에 일부만 보낸다 — 전량을 한 번에 실으면 폭 좁은 기기에서 화면이 늦게 뜬다 */}
-        {list.remainingCount > 0 && (
-          <div className="pt-4 text-center">
-            <Link
-              href={`/library/curated/${list.curator.slug}/${list.slug}?all=1`}
-              className="inline-block rounded-lg border border-white/[0.08] px-4 py-2 text-[13px] text-text-secondary hover:border-accent/40 hover:text-accent"
-            >
-              {t("showRemaining", { count: list.remainingCount })}
-            </Link>
-          </div>
-        )}
-      </section>
+      {/* 데스크톱 — 감싸는 상자 + 공통 카드 + 쿠팡 모듈 격자. 제목 전량이 HTML에 남아 검색에도 잡힌다 */}
+      <div className="hidden md:block">
+        <CuratedListGrid list={list} />
+      </div>
+      {/* 모바일 — 2열 구간 격자(기본)와 한 편씩 보는 펼쳐보기를 조작 줄에서 고른다 */}
+      <div className="md:hidden">
+        <CuratedListMobile list={list} />
+      </div>
     </div>
   );
 }

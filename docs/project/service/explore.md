@@ -1,125 +1,59 @@
-# 인물 (`(main)/explore/*`)
+# 인물 (`/explore`)
 
-> **최종 실측 체크: 26.08.11** — 스펙트럼 주소·액션·컴포넌트와 레거시 리다이렉트를 코드에 재대조했다. 라벨을 「탐색」에서 **「인물」**로 바꿨다(26.08.07, 주소·코드 키는 `explore` 유지)
+인물 목록에서 원하는 사람을 찾고, 별도 페이지에서 분야·성향·신화·세력을 탐색한다. 화면 배치와 링크의 원천은 `sw/web/src/app/[locale]/(main)/explore/page.tsx`와 `sw/web/src/constants/navigation.tsx`다.
 
-인물을 여러 축으로 훑는 영역이다. 짝이 되는 축은 작품(`/library`)이다 — **사람과, 그 사람이 남긴 것.** 허브 하나에 실제 화면 10개, 레거시 리다이렉트 6개로 이뤄진다.
+## 탐색 첫 화면
 
-## 화면 목록
+`/explore`는 필터·검색·정렬·페이지네이션을 갖춘 인물 그리드다. 기본 진입은 기업가 중 작품이 있는 인물을 국가별 트렌드 순으로 보여준다. 사용자가 고른 「전체」는 기본 직군으로 되돌리지 않는다. 기본값과 허용값은 `constants/celebProfessions.ts`, `celebContentPresence.ts`, `celebSort.ts`, URL 해석은 `explore/figures/filterParams.ts`가 쥔다.
 
-| 경로 | 역할 | 데이터 출처 |
-|---|---|---|
-| `/explore` | 허브. 공개 미리보기 3개 + 네비게이터. 개발 서버에서는 신화 미리보기 추가 | `getCelebs`, `getTopByContentType`, `getSpectrumDistribution`, `getFeaturedTags`, 개발 환경의 `getMythAtlas` |
-| `/explore/figures` | 인물 목록. 파라미터 유무로 두 모드 | `getCelebs` 또는 `getCelebsByProfession` + 4종 집계 |
-| `/explore/ranking` | 분야별 랭킹. 콘텐츠 타입별 Top 10 | `getTopByContentTypeFull`, `getSharedContents` |
-| `/explore/spectrum` | 스펙트럼. 16축 극단 인물 + 차순위 10명 | `getSpectrumExtremes` |
-| `/explore/today` | 오늘의 인물 | `getTodayFigure` |
-| `/explore/faction` | 세력도감 | `getFeaturedTags` |
-| `/explore/faction/[slug]` | 테마별 고유 주소 세력도감 | `getFeaturedTags` |
-| `/explore/feed` | 인물 피드 | `getCelebFeed` |
-| `/explore/timeline` | 국가별 연대기 | `getCelebTimeline` |
-| `/explore/youtube` | 영상관. 서재 탐방·세력도감 소개 + 재생목록 + 시리즈별 영상 | `getYoutubeCelebs`, `getYoutubeFactionVideos`, `constants/youtube.ts` |
-| `/explore/directory` | 전체 인물 디렉토리 (SEO 인덱스) | `getCelebDirectory` |
+필터는 모달로 열며 제목을 가운데에 locale에 맞춰 표시한다. 작품 유무는 기존 수록 필터 자리에 둔다. 미확인 작품 수는 음수 배지로 노출하지 않는다. 인물 카드 본문은 상세 주소로 바로 이동하는 링크이고, 대사 재생은 별도 버튼이다(`components/shared/CelebCard.tsx`).
 
-레거시 리다이렉트 6개.
+그리드 아래에는 분야별 챔피언·스펙트럼·신화의 세계·세력도감을 그림과 설명이 있는 2×2 카드로 배치한다. 연대기·영상관·디렉토리는 보조 카드다. 주요 카드와 푸터의 인물 메뉴는 `EXPLORE_FEATURED_LINKS`를 공유한다. 인물 피드·오늘의 인물은 탐색 메뉴에서 제외하고 기존 주소는 유지한다.
 
-| 경로 | 목적지 | `next.config.ts` 규칙 |
-|---|---|---|
-| `/explore/figure` | `/explore/today` | 있음 |
-| `/explore/people` | `/agora/social` | 있음 |
-| `/explore/celeb-feed` | `/explore/feed` | 있음 |
-| `/explore/top-by-type` | `/explore/ranking` | 있음 |
-| `/explore/celebs` | `/explore/figures` | 있음 |
-| `/explore/persona` | `/explore/spectrum` | 없음. 페이지 리다이렉트만 유지 |
+목록은 `FiguresFilterResult`에서 서버 조회하고 `Lane`으로 감싼다. 봇·미확인 UA에는 완성 HTML을 주며, 사람 브라우저에는 대기 UI 뒤 목록을 제공한다. 수집 가능한 링크와 렌더링 규칙은 [코드 규칙](../platform/code-rules.md), 검색 검증은 [SEO](../operations/seo.md)를 따른다.
 
-기존 다섯 주소는 두 겹이다 — 페이지 리다이렉트(307)와 `next.config.ts`의 설정 리다이렉트(308)가 함께 있다. 설정 쪽은 로케일 접두어가 없는 형태와 `/:locale(ko|en)/...` 형태를 각각 규칙으로 둔다. `/explore/persona`는 과거 공유 주소 호환을 위한 페이지 리다이렉트만 둔다.
+## 국가별 트렌드
 
-## 레이아웃·허브
+트렌드는 Google Trends 공개 페이지의 검색 급상승어와 등록 인물의 국문·영문 이름을 대조한다. 서버가 읽어 국가별로 캐시하며, 방문할 때마다 실시간 API를 호출하는 방식은 아니다. 출처 기간·지원 국가는 `constants/trendCountries.ts`, 조회·캐시는 `lib/trends/countryTrending.ts`, 파싱·이름 매칭은 `lib/trends/trendMatching.ts`가 쥔다.
 
-`explore/layout.tsx`가 배너(`ExploreBanner`)와 `PageContainer`를 씌운다.
+국가는 URL 선택을 먼저 쓰고, 없으면 접속 국가 헤더의 지원 국가를 적용한다. 지원되지 않으면 한국으로 시작한다. 이는 인물의 국적 필터와 별개다. `actions/home/getCelebs.ts`가 현재 필터에 맞는 트렌드 인물을 앞에 놓고 나머지를 작품 수 순으로 채운 뒤 페이지를 나눈다. 일치 인물이 없거나 조회에 실패하면 작품 수 순으로 보여주며, 화면에서 일치 수와 조회 상태를 구분한다. 정렬의 「랜덤」은 목록 맨 아래에 둔다.
 
-허브(`/explore`)는 운영에서 `HubNav` + `HubSection` 3개다. 개발 서버에서는 공개 전인 신화 구획을 더해 4개가 된다. 순서·라벨키·더보기 주소는 `hubSectionUtils.tsx`의 `EXPLORE_SECTIONS`가 단일원천이다.
+## 개별 페이지
 
-| # | 섹션 | 컴포넌트 | 더보기 |
-|---|---|---|---|
-| 1 | 랭킹 | `RankingTabs` (인기 프로필 · 챔피언 · 오늘의 추천 탭) | 탭별 (`figures?tier=full` / `ranking` / `figures?tier=full`) |
-| 2 | 성향 분석 | `SpectrumDistribution` | `/explore/spectrum` |
-| 개발 전용 3 | 신화의 세계 | `MythAtlas` | 없음 |
-| 3 (개발 4) | 세력도감 | `FactionCard` | `/explore/faction` |
-
-**인기 프로필 탭은 영향력과 다른 축이다.** 영향력은 인류사 기준의 고정 평가이고, 인기 프로필은 `celeb_views_daily`의 최근 30일 조회수로 매긴다. 상세 화면의 누적값은 `celebs.view_count`를 사용한다. 물리 구조는 [`../data/03-celeb.md`](../data/03-celeb.md)를 본다.
-
-**26.08.02 개편** — 랭킹과 옛 '전체 탐구자'가 같은 카드 격자 12장으로 사실상 같은 화면이었다. 기록 수집가 탭(30건 이상, `content_count` 정렬)을 제거하고, 분야별 챔피언은 '챔피언'으로 줄이며 카드 위에 "{분야}의 대가" 문구를 얹었다. '전체 탐구자'(실체는 일일 추천 12명)는 '오늘의 추천'으로 개명해 별도 구획을 없애고 **랭킹 구획의 셋째 탭**으로 흡수했다(탭 부제에 매일 바뀜을 명시).
-
-첫 섹션이 `hideDivider`를 쥔다(현재는 랭킹). 랭킹 섹션은 래퍼의 더보기를 떼어 쓴다 — 탭 내부에서 탭별 더보기를 따로 처리하기 때문이다.
-
-**노출 대상으로 정한 구획은 항상 그려진다**(26.08.15 전환). 예전에는 조회 결과가 빈 구획을 접고 목차·번호도 "실제로 그려지는 구획"에서만 뽑았다. 그 규칙이 늦거나 실패한 구획을 조용히 지워, 콜드 상태에서 새로고침할 때마다 구획 수가 달라 보였다. 지금은 운영에서 신화 구획만 먼저 제외한 뒤 목차·번호·총 개수를 같은 구획 배열에서 뽑는다. 조회에 실패한 공개 구획은 제자리에 「불러오지 못했습니다 · 다시 시도」를, 정말 0건인 구획은 「아직 자료가 없습니다」 한 줄을 세운다.
-
-허브 껍데기(목차와 구획 헤더)는 조회를 기다리지 않고 즉시 나간다. 본문은 구획마다 `Lane`(`components/ui/pending`)으로 감싸 각자 자기 조회만 기다린다. `HubSection`은 레인 밖에 두므로 제목·부제·번호가 먼저 서고 그 안쪽만 채워진다. 대기 화면은 프로필의 `RankingTabs`와 각 구획의 스켈레톤이 맡으며, 실제 본문과 격자·캐러셀·차트·신화 탐색판의 크기 정의를 공유한다. 성향 분포는 CSS가 첫 화면부터 폭에 맞는 차트를 표시하고, 축을 바꿔도 차트와 목록의 높이를 유지한다. 봇·미확인 UA에게는 `Lane`이 스트리밍 없이 완성 HTML을 주고, 사람 브라우저만 구획별로 흘려보낸다. 페이지 전체를 덮는 `explore/loading.tsx`는 두지 않는다. 구획별 조회·실패 처리는 `explore/sections.tsx`에 모여 있고, 페이지에는 `maxDuration = 30`을 둬 콜드에서 봇 응답이 잘리지 않게 한다.
-
-랭킹 구획의 세 탭은 각각 실패·0건을 따로 다룬다. 실패한 탭은 탭 단추와 카드 영역의 높이를 남기고 본문만 다시 시도로 바꾸며, 0건인 탭만 뺀다. 성향·신화·세력도감도 조회 실패나 빈 결과 때문에 대기 공간이 접히지 않도록 `ReservedState`가 스켈레톤 크기를 유지한 채 안내를 표시한다.
-
-허브 네비게이터에는 섹션과 별개로 `EXPLORE_STANDALONE` 5개가 붙는다.
-
-| 라벨키 | href |
+| 경로 | 역할 |
 |---|---|
-| `navFeed` | `/explore/feed` |
-| `navTimeline` | `/explore/timeline` |
-| `navYoutube` | `/explore/youtube` |
-| `navDirectory` | `/explore/directory` |
-| `navOthers` | `/explore/figures?tier=light` |
+| `/explore/ranking` | 상단 매체 메뉴에서 선택한 분야의 인물과 공통 감상작만 조회·표시 |
+| `/explore/spectrum` | 성향 축별 극단 인물과 차순위 탐색 |
+| `/explore/myth` | 지역·전승·그룹별 신화 인물 탐색 |
+| `/explore/faction`, `/explore/faction/[slug]` | 세력도감과 특정 테마 진입 |
+| `/explore/timeline` | 대륙을 고른 뒤 나라를 선택하는 연대기. 국가·페이지별 목록을 서버에서 나눔 |
+| `/explore/youtube` | 서재 탐방·세력도감 소개와 영상 보관소 |
+| `/explore/directory`, `/explore/directory/[profession]` | 전체·직군별 인물 주소를 발견하는 명부 |
+| `/explore/today`, `/explore/feed` | 기존 주소 유지. 탐색 메뉴에는 노출하지 않음 |
 
-허브 데이터는 다섯 갈래다 — **최근 30일 조회 상위 12명(`trending` 정렬)**, 타입별 최고, 성향 분포, 일일 추천 12명(`tier: "full"`), 세력도감 태그. 사람 브라우저는 첫 탭인 인기만 서버 응답에서 기다리고, 타입별 최고와 일일 추천은 탭에 포인터를 올리거나 포커스·클릭할 때 불러온다. 따라서 숨은 탭 하나가 늦어도 인기 카드가 함께 늦지 않는다. 봇과 배포 워밍 요청은 세 탭을 모두 읽어 완성 HTML과 목록 캐시를 만든다. 성향 분포와 세력도감은 각자 레인이다. 인기(`trending`)만 목록 캐시(1시간)로 따로 감싼다 — 30일 창 순위를 7일 캐시에 묶으면 한 주 내내 같은 줄이 나온다. 프로필 미리보기는 쪽수와 팔로우 단추가 없으므로 전체 건수와 로그인·팔로우 상태를 조회하지 않는다. 세력도감 카드는 `is_featured`이고 인물이 붙은 태그 4개만 추려 넘기며, 카드에서 인물 얼굴을 노출하지 않으므로 프로필은 조회하지 않는다.
+`/explore/figures`는 검색 조건을 보존해 `/explore`로 영구 이동한다. 다른 옛 주소의 목적지는 `sw/web/next.config.ts`와 해당 리다이렉트 페이지가 쥔다. 새 링크와 워밍 점검에는 현재 정본 주소를 쓴다.
 
-**세력도감 4장 편성**(`getFactionHubPreviews`) — 사람이 고른 고정 명단 `HUB_PINNED_SLUGS`가 먼저 자리를 잡고, 빈 자리만 자동 규칙(대분류 하나씩 · 단체샷 있는 테마 우선 · `sort_order` 순)이 채운다. 26.08.03 유저 선정: `ai-pioneers` · `paypal-mafia` · `greek-roman-myth` · `digital-resistance`. 자동 규칙만 돌 때는 앞 순번이 이겨 인간형 로봇·마케도니아 제국이 잡혔다(실측). 명단의 태그가 사라지거나 인물이 0이면 그 자리는 자동 선정으로 넘어간다.
+랭킹의 매체 선택·주소는 `explore/ranking/constants.ts`, 연대기의 대륙 분류·페이지 분할은 `components/features/user/explore/sections/TimelineSection/continents.ts`와 `pagination.ts`가 쥔다. 디렉토리는 이름별 인물 링크를 HTML에 싣고 직군별 명부에도 연결한다.
 
-세력도감 미리보기는 PC·모바일 모두 1:1 단체샷 표지를 사용한다. PC에서는 2×2 그리드, 모바일에서는 다음 카드가 일부 보이는 가로 스냅 캐러셀로 노출한다. 카드에는 제목과 설명만 얹고, 인물 얼굴 묶음과 별도 탐색 문구는 두지 않는다.
+## 신화 (`/explore/myth`)
 
-**신화 탐색판**은 공개 전이라 개발 서버의 탐색 허브에서만 표시한다. `지역·문화권 → 전승 묶음 → 구성원` 위계로 탐색하며 모든 지역과 전승을 검수할 수 있다. 전승 개요는 `public/images/myth-atlas/title-art`의 타이틀 아트 위 오른쪽에 어두운 본문 패널을 겹친다. `celeb_tags.description`과 `description_en`의 명시된 문단을 보존하고, 빈 줄이 없는 긴 옛 설명은 문장 경계에서 두 문단으로 나눈다. 작품명·인용·꺾쇠 강조는 공용 `FormattedText`로 처리한다. 구성원 목록은 `celebs.avatar_url`만 쓰고 작은 항목의 세로폭을 이미지가 채운다. 아바타를 고르면 같은 화면이 `faction_atlas_members.short_desc`의 신화별 등장 설명, 관련 작품, 직함·소개·읽어보기로 전환된다. 관계 정보는 조회하거나 렌더하지 않는다.
+**신화 탐색판**은 `/explore/myth`에서 표시한다. `지역 → 신화(전승) → 그룹 → 인물` 위계로 탐색하며 모든 지역과 전승을 검수할 수 있다. 그룹은 웹 그룹 표 `celeb_tag_groups`가 쥐고 뷰 `faction_atlas_members.group_label`로 읽는다. 그룹이 둘 미만인 전승은 그룹 줄을 숨기고, 그룹이 없는 인물은 맨 끝 「그 외」로 모인다. 전승 개요는 `public/images/myth-atlas/title-art`의 타이틀 아트 위 오른쪽에 어두운 본문 패널을 겹친다. `celeb_tags.description`과 `description_en`의 명시된 문단을 보존하고, 빈 줄이 없는 긴 옛 설명은 문장 경계에서 두 문단으로 나눈다. 작품명·인용·꺾쇠 강조는 공용 `FormattedText`로 처리한다. 구성원 목록은 `celebs.avatar_url`만 쓰고 작은 항목의 세로폭을 이미지가 채운다. 아바타를 고르면 같은 화면이 `faction_atlas_members.short_desc`의 신화별 등장 설명, 관련 작품, 직함·소개·읽어보기로 전환된다. 관계 정보는 조회하거나 렌더하지 않는다.
 
-`PopularBooks`(쿠팡 제휴)는 목차 밖 맨 아래에 레인 하나로 붙는다. 한국어 화면이고 링크가 걸린 책이 있을 때만 스스로 그려지므로 대기 자리를 미리 잡지 않는다.
+**신화 그룹 기준** — 인물이 크게 늘어도 같은 기준으로 넣을 수 있게 전승마다 축 하나로 가른다. 그룹 이름은 처음 온 사람이 무리를 알아보는 일상어로 짓고, 영상 시절의 문학적 이름(「천 척의 배를 이끈」 따위)을 쓰지 않는다(`docs/project/platform/code-rules.md` 「명칭 규칙」). 명단에는 그 작품에 실제로 나오는 인물만 둔다 — 영상 편에 함께 나왔어도 다른 작품 인물은 뺀다(시논은 『아이네이스』, 펜테실레이아·멤논은 『아이티오피스』). 아바타를 기다리며 숨긴 인물에게도 그룹을 미리 준다. 그룹 이름과 구성원은 DB가 원천이라 여기 옮겨 적지 않는다.
 
-`navigation.tsx`의 하위 링크는 9개(figures·ranking·spectrum·today·faction·feed·timeline·youtube·directory)다. `EXPLORE_SECTIONS` + `EXPLORE_STANDALONE` 조합과 항목이 어긋난다 — 하위 링크에는 `today`가 있고 허브 네비게이터에는 없으며, 반대로 `navOthers`(`?tier=light`)는 허브에만 있다.
+**그룹 개요** — 그룹 줄 맨 앞은 「전체」다. 「전체」면 본문에 신화 개요가, 그룹을 고르면 그룹 개요가 선다. 그룹 개요는 왼쪽에 「핵심 인물 3인」을 사진 칸으로 세우고(백오피스 명단 순서의 앞 세 명), 옆 패널에 그룹 설명과 구성원 한 줄 소개를 둔다. 얼굴을 오려 한 무대에 세우는 세력도감 출연진 판은 인물이 작고 어설퍼 쓰지 않는다. 인물 상세에서 뒤로 가면 보던 개요로 돌아온다. 그룹 설명은 `celeb_tag_groups.description`·`description_en`이 원천이고 백오피스 「신화 편집」(`/myths`)의 그룹 칸에서 고친다. 이 무리가 누구이고 작품에서 무슨 일을 하는지 원전에 근거해 두세 문장으로 쓰고, 명단에 있는 인물을 되도록 설명 안에서 부른다. 숨긴 인물만 있는 그룹은 인물이 공개될 때 쓴다.
 
-## 인물 목록 (`/explore/figures`)
+**전승별 대표 사진** — 같은 인물도 편마다 모습이 다르다(일리아스의 아이아스는 전장, 오디세이아의 아이아스는 저승의 망령). 신화 화면은 그 전승의 개인샷(`celeb_tag_assignments.faction_image_url`, 백오피스 「신화 편집」 인물 줄의 사진 칸)을 먼저 걸고, 없으면 인물 대표 사진(`celebs.portrait_url`)을 건다. 대사용 화보 첫 장을 그대로 복사해 둔 개인샷은 영상 출간 때의 낡은 스틸이라 건너뛴다. 규칙은 `mythLeadImage.ts` 하나가 쥔다.
 
-한 라우트가 두 화면을 겸한다. `isGridView(params)`가 판정한다 — `FILTER_KEYS`(profession·nationality·contentType·gender·search·sortBy·page·pageSize·tagId·tier) 중 하나라도 비어 있지 않은 문자열로 들어오면 그리드다.
+**개발자 모드** — 운영은 `celeb_tags.atlas_published`가 참인 신화만 열고 나머지는 「작업 예정」 칩으로 둔다. 로컬 개발 서버(`isDeveloperMode()`)에서는 `MythSection`이 공개 표시를 풀어 준비 중인 신화도 모두 연다. `getMythAtlasClientData`가 운영에 미공개 전승의 상세 자료를 넘기지 않도록 거르고, 개발 서버에서는 전체 명단·그룹을 넘긴다.
 
-- **캐러셀 모드** (파라미터 없음): `getCelebsByProfession()`으로 직군별 구획을 만들어 `CelebsByProfession`에 넘긴다.
-- **그리드 모드** (파라미터 있음): `getCelebs()`로 걸러 `CelebsSection`에 넘긴다.
+| 전승 | 가르는 축 |
+|---|---|
+| 일리아스 | 진영과 역할. 신은 20권 신들의 전투에서 편을 가른 대로 그리스 편·트로이 편으로 나누고, 제우스와 전령은 따로 둔다 |
+| 그리스 신화 | 존재의 종류와 세대(태초·티탄·올림포스·저승·그 밖의 신·영웅). 인간 시조는 도시·민족별 왕가로 가른다 |
+| 오디세이아 | 오디세우스와의 관계(동료·가족·충직한 사람·구혼자·신과 요정·여정에서 만난 이·망령·파이아케스·필로스와 스파르타) |
 
-두 모드 모두 필터 UI용 집계 4종(`getProfessionCounts`, `getNationalityCounts`, `getContentTypeCounts`, `getGenderCounts`)을 함께 읽는다.
-
-파라미터 검증 규칙.
-
-- `sortBy`: `daily_recommend`, `composite`, `influence`, `follower`, `content_count`, `name_asc`, `birth_date_desc`, `birth_date_asc` 중 하나. 그 밖이면 `daily_recommend`.
-- `pageSize`: 12·24·48·96 중 하나. 그 밖이면 24.
-- `page`: 1 미만이거나 숫자가 아니면 1.
-- `tier`: `full` 또는 `light`만 통과.
-- `all` 값은 필터를 걸지 않는 것으로 본다(`notAll`).
-
-`isGridView`는 `FILTER_KEYS`에 `tagId`를 넣지만 페이지 본문은 `tagId`를 파싱하지 않는다. `?tagId=`만 붙이면 그리드 모드로 넘어가되 그 값은 조회에 쓰이지 않는다 — 의도가 불명확하다.
-
-`revalidate = 3600`이다.
-
-## 랭킹 (`/explore/ranking`)
-
-`getTopByContentTypeFull()`로 콘텐츠 타입별 인물 목록을 받고, 타입마다 상위 인물들의 id를 모아 `getSharedContents(ids, type, 10)`로 공통 감상 콘텐츠를 병렬 조회한다. 결과를 `TopByTypeSection`에 함께 넘긴다.
-
-파일 주석은 "4개 콘텐츠 타입별 Top 10"이라 적고 스켈레톤도 4구획 × 10칸으로 그린다. 실제 구획 수는 `getTopByContentTypeFull()`이 내주는 값에 달렸다.
-
-메타·i18n 네임스페이스는 옛 이름 `explore.topByType`을 그대로 쓴다. `revalidate = 3600`.
-
-## 스펙트럼 (`/explore/spectrum`)
-
-`getSpectrumExtremes({ runnersUpLimit: 10 })`로 16축 각각의 극단 인물과 차순위 10명을 받아 `SpectrumFullSection`에 넘긴다. DB의 `celeb_persona` 테이블과 `persona` JSONB 열, RPC `get_persona_extremes`만 레거시 저장소 식별자로 유지한다. `revalidate = 3600`.
-
-허브의 성향 분포(`SpectrumDistribution`)는 `getSpectrumDistribution()`이라는 다른 액션을 쓴다.
-
-## 오늘의 인물 (`/explore/today`)
-
-`getTodayFigure()`가 인물·콘텐츠와 함께 `source`를 내주고 셋 다 `TodayFigureSection`에 넘어간다. 인물이 없으면 아무것도 그리지 않는다(`null`).
-
-이 액션은 `actions/library`에 있다. 홈 화면도 같은 액션을 쓴다(작품 허브의 첫 구역이던 자리는 26.08.07에 없앴다). `/library/figure`와 `/explore/figure`가 모두 이 주소로 리다이렉트한다.
+나머지 전승도 이관(`sw/web-bo/scripts/faction/move-tag-roster-to-web.mjs`) 뒤 같은 방식으로 축을 먼저 정하고 그룹을 짠다.
 
 ## 세력도감 (`/explore/faction`, `/explore/faction/[slug]`)
 
@@ -134,18 +68,6 @@
 - `docs/project/apps/web-bo.md` 「세력도감」 — 현행 운영·편집 규격
 - `docs/project/remotion/faction/unification.md` §4-3 — 제작·서비스 데이터 단일화 설계
 
-## 인물 피드 (`/explore/feed`)
-
-`getCelebFeed({ limit: 10 })`로 첫 10건과 커서·다음 여부를 받아 `CelebFeedSection`에 초기값으로 넘긴다. 이후는 클라이언트가 커서로 이어 붙인다.
-
-광장의 `/agora/feed`와 `/agora/celeb-feed`, 인물의 `/explore/celeb-feed`가 모두 이 주소로 리다이렉트한다.
-
-## 국가별 연대기 (`/explore/timeline`)
-
-`getCelebTimeline(locale)`로 인물과 국가 목록을 받아 `TimelineSection`에 넘긴다. 로케일은 `en`이 아니면 모두 `ko`로 접는다.
-
-파일 주석이 밝히듯 별도 태그를 쓰지 않고 기존 데이터(`nationality`, `birth_date`)만으로 세운다. `revalidate = 3600`.
-
 ## 영상관 (`/explore/youtube`)
 
 홈의 통합 영상 히어로가 이 내부 화면으로 연결된다. 상단은 `constants/youtube.ts`를 단일원천으로 삼아 서재 탐방·세력도감의 본편과 쇼츠 재생목록, locale별 채널 홈을 안내한다. 영문 채널에 아직 없는 세력도감은 실제 영상이 있는 한국어 재생목록으로 연결하고 화면에 언어 차이를 명시한다.
@@ -156,20 +78,11 @@ YouTube 피드와 DB 병합 결과는 6시간 캐시한다. 피드 조회가 실
 
 영상 제작 파이프라인은 `docs/project/remotion/`이 다룬다.
 
-## 디렉토리 (`/explore/directory`)
-
-크롤러가 한 번에 전체 인물 주소를 발견하도록 세운 인덱스 화면이다. 페이지 본문에 모든 로직이 있다.
-
-`getCelebDirectory()`로 전체 인물을 받아 이름 첫 글자로 묶는다. 한글은 유니코드 계산으로 초성 19자 중 하나를 뽑고, 알파벳은 대문자로, 나머지는 `#`으로 넣는다. 묶음 순서는 초성 → 알파벳 → `#`이다.
-
-표시 이름은 영문 로케일이고 `nickname_en`이 있으면 그것을, 아니면 `nickname`을 쓴다. 각 항목은 `/celeb/{slug}`로 건다. 상단에 직군 범례(`CELEB_PROFESSIONS` + `PROFESSION_ICONS` + `PROFESSION_COLORS`)와 총 인원수, 초성 앵커 네비게이션이 붙는다.
-
 ## 연계 문서
 
 - 화면 지도: [README.md](README.md)
-- 서가(오늘의 인물 미리보기): [library.md](library.md)
-- 광장(`/explore/people` 목적지): [agora.md](agora.md)
-- 세력도감 운영·그룹: `docs/project/apps/web-bo.md` 「세력도감」
-- 세력도감 단일화: `docs/project/remotion/faction/unification.md` §4-3
-- 셀럽 데이터: `docs/project/data/03-celeb.md`
-- SEO: `docs/project/operations/seo.md`
+- 작품: [library.md](library.md)
+- 세력도감 운영·그룹: [web-bo.md](../apps/web-bo.md)
+- 세력도감 단일화: [unification.md](../remotion/faction/unification.md)
+- 셀럽 데이터: [03-celeb.md](../data/03-celeb.md)
+- SEO: [seo.md](../operations/seo.md)
