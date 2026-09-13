@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type MouseEvent, type ReactNode } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, Maximize2 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -24,25 +24,17 @@ interface SigilHeaderProps {
   onClose: () => void;
   backLabel: string;
   /** 대사가 떠 있는 동안에는 문양·이름을 감춘다 — 한 자리에 글 두 덩어리를 겹치지 않는다 */
-  isQuoteVisible?: boolean;
-  onSurfaceClick?: (event: MouseEvent<HTMLElement>) => void;
-  quoteButton?: ReactNode;
-  quoteLayer?: ReactNode;
 }
 
-export default function MythSigilHeader({ person, tradition, onClose, backLabel, isQuoteVisible = false, onSurfaceClick, quoteButton, quoteLayer }: SigilHeaderProps) {
+export default function MythSigilHeader({ person, tradition, onClose, backLabel }: SigilHeaderProps) {
   const t = useTranslations("explore.hub.myth");
   const [zoomOpen, setZoomOpen] = useState(false);
   const initial = person.name.slice(0, 1);
   return (
-    <div
-      onClick={onSurfaceClick}
-      className={`relative min-h-[320px] overflow-hidden border-b border-white/[0.06] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.14),transparent_60%),var(--color-bg-secondary)] px-6 pt-16 text-center md:min-h-[380px] md:pt-20 ${quoteButton ? "pb-20" : "pb-10 md:pb-12"} ${onSurfaceClick ? "cursor-pointer" : ""}`}
-    >
+    <div className="relative min-h-[320px] overflow-hidden border-b border-white/[0.06] bg-[radial-gradient(circle_at_50%_0%,rgba(217,181,78,.14),transparent_60%),var(--color-bg-secondary)] px-6 pb-10 pt-16 text-center md:min-h-[380px] md:pb-12 md:pt-20">
       <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-[13rem] font-black leading-none text-white/[0.045] md:text-[17rem]">{initial}</span>
       <DetailBackButton onClose={onClose} label={backLabel} />
-      {quoteButton}
-      <div className={`relative ${isQuoteVisible ? "invisible" : ""}`}>
+      <div className="relative">
         {person.avatarUrl ? (
           <span className="relative mx-auto block size-28 md:size-32">
             <button
@@ -78,7 +70,6 @@ export default function MythSigilHeader({ person, tradition, onClose, backLabel,
         </div>
         <p className="mx-auto mt-6 w-fit rounded-full border border-accent/30 bg-accent/[0.07] px-4 py-1.5 text-sm font-bold text-accent">{tradition.name}</p>
       </div>
-      {quoteLayer}
     </div>
   );
 }

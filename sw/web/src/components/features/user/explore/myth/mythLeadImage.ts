@@ -10,7 +10,6 @@ import type { MythPerson } from "@/actions/home/mythAtlasTypes";
 export function mythLeadImage(person: MythPerson, traditionId: string): string | null {
   const here = person.appearances.find((item) => item.traditionId === traditionId);
   const themeShot = here?.imageUrl ?? null;
-  const videoStill = here?.quoteMedia?.images[0]?.url ?? null;
-  if (themeShot && themeShot !== videoStill) return themeShot;
+  if (themeShot) return themeShot;
   return person.portraitUrl ?? person.imageUrl ?? null;
 }

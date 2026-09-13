@@ -1,4 +1,3 @@
-import type { FactionQuoteMedia } from "@feelandnote/shared/lib/faction-quote-media";
 
 /** 그룹 없는 인물을 모은 「그 외」 묶음의 id */
 export const MYTH_OTHER_GROUP_ID = "__other__";
@@ -41,12 +40,10 @@ export interface MythPerson {
   bio: string | null;
   reading: { guide: string } | null;
   summary: string | null;
-  /* 대사는 전승마다 다르다. quoteMedia는 출간된 음성·화보 전환 묶음이며 없으면 손으로 넘긴다 */
+  /* 한 인물이 여러 전승에 선다. 전승마다 줄거리와 사진이 다르다 */
   appearances: Array<{
     traditionId: string;
     summary: string | null;
-    quote: string | null;
-    quoteMedia: FactionQuoteMedia | null;
     /** 이 전승 전용 개인샷(백오피스 「신화 편집」). 없으면 null — 화면이 인물 대표 사진을 쓴다 */
     imageUrl: string | null;
   }>;

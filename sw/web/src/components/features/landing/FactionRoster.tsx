@@ -2,7 +2,7 @@
 
 import type { RefObject } from "react";
 import Image from "next/image";
-import { Users, Volume2 } from "lucide-react";
+import { Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const PRETENDARD_STYLE = { fontFamily: "var(--font-pretendard)" } as const;
@@ -14,7 +14,6 @@ export interface FactionRosterEntry {
   kind: "group" | "celeb";
   title: string;
   meta?: string | null;
-  hasVoice?: boolean;
   /** 묶음 줄에 겹쳐 띄울 구성원 얼굴 — 없으면 아이콘으로 */
   faces?: { id: string; url: string | null; name: string }[];
 }
@@ -25,7 +24,6 @@ interface FactionRosterProps {
   entries: FactionRosterEntry[];
   selectedIndex: number;
   rosterLabel: string;
-  voiceLabel: string;
   accentColor: string;
   containerRef: RefObject<HTMLDivElement | null>;
   registerItemRef: (index: number, element: HTMLButtonElement | null) => void;
@@ -36,7 +34,6 @@ export default function FactionRoster({
   entries,
   selectedIndex,
   rosterLabel,
-  voiceLabel,
   accentColor,
   containerRef,
   registerItemRef,
@@ -161,13 +158,6 @@ export default function FactionRoster({
                   </span>
                 ) : null}
               </span>
-
-              {entry.hasVoice ? (
-                <span title={voiceLabel} className="shrink-0 text-accent/85">
-                  <span className="sr-only">{voiceLabel}</span>
-                  <Volume2 size={14} aria-hidden />
-                </span>
-              ) : null}
 
               {isSelected ? (
                 <span

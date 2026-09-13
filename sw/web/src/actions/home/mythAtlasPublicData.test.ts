@@ -12,7 +12,7 @@ function fixture(): MythAtlasData {
   const person = (id: string, traditionIds: string[], sourceIds: string[]): MythPerson => ({
     id, slug: id, name: id, title: null, headline: null, bio: "biography",
     reading: { guide: "complete reading guide" }, summary: null,
-    appearances: traditionIds.map((traditionId) => ({ traditionId, summary: "story", quote: "quote", quoteMedia: null, imageUrl: null })),
+    appearances: traditionIds.map((traditionId) => ({ traditionId, summary: "story", imageUrl: null })),
     avatarUrl: null, imageUrl: null, portraitUrl: null, images: [], traditionIds, sourceIds,
   });
   const work = (id: string, personIds: string[]): MythWork => ({

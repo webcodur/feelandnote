@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, lazy, Suspense, type CSSProperties } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, LoaderCircle, Play, Pause } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
@@ -13,8 +13,7 @@ import { Z_INDEX } from "@/constants/zIndex";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
-import FactionQuoteOverlay from "@/components/features/faction/quote/FactionQuoteOverlay";
-import { useFactionQuoteStage } from "@/components/features/faction/quote/useFactionQuoteStage";
+import { useFactionPortraits } from "@/components/features/faction/portrait/useFactionPortraits";
 import FactionMobileInfoPanel from "./FactionMobileInfoPanel";
 import FactionRoster, { type FactionRosterEntry } from "./FactionRoster";
 import FactionMemberLineup, { type FactionLineupMember } from "./FactionMemberLineup";
@@ -250,29 +249,13 @@ export default function FactionShowcase({
   // 테마 전환 시 상태 초기화는 부모가 key={activeTag.id}로 재마운트해 처리한다.
   const current = items[selectedIdx] ?? items[0];
 
-  // 이 인물이 세력도감 영상에서 하는 말. 없으면 아무 표시도 하지 않는다(빈 말풍선을 띄우지 않는다)
-  const factionQuote =
-    current?.type === "celeb"
-      ? (locale === "en" ? current.celeb.faction_quote_en : current.celeb.faction_quote)?.trim() || null
-      : null;
-  const quoteMedia = current?.type === "celeb" ? current.celeb.faction_quote_media : null;
-  const portraitImages = current?.type === "celeb" && quoteMedia?.images.length
-    ? quoteMedia.images
-    : current?.type === "celeb" && current.celeb.faction_image_url
-      ? [{ url: current.celeb.faction_image_url, at: 0 }]
-      : [];
-  /* 대사 재생은 신화 아틀라스와 같은 무대를 쓴다 — 규칙이 갈리지 않게 한 곳에 둔다 */
-  const quoteStage = useFactionQuoteStage({
-    quote: factionQuote,
-    media: quoteMedia,
-    locale,
-    portraits: portraitImages,
-  });
-  const {
-    isVisible: isFactionQuoteVisible,
-    portraitIndex: activePortraitIndex,
-    hasPlayableAudio: hasPlayableQuoteAudio,
-  } = quoteStage;
+  /* 이 인물의 화보. 전에는 어록 음성에 딸린 여러 장이 먼저 왔고 개인 화보가 그 대안이었다 —
+     어록을 걷어 내면서 개인 화보 한 장만 남았다. 여러 장을 다시 걸게 되면 gallery가 그대로 넘겨 준다 */
+  const portraitImages = current?.type === "celeb" && current.celeb.faction_image_url
+    ? [{ url: current.celeb.faction_image_url, at: 0 }]
+    : [];
+  const gallery = useFactionPortraits(portraitImages.length);
+  const activePortraitIndex = gallery.index;
   /** 이름 아래 소개를 다 펼쳐 놓았는지 — 잘린 글을 끝까지 읽는 자리다 */
   const [isInfoExpanded, setIsInfoExpanded] = useState(false);
   /** 소개가 실제로 잘렸는지. 다 보이는 글에까지 「더 보기」를 달면 눌러도 아무 일이 없다 */
@@ -313,13 +296,13 @@ export default function FactionShowcase({
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [selectedIdx, locale, isInfoExpanded, isFactionQuoteVisible]);
+  }, [selectedIdx, locale, isInfoExpanded]);
 
   if (!current) return null;
 
   // 리스트 클릭: 좌측 화보·설명·팩션 대사를 한 번에 전환한다.
   const selectItem = (idx: number) => {
-    quoteStage.stop();
+    gallery.reset();
     setSelectedIdx(idx);
     setModalError(false);
     setIsInfoExpanded(false);
@@ -334,10 +317,9 @@ export default function FactionShowcase({
     if (portraitEdge === "last") {
       const targetItem = items[targetItemIdx];
       const targetPortraitCount = targetItem?.type === "celeb"
-        ? targetItem.celeb.faction_quote_media?.images.length
-          || (targetItem.celeb.faction_image_url || targetItem.celeb.avatar_url ? 1 : 0)
+        ? (targetItem.celeb.faction_image_url || targetItem.celeb.avatar_url ? 1 : 0)
         : 0;
-      quoteStage.movePortrait(Math.max(0, targetPortraitCount - 1));
+      gallery.move(Math.max(0, targetPortraitCount - 1));
     }
   };
 
@@ -441,7 +423,7 @@ export default function FactionShowcase({
       return;
     }
 
-    quoteStage.movePortrait(next);
+    gallery.move(next);
   };
 
   const longDesc =
@@ -474,9 +456,10 @@ export default function FactionShowcase({
     />
   ) : null;
 
+  /* 전에는 화보를 누르면 어록이 재생됐다. 어록을 걷어 내면서 누를 일이 없어져 손잡이도 걷는다 —
+     반응 없는 자리에 손가락 커서만 띄우지 않는다. 화보를 넘기는 일은 아래 ◀ ▶ 단추가 맡는다 */
   const photo = (
     <div
-      onClick={quoteStage.handleSurfaceClick}
       className={cn(
         "relative w-full overflow-hidden rounded-xl bg-[#0a0a0a] ring-1 ring-white/10",
         current.type === "celeb" && variant === "embedded"
@@ -484,8 +467,6 @@ export default function FactionShowcase({
           : current.type === "team" && variant === "embedded"
             ? "aspect-[4/3] md:aspect-square"
             : "aspect-square",
-        current.type === "celeb" && factionQuote && "cursor-pointer hover:ring-accent/50 active:ring-accent/70",
-        isFactionQuoteVisible && "ring-accent/40"
       )}
     >
       {current.type === "group" || current.type === "team" ? (
@@ -505,15 +486,11 @@ export default function FactionShowcase({
           {/* 다음 화보까지 미리 겹쳐 두고 opacity만 바꾼다. 교체 순간의 흰 프레임·점프를 없앤다. */}
           {portraitImages.map((portrait, index) => {
             const isActive = index === activePortraitIndex;
-            // 한 사진의 체류시간이 아니라 전체 오디오 길이를 기준으로 같은 느린 줌 속도를 유지한다.
-            // 단일 화보는 대사 종료 시 1.04배에 닿고, 다중 화보는 교체 때 같은 속도로 다시 시작한다.
-            const zoomDuration = quoteMedia?.duration && quoteMedia.duration > 0
-              ? quoteMedia.duration
-              : 8;
-            const focus = portrait.focus ?? { x: 50, y: 50 };
-            const maxShift = (50 * 0.04) / 1.04;
-            const shiftX = Math.max(-maxShift, Math.min(maxShift, (50 - focus.x) * 0.12));
-            const shiftY = Math.max(-maxShift, Math.min(maxShift, (50 - focus.y) * 0.12));
+            /* 느린 줌으로 사진에 숨을 준다. 전에는 어록 음성 길이에 맞춰 늘렸지만 음성이 없어 고정값이다.
+               어록 화보에 딸려 오던 초점(focus)도 함께 빠져 한가운데를 기준으로 삼는다 */
+            const zoomDuration = 8;
+            const shiftX = 0;
+            const shiftY = 0;
             return (
               <div
                 key={`${current.celeb.id}-${portrait.url}-${index}`}
@@ -543,7 +520,7 @@ export default function FactionShowcase({
                     className={cn(
                       "object-contain",
                       // 이미 지나간 레이어도 페이드아웃 중에는 확대 상태를 유지해야 교체 직전 역줌이 생기지 않는다.
-                      isFactionQuoteVisible && index <= activePortraitIndex && "animate-faction-portrait-push-in"
+                      
                     )}
                     style={{
                       animationDuration: `${zoomDuration}s`,
@@ -622,7 +599,7 @@ export default function FactionShowcase({
       {/* 묶음·세력 선택 시 정보·명단은 출연진 판이 전부 담는다 — 하단 오버레이 없음 */}
 
       {/* 인물 선택의 정보와 행동은 화보 한 장 안에서 끝낸다. */}
-      {current.type === "celeb" && !isFactionQuoteVisible && (
+      {current.type === "celeb" && (
         <div
           className={cn(
             "absolute inset-x-0 bottom-0 z-10 cursor-text select-text bg-gradient-to-t from-black via-black/90 to-transparent px-5 pb-5 pt-24 selection:bg-accent/45 selection:text-white md:px-6 md:pb-6 md:pt-32",
@@ -681,13 +658,6 @@ export default function FactionShowcase({
         </div>
       )}
 
-      {current.type === "celeb" && factionQuote && isFactionQuoteVisible && (
-        <FactionQuoteOverlay
-          stage={quoteStage}
-          labels={{ tapForNextLine: t("tapForNextLine"), tapToCloseQuote: t("tapToCloseQuote") }}
-        />
-      )}
-
     </div>
   );
 
@@ -728,8 +698,6 @@ export default function FactionShowcase({
     }
 
     const meta = roleOf(item.celeb);
-    const hasVoice = Boolean(item.celeb.faction_quote_media?.audioUrl)
-      && item.celeb.faction_quote_media?.locale === locale;
 
     return {
       key: item.celeb.id,
@@ -737,7 +705,6 @@ export default function FactionShowcase({
       kind: "celeb",
       title: localizedCelebName(item.celeb),
       meta,
-      hasVoice,
     };
   });
 
@@ -746,7 +713,6 @@ export default function FactionShowcase({
       entries={rosterEntries}
       selectedIndex={selectedIdx}
       rosterLabel={t("factionRoster")}
-      voiceLabel={t("hasVoice")}
       accentColor={activeTag.color}
       containerRef={listRef}
       registerItemRef={(index, element) => {
@@ -798,23 +764,8 @@ export default function FactionShowcase({
               >
                 <ChevronLeft className="h-5 w-5" aria-hidden />
               </button>
-              {/* 이 인물에게 할 말이 있을 때만 단추를 세운다. 꺼진 채로 두면 사진 넘김 단추 사이에
-                  눌리지 않는 회색 단추가 늘 끼어 있다 — 지금은 도감에 어록이 없어 아예 나오지 않는다 */}
-              {current.type === "celeb" && factionQuote && (
-                <button
-                  type="button"
-                  aria-label={isFactionQuoteVisible ? t("pauseQuote") : hasPlayableQuoteAudio ? t("playQuote") : t("showQuote")}
-                  title={isFactionQuoteVisible ? t("pauseQuote") : hasPlayableQuoteAudio ? t("playQuote") : t("showQuote")}
-                  onClick={quoteStage.toggle}
-                  className="mx-1 flex h-10 w-12 items-center justify-center rounded-lg border border-accent/35 bg-accent/10 text-accent hover:border-accent/70 hover:bg-accent/20 active:bg-accent/25"
-                >
-                  {isFactionQuoteVisible ? (
-                    <Pause className="h-5 w-5" fill="currentColor" aria-hidden />
-                  ) : (
-                    <Play className="h-5 w-5" fill="currentColor" aria-hidden />
-                  )}
-                </button>
-              )}
+              {/* 어록 재생 단추가 이 자리에 있었다. 어록을 걷어 내면서 함께 뺐다 —
+                  사진 넘김 단추 둘만 남는다. 어록을 다시 만들면 여기에 되돌린다 */}
               <button
                 type="button"
                 aria-label={t("nextPhoto")}
