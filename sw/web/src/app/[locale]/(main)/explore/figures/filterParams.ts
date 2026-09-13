@@ -3,6 +3,7 @@ import { parseCelebTiers, parseCelebRealities } from "@feelandnote/shared/consta
 import type { FiguresFilterParams } from "./sections";
 import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence } from "@/constants/celebContentPresence";
 import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
+import { parseTrendCountry } from "@/constants/trendCountries";
 
 // URL searchParams에서 필터/정렬 값 파싱
 function parseParam(params: Record<string, string | string[] | undefined>, key: string): string | undefined {
@@ -11,7 +12,7 @@ function parseParam(params: Record<string, string | string[] | undefined>, key: 
 }
 
 // 그리드 뷰인지 판단: 필터 파라미터가 있으면 그리드
-const FILTER_KEYS = ["profession", "nationality", "contentType", "contentPresence", "gender", "search", "sortBy", "page", "pageSize", "tagId", "tier", "reality", "byMin", "byMax"];
+const FILTER_KEYS = ["profession", "nationality", "contentType", "contentPresence", "gender", "search", "sortBy", "trendCountry", "page", "pageSize", "tagId", "tier", "reality", "byMin", "byMax"];
 export function isGridView(params: Record<string, string | string[] | undefined>): boolean {
   return FILTER_KEYS.some((key) => {
     const v = params[key];
@@ -37,6 +38,7 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     page,
     pageSize,
     sortBy,
+    trendCountry: parseTrendCountry(parseParam(params, "trendCountry")),
     // 파이프라인 등급 좁히기(full·light). 실존 여부 노출은 realities가 맡는다.
     tiers: parseCelebTiers(parseParam(params, "tier")),
     // 실존 축 필터. 미지정이면 getCelebs가 기본(REAL·BOTH, FICTION 제외)만 노출한다.

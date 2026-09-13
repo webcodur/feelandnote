@@ -11,6 +11,7 @@ import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCoun
 import { CELEB_TIERS, isCelebTier, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
 import { CELEB_SORT_OPTIONS, DEFAULT_EXPLORE_SORT } from "@/constants/celebSort";
+import { parseTrendCountry, type TrendCountry } from "@/constants/trendCountries";
 
 // #region 상수
 export const SORT_VALUES = CELEB_SORT_OPTIONS;
@@ -26,6 +27,8 @@ interface UseCelebFiltersParams {
   initialCelebs: CelebProfile[];
   initialTotal: number;
   initialTotalPages: number;
+  initialTrendCountry?: TrendCountry;
+  initialTrend?: Awaited<ReturnType<typeof getCelebs>>["trend"];
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
@@ -39,6 +42,8 @@ export function useCelebFilters({
   initialCelebs,
   initialTotal,
   initialTotalPages,
+  initialTrendCountry = "KR",
+  initialTrend,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
@@ -48,14 +53,6 @@ export function useCelebFilters({
 }: UseCelebFiltersParams) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-
-  const getPageHref = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (page === 1) params.delete("page");
-    else params.set("page", String(page));
-    const query = params.toString();
-    return query ? `${pathname}?${query}` : pathname;
-  };
 
   // URL에서 초기값 읽기
   const getInitialValue = <T extends string>(key: string, defaultValue: T, validValues?: T[]): T => {
@@ -74,8 +71,14 @@ export function useCelebFilters({
   const [contentPresence, setContentPresence] = useState<CelebContentPresence>(() => parseCelebContentPresence(syncToUrl ? searchParams.get("contentPresence") : undefined, syncToUrl ? DEFAULT_CELEB_CONTENT_PRESENCE : "all"));
   const [gender, setGender] = useState<string>(() => getInitialValue("gender", "all"));
   const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", syncToUrl ? DEFAULT_EXPLORE_SORT : "daily_recommend", SORT_VALUES));
+  const [trendCountry, setTrendCountry] = useState<TrendCountry>(() => (syncToUrl ? parseTrendCountry(searchParams.get("trendCountry")) : undefined) ?? initialTrendCountry);
+  const [trend, setTrend] = useState(initialTrend);
   const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
   const [appliedSearch, setAppliedSearch] = useState<string>(() => getInitialValue("search", ""));
+  const [tagId] = useState(() => {
+    const value = getInitialValue("tagId", "");
+    return value && value !== "all" ? value : undefined;
+  });
   const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
   const [currentPage, setCurrentPage] = useState(() => {
     if (!syncToUrl) return 1;
@@ -110,12 +113,23 @@ export function useCelebFilters({
   };
   const [birthYearMin, setBirthYearMin] = useState<number | undefined>(() => getInitialYear("byMin"));
   const [birthYearMax, setBirthYearMax] = useState<number | undefined>(() => getInitialYear("byMax"));
+  const getPageHref = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (sortBy === "country_trending") params.set("trendCountry", trendCountry);
+    if (page === 1) params.delete("page");
+    else params.set("page", String(page));
+    const query = params.toString();
+    return query ? `${pathname}?${query}` : pathname;
+  };
+
   const previousIncludeInactiveRef = useRef(includeInactive);
+  const latestRequestRef = useRef(0);
 
   // URL 파라미터 업데이트 (서버 재렌더링 없이 URL만 변경)
   const updateUrlParams = useCallback((updates: Record<string, string | null>) => {
     if (!syncToUrl) return;
     const params = new URLSearchParams(searchParams.toString());
+    if (sortBy === "country_trending") params.set("trendCountry", trendCountry);
     Object.entries(updates).forEach(([key, value]) => {
       const isDefault = key === "profession" ? value === DEFAULT_EXPLORE_PROFESSION
         : key === "contentPresence" ? value === DEFAULT_CELEB_CONTENT_PRESENCE : value === "all";
@@ -128,7 +142,14 @@ export function useCelebFilters({
     const pathname = window.location.pathname;
     const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
     window.history.replaceState(null, "", `${newUrl}${window.location.hash}`);
-  }, [syncToUrl, searchParams]);
+  }, [syncToUrl, searchParams, sortBy, trendCountry]);
+
+  // A country inferred on the server becomes explicit before sharing or reloading.
+  useEffect(() => {
+    if (syncToUrl && sortBy === "country_trending" && searchParams.get("trendCountry") !== trendCountry) {
+      updateUrlParams({ trendCountry });
+    }
+  }, [syncToUrl, sortBy, trendCountry, searchParams, updateUrlParams]);
 
   const loadCelebs = useCallback(async (
     prof: string,
@@ -142,32 +163,41 @@ export function useCelebFilters({
     limitOverride?: number,
     tiersOverride?: CelebTier[],
     birthYearOverride?: { min?: number; max?: number },
-    contentPresenceOverride?: CelebContentPresence
+    contentPresenceOverride?: CelebContentPresence,
+    trendCountryOverride?: TrendCountry
   ) => {
+    const requestId = ++latestRequestRef.current;
     setIsLoading(true);
     const isInactive = inactive ?? includeInactive;
-    const result = await getCelebs({
-      page,
-      limit: limitOverride ?? pageSize,
-      profession: prof,
-      nationality: nation,
-      contentType: cType,
-      contentPresence: contentPresenceOverride ?? contentPresence,
-      gender: gend,
-      sortBy: sort,
-      search: searchTerm || undefined,
-      minContentCount: 0,
-      includeInactive: isInactive,
-      tiers: tiersOverride ?? tiers,
-      realities,
-      birthYearMin: birthYearOverride ? birthYearOverride.min : birthYearMin,
-      birthYearMax: birthYearOverride ? birthYearOverride.max : birthYearMax,
-    });
-    setCelebs(result.celebs);
-    setTotalPages(result.totalPages);
-    setTotal(result.total);
-    setIsLoading(false);
-  }, [includeInactive, pageSize, tiers, realities, birthYearMin, birthYearMax, contentPresence]);
+    try {
+      const result = await getCelebs({
+        page,
+        limit: limitOverride ?? pageSize,
+        profession: prof,
+        nationality: nation,
+        contentType: cType,
+        contentPresence: contentPresenceOverride ?? contentPresence,
+        gender: gend,
+        sortBy: sort,
+        trendCountry: trendCountryOverride ?? trendCountry,
+        search: searchTerm || undefined,
+        tagId,
+        minContentCount: 0,
+        includeInactive: isInactive,
+        tiers: tiersOverride ?? tiers,
+        realities,
+        birthYearMin: birthYearOverride ? birthYearOverride.min : birthYearMin,
+        birthYearMax: birthYearOverride ? birthYearOverride.max : birthYearMax,
+      });
+      if (requestId !== latestRequestRef.current) return;
+      setCelebs(result.celebs);
+      setTotalPages(result.totalPages);
+      setTotal(result.total);
+      setTrend(result.trend);
+    } finally {
+      if (requestId === latestRequestRef.current) setIsLoading(false);
+    }
+  }, [includeInactive, pageSize, tiers, realities, birthYearMin, birthYearMax, contentPresence, trendCountry, tagId]);
 
   // 서버에서 URL 파라미터 기반으로 이미 패칭된 데이터를 사용하므로 초기 렌더에서는 재패칭하지 않는다.
   // 다른 필터 변경으로 callback이 새로 만들어져도 includeInactive가 실제로 바뀐 경우에만 호출한다.
@@ -187,30 +217,30 @@ export function useCelebFilters({
   const handleProfessionChange = useCallback((prof: string) => {
     setProfession(prof);
     setCurrentPage(1);
-    loadCelebs(prof, nationality, contentType, gender, sortBy, 1, search);
+    loadCelebs(prof, nationality, contentType, gender, sortBy, 1, appliedSearch);
     updateUrlParams({ profession: prof, page: null });
-  }, [loadCelebs, nationality, contentType, gender, sortBy, search, updateUrlParams]);
+  }, [loadCelebs, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
   const handleNationalityChange = useCallback((nation: string) => {
     setNationality(nation);
     setCurrentPage(1);
-    loadCelebs(profession, nation, contentType, gender, sortBy, 1, search);
+    loadCelebs(profession, nation, contentType, gender, sortBy, 1, appliedSearch);
     updateUrlParams({ nationality: nation, page: null });
-  }, [loadCelebs, profession, contentType, gender, sortBy, search, updateUrlParams]);
+  }, [loadCelebs, profession, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
   const handleContentTypeChange = useCallback((cType: string) => {
     setContentType(cType);
     setCurrentPage(1);
-    loadCelebs(profession, nationality, cType, gender, sortBy, 1, search);
+    loadCelebs(profession, nationality, cType, gender, sortBy, 1, appliedSearch);
     updateUrlParams({ contentType: cType, page: null });
-  }, [loadCelebs, profession, nationality, gender, sortBy, search, updateUrlParams]);
+  }, [loadCelebs, profession, nationality, gender, sortBy, appliedSearch, updateUrlParams]);
 
   const handleGenderChange = useCallback((gend: string) => {
     setGender(gend);
     setCurrentPage(1);
-    loadCelebs(profession, nationality, contentType, gend, sortBy, 1, search);
+    loadCelebs(profession, nationality, contentType, gend, sortBy, 1, appliedSearch);
     updateUrlParams({ gender: gend, page: null });
-  }, [loadCelebs, profession, nationality, contentType, sortBy, search, updateUrlParams]);
+  }, [loadCelebs, profession, nationality, contentType, sortBy, appliedSearch, updateUrlParams]);
 
   const handleContentPresenceChange = useCallback((value: string) => {
     const next = parseCelebContentPresence(value);
@@ -223,9 +253,17 @@ export function useCelebFilters({
   const handleSortChange = useCallback((sort: CelebSortBy) => {
     setSortBy(sort);
     setCurrentPage(1);
-    loadCelebs(profession, nationality, contentType, gender, sort, 1, search);
-    updateUrlParams({ sortBy: sort, page: null });
-  }, [loadCelebs, profession, nationality, contentType, gender, search, updateUrlParams]);
+    loadCelebs(profession, nationality, contentType, gender, sort, 1, appliedSearch);
+    updateUrlParams({ sortBy: sort, ...(sort === "country_trending" ? { trendCountry } : {}), page: null });
+  }, [loadCelebs, profession, nationality, contentType, gender, appliedSearch, updateUrlParams, trendCountry]);
+
+  const handleTrendCountryChange = useCallback((country: TrendCountry) => {
+    setTrendCountry(country);
+    setCurrentPage(1);
+    setTrend(undefined);
+    void loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, undefined, undefined, undefined, country);
+    updateUrlParams({ trendCountry: country, page: null });
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
   // 등급 필터 변경. 전체 등급을 고르면 좁히는 의미가 없으므로 URL에서 지운다.
   const handleTiersChange = useCallback((next: CelebTier[]) => {
@@ -309,6 +347,9 @@ export function useCelebFilters({
     contentPresence,
     gender,
     sortBy,
+    trendCountry,
+    trend,
+    handleTrendCountryChange,
     search,
     tiers: tiers ?? [...CELEB_TIERS],
     handleTiersChange,

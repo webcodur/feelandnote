@@ -8,12 +8,15 @@
 
 import CelebCarousel from "@/components/features/home/CelebCarousel";
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
+import type { getCelebs, ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
+import type { TrendCountry } from "@/constants/trendCountries";
 
 interface Props {
   initialCelebs: CelebProfile[];
   initialTotal: number;
   initialTotalPages: number;
+  initialTrendCountry?: TrendCountry;
+  initialTrend?: Awaited<ReturnType<typeof getCelebs>>["trend"];
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
@@ -24,6 +27,8 @@ export default function CelebsSection({
   initialCelebs,
   initialTotal,
   initialTotalPages,
+  initialTrendCountry,
+  initialTrend,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
@@ -35,6 +40,8 @@ export default function CelebsSection({
         initialCelebs={initialCelebs}
         initialTotal={initialTotal}
         initialTotalPages={initialTotalPages}
+        initialTrendCountry={initialTrendCountry}
+        initialTrend={initialTrend}
         professionCounts={professionCounts}
         nationalityCounts={nationalityCounts}
         contentTypeCounts={contentTypeCounts}

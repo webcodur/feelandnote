@@ -12,13 +12,16 @@ import CelebFiltersMobile from "./CelebFiltersMobile";
 import CelebCompactControls from "./CelebCompactControls";
 import { useCelebFilters, PAGE_SIZE_OPTIONS } from "./useCelebFilters";
 import type { CelebProfile } from "@/types/home";
-import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts } from "@/actions/home";
+import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, getCelebs } from "@/actions/home";
+import type { TrendCountry } from "@/constants/trendCountries";
 import { useTranslations } from "next-intl";
 
 interface CelebCarouselProps {
   initialCelebs: CelebProfile[];
   initialTotal: number;
   initialTotalPages: number;
+  initialTrendCountry?: TrendCountry;
+  initialTrend?: Awaited<ReturnType<typeof getCelebs>>["trend"];
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
@@ -35,6 +38,8 @@ export default function CelebCarousel({
   initialCelebs,
   initialTotal,
   initialTotalPages,
+  initialTrendCountry,
+  initialTrend,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
@@ -49,6 +54,8 @@ export default function CelebCarousel({
     initialCelebs,
     initialTotal,
     initialTotalPages,
+    initialTrendCountry,
+    initialTrend,
     professionCounts,
     nationalityCounts,
     contentTypeCounts,

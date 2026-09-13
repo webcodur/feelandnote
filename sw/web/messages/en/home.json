@@ -78,7 +78,8 @@
         "content_count": "Most works",
         "name_asc": "Name",
         "birth_date_desc": "Recent Birth",
-        "birth_date_asc": "Oldest Birth"
+        "birth_date_asc": "Oldest Birth",
+        "country_trending": "Trending"
       },
       "birthYear": {
         "title": "Birth Year",
@@ -200,6 +201,13 @@
           "with": "With works",
           "without": "Without works"
         }
+      },
+      "trends": {
+        "country": "Trend country",
+        "loading": "Loading trends...",
+        "description": "Figures with rising search interest in {country} appear first. This is separate from their nationality.",
+        "unavailable": "Trends for this country are unavailable. Showing figures by most works instead.",
+        "noMatches": "No trending figures match these filters. Showing figures by most works instead."
       }
     },
     "hub": {

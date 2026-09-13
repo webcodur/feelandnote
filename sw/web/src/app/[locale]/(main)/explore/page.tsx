@@ -1,7 +1,9 @@
 import { ArrowUpRight, History, Play, Search, type LucideIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { headers } from "next/headers";
 import { Link } from "@/i18n/navigation";
 import { EXPLORE_FEATURED_LINKS, NAV_ITEMS } from "@/constants/navigation";
+import { parseTrendCountry } from "@/constants/trendCountries";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PendingBlock } from "@/components/ui/pending";
 import Lane from "@/components/ui/pending/Lane";
@@ -27,6 +29,9 @@ export default async function ExplorePage({ searchParams }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const filters = parseFilterParams(await searchParams);
+  if (!filters.trendCountry) {
+    filters.trendCountry = parseTrendCountry((await headers()).get("CF-IPCountry")) ?? "KR";
+  }
   const t = await getTranslations("explore.hub");
   const nav = await getTranslations("nav.sub");
   const pending = await getTranslations("pending");
