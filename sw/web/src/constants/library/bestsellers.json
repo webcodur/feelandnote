@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-13T13:21:04.747Z",
+  "updated_at": "2026-09-13T13:24:52.669Z",
   "ko": {
     "categories": {
       "ALL": [
@@ -2005,14 +2005,14 @@
           "category_key": "GAME"
         },
         {
-          "id": "steam-game-892970",
+          "id": "steam-game-4508240",
           "rank": 10,
-          "title": "Valheim",
+          "title": "삼국지14 파워업키트 Complete Edition",
           "creator": "",
           "publisher": "Steam",
-          "thumbnail_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/1888731b59362fca6c026cdbafa3dfffd45c3146/header_alt_assets_6.jpg?t=1789121975",
-          "thumbnail_en": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/1888731b59362fca6c026cdbafa3dfffd45c3146/header_alt_assets_6.jpg?t=1789121975",
-          "title_ko": "Valheim",
+          "thumbnail_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4508240/cc715d3d61963a6518584cf860cf904713377594/header_koreana.jpg?t=1789002043",
+          "thumbnail_en": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4508240/cc715d3d61963a6518584cf860cf904713377594/header_koreana.jpg?t=1789002043",
+          "title_ko": "삼국지14 파워업키트 Complete Edition",
           "title_en": null,
           "creator_en": null,
           "published_date": null,
@@ -2245,25 +2245,8 @@
           "category_key": "MUSIC"
         },
         {
-          "id": "apple-music-kr-6792226270",
-          "rank": 14,
-          "title": "Less than a Lover",
-          "creator": "제니",
-          "publisher": "Apple Music",
-          "thumbnail_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8a/84/a08a8464-c3d8-04aa-84a0-9498a52985dd/196874620281.jpg/600x600bb.jpg",
-          "thumbnail_en": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8a/84/a08a8464-c3d8-04aa-84a0-9498a52985dd/196874620281.jpg/600x600bb.jpg",
-          "title_ko": "Less than a Lover",
-          "title_en": "Less than a Lover",
-          "creator_en": "제니",
-          "published_date": "2026-07-24",
-          "isbn": null,
-          "description": "Apple Music 최다 재생 차트 수록곡.",
-          "type": "MUSIC",
-          "category_key": "MUSIC"
-        },
-        {
           "id": "apple-music-kr-6770401926",
-          "rank": 15,
+          "rank": 14,
           "title": "BAD",
           "creator": "에이티즈",
           "publisher": "Apple Music",
@@ -2273,6 +2256,23 @@
           "title_en": "BAD",
           "creator_en": "에이티즈",
           "published_date": "2026-06-26",
+          "isbn": null,
+          "description": "Apple Music 최다 재생 차트 수록곡.",
+          "type": "MUSIC",
+          "category_key": "MUSIC"
+        },
+        {
+          "id": "apple-music-kr-6792226270",
+          "rank": 15,
+          "title": "Less than a Lover",
+          "creator": "제니",
+          "publisher": "Apple Music",
+          "thumbnail_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8a/84/a08a8464-c3d8-04aa-84a0-9498a52985dd/196874620281.jpg/600x600bb.jpg",
+          "thumbnail_en": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8a/84/a08a8464-c3d8-04aa-84a0-9498a52985dd/196874620281.jpg/600x600bb.jpg",
+          "title_ko": "Less than a Lover",
+          "title_en": "Less than a Lover",
+          "creator_en": "제니",
+          "published_date": "2026-07-24",
           "isbn": null,
           "description": "Apple Music 최다 재생 차트 수록곡.",
           "type": "MUSIC",
@@ -2332,14 +2332,14 @@
       ]
     },
     "category_updated_at": {
-      "ALL": "2026-09-13T13:21:04.747Z",
-      "HUMANITIES": "2026-09-13T13:21:04.747Z",
-      "BUSINESS": "2026-09-13T13:21:04.747Z",
-      "FICTION": "2026-09-13T13:21:04.747Z",
-      "STEADY": "2026-09-13T13:21:04.747Z",
-      "VIDEO": "2026-09-13T13:21:04.747Z",
-      "GAME": "2026-09-13T13:21:04.747Z",
-      "MUSIC": "2026-09-13T13:21:04.747Z"
+      "ALL": "2026-09-13T13:24:52.669Z",
+      "HUMANITIES": "2026-09-13T13:24:52.669Z",
+      "BUSINESS": "2026-09-13T13:24:52.669Z",
+      "FICTION": "2026-09-13T13:24:52.669Z",
+      "STEADY": "2026-09-13T13:24:52.669Z",
+      "VIDEO": "2026-09-13T13:24:52.669Z",
+      "GAME": "2026-09-13T13:24:52.669Z",
+      "MUSIC": "2026-09-13T13:24:52.669Z"
     }
   },
   "en": {
@@ -4606,14 +4606,14 @@
       ]
     },
     "category_updated_at": {
-      "ALL": "2026-09-13T13:21:04.747Z",
-      "HUMANITIES": "2026-09-13T13:21:04.747Z",
-      "BUSINESS": "2026-09-13T13:21:04.747Z",
-      "FICTION": "2026-09-13T13:21:04.747Z",
-      "STEADY": "2026-09-13T13:21:04.747Z",
-      "VIDEO": "2026-09-13T13:21:04.747Z",
-      "GAME": "2026-09-13T13:21:04.747Z",
-      "MUSIC": "2026-09-13T13:21:04.747Z"
+      "ALL": "2026-09-13T13:24:52.669Z",
+      "HUMANITIES": "2026-09-13T13:24:52.669Z",
+      "BUSINESS": "2026-09-13T13:24:52.669Z",
+      "FICTION": "2026-09-13T13:24:52.669Z",
+      "STEADY": "2026-09-13T13:24:52.669Z",
+      "VIDEO": "2026-09-13T13:24:52.669Z",
+      "GAME": "2026-09-13T13:24:52.669Z",
+      "MUSIC": "2026-09-13T13:24:52.669Z"
     }
   },
   "categories": {
@@ -6620,14 +6620,14 @@
         "category_key": "GAME"
       },
       {
-        "id": "steam-game-892970",
+        "id": "steam-game-4508240",
         "rank": 10,
-        "title": "Valheim",
+        "title": "삼국지14 파워업키트 Complete Edition",
         "creator": "",
         "publisher": "Steam",
-        "thumbnail_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/1888731b59362fca6c026cdbafa3dfffd45c3146/header_alt_assets_6.jpg?t=1789121975",
-        "thumbnail_en": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/892970/1888731b59362fca6c026cdbafa3dfffd45c3146/header_alt_assets_6.jpg?t=1789121975",
-        "title_ko": "Valheim",
+        "thumbnail_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4508240/cc715d3d61963a6518584cf860cf904713377594/header_koreana.jpg?t=1789002043",
+        "thumbnail_en": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4508240/cc715d3d61963a6518584cf860cf904713377594/header_koreana.jpg?t=1789002043",
+        "title_ko": "삼국지14 파워업키트 Complete Edition",
         "title_en": null,
         "creator_en": null,
         "published_date": null,
@@ -6860,25 +6860,8 @@
         "category_key": "MUSIC"
       },
       {
-        "id": "apple-music-kr-6792226270",
-        "rank": 14,
-        "title": "Less than a Lover",
-        "creator": "제니",
-        "publisher": "Apple Music",
-        "thumbnail_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8a/84/a08a8464-c3d8-04aa-84a0-9498a52985dd/196874620281.jpg/600x600bb.jpg",
-        "thumbnail_en": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8a/84/a08a8464-c3d8-04aa-84a0-9498a52985dd/196874620281.jpg/600x600bb.jpg",
-        "title_ko": "Less than a Lover",
-        "title_en": "Less than a Lover",
-        "creator_en": "제니",
-        "published_date": "2026-07-24",
-        "isbn": null,
-        "description": "Apple Music 최다 재생 차트 수록곡.",
-        "type": "MUSIC",
-        "category_key": "MUSIC"
-      },
-      {
         "id": "apple-music-kr-6770401926",
-        "rank": 15,
+        "rank": 14,
         "title": "BAD",
         "creator": "에이티즈",
         "publisher": "Apple Music",
@@ -6888,6 +6871,23 @@
         "title_en": "BAD",
         "creator_en": "에이티즈",
         "published_date": "2026-06-26",
+        "isbn": null,
+        "description": "Apple Music 최다 재생 차트 수록곡.",
+        "type": "MUSIC",
+        "category_key": "MUSIC"
+      },
+      {
+        "id": "apple-music-kr-6792226270",
+        "rank": 15,
+        "title": "Less than a Lover",
+        "creator": "제니",
+        "publisher": "Apple Music",
+        "thumbnail_url": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8a/84/a08a8464-c3d8-04aa-84a0-9498a52985dd/196874620281.jpg/600x600bb.jpg",
+        "thumbnail_en": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a0/8a/84/a08a8464-c3d8-04aa-84a0-9498a52985dd/196874620281.jpg/600x600bb.jpg",
+        "title_ko": "Less than a Lover",
+        "title_en": "Less than a Lover",
+        "creator_en": "제니",
+        "published_date": "2026-07-24",
         "isbn": null,
         "description": "Apple Music 최다 재생 차트 수록곡.",
         "type": "MUSIC",
