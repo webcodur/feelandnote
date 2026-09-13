@@ -86,7 +86,6 @@ export default function ExpandDetailView({
     collapsedGroupTypes,
     isIndexOpen,
     isLatestSelection,
-    keepSelectedItemVisible,
     selectedContentId,
     selectedIndex,
     selectDirectly,
@@ -243,7 +242,7 @@ export default function ExpandDetailView({
           indexId={indexId}
           labels={indexLabels}
           collapsedGroupTypes={collapsedGroupTypes}
-          scrollTargetIndex={keepSelectedItemVisible ? selectedIndex : null}
+          selectedIndex={selectedIndex}
           activeCategory={activeCategory}
           categoryCounts={categoryCounts}
           onCategoryChange={onCategoryChange}

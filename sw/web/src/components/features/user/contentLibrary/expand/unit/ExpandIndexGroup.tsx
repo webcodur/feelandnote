@@ -3,7 +3,7 @@
 import { memo, useEffect } from "react";
 import type { TransitionEvent } from "react";
 import type { LucideIcon } from "lucide-react";
-import { ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
@@ -17,6 +17,7 @@ interface ExpandIndexGroupProps {
   label: string;
   Icon?: LucideIcon;
   isExpanded: boolean;
+  selectedIndex: number;
   scrollTargetIndex: number | null;
   items: ExpandIndexEntry[];
   setItemRef: (index: number, element: HTMLButtonElement | null) => void;
@@ -28,6 +29,7 @@ interface ExpandIndexGroupProps {
 
 interface ExpandIndexItemProps {
   item: ExpandIndexEntry;
+  isSelected: boolean;
   label: string;
   setItemRef: (index: number, element: HTMLButtonElement | null) => void;
   onSelect: (index: number) => void;
@@ -35,6 +37,7 @@ interface ExpandIndexItemProps {
 
 interface ExpandIndexItemsProps {
   items: ExpandIndexEntry[];
+  selectedIndex: number;
   label: string;
   setItemRef: (index: number, element: HTMLButtonElement | null) => void;
   onSelect: (index: number) => void;
@@ -42,6 +45,7 @@ interface ExpandIndexItemsProps {
 
 const ExpandIndexItem = memo(function ExpandIndexItem({
   item,
+  isSelected,
   label,
   setItemRef,
   onSelect,
@@ -55,11 +59,11 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
         setItemRef(item.originalIndex, element);
       }}
       onClick={() => onSelect(item.originalIndex)}
-      aria-current={item.originalIndex === 0 ? "true" : undefined}
+      aria-current={isSelected ? "true" : undefined}
       aria-label={`${label} ${number} ${item.title}`}
       title={item.title}
       className={cn(
-        "relative flex min-h-11 w-full items-center border-b border-white/[0.08] px-2 text-sm text-text-secondary last:border-b-0 hover:bg-white/[0.05] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
+        "relative flex min-h-11 w-full items-center gap-2 border-b border-white/[0.08] px-3 text-sm text-text-secondary last:border-b-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
         styles.indexItem,
       )}
     >
@@ -89,12 +93,16 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
         <NoEditionBadge badge={item.titleBadge} />
         {item.title}
       </span>
+      <span aria-hidden className={cn("flex w-5 shrink-0 justify-center", styles.indexItemTitle)}>
+        {isSelected && <Check size={18} strokeWidth={2.5} />}
+      </span>
     </button>
   );
 });
 
 const ExpandIndexItems = memo(function ExpandIndexItems({
   items,
+  selectedIndex,
   label,
   setItemRef,
   onSelect,
@@ -105,6 +113,7 @@ const ExpandIndexItems = memo(function ExpandIndexItems({
         <ExpandIndexItem
           key={item.itemId}
           item={item}
+          isSelected={item.originalIndex === selectedIndex}
           label={label}
           setItemRef={setItemRef}
           onSelect={onSelect}
@@ -120,6 +129,7 @@ function ExpandIndexGroup({
   label,
   Icon,
   isExpanded,
+  selectedIndex,
   scrollTargetIndex,
   items,
   setItemRef,
@@ -140,6 +150,7 @@ function ExpandIndexGroup({
     return (
       <ExpandIndexItems
         items={items}
+        selectedIndex={selectedIndex}
         label={label}
         setItemRef={setItemRef}
         onSelect={onSelect}
@@ -208,6 +219,7 @@ function ExpandIndexGroup({
       >
         <ExpandIndexItems
           items={items}
+          selectedIndex={selectedIndex}
           label={label}
           setItemRef={setItemRef}
           onSelect={onSelect}

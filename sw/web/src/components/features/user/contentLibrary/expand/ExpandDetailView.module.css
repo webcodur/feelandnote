@@ -6,9 +6,22 @@
   opacity: 0;
 }
 
+.indexItem:hover {
+  background-color: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+  color: var(--color-text-primary);
+  box-shadow: inset 3px 0 var(--color-border);
+}
+
 .indexItem[aria-current="true"] {
-  background-color: color-mix(in srgb, var(--color-accent) 9%, transparent);
+  background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
   color: var(--color-accent);
+  box-shadow: inset 4px 0 var(--color-accent);
+  font-weight: 700;
+}
+
+.indexItem[aria-current="true"]:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  color: var(--color-accent-hover);
 }
 
 .indexItem[aria-current="true"] .indexItemMarker {
