@@ -5,48 +5,57 @@
 */ // ------------------------------
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { getLocalizedAlternates } from "@/lib/seo";
-import { getCelebTimeline } from "@/actions/home";
+import { cache } from "react";
+import { getAlternates } from "@/lib/seo";
+import { getCelebTimeline } from "@/actions/home/getCelebTimeline";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import TimelineSection from "@/components/features/user/explore/sections/TimelineSection";
+import { paginateTimeline } from "@/components/features/user/explore/sections/TimelineSection/pagination";
+import { redirect } from "@/i18n/navigation";
 
-// 정적(ISR). 연표는 전체 인물을 싣는 큰 화면(HTML 수 MB)이라 방문마다 만들면 그 바이트가 원본 전송량이 된다.
-// getLocale() 대신 params의 locale을 쓴다 — 요청 헤더를 읽는 순간 정적이 깨진다.
-export const revalidate = 604800;
-
-// [locale] 세그먼트는 generateStaticParams가 없으면 동적으로 취급된다(빌드 표의 ƒ). 빈 배열을 돌려주면
-// 첫 요청에 ISR로 만들어져 다음부터 CDN에서 나간다(인물 상세와 같은 방식).
-export function generateStaticParams() {
-  return [];
-}
+// 국가·페이지 쿼리는 요청마다 읽고, 전체 목록 조회는 getCelebTimeline 캐시를 쓴다.
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ country?: string | string[]; page?: string | string[] }>;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+const readTimeline = cache(async (locale: "ko" | "en", country?: string, page?: string) => {
+  const data = await getCelebTimeline(locale);
+  return { ...paginateTimeline(data, country, page), countries: data.countries };
+});
+
+export async function generateMetadata({ params, searchParams }: PageProps) {
   const { locale } = await params;
+  const search = await searchParams;
   setRequestLocale(locale);
   const t = await getTranslations("explore.timelinePage");
+  const data = await readTimeline(locale === "en" ? "en" : "ko", typeof search.country === "string" ? search.country : undefined, typeof search.page === "string" ? search.page : undefined);
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),
-    alternates: await getLocalizedAlternates("/explore/timeline"),
+    alternates: getAlternates(data.path, locale === "en" ? "en" : "ko"),
   };
 }
 
-async function TimelineContent({ locale }: { locale: "en" | "ko" }) {
-  const { celebs, countries } = await getCelebTimeline(locale);
+async function TimelineContent({ locale, search }: { locale: "en" | "ko"; search: Awaited<PageProps["searchParams"]> }) {
+  const country = typeof search.country === "string" ? search.country : undefined;
+  const page = typeof search.page === "string" ? search.page : undefined;
+  const data = await readTimeline(locale, country, page);
+  if ((country !== undefined && country !== data.country) || (page !== undefined && page !== String(data.page))) {
+    redirect({ href: data.path, locale });
+  }
 
   return (
     <AsyncIntlProvider>
-      <TimelineSection celebs={celebs} countries={countries} />
+      <TimelineSection key={`${data.country}-${data.page}`} {...data} />
     </AsyncIntlProvider>
   );
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params, searchParams }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <TimelineContent locale={locale === "en" ? "en" : "ko"} />;
+  return <TimelineContent locale={locale === "en" ? "en" : "ko"} search={await searchParams} />;
 }

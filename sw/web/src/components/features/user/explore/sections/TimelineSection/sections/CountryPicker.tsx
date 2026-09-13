@@ -11,13 +11,15 @@ import { Search, X } from "lucide-react";
 import { getCountryFlag } from "@/lib/utils/countryFlag";
 import type { CountryGroup } from "@/actions/home";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { getTimelinePath } from "../pagination";
 
 interface Props {
   countries: CountryGroup[];
   selectedCountry: string;
   countrySearch: string;
   onSearchChange: (value: string) => void;
-  onCountryChange: (code: string) => void;
+  defaultCountry: string;
 }
 
 export default function CountryPicker({
@@ -25,7 +27,7 @@ export default function CountryPicker({
   selectedCountry,
   countrySearch,
   onSearchChange,
-  onCountryChange,
+  defaultCountry,
 }: Props) {
   const t = useTranslations("explore.ui.timeline");
   // 국가 검색 필터
@@ -66,12 +68,14 @@ export default function CountryPicker({
         {filteredCountries.map((country) => {
           const isActive = country.code === selectedCountry;
           return (
-            <button
+            <Link
               key={country.code}
-              onClick={() => onCountryChange(country.code)}
+              href={getTimelinePath(country.code, defaultCountry)}
+              prefetch={false}
+              aria-current={isActive ? "page" : undefined}
               className={`
                 flex items-center gap-1.5 px-4 py-2 rounded-full text-base whitespace-nowrap shrink-0 md:shrink
-                border transition-colors
+                border outline-none focus-visible:ring-2 focus-visible:ring-accent
                 ${isActive
                   ? "bg-accent/20 border-accent/50 text-accent"
                   : "bg-bg-card border-white/10 text-text-secondary hover:border-white/20 hover:text-text-primary"
@@ -83,7 +87,7 @@ export default function CountryPicker({
               <span className={`text-sm ${isActive ? "text-accent/70" : "text-text-secondary/60"}`}>
                 {country.count}
               </span>
-            </button>
+            </Link>
           );
         })}
       </div>

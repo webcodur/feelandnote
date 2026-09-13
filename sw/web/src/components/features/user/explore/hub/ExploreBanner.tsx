@@ -20,6 +20,7 @@ const SUBPAGE_KEY: Record<string, string> = {
   figures: "navCelebs",
   ranking: "navTopByType",
   spectrum: "navSpectrum",
+  myth: "mythology",
   faction: "navFaction",
   feed: "navFeed",
   timeline: "navTimeline",
