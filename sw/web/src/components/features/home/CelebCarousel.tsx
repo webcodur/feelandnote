@@ -119,6 +119,7 @@ export default function CelebCarousel({
           profession={filters.profession}
           nationality={filters.nationality}
           contentType={filters.contentType}
+          contentPresence={filters.contentPresence}
           gender={filters.gender}
           tier={filters.tierValue}
           sortBy={filters.sortBy}
@@ -134,6 +135,7 @@ export default function CelebCarousel({
           onProfessionChange={withInteraction(filters.handleProfessionChange)}
           onNationalityChange={withInteraction(filters.handleNationalityChange)}
           onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
+          onContentPresenceChange={withInteraction(filters.handleContentPresenceChange)}
           onGenderChange={withInteraction(filters.handleGenderChange)}
           onTierChange={withInteraction(filters.handleTierValueChange)}
           onSortChange={withInteraction(filters.handleSortChange)}
@@ -150,6 +152,7 @@ export default function CelebCarousel({
         profession={filters.profession}
         nationality={filters.nationality}
         contentType={filters.contentType}
+        contentPresence={filters.contentPresence}
         gender={filters.gender}
         tier={filters.tierValue}
         sortBy={filters.sortBy}
@@ -168,6 +171,7 @@ export default function CelebCarousel({
         onProfessionChange={withInteraction(filters.handleProfessionChange)}
         onNationalityChange={withInteraction(filters.handleNationalityChange)}
         onContentTypeChange={withInteraction(filters.handleContentTypeChange)}
+        onContentPresenceChange={withInteraction(filters.handleContentPresenceChange)}
         onGenderChange={withInteraction(filters.handleGenderChange)}
         onTierChange={withInteraction(filters.handleTierValueChange)}
         onSortChange={withInteraction(filters.handleSortChange)}

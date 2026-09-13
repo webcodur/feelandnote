@@ -6,7 +6,6 @@
  *   조용히 지워 버려 26.08.15에 폐기했다.)
  */
 
-import { Rss, Clock, Youtube, BookOpenText, UsersRound } from "lucide-react";
 
 // ────────────────────────────────────────────────────
 // 공통 유틸
@@ -57,37 +56,13 @@ export const HOME_GROUP_ID = "home";
 
 export const HOME_SECTIONS = [
   { key: "todayFigure", moreHref: "/explore/today",     titleKey: "todayFigure", subtitleKey: "todayFigureSub", moreKey: "viewAll" },
-  { key: "figureLinks", moreHref: "/explore/figures?sortBy=content_count", titleKey: "figureLinks", subtitleKey: "figureLinksSub", moreKey: "viewAll" },
+  { key: "figureLinks", moreHref: "/explore?sortBy=content_count", titleKey: "figureLinks", subtitleKey: "figureLinksSub", moreKey: "viewAll" },
   { key: "notice",      moreHref: "/agora/board/notice", titleKey: "notice",     subtitleKey: "noticeSub",      moreKey: "viewAll" },
   // 영상관은 본문이 아니라 이동 배너에 가깝다 — 콘텐츠 구획들 뒤에 세운다
   { key: "youtube",     moreHref: "/explore/youtube",   titleKey: "youtube",     subtitleKey: "youtubeSub",     moreKey: "viewAll" },
 ] as const;
 // #endregion
 
-// ────────────────────────────────────────────────────
-// #region Explore 허브 config
-export const EXPLORE_GROUP_ID = "explore";
-
-export const EXPLORE_SECTIONS = [
-  { key: "ranking",         moreHref: "/explore/ranking",           titleKey: "ranking",         subtitleKey: "rankingSub",         moreKey: "viewAll" },
-  { key: "spectrumAnalysis", moreHref: "/explore/spectrum",           titleKey: "spectrumAnalysis", subtitleKey: "spectrumAnalysisSub", moreKey: "viewAll" },
-  { key: "myth",            moreHref: "/explore/myth",              titleKey: "mythology",       subtitleKey: "mythologySub",       moreKey: "viewAll" },
-  { key: "faction",         moreHref: "/explore/faction",           titleKey: "faction",         subtitleKey: "factionSub",         moreKey: "viewAll" },
-] as const;
-
-export type ExploreSectionKey = (typeof EXPLORE_SECTIONS)[number]["key"];
-
-/** 이 줄이 유일한 입구인 별도 화면들 */
-export const EXPLORE_STANDALONE = [
-  { key: "navFeed",      href: "/explore/feed",               icon: <Rss size={14} /> },
-  { key: "navTimeline",  href: "/explore/timeline",           icon: <Clock size={14} /> },
-  { key: "navYoutube",   href: "/explore/youtube",            icon: <Youtube size={14} /> },
-  { key: "navDirectory", href: "/explore/directory",          icon: <BookOpenText size={14} /> },
-  { key: "navOthers",    href: "/explore/figures?tier=light", icon: <UsersRound size={14} /> },
-] as const;
-// #endregion
-
-// ────────────────────────────────────────────────────
 // #region Library(서가) 허브 config
 export const LIBRARY_GROUP_ID = "library";
 

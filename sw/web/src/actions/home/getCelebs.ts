@@ -13,6 +13,7 @@ import { getCelebLevelByRanking } from '@/constants/materials'
 import type { CelebProfile, CelebTagInfo } from '@/types/home'
 import type { Tables } from '@/types/database.generated'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
+import { parseCelebContentPresence, type CelebContentPresence } from '@/constants/celebContentPresence'
 
 export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_date_asc' | 'birth_date_desc' | 'name_asc' | 'influence' | 'content_count' | 'trending'
 
@@ -64,6 +65,7 @@ interface GetCelebsParams {
   profession?: string
   nationality?: string  // 'all' | 'none' | 국가명
   contentType?: string  // 'all' | 'BOOK' | 'VIDEO' | 'GAME' | 'MUSIC'
+  contentPresence?: CelebContentPresence
   gender?: string  // 'all' | 'male' | 'female' (DB: true=male, false=female)
   sortBy?: CelebSortBy
   search?: string  // 이름 검색
@@ -192,7 +194,8 @@ async function fetchCelebsPublic(
   contentType: string | null, gender: string | null, sortBy: string,
   search: string | null, tagId: string | null, minContentCount: number,
   includeInactive: boolean, tiers: string[], realities: string[], includeTotal: boolean,
-  birthYearMin: number | null, birthYearMax: number | null
+  birthYearMin: number | null, birthYearMax: number | null,
+  contentPresence: CelebContentPresence
 ): Promise<PublicCelebData> {
   const db = createStaticClient()
   const offset = (page - 1) * limit
@@ -210,6 +213,22 @@ async function fetchCelebsPublic(
     throwOnQueryError('인기 인물 목록', error)
     rows = (data || []) as CelebRow[]
     total = rows.length
+  } else if (contentPresence === 'without') {
+    // RPC 내부 LIMIT을 해제하고 PostgREST에서 작품수 조건 → 전체 개수 → 페이지를 적용한다.
+    // 내부 LIMIT 뒤에 0건 조건을 걸면 현재 페이지의 인물만 걸러져 총수와 페이지가 틀린다.
+    const { data, error, count } = await db.rpc('get_celebs_sorted', {
+      p_profession: profession, p_nationality: nationality, p_content_type: contentType,
+      p_sort_by: sortBy, p_search: search ?? '', p_limit: null, p_offset: 0,
+      p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
+      p_include_inactive: includeInactive, p_celeb_tiers: tiers,
+      p_celeb_realities: realities,
+      p_birth_year_min: birthYearMin, p_birth_year_max: birthYearMax,
+    }, { count: includeTotal ? 'exact' : undefined })
+      .eq('content_count', 0)
+      .range(offset, offset + limit - 1)
+    throwOnQueryError('작품 없는 인물 목록', error)
+    rows = (data || []) as CelebRow[]
+    total = includeTotal ? (count ?? 0) : rows.length
   } else {
     if (includeTotal) {
       const { data: countData, error: countError } = await db.rpc('count_celebs_filtered', {
@@ -371,6 +390,7 @@ export async function getCelebs(
     profession,
     nationality,
     contentType,
+    contentPresence = 'all',
     gender,
     sortBy = 'daily_recommend',
     search,
@@ -390,9 +410,9 @@ export async function getCelebs(
   const pub = await loadPublic(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
-    search ?? null, tagId ?? null, minContentCount,
+    search ?? null, tagId ?? null, contentPresence === 'with' ? Math.max(1, minContentCount) : minContentCount,
     includeInactive, [...(tiers ?? [])], [...(realities ?? LISTING_DEFAULT_REALITIES)], includeTotal,
-    birthYearMin ?? null, birthYearMax ?? null
+    birthYearMin ?? null, birthYearMax ?? null, parseCelebContentPresence(contentPresence)
   )
 
   if (pub.rows.length === 0) {

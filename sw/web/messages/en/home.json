@@ -184,6 +184,12 @@
         "all": "All",
         "full": "Full",
         "light": "Brief"
+      },
+      "filterContentPresence": "Works",
+      "contentPresence": {
+        "all": "All",
+        "with": "With works",
+        "without": "Without works"
       }
     },
     "hub": {

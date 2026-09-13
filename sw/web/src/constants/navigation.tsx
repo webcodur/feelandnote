@@ -58,13 +58,10 @@ export const NAV_ITEMS: NavItem[] = [
     showInBottomNav: true,
     showInHomePage: true,
     subLinks: [
-      { key: "figures", href: "/explore/figures", label: "인물 목록" },
       { key: "ranking", href: "/explore/ranking", label: "분야별 챔피언" },
       { key: "spectrum", href: "/explore/spectrum", label: "스펙트럼" },
       { key: "myth", href: "/explore/myth", label: "신화의 세계" },
-      { key: "today", href: "/explore/today", label: "오늘의 인물" },
       { key: "faction", href: "/explore/faction", label: "세력도감" },
-      { key: "feed", href: "/explore/feed", label: "인물 피드" },
       { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
       { key: "youtube", href: "/explore/youtube", label: "영상관" },
       { key: "directory", href: "/explore/directory", label: "디렉토리" },
@@ -137,10 +134,8 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     titleKey: "nav.footer.sectionFigures",
     href: "/explore",
     links: [
-      { key: "figures", href: "/explore/figures", label: "인물 목록" },
       { key: "ranking", href: "/explore/ranking", label: "분야별 챔피언" },
       { key: "faction", href: "/explore/faction", label: "세력도감" },
-      { key: "today", href: "/explore/today", label: "오늘의 인물" },
       { key: "timeline", href: "/explore/timeline", label: "국가별 연대기" },
       // 인물 사전은 색인용 큰 명부다. 홈 본문에서 내려온 뒤로 전 화면에서 걸리는 입구는 여기와 탐색 목차 줄뿐이다
       { key: "directory", href: "/explore/directory", label: "디렉토리" },

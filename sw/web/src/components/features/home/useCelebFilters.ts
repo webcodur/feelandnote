@@ -8,6 +8,7 @@ import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
 import { CELEB_TIERS, isCelebTier, parseCelebTiers, parseCelebRealities, type CelebTier, type CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
+import { parseCelebContentPresence, type CelebContentPresence } from "@/constants/celebContentPresence";
 
 // #region 상수
 export const SORT_VALUES: CelebSortBy[] = [
@@ -15,7 +16,7 @@ export const SORT_VALUES: CelebSortBy[] = [
   "content_count", "name_asc", "birth_date_desc", "birth_date_asc",
 ];
 
-export type FilterType = "profession" | "nationality" | "contentType" | "gender" | "sort" | "tier" | "birthYear";
+export type FilterType = "profession" | "nationality" | "contentType" | "contentPresence" | "gender" | "sort" | "tier" | "birthYear";
 
 const DEFAULT_PAGE_SIZE = 24;
 export const PAGE_SIZE_OPTIONS = [12, 24, 48, 96];
@@ -63,6 +64,7 @@ export function useCelebFilters({
   const [profession, setProfession] = useState<string>(() => getInitialValue("profession", "all"));
   const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
   const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
+  const [contentPresence, setContentPresence] = useState<CelebContentPresence>(() => parseCelebContentPresence(syncToUrl ? searchParams.get("contentPresence") : undefined));
   const [gender, setGender] = useState<string>(() => getInitialValue("gender", "all"));
   const [sortBy, setSortBy] = useState<CelebSortBy>(() => getInitialValue("sortBy", "daily_recommend", VALID_SORT_VALUES));
   const [search, setSearch] = useState<string>(() => getInitialValue("search", ""));
@@ -130,7 +132,8 @@ export function useCelebFilters({
     inactive?: boolean,
     limitOverride?: number,
     tiersOverride?: CelebTier[],
-    birthYearOverride?: { min?: number; max?: number }
+    birthYearOverride?: { min?: number; max?: number },
+    contentPresenceOverride?: CelebContentPresence
   ) => {
     setIsLoading(true);
     const isInactive = inactive ?? includeInactive;
@@ -140,6 +143,7 @@ export function useCelebFilters({
       profession: prof,
       nationality: nation,
       contentType: cType,
+      contentPresence: contentPresenceOverride ?? contentPresence,
       gender: gend,
       sortBy: sort,
       search: searchTerm || undefined,
@@ -154,7 +158,7 @@ export function useCelebFilters({
     setTotalPages(result.totalPages);
     setTotal(result.total);
     setIsLoading(false);
-  }, [includeInactive, pageSize, tiers, realities, birthYearMin, birthYearMax]);
+  }, [includeInactive, pageSize, tiers, realities, birthYearMin, birthYearMax, contentPresence]);
 
   // 서버에서 URL 파라미터 기반으로 이미 패칭된 데이터를 사용하므로 초기 렌더에서는 재패칭하지 않는다.
   // 다른 필터 변경으로 callback이 새로 만들어져도 includeInactive가 실제로 바뀐 경우에만 호출한다.
@@ -198,6 +202,14 @@ export function useCelebFilters({
     loadCelebs(profession, nationality, contentType, gend, sortBy, 1, search);
     updateUrlParams({ gender: gend, page: null });
   }, [loadCelebs, profession, nationality, contentType, sortBy, search, updateUrlParams]);
+
+  const handleContentPresenceChange = useCallback((value: string) => {
+    const next = parseCelebContentPresence(value);
+    setContentPresence(next);
+    setCurrentPage(1);
+    loadCelebs(profession, nationality, contentType, gender, sortBy, 1, appliedSearch, undefined, undefined, undefined, undefined, next);
+    updateUrlParams({ contentPresence: next, page: null });
+  }, [loadCelebs, profession, nationality, contentType, gender, sortBy, appliedSearch, updateUrlParams]);
 
   const handleSortChange = useCallback((sort: CelebSortBy) => {
     setSortBy(sort);
@@ -285,6 +297,7 @@ export function useCelebFilters({
     profession,
     nationality,
     contentType,
+    contentPresence,
     gender,
     sortBy,
     search,
@@ -311,6 +324,7 @@ export function useCelebFilters({
     handleProfessionChange,
     handleNationalityChange,
     handleContentTypeChange,
+    handleContentPresenceChange,
     handleGenderChange,
     handleSortChange,
     handlePageChange,

@@ -46,7 +46,7 @@ export default async function YoutubeChannelLink() {
             description: ts("series.library.description"),
             fullPlaylistUrl: playlists.libraryTour.full,
             shortsPlaylistUrl: playlists.libraryTour.shorts,
-            siteHref: "/explore/figures",
+            siteHref: "/explore",
             siteLabel: ts("series.library.siteLink"),
           }}
           faction={{

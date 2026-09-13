@@ -68,8 +68,10 @@ const nextConfig: NextConfig = {
       },
       // 폐기 경로 → 실제 목적지 영구 리다이렉트 (2026-07-14)
       // page.tsx의 redirect()는 307(임시)라 구글이 정규화 신호로 쓰지 못한다. 308로 영구화
-      { source: '/explore/celebs', destination: '/explore/figures', permanent: true },
-      { source: '/:locale(ko|en)/explore/celebs', destination: '/:locale/explore/figures', permanent: true },
+      { source: '/explore/figures', destination: '/explore', permanent: true },
+      { source: '/:locale(ko|en)/explore/figures', destination: '/:locale/explore', permanent: true },
+      { source: '/explore/celebs', destination: '/explore', permanent: true },
+      { source: '/:locale(ko|en)/explore/celebs', destination: '/:locale/explore', permanent: true },
       { source: '/explore/people', destination: '/agora/social', permanent: true },
       { source: '/:locale(ko|en)/explore/people', destination: '/:locale/agora/social', permanent: true },
       { source: '/explore/figure', destination: '/explore/today', permanent: true },

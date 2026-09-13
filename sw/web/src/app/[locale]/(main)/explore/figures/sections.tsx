@@ -15,6 +15,7 @@ import {
   getCelebsByProfession,
 } from "@/actions/home";
 import type { CelebSortBy } from "@/actions/home";
+import type { CelebContentPresence } from "@/constants/celebContentPresence";
 import type { CelebTier, CelebReality } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebsSection from "@/components/features/user/explore/sections/CelebsSection";
 import CelebsByProfession from "@/components/features/user/explore/sections/CelebsByProfession";
@@ -80,6 +81,7 @@ export interface FiguresFilterParams {
   profession?: string;
   nationality?: string;
   contentType?: string;
+  contentPresence?: CelebContentPresence;
   gender?: string;
   search?: string;
   tagId?: string;
@@ -109,6 +111,7 @@ export async function FiguresFilterResult({ params }: { params: FiguresFilterPar
         profession: params.profession,
         nationality: params.nationality,
         contentType: params.contentType,
+        contentPresence: params.contentPresence,
         gender: params.gender,
         search: params.search,
         tagId: params.tagId,

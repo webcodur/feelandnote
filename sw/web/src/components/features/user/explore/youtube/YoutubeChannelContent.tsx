@@ -131,7 +131,7 @@ export default async function YoutubeChannelContent({
           </p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-2">
+        <div className="grid gap-6">
           <YoutubeSeriesCard
             index={t("series.library.index")}
             image="/images/home/youtube-library-tour-hero.webp"
@@ -143,7 +143,7 @@ export default async function YoutubeChannelContent({
             shortsPlaylistUrl={playlists.libraryTour.shorts}
             fullPlaylistLabel={t("fullPlaylist")}
             shortsPlaylistLabel={t("shortsPlaylist")}
-            siteHref="/explore/figures"
+            siteHref="/explore"
             siteLabel={t("series.library.siteLink")}
           />
           <YoutubeSeriesCard
