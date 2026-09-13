@@ -110,7 +110,7 @@ scripts/
 | 명령 | 하는 일 |
 |---|---|
 | `faction:audit` | 팩션 인물 프로필·대표 원전 연결 전수 감사 |
-| `faction:seed:inactive` | 이름·영문명·식별 bio와 신규/기존 UUID 판단을 받아 비공개 후보와 숨김 신화 소속을 등록 |
+| `faction:seed:inactive` | 이름·영문명·식별 bio·실존 축(`FICTION`·`BOTH`)과 신규/기존 UUID 판단을 받아 비공개 후보와 숨김 신화 소속을 등록 |
 | `faction:sync` | 신화·전설 인물 명세를 셀럽 테이블에 동기화 |
 | `faction:sync:atlas` | 세력도감의 신화 인물을 비공개 프로필로 만들고 연결 |
 | `celeb:monologue-lock` | 가상 독백 확정 잠금·해제·목록 |

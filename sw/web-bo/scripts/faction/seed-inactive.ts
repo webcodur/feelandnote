@@ -1,5 +1,5 @@
 /**
- * 이름·bio만 준비된 신화·전설 인물을 fiction/inactive로 선등록한다.
+ * 이름·bio만 준비된 신화·전설 인물을 비공개로 선등록한다.
  *
  * 명세 형식:
  * {
@@ -9,10 +9,14 @@
  *       "nickname": "바리공주",
  *       "nickname_en": "Princess Bari",
  *       "bio": "한국 무속 신화에서 저승을 다녀와 부모를 살리는 인간 영웅.",
+ *       "celeb_reality": "FICTION",
  *       "identity": { "mode": "new" }
  *     }
  *   ]
  * }
+ *
+ * celeb_reality는 FICTION과 BOTH만 받으며 생략하면 FICTION이다. 건국 시조처럼 실존과 전승이
+ * 함께 다뤄지는 인물은 BOTH로 적는다. 실존 인물(REAL)은 이 경로로 넣지 않는다.
  *
  * 기본은 dry-run이다. --apply를 붙여야 DB를 바꾼다.
  * 신화 소속은 hidden=true인 웹 전용 배정으로 보존하므로 후보가 세력도감에 노출되지 않는다.
@@ -27,8 +31,8 @@ import { resolve } from 'node:path'
 import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/supabase-js'
 import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '../../src/lib/celeb-slug'
 import {
-  type InactiveFictionSeedPerson,
-  parseInactiveFictionSeedManifest,
+  type InactiveSeedPerson,
+  parseInactiveSeedManifest,
   reserveGeneratedSlug,
 } from './seed-inactive-contract'
 
@@ -64,7 +68,7 @@ type AssignmentRow = {
 
 type PlannedSeed = {
   kind: 'create' | 'link' | 'skip'
-  person: InactiveFictionSeedPerson
+  person: InactiveSeedPerson
   existing: ExistingProfile | null
   celebId: string
   slug: string
@@ -169,9 +173,10 @@ async function verifyApplied(
       ? profile.nickname !== plan.person.nickname
         || profile.nickname_en !== plan.person.nickname_en
         || profile.bio !== plan.person.bio
-        || profile.celeb_reality !== 'FICTION'
+        || profile.celeb_reality !== plan.person.celeb_reality
         || profile.publication_status !== 'inactive'
-      : profile.celeb_reality !== 'FICTION'
+      // 기존 인물은 실존 축을 건드리지 않으므로 값이 바뀌지 않았는지만 본다.
+      : profile.celeb_reality !== plan.existing?.celeb_reality
     const metricsMissing = plan.kind === 'create' && !metricCelebIds.has(plan.celebId)
     if (profileMismatch || assignment.hidden !== true || metricsMissing) {
       throw new Error(`${plan.slug}: 선등록 readback이 계획과 다릅니다.`)
@@ -186,7 +191,7 @@ async function main() {
     throw new Error('NEXT_PUBLIC_DB_API_URL과 DB_SECRET_KEY가 필요합니다.')
   }
 
-  const manifest = parseInactiveFictionSeedManifest(
+  const manifest = parseInactiveSeedManifest(
     JSON.parse(readFileSync(resolve(process.cwd(), file), 'utf8')) as unknown,
   )
   const apply = process.argv.includes('--apply')
@@ -243,10 +248,10 @@ async function main() {
         throw new Error(`${person.nickname}: 기존 프로필과 한영 이름이 일치하지 않습니다.`)
       }
       if (existing.celeb_reality === 'REAL') {
-        throw new Error(`${person.nickname}: 기존 인물의 티어가 fiction이 아닙니다.`)
+        throw new Error(`${person.nickname}: 기존 인물의 실존 축이 REAL입니다. 이 경로로 전승에 붙이지 않습니다.`)
       }
       if (existing.publication_status === 'deleted') {
-        throw new Error(`${person.nickname}: 삭제된 기존 fiction 프로필입니다.`)
+        throw new Error(`${person.nickname}: 삭제된 기존 프로필입니다.`)
       }
       const atlas = atlasByCeleb.get(existing.id)
       return {
@@ -258,7 +263,11 @@ async function main() {
         slugSuffix: null,
         reason: atlas
           ? `이미 ${atlas.source} 소속이 있습니다${atlas.hidden ? ' (숨김)' : ''}.`
-          : '기존 fiction 프로필에 숨김 소속만 추가합니다.',
+          : `기존 프로필에 숨김 소속만 추가합니다.${
+            existing.celeb_reality !== person.celeb_reality
+              ? ` 실존 축은 등록된 ${existing.celeb_reality}으로 두며 명세의 ${person.celeb_reality}로 바꾸지 않습니다.`
+              : ''
+          }`,
       }
     }
 
@@ -278,7 +287,7 @@ async function main() {
       slugSuffix: reserved.slugSuffix,
       reason: sameNameProfiles.length > 0
         ? `명시적 신규 인물입니다. 이름 일치 기존 후보 ${sameNameProfiles.map((row) => `${row.slug ?? row.id} (${row.bio ?? 'bio 없음'})`).join(', ')}와 분리합니다.`
-        : 'fiction/inactive 프로필과 숨김 소속을 만듭니다.',
+        : `${person.celeb_reality}/inactive 프로필과 숨김 소속을 만듭니다.`,
     }
   })
 
@@ -314,7 +323,7 @@ async function main() {
         slug_suffix: plan.slugSuffix,
         bio: plan.person.bio,
         celeb_tier: 'light',
-        celeb_reality: 'FICTION',
+        celeb_reality: plan.person.celeb_reality,
         publication_status: 'inactive',
         is_verified: false,
       })))

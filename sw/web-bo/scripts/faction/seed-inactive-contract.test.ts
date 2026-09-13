@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
-  parseInactiveFictionSeedManifest,
+  parseInactiveSeedManifest,
   reserveGeneratedSlug,
 } from './seed-inactive-contract'
 
-test('최소 fiction 선등록 명세를 정리한다', () => {
-  assert.deepEqual(parseInactiveFictionSeedManifest({
+test('최소 선등록 명세를 정리하고 실존 축을 FICTION으로 채운다', () => {
+  assert.deepEqual(parseInactiveSeedManifest({
     tag_slug: 'myth-korea',
     people: [{
       nickname: '  바리공주 ',
@@ -20,13 +20,43 @@ test('최소 fiction 선등록 명세를 정리한다', () => {
       nickname: '바리공주',
       nickname_en: 'Princess Bari',
       bio: '한국 무속 신화에서 저승을 다녀와 부모를 살리는 인간 영웅.',
+      celeb_reality: 'FICTION',
       identity: { mode: 'new' },
     }],
   })
 })
 
+test('건국 시조처럼 실존과 전승이 함께 다뤄지는 인물은 BOTH로 싣는다', () => {
+  const manifest = parseInactiveSeedManifest({
+    tag_slug: 'myth-korea',
+    people: [{
+      nickname: '박혁거세',
+      nickname_en: 'Bak Hyeokgeose',
+      bio: '나정 우물가의 붉은 알에서 나와 서라벌을 연 신라의 첫 임금.',
+      celeb_reality: 'BOTH',
+      identity: { mode: 'new' },
+    }],
+  })
+  assert.equal(manifest.people[0].celeb_reality, 'BOTH')
+})
+
+test('실존 인물(REAL)과 알 수 없는 값은 실존 축으로 받지 않는다', () => {
+  for (const value of ['REAL', 'real', 'both', '']) {
+    assert.throws(() => parseInactiveSeedManifest({
+      tag_slug: 'myth-korea',
+      people: [{
+        nickname: '박혁거세',
+        nickname_en: 'Bak Hyeokgeose',
+        bio: '신라의 첫 임금.',
+        celeb_reality: value,
+        identity: { mode: 'new' },
+      }],
+    }), /FICTION 또는 BOTH/)
+  }
+})
+
 test('명세 안의 동일 인물 중복과 100자를 넘는 bio를 거부한다', () => {
-  assert.throws(() => parseInactiveFictionSeedManifest({
+  assert.throws(() => parseInactiveSeedManifest({
     tag_slug: 'myth-korea',
     people: [
       { nickname: '바리공주', nickname_en: 'Princess Bari', bio: '설명', identity: { mode: 'new' } },
@@ -34,7 +64,7 @@ test('명세 안의 동일 인물 중복과 100자를 넘는 bio를 거부한다
     ],
   }), /인물 중복/)
 
-  assert.throws(() => parseInactiveFictionSeedManifest({
+  assert.throws(() => parseInactiveSeedManifest({
     tag_slug: 'myth-korea',
     people: [{
       nickname: '바리공주',
@@ -46,7 +76,7 @@ test('명세 안의 동일 인물 중복과 100자를 넘는 bio를 거부한다
 })
 
 test('기존 UUID를 명시해 연결하고 bio가 다른 동명이인 신규 등록을 허용한다', () => {
-  const manifest = parseInactiveFictionSeedManifest({
+  const manifest = parseInactiveSeedManifest({
     tag_slug: 'myth-china-xiyou',
     people: [
       {
@@ -77,7 +107,7 @@ test('기존 UUID를 명시해 연결하고 bio가 다른 동명이인 신규 �
   })
   assert.equal(manifest.people.length, 4)
 
-  assert.throws(() => parseInactiveFictionSeedManifest({
+  assert.throws(() => parseInactiveSeedManifest({
     tag_slug: 'myth-china-xiyou',
     people: [{
       nickname: '이정',
