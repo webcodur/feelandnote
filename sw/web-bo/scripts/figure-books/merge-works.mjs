@@ -75,6 +75,10 @@ async function applyOne(db, plan) {
       else await must('감상 이동', db.from('celeb_contents').update({ content_id: plan.keep }).eq('content_id', plan.drop).eq('celeb_id', row.celeb_id))
     }
   }
+  // 5) 작품을 가리키는 나머지 표를 keep으로 옮긴다. 26.09.11 기관 선정 목록을 옮기지 않아 목록 연결 10건이 끊겼다.
+  for (const table of ['curated_list_items', 'flow_nodes', 'records', 'notes']) {
+    await must(`${table} 이동`, db.from(table).update({ content_id: plan.keep }).eq('content_id', plan.drop))
+  }
   await must('작품 표시 삭제', db.from('figure_book_contents').delete().eq('content_id', plan.drop))
   await must('작품 삭제', db.from('contents').delete().eq('id', plan.drop))
 }

@@ -356,6 +356,18 @@ function bestVideo(cands: Found[], rawTitle: string, year: number | null, loose 
  * 괄호 안 본명·필명(『Émile Ajar (Romain Gary)』)이나 악센트(Éric)가 그대로 들어가면
  * 검색처가 한 건도 돌려주지 않는다. 첫 저자만 남기고 악센트를 풀어 쓴다.
  */
+/** 같은 locale 에서 제목(정규화)과 저자 성이 맞는 기존 작품을 찾는다. 없으면 null. */
+async function findSameWork(db: ReturnType<typeof createClient>, locale: 'ko' | 'en', title: string, creator: string | null): Promise<string | null> {
+  const { data } = await db.from('content_locales').select('content_id,title,creator').eq('locale', locale).ilike('title', title.split(/[:：(]/)[0].trim()).limit(10)
+  const want = normTitle(title)
+  const surname = (creator ?? '').split(/[,/^]/)[0].trim().split(/\s+/).pop()?.toLowerCase() ?? ''
+  for (const row of data ?? []) {
+    if (normTitle(row.title) !== want) continue
+    if (!surname || !row.creator || row.creator.toLowerCase().includes(surname)) return row.content_id as string
+  }
+  return null
+}
+
 function queryAuthor(raw: string): string {
   return raw
     .replace(/\([^)]*\)/g, ' ')
@@ -522,6 +534,10 @@ async function main() {
       }
     }
 
+    // 카카오가 돌려준 것이 수입 원서(한글 없는 제목)면 한국어판이 아니다. ko 카드에 넣으면 한국어 화면에 영문 제목이
+    // 그대로 나가고, 뒤에 언어 카드 정비가 그 카드를 지운다(26.09.10 실측). 영문판으로 담고 한국어 제목은 표시용 행이 맡는다.
+    if (found && !isVideo && found.locale === 'ko' && !/[가-힣]/.test(found.title)) found = { ...found, locale: 'en' }
+
     if (!found) {
       notFound++
       failures.push({ list: listSlug, title: it.raw_title, creator: it.raw_creator })
@@ -539,6 +555,8 @@ async function main() {
       const { data: existing } = await db.from('contents').select('id').eq('external_id', externalId).limit(1)
       if (existing?.length) contentId = existing[0].id as string
     }
+    // ISBN 이 달라도 같은 작품(제목+저자)이 이미 있으면 그쪽에 잇는다 — 판본 없이 등록된 작품(표시용 행만)이 있어 ISBN 대조만으로는 두 벌이 생긴다(26.09.13)
+    if (!contentId && !isVideo) contentId = await findSameWork(db, found.locale, found.title, found.creator)
 
     if (contentId) {
       linkedExisting++
