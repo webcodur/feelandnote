@@ -10,8 +10,8 @@ import { createClient } from '@supabase/supabase-js'
 import { usableReview } from './lib/quality.mts'
 import fs from 'node:fs'
 import path from 'node:path'
+import { ASSETS } from '../blog-assets.mjs'
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..')
 const db = createClient(process.env.NEXT_PUBLIC_DB_API_URL!, process.env.DB_SECRET_KEY!)
 const TMDB = process.env.TMDB_API_KEY!
 const args = process.argv.slice(2)
@@ -56,10 +56,10 @@ const cmapC = new Map(contents.map((c) => [c.id, c]))
 const celebs = await page<{ id: string; slug: string; nickname: string; profession: string | null; title: string | null; avatar_url: string | null }>(
   'celebs', 'id, slug, nickname, profession, title, avatar_url', (q) => q.eq('publication_status', 'active'))
 const people = new Map(celebs.map((c) => [c.id, c]))
-const cc = await page<{ celeb_id: string; content_id: string; review: string | null }>('celeb_contents', 'celeb_id, content_id, review')
-const byContent = new Map<string, { name: string; slug: string; profession: string | null; title: string | null; review: string }[]>()
+const cc = await page<{ id: string; celeb_id: string; content_id: string; review: string | null }>('celeb_contents', 'id, celeb_id, content_id, review')
+const byContent = new Map<string, { name: string; slug: string; profession: string | null; title: string | null; review: string; avatar_url: string | null }[]>()
 cc.forEach((r) => {
-  if (!ids.includes(r.content_id) || !usableReview(r.review)) return
+  if (!ids.includes(r.content_id) || !usableReview(r.review, r.id)) return
   const c = people.get(r.celeb_id); if (!c) return
   if (!byContent.has(r.content_id)) byContent.set(r.content_id, [])
   byContent.get(r.content_id)!.push({ name: c.nickname, slug: c.slug, profession: c.profession, title: c.title, review: r.review!, avatar_url: c.avatar_url })
@@ -124,12 +124,27 @@ const closingPool = withVoice
 closingPool.sort((a, b) => a.review.length - b.review.length)
 const closing = closingPool[0] ?? null
 
+/**
+ * 목록 편 머리에 걸 **가로 배너.** 시상식 자체를 대표하는 이미지는 DB에 없으므로
+ * (`cover_image_url` 은 비어 있고 `logo_url` 은 세로형이다) 그 목록에서 가장 많이 꼽힌
+ * 작품의 TMDB 스틸컷(16:9)을 쓴다. 어느 작품의 장면인지는 캡션에 밝힌다.
+ */
+let banner: { url: string; title: string } | null = null
+for (const r of picked) {
+  const id = (cmapC.get(r.contentId ?? '')?.external_id ?? '').match(/tmdb-movie-(\d+)/)?.[1]
+  if (!id) continue
+  const im: any = await (await fetch(`https://api.themoviedb.org/3/movie/${id}/images?api_key=${TMDB}`)).json()
+  const b = (im.backdrops ?? []).filter((x: any) => !x.iso_639_1).sort((a: any, c: any) => c.vote_average - a.vote_average)[0]
+    ?? (im.backdrops ?? [])[0]
+  if (b) { banner = { url: `https://image.tmdb.org/t/p/w1280${b.file_path}`, title: r.title }; break }
+}
+
 const out = { list: { slug: list.slug, title: list.title, description: list.description, method: list.method,
                       publishedYear: list.published_year, sourceUrl: list.source_url, isRanked: list.is_ranked, isAnnual: list.is_annual },
               curator: curator ? { slug: curator.slug, name: curator.name, kind: curator.kind, homepage: curator.homepage_url } : null,
-              totalItems: all.length, withVoice: withVoice.length, all, picked, closing }
-fs.mkdirSync(path.join(ROOT, 'data/tistory-cinema'), { recursive: true })
-const file = path.join(ROOT, `data/tistory-cinema/목록-${list.title.replace(/[\/:*?"<>|]/g, '')}.json`)
+              totalItems: all.length, withVoice: withVoice.length, all, picked, closing, banner }
+fs.mkdirSync(path.join(ASSETS, 'tistory-cinema'), { recursive: true })
+const file = path.join(ASSETS, `tistory-cinema/목록-${list.title.replace(/[\/:*?"<>|]/g, '')}.json`)
 fs.writeFileSync(file, JSON.stringify(out, null, 2))
 console.log(`${list.title}: ${all.length}편 중 감상 붙은 ${withVoice.length}편 · 자세히 쓸 ${picked.length}편`)
 console.log('상위:', picked.slice(0, 5).map((p) => `${p.title}(${p.voices.length}명)`).join(' · '))

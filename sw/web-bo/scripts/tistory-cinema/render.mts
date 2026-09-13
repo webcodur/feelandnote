@@ -22,10 +22,15 @@ export type Material = {
   picked: Picked[]
   alsoLiked?: { id: string; title: string; n: number }[]
   profCount?: Record<string, number>
+  /**
+   * 제목 앞에 세울 **이 영화가 어떤 영화인지** 한 줄. `headlines.json` 이 쥐고
+   * `preview.mts` 가 작품 이름으로 찾아 넣는다. 없으면 옛 제목 형식으로 돌아간다.
+   */
+  headline?: string | null
 }
 
 const PROF: Record<string, string> = {
-  director: '감독', actor: '배우', musician: '음악가', athlete: '스포츠', entrepreneur: '기업가',
+  director: '감독', actor: '배우', musician: '음악가', athlete: '운동선수', entrepreneur: '기업가',
   humanities_scholar: '학자', social_scientist: '학자', natural_scientist: '학자', scientist: '학자',
   author: '작가', poet: '작가', influencer: '크리에이터', investor: '투자자',
   politician: '정치인', leader: '정치인', commander: '군인', visual_artist: '예술가', other: '',
@@ -33,13 +38,15 @@ const PROF: Record<string, string> = {
 /** 한글 받침에 맞춰 조사를 고른다. 「대부을」 같은 글이 나가면 그 한 줄에서 신뢰를 잃는다. */
 const josa = (word: string, withBatchim: string, without: string) => {
   const last = word.replace(/[』」\]\)]+$/, '').slice(-1)
+  if (/\d/.test(last)) return /[013678]/.test(last) ? withBatchim : without
   const code = last.charCodeAt(0)
-  if (code < 0xac00 || code > 0xd7a3) return without   // 한글이 아니면(숫자·영문) 받침 없는 쪽
+  if (code < 0xac00 || code > 0xd7a3) return without
   return (code - 0xac00) % 28 ? withBatchim : without
 }
 const eul = (w: string) => josa(w, '을', '를')
 const eun = (w: string) => josa(w, '은', '는')
 const ga = (w: string) => josa(w, '이', '가')
+const wa = (w: string) => josa(w, '과', '와')
 /** 「…로/으로」. 받침이 ㄹ이면 「로」다. */
 const ro = (w: string) => {
   const last = w.replace(/[』」\]\)]+$/, '').slice(-1)
@@ -63,7 +70,14 @@ const cleanTitle = (t: string) =>
  * 앞머리는 그대로 두고 **부제를 예산 안에서 채울 수 있는 만큼만** 붙인다. 잘릴 바에는
  * 짧게 끝내는 편이 낫다 — 잘린 부제는 클릭을 부르지 못하고 자리만 먹는다.
  */
-const TITLE_MAX = 36
+/**
+ * 🔴 **「꼽았다」·「인생 영화」로 제목을 짓지 않는다.** DB 에 있는 것은 **감상 기록**이지
+ * 추천이 아니다(26.09.05). 「인생 영화로 꼽았다」고 실제로 말한 사람도 있지만 그것은 그
+ * 사람의 원문이고, 우리가 기록 전체를 그렇게 부르면 없는 말을 지어내는 셈이다.
+ * 제목과 본문 뼈대는 **「감상한」**으로 쓰고, 추천 프레임은 **태그**에만 남긴다
+ * (`인생영화`·`영화추천`·`추천영화`).
+ */
+export const TITLE_MAX = 36
 /**
  * 부제는 **둘 이상 들어갈 때만** 붙인다. 하나만 남으면 「『택시 드라이버』… | 탑」처럼
  * 초라해져 안 붙이느니만 못하다. 한 글자짜리 이름(그룹명 등)도 대표로 세우지 않는다.
@@ -102,12 +116,51 @@ function pickTitle(cands: string[], max = TITLE_MAX) {
  */
 const P_STYLE = 'margin:0 !important;padding:0 0 20px !important;line-height:1.9;'
 const para = (html: string) => `<p style="${P_STYLE}">${html}</p>`
-const h2 = (id: string, text: string) =>
-  `<h2 id="${id}" style="margin:0 !important;padding:34px 0 16px !important;font-size:21px;line-height:1.45;border-top:1px solid #eee;">${text}</h2>`
-const h3 = (text: string) => `<h3 style="margin:0 !important;padding:24px 0 10px !important;font-size:17px;">${text}</h3>`
+
+/**
+ * 절과 절 사이의 가로줄.
+ *
+ * 예전에는 `h2` 의 `border-top` 이 그 역할을 했는데, 선 아래 34px·위 0px 이라 **선이 앞
+ * 문단에서 멀고 다음 제목에 붙어** 어느 쪽에 속한 선인지 알기 어려웠다. 선은 **끝난 글에
+ * 가깝게** 긋고 다음 절은 넉넉히 띄워 시작한다(위 12px · 아래 56px). 아래를 32px 로
+ * 잡았더니 「개행 다수 박아라」는 말을 다시 들었다 — 절이 바뀐 것이 보이려면 문단 간격
+ * (20px)의 두 배는 넘어야 한다.
+ *
+ * `hr` 대신 `div` 두 겹을 쓴다 — 스킨이 `hr` 을 제 스타일로 덮고 `margin` 을 죽인다.
+ */
+const RULE = '<div style="margin:0 !important;padding:12px 0 56px !important;">'
+  + '<div style="border-top:1px solid #e5e5e5;height:0;font-size:0;line-height:0;"></div></div>'
+
+/** 감상문은 어디서나 초록이다. 본문 서술과 남의 말을 색으로 가른다. */
+const REVIEW_COLOR = '#1a7f4b'
+
+const h2 = (id: string, text: string, center = false) =>
+  `${RULE}<h2 id="${id}" style="margin:0 !important;padding:0 0 16px !important;font-size:21px;line-height:1.45;${center ? 'text-align:center;' : ''}">${text}</h2>`
+const h3 = (text: string, id?: string) =>
+  `<h3${id ? ` id="${id}"` : ''} style="margin:0 !important;padding:24px 0 10px !important;font-size:17px;">${text}</h3>`
+
+/**
+ * 목차. **절마다 번호를 매기고 하위 절은 1-1 꼴로 잇는다.** 번호가 없으면 지금 몇 번째
+ * 절을 읽고 있는지 알 수 없고, 긴 글에서 되돌아오기도 어렵다. 목차와 본문 제목은 같은
+ * 문자열을 쓴다 — 따로 적으면 한쪽만 고쳐 어긋난다.
+ */
+type Sec = { id: string; label: string; subs?: { id: string; label: string }[] }
+const toc = (secs: Sec[]) => {
+  const li = (href: string, text: string) =>
+    `<li style="padding:3px 0;"><a href="#${href}" style="color:#333;">${text}</a></li>`
+  const body = secs.map((sc, i) => {
+    const inner = (sc.subs ?? []).map((sb, j) => li(sb.id, `${i + 1}-${j + 1}. ${sb.label}`)).join('')
+    return li(sc.id, `${i + 1}. ${sc.label}`).replace('</li>',
+      inner ? `<ul style="margin:0;padding:4px 0 0 16px;list-style:none;">${inner}</ul></li>` : '</li>')
+  }).join('')
+  return '<div style="margin:0 !important;padding:10px 0 32px !important;">'
+    + '<div style="padding:20px 24px;background:#f7f7f8;border-radius:6px;">'
+    + '<div style="font-weight:700;padding-bottom:8px;">목차</div>'
+    + `<ul style="margin:0;padding:0;list-style:none;line-height:1.9;">${body}</ul></div></div>`
+}
 /** 배경·테두리가 있는 블록의 바깥 여백. 스킨이 margin 을 죽여도 이 래퍼는 남는다. */
 /** 첫 문단은 늘 같은 인사로 연다. 채널의 표지이자 읽는 사람이 붙잡을 손잡이다. */
-const HELLO = '안녕하세요, 필앤노트입니다.'
+const HELLO = '안녕하세요, 필앤노트 아가톤입니다.'
 
 const gap = (html: string, px = 26) => `<div style="margin:0 !important;padding:0 0 ${px}px !important;">${html}</div>`
 
@@ -115,20 +168,69 @@ const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 /**
  * 원문에 빈 줄이 있으면 문단으로 살린다. 알렉스 퍼거슨의 388자 감상처럼 두 문단으로 쓴
  * 것이 한 덩어리로 붙어 나오면 읽기 어렵다. 원문을 고치지 않고 보이는 방식만 맞춘다.
+ *
+ * 🔴 `<p>` 를 **온전히 닫아서** 돌려준다. 예전에는 `</p><p …>` 로 잇기만 해 부르는 쪽이
+ * `<p>` 로 감싸 주기를 기대했는데, 감싸지 않은 자리에서 여는 짝 없는 `</p>` 가 새어 나갔다.
  */
 const revHtml = (t: string) =>
-  esc(t).split(/\n{2,}/).map((x) => x.trim()).filter(Boolean).join('</p><p style="margin:0 !important;padding:14px 0 0 !important;">')
+  esc(t).split(/\n{2,}/).map((x) => x.trim()).filter(Boolean)
+    .map((x, i) => `<p style="margin:0 !important;padding:${i ? 14 : 0}px 0 0 !important;color:${REVIEW_COLOR} !important;">${x}</p>`)
+    .join('')
 
 const anchor = (i: number) => `fn-${i}`
 
 /** 인물 이름에서 링크할 사이트 주소 */
 const celebUrl = (slug: string) => `https://feelandnote.com/celeb/${slug}`
+const workUrl = (id: string) => `https://feelandnote.com/content/${id}`
+
+/**
+ * 인물 링크는 **버튼으로 세운다.** 이름에 밑줄만 그어 두면 본문 글자와 섞여 지나친다.
+ * 이 채널의 목적은 검색에서 자리를 차지해 **사람을 사이트로 보내는 것**이므로, 나온 사람
+ * 이름은 전부 눌러 볼 수 있게 만든다. 알약형에 아바타를 붙이면 누구인지도 함께 보인다.
+ */
+const celebBtn = (name: string, slug: string, avatar?: string | null, label?: string | null) =>
+  `<a href="${celebUrl(slug)}" style="display:inline-block !important;margin:0 !important;`
+  + `padding:6px 14px 6px ${avatar ? '6px' : '14px'} !important;background:#f4f4f6;`
+  + `border:1px solid #e2e2e6;border-radius:999px;color:#111 !important;text-decoration:none !important;`
+  + `font-size:14px;font-weight:600;line-height:1.4;vertical-align:middle;">`
+  + (avatar ? `<img src="${avatar}" alt="" width="24" height="24" style="width:24px !important;height:24px !important;`
+      + `border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:7px;background:#ddd;" />` : '')
+  + `${esc(name)}${label ? `<span style="font-weight:400;color:#888;"> ${esc(label)}</span>` : ''}</a>`
+
+/** 글 끝에 나온 사람들을 모아 놓는 자리. 중복은 슬러그로 거른다. */
+const celebWall = (
+  people: { name: string; slug: string; avatar?: string | null; label?: string | null }[],
+) => {
+  const seen = new Set<string>()
+  const uniq = people.filter((x) => x.slug && !seen.has(x.slug) && seen.add(x.slug))
+  if (!uniq.length) return ''
+  return `<div style="margin:0 !important;padding:0 0 8px !important;line-height:2.6;">`
+    + uniq.map((x) => celebBtn(x.name, x.slug, x.avatar, x.label)).join(' ')
+    + `</div>`
+}
 
 export function renderWork(m: Material): { title: string; html: string; tags: string[] } {
   const t = cleanTitle(m.work.title)
   const year = (m.work.release ?? m.tmdb.release ?? '').slice(0, 4)
   const names = m.picked.slice(0, 6).map((p) => p.nickname).sort((a, b) => a.length - b.length)
-  const title = fitTitle(`『${t}』${eul(t)} 인생 영화로 꼽은 ${m.total}명`, names)
+  /**
+   * 🔴 **제목이 어떤 영화인지 말하게 한다(26.09.07).** 「『라쇼몽』을 감상한 6명의 셀럽」은
+   *    누가 봤는지만 말하고 무슨 영화인지는 말하지 않는다. 목록에서 이 제목을 보는 사람은
+   *    그 작품을 모를 수 있고, 그러면 누가 꼽았든 누를 이유가 없다.
+   *
+   *    헤드라인이 있으면 **앞에** 세운다. 36자 예산 안에서 인물 이름 부제는 뒤로 밀려
+   *    빠지는데, 그 교환은 의도한 것이다 — 영화가 무엇인지가 누가 봤는지보다 앞선다.
+   *    헤드라인은 `headlines.json` 이 쥐고 `preview.mts` 가 넣어 준다. 없으면 옛 제목이다.
+   */
+  const head = (m.headline ?? '').trim()
+  const title = head
+    ? pickTitle([
+      `${head}, 『${t}』${eul(t)} 감상한 ${m.total}명의 셀럽`,
+      `${head}, 『${t}』${eul(t)} 감상한 ${m.total}명`,
+      `${head}, 『${t}』`,
+      `『${t}』${eul(t)} 감상한 ${m.total}명의 셀럽`,
+    ])
+    : fitTitle(`『${t}』${eul(t)} 감상한 ${m.total}명의 셀럽`, names)
 
   const L: string[] = []
   const p = (x: string) => L.push(x)
@@ -153,31 +255,42 @@ export function renderWork(m: Material): { title: string; html: string; tags: st
    * 늘어놓아 읽기도 나빴다. 마지막을 물음으로 닫아 목차와 본문으로 넘긴다.
    */
   /**
-   * 작품 소개는 **한 문단에 정보를 몰아 넣는다.** 연도·감독·장르만 적으면 「그래서 어떤
-   * 영화인데」가 남는다. 러닝타임·주연·평점까지 한 번에 읽히도록 이어 붙인다.
-   * 줄거리는 아래 「어떤 영화인가」 절이 온전히 쥔다 — 여기서 겹쳐 쓰지 않는다.
+   * 🔴 **도입에 제원을 늘어놓지 않는다.** 연도·감독·러닝타임·주연·평점을 한 문단에 몰아
+   *    넣었더니 「이런 거면 표로 나중에 읽고 말지」라는 말을 들었다(26.09.05). 그 값은
+   *    바로 아래 정보표에 전부 있다. 도입은 **왜 이 영화를 여기서 다루는지**를 말한다.
+   *
+   *    쓸 수 있는 각은 둘이다. 하나는 **나이 대비 평점** — 오래됐는데 아직 높다는 사실은
+   *    한 문장으로 작품의 자리를 알려 준다. 다른 하나는 **우리만 가진 수** — 몇 명이 이
+   *    영화를 인생작으로 꼽았는가. 둘을 한 문단에 붙인다.
    */
-  const bits: string[] = []
-  const made = [year ? `${year}년` : '', m.tmdb.director?.length ? `${esc(m.tmdb.director[0])}${ga(m.tmdb.director[0])} 만든` : '',
-    m.tmdb.genres?.length ? `${esc(m.tmdb.genres.slice(0, 2).join('·'))} 영화` : '작품'].filter(Boolean).join(' ')
-  bits.push(m.tmdb.runtime ? `${made}로 러닝타임은 ${m.tmdb.runtime}분입니다.` : `${made}입니다.`)
-  const cast = (m.tmdb.cast ?? []).filter((c) => /[가-힣]/.test(c.name)).slice(0, 3).map((c) => esc(c.name))
-  if (cast.length >= 2) bits.push(`${cast[0]}${ga(cast[0])} 주연을 맡았고 ${cast.slice(1).join(', ')}${eul(cast[cast.length - 1])} 비롯한 배우들이 함께 나옵니다.`)
-  else if (cast.length === 1) bits.push(`${cast[0]}${ga(cast[0])} 주연을 맡았습니다.`)
-  if (m.tmdb.vote) bits.push(`TMDB 평점은 10점 만점에 <b>${m.tmdb.vote.toFixed(1)}점</b>이고 ${(m.tmdb.voteCount ?? 0).toLocaleString()}명이 매겼습니다.`)
+  const yearN = Number(year)
+  const age = yearN ? new Date().getFullYear() - yearN : 0
+  const vote = m.tmdb.vote ? m.tmdb.vote.toFixed(1) : ''
+  const standing = vote && age >= 20
+    ? `${year}년 영화니 나온 지 ${age}년이 지났는데, TMDB 평점은 아직 <b>${vote}점</b>입니다.`
+    : vote ? `TMDB 평점은 <b>${vote}점</b>입니다.`
+      : `${year ? `${year}년 ` : ''}작품입니다.`
 
   p(para(HELLO))
-  p(para(`오늘 만나볼 영화는 『${esc(t)}』입니다. ${bits.join(' ')}`))
-  p(para(`이 작품을 인생 영화로 꼽은 사람이 <b>${m.total}명</b> 있습니다.${pair.length === 2 ? ` 감독과 배우만이 아니라 ${pair[0]}·${pair[1]} 쪽에서도 이 영화를 말했습니다.` : ''} 그들은 어디서 무슨 말을 했을까요?`))
+  p(para(`오늘 만나볼 영화는 『${esc(t)}』입니다. ${standing} 그리고 필앤노트에 모인 기록에서 이 영화를 감상한 셀럽만 <b>${m.total}명</b>입니다.`))
+  /**
+   * 번역투를 걷는다. 「…한 사람이 N명 있습니다」·「그들은 …했을까요」는 영어를 그대로 옮긴
+   * 말이다. 주어를 덜어 내고 「…만 N명입니다」·「하나씩 보겠습니다」로 간다.
+   */
+  p(para(`감독과 배우는 물론이고 ${pair.length === 2 ? `${pair[0]}${wa(pair[0])} ${pair[1]}까지` : '영화를 만들지 않는 사람들까지'} 있습니다. 어디서 무슨 말을 했는지 하나씩 보겠습니다.`))
 
-  p(`<div style="margin:0 !important;padding:10px 0 32px !important;"><div style="padding:20px 24px;background:#f7f7f8;border-radius:6px;">`)
-  p(`<ul style="margin:0;padding-left:18px;line-height:2.2;">`)
-  p(`<li><a href="#fn-about">『${esc(t)}』${eun(t)} 어떤 영화인가</a></li>`)
-  p(`<li><a href="#fn-people">이 영화를 인생작으로 꼽은 ${m.picked.length}명</a></li>`)
-  p(`<li><a href="#fn-note">필앤노트 리뷰</a></li>`)
-  p(`</ul></div></div>`)
+  const S_ABOUT = `『${esc(t)}』${eun(t)} 어떤 영화인가`
+  const S_PEOPLE = `${m.picked.length}인의 리뷰`
+  const subs: { id: string; label: string }[] = []
+  if (m.tmdb.overview) subs.push({ id: 'fn-plot', label: '줄거리' })
+  if (m.tmdb.trailer) subs.push({ id: 'fn-trailer', label: '예고편' })
+  const secs: Sec[] = [{ id: 'fn-about', label: S_ABOUT, subs }, { id: 'fn-people', label: S_PEOPLE }]
+  secs.push({ id: 'fn-wall', label: '이 글에 나온 사람들' })
+  p(toc(secs))
 
-  p(h2('fn-about', `『${esc(t)}』${eun(t)} 어떤 영화인가`))
+  const no = (id: string) => `${secs.findIndex((x) => x.id === id) + 1}. `
+  const subNo = (id: string) => `1-${subs.findIndex((x) => x.id === id) + 1}. `
+  p(h2('fn-about', `${no('fn-about')}${S_ABOUT}`))
   p(`<div style="margin:0 !important;padding:0 0 24px !important;"><table style="width:100%;border-collapse:collapse;font-size:15px;">`)
   const row = (k: string, v: string) =>
     p(`<tr><th style="width:104px;text-align:left;padding:10px 0;border-bottom:1px solid #eee;color:#666;font-weight:500;">${k}</th><td style="padding:10px 0;border-bottom:1px solid #eee;">${v}</td></tr>`)
@@ -191,11 +304,11 @@ export function renderWork(m: Material): { title: string; html: string; tags: st
   if (m.tmdb.vote) row('평점', `<b>${m.tmdb.vote.toFixed(1)}</b> / 10 <span style="color:#999;">(TMDB · ${(m.tmdb.voteCount ?? 0).toLocaleString()}명)</span>`)
   p(`</table></div>`)
   if (m.tmdb.overview) {
-    p(h3('줄거리'))
+    p(h3(`${subNo('fn-plot')}줄거리`, 'fn-plot'))
     p(para(esc(m.tmdb.overview)))
   }
   if (m.tmdb.trailer) {
-    p(h3('예고편'))
+    p(h3(`${subNo('fn-trailer')}예고편`, 'fn-trailer'))
     /**
      * 🔴 `padding-bottom:56.25%` 반응형 상자는 쓰지 않는다. 스킨이 `padding` 을 덮으면
      *    상자만 남고 화면이 빈다(26.09.05). 폭·높이를 직접 못 박는다.
@@ -206,8 +319,8 @@ export function renderWork(m: Material): { title: string; html: string; tags: st
     p(`<p style="margin:0 0 22px;font-size:13px;color:#999;">영상이 보이지 않으면 <a href="https://www.youtube.com/watch?v=${m.tmdb.trailer.key}" rel="nofollow">유튜브에서 보기</a></p>`)
   }
 
-  p(h2('fn-people', `이 영화를 인생작으로 꼽은 ${m.picked.length}명`))
-  p(para(`인터뷰·팟캐스트·공식 프로필에 남은 말을 <b>고치지 않고</b> 옮겼습니다. 이름을 누르면 그 사람이 본 다른 작품도 보실 수 있습니다.`))
+  p(h2('fn-people', `${no('fn-people')}${S_PEOPLE}`))
+  p(para(`인터뷰와 팟캐스트, 공식 프로필에 남은 말을 <b>고치지 않고</b> 옮겼습니다. 이름을 누르면 그 사람이 본 다른 작품도 보실 수 있습니다.`))
   m.picked.forEach((r, i) => {
     const label = [PROF[r.profession ?? ''] ?? '', (r.title ?? '').replace(/[「」『』]/g, '')].filter(Boolean).join(' · ')
     const intro = (r.headline || r.bio || '').trim()
@@ -219,23 +332,31 @@ export function renderWork(m: Material): { title: string; html: string; tags: st
      */
     if (r.avatar_url) p(`<img src="${r.avatar_url}" alt="${esc(r.nickname)}" width="64" height="64" style="width:64px !important;height:64px !important;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#eee;" />`)
     p(`<div style="flex:1 1 auto;min-width:0;">`)
-    p(`<div><a href="${celebUrl(r.slug)}" style="font-weight:700;font-size:16px;color:#111;text-decoration:none;">${esc(r.nickname)}</a>${label ? ` <span style="font-size:13px;color:#888;">${esc(label)}</span>` : ''}</div>`)
+    p(`<div>${celebBtn(r.nickname, r.slug, null, label)}</div>`)
     if (intro) p(`<div style="margin-top:2px;font-size:13.5px;color:#777;line-height:1.6;">${esc(intro)}</div>`)
     p(`</div></div>`)
     p(`<div style="line-height:1.9;">${revHtml(r.review)}</div>`)
     p(`</div></div>`)
   })
 
-  p(h2('fn-note', '필앤노트 리뷰'))
-  const filmFolk = (m.profCount?.director ?? 0) + (m.profCount?.actor ?? 0)
-  const outside = m.total - filmFolk
-  if (outside > 0 && nonFilm.length) {
-    p(para(`이 영화를 꼽은 ${m.total}명 가운데 감독과 배우는 ${filmFolk}명입니다. 나머지 ${outside}명은 ${nonFilm.slice(0, 3).map(([k]) => PL(k)).filter(Boolean).join('·')}처럼 영화를 만들지 않는 사람들입니다.`))
-  }
+  /**
+   * 🔴 **「필앤노트 리뷰」 절은 걷어 냈다(26.09.06).** 121편 중 71편이 「18명 가운데 열이
+   *    배우입니다」 식으로 앞 절의 인물을 다시 세고 있었다. 본문 서두가 이미 「이 영화를
+   *    감상한 N명」이라 같은 말을 두 번 하는 꼴이었다.
+   *    다시 넣는다면 **영화 자체를 다루는 글**이어야 한다. 인물을 세는 글은 여기 오지 않는다.
+   *    함께 꼽힌 작품 한 줄은 리뷰가 아니라 사이트로 가는 통로라 남긴다.
+   */
   if (m.alsoLiked?.length) {
-    const list = m.alsoLiked.map((a) => `『${esc(cleanTitle(a.title))}』(${a.n}명)`).join(', ')
-    p(para(`이 사람들이 『${esc(t)}』 말고 함께 꼽은 작품은 ${list} 순입니다. 같은 영화를 인생작으로 든 사람들이 무엇을 더 보았는지는 기록을 모아 두어야 보입니다.`))
+    const list = m.alsoLiked.map((a) => `『${esc(cleanTitle(a.title))}』 ${a.n}명`).join(' · ')
+    p(`<p style="${P_STYLE}font-size:14px;color:#888;">이 영화를 감상한 사람들이 함께 본 작품 — ${list}</p>`)
   }
+  /**
+   * 나온 사람을 **글 끝에 다시 모은다.** 본문 중간의 버튼은 읽다가 지나치기 쉽고, 다 읽고
+   * 나서야 「이 사람 누구지」가 생긴다. 그 자리에 문을 놓는다.
+   */
+  p(h2('fn-wall', `${no('fn-wall')}이 글에 나온 사람들`))
+  p(para('이름을 누르면 그 사람이 읽고 보고 들은 기록이 전부 열립니다.'))
+  p(celebWall(m.picked.map((r) => ({ name: r.nickname, slug: r.slug, avatar: r.avatar_url, label: PROF[r.profession ?? ''] ?? '' }))))
   p(`<p style="${P_STYLE}color:#666;">필앤노트는 인물이 실제로 읽고 보고 들은 것을 <b>출처와 함께</b> 모읍니다. 위 발언은 모두 인터뷰·팟캐스트·공식 프로필에서 옮겼고 원문을 고치지 않았습니다.</p>`)
 
   const rest = m.total - m.picked.length
@@ -243,7 +364,7 @@ export function renderWork(m: Material): { title: string; html: string; tags: st
   p(`<img src="https://feelandnote.com/icon.png" alt="필앤노트" style="width:52px !important;height:52px !important;border-radius:12px;margin-bottom:14px;" />`)
   p(`<div style="color:#fff;font-size:17px;font-weight:700;margin-bottom:8px;">나머지 ${rest}명은 필앤노트에서</div>`)
   p(`<div style="color:#bbb;font-size:14px;margin-bottom:18px;">누가 언제 어디서 이 영화를 말했는지 출처까지 함께 있습니다.</div>`)
-  p(`<a href="https://feelandnote.com/content/${m.work.id}" style="display:inline-block;padding:12px 24px;background:#fff;color:#111;border-radius:4px;text-decoration:none;font-weight:700;">『${esc(t)}』${eul(t)} 꼽은 ${m.total}명 전체 보기 →</a>`)
+  p(`<a href="https://feelandnote.com/content/${m.work.id}" style="display:inline-block;padding:12px 24px;background:#fff;color:#111;border-radius:4px;text-decoration:none;font-weight:700;">『${esc(t)}』${eul(t)} 감상한 ${m.total}명 전체 보기 →</a>`)
   p(`</div></div>`)
   p(`<p style="margin:0;font-size:13px;color:#999;">작품 정보·포스터·예고편 출처 TMDB. 필앤노트가 운영합니다.</p>`)
 
@@ -265,15 +386,18 @@ export type PersonMaterial = {
 export function renderPerson(m: PersonMaterial): { title: string; html: string; tags: string[] } {
   const who = m.celeb.name
   const prof = PROF[m.celeb.profession ?? ''] ?? ''
-  const title = fitTitle(`${who}${ga(who)} 꼽은 영화 ${m.total}편`, m.picked.slice(0, 5).map((p) => cleanTitle(p.title)))
+  const titleBase = `${who}${ga(who)} 감상한 영화 ${m.total}편`
+  const title = m.picked.length === 1
+    ? pickTitle([`${titleBase} | ${cleanTitle(m.picked[0].title)}`, titleBase])
+    : fitTitle(titleBase, m.picked.slice(0, 5).map((p) => cleanTitle(p.title)))
   const L: string[] = []
   const p = (s: string) => L.push(s)
 
   if (m.celeb.avatar) {
-    p(`<figure style="margin:0 0 24px;text-align:center;">`)
+    p(`<figure style="margin:0 !important;padding:0 0 24px !important;text-align:center;">`)
     p(`<img src="${m.celeb.avatar}" alt="${esc(who)}" style="width:130px !important;height:130px !important;object-fit:cover;border-radius:50%;border:1px solid #e3e3e3;" />`)
     p(`<figcaption style="margin-top:8px;font-size:13px;color:#888;">${esc(who)}${prof ? ` · ${prof}` : ''}</figcaption>`)
-    p(`</figure></div>`)
+    p(`</figure>`)
   }
 
   const intro = (m.celeb.headline || m.celeb.title || '').replace(/[「」『』]/g, '')
@@ -289,24 +413,27 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
    *    물음 → 목차)으로 맞춘다.
    */
   p(para(`오늘 만나볼 사람은 ${esc(who)}입니다.${intro ? ` ${esc(intro)}${ro(intro)} 알려져 있습니다.` : ''}`))
-  p(para(`${esc(who)}${ga(who)} 인터뷰와 방송에서 직접 말한 영화가 <b>${m.total}편</b> 있습니다. 아래는 그 가운데 널리 알려진 ${m.picked.length}편입니다. 그는 무엇을 보고 무슨 말을 했을까요?`))
+  // 번역투를 걷는다. 「…영화가 N편 있습니다 / 그는 …했을까요」 대신 주어를 덜어 낸다.
+  p(para(`필앤노트에 모인 ${esc(who)}의 영화 감상 기록은 <b>${m.total}편</b>입니다. ${m.picked.length < m.total ? `그중 ${m.picked.length}편을 골라 소개합니다.` : m.picked.length === 1 ? '이 영화에 관해 남긴 이야기를 소개합니다.' : '각 영화에 관해 남긴 이야기를 소개합니다.'}`))
 
-  p(`<div style="margin:28px 0;padding:18px 22px;background:#f7f7f8;border-radius:6px;">`)
-  p(`<div style="font-weight:700;margin-bottom:10px;">목차</div>`)
-  p(`<ul style="margin:0;padding-left:18px;line-height:2;">`)
-  m.picked.forEach((r, i) => p(`<li><a href="#fn-${i}">${esc(cleanTitle(r.title))}</a></li>`))
-  p(`</ul></div></div>`)
+  const pSecs: Sec[] = m.picked.map((r, i) => ({ id: `fn-${i}`, label: esc(cleanTitle(r.title)) }))
+  p(toc(pSecs))
 
   m.picked.forEach((r, i) => {
-    p(h2(`fn-${i}`, `${i + 1}. ${esc(cleanTitle(r.title))}`))
     /**
      * 🔴 가로 배치를 쓰지 않는다. 포스터 폭이 스킨에 밀려 148px 로 쪼그라들면 옆 정보 칸이
-     *    화면 끝까지 벌어져 글이 휑해 보인다(26.09.05). 게다가 아래 예고편(560px)과 폭이
-     *    어긋나 단이 들쭉날쭉해진다. **포스터 위, 정보 아래**로 세로로 쌓고 폭을 560px 에 맞춘다.
+     *    화면 끝까지 벌어져 글이 휑해 보인다(26.09.05).
+     *    그리고 절이 바뀌는 자리는 **가운데로 모은다** — 제목과 포스터가 왼쪽에 붙어 있으면
+     *    오른쪽이 통째로 비어 2열처럼 읽힌다. 정보·줄거리·인용은 왼쪽에 둔다.
      */
-    p(`<div style="margin:0 !important;padding:0 0 6px !important;max-width:560px;">`)
-    if (r.poster) p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" width="200" style="width:200px !important;max-width:100% !important;border:1px solid #e3e3e3;border-radius:2px;display:block;" />`)
-    p(`<div style="padding-top:12px;font-size:14px;line-height:2;color:#555;">`)
+    p(h2(`fn-${i}`, `${i + 1}. ${esc(cleanTitle(r.title))}`, true))
+    if (r.poster) {
+      p(`<div style="margin:0 !important;padding:0 0 16px !important;text-align:center;">`)
+      p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" width="220" style="width:220px !important;max-width:100% !important;border:1px solid #e3e3e3;border-radius:2px;display:inline-block;" />`)
+      p(`</div>`)
+    }
+    p(`<div style="margin:0 !important;padding:0 0 6px !important;">`)
+    p(`<div style="font-size:14px;line-height:2;color:#555;">`)
     if (r.creator) p(`<div>감독 <b style="color:#222;">${esc(r.creator)}</b></div>`)
     if (r.release) p(`<div>개봉 ${r.release}</div>`)
     if (r.runtime) p(`<div>러닝타임 ${r.runtime}분</div>`)
@@ -315,20 +442,27 @@ export function renderPerson(m: PersonMaterial): { title: string; html: string; 
     p(`</div></div>`)
     if (r.overview) p(`<p style="${P_STYLE}color:#555;">${esc(r.overview)}</p>`)
     if (r.trailer) {
-      p(`<div style="margin:0 !important;padding:0 0 14px !important;">`)
-      p(`<iframe src="https://www.youtube.com/embed/${r.trailer.key}" title="${esc(cleanTitle(r.title))} 예고편" width="560" height="315" loading="lazy" frameborder="0" allowfullscreen style="width:100% !important;max-width:560px !important;height:315px !important;border:0;display:block;"></iframe>`)
+      p(`<div style="margin:0 !important;padding:0 0 14px !important;text-align:center;">`)
+      p(`<iframe src="https://www.youtube.com/embed/${r.trailer.key}" title="${esc(cleanTitle(r.title))} 예고편" width="560" height="315" loading="lazy" frameborder="0" allowfullscreen style="width:100% !important;max-width:560px !important;height:315px !important;border:0;display:inline-block;"></iframe>`)
       p(`</div>`)
     }
-    p(`<div style="margin:0 !important;padding:0 0 34px !important;"><div style="padding:20px 22px;border-left:3px solid #222;background:#fafafa;line-height:1.9;">${revHtml(r.review)}</div></div>`)
+    p(`<div style="margin:0 !important;padding:0 0 14px !important;"><div style="padding:20px 22px;border-left:3px solid #222;background:#fafafa;line-height:1.9;">${revHtml(r.review)}</div></div>`)
+    /**
+     * 작품마다 사이트로 가는 문을 둔다. 목록 편에는 「감상한 N명 전부 보기」가 작품마다
+     * 있는데 인물 편에만 없어 대칭이 어긋났다. 이 채널은 사람을 사이트로 보내는 자리다.
+     */
+    p(`<div style="margin:0 !important;padding:0 0 20px !important;text-align:center;">`)
+    p(`<a href="${workUrl(r.id)}" style="display:inline-block !important;padding:8px 16px !important;background:#f4f4f6;border:1px solid #e2e2e6;border-radius:999px;color:#111 !important;text-decoration:none !important;font-size:14px;font-weight:600;">『${esc(cleanTitle(r.title))}』${eul(r.title)} 감상한 사람들 →</a>`)
+    p(`</div>`)
   })
 
   const rest = m.total - m.picked.length
   p(`<div style="margin:34px 0;padding:22px;text-align:center;background:#111;border-radius:8px;">`)
-  p(`<div style="color:#fff;font-size:17px;font-weight:700;margin-bottom:6px;">${esc(who)}${ga(who)} 본 나머지 ${rest}편</div>`)
+  p(`<div style="color:#fff;font-size:17px;font-weight:700;margin-bottom:6px;">${rest > 0 ? `${esc(who)}${ga(who)} 본 나머지 ${rest}편` : `${esc(who)}의 감상 기록`}</div>`)
   p(`<div style="color:#bbb;font-size:14px;margin-bottom:14px;">읽은 책과 들은 음악도 함께 있습니다.</div>`)
   p(`<a href="https://feelandnote.com/celeb/${m.celeb.slug}" style="display:inline-block;padding:11px 22px;background:#fff;color:#111;border-radius:4px;text-decoration:none;font-weight:700;">${esc(who)}의 기록 전체 보기 →</a>`)
   p(`</div>`)
-  p(`<p style="font-size:13px;color:#999;">작품 정보·포스터 출처 TMDB. 발언은 각 인터뷰·방송에서 옮겼습니다. 필앤노트가 운영합니다.</p>`)
+  p(`<p style="font-size:13px;color:#999;">작품 정보·포스터 출처 TMDB. 감상 기록은 필앤노트에 등록된 내용을 바탕으로 정리했습니다. 필앤노트가 운영합니다.</p>`)
 
   const tags = [who, `${who} 영화`, `${who} 추천영화`, '인생영화', '영화추천', ...m.picked.slice(0, 3).map((r) => r.title), '필앤노트']
   return { title, html: L.join('\n'), tags: [...new Set(tags)].filter(Boolean).slice(0, 10) }
@@ -342,6 +476,7 @@ export type ListMaterial = {
   totalItems: number
   withVoice: number
   closing?: (Voice & { work: string; year: number | null }) | null
+  banner?: { url: string; title: string } | null
   all: { rank: number | null; year: number | null; title: string; creator: string | null; contentId: string | null; voices: Voice[] }[]
   picked: (ListMaterial['all'][number] & { poster?: string | null; vote?: number | null; release?: string | null; overview?: string; runtime?: number; genres?: string[]; trailer?: { key: string; name: string } | null })[]
 }
@@ -383,17 +518,36 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
    */
   const base = listCount(name, m.totalItems)
   const pre = tag ? `[${tag}] ` : ''
-  const title = pickTitle([
-    `${pre}${base} | ${m.withVoice}편은 누군가의 인생 영화`,
-    `${pre}${base} | ${m.withVoice}편은 인생 영화`,
-    `${base} | ${m.withVoice}편은 누군가의 인생 영화`,
-    `${base} | ${m.withVoice}편은 인생 영화`,
-    `${pre}${base}`,
-    base,
-  ])
+  /**
+   * 🔴 **헤드라인에 「N편에 셀럽 감상 기록」을 쓰지 않는다.** 수상작 98편은 확정된 사실이지만
+   * 54라는 수는 **우리가 출처를 확인해 수집한 만큼**일 뿐이고, 그중에서도 글에는 일부만
+   * 싣는다(26.09.05). 독자에게 아무 뜻이 없는 숫자를 제목에 세우면 클릭도 신뢰도 못 얻는다.
+   * 이 글이 실제로 해 주는 일 — **전체 목록 + 가장 많이 본 몇 편의 감상** — 을 그대로 적는다.
+   * 헤드라인은 목록마다 흔들리지 않게 **한 문구로 고정**한다. 길이 때문에 대괄호 태그가
+   * 빠지는 것은 감수한다 — 우선순위는 목록명 > 헤드라인 > 태그다.
+   */
+  /**
+   * 부제는 **작품명 나열**이다. 작품 편(「마돈나·카를로 안첼로티」)·인물 편(「현기증·폭스캐처」)이
+   * 이미 고유명사를 부제로 쓰므로 목록 편만 서술형이면 한 채널로 안 읽힌다. 아는 제목이
+   * 보여야 클릭이 나오고, 작품명 자체가 검색어라 덤이 붙는다.
+   * 태그가 붙은 판을 먼저 시도하고, 부제가 못 들어간 판은 후보에서 뺀다.
+   */
+  const films = m.picked.map((r) => cleanTitle(r.title))
+  // 우선순위는 목록명 > 부제 > 태그다. **작품이 더 많이 들어가는 판**을 먼저 쓴다.
+  const withSub = [fitTitle(`${pre}${base}`, films), fitTitle(base, films)]
+    .filter((t) => t.includes(' | '))
+    .sort((a, b) => b.split('·').length - a.split('·').length)
+  const title = pickTitle([...withSub, `${pre}${base}`, base])
   const L: string[] = []
   const p = (s: string) => L.push(s)
 
+  /** 시상식을 대표하는 이미지가 DB에 없어 그 목록에서 가장 많이 꼽힌 작품의 스틸컷을 쓴다. */
+  if (m.banner) {
+    p(`<div style="margin:0 !important;padding:0 0 26px !important;text-align:center;">`)
+    p(`<img src="${m.banner.url}" alt="${esc(name)}" width="1280" style="width:100% !important;max-width:100% !important;border-radius:4px;display:block;" />`)
+    p(`<div style="padding-top:8px;font-size:13px;color:#888;">『${esc(cleanTitle(m.banner.title))}』의 한 장면 · TMDB</div>`)
+    p(`</div>`)
+  }
   p(para(HELLO))
   p(para(`오늘 살펴볼 목록은 <b>${esc(name)}</b>입니다.${m.curator ? ` ${esc(m.curator.name)}가 고른 ${m.totalItems}편이고, 아래에 전체를 실었습니다.` : ` 아래에 ${m.totalItems}편 전체를 실었습니다.`}`))
   // `description`·`method` 도 간결체다. 정중체 본문과 섞이지 않게 상자에 담는다.
@@ -406,32 +560,38 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
    */
   const method = (m.list.method ?? '').replace(/\s*\([^)]*(?:확인|미상|추정|필자|출처)[^)]*\)/g, '').trim()
   if (method) box(esc(method))
-  p(para(`이 목록이 다른 곳과 갈리는 지점이 하나 있습니다. ${m.totalItems}편 가운데 <b>${m.withVoice}편</b>은 필앤노트에 기록이 있는 감독·배우·작가가 자기 인생 영화로 꼽은 작품입니다. 그들은 어디서 무슨 말을 했을까요?`))
+  p(para(`이 목록에는 다른 곳에 없는 것이 하나 붙습니다. ${m.totalItems}편 가운데 <b>${m.withVoice}편</b>에는 감독·배우·작가가 그 영화를 봤다고 말한 기록이 붙어 있습니다. 물론 이것이 전부는 아닙니다 — 필앤노트가 <b>출처를 확인한 것만</b> 셉니다. 아래에서는 그 가운데 가장 많이 언급된 ${m.picked.length}편을 발언과 함께 자세히 봅니다.`))
 
-  p(`<div style="margin:28px 0;padding:18px 22px;background:#f7f7f8;border-radius:6px;">`)
-  p(`<div style="font-weight:700;margin-bottom:10px;">목차</div>`)
-  p(`<ul style="margin:0;padding-left:18px;line-height:2;">`)
-  p(`<li><a href="#fn-top">가장 많이 꼽힌 ${m.picked.length}편</a></li>`)
-  p(`<li><a href="#fn-all">${esc(name)} 전체 목록 ${m.totalItems}편</a></li>`)
-  p(`</ul></div></div>`)
+  // 상세 5편은 「가장 많이 꼽힌 …」의 하위 절이라 1-1 … 1-5 로 잇는다.
+  p(toc([
+    { id: 'fn-top', label: `셀럽이 가장 많이 본 ${m.picked.length}편`,
+      subs: m.picked.map((r, i) => ({ id: `fn-${i}`, label: esc(cleanTitle(r.title)) })) },
+    { id: 'fn-all', label: `${esc(name)} 전체 목록 ${m.totalItems}편` },
+    { id: 'fn-wall', label: '이 글에 나온 사람들' },
+  ]))
 
-  p(h2('fn-top', `가장 많이 꼽힌 ${m.picked.length}편`))
+  p(h2('fn-top', `1. 셀럽이 가장 많이 본 ${m.picked.length}편`))
   m.picked.forEach((r, i) => {
-    p(`<h3 style="margin:34px 0 12px;font-size:18px;">${i + 1}. ${esc(cleanTitle(r.title))}${r.year ? ` <span style="font-weight:400;color:#999;">(${r.year})</span>` : ''}</h3>`)
-    p(`<div style="margin:0 !important;padding:0 0 6px !important;max-width:560px;">`)
-    if (r.poster) p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" width="200" style="width:200px !important;max-width:100% !important;border:1px solid #e3e3e3;border-radius:2px;display:block;" />`)
-    p(`<div style="padding-top:12px;font-size:14px;line-height:2;color:#555;">`)
+    // 절 제목 바로 아래 첫 작품에는 선을 겹치지 않는다
+    p(`${i ? RULE : ''}<h3 id="fn-${i}" style="margin:0 !important;padding:0 0 14px !important;font-size:19px;text-align:center;">1-${i + 1}. ${esc(cleanTitle(r.title))}${r.year ? ` <span style="font-weight:400;color:#999;">(${r.year})</span>` : ''}</h3>`)
+    if (r.poster) {
+      p(`<div style="margin:0 !important;padding:0 0 16px !important;text-align:center;">`)
+      p(`<img src="${r.poster}" alt="${esc(cleanTitle(r.title))} 포스터" width="220" style="width:220px !important;max-width:100% !important;border:1px solid #e3e3e3;border-radius:2px;display:inline-block;" />`)
+      p(`</div>`)
+    }
+    p(`<div style="margin:0 !important;padding:0 0 6px !important;">`)
+    p(`<div style="font-size:14px;line-height:2;color:#555;">`)
     if (r.creator) p(`<div>감독 <b style="color:#222;">${esc(r.creator)}</b></div>`)
     if (m.list.isRanked && r.rank) p(`<div>${esc(name)} <b style="color:#222;">${r.rank}위</b></div>`)
     if (r.runtime) p(`<div>러닝타임 ${r.runtime}분</div>`)
     if (r.genres?.length) p(`<div>장르 ${esc(r.genres.join(', '))}</div>`)
     if (r.vote) p(`<div>평점 <b style="color:#222;">${r.vote.toFixed(1)}</b> / 10 <span style="color:#999;">(TMDB)</span></div>`)
-    p(`<div>이 영화를 꼽은 사람 <b style="color:#222;">${r.voices.length}명</b></div>`)
+    p(`<div>이 영화를 감상한 셀럽 <b style="color:#222;">${r.voices.length}명</b></div>`)
     p(`</div></div>`)
     if (r.overview) p(`<p style="${P_STYLE}color:#555;">${esc(r.overview)}</p>`)
     if (r.trailer) {
-      p(`<div style="margin:0 !important;padding:0 0 14px !important;">`)
-      p(`<iframe src="https://www.youtube.com/embed/${r.trailer.key}" title="${esc(cleanTitle(r.title))} 예고편" width="560" height="315" loading="lazy" frameborder="0" allowfullscreen style="width:100% !important;max-width:560px !important;height:315px !important;border:0;display:block;"></iframe>`)
+      p(`<div style="margin:0 !important;padding:0 0 14px !important;text-align:center;">`)
+      p(`<iframe src="https://www.youtube.com/embed/${r.trailer.key}" title="${esc(cleanTitle(r.title))} 예고편" width="560" height="315" loading="lazy" frameborder="0" allowfullscreen style="width:100% !important;max-width:560px !important;height:315px !important;border:0;display:inline-block;"></iframe>`)
       p(`</div>`)
     }
     // 인용은 **최대 3건**이다. 모자라면 있는 만큼 싣는다 — 억지로 채우지 않는다.
@@ -439,23 +599,23 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
       const label = [PROF[v.profession ?? ''] ?? '', (v.title ?? '').replace(/[「」『』]/g, '')].filter(Boolean).join(' · ')
       p(`<div style="margin:14px 0;padding:18px 20px;border-left:3px solid #222;background:#fafafa;">`)
       p(`<div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">`)
-      if (v.avatar_url) p(`<img src="${v.avatar_url}" alt="${esc(v.name)}" width="56" height="56" style="width:56px !important;height:56px !important;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#eee;" />`)
-      p(`<div><a href="https://feelandnote.com/celeb/${v.slug}" style="font-weight:700;color:#111;text-decoration:none;">${esc(v.name)}</a>${label ? ` <span style="font-size:13px;color:#888;">${esc(label)}</span>` : ''}</div>`)
+      if (v.avatar_url) p(`<img src="${v.avatar_url}" alt="${esc(v.name)}" width="64" height="64" style="width:64px !important;height:64px !important;border-radius:50%;object-fit:cover;flex:0 0 auto;background:#eee;" />`)
+      p(`<div>${celebBtn(v.name, v.slug, null, label)}</div>`)
       p(`</div>`)
       p(`<div style="line-height:1.9;">${revHtml(v.review)}</div>`)
       p(`</div>`)
     })
     if (r.contentId && r.voices.length > 3) {
-      p(`<p style="font-size:14px;"><a href="https://feelandnote.com/content/${r.contentId}">『${esc(cleanTitle(r.title))}』${eul(r.title)} 꼽은 ${r.voices.length}명 전부 보기 →</a></p>`)
+      p(`<p style="font-size:14px;"><a href="https://feelandnote.com/content/${r.contentId}">『${esc(cleanTitle(r.title))}』${eul(r.title)} 감상한 ${r.voices.length}명 전부 보기 →</a></p>`)
     }
   })
 
-  p(h2('fn-all', `${esc(name)} 전체 목록`))
-  p(`<p style="color:#666;">맨 오른쪽 숫자는 <b>필앤노트에 기록이 있는 인물 가운데 그 작품을 꼽은 사람 수</b>입니다. 작품을 누르시면 누가 어디서 무슨 말을 했는지 보실 수 있습니다.</p>`)
+  p(h2('fn-all', `2. ${esc(name)} 전체 목록 ${m.totalItems}편`))
+  p(`<p style="color:#666;">맨 오른쪽 숫자는 <b>필앤노트에 감상 기록이 남은 셀럽 수</b>입니다. 작품을 누르시면 누가 어디서 무슨 말을 했는지 보실 수 있습니다.</p>`)
   p(`<table style="width:100%;border-collapse:collapse;font-size:14px;">`)
   p(`<thead><tr style="border-bottom:2px solid #222;">`)
   if (m.list.isRanked) p(`<th style="width:44px;text-align:left;padding:8px 0;">#</th>`)
-  p(`<th style="text-align:left;padding:8px 0;">작품</th><th style="text-align:left;padding:8px 0;">감독</th><th style="width:56px;text-align:right;padding:8px 0;">연도</th><th style="width:76px;text-align:right;padding:8px 0;">꼽은 이</th>`)
+  p(`<th style="text-align:left;padding:8px 0;">작품</th><th style="text-align:left;padding:8px 0;">감독</th><th style="width:56px;text-align:right;padding:8px 0;">연도</th><th style="width:76px;text-align:right;padding:8px 0;">셀럽</th>`)
   p(`</tr></thead><tbody>`)
   m.all.forEach((r) => {
     p(`<tr style="border-bottom:1px solid #eee;">`)
@@ -468,6 +628,17 @@ export function renderList(m: ListMaterial): { title: string; html: string; tags
     p(`</tr>`)
   })
   p(`</tbody></table>`)
+
+  /**
+   * 나온 사람을 **글 끝에 다시 모은다.** 목록 편은 상위 5편에 최대 15명이 흩어져 있어
+   * 읽다 보면 누가 나왔는지 잊는다. 이 채널의 목적은 사람을 사이트로 보내는 것이므로
+   * 마지막에 문을 한 줄로 늘어놓는다.
+   */
+  p(h2('fn-wall', '3. 이 글에 나온 사람들'))
+  p(para('이름을 누르면 그 사람이 읽고 보고 들은 기록이 전부 열립니다.'))
+  p(celebWall(m.picked.flatMap((r) => r.voices.slice(0, 3)).map((v) => ({
+    name: v.name, slug: v.slug, avatar: v.avatar_url, label: PROF[v.profession ?? ''] ?? '',
+  }))))
 
   p(`<div style="margin:34px 0;padding:22px;text-align:center;background:#111;border-radius:8px;">`)
   p(`<div style="color:#fff;font-size:17px;font-weight:700;margin-bottom:6px;">${esc(name)}을 필앤노트에서</div>`)

@@ -2,8 +2,7 @@
  * 티스토리 「필앤노트 시네마」에 글을 올린다.
  *
  *   node scripts/tistory-cinema/publish.mjs --file "대부" --at "2026-09-07 09:00"
- *   node scripts/tistory-cinema/publish.mjs --all --start 2026-09-07 --dow 1,4 --time 09:00
- *   node scripts/tistory-cinema/publish.mjs --file "대부" --draft      # 임시저장만
+ *   위 명령은 미리보기다. --run 을 붙일 때만 예약한다. 즉시 공개는 --now --run 으로 명시한다.
  *
  * 본문은 **HTML 모드**로 통째로 넣는다. 네이버처럼 한 줄씩 치지 않으므로 글자가 빠지거나
  * 정렬이 어긋날 자리가 없다. 대신 모드 전환에 `confirm` 이 붙어 있어 대화상자 핸들러가
@@ -11,19 +10,24 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { getBrowser, getTistoryPage, ensureLoggedIn, BLOG } from './lib/browser.mjs';
+import { pathToFileURL } from 'node:url';
+import { ASSETS } from '../blog-assets.mjs';
+import { getBrowser, getTistoryPage, ensureLoggedIn, BLOG, takeDialog } from './lib/browser.mjs';
+import { loadPosts, savePostsAtomic, assertScheduleUnique, hasActiveSchedule } from './lib/post-state.mjs';
+import { validateAt, kindOf } from './lib/schedule.mjs';
+import { categoryForMeta } from './lib/categories.mjs';
+import { readPost, compareHtml, listManagedPosts, findManagedPost, writeEditorTags, sameTags } from './lib/post-integrity.mjs';
+import { PUBLICATION_REQUESTS, assertPageAvailable, pauseRequests, waitForAvailablePage } from './lib/publication-requests.mjs';
+import { startChallengeSession, throwIfChallengeFailed } from './lib/challenge-session.mjs';
+import { fileAnswerStream, challengeLogger } from './lib/challenge-file.mjs';
+import { prepareRepresentativeImage, uploadRepresentativeImage, assertRepresentativeImage } from './lib/representative-image.mjs';
 
-const ROOT = path.resolve(import.meta.dirname, '../../../..');
-const DIR = path.join(ROOT, 'data/tistory-cinema');
+const DIR = path.join(ASSETS, 'tistory-cinema');
 const STATE = path.join(DIR, '_posts.json');
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-const args = process.argv.slice(2);
-const argOf = (k) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : undefined; };
-
-const CATEGORY = { work: '이 영화를 꼽은 사람들', person: '인물이 꼽은 영화', list: '영화제와 선정 목록' };
-const kindOf = (n) => (n.startsWith('목록-') ? 'list' : n.startsWith('인물-') ? 'person' : 'work');
-const load = () => (fs.existsSync(STATE) ? JSON.parse(fs.readFileSync(STATE, 'utf8')) : []);
-const save = (v) => fs.writeFileSync(STATE, JSON.stringify(v, null, 2));
+/** 티스토리 카테고리 이름. 관리 화면의 글자와 **정확히** 같아야 발행기가 고른다. */
+const load = () => loadPosts(STATE);
+const save = (v) => savePostsAtomic(STATE, v);
 
 /** 보이는 요소를 좌표로 누른다. 숨은 click() 은 레이어가 안 열리는 일이 있다. */
 async function hit(page, sel, label) {
@@ -51,23 +55,30 @@ async function pickMenu(page, text, label) {
   await page.mouse.click(pos.x, pos.y);
 }
 
+/** 하위 메뉴는 '- 이름', 선택된 버튼은 '이름'으로 표시된다. */
+export async function selectEditorCategory(page, meta, kind) {
+  const category = categoryForMeta(meta, kind);
+  await hit(page, '#category-btn', '카테고리 단추');
+  await wait(1600);
+  await pickMenu(page, `- ${category}`, '카테고리 목록');
+  await wait(1200);
+  const cat = await page.evaluate(() => document.querySelector('#category-btn .mce-txt')?.textContent.trim() ?? '');
+  if (cat !== category) throw new Error(`카테고리가 안 잡혔다(현재 ${cat} / 기대 ${category})`);
+}
+
 export async function composeOne(page, cdp, name) {
   const meta = JSON.parse(fs.readFileSync(path.join(DIR, `_meta-${name}.json`), 'utf8'));
   const html = fs.readFileSync(path.join(DIR, `_body-${name}.html`), 'utf8');
   const kind = kindOf(name);
+  categoryForMeta(meta, kind);
 
   await page.bringToFront();
   await page.goto(`https://${BLOG}.tistory.com/manage/newpost/`, { waitUntil: 'domcontentloaded', timeout: 60000 });
-  await page.waitForSelector('#post-title-inp', { timeout: 40000 });
+  await waitForAvailablePage(page, () => Boolean(document.querySelector('#post-title-inp')), { timeout: 40000, label: '새 글 편집기' });
   await wait(4500);
 
   // 1) 카테고리
-  await hit(page, '#category-btn', '카테고리 단추');
-  await wait(1600);
-  await pickMenu(page, CATEGORY[kind], '카테고리 목록');
-  await wait(1200);
-  const cat = await page.evaluate(() => document.querySelector('#category-btn')?.textContent.trim() ?? '');
-  if (!cat.includes(CATEGORY[kind])) throw new Error(`카테고리가 안 잡혔다(현재 ${cat})`);
+  await selectEditorCategory(page, meta, kind);
 
   // 2) 제목
   await page.evaluate((t) => {
@@ -101,24 +112,18 @@ export async function composeOne(page, cdp, name) {
   if (!cmPos) throw new Error('HTML 편집기를 찾지 못했다');
   await page.mouse.click(cmPos.x, cmPos.y);
   await wait(900);
+  await page.keyboard.down('Control');
+  await page.keyboard.press('a');
+  await page.keyboard.up('Control');
   await cdp.send('Input.insertText', { text: html });
   await wait(2500);
-  const got = await page.evaluate(() => [...document.querySelectorAll('.CodeMirror')].find((e) => e.offsetParent)?.CodeMirror?.getValue()?.length ?? 0);
-  if (got < html.length * 0.9) throw new Error(`본문이 덜 들어갔다(${got}/${html.length})`);
+  const inserted = await page.evaluate(() => [...document.querySelectorAll('.CodeMirror')].find((e) => e.offsetParent)?.CodeMirror?.getValue() ?? '');
+  const got = inserted.length;
+  if (inserted.replace(/\r\n/g, '\n').trim() !== html.replace(/\r\n/g, '\n').trim()) throw new Error(`입력 본문이 원고와 다르다(${got}/${html.length})`);
   const how = `insertText ${got}자`;
 
   // 5) 태그
-  for (const tag of meta.tags) {
-    await page.evaluate((t) => {
-      const el = document.querySelector('#tagText');
-      if (!el) return;
-      const setter = Object.getOwnPropertyDescriptor(el.constructor.prototype, 'value')?.set;
-      setter ? setter.call(el, t) : (el.value = t);
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-    }, tag);
-    await page.keyboard.press('Enter');
-    await wait(400);
-  }
+  await writeEditorTags(page, meta.tags);
   return { meta, kind, how };
 }
 
@@ -136,7 +141,9 @@ function slugOf(title) {
 }
 
 /** 발행 패널을 열고 공개·예약·주소를 잡은 뒤 발행한다. `at` 이 없으면 바로 낸다. */
-export async function publishNow(page, title, at) {
+export async function publishNow(page, title, at, { cover } = {}) {
+  if (at) validateAt(at);
+  takeDialog();
   await hit(page, '#publish-layer-btn', '완료 단추')
   await wait(3000)
 
@@ -212,29 +219,171 @@ export async function publishNow(page, title, at) {
       h: document.querySelector('#dateHour')?.value, m: document.querySelector('#dateMinute')?.value,
     }))
     const want = `${Y}-${String(M).padStart(2, '0')}-${String(D).padStart(2, '0')}`
-    if (shown.date !== want) throw new Error(`예약 날짜가 어긋났다(원한 ${want}, 화면 ${shown.date})`)
+    if (shown.date !== want || Number(shown.h) !== h || Number(shown.m) !== mi) throw new Error(`예약시각이 어긋났다(원한 ${at}, 화면 ${shown.date} ${shown.h}:${shown.m})`)
     console.log(`   예약 ${shown.date} ${shown.h}:${shown.m}`)
   }
 
+  if (!cover?.file) throw new Error('새 글의 대표이미지 원본이 준비되지 않았다.');
+  const representativeImage = await uploadRepresentativeImage(page, cover.file);
+  throwIfChallengeFailed(page);
+  await assertPageAvailable(page);
   await hit(page, '#publish-btn', '발행 단추')
-  await wait(6000)
-  const url = page.url()
-  return url
+
+  /**
+   * 🔴 **발행 단추를 눌렀다고 발행된 것이 아니다.**
+   *
+   * 예전에는 6초 기다린 뒤 현재 주소를 그대로 돌려주었다. 발행이 막히면 주소가
+   * `/manage/newpost/` 에 머무는데 그것을 성공으로 적어 두었고, `_posts.json` 에 「예약됨」으로
+   * 남은 글이 티스토리에는 없는 상태가 됐다(26.09.05 51번 「인물-오즈 야스지로」). 그 글은
+   * 나중에 본문을 다시 밀 때마다 편집기를 못 찾아 세 번 연속 실패했다.
+   *
+   * 발행이 끝나면 티스토리는 **글 목록으로 되돌린다.** 그것을 성공 조건으로 삼는다.
+   */
+  const landed = () => /\/manage\/(posts|entry)/.test(page.url())
+  let captchaSeen = false;
+  const deadline = Date.now() + 600000;
+  while (Date.now() < deadline) {
+    await wait(1000)
+    throwIfChallengeFailed(page);
+    await assertPageAvailable(page, { navigationPending: true });
+    if (landed()) return { url: page.url(), representativeImage }
+    const dialog = takeDialog();
+    if (dialog && /하루|한도|실패|오류|초과/.test(dialog)) throw new Error(dialog);
+    if (!captchaSeen && page.frames().some((f) => /dkaptcha/.test(f.url()))) {
+      captchaSeen = true;
+      console.log('캡차가 나타났다. 현재 화면의 인증이 끝날 때까지 이 글에서 기다린다. 자동 재클릭은 하지 않는다.');
+    }
+  }
+  throw new Error(`발행 결과 미확인${captchaSeen ? ' · 캡차 대기 종료' : ''}. 재발행 전에 관리 목록을 대조해야 한다: ${page.url()}`)
 }
 
-if (process.argv[1] && process.argv[1].includes('publish.mjs')) {
-  const name = argOf('--file')
-  const at = argOf('--at')
-  if (!name) throw new Error('--file 이 필요하다')
-  const { browser } = await getBrowser()
-  const page = await getTistoryPage(browser)
-  await ensureLoggedIn(page)
-  const cdp = await page.createCDPSession()
-  const { meta } = await composeOne(page, cdp, name)
-  const url = await publishNow(page, meta.title, at)
-  const state = load()
-  state.push({ name, kind: kindOf(name), title: meta.title, at: at ?? null, url, at_iso: new Date().toISOString() })
-  save(state)
-  console.log(`올림: ${meta.title}`)
-  browser.disconnect()
+/** An inventory belongs to this batch only; another execution always loads it afresh. */
+export async function createPublisher(page, cdp, {
+  recorded = load(), dir = DIR, list = listManagedPosts, findSaved = findManagedPost,
+  compose = composeOne, publish = publishNow, read = readPost, compare = compareHtml,
+  prepareCover = (name) => prepareRepresentativeImage(name, { dir }),
+  pause = (ms) => pauseRequests(page, ms), log = console.log,
+} = {}) {
+  const head = (title) => String(title ?? '').split(' | ')[0].trim();
+  const remote = await list(page);
+  assertRemoteInventory(recorded, remote);
+  const inventory = new Map(remote.map((row) => [row.id, row]));
+  let started = false; let failed = false;
+  return async (name, at) => {
+    if (failed) throw new Error('실패한 발행 세션이다. 새 실행에서 전체 목록을 다시 확인해야 한다.');
+    try {
+      if (started) {
+        log(`다음 글 시작 전 ${PUBLICATION_REQUESTS.betweenPostsMs / 1000}초 대기: ${name}`);
+        await pause(PUBLICATION_REQUESTS.betweenPostsMs);
+      }
+      started = true;
+      const meta = JSON.parse(fs.readFileSync(path.join(dir, `_meta-${name}.json`), 'utf8'));
+      categoryForMeta(meta, kindOf(name));
+      const html = fs.readFileSync(path.join(dir, `_body-${name}.html`), 'utf8');
+      const matches = [...inventory.values()].filter((row) => head(row.title) === head(meta.title));
+      if (matches.length > 1) throw new Error(`같은 제목의 서버 글이 여러 개다: ${name}`);
+      let row = matches[0];
+      const cover = await prepareCover(name);
+      let uploadedImage;
+      if (!row) {
+        await compose(page, cdp, name);
+        uploadedImage = (await publish(page, meta.title, at, { cover }))?.representativeImage;
+        if (!uploadedImage) throw new Error('발행 시 대표이미지 업로드 식별값을 확인하지 못했다.');
+        row = await findSaved(page, meta.title);
+        if (!row) throw new Error(`저장 후 실제 서버 글 번호를 찾지 못했다: ${name}`);
+        assertRemoteInventory([], [row]);
+        if (inventory.has(row.id)) throw new Error(`새 글이 기존 서버 ID #${row.id}와 충돌한다: ${name}`);
+      }
+      const actual = await read(page, row.id);
+      if (actual.id !== row.id) throw new Error(`재개방한 글 ID가 다르다: ${actual.id} / ${row.id}`);
+      assertPublishedPost(actual, meta, name, at);
+      const compared = await compare(page, html, actual.html);
+      if (!compared.ok) throw new Error(`#${actual.id} 저장 본문 불일치: ${compared.issues.map((x) => x.field).join(', ')}`);
+      assertRepresentativeImage(actual.representativeImage, uploadedImage);
+      const verifiedSource = uploadedImage ? cover.source : recorded.find((post) => post.id === actual.id && post.representativeImage === actual.representativeImage)?.representativeSource ?? null;
+      inventory.set(actual.id, { ...row, title: actual.title, url: actual.url });
+      return { name, kind: kindOf(name), title: actual.title, id: actual.id, at: actual.at ?? null,
+        url: actual.url, visibility: actual.visibility, at_iso: new Date().toISOString(),
+        representativeImage: actual.representativeImage, representativeSource: verifiedSource, representativeVerifiedAt: new Date().toISOString() };
+    } catch (error) {
+      failed = true;
+      throw error;
+    }
+  };
+}
+
+/** Standalone calls retain the full initial inventory and exact saved-post verification. */
+export async function publishOne(page, cdp, name, at) {
+  return (await createPublisher(page, cdp))(name, at);
+}
+
+export function assertPublishedPost(actual, meta, name, at) {
+  if (actual.title?.trim() !== meta.title.trim()) throw new Error(`#${actual.id} 저장 제목 불일치: ${name}`);
+  if ((actual.at ?? null) !== (at ?? null)) throw new Error(`#${actual.id} 저장 예약시각 불일치: ${actual.at} / ${at}`);
+  if (actual.visibility !== 'open20') throw new Error(`#${actual.id} 공개 상태가 아니다: ${actual.visibility}`);
+  if (actual.category !== categoryForMeta(meta, kindOf(name))) throw new Error(`#${actual.id} 카테고리 불일치: ${actual.category}`);
+  if (!sameTags(meta.tags ?? [], actual.tags ?? [])) throw new Error(`#${actual.id} 저장 태그 불일치: ${name}`);
+  const url = actual.url ? new URL(actual.url) : null;
+  if (!url || url.hostname !== `${BLOG}.tistory.com` || !/^\/(entry\/|\d+\/?$)/.test(url.pathname)) {
+    throw new Error(`#${actual.id} 실제 공개 주소를 확인하지 못했다.`);
+  }
+}
+
+export function assertRemoteInventory(recorded, remote) {
+  const head = (title) => String(title ?? '').split(' | ')[0].trim();
+  const ids = new Set();
+  for (const post of remote) {
+    if (!Number.isSafeInteger(post.id) || post.id < 1 || ids.has(post.id) || !post.title?.trim() || /^(수정|편집|edit)$/i.test(post.title.trim())) {
+      throw new Error('관리 글 목록의 번호·제목을 완전히 읽지 못했다. 신규 발행을 중단한다.');
+    }
+    ids.add(post.id);
+  }
+  for (const post of recorded) {
+    const row = remote.find((item) => item.id === post.id);
+    if (!row || !head(post.title) || head(row.title) !== head(post.title)) {
+      throw new Error(`관리 목록에서 기존 #${post.id} ${post.name}을 확인하지 못했다. 신규 발행을 중단한다.`);
+    }
+  }
+}
+
+export function parsePublishArgs(argv) {
+  const values = new Map();
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (['--run', '--now'].includes(arg)) values.set(arg, true);
+    else if (['--file', '--at'].includes(arg) && argv[i + 1] && !argv[i + 1].startsWith('--')) values.set(arg, argv[++i]);
+    else throw new Error(`지원하지 않거나 값이 빠진 옵션: ${arg}. --draft는 발행하지 않고 거절한다.`);
+  }
+  if (!values.get('--file')) throw new Error('--file 이 필요하다');
+  if (!!values.get('--at') === !!values.get('--now')) throw new Error('--at 예약시각 또는 --now 중 하나를 명시해야 한다');
+  if (values.get('--at')) validateAt(values.get('--at'));
+  return { name: values.get('--file'), at: values.get('--at') ?? null, run: !!values.get('--run') };
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  let browser, answers, stopChallenge;
+  try {
+    const { name, at, run } = parsePublishArgs(process.argv.slice(2));
+    const state = load();
+    assertScheduleUnique(state);
+    if (state.some((p) => p.name === name || at && hasActiveSchedule(p) && p.at === at)) throw new Error('이미 기록된 원고 또는 예약시각이다. 기존 글을 먼저 대조해야 한다.');
+    console.log(`${run ? '실행' : '미리보기'}: ${name} / ${at ?? '즉시 공개'}`);
+    if (run) {
+      ({ browser } = await getBrowser());
+      const page = await getTistoryPage(browser);
+      await ensureLoggedIn(page);
+      const challengeDir = path.join(DIR, '_challenge');
+      answers = fileAnswerStream(challengeDir);
+      stopChallenge = startChallengeSession(page, { directory: challengeDir, input: answers.stream,
+        log: challengeLogger(challengeDir, { onSubmitted: () => answers.settle() }), current: () => ({ name, at }) });
+      answers.useId(stopChallenge.pendingId);
+      const result = await publishOne(page, await page.createCDPSession(), name, at);
+      state.push(result);
+      save(state);
+      console.log(`#${result.id} 저장 후 검증 완료: ${result.title}`);
+    }
+  } catch (error) {
+    console.error(error.message);
+    process.exitCode = 1;
+  } finally { answers?.stop(); await stopChallenge?.(); answers?.stream.destroy(); await browser?.disconnect(); }
 }
