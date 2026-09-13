@@ -1,13 +1,12 @@
 "use client";
 
-import { useId, type ReactNode } from "react";
-import { ArrowUpRight, BookOpenText, Pause, Play, UserRound, type LucideIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { useId } from "react";
+import { ArrowUpRight, BookOpenText, UserRound, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { MythPerson, MythTradition, MythWork } from "@/actions/home/mythAtlasTypes";
 import { FormattedText } from "@/components/ui";
-import FactionQuoteOverlay from "@/components/features/faction/quote/FactionQuoteOverlay";
-import { useFactionQuoteStage } from "@/components/features/faction/quote/useFactionQuoteStage";
+import { useFactionPortraits } from "@/components/features/faction/portrait/useFactionPortraits";
 import MythPortraitMedia, { type MythPortrait } from "./MythPortraitMedia";
 import MythSigilHeader, { DetailBackButton } from "./MythSigilHeader";
 import MythWorkShelf from "./MythWorkShelf";
@@ -59,24 +58,6 @@ function IconLedParagraphs({ icon, label, text, emptyText }: { icon: LucideIcon;
   );
 }
 
-/* 대사를 재생·정지하는 단추 — 화보 아무 데나 눌러도 되지만 눌러야 하는 자리를 눈에 보이게 둔다 */
-function QuoteButton({ isPlaying, hasAudio, onClick }: { isPlaying: boolean; hasAudio: boolean; onClick: () => void }) {
-  const t = useTranslations("explore.hub.myth");
-  const label = isPlaying ? t("pauseQuote") : hasAudio ? t("playQuote") : t("showQuote");
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      title={label}
-      className="absolute end-4 bottom-4 z-30 inline-flex items-center gap-2 rounded-full border border-accent/45 bg-black/70 px-4 py-2.5 text-sm font-bold text-accent shadow-lg backdrop-blur-sm hover:border-accent hover:bg-accent hover:text-black md:end-5 md:bottom-5"
-    >
-      {isPlaying ? <Pause size={15} fill="currentColor" aria-hidden /> : <Play size={15} fill="currentColor" aria-hidden />}
-      {t("dialogue")}
-    </button>
-  );
-}
 
 function DetailBody({ person, tradition }: { person: MythPerson; tradition: MythTradition }) {
   const t = useTranslations("explore.hub.myth");
@@ -110,64 +91,28 @@ function DetailBody({ person, tradition }: { person: MythPerson; tradition: Myth
 }
 
 export default function MythPersonDetail({ person, tradition, works, onClose, backLabel }: Props) {
-  const t = useTranslations("explore.hub.myth");
-  const locale = useLocale() === "en" ? "en" : "ko";
-  /* 그 편에서 이 인물이 한 말. 영상 대본이 준 대사라 전승마다 다르다 */
-  const here = person.appearances.find((item) => item.traditionId === tradition.id);
-  const quote = here?.quote ?? null;
-  const quoteMedia = here?.quoteMedia ?? null;
-
-  /* 화면에 거는 사진. 첫 장은 늘 이 전승의 대표 사진이다(mythLeadImage — 전승 전용 개인샷, 없으면
-     인물 대표 사진). 사람이 직접 고르고 갈아 끼우는 사진이라 출간 때 찍어 둔 대사용 화보보다 새것이다.
-     대사용 화보(발화 시각마다 바뀐다)는 둘째 장부터 잇는다.
-     재생을 눌러도 첫 장은 그대로라 사진이 갈아 끼워지며 깜빡이거나 구도가 바뀌지 않는다.
-     아바타는 작은 얼굴 썸네일이라 대형 화보 자리에 늘려 쓰지 않는다 */
-  const quotePortraits: MythPortrait[] = quoteMedia?.images ?? [];
+  /* 화면에 거는 사진은 이 전승의 대표 사진 하나다(mythLeadImage — 전승 전용 개인샷, 없으면 인물 대표 사진).
+     아바타는 작은 얼굴 썸네일이라 대형 화보 자리에 늘려 쓰지 않는다.
+     전에는 어록 음성에 딸린 화보를 둘째 장부터 이어 붙였다 — 어록을 걷어 내면서 함께 빠졌다.
+     화보를 여러 장 다시 걸게 되면 gallery가 그대로 넘겨 준다 */
   const lead = mythLeadImage(person, tradition.id);
-  const leadPortraits: MythPortrait[] = lead ? [{ url: lead }] : [];
-  const portraits: MythPortrait[] = leadPortraits.length && quotePortraits.length
-    ? [{ ...leadPortraits[0], at: quotePortraits[0].at }, ...quotePortraits.slice(1)]
-    : leadPortraits.length ? leadPortraits : quotePortraits;
-
-  /* 대사는 세력도감과 같은 무대에서 재생한다 — 음성이 있으면 발화에 맞춰, 없으면 눌러서 넘긴다 */
-  const stage = useFactionQuoteStage({
-    quote,
-    media: quoteMedia,
-    locale,
-    portraits: portraits.map((portrait) => ({ at: portrait.at ?? 0 })),
-  });
-
-  const quoteLayer: ReactNode = quote && stage.isVisible ? (
-    <FactionQuoteOverlay
-      stage={stage}
-      labels={{ tapForNextLine: t("tapForNextLine"), tapToCloseQuote: t("tapToCloseQuote") }}
-    />
-  ) : null;
+  const portraits: MythPortrait[] = lead ? [{ url: lead }] : [];
+  const gallery = useFactionPortraits(portraits.length);
 
   return (
     <section aria-labelledby="myth-person-detail-title" className="bg-bg-secondary">
       {portraits.length > 0 ? (
         <div className="grid min-w-0 lg:grid-cols-[minmax(300px,0.82fr)_minmax(0,1.18fr)]">
-          <article
-            onClick={stage.handleSurfaceClick}
-            className={`relative min-h-[380px] overflow-hidden bg-black sm:min-h-[460px] lg:min-h-[600px] ${quote ? "cursor-pointer" : ""}`}
-          >
-            <MythPortraitMedia key={person.id} person={person} images={portraits} index={stage.portraitIndex} onMove={stage.movePortrait} />
+          <article className="relative min-h-[380px] overflow-hidden bg-black sm:min-h-[460px] lg:min-h-[600px]">
+            <MythPortraitMedia key={person.id} person={person} images={portraits} index={gallery.index} onMove={gallery.move} />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-black/20" />
 
             <DetailBackButton onClose={onClose} label={backLabel} />
-            {quote && <QuoteButton isPlaying={stage.isVisible} hasAudio={stage.hasPlayableAudio} onClick={stage.toggle} />}
 
-            {/* 대사가 뜨는 동안에는 이름표를 비운다 — 사진 한 장에 글 두 덩어리가 겹치지 않게 한다 */}
-            {!stage.isVisible && (
-              /* 대사 단추가 오른쪽 아래에 떠 있으므로 긴 이름이 그 밑으로 들어가지 않게 자리를 비운다 */
-              <header className={`absolute inset-x-0 bottom-0 z-20 p-6 md:p-8 ${quote ? "pe-32 md:pe-36" : ""}`}>
-                {person.title && <p className="text-sm font-bold text-accent md:text-base">{person.title}</p>}
-                <h3 id="myth-person-detail-title" className="mt-1 font-serif text-4xl font-bold leading-none text-white drop-shadow-[0_2px_12px_rgba(0,0,0,.65)] md:text-5xl">{person.name}</h3>
-              </header>
-            )}
-
-            {quoteLayer}
+            <header className="absolute inset-x-0 bottom-0 z-20 p-6 md:p-8">
+              {person.title && <p className="text-sm font-bold text-accent md:text-base">{person.title}</p>}
+              <h3 id="myth-person-detail-title" className="mt-1 font-serif text-4xl font-bold leading-none text-white drop-shadow-[0_2px_12px_rgba(0,0,0,.65)] md:text-5xl">{person.name}</h3>
+            </header>
           </article>
 
           <DetailBody person={person} tradition={tradition} />
@@ -179,11 +124,6 @@ export default function MythPersonDetail({ person, tradition, works, onClose, ba
             tradition={tradition}
             onClose={onClose}
             backLabel={backLabel}
-            isQuoteVisible={stage.isVisible}
-            /* 할 말이 없으면 손잡이를 주지 않는다 — 넘기면 문장 판에 손가락 커서만 뜨고 눌러도 아무 일이 없다 */
-            onSurfaceClick={quote ? stage.handleSurfaceClick : undefined}
-            quoteButton={quote ? <QuoteButton isPlaying={stage.isVisible} hasAudio={stage.hasPlayableAudio} onClick={stage.toggle} /> : null}
-            quoteLayer={quoteLayer}
           />
           <DetailBody person={person} tradition={tradition} />
         </div>

@@ -12,7 +12,6 @@ import {
   type FigureBookPurchaseOptionRow,
 } from "@/actions/figure-books/figureBookLocale";
 import type { ContentType } from "@/types/database";
-import { toFactionQuoteMedia } from "@feelandnote/shared/lib/faction-quote-media";
 import { MYTH_OTHER_GROUP_ID, type MythAtlasData, type MythGroup, type MythPerson, type MythRegion, type MythWork } from "./mythAtlasTypes";
 
 interface TagRow {
@@ -23,7 +22,7 @@ interface TagRow {
 }
 interface MemberRow {
   tag_id: string; celeb_id: string; short_desc: string | null; short_desc_en: string | null; sort_order: number | null;
-  quote: string | null; quote_en: string | null; faction_quote_media: unknown; faction_image_url: string | null;
+  faction_image_url: string | null;
   group_label: string | null; group_label_en: string | null; group_position: number | null;
 }
 interface PersonRow {
@@ -177,7 +176,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
 
   const { data: memberData, error: memberError } = await db
     .from("faction_atlas_members")
-    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,quote,quote_en,faction_quote_media,faction_image_url,group_label,group_label_en,group_position")
+    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,faction_image_url,group_label,group_label_en,group_position")
     .in("tag_id", tagIds).eq("hidden", false).order("sort_order");
   if (memberError) throw new Error(`신화 인물 조회 실패: ${memberError.message}`);
   const members = (memberData ?? []) as MemberRow[];
@@ -254,8 +253,6 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     const appearances = placements.map((placement) => ({
       traditionId: placement.tag_id,
       summary: (isEn ? placement.short_desc_en || placement.short_desc : placement.short_desc)?.trim() || null,
-      quote: (isEn ? placement.quote_en || placement.quote : placement.quote)?.trim() || null,
-      quoteMedia: toFactionQuoteMedia(placement.faction_quote_media),
       /* 편마다 모습이 다른 인물의 전승 전용 사진 — 고르는 규칙은 화면의 mythLeadImage가 쥔다 */
       imageUrl: placement.faction_image_url ?? null,
     }));

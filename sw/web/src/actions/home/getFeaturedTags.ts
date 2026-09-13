@@ -7,7 +7,6 @@ import { LIST_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { getInfluenceRanking } from './getCelebs'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
-import { toFactionQuoteMedia, type FactionQuoteMedia } from '@feelandnote/shared/lib/faction-quote-media'
 import { toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 
 export interface FeaturedCeleb {
@@ -25,13 +24,10 @@ export interface FeaturedCeleb {
   long_desc_en: string | null
   faction_image_url: string | null
   /** 출간된 팩션 대사 음성 + 개인 화보 전환 타임라인 */
-  faction_quote_media: FactionQuoteMedia | null
   /**
    * 세력도감 영상에서 이 인물이 하는 말 — 개인 화보에서 말풍선으로 띄운다.
    * 게임용 `celeb_dialogues`와 다른 값이다. 원천은 제작 데이터이며 도감 뷰가 직접 내놓는다.
    */
-  faction_quote: string | null
-  faction_quote_en: string | null
   /**
    * 이 인물이 속한 세력(그룹) 이름 — 제작 유래 인물만 값이 있고 수동 배정 인물은 null이다.
    * 목록에서 인물을 세력별로 묶어 보여주는 데 쓴다.
@@ -87,10 +83,7 @@ interface AtlasMemberRow {
   short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
-  quote: string | null
-  quote_en: string | null
   faction_image_url: string | null
-  faction_quote_media: unknown
   sort_order: number | null
   group_label: string | null
   group_label_en: string | null
@@ -182,7 +175,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   // 2. 모든 태그의 인물을 한 번에 조회 — 감춘 배정은 DB 에서 걸러 자리를 차지하지 않게 한다
   const { data: allAssignments, error: assignmentsError } = await db
     .from('faction_atlas_members')
-    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url, faction_quote_media')
+    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url')
     .in('tag_id', tagIds)
     .eq('hidden', false)
     .order('sort_order', { ascending: true })
@@ -274,10 +267,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
           short_desc_en: a.short_desc_en,
           long_desc: a.long_desc,
           long_desc_en: a.long_desc_en,
-          faction_quote: a.quote ?? null,
-          faction_quote_en: a.quote_en ?? null,
           faction_image_url: a.faction_image_url ?? null,
-          faction_quote_media: toFactionQuoteMedia(a.faction_quote_media),
           group_label: a.group_label ?? null,
           group_label_en: a.group_label_en ?? null,
           group_subtitle: a.group_subtitle ?? null,
