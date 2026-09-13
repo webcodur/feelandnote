@@ -15,6 +15,7 @@ interface RecordsListProps {
   items: GetUserContentsResponse["items"];
   descriptions: Record<string, string | null>;
   initialFocusContentId?: string;
+  startIndex?: number;
   labels: Pick<
     RecordsLabels,
     "source" | "emptyReview" | "spoiler" | "originalLanguage" | "introduction" | "myReview"
@@ -31,6 +32,7 @@ export default function RecordsList({
   items,
   descriptions,
   initialFocusContentId,
+  startIndex = 0,
   labels,
 }: RecordsListProps) {
   const prefix = locale === "en" ? "/en" : "";
@@ -60,13 +62,13 @@ export default function RecordsList({
           <article
             key={item.id}
             data-record-content={item.content_id}
-            data-record-index={index}
+            data-record-index={startIndex + index}
             aria-labelledby={titleId}
             className="scroll-mt-20 overflow-hidden rounded-xl border border-white/10 bg-bg-card"
           >
             <header className="flex items-center gap-3 border-b border-white/10 bg-bg-secondary/55 px-4 py-4 sm:px-6">
               <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-accent/30 font-mono text-xs tabular-nums text-accent">
-                {index + 1}
+                {startIndex + index + 1}
               </span>
               <div className="min-w-0 flex-1 text-center">
                 <h2 id={titleId} className="text-lg font-semibold text-text-primary sm:text-xl lg:text-2xl">

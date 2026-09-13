@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useMemo, useEffect, useEffectEvent, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { usePathname } from "@/i18n/navigation";
 import { getCelebs } from "@/actions/home";
 import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
@@ -49,7 +48,6 @@ export function useCelebFilters({
   includeInactive = false,
 }: UseCelebFiltersParams) {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
 
   // URL에서 초기값 읽기
   const getInitialValue = <T extends string>(key: string, defaultValue: T, validValues?: T[]): T => {
@@ -116,9 +114,10 @@ export function useCelebFilters({
         params.set(key, value);
       }
     });
+    const pathname = window.location.pathname;
     const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
-    window.history.replaceState(null, "", newUrl);
-  }, [syncToUrl, searchParams, pathname]);
+    window.history.replaceState(null, "", `${newUrl}${window.location.hash}`);
+  }, [syncToUrl, searchParams]);
 
   const loadCelebs = useCallback(async (
     prof: string,

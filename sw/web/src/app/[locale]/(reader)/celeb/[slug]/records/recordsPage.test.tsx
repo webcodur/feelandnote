@@ -9,7 +9,7 @@ import { getAlternates } from "@/lib/seo";
 import { buildCelebPageJsonLd } from "@/app/[locale]/(main)/celeb/[slug]/celebPageJsonLd";
 
 import RecordsPageBody, { type RecordsLabels } from "./RecordsPageBody";
-import { loadRecords, recordsPath } from "./recordsPageData";
+import { loadRecords, parseRecordsPage, RECORDS_PAGE_SIZE, recordsPath } from "./recordsPageData";
 
 const profile = {
   id: "figure-id",
@@ -52,6 +52,9 @@ const item = (id: number): UserContentPublic => ({
 const labels: RecordsLabels = {
   title: "Records",
   back: "Back",
+  previous: "Previous",
+  next: "Next",
+  page: "Page 1 of 1",
   source: "Source",
   emptyReview: "Empty",
   spoiler: "Spoiler",
@@ -71,7 +74,7 @@ const response = (
   hasMore: false,
 });
 
-test("full records load fetches and renders every record without pagination", async () => {
+test("a small archive renders all records with no pagination", async () => {
   const items = [item(1), item(2), item(3)];
   const calls: Array<{ page: number; limit: number }> = [];
   const data = await loadRecords("example", "en", {
@@ -81,7 +84,7 @@ test("full records load fetches and renders every record without pagination", as
       assert.equal(params.sortBy, "recent");
       assert.equal(locale, "en");
       calls.push({ page: params.page, limit: params.limit });
-      return params.limit === 1 ? response([items[0]], items.length) : response(items);
+      return response(items);
     },
     getBrief: async (contentId) => ({
       contentId,
@@ -94,8 +97,7 @@ test("full records load fetches and renders every record without pagination", as
 
   assert.ok(data);
   assert.deepEqual(calls, [
-    { page: 1, limit: 1 },
-    { page: 1, limit: 3 },
+    { page: 1, limit: RECORDS_PAGE_SIZE },
   ]);
   assert.deepEqual(Object.keys(data.descriptions), ["work-1", "work-2", "work-3"]);
 
@@ -116,38 +118,147 @@ test("full records load fetches and renders every record without pagination", as
   assert.equal(getAlternates(recordsPath("example"), "en").canonical, "https://feelandnote.com/en/celeb/example/records");
 });
 
-test("large records are combined into one list after internal fetch batches", async () => {
+test("large archives validate bounds with the first page and load only displayed descriptions", async () => {
   const items = Array.from({ length: 103 }, (_, index) => item(index + 1));
   const calls: Array<{ page: number; limit: number }> = [];
+  const briefCalls: string[] = [];
   const data = await loadRecords("example", "ko", {
     getProfile: async () => ({ success: true, data: profile }),
     getContents: async (params) => {
       calls.push({ page: params.page, limit: params.limit });
-      if (params.limit === 1) return response([items[0]], items.length);
-      const start = (params.page - 1) * 100;
-      return response(items.slice(start, start + params.limit), items.length);
+      const start = (params.page - 1) * params.limit;
+      return {
+        ...response(items.slice(start, start + params.limit), items.length),
+        page: params.page,
+        totalPages: Math.ceil(items.length / params.limit),
+        hasMore: start + params.limit < items.length,
+      };
     },
-    getBrief: async (contentId) => ({
-      contentId,
-      category: "book",
-      description: null,
-      releaseDate: null,
-      metadata: null,
-    }),
-  });
+    getBrief: async (contentId) => {
+      briefCalls.push(contentId);
+      return null;
+    },
+  }, 2);
 
   assert.ok(data);
   assert.deepEqual(calls, [
-    { page: 1, limit: 1 },
-    { page: 1, limit: 100 },
-    { page: 2, limit: 100 },
+    { page: 1, limit: RECORDS_PAGE_SIZE },
+    { page: 2, limit: RECORDS_PAGE_SIZE },
   ]);
-  assert.equal(data.contents.items.length, items.length);
+  assert.equal(data.contents.items.length, RECORDS_PAGE_SIZE);
   assert.equal(data.contents.total, items.length);
   assert.deepEqual(
     data.contents.items.map(({ content_id }) => content_id),
-    items.map(({ content_id }) => content_id),
+    items.slice(RECORDS_PAGE_SIZE, RECORDS_PAGE_SIZE * 2).map(({ content_id }) => content_id),
   );
+  assert.deepEqual(briefCalls, data.contents.items.map(({ content_id }) => content_id));
+  for (const locale of ["ko", "en"] as const) {
+    const prefix = locale === "en" ? "/en" : "";
+    const $ = load(renderToStaticMarkup(
+      <RecordsPageBody slug="example" locale={locale} contents={data.contents} descriptions={{}} labels={labels} />,
+    ));
+    assert.equal($("article").length, RECORDS_PAGE_SIZE);
+    assert.equal($("article").first().attr("data-record-index"), String(RECORDS_PAGE_SIZE));
+    assert.equal($("a[rel=prev]").first().attr("href"), `${prefix}/celeb/example/records`);
+    assert.equal($("a[rel=next]").first().attr("href"), `${prefix}/celeb/example/records/3`);
+    assert.equal($("a[title=Back]").attr("href"), `${prefix}/celeb/example?instant=1#library`);
+    const alternates = getAlternates(recordsPath("example", 2), locale);
+    assert.equal(alternates.canonical, `https://feelandnote.com${prefix}/celeb/example/records/2`);
+    assert.equal(alternates.languages.en, "https://feelandnote.com/en/celeb/example/records/2");
+    assert.equal(alternates.languages.ko, "https://feelandnote.com/celeb/example/records/2");
+  }
+});
+
+test("focus links resolve the containing page without serializing the whole archive", async () => {
+  const items = Array.from({ length: 268 }, (_, index) => item(index + 1));
+  const calls: Array<{ page: number; limit: number }> = [];
+  const dependencies = {
+    getProfile: async () => ({ success: true, data: profile }),
+    getContents: async (params: { page: number; limit: number }) => {
+      calls.push({ page: params.page, limit: params.limit });
+      const start = (params.page - 1) * params.limit;
+      return {
+        ...response(items.slice(start, start + params.limit), items.length),
+        page: params.page,
+        totalPages: Math.ceil(items.length / params.limit),
+        hasMore: start + params.limit < items.length,
+      };
+    },
+    getBrief: async () => null,
+  };
+  const data = await loadRecords("example", "ko", dependencies, 1, "work-268");
+  assert.ok(data);
+  assert.equal(data.contents.page, 14);
+  assert.equal(data.contents.items.length, 8);
+  assert.equal(data.contents.items.at(-1)?.content_id, "work-268");
+  assert.equal(Object.keys(data.descriptions).length, 8);
+  assert.deepEqual(calls, [
+    { page: 1, limit: RECORDS_PAGE_SIZE },
+    { page: 1, limit: 100 },
+    { page: 2, limit: 100 },
+    { page: 3, limit: 100 },
+    { page: 14, limit: RECORDS_PAGE_SIZE },
+  ]);
+  const $ = load(renderToStaticMarkup(
+    <RecordsPageBody slug="example" locale="ko" contents={data.contents} descriptions={{}} labels={labels} />,
+  ));
+  assert.equal($("a[rel=next]").length, 0);
+  assert.equal($("a[rel=prev]").first().attr("href"), "/celeb/example/records/13");
+  assert.equal(await loadRecords("example", "ko", dependencies, 15), null);
+  const missingFocus = await loadRecords("example", "ko", dependencies, 1, "missing-work");
+  assert.equal(missingFocus?.contents.page, 1);
+});
+
+test("invalid pagination paths are rejected rather than returning duplicate first pages", () => {
+  assert.equal(parseRecordsPage(), 1);
+  assert.equal(parseRecordsPage("1"), 1);
+  assert.equal(parseRecordsPage("14"), 14);
+  for (const value of ["0", "-1", "01", "1.2", "2abc", "9007199254740992"]) {
+    assert.equal(parseRecordsPage(value), null);
+  }
+});
+
+test("out-of-range paths never reach a database range request that would throw", async () => {
+  const items = Array.from({ length: 268 }, (_, index) => item(index + 1));
+  const calls: number[] = [];
+  const briefCalls: string[] = [];
+  const dependencies = {
+    getProfile: async () => ({ success: true, data: profile }),
+    getContents: async ({ page, limit }: { page: number; limit: number }) => {
+      calls.push(page);
+      const start = (page - 1) * limit;
+      if (start >= items.length) throw new Error("Requested range not satisfiable");
+      return {
+        ...response(items.slice(start, start + limit), items.length),
+        page,
+        totalPages: Math.ceil(items.length / limit),
+      };
+    },
+    getBrief: async (id: string) => { briefCalls.push(id); return null; },
+  };
+
+  assert.equal(await loadRecords("example", "ko", dependencies, 15), null);
+  assert.equal(await loadRecords("example", "ko", dependencies, 999999), null);
+  assert.deepEqual(calls, [1, 1]);
+  assert.deepEqual(briefCalls, []);
+
+  const focused = await loadRecords("example", "ko", dependencies, 999999, "work-268");
+  assert.equal(focused?.contents.page, 14);
+  assert.equal(focused?.contents.items.at(-1)?.content_id, "work-268");
+  assert.equal(await loadRecords("example", "ko", dependencies, 999999, "missing-work"), null);
+  assert.ok(calls.every((page) => page <= 14));
+});
+
+test("database failures on existing pages propagate instead of becoming not found", async () => {
+  const databaseError = new Error("Database connection unavailable");
+  await assert.rejects(loadRecords("example", "ko", {
+    getProfile: async () => ({ success: true, data: profile }),
+    getContents: async ({ page }) => {
+      if (page === 2) throw databaseError;
+      return { ...response([item(1)], 268), totalPages: 14 };
+    },
+    getBrief: async () => null,
+  }, 2), (error) => error === databaseError);
 });
 
 test("empty and light figures do not produce a records page", async () => {

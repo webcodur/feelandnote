@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import Image from "next/image";
 
 import { Link } from "@/i18n/navigation";
@@ -9,7 +9,6 @@ import VoiceBadge from "@/components/ui/VoiceBadge";
 import WikiMark from "@/components/ui/icons/WikiMark";
 import { getCelebProfileUrl } from "@/lib/url";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
-import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 
 import styles from "./RelationGraphSection.module.css";
 import type { PersonNode } from "./types";
@@ -21,8 +20,6 @@ interface Props {
   total: number;
   profession: string | null;
   country: string | null;
-  loading?: boolean;
-  openLabel: string;
   /** 인물 페이지로 바로 가는 링크의 이름 */
   goLabel: string;
   wikidataLabel: string;
@@ -30,7 +27,6 @@ interface Props {
   speakingLoading?: boolean;
   hasVoice?: boolean;
   voicePulse?: number;
-  onOpen: () => void;
   onSpeak?: () => void;
   isCenter?: boolean;
   headline?: string | null;
@@ -56,19 +52,16 @@ function ProfileFallback() {
 }
 
 function InspectorActions(props: Props) {
-  const { person, isCenter } = props;
-  if (!isCenter && (!person.listed || !person.slug) && !person.qid) return null;
+  const { person } = props;
+  if (!props.onSpeak && !person.qid) return null;
   return <div className={styles.inspectorActions}>
-    {person.listed && person.slug && <CelebDetailCardButton
-      label={props.openLabel}
-      loading={props.loading}
-      onClick={props.onOpen}
-      iconSize={21}
-    />}
-    {person.listed && person.slug && <Link href={getCelebProfileUrl(person)}
-      aria-label={props.goLabel} title={props.goLabel}>
-      <ExternalLink size={19} />
-    </Link>}
+    {props.onSpeak && <button type="button" onClick={props.onSpeak}
+      disabled={props.speakingLoading} aria-label={`${props.speakLabel}: ${person.name}`} title={props.speakLabel}
+      aria-busy={props.speakingLoading || undefined}
+      className="outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
+      {props.speakingLoading ? <LoaderCircle className="animate-spin" size={20} />
+        : <VoiceBadge size="lg" active={props.hasVoice} pulse={props.voicePulse} />}
+    </button>}
     {person.qid && <a href={`https://www.wikidata.org/wiki/${person.qid}`} target="_blank" rel="noreferrer"
       aria-label={props.wikidataLabel} title={props.wikidataLabel}>
       <WikiMark size={19} />
@@ -81,20 +74,18 @@ function InspectorCard(props: Props) {
   const years = year(person.birthDate)
     ? `${year(person.birthDate)}–${person.deathDate ? year(person.deathDate) : ""}`
     : null;
+  const href = isCenter ? "#introduction" : person.listed && person.slug ? getCelebProfileUrl(person) : null;
   const portrait = person.avatarUrl
     ? <Image src={person.avatarUrl} alt="" width={208} height={208} unoptimized />
     : <ProfileFallback />;
   return <div className={styles.inspectorCard}>
     <div className={styles.inspectorPortrait}>
-      {props.onSpeak ? <button type="button" className={`${styles.inspectorAvatar} ${styles.inspectorAvatarButton}`}
-        onClick={props.onSpeak} disabled={props.speakingLoading} aria-label={props.speakLabel} title={props.speakLabel}
-        aria-busy={props.speakingLoading || undefined}>
+      {href ? <Link href={href} prefetch={false}
+        className={`${styles.inspectorAvatar} ${styles.inspectorAvatarButton} outline-none focus-visible:ring-2 focus-visible:ring-accent`}
+        aria-label={`${props.goLabel}: ${person.name}`}>
         {portrait}
-        <span className={styles.inspectorVoiceBadge} aria-hidden>
-          {props.speakingLoading ? <LoaderCircle className="animate-spin" />
-            : <VoiceBadge size="lg" active={props.hasVoice} playing={props.speakingLoading} pulse={props.voicePulse} />}
-        </span>
-      </button> : <span className={styles.inspectorAvatar}>{portrait}</span>}
+      </Link> : <span className={styles.inspectorAvatar}>{portrait}</span>}
+
     </div>
 
     <div className={styles.inspectorContent}>
@@ -111,7 +102,10 @@ function InspectorCard(props: Props) {
         ) : (
           <small>{String(props.position).padStart(2, "0")} / {String(props.total).padStart(2, "0")}</small>
         )}
-        <strong>{person.name}</strong>
+        {href ? <Link href={href} prefetch={false}
+          className="rounded-sm outline-none hover:[&>strong]:text-accent focus-visible:ring-2 focus-visible:ring-accent">
+          <strong>{person.name}</strong>
+        </Link> : <strong>{person.name}</strong>}
         <span className={isCenter ? "font-semibold text-accent" : undefined}>{props.relationLabel}</span>
       </div>
 

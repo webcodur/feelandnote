@@ -58,7 +58,7 @@ export default function TopByTypeGrid({ entries }: TopByTypeGridProps) {
               {/* 프리미엄 컨텐츠 카테고리 & 숫자 뱃지 (우측 상단 슬롯) */}
               {typeCount > 0 && (
                 <div
-                  className="absolute top-2.5 right-2.5 z-20 flex items-center pl-2 pr-2.5 py-1.5 rounded-full border border-white/20 shadow-2xl backdrop-blur-xl transition-[transform,border-color] duration-500 group-hover/topcard:scale-105 group-hover/topcard:border-white/40"
+                  className="pointer-events-none absolute top-2.5 right-2.5 z-20 flex items-center pl-2 pr-2.5 py-1.5 rounded-full border border-white/20 shadow-2xl backdrop-blur-xl transition-[transform,border-color] duration-500 group-hover/topcard:scale-105 group-hover/topcard:border-white/40"
                   style={{
                     background:
                       "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.5) 100%)",

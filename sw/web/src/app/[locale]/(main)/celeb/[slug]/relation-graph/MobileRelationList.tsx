@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { useMemo, useRef } from "react";
-import { ExternalLink, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 
 import { Link } from "@/i18n/navigation";
-import CelebDetailCardButton from "@/components/shared/CelebDetailCardButton";
 import SwipeControls from "@/components/ui/SwipeControls";
 import VoiceBadge from "@/components/ui/VoiceBadge";
 import WikiMark from "@/components/ui/icons/WikiMark";
@@ -27,10 +26,7 @@ interface Props {
   selectedFocus: RelationFocus | null;
   activePeople: PersonNode[];
   relationLabel: (person: PersonNode) => string;
-  /** 등록된 인물은 눌러 인물 미리보기(인물 페이지 진입)로 잇는다 */
-  onOpenPerson: (person: PersonNode) => void;
-  openLabel: string;
-  /** 얼굴을 누르면 인사 대사가 나온다 — 데스크톱 인스펙터의 아바타 단추와 같은 동작 */
+  /** 별도 대사 버튼으로 인사말을 재생한다. */
   onSpeak: (person: PersonNode) => void;
   speakerFor: (person: PersonNode) => SpeakerState;
   speakLabels: { voice: string; text: string };
@@ -120,49 +116,36 @@ export default function MobileRelationList(props: Props) {
             {person.note ? <small>{person.note}</small> : null}
           </>;
 
-          /* 한 카드에 조작이 셋이다. 이름·소개를 누르면 인물로 가고, 얼굴을 누르면 대사가
-             나오고, 바깥 링크는 위키데이터로 나간다. 단추 안에 단추를 넣을 수 없으므로
-             인물로 가는 단추만 면을 카드 전체로 넓히고(::after) 나머지 둘이 그 위에 올라탄다. */
           return <div key={person.id} role="listitem" data-tone={tone} className={styles.person}>
             {/* 1열: 얼굴과 그 아래 관계 유형("영감을 준" 등) */}
             <span className={styles.portraitCol}>
-              {speaker.canSpeak
-                ? <button type="button" className={`${styles.portrait} ${styles.portraitButton}`}
-                    onClick={() => props.onSpeak(person)} disabled={speaker.loading}
-                    aria-label={speakLabel} title={speakLabel} aria-busy={speaker.loading || undefined}>
+              {listed
+                ? <Link href={getCelebProfileUrl(person)} prefetch={false}
+                    className={`${styles.portrait} ${styles.portraitButton} outline-none`}
+                    aria-label={`${props.goLabel}: ${person.name}`}>
                     {face}
-                    <span className={styles.voiceBadge} aria-hidden>
-                      {speaker.loading
-                        ? <LoaderCircle className="animate-spin" size={15} />
-                        : <VoiceBadge size="sm" active={speaker.hasVoice} pulse={speaker.pulse} />}
-                    </span>
-                  </button>
+                  </Link>
                 : <span className={styles.portrait}>{face}</span>}
               <span className={styles.relationTag}>{relation}</span>
             </span>
 
             {listed
-              ? <button type="button" className={`${styles.copy} ${styles.copyButton}`}
-                  onClick={() => props.onOpenPerson(person)}
-                  aria-label={`${props.openLabel}: ${person.name}`}>
+              ? <Link href={getCelebProfileUrl(person)} prefetch={false}
+                  className={`${styles.copy} ${styles.copyButton} outline-none`}
+                  aria-label={`${props.goLabel}: ${person.name}`}>
                   {identity}
-                </button>
+                </Link>
               : <span className={styles.copy}>{identity}</span>}
 
             {/* 오른쪽 세로 띠 — 데스크톱 인스펙터의 조작 띠와 같은 자리, 같은 차례다 */}
             <span className={styles.cardActions}>
-              {listed ? <CelebDetailCardButton
-                label={props.openLabel}
-                onClick={() => props.onOpenPerson(person)}
-                iconSize={16}
-                className={styles.cardAction}
-              /> : null}
-              {listed ? <Link href={getCelebProfileUrl(person)}
-                onClick={(event) => event.stopPropagation()}
-                aria-label={props.goLabel} title={props.goLabel}
-                className={styles.cardAction}>
-                <ExternalLink size={16} aria-hidden />
-              </Link> : null}
+              {speaker.canSpeak ? <button type="button" className={`${styles.cardAction} outline-none`}
+                onClick={() => props.onSpeak(person)} disabled={speaker.loading}
+                aria-label={`${speakLabel}: ${person.name}`} title={speakLabel}
+                aria-busy={speaker.loading || undefined}>
+                {speaker.loading ? <LoaderCircle className="animate-spin" size={15} />
+                  : <VoiceBadge size="sm" active={speaker.hasVoice} pulse={speaker.pulse} />}
+              </button> : null}
               {person.qid ? <a className={styles.cardAction} href={`https://www.wikidata.org/wiki/${person.qid}`}
                 target="_blank" rel="noreferrer" aria-label={props.wikidataLabel} title={props.wikidataLabel}>
                 <WikiMark size={16} />

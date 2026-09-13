@@ -517,7 +517,8 @@
         "myth": "가상",
         "both": "사실 | 가상"
       },
-      "viewCard": "인물 카드 보기"
+      "viewCard": "인물 카드 보기",
+      "playDialogue": "대사 보기"
     },
     "celebViews": {
       "title": "이 프로필을 본 사람",

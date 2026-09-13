@@ -221,7 +221,8 @@ export default async function CelebPage({ params }: PageProps) {
     slug,
     locale,
     pageTitle,
-    contents: initialContents.items,
+    // 펼쳐보기의 초기 본문은 첫 작품만 출력한다. 미리 가져온 다음 작품을 구조화 데이터로 앞서 선언하지 않는다.
+    contents: initialContents.items.slice(0, 1),
     figureBooks,
     externalLinks,
   });

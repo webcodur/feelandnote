@@ -8,7 +8,7 @@
 
 import { useCallback, useState } from "react";
 import { ScrollText } from "lucide-react";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 import ContentLibrary from "@/components/features/user/contentLibrary/ContentLibrary";
@@ -102,17 +102,22 @@ export default function LibraryTabs({
           // 글줄 링크였던 "감상 기록 전체 보기"를 필터 칩 줄 옆 아이콘으로 옮긴다.
           // 펼쳐보기에서 보던 작품이 있으면 그 작품이 있는 쪽에서 이어 연다.
           filterTrailing={(initialContents?.total ?? 0) > 0 ? (
-            <button
-              type="button"
-              onClick={() => setIsRecordsConfirmOpen(true)}
+            <Link
+              href={recordsHref}
+              prefetch={false}
+              onClick={(event) => {
+                if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                event.preventDefault();
+                setIsRecordsConfirmOpen(true);
+              }}
               aria-label={t("records.viewAll")}
               title={t("records.viewAll")}
               aria-haspopup="dialog"
               aria-expanded={isRecordsConfirmOpen}
-              className={ARCHIVE_ICON_CONTROL_CLASS}
+              className={`${ARCHIVE_ICON_CONTROL_CLASS} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
             >
               <ScrollText size={16} aria-hidden />
-            </button>
+            </Link>
           ) : undefined}
         />
       </div>}
