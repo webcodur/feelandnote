@@ -1,12 +1,12 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
-import type { TrendCountry } from '@/constants/trendCountries'
+import { TREND_PERIOD_HOURS, type TrendCountry } from '@/constants/trendCountries'
 import { createStaticClient } from '@/lib/db/static'
 import { rawFetch } from '@/lib/rawFetch'
 import {
   matchTrendingPeople,
-  parseTrendRss,
+  parseTrendPage,
   resolveCountryTrendingPeople,
   type CountryTrendingPeople,
   type RegisteredTrendPerson,
@@ -31,18 +31,18 @@ const getRegisteredPeople = unstable_cache(async (): Promise<RegisteredTrendPers
 })
 
 async function fetchCountryIds(country: TrendCountry): Promise<string[]> {
-  const response = await rawFetch(`https://trends.google.com/trending/rss?geo=${country}`, {
+  const response = await rawFetch(`https://trends.google.com/trending?geo=${country}&hl=en&hours=${TREND_PERIOD_HOURS}`, {
     signal: AbortSignal.timeout(TREND_REQUEST_TIMEOUT_MS),
-    headers: { Accept: 'application/rss+xml, application/xml;q=0.9' },
+    headers: { Accept: 'text/html' },
   })
-  if (!response.ok) throw new Error(`Trends RSS HTTP ${response.status}`)
-  const titles = parseTrendRss(await response.text())
+  if (!response.ok) throw new Error(`Trends page HTTP ${response.status}`)
+  const titles = parseTrendPage(await response.text(), country)
   if (titles.length === 0) return []
   return matchTrendingPeople(titles, await getRegisteredPeople())
 }
 
 // unstable_cache includes the country argument in its key; failed reads throw and aren't stored as an empty feed.
-const getCountryIds = unstable_cache(fetchCountryIds, ['country-trending-people-v1'], {
+const getCountryIds = unstable_cache(fetchCountryIds, ['country-trending-people-page-v2'], {
   revalidate: TREND_REVALIDATE_SECONDS,
   tags: [CACHE_TAGS.CELEBS],
 })
