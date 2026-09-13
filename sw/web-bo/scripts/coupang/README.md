@@ -120,15 +120,6 @@ node audit.mjs --figure-books --evidence ../../../../data/coupang/fiction-source
 링크 없는 인물 도서 관계는 허용하되, `linked`로 적은 항목에 링크가 없으면 실패한다. 전체 결과 파일이
 필요할 때만 `--output <경로>`를 주며 기본 실행은 파일을 만들지 않는다.
 
-인물 도서 BOOK의 작품 소개가 문장 중간에서 끊기거나 비어 있으면 아래 명령으로 전수 확인한다.
-같은 ISBN의 다음 책 상세 소개가 현재 글의 앞부분과 일치할 때만 늘리며, `--apply`는 관련
-작품·인물 캐시까지 갱신한다.
-
-```bash
-pnpm figure-books:descriptions
-pnpm figure-books:descriptions --apply
-```
-
 ## 넣은 뒤
 
 판본·상품 표는 DB 트리거가 관련 작품과 인물 책장 캐시를 자동으로 비운다. 트리거 밖의 자료를

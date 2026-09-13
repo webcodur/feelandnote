@@ -1,7 +1,8 @@
 /**
  * 중복 작품 통합 — 같은 저작으로 갈린 작품을 하나로 합친다. 관계·판본·상품을 keep으로 옮기고 drop을 지운다.
  * 되돌리기 어려우므로 기본은 dry-run이며 통합 표를 먼저 보여준다.
- * 이용 기록(record_count·member_count)이 있는 작품은 drop으로 삼지 않는다.
+ * 회원 기록(member_contents)도 keep으로 옮긴다. 같은 회원이 양쪽에 담았으면 감상·평점이 있는 쪽(같으면 최근 것)을 남긴다.
+ * record_count는 셀럽 감상 수까지 합친 값이라 차단 기준으로 쓰지 않는다. 카운터는 트리거가 재계산한다.
  *
  * node --env-file=.env scripts/figure-books/merge-works.mjs --in ../../data/celeb/figure-books/merge-candidates.json
  * node --env-file=.env scripts/figure-books/merge-works.mjs --in <같은 파일> --apply
@@ -19,7 +20,15 @@ async function planOne(db, pair) {
     db.from('contents').select('id,record_count,member_count,celeb_count').eq('id', pair.drop).maybeSingle(),
   ])
   if (!keepC.data || !dropC.data) return { ...pair, skip: 'missing-content' }
-  if ((dropC.data.record_count ?? 0) > 0 || (dropC.data.member_count ?? 0) > 0) return { ...pair, skip: 'drop-has-user-activity' }
+  const [keepMc, dropMc] = await Promise.all([
+    db.from('member_contents').select('member_id').eq('content_id', pair.keep),
+    db.from('member_contents').select('member_id').eq('content_id', pair.drop),
+  ])
+  const keepMembers = new Set((keepMc.data ?? []).map((row) => row.member_id))
+  const members = {
+    move: (dropMc.data ?? []).filter((row) => !keepMembers.has(row.member_id)).length,
+    conflict: (dropMc.data ?? []).filter((row) => keepMembers.has(row.member_id)).length,
+  }
 
   const [keepRel, dropRel, keepEd, dropEd, keepLoc, dropLoc] = await Promise.all([
     db.from('figure_book_characters').select('celeb_id,relation_type,sort_order,description,description_en').eq('content_id', pair.keep),
@@ -36,6 +45,7 @@ async function planOne(db, pair) {
 
   return {
     ...pair,
+    members,
     keepTitle: titleOf(keepLoc.data ?? []), dropTitle: titleOf(dropLoc.data ?? []),
     relations: { move: (dropRel.data ?? []).filter((row) => !keepCelebs.has(row.celeb_id)).length, dropDuplicate: (dropRel.data ?? []).filter((row) => keepCelebs.has(row.celeb_id)).length },
     editions: (dropEd.data ?? []).map((row) => ({ id: row.id, locale: row.locale, isbn: bareIsbn(row.isbn), collidesWith: keepEdKeys.get(`${row.locale}:${bareIsbn(row.isbn)}`) ?? null })),
@@ -45,6 +55,14 @@ async function planOne(db, pair) {
 
 async function applyOne(db, plan) {
   const must = async (label, promise) => { const { error } = await promise; if (error) throw new Error(`${label}: ${error.message}`) }
+  // 0) keep이 카탈로그(figure_book_contents)에 없으면 넣는다. 관계·판본의 FK가 카탈로그를 가리키므로 없으면 이동이 실패한다.
+  //    시드 트리거가 keep의 언어 카드로 판본을 만들 수 있으니, 판본 충돌은 이 시점의 keep 판본으로 다시 계산한다.
+  const { data: cat } = await db.from('figure_book_contents').select('content_id').eq('content_id', plan.keep).limit(1)
+  if (!(cat ?? []).length) await must('카탈로그 추가', db.from('figure_book_contents').insert({ content_id: plan.keep }))
+  const { data: keepEdNow } = await db.from('figure_book_editions').select('id,locale,isbn').eq('content_id', plan.keep)
+  const keepEdKeys = new Map((keepEdNow ?? []).map((row) => [`${row.locale}:${bareIsbn(row.isbn)}`, row.id]))
+  const { data: dropEdNow } = await db.from('figure_book_editions').select('id,locale,isbn').eq('content_id', plan.drop)
+  plan.editions = (dropEdNow ?? []).map((row) => ({ ...row, collidesWith: keepEdKeys.get(`${row.locale}:${bareIsbn(row.isbn)}`) ?? null }))
   // 1) 관계 — keep에 같은 인물이 없으면 옮기고, 있으면 drop 쪽을 지운다.
   const { data: dropRel } = await db.from('figure_book_characters').select('celeb_id').eq('content_id', plan.drop)
   const { data: keepRel } = await db.from('figure_book_characters').select('celeb_id').eq('content_id', plan.keep)
@@ -65,6 +83,25 @@ async function applyOne(db, plan) {
   // 3) locale — keep에 없는 언어만 옮긴다.
   for (const locale of plan.locales.move) await must('locale 이동', db.from('content_locales').update({ content_id: plan.keep }).eq('content_id', plan.drop).eq('locale', locale))
   await must('locale 삭제', db.from('content_locales').delete().eq('content_id', plan.drop))
+  // 3.5) 회원 기록 — 같은 회원이 keep에도 담았으면 감상·평점이 있는 쪽(같으면 최근 것)을 남기고 다른 쪽을 지운다.
+  //      identity 가드는 auth.uid()가 있는 회원 세션만 막으므로 서비스 키 실행은 content_id를 바꿀 수 있다. 카운터는 트리거가 재계산한다.
+  const { data: dropMc } = await db.from('member_contents').select('id,member_id,rating,review,updated_at').eq('content_id', plan.drop)
+  if ((dropMc ?? []).length > 0) {
+    const { data: keepMc } = await db.from('member_contents').select('id,member_id,rating,review,updated_at').eq('content_id', plan.keep)
+    const keepBy = new Map((keepMc ?? []).map((row) => [row.member_id, row]))
+    const richness = (row) => (row.review ? 2 : 0) + (row.rating != null ? 1 : 0)
+    for (const row of dropMc) {
+      const other = keepBy.get(row.member_id)
+      if (!other) { await must('회원 기록 이동', db.from('member_contents').update({ content_id: plan.keep }).eq('id', row.id)); continue }
+      const preferDrop = richness(row) > richness(other) || (richness(row) === richness(other) && String(row.updated_at) > String(other.updated_at))
+      if (preferDrop) {
+        await must('회원 기록 교체(keep측 삭제)', db.from('member_contents').delete().eq('id', other.id))
+        await must('회원 기록 이동', db.from('member_contents').update({ content_id: plan.keep }).eq('id', row.id))
+      } else {
+        await must('회원 기록 삭제(drop측)', db.from('member_contents').delete().eq('id', row.id))
+      }
+    }
+  }
   // 4) 감상 관계가 있으면 옮긴다. 같은 인물이 이미 keep에 있으면 drop 쪽을 지운다.
   const { data: dropCc } = await db.from('celeb_contents').select('celeb_id').eq('content_id', plan.drop)
   if ((dropCc ?? []).length > 0) {
@@ -94,7 +131,7 @@ async function main() {
   for (const pair of merges) plans.push(await planOne(db, pair))
   for (const plan of plans) {
     if (plan.skip) { console.log(`  건너뜀 ${plan.drop.slice(0, 8)} → ${plan.keep.slice(0, 8)} : ${plan.skip}`); continue }
-    console.log(`  ${plan.drop.slice(0, 8)} → ${plan.keep.slice(0, 8)} | 관계 이동 ${plan.relations.move}·중복 ${plan.relations.dropDuplicate} | 판본 ${plan.editions.length}(충돌 ${plan.editions.filter((e) => e.collidesWith).length}) | locale 이동 ${plan.locales.move.join(',') || '-'} | ${plan.identity}`)
+    console.log(`  ${plan.drop.slice(0, 8)} → ${plan.keep.slice(0, 8)} | 관계 이동 ${plan.relations.move}·중복 ${plan.relations.dropDuplicate} | 판본 ${plan.editions.length}(충돌 ${plan.editions.filter((e) => e.collidesWith).length}) | locale 이동 ${plan.locales.move.join(',') || '-'} | 회원 이동 ${plan.members?.move ?? 0}·충돌 ${plan.members?.conflict ?? 0} | ${plan.identity}`)
     console.log(`      버림 「${plan.dropTitle}」 → 남김 「${plan.keepTitle}」`)
   }
   if (!apply) { console.log('\ndry-run이다. 반영하려면 --apply를 붙인다.'); return }

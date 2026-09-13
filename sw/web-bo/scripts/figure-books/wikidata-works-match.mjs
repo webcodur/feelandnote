@@ -12,6 +12,8 @@
  *   --repair        미완성 작품 복구(언어 카드 없는 작품 행) + 잘못 붙은 영문 카드 제거(비영어권 ISBN)
  */
 
+const introductionModule = await import('@feelandnote/content-search/book-introduction')
+const { fetchBookIntroduction } = introductionModule.default ?? introductionModule
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import {
@@ -267,7 +269,7 @@ function sanitizeEnriched(enriched) {
 }
 const isKoreanIsbn = (value) => String(value ?? '').split(' ').some((isbn) => /^(97889|9791)/.test(bareIsbn(isbn)))
 
-function buildRows(work, enriched) {
+async function buildRows(work, enriched) {
   const identity = wikidataIdentity(work.qid)
   const contentId = deterministicContentId(identity)
   const firstPerson = [...work.persons.values()][0].person
@@ -299,27 +301,31 @@ function buildRows(work, enriched) {
       },
     },
   }
+  const [enIntroduction, koIntroduction] = await Promise.all([
+    enriched.en?.isbn ? fetchBookIntroduction({ isbn: enriched.en.isbn, locale: 'en' }) : null,
+    koIsbn ? fetchBookIntroduction({ isbn: koIsbn, locale: 'ko' }) : null,
+  ])
   const locales = []
   if (enriched.en) {
     locales.push({
       content_id: contentId, locale: 'en', title: enTitle,
+      description: enIntroduction?.source ?? null,
       creator: enriched.en.authors?.join(', ') || workCreator,
-      description: enriched.en.description ?? null,
       isbn: enriched.en.isbn ?? null, publisher: enriched.en.publisher ?? null,
       thumbnail_url: enriched.en.thumbnailUrl ?? null,
       verified: true,
-      sources: { primary: 'openlibrary', title: enriched.en.sourceUrl, creator: enriched.en.sourceUrl, isbn: enriched.en.sourceUrl, wikidata: wikidataUrl },
+      sources: { ...(enIntroduction?.source ? { description: enIntroduction.sourceUrl } : {}), primary: 'openlibrary', title: enriched.en.sourceUrl, creator: enriched.en.sourceUrl, isbn: enriched.en.sourceUrl, wikidata: wikidataUrl },
     })
   }
   if (enriched.ko) {
     locales.push({
       content_id: contentId, locale: 'ko', title: koTitle,
+      description: koIntroduction?.source ?? null,
       creator: kakaoCreator(enriched.ko),
-      description: enriched.ko.contents || null,
       isbn: koIsbn, publisher: enriched.ko.publisher || null,
       thumbnail_url: enriched.ko.thumbnail || null,
       verified: true,
-      sources: { primary: 'kakao_book', title: enriched.ko.url, creator: enriched.ko.url, isbn: enriched.ko.url, wikidata: wikidataUrl },
+      sources: { ...(koIntroduction?.source ? { description: koIntroduction.sourceUrl } : {}), primary: 'kakao_book', title: enriched.ko.url, creator: enriched.ko.url, isbn: enriched.ko.url, wikidata: wikidataUrl },
     })
   }
   return { contentId, content, locales, figureBook: { content_id: contentId } }
@@ -346,17 +352,17 @@ async function repair(db, canonical, enrichCachePath) {
 
   const must = async (label, promise) => { const { error } = await promise; if (error) throw new Error(`${label}: ${error.message}`) }
   const dropContent = async (id) => {
+    // contents 를 가리키는 다른 표(인물 감상·회원 기록·기관 선정 목록·컬렉션·기록·노트)가 있으면 지우지 않는다. 26.09.11 목록 참조를 안 본 삭제로 연결 93건이 끊겼다.
+    for (const table of ['celeb_contents', 'member_contents', 'curated_list_items', 'flow_nodes', 'records', 'notes']) {
+      const { count } = await db.from(table).select('content_id', { count: 'exact', head: true }).eq('content_id', id)
+      if (count) { console.log(`  삭제 보류 ${id.slice(0, 8)} — ${table} 참조 ${count}건`); return }
+    }
     await must('관계 삭제', db.from('figure_book_characters').delete().eq('content_id', id))
     await must('판본 삭제', db.from('figure_book_editions').delete().eq('content_id', id))
     await must('작품 표시 삭제', db.from('figure_book_contents').delete().eq('content_id', id))
     await must('locale 삭제', db.from('content_locales').delete().eq('content_id', id))
     await must('작품 삭제', db.from('contents').delete().eq('id', id))
   }
-    // contents 를 가리키는 다른 표(인물 감상·회원 기록·기관 선정 목록·컬렉션·기록·노트)가 있으면 지우지 않는다. 26.09.11 목록 참조를 안 본 삭제로 연결 93건이 끊겼다.
-    for (const table of ['celeb_contents', 'member_contents', 'curated_list_items', 'flow_nodes', 'records', 'notes']) {
-      const { count } = await db.from(table).select('content_id', { count: 'exact', head: true }).eq('content_id', id)
-      if (count) { console.log(`  삭제 보류 ${id.slice(0, 8)} — ${table} 참조 ${count}건`); return }
-    }
   const insertEditions = async (contentId, rows, title) => {
     for (const locale of rows) {
       const kind = MULTIPART.test(String(title ?? '')) ? {} : { edition_kind: 'full', text_scope: 'complete' }
@@ -383,7 +389,7 @@ async function repair(db, canonical, enrichCachePath) {
     enrichCache[qid] = enriched
     if (seen % 50 === 0) { writeFileSync(enrichCachePath, JSON.stringify(enrichCache), 'utf8'); console.log(`  미완성 작품 복구 ${seen}/${orphans.length} (채움 ${filled}, 삭제 ${dropped})`) }
     if (!enriched.ko && !enriched.en) { await dropContent(row.id); dropped += 1; continue }
-    const built = buildRows(work, enriched)
+    const built = await buildRows(work, enriched)
     // 책 정보가 다른 기존 작품과 겹치면(ISBN 유니크) 이 행은 중복이다. 지운다.
     const { error: upsertError } = await db.from('contents').upsert(built.content, { onConflict: 'id' })
     if (upsertError) { await dropContent(row.id); dropped += 1; continue }
@@ -571,7 +577,7 @@ async function main() {
     if (catalogHit) { lateMatched.push({ rule: 'isbn-after-enrich', contentId: catalogHit, qid: work.qid, en: work.en, persons: [...work.persons.values()].map(({ person }) => person.slug) }); continue }
     const earlier = keys.map((key) => seenKeys.get(key)).find(Boolean)
     if (earlier) { mergePersons(earlier.work, work); continue }
-    const row = { work, ...buildRows(work, enriched) }
+    const row = { work, ...await buildRows(work, enriched) }
     for (const key of keys) seenKeys.set(key, row)
     built.push(row)
   }

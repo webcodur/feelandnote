@@ -9,6 +9,8 @@
  * node --env-file=.env scripts/figure-books/translated-original-work.mjs --apply
  */
 
+const introductionModule = await import('@feelandnote/content-search/book-introduction')
+const { fetchBookIntroduction } = introductionModule.default ?? introductionModule
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import {
@@ -221,11 +223,13 @@ async function main() {
     updated += 1
     if (!row.en?.isbn || enSet.has(row.contentId)) continue
     const sources = { primary: 'openlibrary', title: row.en.sourceUrl, creator: row.en.sourceUrl, isbn: row.en.sourceUrl, publisher: row.en.sourceUrl, thumbnail: row.en.sourceUrl }
-    const locale = { content_id: row.contentId, locale: 'en', title: row.en.title, creator: row.en.authors.join(', '), description: row.en.description ?? null, isbn: row.en.isbn, publisher: row.en.publisher, thumbnail_url: row.en.thumbnailUrl, verified: true, sources }
+    const introduction = await fetchBookIntroduction({ isbn: row.en.isbn, locale: 'en' })
+    if (introduction.source && introduction.sourceUrl) sources.description = introduction.sourceUrl
+    const locale = { description: introduction?.source ?? null, content_id: row.contentId, locale: 'en', title: row.en.title, creator: row.en.authors.join(', '), isbn: row.en.isbn, publisher: row.en.publisher, thumbnail_url: row.en.thumbnailUrl, verified: true, sources }
     const l = await db.from('content_locales').upsert(locale, { onConflict: 'content_id,locale', ignoreDuplicates: true })
     if (l.error) { console.log(`  en locale 실패 ${row.contentId}: ${l.error.message}`); continue }
     // 판본 트리거는 figure_book_contents 삽입 때만 돌므로 en 판본은 직접 넣는다.
-    const e = await db.from('figure_book_editions').insert({ content_id: row.contentId, locale: 'en', title: row.en.title, creator: row.en.authors.join(', '), description: row.en.description ?? null, isbn: row.en.isbn, publisher: row.en.publisher, thumbnail_url: row.en.thumbnailUrl, release_date: null, edition_kind: metadata.figureBook?.editionKind ?? 'full', text_scope: metadata.figureBook?.textScope ?? 'complete', sort_order: 0, verified: true, sources })
+    const e = await db.from('figure_book_editions').insert({ description: introduction?.source ?? null, content_id: row.contentId, locale: 'en', title: row.en.title, creator: row.en.authors.join(', '), isbn: row.en.isbn, publisher: row.en.publisher, thumbnail_url: row.en.thumbnailUrl, release_date: null, edition_kind: metadata.figureBook?.editionKind ?? 'full', text_scope: metadata.figureBook?.textScope ?? 'complete', sort_order: 0, verified: true, sources })
     if (e.error && !/duplicate key/.test(e.error.message)) { console.log(`  en 판본 실패 ${row.contentId}: ${e.error.message}`); continue }
     enAdded += 1
   }
