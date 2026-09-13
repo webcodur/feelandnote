@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo, useEffect, useEffectEvent, useRef } fro
 import { useSearchParams } from "next/navigation";
 import { usePathname } from "@/i18n/navigation";
 import { getCelebs } from "@/actions/home";
-import { CELEB_PROFESSION_FILTERS } from "@/constants/celebProfessions";
+import { CELEB_PROFESSION_FILTERS, DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
 import { CONTENT_TYPE_FILTERS, getContentUnit } from "@/constants/categories";
 import type { CelebProfile } from "@/types/home";
 import type { ProfessionCounts, NationalityCounts, ContentTypeCounts, GenderCounts, CelebSortBy } from "@/actions/home";
@@ -68,7 +68,7 @@ export function useCelebFilters({
 
   const [celebs, setCelebs] = useState<CelebProfile[]>(initialCelebs);
   const [isLoading, setIsLoading] = useState(false);
-  const [profession, setProfession] = useState<string>(() => getInitialValue("profession", "all"));
+  const [profession, setProfession] = useState<string>(() => getInitialValue("profession", syncToUrl ? DEFAULT_EXPLORE_PROFESSION : "all"));
   const [nationality, setNationality] = useState<string>(() => getInitialValue("nationality", "all"));
   const [contentType, setContentType] = useState<string>(() => getInitialValue("contentType", "all"));
   const [contentPresence, setContentPresence] = useState<CelebContentPresence>(() => parseCelebContentPresence(syncToUrl ? searchParams.get("contentPresence") : undefined, syncToUrl ? DEFAULT_CELEB_CONTENT_PRESENCE : "all"));
@@ -117,7 +117,8 @@ export function useCelebFilters({
     if (!syncToUrl) return;
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(updates).forEach(([key, value]) => {
-      const isDefault = key === "contentPresence" ? value === DEFAULT_CELEB_CONTENT_PRESENCE : value === "all";
+      const isDefault = key === "profession" ? value === DEFAULT_EXPLORE_PROFESSION
+        : key === "contentPresence" ? value === DEFAULT_CELEB_CONTENT_PRESENCE : value === "all";
       if (value === null || isDefault || value === "" || (key === "page" && value === "1") || (key === "sortBy" && value === DEFAULT_EXPLORE_SORT)) {
         params.delete(key);
       } else {

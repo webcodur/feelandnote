@@ -104,3 +104,12 @@ test('explore defaults to most works and retains explicit random URLs', () => {
   assert.equal(CELEB_SORT_OPTIONS.at(-1), 'daily_recommend')
   for (const sortBy of CELEB_SORT_OPTIONS) assert.equal(parseFilterParams({ sortBy }).sortBy, sortBy)
 })
+
+test('explore starts with entrepreneurs but explicit all and other professions survive URL reloads', () => {
+  assert.equal(parseFilterParams({}).profession, 'entrepreneur')
+  assert.equal(parseFilterParams({ page: '2' }).profession, 'entrepreneur')
+  assert.equal(parseFilterParams({ profession: '' }).profession, 'entrepreneur')
+  assert.equal(parseFilterParams({ profession: 'all' }).profession, undefined)
+  assert.equal(parseFilterParams({ profession: 'all', page: '2' }).profession, undefined)
+  assert.equal(parseFilterParams({ profession: 'author', page: '2' }).profession, 'author')
+})

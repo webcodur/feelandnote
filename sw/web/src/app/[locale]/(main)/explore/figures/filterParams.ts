@@ -2,7 +2,7 @@ import { parseExploreSort } from "@/constants/celebSort";
 import { parseCelebTiers, parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
 import type { FiguresFilterParams } from "./sections";
 import { DEFAULT_CELEB_CONTENT_PRESENCE, parseCelebContentPresence } from "@/constants/celebContentPresence";
-
+import { DEFAULT_EXPLORE_PROFESSION } from "@/constants/celebProfessions";
 
 // URL searchParams에서 필터/정렬 값 파싱
 function parseParam(params: Record<string, string | string[] | undefined>, key: string): string | undefined {
@@ -41,7 +41,7 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     tiers: parseCelebTiers(parseParam(params, "tier")),
     // 실존 축 필터. 미지정이면 getCelebs가 기본(REAL·BOTH, FICTION 제외)만 노출한다.
     realities: parseCelebRealities(parseParam(params, "reality")),
-    profession: notAll(parseParam(params, "profession")),
+    profession: notAll(parseParam(params, "profession") || DEFAULT_EXPLORE_PROFESSION),
     nationality: notAll(parseParam(params, "nationality")),
     contentType: notAll(parseParam(params, "contentType")),
     contentPresence: parseCelebContentPresence(parseParam(params, "contentPresence"), DEFAULT_CELEB_CONTENT_PRESENCE),
