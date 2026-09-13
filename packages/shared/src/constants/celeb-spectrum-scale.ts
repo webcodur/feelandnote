@@ -79,7 +79,7 @@ export const AXIS_DEFINITIONS: Record<SpectrumAxis, string> = {
   fairness: '편파 없는 원칙적 판단.',
   humility: '자신을 낮추고 타인을 존중함.',
   pessimism_optimism: '세계와 미래를 비관하는가 낙관하는가.',
-  conservative_progressive: '기존 질서를 지키는가 바꾸는가.',
+  conservative_progressive: '정치·사회 사상에서 기존 질서를 지키는가 바꾸는가. 왕정·신분·인종·젠더·이민 같은 사회 질서에 대한 입장이 근거다. 직업·학문·예술상의 혁신(새 훈련법, 새 알고리즘, 새 화풍)과 개인 진로 선택은 이 축이 아니다.',
   individual_social: '개인의 독립을 앞세우는가 공동체를 앞세우는가.',
   cautious_bold: '신중히 재는가 과감히 감행하는가.',
 }
@@ -224,7 +224,7 @@ const MARTIAL: readonly SpectrumAnchor[] = [
   { score: 51, nickname: '공자', note: '전통 예식 무예(활쏘기·수레몰기) 기초 훈련 연마' },
   { score: 38, nickname: '마하트마 간디', note: '비신체직 활동가 기본 체력. 단식·장거리 행진의 인내는 있으나 근력·파워는 낮음' },
   { score: 36, nickname: '스티브 잡스', note: '비신체직 기업인 기본 체력. 특별한 훈련 기록 없음' },
-  { score: 25, nickname: '마리 앙투아네트', note: '병약 체질·만성 쇠약 추정' },
+  { score: 40, nickname: '마리 앙투아네트', note: '어릴 때부터 승마를 즐기고 사냥에 동행. 여성 보정 후 값' },
   { score: 22, nickname: '아이작 뉴턴', note: '만성 병약·극히 제한적 체력' },
   { score: 10, nickname: '손빈', note: '다리 절단으로 일상·직업 활동 자체가 제한됨' },
   { score: 8, nickname: '스티븐 호킹', note: '전신 마비로 일상 활동 자체가 제한됨' },
