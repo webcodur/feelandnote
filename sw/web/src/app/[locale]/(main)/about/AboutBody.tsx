@@ -49,7 +49,7 @@ function SectionClose() {
 
 /** 지향점 각 갈래가 실제로 사는 화면. 이야기가 끝난 자리의 문이 여기로 열린다 */
 const VISION_DOORS: Record<1 | 2 | 3 | 4, string> = {
-  1: "/explore/figures",
+  1: "/explore",
   2: "/explore/faction",
   3: "/explore/today",
   4: "/login",
@@ -198,7 +198,7 @@ export default async function AboutBody({ showcase }: { showcase: AboutShowcase 
         <h2 className="font-serif text-2xl md:text-3xl text-text-primary">{t("aboutInviteTitle")}</h2>
         <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
           <Link
-            href="/explore/figures"
+            href="/explore"
             className="rounded-lg border border-accent-dim px-6 py-3 text-base text-accent hover:text-accent-hover hover:border-accent font-medium"
           >
             {t("aboutInviteFigures")}

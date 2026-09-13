@@ -1,6 +1,7 @@
 import type { CelebSortBy } from "@/actions/home";
 import { parseCelebTiers, parseCelebRealities } from "@feelandnote/shared/constants/celeb-tiers";
 import type { FiguresFilterParams } from "./sections";
+import { parseCelebContentPresence } from "@/constants/celebContentPresence";
 
 const VALID_SORT_VALUES = ["daily_recommend", "composite", "influence", "follower", "content_count", "name_asc", "birth_date_desc", "birth_date_asc"];
 
@@ -11,7 +12,7 @@ function parseParam(params: Record<string, string | string[] | undefined>, key: 
 }
 
 // 그리드 뷰인지 판단: 필터 파라미터가 있으면 그리드
-const FILTER_KEYS = ["profession", "nationality", "contentType", "gender", "search", "sortBy", "page", "pageSize", "tagId", "tier", "reality", "byMin", "byMax"];
+const FILTER_KEYS = ["profession", "nationality", "contentType", "contentPresence", "gender", "search", "sortBy", "page", "pageSize", "tagId", "tier", "reality", "byMin", "byMax"];
 export function isGridView(params: Record<string, string | string[] | undefined>): boolean {
   return FILTER_KEYS.some((key) => {
     const v = params[key];
@@ -44,6 +45,7 @@ export function parseFilterParams(params: Record<string, string | string[] | und
     profession: notAll(parseParam(params, "profession")),
     nationality: notAll(parseParam(params, "nationality")),
     contentType: notAll(parseParam(params, "contentType")),
+    contentPresence: parseCelebContentPresence(parseParam(params, "contentPresence")),
     gender: notAll(parseParam(params, "gender")),
     search: parseParam(params, "search") || undefined,
     tagId: notAll(parseParam(params, "tagId")),

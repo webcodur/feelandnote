@@ -6,6 +6,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { CELEB_CONTENT_PRESENCE, type CelebContentPresence } from "@/constants/celebContentPresence";
 import { Search, X, ArrowUpDown, Briefcase, Globe, Layers, Users, Mars, Venus, FileText } from "lucide-react";
 import { FilterCombobox, type FilterOption } from "@/components/shared/filters";
 import { CelebBirthYearFilterDesktop } from "./CelebBirthYearFilter";
@@ -24,6 +25,7 @@ interface CelebFiltersDesktopProps {
   profession: string;
   nationality: string;
   contentType: string;
+  contentPresence?: CelebContentPresence;
   gender: string;
   tier: string;
   sortBy: CelebSortBy;
@@ -45,6 +47,7 @@ interface CelebFiltersDesktopProps {
   onProfessionChange: (value: string) => void;
   onNationalityChange: (value: string) => void;
   onContentTypeChange: (value: string) => void;
+  onContentPresenceChange?: (value: string) => void;
   onGenderChange: (value: string) => void;
   onTierChange: (value: string) => void;
   onSortChange: (value: CelebSortBy) => void;
@@ -66,6 +69,7 @@ export default function CelebFiltersDesktop({
   profession,
   nationality,
   contentType,
+  contentPresence = "all",
   gender,
   tier,
   sortBy,
@@ -80,6 +84,7 @@ export default function CelebFiltersDesktop({
   onProfessionChange,
   onNationalityChange,
   onContentTypeChange,
+  onContentPresenceChange,
   onGenderChange,
   onTierChange,
   onSortChange,
@@ -144,6 +149,7 @@ export default function CelebFiltersDesktop({
   const tierOptions: FilterOption[] = useMemo(() =>
     ["all", ...CELEB_TIERS].map((value) => ({ value, label: t(`tier.${value}`) })), [t]);
 
+  const contentPresenceOptions: FilterOption[] = CELEB_CONTENT_PRESENCE.map(value => ({ value, label: t(`contentPresence.${value}`) }));
   const sortOptions: FilterOption[] = SORT_VALUES.map((value) => ({ value, label: t(`sort.${value}`) }));
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -254,6 +260,18 @@ export default function CelebFiltersDesktop({
         onSelect={(v) => onSortChange(v as CelebSortBy)}
         icon={<ArrowUpDown size={14} />}
       />
+      {onContentPresenceChange && (
+        <FilterCombobox
+          label={t("filterContentPresence")}
+          value={t(`contentPresence.${contentPresence}`)}
+          isActive={contentPresence !== "all"}
+          isLoading={isLoading}
+          options={contentPresenceOptions}
+          currentValue={contentPresence}
+          onSelect={onContentPresenceChange}
+          icon={<Layers size={14} />}
+        />
+      )}
     </div>
   );
 }

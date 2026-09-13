@@ -184,6 +184,12 @@
         "all": "전체",
         "full": "상세",
         "light": "간략"
+      },
+      "filterContentPresence": "작품 유무",
+      "contentPresence": {
+        "all": "전체",
+        "with": "있음",
+        "without": "없음"
       }
     },
     "hub": {

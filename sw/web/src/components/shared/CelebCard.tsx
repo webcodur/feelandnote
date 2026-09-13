@@ -126,7 +126,7 @@ export default function CelebCard({
               />
             </div>
 
-            {count !== undefined && count !== 0 && (
+            {count !== undefined && count > 0 && (
               <span className={`${badgeStyles[variant]} z-20 flex items-center justify-center font-bold leading-none`} title={t("contentCount", { count })}>
                 {count}
               </span>

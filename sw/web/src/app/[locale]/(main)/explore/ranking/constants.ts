@@ -6,3 +6,11 @@
 
 export const CONTENT_TYPES = ["BOOK", "VIDEO", "GAME", "MUSIC"] as const;
 export type ContentTypeKey = (typeof CONTENT_TYPES)[number];
+
+export function resolveRankingType(category: string | string[] | undefined): ContentTypeKey {
+  return CONTENT_TYPES.find((type) => type.toLowerCase() === category) ?? "BOOK";
+}
+
+export function getRankingHref(type: ContentTypeKey): string {
+  return type === "BOOK" ? "/explore/ranking" : `/explore/ranking?category=${type.toLowerCase()}`;
+}
