@@ -21,9 +21,49 @@ import {
   buildFactionRows, IN_CHUNK, type DurationLookup,
 } from '@feelandnote/shared/lib/faction-assemble'
 import { assertIndividualFactionSubject } from '@feelandnote/shared/lib/faction-person-subject'
-import { assertFactionSceneSpeakerAssignments } from '@feelandnote/shared/lib/faction-scene-speaker'
+import { assertFactionSceneSpeakerAssignments, factionSceneSpeakerPeople } from '@feelandnote/shared/lib/faction-scene-speaker'
+import { joinPerson } from '@feelandnote/shared/lib/faction-schema'
 
 type Row = Record<string, unknown>
+
+/** 배치를 정리해도 남아 있는 발화가 참조하는 기존 인물은 첫 발화의 장면에 보존한다. */
+export function restoreReferencedScenePeople(script: Row, tree: ExistingTree): Row {
+  const groups = (script.groups ?? []) as Row[]
+  const assigned = new Set(factionSceneSpeakerPeople(groups).map(person => person.celebId))
+  const existing = new Map<string, Row>()
+  for (const row of sortedPeopleOf(tree)) {
+    if (typeof row.celeb_id === 'string' && !existing.has(row.celeb_id)) {
+      existing.set(row.celeb_id, row)
+    }
+  }
+  let changed = false
+  const nextGroups = groups.map(group => {
+    let groupChanged = false
+    const clusters = ((group.clusters ?? []) as Row[]).map(cluster => {
+      const people = (cluster.people ?? []) as Row[]
+      const beats = [
+        ...((cluster.beats ?? []) as Row[]),
+        ...people.filter(person => person.isPerson === false).flatMap(person => (person.beats ?? []) as Row[]),
+      ]
+      const restored: Row[] = []
+      for (const beat of beats) {
+        const id = beat.speakerCelebId
+        if (typeof id !== 'string' || assigned.has(id)) continue
+        const source = existing.get(id)
+        if (!source) continue // 이 편에 없던 인물은 기존 검증이 계속 거부한다.
+        restored.push(joinPerson(source))
+        assigned.add(id)
+      }
+      if (!restored.length) return cluster
+      groupChanged = true
+      return { ...cluster, people: [...people, ...restored] }
+    })
+    if (!groupChanged) return group
+    changed = true
+    return { ...group, clusters }
+  })
+  return changed ? { ...script, groups: nextGroups } : script
+}
 
 export interface ReplaceEpisodeResult {
   episodeId: string
@@ -45,11 +85,12 @@ export async function replaceFactionEpisode(
   expectedUpdatedAt: string | null,
 ): Promise<ReplaceEpisodeResult> {
   if (!folder) throw new Error('에피소드 폴더명이 필요합니다')
-  assertFactionSceneSpeakerAssignments((script.groups ?? []) as Row[])
 
   // 되살릴 기존 값(음성 길이·도감 손질·세력 테마)은 트리 한 번 읽기로 전부 받는다. 편별 댓글만 별도 표라 한 번 더.
   const tree = await loadExistingTree(db, folder)
   if (!tree) throw new Error(`에피소드가 없습니다: ${folder}`)
+  script = restoreReferencedScenePeople(script, tree)
+  assertFactionSceneSpeakerAssignments((script.groups ?? []) as Row[])
   const epRow = tree.episode
   const episodeId = epRow.id as string
   const durations = durationLookupOf(tree)
@@ -277,8 +318,7 @@ async function loadExistingTree(db: DatabaseClient, folder: string): Promise<Exi
       'id,status,registered,sort_order,'
       + 'faction_groups(id,position,name,tag_id,'
       + 'faction_clusters(id,group_id,position,'
-      + 'faction_people(cluster_id,position,is_person,celeb_id,slug,name,quote_duration,epithet_duration,'
-      + 'web_long_desc,web_long_desc_en,web_image_url,web_quote_media,web_hidden)))',
+      + 'faction_people(*)))',
     )
     .eq('folder', folder)
     .maybeSingle()
