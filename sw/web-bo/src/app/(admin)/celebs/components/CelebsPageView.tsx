@@ -6,14 +6,16 @@ import type { CelebImageFilter } from '@/actions/admin/celebs'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
 import { getImageProcessingJobsForCelebs } from '@/lib/image-processing/queue'
-import ActiveSortChips from './ActiveSortChips'
-import CelebFilter from './CelebFilter'
+import { parseCelebColumnFilters, type CelebColumnSearchParams } from '@/lib/celeb-list-filters'
+import CelebTableToolbar from './CelebTableToolbar'
+import { CelebTableQueryProvider } from './columnFilters/CelebTableQuery'
+import { CelebImageFilterControls } from './columnFilters/CelebColumnHeader'
 import CelebImageGrid from './CelebImageGrid'
 import CelebTable from './CelebTable'
 import CelebViewNavigation, { buildCelebViewHref } from './CelebViewNavigation'
 import { buildFactionThemes } from './factionOptions'
 
-export interface CelebsSearchParams {
+export interface CelebsSearchParams extends CelebColumnSearchParams {
   page?: string
   search?: string
   status?: string
@@ -33,6 +35,7 @@ interface Props {
 
 export default async function CelebsPageView({ searchParams, view }: Props) {
   const params = await searchParams
+  const columnFilters = parseCelebColumnFilters(params)
   const page = Number(params.page) || 1
   const search = params.search || ''
   const status = params.status || 'all'
@@ -48,10 +51,11 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
   const sort = params.sort || 'created_at'
   const sortOrder = params.sortOrder || 'desc'
   const baseHref = view === 'images' ? '/celebs/images' : '/celebs'
-  const resultSetKey = [page, search, status, profession, tier, reality, imageFilter, faction, sort, sortOrder].join(':')
+  const resultSetKey = [page, search, status, profession, tier, reality, imageFilter, faction, sort, sortOrder, JSON.stringify(columnFilters)].join(':')
 
   const [{ members: celebs, total }, { tags }] = await Promise.all([
     getMembers({
+      ...columnFilters,
       profileType: 'CELEB',
       page,
       limit: 20,
@@ -60,7 +64,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
       profession: profession !== 'all' ? profession : undefined,
       tier: tier !== 'all' ? tier : undefined,
       reality: reality !== 'all' ? reality : undefined,
-      imageFilter: view === 'images' ? imageFilter : undefined,
+      imageFilter,
       tagId: faction !== 'all' ? faction : undefined,
       sort,
       sortOrder,
@@ -76,6 +80,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
   const totalPages = Math.ceil(total / 20)
 
   const navigationParams = {
+    ...Object.fromEntries(Object.entries(columnFilters).map(([key, value]) => [key, String(value)])),
     page: page > 1 ? String(page) : undefined,
     search: search || undefined,
     status: status !== 'all' ? status : undefined,
@@ -147,40 +152,30 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
         </div>
       </div>
 
-      <CelebFilter
-        key={`${search}:${status}:${profession}:${tier}:${reality}:${imageFilter}:${faction}`}
-        action={baseHref}
-        showImageFilter={view === 'images'}
-        factionThemes={factionThemes}
-        defaultValues={{ search, status, profession, tier, reality, imageFilter, faction }}
-      />
+      <CelebTableQueryProvider>
+        <div className="overflow-hidden rounded-lg border border-border bg-bg-card">
+          <CelebTableToolbar factionThemes={factionThemes}>
+            <nav className="flex shrink-0 rounded-lg border border-border bg-bg-card p-1" aria-label="셀럽 목록 보기 방식">
+              <CelebViewNavigation
+                tableHref={buildCelebViewHref('/celebs', navigationParams)}
+                imagesHref={buildCelebViewHref('/celebs/images', navigationParams)}
+                activeView={view}
+              />
+            </nav>
+          </CelebTableToolbar>
+          {view === 'images' && <CelebImageFilterControls />}
 
-      <ActiveSortChips />
-
-      <div className="overflow-hidden rounded-lg border border-border bg-bg-card">
-        <div className="flex items-center justify-between gap-3 border-b border-border bg-bg-secondary/60 px-3 py-2">
-          <p className="text-xs text-text-tertiary">
-            {view === 'images' ? '이미지를 끌어 놓아 교체하고, 클릭하면 원본을 엽니다.' : '전체 관리 정보'}
-          </p>
-          <nav className="flex shrink-0 rounded-lg border border-border bg-bg-card p-1" aria-label="셀럽 목록 보기 방식">
-            <CelebViewNavigation
-              tableHref={buildCelebViewHref('/celebs', navigationParams)}
-              imagesHref={buildCelebViewHref('/celebs/images', navigationParams)}
-              activeView={view}
+          {view === 'images' ? (
+            <CelebImageGrid
+              key={resultSetKey}
+              celebs={celebs}
+              imageProcessingJobs={imageProcessingJobs}
             />
-          </nav>
+          ) : (
+            <div className="overflow-x-auto"><CelebTable celebs={celebs} /></div>
+          )}
         </div>
-
-        {view === 'images' ? (
-          <CelebImageGrid
-            key={resultSetKey}
-            celebs={celebs}
-            imageProcessingJobs={imageProcessingJobs}
-          />
-        ) : (
-          <div className="overflow-x-auto"><CelebTable celebs={celebs} /></div>
-        )}
-      </div>
+      </CelebTableQueryProvider>
 
       <Pagination page={page} totalPages={totalPages} baseHref={baseHref} params={paginationParams} />
     </div>

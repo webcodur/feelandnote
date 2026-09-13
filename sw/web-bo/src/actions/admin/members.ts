@@ -6,6 +6,7 @@ import { getUsers, type User } from './users'
 import { getCelebs, type Celeb, type CelebImageFilter } from './celebs'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { requireAccountManager } from '@/lib/admin-auth'
+import type { CelebColumnFilters } from '@/lib/celeb-list-filters'
 
 interface AccountRelation {
   email: string | null
@@ -135,7 +136,7 @@ export interface MembersResponse {
   total: number
 }
 
-export interface GetMembersParams {
+export interface GetMembersParams extends CelebColumnFilters {
   profileType?: ProfileDomain
   page?: number
   limit?: number
@@ -156,6 +157,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
 
   if (profileType === 'CELEB') {
     const { celebs, total } = await getCelebs({
+      ...params,
       page,
       limit,
       search,
@@ -201,6 +203,7 @@ function celebToMember(c: Celeb): Member {
     death_date: c.death_date,
     cultural_journey: c.cultural_journey,
     celeb_tier: c.celeb_tier,
+    celeb_reality: c.celeb_reality,
     claimed_by: c.claimed_by,
     content_count: c.content_count,
     content_research_confirmed_empty_at: c.content_research_confirmed_empty_at,
@@ -351,7 +354,7 @@ async function celebProfileToMember(data: any): Promise<Member> {
     speech_tone: data.speech_tone ?? null,
     has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',
-    celeb_reality: data.celeb_reality ?? 'REAL',
+    celeb_reality: data.celeb_reality ?? null,
     claimed_by: data.claimed_by_member_id ?? null,
     influence,
     influence_total: influence?.total_score || 0,
