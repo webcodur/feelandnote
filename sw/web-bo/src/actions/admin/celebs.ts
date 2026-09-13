@@ -10,6 +10,7 @@ import {
   revalidateWebLists,
 } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import {
   CELEB_MANAGED_PUBLICATION_STATUSES,
@@ -310,7 +311,7 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
     const createdAtTieBreak = compareDate(a.created_at, b.created_at, false)
     if (createdAtTieBreak !== 0) return createdAtTieBreak
 
-    return compareText(a.nickname, b.nickname, true)
+    return compareText(a.nickname, b.nickname, true) || compareText(a.id, b.id, true)
   })
 }
 
@@ -417,33 +418,40 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   let tagCelebIds: string[] | undefined
   if (tagId && tagId !== 'all') {
     // 상위 테마를 고르면 그 아래 세력에 속한 인물까지 함께 담는다
-    const { data: childTags, error: childError } = await db
+    const childTags = await selectAllPages<{ id: string }>((from, to) => db
       .from('celeb_tags')
       .select('id')
       .eq('parent_id', tagId)
+      .order('id')
+      .range(from, to))
 
-    if (childError) {
-      console.error('[getCelebsByDirectQuery] 하위 테마 조회 실패:', childError)
-      throw childError
-    }
+    const targetTagIds = [tagId, ...childTags.map((t) => t.id)]
 
-    const targetTagIds = [tagId, ...((childTags ?? []) as { id: string }[]).map((t) => t.id)]
-
-    const { data: tagAssignments, error: tagError } = await db
-      .from('faction_atlas_members')
-      .select('celeb_id')
-      .in('tag_id', targetTagIds)
-
-    if (tagError) {
-      console.error('[getCelebsByDirectQuery] 태그 인물 조회 실패:', tagError)
-      throw tagError
-    }
+    const tagAssignments = await selectInChunks<{ celeb_id: string }>(targetTagIds, async (tagIds) => ({
+      data: await selectAllPages<{ celeb_id: string }>((from, to) => db
+        .from('faction_atlas_members')
+        .select('celeb_id')
+        .in('tag_id', tagIds)
+        .order('assignment_id')
+        .range(from, to)),
+      error: null,
+    }))
     // 여러 하위 세력에 겹쳐 속한 인물이 있어 중복을 걷어낸다
-    tagCelebIds = [...new Set(((tagAssignments ?? []) as { celeb_id: string }[]).map((a) => a.celeb_id))]
+    tagCelebIds = [...new Set(tagAssignments.map((a) => a.celeb_id))]
     if (tagCelebIds.length === 0) return { celebs: [], total: 0 }
   }
 
-  const { count, error: countError } = await buildCelebListQuery(db, filters, 'id', { count: 'exact', head: true }, tagCelebIds)
+  // 테마 인원이 수천 명이면 ID를 한 URL에 넣을 수 없으므로 나눠 조회한 뒤 정렬한다.
+  const tagRows = tagCelebIds
+    ? await selectInChunks<CelebListRow>(tagCelebIds, async (ids) => {
+      const { data, error } = await buildCelebListQuery(db, filters, selectFields, undefined, ids)
+        .order('id', { ascending: true })
+      return { data: data as unknown as CelebListRow[] | null, error }
+    })
+    : undefined
+  const { count, error: countError } = tagRows
+    ? { count: tagRows.length, error: null }
+    : await buildCelebListQuery(db, filters, 'id', { count: 'exact', head: true })
 
   if (countError) {
     console.error('[getCelebsByDirectQuery] count 조회 실패:', countError)
@@ -456,14 +464,14 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   const sortColumn = CELEB_SORT_COLUMNS[sort]
 
-  if (sortColumn && !hasCelebNumericRanges(filters)) {
+  if (!tagRows && sortColumn && !hasCelebNumericRanges(filters)) {
     const ascending = sortOrder === 'asc'
     // 값이 빈 행은 JS 정렬(compareText)에서 빈 문자열로 취급돼 오름차순의 맨 앞에 왔다.
     // DB도 같은 자리에 두도록 nullsFirst를 오름차순 여부에 맞춘다.
     let query = buildCelebListQuery(db, filters, selectFields, undefined, tagCelebIds)
       .order(sortColumn, { ascending, nullsFirst: ascending })
     if (sortColumn !== 'created_at') query = query.order('created_at', { ascending: false })
-    query = query.order('nickname', { ascending: true, nullsFirst: true })
+    query = query.order('nickname', { ascending: true, nullsFirst: true }).order('id')
 
     const { data, error } = await query.range(offset, offset + limit - 1)
 
@@ -481,22 +489,11 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     }
   }
 
-  const rows: CelebListRow[] = []
-  const batchSize = 1000
-
-  for (let batchOffset = 0; batchOffset < count; batchOffset += batchSize) {
-    const batchEnd = Math.min(batchOffset + batchSize - 1, count - 1)
-    const { data: batch, error: batchError } = await buildCelebListQuery(db, filters, selectFields, undefined, tagCelebIds)
-      .order('id', { ascending: true })
-      .range(batchOffset, batchEnd)
-
-    if (batchError) {
-      console.error('[getCelebsByDirectQuery] 배치 조회 실패:', batchError)
-      throw batchError
-    }
-
-    rows.push(...((batch || []) as unknown as CelebListRow[]))
-  }
+  const rows = tagRows ?? await selectAllPages<CelebListRow>(async (from, to) => {
+    const { data, error } = await buildCelebListQuery(db, filters, selectFields)
+      .order('id', { ascending: true }).range(from, to)
+    return { data: data as unknown as CelebListRow[] | null, error }
+  })
 
   // 콘텐츠 수를 정렬하거나 거를 때만 후보 전원의 실제 기록을 센다.
   if (sort === 'content_count' || hasCelebContentRange(filters)) {
@@ -1431,15 +1428,13 @@ export interface CelebTitleItem {
 export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
   const db = await createClient()
 
-  const { data, error } = await db
+  return selectAllPages<CelebTitleItem>((from, to) => db
     .from('celebs')
     .select('id, nickname, avatar_url, profession, title, cultural_journey:consumption_philosophy')
     .eq('publication_status', 'active')
     .order('nickname', { ascending: true })
-
-  if (error) throw error
-
-  return data || []
+    .order('id', { ascending: true })
+    .range(from, to))
 }
 
 export interface CelebsWithPaginationResponse {
@@ -1518,14 +1513,14 @@ export interface CelebHeadlineItem {
 export async function getCelebsForHeadlineEdit(): Promise<CelebHeadlineItem[]> {
   const db = await createClient()
 
-  const { data, error } = await db
+  const data = await selectAllPages<CelebHeadlineItem>((from, to) => db
     .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, headline, headline_en, status:publication_status, celeb_tier, celeb_reality')
     .order('nickname', { ascending: true })
+    .order('id', { ascending: true })
+    .range(from, to))
 
-  if (error) throw error
-
-  return (data || []).map((row: any) => ({
+  return data.map((row) => ({
     id: row.id,
     slug: row.slug || null,
     nickname: row.nickname,
