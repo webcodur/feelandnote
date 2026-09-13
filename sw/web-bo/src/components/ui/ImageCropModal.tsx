@@ -170,13 +170,28 @@ export default function ImageCropModal({
     setCroppedAreaPixels(croppedAreaPixels)
   }, [])
 
-  const handleConfirm = async () => {
-    if (!croppedAreaPixels) return
+  const handleConfirm = useCallback(async () => {
+    if (!croppedAreaPixels || analyzing) return
 
     // 위에서 받아 둔 원본을 그대로 쓴다. 못 받았을 때만 다시 읽는다.
     const image = sourceImage.current ?? (await createImage(imageSrc))
     onComplete(getCroppedImage(image, croppedAreaPixels))
-  }
+  }, [croppedAreaPixels, analyzing, imageSrc, onComplete])
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code !== 'Space' || event.isComposing || event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return
+      const target = event.target
+      if (target instanceof HTMLElement && (target.isContentEditable || target.closest('textarea, select, input:not([type="range"])'))) return
+
+      event.preventDefault()
+      event.stopPropagation()
+      if (!event.repeat) void handleConfirm()
+    }
+
+    window.addEventListener('keydown', handleKeyDown, true)
+    return () => window.removeEventListener('keydown', handleKeyDown, true)
+  }, [handleConfirm])
 
   const handleReset = () => {
     setCrop({ x: 0, y: 0 })
@@ -330,7 +345,7 @@ export default function ImageCropModal({
           {/* 버튼 */}
           <div className="flex justify-end gap-3">
             <Button type="button" variant="secondary" onClick={onCancel}>취소</Button>
-            <Button type="button" onClick={handleConfirm}>적용</Button>
+            <Button type="button" onClick={handleConfirm} disabled={!croppedAreaPixels || analyzing} aria-keyshortcuts="Space">적용[스페이스]</Button>
           </div>
         </div>
       </div>
