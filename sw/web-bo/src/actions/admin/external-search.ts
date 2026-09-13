@@ -3,8 +3,11 @@
 import { searchExternal, type ExternalSearchResult } from '@feelandnote/content-search/unified-search'
 import type { ContentType } from '@feelandnote/content-search/types'
 import { createClient } from '@/lib/db/server'
-import { revalidateWebLists } from '@/lib/revalidate-web'
+import { revalidateWebContent, revalidateWebLists } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
+import { fetchBookIntroduction } from '@feelandnote/content-search/book-introduction'
+import { requireAdmin } from '@/lib/admin-auth'
 
 // 외부 API 검색
 export async function searchExternalContent(
@@ -56,6 +59,7 @@ export async function createContentFromExternal(
   error?: string
 }> {
   try {
+    await requireAdmin()
     const db = await createClient()
 
     // external_id로 기존 콘텐츠 확인
@@ -69,6 +73,33 @@ export async function createContentFromExternal(
       return { success: true, contentId: existing.id }
     }
 
+    // ISBN 이 달라도 같은 책(제목 정규화 일치 + 저자 성 일치)이 있으면 새로 만들지 않는다.
+    // 판본 없이 표시용 제목 행만 든 작품이 있어(celeb-02-02) ISBN 대조만으로는 두 벌이 생긴다. 표시행이면 이 실판본으로 덮는다.
+    if (contentType === 'BOOK') {
+      const sameLocale = ['kakao_book', 'aladin'].includes(input.externalSource || '') && /[가-힣]/.test(input.title ?? '') ? 'ko' : 'en'
+      const head = (input.title ?? '').split(/[:：(]/)[0].trim()
+      const norm = (s: string) => s.normalize('NFKC').toLowerCase().replace(/\([^)]*\)/g, ' ').split(/[:：]/)[0].replace(/^(the|a|an)\s+/, '').replace(/[^\p{L}\p{N}]+/gu, '')
+      const surname = (input.creator ?? '').split(/[,/^]/)[0].trim().split(/\s+/).pop()?.toLowerCase() ?? ''
+      const { data: candidates } = head
+        ? await db.from('content_locales').select('content_id,title,creator,sources').eq('locale', sameLocale).ilike('title', head).limit(10)
+        : { data: [] as { content_id: string; title: string | null; creator: string | null; sources: unknown }[] }
+      const same = (candidates ?? []).find((row) => norm(row.title ?? '') === norm(input.title ?? '') && (!surname || !row.creator || row.creator.toLowerCase().includes(surname)))
+      if (same) {
+        if ((same.sources as { primary?: string } | null)?.primary === 'none') {
+          const isbn = typeof input.metadata?.isbn === 'string' ? input.metadata.isbn : input.externalId
+          const intro = await fetchBookIntroduction({ isbn, locale: sameLocale }).catch(() => null)
+          const { error: updateError } = await db.from('content_locales').update({
+            title: input.title, creator: input.creator || null, thumbnail_url: input.coverImageUrl || null, isbn,
+            description: intro?.source ?? null, verified: true,
+            sources: { primary: input.externalSource || 'unknown', ...(intro?.source && { description: intro.sourceUrl }) },
+          }).eq('content_id', same.content_id).eq('locale', sameLocale)
+          if (updateError) return { success: false, error: updateError.message }
+          await revalidateWebContent(same.content_id)
+        }
+        return { success: true, contentId: same.content_id }
+      }
+    }
+
     // 새 콘텐츠 생성 (id 자동 생성, external_id에 외부 ID 저장)
     const { data: newContent, error } = await db
       .from('contents')
@@ -76,7 +107,7 @@ export async function createContentFromExternal(
         type: contentType,
         external_source: input.externalSource,
         external_id: input.externalId,
-        metadata: input.metadata || {},
+        metadata: contentType === 'BOOK' ? withoutBookDescription(input.metadata || {}) : input.metadata || {},
       })
       .select('id')
       .single()
@@ -87,14 +118,23 @@ export async function createContentFromExternal(
     }
 
     // content_locales에 로케일 데이터 저장
-    const locale = (['kakao_book', 'aladin', 'tmdb'].includes(input.externalSource || '')) ? 'ko' : 'en'
+    // 카카오·알라딘은 수입 원서(영문 제목)도 돌려준다. ko 행에 넣으면 한국어 화면에 영문 제목이 나가고 언어 카드 정비가 지운다(26.09.10 실측) — 제목에 한글이 없는 BOOK 은 en 으로 담는다.
+    const koreanSource = ['kakao_book', 'aladin', 'tmdb'].includes(input.externalSource || '')
+    const locale = koreanSource && !(contentType === 'BOOK' && !/[가-힣]/.test(input.title ?? '')) ? 'ko' : 'en'
+    const bookIsbn = contentType === 'BOOK'
+      ? (typeof input.metadata?.isbn === 'string' ? input.metadata.isbn : input.externalId)
+      : null
+    const introduction = contentType === 'BOOK'
+      ? await fetchBookIntroduction({ isbn: bookIsbn, locale }).catch(() => null)
+      : null
     await db.from('content_locales').insert({
       content_id: newContent.id,
       locale,
       title: input.title,
       creator: input.creator || null,
       thumbnail_url: input.coverImageUrl || null,
-      sources: { primary: input.externalSource || 'unknown' },
+      ...(contentType === 'BOOK' && { description: introduction?.source ?? null, isbn: bookIsbn }),
+      sources: { primary: input.externalSource || 'unknown', ...(introduction?.source && { description: introduction.sourceUrl }) },
       verified: true,
     })
 

@@ -5,6 +5,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { requireAdmin } from '@/lib/admin-auth'
 import { revalidateWebItems } from '@/lib/revalidate-web'
 import { createAdminClient } from '@/lib/db/admin'
+import { resolveBookIntroductionEdit } from '@/lib/book-introduction-edit'
 
 export interface FigureBookContentSummary {
   id: string
@@ -700,7 +701,6 @@ export async function saveFigureBookEdition(input: {
   const mutable = {
     title: input.title.trim(),
     creator: nullableText(input.creator),
-    description: nullableText(input.description),
     publisher: nullableText(input.publisher),
     thumbnail_url: nullableText(input.thumbnailUrl),
     release_date: nullableText(input.releaseDate),
@@ -713,7 +713,7 @@ export async function saveFigureBookEdition(input: {
   if (input.editionId) {
     const { data: current, error: currentError } = await admin
       .from('figure_book_editions')
-      .select('id,content_id,locale,isbn')
+      .select('id,content_id,locale,isbn,description,sources')
       .eq('id', input.editionId)
       .maybeSingle()
     if (currentError) throw new Error(`기존 판본 조회 실패: ${currentError.message}`)
@@ -724,7 +724,7 @@ export async function saveFigureBookEdition(input: {
 
     const { error } = await admin
       .from('figure_book_editions')
-      .update(mutable)
+      .update({ ...mutable, ...await resolveBookIntroductionEdit({ description: input.description, isbn, locale: input.locale === 'en' ? 'en' : 'ko', current }) })
       .eq('id', input.editionId)
     if (error) throw new Error(`판본 수정 실패: ${error.message}`)
   } else {
@@ -735,6 +735,7 @@ export async function saveFigureBookEdition(input: {
         locale: input.locale,
         isbn,
         ...mutable,
+        ...await resolveBookIntroductionEdit({ description: input.description, isbn, locale: input.locale === 'en' ? 'en' : 'ko' }),
       })
     if (error?.code === '23505') throw new Error('이 작품에 같은 언어·ISBN 판본이 이미 있습니다')
     if (error) throw new Error(`판본 추가 실패: ${error.message}`)
