@@ -5,7 +5,7 @@ import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { FilterModal } from "@/components/shared/filters";
 import { CELEB_CONTENT_PRESENCE } from "@/constants/celebContentPresence";
-import { TREND_COUNTRIES } from "@/constants/trendCountries";
+import { TREND_COUNTRIES, TREND_PERIOD_HOURS } from "@/constants/trendCountries";
 import { useProfessionLabel, useContentTypeLabel, useNationalityLabel, useGenderLabel } from "@/hooks/useFilterLabels";
 import { BIRTH_YEAR_MIN, BIRTH_YEAR_MAX } from "@/lib/celeb/birthYearScale";
 import { SORT_VALUES, type useCelebFilters } from "./useCelebFilters";
@@ -82,8 +82,13 @@ export default function CelebCompactControls({ filters, onInteraction }: Props) 
             {filters.isLoading ? t("trends.loading")
               : !filters.trend?.available ? t("trends.unavailable")
               : filters.trend.matchedCount === 0 ? t("trends.noMatches")
-              : t("trends.description", { country: getNationality(filters.trendCountry) })}
+              : t("trends.description", { country: getNationality(filters.trendCountry), count: filters.trend.matchedCount })}
           </p>
+          <a href={`https://trends.google.com/trending?geo=${filters.trendCountry}&hl=en&hours=${TREND_PERIOD_HOURS}`}
+            target="_blank" rel="noopener noreferrer"
+            className="inline-flex min-h-9 items-center rounded text-xs text-text-secondary underline decoration-white/20 underline-offset-4 hover:text-accent hover:decoration-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            {t("trends.source", { hours: TREND_PERIOD_HOURS })}
+          </a>
         </div>
       )}
       {conditions.length > 0 && (

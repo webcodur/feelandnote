@@ -205,9 +205,10 @@
       "trends": {
         "country": "Trend country",
         "loading": "Loading trends...",
-        "description": "Figures with rising search interest in {country} appear first. This is separate from their nationality.",
+        "description": "{count, plural, one {# figure with rising search interest in {country} appears first.} other {# figures with rising search interest in {country} appear first.}}",
         "unavailable": "Trends for this country are unavailable. Showing figures by most works instead.",
-        "noMatches": "No trending figures match these filters. Showing figures by most works instead."
+        "noMatches": "No trending figures match these filters. Showing figures by most works instead.",
+        "source": "Google Trends · Past {hours} hours"
       }
     },
     "hub": {

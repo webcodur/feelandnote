@@ -171,12 +171,14 @@ test('URL parsing retains valid work filters for SSR and rejects unknown values'
   assert.equal(parseCelebContentPresence('bad'), 'all')
 })
 
-test('explore defaults to most works and retains explicit random URLs', () => {
-  assert.equal(DEFAULT_EXPLORE_SORT, 'content_count')
+test('explore defaults to country trends and retains explicit works and random URLs', () => {
+  assert.equal(DEFAULT_EXPLORE_SORT, 'country_trending')
   assert.equal(parseFilterParams({}).sortBy, DEFAULT_EXPLORE_SORT)
   assert.equal(parseFilterParams({ sortBy: 'bad' }).sortBy, DEFAULT_EXPLORE_SORT)
   assert.equal(parseFilterParams({ sortBy: ['daily_recommend'] }).sortBy, DEFAULT_EXPLORE_SORT)
   assert.equal(parseFilterParams({ sortBy: 'daily_recommend', page: '2' }).sortBy, 'daily_recommend')
+  assert.equal(parseFilterParams({ sortBy: 'content_count', page: '2' }).sortBy, 'content_count')
+  assert.equal(CELEB_SORT_OPTIONS[0], DEFAULT_EXPLORE_SORT)
   assert.equal(CELEB_SORT_OPTIONS.at(-1), 'daily_recommend')
   for (const sortBy of CELEB_SORT_OPTIONS) assert.equal(parseFilterParams({ sortBy }).sortBy, sortBy)
 })

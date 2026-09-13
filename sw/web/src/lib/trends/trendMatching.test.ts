@@ -1,13 +1,43 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { parseTrendCountry } from '../../constants/trendCountries'
-import { matchTrendingPeople, parseTrendRss, resolveCountryTrendingPeople } from './trendMatching'
+import { matchTrendingPeople, parseTrendPage, resolveCountryTrendingPeople } from './trendMatching'
 
-test('RSS only reads item titles, decoding entities and CDATA in feed order', () => {
-  assert.deepEqual(parseTrendRss('<rss><channel><title>US</title><item><title><![CDATA[Bill Gates]]></title><news><title>Other</title></news></item><item><title>A &amp; B</title></item></channel></rss>'), ['Bill Gates', 'A & B'])
-  assert.deepEqual(parseTrendRss('<rss><channel></channel></rss>'), [])
-  for (const invalid of ['<html>Unavailable</html>', '<rss><channel>', '<rss><channel><item/></channel></rss>', '<!DOCTYPE rss><rss><channel/></rss>']) {
-    assert.throws(() => parseTrendRss(invalid))
+const now = Date.UTC(2026, 8, 13, 10, 50)
+const seconds = Math.floor(now / 1000)
+const page = (rows: unknown[]) => `<html><script>AF_initDataCallback({key: 'ds:0', hash: '2', data:${JSON.stringify([null, rows])}, sideChannel: {}});</script></html>`
+const row = (title: string, volume: number, start = seconds - 3600, related: string[] = [title]) => [title, null, 'KR', [start], null, null, volume, null, 1000, related]
+
+test('full page dataset includes an actual Dario trend missing from the ten-item RSS', () => {
+  // Captured primary query/start/volume from Google's KR 24-hour page on 2026-09-13.
+  const dario = row('다리오 아모데이', 500, 1789283400)
+  const rows = [...Array.from({ length: 30 }, (_, i) => row(`Other ${i}`, 100)), dario]
+  const titles = parseTrendPage(page(rows), 'KR', now)
+  assert.equal(titles.length, 31)
+  assert.equal(titles[0], '다리오 아모데이')
+  assert.deepEqual(matchTrendingPeople(titles, [{ id: 'dario', nickname: '다리오 아모데이', nickname_en: 'Dario Amodei' }]), ['dario'])
+})
+
+test('uses primary query only, sorts volume then start then title, and excludes older trends', () => {
+  const titles = parseTrendPage(page([
+    row('Older', 99999, seconds - 25 * 3600),
+    row('서울 날씨', 500, seconds - 3600, ['서울 날씨', '가을']),
+    row('B', 500, seconds - 100), row('A', 500, seconds - 100),
+    row('Most searched', 1000),
+  ]), 'KR', now)
+  assert.deepEqual(titles, ['Most searched', 'A', 'B', '서울 날씨'])
+  assert.deepEqual(matchTrendingPeople(titles, [{ id: 'gaeul', nickname: '가을', nickname_en: 'Gaeul' }]), [])
+})
+
+test('fails closed on missing, malformed, wrong-country or invalid timestamp data', () => {
+  assert.deepEqual(parseTrendPage(page([]), 'KR', now), [])
+  const badCountry = row('Name', 100); badCountry[2] = 'US'
+  const badTime = row('Name', 100); badTime[3] = ['yesterday']
+  const badVolume = row('Name', 100); badVolume[6] = '100K+'
+  for (const html of ['<html>Unavailable</html>', page([badCountry]), page([badTime]), page([badVolume]),
+    page([row('Future', 100, seconds + 3600)]), page([row('Valid', 100)]) + page([]),
+    `<script>AF_initDataCallback({key:'ds:0',data: [null, alert('x')], sideChannel:{}})</script>`]) {
+    assert.throws(() => parseTrendPage(html, 'KR', now))
   }
 })
 
