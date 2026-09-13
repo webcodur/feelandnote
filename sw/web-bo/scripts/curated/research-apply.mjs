@@ -56,7 +56,7 @@ async function main() {
       const isbn = bareIsbn(r.ko.isbn13)
       const doc = await kakaoByIsbn(isbn); await sleep(120)
       if (doc && (sameTitle(doc.title, r.ko.title) || sameTitle(doc.title, item.raw_title))) {
-        const outOfPrint = /절판|품절/.test(doc.status ?? '') || r.ko.availability === 'out_of_print'
+        const outOfPrint = /절판/.test(doc.status ?? '') || r.ko.availability === 'out_of_print'
         const isbn13 = bareIsbn(String(doc.isbn ?? '').split(' ').find((v) => v.length === 13) ?? isbn)
         ko = { isbn: isbn13, title: doc.title, creator: kakaoCreator(doc) || r.creator_ko, thumbnail: doc.thumbnail || null, publisher: doc.publisher || null, releaseDate: doc.datetime ? String(doc.datetime).slice(0, 10) : null, outOfPrint, url: doc.url || null }
       } else console.log(`  ko 불일치 ${label} | 조사 ${r.ko.isbn13} → 카카오 「${doc?.title ?? '없음'}」`)
@@ -79,6 +79,16 @@ async function main() {
       if (contentId) { stat.reuse++; break }
     }
 
+    // ISBN 이 없거나 달라도 같은 작품(제목 정규화 일치 + 저자 성 일치)이 있으면 새로 만들지 않는다
+    if (!contentId) {
+      for (const [locale, title, creator] of [['ko', ko?.title ?? r.title_ko, ko?.creator ?? r.creator_ko], ['en', en?.title ?? r.title_en, en?.creator ?? r.creator_en]]) {
+        if (!title) continue
+        const { data: cands } = await db.from('content_locales').select('content_id,title,creator').eq('locale', locale).ilike('title', String(title).split(/[:：(]/)[0].trim()).limit(10)
+        const surname = String(creator ?? '').split(/[,/^]/)[0].trim().split(/\s+/).pop()?.toLowerCase() ?? ''
+        const hit = (cands ?? []).find((c) => squash(c.title) === squash(title) && (!surname || !c.creator || String(c.creator).toLowerCase().includes(surname)))
+        if (hit) { contentId = hit.content_id; stat.reuse++; break }
+      }
+    }
     const kind = ko && en ? 'both' : ko ? 'ko' : en ? 'en' : 'none'
     stat[kind]++
     const koOutOfPrint = ko ? ko.outOfPrint : r.original_lang === 'ko'
