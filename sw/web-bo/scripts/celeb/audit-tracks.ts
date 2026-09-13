@@ -1,7 +1,14 @@
 /**
- * 셀럽 전 트랙 결손 전수 감사. 읽기 전용.
+ * 셀럽 프로필·대사·영향력·스펙트럼 결손 전수 감사. 읽기 전용.
  *
- * 룰북(`docs/project/celeb/celeb-00-01-pipeline.md`) 티어 규칙에 따라 트랙별 필수 여부를 판정한다.
+ * **이 도구가 보는 범위는 파이프라인 전체가 아니다.** 기본 프로필(basic)·Speech·i18n·영향력·
+ * 스펙트럼만 센다. 인물 안내(`celeb_explanations`)·연표(`celeb_timeline_events`)·관계
+ * (`celeb_relations`)·원전 및 등장 작품 연결(`figure_book_characters`)·감상 콘텐츠는 세지 않으므로,
+ * **여기서 결손 0이 나와도 인물이 완성된 것이 아니다.** 완성 여부는
+ * `docs/project/celeb/celeb-00-01-pipeline.md` 의 흐름도로 판단한다.
+ *
+ * 룰북(`docs/project/celeb/celeb-00-01-pipeline.md`)의 티어·실존 축에 따라 트랙별 필수 여부를 판정한다.
+ * 영향력·스펙트럼은 실존 인물 트랙(REAL·BOTH)에만 요구한다. 생몰은 실존 축과 무관하게 요구한다.
  * 가상독백(virtual_monologue)과 폐기 예정 감상 여정은 결손 판정에서 제외한다.
  * active 전환에는 전 티어 공통으로 avatar_url이 필수다.
  *
@@ -107,12 +114,13 @@ async function main() {
     // 직군·국적·성별은 전 티어 공통 결손이다. fiction 도 원전 근거로 채운다(집단·비인격만 예외).
     if (blank(p.nationality)) gaps.push('basic:nationality')
     if (p.gender === null || p.gender === undefined) gaps.push('basic:gender')
-    // 생몰만 fiction 에서 특정 불가가 정상이라 결손으로 세지 않는다
-    if (reality !== 'FICTION') {
-      if (blank(p.birth_date)) gaps.push('basic:birth_date')
-    }
+    // 생몰은 실존 축과 무관하게 채운다. fiction 은 실제 생일이 아니라 창작 배경 연도이며,
+    // 정렬·동시대 인물·연대기가 그 값을 쓴다(celeb-01-01-profile-facts.md「생년 결손 조사와 추정」).
+    if (blank(p.birth_date)) gaps.push('basic:birth_date')
 
-    const needsFullTracks = tier === 'full' || tier === 'light'
+    // 영향력·스펙트럼은 실존 인물 트랙에만 있다. FICTION 은 celeb_influence·celeb_persona 를
+    // 만들지 않는 것이 규칙이므로 결손으로 세지 않는다(celeb-00-01-pipeline.md「허구 인물 흐름」).
+    const needsFullTracks = (tier === 'full' || tier === 'light') && reality !== 'FICTION'
 
     if (needsFullTracks) {
       // ── 영향력
@@ -145,7 +153,9 @@ async function main() {
 
     }
 
-    // ── speech: 한국어는 전 티어, 영어 상황 대사는 full·light에만 요구한다.
+    // ── speech: 한국어 말투·한마디·상황 대사는 실존 축과 무관하게 전 티어에 요구한다.
+    // 영어 상황 대사와 영어 한마디는 실존 인물 트랙에만 요구한다. FICTION 은 일괄 i18n 대상이
+    // 아니며 영어 상황 대사가 필수가 아니다(celeb-00-01-pipeline.md「허구 인물 흐름」).
     if (blank(p.speech_tone)) gaps.push('speech:tone')
     const dia = diaById.get(p.id)
     if (!dia) gaps.push('speech:dialogue_row')
