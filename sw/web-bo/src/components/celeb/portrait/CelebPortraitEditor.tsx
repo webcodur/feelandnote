@@ -65,7 +65,7 @@ export default function CelebPortraitEditor({
   aspectLabel = CELEB_HERO_PHOTO_SPEC.aspectLabel,
   emptyLabel = '대표 화보 놓기',
   cropTitle = '대표 화보 위치 조정',
-  cropDescription = '사진을 끌어 위치를 옮기고 아래 막대로 확대하세요.',
+  cropDescription = '사진을 끌어 위치를 옮기고 스크롤이나 아래 막대로 확대하세요.',
   processingErrorMessage = '대표 화보 처리에 실패했습니다.',
 }: Props) {
   const usesDefaultFrame = className === undefined

@@ -8,6 +8,13 @@ import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3, Sparkles, Loader2, AlertTriangl
 import Button from './Button'
 import { detectFaceLandmarks, calculateFaceCropArea } from '@/utils/faceDetection'
 
+// 휠은 한 눈금(픽셀 모드 약 100px·줄 모드 3줄)마다 0.1배씩만 움직인다.
+// 트랙패드의 미세 스크롤이 한 번에 튀지 않게 임계까지 누적한다.
+const ZOOM_MAX = 3
+const ZOOM_WHEEL_STEP = 0.1
+const ZOOM_WHEEL_THRESHOLD = 100
+const WHEEL_LINE_PIXELS = 40
+
 interface Props {
   imageSrc: string
   aspectRatio?: number
@@ -79,6 +86,23 @@ export default function ImageCropModal({
   // initialCroppedAreaPixels + key remount 방식
   const [initialArea, setInitialArea] = useState<Area | undefined>(undefined)
   const [cropperKey, setCropperKey] = useState(0)
+  const wheelRemainder = useRef(0)
+
+  // 라이브러리의 연속 휠 줌을 끄고(false 반환) 0.1배 단계로 직접 움직인다.
+  const handleWheelRequest = useCallback(
+    (event: WheelEvent) => {
+      event.preventDefault()
+      wheelRemainder.current += event.deltaMode === 1 ? event.deltaY * WHEEL_LINE_PIXELS : event.deltaY
+      const steps = Math.trunc(wheelRemainder.current / ZOOM_WHEEL_THRESHOLD)
+      if (steps === 0) return false
+      wheelRemainder.current -= steps * ZOOM_WHEEL_THRESHOLD
+      setZoom((current) =>
+        Math.min(ZOOM_MAX, Math.max(minimumZoom, Math.round((current - steps * ZOOM_WHEEL_STEP) * 100) / 100))
+      )
+      return false
+    },
+    [minimumZoom]
+  )
 
   const runAutoCrop = useCallback(async (img: HTMLImageElement) => {
     setAnalyzing(true)
@@ -201,6 +225,7 @@ export default function ImageCropModal({
             showGrid={false}
             restrictPosition={restrictPosition}
             initialCroppedAreaPixels={initialArea}
+            onWheelRequest={handleWheelRequest}
           />
           {/* 커스텀 격자 오버레이 (react-easy-crop crop area와 동일 크기) */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
