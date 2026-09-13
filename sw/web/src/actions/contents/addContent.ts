@@ -40,6 +40,38 @@ interface AddContentData {
   }
 }
 
+/** 제목 정규화 — 부제·괄호·관사·문장부호를 걷어 같은 책인지 비교한다(기관 선정 등록 도구와 같은 기준). */
+function normalizeWorkTitle(s: string): string {
+  return s.normalize('NFKC').toLowerCase()
+    .replace(/\([^)]*\)/g, ' ').split(/[:：]/)[0]
+    .replace(/^(the|a|an)\s+/, '')
+    .replace(/[^\p{L}\p{N}]+/gu, '')
+}
+
+/**
+ * 같은 locale 에서 제목(정규화)과 저자 성이 맞는 기존 작품을 찾는다.
+ * displayRow: 그 locale 행이 표시용 제목 행(sources.primary='none')이라 실판본으로 덮어야 한다.
+ */
+async function findSameBookWork(
+  db: Awaited<ReturnType<typeof createClient>>,
+  locale: string,
+  title: string,
+  creator: string | null,
+): Promise<{ contentId: string; displayRow: boolean; hasLocaleRow: boolean } | null> {
+  const head = title.split(/[:：(]/)[0].trim()
+  if (!head) return null
+  const { data } = await db.from('content_locales').select('content_id,title,creator,sources').eq('locale', locale).ilike('title', head).limit(10)
+  const want = normalizeWorkTitle(title)
+  const surname = (creator ?? '').split(/[,/^]/)[0].trim().split(/\s+/).pop()?.toLowerCase() ?? ''
+  for (const row of data ?? []) {
+    if (normalizeWorkTitle(row.title ?? '') !== want) continue
+    if (surname && row.creator && !row.creator.toLowerCase().includes(surname)) continue
+    const primary = (row.sources as { primary?: string } | null)?.primary
+    return { contentId: row.content_id, displayRow: primary === 'none', hasLocaleRow: true }
+  }
+  return null
+}
+
 export async function addContent(params: AddContentParams): Promise<ActionResult<AddContentData>> {
   const db = await createClient()
 
@@ -57,8 +89,44 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
 
   let contentId: string
 
+  // 언어 행은 새 작품·기존 작품 재사용 양쪽에서 쓰므로 먼저 만든다
+  const locale = params.type === 'BOOK' ? resolveBookLocale(params.externalSource, params.title) : sourceToLocale(params.externalSource)
+  const bookIsbn = params.type === 'BOOK'
+    ? normalizeBookIsbn(typeof params.metadata?.isbn === 'string' ? params.metadata.isbn : params.id)
+    : null
+  const introduction = params.type === 'BOOK'
+    ? await fetchBookIntroduction({ isbn: bookIsbn, locale: locale === 'en' ? 'en' : 'ko' }).catch(() => null)
+    : null
+  const bookDescription = params.type === 'BOOK'
+    ? introduction?.source ?? (params.description?.trim() || null)
+    : params.description || null
+  const localeRow = {
+    locale,
+    title: params.title,
+    creator: params.creator || null,
+    thumbnail_url: params.thumbnailUrl || null,
+    description: bookDescription,
+    ...(bookIsbn && { isbn: bookIsbn }),
+    publisher: params.publisher || null,
+    sources: { ...sourceToJsonb(params.externalSource), ...(introduction?.source && { description: introduction.sourceUrl }) },
+    verified: true,
+  }
+
+  // ISBN 이 달라도 같은 책(제목 정규화 일치 + 저자 성 일치)이 이미 있으면 새로 만들지 않는다.
+  // 판본 없이 표시용 제목 행만 든 작품이 있어(celeb-02-02) ISBN 대조만으로는 같은 책이 두 벌 생긴다. 표시행이면 이 실판본으로 덮는다.
+  const sameWork = !existingContent && params.type === 'BOOK'
+    ? await findSameBookWork(db, locale, params.title, params.creator ?? null)
+    : null
+
   if (existingContent) {
     contentId = existingContent.id
+  } else if (sameWork) {
+    contentId = sameWork.contentId
+    if (sameWork.displayRow) {
+      await db.from('content_locales').update(localeRow).eq('content_id', contentId).eq('locale', locale)
+    } else if (!sameWork.hasLocaleRow) {
+      await db.from('content_locales').insert({ content_id: contentId, ...localeRow })
+    }
   } else {
     // 새 콘텐츠 생성 (id 자동 생성)
     const { data: newContent, error: contentError } = await db
@@ -82,28 +150,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     contentId = newContent.id
 
     // content_locales에 로케일 데이터 저장
-    const locale = params.type === 'BOOK' ? resolveBookLocale(params.externalSource, params.title) : sourceToLocale(params.externalSource)
-    const bookIsbn = params.type === 'BOOK'
-      ? normalizeBookIsbn(typeof params.metadata?.isbn === 'string' ? params.metadata.isbn : params.id)
-      : null
-    const introduction = params.type === 'BOOK'
-      ? await fetchBookIntroduction({ isbn: bookIsbn, locale: locale === 'en' ? 'en' : 'ko' }).catch(() => null)
-      : null
-    const bookDescription = params.type === 'BOOK'
-      ? introduction?.source ?? (params.description?.trim() || null)
-      : params.description || null
-    await db.from('content_locales').insert({
-      content_id: contentId,
-      locale,
-      title: params.title,
-      creator: params.creator || null,
-      thumbnail_url: params.thumbnailUrl || null,
-      description: bookDescription,
-      ...(bookIsbn && { isbn: bookIsbn }),
-      publisher: params.publisher || null,
-      sources: { ...sourceToJsonb(params.externalSource), ...(introduction?.source && { description: introduction.sourceUrl }) },
-      verified: true,
-    })
+    await db.from('content_locales').insert({ content_id: contentId, ...localeRow })
 
     // VIDEO: en 행 자동 생성 (TMDB en-US + /images API)
     if (params.type === 'VIDEO' && locale === 'ko' && params.id) {

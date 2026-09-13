@@ -278,6 +278,17 @@ export async function updateContent(
 
   // content_locales 업데이트 (ko)
   if (data.title || data.creator || data.description !== undefined || data.publisher) {
+    // 도서의 ko 행에 한글 없는 제목은 수입 원서다 — en 행에 담아야 한다(celeb-02-02 「locale」). 한국 ISBN(978-89·979-11)이 붙은 책만 예외(「1Q84 1」).
+    if (data.title && !/[가-힣]/.test(data.title)) {
+      const [{ data: content }, { data: koRow }] = await Promise.all([
+        db.from('contents').select('type').eq('id', contentId).maybeSingle(),
+        db.from('content_locales').select('isbn').eq('content_id', contentId).eq('locale', 'ko').maybeSingle(),
+      ])
+      const koreanIsbn = /^97(889|911)/.test(String(koRow?.isbn ?? '').replace(/-/g, ''))
+      if (content?.type === 'BOOK' && !koreanIsbn) {
+        throw new Error('국문 제목에 한글이 없습니다. 수입 원서는 영문 제목 칸에 넣고, 국문 칸은 번역 제목(표시용)으로 두세요.')
+      }
+    }
     const { error } = await db.from('content_locales').upsert({
       content_id: contentId,
       locale: 'ko',
