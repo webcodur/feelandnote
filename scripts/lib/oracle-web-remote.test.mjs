@@ -328,3 +328,22 @@ test('explore warmup requires the deployed build and rendered profile cards', ()
     /rendered profile cards/u,
   )
 })
+
+test('explore warmup accepts native profile cards without view-count buttons', () => {
+  const deploymentId = 'a295f579-web-20260913t094253z'
+  const pageUrl = 'http://127.0.0.1:3100/explore'
+  const frame = (body) => `<!doctype html><html data-dpl-id="${deploymentId}">
+    <script src="/_next/static/chunks/app.js?dpl=${deploymentId}"></script>
+    <a href="/explore/ranking">Ranking</a>${body}</html>`
+  const profile = '<a href="/celeb/bill-gates"><img alt="Bill Gates" src="/avatar.jpg"><p>Bill Gates</p></a>'
+  assert.deepEqual(inspectExploreWarmupHtml(frame(profile), pageUrl, deploymentId), { deploymentId })
+  for (const body of [
+    '',
+    '<a href="/celeb/bill-gates">Bill Gates</a>',
+    '<img alt="Bill Gates" src="/avatar.jpg">',
+    `<script>const payload = ${JSON.stringify(profile)}</script>`,
+    '<a href="/celeb/bill-gates">Bill Gates</a><a href="/about"><img src="/avatar.jpg"></a>',
+  ]) {
+    assert.throws(() => inspectExploreWarmupHtml(frame(body), pageUrl, deploymentId), /rendered profile cards/u)
+  }
+})

@@ -654,7 +654,13 @@ export function inspectExploreWarmupHtml(html, pageUrl, expectedDeploymentId) {
   if (!html.includes('href="/explore/ranking"')) {
     throw new Error('Explore warmup page is missing the ranking link')
   }
-  if (!/누적 조회 [\d,]+회/u.test(html)) {
+  // Inspect visible card markup, not serialized React payloads or optional badge copy.
+  const renderedHtml = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/giu, '')
+  const hasProfileImageLink = [...renderedHtml.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/giu)]
+    .some(([, attributes, body]) => /\bhref="\/(?:en\/)?celeb\/[^"?#]+"/u.test(attributes) && /<img\b/iu.test(body))
+  // The previous release can still be probed during rollback.
+  const hasLegacyProfileButton = /<button\b[^>]*aria-label="누적 조회 [\d,]+회"/u.test(renderedHtml)
+  if (!hasProfileImageLink && !hasLegacyProfileButton) {
     throw new Error('Explore warmup page is missing rendered profile cards')
   }
   return { deploymentId: deployment.deploymentId }
