@@ -6,7 +6,7 @@
 | 문서 | 다음 작업 |
 |---|---|
 | [`session-handoff.md`](session-handoff.md) | 두 세션이 넘긴 DB 반영분과 다시 밟지 말 함정을 먼저 읽는다 |
-| [`avatar-backlog.md`](avatar-backlog.md) | 아바타가 없어 공개하지 못하는 인물의 얼굴을 만든다 |
+| [`avatar-backlog.md`](../img/avatar-backlog.md) | 아바타가 없어 공개하지 못하는 인물의 얼굴을 만든다 |
 | [`awakened-mode.md`](awakened-mode.md) | 사용자 웹의 화면 전환 방식·적용 범위를 정한다 |
 | [`influence-spectrum.md`](influence-spectrum.md) | 영향력·스펙트럼 잔여 검토 — 다른 15축 근거 적정성, 영향력 검사기, 사실성, 검사기 구멍. **Claude·Kimi·SWE-2 안에서 처리한다** |
 
