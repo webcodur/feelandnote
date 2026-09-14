@@ -17,6 +17,16 @@
   `sw/web/src/components/features/home/CelebCarousel.tsx`,
   `sw/web/src/components/features/home/useCelebFilters.ts`다.
 
+- **1,000행 상한 감사에서 남긴 조회(26.09.14).** 여러 행 조회를 `selectAllPages`로 나눠 받는 규칙은
+  `docs/project/platform/code-rules.md` 「필수」가 쥔다. 지금 잘리던 곳(세력도감·크론·게임·피드·서재·표지·제휴·신화 원전·
+  오늘의 인물 시드)은 고쳤고, 아래는 실측으로 아직 안전하거나 재 보지 못해 남겼다.
+  - 검색어 부분일치 4곳 — `getCelebContentExpand`·`getUserContents`·`getMyContents`·`searchRecords`가 `content_locales`를
+    `ilike` 무제한으로 읽어 `.in(content_id)`에 넣는다. 짧고 흔한 검색어면 1,000행에서 잘리고 주소 길이로도 실패한다.
+  - 영향력 대전 카드 풀 `getCelebCards` — 647명으로 아직 안전하지만, 그 id를 한 번에 `.in()`에 넣어 수백 명이면 주소 길이로 실패한다.
+  - 제휴 직군 동료 `getAffiliateBooks` profession-read — `.limit(1000)`에 719행으로 턱밑이다.
+  - 미궁 게임 `getTrackerRound` — 후보 함수 `get_tracker_candidates`에 LIMIT가 없고(모수 미측정), 함수 실패 때 도는
+    폴백은 200명 묶음마다 1,000행에서 잘린다.
+
 ## 서비스 탐색에서 확인한 개선점
 
 2026-09-05 운영 사이트의 데스크톱·비로그인 탐색에서 확인했다. 아래 개선 방향은 비평에서 나온 제안이다.

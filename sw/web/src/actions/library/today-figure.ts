@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
@@ -12,6 +13,9 @@ import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
 import { DIALOGUE_BRIEF_SELECT, type DialogueBrief } from '@/lib/utils/celeb-dialogues'
 import type { Tables } from '@/types/database.generated'
 import type { ContentJoinRow, LibraryContent, StaticDatabaseClient } from './types'
+
+/** get_seed_eligible_celebs가 돌려주는 행 — 공개 감상 5개 이상인 활성 인물과 그 수 */
+type SeedEligibleRow = { celeb_id: string; content_count: number }
 import { fetchUserContentCounts } from './helpers'
 
 // #region 오늘의 인물 - 매일 랜덤 셀럽 1명의 콘텐츠
@@ -125,11 +129,13 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
   }
 
   // 공개 감상 5개 이상 보유한 활성 셀럽만 RPC로 카운트 수신
-  const { data: eligibleData, error: eligibleError } = await db.rpc('get_seed_eligible_celebs')
+  // 후보가 천 명을 넘어 한 번에 받으면 1,000명에서 잘린다 — 나눠 받는다(26.09.14)
+  const eligibleData = await selectAllPages<SeedEligibleRow>((from, to) => db
+    .rpc('get_seed_eligible_celebs')
+    .order('celeb_id', { ascending: true })
+    .range(from, to))
 
-  throwOnQueryError('getTodayFigure 후보 조회', eligibleError)
-
-  if (!eligibleData?.length) {
+  if (!eligibleData.length) {
     return { figure: null, contents: [], source: seedSource }
   }
 

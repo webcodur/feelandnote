@@ -399,20 +399,26 @@ async function tallyByCelebs(
 
   // 인물 수가 많으면 요청 주소가 길어져 거부당한다 — 나눠 묻는다
   for (let i = 0; i < celebIds.length; i += 60) {
-    let query = db
-      .from(table)
-      .select('content_id')
-      .in('celeb_id', celebIds.slice(i, i + 60))
-      .limit(1000)
-    if (table === 'figure_book_characters') {
-      query = query.eq('relation_type', 'appearance')
-    }
-    const { data, error } = await query
-    if (error) {
+    const chunk = celebIds.slice(i, i + 60)
+    let data: { content_id: string }[] = []
+    try {
+      // 기록 많은 진영은 60명 묶음 하나가 1,000행을 넘는다(26.09.14 최대 2,700여 행) — 묶음마다 끝까지 받는다.
+      // 원전 표는 id가 없어 기본키(celeb_id, content_id)로, 감상 표는 id로 줄을 고정한다
+      data = await selectAllPages<{ content_id: string }>((from, to) => {
+        let query = db
+          .from(table)
+          .select('content_id')
+          .in('celeb_id', chunk)
+        query = table === 'figure_book_characters'
+          ? query.eq('relation_type', 'appearance').order('celeb_id', { ascending: true }).order('content_id', { ascending: true })
+          : query.order('id', { ascending: true })
+        return query.range(from, to)
+      })
+    } catch (error) {
       console.error(`[getAffiliateBooks] ${table} 조회 실패:`, error)
       return new Map()
     }
-    for (const row of data ?? []) {
+    for (const row of data) {
       const id = row.content_id as string
       weight.set(id, (weight.get(id) ?? 0) + 1)
     }
