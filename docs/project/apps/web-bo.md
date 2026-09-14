@@ -93,6 +93,8 @@ pnpm dev:bo
 | --- | --- | --- | --- |
 | `/contents` | 콘텐츠 관리 | 콘텐츠 목록(제목·제작자 검색, 유형 필터). 도서는 한국어·영문 판본 카드를 나란히 띄워 썸네일 출처까지 진단 | `contents`, `content_locales`, `member_contents`, `celeb_contents` |
 | `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 회원·셀럽·관련 기록. BOOK은 KO·EN 표지 URL·출처 편집과 서재 탐방 사용 현황 진입 제공. 픽션 대표 원전은 지정 해제 전 삭제를 거부한다 | `contents`, `content_locales`, `member_contents`, `celeb_contents`, `records` |
+| `/curated` | 기관 선정 원장 | 선정 기관·목록 현황, 공개 허브 노출, 콘텐츠 유형·기관 유형 필터. 기관과 목록을 새로 만들거나 편집한다 | `curators`, `curated_lists`, `curated_list_items` |
+| `/curated/[listId]` | 선정 목록 편집 | 목록 메타와 원문 항목(순위·연도·선정 사유·숨김), 기존 콘텐츠 연결·해제 | `curators`, `curated_lists`, `curated_list_items`, `contents`, `content_locales` |
 | `/figure-books` | 인물 등장·연관 도서 관리 | 기존 콘텐츠를 작품으로 지정하고 등장·연관 인물을 연결한다. 작품 아래 ISBN 판본을 추가·수정하고, 판본별 판매 상품을 교체·비활성화하며 상품 이력을 확인한다. `celeb_tier`와 무관하게 모든 인물을 연결할 수 있다 | `figure_book_contents`, `figure_book_characters`, `figure_book_editions`, `figure_book_products`, `contents`, `celebs` |
 | `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `member_profiles`, `contents`, `content_locales` |
 | `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `member_profiles`, `contents` |
@@ -136,6 +138,14 @@ pnpm dev:bo
 서버 액션은 `src/actions/admin/book-person/episodes.ts`다. 저장은 `ko.json`을 덮어쓴다. 사진·음성 폴더는 코드로 지우지 않는다.
 
 사진 창구는 담화와 같다. `/api/book-person/media`에서 목록·올리기·주소 받기·삭제를 하고, 폴더 정리와 탐색기 열기는 `/api/book-person/media/folder`다. 화면의 사진 목록·칸은 공용 부품 `@feelandnote/shared/bo/media`다. 창구마다 `guardBookPersonRoute()`(로컬 + 관리자)를 첫 줄에 둔다.
+
+### 신화
+
+| 라우트 | 화면 | 하는 일 | 주요 테이블 |
+| --- | --- | --- | --- |
+| `/myths` | 신화 편집 | 서비스 「신화의 세계」에 나가는 전승 하나가 화면 한 장이다(`?tag=<전승 id>`). 왼쪽은 `myth-and-fiction` 아래 전승 목록(공개 여부·노출 인원·영상 연결 표시), 오른쪽은 전승 이름·소개·공개 스위치, 그룹(이름 ko/en·차례·설명·삭제), 인물(그룹별 구획·끌어 정렬·그룹 지정·한 줄 소개 ko/en·전승 전용 사진·숨김·넣기·빼기)이다. 영상에서 온 행은 읽기 전용이다 | `celeb_tags`, `celeb_tag_groups`, `celeb_tag_assignments`(뷰 `faction_atlas_members`로 읽음) |
+
+세력도감 편집기와 따로 둔다. 거기는 대본·음성·렌더 칸이 섞여 신화 화면에 나가는 값만 골라 고치기 어렵다. 신화 화면이 쓰지 않는 칸(상세 소개·단체샷·색·기간)은 이 화면에 두지 않는다. 조회는 `src/actions/admin/myths.ts`, 쓰기는 `src/actions/admin/tags.ts`의 테마·그룹 액션을 그대로 부른다. 그룹의 이름·차례·설명은 여기서만 고친다 — 세력도감 테마 명단에는 두 벌 두지 않는다. 영상과 연결된 전승의 명단은 `sw/web-bo/scripts/faction/move-tag-roster-to-web.mjs`로 웹에 옮긴 뒤 여기서 고친다.
 
 ### 세력도감
 

@@ -93,6 +93,9 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 | 이름 | 용도 | 발급 |
 |------|------|------|
 | `KAKAO_REST_API_KEY` | 책 검색 (한국어판 현행 주력. 영문 원서는 OpenLibrary — 키 불요) | 카카오 개발자센터 |
+| `YES24_API_KEY` | web 서버의 한국 전일 도서 순위 조회. DB 신규 메타 수집 키가 아니다 | [예스24 개발자센터](https://developers.yes24.com/) |
+| `YES24_CHARTS_ENABLED` | web 운영의 예스24 순위 활성화. 상업 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
+| `YES24_PURCHASE_ENABLED` | web 운영의 ISBN별 예스24 구매 링크 활성화. 이용 조건 확인 후 `true`로 설정하며, 개발 환경은 키만 있으면 검증 가능 | 운영자 설정 |
 | `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 블로그·이미지·뉴스 검색. **책 검색에는 더 쓰지 않는다** | 네이버 개발자센터 |
 | `LASTFM_API_KEY` | 음악 메타 보강 (web만. 없으면 조용히 건너뜀) | Last.fm API |
 | `TMDB_API_KEY` | 영화·드라마 | TMDB |
@@ -128,7 +131,7 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 | 이름 꼴 | 들어가는 곳 | 개수(실측) |
 |---------|------------|-----------|
 | `GOOGLE_GENAI_API_KEY0` ~ `20` | web | 21개(코드 미사용, `5`번은 폐기) |
-| `GOOGLE_GENAI_API_KEY_FREE1` ~ `99` | web-bo, remotion | 각 99개 |
+| `GOOGLE_GENAI_API_KEY_FREE1` ~ `99` | web-bo, remotion | 각 98개(`17`번은 무효 키라 폐기) |
 | `GEMINI_START_KEY` | web-bo | 몇 번 키부터 돌릴지 지정(1부터 셈) |
 
 > **Google 유료 키 금지**: 결제 계정이 붙은 GCP 프로젝트의 키는 `.env`에 두지 않는다. 2026-09-02에 `GOOGLE_GENAI_API_KEY_PAID1`을 콘솔에서 삭제하고 프로젝트 결제를 중지했으며, 쓰지 않던 `GOOGLE_VERTEX_API_KEY1`·`GOOGLE_CLOUD_TTS_KEY`도 `.env`에서 지웠다. 이미지·텍스트 생성이 월 1만 원 단위로 조용히 과금됐기 때문이다. Google 음성·이미지·텍스트는 무료 키 로테이션, agy·Gemini CLI 로그인, 또는 ElevenLabs로만 부른다.
