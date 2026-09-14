@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getYes24PurchaseLink } from "@/actions/contents/getYes24PurchaseLink";
 import { AFFILIATE_PLATFORMS, type AffiliateLink } from "@/constants/affiliatePlatforms";
+import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 
 const LINK_TTL_MS = 5 * 60 * 1000;
 const EMPTY_TTL_MS = 30 * 1000;
@@ -36,6 +37,8 @@ interface PurchaseOptions {
   contentId: string;
   locale: string;
   isBook: boolean;
+  title?: string | null;
+  creator?: string | null;
   editionId?: number;
   enabled?: boolean;
   existingLinks?: readonly AffiliateLink[];
@@ -47,7 +50,7 @@ function isPurchaseUrl(url: string) {
 }
 
 export function useBookPurchaseLinks({
-  contentId, locale, isBook, editionId, enabled = true, existingLinks = [],
+  contentId, locale, isBook, title, creator, editionId, enabled = true, existingLinks = [],
 }: PurchaseOptions): AffiliateLink[] {
   const useYes24 = isBook && locale === "ko";
   const key = enabled && useYes24 ? JSON.stringify([contentId, locale, editionId ?? null]) : "";
@@ -79,5 +82,8 @@ export function useBookPurchaseLinks({
   );
   // 책·판본을 바꾼 첫 렌더부터 이전 책의 구매 주소를 숨긴다.
   const yes24 = key && result?.key === key ? result.link : null;
+  if (enabled && isBook && locale === "en") {
+    return getEnglishBookPurchaseLinks({ locale, title, creator, links });
+  }
   return yes24 ? [yes24, ...links] : links;
 }

@@ -12,7 +12,7 @@ import {
   type TitleBadge,
 } from '@/lib/utils/content-locale'
 import type { ContentType } from '@/types/database'
-import { selectBookIntroduction, type BookIntroductionReference } from '@/lib/utils/book-description'
+import { selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import {
   getFigureBookPurchasePlatform,
   mergeFigureBookEditions,
@@ -44,6 +44,7 @@ export interface FigureBookContent {
   editions: FigureBookEdition[]
   description?: string | null
   bookIntroduction?: BookIntroductionReference | null
+  introductionAttribution?: BookIntroductionAttribution
   /** 저장된 원어 표제·저자를 창작 판정과 위키데이터 중복 대조에 사용한다. */
   titleKo?: string | null
   titleEn?: string | null
@@ -252,7 +253,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v8-all-ko-editions', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v10-original-source', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

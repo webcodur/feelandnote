@@ -1,6 +1,7 @@
 export interface AffiliateLink {
   platform: AffiliatePlatformKey
   url: string
+  linkKind?: 'search'
 }
 
 export type AffiliatePlatformKey = keyof typeof AFFILIATE_PLATFORMS

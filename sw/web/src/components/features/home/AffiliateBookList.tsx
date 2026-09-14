@@ -46,32 +46,32 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
           <div
             key={book.contentId}
             className={cn(
-              "shrink-0 snap-start flex flex-col gap-1",
+              "min-w-0 shrink-0 snap-start flex flex-col gap-1",
               compact ? "w-[190px] md:w-[200px]" : "md:w-[180px]",
               !compact && (platform === 'coupang' ? "w-[144px]" : "w-[128px]"),
             )}
           >
-            <div className="group/purchase relative flex flex-col overflow-hidden rounded-lg border border-border/60 bg-bg-card hover:border-accent/70 hover:bg-accent/10">
+            <div className="group/purchase relative flex min-w-0 shrink-0 flex-col overflow-hidden rounded-lg border border-border/60 bg-bg-card hover:border-accent/70 hover:bg-accent/10">
               <a
                 href={platform === 'coupang' ? getBookPurchaseHref(book.contentId, book.editionId, 'yes24') : book.url}
                 target="_blank"
                 rel="noopener noreferrer nofollow sponsored"
                 className={cn(
-                  "flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset",
+                  "flex min-w-0 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset",
                   compact ? "flex-row" : "flex-col",
                   compact && (platform === 'coupang' ? "h-22" : "h-16"),
                 )}
                 title={`${book.title} · ${platform === 'coupang' ? 'YES24' : buyLabel}`}
               >
                 <div className={cn(
-                  "relative overflow-hidden bg-white/[0.04]",
-                  compact ? "w-10 shrink-0" : "w-full aspect-[2/3]",
+                  "relative shrink-0 overflow-hidden bg-white/[0.04]",
+                  compact ? "w-10" : "w-full aspect-[2/3]",
                   compact && (platform === 'coupang' ? "h-22" : "h-16"),
                 )}>
                   <ContentImage
                     src={book.thumbnail}
                     alt={book.title}
-                    sizes={compact ? "40px" : "(max-width: 768px) 128px, 180px"}
+                    sizes={compact ? "40px" : platform === 'coupang' ? "(max-width: 767px) 144px, 180px" : "(max-width: 767px) 128px, 180px"}
                     className="object-cover"
                   />
                   <ExternalLink
@@ -85,22 +85,22 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
                   />
                 </div>
                 <div className={cn(
-                  "flex flex-col",
+                  "flex min-w-0 flex-col",
                   compact
                     ? "min-w-0 flex-1 items-start px-2 text-start"
-                    : "items-center px-2.5 text-center",
+                    : "w-full shrink-0 items-center px-2.5 pb-3 text-center",
                   compact && (platform === 'coupang' ? "justify-end" : "justify-center"),
                 )}>
-                  <div className="flex w-full flex-col gap-1 pt-2">
-                  <p className={cn(
-                    "min-w-0 w-full font-semibold text-text-primary group-hover/purchase:text-accent",
-                    compact ? "truncate text-sm sm:text-sm leading-5" : "line-clamp-2 text-[15px] sm:text-[15px] leading-5",
-                  )}>
-                    {book.title}
-                  </p>
-                  {book.creator && <p className={cn(
-                    "w-full truncate text-[13px] sm:text-[13px] leading-4 text-text-secondary group-hover/purchase:text-accent",
-                  )}>{book.creator}</p>}
+                  <div className="flex min-w-0 w-full flex-col gap-1 pt-2">
+                  <div className={cn("flex min-w-0 w-full shrink-0 items-center", compact ? "h-5" : "h-10")}>
+                    <p className={cn(
+                      "min-w-0 w-full font-semibold text-text-primary group-hover/purchase:text-accent",
+                      compact ? "truncate text-sm leading-5" : "line-clamp-2 break-words text-[15px] leading-5 [&:lang(ko)]:break-keep [&:lang(ko)]:text-balance",
+                    )} title={book.title}>
+                      {book.title}
+                    </p>
+                  </div>
+                  <p className="h-4 min-w-0 w-full shrink-0 truncate text-[13px] leading-4 text-text-secondary group-hover/purchase:text-accent" title={book.creator ?? undefined}>{book.creator}</p>
                   </div>
                   {platform !== 'coupang' && <span className={cn(
                     "flex items-center gap-1 font-medium text-accent group-hover/purchase:text-accent",

@@ -22,6 +22,9 @@ import ExpandDetailView from "../expand/ExpandDetailView";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import AffiliateBookAction from "../AffiliateBookAction";
 import { getCoupangAffiliateUrl } from "../contentAffiliate";
+import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
+import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
+import { findAffiliateLink } from "@/actions/home/affiliateLinks";
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -127,13 +130,23 @@ function ContentItemRenderer({
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
           const rawReview = (locale === 'en' && item.review_en) ? item.review_en : item.review;
           const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
+          const localizedContent = getLocalizedContent(item.content, locale);
+          const amazonLink = findAffiliateLink(item.content.affiliate_url, "amazon");
+          const englishPurchaseLinks = item.content.type === "BOOK"
+            ? getEnglishBookPurchaseLinks({
+                locale,
+                title: localizedContent.title,
+                creator: localizedContent.creator,
+                links: amazonLink ? [amazonLink] : [],
+              })
+            : [];
           return (
             <div key={item.id} className="w-full space-y-2">
             <ContentCard
               contentId={item.content_id}
               contentType={item.content.type}
-              title={getLocalizedContent(item.content, locale).title}
-              creator={getLocalizedContent(item.content, locale).creator}
+              title={localizedContent.title}
+              creator={localizedContent.creator}
               thumbnail={item.content.thumbnail_url}
               rating={currentRating}
               review={rawReview}
@@ -169,12 +182,15 @@ function ContentItemRenderer({
               creatorEn={item.content.creator_en}
               thumbnailEn={item.content.thumbnail_en}
               hasEnEdition={item.content.has_en_edition}
-              posterFooterNode={locale === "ko" && item.content.type === "BOOK" ? (
-                <AffiliateBookAction
-                  contentId={item.content_id}
-                  coupangUrl={affiliateUrls[index]}
-                />
-              ) : undefined}
+              posterFooterNode={item.content.type === "BOOK" && <>
+                {locale === "ko" && (
+                  <AffiliateBookAction
+                    contentId={item.content_id}
+                    coupangUrl={affiliateUrls[index]}
+                  />
+                )}
+                {locale === "en" && <BookPurchaseLinks links={englishPurchaseLinks} />}
+              </>}
             />
             </div>
           );

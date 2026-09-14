@@ -9,6 +9,7 @@ import { useState, useTransition } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
 import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
+import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
 import { useBookPurchaseLinks } from "@/components/features/commerce/useBookPurchaseLinks";
 import {
   Book,
@@ -94,11 +95,13 @@ export default function ContentInfoSection({
   const Icon = TYPE_ICONS[content.type];
   const categoryLabel = t(`category.${content.category}`);
 
-  /* 제휴 판매처 */
+  /* 도서 구매·검색 링크 */
   const affiliateLinks = useBookPurchaseLinks({
     contentId: content.id,
     locale,
     isBook: content.type === "BOOK",
+    title: content.title,
+    creator: content.creator,
     editionId: content.purchaseEditionId,
     existingLinks: content.affiliateLinks,
   });
@@ -396,6 +399,12 @@ export default function ContentInfoSection({
           {bookIntroduction.failed && <RetryBlock onRetry={bookIntroduction.retry} />}
           {description && (
             <div className="relative py-0.5">
+              {content.type === "BOOK" && (
+                <div className="mb-2 flex flex-wrap items-center gap-2">
+                  <h2 className="text-sm font-semibold text-text-primary">{t("introduction")}</h2>
+                  <BookIntroductionSource attribution={content.introductionAttribution} />
+                </div>
+              )}
               <div
                 ref={descriptionRef}
                 className={cn(

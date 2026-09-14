@@ -21,8 +21,9 @@ export default function BookPurchaseInfoModal({ onClose }: { onClose: () => void
   }, []);
 
   return (
-    <Modal isOpen onClose={onClose} title={t("title")} size="sm">
-      <div ref={contentRef} tabIndex={-1} className="break-keep p-6 text-sm leading-relaxed outline-none">
+    <Modal isOpen onClose={onClose} title={t("title")} size="sm" animateHeight={false}>
+      <div ref={contentRef} tabIndex={-1} className="space-y-3 break-keep p-6 text-sm leading-relaxed outline-none">
+        <p className="text-text-primary">{t("benefit")}</p>
         <p className="text-text-secondary">{t("notice")}</p>
       </div>
     </Modal>
