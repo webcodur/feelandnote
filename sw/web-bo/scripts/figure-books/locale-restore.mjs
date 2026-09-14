@@ -11,8 +11,9 @@
 import { appendFileSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { argumentValue, bareIsbn, dbClient, kakaoByIsbn, openLibraryByIsbn, openLibrarySearch, sleep } from './lib/figure-work.mjs'
+import { preserveIntroduction } from './lib/preserve-introduction.mjs'
 
-// 소개 표식·주소는 공유 함수가 실제 소개를 받은 뒤 정한다. source가 null이면 description은 NULL이다.
+// 소개 조회 실패 시 복구 원행에 남은 유효 본문·출처를 보존한다.
 const introductionModule = await import('@feelandnote/content-search/book-introduction')
 const { fetchBookIntroduction } = introductionModule.default ?? introductionModule
 
@@ -31,17 +32,17 @@ function coverOf(doc) {
   } catch { return doc.thumbnail }
 }
 
-async function koRowFromKakao(isbn) {
+async function koRowFromKakao(isbn, previous = null) {
   const doc = await kakaoByIsbn(isbn)
   if (!doc || !String(doc.isbn ?? '').split(' ').map(bareIsbn).includes(bareIsbn(isbn))) return null
   const intro = await fetchBookIntroduction({ isbn, locale: 'ko' })
   const cover = coverOf(doc)
   return {
-    row: {
+    row: preserveIntroduction(previous, {
       title: normTitle(doc.title), creator: (doc.authors ?? []).join(', ') || null, publisher: doc.publisher || null, isbn,
       thumbnail_url: cover, description: intro.source ?? null,
       sources: { primary: 'kakao_book', thumbnail: cover ? 'kakao_book' : 'confirmed_unavailable', ...(intro.source && intro.sourceUrl ? { description: intro.sourceUrl } : {}) },
-    },
+    }, 'ko'),
     release: String(doc.datetime ?? '').slice(0, 10) || null, kakaoTitle: doc.title, saleStatus: doc.status,
   }
 }
@@ -74,8 +75,10 @@ async function main() {
     for (const r of rows) {
       if (skip.has(r.content_id.slice(0, 8))) { plan.push({ op: 'ko-restore', id: r.content_id, prev: r.card.title, status: 'SKIP by-flag' }); continue }
       const isbn = bareIsbn(r.card.isbn)
-      const built = await koRowFromKakao(isbn).catch(() => null)
-      plan.push({ op: 'ko-restore', id: r.content_id, isbn, prev: r.card.title, status: built ? 'READY' : 'SKIP kakao-null', ...(built ?? {}) })
+      let built, failure
+      try { built = await koRowFromKakao(isbn, r.card) }
+      catch (error) { failure = error.message }
+      plan.push({ op: 'ko-restore', id: r.content_id, isbn, prev: r.card.title, status: built ? 'READY' : `SKIP ${failure ?? 'kakao-null'}`, ...(built ?? {}) })
       await sleep(300)
     }
   }
