@@ -6,6 +6,7 @@ import { requireAdmin } from '@/lib/admin-auth'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
 import { revalidateWebCeleb } from '@/lib/revalidate-web'
+import { cleanVoiceBuffer } from '@feelandnote/shared/bo/voice-cleanup'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import {
   getEleAccountConfigIssues, getEleAccountSetupError, resolveEleAccountForVoice,
@@ -161,7 +162,8 @@ export async function generateVoicePreview(params: {
       return { success: false, error: `ElevenLabs ${res.status}: ${err}` }
     }
 
-    const buffer = Buffer.from(await res.arrayBuffer())
+    // 들숨·쉼 정리(SSoT) — 미리듣기에서 들은 소리가 그대로 등록된다
+    const buffer = await cleanVoiceBuffer(Buffer.from(await res.arrayBuffer()), 'mp3', 'dialogue')
     return { success: true, base64: buffer.toString('base64'), bytes: buffer.length }
   } catch (err) {
     return { success: false, error: String(err) }

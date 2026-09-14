@@ -61,6 +61,7 @@
     "./bo/discourse-export": "./src/bo/discourse-export.ts",
     "./bo/voice-age": "./src/bo/voice-age.ts",
     "./bo/voice-normalize": "./src/bo/voice-normalize.ts",
+    "./bo/voice-cleanup": "./src/bo/voice-cleanup.ts",
     "./lib/book-metadata": "./src/lib/book-metadata.ts"
   },
   "peerDependencies": {

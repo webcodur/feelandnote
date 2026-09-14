@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from collections import Counter
 from difflib import SequenceMatcher
 from pathlib import Path
 
@@ -13,11 +14,21 @@ from faster_whisper import WhisperModel
 
 EVENT_TAGS = ("[laughs]", "[sighs]", "[breathes]", "[exhales]")
 TAG_WORDS = re.compile(
-    r"laughs|sighs|breathes|exhales|shouts|snarling|intense|deliberate|"
+    r"\b(?:laughs|sighs|breathes|exhales|shouts|snarling|intense|deliberate|"
     r"mockingly|strained|rushed|excited|happily|cheerfully|sorrowful|"
-    r"frustrated|mischievously|angry",
+    r"frustrated|mischievously|angry)\b",
     re.IGNORECASE,
 )
+
+
+def spoken_tag_words(line: str, transcript: str) -> bool:
+    """Tag words heard beyond those the spoken line itself contains.
+
+    Lines such as "makes you excited" or "more intense" used to be flagged although no tag was voiced (26.09.13).
+    """
+    spoken = re.sub(r"\[[^\]]*\]", " ", line)
+    heard = Counter(word.casefold() for word in TAG_WORDS.findall(transcript))
+    return bool(heard - Counter(word.casefold() for word in TAG_WORDS.findall(spoken)))
 
 
 def parse_args() -> argparse.Namespace:
@@ -30,6 +41,7 @@ def parse_args() -> argparse.Namespace:
         default=Path(r"D:\audios\interview-cleaner\models\whisper"),
     )
     parser.add_argument("--min-match", type=float, default=0.80)
+    parser.add_argument("--device", default="cpu", choices=("cpu", "cuda", "auto"))
     parser.add_argument("--fail-on-flag", action="store_true")
     return parser.parse_args()
 
@@ -63,7 +75,7 @@ def main() -> None:
 
     model = WhisperModel(
         args.model,
-        device="cpu",
+        device=args.device,
         compute_type="int8",
         download_root=str(args.whisper_models),
         local_files_only=True,
@@ -90,7 +102,7 @@ def main() -> None:
             flags.append("low-match")
         if effective_tail > 4:
             flags.append("unmatched-tail")
-        if TAG_WORDS.search(transcript):
+        if spoken_tag_words(tts_text, transcript):
             flags.append("tag-spoken")
         results.append(
             {

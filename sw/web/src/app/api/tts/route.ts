@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { GoogleGenAI } from "@google/genai"
+import { cleanVoiceBuffer } from "@feelandnote/shared/bo/voice-cleanup"
 
 // Gemini API 키 로테이션 (remotion/.env 키들을 web/.env에 복사)
 const API_KEYS = Array.from({ length: 50 }, (_, i) =>
@@ -106,7 +107,8 @@ export async function POST(req: NextRequest) {
   const voiceName = locale === "en" ? "Kore" : "Kore"
 
   try {
-    const wavBuffer = await synthesize(text, voiceName)
+    // 들숨·쉼 정리(SSoT) — 읽어주기 내레이션이라 reading 프로필
+    const wavBuffer = await cleanVoiceBuffer(await synthesize(text, voiceName), "wav", "reading")
 
     return new NextResponse(new Uint8Array(wavBuffer), {
       headers: {

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { GoogleGenAI } from '@google/genai'
 import { isValidSeries } from '@/features/book-recommend/lib/series-registry'
+import { cleanVoiceBuffer } from '@feelandnote/shared/bo/voice-cleanup'
 
 // ── Gemini 3.1 Flash TTS 단일 segment 미리듣기 라우트 (테스트용 별도 엔드포인트)
 //
@@ -72,7 +73,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
         return NextResponse.json({ success: false, error: '빈 응답 — 재시도 횟수 초과' })
       }
       const pcm = Buffer.from(data, 'base64')
-      const wav = wrapPcmAsWav(pcm, 24000, 1, 16)
+      // 들숨·쉼 정리(SSoT) — 서재 탐방 내레이션이라 reading 프로필
+      const wav = await cleanVoiceBuffer(wrapPcmAsWav(pcm, 24000, 1, 16), 'wav', 'reading')
       return NextResponse.json({
         success: true,
         base64: wav.toString('base64'),

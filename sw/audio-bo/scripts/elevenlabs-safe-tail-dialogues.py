@@ -13,6 +13,7 @@ from pathlib import Path
 
 import numpy as np
 from faster_whisper import WhisperModel
+from voice_cleanup import clean_file
 
 
 SAFE_PHRASES = {
@@ -598,6 +599,7 @@ def main() -> None:
         clean_mp3 = run_dir / f"{slot}.mp3"
         clean_wav = run_dir / f"{slot}.wav"
         trim_audio(args.ffmpeg, run_dir / str(sample["rawMp3"]), clean_mp3, float(cut["seconds"]))
+        clean_file(clean_mp3, clean_mp3, "dialogue")  # same breath and pause cleanup as every TTS path
         RESEARCH.convert_to_wav(args.ffmpeg, clean_mp3, clean_wav)
         clean_transcription = RESEARCH.transcribe(model, clean_wav, args.locale)
         clean_transcription_path = analysis_dir / f"{slot}.clean.whisper.json"

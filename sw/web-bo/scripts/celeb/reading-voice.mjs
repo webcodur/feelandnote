@@ -14,11 +14,11 @@ import { parseEnv } from 'node:util'
 import { createInterface } from 'node:readline'
 import { createClient } from '@supabase/supabase-js'
 import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
+import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
 import { publishReadingTiming } from './reading-voice-timing.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..')
 const QC_SCRIPT = join(ROOT, 'sw/audio-bo/scripts/celeb-reading-voice-qc.py')
-const CLEANUP_SCRIPT = join(ROOT, 'sw/audio-bo/scripts/celeb-reading-voice-cleanup.py')
 const MODEL = 'gemini-2.5-flash-preview-tts'
 const VOICE = 'Charon'
 const PROMPTS = {
@@ -768,7 +768,7 @@ async function main() {
               // encoding or QC; the -clean suffix keeps this to one pass per attempt across resumes.
               if (!/-(clean|nbt)\.wav$/i.test(attempt.wav)) {
                 const cleaned = attempt.wav.replace(/\.wav$/i, '-clean.wav')
-                await run(options.python || 'py', [...(options.python ? [] : ['-3']), CLEANUP_SCRIPT, '--profile', 'reading', attempt.wav, cleaned])
+                await cleanVoiceFile(attempt.wav, cleaned, 'reading')
                 attempt.wav = cleaned
                 attempt.wavHash = sha(await readFile(cleaned))
                 delete attempt.candidateMp3; delete attempt.candidateMp3Hash
