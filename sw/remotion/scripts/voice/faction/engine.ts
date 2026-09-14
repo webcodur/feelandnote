@@ -12,6 +12,7 @@ import { GoogleGenAI } from '@google/genai'
 import { readFile } from 'fs/promises'
 import wav from 'wav'
 import path from 'path'
+import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
 import { GEMINI_MODEL, START_KEY_INDEX } from './cli.js'
 
 // --- API 키 로테이션 ---
@@ -77,7 +78,9 @@ async function synthesizeRaw(text: string, voiceName: string, model: string = GE
 /** 합성 → wav 저장 → 길이(초) 반환. model 미지정 시 CLI 기본(GEMINI_MODEL) */
 export async function synthesizeGemini(text: string, voiceName: string, outputFile: string, model?: string): Promise<number> {
   const pcm = await synthesizeRaw(text, voiceName, model)
-  const duration = await saveWav(outputFile, pcm)
+  await saveWav(outputFile, pcm)
+  // 들숨·쉼 정리(SSoT) — 인물 대사라 dialogue 프로필, 길이는 정리 뒤 값
+  const { seconds: duration } = await cleanVoiceFile(outputFile, outputFile, 'dialogue')
   console.log(`  ${path.basename(outputFile).padEnd(28)} ${duration.toFixed(2)}s`)
   return duration
 }

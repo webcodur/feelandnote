@@ -3,6 +3,7 @@ import { isValidSeries } from '@/features/book-recommend/lib/series-registry'
 import {
   getEleAccountConfigIssues, getEleAccountSetupError, getEleAccounts, resolveEleAccountForVoice,
 } from '@feelandnote/shared/lib/ele-accounts'
+import { cleanVoiceBuffer } from '@feelandnote/shared/bo/voice-cleanup'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
@@ -57,7 +58,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
       return NextResponse.json({ success: false, error: `ElevenLabs ${res.status}: ${err}` })
     }
 
-    const buffer = Buffer.from(await res.arrayBuffer())
+    // 들숨·쉼 정리(SSoT) — 셀럽 보이스 대사라 dialogue 프로필
+    const buffer = await cleanVoiceBuffer(Buffer.from(await res.arrayBuffer()), 'mp3', 'dialogue')
     return NextResponse.json({ success: true, base64: buffer.toString('base64'), bytes: buffer.length, format: 'mp3' })
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) })

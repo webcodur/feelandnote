@@ -28,6 +28,7 @@ import wav from 'wav'
 import { MODEL_GEMINI_25, NARRATOR_STYLE_DEFAULT, VOICE } from '@feelandnote/shared/lib/voice-policy'
 import { getEleAccounts, resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
 import { spawn } from 'child_process'
+import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const BASE = path.join(ROOT, 'public', 'book-person')
@@ -154,7 +155,9 @@ async function synthesizeEpisode(slug: string) {
     const pcm = ENGINE === 'elevenlabs'
       ? await synthesizeEle(job.text)
       : await synthesizeRaw(`${NARRATOR_STYLE_DEFAULT}: ${job.text}`)
-    const sec = (await saveWav(file, pcm)) + BREATH_SEC
+    await saveWav(file, pcm)
+    // 들숨·쉼 정리(SSoT) — 길이는 정리 뒤 값에 문장 사이 숨을 더한다
+    const sec = (await cleanVoiceFile(file, file, 'reading')).seconds + BREATH_SEC
     job.apply(rel, Number(sec.toFixed(2)))
     console.log(`  ${job.id}.wav ${sec.toFixed(2)}s  ${job.text.slice(0, 40)}`)
   }

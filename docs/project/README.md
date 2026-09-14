@@ -13,7 +13,7 @@ Feel&Note의 현재 앱 구조, 서비스 규격, 데이터 계약, 제작·운�
 | [`celeb/`](celeb/README.md) | 인물 생성 파이프라인, 상세 화면, 이미지, 타임라인, 읽어보기 |
 | [`remotion/`](remotion/README.md) | 서재 탐방, 책과 사람, 세력도감, 담화, 영상·음성 제작 |
 | [`operations/`](operations/README.md) | SEO, 수익화, 유입 감사, SNS 확장 |
-| [`production/`](production/README.md) | 글쓰기와 이미지 생성·발주 공통 규칙 |
+| [`production/`](production/README.md) | 글쓰기, 이미지 생성·발주, 합성 음성 정리 공통 규칙 |
 | [`agent-cli/`](agent-cli/README.md) | 외부 CLI 모델을 조사·작성·검수에 배치하는 검증된 작업 기법 |
 
 AI 에이전트가 이 저장소에서 일하는 방식은 [`agent-rules.md`](agent-rules.md)가 쥔다. 루트 [`AGENTS.md`](../../AGENTS.md)는 그중 사고로 직결되는 불변사항만 압축해 둔다.

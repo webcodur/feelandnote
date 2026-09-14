@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import {
   getEleAccountConfigIssues, getEleAccountSetupError, getEleAccounts, resolveEleAccountForVoice,
 } from '@feelandnote/shared/lib/ele-accounts'
+import { cleanVoiceBuffer } from '@feelandnote/shared/bo/voice-cleanup'
 import { guardFactionRoute } from '@/lib/faction-route'
 
 // 이식 시 교체: 이 앱의 음성 창구는 세력도감 전용이므로 `[series]` 동적 세그먼트와
@@ -60,7 +61,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: `ElevenLabs ${res.status}: ${err}` })
     }
 
-    const buffer = Buffer.from(await res.arrayBuffer())
+    // 들숨·쉼 정리(SSoT) — 인물 대사라 dialogue 프로필
+    const buffer = await cleanVoiceBuffer(Buffer.from(await res.arrayBuffer()), 'mp3', 'dialogue')
     return NextResponse.json({ success: true, base64: buffer.toString('base64'), bytes: buffer.length, format: 'mp3' })
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) })

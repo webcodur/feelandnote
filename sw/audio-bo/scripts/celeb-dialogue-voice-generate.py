@@ -1,4 +1,4 @@
-"""Generate the 22 production dialogue MP3s without padding or trimming."""
+"""Generate the 22 production dialogue MP3s, then mute inhale breaths and tidy pauses (no padding)."""
 
 from __future__ import annotations
 
@@ -17,6 +17,7 @@ from celeb_dialogue_voice_common import (
     synthesize,
     write_manifest,
 )
+from voice_cleanup import clean_file  # the one cleanup every TTS path shares; dialogue profile
 
 
 def parse_args() -> argparse.Namespace:
@@ -217,6 +218,8 @@ def main() -> None:
                 args.style,
                 speed,
             )
+            # ElevenLabs returns MP3, so the cleaned file is re-encoded at the source rate and bitrate.
+            clean_file(destination, destination, "dialogue")
             sample = {
                 **job,
                 "file": destination.name,

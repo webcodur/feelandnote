@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from faster_whisper import WhisperModel
+from voice_cleanup import clean_file
 from voice_direction import build_direction_settings
 
 
@@ -155,6 +156,7 @@ def main():
         attempts.append({'checkpoint': str(gpt), 'duration': duration(candidate), 'verification': candidate_text})
         if same_words(speech_text, candidate_text) and duration(candidate) >= 1:
             shutil.copy2(candidate, trained)
+            clean_file(trained, trained, 'reading')  # same breath and pause cleanup as every TTS path
             selected_gpt, trained_text = gpt, candidate_text
             break
     report = {'direction': direction, 'attempts': attempts}

@@ -15,6 +15,7 @@ import { spawn } from 'node:child_process'
 import {
   getEleAccountSetupError, getEleAccounts, resolveEleAccountForVoice,
 } from '@feelandnote/shared/lib/ele-accounts'
+import { cleanVoiceFile } from '@feelandnote/shared/bo/voice-cleanup'
 import { type Voice } from './config.js'
 import { START_KEY_INDEX, GEMINI_MODEL } from './cli.js'
 
@@ -81,7 +82,9 @@ async function synthesizeRaw(text: string, voiceName: Voice, retries = 5, keyRet
 
 export async function synthesizeGemini(text: string, voiceName: Voice, outputFile: string): Promise<number> {
   const pcm = await synthesizeRaw(text, voiceName)
-  const duration = await saveWav(outputFile, pcm)
+  await saveWav(outputFile, pcm)
+  // 들숨·쉼 정리(SSoT) — 내레이션이라 reading 프로필, 길이는 정리 뒤 값
+  const { seconds: duration } = await cleanVoiceFile(outputFile, outputFile, 'reading')
   console.log(`  ${path.basename(outputFile).padEnd(30)} ${duration.toFixed(2)}s`)
   return duration
 }
@@ -147,7 +150,9 @@ export async function synthesizeElevenlabs(text: string, voiceId: string, output
   }
   const mp3Buffer = Buffer.from(await res.arrayBuffer())
   const pcm = await mp3ToPcm24k(mp3Buffer)
-  const duration = await saveWav(outputFile, pcm)
+  await saveWav(outputFile, pcm)
+  // 들숨·쉼 정리(SSoT) — 셀럽 보이스라 dialogue 프로필, 길이는 정리 뒤 값
+  const { seconds: duration } = await cleanVoiceFile(outputFile, outputFile, 'dialogue')
   console.log(`  ${path.basename(outputFile).padEnd(30)} ${duration.toFixed(2)}s [ElevenLabs]`)
   return duration
 }
