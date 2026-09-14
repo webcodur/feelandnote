@@ -198,7 +198,7 @@ export function useCelebServiceItems({
           || availability.dialogues,
         target: { sectionId: "media" },
         children: [
-          // 가상 독백 탭은 서비스 노출에서 폐기했다. DB 원문은 제작 재료로만 보존한다.
+          // 가상독백은 미디어가 아니라 읽어보기 두 번째 모드에서 보인다.
           {
             key: "dialogues",
             chapter: "07-A",

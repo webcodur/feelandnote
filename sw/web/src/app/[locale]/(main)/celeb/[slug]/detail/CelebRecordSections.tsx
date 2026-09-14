@@ -177,15 +177,14 @@ export default function CelebRecordSections({
           <section id="reading" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("reading")}
             <SectionSurface>
-              {/* 상자 윗변에서 글을 소폭 떼어 시작한다. 아래 여백과 같은 값으로 맞춘다 */}
-              <div className="pt-4 md:pt-6">
-                <FigureReadingTabs
-                  reading={profile.reading}
-                  celebId={userId}
-                  voiceV={profile.voice_v}
-                  readingLocale={locale === "en" && !profile.translationFallbacks?.includes("personGuide") ? "en" : "ko"}
-                />
-              </div>
+              {/* 윗여백은 FigureReadingTabs가 쥔다. 모드 탭이 서면 탭이 상자 윗변에 붙는다 */}
+              <FigureReadingTabs
+                reading={profile.reading}
+                virtualMonologue={profile.virtualMonologue}
+                celebId={userId}
+                voiceV={profile.voice_v}
+                readingLocale={locale === "en" && !profile.translationFallbacks?.includes("personGuide") ? "en" : "ko"}
+              />
             </SectionSurface>
           </section>
         )}

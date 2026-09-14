@@ -4,8 +4,10 @@
 # after the batch stops itself (quota or login). Stop reason comes from the
 # batch output file: Start-Process -PassThru returns an empty ExitCode here.
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File <this file>
+# Logs sit next to the hold record (light.jsonl) in data\celeb\virtual-monologue.
+# Delete that folder once every blank is filled.
 $repo = 'C:\project\feelandnote'
-$s = 'C:\project\_vm-work'
+$s = "$repo\data\celeb\virtual-monologue"
 $log = "$s\supervisor.log"
 $MinFreeMB = 2000
 $script = 'sw/web-bo/scripts/celeb/virtual-monologue.mjs'
@@ -51,11 +53,7 @@ while ($true) {
     continue
   }
 
-  # 고칠 것을 먼저 고치고, 남은 인물을 새로 쓴다.
-  $halted = Start-Batch @('repair', '--apply', '--out', "$s\repair-auto.jsonl") 'repair'
-  if (-not $halted) {
-    $halted = Start-Batch @('light', '--apply', '--out', "$s\light-auto.jsonl") 'agy'
-  }
+  $halted = Start-Batch @('light', '--apply') 'agy'
   if ($halted) {
     Write-Log 'agy halted - waiting 30 minutes before retry'
     Start-Sleep -Seconds 1800

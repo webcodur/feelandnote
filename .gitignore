@@ -94,7 +94,6 @@ sw/인물-*.txt
 /scan-*.cjs
 /survey*.cjs
 /_fix-subs.mjs
-/virtual_monologue_test.md
 /.tmp_*
 /tmp_*
 /clean-symlinks.ps1

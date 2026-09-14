@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Loader2, Pause, Play, RotateCcw, RotateCw, Square } from "lucide-react";
 import { useReadingTiming } from "@/hooks/useReadingTiming";
 import { activeReadingSegment } from "@/lib/reading-timing";
@@ -10,8 +10,14 @@ import type { Locale } from "@/types/locale";
 import { getReadingVoiceUrl } from "@/lib/game/voice/voiceUrl";
 import { READING_PLAYBACK_RATES, useReadingNarration } from "@/hooks/useReadingNarration";
 
+import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
+
+type ReadingTab = "guide" | "monologue";
+
 interface Props {
   reading: CelebBySlugProfile["reading"];
+  /** 화면 언어로 고른 가상독백. 영문이 없으면 한국어가 온다 */
+  virtualMonologue: string | null;
   celebId: string;
   voiceV?: number;
   readingLocale: Locale;
@@ -24,8 +30,48 @@ function formatTime(seconds: number) {
 
 /** Changing the person, language or source stops the previous recording. */
 export default function FigureReadingTabs(props: Props) {
-  if (!props.reading?.guide.trim()) return null;
-  return <ReadingPlayer key={`${props.celebId}:${props.readingLocale}:${props.voiceV}:${props.reading.guide}`} {...props} />;
+  const t = useTranslations("celebPage");
+  const [tab, setTab] = useState<ReadingTab>("guide");
+  const guide = props.reading?.guide.trim() ?? "";
+  const monologue = props.virtualMonologue?.trim() ?? "";
+  if (!guide && !monologue) return null;
+
+  const player = <ReadingPlayer key={`${props.celebId}:${props.readingLocale}:${props.voiceV}:${props.reading?.guide}`} {...props} />;
+  // 모드가 하나면 탭 없이 상자 윗변에서 글을 소폭 떼어 시작한다
+  if (!guide || !monologue) {
+    return <div className="pt-4 md:pt-6">{guide ? player : <MonologueText text={monologue} />}</div>;
+  }
+
+  const tabs: ArchiveTabItem<ReadingTab>[] = [
+    { key: "guide", label: t("personGuide") },
+    { key: "monologue", label: t("virtualMonologue") },
+  ];
+  return (
+    <div>
+      <ArchiveTabsHeader
+        tabs={tabs}
+        activeKey={tab}
+        onChange={setTab}
+        columnsClassName="grid-cols-2"
+        ariaLabel={t("reading")}
+      />
+      <div id={`archive-panel-${tab}`} role="tabpanel" aria-labelledby={`archive-tab-${tab}`}>
+        {tab === "guide" ? player : <MonologueText text={monologue} />}
+      </div>
+    </div>
+  );
+}
+
+function MonologueText({ text }: { text: string }) {
+  const paragraphs = useMemo(
+    () => text.split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean),
+    [text],
+  );
+  return (
+    <div className="mx-auto max-w-3xl space-y-4 whitespace-pre-line font-serif text-[15px] leading-loose text-text-secondary break-keep md:text-base">
+      {paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+    </div>
+  );
 }
 
 function ReadingPlayer({ reading, celebId, voiceV = 0, readingLocale }: Props) {

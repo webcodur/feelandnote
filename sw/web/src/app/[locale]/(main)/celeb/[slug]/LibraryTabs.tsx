@@ -82,6 +82,8 @@ export default function LibraryTabs({
         ariaLabel={t("library")}
       />
 
+
+
       {/* 감상 탭은 초기 HTML에 포함하고 비활성 탭에서만 숨긴다. */}
       {hasConsumption && <div className={cn(activeTab !== "consume" && "hidden")}>
         <ContentLibrary

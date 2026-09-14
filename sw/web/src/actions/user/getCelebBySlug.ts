@@ -166,6 +166,8 @@ interface PublicCelebBySlugData {
     portrait_url: string | null
     portrait_caption: string | null
     portrait_caption_en: string | null
+    virtual_monologue: string | null
+    virtual_monologue_en: string | null
   }
   contentCount: number
   followerCount: number
@@ -194,7 +196,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: celeb, error: profileError } = await db
     .from('celebs')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, celeb_reality, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, celeb_reality, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en, virtual_monologue, virtual_monologue_en')
     .eq('slug', slug)
     .eq('publication_status', 'active')
     .maybeSingle()
@@ -417,8 +419,8 @@ const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     slug,
-    // v8: 비활성 관계 상대를 이름 노드로 되살린 조회 결과만 캐시한다.
-    ['celeb-by-slug-v8-inactive-relation-nodes', slug],
+    // v9: 가상독백을 함께 싣는 조회 결과만 캐시한다.
+    ['celeb-by-slug-v9-virtual-monologue', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
   )
@@ -458,6 +460,8 @@ export type CelebBySlugProfile = PublicUserProfile & {
     explorationTitle: string
     explorationText: string
   } | null
+  /** 인물이 1인칭으로 말하는 가상독백. 화면 언어로 고르며 영문이 없으면 한국어가 온다 */
+  virtualMonologue: string | null
   /** 영문 화면에서 영문본이 없어 한국어 원문을 대신 보여주는 필드 */
   translationFallbacks: string[]
 }
@@ -560,6 +564,7 @@ async function getCelebBySlugInner(
             ),
           }
         : null,
+      virtualMonologue: resolve('virtualMonologue', profile.virtual_monologue_en?.trim(), profile.virtual_monologue?.trim() || null) || null,
       translationFallbacks,
     },
   }
