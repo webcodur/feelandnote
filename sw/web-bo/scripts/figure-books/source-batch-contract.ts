@@ -91,6 +91,14 @@ function optionalText(value: unknown, field: string): string | undefined {
   return requiredText(value, field)
 }
 
+/** 관계 설명은 폐기됐다. 생략 또는 null만 받고 과거 설명 원고를 조용히 버리지 않는다. */
+export function parseFigureBookRelationDescription(value: unknown, field: string): null {
+  if (value !== undefined && value !== null) {
+    throw new Error(`${field}은 폐기된 관계 설명입니다. 생략하거나 null로 입력해야 합니다.`)
+  }
+  return null
+}
+
 export function parseFigureBookBatchManifest(input: unknown): FigureBookBatchManifest {
   const raw = recordOf(input, '입력')
   rejectUnknownKeys(raw, MANIFEST_KEYS, '입력')
@@ -134,12 +142,7 @@ export function parseFigureBookBatchManifest(input: unknown): FigureBookBatchMan
     if (identifiers.has(identifier)) throw new Error(`${field}의 대상 인물이 중복됩니다.`)
     identifiers.add(identifier)
 
-    const description = relationType === 'appearance'
-      ? requiredText(row.description, `${field}.description`)
-      : null
-    if (relationType !== 'appearance' && row.description !== undefined && row.description !== null) {
-      throw new Error(`${field}.description은 등장 관계에만 입력할 수 있습니다.`)
-    }
+    const description = parseFigureBookRelationDescription(row.description, `${field}.description`)
 
     return {
       ...(slug ? { slug } : { celebId }),
@@ -224,14 +227,12 @@ export function buildFigureBookBatchPlan(
   const changes: FigureBookBatchChange[] = []
 
   for (const character of characters) {
-    if (character.relationType === 'appearance' && !character.description?.trim()) {
-      throw new Error(`등장 도서 관계에는 등장 설명이 필요합니다: ${character.slug}`)
-    }
-    if (character.relationType === 'related' && character.description !== null) {
-      throw new Error(`연관 도서 관계에는 등장 설명을 저장할 수 없습니다: ${character.slug}`)
-    }
+    parseFigureBookRelationDescription(character.description, `${character.slug}.description`)
 
     const before = existingByCelebId.get(character.celebId) ?? null
+    if (before?.relation_type === 'authored' && character.relationType !== 'authored') {
+      throw new Error(`기존 창작 관계는 다른 관계로 바꿀 수 없습니다: ${character.slug}`)
+    }
     const sortOrder = character.sortOrder
       ?? before?.sort_order
       ?? nextSortOrder++
@@ -240,11 +241,8 @@ export function buildFigureBookBatchPlan(
       celeb_id: character.celebId,
       relation_type: character.relationType,
       sort_order: sortOrder,
-      description: character.description,
-      // 한국어 원전 배치는 Amazon 영문판 작업에서 확정한 값을 만들거나 덮지 않는다.
-      description_en: character.relationType === 'related'
-        ? null
-        : before?.description_en ?? null,
+      description: null,
+      description_en: null,
     }
     const kind = before === null ? 'insert' : sameRow(before, after) ? 'unchanged' : 'update'
     changes.push({ kind, slug: character.slug, before, after })
@@ -258,6 +256,33 @@ export function buildFigureBookBatchPlan(
       .filter((change) => change.kind !== 'unchanged')
       .map((change) => change.after),
   }
+}
+
+/** 검수 배치는 기존 창작·등장 관계를 낮추지 않는다. 보류한 행은 설명까지 원본 그대로 보존한다. */
+export function preserveReviewedFigureBookRelations(
+  selections: ResolvedFigureBookCharacter[],
+  currentRows: FigureBookCharacterRow[],
+): {
+  safeSelections: ResolvedFigureBookCharacter[]
+  preservedAppearance: number
+  preservedAuthored: number
+} {
+  const currentByCelebId = new Map(currentRows.map((row) => [row.celeb_id, row]))
+  let preservedAppearance = 0
+  let preservedAuthored = 0
+  const safeSelections = selections.filter((selection) => {
+    const existing = currentByCelebId.get(selection.celebId)
+    if (existing?.relation_type === 'authored' && selection.relationType !== 'authored') {
+      preservedAuthored += 1
+      return false
+    }
+    if (existing?.relation_type === 'appearance' && selection.relationType !== 'appearance') {
+      preservedAppearance += 1
+      return false
+    }
+    return true
+  })
+  return { safeSelections, preservedAppearance, preservedAuthored }
 }
 
 export function assertExactFigureBookReadback(

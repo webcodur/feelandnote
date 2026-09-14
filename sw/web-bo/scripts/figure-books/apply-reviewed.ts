@@ -1,6 +1,6 @@
 /**
  * 검수를 마친 인물별 도서 선정을 작품별 증분 관계로 반영한다.
- * 기본은 dry-run이며, 기존 관계를 삭제하지 않고 appearance를 related로 낮추지 않는다.
+ * 기본은 dry-run이며, 기존 창작·등장 관계를 다른 유형으로 낮추지 않는다. 관계 설명은 NULL이다.
  *
  * pnpm figure-books:apply-reviewed -- --candidates <후보.json> --reviews <최종검수.json>
  * 분할 검수 파일은 --reviews를 반복한다. 끝에 --apply를 붙일 때만 반영한다.
@@ -17,6 +17,8 @@ import { revalidateWebItems } from '../../src/lib/revalidate-web'
 import {
   assertExactFigureBookReadback,
   buildFigureBookBatchPlan,
+  parseFigureBookRelationDescription,
+  preserveReviewedFigureBookRelations,
   type FigureBookCharacterRow,
   type FigureBookRelationType,
   type ResolvedFigureBookCharacter,
@@ -135,20 +137,14 @@ function parseReviews(document: unknown): Review[] {
       if (relationType !== 'appearance' && relationType !== 'related' && relationType !== 'authored') {
         throw new Error(`${slug}.${contentId}: 지원하지 않는 관계입니다.`)
       }
-      const description = selection.description
-      if (relationType === 'appearance' && (typeof description !== 'string' || !description.trim())) {
-        throw new Error(`${slug}.${contentId}: 등장 설명이 필요합니다.`)
+      const description = parseFigureBookRelationDescription(selection.description, `${slug}.${contentId}.description`)
+      for (const field of ['description_en', 'descriptionEn']) {
+        parseFigureBookRelationDescription(selection[field], `${slug}.${contentId}.${field}`)
       }
-      if (relationType !== 'appearance' && description !== null) {
-        throw new Error(`${slug}.${contentId}: 등장이 아닌 관계의 설명은 null이어야 합니다.`)
-      }
-      const appearanceDescription = typeof description === 'string'
-        ? description.trim()
-        : null
       return {
         contentId,
         relationType,
-        description: relationType === 'appearance' ? appearanceDescription : null,
+        description,
         rationale: text(selection.rationale, `${slug}.${contentId}.rationale`),
       }
     })
@@ -266,6 +262,7 @@ async function main(): Promise<void> {
     updates: number
     unchanged: number
     preservedAppearance: number
+    preservedAuthored: number
   }> = []
   const plans: Array<{
     contentId: string
@@ -273,16 +270,7 @@ async function main(): Promise<void> {
   }> = []
   for (const [contentId, selections] of selectedByContent) {
     const current = await loadRows(db, contentId)
-    const currentByCelebId = new Map(current.map((row) => [row.celeb_id, row]))
-    let preservedAppearance = 0
-    const safeSelections = selections.flatMap((selection) => {
-      const existing = currentByCelebId.get(selection.celebId)
-      if (existing?.relation_type === 'appearance' && selection.relationType !== 'appearance') {
-        preservedAppearance += 1
-        return []
-      }
-      return [selection]
-    })
+    const { safeSelections, preservedAppearance, preservedAuthored } = preserveReviewedFigureBookRelations(selections, current)
     const plan = buildFigureBookBatchPlan(contentId, safeSelections, current)
     const counts = { insert: 0, update: 0, unchanged: 0 }
     for (const change of plan.changes) counts[change.kind] += 1
@@ -293,6 +281,7 @@ async function main(): Promise<void> {
       updates: counts.update,
       unchanged: counts.unchanged,
       preservedAppearance,
+      preservedAuthored,
     })
     plans.push({ contentId, plan })
   }
@@ -318,7 +307,8 @@ async function main(): Promise<void> {
       updates: result.updates + row.updates,
       unchanged: result.unchanged + row.unchanged,
       preservedAppearance: result.preservedAppearance + row.preservedAppearance,
-    }), { inserts: 0, updates: 0, unchanged: 0, preservedAppearance: 0 }),
+      preservedAuthored: result.preservedAuthored + row.preservedAuthored,
+    }), { inserts: 0, updates: 0, unchanged: 0, preservedAppearance: 0, preservedAuthored: 0 }),
     ...(!summaryOnly ? { items: summaries, heldItems: held } : {}),
   }
   console.log(JSON.stringify(output, null, 2))
