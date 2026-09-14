@@ -7,6 +7,7 @@
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import MuseumTimeline from "@/components/features/library/museum/MuseumTimeline";
+import getDeveloperProducts from "@/components/features/commerce/getDeveloperProducts";
 import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -15,9 +16,10 @@ export async function generateMetadata() {
 }
 
 async function MuseumContent({ cat, sub }: { cat?: string; sub?: string }) {
+  const targetProducts = await getDeveloperProducts();
   return (
     <AsyncIntlProvider>
-      <MuseumTimeline categoryId={cat} subCategoryId={sub} />
+      <MuseumTimeline categoryId={cat} subCategoryId={sub} targetProducts={targetProducts} />
     </AsyncIntlProvider>
   );
 }

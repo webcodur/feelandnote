@@ -17,6 +17,7 @@ import {
 import LiteYoutubeEmbed from "@/components/features/youtube/LiteYoutubeEmbed";
 import YoutubeFactionArchive from "./YoutubeFactionArchive";
 import YoutubeSeriesCard from "./YoutubeSeriesCard";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 
 interface VideoCard {
   videoId: string;
@@ -205,7 +206,7 @@ export default async function YoutubeChannelContent({
                 <p className="text-xs text-text-tertiary">{t("longformSub")}</p>
               </header>
               <div className="grid gap-6 sm:grid-cols-2">
-                {longform.map((v) => (
+                {longform.map((v, index) => (
                   <div
                     key={v.videoId}
                     className="space-y-2 [content-visibility:auto] [contain-intrinsic-size:auto_320px]"
@@ -224,6 +225,7 @@ export default async function YoutubeChannelContent({
                         {t("viewShelf")} →
                       </Link>
                     </div>
+                    {index === 0 && <DeveloperCommerceFallback target={{ title: v.name, type: "PERSON" }} context={`${v.name} 관련 도서`} placement="youtube-featured-person" />}
                   </div>
                 ))}
               </div>

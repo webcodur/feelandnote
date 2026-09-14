@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import AffiliateBookList from "@/components/features/home/AffiliateBookList";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import { getAffiliateBooksForTag, type FactionBooks } from "@/actions/home/getAffiliateBooks";
 
 interface TagOriginBooksProps {
@@ -45,12 +46,16 @@ export default function TagOriginBooks({ tagId, tagName, variant }: TagOriginBoo
 
   if (!loaded || loaded.tagId !== tagId) return null;
 
+  if (loaded[variant].length === 0) {
+    return <DeveloperCommerceFallback target={{ title: tagName, type: "TOPIC" }} placement={`faction-${variant}`} />;
+  }
+
   if (variant === "topic") {
     return (
       <AffiliateBookList
         books={loaded.topic}
         heading={t("headingFactionTopic")}
-        buyLabel={t("buyOnCoupang")}
+        buyLabel={t("buy")}
         detailLabel={t("viewBookDetails")}
       />
     );
@@ -60,7 +65,7 @@ export default function TagOriginBooks({ tagId, tagName, variant }: TagOriginBoo
     <AffiliateBookList
       books={loaded.people}
       heading={loaded.peopleSource === "about" ? t("headingFactionAbout") : t("headingFactionRead")}
-      buyLabel={t("buyOnCoupang")}
+      buyLabel={t("buy")}
       detailLabel={t("viewBookDetails")}
     />
   );

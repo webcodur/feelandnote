@@ -138,6 +138,8 @@ export default function CreativeLibrary({
     setSelectedItem({
       id: item.id,
       title: r.title,
+      workType: item.work_type,
+      creator: celebNickname,
       subTitle: r.subTitle,
       typeLabel: item.work_type ? getWorkTypeLabel(item.work_type) : null,
       roleLabel: getRoleLabel(item.role),

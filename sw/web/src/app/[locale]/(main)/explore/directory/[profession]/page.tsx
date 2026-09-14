@@ -13,6 +13,7 @@ import { getCelebDirectory } from "@/actions/celebs/getCelebDirectory";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons";
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 
 // 정적(ISR). 전체 명부(directory)와 같은 주기 — 인물 등록·삭제 때 'celebs' 태그가 비운다.
 export const revalidate = 604800;
@@ -83,6 +84,7 @@ export default async function ProfessionDirectoryPage({ params }: PageProps) {
       </div>
 
       {/* 인물 목록 — 색인용 명부라 순수 링크(<a>)로 그린다(전체 명부와 같은 이유) */}
+      <DeveloperCommerceFallback target={{ title: `${label} 평전`, type: "TOPIC" }} placement="directory-profession" />
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-0.5 mb-12">
         {members.map((celeb) => {
           const displayName =

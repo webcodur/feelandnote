@@ -19,6 +19,7 @@ import { getTimelineContemporaries } from "@/actions/home/getCelebTimeline";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import { Link } from "@/i18n/navigation";
 import CountryPicker from "./sections/CountryPicker";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import EraBanner from "./sections/EraBanner";
 import CelebTimelineItem from "./sections/CelebTimelineItem";
 
@@ -188,6 +189,7 @@ export default function TimelineSection({ celebs, countries, country: selectedCo
       )}
 
       {/* 타임라인 */}
+      {selectedInfo && <DeveloperCommerceFallback target={{ title: `${selectedInfo.name} 역사`, type: "TOPIC" }} placement="timeline-country" />}
       {filtered.length === 0 ? (
         <p className="text-text-secondary text-center py-12">
           {t("noCountryFigures")}

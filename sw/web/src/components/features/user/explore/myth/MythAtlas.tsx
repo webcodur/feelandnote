@@ -11,6 +11,7 @@ import MythMobilePicker from "./MythMobilePicker";
 import MythPersonPicker from "./MythPersonPicker";
 import MythPersonDetail from "./MythPersonDetail";
 import MythTraditionOverview from "./MythTraditionOverview";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 
 import { MYTH_LAYOUT as layout } from "./mythLayout";
 
@@ -265,6 +266,12 @@ export default function MythAtlas({ data }: Props) {
                 <div ref={contentRef} className="min-w-0 overflow-hidden rounded-[24px] border border-white/[0.08] scroll-mt-20">
                   <MythPersonDetail key={`${activeTradition.id}-${selectedPerson.id}`} person={selectedPerson} tradition={activeTradition} works={selectedWorks} onClose={() => setSelectedPersonId(null)} backLabel={activeGroup ? t("backToGroup") : t("backToOverview")} />
                 </div>
+              )}
+              {(selectedPerson ? selectedWorks.length === 0 : Boolean(activeGroup) || !entryWork) && (
+                <DeveloperCommerceFallback
+                  target={{ title: [activeTradition.name, selectedPerson?.name ?? (activeGroup ? mythGroupName(activeGroup, groupLabels) : null)].filter(Boolean).join(" "), type: "TOPIC" }}
+                  placement="myth-selection"
+                />
               )}
             </div>
           </div>

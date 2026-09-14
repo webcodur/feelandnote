@@ -17,6 +17,14 @@ export interface LabItem {
 
 export const LAB_ITEMS: LabItem[] = [
   {
+    value: "commerce",
+    label: "작품 소장",
+    icon: ShoppingCart,
+    href: "/lab/commerce",
+    title: "작품 소장 흐름",
+    subtitle: "작품 이야기에서 매체 선택과 판매처 이동까지",
+  },
+  {
     value: "celeb-worlds",
     label: "인물 세계",
     icon: Globe,

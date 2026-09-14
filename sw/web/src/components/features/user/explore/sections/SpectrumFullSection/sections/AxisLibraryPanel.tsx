@@ -8,6 +8,8 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import DeveloperWorkAction from "@/components/features/commerce/DeveloperWorkAction";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import { Avatar, Carousel, ContentImage } from "@/components/ui";
 import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
 import type {
@@ -33,9 +35,10 @@ function WorkTile({ work, isEn }: { work: AxisLibraryWork; isEn: boolean }) {
     isEn && work.thumbnail_en ? work.thumbnail_en : work.thumbnail_url;
 
   return (
+    <article className="flex h-full min-w-0 flex-col">
     <Link
       href={`/content/${work.content_id}`}
-      className="group flex h-full flex-col gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] p-2 hover:border-white/20 hover:bg-white/[0.05]"
+      className="group flex flex-1 flex-col gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] p-2 hover:border-white/20 hover:bg-white/[0.05] outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       <span className="relative aspect-[2/3] w-full overflow-hidden rounded-[3px] border border-white/10 bg-black/25">
         <ContentImage
@@ -67,6 +70,8 @@ function WorkTile({ work, isEn }: { work: AxisLibraryWork; isEn: boolean }) {
         </span>
       </span>
     </Link>
+    <DeveloperWorkAction target={{ title, contentId: work.content_id, type: work.type }} />
+    </article>
   );
 }
 
@@ -122,7 +127,7 @@ export default function AxisLibraryPanel({
   const t = useTranslations("explore.spectrum.axisLibrary");
 
   if (!library || (library.high.length === 0 && library.low.length === 0)) {
-    return null;
+    return <DeveloperCommerceFallback target={{ title: entry.label.ko.replace(" vs ", " "), type: "TOPIC" }} placement="spectrum-axis" />;
   }
 
   const shortLabel = isEn

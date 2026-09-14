@@ -15,11 +15,14 @@ import {
 } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
+import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
 import type { Locale } from "@/types/locale";
 
 interface WorkDetailItem {
   id: string;
   title: string;
+  workType: string | null;
+  creator: string;
   subTitle: string | null;
   typeLabel: string | null;
   roleLabel: string;
@@ -163,6 +166,9 @@ export default function WorkDetailModal({
             )}
 
             {/* 관련 링크 */}
+            {(item.workType === "MUSIC" || item.workType === "GAME") && (
+              <DeveloperCollectionJourney target={{ title: item.title, creator: item.creator, type: item.workType }} placement="creative-work" />
+            )}
             <div className="flex flex-wrap items-center gap-2 pt-2">
               {/* Wikipedia */}
               <a

@@ -79,6 +79,7 @@ export function mapPublicToUserContent(
       isbn_en: item.content.isbn_en ?? null,
       thumbnail_en: item.content.thumbnail_en ?? null,
       has_en_edition: item.content.has_en_edition ?? null,
+      title_badge: item.content.title_badge ?? null,
       affiliate_url: item.content.affiliate_url ?? null,
     },
   }));

@@ -12,6 +12,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FormattedText } from "@/components/ui";
 import Image from "next/image";
 import type { HistoryEra } from "@/constants/libraryMuseum";
+import TargetProduct from "@/components/features/commerce/TargetProduct";
+import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
+import type { TargetProductMatch } from "@/components/features/commerce/targetProducts";
 
 // #region 에세이 본문 렌더러
 function EssayContent({ markdown }: { markdown: string }) {
@@ -30,13 +33,14 @@ function EssayContent({ markdown }: { markdown: string }) {
 
 // #region 메인 컴포넌트
 interface Props {
+  targetProducts?: TargetProductMatch[];
   era: HistoryEra;
   index: number;
   eras: HistoryEra[];
   keyContentsLabel: string;
 }
 
-export default function MuseumEraSection({ era, index, eras, keyContentsLabel }: Props) {
+export default function MuseumEraSection({ era, index, eras, keyContentsLabel, targetProducts = [] }: Props) {
   const prevEra = index > 0 ? eras[index - 1] : null;
   const nextEra = index < eras.length - 1 ? eras[index + 1] : null;
 
@@ -196,15 +200,23 @@ export default function MuseumEraSection({ era, index, eras, keyContentsLabel }:
           className="pb-3"
         >
           <h4 className="text-[11px] sm:text-xs text-white/40 uppercase tracking-widest mb-1.5 sm:mb-2 font-semibold">{keyContentsLabel}</h4>
-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
-            {era.contents.map((content, idx) => (
+          <div className="flex flex-col">
+            {era.contents.map((content, idx) => {
+              const match = targetProducts.find((item) => item.label === content);
+              if (match?.product.id === "breath-of-the-wild") return <div key={content} className="border-b border-border py-3">
+                <p className="text-sm text-text-secondary">{content}</p>
+                <DeveloperCollectionJourney target={{ title: match.product.name, creator: "Nintendo", type: "GAME" }} placement="museum-work" />
+              </div>;
+              if (match) return <TargetProduct key={content} label={content} product={match.product} />;
+              return (
               <span
                 key={idx}
-                className="text-[11px] sm:text-xs px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-white/10 bg-white/5 text-white/75"
+                className="border-b border-border py-3 text-sm text-text-secondary"
               >
                 {content}
               </span>
-            ))}
+              );
+            })}
           </div>
         </motion.div>
 
