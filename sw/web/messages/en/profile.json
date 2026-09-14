@@ -116,7 +116,8 @@
       "loginHint": "Sign in to add a reader note.",
       "inviteFirst": "No one has shared a reflection on this figure yet. Be the first.",
       "inviteCount": "{count} reflections so far. Add yours."
-    }
+    },
+    "recentTitle": "Recent visits"
   },
   "userBio": {
     "label": "About",

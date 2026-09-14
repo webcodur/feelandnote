@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 import { Z_INDEX } from "@/constants/zIndex";
 import { BOTTOM_NAV_ITEMS } from "@/constants/navigation";
 import { LinkPending } from "@/components/ui/pending";
+import { setBottomNavDock } from "./bottomNavDock";
 
 interface NavItemProps {
   href: string;
@@ -59,27 +60,32 @@ export default function BottomNav() {
   };
 
   return (
-    <nav
-      className="fixed bottom-0 left-0 right-0 h-16 bg-bg-main/80 backdrop-blur-xl border-t border-accent/10 flex items-center md:hidden pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.5)]"
+    // 고정은 바깥 틀 하나만 한다. 위에 붙는 띠(bottomNavDock)도 이 틀 안에서 함께 움직인다.
+    // 틀에 backdrop-filter를 걸지 않는다 — 안쪽 띠의 흐림이 본문을 보지 못하게 된다.
+    <div
+      className="fixed bottom-0 left-0 right-0 md:hidden shadow-[0_-10px_30px_rgba(0,0,0,0.5)]"
       style={{ zIndex: Z_INDEX.bottomNav }}
     >
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
-      {BOTTOM_NAV_ITEMS.map((item) => {
-        const href = resolveHref(item.href);
-        const isActive = item.href.includes("{userId}")
-          ? userId ? pathname.startsWith(`/${userId}`) : false
-          : pathname.startsWith(item.href);
+      <div ref={setBottomNavDock} />
+      <nav className="relative h-16 bg-bg-main/80 backdrop-blur-xl border-t border-accent/10 flex items-center safe-area-bottom">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+        {BOTTOM_NAV_ITEMS.map((item) => {
+          const href = resolveHref(item.href);
+          const isActive = item.href.includes("{userId}")
+            ? userId ? pathname.startsWith(`/${userId}`) : false
+            : pathname.startsWith(item.href);
 
-        return (
-          <NavItem
-            key={item.key}
-            href={href}
-            active={isActive}
-            icon={<item.icon size={20} />}
-            label={t(item.key)}
-          />
-        );
-      })}
-    </nav>
+          return (
+            <NavItem
+              key={item.key}
+              href={href}
+              active={isActive}
+              icon={<item.icon size={20} />}
+              label={t(item.key)}
+            />
+          );
+        })}
+      </nav>
+    </div>
   );
 }

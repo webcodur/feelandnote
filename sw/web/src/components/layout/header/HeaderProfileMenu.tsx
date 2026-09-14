@@ -1,16 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { Users, Rss, Megaphone, MessageSquare } from "lucide-react";
-import { RomanGateIcon, BustIcon } from "@/components/ui/icons/neo-pantheon";
+import { useTranslations, useLocale } from "next-intl";
+import { CircleUserRound } from "lucide-react";
+import { RomanGateIcon, BustIcon, TempleBellIcon, SacredFlameIcon, MessageTabletIcon, ScrollIcon, LaurelIcon } from "@/components/ui/icons/neo-pantheon";
 import Button from "@/components/ui/Button";
-import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 import { TitleBadge, type TitleInfo } from "@/components/ui";
 import { Z_INDEX } from "@/constants/zIndex";
 import { createClient } from "@/lib/db/client";
+import { formatDistanceToNow } from "date-fns";
+import { ko, enUS } from "date-fns/locale";
+import { useHeaderNotifications, type HeaderNotification } from "./useHeaderNotifications";
 
 interface UserProfile {
   id: string;
@@ -27,6 +29,10 @@ interface HeaderProfileMenuProps {
 export default function HeaderProfileMenu({ profile, isLoggedIn = true }: HeaderProfileMenuProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const t = useTranslations("layout.profile");
+  const tNotif = useTranslations("layout.notifications");
+  const locale = useLocale();
+  const router = useRouter();
+  const { notifications, unreadCount, loading, markRead, markAllRead } = useHeaderNotifications();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -48,12 +54,37 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
     window.location.href = "/login";
   };
 
+  const getNotifIcon = (type: string) => {
+    switch (type) {
+      case "like": return <SacredFlameIcon size={14} />;
+      case "comment": return <MessageTabletIcon size={14} />;
+      case "follow": return <BustIcon size={14} />;
+      case "achievement": return <LaurelIcon size={14} />;
+      case "guestbook": return <ScrollIcon size={14} />;
+      default: return <TempleBellIcon size={14} />;
+    }
+  };
+
+  const notifTime = (createdAt: string | null) => {
+    if (!createdAt) return "";
+    return formatDistanceToNow(new Date(createdAt), {
+      addSuffix: true,
+      locale: locale === "ko" ? ko : enUS,
+    });
+  };
+
+  const handleNotifClick = (notif: HeaderNotification) => {
+    void markRead(notif);
+    setShowDropdown(false);
+    if (notif.link) router.push(notif.link);
+  };
+
   // 비로그인 상태
   if (!isLoggedIn) {
     return (
       <div className="relative" data-profile-dropdown>
-        <Button unstyled onClick={() => setShowDropdown(!showDropdown)} className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
-          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-stone-600 to-stone-400 ring-2 ring-white/10" />
+        <Button unstyled onClick={() => setShowDropdown(!showDropdown)} aria-label={t("login")} className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
+          <CircleUserRound size={28} strokeWidth={1.5} className="text-text-secondary hover:text-text-primary" />
         </Button>
 
         {showDropdown && (
@@ -67,7 +98,6 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
                 <RomanGateIcon size={16} className="text-text-secondary" />
                 {t("login")}
               </Link>
-              <LocaleSwitcher variant="menu" />
             </div>
           </div>
         )}
@@ -78,7 +108,7 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
   // 로그인 상태
   return (
     <div className="relative" data-profile-dropdown>
-      <Button unstyled onClick={() => setShowDropdown(!showDropdown)} className="flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
+      <Button unstyled onClick={() => setShowDropdown(!showDropdown)} aria-label={tNotif("title")} className="relative flex items-center gap-2 px-1.5 py-1 rounded-lg hover:bg-white/5">
         {profile?.avatar_url ? (
           <div className="relative w-7 h-7 rounded-full overflow-hidden ring-2 ring-white/10">
             <Image src={profile.avatar_url} alt={t("avatar")} fill unoptimized className="object-cover" />
@@ -86,16 +116,73 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
         ) : (
           <div className="w-7 h-7 rounded-full bg-gradient-to-br from-stone-600 to-stone-400 ring-2 ring-white/10" />
         )}
+        {unreadCount > 0 && (
+          <span className="absolute top-0 end-0 w-2.5 h-2.5 rounded-full bg-accent border-2 border-black" />
+        )}
       </Button>
 
       {showDropdown && (
-        <div className="absolute end-0 top-11 w-48 bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
+        <div className="absolute end-0 top-11 w-72 max-w-[calc(100vw-24px)] bg-bg-card border border-border rounded-xl shadow-2xl overflow-hidden" style={{ zIndex: Z_INDEX.dropdown }}>
           {/* 프로필 헤더 */}
           <div className="px-4 py-3 border-b border-border">
             <div className="flex items-center gap-2">
               <p className="font-semibold text-sm truncate">{profile?.nickname || t("defaultName")}</p>
               <TitleBadge title={profile?.selected_title ?? null} size="sm" />
             </div>
+          </div>
+
+          {/* 알림 */}
+          <div className="border-b border-border py-1">
+            <div className="flex items-center justify-between px-4 py-1.5">
+              <span className="text-xs font-semibold flex items-center gap-1.5">
+                <TempleBellIcon size={14} className="text-text-secondary" />
+                {tNotif("title")}
+                {unreadCount > 0 && (
+                  <span className="text-accent font-medium">{tNotif("newCount", { count: unreadCount })}</span>
+                )}
+              </span>
+              {unreadCount > 0 && (
+                <Button unstyled onClick={() => void markAllRead()} className="text-[11px] text-text-secondary hover:text-text-primary">
+                  {tNotif("markAllRead")}
+                </Button>
+              )}
+            </div>
+            <div className="max-h-60 overflow-y-auto">
+              {loading ? (
+                <div className="px-4 py-5 text-center text-text-secondary text-xs">{tNotif("loading")}</div>
+              ) : notifications.length > 0 ? (
+                notifications.slice(0, 7).map((notif) => (
+                  <button
+                    key={notif.id}
+                    type="button"
+                    onClick={() => handleNotifClick(notif)}
+                    className={`w-full px-4 py-2.5 flex gap-2.5 hover:bg-white/5 text-left ${!notif.is_read ? "bg-accent/5" : ""}`}
+                  >
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${!notif.is_read ? "bg-accent/20 text-accent" : "bg-bg-secondary text-text-secondary"}`}>
+                      {getNotifIcon(notif.type)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-[13px] leading-snug line-clamp-2 ${!notif.is_read ? "text-text-primary font-medium" : "text-text-secondary"}`}>
+                        {notif.message}
+                      </p>
+                      <p className="text-[10px] text-text-secondary/70 mt-0.5">{notifTime(notif.created_at)}</p>
+                    </div>
+                    {!notif.is_read && <div className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 mt-1.5" />}
+                  </button>
+                ))
+              ) : (
+                <div className="px-4 py-5 text-center text-text-secondary text-xs">{tNotif("empty")}</div>
+              )}
+            </div>
+            {notifications.length > 0 && (
+              <Link
+                href="/notifications"
+                onClick={() => setShowDropdown(false)}
+                className="block text-center text-xs text-accent hover:underline decoration-accent/50 underline-offset-2 font-medium px-4 py-2 border-t border-border/40 no-underline"
+              >
+                {tNotif("viewAll")}
+              </Link>
+            )}
           </div>
 
           {/* 내 페이지 링크 */}
@@ -108,48 +195,6 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
               <BustIcon size={16} className="text-text-secondary" />
               {t("myPage")}
             </Link>
-          </div>
-
-          {/* 커뮤니티 */}
-          <div className="border-t border-border py-1">
-            <p className="px-4 py-1.5 text-xs">{t("community")}</p>
-            <Link
-              href="/agora/social"
-              onClick={() => setShowDropdown(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
-            >
-              <Users size={16} className="text-text-secondary" />
-              {t("social")}
-            </Link>
-            <Link
-              href="/agora/social-feed"
-              onClick={() => setShowDropdown(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
-            >
-              <Rss size={16} className="text-text-secondary" />
-              {t("feed")}
-            </Link>
-            <Link
-              href="/agora/board/notice"
-              onClick={() => setShowDropdown(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
-            >
-              <Megaphone size={16} className="text-text-secondary" />
-              {t("notice")}
-            </Link>
-            <Link
-              href="/agora/board/feedback"
-              onClick={() => setShowDropdown(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
-            >
-              <MessageSquare size={16} className="text-text-secondary" />
-              {t("feedback")}
-            </Link>
-          </div>
-
-          {/* 언어 전환 */}
-          <div className="border-t border-border py-1">
-            <LocaleSwitcher variant="menu" />
           </div>
 
           {/* 로그아웃 */}

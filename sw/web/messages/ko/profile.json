@@ -116,7 +116,8 @@
       "loginHint": "감상록은 로그인 후 작성할 수 있습니다.",
       "inviteFirst": "첫 감상을 기다리고 있습니다.",
       "inviteCount": "감상 {count}개가 남아 있습니다. 생각을 보태보세요."
-    }
+    },
+    "recentTitle": "최근 방문"
   },
   "userBio": {
     "label": "소개",

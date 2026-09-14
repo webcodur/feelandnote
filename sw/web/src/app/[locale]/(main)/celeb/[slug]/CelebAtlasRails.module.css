@@ -287,13 +287,17 @@
 /* ── 좁은 화면의 목차 띠 ──
    옆 레일이 서지 않는 폭에서만 뜬다. 아래 규칙에 노출 조건이 있다. */
 .atlasBar {
-  position: fixed;
-  /* 모바일에는 전역 하단 내비(h-16)가 이미 바닥을 쓴다. 그 위에 틈 없이 얹는다 */
-  bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
-  left: 0;
-  z-index: 50;
   width: 100%;
   pointer-events: none;
+}
+
+/* 전역 하단 내비가 있으면 띠는 그 고정 틀 안(bottomNavDock)에 들어가 한 몸으로 움직인다.
+   내비가 없는 폭에서만 스스로 바닥에 고정한다 */
+.atlasBarFloating {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
 }
 
 /* 화면 좌우와 아래 내비에 그대로 맞붙는다. 띄워 두면 떠 있는 상자가 하나 더 생겨
@@ -456,11 +460,6 @@
   font-size: 14px;
   font-weight: 700;
   line-height: 1.25;
-}
-
-/* 전역 하단 내비는 768px 미만에서만 선다. 그 위로는 바닥에 바로 붙는다 */
-@media (min-width: 768px) {
-  .atlasBar { bottom: 0; }
 }
 
 /* 옆 레일이 서면 이 띠는 물러난다 — 같은 목차가 둘일 이유가 없다 */
