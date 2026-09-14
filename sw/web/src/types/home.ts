@@ -36,7 +36,7 @@ export interface CelebProfile {
   nickname_en: string | null
   avatar_url: string | null
   profession: string | null
-  title: string | null  // 수식어 (예: 테슬라 창립자, 철의 여인)
+  title: string | null  // 수식어 (예: 테슬라 설립, 철의 여인)
   title_en: string | null
   nationality: string | null  // 국적
   birth_date: string | null   // 출생연일

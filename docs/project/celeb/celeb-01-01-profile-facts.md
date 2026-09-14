@@ -1,6 +1,6 @@
 # 프로필 사실
 
-이 문서는 모든 티어의 `nickname`·`nickname_en`·`profession`·`gender`·`nationality`·`birth_date`·`death_date`·`wikidata_qid`를 조사하고 판정하는 규칙을 쥔다. 소개 문구는 [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md)에서 작성한다.
+이 문서는 모든 티어의 `nickname`·`nickname_en`·`profession`·`gender`·`nationality`·`birth_date`·`death_date`·`wikidata_qid`를 조사하고 판정하는 규칙을 쥔다. 소개 문구는 [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md), 수식어는 [`celeb-01-03-title.md`](celeb-01-03-title.md)에서 작성한다.
 
 ## 이름
 

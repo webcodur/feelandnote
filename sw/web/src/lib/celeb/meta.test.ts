@@ -14,7 +14,7 @@ const emptyCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 };
 test("full title describes only real viewing records", () => {
   const input: CelebMetaInput = {
     nickname: "빌 게이츠",
-    title: "마이크로소프트 창업자",
+    title: "마이크로소프트 설립",
     tier: "full",
     counts: { ...emptyCounts, BOOK: 10, VIDEO: 3 },
   };
@@ -24,7 +24,7 @@ test("full title describes only real viewing records", () => {
     "빌 게이츠의 책·영상 감상 기록",
   );
   assert.equal(
-    buildCelebTitleEn({ ...input, nickname: "Bill Gates", title: "Microsoft co-founder" }),
+    buildCelebTitleEn({ ...input, nickname: "Bill Gates", title: "Microsoft Founder" }),
     "Bill Gates: Books, Videos & Cultural Records",
   );
 });

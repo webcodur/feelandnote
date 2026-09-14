@@ -2,7 +2,7 @@
  * 수식어의 영문판(title_en)을 agy(Gemini)로 만든다.
  *
  * title 은 이름 앞에 붙는 짧은 수식어이며 화면에서 단독으로도 읽힌다
- * (celeb-01-02-profile-intro.md 「수식어(title) 작성 가이드」). 한국어를 늘려 설명하는 것이
+ * (celeb-01-03-title.md 「수식어」). 한국어를 늘려 설명하는 것이
  * 아니라, 영어권에서 그 인물에게 실제로 쓰는 호칭이 있으면 그것을 쓴다.
  *
  * 입력: data/celeb/gap-fill/title-en-src.json (slug·nickname·title·headline 을 담은 배열)
@@ -49,8 +49,9 @@ It is a label, not a sentence. It appears alone under a portrait and in front of
 3. Name the role or standing, not an episode from their life. The one-line definition already carries the scene.
 4. Do not copy the one-line definition. This is shorter and different in kind.
 5. Do not use a genre or source label such as "Biblical Figure", "Greek Myth" or "Old Testament". Those fit many people at once. Name what this person was.
-6. Two figures must not get the same epithet. Read the whole list before deciding.
-7. Plain ASCII.
+6. A founder is "X Founder" (company first): "Sony Founder", not "Founder of Sony". Never write "Co-founder"; drop the "Co-".
+7. Two figures must not get the same epithet. Read the whole list before deciding.
+8. Plain ASCII.
 
 ## Output format
 

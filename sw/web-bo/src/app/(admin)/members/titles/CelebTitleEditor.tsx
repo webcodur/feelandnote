@@ -128,7 +128,7 @@ export default function CelebTitleEditor({ celebs }: Props) {
                         onChange={(e) => setEditValue(e.target.value)}
                         onKeyDown={(e) => handleKeyDown(e, celeb.id)}
                         onBlur={() => !saving && saveTitle(celeb.id)}
-                        placeholder="예: 테슬라 창립자"
+                        placeholder="예: 테슬라 설립"
                         disabled={saving}
                         className="flex-1 px-3 py-1.5 bg-bg-secondary border border-accent rounded-lg text-sm text-text-primary placeholder-text-secondary focus:outline-none disabled:opacity-50"
                       />

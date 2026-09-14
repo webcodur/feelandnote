@@ -2,6 +2,10 @@
 
 이 문서는 실존 인물이 각 분야의 변화를 얼마나 인과적으로 만들었는지 평가해 `celeb_influence`에 저장하는 규칙을 쥔다. `celeb_reality`가 `REAL`·`BOTH`인 인물에 적용하고 `FICTION`에는 `celeb_influence` 행을 만들지 않는다. 축 경계는 [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md)를 따른다.
 
+## 처리 모델
+
+영향력 평가·교정은 **Claude, Kimi, SWE-2(Devin) 세 모델 중에서** 맡긴다. 셋은 판정 성향이 같아 인물을 나눠 맡겨도 근거문의 결과 형태가 일정하다. 다른 모델(GPT·Gemini 등)이 섞이면 같은 지시서를 줘도 형태가 바뀐다. 남은 검토 항목은 [`../../todo/celeb/influence-spectrum.md`](../../todo/celeb/influence-spectrum.md)에 있다.
+
 ## BOTH 인물의 근거 층
 
 `celeb_reality='BOTH'`는 사료가 뒷받침하는 층과 전승층을 가려 채점한다. 스펙트럼의 `BOTH_REALITY_EVIDENCE_RULE`과 같은 규칙이되, 영향력은 인물의 자질이 아니라 세상에 생긴 변화를 재므로 한 가지가 다르다.

@@ -780,7 +780,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
             <BilingualInput
               mode={langMode}
               field="title"
-              ko={<input type="text" id="title" value={formData.title} onChange={(e) => handleChange('title', e.target.value)} placeholder="예: 테슬라 창립자, 철의 여인" className={INPUT_CLS} />}
+              ko={<input type="text" id="title" value={formData.title} onChange={(e) => handleChange('title', e.target.value)} placeholder="예: 테슬라 설립, 철의 여인" className={INPUT_CLS} />}
               en={<input type="text" id="title_en" value={formData.title_en} onChange={(e) => handleChange('title_en', e.target.value)} placeholder="EN: e.g. Iron Lady" className={INPUT_EN_CLS} />}
             />
 
