@@ -12,7 +12,7 @@ import {
 // Errors escape this callback so an outage cannot replace a successful cached lookup.
 const getPurchase = unstable_cache(
   (isbn: string) => fetchYes24Purchase(rawFetch, isbn, process.env.YES24_API_KEY ?? ''),
-  ['yes24-purchase-isbn-v2-addon'],
+  ['yes24-purchase-isbn-v3-comics'],
   { revalidate: YES24_PURCHASE_CACHE_SECONDS },
 )
 
