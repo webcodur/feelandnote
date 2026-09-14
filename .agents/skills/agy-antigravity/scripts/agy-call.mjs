@@ -63,6 +63,8 @@ export function agyCall(prompt, opts = {}) {
     const child = spawn(AGY_BIN, args, { cwd: work })
     let out = ''
     let err = ''
+    child.stdout.setEncoding('utf8')
+    child.stderr.setEncoding('utf8')
     let settled = false
     const finish = (callback) => {
       if (settled) return

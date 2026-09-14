@@ -8,6 +8,8 @@
 |---|---|
 | [`ai-notes-index.md`](ai-notes-index.md) | AI 글쓰기·작업 메모 진입점 |
 | [`agent-operations.md`](agent-operations.md) | 모델·에이전트 운영 메모 |
+| [`cli-agent-invocation.md`](cli-agent-invocation.md) | 외부 CLI 에이전트 상호 호출 기법을 외부 공유용 한 장으로 합친 글. 정본은 각 CLI 스킬이 쥔다 |
+| [`browser-chat-automation.md`](browser-chat-automation.md) | 로그인된 브라우저로 구글 AI 모드·ChatGPT를 무료로 무제한 부리는 기법과 실측 |
 | [`ai-writing-style.md`](ai-writing-style.md), [`ai-writing-validation.md`](ai-writing-validation.md) | AI 문체 편집과 생성·검증 하네스 메모 |
 | [`research-rag-automation.md`](research-rag-automation.md) | 검색·RAG·자료 수집 자동화 메모 |
 | [`sds-humanizer-audit-2026-08-09.md`](sds-humanizer-audit-2026-08-09.md) | 외부 Humanizer 도구 감사 기록 |

@@ -126,5 +126,6 @@ agy는 지시가 두루뭉술하면 엉뚱하게 움직인다. **저장 경로·
 |---|---|---|
 | `codex-gpt` | GPT (codex) | `scripts/codex-call.mjs` |
 | `agy-antigravity` | 제미니 (agy) | `scripts/agy-call.mjs` |
+| `devin-swe` | Devin SWE-2 (devin) | `scripts/devin-call.mjs` |
 
 착수 규칙은 `docs/project/agent-rules.md` 「도구」 30~31번이다.

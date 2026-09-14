@@ -11,6 +11,7 @@
 | 저장소 공유 | [shared-repositories.md](./shared-repositories.md) | 대화에서 공유된 AI 문체·문서·에이전트·브라우저·검색 저장소와 용도 |
 | SDS Humanizer 감사 | [sds-humanizer-audit-2026-08-09.md](./sds-humanizer-audit-2026-08-09.md) | 별도 수령한 sds-humanizer v1.9.0의 AI 문체 처리 범위·강점·한계 |
 | 모델·에이전트 운영 | [agent-operations.md](./agent-operations.md) | 모델 역할 분담, 병렬화, 장기 작업, 자동화 경계 |
+| 브라우저 채팅 활용 | [browser-chat-automation.md](./browser-chat-automation.md) | 로그인된 브라우저로 구글 AI 모드·ChatGPT를 무료로 부리는 기법, 막히는 경로, 실측 |
 | 문서·출판 | [document-publishing.md](./document-publishing.md) | HTML·Markdown·DOCX·PDF를 출판물로 만드는 절차 |
 | 개발 도구 | [dev-xray-explain.md](./dev-xray-explain.md) | X-Ray UI와 Explain Mode 구상 |
 | 검색·RAG·자동화 | [research-rag-automation.md](./research-rag-automation.md) | 자료 정규화, 검색·그래프·SEO, 작은 자동화 파이프라인 |
