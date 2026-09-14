@@ -74,7 +74,6 @@ function ExpandCard({
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const href = `/content/${item.content_id}?category=${category}`;
   const coverUrl = item.content.thumbnail_url;
-  const affiliateUrl = locale === "ko" ? getCoupangAffiliateUrl(item.content) : null;
 
   return (
     <>
@@ -134,9 +133,10 @@ function ExpandCard({
               <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
             )}
           </div>
-          {affiliateUrl && (
+          {locale === "ko" && item.content.type === "BOOK" && (
             <AffiliateBookAction
-              url={affiliateUrl}
+              contentId={item.content_id}
+              coupangUrl={getCoupangAffiliateUrl(item.content)}
               showNotice
               className="sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 md:self-start"
             />

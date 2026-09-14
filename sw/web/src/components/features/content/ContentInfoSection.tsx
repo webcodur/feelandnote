@@ -8,7 +8,8 @@
 import { useState, useTransition } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import ContentImage from "@/components/ui/ContentImage";
-import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
+import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
+import { useBookPurchaseLinks } from "@/components/features/commerce/useBookPurchaseLinks";
 import {
   Book,
   Film,
@@ -20,15 +21,12 @@ import {
   Check,
   Loader2,
   Trash2,
-  ExternalLink,
-  ShoppingCart,
   Star,
   Clock,
   ChevronDown,
   ChevronUp,
   Disc,
 } from "lucide-react";
-import { AFFILIATE_PLATFORMS, type AffiliatePlatformKey } from "@/constants/affiliatePlatforms";
 import Button from "@/components/ui/Button";
 import { FormattedText } from "@/components/ui";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
@@ -73,7 +71,6 @@ export default function ContentInfoSection({
   onRecordChange,
 }: ContentInfoSectionProps) {
   const t = useTranslations("contentDetail");
-  const tPurchase = useTranslations("content.coupangPurchaseInfo");
   const tCore = useTranslations("shared.content");
   const tError = useTranslations("actionErrors");
   const locale = useLocale();
@@ -98,9 +95,12 @@ export default function ContentInfoSection({
   const categoryLabel = t(`category.${content.category}`);
 
   /* 제휴 판매처 */
-  const affiliateLinks = (content.affiliateLinks ?? []).filter((link) => {
-    const platform = AFFILIATE_PLATFORMS[link.platform as AffiliatePlatformKey];
-    return platform?.locale === locale;
+  const affiliateLinks = useBookPurchaseLinks({
+    contentId: content.id,
+    locale,
+    isBook: content.type === "BOOK",
+    editionId: content.purchaseEditionId,
+    existingLinks: content.affiliateLinks,
   });
 
   // #region 핸들러
@@ -277,35 +277,7 @@ export default function ContentInfoSection({
           </div>
 
           {/* PC 전용: 포스터 아래 제휴 구매 링크 */}
-          {affiliateLinks.length > 0 && (
-            <div className="hidden sm:flex flex-col gap-2 w-full pt-1">
-              {affiliateLinks.map((link) => {
-                const platform = AFFILIATE_PLATFORMS[link.platform as AffiliatePlatformKey];
-                if (!platform) return null;
-                return (
-                  <div key={link.platform} className="group/coupang-buy relative rounded-xl text-white" style={{ backgroundColor: link.platform === "coupang" ? platform.color : undefined }}>
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow sponsored"
-                      className={`flex min-w-0 w-full items-center justify-center gap-1.5 py-2.5 text-white font-semibold rounded-xl shadow-md active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${link.platform === "coupang" ? "border border-white/20 px-10 text-base group-hover/coupang-buy:border-red-200 group-hover/coupang-buy:bg-white/20" : "px-2 text-sm hover:brightness-110"}`}
-                      style={{ backgroundColor: link.platform === "coupang" ? undefined : platform.color }}
-                    >
-                      {link.platform !== "coupang" && <ShoppingCart size={13} />}
-                      <span>{link.platform === "coupang" ? tPurchase("buy") : t("buyAt", { platform: platform.label })}</span>
-                      {link.platform !== "coupang" && <ExternalLink size={12} />}
-                    </a>
-                    {link.platform === "coupang" && <CoupangPurchaseInfo className="absolute end-1 top-1/2 -translate-y-1/2" />}
-                  </div>
-                );
-              })}
-              {affiliateLinks.some((l) => l.platform === "coupang") && (
-                <p className="text-[10px] text-center text-text-secondary/70">
-                  {AFFILIATE_PLATFORMS.coupang.notice}
-                </p>
-              )}
-            </div>
-          )}
+          <BookPurchaseLinks links={affiliateLinks} className="hidden sm:block w-full pt-1" />
         </div>
 
         {/* 우측 메인 영역: 제목, 인라인 메타, 클린 소개 줄거리, 액션 바 */}
@@ -517,37 +489,7 @@ export default function ContentInfoSection({
       </div>
 
       {/* 모바일 전용: 하단 제휴 구매 링크 */}
-      {affiliateLinks.length > 0 && (
-        <div className="sm:hidden space-y-2 pt-1">
-          <div className="flex flex-col gap-2">
-            {affiliateLinks.map((link) => {
-              const platform = AFFILIATE_PLATFORMS[link.platform as AffiliatePlatformKey];
-              if (!platform) return null;
-              return (
-                <div key={link.platform} className="group/coupang-buy relative rounded-xl text-white" style={{ backgroundColor: link.platform === "coupang" ? platform.color : undefined }}>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer nofollow sponsored"
-                    className={`flex min-w-0 w-full items-center justify-center gap-2 py-3 text-white font-semibold rounded-xl shadow-md active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${link.platform === "coupang" ? "border border-white/20 px-10 text-base group-hover/coupang-buy:border-red-200 group-hover/coupang-buy:bg-white/20" : "px-4 text-sm hover:brightness-110"}`}
-                    style={{ backgroundColor: link.platform === "coupang" ? undefined : platform.color }}
-                  >
-                    {link.platform !== "coupang" && <ShoppingCart size={15} />}
-                    <span>{link.platform === "coupang" ? tPurchase("buy") : t("buyAt", { platform: platform.label })}</span>
-                    {link.platform !== "coupang" && <ExternalLink size={14} />}
-                  </a>
-                  {link.platform === "coupang" && <CoupangPurchaseInfo className="absolute end-1 top-1/2 -translate-y-1/2" />}
-                </div>
-              );
-            })}
-          </div>
-          {affiliateLinks.some((l) => l.platform === "coupang") && (
-            <p className="text-[10px] text-center text-text-secondary/70">
-              {AFFILIATE_PLATFORMS.coupang.notice}
-            </p>
-          )}
-        </div>
-      )}
+      <BookPurchaseLinks links={affiliateLinks} className="sm:hidden pt-1" />
 
       {/* 5. 영상 전용: 출연진 (Cast) 캡슐 칩 리스트 */}
       {isMovieOrTv && metadata?.cast && metadata.cast.length > 0 && (

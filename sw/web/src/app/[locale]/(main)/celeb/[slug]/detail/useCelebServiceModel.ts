@@ -95,7 +95,7 @@ export function useCelebServiceModel({
     dialogueVoice: hasDialogues && hasVoice,
     influence: sideAvailability.influence,
     spectrum: sideAvailability.spectrum,
-    sourceWorks: figureBooks.some((book) => book.relationType === "appearance"),
+    sourceWorks: figureBooks.some((book) => book.relationType === "appearance" || book.relationType === "related"),
     library: initialContents.items.length > 0 || authoredBooks.length > 0,
   };
 
@@ -105,13 +105,13 @@ export function useCelebServiceModel({
     availability,
   });
 
-  // 페이지末 후행 구획(이어지는 인물·관련 상품)은 본문 목차 밖에 있어
-  // 따로 붙인다. 장 번호는 매기지 않는다(히어로는 앞 두 항목만 쓴다).
+  // 관련 인물·참고도서는 페이지 끝에 둔다.
+  // 장 번호는 매기지 않는다(히어로는 앞 두 항목만 쓴다).
   const t = useTranslations("celebPage");
   const items = useMemo(() => {
-    const trailing: ServiceItem[] = [];
+    const ordered: ServiceItem[] = [...baseItems];
     if (sideAvailability.relatedFigures) {
-      trailing.push({
+      ordered.push({
         key: "relatedFigures",
         chapter: "",
         label: t("relatedLinksTitle"),
@@ -121,7 +121,7 @@ export function useCelebServiceModel({
       });
     }
     if (sideAvailability.affiliateBooks) {
-      trailing.push({
+      ordered.push({
         key: "affiliateBooks",
         chapter: "",
         label: t("relatedProducts"),
@@ -130,7 +130,7 @@ export function useCelebServiceModel({
         target: { sectionId: "affiliate-books" },
       });
     }
-    return trailing.length > 0 ? [...baseItems, ...trailing] : baseItems;
+    return ordered;
   }, [baseItems, sideAvailability.relatedFigures, sideAvailability.affiliateBooks, t]);
 
   const widestSectionLabel = useMemo(

@@ -53,11 +53,15 @@
       "genresLabel": "Genres",
       "badgeShort": "Intro"
     },
-    "coupangPurchaseInfo": {
-      "trigger": "About Coupang purchases",
-      "title": "Coupang purchases",
-      "buy": "Buy on Coupang",
-      "decision": "We use Coupang affiliate links for books whose effective purchase price, including rewards and shipping fees, is equal to or lower than at other bookstores."
+    "purchase": {
+      "buyAt": "Buy at {platform}",
+      "buy": "Buy book",
+      "viewAt": "View on {platform}"
+    },
+    "purchaseInfo": {
+      "trigger": "Purchase information",
+      "title": "Purchase information",
+      "notice": "Feel & Note may earn a commission from YES24 or Coupang when you buy through these links."
     }
   },
   "contentDetail": {

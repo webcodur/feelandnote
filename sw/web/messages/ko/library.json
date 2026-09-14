@@ -41,7 +41,7 @@
       "curated": "대학과 언론사, 시상 기관이 직접 고른 목록입니다.",
       "exploreCurated": "선정 목록 보기",
       "popularLabel": "인기 작품",
-      "popular": "서점 베스트셀러와 매체별 인기 목록을 주간 수집해 소개합니다."
+      "popular": "예스24의 일별 도서 판매 순위와 인물들이 선택한 고전을 살펴보세요."
     },
     "meta": {
       "title": "작품 - 셀럽 추천 도서·영화 아카이브",
@@ -409,46 +409,37 @@
       "viewByKind": "기관별",
       "viewByTopic": "주제별",
       "backToLibrary": "작품으로",
-      "overview": "개요"
+      "overview": "개요",
+      "purchasePending": "구매 링크 없음"
     },
     "popular": {
-      "metaTitle": "인기 작품 - 주간 수집 목록과 불후의 고전",
-      "metaDescription": "서점 베스트셀러와 매체별 인기 목록, 인물들이 많이 감상한 고전을 출처와 함께 살펴보세요.",
+      "metaTitle": "인기 작품 - 지금 많이 팔리는 책과 불후의 고전",
+      "metaDescription": "예스24의 일별 도서 판매 순위와 인물들이 많이 감상한 고전을 살펴보세요. 판매 순위의 기준일과 출처를 함께 표시합니다.",
       "title": "인기 작품",
       "description": "수많은 위인과 사상가들의 선택을 받은 불후의 고전 명작입니다.",
-      "descBestseller": "서점과 매체별 인기 목록을 주간 수집해 소개합니다.",
-      "criteriaCatAll": "알라딘 종합 베스트셀러 목록",
-      "criteriaCatHumanities": "알라딘 인문 분야 베스트셀러 목록",
-      "criteriaCatBusiness": "알라딘 경제경영 분야 베스트셀러 목록",
-      "criteriaCatFiction": "알라딘 소설·시 분야 베스트셀러 목록",
-      "criteriaCatSteady": "알라딘 스테디셀러 목록",
-      "criteriaMediaAll": "도서·영상·게임·음악 목록에서 각각 골라 모았습니다. 통합 순위가 아닙니다.",
-      "criteriaVideo": "TMDB 주간 트렌딩 영화·시리즈 목록",
-      "criteriaGame": "Steam 최다 판매 게임 목록",
-      "criteriaMusic": "Apple Music 한국 최다 재생 곡 차트",
+      "descBestseller": "예스24의 일별 종합 베스트셀러를 소개합니다.",
       "criteriaBasisAll": "feelandnote 등록 인물들의 누적 추천 및 감상 기록 수 기준",
       "criteriaBasisEra": "해당 시대(고대·중세·근대·현대) 인물들의 누적 감상 수 기준",
       "criteriaBasisProfession": "해당 직군 인물들의 누적 감상 수 기준",
-      "tabBestseller": "주간 수집",
+      "tabBestseller": "베스트셀러",
       "tabClassics": "불후의 명작",
       "basisAll": "전체",
       "basisEra": "시대별",
       "basisProfession": "직군별",
       "empty": "아직 작품이 없습니다.",
-      "chips": {
-        "ALL": "종합 베스트",
-        "HUMANITIES": "인문",
-        "BUSINESS": "경제경영",
-        "FICTION": "소설·시",
-        "STEADY": "스테디셀러"
-      },
       "freshness": {
-        "schedule": "주간 수집",
-        "updated": "수집일 {date}",
-        "unknownDate": "수집일 정보 없음",
+        "scope": "예스24 · 일별 종합",
+        "basisDate": "{date} 기준",
+        "updated": "{date} 확인",
+        "unknownDate": "순위 기준일 정보 없음",
         "delayed": "갱신 지연",
         "source": "출처"
-      }
+      },
+      "chartTitle": "지금 많이 팔리는 책",
+      "chartEmpty": "판매 순위를 준비하고 있습니다.",
+      "rank": "{rank}위",
+      "viewAtStore": "서점에서 보기",
+      "newTab": "새 탭에서 열림"
     }
   }
 }

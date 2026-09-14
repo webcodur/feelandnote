@@ -57,6 +57,7 @@ export interface MythPerson {
 
 export interface MythWork {
   id: string;
+  editionId?: number;
   title: string;
   creator: string | null;
   thumbnailUrl: string | null;

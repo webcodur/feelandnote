@@ -52,6 +52,8 @@ export interface ContentDetailData {
     category: CategoryId
     metadata?: Record<string, unknown> | null
     affiliateLinks?: AffiliateLink[]
+    /** 현재 표시한 판본과 구매 링크 조회의 ISBN을 일치시킨다. */
+    purchaseEditionId?: number
   }
   userRecord: {
     id: string
@@ -274,6 +276,7 @@ async function fetchContentDataPublic(
       type: dbContent.type as ContentType,
       category: categoryId,
       metadata: dbMetadata,
+      purchaseEditionId: sourceEdition?.id,
       affiliateLinks: dbContent.is_figure_book
         // 구매처가 없는 판본도 책장에 서므로 링크가 실제로 있을 때만 내보낸다.
         ? sourceEdition?.platform && sourceEdition.purchaseUrl
@@ -314,7 +317,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-selected-book-intro-v10-source', contentId, category ?? '', locale],
+    ['content-data-public-selected-book-intro-v11-purchase-edition', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
 

@@ -1,13 +1,12 @@
 "use client";
 
+import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { BookOpenText, ExternalLink } from "lucide-react";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import ContentImage from "@/components/ui/ContentImage";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
-import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
-import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
 
@@ -78,23 +77,28 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
           </select>
         </div>
       )}
-      {edition?.purchaseUrl && (
+      {locale === "ko" && book.type === "BOOK" && (
+        <AffiliateBookAction
+          contentId={book.id}
+          editionId={edition?.id}
+          coupangUrl={edition?.platform === "coupang" ? edition.purchaseUrl : null}
+          showNotice
+          className="px-3 pb-3"
+        />
+      )}
+      {locale !== "ko" && edition?.purchaseUrl && (
         <div className="px-3 pb-3">
-          <div className="group/coupang-buy relative inline-flex">
+          <div className="inline-flex">
             <a
               href={edition.purchaseUrl}
               target="_blank"
               rel="noopener noreferrer nofollow sponsored"
-              className={`inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg border border-accent/30 py-2 font-medium text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${edition.platform === "coupang" ? "px-10 text-base group-hover/coupang-buy:border-accent group-hover/coupang-buy:bg-accent/20" : "px-3 text-xs hover:border-accent hover:bg-accent/10"}`}
+              className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-accent/30 px-3 py-2 text-sm font-medium text-accent hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              {t(edition.platform === "amazon" ? "sourceWorkBuyAmazon" : "sourceWorkBuyCoupang")}
-              {edition.platform !== "coupang" && <ExternalLink size={12} aria-hidden />}
+              {t("sourceWorkBuyAmazon")}
+              <ExternalLink size={12} aria-hidden />
             </a>
-            {edition.platform === "coupang" && <CoupangPurchaseInfo className="absolute end-1 top-1/2 -translate-y-1/2 text-accent" />}
           </div>
-          {edition.platform === "coupang" && (
-            <p className="mt-2 text-xs leading-relaxed text-text-tertiary">{AFFILIATE_PLATFORMS.coupang.notice}</p>
-          )}
         </div>
       )}
     </article>

@@ -4,7 +4,7 @@ import AffiliateBookList from './AffiliateBookList'
 
 /**
  * 제휴 링크가 걸린 도서 구획.
- * 쿠팡은 국내 전용이라 한국어 화면에서만 그린다. 링크가 하나도 없으면 구획 자체를 접는다.
+ * 기존 한국어 구매 도서를 보여준다. 링크가 하나도 없으면 구획 자체를 접는다.
  */
 export default async function PopularBooks() {
   const locale = await getLocale()
@@ -19,7 +19,7 @@ export default async function PopularBooks() {
     <AffiliateBookList
       books={books}
       heading={t('title')}
-      buyLabel={t('buyOnCoupang')}
+      buyLabel={t('buy')}
       detailLabel={t('viewBookDetails')}
     />
   )

@@ -1,89 +1,154 @@
 import type { BestsellerItem } from '@/actions/library/types'
-import { BESTSELLER_CATEGORY_KEYS as CATEGORY_KEYS, BOOK_CHARTS, validBestsellerItems } from './bestsellerPolicy.mjs'
 
-export const BESTSELLER_FEED_URL = 'https://raw.githubusercontent.com/webcodur/feelandnote/main/sw/web/src/constants/library/bestsellers.json'
-export const BESTSELLER_REVALIDATE_SECONDS = 3600
-const STALE_AFTER_MS = 8 * 24 * 60 * 60 * 1000
-
-interface LocaleDataset {
-  categories: Record<string, BestsellerItem[]>
-  category_updated_at?: Record<string, string>
+export const APPLE_BOOKS_FEED_URL = 'https://rss.marketingtools.apple.com/api/v2/us/books/top-paid/20/books.json'
+export const CHART_CACHE_SECONDS = { ko: 24 * 3600, en: 3600 } as const
+export const CHART_MAX_AGE_MS = 48 * 3600_000
+const MAX_BYTES = 1_000_000
+const LIMIT = 20
+type JsonObject = { [key: string]: unknown }
+export interface BookChart {
+  items: BestsellerItem[]
+  updatedAt: string
+  fetchedAt: string
+  basisDate?: string
+  sources: { name: string; url: string }[]
 }
-export interface BestsellerFeed {
-  updated_at: string
-  ko: LocaleDataset
-  en: LocaleDataset
+export interface BookChartSelection extends Omit<BookChart, 'fetchedAt'> {
+  isStale: boolean
+  status: 'ready' | 'unavailable'
 }
-
-const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value)
-const validDate = (value: unknown): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value)) && Date.parse(value) <= Date.now() + 60_000
-
-// 공개 파일도 잘못된 수집 결과일 수 있다. 검증 실패는 캐시에 저장하지 않는다.
-export function parseBestsellerFeed(value: unknown): BestsellerFeed {
-  if (!isRecord(value) || !validDate(value.updated_at)) throw new Error('Invalid bestseller publication date')
-  for (const locale of ['ko', 'en']) {
-    const dataset = value[locale]
-    if (!isRecord(dataset) || !isRecord(dataset.categories)) throw new Error(`Missing bestseller locale: ${locale}`)
-    const dates = dataset.category_updated_at
-    if (dates !== undefined && !isRecord(dates)) throw new Error('Invalid bestseller category dates')
-    for (const key of CATEGORY_KEYS) {
-      const items = dataset.categories[key]
-      if (!validBestsellerItems(items)) throw new Error(`Invalid bestseller category: ${locale}/${key}`)
-      if (dates && !validDate(dates[key])) throw new Error(`Invalid bestseller date: ${locale}/${key}`)
-    }
+const sources = {
+  ko: [{ name: 'YES24', url: 'https://www.yes24.com/product/category/daybestseller?categoryNumber=001' }],
+  en: [{ name: 'Apple Books · US', url: 'https://books.apple.com/us/charts/top-paid' }],
+}
+const object = (value: unknown): JsonObject => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Invalid chart object')
+  return value as JsonObject
+}
+const text = (value: unknown, limit = 1000): string => {
+  if (typeof value !== 'string' || !value.trim() || value.length > limit) throw new Error('Invalid chart text')
+  return value.trim()
+}
+function safeUrl(value: unknown, allowed: (url: URL) => boolean): string {
+  const url = new URL(text(value, 2048))
+  if (url.protocol !== 'https:' || url.username || url.password || url.port || !allowed(url)) throw new Error('Invalid chart URL')
+  return url.href
+}
+function coverUrl(value: unknown, allowed: (url: URL) => boolean): string | null {
+  if (typeof value !== 'string' || !value.trim()) return null
+  const url = new URL(value)
+  if (url.protocol !== 'https:' || url.username || url.password || url.port) throw new Error('Invalid chart URL')
+  return allowed(url) ? safeUrl(value, allowed) : null
+}
+const creator = (value: unknown): string => typeof value === 'string' && value.trim() ? text(value) : ''
+function appleCover(value: unknown): string | null {
+  return coverUrl(value, url => /^is\d+-ssl\.mzstatic\.com$/.test(url.hostname))
+    ?.replace(/\/\d+x\d+bb\.(?:jpg|png)$/, '/300x450bb.jpg') ?? null
+}
+function timestamp(value: unknown, now: number): string {
+  const date = Date.parse(text(value))
+  if (!Number.isFinite(date) || date > now + 300_000 || now - date > CHART_MAX_AGE_MS) throw new Error('Invalid chart date')
+  return new Date(date).toISOString()
+}
+export function previousKoreanDate(now = Date.now()): string {
+  return new Date(now + 9 * 3600_000 - 24 * 3600_000).toISOString().slice(0, 10)
+}
+export function yes24ChartEnabled(env: { YES24_API_KEY?: string; YES24_CHARTS_ENABLED?: string; NODE_ENV?: string }): boolean {
+  return Boolean(env.YES24_API_KEY?.trim()) && (env.NODE_ENV === 'development' || env.YES24_CHARTS_ENABLED === 'true')
+}
+function rows(value: unknown): JsonObject[] {
+  if (!Array.isArray(value) || !value.length || value.length > 100) throw new Error('Invalid chart items')
+  return value.map(object)
+}
+function unique(items: BestsellerItem[]): BestsellerItem[] {
+  for (const field of ['id', 'rank'] as const) {
+    const values = items.map(item => item[field]).filter(value => value !== null)
+    if (new Set(values).size !== values.length) throw new Error('Duplicate chart item')
   }
-  return value as unknown as BestsellerFeed
+  return items.slice(0, LIMIT)
 }
+const baseItem = { publisher: null, published_date: null, isbn: null, description: null, type: 'BOOK', category_key: 'ALL' }
 
-export async function fetchBestsellerFeed(fetcher: typeof fetch): Promise<BestsellerFeed> {
-  const response = await fetcher(BESTSELLER_FEED_URL, {
-    signal: AbortSignal.timeout(8000), headers: { Accept: 'application/json' },
+export function parseYes24Chart(value: unknown, basisDate: string, now = Date.now()): BookChart {
+  if (basisDate !== previousKoreanDate(now)) throw new Error('Invalid chart basis date')
+  const root = object(value)
+  if (root.success !== true || root.errorCode) throw new Error('YES24 chart request rejected')
+  const data = object(root.data)
+  const meta = object(data.meta)
+  const apiLink = safeUrl(meta.apiLink, url => url.hostname === 'apis.yes24.com' && url.pathname === '/v1/category/bestsellerDaily')
+  const queryDate = new URL(apiLink).searchParams.get('date')
+  if (queryDate && queryDate !== basisDate) throw new Error('Chart basis date mismatch')
+  const updatedAt = timestamp(meta.pubDate, now)
+  const items = rows(data.items).map(row => {
+    const itemId = String(row.itemId)
+    if (!/^\d+$/.test(itemId) || !Number.isSafeInteger(row.sortOrder) || Number(row.sortOrder) < 1) throw new Error('Invalid chart identity')
+    const isbn = typeof row.isbn13 === 'string' && /^97[89]\d{10}$/.test(row.isbn13) ? row.isbn13 : null
+    if (row.goodsType !== '도서') throw new Error('Invalid chart book')
+    return { ...baseItem, id: `yes24-${itemId}`, rank: Number(row.sortOrder), title: text(row.title), creator: creator(row.author), isbn,
+      thumbnail_url: coverUrl(row.cover, url => url.hostname === 'image.yes24.com'),
+      source_url: safeUrl(row.link, url => url.hostname === 'www.yes24.com' && url.pathname.toLowerCase() === `/product/goods/${itemId}`),
+    }
   })
-  if (!response.ok) throw new Error(`Bestseller feed HTTP ${response.status}`)
-  const text = await response.text()
-  if (text.length > 2_000_000) throw new Error('Bestseller feed exceeds size limit')
-  return parseBestsellerFeed(JSON.parse(text))
+  if (items.some((item, index) => index > 0 && item.rank <= items[index - 1].rank)) throw new Error('Invalid chart order')
+  return { items: unique(items), updatedAt, basisDate, fetchedAt: new Date(now).toISOString(), sources: sources.ko }
 }
 
-function sourceFor(locale: 'ko' | 'en', key: string) {
-  if (key === 'VIDEO') return { name: 'TMDB', url: 'https://www.themoviedb.org/trending/all/week' }
-  if (key === 'GAME') return { name: 'Steam', url: 'https://store.steampowered.com/charts/topselling/global' }
-  if (key === 'MUSIC') return { name: 'Apple Music', url: `https://music.apple.com/${locale === 'ko' ? 'kr' : 'us'}/browse/top-charts` }
-  if (locale === 'ko') {
-    const cid = (BOOK_CHARTS as Record<string, { cid: string }>)[key]?.cid ?? '0'
-    return { name: '알라딘', url: `https://www.aladin.co.kr/shop/common/wbest.aspx?BestType=${key === 'STEADY' ? 'SteadySeller' : 'Bestseller'}&BranchType=1&CID=${cid}` }
-  }
-  const subject = (BOOK_CHARTS as Record<string, { subject?: string }>)[key]?.subject
-  return { name: 'Open Library', url: subject ? `https://openlibrary.org/subjects/${subject}` : 'https://openlibrary.org/trending/weekly' }
-}
-
-// CDN 전파 지연이나 오래된 공개본 때문에 번들에 든 최신 목록으로부터 되돌아가지 않는다.
-export function mergeBestsellerFeeds(published: BestsellerFeed, bundled: BestsellerFeed): BestsellerFeed {
-  const merged = structuredClone(published)
-  for (const locale of ['ko', 'en'] as const) {
-    merged[locale].category_updated_at ??= {}
-    for (const key of CATEGORY_KEYS) {
-      const publishedDate = published[locale].category_updated_at?.[key] ?? published.updated_at
-      const bundledDate = bundled[locale].category_updated_at?.[key] ?? bundled.updated_at
-      if (Date.parse(bundledDate) > Date.parse(publishedDate)) {
-        merged[locale].categories[key] = bundled[locale].categories[key]
-        merged[locale].category_updated_at[key] = bundledDate
-      }
+export function parseAppleBooksChart(value: unknown, now = Date.now()): BookChart {
+  const feed = object(object(value).feed)
+  if (feed.id !== APPLE_BOOKS_FEED_URL || feed.country !== 'us') throw new Error('Invalid Apple Books chart')
+  const updatedAt = timestamp(feed.updated, now)
+  const items = rows(feed.results).map((row, index) => {
+    const id = text(row.id)
+    if (!/^\d+$/.test(id) || row.kind !== 'books') throw new Error('Invalid chart book')
+    return { ...baseItem, id: `apple-books-${id}`, rank: index + 1, title: text(row.name), creator: creator(row.artistName),
+      thumbnail_url: appleCover(row.artworkUrl100),
+      source_url: safeUrl(row.url, url => url.hostname === 'books.apple.com' && url.pathname.startsWith('/us/book/') && url.pathname.endsWith(`/id${id}`)),
     }
-  }
-  return merged
+  })
+  return { items: unique(items), updatedAt, fetchedAt: new Date(now).toISOString(), sources: sources.en }
 }
 
-export function selectBestsellers(data: BestsellerFeed, category: string, locale: string, now = Date.now()) {
-  const lang = locale.toLowerCase().startsWith('en') ? 'en' : 'ko'
-  const dataset = data[lang]
-  const key = CATEGORY_KEYS.includes(category as typeof CATEGORY_KEYS[number]) ? category : 'ALL'
-  const keys = category === 'MEDIA_ALL' ? ['ALL', 'VIDEO', 'GAME', 'MUSIC'] : [key]
-  const items = keys.flatMap(k => category === 'MEDIA_ALL' ? dataset.categories[k].slice(0, 6) : dataset.categories[k])
-  const dates = keys.map(k => dataset.category_updated_at?.[k] ?? data.updated_at)
-  const updatedAt = dates.reduce((oldest, date) => Date.parse(date) < Date.parse(oldest) ? date : oldest)
-  return {
-    items, updatedAt, sources: keys.map(k => sourceFor(lang, k)),
-    isStale: now - Date.parse(updatedAt) > STALE_AFTER_MS,
+async function fetchJson(fetcher: typeof fetch, url: string, headers: HeadersInit): Promise<unknown> {
+  const response = await fetcher(url, { headers, signal: AbortSignal.timeout(15_000), redirect: 'error' })
+    .catch(() => { throw new Error('Book chart network request failed') })
+  if (!response.ok) throw new Error(`Book chart HTTP ${response.status}`)
+  if (!response.headers.get('content-type')?.includes('application/json')) throw new Error('Invalid chart content type')
+  if (Number(response.headers.get('content-length')) > MAX_BYTES) throw new Error('Chart exceeds size limit')
+  if (!response.body) throw new Error('Empty chart response')
+  const reader = response.body.getReader()
+  const chunks: Uint8Array[] = []
+  let size = 0
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      size += value.byteLength
+      if (size > MAX_BYTES) { await reader.cancel(); throw new Error('Chart exceeds size limit') }
+      chunks.push(value)
+    }
+  } catch { throw new Error(size > MAX_BYTES ? 'Chart exceeds size limit' : 'Chart response interrupted') }
+  finally { reader.releaseLock() }
+  const bytes = new Uint8Array(size)
+  let offset = 0
+  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length }
+  return JSON.parse(new TextDecoder().decode(bytes))
+}
+export async function fetchYes24Chart(fetcher: typeof fetch, apiKey: string, basisDate: string, now = Date.now()): Promise<BookChart> {
+  if (!apiKey.trim()) throw new Error('YES24 chart key missing')
+  if (basisDate !== previousKoreanDate(now)) throw new Error('Invalid chart basis date')
+  const url = new URL('https://apis.yes24.com/v1/category/bestsellerDaily')
+  url.search = new URLSearchParams({ categoryId: '001', date: basisDate, page: '1', pageSize: String(LIMIT), detail: 'N' }).toString()
+  return parseYes24Chart(await fetchJson(fetcher, url.href, { Accept: 'application/json', 'X-Api-Key': apiKey }), basisDate, now)
+}
+export async function fetchAppleBooksChart(fetcher: typeof fetch, now = Date.now()): Promise<BookChart> {
+  return parseAppleBooksChart(await fetchJson(fetcher, APPLE_BOOKS_FEED_URL, { Accept: 'application/json' }), now)
+}
+export function selectBookChart(chart: BookChart | null, locale: 'ko' | 'en', now = Date.now()): BookChartSelection {
+  const age = chart ? Math.max(now - Date.parse(chart.updatedAt), now - Date.parse(chart.fetchedAt)) : Infinity
+  const basisAge = chart?.basisDate ? now - Date.parse(`${chart.basisDate}T23:59:59+09:00`) : 0
+  if (!chart || !Number.isFinite(age) || age > CHART_MAX_AGE_MS || basisAge > CHART_MAX_AGE_MS) {
+    return { items: [], updatedAt: '', sources: sources[locale], isStale: false, status: 'unavailable' }
   }
+  return { items: chart.items, updatedAt: chart.updatedAt, basisDate: chart.basisDate, sources: chart.sources,
+    isStale: age > CHART_CACHE_SECONDS[locale] * 1000, status: 'ready' }
 }

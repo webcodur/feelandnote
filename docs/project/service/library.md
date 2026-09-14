@@ -24,7 +24,7 @@
 | 경로 | 역할 | 데이터 출처 |
 |---|---|---|
 | `/library` | 허브. 하위 4개 미리보기를 쌓는다 | `getBestsellers`, `getCuratedHub`, `getAcademyLessonProgressState` |
-| `/library/popular` | **인기 작품.** 주간 베스트셀러 및 불후의 고전(시대·직군)을 2-Track으로 본다 | `getBestsellers`, `getChosenLibrary`, `getProfessionContentCounts` |
+| `/library/popular` | **인기 작품.** 판매처의 도서 순위와 불후의 고전(시대·직군)을 본다 | `getBestsellers`, `getChosenLibrary`, `getProfessionContentCounts` |
 | `/library/curated` | **기관 선정 허브.** 대학·언론·시상 기관이 발표한 목록 | `getCuratedHub` |
 | `/library/curated/[curator]` · `/[curator]/[list]` | 기관 상세 · 목록 상세 | `actions/library/curated.ts` |
 | `/library/museum` | 박물관. 매체 역사 전시 | `constants/libraryMuseum.ts` (정적 JSON) |
@@ -74,9 +74,9 @@
 
 ## 인기 작품 갱신
 
-허브와 `/library/popular`는 주간 수집 목록과 실제 수집일·출처를 함께 보여준다. 한영 도서와 매체별 목록은 각 원천 기준을 따르며, 영문 분야별 도서는 OpenLibrary 주제 목록이다. 전체 매체 보기는 서로 다른 목록을 모은 것이며 통합 순위가 아니다.
+허브와 `/library/popular`는 한국어에서 예스24 전일 베스트셀러, 영문에서 미국 Apple Books 유료 전자책 차트를 보여준다. 한국어는 순위 기준일, 영문은 확인 시각과 출처를 표시한다. 미국 전체 도서 시장이나 실시간 판매량으로 표현하지 않는다. 순위 카드는 원본 판매처로 이동하며, 외부 차트 메타를 DB에 등록하지 않는다. 불후의 명작은 기존 내부 작품 카드와 시대·직군·매체 필터를 유지한다.
 
-`actions/library/bestsellers.ts`는 공개된 JSON을 서버 캐시로 읽어 웹 배포 없이 목록을 갱신한다. 수집 실패한 분류는 이전 목록과 날짜를 유지하고 지연 여부를 표시한다. `BestsellerFreshness`가 한영 표시를 공유하며 필터 변경 시 목록·출처·수집일을 함께 바꾼다. 수집기·게시·실패 처리의 운영 규칙은 [외부 서비스](../platform/external-services.md)의 서가 인기 작품 항목, 허용값과 임계값은 `lib/library/bestsellerPolicy.mjs`·`bestsellerFeed.ts`를 따른다.
+`actions/library/bestsellers.ts`가 공식 API·피드를 서버 캐시로 읽고 `lib/library/bestsellerFeed.ts`가 검증과 유효기간을 담당한다. 이용할 수 없는 목록은 준비 중으로 표시하며 오래된 수집 파일로 대체하지 않는다. `BookChartGrid`와 `BestsellerFreshness`를 허브·상세에서 공유한다. 예스24 활성화 조건과 발급처는 [환경변수](../platform/env-vars.md), 공급처 운영 조건은 [외부 서비스](../platform/external-services.md)를 따른다.
 
 ## 박물관 구조
 

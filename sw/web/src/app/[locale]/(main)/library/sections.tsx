@@ -28,11 +28,7 @@ export async function PopularSection() {
     return <RetryBlock />;
   }
 
-  if (data.items.length === 0) {
-    const t = await getTranslations("pending");
-    return <p className={EMPTY_CLASS}>{t("empty")}</p>;
-  }
-  return <PopularPreview items={data.items.slice(0, 6)} updatedAt={data.updatedAt} sources={data.sources} isStale={data.isStale} />;
+  return <PopularPreview {...data} items={data.items.slice(0, 6)} />;
 }
 
 export async function CuratedSection() {

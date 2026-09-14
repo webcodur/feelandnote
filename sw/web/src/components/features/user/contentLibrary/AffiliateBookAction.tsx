@@ -1,16 +1,19 @@
 "use client";
 
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { memo } from "react";
 import { useTranslations } from "next-intl";
 
-import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
+import { AFFILIATE_PLATFORMS, BOOK_PURCHASE_BUTTON_STYLES } from "@/constants/affiliatePlatforms";
+import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
 import { cn } from "@/lib/utils";
-import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
 
 interface AffiliateBookActionProps {
   className?: string;
   showNotice?: boolean;
-  url: string;
+  contentId: string;
+  editionId?: number;
+  coupangUrl?: string | null;
   /** 격자 카드 아래처럼 폭이 좁은 자리에 맞춘 작은 단추 */
   compact?: boolean;
 }
@@ -18,39 +21,46 @@ interface AffiliateBookActionProps {
 function AffiliateBookAction({
   className,
   showNotice = false,
-  url,
+  contentId,
+  editionId,
+  coupangUrl,
   compact = false,
 }: AffiliateBookActionProps) {
-  const t = useTranslations("popularBooks");
+  const t = useTranslations("content.purchase");
+  const hasCoupang = !!coupangUrl && coupangUrl.startsWith("https://");
+  const buttonClass = "flex min-h-11 min-w-0 items-center justify-center px-2 py-2 text-center text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset";
 
   return (
     <div className={cn("min-w-0", className)} data-testid="content-affiliate-action">
-      <div className="group/coupang-buy relative">
+      <div className={cn(
+        "grid overflow-hidden border border-white/15 divide-x divide-white/15",
+        compact ? "rounded-md" : "rounded-lg",
+        hasCoupang ? "grid-cols-2" : "grid-cols-1",
+      )}>
         <a
-          href={url}
+          href={getBookPurchaseHref(contentId, editionId, "yes24")}
           target="_blank"
           rel="noopener noreferrer nofollow sponsored"
           data-testid="content-affiliate-link"
           onClick={(event) => event.stopPropagation()}
-          className={cn(
-            "flex w-full items-center justify-center border border-red-400/35 bg-red-400/[0.08] font-semibold text-red-100 group-hover/coupang-buy:border-red-300/80 group-hover/coupang-buy:bg-red-400/25 active:bg-red-400/[0.22] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300/70",
-            compact ? "min-h-8 rounded-md px-8 py-1 text-[12px]" : "rounded-lg px-10 py-2.5 text-base",
-          )}
+          className={cn(buttonClass, BOOK_PURCHASE_BUTTON_STYLES.yes24)}
         >
-          <span>{t("buyOnCoupang")}</span>
+          {hasCoupang ? "YES24" : t("viewAt", { platform: "YES24" })}
         </a>
-        <CoupangPurchaseInfo
-          compact={compact}
-          className={cn("absolute top-1/2 -translate-y-1/2 text-red-100", compact ? "end-0" : "end-1")}
-        />
+        {hasCoupang && (
+          <a
+            href={coupangUrl}
+            target="_blank"
+            rel="noopener noreferrer nofollow sponsored"
+            onClick={(event) => event.stopPropagation()}
+            className={cn(buttonClass, BOOK_PURCHASE_BUTTON_STYLES.coupang)}
+          >
+            {AFFILIATE_PLATFORMS.coupang.label}
+          </a>
+        )}
       </div>
       {showNotice && (
-        <p
-          data-testid="content-affiliate-disclosure"
-          className="mt-2 text-pretty text-[10px] leading-4 text-text-tertiary"
-        >
-          {AFFILIATE_PLATFORMS.coupang.notice}
-        </p>
+        <BookPurchaseInfo className="mt-2" />
       )}
     </div>
   );

@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import Modal from "@/components/ui/Modal";
 
-export default function CoupangPurchaseInfoModal({ onClose }: { onClose: () => void }) {
-  const t = useTranslations("content.coupangPurchaseInfo");
+export default function BookPurchaseInfoModal({ onClose }: { onClose: () => void }) {
+  const t = useTranslations("content.purchaseInfo");
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,8 +22,8 @@ export default function CoupangPurchaseInfoModal({ onClose }: { onClose: () => v
 
   return (
     <Modal isOpen onClose={onClose} title={t("title")} size="sm">
-      <div ref={contentRef} tabIndex={-1} className="p-6 outline-none">
-        <p className="text-base leading-relaxed text-text-primary break-keep">{t("decision")}</p>
+      <div ref={contentRef} tabIndex={-1} className="break-keep p-6 text-sm leading-relaxed outline-none">
+        <p className="text-text-secondary">{t("notice")}</p>
       </div>
     </Modal>
   );
