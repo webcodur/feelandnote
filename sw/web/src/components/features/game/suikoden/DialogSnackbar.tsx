@@ -16,8 +16,7 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
   const locale = useLocale()
   const text = getSuikodenText(locale)
   const current = queue[0]
-  // 얼굴이 40px로 나오는 자리라 작은 판을 받는다
-  const { src: avatarSrc, onError: onAvatarError } = useCelebAvatarSrc(current?.avatarUrl, '40px')
+  const { ref: avatarRef, src: avatarSrc, onError: onAvatarError } = useCelebAvatarSrc(current?.avatarUrl)
 
   // auto 모드: 3초 후 자동 소멸
   useEffect(() => {
@@ -50,8 +49,10 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
             {current.avatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={avatarSrc ?? current.avatarUrl}
+                ref={avatarRef}
+                src={avatarSrc}
                 alt={current.characterName}
+                loading="lazy"
                 onError={onAvatarError}
                 className="w-full h-full object-cover"
               />

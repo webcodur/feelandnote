@@ -41,7 +41,7 @@ export default function CelebTimelineItem({ celeb, locale, isBioExpanded, isCont
         <div className="min-w-0 flex-1 py-1.5 md:p-2.5">
           <div className="flex items-start gap-2 md:gap-3">
             <Link href={href} prefetch={false} aria-label={displayName} className="block shrink-0 w-9 h-9 md:w-14 md:h-14 rounded-full overflow-hidden border border-white/10 hover:border-accent outline-none focus-visible:ring-2 focus-visible:ring-accent">
-              <CelebImage src={celeb.avatar_url} alt={displayName} shape="circle" sizes="(min-width: 768px) 56px, 36px" maxPx={128} fallbackSize={24} />
+              <CelebImage src={celeb.avatar_url} alt={displayName} shape="circle" maxPx={128} fallbackSize={24} />
             </Link>
             <div className="min-w-0 flex-1">
               <div className="flex items-start gap-1 md:gap-2">

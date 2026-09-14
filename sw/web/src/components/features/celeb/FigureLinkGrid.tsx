@@ -3,7 +3,6 @@
   기능: 인물 상세로 가는 링크 격자 — 표시 전용
   책임: 조회는 호출처(홈·탐색 허브)가 하고, 여기는 받은 인물을 얼굴·이름·직함 카드로 세운다.
         인물 상세가 인물 사전 한 곳에서만 링크되던 구조를 여러 화면에서 잇는 공용 부품이다.
-        얼굴은 CelebAvatarImage가 96px 작은 판을 받아 24장이 실려도 가볍다.
 */
 
 import { getCelebProfileUrl } from "@/lib/url";
@@ -83,9 +82,6 @@ interface FigureLinkGridProps {
   /** ul에 덧붙이는 폭 제한 등 — 항목이 적을 때 카드가 가로로 늘어나는 화면용 */
   gridClassName?: string;
 }
-
-/** 얼굴 칸 너비(px). 48을 넘기면 800px 원본을 받는다 — celeb-avatar-small.ts의 상한이다 */
-const AVATAR_W = "48px";
 
 export default async function FigureLinkGrid({
   headingId,
@@ -169,7 +165,6 @@ export default async function FigureLinkGrid({
                     <CelebAvatarImage
                       src={figure.avatar_url}
                       alt={name}
-                      sizes={AVATAR_W}
                       className="object-cover"
                     />
                   ) : (

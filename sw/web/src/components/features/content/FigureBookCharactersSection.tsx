@@ -73,7 +73,6 @@ export default function FigureBookCharactersSection({
                         <CelebAvatarImage
                           src={character.avatarUrl}
                           alt=""
-                          sizes="48px"
                         />
                       ) : (
                         <span className="flex h-full w-full items-center justify-center text-text-tertiary">

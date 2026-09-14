@@ -3,21 +3,19 @@
   기능: 셀럽 이미지 공통 컴포넌트
   책임: 셀럽 프로필 이미지를 표시하고 이미지가 없을 때 fallback을 제공한다.
         기본으로 블러 디졸브 로딩 효과(로드가 늦은 이미지만 도착 순간 뿌옇게→또렷)를 건다.
-        얼굴이 작게 나오는 자리(sizes가 48px 이하)는 원본 대신 작은 판을 받는다.
+        이미지 해상도는 공통 아바타가 실제 칸 크기와 화면 배율로 고른다.
 */ // ------------------------------
 
 "use client";
 
-import Image from "next/image";
 import { User } from "lucide-react";
-import { useCelebAvatarSrc } from "@/hooks/useCelebAvatarSrc";
+import CelebAvatarImage from "./CelebAvatarImage";
 import BlurDissolve from "./BlurDissolve";
 
 interface CelebImageProps {
   src?: string | null;
   alt: string;
   shape?: "square" | "circle";
-  sizes?: string;
   /** 원본 이미지 최대 크기(px). 이 값 이상으로 렌더링되지 않도록 제한한다. */
   maxPx?: number;
   fallbackSize?: number;
@@ -30,15 +28,11 @@ export default function CelebImage({
   src,
   alt,
   shape = "square",
-  sizes = "120px",
   maxPx,
   fallbackSize = 32,
   className = "",
   dissolve = true,
 }: CelebImageProps) {
-  // 얼굴이 작게 나오는 자리는 800px 원본 대신 작은 판을 받는다
-  const { src: shownSrc, onError } = useCelebAvatarSrc(src, sizes);
-
   const shapeClass = shape === "circle" ? "rounded-full" : "rounded-lg";
   const maxStyle = maxPx
     ? { maxWidth: `${maxPx}px`, maxHeight: `${maxPx}px` }
@@ -53,15 +47,10 @@ export default function CelebImage({
   }
 
   const img = (
-    <Image
-      src={shownSrc ?? src}
+    <CelebAvatarImage
+      src={src}
       alt={alt}
-      fill
       className={`object-cover ${shapeClass} ${className}`}
-      sizes={sizes}
-      unoptimized
-      loading="lazy"
-      onError={onError}
     />
   );
 

@@ -53,7 +53,6 @@ export default function ContemporariesPanel({ celeb, contemporaries, locale }: P
                   src={c.avatar_url}
                   alt={cName}
                   shape="circle"
-                  sizes="24px"
                   maxPx={48}
                   fallbackSize={12}
                 />

@@ -7,6 +7,8 @@ description: 이미지 배경 제거(누끼)를 할 때 항상 적용한다. 전
 
 **누끼는 `C:\project\nobg` 로 한다. rembg 호출 코드를 새로 짜지 마라.** 이미 만들어 둔 도구가 있다.
 
+원본 저장소는 GitHub `webcodur/nobg`(비공개)다. 폴더가 없으면 반드시 `C:\project\nobg` 에 clone하고 `py -3.12 -m pip install -r batch/requirements.txt` 로 설치한다. 백오피스 누끼 버튼(`sw/web-bo/src/lib/image-processing/nobg-avatar.ts`)이 이 경로를 고정으로 부른다. `rembg` 명령은 `.env` 없이 돈다.
+
 ## 도구 두 가지
 
 | 용도 | 도구 |

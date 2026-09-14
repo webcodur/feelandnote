@@ -7,7 +7,8 @@
 | 책임 | 원천 |
 |---|---|
 | 프레임 목표·허용 범위·크롭 계산 | `sw/web-bo/src/lib/avatar-geometry.ts`의 `AVATAR_SPEC` |
-| 원본·작은 판 파일명, 출력 크기·품질, 작은 판 사용 상한 | `packages/shared/src/constants/celeb-avatar-small.ts`의 `CELEB_AVATAR_ORIGINAL`·`CELEB_AVATAR_SMALL` |
+| 원본·작은 판 파일명, 출력 크기·품질, 해상도 선택 기준 | `packages/shared/src/constants/celeb-avatar-small.ts` |
+| 사용자 웹의 실제 칸 크기·화면 배율 측정과 작은 판 실패 시 원본 복귀 | `sw/web/src/hooks/useCelebAvatarSrc.ts`, `sw/web/src/lib/celeb/avatar-size-observer.ts` |
 | 등록·신원 근거·R2·DB 갱신 | `.agents/skills/celeb-avatar-register/SKILL.md` |
 | 공통 이미지 제작 원칙 | [`../production/image-generation.md`](../production/image-generation.md) |
 

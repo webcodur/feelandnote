@@ -81,7 +81,7 @@ export default function SpectrumExplorerSection({
                 <div className="flex items-center gap-2">
                   <div className="h-8 w-8 overflow-hidden rounded-full border border-white/15 bg-bg-secondary">
                     {person.avatar_url ? (
-                      <CelebImage src={person.avatar_url} alt={person.nickname} shape="circle" sizes="32px" />
+                      <CelebImage src={person.avatar_url} alt={person.nickname} shape="circle" />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-xs font-serif">
                         {person.nickname.charAt(0)}

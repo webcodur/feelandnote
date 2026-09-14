@@ -105,7 +105,6 @@ function AuraListItem({
                   src={celeb.avatar_url}
                   alt={celeb.nickname}
                   shape="circle"
-                  sizes="28px"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-[10px] font-bold" style={{ color: mat.colors.text }}>
@@ -160,7 +159,6 @@ function RankingTable({ ranking, onCelebClick, t }: { ranking: RankedCeleb[]; on
                       src={celeb.avatar_url}
                       alt={celeb.nickname}
                       shape="circle"
-                      sizes="36px"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-xs font-bold text-text-secondary">

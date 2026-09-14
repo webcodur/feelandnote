@@ -52,7 +52,6 @@ export default function RecentProfilesSection() {
                       <CelebAvatarImage
                         src={item.avatarUrl}
                         alt={item.nickname}
-                        sizes="30px"
                         blurDataURL={BLUR_DATA_URL}
                       />
                     </BlurDissolve>

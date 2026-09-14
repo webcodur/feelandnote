@@ -87,12 +87,9 @@ export default function ReviewCard({
                 <div className="relative h-full w-16 sm:w-20 overflow-hidden rounded-tl-2xl border-e border-white/10 bg-black/40 cursor-pointer">
                   {item.user.avatar_url ? (
                     <BlurDissolve className="absolute inset-0">
-                      {/* 연관인물 칸과 같은 작은 판(96px)을 쓴다. 원본 800px은 입자가 살아 있어
-                          바 크기에서 노이즈로 보이므로 레티나 2배를 조금 밑돌더라도 작은 판을 우선한다. */}
                       <CelebAvatarImage
                         src={item.user.avatar_url}
                         alt={nickname}
-                        sizes="48px"
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                         blurDataURL={BLUR_DATA_URL}
                       />

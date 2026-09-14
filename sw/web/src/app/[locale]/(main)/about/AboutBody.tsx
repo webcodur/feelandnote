@@ -159,7 +159,6 @@ export default async function AboutBody({ showcase }: { showcase: AboutShowcase 
                 <CelebAvatarImage
                   src={showcase.evidence.avatarUrl}
                   alt={showcase.evidence.celebName}
-                  sizes="48px"
                 />
               </span>
               <span className="text-base text-text-primary font-medium">

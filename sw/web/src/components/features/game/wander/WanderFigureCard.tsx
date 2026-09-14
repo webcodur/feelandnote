@@ -16,7 +16,7 @@ export default function WanderFigureCard({ figure, regionLabel, yearLabel }: Pro
   return (
     <article className="grid overflow-hidden rounded-2xl border border-accent/25 bg-bg-main/90 shadow-xl md:grid-cols-[220px_1fr]">
       <div className="relative h-44 min-h-0 w-full sm:h-52 md:h-auto md:min-h-[290px]">
-        <CelebImage src={figure.avatarUrl} alt={figure.name} sizes="(max-width: 768px) 100vw, 220px" className="rounded-none" />
+        <CelebImage src={figure.avatarUrl} alt={figure.name} className="rounded-none" />
         <div className="absolute inset-0 bg-gradient-to-t from-bg-main via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-bg-main/40" />
       </div>
       <div className="flex flex-col justify-center p-4 text-start md:p-7">
