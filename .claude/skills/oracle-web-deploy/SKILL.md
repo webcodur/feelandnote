@@ -32,6 +32,14 @@ pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB
    `--purge-scopes <scope[,scope]>`를 명시한다. `emergency-zone`을 배포 편의로 선택하지 않는다.
 4. 실제 배포 권한이 있으면 execute를 한 번 실행한다. 스크립트가 build·비밀 파일 차단·junction
    복원·비활성 Blue/Green 슬롯 교체·canary·Caddy traffic bridge·검증·실패 롤백을 소유하므로 같은 절차를 임시 명령으로 다시 쓰지 않는다. 검증된 canary는 전환 동안 운영 트래픽을 받고, 기본 웹 프로세스가 준비된 뒤 Caddy가 원래 upstream으로 돌아간다.
+   Claude Code에서는 execute를 도구의 백그라운드 작업으로 돌리지 않는다. 메모리가 빠듯하면 도구가 백그라운드 작업을
+   강제 종료하는데, 배포 node는 살아남아도 콘솔이 사라져 그 뒤 뜨는 Next 빌드 작업자(TypeScript 검사 단계)가
+   `0xC0000142`로 죽는다. 26.09.15에 두 번 연속 이렇게 실패했고 코드·타입검사·메모리 총량은 정상이었다.
+   자체 콘솔을 가진 독립 프로세스로 띄우고 로그 파일을 감시한다.
+
+   ```powershell
+   Start-Process cmd.exe -ArgumentList '/c', 'pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB > <로그 경로> 2>&1' -WorkingDirectory <저장소 루트> -WindowStyle Hidden -PassThru
+   ```
 5. 성공 출력의 `cloudflarePurgeRequired` 각 범위를 `pnpm purge:web:cloudflare -- --scope <범위> --execute`로
    비운다. `none`이면 실행하지 않는다. GitHub에서 돌릴 때는 `.github/workflows/cloudflare-purge.yml`을
    같은 범위로 수동 실행한다. 전체 존 퍼지는 워크플로에만 있다.
