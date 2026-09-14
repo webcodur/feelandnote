@@ -8,6 +8,7 @@ import {
 } from '@/lib/maintenance';
 import { updateSession } from '@/lib/db/middleware';
 import { isBlockedCrawler } from '@/lib/blocked-crawlers';
+import { isProfileId } from '@/lib/url';
 
 const intlMiddleware = createIntlMiddleware(routing);
 
@@ -114,6 +115,14 @@ export async function middleware(request: NextRequest) {
     || PWA_PATHS.includes(rawPathname)
   ) {
     return NextResponse.next()
+  }
+
+  // UUID 이동 응답을 인물 본문의 ISR에서 분리한다. 첫 ISR 생성은 Location을 중복할 수 있다.
+  const celebIdMatch = rawPathname.match(/^\/(?:(ko|en)\/)?celeb\/([^/]+)\/?$/)
+  if (celebIdMatch && isProfileId(celebIdMatch[2])) {
+    const url = request.nextUrl.clone()
+    url.pathname = `/${celebIdMatch[1] ?? routing.defaultLocale}/celeb/id/${celebIdMatch[2]}`
+    return NextResponse.rewrite(url)
   }
 
   // 4) next-intl locale 처리
