@@ -49,12 +49,20 @@ async function writeJson(path, value) {
   await renameCheckpoint(`${path}.tmp`, path)
 }
 
-async function findUnresolved(manifest, options) {
+/** 판정 요약. 타이밍을 만들지 못한 등록분은 문장 수 대신 그 사유를 남긴다. */
+export function describeTiming(prepared) {
+  if (prepared.error) return { sentences: null, segments: null, reasons: [prepared.error] }
+  return { sentences: prepared.sentences, segments: prepared.timing.segments.length, reasons: [...new Set(prepared.rejected.map((item) => item.reason))] }
+}
+
+export async function findUnresolved(manifest, options, prepare = prepareReadingTiming) {
   const entries = Object.values(manifest.entries || {}).filter((entry) => entry.status === 'published' && (!options.slug || entry.slug === options.slug) && (!options.locale || entry.locale === options.locale)).slice(0, options.limit)
   const unresolved = []
   for (const entry of entries) {
-    const prepared = await prepareReadingTiming(entry)
-    if (prepared.timing.segments.length < prepared.sentences) unresolved.push({ entry, prepared })
+    // 최종 검수 기록이 등록 mp3와 맞지 않아 타이밍을 만들 수 없는 등록분도 문장 강조를 보장하지 못하므로 폐기 대상이다.
+    // 한 건의 오류로 점검 전체가 멈추면 어긋난 등록분이 그대로 서비스에 남는다(26.09.14, 되돌리기 기록 18건).
+    const prepared = await prepare(entry).catch((error) => ({ error: error.message }))
+    if (prepared.error || prepared.timing.segments.length < prepared.sentences) unresolved.push({ entry, prepared })
   }
   return unresolved
 }
@@ -65,7 +73,7 @@ async function main() {
   const manifestPath = join(options.run, 'manifest.json')
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
   const unresolved = await findUnresolved(manifest, options)
-  const summary = unresolved.map(({ entry, prepared }) => ({ id: entry.id, slug: entry.slug, nickname: entry.nickname, locale: entry.locale, sentences: prepared.sentences, segments: prepared.timing.segments.length, reasons: [...new Set(prepared.rejected.map((item) => item.reason))] }))
+  const summary = unresolved.map(({ entry, prepared }) => ({ id: entry.id, slug: entry.slug, nickname: entry.nickname, locale: entry.locale, ...describeTiming(prepared) }))
   console.log(JSON.stringify({ event: 'discard-plan', dryRun: !options.discard, selected: summary.length, rows: summary }, null, 2))
   if (!options.discard || !unresolved.length) return
 
@@ -110,7 +118,7 @@ async function main() {
       for (const key of ['key', 'publicUrl', 'voiceVersion', 'publishedAt', 'revalidatedAt', 'backup', 'timing']) delete entry[key]
       const id = `${entry.id}/${entry.locale}`
       if (state?.entries) delete state.entries[id]
-      audit.entries.push({ id: entry.id, slug: entry.slug, locale: entry.locale, sentences: prepared.sentences, segments: prepared.timing.segments.length, reasons: [...new Set(prepared.rejected.map((item) => item.reason))], backupDir: relative(options.run, backupDir), audioKey, timingKey })
+      audit.entries.push({ id: entry.id, slug: entry.slug, locale: entry.locale, ...describeTiming(prepared), backupDir: relative(options.run, backupDir), audioKey, timingKey })
       await writeJson(manifestPath, manifest)
       if (state) await writeJson(statePath, state)
       await writeJson(join(backupRoot, 'discard-audit.json'), audit)
