@@ -5,12 +5,12 @@ description: Claude Code에서 codex CLI로 GPT(gpt-5.6)를 호출해 텍스트�
 
 # codex로 GPT 호출·통제
 
-Codex 구독 인증으로 도는 로컬 CLI다. **종량제 API 비용이 들지 않는다.** 대신 rate limit이 있다.
+Codex 구독 인증으로 도는 로컬 CLI다. 종량제 청구는 없지만 **구독 사용 한도를 깎으므로 비용으로 취급한다.** 한도는 다른 작업과 같이 쓰고, 바닥나면 회복까지 아무도 못 쓴다. 필요한 건만 보내고, 원고 전문 대신 고칠 부분만 보내고, 여러 건을 한 호출로 묶는다. 대량 배치는 한 묶음으로 시험해 품질을 본 뒤 호출 수를 사용자에게 알리고 돌린다.
 
 ## 핵심 호출법
 
 ```bash
-codex exec - -m gpt-5.6-sol --output-last-message OUT.txt --color never
+codex exec - -m gpt-6-astra --output-last-message OUT.txt --color never
 # 프롬프트는 stdin으로 넣는다. 결과는 OUT.txt 에 순수 텍스트로 떨어진다.
 ```
 
@@ -20,23 +20,36 @@ codex exec - -m gpt-5.6-sol --output-last-message OUT.txt --color never
 2. **결과는 `--output-last-message` 파일로 받는다.** stdout에는 세션 헤더(workdir/model/session id), 프롬프트 에코, `tokens used` 같은 노이즈가 섞여 파싱이 지저분하다.
 3. `--color never` 로 ANSI 코드를 없앤다.
 
-기본값: 모델 `gpt-5.6-sol`, reasoning effort `medium`. 결(variant)은 `sol`/`terra`/`luna`가 있다.
+기본값: 모델 `gpt-6-astra`, reasoning effort `xhigh`. effort 는 고정이고 모델은 **작업 성격으로 고른다.**
+
+| 작업 | 모델 | 왜 |
+|---|---|---|
+| 채점·판정·연대 추론·사실 검증 | `gpt-6-astra` | 추론이 결과를 가른다. 영향력 일곱 축, 스펙트럼 16축, 세대 관계를 맞춘 생몰 배치가 이쪽이다 |
+| 산문·대사·안내글·수식어 집필 | `gpt-5.6-sol` | **글쓰기는 sol 이 astra 보다 낫다.** 상황 대사 21개, bio_en, 전승 안내글, title·headline 이 이쪽이다 |
+
+한 배치에 둘이 섞이면 **분량이 큰 쪽**을 따른다. 대사 배치는 한마디 조사 1건과 상황 대사 21개가 함께 있지만 글쓰기가 주력이라 sol 로 부른다 — sol 과 astra 의 조사 깊이(출처 수·호스트 수)는 실측에서 같았다.
+
+`~/.codex/config.toml` 이 이미 이 값을 쥐고 있지만, `codexCall` 이 `-m` 과 `-c model_reasoning_effort` 를 넘기므로 헬퍼 기본값이 실제로 적용되는 값이다. 예전 기본값 `gpt-5.6-sol`·`medium` 이 사용자 설정을 덮어쓰고 있었다. gpt-5.6 계열의 결(variant)은 `sol`/`terra`/`luna` 다.
 
 ## 스크립트에서 부를 때 (Windows 함정)
 
 `scripts/codex-call.mjs` 의 `codexCall()` 을 쓰거나 그 패턴을 따른다. 직접 짤 거라면 반드시 피해야 할 함정:
 
 - **`spawn('codex', ...)` 는 ENOENT로 죽는다.** codex는 `.cmd` 래퍼라 node가 직접 실행하지 못한다.
-- **`shell: true` 만으로도 부족하다.** 동시 실행하면 산발적으로 `'codex' is not recognized as an internal or external command` 가 터진다(실측: 동시 5개로 1673건 돌려 868건이 이걸로 실패). **`where codex`로 `.cmd` 절대경로를 먼저 해석해 두고 호출**한다.
+- **`shell: true` 만으로도 부족하다.** 동시 실행하면 산발적으로 `'codex' is not recognized as an internal or external command` 가 터진다(실측: 1673건 중 868건 실패). 원인은 동시 수가 아니라 shell 이 PATH 에서 `codex` 를 못 찾는 것이며, 동시에 여러 개가 뜰 때 잘 드러날 뿐이다. **`where codex`로 `.cmd` 절대경로를 먼저 해석해 두고 호출**한다.
 - 절대경로에 공백이 있으므로(`C:\Program Files\...`) shell 사용 시 따옴표로 감싼다.
 
 ## 동시 실행과 rate limit
 
-- **동시 3 이하**를 권장한다. 5는 산발 실패가 늘었다.
+- **동시 10까지 쓴다.** 예전에 「3 이하 권장·5는 산발 실패」로 적혀 있었으나 오진이었다. 그때 터진 원인은 codex 동시 수가 아니라 에이전트가 다른 프로세스를 수백 개 함께 돌린 것이었다. codex 자체는 동시 10을 견딘다.
+- **실제 상한은 메모리가 정한다.** 32GB 기계 실측 — 대사 배치(--search 붙은 무거운 호출)를 **동시 8로 돌렸더니 가용 9.3GB 에서 시작해 메모리 부족으로 죽었다.** 동시 4가 안전선이다. 영향력 배치도 같은 이유로 한 번 강제 종료됐다.
+- **호출 하나가 프로세스 여럿을 띄운다.** 실측 — 동시 3 인데 codex 프로세스 22개·4.5GB 였다. 호출당 7개꼴이라 동시 8 이면 58개·12GB 가 된다. **동시 수보다 이 배수가 실제 상한을 정한다.**
+- **죽은 뒤 codex 프로세스가 남는다.** 배치가 강제 종료돼도 자식 codex 가 살아 메모리를 쥐고 있다(실측: 죽은 직후 83개 잔류, 가용 5.6GB). **`codexCall` 이 프로세스당 첫 호출에서 자동으로 치우므로 따로 부를 것이 없다.** 부모 PID 가 죽은 것만 골라내니 다른 세션이 돌리는 codex 는 건드리지 않는다. 직접 부르고 싶으면 같은 모듈의 `cleanupOrphanCodex()` 를 쓴다(판정·종료 로직은 `cleanup-orphan-codex.ps1`). 러너마다 호출을 넣는 방식은 새 스크립트에서 빠뜨리므로 쓰지 않는다.
+- 동시 수를 올리기 전에 가용 물리 메모리와 다른 무거운 배치 여부를 먼저 본다.
 - **20달러(1x) 플랜 실측: 누적 500~560건 즈음 rate limit 도달.** 약 5시간 주기로 회복된다.
 - 한도에 닿으면 codex가 exit 1로 죽는다. stderr 앞부분에 무해한 스킬 로드 경고가 껴서 원인이 가려지니, 에러 메시지를 넉넉히(300자 이상) 남긴다.
 - **배치는 반드시 재실행 안전하게 설계한다.** 이미 처리한 항목은 건너뛰고 남은 것만 처리하도록 만든다. 한도에 막혀도 회복 후 같은 명령으로 이어붙이면 된다. 처음부터 다시 돌리면 시간과 한도를 두 번 쓴다.
-- 1건당 20~70초 걸린다(사고량에 따라 편차).
+- 1건당 20~70초 걸린다(사고량에 따라 편차). reasoning effort 를 xhigh 로 올리면 3분 안팎까지 늘어난다.
 
 ## 무시해도 되는 경고
 
@@ -49,7 +62,7 @@ ERROR codex_core::session::session: failed to load skill ...: missing YAML front
 ## 배치 러너 패턴
 
 1. 대상 목록을 불러온다(이미 처리된 항목을 제외하는 옵션을 반드시 넣는다).
-2. 동시 3으로 청크를 돌린다.
+2. 동시 수를 정해 청크를 돌린다(메모리에 여유가 있으면 10까지).
 3. 각 건은 `codexCall(prompt)` 로 생성 → 결과 검증(빈 응답·형식·금지 문자) → 저장.
 4. 실패는 건별로 삼키고 계속 진행하되, 성공·실패·rate 카운트를 따로 집계해 마지막에 보고한다.
 5. rate limit 의심 건이 나오면 몇 건째에서 났는지 기록한다. 다음 회차 계획의 근거가 된다.
@@ -59,7 +72,7 @@ ERROR codex_core::session::session: failed to load skill ...: missing YAML front
 구독제라 종량 과금 없음, rate limit만 있다. 발주 원칙(구도·시선·REF 사용법)은 `docs/project/production/image-generation.md`, API 직접 호출 규격·비용은 `docs/project/platform/openai-usage.md`. 여기는 **codex로 부를 때의 실행 규칙만** 둔다.
 
 ```bash
-codex exec - -m gpt-5.6-sol --skip-git-repo-check \
+codex exec - -m gpt-6-astra --skip-git-repo-check \
   -s workspace-write --dangerously-bypass-approvals-and-sandbox \
   -i 소스.png -i 얼굴REF.jpg \
   --output-last-message OUT.txt --color never < 프롬프트.txt
@@ -140,6 +153,7 @@ GPT-5.6은 한국어 문체가 자연스럽고 사실 정확도가 높으며 한
 | 스킬 | 대상 | 헬퍼 |
 |---|---|---|
 | `codex-gpt` | GPT (codex) | `scripts/codex-call.mjs` |
-| `agy-antigravity` | 제미니 (agy) | 없음 |
+| `agy-antigravity` | 제미니 (agy) | `scripts/agy-call.mjs` |
+| `devin-swe` | Devin SWE-2 (devin) | `scripts/devin-call.mjs` |
 
 착수 규칙은 `docs/project/agent-rules.md` 「도구」 30~31번이다.

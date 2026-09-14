@@ -14,9 +14,14 @@
 import { spawn, spawnSync, execSync } from 'child_process'
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'fs'
 import { tmpdir } from 'os'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
 import { join } from 'path'
 
 let CODEX_PATH = null
+
+/** 고아 정리는 프로세스당 1회면 된다. 매 호출마다 돌 이유가 없다. */
+let SWEPT = false
 
 /** codex 실행파일 절대경로 해석 (Windows는 .cmd 우선). 1회만 수행 후 캐시. */
 function resolveCodex() {
@@ -38,13 +43,21 @@ function resolveCodex() {
  */
 export async function codexCall(prompt, opts = {}) {
   const {
-    model = 'gpt-5.6-sol',
+    model = 'gpt-6-astra',
     timeoutMs = 240000,
-    effort,
+    effort = 'xhigh',
     search = false,
     images = [],
     sandbox,
   } = opts
+  // 지난 배치가 강제 종료되며 남긴 codex 를 먼저 치운다. 러너마다 부르게 하면 새로 만든
+  // 스크립트에서 빠뜨리므로 호출 경로 자체에 둔다.
+  if (!SWEPT) {
+    SWEPT = true
+    const swept = cleanupOrphanCodex()
+    if (swept.killed) console.log(`고아 codex ${swept.killed}개 정리 (${swept.freedMb}MB 회수)`)
+  }
+
   const dir = mkdtempSync(join(tmpdir(), 'codex-call-'))
   const outFile = join(dir, 'out.txt')
   writeFileSync(outFile, '')
@@ -109,4 +122,30 @@ export async function codexCall(prompt, opts = {}) {
 }
 
 /** rate limit 으로 죽었는지 추정. codex는 한도 도달 시 exit 1 로 죽는다. */
+
+
+
+/**
+ * 부모가 죽어 고아로 남은 codex 프로세스를 정리하고 회수량을 돌려준다.
+ *
+ * codex 호출 하나가 자식을 여럿 띄운다(실측: 동시 3에 22개·4.5GB). 배치가 강제 종료되면
+ * 그것들이 고아로 남아 메모리를 쥐고, 다음 배치가 같은 이유로 또 죽는다. 배치 러너는
+ * 시작할 때 이 함수를 먼저 부른다. 판정은 부모 PID 생존 여부라 다른 세션 것은 건드리지 않는다.
+ *
+ * 판정·종료 로직은 cleanup-orphan-codex.ps1 에 둔다. 인라인 PowerShell 은 이스케이프가
+ * 여러 겹 통과하며 깨지므로 파일로 넘긴다.
+ */
+export function cleanupOrphanCodex() {
+  if (process.platform !== 'win32') return { killed: 0, freedMb: 0 }
+  const script = join(dirname(fileURLToPath(import.meta.url)), 'cleanup-orphan-codex.ps1')
+  try {
+    const out = execSync('powershell -NoProfile -ExecutionPolicy Bypass -File "' + script + '"', { encoding: 'utf-8', windowsHide: true })
+    const nums = out.trim().split(String.fromCharCode(10)).map((v) => Number(v.trim()) || 0)
+    const [killed, freedMb] = nums
+    return { killed, freedMb }
+  } catch {
+    return { killed: 0, freedMb: 0 }
+  }
+}
+
 export const looksRateLimited = (msg = '') => /rate|limit|quota|429|usage/i.test(msg)
