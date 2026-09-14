@@ -47,6 +47,7 @@
 
 남은 것:
 
+- **전승 제목 그림**: 37개 중 21개가 비었다. 만들 목록과 규격은 [`img/faction-theme-image.md`](img/faction-theme-image.md)가 쥔다.
 - **미등록 인물**: 정비안이 넣자고 했지만 아직 등록되지 않은 사람들이다. 목록과 사유는
   [`data/celeb/myth-plan/missing-figures.md`](../../data/celeb/myth-plan/missing-figures.md)에 있고,
   등록한 뒤 명단에 넣는다. 인물이 적어 1~2명뿐인 그룹(페르시아·고려세계 등)이 이때 채워진다.

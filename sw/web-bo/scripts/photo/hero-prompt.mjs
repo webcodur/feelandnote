@@ -141,7 +141,7 @@ Now photograph THAT MAN — a living human being with real skin, real hair and r
 
 /**
  * REF가 없을 때. 지정하지 않으면 모델이 서구 백인 20~30대 미남미녀를 기본값으로 낸다.
- * 권역별 얼굴 계통·나이·성별은 docs/todo/celeb/avatar-backlog.md가 쥔다.
+ * 권역별 얼굴 계통·나이·성별은 docs/todo/img/avatar-backlog.md가 쥔다.
  */
 export function identityDescribed(faceSpec) {
   return `IDENTITY — READ FIRST
