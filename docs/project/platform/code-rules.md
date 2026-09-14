@@ -17,6 +17,8 @@
 - **조작용 요소(버튼·카드·칩)의 hover는 즉각 반응** — transition/delay 금지, 위로 뜸·확대 등 이동 지양. 상세는 아래 "상호작용" 참조
 - 반복 UI는 상수 배열 + map 렌더링
 - 색 클래스는 `sw/web/src/app/globals.css`의 `@theme` 토큰 이름만 쓴다(`bg-bg-card`·`bg-bg-main`·`bg-bg-stone-light`·`text-text-tertiary`·`border-border`·`text-status-paused`·`accent`). 다른 디자인 체계의 이름(`bg-surface`·`bg-primary`·`bg-background`·`text-muted`)은 CSS가 만들어지지 않아 바탕이 투명해지거나 부모 글자색을 물려받는다. 새 색이 필요하면 `@theme`에 먼저 정의한다
+- Tailwind 클래스는 문자열 리터럴이나 상수에 통째로 둔다. 템플릿 문자열에서 `${` 바로 앞에 붙은 토큰(`` `… lg:contain-size${x}` ``)은 스캐너가 뽑지 못해 CSS가 나오지 않는다. 조건부 클래스는 상수를 공백으로 잇는다
+- 접힌 본문(「더 보기」·끝 흐림·화면이 허락하는 만큼 채우기)은 `@/hooks/useClippedText`의 조합을 따른다. 줄 수를 미리 박지 않는다
 
 ## 구획별 독립 레인 · Suspense + i18n (필수)
 - **색인 대상 화면**(홈·탐색·서가·인물·작품 등)에 `loading.tsx`·맨 `<Suspense fallback>`을 두지 않는다. 봇이 스켈레톤을 본문으로 읽어 색인 사고가 세 번 났다(`docs/operations/seo.md`). 대신 `@/components/ui/pending/Lane`을 쓴다 — 봇·미확인 UA는 완성 HTML, 사람 브라우저만 Suspense 스트리밍(`lib/render-mode.ts`, 모르면 봇). ISR 화면(인물·작품 상세)은 `headers()`가 정적을 깨므로 Lane도 쓰지 않는다.
