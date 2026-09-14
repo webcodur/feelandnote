@@ -55,7 +55,7 @@ export function parseYes24Purchase(value: unknown, isbn: string, now = Date.now(
   const data = object(root.data)
   if (!Array.isArray(data.items) || data.items.length > 100) throw new Error('Invalid YES24 purchase items')
   const matches = data.items.map(object).filter(item =>
-    item.isbn13 === isbn && item.itemStatus === '판매중' && ['도서', '국내도서'].includes(String(item.goodsType))
+    item.isbn13 === isbn && item.itemStatus === '판매중' && ['도서', '국내도서', '만화'].includes(String(item.goodsType))
       && typeof item.itemId === 'number' && Number.isSafeInteger(item.itemId) && item.itemId > 0,
   ).sort((a, b) => Number(a.itemId) - Number(b.itemId))
   for (const item of matches) {

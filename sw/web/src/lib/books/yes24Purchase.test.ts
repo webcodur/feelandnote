@@ -31,6 +31,13 @@ test('only exact ISBN, available physical books receive a link', () => {
     assert.equal(parseYes24Purchase(response({ ...item, ...change }), isbn).link, null)
   }
 })
+test('available comics sets link to the exact ISBN product', () => {
+  const setIsbn = '9791133469420'
+  const comic = { ...item, isbn13: setIsbn, goodsType: '만화', itemId: 90064457, link: 'https://www.yes24.com/Product/Goods/90064457' }
+  assert.equal(parseYes24Purchase(response(comic), setIsbn).link?.url, comic.link)
+  assert.equal(parseYes24Purchase(response({ ...comic, itemStatus: '품절' }), setIsbn).link, null)
+  assert.equal(parseYes24Purchase(response({ ...comic, isbn13: isbn }), setIsbn).link, null)
+})
 test('duplicate ISBN matches select available product deterministically', () => {
   const second = { ...item, itemId: 124, link: 'https://www.yes24.com/product/goods/124' }
   assert.equal(parseYes24Purchase(response(second, item), isbn).link?.url, item.link)
