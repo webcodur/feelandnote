@@ -10,8 +10,9 @@
 import { appendFileSync, mkdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { bareIsbn, dbClient, kakaoByIsbn, openLibraryByIsbn } from './lib/figure-work.mjs'
+import { assertNoIntroductionLoss, preserveIntroduction } from './lib/preserve-introduction.mjs'
 
-// 소개 표식·주소는 공유 함수가 실제 소개를 받은 뒤 정한다. source가 null이면 description은 NULL이다.
+// 소개 조회가 실패해도 기존 본문·출처는 보존한다. 옛 ISBN 출처를 새 ISBN에 옮기지는 않는다.
 const introductionModule = await import('@feelandnote/content-search/book-introduction')
 const { fetchBookIntroduction } = introductionModule.default ?? introductionModule
 // ISBN이 바뀐 행은 한 로그에 모은다. 소개 출처 재해결이 이 로그를 읽는다.
@@ -47,6 +48,16 @@ async function main() {
     if ((data ?? []).length === 0) await db.from('figure_book_contents').insert({ content_id: id })
   }
   const one = async (rows) => (rows ?? []).length
+  const prepareReplacement = async (id, locale, row) => {
+    const { data, error } = await db.from('content_locales').select('isbn,description,sources').eq('content_id', id).eq('locale', locale).single()
+    if (error) throw new Error(`locale read ${id}: ${error.message}`)
+    const retained = preserveIntroduction(data, row, locale)
+    const { data: editions, error: editionError } = await db.from('figure_book_editions').select('isbn,description,sources').eq('content_id', id).eq('locale', locale)
+    if (editionError) throw new Error(`edition read ${id}: ${editionError.message}`)
+    // A failed lookup must not erase introduction text present only on the old edition.
+    if (!row.description) assertNoIntroductionLoss((editions ?? []).filter((e) => bareIsbn(e.isbn) === bareIsbn(data.isbn)), retained)
+    return { row: retained, oldIsbn: data.isbn ?? null }
+  }
   let okKo = 0, okEn = 0, okDel = 0
   const problems = []
 
@@ -56,13 +67,15 @@ async function main() {
     if (!id || !doc) { problems.push(`koFix SKIP ${prefix}`); continue }
     const intro = await fetchBookIntroduction({ isbn, locale: 'ko' })
     const cover = coverOf(doc)
-    const row = {
+    let row = {
       title: normTitle(doc.title), creator: (doc.authors ?? []).join(', '),
       publisher: doc.publisher, isbn, thumbnail_url: cover, description: intro.source ?? null,
       sources: { primary: 'kakao_book', thumbnail: cover ? 'kakao_book' : 'confirmed_unavailable', ...(intro.source && intro.sourceUrl ? { description: intro.sourceUrl } : {}) },
     }
     const release = String(doc.datetime ?? '').slice(0, 10) || null
-    const oldIsbn = (await db.from('content_locales').select('isbn').eq('content_id', id).eq('locale', 'ko').limit(1)).data?.[0]?.isbn ?? null
+    let oldIsbn
+    try { ({ row, oldIsbn } = await prepareReplacement(id, 'ko', row)) }
+    catch (error) { problems.push(`koFix SKIP ${prefix}: ${error.message}`); continue }
     if (APPLY) {
       await ensureCatalog(id)
       const r1 = await db.from('content_locales').update(row).eq('content_id', id).eq('locale', 'ko').select('isbn')
@@ -88,12 +101,14 @@ async function main() {
       || (o.languages.length === 0 && /^(9780|9781|9798)/.test(bareIsbn(isbn))))
     if (!id || !engOk) { problems.push(`enFix SKIP ${prefix}`); continue }
     const intro = await fetchBookIntroduction({ isbn, locale: 'en' })
-    const row = {
+    let row = {
       title: o.title, creator: o.authors.join(', '), publisher: o.publisher, isbn,
       thumbnail_url: o.thumbnailUrl ?? null, description: intro.source ?? null,
       sources: { primary: 'openlibrary', thumbnail: o.thumbnailUrl ? 'openlibrary' : 'confirmed_unavailable', ...(intro.source && intro.sourceUrl ? { description: intro.sourceUrl } : {}) },
     }
-    const oldIsbn = (await db.from('content_locales').select('isbn').eq('content_id', id).eq('locale', 'en').limit(1)).data?.[0]?.isbn ?? null
+    let oldIsbn
+    try { ({ row, oldIsbn } = await prepareReplacement(id, 'en', row)) }
+    catch (error) { problems.push(`enFix SKIP ${prefix}: ${error.message}`); continue }
     if (APPLY) {
       await ensureCatalog(id)
       let q = db.from('content_locales').update(row).eq('content_id', id).eq('locale', 'en')
@@ -115,7 +130,8 @@ async function main() {
   for (const prefix of PLAN.koDel ?? []) {
     const id = await idOf(prefix)
     if (!id) { problems.push(`koDel SKIP ${prefix}`); continue }
-    const { data: eds } = await db.from('figure_book_editions').select('id').eq('content_id', id).eq('locale', 'ko')
+    const { data: eds, error: editionError } = await db.from('figure_book_editions').select('*').eq('content_id', id).eq('locale', 'ko')
+    if (editionError) throw new Error(`edition read ${id}: ${editionError.message}`)
     const edIds = (eds ?? []).map((e) => e.id)
     let active = 0
     if (edIds.length > 0) {
@@ -123,14 +139,17 @@ async function main() {
       active = count ?? 0
     }
     if (active > 0) { problems.push(`koDel SKIP active-products ${prefix}`); continue }
-    const { data: loc } = await db.from('content_locales').select('*').eq('content_id', id).eq('locale', 'ko')
+    const { data: loc, error: localeError } = await db.from('content_locales').select('*').eq('content_id', id).eq('locale', 'ko')
+    if (localeError) throw new Error(`locale read ${id}: ${localeError.message}`)
+    try { assertNoIntroductionLoss([...(loc ?? []), ...(eds ?? [])]) }
+    catch (error) { problems.push(`koDel SKIP ${prefix}: ${error.message}`); continue }
     const { data: others } = await db.from('content_locales').select('locale,isbn').eq('content_id', id).neq('locale', 'ko')
     // ko를 지우면 카드가 0장이 되는 작품은 지우지 않는다. 화면에서 사라지고 대표 ISBN도 갈 곳이 없다.
     if (!(others ?? []).length) { problems.push(`koDel SKIP would-empty ${prefix}`); continue }
     const enIsbn = (others ?? []).find((r) => r.locale === 'en')?.isbn ?? null
     if (APPLY) {
       mkdirSync(dirname(BACKUP), { recursive: true })
-      appendFileSync(BACKUP, `${JSON.stringify({ content_id: id, deleted_at: new Date().toISOString(), ko: loc?.[0] ?? null })}\n`, 'utf8')
+      appendFileSync(BACKUP, `${JSON.stringify({ content_id: id, deleted_at: new Date().toISOString(), ko: loc?.[0] ?? null, editions: eds ?? [] })}\n`, 'utf8')
       for (const e of eds ?? []) await db.from('figure_book_editions').delete().eq('id', e.id)
       const r = await db.from('content_locales').delete().eq('content_id', id).eq('locale', 'ko').select('locale')
       if (await one(r.data) === 0) { problems.push(`koDel SKIP already-gone ${prefix}`); continue }

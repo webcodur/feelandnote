@@ -23,7 +23,7 @@ export interface IntroductionSelection {
 export interface IntroductionChange {
   table: 'content_locales' | 'figure_book_editions'
   before: IntroductionRow
-  description: BookIntroductionSource
+  description: string
   sources: Record<string, unknown>
   /** The fetched body is retained in the local plan so metadata copies can be removed safely. */
   verifiedDescription: string
@@ -148,7 +148,7 @@ function literal(value: string): string { return `'${value.replace(/'/g, "''")}'
 function json(value: unknown): string { return `${literal(JSON.stringify(value))}::jsonb` }
 
 /** Each book is one transaction. A concurrent edit aborts the whole book instead of overwriting it. */
-export function buildIntroductionApplySql(contentId: string, changes: IntroductionChange[], metadata?: IntroductionMetadataChange | null): string {
+export function buildIntroductionApplySql(contentId: string, changes: IntroductionChange[], metadata?: IntroductionMetadataChange | null, sourceRows: IntroductionRow[] = []): string {
   if (changes.length === 0 && !metadata) throw new Error('No introduction changes')
   if (changes.some(({ before }) => before.content_id !== contentId)) throw new Error('One book per transaction')
   const updates = changes.map((change) => {
@@ -181,12 +181,23 @@ IF changed <> 1 THEN RAISE EXCEPTION 'Book metadata changed concurrently'; END I
       RAISE EXCEPTION 'Preserved introduction changed concurrently';
     END IF;`
   })
+  const sourceChecks = sourceRows.map((row) => {
+    if (row.content_id !== contentId) throw new Error('One book per transaction')
+    const before = { description: row.description, sources: row.sources, isbn: row.isbn,
+      title: row.title, creator: row.creator, publisher: row.publisher }
+    return `IF NOT EXISTS (SELECT 1 FROM public.content_locales WHERE content_id = ${literal(contentId)} AND locale = ${literal(row.locale)}
+      AND jsonb_build_object('description', description, 'sources', sources, 'isbn', isbn,
+        'title', title, 'creator', creator, 'publisher', publisher) = ${json(before)} FOR SHARE) THEN
+      RAISE EXCEPTION 'Translation source changed concurrently';
+    END IF;`
+  })
   const body = `DECLARE changed integer;
 BEGIN
 IF NOT EXISTS (SELECT 1 FROM public.contents WHERE id = ${literal(contentId)} AND type = 'BOOK' FOR SHARE) THEN
   RAISE EXCEPTION 'BOOK no longer exists';
 END IF;
 ${preserveChecks.join('\n')}
+${sourceChecks.join('\n')}
 ${updates.join('\n')}
 END;`
   let delimiter = '$book_introductions$'
