@@ -1,5 +1,5 @@
 import { createStaticClient } from '@/lib/db/static'
-import { selectInChunks } from '@feelandnote/shared/lib/paginate'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 
 export type FigureBookRelationType = 'appearance' | 'related' | 'authored'
 
@@ -50,11 +50,17 @@ export async function getFigureBookAssignmentsByCelebs(
   if (celebIds.length === 0) return []
 
   const db = createStaticClient()
-  const rows = await selectInChunks<FigureBookAssignmentRow>(celebIds, (ids) => db
+  /* 인물 200명 묶음 하나가 원전 연결 3천 행을 넘기도 한다(26.09.14). 묶음으로만 나누면 묶음마다 1,000행에서
+     잘려 신화 화면의 작품이 빠진다 — 묶음마다 끝까지 나눠 받는다. 기본키(celeb_id, content_id)로 줄을 고정한다 */
+  const chunks = Array.from({ length: Math.ceil(celebIds.length / 200) }, (_, i) => celebIds.slice(i * 200, (i + 1) * 200))
+  const rows = (await Promise.all(chunks.map((ids) => selectAllPages<FigureBookAssignmentRow>((from, to) => db
     .from('figure_book_characters')
     .select('content_id,celeb_id,relation_type,sort_order,description,description_en')
     .in('celeb_id', ids)
-    .overrideTypes<FigureBookAssignmentRow[], { merge: false }>())
+    .order('celeb_id', { ascending: true })
+    .order('content_id', { ascending: true })
+    .range(from, to)
+    .overrideTypes<FigureBookAssignmentRow[], { merge: false }>())))).flat()
 
   return rows.sort((left, right) => (
     left.celeb_id.localeCompare(right.celeb_id)
