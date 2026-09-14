@@ -32,6 +32,7 @@
     "./lib/faction-quote-media": "./src/lib/faction-quote-media.ts",
     "./lib/faction-voice-provider": "./src/lib/faction-voice-provider.ts",
     "./lib/faction-team-image": "./src/lib/faction-team-image.ts",
+    "./lib/faction-atlas": "./src/lib/faction-atlas.ts",
     "./lib/faction-scene-timing": "./src/lib/faction-scene-timing.ts",
     "./lib/faction-scene-speaker": "./src/lib/faction-scene-speaker.ts",
     "./lib/faction-scene-unification": "./src/lib/faction-scene-unification.ts",

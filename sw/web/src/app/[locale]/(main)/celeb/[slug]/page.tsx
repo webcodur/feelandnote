@@ -191,7 +191,7 @@ export default async function CelebPage({ params }: PageProps) {
 
   const sideAvailability = {
     relations: profile.relations.length > 0,
-    faction: profile.factionTags.length > 0,
+    faction: profile.factionTags.some((tag) => !tag.isMyth),
     influence: sidePresence.influence,
     spectrum: sidePresence.spectrum,
     relatedFigures: profile.relations.length > 0,

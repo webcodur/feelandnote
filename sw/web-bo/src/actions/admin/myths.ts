@@ -10,15 +10,13 @@
  */
 
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
+import { MYTH_ROOT_TAG_SLUG } from '@feelandnote/shared/lib/faction-atlas'
 import { createClient } from '@/lib/db/server'
 import { requireFactionAdmin } from '@/lib/faction-db'
 import {
   getTag, getTagCelebs, getTagGroups, type CelebTag, type CelebTagAssignment, type TagGroup,
 } from '@/actions/admin/tags'
 import { getThemeEpisodeLinks, type ThemeEpisodeLink } from '@/actions/admin/factions/themes'
-
-/** 신화 전승을 모아 두는 상위 테마 — 웹 getMythAtlas와 같은 기준이다 */
-const MYTH_PARENT_SLUG = 'myth-and-fiction'
 
 export interface MythSummary {
   id: string
@@ -41,7 +39,7 @@ export async function listMythThemes(): Promise<MythSummary[]> {
   await requireFactionAdmin()
   const db = await createClient()
   const { data: parent, error: parentError } = await db
-    .from('celeb_tags').select('id').eq('slug', MYTH_PARENT_SLUG).maybeSingle()
+    .from('celeb_tags').select('id').eq('slug', MYTH_ROOT_TAG_SLUG).maybeSingle()
   if (parentError) throw new Error(`신화 묶음 조회 실패: ${parentError.message}`)
   if (!parent) return []
 
