@@ -3,8 +3,10 @@
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { selectInChunks } from "@feelandnote/shared/lib/paginate";
+import { MYTH_ROOT_TAG_SLUG } from "@feelandnote/shared/lib/faction-atlas";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
+import { selectVisibleAtlasMembers } from "@/lib/faction-atlas-members";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import { getFigureBookAssignmentsByCelebs } from "@/actions/figure-books/figureBookAssignments";
 import {
@@ -152,7 +154,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   const db = createStaticClient();
   const isEn = locale === "en";
   const { data: parent, error: parentError } = await db
-    .from("celeb_tags").select("id").eq("slug", "myth-and-fiction").maybeSingle();
+    .from("celeb_tags").select("id").eq("slug", MYTH_ROOT_TAG_SLUG).maybeSingle();
   if (parentError) throw new Error(`신화 묶음 조회 실패: ${parentError.message}`);
   if (!parent) return { regions: [], traditions: [], people: [], works: [], openingPersonId: null };
 
@@ -173,12 +175,10 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   const tagIds = tagRows.map((tag) => tag.id);
   if (tagIds.length === 0) return { regions: [], traditions: [], people: [], works: [], openingPersonId: null };
 
-  const { data: memberData, error: memberError } = await db
-    .from("faction_atlas_members")
-    .select("tag_id,celeb_id,short_desc,short_desc_en,sort_order,faction_image_url,group_label,group_label_en,group_position")
-    .in("tag_id", tagIds).eq("hidden", false).order("sort_order");
-  if (memberError) throw new Error(`신화 인물 조회 실패: ${memberError.message}`);
-  const members = (memberData ?? []) as MemberRow[];
+  /* 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다. 신화 인원이 그 턱밑(26.09.14 약 1천 행)이다.
+     차례는 sort_order가 쥔다 */
+  const members = await selectVisibleAtlasMembers<MemberRow>(db,
+    "tag_id,celeb_id,short_desc,short_desc_en,sort_order,faction_image_url,group_label,group_label_en,group_position", tagIds);
   const personIds = unique(members.map((member) => member.celeb_id));
   if (personIds.length === 0) return { regions: [], traditions: [], people: [], works: [], openingPersonId: null };
 

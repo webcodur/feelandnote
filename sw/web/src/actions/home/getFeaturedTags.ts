@@ -3,6 +3,8 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
+import { mythBranchTagIds } from '@feelandnote/shared/lib/faction-atlas'
+import { selectVisibleAtlasMembers } from '@/lib/faction-atlas-members'
 import { LIST_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import { getInfluenceRanking } from './getCelebs'
@@ -121,9 +123,10 @@ const toImageArray = toTeamImages
  * 목록이 「단체 사진 + 그 사진의 사람들」 계층으로 바뀌어
  * 길어져도 읽히고, 무엇보다 한 사람이 여러 테마에 겹쳐 드는 일이 정상이 되면서 상한에 걸려
  * 멀쩡한 인물이 조용히 잘려 나갔다(소셜 네트워크에서 싸이월드 창업자가 그랬다).
+ * 26.09.14 재편으로 105명짜리 테마(문학의 거장들)가 생겨 40에서 124명이 잘렸다 — 200으로 올렸다.
  * 감추는 일은 배정의 hidden 스위치가 맡고, 이 값은 사고 방지용 천장으로만 둔다.
  */
-const MAX_CELEBS_PER_TAG = 40
+const MAX_CELEBS_PER_TAG = 200
 
 
 interface FeaturedProfileRow {
@@ -152,7 +155,9 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   if (tagsError) throw new Error(tagsError.message)
   if (!allTags?.length) return []
 
-  const tagRows = allTags as FeaturedTagRow[]
+  /* 신화 갈래는 신화 화면(/explore/myth)이 따로 다룬다 — 세력도감 대문·테마 상세·인물 상세 세력 구획에서 모두 뺀다(26.09.14) */
+  const mythTagIds = mythBranchTagIds(allTags as FeaturedTagRow[])
+  const tagRows = (allTags as FeaturedTagRow[]).filter((tag) => !mythTagIds.has(tag.id))
   const activeTags = tagRows.filter(t => t.is_featured)
   const upcomingTags = tagRows.filter(t => !t.is_featured)
 
@@ -172,16 +177,13 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
   const tagIds = activeTags.map(t => t.id)
 
-  // 2. 모든 태그의 인물을 한 번에 조회 — 감춘 배정은 DB 에서 걸러 자리를 차지하지 않게 한다
-  const { data: allAssignments, error: assignmentsError } = await db
-    .from('faction_atlas_members')
-    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url')
-    .in('tag_id', tagIds)
-    .eq('hidden', false)
-    .order('sort_order', { ascending: true })
-    .overrideTypes<AtlasMemberRow[], { merge: false }>()
-
-  if (assignmentsError) throw new Error(assignmentsError.message)
+  // 2. 모든 태그의 인물을 조회 — 감춘 배정은 빼고, 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다.
+  // 한 번에 읽던 때 테마를 전원 공개하자 3천 행을 넘어 모든 테마가 첫 그룹 몇 명만 받았다(26.09.14)
+  const allAssignments = await selectVisibleAtlasMembers<AtlasMemberRow>(
+    db,
+    'celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url',
+    tagIds,
+  )
   const assignmentsByTag: Record<string, AtlasMemberRow[]> = {}
   const allCelebIds = new Set<string>()
 
@@ -224,7 +226,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
        뒤섞이지 않게 컬렉션 화면에서 「이야기 속 인물」 구획(`is_fiction`)으로 갈라 놓는다.
        이 게이트 때문에 일리아스 19명·오디세이아 22명을 다 채워 넣고도 0명으로 떴었다.
 
-    게임용 celeb_dialogues는 읽지 않는다. 도감 버튼의 대사는 뷰의 faction quote만 사용한다.
+    게임용 celeb_dialogues는 읽지 않는다.
   */
   const [celebRows, { scoreMap: influenceMap }] = await Promise.all([
     selectInChunks<FeaturedProfileRow>(celebIdArray, (chunk) =>
@@ -311,7 +313,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
 const getCachedFeaturedTags = unstable_cache(
   fetchFeaturedTagsPublic,
-  ['featured-tags-light-v5'],
+  ['featured-tags-light-v6'],
   // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
   // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
   {

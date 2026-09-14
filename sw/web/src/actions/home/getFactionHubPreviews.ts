@@ -2,10 +2,11 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { selectInChunks } from '@feelandnote/shared/lib/paginate'
+import { mythBranchTagIds } from '@feelandnote/shared/lib/faction-atlas'
 import { toTeamImages } from '@feelandnote/shared/lib/faction-team-image'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
+import { selectVisibleAtlasMembers } from '@/lib/faction-atlas-members'
 
 const HUB_TAG_LIMIT = 4
 
@@ -15,8 +16,9 @@ const HUB_TAG_LIMIT = 4
  * 자동 규칙(대분류 하나씩·단체샷 우선)에만 맡기면 앞 순번이 이겨서 인간형 로봇·마케도니아
  * 제국이 잡혔다. 여기 적은 순서대로 먼저 앉히고, 빠진 자리만 아래 자동 규칙이 채운다.
  * 이름이 바뀌거나 인물이 비면 그 자리는 조용히 자동 선정으로 넘어간다.
+ * 신화는 세력도감에서 빼고 신화 화면이 따로 다뤄 그리스 신화 자리를 비웠다(26.09.14) — 빈자리는 자동 규칙이 채운다.
  */
-const HUB_PINNED_SLUGS = ['ai-pioneers', 'paypal-mafia', 'greek-roman-myth', 'digital-resistance']
+const HUB_PINNED_SLUGS = ['ai-pioneers', 'paypal-mafia', 'digital-resistance']
 
 interface HubTagRow {
   id: string
@@ -28,6 +30,7 @@ interface HubTagRow {
   color: string
   parent_id: string | null
   team_images: unknown
+  is_featured: boolean | null
 }
 
 interface HubAssignmentRow {
@@ -49,8 +52,7 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   const db = createStaticClient()
   const { data: tags, error: tagsError } = await db
     .from('celeb_tags')
-    .select('id, slug, name, name_en, description, description_en, color, parent_id, team_images')
-    .eq('is_featured', true)
+    .select('id, slug, name, name_en, description, description_en, color, parent_id, team_images, is_featured')
     .order('sort_order', { ascending: true })
 
   if (tagsError) {
@@ -58,20 +60,14 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   }
   if (!tags?.length) return []
 
-  const tagRows = tags as HubTagRow[]
+  /* 공개된 세력만 쓰되 신화 갈래는 뺀다 — 신화는 신화 화면이 따로 다룬다(26.09.14).
+     신화 갈래는 공개 여부와 무관하게 전체 태그로 가려내야 부모가 닫혀 있어도 자손이 걸린다 */
+  const mythTagIds = mythBranchTagIds(tags as HubTagRow[])
+  const tagRows = (tags as HubTagRow[]).filter((tag) => tag.is_featured === true && !mythTagIds.has(tag.id))
   const tagIds = tagRows.map((tag) => tag.id)
-  const assignments = await selectInChunks<HubAssignmentRow>(
-    tagIds,
-    (chunk) =>
-      db
-        // 단일 원천은 제작 테이블(faction_people) — 뷰가 웹 전용 배정과 합쳐 준다
-        .from('faction_atlas_members')
-        .select('tag_id')
-        .in('tag_id', chunk)
-        .eq('hidden', false)
-        .overrideTypes<HubAssignmentRow[], { merge: false }>(),
-  )
-
+  // 사람이 있는 테마만 가려낸다. 태그 묶음으로 읽던 때 한 묶음이 1,000행을 넘어 잘려, 잘린 테마가
+  // 「사람 없음」으로 빠졌다(26.09.14). 공통 읽기로 끝까지 받는다
+  const assignments = await selectVisibleAtlasMembers<HubAssignmentRow>(db, 'tag_id', tagIds)
   const tagIdsWithPeople = new Set(assignments.map((assignment) => assignment.tag_id))
 
   /*

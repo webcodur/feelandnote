@@ -18,6 +18,7 @@ import {
   type DialogueProfile,
 } from '@/lib/utils/celeb-dialogues'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
+import { getMythBranchTagIds } from '@/lib/faction-atlas-members'
 import { mergeRelationRowsForViewer } from '@/lib/celeb/relationRows'
 
 export interface ContentTypeCounts {
@@ -33,6 +34,8 @@ const CONTENT_TYPES: Array<keyof ContentTypeCounts> = ['BOOK', 'VIDEO', 'GAME', 
 // 상위 그룹 계층(celeb_tags.parent_id)은 참조하지 않는다.
 export interface FactionTagItem {
   id: string
+  /** 신화 갈래 소속. 세력도감 명단은 신화를 싣지 않아 세력 탭 판단에서 뺀다 */
+  isMyth: boolean
   name: string
   name_en: string | null
   slug: string
@@ -301,11 +304,15 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     if (CONTENT_TYPES.includes(type)) contentTypeCounts[type] = Number(row.total)
   }
 
+  // 신화 갈래 표시 — 세력도감 명단은 신화를 싣지 않는다. 세력 탭은 신화가 아닌 소속이 있을 때만 켠다(26.09.14).
+  // 목록에서 지우지는 않는다 — 대표 사진이 없을 때 세력 화보로 대신하는 자리가 신화 인물에게도 필요하다
+  const mythTagIds = new Set(await getMythBranchTagIds())
   // 슬러그 없는 태그는 세력도감 딥링크로 이동할 수 없어 제외한다
   const factionTags: FactionTagItem[] = factionTagRows
     .filter((a): a is FactionTagAssignmentRow & { tag: NonNullable<FactionTagAssignmentRow['tag']> } => !!a.tag?.slug)
     .map((a) => ({
       id: a.tag.id,
+      isMyth: mythTagIds.has(a.tag.id),
       name: a.tag.name,
       name_en: a.tag.name_en,
       slug: a.tag.slug as string,
