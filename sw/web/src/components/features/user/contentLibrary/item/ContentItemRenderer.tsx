@@ -5,6 +5,7 @@
 */ // ------------------------------
 "use client";
 
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { memo, useState } from "react";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
@@ -19,7 +20,6 @@ import { getLocalizedContent } from "@/lib/utils/editions";
 import { useLocale } from "next-intl";
 import ExpandDetailView from "../expand/ExpandDetailView";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
-import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import AffiliateBookAction from "../AffiliateBookAction";
 import { getCoupangAffiliateUrl } from "../contentAffiliate";
 
@@ -84,7 +84,7 @@ function ContentItemRenderer({
   const affiliateUrls = locale === "ko"
     ? items.map((item) => getCoupangAffiliateUrl(item.content))
     : items.map(() => null);
-  const hasAffiliateItem = affiliateUrls.some(Boolean);
+  const hasAffiliateItem = locale === "ko" && items.some((item) => item.content.type === "BOOK");
   // readOnly 모드에서는 삭제 콜백을 비활성화
   const deleteHandler = readOnly ? () => {} : onDelete;
 
@@ -169,9 +169,10 @@ function ContentItemRenderer({
               creatorEn={item.content.creator_en}
               thumbnailEn={item.content.thumbnail_en}
               hasEnEdition={item.content.has_en_edition}
-              posterFooterNode={affiliateUrls[index] ? (
+              posterFooterNode={locale === "ko" && item.content.type === "BOOK" ? (
                 <AffiliateBookAction
-                  url={affiliateUrls[index]}
+                  contentId={item.content_id}
+                  coupangUrl={affiliateUrls[index]}
                 />
               ) : undefined}
             />
@@ -181,12 +182,7 @@ function ContentItemRenderer({
       </ContentGrid>
 
       {hasAffiliateItem && (
-        <p
-          data-testid="content-affiliate-disclosure"
-          className="px-1 text-[10px] leading-4 text-text-tertiary md:text-xs"
-        >
-          {AFFILIATE_PLATFORMS.coupang.notice}
-        </p>
+        <BookPurchaseInfo className="mt-2" />
       )}
 
       {/* 별점 편집 모달 */}

@@ -164,17 +164,46 @@ test('연관 상품은 언어에 맞는 판매 판본의 제목과 실제 구매
   assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks([book], 'fr'), [])
 })
 
-test('등장 도서와 판매 링크 없는 판본은 연관 상품으로 내보내지 않는다', () => {
+test('등장 도서와 구매 링크·유효 ISBN이 모두 없는 판본은 참고도서로 내보내지 않는다', () => {
   const books = [
     relatedBook({ relationType: 'appearance', editions: [saleEdition()] }),
     relatedBook({ id: 'missing-link', editions: [saleEdition({ purchaseUrl: null })] }),
     relatedBook({ id: 'invalid-link', editions: [saleEdition({ purchaseUrl: 'javascript:void(0)' })] }),
     relatedBook({ id: 'wrong-platform', editions: [saleEdition({ platform: 'amazon' })] }),
+    relatedBook({ id: 'invalid-isbn', editions: [saleEdition({ platform: null, purchaseUrl: null, isbn: '9788966260950' })] }),
+    relatedBook({ id: 'empty-title', editions: [saleEdition({ title: '  ', platform: null, purchaseUrl: null, isbn: '9788966260959' })] }),
     relatedBook({ id: 'not-book', type: 'VIDEO', category: 'video', editions: [saleEdition()] }),
     relatedBook({ id: 'valid', editions: [saleEdition({ purchaseUrl: null }), saleEdition()] }),
   ]
 
   assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks(books, 'ko').map((book) => book.contentId), ['valid'])
+})
+
+test('한국어 ISBN이 있는 연관 판본은 쿠팡 상품 없이도 제목·판본 ID를 유지해 표시한다', () => {
+  const edition = saleEdition({ id: 42, platform: null, purchaseUrl: null, isbn: '978-89-6626-095-9' })
+  const books = [relatedBook({ editions: [edition] })]
+  assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks(books, 'ko'), [{
+    contentId: 'related-book', editionId: 42, title: edition.title,
+    creator: undefined, thumbnail: undefined, url: '',
+  }])
+  assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks(books, 'en'), [])
+})
+
+test('한국어 참고도서는 Amazon 판본을 제외하고 쿠팡 없는 판본보다 검수된 쿠팡 판본을 우선한다', () => {
+  const isbn = '9788966260959'
+  const amazon = saleEdition({ platform: 'amazon', isbn, purchaseUrl: 'https://amzn.to/registered' })
+  assert.deepEqual(mapRelatedFigureBooksToAffiliateBooks([relatedBook({ editions: [amazon] })], 'ko'), [])
+  const noLink = saleEdition({ id: 2, platform: null, isbn, purchaseUrl: null })
+  const linked = saleEdition({ id: 3, isbn })
+  const [book] = mapRelatedFigureBooksToAffiliateBooks([relatedBook({ editions: [amazon, noLink, linked] })], 'ko')
+  assert.equal(book.editionId, linked.id)
+  assert.equal(book.url, linked.purchaseUrl)
+})
+
+test('ISBN으로 표시하는 판본의 비쿠팡 주소를 쿠팡 버튼 주소로 내보내지 않는다', () => {
+  const edition = saleEdition({ platform: null, isbn: '9788966260959', purchaseUrl: 'https://www.yes24.com/product/goods/1' })
+  const [book] = mapRelatedFigureBooksToAffiliateBooks([relatedBook({ editions: [edition] })], 'ko')
+  assert.equal(book.url, '')
 })
 
 test('여러 판본과 중복 작품은 한 상품으로 묶고 연관 상품을 여섯 권에서 자르지 않는다', () => {

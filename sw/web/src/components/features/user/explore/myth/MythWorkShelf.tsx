@@ -1,16 +1,19 @@
 "use client";
 
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
+import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import Image from "next/image";
 import { ArrowUpRight, BookOpen, BookOpenText, ShoppingBag } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { MythWork } from "@/actions/home/mythAtlasTypes";
-import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
+import { getBookPurchaseHref } from "@/lib/books/bookPurchaseHref";
 
 interface Props { works: MythWork[]; selectedPersonId: string }
 
 export default function MythWorkShelf({ works, selectedPersonId }: Props) {
   const t = useTranslations("explore.hub.myth");
+  const tPurchase = useTranslations("content.purchase");
   const locale = useLocale();
   const selectedWorks = works.filter((work) => work.personIds.includes(selectedPersonId));
   const selectedIds = new Set(selectedWorks.map((work) => work.id));
@@ -41,7 +44,7 @@ export default function MythWorkShelf({ works, selectedPersonId }: Props) {
       <div className="scrollbar-hide -mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-2 md:gap-4">
         {visible.map((work) => {
           const selected = selectedIds.has(work.id);
-          const purchaseUrl = locale === "ko" ? work.coupangUrl : null;
+          const purchaseUrl = locale === "ko" && work.category === "book" ? getBookPurchaseHref(work.id, work.editionId, "yes24") : null;
           const workHref = `/content/${work.id}?category=${work.category}`;
           const cardBody = (
             <>
@@ -52,21 +55,17 @@ export default function MythWorkShelf({ works, selectedPersonId }: Props) {
                   <div className="flex h-full items-center justify-center p-4 text-center text-lg font-black text-accent/50">{work.title}</div>
                 )}
                 {selected && <span className="absolute start-2 top-2 rounded-full bg-accent px-2 py-1 text-xs font-black text-bg-secondary">{t("appearsHere")}</span>}
-                <span className={`absolute end-2 top-2 grid size-8 place-items-center rounded-full bg-black/85 ${purchaseUrl ? "text-[#ff776a]" : "text-text-tertiary"}`} aria-hidden>
+                <span className={`absolute end-2 top-2 grid size-8 place-items-center rounded-full bg-black/85 ${purchaseUrl ? "text-accent" : "text-text-tertiary"}`} aria-hidden>
                   {purchaseUrl ? <ShoppingBag size={15} /> : <ArrowUpRight size={15} />}
                 </span>
               </div>
               <div className="flex flex-1 flex-col p-3">
                 <div className="flex gap-2">
-                  <h4 className={`line-clamp-2 flex-1 text-sm font-bold leading-5 ${purchaseUrl ? "text-white group-hover:text-[#ff9a8f]" : "text-text-primary group-hover:text-accent"}`}>{work.title}</h4>
-                  <ArrowUpRight size={14} className={`mt-0.5 shrink-0 ${purchaseUrl ? "text-[#ff776a]" : "text-text-tertiary group-hover:text-accent"}`} />
+                  <h4 className={`line-clamp-2 flex-1 text-sm font-bold leading-5 ${purchaseUrl ? "text-white group-hover:text-accent-hover" : "text-text-primary group-hover:text-accent"}`}>{work.title}</h4>
+                  <ArrowUpRight size={14} className={`mt-0.5 shrink-0 ${purchaseUrl ? "text-accent" : "text-text-tertiary group-hover:text-accent"}`} />
                 </div>
                 <p className="mt-1 truncate text-sm text-text-secondary">{work.creator ?? " "}</p>
-                {purchaseUrl ? (
-                  <p className="mt-auto flex min-h-10 items-end justify-center pt-2 text-base font-bold text-[#ff776a]">{t("buyOnCoupang")}</p>
-                ) : (
-                  <p className="mt-auto pt-2 text-sm font-semibold text-accent">{t("castCount", { count: work.personIds.length })}</p>
-                )}
+                <p className="mt-auto pt-2 text-sm font-semibold text-accent">{t("castCount", { count: work.personIds.length })}</p>
               </div>
             </>
           );
@@ -74,23 +73,23 @@ export default function MythWorkShelf({ works, selectedPersonId }: Props) {
           return (
             <div key={work.id} className="flex w-36 shrink-0 snap-start flex-col md:w-44">
               {purchaseUrl ? (
-                <div className="group/coupang-buy relative flex flex-1 flex-col">
+                <div className="group/purchase relative flex flex-1 flex-col">
                   <a
                     href={purchaseUrl}
                     target="_blank"
                     rel="noopener noreferrer nofollow sponsored"
-                    className={`group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-bg-card group-hover/coupang-buy:border-red-300/80 group-hover/coupang-buy:bg-red-400/20 ${selected ? "border-[#E44232]/60" : "border-[#E44232]/35"}`}
-                    title={`${work.title} · ${t("buyOnCoupang")}`}
+                    className={`group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-bg-card hover:border-accent/70 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${selected ? "border-accent/60" : "border-border/60"}`}
+                    title={`${work.title} · ${tPurchase("viewAt", { platform: "YES24" })}`}
                   >
                     {cardBody}
                   </a>
-                  <CoupangPurchaseInfo className="absolute bottom-2 end-2 text-red-300" />
                 </div>
               ) : (
                 <Link href={workHref} className={`group flex flex-1 flex-col overflow-hidden rounded-2xl border bg-bg-card hover:border-accent/70 ${selected ? "border-accent/60" : "border-stone-heavy"}`}>
                   {cardBody}
                 </Link>
               )}
+              {purchaseUrl && <AffiliateBookAction contentId={work.id} editionId={work.editionId} coupangUrl={work.coupangUrl} compact className="mt-2" />}
               {purchaseUrl && (
                 <Link href={workHref} className="mt-2 flex items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.04] px-2.5 py-2 text-xs font-bold text-text-secondary hover:border-accent/50 hover:bg-accent/10 hover:text-accent">
                   <BookOpenText size={13} aria-hidden />
@@ -101,6 +100,9 @@ export default function MythWorkShelf({ works, selectedPersonId }: Props) {
           );
         })}
       </div>
+      {locale === "ko" && visible.some((work) => work.category === "book") && (
+        <BookPurchaseInfo className="mt-2" />
+      )}
     </section>
   );
 }

@@ -71,6 +71,7 @@ export type StaticDatabaseClient = ReturnType<typeof createStaticClient>
 // 실시간 베스트셀러
 export interface BestsellerItem {
   id: string
+  source_url?: string
   rank: number
   title: string
   creator: string

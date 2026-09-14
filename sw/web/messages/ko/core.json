@@ -799,7 +799,8 @@
     "headingOrigin": "이 인물이 등장하는 원전",
     "headingFactionRead": "이 진영의 인물들이 읽은 책",
     "headingFactionAbout": "이 진영을 다룬 책",
-    "headingFactionTopic": "이 진영과 관련된 책"
+    "headingFactionTopic": "이 진영과 관련된 책",
+    "buy": "구매하기"
   },
   "share": {
     "label": "공유",

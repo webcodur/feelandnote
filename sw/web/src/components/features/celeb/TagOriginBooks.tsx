@@ -50,7 +50,7 @@ export default function TagOriginBooks({ tagId, tagName, variant }: TagOriginBoo
       <AffiliateBookList
         books={loaded.topic}
         heading={t("headingFactionTopic")}
-        buyLabel={t("buyOnCoupang")}
+        buyLabel={t("buy")}
         detailLabel={t("viewBookDetails")}
       />
     );
@@ -60,7 +60,7 @@ export default function TagOriginBooks({ tagId, tagName, variant }: TagOriginBoo
     <AffiliateBookList
       books={loaded.people}
       heading={loaded.peopleSource === "about" ? t("headingFactionAbout") : t("headingFactionRead")}
-      buyLabel={t("buyOnCoupang")}
+      buyLabel={t("buy")}
       detailLabel={t("viewBookDetails")}
     />
   );
