@@ -79,7 +79,7 @@ export default function FigureMediaTabs({
         role="tabpanel"
         aria-labelledby={`archive-tab-${activeKey}`}
       >
-        {/* 가상 독백은 화면에서 폐기하고 DB에 제작 재료로만 남긴다. */}
+        {/* 가상독백은 미디어가 아니라 읽어보기 두 번째 모드에서 보인다. */}
         {activeKey === "dialogues" && dialogueLines && (
           <DialogueSection
             lines={dialogueLines}

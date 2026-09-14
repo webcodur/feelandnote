@@ -1,16 +1,16 @@
 // opencode CLI로 muse-spark를 호출하는 헬퍼.
 // 빈 출력 재시도와 리드 문장 제거를 포함한다. 규약을 다시 짜지 말고 이걸 쓴다.
 import { spawn } from 'node:child_process'
-import { mkdtempSync, existsSync } from 'node:fs'
+import { mkdtempSync, existsSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 const EXE = 'C:/Program Files/nodejs/node_modules/opencode-ai/bin/opencode.exe'
-export const MUSE_FREE = 'opencode/muse-spark-1.2-contributor-free'
-export const MUSE_GO = 'opencode-go/muse-spark-1.2-contributor'
+export const MUSE_FREE = 'opencode/muse-spark-1.3-contributor-free'
+export const MUSE_GO = 'opencode-go/muse-spark-1.3-contributor'
 
 // 모델이 본문 앞에 흘리는 진행 보고. 실측 사례 기반.
-const META = /(독백|초안|본문)[^\n]{0,40}(작성|구성|시작|준비|쓰겠|쓴다)|(생애|이력|기록|연보|사실|입장|정보|자료)[^\n]{0,40}(확인|검증|조사|정리)|먼저 (검증|조사|확인)/
+const META = /(독백|초안|본문)[^\n]{0,40}(작성|구성|시작|준비|쓰겠|쓴다)|(생애|이력|기록|연보|사실|입장|정보|자료|도서|작품|판본|출간|원전)[^\n]{0,40}(확인|검증|조사|정리|찾)|먼저 (검증|조사|확인)|검색[^\n]{0,40}(확인|조사|찾)/
 const ANSI = new RegExp(String.fromCharCode(27) + '\\[[0-9;]*m', 'g')
 const BANNER = /^\s*>\s*build\s*\u00b7[^\n]*\n?/
 
@@ -57,18 +57,26 @@ function runOnce(prompt, { model, dir, timeoutMs }) {
 export async function museCall(prompt, opts = {}) {
   const {
     model = MUSE_FREE,
-    dir = mkdtempSync(join(tmpdir(), 'muse-')),
+    dir,
     timeoutMs = 300000,
     retries = 3,
     minChars = 100,
   } = opts
   if (!existsSync(EXE)) throw new Error('opencode.exe 없음: ' + EXE)
-  let last = null
-  for (let attempt = 1; attempt <= retries; attempt++) {
-    last = await runOnce(prompt, { model, dir, timeoutMs })
-    if (last.text.length >= minChars) return { ...last, attempts: attempt }
+  // 호출마다 만든 빈 작업 폴더는 끝나면 지운다. 지우지 않아 임시 폴더에 수천 개가 쌓였다.
+  const work = dir ?? mkdtempSync(join(tmpdir(), 'muse-'))
+  try {
+    let last = null
+    for (let attempt = 1; attempt <= retries; attempt++) {
+      last = await runOnce(prompt, { model, dir: work, timeoutMs })
+      if (last.text.length >= minChars) return { ...last, attempts: attempt }
+    }
+    return { ...last, attempts: retries }
+  } finally {
+    if (!dir) {
+      try { rmSync(work, { recursive: true, force: true }) } catch { /* 늦게 풀리는 잠금은 무해하다 */ }
+    }
   }
-  return { ...last, attempts: retries }
 }
 
 /** 동시 실행 수를 제한해 배치를 돌린다. 실측에서 20까지 실패 없이 돌았고 12~20에서 포화된다. */

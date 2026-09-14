@@ -1,6 +1,6 @@
 ---
 name: opencode-muse
-description: Claude Code에서 opencode CLI로 muse-spark(1.2 contributor)를 비대화 호출해 한국어 산문·독백·인물 원고를 대량 생성할 때 적용한다. 무료 라인과 Go 크레딧 라인의 구분, 반드시 조사를 지시해야 하는 이유(내재 지식만으로 쓰게 하면 한국 전근대 인물에서 입장·시점을 정반대로 쓴다), 동시 20까지 확인된 병렬 정책과 빈 출력이 났을 때의 진단 순서(라인 먼저, 동시 수는 나중), 본문 앞에 새는 진행 보고 제거, python3 부재로 인한 무한 루프, Exa 검색 429를 다룬다. "뮤즈로 뽑아줘", "muse-spark 써봐", "오픈코드 모델로 생성", "muse 배치", "뮤즈가 빈 응답 낸다", "muse 몇 개씩 돌려" 등에 호출한다.
+description: Claude Code에서 opencode CLI로 muse-spark(1.3 contributor)를 비대화 호출해 한국어 산문·독백·인물 원고를 대량 생성할 때 적용한다. 무료 라인과 Go 크레딧 라인의 구분, 반드시 조사를 지시해야 하는 이유(내재 지식만으로 쓰게 하면 한국 전근대 인물에서 입장·시점을 정반대로 쓴다), 동시 20까지 확인된 병렬 정책과 빈 출력이 났을 때의 진단 순서(라인 먼저, 동시 수는 나중), 본문 앞에 새는 진행 보고 제거, python3 부재로 인한 무한 루프, Exa 검색 429를 다룬다. "뮤즈로 뽑아줘", "muse-spark 써봐", "오픈코드 모델로 생성", "muse 배치", "뮤즈가 빈 응답 낸다", "muse 몇 개씩 돌려" 등에 호출한다.
 ---
 
 # opencode로 muse-spark 호출·통제
@@ -12,8 +12,8 @@ description: Claude Code에서 opencode CLI로 muse-spark(1.2 contributor)를 �
 
 | 모델 ID | 인증 | 비용 |
 |---|---|---|
-| `opencode/muse-spark-1.2-contributor-free` | 불필요 | 무료 |
-| `opencode-go/muse-spark-1.2-contributor` | OpenCode Go | 크레딧 소모 |
+| `opencode/muse-spark-1.3-contributor-free` | 불필요 | 무료 |
+| `opencode-go/muse-spark-1.3-contributor` | OpenCode Go | 크레딧 소모 |
 
 무료 라인이 인증 없이 바로 붙는다. 기본값으로 쓴다.
 `opencode auth list`로 등록된 자격을, `opencode models`로 전체 목록을 본다.
@@ -35,7 +35,7 @@ const results = await museBatch(items, (it) => buildPrompt(it), { concurrency: 1
 맨손으로 부를 때의 형태는 이렇다.
 
 ```bash
-opencode run --dir <빈 작업폴더> -m opencode/muse-spark-1.2-contributor-free "프롬프트"
+opencode run --dir <빈 작업폴더> -m opencode/muse-spark-1.3-contributor-free "프롬프트"
 ```
 
 두 가지가 핵심이다.
@@ -131,6 +131,26 @@ node <skill>/scripts/muse-call.mjs "3 곱하기 7은?"
 동시 호출 탓으로 결론 내려 「병렬 불가」라는 잘못된 규칙이 문서에 박힌 적이 있다.
 
 라인이 살아 있는데도 특정 인물만 계속 비면 그 인물만 건너뛰고 나중에 단건으로 처리한다.
+
+### 무료 라인이 소진되면 백엔드를 갈아탄다
+
+무료 라인은 **한도를 다 쓰면 오류를 주지 않고 그냥 응답하지 않는다.** 240~400초를 줘도 무응답이면
+소진으로 본다(`opencode auth list` 는 그대로 인증을 보여 주므로 판정 근거가 되지 못한다). 리셋
+시각도 알려주지 않는다.
+
+**소진 속도는 동시 수에 비례한다.** 26.09.07 실측에서 동시 6 으로 돌린 배치가 **3 분 만에** 무료
+라인을 태웠다. 무료로 오래 돌리려면 동시 1~2 로 쓴다.
+
+소진됐을 때의 갈아탈 곳은 이렇다. 같은 스크립트에서 `--backend` 로 고른다.
+
+| 백엔드 | 성격 | 실측 |
+|---|---|---|
+| `opencode`(muse) | 무료. 한도 있음 | 동시 6 에 3 분 소진 |
+| `agy` | 유료(구글 계정). 개인 쿼터 | 소진 시 `Individual quota reached ... Resets in NNm` 을 명시해 준다 |
+| `claude` | 구독. 모델 인자를 비우면 sonnet | 동시 1 건당 33 초, 동시 3 건당 7.6 초 |
+
+`claude` 백엔드는 claude CLI 프로세스가 건당 250~300 MB 를 쓴다. 동시 3 이면 1 GB 가까이 물리므로
+다른 세션이 함께 돌 때는 동시 2 로 낮춘다.
 
 ## 6. 동시 실행과 429
 

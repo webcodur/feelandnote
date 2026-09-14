@@ -1,11 +1,11 @@
 # 인물 읽어보기
 
-> 현재 사용자 화면의 읽어보기는 `인물 안내` 하나만 노출한다. 이 문서는 안내의 한국어
+> 현재 사용자 화면의 읽어보기는 `인물 안내`와 두 번째 모드 `가상독백`을 노출한다. 이 문서는 안내의 한국어
 > `plain_text`와 영어 `plain_text_en`을 작성·검수·게시하는 규칙 SSoT다.
 
 ## 현재 범위
 
-`FigureReadingTabs.tsx`는 안내만 렌더하고 `celebServiceItems.ts`의 `person-explore` 항목은 닫혀
+`FigureReadingTabs.tsx`는 안내를 렌더하고, 가상독백이 있으면 `인물 안내 / 가상독백` 모드 탭을 세운다. 가상독백은 `getCelebBySlug`가 화면 언어로 골라 인물 상세 데이터에 함께 싣는다. 가상독백 원고 규칙은 `celeb-04-03-virtual-monologue.md`가 쥔다. `celebServiceItems.ts`의 `person-explore` 항목은 닫혀
 있다. DB의 `interpretive_title*`·`interpretive_text*`는 삭제하지 않고 보존하지만, 사용자가
 인물 탐구를 되살리라고 명시하기 전에는 생성·재작성·게시 기준에 포함하지 않는다.
 
@@ -103,3 +103,18 @@
 - 검수 상태: `celeb_explanations.review_status`
 - 공개 조건: `celeb_explanations.published_at IS NOT NULL`
 - 닫힌 필드: `interpretive_title`, `interpretive_title_en`, `interpretive_text`, `interpretive_text_en`
+
+## 읽어보기 음성
+
+일일 생성·검수·등록의 현재 도달점은 [지속 작업 문서](../../continuous/celeb-tts-reading.md)가 쥔다.
+
+전체 1회 생성 → 검수·등록 → 불량분 재시도는 `sw/web-bo/scripts/celeb/reading-voice-batch.mjs`가 자동으로 이어 실행한다.
+기본 실행은 생성 API 한도에 도달하면 확보된 음성의 검수·통과분 등록을 한 차례 수행하고 기록을 저장한 뒤 종료한다. `--status`로 실제 실행 여부와 진척·중단 사유를 확인한다.
+한영 안내 음성의 생성·속도 보정·MP3 변환·등록은 `sw/web-bo/scripts/celeb/reading-voice.mjs`,
+본문 대조·음향·문장 사이 쉼 검수는 `sw/audio-bo/scripts/celeb-reading-voice-qc.py`가 담당한다.
+실행 옵션은 생성 스크립트의 `--help`, 처리 기준과 임계값은 각 코드가 쥔다.
+
+음성은 `voice-path.ts`의 `reading` 경로를 사용하고 기존 `voice_v`로 캐시를 갱신한다.
+웹은 현재 본문 언어의 MP3가 재생 가능한 것으로 확인된 경우에만 중앙 조작부를 표시한다. 브라우저 기본 음성은 사용하지 않는다. 재생·일시정지·정지, 10초 앞뒤 이동, 재생 위치와 속도 조절을 제공한다.
+생성 폴더의 원본과 `manifest.json`을 유지해 재개 시 합성을 반복하지 않는다.
+문장 강조 시각은 최종 MP3 검수의 단어별 시각을 본문과 대조해 `reading.json`으로 함께 등록한다. 생성·등록은 `sw/web-bo/scripts/celeb/reading-voice-timing.mjs`, 기존 등록분 보완은 같은 폴더의 `reading-voice-timing-backfill.mjs`가 맡는다. 웹은 본문 해시·음원 ETag·길이가 일치할 때만 문장을 강조하며, 연결되지 않은 문장은 강조를 생략한다.
