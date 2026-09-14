@@ -75,3 +75,17 @@ pnpm celeb:fill apply --file .tmp-celeb-fill/patch.json --only-slugs "slug-a,slu
 적용기는 쓰기 직전 현재 해시를 다시 확인한다. 달라졌다면 값을 우회해 덮지 말고 3단계 입력에서 다시 조립한다. 반영 뒤에는 대상의 `speech_tone`, `lines`, `lines_en`을 재조회해 한마디·상황 키·기존 값 보존을 확인한다.
 
 full·light의 영문 상황 대사를 별도 생성한 경우 `scripts/celeb/i18n-lines-en-apply.ts`로 구조 검사와 dry-run을 한 뒤 반영한다. 이 도구는 기존 `lines_en.quote`를 보존하며, fiction에는 영문 대사가 작업 범위일 때만 사용한다.
+
+### 대량 생성 도구
+
+수백 명 규모는 아래를 쓴다. 셋 다 생성만 하고 DB는 건드리지 않으며, 산출물은 반영과 왕복 검증이 끝나면 지운다(`data/celeb/README.md`).
+
+| 스크립트 | 하는 일 |
+|---|---|
+| `scripts/celeb/agy-lines-en.mjs` | 상황 대사 21줄의 영문판. `--dir` 로 대상 묶음을 가른다. 입력은 `dump-i18n-gaps.ts` 산출물, 반영은 `i18n-lines-en-apply.ts` |
+| `scripts/celeb/agy-quote-en.mjs` | 한국어 한마디는 있는데 영문이 없는 인물의 영문 한마디. `--apply` 로 직접 반영 |
+| `scripts/celeb/quote-placeholder-fill.mjs` | 한마디가 빈 인물에 표준 자리 표시를 넣고, 옛 표기와 한영 짝을 맞춘다 |
+
+한마디를 재조사해 교체할 때는 `scripts/celeb/quote-fix-apply.mjs`가 반영 게이트다. 찾았다면 `quote_src`가 URL 하나이고 50자 이내여야 하며, 없다고 판정하려면 실제로 연 출처 3곳·서로 다른 호스트 2곳이 있어야 통과한다. 상황 대사는 건드리지 않고 `quote` 키만 바꾼다.
+
+`agy-*`는 `agy-antigravity` 스킬의 헬퍼를 쓴다. 동시 발주한 서브에이전트가 스크래치패드를 공유하는 함정은 `docs/project/agent-rules.md` 3-2를 본다.

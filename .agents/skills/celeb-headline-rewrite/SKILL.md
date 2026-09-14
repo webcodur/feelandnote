@@ -11,6 +11,7 @@ description: 셀럽 한 줄 정의(headline) 신설·개편 오케스트레이�
 ## 경로
 
 - 스크립트: `sw/web-bo/scripts/celeb/headline-rewrite/cli.ts`
+- 무기명 목록·기록 도구: `sw/web-bo/scripts/celeb/headline-rewrite/shuffle.mjs`, `pick.mjs`
 - 생성 팩: `data/celeb/headline-rewrite/packs/lane-NN.json`
 - 대결 팩: `data/celeb/headline-rewrite/reviews/lane-NN.json`
 - 초안: `data/celeb/headline-rewrite/drafts/lane-NN.json`
@@ -99,6 +100,11 @@ pnpm exec tsx scripts/celeb/headline-rewrite/cli.ts claim --lane <0-19> --n 1 --
 pnpm exec tsx scripts/celeb/headline-rewrite/cli.ts claim --lane <0-19> --n 1 --redo --slug <slug>
 pnpm exec tsx scripts/celeb/headline-rewrite/cli.ts status
 pnpm exec tsx scripts/celeb/headline-rewrite/cli.ts record --file <대결결과.json>
+
+# 부모가 후보를 섞어 무기명 목록을 만들고(번호↔출처 대응표는 .tmp/relay/key 에만 남는다),
+# 심사자가 돌려준 번호를 대결 relay 로 옮긴다. phase 는 1위의 출처가 정한다.
+node scripts/celeb/headline-rewrite/shuffle.mjs <slug> [<slug> ...]
+node scripts/celeb/headline-rewrite/pick.mjs <slug> <ko번호> <en번호>
 pnpm exec tsx scripts/celeb/headline-rewrite/cli.ts apply [--lane N]
 pnpm exec tsx scripts/celeb/headline-rewrite/cli.ts apply [--lane N] --apply
 ```

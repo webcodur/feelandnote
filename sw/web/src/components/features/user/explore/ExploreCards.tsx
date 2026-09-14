@@ -12,7 +12,7 @@ interface UserInfo {
   avatar_url: string | null;
   content_count: number;
   profession?: string | null;
-  title?: string | null;  // 수식어 (예: 테슬라 창립자)
+  title?: string | null;  // 수식어 (예: 테슬라 설립)
   is_verified?: boolean;
 }
 

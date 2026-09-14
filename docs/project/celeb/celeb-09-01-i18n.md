@@ -14,7 +14,8 @@
 | 영문 데이터 | 담당 문서 |
 |---|---|
 | `nickname_en` | [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md) |
-| `title_en`·`bio_en`·`headline_en` | [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md) |
+| `title_en` | [`celeb-01-03-title.md`](celeb-01-03-title.md) |
+| `bio_en`·`headline_en` | [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md) |
 | 작품 locale과 인물별 `review_en` | [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md) · [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md) |
 | 영향력 설명 | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) |
 | 스펙트럼 근거 | [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) |

@@ -4,6 +4,10 @@
 
 full·light 실존 인물에 적용하며 fiction에는 만들지 않는다. 각 축의 한국어·영문 근거와 종합 해설을 한 작업에서 함께 작성한다. 영문 누락을 [`celeb-09-01-i18n.md`](celeb-09-01-i18n.md)로 넘기지 않는다.
 
+## 처리 모델
+
+스펙트럼 채점·교정은 **Claude, Kimi, SWE-2(Devin) 세 모델 중에서** 맡긴다. 셋은 판정 성향이 같아 축이나 인물을 나눠 맡겨도 근거문의 결과 형태가 일정하다. 다른 모델(GPT·Gemini 등)이 섞이면 같은 지시서를 줘도 형태가 바뀐다. 26.09.13 보수↔진보 축 1,072건을 SWE-2 29배치에 맡기고 Claude가 검수·반영한 회차가 견본이며, 남은 검토 항목은 [`../../todo/celeb/influence-spectrum.md`](../../todo/celeb/influence-spectrum.md)에 있다.
+
 ## SSoT와 저장 구조
 
 | 책임 | SSoT |

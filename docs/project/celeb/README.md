@@ -24,7 +24,7 @@
 | 주소 | 책임 | 문서 |
 |---|---|---|
 | 00 | 두 축 분기와 공개 경계 | [`celeb-00-01-pipeline.md`](celeb-00-01-pipeline.md) · [`celeb-00-02-publication.md`](celeb-00-02-publication.md) |
-| 01 | 기본 프로필 | [`celeb-01-00-profile.md`](celeb-01-00-profile.md) · [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md) · [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md) |
+| 01 | 기본 프로필 | [`celeb-01-00-profile.md`](celeb-01-00-profile.md) · [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md) · [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md) · [`celeb-01-03-title.md`](celeb-01-03-title.md) |
 | 02 | 감상 콘텐츠와 인물 도서 | [`celeb-02-01-content-research.md`](celeb-02-01-content-research.md) · [`celeb-02-02-content-registration.md`](celeb-02-02-content-registration.md) · [`celeb-02-03-content-review.md`](celeb-02-03-content-review.md) · [`celeb-02-04-content-audit.md`](celeb-02-04-content-audit.md) · [`celeb-02-05-figure-books.md`](celeb-02-05-figure-books.md) |
 | 03 | 영향력·스펙트럼 | [`celeb-03-01-influence.md`](celeb-03-01-influence.md) · [`celeb-03-02-spectrum.md`](celeb-03-02-spectrum.md) |
 | 04 | 말투·한마디·상황 대사·가상독백 | [`celeb-04-01-speech.md`](celeb-04-01-speech.md) · [`celeb-04-02-speech-pipeline.md`](celeb-04-02-speech-pipeline.md) · [`celeb-04-03-virtual-monologue.md`](celeb-04-03-virtual-monologue.md) |
@@ -33,6 +33,8 @@
 | 07 | 인물 관계 | [`celeb-07-01-relations.md`](celeb-07-01-relations.md) |
 | 08 | 이미지와 상세 세계 표현 | [`celeb-08-00-image-map.md`](celeb-08-00-image-map.md) · [`celeb-08-01-avatar.md`](celeb-08-01-avatar.md) · [`celeb-08-02-hero-photo.md`](celeb-08-02-hero-photo.md) · [`celeb-08-03-detail-themes.md`](celeb-08-03-detail-themes.md) · [`celeb-08-04-world-banners.md`](celeb-08-04-world-banners.md) |
 | 09 | 영문 필드 책임과 누락 백필 | [`celeb-09-01-i18n.md`](celeb-09-01-i18n.md) |
+
+특집 수준의 인물별 조사 정리는 [`featured-people/README.md`](featured-people/README.md)에서 관리한다.
 
 팩션 소속·세력도감은 [`../remotion/faction/README.md`](../remotion/faction/README.md), BookRecommend 연결은 [`../remotion/book-recommend/README.md`](../remotion/book-recommend/README.md)가 쥔다. 대사 음원은 `celeb-dialogue-voice-publish` 스킬, 아바타 등록은 `celeb-avatar-register` 스킬을 실행점으로 삼는다.
 

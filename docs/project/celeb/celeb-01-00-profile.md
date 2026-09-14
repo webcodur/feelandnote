@@ -1,6 +1,6 @@
 # 기본 프로필
 
-모든 인물은 티어와 무관하게 같은 기본 프로필을 가진다. 이 문서는 기본 프로필 한 건의 결과 계약과 등록 기본값만 쥔다. 이름·직군·성별·국적·생몰처럼 조사해 판정하는 값은 [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md), 이용자에게 보이는 소개 문구는 [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md)를 따른다.
+모든 인물은 티어와 무관하게 같은 기본 프로필을 가진다. 이 문서는 기본 프로필 한 건의 결과 계약과 등록 기본값만 쥔다. 이름·직군·성별·국적·생몰처럼 조사해 판정하는 값은 [`celeb-01-01-profile-facts.md`](celeb-01-01-profile-facts.md), 수식어는 [`celeb-01-03-title.md`](celeb-01-03-title.md), 나머지 이용자에게 보이는 소개 문구는 [`celeb-01-02-profile-intro.md`](celeb-01-02-profile-intro.md)를 따른다.
 
 ## 결과 계약
 

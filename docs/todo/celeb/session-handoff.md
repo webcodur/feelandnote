@@ -6,7 +6,7 @@
 
 | 문서 | 무엇 |
 |---|---|
-| [`avatar-backlog.md`](avatar-backlog.md) | 아바타 없는 53명 명단과 권역별 얼굴·복식 지침 |
+| [`avatar-backlog.md`](../img/avatar-backlog.md) | 아바타 없는 53명 명단과 권역별 얼굴·복식 지침 |
 | [`../myth.md`](../myth.md) | 신화 인물 남은 판단거리 |
 | [`../../../data/celeb/hero-photo/scene-manifest.md`](../../../data/celeb/hero-photo/scene-manifest.md) | 34명 대표 사진 장면 배분 |
 | [`../../../data/celeb/hero-photo/scene-manifest-joseon-fiction.md`](../../../data/celeb/hero-photo/scene-manifest-joseon-fiction.md) | 조선 소설 19명 장면 배분 |
@@ -61,7 +61,10 @@
 
 임꺽정과 장길산은 이미 아바타가 있는 공개 인물이다. 주인공 얼굴을 조연에게 복제하면 화면에서
 같은 얼굴 둘이 보인다. **이미지는 시대·복식까지만 참고하고 얼굴은 소설의 외양 서술에서 만든다.**
-수집물은 `sw/web-bo/.tmp/joseon-fiction-avatar/`에 남아 있다(`index.html`로 한눈에 본다).
+**수집물 74장은 26.09.05에 전량 폐기했다.** 눈으로 전수 확인하니 관련 있는 것은 서림 4장뿐인데
+그게 드라마 스틸이었고, 나머지 70장은 구찌 백팩·하노이 호텔처럼 검색어와 무관한 것이었다.
+중복만 기계로 걷어내고 남은 것을 본 적이 없어 「74장이 남았다」는 기록이 두 회차를 속였다.
+경위는 `sw/web-bo/.tmp/joseon-fiction-avatar/_manifest.md`가 쥔다.
 
 ### 이름이 맞다고 신원이 맞는 것은 아니다
 
@@ -73,7 +76,7 @@
   안티노오스는 `birth_date=-1196`, `celeb_reality=FICTION`이다. 이름만 같은 다른 사람이다.
 
 `influence`·`counterpart`를 뺀 나머지 관계에서 **시대가 어긋나면 의심한다.** 연결 전에
-생몰·직업으로 대조한다. 앞의 둘은 [`avatar-backlog.md`](avatar-backlog.md)「하지 말 것」에
+생몰·직업으로 대조한다. 앞의 둘은 [`avatar-backlog.md`](../img/avatar-backlog.md)「하지 말 것」에
 있고, 안티노오스 건은 이 문서가 처음 적는다.
 
 ### 선택적 스테이징은 자기모순 커밋을 만든다
