@@ -7,21 +7,35 @@
 ```text
 data/celeb/
 ├── README.md
-├── dialogue/
+├── video-review-audit-remainder.json # 이번 티스토리 교정에서 빠진 영상 리뷰 대상·원문
+├── dialogue/                    # 인물별 대사 원고와 등록 완료 참고본
 │   ├── 01-괴테.md ... 12-박상영.md
 │   └── _unregistered/{nickname}.json
-├── headline-rewrite/            # 회차 중에만 존재
-│   └── ledger/lane-NN.json
+├── fiction/                     # 원전별 인물 조사 묶음
 ├── figure-books/                # 등장·연관 도서 후보와 반영 전 검수본
+├── book-introductions/          # 작품 소개 수집 원문·검수·번역 자료
+├── founding-myth/               # 건국신화 배치. 반영 뒤 _backup 만 남긴다
+│   └── _backup/
+├── myth-plan/missing-figures.md # 신화 정비안이 넣자고 한 미등록 인물. 등록·배정하면 지운다
 ├── hero-photo/                  # 대표 사진 연출문 초안. 생성·등록 뒤 삭제
 │   └── scene-manifest.md
+├── headline-rewrite/            # 회차 중에만 존재. apply 뒤 통째로 삭제
+│   └── ledger/lane-NN.json
+├── profession-reclass/          # 직군 재분류 배치
+├── relations-dense/             # 관계 밀도 보강 레인
 ├── timeline-life-rewrite/
 │   ├── korean-diagnostic/
 │   ├── pilots/
 │   └── db-*.json
-└── viewing-research/
-    └── YYYY-MM-DD-<scope>.md
+├── viewing-research/
+│   └── YYYY-MM-DD-<scope>.md
+└── virtual-monologue/           # 가상독백 보류 기록(light.jsonl)·감시자 로그. 빈칸이 모두 채워지면 지운다
 ```
+
+**배치 산출물은 DB 반영이 끝나면 지운다.** 생성 스크립트가 만드는 작업 폴더(`gap-fill/`처럼
+필드·트랙 이름을 딴 것)는 반영과 왕복 검증을 통과한 순간 쓸모가 끝난다. 남겨 두면 다음 배치가
+옛 산출물을 완료로 착각하고 건너뛴다. 경위는 커밋 이력이 아니라 DB와 룰북이 쥔다. 되돌릴 값이
+있으면 `_backup/`에 원본만 남기고 나머지는 폐기한다.
 
 ### `headline-rewrite/`
 
@@ -41,7 +55,7 @@ data/celeb/
 
 ### `hero-photo/`
 
-아바타·대표 사진이 둘 다 없는 인물의 대표 사진 연출문 초안이다. `SHOT MODE`·`ACTION`·`SETTING`을 인물별로 배분해 두고 발주할 때 꺼내 쓴다. 규격은 `docs/project/celeb/celeb-08-02-hero-photo.md`, 얼굴·복식과 금지 항목은 `docs/todo/celeb/avatar-backlog.md`가 쥔다. 생성과 등록이 끝나면 지운다.
+아바타·대표 사진이 둘 다 없는 인물의 대표 사진 연출문 초안이다. `SHOT MODE`·`ACTION`·`SETTING`을 인물별로 배분해 두고 발주할 때 꺼내 쓴다. 규격은 `docs/project/celeb/celeb-08-02-hero-photo.md`, 얼굴·복식과 금지 항목은 `docs/todo/img/avatar-backlog.md`가 쥔다. 생성과 등록이 끝나면 지운다.
 
 ### `viewing-research/`
 
