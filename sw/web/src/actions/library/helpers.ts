@@ -107,6 +107,8 @@ export async function fetchAllCelebContents(
         `)
         .in('celeb_id', batchIds)
         .eq('status', 'FINISHED')
+        // 페이지 사이에 행이 겹치거나 빠지지 않게 고유 키로 정렬한다(26.09.14)
+        .order('id', { ascending: true })
         .range(from, from + PAGE_SIZE - 1)
 
       if (category) {

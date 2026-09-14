@@ -13,6 +13,7 @@
 import { unstable_cache } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
+import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import type { TopFivePool } from "@/components/features/game/topfive/engine";
@@ -66,7 +67,8 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
   const db = createStaticClient();
 
   // 1) 영향력 순위를 직군별로 조회 (상위 2000명)
-  const { data: influences, error: infError } = await db
+  // .limit(2000)을 걸어도 PostgREST가 1,000행에서 자른다 — 상위 2,000명까지 나눠 받고, 동점이 페이지 사이에서 흔들리지 않게 인물 id까지 정렬한다
+  const influences = await selectAllPages<InfluenceRow>((from, to) => db
     .from("celeb_influence")
     .select(`
       celeb_id,
@@ -77,11 +79,11 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
     `)
     .eq("celeb.publication_status", "active")
     .order("total_score", { ascending: false })
-    .limit(2000)
-    .overrideTypes<InfluenceRow[], { merge: false }>();
+    .order("celeb_id", { ascending: true })
+    .range(from, to)
+    .overrideTypes<InfluenceRow[], { merge: false }>(), 2000);
 
-  if (infError) throw new Error(`[getTopFivePool] influence: ${infError.message}`);
-  if (!influences || influences.length === 0) throw new Error("No influence data");
+  if (influences.length === 0) throw new Error("No influence data");
 
   // ── 직군별 퍼즐 ──
   const byProfession = new Map<string, InfluenceRow[]>();
@@ -131,14 +133,14 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
 
   if (tagError) throw new Error(`[getTopFivePool] tags: ${tagError.message}`);
 
-  const { data: assignments, error: assignError } = await db
+  // 배정이 3천 행을 넘는다. .limit(5000)을 걸어도 1,000행에서 잘려 진영 퍼즐 인원이 모자랐다 — 나눠 받는다
+  const assignments = await selectAllPages<TagAssignmentRow>((from, to) => db
     .from("celeb_tag_assignments")
     .select("celeb_id, tag_id")
     .eq("hidden", false)
-    .limit(5000)
-    .overrideTypes<TagAssignmentRow[], { merge: false }>();
-
-  if (assignError) throw new Error(`[getTopFivePool] assignments: ${assignError.message}`);
+    .order("id", { ascending: true })
+    .range(from, to)
+    .overrideTypes<TagAssignmentRow[], { merge: false }>());
 
   if (tags && assignments) {
     // 영향력 맵 (celeb_id → { score, nickname, nickname_en })

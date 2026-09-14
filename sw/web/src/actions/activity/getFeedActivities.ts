@@ -8,6 +8,9 @@ import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow, type TitleBadge } from '@/lib/utils/content-locale'
 import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 
+/** 유형 필터가 있을 때 한 번 부를 때 활동을 몇 묶음까지 훑는가. 넘으면 채운 만큼 돌려주고 이어 받게 한다 */
+const FEED_TYPE_SCAN_ROUNDS = 5
+
 export interface FeedActivity {
   id: string
   user_id: string
@@ -80,57 +83,67 @@ export async function getFeedActivities(
     return { activities: [], nextCursor: null }
   }
 
-  // contentType 필터가 있으면 해당 타입의 content_id 목록 조회
-  let filteredContentIds: string[] | null = null
-  if (contentType && contentType !== 'all') {
-    const { data: filteredContents } = await db
-      .from('contents')
-      .select('id')
-      .eq('type', contentType)
+  // 유형 필터는 활동을 먼저 받고, 그 활동의 작품만 유형을 확인해 거른다.
+  // 전에는 그 유형의 작품 id를 전부(1만 건대) 뽑아 .in()에 넣었다. 1,000행 상한에 잘리고 주소 길이로 요청이
+  // 실패해, 필터를 켜면 피드가 비었다(26.09.14). activity_logs에는 작품 외래키가 없어 조인으로는 거르지 못한다
+  type ActivityRow = {
+    id: string
+    user_id: string
+    action_type: string
+    target_type: string
+    target_id: string
+    content_id: string | null
+    created_at: string
+  }
+  const wantType = contentType && contentType !== 'all' ? contentType : null
+  const pageSize = limit + 1
+  const scanSize = wantType ? pageSize * 3 : pageSize
+  const collected: ActivityRow[] = []
+  let scanCursor = cursor
+  let scannedAll = false
 
-    if (filteredContents && filteredContents.length > 0) {
-      filteredContentIds = filteredContents.map(c => c.id)
-    } else {
-      // 해당 타입의 콘텐츠가 없으면 빈 결과 반환
+  // 팔로우한 사람들의 활동 로그 조회 (콘텐츠 추가, 리뷰 작성만). 유형 필터가 있으면 몇 묶음까지 더 훑는다
+  for (let round = 0; round < FEED_TYPE_SCAN_ROUNDS && collected.length < pageSize; round++) {
+    let query = db
+      .from('activity_logs')
+      .select('id, user_id, action_type, target_type, target_id, content_id, created_at')
+      .in('user_id', followingIds)
+      .in('action_type', ['CONTENT_ADD', 'REVIEW_UPDATE'])
+      .order('created_at', { ascending: false })
+      .limit(scanSize)
+    if (scanCursor) query = query.lt('created_at', scanCursor)
+
+    const { data, error } = await query
+    if (error || !data) {
+      console.error('피드 활동 조회 에러:', error)
       return { activities: [], nextCursor: null }
     }
+    const batch = data as ActivityRow[]
+    if (batch.length < scanSize) scannedAll = true
+
+    if (!wantType) {
+      collected.push(...batch)
+      break
+    }
+    const batchContentIds = [...new Set(batch.map((row) => row.content_id).filter((id): id is string => Boolean(id)))]
+    const { data: typedContents } = batchContentIds.length
+      ? await db.from('contents').select('id').in('id', batchContentIds).eq('type', wantType)
+      : { data: [] as { id: string }[] }
+    const matching = new Set((typedContents ?? []).map((row) => row.id))
+    collected.push(...batch.filter((row) => row.content_id !== null && matching.has(row.content_id)))
+
+    if (scannedAll || batch.length === 0) break
+    scanCursor = batch[batch.length - 1].created_at
   }
 
-  // 팔로우한 사람들의 활동 로그 조회 (콘텐츠 추가, 리뷰 작성만)
-  let query = db
-    .from('activity_logs')
-    .select(`
-      id,
-      user_id,
-      action_type,
-      target_type,
-      target_id,
-      content_id,
-      created_at
-    `)
-    .in('user_id', followingIds)
-    .in('action_type', ['CONTENT_ADD', 'REVIEW_UPDATE'])
-    .order('created_at', { ascending: false })
-    .limit(limit + 1)
-
-  // contentType 필터 적용
-  if (filteredContentIds) {
-    query = query.in('content_id', filteredContentIds)
-  }
-
-  if (cursor) {
-    query = query.lt('created_at', cursor)
-  }
-
-  const { data, error } = await query
-
-  if (error || !data) {
-    console.error('피드 활동 조회 에러:', error)
-    return { activities: [], nextCursor: null }
-  }
-
-  const hasMore = data.length > limit
-  const sliced = hasMore ? data.slice(0, limit) : data
+  const hasMore = collected.length > limit
+  const sliced = hasMore ? collected.slice(0, limit) : collected
+  // 유형 필터로 훑기 상한에 닿았는데 아직 남은 활동이 있으면, 채운 만큼만 돌려주고 훑은 자리부터 이어 받게 한다
+  const nextCursor = hasMore
+    ? sliced[sliced.length - 1].created_at
+    : wantType && !scannedAll && scanCursor
+      ? scanCursor
+      : null
   const activityMemberIds = [...new Set(sliced.map(item => item.user_id))]
 
   const { data: memberProfiles } = activityMemberIds.length
@@ -225,6 +238,6 @@ export async function getFeedActivities(
 
   return {
     activities,
-    nextCursor: hasMore ? activities[activities.length - 1].created_at : null,
+    nextCursor,
   }
 }

@@ -16,6 +16,7 @@ import { createClient, type SupabaseClient as DatabaseClient } from '@supabase/s
 import { LISTING_DEFAULT_REALITIES } from '@feelandnote/shared/constants/celeb-tiers'
 import { countRecentTitleMentions } from '@feelandnote/content-search/naver-news'
 import { getKSTDateKey } from '@/lib/game/date-seed'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 
 /* 뉴스 조회를 후보 수만큼 이어 부르므로 기본 상한(10초)으로는 모자란다 */
 export const maxDuration = 300
@@ -45,14 +46,21 @@ async function countPublicContents(
   const counts = new Map<string, number>()
   if (ids.length === 0) return counts
 
-  const { data } = await db
-    .from('celeb_contents')
-    .select('celeb_id')
-    .in('celeb_id', ids)
-    .eq('status', 'FINISHED')
-    .eq('visibility', 'public')
+  /* 후보가 천여 명이라 한 번에 .in()으로 물으면 주소가 길어 요청이 실패하고, 그 실패를 삼키면 기록 수가
+     전원 0이 되어 「기록 많은 순」이 id 순으로 굴러갔다(26.09.14). 200명씩 나눠, 묶음마다 끝까지 받는다 */
+  const chunks = Array.from({ length: Math.ceil(ids.length / 200) }, (_, i) => ids.slice(i * 200, (i + 1) * 200))
+  const rows = (await Promise.all(chunks.map((chunk) =>
+    selectAllPages<{ celeb_id: string }>((from, to) => db
+      .from('celeb_contents')
+      .select('celeb_id')
+      .in('celeb_id', chunk)
+      .eq('status', 'FINISHED')
+      .eq('visibility', 'public')
+      .order('id', { ascending: true })
+      .range(from, to)),
+  ))).flat()
 
-  for (const row of (data ?? []) as { celeb_id: string }[]) {
+  for (const row of rows) {
     counts.set(row.celeb_id, (counts.get(row.celeb_id) ?? 0) + 1)
   }
   return counts
@@ -68,15 +76,16 @@ async function pickNewsCeleb(
   db: DatabaseClient,
   today: string,
 ): Promise<{ id: string; mentions: number } | null> {
-  const { data: alive } = await db
+  /* 생존 인물이 1,500명을 넘어 한 번에 받으면 1,000명에서 잘린다 — 나눠 받는다 */
+  const rows = await selectAllPages<{ id: string; nickname: string }>((from, to) => db
     .from('celebs')
     .select('id, nickname')
     .eq('publication_status', 'active')
     .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
     .is('death_date', null)
     .not('nickname', 'is', null)
-
-  const rows = (alive ?? []) as { id: string; nickname: string }[]
+    .order('id', { ascending: true })
+    .range(from, to))
   if (rows.length === 0) return null
 
   // 최근에 세운 인물은 후보에서 뺀다
@@ -175,14 +184,15 @@ export async function GET(request: Request) {
       source = 'birthday'
     } else {
       // 3. 시드
-      const { data: celebProfiles } = await db
+      // 신화·관계 인물은 목록에서 제외한다. 활성 인물이 3천 명을 넘어 나눠 받고,
+      // 시드가 날마다 같은 사람을 짚도록 id로 줄을 고정한다(전에는 DB가 내주는 순서대로 앞 1,000명만 받았다)
+      const pool = await selectAllPages<{ id: string }>((from, to) => db
         .from('celebs')
         .select('id')
         .eq('publication_status', 'active')
-        // 신화·관계 인물은 목록에서 제외
         .in('celeb_reality', [...LISTING_DEFAULT_REALITIES])
-
-      const pool = (celebProfiles ?? []) as { id: string }[]
+        .order('id', { ascending: true })
+        .range(from, to))
       if (pool.length === 0) {
         return NextResponse.json({ message: 'No celebs found' })
       }

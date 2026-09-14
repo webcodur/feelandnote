@@ -7,6 +7,7 @@
 
 import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
+import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { getLocale } from "next-intl/server";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
@@ -84,16 +85,16 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
   // 3. celeb_contents + contents JOIN (셀럽당 최대 4개)
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === "en" ? "review_en, " : "";
-  const { data, error } = await db
+  // 큰 진영(백 명대)이면 기록이 1,000행을 넘을 수 있다 — 나눠 받는다
+  const data = await selectAllPages((from, to) => db
     .from("celeb_contents")
     .select(
       `celeb_id, content_id, review, ${reviewEnSelect}source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
     .in("celeb_id", celebIds)
-    .eq("visibility", "public");
-
-  throwOnQueryError('getTagChronologicalLibrary', error);
-  if (!data) return { celebs, contentsMap: {} };
+    .eq("visibility", "public")
+    .order("id", { ascending: true })
+    .range(from, to));
 
   const contentsMap: Record<string, TimelineContent[]> = {};
 

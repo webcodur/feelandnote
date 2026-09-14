@@ -3,6 +3,7 @@
 import { unstable_cache } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
+import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { LISTING_DEFAULT_REALITIES } from "@feelandnote/shared/constants/celeb-tiers";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { getCelebYear } from "@/lib/celeb/lifespan";
@@ -75,19 +76,18 @@ async function fetchMemoryFigures(locale: string): Promise<MemoryFigure[]> {
   if (candidates.length === 0) return [];
 
   // 게임이 끝나면 만난 인물의 감상 기록을 펼쳐 보여준다 — 기록이 없는 인물은 카드에 올리지 않는다
-  const { data: reviewed, error: reviewedError } = await db
+  // 후보 180명의 감상 기록은 5천 행이 넘어 한 번에 받으면 1,000행에서 잘리고, 잘린 인물이 카드에서 빠진다 — 나눠 받는다
+  const reviewed = await selectAllPages<{ celeb_id: string }>((from, to) => db
     .from("celeb_contents")
     .select("celeb_id")
     .in("celeb_id", candidates.map((figure) => figure.id))
     .eq("visibility", "public")
     .not("review", "is", null)
-    .neq("review", "");
+    .neq("review", "")
+    .order("id", { ascending: true })
+    .range(from, to));
 
-  if (reviewedError) {
-    throw new Error(`[getMemoryFigures] ${reviewedError.message}`);
-  }
-
-  const hasReview = new Set((reviewed ?? []).map((row) => row.celeb_id));
+  const hasReview = new Set(reviewed.map((row) => row.celeb_id));
   return candidates.filter((figure) => hasReview.has(figure.id)).slice(0, FIGURE_LIMIT);
 }
 
