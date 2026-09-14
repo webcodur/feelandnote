@@ -186,35 +186,39 @@ async function countModernReaders(contentIds: string[]): Promise<Map<string, num
   const counts = new Map<string, number>()
   if (contentIds.length === 0) return counts
 
-  const { data: modern, error: celebError } = await db
-    .from('celebs')
-    .select('id')
-    .eq('publication_status', 'active')
-    .gte('birth_date', MODERN_BORN_FROM)
-    .limit(2000)
-
-  if (celebError) {
+  // 1950년 이후 출생 활성 인물이 1,600명을 넘는다. .limit(2000)을 걸어도 1,000명에서 잘려 현역 독자 수가 모자랐다 — 나눠 받는다
+  let modernIds = new Set<string>()
+  try {
+    const modern = await selectAllPages<{ id: string }>((from, to) => db
+      .from('celebs')
+      .select('id')
+      .eq('publication_status', 'active')
+      .gte('birth_date', MODERN_BORN_FROM)
+      .order('id', { ascending: true })
+      .range(from, to))
+    modernIds = new Set(modern.map((c) => c.id))
+  } catch (celebError) {
     console.error('[getAffiliateBooks] 현역 인물 조회 실패:', celebError)
     return counts
   }
-
-  const modernIds = new Set((modern ?? []).map((c) => c.id as string))
   if (modernIds.size === 0) return counts
 
-  // 한 번에 다 물으면 요청 주소가 길어져 거부당한다 — 나눠 묻는다
+  // 한 번에 다 물으면 요청 주소가 길어져 거부당한다 — 나눠 묻고, 묶음마다 끝까지 받는다
   for (let i = 0; i < contentIds.length; i += 60) {
-    const { data, error } = await db
-      .from('celeb_contents')
-      .select('content_id, celeb_id')
-      .in('content_id', contentIds.slice(i, i + 60))
-      .limit(2000)
-
-    if (error) {
+    let data: { content_id: string; celeb_id: string }[] = []
+    try {
+      data = await selectAllPages<{ content_id: string; celeb_id: string }>((from, to) => db
+        .from('celeb_contents')
+        .select('content_id, celeb_id')
+        .in('content_id', contentIds.slice(i, i + 60))
+        .order('id', { ascending: true })
+        .range(from, to))
+    } catch (error) {
       console.error('[getAffiliateBooks] 현역 인물 기록 조회 실패:', error)
       return counts
     }
 
-    for (const row of data ?? []) {
+    for (const row of data) {
       if (!modernIds.has(row.celeb_id as string)) continue
       const id = row.content_id as string
       counts.set(id, (counts.get(id) ?? 0) + 1)

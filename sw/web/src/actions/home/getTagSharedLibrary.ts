@@ -7,6 +7,7 @@
 
 import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
+import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow, type TitleBadge } from "@/lib/utils/content-locale";
@@ -67,16 +68,16 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   );
 
   // 3. celeb_contents + contents JOIN
-  const { data, error } = await db
+  // 큰 진영(백 명대)이면 기록이 1,000행을 넘을 수 있다 — 나눠 받는다
+  const data = await selectAllPages((from, to) => db
     .from("celeb_contents")
     .select(
       `celeb_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
     .in("celeb_id", celebIds)
-    .eq("visibility", "public");
-
-  throwOnQueryError('getTagSharedLibrary', error);
-  if (!data) return [];
+    .eq("visibility", "public")
+    .order("id", { ascending: true })
+    .range(from, to));
 
   // 4. content_id 기준 그룹화
   const contentMap = new Map<

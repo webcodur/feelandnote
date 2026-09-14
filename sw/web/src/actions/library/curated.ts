@@ -9,6 +9,7 @@
 import { unstable_cache } from 'next/cache'
 import { getLocale } from 'next-intl/server'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { cachedDetail, STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/db/static'
 import {
@@ -152,15 +153,16 @@ async function fetchCoversByList(
   const out = new Map<string, string[]>()
   if (listIds.length === 0) return out
 
-  const { data, error } = await db
+  // 목록마다 앞 순번만 훑어도 목록이 수십 개라 1,000행을 넘는다 — 나눠 받고, 같은 순번끼리는 항목 id로 줄을 고정한다
+  const data = await selectAllPages((from, to) => db
     .from('curated_list_items')
     .select(`list_id, sort_order, contents(content_locales(${CL_SELECT_LIST}))`)
     .in('list_id', listIds)
     .eq('hidden', false)
     .lte('sort_order', COVER_SCAN_DEPTH)
     .order('sort_order', { ascending: true })
-
-  throwOnQueryError('기관 선정 표지 조회', error)
+    .order('id', { ascending: true })
+    .range(from, to))
 
   for (const row of (data ?? []) as unknown as {
     list_id: string

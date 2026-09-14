@@ -10,6 +10,7 @@
 - any, Record<string, unknown> 금지
 - ENUM은 "ENUM_" 접두사 + 언더바 형식
 - 아이콘: lucide-react (범용)
+- **여러 행을 읽는 조회는 `selectAllPages`(`@feelandnote/shared/lib/paginate`)로 나눠 받고 고유 키까지 정렬한다.** PostgREST는 한 응답을 1,000행에서 자르고 `.limit(2000)`으로도 뚫리지 않는다 — 잘려도 오류가 나지 않아 화면이 조용히 틀린다(26.09.14 세력도감 테마마다 4명). `.in()`에 id를 수백 개 넣으면 주소 길이로 실패하니 200개씩 나눈다. 세력 명단은 `selectVisibleAtlasMembers`(`@/lib/faction-atlas-members`)를 쓴다.
 
 ## 컴포넌트
 - left/right 대신 start/end

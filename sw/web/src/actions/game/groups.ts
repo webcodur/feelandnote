@@ -10,6 +10,7 @@
 import { unstable_cache } from "next/cache";
 import { getLocale } from "next-intl/server";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
+import { selectAllPages } from "@feelandnote/shared/lib/paginate";
 import { STATIC_REVALIDATE } from "@/lib/cache";
 import { createStaticClient } from "@/lib/db/static";
 import type { GroupDef, GroupItem } from "@/components/features/game/groups/types";
@@ -60,7 +61,8 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
   if (tagError) throw new Error(`[getGroupsPool] tags: ${tagError.message}`);
 
   // 2) 태그별 인물 조회
-  const { data: assignments, error: assignError } = await db
+  // 배정이 3천 행을 넘어 한 번에 받으면 1,000행에서 잘린다 — 나눠 받는다
+  const assignments = await selectAllPages<TagAssignmentRow>((from, to) => db
     .from("celeb_tag_assignments")
     .select(`
       celeb_id,
@@ -69,9 +71,9 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
         id, nickname, nickname_en, avatar_url, profession, nationality, publication_status
       )
     `)
-    .overrideTypes<TagAssignmentRow[], { merge: false }>();
-
-  if (assignError) throw new Error(`[getGroupsPool] assignments: ${assignError.message}`);
+    .order("id", { ascending: true })
+    .range(from, to)
+    .overrideTypes<TagAssignmentRow[], { merge: false }>());
 
   const groups: GroupDef[] = [];
   const members: GroupItem[][] = [];
