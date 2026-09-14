@@ -7,6 +7,69 @@ import { spawnSync } from 'node:child_process';
 import { resolveKeys, syncBestsellers, runCli } from './sync-bestsellers.mjs';
 import { collectBooks } from './bestsellers/books.mjs';
 import { collectMedia } from './bestsellers/media.mjs';
+import { fetchWithRetry } from './bestsellers/http.mjs';
+
+function captureRetryDelays(t) {
+  const delays = [];
+  t.mock.method(globalThis, 'setTimeout', (callback, delay) => {
+    delays.push(delay);
+    queueMicrotask(callback);
+    return 0;
+  });
+  return delays;
+}
+
+test('OpenLibrary chart recovers after two transient source failures', async t => {
+  captureRetryDelays(t);
+  let calls = 0;
+  t.mock.method(globalThis, 'fetch', async () => {
+    calls++;
+    if (calls === 1) throw new DOMException('Request timed out', 'TimeoutError');
+    if (calls === 2) return new Response('', { status: 503 });
+    return Response.json({ works: Array.from({ length: 18 }, (_, i) => ({ title: `Book ${i}` })) });
+  });
+  const result = await collectBooks('en', 'ALL', '');
+  assert.equal(result.length, 18);
+  assert.equal(calls, 3);
+});
+
+test('source retry observes Retry-After with a bounded wait', async t => {
+  const delays = captureRetryDelays(t);
+  let calls = 0;
+  t.mock.method(globalThis, 'fetch', async () => ++calls < 3
+    ? new Response('', { status: 429, headers: { 'Retry-After': calls === 1 ? '5' : '3600' } })
+    : Response.json({ ok: true }));
+  assert.equal((await fetchWithRetry('https://openlibrary.org/trending/weekly.json')).status, 200);
+  assert.deepEqual(delays, [5000, 30000]);
+});
+
+test('permanent HTTP errors do not retry or expose query secrets', async t => {
+  const delays = captureRetryDelays(t);
+  let calls = 0;
+  t.mock.method(globalThis, 'fetch', async () => { calls++; return new Response('', { status: 401 }); });
+  await assert.rejects(fetchWithRetry('https://example.com/chart?api_key=private-value'), error => {
+    assert.match(error.message, /example\.com.*HTTP 401/);
+    assert.ok(!error.message.includes('private-value'));
+    return true;
+  });
+  assert.equal(calls, 1);
+  assert.deepEqual(delays, []);
+});
+
+test('persistent network failure stops after three attempts and keeps a safe diagnostic', async t => {
+  captureRetryDelays(t);
+  let calls = 0;
+  t.mock.method(globalThis, 'fetch', async () => {
+    calls++;
+    throw new TypeError('fetch failed https://example.com?api_key=private-value', { cause: { code: 'ETIMEDOUT' } });
+  });
+  await assert.rejects(fetchWithRetry('https://example.com/chart?api_key=private-value'), error => {
+    assert.match(error.message, /example\.com.*ETIMEDOUT/);
+    assert.ok(!error.message.includes('private-value'));
+    return true;
+  });
+  assert.equal(calls, 3);
+});
 
 const oldDate = '2026-08-27T04:38:34.728Z';
 const now = '2026-09-13T12:00:00.000Z';
