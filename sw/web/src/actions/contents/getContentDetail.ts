@@ -32,7 +32,7 @@ import {
   stripLocalizedMeta,
 } from '@/lib/utils/content-locale-text'
 import { getBookIntroduction } from './fetchBookMetadata'
-import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference } from '@/lib/utils/book-description'
+import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 
 // #region 타입 정의
@@ -47,6 +47,7 @@ export interface ContentDetailData {
     thumbnail?: string
     description?: string
     bookIntroduction?: BookIntroductionReference | null
+    introductionAttribution?: BookIntroductionAttribution
     releaseDate?: string
     type: ContentType
     category: CategoryId
@@ -272,6 +273,7 @@ async function fetchContentDataPublic(
       thumbnail: sourceEdition?.thumbnailUrl || dbContent.thumbnail_url || undefined,
       description: (bookDisplay ? bookDisplay.description : pickIntroForLocale(locale, [dbContent.description, dbMetaDesc])) ?? undefined,
       ...(bookDisplay ? { bookIntroduction: bookDisplay.bookIntroduction } : {}),
+      ...(bookDisplay?.introductionAttribution ? { introductionAttribution: bookDisplay.introductionAttribution } : {}),
       releaseDate: sourceEdition?.releaseDate || dbContent.release_date || undefined,
       type: dbContent.type as ContentType,
       category: categoryId,
@@ -317,7 +319,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-selected-book-intro-v11-purchase-edition', contentId, category ?? '', locale],
+    ['content-data-public-selected-book-intro-v13-original-source', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
 

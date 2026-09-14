@@ -1,4 +1,4 @@
-import type { BookIntroductionReference } from '@/lib/utils/book-description'
+import type { BookIntroductionReference, BookIntroductionAttribution } from '@/lib/utils/book-description'
 
 export type FigureBookProductPlatform = 'coupang' | 'amazon'
 
@@ -26,6 +26,7 @@ export interface FigureBookEdition {
   creator: string | null
   description: string | null
   bookIntroduction?: BookIntroductionReference | null
+  introductionAttribution?: BookIntroductionAttribution
   isbn: string | null
   publisher: string | null
   thumbnailUrl: string | null

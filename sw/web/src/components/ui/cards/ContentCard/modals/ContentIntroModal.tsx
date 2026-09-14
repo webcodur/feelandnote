@@ -10,6 +10,7 @@ import { BookOpen } from "lucide-react";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import ContentImage from "@/components/ui/ContentImage";
 import FormattedText from "@/components/ui/FormattedText";
+import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
 import { getContentBrief, type ContentBrief } from "@/actions/contents/getContentBrief";
 import { useLocale, useTranslations } from "next-intl";
 import type { ContentType } from "@/types/database";
@@ -42,7 +43,9 @@ export default function ContentIntroModal({
   const t = useTranslations("content.intro");
   const tContent = useTranslations("content");
   const tMetadata = useTranslations("shared.content");
-  const [brief, setBrief] = useState<ContentBrief | null>(null);
+  const requestKey = JSON.stringify([contentId, locale]);
+  const [briefResult, setBriefResult] = useState<{ key: string; brief: ContentBrief | null } | null>(null);
+  const brief = briefResult?.key === requestKey ? briefResult.brief : null;
   const [isLoading, setIsLoading] = useState(false);
   const creatorLabel = {
     BOOK: tContent("creator.book"),
@@ -51,6 +54,7 @@ export default function ContentIntroModal({
     MUSIC: tContent("creator.music"),
   }[contentType];
   const isBook = contentType === "BOOK" || brief?.category === "book";
+  const description = isBook ? brief?.description : brief?.description ?? fallbackDescription;
   const genre = brief?.metadata?.genres?.join(", ")
     || brief?.metadata?.genre
     || fallbackMetadata?.genres?.join(", ")
@@ -81,7 +85,7 @@ export default function ContentIntroModal({
       setIsLoading(true);
       try {
         const data = await getContentBrief(contentId, locale);
-        if (!cancelled) setBrief(data);
+        if (!cancelled) setBriefResult({ key: requestKey, brief: data });
       } finally {
         if (!cancelled) setIsLoading(false);
       }
@@ -90,7 +94,7 @@ export default function ContentIntroModal({
     return () => {
       cancelled = true;
     };
-  }, [isOpen, contentId, locale]);
+  }, [isOpen, contentId, locale, requestKey]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={t("title")} icon={BookOpen} size="xl">
@@ -131,9 +135,17 @@ export default function ContentIntroModal({
                 <div className="h-3 w-4/5 animate-pulse rounded bg-white/[0.06]" />
                 <div className="h-3 w-3/4 animate-pulse rounded bg-white/[0.06]" />
               </div>
-            ) : (brief?.description ?? fallbackDescription) ? (
-              <div className="text-sm leading-relaxed text-text-secondary whitespace-pre-wrap">
-                <FormattedText text={(brief?.description ?? fallbackDescription)!} />
+            ) : description ? (
+              <div>
+                {isBook && (
+                  <BookIntroductionSource
+                    attribution={brief?.description ? brief.introductionAttribution : undefined}
+                    className="mb-3"
+                  />
+                )}
+                <div className="text-sm leading-relaxed text-text-secondary whitespace-pre-wrap">
+                  <FormattedText text={description} />
+                </div>
               </div>
             ) : (
               <p className="text-sm italic text-text-tertiary py-4 text-center">{t("empty")}</p>

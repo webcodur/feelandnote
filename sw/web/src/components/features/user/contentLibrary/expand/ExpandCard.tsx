@@ -27,6 +27,9 @@ import ReviewScrollBox from "./ReviewScrollBox";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
 import AffiliateBookAction from "../AffiliateBookAction";
 import { getCoupangAffiliateUrl } from "../contentAffiliate";
+import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
+import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
+import { findAffiliateLink } from "@/actions/home/affiliateLinks";
 
 interface ExpandCardProps {
   item: UserContentWithContent;
@@ -65,7 +68,7 @@ function ExpandCard({
   const [isCoverOpen, setIsCoverOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
-  const { title } = getLocalizedContent(item.content, locale);
+  const { title, creator } = getLocalizedContent(item.content, locale);
   const review = locale === "en" && item.review_en ? item.review_en : item.review;
   const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
   const isSpoiler = item.is_spoiler ?? false;
@@ -74,6 +77,11 @@ function ExpandCard({
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const href = `/content/${item.content_id}?category=${category}`;
   const coverUrl = item.content.thumbnail_url;
+  const amazonLink = findAffiliateLink(item.content.affiliate_url, "amazon");
+  const englishPurchaseLinks = item.content.type === "BOOK"
+    ? getEnglishBookPurchaseLinks({ locale, title, creator, links: amazonLink ? [amazonLink] : [] })
+    : [];
+  const hasBookPurchase = item.content.type === "BOOK" && (locale === "ko" || englishPurchaseLinks.length > 0);
 
   return (
     <>
@@ -133,11 +141,17 @@ function ExpandCard({
               <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
             )}
           </div>
-          {locale === "ko" && item.content.type === "BOOK" && (
+          {hasBookPurchase && locale === "ko" && (
             <AffiliateBookAction
               contentId={item.content_id}
               coupangUrl={getCoupangAffiliateUrl(item.content)}
               showNotice
+              className="sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 md:self-start"
+            />
+          )}
+          {englishPurchaseLinks.length > 0 && (
+            <BookPurchaseLinks
+              links={englishPurchaseLinks}
               className="sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 md:self-start"
             />
           )}
@@ -226,6 +240,7 @@ function ExpandCard({
             )}
           </div>}
         </section>
+
 
         {/* 아랫칸 — 출판사·출판일·ISBN 등 작품의 나머지 정보 */}
         {!hasBriefError && (

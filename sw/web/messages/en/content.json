@@ -56,12 +56,22 @@
     "purchase": {
       "buyAt": "Buy at {platform}",
       "buy": "Buy book",
-      "viewAt": "View on {platform}"
+      "viewAt": "View on {platform}",
+      "searchAt": "Search {platform}"
     },
     "purchaseInfo": {
       "trigger": "Purchase information",
       "title": "Purchase information",
-      "notice": "Feel & Note may earn a commission from YES24 or Coupang when you buy through these links."
+      "notice": "Feel & Note may earn a commission from YES24 or Coupang when you buy through these links.",
+      "benefit": "Check prices and delivery options on YES24 and Coupang, then choose the offer that works best for you."
+    },
+    "introductionSource": {
+      "unknown": "Source unverified",
+      "external": "External source",
+      "unknownDescription": "The source of this introduction has not been verified.",
+      "originalDescription": "This introduction was written by F&N.",
+      "sourceDescription": "Introduction source: {source}",
+      "openSource": "Open source"
     }
   },
   "contentDetail": {

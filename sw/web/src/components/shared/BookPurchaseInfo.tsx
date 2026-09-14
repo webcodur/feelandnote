@@ -1,11 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import dynamic from "next/dynamic";
-import { Info } from "lucide-react";
+import { ChevronRight, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-const BookPurchaseInfoModal = dynamic(() => import("./BookPurchaseInfoModal"));
+import BookPurchaseInfoModal from "./BookPurchaseInfoModal";
 
 export default function BookPurchaseInfo({ className = "" }: { className?: string }) {
   const t = useTranslations("content.purchaseInfo");
@@ -13,7 +11,7 @@ export default function BookPurchaseInfo({ className = "" }: { className?: strin
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <span className={`inline-flex shrink-0 items-center ${className}`} onClick={(event) => event.stopPropagation()}>
+    <span className={`block min-w-0 ${className}`} onClick={(event) => event.stopPropagation()}>
       <button
         ref={triggerRef}
         type="button"
@@ -21,11 +19,16 @@ export default function BookPurchaseInfo({ className = "" }: { className?: strin
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         title={t("trigger")}
-        onClick={() => setIsOpen(true)}
-        className="inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-md px-2 text-xs text-text-tertiary hover:bg-white/5 hover:text-accent active:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setIsOpen(true);
+        }}
+        className="group mx-auto grid min-h-9 w-full max-w-[180px] grid-cols-[0.875rem_minmax(0,1fr)_0.875rem] items-center gap-2 rounded-md border border-border bg-bg-secondary px-3 py-1.5 text-center text-sm text-text-secondary hover:border-accent hover:bg-bg-card hover:text-accent active:bg-bg-stone-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
-        <Info size={16} aria-hidden="true" />
-        <span>{t("trigger")}</span>
+        <Info size={14} className="shrink-0" aria-hidden="true" />
+        <span className="min-w-0 font-medium leading-snug">{t("trigger")}</span>
+        <ChevronRight size={14} className="shrink-0 text-text-tertiary group-hover:text-accent rtl:rotate-180" aria-hidden="true" />
       </button>
       {isOpen && (
         <BookPurchaseInfoModal

@@ -14,6 +14,7 @@ import type {
 } from "@/actions/figure-books/getFigureBooks";
 import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
+import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 
 interface FigureBookActionsProps {
   source: FigureBookContent;
@@ -30,9 +31,12 @@ export default function FigureBookActions({
 }: FigureBookActionsProps) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
-  const purchaseLinks = edition.purchaseUrl && edition.platform
+  const existingLinks = edition.purchaseUrl && edition.platform
     ? [{ platform: edition.platform, url: edition.purchaseUrl }]
     : [];
+  const purchaseLinks = source.type === "BOOK" && locale === "en"
+    ? getEnglishBookPurchaseLinks({ locale, title: edition.title || source.title, creator: edition.creator || source.creator, links: existingLinks })
+    : existingLinks;
   const contentHref = `${locale === "en" ? "/en" : ""}/content/${source.id}?category=${source.category}`;
 
   return (

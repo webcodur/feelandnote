@@ -19,14 +19,14 @@ export default function BookPurchaseLinks({ links, className }: {
 }) {
   const t = useTranslations("content.purchase");
   if (!links.length) return null;
-  const showPurchaseInfo = links.some((link) => link.platform === "yes24" || link.platform === "coupang");
+  const showPurchaseInfo = links.some((link) => link.linkKind !== "search" && (link.platform === "yes24" || link.platform === "coupang"));
 
   return (
     <div className={cn("min-w-0 space-y-2", className)}>
       <div className="flex flex-wrap gap-2">
         {links.map((link) => {
           const isYes24 = link.platform === "yes24";
-          const sponsored = !isYes24 || isYes24Affiliate(link.url);
+          const sponsored = link.linkKind !== "search" && (!isYes24 || isYes24Affiliate(link.url));
           return (
             <div key={`${link.platform}:${link.url}`} className="group/purchase relative min-w-0 flex-[1_1_9rem]">
               <a
@@ -42,14 +42,14 @@ export default function BookPurchaseLinks({ links, className }: {
                     : "border-border bg-bg-secondary text-text-primary hover:border-accent hover:bg-accent/10 hover:text-accent focus-visible:ring-accent",
                 )}
               >
-                <span>{t("buyAt", { platform: AFFILIATE_PLATFORMS[link.platform].label })}</span>
+                <span>{t(link.linkKind === "search" ? "searchAt" : "buyAt", { platform: AFFILIATE_PLATFORMS[link.platform].label })}</span>
                 <ArrowUpRight size={14} className="shrink-0" aria-hidden />
               </a>
             </div>
           );
         })}
       </div>
-      {showPurchaseInfo && <BookPurchaseInfo className="w-full justify-end" />}
+      {showPurchaseInfo && <BookPurchaseInfo />}
     </div>
   );
 }

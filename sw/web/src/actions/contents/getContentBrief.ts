@@ -11,7 +11,7 @@ import { createStaticClient } from '@/lib/db/static'
 import { cachedDetail, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { fetchContentMetadata } from './fetchContentMetadata'
 import { getBookIntroduction } from './fetchBookMetadata'
-import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference } from '@/lib/utils/book-description'
+import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 import { fetchMusicIntros, type ContentIntroSource } from './fetchMusicIntros'
 import type { ContentType } from '@/types/database'
@@ -31,6 +31,7 @@ export interface ContentBrief {
   /** 화면 언어에 맞는 작품 소개. 예약값은 표시하지 않는다. */
   description: string | null
   bookIntroduction?: BookIntroductionReference | null
+  introductionAttribution?: BookIntroductionAttribution
   releaseDate: string | null
   metadata: ContentMetadata | null
   subtype?: VideoSubtype
@@ -180,6 +181,7 @@ async function fetchBrief(contentId: string, locale: string): Promise<ContentBri
     category: TYPE_TO_CATEGORY[type],
     description: bookDisplay ? bookDisplay.description : pickIntroForLocale(locale, [exactLocale?.description, metaDesc, ...storedIntro]),
     ...(bookDisplay ? { bookIntroduction: bookDisplay.bookIntroduction } : {}),
+    ...(bookDisplay?.introductionAttribution ? { introductionAttribution: bookDisplay.introductionAttribution } : {}),
     releaseDate: (row.release_date as string | null) || (metadata?.publishDate ?? null),
     metadata,
     subtype: fetched.subtype as VideoSubtype | undefined,
@@ -197,7 +199,7 @@ function getCachedContentBrief(contentId: string, safeLocale: string): Promise<C
   return cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-brief-selected-book-intro-v9-source', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
+    ['content-brief-selected-book-intro-v11-original-source', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
     () => fetchBrief(contentId, safeLocale),
   )
 }
