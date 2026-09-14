@@ -1,7 +1,7 @@
 /*
   파일명: /components/layout/Header.tsx
   기능: 앱 상단 헤더 컴포넌트
-  책임: 로고, 1차 네비게이션, 검색, 알림, 프로필을 포함한 헤더 UI를 제공한다.
+  책임: 로고, 1차 네비게이션, 검색, 프로필(알림 포함)을 포함한 헤더 UI를 제공한다.
 */ // ------------------------------
 
 "use client";
@@ -9,9 +9,9 @@
 import { useState, useEffect } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { MessagesSquare } from "lucide-react";
+import { Landmark } from "lucide-react";
 import HeaderSearch from "./HeaderSearch";
-import HeaderNotifications from "./HeaderNotifications";
+import HeaderRecentProfiles from "./HeaderRecentProfiles";
 import HeaderProfileMenu from "./HeaderProfileMenu";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
@@ -110,6 +110,9 @@ export default function Header({ isMobile }: HeaderProps) {
 
         {/* 우측 영역 */}
         <div className="flex items-center gap-0.5 sm:gap-1 ms-auto shrink-0">
+          {/* 최근 방문 (모바일만 — 데스크톱은 좌측 중앙 패널이 쥔다) */}
+          <HeaderRecentProfiles />
+
           {/* 광장 진입 */}
           <Link
             href="/agora"
@@ -119,16 +122,13 @@ export default function Header({ isMobile }: HeaderProps) {
               isNavActive("/agora") ? "text-accent" : "text-text-secondary hover:text-text-primary"
             }`}
           >
-            <MessagesSquare size={ICON_SIZE} />
+            <Landmark size={ICON_SIZE} />
           </Link>
 
           {/* 언어 전환 (데스크톱) */}
           <LocaleSwitcher variant="icon" />
 
-          {/* 알림 (로그인 시에만) */}
-          {profile && <HeaderNotifications />}
-
-          {/* 프로필 메뉴 (로그인 여부 확인 후 표시) */}
+          {/* 프로필 메뉴 — 알림은 메뉴 안에 있다 (로그인 여부 확인 후 표시) */}
           {isLoggedIn !== null && (
             <HeaderProfileMenu profile={profile} isLoggedIn={isLoggedIn} />
           )}

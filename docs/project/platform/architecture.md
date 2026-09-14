@@ -39,9 +39,9 @@ app/
       agora/           # 광장 (social, social-feed, board/{notice,free,feedback})
       celeb/[slug]/    # 인물 상세
       content/[contentId]/
-      explore/         # 탐색 (figures, ranking, spectrum, today, faction/[slug],
-                       #       feed, timeline, youtube, directory)
-      library/         # 서가 (era, profession, museum, academy/[category]/[course])
+      explore/         # 인물 그리드 (ranking, spectrum, myth, faction/[slug],
+                       #       timeline, youtube, directory/[profession]; figures는 허브로 이동)
+      library/         # 작품 (popular, curated, museum, academy/[category]/[course])
       about/           # 서비스 소개 (문의 안내 흡수). 본문(AboutBody)은 홈 첫 방문 환영판과 공유
       notifications/
       rest/            # 쉼터 (게임 허브 단일 페이지)
@@ -102,38 +102,11 @@ types/                 # academy, content, database, database.generated, home, l
 
 `@/constants/navigation.tsx`가 단일원천이다. PC 헤더·모바일 바텀탭·홈 섹션·풋터가 모두 이 파일을 읽는다.
 
-`NAV_ITEMS`는 다음과 같다. `showInHomePage`가 참인 항목만 홈 섹션으로 나온다.
+`NAV_ITEMS`의 표시 플래그가 헤더·바텀탭·홈 노출을 정한다. 화면 라벨은 `messages/<locale>/nav.json`을 읽으며 코드의 참고 라벨과 구분한다. `archive`의 `/{userId}`는 실제 사용자 ID로 치환한다.
 
-| 키 | 라벨 | 경로 | 헤더 | 바텀탭 | 홈 |
-|---|---|---|---|---|---|
-| home | 홈 | `/` | | ● | |
-| explore | 탐색 | `/explore` | ● | ● | ● |
-| scriptures | 서가 | `/library` | ● | ● | ● |
-| rest | 쉼터 | `/rest` | ● | ● | |
-| archive | 내 기록 | `/{userId}` | | ● | ● |
+탐색의 인물 그리드와 주요·보조 바로가기는 [explore.md](../service/explore.md), 작품 화면은 [library.md](../service/library.md)를 본다. 탐색 주요 카드와 푸터 인물 메뉴는 `EXPLORE_FEATURED_LINKS`를 공유한다. 푸터 전체 구획은 `FOOTER_SECTIONS`, 홈 구획과 순서는 `HOME_SECTIONS`·`SECTION_ORDER`가 쥔다.
 
-`scriptures` 키의 경로는 `/library`다. 키 이름과 경로가 어긋나 있으나 코드상 그대로다. `archive`의 `/{userId}`는 렌더 시점에 실제 사용자 ID로 치환한다.
-
-#### 하위 링크 (subLinks)
-
-| 상위 | 하위 링크 |
-|---|---|
-| explore | `/explore/figures`(인물 목록), `/explore/ranking`(분야별 랭킹), `/explore/spectrum`(스펙트럼), `/explore/today`(오늘의 인물), `/explore/faction`(세력도감), `/explore/feed`(인물 피드), `/explore/timeline`(국가별 연대기), `/explore/youtube`(영상관), `/explore/directory`(디렉토리) |
-| scriptures | `/library/era`(불후의 명작), `/library/profession`(갈림길), `/library/museum`(박물관), `/library/academy`(학당) |
-| rest | `/rest#dawn`(여명), `/rest#labyrinth`(미궁), `/rest#hegemony`(패권), `/rest#suikoden`(천도) — 앵커 |
-
-> **rest는 단일 허브 + 앵커다.** `/rest/<게임>` 경로에는 `page.tsx`가 없다. 운영에서는 여명·미궁·패권·천도·기억 5종이 `/rest` 한 페이지에 마운트되고 이동은 앵커로 한다. `NAV_ITEMS`의 하위 링크에는 앞의 4종만 있으며, 기억은 쉼터 내부 목차에서 진입한다.
-> 26.07.16 교정 — subLinks가 `/rest/dawn` 등 실재하지 않는 경로를 가리키고 각 디렉토리에 `loading.tsx`만 고아로 남아 있었다. 유일한 소비처인 `Footer.tsx`가 `FOOTER_NAV_ITEMS`에서 `rest`를 제외해 렌더되지 않아 404가 표면화되지 않았을 뿐이다. subLinks를 앵커로 교정하고 고아 `loading.tsx` 4개를 제거했다.
-
-#### 풋터 링크
-
-- `FOOTER_NAV_ITEMS`: `subLinks`를 가진 항목 중 `rest`를 뺀 것 → explore, scriptures.
-- `FOOTER_BRAND_LINKS`: `/about`(서비스 소개), `/search`(검색), `/terms`(이용약관), `/privacy`(개인정보처리방침). 문의 안내는 `/about#contact`가 맡는다(2026-08-01 `/contact` 폐기·영구 리다이렉트).
-- `FOOTER_MISC_LINKS`: `/rest`(쉼터), `/agora/social`(소셜), `/agora/board/notice`(공지사항), `/agora/board/feedback`(피드백).
-
-#### 홈 섹션
-
-`HOME_SECTIONS`는 explore·scriptures·rest·archive 네 개를 정의하고, `SECTION_ORDER`가 `home-banner → explore-section → scriptures-section → rest-section → archive-section` 순서를 정한다. `rest`는 `showInHomePage`가 거짓이라 `HOME_SECTION_KEYS`에 들어가지 않지만 `HOME_SECTIONS` 항목은 남아 있다.
+쉼터는 `/rest` 한 페이지에 게임을 마운트하며 하위 메뉴는 앵커로 이동한다. `/rest/<게임>`을 화면 주소로 만들지 않는다.
 
 ### 네비게이션에 없는 화면
 
@@ -141,19 +114,7 @@ types/                 # academy, content, database, database.generated, home, l
 
 ### 레거시 리다이렉트
 
-아래 페이지는 화면이 아니라 리다이렉트만 한다. 문서·링크에서 정본 경로를 써라.
-
-| 레거시 | 정본 |
-|---|---|
-| `/explore/celebs` | `/explore/figures` |
-| `/explore/celeb-feed` | `/explore/feed` |
-| `/explore/figure` | `/explore/today` |
-| `/explore/people` | `/agora/social` |
-| `/explore/top-by-type` | `/explore/ranking` |
-| `/library/figure` | `/explore/today` |
-| `/agora/feed` | `/explore/feed` |
-| `/agora/celeb-feed` | `/explore/feed` |
-| `/agora/friend-feed` | `/agora/social-feed` |
+현재 리다이렉트는 `sw/web/next.config.ts`와 해당 페이지가 쥔다. `/explore/figures`는 조건을 보존해 `/explore`로 영구 이동한다. 문서·메뉴·워밍 점검에는 최종 정본 주소를 쓴다. 오늘의 인물과 인물 피드는 탐색 메뉴에서 빠졌지만 기존 화면 주소는 유지한다.
 
 ### 콘텐츠 상세 라우팅
 
