@@ -25,8 +25,7 @@ interface Props {
 
 export default function PersonNameplate({ person, onClick, rank }: Props) {
   const t = useTranslations("explore.ui");
-  // 얼굴이 48px로 나오는 자리라 작은 판을 받는다
-  const { src: avatarSrc, onError: onAvatarError } = useCelebAvatarSrc(person.avatar_url, "48px");
+  const { ref: avatarRef, src: avatarSrc, onError: onAvatarError } = useCelebAvatarSrc(person.avatar_url);
 
   return (
     <button
@@ -70,8 +69,10 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
                    {person.avatar_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={avatarSrc ?? person.avatar_url}
+                      ref={avatarRef}
+                      src={avatarSrc}
                       alt={person.nickname}
+                      loading="lazy"
                       onError={onAvatarError}
                       className="w-full h-full object-cover"
                     />

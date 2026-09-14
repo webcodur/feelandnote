@@ -1,23 +1,41 @@
-/*
-  파일명: /hooks/useCelebAvatarSrc.ts
-  기능: 인물 얼굴 주소 고르기
-  책임: 얼굴이 작게 나오는 자리는 800px 원본 대신 96px 작은 판을 받게 한다.
-        작은 판이 아직 없는 인물은 그 사진만 원본으로 되돌린다.
-*/ // ------------------------------
-
 "use client";
 
-import { useCallback, useState } from "react";
-import { celebAvatarSmallUrl, usesSmallAvatar } from "@feelandnote/shared/constants/celeb-avatar-small";
+import { useCallback, useRef, useState, type SyntheticEvent } from "react";
+import { celebAvatarSmallUrl } from "@feelandnote/shared/constants/celeb-avatar-small";
+import { observeAvatarSize } from "@/lib/celeb/avatar-size-observer";
 
-/**
- * @param src   원본 얼굴 주소
- * @param sizes 화면에 나오는 크기. `"40px"`처럼 고정 한 값일 때만 작은 판 대상으로 본다
- */
-export function useCelebAvatarSrc(src: string | null | undefined, sizes: string | null | undefined) {
-  const [fellBack, setFellBack] = useState(false);
-  const onError = useCallback(() => setFellBack(true), []);
+// CSS로 정해진 실제 이미지 칸과 화면 배율만 보고 소스를 고른다.
+// 측정 전에는 src를 비워 원본과 작은 판을 연달아 받는 일을 막는다.
+export function useCelebAvatarSrc(src: string | null | undefined) {
+  const smallSrc = celebAvatarSmallUrl(src);
+  const hasSmall = Boolean(src && smallSrc !== src);
+  const [selection, setSelection] = useState<{ source: string; small: boolean } | null>(null);
+  const [failedSource, setFailedSource] = useState<string | null>(null);
+  const cleanup = useRef<(() => void) | undefined>(undefined);
 
-  const shown = !fellBack && usesSmallAvatar(sizes) ? celebAvatarSmallUrl(src) : src;
-  return { src: shown ?? src ?? null, onError };
+  const ref = useCallback((image: HTMLImageElement | null) => {
+    cleanup.current?.();
+    cleanup.current = undefined;
+    if (!image || !src || !hasSmall) return;
+    cleanup.current = observeAvatarSize(image, (small) => {
+      setSelection((previous) => previous?.source === src && previous.small === small
+        ? previous
+        : { source: src, small });
+    });
+  }, [src, hasSmall]);
+
+  const onError = useCallback((event: SyntheticEvent<HTMLImageElement>) => {
+    // 작은 판이 없는 인물만 원본으로 한 번 되돌린다. 원본 실패는 반복하지 않는다.
+    if (hasSmall && event.currentTarget.getAttribute("src") === smallSrc) {
+      setFailedSource(src ?? null);
+    }
+  }, [src, smallSrc, hasSmall]);
+
+  let shownSrc = src ?? undefined;
+  if (hasSmall) {
+    shownSrc = selection && selection.source === src
+      ? (selection.small && failedSource !== src ? smallSrc ?? undefined : src ?? undefined)
+      : undefined;
+  }
+  return { ref, src: shownSrc, onError };
 }

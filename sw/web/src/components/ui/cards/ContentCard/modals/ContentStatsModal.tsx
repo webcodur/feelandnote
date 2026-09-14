@@ -5,7 +5,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import ContentImage from "@/components/ui/ContentImage";
 import { Users, Crown, User } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
@@ -16,7 +16,6 @@ import { getCelebForModal } from "@/actions/celebs";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import type { CelebProfile } from "@/types/home";
 import { useLocale, useTranslations } from "next-intl";
-import { celebAvatarSmallUrl } from "@feelandnote/shared/constants/celeb-avatar-small";
 
 interface CelebInfo {
   id: string;
@@ -137,16 +136,13 @@ export default function ContentStatsModal({
                         disabled={isCelebLoading}
                         className="w-full flex items-stretch gap-3 overflow-hidden rounded-lg bg-transparent border border-transparent hover:bg-stone-800/50 hover:border-border/30 text-left disabled:opacity-50 disabled:cursor-wait"
                       >
-                        {/* 아바타 - 원형 제거, 세로폭 꽉 채우기 / 스몰 아바타(96px) 강제 */}
+                        {/* 아바타는 행 높이를 채우고 실제 너비에 맞는 해상도를 받는다 */}
                         <div className="relative shrink-0 w-[52px] self-stretch overflow-hidden bg-stone-800">
                           {celeb.avatar_url ? (
-                            <Image
-                              src={celebAvatarSmallUrl(celeb.avatar_url) ?? celeb.avatar_url}
+                            <CelebAvatarImage
+                              src={celeb.avatar_url}
                               alt={locale === "en" ? (celeb.nickname_en || celeb.nickname) : celeb.nickname}
-                              width={96}
-                              height={96}
-                              unoptimized
-                              className="w-full h-full object-cover [image-rendering:auto]"
+                              className="object-cover"
                             />
                           ) : (
                             <div className="w-full h-full bg-bg-card flex items-center justify-center">

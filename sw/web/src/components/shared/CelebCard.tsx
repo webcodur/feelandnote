@@ -78,10 +78,10 @@ export default function CelebCard({
   const isCircle = variant === "circle";
   const roundedClass = isCard && shape === "square" ? "rounded-md" : "rounded-full";
   const config = isCard
-    ? { container: "aspect-square w-full", sizes: "(max-width: 640px) 120px, (max-width: 1024px) 180px, 200px", fallbackSize: 32 }
+    ? { container: "aspect-square w-full", fallbackSize: 32 }
     : isCircle
-      ? { container: "w-24 h-24", sizes: "96px", fallbackSize: 32 }
-      : { container: "w-14 h-14 sm:w-16 sm:h-16", sizes: "64px", fallbackSize: 20 };
+      ? { container: "w-24 h-24", fallbackSize: 32 }
+      : { container: "w-14 h-14 sm:w-16 sm:h-16", fallbackSize: 20 };
 
   return (
     <>
@@ -109,7 +109,6 @@ export default function CelebCard({
                 src={avatar_url}
                 alt={displayNickname}
                 shape={isCard && shape === "square" ? "square" : "circle"}
-                sizes={config.sizes}
                 maxPx={isCard ? 300 : undefined}
                 fallbackSize={config.fallbackSize}
                 className={`z-10 relative ${isQuiet ? "drop-shadow-sm" : "[filter:drop-shadow(0_10px_15px_rgba(0,0,0,0.8))]"} transition-transform duration-500 group-hover:scale-105`}

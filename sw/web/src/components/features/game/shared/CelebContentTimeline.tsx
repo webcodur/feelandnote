@@ -93,7 +93,7 @@ export default function CelebContentTimeline({
               <div className="relative w-11 h-11 rounded-full overflow-hidden border border-white/20 bg-bg-secondary shrink-0">
                 {celeb.avatar_url ? (
                   <BlurDissolve className="absolute inset-0">
-                    <CelebAvatarImage src={celeb.avatar_url} alt={displayNickname} sizes="44px" />
+                    <CelebAvatarImage src={celeb.avatar_url} alt={displayNickname} />
                   </BlurDissolve>
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-sm font-serif text-text-secondary">

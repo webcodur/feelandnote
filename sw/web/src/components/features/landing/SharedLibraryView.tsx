@@ -183,7 +183,6 @@ function SharedContentRow({
                       src={celeb.avatar_url}
                       alt={celebName}
                       shape="circle"
-                      sizes="20px"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center text-[8px] text-text-secondary">

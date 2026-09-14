@@ -19,7 +19,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { celebAvatarSmallUrl } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { boPath } from '../lib/paths'
 
-type ScanReason = 'no_alpha' | 'fully_opaque' | 'opaque_edge'
+type ScanReason = 'no_alpha' | 'fully_opaque' | 'padded_opaque' | 'opaque_edge'
 type ApplyStatus = 'success' | 'skipped_already_cutout' | 'restored_error' | 'manual_restored'
 
 interface CelebRow {
@@ -37,6 +37,8 @@ interface AlphaMetrics {
   transparentRatio: number
   subjectRatio: number
   edgeOpaqueRatio: number
+  /** 가장자리의 완전 투명 여백을 떼어 낸 안쪽의 투명 비율 */
+  innerTransparentRatio: number
 }
 
 interface ScanCandidate extends CelebRow {
@@ -175,6 +177,36 @@ async function fetchBuffer(url: string, optional = false): Promise<Buffer | null
   throw new Error('이미지 다운로드 재시도 소진')
 }
 
+// 크롭 여백은 몇 픽셀 폭이라 축소 표본에서는 사라진다. 원본 해상도로 잰다.
+async function measureInnerTransparentRatio(input: Buffer): Promise<number> {
+  const { data, info } = await sharp(input).ensureAlpha().extractChannel(3).raw().toBuffer({ resolveWithObject: true })
+  const { width, height } = info
+  const clear = (x: number, y: number) => data[y * width + x] < 32
+  const rowClear = (y: number) => {
+    for (let x = 0; x < width; x++) if (!clear(x, y)) return false
+    return true
+  }
+  const columnClear = (x: number, top: number, bottom: number) => {
+    for (let y = top; y < bottom; y++) if (!clear(x, y)) return false
+    return true
+  }
+  let top = 0
+  while (top < height && rowClear(top)) top++
+  let bottom = height
+  while (bottom > top && rowClear(bottom - 1)) bottom--
+  let left = 0
+  while (left < width && columnClear(left, top, bottom)) left++
+  let right = width
+  while (right > left && columnClear(right - 1, top, bottom)) right--
+  const area = (bottom - top) * (right - left)
+  if (area === 0) return 1
+  let transparent = 0
+  for (let y = top; y < bottom; y++) {
+    for (let x = left; x < right; x++) if (clear(x, y)) transparent++
+  }
+  return transparent / area
+}
+
 async function analyzeAlpha(input: Buffer, sampleSize = 64): Promise<AlphaMetrics> {
   const metadata = await sharp(input).metadata()
   if (!metadata.width || !metadata.height) throw new Error('이미지 크기를 읽지 못했습니다.')
@@ -187,6 +219,7 @@ async function analyzeAlpha(input: Buffer, sampleSize = 64): Promise<AlphaMetric
       transparentRatio: 0,
       subjectRatio: 1,
       edgeOpaqueRatio: 1,
+      innerTransparentRatio: 0,
     }
   }
 
@@ -221,12 +254,15 @@ async function analyzeAlpha(input: Buffer, sampleSize = 64): Promise<AlphaMetric
     transparentRatio: transparent / pixels,
     subjectRatio: subject / pixels,
     edgeOpaqueRatio: edgeOpaque / edge,
+    innerTransparentRatio: await measureInnerTransparentRatio(input),
   }
 }
 
 function classify(metrics: AlphaMetrics): ScanReason | null {
   if (!metrics.hasAlpha) return 'no_alpha'
   if (metrics.nonOpaqueRatio < 0.001) return 'fully_opaque'
+  // 크롭 여백만 투명하고 배경은 남은 사진. 두 변이 투명하면 테두리 기준(50%)을 빠져나간다.
+  if (metrics.innerTransparentRatio < 0.0005) return 'padded_opaque'
   if (metrics.edgeOpaqueRatio > 0.5) return 'opaque_edge'
   return null
 }

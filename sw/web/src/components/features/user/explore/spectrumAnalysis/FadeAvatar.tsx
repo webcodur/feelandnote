@@ -28,13 +28,13 @@ interface FadeAvatarProps {
 
 export default function FadeAvatar({ src, name, blurDissolve = false }: FadeAvatarProps) {
   const [state, setState] = useState<LoadState>("eager");
-  // 여기 얼굴은 지름 40px 안팎으로 나오고 한 화면에 수백 장이 깔린다 — 작은 판을 쓴다
-  const { src: shownSrc, onError: fallBackToOriginal } = useCelebAvatarSrc(src, "40px");
+  const { ref: avatarRef, src: shownSrc, onError: fallBackToOriginal } = useCelebAvatarSrc(src);
 
   // 캐시에서 이미 완료된 이미지는 onLoad가 안 불릴 수 있어 마운트 시점에 확인
   const ref = useCallback((img: HTMLImageElement | null) => {
+    avatarRef(img);
     if (img?.complete && img.naturalWidth > 0) setState("done");
-  }, []);
+  }, [avatarRef]);
 
   const markLoaded = useCallback(() => {
     setState((s) => (s === "waiting" ? "fade" : "done"));
@@ -68,8 +68,9 @@ export default function FadeAvatar({ src, name, blurDissolve = false }: FadeAvat
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             ref={ref}
-            src={shownSrc ?? undefined}
+            src={shownSrc}
             alt={name}
+            loading="lazy"
             decoding="async"
             onLoad={markLoaded}
             onError={fallBackToOriginal}
@@ -81,8 +82,9 @@ export default function FadeAvatar({ src, name, blurDissolve = false }: FadeAvat
         // eslint-disable-next-line @next/next/no-img-element
         <img
           ref={ref}
-          src={shownSrc ?? undefined}
+          src={shownSrc}
           alt={name}
+          loading="lazy"
           decoding="async"
           onLoad={markLoaded}
           onError={fallBackToOriginal}

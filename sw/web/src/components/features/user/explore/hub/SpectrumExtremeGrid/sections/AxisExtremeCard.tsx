@@ -137,7 +137,7 @@ export default function AxisExtremeCard({
                 <div className="relative w-6 h-6 rounded-full overflow-hidden ring-1 ring-white/10 shrink-0 shadow-sm group-hover/runner:ring-white/20 transition-all">
                   {r.avatar_url ? (
                     <BlurDissolve className="absolute inset-0">
-                      <CelebAvatarImage src={r.avatar_url} alt="" sizes="24px" />
+                      <CelebAvatarImage src={r.avatar_url} alt="" />
                     </BlurDissolve>
                   ) : (
                     <div className="w-full h-full bg-white/10" />
