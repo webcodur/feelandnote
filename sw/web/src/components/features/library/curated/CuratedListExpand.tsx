@@ -10,6 +10,7 @@
 */ // ------------------------------
 "use client";
 
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import {
   useCallback,
   useEffect,
@@ -40,7 +41,6 @@ import ContentImage from "@/components/ui/ContentImage";
 import ContentTextModal, { ExpandTextButton } from "@/components/ui/ContentTextModal";
 import Modal from "@/components/ui/Modal";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
-import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import { getCategoryByDbType } from "@/constants/categories";
 import { useClippedText } from "@/hooks/useClippedText";
 import { Link } from "@/i18n/navigation";
@@ -257,8 +257,8 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
   const ContentIcon = category?.lucideIcon ?? BookOpen;
   const isRegistered = item.contentId != null;
   const href = isRegistered ? `/content/${item.contentId}?category=${category?.id ?? "book"}` : null;
-  /* 쿠팡은 한국어판 상품이라 한국어 화면의 책에만 붙는다. 링크가 없어도 자리는 지킨다 */
-  const showCoupang = locale === "ko" && dbType === "BOOK";
+  /* 한국어판 구매 버튼. 링크가 없어도 자리는 지킨다 */
+  const showPurchase = locale === "ko" && dbType === "BOOK";
 
   return (
     <article className="flex w-full flex-col">
@@ -329,9 +329,9 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
         <ContentMetaPanel brief={brief} isLoading={isLoading} internalHref="" />
       )}
 
-      {/* 발판 — 작품 열기·쿠팡. 링크가 없어도 자리를 비우지 않는다 */}
+      {/* 발판 — 작품 열기·구매. 링크가 없어도 자리를 비우지 않는다 */}
       <div className="border-t border-white/10 px-3 py-4 sm:px-4 md:px-5">
-        <div className={cn("grid gap-2", showCoupang && "sm:grid-cols-2")}>
+        <div className={cn("grid gap-2", showPurchase && "sm:grid-cols-2")}>
           {href ? (
             <Link
               href={href}
@@ -343,17 +343,15 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
           ) : (
             <PendingSlot label={t("notRegistered")} />
           )}
-          {showCoupang &&
-            (item.coupangUrl ? (
-              <AffiliateBookAction url={item.coupangUrl} />
+          {showPurchase &&
+            (item.contentId ? (
+              <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} />
             ) : (
-              <PendingSlot label={t("coupangPending")} tone="coupang" />
+              <PendingSlot label={t("purchasePending")} tone="purchase" />
             ))}
         </div>
-        {showCoupang && (
-          <p className="mt-2 text-pretty text-[10px] leading-4 text-text-tertiary">
-            {AFFILIATE_PLATFORMS.coupang.notice}
-          </p>
+        {showPurchase && (
+          <BookPurchaseInfo className="mt-2" />
         )}
       </div>
     </article>
@@ -392,16 +390,16 @@ function SelectionNote({ note }: { note: string | null }) {
 }
 
 /** 쿠팡 빈자리의 색. 쿠팡 단추(빨강)보다 연하고 투명한 분홍 — 링크가 생겨도 색이 확 바뀌지 않게 한다 */
-export const COUPANG_PENDING_TONE_CLASS = "border-pink-300/20 bg-pink-300/[0.05] text-pink-200/60";
+export const PURCHASE_PENDING_TONE_CLASS = "border-white/10 bg-white/[0.03] text-text-tertiary";
 
 /** 아직 누를 수 없는 단추 자리. 단추와 같은 높이·모서리로 그려 줄이 흔들리지 않게 한다 */
-function PendingSlot({ label, tone = "muted" }: { label: string; tone?: "muted" | "coupang" }) {
+function PendingSlot({ label, tone = "muted" }: { label: string; tone?: "muted" | "purchase" }) {
   return (
     <div
       aria-disabled="true"
       className={cn(
         "flex min-h-11 w-full items-center justify-center rounded-lg border px-4 py-2.5 text-sm font-semibold",
-        tone === "coupang" ? COUPANG_PENDING_TONE_CLASS : "border-dashed border-white/15 bg-white/[0.03] text-text-tertiary",
+        tone === "purchase" ? PURCHASE_PENDING_TONE_CLASS : "border-dashed border-white/15 bg-white/[0.03] text-text-tertiary",
       )}
     >
       {label}

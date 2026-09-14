@@ -1,14 +1,15 @@
 /*
   파일명: /components/features/library/curated/CuratedListGrid.tsx
   기능: 선정 목록의 상자 격자 (클라이언트)
-  책임: 작품마다 감싸는 상자를 두고 그 안에 서비스 공통 작품 카드와 쿠팡 모듈을 위아래로 쌓는다.
-        상자 높이는 줄마다 맞추고 모듈은 바닥에 붙여 줄이 흔들리지 않게 한다. 쿠팡 모듈은 링크가 없어도 자리를 지킨다.
+  책임: 작품마다 감싸는 상자를 두고 그 안에 서비스 공통 작품 카드와 구매 버튼을 위아래로 쌓는다.
+        상자 높이는 줄마다 맞추고 버튼은 바닥에 붙여 줄이 흔들리지 않게 한다. 구매 링크가 없어도 자리를 지킨다.
         아직 등록되지 않은 작품도 같은 상자로 그린다 — 100선은 100편이어야 한다.
         데스크톱(기본 내보내기)은 처음 120편만 그리고 나머지는 단추로 펼친다 — 카드 전량을 한 번에 그리면 화면이 늦게 뜬다.
         모바일 격자 보기(CuratedListMobile)는 같은 상자(CuratedTileGrid)를 2열로, 한 구간씩 쓴다.
 */ // ------------------------------
 "use client";
 
+import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { useState, type ReactNode } from "react";
 import { BookOpen, Film } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -17,12 +18,11 @@ import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types
 import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import ContentCard from "@/components/ui/cards/ContentCard";
 import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
-import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import type { ContentType } from "@/types/database";
 
-import { COUPANG_PENDING_TONE_CLASS } from "./CuratedListExpand";
+import { PURCHASE_PENDING_TONE_CLASS } from "./CuratedListExpand";
 
 /** 처음 그리는 작품 수. 세인트존스(323)처럼 큰 목록만 잘린다 — 카드 전량을 그리면 화면 하나가 3MB에 이른다 */
 const INITIAL_CARDS = 120;
@@ -113,8 +113,8 @@ interface CuratedTileGridProps {
 export function CuratedTileGrid({ list, items, columnsClassName, children }: CuratedTileGridProps) {
   const t = useTranslations("library.curated");
   const locale = useLocale();
-  /* 쿠팡은 한국어판 상품이라 한국어 화면의 책 목록에만 붙는다. 링크가 없어도 자리는 지킨다 */
-  const showCoupang = locale === "ko" && list.contentType === "BOOK";
+  /* 한국어판 구매 버튼. 링크가 없어도 자리는 지킨다 */
+  const showPurchase = locale === "ko" && list.contentType === "BOOK";
   const isVideo = list.contentType === "VIDEO";
 
   return (
@@ -127,19 +127,19 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
             className="flex h-full flex-col rounded-xl border border-white/[0.08] bg-black/25 p-1.5"
           >
             <CoverCard item={item} notRegisteredLabel={t("notRegistered")} isVideo={isVideo} />
-            {showCoupang && (
+            {showPurchase && (
               <div className="mt-auto pt-1.5">
-                {item.coupangUrl ? (
-                  <AffiliateBookAction url={item.coupangUrl} compact />
+                {item.contentId ? (
+                  <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} compact />
                 ) : (
                   <div
                     aria-disabled="true"
                     className={cn(
-                      "flex min-h-8 w-full items-center justify-center rounded-md border px-2 text-[11px] font-semibold",
-                      COUPANG_PENDING_TONE_CLASS,
+                      "flex min-h-11 w-full items-center justify-center rounded-md border px-2 text-[11px] font-semibold",
+                      PURCHASE_PENDING_TONE_CLASS,
                     )}
                   >
-                    {t("coupangPending")}
+                    {t("purchasePending")}
                   </div>
                 )}
               </div>
@@ -150,8 +150,8 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
 
       {children}
 
-      {showCoupang && (
-        <p className="mt-4 text-pretty text-[10px] leading-4 text-text-tertiary">{AFFILIATE_PLATFORMS.coupang.notice}</p>
+      {showPurchase && (
+        <BookPurchaseInfo className="mt-2" />
       )}
     </>
   );

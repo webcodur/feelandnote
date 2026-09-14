@@ -1,15 +1,17 @@
 "use client";
 
+import AffiliateBookAction from "@/components/features/user/contentLibrary/AffiliateBookAction";
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { BookOpenText, ExternalLink } from "lucide-react";
+import { BookOpenText } from "lucide-react";
 import type { FigureBookContent } from "@/actions/figure-books/getFigureBooks";
 import ContentImage from "@/components/ui/ContentImage";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
-import { AFFILIATE_PLATFORMS } from "@/constants/affiliatePlatforms";
-import CoupangPurchaseInfo from "@/components/shared/CoupangPurchaseInfo";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
+import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
+import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
+import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
 
 export default function AuthoredBookListItem({ book }: { book: FigureBookContent }) {
   const locale = useLocale();
@@ -25,6 +27,12 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
   const title = edition?.title || book.title;
   const thumbnail = edition ? edition.thumbnailUrl : book.thumbnailUrl;
   const creator = edition?.creator || book.creator;
+  const purchaseLinks = book.type === "BOOK"
+    ? getEnglishBookPurchaseLinks({
+      locale, title, creator,
+      links: edition?.purchaseUrl && edition.platform ? [{ platform: edition.platform, url: edition.purchaseUrl }] : [],
+    })
+    : [];
   const href = `${locale === "en" ? "/en" : ""}/content/${book.id}?category=book`;
 
   return (
@@ -58,9 +66,17 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
           </span>
           {creator && <span className="mt-0.5 block truncate text-sm text-text-secondary">{creator}</span>}
           {edition?.publisher && <span className="mt-1.5 block text-xs text-text-secondary">{edition.publisher}</span>}
-          {description && <span className="mt-1.5 line-clamp-2 text-sm text-text-secondary">{description}</span>}
         </span>
       </a>
+      {description && (
+        <div className="px-3 pb-3">
+          <div className="mb-1.5 flex flex-wrap items-center gap-2">
+            <p className="text-xs font-medium text-text-secondary">{t("sourceWorkIntroduction")}</p>
+            <BookIntroductionSource attribution={edition ? edition.introductionAttribution : book.introductionAttribution} />
+          </div>
+          <p className="line-clamp-2 text-sm text-text-secondary">{description}</p>
+        </div>
+      )}
       {failed && <RetryBlock onRetry={retry} className="px-3 py-3" />}
       {book.editions.length > 1 && (
         <div className="px-3 pb-2">
@@ -78,25 +94,16 @@ export default function AuthoredBookListItem({ book }: { book: FigureBookContent
           </select>
         </div>
       )}
-      {edition?.purchaseUrl && (
-        <div className="px-3 pb-3">
-          <div className="group/coupang-buy relative inline-flex">
-            <a
-              href={edition.purchaseUrl}
-              target="_blank"
-              rel="noopener noreferrer nofollow sponsored"
-              className={`inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg border border-accent/30 py-2 font-medium text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${edition.platform === "coupang" ? "px-10 text-base group-hover/coupang-buy:border-accent group-hover/coupang-buy:bg-accent/20" : "px-3 text-xs hover:border-accent hover:bg-accent/10"}`}
-            >
-              {t(edition.platform === "amazon" ? "sourceWorkBuyAmazon" : "sourceWorkBuyCoupang")}
-              {edition.platform !== "coupang" && <ExternalLink size={12} aria-hidden />}
-            </a>
-            {edition.platform === "coupang" && <CoupangPurchaseInfo className="absolute end-1 top-1/2 -translate-y-1/2 text-accent" />}
-          </div>
-          {edition.platform === "coupang" && (
-            <p className="mt-2 text-xs leading-relaxed text-text-tertiary">{AFFILIATE_PLATFORMS.coupang.notice}</p>
-          )}
-        </div>
+      {locale === "ko" && book.type === "BOOK" && (
+        <AffiliateBookAction
+          contentId={book.id}
+          editionId={edition?.id}
+          coupangUrl={edition?.platform === "coupang" ? edition.purchaseUrl : null}
+          showNotice
+          className="px-3 pb-3"
+        />
       )}
+      <BookPurchaseLinks links={purchaseLinks} className="px-3 pb-3" />
     </article>
   );
 }

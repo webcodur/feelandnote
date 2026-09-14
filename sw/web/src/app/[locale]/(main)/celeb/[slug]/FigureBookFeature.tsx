@@ -131,6 +131,8 @@ export default function FigureBookFeature({
                 <FigureBookIntroduction
                   key={edition.id}
                   description={introduction.description || t("sourceWorkIntroductionEmpty")}
+                  attribution={edition.introductionAttribution}
+                  showSource={!!introduction.description}
                   label={t("sourceWorkIntroduction")}
                   loading={introduction.loading}
                   sourceTitle={source.title}

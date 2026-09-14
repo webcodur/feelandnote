@@ -103,7 +103,7 @@ export default function CelebAffiliateBooks({
         <AffiliateBookList
           books={products}
           heading={hasRelatedProducts || !data ? tPage('relatedProducts') : t(HEADING_KEY[data.source])}
-          buyLabel={platform === 'amazon' ? tPage('sourceWorkBuyAmazon') : t('buyOnCoupang')}
+          buyLabel={platform === 'amazon' ? tPage('sourceWorkBuyAmazon') : t('buy')}
           detailLabel={t('viewBookDetails')}
           compact={embedded}
           hideHeading={hideHeading}

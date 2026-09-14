@@ -1,23 +1,23 @@
 /*
   파일명: /components/features/library/sections/PopularSection.tsx
-  기능: 인기 작품 — 지금 주목받는 주간 베스트셀러 및 불후의 고전
-  책임: 주간 수집 목록과 전 시대/직군별 고전을 제공하고, 출처 및 실제 수집 시점을 표시한다.
+  기능: 인기 작품 — 현재 도서 판매 순위 및 불후의 고전
+  책임: 판매처의 도서 순위와 전 시대/직군별 고전을 구분해 제공한다.
 */ // ------------------------------
 
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { ContentCard } from "@/components/ui/cards";
 import { CategoryTabFilter, type CategoryTabOption } from "@/components/ui/CategoryTabFilter";
 import { Pagination } from "@/components/ui/Pagination";
 import { useLocale, useTranslations } from "next-intl";
 import { getCategoryByDbType } from "@/constants/categories";
-import { getBestsellers, getChosenLibrary, getEraContents, getLibraryByProfession } from "@/actions/library";
+import { getChosenLibrary, getEraContents, getLibraryByProfession } from "@/actions/library";
 import type { BestsellerItem } from "@/actions/library/types";
-import { BESTSELLER_CATEGORIES, type BestsellerCategoryKey } from "@/constants/library";
 import type { LibraryResult } from "@/actions/library";
 import type { ContentType } from "@/types/database";
 import BestsellerFreshness, { type BestsellerFreshnessProps } from "../BestsellerFreshness";
+import BookChartGrid from "../BookChartGrid";
 
 const ITEMS_PER_PAGE = 12;
 const ERAS = ["ancient", "medieval", "modern", "contemporary"] as const;
@@ -43,12 +43,7 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
 
   const [mode, setMode] = useState<Mode>("bestseller");
   
-  // Bestseller state
-  const [bestsellerMedia, setBestsellerMedia] = useState<MediaCategory>("BOOK");
-  const [bestsellerBookCat, setBestsellerBookCat] = useState<BestsellerCategoryKey>("ALL");
-  const [bestsellerData, setBestsellerData] = useState(initialBestsellers);
-  const bestsellerRequest = useRef(0);
-  const bestsellers = bestsellerData.items;
+  const bestsellers = initialBestsellers.items;
 
   // Classics state
   const [basis, setBasis] = useState<ClassicsBasis>("all");
@@ -59,27 +54,6 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
   const [classicsData, setClassicsData] = useState<LibraryResult>(initialClassicsData);
 
   const [isPending, startTransition] = useTransition();
-
-  const loadBestsellers = (key: string) => {
-    const request = ++bestsellerRequest.current;
-    startTransition(async () => {
-      const res = await getBestsellers(key, locale);
-      if (request === bestsellerRequest.current) setBestsellerData(res);
-    });
-  };
-
-  // Bestseller media switcher
-  const handleBestsellerMediaChange = (nextMedia: MediaCategory) => {
-    setBestsellerMedia(nextMedia);
-    const key = nextMedia === "ALL" ? "MEDIA_ALL" : nextMedia === "BOOK" ? bestsellerBookCat : nextMedia;
-    loadBestsellers(key);
-  };
-
-  // Bestseller book sub-category switcher
-  const handleBestsellerBookCatChange = (nextCat: BestsellerCategoryKey) => {
-    setBestsellerBookCat(nextCat);
-    loadBestsellers(nextCat);
-  };
 
   // Classics load
   const loadClassics = (next: { basis?: ClassicsBasis; era?: string; profession?: string; category?: MediaCategory; page?: number }) => {
@@ -106,31 +80,10 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
     });
   };
 
-  const getBestsellerCriteria = () => {
-    if (bestsellerMedia === "ALL") return t("criteriaMediaAll");
-    if (bestsellerMedia === "VIDEO") return t("criteriaVideo");
-    if (bestsellerMedia === "GAME") return t("criteriaGame");
-    if (bestsellerMedia === "MUSIC") return t("criteriaMusic");
-
-    switch (bestsellerBookCat) {
-      case "ALL": return t("criteriaCatAll");
-      case "HUMANITIES": return t("criteriaCatHumanities");
-      case "BUSINESS": return t("criteriaCatBusiness");
-      case "FICTION": return t("criteriaCatFiction");
-      case "STEADY": return t("criteriaCatSteady");
-      default: return t("criteriaCatAll");
-    }
-  };
-
   const modeChips: CategoryTabOption[] = [
-    { value: "bestseller", label: t("tabBestseller") || "주간 베스트" },
-    { value: "classics", label: t("tabClassics") || "불후의 명작" },
+    { value: "bestseller", label: t("tabBestseller") },
+    { value: "classics", label: t("tabClassics") },
   ];
-
-  const bestsellerBookChips: CategoryTabOption[] = BESTSELLER_CATEGORIES.map(c => ({
-    value: c.key,
-    label: t(`chips.${c.key}`),
-  }));
 
   const mediaCategoryOptions: CategoryTabOption<MediaCategory>[] = [
     { value: "ALL", label: tc("all") },
@@ -155,7 +108,7 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
     <section className="space-y-6">
       {/* 1. 상단 헤더: 전체 모드 개요 설명 */}
       <header className="text-center">
-        <h2 className="font-serif text-2xl md:text-3xl text-text-primary">{t("title")}</h2>
+        <h2 className="font-serif text-2xl md:text-3xl text-text-primary">{mode === "bestseller" ? t("chartTitle") : t("title")}</h2>
         <p className="mt-2 text-sm md:text-base text-text-secondary max-w-2xl mx-auto">
           {mode === "bestseller" ? t("descBestseller") : t("description")}
         </p>
@@ -171,35 +124,8 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
         />
       </div>
 
-      {/* 3. 세부 필터 (주간 베스트 / 불후의 고전) — 카테고리는 모드 바로 아래 공통 상단에 둔다 */}
-      {mode === "bestseller" ? (
-        <div className="space-y-3">
-          <div className="flex justify-center">
-            <CategoryTabFilter
-              options={mediaCategoryOptions}
-              value={bestsellerMedia}
-              onChange={(v) => handleBestsellerMediaChange(v as MediaCategory)}
-              subtle
-              size="sm"
-            />
-          </div>
-          {bestsellerMedia === "BOOK" && (
-            <div className="flex justify-center pt-1">
-              <CategoryTabFilter
-                options={bestsellerBookChips}
-                value={bestsellerBookCat}
-                onChange={(v) => handleBestsellerBookCatChange(v as BestsellerCategoryKey)}
-                subtle
-                size="sm"
-              />
-            </div>
-          )}
-          <p className="text-center text-sm md:text-[15px] text-text-secondary font-medium pt-1">
-            <span className="text-accent mr-1.5 font-bold">✦</span>
-            {getBestsellerCriteria()}
-          </p>
-        </div>
-      ) : (
+      {/* 3. 불후의 고전 필터 */}
+      {mode === "classics" && (
         <div className="space-y-3">
           <div className="flex justify-center">
             <CategoryTabFilter
@@ -242,47 +168,14 @@ export default function PopularSection({ initialBestsellers, initialClassicsData
       <div className={`min-h-[300px] ${isPending ? "opacity-50" : ""}`}>
         {mode === "bestseller" && (
           <div className="mb-5">
-            <BestsellerFreshness {...bestsellerData} />
+            {bestsellers.length > 0 && <BestsellerFreshness {...initialBestsellers} />}
           </div>
         )}
         {mode === "bestseller" ? (
           bestsellers.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 justify-center max-w-6xl mx-auto">
-              {bestsellers.map((item) => {
-                const cleanIsbn = item.isbn ? item.isbn.trim().split(/\s+/).pop() : null;
-                const itemType = (item.type || "BOOK") as ContentType;
-                const categoryParam = getCategoryByDbType(itemType)?.id || "book";
-
-                const href = itemType === "BOOK"
-                  ? (cleanIsbn ? `/content/${cleanIsbn}?category=book` : `/search?q=${encodeURIComponent(item.title)}`)
-                  : `/content/${item.id}?category=${categoryParam}`;
-
-                return (
-                  <ContentCard
-                    key={item.id}
-                    contentId={cleanIsbn || item.id}
-                    contentType={itemType}
-                    title={item.title}
-                    creator={item.creator}
-                    thumbnail={item.thumbnail_url}
-                    thumbnailEn={item.thumbnail_en || item.thumbnail_url}
-                    href={href}
-                    titleKo={item.title_ko || (locale === "ko" ? item.title : undefined)}
-                    titleEn={item.title_en || (locale === "en" ? item.title : undefined)}
-                    creatorEn={item.creator_en || (locale === "en" ? item.creator : undefined)}
-                    hasEnEdition={!!item.title_en}
-                    fallbackDescription={item.description ?? null}
-                    fallbackMetadata={{
-                      publisher: item.publisher ?? undefined,
-                      publishDate: item.published_date ?? undefined,
-                      isbn: cleanIsbn ?? undefined,
-                    }}
-                  />
-                );
-              })}
-            </div>
+            <BookChartGrid items={bestsellers} />
           ) : (
-            <p className="py-16 text-center text-sm text-text-secondary">{t("empty")}</p>
+            <p className="py-16 text-center text-sm text-text-secondary">{t("chartEmpty")}</p>
           )
         ) : (
           classicsData.contents.length > 0 ? (

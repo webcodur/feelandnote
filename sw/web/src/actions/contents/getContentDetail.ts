@@ -32,7 +32,7 @@ import {
   stripLocalizedMeta,
 } from '@/lib/utils/content-locale-text'
 import { getBookIntroduction } from './fetchBookMetadata'
-import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference } from '@/lib/utils/book-description'
+import { resolveBookIsbn, selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import { withoutBookDescription } from '@feelandnote/shared/lib/book-metadata'
 
 // #region 타입 정의
@@ -47,11 +47,14 @@ export interface ContentDetailData {
     thumbnail?: string
     description?: string
     bookIntroduction?: BookIntroductionReference | null
+    introductionAttribution?: BookIntroductionAttribution
     releaseDate?: string
     type: ContentType
     category: CategoryId
     metadata?: Record<string, unknown> | null
     affiliateLinks?: AffiliateLink[]
+    /** 현재 표시한 판본과 구매 링크 조회의 ISBN을 일치시킨다. */
+    purchaseEditionId?: number
   }
   userRecord: {
     id: string
@@ -270,10 +273,12 @@ async function fetchContentDataPublic(
       thumbnail: sourceEdition?.thumbnailUrl || dbContent.thumbnail_url || undefined,
       description: (bookDisplay ? bookDisplay.description : pickIntroForLocale(locale, [dbContent.description, dbMetaDesc])) ?? undefined,
       ...(bookDisplay ? { bookIntroduction: bookDisplay.bookIntroduction } : {}),
+      ...(bookDisplay?.introductionAttribution ? { introductionAttribution: bookDisplay.introductionAttribution } : {}),
       releaseDate: sourceEdition?.releaseDate || dbContent.release_date || undefined,
       type: dbContent.type as ContentType,
       category: categoryId,
       metadata: dbMetadata,
+      purchaseEditionId: sourceEdition?.id,
       affiliateLinks: dbContent.is_figure_book
         // 구매처가 없는 판본도 책장에 서므로 링크가 실제로 있을 때만 내보낸다.
         ? sourceEdition?.platform && sourceEdition.purchaseUrl
@@ -314,7 +319,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public-selected-book-intro-v10-source', contentId, category ?? '', locale],
+    ['content-data-public-selected-book-intro-v13-original-source', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
 
