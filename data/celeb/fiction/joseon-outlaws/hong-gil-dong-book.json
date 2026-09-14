@@ -1,0 +1,12 @@
+{
+  "work": {
+    "identity": "honggildongjeon",
+    "title": "홍길동전",
+    "creator": "허균",
+    "titleAliases": [],
+    "creatorAliases": []
+  },
+  "edition": { "kind": "full", "scope": "complete" },
+  "reuseContentId": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+  "ko": { "translationStatus": "published", "isbn": "9791124459058" }
+}

@@ -1,0 +1,17 @@
+{
+  "tag_slug": "myth-korea",
+  "people": [
+    {
+      "nickname": "서림",
+      "nickname_en": "Seorim",
+      "bio": "홍명희 소설 『임꺽정』에서 청석골 두령이었다가 훗날 관군에 투항해 동료를 배신하는 모사꾼.",
+      "identity": { "mode": "new" }
+    },
+    {
+      "nickname": "운부",
+      "nickname_en": "Unbu",
+      "bio": "황석영 소설 『장길산』에서 미륵 신앙으로 봉기를 이끈 승려이자 장길산의 스승.",
+      "identity": { "mode": "new" }
+    }
+  ]
+}

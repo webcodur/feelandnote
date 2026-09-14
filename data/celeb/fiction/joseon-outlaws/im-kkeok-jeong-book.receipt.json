@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\fiction\\joseon-outlaws\\im-kkeok-jeong-book.json",
+  "manifestSha256": "b5491e2b996e8a38d64e3e88a6e91850d281e000788c830d3f3e0b55d3fdeb39",
+  "planSha256": "a3938e9c6971f962451d6b687495e8164f590812750627c8851ea016e80c2162",
+  "workIdentity": "imkkeokjeong",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788958282600"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "insert",
+    "contentId": "46928efb-7b34-5862-9e39-d646a44b624c",
+    "scopeKey": "imkkeokjeong",
+    "conflicts": [],
+    "candidateContentIds": [],
+    "candidateReasons": {},
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": null,
+      "locales": []
+    },
+    "contentInsert": {
+      "id": "46928efb-7b34-5862-9e39-d646a44b624c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788958282600",
+      "release_date": "2008-01-15",
+      "metadata": {
+        "isbn": "9788958282600",
+        "publisher": "사계절",
+        "publishDate": "2008-01-15",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+        "salesStatus": "주문판매",
+        "fictionSource": {
+          "workIdentity": "imkkeokjeong",
+          "workTitle": "임꺽정",
+          "workCreator": "홍명희",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0
+    },
+    "contentUpdate": null,
+    "localeChanges": [
+      {
+        "kind": "insert",
+        "locale": "ko",
+        "before": null,
+        "after": {
+          "locale": "ko",
+          "title": "임꺽정 세트",
+          "creator": "홍명희",
+          "description": "벽초 홍명희(1888～1968)의 대하역사소설『임꺽정』세트(전10권). 백정 출신 도적 임꺽정의 활약을 통해 조선시대 민중들의 생활상을 생생하게 그린 대하역사소설로 식민지시대에 발표된 한국 소설들 중 가장 규모가 큰 작품이다. 소설은 「봉단편」 「피장편」 「양반편」 각 1권씩과, 「의형제편」 3권, 그리고 말미가 미완으로 남은 「화적편」 4권을 포함하여 전10권으로 이루어져 있다.\n\n「봉단편」 「피장편」 「양반편」은 임꺽정을 중심한 화적패가 아직 결성되기 이전인 연산조 때부터 명종 초까지의 정치적 혼란상을 폭넓게 묘사하는 한편, 백정 출신 장사 임꺽정의 특이한 가계와 성장과정을 그리고 있다. 「의형제편」은 후일 임꺽정의 휘하에서 화적패의 두령이 되는 주요인물들이 각자 양민으로서의 삶을 포기하고 청석골 화적패에 가담하기까지의 경위를 그렸으며, 「화적편」은 임꺽정을 중심한 청석골 화적패가 본격적으로 결성된 이후의 활동을 담고 있다. <개정판>",
+          "isbn": "9788958282600",
+          "publisher": "사계절",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/776478?timestamp=20260828111423",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "46928efb-7b34-5862-9e39-d646a44b624c"
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "46928efb-7b34-5862-9e39-d646a44b624c",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788958282600",
+        "release_date": "2008-01-15",
+        "metadata": {
+          "isbn": "9788958282600",
+          "publisher": "사계절",
+          "publishDate": "2008-01-15",
+          "link": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+          "salesStatus": "주문판매",
+          "fictionSource": {
+            "workIdentity": "imkkeokjeong",
+            "workTitle": "임꺽정",
+            "workCreator": "홍명희",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 0,
+        "record_count": 0
+      },
+      "locales": [
+        {
+          "locale": "ko",
+          "title": "임꺽정 세트",
+          "creator": "홍명희",
+          "description": "벽초 홍명희(1888～1968)의 대하역사소설『임꺽정』세트(전10권). 백정 출신 도적 임꺽정의 활약을 통해 조선시대 민중들의 생활상을 생생하게 그린 대하역사소설로 식민지시대에 발표된 한국 소설들 중 가장 규모가 큰 작품이다. 소설은 「봉단편」 「피장편」 「양반편」 각 1권씩과, 「의형제편」 3권, 그리고 말미가 미완으로 남은 「화적편」 4권을 포함하여 전10권으로 이루어져 있다.\n\n「봉단편」 「피장편」 「양반편」은 임꺽정을 중심한 화적패가 아직 결성되기 이전인 연산조 때부터 명종 초까지의 정치적 혼란상을 폭넓게 묘사하는 한편, 백정 출신 장사 임꺽정의 특이한 가계와 성장과정을 그리고 있다. 「의형제편」은 후일 임꺽정의 휘하에서 화적패의 두령이 되는 주요인물들이 각자 양민으로서의 삶을 포기하고 청석골 화적패에 가담하기까지의 경위를 그렸으며, 「화적편」은 임꺽정을 중심한 청석골 화적패가 본격적으로 결성된 이후의 활동을 담고 있다. <개정판>",
+          "isbn": "9788958282600",
+          "publisher": "사계절",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/776478?timestamp=20260828111423",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8"
+          },
+          "verified": true,
+          "content_id": "46928efb-7b34-5862-9e39-d646a44b624c"
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "imkkeokjeong",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788958282600"
+      ],
+      "normalizedTitles": [
+        "임꺽정",
+        "임꺽정세트"
+      ],
+      "normalizedCreators": [
+        "홍명희"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T07:22:35.255Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "46928efb-7b34-5862-9e39-d646a44b624c",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788958282600",
+      "release_date": "2008-01-15",
+      "metadata": {
+        "isbn": "9788958282600",
+        "link": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+        "publisher": "사계절",
+        "publishDate": "2008-01-15",
+        "salesStatus": "주문판매",
+        "fictionSource": {
+          "workTitle": "임꺽정",
+          "workCreator": "홍명희",
+          "workIdentity": "imkkeokjeong",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 0,
+      "record_count": 0,
+      "created_at": "2026-09-04T07:22:27.60418+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "46928efb-7b34-5862-9e39-d646a44b624c",
+        "locale": "ko",
+        "title": "임꺽정 세트",
+        "creator": "홍명희",
+        "description": "벽초 홍명희(1888～1968)의 대하역사소설『임꺽정』세트(전10권). 백정 출신 도적 임꺽정의 활약을 통해 조선시대 민중들의 생활상을 생생하게 그린 대하역사소설로 식민지시대에 발표된 한국 소설들 중 가장 규모가 큰 작품이다. 소설은 「봉단편」 「피장편」 「양반편」 각 1권씩과, 「의형제편」 3권, 그리고 말미가 미완으로 남은 「화적편」 4권을 포함하여 전10권으로 이루어져 있다.\n\n「봉단편」 「피장편」 「양반편」은 임꺽정을 중심한 화적패가 아직 결성되기 이전인 연산조 때부터 명종 초까지의 정치적 혼란상을 폭넓게 묘사하는 한편, 백정 출신 장사 임꺽정의 특이한 가계와 성장과정을 그리고 있다. 「의형제편」은 후일 임꺽정의 휘하에서 화적패의 두령이 되는 주요인물들이 각자 양민으로서의 삶을 포기하고 청석골 화적패에 가담하기까지의 경위를 그렸으며, 「화적편」은 임꺽정을 중심한 청석골 화적패가 본격적으로 결성된 이후의 활동을 담고 있다. <개정판>",
+        "isbn": "9788958282600",
+        "publisher": "사계절",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/776478?timestamp=20260828111423",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=776478&q=%EC%9E%84%EA%BA%BD%EC%A0%95+%EC%84%B8%ED%8A%B8"
+        },
+        "verified": true,
+        "created_at": "2026-09-04T07:22:27.60418+00:00",
+        "updated_at": "2026-09-04T07:22:27.60418+00:00"
+      }
+    ]
+  }
+}

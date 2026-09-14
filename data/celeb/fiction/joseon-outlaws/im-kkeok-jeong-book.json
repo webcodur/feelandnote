@@ -1,0 +1,11 @@
+{
+  "work": {
+    "identity": "imkkeokjeong",
+    "title": "임꺽정",
+    "creator": "홍명희",
+    "titleAliases": ["임꺽정 세트"],
+    "creatorAliases": []
+  },
+  "edition": { "kind": "full", "scope": "complete" },
+  "ko": { "translationStatus": "published", "isbn": "9788958282600" }
+}

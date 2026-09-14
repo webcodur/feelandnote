@@ -1,0 +1,23 @@
+{
+  "tag_slug": "myth-korea",
+  "people": [
+    {
+      "nickname": "홍길동",
+      "nickname_en": "Hong Gil-dong",
+      "bio": "서얼 출신으로 의적 무리를 이끌며 활빈당 설화의 중심인물이 된 조선시대 도적.",
+      "identity": { "mode": "new" }
+    },
+    {
+      "nickname": "임꺽정",
+      "nickname_en": "Im Kkeok-jeong",
+      "bio": "백정 출신으로 명종 때 황해도 일대를 휩쓴 의적 무리를 이끈 조선의 도적 우두머리.",
+      "identity": { "mode": "new" }
+    },
+    {
+      "nickname": "장길산",
+      "nickname_en": "Jang Gil-san",
+      "bio": "광대 출신으로 숙종 때 황해도·평안도 일대에서 활동한 조선의 의적 무리 우두머리.",
+      "identity": { "mode": "new" }
+    }
+  ]
+}

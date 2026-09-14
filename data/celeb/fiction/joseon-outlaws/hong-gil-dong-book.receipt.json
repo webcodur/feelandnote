@@ -1,0 +1,301 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\fiction\\joseon-outlaws\\hong-gil-dong-book.json",
+  "manifestSha256": "fd0ce906864060c5cf906946a2c94b0773920c10ea3fc77d66b97604d3af1ee6",
+  "planSha256": "d1d74bb2226f020567ba314b6f06eb412ed54f492b6312f9b50c2e28a09068d2",
+  "workIdentity": "honggildongjeon",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9791124459058"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "reuse",
+    "contentId": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+    "scopeKey": "honggildongjeon",
+    "conflicts": [],
+    "candidateContentIds": [
+      "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19"
+    ],
+    "candidateReasons": {
+      "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19": [
+        "contents.external_id",
+        "explicit_reuseContentId",
+        "ko.isbn",
+        "ko.title+creator"
+      ]
+    },
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": {
+        "id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791124459058",
+        "release_date": null,
+        "metadata": {},
+        "member_count": 0,
+        "celeb_count": 1,
+        "record_count": 1,
+        "created_at": "2026-05-21T10:58:37.763652+00:00"
+      },
+      "locales": [
+        {
+          "content_id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+          "locale": "en",
+          "title": "The Tale of Hong Gildong",
+          "creator": "Heo Gyun",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "note": "No exact English edition was established in the assigned OpenLibrary evidence; display title and creator only. ISBN, cover, publisher, and date are intentionally blank.",
+            "primary": "transliteration"
+          },
+          "verified": false,
+          "created_at": "2026-08-10T04:13:17.947956+00:00",
+          "updated_at": "2026-08-10T04:13:17.947956+00:00"
+        },
+        {
+          "content_id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+          "locale": "ko",
+          "title": "홍길동전",
+          "creator": "허균",
+          "description": null,
+          "isbn": "9791124459058",
+          "publisher": "리플레이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7209556?timestamp=20260619122142",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book"
+          },
+          "verified": true,
+          "created_at": "2026-05-21T10:59:27.19436+00:00",
+          "updated_at": "2026-05-21T10:59:27.19436+00:00"
+        }
+      ]
+    },
+    "contentInsert": null,
+    "contentUpdate": {
+      "id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+      "metadata": {
+        "fictionSource": {
+          "workIdentity": "honggildongjeon",
+          "workTitle": "홍길동전",
+          "workCreator": "허균",
+          "koTranslationStatus": "published"
+        }
+      }
+    },
+    "localeChanges": [
+      {
+        "kind": "update",
+        "locale": "ko",
+        "before": {
+          "content_id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+          "locale": "ko",
+          "title": "홍길동전",
+          "creator": "허균",
+          "description": null,
+          "isbn": "9791124459058",
+          "publisher": "리플레이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7209556?timestamp=20260619122142",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book"
+          },
+          "verified": true,
+          "created_at": "2026-05-21T10:59:27.19436+00:00",
+          "updated_at": "2026-05-21T10:59:27.19436+00:00"
+        },
+        "after": {
+          "content_id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+          "locale": "ko",
+          "title": "홍길동전",
+          "creator": "허균",
+          "description": "조선 중기를 대표하는 문인이자 사상가인 허균의 대표작 《홍길동전》은 오랫동안 우리나라 최초의 국문소설로 널리 알려져 있으며, 한국 고전문학사에서 가장 중요한 작품 가운데 하나로 꼽힌다. 이야기의 주인공 홍길동은 서얼이라는 신분적 한계를 지닌 인물로, “아버지를 아버지라 부르지 못하는” 현실 속에서 자신의 정체성과 존엄을 지키기 위해 사회와 맞선다. 그는 부패한 권력을 응징하고 억압받는 민중을 돕는 영웅으로 성장하며, 결국 이상국가 ‘율도국’을 건설하는 서사를 통해 새로운 사회에 대한 비전을 제시한다.\n\n이번《홍길동전》은『성소부부고』 등에 전하는 허균의 주요 전(傳) 형식 서사 작품들까지 함께 조명할 수 있도록 기획되었으며, 작품 속에는 시대를 뛰어넘는 신분제 비판, 인간 개개인의 재능과 존엄에 대한 관심, 사회 제도의 모순을 꿰뚫는 통찰, 그리고 더 나은 세계를 꿈꾸는 이상주의적 상상력이 촘촘하게 담겨 있다. 허균은 단지 한 편의 유명한 고전소설을 남긴 작가가 아니라, 조선이라는 시대를 정면으로 사유하고, 문학을 통해 사회를 질문한 선구적 지식인이었다는 점에서 오늘날 다시 읽을 가치가 더욱 크다.\n\n성장하는 청소년들을 위한 깊이 있는 이야기와 감동을 담은 1318 청소년문고는 고전부터 현대문학, 국내외 폭넓은 작품을 변화하는 세상 속에서 고민하고 꿈꾸는 청소년들이 자신의 길을 찾을 수 있도록 책을 통해 세상을 넓게 바라보고 사고력을 키울 수 있도록 돕습니다.\n\n〈홍길동전〉은 1318 청소년문고의 16번째 작품입니다.",
+          "isbn": "9791124459058",
+          "publisher": "리플레이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7209556?timestamp=20260619122142",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84"
+          },
+          "verified": true
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9791124459058",
+        "release_date": null,
+        "metadata": {
+          "fictionSource": {
+            "workIdentity": "honggildongjeon",
+            "workTitle": "홍길동전",
+            "workCreator": "허균",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 1,
+        "record_count": 1
+      },
+      "locales": [
+        {
+          "content_id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+          "locale": "en",
+          "title": "The Tale of Hong Gildong",
+          "creator": "Heo Gyun",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "note": "No exact English edition was established in the assigned OpenLibrary evidence; display title and creator only. ISBN, cover, publisher, and date are intentionally blank.",
+            "primary": "transliteration"
+          },
+          "verified": false
+        },
+        {
+          "content_id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+          "locale": "ko",
+          "title": "홍길동전",
+          "creator": "허균",
+          "description": "조선 중기를 대표하는 문인이자 사상가인 허균의 대표작 《홍길동전》은 오랫동안 우리나라 최초의 국문소설로 널리 알려져 있으며, 한국 고전문학사에서 가장 중요한 작품 가운데 하나로 꼽힌다. 이야기의 주인공 홍길동은 서얼이라는 신분적 한계를 지닌 인물로, “아버지를 아버지라 부르지 못하는” 현실 속에서 자신의 정체성과 존엄을 지키기 위해 사회와 맞선다. 그는 부패한 권력을 응징하고 억압받는 민중을 돕는 영웅으로 성장하며, 결국 이상국가 ‘율도국’을 건설하는 서사를 통해 새로운 사회에 대한 비전을 제시한다.\n\n이번《홍길동전》은『성소부부고』 등에 전하는 허균의 주요 전(傳) 형식 서사 작품들까지 함께 조명할 수 있도록 기획되었으며, 작품 속에는 시대를 뛰어넘는 신분제 비판, 인간 개개인의 재능과 존엄에 대한 관심, 사회 제도의 모순을 꿰뚫는 통찰, 그리고 더 나은 세계를 꿈꾸는 이상주의적 상상력이 촘촘하게 담겨 있다. 허균은 단지 한 편의 유명한 고전소설을 남긴 작가가 아니라, 조선이라는 시대를 정면으로 사유하고, 문학을 통해 사회를 질문한 선구적 지식인이었다는 점에서 오늘날 다시 읽을 가치가 더욱 크다.\n\n성장하는 청소년들을 위한 깊이 있는 이야기와 감동을 담은 1318 청소년문고는 고전부터 현대문학, 국내외 폭넓은 작품을 변화하는 세상 속에서 고민하고 꿈꾸는 청소년들이 자신의 길을 찾을 수 있도록 책을 통해 세상을 넓게 바라보고 사고력을 키울 수 있도록 돕습니다.\n\n〈홍길동전〉은 1318 청소년문고의 16번째 작품입니다.",
+          "isbn": "9791124459058",
+          "publisher": "리플레이",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7209556?timestamp=20260619122142",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84"
+          },
+          "verified": true
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "honggildongjeon",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9791124459058"
+      ],
+      "normalizedTitles": [
+        "홍길동전"
+      ],
+      "normalizedCreators": [
+        "허균"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T07:21:47.906Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9791124459058",
+      "release_date": null,
+      "metadata": {
+        "fictionSource": {
+          "workTitle": "홍길동전",
+          "workCreator": "허균",
+          "workIdentity": "honggildongjeon",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 1,
+      "record_count": 1,
+      "created_at": "2026-05-21T10:58:37.763652+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+        "locale": "en",
+        "title": "The Tale of Hong Gildong",
+        "creator": "Heo Gyun",
+        "description": null,
+        "isbn": null,
+        "publisher": null,
+        "thumbnail_url": null,
+        "affiliate_url": null,
+        "sources": {
+          "note": "No exact English edition was established in the assigned OpenLibrary evidence; display title and creator only. ISBN, cover, publisher, and date are intentionally blank.",
+          "primary": "transliteration"
+        },
+        "verified": false,
+        "created_at": "2026-08-10T04:13:17.947956+00:00",
+        "updated_at": "2026-08-10T04:13:17.947956+00:00"
+      },
+      {
+        "content_id": "adaf3329-f33c-4ae1-b9aa-a7a4955f2e19",
+        "locale": "ko",
+        "title": "홍길동전",
+        "creator": "허균",
+        "description": "조선 중기를 대표하는 문인이자 사상가인 허균의 대표작 《홍길동전》은 오랫동안 우리나라 최초의 국문소설로 널리 알려져 있으며, 한국 고전문학사에서 가장 중요한 작품 가운데 하나로 꼽힌다. 이야기의 주인공 홍길동은 서얼이라는 신분적 한계를 지닌 인물로, “아버지를 아버지라 부르지 못하는” 현실 속에서 자신의 정체성과 존엄을 지키기 위해 사회와 맞선다. 그는 부패한 권력을 응징하고 억압받는 민중을 돕는 영웅으로 성장하며, 결국 이상국가 ‘율도국’을 건설하는 서사를 통해 새로운 사회에 대한 비전을 제시한다.\n\n이번《홍길동전》은『성소부부고』 등에 전하는 허균의 주요 전(傳) 형식 서사 작품들까지 함께 조명할 수 있도록 기획되었으며, 작품 속에는 시대를 뛰어넘는 신분제 비판, 인간 개개인의 재능과 존엄에 대한 관심, 사회 제도의 모순을 꿰뚫는 통찰, 그리고 더 나은 세계를 꿈꾸는 이상주의적 상상력이 촘촘하게 담겨 있다. 허균은 단지 한 편의 유명한 고전소설을 남긴 작가가 아니라, 조선이라는 시대를 정면으로 사유하고, 문학을 통해 사회를 질문한 선구적 지식인이었다는 점에서 오늘날 다시 읽을 가치가 더욱 크다.\n\n성장하는 청소년들을 위한 깊이 있는 이야기와 감동을 담은 1318 청소년문고는 고전부터 현대문학, 국내외 폭넓은 작품을 변화하는 세상 속에서 고민하고 꿈꾸는 청소년들이 자신의 길을 찾을 수 있도록 책을 통해 세상을 넓게 바라보고 사고력을 키울 수 있도록 돕습니다.\n\n〈홍길동전〉은 1318 청소년문고의 16번째 작품입니다.",
+        "isbn": "9791124459058",
+        "publisher": "리플레이",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/7209556?timestamp=20260619122142",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=7209556&q=%ED%99%8D%EA%B8%B8%EB%8F%99%EC%A0%84"
+        },
+        "verified": true,
+        "created_at": "2026-05-21T10:59:27.19436+00:00",
+        "updated_at": "2026-09-04T07:21:39.78413+00:00"
+      }
+    ]
+  }
+}

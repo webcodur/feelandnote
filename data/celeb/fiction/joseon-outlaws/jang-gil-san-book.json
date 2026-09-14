@@ -1,0 +1,12 @@
+{
+  "work": {
+    "identity": "janggilsan",
+    "title": "장길산",
+    "creator": "황석영",
+    "titleAliases": ["장길산(특별합본호) 세트"],
+    "creatorAliases": []
+  },
+  "edition": { "kind": "full", "scope": "complete" },
+  "reuseContentId": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+  "ko": { "translationStatus": "published", "isbn": "9788936432904" }
+}

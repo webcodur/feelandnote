@@ -1,0 +1,302 @@
+{
+  "version": 1,
+  "mode": "apply",
+  "manifestPath": "C:\\project\\feelandnote\\data\\celeb\\fiction\\joseon-outlaws\\jang-gil-san-book.json",
+  "manifestSha256": "5e18fcb7474b7375377c08376adc32f74dcadade42b80f64fb29dbae58a6190f",
+  "planSha256": "8c5c8915203093e8900dce2f8d1ae4472401c4bd8b5adfbdf69d129d59a270d9",
+  "workIdentity": "janggilsan",
+  "edition": {
+    "kind": "full",
+    "scope": "complete"
+  },
+  "reviewedDistinctContentIds": [],
+  "metadataSources": [
+    {
+      "locale": "ko",
+      "primary": "kakao_book",
+      "isbn": "9788936432904"
+    }
+  ],
+  "transactionBoundary": "external lookups before one Oracle PostgreSQL work+locale+edition transaction",
+  "databaseRole": "service_role (SET LOCAL)",
+  "plan": {
+    "action": "reuse",
+    "contentId": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+    "scopeKey": "janggilsan",
+    "conflicts": [],
+    "candidateContentIds": [
+      "08ee6ea1-ddc9-4262-9807-d36c61e7414e"
+    ],
+    "candidateReasons": {
+      "08ee6ea1-ddc9-4262-9807-d36c61e7414e": [
+        "contents.external_id",
+        "explicit_reuseContentId",
+        "ko.isbn",
+        "ko.title+creator"
+      ]
+    },
+    "reviewedDistinctContentIds": [],
+    "reviewedDistinctCandidateFingerprints": [],
+    "before": {
+      "content": {
+        "id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788936432904",
+        "release_date": null,
+        "metadata": {},
+        "member_count": 0,
+        "celeb_count": 1,
+        "record_count": 1,
+        "created_at": "2026-05-21T13:57:28.366908+00:00"
+      },
+      "locales": [
+        {
+          "content_id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+          "locale": "en",
+          "title": "Jang Gilsan (Special Combined Set)",
+          "creator": "Hwang Sok-yong",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "note": "No exact English edition was confirmed in the assigned OpenLibrary pass; conservative service display only.",
+            "primary": "transliteration"
+          },
+          "verified": false,
+          "created_at": "2026-08-10T04:19:05.57213+00:00",
+          "updated_at": "2026-08-10T04:19:05.57213+00:00"
+        },
+        {
+          "content_id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+          "locale": "ko",
+          "title": "장길산(특별합본호) 세트",
+          "creator": "황석영",
+          "description": null,
+          "isbn": "9788936432904",
+          "publisher": "창비",
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book"
+          },
+          "verified": true,
+          "created_at": "2026-05-21T13:57:42.756668+00:00",
+          "updated_at": "2026-05-21T13:57:42.756668+00:00"
+        }
+      ]
+    },
+    "contentInsert": null,
+    "contentUpdate": {
+      "id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+      "metadata": {
+        "fictionSource": {
+          "workIdentity": "janggilsan",
+          "workTitle": "장길산",
+          "workCreator": "황석영",
+          "koTranslationStatus": "published"
+        }
+      }
+    },
+    "localeChanges": [
+      {
+        "kind": "update",
+        "locale": "ko",
+        "before": {
+          "content_id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+          "locale": "ko",
+          "title": "장길산(특별합본호) 세트",
+          "creator": "황석영",
+          "description": null,
+          "isbn": "9788936432904",
+          "publisher": "창비",
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "kakao_book"
+          },
+          "verified": true,
+          "created_at": "2026-05-21T13:57:42.756668+00:00",
+          "updated_at": "2026-05-21T13:57:42.756668+00:00"
+        },
+        "after": {
+          "content_id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+          "locale": "ko",
+          "title": "장길산(특별합본호) 세트",
+          "creator": "황석영",
+          "description": "우리 시대 최고의 작가 황석영의 대표작 『장길산』(전12권)이 산뜻한 장정의 특별합본호 4권으로 다시 독자들을 만난다. 1974년부터 1984년까지 10년에 걸쳐 완성된 황석영 대하소설 『장길산』은 해방 이후 남한 최고의 역사소설 중 하나로 평가받은 작품의 명성에 걸맞게 지금까지 350만부 이상 판매되었으며, 현재의 판본을 바탕으로 제작된 SBS 대하드라마가 2004년 인기리에 방영되어 수차례 중쇄를 거듭하고, 연극 「장산곶 매」 등으로도 변주되는 등 꾸준히 독자들에게 사랑받고 있는 시대를 초월한 걸작으로 손꼽힌다. 손에 잡힐 듯 생생하고 뜨거운 인물들의 활약이 육중한 분량의 페이지를 가볍게 넘기게 하고, 불합리한 사회 질서를 타개하는 장길산의 활극은 통쾌함을 느끼게 한다. 또한 풍요로운 우리말 어휘와 아름다운 문장을 읽으며 모처럼 한국어의 진미를 만끽하는 보람도 누릴 수 있다. 거장 황석영의 탁월한 역사적 상상력과 작가정신을 엿볼 수 있는 『장길산』은 여전히 새로운 변화가 필요한 시대의 요구에 응답해주고, 답답한 시절의 갈증을 해소해주는 불멸의 고전이 되었다. 새롭게 선보이는 이번 합본호가 『장길산』의 기존 독자들에게는 특별한 선물이 되고, 처음 만나게 될 젊은 독자들에게는 꿈을 향한 이정표가 되어줄 것이다.\n\n장산곶 매의 애처로운 죽음을 읊은 프롤로그와 운주사의 천불천탑(千佛千塔) 전설을 다룬 에필로그 사이에는 열두 마당으로 이루어진 장엄한 이야기가 박진감 넘치게 전개된다. 한반도 전체를 무대로 수많은 인물들이 치고받는 무협활극이 있고 천출(賤出)의 백성들이 개인적인 원한이나 사리사욕을 딛고 새로운 세상을 꿈꾸며 살아가는 역사가 있다. 이 웅대한 규모의 소설은 조선시대 민중들의 삶과 사랑, 미륵신앙의 형태로 존재하고 있던 새 세상을 향한 염원을 아로새긴 대작이다. 작가는 숙종조 조선후기의 산야를 무대로 삼고 여기에 실존인물인 장길산을 등장시켜 결코 좌절하지 않는 민중들의 생명력을 표현하고 수많은 인걸들의 활약을 거침없이 펼쳐놓는다. 천한 노비의 소생인 장길산이 사회의 모순을 극복하고자 의지를 키워나가는 과정, 그 의지를 실천하기 위해 녹림당을 조직하여 지배층에 대항하는 모습, 그러한 개인적 실천이 민중에게로 확대되는 과정이 감동적으로 펼쳐진다. 또한 길산과 묘옥, 여환스님과 원향의 애틋한 마음을 서사의 한축으로 엮어가며 생활의 디테일들을 풍요롭게 보여주는 감동적인 인간 드라마가 펼쳐진다. “『장길산』은 ‘천불천탑’ 전설 속 불상들의 얼굴처럼 우리들 각자가 시대 속에서 그려나간 자신의 삶의 모습을 담고 있다. 이제 새로운 독자들은 여기서 다시 자신의 얼굴을 하나둘씩 발견”(작가의 말)하게 될 것이다.",
+          "isbn": "9788936432904",
+          "publisher": "창비",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5547652?timestamp=20260827122709",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8"
+          },
+          "verified": true
+        }
+      }
+    ],
+    "expectedAfterMaterial": {
+      "content": {
+        "id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+        "type": "BOOK",
+        "subtype": null,
+        "external_source": "kakao_book",
+        "external_id": "9788936432904",
+        "release_date": null,
+        "metadata": {
+          "fictionSource": {
+            "workIdentity": "janggilsan",
+            "workTitle": "장길산",
+            "workCreator": "황석영",
+            "koTranslationStatus": "published"
+          }
+        },
+        "member_count": 0,
+        "celeb_count": 1,
+        "record_count": 1
+      },
+      "locales": [
+        {
+          "content_id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+          "locale": "en",
+          "title": "Jang Gilsan (Special Combined Set)",
+          "creator": "Hwang Sok-yong",
+          "description": null,
+          "isbn": null,
+          "publisher": null,
+          "thumbnail_url": null,
+          "affiliate_url": null,
+          "sources": {
+            "note": "No exact English edition was confirmed in the assigned OpenLibrary pass; conservative service display only.",
+            "primary": "transliteration"
+          },
+          "verified": false
+        },
+        {
+          "content_id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+          "locale": "ko",
+          "title": "장길산(특별합본호) 세트",
+          "creator": "황석영",
+          "description": "우리 시대 최고의 작가 황석영의 대표작 『장길산』(전12권)이 산뜻한 장정의 특별합본호 4권으로 다시 독자들을 만난다. 1974년부터 1984년까지 10년에 걸쳐 완성된 황석영 대하소설 『장길산』은 해방 이후 남한 최고의 역사소설 중 하나로 평가받은 작품의 명성에 걸맞게 지금까지 350만부 이상 판매되었으며, 현재의 판본을 바탕으로 제작된 SBS 대하드라마가 2004년 인기리에 방영되어 수차례 중쇄를 거듭하고, 연극 「장산곶 매」 등으로도 변주되는 등 꾸준히 독자들에게 사랑받고 있는 시대를 초월한 걸작으로 손꼽힌다. 손에 잡힐 듯 생생하고 뜨거운 인물들의 활약이 육중한 분량의 페이지를 가볍게 넘기게 하고, 불합리한 사회 질서를 타개하는 장길산의 활극은 통쾌함을 느끼게 한다. 또한 풍요로운 우리말 어휘와 아름다운 문장을 읽으며 모처럼 한국어의 진미를 만끽하는 보람도 누릴 수 있다. 거장 황석영의 탁월한 역사적 상상력과 작가정신을 엿볼 수 있는 『장길산』은 여전히 새로운 변화가 필요한 시대의 요구에 응답해주고, 답답한 시절의 갈증을 해소해주는 불멸의 고전이 되었다. 새롭게 선보이는 이번 합본호가 『장길산』의 기존 독자들에게는 특별한 선물이 되고, 처음 만나게 될 젊은 독자들에게는 꿈을 향한 이정표가 되어줄 것이다.\n\n장산곶 매의 애처로운 죽음을 읊은 프롤로그와 운주사의 천불천탑(千佛千塔) 전설을 다룬 에필로그 사이에는 열두 마당으로 이루어진 장엄한 이야기가 박진감 넘치게 전개된다. 한반도 전체를 무대로 수많은 인물들이 치고받는 무협활극이 있고 천출(賤出)의 백성들이 개인적인 원한이나 사리사욕을 딛고 새로운 세상을 꿈꾸며 살아가는 역사가 있다. 이 웅대한 규모의 소설은 조선시대 민중들의 삶과 사랑, 미륵신앙의 형태로 존재하고 있던 새 세상을 향한 염원을 아로새긴 대작이다. 작가는 숙종조 조선후기의 산야를 무대로 삼고 여기에 실존인물인 장길산을 등장시켜 결코 좌절하지 않는 민중들의 생명력을 표현하고 수많은 인걸들의 활약을 거침없이 펼쳐놓는다. 천한 노비의 소생인 장길산이 사회의 모순을 극복하고자 의지를 키워나가는 과정, 그 의지를 실천하기 위해 녹림당을 조직하여 지배층에 대항하는 모습, 그러한 개인적 실천이 민중에게로 확대되는 과정이 감동적으로 펼쳐진다. 또한 길산과 묘옥, 여환스님과 원향의 애틋한 마음을 서사의 한축으로 엮어가며 생활의 디테일들을 풍요롭게 보여주는 감동적인 인간 드라마가 펼쳐진다. “『장길산』은 ‘천불천탑’ 전설 속 불상들의 얼굴처럼 우리들 각자가 시대 속에서 그려나간 자신의 삶의 모습을 담고 있다. 이제 새로운 독자들은 여기서 다시 자신의 얼굴을 하나둘씩 발견”(작가의 말)하게 될 것이다.",
+          "isbn": "9788936432904",
+          "publisher": "창비",
+          "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5547652?timestamp=20260827122709",
+          "affiliate_url": null,
+          "sources": {
+            "primary": "kakao_book",
+            "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "title": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "creator": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "isbn": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "publisher": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+            "description": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8"
+          },
+          "verified": true
+        }
+      ]
+    },
+    "duplicateMatchers": {
+      "workIdentity": "janggilsan",
+      "editionKind": "full",
+      "textScope": "complete",
+      "isbns": [
+        "9788936432904"
+      ],
+      "normalizedTitles": [
+        "장길산",
+        "장길산특별합본호세트"
+      ],
+      "normalizedCreators": [
+        "황석영"
+      ]
+    }
+  },
+  "status": "applied-after-recovery",
+  "appliedAt": "2026-09-04T07:24:30.476Z",
+  "databaseWrites": 4,
+  "originalError": "post-commit fiction source BOOK readback differs from the transaction readback",
+  "executorFailure": {
+    "kind": "post-executor-verification",
+    "executorTerminationConfirmed": true,
+    "rollbackConfirmed": false,
+    "commitUncertain": false,
+    "exitCode": 0
+  },
+  "recoveryReadback": {
+    "content": {
+      "id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+      "type": "BOOK",
+      "subtype": null,
+      "external_source": "kakao_book",
+      "external_id": "9788936432904",
+      "release_date": null,
+      "metadata": {
+        "fictionSource": {
+          "workTitle": "장길산",
+          "workCreator": "황석영",
+          "workIdentity": "janggilsan",
+          "koTranslationStatus": "published"
+        }
+      },
+      "member_count": 0,
+      "celeb_count": 1,
+      "record_count": 1,
+      "created_at": "2026-05-21T13:57:28.366908+00:00"
+    },
+    "locales": [
+      {
+        "content_id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+        "locale": "en",
+        "title": "Jang Gilsan (Special Combined Set)",
+        "creator": "Hwang Sok-yong",
+        "description": null,
+        "isbn": null,
+        "publisher": null,
+        "thumbnail_url": null,
+        "affiliate_url": null,
+        "sources": {
+          "note": "No exact English edition was confirmed in the assigned OpenLibrary pass; conservative service display only.",
+          "primary": "transliteration"
+        },
+        "verified": false,
+        "created_at": "2026-08-10T04:19:05.57213+00:00",
+        "updated_at": "2026-08-10T04:19:05.57213+00:00"
+      },
+      {
+        "content_id": "08ee6ea1-ddc9-4262-9807-d36c61e7414e",
+        "locale": "ko",
+        "title": "장길산(특별합본호) 세트",
+        "creator": "황석영",
+        "description": "우리 시대 최고의 작가 황석영의 대표작 『장길산』(전12권)이 산뜻한 장정의 특별합본호 4권으로 다시 독자들을 만난다. 1974년부터 1984년까지 10년에 걸쳐 완성된 황석영 대하소설 『장길산』은 해방 이후 남한 최고의 역사소설 중 하나로 평가받은 작품의 명성에 걸맞게 지금까지 350만부 이상 판매되었으며, 현재의 판본을 바탕으로 제작된 SBS 대하드라마가 2004년 인기리에 방영되어 수차례 중쇄를 거듭하고, 연극 「장산곶 매」 등으로도 변주되는 등 꾸준히 독자들에게 사랑받고 있는 시대를 초월한 걸작으로 손꼽힌다. 손에 잡힐 듯 생생하고 뜨거운 인물들의 활약이 육중한 분량의 페이지를 가볍게 넘기게 하고, 불합리한 사회 질서를 타개하는 장길산의 활극은 통쾌함을 느끼게 한다. 또한 풍요로운 우리말 어휘와 아름다운 문장을 읽으며 모처럼 한국어의 진미를 만끽하는 보람도 누릴 수 있다. 거장 황석영의 탁월한 역사적 상상력과 작가정신을 엿볼 수 있는 『장길산』은 여전히 새로운 변화가 필요한 시대의 요구에 응답해주고, 답답한 시절의 갈증을 해소해주는 불멸의 고전이 되었다. 새롭게 선보이는 이번 합본호가 『장길산』의 기존 독자들에게는 특별한 선물이 되고, 처음 만나게 될 젊은 독자들에게는 꿈을 향한 이정표가 되어줄 것이다.\n\n장산곶 매의 애처로운 죽음을 읊은 프롤로그와 운주사의 천불천탑(千佛千塔) 전설을 다룬 에필로그 사이에는 열두 마당으로 이루어진 장엄한 이야기가 박진감 넘치게 전개된다. 한반도 전체를 무대로 수많은 인물들이 치고받는 무협활극이 있고 천출(賤出)의 백성들이 개인적인 원한이나 사리사욕을 딛고 새로운 세상을 꿈꾸며 살아가는 역사가 있다. 이 웅대한 규모의 소설은 조선시대 민중들의 삶과 사랑, 미륵신앙의 형태로 존재하고 있던 새 세상을 향한 염원을 아로새긴 대작이다. 작가는 숙종조 조선후기의 산야를 무대로 삼고 여기에 실존인물인 장길산을 등장시켜 결코 좌절하지 않는 민중들의 생명력을 표현하고 수많은 인걸들의 활약을 거침없이 펼쳐놓는다. 천한 노비의 소생인 장길산이 사회의 모순을 극복하고자 의지를 키워나가는 과정, 그 의지를 실천하기 위해 녹림당을 조직하여 지배층에 대항하는 모습, 그러한 개인적 실천이 민중에게로 확대되는 과정이 감동적으로 펼쳐진다. 또한 길산과 묘옥, 여환스님과 원향의 애틋한 마음을 서사의 한축으로 엮어가며 생활의 디테일들을 풍요롭게 보여주는 감동적인 인간 드라마가 펼쳐진다. “『장길산』은 ‘천불천탑’ 전설 속 불상들의 얼굴처럼 우리들 각자가 시대 속에서 그려나간 자신의 삶의 모습을 담고 있다. 이제 새로운 독자들은 여기서 다시 자신의 얼굴을 하나둘씩 발견”(작가의 말)하게 될 것이다.",
+        "isbn": "9788936432904",
+        "publisher": "창비",
+        "thumbnail_url": "https://t1.daumcdn.net/lbook/image/5547652?timestamp=20260827122709",
+        "affiliate_url": null,
+        "sources": {
+          "isbn": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+          "title": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+          "creator": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+          "primary": "kakao_book",
+          "publisher": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+          "thumbnail": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8",
+          "description": "https://search.daum.net/search?w=bookpage&bookId=5547652&q=%EC%9E%A5%EA%B8%B8%EC%82%B0%28%ED%8A%B9%EB%B3%84%ED%95%A9%EB%B3%B8%ED%98%B8%29+%EC%84%B8%ED%8A%B8"
+        },
+        "verified": true,
+        "created_at": "2026-05-21T13:57:42.756668+00:00",
+        "updated_at": "2026-09-04T07:24:11.78415+00:00"
+      }
+    ]
+  }
+}

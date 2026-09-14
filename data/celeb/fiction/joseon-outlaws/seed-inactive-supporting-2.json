@@ -1,0 +1,21 @@
+{
+  "tag_slug": "myth-korea",
+  "people": [
+    { "nickname": "홍판서", "nickname_en": "Hong Pan-seo", "bio": "홍길동전에서 서얼 차별의 굴레를 만든 길동의 아버지이자 조선의 판서.", "identity": { "mode": "new" } },
+    { "nickname": "춘섬", "nickname_en": "Chunseom", "bio": "홍길동전에서 시비 출신으로 길동을 낳은 생모.", "identity": { "mode": "new" } },
+    { "nickname": "홍인형", "nickname_en": "Hong In-hyeong", "bio": "홍길동전에서 길동의 재능을 인정하면서도 신분 질서를 지키려는 이복형.", "identity": { "mode": "new" } },
+    { "nickname": "박유복", "nickname_en": "Park Yu-bok", "bio": "임꺽정에서 아버지의 원수를 갚고 청석골에 합류한 두령 가운데 한 사람.", "identity": { "mode": "new" } },
+    { "nickname": "이봉학", "nickname_en": "Yi Bong-hak", "bio": "임꺽정에서 활쏘기에 능해 두령이 된 청석골 화적패의 일원.", "identity": { "mode": "new" } },
+    { "nickname": "배돌석", "nickname_en": "Bae Dol-seok", "bio": "임꺽정에서 돌팔매 솜씨로 이름난 청석골 화적패의 일원.", "identity": { "mode": "new" } },
+    { "nickname": "황천왕동이", "nickname_en": "Hwang Cheonwang-dongi", "bio": "임꺽정에서 날쌘 몸놀림으로 이름난 청석골 화적패의 일원.", "identity": { "mode": "new" } },
+    { "nickname": "곽오주", "nickname_en": "Gwak O-ju", "bio": "임꺽정에서 힘이 장사인 청석골 화적패의 일원.", "identity": { "mode": "new" } },
+    { "nickname": "길막봉이", "nickname_en": "Gil Mak-bongi", "bio": "임꺽정에서 뒤늦게 합류한 힘센 청석골 화적패의 일원.", "identity": { "mode": "new" } },
+    { "nickname": "박대근", "nickname_en": "Park Dae-geun", "bio": "장길산에서 뜻을 함께한 화적 무리의 동료 가운데 한 사람.", "identity": { "mode": "new" } },
+    { "nickname": "이갑송", "nickname_en": "Yi Gap-song", "bio": "장길산에서 뜻을 함께한 화적 무리의 동료 가운데 한 사람.", "identity": { "mode": "new" } },
+    { "nickname": "우대용", "nickname_en": "Woo Dae-yong", "bio": "장길산에서 뜻을 함께한 화적 무리의 동료 가운데 한 사람.", "identity": { "mode": "new" } },
+    { "nickname": "김기", "nickname_en": "Kim Gi", "bio": "장길산에서 뜻을 함께한 화적 무리의 동료 가운데 한 사람.", "identity": { "mode": "new" } },
+    { "nickname": "마감동", "nickname_en": "Ma Gam-dong", "bio": "장길산에서 뜻을 함께한 화적 무리의 동료 가운데 한 사람.", "identity": { "mode": "new" } },
+    { "nickname": "오만석", "nickname_en": "Oh Man-seok", "bio": "장길산에서 뜻을 함께한 화적 무리의 동료 가운데 한 사람.", "identity": { "mode": "new" } },
+    { "nickname": "강선흥", "nickname_en": "Kang Seon-heung", "bio": "장길산에서 뜻을 함께한 화적 무리의 동료 가운데 한 사람.", "identity": { "mode": "new" } }
+  ]
+}
