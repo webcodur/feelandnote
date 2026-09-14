@@ -11,6 +11,7 @@ import { useId, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import ContentReadingText from "@/components/ui/ContentReadingText";
+import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
 import ContentTextModal, { ExpandTextButton } from "@/components/ui/ContentTextModal";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { ContentIntroSource } from "@/actions/contents/fetchMusicIntros";
@@ -56,6 +57,7 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
   const sourceText = selectContentIntroText(brief);
   const text = sourceText ? normalizeContentIntroText(sourceText) : null;
   const headingCategory = brief?.category ?? category;
+  const showIntroductionSource = headingCategory === "book" && !isLoading && !!text;
   // 아래 감상배경 제목에 인물 사진이 붙듯, 소개 제목에는 같은 규격의 매체 아이콘 배지를 붙인다
   const CategoryIcon = getCategoryById(headingCategory)?.lucideIcon;
 
@@ -82,9 +84,12 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
               <CategoryIcon size={18} />
             </span>
           )}
-          <h4 id={headingId} className={EXPAND_SECTION_HEADING_CLASS}>
-            {t(INTRO_HEADING_KEY[headingCategory])}
-          </h4>
+          <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+            <h4 id={headingId} className={EXPAND_SECTION_HEADING_CLASS}>
+              {t(INTRO_HEADING_KEY[headingCategory])}
+            </h4>
+            {showIntroductionSource && <BookIntroductionSource attribution={brief?.introductionAttribution} />}
+          </div>
         </div>
         {isClipped && (
           <ExpandTextButton label={t("expandIntroMore")} onClick={() => setIsModalOpen(true)} />
@@ -153,6 +158,7 @@ export default function ContentIntro({ brief, category, isLoading }: ContentIntr
           onClose={() => setIsModalOpen(false)}
           title={t(INTRO_HEADING_KEY[headingCategory])}
           text={fullText}
+          notice={showIntroductionSource ? <BookIntroductionSource attribution={brief?.introductionAttribution} className="mb-4" /> : undefined}
           source={
             active?.url
               ? {

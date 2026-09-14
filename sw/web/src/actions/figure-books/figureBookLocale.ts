@@ -1,4 +1,4 @@
-import type { BookIntroductionReference } from '@/lib/utils/book-description'
+import type { BookIntroductionReference, BookIntroductionAttribution } from '@/lib/utils/book-description'
 
 export type FigureBookProductPlatform = 'coupang' | 'amazon'
 
@@ -26,6 +26,7 @@ export interface FigureBookEdition {
   creator: string | null
   description: string | null
   bookIntroduction?: BookIntroductionReference | null
+  introductionAttribution?: BookIntroductionAttribution
   isbn: string | null
   publisher: string | null
   thumbnailUrl: string | null
@@ -128,4 +129,22 @@ export function mapFigureBookEditions(
       purchaseUrl: null,
     }))
     .sort((left, right) => left.sortOrder - right.sortOrder || left.id - right.id)
+}
+
+/** 한국어 판본은 쿠팡 상품 유무와 관계없이 선택하고, 저장된 구매 링크만 같은 판본에 붙인다. */
+export function mergeFigureBookEditions(
+  rows: FigureBookEditionRow[],
+  options: FigureBookPurchaseOptionRow[],
+  locale: string,
+): FigureBookEdition[] {
+  const purchasable = mapFigureBookPurchaseOptions(options, locale)
+  const editions = mapFigureBookEditions(rows, locale)
+  if (locale !== 'ko') return purchasable.length > 0 ? purchasable : editions
+  const byId = new Map(purchasable.map((edition) => [edition.id, edition]))
+  return editions.map((edition) => {
+    const purchase = byId.get(edition.id)
+    return purchase?.isbn === edition.isbn
+      ? { ...edition, platform: purchase.platform, purchaseUrl: purchase.purchaseUrl }
+      : edition
+  })
 }

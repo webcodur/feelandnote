@@ -12,11 +12,10 @@ import {
   type TitleBadge,
 } from '@/lib/utils/content-locale'
 import type { ContentType } from '@/types/database'
-import { selectBookIntroduction, type BookIntroductionReference } from '@/lib/utils/book-description'
+import { selectBookIntroduction, type BookIntroductionReference, type BookIntroductionAttribution } from '@/lib/utils/book-description'
 import {
   getFigureBookPurchasePlatform,
-  mapFigureBookEditions,
-  mapFigureBookPurchaseOptions,
+  mergeFigureBookEditions,
   type FigureBookEdition,
   type FigureBookEditionRow,
   type FigureBookPurchaseOptionRow,
@@ -45,6 +44,7 @@ export interface FigureBookContent {
   editions: FigureBookEdition[]
   description?: string | null
   bookIntroduction?: BookIntroductionReference | null
+  introductionAttribution?: BookIntroductionAttribution
   /** 저장된 원어 표제·저자를 창작 판정과 위키데이터 중복 대조에 사용한다. */
   titleKo?: string | null
   titleEn?: string | null
@@ -154,14 +154,11 @@ async function fetchSourcesByCeleb(
     const content = contentById.get(assignment.content_id)
     if (!content) return []
 
-    // 제휴 상품이 있으면 그 판본만 연다. 하나도 없으면 판본 정보만으로 카드를 세운다.
-    const purchasable = mapFigureBookPurchaseOptions(
+    const editions = mergeFigureBookEditions(
+      editionRowsByContent.get(content.id) ?? [],
       optionRowsByContent.get(content.id) ?? [],
       locale,
     )
-    const editions = purchasable.length > 0
-      ? purchasable
-      : mapFigureBookEditions(editionRowsByContent.get(content.id) ?? [], locale)
     // 창작 목록은 판매 판본이 없어도 확인된 해당 언어의 작품 메타로 보여줄 수 있다.
     const exactLocale = content.content_locales?.find((row) => row.locale === locale)
     if (editions.length === 0 && (!includeCatalogOnly || !exactLocale?.title?.trim())) return []
@@ -256,7 +253,7 @@ export async function getFigureBooksForCeleb(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['figure-books-by-celeb-v7-work-list', celebId, locale, String(includeCatalogOnly)],
+    ['figure-books-by-celeb-v10-original-source', celebId, locale, String(includeCatalogOnly)],
     () => fetchSourcesByCeleb(celebId, locale, includeCatalogOnly),
     { extraTags: [CACHE_TAGS.FIGURE_BOOKS, CACHE_TAGS.CONTENTS] },
   )

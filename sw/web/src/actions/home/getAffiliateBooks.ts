@@ -21,6 +21,7 @@ import {
 
 export interface AffiliateBook {
   contentId: string
+  editionId?: number
   title: string
   creator?: string
   thumbnail?: string
@@ -139,6 +140,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
     pool.push({
       book: {
         contentId,
+        editionId: edition.id,
         title: edition.title,
         creator: edition.creator ?? undefined,
         thumbnail: edition.thumbnailUrl ?? undefined,
@@ -241,7 +243,7 @@ function rotateDaily<T>(items: T[], limit: number): T[] {
   return Array.from({ length: limit }, (_, i) => window[(start + i) % window.length])
 }
 
-const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v3-source-editions'], {
+const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool-v4-purchase-edition'], {
   // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
   // 인물 상세을 연쇄 무효화하므로 달지 않는다.
   //
@@ -378,7 +380,7 @@ async function getAffiliateBooksForCelebInner(
   return cachedDetail(
     CACHE_TAGS.CELEBS,
     celebId,
-    ['affiliate-books-celeb-v3-source-editions', celebId, platform, String(limit)],
+    ['affiliate-books-celeb-v4-purchase-edition', celebId, platform, String(limit)],
     () => fetchAffiliateBooksForCeleb(celebId, limit, pool),
     // 수명은 기본값(1주)을 쓴다. 위 풀과 같은 이유다 — 인물 상세 초기 렌더가 이 결과를
     // 쓰므로 짧게 두면 페이지 한 장의 수명이 함께 내려간다. 상품이 바뀌면 아래 태그로 비워진다.
@@ -522,7 +524,7 @@ function fetchBooksForTagCached(
 ): Promise<FactionBooks> {
   return unstable_cache(
     () => fetchBooksForTag(tagId, tagName, limit, pool),
-    ['affiliate-books-tag', tagId, tagName, platform, String(limit)],
+    ['affiliate-books-tag-v2-purchase-edition', tagId, tagName, platform, String(limit)],
     {
       revalidate: STATIC_REVALIDATE,
       tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS, CACHE_TAGS.FIGURE_BOOKS],

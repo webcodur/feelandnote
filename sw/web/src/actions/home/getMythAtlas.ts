@@ -233,6 +233,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
     return { id: content.id, title: edition?.title ?? flat.title, creator: edition?.creator ?? flat.creator,
       thumbnailUrl: edition?.thumbnailUrl ?? flat.thumbnail_url,
       category: CATEGORY[content.type], coupangUrl: isEn ? null : edition?.purchaseUrl ?? null,
+      editionId: isEn ? undefined : edition?.id,
       personIds: unique(assignments.filter((row) => row.content_id === content.id).map((row) => row.celeb_id)) };
   }).filter((work) => work.title).sort((a, b) => b.personIds.length - a.personIds.length || a.title.localeCompare(b.title, locale));
 
@@ -299,7 +300,7 @@ async function fetchMythAtlas(locale: string): Promise<MythAtlasData> {
   return { regions, traditions, people, works, openingPersonId: people[0]?.id ?? null };
 }
 
-const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v17-theme-images"], {
+const getCachedMythAtlas = unstable_cache(fetchMythAtlas, ["myth-atlas-v18-purchase-edition"], {
   revalidate: STATIC_REVALIDATE,
   tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.FIGURE_BOOKS],
 });

@@ -41,7 +41,7 @@
       "curated": "Lists chosen by universities, the press, and award bodies.",
       "exploreCurated": "Browse the lists",
       "popularLabel": "Popular Works",
-      "popular": "Explore book trends and lists by medium, collected weekly."
+      "popular": "Explore the US Apple Books paid ebook chart and classics chosen by notable figures."
     },
     "meta": {
       "title": "Works - Celebrity Reading Lists & Movie Picks",
@@ -409,46 +409,37 @@
       "viewByKind": "By institution",
       "viewByTopic": "By topic",
       "backToLibrary": "Back to Works",
-      "overview": "Overview"
+      "overview": "Overview",
+      "purchasePending": "Purchase link unavailable"
     },
     "popular": {
-      "metaTitle": "Popular Works - Weekly Collections & All-Time Classics",
-      "metaDescription": "Explore book trends, lists by medium, and classics chosen by notable figures, with sources and collection dates.",
+      "metaTitle": "Popular Works - Paid Ebooks & All-Time Classics",
+      "metaDescription": "Browse the US Apple Books paid ebook chart and classics chosen by notable figures, with chart sources and the time last checked.",
       "title": "Popular Works",
       "description": "Timeless classics chosen by great minds and thinkers across history.",
-      "descBestseller": "Book trends and lists by medium, collected weekly.",
-      "criteriaCatAll": "OpenLibrary weekly trending books",
-      "criteriaCatHumanities": "OpenLibrary subject list for philosophy",
-      "criteriaCatBusiness": "OpenLibrary subject list for business",
-      "criteriaCatFiction": "OpenLibrary subject list for fiction",
-      "criteriaCatSteady": "OpenLibrary subject list for classic literature",
-      "criteriaMediaAll": "Selections from separate book, video, game, and music lists; not a combined ranking.",
-      "criteriaVideo": "TMDB weekly trending movies and series",
-      "criteriaGame": "Steam top-selling games",
-      "criteriaMusic": "Apple Music most-played songs in the US",
+      "descBestseller": "The top paid ebooks on Apple Books in the United States.",
       "criteriaBasisAll": "Aggregated by total recommendations and records across feelandnote figures",
       "criteriaBasisEra": "Aggregated by records of figures from the selected era",
       "criteriaBasisProfession": "Aggregated by records of figures from the selected profession",
-      "tabBestseller": "Weekly Collection",
+      "tabBestseller": "Book chart",
       "tabClassics": "All-Time Classics",
       "basisAll": "All",
       "basisEra": "By era",
       "basisProfession": "By profession",
       "empty": "No works yet.",
-      "chips": {
-        "ALL": "Trending Books",
-        "HUMANITIES": "Humanities",
-        "BUSINESS": "Business & Economics",
-        "FICTION": "Fiction & Literature",
-        "STEADY": "Classics"
-      },
       "freshness": {
-        "schedule": "Collected weekly",
-        "updated": "Collected {date}",
-        "unknownDate": "Collection date unavailable",
+        "scope": "US Apple Books · Paid ebooks",
+        "basisDate": "Chart for {date}",
+        "updated": "Checked {date}",
+        "unknownDate": "Chart date unavailable",
         "delayed": "Update delayed",
-        "source": "Sources"
-      }
+        "source": "Source"
+      },
+      "chartTitle": "Popular paid ebooks",
+      "chartEmpty": "The book chart is on its way.",
+      "rank": "Rank {rank}",
+      "viewAtStore": "View in store",
+      "newTab": "Opens in a new tab"
     }
   }
 }

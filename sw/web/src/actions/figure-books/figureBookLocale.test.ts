@@ -3,6 +3,8 @@ import test from 'node:test'
 import {
   getFigureBookPurchasePlatform,
   mapFigureBookPurchaseOptions,
+  mergeFigureBookEditions,
+  type FigureBookEditionRow,
   type FigureBookPurchaseOptionRow,
 } from './figureBookLocale'
 
@@ -49,4 +51,15 @@ test('다른 locale이나 플랫폼의 판본은 대체 노출하지 않는다',
   ], 'ko')
 
   assert.deepEqual(editions, [])
+})
+
+test('쿠팡 상품이 없는 한국어 판본도 보존하고 같은 판본의 기존 링크만 합친다', () => {
+  const first: FigureBookEditionRow = { ...BASE_ROW, id: 7 }
+  const second = { ...first, id: 8, isbn: '9788937460012', sort_order: 2 }
+  const editions = mergeFigureBookEditions([second, first], [BASE_ROW], 'ko')
+  assert.deepEqual(editions.map((edition) => edition.id), [7, 8])
+  assert.equal(editions[0].purchaseUrl, BASE_ROW.affiliate_url)
+  assert.equal(editions[1].purchaseUrl, null)
+  const mismatch = mergeFigureBookEditions([first], [{ ...BASE_ROW, isbn: second.isbn }], 'ko')
+  assert.equal(mismatch[0].purchaseUrl, null)
 })

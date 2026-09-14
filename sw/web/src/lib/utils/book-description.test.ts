@@ -28,6 +28,10 @@ test('source markers never display as text, and NULL introductions stay empty', 
     }), {
       description: null,
       bookIntroduction: { isbn: '9780140449136', source, sourceUrl: 'https://example.com/book' },
+      introductionAttribution: {
+        provider: ({ KAKAO: 'kakao', DAUM: 'daum', OPEN: 'openlibrary' } as const)[source as 'KAKAO' | 'DAUM' | 'OPEN'],
+        url: 'https://example.com/book', translated: false,
+      },
     })
   }
   assert.deepEqual(bookIntroductionDisplay('ko', { locale: 'ko', isbn: '9780140449136', description: null }), {
@@ -50,18 +54,112 @@ test('edition text wins, and a different ISBN never borrows locale text or sourc
   assert.equal(selectBookIntroduction('ko', { ...locale, isbn: null, description: null }, locale).description, null)
 })
 
-test('same ISBN locale translation takes priority over an edition source marker', () => {
+test('selected source never falls back to a locale translation even for the same ISBN', () => {
   const locale = { locale: 'ko', isbn: '9788908062290', description: '보존할 번역문' }
   const selected = selectBookIntroduction('ko', { ...locale, isbn: '8908062297', description: 'DAUM' }, locale)
-  assert.equal(selected.description, '보존할 번역문')
-  assert.equal(selected.bookIntroduction, null)
+  assert.equal(selected.description, null)
+  assert.equal(selected.bookIntroduction?.source, 'DAUM')
   const mismatch = selectBookIntroduction('ko', { ...locale, isbn: '9788937460456', description: 'DAUM' }, locale)
   assert.equal(mismatch.description, null)
   assert.equal(mismatch.bookIntroduction?.source, 'DAUM')
 })
 
-test('same ISBN locale source URL follows the selected source, not unrelated provenance', () => {
+test('missing edition text or source URL never borrows from the same ISBN locale', () => {
   const locale = { locale: 'en', isbn: '9780140449136', description: 'OPEN', sources: { description: 'https://openlibrary.org/works/OL1W', url: 'https://example.com/other' } }
-  assert.equal(selectBookIntroduction('en', { ...locale, description: null, sources: {} }, locale).bookIntroduction?.sourceUrl, 'https://openlibrary.org/works/OL1W')
-  assert.equal(selectBookIntroduction('en', { ...locale, sources: {} }, locale).bookIntroduction?.sourceUrl, 'https://openlibrary.org/works/OL1W')
+  assert.deepEqual(selectBookIntroduction('en', { ...locale, description: null, sources: {} }, locale), { description: null, bookIntroduction: null })
+  assert.equal(selectBookIntroduction('en', { ...locale, sources: {} }, locale).bookIntroduction?.sourceUrl, null)
+})
+
+const attribution = (sources: unknown) => bookIntroductionDisplay('ko', {
+  locale: 'ko', description: '표시할 책 소개입니다.', sources,
+}).introductionAttribution
+
+test('stored descriptions identify their explicit description URL, never the metadata provider', () => {
+  for (const [url, provider] of [
+    ['https://www.yes24.com/product/goods/123', 'yes24'],
+    ['https://dapi.kakao.com/v3/search/book', 'kakao'],
+    ['https://search.daum.net/search?w=bookpage&bookId=1', 'daum'],
+    ['https://openlibrary.org/works/OL1W', 'openlibrary'],
+    ['https://publisher.example/book', 'other'],
+  ]) assert.deepEqual(attribution({ primary: 'unrelated', description: url }), { provider, url, translated: false })
+  assert.deepEqual(attribution({ primary: 'kakao_book', title: 'translated', translation: true, sourceLocale: 'en' }), {
+    provider: 'unknown', url: null, translated: false,
+  })
+  assert.deepEqual(attribution(null), { provider: 'unknown', url: null, translated: false })
+})
+
+test('explicit manual writing belongs to F&N without guessing from stored text alone', () => {
+  assert.deepEqual(attribution({ manual: true }), { provider: 'feelandnote', url: null, translated: false })
+  assert.deepEqual(attribution({ description_method: 'manual', description: 'https://publisher.example/book' }), {
+    provider: 'feelandnote', url: 'https://publisher.example/book', translated: false,
+  })
+})
+
+test('actual description translation keys preserve original source links', () => {
+  const url = 'https://www.penguinrandomhouse.com/books/318643/believe-me-by-eddie-izzard/'
+  for (const evidence of [
+    { description_translation: 'en_to_ko', description_source_locale: 'en' },
+    { description_translation: 'ko_summary_from_author' },
+    { description_method: 'publisher_summary_translation' },
+    { descriptionTranslation: true },
+  ]) assert.deepEqual(attribution({ description: url, ...evidence }), { provider: 'other', url, translated: true })
+  assert.deepEqual(attribution({ description: { type: 'locale-translation', source_locale: 'en',
+    original_sources: { description: 'http://openlibrary.org/works/OL1W' } } }), {
+    provider: 'openlibrary', url: 'http://openlibrary.org/works/OL1W', translated: true,
+  })
+})
+
+test('translations identify the original snapshot provider without guessing from current metadata', () => {
+  assert.deepEqual(attribution({ primary: 'kakao_book', description: {
+    type: 'locale-translation', source_locale: 'en', original_sources: { primary: 'openlibrary' },
+  } }), { provider: 'openlibrary', url: null, translated: true })
+  assert.deepEqual(attribution({ primary: 'openlibrary', description_translation: 'en_to_ko' }), {
+    provider: 'unknown', url: null, translated: true,
+  })
+  assert.deepEqual(attribution({ description: 'https://www.yes24.com/product/goods/123', description_translation: 'ko_to_en' }), {
+    provider: 'yes24', url: 'https://www.yes24.com/product/goods/123', translated: true,
+  })
+})
+
+test('backup restoration and bibliographic verification do not imply F&N authorship or translation', () => {
+  assert.deepEqual(attribution({ primary: 'openlibrary', description: {
+    type: 'backup-restored', original_locale: 'en', verification: 'titles and creators manually matched',
+    original_sources: { primary: 'openlibrary', title: 'https://openlibrary.org/books/OL1M' },
+  } }), { provider: 'unknown', url: null, translated: false })
+})
+
+test('marker attribution follows the actual selected external source despite old translation flags', () => {
+  assert.deepEqual(bookIntroductionDisplay('ko', { locale: 'ko', description: 'KAKAO',
+    sources: { description_translation: 'en_to_ko' } }).introductionAttribution, {
+    provider: 'kakao', url: null, translated: false,
+  })
+})
+
+test('attribution follows the selected row and never crosses an edition ISBN mismatch', () => {
+  const locale = { locale: 'ko', isbn: '9788937460449', description: '한국어 소개',
+    sources: { description: 'https://www.yes24.com/product/goods/1' } }
+  const edition = { ...locale, isbn: '9788937460456', description: '판본 소개', sources: { manual: true } }
+  assert.equal(selectBookIntroduction('ko', edition, locale).introductionAttribution?.provider, 'feelandnote')
+  assert.deepEqual(selectBookIntroduction('ko', { ...edition, description: null }, locale), {
+    description: null, bookIntroduction: null,
+  })
+  assert.equal(selectBookIntroduction('ko', { ...edition, isbn: locale.isbn, description: null }, locale)
+    .introductionAttribution, undefined)
+  const translated = { ...locale, sources: { ...locale.sources, description_translation: 'en_to_ko' } }
+  assert.deepEqual(selectBookIntroduction('ko', { ...locale, description: 'DAUM' }, translated).introductionAttribution, {
+    provider: 'daum', url: locale.sources.description, translated: false,
+  })
+})
+
+test('unsafe URLs cannot become badge links or masquerade as known sources', () => {
+  for (const url of ['javascript:alert(1)', 'https://user:password@www.yes24.com/book', '//www.yes24.com/book',
+    'https://www.yes24.com/\nbook', 'https://www.yes24.com\\@evil.example/book']) {
+    assert.deepEqual(attribution({ description: url }), { provider: 'unknown', url: null, translated: false })
+    assert.equal(bookIntroductionDisplay('ko', { locale: 'ko', description: 'DAUM', sources: { description: url } })
+      .bookIntroduction?.sourceUrl, null)
+  }
+  assert.equal(attribution({ description: 'https://www.yes24.com.evil.example/book' })?.provider, 'other')
+  assert.deepEqual(attribution({ description: { type: 'locale-translation', sourceUrl: 'javascript:alert(1)' } }), {
+    provider: 'unknown', url: null, translated: true,
+  })
 })

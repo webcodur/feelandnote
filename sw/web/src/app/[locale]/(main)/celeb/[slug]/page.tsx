@@ -152,9 +152,9 @@ export default async function CelebPage({ params }: PageProps) {
     getCelebExternalLinks(profile.wikidata_qid, locale),
   ]);
 
-  // 창작(authored)은 「창작」 탭에, 연관(related)만 아래 상품 구획으로 보낸다.
+  // 직접 등장과 간접 연관은 중단 「연관작품」에 함께 표시하고, 창작은 「창작」 탭으로 보낸다.
   const { appearanceBooks, authoredBooks, relatedBooks } = partitionFigureBooks(allFigureBooks);
-  const figureBooks = appearanceBooks.filter((book) => book.editions.length > 0);
+  const figureBooks = [...appearanceBooks, ...relatedBooks].filter((book) => book.editions.length > 0);
   const authoredIds = authoredBooks.map((book) => book.id);
   // 추천 상품 조회는 후보가 없으면 「많이 읽힌 책」까지 내려가 채우므로 full+한국어는
   // 사실상 항상 결과가 있다. 목차는 그 전제로 자리를 잡고, 실제로 비면 구획이 스스로 숨는다.
@@ -264,7 +264,7 @@ export default async function CelebPage({ params }: PageProps) {
           />
         }
         affiliateBooksSlot={
-          /* 연관 도서는 티어와 무관하게 하단 상품에 표시한다. */
+          /* 연관 도서는 티어와 무관하게 하단 참고도서에 표시한다. */
           hasAffiliateBooks ? (
             <CelebAffiliateBooks
               userId={userId}

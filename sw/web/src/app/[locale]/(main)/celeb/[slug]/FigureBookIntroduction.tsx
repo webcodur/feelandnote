@@ -13,6 +13,8 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import FormattedText from "@/components/ui/FormattedText";
+import BookIntroductionSource from "@/components/shared/BookIntroductionSource";
+import type { BookIntroductionAttribution } from "@/lib/utils/book-description";
 import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import PendingMark from "@/components/ui/pending/PendingMark";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -29,6 +31,8 @@ interface FigureBookIntroductionProps {
   description: string;
   label: string;
   loading?: boolean;
+  attribution?: BookIntroductionAttribution | null;
+  showSource?: boolean;
   sourceTitle: string;
   sourceTitleBadge?: TitleBadge | null;
 }
@@ -37,6 +41,8 @@ export default function FigureBookIntroduction({
   description,
   label,
   loading = false,
+  attribution,
+  showSource = true,
   sourceTitle,
   sourceTitleBadge,
 }: FigureBookIntroductionProps) {
@@ -63,7 +69,10 @@ export default function FigureBookIntroduction({
         </div>
       ) : (
         <>
-          <p className="text-sm font-black tracking-[0.16em] text-accent lg:shrink-0">{label}</p>
+          <div className="flex flex-wrap items-center gap-2 lg:shrink-0">
+            <p className="text-sm font-black tracking-[0.16em] text-accent">{label}</p>
+            {showSource && <BookIntroductionSource attribution={attribution} />}
+          </div>
           <p
             ref={previewRef}
             className={isClipped ? `${PREVIEW_CLASS} ${PREVIEW_CLIPPED_CLASS}` : PREVIEW_CLASS}
@@ -89,6 +98,8 @@ export default function FigureBookIntroduction({
         <IntroductionModal
           description={description}
           label={label}
+          attribution={attribution}
+          showSource={showSource}
           sourceTitle={sourceTitle}
           sourceTitleBadge={sourceTitleBadge}
           closeLabel={t("sourceWorkIntroductionClose")}
@@ -103,6 +114,8 @@ export default function FigureBookIntroduction({
 function IntroductionModal({
   description,
   label,
+  attribution,
+  showSource,
   sourceTitle,
   sourceTitleBadge,
   closeLabel,
@@ -110,6 +123,8 @@ function IntroductionModal({
 }: {
   description: string;
   label: string;
+  attribution?: BookIntroductionAttribution | null;
+  showSource: boolean;
   sourceTitle: string;
   sourceTitleBadge?: TitleBadge | null;
   closeLabel: string;
@@ -124,8 +139,14 @@ function IntroductionModal({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
       if (event.key !== "Tab") return;
-      event.preventDefault();
-      closeRef.current?.focus();
+      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex="0"]');
+      const first = focusable?.[0];
+      const last = focusable?.[focusable.length - 1];
+      if (!first || !last) return;
+      if (event.shiftKey ? document.activeElement === first : document.activeElement === last) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      }
     };
 
     document.body.style.overflow = "hidden";
@@ -156,7 +177,10 @@ function IntroductionModal({
       >
         <header className="grid shrink-0 grid-cols-[1fr_auto] items-start gap-4 border-b border-stone-light bg-bg-secondary bg-texture-marble px-5 py-4 sm:px-7 sm:py-5">
           <div className="min-w-0">
-            <p className="text-sm font-black tracking-[0.16em] text-accent">{label}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-sm font-black tracking-[0.16em] text-accent">{label}</p>
+              {showSource && <BookIntroductionSource attribution={attribution} />}
+            </div>
             <h2 id={titleId} className="mt-1 text-xl font-black text-text-primary sm:text-2xl">
               <NoEditionBadge badge={sourceTitleBadge} className="align-middle" />
               {sourceTitle}
