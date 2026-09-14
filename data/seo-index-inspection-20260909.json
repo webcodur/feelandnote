@@ -5102,5 +5102,1803 @@
     "message": "일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요.",
     "confirmedUniqueUrls": 30,
     "lastAcceptedUrl": "https://feelandnote.com/en/celeb/oprah-winfrey"
+  },
+  "dailyIndexingRequests": [
+    {
+      "date": "2026-09-11",
+      "requests": [
+        {
+          "url": "https://feelandnote.com/en/celeb/steve-jobs",
+          "source": "Search Console UI",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "note": "Accidentally re-requested once more immediately after (dialog reopened via a mis-clicked search box ref); same URL, not a separate new URL."
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/chey-tae-won",
+          "source": "Search Console UI",
+          "before": "Crawled - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/sundar-pichai",
+          "source": "Search Console UI",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/andrew-ng",
+          "source": "Search Console UI",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "note": "Accidentally re-requested once more immediately after (same stale-ref click issue); same URL, not a separate new URL."
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/nassim-nicholas-taleb",
+          "source": "Search Console UI",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/napoleon-bonaparte",
+          "source": "Search Console UI",
+          "before": "Crawled - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/napoleon-bonaparte",
+          "source": "Search Console UI",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/mahatma-gandhi",
+          "source": "Search Console UI",
+          "before": "Crawled - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/mahatma-gandhi",
+          "source": "Search Console UI",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/donald-trump",
+          "source": "Search Console UI",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/donald-trump",
+          "source": "Search Console UI",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/leonardo-da-vinci",
+          "source": "Search Console UI",
+          "before": "Crawled - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed"
+        }
+      ],
+      "limit": {
+        "url": "https://feelandnote.com/en/celeb/leonardo-da-vinci",
+        "source": "Search Console UI",
+        "before": "Discovered - currently not indexed",
+        "status": "quota exceeded",
+        "title": "할당량 초과",
+        "message": "일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요.",
+        "note": "Property-wide daily quota, not per-URL. Coordinator confirmed further submissions today would all be rejected; stopped immediately per instruction."
+      },
+      "afterQuotaAttempts": [
+        {
+          "url": "https://feelandnote.com/en/celeb/leonardo-da-vinci",
+          "attempts": 2,
+          "status": "all rejected, no confirmation dialog shown, badge did not change to requested",
+          "note": "Retried twice more after the first quota message to confirm reproducibility before stopping; both failed silently (state reverted to un-requested). No further URLs were attempted after the coordinator instruction to stop."
+        }
+      ],
+      "lastAcceptedUrl": "https://feelandnote.com/celeb/leonardo-da-vinci",
+      "nextUrl": "https://feelandnote.com/en/celeb/leonardo-da-vinci",
+      "priorRequestFollowUp": [
+        {
+          "url": "https://feelandnote.com/celeb/bill-gates",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T01:31:28Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/bill-gates",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T01:43:46Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/chey-tae-won",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T01:46:13Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/warren-buffett",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T01:49:32Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/charlie-munger",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T01:53:34Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/sam-altman",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T01:58:30Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/naval-ravikant",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T01:59:40Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/peter-thiel",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T02:01:35Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/yuval-noah-harari",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T02:10:44Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/barack-obama",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T02:10:46Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/tim-ferriss",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T05:49:51Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/nassim-nicholas-taleb",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T05:49:51Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/demis-hassabis",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T05:49:51Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/warren-buffett",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T05:52:07Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/sundar-pichai",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T05:52:07Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/andrew-ng",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T05:54:14Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/charlie-munger",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T05:55:57Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/sam-altman",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T05:55:57Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/mark-zuckerberg",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T05:58:00Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/naval-ravikant",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:00:09Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/peter-thiel",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:02:10Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/barack-obama",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:02:10Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/jensen-huang",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:04:18Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/yuval-noah-harari",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:06:17Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/demis-hassabis",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:08:04Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/tim-ferriss",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:08:04Z"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/satya-nadella",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:09:56Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/satya-nadella",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:12:10Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/jordan-peterson",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:20:25Z"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/oprah-winfrey",
+          "coverageState": "Submitted and indexed",
+          "lastCrawlTime": "2026-09-09T06:20:25Z"
+        }
+      ],
+      "followUpCheckedAt": "2026-09-11T06:00:00Z",
+      "followUpMethod": "mcp__google-search-console__index_inspect (siteUrl sc-domain:feelandnote.com) for each of the 30 URLs submitted on 2026-09-09",
+      "followUpSummary": {
+        "total": 30,
+        "indexed": 30,
+        "crawledButNotIndexed": 0,
+        "notYetCrawled": 0
+      },
+      "followUp20260913": {
+        "checkedAt": "2026-09-13T00:00:00Z",
+        "method": "mcp__google-search-console__index_inspect (sc-domain:feelandnote.com), 12 celeb URLs requested 2026-09-11 plus /, /en, /about requested in URL-prefix property",
+        "summary": {
+          "total": 15,
+          "indexed": 15,
+          "crawledButNotIndexed": 0,
+          "notYetCrawled": 0
+        },
+        "results": [
+          {
+            "url": "https://feelandnote.com/en/celeb/steve-jobs",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:21:48Z"
+          },
+          {
+            "url": "https://feelandnote.com/en/celeb/chey-tae-won",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:25:51Z"
+          },
+          {
+            "url": "https://feelandnote.com/en/celeb/sundar-pichai",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:28:01Z"
+          },
+          {
+            "url": "https://feelandnote.com/en/celeb/andrew-ng",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:28:01Z"
+          },
+          {
+            "url": "https://feelandnote.com/en/celeb/nassim-nicholas-taleb",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:32:05Z"
+          },
+          {
+            "url": "https://feelandnote.com/celeb/napoleon-bonaparte",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:32:05Z"
+          },
+          {
+            "url": "https://feelandnote.com/en/celeb/napoleon-bonaparte",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:34:04Z"
+          },
+          {
+            "url": "https://feelandnote.com/celeb/mahatma-gandhi",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:36:01Z"
+          },
+          {
+            "url": "https://feelandnote.com/en/celeb/mahatma-gandhi",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:40:45Z"
+          },
+          {
+            "url": "https://feelandnote.com/celeb/donald-trump",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:37:59Z"
+          },
+          {
+            "url": "https://feelandnote.com/en/celeb/donald-trump",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:37:59Z"
+          },
+          {
+            "url": "https://feelandnote.com/celeb/leonardo-da-vinci",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T06:40:45Z"
+          },
+          {
+            "url": "https://feelandnote.com/",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T07:42:25Z"
+          },
+          {
+            "url": "https://feelandnote.com/en",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T07:42:25Z"
+          },
+          {
+            "url": "https://feelandnote.com/about",
+            "coverageState": "Submitted and indexed",
+            "lastCrawlTime": "2026-09-11T07:44:21Z"
+          }
+        ],
+        "note": "/en/celeb/leonardo-da-vinci (quota-rejected on 09-11) is also Submitted and indexed, last crawl 2026-09-11T06:44:56Z — Google crawled it via the KO page link without a request."
+      }
+    },
+    {
+      "date": "2026-09-13",
+      "property": "https://feelandnote.com/ (URL-prefix). The logged-in UI account has no access to sc-domain:feelandnote.com (\"이 속성에 액세스할 수 없습니다\"); only the API service account reads the domain property.",
+      "requests": [
+        {
+          "url": "https://feelandnote.com/explore/figures",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "URL is unknown to Google",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/explore/faction",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/explore/ranking",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "URL is unknown to Google",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/explore",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "Crawled - currently not indexed (last crawl 2026-03-26)",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/library",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "URL is unknown to Google",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/about",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "URL is unknown to Google",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/explore/figures",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "URL is unknown to Google",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/en/explore/faction",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/explore/youtube",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/explore/spectrum",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        },
+        {
+          "url": "https://feelandnote.com/library/curated",
+          "source": "Search Console UI (URL-prefix property https://feelandnote.com/)",
+          "before": "Discovered - currently not indexed",
+          "status": "request accepted",
+          "livePrecheck": "passed",
+          "dialogTitle": "색인 생성 요청됨"
+        }
+      ],
+      "errors": [
+        {
+          "url": "https://feelandnote.com/explore/timeline",
+          "before": "URL is unknown to Google",
+          "status": "error",
+          "dialogTitle": "오류 발생",
+          "message": "색인 생성 요청을 제출하는 중에 문제가 발생했습니다. 나중에 다시 시도해 주세요.",
+          "attempts": 1,
+          "note": "Not a quota message. Clicked once only; not retried. Re-queue first next day."
+        }
+      ],
+      "limit": {
+        "url": "https://feelandnote.com/explore/directory/entrepreneur",
+        "before": "Discovered - currently not indexed",
+        "status": "quota exceeded",
+        "title": "할당량 초과",
+        "message": "일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요.",
+        "note": "Stopped immediately after the first quota dialog; no retries, no further URLs attempted."
+      },
+      "acceptedCount": 11,
+      "lastAcceptedUrl": "https://feelandnote.com/library/curated",
+      "nextUrl": "https://feelandnote.com/explore/timeline",
+      "nextQueue": [
+        "https://feelandnote.com/explore/timeline",
+        "https://feelandnote.com/explore/directory/entrepreneur",
+        "https://feelandnote.com/en/celeb/elon-musk",
+        "https://feelandnote.com/celeb/dario-amodei",
+        "https://feelandnote.com/en/celeb/dario-amodei",
+        "https://feelandnote.com/celeb/andrew-huberman",
+        "https://feelandnote.com/en/celeb/andrew-huberman",
+        "https://feelandnote.com/celeb/lee-jae-yong",
+        "https://feelandnote.com/en/celeb/lee-jae-yong",
+        "https://feelandnote.com/celeb/michael-jackson",
+        "https://feelandnote.com/en/celeb/michael-jackson",
+        "https://feelandnote.com/en/celeb/larry-fink",
+        "https://feelandnote.com/celeb/bill-ackman",
+        "https://feelandnote.com/en/celeb/bill-ackman",
+        "https://feelandnote.com/celeb/jason-statham",
+        "https://feelandnote.com/celeb/honore-de-balzac",
+        "https://feelandnote.com/celeb/matt-damon",
+        "https://feelandnote.com/celeb/monica-bellucci",
+        "https://feelandnote.com/celeb/son-woong-jung",
+        "https://feelandnote.com/celeb/otto-von-bismarck",
+        "https://feelandnote.com/celeb/stanley-kubrick",
+        "https://feelandnote.com/celeb/jamie-dimon",
+        "https://feelandnote.com/celeb/mark-rober",
+        "https://feelandnote.com/en/celeb/ernest-hemingway",
+        "https://feelandnote.com/celeb/daniel-ek",
+        "https://feelandnote.com/celeb/venerable-beopjeong",
+        "https://feelandnote.com/celeb/haruki-murakami",
+        "https://feelandnote.com/celeb/hannah-arendt",
+        "https://feelandnote.com/celeb/benjamin-franklin",
+        "https://feelandnote.com/celeb/isaac-asimov"
+      ]
+    },
+    {
+      "date": "2026-09-14",
+      "property": "https://feelandnote.com/",
+      "requests": [
+        {
+          "url": "https://feelandnote.com/explore/timeline",
+          "status": "request accepted",
+          "at": "2026-09-13T17:43:47.647779+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/explore/directory/entrepreneur",
+          "status": "request accepted",
+          "at": "2026-09-13T17:44:57.221939+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/elon-musk",
+          "status": "request accepted",
+          "at": "2026-09-13T17:46:35.532568+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/dario-amodei",
+          "status": "request accepted",
+          "at": "2026-09-13T17:47:40.775871+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/dario-amodei",
+          "status": "request accepted",
+          "at": "2026-09-13T17:48:44.260321+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/andrew-huberman",
+          "status": "request accepted",
+          "at": "2026-09-13T17:49:45.303449+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/andrew-huberman",
+          "status": "request accepted",
+          "at": "2026-09-13T17:50:55.864871+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/lee-jae-yong",
+          "status": "request accepted",
+          "at": "2026-09-13T17:52:26.738114+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/lee-jae-yong",
+          "status": "request accepted",
+          "at": "2026-09-13T17:53:30.860846+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/michael-jackson",
+          "status": "request accepted",
+          "at": "2026-09-13T17:54:33.277935+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/michael-jackson",
+          "status": "request accepted",
+          "at": "2026-09-13T17:55:34.473590+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/larry-fink",
+          "status": "request accepted",
+          "at": "2026-09-13T17:56:42.300476+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/bill-ackman",
+          "status": "request accepted",
+          "at": "2026-09-13T17:57:44.918620+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/bill-ackman",
+          "status": "request accepted",
+          "at": "2026-09-13T17:59:01.588958+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed",
+          "before": "Crawled - currently not indexed",
+          "note": "UI showed crawl 2026-04-22 10:25:28 KST and old userCanonical https://feelandnote.com/celeb/bill-ackman. Check canonical on next recrawl; live request precheck passed."
+        },
+        {
+          "url": "https://feelandnote.com/celeb/jason-statham",
+          "status": "request accepted",
+          "at": "2026-09-13T18:00:33.845644+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/honore-de-balzac",
+          "status": "request accepted",
+          "at": "2026-09-13T18:01:40.314801+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/matt-damon",
+          "status": "request accepted",
+          "at": "2026-09-13T18:03:10.579182+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/monica-bellucci",
+          "status": "request accepted",
+          "at": "2026-09-13T18:04:15.114379+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/son-woong-jung",
+          "status": "request accepted",
+          "at": "2026-09-13T18:05:19.636637+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/otto-von-bismarck",
+          "status": "request accepted",
+          "at": "2026-09-13T18:06:24.991754+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/stanley-kubrick",
+          "status": "request accepted",
+          "at": "2026-09-13T18:07:31.866900+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/jamie-dimon",
+          "status": "request accepted",
+          "at": "2026-09-13T18:08:35.651794+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/mark-rober",
+          "status": "request accepted",
+          "at": "2026-09-13T18:09:43.987149+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/ernest-hemingway",
+          "status": "request accepted",
+          "at": "2026-09-13T18:10:55.321725+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/daniel-ek",
+          "status": "request accepted",
+          "at": "2026-09-13T18:12:04.240327+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/venerable-beopjeong",
+          "status": "request accepted",
+          "at": "2026-09-13T18:13:19.913931+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/haruki-murakami",
+          "status": "request accepted",
+          "at": "2026-09-13T18:14:33.333842+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/hannah-arendt",
+          "status": "request accepted",
+          "at": "2026-09-13T18:15:39.150899+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/benjamin-franklin",
+          "status": "request accepted",
+          "at": "2026-09-13T18:16:57.100588+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/isaac-asimov",
+          "status": "request accepted",
+          "at": "2026-09-13T18:18:28.756883+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/explore",
+          "status": "request accepted",
+          "at": "2026-09-13T18:19:54.062945+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed",
+          "reason": "Recrawl after explore redesign; API lastCrawlTime 2026-09-10T13:26:30Z; already indexed before request."
+        },
+        {
+          "url": "https://feelandnote.com/library/popular",
+          "status": "request accepted",
+          "at": "2026-09-13T18:21:35.126044+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed",
+          "reason": "Recrawl after bestseller freshness changes; API lastCrawlTime 2026-09-07T04:40:48Z; already indexed before request."
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/honore-de-balzac",
+          "status": "request accepted",
+          "at": "2026-09-13T18:22:45.168627+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/jason-statham",
+          "status": "request accepted",
+          "at": "2026-09-13T18:23:54.652582+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/matt-damon",
+          "status": "request accepted",
+          "at": "2026-09-13T18:25:01.245764+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/monica-bellucci",
+          "status": "request accepted",
+          "at": "2026-09-13T18:26:34.225096+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/son-woong-jung",
+          "status": "request accepted",
+          "at": "2026-09-13T18:27:37.447517+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/carrie-anne-moss",
+          "status": "request accepted",
+          "at": "2026-09-13T18:28:44.445718+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/carrie-anne-moss",
+          "status": "request accepted",
+          "at": "2026-09-13T18:29:49.053513+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/stanley-kubrick",
+          "status": "request accepted",
+          "at": "2026-09-13T18:30:56.014124+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/otto-von-bismarck",
+          "status": "request accepted",
+          "at": "2026-09-13T18:32:08.545587+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/jamie-dimon",
+          "status": "request accepted",
+          "at": "2026-09-13T18:33:24.854816+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/wachowski-sisters",
+          "status": "request accepted",
+          "at": "2026-09-13T18:34:32.315765+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/wachowski-sisters",
+          "status": "request accepted",
+          "at": "2026-09-13T18:35:42.898049+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/mark-rober",
+          "status": "request accepted",
+          "at": "2026-09-13T18:36:48.772528+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/daniel-ek",
+          "status": "request accepted",
+          "at": "2026-09-13T18:38:18.402037+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/andy-lau",
+          "status": "request accepted",
+          "at": "2026-09-13T18:39:26.435580+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/andy-lau",
+          "status": "request accepted",
+          "at": "2026-09-13T18:40:57.739433+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/ana-de-armas",
+          "status": "request accepted",
+          "at": "2026-09-13T18:42:02.425208+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/sylvester-stallone",
+          "status": "request accepted",
+          "at": "2026-09-13T18:43:08.294935+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "passed"
+        }
+      ],
+      "errors": [],
+      "acceptedCount": 50,
+      "nextQueue": [
+        "https://feelandnote.com/en/celeb/sylvester-stallone",
+        "https://feelandnote.com/en/celeb/venerable-beopjeong"
+      ],
+      "checkedAt": "2026-09-13T17:40:42.143758+00:00",
+      "inspectionProperty": "sc-domain:feelandnote.com",
+      "prechecks": [
+        {
+          "url": "https://feelandnote.com/explore",
+          "inspection": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-10T13:26:30Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/explore",
+            "userCanonical": "https://feelandnote.com/explore",
+            "referringUrls": [
+              "https://feelandnote.com/rest/suikoden"
+            ],
+            "crawledAs": "MOBILE"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/explore",
+          "inspection": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-12T17:18:03Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/explore",
+            "userCanonical": "https://feelandnote.com/en/explore",
+            "referringUrls": [
+              "https://feelandnote.com/explore",
+              "https://feelandnote.com/en/celeb/clovis-i",
+              "https://feelandnote.com/en/explore/persona"
+            ],
+            "crawledAs": "MOBILE"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/bill-gates",
+          "inspection": {
+            "verdict": "PASS",
+            "coverageState": "Submitted and indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-09-09T01:31:28Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/celeb/bill-gates",
+            "userCanonical": "https://feelandnote.com/celeb/bill-gates",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "MOBILE"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/elon-musk",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Crawled - currently not indexed",
+            "robotsTxtState": "ALLOWED",
+            "indexingState": "INDEXING_ALLOWED",
+            "lastCrawlTime": "2026-08-29T15:09:26Z",
+            "pageFetchState": "SUCCESSFUL",
+            "googleCanonical": "https://feelandnote.com/en/celeb/elon-musk",
+            "userCanonical": "https://feelandnote.com/en/celeb/elon-musk",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/elon-musk",
+              "https://feelandnote.com/en/explore/directory"
+            ],
+            "crawledAs": "MOBILE"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/explore/timeline",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/explore/directory/entrepreneur",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/dario-amodei",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/dario-amodei",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/andrew-huberman",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/andrew-huberman",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/en/explore/directory"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/lee-jae-yong",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/lee-jae-yong",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/michael-jackson",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/michael-jackson",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/larry-fink",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/larry-fink",
+              "https://feelandnote.com/en/explore/directory"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/bill-ackman",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/honore-de-balzac",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/jason-statham",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/matt-damon",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/matt-damon"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/monica-bellucci",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/monica-bellucci"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/son-woong-jung",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/son-woong-jung"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/carrie-anne-moss",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/carrie-anne-moss",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/en/explore/directory"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/stanley-kubrick",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/stanley-kubrick",
+              "https://feelandnote.com/en/explore/directory"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/otto-von-bismarck",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/otto-von-bismarck",
+              "https://feelandnote.com/en/explore/directory"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/jamie-dimon",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/wachowski-sisters",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/wachowski-sisters",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/mark-rober",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/mark-rober",
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/daniel-ek",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/daniel-ek"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/andy-lau",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/andy-lau",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/ana-de-armas",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/ana-de-armas",
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/celeb/sylvester-stallone",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/sylvester-stallone",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "URL is unknown to Google",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED"
+          }
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/venerable-beopjeong",
+          "inspection": {
+            "verdict": "NEUTRAL",
+            "coverageState": "Discovered - currently not indexed",
+            "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+            "indexingState": "INDEXING_STATE_UNSPECIFIED",
+            "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+            "sitemap": [
+              "https://feelandnote.com/sitemap.xml"
+            ],
+            "referringUrls": [
+              "https://feelandnote.com/celeb/venerable-beopjeong"
+            ],
+            "crawledAs": "CRAWLING_USER_AGENT_UNSPECIFIED"
+          }
+        }
+      ],
+      "submissionStatus": "quota exceeded",
+      "nextUrl": "https://feelandnote.com/en/celeb/sylvester-stallone",
+      "lastAcceptedUrl": "https://feelandnote.com/celeb/sylvester-stallone",
+      "additionalQueueReason": "Recrawl after latest deployment: explore last crawled 2026-09-10; library/popular last crawled 2026-09-07. Neither URL has a prior accepted request in this record.",
+      "candidateSelection": "Active celebs ordered by view_count desc; both locales; excluding recorded accepted requests and indexed URLs. API reinspection before queueing.",
+      "limit": {
+        "url": "https://feelandnote.com/en/celeb/sylvester-stallone",
+        "status": "quota exceeded",
+        "at": "2026-09-13T18:45:04.229855+00:00",
+        "source": "Search Console UI (URL-prefix)",
+        "attempts": 1,
+        "title": "할당량 초과",
+        "message": "일일 할당량을 초과하여 이 요청을 처리할 수 없습니다. 내일 다시 제출해 주세요."
+      },
+      "completedAt": "2026-09-13T18:45:04.805325+00:00",
+      "summary": {
+        "accepted": 50,
+        "previousQueueAccepted": 30,
+        "additionalUnindexedPeopleAccepted": 18,
+        "updatedHubRecrawlAccepted": 2,
+        "errors": 0,
+        "stoppedOnQuota": true
+      }
+    }
+  ],
+  "hubInspection20260913": {
+    "checkedAt": "2026-09-13T00:00:00Z",
+    "siteUrl": "sc-domain:feelandnote.com",
+    "method": "mcp__google-search-console__index_inspect; all URLs are listed in https://feelandnote.com/sitemaps/core.xml (298 URLs, lastDownloaded 2026-09-09T06:49:35Z per sitemaps API)",
+    "liveCheck": "curl on 2026-09-13: /en/explore, /explore/figures, /explore/faction, /explore/ranking, /explore/timeline all return robots index,follow and self-referencing canonical",
+    "results": [
+      {
+        "url": "https://feelandnote.com/",
+        "coverageState": "Submitted and indexed",
+        "lastCrawlTime": "2026-09-11T07:42:25Z"
+      },
+      {
+        "url": "https://feelandnote.com/en",
+        "coverageState": "Submitted and indexed",
+        "lastCrawlTime": "2026-09-11T07:42:25Z"
+      },
+      {
+        "url": "https://feelandnote.com/about",
+        "coverageState": "Submitted and indexed",
+        "lastCrawlTime": "2026-09-11T07:44:21Z"
+      },
+      {
+        "url": "https://feelandnote.com/explore",
+        "coverageState": "Submitted and indexed",
+        "lastCrawlTime": "2026-09-10T13:26:30Z"
+      },
+      {
+        "url": "https://feelandnote.com/explore/directory",
+        "coverageState": "Submitted and indexed",
+        "lastCrawlTime": "2026-07-24T05:35:45Z"
+      },
+      {
+        "url": "https://feelandnote.com/explore/today",
+        "coverageState": "Submitted and indexed",
+        "lastCrawlTime": "2026-07-22T07:47:25Z"
+      },
+      {
+        "url": "https://feelandnote.com/explore/feed",
+        "coverageState": "Submitted and indexed",
+        "lastCrawlTime": "2026-08-04T14:58:06Z"
+      },
+      {
+        "url": "https://feelandnote.com/library",
+        "coverageState": "Submitted and indexed",
+        "lastCrawlTime": "2026-09-07T04:52:44Z"
+      },
+      {
+        "url": "https://feelandnote.com/library/popular",
+        "coverageState": "Submitted and indexed",
+        "lastCrawlTime": "2026-09-07T04:40:48Z"
+      },
+      {
+        "url": "https://feelandnote.com/en/explore",
+        "coverageState": "Crawled - currently not indexed",
+        "lastCrawlTime": "2026-03-26T03:29:31Z",
+        "note": "userCanonical at that crawl was https://feelandnote.com/explore (old canonical bug); live page now self-canonical"
+      },
+      {
+        "url": "https://feelandnote.com/explore/figures",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/explore/faction",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/explore/ranking",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/explore/timeline",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/en/explore/figures",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/en/library",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/en/about",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/en/explore/faction",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/explore/youtube",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/explore/spectrum",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/library/curated",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/explore/directory/entrepreneur",
+        "coverageState": "Discovered - currently not indexed"
+      }
+    ],
+    "decision": "Hub pages that are unknown/not indexed get today's request quota before the celeb queue resumes at /en/celeb/leonardo-da-vinci (which is already indexed, so the celeb queue resumes with the next un-indexed popular celeb)."
+  },
+  "celebCandidateInspection20260913": {
+    "checkedAt": "2026-09-13T00:00:00Z",
+    "siteUrl": "sc-domain:feelandnote.com",
+    "selection": "celebs.view_count desc (publication_status=active, slug not null), excluding URLs already requested or already inspected as indexed; both locales of each slug",
+    "summary": {
+      "total": 28,
+      "indexed": 0
+    },
+    "results": [
+      {
+        "url": "https://feelandnote.com/en/celeb/elon-musk",
+        "coverageState": "Crawled - currently not indexed",
+        "lastCrawlTime": "2026-08-29T15:09:26Z"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/dario-amodei",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/dario-amodei",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/andrew-huberman",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/andrew-huberman",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/lee-jae-yong",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/lee-jae-yong",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/michael-jackson",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/michael-jackson",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/larry-fink",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/bill-ackman",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/bill-ackman",
+        "coverageState": "Crawled - currently not indexed",
+        "lastCrawlTime": "2026-04-22T01:25:28Z",
+        "note": "userCanonical at that crawl was https://feelandnote.com/celeb/bill-ackman (old EN canonical bug); live page now self-canonical"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/jason-statham",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/honore-de-balzac",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/matt-damon",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/monica-bellucci",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/son-woong-jung",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/otto-von-bismarck",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/stanley-kubrick",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/jamie-dimon",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/mark-rober",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/en/celeb/ernest-hemingway",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/daniel-ek",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/venerable-beopjeong",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/haruki-murakami",
+        "coverageState": "URL is unknown to Google"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/hannah-arendt",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/benjamin-franklin",
+        "coverageState": "Discovered - currently not indexed"
+      },
+      {
+        "url": "https://feelandnote.com/celeb/isaac-asimov",
+        "coverageState": "Discovered - currently not indexed"
+      }
+    ]
+  },
+  "requestQueue20260913": {
+    "preparedAt": "2026-09-13T00:00:00Z",
+    "rule": "Hubs first (unknown/not indexed hub pages link to many celeb pages), then celebs by view_count. One click per URL; stop at the first quota message in the domain property, then try the URL-prefix property https://feelandnote.com/ for the remainder (09-11 observation: a second property accepted 3 more after the domain-property quota).",
+    "order": [
+      "https://feelandnote.com/explore/figures",
+      "https://feelandnote.com/explore/faction",
+      "https://feelandnote.com/explore/ranking",
+      "https://feelandnote.com/explore/timeline",
+      "https://feelandnote.com/en/explore",
+      "https://feelandnote.com/en/library",
+      "https://feelandnote.com/en/about",
+      "https://feelandnote.com/en/explore/figures",
+      "https://feelandnote.com/en/explore/faction",
+      "https://feelandnote.com/explore/youtube",
+      "https://feelandnote.com/explore/spectrum",
+      "https://feelandnote.com/library/curated",
+      "https://feelandnote.com/explore/directory/entrepreneur",
+      "https://feelandnote.com/en/celeb/elon-musk",
+      "https://feelandnote.com/celeb/dario-amodei",
+      "https://feelandnote.com/en/celeb/dario-amodei",
+      "https://feelandnote.com/celeb/andrew-huberman",
+      "https://feelandnote.com/en/celeb/andrew-huberman",
+      "https://feelandnote.com/celeb/lee-jae-yong",
+      "https://feelandnote.com/en/celeb/lee-jae-yong",
+      "https://feelandnote.com/celeb/michael-jackson",
+      "https://feelandnote.com/en/celeb/michael-jackson",
+      "https://feelandnote.com/en/celeb/larry-fink",
+      "https://feelandnote.com/celeb/bill-ackman",
+      "https://feelandnote.com/en/celeb/bill-ackman",
+      "https://feelandnote.com/celeb/jason-statham",
+      "https://feelandnote.com/celeb/honore-de-balzac",
+      "https://feelandnote.com/celeb/matt-damon",
+      "https://feelandnote.com/celeb/monica-bellucci",
+      "https://feelandnote.com/celeb/son-woong-jung",
+      "https://feelandnote.com/celeb/otto-von-bismarck",
+      "https://feelandnote.com/celeb/stanley-kubrick",
+      "https://feelandnote.com/celeb/jamie-dimon",
+      "https://feelandnote.com/celeb/mark-rober",
+      "https://feelandnote.com/en/celeb/ernest-hemingway",
+      "https://feelandnote.com/celeb/daniel-ek",
+      "https://feelandnote.com/celeb/venerable-beopjeong",
+      "https://feelandnote.com/celeb/haruki-murakami",
+      "https://feelandnote.com/celeb/hannah-arendt",
+      "https://feelandnote.com/celeb/benjamin-franklin",
+      "https://feelandnote.com/celeb/isaac-asimov"
+    ],
+    "status": "executed 2026-09-13: 11 accepted, 1 error (/explore/timeline), quota hit at /explore/directory/entrepreneur; remaining order continues in dailyIndexingRequests[date=2026-09-13].nextQueue"
   }
 }
