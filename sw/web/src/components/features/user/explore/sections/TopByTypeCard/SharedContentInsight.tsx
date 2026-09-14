@@ -7,6 +7,8 @@
 "use client";
 
 import ContentImage from "@/components/ui/ContentImage";
+import { Link } from "@/i18n/navigation";
+import DeveloperWorkAction from "@/components/features/commerce/DeveloperWorkAction";
 import { Book, Sparkles, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { SharedContent } from "@/actions/home/getSharedContents";
@@ -41,8 +43,9 @@ export default function SharedContentInsight({
           return (
             <div
               key={item.content_id}
-              className="flex items-center gap-3 rounded-lg bg-bg-main/40 px-3 py-2"
+              className="flex flex-wrap items-center gap-3 rounded-lg bg-bg-main/40 px-3 py-2"
             >
+              <Link href={`/content/${item.content_id}`} className="group flex min-w-0 flex-1 basis-36 items-center gap-3 rounded outline-none hover:text-accent focus-visible:ring-2 focus-visible:ring-accent">
               {/* 썸네일 */}
               <div className="w-9 h-12 rounded overflow-hidden bg-bg-card shrink-0 relative">
                 {item.thumbnail_url ? (
@@ -60,7 +63,7 @@ export default function SharedContentInsight({
 
               {/* 제목 + 저자 */}
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-text-primary truncate">
+                <p className="text-xs font-semibold text-text-primary group-hover:text-accent truncate">
                   {item.title ?? "—"}
                 </p>
                 <p className="text-[11px] truncate">
@@ -68,6 +71,7 @@ export default function SharedContentInsight({
                 </p>
               </div>
 
+              </Link>
               {/* 감상 인원 비율 바 */}
               <div className="flex items-center gap-2 shrink-0">
                 {item.avg_rating && (
@@ -94,6 +98,7 @@ export default function SharedContentInsight({
                   </span>
                 </div>
               </div>
+              <DeveloperWorkAction target={{ title: item.title ?? "", creator: item.creator, type: item.content_type, contentId: item.content_id }} />
             </div>
           );
         })}

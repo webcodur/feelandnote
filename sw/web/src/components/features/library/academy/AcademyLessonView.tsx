@@ -174,6 +174,7 @@ export default function AcademyLessonView({
         <p className="text-white/60 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mt-4 sm:mt-6 line-clamp-2">
           {description ?? t("defaultDescription")}
         </p>
+
       </div>
 
       <div aria-labelledby="academy-title" id="academy-content-panel" role="region">

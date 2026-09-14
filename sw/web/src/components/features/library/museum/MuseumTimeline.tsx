@@ -12,6 +12,7 @@ import TypographyCatalog from "./TypographyCatalog";
 import MuseumTableOfContents from "./MuseumTableOfContents";
 import MuseumMobileNav from "./MuseumMobileNav";
 import MuseumEraSection from "./MuseumEraSection";
+import type { TargetProductMatch } from "@/components/features/commerce/targetProducts";
 import { useEffect, useState, useRef, useMemo } from "react";
 import EraGanttChart from "./EraGanttChart";
 import { useLocale, useTranslations } from "next-intl";
@@ -81,12 +82,14 @@ function SubCategoryTabs({ categoryId, subIds, activeId, onChange }: { categoryI
 
 // #region 메인 컴포넌트
 interface MuseumTimelineProps {
+  targetProducts?: TargetProductMatch[];
   eras?: import("@/constants/libraryMuseum").HistoryEra[];
   categoryId?: string;
   subCategoryId?: string;
 }
 
 export default function MuseumTimeline({
+  targetProducts = [],
   eras: erasProp,
   categoryId: categoryIdProp = "book",
   subCategoryId: subCategoryIdProp,
@@ -198,7 +201,8 @@ export default function MuseumTimeline({
           </div>
           <div ref={contentTopRef} className="flex flex-col">
             {eras.map((era, index) => (
-              <MuseumEraSection key={era.id} era={era} index={index} eras={eras} keyContentsLabel={t("keyContents")} />
+              <MuseumEraSection key={era.id} era={era} index={index} eras={eras} keyContentsLabel={t("keyContents")}
+                targetProducts={targetProducts.filter((match) => match.timelineKey === timelineKey && match.eraId === era.id)} />
             ))}
           </div>
         </>

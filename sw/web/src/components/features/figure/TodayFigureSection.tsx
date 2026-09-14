@@ -12,6 +12,7 @@ import { ContentCard } from "@/components/ui/cards";
 import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import { Calendar, BookOpen, Newspaper, Cake } from "lucide-react";
 import { cn } from "@/lib/utils";
+import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
 import type { ContentType } from "@/types/database";
 import type { TitleBadge } from "@/lib/utils/content-locale";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -177,6 +178,7 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                 </div>
 
                 {filteredContents.length > 0 ? (
+                  <>
                     <div className={cn(
                         "grid gap-3 md:gap-4",
                         "grid-cols-1 md:grid-cols-2"
@@ -208,6 +210,15 @@ export default function TodayFigureSection({ figure, contents, source, embedded 
                             />
                         ))}
                     </div>
+                    {filteredContents.slice(0, 4).map((content) => (
+                      <DeveloperCollectionJourney
+                        key={content.id}
+                        target={{ title: content.title, creator: content.creator, type: content.type, contentId: content.id }}
+                        placement="home-today-figure"
+                        context="방금 소개한 작품을 직접 감상하고 싶다면"
+                      />
+                    ))}
+                  </>
                 ) : (
                     <div className="w-full py-16 text-center flex flex-col items-center justify-center gap-4 min-w-[300px] border border-dashed border-white/5 rounded-2xl bg-white/[0.02]">
                         <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-2">

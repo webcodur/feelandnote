@@ -10,6 +10,7 @@ import { getCelebDirectory, type CelebDirectoryRow } from "@/actions/celebs/getC
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons";
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import styles from "./directory.module.css";
 
 // 정적(ISR). 명부는 2,400명 전부를 싣는 큰 화면(HTML 수 MB)이라 방문마다 서버가 만들면 그 바이트가 그대로
@@ -123,6 +124,7 @@ export default async function DirectoryPage({ params }: PageProps) {
       </nav>
 
       {/* 직군 아이콘 원본 — 항목 2,400개가 각자 SVG를 품으면 그것만 수 MB다. 한 번만 그리고 <use>로 참조한다 */}
+      <DeveloperCommerceFallback target={{ title: "인물 평전", type: "TOPIC" }} placement="directory" />
       <svg aria-hidden className="hidden">
         {CELEB_PROFESSIONS.map((prof) => {
           const Icon = PROFESSION_ICONS[prof.value];

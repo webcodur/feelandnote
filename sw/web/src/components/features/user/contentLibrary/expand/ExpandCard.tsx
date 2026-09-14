@@ -12,6 +12,9 @@ import { Star, ZoomIn } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import ContentImage from "@/components/ui/ContentImage";
+import NoEditionBadge from "@/components/ui/NoEditionBadge";
+import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
+import { TYPE_ICONS } from "@/components/ui/cards/ContentCard/constants";
 import FormattedText from "@/components/ui/FormattedText";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import ContentTextModal, { ExpandTextButton } from "@/components/ui/ContentTextModal";
@@ -20,16 +23,23 @@ import { getCategoryByDbType } from "@/constants/categories";
 import { getLocalizedContent } from "@/lib/utils/editions";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
+import type { TitleBadge } from "@/lib/utils/content-locale";
 
 import ContentIntro from "./ContentIntro";
 import ContentMetaPanel from "./ContentMetaPanel";
 import ReviewScrollBox from "./ReviewScrollBox";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
 import AffiliateBookAction from "../AffiliateBookAction";
+import DeveloperCollectionJourney from "@/components/features/commerce/DeveloperCollectionJourney";
 import { getCoupangAffiliateUrl } from "../contentAffiliate";
+import BookPurchaseLinks from "@/components/features/commerce/BookPurchaseLinks";
+import { getEnglishBookPurchaseLinks } from "@/lib/books/amazonBookSearch";
+import { findAffiliateLink } from "@/actions/home/affiliateLinks";
 
 interface ExpandCardProps {
   item: UserContentWithContent;
+  /** 요청 언어판이 확인되지 않은 작품의 표시(번역본 없음·절판). 제목 머리글과 같은 판정값이다 */
+  titleBadge?: TitleBadge | null;
   brief: ContentBrief | null;
   isBriefLoading: boolean;
   isRecordLoading: boolean;
@@ -47,6 +57,7 @@ interface ExpandCardProps {
 
 function ExpandCard({
   item,
+  titleBadge,
   brief,
   isBriefLoading,
   isRecordLoading,
@@ -65,7 +76,7 @@ function ExpandCard({
   const [isCoverOpen, setIsCoverOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
-  const { title } = getLocalizedContent(item.content, locale);
+  const { title, creator } = getLocalizedContent(item.content, locale);
   const review = locale === "en" && item.review_en ? item.review_en : item.review;
   const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
   const isSpoiler = item.is_spoiler ?? false;
@@ -74,7 +85,11 @@ function ExpandCard({
   const category = getCategoryByDbType(item.content.type)?.id ?? "book";
   const href = `/content/${item.content_id}?category=${category}`;
   const coverUrl = item.content.thumbnail_url;
-  const affiliateUrl = locale === "ko" ? getCoupangAffiliateUrl(item.content) : null;
+  const amazonLink = findAffiliateLink(item.content.affiliate_url, "amazon");
+  const englishPurchaseLinks = item.content.type === "BOOK"
+    ? getEnglishBookPurchaseLinks({ locale, title, creator, links: amazonLink ? [amazonLink] : [] })
+    : [];
+  const hasBookPurchase = item.content.type === "BOOK" && (locale === "ko" || englishPurchaseLinks.length > 0);
 
   return (
     <>
@@ -83,7 +98,7 @@ function ExpandCard({
         {/* 첫 행은 표지 높이에 고정하고 나머지는 둘째 행이 먹는다.
             소개가 두 행에 걸려도 첫 행이 늘어나지 않아 버튼이 표지 밑에 붙는다 */}
         <div className="grid grid-cols-1 gap-4 p-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:p-4 md:grid-rows-[min-content_1fr] md:gap-x-5 md:gap-y-2 md:p-5">
-          <div className="mx-auto w-36 shrink-0 sm:mx-0 sm:w-full">
+          <div className="relative mx-auto w-36 shrink-0 sm:mx-0 sm:w-full">
           {coverUrl ? (
             <button
               type="button"
@@ -108,15 +123,16 @@ function ExpandCard({
             </button>
           ) : (
             <div className="relative h-56 w-full overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-lg sm:h-72">
-              <ContentImage
-                src={coverUrl}
-                alt={title}
-                sizes="(max-width: 640px) 144px, 192px"
-                className="object-contain"
-                loading={isActive ? "eager" : "lazy"}
+              {/* 표지가 없으면 목록 카드와 같은 생성 표지를 그린다. 판본 띠가 가운데를 지나면 아이콘 상자를 뺀다 */}
+              <GenerativeBookCover
+                title={title}
+                ContentIcon={titleBadge ? undefined : TYPE_ICONS[item.content.type]}
+                iconSize={28}
               />
             </div>
           )}
+          {/* 목록 카드와 같이 표지가 있든 없든 표지 한가운데를 가로지르는 띠로 판본 상태를 알린다 */}
+          <NoEditionBadge variant="cover" badge={titleBadge} />
           </div>
 
           {/* 소개 칸은 제 높이를 내지 않고(contain-size) 표지 열이 정한 높이만큼 늘어난다.
@@ -134,10 +150,17 @@ function ExpandCard({
               <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
             )}
           </div>
-          {affiliateUrl && (
+          {hasBookPurchase && locale === "ko" && (
             <AffiliateBookAction
-              url={affiliateUrl}
+              contentId={item.content_id}
+              coupangUrl={getCoupangAffiliateUrl(item.content)}
               showNotice
+              className="sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 md:self-start"
+            />
+          )}
+          {englishPurchaseLinks.length > 0 && (
+            <BookPurchaseLinks
+              links={englishPurchaseLinks}
               className="sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 md:self-start"
             />
           )}
@@ -234,6 +257,14 @@ function ExpandCard({
             isLoading={isBriefLoading}
             internalHref={href}
             mediaEnabled={isActive}
+          />
+        )}
+        {isActive && !hasBookPurchase && (
+          <DeveloperCollectionJourney
+            target={{ title, creator: item.content.creator, type: item.content.type, contentId: item.content_id }}
+            placement="celeb-review"
+            showPreview={!isBriefLoading && (hasBriefError || !brief?.metadata?.previewUrl)}
+            context={item.content.type === "MUSIC" ? "음반 소장" : item.content.type === "GAME" ? "게임 구매" : "연관 도서"}
           />
         )}
       </article>

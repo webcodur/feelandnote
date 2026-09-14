@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import type { LessonSection, SheetExample } from "@/constants/libraryMuseum";
 import { setAcademyLessonCompletion, touchAcademyLessonProgress } from "@/actions/library/academyProgress";
 import SheetMusic from "../SheetMusic";
+import DeveloperCommerceFallback from "@/components/features/commerce/DeveloperCommerceFallback";
 import type { HarmonyLessonProps } from "./types";
 import ArrowNavigator from "./sections/ArrowNavigator";
 import StepContent from "./sections/StepContent";
@@ -410,6 +411,11 @@ export default function HarmonyLesson({
           </AnimatePresence>
         </motion.div>
       </AnimatePresence>
+      {activeLesson && <DeveloperCommerceFallback
+        target={{ title: `${t(`course.${categoryId}.${courseId}.label`)} ${activeLesson.title}`, type: "TOPIC" }}
+        context={`${activeLesson.title} · 더 읽어보기`}
+        placement="academy-lesson"
+      />}
     </div>
   );
 }

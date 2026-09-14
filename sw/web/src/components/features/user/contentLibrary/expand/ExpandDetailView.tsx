@@ -206,6 +206,7 @@ export default function ExpandDetailView({
           <ExpandCard
             key={selectedItem.id}
             item={selectedItem}
+            titleBadge={presentation.titleBadges[selectedIndex]}
             brief={brief}
             isBriefLoading={isBriefLoading}
             isRecordLoading={isRecordLoading}

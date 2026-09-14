@@ -18,7 +18,10 @@ export type TrackEventName =
   /** 겹창에서 그 인물 화면으로 넘어갔다 — 실제 화면 이동 전환 */
   | "celeb_person_go"
   /** 인물 음성을 재생했다 */
-  | "celeb_voice_play";
+  | "celeb_voice_play"
+  /** 상품·구매 연결을 눌렀다 — 어느 화면·대상·상품에서 클릭이 나는지 판별.
+   *  노출 수와 클릭 수를 매출처럼 보지 않는다. 실매출은 제휴 대시보드에서 대조한다 */
+  | "commerce_click";
 
 type EventParams = Record<string, string | number | boolean>;
 
@@ -33,6 +36,33 @@ export function trackEvent(name: TrackEventName, params: EventParams = {}) {
       console.warn("[analytics] 이벤트 전송 실패", name, error);
     }
   }
+}
+
+export interface CommerceClickParams {
+  /** 어느 화면에서 눌렀나 (home-today-figure · celeb-library · content-detail …) */
+  screen: string;
+  /** 무엇을 보고 눌렀나 (작품ID·선택 맥락) */
+  target: string;
+  contentId?: string;
+  editionId?: number;
+  platform?: string;
+  locale?: string;
+}
+
+/**
+ * 상품·구매 클릭 기록. 가상 시안에는 붙이지 않고 실링크 전환분부터 붙인다.
+ * GA4 탐색 분석에서 쓰려면 screen·target 등 맞춤 측정기준 등록이 콘솔에서 따로 필요하다.
+ */
+export function trackCommerceClick(params: CommerceClickParams) {
+  const { screen, target, contentId, editionId, platform, locale } = params;
+  trackEvent("commerce_click", {
+    screen,
+    target,
+    ...(contentId !== undefined && { content_id: contentId }),
+    ...(editionId !== undefined && { edition_id: editionId }),
+    ...(platform !== undefined && { platform }),
+    ...(locale !== undefined && { locale }),
+  });
 }
 
 /**
