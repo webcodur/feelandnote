@@ -19,8 +19,6 @@ export default function FloatingMusicPlayer() {
     return () => audio?.pause()
   }, [factionMusic?.id, factionMusic?.url])
 
-  if (!gameAudio && !factionMusic) return null
-
   const label = gameAudio?.trackLabel || factionMusic?.title || 'Music'
   const isPlaying = gameAudio?.isPlaying ?? playingFactionId === factionMusic?.id
   const zIndex = gameAudio ? Z_INDEX.floatingPlayerGame : Z_INDEX.floatingPlayer
