@@ -102,7 +102,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
   - variant 키 목록은 `factionVariants()` 가 단일원천 — 여기서 규칙을 복제하지 않는다.
 - **공개 상태**: `public` 만 싣는다. `private`·`unlisted`·삭제(`missing`)는 사유를 남기고 제외. **조회 자체가 실패하면(토큰 만료 등) 아무것도 바꾸지 않는다** — 한 번의 인증 실패로 전 테마 영상이 지워지는 사고 방지.
 - **출간 범위**: `scope.videos`. 업로드 기록 파일을 읽으므로 사진과 마찬가지로 `REMOTION_LOCAL=1`(옛 `FACTION_LOCAL=1`)이 필요하다.
-- **서비스 노출**: 아래 §4-2 와 **같은 부품**(`components/features/faction/FactionMediaLinks.tsx`)이 영상·음악을 한 줄에 함께 그린다. 영상은 세로 9:16 embed 모달. 없으면 아무것도 그리지 않는다.
+- **서비스 노출**: 테마 영상 단추는 26.09.15에 걷었다 — 재편 뒤 테마 명단과 영상 내용이 달라져 세력도감 화면·인물 상세 세력 구획 모두 테마 영상을 띄우지 않는다. `celeb_tags.youtube_videos`는 영상관(`/explore/youtube`) 보관소가 계속 읽는다.
 
 ### 4-2. 테마 배경음악 투영 (`faction-sync/music.ts` + `scripts/faction/theme-music.ts`, 26.07.26)
 
