@@ -26,6 +26,12 @@ export interface AffiliateBook {
   creator?: string
   thumbnail?: string
   url: string
+  /** 확인된 언어판이 없거나 절판인 책 — 표지 한가운데 띠로 표시한다 */
+  titleBadge?: import('@/lib/utils/content-locale').TitleBadge | null
+  /** 순위 차트에서 카드 위에 붙는 순위 */
+  rank?: number
+  /** 우리 작품이 아닌 외부 차트 항목 — 표지·YES24 단추가 이 주소를 곧바로 연다(제휴 주소 우선) */
+  purchaseHref?: string
 }
 
 /** 인물 화면에서 이 목록을 무엇으로 골랐는지 — 안내 문구를 갈아끼우는 데 쓴다. */

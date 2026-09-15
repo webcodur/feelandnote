@@ -9,7 +9,6 @@
 */ // ------------------------------
 "use client";
 
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import { useState, type ReactNode } from "react";
 import { BookOpen, Film } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -130,7 +129,7 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
             {showPurchase && (
               <div className="mt-auto pt-1.5">
                 {item.contentId ? (
-                  <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} compact />
+                  <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} compact showNotice />
                 ) : (
                   <div
                     aria-disabled="true"
@@ -149,10 +148,6 @@ export function CuratedTileGrid({ list, items, columnsClassName, children }: Cur
       </div>
 
       {children}
-
-      {showPurchase && (
-        <BookPurchaseInfo className="mt-2" />
-      )}
     </>
   );
 }

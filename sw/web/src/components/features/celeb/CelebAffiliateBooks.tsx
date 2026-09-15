@@ -8,7 +8,7 @@ import {
   getAffiliateBooksForCeleb,
   type AffiliateBookSource,
 } from '@/actions/home/getAffiliateBooks'
-import AffiliateBookList from '@/components/features/home/AffiliateBookList'
+import AffiliateBookList from '@/components/shared/AffiliateBookList'
 import { RetryBlock, useNearViewport } from '@/components/ui/pending'
 import {
   createAffiliateBooksLoadGate,

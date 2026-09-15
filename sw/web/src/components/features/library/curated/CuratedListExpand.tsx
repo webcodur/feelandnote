@@ -10,7 +10,6 @@
 */ // ------------------------------
 "use client";
 
-import BookPurchaseInfo from "@/components/shared/BookPurchaseInfo";
 import {
   useCallback,
   useEffect,
@@ -345,14 +344,11 @@ function CuratedItemCard({ item, list, number, brief, isLoading, hasError, onRet
           )}
           {showPurchase &&
             (item.contentId ? (
-              <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} />
+              <AffiliateBookAction contentId={item.contentId} coupangUrl={item.coupangUrl} showNotice />
             ) : (
               <PendingSlot label={t("purchasePending")} tone="purchase" />
             ))}
         </div>
-        {showPurchase && (
-          <BookPurchaseInfo className="mt-2" />
-        )}
       </div>
     </article>
   );

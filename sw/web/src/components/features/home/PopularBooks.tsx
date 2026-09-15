@@ -1,6 +1,6 @@
 import { getTranslations, getLocale } from 'next-intl/server'
 import { getAffiliateBooks } from '@/actions/home/getAffiliateBooks'
-import AffiliateBookList from './AffiliateBookList'
+import AffiliateBookList from '@/components/shared/AffiliateBookList'
 
 /**
  * 제휴 링크가 걸린 도서 구획.

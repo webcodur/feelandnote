@@ -36,6 +36,8 @@ export function mapRelatedFigureBooksToAffiliateBooks(
       creator: edition.creator ?? undefined,
       thumbnail: edition.thumbnailUrl ?? undefined,
       url: linkedEdition?.purchaseUrl ?? '',
+      // 판매 판본을 골랐으니 번역본 없음은 해당하지 않는다 — 절판만 표지 띠로 알린다
+      titleBadge: book.titleBadge === 'out-of-print' ? book.titleBadge : null,
     })
   }
   return books
