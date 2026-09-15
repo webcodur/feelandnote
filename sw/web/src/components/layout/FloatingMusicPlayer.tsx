@@ -101,9 +101,6 @@ export default function FloatingMusicPlayer() {
   const factionThemeGroups = groupThemeTracks(factionRows, locale)
   const mythThemeGroups = groupThemeTracks(mythRows, locale)
   const factionEmptyLabel = locale === 'ko' ? '등록된 세력도감 테마곡이 없습니다.' : 'No atlas theme music is registered.'
-  const eyebrowLabel = locale === 'ko' ? '사운드 아카이브' : 'SOUND ARCHIVE'
-  const nowPlayingLabel = locale === 'ko' ? '지금 재생 중' : 'NOW PLAYING'
-  const selectedLabel = locale === 'ko' ? '선택한 곡' : 'SELECTED TRACK'
   const preservePlayingPersonalTrack = Boolean(
     playingId &&
     playingId === selection.trackId &&
@@ -300,27 +297,21 @@ export default function FloatingMusicPlayer() {
           className="fixed bottom-36 end-3 w-[min(90vw,23rem)] overflow-hidden rounded-[1.25rem] border border-accent/20 bg-[#121212] shadow-[0_18px_60px_rgba(0,0,0,0.55)] md:bottom-20 md:end-4"
           style={{ zIndex: panelZIndex }}
         >
-          <div className="flex items-start justify-between border-b border-white/8 px-4 pb-3 pt-3.5">
-            <div className="min-w-0">
-              <p className="mb-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-accent/70">{eyebrowLabel}</p>
-              <p className="truncate text-sm font-semibold tracking-tight text-text-primary">{label}</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              aria-label={locale === 'ko' ? '닫기' : 'Close'}
-              className="flex size-7 shrink-0 items-center justify-center rounded-full text-text-secondary hover:bg-white/10 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              <X size={14} aria-hidden="true" />
-            </button>
-          </div>
-
           {(currentTrack || isGamePlaying) && (
-            <div className="mx-3 mt-3 rounded-xl border border-accent/20 bg-[#0d0d0d] p-3">
-              <div className="min-w-0">
-                <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-accent/70">{isPlaying ? nowPlayingLabel : selectedLabel}</p>
-                <p className="mt-0.5 truncate text-xs font-medium text-text-primary">{isGamePlaying ? gameAudio?.trackLabel || label : currentTrack?.title}</p>
-                {!isGamePlaying && currentTrack?.creator && <p className="truncate text-[10px] text-text-secondary">{currentTrack.creator}</p>}
+            <div className="relative mx-3 mt-3 rounded-xl border border-accent/20 bg-[#0d0d0d] p-3">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                aria-label={locale === 'ko' ? '닫기' : 'Close'}
+                className="absolute end-2 top-2 flex size-6 items-center justify-center text-text-secondary hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <X size={14} aria-hidden="true" />
+              </button>
+              <div className="min-w-0 px-6 pt-1 text-center">
+                <p className="truncate text-sm font-semibold tracking-tight text-text-primary">
+                  {isGamePlaying ? gameAudio?.trackLabel || label : currentTrack?.title}
+                </p>
+                {!isGamePlaying && currentTrack?.creator && <p className="mt-0.5 truncate text-[10px] text-text-secondary">{currentTrack.creator}</p>}
               </div>
               <MusicTransport
                 isPlaying={isPlaying}
@@ -728,12 +719,12 @@ function MusicListRow({
       onClick={onSelect}
       disabled={!playable}
       aria-pressed={active}
-      className={`group/track flex w-full items-center gap-1.5 rounded-lg border px-2 py-1 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
+      className={`group/track flex w-full items-center gap-1.5 border-0 border-b border-white/8 px-2 py-1 text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
         active
-          ? 'border-accent/25 bg-accent/12 text-accent'
+          ? 'bg-accent/12 text-accent'
           : recommended
-            ? 'border-accent/25 bg-accent/8 text-text-primary'
-            : 'border-transparent text-text-primary hover:border-white/8 hover:bg-white/5'
+            ? 'bg-accent/8 text-text-primary'
+            : 'text-text-primary hover:bg-white/5'
       } ${!playable ? 'cursor-default opacity-50' : ''}`}
     >
       <span className="min-w-0 flex-1 truncate">
