@@ -49,14 +49,15 @@ export default function MythGroupOverview({ tradition, group, people, onSelectPe
           <p className="mt-6 text-xs font-bold tracking-[.16em] text-text-tertiary">{t("groupCore", { count: core.length })}</p>
           <ul className={layout.groupCoreList}>
             {core.map((person) => {
-              const image = mythLeadImage(person, tradition.id) ?? person.avatarUrl;
+              /* 칸이 좁아 세로 대표 사진은 인물이 잘리고 작아진다 — 얼굴 아바타를 둥글게 세우고, 아바타가 없을 때만 대표 사진을 쓴다 */
+              const image = person.avatarUrl ?? mythLeadImage(person, tradition.id);
               const summary = summaryOf(person);
               return (
                 <li key={person.id} className={layout.groupCoreItem}>
-                  <button type="button" onClick={() => onSelectPerson(person.id)} className="group block w-full text-start focus-visible:outline-none">
-                    <span className="relative block aspect-[3/4] overflow-hidden rounded-xl bg-white/[0.04] ring-1 ring-white/10 group-hover:ring-accent group-focus-visible:ring-2 group-focus-visible:ring-accent">
+                  <button type="button" onClick={() => onSelectPerson(person.id)} className="group block w-full text-center focus-visible:outline-none">
+                    <span className="relative mx-auto block aspect-square w-full max-w-28 overflow-hidden rounded-full bg-white/[0.04] ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-accent group-focus-visible:ring-2 group-focus-visible:ring-accent">
                       {image ? (
-                        <BlurDissolve key={image} className="absolute inset-0"><Image src={image} alt="" fill unoptimized sizes="(max-width: 1024px) 33vw, 200px" className="object-cover object-top" /></BlurDissolve>
+                        <BlurDissolve key={image} className="absolute inset-0"><Image src={image} alt="" fill unoptimized sizes="112px" className="object-cover object-top" /></BlurDissolve>
                       ) : (
                         <span aria-hidden className="grid h-full place-items-center font-serif text-3xl font-black text-white/30">{person.name[0]}</span>
                       )}
