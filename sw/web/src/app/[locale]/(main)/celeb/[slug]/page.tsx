@@ -21,7 +21,7 @@ import CelebPageContent from "./CelebPageContent";
 import RelatedFigureLinks from "./RelatedFigureLinks";
 import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
 import { mapRelatedFigureBooksToAffiliateBooks } from "@/components/features/celeb/CelebRelatedAffiliateBooks";
-import { partitionFigureBooks } from "@/lib/celeb/authoredBooks";
+import { partitionFigureBooks, placeOutOfPrintLast } from "@/lib/celeb/authoredBooks";
 import { buildCelebTitle } from "@/lib/celeb/meta";
 import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
 import { buildCelebPageMetadata, createCelebMetaInput } from "./celebPageMetadata";
@@ -241,7 +241,8 @@ export default async function CelebPage({ params }: PageProps) {
         sideAvailability={sideAvailability}
         initialContents={initialContents}
         initialContentBrief={initialContentBrief ?? undefined}
-        figureBooks={figureBooks}
+        // 절판 작품은 화면 목록에서만 뒤로 보낸다. 제목·구조화 데이터는 저장 순서의 첫 등장 작품을 그대로 쓴다.
+        figureBooks={placeOutOfPrintLast(figureBooks)}
         authoredBooks={authoredBooks}
         worldId={worldId}
         worldBannerImages={worldBannerImages}
@@ -268,7 +269,7 @@ export default async function CelebPage({ params }: PageProps) {
           hasAffiliateBooks ? (
             <CelebAffiliateBooks
               userId={userId}
-              relatedBooks={relatedBooks}
+              relatedBooks={placeOutOfPrintLast(relatedBooks)}
               excludeContentIds={authoredIds}
               hideHeading
             />

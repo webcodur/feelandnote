@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import type { FigureBookContent } from '@/actions/figure-books/getFigureBooks'
-import { partitionFigureBooks } from './authoredBooks'
+import { partitionFigureBooks, placeOutOfPrintLast } from './authoredBooks'
 
 function book(overrides: Partial<FigureBookContent> = {}): FigureBookContent {
   return {
@@ -33,4 +33,15 @@ test('입력 순서를 구획 안에서 지킨다', () => {
   const first = book({ id: 'a', relationType: 'authored' })
   const second = book({ id: 'b', relationType: 'authored' })
   assert.deepEqual(partitionFigureBooks([first, second]).authoredBooks, [first, second])
+})
+
+test('절판 작품만 뒤로 보내고 나머지 순서는 지킨다', () => {
+  const outFirst = book({ id: 'out-1', titleBadge: 'out-of-print' })
+  const sale = book({ id: 'sale' })
+  const noKo = book({ id: 'no-ko', titleBadge: 'no-ko' })
+  const outSecond = book({ id: 'out-2', titleBadge: 'out-of-print' })
+  assert.deepEqual(
+    placeOutOfPrintLast([outFirst, sale, outSecond, noKo]).map(({ id }) => id),
+    ['sale', 'no-ko', 'out-1', 'out-2'],
+  )
 })

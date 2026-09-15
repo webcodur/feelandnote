@@ -15,6 +15,7 @@ import NoEditionBadge from "@/components/ui/NoEditionBadge";
 import FigureBookActions from "./FigureBookActions";
 import FigureBookEditionPicker from "./FigureBookEditionPicker";
 import FigureBookIntroduction from "./FigureBookIntroduction";
+import FigureBookYes24Sales from "./FigureBookYes24Sales";
 import { useBookIntroduction } from "@/hooks/useBookIntroduction";
 import RetryBlock from "@/components/ui/pending/RetryBlock";
 import AnimatedHeight from "@/components/ui/AnimatedHeight";
@@ -75,7 +76,7 @@ export default function FigureBookFeature({
         <span className="pointer-events-none absolute inset-y-0 start-0 w-1/3 bg-gradient-to-r from-transparent to-accent/[0.04]" aria-hidden />
         <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent-dim to-transparent" aria-hidden />
 
-        <div className="relative w-full self-start md:row-span-2 lg:row-span-1">
+        <div className="relative w-full self-start md:row-span-3 lg:row-span-1">
           <span className="effect-engraved absolute -inset-2 border border-accent-dim/40 bg-stone-heavy" aria-hidden />
           <span className="absolute -bottom-4 -end-4 h-20 w-16 bg-accent/10" aria-hidden />
           <div className="effect-bevel relative aspect-[2/3] overflow-hidden border border-accent/50 bg-bg-secondary shadow-2xl">
@@ -114,6 +115,14 @@ export default function FigureBookFeature({
               </p>
             )}
           </header>
+
+          {/* 팔리고 있는 판본은 제목 바로 아래에 YES24 판매 정보를 띄운다. md에서는 표지가 제목·판매 정보·소개 세 줄에 걸친다 */}
+          <FigureBookYes24Sales
+            contentId={source.id}
+            editionId={edition.id}
+            enabled={locale === "ko" && source.type === "BOOK" && Boolean(edition.isbn)}
+            className="col-span-2 min-w-0 md:col-span-1 md:col-start-2"
+          />
 
           {/* AnimatedHeight는 안쪽 높이를 재서 바깥 상자에 인라인 height로 박는다. 그 상자를 flex로 늘리면 그 값이
               행 높이에 되먹어 창을 줄여도 안 줄어든다. 그래서 lg에서는 바깥 상자를 contents로 지우고 안쪽 상자를

@@ -20,3 +20,11 @@ export function partitionFigureBooks(books: FigureBookContent[]): {
   }
   return { appearanceBooks, authoredBooks, relatedBooks }
 }
+
+/** 절판 표식이 붙은 작품을 뒤로 보낸다. 나머지 작품끼리의 저장 순서는 그대로 둔다. */
+export function placeOutOfPrintLast<T extends Pick<FigureBookContent, 'titleBadge'>>(books: readonly T[]): T[] {
+  return [
+    ...books.filter((book) => book.titleBadge !== 'out-of-print'),
+    ...books.filter((book) => book.titleBadge === 'out-of-print'),
+  ]
+}
