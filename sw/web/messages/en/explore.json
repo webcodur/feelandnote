@@ -399,11 +399,8 @@
       "metaDescription": "Top 10 rankings by books, movies, games, and music — discover who engages the most in each category.",
       "rank": "#{rank}",
       "count": "{count} items",
-      "infoMax": "Top",
-      "infoAvg": "Avg",
-      "infoTotal": "Total",
-      "sharedTitle": "Shared Across Top Seekers",
-      "sharedDesc": "Works enjoyed by 2 or more of the Top {count}.",
+      "sharedTitle": "Shared {media}",
+      "sharedDesc": "Works enjoyed by the Top {count} figures.",
       "sharedBy": "Appreciated by"
     },
     "spectrum": {
@@ -431,66 +428,28 @@
     },
     "faction": {
       "metaTitle": "Faction | Figures",
-      "collection": "Faction Collection",
-      "tabs": {
-        "faction": "Faction",
-        "library": "Library"
+      "lead": "Figures connected by a shared field or event, grouped by theme.",
+      "sectionNav": "Faction atlas sections",
+      "themeNav": "Faction atlas themes",
+      "figureCount": "{count, plural, one {# figure} other {# figures}}",
+      "clusterLabel": "Faction",
+      "clusterOthers": "Other figures",
+      "sortLabel": "Sort",
+      "sort": {
+        "order": "Theme order",
+        "influence": "Influence",
+        "name": "Name",
+        "birth": "Birth year"
       },
-      "library": {
-        "sharedTitle": "Shared Library",
-        "peopleTitle": "By Figure"
-      },
-      "shared": {
-        "celebCount": "{count} shared",
-        "filterAll": "All",
-        "empty": "No shared content found"
-      },
-      "timeline": {
-        "title": "Content Chronicle",
-        "empty": "No content records"
-      },
-      "intro": {
-        "title": "Who Stood With Whom",
-        "description": "Explore figures grouped by the questions they faced together.\nFollow group portraits, their words, and their libraries to see who shared each path.",
-        "select": "Select Theme",
-        "openInNewTab": "Open in new tab",
-        "heroPreview": "Featured faction portraits",
-        "hideIntro": "Hide intro",
-        "showIntro": "Show intro",
-        "viewTitle": "Choose How to Explore",
-        "stats": {
-          "themes": "Themes",
-          "figures": "Figure placements"
-        },
-        "modes": {
-          "atlas": {
-            "label": "Faction Atlas",
-            "description": "See the portraits and scale of each circle at a glance."
-          },
-          "registry": {
-            "label": "Complete Index",
-            "description": "Scan every theme without detours."
-          }
-        },
-        "sectionMeta": "{themes} themes · {figures} figures",
-        "figureCount": "{count} figures",
-        "registryLabel": "INDEX",
-        "carousel": {
-          "sectionNav": "Faction atlas sections",
-          "real": "Historical figures",
-          "fiction": "Figures from stories",
-          "previousSection": "Previous section",
-          "nextSection": "Next section",
-          "swipeHint": "Swipe sideways to move between sections.",
-          "themePages": "Theme pages",
-          "previousThemes": "Previous themes",
-          "nextThemes": "Next themes",
-          "viewing": "Portrait Viewing",
-          "closeViewing": "Close viewing",
-          "previousPortrait": "Previous portrait",
-          "nextPortrait": "Next portrait",
-          "openPage": "Open dedicated page"
-        }
+      "empty": "No figures are listed in this theme yet.",
+      "member": {
+        "profile": "View profile",
+        "books": "Books",
+        "related": "Books about this figure",
+        "read": "Books this figure read",
+        "emptyRelated": "No related books yet.",
+        "emptyRead": "No reading records yet.",
+        "shelf": "Bookshelf"
       }
     }
   },
@@ -571,12 +530,13 @@
     "expandIndexExpand": "Expand list",
     "expandIndexCollapse": "Collapse list",
     "expandBookIntro": "Book description",
+    "expandBookIntroFrom": "{source} book description",
     "expandVideoIntro": "Video description",
     "expandGameIntro": "Game description",
     "expandMusicIntro": "Music description",
     "expandContentIntro": "Overview",
     "expandNoIntro": "No description available yet.",
-    "expandIntroSource": "Source: {source}",
+    "expandIntroSource": "Source",
     "expandIntroMore": "Read more",
     "expandCover": "Enlarge cover",
     "expandReviewOf": "Why {name} picked this",

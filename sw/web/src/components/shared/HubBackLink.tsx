@@ -24,8 +24,8 @@ interface HubBackLinkProps {
 const SELF_HANDLED = [
   /^\/library\/curated\/[^/]+/, // 기관 화면·목록 화면(기관 선정 허브는 제외)
 ];
-// 세력도감(/explore/faction)은 여기 넣지 않는다. 그 화면의 자체 뒤로가기는
-// 테마 상세로 들어갔을 때만 나타나고 목록 상태에는 없어, 빼면 탐색으로 갈 길이 사라진다.
+// 세력도감(/explore/faction)은 여기 넣지 않는다. 섹션·테마를 칩 줄로 옮겨 다니고 자체 뒤로가기가 없어,
+// 빼면 대문에서도 테마 주소에서도 탐색으로 갈 길이 사라진다.
 
 export default function HubBackLink({ hubPath, label }: HubBackLinkProps) {
   const pathname = usePathname();

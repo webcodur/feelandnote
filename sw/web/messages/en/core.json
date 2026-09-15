@@ -488,7 +488,7 @@
     "content": {
       "addToRecord": "Add to records",
       "viewDetails": "View details",
-      "allReviews": "All reviews",
+      "allReviews": "Reviews by others",
       "bookDetails": "Book details",
       "unverified": "Unverified",
       "listenOnApple": "Listen on Apple Music",
@@ -762,6 +762,19 @@
       "followers": "Followers",
       "viewProfile": "View profile",
       "loadError": "Failed to load profile"
+    },
+    "libraryShelf": {
+      "lead": "{count, plural, one {# work} other {# works}} seen by two or more of these {members} figures.",
+      "leadPlain": "{count, plural, one {# work} other {# works}} seen by several figures.",
+      "typeLabel": "Work type",
+      "all": "All",
+      "mostShared": "Most shared",
+      "readerCount": "{count, plural, one {# figure} other {# figures}}",
+      "readerRatio": "{count} of {members} figures",
+      "others": "+{count} more",
+      "viewWork": "View work",
+      "more": "Show {count} more",
+      "purchaseInfo": "Purchase info"
     }
   },
   "notifications": {
@@ -796,9 +809,6 @@
     "headingRead": "Books this figure read",
     "headingProfession": "Books read by peers in the same field",
     "headingOrigin": "Source works featuring this figure",
-    "headingFactionRead": "Books read by members of this circle",
-    "headingFactionAbout": "Books about this circle",
-    "headingFactionTopic": "Books related to this circle",
     "buy": "Buy"
   },
   "share": {
@@ -806,13 +816,6 @@
     "chooseChannel": "Share",
     "copyLink": "Copy link",
     "copied": "Copied"
-  },
-  "factionMedia": {
-    "watchLongform": "Watch the film",
-    "watchShorts": "Watch the short",
-    "closeVideo": "Close video",
-    "playMusic": "Theme music",
-    "pauseMusic": "Pause music"
   },
   "pending": {
     "loading": "Loading",

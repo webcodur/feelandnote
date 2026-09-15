@@ -22,8 +22,7 @@ export interface FeaturedCeleb {
   speech_tone: string | null
   short_desc: string | null
   short_desc_en: string | null
-  long_desc: string | null
-  long_desc_en: string | null
+  /* 긴 소개(long_desc)는 싣지 않는다 — 명단이 캐시 상한 2MB를 넘어 getFactionLongDescs가 테마별로 준다 */
   faction_image_url: string | null
   /** 출간된 팩션 대사 음성 + 개인 화보 전환 타임라인 */
   /**
@@ -83,8 +82,6 @@ interface AtlasMemberRow {
   celeb_id: string
   short_desc: string | null
   short_desc_en: string | null
-  long_desc: string | null
-  long_desc_en: string | null
   faction_image_url: string | null
   sort_order: number | null
   group_label: string | null
@@ -128,6 +125,13 @@ const toImageArray = toTeamImages
  */
 const MAX_CELEBS_PER_TAG = 200
 
+/**
+ * 인물 명단을 이 수만큼의 테마씩 나눠 캐시한다.
+ * 한 캐시 항목이 2MB를 넘으면 저장되지 않고 옛 값이 계속 나간다 — 한 항목에 모든 테마를 담던 때
+ * 2,508명에서 2.0MB에 닿았고, K팝 테마 422명을 공개하자 새 명단이 저장되지 못해 화면이 1명에 멈췄다(26.09.15).
+ * 테마 40개 한 덩어리는 400KB 안팎이다.
+ */
+const MEMBER_CACHE_CHUNK = 40
 
 interface FeaturedProfileRow {
   id: string
@@ -142,10 +146,9 @@ interface FeaturedProfileRow {
 
 // --- 공개 데이터 캐싱 (1시간) ---
 
-async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
+/** 태그 행 전부 — 신화 갈래는 신화 화면(/explore/myth)이 따로 다루므로 뺀다(26.09.14) */
+async function fetchTagRows(): Promise<FeaturedTagRow[]> {
   const db = createStaticClient()
-
-  // 1. 모든 태그 조회
   const { data: allTags, error: tagsError } = await db
     .from('celeb_tags')
     .select('id, name, name_en, description, description_en, color, slug, team_images, youtube_videos, theme_music, is_featured, is_fiction, parent_id')
@@ -155,66 +158,30 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   if (tagsError) throw new Error(tagsError.message)
   if (!allTags?.length) return []
 
-  /* 신화 갈래는 신화 화면(/explore/myth)이 따로 다룬다 — 세력도감 대문·테마 상세·인물 상세 세력 구획에서 모두 뺀다(26.09.14) */
   const mythTagIds = mythBranchTagIds(allTags as FeaturedTagRow[])
-  const tagRows = (allTags as FeaturedTagRow[]).filter((tag) => !mythTagIds.has(tag.id))
-  const activeTags = tagRows.filter(t => t.is_featured)
-  const upcomingTags = tagRows.filter(t => !t.is_featured)
+  return (allTags as FeaturedTagRow[]).filter((tag) => !mythTagIds.has(tag.id))
+}
 
-  // 상위 그룹 위계 — celeb_tags.parent_id 가 정본이다(26.07.26 코드 상수에서 승격).
-  // 그룹 헤더는 따로 표시하는 값이 아니라 "자식을 하나라도 가진 태그"로 판정한다.
-  // 노출 여부와 무관하게 전체 행으로 계산해야 숨긴 자식·숨긴 부모가 섞여도 위계가 유지된다.
-  const slugById = new Map<string, string>()
-  const childCountByParent = new Map<string, number>()
-  for (const t of tagRows) {
-    if (t.slug) slugById.set(t.id, t.slug)
-    if (t.parent_id) childCountByParent.set(t.parent_id, (childCountByParent.get(t.parent_id) ?? 0) + 1)
-  }
-  const isGroupTag = (t: FeaturedTagRow) => (childCountByParent.get(t.id) ?? 0) > 0
-  const parentSlugOf = (t: FeaturedTagRow) => (t.parent_id ? slugById.get(t.parent_id) ?? null : null)
+/** 테마 한 덩어리의 인물 — 테마 id → 명단 차례대로 */
+async function fetchTagMembers(tagIds: string[]): Promise<Record<string, FeaturedCeleb[]>> {
+  const db = createStaticClient()
 
-  if (!activeTags.length) return []
-
-  const tagIds = activeTags.map(t => t.id)
-
-  // 2. 모든 태그의 인물을 조회 — 감춘 배정은 빼고, 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다.
+  // 감춘 배정은 빼고, 1,000행 상한에 잘리지 않게 공통 읽기로 끝까지 받는다.
   // 한 번에 읽던 때 테마를 전원 공개하자 3천 행을 넘어 모든 테마가 첫 그룹 몇 명만 받았다(26.09.14)
   const allAssignments = await selectVisibleAtlasMembers<AtlasMemberRow>(
     db,
-    'celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url',
+    'celeb_id, tag_id, short_desc, short_desc_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url',
     tagIds,
   )
   const assignmentsByTag: Record<string, AtlasMemberRow[]> = {}
   const allCelebIds = new Set<string>()
-
-  activeTags.forEach(tag => {
-    const tagAssignments = (allAssignments ?? [])
-      .filter(a => a.tag_id === tag.id)
-      .slice(0, MAX_CELEBS_PER_TAG)
-    assignmentsByTag[tag.id] = tagAssignments
-    tagAssignments.forEach(a => allCelebIds.add(a.celeb_id))
-  })
-
-  const celebIdArray = Array.from(allCelebIds)
-  if (celebIdArray.length === 0) {
-    return tagRows.map(tag => ({
-      ...tag,
-      name_en: tag.name_en ?? null,
-      description: tag.description ?? null,
-      description_en: tag.description_en ?? null,
-      slug: tag.slug ?? null,
-      team_images: toImageArray(tag.team_images),
-      videos: toFactionVideos(tag.youtube_videos),
-      music: toFactionMusic(tag.theme_music),
-      celebs: [],
-      is_featured: tag.is_featured === true,
-      is_fiction: tag.is_fiction === true,
-      parentSlug: parentSlugOf(tag),
-      isGroup: isGroupTag(tag),
-    }))
+  for (const tagId of tagIds) {
+    const tagAssignments = (allAssignments ?? []).filter((a) => a.tag_id === tagId).slice(0, MAX_CELEBS_PER_TAG)
+    assignmentsByTag[tagId] = tagAssignments
+    tagAssignments.forEach((a) => allCelebIds.add(a.celeb_id))
   }
+  if (allCelebIds.size === 0) return {}
 
-  // 3. 팩션 화면에 실제로 표시하는 프로필·발화 데이터만 조회한다.
   /*
     배정된 인물을 태운다. 거르는 기준은 **배정의 `hidden`** 하나뿐이다(위 조회에서 이미 걸렀다).
 
@@ -229,7 +196,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
     게임용 celeb_dialogues는 읽지 않는다.
   */
   const [celebRows, { scoreMap: influenceMap }] = await Promise.all([
-    selectInChunks<FeaturedProfileRow>(celebIdArray, (chunk) =>
+    selectInChunks<FeaturedProfileRow>(Array.from(allCelebIds), (chunk) =>
       db.from('celebs').select(`
         id, nickname, nickname_en, avatar_url, title, title_en, profession, speech_tone
       `).in('id', chunk).overrideTypes<FeaturedProfileRow[], { merge: false }>()
@@ -237,99 +204,120 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
     // 출연진 판이 핵심 인물을 가르는 점수 — 인물 목록과 같은 영향력 캐시를 쓴다
     getInfluenceRanking(),
   ])
+  const profileMap = new Map(celebRows.map((p) => [p.id, p]))
 
-  // 맵 구성
-  const profileMap = new Map<string, FeaturedProfileRow>()
-  celebRows.forEach(p => profileMap.set(p.id, p))
-
-  // 결과 조합
-  const result: FeaturedTag[] = []
-
-  for (const tag of activeTags) {
-    const isGroup = isGroupTag(tag)
-    const parentSlug = parentSlugOf(tag)
-    const assignments = assignmentsByTag[tag.id] ?? []
-    if (!assignments.length && !isGroup) continue // 그룹 헤더는 배정이 없어도 목록에 포함한다
-
-    const celebs: FeaturedCeleb[] = assignments
-      .map((a): FeaturedCeleb | null => {
-        const c = profileMap.get(a.celeb_id)
-        if (!c) return null
-
-        return {
-          id: c.id,
-          nickname: c.nickname,
-          nickname_en: c.nickname_en ?? null,
-          avatar_url: c.avatar_url,
-          title: c.title,
-          title_en: c.title_en ?? null,
-          profession: c.profession,
-          speech_tone: c.speech_tone ?? null,
-          short_desc: a.short_desc,
-          short_desc_en: a.short_desc_en,
-          long_desc: a.long_desc,
-          long_desc_en: a.long_desc_en,
-          faction_image_url: a.faction_image_url ?? null,
-          group_label: a.group_label ?? null,
-          group_label_en: a.group_label_en ?? null,
-          group_subtitle: a.group_subtitle ?? null,
-          group_subtitle_en: a.group_subtitle_en ?? null,
-          group_position: a.group_position ?? null,
-          group_color: a.group_color ?? null,
-          group_logo_url: a.group_logo_url ?? null,
-          influence: influenceMap[c.id] ?? null,
-        }
-      })
-      .filter((c): c is FeaturedCeleb => c !== null)
-
-    if (celebs.length > 0 || isGroup) {
-      result.push({
-        id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
-        description: tag.description, description_en: tag.description_en ?? null,
-        color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
-        videos: toFactionVideos(tag.youtube_videos),
-        music: toFactionMusic(tag.theme_music),
-        celebs, is_featured: true, is_fiction: tag.is_fiction === true, parentSlug, isGroup,
-      })
-    }
-  }
-
-  // 비활성 태그 추가
-  for (const tag of upcomingTags) {
-    result.push({
-      id: tag.id, name: tag.name, name_en: tag.name_en ?? null,
-      description: tag.description, description_en: tag.description_en ?? null,
-      color: tag.color, slug: tag.slug ?? null, team_images: toImageArray(tag.team_images),
-      videos: toFactionVideos(tag.youtube_videos),
-      music: toFactionMusic(tag.theme_music),
-      celebs: [], is_featured: false, is_fiction: tag.is_fiction === true,
-      parentSlug: parentSlugOf(tag),
-      isGroup: isGroupTag(tag),
+  const membersByTag: Record<string, FeaturedCeleb[]> = {}
+  for (const tagId of tagIds) {
+    membersByTag[tagId] = (assignmentsByTag[tagId] ?? []).flatMap((a): FeaturedCeleb[] => {
+      const c = profileMap.get(a.celeb_id)
+      if (!c) return []
+      return [{
+        id: c.id,
+        nickname: c.nickname,
+        nickname_en: c.nickname_en ?? null,
+        avatar_url: c.avatar_url,
+        title: c.title,
+        title_en: c.title_en ?? null,
+        profession: c.profession,
+        speech_tone: c.speech_tone ?? null,
+        short_desc: a.short_desc,
+        short_desc_en: a.short_desc_en,
+        faction_image_url: a.faction_image_url ?? null,
+        group_label: a.group_label ?? null,
+        group_label_en: a.group_label_en ?? null,
+        group_subtitle: a.group_subtitle ?? null,
+        group_subtitle_en: a.group_subtitle_en ?? null,
+        group_position: a.group_position ?? null,
+        group_color: a.group_color ?? null,
+        group_logo_url: a.group_logo_url ?? null,
+        influence: influenceMap[c.id] ?? null,
+      }]
     })
   }
-
-  return result
+  return membersByTag
 }
 
-const getCachedFeaturedTags = unstable_cache(
-  fetchFeaturedTagsPublic,
-  ['featured-tags-light-v6'],
-  // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
-  // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
-  {
-    revalidate: LIST_REVALIDATE,
-    tags: [CACHE_TAGS.TAGS],
+// 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
+// TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
+const getCachedTagRows = unstable_cache(fetchTagRows, ['featured-tag-rows-v1'], {
+  revalidate: LIST_REVALIDATE,
+  tags: [CACHE_TAGS.TAGS],
+})
+// 인자(테마 id 덩어리)가 캐시 키에 들어가 덩어리마다 따로 저장된다
+const getCachedTagMembers = unstable_cache(fetchTagMembers, ['featured-tag-members-v1'], {
+  revalidate: LIST_REVALIDATE,
+  tags: [CACHE_TAGS.TAGS],
+})
+
+function toFeaturedTag(tag: FeaturedTagRow, celebs: FeaturedCeleb[], extra: Pick<FeaturedTag, 'parentSlug' | 'isGroup'>): FeaturedTag {
+  return {
+    id: tag.id,
+    name: tag.name,
+    name_en: tag.name_en ?? null,
+    description: tag.description ?? null,
+    description_en: tag.description_en ?? null,
+    color: tag.color,
+    slug: tag.slug ?? null,
+    team_images: toImageArray(tag.team_images),
+    videos: toFactionVideos(tag.youtube_videos),
+    music: toFactionMusic(tag.theme_music),
+    celebs,
+    is_featured: tag.is_featured === true,
+    is_fiction: tag.is_fiction === true,
+    ...extra,
   }
-)
+}
 
 export async function getFeaturedTags(): Promise<FeaturedTag[]> {
-  return getCachedFeaturedTags()
+  const tagRows = await getCachedTagRows()
+  if (!tagRows.length) return []
+
+  const activeTags = tagRows.filter((t) => t.is_featured)
+  if (!activeTags.length) return []
+
+  // 상위 그룹 위계 — celeb_tags.parent_id 가 정본이다(26.07.26 코드 상수에서 승격).
+  // 그룹 헤더는 따로 표시하는 값이 아니라 "자식을 하나라도 가진 태그"로 판정한다.
+  // 노출 여부와 무관하게 전체 행으로 계산해야 숨긴 자식·숨긴 부모가 섞여도 위계가 유지된다.
+  const slugById = new Map<string, string>()
+  const childCountByParent = new Map<string, number>()
+  for (const t of tagRows) {
+    if (t.slug) slugById.set(t.id, t.slug)
+    if (t.parent_id) childCountByParent.set(t.parent_id, (childCountByParent.get(t.parent_id) ?? 0) + 1)
+  }
+  const hierarchy = (t: FeaturedTagRow) => ({
+    parentSlug: t.parent_id ? slugById.get(t.parent_id) ?? null : null,
+    isGroup: (childCountByParent.get(t.id) ?? 0) > 0,
+  })
+
+  // 덩어리는 차례로 채운다 — 캐시가 비었을 때 한꺼번에 조회하면 DB 풀이 막힌다
+  const membersByTag: Record<string, FeaturedCeleb[]> = {}
+  for (let i = 0; i < activeTags.length; i += MEMBER_CACHE_CHUNK) {
+    Object.assign(membersByTag, await getCachedTagMembers(activeTags.slice(i, i + MEMBER_CACHE_CHUNK).map((t) => t.id)))
+  }
+
+  // 배정된 인물이 한 명도 없으면 태그만 늘어놓는다
+  if (Object.keys(membersByTag).length === 0) {
+    return tagRows.map((tag) => toFeaturedTag(tag, [], hierarchy(tag)))
+  }
+
+  const result: FeaturedTag[] = []
+  for (const tag of activeTags) {
+    const { parentSlug, isGroup } = hierarchy(tag)
+    const celebs = membersByTag[tag.id] ?? []
+    // 그룹 헤더는 배정이 없어도 목록에 포함한다
+    if (celebs.length > 0 || isGroup) result.push(toFeaturedTag(tag, celebs, { parentSlug, isGroup }))
+  }
+  // 비활성 태그 추가
+  for (const tag of tagRows.filter((t) => !t.is_featured)) {
+    result.push(toFeaturedTag(tag, [], hierarchy(tag)))
+  }
+  return result
 }
 
 export async function getFactionTagsByIds(tagIds: string[]): Promise<FeaturedTag[]> {
   if (tagIds.length === 0) return []
 
-  const tags = await getCachedFeaturedTags()
+  const tags = await getFeaturedTags()
   const tagById = new Map(tags.map((tag) => [tag.id, tag]))
 
   return tagIds

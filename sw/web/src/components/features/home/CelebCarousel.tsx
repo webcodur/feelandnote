@@ -22,6 +22,7 @@ interface CelebCarouselProps {
   initialTotalPages: number;
   initialTrendCountry?: TrendCountry;
   initialTrend?: Awaited<ReturnType<typeof getCelebs>>["trend"];
+  trendCountryOptions?: readonly TrendCountry[];
   professionCounts: ProfessionCounts;
   nationalityCounts: NationalityCounts;
   contentTypeCounts: ContentTypeCounts;
@@ -40,6 +41,7 @@ export default function CelebCarousel({
   initialTotalPages,
   initialTrendCountry,
   initialTrend,
+  trendCountryOptions,
   professionCounts,
   nationalityCounts,
   contentTypeCounts,
@@ -103,7 +105,7 @@ export default function CelebCarousel({
   return (
     <div>
       {syncToUrl ? (
-        <CelebCompactControls filters={filters} onInteraction={onFilterInteraction} />
+        <CelebCompactControls filters={filters} trendCountryOptions={trendCountryOptions} onInteraction={onFilterInteraction} />
       ) : (
         <>
       {/* 셀럽 컨트롤 (PC) */}
@@ -271,7 +273,8 @@ function GridSkeleton() {
 }
 // #endregion
 
-function CelebGrid({ celebs, isLoading, quiet = false }: { celebs: CelebProfile[]; isLoading: boolean; quiet?: boolean }) {
+/** 탐색 인물 격자. children은 마지막 카드 뒤 칸으로 붙는다(예: 세력도감 테마 칸의 「더 보기」) */
+export function CelebGrid({ celebs, isLoading, quiet = false, onSelect, children }: { celebs: CelebProfile[]; isLoading: boolean; quiet?: boolean; /** 카드를 누르면 상세 이동 대신 부른다 */ onSelect?: (id: string) => void; children?: React.ReactNode }) {
   const { handleSubtitle } = useDialogueSubtitle();
   const loadingClass = isLoading ? "opacity-50 pointer-events-none" : "";
 
@@ -289,9 +292,13 @@ function CelebGrid({ celebs, isLoading, quiet = false }: { celebs: CelebProfile[
             celebProfile={celeb}
             shape="square"
             presentation={quiet ? "quiet" : "default"}
+            onSelect={onSelect}
+            // 탐색·세력도감 인물 격자 — 늘어선 카드 중 올린 카드가 한눈에 보이게 한다
+            emphasizeHover
             onSubtitle={handleSubtitle}
           />
         ))}
+        {children}
       </div>
     </>
   );
