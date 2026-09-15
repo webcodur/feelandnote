@@ -281,8 +281,8 @@ export default function FloatingMusicPlayer() {
         title={label}
         className={`fixed bottom-20 end-4 flex size-11 items-center justify-center rounded-full border shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent md:bottom-4 ${
           isOpen || isPlaying
-            ? 'border-accent bg-accent/20 text-accent hover:bg-accent/30'
-            : 'border-accent/30 bg-bg-card/95 text-accent hover:border-accent hover:bg-accent/10'
+            ? 'border-accent bg-[#121212] text-accent hover:bg-[#1b1b1b]'
+            : 'border-accent/30 bg-[#121212] text-accent hover:border-accent hover:bg-[#1b1b1b]'
         }`}
         style={{ zIndex: buttonZIndex }}
       >
@@ -294,7 +294,7 @@ export default function FloatingMusicPlayer() {
           ref={panelRef}
           role="dialog"
           aria-label={label}
-          className="fixed bottom-36 end-3 w-[min(90vw,23rem)] overflow-hidden rounded-[1.25rem] border border-accent/20 bg-[#121212] shadow-[0_18px_60px_rgba(0,0,0,0.55)] md:bottom-20 md:end-4"
+          className="fixed left-1/2 top-1/2 max-h-[88vh] w-[min(90vw,23rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[1.25rem] border border-accent/20 bg-[#121212] shadow-[0_18px_60px_rgba(0,0,0,0.55)]"
           style={{ zIndex: panelZIndex }}
         >
           {(currentTrack || isGamePlaying) && (
@@ -344,7 +344,7 @@ export default function FloatingMusicPlayer() {
             </div>
           )}
 
-          <div className="mx-3 mt-3 flex gap-1 rounded-lg border border-white/8 bg-black/20 p-1">
+          <div className="mx-3 mt-3 flex min-w-0 gap-1 overflow-x-auto overscroll-x-contain rounded-lg border border-white/8 bg-black/20 p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <MusicModeChip active={activeMode === 'faction'} onClick={() => setMode('faction')}>
               <span>{factionThemeLabel}</span>
               <span className="ms-1.5 tabular-nums opacity-60">{factionRows.length}</span>
@@ -684,7 +684,7 @@ function MusicModeChip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`flex flex-1 items-center justify-center whitespace-nowrap rounded-md px-2.5 py-1.5 text-[11px] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
+      className={`flex min-w-max shrink-0 items-center justify-center whitespace-nowrap rounded-md px-2.5 py-1.5 text-[11px] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
         active
           ? 'bg-accent/15 text-accent shadow-[0_1px_8px_rgba(212,175,55,0.08)]'
           : 'text-text-secondary hover:bg-white/8 hover:text-text-primary'
