@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Loader2, Music, Pause, Play, RotateCcw, RotateCw, Square, X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Z_INDEX } from '@/constants/zIndex'
-import { getFactionMusicList, getMythMusicList, type FactionMusicListItem } from '@/actions/home/getFactionMusicList'
+import { getFactionMusicList, getMythMusicList, type FactionMusicGroup, type FactionMusicListItem } from '@/actions/home/getFactionMusicList'
 import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicList'
 import { useGameAudioContext } from '@/contexts/GameAudioContext'
 import { useFactionMusicContext } from '@/contexts/FactionMusicContext'
@@ -16,6 +16,7 @@ interface FactionTrack {
   creator: string | null
   previewUrl: string
   slug?: string | null
+  factions?: FactionMusicGroup[]
 }
 
 type ListTrack = MusicTrack | FactionTrack
@@ -58,6 +59,7 @@ export default function FloatingMusicPlayer() {
         title: factionMusic.title,
         creator: null,
         previewUrl: factionMusic.url,
+        factions: factionTracks.find((track) => track.id === factionMusic.id)?.factions,
       }
     : null
   const catalogFactionTracks: FactionTrack[] = factionTracks.map((track) => ({
@@ -66,6 +68,7 @@ export default function FloatingMusicPlayer() {
     creator: null,
     previewUrl: track.url,
     slug: track.slug,
+    factions: track.factions,
   }))
   const catalogMythTracks: FactionTrack[] = mythTracks.map((track) => ({
     id: `myth:${track.id}`,
@@ -73,6 +76,7 @@ export default function FloatingMusicPlayer() {
     creator: null,
     previewUrl: track.url,
     slug: track.slug,
+    factions: track.factions,
   }))
   const mythTrack: FactionTrack | null = mythMusic
     ? {
@@ -80,6 +84,7 @@ export default function FloatingMusicPlayer() {
         title: mythMusic.title,
         creator: null,
         previewUrl: mythMusic.url,
+        factions: mythTracks.find((track) => track.id === mythMusic.id)?.factions,
       }
     : null
   const contextTrack = mythTrack ?? factionTrack
@@ -686,6 +691,7 @@ function MusicListRow({
   onSelect: () => void
 }) {
   const playable = isThemeTrack(track) || !!track.previewUrl
+  const factions = isThemeTrack(track) ? track.factions ?? [] : []
   return (
     <button
       type="button"
@@ -706,6 +712,15 @@ function MusicListRow({
       <span className="min-w-0 flex-1 truncate">
         <span className="block truncate text-[12px] font-medium">{track.title}</span>
         {track.creator && <span className="block truncate text-[10px] text-text-secondary">{track.creator}</span>}
+        {factions.length > 0 && (
+          <span className="mt-1 flex flex-wrap gap-x-1.5 gap-y-1 border-s border-accent/25 ps-2 text-[10px] text-text-secondary">
+            {factions.map((faction) => (
+              <span key={faction.name} className="whitespace-nowrap rounded bg-white/5 px-1.5 py-0.5">
+                {faction.name} <span className="tabular-nums opacity-60">{faction.count}</span>
+              </span>
+            ))}
+          </span>
+        )}
       </span>
       {recommended && <span className="shrink-0 text-[10px] text-accent">{recommendedLabel}</span>}
       {active && <span className="shrink-0 text-[10px] text-accent">{pauseLabel}</span>}
