@@ -112,7 +112,7 @@
 | `related` | 연관 — 인물의 핵심 조직·사건·시대·종목·장르·역할·세부 분야를 직접 이해하게 하는 작품 |
 | `authored` | 창작 — 인물이 쓴 작품. 위키데이터 작품 항목(P50·P800·P170)을 들여올 때 `wikidata-works-match.mjs`가 만들고, 같은 쌍이 `related`로 남아 있으면 `authored`로 올린다 |
 
-창작을 저자 이름 비교로 가르던 방식(`related` + 저자 표기 일치)은 푸시킨/푸쉬킨·Mao Zedong/Mao Tse-tung 같은 표기 변형마다 어긋나 DB 값으로 확정했다(마이그레이션 `20260907010000_add_authored_relation_type`). 인물 화면은 `appearance`와 `related`를 중단 「연관작품」에 함께 표시하며, 직접 등장 도서가 없어도 간접 연관 도서만으로 구획을 연다. `authored`는 「창작」 탭 앞에 표시하고 위키데이터의 나머지 창작이 뒤에 이어진다(`sw/web/src/lib/celeb/authoredBooks.ts`). 하단 「참고도서」는 별도 구매 구획으로 유지한다. 감상 기록이 없어도 표시한다. 관련성이 약해 보인다는 이유로 창작 관계를 지우지 않는다.
+창작을 저자 이름 비교로 가르던 방식(`related` + 저자 표기 일치)은 푸시킨/푸쉬킨·Mao Zedong/Mao Tse-tung 같은 표기 변형마다 어긋나 DB 값으로 확정했다(마이그레이션 `20260907010000_add_authored_relation_type`). 인물 화면은 `appearance`와 `related`를 중단 「연관작품」에 함께 표시하며, 직접 등장 도서가 없어도 간접 연관 도서만으로 구획을 연다. `authored`는 「창작」 탭 앞에 표시하고 위키데이터의 나머지 창작이 뒤에 이어진다(`sw/web/src/lib/celeb/authoredBooks.ts`). 하단 「참고도서」는 별도 구매 구획으로 유지한다. 두 구획 모두 절판 표식(`sources.availability='out_of_print'`)이 붙은 작품을 뒤로 보내며, 페이지 제목과 구조화 데이터는 저장 순서를 그대로 쓴다. 감상 기록이 없어도 표시한다. 관련성이 약해 보인다는 이유로 창작 관계를 지우지 않는다.
 
 `origin`·`adaptation`은 더 사용하지 않는다. 최초 저작인지 각색인지와 관계없이 인물이 실제로 나오면 `appearance`다.
 
