@@ -8,7 +8,7 @@
 
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ListMusic, Square, Info, LoaderCircle } from "lucide-react";
+import { ListMusic, Square } from "lucide-react";
 import { CELEB_DIALOGUE_SITUATIONS } from "@feelandnote/shared/constants/celeb-speech";
 import type { Locale } from "@/types/locale";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
@@ -289,16 +289,9 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
   return (
     // 게임용 창작 대사다. 실제 발언이 아니므로 검색 스니펫·AI 답변 인용에서 제외한다.
     <div className="space-y-5" data-nosnippet>
-      <div className="flex items-center justify-center gap-1.5">
-        <Info size={13} className="shrink-0 text-text-secondary/70" aria-hidden />
-        <p className="max-w-3xl break-keep text-center text-xs leading-relaxed text-text-secondary/70">
-          {t("dialogueDescription")}
-        </p>
-      </div>
-
       {/* ── 4. 상황 칩 — 체크박스가 아니라 모드 전환이다. 하나를 고르면 그걸로 통째로 바뀐다 */}
       <div
-        className="flex flex-wrap justify-center gap-2 pb-1"
+        className="grid grid-cols-2 gap-1.5 pb-1 sm:flex sm:flex-wrap sm:justify-center"
         role="group"
         aria-label={t("mediaDialogues")}
       >
@@ -312,7 +305,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
               type="button"
               aria-pressed={active}
               onClick={() => selectType(type)}
-              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${
+              className={`flex shrink-0 items-center justify-center gap-1 rounded-md border px-2 py-1 text-xs ${
                 active
                   ? theme.chipActive
                   : INACTIVE_CHIP
@@ -379,11 +372,12 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
                 } : undefined}
                 className={`flex items-center gap-2 rounded-md border-s-2 px-2 py-2 text-text-primary ${hasVoice ? "cursor-pointer" : ""} ${isPlaying || isLoading ? theme.rowPlaying : theme.row}`}
               >
-                {isLoading && (
-                  <LoaderCircle size={14} aria-hidden className="shrink-0 animate-spin text-text-secondary" />
-                )}
-                {/* 재생 중에는 텍스트 아래로 진행광이 스친다. 글자색은 그대로 둔다 */}
-                <span className={`w-full break-keep text-center text-sm leading-relaxed ${isPlaying ? "bg-[linear-gradient(90deg,transparent_0%,currentColor_50%,transparent_100%)] bg-[length:35%_2px] bg-no-repeat motion-safe:animate-dialogue-flow" : ""}`}>
+                {/* 로딩 중에는 텍스트 아래로 진행광이 스치고, 실제 재생이 시작되면 선을 걷고 글자를 녹색으로 켠다 */}
+                <span className={`w-full break-keep text-center text-sm leading-relaxed ${
+                  isLoading
+                    ? "bg-[linear-gradient(90deg,transparent_0%,currentColor_50%,transparent_100%)] bg-[length:35%_2px] bg-no-repeat motion-safe:animate-dialogue-flow"
+                    : isPlaying ? "text-emerald-400" : ""
+                }`}>
                   &ldquo;{item.text}&rdquo;
                 </span>
               </div>

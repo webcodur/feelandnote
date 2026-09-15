@@ -12,6 +12,18 @@ const PROVIDER_NAMES = {
   feelandnote: "F&N",
 } as const;
 
+/** 제목에 이어 붙여 「다음 책 소개」처럼 읽히게 하는 공급처 표기.
+ *  other·unknown처럼 판별이 안 된 출처는 제목에 넣지 않는다(표에 없음). */
+export const INTRO_PROVIDER_HEADING_NAME: Partial<
+  Record<BookIntroductionAttribution["provider"], { ko: string; en: string }>
+> = {
+  daum: { ko: "다음", en: "Daum" },
+  kakao: { ko: "카카오", en: "Kakao" },
+  yes24: { ko: "YES24", en: "YES24" },
+  openlibrary: { ko: "Open Library", en: "Open Library" },
+  feelandnote: { ko: "F&N", en: "F&N" },
+};
+
 export default function BookIntroductionSource({ attribution, className }: {
   attribution?: BookIntroductionAttribution | null;
   className?: string;

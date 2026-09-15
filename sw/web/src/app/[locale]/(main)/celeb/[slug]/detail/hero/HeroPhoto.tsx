@@ -64,11 +64,9 @@ export default function HeroPhoto({
     if (zoomImageUrl) setZoomOpen(true);
   }, [zoomImageUrl]);
 
-  const greetLabel = isVoiceActive
-    ? t("stopAudio")
-    : hasGreetingAudio
-      ? t("playGreetingVoice")
-      : t("dialogue_greeting");
+  const greetLabel = hasGreetingAudio
+    ? t("playGreetingVoice")
+    : t("dialogue_greeting");
 
   return (
     <>

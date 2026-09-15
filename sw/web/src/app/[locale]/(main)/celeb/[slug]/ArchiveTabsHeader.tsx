@@ -6,7 +6,7 @@
  * ───────────────────────────────────────────── */
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -23,6 +23,8 @@ interface Props<T extends string> {
   ariaLabel: string;
   className?: string;
   mobileTextClassName?: string;
+  /** 탭 칸 균등 분할을 깨지 않게 우단에 얹는 보조 조작(절대 배치) */
+  endSlot?: ReactNode;
 }
 
 export default function ArchiveTabsHeader<T extends string>({
@@ -33,6 +35,7 @@ export default function ArchiveTabsHeader<T extends string>({
   ariaLabel,
   className,
   mobileTextClassName,
+  endSlot,
 }: Props<T>) {
   /* 포커스 박스는 마우스를 우선 따르고, 손을 떼면 고른 탭으로 돌아온다.
      칸이 균등 분할이라 자기 폭의 배수만큼 밀면 정확히 각 칸에 얹힌다. */
@@ -89,6 +92,10 @@ export default function ArchiveTabsHeader<T extends string>({
           </button>
         );
       })}
+
+      {endSlot ? (
+        <div className="absolute end-1 top-1/2 -translate-y-1/2">{endSlot}</div>
+      ) : null}
     </div>
   );
 }

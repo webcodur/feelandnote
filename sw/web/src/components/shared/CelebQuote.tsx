@@ -6,11 +6,9 @@ import styles from "./CelebQuote.module.css";
 export interface CelebQuoteProps {
   text: string | null | undefined;
   hasVoice?: boolean;
-  isVoiceActive?: boolean;
   isQuoteActive?: boolean;
   onPlay?: () => void;
   playLabel: string;
-  stopLabel: string;
   variant?: "detail" | "modal";
   className?: string;
 }
@@ -18,11 +16,9 @@ export interface CelebQuoteProps {
 export default function CelebQuote({
   text,
   hasVoice = false,
-  isVoiceActive = false,
   isQuoteActive = false,
   onPlay,
   playLabel,
-  stopLabel,
   variant = "detail",
   className = "",
 }: CelebQuoteProps) {
@@ -43,9 +39,9 @@ export default function CelebQuote({
           type="button"
           onClick={onPlay}
           className={`${styles.quoteButton} ${isQuoteActive ? styles.quoteButtonPlaying : ""}`}
-          aria-label={isVoiceActive ? stopLabel : playLabel}
+          aria-label={playLabel}
           aria-pressed={isQuoteActive}
-          title={isVoiceActive ? stopLabel : playLabel}
+          title={playLabel}
         >
           {quoteContent}
         </button>

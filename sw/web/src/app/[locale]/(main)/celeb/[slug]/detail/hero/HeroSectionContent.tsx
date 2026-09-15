@@ -144,11 +144,9 @@ export default function CelebHeroSection({
               <CelebQuote
                 text={profile.quotes}
                 hasVoice={hasVoice}
-                isVoiceActive={isVoiceActive}
                 isQuoteActive={isQuoteActive}
                 onPlay={handleQuotePlay}
                 playLabel={t("playQuoteVoice")}
-                stopLabel={t("stopAudio")}
                 className={locale === "ko" ? styles.koreanQuote : undefined}
               />
             </div>

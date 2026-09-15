@@ -153,12 +153,9 @@ export default function VirtueStatList({
         </div>
       </div>
 
-      <StatReasonBox
-        hint={t("virtueReasonHint")}
-        empty={t("virtueReasonEmpty")}
-        reason={active?.reason}
-        active={Boolean(active)}
-      />
+      {active && (
+        <StatReasonBox empty={t("virtueReasonEmpty")} reason={active.reason} />
+      )}
     </div>
   );
 }
