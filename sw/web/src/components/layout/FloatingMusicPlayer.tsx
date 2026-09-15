@@ -347,15 +347,12 @@ export default function FloatingMusicPlayer() {
           <div className="mx-3 mt-3 flex min-w-0 gap-1 overflow-x-auto overscroll-x-contain rounded-lg border border-white/8 bg-black/20 p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <MusicModeChip active={activeMode === 'faction'} onClick={() => setMode('faction')}>
               <span>{factionThemeLabel}</span>
-              <span className="ms-1.5 tabular-nums opacity-60">{factionRows.length}</span>
             </MusicModeChip>
             <MusicModeChip active={activeMode === 'myth'} onClick={() => setMode('myth')}>
               <span>{mythLabel}</span>
-              <span className="ms-1.5 tabular-nums opacity-60">{mythRows.length}</span>
             </MusicModeChip>
             <MusicModeChip active={activeMode === 'library'} onClick={() => setMode('library')}>
               <span>{libraryLabel}</span>
-              <span className="ms-1.5 tabular-nums opacity-60">{tracks.length}</span>
             </MusicModeChip>
           </div>
 
@@ -383,7 +380,6 @@ export default function FloatingMusicPlayer() {
                   <div key={group.key} className={index > 0 ? 'mt-3' : undefined}>
                     <p className="border-s border-accent/35 px-2 pb-1 ps-3 text-[11px] font-semibold text-text-primary">
                       {group.label}
-                      <span className="ms-1.5 text-[10px] font-normal tabular-nums text-text-tertiary">{group.tracks.length}</span>
                     </p>
                     {group.tracks.map((track) => (
                       <MusicListRow
@@ -416,7 +412,6 @@ export default function FloatingMusicPlayer() {
                   <div key={group.key} className={index > 0 ? 'mt-3' : undefined}>
                     <p className="border-s border-accent/35 px-2 pb-1 ps-3 text-[11px] font-semibold text-text-primary">
                       {group.label}
-                      <span className="ms-1.5 text-[10px] font-normal tabular-nums text-text-tertiary">{group.tracks.length}</span>
                     </p>
                     {group.tracks.map((track) => (
                       <MusicListRow
