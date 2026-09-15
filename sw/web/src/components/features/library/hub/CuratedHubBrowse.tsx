@@ -34,7 +34,7 @@ export default function CuratedHubBrowse({ hub }: { hub: CuratedHub }) {
     .slice(0, LISTS_LIMIT);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <CuratedBrowseTabs
         browse={browse}
         onSelectMedia={browse.setMedia}
