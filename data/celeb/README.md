@@ -37,6 +37,8 @@ data/celeb/
 옛 산출물을 완료로 착각하고 건너뛴다. 경위는 커밋 이력이 아니라 DB와 룰북이 쥔다. 되돌릴 값이
 있으면 `_backup/`에 원본만 남기고 나머지는 폐기한다.
 
+`book-introductions/`의 JSON·JSONL은 원문 재조회와 중복 번역을 막는 로컬 작업 자료로 Git에서 제외한다. 실행 코드(`.mjs`·`.ts`)는 추적 대상이며, 소개 작업 백업은 `D:/feelandnote-backups/book-descriptions/`에 보존한다.
+
 ### `headline-rewrite/`
 
 한 줄 정의 회차의 레인별 원장이다. 인물마다 최종 한영값·`phase`·심사 버전·반영 여부를 남기며,
