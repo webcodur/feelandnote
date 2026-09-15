@@ -6617,6 +6617,456 @@
         "errors": 0,
         "stoppedOnQuota": true
       }
+    },
+    {
+      "date": "2026-09-15",
+      "property": "https://feelandnote.com/",
+      "requests": [
+        {
+          "url": "https://feelandnote.com/en/celeb/sylvester-stallone",
+          "status": "request accepted",
+          "at": "2026-09-15T09:09:04.437994+00:00",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "livePrecheck": "discovered - currently not indexed"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/venerable-beopjeong",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:27:18.208215+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/michelle-williams",
+          "status": "result unknown",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "at": "2026-09-15T09:27:18.208215+00:00",
+          "note": "Request button clicked, but the batch timed out and Escape was pressed about 60s later; the live test may have been cancelled. Not retried today. A fresh inspection later showed only the request button, which does not prove either way. Put it first in the next day's queue."
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/michelle-williams",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:27:18.208215+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/celine-dion",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:27:18.208215+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/celine-dion",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:27:18.208215+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/isaac-asimov",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:32:45.284810+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/christian-bale",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:32:45.284810+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/christian-bale",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:32:45.284810+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/denzel-washington",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:38:25.785406+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/denzel-washington",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:38:25.785406+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/lea-seydoux",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:40:46.117818+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/lea-seydoux",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:41:22.212947+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/odysseus",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T09:42:54.121871+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/odysseus",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:07:11.376262+00:00",
+          "note": "Extension response failed, but the inspection page later showed '색인 생성 요청됨' with '다시 요청'."
+        },
+        {
+          "url": "https://feelandnote.com/celeb/christoph-waltz",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:09:24.237391+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/christoph-waltz",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:10:58.395381+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/jean-claude-van-damme",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:12:32.906853+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/jean-claude-van-damme",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:14:11.410290+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/denise-richards",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:15:46.219371+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/denise-richards",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:17:20.613636+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/benjamin-franklin",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:18:55.939422+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/jim-keller",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:20:33.928050+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/jim-keller",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:22:10.231688+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/haruki-murakami",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T10:23:43.232633+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/norman-reedus",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/norman-reedus",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/larry-ellison",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/larry-ellison",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/ralph-fiennes",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/ralph-fiennes",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/kim-seung-youn",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/kim-seung-youn",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/takeda-shingen",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/takeda-shingen",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/akira-kurosawa",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/akira-kurosawa",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/hannah-arendt",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/chris-hemsworth",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/chris-hemsworth",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/alex-karp",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/alex-karp",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/elijah-wood",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/elijah-wood",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/celeb/jo-jung-rae",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00"
+        },
+        {
+          "url": "https://feelandnote.com/en/celeb/jo-jung-rae",
+          "status": "request accepted",
+          "source": "Search Console UI (URL-prefix)",
+          "attempts": 1,
+          "dialogTitle": "색인 생성 요청됨",
+          "at": "2026-09-15T11:06:12.008126+00:00",
+          "duplicateAttempt": "After acceptance, Enter hit the focused '다시 요청' button once; the live test was cancelled with Escape."
+        }
+      ],
+      "errors": [],
+      "acceptedCount": 45,
+      "nextQueue": [
+        "https://feelandnote.com/celeb/gerard-butler",
+        "https://feelandnote.com/en/celeb/gerard-butler",
+        "https://feelandnote.com/celeb/conor-mcgregor",
+        "https://feelandnote.com/en/celeb/conor-mcgregor",
+        "https://feelandnote.com/celeb/yelu-chucai",
+        "https://feelandnote.com/en/celeb/yelu-chucai",
+        "https://feelandnote.com/celeb/scott-adkins",
+        "https://feelandnote.com/en/celeb/scott-adkins",
+        "https://feelandnote.com/celeb/ingvar-kamprad",
+        "https://feelandnote.com/en/celeb/ingvar-kamprad",
+        "https://feelandnote.com/celeb/bernard-arnault",
+        "https://feelandnote.com/en/celeb/bernard-arnault",
+        "https://feelandnote.com/celeb/daniela-amodei",
+        "https://feelandnote.com/en/celeb/daniela-amodei",
+        "https://feelandnote.com/celeb/li-zhi",
+        "https://feelandnote.com/en/celeb/li-zhi",
+        "https://feelandnote.com/celeb/mike-tyson",
+        "https://feelandnote.com/en/celeb/mike-tyson",
+        "https://feelandnote.com/celeb/oda-nobunaga",
+        "https://feelandnote.com/en/celeb/oda-nobunaga",
+        "https://feelandnote.com/celeb/syngman-rhee",
+        "https://feelandnote.com/en/celeb/syngman-rhee",
+        "https://feelandnote.com/celeb/ben-affleck",
+        "https://feelandnote.com/en/celeb/ben-affleck",
+        "https://feelandnote.com/en/celeb/mark-wahlberg",
+        "https://feelandnote.com/celeb/donnie-yen",
+        "https://feelandnote.com/en/celeb/donnie-yen",
+        "https://feelandnote.com/en/celeb/abraham-lincoln",
+        "https://feelandnote.com/celeb/achilles",
+        "https://feelandnote.com/en/celeb/achilles",
+        "https://feelandnote.com/celeb/daniel-craig",
+        "https://feelandnote.com/en/celeb/daniel-craig",
+        "https://feelandnote.com/celeb/eiichiro-oda",
+        "https://feelandnote.com/en/celeb/eiichiro-oda",
+        "https://feelandnote.com/celeb/liv-tyler",
+        "https://feelandnote.com/en/celeb/liv-tyler",
+        "https://feelandnote.com/celeb/ibn-sina",
+        "https://feelandnote.com/en/celeb/ibn-sina",
+        "https://feelandnote.com/celeb/uma-thurman",
+        "https://feelandnote.com/en/celeb/uma-thurman"
+      ],
+      "inspectionProperty": "sc-domain:feelandnote.com",
+      "checkedAt": "2026-09-15T18:01:52+0900",
+      "previousDayRecheck": {
+        "checked": 50,
+        "indexed": 48,
+        "notIndexed": {
+          "https://feelandnote.com/celeb/michael-jackson": {
+            "coverage": "크롤링됨 - 현재 색인이 생성되지 않음",
+            "verdict": "NEUTRAL",
+            "lastCrawl": "2026-09-13T17:55:27Z",
+            "gCanon": null
+          },
+          "https://feelandnote.com/celeb/benjamin-franklin": {
+            "coverage": "크롤링됨 - 현재 색인이 생성되지 않음",
+            "verdict": "NEUTRAL",
+            "lastCrawl": "2026-09-13T18:17:41Z",
+            "gCanon": "https://feelandnote.com/celeb/benjamin-franklin"
+          }
+        }
+      },
+      "candidateSelection": "Active celebs ordered by view_count desc; both locales; excluding recorded accepted requests; URL Inspection API check before queueing (96 inspected, 86 not indexed).",
+      "submissionStatus": "paused - automation window shrank (viewport 180x81); no quota message",
+      "nextUrl": "https://feelandnote.com/celeb/michelle-williams",
+      "lastAcceptedUrl": "https://feelandnote.com/en/celeb/jo-jung-rae",
+      "automationNote": "Search box needs the clear button before typing; ctrl+a can insert a literal 'a'. The live test takes about 50-100s, so read the result dialog before closing it.",
+      "retryNextDay": [
+        "https://feelandnote.com/celeb/michelle-williams"
+      ],
+      "completedAt": "2026-09-15T11:06:12.008126+00:00"
     }
   ],
   "hubInspection20260913": {
